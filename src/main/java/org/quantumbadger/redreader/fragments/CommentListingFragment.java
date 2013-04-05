@@ -74,7 +74,6 @@ import org.quantumbadger.redreader.views.liststatus.LoadingView;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.UUID;
@@ -144,11 +143,7 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 
 		parentPostIdAndType = arguments.getString("parentPostIdAndType");
 
-		try {
-			url = new URI(arguments.getString("url"));
-		} catch (URISyntaxException e) {
-			throw new RuntimeException(e);
-		}
+		url = General.uriFromString(arguments.getString("url"));
 
 		if(arguments.containsKey("session")) {
 			session = UUID.fromString(arguments.getString("session"));

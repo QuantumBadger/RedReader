@@ -24,6 +24,7 @@ import android.net.NetworkInfo;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 import android.util.TypedValue;
 import android.widget.Toast;
 import org.apache.http.StatusLine;
@@ -38,6 +39,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URI;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public final class General {
 
@@ -215,5 +219,48 @@ public final class General {
 		alertBuilder.setTitle(error.title);
 		alertBuilder.setMessage(error.message);
 		alertBuilder.create().show();
+	}
+
+	private static final Pattern urlPattern = Pattern.compile("^(https?)://([^/]+)/+([^\\?#]+)((?:\\?[^#]+)?)((?:#.+)?)$");
+
+	public static URI uriFromString(String url) {
+
+		try {
+			return new URI(url);
+
+		} catch(Throwable t1) {
+			try {
+
+				Log.i("RR DEBUG uri", "Beginning aggressive parse of '" + url + "'");
+
+				final Matcher urlMatcher = urlPattern.matcher(url);
+
+				if(urlMatcher.find()) {
+
+					final String scheme = urlMatcher.group(1);
+					final String authority = urlMatcher.group(2);
+					final String path = "/" + urlMatcher.group(3);
+					final String query = urlMatcher.group(4);
+					final String fragment = urlMatcher.group(5);
+
+					try {
+						return new URI(scheme, authority, path, query, fragment);
+					} catch(Throwable t3) {
+
+						if(path.contains(" ")) {
+							return new URI(scheme, authority, path.replace(" ", "%20"), query, fragment);
+						} else {
+							return null;
+						}
+					}
+
+				} else {
+					return null;
+				}
+
+			} catch(Throwable t2) {
+				return null;
+			}
+		}
 	}
 }

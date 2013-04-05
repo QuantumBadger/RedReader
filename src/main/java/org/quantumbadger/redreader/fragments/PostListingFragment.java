@@ -59,7 +59,6 @@ import org.quantumbadger.redreader.views.liststatus.ErrorView;
 import org.quantumbadger.redreader.views.liststatus.LoadingView;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.UUID;
 
@@ -202,11 +201,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 
 		subreddit = arguments.getParcelable("subreddit");
 
-		try {
-			url = new URI(arguments.getString("url"));
-		} catch (URISyntaxException e) {
-			throw new RuntimeException(e);
-		}
+		url = General.uriFromString(arguments.getString("url"));
 
 		if(arguments.containsKey("session")) {
 			session = UUID.fromString(arguments.getString("session"));
@@ -302,12 +297,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 			final Uri.Builder uriBuilder = Uri.parse(url.toString()).buildUpon();
 			uriBuilder.appendQueryParameter("after", after);
 
-			final URI newUri;
-			try {
-				newUri = new URI(uriBuilder.toString());
-			} catch(URISyntaxException e) {
-				throw new RuntimeException(e);
-			}
+			final URI newUri = General.uriFromString(uriBuilder.toString());
 
 			// TODO customise (currently 3 hrs)
 			CacheRequest.DownloadType type = (RRTime.since(timestamp) < 3 * 60 * 60 * 1000) ? CacheRequest.DownloadType.IF_NECESSARY : CacheRequest.DownloadType.NEVER;

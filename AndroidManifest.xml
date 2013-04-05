@@ -58,10 +58,10 @@
 
         <activity android:name=".activities.WebViewActivity"
                   android:configChanges="orientation|screenSize|keyboardHidden"
-                  android:theme="@style/Holo.Theme.NoActionBar"/>
+                  android:theme="@style/RR.Dark.NoActionBar"/>
 
         <activity android:name=".activities.ImageViewActivity"
-                  android:theme="@style/Holo.Theme.NoActionBar"/>
+                  android:theme="@style/RR.Dark.NoActionBar"/>
 
         <activity android:name=".activities.CommentReplyActivity"
                   android:configChanges="orientation|screenSize|keyboardHidden"/>

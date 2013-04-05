@@ -20,10 +20,10 @@ package org.quantumbadger.redreader.listingcontrollers;
 import android.net.Uri;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.UUID;
 
 // TODO add notification/header for abnormal sort order
@@ -75,11 +75,7 @@ public class CommentListingController {
 			Uri.Builder builder = uri.buildUpon();
 			if(!uri.getPath().endsWith(".json")) builder.appendPath(".json");
 
-			try {
-				return new URI(builder.toString());
-			} catch(URISyntaxException e) {
-				throw new RuntimeException(e);
-			}
+			return General.uriFromString(builder.toString());
 		}
 
 		return Constants.Reddit.getUri(Constants.Reddit.PATH_COMMENTS + postId + ".json?sort=" + sort.name().toLowerCase());

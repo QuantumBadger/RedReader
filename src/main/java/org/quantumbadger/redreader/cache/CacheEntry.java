@@ -18,9 +18,9 @@
 package org.quantumbadger.redreader.cache;
 
 import android.database.Cursor;
+import org.quantumbadger.redreader.common.General;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.UUID;
 
 public final class CacheEntry {
@@ -38,14 +38,7 @@ public final class CacheEntry {
 	CacheEntry(final Cursor cursor) {
 
 		id = cursor.getLong(0);
-
-		try {
-			url = new URI(cursor.getString(1));
-		} catch (URISyntaxException e) {
-			// TODO handle properly
-			throw new RuntimeException(e);
-		}
-
+		url = General.uriFromString(cursor.getString(1));
 		user = cursor.getString(2);
 		session = UUID.fromString(cursor.getString(3));
 		timestamp = cursor.getLong(4);

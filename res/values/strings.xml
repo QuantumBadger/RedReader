@@ -256,7 +256,7 @@
     <string name="error_unexpected_storage_message">An unknown internal error has occurred, related to the cache storage.</string>
 
     <string name="error_connection_title">Connection Error</string>
-    <string name="error_connection_message">There was a problem connecting to reddit. Please check your connection and try again.</string>
+    <string name="error_connection_message">There was a problem connecting to the server. Please check your connection and try again.</string>
 
     <string name="error_unknown_title">Unknown Error</string>
     <string name="error_unknown_message">An unknown error occurred. Please try again.</string>

@@ -43,7 +43,6 @@ import org.quantumbadger.redreader.views.liststatus.LoadingView;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.UUID;
 
 public class ImageViewActivity extends Activity {
@@ -60,11 +59,7 @@ public class ImageViewActivity extends Activity {
 		// TODO make fragment
 
 		// TODO handle loading from saved instance
-		try {
-			url = new URI(getIntent().getDataString());
-		} catch(URISyntaxException e) {
-			throw new RuntimeException(e);
-		}
+		url = General.uriFromString(getIntent().getDataString());
 
 		final LoadingView loadingView = new LoadingView(this, R.string.download_loading, true, false);
 

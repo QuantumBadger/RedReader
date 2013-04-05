@@ -23,7 +23,6 @@ import org.quantumbadger.redreader.RedReader;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 
 public final class Constants {
 
@@ -72,11 +71,7 @@ public final class Constants {
 		}
 
 		public static URI getUri(final String path) {
-			try {
-				return new URI(getScheme() + "://" +  getDomain() + path);
-			} catch (URISyntaxException e) {
-				throw new RuntimeException(e);
-			}
+			return General.uriFromString(getScheme() + "://" +  getDomain() + path);
 		}
 
 		public static boolean isApiErrorUser(final String str) {

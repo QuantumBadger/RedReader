@@ -33,9 +33,9 @@ import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.SessionChangeListener;
 import org.quantumbadger.redreader.adapters.SessionListAdapter;
 import org.quantumbadger.redreader.cache.CacheEntry;
+import org.quantumbadger.redreader.common.General;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.UUID;
 
 public class SessionListDialog extends DialogFragment implements RedditAccountChangeListener {
@@ -67,11 +67,7 @@ public class SessionListDialog extends DialogFragment implements RedditAccountCh
 
 		super.onCreate(savedInstanceState);
 
-		try {
-			url = new URI(getArguments().getString("url"));
-		} catch(URISyntaxException e) {
-			throw new RuntimeException(e);
-		}
+		url = General.uriFromString(getArguments().getString("url"));
 
 		if(getArguments().containsKey("current")) {
 			current = UUID.fromString(getArguments().getString("current"));
@@ -105,13 +101,13 @@ public class SessionListDialog extends DialogFragment implements RedditAccountCh
 		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			public void onItemClick(AdapterView<?> adapterView, View view, int position, final long id) {
 
-				final CacheEntry ce = (CacheEntry)lv.getItemAtPosition(position);
+				final CacheEntry ce = (CacheEntry) lv.getItemAtPosition(position);
 
 				if(ce == null) {
-					((SessionChangeListener)getSupportActivity()).onSessionRefreshSelected(type);
+					((SessionChangeListener) getSupportActivity()).onSessionRefreshSelected(type);
 
 				} else {
-					((SessionChangeListener)getSupportActivity()).onSessionSelected(ce.session, type);
+					((SessionChangeListener) getSupportActivity()).onSessionSelected(ce.session, type);
 				}
 
 				dismiss();

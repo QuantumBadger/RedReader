@@ -45,7 +45,6 @@ import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.views.RedditPostView;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.UUID;
 
 public final class RedditPreparedPost {
@@ -191,17 +190,8 @@ public final class RedditPreparedPost {
 
 	private void downloadThumbnail(final Context context, final int widthPixels, final CacheManager cm, final int listId, final boolean highRes) {
 
-		final URI uri;
-
-		try {
-			if(highRes) {
-				uri = new URI(imageUrl);
-			} else {
-				uri = new URI(thumbnailUrl);
-			}
-		} catch (URISyntaxException e) {
-			throw new RuntimeException(e);
-		}
+		final String uriStr = highRes ? imageUrl : thumbnailUrl;
+		final URI uri = General.uriFromString(uriStr);
 
 		final int priority = highRes ? Constants.Priority.IMAGE_PRECACHE : Constants.Priority.THUMBNAIL;
 		final int fileType = highRes ? Constants.FileType.IMAGE : Constants.FileType.THUMBNAIL;

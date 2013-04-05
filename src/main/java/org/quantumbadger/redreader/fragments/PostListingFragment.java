@@ -254,15 +254,6 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 		adapter = new PostListingAdapter(lv, this);
 		lv.setAdapter(adapter);
 
-		lv.setOnScrollListener(new AbsListView.OnScrollListener() {
-			public void onScrollStateChanged(AbsListView view, int scrollState) {
-			}
-
-			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-				adapter.onScroll();
-			}
-		});
-
 		final ListOverlayView lov = new ListOverlayView(context, lv);
 
 		outer.addView(fragmentHeader);
@@ -299,6 +290,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 		onLoadMoreItemsCheck();
+		if(adapter != null) adapter.onScroll();
 	}
 
 	private synchronized void onLoadMoreItemsCheck() {

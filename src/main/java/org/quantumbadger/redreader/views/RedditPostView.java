@@ -30,6 +30,7 @@ import android.os.Message;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import org.holoeverywhere.app.AlertDialog;
+import org.holoeverywhere.app.Fragment;
 import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.preference.SharedPreferences;
 import org.holoeverywhere.widget.FrameLayout;
@@ -79,7 +80,7 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 
 	private final int offsetBeginAllowed, offsetActionPerformed;
 
-	private static enum Action {
+	public static enum Action {
 		UPVOTE, UNVOTE, DOWNVOTE, SAVE, HIDE, UNSAVE, UNHIDE, REPORT, SHARE, REPLY, USER_PROFILE, EXTERNAL, PROPERTIES, COMMENTS, LINK
 	}
 
@@ -163,10 +164,10 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 		if(swipeReady && absOffset > offsetActionPerformed) {
 
 			if(xOffsetPixels > 0) {
-				onActionSelected(rightFlingAction.action);
+				onActionSelected(post, getContext(), fragmentParent, rightFlingAction.action);
 				leftOverlayText.setCompoundDrawablesWithIntrinsicBounds(null, rrIconTick, null, null);
 			} else {
-				onActionSelected(leftFlingAction.action);
+				onActionSelected(post, getContext(), fragmentParent, leftFlingAction.action);
 				rightOverlayText.setCompoundDrawablesWithIntrinsicBounds(null, rrIconTick, null, null);
 			}
 
@@ -404,7 +405,7 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 
 		builder.setItems(menuText, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
-				onActionSelected(menu.get(which).action);
+				onActionSelected(post, getContext(), fragmentParent, menu.get(which).action);
 			}
 		});
 
@@ -416,47 +417,48 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 		alert.show();
 	}
 
-	public void onActionSelected(final Action action) {
+	public static void onActionSelected(final RedditPreparedPost post, final Context context,
+										final Fragment fragmentParent, final Action action) {
 
 		switch(action) {
 
 			case UPVOTE:
-				post.action(getContext(), RedditAPI.RedditAction.UPVOTE);
+				post.action(context, RedditAPI.RedditAction.UPVOTE);
 				break;
 
 			case DOWNVOTE:
-				post.action(getContext(), RedditAPI.RedditAction.DOWNVOTE);
+				post.action(context, RedditAPI.RedditAction.DOWNVOTE);
 				break;
 
 			case UNVOTE:
-				post.action(getContext(), RedditAPI.RedditAction.UNVOTE);
+				post.action(context, RedditAPI.RedditAction.UNVOTE);
 				break;
 
 			case SAVE:
-				post.action(getContext(), RedditAPI.RedditAction.SAVE);
+				post.action(context, RedditAPI.RedditAction.SAVE);
 				break;
 
 			case UNSAVE:
-				post.action(getContext(), RedditAPI.RedditAction.UNSAVE);
+				post.action(context, RedditAPI.RedditAction.UNSAVE);
 				break;
 
 			case HIDE:
-				post.action(getContext(), RedditAPI.RedditAction.HIDE);
+				post.action(context, RedditAPI.RedditAction.HIDE);
 				break;
 
 			case UNHIDE:
-				post.action(getContext(), RedditAPI.RedditAction.UNHIDE);
+				post.action(context, RedditAPI.RedditAction.UNHIDE);
 				break;
 
 			case REPORT:
 
-				new AlertDialog.Builder(getContext())
+				new AlertDialog.Builder(context)
 						.setTitle(R.string.action_report)
 						.setMessage(R.string.action_report_sure)
 						.setPositiveButton(R.string.action_report,
 								new DialogInterface.OnClickListener() {
 									public void onClick(final DialogInterface dialog, final int which) {
-										post.action(getContext(), RedditAPI.RedditAction.REPORT);
+										post.action(context, RedditAPI.RedditAction.REPORT);
 										// TODO update the view to show the result
 										// TODO don't forget, this also hides
 									}
@@ -469,7 +471,7 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 			case EXTERNAL:
 				final Intent intent = new Intent(Intent.ACTION_VIEW);
 				intent.setData(Uri.parse(post.url));
-				getContext().startActivity(intent);
+				context.startActivity(intent);
 				break;
 
 			case SHARE:
@@ -478,7 +480,7 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 				mailer.setType("text/plain");
 				mailer.putExtra(Intent.EXTRA_SUBJECT, post.title);
 				mailer.putExtra(Intent.EXTRA_TEXT, post.url + "\r\n\r\nSent using RedReader on Android");
-				getContext().startActivity(Intent.createChooser(mailer, "Share Post")); // TODO string
+				context.startActivity(Intent.createChooser(mailer, "Share Post")); // TODO string
 				break;
 
 			case USER_PROFILE:
@@ -486,15 +488,15 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 				break;
 
 			case PROPERTIES:
-				PostPropertiesDialog.newInstance(post.src).show(fragmentParent.getSupportFragmentManager());
+				PostPropertiesDialog.newInstance(post.src).show(fragmentParent.getSupportActivity());
 				break;
 
 			case COMMENTS:
-				fragmentParent.onPostCommentsSelected(post);
+				((PostListingFragment)fragmentParent).onPostCommentsSelected(post);
 				break;
 
 			case LINK:
-				fragmentParent.onPostSelected(post);
+				((PostListingFragment)fragmentParent).onPostSelected(post);
 				break;
 		}
 	}

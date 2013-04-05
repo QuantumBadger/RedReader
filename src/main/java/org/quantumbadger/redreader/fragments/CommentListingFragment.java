@@ -67,6 +67,7 @@ import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.things.RedditThing;
 import org.quantumbadger.redreader.views.RedditCommentView;
 import org.quantumbadger.redreader.views.RedditPostHeaderView;
+import org.quantumbadger.redreader.views.RedditPostView;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
 import org.quantumbadger.redreader.views.liststatus.LoadingView;
 
@@ -463,7 +464,92 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 				menu.add(Menu.NONE, Action.SHARE.ordinal(), 0, R.string.action_share);
 				menu.add(Menu.NONE, Action.USER_PROFILE.ordinal(), 0, R.string.action_user_profile);
 				menu.add(Menu.NONE, Action.PROPERTIES.ordinal(), 0, R.string.action_properties);
+
+			} else {
+
+				if(post == null) {
+					General.quickToast(getSupportActivity(), "Parent post not downloaded yet."); // TODO string
+					return;
+				}
+
+				if(!RedditAccountManager.getInstance(context).getDefaultAccount().isAnonymous()) {
+
+					if(!post.isUpvoted()) {
+						menu.add(R.string.action_upvote).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.UPVOTE));
+					} else {
+						menu.add(R.string.action_upvote_remove).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.UNVOTE));
+					}
+
+					if(!post.isDownvoted()) {
+						menu.add(R.string.action_downvote).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.DOWNVOTE));
+					} else {
+						menu.add(R.string.action_downvote_remove).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.UNVOTE));
+					}
+
+					if(!post.isSaved()) {
+						menu.add(R.string.action_save).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.SAVE));
+					} else {
+						menu.add(R.string.action_unsave).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.UNSAVE));
+					}
+
+					if(!post.isHidden()) {
+						menu.add(R.string.action_hide).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.HIDE));
+					} else {
+						menu.add(R.string.action_unhide).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.UNHIDE));
+					}
+
+					menu.add(R.string.action_report).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.REPORT));
+				}
+
+				menu.add(R.string.action_external).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.EXTERNAL));
+				menu.add(R.string.action_share).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.SHARE));
+
+				if(post.src.selftext != null && post.src.selftext.length() > 1) menu.add("Links in Self Text").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+					public boolean onMenuItemClick(MenuItem item) {
+
+						final HashSet<String> linksInComment = LinkHandler.computeAllLinks(StringEscapeUtils.unescapeHtml4(post.src.selftext));
+
+						if(linksInComment.isEmpty()) {
+							General.quickToast(getSupportActivity(), "No URLs found in the self text."); // TODO string
+
+						} else {
+
+							final String[] linksArr = linksInComment.toArray(new String[linksInComment.size()]);
+
+							final AlertDialog.Builder builder = new AlertDialog.Builder(getSupportActivity());
+							builder.setItems(linksArr, new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog, int which) {
+									LinkHandler.onLinkClicked(getSupportActivity(), linksArr[which], false);
+									dialog.dismiss();
+								}
+							});
+
+							final AlertDialog alert = builder.create();
+							alert.setTitle("Links in Self Text");
+							alert.setCanceledOnTouchOutside(true);
+							alert.show();
+						}
+						return true;
+					}
+				});
+
+				menu.add(R.string.action_user_profile).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.USER_PROFILE));
+				menu.add(R.string.action_properties).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.PROPERTIES));
 			}
+		}
+	}
+
+	private class MenuHandler implements MenuItem.OnMenuItemClickListener {
+
+		private final RedditPostView.Action action;
+
+		public MenuHandler(final RedditPostView.Action action) {
+			this.action = action;
+		}
+
+		public boolean onMenuItemClick(MenuItem item) {
+			RedditPostView.onActionSelected(post, getSupportActivity(), CommentListingFragment.this, action);
+			return true;
 		}
 	}
 
@@ -477,7 +563,10 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
+
 		final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+
+		if(info.position <= 0) return false;
 
 		final Action action = Action.values()[item.getItemId()];
 		final RedditPreparedComment comment = (RedditPreparedComment)lv.getAdapter().getItem(info.position);

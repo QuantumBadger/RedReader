@@ -543,7 +543,7 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 		}
 
 		public boolean onMenuItemClick(MenuItem item) {
-			RedditPostView.onActionSelected(post, getSupportActivity(), CommentListingFragment.this, action);
+			RedditPostView.onActionSelected(post, CommentListingFragment.this, action);
 			return true;
 		}
 	}

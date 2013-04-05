@@ -89,6 +89,8 @@ public class LinkHandler {
 			return;
 		}
 
+		// Use a browser
+
 		if(youtubePattern.matcher(url).matches()) {
 			final Intent intent = new Intent(Intent.ACTION_VIEW);
 			intent.setData(Uri.parse(url));

@@ -29,6 +29,7 @@ import android.util.Log;
 import android.widget.Toast;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.http.StatusLine;
+import org.holoeverywhere.app.Activity;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -301,13 +302,13 @@ public final class RedditPreparedPost {
 		});
 	}
 
-	public void action(final Context context, final RedditAPI.RedditAction action) {
+	public void action(final Activity activity, final RedditAPI.RedditAction action) {
 
-		if(RedditAccountManager.getInstance(context).getDefaultAccount().isAnonymous()) {
+		if(RedditAccountManager.getInstance(activity).getDefaultAccount().isAnonymous()) {
 
 			new Handler(Looper.getMainLooper()).post(new Runnable() {
 				public void run() {
-					Toast.makeText(context, "You must be logged in to do that.", Toast.LENGTH_SHORT).show();
+					Toast.makeText(activity, "You must be logged in to do that.", Toast.LENGTH_SHORT).show();
 				}
 			});
 
@@ -333,12 +334,12 @@ public final class RedditPreparedPost {
 				throw new RuntimeException("Unknown post action");
 		}
 
-		refreshView(context);
+		refreshView(activity);
 
-		final RedditAccount user = RedditAccountManager.getInstance(context).getDefaultAccount();
+		final RedditAccount user = RedditAccountManager.getInstance(activity).getDefaultAccount();
 
-		RedditAPI.action(CacheManager.getInstance(context),
-				new APIResponseHandler.ActionResponseHandler(context) {
+		RedditAPI.action(CacheManager.getInstance(activity),
+				new APIResponseHandler.ActionResponseHandler(activity) {
 					@Override
 					protected void onCallbackException(final Throwable t) {
 						BugReportActivity.handleGlobalError(context, t);
@@ -352,7 +353,7 @@ public final class RedditPreparedPost {
 						final RRError error = General.getGeneralErrorForFailure(context, type, t, status);
 						new Handler(Looper.getMainLooper()).post(new Runnable() {
 							public void run() {
-								General.showResultDialog(context, error);
+								General.showResultDialog(activity, error);
 							}
 						});
 					}
@@ -364,7 +365,7 @@ public final class RedditPreparedPost {
 						final RRError error = General.getGeneralErrorForFailure(context, type);
 						new Handler(Looper.getMainLooper()).post(new Runnable() {
 							public void run() {
-								General.showResultDialog(context, error);
+								General.showResultDialog(activity, error);
 							}
 						});
 					}
@@ -398,7 +399,7 @@ public final class RedditPreparedPost {
 						refreshView(context);
 					}
 
-				}, user, idAndType, action, context);
+				}, user, idAndType, action, activity);
 	}
 
 	public boolean isUpvoted() {

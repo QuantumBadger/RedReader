@@ -18,5 +18,5 @@
 package org.quantumbadger.redreader.cache;
 
 public enum RequestFailureType {
-	CONNECTION, REQUEST, STORAGE, CACHE_MISS, CANCELLED, PARSE
+	CONNECTION, REQUEST, STORAGE, CACHE_MISS, CANCELLED, MALFORMED_URL, PARSE
 }

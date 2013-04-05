@@ -94,7 +94,6 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 
 		this.context = context;
 
-		if(url == null) throw new NullPointerException("URL was null");
 		if(user == null) throw new NullPointerException("User was null - set to empty string for anonymous");
 		if(downloadType == null) throw new NullPointerException("Download type was null");
 
@@ -125,6 +124,11 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 		this.postFields = postFields;
 		this.cache = cache;
 		this.cancelExisting = cancelExisting;
+
+		if(url == null) {
+			notifyFailure(RequestFailureType.MALFORMED_URL, null, null, "Malformed URL");
+			cancel();
+		}
 	}
 
 	public CookieStore getCookies() {

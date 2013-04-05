@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.common;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -28,11 +29,13 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.widget.Toast;
 import org.apache.http.StatusLine;
+import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.AlertDialog;
 import org.holoeverywhere.preference.SharedPreferences;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.RequestFailureType;
+import org.quantumbadger.redreader.fragments.ErrorPropertiesDialog;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 
 import java.io.File;
@@ -153,6 +156,10 @@ public final class General {
 				title = R.string.error_connection_title;
 				message = R.string.error_connection_message;
 				break;
+			case MALFORMED_URL:
+				title = R.string.error_malformed_url_title;
+				message = R.string.error_malformed_url_message;
+				break;
 			case REQUEST:
 
 				if(status != null) {
@@ -213,12 +220,21 @@ public final class General {
 	}
 
 	// TODO add button to show more detail
-	public static void showResultDialog(Context context, RRError error) {
-		final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
-		alertBuilder.setNeutralButton(R.string.dialog_close, null);
-		alertBuilder.setTitle(error.title);
-		alertBuilder.setMessage(error.message);
-		alertBuilder.create().show();
+	public static void showResultDialog(final Activity context, final RRError error) {
+		new Handler(Looper.getMainLooper()).post(new Runnable() {
+			public void run() {
+				final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
+				alertBuilder.setNeutralButton(R.string.dialog_close, null);
+				alertBuilder.setNegativeButton("More Detail", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						ErrorPropertiesDialog.newInstance(error).show(context);
+					}
+				});
+				alertBuilder.setTitle(error.title);
+				alertBuilder.setMessage(error.message);
+				alertBuilder.create().show();
+			}
+		});
 	}
 
 	private static final Pattern urlPattern = Pattern.compile("^(https?)://([^/]+)/+([^\\?#]+)((?:\\?[^#]+)?)((?:#.+)?)$");
@@ -239,15 +255,15 @@ public final class General {
 
 					final String scheme = urlMatcher.group(1);
 					final String authority = urlMatcher.group(2);
-					final String path = "/" + urlMatcher.group(3);
-					final String query = urlMatcher.group(4);
-					final String fragment = urlMatcher.group(5);
+					final String path = urlMatcher.group(3).length() == 0 ? null : "/" + urlMatcher.group(3);
+					final String query = urlMatcher.group(4).length() == 0 ? null : urlMatcher.group(4);
+					final String fragment = urlMatcher.group(5).length() == 0 ? null : urlMatcher.group(5);
 
 					try {
 						return new URI(scheme, authority, path, query, fragment);
 					} catch(Throwable t3) {
 
-						if(path.contains(" ")) {
+						if(path != null && path.contains(" ")) {
 							return new URI(scheme, authority, path.replace(" ", "%20"), query, fragment);
 						} else {
 							return null;

@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 import com.laurencedawson.activetextview.ActiveTextView;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.http.StatusLine;
+import org.holoeverywhere.app.Activity;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -194,12 +195,12 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 		});
 	}
 
-	public void action(final Context context, final RedditAPI.RedditAction action) {
+	public void action(final Activity activity, final RedditAPI.RedditAction action) {
 
-		final RedditAccount user = RedditAccountManager.getInstance(context).getDefaultAccount();
+		final RedditAccount user = RedditAccountManager.getInstance(activity).getDefaultAccount();
 
 		if(user.isAnonymous()) {
-			General.quickToast(context, "You must be logged in to do that.");
+			General.quickToast(activity, "You must be logged in to do that.");
 			return;
 		}
 
@@ -216,8 +217,8 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 
 		refreshView();
 
-		RedditAPI.action(CacheManager.getInstance(context),
-				new APIResponseHandler.ActionResponseHandler(context) {
+		RedditAPI.action(CacheManager.getInstance(activity),
+				new APIResponseHandler.ActionResponseHandler(activity) {
 					@Override
 					protected void onCallbackException(final Throwable t) {
 						throw new RuntimeException(t);
@@ -231,7 +232,7 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 						final RRError error = General.getGeneralErrorForFailure(context, type, t, status);
 						new Handler(Looper.getMainLooper()).post(new Runnable() {
 							public void run() {
-								General.showResultDialog(context, error);
+								General.showResultDialog(activity, error);
 							}
 						});
 					}
@@ -243,7 +244,7 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 						final RRError error = General.getGeneralErrorForFailure(context, type);
 						new Handler(Looper.getMainLooper()).post(new Runnable() {
 							public void run() {
-								General.showResultDialog(context, error);
+								General.showResultDialog(activity, error);
 							}
 						});
 					}
@@ -268,7 +269,7 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 						}
 					}
 
-				}, user, idAndType, action, context);
+				}, user, idAndType, action, activity);
 	}
 
 	public int getVoteDirection() {

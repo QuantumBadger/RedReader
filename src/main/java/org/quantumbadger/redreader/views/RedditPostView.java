@@ -29,6 +29,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.AlertDialog;
 import org.holoeverywhere.app.Fragment;
 import org.holoeverywhere.preference.PreferenceManager;
@@ -164,10 +165,10 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 		if(swipeReady && absOffset > offsetActionPerformed) {
 
 			if(xOffsetPixels > 0) {
-				onActionSelected(post, getContext(), fragmentParent, rightFlingAction.action);
+				onActionSelected(post, fragmentParent, rightFlingAction.action);
 				leftOverlayText.setCompoundDrawablesWithIntrinsicBounds(null, rrIconTick, null, null);
 			} else {
-				onActionSelected(post, getContext(), fragmentParent, leftFlingAction.action);
+				onActionSelected(post, fragmentParent, leftFlingAction.action);
 				rightOverlayText.setCompoundDrawablesWithIntrinsicBounds(null, rrIconTick, null, null);
 			}
 
@@ -405,7 +406,7 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 
 		builder.setItems(menuText, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
-				onActionSelected(post, getContext(), fragmentParent, menu.get(which).action);
+				onActionSelected(post, fragmentParent, menu.get(which).action);
 			}
 		});
 
@@ -417,8 +418,9 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 		alert.show();
 	}
 
-	public static void onActionSelected(final RedditPreparedPost post, final Context context,
-										final Fragment fragmentParent, final Action action) {
+	public static void onActionSelected(final RedditPreparedPost post, final Fragment fragmentParent, final Action action) {
+
+		final Activity context = fragmentParent.getSupportActivity();
 
 		switch(action) {
 

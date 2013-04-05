@@ -258,6 +258,9 @@
     <string name="error_connection_title">Connection Error</string>
     <string name="error_connection_message">There was a problem connecting to the server. Please check your connection and try again.</string>
 
+    <string name="error_malformed_url_title">Malformed URL</string>
+    <string name="error_malformed_url_message">An attempt was made to access an invalid URL.</string>
+
     <string name="error_unknown_title">Unknown Error</string>
     <string name="error_unknown_message">An unknown error occurred. Please try again.</string>
 

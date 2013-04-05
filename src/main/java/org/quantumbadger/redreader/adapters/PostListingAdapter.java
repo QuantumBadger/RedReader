@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import org.holoeverywhere.widget.ListView;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.views.RedditPostView;
@@ -33,6 +34,8 @@ public final class PostListingAdapter extends BaseAdapter {
 			@Override
 			public void handleMessage(final Message msg) {
 
+				posts.add((RedditPreparedPost)msg.obj);
+
 				if(listViewParent.getLastVisiblePosition() + 1 >= posts.size()) {
 					updatePosts();
 				}
@@ -53,8 +56,7 @@ public final class PostListingAdapter extends BaseAdapter {
 	}
 
 	public void onPostDownloaded(final RedditPreparedPost post) {
-		posts.add(post);
-		postAddedHandler.sendEmptyMessage(0);
+		postAddedHandler.sendMessage(General.handlerMessage(0, post));
 	}
 
 	public int getCount() {

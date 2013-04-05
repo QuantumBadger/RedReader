@@ -415,7 +415,7 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 		alert.setCanceledOnTouchOutside(true);
 		alert.show();
 	}
-	
+
 	public void onActionSelected(final Action action) {
 
 		switch(action) {

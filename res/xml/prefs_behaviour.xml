@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ This file is part of RedReader.
+  ~
+  ~ RedReader is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ RedReader is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<PreferenceScreen xmlns:holo="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory holo:title="@string/pref_behaviour_fling_post_header">
+
+        <ListPreference holo:title="@string/pref_behaviour_fling_post_left_title"
+                        holo:key="@string/pref_behaviour_fling_post_left_key"
+                        holo:entries="@array/pref_behaviour_fling_post_actions"
+                        holo:entryValues="@array/pref_behaviour_fling_post_actions_return"
+                        holo:defaultValue="upvote"/>
+
+        <ListPreference holo:title="@string/pref_behaviour_fling_post_right_title"
+                        holo:key="@string/pref_behaviour_fling_post_right_key"
+                        holo:entries="@array/pref_behaviour_fling_post_actions"
+                        holo:entryValues="@array/pref_behaviour_fling_post_actions_return"
+                        holo:defaultValue="downvote"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory holo:title="Posts">
+
+        <CheckBoxPreference holo:title="@string/pref_behaviour_nsfw_title"
+                            holo:key="@string/pref_behaviour_nsfw_key"
+                            holo:defaultValue="false"/>
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

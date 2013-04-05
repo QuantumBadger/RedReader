@@ -1,7 +1,7 @@
-RedReader Beta
-==============
+RedReader Beta (for Android)
+============================
 
-An unofficial open source Reddit client for Android. *To be uploaded shortly.*
+An unofficial, open source client for reddit. *To be uploaded shortly.*
 
 Features
 --------

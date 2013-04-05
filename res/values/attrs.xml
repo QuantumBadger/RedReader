@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of RedReader.
+  ~
+  ~ RedReader is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ RedReader is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+
+    <attr name="rrActionBarCol" format="color" />
+
+    <attr name="rrListDividerCol" format="color" />
+    <attr name="rrListHeaderTextCol" format="color" />
+    <attr name="rrListHeaderLineCol" format="color" />
+    <attr name="rrListSubtitleCol" format="color" />
+
+    <attr name="rrListItemBackgroundCol" format="color" />
+    <attr name="rrListBackgroundCol" format="color" />
+
+    <attr name="rrPostTitleCol" format="color" />
+    <attr name="rrPostTitleReadCol" format="color" />
+    <attr name="rrPostSubtitleCol" format="color" />
+    <attr name="rrPostSubtitleBoldCol" format="color" />
+    <attr name="rrPostSubtitleUpvoteCol" format="color" />
+    <attr name="rrPostSubtitleDownvoteCol" format="color" />
+    <attr name="rrPostCommentsButtonBackCol" format="color" />
+    <attr name="rrPostCommentsButtonTextCol" format="color" />
+    <attr name="rrPostThumbnailBackground" format="color" />
+    <attr name="rrPostFlingTextCol" format="color" />
+
+    <attr name="rrCommentBodyCol" format="color" />
+    <attr name="rrCommentHeaderCol" format="color" />
+    <attr name="rrCommentHeaderBoldCol" format="color" />
+    <attr name="rrCommentHeaderAuthorCol" format="color" />
+
+    <!-- icons -->
+
+    <attr name="rrIconComments" format="reference" />
+    <attr name="rrIconPerson" format="reference" />
+    <attr name="rrIconAdd" format="reference" />
+    <attr name="rrIconCross" format="reference" />
+    <attr name="rrIconEnvOpen" format="reference" />
+    <attr name="rrIconInfo" format="reference" />
+    <attr name="rrIconRefresh" format="reference" />
+    <attr name="rrIconReply" format="reference" />
+    <attr name="rrIconSearch" format="reference" />
+    <attr name="rrIconSend" format="reference" />
+    <attr name="rrIconShare" format="reference" />
+    <attr name="rrIconSort" format="reference" />
+    <attr name="rrIconStarFilled" format="reference" />
+    <attr name="rrIconThumbDown" format="reference" />
+    <attr name="rrIconThumbUp" format="reference" />
+    <attr name="rrIconFfLeft" format="reference" />
+    <attr name="rrIconFfRight" format="reference" />
+    <attr name="rrIconTick" format="reference" />
+
+
+</resources>

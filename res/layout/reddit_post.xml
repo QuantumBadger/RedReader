@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ This file is part of RedReader.
+  ~
+  ~ RedReader is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ RedReader is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:gravity="center_vertical"
+             android:background="?rrListBackgroundCol">
+
+    <TextView android:id="@+id/reddit_post_fling_text_left"
+              android:layout_height="wrap_content"
+              android:layout_width="wrap_content"
+              android:layout_gravity="center_vertical|left"
+              android:layout_marginLeft="24dp"
+              android:textSize="14dp"
+              android:textColor="?rrPostFlingTextCol"
+              android:textAllCaps="true"
+              android:background="?rrListBackgroundCol"
+              android:visibility="gone"/>
+
+    <TextView android:id="@+id/reddit_post_fling_text_right"
+              android:layout_height="wrap_content"
+              android:layout_width="wrap_content"
+              android:layout_gravity="center_vertical|right"
+              android:layout_marginRight="24dp"
+              android:textSize="14dp"
+              android:textColor="?rrPostFlingTextCol"
+              android:textAllCaps="true"
+              android:background="?rrListBackgroundCol"
+              android:visibility="gone"/>
+
+    <LinearLayout android:id="@+id/reddit_post_layout"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:gravity="center_vertical"
+                  android:orientation="horizontal"
+                  android:minHeight="64dp"
+                  android:background="?rrListItemBackgroundCol"
+                  android:baselineAligned="false">
+
+        <FrameLayout android:layout_width="wrap_content"
+                     android:layout_height="match_parent"
+                     android:baselineAligned="false"
+                     android:background="?rrPostThumbnailBackground">
+
+            <ImageView android:id="@+id/reddit_post_thumbnail_view"
+                       android:layout_width="wrap_content"
+                       android:layout_height="match_parent"
+                       android:scaleType="center"
+                       android:background="?rrPostThumbnailBackground"/>
+
+            <ImageView android:id="@+id/reddit_post_saved_icon"
+                       android:layout_width="64dp"
+                       android:layout_height="match_parent"
+                       android:scaleType="center"
+                       android:visibility="gone"
+                       android:background="#99000000"
+                       android:src="@drawable/ic_action_star_filled_dark"/>
+
+            <ImageView android:id="@+id/reddit_post_hidden_icon"
+                       android:layout_width="64dp"
+                       android:layout_height="match_parent"
+                       android:scaleType="center"
+                       android:visibility="gone"
+                       android:background="#99000000"
+                       android:src="@drawable/ic_action_cross_dark"/>
+
+        </FrameLayout>
+
+        <LinearLayout android:id="@+id/reddit_post_textLayout"
+                      android:layout_height="wrap_content"
+                      android:layout_width="0px"
+                      android:orientation="vertical"
+                      android:paddingLeft="2dp"
+                      android:paddingRight="2dp"
+                      android:gravity="center_vertical"
+                      android:layout_weight="1">
+
+            <!-- todo theme color -->
+            <TextView android:id="@+id/reddit_post_title"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:textColor="?rrPostTitleCol"
+                      android:paddingLeft="10dp"
+                      android:paddingRight="5dp"
+                      android:paddingTop="5dp"
+                      android:paddingBottom="0dp"
+                      android:textSize="14sp" />
+
+            <!-- todo theme color -->
+            <TextView android:id="@+id/reddit_post_subtitle"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:gravity="center_vertical"
+                      android:textColor="#909090"
+                      android:paddingLeft="10dp"
+                      android:paddingRight="5dp"
+                      android:paddingTop="1dp"
+                      android:paddingBottom="5dp"
+                      android:textSize="11sp"/> <!-- android:layout_weight="1" -->
+
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/reddit_post_comments_button"
+                      android:layout_width="40dp"
+                      android:layout_height="match_parent"
+                      android:gravity="center"
+                      android:background="?rrPostCommentsButtonBackCol"
+                      android:orientation="vertical">
+
+            <ImageView android:layout_height="wrap_content"
+                       android:layout_width="match_parent"
+                       android:src="?rrIconComments"
+                       android:scaleType="fitCenter"
+                       android:layout_marginLeft="8dp"
+                       android:layout_marginRight="8dp"
+                       android:contentDescription="Comments"/> <!-- TODO string -->
+
+            <TextView android:id="@+id/reddit_post_comments_text"
+                      android:layout_height="wrap_content"
+                      android:layout_width="fill_parent"
+                      android:gravity="center"
+                      android:textSize="11dp"
+                      android:textColor="?rrPostCommentsButtonTextCol"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

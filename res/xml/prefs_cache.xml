@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ This file is part of RedReader.
+  ~
+  ~ RedReader is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ RedReader is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<PreferenceScreen xmlns:holo="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory holo:title="@string/pref_cache_precache_images_header">
+
+    <CheckBoxPreference holo:title="@string/pref_cache_precache_images_title"
+                        holo:key="@string/pref_cache_precache_images_key"
+                        holo:defaultValue="true"/>
+
+    <CheckBoxPreference holo:title="@string/pref_cache_precache_images_wifionly_title"
+                        holo:key="@string/pref_cache_precache_images_wifionly_key"
+                        holo:dependency="@string/pref_cache_precache_images_key"
+                        holo:defaultValue="true"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory holo:title="@string/pref_cache_pruning">
+
+    <ListPreference holo:title="@string/pref_cache_maxage_listing_title"
+                    holo:key="@string/pref_cache_maxage_listing_key"
+                    holo:entries="@array/pref_cache_maxage"
+                    holo:entryValues="@array/pref_cache_maxage_return"
+                    holo:defaultValue="168"/>
+
+    <ListPreference holo:title="@string/pref_cache_maxage_thumb_title"
+                    holo:key="@string/pref_cache_maxage_thumb_key"
+                    holo:entries="@array/pref_cache_maxage"
+                    holo:entryValues="@array/pref_cache_maxage_return"
+                    holo:defaultValue="168"/>
+
+    <ListPreference holo:title="@string/pref_cache_maxage_image_title"
+                    holo:key="@string/pref_cache_maxage_image_key"
+                    holo:entries="@array/pref_cache_maxage"
+                    holo:entryValues="@array/pref_cache_maxage_return"
+                    holo:defaultValue="24"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of RedReader.
+  ~
+  ~ RedReader is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ RedReader is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+
+    <string-array name="pref_appearance_twopane">
+        <item>Never</item>
+        <item>Auto-detect</item>
+        <item>Force (may look odd)</item>
+    </string-array>
+
+    <!-- Constants. Do not change. -->
+    <string-array name="pref_appearance_twopane_return">
+        <item>never</item>
+        <item>auto</item>
+        <item>force</item>
+    </string-array>
+
+    <string-array name="pref_behaviour_fling_post_actions">
+        <item>@string/action_upvote</item>
+        <item>@string/action_downvote</item>
+        <item>@string/action_save</item>
+        <item>@string/action_hide</item>
+        <item>@string/action_comments</item>
+        <item>@string/action_link</item>
+        <item>@string/action_external</item>
+    </string-array>
+
+    <!-- Constants. Do not change. -->
+    <string-array name="pref_behaviour_fling_post_actions_return">
+        <item>upvote</item>
+        <item>downvote</item>
+        <item>save</item>
+        <item>hide</item>
+        <item>comments</item>
+        <item>link</item>
+        <item>browser</item>
+    </string-array>
+
+    <string-array name="pref_appearance_theme">
+        <item>Red</item>
+        <item>Green</item>
+        <item>Blue</item>
+        <item>Gray</item>
+        <item>Night</item>
+    </string-array>
+
+    <!-- Constants. Do not change. -->
+    <string-array name="pref_appearance_theme_return">
+        <item>red</item>
+        <item>green</item>
+        <item>blue</item>
+        <item>gray</item>
+        <item>night</item>
+    </string-array>
+
+    <string-array name="pref_cache_maxage">
+        <item>1 hour</item>
+        <item>6 hours</item>
+        <item>1 day</item>
+        <item>3 days</item>
+        <item>1 week</item>
+        <item>1 month</item>
+        <item>3 months</item>
+    </string-array>
+
+    <!-- Constants. Do not change. -->
+    <string-array name="pref_cache_maxage_return">
+        <item>1</item>
+        <item>6</item>
+        <item>24</item>
+        <item>72</item>
+        <item>168</item>
+        <item>730</item>
+        <item>2191</item>
+    </string-array>
+
+</resources>

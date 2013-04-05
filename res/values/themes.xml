@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of RedReader.
+  ~
+  ~ RedReader is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ RedReader is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+
+    <style name="RR.Dark" parent="Holo.Theme">
+
+        <item name="android:actionBarStyle">@style/RR.Dark.ActionBarStyle</item>
+        <item name="rrActionBarCol">#222222</item>
+
+        <item name="rrListItemBackgroundCol">#000000</item>
+        <item name="rrListBackgroundCol">#111111</item>
+
+        <item name="rrListDividerCol">#555555</item>
+        <item name="rrListHeaderTextCol">#CCCCCC</item>
+        <item name="rrListHeaderLineCol">#444444</item>
+        <item name="rrListSubtitleCol">#CCCCCC</item>
+
+        <!-- Post -->
+
+        <item name="rrPostTitleCol">#FFFFFF</item>
+        <item name="rrPostTitleReadCol">#909090</item>
+        <item name="rrPostSubtitleCol">#909090</item>
+        <item name="rrPostSubtitleBoldCol">#BBBBBB</item>
+        <item name="rrPostSubtitleUpvoteCol">#FF9B76</item>
+        <item name="rrPostSubtitleDownvoteCol">#9494FF</item>
+        <item name="rrPostCommentsButtonBackCol">#444444</item>
+        <item name="rrPostCommentsButtonTextCol">#BBBBBB</item>
+        <item name="rrPostThumbnailBackground">#444444</item>
+        <item name="rrPostFlingTextCol">#FFFFFF</item>
+
+        <!-- Comment -->
+
+        <item name="rrCommentBodyCol">#DDDDDD</item>
+        <item name="rrCommentHeaderCol">#BBBBBB</item> <!-- TODO -->
+        <item name="rrCommentHeaderBoldCol">#CCCCCC</item>
+        <item name="rrCommentHeaderAuthorCol">#FFFFFF</item>
+
+        <!-- Icons -->
+
+        <item name="rrIconComments">@drawable/ic_action_comments_dark</item>
+        <item name="rrIconPerson">@drawable/ic_action_person_dark</item>
+        <item name="rrIconAdd">@drawable/ic_action_add_dark</item>
+        <item name="rrIconCross">@drawable/ic_action_cross_dark</item>
+        <item name="rrIconEnvOpen">@drawable/ic_action_env_open_dark</item>
+        <item name="rrIconInfo">@drawable/ic_action_info_dark</item>
+        <item name="rrIconRefresh">@drawable/ic_action_refresh_dark</item>
+        <item name="rrIconReply">@drawable/ic_action_reply_dark</item>
+        <item name="rrIconSearch">@drawable/ic_action_search_dark</item>
+        <item name="rrIconSend">@drawable/ic_action_send_dark</item>
+        <item name="rrIconShare">@drawable/ic_action_share_dark</item>
+        <item name="rrIconSort">@drawable/ic_action_sort_dark</item>
+        <item name="rrIconStarFilled">@drawable/ic_action_star_filled_dark</item>
+        <item name="rrIconThumbDown">@drawable/ic_action_thumb_down_dark</item>
+        <item name="rrIconThumbUp">@drawable/ic_action_thumb_up_dark</item>
+        <item name="rrIconFfLeft">@drawable/ic_action_ff_left_dark</item>
+        <item name="rrIconFfRight">@drawable/ic_action_ff_right_dark</item>
+        <item name="rrIconTick">@drawable/ic_action_tick_dark</item>
+
+    </style>
+
+    <style name="RR.Light.DarkActionBar" parent="Holo.Theme.Light">
+
+        <item name="android:actionBarStyle">@style/RR.Light.ActionBarStyle</item>
+        <item name="android:actionOverflowButtonStyle">@style/RR.ActionButton.Overflow</item>
+        <item name="rrActionBarCol">#222222</item>
+
+        <item name="rrListItemBackgroundCol">#FBFBFB</item>
+        <item name="rrListBackgroundCol">#FFFFFF</item>
+
+        <item name="rrListDividerCol">#CCCCCC</item>
+        <item name="rrListHeaderTextCol">?rrActionBarCol</item>
+        <item name="rrListHeaderLineCol">?rrActionBarCol</item>
+        <item name="rrListSubtitleCol">#666666</item>
+
+        <!-- Comment -->
+
+        <item name="rrCommentBodyCol">#000000</item>
+        <item name="rrCommentHeaderCol">#666666</item> <!-- TODO -->
+        <item name="rrCommentHeaderBoldCol">#333333</item>
+        <item name="rrCommentHeaderAuthorCol">?rrActionBarCol</item>
+
+        <!-- Post -->
+
+        <item name="rrPostTitleCol">#000000</item>
+        <item name="rrPostTitleReadCol">#909090</item>
+        <item name="rrPostSubtitleCol">#909090</item>
+        <item name="rrPostSubtitleBoldCol">#666666</item>
+        <item name="rrPostSubtitleUpvoteCol">#FF9B76</item>
+        <item name="rrPostSubtitleDownvoteCol">#9494FF</item>
+        <item name="rrPostCommentsButtonBackCol">#EEEEEE</item>
+        <item name="rrPostCommentsButtonTextCol">#666666</item>
+        <item name="rrPostThumbnailBackground">#DDDDDD</item>
+        <item name="rrPostFlingTextCol">?rrActionBarCol</item>
+
+        <!-- Icons -->
+
+        <item name="rrIconComments">@drawable/ic_action_comments_light</item>
+        <item name="rrIconPerson">@drawable/ic_action_person_light</item>
+        <item name="rrIconAdd">@drawable/ic_action_add_light</item>
+        <item name="rrIconCross">@drawable/ic_action_cross_light</item>
+        <item name="rrIconEnvOpen">@drawable/ic_action_env_open_light</item>
+        <item name="rrIconInfo">@drawable/ic_action_info_light</item>
+        <item name="rrIconRefresh">@drawable/ic_action_refresh_light</item>
+        <item name="rrIconReply">@drawable/ic_action_reply_light</item>
+        <item name="rrIconSearch">@drawable/ic_action_search_light</item>
+        <item name="rrIconSend">@drawable/ic_action_send_light</item>
+        <item name="rrIconShare">@drawable/ic_action_share_light</item>
+        <item name="rrIconSort">@drawable/ic_action_sort_light</item>
+        <item name="rrIconStarFilled">@drawable/ic_action_star_filled_light</item>
+        <item name="rrIconThumbDown">@drawable/ic_action_thumb_down_light</item>
+        <item name="rrIconThumbUp">@drawable/ic_action_thumb_up_light</item>
+        <item name="rrIconFfLeft">@drawable/ic_action_ff_left_light</item>
+        <item name="rrIconFfRight">@drawable/ic_action_ff_right_light</item>
+        <item name="rrIconTick">@drawable/ic_action_tick_light</item>
+
+    </style>
+
+    <style name="RR.Light.Blue" parent="RR.Light.DarkActionBar">
+        <item name="rrActionBarCol">#06456A</item>
+    </style>
+
+    <style name="RR.Light.Red" parent="RR.Light.DarkActionBar">
+        <item name="rrActionBarCol">#A60000</item>
+    </style>
+
+    <style name="RR.Light.Green" parent="RR.Light.DarkActionBar">
+        <item name="rrActionBarCol">#268E00</item>
+    </style>
+
+</resources>

@@ -175,7 +175,7 @@ public class ActiveTextView extends TextView {
 									}
 								});
 
-						AlertDialog alert = builder.create();
+						final AlertDialog alert = builder.create();
 						alert.setTitle(mUrl);
 						alert.setCanceledOnTouchOutside(true);
 						alert.show();

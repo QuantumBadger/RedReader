@@ -38,11 +38,13 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.UUID;
 
-public class SessionListDialog extends DialogFragment {
+public class SessionListDialog extends DialogFragment implements RedditAccountChangeListener {
 
 	private URI url;
 	private UUID current;
 	private SessionChangeListener.SessionChangeType type;
+
+	private ListView lv;
 
 	// Workaround for HoloEverywhere bug?
 	private volatile boolean alreadyCreated = false;
@@ -93,20 +95,12 @@ public class SessionListDialog extends DialogFragment {
 
 		final Context context = getSupportActivity();
 
-		final ListView lv = new ListView(context);
+		lv = new ListView(context);
 		builder.setView(lv);
 
 		lv.setAdapter(new SessionListAdapter(context, url, current));
 
-		RedditAccountManager.getInstance(context).addUpdateListener(new RedditAccountChangeListener() {
-			public void onRedditAccountChanged() {
-				new Handler(Looper.getMainLooper()).post(new Runnable() {
-					public void run() {
-						lv.setAdapter(new SessionListAdapter(context, url, current));
-					}
-				});
-			}
-		});
+		RedditAccountManager.getInstance(context).addUpdateListener(this);
 
 		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			public void onItemClick(AdapterView<?> adapterView, View view, int position, final long id) {
@@ -127,5 +121,13 @@ public class SessionListDialog extends DialogFragment {
 		builder.setNeutralButton(getSupportActivity().getString(R.string.dialog_close), null);
 
 		return builder.create();
+	}
+
+	public void onRedditAccountChanged() {
+		new Handler(Looper.getMainLooper()).post(new Runnable() {
+			public void run() {
+				lv.setAdapter(new SessionListAdapter(getSupportActivity(), url, current));
+			}
+		});
 	}
 }

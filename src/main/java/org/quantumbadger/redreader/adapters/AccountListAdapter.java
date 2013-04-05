@@ -18,15 +18,11 @@
 package org.quantumbadger.redreader.adapters;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.view.ContextMenu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import org.holoeverywhere.app.AlertDialog;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -52,9 +48,9 @@ public class AccountListAdapter extends BaseAdapter {
 		return accounts.size() + 1;
 	}
 
-	public Object getItem(final int i) {
-		if(i == 0) return "add";
-		return accounts.get(i - 1).username;
+	public RedditAccount getItem(final int i) {
+		if(i == 0) return null;
+		return accounts.get(i - 1);
 	}
 
 	public long getItemId(final int i) {
@@ -107,42 +103,6 @@ public class AccountListAdapter extends BaseAdapter {
 			}
 
 			((ListItemView)convertView).reset(null, username.get(), true);
-			((ListItemView)convertView).setContextMenuBuilder(new ListItemView.ContextMenuBuilder() {
-				public void build(ContextMenu menu) {
-
-					menu.add(R.string.accounts_setdefault).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-						public boolean onMenuItemClick(MenuItem menuItem) {
-							RedditAccountManager.getInstance(context).setDefaultAccount(account);
-							return true;
-						}
-					});
-
-					if(!account.isAnonymous()) {
-						//menu.add(R.string.accounts_reauth); // TODO
-
-						menu.add(R.string.accounts_delete).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-							public boolean onMenuItemClick(MenuItem item) {
-
-								new AlertDialog.Builder(context)
-										.setTitle(R.string.accounts_delete)
-										.setMessage(R.string.accounts_delete_sure)
-										.setPositiveButton(R.string.accounts_delete,
-												new DialogInterface.OnClickListener() {
-													public void onClick(final DialogInterface dialog, final int which) {
-														RedditAccountManager.getInstance(context).deleteAccount(account);
-													}
-												})
-										.setNegativeButton(R.string.dialog_cancel, null)
-										.show();
-
-								return true;
-							}
-						});
-					}
-
-					menu.add(R.string.dialog_cancel);
-				}
-			});
 		}
 
 		return convertView;

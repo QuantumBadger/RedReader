@@ -285,8 +285,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 		((RedditPostView.PostSelectionListener)getSupportActivity()).onPostCommentsSelected(post);
 	}
 
-	public void onScrollStateChanged(AbsListView view, int scrollState) {
-	}
+	public void onScrollStateChanged(AbsListView view, int scrollState) {}
 
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 		onLoadMoreItemsCheck();

@@ -47,6 +47,8 @@ import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.views.list.SwipableListItemView;
 
+import java.util.ArrayList;
+
 public final class RedditPostView extends SwipableListItemView implements RedditPreparedPost.ThumbnailLoadedCallback {
 
 	private final float dpScale;
@@ -344,63 +346,76 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 		}
 	}
 
-	public void rrOnLongClick() {
-		showContextMenu();
+	private class RPVMenuItem {
+		public final String title;
+		public final Action action;
+
+		private RPVMenuItem(int titleRes, Action action) {
+			this.title = getContext().getString(titleRes);
+			this.action = action;
+		}
 	}
 
-	@Override
-	protected void onCreateContextMenu(android.view.ContextMenu menu) {
+	public void rrOnLongClick() {
+
+		final ArrayList<RPVMenuItem> menu = new ArrayList<RPVMenuItem>();
 
 		if(!RedditAccountManager.getInstance(getContext()).getDefaultAccount().isAnonymous()) {
 
 			if(!post.isUpvoted()) {
-				menu.add(R.string.action_upvote).setOnMenuItemClickListener(new MenuHandler(Action.UPVOTE));
+				menu.add(new RPVMenuItem(R.string.action_upvote, Action.UPVOTE));
 			} else {
-				menu.add(R.string.action_upvote_remove).setOnMenuItemClickListener(new MenuHandler(Action.UNVOTE));
+				menu.add(new RPVMenuItem(R.string.action_upvote_remove, Action.UNVOTE));
 			}
 
 			if(!post.isDownvoted()) {
-				menu.add(R.string.action_downvote).setOnMenuItemClickListener(new MenuHandler(Action.DOWNVOTE));
+				menu.add(new RPVMenuItem(R.string.action_downvote, Action.DOWNVOTE));
 			} else {
-				menu.add(R.string.action_downvote_remove).setOnMenuItemClickListener(new MenuHandler(Action.UNVOTE));
+				menu.add(new RPVMenuItem(R.string.action_downvote_remove, Action.UNVOTE));
 			}
 
 			if(!post.isSaved()) {
-				menu.add(R.string.action_save).setOnMenuItemClickListener(new MenuHandler(Action.SAVE));
+				menu.add(new RPVMenuItem(R.string.action_save, Action.SAVE));
 			} else {
-				menu.add(R.string.action_unsave).setOnMenuItemClickListener(new MenuHandler(Action.UNSAVE));
+				menu.add(new RPVMenuItem(R.string.action_unsave, Action.UNSAVE));
 			}
 
 			if(!post.isHidden()) {
-				menu.add(R.string.action_hide).setOnMenuItemClickListener(new MenuHandler(Action.HIDE));
+				menu.add(new RPVMenuItem(R.string.action_hide, Action.HIDE));
 			} else {
-				menu.add(R.string.action_unhide).setOnMenuItemClickListener(new MenuHandler(Action.UNHIDE));
+				menu.add(new RPVMenuItem(R.string.action_unhide, Action.UNHIDE));
 			}
 
-			menu.add(R.string.action_report).setOnMenuItemClickListener(new MenuHandler(Action.REPORT));
+			menu.add(new RPVMenuItem(R.string.action_report, Action.REPORT));
 		}
 
-		menu.add(R.string.action_external).setOnMenuItemClickListener(new MenuHandler(Action.EXTERNAL));
-		menu.add(R.string.action_share).setOnMenuItemClickListener(new MenuHandler(Action.SHARE));
-		menu.add(R.string.action_user_profile).setOnMenuItemClickListener(new MenuHandler(Action.USER_PROFILE));
-		menu.add(R.string.action_properties).setOnMenuItemClickListener(new MenuHandler(Action.PROPERTIES));
+		menu.add(new RPVMenuItem(R.string.action_external, Action.EXTERNAL));
+		menu.add(new RPVMenuItem(R.string.action_share, Action.SHARE));
+		menu.add(new RPVMenuItem(R.string.action_user_profile, Action.USER_PROFILE));
+		menu.add(new RPVMenuItem(R.string.action_properties, Action.PROPERTIES));
 
+		final String[] menuText = new String[menu.size()];
+
+		for(int i = 0; i < menuText.length; i++) {
+			menuText[i] = menu.get(i).title;
+		}
+
+		final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+		builder.setItems(menuText, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				onActionSelected(menu.get(which).action);
+			}
+		});
+
+		builder.setNeutralButton(R.string.dialog_cancel, null);
+
+		final AlertDialog alert = builder.create();
+		alert.setTitle(R.string.action_menu_post_title);
+		alert.setCanceledOnTouchOutside(true);
+		alert.show();
 	}
-
-	private class MenuHandler implements android.view.MenuItem.OnMenuItemClickListener {
-
-		private final Action action;
-
-		public MenuHandler(final Action action) {
-			this.action = action;
-		}
-
-		public boolean onMenuItemClick(android.view.MenuItem item) {
-			onActionSelected(action);
-			return true;
-		}
-	}
-
+	
 	public void onActionSelected(final Action action) {
 
 		switch(action) {

@@ -171,6 +171,8 @@
 
     <!-- Thing Actions -->
 
+    <string name="action_menu_post_title">Post Actions</string>
+
     <string name="action_upvote">Upvote</string>
     <string name="action_downvote">Downvote</string>
     <string name="action_vote_remove">Remove Vote</string>

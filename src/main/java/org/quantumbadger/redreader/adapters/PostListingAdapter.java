@@ -13,12 +13,15 @@ import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.views.RedditPostView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 
 public final class PostListingAdapter extends BaseAdapter {
 
 	private final ArrayList<RedditPreparedPost> postsToReport = new ArrayList<RedditPreparedPost>(50);
 	private final ArrayList<RedditPreparedPost> posts = new ArrayList<RedditPreparedPost>(50);
+
+	private final HashSet<String> postIds = new HashSet<String>(100);
 
 	private final ListView listViewParent;
 	private final PostListingFragment fragmentParent;
@@ -34,7 +37,11 @@ public final class PostListingAdapter extends BaseAdapter {
 			@Override
 			public void handleMessage(final Message msg) {
 
-				posts.add((RedditPreparedPost)msg.obj);
+				final RedditPreparedPost post = (RedditPreparedPost)msg.obj;
+
+				if(!postIds.add(post.idAlone)) return;
+
+				posts.add(post);
 
 				if(listViewParent.getLastVisiblePosition() + 1 >= posts.size()) {
 					updatePosts();
@@ -102,5 +109,9 @@ public final class PostListingAdapter extends BaseAdapter {
 	@Override
 	public boolean areAllItemsEnabled() {
 		return true;
+	}
+
+	public int getDownloadedCount() {
+		return posts.size();
 	}
 }

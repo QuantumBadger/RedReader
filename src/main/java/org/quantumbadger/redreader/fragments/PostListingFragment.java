@@ -289,7 +289,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 
 	private synchronized void onLoadMoreItemsCheck() {
 
-		if(readyToDownloadMore && after != null && !after.equals(lastAfter) && lv.getCount() - lv.getLastVisiblePosition() < 20) {
+		if(readyToDownloadMore && after != null && !after.equals(lastAfter) && adapter.getDownloadedCount() - lv.getLastVisiblePosition() < 20) {
 
 			lastAfter = after;
 			readyToDownloadMore = false;

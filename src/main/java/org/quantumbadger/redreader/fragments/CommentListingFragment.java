@@ -588,7 +588,6 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 			case REPORT:
 
 				new AlertDialog.Builder(getSupportActivity())
-						.setIcon(android.R.drawable.ic_dialog_alert)
 						.setTitle(R.string.action_report)
 						.setMessage(R.string.action_report_sure)
 						.setPositiveButton(R.string.action_report,

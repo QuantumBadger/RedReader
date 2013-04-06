@@ -32,7 +32,8 @@
               android:layout_height="wrap_content"
               android:layout_margin="10dp"
               android:singleLine="false"
+              android:scrollHorizontally="false"
               android:scrollbars="none"
-              android:inputType="textCapSentences"/>
+              android:inputType="textCapSentences|textMultiLine"/>
 
 </LinearLayout>

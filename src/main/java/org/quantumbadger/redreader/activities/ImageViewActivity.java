@@ -168,6 +168,12 @@ public class ImageViewActivity extends Activity {
 								final int maxTextureSize = 2048;
 								final Bitmap imageOrig = BitmapFactory.decodeStream(cacheFile.getInputStream());
 
+								if(imageOrig == null) {
+									General.quickToast(ImageViewActivity.this, "Couldn't load the image. Trying internal browser.");
+									revertToWeb();
+									return;
+								}
+
 								final int maxDim = Math.max(imageOrig.getWidth(), imageOrig.getHeight());
 
 								if(maxDim > maxTextureSize) {

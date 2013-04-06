@@ -21,7 +21,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.quantumbadger.redreader</groupId>
     <artifactId>redreader</artifactId>
-    <version>1.3.4</version>
+    <version>1.3.5</version>
     <packaging>apk</packaging>
     <name>redreader</name>
 

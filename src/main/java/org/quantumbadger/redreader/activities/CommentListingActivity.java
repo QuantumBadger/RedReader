@@ -18,9 +18,11 @@
 package org.quantumbadger.redreader.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import org.holoeverywhere.preference.PreferenceManager;
@@ -61,10 +63,15 @@ public class CommentListingActivity extends RefreshableActivity
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 
+		final boolean solidblack = PrefsUtility.appearance_solidblack(this, sharedPreferences)
+				&& PrefsUtility.appearance_theme(this, sharedPreferences) == PrefsUtility.AppearanceTheme.NIGHT;
+
 		// TODO load from savedInstanceState
 
-		setContentView(R.layout.main_single);
-
+		final View layout = getLayoutInflater().inflate(R.layout.main_single);
+		if(solidblack) layout.setBackgroundColor(Color.BLACK);
+		setContentView(layout);
+		
 		RedditAccountManager.getInstance(this).addUpdateListener(this);
 
 		if(getIntent() != null) {

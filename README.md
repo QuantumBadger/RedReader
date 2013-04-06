@@ -39,7 +39,9 @@ RedReader is built using Maven. Several dependencies are required (and listed in
 How to Get
 ----------
 
-RedReader will soon be available for free on the Google Play store.
+RedReader is available for free on the Google Play store:
+
+https://play.google.com/store/apps/details?id=org.quantumbadger.redreader
 
 
 License

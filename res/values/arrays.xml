@@ -39,6 +39,7 @@
         <item>@string/action_comments</item>
         <item>@string/action_link</item>
         <item>@string/action_external</item>
+        <item>@string/action_actionmenu</item>
     </string-array>
 
     <!-- Constants. Do not change. -->
@@ -50,6 +51,7 @@
         <item>comments</item>
         <item>link</item>
         <item>browser</item>
+        <item>action_menu</item>
     </string-array>
 
     <string-array name="pref_appearance_theme">

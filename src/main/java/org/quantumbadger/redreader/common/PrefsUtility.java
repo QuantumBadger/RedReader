@@ -132,7 +132,7 @@ public final class PrefsUtility {
 	// pref_behaviour_fling_post
 
 	public static enum PostFlingAction {
-		UPVOTE, DOWNVOTE, SAVE, HIDE, COMMENTS, LINK, BROWSER
+		UPVOTE, DOWNVOTE, SAVE, HIDE, COMMENTS, LINK, ACTION_MENU, BROWSER
 	}
 
 	public static PostFlingAction pref_behaviour_fling_post_left(final Context context, final SharedPreferences sharedPreferences) {

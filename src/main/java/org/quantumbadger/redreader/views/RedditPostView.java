@@ -82,7 +82,7 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 	private final int offsetBeginAllowed, offsetActionPerformed;
 
 	public static enum Action {
-		UPVOTE, UNVOTE, DOWNVOTE, SAVE, HIDE, UNSAVE, UNHIDE, REPORT, SHARE, REPLY, USER_PROFILE, EXTERNAL, PROPERTIES, COMMENTS, LINK
+		UPVOTE, UNVOTE, DOWNVOTE, SAVE, HIDE, UNSAVE, UNHIDE, REPORT, SHARE, REPLY, USER_PROFILE, EXTERNAL, PROPERTIES, COMMENTS, LINK, ACTION_MENU
 	}
 
 	private final class ActionDescriptionPair {
@@ -152,6 +152,9 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 
 			case BROWSER:
 				return new ActionDescriptionPair(Action.EXTERNAL, R.string.action_external_short);
+
+			case ACTION_MENU:
+				return new ActionDescriptionPair(Action.ACTION_MENU, R.string.action_actionmenu_short);
 		}
 
 		return null;
@@ -348,53 +351,57 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 		}
 	}
 
-	private class RPVMenuItem {
+	private static class RPVMenuItem {
 		public final String title;
 		public final Action action;
 
-		private RPVMenuItem(int titleRes, Action action) {
-			this.title = getContext().getString(titleRes);
+		private RPVMenuItem(Context context, int titleRes, Action action) {
+			this.title = context.getString(titleRes);
 			this.action = action;
 		}
 	}
 
 	public void rrOnLongClick() {
+		showActionMenu(getContext(), fragmentParent, post);
+	}
+
+	private static void showActionMenu(final Context context, final Fragment fragmentParent, final RedditPreparedPost post) {
 
 		final ArrayList<RPVMenuItem> menu = new ArrayList<RPVMenuItem>();
 
-		if(!RedditAccountManager.getInstance(getContext()).getDefaultAccount().isAnonymous()) {
+		if(!RedditAccountManager.getInstance(context).getDefaultAccount().isAnonymous()) {
 
 			if(!post.isUpvoted()) {
-				menu.add(new RPVMenuItem(R.string.action_upvote, Action.UPVOTE));
+				menu.add(new RPVMenuItem(context, R.string.action_upvote, Action.UPVOTE));
 			} else {
-				menu.add(new RPVMenuItem(R.string.action_upvote_remove, Action.UNVOTE));
+				menu.add(new RPVMenuItem(context, R.string.action_upvote_remove, Action.UNVOTE));
 			}
 
 			if(!post.isDownvoted()) {
-				menu.add(new RPVMenuItem(R.string.action_downvote, Action.DOWNVOTE));
+				menu.add(new RPVMenuItem(context, R.string.action_downvote, Action.DOWNVOTE));
 			} else {
-				menu.add(new RPVMenuItem(R.string.action_downvote_remove, Action.UNVOTE));
+				menu.add(new RPVMenuItem(context, R.string.action_downvote_remove, Action.UNVOTE));
 			}
 
 			if(!post.isSaved()) {
-				menu.add(new RPVMenuItem(R.string.action_save, Action.SAVE));
+				menu.add(new RPVMenuItem(context, R.string.action_save, Action.SAVE));
 			} else {
-				menu.add(new RPVMenuItem(R.string.action_unsave, Action.UNSAVE));
+				menu.add(new RPVMenuItem(context, R.string.action_unsave, Action.UNSAVE));
 			}
 
 			if(!post.isHidden()) {
-				menu.add(new RPVMenuItem(R.string.action_hide, Action.HIDE));
+				menu.add(new RPVMenuItem(context, R.string.action_hide, Action.HIDE));
 			} else {
-				menu.add(new RPVMenuItem(R.string.action_unhide, Action.UNHIDE));
+				menu.add(new RPVMenuItem(context, R.string.action_unhide, Action.UNHIDE));
 			}
 
-			menu.add(new RPVMenuItem(R.string.action_report, Action.REPORT));
+			menu.add(new RPVMenuItem(context, R.string.action_report, Action.REPORT));
 		}
 
-		menu.add(new RPVMenuItem(R.string.action_external, Action.EXTERNAL));
-		menu.add(new RPVMenuItem(R.string.action_share, Action.SHARE));
-		menu.add(new RPVMenuItem(R.string.action_user_profile, Action.USER_PROFILE));
-		menu.add(new RPVMenuItem(R.string.action_properties, Action.PROPERTIES));
+		menu.add(new RPVMenuItem(context, R.string.action_external, Action.EXTERNAL));
+		menu.add(new RPVMenuItem(context, R.string.action_share, Action.SHARE));
+		menu.add(new RPVMenuItem(context, R.string.action_user_profile, Action.USER_PROFILE));
+		menu.add(new RPVMenuItem(context, R.string.action_properties, Action.PROPERTIES));
 
 		final String[] menuText = new String[menu.size()];
 
@@ -402,7 +409,7 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 			menuText[i] = menu.get(i).title;
 		}
 
-		final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+		final AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
 		builder.setItems(menuText, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
@@ -499,6 +506,10 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 
 			case LINK:
 				((PostListingFragment)fragmentParent).onPostSelected(post);
+				break;
+
+			case ACTION_MENU:
+				showActionMenu(context, fragmentParent, post);
 				break;
 		}
 	}

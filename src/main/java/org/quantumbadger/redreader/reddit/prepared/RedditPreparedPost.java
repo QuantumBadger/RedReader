@@ -91,7 +91,11 @@ public final class RedditPreparedPost {
 		this.parentSubreddit = parentSubreddit;
 		this.showSubreddit = showSubreddit;
 
-		title = StringEscapeUtils.unescapeHtml4(post.title.replace('\n', ' ')).trim();
+		if(post.title == null) {
+			title = "[null]";
+		} else {
+			title = StringEscapeUtils.unescapeHtml4(post.title.replace('\n', ' ')).trim();
+		}
 
 		idAlone = post.id;
 		idAndType = post.name;

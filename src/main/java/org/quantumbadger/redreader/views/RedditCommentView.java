@@ -18,6 +18,9 @@
 package org.quantumbadger.redreader.views;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.view.View;
+import android.view.ViewGroup;
 import com.laurencedawson.activetextview.ActiveTextView;
 import org.holoeverywhere.widget.FrameLayout;
 import org.holoeverywhere.widget.LinearLayout;
@@ -33,6 +36,10 @@ public class RedditCommentView extends LinearLayout {
 	private final TextView header;
 	private final FrameLayout bodyHolder;
 
+	private final LinearLayout main;
+
+	private final View leftIndent, leftDividerLine;
+
 	private final int bodyCol;
 
 	public RedditCommentView(final Context context, final int headerCol, final int bodyCol) {
@@ -42,7 +49,7 @@ public class RedditCommentView extends LinearLayout {
 
 		setOrientation(HORIZONTAL);
 
-		final LinearLayout main = new LinearLayout(context);
+		main = new LinearLayout(context);
 		main.setOrientation(VERTICAL);
 
 		header = new TextView(context);
@@ -54,7 +61,24 @@ public class RedditCommentView extends LinearLayout {
 		bodyHolder.setPadding(0, General.dpToPixels(context, 2), 0, 0);
 		main.addView(bodyHolder);
 
+		final int paddingPixelsVertical = General.dpToPixels(context, 8.0f);
+		final int paddingPixelsHorizontal = General.dpToPixels(context, 12.0f);
+		main.setPadding(paddingPixelsHorizontal, paddingPixelsVertical, paddingPixelsHorizontal, paddingPixelsVertical);
+
 		setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
+
+		leftIndent = new View(context);
+		addView(leftIndent);
+
+		leftIndent.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+		leftIndent.setBackgroundColor(Color.argb(20, 128, 128, 128));
+
+		leftDividerLine = new View(context);
+		addView(leftDividerLine);
+
+		leftDividerLine.getLayoutParams().width = General.dpToPixels(context, 2);
+		leftDividerLine.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+		leftDividerLine.setBackgroundColor(Color.argb(75, 128, 128, 128));
 
 		addView(main);
 	}
@@ -63,10 +87,9 @@ public class RedditCommentView extends LinearLayout {
 
 		this.comment = comment;
 
-		final int paddingPixels = General.dpToPixels(context, 8.0f);
-		final int paddingPixelsPerIndent = General.dpToPixels(context, 10.0f); // TODO Add in vertical lines
-
-		setPadding(paddingPixels + paddingPixelsPerIndent * comment.indentation, paddingPixels, paddingPixels, paddingPixels);
+		final int paddingPixelsPerIndent = General.dpToPixels(context, 10.0f); // TODO Add in vertical lines?
+		leftIndent.getLayoutParams().width = paddingPixelsPerIndent * comment.indentation;
+		leftDividerLine.setVisibility(comment.indentation == 0 ? GONE : VISIBLE);
 
 		if(!comment.isCollapsed()) {
 			header.setText(comment.header);

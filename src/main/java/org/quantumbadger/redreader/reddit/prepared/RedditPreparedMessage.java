@@ -62,7 +62,11 @@ public final class RedditPreparedMessage implements RedditPreparedInboxItem {
 
 		final BetterSSB sb = new BetterSSB();
 
-		sb.append(src.author, BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, rrCommentHeaderAuthorCol, 0, 1f);
+		if(src.author == null) {
+			sb.append("[unknown]", BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, rrCommentHeaderAuthorCol, 0, 1f); // TODO string
+		} else {
+			sb.append(src.author, BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, rrCommentHeaderAuthorCol, 0, 1f);
+		}
 
 		sb.append("   ", 0);
 		sb.append(RRTime.formatDurationMs(RRTime.utcCurrentTimeMillis() - src.created_utc * 1000L), BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, rrCommentHeaderBoldCol, 0, 1f);

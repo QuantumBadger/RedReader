@@ -71,7 +71,7 @@ public class CommentListingActivity extends RefreshableActivity
 		final View layout = getLayoutInflater().inflate(R.layout.main_single);
 		if(solidblack) layout.setBackgroundColor(Color.BLACK);
 		setContentView(layout);
-		
+
 		RedditAccountManager.getInstance(this).addUpdateListener(this);
 
 		if(getIntent() != null) {

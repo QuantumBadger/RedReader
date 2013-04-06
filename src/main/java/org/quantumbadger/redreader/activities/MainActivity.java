@@ -167,7 +167,7 @@ public class MainActivity extends RefreshableActivity
 
 						final String name = editText.getText().toString().toLowerCase();
 
-						if(!name.matches("\\w+")) {
+						if(!name.matches("[\\w\\+]+")) {
 							General.quickToast(MainActivity.this, R.string.mainmenu_custom_invalid_name);
 						} else {
 							final RedditSubreddit subreddit = new RedditSubreddit("/r/" + name, "/r/" + name, true);

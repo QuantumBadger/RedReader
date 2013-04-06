@@ -20,6 +20,8 @@ package org.quantumbadger.redreader.cache;
 import org.apache.http.client.HttpClient;
 
 import java.util.HashMap;
+import java.util.Map;
+
 
 class PrioritisedDownloadQueue {
 
@@ -109,7 +111,7 @@ class PrioritisedDownloadQueue {
 		CacheDownload next = null;
 		RequestIdentifier nextKey = null;
 
-		for(final HashMap.Entry<RequestIdentifier, CacheDownload> entry : downloadsQueued.entrySet()) {
+		for(final Map.Entry<RequestIdentifier, CacheDownload> entry : downloadsQueued.entrySet()) {
 			if(next == null || entry.getValue().isHigherPriorityThan(next)) {
 				next = entry.getValue();
 				nextKey = entry.getKey();
@@ -131,7 +133,7 @@ class PrioritisedDownloadQueue {
 		CacheDownload next = null;
 		RequestIdentifier nextKey = null;
 
-		for(final HashMap.Entry<RequestIdentifier, CacheDownload> entry : redditDownloadsQueued.entrySet()) {
+		for(final Map.Entry<RequestIdentifier, CacheDownload> entry : redditDownloadsQueued.entrySet()) {
 			if(next == null || entry.getValue().isHigherPriorityThan(next)) {
 				next = entry.getValue();
 				nextKey = entry.getKey();

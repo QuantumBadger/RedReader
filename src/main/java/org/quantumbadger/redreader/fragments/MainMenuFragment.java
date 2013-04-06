@@ -183,7 +183,6 @@ public class MainMenuFragment extends Fragment implements MainMenuSelectionListe
 					}
 				});
 			}
-
 		};
 
 		accessibleSubredditResponseHandler.set(responseHandler);

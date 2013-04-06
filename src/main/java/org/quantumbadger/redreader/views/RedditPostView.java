@@ -40,6 +40,8 @@ import org.holoeverywhere.widget.ListView;
 import org.holoeverywhere.widget.TextView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
+import org.quantumbadger.redreader.activities.PostListingActivity;
+import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
@@ -47,6 +49,7 @@ import org.quantumbadger.redreader.fragments.PostPropertiesDialog;
 import org.quantumbadger.redreader.fragments.UserProfileDialog;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
+import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.views.list.SwipableListItemView;
 
 import java.util.ArrayList;
@@ -82,7 +85,7 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 	private final int offsetBeginAllowed, offsetActionPerformed;
 
 	public static enum Action {
-		UPVOTE, UNVOTE, DOWNVOTE, SAVE, HIDE, UNSAVE, UNHIDE, REPORT, SHARE, REPLY, USER_PROFILE, EXTERNAL, PROPERTIES, COMMENTS, LINK, ACTION_MENU
+		UPVOTE, UNVOTE, DOWNVOTE, SAVE, HIDE, UNSAVE, UNHIDE, REPORT, SHARE, REPLY, USER_PROFILE, EXTERNAL, PROPERTIES, COMMENTS, LINK, SHARE_COMMENTS, GOTO_SUBREDDIT, ACTION_MENU
 	}
 
 	private final class ActionDescriptionPair {
@@ -399,7 +402,9 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 		}
 
 		menu.add(new RPVMenuItem(context, R.string.action_external, Action.EXTERNAL));
+		menu.add(new RPVMenuItem(context, R.string.action_gotosubreddit, Action.GOTO_SUBREDDIT));
 		menu.add(new RPVMenuItem(context, R.string.action_share, Action.SHARE));
+		menu.add(new RPVMenuItem(context, R.string.action_share_comments, Action.SHARE_COMMENTS));
 		menu.add(new RPVMenuItem(context, R.string.action_user_profile, Action.USER_PROFILE));
 		menu.add(new RPVMenuItem(context, R.string.action_properties, Action.PROPERTIES));
 
@@ -477,13 +482,14 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 
 				break;
 
-			case EXTERNAL:
+			case EXTERNAL: {
 				final Intent intent = new Intent(Intent.ACTION_VIEW);
 				intent.setData(Uri.parse(post.url));
 				context.startActivity(intent);
 				break;
+			}
 
-			case SHARE:
+			case SHARE: {
 
 				final Intent mailer = new Intent(Intent.ACTION_SEND);
 				mailer.setType("text/plain");
@@ -491,6 +497,27 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 				mailer.putExtra(Intent.EXTRA_TEXT, post.url + "\r\n\r\nSent using RedReader on Android");
 				context.startActivity(Intent.createChooser(mailer, "Share Post")); // TODO string
 				break;
+			}
+
+			case SHARE_COMMENTS: {
+
+				final Intent mailer = new Intent(Intent.ACTION_SEND);
+				mailer.setType("text/plain");
+				mailer.putExtra(Intent.EXTRA_SUBJECT, "Comments for " + post.title);
+				mailer.putExtra(Intent.EXTRA_TEXT, Constants.Reddit.getUri(Constants.Reddit.PATH_COMMENTS + post.idAlone).toString() + "\r\n\r\nSent using RedReader on Android");
+				context.startActivity(Intent.createChooser(mailer, "Share Comments")); // TODO string
+				break;
+			}
+
+			case GOTO_SUBREDDIT: {
+
+				final RedditSubreddit subreddit = new RedditSubreddit("/r/" + post.src.subreddit, "/r/" + post.src.subreddit, true);
+
+				final Intent intent = new Intent(context, PostListingActivity.class);
+				intent.putExtra("subreddit", subreddit);
+				context.startActivityForResult(intent, 1);
+				break;
+			}
 
 			case USER_PROFILE:
 				UserProfileDialog.newInstance(post.src.author).show(fragmentParent.getSupportActivity());

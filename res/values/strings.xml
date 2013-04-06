@@ -191,6 +191,8 @@
     <string name="action_actionmenu">Action Menu</string>
     <string name="action_comment_links">Links in Comment</string>
     <string name="action_share">Share</string>
+    <string name="action_share_comments">Share Comments</string>
+    <string name="action_gotosubreddit">Go to Subreddit</string>
     <string name="action_reply">Reply</string>
     <string name="action_user_profile">User Profile</string>
     <string name="action_user_profile_short">User</string>

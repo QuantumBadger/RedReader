@@ -41,6 +41,9 @@
     <string name="pref_appearance_theme_key">pref_appearance_theme</string>
     <string name="pref_appearance_theme_title">Theme</string>
 
+    <string name="pref_appearance_solidblack_key">pref_appearance_solidblack</string>
+    <string name="pref_appearance_solidblack_title">Solid black in night mode</string>
+
     <string name="pref_appearance_thumbnails_show_key">pref_appearance_thumbnails_show</string>
     <string name="pref_appearance_thumbnails_show_title">Show thumbnails</string>
 

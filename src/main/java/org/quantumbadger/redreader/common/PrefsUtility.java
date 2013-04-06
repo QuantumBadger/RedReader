@@ -41,7 +41,8 @@ public final class PrefsUtility {
 
 	public static boolean isReLayoutRequired(final Context context, final String key) {
 		return context.getString(R.string.pref_appearance_twopane_key).equals(key)
-				|| context.getString(R.string.pref_appearance_theme_key).equals(key);
+				|| context.getString(R.string.pref_appearance_theme_key).equals(key)
+				|| context.getString(R.string.pref_appearance_solidblack_key).equals(key);
 	}
 
 	public static boolean isRefreshRequired(final Context context, final String key) {
@@ -52,7 +53,8 @@ public final class PrefsUtility {
 	}
 
 	public static boolean isRestartRequired(Context context, String key) {
-		return context.getString(R.string.pref_appearance_theme_key).equals(key);
+		return context.getString(R.string.pref_appearance_theme_key).equals(key)
+				|| context.getString(R.string.pref_appearance_solidblack_key).equals(key);
 	}
 
 	///////////////////////////////
@@ -79,7 +81,9 @@ public final class PrefsUtility {
 
 	public static void applyTheme(Activity activity) {
 
-		switch(appearance_theme(activity, PreferenceManager.getDefaultSharedPreferences(activity))) {
+		final AppearanceTheme theme = appearance_theme(activity, PreferenceManager.getDefaultSharedPreferences(activity));
+
+		switch(theme) {
 			case RED:
 				activity.setTheme(R.style.RR_Light_Red);
 				break;
@@ -100,6 +104,10 @@ public final class PrefsUtility {
 				activity.setTheme(R.style.RR_Dark);
 				break;
 		}
+	}
+
+	public static boolean appearance_solidblack(final Context context, final SharedPreferences sharedPreferences) {
+		return getBoolean(R.string.pref_appearance_solidblack_key, false, context, sharedPreferences);
 	}
 
 	public static enum AppearanceThumbnailsShow {

@@ -25,6 +25,10 @@
                     holo:entryValues="@array/pref_appearance_theme_return"
                     holo:defaultValue="red"/>
 
+    <CheckBoxPreference holo:title="@string/pref_appearance_solidblack_title"
+                        holo:key="@string/pref_appearance_solidblack_key"
+                        holo:defaultValue="false"/>
+
     <CheckBoxPreference holo:title="@string/pref_appearance_thumbnails_show_title"
                         holo:key="@string/pref_appearance_thumbnails_show_key"
                         holo:defaultValue="true"/>

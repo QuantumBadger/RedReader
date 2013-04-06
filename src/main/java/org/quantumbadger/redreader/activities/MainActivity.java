@@ -19,9 +19,11 @@ package org.quantumbadger.redreader.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import org.holoeverywhere.app.AlertDialog;
@@ -78,17 +80,26 @@ public class MainActivity extends RefreshableActivity
 
 		OptionsMenuUtility.fixActionBar(this, getString(R.string.app_name));
 
-		super.onCreate(savedInstanceState);
-
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 
+		final boolean solidblack = PrefsUtility.appearance_solidblack(this, sharedPreferences)
+				&& PrefsUtility.appearance_theme(this, sharedPreferences) == PrefsUtility.AppearanceTheme.NIGHT;
+
+		super.onCreate(savedInstanceState);
+
 		twoPane = General.isTablet(this, sharedPreferences);
 
+		final View layout;
+
 		if(twoPane)
-			setContentView(R.layout.main_double);
+			layout = getLayoutInflater().inflate(R.layout.main_double);
 		else
-			setContentView(R.layout.main_single);
+			layout = getLayoutInflater().inflate(R.layout.main_single);
+
+		if(solidblack) layout.setBackgroundColor(Color.BLACK);
+
+		setContentView(layout);
 
 		doRefresh(RefreshableFragment.MAIN, false);
 

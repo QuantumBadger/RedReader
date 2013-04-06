@@ -39,6 +39,7 @@ import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.AlertDialog;
 import org.holoeverywhere.app.Fragment;
+import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.ListView;
 import org.holoeverywhere.widget.TextView;
@@ -359,6 +360,10 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 									listHeaderSelftext.addView(selfText);
 									listHeaderSelftext.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
 									listHeaderNotifications.setBackgroundColor(Color.argb(35, 128, 128, 128));
+								}
+
+								if(!General.isTablet(context, PreferenceManager.getDefaultSharedPreferences(context))) {
+									getSupportActivity().getSupportActionBar().setTitle(post.title);
 								}
 							}
 						});

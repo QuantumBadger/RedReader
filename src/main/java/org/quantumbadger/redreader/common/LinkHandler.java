@@ -34,7 +34,7 @@ import java.util.regex.Pattern;
 public class LinkHandler {
 
 	public static final Pattern redditCommentsPattern = Pattern.compile("^https?://[\\.\\w]*reddit\\.com/(r/\\w+/)?comments/(\\w+).*"),
-			redditUserPattern = Pattern.compile("^https?://[\\.\\w]*reddit\\.com/(user|u)/(\\w+).*"),
+			redditUserPattern = Pattern.compile("^(?:https?://[\\.\\w]*reddit\\.com)?/?(user|u)/(\\w+).*"),
 			subredditPattern = Pattern.compile("^https?://[\\.\\w]*reddit\\.com(/r/\\w+)/?"),
 			youtubePattern = Pattern.compile("^https?://[\\.\\w]*(youtube\\.\\w+|youtu\\.be)/.*"),
 			shortSubredditPattern = Pattern.compile("^/?r/(\\w+).*");
@@ -105,7 +105,8 @@ public class LinkHandler {
 
 	public static final Pattern imgurPattern = Pattern.compile(".*imgur\\.com/(\\w+).*"),
 			qkmePattern1 = Pattern.compile(".*qkme\\.me/(\\w+).*"),
-			qkmePattern2 = Pattern.compile(".*quickmeme\\.com/meme/(\\w+).*");
+			qkmePattern2 = Pattern.compile(".*quickmeme\\.com/meme/(\\w+).*"),
+			lvmePattern = Pattern.compile(".*livememe\\.com/(\\w+).*");
 
 	// TODO handle GIFs
 	public static String getImageUrl(final String url) {
@@ -160,6 +161,14 @@ public class LinkHandler {
 				return String.format("http://i.qkme.me/%s.jpg", imgId);
 		}
 
+		final Matcher matchLvme = lvmePattern.matcher(url);
+
+		if(matchLvme.find()) {
+			final String imgId = matchLvme.group(1);
+			if(imgId.length() > 2)
+				return String.format("http://www.livememe.com/%s.jpg", imgId);
+		}
+
 		return null;
 	}
 
@@ -186,7 +195,7 @@ public class LinkHandler {
 			result.add(urlMatcher.group(1));
 		}
 
-		final Matcher subredditMatcher = Pattern.compile("(?<!\\w)(/?r/\\w+)\\b").matcher(text);
+		final Matcher subredditMatcher = Pattern.compile("(?<!\\w)(/?[ru]/\\w+)\\b").matcher(text);
 
 		while(subredditMatcher.find()) {
 			result.add(subredditMatcher.group(1));

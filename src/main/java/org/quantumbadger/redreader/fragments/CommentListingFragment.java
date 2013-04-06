@@ -501,8 +501,10 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 					menu.add(R.string.action_report).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.REPORT));
 				}
 
+				menu.add(R.string.action_gotosubreddit).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.GOTO_SUBREDDIT));
 				menu.add(R.string.action_external).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.EXTERNAL));
 				menu.add(R.string.action_share).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.SHARE));
+				menu.add(R.string.action_share_comments).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.SHARE_COMMENTS));
 
 				if(post.src.selftext != null && post.src.selftext.length() > 1) menu.add("Links in Self Text").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 					public boolean onMenuItemClick(MenuItem item) {

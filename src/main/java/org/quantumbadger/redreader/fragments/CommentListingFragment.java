@@ -499,6 +499,13 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 					}
 
 					menu.add(R.string.action_report).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.REPORT));
+
+					menu.add(R.string.action_reply).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+						public boolean onMenuItemClick(MenuItem item) {
+							onParentReply();
+							return true;
+						}
+					});
 				}
 
 				menu.add(R.string.action_gotosubreddit).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.GOTO_SUBREDDIT));
@@ -671,19 +678,23 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 	public boolean onOptionsItemSelected(MenuItem item) {
 
 		if(item.getTitle().equals(context.getString(R.string.action_reply))) {
-			if(post != null) {
-
-				final Intent intent = new Intent(getSupportActivity(), CommentReplyActivity.class);
-				intent.putExtra("parentIdAndType", post.idAndType);
-				startActivity(intent);
-
-			} else {
-				General.quickToast(getSupportActivity(), "Parent post not downloaded yet."); // TODO string
-			}
-
+			onParentReply();
 			return true;
 		}
 
 		return false;
+	}
+
+	private void onParentReply() {
+
+		if(post != null) {
+
+			final Intent intent = new Intent(getSupportActivity(), CommentReplyActivity.class);
+			intent.putExtra("parentIdAndType", post.idAndType);
+			startActivity(intent);
+
+		} else {
+			General.quickToast(getSupportActivity(), "Parent post not downloaded yet."); // TODO string
+		}
 	}
 }

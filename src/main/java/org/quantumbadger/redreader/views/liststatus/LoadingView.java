@@ -23,10 +23,12 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.AttributeSet;
 import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.ProgressBar;
 import org.holoeverywhere.widget.TextView;
+import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.PrefsUtility;
 
 public final class LoadingView extends StatusListItemView {
@@ -85,6 +87,14 @@ public final class LoadingView extends StatusListItemView {
 		msg.obj = text;
 		msg.what = what;
 		loadingHandler.sendMessage(msg);
+	}
+
+	public LoadingView(final Context context) {
+		this(context, R.string.download_waiting, true, true);
+	}
+
+	public LoadingView(final Context context, AttributeSet attributeSet) {
+		this(context);
 	}
 
 	public LoadingView(final Context context, final int initialTextRes, final boolean progressBarEnabled, final boolean indeterminate) {

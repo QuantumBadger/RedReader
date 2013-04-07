@@ -26,13 +26,17 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.Fragment;
+import org.holoeverywhere.widget.FrameLayout;
+import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.views.WebViewFixed;
+import org.quantumbadger.redreader.views.liststatus.LoadingView;
 
 public class WebViewFragment extends Fragment {
 
 	private String url;
 
 	private WebViewFixed webView;
+	private LoadingView loadingView;
 
 	public static WebViewFragment newInstance(final String url) {
 
@@ -55,7 +59,13 @@ public class WebViewFragment extends Fragment {
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
-		webView = new WebViewFixed(container.getContext());
+		final FrameLayout outer = (FrameLayout)inflater.inflate(R.layout.web_view_fragment);
+
+		webView = (WebViewFixed)outer.findViewById(R.id.web_view_fragment_webviewfixed);
+		final FrameLayout loadingViewFrame = (FrameLayout)outer.findViewById(R.id.web_view_fragment_loadingview_frame);
+
+		loadingView = new LoadingView(inflater.getContext());
+		loadingViewFrame.addView(loadingView);
 
 		final WebSettings settings = webView.getSettings();
 
@@ -82,11 +92,21 @@ public class WebViewFragment extends Fragment {
 			}
 		});
 
-		webView.setWebChromeClient(new WebChromeClient());
+		webView.setWebChromeClient(new WebChromeClient() {
+			@Override
+			public void onProgressChanged(WebView view, int newProgress) {
+
+				super.onProgressChanged(view, newProgress);
+
+				loadingView.setProgress(R.string.download_downloading, (float)newProgress / 100.0f);
+				loadingView.setVisibility(newProgress == 100 ? View.GONE : View.VISIBLE);
+			}
+		});
+
 
 		webView.loadUrl(url);
 
-		return webView;
+		return outer;
 	}
 
 	public boolean onBackButtonPressed() {

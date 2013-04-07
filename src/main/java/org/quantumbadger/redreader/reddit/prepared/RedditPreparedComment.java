@@ -77,6 +77,7 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 		// TODO strings
 		// TODO custom time
 
+		// TODO don't fetch these every time
 		final TypedArray appearance = context.obtainStyledAttributes(new int[]{
 				R.attr.rrCommentHeaderBoldCol,
 				R.attr.rrCommentHeaderAuthorCol,

@@ -50,7 +50,8 @@ public final class SettingsFragment extends PreferenceFragment {
 				R.string.pref_appearance_theme_key,
 				R.string.pref_cache_maxage_listing_key,
 				R.string.pref_cache_maxage_thumb_key,
-				R.string.pref_cache_maxage_image_key
+				R.string.pref_cache_maxage_image_key,
+				R.string.pref_appearance_fontscale_comments_key
 		};
 
 		for(int pref : listPrefsToUpdate) {

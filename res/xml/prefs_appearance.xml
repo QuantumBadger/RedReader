@@ -29,6 +29,12 @@
                         holo:key="@string/pref_appearance_solidblack_key"
                         holo:defaultValue="false"/>
 
+    <ListPreference holo:title="@string/pref_appearance_fontscale_comments_title"
+                    holo:key="@string/pref_appearance_fontscale_comments_key"
+                    holo:entries="@array/pref_appearance_fontscale"
+                    holo:entryValues="@array/pref_appearance_fontscale_return"
+                    holo:defaultValue="1"/>
+
     <CheckBoxPreference holo:title="@string/pref_appearance_thumbnails_show_title"
                         holo:key="@string/pref_appearance_thumbnails_show_key"
                         holo:defaultValue="true"/>

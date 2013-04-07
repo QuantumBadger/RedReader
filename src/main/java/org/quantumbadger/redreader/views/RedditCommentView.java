@@ -22,10 +22,12 @@ import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import com.laurencedawson.activetextview.ActiveTextView;
+import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.widget.FrameLayout;
 import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.TextView;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedComment;
 
@@ -41,6 +43,7 @@ public class RedditCommentView extends LinearLayout {
 	private final View leftIndent, leftDividerLine;
 
 	private final int bodyCol;
+	private final float fontScale;
 
 	public RedditCommentView(final Context context, final int headerCol, final int bodyCol) {
 
@@ -52,8 +55,10 @@ public class RedditCommentView extends LinearLayout {
 		main = new LinearLayout(context);
 		main.setOrientation(VERTICAL);
 
+		fontScale = PrefsUtility.appearance_fontscale_comments(context, PreferenceManager.getDefaultSharedPreferences(context));
+
 		header = new TextView(context);
-		header.setTextSize(11.0f);
+		header.setTextSize(11.0f * fontScale);
 		header.setTextColor(headerCol);
 		main.addView(header);
 
@@ -98,7 +103,7 @@ public class RedditCommentView extends LinearLayout {
 		}
 
 		bodyHolder.removeAllViews();
-		bodyHolder.addView(comment.body.generate(context, 13.0f, bodyCol, new ActiveTextView.OnLinkClickedListener() {
+		bodyHolder.addView(comment.body.generate(context, 13.0f * fontScale, bodyCol, new ActiveTextView.OnLinkClickedListener() {
 			public void onClick(String url) {
 				if(url != null) {
 					listener.onClick(url);

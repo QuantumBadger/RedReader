@@ -92,4 +92,38 @@
         <item>2191</item>
     </string-array>
 
+    <string-array name="pref_appearance_fontscale">
+        <item>0.7x</item>
+        <item>0.8x</item>
+        <item>0.9x</item>
+        <item>Normal</item>
+        <item>1.1x</item>
+        <item>1.2x</item>
+        <item>1.3x</item>
+        <item>1.4x</item>
+        <item>1.5x</item>
+        <item>1.6x</item>
+        <item>1.7x</item>
+        <item>1.8x</item>
+        <item>1.9x</item>
+        <item>2.0x</item>
+    </string-array>
+
+    <string-array name="pref_appearance_fontscale_return">
+        <item>0.7</item>
+        <item>0.8</item>
+        <item>0.9</item>
+        <item>1</item>
+        <item>1.1</item>
+        <item>1.2</item>
+        <item>1.3</item>
+        <item>1.4</item>
+        <item>1.5</item>
+        <item>1.6</item>
+        <item>1.7</item>
+        <item>1.8</item>
+        <item>1.9</item>
+        <item>2.0</item>
+    </string-array>
+
 </resources>

@@ -91,7 +91,8 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 			NOTIF_AGE = 4,
 			NOTIF_ERROR = 5,
 			NOTIF_PROGRESS = 6,
-			NOTIF_DOWNLOAD_DONE = 7;
+			NOTIF_DOWNLOAD_DONE = 7,
+			NOTIF_ERROR_FOOTER = 8;
 
 	private final Handler notificationHandler = new Handler(Looper.getMainLooper()) {
 		@Override
@@ -125,11 +126,12 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 					adapter.notifyDataSetChanged();
 					break;
 
-				case NOTIF_ERROR:
+				case NOTIF_ERROR: {
 					if(loadingView != null) loadingView.setDone(R.string.download_failed);
 					final RRError error = (RRError)msg.obj;
 					fragmentHeader.addView(new ErrorView(getSupportActivity(), error));
 					break;
+				}
 
 				case NOTIF_PROGRESS:
 					if(loadingView != null) loadingView.setProgress(R.string.download_loading, (Float) msg.obj);
@@ -138,6 +140,14 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 				case NOTIF_DOWNLOAD_DONE:
 					if(loadingView != null) loadingView.setDoneNoAnim(R.string.download_done);
 					break;
+
+				case NOTIF_ERROR_FOOTER: {
+					if(loadingView != null) loadingView.setDone(R.string.download_failed);
+					final RRError error = (RRError)msg.obj;
+					listFooterNotifications.addView(new ErrorView(getSupportActivity(), error));
+					adapter.notifyDataSetChanged();
+					break;
+				}
 			}
 		}
 	};
@@ -189,7 +199,14 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 		final Context context = container.getContext();
 		sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-		final LinearLayout outer = new LinearLayout(context);
+		final LinearLayout outer = new LinearLayout(context) {
+			@Override
+			protected void onAttachedToWindow() {
+				super.onAttachedToWindow();
+				getLayoutParams().height = ViewGroup.LayoutParams.FILL_PARENT;
+			}
+		};
+
 		outer.setOrientation(android.widget.LinearLayout.VERTICAL);
 
 		fragmentHeader = createVerticalLinearLayout(context);
@@ -212,13 +229,15 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 		lv.setPersistentDrawingCache(ViewGroup.PERSISTENT_ALL_CACHES);
 		lv.setAlwaysDrawnWithCacheEnabled(true);
 
-		adapter = new PostListingAdapter(lv, this);
+		adapter = new PostListingAdapter(lv, outer, this);
 		lv.setAdapter(adapter);
 
 		final ListOverlayView lov = new ListOverlayView(context, lv);
 
 		outer.addView(fragmentHeader);
 		outer.addView(lov);
+
+		lv.getLayoutParams().height = ViewGroup.LayoutParams.FILL_PARENT;
 
 		request = new PostListingRequest(url, RedditAccountManager.getInstance(context).getDefaultAccount(), session, downloadType, true);
 
@@ -301,6 +320,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 		protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
 
 			final String title, message;
+			int displayType = NOTIF_ERROR;
 
 			switch (type) {
 				case CANCELLED:
@@ -314,6 +334,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 				case CACHE_MISS:
 					title = context.getString(R.string.error_postlist_cache_title);
 					message = context.getString(R.string.error_postlist_cache_message);
+					displayType = NOTIF_ERROR_FOOTER;
 					break;
 				case STORAGE:
 					title = context.getString(R.string.error_unexpected_storage_title);
@@ -361,7 +382,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 			}
 
 			final RRError error = new RRError(title, message, t, status);
-			notificationHandler.sendMessage(General.handlerMessage(NOTIF_ERROR, error));
+			notificationHandler.sendMessage(General.handlerMessage(displayType, error));
 		}
 
 		@Override protected void onProgress(final long bytesRead, final long totalBytes) {}

@@ -401,6 +401,11 @@ public final class CacheManager {
 
 		private void handleRequest(final CacheRequest request) {
 
+			if(request.url == null) {
+				request.notifyFailure(RequestFailureType.MALFORMED_URL, new NullPointerException("URL was null"), null, "URL was null");
+				return;
+			}
+
 			switch(request.downloadType) {
 
 				case NEVER: {

@@ -125,6 +125,10 @@ public final class PrefsUtility {
 		}
 	}
 
+	public static boolean appearance_thumbnails_nsfw_show(final Context context, final SharedPreferences sharedPreferences) {
+		return getBoolean(R.string.pref_appearance_thumbnails_nsfw_show_key, false, context, sharedPreferences);
+	}
+
 	public static float appearance_fontscale_comments(final Context context, final SharedPreferences sharedPreferences) {
 		return Float.valueOf(getString(R.string.pref_appearance_fontscale_comments_key, "1", context,  sharedPreferences));
 	}

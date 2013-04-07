@@ -21,54 +21,59 @@
 
     <PreferenceCategory holo:title="@string/pref_appearance_theme_header">
 
-    <ListPreference holo:title="@string/pref_appearance_theme_title"
-                    holo:key="@string/pref_appearance_theme_key"
-                    holo:entries="@array/pref_appearance_theme"
-                    holo:entryValues="@array/pref_appearance_theme_return"
-                    holo:defaultValue="red"/>
+        <ListPreference holo:title="@string/pref_appearance_theme_title"
+                        holo:key="@string/pref_appearance_theme_key"
+                        holo:entries="@array/pref_appearance_theme"
+                        holo:entryValues="@array/pref_appearance_theme_return"
+                        holo:defaultValue="red"/>
 
-    <CheckBoxPreference holo:title="@string/pref_appearance_solidblack_title"
-                        holo:key="@string/pref_appearance_solidblack_key"
-                        holo:defaultValue="false"/>
+        <CheckBoxPreference holo:title="@string/pref_appearance_solidblack_title"
+                            holo:key="@string/pref_appearance_solidblack_key"
+                            holo:defaultValue="false"/>
 
     </PreferenceCategory>
 
     <PreferenceCategory holo:title="@string/pref_appearance_font_header">
 
-    <ListPreference holo:title="@string/pref_appearance_fontscale_posts_title"
-                    holo:key="@string/pref_appearance_fontscale_posts_key"
-                    holo:entries="@array/pref_appearance_fontscale"
-                    holo:entryValues="@array/pref_appearance_fontscale_return"
-                    holo:defaultValue="1"/>
+        <ListPreference holo:title="@string/pref_appearance_fontscale_posts_title"
+                        holo:key="@string/pref_appearance_fontscale_posts_key"
+                        holo:entries="@array/pref_appearance_fontscale"
+                        holo:entryValues="@array/pref_appearance_fontscale_return"
+                        holo:defaultValue="1"/>
 
-    <ListPreference holo:title="@string/pref_appearance_fontscale_comments_title"
-                    holo:key="@string/pref_appearance_fontscale_comments_key"
-                    holo:entries="@array/pref_appearance_fontscale"
-                    holo:entryValues="@array/pref_appearance_fontscale_return"
-                    holo:defaultValue="1"/>
+        <ListPreference holo:title="@string/pref_appearance_fontscale_comments_title"
+                        holo:key="@string/pref_appearance_fontscale_comments_key"
+                        holo:entries="@array/pref_appearance_fontscale"
+                        holo:entryValues="@array/pref_appearance_fontscale_return"
+                        holo:defaultValue="1"/>
 
     </PreferenceCategory>
 
     <PreferenceCategory holo:title="@string/pref_appearance_thumbnails_header">
 
-    <CheckBoxPreference holo:title="@string/pref_appearance_thumbnails_show_title"
-                        holo:key="@string/pref_appearance_thumbnails_show_key"
-                        holo:defaultValue="true"/>
+        <CheckBoxPreference holo:title="@string/pref_appearance_thumbnails_show_title"
+                            holo:key="@string/pref_appearance_thumbnails_show_key"
+                            holo:defaultValue="true"/>
 
-    <CheckBoxPreference holo:title="@string/pref_appearance_thumbnails_wifionly_title"
-                        holo:key="@string/pref_appearance_thumbnails_wifionly_key"
-                        holo:dependency="@string/pref_appearance_thumbnails_show_key"
-                        holo:defaultValue="false"/>
+        <CheckBoxPreference holo:title="@string/pref_appearance_thumbnails_wifionly_title"
+                            holo:key="@string/pref_appearance_thumbnails_wifionly_key"
+                            holo:dependency="@string/pref_appearance_thumbnails_show_key"
+                            holo:defaultValue="false"/>
+
+        <CheckBoxPreference holo:title="@string/pref_appearance_thumbnails_nsfw_show_title"
+                            holo:key="@string/pref_appearance_thumbnails_nsfw_show_key"
+                            holo:dependency="@string/pref_appearance_thumbnails_show_key"
+                            holo:defaultValue="false"/>
 
     </PreferenceCategory>
 
     <PreferenceCategory holo:title="@string/pref_appearance_tabletmode_header">
 
-    <ListPreference holo:title="@string/pref_appearance_twopane_title"
-                    holo:key="@string/pref_appearance_twopane_key"
-                    holo:entries="@array/pref_appearance_twopane"
-                    holo:entryValues="@array/pref_appearance_twopane_return"
-                    holo:defaultValue="auto"/>
+        <ListPreference holo:title="@string/pref_appearance_twopane_title"
+                        holo:key="@string/pref_appearance_twopane_key"
+                        holo:entries="@array/pref_appearance_twopane"
+                        holo:entryValues="@array/pref_appearance_twopane_return"
+                        holo:defaultValue="auto"/>
 
     </PreferenceCategory>
 

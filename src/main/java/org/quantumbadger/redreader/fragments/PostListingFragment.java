@@ -274,7 +274,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 
 	private synchronized void onLoadMoreItemsCheck() {
 
-		if(readyToDownloadMore && after != null && !after.equals(lastAfter) && adapter.getDownloadedCount() - lv.getLastVisiblePosition() < 20) {
+		if(readyToDownloadMore && after != null && !after.equals(lastAfter) && adapter.getDownloadedCount() > 0 && adapter.getDownloadedCount() - lv.getLastVisiblePosition() < 20) {
 
 			lastAfter = after;
 			readyToDownloadMore = false;
@@ -422,6 +422,8 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 				final boolean downloadThumbnails = thumbnailsPref == PrefsUtility.AppearanceThumbnailsShow.ALWAYS
 						|| (thumbnailsPref == PrefsUtility.AppearanceThumbnailsShow.WIFIONLY && isConnectionWifi);
 
+				final boolean showNsfwThumbnails = PrefsUtility.appearance_thumbnails_nsfw_show(context, sharedPrefs);
+
 				final PrefsUtility.CachePrecacheImages imagePrecachePref = PrefsUtility.cache_precache_images(context, sharedPrefs);
 				final boolean precacheImages = imagePrecachePref == PrefsUtility.CachePrecacheImages.ALWAYS
 						|| (imagePrecachePref == PrefsUtility.CachePrecacheImages.WIFIONLY && isConnectionWifi);
@@ -438,7 +440,10 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 					after = post.name;
 
 					if(!post.over_18 || isNsfwAllowed) {
-						final RedditPreparedPost preparedPost = new RedditPreparedPost(context, cm, postCount, post, timestamp, !subreddit.isReal(), subreddit, needsChanging.contains(post.name), downloadThumbnails, precacheImages, user);
+
+						final boolean downloadThisThumbnail = downloadThumbnails && (!post.over_18 || showNsfwThumbnails);
+
+						final RedditPreparedPost preparedPost = new RedditPreparedPost(context, cm, postCount, post, timestamp, !subreddit.isReal(), subreddit, needsChanging.contains(post.name), downloadThisThumbnail, precacheImages, user);
 						adapter.onPostDownloaded(preparedPost);
 					}
 

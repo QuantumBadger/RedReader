@@ -19,6 +19,8 @@ package org.quantumbadger.redreader.activities;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -27,16 +29,15 @@ import android.widget.ImageView;
 import com.polites.android.GestureImageView;
 import org.apache.http.StatusLine;
 import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.preference.PreferenceManager;
+import org.holoeverywhere.preference.SharedPreferences;
 import org.holoeverywhere.widget.LinearLayout;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.RequestFailureType;
-import org.quantumbadger.redreader.common.Constants;
-import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.common.LinkHandler;
-import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.image.GifDecoderThread;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
 import org.quantumbadger.redreader.views.liststatus.LoadingView;
@@ -54,6 +55,11 @@ public class ImageViewActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		final boolean solidblack = PrefsUtility.appearance_solidblack(this, sharedPreferences);
+
+		if(solidblack) getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
 
 		// TODO add actionbar with refresh/etc
 		// TODO make fragment

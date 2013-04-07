@@ -427,10 +427,7 @@ public final class CacheManager {
 
 					} else {
 						final CacheEntry entry = mostRecentFromList(result);
-
-						if(!handleCacheEntryFound(entry, request)) {
-							queueDownload(request);
-						}
+						handleCacheEntryFound(entry, request);
 					}
 
 					break;
@@ -460,33 +457,51 @@ public final class CacheManager {
 			downloadQueue.add(request, CacheManager.this);
 		}
 
-		private boolean handleCacheEntryFound(final CacheEntry entry, final CacheRequest request) {
+		private void handleCacheEntryFound(final CacheEntry entry, final CacheRequest request) {
 
-			final File cacheFile = getExistingCacheFile(entry.id);
+			new Thread() {
 
-			if(cacheFile == null) {
-				request.notifyFailure(RequestFailureType.STORAGE, null, null, "A cache entry was found in the database, but the actual data couldn't be found. Press refresh to download the content again.");
-				return false;
-			}
+				public void run() {
 
-			if(request.isJson) {
+					final File cacheFile = getExistingCacheFile(entry.id);
 
-				final JsonValue value;
+					if(cacheFile == null) {
 
-				try {
-					value = new JsonValue(getCacheFileInputStream(entry.id, true));
-					value.buildInNewThread();
-				} catch (Throwable t) {
-					deletionQueue.offer(entry.id);
-					request.notifyFailure(RequestFailureType.PARSE, t, null, "Error parsing the JSON stream");
-					return false;
+						if(request.downloadType == CacheRequest.DownloadType.IF_NECESSARY) {
+							queueDownload(request);
+						} else {
+							request.notifyFailure(RequestFailureType.STORAGE, null, null, "A cache entry was found in the database, but the actual data couldn't be found. Press refresh to download the content again.");
+						}
+
+						return;
+					}
+
+					if(request.isJson) {
+
+						final JsonValue value;
+
+						try {
+							value = new JsonValue(getCacheFileInputStream(entry.id, true));
+							value.buildInNewThread();
+						} catch (Throwable t) {
+
+							deletionQueue.offer(entry.id);
+
+							if(request.downloadType == CacheRequest.DownloadType.IF_NECESSARY) {
+								queueDownload(request);
+							} else {
+								request.notifyFailure(RequestFailureType.PARSE, t, null, "Error parsing the JSON stream");
+							}
+
+							return;
+						}
+
+						request.notifyJsonParseStarted(value, entry.timestamp, entry.session, true);
+					}
+
+					request.notifySuccess(new ReadableCacheFile(entry.id, request.isJson), entry.timestamp, entry.session, true, entry.mimetype);
 				}
-
-				request.notifyJsonParseStarted(value, entry.timestamp, entry.session, true);
-			}
-
-			request.notifySuccess(new ReadableCacheFile(entry.id, request.isJson), entry.timestamp, entry.session, true, entry.mimetype);
-			return true;
+			}.start();
 		}
 	}
 }

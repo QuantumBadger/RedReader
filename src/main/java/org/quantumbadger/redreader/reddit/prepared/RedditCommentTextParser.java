@@ -36,7 +36,7 @@ public final class RedditCommentTextParser {
 	}
 
 	private static enum TokenType {
-		TEXT, BOLD, ITALIC, STRIKETHROUGH, LINK_TEXT_OPEN, LINK_TEXT_CLOSE, LINK_URL_OPEN, NEWLINE, LINK_URL_CLOSE
+		TEXT, ASTERISK, DOUBLE_ASTERISK, STRIKETHROUGH, LINK_TEXT_OPEN, LINK_TEXT_CLOSE, LINK_URL_OPEN, NEWLINE, LINK_URL_CLOSE
 	}
 
 	private static final class Token {
@@ -47,6 +47,11 @@ public final class RedditCommentTextParser {
 			this.type = type;
 			this.data = data;
 		}
+	}
+
+	private static final class ParserState {
+		public int flags = 0;
+		public boolean afterNewLine = true;
 	}
 
 	private static final class Tokenizer {
@@ -82,10 +87,10 @@ public final class RedditCommentTextParser {
 				case '*':
 					if(input.length > pos && input[pos] == '*') {
 						pos++;
-						return new Token(TokenType.BOLD, "*");
+						return new Token(TokenType.DOUBLE_ASTERISK, "**");
 
 					} else {
-						return new Token(TokenType.ITALIC, "**");
+						return new Token(TokenType.ASTERISK, "*");
 					}
 
 				case '~':
@@ -103,16 +108,8 @@ public final class RedditCommentTextParser {
 				case ')': return new Token(TokenType.LINK_URL_CLOSE, ")");
 
 				case '\n':
-					if(input.length > pos && input[pos] == '\n') {
+					return new Token(TokenType.NEWLINE, "\n");
 
-						pos++;
-						while(input.length > pos && (input[pos] == '\n')) pos++;
-
-						return new Token(TokenType.NEWLINE, "\n");
-
-					} else {
-						return new Token(TokenType.TEXT, " ");
-					}
 
 				default:
 
@@ -149,15 +146,24 @@ public final class RedditCommentTextParser {
 
 			BetterSSB ssb = new BetterSSB();
 
-			int flags = 0;
+			final ParserState state = new ParserState();
 
 			while((t = tokenizer.read()) != null) {
 
 				switch(t.type) {
 
-					case BOLD: flags ^= BetterSSB.BOLD; break;
-					case ITALIC: flags ^= BetterSSB.ITALIC; break;
-					case STRIKETHROUGH: flags ^= BetterSSB.STRIKETHROUGH; break;
+					case DOUBLE_ASTERISK: state.flags ^= BetterSSB.BOLD; break;
+					case STRIKETHROUGH: state.flags ^= BetterSSB.STRIKETHROUGH; break;
+
+					case ASTERISK:
+						if(state.afterNewLine) {
+							ssb.append(" • ", 0);
+
+						} else {
+							state.flags ^= BetterSSB.ITALIC;
+						}
+
+						break;
 
 					case LINK_TEXT_OPEN:
 
@@ -170,22 +176,8 @@ public final class RedditCommentTextParser {
 						if(t == null) {
 
 							// Invalid markdown. Just dump what we can.
-
 							linkText.add(t);
-
-							for(final Token t3 : linkText) {
-								switch(t3.type) {
-
-									case BOLD: flags ^= BetterSSB.BOLD; break;
-									case ITALIC: flags ^= BetterSSB.ITALIC; break;
-									case STRIKETHROUGH: flags ^= BetterSSB.STRIKETHROUGH; break;
-
-									default: {
-										ssb.append(t3.data, flags);
-										break;
-									}
-								}
-							}
+							dumpAfterInvalid(state, linkText, ssb);
 
 						} else {
 
@@ -198,88 +190,71 @@ public final class RedditCommentTextParser {
 									&& (t3 = tokenizer.read()) != null
 									&& t3.type == TokenType.LINK_URL_OPEN))) {
 
-									final Token linkUrlToken = tokenizer.read();
+								final Token linkUrlToken = tokenizer.read();
 
-									if(linkUrlToken == null || linkUrlToken.type != TokenType.TEXT) {
-
-										// Invalid markdown. Just dump what we can.
-
-										linkText.add(t);
-										if(t2 != null) linkText.add(t2);
-										if(t3 != null) linkText.add(t3);
-
-										for(final Token t4 : linkText) {
-											switch(t4.type) {
-
-												case BOLD: flags ^= BetterSSB.BOLD; break;
-												case ITALIC: flags ^= BetterSSB.ITALIC; break;
-												case STRIKETHROUGH: flags ^= BetterSSB.STRIKETHROUGH; break;
-
-												default: {
-													ssb.append(t4.data, flags);
-													break;
-												}
-											}
-										}
-
-									} else {
-
-										// Valid markdown. Output the link text.
-
-										for(final Token t4 : linkText) {
-											switch(t4.type) {
-
-												case BOLD: flags ^= BetterSSB.BOLD; break;
-												case ITALIC: flags ^= BetterSSB.ITALIC; break;
-												case STRIKETHROUGH: flags ^= BetterSSB.STRIKETHROUGH; break;
-
-												default: {
-													ssb.append(t4.data, flags | BetterSSB.UNDERLINE, 0, 0, 1.0f, linkUrlToken.data);
-													break;
-												}
-											}
-										}
-
-										tokenizer.read(); // Last bracket
-									}
-
-								} else {
+								if(linkUrlToken == null || linkUrlToken.type != TokenType.TEXT) {
 
 									// Invalid markdown. Just dump what we can.
 
-									ssb.append("[", flags);
 									linkText.add(t);
 									if(t2 != null) linkText.add(t2);
 									if(t3 != null) linkText.add(t3);
 
+									dumpAfterInvalid(state, linkText, ssb);
+
+								} else {
+
+									// Valid markdown. Output the link text.
+
 									for(final Token t4 : linkText) {
 										switch(t4.type) {
 
-											case BOLD: flags ^= BetterSSB.BOLD; break;
-											case ITALIC: flags ^= BetterSSB.ITALIC; break;
-											case STRIKETHROUGH: flags ^= BetterSSB.STRIKETHROUGH; break;
+											case DOUBLE_ASTERISK: state.flags ^= BetterSSB.BOLD; break;
+											case ASTERISK: state.flags ^= BetterSSB.ITALIC; break;
+											case STRIKETHROUGH: state.flags ^= BetterSSB.STRIKETHROUGH; break;
 
 											default: {
-												ssb.append(t4.data, flags);
+												ssb.append(t4.data, state.flags | BetterSSB.UNDERLINE, 0, 0, 1.0f, linkUrlToken.data);
 												break;
 											}
 										}
 									}
+
+									tokenizer.read(); // Last bracket
 								}
+
+							} else {
+
+								// Invalid markdown. Just dump what we can.
+
+								ssb.append("[", state.flags);
+								linkText.add(t);
+								if(t2 != null) linkText.add(t2);
+								if(t3 != null) linkText.add(t3);
+
+								dumpAfterInvalid(state, linkText, ssb);
+							}
 						}
 
 						break;
 
 					case NEWLINE:
-						ssb.linkify();
-						output.add(ssb.get());
-						ssb = new BetterSSB();
+						// TODO handle this properly
+						// One newline should do nothing, unless in a bullet list.
+						// Two or more should cause a line break.
+						if(!state.afterNewLine) {
+							ssb.linkify();
+							output.add(ssb.get());
+							ssb = new BetterSSB();
+						}
 						break;
 
 					default: {
-						ssb.append(t.data, flags);
+						ssb.append(t.data, state.flags);
 					}
 				}
+
+				state.afterNewLine = t.type == TokenType.NEWLINE;
 			}
 
 			ssb.linkify();
@@ -314,5 +289,23 @@ public final class RedditCommentTextParser {
 				return ll;
 			}
 		};
+	}
+
+	private static void dumpAfterInvalid(ParserState state, LinkedList<Token> toDump, BetterSSB ssb) {
+
+		for(final Token t : toDump) {
+			switch(t.type) {
+
+				case DOUBLE_ASTERISK: state.flags ^= BetterSSB.BOLD; break;
+				case ASTERISK: state.flags ^= BetterSSB.ITALIC; break;
+				case STRIKETHROUGH: state.flags ^= BetterSSB.STRIKETHROUGH; break;
+
+				default: {
+					ssb.append(t.data, state.flags);
+					break;
+				}
+			}
+		}
+
 	}
 }

@@ -137,6 +137,10 @@ public final class PrefsUtility {
 		return Float.valueOf(getString(R.string.pref_appearance_fontscale_posts_key, "1", context,  sharedPreferences));
 	}
 
+	public static boolean appearance_loading_detail(final Context context, final SharedPreferences sharedPreferences) {
+		return getBoolean(R.string.pref_appearance_loading_detail_key, false, context, sharedPreferences);
+	}
+
 	///////////////////////////////
 	// pref_behaviour
 	///////////////////////////////

@@ -23,9 +23,11 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
+import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.ProgressBar;
 import org.holoeverywhere.widget.TextView;
+import org.quantumbadger.redreader.common.PrefsUtility;
 
 public final class LoadingView extends StatusListItemView {
 
@@ -38,7 +40,7 @@ public final class LoadingView extends StatusListItemView {
 		@Override
 		public void handleMessage(final Message msg) {
 
-			textView.setText((String)msg.obj);
+			if(textView != null) textView.setText((String)msg.obj);
 
 			if(msg.what == LOADING_INDETERMINATE) {
 				progressBarView.setIndeterminate(true);
@@ -78,14 +80,6 @@ public final class LoadingView extends StatusListItemView {
 		sendMessage(text, LOADING_INDETERMINATE);
 	}
 
-	public void setProgress(final String text, final float fraction) {
-		sendMessage(text, Math.round(fraction * 100));
-	}
-
-	public void setDone(final String text) {
-		sendMessage(text, LOADING_DONE);
-	}
-
 	private void sendMessage(final String text, final int what) {
 		final Message msg = new Message();
 		msg.obj = text;
@@ -102,24 +96,30 @@ public final class LoadingView extends StatusListItemView {
 
 		super(context);
 
-		textView = new TextView(context);
-		textView.setText(initialText);
-		textView.setTextColor(Color.WHITE);
-		textView.setTextSize(15.0f);
-		textView.setPadding((int)(15 * dpScale), (int)(10 * dpScale), (int)(10 * dpScale), (int)(4 * dpScale));
-		textView.setSingleLine(true);
-		textView.setEllipsize(TextUtils.TruncateAt.END);
-
 		final LinearLayout layout = new LinearLayout(context);
 		layout.setOrientation(LinearLayout.VERTICAL);
-		layout.addView(textView);
+
+		final boolean showText = PrefsUtility.appearance_loading_detail(context, PreferenceManager.getDefaultSharedPreferences(context));
+
+		if(showText) {
+			textView = new TextView(context);
+			textView.setText(initialText);
+			textView.setTextColor(Color.WHITE);
+			textView.setTextSize(15.0f);
+			textView.setPadding((int)(15 * dpScale), (int)(10 * dpScale), (int)(10 * dpScale), 0);
+			textView.setSingleLine(true);
+			textView.setEllipsize(TextUtils.TruncateAt.END);
+			layout.addView(textView);
+		} else {
+			textView = null;
+		}
 
 		if(progressBarEnabled) {
 			progressBarView = new ProgressBar(context, null, android.R.attr.progressBarStyleHorizontal);
 			progressBarView.setMax(100);
 			progressBarView.setProgress(0);
 			progressBarView.setIndeterminate(indeterminate);
-			progressBarView.setPadding((int)(10 * dpScale), 0, (int)(10 * dpScale), (int)(2 * dpScale));
+			progressBarView.setPadding((int)(10 * dpScale), (int)(2 * dpScale), (int)(10 * dpScale), (int)(2 * dpScale));
 			layout.addView(progressBarView);
 
 		} else {

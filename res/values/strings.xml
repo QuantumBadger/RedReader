@@ -39,6 +39,7 @@
     <string name="pref_appearance_font_header">Font</string>
     <string name="pref_appearance_thumbnails_header">Thumbnails</string>
     <string name="pref_appearance_tabletmode_header">Tablet Mode</string>
+    <string name="pref_appearance_other_header">Other</string>
 
     <string name="pref_appearance_twopane_key">pref_appearance_twopane</string>
     <string name="pref_appearance_twopane_title">Tablet Mode (two pane)</string>
@@ -63,6 +64,9 @@
 
     <string name="pref_appearance_thumbnails_wifionly_key">pref_appearance_thumbnails_wifionly</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Thumbnails on Wi-Fi only</string>
+
+    <string name="pref_appearance_loading_detail_key">pref_appearance_loading_detail</string>
+    <string name="pref_appearance_loading_detail_title">Show detailed loading messages</string>
 
     <!-- Behaviour Prefs -->
 

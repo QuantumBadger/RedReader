@@ -33,7 +33,7 @@
 
         <!-- Post -->
 
-        <item name="rrPostTitleCol">#FFFFFF</item>
+        <item name="rrPostTitleCol">#DDDDDD</item>
         <item name="rrPostTitleReadCol">#909090</item>
         <item name="rrPostSubtitleCol">#909090</item>
         <item name="rrPostSubtitleBoldCol">#BBBBBB</item>

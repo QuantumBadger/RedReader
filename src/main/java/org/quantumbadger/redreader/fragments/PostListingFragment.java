@@ -229,7 +229,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 		lv.setPersistentDrawingCache(ViewGroup.PERSISTENT_ALL_CACHES);
 		lv.setAlwaysDrawnWithCacheEnabled(true);
 
-		adapter = new PostListingAdapter(lv, outer, this);
+		adapter = new PostListingAdapter(lv, this);
 		lv.setAdapter(adapter);
 
 		final ListOverlayView lov = new ListOverlayView(context, lv);

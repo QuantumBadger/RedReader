@@ -220,7 +220,14 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 				if(view instanceof RedditCommentView) {
-					handleCommentVisibilityToggle((RedditCommentView)view);
+					switch(PrefsUtility.pref_behaviour_actions_comment_tap(context, PreferenceManager.getDefaultSharedPreferences(context))) {
+						case COLLAPSE:
+							handleCommentVisibilityToggle((RedditCommentView)view);
+							break;
+						case ACTION_MENU:
+							openContextMenu(view);
+							break;
+					}
 				} else if(position == 0 && !post.src.is_self) {
 					LinkHandler.onLinkClicked(getSupportActivity(), post.url, false);
 				}
@@ -465,6 +472,7 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 				}
 
 				menu.add(Menu.NONE, Action.COMMENT_LINKS.ordinal(), 0, R.string.action_comment_links);
+				menu.add(Menu.NONE, Action.COLLAPSE.ordinal(), 0, R.string.action_collapse);
 				menu.add(Menu.NONE, Action.SHARE.ordinal(), 0, R.string.action_share);
 				menu.add(Menu.NONE, Action.USER_PROFILE.ordinal(), 0, R.string.action_user_profile);
 				menu.add(Menu.NONE, Action.PROPERTIES.ordinal(), 0, R.string.action_properties);
@@ -571,7 +579,7 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 	}
 
 	private static enum Action {
-		UPVOTE, UNVOTE, DOWNVOTE, REPORT, SHARE, REPLY, USER_PROFILE, COMMENT_LINKS, PROPERTIES
+		UPVOTE, UNVOTE, DOWNVOTE, REPORT, SHARE, REPLY, USER_PROFILE, COMMENT_LINKS, COLLAPSE, PROPERTIES
 	}
 
 	@Override
@@ -658,6 +666,10 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 				mailer.putExtra(Intent.EXTRA_TEXT, StringEscapeUtils.unescapeHtml4(comment.src.body) + "\r\n\r\nSent using RedReader on Android");
 				startActivityForResult(Intent.createChooser(mailer, context.getString(R.string.action_share)), 1);
 
+				break;
+
+			case COLLAPSE:
+				if(comment.getBoundView() != null) handleCommentVisibilityToggle(comment.getBoundView());
 				break;
 
 			case USER_PROFILE:

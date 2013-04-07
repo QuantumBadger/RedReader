@@ -52,7 +52,8 @@ public final class SettingsFragment extends PreferenceFragment {
 				R.string.pref_cache_maxage_thumb_key,
 				R.string.pref_cache_maxage_image_key,
 				R.string.pref_appearance_fontscale_posts_key,
-				R.string.pref_appearance_fontscale_comments_key
+				R.string.pref_appearance_fontscale_comments_key,
+				R.string.pref_behaviour_actions_comment_tap_key
 		};
 
 		for(int pref : listPrefsToUpdate) {

@@ -151,6 +151,10 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 		boundView = view;
 	}
 
+	public void unbind(RedditCommentView view) {
+		if(boundView == view) boundView = null;
+	}
+
 	private void addChild(final RedditPreparedComment child) {
 		directReplies.add(child);
 	}
@@ -310,5 +314,9 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 
 	public ViewGroup getBody(Context context, float textSize, Integer textCol, ActiveTextView.OnLinkClickedListener listener) {
 		return body.generate(context, textSize, textCol, listener);
+	}
+
+	public RedditCommentView getBoundView() {
+		return boundView;
 	}
 }

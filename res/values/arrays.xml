@@ -54,6 +54,19 @@
         <item>action_menu</item>
     </string-array>
 
+    <string-array name="pref_behaviour_actions_comment">
+        <item>@string/action_collapse</item>
+        <item>@string/action_actionmenu</item>
+        <item>@string/action_nothing</item>
+    </string-array>
+
+    <!-- Constants. Do not change. -->
+    <string-array name="pref_behaviour_actions_comment_return">
+        <item>collapse</item>
+        <item>action_menu</item>
+        <item>nothing</item>
+    </string-array>
+
     <string-array name="pref_appearance_theme">
         <item>Red</item>
         <item>Green</item>

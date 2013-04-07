@@ -159,6 +159,14 @@ public final class PrefsUtility {
 		return PostFlingAction.valueOf(getString(R.string.pref_behaviour_fling_post_right_key, "hide", context, sharedPreferences).toUpperCase());
 	}
 
+	public static enum CommentAction {
+		COLLAPSE, ACTION_MENU, NOTHING
+	}
+
+	public static CommentAction pref_behaviour_actions_comment_tap(final Context context, final SharedPreferences sharedPreferences) {
+		return CommentAction.valueOf(getString(R.string.pref_behaviour_actions_comment_tap_key, "collapse", context, sharedPreferences).toUpperCase());
+	}
+
 	public static boolean pref_behaviour_nsfw(final Context context, final SharedPreferences sharedPreferences) {
 		return getBoolean(R.string.pref_behaviour_nsfw_key, false, context, sharedPreferences);
 	}

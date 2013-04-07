@@ -90,7 +90,10 @@ public class RedditCommentView extends LinearLayout {
 
 	public void reset(final Context context, final CommentListingFragment fragment, final RedditPreparedComment comment, final ActiveTextView.OnLinkClickedListener listener) {
 
+		if(this.comment != null) this.comment.unbind(this);
+
 		this.comment = comment;
+		comment.bind(this);
 
 		final int paddingPixelsPerIndent = General.dpToPixels(context, 10.0f); // TODO Add in vertical lines?
 		leftIndent.getLayoutParams().width = paddingPixelsPerIndent * comment.indentation;
@@ -108,7 +111,17 @@ public class RedditCommentView extends LinearLayout {
 				if(url != null) {
 					listener.onClick(url);
 				} else {
-					fragment.handleCommentVisibilityToggle(RedditCommentView.this);
+
+					// TODO separate preference for comment body click?
+
+					switch(PrefsUtility.pref_behaviour_actions_comment_tap(context, PreferenceManager.getDefaultSharedPreferences(context))) {
+						case COLLAPSE:
+							fragment.handleCommentVisibilityToggle(RedditCommentView.this);
+							break;
+						case ACTION_MENU:
+							fragment.openContextMenu(RedditCommentView.this);
+							break;
+					}
 				}
 			}
 		}));

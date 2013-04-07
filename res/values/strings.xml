@@ -70,13 +70,18 @@
 
     <!-- Behaviour Prefs -->
 
-    <string name="pref_behaviour_fling_post_header">Post Fling Actions</string>
+    <string name="pref_behaviour_actions_post_header">Post Actions</string>
+    <string name="pref_behaviour_actions_comment_header">Comment Actions</string>
+    <string name="pref_behaviour_posts_header">Posts</string>
 
     <string name="pref_behaviour_fling_post_left_key">pref_behaviour_fling_post_left</string>
     <string name="pref_behaviour_fling_post_left_title">Fling Post Left Action</string>
 
     <string name="pref_behaviour_fling_post_right_key">pref_behaviour_fling_post_right</string>
     <string name="pref_behaviour_fling_post_right_title">Fling Post Right Action</string>
+
+    <string name="pref_behaviour_actions_comment_tap_key">pref_behaviour_actions_comment_tap</string>
+    <string name="pref_behaviour_actions_comment_tap_title">Comment Tap Action</string>
 
     <string name="pref_behaviour_nsfw_key">pref_behaviour_nsfw</string>
     <string name="pref_behaviour_nsfw_title">Show NSFW content</string>
@@ -219,6 +224,8 @@
     <string name="action_comments_short">Comments</string>
     <string name="action_link">Open Link</string>
     <string name="action_link_short">Link</string>
+    <string name="action_collapse">Toggle Collapse</string>
+    <string name="action_nothing">Do Nothing</string>
 
     <string name="action_report">Report</string>
     <string name="action_report_sure">Are you sure you want to report this?</string>

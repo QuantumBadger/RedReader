@@ -19,7 +19,7 @@
 
 <PreferenceScreen xmlns:holo="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory holo:title="@string/pref_behaviour_fling_post_header">
+    <PreferenceCategory holo:title="@string/pref_behaviour_actions_post_header">
 
         <ListPreference holo:title="@string/pref_behaviour_fling_post_left_title"
                         holo:key="@string/pref_behaviour_fling_post_left_key"
@@ -35,7 +35,17 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory holo:title="Posts">
+    <PreferenceCategory holo:title="@string/pref_behaviour_actions_comment_header">
+
+        <ListPreference holo:title="@string/pref_behaviour_actions_comment_tap_title"
+                        holo:key="@string/pref_behaviour_actions_comment_tap_key"
+                        holo:entries="@array/pref_behaviour_actions_comment"
+                        holo:entryValues="@array/pref_behaviour_actions_comment_return"
+                        holo:defaultValue="collapse"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory holo:title="@string/pref_behaviour_posts_header">
 
         <CheckBoxPreference holo:title="@string/pref_behaviour_nsfw_title"
                             holo:key="@string/pref_behaviour_nsfw_key"

@@ -82,6 +82,7 @@ public class CommentListingController {
 	}
 
 	public CommentListingFragment get(final boolean force) {
+		if(force) session = null;
 		return CommentListingFragment.newInstance("t3_" + postId, getUri(), session, force ? CacheRequest.DownloadType.FORCE : CacheRequest.DownloadType.IF_NECESSARY);
 	}
 }

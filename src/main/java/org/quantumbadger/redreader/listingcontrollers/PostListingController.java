@@ -57,6 +57,7 @@ public abstract class PostListingController {
 	protected abstract RedditSubreddit getSubreddit();
 
 	public final PostListingFragment get(final boolean force) {
+		if(force) session = null;
 		return PostListingFragment.newInstance(getSubreddit(), getUri(), session, force ? CacheRequest.DownloadType.FORCE : CacheRequest.DownloadType.IF_NECESSARY);
 	}
 }

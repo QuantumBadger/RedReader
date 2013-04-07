@@ -84,7 +84,13 @@ public class MainMenuFragment extends Fragment implements MainMenuSelectionListe
 
 		// TODO load menu position?
 
-		final Context context = container.getContext();
+		final Context context;
+		if(container != null) {
+			context = container.getContext(); // TODO just use the inflater's context in every case?
+		} else {
+			context = inflater.getContext();
+		}
+
 		final RedditAccount user = RedditAccountManager.getInstance(context).getDefaultAccount();
 
 		final LinearLayout outer = new LinearLayout(context);

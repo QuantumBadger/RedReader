@@ -27,6 +27,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.TypedValue;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import org.holoeverywhere.app.Activity;
@@ -244,6 +245,8 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 
 		dpScale = context.getResources().getDisplayMetrics().density; // TODO xml?
 
+		final float fontScale = PrefsUtility.appearance_fontscale_posts(context, PreferenceManager.getDefaultSharedPreferences(context));
+
 		final FrameLayout mainLayout = (FrameLayout) inflate(context, R.layout.reddit_post, null);
 		final LinearLayout visiblePostLayout = (LinearLayout) mainLayout.findViewById(R.id.reddit_post_layout);
 
@@ -255,6 +258,9 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 		subtitle = (TextView) mainLayout.findViewById(R.id.reddit_post_subtitle);
 		commentsButton = (LinearLayout) mainLayout.findViewById(R.id.reddit_post_comments_button);
 		commentsText = (TextView)commentsButton.findViewById(R.id.reddit_post_comments_text);
+
+		title.setTextSize(TypedValue.COMPLEX_UNIT_PX, title.getTextSize() * fontScale);
+		subtitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, subtitle.getTextSize() * fontScale);
 
 		leftOverlayText = (TextView) mainLayout.findViewById(R.id.reddit_post_fling_text_left);
 		rightOverlayText = (TextView) mainLayout.findViewById(R.id.reddit_post_fling_text_right);

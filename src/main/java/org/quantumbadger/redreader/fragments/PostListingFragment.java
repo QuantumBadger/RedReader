@@ -136,7 +136,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 					break;
 
 				case NOTIF_DOWNLOAD_DONE:
-					if(loadingView != null) loadingView.setDone(R.string.download_done);
+					if(loadingView != null) loadingView.setDoneNoAnim(R.string.download_done);
 					break;
 			}
 		}

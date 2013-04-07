@@ -275,7 +275,7 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 
 				if(!isAdded()) return;
 
-				if(loadingView != null) loadingView.setDone(R.string.download_failed);
+				if(loadingView != null) loadingView.setDoneNoAnim(R.string.download_failed);
 				final RRError error = General.getGeneralErrorForFailure(context, type, t, status);
 
 				new Handler(Looper.getMainLooper()).post(new Runnable() {
@@ -399,7 +399,7 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 					return;
 				}
 
-				if(isAdded() && loadingView != null) loadingView.setDone(context.getString(R.string.download_done));
+				if(isAdded() && loadingView != null) loadingView.setDoneNoAnim(R.string.download_done);
 			}
 
 			private ArrayList<RedditPreparedComment> buffer = new ArrayList<RedditPreparedComment>();

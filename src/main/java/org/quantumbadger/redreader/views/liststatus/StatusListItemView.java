@@ -53,6 +53,16 @@ public class StatusListItemView extends FrameLayout implements RRTouchable {
 		addView(contents);
 	}
 
+	public void hideNoAnim() {
+
+		clearAnimation();
+		setVisibility(GONE);
+		removeAllViews();
+		contents = null;
+
+		requestLayout();
+	}
+
 	public void hide(final long initialDelay) {
 
 		if(contents == null) return;

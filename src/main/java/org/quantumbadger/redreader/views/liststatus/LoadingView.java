@@ -32,7 +32,7 @@ public final class LoadingView extends StatusListItemView {
 	private final TextView textView;
 	private final ProgressBar progressBarView;
 
-	private static final int LOADING_INDETERMINATE = -1, LOADING_DONE = -2;
+	private static final int LOADING_INDETERMINATE = -1, LOADING_DONE = -2, LOADING_DONE_NOANIM = -3;
 
 	private final Handler loadingHandler = new Handler(Looper.getMainLooper()) {
 		@Override
@@ -47,6 +47,9 @@ public final class LoadingView extends StatusListItemView {
 				progressBarView.setIndeterminate(false);
 				progressBarView.setProgress(100);
 				hide(500);
+
+			} else if(msg.what == LOADING_DONE_NOANIM) {
+				hideNoAnim();
 
 			} else {
 				progressBarView.setIndeterminate(false);
@@ -65,6 +68,10 @@ public final class LoadingView extends StatusListItemView {
 
 	public void setDone(final int textRes) {
 		sendMessage(getContext().getString(textRes), LOADING_DONE);
+	}
+
+	public void setDoneNoAnim(final int textRes) {
+		sendMessage(getContext().getString(textRes), LOADING_DONE_NOANIM);
 	}
 
 	public void setIndeterminate(final String text) {

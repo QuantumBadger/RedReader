@@ -97,9 +97,6 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 		if(user == null) throw new NullPointerException("User was null - set to empty string for anonymous");
 		if(downloadType == null) throw new NullPointerException("Download type was null");
 
-		if(downloadType == DownloadType.FORCE && requestSession != null)
-			throw new IllegalArgumentException("Session must be null for forced downloads");
-
 		if(downloadType != DownloadType.FORCE && postFields != null)
 			throw new IllegalArgumentException("Download type must be forced for POST requests");
 

@@ -165,7 +165,7 @@ public class MainActivity extends RefreshableActivity
 				alertBuilder.setPositiveButton(R.string.dialog_go, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 
-						final String name = editText.getText().toString().toLowerCase();
+						final String name = editText.getText().toString().toLowerCase().trim();
 
 						if(!name.matches("[\\w\\+]+")) {
 							General.quickToast(MainActivity.this, R.string.mainmenu_custom_invalid_name);

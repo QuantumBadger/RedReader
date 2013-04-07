@@ -393,7 +393,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 
 			notificationHandler.sendMessage(General.handlerMessage(NOTIF_STARTING, null));
 
-			postTotalCount += 25;
+			postTotalCount += 25; // TODO this can vary with the user's reddit settings
 
 			// TODO pref (currently 10 mins)
 			if(firstDownload && fromCache && RRTime.since(timestamp) > 10 * 60 * 1000) {

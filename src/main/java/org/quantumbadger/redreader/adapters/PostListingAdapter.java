@@ -43,7 +43,7 @@ public final class PostListingAdapter extends BaseAdapter {
 
 				posts.add(post);
 
-				if(listViewParent.getLastVisiblePosition() + 1 >= posts.size()) {
+				if(listViewParent.getLastVisiblePosition() + 1 >= postsToReport.size()) {
 					updatePosts();
 				}
 			}

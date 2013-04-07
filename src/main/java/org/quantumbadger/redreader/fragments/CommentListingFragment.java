@@ -87,7 +87,7 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 	private CommentListingAdapter adapter;
 
 	private LoadingView loadingView;
-	private LinearLayout notifications, listHeaderNotifications, listHeaderPost, listHeaderSelftext;
+	private LinearLayout notifications, listHeaderNotifications, listHeaderPost, listHeaderSelftext, listFooter;
 	private ListView lv;
 
 	private String after = null;
@@ -206,7 +206,10 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 		listHeader.addView(listHeaderNotifications);
 		listHeader.addView(listHeaderSelftext);
 
+		listFooter = createVerticalLinearLayout(context);
+
 		lv.addHeaderView(listHeader);
+		lv.addFooterView(listFooter);
 
 		adapter = new CommentListingAdapter(context, this);
 		lv.setAdapter(adapter);
@@ -248,7 +251,8 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 			protected void onDownloadNecessary() {
 				new Handler(Looper.getMainLooper()).post(new Runnable() {
 					public void run() {
-						notifications.addView(loadingView);
+						listFooter.addView(loadingView);
+						adapter.notifyDataSetChanged();
 					}
 				});
 			}

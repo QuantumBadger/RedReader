@@ -37,6 +37,7 @@ public class LinkHandler {
 			redditUserPattern = Pattern.compile("^(?:https?://[\\.\\w]*reddit\\.com)?/?(user|u)/(\\w+).*"),
 			subredditPattern = Pattern.compile("^https?://[\\.\\w]*reddit\\.com(/r/\\w+)/?"),
 			youtubePattern = Pattern.compile("^https?://[\\.\\w]*(youtube\\.\\w+|youtu\\.be)/.*"),
+			vimeoPattern = Pattern.compile("^https?://[\\.\\w]*vimeo\\.\\w+/.*"),
 			shortSubredditPattern = Pattern.compile("^/?r/(\\w+).*");
 
 	public static void onLinkClicked(Activity activity, String url, boolean forceNoImage) {
@@ -91,7 +92,7 @@ public class LinkHandler {
 
 		// Use a browser
 
-		if(youtubePattern.matcher(url).matches()) {
+		if(youtubePattern.matcher(url).matches() || vimeoPattern.matcher(url).matches()) {
 			final Intent intent = new Intent(Intent.ACTION_VIEW);
 			intent.setData(Uri.parse(url));
 			activity.startActivity(intent);

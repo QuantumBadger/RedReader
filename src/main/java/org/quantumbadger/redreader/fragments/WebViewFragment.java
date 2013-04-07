@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.fragments;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -80,6 +81,8 @@ public class WebViewFragment extends Fragment {
 				return true;
 			}
 		});
+
+		webView.setWebChromeClient(new WebChromeClient());
 
 		webView.loadUrl(url);
 

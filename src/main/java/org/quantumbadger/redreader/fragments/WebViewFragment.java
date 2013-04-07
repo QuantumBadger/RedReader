@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.fragments;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,6 +90,12 @@ public class WebViewFragment extends Fragment {
 				// TODO handle reddit URLs in the app
 				webView.loadUrl(url);
 				return true;
+			}
+
+			@Override
+			public void onPageStarted(WebView view, String url, Bitmap favicon) {
+				super.onPageStarted(view, url, favicon);
+				getSupportActivity().setTitle(url);
 			}
 		});
 

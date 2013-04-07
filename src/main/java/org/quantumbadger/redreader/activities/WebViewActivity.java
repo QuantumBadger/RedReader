@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.view.View;
 import org.holoeverywhere.app.Activity;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.WebViewFragment;
 
 public class WebViewActivity extends Activity {
@@ -29,6 +30,8 @@ public class WebViewActivity extends Activity {
 	private WebViewFragment webView;
 
 	public void onCreate(final Bundle savedInstanceState) {
+
+		PrefsUtility.applyTheme(this);
 
 		super.onCreate(savedInstanceState);
 

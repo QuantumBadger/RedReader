@@ -80,24 +80,18 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 	private boolean readyToDownloadMore = false;
 	private long timestamp;
 
-	private LoadingView loadingViewFirst, loadingViewLast;
+	private LoadingView loadingView;
 
 	private int postCount = 0;
 	private int postTotalCount = 0;
 
-	private static final int NOTIF_FIRST_DOWNLOAD_NECESSARY = 1,
-			NOTIF_FIRST_DOWNLOAD_START = 2,
-			NOTIF_FIRST_STARTING = 3,
-			NOTIF_FIRST_AGE = 4,
-			NOTIF_FIRST_ERROR = 5,
-			NOTIF_FIRST_PROGRESS = 6,
-			NOTIF_FIRST_DOWNLOAD_DONE = 7,
-			NOTIF_MORE_DOWNLOAD_NECESSARY = 101,
-			NOTIF_MORE_DOWNLOAD_START = 102,
-			NOTIF_MORE_STARTING = 103,
-			NOTIF_MORE_ERROR = 105,
-			NOTIF_MORE_PROGRESS = 106,
-			NOTIF_MORE_DOWNLOAD_DONE = 107;
+	private static final int NOTIF_DOWNLOAD_NECESSARY = 1,
+			NOTIF_DOWNLOAD_START = 2,
+			NOTIF_STARTING = 3,
+			NOTIF_AGE = 4,
+			NOTIF_ERROR = 5,
+			NOTIF_PROGRESS = 6,
+			NOTIF_DOWNLOAD_DONE = 7;
 
 	private final Handler notificationHandler = new Handler(Looper.getMainLooper()) {
 		@Override
@@ -107,20 +101,20 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 
 			// TODO check if attached? if not, queue, and send on "resume"
 			switch(msg.what) {
-				case NOTIF_FIRST_DOWNLOAD_NECESSARY:
-					loadingViewFirst = new LoadingView(context, R.string.download_waiting, true, true);
-					fragmentHeader.addView(loadingViewFirst);
+				case NOTIF_DOWNLOAD_NECESSARY:
+					loadingView = new LoadingView(context, R.string.download_waiting, true, true);
+					listFooterNotifications.addView(loadingView);
 					break;
 
-				case NOTIF_FIRST_DOWNLOAD_START:
-					loadingViewFirst.setIndeterminate(R.string.download_connecting);
+				case NOTIF_DOWNLOAD_START:
+					loadingView.setIndeterminate(R.string.download_connecting);
 					break;
 
-				case NOTIF_FIRST_STARTING:
-					if(loadingViewFirst != null) loadingViewFirst.setIndeterminate(R.string.download_downloadstarting);
+				case NOTIF_STARTING:
+					if(loadingView != null) loadingView.setIndeterminate(R.string.download_downloadstarting);
 					break;
 
-				case NOTIF_FIRST_AGE:
+				case NOTIF_AGE:
 					final TextView cacheNotif = new TextView(context);
 					cacheNotif.setText(context.getString(R.string.listing_cached) + " " + RRTime.formatDateTime((Long) msg.obj));
 					final int paddingPx = General.dpToPixels(context, 6);
@@ -131,46 +125,18 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 					adapter.notifyDataSetChanged();
 					break;
 
-				case NOTIF_FIRST_ERROR:
-					if(loadingViewFirst != null) loadingViewFirst.setDone(R.string.download_failed);
+				case NOTIF_ERROR:
+					if(loadingView != null) loadingView.setDone(R.string.download_failed);
 					final RRError error = (RRError)msg.obj;
 					fragmentHeader.addView(new ErrorView(getSupportActivity(), error));
 					break;
 
-				case NOTIF_FIRST_PROGRESS:
-					if(loadingViewFirst != null) loadingViewFirst.setProgress(R.string.download_loading, (Float) msg.obj);
+				case NOTIF_PROGRESS:
+					if(loadingView != null) loadingView.setProgress(R.string.download_loading, (Float) msg.obj);
 					break;
 
-				case NOTIF_FIRST_DOWNLOAD_DONE:
-					if(loadingViewFirst != null) loadingViewFirst.setDone(R.string.download_done);
-					break;
-
-				case NOTIF_MORE_DOWNLOAD_NECESSARY:
-					loadingViewLast = new LoadingView(context, R.string.download_waiting, true, true);
-					listFooterNotifications.addView(loadingViewLast);
-					break;
-
-				case NOTIF_MORE_DOWNLOAD_START:
-					loadingViewLast.setIndeterminate(R.string.download_connecting);
-					break;
-
-				case NOTIF_MORE_STARTING:
-					if(loadingViewLast != null) loadingViewLast.setIndeterminate(R.string.download_downloadstarting);
-					break;
-
-				case NOTIF_MORE_ERROR:
-					if(loadingViewLast != null) loadingViewLast.setDone(R.string.download_failed);
-					final RRError errorMore = (RRError)msg.obj;
-					listFooterNotifications.addView(new ErrorView(getSupportActivity(), errorMore));
-					break;
-
-				case NOTIF_MORE_PROGRESS:
-					if(loadingViewLast != null) loadingViewLast.setProgress(R.string.download_loading, (Float) msg.obj);
-					break;
-
-				case NOTIF_MORE_DOWNLOAD_DONE:
-					if(loadingViewLast != null) loadingViewLast.setDone(R.string.download_done);
-					listFooterNotifications.removeAllViews();
+				case NOTIF_DOWNLOAD_DONE:
+					if(loadingView != null) loadingView.setDone(R.string.download_done);
 					break;
 			}
 		}
@@ -318,12 +284,12 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 
 		@Override
 		protected void onDownloadNecessary() {
-			notificationHandler.sendMessage(General.handlerMessage(firstDownload ? NOTIF_FIRST_DOWNLOAD_NECESSARY : NOTIF_MORE_DOWNLOAD_NECESSARY, null));
+			notificationHandler.sendMessage(General.handlerMessage(NOTIF_DOWNLOAD_NECESSARY, null));
 		}
 
 		@Override
 		protected void onDownloadStarted() {
-			notificationHandler.sendMessage(General.handlerMessage(firstDownload ? NOTIF_FIRST_DOWNLOAD_START : NOTIF_MORE_DOWNLOAD_START, null));
+			notificationHandler.sendMessage(General.handlerMessage(NOTIF_DOWNLOAD_START, null));
 		}
 
 		@Override
@@ -395,7 +361,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 			}
 
 			final RRError error = new RRError(title, message, t, status);
-			notificationHandler.sendMessage(General.handlerMessage(firstDownload ? NOTIF_FIRST_ERROR : NOTIF_MORE_ERROR, error));
+			notificationHandler.sendMessage(General.handlerMessage(NOTIF_ERROR, error));
 		}
 
 		@Override protected void onProgress(final long bytesRead, final long totalBytes) {}
@@ -404,13 +370,13 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 		@Override
 		public void onJsonParseStarted(final JsonValue value, final long timestamp, final UUID session, final boolean fromCache) {
 
-			notificationHandler.sendMessage(General.handlerMessage(firstDownload ? NOTIF_FIRST_STARTING : NOTIF_MORE_STARTING, null));
+			notificationHandler.sendMessage(General.handlerMessage(NOTIF_STARTING, null));
 
 			postTotalCount += 25;
 
 			// TODO pref (currently 10 mins)
 			if(firstDownload && fromCache && RRTime.since(timestamp) > 10 * 60 * 1000) {
-				notificationHandler.sendMessage(General.handlerMessage(NOTIF_FIRST_AGE, timestamp));
+				notificationHandler.sendMessage(General.handlerMessage(NOTIF_AGE, timestamp));
 			} // TODO resuming a copy
 
 			if(firstDownload) {
@@ -457,10 +423,10 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 
 					postCount++;
 					// TODO make specific to this download? don't keep global post count
-					notificationHandler.sendMessage(General.handlerMessage(firstDownload ? NOTIF_FIRST_PROGRESS : NOTIF_MORE_PROGRESS, (float) postCount / (float) postTotalCount));
+					notificationHandler.sendMessage(General.handlerMessage(NOTIF_PROGRESS, (float) postCount / (float) postTotalCount));
 				}
 
-				notificationHandler.sendMessage(General.handlerMessage(firstDownload ? NOTIF_FIRST_DOWNLOAD_DONE : NOTIF_MORE_DOWNLOAD_DONE, null));
+				notificationHandler.sendMessage(General.handlerMessage(NOTIF_DOWNLOAD_DONE, null));
 
 				request = null;
 				readyToDownloadMore = true;

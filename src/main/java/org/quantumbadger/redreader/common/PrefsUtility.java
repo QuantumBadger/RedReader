@@ -164,7 +164,7 @@ public final class PrefsUtility {
 	}
 
 	public static CommentAction pref_behaviour_actions_comment_tap(final Context context, final SharedPreferences sharedPreferences) {
-		return CommentAction.valueOf(getString(R.string.pref_behaviour_actions_comment_tap_key, "collapse", context, sharedPreferences).toUpperCase());
+		return CommentAction.valueOf(getString(R.string.pref_behaviour_actions_comment_tap_key, "action_menu", context, sharedPreferences).toUpperCase());
 	}
 
 	public static boolean pref_behaviour_nsfw(final Context context, final SharedPreferences sharedPreferences) {

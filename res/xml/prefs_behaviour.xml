@@ -41,7 +41,7 @@
                         holo:key="@string/pref_behaviour_actions_comment_tap_key"
                         holo:entries="@array/pref_behaviour_actions_comment"
                         holo:entryValues="@array/pref_behaviour_actions_comment_return"
-                        holo:defaultValue="collapse"/>
+                        holo:defaultValue="action_menu"/>
 
     </PreferenceCategory>
 

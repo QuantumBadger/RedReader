@@ -41,7 +41,7 @@
         <item name="rrPostSubtitleDownvoteCol">#9494FF</item>
         <item name="rrPostCommentsButtonBackCol">#444444</item>
         <item name="rrPostCommentsButtonTextCol">#BBBBBB</item>
-        <item name="rrPostThumbnailBackground">#444444</item>
+        <item name="rrPostThumbnailBackground">#000000</item>
         <item name="rrPostFlingTextCol">#FFFFFF</item>
 
         <!-- Comment -->

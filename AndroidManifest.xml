@@ -17,7 +17,7 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="org.quantumbadger.redreader" android:versionCode="19" android:versionName="1.4.4">
+          package="org.quantumbadger.redreader" android:versionCode="20" android:versionName="1.5.0">
 
     <uses-sdk android:minSdkVersion="8"
               android:targetSdkVersion="16" />

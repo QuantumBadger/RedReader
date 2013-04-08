@@ -40,6 +40,7 @@ import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.AlertDialog;
 import org.holoeverywhere.app.Fragment;
 import org.holoeverywhere.preference.PreferenceManager;
+import org.holoeverywhere.preference.SharedPreferences;
 import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.ListView;
 import org.holoeverywhere.widget.TextView;
@@ -97,6 +98,8 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 	private CacheRequest request;
 
 	private RedditPreparedPost post;
+
+	private float commentFontScale = 1.0f;
 
 	private Context context;
 
@@ -184,6 +187,9 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 		super.onCreateView(inflater, container, savedInstanceState);
 		final Context context = container.getContext();
 
+		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		commentFontScale = PrefsUtility.appearance_fontscale_comments(context, prefs);
+
 		final LinearLayout outer = new LinearLayout(context);
 		outer.setOrientation(android.widget.LinearLayout.VERTICAL);
 
@@ -220,7 +226,7 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 				if(view instanceof RedditCommentView) {
-					switch(PrefsUtility.pref_behaviour_actions_comment_tap(context, PreferenceManager.getDefaultSharedPreferences(context))) {
+					switch(PrefsUtility.pref_behaviour_actions_comment_tap(context, prefs)) {
 						case COLLAPSE:
 							handleCommentVisibilityToggle((RedditCommentView)view);
 							break;
@@ -348,7 +354,7 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 						if(post.is_self && post.selftext != null && post.selftext.trim().length() > 0) {
 
 							selfText = RedditCommentTextParser.parse(StringEscapeUtils.unescapeHtml4(post.selftext))
-									.generate(context, 14f, null, new ActiveTextView.OnLinkClickedListener() {
+									.generate(context, 14f * commentFontScale, null, new ActiveTextView.OnLinkClickedListener() {
 										public void onClick(String url) {
 											if(url != null) LinkHandler.onLinkClicked(getSupportActivity(), url, false);
 										}

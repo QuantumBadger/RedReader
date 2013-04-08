@@ -234,7 +234,7 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 							openContextMenu(view);
 							break;
 					}
-				} else if(position == 0 && !post.src.is_self) {
+				} else if(position == 0 && post != null && !post.src.is_self) {
 					LinkHandler.onLinkClicked(getSupportActivity(), post.url, false);
 				}
 			}

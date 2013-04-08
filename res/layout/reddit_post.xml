@@ -48,7 +48,8 @@
                   android:gravity="center_vertical"
                   android:orientation="horizontal"
                   android:minHeight="64dp"
-                  android:baselineAligned="false">
+                  android:baselineAligned="false"
+                  android:background="?rrListItemBackgroundCol">
 
         <FrameLayout android:layout_width="wrap_content"
                      android:layout_height="match_parent"
@@ -73,7 +74,8 @@
                        android:layout_height="match_parent"
                        android:scaleType="center"
                        android:visibility="gone"
-                       android:background="#99000000"/>
+                       android:background="#99000000"
+                       android:src="@drawable/ic_action_cross_dark"/>
 
         </FrameLayout>
 
@@ -84,7 +86,6 @@
                       android:paddingLeft="2dp"
                       android:paddingRight="2dp"
                       android:gravity="center_vertical"
-                      android:background="?rrListItemBackgroundCol"
                       android:layout_weight="1">
 
             <!-- todo theme color -->

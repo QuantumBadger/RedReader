@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.activities;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import com.actionbarsherlock.view.Menu;
@@ -61,6 +62,8 @@ public class PostListingActivity extends RefreshableActivity
 
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        getWindow().setBackgroundDrawable(new ColorDrawable(getSupportActionBarContext().obtainStyledAttributes(new int[] {R.attr.rrListBackgroundCol}).getColor(0,0)));
 
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		sharedPreferences.registerOnSharedPreferenceChangeListener(this);

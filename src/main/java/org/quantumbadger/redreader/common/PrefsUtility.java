@@ -72,7 +72,7 @@ public final class PrefsUtility {
 	}
 
 	public static enum AppearanceTheme {
-		RED, GREEN, BLUE, GRAY, NIGHT
+		RED, GREEN, BLUE, LTBLUE, ORANGE, GRAY, NIGHT
 	}
 
 	public static AppearanceTheme appearance_theme(final Context context, final SharedPreferences sharedPreferences) {
@@ -94,6 +94,14 @@ public final class PrefsUtility {
 
 			case BLUE:
 				activity.setTheme(R.style.RR_Light_Blue);
+				break;
+
+			case LTBLUE:
+				activity.setTheme(R.style.RR_Light_LtBlue);
+				break;
+
+			case ORANGE:
+				activity.setTheme(R.style.RR_Light_Orange);
 				break;
 
 			case GRAY:

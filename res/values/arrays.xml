@@ -69,19 +69,23 @@
 
     <string-array name="pref_appearance_theme">
         <item>Red</item>
+        <item>Night</item>
         <item>Green</item>
         <item>Blue</item>
+        <item>Light Blue</item>
+        <item>Orange</item>
         <item>Gray</item>
-        <item>Night</item>
     </string-array>
 
     <!-- Constants. Do not change. -->
     <string-array name="pref_appearance_theme_return">
         <item>red</item>
+        <item>night</item>
         <item>green</item>
         <item>blue</item>
+        <item>ltblue</item>
+        <item>orange</item>
         <item>gray</item>
-        <item>night</item>
     </string-array>
 
     <string-array name="pref_cache_maxage">

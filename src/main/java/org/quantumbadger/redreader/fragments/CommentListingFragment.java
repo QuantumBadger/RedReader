@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.text.ClipboardManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -480,6 +481,7 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 				menu.add(Menu.NONE, Action.COMMENT_LINKS.ordinal(), 0, R.string.action_comment_links);
 				menu.add(Menu.NONE, Action.COLLAPSE.ordinal(), 0, R.string.action_collapse);
 				menu.add(Menu.NONE, Action.SHARE.ordinal(), 0, R.string.action_share);
+				menu.add(Menu.NONE, Action.COPY.ordinal(), 0, R.string.action_copy);
 				menu.add(Menu.NONE, Action.USER_PROFILE.ordinal(), 0, R.string.action_user_profile);
 				menu.add(Menu.NONE, Action.PROPERTIES.ordinal(), 0, R.string.action_properties);
 
@@ -529,6 +531,7 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 				menu.add(R.string.action_gotosubreddit).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.GOTO_SUBREDDIT));
 				menu.add(R.string.action_external).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.EXTERNAL));
 				menu.add(R.string.action_share).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.SHARE));
+				menu.add(R.string.action_copy).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.COPY));
 				menu.add(R.string.action_share_comments).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.SHARE_COMMENTS));
 
 				if(post.src.selftext != null && post.src.selftext.length() > 1) menu.add("Links in Self Text").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
@@ -585,7 +588,7 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 	}
 
 	private static enum Action {
-		UPVOTE, UNVOTE, DOWNVOTE, REPORT, SHARE, REPLY, USER_PROFILE, COMMENT_LINKS, COLLAPSE, PROPERTIES
+		UPVOTE, UNVOTE, DOWNVOTE, REPORT, SHARE, COPY, REPLY, USER_PROFILE, COMMENT_LINKS, COLLAPSE, PROPERTIES
 	}
 
 	@Override
@@ -672,6 +675,13 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 				mailer.putExtra(Intent.EXTRA_TEXT, StringEscapeUtils.unescapeHtml4(comment.src.body) + "\r\n\r\nSent using RedReader on Android");
 				startActivityForResult(Intent.createChooser(mailer, context.getString(R.string.action_share)), 1);
 
+				break;
+
+			case COPY:
+
+				ClipboardManager manager = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+				// TODO this currently just dumps the markdown
+				manager.setText(StringEscapeUtils.unescapeHtml4(comment.src.body));
 				break;
 
 			case COLLAPSE:

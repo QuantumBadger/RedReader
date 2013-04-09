@@ -502,7 +502,7 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 				final Intent mailer = new Intent(Intent.ACTION_SEND);
 				mailer.setType("text/plain");
 				mailer.putExtra(Intent.EXTRA_SUBJECT, post.title);
-				mailer.putExtra(Intent.EXTRA_TEXT, post.url + "\r\n\r\nSent using RedReader on Android");
+				mailer.putExtra(Intent.EXTRA_TEXT, post.url);
 				context.startActivity(Intent.createChooser(mailer, "Share Post")); // TODO string
 				break;
 			}
@@ -512,7 +512,7 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 				final Intent mailer = new Intent(Intent.ACTION_SEND);
 				mailer.setType("text/plain");
 				mailer.putExtra(Intent.EXTRA_SUBJECT, "Comments for " + post.title);
-				mailer.putExtra(Intent.EXTRA_TEXT, Constants.Reddit.getUri(Constants.Reddit.PATH_COMMENTS + post.idAlone).toString() + "\r\n\r\nSent using RedReader on Android");
+				mailer.putExtra(Intent.EXTRA_TEXT, Constants.Reddit.getUri(Constants.Reddit.PATH_COMMENTS + post.idAlone).toString());
 				context.startActivity(Intent.createChooser(mailer, "Share Comments")); // TODO string
 				break;
 			}

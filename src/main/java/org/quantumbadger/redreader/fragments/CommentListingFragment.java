@@ -672,7 +672,7 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 				mailer.putExtra(Intent.EXTRA_SUBJECT, "Comment by " + comment.src.author + " on Reddit");
 
 				// TODO this currently just dumps the markdown
-				mailer.putExtra(Intent.EXTRA_TEXT, StringEscapeUtils.unescapeHtml4(comment.src.body) + "\r\n\r\nSent using RedReader on Android");
+				mailer.putExtra(Intent.EXTRA_TEXT, StringEscapeUtils.unescapeHtml4(comment.src.body));
 				startActivityForResult(Intent.createChooser(mailer, context.getString(R.string.action_share)), 1);
 
 				break;

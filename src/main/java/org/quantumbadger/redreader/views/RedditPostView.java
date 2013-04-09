@@ -27,6 +27,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.text.ClipboardManager;
 import android.util.TypedValue;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -86,7 +87,7 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 	private final int offsetBeginAllowed, offsetActionPerformed;
 
 	public static enum Action {
-		UPVOTE, UNVOTE, DOWNVOTE, SAVE, HIDE, UNSAVE, UNHIDE, REPORT, SHARE, REPLY, USER_PROFILE, EXTERNAL, PROPERTIES, COMMENTS, LINK, SHARE_COMMENTS, GOTO_SUBREDDIT, ACTION_MENU
+		UPVOTE, UNVOTE, DOWNVOTE, SAVE, HIDE, UNSAVE, UNHIDE, REPORT, SHARE, REPLY, USER_PROFILE, EXTERNAL, PROPERTIES, COMMENTS, LINK, SHARE_COMMENTS, GOTO_SUBREDDIT, ACTION_MENU, COPY
 	}
 
 	private final class ActionDescriptionPair {
@@ -411,6 +412,7 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 		menu.add(new RPVMenuItem(context, R.string.action_gotosubreddit, Action.GOTO_SUBREDDIT));
 		menu.add(new RPVMenuItem(context, R.string.action_share, Action.SHARE));
 		menu.add(new RPVMenuItem(context, R.string.action_share_comments, Action.SHARE_COMMENTS));
+		menu.add(new RPVMenuItem(context, R.string.action_copy, Action.COPY));
 		menu.add(new RPVMenuItem(context, R.string.action_user_profile, Action.USER_PROFILE));
 		menu.add(new RPVMenuItem(context, R.string.action_properties, Action.PROPERTIES));
 
@@ -512,6 +514,13 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 				mailer.putExtra(Intent.EXTRA_SUBJECT, "Comments for " + post.title);
 				mailer.putExtra(Intent.EXTRA_TEXT, Constants.Reddit.getUri(Constants.Reddit.PATH_COMMENTS + post.idAlone).toString() + "\r\n\r\nSent using RedReader on Android");
 				context.startActivity(Intent.createChooser(mailer, "Share Comments")); // TODO string
+				break;
+			}
+
+			case COPY: {
+
+				ClipboardManager manager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+				manager.setText(post.url);
 				break;
 			}
 

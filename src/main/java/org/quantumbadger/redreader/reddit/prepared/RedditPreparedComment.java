@@ -215,9 +215,6 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 			case DOWNVOTE: voteDirection = -1; break;
 			case UNVOTE: voteDirection = 0; break;
 			case UPVOTE: voteDirection = 1; break;
-
-			default:
-				throw new RuntimeException("Unknown comment action");
 		}
 
 		refreshView();
@@ -268,9 +265,6 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 							case UNVOTE:
 							case UPVOTE:
 								voteDirection = lastVoteDirection; break;
-
-							default:
-								throw new RuntimeException("Unknown comment action");
 						}
 					}
 

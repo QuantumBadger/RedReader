@@ -52,7 +52,7 @@ public class AccountListDialog extends DialogFragment implements RedditAccountCh
 		final Context context = getSupportActivity();
 
 		final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setTitle(context.getString(R.string.options_accounts));
+		builder.setTitle(context.getString(R.string.options_accounts_long));
 
 		lv = new ListView(context);
 		builder.setView(lv);

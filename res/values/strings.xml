@@ -231,6 +231,9 @@
     <string name="action_report">Report</string>
     <string name="action_report_sure">Are you sure you want to report this?</string>
 
+    <string name="action_save_image">Save Image</string>
+    <string name="action_save_image_success">Saved to Pictures folder as</string>
+
     <!-- Download Messages -->
 
     <string name="download_waiting">Waiting…</string>

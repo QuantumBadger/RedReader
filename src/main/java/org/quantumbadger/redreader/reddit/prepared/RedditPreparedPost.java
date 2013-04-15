@@ -812,7 +812,7 @@ public final class RedditPreparedPost {
 		final EnumMap<Action, Integer> iconsLight = new EnumMap<Action, Integer>(Action.class);
 		iconsLight.put(Action.ACTION_MENU, R.drawable.ic_action_overflow);
 		iconsLight.put(Action.COMMENTS_SWITCH, R.drawable.ic_action_comments_light);
-		iconsDark.put(Action.LINK_SWITCH, imageUrl != null ? R.drawable.ic_action_image_light : R.drawable.ic_action_page_light);
+		iconsLight.put(Action.LINK_SWITCH, imageUrl != null ? R.drawable.ic_action_image_light : R.drawable.ic_action_page_light);
 		iconsLight.put(Action.UPVOTE, R.drawable.ic_action_thumb_up_light);
 		iconsLight.put(Action.DOWNVOTE, R.drawable.ic_action_thumb_down_light);
 		iconsLight.put(Action.SAVE, R.drawable.ic_action_star_filled_light);

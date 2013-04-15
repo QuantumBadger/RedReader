@@ -19,14 +19,14 @@ package org.quantumbadger.redreader.views.bezelmenu;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.widget.ImageButton;
+import android.view.View;
 import android.widget.ScrollView;
 import org.holoeverywhere.widget.FrameLayout;
 import org.holoeverywhere.widget.LinearLayout;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.common.General;
 
 public class VerticalToolbar extends FrameLayout {
+
+	private final LinearLayout buttons;
 
 	public VerticalToolbar(Context context) {
 
@@ -35,23 +35,15 @@ public class VerticalToolbar extends FrameLayout {
 		setBackgroundColor(Color.argb(192, 0, 0, 0)); // TODO change color based on theme?
 		// TODO add light, vertical line on swipe side
 
-		final LinearLayout ll = new LinearLayout(context);
-		ll.setOrientation(android.widget.LinearLayout.VERTICAL);
-
-		for(int i = 0; i < 20; i++) {
-
-			final ImageButton ib = new ImageButton(context);
-			ib.setImageResource(R.drawable.ic_action_thumb_up_dark);
-			ib.setBackgroundColor(Color.TRANSPARENT); // Need to be able to change color if upvoted/downvoted/saved/hidden/etc
-			ll.addView(ib);
-
-			final int buttonPadding = General.dpToPixels(context, 12);
-
-			ib.setPadding(buttonPadding, buttonPadding, buttonPadding, buttonPadding);
-		}
+		buttons = new LinearLayout(context);
+		buttons.setOrientation(android.widget.LinearLayout.VERTICAL);
 
 		final ScrollView sv = new ScrollView(context);
-		sv.addView(ll);
+		sv.addView(buttons);
 		addView(sv);
+	}
+
+	public void addItem(View v) {
+		buttons.addView(v);
 	}
 }

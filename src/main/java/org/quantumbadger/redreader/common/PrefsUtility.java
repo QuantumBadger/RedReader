@@ -24,18 +24,22 @@ import org.holoeverywhere.preference.SharedPreferences;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.*;
 
 public final class PrefsUtility {
+
+	private static <E> Set<E> setFromArray(E[] data) {
+		final HashSet<E> result = new HashSet<E>(data.length);
+		Collections.addAll(result, data);
+		return result;
+	}
 
 	private static String getString(final int id, final String defaultValue, final Context context, final SharedPreferences sharedPreferences) {
 		return sharedPreferences.getString(context.getString(id), defaultValue);
 	}
 
-	private static Set<String> getStringSet(final int id, final Set<String> defaultValue, final Context context, final SharedPreferences sharedPreferences) {
-		return sharedPreferences.getStringSet(context.getString(id), defaultValue);
+	private static Set<String> getStringSet(final int id, final int defaultArrayRes, final Context context, final SharedPreferences sharedPreferences) {
+		return sharedPreferences.getStringSet(context.getString(id), setFromArray(context.getResources().getStringArray(defaultArrayRes)));
 	}
 
 	private static boolean getBoolean(final int id, final boolean defaultValue, final Context context, final SharedPreferences sharedPreferences) {
@@ -234,7 +238,17 @@ public final class PrefsUtility {
 
 	public static EnumSet<RedditPreparedPost.Action> pref_menus_post_context_items(final Context context, final SharedPreferences sharedPreferences) {
 
-		final Set<String> strings = getStringSet(R.string.pref_menus_post_context_items_key, null, context, sharedPreferences);
+		final Set<String> strings = getStringSet(R.string.pref_menus_post_context_items_key, R.array.pref_menus_post_context_items_return, context, sharedPreferences);
+
+		final EnumSet<RedditPreparedPost.Action> result = EnumSet.noneOf(RedditPreparedPost.Action.class);
+		for(String s : strings) result.add(RedditPreparedPost.Action.valueOf(s.toUpperCase()));
+
+		return result;
+	}
+
+	public static EnumSet<RedditPreparedPost.Action> pref_menus_post_toolbar_items(final Context context, final SharedPreferences sharedPreferences) {
+
+		final Set<String> strings = getStringSet(R.string.pref_menus_post_toolbar_items_key, R.array.pref_menus_post_toolbar_items_return, context, sharedPreferences);
 
 		final EnumSet<RedditPreparedPost.Action> result = EnumSet.noneOf(RedditPreparedPost.Action.class);
 		for(String s : strings) result.add(RedditPreparedPost.Action.valueOf(s.toUpperCase()));

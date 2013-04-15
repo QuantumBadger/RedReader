@@ -31,6 +31,8 @@ import android.os.Looper;
 import android.text.ClipboardManager;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.http.StatusLine;
@@ -42,6 +44,7 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BugReportActivity;
+import org.quantumbadger.redreader.activities.CommentReplyActivity;
 import org.quantumbadger.redreader.activities.PostListingActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
@@ -56,14 +59,13 @@ import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.views.RedditPostView;
+import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
+import org.quantumbadger.redreader.views.bezelmenu.VerticalToolbar;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.UUID;
+import java.util.*;
 
 public final class RedditPreparedPost {
 
@@ -99,7 +101,7 @@ public final class RedditPreparedPost {
 	private RedditPostView boundView = null;
 
 	public static enum Action {
-		UPVOTE, UNVOTE, DOWNVOTE, SAVE, HIDE, UNSAVE, UNHIDE, REPORT, SHARE, REPLY, USER_PROFILE, EXTERNAL, PROPERTIES, COMMENTS, LINK, SHARE_COMMENTS, GOTO_SUBREDDIT, ACTION_MENU, SAVE_IMAGE, COPY, SELFTEXT_LINKS
+		UPVOTE, UNVOTE, DOWNVOTE, SAVE, HIDE, UNSAVE, UNHIDE, REPORT, SHARE, REPLY, USER_PROFILE, EXTERNAL, PROPERTIES, COMMENTS, LINK, COMMENTS_SWITCH, LINK_SWITCH, SHARE_COMMENTS, GOTO_SUBREDDIT, ACTION_MENU, SAVE_IMAGE, COPY, SELFTEXT_LINKS
 	}
 
 	// TODO too many parameters
@@ -429,8 +431,20 @@ public final class RedditPreparedPost {
 				((PostListingFragment)fragmentParent).onPostSelected(post);
 				break;
 
+			case COMMENTS_SWITCH:
+				throw new UnsupportedOperationException(); // TODO
+
+			case LINK_SWITCH:
+				throw new UnsupportedOperationException(); // TODO
+
 			case ACTION_MENU:
 				showActionMenu(activity, fragmentParent, post);
+				break;
+
+			case REPLY:
+				final Intent intent = new Intent(activity, CommentReplyActivity.class);
+				intent.putExtra("parentIdAndType", post.idAndType);
+				activity.startActivity(intent);
 				break;
 		}
 	}
@@ -742,5 +756,118 @@ public final class RedditPreparedPost {
 			this.title = context.getString(titleRes);
 			this.action = action;
 		}
+	}
+
+	public VerticalToolbar generateToolbar(final Context context, final Fragment fragmentParent, final SideToolbarOverlay overlay) {
+
+		final VerticalToolbar toolbar = new VerticalToolbar(context);
+		final EnumSet<Action> itemsPref = PrefsUtility.pref_menus_post_toolbar_items(context, PreferenceManager.getDefaultSharedPreferences(context));
+
+		final Action[] possibleItems = {
+				Action.ACTION_MENU,
+				Action.UPVOTE,
+				Action.DOWNVOTE,
+				Action.SAVE,
+				Action.HIDE,
+				Action.REPLY,
+				Action.EXTERNAL,
+				Action.SAVE_IMAGE,
+				Action.SHARE,
+				Action.COPY,
+				Action.USER_PROFILE,
+				Action.PROPERTIES
+		};
+
+		// TODO make static
+		final EnumMap<Action, Integer> iconsDark = new EnumMap<Action, Integer>(Action.class);
+		iconsDark.put(Action.ACTION_MENU, R.drawable.ic_action_overflow);
+		iconsDark.put(Action.UPVOTE, R.drawable.ic_action_thumb_up_dark);
+		iconsDark.put(Action.DOWNVOTE, R.drawable.ic_action_thumb_down_dark);
+		iconsDark.put(Action.SAVE, R.drawable.ic_action_star_filled_dark);
+		iconsDark.put(Action.HIDE, R.drawable.ic_action_cross_dark);
+		iconsDark.put(Action.REPLY, R.drawable.ic_action_reply_dark);
+		iconsDark.put(Action.EXTERNAL, R.drawable.icon);
+		iconsDark.put(Action.SAVE_IMAGE, R.drawable.icon);
+		iconsDark.put(Action.SHARE, R.drawable.ic_action_share_dark);
+		iconsDark.put(Action.COPY, R.drawable.icon);
+		iconsDark.put(Action.USER_PROFILE, R.drawable.ic_action_person_dark);
+		iconsDark.put(Action.PROPERTIES, R.drawable.ic_action_info_dark);
+
+		final EnumMap<Action, Integer> iconsLight = new EnumMap<Action, Integer>(Action.class);
+		iconsLight.put(Action.ACTION_MENU, R.drawable.ic_action_overflow);
+		iconsLight.put(Action.UPVOTE, R.drawable.ic_action_thumb_up_light);
+		iconsLight.put(Action.DOWNVOTE, R.drawable.ic_action_thumb_down_light);
+		iconsLight.put(Action.SAVE, R.drawable.ic_action_star_filled_light);
+		iconsLight.put(Action.HIDE, R.drawable.ic_action_cross_light);
+		iconsLight.put(Action.REPLY, R.drawable.ic_action_reply_light);
+		iconsLight.put(Action.EXTERNAL, R.drawable.icon);
+		iconsLight.put(Action.SAVE_IMAGE, R.drawable.icon);
+		iconsLight.put(Action.SHARE, R.drawable.ic_action_share_light);
+		iconsLight.put(Action.COPY, R.drawable.icon);
+		iconsLight.put(Action.USER_PROFILE, R.drawable.ic_action_person_light);
+		iconsLight.put(Action.PROPERTIES, R.drawable.ic_action_info_light);
+
+		for(final Action action : possibleItems) {
+
+			if(action == Action.SAVE_IMAGE && imageUrl == null) continue;
+
+			if(itemsPref.contains(action)) {
+
+				final ImageButton ib = new ImageButton(context);
+
+				final int buttonPadding = General.dpToPixels(context, 10);
+				ib.setPadding(buttonPadding, buttonPadding, buttonPadding, buttonPadding);
+
+				if(action == Action.UPVOTE && isUpvoted()
+						|| action == Action.DOWNVOTE && isDownvoted()
+						|| action == Action.SAVE && isSaved()
+						|| action == Action.HIDE && isHidden()) {
+
+					ib.setBackgroundColor(Color.WHITE);
+					ib.setImageResource(iconsLight.get(action));
+
+				} else {
+					ib.setImageResource(iconsDark.get(action));
+					// TODO highlight on click
+					ib.setBackgroundColor(Color.TRANSPARENT);
+				}
+
+				ib.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+
+						final Action actionToTake;
+
+						switch(action) {
+							case UPVOTE:
+								actionToTake = isUpvoted() ? Action.UNVOTE : Action.UPVOTE;
+								break;
+
+							case DOWNVOTE:
+								actionToTake = isDownvoted() ? Action.UNVOTE : Action.DOWNVOTE;
+								break;
+
+							case SAVE:
+								actionToTake = isSaved() ? Action.UNSAVE : Action.SAVE;
+								break;
+
+							case HIDE:
+								actionToTake = isHidden() ? Action.UNHIDE : Action.HIDE;
+								break;
+
+							default:
+								actionToTake = action;
+								break;
+						}
+
+						onActionMenuItemSelected(RedditPreparedPost.this, fragmentParent, actionToTake);
+						overlay.hide();
+					}
+				});
+
+				toolbar.addItem(ib);
+			}
+		}
+
+		return toolbar;
 	}
 }

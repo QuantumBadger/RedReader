@@ -180,4 +180,39 @@
         <item>properties</item>
     </string-array>
 
+    <string-array name="pref_menus_post_toolbar_items">
+        <item>@string/action_actionmenu</item>
+        <item>@string/action_comments_switch</item>
+        <item>@string/action_link_switch</item>
+        <item>@string/action_upvote</item>
+        <item>@string/action_downvote</item>
+        <item>@string/action_save</item>
+        <item>@string/action_hide</item>
+        <item>@string/action_reply</item>
+        <item>@string/action_external</item>
+        <item>@string/action_save_image</item>
+        <item>@string/action_share</item>
+        <item>@string/action_copy</item>
+        <item>@string/action_user_profile</item>
+        <item>@string/action_properties</item>
+    </string-array>
+
+    <!-- Constants. Do not change. -->
+    <string-array name="pref_menus_post_toolbar_items_return">
+        <item>action_menu</item>
+        <item>comments_switch</item>
+        <item>link_switch</item>
+        <item>upvote</item>
+        <item>downvote</item>
+        <item>save</item>
+        <item>hide</item>
+        <item>reply</item>
+        <item>external</item>
+        <item>save_image</item>
+        <item>share</item>
+        <item>copy</item>
+        <item>user_profile</item>
+        <item>properties</item>
+    </string-array>
+
 </resources>

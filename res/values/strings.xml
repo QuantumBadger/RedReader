@@ -114,6 +114,9 @@
     <string name="pref_menus_post_context_items_key">pref_menus_post_context_items</string>
     <string name="pref_menus_post_context_items_title">Post Context Menu Items</string>
 
+    <string name="pref_menus_post_toolbar_items_key">pref_menus_post_toolbar_items</string>
+    <string name="pref_menus_post_toolbar_items_title">Post Toolbar Items</string>
+
     <!-- Options Menu -->
 
     <string name="options_accounts">Accounts</string>
@@ -230,8 +233,10 @@
     <string name="action_user_profile_short">User</string>
     <string name="action_properties">Properties</string>
     <string name="action_comments">View Comments</string>
+    <string name="action_comments_switch">Switch To Comments</string>
     <string name="action_comments_short">Comments</string>
     <string name="action_link">Open Link</string>
+    <string name="action_link_switch">Switch To Link</string>
     <string name="action_link_short">Link</string>
     <string name="action_collapse">Toggle Collapse</string>
     <string name="action_nothing">Do Nothing</string>

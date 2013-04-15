@@ -45,4 +45,12 @@
         holo:entryValues="@array/pref_menus_post_context_items_return"
         holo:defaultValue="@array/pref_menus_post_context_items_return" />
 
+    <MultiSelectListPreference
+        holo:dialogTitle="@string/pref_menus_post_toolbar_items_title"
+        holo:key="@string/pref_menus_post_toolbar_items_key"
+        holo:title="@string/pref_menus_post_toolbar_items_title"
+        holo:entries="@array/pref_menus_post_toolbar_items"
+        holo:entryValues="@array/pref_menus_post_toolbar_items_return"
+        holo:defaultValue="@array/pref_menus_post_toolbar_items_return" />
+
 </PreferenceScreen>

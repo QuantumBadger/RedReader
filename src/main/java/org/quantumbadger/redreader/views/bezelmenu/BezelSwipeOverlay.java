@@ -6,8 +6,9 @@ import android.view.View;
 
 public class BezelSwipeOverlay extends View {
 
-	private boolean interceptTaps = false;
 	private final BezelSwipeListener listener;
+
+	public static enum SwipeEdge {LEFT, RIGHT}
 
 	public BezelSwipeOverlay(Context context, BezelSwipeListener listener) {
 		super(context);
@@ -21,18 +22,14 @@ public class BezelSwipeOverlay extends View {
 
 		if(action == MotionEvent.ACTION_DOWN) {
 
-			if(interceptTaps) {
-				interceptTaps = listener.onTap();
-				return true;
-
-			} else if(event.getX() < 5) {
-				interceptTaps = listener.onLeftSwipe();
-				return true;
+			if(event.getX() < 5) {
+				return listener.onSwipe(SwipeEdge.LEFT);
 
 			} else if(event.getX() > getWidth() - 5) {
-				interceptTaps = listener.onRightSwipe();
-				return true;
+				return listener.onSwipe(SwipeEdge.RIGHT);
 
+			} else {
+				return listener.onTap();
 			}
 		}
 
@@ -40,8 +37,7 @@ public class BezelSwipeOverlay extends View {
 	}
 
 	public interface BezelSwipeListener {
-		public boolean onLeftSwipe();
-		public boolean onRightSwipe();
+		public boolean onSwipe(SwipeEdge edge);
 		public boolean onTap();
 	}
 }

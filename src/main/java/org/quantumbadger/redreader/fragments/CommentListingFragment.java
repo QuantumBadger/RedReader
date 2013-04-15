@@ -257,18 +257,24 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 
 
 		final BezelSwipeOverlay bezelOverlay = new BezelSwipeOverlay(context, new BezelSwipeOverlay.BezelSwipeListener() {
-			public boolean onLeftSwipe() {
-				toolbarOverlay.show(SideToolbarOverlay.SideToolbarPosition.LEFT);
-				return true;
-			}
 
-			public boolean onRightSwipe() {
-				toolbarOverlay.show(SideToolbarOverlay.SideToolbarPosition.RIGHT);
+			public boolean onSwipe(BezelSwipeOverlay.SwipeEdge edge) {
+
+				if(post == null) return false;
+
+				toolbarOverlay.setContents(post.generateToolbar(context, CommentListingFragment.this, toolbarOverlay));
+				toolbarOverlay.show(edge == BezelSwipeOverlay.SwipeEdge.LEFT ?
+						SideToolbarOverlay.SideToolbarPosition.LEFT : SideToolbarOverlay.SideToolbarPosition.RIGHT);
 				return true;
 			}
 
 			public boolean onTap() {
-				toolbarOverlay.hide();
+
+				if(toolbarOverlay.isShown()) {
+					toolbarOverlay.hide();
+					return true;
+				}
+
 				return false;
 			}
 		});

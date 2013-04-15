@@ -468,10 +468,17 @@ public final class RedditPreparedPost {
 		final BetterSSB postListDescSb = new BetterSSB();
 
 		final int pointsCol;
+		int score = src.score;
+
+		if(Boolean.TRUE.equals(src.likes)) score--;
+		if(Boolean.FALSE.equals(src.likes)) score++;
+
 		if(isUpvoted()) {
 			pointsCol = rrPostSubtitleUpvoteCol;
+			score++;
 		} else if(isDownvoted()) {
 			pointsCol = rrPostSubtitleDownvoteCol;
+			score--;
 		} else {
 			pointsCol = boldCol;
 		}
@@ -482,7 +489,7 @@ public final class RedditPreparedPost {
 			postListDescSb.append("  ", 0);
 		}
 
-		postListDescSb.append(String.valueOf(src.score), BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, pointsCol, 0, 1f);
+		postListDescSb.append(String.valueOf(score), BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, pointsCol, 0, 1f);
 		postListDescSb.append(" pts ", 0);
 		postListDescSb.append(RRTime.formatDurationMs(RRTime.utcCurrentTimeMillis() - src.created_utc * 1000), BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, boldCol, 0, 1f);
 		postListDescSb.append(" ago by ", 0);

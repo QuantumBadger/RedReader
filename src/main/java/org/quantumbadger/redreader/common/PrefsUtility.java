@@ -185,11 +185,11 @@ public final class PrefsUtility {
 	}
 
 	public static PostFlingAction pref_behaviour_fling_post_left(final Context context, final SharedPreferences sharedPreferences) {
-		return PostFlingAction.valueOf(getString(R.string.pref_behaviour_fling_post_left_key, "save", context, sharedPreferences).toUpperCase());
+		return PostFlingAction.valueOf(getString(R.string.pref_behaviour_fling_post_left_key, "downvote", context, sharedPreferences).toUpperCase());
 	}
 
 	public static PostFlingAction pref_behaviour_fling_post_right(final Context context, final SharedPreferences sharedPreferences) {
-		return PostFlingAction.valueOf(getString(R.string.pref_behaviour_fling_post_right_key, "hide", context, sharedPreferences).toUpperCase());
+		return PostFlingAction.valueOf(getString(R.string.pref_behaviour_fling_post_right_key, "upvote", context, sharedPreferences).toUpperCase());
 	}
 
 	public static enum CommentAction {

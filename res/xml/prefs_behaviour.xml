@@ -25,13 +25,13 @@
                         holo:key="@string/pref_behaviour_fling_post_left_key"
                         holo:entries="@array/pref_behaviour_fling_post_actions"
                         holo:entryValues="@array/pref_behaviour_fling_post_actions_return"
-                        holo:defaultValue="upvote"/>
+                        holo:defaultValue="downvote"/>
 
         <ListPreference holo:title="@string/pref_behaviour_fling_post_right_title"
                         holo:key="@string/pref_behaviour_fling_post_right_key"
                         holo:entries="@array/pref_behaviour_fling_post_actions"
                         holo:entryValues="@array/pref_behaviour_fling_post_actions_return"
-                        holo:defaultValue="downvote"/>
+                        holo:defaultValue="upvote"/>
 
     </PreferenceCategory>
 

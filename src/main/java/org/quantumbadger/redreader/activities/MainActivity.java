@@ -347,7 +347,7 @@ public class MainActivity extends RefreshableActivity
 		if(post.isSelf()) {
 			onPostCommentsSelected(post);
 		} else {
-			LinkHandler.onLinkClicked(this, post.url, false);
+			LinkHandler.onLinkClicked(this, post.url, false, post.src);
 		}
 	}
 

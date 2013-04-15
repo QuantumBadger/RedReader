@@ -73,7 +73,6 @@ import org.quantumbadger.redreader.views.RedditCommentView;
 import org.quantumbadger.redreader.views.RedditPostHeaderView;
 import org.quantumbadger.redreader.views.bezelmenu.BezelSwipeOverlay;
 import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
-import org.quantumbadger.redreader.views.bezelmenu.VerticalToolbar;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
 import org.quantumbadger.redreader.views.liststatus.LoadingView;
 
@@ -251,10 +250,6 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 		outerFrame.addView(outer);
 
 		final SideToolbarOverlay toolbarOverlay = new SideToolbarOverlay(context);
-		VerticalToolbar toolbar = new VerticalToolbar(context);
-
-		toolbarOverlay.setContents(toolbar);
-
 
 		final BezelSwipeOverlay bezelOverlay = new BezelSwipeOverlay(context, new BezelSwipeOverlay.BezelSwipeListener() {
 
@@ -542,7 +537,7 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 	}
 
 	public void onClick(String url) {
-		if(url != null) LinkHandler.onLinkClicked(getSupportActivity(), url, false);
+		if(url != null) LinkHandler.onLinkClicked(getSupportActivity(), url, false, post.src);
 	}
 
 	private static enum Action {

@@ -25,6 +25,7 @@ import org.quantumbadger.redreader.activities.ImageViewActivity;
 import org.quantumbadger.redreader.activities.PostListingActivity;
 import org.quantumbadger.redreader.activities.WebViewActivity;
 import org.quantumbadger.redreader.fragments.UserProfileDialog;
+import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 
 import java.util.HashSet;
@@ -41,6 +42,10 @@ public class LinkHandler {
 			shortSubredditPattern = Pattern.compile("^/?r/(\\w+).*");
 
 	public static void onLinkClicked(Activity activity, String url, boolean forceNoImage) {
+		onLinkClicked(activity, url, forceNoImage, null);
+	}
+
+	public static void onLinkClicked(Activity activity, String url, boolean forceNoImage, RedditPost post) {
 
 		if(!forceNoImage) {
 			final String imageUrl = getImageUrl(url);
@@ -100,6 +105,7 @@ public class LinkHandler {
 		} else {
 			final Intent intent = new Intent(activity, WebViewActivity.class);
 			intent.putExtra("url", url);
+			intent.putExtra("post", post);
 			activity.startActivity(intent);
 		}
 	}

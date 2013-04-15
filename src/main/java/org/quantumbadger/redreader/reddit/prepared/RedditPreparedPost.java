@@ -306,7 +306,7 @@ public final class RedditPreparedPost {
 					final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 					builder.setItems(linksArr, new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int which) {
-							LinkHandler.onLinkClicked(activity, linksArr[which], false);
+							LinkHandler.onLinkClicked(activity, linksArr[which], false, post.src);
 							dialog.dismiss();
 						}
 					});
@@ -691,7 +691,8 @@ public final class RedditPreparedPost {
 					@Override
 					protected void onSuccess() {
 						lastChange = RRTime.utcCurrentTimeMillis();
-						RedditChangeDataManager.getInstance(context).update(parentSubreddit.url, user, RedditPreparedPost.this, true);
+						RedditChangeDataManager.getInstance(context).update(parentSubreddit == null ? null : parentSubreddit.url,
+								user, RedditPreparedPost.this, true);
 					}
 
 					private void revertOnFailure() {

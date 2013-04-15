@@ -127,7 +127,7 @@ public class PostListingActivity extends RefreshableActivity
 	}
 
 	public void onPostSelected(final RedditPreparedPost post) {
-		LinkHandler.onLinkClicked(this, post.url, false);
+		LinkHandler.onLinkClicked(this, post.url, false, post.src);
 	}
 
 	public void onPostCommentsSelected(final RedditPreparedPost post) {

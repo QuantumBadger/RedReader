@@ -24,6 +24,7 @@ import org.holoeverywhere.app.Activity;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.WebViewFragment;
+import org.quantumbadger.redreader.reddit.things.RedditPost;
 
 public class WebViewActivity extends Activity {
 
@@ -38,12 +39,13 @@ public class WebViewActivity extends Activity {
 		final Intent intent = getIntent();
 
 		final String url = intent.getStringExtra("url");
+		final RedditPost post = intent.getParcelableExtra("post");
 
 		if(url == null) {
 			BugReportActivity.handleGlobalError(this, "No URL");
 		}
 
-		webView = WebViewFragment.newInstance(url);
+		webView = WebViewFragment.newInstance(url, post);
 
 		setContentView(View.inflate(this, R.layout.main_single, null));
 

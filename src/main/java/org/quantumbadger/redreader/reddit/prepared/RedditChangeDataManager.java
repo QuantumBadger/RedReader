@@ -61,7 +61,7 @@ public class RedditChangeDataManager extends SQLiteOpenHelper {
 
 		final String queryString = String.format(
 				"CREATE TABLE %s (" +
-						"%s TEXT PRIMARY KEY ON CONFLICT REPLACE," +
+						"%s TEXT PRIMARY KEY ON CONFLICT UPDATE," +
 						"%s TEXT NOT NULL," +
 						"%s TEXT," +
 						"%s TEXT," +
@@ -169,7 +169,7 @@ public class RedditChangeDataManager extends SQLiteOpenHelper {
 
 		row.put(FIELD_ACTIONS_ID, post.idAndType);
 		row.put(FIELD_ACTIONS_USER, user.username);
-		row.put(FIELD_ACTIONS_PARENT, parent);
+		if(parent != null) row.put(FIELD_ACTIONS_PARENT, parent);
 		row.put(FIELD_ACTIONS_READ, post.isRead() ? 1 : 0);
 		row.put(FIELD_ACTIONS_VOTEDIRECTION, post.getVoteDirection());
 		row.put(FIELD_ACTIONS_SAVED, post.isSaved() ? 1 : 0);

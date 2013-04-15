@@ -22,7 +22,7 @@ import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.preference.SharedPreferences;
 import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.views.RedditPostView;
+import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -232,12 +232,12 @@ public final class PrefsUtility {
 	// pref_menus
 	///////////////////////////////
 
-	public static EnumSet<RedditPostView.Action> pref_menus_post_context_items(final Context context, final SharedPreferences sharedPreferences) {
+	public static EnumSet<RedditPreparedPost.Action> pref_menus_post_context_items(final Context context, final SharedPreferences sharedPreferences) {
 
 		final Set<String> strings = getStringSet(R.string.pref_menus_post_context_items_key, null, context, sharedPreferences);
 
-		final EnumSet<RedditPostView.Action> result = EnumSet.noneOf(RedditPostView.Action.class);
-		for(String s : strings) result.add(RedditPostView.Action.valueOf(s.toUpperCase()));
+		final EnumSet<RedditPreparedPost.Action> result = EnumSet.noneOf(RedditPreparedPost.Action.class);
+		for(String s : strings) result.add(RedditPreparedPost.Action.valueOf(s.toUpperCase()));
 
 		return result;
 	}

@@ -71,7 +71,6 @@ import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.things.RedditThing;
 import org.quantumbadger.redreader.views.RedditCommentView;
 import org.quantumbadger.redreader.views.RedditPostHeaderView;
-import org.quantumbadger.redreader.views.RedditPostView;
 import org.quantumbadger.redreader.views.bezelmenu.BezelSwipeOverlay;
 import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
 import org.quantumbadger.redreader.views.bezelmenu.VerticalToolbar;
@@ -531,7 +530,7 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 					return;
 				}
 
-				RedditPostView.showActionMenu(getSupportActivity(), CommentListingFragment.this, post);
+				RedditPreparedPost.showActionMenu(getSupportActivity(), CommentListingFragment.this, post);
 
 				if(1==1) return;
 

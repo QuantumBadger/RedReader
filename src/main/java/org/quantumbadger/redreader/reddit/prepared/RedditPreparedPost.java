@@ -18,26 +18,38 @@
 package org.quantumbadger.redreader.reddit.prepared;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.ClipboardManager;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.widget.Toast;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.http.StatusLine;
 import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.app.AlertDialog;
+import org.holoeverywhere.app.Fragment;
+import org.holoeverywhere.preference.PreferenceManager;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BugReportActivity;
+import org.quantumbadger.redreader.activities.PostListingActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.*;
+import org.quantumbadger.redreader.fragments.PostListingFragment;
+import org.quantumbadger.redreader.fragments.PostPropertiesDialog;
+import org.quantumbadger.redreader.fragments.UserProfileDialog;
 import org.quantumbadger.redreader.image.ThumbnailScaler;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
@@ -45,7 +57,11 @@ import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.views.RedditPostView;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.UUID;
 
 public final class RedditPreparedPost {
@@ -80,6 +96,10 @@ public final class RedditPreparedPost {
 	private final RedditSubreddit parentSubreddit;
 
 	private RedditPostView boundView = null;
+
+	public static enum Action {
+		UPVOTE, UNVOTE, DOWNVOTE, SAVE, HIDE, UNSAVE, UNHIDE, REPORT, SHARE, REPLY, USER_PROFILE, EXTERNAL, PROPERTIES, COMMENTS, LINK, SHARE_COMMENTS, GOTO_SUBREDDIT, ACTION_MENU, SAVE_IMAGE, COPY
+	}
 
 	// TODO too many parameters
 	public RedditPreparedPost(final Context context, final CacheManager cm, final int listId, final RedditPost post,
@@ -133,6 +153,256 @@ public final class RedditPreparedPost {
 		}
 
 		rebuildSubtitle(context);
+	}
+
+	public static void showActionMenu(final Context context, final Fragment fragmentParent, final RedditPreparedPost post) {
+
+		final EnumSet<Action> itemPref = PrefsUtility.pref_menus_post_context_items(context, PreferenceManager.getDefaultSharedPreferences(context));
+
+		final ArrayList<RPVMenuItem> menu = new ArrayList<RPVMenuItem>();
+
+		if(!RedditAccountManager.getInstance(context).getDefaultAccount().isAnonymous()) {
+
+			if(itemPref.contains(Action.UPVOTE)) {
+				if(!post.isUpvoted()) {
+					menu.add(new RPVMenuItem(context, R.string.action_upvote, Action.UPVOTE));
+				} else {
+					menu.add(new RPVMenuItem(context, R.string.action_upvote_remove, Action.UNVOTE));
+				}
+			}
+
+			if(itemPref.contains(Action.DOWNVOTE)) {
+				if(!post.isDownvoted()) {
+					menu.add(new RPVMenuItem(context, R.string.action_downvote, Action.DOWNVOTE));
+				} else {
+					menu.add(new RPVMenuItem(context, R.string.action_downvote_remove, Action.UNVOTE));
+				}
+			}
+
+			if(itemPref.contains(Action.SAVE)) {
+				if(!post.isSaved()) {
+					menu.add(new RPVMenuItem(context, R.string.action_save, Action.SAVE));
+				} else {
+					menu.add(new RPVMenuItem(context, R.string.action_unsave, Action.UNSAVE));
+				}
+			}
+
+			if(itemPref.contains(Action.HIDE)) {
+				if(!post.isHidden()) {
+					menu.add(new RPVMenuItem(context, R.string.action_hide, Action.HIDE));
+				} else {
+					menu.add(new RPVMenuItem(context, R.string.action_unhide, Action.UNHIDE));
+				}
+			}
+
+			if(itemPref.contains(Action.REPORT)) menu.add(new RPVMenuItem(context, R.string.action_report, Action.REPORT));
+		}
+
+		if(itemPref.contains(Action.EXTERNAL)) menu.add(new RPVMenuItem(context, R.string.action_external, Action.EXTERNAL));
+		if(itemPref.contains(Action.SAVE_IMAGE) && post.imageUrl != null) menu.add(new RPVMenuItem(context, R.string.action_save_image, Action.SAVE_IMAGE));
+		if(itemPref.contains(Action.GOTO_SUBREDDIT)) menu.add(new RPVMenuItem(context, R.string.action_gotosubreddit, Action.GOTO_SUBREDDIT));
+		if(itemPref.contains(Action.SHARE)) menu.add(new RPVMenuItem(context, R.string.action_share, Action.SHARE));
+		if(itemPref.contains(Action.SHARE_COMMENTS)) menu.add(new RPVMenuItem(context, R.string.action_share_comments, Action.SHARE_COMMENTS));
+		if(itemPref.contains(Action.COPY)) menu.add(new RPVMenuItem(context, R.string.action_copy, Action.COPY));
+		if(itemPref.contains(Action.USER_PROFILE)) menu.add(new RPVMenuItem(context, R.string.action_user_profile, Action.USER_PROFILE));
+		if(itemPref.contains(Action.PROPERTIES)) menu.add(new RPVMenuItem(context, R.string.action_properties, Action.PROPERTIES));
+
+		final String[] menuText = new String[menu.size()];
+
+		for(int i = 0; i < menuText.length; i++) {
+			menuText[i] = menu.get(i).title;
+		}
+
+		final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+		builder.setItems(menuText, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				onActionMenuItemSelected(post, fragmentParent, menu.get(which).action);
+			}
+		});
+
+		//builder.setNeutralButton(R.string.dialog_cancel, null);
+
+		final AlertDialog alert = builder.create();
+		alert.setTitle(R.string.action_menu_post_title);
+		alert.setCanceledOnTouchOutside(true);
+		alert.show();
+	}
+
+	public static void onActionMenuItemSelected(final RedditPreparedPost post, final Fragment fragmentParent, final Action action) {
+
+		final Activity activity = fragmentParent.getSupportActivity();
+
+		switch(action) {
+
+			case UPVOTE:
+				post.action(activity, RedditAPI.RedditAction.UPVOTE);
+				break;
+
+			case DOWNVOTE:
+				post.action(activity, RedditAPI.RedditAction.DOWNVOTE);
+				break;
+
+			case UNVOTE:
+				post.action(activity, RedditAPI.RedditAction.UNVOTE);
+				break;
+
+			case SAVE:
+				post.action(activity, RedditAPI.RedditAction.SAVE);
+				break;
+
+			case UNSAVE:
+				post.action(activity, RedditAPI.RedditAction.UNSAVE);
+				break;
+
+			case HIDE:
+				post.action(activity, RedditAPI.RedditAction.HIDE);
+				break;
+
+			case UNHIDE:
+				post.action(activity, RedditAPI.RedditAction.UNHIDE);
+				break;
+
+			case REPORT:
+
+				new AlertDialog.Builder(activity)
+						.setTitle(R.string.action_report)
+						.setMessage(R.string.action_report_sure)
+						.setPositiveButton(R.string.action_report,
+								new DialogInterface.OnClickListener() {
+									public void onClick(final DialogInterface dialog, final int which) {
+										post.action(activity, RedditAPI.RedditAction.REPORT);
+										// TODO update the view to show the result
+										// TODO don't forget, this also hides
+									}
+								})
+						.setNegativeButton(R.string.dialog_cancel, null)
+						.show();
+
+				break;
+
+			case EXTERNAL: {
+				final Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setData(Uri.parse(post.url));
+				activity.startActivity(intent);
+				break;
+			}
+
+			case SAVE_IMAGE: {
+
+				final RedditAccount anon = RedditAccountManager.getAnon();
+
+				CacheManager.getInstance(activity).makeRequest(new CacheRequest(General.uriFromString(post.imageUrl), anon, null,
+						Constants.Priority.IMAGE_VIEW, 0, CacheRequest.DownloadType.IF_NECESSARY,
+						Constants.FileType.IMAGE, false, false, false, activity) {
+
+					@Override
+					protected void onCallbackException(Throwable t) {
+						BugReportActivity.handleGlobalError(context, t);
+					}
+
+					@Override
+					protected void onDownloadNecessary() {
+						General.quickToast(context, R.string.download_downloading);
+					}
+
+					@Override
+					protected void onDownloadStarted() {}
+
+					@Override
+					protected void onFailure(RequestFailureType type, Throwable t, StatusLine status, String readableMessage) {
+						final RRError error = General.getGeneralErrorForFailure(context, type, t, status);
+						General.showResultDialog(activity, error);
+					}
+
+					@Override
+					protected void onProgress(long bytesRead, long totalBytes) {}
+
+					@Override
+					protected void onSuccess(CacheManager.ReadableCacheFile cacheFile, long timestamp, UUID session, boolean fromCache, String mimetype) {
+
+						File dst = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), General.uriFromString(post.imageUrl).getPath());
+
+						if(dst.exists()) {
+							int count = 0;
+
+							while(dst.exists()) {
+								count++;
+								dst = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), count + "_" + General.uriFromString(post.imageUrl).getPath().substring(1));
+							}
+						}
+
+						try {
+							General.copyFile(cacheFile.getInputStream(), dst);
+						} catch(IOException e) {
+							notifyFailure(RequestFailureType.STORAGE, e, null, "Could not copy file");
+							return;
+						}
+
+						General.quickToast(context, context.getString(R.string.action_save_image_success) + " " + dst.getName());
+					}
+				});
+
+				break;
+			}
+
+			case SHARE: {
+
+				final Intent mailer = new Intent(Intent.ACTION_SEND);
+				mailer.setType("text/plain");
+				mailer.putExtra(Intent.EXTRA_SUBJECT, post.title);
+				mailer.putExtra(Intent.EXTRA_TEXT, post.url);
+				activity.startActivity(Intent.createChooser(mailer, "Share Post")); // TODO string
+				break;
+			}
+
+			case SHARE_COMMENTS: {
+
+				final Intent mailer = new Intent(Intent.ACTION_SEND);
+				mailer.setType("text/plain");
+				mailer.putExtra(Intent.EXTRA_SUBJECT, "Comments for " + post.title);
+				mailer.putExtra(Intent.EXTRA_TEXT, Constants.Reddit.getUri(Constants.Reddit.PATH_COMMENTS + post.idAlone).toString());
+				activity.startActivity(Intent.createChooser(mailer, "Share Comments")); // TODO string
+				break;
+			}
+
+			case COPY: {
+
+				ClipboardManager manager = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
+				manager.setText(post.url);
+				break;
+			}
+
+			case GOTO_SUBREDDIT: {
+
+				final RedditSubreddit subreddit = new RedditSubreddit("/r/" + post.src.subreddit, "/r/" + post.src.subreddit, true);
+
+				final Intent intent = new Intent(activity, PostListingActivity.class);
+				intent.putExtra("subreddit", subreddit);
+				activity.startActivityForResult(intent, 1);
+				break;
+			}
+
+			case USER_PROFILE:
+				UserProfileDialog.newInstance(post.src.author).show(fragmentParent.getSupportActivity());
+				break;
+
+			case PROPERTIES:
+				PostPropertiesDialog.newInstance(post.src).show(fragmentParent.getSupportActivity());
+				break;
+
+			case COMMENTS:
+				((PostListingFragment)fragmentParent).onPostCommentsSelected(post);
+				break;
+
+			case LINK:
+				((PostListingFragment)fragmentParent).onPostSelected(post);
+				break;
+
+			case ACTION_MENU:
+				showActionMenu(activity, fragmentParent, post);
+				break;
+		}
 	}
 
 	private void rebuildSubtitle(Context context) {
@@ -432,5 +702,15 @@ public final class RedditPreparedPost {
 		this.saved = saved;
 		this.hidden = hidden;
 		this.read = read;
+	}
+
+	private static class RPVMenuItem {
+		public final String title;
+		public final Action action;
+
+		private RPVMenuItem(Context context, int titleRes, Action action) {
+			this.title = context.getString(titleRes);
+			this.action = action;
+		}
 	}
 }

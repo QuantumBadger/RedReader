@@ -50,6 +50,7 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BugReportActivity;
+import org.quantumbadger.redreader.activities.CommentEditActivity;
 import org.quantumbadger.redreader.activities.CommentReplyActivity;
 import org.quantumbadger.redreader.activities.SessionChangeListener;
 import org.quantumbadger.redreader.adapters.CommentListingAdapter;
@@ -503,8 +504,9 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 			if(info.position > 0) {
 
 				final RedditPreparedComment comment = (RedditPreparedComment)lv.getAdapter().getItem(info.position);
+				final RedditAccount user = RedditAccountManager.getInstance(getSupportActivity()).getDefaultAccount();
 
-				if(!RedditAccountManager.getInstance(getSupportActivity()).getDefaultAccount().isAnonymous()) {
+				if(!user.isAnonymous()) {
 
 					if(!comment.isUpvoted()) {
 						menu.add(Menu.NONE, Action.UPVOTE.ordinal(), 0, R.string.action_upvote);
@@ -520,6 +522,8 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 
 					menu.add(Menu.NONE, Action.REPORT.ordinal(), 0, R.string.action_report);
 					menu.add(Menu.NONE, Action.REPLY.ordinal(), 0, R.string.action_reply);
+
+					if(user.username.equals(comment.src.author)) menu.add(Menu.NONE, Action.EDIT.ordinal(), 0, R.string.action_edit);
 				}
 
 				menu.add(Menu.NONE, Action.COMMENT_LINKS.ordinal(), 0, R.string.action_comment_links);
@@ -546,7 +550,7 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 	}
 
 	private static enum Action {
-		UPVOTE, UNVOTE, DOWNVOTE, REPORT, SHARE, COPY, REPLY, USER_PROFILE, COMMENT_LINKS, COLLAPSE, PROPERTIES
+		UPVOTE, UNVOTE, DOWNVOTE, REPORT, SHARE, COPY, REPLY, USER_PROFILE, COMMENT_LINKS, COLLAPSE, EDIT, PROPERTIES
 	}
 
 	@Override
@@ -590,12 +594,20 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 
 				break;
 
-			case REPLY:
-
+			case REPLY: {
 				final Intent intent = new Intent(getSupportActivity(), CommentReplyActivity.class);
 				intent.putExtra("parentIdAndType", comment.idAndType);
 				startActivity(intent);
 				break;
+			}
+
+			case EDIT: {
+				final Intent intent = new Intent(getSupportActivity(), CommentEditActivity.class);
+				intent.putExtra("commentIdAndType", comment.idAndType);
+				intent.putExtra("commentText", comment.src.body);
+				startActivity(intent);
+				break;
+			}
 
 			case COMMENT_LINKS:
 				final HashSet<String> linksInComment = comment.computeAllLinks();

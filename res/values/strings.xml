@@ -233,6 +233,7 @@
     <string name="action_copy">Copy</string>
     <string name="action_gotosubreddit">Go to Subreddit</string>
     <string name="action_reply">Reply</string>
+    <string name="action_edit">Edit</string>
     <string name="action_user_profile">User Profile</string>
     <string name="action_user_profile_short">User</string>
     <string name="action_properties">Properties</string>
@@ -266,14 +267,16 @@
     <string name="imageview_oom">Out of memory. Trying internal browser.</string>
     <string name="imageview_invalid_gif">Invalid GIF. Trying internal browser.</string>
 
-    <!-- Comment Reply -->
+    <!-- Comment Reply/Edit -->
 
     <string name="comment_reply_send">Send</string>
+    <string name="comment_edit_save">Save</string>
     <string name="comment_reply_preview">Preview</string>
     <string name="comment_reply_submitting_title">Submitting…</string>
     <string name="comment_reply_submitting_message">Just a moment…</string>
-    <string name="comment_reply_oncancel">Waiting for results of send action…</string>
-    <string name="comment_reply_done">Reply sent.</string>
+    <string name="comment_reply_oncancel">Waiting for results of action…</string>
+    <string name="comment_reply_done">Reply sent. The comment will appear after you refresh.</string>
+    <string name="comment_edit_done">Comment edited. Changes will appear after you refresh.</string>
 
     <!-- Bug Reporting -->
 

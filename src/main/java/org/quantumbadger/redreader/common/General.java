@@ -112,7 +112,7 @@ public final class General {
 	public static void quickToast(final Context context, final String text) {
 		new Handler(Looper.getMainLooper()).post(new Runnable() {
 			public void run() {
-				Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+				Toast.makeText(context, text, Toast.LENGTH_LONG).show();
 			}
 		});
 	}

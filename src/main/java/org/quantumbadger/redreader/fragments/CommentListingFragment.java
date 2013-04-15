@@ -531,38 +531,6 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 				}
 
 				RedditPreparedPost.showActionMenu(getSupportActivity(), CommentListingFragment.this, post);
-
-				if(1==1) return;
-
-
-				if(post.src.selftext != null && post.src.selftext.length() > 1) menu.add("Links in Self Text").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-					public boolean onMenuItemClick(MenuItem item) {
-
-						final HashSet<String> linksInComment = LinkHandler.computeAllLinks(StringEscapeUtils.unescapeHtml4(post.src.selftext));
-
-						if(linksInComment.isEmpty()) {
-							General.quickToast(getSupportActivity(), "No URLs found in the self text."); // TODO string
-
-						} else {
-
-							final String[] linksArr = linksInComment.toArray(new String[linksInComment.size()]);
-
-							final AlertDialog.Builder builder = new AlertDialog.Builder(getSupportActivity());
-							builder.setItems(linksArr, new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog, int which) {
-									LinkHandler.onLinkClicked(getSupportActivity(), linksArr[which], false);
-									dialog.dismiss();
-								}
-							});
-
-							final AlertDialog alert = builder.create();
-							alert.setTitle("Links in Self Text");
-							alert.setCanceledOnTouchOutside(true);
-							alert.show();
-						}
-						return true;
-					}
-				});
 			}
 		}
 	}

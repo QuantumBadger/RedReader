@@ -62,6 +62,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.UUID;
 
 public final class RedditPreparedPost {
@@ -98,7 +99,7 @@ public final class RedditPreparedPost {
 	private RedditPostView boundView = null;
 
 	public static enum Action {
-		UPVOTE, UNVOTE, DOWNVOTE, SAVE, HIDE, UNSAVE, UNHIDE, REPORT, SHARE, REPLY, USER_PROFILE, EXTERNAL, PROPERTIES, COMMENTS, LINK, SHARE_COMMENTS, GOTO_SUBREDDIT, ACTION_MENU, SAVE_IMAGE, COPY
+		UPVOTE, UNVOTE, DOWNVOTE, SAVE, HIDE, UNSAVE, UNHIDE, REPORT, SHARE, REPLY, USER_PROFILE, EXTERNAL, PROPERTIES, COMMENTS, LINK, SHARE_COMMENTS, GOTO_SUBREDDIT, ACTION_MENU, SAVE_IMAGE, COPY, SELFTEXT_LINKS
 	}
 
 	// TODO too many parameters
@@ -199,6 +200,7 @@ public final class RedditPreparedPost {
 		}
 
 		if(itemPref.contains(Action.EXTERNAL)) menu.add(new RPVMenuItem(context, R.string.action_external, Action.EXTERNAL));
+		if(itemPref.contains(Action.SELFTEXT_LINKS) && post.src.selftext != null && post.src.selftext.length() > 1) menu.add(new RPVMenuItem(context, R.string.action_selftext_links, Action.SELFTEXT_LINKS));
 		if(itemPref.contains(Action.SAVE_IMAGE) && post.imageUrl != null) menu.add(new RPVMenuItem(context, R.string.action_save_image, Action.SAVE_IMAGE));
 		if(itemPref.contains(Action.GOTO_SUBREDDIT)) menu.add(new RPVMenuItem(context, R.string.action_gotosubreddit, Action.GOTO_SUBREDDIT));
 		if(itemPref.contains(Action.SHARE)) menu.add(new RPVMenuItem(context, R.string.action_share, Action.SHARE));
@@ -285,6 +287,34 @@ public final class RedditPreparedPost {
 				final Intent intent = new Intent(Intent.ACTION_VIEW);
 				intent.setData(Uri.parse(post.url));
 				activity.startActivity(intent);
+				break;
+			}
+
+			case SELFTEXT_LINKS: {
+
+				final HashSet<String> linksInComment = LinkHandler.computeAllLinks(StringEscapeUtils.unescapeHtml4(post.src.selftext));
+
+				if(linksInComment.isEmpty()) {
+					General.quickToast(activity, "No URLs found in the self text."); // TODO string
+
+				} else {
+
+					final String[] linksArr = linksInComment.toArray(new String[linksInComment.size()]);
+
+					final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+					builder.setItems(linksArr, new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+							LinkHandler.onLinkClicked(activity, linksArr[which], false);
+							dialog.dismiss();
+						}
+					});
+
+					final AlertDialog alert = builder.create();
+					alert.setTitle(R.string.action_selftext_links);
+					alert.setCanceledOnTouchOutside(true);
+					alert.show();
+				}
+
 				break;
 			}
 

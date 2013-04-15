@@ -220,6 +220,7 @@
     <string name="action_actionmenu_short">Actions</string>
     <string name="action_actionmenu">Action Menu</string>
     <string name="action_comment_links">Links in Comment</string>
+    <string name="action_selftext_links">Links in Self Text</string>
     <string name="action_share">Share</string>
     <string name="action_share_comments">Share Comments</string>
     <string name="action_copy">Copy</string>

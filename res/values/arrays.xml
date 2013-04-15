@@ -152,6 +152,7 @@
         <item>@string/action_hide</item>
         <item>@string/action_report</item>
         <item>@string/action_external</item>
+        <item>@string/action_selftext_links</item>
         <item>@string/action_save_image</item>
         <item>@string/action_gotosubreddit</item>
         <item>@string/action_share</item>
@@ -169,6 +170,7 @@
         <item>hide</item>
         <item>report</item>
         <item>external</item>
+        <item>selftext_links</item>
         <item>save_image</item>
         <item>goto_subreddit</item>
         <item>share</item>

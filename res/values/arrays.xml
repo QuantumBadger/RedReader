@@ -145,4 +145,37 @@
         <item>2.0</item>
     </string-array>
 
+    <string-array name="pref_menus_post_context_items">
+        <item>@string/action_upvote</item>
+        <item>@string/action_downvote</item>
+        <item>@string/action_save</item>
+        <item>@string/action_hide</item>
+        <item>@string/action_report</item>
+        <item>@string/action_external</item>
+        <item>@string/action_save_image</item>
+        <item>@string/action_gotosubreddit</item>
+        <item>@string/action_share</item>
+        <item>@string/action_share_comments</item>
+        <item>@string/action_copy</item>
+        <item>@string/action_user_profile</item>
+        <item>@string/action_properties</item>
+    </string-array>
+
+    <!-- Constants. Do not change. -->
+    <string-array name="pref_menus_post_context_items_return">
+        <item>upvote</item>
+        <item>downvote</item>
+        <item>save</item>
+        <item>hide</item>
+        <item>report</item>
+        <item>external</item>
+        <item>save_image</item>
+        <item>goto_subreddit</item>
+        <item>share</item>
+        <item>share_comments</item>
+        <item>copy</item>
+        <item>user_profile</item>
+        <item>properties</item>
+    </string-array>
+
 </resources>

@@ -531,47 +531,10 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 					return;
 				}
 
-				if(!RedditAccountManager.getInstance(context).getDefaultAccount().isAnonymous()) {
+				RedditPostView.showActionMenu(getSupportActivity(), CommentListingFragment.this, post);
 
-					if(!post.isUpvoted()) {
-						menu.add(R.string.action_upvote).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.UPVOTE));
-					} else {
-						menu.add(R.string.action_upvote_remove).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.UNVOTE));
-					}
+				if(1==1) return;
 
-					if(!post.isDownvoted()) {
-						menu.add(R.string.action_downvote).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.DOWNVOTE));
-					} else {
-						menu.add(R.string.action_downvote_remove).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.UNVOTE));
-					}
-
-					if(!post.isSaved()) {
-						menu.add(R.string.action_save).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.SAVE));
-					} else {
-						menu.add(R.string.action_unsave).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.UNSAVE));
-					}
-
-					if(!post.isHidden()) {
-						menu.add(R.string.action_hide).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.HIDE));
-					} else {
-						menu.add(R.string.action_unhide).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.UNHIDE));
-					}
-
-					menu.add(R.string.action_report).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.REPORT));
-
-					menu.add(R.string.action_reply).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-						public boolean onMenuItemClick(MenuItem item) {
-							onParentReply();
-							return true;
-						}
-					});
-				}
-
-				menu.add(R.string.action_gotosubreddit).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.GOTO_SUBREDDIT));
-				menu.add(R.string.action_external).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.EXTERNAL));
-				menu.add(R.string.action_share).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.SHARE));
-				menu.add(R.string.action_copy).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.COPY));
-				menu.add(R.string.action_share_comments).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.SHARE_COMMENTS));
 
 				if(post.src.selftext != null && post.src.selftext.length() > 1) menu.add("Links in Self Text").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 					public boolean onMenuItemClick(MenuItem item) {
@@ -601,24 +564,7 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 						return true;
 					}
 				});
-
-				menu.add(R.string.action_user_profile).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.USER_PROFILE));
-				menu.add(R.string.action_properties).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.PROPERTIES));
 			}
-		}
-	}
-
-	private class MenuHandler implements MenuItem.OnMenuItemClickListener {
-
-		private final RedditPostView.Action action;
-
-		public MenuHandler(final RedditPostView.Action action) {
-			this.action = action;
-		}
-
-		public boolean onMenuItemClick(MenuItem item) {
-			RedditPostView.onActionSelected(post, CommentListingFragment.this, action);
-			return true;
 		}
 	}
 

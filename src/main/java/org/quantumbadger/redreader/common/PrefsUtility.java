@@ -22,13 +22,20 @@ import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.preference.SharedPreferences;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.views.RedditPostView;
 
+import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.Set;
 
 public final class PrefsUtility {
 
 	private static String getString(final int id, final String defaultValue, final Context context, final SharedPreferences sharedPreferences) {
 		return sharedPreferences.getString(context.getString(id), defaultValue);
+	}
+
+	private static Set<String> getStringSet(final int id, final Set<String> defaultValue, final Context context, final SharedPreferences sharedPreferences) {
+		return sharedPreferences.getStringSet(context.getString(id), defaultValue);
 	}
 
 	private static boolean getBoolean(final int id, final boolean defaultValue, final Context context, final SharedPreferences sharedPreferences) {
@@ -219,5 +226,19 @@ public final class PrefsUtility {
 		} else {
 			return CachePrecacheImages.ALWAYS;
 		}
+	}
+
+	///////////////////////////////
+	// pref_menus
+	///////////////////////////////
+
+	public static EnumSet<RedditPostView.Action> pref_menus_post_context_items(final Context context, final SharedPreferences sharedPreferences) {
+
+		final Set<String> strings = getStringSet(R.string.pref_menus_post_context_items_key, null, context, sharedPreferences);
+
+		final EnumSet<RedditPostView.Action> result = EnumSet.noneOf(RedditPostView.Action.class);
+		for(String s : strings) result.add(RedditPostView.Action.valueOf(s.toUpperCase()));
+
+		return result;
 	}
 }

@@ -65,6 +65,7 @@ import org.quantumbadger.redreader.views.list.SwipableListItemView;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.UUID;
 
 public final class RedditPostView extends SwipableListItemView implements RedditPreparedPost.ThumbnailLoadedCallback {
@@ -386,47 +387,57 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 		showActionMenu(getContext(), fragmentParent, post);
 	}
 
-	private static void showActionMenu(final Context context, final Fragment fragmentParent, final RedditPreparedPost post) {
+	public static void showActionMenu(final Context context, final Fragment fragmentParent, final RedditPreparedPost post) {
+
+		final EnumSet<Action> itemPref = PrefsUtility.pref_menus_post_context_items(context, PreferenceManager.getDefaultSharedPreferences(context));
 
 		final ArrayList<RPVMenuItem> menu = new ArrayList<RPVMenuItem>();
 
 		if(!RedditAccountManager.getInstance(context).getDefaultAccount().isAnonymous()) {
 
-			if(!post.isUpvoted()) {
-				menu.add(new RPVMenuItem(context, R.string.action_upvote, Action.UPVOTE));
-			} else {
-				menu.add(new RPVMenuItem(context, R.string.action_upvote_remove, Action.UNVOTE));
+			if(itemPref.contains(Action.UPVOTE)) {
+				if(!post.isUpvoted()) {
+					menu.add(new RPVMenuItem(context, R.string.action_upvote, Action.UPVOTE));
+				} else {
+					menu.add(new RPVMenuItem(context, R.string.action_upvote_remove, Action.UNVOTE));
+				}
 			}
 
-			if(!post.isDownvoted()) {
-				menu.add(new RPVMenuItem(context, R.string.action_downvote, Action.DOWNVOTE));
-			} else {
-				menu.add(new RPVMenuItem(context, R.string.action_downvote_remove, Action.UNVOTE));
+			if(itemPref.contains(Action.DOWNVOTE)) {
+				if(!post.isDownvoted()) {
+					menu.add(new RPVMenuItem(context, R.string.action_downvote, Action.DOWNVOTE));
+				} else {
+					menu.add(new RPVMenuItem(context, R.string.action_downvote_remove, Action.UNVOTE));
+				}
 			}
 
-			if(!post.isSaved()) {
-				menu.add(new RPVMenuItem(context, R.string.action_save, Action.SAVE));
-			} else {
-				menu.add(new RPVMenuItem(context, R.string.action_unsave, Action.UNSAVE));
+			if(itemPref.contains(Action.SAVE)) {
+				if(!post.isSaved()) {
+					menu.add(new RPVMenuItem(context, R.string.action_save, Action.SAVE));
+				} else {
+					menu.add(new RPVMenuItem(context, R.string.action_unsave, Action.UNSAVE));
+				}
 			}
 
-			if(!post.isHidden()) {
-				menu.add(new RPVMenuItem(context, R.string.action_hide, Action.HIDE));
-			} else {
-				menu.add(new RPVMenuItem(context, R.string.action_unhide, Action.UNHIDE));
+			if(itemPref.contains(Action.HIDE)) {
+				if(!post.isHidden()) {
+					menu.add(new RPVMenuItem(context, R.string.action_hide, Action.HIDE));
+				} else {
+					menu.add(new RPVMenuItem(context, R.string.action_unhide, Action.UNHIDE));
+				}
 			}
 
-			menu.add(new RPVMenuItem(context, R.string.action_report, Action.REPORT));
+			if(itemPref.contains(Action.REPORT)) menu.add(new RPVMenuItem(context, R.string.action_report, Action.REPORT));
 		}
 
-		menu.add(new RPVMenuItem(context, R.string.action_external, Action.EXTERNAL));
-		if(post.imageUrl != null) menu.add(new RPVMenuItem(context, R.string.action_save_image, Action.SAVE_IMAGE));
-		menu.add(new RPVMenuItem(context, R.string.action_gotosubreddit, Action.GOTO_SUBREDDIT));
-		menu.add(new RPVMenuItem(context, R.string.action_share, Action.SHARE));
-		menu.add(new RPVMenuItem(context, R.string.action_share_comments, Action.SHARE_COMMENTS));
-		menu.add(new RPVMenuItem(context, R.string.action_copy, Action.COPY));
-		menu.add(new RPVMenuItem(context, R.string.action_user_profile, Action.USER_PROFILE));
-		menu.add(new RPVMenuItem(context, R.string.action_properties, Action.PROPERTIES));
+		if(itemPref.contains(Action.EXTERNAL)) menu.add(new RPVMenuItem(context, R.string.action_external, Action.EXTERNAL));
+		if(itemPref.contains(Action.SAVE_IMAGE) && post.imageUrl != null) menu.add(new RPVMenuItem(context, R.string.action_save_image, Action.SAVE_IMAGE));
+		if(itemPref.contains(Action.GOTO_SUBREDDIT)) menu.add(new RPVMenuItem(context, R.string.action_gotosubreddit, Action.GOTO_SUBREDDIT));
+		if(itemPref.contains(Action.SHARE)) menu.add(new RPVMenuItem(context, R.string.action_share, Action.SHARE));
+		if(itemPref.contains(Action.SHARE_COMMENTS)) menu.add(new RPVMenuItem(context, R.string.action_share_comments, Action.SHARE_COMMENTS));
+		if(itemPref.contains(Action.COPY)) menu.add(new RPVMenuItem(context, R.string.action_copy, Action.COPY));
+		if(itemPref.contains(Action.USER_PROFILE)) menu.add(new RPVMenuItem(context, R.string.action_user_profile, Action.USER_PROFILE));
+		if(itemPref.contains(Action.PROPERTIES)) menu.add(new RPVMenuItem(context, R.string.action_properties, Action.PROPERTIES));
 
 		final String[] menuText = new String[menu.size()];
 
@@ -442,7 +453,7 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 			}
 		});
 
-		builder.setNeutralButton(R.string.dialog_cancel, null);
+		//builder.setNeutralButton(R.string.dialog_cancel, null);
 
 		final AlertDialog alert = builder.create();
 		alert.setTitle(R.string.action_menu_post_title);

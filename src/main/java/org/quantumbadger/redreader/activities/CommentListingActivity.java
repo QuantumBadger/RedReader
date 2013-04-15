@@ -30,10 +30,13 @@ import org.holoeverywhere.preference.SharedPreferences;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
+import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.fragments.SessionListDialog;
 import org.quantumbadger.redreader.listingcontrollers.CommentListingController;
+import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
+import org.quantumbadger.redreader.views.RedditPostView;
 
 import java.util.UUID;
 
@@ -41,6 +44,7 @@ public class CommentListingActivity extends RefreshableActivity
 		implements RedditAccountChangeListener,
 		SharedPreferences.OnSharedPreferenceChangeListener,
 		OptionsMenuUtility.OptionsMenuCommentsListener,
+		RedditPostView.PostSelectionListener,
 		SessionChangeListener {
 
 	private CommentListingController controller;
@@ -174,5 +178,15 @@ public class CommentListingActivity extends RefreshableActivity
 
 	public void onSessionChanged(UUID session, SessionChangeType type, long timestamp) {
 		controller.setSession(session);
+	}
+
+	public void onPostSelected(final RedditPreparedPost post) {
+		LinkHandler.onLinkClicked(this, post.url, false, post.src);
+	}
+
+	public void onPostCommentsSelected(final RedditPreparedPost post) {
+		final Intent intent = new Intent(this, CommentListingActivity.class);
+		intent.putExtra("postId", post.idAlone);
+		startActivityForResult(intent, 1);
 	}
 }

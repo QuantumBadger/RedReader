@@ -34,12 +34,13 @@ import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
+import org.quantumbadger.redreader.views.RedditPostView;
 import org.quantumbadger.redreader.views.WebViewFixed;
 import org.quantumbadger.redreader.views.bezelmenu.BezelSwipeOverlay;
 import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
 import org.quantumbadger.redreader.views.liststatus.LoadingView;
 
-public class WebViewFragment extends Fragment {
+public class WebViewFragment extends Fragment implements RedditPostView.PostSelectionListener {
 
 	private String url;
 
@@ -178,5 +179,13 @@ public class WebViewFragment extends Fragment {
 		}*/ // Websites with redirects cause this to fail
 
 		return false;
+	}
+
+	public void onPostSelected(final RedditPreparedPost post) {
+		((RedditPostView.PostSelectionListener)getSupportActivity()).onPostSelected(post);
+	}
+
+	public void onPostCommentsSelected(final RedditPreparedPost post) {
+		((RedditPostView.PostSelectionListener)getSupportActivity()).onPostCommentsSelected(post);
 	}
 }

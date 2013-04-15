@@ -72,6 +72,7 @@ import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.things.RedditThing;
 import org.quantumbadger.redreader.views.RedditCommentView;
 import org.quantumbadger.redreader.views.RedditPostHeaderView;
+import org.quantumbadger.redreader.views.RedditPostView;
 import org.quantumbadger.redreader.views.bezelmenu.BezelSwipeOverlay;
 import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
@@ -85,7 +86,8 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.UUID;
 
-public class CommentListingFragment extends Fragment implements ActiveTextView.OnLinkClickedListener {
+public class CommentListingFragment extends Fragment
+		implements ActiveTextView.OnLinkClickedListener, RedditPostView.PostSelectionListener {
 
 	private URI url;
 	private UUID session = null;
@@ -243,7 +245,7 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 							break;
 					}
 				} else if(position == 0 && post != null && !post.src.is_self) {
-					LinkHandler.onLinkClicked(getSupportActivity(), post.url, false);
+					LinkHandler.onLinkClicked(getSupportActivity(), post.url, false, post.src);
 				}
 			}
 		});
@@ -698,5 +700,13 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 		} else {
 			General.quickToast(getSupportActivity(), "Parent post not downloaded yet."); // TODO string
 		}
+	}
+
+	public void onPostSelected(final RedditPreparedPost post) {
+		((RedditPostView.PostSelectionListener)getSupportActivity()).onPostSelected(post);
+	}
+
+	public void onPostCommentsSelected(final RedditPreparedPost post) {
+		((RedditPostView.PostSelectionListener)getSupportActivity()).onPostCommentsSelected(post);
 	}
 }

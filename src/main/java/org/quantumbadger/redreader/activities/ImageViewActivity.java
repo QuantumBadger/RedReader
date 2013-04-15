@@ -27,13 +27,16 @@ import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.preference.SharedPreferences;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.ImageViewFragment;
+import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
+import org.quantumbadger.redreader.views.RedditPostView;
 
 import java.net.URI;
 
-public class ImageViewActivity extends Activity {
+public class ImageViewActivity extends Activity implements RedditPostView.PostSelectionListener {
 
 
 	@Override
@@ -57,5 +60,15 @@ public class ImageViewActivity extends Activity {
 		setContentView(View.inflate(this, R.layout.main_single, null));
 
 		getSupportFragmentManager().beginTransaction().add(R.id.main_single_frame, imageViewFragment).commit();
+	}
+
+	public void onPostSelected(final RedditPreparedPost post) {
+		LinkHandler.onLinkClicked(this, post.url, false, post.src);
+	}
+
+	public void onPostCommentsSelected(final RedditPreparedPost post) {
+		final Intent intent = new Intent(this, CommentListingActivity.class);
+		intent.putExtra("postId", post.idAlone);
+		startActivityForResult(intent, 1);
 	}
 }

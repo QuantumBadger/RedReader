@@ -44,12 +44,13 @@ import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.activities.CommentReplyActivity;
+import org.quantumbadger.redreader.activities.MainActivity;
 import org.quantumbadger.redreader.activities.PostListingActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.*;
-import org.quantumbadger.redreader.fragments.PostListingFragment;
+import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.fragments.PostPropertiesDialog;
 import org.quantumbadger.redreader.fragments.UserProfileDialog;
 import org.quantumbadger.redreader.image.ThumbnailScaler;
@@ -424,18 +425,22 @@ public final class RedditPreparedPost {
 				break;
 
 			case COMMENTS:
-				((PostListingFragment)fragmentParent).onPostCommentsSelected(post);
+				((RedditPostView.PostSelectionListener)fragmentParent).onPostCommentsSelected(post);
 				break;
 
 			case LINK:
-				((PostListingFragment)fragmentParent).onPostSelected(post);
+				((RedditPostView.PostSelectionListener)fragmentParent).onPostSelected(post);
 				break;
 
 			case COMMENTS_SWITCH:
-				throw new UnsupportedOperationException(); // TODO
+				if(!(activity instanceof MainActivity)) activity.finish();
+				((RedditPostView.PostSelectionListener)fragmentParent).onPostCommentsSelected(post);
+				break;
 
 			case LINK_SWITCH:
-				throw new UnsupportedOperationException(); // TODO
+				if(!(activity instanceof MainActivity)) activity.finish();
+				((RedditPostView.PostSelectionListener)fragmentParent).onPostSelected(post);
+				break;
 
 			case ACTION_MENU:
 				showActionMenu(activity, fragmentParent, post);
@@ -773,6 +778,7 @@ public final class RedditPreparedPost {
 
 		final Action[] possibleItems = {
 				Action.ACTION_MENU,
+				fragmentParent instanceof CommentListingFragment ? Action.LINK_SWITCH : Action.COMMENTS_SWITCH,
 				Action.UPVOTE,
 				Action.DOWNVOTE,
 				Action.SAVE,
@@ -789,6 +795,8 @@ public final class RedditPreparedPost {
 		// TODO make static
 		final EnumMap<Action, Integer> iconsDark = new EnumMap<Action, Integer>(Action.class);
 		iconsDark.put(Action.ACTION_MENU, R.drawable.ic_action_overflow);
+		iconsDark.put(Action.COMMENTS_SWITCH, R.drawable.ic_action_comments_dark);
+		iconsDark.put(Action.LINK_SWITCH, imageUrl != null ? R.drawable.ic_action_image_dark : R.drawable.ic_action_page_dark);
 		iconsDark.put(Action.UPVOTE, R.drawable.ic_action_thumb_up_dark);
 		iconsDark.put(Action.DOWNVOTE, R.drawable.ic_action_thumb_down_dark);
 		iconsDark.put(Action.SAVE, R.drawable.ic_action_star_filled_dark);
@@ -803,6 +811,8 @@ public final class RedditPreparedPost {
 
 		final EnumMap<Action, Integer> iconsLight = new EnumMap<Action, Integer>(Action.class);
 		iconsLight.put(Action.ACTION_MENU, R.drawable.ic_action_overflow);
+		iconsLight.put(Action.COMMENTS_SWITCH, R.drawable.ic_action_comments_light);
+		iconsDark.put(Action.LINK_SWITCH, imageUrl != null ? R.drawable.ic_action_image_light : R.drawable.ic_action_page_light);
 		iconsLight.put(Action.UPVOTE, R.drawable.ic_action_thumb_up_light);
 		iconsLight.put(Action.DOWNVOTE, R.drawable.ic_action_thumb_down_light);
 		iconsLight.put(Action.SAVE, R.drawable.ic_action_star_filled_light);

@@ -62,6 +62,7 @@ import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.image.GifDecoderThread;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
+import org.quantumbadger.redreader.views.RedditPostView;
 import org.quantumbadger.redreader.views.bezelmenu.BezelSwipeOverlay;
 import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
@@ -71,7 +72,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.UUID;
 
-public class ImageViewFragment extends Fragment {
+public class ImageViewFragment extends Fragment implements RedditPostView.PostSelectionListener {
 
 	private URI url;
 
@@ -329,5 +330,13 @@ public class ImageViewFragment extends Fragment {
 				getSupportActivity().finish();
 			}
 		});
+	}
+
+	public void onPostSelected(final RedditPreparedPost post) {
+		((RedditPostView.PostSelectionListener)getSupportActivity()).onPostSelected(post);
+	}
+
+	public void onPostCommentsSelected(final RedditPreparedPost post) {
+		((RedditPostView.PostSelectionListener)getSupportActivity()).onPostCommentsSelected(post);
 	}
 }

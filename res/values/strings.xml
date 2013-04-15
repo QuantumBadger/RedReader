@@ -158,9 +158,9 @@
     <!-- Accounts Dialog -->
 
     <string name="accounts_anon">Anonymous</string>
-    <string name="accounts_default">Default</string>
+    <string name="accounts_active">Active</string>
     <string name="accounts_add">Add Reddit Account</string>
-    <string name="accounts_setdefault">Set as Default</string>
+    <string name="accounts_setactive">Make Active</string>
     <string name="accounts_reauth">Reauthenticate</string>
     <string name="accounts_delete">Delete</string>
 

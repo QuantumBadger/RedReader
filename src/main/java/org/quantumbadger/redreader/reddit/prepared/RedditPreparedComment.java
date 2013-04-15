@@ -123,10 +123,17 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 		final BetterSSB sb = new BetterSSB();
 
 		final int pointsCol;
+		int score = src.ups - src.downs;
+
+		if(Boolean.TRUE.equals(src.likes)) score--;
+		if(Boolean.FALSE.equals(src.likes)) score++;
+
 		if(isUpvoted()) {
 			pointsCol = rrPostSubtitleUpvoteCol;
+			score++;
 		} else if(isDownvoted()) {
 			pointsCol = rrPostSubtitleDownvoteCol;
+			score--;
 		} else {
 			pointsCol = rrCommentHeaderBoldCol;
 		}
@@ -139,7 +146,7 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 		}
 
 		sb.append("   ", 0);
-		sb.append(String.valueOf(src.ups - src.downs), BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, pointsCol, 0, 1f);
+		sb.append(String.valueOf(score), BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, pointsCol, 0, 1f);
 		sb.append(" pts  ", 0);
 		sb.append(RRTime.formatDurationMs(RRTime.utcCurrentTimeMillis() - src.created_utc * 1000L), BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, rrCommentHeaderBoldCol, 0, 1f);
 		sb.append(" ago", 0);

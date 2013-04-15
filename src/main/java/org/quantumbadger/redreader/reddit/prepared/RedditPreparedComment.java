@@ -158,7 +158,7 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 				sb.append("  ", 0);
 			}
 
-			sb.append(" " + src.author_flair_text + " ", BetterSSB.FOREGROUND_COLOR | BetterSSB.BACKGROUND_COLOR, Color.rgb(30, 30, 30), Color.rgb(200, 200, 200), 1f);
+			sb.append(" " + src.author_flair_text + " ", BetterSSB.FOREGROUND_COLOR | BetterSSB.BACKGROUND_COLOR, Color.rgb(30, 30, 30), Color.rgb(230, 230, 230), 1f); // TODO theme properly
 		}
 
 		if(headerItems.contains(PrefsUtility.AppearanceCommentHeaderItems.AUTHOR)

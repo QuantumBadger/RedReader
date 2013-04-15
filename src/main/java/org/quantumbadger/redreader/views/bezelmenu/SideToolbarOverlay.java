@@ -38,17 +38,16 @@ public class SideToolbarOverlay extends FrameLayout {
 
 	public void setContents(View contents) {
 		this.contents = contents;
+		if(shownPosition != null) {
+			show(shownPosition);
+		}
 	}
 
 	public void show(SideToolbarPosition pos) {
 
-		if(shownPosition == pos) return;
-
 		removeAllViews();
 		addView(contents);
 
-		//final LayoutParams params = (LayoutParams) contents.getLayoutParams();
-		//params.addRule(pos == SideToolbarPosition.LEFT ? RelativeLayout.ALIGN_PARENT_LEFT : RelativeLayout.ALIGN_PARENT_RIGHT);
 		((LayoutParams)contents.getLayoutParams()).gravity = (pos == SideToolbarPosition.LEFT ? Gravity.LEFT : Gravity.RIGHT);
 		contents.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
 		contents.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;

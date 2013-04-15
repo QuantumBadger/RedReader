@@ -74,6 +74,7 @@ import org.quantumbadger.redreader.views.RedditPostHeaderView;
 import org.quantumbadger.redreader.views.RedditPostView;
 import org.quantumbadger.redreader.views.bezelmenu.BezelSwipeOverlay;
 import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
+import org.quantumbadger.redreader.views.bezelmenu.VerticalToolbar;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
 import org.quantumbadger.redreader.views.liststatus.LoadingView;
 
@@ -251,27 +252,23 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 		outerFrame.addView(outer);
 
 		final SideToolbarOverlay toolbarOverlay = new SideToolbarOverlay(context);
-		TextView tv = new TextView(context);
-		tv.setText("Hello World");
+		VerticalToolbar toolbar = new VerticalToolbar(context);
 
-		toolbarOverlay.setContents(tv);
+		toolbarOverlay.setContents(toolbar);
 
 
 		final BezelSwipeOverlay bezelOverlay = new BezelSwipeOverlay(context, new BezelSwipeOverlay.BezelSwipeListener() {
 			public boolean onLeftSwipe() {
-				General.quickToast(context, "Left Swipe");
 				toolbarOverlay.show(SideToolbarOverlay.SideToolbarPosition.LEFT);
 				return true;
 			}
 
 			public boolean onRightSwipe() {
-				General.quickToast(context, "Right Swipe");
 				toolbarOverlay.show(SideToolbarOverlay.SideToolbarPosition.RIGHT);
 				return true;
 			}
 
 			public boolean onTap() {
-				General.quickToast(context, "Tap to close");
 				toolbarOverlay.hide();
 				return false;
 			}
@@ -285,8 +282,6 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 
 		toolbarOverlay.getLayoutParams().width = android.widget.FrameLayout.LayoutParams.MATCH_PARENT;
 		toolbarOverlay.getLayoutParams().height = android.widget.FrameLayout.LayoutParams.MATCH_PARENT;
-
-		tv.setBackgroundColor(Color.argb(128, 0, 0, 0)); // TODO change color based on theme?
 
 		makeFirstRequest(context);
 

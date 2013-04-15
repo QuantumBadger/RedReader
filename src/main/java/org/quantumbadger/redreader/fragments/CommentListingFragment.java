@@ -80,6 +80,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.UUID;
 
@@ -103,6 +104,7 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 	private RedditPreparedPost post;
 
 	private float commentFontScale = 1.0f;
+	private EnumSet<PrefsUtility.AppearanceCommentHeaderItems> headerItems;
 
 	private Context context;
 
@@ -192,6 +194,8 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		commentFontScale = PrefsUtility.appearance_fontscale_comments(context, prefs);
+
+		headerItems = PrefsUtility.appearance_comment_header_items(context, prefs);
 
 		final LinearLayout outer = new LinearLayout(context);
 		outer.setOrientation(android.widget.LinearLayout.VERTICAL);
@@ -464,7 +468,8 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 				if(commentThing.getKind() != RedditThing.Kind.COMMENT) return;
 
 				final RedditComment comment = commentThing.asComment();
-				final RedditPreparedComment preparedComment = new RedditPreparedComment(context, comment, parent, timestamp, needsChanging.contains(comment.name), post, user);
+				final RedditPreparedComment preparedComment = new RedditPreparedComment(context, comment, parent,
+						timestamp, needsChanging.contains(comment.name), post, user, headerItems);
 
 				after = preparedComment.idAndType;
 

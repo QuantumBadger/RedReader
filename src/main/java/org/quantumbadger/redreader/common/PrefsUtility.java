@@ -160,6 +160,20 @@ public final class PrefsUtility {
 		return getBoolean(R.string.pref_appearance_loading_detail_key, false, context, sharedPreferences);
 	}
 
+	public static enum AppearanceCommentHeaderItems {
+		AUTHOR, FLAIR, SCORE, UPS_DOWNS, AGE
+	}
+
+	public static EnumSet<AppearanceCommentHeaderItems> appearance_comment_header_items(final Context context, final SharedPreferences sharedPreferences) {
+
+		final Set<String> strings = getStringSet(R.string.pref_appearance_comment_header_items_key, R.array.pref_appearance_comment_header_items_default, context, sharedPreferences);
+
+		final EnumSet<AppearanceCommentHeaderItems> result = EnumSet.noneOf(AppearanceCommentHeaderItems.class);
+		for(String s : strings) result.add(AppearanceCommentHeaderItems.valueOf(s.toUpperCase()));
+
+		return result;
+	}
+
 	///////////////////////////////
 	// pref_behaviour
 	///////////////////////////////

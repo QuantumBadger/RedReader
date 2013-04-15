@@ -215,4 +215,29 @@
         <item>properties</item>
     </string-array>
 
+    <string-array name="pref_appearance_comment_header_items">
+        <item>Author</item>
+        <item>Flair</item>
+        <item>Score</item>
+        <item>Upvotes/downvotes</item>
+        <item>Age</item>
+    </string-array>
+
+    <!-- Constants. Do not change. -->
+    <string-array name="pref_appearance_comment_header_items_return">
+        <item>author</item>
+        <item>flair</item>
+        <item>score</item>
+        <item>ups_downs</item>
+        <item>age</item>
+    </string-array>
+
+    <!-- Constants. Do not change. -->
+    <string-array name="pref_appearance_comment_header_items_default">
+        <item>author</item>
+        <item>flair</item>
+        <item>score</item>
+        <item>age</item>
+    </string-array>
+
 </resources>

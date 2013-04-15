@@ -77,6 +77,18 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory holo:title="@string/pref_appearance_comments_header">
+
+        <MultiSelectListPreference
+            holo:dialogTitle="@string/pref_appearance_comment_header_items_title"
+            holo:key="@string/pref_appearance_comment_header_items_key"
+            holo:title="@string/pref_appearance_comment_header_items_title"
+            holo:entries="@array/pref_appearance_comment_header_items"
+            holo:entryValues="@array/pref_appearance_comment_header_items_return"
+            holo:defaultValue="@array/pref_appearance_comment_header_items_default" />
+
+    </PreferenceCategory>
+
     <PreferenceCategory holo:title="@string/pref_appearance_other_header">
 
         <CheckBoxPreference holo:title="@string/pref_appearance_loading_detail_title"

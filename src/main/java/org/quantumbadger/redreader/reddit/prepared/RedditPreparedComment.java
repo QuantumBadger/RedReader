@@ -41,6 +41,7 @@ import org.quantumbadger.redreader.reddit.RedditPreparedInboxItem;
 import org.quantumbadger.redreader.reddit.things.RedditComment;
 import org.quantumbadger.redreader.views.RedditCommentView;
 
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.LinkedList;
 
@@ -64,15 +65,17 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 	private RedditCommentView boundView;
 
 	private final int rrCommentHeaderBoldCol, rrCommentHeaderAuthorCol, rrPostSubtitleUpvoteCol, rrPostSubtitleDownvoteCol;
+	private final EnumSet<PrefsUtility.AppearanceCommentHeaderItems> headerItems;
 
 	private final RedditPreparedPost parentPost;
 
 	public RedditPreparedComment(final Context context, final RedditComment comment, final RedditPreparedComment parentComment,
 								 final long timestamp, final boolean needsUpdating, final RedditPreparedPost parentPost,
-								 final RedditAccount user) {
+								 final RedditAccount user, final EnumSet<PrefsUtility.AppearanceCommentHeaderItems> headerItems) {
 
 		this.src = comment;
 		this.parentPost = parentPost;
+		this.headerItems = headerItems;
 
 		// TODO strings
 		// TODO custom time
@@ -138,18 +141,48 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 			pointsCol = rrCommentHeaderBoldCol;
 		}
 
-		if(parentPost != null && src.author.equals(parentPost.src.author)) {
-			sb.append(" " + src.author + " ", BetterSSB.BACKGROUND_COLOR | BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD,
-					Color.WHITE, Color.rgb(0, 126, 168), 1f); // TODO color
-		} else {
-			sb.append(src.author, BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, rrCommentHeaderAuthorCol, 0, 1f);
+
+		if(headerItems.contains(PrefsUtility.AppearanceCommentHeaderItems.AUTHOR)) {
+			if(parentPost != null && src.author.equals(parentPost.src.author)) {
+				sb.append(" " + src.author + " ", BetterSSB.BACKGROUND_COLOR | BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD,
+						Color.WHITE, Color.rgb(0, 126, 168), 1f); // TODO color
+			} else {
+				sb.append(src.author, BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, rrCommentHeaderAuthorCol, 0, 1f);
+			}
 		}
 
-		sb.append("   ", 0);
-		sb.append(String.valueOf(score), BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, pointsCol, 0, 1f);
-		sb.append(" pts  ", 0);
-		sb.append(RRTime.formatDurationMs(RRTime.utcCurrentTimeMillis() - src.created_utc * 1000L), BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, rrCommentHeaderBoldCol, 0, 1f);
-		sb.append(" ago", 0);
+		if(headerItems.contains(PrefsUtility.AppearanceCommentHeaderItems.FLAIR)
+				&& src.author_flair_text != null && src.author_flair_text.length() > 0) {
+
+			if(headerItems.contains(PrefsUtility.AppearanceCommentHeaderItems.AUTHOR)) {
+				sb.append("  ", 0);
+			}
+
+			sb.append(" " + src.author_flair_text + " ", BetterSSB.FOREGROUND_COLOR | BetterSSB.BACKGROUND_COLOR, Color.rgb(30, 30, 30), Color.rgb(200, 200, 200), 1f);
+		}
+
+		if(headerItems.contains(PrefsUtility.AppearanceCommentHeaderItems.AUTHOR)
+				|| headerItems.contains(PrefsUtility.AppearanceCommentHeaderItems.FLAIR)) {
+			sb.append("   ", 0);
+		}
+
+		if(headerItems.contains(PrefsUtility.AppearanceCommentHeaderItems.SCORE)) {
+			sb.append(String.valueOf(score), BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, pointsCol, 0, 1f);
+			sb.append(" pts  ", 0);
+		}
+
+		if(headerItems.contains(PrefsUtility.AppearanceCommentHeaderItems.UPS_DOWNS)) {
+			sb.append("(", 0);
+			sb.append(String.valueOf(src.ups), BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, rrPostSubtitleUpvoteCol, 0, 1f);
+			sb.append(" | ", 0);
+			sb.append(String.valueOf(src.downs), BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, rrPostSubtitleDownvoteCol, 0, 1f);
+			sb.append(")  ", 0);
+		}
+
+		if(headerItems.contains(PrefsUtility.AppearanceCommentHeaderItems.AGE)) {
+			sb.append(RRTime.formatDurationMs(RRTime.utcCurrentTimeMillis() - src.created_utc * 1000L), BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, rrCommentHeaderBoldCol, 0, 1f);
+			sb.append(" ago", 0);
+		}
 
 		header = sb.get();
 	}

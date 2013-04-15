@@ -27,6 +27,7 @@ import org.apache.http.StatusLine;
 import org.holoeverywhere.app.AlertDialog;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.DialogFragment;
+import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.ListView;
 import org.holoeverywhere.widget.TextView;
@@ -50,6 +51,7 @@ import org.quantumbadger.redreader.views.liststatus.ErrorView;
 import org.quantumbadger.redreader.views.liststatus.LoadingView;
 
 import java.net.URI;
+import java.util.EnumSet;
 import java.util.UUID;
 
 public final class InboxListingFragment extends DialogFragment implements ActiveTextView.OnLinkClickedListener {
@@ -60,6 +62,8 @@ public final class InboxListingFragment extends DialogFragment implements Active
 	private LinearLayout notifications;
 
 	private CacheRequest request;
+
+	private EnumSet<PrefsUtility.AppearanceCommentHeaderItems> headerItems;
 
 	// Workaround for HoloEverywhere bug?
 	private volatile boolean alreadyCreated = false;
@@ -86,6 +90,10 @@ public final class InboxListingFragment extends DialogFragment implements Active
 		super.onCreateDialog(savedInstanceState);
 
 		final Context context = getSupportActivity();
+
+		headerItems = PrefsUtility.appearance_comment_header_items(context, PreferenceManager.getDefaultSharedPreferences(context));
+		headerItems.remove(PrefsUtility.AppearanceCommentHeaderItems.SCORE);
+		headerItems.remove(PrefsUtility.AppearanceCommentHeaderItems.UPS_DOWNS);
 
 		final LinearLayout outer = new LinearLayout(context);
 		outer.setOrientation(android.widget.LinearLayout.VERTICAL);
@@ -210,7 +218,7 @@ public final class InboxListingFragment extends DialogFragment implements Active
 						switch(thing.getKind()) {
 							case COMMENT:
 								final RedditPreparedComment comment = new RedditPreparedComment(
-										getSupportActivity(), thing.asComment(), null, timestamp, false, null, user);
+										getSupportActivity(), thing.asComment(), null, timestamp, false, null, user, headerItems);
 								itemHandler.sendMessage(General.handlerMessage(0, comment));
 
 								break;

@@ -32,7 +32,6 @@ import android.text.ClipboardManager;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.Toast;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.http.StatusLine;
@@ -58,6 +57,7 @@ import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
+import org.quantumbadger.redreader.views.FlatImageButton;
 import org.quantumbadger.redreader.views.RedditPostView;
 import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
 import org.quantumbadger.redreader.views.bezelmenu.VerticalToolbar;
@@ -813,7 +813,7 @@ public final class RedditPreparedPost {
 
 			if(itemsPref.contains(action)) {
 
-				final ImageButton ib = new ImageButton(context);
+				final FlatImageButton ib = new FlatImageButton(context);
 
 				final int buttonPadding = General.dpToPixels(context, 10);
 				ib.setPadding(buttonPadding, buttonPadding, buttonPadding, buttonPadding);
@@ -829,7 +829,6 @@ public final class RedditPreparedPost {
 				} else {
 					ib.setImageResource(iconsDark.get(action));
 					// TODO highlight on click
-					ib.setBackgroundColor(Color.TRANSPARENT);
 				}
 
 				ib.setOnClickListener(new View.OnClickListener() {

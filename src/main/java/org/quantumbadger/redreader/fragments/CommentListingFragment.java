@@ -42,6 +42,7 @@ import org.holoeverywhere.app.AlertDialog;
 import org.holoeverywhere.app.Fragment;
 import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.preference.SharedPreferences;
+import org.holoeverywhere.widget.FrameLayout;
 import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.ListView;
 import org.holoeverywhere.widget.TextView;
@@ -71,6 +72,8 @@ import org.quantumbadger.redreader.reddit.things.RedditThing;
 import org.quantumbadger.redreader.views.RedditCommentView;
 import org.quantumbadger.redreader.views.RedditPostHeaderView;
 import org.quantumbadger.redreader.views.RedditPostView;
+import org.quantumbadger.redreader.views.bezelmenu.BezelSwipeOverlay;
+import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
 import org.quantumbadger.redreader.views.liststatus.LoadingView;
 
@@ -244,9 +247,50 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 		outer.addView(notifications);
 		outer.addView(lv);
 
-		makeFirstRequest(container.getContext());
+		final FrameLayout outerFrame = new FrameLayout(context);
+		outerFrame.addView(outer);
 
-		return outer;
+		final SideToolbarOverlay toolbarOverlay = new SideToolbarOverlay(context);
+		TextView tv = new TextView(context);
+		tv.setText("Hello World");
+
+		toolbarOverlay.setContents(tv);
+
+
+		final BezelSwipeOverlay bezelOverlay = new BezelSwipeOverlay(context, new BezelSwipeOverlay.BezelSwipeListener() {
+			public boolean onLeftSwipe() {
+				General.quickToast(context, "Left Swipe");
+				toolbarOverlay.show(SideToolbarOverlay.SideToolbarPosition.LEFT);
+				return true;
+			}
+
+			public boolean onRightSwipe() {
+				General.quickToast(context, "Right Swipe");
+				toolbarOverlay.show(SideToolbarOverlay.SideToolbarPosition.RIGHT);
+				return true;
+			}
+
+			public boolean onTap() {
+				General.quickToast(context, "Tap to close");
+				toolbarOverlay.hide();
+				return false;
+			}
+		});
+
+		outerFrame.addView(bezelOverlay);
+		outerFrame.addView(toolbarOverlay);
+
+		bezelOverlay.getLayoutParams().width = android.widget.FrameLayout.LayoutParams.MATCH_PARENT;
+		bezelOverlay.getLayoutParams().height = android.widget.FrameLayout.LayoutParams.MATCH_PARENT;
+
+		toolbarOverlay.getLayoutParams().width = android.widget.FrameLayout.LayoutParams.MATCH_PARENT;
+		toolbarOverlay.getLayoutParams().height = android.widget.FrameLayout.LayoutParams.MATCH_PARENT;
+
+		tv.setBackgroundColor(Color.argb(128, 0, 0, 0)); // TODO change color based on theme?
+
+		makeFirstRequest(context);
+
+		return outerFrame;
 	}
 
 	public void cancel() {

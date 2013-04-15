@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.views.liststatus;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
@@ -43,8 +42,6 @@ public class StatusListItemView extends FrameLayout implements RRTouchable {
 		super(context);
 
 		dpScale = context.getResources().getDisplayMetrics().density; // TODO xml?
-
-		setBackgroundColor(Color.rgb(0x00, 0x99, 0xCC));
 	}
 
 	public void setContents(final View contents) {

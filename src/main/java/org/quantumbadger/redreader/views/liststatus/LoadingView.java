@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.views.liststatus;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -114,7 +113,6 @@ public final class LoadingView extends StatusListItemView {
 		if(showText) {
 			textView = new TextView(context);
 			textView.setText(initialText);
-			textView.setTextColor(Color.WHITE);
 			textView.setTextSize(15.0f);
 			textView.setPadding((int)(15 * dpScale), (int)(10 * dpScale), (int)(10 * dpScale), 0);
 			textView.setSingleLine(true);
@@ -130,6 +128,7 @@ public final class LoadingView extends StatusListItemView {
 			progressBarView.setProgress(0);
 			progressBarView.setIndeterminate(indeterminate);
 			progressBarView.setPadding((int)(10 * dpScale), (int)(2 * dpScale), (int)(10 * dpScale), (int)(2 * dpScale));
+
 			layout.addView(progressBarView);
 
 		} else {
@@ -137,7 +136,5 @@ public final class LoadingView extends StatusListItemView {
 		}
 
 		setContents(layout);
-
-		setBackgroundColor(Color.rgb(0x00, 0x99, 0xCC));
 	}
 }

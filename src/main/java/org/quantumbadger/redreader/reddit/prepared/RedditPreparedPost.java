@@ -786,10 +786,10 @@ public final class RedditPreparedPost {
 		iconsDark.put(Action.SAVE, R.drawable.ic_action_star_filled_dark);
 		iconsDark.put(Action.HIDE, R.drawable.ic_action_cross_dark);
 		iconsDark.put(Action.REPLY, R.drawable.ic_action_reply_dark);
-		iconsDark.put(Action.EXTERNAL, R.drawable.icon);
-		iconsDark.put(Action.SAVE_IMAGE, R.drawable.icon);
+		iconsDark.put(Action.EXTERNAL, R.drawable.ic_action_globe_dark);
+		iconsDark.put(Action.SAVE_IMAGE, R.drawable.ic_action_save_dark);
 		iconsDark.put(Action.SHARE, R.drawable.ic_action_share_dark);
-		iconsDark.put(Action.COPY, R.drawable.icon);
+		iconsDark.put(Action.COPY, R.drawable.ic_action_copy_dark);
 		iconsDark.put(Action.USER_PROFILE, R.drawable.ic_action_person_dark);
 		iconsDark.put(Action.PROPERTIES, R.drawable.ic_action_info_dark);
 
@@ -800,10 +800,10 @@ public final class RedditPreparedPost {
 		iconsLight.put(Action.SAVE, R.drawable.ic_action_star_filled_light);
 		iconsLight.put(Action.HIDE, R.drawable.ic_action_cross_light);
 		iconsLight.put(Action.REPLY, R.drawable.ic_action_reply_light);
-		iconsLight.put(Action.EXTERNAL, R.drawable.icon);
-		iconsLight.put(Action.SAVE_IMAGE, R.drawable.icon);
+		iconsLight.put(Action.EXTERNAL, R.drawable.ic_action_globe_light);
+		iconsLight.put(Action.SAVE_IMAGE, R.drawable.ic_action_save_light);
 		iconsLight.put(Action.SHARE, R.drawable.ic_action_share_light);
-		iconsLight.put(Action.COPY, R.drawable.icon);
+		iconsLight.put(Action.COPY, R.drawable.ic_action_copy_light);
 		iconsLight.put(Action.USER_PROFILE, R.drawable.ic_action_person_light);
 		iconsLight.put(Action.PROPERTIES, R.drawable.ic_action_info_light);
 

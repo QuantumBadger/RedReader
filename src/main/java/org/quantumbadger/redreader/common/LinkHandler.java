@@ -45,7 +45,7 @@ public class LinkHandler {
 		onLinkClicked(activity, url, forceNoImage, null);
 	}
 
-	public static void onLinkClicked(Activity activity, String url, boolean forceNoImage, RedditPost post) {
+	public static void onLinkClicked(Activity activity, String url, boolean forceNoImage, final RedditPost post) {
 
 		if(!forceNoImage) {
 			final String imageUrl = getImageUrl(url);
@@ -53,6 +53,7 @@ public class LinkHandler {
 			if(imageUrl != null) {
 				final Intent intent = new Intent(activity, ImageViewActivity.class);
 				intent.setData(Uri.parse(imageUrl));
+				intent.putExtra("post", post);
 				activity.startActivity(intent);
 				return;
 			}

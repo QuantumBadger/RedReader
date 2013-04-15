@@ -416,11 +416,11 @@ public final class RedditPreparedPost {
 			}
 
 			case USER_PROFILE:
-				UserProfileDialog.newInstance(post.src.author).show(fragmentParent.getSupportActivity());
+				UserProfileDialog.newInstance(post.src.author).show(activity);
 				break;
 
 			case PROPERTIES:
-				PostPropertiesDialog.newInstance(post.src).show(fragmentParent.getSupportActivity());
+				PostPropertiesDialog.newInstance(post.src).show(activity);
 				break;
 
 			case COMMENTS:

@@ -128,6 +128,8 @@
     <string name="options_theme">Themes</string>
     <string name="options_settings">Settings</string>
 
+    <string name="options_submit_post">Submit Post</string>
+
     <string name="options_refresh">Refresh</string>
     <string name="options_refresh_subreddits">Refresh Subreddits</string>
     <string name="options_refresh_posts">Refresh Posts</string>
@@ -267,7 +269,7 @@
     <string name="imageview_oom">Out of memory. Trying internal browser.</string>
     <string name="imageview_invalid_gif">Invalid GIF. Trying internal browser.</string>
 
-    <!-- Comment Reply/Edit -->
+    <!-- Comment Reply/Edit, Post Submit -->
 
     <string name="comment_reply_send">Send</string>
     <string name="comment_edit_save">Save</string>
@@ -277,6 +279,9 @@
     <string name="comment_reply_oncancel">Waiting for results of action…</string>
     <string name="comment_reply_done">Reply sent. The comment will appear after you refresh.</string>
     <string name="comment_edit_done">Comment edited. Changes will appear after you refresh.</string>
+    <string name="post_submit_title">Title</string>
+    <string name="post_submit_done">Post submitted.</string>
+    <string name="post_submit_captcha_unsupported_warning">Warning: CAPTCHAs are not yet supported. Reddit will probably refuse your post unless you have verified your email address, and have a relatively high amount of karma.</string>
 
     <!-- Bug Reporting -->
 
@@ -289,6 +294,9 @@
 
     <string name="error_403_title">Invalid User</string>
     <string name="error_403_message">The user you selected does not have permission to do that.</string>
+
+    <string name="error_bad_captcha_title">Invalid CAPTCHA</string>
+    <string name="error_bad_captcha_message">Reddit refuses to submit your post without a CAPTCHA. Please verify your email address on the site.</string>
 
     <string name="error_404_title">Not Found (404)</string>
     <string name="error_404_message">The data you requested could not be found.</string>

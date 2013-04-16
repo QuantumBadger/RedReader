@@ -93,7 +93,7 @@
 
         <CheckBoxPreference holo:title="@string/pref_appearance_loading_detail_title"
                         holo:key="@string/pref_appearance_loading_detail_key"
-                        holo:defaultValue="true"/>
+                        holo:defaultValue="false"/>
 
     </PreferenceCategory>
 

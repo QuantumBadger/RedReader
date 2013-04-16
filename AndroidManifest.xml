@@ -72,6 +72,9 @@
         <activity android:name=".activities.CommentEditActivity"
                   android:configChanges="orientation|screenSize|keyboardHidden"/>
 
+        <activity android:name=".activities.PostSubmitActivity"
+                  android:configChanges="orientation|screenSize|keyboardHidden"/>
+
         <activity android:name=".activities.BugReportActivity"
                   android:configChanges="orientation|screenSize|keyboardHidden"
                   android:theme="@style/Holo.Theme"

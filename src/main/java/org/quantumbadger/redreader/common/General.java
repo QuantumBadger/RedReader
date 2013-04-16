@@ -222,6 +222,11 @@ public final class General {
 				message = R.string.error_403_title;
 				break;
 
+			case BAD_CAPTCHA:
+				title = R.string.error_bad_captcha_title;
+				message = R.string.error_bad_captcha_message;
+				break;
+
 			default:
 				title = R.string.error_unknown_api_title;
 				message = R.string.error_unknown_api_message;

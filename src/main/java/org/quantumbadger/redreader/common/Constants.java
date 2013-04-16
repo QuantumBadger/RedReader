@@ -78,6 +78,10 @@ public final class Constants {
 			return ".error.USER_REQUIRED".equals(str) || "please login to do that".equals(str);
 		}
 
+		public static boolean isApiErrorCaptcha(final String str) {
+			return ".error.BAD_CAPTCHA.field-captcha".equals(str) || "care to try these again?".equals(str);
+		}
+
 		private static String getUserPath(Context context) {
 			return "/user/" + RedditAccountManager.getInstance(context).getDefaultAccount().username;
 		}

@@ -413,6 +413,12 @@ public class MainActivity extends RefreshableActivity
 		sessionListDialog.show(this);
 	}
 
+	public void onSubmitPost() {
+		final Intent intent = new Intent(this, PostSubmitActivity.class);
+		intent.putExtra("subreddit", postListingController.getSubreddit());
+		startActivity(intent);
+	}
+
 	public void onSortSelected(final PostListingController.Sort order) {
 		postListingController.setSort(order);
 		requestRefresh(RefreshableFragment.POSTS, false);

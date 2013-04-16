@@ -54,7 +54,7 @@ public abstract class PostListingController {
 
 	public abstract URI getUri();
 
-	protected abstract RedditSubreddit getSubreddit();
+	public abstract RedditSubreddit getSubreddit();
 
 	public final PostListingFragment get(final boolean force) {
 		if(force) session = null;

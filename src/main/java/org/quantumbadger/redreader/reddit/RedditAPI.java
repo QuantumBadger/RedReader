@@ -38,6 +38,62 @@ import java.util.*;
 
 public final class RedditAPI {
 
+	public static void submit(final CacheManager cm,
+							   final APIResponseHandler.ActionResponseHandler responseHandler,
+							   final RedditAccount user,
+							   final boolean is_self,
+							   final String subreddit,
+							   final String title,
+							   final String body,
+							   final Context context) {
+
+		final LinkedList<NameValuePair> postFields = new LinkedList<NameValuePair>();
+		postFields.add(new BasicNameValuePair("kind", is_self ? "self" : "link"));
+		//postFields.add(new BasicNameValuePair("sendreplies", "true"));
+		postFields.add(new BasicNameValuePair("uh", user.modhash));
+		postFields.add(new BasicNameValuePair("sr", subreddit));
+		postFields.add(new BasicNameValuePair("title", title));
+
+		if(is_self)
+			postFields.add(new BasicNameValuePair("text", body));
+		else
+			postFields.add(new BasicNameValuePair("url", body));
+
+
+		cm.makeRequest(new APIPostRequest(Constants.Reddit.getUri("/api/submit"), user, postFields, context) {
+
+			@Override
+			public void onJsonParseStarted(JsonValue result, long timestamp, UUID session, boolean fromCache) {
+
+				System.out.println(result.toString());
+
+				try {
+					final APIResponseHandler.APIFailureType failureType = findFailureType(result);
+
+					if(failureType != null) {
+						responseHandler.notifyFailure(failureType);
+						return;
+					}
+
+				} catch(Throwable t) {
+					notifyFailure(RequestFailureType.PARSE, t, null, "JSON failed to parse");
+				}
+
+				responseHandler.notifySuccess();
+			}
+
+			@Override
+			protected void onCallbackException(Throwable t) {
+				BugReportActivity.handleGlobalError(context, t);
+			}
+
+			@Override
+			protected void onFailure(RequestFailureType type, Throwable t, StatusLine status, String readableMessage) {
+				responseHandler.notifyFailure(type, t, status, readableMessage);
+			}
+		});
+	}
+
 	public static void comment(final CacheManager cm,
 							   final APIResponseHandler.ActionResponseHandler responseHandler,
 							   final RedditAccount user,
@@ -342,6 +398,9 @@ public final class RedditAPI {
 
 				if(Constants.Reddit.isApiErrorUser(response.asString()))
 					return APIResponseHandler.APIFailureType.INVALID_USER;
+
+				if(Constants.Reddit.isApiErrorCaptcha(response.asString()))
+					return APIResponseHandler.APIFailureType.BAD_CAPTCHA;
 
 				break;
 

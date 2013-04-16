@@ -32,7 +32,7 @@ public class PostListingControllerSubreddit extends PostListingController {
 	}
 
 	@Override
-	protected RedditSubreddit getSubreddit() {
+	public RedditSubreddit getSubreddit() {
 		return subreddit;
 	}
 

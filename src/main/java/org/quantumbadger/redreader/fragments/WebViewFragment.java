@@ -34,6 +34,7 @@ import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
+import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.views.RedditPostView;
 import org.quantumbadger.redreader.views.WebViewFixed;
 import org.quantumbadger.redreader.views.bezelmenu.BezelSwipeOverlay;
@@ -75,7 +76,8 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 
 		final RedditPost src_post = getArguments().getParcelable("post");
 		final RedditPreparedPost post = src_post == null ? null
-				: new RedditPreparedPost(context, CacheManager.getInstance(context), 0, src_post, -1, false, null,
+				: new RedditPreparedPost(context, CacheManager.getInstance(context), 0, src_post, -1, false,
+				new RedditSubreddit("/r/" + src_post.subreddit, src_post.subreddit, false),
 				false, false, false, RedditAccountManager.getInstance(context).getDefaultAccount());
 
 		webView = (WebViewFixed)outer.findViewById(R.id.web_view_fragment_webviewfixed);

@@ -23,6 +23,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.InputType;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -128,7 +129,7 @@ public class CaptchaActivity extends Activity {
 								final EditText captchaText = new EditText(CaptchaActivity.this);
 								ll.addView(captchaText);
 								((LinearLayout.LayoutParams)captchaText.getLayoutParams()).setMargins(20, 0, 20, 20);
-								captchaText.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+								captchaText.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
 
 								captchaImg.setImageBitmap(image);
 

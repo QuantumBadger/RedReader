@@ -86,6 +86,10 @@ public final class Constants {
 			return ".error.SUBREDDIT_NOTALLOWED.field-sr".equals(str) || "you aren't allowed to post there.".equals(str);
 		}
 
+		public static boolean isApiErrorSubredditRequired(final String str) {
+			return ".error.SUBREDDIT_REQUIRED.field-sr".equals(str) || "you must specify a subreddit".equals(str);
+		}
+
 		private static String getUserPath(Context context) {
 			return "/user/" + RedditAccountManager.getInstance(context).getDefaultAccount().username;
 		}

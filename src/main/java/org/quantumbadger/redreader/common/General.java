@@ -232,6 +232,11 @@ public final class General {
 				message = R.string.error_403_message;
 				break;
 
+			case SUBREDDIT_REQUIRED:
+				title = R.string.error_subreddit_required_title;
+				message = R.string.error_subreddit_required_message;
+				break;
+
 			default:
 				title = R.string.error_unknown_api_title;
 				message = R.string.error_unknown_api_message;
@@ -248,7 +253,7 @@ public final class General {
 				final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
 				alertBuilder.setNeutralButton(R.string.dialog_close, null);
 				alertBuilder.setNegativeButton("More Detail", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
+					public void onClick(DialogInterface dialog, int which) { // TODO string
 						ErrorPropertiesDialog.newInstance(error).show(context);
 					}
 				});

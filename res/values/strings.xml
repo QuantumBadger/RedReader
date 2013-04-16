@@ -280,6 +280,7 @@
     <string name="comment_reply_done">Reply sent. The comment will appear after you refresh.</string>
     <string name="comment_edit_done">Comment edited. Changes will appear after you refresh.</string>
     <string name="post_submit_title_hint">Title</string>
+    <string name="post_submit_subreddit_hint">Subreddit</string>
     <string name="post_captcha_title">Captcha</string>
     <string name="post_captcha_submit_button">Submit</string>
     <string name="post_submit_done">Post submitted.</string>
@@ -295,6 +296,9 @@
 
     <string name="error_403_title">Invalid User</string>
     <string name="error_403_message">The user you selected does not have permission to do that.</string>
+
+    <string name="error_subreddit_required_title">Subreddit Required</string>
+    <string name="error_subreddit_required_message">You must specify a subreddit.</string>
 
     <string name="error_bad_captcha_title">Invalid CAPTCHA</string>
     <string name="error_bad_captcha_message">The CAPTCHA you entered was incorrect. Please try again.</string>

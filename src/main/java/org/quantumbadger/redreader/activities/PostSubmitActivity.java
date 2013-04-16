@@ -22,7 +22,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.InputType;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.ScrollView;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -30,6 +32,7 @@ import org.apache.http.StatusLine;
 import org.holoeverywhere.ArrayAdapter;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.ProgressDialog;
+import org.holoeverywhere.widget.AdapterView;
 import org.holoeverywhere.widget.EditText;
 import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.Spinner;
@@ -51,9 +54,9 @@ import java.util.ArrayList;
 public class PostSubmitActivity extends Activity {
 
 	private Spinner typeSpinner, usernameSpinner;
-	private EditText titleEdit, textEdit;
+	private EditText subredditEdit, titleEdit, textEdit;
 
-	private String subreddit = null;
+	private static final String[] postTypes = {"Link", "Self"};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -66,16 +69,20 @@ public class PostSubmitActivity extends Activity {
 
 		typeSpinner = (Spinner)layout.findViewById(R.id.post_submit_type);
 		usernameSpinner = (Spinner)layout.findViewById(R.id.post_submit_username);
+		subredditEdit = (EditText)layout.findViewById(R.id.post_submit_subreddit);
 		titleEdit = (EditText)layout.findViewById(R.id.post_submit_title);
 		textEdit = (EditText)layout.findViewById(R.id.post_submit_body);
 
 		if(getIntent() != null && getIntent().hasExtra("subreddit")) {
-			subreddit = getIntent().getStringExtra("subreddit");
+			final String subreddit = getIntent().getStringExtra("subreddit");
+			if(subreddit != null && subreddit.length() > 0 && !subreddit.equals("all") && subreddit.matches("\\w+")) {
+				subredditEdit.setText(subreddit);
+			}
 
 		} else if(savedInstanceState != null && savedInstanceState.containsKey("post_title")) {
 			titleEdit.setText(savedInstanceState.getString("post_title"));
 			textEdit.setText(savedInstanceState.getString("post_body"));
-			subreddit = savedInstanceState.getString("subreddit");
+			subredditEdit.setText(savedInstanceState.getString("subreddit"));
 			typeSpinner.setSelection(savedInstanceState.getInt("post_type"));
 		}
 
@@ -94,6 +101,31 @@ public class PostSubmitActivity extends Activity {
 		}
 
 		usernameSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, usernames));
+		typeSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, postTypes));
+
+		// TODO remove the duplicate code here
+		if(typeSpinner.getSelectedItem().equals("Link")) {
+			textEdit.setHint("URL"); // TODO string
+			textEdit.setInputType(android.text.InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_URI);
+		} else {
+			textEdit.setHint("Self Text"); // TODO string
+			textEdit.setInputType(android.text.InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE);
+		}
+
+		typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				if(typeSpinner.getSelectedItem().equals("Link")) {
+					textEdit.setHint("URL"); // TODO string
+					textEdit.setInputType(android.text.InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_URI);
+				} else {
+					textEdit.setHint("Self Text"); // TODO string
+					textEdit.setInputType(android.text.InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE);
+				}
+			}
+
+			public void onNothingSelected(AdapterView<?> parent) {
+			}
+		});
 
 		final ScrollView sv = new ScrollView(this);
 		sv.addView(layout);
@@ -105,7 +137,7 @@ public class PostSubmitActivity extends Activity {
 		super.onSaveInstanceState(outState);
 		outState.putString("post_title", titleEdit.getText().toString());
 		outState.putString("post_body", textEdit.getText().toString());
-		outState.putString("subreddit", subreddit);
+		outState.putString("subreddit", subredditEdit.getText().toString());
 		outState.putInt("post_type", typeSpinner.getSelectedItemPosition());
 	}
 
@@ -214,10 +246,11 @@ public class PostSubmitActivity extends Activity {
 			}
 		};
 
-		final boolean is_self = true;
+		final boolean is_self = !typeSpinner.getSelectedItem().equals("Link");
 
-		final RedditAccount selectedAccount = RedditAccountManager.getInstance(this).getAccount((String)usernameSpinner.getSelectedItem());
+		final RedditAccount selectedAccount = RedditAccountManager.getInstance(this).getAccount((String) usernameSpinner.getSelectedItem());
 
+		final String subreddit = subredditEdit.getText().toString();
 		final String title = titleEdit.getText().toString();
 		final String text = textEdit.getText().toString();
 		final String captchaId = data.getStringExtra("captchaId");

@@ -449,6 +449,9 @@ public final class RedditAPI {
 				if(Constants.Reddit.isApiErrorNotAllowed(response.asString()))
 					return APIResponseHandler.APIFailureType.NOTALLOWED;
 
+				if(Constants.Reddit.isApiErrorSubredditRequired(response.asString()))
+					return APIResponseHandler.APIFailureType.SUBREDDIT_REQUIRED;
+
 				break;
 
 			default:

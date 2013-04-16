@@ -38,14 +38,24 @@
              android:layout_marginTop="2dp"
              android:layout_marginBottom="2dp"/>
 
+    <EditText android:id="@+id/post_submit_subreddit"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_margin="10dp"
+              android:singleLine="true"
+              android:scrollHorizontally="true"
+              android:scrollbars="none"
+              android:inputType="textNoSuggestions"
+              android:hint="@string/post_submit_subreddit_hint"/>
+
     <EditText android:id="@+id/post_submit_title"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:layout_margin="10dp"
-              android:singleLine="false"
-              android:scrollHorizontally="false"
+              android:singleLine="true"
+              android:scrollHorizontally="true"
               android:scrollbars="none"
-              android:inputType="textCapSentences|textMultiLine"
+              android:inputType="textCapSentences"
               android:hint="@string/post_submit_title_hint"/>
 
     <EditText android:id="@+id/post_submit_body"

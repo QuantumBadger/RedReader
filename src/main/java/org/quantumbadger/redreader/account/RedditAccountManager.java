@@ -138,6 +138,21 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 		return new ArrayList<RedditAccount>(accountsCache);
 	}
 
+	public RedditAccount getAccount(String username) {
+
+		final ArrayList<RedditAccount> accounts = getAccounts();
+		RedditAccount selectedAccount = null;
+
+		for(RedditAccount account : accounts) {
+			if(!account.isAnonymous() && account.username.equalsIgnoreCase(username)) {
+				selectedAccount = account;
+				break;
+			}
+		}
+
+		return selectedAccount;
+	}
+
 	public synchronized RedditAccount getDefaultAccount() {
 
 		if(defaultAccountCache == null) {

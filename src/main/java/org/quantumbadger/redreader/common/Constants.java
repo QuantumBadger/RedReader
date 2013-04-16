@@ -82,6 +82,10 @@ public final class Constants {
 			return ".error.BAD_CAPTCHA.field-captcha".equals(str) || "care to try these again?".equals(str);
 		}
 
+		public static boolean isApiErrorNotAllowed(final String str) {
+			return ".error.SUBREDDIT_NOTALLOWED.field-sr".equals(str) || "you aren't allowed to post there.".equals(str);
+		}
+
 		private static String getUserPath(Context context) {
 			return "/user/" + RedditAccountManager.getInstance(context).getDefaultAccount().username;
 		}
@@ -105,7 +109,9 @@ public final class Constants {
 	}
 
 	public static final class Priority {
-		public static final int API_ACTION = -500,
+		public static final int
+				CAPTCHA = -600,
+				API_ACTION = -500,
 				API_SUBREDDIT_LIST = -100,
 				API_POST_LIST = -200,
 				API_COMMENT_LIST = -300,
@@ -124,6 +130,7 @@ public final class Constants {
 				USER_ABOUT = 130,
 				INBOX_LIST = 140,
 				THUMBNAIL = 200,
-				IMAGE = 201;
+				IMAGE = 201,
+				CAPTCHA = 202;
 	}
 }

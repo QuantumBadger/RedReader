@@ -279,9 +279,10 @@
     <string name="comment_reply_oncancel">Waiting for results of action…</string>
     <string name="comment_reply_done">Reply sent. The comment will appear after you refresh.</string>
     <string name="comment_edit_done">Comment edited. Changes will appear after you refresh.</string>
-    <string name="post_submit_title">Title</string>
+    <string name="post_submit_title_hint">Title</string>
+    <string name="post_captcha_title">Captcha</string>
+    <string name="post_captcha_submit_button">Submit</string>
     <string name="post_submit_done">Post submitted.</string>
-    <string name="post_submit_captcha_unsupported_warning">Warning: CAPTCHAs are not yet supported. Reddit will probably refuse your post unless you have verified your email address, and have a relatively high amount of karma.</string>
 
     <!-- Bug Reporting -->
 
@@ -296,7 +297,7 @@
     <string name="error_403_message">The user you selected does not have permission to do that.</string>
 
     <string name="error_bad_captcha_title">Invalid CAPTCHA</string>
-    <string name="error_bad_captcha_message">Reddit refuses to submit your post without a CAPTCHA. Please verify your email address on the site.</string>
+    <string name="error_bad_captcha_message">The CAPTCHA you entered was incorrect. Please try again.</string>
 
     <string name="error_404_title">Not Found (404)</string>
     <string name="error_404_message">The data you requested could not be found.</string>

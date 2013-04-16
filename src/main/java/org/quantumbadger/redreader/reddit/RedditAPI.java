@@ -45,14 +45,18 @@ public final class RedditAPI {
 							   final String subreddit,
 							   final String title,
 							   final String body,
+							   final String captchaId,
+							   final String captchaText,
 							   final Context context) {
 
 		final LinkedList<NameValuePair> postFields = new LinkedList<NameValuePair>();
 		postFields.add(new BasicNameValuePair("kind", is_self ? "self" : "link"));
-		//postFields.add(new BasicNameValuePair("sendreplies", "true"));
+		postFields.add(new BasicNameValuePair("sendreplies", "true"));
 		postFields.add(new BasicNameValuePair("uh", user.modhash));
 		postFields.add(new BasicNameValuePair("sr", subreddit));
 		postFields.add(new BasicNameValuePair("title", title));
+		postFields.add(new BasicNameValuePair("captcha", captchaText));
+		postFields.add(new BasicNameValuePair("iden", captchaId));
 
 		if(is_self)
 			postFields.add(new BasicNameValuePair("text", body));
@@ -168,6 +172,46 @@ public final class RedditAPI {
 				}
 
 				responseHandler.notifySuccess();
+			}
+
+			@Override
+			protected void onCallbackException(Throwable t) {
+				BugReportActivity.handleGlobalError(context, t);
+			}
+
+			@Override
+			protected void onFailure(RequestFailureType type, Throwable t, StatusLine status, String readableMessage) {
+				responseHandler.notifyFailure(type, t, status, readableMessage);
+			}
+		});
+	}
+
+	public static void newCaptcha(final CacheManager cm,
+								   final APIResponseHandler.NewCaptchaResponseHandler responseHandler,
+								   final RedditAccount user,
+								   final Context context) {
+
+		final LinkedList<NameValuePair> postFields = new LinkedList<NameValuePair>();
+		postFields.add(new BasicNameValuePair("uh", user.modhash));
+
+		cm.makeRequest(new APIPostRequest(Constants.Reddit.getUri("/api/new_captcha"), user, postFields, context) {
+
+			@Override
+			public void onJsonParseStarted(JsonValue result, long timestamp, UUID session, boolean fromCache) {
+
+				try {
+					final APIResponseHandler.APIFailureType failureType = findFailureType(result);
+
+					if(failureType != null) {
+						responseHandler.notifyFailure(failureType);
+						return;
+					}
+
+				} catch(Throwable t) {
+					notifyFailure(RequestFailureType.PARSE, t, null, "JSON failed to parse");
+				}
+
+				responseHandler.notifySuccess(findCaptchaId(result));
 			}
 
 			@Override
@@ -401,6 +445,47 @@ public final class RedditAPI {
 
 				if(Constants.Reddit.isApiErrorCaptcha(response.asString()))
 					return APIResponseHandler.APIFailureType.BAD_CAPTCHA;
+
+				if(Constants.Reddit.isApiErrorNotAllowed(response.asString()))
+					return APIResponseHandler.APIFailureType.NOTALLOWED;
+
+				break;
+
+			default:
+				// Ignore
+		}
+
+		return null;
+	}
+
+	// lol, reddit api
+	private static String findCaptchaId(final JsonValue response) {
+
+		switch(response.getType()) {
+
+			case OBJECT:
+
+				for(final Map.Entry<String, JsonValue> v : response.asObject()) {
+					final String captchaId = findCaptchaId(v.getValue());
+					if(captchaId != null) return captchaId;
+				}
+
+				break;
+
+			case ARRAY:
+
+				for(final JsonValue v : response.asArray()) {
+					final String captchaId = findCaptchaId(v);
+					if(captchaId != null) return captchaId;
+				}
+
+				break;
+
+			case STRING:
+
+				if(response.asString().length() > 20) { // This is probably it :S
+					return response.asString();
+				}
 
 				break;
 

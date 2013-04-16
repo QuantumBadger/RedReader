@@ -22,11 +22,6 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <TextView android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_margin="10dp"
-              android:text="@string/post_submit_captcha_unsupported_warning"/>
-
     <Spinner android:id="@+id/post_submit_type"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
@@ -51,7 +46,7 @@
               android:scrollHorizontally="false"
               android:scrollbars="none"
               android:inputType="textCapSentences|textMultiLine"
-              android:hint="@string/post_submit_title"/>
+              android:hint="@string/post_submit_title_hint"/>
 
     <EditText android:id="@+id/post_submit_body"
               android:layout_width="match_parent"

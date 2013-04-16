@@ -219,12 +219,17 @@ public final class General {
 
 			case INVALID_USER:
 				title = R.string.error_403_title;
-				message = R.string.error_403_title;
+				message = R.string.error_403_message;
 				break;
 
 			case BAD_CAPTCHA:
 				title = R.string.error_bad_captcha_title;
 				message = R.string.error_bad_captcha_message;
+				break;
+
+			case NOTALLOWED:
+				title = R.string.error_403_title;
+				message = R.string.error_403_message;
 				break;
 
 			default:

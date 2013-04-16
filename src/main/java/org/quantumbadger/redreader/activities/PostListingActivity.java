@@ -148,7 +148,7 @@ public class PostListingActivity extends RefreshableActivity
 
 	public void onSubmitPost() {
 		final Intent intent = new Intent(this, PostSubmitActivity.class);
-		intent.putExtra("subreddit", controller.getSubreddit());
+		intent.putExtra("subreddit", controller.getSubreddit().display_name);
 		startActivity(intent);
 	}
 

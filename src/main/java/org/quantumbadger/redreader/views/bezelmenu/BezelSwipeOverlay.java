@@ -3,6 +3,7 @@ package org.quantumbadger.redreader.views.bezelmenu;
 import android.content.Context;
 import android.view.MotionEvent;
 import android.view.View;
+import org.quantumbadger.redreader.common.General;
 
 public class BezelSwipeOverlay extends View {
 
@@ -22,10 +23,12 @@ public class BezelSwipeOverlay extends View {
 
 		if(action == MotionEvent.ACTION_DOWN) {
 
-			if(event.getX() < 5) {
+			final int px = General.dpToPixels(getContext(), 10);
+
+			if(event.getX() < px) {
 				return listener.onSwipe(SwipeEdge.LEFT);
 
-			} else if(event.getX() > getWidth() - 5) {
+			} else if(event.getX() > getWidth() - px) {
 				return listener.onSwipe(SwipeEdge.RIGHT);
 
 			} else {

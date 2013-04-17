@@ -107,9 +107,11 @@ public class PostSubmitActivity extends Activity {
 		if(typeSpinner.getSelectedItem().equals("Link")) {
 			textEdit.setHint("URL"); // TODO string
 			textEdit.setInputType(android.text.InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_URI);
+			textEdit.setSingleLine(true);
 		} else {
 			textEdit.setHint("Self Text"); // TODO string
-			textEdit.setInputType(android.text.InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE);
+			textEdit.setInputType(android.text.InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+			textEdit.setSingleLine(false);
 		}
 
 		typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -117,9 +119,11 @@ public class PostSubmitActivity extends Activity {
 				if(typeSpinner.getSelectedItem().equals("Link")) {
 					textEdit.setHint("URL"); // TODO string
 					textEdit.setInputType(android.text.InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_URI);
+					textEdit.setSingleLine(true);
 				} else {
 					textEdit.setHint("Self Text"); // TODO string
-					textEdit.setInputType(android.text.InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE);
+					textEdit.setInputType(android.text.InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+					textEdit.setSingleLine(false);
 				}
 			}
 

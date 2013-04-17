@@ -61,7 +61,7 @@ public class RedditChangeDataManager extends SQLiteOpenHelper {
 
 		final String queryString = String.format(
 				"CREATE TABLE %s (" +
-						"%s TEXT PRIMARY KEY ON CONFLICT UPDATE," +
+						"%s TEXT PRIMARY KEY ON CONFLICT REPLACE," +
 						"%s TEXT NOT NULL," +
 						"%s TEXT," +
 						"%s TEXT," +

@@ -224,8 +224,8 @@ public class CommentListingFragment extends Fragment
 
 		listFooter = createVerticalLinearLayout(context);
 
-		lv.addHeaderView(listHeader);
-		lv.addFooterView(listFooter);
+		lv.addHeaderView(listHeader, null, false);
+		lv.addFooterView(listFooter, null, false);
 
 		adapter = new CommentListingAdapter(context, this);
 		lv.setAdapter(adapter);

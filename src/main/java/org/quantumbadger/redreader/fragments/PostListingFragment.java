@@ -105,6 +105,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 				case NOTIF_DOWNLOAD_NECESSARY:
 					loadingView = new LoadingView(context, R.string.download_waiting, true, true);
 					listFooterNotifications.addView(loadingView);
+					adapter.notifyDataSetChanged();
 					break;
 
 				case NOTIF_DOWNLOAD_START:

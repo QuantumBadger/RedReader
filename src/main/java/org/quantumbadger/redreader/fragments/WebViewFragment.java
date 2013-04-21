@@ -47,6 +47,7 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 
 	private WebViewFixed webView;
 	private LoadingView loadingView;
+	private FrameLayout outer;
 
 	public static WebViewFragment newInstance(final String url, final RedditPost post) {
 
@@ -72,7 +73,7 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 
 		final Context context = inflater.getContext();
 
-		final FrameLayout outer = (FrameLayout)inflater.inflate(R.layout.web_view_fragment);
+		outer = (FrameLayout)inflater.inflate(R.layout.web_view_fragment);
 
 		final RedditPost src_post = getArguments().getParcelable("post");
 		final RedditPreparedPost post = src_post == null ? null
@@ -173,6 +174,10 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 	}
 
 	public boolean onBackButtonPressed() {
+
+		webView.loadData("", "text/plain", "UTF-8");
+		outer.removeAllViews();
+		webView.destroy();
 
 		/*
 		if(webView.canGoBack()) {

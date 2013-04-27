@@ -173,11 +173,20 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 		return outerFrame;
 	}
 
-	public boolean onBackButtonPressed() {
+	@Override
+	public void onDestroyView() {
 
-		webView.loadData("", "text/plain", "UTF-8");
+		webView.stopLoading();
+		webView.loadData("<html></html>", "text/plain", "UTF-8");
+		webView.reload();
+		webView.loadUrl("about:blank");
 		outer.removeAllViews();
 		webView.destroy();
+
+		super.onDestroyView();
+	}
+
+	public boolean onBackButtonPressed() {
 
 		/*
 		if(webView.canGoBack()) {
@@ -194,5 +203,17 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 
 	public void onPostCommentsSelected(final RedditPreparedPost post) {
 		((RedditPostView.PostSelectionListener)getSupportActivity()).onPostCommentsSelected(post);
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		webView.onPause();
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		webView.onResume();
 	}
 }

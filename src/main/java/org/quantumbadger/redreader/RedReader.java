@@ -63,6 +63,8 @@ public class RedReader extends Application {
 
 		final CacheManager cm = CacheManager.getInstance(this);
 
+		cm.pruneTemp();
+
 		new Thread() {
 			@Override
 			public void run() {
@@ -70,7 +72,6 @@ public class RedReader extends Application {
 				android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
 
 				cm.pruneCache(); // Hope for the best :)
-				cm.pruneTemp();
 
 				final RedditChangeDataManager cdm = RedditChangeDataManager.getInstance(RedReader.this);
 				cdm.prune(PrefsUtility.pref_cache_maxage(RedReader.this, PreferenceManager.getDefaultSharedPreferences(RedReader.this)));

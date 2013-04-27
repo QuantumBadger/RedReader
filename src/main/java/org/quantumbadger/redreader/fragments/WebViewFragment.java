@@ -209,11 +209,13 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 	public void onPause() {
 		super.onPause();
 		webView.onPause();
+		webView.pauseTimers();
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
+		webView.resumeTimers();
 		webView.onResume();
 	}
 }

@@ -80,6 +80,8 @@
 
     <style name="RR.Light.DarkActionBar" parent="Holo.Theme.Light">
 
+        <item name="android:windowBackground">@color/lightWindowBackground</item>
+
         <item name="android:actionBarStyle">@style/RR.Light.ActionBarStyle</item>
         <item name="android:actionOverflowButtonStyle">@style/RR.ActionButton.Overflow</item>
         <item name="rrActionBarCol">#222222</item>

@@ -402,10 +402,12 @@ public class CommentListingFragment extends Fragment
 
 							selfText = RedditCommentTextParser.parse(StringEscapeUtils.unescapeHtml4(post.selftext))
 									.generate(context, 14f * commentFontScale, null, new ActiveTextView.OnLinkClickedListener() {
-										public void onClick(String url) {
+										public void onClickUrl(String url) {
 											if(url != null) LinkHandler.onLinkClicked(getSupportActivity(), url, false);
 										}
-									});
+
+										public void onClickText(Object attachment) {}
+									}, CommentListingFragment.this.post);
 						} else {
 							selfText = null;
 						}
@@ -547,9 +549,11 @@ public class CommentListingFragment extends Fragment
 		}
 	}
 
-	public void onClick(String url) {
+	public void onClickUrl(String url) {
 		if(url != null) LinkHandler.onLinkClicked(getSupportActivity(), url, false, post.src);
 	}
+
+	public void onClickText(Object attachment) {}
 
 	private static enum Action {
 		UPVOTE, UNVOTE, DOWNVOTE, REPORT, SHARE, COPY, REPLY, USER_PROFILE, COMMENT_LINKS, COLLAPSE, EDIT, PROPERTIES

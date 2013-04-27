@@ -32,7 +32,7 @@ import java.util.LinkedList;
 public final class RedditCommentTextParser {
 
 	public static interface ViewGenerator {
-		public ViewGroup generate(Context context, float textSize, Integer textCol, ActiveTextView.OnLinkClickedListener listener);
+		public ViewGroup generate(Context context, float textSize, Integer textCol, ActiveTextView.OnLinkClickedListener listener, Object attachment);
 	}
 
 	private static enum TokenType {
@@ -267,7 +267,8 @@ public final class RedditCommentTextParser {
 
 		return new ViewGenerator() {
 
-			public ViewGroup generate(final Context context, final float textSize, final Integer textCol, final ActiveTextView.OnLinkClickedListener listener) {
+			public ViewGroup generate(final Context context, final float textSize, final Integer textCol,
+									  final ActiveTextView.OnLinkClickedListener listener, final Object attachment) {
 
 				final LinearLayout ll = new LinearLayout(context);
 				ll.setOrientation(LinearLayout.VERTICAL);
@@ -277,6 +278,7 @@ public final class RedditCommentTextParser {
 				for(final SpannableStringBuilder paragraph : output) {
 
 					final ActiveTextView tv = new ActiveTextView(context);
+					tv.setAttachment(attachment);
 					if(notFirst) tv.setPadding(0, General.dpToPixels(context, 8), 0, 0);
 					tv.setText(paragraph);
 					tv.setTextSize(textSize);

@@ -49,7 +49,7 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 
 	public SpannableStringBuilder header;
 
-	public final RedditCommentTextParser.ViewGenerator body;
+	private final RedditCommentTextParser.ViewGenerator body;
 
 	public final int indentation;
 	private final LinkedList<RedditPreparedComment> directReplies = new LinkedList<RedditPreparedComment>();
@@ -347,7 +347,7 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 	}
 
 	public ViewGroup getBody(Context context, float textSize, Integer textCol, ActiveTextView.OnLinkClickedListener listener) {
-		return body.generate(context, textSize, textCol, listener);
+		return body.generate(context, textSize, textCol, listener, this);
 	}
 
 	public RedditCommentView getBoundView() {

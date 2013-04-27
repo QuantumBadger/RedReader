@@ -60,6 +60,11 @@ public class ActiveTextView extends TextView {
 	private SpannableStringBuilder mSpannable;
 	private ActiveTextView.OnLinkClickedListener mListener;
 	private ActiveTextView.OnLongPressedLinkListener mLongPressedLinkListener;
+	private Object attachment;
+
+	public void setAttachment(final Object attachment) {
+		this.attachment = attachment;
+	}
 
 	private void setup() {
 
@@ -99,7 +104,7 @@ public class ActiveTextView extends TextView {
 								// Otherwise just open the link
 								if(mLinkSet) {
 									if(mListener != null)
-										mListener.onClick(mUrl);
+										mListener.onClickUrl(mUrl);
 									else {
 										if(mUrl != null) {
 											Intent i = new Intent(Intent.ACTION_VIEW);
@@ -195,7 +200,7 @@ public class ActiveTextView extends TextView {
 		setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if(!isLinkPending() && mListener != null)
-					mListener.onClick(null);
+					mListener.onClickText(attachment);
 				cancelLink();
 			}
 		});
@@ -286,7 +291,8 @@ public class ActiveTextView extends TextView {
 
 	// Called when a link in long clicked
 	public interface OnLinkClickedListener {
-		void onClick(String url);
+		public void onClickUrl(String url);
+		public void onClickText(Object attachment);
 	}
 
 	// Called when a link in long clicked

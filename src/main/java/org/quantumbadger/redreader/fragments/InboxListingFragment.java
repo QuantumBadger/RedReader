@@ -18,10 +18,14 @@
 package org.quantumbadger.redreader.fragments;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.view.View;
+import android.widget.AdapterView;
 import com.laurencedawson.activetextview.ActiveTextView;
 import org.apache.http.StatusLine;
 import org.holoeverywhere.app.AlertDialog;
@@ -35,6 +39,7 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BugReportActivity;
+import org.quantumbadger.redreader.activities.CommentListingActivity;
 import org.quantumbadger.redreader.adapters.InboxListingAdapter;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
@@ -108,6 +113,17 @@ public final class InboxListingFragment extends DialogFragment implements Active
 
 		lv.setSmoothScrollbarEnabled(false);
 		lv.setVerticalFadingEdgeEnabled(false);
+
+		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+				final Object item = lv.getAdapter().getItem(position);
+
+				if(item != null && item instanceof RedditPreparedInboxItem) {
+					handleClick((RedditPreparedInboxItem)item);
+				}
+			}
+		});
 
 		adapter = new InboxListingAdapter(context, this);
 		lv.setAdapter(adapter);
@@ -246,7 +262,23 @@ public final class InboxListingFragment extends DialogFragment implements Active
 		cm.makeRequest(request);
 	}
 
-	public void onClick(String url) {
+	public void onClickUrl(String url) {
 		if(url != null) LinkHandler.onLinkClicked(getSupportActivity(), url, false);
+	}
+
+	public void onClickText(Object attachment) {
+		if(attachment != null && attachment instanceof RedditPreparedInboxItem) {
+			handleClick((RedditPreparedInboxItem)attachment);
+		}
+	}
+
+	private void handleClick(RedditPreparedInboxItem item) {
+		if(item instanceof RedditPreparedComment) {
+			final URI commentContext = Constants.Reddit.getUri(((RedditPreparedComment)item).src.context);
+
+			final Intent intent = new Intent(getSupportActivity(), CommentListingActivity.class);
+			intent.setData(Uri.parse(commentContext.toString()));
+			startActivity(intent);
+		}
 	}
 }

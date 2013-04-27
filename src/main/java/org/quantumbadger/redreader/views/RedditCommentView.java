@@ -106,23 +106,25 @@ public class RedditCommentView extends LinearLayout {
 		}
 
 		bodyHolder.removeAllViews();
-		bodyHolder.addView(comment.body.generate(context, 13.0f * fontScale, bodyCol, new ActiveTextView.OnLinkClickedListener() {
-			public void onClick(String url) {
-				if(url != null) {
-					listener.onClick(url);
-				} else {
+		bodyHolder.addView(comment.getBody(context, 13.0f * fontScale, bodyCol, new ActiveTextView.OnLinkClickedListener() {
 
-					// TODO separate preference for comment body click?
+			public void onClickUrl(String url) {
+				listener.onClickUrl(url);
+			}
 
-					switch(PrefsUtility.pref_behaviour_actions_comment_tap(context, PreferenceManager.getDefaultSharedPreferences(context))) {
-						case COLLAPSE:
-							fragment.handleCommentVisibilityToggle(RedditCommentView.this);
-							break;
-						case ACTION_MENU:
-							fragment.openContextMenu(RedditCommentView.this);
-							break;
-					}
+			public void onClickText(Object attachment) {
+
+				// TODO separate preference for comment body click?
+
+				switch(PrefsUtility.pref_behaviour_actions_comment_tap(context, PreferenceManager.getDefaultSharedPreferences(context))) {
+					case COLLAPSE:
+						fragment.handleCommentVisibilityToggle(RedditCommentView.this);
+						break;
+					case ACTION_MENU:
+						fragment.openContextMenu(RedditCommentView.this);
+						break;
 				}
+
 			}
 		}));
 

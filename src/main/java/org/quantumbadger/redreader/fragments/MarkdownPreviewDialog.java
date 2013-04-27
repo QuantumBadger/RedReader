@@ -51,10 +51,12 @@ public class MarkdownPreviewDialog extends PropertiesDialog {
 		final RedditCommentTextParser.ViewGenerator parsedGen = RedditCommentTextParser.parse(getArguments().getString("markdown"));
 
 		final ViewGroup parsed = parsedGen.generate(context, 14f, null, new ActiveTextView.OnLinkClickedListener() {
-			public void onClick(String url) {
+			public void onClickUrl(String url) {
 				if(url != null) LinkHandler.onLinkClicked(getSupportActivity(), url, false);
 			}
-		});
+
+			public void onClickText(Object attachment) {}
+		}, null);
 
 		final int paddingPx = General.dpToPixels(context, 10);
 		parsed.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);

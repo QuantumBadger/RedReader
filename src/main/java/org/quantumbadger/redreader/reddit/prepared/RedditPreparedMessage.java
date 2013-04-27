@@ -84,6 +84,6 @@ public final class RedditPreparedMessage implements RedditPreparedInboxItem {
 	}
 
 	public ViewGroup getBody(Context context, float textSize, Integer textCol, ActiveTextView.OnLinkClickedListener listener) {
-		return body.generate(context, textSize, textCol, listener);
+		return body.generate(context, textSize, textCol, listener, this);
 	}
 }

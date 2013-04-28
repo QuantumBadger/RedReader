@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.activities;
 
 import android.content.Intent;
 import org.holoeverywhere.app.Activity;
-import org.quantumbadger.redreader.cache.CacheManager;
 
 import java.util.EnumSet;
 
@@ -50,14 +49,6 @@ public abstract class RefreshableActivity extends Activity {
 		}
 
 		refreshOnResume.clear();
-
-		new Thread() {
-			@Override
-			public void run() {
-				android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
-				CacheManager.getInstance(RefreshableActivity.this).pruneCache();
-			}
-		}.start();
 	}
 
 	protected void doRefreshNow(RefreshableFragment which, boolean force) {

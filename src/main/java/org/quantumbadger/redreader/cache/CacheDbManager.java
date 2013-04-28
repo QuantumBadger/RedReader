@@ -171,7 +171,7 @@ final class CacheDbManager extends SQLiteOpenHelper {
 		return db.delete(TABLE, FIELD_TIMESTAMP + "<?", new String[] {String.valueOf(timestamp)});
 	}
 
-	public synchronized LinkedList<Integer> getFilesToPrune(HashSet<Integer> currentFiles, final HashMap<Integer, Long> maxAge, final long defaultMaxAge) {
+	public synchronized LinkedList<Long> getFilesToPrune(HashSet<Long> currentFiles, final HashMap<Integer, Long> maxAge, final long defaultMaxAge) {
 
 		final SQLiteDatabase db = this.getWritableDatabase();
 
@@ -179,13 +179,13 @@ final class CacheDbManager extends SQLiteOpenHelper {
 
 		final Cursor cursor = db.query(TABLE, new String[] {FIELD_ID, FIELD_TIMESTAMP, FIELD_TYPE}, null, null, null, null, null, null);
 
-		final HashSet<Integer> currentEntries = new HashSet<Integer>();
-		final LinkedList<Integer> entriesToDelete = new LinkedList<Integer>(),
-			filesToDelete = new LinkedList<Integer>();
+		final HashSet<Long> currentEntries = new HashSet<Long>();
+		final LinkedList<Long> entriesToDelete = new LinkedList<Long>(),
+			filesToDelete = new LinkedList<Long>();
 
 		while(cursor.moveToNext()) {
 
-			final int id = cursor.getInt(0);
+			final long id = cursor.getLong(0);
 			final long timestamp = cursor.getLong(1);
 			final int type = cursor.getInt(2);
 
@@ -200,28 +200,39 @@ final class CacheDbManager extends SQLiteOpenHelper {
 
 			if(!currentFiles.contains(id)) {
 				entriesToDelete.add(id);
-				Log.i("RR DEBUG cache", "DELETED ENTRY " + id + "(type " + type + ") since it had no matching file");
+				//Log.i("RR DEBUG cache", "DELETED ENTRY " + id + "(type " + type + ") since it had no matching file");
 
 			} else if(timestamp < pruneIfBeforeMs) {
 				entriesToDelete.add(id);
 				filesToDelete.add(id);
-				Log.i("RR DEBUG cache", "DELETED ENTRY " + id + "(type " + type + ") since was too old");
+				//Log.i("RR DEBUG cache", "DELETED ENTRY " + id + "(type " + type + ") since was too old");
 
 			} else {
 				currentEntries.add(id);
 			}
 		}
 
-		for(final int id : currentFiles) {
+		for(final long id : currentFiles) {
 			if(!currentEntries.contains(id)) {
 				filesToDelete.add(id);
-				Log.i("RR DEBUG cache", "DELETED FILE " + id + " since it had no matching entry");
+				//Log.i("RR DEBUG cache", "DELETED FILE " + id + " since it had no matching entry");
 			}
 		}
 
-		// TODO speed up
-		for(final int id : entriesToDelete) {
-			db.execSQL(String.format("DELETE FROM %s WHERE %s = %d", TABLE, FIELD_ID, id));
+		if(!entriesToDelete.isEmpty()) {
+
+			final StringBuilder query = new StringBuilder(String.format("DELETE FROM %s WHERE %s IN (", TABLE, FIELD_ID));
+
+			query.append(entriesToDelete.removeFirst());
+
+			for(final long id : entriesToDelete) {
+				query.append("," + id);
+				if(query.length() > 512 * 1024) break;
+			}
+
+			query.append(')');
+
+			db.execSQL(query.toString());
 		}
 
 		return filesToDelete;

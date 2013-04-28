@@ -43,6 +43,7 @@ import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.UniqueSynchronizedQueue;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
 import java.io.*;
@@ -51,7 +52,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.zip.GZIPInputStream;
@@ -68,7 +68,7 @@ public final class CacheManager {
 	private final PriorityBlockingQueue<CacheRequest> requests = new PriorityBlockingQueue<CacheRequest>();
 	private final RequestHandlerThread requestHandler;
 
-	private final ConcurrentLinkedQueue<Long> deletionQueue = new ConcurrentLinkedQueue<Long>();
+	private final UniqueSynchronizedQueue<Long> fileDeletionQueue = new UniqueSynchronizedQueue<Long>();
 
 	private final PrioritisedDownloadQueue downloadQueue;
 
@@ -146,7 +146,7 @@ public final class CacheManager {
 		}
 	}
 
-	private Integer isCacheFile(final String file) {
+	private Long isCacheFile(final String file) {
 
 		if(!file.endsWith(ext)) return null;
 
@@ -154,17 +154,17 @@ public final class CacheManager {
 		if(fileSplit.length != 2) return null;
 
 		try {
-			return Integer.parseInt(fileSplit[0]);
+			return Long.parseLong(fileSplit[0]);
 		} catch(Exception e) {
 			return null;
 		}
 	}
 
-	private void getCacheFileList(final File dir, final HashSet<Integer> currentFiles) {
+	private void getCacheFileList(final File dir, final HashSet<Long> currentFiles) {
 
 		for(final String file : dir.list()) {
 
-			final Integer cacheFileId = isCacheFile(file);
+			final Long cacheFileId = isCacheFile(file);
 
 			if(cacheFileId != null) {
 				currentFiles.add(cacheFileId);
@@ -178,9 +178,6 @@ public final class CacheManager {
 
 			if(file.endsWith(tempExt)) {
 				new File(dir, file).delete();
-
-				Log.i("RR DEBUG cache", "DELETED " + file + " since it was temporary");
-
 			}
 		}
 	}
@@ -199,11 +196,11 @@ public final class CacheManager {
 		}
 	}
 
-	public void pruneCache() {
+	public synchronized void pruneCache() {
 
 		try {
 
-			final HashSet<Integer> currentFiles = new HashSet<Integer>(128);
+			final HashSet<Long> currentFiles = new HashSet<Long>(128);
 
 			final File externalCacheDir = context.getExternalCacheDir();
 			final File internalCacheDir = context.getCacheDir();
@@ -219,14 +216,9 @@ public final class CacheManager {
 			final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 			final HashMap<Integer, Long> maxAge = PrefsUtility.pref_cache_maxage(context, prefs);
 
-			final LinkedList<Integer> filesToDelete = dbManager.getFilesToPrune(currentFiles, maxAge, 72);
-
-			for(final int id : filesToDelete) {
-
-				if(!(externalCacheDir != null && new File(externalCacheDir, id + ext).delete())
-						&& !(internalCacheDir != null && !new File(internalCacheDir, id + ext).delete())) {
-					Log.i("RR DEBUG cache", "DELETION OF " + id + " FAILED");
-				}
+			final LinkedList<Long> filesToDelete = dbManager.getFilesToPrune(currentFiles, maxAge, 72);
+			for(final long id : filesToDelete) {
+				fileDeletionQueue.enqueue(id);
 			}
 
 		} catch(Throwable t) {
@@ -241,15 +233,16 @@ public final class CacheManager {
 
 	private void processDeletionQueue() {
 
-		while(!deletionQueue.isEmpty()) {
+		final int maxToDelete = 2;
 
-			final long nextId = deletionQueue.poll();
+		int deleted = 0;
 
-			// Delete record
-			dbManager.delete(nextId);
+		Long toDelete;
+
+		while(maxToDelete > deleted++ && (toDelete = fileDeletionQueue.dequeue()) != null) {
 
 			// Attempt to delete file
-			final File f = getExistingCacheFile(nextId);
+			final File f = getExistingCacheFile(toDelete);
 
 			if(f != null && !f.delete()) {
 				f.deleteOnExit();
@@ -490,7 +483,8 @@ public final class CacheManager {
 							value.buildInNewThread();
 						} catch (Throwable t) {
 
-							deletionQueue.offer(entry.id);
+							dbManager.delete(entry.id);
+							fileDeletionQueue.enqueue(entry.id);
 
 							if(request.downloadType == CacheRequest.DownloadType.IF_NECESSARY) {
 								queueDownload(request);

@@ -35,6 +35,8 @@ How to Build
 
 RedReader is built using Maven. Several dependencies are required (and listed in pom.xml), but these are handled automatically if you use Maven.
 
+Detailed instructions on building RedReader using IntelliJ IDEA are in [BUILD.md](BUILD.md).
+
 
 How to Get
 ----------

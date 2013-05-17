@@ -96,7 +96,7 @@ public class PostSubmitActivity extends Activity {
 		}
 
 		if(usernames.size() == 0) {
-			General.quickToast(this, "You must be logged in to do that."); // TODO string
+			General.quickToast(this, R.string.error_toast_notloggedin);
 			finish();
 		}
 

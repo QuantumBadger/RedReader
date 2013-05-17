@@ -252,8 +252,8 @@ public final class General {
 			public void run() {
 				final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
 				alertBuilder.setNeutralButton(R.string.dialog_close, null);
-				alertBuilder.setNegativeButton("More Detail", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) { // TODO string
+				alertBuilder.setNegativeButton(R.string.button_moredetail, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
 						ErrorPropertiesDialog.newInstance(error).show(context);
 					}
 				});

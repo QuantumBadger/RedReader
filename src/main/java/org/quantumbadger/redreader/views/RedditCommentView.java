@@ -26,6 +26,7 @@ import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.widget.FrameLayout;
 import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.TextView;
+import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
@@ -128,20 +129,19 @@ public class RedditCommentView extends LinearLayout {
 			}
 		}));
 
-		updateVisibility();
+		updateVisibility(context);
 	}
 
-	private void updateVisibility() {
+	private void updateVisibility(final Context context) {
 
 		if(comment.isCollapsed()) {
 
 			bodyHolder.setVisibility(GONE);
 
-			// TODO handle using strings
 			if(comment.replyCount() == 1) {
-				header.setText("[ + ]  " + comment.header + " (1 reply)"); // TODO string
+				header.setText(String.format("[ + ] %s (1 %s)", comment.header, context.getString(R.string.subtitle_reply)));
 			} else {
-				header.setText("[ + ]  " + comment.header + " (" + comment.replyCount() + " replies)"); // TODO string
+				header.setText(String.format("[ + ] %s (%d %s)", comment.header, comment.replyCount(), context.getString(R.string.subtitle_replies)));
 			}
 
 		} else {
@@ -152,7 +152,7 @@ public class RedditCommentView extends LinearLayout {
 
 	public boolean handleVisibilityToggle() {
 		comment.toggleVisibility();
-		updateVisibility();
+		updateVisibility(getContext());
 		return comment.isCollapsed();
 	}
 

@@ -363,7 +363,7 @@ public class CommentListingFragment extends Fragment
 					new Handler(Looper.getMainLooper()).post(new Runnable() {
 						public void run() {
 							final TextView cacheNotif = new TextView(context);
-							cacheNotif.setText("Viewing cached copy from " + RRTime.formatDateTime(timestamp));
+							cacheNotif.setText(getString(R.string.listing_cached) + " " + RRTime.formatDateTime(timestamp));
 							final int paddingPx = General.dpToPixels(context, 6);
 							final int sidePaddingPx = General.dpToPixels(context, 10);
 							cacheNotif.setPadding(sidePaddingPx, paddingPx, sidePaddingPx, paddingPx);
@@ -540,7 +540,7 @@ public class CommentListingFragment extends Fragment
 			} else {
 
 				if(post == null) {
-					General.quickToast(getSupportActivity(), "Parent post not downloaded yet."); // TODO string
+					General.quickToast(getSupportActivity(), R.string.error_toast_parent_post_not_downloaded);
 					return;
 				}
 
@@ -619,7 +619,7 @@ public class CommentListingFragment extends Fragment
 				final HashSet<String> linksInComment = comment.computeAllLinks();
 
 				if(linksInComment.isEmpty()) {
-					General.quickToast(getSupportActivity(), "No URLs found in this comment."); // TODO string
+					General.quickToast(getSupportActivity(), R.string.error_toast_no_urls_in_comment);
 
 				} else {
 
@@ -702,7 +702,7 @@ public class CommentListingFragment extends Fragment
 			startActivity(intent);
 
 		} else {
-			General.quickToast(getSupportActivity(), "Parent post not downloaded yet."); // TODO string
+			General.quickToast(getSupportActivity(), R.string.error_toast_parent_post_not_downloaded);
 		}
 	}
 

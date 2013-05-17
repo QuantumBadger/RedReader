@@ -19,9 +19,9 @@
 <resources>
 
     <string-array name="pref_appearance_twopane">
-        <item>Never</item>
-        <item>Auto-detect</item>
-        <item>Force (may look odd)</item>
+        <item>@string/pref_appearance_twopane_never</item>
+        <item>@string/pref_appearance_twopane_auto</item>
+        <item>@string/pref_appearance_twopane_force</item>
     </string-array>
 
     <!-- Constants. Do not change. -->
@@ -68,13 +68,13 @@
     </string-array>
 
     <string-array name="pref_appearance_theme">
-        <item>Red</item>
-        <item>Night</item>
-        <item>Green</item>
-        <item>Blue</item>
-        <item>Light Blue</item>
-        <item>Orange</item>
-        <item>Gray</item>
+        <item>@string/theme_name_red</item>
+        <item>@string/theme_name_night</item>
+        <item>@string/theme_name_green</item>
+        <item>@string/theme_name_blue</item>
+        <item>@string/theme_name_ltblue</item>
+        <item>@string/theme_name_orange</item>
+        <item>@string/theme_name_gray</item>
     </string-array>
 
     <!-- Constants. Do not change. -->
@@ -89,13 +89,13 @@
     </string-array>
 
     <string-array name="pref_cache_maxage">
-        <item>1 hour</item>
-        <item>6 hours</item>
-        <item>1 day</item>
-        <item>3 days</item>
-        <item>1 week</item>
-        <item>1 month</item>
-        <item>3 months</item>
+        <item>@string/time_1hr</item>
+        <item>@string/time_6hr</item>
+        <item>@string/time_1day</item>
+        <item>@string/time_3day</item>
+        <item>@string/time_1week</item>
+        <item>@string/time_1month</item>
+        <item>@string/time_3month</item>
     </string-array>
 
     <!-- Constants. Do not change. -->
@@ -113,7 +113,7 @@
         <item>0.7x</item>
         <item>0.8x</item>
         <item>0.9x</item>
-        <item>Normal</item>
+        <item>@string/pref_appearance_scale_normal</item>
         <item>1.05x</item>
         <item>1.1x</item>
         <item>1.2x</item>
@@ -216,11 +216,11 @@
     </string-array>
 
     <string-array name="pref_appearance_comment_header_items">
-        <item>Author</item>
-        <item>Flair</item>
-        <item>Score</item>
-        <item>Upvotes/downvotes</item>
-        <item>Age</item>
+        <item>@string/pref_appearance_comment_header_items_author</item>
+        <item>@string/pref_appearance_comment_header_items_flair</item>
+        <item>@string/pref_appearance_comment_header_items_score</item>
+        <item>@string/pref_appearance_comment_header_items_upsdowns</item>
+        <item>@string/pref_appearance_comment_header_items_age</item>
     </string-array>
 
     <!-- Constants. Do not change. -->

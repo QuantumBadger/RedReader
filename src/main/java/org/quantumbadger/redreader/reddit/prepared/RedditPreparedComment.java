@@ -77,7 +77,6 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 		this.parentPost = parentPost;
 		this.headerItems = headerItems;
 
-		// TODO strings
 		// TODO custom time
 
 		// TODO don't fetch these every time
@@ -118,10 +117,10 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 			RedditChangeDataManager.getInstance(context).update(src.link_id, user, this, false);
 		}
 
-		rebuildHeader();
+		rebuildHeader(context);
 	}
 
-	private void rebuildHeader() {
+	private void rebuildHeader(final Context context) {
 
 		final BetterSSB sb = new BetterSSB();
 
@@ -140,7 +139,6 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 		} else {
 			pointsCol = rrCommentHeaderBoldCol;
 		}
-
 
 		if(headerItems.contains(PrefsUtility.AppearanceCommentHeaderItems.AUTHOR)) {
 			if(parentPost != null && src.author.equalsIgnoreCase(parentPost.src.author)) {
@@ -168,7 +166,7 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 
 		if(headerItems.contains(PrefsUtility.AppearanceCommentHeaderItems.SCORE)) {
 			sb.append(String.valueOf(score), BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, pointsCol, 0, 1f);
-			sb.append(" pts  ", 0);
+			sb.append(" " + context.getString(R.string.subtitle_points) +  " ", 0);
 		}
 
 		if(headerItems.contains(PrefsUtility.AppearanceCommentHeaderItems.UPS_DOWNS)) {
@@ -181,7 +179,7 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 
 		if(headerItems.contains(PrefsUtility.AppearanceCommentHeaderItems.AGE)) {
 			sb.append(RRTime.formatDurationMs(RRTime.utcCurrentTimeMillis() - src.created_utc * 1000L), BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, rrCommentHeaderBoldCol, 0, 1f);
-			sb.append(" ago", 0);
+			sb.append(" " + context.getString(R.string.time_ago), 0);
 		}
 
 		header = sb.get();
@@ -227,10 +225,10 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 		return collapsed;
 	}
 
-	public void refreshView() {
+	public void refreshView(final Context context) {
 		new Handler(Looper.getMainLooper()).post(new Runnable() {
 			public void run() {
-				rebuildHeader();
+				rebuildHeader(context);
 				if(boundView != null) {
 					boundView.updateAppearance();
 					boundView.requestLayout();
@@ -257,7 +255,7 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 			case UPVOTE: voteDirection = 1; break;
 		}
 
-		refreshView();
+		refreshView(activity);
 
 		RedditAPI.action(CacheManager.getInstance(activity),
 				new APIResponseHandler.ActionResponseHandler(activity) {
@@ -295,7 +293,7 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 					protected void onSuccess() {
 						lastChange = RRTime.utcCurrentTimeMillis();
 						RedditChangeDataManager.getInstance(context).update(src.link_id, user, RedditPreparedComment.this, true);
-						refreshView();
+						refreshView(activity);
 					}
 
 					private void revertOnFailure() {

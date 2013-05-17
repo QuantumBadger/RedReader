@@ -136,11 +136,9 @@ public final class InboxListingFragment extends DialogFragment implements Active
 		makeFirstRequest(context);
 
 		final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setTitle("Inbox"); // TODO string
+		builder.setTitle(R.string.mainmenu_inbox);
 
 		builder.setView(outer);
-
-		builder.setNeutralButton("Close", null);
 
 		return builder.create();
 	}

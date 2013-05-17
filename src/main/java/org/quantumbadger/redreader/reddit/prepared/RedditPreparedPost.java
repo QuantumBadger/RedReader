@@ -298,7 +298,7 @@ public final class RedditPreparedPost {
 				final HashSet<String> linksInComment = LinkHandler.computeAllLinks(StringEscapeUtils.unescapeHtml4(post.src.selftext));
 
 				if(linksInComment.isEmpty()) {
-					General.quickToast(activity, "No URLs found in the self text."); // TODO string
+					General.quickToast(activity, R.string.error_toast_no_urls_in_self);
 
 				} else {
 
@@ -385,7 +385,7 @@ public final class RedditPreparedPost {
 				mailer.setType("text/plain");
 				mailer.putExtra(Intent.EXTRA_SUBJECT, post.title);
 				mailer.putExtra(Intent.EXTRA_TEXT, post.url);
-				activity.startActivity(Intent.createChooser(mailer, "Share Post")); // TODO string
+				activity.startActivity(Intent.createChooser(mailer, activity.getString(R.string.action_share)));
 				break;
 			}
 
@@ -395,7 +395,7 @@ public final class RedditPreparedPost {
 				mailer.setType("text/plain");
 				mailer.putExtra(Intent.EXTRA_SUBJECT, "Comments for " + post.title);
 				mailer.putExtra(Intent.EXTRA_TEXT, Constants.Reddit.getUri(Constants.Reddit.PATH_COMMENTS + post.idAlone).toString());
-				activity.startActivity(Intent.createChooser(mailer, "Share Comments")); // TODO string
+				activity.startActivity(Intent.createChooser(mailer, activity.getString(R.string.action_share_comments)));
 				break;
 			}
 
@@ -457,7 +457,6 @@ public final class RedditPreparedPost {
 	private void rebuildSubtitle(Context context) {
 
 		// TODO customise display
-		// TODO strings
 		// TODO preference for the X days, X hours thing
 
 		final TypedArray appearance = context.obtainStyledAttributes(new int[]{
@@ -495,13 +494,13 @@ public final class RedditPreparedPost {
 		}
 
 		postListDescSb.append(String.valueOf(score), BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, pointsCol, 0, 1f);
-		postListDescSb.append(" pts ", 0);
+		postListDescSb.append(" " + context.getString(R.string.subtitle_points) + " ", 0);
 		postListDescSb.append(RRTime.formatDurationMs(RRTime.utcCurrentTimeMillis() - src.created_utc * 1000), BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, boldCol, 0, 1f);
-		postListDescSb.append(" ago by ", 0);
+		postListDescSb.append(" " + context.getString(R.string.time_ago) + " " + context.getString(R.string.subtitle_by) + " ", 0);
 		postListDescSb.append(src.author, BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, boldCol, 0, 1f);
 
 		if(showSubreddit) {
-			postListDescSb.append(" to ", 0);
+			postListDescSb.append(" " + context.getString(R.string.subtitle_to) + " ", 0);
 			postListDescSb.append(src.subreddit, BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, boldCol, 0, 1f);
 		}
 

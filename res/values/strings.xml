@@ -387,4 +387,77 @@
     <string name="general_true">True</string>
     <string name="general_false">False</string>
 
+    <!-- 2013-05-17 Arrays -->
+
+    <string name="pref_appearance_twopane_never">Never</string>
+    <string name="pref_appearance_twopane_auto">Auto-detect</string>
+    <string name="pref_appearance_twopane_landscape">Landscape Only</string>
+    <string name="pref_appearance_twopane_force">Always (may look odd)</string>
+
+    <string name="theme_name_red">Red</string>
+    <string name="theme_name_night">Night</string>
+    <string name="theme_name_green">Green</string>
+    <string name="theme_name_blue">Blue</string>
+    <string name="theme_name_ltblue">Light Blue</string>
+    <string name="theme_name_orange">Orange</string>
+    <string name="theme_name_gray">Gray</string>
+
+    <string name="time_1hr">1 hour</string>
+    <string name="time_6hr">6 hours</string>
+    <string name="time_1day">1 day</string>
+    <string name="time_3day">3 days</string>
+    <string name="time_1week">1 week</string>
+    <string name="time_1month">1 month</string>
+    <string name="time_3month">3 months</string>
+
+    <string name="pref_appearance_comment_header_items_author">Author</string>
+    <string name="pref_appearance_comment_header_items_flair">Flair</string>
+    <string name="pref_appearance_comment_header_items_score">Score</string>
+    <string name="pref_appearance_comment_header_items_upsdowns">Upvotes/downvotes</string>
+    <string name="pref_appearance_comment_header_items_age">Age</string>
+
+    <!-- 2013-05-17 -->
+
+    <string name="error_toast_notloggedin">You must be logged in to do that.</string>
+
+    <string name="button_moredetail">More Detail</string>
+
+    <string name="pref_appearance_scale_normal">Normal</string>
+
+    <string name="error_invalid_password_title">Invalid Password</string>
+    <string name="error_invalid_password_message">Your username or password was incorrect.</string>
+
+    <string name="error_ratelimit_title">Too many invalid attempts.</string>
+    <string name="error_ratelimit_message">Blocked due to too many invalid login attempts at this IP. Reddit says:</string>
+
+    <string name="general_success">Success</string>
+
+    <string name="message_nowloggedin">You are now logged in.</string>
+    <string name="message_cannotlogin">Could not log in.</string>
+
+    <string name="error_toast_no_urls_in_comment">No URLs found in this comment.</string>
+    <string name="error_toast_no_urls_in_self">No URLs found in this self text.</string>
+    <string name="error_toast_parent_post_not_downloaded">Parent post not downloaded yet.</string>
+
+    <string name="message_cannotlogin">Could not log in.</string>
+
+    <string name="download_subreddits">Downloading subreddits…</string>
+
+    <string name="subtitle_points">pts</string>
+    <string name="subtitle_by">by</string>
+    <string name="subtitle_to">to</string>
+    <string name="subtitle_replies">replies</string>
+    <string name="subtitle_reply">reply</string>
+
+    <string name="general_unknown">unknown</string>
+
+    <string name="action_search">Search</string>
+    <string name="search_subreddit_restrict">Restrict search to</string>
+
+    <string name="title_changelog">What\'s New</string>
+
+    <string name="pref_behaviour_commentsort">Default Comment Sort</string>
+
+    <string name="pref_appearance_twopane_landscape">Landscape Only</string>
+
 </resources>

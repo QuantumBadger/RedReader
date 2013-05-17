@@ -133,7 +133,7 @@ public class MainMenuFragment extends Fragment implements MainMenuSelectionListe
 
 			@Override
 			protected void onDownloadStarted() {
-				loadingView.setIndeterminate("Downloading subreddits..."); // TODO string
+				loadingView.setIndeterminate(R.string.download_subreddits);
 			}
 
 			@Override

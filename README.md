@@ -64,3 +64,4 @@ Thanks to:
 * Apache, for various libraries
 * The [Jackson JSON processor](http://jackson.codehaus.org/)
 * [Joda](http://joda-time.sourceforge.net/)
+* [/u/fosterbuster](http://www.reddit.com/user/fosterbuster) for the Danish translation

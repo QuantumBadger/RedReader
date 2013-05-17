@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of RedReader.
+  ~
+  ~ RedReader is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ RedReader is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<!--
+    Thanks to /u/fosterbuster for this translation!
+-->
+
+<!--
+    Danish translation. Some english words preserved, since we don't have a proper translation for it, and given the
+    userbase a translation would properly just get people confused.
+
+    These are words such as header, cache, thumbnail etc. I also tried to follow the translation of the reddit website,
+    so some words are left untranslated as well. (unsave, unhide)
+
+    Danish = Dansk , Denmark = Danmark , Language = Sprog. Usual acronym is DA (for example: English = EN, german = DE),
+    if same context as EN-US it is DA-DK.
+-->
+
+<resources>
+
+    <string name="app_name">RedReader Beta</string>
+
+    <!-- First Run Dialog -->
+
+    <string name="firstrun_login_title">Log ind</string>
+    <string name="firstrun_login_message">Du er ikke logget ind. Du kan få adgang til brugerkonti-listen ved at vælge "Brugerkonti" fra menuen.</string>
+    <string name="firstrun_login_button_now">Log ind nu</string>
+    <string name="firstrun_login_button_later">Vær anonym</string>
+
+    <!-- Preference Headers -->
+
+    <string name="prefs_category_appearance">Udseende</string>
+    <string name="prefs_category_behaviour">Opførsel</string>
+    <string name="prefs_category_cache">Cache</string>
+    <string name="prefs_category_menus">Menuer</string>
+
+    <!-- Appearance Prefs -->
+
+    <string name="pref_appearance_theme_header">Tema</string>
+    <string name="pref_appearance_font_header">Skrifttype</string>
+    <string name="pref_appearance_thumbnails_header">Thumbnails</string>
+    <string name="pref_appearance_tabletmode_header">Tablet Tilstand</string>
+    <string name="pref_appearance_comments_header">Kommentarer</string>
+    <string name="pref_appearance_other_header">Andet</string>
+
+    <string name="pref_appearance_twopane_key">pref_appearance_twopane</string>
+    <string name="pref_appearance_twopane_title">Tablet Tilstand (to paneler)</string>
+
+    <string name="pref_appearance_theme_key">pref_appearance_theme</string>
+    <string name="pref_appearance_theme_title">Tema</string>
+
+    <string name="pref_appearance_solidblack_key">pref_appearance_solidblack</string>
+    <string name="pref_appearance_solidblack_title">Solid sort it nat-tilstand</string>
+
+    <string name="pref_appearance_fontscale_posts_key">pref_appearance_fontscale_posts</string>
+    <string name="pref_appearance_fontscale_posts_title">Indlæg Skrifttypestørrelse</string>
+
+    <string name="pref_appearance_fontscale_comments_key">pref_appearance_fontscale_comments</string>
+    <string name="pref_appearance_fontscale_comments_title">Kommentar Skrifttypestørrelse</string>
+
+    <string name="pref_appearance_thumbnails_show_key">pref_appearance_thumbnails_show</string>
+    <string name="pref_appearance_thumbnails_show_title">Vis thumbnails</string>
+
+    <string name="pref_appearance_thumbnails_nsfw_show_key">pref_appearance_thumbnails_nsfw_show</string>
+    <string name="pref_appearance_thumbnails_nsfw_show_title">Vis NSFW thumbnails</string>
+
+    <string name="pref_appearance_thumbnails_wifionly_key">pref_appearance_thumbnails_wifionly</string>
+    <string name="pref_appearance_thumbnails_wifionly_title">Thumbnails kun på Wi-Fi</string>
+
+    <string name="pref_appearance_loading_detail_key">pref_appearance_loading_detail</string>
+    <string name="pref_appearance_loading_detail_title">Vis detalejerede indlæsnings meddelser</string>
+
+    <string name="pref_appearance_comment_header_items_key">pref_appearance_comment_header_items</string>
+    <string name="pref_appearance_comment_header_items_title">Kommentar Header</string>
+
+    <!-- Behaviour Prefs -->
+
+    <string name="pref_behaviour_actions_post_header">Indlæg Handlinger</string>
+    <string name="pref_behaviour_actions_comment_header">Kommentar Handlinger</string>
+    <string name="pref_behaviour_posts_header">Indlæg</string>
+
+    <string name="pref_behaviour_fling_post_left_key">pref_behaviour_fling_post_left</string>
+    <string name="pref_behaviour_fling_post_left_title">Træk Indlæg Venstre Handling</string>
+
+    <string name="pref_behaviour_fling_post_right_key">pref_behaviour_fling_post_right</string>
+    <string name="pref_behaviour_fling_post_right_title">Træk Indlæg Højre Handling</string>
+
+    <string name="pref_behaviour_actions_comment_tap_key">pref_behaviour_actions_comment_tap</string>
+    <string name="pref_behaviour_actions_comment_tap_title">Kommentar Tryk Handling</string>
+
+    <string name="pref_behaviour_nsfw_key">pref_behaviour_nsfw</string>
+    <string name="pref_behaviour_nsfw_title">Vis NSFW indhold</string>
+
+    <!-- Cache Prefs -->
+
+    <string name="pref_cache_pruning">Cache Rensning</string>
+
+    <string name="pref_cache_maxage_listing_key">pref_cache_maxage_listing</string>
+    <string name="pref_cache_maxage_listing_title">Slet cachede listninger efter</string>
+
+    <string name="pref_cache_maxage_thumb_key">pref_cache_maxage_thumb</string>
+    <string name="pref_cache_maxage_thumb_title">Slet cachede thumbnails efter</string>
+
+    <string name="pref_cache_maxage_image_key">pref_cache_maxage_image</string>
+    <string name="pref_cache_maxage_image_title">Slet cachede billeder efter</string>
+
+    <string name="pref_cache_precache_images_header">Precache Billeder</string>
+
+    <string name="pref_cache_precache_images_key">pref_cache_precache_images</string>
+    <string name="pref_cache_precache_images_title">Precache billeder</string>
+
+    <!-- TODO use listpreference instead -->
+    <string name="pref_cache_precache_images_wifionly_key">pref_cache_precache_images_wifionly</string>
+    <string name="pref_cache_precache_images_wifionly_title">Kun på Wi-Fi</string>
+
+    <!-- Menu Prefs -->
+
+    <string name="pref_menus_post_context_items_key">pref_menus_post_context_items</string>
+    <string name="pref_menus_post_context_items_title">Indlæg Kontekstsmenu Elementer</string>
+
+    <string name="pref_menus_post_toolbar_items_key">pref_menus_post_toolbar_items</string>
+    <string name="pref_menus_post_toolbar_items_title">Indlæg Værktøjsbjælke Elementer</string>
+
+    <!-- Options Menu -->
+
+    <string name="options_accounts">Brugerkonti</string>
+    <string name="options_accounts_long">Reddit Brugerkonti</string>
+    <string name="options_theme">Temaer</string>
+    <string name="options_settings">Indstillinger</string>
+
+    <string name="options_submit_post">Tilføj Indlæg</string>
+
+    <string name="options_refresh">Genopfrisk</string>
+    <string name="options_refresh_subreddits">Genopfrisk Subreddits</string>
+    <string name="options_refresh_posts">Genopfrisk Indlæg</string>
+    <string name="options_refresh_comments">Genopfrisk Kommentarer</string>
+
+    <string name="options_past">Tidligere Versioner</string>
+    <string name="options_past_posts">Tidligere Indlægsliste Versioner</string>
+    <string name="options_past_comments">Tidligere Kommentarliste Versioner</string>
+
+    <string name="options_sort">Sortér</string>
+    <string name="options_sort_subreddits">Sortér Subreddits</string>
+    <string name="options_sort_posts">Sortér Indlæg</string>
+    <string name="options_sort_comments">Sortér Kommentarer</string>
+
+    <!-- Main Menu -->
+
+    <string name="mainmenu_frontpage">Front Page</string>
+    <string name="mainmenu_all">Alle Subreddits</string>
+    <string name="mainmenu_custom">Brugerdefinerede Subreddit</string>
+    <string name="mainmenu_custom_invalid_name">Ugyldigt subreddit navn.</string>
+    <string name="mainmenu_saved">Gemte Indlæg</string>
+    <string name="mainmenu_hidden">Skjulte Indlæg</string>
+    <string name="mainmenu_upvoted">Upvotede Indlæg</string>
+    <string name="mainmenu_inbox">Indbakke</string>
+    <string name="mainmenu_profile">Min Profil</string>
+    <string name="mainmenu_header_subreddits">Subreddits</string>
+
+    <!-- General Listing -->
+
+    <string name="listing_cached">Ser på cached kopi fra</string>
+
+    <!-- Accounts Dialog -->
+
+    <string name="accounts_anon">Anonym</string>
+    <string name="accounts_active">Aktiv</string>
+    <string name="accounts_add">Tilføj Reddit Brugerkonto</string>
+    <string name="accounts_setactive">Gør Aktiv</string>
+    <string name="accounts_reauth">Genautentificér</string>
+    <string name="accounts_delete">Slet</string>
+
+    <string name="accounts_loggingin">Logger ind…</string>
+    <string name="accounts_loggingin_msg">Et øjeblik…</string>
+
+    <string name="accounts_username">Brugernavn</string>
+    <string name="accounts_password">Kodeord</string>
+
+    <string name="accounts_login">Log ind</string>
+
+    <string name="accounts_delete_sure">Er du sikker på at du vil slette denne brugerkonto?</string>
+
+    <!-- Post Sorts -->
+
+    <string name="sort_posts_hot">Hotte</string>
+    <string name="sort_posts_new">Nye</string>
+    <string name="sort_posts_rising">Stigende</string>
+    <string name="sort_posts_controversial">Kontroversielle</string>
+    <string name="sort_posts_top">Top</string>
+    <string name="sort_posts_top_hour">Top: Denne time</string>
+    <string name="sort_posts_top_today">Top: Idag</string>
+    <string name="sort_posts_top_week">Top: Denne Uge</string>
+    <string name="sort_posts_top_month">Top: Denne Måned</string>
+    <string name="sort_posts_top_year">Top: Dette År</string>
+    <string name="sort_posts_top_all">Top: Altid</string>
+
+    <!-- Comment Sorts -->
+
+    <string name="sort_comments_best">Bedste</string>
+    <string name="sort_comments_hot">Hotte</string>
+    <string name="sort_comments_new">Nye</string>
+    <string name="sort_comments_old">Gamle</string>
+    <string name="sort_comments_controversial">Kontroversielle</string>
+    <string name="sort_comments_top">Top</string>
+
+    <!-- Dialog Buttons -->
+
+    <string name="dialog_close">Luk</string>
+    <string name="dialog_cancel">Annuler</string>
+    <string name="dialog_yes">Ja</string>
+    <string name="dialog_no">Nej</string>
+    <string name="dialog_go">Gå</string>
+
+    <!-- Thing Actions -->
+
+    <string name="action_menu_post_title">Post Actions</string>
+
+    <string name="action_upvote">Upvote</string>
+    <string name="action_downvote">Downvote</string>
+    <string name="action_vote_remove">Fjern Vote</string>
+    <string name="action_upvote_remove">Fjern Upvote</string>
+    <string name="action_downvote_remove">Fjern Downvote</string>
+    <string name="action_save">Gem</string>
+    <string name="action_hide">Skjul</string>
+    <string name="action_unsave">Unsave</string>
+    <string name="action_unhide">Unhide</string>
+    <string name="action_external">Vis i Ekstern Browser</string>
+    <string name="action_external_short">I Browser</string>
+    <string name="action_actionmenu_short">Handlinger</string>
+    <string name="action_actionmenu">Handlings Menu</string>
+    <string name="action_comment_links">Links i Kommentar</string>
+    <string name="action_selftext_links">Links i Self Text</string>
+    <string name="action_share">Del</string>
+    <string name="action_share_comments">Del Kommentarer</string>
+    <string name="action_copy">Kopier</string>
+    <string name="action_gotosubreddit">Gå til Subreddit</string>
+    <string name="action_reply">Svar</string>
+    <string name="action_edit">Rediger</string>
+    <string name="action_user_profile">Brugerprofil</string>
+    <string name="action_user_profile_short">Bruger</string>
+    <string name="action_properties">Egenskaber</string>
+    <string name="action_comments">Vis Kommentarer</string>
+    <string name="action_comments_switch">Skift Til Kommentarer</string>
+    <string name="action_comments_short">Kommentarer</string>
+    <string name="action_link">Åbn Link</string>
+    <string name="action_link_switch">Skift Til Link</string>
+    <string name="action_link_short">Link</string>
+    <string name="action_collapse">Toggle Kollaps</string>
+    <string name="action_nothing">Gør intet</string>
+
+    <string name="action_report">Rapporter</string>
+    <string name="action_report_sure">Er du sikker på at du vil rapportere dette?</string>
+
+    <string name="action_save_image">Gem Billede</string>
+    <string name="action_save_image_success">Gemt i billedmappe som</string>
+
+    <!-- Download Messages -->
+
+    <string name="download_waiting">Venter…</string>
+    <string name="download_connecting">Forbinder…</string>
+    <string name="download_downloadstarting">Download starter…</string>
+    <string name="download_downloading">Downloader…</string>
+    <string name="download_loading">Indlæser…</string>
+    <string name="download_done">Færdig.</string>
+    <string name="download_failed">Fejlede.</string>
+
+    <!-- Image View -->
+
+    <string name="imageview_oom">Ude af hukommelse. Prøver intern browser.</string>
+    <string name="imageview_invalid_gif">Ugyldig GIF. Prøver intern browser.</string>
+
+    <!-- Comment Reply/Edit, Post Submit -->
+
+    <string name="comment_reply_send">Send</string>
+    <string name="comment_edit_save">Gem</string>
+    <string name="comment_reply_preview">Preview</string>
+    <string name="comment_reply_submitting_title">Tilføjer…</string>
+    <string name="comment_reply_submitting_message">Et øjeblik…</string>
+    <string name="comment_reply_oncancel">Venter på resultater af handling…</string>
+    <string name="comment_reply_done">Svar sendt. Kommentaren vil blive vist når du har genopfrisket.</string>
+    <string name="comment_edit_done">Kommentar redigeret. Ændringerne vil blive vist når du har genopfrisket.</string>
+    <string name="post_submit_title_hint">Titel</string>
+    <string name="post_submit_subreddit_hint">Subreddit</string>
+    <string name="post_captcha_title">Captcha</string>
+    <string name="post_captcha_submit_button">Send</string>
+    <string name="post_submit_done">Indlæg tilføjet.</string>
+
+    <!-- Bug Reporting -->
+
+    <string name="bug_title">En fejl er opstået.</string>
+    <string name="bug_message">RedReader er stødt på en fejl.\n\nKunne du tænke dig at sende en bug report til udvikleren? Hvis ja, vil en email automatisk blive udfyldt for dig med al den relevante information, og du kan inspicere indholdet før du afsender.</string>
+    <string name="bug_button_send">Send bug report via email</string>
+    <string name="bug_button_ignore">Send ikke bug report</string>
+
+    <!-- General errors -->
+
+    <string name="error_403_title">Ugyldig Bruger</string>
+    <string name="error_403_message">Brugeren du valgte har ikke rettigheder til at gøre det.</string>
+
+    <string name="error_subreddit_required_title">Subreddit Påkrævet</string>
+    <string name="error_subreddit_required_message">Du skal specificere en subreddit.</string>
+
+    <string name="error_bad_captcha_title">Ugyldig CAPTCHA</string>
+    <string name="error_bad_captcha_message">CAPTCHA\'en du indtastede var ikke korrekt. Prøv igen.</string>
+
+    <string name="error_404_title">Ikke fundet (404)</string>
+    <string name="error_404_message">Dataen du anmodede kunne ikke findes.</string>
+
+    <string name="error_unknown_api_title">Fejl</string>
+    <string name="error_unknown_api_message">Serveren accepterede ikke forespørgslen af en ukendt årsag. Prøv igen.</string>
+
+    <string name="error_redditdown_title">Reddit er nede</string>
+    <string name="error_redditdown_message">Reddit er under højt pres i øjeblikket. Prøv igen.</string>
+
+    <string name="error_cancelled_title">Operation Annuleret</string>
+    <string name="error_cancelled_message">Den igangværende operation blev annuleret.</string>
+
+    <string name="error_parse_title">Parsnings Fejl</string>
+    <string name="error_parse_message">Reddit sendte noget data jeg ikke kunne forstå.</string>
+
+    <string name="error_unexpected_cache_title">Uventet Cache Fejl</string>
+    <string name="error_unexpected_cache_message">En ukendt intern fejl er opstået, forbundet til cachen.</string>
+
+    <string name="error_unexpected_storage_title">Uventet Lagerings Fejl</string>
+    <string name="error_unexpected_storage_message">En ukendt intern fejl er opstået, forbundet til cache lageringen.</string>
+
+    <string name="error_connection_title">Forbindelses Problemer</string>
+    <string name="error_connection_message">Der var et problem med at forbinde til serveren. Kontrollér din forbindelse og prøv igen.</string>
+
+    <string name="error_malformed_url_title">Misdannet URL</string>
+    <string name="error_malformed_url_message">An attempt was made to access an invalid URL.</string>
+
+    <string name="error_unknown_title">Ukendt Fejl</string>
+    <string name="error_unknown_message">En ukendt fejl er opstået. Prøv igen.</string>
+
+    <!-- Post list specific errors -->
+
+    <string name="error_postlist_cache_title">Ikke Mere Cached Data</string>
+    <string name="error_postlist_cache_message">Du ser i øjeblikket en cached version af indholdet, og der er ikke flere indlæg fra denne session cached. Tryk genopfrisk for at downloade de seneste i, eller vælg en anden tidligere version fra menuen.</string>
+
+    <string name="error_postlist_redditdown_title">Reddit er Nede</string>
+    <string name="error_postlist_redditdown_message">Reddit er under højt pres i øjeblikket. Tryk genopfrisk for at downloade de seneste indlæg, eller vælg en tidligere version fra menuen.</string>
+
+    <!-- Session List -->
+
+    <string name="session_active">Aktiv</string>
+
+    <!-- Time -->
+
+    <string name="time_ago">siden</string>
+
+    <!-- User Profile -->
+
+    <string name="userprofile_created">Oprettet</string>
+    <string name="userprofile_hasmail">Har Mail</string>
+    <string name="userprofile_hasmodmail">Har Mod Mail</string>
+    <string name="userprofile_isfriend">Er Ven</string>
+    <string name="userprofile_isgold">Reddit Gold</string>
+    <string name="userprofile_moderator">Er Moderator</string>
+    <string name="userprofile_viewcomments">Vis Kommentarer</string>
+    <string name="userprofile_viewposts">Vis Indlæg</string>
+
+    <!-- Comment/Post Properties -->
+
+    <string name="props_comment_title">Kommentar Egenskaber</string>
+    <string name="props_post_title">Indlæg Egenskaber</string>
+    <string name="props_error_title">Fejl Egenskaber</string>
+
+    <string name="props_title">Titel</string>
+    <string name="props_author">Forfatter</string>
+    <string name="props_author_flair">Forfatter Flair Tekst</string>
+    <string name="props_created">Oprettet</string>
+    <string name="props_edited">Redigeret</string>
+    <string name="props_score">Score</string>
+    <string name="props_subreddit">Subreddit</string>
+    <string name="props_url">URL</string>
+    <string name="props_num_comments">Antal kommentarer</string>
+    <string name="props_body_markdown">Body (Grov Markdown)</string>
+    <string name="props_self_markdown">Self text (Grov Markdown)</string>
+
+    <string name="props_never">Aldrig</string>
+    <string name="props_up">Op</string>
+    <string name="props_down">Ned</string>
+
+    <!-- General -->
+
+    <string name="general_true">Sandt</string>
+    <string name="general_false">Falsk</string>
+
+</resources>

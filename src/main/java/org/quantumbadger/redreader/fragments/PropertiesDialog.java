@@ -72,7 +72,7 @@ public abstract class PropertiesDialog extends DialogFragment {
 		sv.addView(items);
 		builder.setView(sv);
 
-		builder.setNeutralButton("Close", null);
+		builder.setNeutralButton(R.string.dialog_close, null);
 
 		return builder.create();
 	}

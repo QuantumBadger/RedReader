@@ -163,7 +163,7 @@
 
     <string name="mainmenu_frontpage">Front Page</string>
     <string name="mainmenu_all">Alle Subreddits</string>
-    <string name="mainmenu_custom">Brugerdefinerede Subreddit</string>
+    <string name="mainmenu_custom">Brugerdefineret Subreddit</string>
     <string name="mainmenu_custom_invalid_name">Ugyldigt subreddit navn.</string>
     <string name="mainmenu_saved">Gemte Indlæg</string>
     <string name="mainmenu_hidden">Skjulte Indlæg</string>
@@ -401,5 +401,78 @@
 
     <string name="general_true">Sandt</string>
     <string name="general_false">Falsk</string>
+
+    <!-- 2013-05-17 Arrays -->
+
+    <string name="pref_appearance_twopane_never">Aldrig</string>
+    <string name="pref_appearance_twopane_auto">Auto-detekter</string>
+    <string name="pref_appearance_twopane_landscape">Landscape Only</string>
+    <string name="pref_appearance_twopane_force">Tving (ser måske sjovt ud)</string>
+
+    <string name="theme_name_red">Rød</string>
+    <string name="theme_name_night">Nat</string>
+    <string name="theme_name_green">Grøn</string>
+    <string name="theme_name_blue">Blå</string>
+    <string name="theme_name_ltblue">Lyseblå</string>
+    <string name="theme_name_orange">Orange</string>
+    <string name="theme_name_gray">Grå</string>
+
+    <string name="time_1hr">1 time</string>
+    <string name="time_6hr">6 timer</string>
+    <string name="time_1day">1 dag</string>
+    <string name="time_3day">3 dage</string>
+    <string name="time_1week">1 uge</string>
+    <string name="time_1month">1 måned</string>
+    <string name="time_3month">3 måneder</string>
+
+    <string name="pref_appearance_comment_header_items_author">Forfatter</string>
+    <string name="pref_appearance_comment_header_items_flair">Flair</string>
+    <string name="pref_appearance_comment_header_items_score">Score</string>
+    <string name="pref_appearance_comment_header_items_upsdowns">Upvotes/downvotes</string>
+    <string name="pref_appearance_comment_header_items_age">Alder</string>
+
+    <!-- 2013-05-17 -->
+
+    <string name="error_toast_notloggedin">Du er nødt til at være logget ind for at gøre det.</string>
+
+    <string name="button_moredetail">Flere detajler</string>
+
+    <string name="pref_appearance_scale_normal">Normal</string>
+
+    <string name="error_invalid_password_title">Ugyldigt Password</string>
+    <string name="error_invalid_password_message">Dit brugernavn eller password var forkert.</string>
+
+    <string name="error_ratelimit_title">For mange ugyldige forsøg.</string>
+    <string name="error_ratelimit_message">Blokeret grundet for mange ugyldige login forsøg fra denne IP. Reddit siger:</string>
+
+    <string name="general_success">Succes</string>
+
+    <string name="message_nowloggedin">Du er nu logget ind.</string>
+    <string name="message_cannotlogin">Kunne ikke logge ind.</string>
+
+    <string name="error_toast_no_urls_in_comment">Ingen URLs fundet i denne kommentar.</string>
+    <string name="error_toast_no_urls_in_self">Ingen URLs fundet i denne self text.</string>
+    <string name="error_toast_parent_post_not_downloaded">Parent indlæg endnu ikke downloadet.</string>
+
+    <string name="message_cannotlogin">Kunne ikke logge ind.</string>
+
+    <string name="download_subreddits">Downloader subreddits…</string>
+
+    <string name="subtitle_points">pts</string>
+    <string name="subtitle_by">af</string>
+    <string name="subtitle_to">til</string>
+    <string name="subtitle_replies">svar</string>
+    <string name="subtitle_reply">svar</string>
+
+    <string name="general_unknown">ukendt</string>
+
+    <string name="action_search">Søg</string>
+    <string name="search_subreddit_restrict">Begræns søgning til</string>
+
+    <string name="title_changelog">Nyheder</string>
+
+    <string name="pref_behaviour_commentsort">Standard Kommentar Sortering</string>
+
+    <string name="pref_appearance_twopane_landscape">Kun landskab</string>
 
 </resources>

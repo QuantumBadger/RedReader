@@ -1,4 +1,4 @@
-30/1.6.7
+31/1.6.7
 Added this changelog!
 Added Danish translations (thanks to /u/fosterbuster)
 Reformats youtu.be links so the YouTube app can handle them

@@ -1,6 +1,8 @@
 30/1.6.7
 Added this changelog!
 Added Danish translations (thanks to /u/fosterbuster)
+Reformats youtu.be links so the YouTube app can handle them
+Reformats invalid youtube.com links provided by reddit
 
 29/1.6.6
 Massively sped up cache pruning (no more freezing on startup)

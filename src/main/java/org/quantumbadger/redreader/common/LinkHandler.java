@@ -101,7 +101,7 @@ public class LinkHandler {
 
 		if(youtubeDotComPattern.matcher(url).matches() || vimeoPattern.matcher(url).matches()) {
 			final Intent intent = new Intent(Intent.ACTION_VIEW);
-			intent.setData(Uri.parse(url));
+			intent.setData(Uri.parse(url.replaceAll("&amp;", "&")));
 			activity.startActivity(intent);
 
 		} else {

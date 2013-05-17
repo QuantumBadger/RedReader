@@ -140,13 +140,13 @@ public class MainActivity extends RefreshableActivity
 
 				General.quickToast(this, "Updated to version " + pInfo.versionName);
 
-				// TODO Show changelog
-
 				sharedPreferences.edit().putInt("lastVersion", appVersion).commit();
+				ChangelogDialog.newInstance().show(this);
 			}
 
 		} else {
 			sharedPreferences.edit().putInt("lastVersion", appVersion).commit();
+			ChangelogDialog.newInstance().show(this);
 		}
 	}
 

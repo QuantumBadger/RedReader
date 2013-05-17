@@ -224,7 +224,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 
 		lv = (ListView)inflater.inflate(R.layout.reddit_post_list);
 		lv.setOnScrollListener(this);
-		lv.addHeaderView(listHeader, null, false);
+		lv.addHeaderView(listHeader);
 		lv.addFooterView(listFooterNotifications, null, false);
 
 		lv.setPersistentDrawingCache(ViewGroup.PERSISTENT_ALL_CACHES);

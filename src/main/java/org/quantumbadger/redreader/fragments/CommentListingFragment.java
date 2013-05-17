@@ -527,7 +527,7 @@ public class CommentListingFragment extends Fragment
 					menu.add(Menu.NONE, Action.REPORT.ordinal(), 0, R.string.action_report);
 					menu.add(Menu.NONE, Action.REPLY.ordinal(), 0, R.string.action_reply);
 
-					if(user.username.equals(comment.src.author)) menu.add(Menu.NONE, Action.EDIT.ordinal(), 0, R.string.action_edit);
+					if(user.username.equalsIgnoreCase(comment.src.author)) menu.add(Menu.NONE, Action.EDIT.ordinal(), 0, R.string.action_edit);
 				}
 
 				menu.add(Menu.NONE, Action.COMMENT_LINKS.ordinal(), 0, R.string.action_comment_links);

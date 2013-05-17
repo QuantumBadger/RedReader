@@ -19,6 +19,8 @@ package org.quantumbadger.redreader.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -105,6 +107,15 @@ public class MainActivity extends RefreshableActivity
 
 		RedditAccountManager.getInstance(this).addUpdateListener(this);
 
+		PackageInfo pInfo = null;
+		try {
+			pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+		} catch(PackageManager.NameNotFoundException e) {
+			throw new RuntimeException(e);
+		}
+
+		final int appVersion = pInfo.versionCode;
+
 		if(!sharedPreferences.contains("firstRunMessageShown")) {
 
 			new AlertDialog.Builder(this)
@@ -122,6 +133,20 @@ public class MainActivity extends RefreshableActivity
 			final SharedPreferences.Editor edit = sharedPreferences.edit();
 			edit.putString("firstRunMessageShown", "true");
 			edit.commit();
+
+		} else if(sharedPreferences.contains("lastVersion")) {
+
+			if(sharedPreferences.getInt("lastVersion", 0) != appVersion) {
+
+				General.quickToast(this, "Updated to version " + pInfo.versionName);
+
+				// TODO Show changelog
+
+				sharedPreferences.edit().putInt("lastVersion", appVersion).commit();
+			}
+
+		} else {
+			sharedPreferences.edit().putInt("lastVersion", appVersion).commit();
 		}
 	}
 

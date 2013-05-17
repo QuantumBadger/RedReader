@@ -141,6 +141,7 @@ public class MainMenuAdapter extends BaseAdapter {
 			items.add(makeItem(context.getString(R.string.mainmenu_upvoted), MainMenuFragment.MainMenuAction.LIKED, null, rrIconThumbUp));
 		}
 
+		items.add(new MainMenuItem(context.getString(R.string.mainmenu_header_subreddits)));
 		//items.add(makeItem("Add Subreddit", null, null, null)); // TODO
 
 		notifyDataSetChanged();
@@ -176,7 +177,6 @@ public class MainMenuAdapter extends BaseAdapter {
 
 		new Handler(Looper.getMainLooper()).post(new Runnable() {
 			public void run() {
-				items.add(new MainMenuItem(context.getString(R.string.mainmenu_header_subreddits)));
 
 				for(final RedditSubreddit subreddit : subreddits) {
 					items.add(makeItem(subreddit.display_name.toLowerCase(), subreddit));
@@ -198,6 +198,8 @@ public class MainMenuAdapter extends BaseAdapter {
 	}
 
 	public void clickOn(final int position) {
-		items.get(position).onClick(null);
+		if(position < items.size()) {
+			items.get(position).onClick(null);
+		}
 	}
 }

@@ -20,4 +20,6 @@
 
     <color name="lightWindowBackground">#FBFBFB</color>
 
+    <color name="white_selector">#88FFFFFF</color>
+
 </resources>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+              android:exitFadeDuration="@android:integer/config_mediumAnimTime">
+
+        <item android:state_focused="true"  android:state_enabled="false" android:state_pressed="true" android:drawable="@color/white_selector" />
+        <item android:state_focused="true"  android:state_enabled="false"                              android:drawable="@color/white_selector" />
+        <item android:state_focused="true"                                android:state_pressed="true" android:drawable="@color/white_selector" />
+        <item android:state_focused="false"                               android:state_pressed="true" android:drawable="@color/white_selector" />
+        <item android:state_focused="true"                                                             android:drawable="@color/white_selector" />
+        <item                                                                                          android:drawable="@color/transparent" />
+
+</selector>

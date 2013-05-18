@@ -464,4 +464,10 @@
 
     <string name="action_fling_disabled">Disabled</string>
 
+    <string name="pref_about_version_key">pref_about_version</string>
+    <string name="pref_about_version_title">Version</string>
+
+    <string name="pref_about_changelog_key">pref_about_changelog</string>
+    <string name="prefs_category_about">About</string>
+
 </resources>

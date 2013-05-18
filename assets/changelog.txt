@@ -1,5 +1,6 @@
 32/1.6.8
 Added preference to disable post flinging (select "disabled" under "post fling action")
+Added "About" section to preferences
 
 31/1.6.7
 Added this changelog!

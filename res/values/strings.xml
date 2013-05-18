@@ -22,96 +22,96 @@
 
     <!-- First Run Dialog -->
 
-    <string name="firstrun_login_title">Log in</string>
-    <string name="firstrun_login_message">You are not currently logged in. You can access the account list by selecting "Accounts" from the menu.</string>
-    <string name="firstrun_login_button_now">Log in now</string>
-    <string name="firstrun_login_button_later">Be anonymous</string>
+    <string name="firstrun_login_title">Anmelden</string>
+    <string name="firstrun_login_message">Du bist zur Zeit nicht angemeldet. Du kannst die Accountübersicht erreichen, in dem du "Accounts" im Menü auswählst.</string>
+    <string name="firstrun_login_button_now">Jetzt anmelden</string>
+    <string name="firstrun_login_button_later">Anonym bleiben</string>
 
     <!-- Preference Headers -->
 
-    <string name="prefs_category_appearance">Appearance</string>
-    <string name="prefs_category_behaviour">Behaviour</string>
+    <string name="prefs_category_appearance">Erscheinungsbild</string>
+    <string name="prefs_category_behaviour">Verhalten</string>
     <string name="prefs_category_cache">Cache</string>
-    <string name="prefs_category_menus">Menus</string>
+    <string name="prefs_category_menus">Menüs</string>
 
     <!-- Appearance Prefs -->
 
-    <string name="pref_appearance_theme_header">Theme</string>
-    <string name="pref_appearance_font_header">Font</string>
-    <string name="pref_appearance_thumbnails_header">Thumbnails</string>
-    <string name="pref_appearance_tabletmode_header">Tablet Mode</string>
-    <string name="pref_appearance_comments_header">Comments</string>
-    <string name="pref_appearance_other_header">Other</string>
+    <string name="pref_appearance_theme_header">Thema</string>
+    <string name="pref_appearance_font_header">Schrift</string>
+    <string name="pref_appearance_thumbnails_header">Vorschaubilder</string>
+    <string name="pref_appearance_tabletmode_header">Tablet-Modus</string>
+    <string name="pref_appearance_comments_header">Kommentare</string>
+    <string name="pref_appearance_other_header">Sonstiges</string>
 
     <string name="pref_appearance_twopane_key">pref_appearance_twopane</string>
-    <string name="pref_appearance_twopane_title">Tablet Mode (two pane)</string>
+    <string name="pref_appearance_twopane_title">Tablet-Modus (Zweispaltig)</string>
 
     <string name="pref_appearance_theme_key">pref_appearance_theme</string>
-    <string name="pref_appearance_theme_title">Theme</string>
+    <string name="pref_appearance_theme_title">Thema</string>
 
     <string name="pref_appearance_solidblack_key">pref_appearance_solidblack</string>
-    <string name="pref_appearance_solidblack_title">Solid black in night mode</string>
+    <string name="pref_appearance_solidblack_title">Echtes Schwarz im Nachtmodus</string>
 
     <string name="pref_appearance_fontscale_posts_key">pref_appearance_fontscale_posts</string>
-    <string name="pref_appearance_fontscale_posts_title">Posts Font Scale</string>
+    <string name="pref_appearance_fontscale_posts_title">Post-Schriftgröße</string>
 
     <string name="pref_appearance_fontscale_comments_key">pref_appearance_fontscale_comments</string>
-    <string name="pref_appearance_fontscale_comments_title">Comments Font Scale</string>
+    <string name="pref_appearance_fontscale_comments_title">Kommentar-Schriftgröße</string>
 
     <string name="pref_appearance_thumbnails_show_key">pref_appearance_thumbnails_show</string>
-    <string name="pref_appearance_thumbnails_show_title">Show thumbnails</string>
+    <string name="pref_appearance_thumbnails_show_title">Zeige Vorschaubilder</string>
 
     <string name="pref_appearance_thumbnails_nsfw_show_key">pref_appearance_thumbnails_nsfw_show</string>
-    <string name="pref_appearance_thumbnails_nsfw_show_title">Show NSFW thumbnails</string>
+    <string name="pref_appearance_thumbnails_nsfw_show_title">Zeige NSFW Vorschaubilder</string>
 
     <string name="pref_appearance_thumbnails_wifionly_key">pref_appearance_thumbnails_wifionly</string>
-    <string name="pref_appearance_thumbnails_wifionly_title">Thumbnails on Wi-Fi only</string>
+    <string name="pref_appearance_thumbnails_wifionly_title">Zeige Vorschaubilder nur bei WLAN</string>
 
     <string name="pref_appearance_loading_detail_key">pref_appearance_loading_detail</string>
-    <string name="pref_appearance_loading_detail_title">Show detailed loading messages</string>
+    <string name="pref_appearance_loading_detail_title">Zeige detaillierte Ladenachrichten</string>
 
     <string name="pref_appearance_comment_header_items_key">pref_appearance_comment_header_items</string>
-    <string name="pref_appearance_comment_header_items_title">Comment Header</string>
+    <string name="pref_appearance_comment_header_items_title">Kommentarkopf</string>
 
     <!-- Behaviour Prefs -->
 
-    <string name="pref_behaviour_actions_post_header">Post Actions</string>
-    <string name="pref_behaviour_actions_comment_header">Comment Actions</string>
+    <string name="pref_behaviour_actions_post_header">Post-Aktionen</string>
+    <string name="pref_behaviour_actions_comment_header">Kommentar-Aktionen</string>
     <string name="pref_behaviour_posts_header">Posts</string>
 
     <string name="pref_behaviour_fling_post_left_key">pref_behaviour_fling_post_left</string>
-    <string name="pref_behaviour_fling_post_left_title">Fling Post Left Action</string>
+    <string name="pref_behaviour_fling_post_left_title">Posts nach links wischen</string>
 
     <string name="pref_behaviour_fling_post_right_key">pref_behaviour_fling_post_right</string>
-    <string name="pref_behaviour_fling_post_right_title">Fling Post Right Action</string>
+    <string name="pref_behaviour_fling_post_right_title">Posts nach rechts wischen</string>
 
     <string name="pref_behaviour_actions_comment_tap_key">pref_behaviour_actions_comment_tap</string>
-    <string name="pref_behaviour_actions_comment_tap_title">Comment Tap Action</string>
+    <string name="pref_behaviour_actions_comment_tap_title">Auf Kommentare Tippen</string>
 
     <string name="pref_behaviour_nsfw_key">pref_behaviour_nsfw</string>
-    <string name="pref_behaviour_nsfw_title">Show NSFW content</string>
+    <string name="pref_behaviour_nsfw_title">Zeige NSFW Inhalt</string>
 
     <!-- Cache Prefs -->
 
-    <string name="pref_cache_pruning">Cache Pruning</string>
+    <string name="pref_cache_pruning">Cache leeren</string>
 
     <string name="pref_cache_maxage_listing_key">pref_cache_maxage_listing</string>
-    <string name="pref_cache_maxage_listing_title">Delete cached listings after</string>
+    <string name="pref_cache_maxage_listing_title">Leere Cacheeinträge nach</string>
 
     <string name="pref_cache_maxage_thumb_key">pref_cache_maxage_thumb</string>
-    <string name="pref_cache_maxage_thumb_title">Delete cached thumbnails after</string>
+    <string name="pref_cache_maxage_thumb_title">Leere Vorschaubild-Cache nach</string>
 
     <string name="pref_cache_maxage_image_key">pref_cache_maxage_image</string>
-    <string name="pref_cache_maxage_image_title">Delete cached images after</string>
+    <string name="pref_cache_maxage_image_title">Leere Bildercache nach</string>
 
     <string name="pref_cache_precache_images_header">Precache Images</string>
 
     <string name="pref_cache_precache_images_key">pref_cache_precache_images</string>
-    <string name="pref_cache_precache_images_title">Precache images</string>
+    <string name="pref_cache_precache_images_title">Lade Bilder vorab</string>
 
     <!-- TODO use listpreference instead -->
     <string name="pref_cache_precache_images_wifionly_key">pref_cache_precache_images_wifionly</string>
-    <string name="pref_cache_precache_images_wifionly_title">On Wi-Fi only</string>
+    <string name="pref_cache_precache_images_wifionly_title">Nur bei WLAN</string>
 
     <!-- Menu Prefs -->
 

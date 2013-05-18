@@ -118,7 +118,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 
 				case NOTIF_AGE:
 					final TextView cacheNotif = new TextView(context);
-					cacheNotif.setText(context.getString(R.string.listing_cached) + " " + RRTime.formatDateTime((Long) msg.obj));
+					cacheNotif.setText(context.getString(R.string.listing_cached) + " " + RRTime.formatDateTime((Long) msg.obj, context));
 					final int paddingPx = General.dpToPixels(context, 6);
 					cacheNotif.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
 					cacheNotif.setTextSize(13f);

@@ -17,66 +17,34 @@
 
 package org.quantumbadger.redreader.common;
 
+import android.content.Context;
+import android.text.format.DateFormat;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import java.util.HashSet;
-import java.util.Locale;
-
 public class RRTime {
 
-	private static final DateTimeFormatter dtFormatter;
-	private static final HashSet<String> twelveHourCountries;
+	private static final DateTimeFormatter
+			dtFormatter12hr = DateTimeFormat.forPattern("yyyy-MM-dd h:mm a"),
+			dtFormatter24hr = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm");
 
-	static {
-		twelveHourCountries = new HashSet<String>();
-
-		twelveHourCountries.add("AUS");
-		twelveHourCountries.add("GBR");
-		twelveHourCountries.add("BGD");
-		twelveHourCountries.add("CAN");
-		twelveHourCountries.add("COL");
-		twelveHourCountries.add("CRI");
-		twelveHourCountries.add("EGY");
-		twelveHourCountries.add("SLV");
-		twelveHourCountries.add("GHA");
-		twelveHourCountries.add("HND");
-		twelveHourCountries.add("IRN");
-		twelveHourCountries.add("JOR");
-		twelveHourCountries.add("KOR");
-		twelveHourCountries.add("MYS");
-		twelveHourCountries.add("MEX");
-		twelveHourCountries.add("NZL");
-		twelveHourCountries.add("NPL");
-		twelveHourCountries.add("NIC");
-		twelveHourCountries.add("NGA");
-		twelveHourCountries.add("PHL");
-		twelveHourCountries.add("SAU");
-		twelveHourCountries.add("SGP");
-		twelveHourCountries.add("TWN");
-		twelveHourCountries.add("VEN");
-		twelveHourCountries.add("USA");
-
-		if(twelveHourCountries.contains(Locale.getDefault().getISO3Country())) {
-			dtFormatter = DateTimeFormat.forPattern("yyyy-MM-dd h:mm a"); // 12 hour
-
-		} else {
-			dtFormatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm"); // 24 hour
-		}
-	}
 
 	public static long utcCurrentTimeMillis() {
 		return DateTime.now(DateTimeZone.UTC).getMillis();
 	}
 
-	public static String formatDateTime(final long utc_ms) {
+	public static String formatDateTime(final long utc_ms, final Context context) {
 
 		final DateTime dateTime = new DateTime(utc_ms);
 		final DateTime localDateTime  = dateTime.withZone(DateTimeZone.getDefault());
 
-		return dtFormatter.print(localDateTime);
+		if(DateFormat.is24HourFormat(context)) {
+			return dtFormatter24hr.print(localDateTime);
+		} else {
+			return dtFormatter12hr.print(localDateTime);
+		}
 	}
 
 	// TODO externalise strings

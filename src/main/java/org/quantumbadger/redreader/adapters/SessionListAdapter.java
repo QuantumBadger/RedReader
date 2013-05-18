@@ -85,7 +85,7 @@ public class SessionListAdapter extends BaseAdapter {
 			if(RRTime.utcCurrentTimeMillis() - session.timestamp < 1000 * 120) {
 				name.append(RRTime.formatDurationMs(RRTime.utcCurrentTimeMillis() - session.timestamp) + " " + context.getString(R.string.time_ago), 0);
 			} else {
-				name.append(RRTime.formatDateTime(session.timestamp), 0);
+				name.append(RRTime.formatDateTime(session.timestamp, context), 0);
 			}
 
 			if(session.session.equals(current)) {

@@ -363,7 +363,7 @@ public class CommentListingFragment extends Fragment
 					new Handler(Looper.getMainLooper()).post(new Runnable() {
 						public void run() {
 							final TextView cacheNotif = new TextView(context);
-							cacheNotif.setText(getString(R.string.listing_cached) + " " + RRTime.formatDateTime(timestamp));
+							cacheNotif.setText(getString(R.string.listing_cached) + " " + RRTime.formatDateTime(timestamp, context));
 							final int paddingPx = General.dpToPixels(context, 6);
 							final int sidePaddingPx = General.dpToPixels(context, 10);
 							cacheNotif.setPadding(sidePaddingPx, paddingPx, sidePaddingPx, paddingPx);

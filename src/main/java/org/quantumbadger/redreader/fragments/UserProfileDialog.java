@@ -99,7 +99,7 @@ public class UserProfileDialog extends PropertiesDialog {
 						linkKarma.setText(String.valueOf(user.link_karma));
 						commentKarma.setText(String.valueOf(user.comment_karma));
 
-						items.addView(propView(context, R.string.userprofile_created, RRTime.formatDateTime(user.created_utc * 1000), false));
+						items.addView(propView(context, R.string.userprofile_created, RRTime.formatDateTime(user.created_utc * 1000, context), false));
 
 						if(user.has_mail != null) {
 							items.addView(propView(context, R.string.userprofile_hasmail, user.has_mail ? R.string.general_true : R.string.general_false, false));

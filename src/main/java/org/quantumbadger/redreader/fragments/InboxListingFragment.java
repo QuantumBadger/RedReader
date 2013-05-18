@@ -206,7 +206,7 @@ public final class InboxListingFragment extends DialogFragment implements Active
 					new Handler(Looper.getMainLooper()).post(new Runnable() {
 						public void run() {
 							final TextView cacheNotif = new TextView(context);
-							cacheNotif.setText(context.getString(R.string.listing_cached) + RRTime.formatDateTime(timestamp));
+							cacheNotif.setText(context.getString(R.string.listing_cached) + RRTime.formatDateTime(timestamp, context));
 							final int paddingPx = General.dpToPixels(context, 6);
 							final int sidePaddingPx = General.dpToPixels(context, 10);
 							cacheNotif.setPadding(sidePaddingPx, paddingPx, sidePaddingPx, paddingPx);

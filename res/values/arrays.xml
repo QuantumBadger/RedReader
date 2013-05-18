@@ -40,6 +40,7 @@
         <item>@string/action_link</item>
         <item>@string/action_external</item>
         <item>@string/action_actionmenu</item>
+        <item>@string/action_fling_disabled</item>
     </string-array>
 
     <!-- Constants. Do not change. -->
@@ -52,6 +53,7 @@
         <item>link</item>
         <item>browser</item>
         <item>action_menu</item>
+        <item>disabled</item>
     </string-array>
 
     <string-array name="pref_behaviour_actions_comment">

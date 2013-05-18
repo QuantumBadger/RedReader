@@ -87,14 +87,24 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 			leftFlingAction = chooseFlingAction(leftFlingPref);
 			rightFlingAction = chooseFlingAction(rightFlingPref);
 
-			rightOverlayText.setText(leftFlingAction.descriptionRes);
-			leftOverlayText.setText(rightFlingAction.descriptionRes);
+			if(leftFlingAction != null) rightOverlayText.setText(leftFlingAction.descriptionRes);
+			if(rightFlingAction != null) leftOverlayText.setText(rightFlingAction.descriptionRes);
 
 			rightOverlayText.setCompoundDrawablesWithIntrinsicBounds(null, rrIconFfLeft, null, null);
 			leftOverlayText.setCompoundDrawablesWithIntrinsicBounds(null, rrIconFfRight, null, null);
 
 			swipeReady = true;
 		}
+	}
+
+	@Override
+	protected boolean leftFlingEnabled() {
+		return leftFlingAction != null;
+	}
+
+	@Override
+	protected boolean rightFlingEnabled() {
+		return rightFlingAction != null;
 	}
 
 	private ActionDescriptionPair chooseFlingAction(PrefsUtility.PostFlingAction pref) {
@@ -153,6 +163,7 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 		if(swipeReady && absOffset > offsetActionPerformed) {
 
 			if(xOffsetPixels > 0) {
+
 				RedditPreparedPost.onActionMenuItemSelected(post, fragmentParent, rightFlingAction.action);
 				leftOverlayText.setCompoundDrawablesWithIntrinsicBounds(null, rrIconTick, null, null);
 			} else {

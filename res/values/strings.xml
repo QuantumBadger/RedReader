@@ -460,4 +460,8 @@
 
     <string name="pref_appearance_twopane_landscape">Landscape Only</string>
 
+    <!-- 2013-05-18 -->
+
+    <string name="action_fling_disabled">Disabled</string>
+
 </resources>

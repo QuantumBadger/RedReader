@@ -55,6 +55,13 @@ public class ImageViewActivity extends Activity implements RedditPostView.PostSe
 		final URI url = General.uriFromString(intent.getDataString());
 		final RedditPost post = intent.getParcelableExtra("post");
 
+		if(url == null) {
+			General.quickToast(this, "Invalid URL. Trying external browser.");
+			LinkHandler.onLinkClicked(this, intent.getDataString(), true);
+			finish();
+			return;
+		}
+
 		final ImageViewFragment imageViewFragment = ImageViewFragment.newInstance(url, post);
 
 		setContentView(View.inflate(this, R.layout.main_single, null));

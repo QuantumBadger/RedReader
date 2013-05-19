@@ -203,7 +203,7 @@ public class CommentListingFragment extends Fragment
 		final LinearLayout outer = new LinearLayout(context);
 		outer.setOrientation(android.widget.LinearLayout.VERTICAL);
 
-		loadingView = new LoadingView(context, getString(R.string.download_waiting), true, true);
+		loadingView = new LoadingView(context, context.getString(R.string.download_waiting), true, true);
 
 		notifications = new LinearLayout(context);
 		notifications.setOrientation(android.widget.LinearLayout.VERTICAL);
@@ -363,7 +363,7 @@ public class CommentListingFragment extends Fragment
 					new Handler(Looper.getMainLooper()).post(new Runnable() {
 						public void run() {
 							final TextView cacheNotif = new TextView(context);
-							cacheNotif.setText(getString(R.string.listing_cached) + " " + RRTime.formatDateTime(timestamp, context));
+							cacheNotif.setText(context.getString(R.string.listing_cached) + " " + RRTime.formatDateTime(timestamp, context));
 							final int paddingPx = General.dpToPixels(context, 6);
 							final int sidePaddingPx = General.dpToPixels(context, 10);
 							cacheNotif.setPadding(sidePaddingPx, paddingPx, sidePaddingPx, paddingPx);

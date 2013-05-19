@@ -70,6 +70,7 @@ public abstract class SwipableListItemView extends FrameLayout implements RRTouc
 
 		if(!leftFlingEnabled() && xOffset < 0 || !rightFlingEnabled() && xOffset > 0) {
 			xOffset = 0;
+			this.swipeStartXOffset = -this.xOffset;
 			clearAnimation();
 		}
 

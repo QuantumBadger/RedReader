@@ -26,6 +26,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.view.WindowManager;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import org.holoeverywhere.app.AlertDialog;
@@ -184,6 +185,8 @@ public class MainActivity extends RefreshableActivity
 				final LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.dialog_editbox);
 				final EditText editText = (EditText)layout.findViewById(R.id.dialog_editbox_edittext);
 
+				editText.requestFocus();
+
 				alertBuilder.setView(layout);
 				alertBuilder.setTitle(R.string.mainmenu_custom);
 
@@ -203,7 +206,9 @@ public class MainActivity extends RefreshableActivity
 
 				alertBuilder.setNegativeButton(R.string.dialog_cancel, null);
 
-				alertBuilder.create().show();
+				final AlertDialog alertDialog = alertBuilder.create();
+				alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+				alertDialog.show();
 
 				break;
 

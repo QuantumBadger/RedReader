@@ -52,16 +52,16 @@ Thanks to /u/balducien and /u/andiho for this translation!
     <string name="pref_appearance_twopane_title">Tablet-Modus (Zweispaltig)</string>
 
     <string name="pref_appearance_theme_key">pref_appearance_theme</string>
-    <string name="pref_appearance_theme_title">Thema</string>
+    <string name="pref_appearance_theme_title">Design</string>
 
     <string name="pref_appearance_solidblack_key">pref_appearance_solidblack</string>
     <string name="pref_appearance_solidblack_title">Echtes Schwarz im Nachtmodus</string>
 
     <string name="pref_appearance_fontscale_posts_key">pref_appearance_fontscale_posts</string>
-    <string name="pref_appearance_fontscale_posts_title">Post-Schriftgröße</string>
+    <string name="pref_appearance_fontscale_posts_title">Post-Schriftgrösse</string>
 
     <string name="pref_appearance_fontscale_comments_key">pref_appearance_fontscale_comments</string>
-    <string name="pref_appearance_fontscale_comments_title">Kommentar-Schriftgröße</string>
+    <string name="pref_appearance_fontscale_comments_title">Kommentar-Schriftgrösse</string>
 
     <string name="pref_appearance_thumbnails_show_key">pref_appearance_thumbnails_show</string>
     <string name="pref_appearance_thumbnails_show_title">Zeige Vorschaubilder</string>
@@ -133,7 +133,7 @@ Thanks to /u/balducien and /u/andiho for this translation!
     <string name="options_theme">Designs</string>
     <string name="options_settings">Einstellungen</string>
 
-    <string name="options_submit_post">Post einreichent</string>
+    <string name="options_submit_post">Post einreichen</string>
 
     <string name="options_refresh">Neu laden</string>
     <string name="options_refresh_subreddits">Subreddits neu laden</string>

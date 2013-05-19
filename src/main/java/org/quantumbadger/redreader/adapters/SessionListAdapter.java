@@ -83,7 +83,7 @@ public class SessionListAdapter extends BaseAdapter {
 			final BetterSSB name = new BetterSSB();
 
 			if(RRTime.utcCurrentTimeMillis() - session.timestamp < 1000 * 120) {
-				name.append(RRTime.formatDurationMs(RRTime.utcCurrentTimeMillis() - session.timestamp) + " " + context.getString(R.string.time_ago), 0);
+				name.append(RRTime.formatDurationMsAgo(context, RRTime.utcCurrentTimeMillis() - session.timestamp), 0);
 			} else {
 				name.append(RRTime.formatDateTime(session.timestamp, context), 0);
 			}

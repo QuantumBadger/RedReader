@@ -362,7 +362,7 @@
 
     <!-- Time -->
 
-    <string name="time_ago">siden</string>
+    <string name="time_ago">%s siden</string>
 
     <!-- User Profile -->
 

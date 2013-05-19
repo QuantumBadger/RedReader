@@ -495,8 +495,8 @@ public final class RedditPreparedPost {
 
 		postListDescSb.append(String.valueOf(score), BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, pointsCol, 0, 1f);
 		postListDescSb.append(" " + context.getString(R.string.subtitle_points) + " ", 0);
-		postListDescSb.append(RRTime.formatDurationMs(RRTime.utcCurrentTimeMillis() - src.created_utc * 1000), BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, boldCol, 0, 1f);
-		postListDescSb.append(" " + context.getString(R.string.time_ago) + " " + context.getString(R.string.subtitle_by) + " ", 0);
+		postListDescSb.append(RRTime.formatDurationMsAgo(context, RRTime.utcCurrentTimeMillis() - src.created_utc * 1000), BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, boldCol, 0, 1f);
+		postListDescSb.append(" " + context.getString(R.string.subtitle_by) + " ", 0);
 		postListDescSb.append(src.author, BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, boldCol, 0, 1f);
 
 		if(showSubreddit) {

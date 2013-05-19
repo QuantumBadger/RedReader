@@ -23,6 +23,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.quantumbadger.redreader.R;
 
 public class RRTime {
 
@@ -45,6 +46,10 @@ public class RRTime {
 		} else {
 			return dtFormatter12hr.print(localDateTime);
 		}
+	}
+
+	public static String formatDurationMsAgo(final Context context, final long totalMs) {
+		return String.format(context.getString(R.string.time_ago), formatDurationMs(totalMs));
 	}
 
 	// TODO externalise strings

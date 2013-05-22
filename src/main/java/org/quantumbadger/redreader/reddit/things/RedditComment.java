@@ -26,7 +26,7 @@ public final class RedditComment implements Parcelable {
 	
 	public String body, body_html, author, subreddit;
 	public String author_flair_text;
-	public Boolean likes;
+	public Boolean likes, score_hidden;
 	
 	public JsonValue replies;
 	

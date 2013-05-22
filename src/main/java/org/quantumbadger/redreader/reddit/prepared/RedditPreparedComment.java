@@ -165,11 +165,17 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 		}
 
 		if(headerItems.contains(PrefsUtility.AppearanceCommentHeaderItems.SCORE)) {
-			sb.append(String.valueOf(score), BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, pointsCol, 0, 1f);
+
+			if(!Boolean.TRUE.equals(src.score_hidden)) {
+				sb.append(String.valueOf(score), BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, pointsCol, 0, 1f);
+			} else {
+				sb.append("??", BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, pointsCol, 0, 1f);
+			}
+
 			sb.append(" " + context.getString(R.string.subtitle_points) +  " ", 0);
 		}
 
-		if(headerItems.contains(PrefsUtility.AppearanceCommentHeaderItems.UPS_DOWNS)) {
+		if(!Boolean.TRUE.equals(src.score_hidden) && headerItems.contains(PrefsUtility.AppearanceCommentHeaderItems.UPS_DOWNS)) {
 			sb.append("(", 0);
 			sb.append(String.valueOf(src.ups), BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, rrPostSubtitleUpvoteCol, 0, 1f);
 			sb.append(" | ", 0);

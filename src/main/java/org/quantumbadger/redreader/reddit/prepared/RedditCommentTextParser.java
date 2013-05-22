@@ -226,7 +226,28 @@ public final class RedditCommentTextParser {
 
 										tokenizer.read(); // Last bracket
 
-									} else if(linkUrlStr.startsWith("/s ") || linkUrlStr.startsWith("/b ")) {
+									} else if(linkUrlStr.startsWith("/s ") || linkUrlStr.startsWith("/b ")
+											|| linkUrlStr.startsWith("#s ") || linkUrlStr.startsWith("#b ")) {
+
+										ssb.linkify();
+										output.add(ssb.get());
+										ssb = new BetterSSB();
+
+										final StringBuilder sbText = new StringBuilder();
+										for(Token spoilerToken : linkText) sbText.append(spoilerToken.data);
+
+										Token tSpoiler;
+										final StringBuilder sbUrl = new StringBuilder(linkUrlStr);
+
+										while((tSpoiler = tokenizer.read()) != null && (tSpoiler.type != TokenType.LINK_URL_CLOSE || sbUrl.charAt(sbUrl.length() - 1) != '"')) {
+											sbUrl.append(tSpoiler.data);
+										}
+
+										if(linkUrlStr.charAt(1) == 'b') {
+											output.add(new Spoiler("Book spoiler: " + sbText.toString(), sbUrl.toString().substring(3)));
+										} else {
+											output.add(new Spoiler("Spoiler: " + sbText.toString(), sbUrl.toString().substring(3)));
+										}
 
 									} else {
 

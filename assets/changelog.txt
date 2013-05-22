@@ -1,4 +1,5 @@
 33/1.6.9
+Spoiler support
 Crash fixes
 Corrections to German translations
 

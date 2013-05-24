@@ -372,6 +372,10 @@ public final class RedditPreparedPost {
 							return;
 						}
 
+						activity.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
+								Uri.parse("file://" + dst.getAbsolutePath()))
+						);
+
 						General.quickToast(context, context.getString(R.string.action_save_image_success) + " " + dst.getAbsolutePath());
 					}
 				});

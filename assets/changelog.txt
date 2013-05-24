@@ -1,5 +1,6 @@
 34/1.7.0
 Handles hidden comment scores on certain subreddits
+Adds saved images to the gallery
 
 33/1.6.9
 Spoiler support

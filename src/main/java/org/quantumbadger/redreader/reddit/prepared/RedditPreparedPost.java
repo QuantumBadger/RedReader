@@ -372,7 +372,7 @@ public final class RedditPreparedPost {
 							return;
 						}
 
-						General.quickToast(context, context.getString(R.string.action_save_image_success) + " " + dst.getName());
+						General.quickToast(context, context.getString(R.string.action_save_image_success) + " " + dst.getAbsolutePath());
 					}
 				});
 

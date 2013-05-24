@@ -56,7 +56,7 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 
 	private boolean collapsed = false, collapsedByParent = false;
 
-	public final String idAlone, idAndType;
+	public final String idAlone, idAndType, flair;
 
 	private int voteDirection;
 	public long lastChange;
@@ -93,6 +93,11 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 		rrPostSubtitleDownvoteCol = appearance.getColor(3, 255);
 
 		body = RedditCommentTextParser.parse(StringEscapeUtils.unescapeHtml4(comment.body));
+		if(comment.author_flair_text != null) {
+			flair = StringEscapeUtils.unescapeHtml4(comment.author_flair_text);
+		} else {
+			flair = null;
+		}
 
 		if(parentComment == null) {
 			indentation = 0;
@@ -150,13 +155,13 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 		}
 
 		if(headerItems.contains(PrefsUtility.AppearanceCommentHeaderItems.FLAIR)
-				&& src.author_flair_text != null && src.author_flair_text.length() > 0) {
+				&& flair != null && flair.length() > 0) {
 
 			if(headerItems.contains(PrefsUtility.AppearanceCommentHeaderItems.AUTHOR)) {
 				sb.append("  ", 0);
 			}
 
-			sb.append(" " + src.author_flair_text + " ", BetterSSB.FOREGROUND_COLOR | BetterSSB.BACKGROUND_COLOR, Color.rgb(30, 30, 30), Color.rgb(230, 230, 230), 1f); // TODO theme properly
+			sb.append(" " + flair + " ", BetterSSB.FOREGROUND_COLOR | BetterSSB.BACKGROUND_COLOR, Color.rgb(30, 30, 30), Color.rgb(230, 230, 230), 1f); // TODO theme properly
 		}
 
 		if(headerItems.contains(PrefsUtility.AppearanceCommentHeaderItems.AUTHOR)

@@ -257,13 +257,24 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 	}
 
 	public void onPostSelected(final RedditPreparedPost post) {
-		post.markAsRead(getSupportActivity());
 		((RedditPostView.PostSelectionListener)getSupportActivity()).onPostSelected(post);
+
+		new Thread() {
+			public void run() {
+				post.markAsRead(getSupportActivity());
+			}
+		}.start();
 	}
 
 	public void onPostCommentsSelected(final RedditPreparedPost post) {
-		post.markAsRead(getSupportActivity());
+		
 		((RedditPostView.PostSelectionListener)getSupportActivity()).onPostCommentsSelected(post);
+
+		new Thread() {
+			public void run() {
+				post.markAsRead(getSupportActivity());
+			}
+		}.start();
 	}
 
 	public void onScrollStateChanged(AbsListView view, int scrollState) {}

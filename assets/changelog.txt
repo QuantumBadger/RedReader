@@ -1,6 +1,7 @@
 34/1.7.0
+Ability to change the default comment sort
 Handles hidden comment scores on certain subreddits
-Adds saved images to the gallery
+Adds saved images to the Android gallery
 
 33/1.6.9
 Spoiler support

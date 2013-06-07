@@ -84,12 +84,12 @@ public class CommentListingActivity extends RefreshableActivity
 
 			if(intent.hasExtra("postId")) {
 				final String postId = intent.getStringExtra("postId");
-				controller = new CommentListingController(postId);
+				controller = new CommentListingController(postId, this);
 
 			} else {
 
 				final String url = intent.getDataString();
-				controller = new CommentListingController(Uri.parse(url));
+				controller = new CommentListingController(Uri.parse(url), this);
 			}
 
 			doRefresh(RefreshableFragment.COMMENTS, false);

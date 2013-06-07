@@ -456,6 +456,7 @@
 
     <string name="title_changelog">What\'s New</string>
 
+    <string name="pref_behaviour_commentsort_key">pref_behaviour_commentsort</string>
     <string name="pref_behaviour_commentsort">Default Comment Sort</string>
 
     <string name="pref_appearance_twopane_landscape">Landscape Only</string>
@@ -469,5 +470,9 @@
 
     <string name="pref_about_changelog_key">pref_about_changelog</string>
     <string name="prefs_category_about">About</string>
+
+    <!-- 2013-06-07 -->
+
+    <string name="pref_behaviour_sort_header">Sorting</string>
 
 </resources>

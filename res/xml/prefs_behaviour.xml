@@ -19,6 +19,17 @@
 
 <PreferenceScreen xmlns:holo="http://schemas.android.com/apk/res-auto">
 
+    <PreferenceCategory holo:title="@string/pref_behaviour_sort_header">
+
+        <ListPreference holo:title="@string/pref_behaviour_commentsort"
+                        holo:key="@string/pref_behaviour_commentsort_key"
+                        holo:entries="@array/pref_behaviour_commentsort_array"
+                        holo:entryValues="@array/pref_behaviour_commentsort_array_return"
+                        holo:defaultValue="best"/>
+
+    </PreferenceCategory>
+
+
     <PreferenceCategory holo:title="@string/pref_behaviour_actions_post_header">
 
         <ListPreference holo:title="@string/pref_behaviour_fling_post_left_title"

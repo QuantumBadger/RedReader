@@ -341,7 +341,7 @@ public class MainActivity extends RefreshableActivity
 
 		if(twoPane) {
 
-			commentListingController = new CommentListingController(post.idAlone);
+			commentListingController = new CommentListingController(post.idAlone, this);
 
 			if(isMenuShown) {
 

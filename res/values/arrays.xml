@@ -56,6 +56,25 @@
         <item>disabled</item>
     </string-array>
 
+    <string-array name="pref_behaviour_commentsort_array">
+        <item>@string/sort_comments_best</item>
+        <item>@string/sort_comments_hot</item>
+        <item>@string/sort_comments_new</item>
+        <item>@string/sort_comments_old</item>
+        <item>@string/sort_comments_controversial</item>
+        <item>@string/sort_comments_top</item>
+    </string-array>
+
+    <!-- Constants. Do not change. -->
+    <string-array name="pref_behaviour_commentsort_array_return">
+        <item>best</item>
+        <item>hot</item>
+        <item>new</item>
+        <item>old</item>
+        <item>controversial</item>
+        <item>top</item>
+    </string-array>
+
     <string-array name="pref_behaviour_actions_comment">
         <item>@string/action_collapse</item>
         <item>@string/action_actionmenu</item>

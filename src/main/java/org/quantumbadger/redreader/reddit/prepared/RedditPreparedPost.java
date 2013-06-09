@@ -800,8 +800,8 @@ public final class RedditPreparedPost {
 		iconsDark.put(Action.ACTION_MENU, R.drawable.ic_action_overflow);
 		iconsDark.put(Action.COMMENTS_SWITCH, R.drawable.ic_action_comments_dark);
 		iconsDark.put(Action.LINK_SWITCH, imageUrl != null ? R.drawable.ic_action_image_dark : R.drawable.ic_action_page_dark);
-		iconsDark.put(Action.UPVOTE, R.drawable.ic_action_thumb_up_dark);
-		iconsDark.put(Action.DOWNVOTE, R.drawable.ic_action_thumb_down_dark);
+		iconsDark.put(Action.UPVOTE, R.drawable.action_upvote_dark);
+		iconsDark.put(Action.DOWNVOTE, R.drawable.action_downvote_dark);
 		iconsDark.put(Action.SAVE, R.drawable.ic_action_star_filled_dark);
 		iconsDark.put(Action.HIDE, R.drawable.ic_action_cross_dark);
 		iconsDark.put(Action.REPLY, R.drawable.ic_action_reply_dark);
@@ -816,8 +816,8 @@ public final class RedditPreparedPost {
 		iconsLight.put(Action.ACTION_MENU, R.drawable.ic_action_overflow);
 		iconsLight.put(Action.COMMENTS_SWITCH, R.drawable.ic_action_comments_light);
 		iconsLight.put(Action.LINK_SWITCH, imageUrl != null ? R.drawable.ic_action_image_light : R.drawable.ic_action_page_light);
-		iconsLight.put(Action.UPVOTE, R.drawable.ic_action_thumb_up_light);
-		iconsLight.put(Action.DOWNVOTE, R.drawable.ic_action_thumb_down_light);
+		iconsLight.put(Action.UPVOTE, R.drawable.action_upvote_light);
+		iconsLight.put(Action.DOWNVOTE, R.drawable.action_downvote_light);
 		iconsLight.put(Action.SAVE, R.drawable.ic_action_star_filled_light);
 		iconsLight.put(Action.HIDE, R.drawable.ic_action_cross_light);
 		iconsLight.put(Action.REPLY, R.drawable.ic_action_reply_light);

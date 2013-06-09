@@ -65,7 +65,7 @@ public class AddAccountDialog extends DialogFragment {
 		builder.setPositiveButton(R.string.accounts_login, new DialogInterface.OnClickListener() {
 			public void onClick(final DialogInterface dialogInterface, final int i) {
 
-				final String username = ((EditText) getDialog().findViewById(R.id.login_username)).getText().toString();
+				final String username = ((EditText) getDialog().findViewById(R.id.login_username)).getText().toString().trim();
 				final String password = ((EditText) getDialog().findViewById(R.id.login_password)).getText().toString();
 
 				lastUsername = username;

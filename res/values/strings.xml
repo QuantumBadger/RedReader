@@ -475,4 +475,16 @@
 
     <string name="pref_behaviour_sort_header">Sorting</string>
 
+    <!-- 2013-06-09 -->
+
+    <string name="pref_appearance_locale_header">Locale</string>
+
+    <string name="pref_appearance_langforce_key">pref_appearance_langforce_key</string>
+    <string name="pref_appearance_langforce_title">Language</string>
+
+    <string name="lang_auto">Automatic</string>
+    <string name="lang_en">English</string>
+    <string name="lang_da">Danish</string>
+    <string name="lang_de">German</string>
+
 </resources>

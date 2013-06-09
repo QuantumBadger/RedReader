@@ -18,6 +18,8 @@
 package org.quantumbadger.redreader.common;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.util.DisplayMetrics;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.preference.SharedPreferences;
@@ -66,7 +68,8 @@ public final class PrefsUtility {
 
 	public static boolean isRestartRequired(Context context, String key) {
 		return context.getString(R.string.pref_appearance_theme_key).equals(key)
-				|| context.getString(R.string.pref_appearance_solidblack_key).equals(key);
+				|| context.getString(R.string.pref_appearance_solidblack_key).equals(key)
+				|| context.getString(R.string.pref_appearance_langforce_key).equals(key);
 	}
 
 	///////////////////////////////
@@ -93,7 +96,9 @@ public final class PrefsUtility {
 
 	public static void applyTheme(Activity activity) {
 
-		final AppearanceTheme theme = appearance_theme(activity, PreferenceManager.getDefaultSharedPreferences(activity));
+		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+
+		final AppearanceTheme theme = appearance_theme(activity, prefs);
 
 		switch(theme) {
 			case RED:
@@ -123,6 +128,16 @@ public final class PrefsUtility {
 			case NIGHT:
 				activity.setTheme(R.style.RR_Dark);
 				break;
+		}
+
+		final String lang = getString(R.string.pref_appearance_langforce_key, "auto", activity, prefs);
+
+		if(!lang.equals("auto")) {
+			final Resources res = activity.getResources();
+			final DisplayMetrics dm = res.getDisplayMetrics();
+			final android.content.res.Configuration conf = res.getConfiguration();
+			conf.locale = new Locale(lang);
+			res.updateConfiguration(conf, dm);
 		}
 	}
 

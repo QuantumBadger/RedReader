@@ -109,6 +109,21 @@
         <item>gray</item>
     </string-array>
 
+    <string-array name="pref_appearance_langforce">
+        <item>@string/lang_auto</item>
+        <item>@string/lang_en</item>
+        <item>@string/lang_da</item>
+        <item>@string/lang_de</item>
+    </string-array>
+
+    <!-- Constants. Do not change. -->
+    <string-array name="pref_appearance_langforce_return">
+        <item>auto</item>
+        <item>en</item>
+        <item>da</item>
+        <item>de</item>
+    </string-array>
+
     <string-array name="pref_cache_maxage">
         <item>@string/time_1hr</item>
         <item>@string/time_6hr</item>

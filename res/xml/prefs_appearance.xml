@@ -33,6 +33,16 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory holo:title="@string/pref_appearance_locale_header">
+
+        <ListPreference holo:title="@string/pref_appearance_langforce_title"
+                        holo:key="@string/pref_appearance_langforce_key"
+                        holo:entries="@array/pref_appearance_langforce"
+                        holo:entryValues="@array/pref_appearance_langforce_return"
+                        holo:defaultValue="auto"/>
+
+    </PreferenceCategory>
+
     <PreferenceCategory holo:title="@string/pref_appearance_font_header">
 
         <ListPreference holo:title="@string/pref_appearance_fontscale_posts_title"

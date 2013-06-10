@@ -46,7 +46,10 @@ public class PostListingControllerSubreddit extends PostListingController {
 	public URI getUri() {
 
 		if(!subreddit.isSortable()) {
-			return Constants.Reddit.getUri(subreddit.url.replaceFirst("\\?", ".json?").replace(".json.json", ".json"));
+			if(subreddit.url.contains("?"))
+				return Constants.Reddit.getUri(subreddit.url.replaceFirst("\\?", ".json?").replace(".json.json", ".json"));
+			else
+				return Constants.Reddit.getUri(subreddit.url + ".json");
 		}
 
 		switch(getSort()) {

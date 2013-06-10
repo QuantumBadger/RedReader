@@ -40,7 +40,7 @@ import org.quantumbadger.redreader.settings.SettingsActivity;
 public final class OptionsMenuUtility {
 
 	private static enum Option {
-		ACCOUNTS, SETTINGS, SUBMIT_POST, REFRESH_SUBREDDITS, REFRESH_POSTS, REFRESH_COMMENTS, PAST_POSTS, THEMES, PAST_COMMENTS
+		ACCOUNTS, SETTINGS, SUBMIT_POST, SEARCH, REFRESH_SUBREDDITS, REFRESH_POSTS, REFRESH_COMMENTS, PAST_POSTS, THEMES, PAST_COMMENTS
 	}
 
 	public static <E extends Activity & OptionsMenuListener> void prepare(
@@ -56,6 +56,7 @@ public final class OptionsMenuUtility {
 			add(activity, menu, Option.REFRESH_POSTS, false);
 			add(activity, menu, Option.PAST_POSTS, false);
 			add(activity, menu, Option.SUBMIT_POST, false);
+			add(activity, menu, Option.SEARCH, false);
 
 		} else if(!subredditsVisible && !postsVisible && commentsVisible) {
 			if(commentsSortable) addAllCommentSorts(activity, menu, true);
@@ -90,6 +91,7 @@ public final class OptionsMenuUtility {
 			if(postsVisible) {
 				add(activity, refreshMenu, Option.REFRESH_POSTS, true);
 				add(activity, menu, Option.SUBMIT_POST, false);
+				add(activity, menu, Option.SEARCH, false);
 			}
 			if(commentsVisible) add(activity, refreshMenu, Option.REFRESH_COMMENTS, true);
 		}
@@ -192,6 +194,17 @@ public final class OptionsMenuUtility {
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 							public boolean onMenuItemClick(final MenuItem item) {
 								((OptionsMenuPostsListener) activity).onSubmitPost();
+								return true;
+							}
+						});
+
+				break;
+
+			case SEARCH:
+				menu.add(activity.getString(R.string.action_search))
+						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+							public boolean onMenuItemClick(final MenuItem item) {
+								((OptionsMenuPostsListener) activity).onSearchPosts();
 								return true;
 							}
 						});
@@ -309,6 +322,7 @@ public final class OptionsMenuUtility {
 		public void onPastPosts();
 		public void onSubmitPost();
 		public void onSortSelected(PostListingController.Sort order);
+		public void onSearchPosts();
 	}
 
 	public static interface OptionsMenuCommentsListener extends OptionsMenuListener {

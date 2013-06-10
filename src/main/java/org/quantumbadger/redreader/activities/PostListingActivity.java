@@ -17,14 +17,19 @@
 
 package org.quantumbadger.redreader.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.view.WindowManager;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import org.holoeverywhere.app.AlertDialog;
 import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.preference.SharedPreferences;
+import org.holoeverywhere.widget.EditText;
+import org.holoeverywhere.widget.LinearLayout;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -155,6 +160,46 @@ public class PostListingActivity extends RefreshableActivity
 	public void onSortSelected(final PostListingController.Sort order) {
 		controller.setSort(order);
 		requestRefresh(RefreshableFragment.POSTS, false);
+	}
+
+	public void onSearchPosts() {
+
+		final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+		final LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.dialog_editbox);
+		final EditText editText = (EditText)layout.findViewById(R.id.dialog_editbox_edittext);
+
+		editText.requestFocus();
+
+		alertBuilder.setView(layout);
+		alertBuilder.setTitle(R.string.action_search);
+
+		alertBuilder.setPositiveButton(R.string.action_search, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+
+				final String query = editText.getText().toString().toLowerCase().trim();
+
+				final RedditSubreddit sr = controller.getSubreddit();
+				final String restrict_sr = sr.isReal() ? "on" : "off";
+
+				final String url;
+
+				if(sr.isReal()) {
+					url = sr.url + "/search.json?restrict_sr=on&q=" + query;
+				} else {
+					url = "/search.json?q=" + query;
+				}
+
+				final Intent intent = new Intent(PostListingActivity.this, PostListingActivity.class);
+				intent.putExtra("subreddit", new RedditSubreddit(url, "\"" + query + "\" search results", false));
+				startActivity(intent);
+			}
+		});
+
+		alertBuilder.setNegativeButton(R.string.dialog_cancel, null);
+
+		final AlertDialog alertDialog = alertBuilder.create();
+		alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		alertDialog.show();
 	}
 
 	public void onSharedPreferenceChanged(final SharedPreferences prefs, final String key) {

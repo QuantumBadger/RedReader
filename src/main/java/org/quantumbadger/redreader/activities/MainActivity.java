@@ -179,7 +179,7 @@ public class MainActivity extends RefreshableActivity
 				UserProfileDialog.newInstance(RedditAccountManager.getInstance(this).getDefaultAccount().username).show(this);
 				break;
 
-			case CUSTOM:
+			case CUSTOM: {
 
 				final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
 				final LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.dialog_editbox);
@@ -211,6 +211,7 @@ public class MainActivity extends RefreshableActivity
 				alertDialog.show();
 
 				break;
+			}
 
 			case INBOX:
 				InboxListingFragment.newInstance().show(this);
@@ -452,6 +453,46 @@ public class MainActivity extends RefreshableActivity
 	public void onSortSelected(final PostListingController.Sort order) {
 		postListingController.setSort(order);
 		requestRefresh(RefreshableFragment.POSTS, false);
+	}
+
+	public void onSearchPosts() {
+
+		final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+		final LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.dialog_editbox);
+		final EditText editText = (EditText)layout.findViewById(R.id.dialog_editbox_edittext);
+
+		editText.requestFocus();
+
+		alertBuilder.setView(layout);
+		alertBuilder.setTitle(R.string.action_search);
+
+		alertBuilder.setPositiveButton(R.string.action_search, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+
+				final String query = editText.getText().toString().toLowerCase().trim();
+
+				final RedditSubreddit sr = postListingController.getSubreddit();
+				final String restrict_sr = sr.isReal() ? "on" : "off";
+
+				final String url;
+
+				if(sr.isReal()) {
+					url = sr.url + "/search.json?restrict_sr=on&q=" + query;
+				} else {
+					url = "/search.json?q=" + query;
+				}
+
+				final Intent intent = new Intent(MainActivity.this, PostListingActivity.class);
+				intent.putExtra("subreddit", new RedditSubreddit(url, "\"" + query + "\" search results", false));
+				startActivity(intent);
+			}
+		});
+
+		alertBuilder.setNegativeButton(R.string.dialog_cancel, null);
+
+		final AlertDialog alertDialog = alertBuilder.create();
+		alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		alertDialog.show();
 	}
 
 	public void onRefreshSubreddits() {

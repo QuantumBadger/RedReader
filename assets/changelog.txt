@@ -1,9 +1,11 @@
 34/1.7.0
-Ability to change the default comment sort
-Ability to override Android's default language
+Basic search feature
+Preference to change the default comment sort
+Preference to override Android's default language
 Handles hidden comment scores on certain subreddits
 Adds saved images to the Android gallery
 Fixed profile 404 bug (caused by space after username when logging in)
+Replaced thumbs up icon with upvote icon in bezel swipe toolbar
 
 33/1.6.9
 Spoiler support

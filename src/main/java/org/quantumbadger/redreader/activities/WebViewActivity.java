@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import com.actionbarsherlock.view.MenuItem;
 import org.holoeverywhere.app.Activity;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.LinkHandler;
@@ -36,6 +37,9 @@ public class WebViewActivity extends Activity implements RedditPostView.PostSele
 	public void onCreate(final Bundle savedInstanceState) {
 
 		PrefsUtility.applyTheme(this);
+
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		super.onCreate(savedInstanceState);
 
@@ -68,5 +72,16 @@ public class WebViewActivity extends Activity implements RedditPostView.PostSele
 		final Intent intent = new Intent(this, CommentListingActivity.class);
 		intent.putExtra("postId", post.idAlone);
 		startActivityForResult(intent, 1);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(final MenuItem item) {
+		switch(item.getItemId()) {
+			case android.R.id.home:
+				finish();
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
 	}
 }

@@ -1,5 +1,6 @@
 35/1.7.1
 Bugfix when viewing a user's post list
+Potential bugfix when recycling images
 
 34/1.7.0
 Basic search feature

@@ -564,7 +564,7 @@ public final class RedditPreparedPost {
 						final Bitmap data = BitmapFactory.decodeStream(cacheFile.getInputStream());
 						if(data == null) return;
 						thumbnailCache = ThumbnailScaler.scale(data, widthPixels);
-						data.recycle();
+						if(thumbnailCache != data) data.recycle();
 
 						if(highRes) gotHighResThumb = true;
 

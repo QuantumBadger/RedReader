@@ -1,3 +1,6 @@
+36/1.7.2
+Additional bugfix for users who logged in with a space after their username
+
 35/1.7.1
 Bugfix when viewing a user's post list
 Potential bugfix when recycling images

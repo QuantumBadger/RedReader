@@ -1,3 +1,6 @@
+37/1.7.3
+Bugfix when clicking links in a user's comment list
+
 36/1.7.2
 Additional bugfix for users who logged in with a space after their username
 

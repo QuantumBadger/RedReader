@@ -550,7 +550,7 @@ public class CommentListingFragment extends Fragment
 	}
 
 	public void onClickUrl(String url) {
-		if(url != null) LinkHandler.onLinkClicked(getSupportActivity(), url, false, post.src);
+		if(url != null) LinkHandler.onLinkClicked(getSupportActivity(), url, false, null);
 	}
 
 	public void onClickText(Object attachment) {}

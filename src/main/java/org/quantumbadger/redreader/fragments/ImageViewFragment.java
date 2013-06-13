@@ -165,7 +165,7 @@ public class ImageViewFragment extends Fragment implements RedditPostView.PostSe
 					@Override
 					protected void onSuccess(final CacheManager.ReadableCacheFile cacheFile, long timestamp, UUID session, boolean fromCache, final String mimetype) {
 
-						if(!Constants.Mime.isImage(mimetype)) {
+						if(mimetype == null || !Constants.Mime.isImage(mimetype)) {
 							revertToWeb();
 							return;
 						}

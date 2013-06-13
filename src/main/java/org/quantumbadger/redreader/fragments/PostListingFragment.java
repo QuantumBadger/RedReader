@@ -447,6 +447,9 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 				for(final JsonValue postThingValue : posts) {
 
 					final RedditThing postThing = postThingValue.asObject(RedditThing.class);
+
+					if(!postThing.getKind().equals(RedditThing.Kind.POST)) continue;
+
 					final RedditPost post = postThing.asPost();
 
 					after = post.name;

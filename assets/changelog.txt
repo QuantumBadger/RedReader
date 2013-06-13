@@ -1,4 +1,5 @@
 37/1.7.3
+Bugfix for users with saved comments
 Bugfix when clicking links in a user's comment list
 Bugfix when viewing images with null mimetypes
 

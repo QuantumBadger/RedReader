@@ -50,6 +50,7 @@ import org.quantumbadger.redreader.views.liststatus.LoadingView;
 public class UserProfileDialog extends PropertiesDialog {
 
 	private String username;
+	private boolean active = true;
 
 	public static UserProfileDialog newInstance(final String user) {
 
@@ -60,6 +61,12 @@ public class UserProfileDialog extends PropertiesDialog {
 		dialog.setArguments(args);
 
 		return dialog;
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		active = false;
 	}
 
 	@Override
@@ -79,16 +86,19 @@ public class UserProfileDialog extends PropertiesDialog {
 		RedditAPI.getUser(cm, username, new APIResponseHandler.UserResponseHandler(context) {
 			@Override
 			protected void onDownloadStarted() {
+				if(!active) return;
 				loadingView.setIndeterminate(R.string.download_connecting);
 			}
 
 			@Override
 			protected void onSuccess(final RedditUser user, long timestamp) {
 
-				loadingView.setDone(R.string.download_done);
-
 				new Handler(Looper.getMainLooper()).post(new Runnable() {
 					public void run() {
+
+						if(!active) return;
+
+						loadingView.setDone(R.string.download_done);
 
 						final LinearLayout karmaLayout = (LinearLayout)getLayoutInflater().inflate(R.layout.karma);
 						items.addView(karmaLayout);
@@ -162,10 +172,14 @@ public class UserProfileDialog extends PropertiesDialog {
 			@Override
 			protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
 
-				loadingView.setDone(R.string.download_failed);
-				final RRError error = General.getGeneralErrorForFailure(context, type, t, status);
 				new Handler(Looper.getMainLooper()).post(new Runnable() {
 					public void run() {
+
+						if(!active) return;
+
+						loadingView.setDone(R.string.download_failed);
+
+						final RRError error = General.getGeneralErrorForFailure(context, type, t, status);
 						items.addView(new ErrorView(getSupportActivity(), error));
 					}
 				});
@@ -174,10 +188,14 @@ public class UserProfileDialog extends PropertiesDialog {
 			@Override
 			protected void onFailure(final APIFailureType type) {
 
-				loadingView.setDone(R.string.download_failed);
-				final RRError error = General.getGeneralErrorForFailure(context, type);
 				new Handler(Looper.getMainLooper()).post(new Runnable() {
 					public void run() {
+
+						if(!active) return;
+
+						loadingView.setDone(R.string.download_failed);
+
+						final RRError error = General.getGeneralErrorForFailure(context, type);
 						items.addView(new ErrorView(getSupportActivity(), error));
 					}
 				});

@@ -70,7 +70,7 @@ public final class LoadingView extends StatusListItemView {
 	}
 
 	public void setDone(final int textRes) {
-		sendMessage(getContext().getString(textRes), LOADING_DONE);
+		sendMessage(getContext().getString(textRes), LOADING_DONE_NOANIM);
 	}
 
 	public void setDoneNoAnim(final int textRes) {

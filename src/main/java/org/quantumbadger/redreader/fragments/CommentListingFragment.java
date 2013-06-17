@@ -362,6 +362,7 @@ public class CommentListingFragment extends Fragment
 				if(fromCache && RRTime.since(timestamp) > 10 * 60 * 1000) {
 					new Handler(Looper.getMainLooper()).post(new Runnable() {
 						public void run() {
+							if(isDetached()) return;
 							final TextView cacheNotif = new TextView(context);
 							cacheNotif.setText(context.getString(R.string.listing_cached) + " " + RRTime.formatDateTime(timestamp, context));
 							final int paddingPx = General.dpToPixels(context, 6);

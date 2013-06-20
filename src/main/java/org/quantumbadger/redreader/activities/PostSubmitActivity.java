@@ -75,7 +75,7 @@ public class PostSubmitActivity extends Activity {
 
 		if(getIntent() != null && getIntent().hasExtra("subreddit")) {
 			final String subreddit = getIntent().getStringExtra("subreddit");
-			if(subreddit != null && subreddit.length() > 0 && !subreddit.equals("all") && subreddit.matches("\\w+")) {
+			if(subreddit != null && subreddit.length() > 0 && !subreddit.matches("/?(r/)?all/?") && subreddit.matches("/?(r/)?\\w+/?")) {
 				subredditEdit.setText(subreddit);
 			}
 
@@ -254,11 +254,15 @@ public class PostSubmitActivity extends Activity {
 
 		final RedditAccount selectedAccount = RedditAccountManager.getInstance(this).getAccount((String) usernameSpinner.getSelectedItem());
 
-		final String subreddit = subredditEdit.getText().toString();
+		String subreddit = subredditEdit.getText().toString();
 		final String title = titleEdit.getText().toString();
 		final String text = textEdit.getText().toString();
 		final String captchaId = data.getStringExtra("captchaId");
 		final String captchaText = data.getStringExtra("captchaText");
+
+		while(subreddit.startsWith("/")) subreddit = subreddit.substring(1);
+		while(subreddit.startsWith("r/")) subreddit = subreddit.substring(2);
+		while(subreddit.endsWith("/")) subreddit = subreddit.substring(0, subreddit.length() - 1);
 
 		RedditAPI.submit(cm, handler, selectedAccount, is_self, subreddit, title, text, captchaId, captchaText, this);
 

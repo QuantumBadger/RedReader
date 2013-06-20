@@ -1,6 +1,7 @@
 38/1.7.4
 Bugfix for user profile dialog crash
 Minor appearance improvement
+Bugfix where subreddit name wasn't always filled in when submitting posts
 
 37/1.7.3
 Bugfix for users with saved comments

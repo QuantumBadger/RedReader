@@ -22,6 +22,11 @@
         <item name="android:background">?rrActionBarCol</item>
     </style>
 
+    <style name="RR.Startup.ActionBarStyle" parent="@android:style/Widget.Holo.ActionBar">
+        <item name="android:background">?rrActionBarCol</item>
+        <item name="android:displayOptions">showTitle</item>
+    </style>
+
     <style name="RR.Light.ActionBarStyle" parent="@android:style/Widget.Holo.ActionBar">
         <item name="android:background">?rrActionBarCol</item>
         <item name="background">?rrActionBarCol</item>

@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.views;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.TextView;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
@@ -49,7 +50,7 @@ public final class SubredditHeader extends LinearLayout implements RRTouchable {
 		final TextView title = new TextView(context);
 		title.setTextSize(22.0f);
 		title.setTypeface(tf);
-		title.setText(subreddit.title);
+		title.setText(StringEscapeUtils.unescapeHtml4(subreddit.title));
 		title.setTextColor(Color.WHITE);
 		addView(title);
 

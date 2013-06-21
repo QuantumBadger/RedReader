@@ -25,6 +25,7 @@ import org.quantumbadger.redreader.activities.ImageViewActivity;
 import org.quantumbadger.redreader.activities.PostListingActivity;
 import org.quantumbadger.redreader.activities.WebViewActivity;
 import org.quantumbadger.redreader.fragments.UserProfileDialog;
+import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 
 import java.util.HashSet;
@@ -36,11 +37,16 @@ public class LinkHandler {
 	public static final Pattern redditCommentsPattern = Pattern.compile("^https?://[\\.\\w]*reddit\\.com/(r/\\w+/)?comments/(\\w+).*"),
 			redditUserPattern = Pattern.compile("^(?:https?://[\\.\\w]*reddit\\.com)?/?(user|u)/(\\w+).*"),
 			subredditPattern = Pattern.compile("^https?://[\\.\\w]*reddit\\.com(/r/\\w+)/?"),
-			youtubePattern = Pattern.compile("^https?://[\\.\\w]*(youtube\\.\\w+|youtu\\.be)/.*"),
+			youtubeDotComPattern = Pattern.compile("^https?://[\\.\\w]*youtube\\.\\w+/.*"),
+			youtuDotBePattern = Pattern.compile("^https?://[\\.\\w]*youtu\\.be/([A-Za-z0-9\\-_]+)(\\?.*|).*"),
 			vimeoPattern = Pattern.compile("^https?://[\\.\\w]*vimeo\\.\\w+/.*"),
 			shortSubredditPattern = Pattern.compile("^/?r/(\\w+).*");
 
 	public static void onLinkClicked(Activity activity, String url, boolean forceNoImage) {
+		onLinkClicked(activity, url, forceNoImage, null);
+	}
+
+	public static void onLinkClicked(Activity activity, String url, boolean forceNoImage, final RedditPost post) {
 
 		if(!forceNoImage) {
 			final String imageUrl = getImageUrl(url);
@@ -48,6 +54,7 @@ public class LinkHandler {
 			if(imageUrl != null) {
 				final Intent intent = new Intent(activity, ImageViewActivity.class);
 				intent.setData(Uri.parse(imageUrl));
+				intent.putExtra("post", post);
 				activity.startActivity(intent);
 				return;
 			}
@@ -92,15 +99,28 @@ public class LinkHandler {
 
 		// Use a browser
 
-		if(youtubePattern.matcher(url).matches() || vimeoPattern.matcher(url).matches()) {
+		if(youtubeDotComPattern.matcher(url).matches() || vimeoPattern.matcher(url).matches()) {
 			final Intent intent = new Intent(Intent.ACTION_VIEW);
-			intent.setData(Uri.parse(url));
+			intent.setData(Uri.parse(url.replaceAll("&amp;", "&")));
 			activity.startActivity(intent);
 
 		} else {
-			final Intent intent = new Intent(activity, WebViewActivity.class);
-			intent.putExtra("url", url);
-			activity.startActivity(intent);
+
+			final Matcher youtuDotBeMatcher = youtuDotBePattern.matcher(url);
+
+			if(youtuDotBeMatcher.find() && youtuDotBeMatcher.group(1) != null) {
+				final String youtuBeUrl = "http://youtube.com/watch?v=" + youtuDotBeMatcher.group(1)
+						+ (youtuDotBeMatcher.group(2).length() > 0 ? "&" + youtuDotBeMatcher.group(2).substring(1) : "");
+				final Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setData(Uri.parse(youtuBeUrl));
+				activity.startActivity(intent);
+
+			} else {
+				final Intent intent = new Intent(activity, WebViewActivity.class);
+				intent.putExtra("url", url);
+				intent.putExtra("post", post);
+				activity.startActivity(intent);
+			}
 		}
 	}
 

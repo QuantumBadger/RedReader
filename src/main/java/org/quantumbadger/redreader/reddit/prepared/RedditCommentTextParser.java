@@ -19,8 +19,11 @@ package org.quantumbadger.redreader.reddit.prepared;
 
 import android.content.Context;
 import android.text.SpannableStringBuilder;
+import android.view.View;
 import android.view.ViewGroup;
 import com.laurencedawson.activetextview.ActiveTextView;
+import org.holoeverywhere.app.AlertDialog;
+import org.holoeverywhere.widget.Button;
 import org.holoeverywhere.widget.LinearLayout;
 import org.quantumbadger.redreader.common.BetterSSB;
 import org.quantumbadger.redreader.common.General;
@@ -32,7 +35,7 @@ import java.util.LinkedList;
 public final class RedditCommentTextParser {
 
 	public static interface ViewGenerator {
-		public ViewGroup generate(Context context, float textSize, Integer textCol, ActiveTextView.OnLinkClickedListener listener);
+		public ViewGroup generate(Context context, float textSize, Integer textCol, ActiveTextView.OnLinkClickedListener listener, Object attachment);
 	}
 
 	private static enum TokenType {
@@ -137,7 +140,7 @@ public final class RedditCommentTextParser {
 	public static ViewGenerator parse(final String markdown) {
 
 		final char[] input = markdown.toCharArray();
-		final LinkedList<SpannableStringBuilder> output = new LinkedList<SpannableStringBuilder>();
+		final LinkedList<Object> output = new LinkedList<Object>();
 
 		try {
 
@@ -206,21 +209,64 @@ public final class RedditCommentTextParser {
 
 									// Valid markdown. Output the link text.
 
-									for(final Token t4 : linkText) {
-										switch(t4.type) {
+									// First, check for spoilers
 
-											case DOUBLE_ASTERISK: state.flags ^= BetterSSB.BOLD; break;
-											case ASTERISK: state.flags ^= BetterSSB.ITALIC; break;
-											case STRIKETHROUGH: state.flags ^= BetterSSB.STRIKETHROUGH; break;
+									final String linkUrlStr = linkUrlToken.data;
 
-											default: {
-												ssb.append(t4.data, state.flags | BetterSSB.UNDERLINE, 0, 0, 1.0f, linkUrlToken.data);
-												break;
+									if(linkUrlStr.equalsIgnoreCase("/spoiler")) {
+
+										ssb.linkify();
+										output.add(ssb.get());
+										ssb = new BetterSSB();
+
+										final StringBuilder sb = new StringBuilder();
+										for(Token spoilerToken : linkText) sb.append(spoilerToken.data);
+
+										output.add(new Spoiler("Spoiler", sb.toString()));
+
+										tokenizer.read(); // Last bracket
+
+									} else if(linkUrlStr.startsWith("/s ") || linkUrlStr.startsWith("/b ")
+											|| linkUrlStr.startsWith("#s ") || linkUrlStr.startsWith("#b ")) {
+
+										ssb.linkify();
+										output.add(ssb.get());
+										ssb = new BetterSSB();
+
+										final StringBuilder sbText = new StringBuilder();
+										for(Token spoilerToken : linkText) sbText.append(spoilerToken.data);
+
+										Token tSpoiler;
+										final StringBuilder sbUrl = new StringBuilder(linkUrlStr);
+
+										while((tSpoiler = tokenizer.read()) != null && (tSpoiler.type != TokenType.LINK_URL_CLOSE || sbUrl.charAt(sbUrl.length() - 1) != '"')) {
+											sbUrl.append(tSpoiler.data);
+										}
+
+										if(linkUrlStr.charAt(1) == 'b') {
+											output.add(new Spoiler("Book spoiler: " + sbText.toString(), sbUrl.toString().substring(3)));
+										} else {
+											output.add(new Spoiler("Spoiler: " + sbText.toString(), sbUrl.toString().substring(3)));
+										}
+
+									} else {
+
+										for(final Token t4 : linkText) {
+											switch(t4.type) {
+
+												case DOUBLE_ASTERISK: state.flags ^= BetterSSB.BOLD; break;
+												case ASTERISK: state.flags ^= BetterSSB.ITALIC; break;
+												case STRIKETHROUGH: state.flags ^= BetterSSB.STRIKETHROUGH; break;
+
+												default: {
+													ssb.append(t4.data, state.flags | BetterSSB.UNDERLINE, 0, 0, 1.0f, linkUrlToken.data);
+													break;
+												}
 											}
 										}
-									}
 
-									tokenizer.read(); // Last bracket
+										tokenizer.read(); // Last bracket
+									}
 								}
 
 							} else {
@@ -267,23 +313,48 @@ public final class RedditCommentTextParser {
 
 		return new ViewGenerator() {
 
-			public ViewGroup generate(final Context context, final float textSize, final Integer textCol, final ActiveTextView.OnLinkClickedListener listener) {
+			public ViewGroup generate(final Context context, final float textSize, final Integer textCol,
+									  final ActiveTextView.OnLinkClickedListener listener, final Object attachment) {
 
 				final LinearLayout ll = new LinearLayout(context);
 				ll.setOrientation(LinearLayout.VERTICAL);
 
 				boolean notFirst = false;
 
-				for(final SpannableStringBuilder paragraph : output) {
+				for(final Object paragraph : output) {
 
-					final ActiveTextView tv = new ActiveTextView(context);
-					if(notFirst) tv.setPadding(0, General.dpToPixels(context, 8), 0, 0);
-					tv.setText(paragraph);
-					tv.setTextSize(textSize);
-					if(textCol != null) tv.setTextColor(textCol);
-					tv.setLinkClickedListener(listener);
-					ll.addView(tv);
-					notFirst = true;
+					if(paragraph instanceof SpannableStringBuilder) {
+
+						final ActiveTextView tv = new ActiveTextView(context);
+						tv.setAttachment(attachment);
+						if(notFirst) tv.setPadding(0, General.dpToPixels(context, 8), 0, 0);
+						tv.setText((SpannableStringBuilder)paragraph);
+						tv.setTextSize(textSize);
+						if(textCol != null) tv.setTextColor(textCol);
+						tv.setLinkClickedListener(listener);
+						ll.addView(tv);
+						notFirst = true;
+
+					} else if(paragraph instanceof Spoiler) {
+
+						final Spoiler spoiler = (Spoiler)paragraph;
+
+						final Button spoilerButton = new Button(context);
+						spoilerButton.setText(spoiler.title);
+
+						spoilerButton.setOnClickListener(new View.OnClickListener() {
+							public void onClick(View v) {
+								AlertDialog.Builder builder = new AlertDialog.Builder(context);
+								builder.setTitle(spoiler.title);
+								builder.setMessage(spoiler.message);
+								AlertDialog alert = builder.create();
+								alert.show();
+							}
+						});
+
+						ll.addView(spoilerButton);
+						notFirst = true;
+					}
 				}
 
 				return ll;
@@ -307,5 +378,14 @@ public final class RedditCommentTextParser {
 			}
 		}
 
+	}
+
+	private final static class Spoiler {
+		public final String title, message;
+
+		private Spoiler(String title, String message) {
+			this.title = title;
+			this.message = message;
+		}
 	}
 }

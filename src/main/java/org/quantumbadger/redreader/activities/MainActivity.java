@@ -19,11 +19,14 @@ package org.quantumbadger.redreader.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.view.WindowManager;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import org.holoeverywhere.app.AlertDialog;
@@ -105,6 +108,15 @@ public class MainActivity extends RefreshableActivity
 
 		RedditAccountManager.getInstance(this).addUpdateListener(this);
 
+		PackageInfo pInfo = null;
+		try {
+			pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+		} catch(PackageManager.NameNotFoundException e) {
+			throw new RuntimeException(e);
+		}
+
+		final int appVersion = pInfo.versionCode;
+
 		if(!sharedPreferences.contains("firstRunMessageShown")) {
 
 			new AlertDialog.Builder(this)
@@ -122,6 +134,20 @@ public class MainActivity extends RefreshableActivity
 			final SharedPreferences.Editor edit = sharedPreferences.edit();
 			edit.putString("firstRunMessageShown", "true");
 			edit.commit();
+
+		} else if(sharedPreferences.contains("lastVersion")) {
+
+			if(sharedPreferences.getInt("lastVersion", 0) != appVersion) {
+
+				General.quickToast(this, "Updated to version " + pInfo.versionName);
+
+				sharedPreferences.edit().putInt("lastVersion", appVersion).commit();
+				ChangelogDialog.newInstance().show(this);
+			}
+
+		} else {
+			sharedPreferences.edit().putInt("lastVersion", appVersion).commit();
+			ChangelogDialog.newInstance().show(this);
 		}
 	}
 
@@ -153,11 +179,13 @@ public class MainActivity extends RefreshableActivity
 				UserProfileDialog.newInstance(RedditAccountManager.getInstance(this).getDefaultAccount().username).show(this);
 				break;
 
-			case CUSTOM:
+			case CUSTOM: {
 
 				final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
 				final LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.dialog_editbox);
 				final EditText editText = (EditText)layout.findViewById(R.id.dialog_editbox_edittext);
+
+				editText.requestFocus();
 
 				alertBuilder.setView(layout);
 				alertBuilder.setTitle(R.string.mainmenu_custom);
@@ -178,9 +206,12 @@ public class MainActivity extends RefreshableActivity
 
 				alertBuilder.setNegativeButton(R.string.dialog_cancel, null);
 
-				alertBuilder.create().show();
+				final AlertDialog alertDialog = alertBuilder.create();
+				alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+				alertDialog.show();
 
 				break;
+			}
 
 			case INBOX:
 				InboxListingFragment.newInstance().show(this);
@@ -311,7 +342,7 @@ public class MainActivity extends RefreshableActivity
 
 		if(twoPane) {
 
-			commentListingController = new CommentListingController(post.idAlone);
+			commentListingController = new CommentListingController(post.idAlone, this);
 
 			if(isMenuShown) {
 
@@ -347,7 +378,7 @@ public class MainActivity extends RefreshableActivity
 		if(post.isSelf()) {
 			onPostCommentsSelected(post);
 		} else {
-			LinkHandler.onLinkClicked(this, post.url, false);
+			LinkHandler.onLinkClicked(this, post.url, false, post.src);
 		}
 	}
 
@@ -413,9 +444,55 @@ public class MainActivity extends RefreshableActivity
 		sessionListDialog.show(this);
 	}
 
+	public void onSubmitPost() {
+		final Intent intent = new Intent(this, PostSubmitActivity.class);
+		intent.putExtra("subreddit", postListingController.getSubreddit().url);
+		startActivity(intent);
+	}
+
 	public void onSortSelected(final PostListingController.Sort order) {
 		postListingController.setSort(order);
 		requestRefresh(RefreshableFragment.POSTS, false);
+	}
+
+	public void onSearchPosts() {
+
+		final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+		final LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.dialog_editbox);
+		final EditText editText = (EditText)layout.findViewById(R.id.dialog_editbox_edittext);
+
+		editText.requestFocus();
+
+		alertBuilder.setView(layout);
+		alertBuilder.setTitle(R.string.action_search);
+
+		alertBuilder.setPositiveButton(R.string.action_search, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+
+				final String query = editText.getText().toString().toLowerCase().trim();
+
+				final RedditSubreddit sr = postListingController.getSubreddit();
+				final String restrict_sr = sr.isReal() ? "on" : "off";
+
+				final String url;
+
+				if(sr.isReal()) {
+					url = sr.url + "/search.json?restrict_sr=on&q=" + query;
+				} else {
+					url = "/search.json?q=" + query;
+				}
+
+				final Intent intent = new Intent(MainActivity.this, PostListingActivity.class);
+				intent.putExtra("subreddit", new RedditSubreddit(url, "\"" + query + "\" search results", false));
+				startActivity(intent);
+			}
+		});
+
+		alertBuilder.setNegativeButton(R.string.dialog_cancel, null);
+
+		final AlertDialog alertDialog = alertBuilder.create();
+		alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		alertDialog.show();
 	}
 
 	public void onRefreshSubreddits() {

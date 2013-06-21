@@ -19,19 +19,30 @@
 
 <PreferenceScreen xmlns:holo="http://schemas.android.com/apk/res-auto">
 
+    <PreferenceCategory holo:title="@string/pref_behaviour_sort_header">
+
+        <ListPreference holo:title="@string/pref_behaviour_commentsort"
+                        holo:key="@string/pref_behaviour_commentsort_key"
+                        holo:entries="@array/pref_behaviour_commentsort_array"
+                        holo:entryValues="@array/pref_behaviour_commentsort_array_return"
+                        holo:defaultValue="best"/>
+
+    </PreferenceCategory>
+
+
     <PreferenceCategory holo:title="@string/pref_behaviour_actions_post_header">
 
         <ListPreference holo:title="@string/pref_behaviour_fling_post_left_title"
                         holo:key="@string/pref_behaviour_fling_post_left_key"
                         holo:entries="@array/pref_behaviour_fling_post_actions"
                         holo:entryValues="@array/pref_behaviour_fling_post_actions_return"
-                        holo:defaultValue="upvote"/>
+                        holo:defaultValue="downvote"/>
 
         <ListPreference holo:title="@string/pref_behaviour_fling_post_right_title"
                         holo:key="@string/pref_behaviour_fling_post_right_key"
                         holo:entries="@array/pref_behaviour_fling_post_actions"
                         holo:entryValues="@array/pref_behaviour_fling_post_actions_return"
-                        holo:defaultValue="downvote"/>
+                        holo:defaultValue="upvote"/>
 
     </PreferenceCategory>
 

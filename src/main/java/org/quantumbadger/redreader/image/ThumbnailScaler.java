@@ -28,8 +28,11 @@ public final class ThumbnailScaler {
 		final float scaleFactor = (float)newWidth / (float)w;
 		final Bitmap scaled = Bitmap.createScaledBitmap(src, Math.round(scaleFactor * src.getWidth()), Math.round(scaleFactor * src.getHeight()), true);
 
-		return Bitmap.createBitmap(scaled, 0, 0, newWidth, Math.round((float)h * scaleFactor));
+		final Bitmap result = Bitmap.createBitmap(scaled, 0, 0, newWidth, Math.round((float)h * scaleFactor));
 
+		if(result != scaled) scaled.recycle();
+
+		return result;
 	}
 
 	public static Bitmap scale(final Bitmap image, final int width) {

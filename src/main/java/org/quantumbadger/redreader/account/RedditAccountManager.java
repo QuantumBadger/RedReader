@@ -55,7 +55,7 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 			FIELD_MODHASH = "modhash",
 			FIELD_PRIORITY = "priority";
 
-	private static final int ACCOUNTS_DB_VERSION = 1;
+	private static final int ACCOUNTS_DB_VERSION = 2;
 
 	private static RedditAccountManager singleton;
 
@@ -99,7 +99,14 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion) {
-		throw new RuntimeException("Attempt to upgrade database in first version of the app!");
+
+		if(oldVersion == 1 && newVersion == 2) {
+
+			db.execSQL(String.format("UPDATE %s SET %2$s=TRIM(%2$s) WHERE %2$s <> TRIM(%2$s)", TABLE, FIELD_USERNAME));
+
+		} else {
+			throw new RuntimeException("Invalid accounts DB update: " + oldVersion + " to " + newVersion);
+		}
 	}
 
 	public synchronized void addAccount(final RedditAccount account) {
@@ -136,6 +143,21 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 		}
 
 		return new ArrayList<RedditAccount>(accountsCache);
+	}
+
+	public RedditAccount getAccount(String username) {
+
+		final ArrayList<RedditAccount> accounts = getAccounts();
+		RedditAccount selectedAccount = null;
+
+		for(RedditAccount account : accounts) {
+			if(!account.isAnonymous() && account.username.equalsIgnoreCase(username)) {
+				selectedAccount = account;
+				break;
+			}
+		}
+
+		return selectedAccount;
 	}
 
 	public synchronized RedditAccount getDefaultAccount() {

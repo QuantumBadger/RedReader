@@ -1,0 +1,50 @@
+38/1.7.4
+Bugfix for user profile dialog crash
+Minor appearance improvement
+Bugfix where subreddit name wasn't always filled in when submitting posts
+
+37/1.7.3
+Bugfix for users with saved comments
+Bugfix when clicking links in a user's comment list
+Bugfix when viewing images with null mimetypes
+
+36/1.7.2
+Additional bugfix for users who logged in with a space after their username
+
+35/1.7.1
+Bugfix when viewing a user's post list
+Potential bugfix when recycling images
+
+34/1.7.0
+Basic search feature
+Preference to change the default comment sort
+Preference to override Android's default language
+Handles hidden comment scores on certain subreddits
+Adds saved images to the Android gallery
+Fixed profile 404 bug (caused by space after username when logging in)
+Added "up" button in internal browser action bar
+Replaced thumbs up icon with upvote icon in bezel swipe toolbar
+
+33/1.6.9
+Spoiler support
+Crash fixes
+Corrections to German translations
+
+32/1.6.8
+Added German translations (thanks to /u/balducien and /u/andiho)
+Added preference to disable post flinging (select "disabled" under "post fling action")
+Added "About" section to preferences
+Changed actionbar highlight color to white
+Now respects Android's "24 hour time" setting
+
+31/1.6.7
+Added this changelog!
+Added Danish translations (thanks to /u/fosterbuster)
+Reformats youtu.be links so the YouTube app can handle them
+Reformats invalid youtube.com links provided by reddit
+
+29/1.6.6
+Massively sped up cache pruning (no more freezing on startup)
+Fixed a bug - everyone should now be able to edit their own comments
+Moved the subreddit loading bar
+

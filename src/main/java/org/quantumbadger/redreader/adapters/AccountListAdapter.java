@@ -99,7 +99,7 @@ public class AccountListAdapter extends BaseAdapter {
 				final TypedArray attr = context.obtainStyledAttributes(new int[] {R.attr.rrListSubtitleCol});
 				final int col = attr.getColor(0, 0);
 
-				username.append("  (" + context.getString(R.string.accounts_default) + ")", BetterSSB.FOREGROUND_COLOR | BetterSSB.SIZE, col, 0, 0.8f);
+				username.append("  (" + context.getString(R.string.accounts_active) + ")", BetterSSB.FOREGROUND_COLOR | BetterSSB.SIZE, col, 0, 0.8f);
 			}
 
 			((ListItemView)convertView).reset(null, username.get(), true);

@@ -34,7 +34,8 @@
               android:textColor="?rrListHeaderTextCol"
               android:textSize="14sp"/>
 
-    <View android:layout_height="2dp"
+    <View android:id="@+id/list_sectionheader_line"
+          android:layout_height="2dp"
           android:layout_width="fill_parent"
           android:minHeight="2dp"
           android:background="?rrListHeaderLineCol"

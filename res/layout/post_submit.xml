@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ This file is part of RedReader.
+  ~
+  ~ RedReader is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ RedReader is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <Spinner android:id="@+id/post_submit_type"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginLeft="10dp"
+             android:layout_marginRight="10dp"
+             android:layout_marginTop="2dp"
+             android:layout_marginBottom="2dp"/>
+
+    <Spinner android:id="@+id/post_submit_username"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginLeft="10dp"
+             android:layout_marginRight="10dp"
+             android:layout_marginTop="2dp"
+             android:layout_marginBottom="2dp"/>
+
+    <EditText android:id="@+id/post_submit_subreddit"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_margin="10dp"
+              android:singleLine="true"
+              android:scrollHorizontally="true"
+              android:scrollbars="none"
+              android:inputType="textNoSuggestions"
+              android:hint="@string/post_submit_subreddit_hint"/>
+
+    <EditText android:id="@+id/post_submit_title"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_margin="10dp"
+              android:singleLine="true"
+              android:scrollHorizontally="true"
+              android:scrollbars="none"
+              android:inputType="textCapSentences"
+              android:hint="@string/post_submit_title_hint"/>
+
+    <EditText android:id="@+id/post_submit_body"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_margin="10dp"
+              android:singleLine="false"
+              android:scrollHorizontally="false"
+              android:scrollbars="none"
+              android:inputType="textCapSentences|textMultiLine"/>
+
+</LinearLayout>

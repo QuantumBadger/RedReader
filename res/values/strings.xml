@@ -32,6 +32,7 @@
     <string name="prefs_category_appearance">Appearance</string>
     <string name="prefs_category_behaviour">Behaviour</string>
     <string name="prefs_category_cache">Cache</string>
+    <string name="prefs_category_menus">Menus</string>
 
     <!-- Appearance Prefs -->
 
@@ -39,6 +40,7 @@
     <string name="pref_appearance_font_header">Font</string>
     <string name="pref_appearance_thumbnails_header">Thumbnails</string>
     <string name="pref_appearance_tabletmode_header">Tablet Mode</string>
+    <string name="pref_appearance_comments_header">Comments</string>
     <string name="pref_appearance_other_header">Other</string>
 
     <string name="pref_appearance_twopane_key">pref_appearance_twopane</string>
@@ -67,6 +69,9 @@
 
     <string name="pref_appearance_loading_detail_key">pref_appearance_loading_detail</string>
     <string name="pref_appearance_loading_detail_title">Show detailed loading messages</string>
+
+    <string name="pref_appearance_comment_header_items_key">pref_appearance_comment_header_items</string>
+    <string name="pref_appearance_comment_header_items_title">Comment Header</string>
 
     <!-- Behaviour Prefs -->
 
@@ -108,11 +113,22 @@
     <string name="pref_cache_precache_images_wifionly_key">pref_cache_precache_images_wifionly</string>
     <string name="pref_cache_precache_images_wifionly_title">On Wi-Fi only</string>
 
+    <!-- Menu Prefs -->
+
+    <string name="pref_menus_post_context_items_key">pref_menus_post_context_items</string>
+    <string name="pref_menus_post_context_items_title">Post Context Menu Items</string>
+
+    <string name="pref_menus_post_toolbar_items_key">pref_menus_post_toolbar_items</string>
+    <string name="pref_menus_post_toolbar_items_title">Post Toolbar Items</string>
+
     <!-- Options Menu -->
 
     <string name="options_accounts">Accounts</string>
+    <string name="options_accounts_long">Reddit Accounts</string>
     <string name="options_theme">Themes</string>
     <string name="options_settings">Settings</string>
+
+    <string name="options_submit_post">Submit Post</string>
 
     <string name="options_refresh">Refresh</string>
     <string name="options_refresh_subreddits">Refresh Subreddits</string>
@@ -148,9 +164,9 @@
     <!-- Accounts Dialog -->
 
     <string name="accounts_anon">Anonymous</string>
-    <string name="accounts_default">Default</string>
-    <string name="accounts_add">Add Account</string>
-    <string name="accounts_setdefault">Set as Default</string>
+    <string name="accounts_active">Active</string>
+    <string name="accounts_add">Add Reddit Account</string>
+    <string name="accounts_setactive">Make Active</string>
     <string name="accounts_reauth">Reauthenticate</string>
     <string name="accounts_delete">Delete</string>
 
@@ -213,22 +229,30 @@
     <string name="action_actionmenu_short">Actions</string>
     <string name="action_actionmenu">Action Menu</string>
     <string name="action_comment_links">Links in Comment</string>
+    <string name="action_selftext_links">Links in Self Text</string>
     <string name="action_share">Share</string>
     <string name="action_share_comments">Share Comments</string>
+    <string name="action_copy">Copy</string>
     <string name="action_gotosubreddit">Go to Subreddit</string>
     <string name="action_reply">Reply</string>
+    <string name="action_edit">Edit</string>
     <string name="action_user_profile">User Profile</string>
     <string name="action_user_profile_short">User</string>
     <string name="action_properties">Properties</string>
     <string name="action_comments">View Comments</string>
+    <string name="action_comments_switch">Switch To Comments</string>
     <string name="action_comments_short">Comments</string>
     <string name="action_link">Open Link</string>
+    <string name="action_link_switch">Switch To Link</string>
     <string name="action_link_short">Link</string>
     <string name="action_collapse">Toggle Collapse</string>
     <string name="action_nothing">Do Nothing</string>
 
     <string name="action_report">Report</string>
     <string name="action_report_sure">Are you sure you want to report this?</string>
+
+    <string name="action_save_image">Save Image</string>
+    <string name="action_save_image_success">Saved to Pictures folder as</string>
 
     <!-- Download Messages -->
 
@@ -245,14 +269,21 @@
     <string name="imageview_oom">Out of memory. Trying internal browser.</string>
     <string name="imageview_invalid_gif">Invalid GIF. Trying internal browser.</string>
 
-    <!-- Comment Reply -->
+    <!-- Comment Reply/Edit, Post Submit -->
 
     <string name="comment_reply_send">Send</string>
+    <string name="comment_edit_save">Save</string>
     <string name="comment_reply_preview">Preview</string>
     <string name="comment_reply_submitting_title">Submitting…</string>
     <string name="comment_reply_submitting_message">Just a moment…</string>
-    <string name="comment_reply_oncancel">Waiting for results of send action…</string>
-    <string name="comment_reply_done">Reply sent.</string>
+    <string name="comment_reply_oncancel">Waiting for results of action…</string>
+    <string name="comment_reply_done">Reply sent. The comment will appear after you refresh.</string>
+    <string name="comment_edit_done">Comment edited. Changes will appear after you refresh.</string>
+    <string name="post_submit_title_hint">Title</string>
+    <string name="post_submit_subreddit_hint">Subreddit</string>
+    <string name="post_captcha_title">Captcha</string>
+    <string name="post_captcha_submit_button">Submit</string>
+    <string name="post_submit_done">Post submitted.</string>
 
     <!-- Bug Reporting -->
 
@@ -265,6 +296,12 @@
 
     <string name="error_403_title">Invalid User</string>
     <string name="error_403_message">The user you selected does not have permission to do that.</string>
+
+    <string name="error_subreddit_required_title">Subreddit Required</string>
+    <string name="error_subreddit_required_message">You must specify a subreddit.</string>
+
+    <string name="error_bad_captcha_title">Invalid CAPTCHA</string>
+    <string name="error_bad_captcha_message">The CAPTCHA you entered was incorrect. Please try again.</string>
 
     <string name="error_404_title">Not Found (404)</string>
     <string name="error_404_message">The data you requested could not be found.</string>
@@ -310,7 +347,7 @@
 
     <!-- Time -->
 
-    <string name="time_ago">ago</string>
+    <string name="time_ago">%s ago</string>
 
     <!-- User Profile -->
 
@@ -349,5 +386,105 @@
 
     <string name="general_true">True</string>
     <string name="general_false">False</string>
+
+    <!-- 2013-05-17 Arrays -->
+
+    <string name="pref_appearance_twopane_never">Never</string>
+    <string name="pref_appearance_twopane_auto">Auto-detect</string>
+    <string name="pref_appearance_twopane_landscape">Landscape Only</string>
+    <string name="pref_appearance_twopane_force">Always (may look odd)</string>
+
+    <string name="theme_name_red">Red</string>
+    <string name="theme_name_night">Night</string>
+    <string name="theme_name_green">Green</string>
+    <string name="theme_name_blue">Blue</string>
+    <string name="theme_name_ltblue">Light Blue</string>
+    <string name="theme_name_orange">Orange</string>
+    <string name="theme_name_gray">Gray</string>
+
+    <string name="time_1hr">1 hour</string>
+    <string name="time_6hr">6 hours</string>
+    <string name="time_1day">1 day</string>
+    <string name="time_3day">3 days</string>
+    <string name="time_1week">1 week</string>
+    <string name="time_1month">1 month</string>
+    <string name="time_3month">3 months</string>
+
+    <string name="pref_appearance_comment_header_items_author">Author</string>
+    <string name="pref_appearance_comment_header_items_flair">Flair</string>
+    <string name="pref_appearance_comment_header_items_score">Score</string>
+    <string name="pref_appearance_comment_header_items_upsdowns">Upvotes/downvotes</string>
+    <string name="pref_appearance_comment_header_items_age">Age</string>
+
+    <!-- 2013-05-17 -->
+
+    <string name="error_toast_notloggedin">You must be logged in to do that.</string>
+
+    <string name="button_moredetail">More Detail</string>
+
+    <string name="pref_appearance_scale_normal">Normal</string>
+
+    <string name="error_invalid_password_title">Invalid Password</string>
+    <string name="error_invalid_password_message">Your username or password was incorrect.</string>
+
+    <string name="error_ratelimit_title">Too many invalid attempts.</string>
+    <string name="error_ratelimit_message">Blocked due to too many invalid login attempts at this IP. Reddit says:</string>
+
+    <string name="general_success">Success</string>
+
+    <string name="message_nowloggedin">You are now logged in.</string>
+    <string name="message_cannotlogin">Could not log in.</string>
+
+    <string name="error_toast_no_urls_in_comment">No URLs found in this comment.</string>
+    <string name="error_toast_no_urls_in_self">No URLs found in this self text.</string>
+    <string name="error_toast_parent_post_not_downloaded">Parent post not downloaded yet.</string>
+
+    <string name="message_cannotlogin">Could not log in.</string>
+
+    <string name="download_subreddits">Downloading subreddits…</string>
+
+    <string name="subtitle_points">pts</string>
+    <string name="subtitle_by">by</string>
+    <string name="subtitle_to">to</string>
+    <string name="subtitle_replies">replies</string>
+    <string name="subtitle_reply">reply</string>
+
+    <string name="general_unknown">unknown</string>
+
+    <string name="action_search">Search</string>
+    <string name="search_subreddit_restrict">Restrict search to</string>
+
+    <string name="title_changelog">What\'s New</string>
+
+    <string name="pref_behaviour_commentsort_key">pref_behaviour_commentsort</string>
+    <string name="pref_behaviour_commentsort">Default Comment Sort</string>
+
+    <string name="pref_appearance_twopane_landscape">Landscape Only</string>
+
+    <!-- 2013-05-18 -->
+
+    <string name="action_fling_disabled">Disabled</string>
+
+    <string name="pref_about_version_key">pref_about_version</string>
+    <string name="pref_about_version_title">Version</string>
+
+    <string name="pref_about_changelog_key">pref_about_changelog</string>
+    <string name="prefs_category_about">About</string>
+
+    <!-- 2013-06-07 -->
+
+    <string name="pref_behaviour_sort_header">Sorting</string>
+
+    <!-- 2013-06-09 -->
+
+    <string name="pref_appearance_locale_header">Locale</string>
+
+    <string name="pref_appearance_langforce_key">pref_appearance_langforce_key</string>
+    <string name="pref_appearance_langforce_title">Language</string>
+
+    <string name="lang_auto">Automatic</string>
+    <string name="lang_en">English</string>
+    <string name="lang_da">Danish</string>
+    <string name="lang_de">German</string>
 
 </resources>

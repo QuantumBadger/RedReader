@@ -45,7 +45,6 @@ public final class RedditPreparedMessage implements RedditPreparedInboxItem {
 
 		this.src = message;
 
-		// TODO string
 		// TODO custom time
 
 		final TypedArray appearance = context.obtainStyledAttributes(new int[]{
@@ -63,14 +62,13 @@ public final class RedditPreparedMessage implements RedditPreparedInboxItem {
 		final BetterSSB sb = new BetterSSB();
 
 		if(src.author == null) {
-			sb.append("[unknown]", BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, rrCommentHeaderAuthorCol, 0, 1f); // TODO string
+			sb.append("[" + context.getString(R.string.general_unknown) + "]", BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, rrCommentHeaderAuthorCol, 0, 1f);
 		} else {
 			sb.append(src.author, BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, rrCommentHeaderAuthorCol, 0, 1f);
 		}
 
 		sb.append("   ", 0);
-		sb.append(RRTime.formatDurationMs(RRTime.utcCurrentTimeMillis() - src.created_utc * 1000L), BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, rrCommentHeaderBoldCol, 0, 1f);
-		sb.append(" ago", 0);
+		sb.append(RRTime.formatDurationMsAgo(context, RRTime.utcCurrentTimeMillis() - src.created_utc * 1000L), BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, rrCommentHeaderBoldCol, 0, 1f);
 
 		header = sb.get();
 	}
@@ -84,6 +82,6 @@ public final class RedditPreparedMessage implements RedditPreparedInboxItem {
 	}
 
 	public ViewGroup getBody(Context context, float textSize, Integer textCol, ActiveTextView.OnLinkClickedListener listener) {
-		return body.generate(context, textSize, textCol, listener);
+		return body.generate(context, textSize, textCol, listener, this);
 	}
 }

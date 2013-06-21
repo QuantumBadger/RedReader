@@ -74,7 +74,15 @@
 
     </style>
 
+    <style name="RR.Startup" parent="RR.Dark">
+        <item name="android:actionBarStyle">@style/RR.Startup.ActionBarStyle</item>
+    </style>
+
     <style name="RR.Light.DarkActionBar" parent="Holo.Theme.Light">
+
+        <item name="android:selectableItemBackground">@drawable/white_selector</item>
+
+        <item name="android:windowBackground">@color/lightWindowBackground</item>
 
         <item name="android:actionBarStyle">@style/RR.Light.ActionBarStyle</item>
         <item name="android:actionOverflowButtonStyle">@style/RR.ActionButton.Overflow</item>
@@ -139,12 +147,20 @@
         <item name="rrActionBarCol">#06456A</item>
     </style>
 
+    <style name="RR.Light.LtBlue" parent="RR.Light.DarkActionBar">
+        <item name="rrActionBarCol">#33B5E5</item>
+    </style>
+
     <style name="RR.Light.Red" parent="RR.Light.DarkActionBar">
         <item name="rrActionBarCol">#A60000</item>
     </style>
 
     <style name="RR.Light.Green" parent="RR.Light.DarkActionBar">
         <item name="rrActionBarCol">#268E00</item>
+    </style>
+
+    <style name="RR.Light.Orange" parent="RR.Light.DarkActionBar">
+        <item name="rrActionBarCol">#DD5500</item>
     </style>
 
 </resources>

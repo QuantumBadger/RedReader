@@ -62,8 +62,18 @@ public abstract class SwipableListItemView extends FrameLayout implements RRTouc
 		updateOffset();
 	}
 
+	protected abstract boolean leftFlingEnabled();
+	protected abstract boolean rightFlingEnabled();
+
 	private void updateOffset() {
-		final int xOffset = getXOffset();
+		int xOffset = getXOffset();
+
+		if(!leftFlingEnabled() && xOffset < 0 || !rightFlingEnabled() && xOffset > 0) {
+			xOffset = 0;
+			this.swipeStartXOffset = -this.xOffset;
+			clearAnimation();
+		}
+
 		child.setTranslationX(xOffset);
 		onSwipePositionChange(xOffset);
 	}

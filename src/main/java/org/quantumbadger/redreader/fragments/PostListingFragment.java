@@ -105,6 +105,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 				case NOTIF_DOWNLOAD_NECESSARY:
 					loadingView = new LoadingView(context, R.string.download_waiting, true, true);
 					listFooterNotifications.addView(loadingView);
+					adapter.notifyDataSetChanged();
 					break;
 
 				case NOTIF_DOWNLOAD_START:
@@ -117,7 +118,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 
 				case NOTIF_AGE:
 					final TextView cacheNotif = new TextView(context);
-					cacheNotif.setText(context.getString(R.string.listing_cached) + " " + RRTime.formatDateTime((Long) msg.obj));
+					cacheNotif.setText(context.getString(R.string.listing_cached) + " " + RRTime.formatDateTime((Long) msg.obj, context));
 					final int paddingPx = General.dpToPixels(context, 6);
 					cacheNotif.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
 					cacheNotif.setTextSize(13f);
@@ -224,12 +225,12 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 		lv = (ListView)inflater.inflate(R.layout.reddit_post_list);
 		lv.setOnScrollListener(this);
 		lv.addHeaderView(listHeader);
-		lv.addFooterView(listFooterNotifications);
+		lv.addFooterView(listFooterNotifications, null, false);
 
 		lv.setPersistentDrawingCache(ViewGroup.PERSISTENT_ALL_CACHES);
 		lv.setAlwaysDrawnWithCacheEnabled(true);
 
-		adapter = new PostListingAdapter(lv, outer, this);
+		adapter = new PostListingAdapter(lv, this);
 		lv.setAdapter(adapter);
 
 		final ListOverlayView lov = new ListOverlayView(context, lv);
@@ -256,13 +257,24 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 	}
 
 	public void onPostSelected(final RedditPreparedPost post) {
-		post.markAsRead(getSupportActivity());
 		((RedditPostView.PostSelectionListener)getSupportActivity()).onPostSelected(post);
+
+		new Thread() {
+			public void run() {
+				post.markAsRead(getSupportActivity());
+			}
+		}.start();
 	}
 
 	public void onPostCommentsSelected(final RedditPreparedPost post) {
-		post.markAsRead(getSupportActivity());
+		
 		((RedditPostView.PostSelectionListener)getSupportActivity()).onPostCommentsSelected(post);
+
+		new Thread() {
+			public void run() {
+				post.markAsRead(getSupportActivity());
+			}
+		}.start();
 	}
 
 	public void onScrollStateChanged(AbsListView view, int scrollState) {}
@@ -435,6 +447,9 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 				for(final JsonValue postThingValue : posts) {
 
 					final RedditThing postThing = postThingValue.asObject(RedditThing.class);
+
+					if(!postThing.getKind().equals(RedditThing.Kind.POST)) continue;
+
 					final RedditPost post = postThing.asPost();
 
 					after = post.name;

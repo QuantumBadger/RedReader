@@ -41,6 +41,7 @@ import org.quantumbadger.redreader.reddit.RedditPreparedInboxItem;
 import org.quantumbadger.redreader.reddit.things.RedditComment;
 import org.quantumbadger.redreader.views.RedditCommentView;
 
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.LinkedList;
 
@@ -48,14 +49,14 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 
 	public SpannableStringBuilder header;
 
-	public final RedditCommentTextParser.ViewGenerator body;
+	private final RedditCommentTextParser.ViewGenerator body;
 
 	public final int indentation;
 	private final LinkedList<RedditPreparedComment> directReplies = new LinkedList<RedditPreparedComment>();
 
 	private boolean collapsed = false, collapsedByParent = false;
 
-	public final String idAlone, idAndType;
+	public final String idAlone, idAndType, flair;
 
 	private int voteDirection;
 	public long lastChange;
@@ -64,17 +65,18 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 	private RedditCommentView boundView;
 
 	private final int rrCommentHeaderBoldCol, rrCommentHeaderAuthorCol, rrPostSubtitleUpvoteCol, rrPostSubtitleDownvoteCol;
+	private final EnumSet<PrefsUtility.AppearanceCommentHeaderItems> headerItems;
 
 	private final RedditPreparedPost parentPost;
 
 	public RedditPreparedComment(final Context context, final RedditComment comment, final RedditPreparedComment parentComment,
 								 final long timestamp, final boolean needsUpdating, final RedditPreparedPost parentPost,
-								 final RedditAccount user) {
+								 final RedditAccount user, final EnumSet<PrefsUtility.AppearanceCommentHeaderItems> headerItems) {
 
 		this.src = comment;
 		this.parentPost = parentPost;
+		this.headerItems = headerItems;
 
-		// TODO strings
 		// TODO custom time
 
 		// TODO don't fetch these every time
@@ -91,6 +93,11 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 		rrPostSubtitleDownvoteCol = appearance.getColor(3, 255);
 
 		body = RedditCommentTextParser.parse(StringEscapeUtils.unescapeHtml4(comment.body));
+		if(comment.author_flair_text != null) {
+			flair = StringEscapeUtils.unescapeHtml4(comment.author_flair_text);
+		} else {
+			flair = null;
+		}
 
 		if(parentComment == null) {
 			indentation = 0;
@@ -115,34 +122,75 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 			RedditChangeDataManager.getInstance(context).update(src.link_id, user, this, false);
 		}
 
-		rebuildHeader();
+		rebuildHeader(context);
 	}
 
-	private void rebuildHeader() {
+	private void rebuildHeader(final Context context) {
 
 		final BetterSSB sb = new BetterSSB();
 
 		final int pointsCol;
+		int score = src.ups - src.downs;
+
+		if(Boolean.TRUE.equals(src.likes)) score--;
+		if(Boolean.FALSE.equals(src.likes)) score++;
+
 		if(isUpvoted()) {
 			pointsCol = rrPostSubtitleUpvoteCol;
+			score++;
 		} else if(isDownvoted()) {
 			pointsCol = rrPostSubtitleDownvoteCol;
+			score--;
 		} else {
 			pointsCol = rrCommentHeaderBoldCol;
 		}
 
-		if(parentPost != null && src.author.equals(parentPost.src.author)) {
-			sb.append(" " + src.author + " ", BetterSSB.BACKGROUND_COLOR | BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD,
-					Color.WHITE, Color.rgb(0, 126, 168), 1f); // TODO color
-		} else {
-			sb.append(src.author, BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, rrCommentHeaderAuthorCol, 0, 1f);
+		if(headerItems.contains(PrefsUtility.AppearanceCommentHeaderItems.AUTHOR)) {
+			if(parentPost != null && src.author.equalsIgnoreCase(parentPost.src.author)) {
+				sb.append(" " + src.author + " ", BetterSSB.BACKGROUND_COLOR | BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD,
+						Color.WHITE, Color.rgb(0, 126, 168), 1f); // TODO color
+			} else {
+				sb.append(src.author, BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, rrCommentHeaderAuthorCol, 0, 1f);
+			}
 		}
 
-		sb.append("   ", 0);
-		sb.append(String.valueOf(src.ups - src.downs), BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, pointsCol, 0, 1f);
-		sb.append(" pts  ", 0);
-		sb.append(RRTime.formatDurationMs(RRTime.utcCurrentTimeMillis() - src.created_utc * 1000L), BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, rrCommentHeaderBoldCol, 0, 1f);
-		sb.append(" ago", 0);
+		if(headerItems.contains(PrefsUtility.AppearanceCommentHeaderItems.FLAIR)
+				&& flair != null && flair.length() > 0) {
+
+			if(headerItems.contains(PrefsUtility.AppearanceCommentHeaderItems.AUTHOR)) {
+				sb.append("  ", 0);
+			}
+
+			sb.append(" " + flair + " ", BetterSSB.FOREGROUND_COLOR | BetterSSB.BACKGROUND_COLOR, Color.rgb(30, 30, 30), Color.rgb(230, 230, 230), 1f); // TODO theme properly
+		}
+
+		if(headerItems.contains(PrefsUtility.AppearanceCommentHeaderItems.AUTHOR)
+				|| headerItems.contains(PrefsUtility.AppearanceCommentHeaderItems.FLAIR)) {
+			sb.append("   ", 0);
+		}
+
+		if(headerItems.contains(PrefsUtility.AppearanceCommentHeaderItems.SCORE)) {
+
+			if(!Boolean.TRUE.equals(src.score_hidden)) {
+				sb.append(String.valueOf(score), BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, pointsCol, 0, 1f);
+			} else {
+				sb.append("??", BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, pointsCol, 0, 1f);
+			}
+
+			sb.append(" " + context.getString(R.string.subtitle_points) +  " ", 0);
+		}
+
+		if(!Boolean.TRUE.equals(src.score_hidden) && headerItems.contains(PrefsUtility.AppearanceCommentHeaderItems.UPS_DOWNS)) {
+			sb.append("(", 0);
+			sb.append(String.valueOf(src.ups), BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, rrPostSubtitleUpvoteCol, 0, 1f);
+			sb.append(" | ", 0);
+			sb.append(String.valueOf(src.downs), BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, rrPostSubtitleDownvoteCol, 0, 1f);
+			sb.append(")  ", 0);
+		}
+
+		if(headerItems.contains(PrefsUtility.AppearanceCommentHeaderItems.AGE)) {
+			sb.append(RRTime.formatDurationMsAgo(context, RRTime.utcCurrentTimeMillis() - src.created_utc * 1000L), BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, rrCommentHeaderBoldCol, 0, 1f);
+		}
 
 		header = sb.get();
 	}
@@ -187,10 +235,10 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 		return collapsed;
 	}
 
-	public void refreshView() {
+	public void refreshView(final Context context) {
 		new Handler(Looper.getMainLooper()).post(new Runnable() {
 			public void run() {
-				rebuildHeader();
+				rebuildHeader(context);
 				if(boundView != null) {
 					boundView.updateAppearance();
 					boundView.requestLayout();
@@ -215,12 +263,9 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 			case DOWNVOTE: voteDirection = -1; break;
 			case UNVOTE: voteDirection = 0; break;
 			case UPVOTE: voteDirection = 1; break;
-
-			default:
-				throw new RuntimeException("Unknown comment action");
 		}
 
-		refreshView();
+		refreshView(activity);
 
 		RedditAPI.action(CacheManager.getInstance(activity),
 				new APIResponseHandler.ActionResponseHandler(activity) {
@@ -258,7 +303,7 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 					protected void onSuccess() {
 						lastChange = RRTime.utcCurrentTimeMillis();
 						RedditChangeDataManager.getInstance(context).update(src.link_id, user, RedditPreparedComment.this, true);
-						refreshView();
+						refreshView(activity);
 					}
 
 					private void revertOnFailure() {
@@ -268,9 +313,6 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 							case UNVOTE:
 							case UPVOTE:
 								voteDirection = lastVoteDirection; break;
-
-							default:
-								throw new RuntimeException("Unknown comment action");
 						}
 					}
 
@@ -313,7 +355,7 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 	}
 
 	public ViewGroup getBody(Context context, float textSize, Integer textCol, ActiveTextView.OnLinkClickedListener listener) {
-		return body.generate(context, textSize, textCol, listener);
+		return body.generate(context, textSize, textCol, listener, this);
 	}
 
 	public RedditCommentView getBoundView() {

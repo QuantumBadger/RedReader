@@ -32,7 +32,7 @@ public abstract class APIResponseHandler {
 	protected final Context context;
 
 	public static enum APIFailureType {
-		INVALID_USER, UNKNOWN
+		INVALID_USER, BAD_CAPTCHA, NOTALLOWED, SUBREDDIT_REQUIRED, UNKNOWN
 	}
 
 	private APIResponseHandler(Context context) {
@@ -90,6 +90,28 @@ public abstract class APIResponseHandler {
 		}
 
 		protected abstract void onSuccess();
+	}
+
+	public static abstract class NewCaptchaResponseHandler extends APIResponseHandler {
+
+		protected NewCaptchaResponseHandler(Context context) {
+			super(context);
+		}
+
+		public final void notifySuccess(final String captchaId) {
+			try {
+				onSuccess(captchaId);
+			} catch(Throwable t1) {
+				try {
+					onCallbackException(t1);
+				} catch(Throwable t2) {
+					BugReportActivity.addGlobalError(new RRError(null, null, t1));
+					BugReportActivity.handleGlobalError(context, t2);
+				}
+			}
+		}
+
+		protected abstract void onSuccess(String captchaId);
 	}
 
 	public static abstract class SubredditResponseHandler extends APIResponseHandler {

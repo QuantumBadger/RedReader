@@ -75,7 +75,6 @@ public class RedditPostHeaderView extends LinearLayout {
 	private void rebuildSubtitle(Context context) {
 
 		// TODO customise display
-		// TODO strings
 		// TODO preference for the X days, X hours thing
 
 		final TypedArray appearance = context.obtainStyledAttributes(new int[]{
@@ -106,11 +105,11 @@ public class RedditPostHeaderView extends LinearLayout {
 		}
 
 		postListDescSb.append(String.valueOf(post.src.score), BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, pointsCol, 0, 1f);
-		postListDescSb.append(" pts ", 0);
-		postListDescSb.append(RRTime.formatDurationMs(RRTime.since(post.src.created_utc * 1000)), BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, boldCol, 0, 1f);
-		postListDescSb.append(" ago by ", 0);
+		postListDescSb.append(" " + context.getString(R.string.subtitle_points) + " ", 0);
+		postListDescSb.append(RRTime.formatDurationMsAgo(context, RRTime.since(post.src.created_utc * 1000)), BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, boldCol, 0, 1f);
+		postListDescSb.append(" " + context.getString(R.string.subtitle_by) + " ", 0);
 		postListDescSb.append(post.src.author, BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, boldCol, 0, 1f);
-		postListDescSb.append(" to ", 0);
+		postListDescSb.append(" " + context.getString(R.string.subtitle_to) + " ", 0);
 		postListDescSb.append(post.src.subreddit, BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, boldCol, 0, 1f);
 
 		postListDescSb.append(" (" + post.src.domain + ")", 0);

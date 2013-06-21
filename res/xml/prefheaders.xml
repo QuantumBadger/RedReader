@@ -37,4 +37,16 @@
         <extra android:name="panel" android:value="cache" />
     </header>
 
+    <header
+        holo:fragment="org.quantumbadger.redreader.settings.SettingsFragment"
+        holo:title="@string/prefs_category_menus">
+        <extra android:name="panel" android:value="menus" />
+    </header>
+
+    <header
+        holo:fragment="org.quantumbadger.redreader.settings.SettingsFragment"
+        holo:title="@string/prefs_category_about">
+        <extra android:name="panel" android:value="about" />
+    </header>
+
 </preference-headers>

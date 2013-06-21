@@ -17,11 +17,14 @@
 
 package org.quantumbadger.redreader.settings;
 
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import org.holoeverywhere.preference.ListPreference;
 import org.holoeverywhere.preference.Preference;
 import org.holoeverywhere.preference.PreferenceFragment;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.fragments.ChangelogDialog;
 
 public final class SettingsFragment extends PreferenceFragment {
 
@@ -53,7 +56,9 @@ public final class SettingsFragment extends PreferenceFragment {
 				R.string.pref_cache_maxage_image_key,
 				R.string.pref_appearance_fontscale_posts_key,
 				R.string.pref_appearance_fontscale_comments_key,
-				R.string.pref_behaviour_actions_comment_tap_key
+				R.string.pref_behaviour_actions_comment_tap_key,
+				R.string.pref_behaviour_commentsort_key,
+				R.string.pref_appearance_langforce_key
 		};
 
 		for(int pref : listPrefsToUpdate) {
@@ -72,6 +77,30 @@ public final class SettingsFragment extends PreferenceFragment {
 				public boolean onPreferenceChange(Preference preference, Object newValue) {
 					final int index = listPreference.findIndexOfValue((String)newValue);
 					listPreference.setSummary(listPreference.getEntries()[index]);
+					return true;
+				}
+			});
+		}
+
+		final Preference versionPref = findPreference(getString(R.string.pref_about_version_key));
+		final Preference changelogPref = findPreference(getString(R.string.pref_about_changelog_key));
+
+		final PackageInfo pInfo;
+
+		try {
+			pInfo = getSupportActivity().getPackageManager().getPackageInfo(getSupportActivity().getPackageName(), 0);
+		} catch(PackageManager.NameNotFoundException e) {
+			throw new RuntimeException(e);
+		}
+
+		if(versionPref != null) {
+			versionPref.setSummary(pInfo.versionName);
+		}
+
+		if(changelogPref != null) {
+			changelogPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+				public boolean onPreferenceClick(Preference preference) {
+					ChangelogDialog.newInstance().show(getSupportActivity());
 					return true;
 				}
 			});

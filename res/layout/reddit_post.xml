@@ -20,8 +20,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
-             android:gravity="center_vertical"
-             android:background="?rrListBackgroundCol">
+             android:gravity="center_vertical">
 
     <TextView android:id="@+id/reddit_post_fling_text_left"
               android:layout_height="wrap_content"
@@ -31,7 +30,6 @@
               android:textSize="14dp"
               android:textColor="?rrPostFlingTextCol"
               android:textAllCaps="true"
-              android:background="?rrListBackgroundCol"
               android:visibility="gone"/>
 
     <TextView android:id="@+id/reddit_post_fling_text_right"
@@ -42,7 +40,6 @@
               android:textSize="14dp"
               android:textColor="?rrPostFlingTextCol"
               android:textAllCaps="true"
-              android:background="?rrListBackgroundCol"
               android:visibility="gone"/>
 
     <LinearLayout android:id="@+id/reddit_post_layout"
@@ -51,8 +48,8 @@
                   android:gravity="center_vertical"
                   android:orientation="horizontal"
                   android:minHeight="64dp"
-                  android:background="?rrListItemBackgroundCol"
-                  android:baselineAligned="false">
+                  android:baselineAligned="false"
+                  android:background="?rrListItemBackgroundCol">
 
         <FrameLayout android:layout_width="wrap_content"
                      android:layout_height="match_parent"
@@ -62,8 +59,7 @@
             <ImageView android:id="@+id/reddit_post_thumbnail_view"
                        android:layout_width="wrap_content"
                        android:layout_height="match_parent"
-                       android:scaleType="center"
-                       android:background="?rrPostThumbnailBackground"/>
+                       android:scaleType="center"/>
 
             <ImageView android:id="@+id/reddit_post_saved_icon"
                        android:layout_width="64dp"

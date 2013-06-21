@@ -17,25 +17,39 @@
 
 package org.quantumbadger.redreader.common;
 
+import android.content.Context;
+import android.text.format.DateFormat;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.quantumbadger.redreader.R;
 
 public class RRTime {
 
-	private static final DateTimeFormatter dtFormatter = DateTimeFormat.forPattern("yyyy-MM-dd h:mm a");
+	private static final DateTimeFormatter
+			dtFormatter12hr = DateTimeFormat.forPattern("yyyy-MM-dd h:mm a"),
+			dtFormatter24hr = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm");
+
 
 	public static long utcCurrentTimeMillis() {
 		return DateTime.now(DateTimeZone.UTC).getMillis();
 	}
 
-	public static String formatDateTime(final long utc_ms) {
+	public static String formatDateTime(final long utc_ms, final Context context) {
 
 		final DateTime dateTime = new DateTime(utc_ms);
 		final DateTime localDateTime  = dateTime.withZone(DateTimeZone.getDefault());
 
-		return dtFormatter.print(localDateTime);
+		if(DateFormat.is24HourFormat(context)) {
+			return dtFormatter24hr.print(localDateTime);
+		} else {
+			return dtFormatter12hr.print(localDateTime);
+		}
+	}
+
+	public static String formatDurationMsAgo(final Context context, final long totalMs) {
+		return String.format(context.getString(R.string.time_ago), formatDurationMs(totalMs));
 	}
 
 	// TODO externalise strings

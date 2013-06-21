@@ -18,15 +18,20 @@
 package org.quantumbadger.redreader.fragments;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.view.View;
+import android.widget.AdapterView;
 import com.laurencedawson.activetextview.ActiveTextView;
 import org.apache.http.StatusLine;
 import org.holoeverywhere.app.AlertDialog;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.DialogFragment;
+import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.ListView;
 import org.holoeverywhere.widget.TextView;
@@ -34,6 +39,7 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BugReportActivity;
+import org.quantumbadger.redreader.activities.CommentListingActivity;
 import org.quantumbadger.redreader.adapters.InboxListingAdapter;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
@@ -50,6 +56,7 @@ import org.quantumbadger.redreader.views.liststatus.ErrorView;
 import org.quantumbadger.redreader.views.liststatus.LoadingView;
 
 import java.net.URI;
+import java.util.EnumSet;
 import java.util.UUID;
 
 public final class InboxListingFragment extends DialogFragment implements ActiveTextView.OnLinkClickedListener {
@@ -60,6 +67,8 @@ public final class InboxListingFragment extends DialogFragment implements Active
 	private LinearLayout notifications;
 
 	private CacheRequest request;
+
+	private EnumSet<PrefsUtility.AppearanceCommentHeaderItems> headerItems;
 
 	// Workaround for HoloEverywhere bug?
 	private volatile boolean alreadyCreated = false;
@@ -87,6 +96,10 @@ public final class InboxListingFragment extends DialogFragment implements Active
 
 		final Context context = getSupportActivity();
 
+		headerItems = PrefsUtility.appearance_comment_header_items(context, PreferenceManager.getDefaultSharedPreferences(context));
+		headerItems.remove(PrefsUtility.AppearanceCommentHeaderItems.SCORE);
+		headerItems.remove(PrefsUtility.AppearanceCommentHeaderItems.UPS_DOWNS);
+
 		final LinearLayout outer = new LinearLayout(context);
 		outer.setOrientation(android.widget.LinearLayout.VERTICAL);
 
@@ -101,6 +114,17 @@ public final class InboxListingFragment extends DialogFragment implements Active
 		lv.setSmoothScrollbarEnabled(false);
 		lv.setVerticalFadingEdgeEnabled(false);
 
+		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+				final Object item = lv.getAdapter().getItem(position);
+
+				if(item != null && item instanceof RedditPreparedInboxItem) {
+					handleClick((RedditPreparedInboxItem)item);
+				}
+			}
+		});
+
 		adapter = new InboxListingAdapter(context, this);
 		lv.setAdapter(adapter);
 
@@ -112,11 +136,9 @@ public final class InboxListingFragment extends DialogFragment implements Active
 		makeFirstRequest(context);
 
 		final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setTitle("Inbox"); // TODO string
+		builder.setTitle(R.string.mainmenu_inbox);
 
 		builder.setView(outer);
-
-		builder.setNeutralButton("Close", null);
 
 		return builder.create();
 	}
@@ -184,7 +206,7 @@ public final class InboxListingFragment extends DialogFragment implements Active
 					new Handler(Looper.getMainLooper()).post(new Runnable() {
 						public void run() {
 							final TextView cacheNotif = new TextView(context);
-							cacheNotif.setText(context.getString(R.string.listing_cached) + RRTime.formatDateTime(timestamp));
+							cacheNotif.setText(context.getString(R.string.listing_cached) + RRTime.formatDateTime(timestamp, context));
 							final int paddingPx = General.dpToPixels(context, 6);
 							final int sidePaddingPx = General.dpToPixels(context, 10);
 							cacheNotif.setPadding(sidePaddingPx, paddingPx, sidePaddingPx, paddingPx);
@@ -210,7 +232,7 @@ public final class InboxListingFragment extends DialogFragment implements Active
 						switch(thing.getKind()) {
 							case COMMENT:
 								final RedditPreparedComment comment = new RedditPreparedComment(
-										getSupportActivity(), thing.asComment(), null, timestamp, false, null, user);
+										getSupportActivity(), thing.asComment(), null, timestamp, false, null, user, headerItems);
 								itemHandler.sendMessage(General.handlerMessage(0, comment));
 
 								break;
@@ -238,7 +260,23 @@ public final class InboxListingFragment extends DialogFragment implements Active
 		cm.makeRequest(request);
 	}
 
-	public void onClick(String url) {
+	public void onClickUrl(String url) {
 		if(url != null) LinkHandler.onLinkClicked(getSupportActivity(), url, false);
+	}
+
+	public void onClickText(Object attachment) {
+		if(attachment != null && attachment instanceof RedditPreparedInboxItem) {
+			handleClick((RedditPreparedInboxItem)attachment);
+		}
+	}
+
+	private void handleClick(RedditPreparedInboxItem item) {
+		if(item instanceof RedditPreparedComment) {
+			final URI commentContext = Constants.Reddit.getUri(((RedditPreparedComment)item).src.context);
+
+			final Intent intent = new Intent(getSupportActivity(), CommentListingActivity.class);
+			intent.setData(Uri.parse(commentContext.toString()));
+			startActivity(intent);
+		}
 	}
 }

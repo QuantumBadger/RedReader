@@ -98,18 +98,18 @@ public class MainMenuFragment extends Fragment implements MainMenuSelectionListe
 
 		notifications = new LinearLayout(context);
 		notifications.setOrientation(LinearLayout.VERTICAL);
-		outer.addView(notifications);
 
 		loadingView = new LoadingView(context, R.string.download_waiting, true, true);
 
 		final ListView lv = new ListView(context);
 		lv.setDivider(null);
 
+		lv.addFooterView(notifications);
+
 		final int paddingPx = General.dpToPixels(context, 8);
 		lv.setPadding(paddingPx, 0, paddingPx, 0);
 
 		adapter = new MainMenuAdapter(context, user, this);
-
 		lv.setAdapter(adapter);
 
 		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -133,7 +133,7 @@ public class MainMenuFragment extends Fragment implements MainMenuSelectionListe
 
 			@Override
 			protected void onDownloadStarted() {
-				loadingView.setIndeterminate("Downloading subreddits..."); // TODO string
+				loadingView.setIndeterminate(R.string.download_subreddits);
 			}
 
 			@Override
@@ -197,6 +197,7 @@ public class MainMenuFragment extends Fragment implements MainMenuSelectionListe
 				force ? CacheRequest.DownloadType.FORCE : CacheRequest.DownloadType.IF_NECESSARY, force, context);
 
 		outer.addView(lv);
+		lv.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
 
 		return outer;
 	}

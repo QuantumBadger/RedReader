@@ -38,10 +38,7 @@ import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.fragments.ErrorPropertiesDialog;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.URI;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -59,23 +56,38 @@ public final class General {
 
 		if(!src.renameTo(dst)) {
 
-			final FileInputStream fis = new FileInputStream(dst);
-			final FileOutputStream fos = new FileOutputStream(dst);
-
-			final byte[] buf = new byte[32 * 1024];
-
-			int bytesRead;
-			while((bytesRead = fis.read(buf)) > 0) {
-				fos.write(buf, 0, bytesRead);
-			}
-
-			fis.close();
-			fos.close();
+			copyFile(src, dst);
 
 			if(!src.delete()) {
 				src.deleteOnExit();
 			}
 		}
+	}
+
+	public static void copyFile(final File src, final File dst) throws IOException {
+
+		final FileInputStream fis = new FileInputStream(src);
+		final FileOutputStream fos = new FileOutputStream(dst);
+
+		copyFile(fis, fos);
+	}
+
+	public static void copyFile(final InputStream fis, final File dst) throws IOException {
+		final FileOutputStream fos = new FileOutputStream(dst);
+		copyFile(fis, fos);
+	}
+
+	public static void copyFile(final InputStream fis, final OutputStream fos) throws IOException {
+
+		final byte[] buf = new byte[32 * 1024];
+
+		int bytesRead;
+		while((bytesRead = fis.read(buf)) > 0) {
+			fos.write(buf, 0, bytesRead);
+		}
+
+		fis.close();
+		fos.close();
 	}
 
 	public static File getBestCacheDir(final Context context) {
@@ -100,7 +112,7 @@ public final class General {
 	public static void quickToast(final Context context, final String text) {
 		new Handler(Looper.getMainLooper()).post(new Runnable() {
 			public void run() {
-				Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+				Toast.makeText(context, text, Toast.LENGTH_LONG).show();
 			}
 		});
 	}
@@ -207,7 +219,22 @@ public final class General {
 
 			case INVALID_USER:
 				title = R.string.error_403_title;
-				message = R.string.error_403_title;
+				message = R.string.error_403_message;
+				break;
+
+			case BAD_CAPTCHA:
+				title = R.string.error_bad_captcha_title;
+				message = R.string.error_bad_captcha_message;
+				break;
+
+			case NOTALLOWED:
+				title = R.string.error_403_title;
+				message = R.string.error_403_message;
+				break;
+
+			case SUBREDDIT_REQUIRED:
+				title = R.string.error_subreddit_required_title;
+				message = R.string.error_subreddit_required_message;
 				break;
 
 			default:
@@ -225,7 +252,7 @@ public final class General {
 			public void run() {
 				final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
 				alertBuilder.setNeutralButton(R.string.dialog_close, null);
-				alertBuilder.setNegativeButton("More Detail", new DialogInterface.OnClickListener() {
+				alertBuilder.setNegativeButton(R.string.button_moredetail, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						ErrorPropertiesDialog.newInstance(error).show(context);
 					}

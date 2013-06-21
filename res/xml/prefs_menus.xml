@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ This file is part of RedReader.
+  ~
+  ~ RedReader is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ RedReader is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<!--
+  ~ This file is part of RedReader.
+  ~
+  ~ RedReader is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ RedReader is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<PreferenceScreen xmlns:holo="http://schemas.android.com/apk/res-auto">
+
+
+    <MultiSelectListPreference
+        holo:dialogTitle="@string/pref_menus_post_context_items_title"
+        holo:key="@string/pref_menus_post_context_items_key"
+        holo:title="@string/pref_menus_post_context_items_title"
+        holo:entries="@array/pref_menus_post_context_items"
+        holo:entryValues="@array/pref_menus_post_context_items_return"
+        holo:defaultValue="@array/pref_menus_post_context_items_return" />
+
+    <MultiSelectListPreference
+        holo:dialogTitle="@string/pref_menus_post_toolbar_items_title"
+        holo:key="@string/pref_menus_post_toolbar_items_key"
+        holo:title="@string/pref_menus_post_toolbar_items_title"
+        holo:entries="@array/pref_menus_post_toolbar_items"
+        holo:entryValues="@array/pref_menus_post_toolbar_items_return"
+        holo:defaultValue="@array/pref_menus_post_toolbar_items_return" />
+
+</PreferenceScreen>

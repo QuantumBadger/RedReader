@@ -26,11 +26,11 @@ public final class RedditComment implements Parcelable {
 	
 	public String body, body_html, author, subreddit;
 	public String author_flair_text;
-	public Boolean likes;
+	public Boolean likes, score_hidden;
 	
 	public JsonValue replies;
 	
-	public String id, subreddit_id, link_id, parent_id, name;
+	public String id, subreddit_id, link_id, parent_id, name, context;
 	
 	public int ups, downs;
 	
@@ -62,6 +62,7 @@ public final class RedditComment implements Parcelable {
 		link_id = in.readString();
 		parent_id = in.readString();
 		name = in.readString();
+		context = in.readString();
 
 		ups = in.readInt();
 		downs = in.readInt();
@@ -96,6 +97,7 @@ public final class RedditComment implements Parcelable {
 		parcel.writeString(link_id);
 		parcel.writeString(parent_id);
 		parcel.writeString(name);
+		parcel.writeString(context);
 
 		parcel.writeInt(ups);
 		parcel.writeInt(downs);

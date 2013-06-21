@@ -17,10 +17,13 @@
 
 package org.quantumbadger.redreader.listingcontrollers;
 
+import android.content.Context;
 import android.net.Uri;
+import org.holoeverywhere.preference.PreferenceManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
 
 import java.net.URI;
@@ -33,7 +36,7 @@ public class CommentListingController {
 	private final String postId;
 	private final Uri uri;
 	private UUID session = null;
-	private Sort sort = Sort.BEST; // TODO preference
+	private Sort sort;
 	private final boolean sortable;
 
 	public UUID getSession() {
@@ -52,13 +55,15 @@ public class CommentListingController {
 		BEST, HOT, NEW, OLD, TOP, CONTROVERSIAL
 	}
 
-	public CommentListingController(final String postId) {
+	public CommentListingController(final String postId, final Context context) {
+		sort = PrefsUtility.pref_behaviour_commentsort(context, PreferenceManager.getDefaultSharedPreferences(context));
 		this.postId = postId;
 		sortable = true;
 		uri = null;
 	}
 
-	public CommentListingController(final Uri uri) {
+	public CommentListingController(final Uri uri, final Context context) {
+		sort = PrefsUtility.pref_behaviour_commentsort(context, PreferenceManager.getDefaultSharedPreferences(context));
 		postId = null;
 		sortable = false;
 		this.uri = uri;

@@ -398,22 +398,10 @@ public final class CacheDownload {
 
 	private synchronized void notifyAllOnJsonParseStarted(final JsonValue value, final long timestamp, final UUID session) {
 
-		new Thread() {
-			@Override
-			public void run() {
-				android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
-				initiator.notifyJsonParseStarted(value, timestamp, session, false);
-			}
-		}.start();
+		initiator.notifyJsonParseStarted(value, timestamp, session, false);
 
 		for(final CacheRequest req : lateJoiners) {
-			new Thread() {
-				@Override
-				public void run() {
-					android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
-					req.notifyJsonParseStarted(value, timestamp, session, false);
-				}
-			}.start();
+			req.notifyJsonParseStarted(value, timestamp, session, false);
 		}
 	}
 

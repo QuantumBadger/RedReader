@@ -18,17 +18,31 @@
 package org.quantumbadger.redreader.common;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.util.DisplayMetrics;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.preference.SharedPreferences;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.listingcontrollers.CommentListingController;
+import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 
-import java.util.HashMap;
+import java.util.*;
 
 public final class PrefsUtility {
 
+	private static <E> Set<E> setFromArray(E[] data) {
+		final HashSet<E> result = new HashSet<E>(data.length);
+		Collections.addAll(result, data);
+		return result;
+	}
+
 	private static String getString(final int id, final String defaultValue, final Context context, final SharedPreferences sharedPreferences) {
 		return sharedPreferences.getString(context.getString(id), defaultValue);
+	}
+
+	private static Set<String> getStringSet(final int id, final int defaultArrayRes, final Context context, final SharedPreferences sharedPreferences) {
+		return sharedPreferences.getStringSet(context.getString(id), setFromArray(context.getResources().getStringArray(defaultArrayRes)));
 	}
 
 	private static boolean getBoolean(final int id, final boolean defaultValue, final Context context, final SharedPreferences sharedPreferences) {
@@ -54,7 +68,8 @@ public final class PrefsUtility {
 
 	public static boolean isRestartRequired(Context context, String key) {
 		return context.getString(R.string.pref_appearance_theme_key).equals(key)
-				|| context.getString(R.string.pref_appearance_solidblack_key).equals(key);
+				|| context.getString(R.string.pref_appearance_solidblack_key).equals(key)
+				|| context.getString(R.string.pref_appearance_langforce_key).equals(key);
 	}
 
 	///////////////////////////////
@@ -72,7 +87,7 @@ public final class PrefsUtility {
 	}
 
 	public static enum AppearanceTheme {
-		RED, GREEN, BLUE, GRAY, NIGHT
+		RED, GREEN, BLUE, LTBLUE, ORANGE, GRAY, NIGHT
 	}
 
 	public static AppearanceTheme appearance_theme(final Context context, final SharedPreferences sharedPreferences) {
@@ -81,7 +96,9 @@ public final class PrefsUtility {
 
 	public static void applyTheme(Activity activity) {
 
-		final AppearanceTheme theme = appearance_theme(activity, PreferenceManager.getDefaultSharedPreferences(activity));
+		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+
+		final AppearanceTheme theme = appearance_theme(activity, prefs);
 
 		switch(theme) {
 			case RED:
@@ -96,6 +113,14 @@ public final class PrefsUtility {
 				activity.setTheme(R.style.RR_Light_Blue);
 				break;
 
+			case LTBLUE:
+				activity.setTheme(R.style.RR_Light_LtBlue);
+				break;
+
+			case ORANGE:
+				activity.setTheme(R.style.RR_Light_Orange);
+				break;
+
 			case GRAY:
 				activity.setTheme(R.style.RR_Light_DarkActionBar);
 				break;
@@ -103,6 +128,16 @@ public final class PrefsUtility {
 			case NIGHT:
 				activity.setTheme(R.style.RR_Dark);
 				break;
+		}
+
+		final String lang = getString(R.string.pref_appearance_langforce_key, "auto", activity, prefs);
+
+		if(!lang.equals("auto")) {
+			final Resources res = activity.getResources();
+			final DisplayMetrics dm = res.getDisplayMetrics();
+			final android.content.res.Configuration conf = res.getConfiguration();
+			conf.locale = new Locale(lang);
+			res.updateConfiguration(conf, dm);
 		}
 	}
 
@@ -141,6 +176,20 @@ public final class PrefsUtility {
 		return getBoolean(R.string.pref_appearance_loading_detail_key, false, context, sharedPreferences);
 	}
 
+	public static enum AppearanceCommentHeaderItems {
+		AUTHOR, FLAIR, SCORE, UPS_DOWNS, AGE
+	}
+
+	public static EnumSet<AppearanceCommentHeaderItems> appearance_comment_header_items(final Context context, final SharedPreferences sharedPreferences) {
+
+		final Set<String> strings = getStringSet(R.string.pref_appearance_comment_header_items_key, R.array.pref_appearance_comment_header_items_default, context, sharedPreferences);
+
+		final EnumSet<AppearanceCommentHeaderItems> result = EnumSet.noneOf(AppearanceCommentHeaderItems.class);
+		for(String s : strings) result.add(AppearanceCommentHeaderItems.valueOf(s.toUpperCase()));
+
+		return result;
+	}
+
 	///////////////////////////////
 	// pref_behaviour
 	///////////////////////////////
@@ -148,15 +197,15 @@ public final class PrefsUtility {
 	// pref_behaviour_fling_post
 
 	public static enum PostFlingAction {
-		UPVOTE, DOWNVOTE, SAVE, HIDE, COMMENTS, LINK, ACTION_MENU, BROWSER
+		UPVOTE, DOWNVOTE, SAVE, HIDE, COMMENTS, LINK, ACTION_MENU, BROWSER, DISABLED
 	}
 
 	public static PostFlingAction pref_behaviour_fling_post_left(final Context context, final SharedPreferences sharedPreferences) {
-		return PostFlingAction.valueOf(getString(R.string.pref_behaviour_fling_post_left_key, "save", context, sharedPreferences).toUpperCase());
+		return PostFlingAction.valueOf(getString(R.string.pref_behaviour_fling_post_left_key, "downvote", context, sharedPreferences).toUpperCase());
 	}
 
 	public static PostFlingAction pref_behaviour_fling_post_right(final Context context, final SharedPreferences sharedPreferences) {
-		return PostFlingAction.valueOf(getString(R.string.pref_behaviour_fling_post_right_key, "hide", context, sharedPreferences).toUpperCase());
+		return PostFlingAction.valueOf(getString(R.string.pref_behaviour_fling_post_right_key, "upvote", context, sharedPreferences).toUpperCase());
 	}
 
 	public static enum CommentAction {
@@ -165,6 +214,10 @@ public final class PrefsUtility {
 
 	public static CommentAction pref_behaviour_actions_comment_tap(final Context context, final SharedPreferences sharedPreferences) {
 		return CommentAction.valueOf(getString(R.string.pref_behaviour_actions_comment_tap_key, "action_menu", context, sharedPreferences).toUpperCase());
+	}
+
+	public static CommentListingController.Sort pref_behaviour_commentsort(final Context context, final SharedPreferences sharedPreferences) {
+		return CommentListingController.Sort.valueOf(getString(R.string.pref_behaviour_commentsort_key, "best", context, sharedPreferences).toUpperCase());
 	}
 
 	public static boolean pref_behaviour_nsfw(final Context context, final SharedPreferences sharedPreferences) {
@@ -211,5 +264,29 @@ public final class PrefsUtility {
 		} else {
 			return CachePrecacheImages.ALWAYS;
 		}
+	}
+
+	///////////////////////////////
+	// pref_menus
+	///////////////////////////////
+
+	public static EnumSet<RedditPreparedPost.Action> pref_menus_post_context_items(final Context context, final SharedPreferences sharedPreferences) {
+
+		final Set<String> strings = getStringSet(R.string.pref_menus_post_context_items_key, R.array.pref_menus_post_context_items_return, context, sharedPreferences);
+
+		final EnumSet<RedditPreparedPost.Action> result = EnumSet.noneOf(RedditPreparedPost.Action.class);
+		for(String s : strings) result.add(RedditPreparedPost.Action.valueOf(s.toUpperCase()));
+
+		return result;
+	}
+
+	public static EnumSet<RedditPreparedPost.Action> pref_menus_post_toolbar_items(final Context context, final SharedPreferences sharedPreferences) {
+
+		final Set<String> strings = getStringSet(R.string.pref_menus_post_toolbar_items_key, R.array.pref_menus_post_toolbar_items_return, context, sharedPreferences);
+
+		final EnumSet<RedditPreparedPost.Action> result = EnumSet.noneOf(RedditPreparedPost.Action.class);
+		for(String s : strings) result.add(RedditPreparedPost.Action.valueOf(s.toUpperCase()));
+
+		return result;
 	}
 }

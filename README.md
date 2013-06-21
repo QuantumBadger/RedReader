@@ -35,6 +35,8 @@ How to Build
 
 RedReader is built using Maven. Several dependencies are required (and listed in pom.xml), but these are handled automatically if you use Maven.
 
+Detailed instructions on building RedReader using IntelliJ IDEA are in [BUILD.md](BUILD.md).
+
 
 How to Get
 ----------
@@ -62,3 +64,5 @@ Thanks to:
 * Apache, for various libraries
 * The [Jackson JSON processor](http://jackson.codehaus.org/)
 * [Joda](http://joda-time.sourceforge.net/)
+* [/u/fosterbuster](http://www.reddit.com/user/fosterbuster) for the Danish translation
+* [/u/balducien](http://www.reddit.com/user/balducien) and [/u/andiho](http://www.reddit.com/user/andiho) for the German translation

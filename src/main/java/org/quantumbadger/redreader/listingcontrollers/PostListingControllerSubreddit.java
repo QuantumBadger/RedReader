@@ -32,7 +32,7 @@ public class PostListingControllerSubreddit extends PostListingController {
 	}
 
 	@Override
-	protected RedditSubreddit getSubreddit() {
+	public RedditSubreddit getSubreddit() {
 		return subreddit;
 	}
 
@@ -46,7 +46,10 @@ public class PostListingControllerSubreddit extends PostListingController {
 	public URI getUri() {
 
 		if(!subreddit.isSortable()) {
-			return Constants.Reddit.getUri(subreddit.url + ".json");
+			if(subreddit.url.contains("?"))
+				return Constants.Reddit.getUri(subreddit.url.replaceFirst("\\?", ".json?").replace(".json.json", ".json"));
+			else
+				return Constants.Reddit.getUri(subreddit.url + ".json");
 		}
 
 		switch(getSort()) {

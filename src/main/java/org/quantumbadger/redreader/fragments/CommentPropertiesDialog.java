@@ -53,10 +53,10 @@ public final class CommentPropertiesDialog extends PropertiesDialog {
 			items.addView(propView(context, R.string.props_author_flair, comment.author_flair_text, false));
 		}
 
-		items.addView(propView(context, R.string.props_created, RRTime.formatDateTime(comment.created_utc * 1000), false));
+		items.addView(propView(context, R.string.props_created, RRTime.formatDateTime(comment.created_utc * 1000, context), false));
 
 		if(comment.edited instanceof Long) {
-			items.addView(propView(context, R.string.props_edited, RRTime.formatDateTime((Long) comment.edited * 1000), false));
+			items.addView(propView(context, R.string.props_edited, RRTime.formatDateTime((Long) comment.edited * 1000, context), false));
 		} else {
 			items.addView(propView(context, R.string.props_edited, R.string.props_never, false));
 		}

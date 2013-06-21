@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.text.ClipboardManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -40,6 +41,8 @@ import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.AlertDialog;
 import org.holoeverywhere.app.Fragment;
 import org.holoeverywhere.preference.PreferenceManager;
+import org.holoeverywhere.preference.SharedPreferences;
+import org.holoeverywhere.widget.FrameLayout;
 import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.ListView;
 import org.holoeverywhere.widget.TextView;
@@ -47,6 +50,7 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BugReportActivity;
+import org.quantumbadger.redreader.activities.CommentEditActivity;
 import org.quantumbadger.redreader.activities.CommentReplyActivity;
 import org.quantumbadger.redreader.activities.SessionChangeListener;
 import org.quantumbadger.redreader.adapters.CommentListingAdapter;
@@ -69,6 +73,8 @@ import org.quantumbadger.redreader.reddit.things.RedditThing;
 import org.quantumbadger.redreader.views.RedditCommentView;
 import org.quantumbadger.redreader.views.RedditPostHeaderView;
 import org.quantumbadger.redreader.views.RedditPostView;
+import org.quantumbadger.redreader.views.bezelmenu.BezelSwipeOverlay;
+import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
 import org.quantumbadger.redreader.views.liststatus.LoadingView;
 
@@ -76,10 +82,12 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.UUID;
 
-public class CommentListingFragment extends Fragment implements ActiveTextView.OnLinkClickedListener {
+public class CommentListingFragment extends Fragment
+		implements ActiveTextView.OnLinkClickedListener, RedditPostView.PostSelectionListener {
 
 	private URI url;
 	private UUID session = null;
@@ -97,6 +105,9 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 	private CacheRequest request;
 
 	private RedditPreparedPost post;
+
+	private float commentFontScale = 1.0f;
+	private EnumSet<PrefsUtility.AppearanceCommentHeaderItems> headerItems;
 
 	private Context context;
 
@@ -184,10 +195,15 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 		super.onCreateView(inflater, container, savedInstanceState);
 		final Context context = container.getContext();
 
+		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		commentFontScale = PrefsUtility.appearance_fontscale_comments(context, prefs);
+
+		headerItems = PrefsUtility.appearance_comment_header_items(context, prefs);
+
 		final LinearLayout outer = new LinearLayout(context);
 		outer.setOrientation(android.widget.LinearLayout.VERTICAL);
 
-		loadingView = new LoadingView(context, getString(R.string.download_waiting), true, true);
+		loadingView = new LoadingView(context, context.getString(R.string.download_waiting), true, true);
 
 		notifications = new LinearLayout(context);
 		notifications.setOrientation(android.widget.LinearLayout.VERTICAL);
@@ -209,7 +225,7 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 		listFooter = createVerticalLinearLayout(context);
 
 		lv.addHeaderView(listHeader);
-		lv.addFooterView(listFooter);
+		lv.addFooterView(listFooter, null, false);
 
 		adapter = new CommentListingAdapter(context, this);
 		lv.setAdapter(adapter);
@@ -220,7 +236,7 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 				if(view instanceof RedditCommentView) {
-					switch(PrefsUtility.pref_behaviour_actions_comment_tap(context, PreferenceManager.getDefaultSharedPreferences(context))) {
+					switch(PrefsUtility.pref_behaviour_actions_comment_tap(context, prefs)) {
 						case COLLAPSE:
 							handleCommentVisibilityToggle((RedditCommentView)view);
 							break;
@@ -228,8 +244,8 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 							openContextMenu(view);
 							break;
 					}
-				} else if(position == 0 && !post.src.is_self) {
-					LinkHandler.onLinkClicked(getSupportActivity(), post.url, false);
+				} else if(position == 0 && post != null && !post.src.is_self) {
+					LinkHandler.onLinkClicked(getSupportActivity(), post.url, false, post.src);
 				}
 			}
 		});
@@ -237,9 +253,46 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 		outer.addView(notifications);
 		outer.addView(lv);
 
-		makeFirstRequest(container.getContext());
+		final FrameLayout outerFrame = new FrameLayout(context);
+		outerFrame.addView(outer);
 
-		return outer;
+		final SideToolbarOverlay toolbarOverlay = new SideToolbarOverlay(context);
+
+		final BezelSwipeOverlay bezelOverlay = new BezelSwipeOverlay(context, new BezelSwipeOverlay.BezelSwipeListener() {
+
+			public boolean onSwipe(BezelSwipeOverlay.SwipeEdge edge) {
+
+				if(post == null) return false;
+
+				toolbarOverlay.setContents(post.generateToolbar(context, CommentListingFragment.this, toolbarOverlay));
+				toolbarOverlay.show(edge == BezelSwipeOverlay.SwipeEdge.LEFT ?
+						SideToolbarOverlay.SideToolbarPosition.LEFT : SideToolbarOverlay.SideToolbarPosition.RIGHT);
+				return true;
+			}
+
+			public boolean onTap() {
+
+				if(toolbarOverlay.isShown()) {
+					toolbarOverlay.hide();
+					return true;
+				}
+
+				return false;
+			}
+		});
+
+		outerFrame.addView(bezelOverlay);
+		outerFrame.addView(toolbarOverlay);
+
+		bezelOverlay.getLayoutParams().width = android.widget.FrameLayout.LayoutParams.MATCH_PARENT;
+		bezelOverlay.getLayoutParams().height = android.widget.FrameLayout.LayoutParams.MATCH_PARENT;
+
+		toolbarOverlay.getLayoutParams().width = android.widget.FrameLayout.LayoutParams.MATCH_PARENT;
+		toolbarOverlay.getLayoutParams().height = android.widget.FrameLayout.LayoutParams.MATCH_PARENT;
+
+		makeFirstRequest(context);
+
+		return outerFrame;
 	}
 
 	public void cancel() {
@@ -309,8 +362,9 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 				if(fromCache && RRTime.since(timestamp) > 10 * 60 * 1000) {
 					new Handler(Looper.getMainLooper()).post(new Runnable() {
 						public void run() {
+							if(isDetached()) return;
 							final TextView cacheNotif = new TextView(context);
-							cacheNotif.setText("Viewing cached copy from " + RRTime.formatDateTime(timestamp));
+							cacheNotif.setText(context.getString(R.string.listing_cached) + " " + RRTime.formatDateTime(timestamp, context));
 							final int paddingPx = General.dpToPixels(context, 6);
 							final int sidePaddingPx = General.dpToPixels(context, 10);
 							cacheNotif.setPadding(sidePaddingPx, paddingPx, sidePaddingPx, paddingPx);
@@ -348,11 +402,13 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 						if(post.is_self && post.selftext != null && post.selftext.trim().length() > 0) {
 
 							selfText = RedditCommentTextParser.parse(StringEscapeUtils.unescapeHtml4(post.selftext))
-									.generate(context, 14f, null, new ActiveTextView.OnLinkClickedListener() {
-										public void onClick(String url) {
+									.generate(context, 14f * commentFontScale, null, new ActiveTextView.OnLinkClickedListener() {
+										public void onClickUrl(String url) {
 											if(url != null) LinkHandler.onLinkClicked(getSupportActivity(), url, false);
 										}
-									});
+
+										public void onClickText(Object attachment) {}
+									}, CommentListingFragment.this.post);
 						} else {
 							selfText = null;
 						}
@@ -418,7 +474,8 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 				if(commentThing.getKind() != RedditThing.Kind.COMMENT) return;
 
 				final RedditComment comment = commentThing.asComment();
-				final RedditPreparedComment preparedComment = new RedditPreparedComment(context, comment, parent, timestamp, needsChanging.contains(comment.name), post, user);
+				final RedditPreparedComment preparedComment = new RedditPreparedComment(context, comment, parent,
+						timestamp, needsChanging.contains(comment.name), post, user, headerItems);
 
 				after = preparedComment.idAndType;
 
@@ -452,8 +509,9 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 			if(info.position > 0) {
 
 				final RedditPreparedComment comment = (RedditPreparedComment)lv.getAdapter().getItem(info.position);
+				final RedditAccount user = RedditAccountManager.getInstance(getSupportActivity()).getDefaultAccount();
 
-				if(!RedditAccountManager.getInstance(getSupportActivity()).getDefaultAccount().isAnonymous()) {
+				if(!user.isAnonymous()) {
 
 					if(!comment.isUpvoted()) {
 						menu.add(Menu.NONE, Action.UPVOTE.ordinal(), 0, R.string.action_upvote);
@@ -469,117 +527,37 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 
 					menu.add(Menu.NONE, Action.REPORT.ordinal(), 0, R.string.action_report);
 					menu.add(Menu.NONE, Action.REPLY.ordinal(), 0, R.string.action_reply);
+
+					if(user.username.equalsIgnoreCase(comment.src.author)) menu.add(Menu.NONE, Action.EDIT.ordinal(), 0, R.string.action_edit);
 				}
 
 				menu.add(Menu.NONE, Action.COMMENT_LINKS.ordinal(), 0, R.string.action_comment_links);
 				menu.add(Menu.NONE, Action.COLLAPSE.ordinal(), 0, R.string.action_collapse);
 				menu.add(Menu.NONE, Action.SHARE.ordinal(), 0, R.string.action_share);
+				menu.add(Menu.NONE, Action.COPY.ordinal(), 0, R.string.action_copy);
 				menu.add(Menu.NONE, Action.USER_PROFILE.ordinal(), 0, R.string.action_user_profile);
 				menu.add(Menu.NONE, Action.PROPERTIES.ordinal(), 0, R.string.action_properties);
 
 			} else {
 
 				if(post == null) {
-					General.quickToast(getSupportActivity(), "Parent post not downloaded yet."); // TODO string
+					General.quickToast(getSupportActivity(), R.string.error_toast_parent_post_not_downloaded);
 					return;
 				}
 
-				if(!RedditAccountManager.getInstance(context).getDefaultAccount().isAnonymous()) {
-
-					if(!post.isUpvoted()) {
-						menu.add(R.string.action_upvote).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.UPVOTE));
-					} else {
-						menu.add(R.string.action_upvote_remove).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.UNVOTE));
-					}
-
-					if(!post.isDownvoted()) {
-						menu.add(R.string.action_downvote).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.DOWNVOTE));
-					} else {
-						menu.add(R.string.action_downvote_remove).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.UNVOTE));
-					}
-
-					if(!post.isSaved()) {
-						menu.add(R.string.action_save).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.SAVE));
-					} else {
-						menu.add(R.string.action_unsave).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.UNSAVE));
-					}
-
-					if(!post.isHidden()) {
-						menu.add(R.string.action_hide).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.HIDE));
-					} else {
-						menu.add(R.string.action_unhide).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.UNHIDE));
-					}
-
-					menu.add(R.string.action_report).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.REPORT));
-
-					menu.add(R.string.action_reply).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-						public boolean onMenuItemClick(MenuItem item) {
-							onParentReply();
-							return true;
-						}
-					});
-				}
-
-				menu.add(R.string.action_gotosubreddit).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.GOTO_SUBREDDIT));
-				menu.add(R.string.action_external).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.EXTERNAL));
-				menu.add(R.string.action_share).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.SHARE));
-				menu.add(R.string.action_share_comments).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.SHARE_COMMENTS));
-
-				if(post.src.selftext != null && post.src.selftext.length() > 1) menu.add("Links in Self Text").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-					public boolean onMenuItemClick(MenuItem item) {
-
-						final HashSet<String> linksInComment = LinkHandler.computeAllLinks(StringEscapeUtils.unescapeHtml4(post.src.selftext));
-
-						if(linksInComment.isEmpty()) {
-							General.quickToast(getSupportActivity(), "No URLs found in the self text."); // TODO string
-
-						} else {
-
-							final String[] linksArr = linksInComment.toArray(new String[linksInComment.size()]);
-
-							final AlertDialog.Builder builder = new AlertDialog.Builder(getSupportActivity());
-							builder.setItems(linksArr, new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog, int which) {
-									LinkHandler.onLinkClicked(getSupportActivity(), linksArr[which], false);
-									dialog.dismiss();
-								}
-							});
-
-							final AlertDialog alert = builder.create();
-							alert.setTitle("Links in Self Text");
-							alert.setCanceledOnTouchOutside(true);
-							alert.show();
-						}
-						return true;
-					}
-				});
-
-				menu.add(R.string.action_user_profile).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.USER_PROFILE));
-				menu.add(R.string.action_properties).setOnMenuItemClickListener(new MenuHandler(RedditPostView.Action.PROPERTIES));
+				RedditPreparedPost.showActionMenu(getSupportActivity(), CommentListingFragment.this, post);
 			}
 		}
 	}
 
-	private class MenuHandler implements MenuItem.OnMenuItemClickListener {
-
-		private final RedditPostView.Action action;
-
-		public MenuHandler(final RedditPostView.Action action) {
-			this.action = action;
-		}
-
-		public boolean onMenuItemClick(MenuItem item) {
-			RedditPostView.onActionSelected(post, CommentListingFragment.this, action);
-			return true;
-		}
+	public void onClickUrl(String url) {
+		if(url != null) LinkHandler.onLinkClicked(getSupportActivity(), url, false, null);
 	}
 
-	public void onClick(String url) {
-		if(url != null) LinkHandler.onLinkClicked(getSupportActivity(), url, false);
-	}
+	public void onClickText(Object attachment) {}
 
 	private static enum Action {
-		UPVOTE, UNVOTE, DOWNVOTE, REPORT, SHARE, REPLY, USER_PROFILE, COMMENT_LINKS, COLLAPSE, PROPERTIES
+		UPVOTE, UNVOTE, DOWNVOTE, REPORT, SHARE, COPY, REPLY, USER_PROFILE, COMMENT_LINKS, COLLAPSE, EDIT, PROPERTIES
 	}
 
 	@Override
@@ -623,18 +601,26 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 
 				break;
 
-			case REPLY:
-
+			case REPLY: {
 				final Intent intent = new Intent(getSupportActivity(), CommentReplyActivity.class);
 				intent.putExtra("parentIdAndType", comment.idAndType);
 				startActivity(intent);
 				break;
+			}
+
+			case EDIT: {
+				final Intent intent = new Intent(getSupportActivity(), CommentEditActivity.class);
+				intent.putExtra("commentIdAndType", comment.idAndType);
+				intent.putExtra("commentText", comment.src.body);
+				startActivity(intent);
+				break;
+			}
 
 			case COMMENT_LINKS:
 				final HashSet<String> linksInComment = comment.computeAllLinks();
 
 				if(linksInComment.isEmpty()) {
-					General.quickToast(getSupportActivity(), "No URLs found in this comment."); // TODO string
+					General.quickToast(getSupportActivity(), R.string.error_toast_no_urls_in_comment);
 
 				} else {
 
@@ -663,9 +649,16 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 				mailer.putExtra(Intent.EXTRA_SUBJECT, "Comment by " + comment.src.author + " on Reddit");
 
 				// TODO this currently just dumps the markdown
-				mailer.putExtra(Intent.EXTRA_TEXT, StringEscapeUtils.unescapeHtml4(comment.src.body) + "\r\n\r\nSent using RedReader on Android");
+				mailer.putExtra(Intent.EXTRA_TEXT, StringEscapeUtils.unescapeHtml4(comment.src.body));
 				startActivityForResult(Intent.createChooser(mailer, context.getString(R.string.action_share)), 1);
 
+				break;
+
+			case COPY:
+
+				ClipboardManager manager = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+				// TODO this currently just dumps the markdown
+				manager.setText(StringEscapeUtils.unescapeHtml4(comment.src.body));
 				break;
 
 			case COLLAPSE:
@@ -710,7 +703,15 @@ public class CommentListingFragment extends Fragment implements ActiveTextView.O
 			startActivity(intent);
 
 		} else {
-			General.quickToast(getSupportActivity(), "Parent post not downloaded yet."); // TODO string
+			General.quickToast(getSupportActivity(), R.string.error_toast_parent_post_not_downloaded);
 		}
+	}
+
+	public void onPostSelected(final RedditPreparedPost post) {
+		((RedditPostView.PostSelectionListener)getSupportActivity()).onPostSelected(post);
+	}
+
+	public void onPostCommentsSelected(final RedditPreparedPost post) {
+		((RedditPostView.PostSelectionListener)getSupportActivity()).onPostCommentsSelected(post);
 	}
 }

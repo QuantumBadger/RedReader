@@ -17,7 +17,10 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="org.quantumbadger.redreader" android:versionCode="17" android:versionName="1.4.2">
+          package="org.quantumbadger.redreader"
+          android:versionCode="38"
+          android:versionName="1.7.4"
+          android:installLocation="auto">
 
     <uses-sdk android:minSdkVersion="8"
               android:targetSdkVersion="16" />
@@ -30,7 +33,7 @@
     <application android:name="org.quantumbadger.redreader.RedReader"
                  android:icon="@drawable/icon"
                  android:label="@string/app_name"
-                 android:theme="@style/RR.Light.Red"
+                 android:theme="@style/RR.Startup"
                  android:largeHeap="true"
                  android:hardwareAccelerated="true"
                  android:allowBackup="true">
@@ -64,6 +67,15 @@
                   android:theme="@style/RR.Dark.NoActionBar"/>
 
         <activity android:name=".activities.CommentReplyActivity"
+                  android:configChanges="orientation|screenSize|keyboardHidden"/>
+
+        <activity android:name=".activities.CommentEditActivity"
+                  android:configChanges="orientation|screenSize|keyboardHidden"/>
+
+        <activity android:name=".activities.PostSubmitActivity"
+                  android:configChanges="orientation|screenSize|keyboardHidden"/>
+
+        <activity android:name=".activities.CaptchaActivity"
                   android:configChanges="orientation|screenSize|keyboardHidden"/>
 
         <activity android:name=".activities.BugReportActivity"

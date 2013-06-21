@@ -65,7 +65,7 @@ public class AddAccountDialog extends DialogFragment {
 		builder.setPositiveButton(R.string.accounts_login, new DialogInterface.OnClickListener() {
 			public void onClick(final DialogInterface dialogInterface, final int i) {
 
-				final String username = ((EditText) getDialog().findViewById(R.id.login_username)).getText().toString();
+				final String username = ((EditText) getDialog().findViewById(R.id.login_username)).getText().toString().trim();
 				final String password = ((EditText) getDialog().findViewById(R.id.login_password)).getText().toString();
 
 				lastUsername = username;
@@ -124,41 +124,40 @@ public class AddAccountDialog extends DialogFragment {
 								});
 
 								// TODO handle errors better
-								// TODO strings
 								switch(result.result) {
 									case CONNECTION_ERROR:
-										alertBuilder.setTitle("Connection Error.");
-										alertBuilder.setMessage("Could not log in."); // TODO
+										alertBuilder.setTitle(R.string.error_connection_title);
+										alertBuilder.setMessage(R.string.message_cannotlogin);
 										break;
 									case INTERNAL_ERROR:
-										alertBuilder.setTitle("Internal Error.");
-										alertBuilder.setMessage("Could not log in."); // TODO
+										alertBuilder.setTitle(R.string.error_unknown_title);
+										alertBuilder.setMessage(R.string.message_cannotlogin);
 										break;
 									case JSON_ERROR:
-										alertBuilder.setTitle("Parse Error.");
-										alertBuilder.setMessage("Could not log in."); // TODO
+										alertBuilder.setTitle(R.string.error_parse_title);
+										alertBuilder.setMessage(R.string.message_cannotlogin);
 										break;
 									case REQUEST_ERROR:
-										alertBuilder.setTitle("Request Error.");
-										alertBuilder.setMessage("Could not log in."); // TODO
+										alertBuilder.setTitle(R.string.error_connection_title);
+										alertBuilder.setMessage(R.string.message_cannotlogin);
 										break;
 									case UNKNOWN_REDDIT_ERROR:
-										alertBuilder.setTitle("Unknown Reddit Error.");
-										alertBuilder.setMessage("Could not log in."); // TODO
+										alertBuilder.setTitle(R.string.error_unknown_title);
+										alertBuilder.setMessage(R.string.message_cannotlogin);
 										break;
 									case WRONG_PASSWORD:
-										alertBuilder.setTitle("Incorrect Password.");
-										alertBuilder.setMessage("Your username or password was incorrect."); // TODO
+										alertBuilder.setTitle(R.string.error_invalid_password_title);
+										alertBuilder.setMessage(R.string.error_invalid_password_message);
 										break;
 									case RATELIMIT:
-										alertBuilder.setTitle("Too many invalid attempts.");
-										alertBuilder.setMessage(String.format("Blocked due to too many invalid login attempts at this IP. Reddit says: \"%s\"", result.extraMessage)); // TODO
+										alertBuilder.setTitle(R.string.error_ratelimit_title);
+										alertBuilder.setMessage(String.format("%s \"%s\"", getString(R.string.error_ratelimit_message), result.extraMessage));
 										break;
 									case SUCCESS:
 										RedditAccountManager.getInstance(getSupportActivity()).addAccount(result.account);
 										RedditAccountManager.getInstance(getSupportActivity()).setDefaultAccount(result.account);
-										alertBuilder.setTitle("Success.");
-										alertBuilder.setMessage("You are now logged in."); // TODO
+										alertBuilder.setTitle(R.string.general_success);
+										alertBuilder.setMessage(R.string.message_nowloggedin);
 										lastUsername = "";
 										break;
 									default:

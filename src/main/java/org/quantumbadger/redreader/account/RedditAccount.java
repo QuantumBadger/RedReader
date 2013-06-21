@@ -80,7 +80,7 @@ public class RedditAccount {
 
 		if(username == null) throw new RuntimeException("Null user in RedditAccount");
 
-		this.username = username;
+		this.username = username.trim();
 		this.modhash = modhash;
 		this.cookies = cookies;
 		this.priority = priority;

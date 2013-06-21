@@ -97,9 +97,6 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 		if(user == null) throw new NullPointerException("User was null - set to empty string for anonymous");
 		if(downloadType == null) throw new NullPointerException("Download type was null");
 
-		if(downloadType == DownloadType.FORCE && requestSession != null)
-			throw new IllegalArgumentException("Session must be null for forced downloads");
-
 		if(downloadType != DownloadType.FORCE && postFields != null)
 			throw new IllegalArgumentException("Download type must be forced for POST requests");
 
@@ -209,16 +206,24 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 	}
 
 	public final void notifyJsonParseStarted(final JsonValue result, final long timestamp, final UUID session, final boolean fromCache) {
-		try {
-			onJsonParseStarted(result, timestamp, session, fromCache);
-		} catch(Throwable t1) {
-			try {
-				onCallbackException(t1);
-			} catch(Throwable t2) {
-				BugReportActivity.addGlobalError(new RRError(null, null, t1));
-				BugReportActivity.handleGlobalError(context, t2);
+
+		new Thread() {
+			@Override
+			public void run() {
+				android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
+
+				try {
+					onJsonParseStarted(result, timestamp, session, fromCache);
+				} catch(Throwable t1) {
+					try {
+						onCallbackException(t1);
+					} catch(Throwable t2) {
+						BugReportActivity.addGlobalError(new RRError(null, null, t1));
+						BugReportActivity.handleGlobalError(context, t2);
+					}
+				}
 			}
-		}
+		}.start();
 	}
 
 	public final void notifyDownloadNecessary() {

@@ -18,21 +18,15 @@
 package org.quantumbadger.redreader.views;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.TypedValue;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.app.AlertDialog;
-import org.holoeverywhere.app.Fragment;
 import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.preference.SharedPreferences;
 import org.holoeverywhere.widget.FrameLayout;
@@ -40,20 +34,11 @@ import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.ListView;
 import org.holoeverywhere.widget.TextView;
 import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.activities.PostListingActivity;
-import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
-import org.quantumbadger.redreader.fragments.PostPropertiesDialog;
-import org.quantumbadger.redreader.fragments.UserProfileDialog;
-import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
-import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.views.list.SwipableListItemView;
-
-import java.util.ArrayList;
 
 public final class RedditPostView extends SwipableListItemView implements RedditPreparedPost.ThumbnailLoadedCallback {
 
@@ -85,15 +70,11 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 
 	private final int offsetBeginAllowed, offsetActionPerformed;
 
-	public static enum Action {
-		UPVOTE, UNVOTE, DOWNVOTE, SAVE, HIDE, UNSAVE, UNHIDE, REPORT, SHARE, REPLY, USER_PROFILE, EXTERNAL, PROPERTIES, COMMENTS, LINK, SHARE_COMMENTS, GOTO_SUBREDDIT, ACTION_MENU
-	}
-
 	private final class ActionDescriptionPair {
-		public final Action action;
+		public final RedditPreparedPost.Action action;
 		public final int descriptionRes;
 
-		private ActionDescriptionPair(Action action, int descriptionRes) {
+		private ActionDescriptionPair(RedditPreparedPost.Action action, int descriptionRes) {
 			this.action = action;
 			this.descriptionRes = descriptionRes;
 		}
@@ -106,8 +87,8 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 			leftFlingAction = chooseFlingAction(leftFlingPref);
 			rightFlingAction = chooseFlingAction(rightFlingPref);
 
-			rightOverlayText.setText(leftFlingAction.descriptionRes);
-			leftOverlayText.setText(rightFlingAction.descriptionRes);
+			if(leftFlingAction != null) rightOverlayText.setText(leftFlingAction.descriptionRes);
+			if(rightFlingAction != null) leftOverlayText.setText(rightFlingAction.descriptionRes);
 
 			rightOverlayText.setCompoundDrawablesWithIntrinsicBounds(null, rrIconFfLeft, null, null);
 			leftOverlayText.setCompoundDrawablesWithIntrinsicBounds(null, rrIconFfRight, null, null);
@@ -116,49 +97,59 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 		}
 	}
 
+	@Override
+	protected boolean leftFlingEnabled() {
+		return leftFlingAction != null;
+	}
+
+	@Override
+	protected boolean rightFlingEnabled() {
+		return rightFlingAction != null;
+	}
+
 	private ActionDescriptionPair chooseFlingAction(PrefsUtility.PostFlingAction pref) {
 
 		switch(pref) {
 
 			case UPVOTE:
 				if(post.isUpvoted()) {
-					return new ActionDescriptionPair(Action.UNVOTE, R.string.action_vote_remove);
+					return new ActionDescriptionPair(RedditPreparedPost.Action.UNVOTE, R.string.action_vote_remove);
 				} else {
-					return new ActionDescriptionPair(Action.UPVOTE, R.string.action_upvote);
+					return new ActionDescriptionPair(RedditPreparedPost.Action.UPVOTE, R.string.action_upvote);
 				}
 
 			case DOWNVOTE:
 				if(post.isDownvoted()) {
-					return new ActionDescriptionPair(Action.UNVOTE, R.string.action_vote_remove);
+					return new ActionDescriptionPair(RedditPreparedPost.Action.UNVOTE, R.string.action_vote_remove);
 				} else {
-					return new ActionDescriptionPair(Action.DOWNVOTE, R.string.action_downvote);
+					return new ActionDescriptionPair(RedditPreparedPost.Action.DOWNVOTE, R.string.action_downvote);
 				}
 
 			case SAVE:
 				if(post.isSaved()) {
-					return new ActionDescriptionPair(Action.UNSAVE, R.string.action_unsave);
+					return new ActionDescriptionPair(RedditPreparedPost.Action.UNSAVE, R.string.action_unsave);
 				} else {
-					return new ActionDescriptionPair(Action.SAVE, R.string.action_save);
+					return new ActionDescriptionPair(RedditPreparedPost.Action.SAVE, R.string.action_save);
 				}
 
 			case HIDE:
 				if(post.isHidden()) {
-					return new ActionDescriptionPair(Action.UNHIDE, R.string.action_unhide);
+					return new ActionDescriptionPair(RedditPreparedPost.Action.UNHIDE, R.string.action_unhide);
 				} else {
-					return new ActionDescriptionPair(Action.HIDE, R.string.action_hide);
+					return new ActionDescriptionPair(RedditPreparedPost.Action.HIDE, R.string.action_hide);
 				}
 
 			case COMMENTS:
-				return new ActionDescriptionPair(Action.COMMENTS, R.string.action_comments_short);
+				return new ActionDescriptionPair(RedditPreparedPost.Action.COMMENTS, R.string.action_comments_short);
 
 			case LINK:
-				return new ActionDescriptionPair(Action.LINK, R.string.action_link_short);
+				return new ActionDescriptionPair(RedditPreparedPost.Action.LINK, R.string.action_link_short);
 
 			case BROWSER:
-				return new ActionDescriptionPair(Action.EXTERNAL, R.string.action_external_short);
+				return new ActionDescriptionPair(RedditPreparedPost.Action.EXTERNAL, R.string.action_external_short);
 
 			case ACTION_MENU:
-				return new ActionDescriptionPair(Action.ACTION_MENU, R.string.action_actionmenu_short);
+				return new ActionDescriptionPair(RedditPreparedPost.Action.ACTION_MENU, R.string.action_actionmenu_short);
 		}
 
 		return null;
@@ -172,10 +163,11 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 		if(swipeReady && absOffset > offsetActionPerformed) {
 
 			if(xOffsetPixels > 0) {
-				onActionSelected(post, fragmentParent, rightFlingAction.action);
+
+				RedditPreparedPost.onActionMenuItemSelected(post, fragmentParent, rightFlingAction.action);
 				leftOverlayText.setCompoundDrawablesWithIntrinsicBounds(null, rrIconTick, null, null);
 			} else {
-				onActionSelected(post, fragmentParent, leftFlingAction.action);
+				RedditPreparedPost.onActionMenuItemSelected(post, fragmentParent, leftFlingAction.action);
 				rightOverlayText.setCompoundDrawablesWithIntrinsicBounds(null, rrIconTick, null, null);
 			}
 
@@ -360,191 +352,8 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 		}
 	}
 
-	private static class RPVMenuItem {
-		public final String title;
-		public final Action action;
-
-		private RPVMenuItem(Context context, int titleRes, Action action) {
-			this.title = context.getString(titleRes);
-			this.action = action;
-		}
-	}
-
 	public void rrOnLongClick() {
-		showActionMenu(getContext(), fragmentParent, post);
-	}
-
-	private static void showActionMenu(final Context context, final Fragment fragmentParent, final RedditPreparedPost post) {
-
-		final ArrayList<RPVMenuItem> menu = new ArrayList<RPVMenuItem>();
-
-		if(!RedditAccountManager.getInstance(context).getDefaultAccount().isAnonymous()) {
-
-			if(!post.isUpvoted()) {
-				menu.add(new RPVMenuItem(context, R.string.action_upvote, Action.UPVOTE));
-			} else {
-				menu.add(new RPVMenuItem(context, R.string.action_upvote_remove, Action.UNVOTE));
-			}
-
-			if(!post.isDownvoted()) {
-				menu.add(new RPVMenuItem(context, R.string.action_downvote, Action.DOWNVOTE));
-			} else {
-				menu.add(new RPVMenuItem(context, R.string.action_downvote_remove, Action.UNVOTE));
-			}
-
-			if(!post.isSaved()) {
-				menu.add(new RPVMenuItem(context, R.string.action_save, Action.SAVE));
-			} else {
-				menu.add(new RPVMenuItem(context, R.string.action_unsave, Action.UNSAVE));
-			}
-
-			if(!post.isHidden()) {
-				menu.add(new RPVMenuItem(context, R.string.action_hide, Action.HIDE));
-			} else {
-				menu.add(new RPVMenuItem(context, R.string.action_unhide, Action.UNHIDE));
-			}
-
-			menu.add(new RPVMenuItem(context, R.string.action_report, Action.REPORT));
-		}
-
-		menu.add(new RPVMenuItem(context, R.string.action_external, Action.EXTERNAL));
-		menu.add(new RPVMenuItem(context, R.string.action_gotosubreddit, Action.GOTO_SUBREDDIT));
-		menu.add(new RPVMenuItem(context, R.string.action_share, Action.SHARE));
-		menu.add(new RPVMenuItem(context, R.string.action_share_comments, Action.SHARE_COMMENTS));
-		menu.add(new RPVMenuItem(context, R.string.action_user_profile, Action.USER_PROFILE));
-		menu.add(new RPVMenuItem(context, R.string.action_properties, Action.PROPERTIES));
-
-		final String[] menuText = new String[menu.size()];
-
-		for(int i = 0; i < menuText.length; i++) {
-			menuText[i] = menu.get(i).title;
-		}
-
-		final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-
-		builder.setItems(menuText, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				onActionSelected(post, fragmentParent, menu.get(which).action);
-			}
-		});
-
-		builder.setNeutralButton(R.string.dialog_cancel, null);
-
-		final AlertDialog alert = builder.create();
-		alert.setTitle(R.string.action_menu_post_title);
-		alert.setCanceledOnTouchOutside(true);
-		alert.show();
-	}
-
-	public static void onActionSelected(final RedditPreparedPost post, final Fragment fragmentParent, final Action action) {
-
-		final Activity context = fragmentParent.getSupportActivity();
-
-		switch(action) {
-
-			case UPVOTE:
-				post.action(context, RedditAPI.RedditAction.UPVOTE);
-				break;
-
-			case DOWNVOTE:
-				post.action(context, RedditAPI.RedditAction.DOWNVOTE);
-				break;
-
-			case UNVOTE:
-				post.action(context, RedditAPI.RedditAction.UNVOTE);
-				break;
-
-			case SAVE:
-				post.action(context, RedditAPI.RedditAction.SAVE);
-				break;
-
-			case UNSAVE:
-				post.action(context, RedditAPI.RedditAction.UNSAVE);
-				break;
-
-			case HIDE:
-				post.action(context, RedditAPI.RedditAction.HIDE);
-				break;
-
-			case UNHIDE:
-				post.action(context, RedditAPI.RedditAction.UNHIDE);
-				break;
-
-			case REPORT:
-
-				new AlertDialog.Builder(context)
-						.setTitle(R.string.action_report)
-						.setMessage(R.string.action_report_sure)
-						.setPositiveButton(R.string.action_report,
-								new DialogInterface.OnClickListener() {
-									public void onClick(final DialogInterface dialog, final int which) {
-										post.action(context, RedditAPI.RedditAction.REPORT);
-										// TODO update the view to show the result
-										// TODO don't forget, this also hides
-									}
-								})
-						.setNegativeButton(R.string.dialog_cancel, null)
-						.show();
-
-				break;
-
-			case EXTERNAL: {
-				final Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse(post.url));
-				context.startActivity(intent);
-				break;
-			}
-
-			case SHARE: {
-
-				final Intent mailer = new Intent(Intent.ACTION_SEND);
-				mailer.setType("text/plain");
-				mailer.putExtra(Intent.EXTRA_SUBJECT, post.title);
-				mailer.putExtra(Intent.EXTRA_TEXT, post.url + "\r\n\r\nSent using RedReader on Android");
-				context.startActivity(Intent.createChooser(mailer, "Share Post")); // TODO string
-				break;
-			}
-
-			case SHARE_COMMENTS: {
-
-				final Intent mailer = new Intent(Intent.ACTION_SEND);
-				mailer.setType("text/plain");
-				mailer.putExtra(Intent.EXTRA_SUBJECT, "Comments for " + post.title);
-				mailer.putExtra(Intent.EXTRA_TEXT, Constants.Reddit.getUri(Constants.Reddit.PATH_COMMENTS + post.idAlone).toString() + "\r\n\r\nSent using RedReader on Android");
-				context.startActivity(Intent.createChooser(mailer, "Share Comments")); // TODO string
-				break;
-			}
-
-			case GOTO_SUBREDDIT: {
-
-				final RedditSubreddit subreddit = new RedditSubreddit("/r/" + post.src.subreddit, "/r/" + post.src.subreddit, true);
-
-				final Intent intent = new Intent(context, PostListingActivity.class);
-				intent.putExtra("subreddit", subreddit);
-				context.startActivityForResult(intent, 1);
-				break;
-			}
-
-			case USER_PROFILE:
-				UserProfileDialog.newInstance(post.src.author).show(fragmentParent.getSupportActivity());
-				break;
-
-			case PROPERTIES:
-				PostPropertiesDialog.newInstance(post.src).show(fragmentParent.getSupportActivity());
-				break;
-
-			case COMMENTS:
-				((PostListingFragment)fragmentParent).onPostCommentsSelected(post);
-				break;
-
-			case LINK:
-				((PostListingFragment)fragmentParent).onPostSelected(post);
-				break;
-
-			case ACTION_MENU:
-				showActionMenu(context, fragmentParent, post);
-				break;
-		}
+		RedditPreparedPost.showActionMenu(getContext(), fragmentParent, post);
 	}
 
 	public void betterThumbnailAvailable(final Bitmap thumbnail, final int callbackUsageId) {

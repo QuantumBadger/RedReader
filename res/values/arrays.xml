@@ -19,9 +19,9 @@
 <resources>
 
     <string-array name="pref_appearance_twopane">
-        <item>Never</item>
-        <item>Auto-detect</item>
-        <item>Force (may look odd)</item>
+        <item>@string/pref_appearance_twopane_never</item>
+        <item>@string/pref_appearance_twopane_auto</item>
+        <item>@string/pref_appearance_twopane_force</item>
     </string-array>
 
     <!-- Constants. Do not change. -->
@@ -40,6 +40,7 @@
         <item>@string/action_link</item>
         <item>@string/action_external</item>
         <item>@string/action_actionmenu</item>
+        <item>@string/action_fling_disabled</item>
     </string-array>
 
     <!-- Constants. Do not change. -->
@@ -52,6 +53,26 @@
         <item>link</item>
         <item>browser</item>
         <item>action_menu</item>
+        <item>disabled</item>
+    </string-array>
+
+    <string-array name="pref_behaviour_commentsort_array">
+        <item>@string/sort_comments_best</item>
+        <item>@string/sort_comments_hot</item>
+        <item>@string/sort_comments_new</item>
+        <item>@string/sort_comments_old</item>
+        <item>@string/sort_comments_controversial</item>
+        <item>@string/sort_comments_top</item>
+    </string-array>
+
+    <!-- Constants. Do not change. -->
+    <string-array name="pref_behaviour_commentsort_array_return">
+        <item>best</item>
+        <item>hot</item>
+        <item>new</item>
+        <item>old</item>
+        <item>controversial</item>
+        <item>top</item>
     </string-array>
 
     <string-array name="pref_behaviour_actions_comment">
@@ -68,30 +89,49 @@
     </string-array>
 
     <string-array name="pref_appearance_theme">
-        <item>Red</item>
-        <item>Green</item>
-        <item>Blue</item>
-        <item>Gray</item>
-        <item>Night</item>
+        <item>@string/theme_name_red</item>
+        <item>@string/theme_name_night</item>
+        <item>@string/theme_name_green</item>
+        <item>@string/theme_name_blue</item>
+        <item>@string/theme_name_ltblue</item>
+        <item>@string/theme_name_orange</item>
+        <item>@string/theme_name_gray</item>
     </string-array>
 
     <!-- Constants. Do not change. -->
     <string-array name="pref_appearance_theme_return">
         <item>red</item>
+        <item>night</item>
         <item>green</item>
         <item>blue</item>
+        <item>ltblue</item>
+        <item>orange</item>
         <item>gray</item>
-        <item>night</item>
+    </string-array>
+
+    <string-array name="pref_appearance_langforce">
+        <item>@string/lang_auto</item>
+        <item>@string/lang_en</item>
+        <item>@string/lang_da</item>
+        <item>@string/lang_de</item>
+    </string-array>
+
+    <!-- Constants. Do not change. -->
+    <string-array name="pref_appearance_langforce_return">
+        <item>auto</item>
+        <item>en</item>
+        <item>da</item>
+        <item>de</item>
     </string-array>
 
     <string-array name="pref_cache_maxage">
-        <item>1 hour</item>
-        <item>6 hours</item>
-        <item>1 day</item>
-        <item>3 days</item>
-        <item>1 week</item>
-        <item>1 month</item>
-        <item>3 months</item>
+        <item>@string/time_1hr</item>
+        <item>@string/time_6hr</item>
+        <item>@string/time_1day</item>
+        <item>@string/time_3day</item>
+        <item>@string/time_1week</item>
+        <item>@string/time_1month</item>
+        <item>@string/time_3month</item>
     </string-array>
 
     <!-- Constants. Do not change. -->
@@ -109,7 +149,7 @@
         <item>0.7x</item>
         <item>0.8x</item>
         <item>0.9x</item>
-        <item>Normal</item>
+        <item>@string/pref_appearance_scale_normal</item>
         <item>1.05x</item>
         <item>1.1x</item>
         <item>1.2x</item>
@@ -139,6 +179,101 @@
         <item>1.8</item>
         <item>1.9</item>
         <item>2.0</item>
+    </string-array>
+
+    <string-array name="pref_menus_post_context_items">
+        <item>@string/action_upvote</item>
+        <item>@string/action_downvote</item>
+        <item>@string/action_save</item>
+        <item>@string/action_hide</item>
+        <item>@string/action_report</item>
+        <item>@string/action_external</item>
+        <item>@string/action_selftext_links</item>
+        <item>@string/action_save_image</item>
+        <item>@string/action_gotosubreddit</item>
+        <item>@string/action_share</item>
+        <item>@string/action_share_comments</item>
+        <item>@string/action_copy</item>
+        <item>@string/action_user_profile</item>
+        <item>@string/action_properties</item>
+    </string-array>
+
+    <!-- Constants. Do not change. -->
+    <string-array name="pref_menus_post_context_items_return">
+        <item>upvote</item>
+        <item>downvote</item>
+        <item>save</item>
+        <item>hide</item>
+        <item>report</item>
+        <item>external</item>
+        <item>selftext_links</item>
+        <item>save_image</item>
+        <item>goto_subreddit</item>
+        <item>share</item>
+        <item>share_comments</item>
+        <item>copy</item>
+        <item>user_profile</item>
+        <item>properties</item>
+    </string-array>
+
+    <string-array name="pref_menus_post_toolbar_items">
+        <item>@string/action_actionmenu</item>
+        <item>@string/action_comments_switch</item>
+        <item>@string/action_link_switch</item>
+        <item>@string/action_upvote</item>
+        <item>@string/action_downvote</item>
+        <item>@string/action_save</item>
+        <item>@string/action_hide</item>
+        <item>@string/action_reply</item>
+        <item>@string/action_external</item>
+        <item>@string/action_save_image</item>
+        <item>@string/action_share</item>
+        <item>@string/action_copy</item>
+        <item>@string/action_user_profile</item>
+        <item>@string/action_properties</item>
+    </string-array>
+
+    <!-- Constants. Do not change. -->
+    <string-array name="pref_menus_post_toolbar_items_return">
+        <item>action_menu</item>
+        <item>comments_switch</item>
+        <item>link_switch</item>
+        <item>upvote</item>
+        <item>downvote</item>
+        <item>save</item>
+        <item>hide</item>
+        <item>reply</item>
+        <item>external</item>
+        <item>save_image</item>
+        <item>share</item>
+        <item>copy</item>
+        <item>user_profile</item>
+        <item>properties</item>
+    </string-array>
+
+    <string-array name="pref_appearance_comment_header_items">
+        <item>@string/pref_appearance_comment_header_items_author</item>
+        <item>@string/pref_appearance_comment_header_items_flair</item>
+        <item>@string/pref_appearance_comment_header_items_score</item>
+        <item>@string/pref_appearance_comment_header_items_upsdowns</item>
+        <item>@string/pref_appearance_comment_header_items_age</item>
+    </string-array>
+
+    <!-- Constants. Do not change. -->
+    <string-array name="pref_appearance_comment_header_items_return">
+        <item>author</item>
+        <item>flair</item>
+        <item>score</item>
+        <item>ups_downs</item>
+        <item>age</item>
+    </string-array>
+
+    <!-- Constants. Do not change. -->
+    <string-array name="pref_appearance_comment_header_items_default">
+        <item>author</item>
+        <item>flair</item>
+        <item>score</item>
+        <item>age</item>
     </string-array>
 
 </resources>

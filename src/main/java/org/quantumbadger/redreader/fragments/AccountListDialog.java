@@ -52,7 +52,7 @@ public class AccountListDialog extends DialogFragment implements RedditAccountCh
 		final Context context = getSupportActivity();
 
 		final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setTitle(context.getString(R.string.options_accounts));
+		builder.setTitle(context.getString(R.string.options_accounts_long));
 
 		lv = new ListView(context);
 		builder.setView(lv);
@@ -72,9 +72,9 @@ public class AccountListDialog extends DialogFragment implements RedditAccountCh
 					final RedditAccount account = (RedditAccount)lv.getAdapter().getItem(position);
 
 					final String[] items = account.isAnonymous()
-							? new String[] {getString(R.string.accounts_setdefault)}
+							? new String[] {getString(R.string.accounts_setactive)}
 							: new String[] {
-								getString(R.string.accounts_setdefault),
+								getString(R.string.accounts_setactive),
 								getString(R.string.accounts_delete)
 							};
 
@@ -85,7 +85,7 @@ public class AccountListDialog extends DialogFragment implements RedditAccountCh
 
 							final String selected = items[which];
 
-							if(selected.equals(getString(R.string.accounts_setdefault))) {
+							if(selected.equals(getString(R.string.accounts_setactive))) {
 								RedditAccountManager.getInstance(context).setDefaultAccount(account);
 
 							} else if(selected.equals(getString(R.string.accounts_delete))) {

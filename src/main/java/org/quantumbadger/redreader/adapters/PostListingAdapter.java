@@ -6,7 +6,6 @@ import android.os.Message;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.ListView;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
@@ -25,15 +24,13 @@ public final class PostListingAdapter extends BaseAdapter {
 	private final HashSet<String> postIds = new HashSet<String>(100);
 
 	private final ListView listViewParent;
-	private final LinearLayout outerLayout;
 	private final PostListingFragment fragmentParent;
 
 	private final Handler postAddedHandler;
 
-	public PostListingAdapter(final ListView listViewParent, final LinearLayout outerLayout, final PostListingFragment fragmentParent) {
+	public PostListingAdapter(final ListView listViewParent, final PostListingFragment fragmentParent) {
 
 		this.listViewParent = listViewParent;
-		this.outerLayout = outerLayout;
 		this.fragmentParent = fragmentParent;
 
 		postAddedHandler = new Handler(Looper.getMainLooper()) {
@@ -46,7 +43,7 @@ public final class PostListingAdapter extends BaseAdapter {
 
 				posts.add(post);
 
-				if(listViewParent.getLastVisiblePosition() + 1 >= postsToReport.size()) {
+				if(listViewParent.getLastVisiblePosition() <= postsToReport.size() + 1) {
 					updatePosts();
 				}
 			}
@@ -57,11 +54,6 @@ public final class PostListingAdapter extends BaseAdapter {
 		postsToReport.clear();
 		postsToReport.addAll(posts);
 		notifyDataSetChanged();
-		listViewParent.invalidateViews();
-		listViewParent.invalidate();
-		listViewParent.requestLayout();
-		outerLayout.invalidate();
-		outerLayout.requestLayout();
 	}
 
 	public void onScroll() {

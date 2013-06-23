@@ -332,12 +332,17 @@ public final class OptionsMenuUtility {
 	}
 
 	public static void fixActionBar(final Activity activity, final String title) {
-		final TypedArray attr = activity.obtainStyledAttributes(new int[] {R.attr.rrActionBarCol});
-		final int actionbarCol = attr.getColor(0, 0);
-		activity.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(actionbarCol));
+        int actionbarCol =  getActionBarColor(activity);
+        activity.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(actionbarCol));
 
 		final BetterSSB sb = new BetterSSB();
 		sb.append(title, BetterSSB.FOREGROUND_COLOR, Color.WHITE, 0, 1f);
 		activity.getSupportActionBar().setTitle(sb.get());
 	}
+
+    public static int getActionBarColor(Activity activity) {
+        final TypedArray attr = activity.obtainStyledAttributes(new int[] {R.attr.rrActionBarCol});
+        final int actionbarCol = attr.getColor(0, 0);
+        return actionbarCol;
+    }
 }

@@ -40,6 +40,7 @@ public class WebViewActivity extends Activity implements RedditPostView.PostSele
         Uri uri = Uri.parse(url);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
+        finish();
     }
 	public void onCreate(final Bundle savedInstanceState) {
 

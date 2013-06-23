@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import com.actionbarsherlock.view.MenuItem;
@@ -33,7 +34,13 @@ import org.quantumbadger.redreader.views.RedditPostView;
 public class WebViewActivity extends Activity implements RedditPostView.PostSelectionListener {
 
 	private WebViewFragment webView;
+    private String url;
 
+    public void openUrl(View v){
+        Uri uri = Uri.parse(url);
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(intent);
+    }
 	public void onCreate(final Bundle savedInstanceState) {
 
 		PrefsUtility.applyTheme(this);
@@ -45,7 +52,7 @@ public class WebViewActivity extends Activity implements RedditPostView.PostSele
 
 		final Intent intent = getIntent();
 
-		final String url = intent.getStringExtra("url");
+        url = intent.getStringExtra("url");
 		final RedditPost post = intent.getParcelableExtra("post");
 
 		if(url == null) {

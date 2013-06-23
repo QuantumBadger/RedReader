@@ -31,7 +31,31 @@
         <FrameLayout android:id="@+id/web_view_fragment_loadingview_frame"
                      android:layout_width="match_parent"
                      android:layout_height="wrap_content"
-                     android:layout_alignParentBottom="true"/>
+                     android:layout_alignParentTop="true"/>
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_alignParentBottom="true"
+                      android:orientation="horizontal"
+
+                >
+            <ImageButton android:layout_width="0dp"
+                         android:layout_height="wrap_content"
+                         android:src="@drawable/ic_action_web_light"
+                         android:layout_weight="1"
+                         style="@style/Holo.Button.Borderless"
+                         android:onClick="openUrl"/>
+
+
+            <ImageButton android:layout_width="0dp"
+                      android:layout_height="wrap_content"
+                      android:src="@drawable/ic_action_share_light"
+                      android:layout_weight="1"
+                      android:background="@android:color/transparent"
+                      style="@style/Holo.Button.Borderless"/>
+
+        </LinearLayout>
+
 
     </RelativeLayout>
 

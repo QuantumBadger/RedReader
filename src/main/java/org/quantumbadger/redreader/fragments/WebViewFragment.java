@@ -18,7 +18,9 @@
 package org.quantumbadger.redreader.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,6 +69,7 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 		super.onCreate(savedInstanceState);
 		url = getArguments().getString("url");
 	}
+
 
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {

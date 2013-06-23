@@ -19,6 +19,8 @@ package org.quantumbadger.redreader.common;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
+
 import org.holoeverywhere.app.Activity;
 import org.quantumbadger.redreader.activities.CommentListingActivity;
 import org.quantumbadger.redreader.activities.ImageViewActivity;
@@ -116,9 +118,19 @@ public class LinkHandler {
 				activity.startActivity(intent);
 
 			} else {
-				final Intent intent = new Intent(activity, WebViewActivity.class);
-				intent.putExtra("url", url);
-				intent.putExtra("post", post);
+                final Intent intent;
+                Uri uri = Uri.parse(url);
+                if(false){
+                    //TODO check setting for use of default browser or use in app WebViewActivity
+                    intent = new Intent(Intent.ACTION_VIEW);
+                    intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                    intent.setData(uri);
+                }else {
+                    intent = new Intent(activity, WebViewActivity.class);
+                    intent.putExtra("url", url);
+                    intent.putExtra("post", post);
+                }
+
 				activity.startActivity(intent);
 			}
 		}

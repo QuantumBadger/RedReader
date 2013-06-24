@@ -91,7 +91,7 @@ public class CaptchaActivity extends Activity {
 
 					@Override
 					protected void onFailure(RequestFailureType type, Throwable t, StatusLine status, String readableMessage) {
-						final RRError error = General.getGeneralErrorForFailure(CaptchaActivity.this, type, t, status);
+						final RRError error = General.getGeneralErrorForFailure(CaptchaActivity.this, type, t, status, url.toString());
 						General.showResultDialog(CaptchaActivity.this, error);
 						finish();
 					}
@@ -167,7 +167,7 @@ public class CaptchaActivity extends Activity {
 
 			@Override
 			protected void onFailure(RequestFailureType type, Throwable t, StatusLine status, String readableMessage) {
-				final RRError error = General.getGeneralErrorForFailure(CaptchaActivity.this, type, t, status);
+				final RRError error = General.getGeneralErrorForFailure(CaptchaActivity.this, type, t, status, null);
 				General.showResultDialog(CaptchaActivity.this, error);
 				finish();
 			}

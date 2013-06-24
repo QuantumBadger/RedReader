@@ -179,7 +179,7 @@ public class UserProfileDialog extends PropertiesDialog {
 
 						loadingView.setDone(R.string.download_failed);
 
-						final RRError error = General.getGeneralErrorForFailure(context, type, t, status);
+						final RRError error = General.getGeneralErrorForFailure(context, type, t, status, null);
 						items.addView(new ErrorView(getSupportActivity(), error));
 					}
 				});

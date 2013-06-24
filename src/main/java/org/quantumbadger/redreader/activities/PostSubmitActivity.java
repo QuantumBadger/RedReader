@@ -226,7 +226,7 @@ public class PostSubmitActivity extends Activity {
 			@Override
 			protected void onFailure(RequestFailureType type, Throwable t, StatusLine status, String readableMessage) {
 
-				final RRError error = General.getGeneralErrorForFailure(context, type, t, status);
+				final RRError error = General.getGeneralErrorForFailure(context, type, t, status, null);
 
 				new Handler(Looper.getMainLooper()).post(new Runnable() {
 					public void run() {

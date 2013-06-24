@@ -142,7 +142,7 @@ public final class General {
 		return info != null && info.isConnected();
 	}
 
-	public static RRError getGeneralErrorForFailure(Context context, RequestFailureType type, Throwable t, StatusLine status) {
+	public static RRError getGeneralErrorForFailure(Context context, RequestFailureType type, Throwable t, StatusLine status, String url) {
 
 		final int title, message;
 
@@ -208,7 +208,7 @@ public final class General {
 				break;
 		}
 
-		return new RRError(context.getString(title), context.getString(message), t, status);
+		return new RRError(context.getString(title), context.getString(message), t, status, url);
 	}
 
 	public static RRError getGeneralErrorForFailure(Context context, final APIResponseHandler.APIFailureType type) {

@@ -279,7 +279,7 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 						revertOnFailure();
 						if(t != null) t.printStackTrace();
 
-						final RRError error = General.getGeneralErrorForFailure(context, type, t, status);
+						final RRError error = General.getGeneralErrorForFailure(context, type, t, status, null);
 						new Handler(Looper.getMainLooper()).post(new Runnable() {
 							public void run() {
 								General.showResultDialog(activity, error);

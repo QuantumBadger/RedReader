@@ -344,7 +344,7 @@ public final class RedditPreparedPost {
 
 					@Override
 					protected void onFailure(RequestFailureType type, Throwable t, StatusLine status, String readableMessage) {
-						final RRError error = General.getGeneralErrorForFailure(context, type, t, status);
+						final RRError error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
 						General.showResultDialog(activity, error);
 					}
 
@@ -683,7 +683,7 @@ public final class RedditPreparedPost {
 						revertOnFailure();
 						if(t != null) t.printStackTrace();
 
-						final RRError error = General.getGeneralErrorForFailure(context, type, t, status);
+						final RRError error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
 						new Handler(Looper.getMainLooper()).post(new Runnable() {
 							public void run() {
 								General.showResultDialog(activity, error);

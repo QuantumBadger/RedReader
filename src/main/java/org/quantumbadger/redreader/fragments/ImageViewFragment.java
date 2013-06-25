@@ -147,7 +147,7 @@ public class ImageViewFragment extends Fragment implements RedditPostView.PostSe
 					protected void onFailure(final RequestFailureType type, Throwable t, StatusLine status, final String readableMessage) {
 
 						loadingView.setDone(R.string.download_failed);
-						final RRError error = General.getGeneralErrorForFailure(context, type, t, status);
+						final RRError error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
 
 						new Handler(Looper.getMainLooper()).post(new Runnable() {
 							public void run() {

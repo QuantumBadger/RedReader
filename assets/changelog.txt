@@ -1,3 +1,7 @@
+39/1.7.5
+HTTPS enabled by default
+Bugfixes
+
 38/1.7.4
 Bugfix for user profile dialog crash
 Minor appearance improvement

@@ -24,20 +24,22 @@ public class RRError {
 	public final String title, message;
 	public final Throwable t;
 	public final StatusLine httpStatus;
+	public final String url;
 
 	public RRError(String title, String message) {
-		this(title, message, null, null);
+		this(title, message, null, null, null);
 	}
 
 	public RRError(String title, String message, Throwable t) {
-		this(title, message, t, null);
+		this(title, message, t, null, null);
 	}
 
-	public RRError(String title, String message, Throwable t, StatusLine httpStatus) {
+	public RRError(String title, String message, Throwable t, StatusLine httpStatus, String url) {
 
 		this.title = title;
 		this.message = message;
 		this.t = t;
 		this.httpStatus = httpStatus;
+		this.url = url;
 	}
 }

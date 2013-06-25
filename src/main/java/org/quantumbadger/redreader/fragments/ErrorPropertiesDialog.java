@@ -62,6 +62,10 @@ public final class ErrorPropertiesDialog extends PropertiesDialog {
 			args.putString("httpStatus", error.httpStatus.toString());
 		}
 
+		if(error.url != null) {
+			args.putString("url", error.url);
+		}
+
 		dialog.setArguments(args);
 
 		return dialog;
@@ -80,6 +84,10 @@ public final class ErrorPropertiesDialog extends PropertiesDialog {
 
 		if(getArguments().containsKey("httpStatus")) {
 			items.addView(propView(context, "HTTP status", getArguments().getString("httpStatus"), false));
+		}
+
+		if(getArguments().containsKey("url")) {
+			items.addView(propView(context, "URL", getArguments().getString("url"), false));
 		}
 
 		if(getArguments().containsKey("t")) {

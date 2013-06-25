@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.common;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.util.Log;
 import org.quantumbadger.redreader.RedReader;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 
@@ -63,11 +64,11 @@ public final class Constants {
 				PATH_COMMENTS = "/comments/";
 
 		public static String getScheme() {
-			return SCHEME_HTTP;
+			return PrefsUtility.httpsEnabled ? SCHEME_HTTPS : SCHEME_HTTP;
 		}
 
 		public static String getDomain() {
-			return DOMAIN_HTTP;
+			return PrefsUtility.httpsEnabled ? DOMAIN_HTTPS : DOMAIN_HTTP;
 		}
 
 		public static URI getUri(final String path) {

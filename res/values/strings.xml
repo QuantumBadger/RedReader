@@ -439,8 +439,6 @@
     <string name="error_toast_no_urls_in_self">No URLs found in this self text.</string>
     <string name="error_toast_parent_post_not_downloaded">Parent post not downloaded yet.</string>
 
-    <string name="message_cannotlogin">Could not log in.</string>
-
     <string name="download_subreddits">Downloading subreddits…</string>
 
     <string name="subtitle_points">pts</string>

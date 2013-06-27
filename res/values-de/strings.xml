@@ -444,8 +444,6 @@ Thanks to /u/balducien and /u/andiho for this translation!
     <string name="error_toast_no_urls_in_self">Keine URLs in diesem Self-Text.</string>
     <string name="error_toast_parent_post_not_downloaded">Übergeordneter Kommentar noch nicht geladen.</string>
 
-    <string name="message_cannotlogin">Anmelden fehlgeschlagen.</string>
-
     <string name="download_subreddits">Subreddits laden…</string>
 
     <string name="subtitle_points">Punkte</string>

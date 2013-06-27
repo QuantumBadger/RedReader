@@ -454,8 +454,6 @@
     <string name="error_toast_no_urls_in_self">Ingen URLs fundet i denne self text.</string>
     <string name="error_toast_parent_post_not_downloaded">Parent indlæg endnu ikke downloadet.</string>
 
-    <string name="message_cannotlogin">Kunne ikke logge ind.</string>
-
     <string name="download_subreddits">Downloader subreddits…</string>
 
     <string name="subtitle_points">pts</string>

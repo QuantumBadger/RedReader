@@ -29,6 +29,7 @@ import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -193,9 +194,9 @@ public class LinkHandler {
 		return null;
 	}
 
-	public static HashSet<String> computeAllLinks(final String text) {
+	public static LinkedHashSet<String> computeAllLinks(final String text) {
 
-		final HashSet<String> result = new HashSet<String>();
+		final LinkedHashSet<String> result = new LinkedHashSet<String>();
 
 		// From http://stackoverflow.com/a/1806161/1526861
 		// TODO may not handle .co.uk, similar (but should handle .co/.us/.it/etc fine)

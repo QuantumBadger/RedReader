@@ -1,5 +1,6 @@
 39/1.7.5
 HTTPS enabled by default
+"Links in Comment" should now have predictable order
 Bugfixes
 
 38/1.7.4

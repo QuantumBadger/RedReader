@@ -102,7 +102,9 @@ public class BetterSSB {
 			int index = -1;
 
 			while(index < asText.length() && (index = asText.indexOf(link, index + 1)) >= 0) {
-				sb.setSpan(new URLSpan(link), index, index + link.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+				if(sb.getSpans(index, index + link.length(), URLSpan.class).length < 1) {
+					sb.setSpan(new URLSpan(link), index, index + link.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+				}
 			}
 		}
 	}

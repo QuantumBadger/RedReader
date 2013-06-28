@@ -45,6 +45,8 @@ public class PostListingControllerSubreddit extends PostListingController {
 	@Override
 	public URI getUri() {
 
+		if(!subreddit.url.endsWith("/")) subreddit.url = subreddit.url + "/";
+
 		if(!subreddit.isSortable()) {
 			if(subreddit.url.contains("?"))
 				return Constants.Reddit.getUri(subreddit.url.replaceFirst("\\?", ".json?").replace(".json.json", ".json"));

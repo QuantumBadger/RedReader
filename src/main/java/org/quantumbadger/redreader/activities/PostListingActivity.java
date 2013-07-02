@@ -184,7 +184,7 @@ public class PostListingActivity extends RefreshableActivity
 				final String url;
 
 				if(sr.isReal()) {
-					url = sr.url + "/search.json?restrict_sr=on&q=" + query;
+					url = sr.url + "search.json?restrict_sr=on&q=" + query;
 				} else {
 					url = "/search.json?q=" + query;
 				}

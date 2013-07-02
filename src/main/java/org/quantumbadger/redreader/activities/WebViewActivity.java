@@ -18,8 +18,11 @@
 package org.quantumbadger.redreader.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+
+import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import org.holoeverywhere.app.Activity;
 import org.quantumbadger.redreader.R;
@@ -33,6 +36,8 @@ import org.quantumbadger.redreader.views.RedditPostView;
 public class WebViewActivity extends Activity implements RedditPostView.PostSelectionListener {
 
 	private WebViewFragment webView;
+    public static final int VIEW_IN_BROWSER = 10;
+    private String url = null;
 
 	public void onCreate(final Bundle savedInstanceState) {
 
@@ -45,7 +50,7 @@ public class WebViewActivity extends Activity implements RedditPostView.PostSele
 
 		final Intent intent = getIntent();
 
-		final String url = intent.getStringExtra("url");
+		url = intent.getStringExtra("url");
 		final RedditPost post = intent.getParcelableExtra("post");
 
 		if(url == null) {
@@ -80,8 +85,23 @@ public class WebViewActivity extends Activity implements RedditPostView.PostSele
 			case android.R.id.home:
 				finish();
 				return true;
+            case VIEW_IN_BROWSER:
+                if(url != null)
+                {
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    finish(); //to clear backstack
+                    startActivity(i);
+                }
+                return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
 	}
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add(0, VIEW_IN_BROWSER, 0, R.string.web_view_open_browser);
+        return super.onCreateOptionsMenu(menu);
+    }
 }

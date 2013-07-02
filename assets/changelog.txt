@@ -1,3 +1,9 @@
+40/1.7.6
+[TODO] Better markdown support
+[TODO] Back button delay
+[TODO] Ability to switch from internal to external browser
+Samsung multi-window support (phone reboot required)
+
 39/1.7.5
 HTTPS enabled by default
 "Links in Comment" should now have predictable order

@@ -447,7 +447,7 @@ public final class RedditAPI {
 					return APIResponseHandler.APIFailureType.BAD_CAPTCHA;
 
 				if(Constants.Reddit.isApiErrorNotAllowed(response.asString()))
-					return APIResponseHandler.APIFailureType.NOTALLOWED;
+					return APIResponseHandler.APIFailureType.NOT_ALLOWED;
 
 				if(Constants.Reddit.isApiErrorSubredditRequired(response.asString()))
 					return APIResponseHandler.APIFailureType.SUBREDDIT_REQUIRED;

@@ -227,7 +227,7 @@ public final class General {
 				message = R.string.error_bad_captcha_message;
 				break;
 
-			case NOTALLOWED:
+			case NOT_ALLOWED:
 				title = R.string.error_403_title;
 				message = R.string.error_403_message;
 				break;

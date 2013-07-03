@@ -18,7 +18,10 @@
 package org.quantumbadger.redreader.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +34,7 @@ import org.holoeverywhere.app.Fragment;
 import org.holoeverywhere.widget.FrameLayout;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
+import org.quantumbadger.redreader.activities.OptionsMenuUtility;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
@@ -68,14 +72,18 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 		url = getArguments().getString("url");
 	}
 
+
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
 		final Context context = inflater.getContext();
 
 		outer = (FrameLayout)inflater.inflate(R.layout.web_view_fragment);
+        View buttonLayout = outer.findViewById(R.id.web_buttons_layout);
+        int actionBarColor = OptionsMenuUtility.getActionBarColor(getSupportActivity());
+        buttonLayout.setBackgroundColor(actionBarColor);
 
-		final RedditPost src_post = getArguments().getParcelable("post");
+        final RedditPost src_post = getArguments().getParcelable("post");
 		final RedditPreparedPost post = src_post == null ? null
 				: new RedditPreparedPost(context, CacheManager.getInstance(context), 0, src_post, -1, false,
 				new RedditSubreddit("/r/" + src_post.subreddit, src_post.subreddit, false),

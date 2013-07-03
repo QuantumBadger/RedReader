@@ -17,12 +17,17 @@
 
 package org.quantumbadger.redreader.reddit.prepared;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.text.SpannedString;
+import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
 import android.text.style.TypefaceSpan;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import org.holoeverywhere.widget.LinearLayout;
 
 import java.util.LinkedList;
 import java.util.regex.Matcher;
@@ -35,24 +40,54 @@ public final class MarkdownParser {
 			lineStartNumPattern = Pattern.compile("^(([0-9]+)(?:\\. |\\) ?)).*$"),
 			lineStartHeaderPattern = Pattern.compile("^((#+) *).*");
 
-	public static MarkdownParagraph[] splitIntoParagraphs(final String rawMarkdown) {
 
-		final String[] rawParagraphs = newlinePattern.split(rawMarkdown);
+	// TODO spoilers
+	public static final class MarkdownParagraphGroup {
 
-		// TODO use array
-		final LinkedList<MarkdownParagraph> paragraphs = new LinkedList<MarkdownParagraph>();
+		private final MarkdownParagraph[] paragraphs;
+		private final Spanned[] spanneds;
 
-		for(final String rawParagraph : rawParagraphs) {
-			final MarkdownParagraph parent = paragraphs.isEmpty() ? null : paragraphs.getLast();
-			final MarkdownParagraph paragraph = MarkdownParagraph.create(rawParagraph, parent);
-			if(paragraph != null) paragraphs.addLast(paragraph);
+		public MarkdownParagraphGroup(final String rawMarkdown) {
+
+			final String[] rawParagraphs = newlinePattern.split(rawMarkdown);
+
+			// TODO use array
+			final LinkedList<MarkdownParagraph> paragraphs = new LinkedList<MarkdownParagraph>();
+
+			for(final String rawParagraph : rawParagraphs) {
+				final MarkdownParagraph parent = paragraphs.isEmpty() ? null : paragraphs.getLast();
+				final MarkdownParagraph paragraph = MarkdownParagraph.create(rawParagraph, parent);
+				if(paragraph != null) paragraphs.addLast(paragraph);
+			}
+
+			this.paragraphs = paragraphs.toArray(new MarkdownParagraph[paragraphs.size()]);
+
+			spanneds = new Spanned[this.paragraphs.length];
+
+			for(int i = 0; i < spanneds.length; i++) {
+				spanneds[i] = this.paragraphs[i].generateSpanned();
+			}
 		}
 
-		return paragraphs.toArray(new MarkdownParagraph[paragraphs.size()]);
+		// TODO take into account size, colour, link click listener, etc
+		public ViewGroup buildView(Context context) {
 
-		// TODO one pass through each raw paragraph, adding raw text to a string builder
-		// Record the position of opening */_/**/etc, create span on close
-		// Inline code
+			final float dpScale = context.getResources().getDisplayMetrics().density;
+
+			final LinearLayout layout = new LinearLayout(context);
+			layout.setOrientation(android.widget.LinearLayout.VERTICAL);
+
+			for(int i = 0; i < paragraphs.length; i++) {
+				final TextView tv = new TextView(context);
+				tv.setTextColor(Color.BLACK);
+				tv.setText(spanneds[i]);
+				layout.addView(tv);
+				((ViewGroup.MarginLayoutParams) tv.getLayoutParams()).topMargin
+						= (int) (dpScale * paragraphs[i].getPaddingDp());
+			}
+
+			return layout;
+		}
 	}
 
 	private static final class MarkdownParagraph {
@@ -153,12 +188,13 @@ public final class MarkdownParser {
 			// TODO switch on type, parent type
 			// TODO detect two spaces at end of raw
 
-			return 10;
+			return parent == null ? 0 : 10;
 
 		}
 
-		// TODO detect links in code
-		public Spanned generatedSpanned() {
+		// TODO linkify code
+		// TODO linkify in general
+		public Spanned generateSpanned() {
 
 			if(type == Type.CODE) {
 				final SpannableStringBuilder builder = new SpannableStringBuilder(raw);
@@ -171,8 +207,9 @@ public final class MarkdownParser {
 			final SpannableStringBuilder builder = new SpannableStringBuilder();
 			final char[] rawArr = raw.toCharArray();
 
-			// TODO ensure these start at builder.length(), not i
-			int boldStart = -1, italicStart = -1, strikeStart = -1, linkStart = -1, codeStart = -1;
+			// TODO double check these start at builder.length(), not i
+			// TODO bold/italic using underscores, taking into account special cases (e.g. a_b_c vs ._b_.)
+			int boldStart = -1, italicStart = -1, strikeStart = -1, linkStart = -1;
 
 			for(int i = 0; i < rawArr.length; i++) {
 
@@ -180,7 +217,6 @@ public final class MarkdownParser {
 
 				switch(c) {
 
-					case '_':
 					case '*':
 
 						if(i < rawArr.length - 1 && rawArr[i + 1] == c) {
@@ -190,7 +226,7 @@ public final class MarkdownParser {
 
 							if(boldStart == -1) {
 
-								if(indexOf(rawArr, new char[]{c, c}, i + 1) != -1) {
+								if(indexOfEscaped(rawArr, new char[]{c, c}, i + 1) != -1) {
 									boldStart = builder.length();
 
 								} else {
@@ -201,7 +237,7 @@ public final class MarkdownParser {
 							} else {
 								builder.setSpan(new StyleSpan(Typeface.BOLD), boldStart, builder.length(),
 										Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-								italicStart = -1;
+								boldStart = -1;
 							}
 
 						} else {
@@ -209,7 +245,7 @@ public final class MarkdownParser {
 
 							if(italicStart == -1) {
 
-								if(indexOf(rawArr, c, i + 1) != -1) {
+								if(indexOfEscaped(rawArr, c, i + 1) != -1) {
 									italicStart = builder.length();
 
 								} else {
@@ -227,11 +263,42 @@ public final class MarkdownParser {
 						break;
 
 					case '~':
-						// TODO
+
+						if(i < rawArr.length - 1 && rawArr[i + 1] == '~') {
+							// Double: strikethrough
+
+							i++;
+
+							if(strikeStart == -1) {
+
+								if(indexOfEscaped(rawArr, new char[]{'~', '~'}, i + 1) != -1) {
+									strikeStart = builder.length();
+
+								} else builder.append("~~");
+
+							} else {
+								builder.setSpan(new StrikethroughSpan(), strikeStart, builder.length(),
+										Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+								strikeStart = -1;
+							}
+
+						} else builder.append('~');
+
 						break;
 
 					case '`':
-						// TODO just add raw until closing `
+
+						final int codeStart = builder.length();
+						final int codeEndRaw = indexOfEscaped(rawArr, '`', i + 1);
+
+						if(codeEndRaw > 0) {
+							builder.append(raw.substring(i + 1, codeEndRaw));
+							i = codeEndRaw;
+							builder.setSpan(new TypefaceSpan("VeraMono"), codeStart, builder.length(),
+									Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+
+						} else builder.append('`');
+
 						break;
 
 					case '[':
@@ -240,18 +307,18 @@ public final class MarkdownParser {
 
 						if(linkStart == -1) {
 
-							final int closePos = indexOf(rawArr, ']', i + 1);
+							final int closePos = indexOfEscaped(rawArr, ']', i + 1);
 							if(closePos != -1) {
 
-								final int urlOpenPos = indexOf(rawArr, '(', closePos + 1);
+								final int urlOpenPos = indexOfEscaped(rawArr, '(', closePos + 1);
 								if(urlOpenPos != -1) {
 
 									if(isSpaces(rawArr, closePos + 1, urlOpenPos - closePos - 1)) {
 
-										final int urlClosePos = indexOf(rawArr, ')', urlOpenPos + 1);
+										final int urlClosePos = indexOfEscaped(rawArr, ')', urlOpenPos + 1);
 										if(urlClosePos != -1) {
 
-											if(indexOf(rawArr, '[', i + 1, closePos) == -1) {
+											if(indexOfEscaped(rawArr, '[', i + 1, closePos) == -1) {
 												linkStart = builder.length();
 												linkSuccess = true;
 											}
@@ -269,7 +336,11 @@ public final class MarkdownParser {
 						break;
 
 					case '\\':
-						// TODO
+						if(i < rawArr.length - 1) builder.append(rawArr[++i]);
+						break;
+
+					default:
+						builder.append(c);
 						break;
 				}
 			}
@@ -285,24 +356,29 @@ public final class MarkdownParser {
 			return true;
 		}
 
-		private int indexOf(char[] haystack, char needle, int fromIndexInclusive, int endIndexExclusive) {
+		private int indexOfEscaped(char[] haystack, char needle, int fromIndexInclusive, int endIndexExclusive) {
 			for(int i = fromIndexInclusive; i < Math.min(endIndexExclusive, haystack.length); i++) {
-				if(haystack[i] == needle) return i;
+				final char c = haystack[i];
+				if(c == '\\') i++;
+				else if(c == needle) return i;
 			}
 			return -1;
 		}
 
-		private int indexOf(char[] haystack, char needle, int fromIndexInclusive) {
+		private int indexOfEscaped(char[] haystack, char needle, int fromIndexInclusive) {
 			for(int i = fromIndexInclusive; i < haystack.length; i++) {
-				if(haystack[i] == needle) return i;
+				final char c = haystack[i];
+				if(c == '\\') i++;
+				else if(c == needle) return i;
 			}
 			return -1;
 		}
 
-		private int indexOf(char[] haystack, char[] needle, int fromIndexInclusive) {
+		private int indexOfEscaped(char[] haystack, char[] needle, int fromIndexInclusive) {
 			final int end = haystack.length - needle.length;
 			for(int i = fromIndexInclusive; i <= end; i++) {
-				if(equals(haystack, needle, i)) return i;
+				if(haystack[i] == '\\') i++;
+				else if(equals(haystack, needle, i)) return i;
 			}
 			return -1;
 		}

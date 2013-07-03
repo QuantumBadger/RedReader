@@ -336,7 +336,7 @@ public class CommentListingFragment extends Fragment
 				if(!isAdded()) return;
 
 				if(loadingView != null) loadingView.setDoneNoAnim(R.string.download_failed);
-				final RRError error = General.getGeneralErrorForFailure(context, type, t, status);
+				final RRError error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
 
 				new Handler(Looper.getMainLooper()).post(new Runnable() {
 					public void run() {

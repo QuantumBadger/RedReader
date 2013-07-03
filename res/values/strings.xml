@@ -439,8 +439,6 @@
     <string name="error_toast_no_urls_in_self">No URLs found in this self text.</string>
     <string name="error_toast_parent_post_not_downloaded">Parent post not downloaded yet.</string>
 
-    <string name="message_cannotlogin">Could not log in.</string>
-
     <string name="download_subreddits">Downloading subreddits…</string>
 
     <string name="subtitle_points">pts</string>
@@ -486,5 +484,11 @@
     <string name="lang_en">English</string>
     <string name="lang_da">Danish</string>
     <string name="lang_de">German</string>
+
+    <!-- 2013-06-25 -->
+
+    <string name="prefs_category_network">Network</string>
+    <string name="pref_network_https_title">Enable HTTPS</string>
+    <string name="pref_network_https_key">pref_network_https</string>
 
 </resources>

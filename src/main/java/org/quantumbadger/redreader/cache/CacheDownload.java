@@ -80,10 +80,16 @@ public final class CacheDownload {
 	}
 
 	public synchronized void cancel() {
+
 		cancelled = true;
-		if(httpGet != null) httpGet.abort();
-		queue.exterminateDownload(this);
-		notifyAllOnFailure(RequestFailureType.CANCELLED, null, null, "Cancelled");
+
+		new Thread() {
+			public void run() {
+				if(httpGet != null) httpGet.abort();
+				queue.exterminateDownload(CacheDownload.this);
+				notifyAllOnFailure(RequestFailureType.CANCELLED, null, null, "Cancelled");
+			}
+		}.start();
 	}
 
 	// TODO potential concurrency problem -- late joiner may be added after failure

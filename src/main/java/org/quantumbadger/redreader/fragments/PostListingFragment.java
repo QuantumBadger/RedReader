@@ -393,7 +393,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 					break;
 			}
 
-			final RRError error = new RRError(title, message, t, status);
+			final RRError error = new RRError(title, message, t, status, url.toString());
 			notificationHandler.sendMessage(General.handlerMessage(displayType, error));
 		}
 

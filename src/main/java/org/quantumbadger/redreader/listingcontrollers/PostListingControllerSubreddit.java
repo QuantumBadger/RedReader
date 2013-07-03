@@ -45,6 +45,8 @@ public class PostListingControllerSubreddit extends PostListingController {
 	@Override
 	public URI getUri() {
 
+		if(!subreddit.url.endsWith("/")) subreddit.url = subreddit.url + "/";
+
 		if(!subreddit.isSortable()) {
 			if(subreddit.url.contains("?"))
 				return Constants.Reddit.getUri(subreddit.url.replaceFirst("\\?", ".json?").replace(".json.json", ".json"));
@@ -57,7 +59,7 @@ public class PostListingControllerSubreddit extends PostListingController {
 			case NEW:
 			case CONTROVERSIAL:
 			case RISING:
-				return Constants.Reddit.getUri(subreddit.url + "/" + getSort().name().toLowerCase() + ".json");
+				return Constants.Reddit.getUri(subreddit.url + getSort().name().toLowerCase() + ".json");
 
 			case TOP_HOUR:
 			case TOP_DAY:
@@ -65,7 +67,7 @@ public class PostListingControllerSubreddit extends PostListingController {
 			case TOP_MONTH:
 			case TOP_YEAR:
 			case TOP_ALL:
-				return Constants.Reddit.getUri(subreddit.url + "/top.json?t=" + getSort().name().split("_")[1].toLowerCase());
+				return Constants.Reddit.getUri(subreddit.url + "top.json?t=" + getSort().name().split("_")[1].toLowerCase());
 		}
 
 		throw new RuntimeException("Unknown sort type " + getSort().name());

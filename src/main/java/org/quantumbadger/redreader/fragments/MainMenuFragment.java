@@ -168,7 +168,7 @@ public class MainMenuFragment extends Fragment implements MainMenuSelectionListe
 			protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
 
 				if(loadingView != null) loadingView.setDone(R.string.download_failed);
-				final RRError error = General.getGeneralErrorForFailure(context, type, t, status);
+				final RRError error = General.getGeneralErrorForFailure(context, type, t, status, null);
 
 				new Handler(Looper.getMainLooper()).post(new Runnable() {
 					public void run() {

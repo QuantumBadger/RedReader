@@ -178,7 +178,7 @@ public final class InboxListingFragment extends DialogFragment implements Active
 
 				if(loadingView != null) loadingView.setDone(R.string.download_failed);
 
-				final RRError error = General.getGeneralErrorForFailure(context, type, t, status);
+				final RRError error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
 				new Handler(Looper.getMainLooper()).post(new Runnable() {
 					public void run() {
 						if(isAdded()) notifications.addView(new ErrorView(getSupportActivity(), error));

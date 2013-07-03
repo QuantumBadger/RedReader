@@ -80,17 +80,22 @@ public class WebViewActivity extends Activity implements RedditPostView.PostSele
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        switch(item.getItemId()) {
+
+		switch(item.getItemId()) {
+
             case android.R.id.home:
                 finish();
                 return true;
+
             case VIEW_IN_BROWSER:
                 if(url != null) {
-                    Intent i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse(url));
-                    finish(); //to clear from backstack
-                    startActivity(i);
+                    final Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(url));
+                    startActivity(intent);
+					finish(); //to clear from backstack
                 }
+				return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }

@@ -1,7 +1,7 @@
 40/1.7.6
 [TODO] Better markdown support
+Ability to switch from internal to external browser (thanks to trevor-e)
 [TODO] Back button delay
-[TODO] Ability to switch from internal to external browser
 Samsung multi-window support (phone reboot required)
 
 39/1.7.5

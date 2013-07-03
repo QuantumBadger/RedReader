@@ -34,76 +34,76 @@ import org.quantumbadger.redreader.views.RedditPostView;
 
 public class WebViewActivity extends Activity implements RedditPostView.PostSelectionListener {
 
-    private WebViewFragment webView;
-    private String url;
-    public static final int VIEW_IN_BROWSER = 10;
+	private WebViewFragment webView;
+	private String url;
+	public static final int VIEW_IN_BROWSER = 10;
 
-    public void onCreate(final Bundle savedInstanceState) {
+	public void onCreate(final Bundle savedInstanceState) {
 
-        PrefsUtility.applyTheme(this);
+		PrefsUtility.applyTheme(this);
 
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);
 
-        final Intent intent = getIntent();
+		final Intent intent = getIntent();
 
-        url = intent.getStringExtra("url");
-        final RedditPost post = intent.getParcelableExtra("post");
+		url = intent.getStringExtra("url");
+		final RedditPost post = intent.getParcelableExtra("post");
 
-        if(url == null) {
-            BugReportActivity.handleGlobalError(this, "No URL");
-        }
+		if(url == null) {
+			BugReportActivity.handleGlobalError(this, "No URL");
+		}
 
-        webView = WebViewFragment.newInstance(url, post);
+		webView = WebViewFragment.newInstance(url, post);
 
-        setContentView(View.inflate(this, R.layout.main_single, null));
+		setContentView(View.inflate(this, R.layout.main_single, null));
 
-        getSupportFragmentManager().beginTransaction().add(R.id.main_single_frame, webView).commit();
-    }
+		getSupportFragmentManager().beginTransaction().add(R.id.main_single_frame, webView).commit();
+	}
 
-    @Override
-    public void onBackPressed() {
-        if(!webView.onBackButtonPressed()) finish();
-    }
+	@Override
+	public void onBackPressed() {
+		if(!webView.onBackButtonPressed()) finish();
+	}
 
-    public void onPostSelected(final RedditPreparedPost post) {
-        LinkHandler.onLinkClicked(this, post.url, false, post.src);
-    }
+	public void onPostSelected(final RedditPreparedPost post) {
+		LinkHandler.onLinkClicked(this, post.url, false, post.src);
+	}
 
-    public void onPostCommentsSelected(final RedditPreparedPost post) {
-        final Intent intent = new Intent(this, CommentListingActivity.class);
-        intent.putExtra("postId", post.idAlone);
-        startActivityForResult(intent, 1);
-    }
+	public void onPostCommentsSelected(final RedditPreparedPost post) {
+		final Intent intent = new Intent(this, CommentListingActivity.class);
+		intent.putExtra("postId", post.idAlone);
+		startActivityForResult(intent, 1);
+	}
 
-    @Override
-    public boolean onOptionsItemSelected(final MenuItem item) {
+	@Override
+	public boolean onOptionsItemSelected(final MenuItem item) {
 
 		switch(item.getItemId()) {
 
-            case android.R.id.home:
-                finish();
-                return true;
-
-            case VIEW_IN_BROWSER:
-                if(url != null) {
-                    final Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse(url));
-                    startActivity(intent);
-					finish(); //to clear from backstack
-                }
+			case android.R.id.home:
+				finish();
 				return true;
 
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+			case VIEW_IN_BROWSER:
+				if(url != null) {
+					final Intent intent = new Intent(Intent.ACTION_VIEW);
+					intent.setData(Uri.parse(url));
+					startActivity(intent);
+					finish(); //to clear from backstack
+				}
+				return true;
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(0, VIEW_IN_BROWSER, 0, R.string.web_view_open_browser);
-        return super.onCreateOptionsMenu(menu);
-    }
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(0, VIEW_IN_BROWSER, 0, R.string.web_view_open_browser);
+		return super.onCreateOptionsMenu(menu);
+	}
 }

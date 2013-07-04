@@ -34,11 +34,27 @@ public final class MarkdownTokenizer {
 			TOKEN_PAREN_OPEN = -10,
 			TOKEN_PAREN_CLOSE = -11;
 
-	
+	private static final char[][] reverseLookup = new char[20][];
+
+	static {
+		reverseLookup[20 + TOKEN_UNDERSCORE] = new char[] {'_'};
+		reverseLookup[20 + TOKEN_UNDERSCORE_DOUBLE] = new char[] {'_', '_'};
+		reverseLookup[20 + TOKEN_ASTERISK] = new char[] {'*'};
+		reverseLookup[20 + TOKEN_ASTERISK_DOUBLE] = new char[] {'*', '*'};
+		reverseLookup[20 + TOKEN_TILDE_DOUBLE] = new char[] {'~', '~'};
+		reverseLookup[20 + TOKEN_CARET] = new char[] {'^'};
+		reverseLookup[20 + TOKEN_GRAVE] = new char[] {'`'};
+		reverseLookup[20 + TOKEN_BRACKET_SQUARE_OPEN] = new char[] {'['};
+		reverseLookup[20 + TOKEN_BRACKET_SQUARE_CLOSE] = new char[] {']'};
+		reverseLookup[20 + TOKEN_PAREN_OPEN] = new char[] {'('};
+		reverseLookup[20 + TOKEN_PAREN_CLOSE] = new char[] {')'};
+	}
+
 	public static int[] tokenizeAndClean(final char[] rawArr) {
 
-		final int[] result = tokenize(rawArr);
-		final boolean[] toRevert = new boolean[result.length];
+		final int[] passOneResult = tokenize(rawArr);
+		final int passOneResultLength = passOneResult.length;
+		final boolean[] toRevert = new boolean[passOneResultLength];
 
 		int lastUnderscore = -1, lastUnderscoreDouble = -1;
 		int lastAsterisk = -1, lastAsteriskDouble = -1;
@@ -47,9 +63,9 @@ public final class MarkdownTokenizer {
 
 		int lastBracketSquareOpen = -1;
 
-		for(int i = 0; i < result.length; i++) {
+		for(int i = 0; i < passOneResultLength; i++) {
 
-			final int c = result[i];
+			final int c = passOneResult[i];
 
 			switch(c) {
 
@@ -133,14 +149,14 @@ public final class MarkdownTokenizer {
 					if(lastBracketSquareOpen < 0) {
 						lastBracketSquareOpen = i;
 					} else {
-						result[lastBracketSquareOpen] = '[';
+						toRevert[i] = true;
 						lastBracketSquareOpen = i;
 					}
 					break;
 
 				case TOKEN_BRACKET_SQUARE_CLOSE:
 					if(lastBracketSquareOpen < 0) {
-						result[i] = ']';
+						toRevert[i] = true;
 					} else {
 						// TODO check link
 					}
@@ -161,9 +177,24 @@ public final class MarkdownTokenizer {
 		if(lastGrave >= 0) toRevert[lastGrave] = true;
 		if(lastBracketSquareOpen >= 0) toRevert[lastBracketSquareOpen] = true;
 
-		// TODO revert into new array
+		final int[] passTwoResult = new int[rawArr.length];
+		int passTwoPos = 0;
 
-		return result;
+		for(int i = 0; i < passOneResultLength; i++) {
+
+			if(toRevert[i]) {
+
+				final char[] revertTo = reverseLookup[20 + passOneResult[i]];
+				for(final char rCh : revertTo) {
+					passTwoResult[passTwoPos++] = rCh;
+				}
+
+			} else {
+				passTwoResult[passTwoPos++] = passOneResult[i];
+			}
+		}
+
+		return Arrays.copyOf(passTwoResult, passTwoPos);
 	}
 
 	// TODO inline, use resultPos instead of copyOf

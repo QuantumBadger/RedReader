@@ -60,7 +60,6 @@ public final class MarkdownTokenizer {
 		int lastUnderscore = -1, lastUnderscoreDouble = -1;
 		int lastAsterisk = -1, lastAsteriskDouble = -1;
 		int lastTildeDouble = -1;
-		int lastGrave = -1;
 
 		int lastBracketSquareOpen = -1;
 
@@ -131,17 +130,18 @@ public final class MarkdownTokenizer {
 
 				case TOKEN_GRAVE:
 
-					if(lastGrave < 0) {
-						lastGrave = i;
+					final int openingGrave = i;
+					final int closingGrave = indexOf(passOneResult, TOKEN_GRAVE, i + 1, passOneResultLength);
 
+					if(closingGrave < 0) {
+						toRevert[i] = true;
 					} else {
 
-						if(lastGrave == i - 1) {
-							toRevert[lastGrave] = true;
-							toRevert[i] = true;
+						for(int j = openingGrave + 1; j < closingGrave; j++) {
+							if(passOneResult[j] < 0) toRevert[j] = true;
 						}
 
-						lastGrave = -1;
+						i = closingGrave;
 					}
 
 					break;
@@ -212,7 +212,6 @@ public final class MarkdownTokenizer {
 		if(lastAsterisk >= 0) toRevert[lastAsterisk] = true;
 		if(lastAsteriskDouble >= 0) toRevert[lastAsteriskDouble] = true;
 		if(lastTildeDouble >= 0) toRevert[lastTildeDouble] = true;
-		if(lastGrave >= 0) toRevert[lastGrave] = true;
 		if(lastBracketSquareOpen >= 0) toRevert[lastBracketSquareOpen] = true;
 
 		final int[] passTwoResult = new int[rawArr.length];

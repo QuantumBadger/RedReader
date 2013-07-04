@@ -55,6 +55,7 @@ public final class MarkdownTokenizer {
 		final int[] passOneResult = tokenize(rawArr);
 		final int passOneResultLength = passOneResult.length;
 		final boolean[] toRevert = new boolean[passOneResultLength];
+		final boolean[] toDelete = new boolean[passOneResultLength];
 
 		int lastUnderscore = -1, lastUnderscoreDouble = -1;
 		int lastAsterisk = -1, lastAsteriskDouble = -1;
@@ -149,17 +150,54 @@ public final class MarkdownTokenizer {
 					if(lastBracketSquareOpen < 0) {
 						lastBracketSquareOpen = i;
 					} else {
-						toRevert[i] = true;
+						toRevert[lastBracketSquareOpen] = true;
 						lastBracketSquareOpen = i;
 					}
 					break;
 
 				case TOKEN_BRACKET_SQUARE_CLOSE:
+
 					if(lastBracketSquareOpen < 0) {
 						toRevert[i] = true;
+
 					} else {
-						// TODO check link
+
+						final int lastBracketSquareClose = i;
+
+						final int parenOpenPos = indexOf(passOneResult, TOKEN_PAREN_OPEN, lastBracketSquareClose + 1, passOneResultLength);
+						boolean linkParseSuccess = false;
+
+						if(parenOpenPos >= 0) {
+
+							if(isSpaces(passOneResult, lastBracketSquareClose + 1, parenOpenPos)) {
+
+								final int parenClosePos = indexOf(passOneResult, TOKEN_PAREN_CLOSE, parenOpenPos + 1, passOneResultLength);
+
+								if(parenClosePos >= 0) {
+
+									linkParseSuccess = true;
+
+									for(int j = lastBracketSquareClose + 1; j < parenOpenPos; j++) {
+										toDelete[j] = true;
+									}
+
+									for(int j = parenOpenPos + 1; j < parenClosePos; j++) {
+										if(passOneResult[j] < 0) toRevert[j] = true;
+									}
+
+									i = parenClosePos;
+								}
+							}
+						}
+
+						if(!linkParseSuccess) {
+							toRevert[lastBracketSquareOpen] = true;
+							toRevert[lastBracketSquareClose] = true;
+							i = lastBracketSquareClose;
+						}
 					}
+
+					lastBracketSquareOpen = -1;
 					break;
 
 				case TOKEN_PAREN_OPEN:
@@ -181,6 +219,8 @@ public final class MarkdownTokenizer {
 		int passTwoPos = 0;
 
 		for(int i = 0; i < passOneResultLength; i++) {
+
+			if(toDelete[i]) continue;
 
 			if(toRevert[i]) {
 
@@ -242,6 +282,10 @@ public final class MarkdownTokenizer {
 
 					break;
 
+				case '^':
+					result[resultPos++] = TOKEN_CARET;
+					break;
+
 				case '`':
 					result[resultPos++] = TOKEN_GRAVE;
 					break;
@@ -274,5 +318,15 @@ public final class MarkdownTokenizer {
 		}
 
 		return Arrays.copyOf(result, resultPos);
+	}
+
+	private static int indexOf(final int[] haystack, final int needle, final int startInclusive, final int endExclusive) {
+		for(int i = startInclusive; i < endExclusive; i++) if(haystack[i] == needle) return i;
+		return -1;
+	}
+
+	private static boolean isSpaces(final int[] haystack, final int startInclusive, final int endExclusive) {
+		for(int i = startInclusive; i < endExclusive; i++) if(haystack[i] != ' ') return false;
+		return true;
 	}
 }

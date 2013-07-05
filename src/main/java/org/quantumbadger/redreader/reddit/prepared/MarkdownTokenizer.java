@@ -91,15 +91,8 @@ public final class MarkdownTokenizer {
 
 				case TOKEN_BRACKET_SQUARE_CLOSE:
 				case TOKEN_PAREN_CLOSE:
-					passThreeResult[passThreeResultLength++] = token;
-					ready = true;
-					break;
-
 				case ' ':
-				case '\t':
-				case '\r':
-				case '\f':
-					passThreeResult[passThreeResultLength++] = ' ';
+					passThreeResult[passThreeResultLength++] = token;
 					ready = true;
 					break;
 
@@ -113,6 +106,15 @@ public final class MarkdownTokenizer {
 						final int linkStartType = getLinkStartType(passThreeResult, i, passThreeResultLength);
 						if(linkStartType >= 0) {
 							// TODO read link, then output [X](X) syntax
+
+							int linkEndPos = i + linkPrefixes[linkStartType].length;
+
+							// Greedily read to space, or <>, or etc
+							// discard many final chars if they are '.', ',', '?', ';' etc
+							// THEN, discard single final char if it is '\'', '"', etc
+
+							// BUT: if it's /r/, /u/ etc, only read alphanums and underscores
+
 
 						} else {
 							passThreeResult[passThreeResultLength++] = token;
@@ -243,6 +245,7 @@ public final class MarkdownTokenizer {
 					}
 					break;
 
+				// TODO trim contents of ()
 				case TOKEN_BRACKET_SQUARE_CLOSE:
 
 					if(lastBracketSquareOpen < 0) {
@@ -313,6 +316,14 @@ public final class MarkdownTokenizer {
 						}
 
 						i = closingUnicode;
+					}
+
+					break;
+
+				case ' ':
+
+					if(i < 1 || passOneResult[i - 1] == ' ') {
+						toDelete[i] = true;
 					}
 
 					break;
@@ -434,6 +445,12 @@ public final class MarkdownTokenizer {
 				case '\\':
 					if(i < rawArr.length - 1) result[resultPos++] = rawArr[++i];
 					else result[resultPos++] = '\\';
+					break;
+
+				case '\t':
+				case '\r':
+				case '\f':
+					result[resultPos++] = ' ';
 					break;
 
 				default:

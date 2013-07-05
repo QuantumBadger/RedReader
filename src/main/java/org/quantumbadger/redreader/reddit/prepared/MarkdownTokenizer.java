@@ -32,9 +32,24 @@ public final class MarkdownTokenizer {
 			TOKEN_BRACKET_SQUARE_OPEN = -8,
 			TOKEN_BRACKET_SQUARE_CLOSE = -9,
 			TOKEN_PAREN_OPEN = -10,
-			TOKEN_PAREN_CLOSE = -11;
+			TOKEN_PAREN_CLOSE = -11,
+			TOKEN_UNICODE_OPEN = -12,
+			TOKEN_UNICODE_CLOSE = -13;
 
 	private static final char[][] reverseLookup = new char[20][];
+
+	private static final char[][] linkPrefixes = {
+			"http://".toCharArray(),
+			"https://".toCharArray(),
+			"www.".toCharArray(),
+			"/r/".toCharArray(),
+			"r/".toCharArray(),
+			"/u/".toCharArray(),
+			"u/".toCharArray(),
+			"/user/".toCharArray()
+	};
+
+	private static final int linkPrefix_minFollowingChars = 2; // e.g. "www.de"
 
 	static {
 		reverseLookup[20 + TOKEN_UNDERSCORE] = new char[] {'_'};
@@ -48,8 +63,81 @@ public final class MarkdownTokenizer {
 		reverseLookup[20 + TOKEN_BRACKET_SQUARE_CLOSE] = new char[] {']'};
 		reverseLookup[20 + TOKEN_PAREN_OPEN] = new char[] {'('};
 		reverseLookup[20 + TOKEN_PAREN_CLOSE] = new char[] {')'};
+		reverseLookup[20 + TOKEN_UNICODE_OPEN] = new char[] {'&', '#'};
+		reverseLookup[20 + TOKEN_UNICODE_CLOSE] = new char[] {';'};
 	}
 
+	public static int[] tokenizeCleanAndLinkify(final char[] rawArr) {
+
+		final int[] passTwoResult = tokenizeAndClean(rawArr);
+		final int passTwoResultLength = passTwoResult.length;
+
+		final int[] passThreeResult = new int[rawArr.length * 3];
+		int passThreeResultLength = 0;
+
+		boolean ready = true;
+
+		for(int i = 0; i < passTwoResultLength; i++) {
+
+			final int token = passTwoResult[i];
+
+			switch(token) {
+
+				case TOKEN_BRACKET_SQUARE_OPEN:
+				case TOKEN_PAREN_OPEN:
+					passThreeResult[passThreeResultLength++] = token;
+					ready = false;
+					break;
+
+				case TOKEN_BRACKET_SQUARE_CLOSE:
+				case TOKEN_PAREN_CLOSE:
+					passThreeResult[passThreeResultLength++] = token;
+					ready = true;
+					break;
+
+				case ' ':
+				case '\t':
+				case '\r':
+				case '\f':
+					passThreeResult[passThreeResultLength++] = ' ';
+					ready = true;
+					break;
+
+				case 'h':
+				case 'w':
+				case 'r':
+				case 'u':
+				case '/':
+					if(ready) {
+
+						final int linkStartType = getLinkStartType(passThreeResult, i, passThreeResultLength);
+						if(linkStartType >= 0) {
+							// TODO read link, then output [X](X) syntax
+
+						} else {
+							passThreeResult[passThreeResultLength++] = token;
+						}
+
+					} else {
+						passThreeResult[passThreeResultLength++] = token;
+					}
+
+					ready = false;
+					break;
+
+
+				default:
+					// TODO test this against reddits impl
+					ready = token < 0 || (!Character.isAlphabetic(token) && !Character.isDigit(token) && token != '/');
+					passThreeResult[passThreeResultLength++] = token;
+					break;
+			}
+		}
+
+		return Arrays.copyOf(passThreeResult, passThreeResultLength);
+	}
+
+	// TODO inline, remove copyOf
 	public static int[] tokenizeAndClean(final char[] rawArr) {
 
 		final int[] passOneResult = tokenize(rawArr);
@@ -202,7 +290,31 @@ public final class MarkdownTokenizer {
 
 				case TOKEN_PAREN_OPEN:
 				case TOKEN_PAREN_CLOSE:
+				case TOKEN_UNICODE_CLOSE:
 					toRevert[i] = true;
+					break;
+
+				case TOKEN_UNICODE_OPEN:
+
+					final int openingUnicode = i;
+					final int closingUnicode = indexOf(passOneResult, TOKEN_UNICODE_CLOSE, i + 1,
+							Math.min(passOneResultLength, i + 8));
+
+					if(closingUnicode < 0 || !isDigits(passOneResult, openingUnicode + 1, closingUnicode)) {
+						toRevert[i] = true;
+
+					} else {
+
+						final int codePoint = getDecimal(passOneResult, openingUnicode + 1, closingUnicode);
+						passOneResult[openingUnicode] = codePoint;
+
+						for(int j = openingUnicode + 1; j <= closingUnicode; j++) {
+							toDelete[j] = true;
+						}
+
+						i = closingUnicode;
+					}
+
 					break;
 			}
 		}
@@ -305,6 +417,20 @@ public final class MarkdownTokenizer {
 					result[resultPos++] = TOKEN_PAREN_CLOSE;
 					break;
 
+				case '&':
+
+					if(i < rawArr.length - 1 && rawArr[i + 1] == '#') {
+						i++;
+						result[resultPos++] = TOKEN_UNICODE_OPEN;
+
+					} else result[resultPos++] = '&';
+
+					break;
+
+				case ';':
+					result[resultPos++] = TOKEN_UNICODE_CLOSE;
+					break;
+
 				case '\\':
 					if(i < rawArr.length - 1) result[resultPos++] = rawArr[++i];
 					else result[resultPos++] = '\\';
@@ -327,5 +453,34 @@ public final class MarkdownTokenizer {
 	private static boolean isSpaces(final int[] haystack, final int startInclusive, final int endExclusive) {
 		for(int i = startInclusive; i < endExclusive; i++) if(haystack[i] != ' ') return false;
 		return true;
+	}
+
+	private static boolean isDigits(final int[] haystack, final int startInclusive, final int endExclusive) {
+		for(int i = startInclusive; i < endExclusive; i++) if(haystack[i] < '0' || haystack[i] > '9') return false;
+		return true;
+	}
+
+	private static int getDecimal(final int[] chars, final int startInclusive, final int endExclusive) {
+		int result = 0;
+		for(int i = startInclusive; i < endExclusive; i++) {
+			result *= 10;
+			result += chars[i] - '0';
+		}
+		return result;
+	}
+
+	private static boolean equals(final int[] haystack, final char[] needle, int startInclusive) {
+		for(int i = 0; i < needle.length; i++) if(haystack[startInclusive + i] != needle[i]) return false;
+		return true;
+	}
+
+	private static int getLinkStartType(final int[] haystack, final int startInclusive, final int endExclusive) {
+		final int maxLen = endExclusive - startInclusive;
+		for(int type = 0; type < linkPrefixes.length; type++) {
+			if(linkPrefixes[type].length <= maxLen && equals(haystack, linkPrefixes[type], startInclusive)) {
+				return type;
+			}
+		}
+		return -1;
 	}
 }

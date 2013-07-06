@@ -41,15 +41,16 @@ public final class MarkdownTokenizer {
 	private static final char[][] linkPrefixes = {
 			"http://".toCharArray(),
 			"https://".toCharArray(),
-			"www.".toCharArray(),
+			"www.".toCharArray()
+	};
+
+	private static final char[][] linkPrefixes_reddit = {
 			"/r/".toCharArray(),
 			"r/".toCharArray(),
 			"/u/".toCharArray(),
 			"u/".toCharArray(),
 			"/user/".toCharArray()
 	};
-
-	private static final int linkPrefix_minFollowingChars = 2; // e.g. "www.de"
 
 	static {
 		reverseLookup[20 + TOKEN_UNDERSCORE] = new char[] {'_'};
@@ -98,23 +99,74 @@ public final class MarkdownTokenizer {
 
 				case 'h':
 				case 'w':
+
+					if(ready) {
+
+						final int linkStartType = getLinkStartType(passThreeResult, i, passThreeResultLength);
+						if(linkStartType >= 0) {
+
+							int linkEndPos = i + linkPrefixes[linkStartType].length;
+
+							// TODO read link, then output [X](X) syntax
+							// Greedily read to space, or <>, or etc
+							// discard many final chars if they are '.', ',', '?', ';' etc
+							// THEN, discard single final char if it is '\'', '"', etc
+
+						} else {
+							passThreeResult[passThreeResultLength++] = token;
+						}
+
+					} else {
+						passThreeResult[passThreeResultLength++] = token;
+					}
+
+					ready = false;
+					break;
+
 				case 'r':
 				case 'u':
 				case '/':
 					if(ready) {
 
-						final int linkStartType = getLinkStartType(passThreeResult, i, passThreeResultLength);
+						final int linkStartType = getRedditLinkStartType(passThreeResult, i, passThreeResultLength);
 						if(linkStartType >= 0) {
-							// TODO read link, then output [X](X) syntax
 
-							int linkEndPos = i + linkPrefixes[linkStartType].length;
+							final int linkStartPos = i;
+							final int linkPrefixEndPos = linkPrefixes_reddit[linkStartType].length + linkStartPos;
+							int linkEndPos = linkPrefixEndPos;
 
-							// Greedily read to space, or <>, or etc
-							// discard many final chars if they are '.', ',', '?', ';' etc
-							// THEN, discard single final char if it is '\'', '"', etc
+							while(linkEndPos < passTwoResultLength) {
 
-							// BUT: if it's /r/, /u/ etc, only read alphanums and underscores
+								final int lToken = passThreeResult[linkEndPos];
 
+								final boolean isValidChar = (lToken >= 'a' && lToken <= 'z')
+										|| (lToken >= 'A' && lToken <= 'Z')
+										|| (lToken >= '0' && lToken <= '9')
+										|| lToken == '_'
+										|| lToken == '+'
+										|| lToken == '-';
+
+								linkEndPos++;
+							}
+
+							if(linkEndPos - linkPrefixEndPos > 2) {
+
+								final int[] reverted = revert(passTwoResult, linkStartPos, linkEndPos);
+
+								passThreeResult[passThreeResultLength++] = TOKEN_BRACKET_SQUARE_OPEN;
+								System.arraycopy(reverted, 0 ,passThreeResult, passThreeResultLength, reverted.length);
+								passThreeResultLength += reverted.length;
+								passThreeResult[passThreeResultLength++] = TOKEN_BRACKET_SQUARE_CLOSE;
+								passThreeResult[passThreeResultLength++] = TOKEN_PAREN_OPEN;
+								System.arraycopy(reverted, 0 ,passThreeResult, passThreeResultLength, reverted.length);
+								passThreeResultLength += reverted.length;
+								passThreeResult[passThreeResultLength++] = TOKEN_PAREN_CLOSE;
+
+								i = linkEndPos;
+
+							} else {
+								passThreeResult[passThreeResultLength++] = token;
+							}
 
 						} else {
 							passThreeResult[passThreeResultLength++] = token;
@@ -499,5 +551,47 @@ public final class MarkdownTokenizer {
 			}
 		}
 		return -1;
+	}
+
+	private static int getRedditLinkStartType(final int[] haystack, final int startInclusive, final int endExclusive) {
+		final int maxLen = endExclusive - startInclusive;
+		for(int type = 0; type < linkPrefixes_reddit.length; type++) {
+			if(linkPrefixes_reddit[type].length <= maxLen && equals(haystack, linkPrefixes_reddit[type], startInclusive)) {
+				return type;
+			}
+		}
+		return -1;
+	}
+
+	private static int[] revert(final int[] tokens, final int startInclusive, final int endExclusive) {
+
+		int outputLen = 0;
+
+		for(int i = startInclusive; i < endExclusive; i++) {
+			final int token = tokens[i];
+			if(token < 0) {
+				outputLen += reverseLookup[20 + token].length;
+
+			} else {
+				outputLen++;
+			}
+		}
+
+		final int[] result = new int[outputLen];
+		int resultPos = 0;
+
+		for(int i = startInclusive; i < endExclusive; i++) {
+			final int token = tokens[i];
+			if(token < 0) {
+				for(final char c : reverseLookup[20 + token]) {
+					result[resultPos++] = c;
+				}
+
+			} else {
+				result[resultPos++] = token;
+			}
+		}
+
+		return result;
 	}
 }

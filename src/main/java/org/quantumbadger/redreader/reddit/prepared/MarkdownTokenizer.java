@@ -70,33 +70,42 @@ public final class MarkdownTokenizer {
 		reverseLookup[20 + TOKEN_UNICODE_CLOSE] = new char[] {';'};
 	}
 
-	// TODO second pass of cleaning
-	public static int[] tokenizeCleanAndLinkify(final char[] rawArr) {
+	public static IntArrayLengthPair tokenize(final char[] input) {
 
-		final int[] passTwoResult = tokenizeAndClean(rawArr);
-		final int passTwoResultLength = passTwoResult.length;
+		final MarkdownTokenizer.IntArrayLengthPair tmp1 = new MarkdownTokenizer.IntArrayLengthPair(input.length * 3);
+		final MarkdownTokenizer.IntArrayLengthPair tmp2 = new MarkdownTokenizer.IntArrayLengthPair(input.length * 3);
 
-		final int[] passThreeResult = new int[rawArr.length * 3];
-		int passThreeResultLength = 0;
+		naiveTokenize(input, tmp1);
+		clean(tmp1, tmp2);
+		linkify(tmp2, tmp1);
+		clean(tmp1, tmp2);
+
+		return tmp2;
+	}
+
+	private static void linkify(final IntArrayLengthPair input, final IntArrayLengthPair output) {
+
+		if(input.data.length > output.data.length * 3) throw new RuntimeException();
+		output.clear();
 
 		boolean ready = true;
 
-		for(int i = 0; i < passTwoResultLength; i++) {
+		for(int i = 0; i < input.pos; i++) {
 
-			final int token = passTwoResult[i];
+			final int token = input.data[i];
 
 			switch(token) {
 
 				case TOKEN_BRACKET_SQUARE_OPEN:
 				case TOKEN_PAREN_OPEN:
-					passThreeResult[passThreeResultLength++] = token;
+					output.data[output.pos++] = token;
 					ready = false;
 					break;
 
 				case TOKEN_BRACKET_SQUARE_CLOSE:
 				case TOKEN_PAREN_CLOSE:
 				case ' ':
-					passThreeResult[passThreeResultLength++] = token;
+					output.data[output.pos++] = token;
 					ready = true;
 					break;
 
@@ -105,7 +114,7 @@ public final class MarkdownTokenizer {
 
 					if(ready) {
 
-						final int linkStartType = getLinkStartType(passTwoResult, i, passTwoResultLength);
+						final int linkStartType = getLinkStartType(input.data, i, input.pos);
 						if(linkStartType >= 0) {
 
 							// Greedily read to space, or <>, or etc
@@ -114,9 +123,9 @@ public final class MarkdownTokenizer {
 							final int linkPrefixEndPos = linkPrefixes[linkStartType].length + linkStartPos;
 							int linkEndPos = linkPrefixEndPos;
 
-							while(linkEndPos < passTwoResultLength) {
+							while(linkEndPos < input.pos) {
 
-								final int lToken = passTwoResult[linkEndPos];
+								final int lToken = input.data[linkEndPos];
 
 								final boolean isValidChar =
 										lToken != ' '
@@ -134,46 +143,44 @@ public final class MarkdownTokenizer {
 							// discard many final chars if they are '.', ',', '?', ';' etc
 							// THEN, discard single final char if it is '\'', '"', etc
 
-							while(passTwoResult[linkEndPos - 1] == '.'
-									|| passTwoResult[linkEndPos - 1] == ','
-									|| passTwoResult[linkEndPos - 1] == '?'
-									|| passTwoResult[linkEndPos - 1] == ';') {
+							while(input.data[linkEndPos - 1] == '.'
+									|| input.data[linkEndPos - 1] == ','
+									|| input.data[linkEndPos - 1] == '?'
+									|| input.data[linkEndPos - 1] == ';') {
 								linkEndPos--;
 							}
 
-							if(passTwoResult[linkEndPos - 1] == '"') {
+							if(input.data[linkEndPos - 1] == '"') {
 								linkEndPos--;
 							}
 
-							if(passTwoResult[linkEndPos - 1] == '\'') {
+							if(input.data[linkEndPos - 1] == '\'') {
 								linkEndPos--;
 							}
 
 							if(linkEndPos - linkPrefixEndPos >= 2) {
 
-								final int[] reverted = revert(passTwoResult, linkStartPos, linkEndPos);
+								final int[] reverted = revert(input.data, linkStartPos, linkEndPos);
 
-								passThreeResult[passThreeResultLength++] = TOKEN_BRACKET_SQUARE_OPEN;
-								System.arraycopy(reverted, 0, passThreeResult, passThreeResultLength, reverted.length);
-								passThreeResultLength += reverted.length;
-								passThreeResult[passThreeResultLength++] = TOKEN_BRACKET_SQUARE_CLOSE;
-								passThreeResult[passThreeResultLength++] = TOKEN_PAREN_OPEN;
-								System.arraycopy(reverted, 0, passThreeResult, passThreeResultLength, reverted.length);
-								passThreeResultLength += reverted.length;
-								passThreeResult[passThreeResultLength++] = TOKEN_PAREN_CLOSE;
+								output.data[output.pos++] = TOKEN_BRACKET_SQUARE_OPEN;
+								output.append(reverted);
+								output.data[output.pos++] = TOKEN_BRACKET_SQUARE_CLOSE;
+								output.data[output.pos++] = TOKEN_PAREN_OPEN;
+								output.append(reverted);
+								output.data[output.pos++] = TOKEN_PAREN_CLOSE;
 
 								i = linkEndPos - 1;
 
 							} else {
-								passThreeResult[passThreeResultLength++] = token;
+								output.data[output.pos++] = token;
 							}
 
 						} else {
-							passThreeResult[passThreeResultLength++] = token;
+							output.data[output.pos++] = token;
 						}
 
 					} else {
-						passThreeResult[passThreeResultLength++] = token;
+						output.data[output.pos++] = token;
 					}
 
 					ready = false;
@@ -185,16 +192,16 @@ public final class MarkdownTokenizer {
 
 					if(ready) {
 
-						final int linkStartType = getRedditLinkStartType(passTwoResult, i, passTwoResultLength);
+						final int linkStartType = getRedditLinkStartType(input.data, i, input.pos);
 						if(linkStartType >= 0) {
 
 							final int linkStartPos = i;
 							final int linkPrefixEndPos = linkPrefixes_reddit[linkStartType].length + linkStartPos;
 							int linkEndPos = linkPrefixEndPos;
 
-							while(linkEndPos < passTwoResultLength) {
+							while(linkEndPos < input.pos) {
 
-								final int lToken = passTwoResult[linkEndPos];
+								final int lToken = input.data[linkEndPos];
 
 								final boolean isValidChar =
 										(lToken >= 'a' && lToken <= 'z')
@@ -215,29 +222,27 @@ public final class MarkdownTokenizer {
 
 							if(linkEndPos - linkPrefixEndPos > 2) {
 
-								final int[] reverted = revert(passTwoResult, linkStartPos, linkEndPos);
+								final int[] reverted = revert(input.data, linkStartPos, linkEndPos);
 
-								passThreeResult[passThreeResultLength++] = TOKEN_BRACKET_SQUARE_OPEN;
-								System.arraycopy(reverted, 0, passThreeResult, passThreeResultLength, reverted.length);
-								passThreeResultLength += reverted.length;
-								passThreeResult[passThreeResultLength++] = TOKEN_BRACKET_SQUARE_CLOSE;
-								passThreeResult[passThreeResultLength++] = TOKEN_PAREN_OPEN;
-								System.arraycopy(reverted, 0, passThreeResult, passThreeResultLength, reverted.length);
-								passThreeResultLength += reverted.length;
-								passThreeResult[passThreeResultLength++] = TOKEN_PAREN_CLOSE;
+								output.data[output.pos++] = TOKEN_BRACKET_SQUARE_OPEN;
+								output.append(reverted);
+								output.data[output.pos++] = TOKEN_BRACKET_SQUARE_CLOSE;
+								output.data[output.pos++] = TOKEN_PAREN_OPEN;
+								output.append(reverted);
+								output.data[output.pos++] = TOKEN_PAREN_CLOSE;
 
 								i = linkEndPos - 1;
 
 							} else {
-								passThreeResult[passThreeResultLength++] = token;
+								output.data[output.pos++] = token;
 							}
 
 						} else {
-							passThreeResult[passThreeResultLength++] = token;
+							output.data[output.pos++] = token;
 						}
 
 					} else {
-						passThreeResult[passThreeResultLength++] = token;
+						output.data[output.pos++] = token;
 					}
 
 					ready = false;
@@ -247,22 +252,17 @@ public final class MarkdownTokenizer {
 				default:
 					// TODO test this against reddits impl
 					ready = token < 0 || (!Character.isAlphabetic(token) && !Character.isDigit(token) && token != '/');
-					passThreeResult[passThreeResultLength++] = token;
+					output.data[output.pos++] = token;
 					break;
 			}
 		}
-
-		return Arrays.copyOf(passThreeResult, passThreeResultLength);
 	}
 
-	// TODO inline, remove copyOf
-	public static int[] tokenizeAndClean(final char[] rawArr) {
+	private static void clean(final IntArrayLengthPair input, final IntArrayLengthPair output) {
 
-		final IntArrayLengthPair passOneResult = new IntArrayLengthPair(rawArr.length);
-		naiveTokenize(rawArr, passOneResult);
-
-		final boolean[] toRevert = new boolean[passOneResult.pos];
-		final boolean[] toDelete = new boolean[passOneResult.pos];
+		// TODO use single byte array, flags
+		final boolean[] toRevert = new boolean[input.pos];
+		final boolean[] toDelete = new boolean[input.pos];
 
 		int lastUnderscore = -1, lastUnderscoreDouble = -1;
 		int lastAsterisk = -1, lastAsteriskDouble = -1;
@@ -270,9 +270,9 @@ public final class MarkdownTokenizer {
 
 		int lastBracketSquareOpen = -1;
 
-		for(int i = 0; i < passOneResult.pos; i++) {
+		for(int i = 0; i < input.pos; i++) {
 
-			final int c = passOneResult.data[i];
+			final int c = input.data[i];
 
 			switch(c) {
 
@@ -338,14 +338,14 @@ public final class MarkdownTokenizer {
 				case TOKEN_GRAVE:
 
 					final int openingGrave = i;
-					final int closingGrave = indexOf(passOneResult.data, TOKEN_GRAVE, i + 1, passOneResult.pos);
+					final int closingGrave = indexOf(input.data, TOKEN_GRAVE, i + 1, input.pos);
 
 					if(closingGrave < 0) {
 						toRevert[i] = true;
 					} else {
 
 						for(int j = openingGrave + 1; j < closingGrave; j++) {
-							if(passOneResult.data[j] < 0) toRevert[j] = true;
+							if(input.data[j] < 0) toRevert[j] = true;
 						}
 
 						i = closingGrave;
@@ -372,16 +372,16 @@ public final class MarkdownTokenizer {
 
 						final int lastBracketSquareClose = i;
 
-						final int parenOpenPos = indexOf(passOneResult.data, TOKEN_PAREN_OPEN,
-								lastBracketSquareClose + 1, passOneResult.pos);
+						final int parenOpenPos = indexOf(input.data, TOKEN_PAREN_OPEN,
+								lastBracketSquareClose + 1, input.pos);
 						boolean linkParseSuccess = false;
 
 						if(parenOpenPos >= 0) {
 
-							if(isSpaces(passOneResult.data, lastBracketSquareClose + 1, parenOpenPos)) {
+							if(isSpaces(input.data, lastBracketSquareClose + 1, parenOpenPos)) {
 
-								final int parenClosePos = indexOf(passOneResult.data, TOKEN_PAREN_CLOSE,
-										parenOpenPos + 1, passOneResult.pos);
+								final int parenClosePos = indexOf(input.data, TOKEN_PAREN_CLOSE,
+										parenOpenPos + 1, input.pos);
 
 								if(parenClosePos >= 0) {
 
@@ -392,7 +392,7 @@ public final class MarkdownTokenizer {
 									}
 
 									for(int j = parenOpenPos + 1; j < parenClosePos; j++) {
-										if(passOneResult.data[j] < 0) toRevert[j] = true;
+										if(input.data[j] < 0) toRevert[j] = true;
 									}
 
 									i = parenClosePos;
@@ -419,16 +419,16 @@ public final class MarkdownTokenizer {
 				case TOKEN_UNICODE_OPEN:
 
 					final int openingUnicode = i;
-					final int closingUnicode = indexOf(passOneResult.data, TOKEN_UNICODE_CLOSE, i + 1,
-							Math.min(passOneResult.pos, i + 8));
+					final int closingUnicode = indexOf(input.data, TOKEN_UNICODE_CLOSE, i + 1,
+							Math.min(input.pos, i + 8));
 
-					if(closingUnicode < 0 || !isDigits(passOneResult.data, openingUnicode + 1, closingUnicode)) {
+					if(closingUnicode < 0 || !isDigits(input.data, openingUnicode + 1, closingUnicode)) {
 						toRevert[i] = true;
 
 					} else {
 
-						final int codePoint = getDecimal(passOneResult.data, openingUnicode + 1, closingUnicode);
-						passOneResult.data[openingUnicode] = codePoint;
+						final int codePoint = getDecimal(input.data, openingUnicode + 1, closingUnicode);
+						input.data[openingUnicode] = codePoint;
 
 						for(int j = openingUnicode + 1; j <= closingUnicode; j++) {
 							toDelete[j] = true;
@@ -441,7 +441,7 @@ public final class MarkdownTokenizer {
 
 				case ' ':
 
-					if(i < 1 || passOneResult.data[i - 1] == ' ') {
+					if(i < 1 || input.data[i - 1] == ' ') {
 						toDelete[i] = true;
 					}
 
@@ -456,32 +456,26 @@ public final class MarkdownTokenizer {
 		if(lastTildeDouble >= 0) toRevert[lastTildeDouble] = true;
 		if(lastBracketSquareOpen >= 0) toRevert[lastBracketSquareOpen] = true;
 
-		final int[] passTwoResult = new int[rawArr.length];
-		int passTwoPos = 0;
+		output.clear();
 
-		for(int i = 0; i < passOneResult.pos; i++) {
+		for(int i = 0; i < input.pos; i++) {
 
 			if(toDelete[i]) continue;
 
 			if(toRevert[i]) {
 
-				final char[] revertTo = reverseLookup[20 + passOneResult.data[i]];
-				for(final char rCh : revertTo) {
-					passTwoResult[passTwoPos++] = rCh;
-				}
+				final char[] revertTo = reverseLookup[20 + input.data[i]];
+				output.append(revertTo);
 
 			} else {
-				passTwoResult[passTwoPos++] = passOneResult.data[i];
+				output.data[output.pos++] = input.data[i];
 			}
 		}
-
-		return Arrays.copyOf(passTwoResult, passTwoPos);
 	}
 
-	public static void naiveTokenize(final char[] input, final IntArrayLengthPair output) {
+	private static void naiveTokenize(final char[] input, final IntArrayLengthPair output) {
 
-		final int[] result = output.data;
-		//int resultPos = 0;
+		output.clear();
 
 		for(int i = 0; i < input.length; i++) {
 
@@ -493,9 +487,9 @@ public final class MarkdownTokenizer {
 
 					if(i < input.length - 1 && input[i + 1] == '*') {
 						i++;
-						result[output.pos++] = TOKEN_ASTERISK_DOUBLE;
+						output.data[output.pos++] = TOKEN_ASTERISK_DOUBLE;
 					} else {
-						result[output.pos++] = TOKEN_ASTERISK;
+						output.data[output.pos++] = TOKEN_ASTERISK;
 					}
 
 					break;
@@ -505,9 +499,9 @@ public final class MarkdownTokenizer {
 					// TODO check previous
 					if(i < input.length - 1 && input[i + 1] == '_') {
 						i++;
-						result[output.pos++] = TOKEN_UNDERSCORE_DOUBLE;
+						output.data[output.pos++] = TOKEN_UNDERSCORE_DOUBLE;
 					} else {
-						result[output.pos++] = TOKEN_UNDERSCORE;
+						output.data[output.pos++] = TOKEN_UNDERSCORE;
 					}
 
 					break;
@@ -516,63 +510,63 @@ public final class MarkdownTokenizer {
 
 					if(i < input.length - 1 && input[i + 1] == '~') {
 						i++;
-						result[output.pos++] = TOKEN_TILDE_DOUBLE;
+						output.data[output.pos++] = TOKEN_TILDE_DOUBLE;
 
-					} else result[output.pos++] = '~';
+					} else output.data[output.pos++] = '~';
 
 					break;
 
 				case '^':
-					result[output.pos++] = TOKEN_CARET;
+					output.data[output.pos++] = TOKEN_CARET;
 					break;
 
 				case '`':
-					result[output.pos++] = TOKEN_GRAVE;
+					output.data[output.pos++] = TOKEN_GRAVE;
 					break;
 
 				case '[':
-					result[output.pos++] = TOKEN_BRACKET_SQUARE_OPEN;
+					output.data[output.pos++] = TOKEN_BRACKET_SQUARE_OPEN;
 					break;
 
 				case ']':
-					result[output.pos++] = TOKEN_BRACKET_SQUARE_CLOSE;
+					output.data[output.pos++] = TOKEN_BRACKET_SQUARE_CLOSE;
 					break;
 
 				case '(':
-					result[output.pos++] = TOKEN_PAREN_OPEN;
+					output.data[output.pos++] = TOKEN_PAREN_OPEN;
 					break;
 
 				case ')':
-					result[output.pos++] = TOKEN_PAREN_CLOSE;
+					output.data[output.pos++] = TOKEN_PAREN_CLOSE;
 					break;
 
 				case '&':
 
 					if(i < input.length - 1 && input[i + 1] == '#') {
 						i++;
-						result[output.pos++] = TOKEN_UNICODE_OPEN;
+						output.data[output.pos++] = TOKEN_UNICODE_OPEN;
 
-					} else result[output.pos++] = '&';
+					} else output.data[output.pos++] = '&';
 
 					break;
 
 				case ';':
-					result[output.pos++] = TOKEN_UNICODE_CLOSE;
+					output.data[output.pos++] = TOKEN_UNICODE_CLOSE;
 					break;
 
 				case '\\':
-					if(i < input.length - 1) result[output.pos++] = input[++i];
-					else result[output.pos++] = '\\';
+					if(i < input.length - 1) output.data[output.pos++] = input[++i];
+					else output.data[output.pos++] = '\\';
 					break;
 
 				case '\t':
 				case '\r':
 				case '\f':
-					result[output.pos++] = ' ';
+					output.data[output.pos++] = ' ';
 					break;
 
 				default:
-					result[output.pos++] = c;
+					output.data[output.pos++] = c;
 					break;
 			}
 		}
@@ -627,6 +621,7 @@ public final class MarkdownTokenizer {
 		return -1;
 	}
 
+	// TODO avoid generating new array
 	private static int[] revert(final int[] tokens, final int startInclusive, final int endExclusive) {
 
 		int outputLen = 0;
@@ -673,6 +668,15 @@ public final class MarkdownTokenizer {
 
 		public void append(final int[] arr) {
 			System.arraycopy(arr, 0, data, pos, arr.length);
+			pos += arr.length;
+		}
+
+		public void append(final char[] arr) {
+
+			for(int i = 0; i < arr.length; i++) {
+				data[pos + i] = arr[i];
+			}
+
 			pos += arr.length;
 		}
 	}

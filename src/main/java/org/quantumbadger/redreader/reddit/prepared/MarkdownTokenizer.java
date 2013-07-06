@@ -70,6 +70,7 @@ public final class MarkdownTokenizer {
 		reverseLookup[20 + TOKEN_UNICODE_CLOSE] = new char[] {';'};
 	}
 
+	// TODO second pass of cleaning
 	public static int[] tokenizeCleanAndLinkify(final char[] rawArr) {
 
 		final int[] passTwoResult = tokenizeAndClean(rawArr);
@@ -107,12 +108,65 @@ public final class MarkdownTokenizer {
 						final int linkStartType = getLinkStartType(passTwoResult, i, passTwoResultLength);
 						if(linkStartType >= 0) {
 
-							int linkEndPos = i + linkPrefixes[linkStartType].length;
-
-							// TODO read link, then output [X](X) syntax
 							// Greedily read to space, or <>, or etc
+
+							final int linkStartPos = i;
+							final int linkPrefixEndPos = linkPrefixes[linkStartType].length + linkStartPos;
+							int linkEndPos = linkPrefixEndPos;
+
+							while(linkEndPos < passTwoResultLength) {
+
+								final int lToken = passTwoResult[linkEndPos];
+
+								final boolean isValidChar =
+										lToken != ' '
+												&& lToken != '<'
+												&& lToken != '>'
+												&& lToken != TOKEN_GRAVE;
+
+								if(isValidChar) {
+									linkEndPos++;
+								} else {
+									break;
+								}
+							}
+
 							// discard many final chars if they are '.', ',', '?', ';' etc
 							// THEN, discard single final char if it is '\'', '"', etc
+
+							while(passTwoResult[linkEndPos - 1] == '.'
+									|| passTwoResult[linkEndPos - 1] == ','
+									|| passTwoResult[linkEndPos - 1] == '?'
+									|| passTwoResult[linkEndPos - 1] == ';') {
+								linkEndPos--;
+							}
+
+							if(passTwoResult[linkEndPos - 1] == '"') {
+								linkEndPos--;
+							}
+
+							if(passTwoResult[linkEndPos - 1] == '\'') {
+								linkEndPos--;
+							}
+
+							if(linkEndPos - linkPrefixEndPos >= 2) {
+
+								final int[] reverted = revert(passTwoResult, linkStartPos, linkEndPos);
+
+								passThreeResult[passThreeResultLength++] = TOKEN_BRACKET_SQUARE_OPEN;
+								System.arraycopy(reverted, 0, passThreeResult, passThreeResultLength, reverted.length);
+								passThreeResultLength += reverted.length;
+								passThreeResult[passThreeResultLength++] = TOKEN_BRACKET_SQUARE_CLOSE;
+								passThreeResult[passThreeResultLength++] = TOKEN_PAREN_OPEN;
+								System.arraycopy(reverted, 0, passThreeResult, passThreeResultLength, reverted.length);
+								passThreeResultLength += reverted.length;
+								passThreeResult[passThreeResultLength++] = TOKEN_PAREN_CLOSE;
+
+								i = linkEndPos - 1;
+
+							} else {
+								passThreeResult[passThreeResultLength++] = token;
+							}
 
 						} else {
 							passThreeResult[passThreeResultLength++] = token;

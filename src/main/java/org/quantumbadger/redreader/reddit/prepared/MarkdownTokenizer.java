@@ -362,7 +362,6 @@ public final class MarkdownTokenizer {
 					}
 					break;
 
-				// TODO trim contents of ()
 				case TOKEN_BRACKET_SQUARE_CLOSE:
 
 					if(lastBracketSquareOpen < 0) {
@@ -392,7 +391,19 @@ public final class MarkdownTokenizer {
 									}
 
 									for(int j = parenOpenPos + 1; j < parenClosePos; j++) {
-										if(input.data[j] < 0) toRevert[j] = true;
+										if(input.data[j] < 0) {
+											toRevert[j] = true;
+										} else if(input.data[j] == ' ' && input.data[j-1] == ' ') {
+											toDelete[j] = true;
+										}
+									}
+
+									for(int j = parenOpenPos + 1; input.data[j] == ' '; j++) {
+										toDelete[j] = true;
+									}
+
+									for(int j = parenClosePos - 1; input.data[j] == ' '; j--) {
+										toDelete[j] = true;
 									}
 
 									i = parenClosePos;
@@ -455,6 +466,10 @@ public final class MarkdownTokenizer {
 		if(lastAsteriskDouble >= 0) toRevert[lastAsteriskDouble] = true;
 		if(lastTildeDouble >= 0) toRevert[lastTildeDouble] = true;
 		if(lastBracketSquareOpen >= 0) toRevert[lastBracketSquareOpen] = true;
+
+		for(int j = input.pos - 1; input.data[j] == ' '; j--) {
+			toDelete[j] = true;
+		}
 
 		output.clear();
 

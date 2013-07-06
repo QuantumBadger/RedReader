@@ -258,10 +258,11 @@ public final class MarkdownTokenizer {
 	// TODO inline, remove copyOf
 	public static int[] tokenizeAndClean(final char[] rawArr) {
 
-		final int[] passOneResult = tokenize(rawArr);
-		final int passOneResultLength = passOneResult.length;
-		final boolean[] toRevert = new boolean[passOneResultLength];
-		final boolean[] toDelete = new boolean[passOneResultLength];
+		final IntArrayLengthPair passOneResult = new IntArrayLengthPair(rawArr.length);
+		naiveTokenize(rawArr, passOneResult);
+
+		final boolean[] toRevert = new boolean[passOneResult.pos];
+		final boolean[] toDelete = new boolean[passOneResult.pos];
 
 		int lastUnderscore = -1, lastUnderscoreDouble = -1;
 		int lastAsterisk = -1, lastAsteriskDouble = -1;
@@ -269,9 +270,9 @@ public final class MarkdownTokenizer {
 
 		int lastBracketSquareOpen = -1;
 
-		for(int i = 0; i < passOneResultLength; i++) {
+		for(int i = 0; i < passOneResult.pos; i++) {
 
-			final int c = passOneResult[i];
+			final int c = passOneResult.data[i];
 
 			switch(c) {
 
@@ -337,14 +338,14 @@ public final class MarkdownTokenizer {
 				case TOKEN_GRAVE:
 
 					final int openingGrave = i;
-					final int closingGrave = indexOf(passOneResult, TOKEN_GRAVE, i + 1, passOneResultLength);
+					final int closingGrave = indexOf(passOneResult.data, TOKEN_GRAVE, i + 1, passOneResult.pos);
 
 					if(closingGrave < 0) {
 						toRevert[i] = true;
 					} else {
 
 						for(int j = openingGrave + 1; j < closingGrave; j++) {
-							if(passOneResult[j] < 0) toRevert[j] = true;
+							if(passOneResult.data[j] < 0) toRevert[j] = true;
 						}
 
 						i = closingGrave;
@@ -371,14 +372,16 @@ public final class MarkdownTokenizer {
 
 						final int lastBracketSquareClose = i;
 
-						final int parenOpenPos = indexOf(passOneResult, TOKEN_PAREN_OPEN, lastBracketSquareClose + 1, passOneResultLength);
+						final int parenOpenPos = indexOf(passOneResult.data, TOKEN_PAREN_OPEN,
+								lastBracketSquareClose + 1, passOneResult.pos);
 						boolean linkParseSuccess = false;
 
 						if(parenOpenPos >= 0) {
 
-							if(isSpaces(passOneResult, lastBracketSquareClose + 1, parenOpenPos)) {
+							if(isSpaces(passOneResult.data, lastBracketSquareClose + 1, parenOpenPos)) {
 
-								final int parenClosePos = indexOf(passOneResult, TOKEN_PAREN_CLOSE, parenOpenPos + 1, passOneResultLength);
+								final int parenClosePos = indexOf(passOneResult.data, TOKEN_PAREN_CLOSE,
+										parenOpenPos + 1, passOneResult.pos);
 
 								if(parenClosePos >= 0) {
 
@@ -389,7 +392,7 @@ public final class MarkdownTokenizer {
 									}
 
 									for(int j = parenOpenPos + 1; j < parenClosePos; j++) {
-										if(passOneResult[j] < 0) toRevert[j] = true;
+										if(passOneResult.data[j] < 0) toRevert[j] = true;
 									}
 
 									i = parenClosePos;
@@ -416,16 +419,16 @@ public final class MarkdownTokenizer {
 				case TOKEN_UNICODE_OPEN:
 
 					final int openingUnicode = i;
-					final int closingUnicode = indexOf(passOneResult, TOKEN_UNICODE_CLOSE, i + 1,
-							Math.min(passOneResultLength, i + 8));
+					final int closingUnicode = indexOf(passOneResult.data, TOKEN_UNICODE_CLOSE, i + 1,
+							Math.min(passOneResult.pos, i + 8));
 
-					if(closingUnicode < 0 || !isDigits(passOneResult, openingUnicode + 1, closingUnicode)) {
+					if(closingUnicode < 0 || !isDigits(passOneResult.data, openingUnicode + 1, closingUnicode)) {
 						toRevert[i] = true;
 
 					} else {
 
-						final int codePoint = getDecimal(passOneResult, openingUnicode + 1, closingUnicode);
-						passOneResult[openingUnicode] = codePoint;
+						final int codePoint = getDecimal(passOneResult.data, openingUnicode + 1, closingUnicode);
+						passOneResult.data[openingUnicode] = codePoint;
 
 						for(int j = openingUnicode + 1; j <= closingUnicode; j++) {
 							toDelete[j] = true;
@@ -438,7 +441,7 @@ public final class MarkdownTokenizer {
 
 				case ' ':
 
-					if(i < 1 || passOneResult[i - 1] == ' ') {
+					if(i < 1 || passOneResult.data[i - 1] == ' ') {
 						toDelete[i] = true;
 					}
 
@@ -456,44 +459,43 @@ public final class MarkdownTokenizer {
 		final int[] passTwoResult = new int[rawArr.length];
 		int passTwoPos = 0;
 
-		for(int i = 0; i < passOneResultLength; i++) {
+		for(int i = 0; i < passOneResult.pos; i++) {
 
 			if(toDelete[i]) continue;
 
 			if(toRevert[i]) {
 
-				final char[] revertTo = reverseLookup[20 + passOneResult[i]];
+				final char[] revertTo = reverseLookup[20 + passOneResult.data[i]];
 				for(final char rCh : revertTo) {
 					passTwoResult[passTwoPos++] = rCh;
 				}
 
 			} else {
-				passTwoResult[passTwoPos++] = passOneResult[i];
+				passTwoResult[passTwoPos++] = passOneResult.data[i];
 			}
 		}
 
 		return Arrays.copyOf(passTwoResult, passTwoPos);
 	}
 
-	// TODO inline, use resultPos instead of copyOf
-	private static int[] tokenize(final char[] rawArr) {
+	public static void naiveTokenize(final char[] input, final IntArrayLengthPair output) {
 
-		final int[] result = new int[rawArr.length];
-		int resultPos = 0;
+		final int[] result = output.data;
+		//int resultPos = 0;
 
-		for(int i = 0; i < rawArr.length; i++) {
+		for(int i = 0; i < input.length; i++) {
 
-			final char c = rawArr[i];
+			final char c = input[i];
 
 			switch(c) {
 
 				case '*':
 
-					if(i < rawArr.length - 1 && rawArr[i + 1] == '*') {
+					if(i < input.length - 1 && input[i + 1] == '*') {
 						i++;
-						result[resultPos++] = TOKEN_ASTERISK_DOUBLE;
+						result[output.pos++] = TOKEN_ASTERISK_DOUBLE;
 					} else {
-						result[resultPos++] = TOKEN_ASTERISK;
+						result[output.pos++] = TOKEN_ASTERISK;
 					}
 
 					break;
@@ -501,81 +503,79 @@ public final class MarkdownTokenizer {
 				case '_':
 
 					// TODO check previous
-					if(i < rawArr.length - 1 && rawArr[i + 1] == '_') {
+					if(i < input.length - 1 && input[i + 1] == '_') {
 						i++;
-						result[resultPos++] = TOKEN_UNDERSCORE_DOUBLE;
+						result[output.pos++] = TOKEN_UNDERSCORE_DOUBLE;
 					} else {
-						result[resultPos++] = TOKEN_UNDERSCORE;
+						result[output.pos++] = TOKEN_UNDERSCORE;
 					}
 
 					break;
 
 				case '~':
 
-					if(i < rawArr.length - 1 && rawArr[i + 1] == '~') {
+					if(i < input.length - 1 && input[i + 1] == '~') {
 						i++;
-						result[resultPos++] = TOKEN_TILDE_DOUBLE;
+						result[output.pos++] = TOKEN_TILDE_DOUBLE;
 
-					} else result[resultPos++] = '~';
+					} else result[output.pos++] = '~';
 
 					break;
 
 				case '^':
-					result[resultPos++] = TOKEN_CARET;
+					result[output.pos++] = TOKEN_CARET;
 					break;
 
 				case '`':
-					result[resultPos++] = TOKEN_GRAVE;
+					result[output.pos++] = TOKEN_GRAVE;
 					break;
 
 				case '[':
-					result[resultPos++] = TOKEN_BRACKET_SQUARE_OPEN;
+					result[output.pos++] = TOKEN_BRACKET_SQUARE_OPEN;
 					break;
 
 				case ']':
-					result[resultPos++] = TOKEN_BRACKET_SQUARE_CLOSE;
+					result[output.pos++] = TOKEN_BRACKET_SQUARE_CLOSE;
 					break;
 
 				case '(':
-					result[resultPos++] = TOKEN_PAREN_OPEN;
+					result[output.pos++] = TOKEN_PAREN_OPEN;
 					break;
 
 				case ')':
-					result[resultPos++] = TOKEN_PAREN_CLOSE;
+					result[output.pos++] = TOKEN_PAREN_CLOSE;
 					break;
 
 				case '&':
 
-					if(i < rawArr.length - 1 && rawArr[i + 1] == '#') {
+					if(i < input.length - 1 && input[i + 1] == '#') {
 						i++;
-						result[resultPos++] = TOKEN_UNICODE_OPEN;
+						result[output.pos++] = TOKEN_UNICODE_OPEN;
 
-					} else result[resultPos++] = '&';
+					} else result[output.pos++] = '&';
 
 					break;
 
 				case ';':
-					result[resultPos++] = TOKEN_UNICODE_CLOSE;
+					result[output.pos++] = TOKEN_UNICODE_CLOSE;
 					break;
 
 				case '\\':
-					if(i < rawArr.length - 1) result[resultPos++] = rawArr[++i];
-					else result[resultPos++] = '\\';
+					if(i < input.length - 1) result[output.pos++] = input[++i];
+					else result[output.pos++] = '\\';
 					break;
 
 				case '\t':
 				case '\r':
 				case '\f':
-					result[resultPos++] = ' ';
+					result[output.pos++] = ' ';
 					break;
 
 				default:
-					result[resultPos++] = c;
+					result[output.pos++] = c;
 					break;
 			}
 		}
-
-		return Arrays.copyOf(result, resultPos);
 	}
 
 	private static int indexOf(final int[] haystack, final int needle, final int startInclusive, final int endExclusive) {
@@ -657,5 +657,23 @@ public final class MarkdownTokenizer {
 		}
 
 		return result;
+	}
+
+	public static class IntArrayLengthPair {
+		public final int[] data;
+		public int pos = 0;
+
+		public IntArrayLengthPair(int capacity) {
+			this.data = new int[capacity];
+		}
+
+		public void clear() {
+			pos = 0;
+		}
+
+		public void append(final int[] arr) {
+			System.arraycopy(arr, 0, data, pos, arr.length);
+			pos += arr.length;
+		}
 	}
 }

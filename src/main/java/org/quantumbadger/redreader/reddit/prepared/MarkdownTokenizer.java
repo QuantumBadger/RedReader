@@ -21,6 +21,8 @@ import java.util.Arrays;
 
 public final class MarkdownTokenizer {
 
+	// TODO support double graves
+
 	public static final int
 			TOKEN_UNDERSCORE = -1,
 			TOKEN_UNDERSCORE_DOUBLE = -2,
@@ -102,7 +104,7 @@ public final class MarkdownTokenizer {
 
 					if(ready) {
 
-						final int linkStartType = getLinkStartType(passThreeResult, i, passThreeResultLength);
+						final int linkStartType = getLinkStartType(passTwoResult, i, passTwoResultLength);
 						if(linkStartType >= 0) {
 
 							int linkEndPos = i + linkPrefixes[linkStartType].length;
@@ -126,9 +128,10 @@ public final class MarkdownTokenizer {
 				case 'r':
 				case 'u':
 				case '/':
+
 					if(ready) {
 
-						final int linkStartType = getRedditLinkStartType(passThreeResult, i, passThreeResultLength);
+						final int linkStartType = getRedditLinkStartType(passTwoResult, i, passTwoResultLength);
 						if(linkStartType >= 0) {
 
 							final int linkStartPos = i;
@@ -137,16 +140,23 @@ public final class MarkdownTokenizer {
 
 							while(linkEndPos < passTwoResultLength) {
 
-								final int lToken = passThreeResult[linkEndPos];
+								final int lToken = passTwoResult[linkEndPos];
 
-								final boolean isValidChar = (lToken >= 'a' && lToken <= 'z')
-										|| (lToken >= 'A' && lToken <= 'Z')
-										|| (lToken >= '0' && lToken <= '9')
-										|| lToken == '_'
-										|| lToken == '+'
-										|| lToken == '-';
+								final boolean isValidChar =
+										(lToken >= 'a' && lToken <= 'z')
+												|| (lToken >= 'A' && lToken <= 'Z')
+												|| (lToken >= '0' && lToken <= '9')
+												|| lToken == '_'
+												|| lToken == TOKEN_UNDERSCORE
+												|| lToken == TOKEN_UNDERSCORE_DOUBLE
+												|| lToken == '+'
+												|| lToken == '-';
 
-								linkEndPos++;
+								if(isValidChar) {
+									linkEndPos++;
+								} else {
+									break;
+								}
 							}
 
 							if(linkEndPos - linkPrefixEndPos > 2) {
@@ -154,15 +164,15 @@ public final class MarkdownTokenizer {
 								final int[] reverted = revert(passTwoResult, linkStartPos, linkEndPos);
 
 								passThreeResult[passThreeResultLength++] = TOKEN_BRACKET_SQUARE_OPEN;
-								System.arraycopy(reverted, 0 ,passThreeResult, passThreeResultLength, reverted.length);
+								System.arraycopy(reverted, 0, passThreeResult, passThreeResultLength, reverted.length);
 								passThreeResultLength += reverted.length;
 								passThreeResult[passThreeResultLength++] = TOKEN_BRACKET_SQUARE_CLOSE;
 								passThreeResult[passThreeResultLength++] = TOKEN_PAREN_OPEN;
-								System.arraycopy(reverted, 0 ,passThreeResult, passThreeResultLength, reverted.length);
+								System.arraycopy(reverted, 0, passThreeResult, passThreeResultLength, reverted.length);
 								passThreeResultLength += reverted.length;
 								passThreeResult[passThreeResultLength++] = TOKEN_PAREN_CLOSE;
 
-								i = linkEndPos;
+								i = linkEndPos - 1;
 
 							} else {
 								passThreeResult[passThreeResultLength++] = token;

@@ -34,7 +34,7 @@ public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit> 
 	public Integer accounts_active, subscribers;
 	public boolean over18;
 	private final boolean isReal, isSortable;
-    private static final Pattern NAME_PATTERN = Pattern.compile("(/)?(r/)?(\\w+)");
+    private static final Pattern NAME_PATTERN = Pattern.compile("(/)?(r/)?([\\w\\+\\-]+)");
 
     /**
      * @param name a subreddit name in the form "subreddit", "r/subreddit" or "/r/subreddit" (case-insensitive)

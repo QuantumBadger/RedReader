@@ -193,14 +193,16 @@ public class MainActivity extends RefreshableActivity
 				alertBuilder.setPositiveButton(R.string.dialog_go, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 
-						final String name = editText.getText().toString().toLowerCase().trim();
+						String subredditInput = editText.getText().toString().trim();
 
-						if(!name.matches("[\\w\\+]+")) {
-							General.quickToast(MainActivity.this, R.string.mainmenu_custom_invalid_name);
-						} else {
-							final RedditSubreddit subreddit = new RedditSubreddit("/r/" + name, "/r/" + name, true);
-							onSelected(subreddit);
-						}
+                        try {
+                            final String normalizedName = RedditSubreddit.getNormalizedName(subredditInput);
+                            final RedditSubreddit subreddit = new RedditSubreddit(normalizedName, normalizedName, true);
+                            onSelected(subreddit);
+                        }
+                        catch (RedditSubreddit.InvalidSubredditNameException e){
+                            General.quickToast(MainActivity.this, R.string.mainmenu_custom_invalid_name);
+                        }
 					}
 				});
 

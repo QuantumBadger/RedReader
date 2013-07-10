@@ -92,7 +92,7 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 		rrPostSubtitleUpvoteCol = appearance.getColor(2, 255);
 		rrPostSubtitleDownvoteCol = appearance.getColor(3, 255);
 
-		body = new MarkdownParser.MarkdownParagraphGroup(StringEscapeUtils.unescapeHtml4(comment.body));
+		body = MarkdownParser.parse(StringEscapeUtils.unescapeHtml4(comment.body).toCharArray());
 		if(comment.author_flair_text != null) {
 			flair = StringEscapeUtils.unescapeHtml4(comment.author_flair_text);
 		} else {
@@ -356,7 +356,7 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 
 	public ViewGroup getBody(Context context, float textSize, Integer textCol, ActiveTextView.OnLinkClickedListener listener) {
 		//return body.generate(context, textSize, textCol, listener, this);
-		return body.buildView(context);
+		return body.buildView(context, textCol); // TODO size, link listener
 	}
 
 	public RedditCommentView getBoundView() {

@@ -17,8 +17,6 @@
 
 package org.quantumbadger.redreader.reddit.prepared;
 
-import java.util.Arrays;
-
 public final class MarkdownTokenizer {
 
 	// TODO support double graves
@@ -70,25 +68,35 @@ public final class MarkdownTokenizer {
 		reverseLookup[20 + TOKEN_UNICODE_CLOSE] = new char[] {';'};
 	}
 
-	public static IntArrayLengthPair tokenize(final char[] input) {
+	public static IntArrayLengthPair tokenize(final MarkdownParser.CharArrSubstring input) {
 
 		final MarkdownTokenizer.IntArrayLengthPair tmp1 = new MarkdownTokenizer.IntArrayLengthPair(input.length * 3);
 		final MarkdownTokenizer.IntArrayLengthPair tmp2 = new MarkdownTokenizer.IntArrayLengthPair(input.length * 3);
 
-		naiveTokenize(input, tmp1);
-		clean(tmp1, tmp2);
-		linkify(tmp2, tmp1);
-		clean(tmp1, tmp2);
+		tmp1.pos = input.length;
+		for(int i = 0; i < input.length; i++) {
+			tmp1.data[i] = input.charAt(i);
+		}
 
-		return tmp2;
+		// Markdown is evil.
+
+		naiveTokenize(tmp1, tmp2);
+		clean(tmp2, tmp1);
+		linkify(tmp1, tmp2);
+		clean(tmp2, tmp1);
+
+		return tmp1;
 	}
 
+	// TODO "untokenize" parameter in clean function
 	private static void linkify(final IntArrayLengthPair input, final IntArrayLengthPair output) {
 
 		if(input.data.length > output.data.length * 3) throw new RuntimeException();
 		output.clear();
 
-		boolean ready = true;
+		//boolean ready = true;
+		int inBrackets = 0;
+		boolean lastCharOk = true;
 
 		for(int i = 0; i < input.pos; i++) {
 
@@ -99,20 +107,26 @@ public final class MarkdownTokenizer {
 				case TOKEN_BRACKET_SQUARE_OPEN:
 				case TOKEN_PAREN_OPEN:
 					output.data[output.pos++] = token;
-					ready = false;
+					inBrackets++;
+					lastCharOk = true;
 					break;
 
 				case TOKEN_BRACKET_SQUARE_CLOSE:
 				case TOKEN_PAREN_CLOSE:
-				case ' ':
 					output.data[output.pos++] = token;
-					ready = true;
+					inBrackets--;
+					lastCharOk = true;
+					break;
+
+				case ' ':
+					output.data[output.pos++] = ' ';
+					lastCharOk = true;
 					break;
 
 				case 'h':
 				case 'w':
 
-					if(ready) {
+					if(inBrackets == 0 && lastCharOk) {
 
 						final int linkStartType = getLinkStartType(input.data, i, input.pos);
 						if(linkStartType >= 0) {
@@ -131,7 +145,9 @@ public final class MarkdownTokenizer {
 										lToken != ' '
 												&& lToken != '<'
 												&& lToken != '>'
-												&& lToken != TOKEN_GRAVE;
+												&& lToken != TOKEN_GRAVE
+												&& lToken != TOKEN_BRACKET_SQUARE_OPEN
+												&& lToken != TOKEN_BRACKET_SQUARE_CLOSE;
 
 								if(isValidChar) {
 									linkEndPos++;
@@ -155,6 +171,10 @@ public final class MarkdownTokenizer {
 							}
 
 							if(input.data[linkEndPos - 1] == '\'') {
+								linkEndPos--;
+							}
+
+							if(input.data[linkEndPos - 1] == ')') {
 								linkEndPos--;
 							}
 
@@ -183,14 +203,14 @@ public final class MarkdownTokenizer {
 						output.data[output.pos++] = token;
 					}
 
-					ready = false;
+					lastCharOk = false;
 					break;
 
 				case 'r':
 				case 'u':
 				case '/':
 
-					if(ready) {
+					if(inBrackets == 0 && lastCharOk) {
 
 						final int linkStartType = getRedditLinkStartType(input.data, i, input.pos);
 						if(linkStartType >= 0) {
@@ -245,13 +265,13 @@ public final class MarkdownTokenizer {
 						output.data[output.pos++] = token;
 					}
 
-					ready = false;
+					lastCharOk = false;
 					break;
 
 
 				default:
 					// TODO test this against reddits impl
-					ready = token < 0 || (!Character.isAlphabetic(token) && !Character.isDigit(token) && token != '/');
+					lastCharOk = token < 0 || (!Character.isLetterOrDigit(token) && token != '/');
 					output.data[output.pos++] = token;
 					break;
 			}
@@ -488,19 +508,19 @@ public final class MarkdownTokenizer {
 		}
 	}
 
-	private static void naiveTokenize(final char[] input, final IntArrayLengthPair output) {
+	private static void naiveTokenize(final IntArrayLengthPair input, final IntArrayLengthPair output) {
 
 		output.clear();
 
-		for(int i = 0; i < input.length; i++) {
+		for(int i = 0; i < input.pos; i++) {
 
-			final char c = input[i];
+			final int c = input.data[i];
 
 			switch(c) {
 
 				case '*':
 
-					if(i < input.length - 1 && input[i + 1] == '*') {
+					if(i < input.pos - 1 && input.data[i + 1] == '*') {
 						i++;
 						output.data[output.pos++] = TOKEN_ASTERISK_DOUBLE;
 					} else {
@@ -512,7 +532,7 @@ public final class MarkdownTokenizer {
 				case '_':
 
 					// TODO check previous
-					if(i < input.length - 1 && input[i + 1] == '_') {
+					if(i < input.pos - 1 && input.data[i + 1] == '_') {
 						i++;
 						output.data[output.pos++] = TOKEN_UNDERSCORE_DOUBLE;
 					} else {
@@ -523,7 +543,7 @@ public final class MarkdownTokenizer {
 
 				case '~':
 
-					if(i < input.length - 1 && input[i + 1] == '~') {
+					if(i < input.pos - 1 && input.data[i + 1] == '~') {
 						i++;
 						output.data[output.pos++] = TOKEN_TILDE_DOUBLE;
 
@@ -557,7 +577,7 @@ public final class MarkdownTokenizer {
 
 				case '&':
 
-					if(i < input.length - 1 && input[i + 1] == '#') {
+					if(i < input.pos - 1 && input.data[i + 1] == '#') {
 						i++;
 						output.data[output.pos++] = TOKEN_UNICODE_OPEN;
 
@@ -570,13 +590,14 @@ public final class MarkdownTokenizer {
 					break;
 
 				case '\\':
-					if(i < input.length - 1) output.data[output.pos++] = input[++i];
+					if(i < input.pos - 1) output.data[output.pos++] = input.data[++i];
 					else output.data[output.pos++] = '\\';
 					break;
 
 				case '\t':
 				case '\r':
 				case '\f':
+				case '\n':
 					output.data[output.pos++] = ' ';
 					break;
 

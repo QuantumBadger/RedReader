@@ -557,9 +557,9 @@ public final class MarkdownParser {
 							builder.delete(linkStart, builder.length());
 							builder.append("[Spoiler]");
 
-							final Uri.Builder spoilerUriBuilder = Uri.parse("rr://spoiler/").buildUpon();
+							final Uri.Builder spoilerUriBuilder = Uri.parse("rr://msg/").buildUpon();
 							spoilerUriBuilder.appendQueryParameter("title", "Spoiler");
-							spoilerUriBuilder.appendQueryParameter("content", linkText);
+							spoilerUriBuilder.appendQueryParameter("message", linkText);
 
 							links.add(new Link("Spoiler", null, spoilerUriBuilder.toString()));
 
@@ -579,9 +579,9 @@ public final class MarkdownParser {
 									break;
 							}
 
-							final Uri.Builder spoilerUriBuilder = Uri.parse("rr://spoiler/").buildUpon();
+							final Uri.Builder spoilerUriBuilder = Uri.parse("rr://msg/").buildUpon();
 							spoilerUriBuilder.appendQueryParameter("title", subtitle);
-							spoilerUriBuilder.appendQueryParameter("content", url.substring(3));
+							spoilerUriBuilder.appendQueryParameter("message", url.substring(3));
 
 							links.add(new Link(linkText, subtitle, spoilerUriBuilder.toString()));
 

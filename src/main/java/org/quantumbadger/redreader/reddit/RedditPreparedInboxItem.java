@@ -21,11 +21,12 @@ import android.content.Context;
 import android.text.SpannableStringBuilder;
 import android.view.ViewGroup;
 import com.laurencedawson.activetextview.ActiveTextView;
+import org.holoeverywhere.app.Activity;
 
 public interface RedditPreparedInboxItem {
 
 	public SpannableStringBuilder getHeader();
 
-	public ViewGroup getBody(Context context, float textSize, Integer textCol, ActiveTextView.OnLinkClickedListener listener);
+	public ViewGroup getBody(Activity activity, float textSize, Integer textCol, ActiveTextView.OnLinkClickedListener listener);
 
 }

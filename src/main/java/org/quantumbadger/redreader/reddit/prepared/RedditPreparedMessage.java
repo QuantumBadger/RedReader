@@ -23,6 +23,7 @@ import android.text.SpannableStringBuilder;
 import android.view.ViewGroup;
 import com.laurencedawson.activetextview.ActiveTextView;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.holoeverywhere.app.Activity;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.BetterSSB;
 import org.quantumbadger.redreader.common.LinkHandler;
@@ -81,7 +82,7 @@ public final class RedditPreparedMessage implements RedditPreparedInboxItem {
 		return header;
 	}
 
-	public ViewGroup getBody(Context context, float textSize, Integer textCol, ActiveTextView.OnLinkClickedListener listener) {
+	public ViewGroup getBody(Activity context, float textSize, Integer textCol, ActiveTextView.OnLinkClickedListener listener) {
 		return body.generate(context, textSize, textCol, listener, this);
 	}
 }

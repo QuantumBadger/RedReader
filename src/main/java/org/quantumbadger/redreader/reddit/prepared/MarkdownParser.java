@@ -19,15 +19,22 @@ package org.quantumbadger.redreader.reddit.prepared;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
 import android.text.style.TypefaceSpan;
 import android.text.style.URLSpan;
+import android.view.View;
 import android.view.ViewGroup;
+import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.widget.FrameLayout;
 import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.TextView;
+import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.views.LinkDetailsView;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -362,33 +369,42 @@ public final class MarkdownParser {
 	public static final class MarkdownParagraphGroup {
 
 		private final MarkdownParagraph[] paragraphs;
-		private final Spanned[] spanneds;
 
 		public MarkdownParagraphGroup(final MarkdownParagraph[] paragraphs) {
-
 			this.paragraphs = paragraphs;
-			spanneds = new Spanned[this.paragraphs.length];
-
-			for(int i = 0; i < spanneds.length; i++) {
-				spanneds[i] = this.paragraphs[i].generateSpanned();
-			}
 		}
 
-		// TODO take into account size, colour, link click listener, etc
-		public ViewGroup buildView(Context context, int textColor) {
+		// TODO take into account size, link click listener, etc
+		public ViewGroup buildView(final Activity activity, final int textColor) {
 
-			final float dpScale = context.getResources().getDisplayMetrics().density;
+			final float dpScale = activity.getResources().getDisplayMetrics().density;
 
-			final LinearLayout layout = new LinearLayout(context);
+			final LinearLayout layout = new LinearLayout(activity);
 			layout.setOrientation(android.widget.LinearLayout.VERTICAL);
 
 			for(int i = 0; i < paragraphs.length; i++) {
-				final TextView tv = new TextView(context);
+				final TextView tv = new TextView(activity);
 				tv.setTextColor(textColor);
-				tv.setText(spanneds[i]);
+				tv.setText(paragraphs[i].spanned);
 				layout.addView(tv);
 				((ViewGroup.MarginLayoutParams) tv.getLayoutParams()).topMargin
 						= (int) (dpScale * paragraphs[i].getPaddingDp());
+
+				for(final MarkdownParagraph.Link link : paragraphs[i].links) {
+
+					final LinkDetailsView ldv = new LinkDetailsView(activity, link.title, link.subtitle);
+					layout.addView(ldv);
+
+					final int linkMarginPx = Math.round(dpScale * 8);
+					((LinearLayout.LayoutParams)ldv.getLayoutParams()).setMargins(0, linkMarginPx, 0, linkMarginPx);
+					ldv.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+
+					ldv.setOnClickListener(new View.OnClickListener() {
+						public void onClick(View v) {
+							link.onClicked(activity);
+						}
+					});
+				}
 			}
 
 			return layout;
@@ -398,6 +414,7 @@ public final class MarkdownParser {
 
 
 	// TODO spoilers
+	// TODO number links
 	public static final class MarkdownParagraph {
 
 		final CharArrSubstring raw;
@@ -406,6 +423,23 @@ public final class MarkdownParser {
 		final MarkdownTokenizer.IntArrayLengthPair tokens;
 		final int level;
 
+		final Spanned spanned;
+		final List<Link> links;
+
+		public class Link {
+			private final String title, subtitle, url;
+
+			public Link(String title, String subtitle, String url) {
+				this.title = title;
+				this.subtitle = subtitle;
+				this.url = url;
+			}
+
+			public void onClicked(Activity activity) {
+				LinkHandler.onLinkClicked(activity, url, false);
+			}
+		}
+
 		public MarkdownParagraph(CharArrSubstring raw, MarkdownParagraph parent, MarkdownParagraphType type,
 								 MarkdownTokenizer.IntArrayLengthPair tokens, int level) {
 			this.raw = raw;
@@ -413,6 +447,9 @@ public final class MarkdownParser {
 			this.type = type;
 			this.tokens = tokens;
 			this.level = level;
+
+			links = new ArrayList<Link>();
+			spanned = internalGenerateSpanned();
 		}
 
 
@@ -425,10 +462,8 @@ public final class MarkdownParser {
 
 		}
 
-		// TODO linkify code
-		// TODO linkify in general
 		// TODO superscript
-		public Spanned generateSpanned() {
+		private Spanned internalGenerateSpanned() {
 
 			if(type == MarkdownParagraphType.CODE) {
 				final SpannableStringBuilder builder = new SpannableStringBuilder(raw.toString());
@@ -511,11 +546,53 @@ public final class MarkdownParser {
 						final StringBuilder urlBuilder = new StringBuilder(urlEnd - urlStart);
 
 						for(int j = urlStart + 1; j < urlEnd; j++) {
-							urlBuilder.append(tokens.data[j]);
+							urlBuilder.append((char)tokens.data[j]);
 						}
 
-						builder.setSpan(new URLSpan(urlBuilder.toString()), linkStart, builder.length(),
-								Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+						final String linkText = String.valueOf(builder.subSequence(linkStart, builder.length()));
+						final String url = urlBuilder.toString();
+
+						if(url.startsWith("/spoiler")) {
+
+							builder.delete(linkStart, builder.length());
+							builder.append("[Spoiler]");
+
+							final Uri.Builder spoilerUriBuilder = Uri.parse("rr://spoiler/").buildUpon();
+							spoilerUriBuilder.appendQueryParameter("title", "Spoiler");
+							spoilerUriBuilder.appendQueryParameter("content", linkText);
+
+							links.add(new Link("Spoiler", null, spoilerUriBuilder.toString()));
+
+						} else if(url.startsWith("#") && url.length() > 3) {
+
+							final String subtitle;
+							switch(url.charAt(1)) {
+								case 'b':
+									subtitle = "Spoiler: Book";
+									break;
+								case 'g':
+									subtitle = "Spoiler: Speculation";
+									break;
+								case 's':
+								default:
+									subtitle = "Spoiler";
+									break;
+							}
+
+							final Uri.Builder spoilerUriBuilder = Uri.parse("rr://spoiler/").buildUpon();
+							spoilerUriBuilder.appendQueryParameter("title", subtitle);
+							spoilerUriBuilder.appendQueryParameter("content", url.substring(3));
+
+							links.add(new Link(linkText, subtitle, spoilerUriBuilder.toString()));
+
+						} else {
+							links.add(new Link(linkText, url, url));
+						}
+
+						// TODO
+						//builder.insert(linkStart, "[NUMBER HERE]");
+
+						builder.setSpan(new URLSpan(url), linkStart, builder.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 
 						i = urlEnd;
 

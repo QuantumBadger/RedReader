@@ -71,6 +71,7 @@
         <item name="rrIconFfLeft">@drawable/ic_action_ff_left_dark</item>
         <item name="rrIconFfRight">@drawable/ic_action_ff_right_dark</item>
         <item name="rrIconTick">@drawable/ic_action_tick_dark</item>
+        <item name="rrIconGlobe">@drawable/ic_action_globe_dark</item>
 
     </style>
 
@@ -136,6 +137,7 @@
         <item name="rrIconFfLeft">@drawable/ic_action_ff_left_light</item>
         <item name="rrIconFfRight">@drawable/ic_action_ff_right_light</item>
         <item name="rrIconTick">@drawable/ic_action_tick_light</item>
+        <item name="rrIconGlobe">@drawable/ic_action_globe_light</item>
 
     </style>
 

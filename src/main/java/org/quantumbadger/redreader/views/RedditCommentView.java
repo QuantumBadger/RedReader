@@ -22,6 +22,7 @@ import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import com.laurencedawson.activetextview.ActiveTextView;
+import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.widget.FrameLayout;
 import org.holoeverywhere.widget.LinearLayout;
@@ -66,6 +67,7 @@ public class RedditCommentView extends LinearLayout {
 		bodyHolder = new FrameLayout(context);
 		bodyHolder.setPadding(0, General.dpToPixels(context, 2), 0, 0);
 		main.addView(bodyHolder);
+		bodyHolder.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
 
 		final int paddingPixelsVertical = General.dpToPixels(context, 8.0f);
 		final int paddingPixelsHorizontal = General.dpToPixels(context, 12.0f);
@@ -89,14 +91,14 @@ public class RedditCommentView extends LinearLayout {
 		addView(main);
 	}
 
-	public void reset(final Context context, final CommentListingFragment fragment, final RedditPreparedComment comment, final ActiveTextView.OnLinkClickedListener listener) {
+	public void reset(final Activity activity, final CommentListingFragment fragment, final RedditPreparedComment comment, final ActiveTextView.OnLinkClickedListener listener) {
 
 		if(this.comment != null) this.comment.unbind(this);
 
 		this.comment = comment;
 		comment.bind(this);
 
-		final int paddingPixelsPerIndent = General.dpToPixels(context, 10.0f); // TODO Add in vertical lines?
+		final int paddingPixelsPerIndent = General.dpToPixels(activity, 10.0f); // TODO Add in vertical lines?
 		leftIndent.getLayoutParams().width = paddingPixelsPerIndent * comment.indentation;
 		leftDividerLine.setVisibility(comment.indentation == 0 ? GONE : VISIBLE);
 
@@ -107,7 +109,7 @@ public class RedditCommentView extends LinearLayout {
 		}
 
 		bodyHolder.removeAllViews();
-		bodyHolder.addView(comment.getBody(context, 13.0f * fontScale, bodyCol, new ActiveTextView.OnLinkClickedListener() {
+		bodyHolder.addView(comment.getBody(activity, 13.0f * fontScale, bodyCol, new ActiveTextView.OnLinkClickedListener() {
 
 			public void onClickUrl(String url) {
 				listener.onClickUrl(url);
@@ -117,7 +119,7 @@ public class RedditCommentView extends LinearLayout {
 
 				// TODO separate preference for comment body click?
 
-				switch(PrefsUtility.pref_behaviour_actions_comment_tap(context, PreferenceManager.getDefaultSharedPreferences(context))) {
+				switch(PrefsUtility.pref_behaviour_actions_comment_tap(activity, PreferenceManager.getDefaultSharedPreferences(activity))) {
 					case COLLAPSE:
 						fragment.handleCommentVisibilityToggle(RedditCommentView.this);
 						break;
@@ -129,7 +131,7 @@ public class RedditCommentView extends LinearLayout {
 			}
 		}));
 
-		updateVisibility(context);
+		updateVisibility(activity);
 	}
 
 	private void updateVisibility(final Context context) {

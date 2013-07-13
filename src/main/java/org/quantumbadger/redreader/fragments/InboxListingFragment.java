@@ -125,7 +125,7 @@ public final class InboxListingFragment extends DialogFragment implements Active
 			}
 		});
 
-		adapter = new InboxListingAdapter(context, this);
+		adapter = new InboxListingAdapter(context, this, this);
 		lv.setAdapter(adapter);
 
 		registerForContextMenu(lv);

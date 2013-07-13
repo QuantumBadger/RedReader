@@ -354,9 +354,9 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 		return header;
 	}
 
-	public ViewGroup getBody(Context context, float textSize, Integer textCol, ActiveTextView.OnLinkClickedListener listener) {
+	public ViewGroup getBody(Activity activity, float textSize, Integer textCol, ActiveTextView.OnLinkClickedListener listener) {
 		//return body.generate(context, textSize, textCol, listener, this);
-		return body.buildView(context, textCol); // TODO size, link listener
+		return body.buildView(activity, textCol); // TODO size, link listener
 	}
 
 	public RedditCommentView getBoundView() {

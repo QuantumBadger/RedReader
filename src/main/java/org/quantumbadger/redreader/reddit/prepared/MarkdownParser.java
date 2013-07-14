@@ -624,7 +624,8 @@ public final class MarkdownParser {
 
 							links.add(new Link("Spoiler", null, spoilerUriBuilder.toString()));
 
-						} else if(url.startsWith("#") && url.length() > 3) {
+						} else if(url.length() > 3 && url.charAt(2) == ' '
+								&& (url.charAt(0) == '#' || url.charAt(0) == '/')) {
 
 							final String subtitle;
 							switch(url.charAt(1)) {

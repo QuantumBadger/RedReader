@@ -89,6 +89,7 @@ public class RedditCommentView extends LinearLayout {
 		leftDividerLine.setBackgroundColor(Color.argb(75, 128, 128, 128));
 
 		addView(main);
+		main.getLayoutParams().width = LinearLayout.LayoutParams.MATCH_PARENT;
 	}
 
 	public void reset(final Activity activity, final CommentListingFragment fragment, final RedditPreparedComment comment, final ActiveTextView.OnLinkClickedListener listener) {
@@ -109,7 +110,7 @@ public class RedditCommentView extends LinearLayout {
 		}
 
 		bodyHolder.removeAllViews();
-		bodyHolder.addView(comment.getBody(activity, 13.0f * fontScale, bodyCol, new ActiveTextView.OnLinkClickedListener() {
+		final ViewGroup commentBody = comment.getBody(activity, 13.0f * fontScale, bodyCol, new ActiveTextView.OnLinkClickedListener() {
 
 			public void onClickUrl(String url) {
 				listener.onClickUrl(url);
@@ -129,7 +130,10 @@ public class RedditCommentView extends LinearLayout {
 				}
 
 			}
-		}));
+		});
+
+		bodyHolder.addView(commentBody);
+		commentBody.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
 
 		updateVisibility(activity);
 	}

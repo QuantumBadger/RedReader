@@ -17,7 +17,7 @@
 
 package org.quantumbadger.redreader.reddit.prepared;
 
-import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.text.SpannableStringBuilder;
@@ -29,14 +29,11 @@ import android.text.style.URLSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.widget.FrameLayout;
 import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.TextView;
-import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.views.LinkDetailsView;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -147,10 +144,8 @@ public final class MarkdownParser {
 		}
 
 		public MarkdownParagraph tokenize(final MarkdownParagraph parent) {
-			// TODO cut off prefix here
-
 			final MarkdownTokenizer.IntArrayLengthPair tokens = MarkdownTokenizer.tokenize(src);
-			return new MarkdownParagraph(src, parent, type, tokens, level);
+			return new MarkdownParagraph(src, parent, type, tokens.substringAsArray(prefixLength), level);
 		}
 	}
 
@@ -374,30 +369,95 @@ public final class MarkdownParser {
 			this.paragraphs = paragraphs;
 		}
 
-		// TODO take into account size, link click listener, etc
 		public ViewGroup buildView(final Activity activity, final Integer textColor, final Float textSize) {
 
 			final float dpScale = activity.getResources().getDisplayMetrics().density;
 
+			final int paragraphSpacing = (int) (dpScale * 6);
+			final int quoteBarWidth = (int) (dpScale * 3);
+			final int maxQuoteLevel = 5;
+
 			final LinearLayout layout = new LinearLayout(activity);
 			layout.setOrientation(android.widget.LinearLayout.VERTICAL);
 
-			for(int i = 0; i < paragraphs.length; i++) {
+			for(final MarkdownParagraph paragraph : paragraphs) {
+
 				final TextView tv = new TextView(activity);
+				tv.setText(paragraph.spanned);
+
 				if(textColor != null) tv.setTextColor(textColor);
 				if(textSize != null) tv.setTextSize(textSize);
-				tv.setText(paragraphs[i].spanned);
-				layout.addView(tv);
-				((ViewGroup.MarginLayoutParams) tv.getLayoutParams()).topMargin
-						= (int) (dpScale * paragraphs[i].getPaddingDp());
 
-				for(final MarkdownParagraph.Link link : paragraphs[i].links) {
+				switch(paragraph.type) {
+
+					case BULLET:
+						break;
+
+					case NUMBERED:
+						break;
+
+					case CODE:
+						break;
+
+					case HEADER:
+						break;
+
+					case HLINE: {
+
+						final View hLine = new View(activity);
+						layout.addView(hLine);
+						final ViewGroup.MarginLayoutParams hLineParams = (ViewGroup.MarginLayoutParams) hLine.getLayoutParams();
+						hLineParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+						hLineParams.height = (int) dpScale;
+						hLineParams.setMargins((int)(dpScale * 15), paragraphSpacing, (int)(dpScale * 15), 0);
+						hLine.setBackgroundColor(Color.rgb(128, 128, 128));
+						break;
+					}
+
+					case QUOTE: {
+
+						final LinearLayout quoteLayout = new LinearLayout(activity);
+
+						for(int lvl = 0; lvl < Math.min(maxQuoteLevel, paragraph.level); lvl++) {
+							final View quoteIndent = new View(activity);
+							quoteLayout.addView(quoteIndent);
+							quoteIndent.setBackgroundColor(Color.rgb(128, 128, 128));
+							quoteIndent.getLayoutParams().width = quoteBarWidth;
+							quoteIndent.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+							((ViewGroup.MarginLayoutParams)quoteIndent.getLayoutParams()).rightMargin = quoteBarWidth;
+						}
+
+						quoteLayout.addView(tv);
+						layout.addView(quoteLayout);
+
+						if(paragraph.parent != null && paragraph.parent.type == MarkdownParagraphType.QUOTE) {
+							((ViewGroup.MarginLayoutParams)tv.getLayoutParams()).topMargin = paragraphSpacing;
+						} else {
+							((ViewGroup.MarginLayoutParams)quoteLayout.getLayoutParams()).topMargin = paragraphSpacing;
+						}
+
+						break;
+					}
+
+					case TEXT:
+
+						layout.addView(tv);
+						((ViewGroup.MarginLayoutParams) tv.getLayoutParams()).topMargin
+								= (int) (dpScale * 6);
+
+						break;
+
+					case EMPTY:
+						throw new RuntimeException("Internal error: empty paragraph when building view");
+				}
+
+				for(final MarkdownParagraph.Link link : paragraph.links) {
 
 					final LinkDetailsView ldv = new LinkDetailsView(activity, link.title, link.subtitle);
 					layout.addView(ldv);
 
 					final int linkMarginPx = Math.round(dpScale * 8);
-					((LinearLayout.LayoutParams)ldv.getLayoutParams()).setMargins(0, linkMarginPx, 0, linkMarginPx);
+					((LinearLayout.LayoutParams) ldv.getLayoutParams()).setMargins(0, linkMarginPx, 0, linkMarginPx);
 					ldv.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
 
 					ldv.setOnClickListener(new View.OnClickListener() {
@@ -421,7 +481,7 @@ public final class MarkdownParser {
 		final CharArrSubstring raw;
 		final MarkdownParagraph parent;
 		final MarkdownParagraphType type;
-		final MarkdownTokenizer.IntArrayLengthPair tokens;
+		final int[] tokens;
 		final int level;
 
 		final Spanned spanned;
@@ -442,7 +502,7 @@ public final class MarkdownParser {
 		}
 
 		public MarkdownParagraph(CharArrSubstring raw, MarkdownParagraph parent, MarkdownParagraphType type,
-								 MarkdownTokenizer.IntArrayLengthPair tokens, int level) {
+								 int[] tokens, int level) {
 			this.raw = raw;
 			this.parent = parent;
 			this.type = type;
@@ -451,16 +511,6 @@ public final class MarkdownParser {
 
 			links = new ArrayList<Link>();
 			spanned = internalGenerateSpanned();
-		}
-
-
-		public float getPaddingDp() {
-
-			// TODO switch on type, parent type
-			// TODO detect two spaces at end of raw
-
-			return parent == null ? 0 : 10;
-
 		}
 
 		// TODO superscript
@@ -478,9 +528,9 @@ public final class MarkdownParser {
 			// TODO bold/italic using underscores, taking into account special cases (e.g. a_b_c vs ._b_.)
 			int boldStart = -1, italicStart = -1, strikeStart = -1, linkStart = -1;
 
-			for(int i = 0; i < tokens.pos; i++) {
+			for(int i = 0; i < tokens.length; i++) {
 
-				final int token = tokens.data[i];
+				final int token = tokens[i];
 
 				switch(token) {
 
@@ -526,8 +576,8 @@ public final class MarkdownParser {
 
 						final int codeStart = builder.length();
 
-						while(tokens.data[++i] != MarkdownTokenizer.TOKEN_GRAVE) {
-							builder.append((char)tokens.data[i]);
+						while(tokens[++i] != MarkdownTokenizer.TOKEN_GRAVE) {
+							builder.append((char)tokens[i]);
 						}
 
 						builder.setSpan(new TypefaceSpan("VeraMono"), codeStart, builder.length(),
@@ -541,13 +591,13 @@ public final class MarkdownParser {
 
 					case MarkdownTokenizer.TOKEN_BRACKET_SQUARE_CLOSE:
 
-						final int urlStart = indexOf(tokens.data, MarkdownTokenizer.TOKEN_PAREN_OPEN, i + 1);
-						final int urlEnd = indexOf(tokens.data, MarkdownTokenizer.TOKEN_PAREN_CLOSE, urlStart + 1);
+						final int urlStart = indexOf(tokens, MarkdownTokenizer.TOKEN_PAREN_OPEN, i + 1);
+						final int urlEnd = indexOf(tokens, MarkdownTokenizer.TOKEN_PAREN_CLOSE, urlStart + 1);
 
 						final StringBuilder urlBuilder = new StringBuilder(urlEnd - urlStart);
 
 						for(int j = urlStart + 1; j < urlEnd; j++) {
-							urlBuilder.append((char)tokens.data[j]);
+							urlBuilder.append((char)tokens[j]);
 						}
 
 						final String linkText = String.valueOf(builder.subSequence(linkStart, builder.length()));

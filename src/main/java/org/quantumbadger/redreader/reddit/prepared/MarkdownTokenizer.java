@@ -716,7 +716,7 @@ public final class MarkdownTokenizer {
 		return result;
 	}
 
-	public static class IntArrayLengthPair {
+	public static final class IntArrayLengthPair {
 		public final int[] data;
 		public int pos = 0;
 
@@ -740,6 +740,12 @@ public final class MarkdownTokenizer {
 			}
 
 			pos += arr.length;
+		}
+
+		public int[] substringAsArray(int start) {
+			final int[] result = new int[pos - start];
+			System.arraycopy(data, start, result, 0, result.length);
+			return result;
 		}
 	}
 }

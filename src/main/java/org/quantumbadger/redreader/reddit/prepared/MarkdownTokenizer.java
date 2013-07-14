@@ -399,8 +399,7 @@ public final class MarkdownTokenizer {
 
 							if(isSpaces(input.data, lastBracketSquareClose + 1, parenOpenPos)) {
 
-								final int parenClosePos = indexOf(input.data, TOKEN_PAREN_CLOSE,
-										parenOpenPos + 1, input.pos);
+								final int parenClosePos = findParenClosePos(input, parenOpenPos + 1);
 
 								if(parenClosePos >= 0) {
 
@@ -506,6 +505,33 @@ public final class MarkdownTokenizer {
 				output.data[output.pos++] = input.data[i];
 			}
 		}
+	}
+
+	private static int findParenClosePos(final IntArrayLengthPair tokens, int startPos) {
+
+		for(int i = startPos; i < tokens.pos; i++) {
+
+			switch(tokens.data[i]) {
+
+				case TOKEN_PAREN_CLOSE:
+					return i;
+
+				case '"':
+					i = indexOfIgnoreEscaped(tokens, '"', i + 1);
+					if(i < 0) return -1;
+					break;
+			}
+		}
+
+		return -1;
+	}
+
+	private static int indexOfIgnoreEscaped(final IntArrayLengthPair haystack, int needle, int startPos) {
+		for(int i = startPos; i < haystack.pos; i++) {
+			if(haystack.data[i] == '\\') i++;
+			else if(haystack.data[i] == needle) return i;
+		}
+		return -1;
 	}
 
 	private static void naiveTokenize(final IntArrayLengthPair input, final IntArrayLengthPair output) {

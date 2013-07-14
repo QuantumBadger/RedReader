@@ -375,7 +375,7 @@ public final class MarkdownParser {
 		}
 
 		// TODO take into account size, link click listener, etc
-		public ViewGroup buildView(final Activity activity, final int textColor) {
+		public ViewGroup buildView(final Activity activity, final Integer textColor, final Float textSize) {
 
 			final float dpScale = activity.getResources().getDisplayMetrics().density;
 
@@ -384,7 +384,8 @@ public final class MarkdownParser {
 
 			for(int i = 0; i < paragraphs.length; i++) {
 				final TextView tv = new TextView(activity);
-				tv.setTextColor(textColor);
+				if(textColor != null) tv.setTextColor(textColor);
+				if(textSize != null) tv.setTextSize(textSize);
 				tv.setText(paragraphs[i].spanned);
 				layout.addView(tv);
 				((ViewGroup.MarginLayoutParams) tv.getLayoutParams()).topMargin

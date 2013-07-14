@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.widget.LinearLayout;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.RRTime;
@@ -43,7 +44,7 @@ public final class CommentPropertiesDialog extends PropertiesDialog {
 	}
 
 	@Override
-	protected void prepare(Context context, LinearLayout items) {
+	protected void prepare(Activity context, LinearLayout items) {
 
 		final RedditComment comment = getArguments().getParcelable("comment");
 

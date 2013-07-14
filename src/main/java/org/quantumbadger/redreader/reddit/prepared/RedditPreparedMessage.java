@@ -36,7 +36,7 @@ import java.util.HashSet;
 public final class RedditPreparedMessage implements RedditPreparedInboxItem {
 
 	public SpannableStringBuilder header;
-	public final RedditCommentTextParser.ViewGenerator body;
+	public final MarkdownParser.MarkdownParagraphGroup body;
 	public final String idAndType;
 	public final RedditMessage src;
 
@@ -56,7 +56,7 @@ public final class RedditPreparedMessage implements RedditPreparedInboxItem {
 		rrCommentHeaderBoldCol = appearance.getColor(0, 255);
 		rrCommentHeaderAuthorCol = appearance.getColor(1, 255);
 
-		body = RedditCommentTextParser.parse(StringEscapeUtils.unescapeHtml4(message.body));
+		body = MarkdownParser.parse(StringEscapeUtils.unescapeHtml4(message.body).toCharArray());
 
 		idAndType = message.name;
 
@@ -82,7 +82,7 @@ public final class RedditPreparedMessage implements RedditPreparedInboxItem {
 		return header;
 	}
 
-	public ViewGroup getBody(Activity context, float textSize, Integer textCol, ActiveTextView.OnLinkClickedListener listener) {
-		return body.generate(context, textSize, textCol, listener, this);
+	public ViewGroup getBody(Activity context, float textSize, Integer textCol) {
+		return body.buildView(context, textCol, textSize);
 	}
 }

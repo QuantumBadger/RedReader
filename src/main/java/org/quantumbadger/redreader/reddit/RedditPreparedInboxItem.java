@@ -27,6 +27,6 @@ public interface RedditPreparedInboxItem {
 
 	public SpannableStringBuilder getHeader();
 
-	public ViewGroup getBody(Activity activity, float textSize, Integer textCol, ActiveTextView.OnLinkClickedListener listener);
+	public ViewGroup getBody(Activity activity, float textSize, Integer textCol);
 
 }

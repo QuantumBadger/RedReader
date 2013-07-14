@@ -36,13 +36,10 @@ public final class InboxListingAdapter extends BaseAdapter {
 
 	private final int rrCommentHeaderCol, rrCommentBodyCol;
 
-	private final ActiveTextView.OnLinkClickedListener listener;
-
 	private final Fragment parentFragment;
 
-	public InboxListingAdapter(Context context, ActiveTextView.OnLinkClickedListener listener, Fragment parentFragment) {
+	public InboxListingAdapter(Context context, Fragment parentFragment) {
 
-		this.listener = listener;
 		this.parentFragment = parentFragment;
 
 		final TypedArray attr = context.obtainStyledAttributes(new int[] {
@@ -82,7 +79,7 @@ public final class InboxListingAdapter extends BaseAdapter {
 			convertView = new RedditInboxItemView(viewGroup.getContext(), rrCommentHeaderCol, rrCommentBodyCol);
 		}
 
-		((RedditInboxItemView)convertView).reset(parentFragment.getSupportActivity(), items.get(i), listener);
+		((RedditInboxItemView)convertView).reset(parentFragment.getSupportActivity(), items.get(i));
 
 		return convertView;
 	}

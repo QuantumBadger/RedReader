@@ -60,11 +60,11 @@ public class RedditInboxItemView extends LinearLayout {
 		addView(main);
 	}
 
-	public void reset(final Activity context, final RedditPreparedInboxItem item, final ActiveTextView.OnLinkClickedListener listener) {
+	public void reset(final Activity context, final RedditPreparedInboxItem item) {
 
 		header.setText(item.getHeader());
 
 		bodyHolder.removeAllViews();
-		bodyHolder.addView(item.getBody(context, 13.0f, bodyCol, listener));
+		bodyHolder.addView(item.getBody(context, 13.0f, bodyCol));
 	}
 }

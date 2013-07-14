@@ -59,7 +59,7 @@ import java.net.URI;
 import java.util.EnumSet;
 import java.util.UUID;
 
-public final class InboxListingFragment extends DialogFragment implements ActiveTextView.OnLinkClickedListener {
+public final class InboxListingFragment extends DialogFragment {
 
 	private InboxListingAdapter adapter;
 
@@ -125,7 +125,7 @@ public final class InboxListingFragment extends DialogFragment implements Active
 			}
 		});
 
-		adapter = new InboxListingAdapter(context, this, this);
+		adapter = new InboxListingAdapter(context, this);
 		lv.setAdapter(adapter);
 
 		registerForContextMenu(lv);
@@ -258,16 +258,6 @@ public final class InboxListingFragment extends DialogFragment implements Active
 		};
 
 		cm.makeRequest(request);
-	}
-
-	public void onClickUrl(String url) {
-		if(url != null) LinkHandler.onLinkClicked(getSupportActivity(), url, false);
-	}
-
-	public void onClickText(Object attachment) {
-		if(attachment != null && attachment instanceof RedditPreparedInboxItem) {
-			handleClick((RedditPreparedInboxItem)attachment);
-		}
 	}
 
 	private void handleClick(RedditPreparedInboxItem item) {

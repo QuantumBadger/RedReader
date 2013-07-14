@@ -21,11 +21,12 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.ViewGroup;
 import com.laurencedawson.activetextview.ActiveTextView;
+import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.widget.LinearLayout;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
-import org.quantumbadger.redreader.reddit.prepared.RedditCommentTextParser;
+import org.quantumbadger.redreader.reddit.prepared.MarkdownParser;
 
 public class MarkdownPreviewDialog extends PropertiesDialog {
 
@@ -46,17 +47,12 @@ public class MarkdownPreviewDialog extends PropertiesDialog {
 	}
 
 	@Override
-	protected void prepare(Context context, LinearLayout items) {
+	protected void prepare(Activity context, LinearLayout items) {
 
-		final RedditCommentTextParser.ViewGenerator parsedGen = RedditCommentTextParser.parse(getArguments().getString("markdown"));
+		final MarkdownParser.MarkdownParagraphGroup parsedGen
+				= MarkdownParser.parse(getArguments().getString("markdown").toCharArray());
 
-		final ViewGroup parsed = parsedGen.generate(context, 14f, null, new ActiveTextView.OnLinkClickedListener() {
-			public void onClickUrl(String url) {
-				if(url != null) LinkHandler.onLinkClicked(getSupportActivity(), url, false);
-			}
-
-			public void onClickText(Object attachment) {}
-		}, null);
+		final ViewGroup parsed = parsedGen.buildView(context, null, 14f);
 
 		final int paddingPx = General.dpToPixels(context, 10);
 		parsed.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);

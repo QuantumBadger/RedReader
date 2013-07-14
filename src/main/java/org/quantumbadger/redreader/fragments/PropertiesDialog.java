@@ -22,6 +22,7 @@ import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ScrollView;
+import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.AlertDialog;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.DialogFragment;
@@ -38,7 +39,7 @@ public abstract class PropertiesDialog extends DialogFragment {
 	private volatile boolean alreadyCreated = false;
 
 	protected abstract String getTitle(Context context);
-	protected abstract void prepare(Context context, LinearLayout items);
+	protected abstract void prepare(Activity context, LinearLayout items);
 
 	@Override
 	public final Dialog onCreateDialog(final Bundle savedInstanceState) {
@@ -48,7 +49,7 @@ public abstract class PropertiesDialog extends DialogFragment {
 
 		super.onCreateDialog(savedInstanceState);
 
-		final Context context = getSupportActivity();
+		final Activity context = getSupportActivity();
 
 		final TypedArray attr = context.obtainStyledAttributes(new int[] {
 				R.attr.rrListHeaderTextCol,

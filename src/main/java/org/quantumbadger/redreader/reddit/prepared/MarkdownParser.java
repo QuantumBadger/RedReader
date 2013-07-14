@@ -31,6 +31,7 @@ import android.view.ViewGroup;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.TextView;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.views.LinkDetailsView;
 
@@ -144,8 +145,12 @@ public final class MarkdownParser {
 		}
 
 		public MarkdownParagraph tokenize(final MarkdownParagraph parent) {
-			final MarkdownTokenizer.IntArrayLengthPair tokens = MarkdownTokenizer.tokenize(src);
-			return new MarkdownParagraph(src, parent, type, tokens.substringAsArray(prefixLength), level);
+			if(type != MarkdownParagraphType.CODE) {
+				final MarkdownTokenizer.IntArrayLengthPair tokens = MarkdownTokenizer.tokenize(src);
+				return new MarkdownParagraph(src, parent, type, tokens.substringAsArray(prefixLength), level);
+			} else {
+				return new MarkdownParagraph(src, parent, MarkdownParagraphType.CODE, null, level);
+			}
 		}
 	}
 
@@ -374,6 +379,7 @@ public final class MarkdownParser {
 			final float dpScale = activity.getResources().getDisplayMetrics().density;
 
 			final int paragraphSpacing = (int) (dpScale * 6);
+			final int codeLineSpacing = (int) (dpScale * 3);
 			final int quoteBarWidth = (int) (dpScale * 3);
 			final int maxQuoteLevel = 5;
 
@@ -397,6 +403,13 @@ public final class MarkdownParser {
 						break;
 
 					case CODE:
+						tv.setTypeface(General.getMonoTypeface(activity));
+						tv.setText(paragraph.raw.arr, paragraph.raw.start + 4, paragraph.raw.length - 4);
+						layout.addView(tv);
+						((ViewGroup.MarginLayoutParams) tv.getLayoutParams()).topMargin
+								= (paragraph.parent != null && paragraph.parent.type == MarkdownParagraphType.CODE
+								? codeLineSpacing : paragraphSpacing);
+						((ViewGroup.MarginLayoutParams) tv.getLayoutParams()).leftMargin = (int) (dpScale * 6);
 						break;
 
 					case HEADER:
@@ -442,8 +455,7 @@ public final class MarkdownParser {
 					case TEXT:
 
 						layout.addView(tv);
-						((ViewGroup.MarginLayoutParams) tv.getLayoutParams()).topMargin
-								= (int) (dpScale * 6);
+						((ViewGroup.MarginLayoutParams) tv.getLayoutParams()).topMargin = paragraphSpacing;
 
 						break;
 
@@ -517,9 +529,7 @@ public final class MarkdownParser {
 		private Spanned internalGenerateSpanned() {
 
 			if(type == MarkdownParagraphType.CODE) {
-				final SpannableStringBuilder builder = new SpannableStringBuilder(raw.toString());
-				builder.setSpan(new TypefaceSpan("VeraMono"), 0, raw.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-				return builder;
+				return null;
 			}
 
 			final SpannableStringBuilder builder = new SpannableStringBuilder();
@@ -580,7 +590,7 @@ public final class MarkdownParser {
 							builder.append((char)tokens[i]);
 						}
 
-						builder.setSpan(new TypefaceSpan("VeraMono"), codeStart, builder.length(),
+						builder.setSpan(new TypefaceSpan("monospace"), codeStart, builder.length(),
 								Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 
 						break;

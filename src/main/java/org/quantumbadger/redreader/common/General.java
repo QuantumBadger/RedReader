@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.common;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
@@ -44,6 +45,17 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class General {
+
+	private static Typeface monoTypeface;
+
+	public static Typeface getMonoTypeface(Context context) {
+
+		if(monoTypeface == null) {
+			monoTypeface = Typeface.createFromAsset(context.getAssets(), "fonts/VeraMono.ttf");
+		}
+
+		return monoTypeface;
+	}
 
 	public static Message handlerMessage(int what, Object obj) {
 		final Message msg = new Message();

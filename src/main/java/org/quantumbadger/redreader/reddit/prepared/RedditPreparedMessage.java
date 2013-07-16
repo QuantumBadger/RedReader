@@ -21,7 +21,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.text.SpannableStringBuilder;
 import android.view.ViewGroup;
-import com.laurencedawson.activetextview.ActiveTextView;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.holoeverywhere.app.Activity;
 import org.quantumbadger.redreader.R;
@@ -29,6 +28,7 @@ import org.quantumbadger.redreader.common.BetterSSB;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.reddit.RedditPreparedInboxItem;
+import org.quantumbadger.redreader.reddit.prepared.markdown.MarkdownParser;
 import org.quantumbadger.redreader.reddit.things.RedditMessage;
 
 import java.util.HashSet;

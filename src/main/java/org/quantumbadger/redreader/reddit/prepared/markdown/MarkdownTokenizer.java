@@ -15,7 +15,7 @@
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.reddit.prepared;
+package org.quantumbadger.redreader.reddit.prepared.markdown;
 
 public final class MarkdownTokenizer {
 
@@ -68,7 +68,7 @@ public final class MarkdownTokenizer {
 		reverseLookup[20 + TOKEN_UNICODE_CLOSE] = new char[] {';'};
 	}
 
-	public static IntArrayLengthPair tokenize(final MarkdownParser.CharArrSubstring input) {
+	public static IntArrayLengthPair tokenize(final CharArrSubstring input) {
 
 		final MarkdownTokenizer.IntArrayLengthPair tmp1 = new MarkdownTokenizer.IntArrayLengthPair(input.length * 3);
 		final MarkdownTokenizer.IntArrayLengthPair tmp2 = new MarkdownTokenizer.IntArrayLengthPair(input.length * 3);

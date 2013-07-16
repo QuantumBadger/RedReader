@@ -26,7 +26,7 @@ import org.holoeverywhere.widget.LinearLayout;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
-import org.quantumbadger.redreader.reddit.prepared.MarkdownParser;
+import org.quantumbadger.redreader.reddit.prepared.markdown.MarkdownParser;
 
 public class MarkdownPreviewDialog extends PropertiesDialog {
 

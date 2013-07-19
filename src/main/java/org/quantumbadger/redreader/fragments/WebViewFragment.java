@@ -229,6 +229,10 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 		((RedditPostView.PostSelectionListener)getSupportActivity()).onPostCommentsSelected(post);
 	}
 
+    public String getCurrentUrl() {
+        return (currentUrl != null) ? currentUrl : url;
+    }
+
 	@Override
 	public void onPause() {
 		super.onPause();

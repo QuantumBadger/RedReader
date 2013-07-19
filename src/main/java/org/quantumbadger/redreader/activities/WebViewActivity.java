@@ -88,9 +88,9 @@ public class WebViewActivity extends Activity implements RedditPostView.PostSele
 				return true;
 
 			case VIEW_IN_BROWSER:
-				if(url != null) {
+				if(webView.getCurrentUrl() != null) {
 					final Intent intent = new Intent(Intent.ACTION_VIEW);
-					intent.setData(Uri.parse(url));
+					intent.setData(Uri.parse(webView.getCurrentUrl()));
 					startActivity(intent);
 					finish(); //to clear from backstack
 				}

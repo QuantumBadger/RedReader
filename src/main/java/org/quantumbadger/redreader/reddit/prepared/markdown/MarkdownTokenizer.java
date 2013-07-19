@@ -70,8 +70,8 @@ public final class MarkdownTokenizer {
 
 	public static IntArrayLengthPair tokenize(final CharArrSubstring input) {
 
-		final MarkdownTokenizer.IntArrayLengthPair tmp1 = new MarkdownTokenizer.IntArrayLengthPair(input.length * 3);
-		final MarkdownTokenizer.IntArrayLengthPair tmp2 = new MarkdownTokenizer.IntArrayLengthPair(input.length * 3);
+		final IntArrayLengthPair tmp1 = new IntArrayLengthPair(input.length * 3);
+		final IntArrayLengthPair tmp2 = new IntArrayLengthPair(input.length * 3);
 
 		tmp1.pos = input.length;
 		for(int i = 0; i < input.length; i++) {
@@ -716,36 +716,4 @@ public final class MarkdownTokenizer {
 		return result;
 	}
 
-	public static final class IntArrayLengthPair {
-		public final int[] data;
-		public int pos = 0;
-
-		public IntArrayLengthPair(int capacity) {
-			this.data = new int[capacity];
-		}
-
-		public void clear() {
-			pos = 0;
-		}
-
-		public void append(final int[] arr) {
-			System.arraycopy(arr, 0, data, pos, arr.length);
-			pos += arr.length;
-		}
-
-		public void append(final char[] arr) {
-
-			for(int i = 0; i < arr.length; i++) {
-				data[pos + i] = arr[i];
-			}
-
-			pos += arr.length;
-		}
-
-		public int[] substringAsArray(int start) {
-			final int[] result = new int[pos - start];
-			System.arraycopy(data, start, result, 0, result.length);
-			return result;
-		}
-	}
 }

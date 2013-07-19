@@ -24,7 +24,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.SpannableStringBuilder;
 import android.view.ViewGroup;
-import com.laurencedawson.activetextview.ActiveTextView;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.http.StatusLine;
 import org.holoeverywhere.app.Activity;
@@ -38,6 +37,7 @@ import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.Hideable;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.RedditPreparedInboxItem;
+import org.quantumbadger.redreader.reddit.prepared.markdown.MarkdownParagraphGroup;
 import org.quantumbadger.redreader.reddit.prepared.markdown.MarkdownParser;
 import org.quantumbadger.redreader.reddit.things.RedditComment;
 import org.quantumbadger.redreader.views.RedditCommentView;
@@ -50,7 +50,7 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 
 	public SpannableStringBuilder header;
 
-	private final MarkdownParser.MarkdownParagraphGroup body;
+	private final MarkdownParagraphGroup body;
 
 	public final int indentation;
 	private final LinkedList<RedditPreparedComment> directReplies = new LinkedList<RedditPreparedComment>();

@@ -685,7 +685,8 @@ public final class RedditPreparedPost {
 						revertOnFailure();
 						if(t != null) t.printStackTrace();
 
-						final RRError error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
+						final RRError error = General.getGeneralErrorForFailure(context, type, t, status,
+								"Reddit API action: " + action.toString() + " " + url);
 						new Handler(Looper.getMainLooper()).post(new Runnable() {
 							public void run() {
 								General.showResultDialog(activity, error);

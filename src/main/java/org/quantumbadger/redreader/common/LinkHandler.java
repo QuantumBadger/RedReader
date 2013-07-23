@@ -56,6 +56,12 @@ public class LinkHandler {
 	public static void onLinkClicked(final Activity activity, final String url,
 									 final boolean forceNoImage, final RedditPost post) {
 
+        // Do not ask to verify link click if it is a post, so skip over it, and do not open/build dialog.
+        if(post != null) {
+            openUrl(activity, url, forceNoImage, post);
+            return;
+        }
+
         // Building the dialog
         final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(activity);
         final LinearLayout layout = (LinearLayout) activity.getLayoutInflater().inflate(R.layout.alert_dialog_holo);
@@ -65,94 +71,7 @@ public class LinkHandler {
         alertBuilder.setMessage(url);
         alertBuilder.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                if(url.startsWith("rr://")) {
-
-                    final Uri rrUri = Uri.parse(url);
-
-                    if(rrUri.getAuthority().equals("msg")) {
-                        final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                        builder.setTitle(rrUri.getQueryParameter("title"));
-                        builder.setMessage(rrUri.getQueryParameter("message"));
-                        AlertDialog alert = builder.create();
-                        alert.show();
-                        return;
-                    }
-                }
-
-                if(!forceNoImage) {
-                    final String imageUrl = getImageUrl(url);
-
-                    if(imageUrl != null) {
-                        final Intent intent = new Intent(activity, ImageViewActivity.class);
-                        intent.setData(Uri.parse(imageUrl));
-                        intent.putExtra("post", post);
-                        activity.startActivity(intent);
-                        return;
-                    }
-                }
-
-                // TODO this is hacky. Generalise the post/comment list fragments?
-                final Matcher redditCommentsMatcher = redditCommentsPattern.matcher(url);
-
-                if(redditCommentsMatcher.find()) {
-                    final Intent intent = new Intent(activity, CommentListingActivity.class);
-                    intent.putExtra("postId", redditCommentsMatcher.group(2));
-                    activity.startActivity(intent);
-                    return;
-                }
-
-                final Matcher redditUserMatcher = redditUserPattern.matcher(url);
-
-                if(redditUserMatcher.find()) {
-                    UserProfileDialog.newInstance(redditUserMatcher.group(2)).show(activity);
-                    return;
-                }
-
-                final Matcher redditSubredditMatcher = subredditPattern.matcher(url);
-
-                if(redditSubredditMatcher.find()) {
-                    final String subredditUrl = redditSubredditMatcher.group(1);
-                    final Intent intent = new Intent(activity, PostListingActivity.class);
-                    intent.putExtra("subreddit", new RedditSubreddit(subredditUrl, subredditUrl, true));
-                    activity.startActivity(intent);
-                    return;
-                }
-
-                final Matcher shortSubredditMatcher = shortSubredditPattern.matcher(url);
-
-                if(shortSubredditMatcher.find()) {
-                    final String subredditUrl = "/r/" + shortSubredditMatcher.group(1);
-                    final Intent intent = new Intent(activity, PostListingActivity.class);
-                    intent.putExtra("subreddit", new RedditSubreddit(subredditUrl, subredditUrl, true));
-                    activity.startActivity(intent);
-                    return;
-                }
-
-                // Use a browser
-
-                if(youtubeDotComPattern.matcher(url).matches() || vimeoPattern.matcher(url).matches()) {
-                    final Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse(url.replaceAll("&amp;", "&")));
-                    activity.startActivity(intent);
-
-                } else {
-
-                    final Matcher youtuDotBeMatcher = youtuDotBePattern.matcher(url);
-
-                    if(youtuDotBeMatcher.find() && youtuDotBeMatcher.group(1) != null) {
-                        final String youtuBeUrl = "http://youtube.com/watch?v=" + youtuDotBeMatcher.group(1)
-                                + (youtuDotBeMatcher.group(2).length() > 0 ? "&" + youtuDotBeMatcher.group(2).substring(1) : "");
-                        final Intent intent = new Intent(Intent.ACTION_VIEW);
-                        intent.setData(Uri.parse(youtuBeUrl));
-                        activity.startActivity(intent);
-
-                    } else {
-                        final Intent intent = new Intent(activity, WebViewActivity.class);
-                        intent.putExtra("url", url);
-                        intent.putExtra("post", post);
-                        activity.startActivity(intent);
-                    }
-                }
+                openUrl(activity, url, forceNoImage, post);
                 return;
             }
         }).setNegativeButton("Back", new DialogInterface.OnClickListener() {
@@ -235,6 +154,100 @@ public class LinkHandler {
 
 		return null;
 	}
+
+    public static void openUrl(final Activity activity, final String url,
+                               final boolean forceNoImage, final RedditPost post) {
+        if(url.startsWith("rr://")) {
+
+            final Uri rrUri = Uri.parse(url);
+
+            if(rrUri.getAuthority().equals("msg")) {
+                final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                builder.setTitle(rrUri.getQueryParameter("title"));
+                builder.setMessage(rrUri.getQueryParameter("message"));
+                AlertDialog alert = builder.create();
+                alert.show();
+                return;
+            }
+        }
+
+        if(!forceNoImage) {
+            final String imageUrl = getImageUrl(url);
+
+            if(imageUrl != null) {
+                final Intent intent = new Intent(activity, ImageViewActivity.class);
+                intent.setData(Uri.parse(imageUrl));
+                intent.putExtra("post", post);
+                activity.startActivity(intent);
+                return;
+            }
+        }
+
+        // TODO this is hacky. Generalise the post/comment list fragments?
+        final Matcher redditCommentsMatcher = redditCommentsPattern.matcher(url);
+
+        if(redditCommentsMatcher.find()) {
+            final Intent intent = new Intent(activity, CommentListingActivity.class);
+            intent.putExtra("postId", redditCommentsMatcher.group(2));
+            activity.startActivity(intent);
+            return;
+        }
+
+        final Matcher redditUserMatcher = redditUserPattern.matcher(url);
+
+        if(redditUserMatcher.find()) {
+            UserProfileDialog.newInstance(redditUserMatcher.group(2)).show(activity);
+            return;
+        }
+
+        final Matcher redditSubredditMatcher = subredditPattern.matcher(url);
+
+        if(redditSubredditMatcher.find()) {
+            final String subredditUrl = redditSubredditMatcher.group(1);
+            final Intent intent = new Intent(activity, PostListingActivity.class);
+            intent.putExtra("subreddit", new RedditSubreddit(subredditUrl, subredditUrl, true));
+            activity.startActivity(intent);
+            return;
+        }
+
+        final Matcher shortSubredditMatcher = shortSubredditPattern.matcher(url);
+
+        if(shortSubredditMatcher.find()) {
+            final String subredditUrl = "/r/" + shortSubredditMatcher.group(1);
+            final Intent intent = new Intent(activity, PostListingActivity.class);
+            intent.putExtra("subreddit", new RedditSubreddit(subredditUrl, subredditUrl, true));
+            activity.startActivity(intent);
+            return;
+        }
+
+        // Use a browser
+
+        if(youtubeDotComPattern.matcher(url).matches() || vimeoPattern.matcher(url).matches()) {
+            final Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(url.replaceAll("&amp;", "&")));
+            activity.startActivity(intent);
+
+        } else {
+
+            final Matcher youtuDotBeMatcher = youtuDotBePattern.matcher(url);
+
+            if(youtuDotBeMatcher.find() && youtuDotBeMatcher.group(1) != null) {
+                final String youtuBeUrl = "http://youtube.com/watch?v=" + youtuDotBeMatcher.group(1)
+                        + (youtuDotBeMatcher.group(2).length() > 0 ? "&" + youtuDotBeMatcher.group(2).substring(1) : "");
+                final Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(youtuBeUrl));
+                activity.startActivity(intent);
+
+            } else {
+                final Intent intent = new Intent(activity, WebViewActivity.class);
+                intent.putExtra("url", url);
+                intent.putExtra("post", post);
+                activity.startActivity(intent);
+            }
+        }
+
+
+    }
 
 	public static LinkedHashSet<String> computeAllLinks(final String text) {
 

@@ -69,12 +69,12 @@ public class LinkHandler {
         // Set up the dialog
         alertBuilder.setTitle("Continue to URL?:");
         alertBuilder.setMessage(url);
-        alertBuilder.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+        alertBuilder.setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 openUrl(activity, url, forceNoImage, post);
                 return;
             }
-        }).setNegativeButton("Back", new DialogInterface.OnClickListener() {
+        }).setNegativeButton(R.string.dialog_no, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.dismiss();
                 return;

@@ -94,7 +94,6 @@ public final class MarkdownTokenizer {
 		if(input.data.length > output.data.length * 3) throw new RuntimeException();
 		output.clear();
 
-		//boolean ready = true;
 		int inBrackets = 0;
 		boolean lastCharOk = true;
 

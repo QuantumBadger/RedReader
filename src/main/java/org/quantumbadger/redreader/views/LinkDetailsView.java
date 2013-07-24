@@ -69,7 +69,7 @@ public class LinkDetailsView extends FrameLayout {
 		border.getPaint().setStrokeWidth(1f);
 		border.getPaint().setStyle(Paint.Style.STROKE);
 
-		setBackground(border);
+		setBackgroundDrawable(border);
 
 
 	}

@@ -49,9 +49,13 @@ public final class MarkdownParagraphGroup {
 					tv.setTypeface(General.getMonoTypeface(activity));
 					tv.setText(paragraph.raw.arr, paragraph.raw.start + 4, paragraph.raw.length - 4);
 					layout.addView(tv);
-					((ViewGroup.MarginLayoutParams) tv.getLayoutParams()).topMargin
-							= (paragraph.parent != null && paragraph.parent.type == MarkdownParser.MarkdownParagraphType.CODE
-							? codeLineSpacing : paragraphSpacing);
+
+					if(paragraph.parent != null) {
+						((ViewGroup.MarginLayoutParams) tv.getLayoutParams()).topMargin
+								= paragraph.parent.type == MarkdownParser.MarkdownParagraphType.CODE
+								? codeLineSpacing : paragraphSpacing;
+					}
+
 					((ViewGroup.MarginLayoutParams) tv.getLayoutParams()).leftMargin = (int) (dpScale * 6);
 					break;
 
@@ -86,10 +90,12 @@ public final class MarkdownParagraphGroup {
 					quoteLayout.addView(tv);
 					layout.addView(quoteLayout);
 
-					if(paragraph.parent != null && paragraph.parent.type == MarkdownParser.MarkdownParagraphType.QUOTE) {
-						((ViewGroup.MarginLayoutParams)tv.getLayoutParams()).topMargin = paragraphSpacing;
-					} else {
-						((ViewGroup.MarginLayoutParams)quoteLayout.getLayoutParams()).topMargin = paragraphSpacing;
+					if(paragraph.parent != null) {
+						if(paragraph.parent.type == MarkdownParser.MarkdownParagraphType.QUOTE) {
+							((ViewGroup.MarginLayoutParams)tv.getLayoutParams()).topMargin = paragraphSpacing;
+						} else {
+							((ViewGroup.MarginLayoutParams)quoteLayout.getLayoutParams()).topMargin = paragraphSpacing;
+						}
 					}
 
 					break;
@@ -98,7 +104,9 @@ public final class MarkdownParagraphGroup {
 				case TEXT:
 
 					layout.addView(tv);
-					((ViewGroup.MarginLayoutParams) tv.getLayoutParams()).topMargin = paragraphSpacing;
+					if(paragraph.parent != null) {
+						((ViewGroup.MarginLayoutParams) tv.getLayoutParams()).topMargin = paragraphSpacing;
+					}
 
 					break;
 

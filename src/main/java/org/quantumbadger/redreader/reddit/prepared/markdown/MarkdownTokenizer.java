@@ -484,7 +484,7 @@ public final class MarkdownTokenizer {
 		if(lastTildeDouble >= 0) toRevert[lastTildeDouble] = true;
 		if(lastBracketSquareOpen >= 0) toRevert[lastBracketSquareOpen] = true;
 
-		for(int j = input.pos - 1; input.data[j] == ' '; j--) {
+		for(int j = input.pos - 1; j >= 0 && input.data[j] == ' '; j--) {
 			toDelete[j] = true;
 		}
 

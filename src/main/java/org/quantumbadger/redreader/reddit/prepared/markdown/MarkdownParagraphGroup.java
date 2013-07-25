@@ -18,6 +18,9 @@
 package org.quantumbadger.redreader.reddit.prepared.markdown;
 
 import android.graphics.Color;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import org.holoeverywhere.app.Activity;
@@ -56,15 +59,49 @@ public final class MarkdownParagraphGroup {
 
 			switch(paragraph.type) {
 
-				case BULLET:
-					break;
+				case BULLET: {
+					final LinearLayout bulletItem = new LinearLayout(activity);
+					final int paddingPx = General.dpToPixels(activity, 6);
+					bulletItem.setPadding(paddingPx, paddingPx, paddingPx, 0);
 
-				case NUMBERED:
+					final TextView bullet = new TextView(activity);
+					bullet.setText("•   ");
+					if(textSize != null) bullet.setTextSize(textSize);
+
+					bulletItem.addView(bullet);
+					bulletItem.addView(tv);
+
+					layout.addView(bulletItem);
+
+					((ViewGroup.MarginLayoutParams)bulletItem.getLayoutParams()).leftMargin
+							= (int) (dpScale * (paragraph.level == 0 ? 12 : 24));
+
 					break;
+				}
+
+				case NUMBERED: {
+					final LinearLayout numberedItem = new LinearLayout(activity);
+					final int paddingPx = General.dpToPixels(activity, 6);
+					numberedItem.setPadding(paddingPx, paddingPx, paddingPx, 0);
+
+					final TextView number = new TextView(activity);
+					number.setText(paragraph.number + ".   ");
+					if(textSize != null) number.setTextSize(textSize);
+
+					numberedItem.addView(number);
+					numberedItem.addView(tv);
+
+					layout.addView(numberedItem);
+
+					((ViewGroup.MarginLayoutParams)numberedItem.getLayoutParams()).leftMargin
+							= (int) (dpScale * (paragraph.level == 0 ? 12 : 24));
+
+					break;
+				}
 
 				case CODE:
 					tv.setTypeface(General.getMonoTypeface(activity));
-					tv.setText(paragraph.raw.arr, paragraph.raw.start + 4, paragraph.raw.length - 4);
+					tv.setText(paragraph.raw.arr, paragraph.raw.start, paragraph.raw.length);
 					layout.addView(tv);
 
 					if(paragraph.parent != null) {
@@ -77,6 +114,13 @@ public final class MarkdownParagraphGroup {
 					break;
 
 				case HEADER:
+					final SpannableString underlinedText = new SpannableString(paragraph.spanned);
+					underlinedText.setSpan(new UnderlineSpan(), 0, underlinedText.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+					tv.setText(underlinedText);
+					layout.addView(tv);
+					if(paragraph.parent != null) {
+						((ViewGroup.MarginLayoutParams) tv.getLayoutParams()).topMargin = paragraphSpacing;
+					}
 					break;
 
 				case HLINE: {

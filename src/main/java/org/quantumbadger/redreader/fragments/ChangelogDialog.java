@@ -70,8 +70,6 @@ public final class ChangelogDialog extends PropertiesDialog {
 			int curVersionCode = -1;
 			String curVersionName = null;
 
-			boolean firstInList = true;
-
 			String line;
 			while((line = br.readLine()) != null) {
 

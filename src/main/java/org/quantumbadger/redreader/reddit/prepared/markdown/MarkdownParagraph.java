@@ -39,7 +39,7 @@ public final class MarkdownParagraph {
 	final MarkdownParagraph parent;
 	final MarkdownParser.MarkdownParagraphType type;
 	final int[] tokens;
-	final int level;
+	final int level, number;
 
 	final Spanned spanned;
 	final List<Link> links;
@@ -61,12 +61,13 @@ public final class MarkdownParagraph {
 	}
 
 	public MarkdownParagraph(CharArrSubstring raw, MarkdownParagraph parent, MarkdownParser.MarkdownParagraphType type,
-							 int[] tokens, int level) {
+							 int[] tokens, int level, int number) {
 		this.raw = raw;
 		this.parent = parent;
 		this.type = type;
 		this.tokens = tokens;
 		this.level = level;
+		this.number = number;
 
 		links = new ArrayList<Link>();
 		spanned = internalGenerateSpanned();
@@ -81,7 +82,6 @@ public final class MarkdownParagraph {
 
 		final SpannableStringBuilder builder = new SpannableStringBuilder();
 
-		// TODO double check these start at builder.length(), not i
 		// TODO bold/italic using underscores, taking into account special cases (e.g. a_b_c vs ._b_.)
 		int boldStart = -1, italicStart = -1, strikeStart = -1, linkStart = -1;
 

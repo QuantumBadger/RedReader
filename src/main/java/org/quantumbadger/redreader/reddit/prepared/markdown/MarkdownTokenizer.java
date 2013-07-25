@@ -88,7 +88,6 @@ public final class MarkdownTokenizer {
 		return tmp1;
 	}
 
-	// TODO "untokenize" parameter in clean function
 	private static void linkify(final IntArrayLengthPair input, final IntArrayLengthPair output) {
 
 		if(input.data.length > output.data.length * 3) throw new RuntimeException();

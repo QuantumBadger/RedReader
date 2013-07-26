@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.reddit.prepared.markdown;
 
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.*;
@@ -28,7 +29,6 @@ import org.quantumbadger.redreader.common.LinkHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO spoilers
 // TODO number links
 public final class MarkdownParagraph {
 
@@ -76,9 +76,12 @@ public final class MarkdownParagraph {
 			return null;
 		}
 
+		if(tokens == null) {
+			return new SpannableString(raw.toString());
+		}
+
 		final SpannableStringBuilder builder = new SpannableStringBuilder();
 
-		// TODO bold/italic using underscores, taking into account special cases (e.g. a_b_c vs ._b_.)
 		int boldStart = -1, italicStart = -1, strikeStart = -1, linkStart = -1, caretStart = -1;
 
 		for(int i = 0; i < tokens.length; i++) {
@@ -88,6 +91,7 @@ public final class MarkdownParagraph {
 			switch(token) {
 
 				case MarkdownTokenizer.TOKEN_ASTERISK:
+				case MarkdownTokenizer.TOKEN_UNDERSCORE:
 
 					if(italicStart < 0) {
 						italicStart = builder.length();
@@ -100,6 +104,7 @@ public final class MarkdownParagraph {
 					break;
 
 				case MarkdownTokenizer.TOKEN_ASTERISK_DOUBLE:
+				case MarkdownTokenizer.TOKEN_UNDERSCORE_DOUBLE:
 
 					if(boldStart < 0) {
 						boldStart = builder.length();
@@ -204,7 +209,11 @@ public final class MarkdownParagraph {
 					break;
 
 				case MarkdownTokenizer.TOKEN_CARET:
-					if(caretStart < 0) caretStart = builder.length();
+					if(caretStart < 0) {
+						caretStart = builder.length();
+					} else {
+						builder.append(' ');
+					}
 					break;
 
 				case ' ':

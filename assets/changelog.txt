@@ -2,6 +2,7 @@
 Better markdown support (superscript, multi-level quotes, code, etc)
 Links in comments are represented by buttons
 Ability to switch from internal to external browser (thanks to trevor-e)
+Custom subreddit bugfix (thanks to DubHunt)
 Search bugfix
 Back button delay
 Samsung multi-window support (phone reboot required)

@@ -121,10 +121,70 @@ public final class MarkdownLine {
 
 	public MarkdownParagraph tokenize(final MarkdownParagraph parent) {
 		if(type != MarkdownParser.MarkdownParagraphType.CODE && type != MarkdownParser.MarkdownParagraphType.HLINE) {
-			final IntArrayLengthPair tokens = MarkdownTokenizer.tokenize(src);
-			return new MarkdownParagraph(src, parent, type, tokens.substringAsArray(0), level, number);
+
+			if(isPlainText()) {
+				return new MarkdownParagraph(src, parent, type, null, level, number);
+			} else {
+				final IntArrayLengthPair tokens = MarkdownTokenizer.tokenize(src);
+				return new MarkdownParagraph(src, parent, type, tokens.substringAsArray(0), level, number);
+			}
+
 		} else {
 			return new MarkdownParagraph(src, parent, type, null, level, number);
 		}
+	}
+
+	private boolean isPlainText() {
+
+		for(int i = 0; i < src.length; i++) {
+			switch(src.arr[i + src.start]) {
+				case '*':
+				case '_':
+				case '^':
+				case '`':
+				case '\\':
+				case '[':
+				case '~':
+				case '#':
+					return false;
+
+				case '/':
+
+					if(src.equalAt(i + 1, "u/") || src.equalAt(i + 1, "r/")) {
+						return false;
+					}
+
+					break;
+
+				case 'h':
+
+					if(src.equalAt(i + 1, "ttp://")) {
+						return false;
+					}
+
+					break;
+
+				case 'w':
+
+					if(src.equalAt(i + 1, "ww.")) {
+						return false;
+					}
+
+					break;
+
+				case 'r':
+				case 'u':
+
+					if(src.length > i + 1 && src.arr[src.start + i + 1] == '/') {
+						return false;
+					}
+
+					break;
+
+				default:
+			}
+		}
+
+		return true;
 	}
 }

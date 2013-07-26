@@ -135,4 +135,15 @@ public final class CharArrSubstring {
 		}
 		return true;
 	}
+
+	public boolean equalAt(int position, String needle) {
+
+		if(length < position + needle.length()) return false;
+
+		for(int i = 0; i < needle.length(); i++) {
+			if(needle.charAt(i) != arr[start + position + i]) return false;
+		}
+
+		return true;
+	}
 }

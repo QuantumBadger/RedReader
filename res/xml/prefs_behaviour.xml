@@ -19,6 +19,10 @@
 
 <PreferenceScreen xmlns:holo="http://schemas.android.com/apk/res-auto">
 
+    <CheckBoxPreference holo:title="@string/pref_behaviour_useinternalbrowser_title"
+                        holo:key="@string/pref_behaviour_useinternalbrowser_key"
+                        holo:defaultValue="true"/>
+
     <PreferenceCategory holo:title="@string/pref_behaviour_sort_header">
 
         <ListPreference holo:title="@string/pref_behaviour_commentsort"

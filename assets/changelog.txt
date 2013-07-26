@@ -1,3 +1,6 @@
+41/1.8.1
+Preference to disable internal browser
+
 40/1.8.0
 Better markdown support (superscript, multi-level quotes, code, etc)
 Links in comments are represented by buttons

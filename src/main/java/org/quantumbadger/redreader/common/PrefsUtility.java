@@ -194,6 +194,10 @@ public final class PrefsUtility {
 	// pref_behaviour
 	///////////////////////////////
 
+	public static boolean pref_behaviour_useinternalbrowser(final Context context, final SharedPreferences sharedPreferences) {
+		return getBoolean(R.string.pref_behaviour_useinternalbrowser_key, true, context, sharedPreferences);
+	}
+
 	// pref_behaviour_fling_post
 
 	public static enum PostFlingAction {

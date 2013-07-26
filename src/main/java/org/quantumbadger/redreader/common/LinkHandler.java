@@ -22,6 +22,7 @@ import android.net.Uri;
 import android.os.Handler;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.AlertDialog;
+import org.holoeverywhere.preference.PreferenceManager;
 import org.quantumbadger.redreader.activities.CommentListingActivity;
 import org.quantumbadger.redreader.activities.ImageViewActivity;
 import org.quantumbadger.redreader.activities.PostListingActivity;
@@ -121,29 +122,35 @@ public class LinkHandler {
 
 		// Use a browser
 
+		if(!PrefsUtility.pref_behaviour_useinternalbrowser(activity, PreferenceManager.getDefaultSharedPreferences(activity))) {
+			openWebBrowser(activity, Uri.parse(url));
+			return;
+		}
+
 		if(youtubeDotComPattern.matcher(url).matches() || vimeoPattern.matcher(url).matches()) {
-			final Intent intent = new Intent(Intent.ACTION_VIEW);
-			intent.setData(Uri.parse(url.replaceAll("&amp;", "&")));
-			activity.startActivity(intent);
+			openWebBrowser(activity, Uri.parse(url.replaceAll("&amp;", "&")));
+			return;
+		}
+
+		final Matcher youtuDotBeMatcher = youtuDotBePattern.matcher(url);
+
+		if(youtuDotBeMatcher.find() && youtuDotBeMatcher.group(1) != null) {
+			final String youtuBeUrl = "http://youtube.com/watch?v=" + youtuDotBeMatcher.group(1)
+					+ (youtuDotBeMatcher.group(2).length() > 0 ? "&" + youtuDotBeMatcher.group(2).substring(1) : "");
+			openWebBrowser(activity, Uri.parse(youtuBeUrl));
 
 		} else {
-
-			final Matcher youtuDotBeMatcher = youtuDotBePattern.matcher(url);
-
-			if(youtuDotBeMatcher.find() && youtuDotBeMatcher.group(1) != null) {
-				final String youtuBeUrl = "http://youtube.com/watch?v=" + youtuDotBeMatcher.group(1)
-						+ (youtuDotBeMatcher.group(2).length() > 0 ? "&" + youtuDotBeMatcher.group(2).substring(1) : "");
-				final Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse(youtuBeUrl));
-				activity.startActivity(intent);
-
-			} else {
-				final Intent intent = new Intent(activity, WebViewActivity.class);
-				intent.putExtra("url", url);
-				intent.putExtra("post", post);
-				activity.startActivity(intent);
-			}
+			final Intent intent = new Intent(activity, WebViewActivity.class);
+			intent.putExtra("url", url);
+			intent.putExtra("post", post);
+			activity.startActivity(intent);
 		}
+	}
+
+	private static void openWebBrowser(Activity activity, Uri uri) {
+		final Intent intent = new Intent(Intent.ACTION_VIEW);
+		intent.setData(uri);
+		activity.startActivity(intent);
 	}
 
 	public static final Pattern imgurPattern = Pattern.compile(".*imgur\\.com/(\\w+).*"),

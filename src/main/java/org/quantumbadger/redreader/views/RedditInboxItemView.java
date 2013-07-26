@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.views;
 
 import android.content.Context;
-import com.laurencedawson.activetextview.ActiveTextView;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.widget.FrameLayout;
 import org.holoeverywhere.widget.LinearLayout;

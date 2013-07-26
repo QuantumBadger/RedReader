@@ -26,7 +26,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
-import com.laurencedawson.activetextview.ActiveTextView;
 import org.apache.http.StatusLine;
 import org.holoeverywhere.app.AlertDialog;
 import org.holoeverywhere.app.Dialog;

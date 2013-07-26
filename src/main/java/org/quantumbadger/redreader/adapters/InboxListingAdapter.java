@@ -22,7 +22,6 @@ import android.content.res.TypedArray;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import com.laurencedawson.activetextview.ActiveTextView;
 import org.holoeverywhere.app.Fragment;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.reddit.RedditPreparedInboxItem;

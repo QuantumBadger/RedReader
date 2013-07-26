@@ -467,6 +467,14 @@ public final class MarkdownTokenizer {
 
 					break;
 
+				case TOKEN_CARET:
+
+					if(input.pos <= i + 1 || input.data[i + 1] == ' ') {
+						toRevert[i] = true;
+					}
+
+					break;
+
 				case ' ':
 
 					if(i < 1 || input.data[i - 1] == ' ') {

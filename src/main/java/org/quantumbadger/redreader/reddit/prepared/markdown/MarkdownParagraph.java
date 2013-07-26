@@ -21,10 +21,7 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.text.style.StrikethroughSpan;
-import android.text.style.StyleSpan;
-import android.text.style.TypefaceSpan;
-import android.text.style.URLSpan;
+import android.text.style.*;
 import org.holoeverywhere.app.Activity;
 import org.quantumbadger.redreader.common.LinkHandler;
 
@@ -73,7 +70,6 @@ public final class MarkdownParagraph {
 		spanned = internalGenerateSpanned();
 	}
 
-	// TODO superscript
 	private Spanned internalGenerateSpanned() {
 
 		if(type == MarkdownParser.MarkdownParagraphType.CODE || type == MarkdownParser.MarkdownParagraphType.HLINE) {
@@ -83,7 +79,7 @@ public final class MarkdownParagraph {
 		final SpannableStringBuilder builder = new SpannableStringBuilder();
 
 		// TODO bold/italic using underscores, taking into account special cases (e.g. a_b_c vs ._b_.)
-		int boldStart = -1, italicStart = -1, strikeStart = -1, linkStart = -1;
+		int boldStart = -1, italicStart = -1, strikeStart = -1, linkStart = -1, caretStart = -1;
 
 		for(int i = 0; i < tokens.length; i++) {
 
@@ -208,14 +204,29 @@ public final class MarkdownParagraph {
 					break;
 
 				case MarkdownTokenizer.TOKEN_CARET:
-					// TODO
-					builder.append('^');
+					if(caretStart < 0) caretStart = builder.length();
+					break;
+
+				case ' ':
+
+					if(caretStart >= 0) {
+						builder.setSpan(new SuperscriptSpan(), caretStart, builder.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+						builder.setSpan(new RelativeSizeSpan(0.6f), caretStart, builder.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+						caretStart = -1;
+					}
+
+					builder.append(' ');
 					break;
 
 				default:
 					builder.append((char)token);
 					break;
 			}
+		}
+
+		if(caretStart >= 0) {
+			builder.setSpan(new SuperscriptSpan(), caretStart, builder.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+			builder.setSpan(new RelativeSizeSpan(0.6f), caretStart, builder.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 		}
 
 		if(type == MarkdownParser.MarkdownParagraphType.HEADER) {

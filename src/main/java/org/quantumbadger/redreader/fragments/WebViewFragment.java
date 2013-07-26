@@ -26,6 +26,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.Fragment;
 import org.holoeverywhere.widget.FrameLayout;
@@ -44,6 +45,8 @@ import org.quantumbadger.redreader.views.liststatus.LoadingView;
 public class WebViewFragment extends Fragment implements RedditPostView.PostSelectionListener {
 
 	private String url;
+    private String currentUrl;
+    private boolean goingBack;
 
 	private WebViewFixed webView;
 	private LoadingView loadingView;
@@ -106,9 +109,19 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 		webView.setWebViewClient(new WebViewClient() {
 			@Override
 			public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
-				// TODO handle reddit URLs in the app
-				webView.loadUrl(url);
-				return true;
+                // Go back if loading same page to prevent redirect loops.
+                if(goingBack && currentUrl != null && url != null && url.equals(currentUrl)) {
+                    if (webView.canGoBackOrForward(-2)) {
+                        webView.goBackOrForward(-2);
+                    } else {
+                        getSupportActivity().finish();
+                    }
+                } else  {
+                    // TODO handle reddit URLs in the app
+                    webView.loadUrl(url);
+                    currentUrl = url;
+                }
+                return true;
 			}
 
 			@Override
@@ -116,7 +129,18 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 				super.onPageStarted(view, url, favicon);
 				getSupportActivity().setTitle(url);
 			}
-		});
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                goingBack = false;
+            }
+
+            @Override
+            public void doUpdateVisitedHistory(WebView view, String url, boolean isReload) {
+                super.doUpdateVisitedHistory(view, url, isReload);
+            }
+        });
 
 		webView.setWebChromeClient(new WebChromeClient() {
 			@Override
@@ -188,11 +212,11 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 
 	public boolean onBackButtonPressed() {
 
-		/*
 		if(webView.canGoBack()) {
+            goingBack = true;
 			webView.goBack();
 			return true;
-		}*/ // Websites with redirects cause this to fail
+		}
 
 		return false;
 	}
@@ -204,6 +228,10 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 	public void onPostCommentsSelected(final RedditPreparedPost post) {
 		((RedditPostView.PostSelectionListener)getSupportActivity()).onPostCommentsSelected(post);
 	}
+
+    public String getCurrentUrl() {
+        return (currentUrl != null) ? currentUrl : url;
+    }
 
 	@Override
 	public void onPause() {

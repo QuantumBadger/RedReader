@@ -197,4 +197,9 @@ public class CommentEditActivity extends Activity {
 
 		return true;
 	}
+
+	@Override
+	public void onBackPressed() {
+		if(General.onBackPressed()) super.onBackPressed();
+	}
 }

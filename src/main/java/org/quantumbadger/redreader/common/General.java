@@ -26,6 +26,7 @@ import android.net.NetworkInfo;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.os.SystemClock;
 import android.util.Log;
 import android.util.TypedValue;
 import android.widget.Toast;
@@ -45,6 +46,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class General {
+
+	private static long lastBackPress = -1;
+
+	public static boolean onBackPressed() {
+
+		if(lastBackPress < SystemClock.uptimeMillis() - 300) {
+			lastBackPress = SystemClock.uptimeMillis();
+			return true;
+		}
+
+		return false;
+	}
 
 	private static Typeface monoTypeface;
 

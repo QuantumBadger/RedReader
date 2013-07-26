@@ -1,9 +1,9 @@
 40/1.8.0
-Better markdown support
+Better markdown support (superscript, multi-level quotes, code, etc)
 Links in comments are represented by buttons
 Ability to switch from internal to external browser (thanks to trevor-e)
 Search bugfix
-[TODO] Back button delay
+Back button delay
 Samsung multi-window support (phone reboot required)
 
 39/1.7.5

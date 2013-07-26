@@ -18,13 +18,14 @@
 package org.quantumbadger.redreader.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.net.Uri;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import org.holoeverywhere.app.Activity;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.WebViewFragment;
@@ -65,7 +66,9 @@ public class WebViewActivity extends Activity implements RedditPostView.PostSele
 
 	@Override
 	public void onBackPressed() {
-		if(!webView.onBackButtonPressed()) finish();
+
+		if(General.onBackPressed() && !webView.onBackButtonPressed())
+			super.onBackPressed();
 	}
 
 	public void onPostSelected(final RedditPreparedPost post) {

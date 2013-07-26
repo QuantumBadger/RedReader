@@ -53,6 +53,7 @@ import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.fragments.PostPropertiesDialog;
 import org.quantumbadger.redreader.fragments.UserProfileDialog;
+import org.quantumbadger.redreader.fragments.WebViewFragment;
 import org.quantumbadger.redreader.image.ThumbnailScaler;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
@@ -288,7 +289,8 @@ public final class RedditPreparedPost {
 
 			case EXTERNAL: {
 				final Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse(post.url));
+                String url = (fragmentParent instanceof WebViewFragment) ? ((WebViewFragment) fragmentParent).getCurrentUrl() : post.url;
+				intent.setData(Uri.parse(url));
 				activity.startActivity(intent);
 				break;
 			}

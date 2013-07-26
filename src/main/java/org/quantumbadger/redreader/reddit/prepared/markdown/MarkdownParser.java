@@ -61,33 +61,31 @@ public final class MarkdownParser {
 
 					case TEXT:
 
-						if(i > 0) {
+						if(i < 1) {
+							throw new RuntimeException("Internal error: invalid paragrapher state");
+						}
 
-							switch(lines[i - 1].type) {
-								case QUOTE:
-								case BULLET:
-								case NUMBERED:
-								case TEXT:
+						switch(lines[i - 1].type) {
+							case QUOTE:
+							case BULLET:
+							case NUMBERED:
+							case TEXT:
 
-									if(lines[i - 1].spacesAtEnd >= 2) {
-										mergedLines.add(currentLine);
-										currentLine = lines[i];
-
-									} else {
-										currentLine = currentLine.rejoin(lines[i]);
-									}
-									break;
-
-								case CODE:
-								case HEADER:
-								case HLINE:
+								if(lines[i - 1].spacesAtEnd >= 2) {
 									mergedLines.add(currentLine);
 									currentLine = lines[i];
-									break;
-							}
 
-						} else {
-							throw new RuntimeException("Internal error: invalid paragrapher state");
+								} else {
+									currentLine = currentLine.rejoin(lines[i]);
+								}
+								break;
+
+							case CODE:
+							case HEADER:
+							case HLINE:
+								mergedLines.add(currentLine);
+								currentLine = lines[i];
+								break;
 						}
 
 						break;

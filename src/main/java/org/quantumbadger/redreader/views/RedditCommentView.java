@@ -114,7 +114,7 @@ public class RedditCommentView extends LinearLayout {
 
 		bodyHolder.addView(commentBody);
 		commentBody.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-		((MarginLayoutParams)commentBody.getLayoutParams()).topMargin = General.dpToPixels(activity, 2);
+		((MarginLayoutParams)commentBody.getLayoutParams()).topMargin = General.dpToPixels(activity, 1);
 
 		updateVisibility(activity);
 	}

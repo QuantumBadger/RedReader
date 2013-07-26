@@ -116,6 +116,7 @@ public final class MarkdownLine {
 	}
 
 	public MarkdownLine rejoin(MarkdownLine toAppend) {
+		src.arr[src.start + src.length] = ' ';
 		return new MarkdownLine(src.rejoin(toAppend.src), type, spacesAtStart, toAppend.spacesAtEnd, prefixLength, level, number);
 	}
 

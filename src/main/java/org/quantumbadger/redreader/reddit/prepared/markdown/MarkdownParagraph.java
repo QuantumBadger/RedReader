@@ -218,6 +218,12 @@ public final class MarkdownParagraph {
 			}
 		}
 
+		if(type == MarkdownParser.MarkdownParagraphType.HEADER) {
+			while(builder.length() > 0 && builder.charAt(builder.length() - 1) == '#') {
+				builder.delete(builder.length() - 1, builder.length());
+			}
+		}
+
 		return builder;
 	}
 

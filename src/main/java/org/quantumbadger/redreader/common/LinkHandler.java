@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.common;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Handler;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.AlertDialog;
 import org.quantumbadger.redreader.activities.CommentListingActivity;
@@ -29,9 +30,7 @@ import org.quantumbadger.redreader.fragments.UserProfileDialog;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 
-import java.util.HashSet;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -57,11 +56,16 @@ public class LinkHandler {
 			final Uri rrUri = Uri.parse(url);
 
 			if(rrUri.getAuthority().equals("msg")) {
-				final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-				builder.setTitle(rrUri.getQueryParameter("title"));
-				builder.setMessage(rrUri.getQueryParameter("message"));
-				AlertDialog alert = builder.create();
-				alert.show();
+				new Handler().post(new Runnable() {
+					public void run() {
+						final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+						builder.setTitle(rrUri.getQueryParameter("title"));
+						builder.setMessage(rrUri.getQueryParameter("message"));
+						AlertDialog alert = builder.create();
+						alert.show();
+					}
+				});
+
 				return;
 			}
 		}

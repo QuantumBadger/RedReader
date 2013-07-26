@@ -25,6 +25,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
 import org.apache.http.StatusLine;
+import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.widget.Button;
 import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.TextView;
@@ -75,7 +76,7 @@ public class UserProfileDialog extends PropertiesDialog {
 	}
 
 	@Override
-	public final void prepare(final Context context, final LinearLayout items) {
+	public final void prepare(final Activity context, final LinearLayout items) {
 
 		final LoadingView loadingView = new LoadingView(context, R.string.download_waiting, true, true);
 		items.addView(loadingView);

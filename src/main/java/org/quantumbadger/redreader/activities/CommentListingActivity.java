@@ -30,6 +30,7 @@ import org.holoeverywhere.preference.SharedPreferences;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
@@ -188,5 +189,10 @@ public class CommentListingActivity extends RefreshableActivity
 		final Intent intent = new Intent(this, CommentListingActivity.class);
 		intent.putExtra("postId", post.idAlone);
 		startActivityForResult(intent, 1);
+	}
+
+	@Override
+	public void onBackPressed() {
+		if(General.onBackPressed()) super.onBackPressed();
 	}
 }

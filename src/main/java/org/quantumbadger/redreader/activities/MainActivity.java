@@ -193,14 +193,16 @@ public class MainActivity extends RefreshableActivity
 				alertBuilder.setPositiveButton(R.string.dialog_go, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 
-						final String name = editText.getText().toString().toLowerCase().trim();
+						String subredditInput = editText.getText().toString().trim();
 
-						if(!name.matches("[\\w\\+]+")) {
-							General.quickToast(MainActivity.this, R.string.mainmenu_custom_invalid_name);
-						} else {
-							final RedditSubreddit subreddit = new RedditSubreddit("/r/" + name, "/r/" + name, true);
-							onSelected(subreddit);
-						}
+                        try {
+                            final String normalizedName = RedditSubreddit.getNormalizedName(subredditInput);
+                            final RedditSubreddit subreddit = new RedditSubreddit(normalizedName, normalizedName, true);
+                            onSelected(subreddit);
+                        }
+                        catch (RedditSubreddit.InvalidSubredditNameException e){
+                            General.quickToast(MainActivity.this, R.string.mainmenu_custom_invalid_name);
+                        }
 					}
 				});
 
@@ -317,8 +319,10 @@ public class MainActivity extends RefreshableActivity
 	@Override
 	public void onBackPressed() {
 
+		if(!General.onBackPressed()) return;
+
 		if(!twoPane || isMenuShown) {
-			finish();
+			super.onBackPressed();
 			return;
 		}
 
@@ -477,7 +481,7 @@ public class MainActivity extends RefreshableActivity
 				final String url;
 
 				if(sr.isReal()) {
-					url = sr.url + "/search.json?restrict_sr=on&q=" + query;
+					url = sr.url + "search.json?restrict_sr=on&q=" + query;
 				} else {
 					url = "/search.json?q=" + query;
 				}

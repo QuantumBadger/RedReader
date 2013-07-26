@@ -36,6 +36,7 @@ package org.quantumbadger.redreader.fragments;
 
 import android.content.Context;
 import android.graphics.Color;
+import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.TextView;
 import org.quantumbadger.redreader.R;
@@ -58,7 +59,7 @@ public final class ChangelogDialog extends PropertiesDialog {
 	}
 
 	@Override
-	protected void prepare(Context context, LinearLayout items) {
+	protected void prepare(Activity context, LinearLayout items) {
 
 		final int outerPaddingPx = General.dpToPixels(context, 12);
 		items.setPadding(outerPaddingPx, 0, outerPaddingPx, outerPaddingPx);
@@ -68,8 +69,6 @@ public final class ChangelogDialog extends PropertiesDialog {
 
 			int curVersionCode = -1;
 			String curVersionName = null;
-
-			boolean firstInList = true;
 
 			String line;
 			while((line = br.readLine()) != null) {

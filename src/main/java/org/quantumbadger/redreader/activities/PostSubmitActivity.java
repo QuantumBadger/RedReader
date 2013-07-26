@@ -268,4 +268,9 @@ public class PostSubmitActivity extends Activity {
 
 		progressDialog.show();
 	}
+
+	@Override
+	public void onBackPressed() {
+		if(General.onBackPressed()) super.onBackPressed();
+	}
 }

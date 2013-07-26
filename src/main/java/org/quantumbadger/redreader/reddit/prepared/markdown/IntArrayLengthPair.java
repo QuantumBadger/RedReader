@@ -15,18 +15,37 @@
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.reddit;
+package org.quantumbadger.redreader.reddit.prepared.markdown;
 
-import android.content.Context;
-import android.text.SpannableStringBuilder;
-import android.view.ViewGroup;
-import com.laurencedawson.activetextview.ActiveTextView;
-import org.holoeverywhere.app.Activity;
+public final class IntArrayLengthPair {
+	public final int[] data;
+	public int pos = 0;
 
-public interface RedditPreparedInboxItem {
+	public IntArrayLengthPair(int capacity) {
+		this.data = new int[capacity];
+	}
 
-	public SpannableStringBuilder getHeader();
+	public void clear() {
+		pos = 0;
+	}
 
-	public ViewGroup getBody(Activity activity, float textSize, Integer textCol);
+	public void append(final int[] arr) {
+		System.arraycopy(arr, 0, data, pos, arr.length);
+		pos += arr.length;
+	}
 
+	public void append(final char[] arr) {
+
+		for(int i = 0; i < arr.length; i++) {
+			data[pos + i] = arr[i];
+		}
+
+		pos += arr.length;
+	}
+
+	public int[] substringAsArray(int start) {
+		final int[] result = new int[pos - start];
+		System.arraycopy(data, start, result, 0, result.length);
+		return result;
+	}
 }

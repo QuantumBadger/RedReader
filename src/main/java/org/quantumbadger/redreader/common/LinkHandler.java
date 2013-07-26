@@ -19,7 +19,9 @@ package org.quantumbadger.redreader.common;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Handler;
 import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.app.AlertDialog;
 import org.quantumbadger.redreader.activities.CommentListingActivity;
 import org.quantumbadger.redreader.activities.ImageViewActivity;
 import org.quantumbadger.redreader.activities.PostListingActivity;
@@ -28,7 +30,6 @@ import org.quantumbadger.redreader.fragments.UserProfileDialog;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -47,7 +48,27 @@ public class LinkHandler {
 		onLinkClicked(activity, url, forceNoImage, null);
 	}
 
-	public static void onLinkClicked(Activity activity, String url, boolean forceNoImage, final RedditPost post) {
+	public static void onLinkClicked(final Activity activity, final String url,
+									 final boolean forceNoImage, final RedditPost post) {
+
+		if(url.startsWith("rr://")) {
+
+			final Uri rrUri = Uri.parse(url);
+
+			if(rrUri.getAuthority().equals("msg")) {
+				new Handler().post(new Runnable() {
+					public void run() {
+						final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+						builder.setTitle(rrUri.getQueryParameter("title"));
+						builder.setMessage(rrUri.getQueryParameter("message"));
+						AlertDialog alert = builder.create();
+						alert.show();
+					}
+				});
+
+				return;
+			}
+		}
 
 		if(!forceNoImage) {
 			final String imageUrl = getImageUrl(url);

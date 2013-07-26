@@ -78,4 +78,9 @@ public class ImageViewActivity extends Activity implements RedditPostView.PostSe
 		intent.putExtra("postId", post.idAlone);
 		startActivityForResult(intent, 1);
 	}
+
+	@Override
+	public void onBackPressed() {
+		if(General.onBackPressed()) super.onBackPressed();
+	}
 }

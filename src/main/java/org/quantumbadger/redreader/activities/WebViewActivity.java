@@ -18,11 +18,14 @@
 package org.quantumbadger.redreader.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import org.holoeverywhere.app.Activity;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.WebViewFragment;
@@ -33,6 +36,8 @@ import org.quantumbadger.redreader.views.RedditPostView;
 public class WebViewActivity extends Activity implements RedditPostView.PostSelectionListener {
 
 	private WebViewFragment webView;
+	private String url;
+	public static final int VIEW_IN_BROWSER = 10;
 
 	public void onCreate(final Bundle savedInstanceState) {
 
@@ -45,7 +50,7 @@ public class WebViewActivity extends Activity implements RedditPostView.PostSele
 
 		final Intent intent = getIntent();
 
-		final String url = intent.getStringExtra("url");
+		url = intent.getStringExtra("url");
 		final RedditPost post = intent.getParcelableExtra("post");
 
 		if(url == null) {
@@ -61,7 +66,9 @@ public class WebViewActivity extends Activity implements RedditPostView.PostSele
 
 	@Override
 	public void onBackPressed() {
-		if(!webView.onBackButtonPressed()) finish();
+
+		if(General.onBackPressed() && !webView.onBackButtonPressed())
+			super.onBackPressed();
 	}
 
 	public void onPostSelected(final RedditPreparedPost post) {
@@ -76,12 +83,30 @@ public class WebViewActivity extends Activity implements RedditPostView.PostSele
 
 	@Override
 	public boolean onOptionsItemSelected(final MenuItem item) {
+
 		switch(item.getItemId()) {
+
 			case android.R.id.home:
 				finish();
 				return true;
+
+			case VIEW_IN_BROWSER:
+				if(webView.getCurrentUrl() != null) {
+					final Intent intent = new Intent(Intent.ACTION_VIEW);
+					intent.setData(Uri.parse(webView.getCurrentUrl()));
+					startActivity(intent);
+					finish(); //to clear from backstack
+				}
+				return true;
+
 			default:
 				return super.onOptionsItemSelected(item);
 		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(0, VIEW_IN_BROWSER, 0, R.string.web_view_open_browser);
+		return super.onCreateOptionsMenu(menu);
 	}
 }

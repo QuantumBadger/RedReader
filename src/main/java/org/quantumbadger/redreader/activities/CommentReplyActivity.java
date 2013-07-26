@@ -226,4 +226,9 @@ public class CommentReplyActivity extends Activity {
 			lastParentIdAndType = parentIdAndType;
 		}
 	}
+
+	@Override
+	public void onBackPressed() {
+		if(General.onBackPressed()) super.onBackPressed();
+	}
 }

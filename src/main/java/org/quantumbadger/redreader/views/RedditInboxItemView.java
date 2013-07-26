@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.views;
 
 import android.content.Context;
 import com.laurencedawson.activetextview.ActiveTextView;
+import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.widget.FrameLayout;
 import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.TextView;
@@ -59,11 +60,11 @@ public class RedditInboxItemView extends LinearLayout {
 		addView(main);
 	}
 
-	public void reset(final Context context, final RedditPreparedInboxItem item, final ActiveTextView.OnLinkClickedListener listener) {
+	public void reset(final Activity context, final RedditPreparedInboxItem item) {
 
 		header.setText(item.getHeader());
 
 		bodyHolder.removeAllViews();
-		bodyHolder.addView(item.getBody(context, 13.0f, bodyCol, listener));
+		bodyHolder.addView(item.getBody(context, 13.0f, bodyCol));
 	}
 }

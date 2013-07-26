@@ -90,7 +90,7 @@ public final class CommentListingAdapter extends BaseAdapter {
 			convertView = new RedditCommentView(viewGroup.getContext(), rrCommentHeaderCol, rrCommentBodyCol);
 		}
 
-		((RedditCommentView)convertView).reset(viewGroup.getContext(), fragment, commentsToReport.get(i), fragment);
+		((RedditCommentView)convertView).reset(fragment.getSupportActivity(), fragment, commentsToReport.get(i), fragment);
 
 		return convertView;
 	}

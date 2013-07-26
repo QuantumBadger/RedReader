@@ -1,3 +1,13 @@
+40/1.8.0
+Better markdown support (superscript, multi-level quotes, code, etc)
+Links in comments are represented by buttons
+Better back button handling in internal browser (thanks to Evan Tatarka)
+Ability to switch from internal to external browser (thanks to trevor-e)
+Custom subreddit bugfix (thanks to DubHunt)
+Search bugfix
+Back button delay
+Samsung multi-window support (phone reboot required)
+
 39/1.7.5
 HTTPS enabled by default
 "Links in Comment" should now have predictable order

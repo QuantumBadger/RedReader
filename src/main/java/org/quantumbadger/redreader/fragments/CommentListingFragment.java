@@ -62,8 +62,8 @@ import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.RedditAPI;
+import org.quantumbadger.redreader.reddit.prepared.markdown.MarkdownParser;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
-import org.quantumbadger.redreader.reddit.prepared.RedditCommentTextParser;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedComment;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditComment;
@@ -401,14 +401,9 @@ public class CommentListingFragment extends Fragment
 
 						if(post.is_self && post.selftext != null && post.selftext.trim().length() > 0) {
 
-							selfText = RedditCommentTextParser.parse(StringEscapeUtils.unescapeHtml4(post.selftext))
-									.generate(context, 14f * commentFontScale, null, new ActiveTextView.OnLinkClickedListener() {
-										public void onClickUrl(String url) {
-											if(url != null) LinkHandler.onLinkClicked(getSupportActivity(), url, false);
-										}
+							selfText = MarkdownParser.parse(StringEscapeUtils.unescapeHtml4(post.selftext).toCharArray())
+									.buildView(getSupportActivity(), null, 14f * commentFontScale);
 
-										public void onClickText(Object attachment) {}
-									}, CommentListingFragment.this.post);
 						} else {
 							selfText = null;
 						}

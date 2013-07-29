@@ -159,7 +159,7 @@ public final class MarkdownLine {
 
 				case 'h':
 
-					if(src.equalAt(i + 1, "ttp://")) {
+					if(src.equalAt(i + 1, "ttp://") || src.equalAt(i + 1, "ttps://")) {
 						return false;
 					}
 

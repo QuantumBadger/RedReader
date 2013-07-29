@@ -1,5 +1,6 @@
 42/1.8.2
 Bugfix when linkifying HTTPS links
+Bugfix when joining two consecutive markdown lines
 
 41/1.8.1
 Preference to disable internal browser

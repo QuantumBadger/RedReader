@@ -142,6 +142,14 @@ public final class General {
 		});
 	}
 
+	public static void quickToast(final Context context, final String text, final int duration) {
+		new Handler(Looper.getMainLooper()).post(new Runnable() {
+			public void run() {
+				Toast.makeText(context, text, duration).show();
+			}
+		});
+	}
+
 	public static boolean isTablet(final Context context, final SharedPreferences sharedPreferences) {
 
 		final PrefsUtility.AppearanceTwopane pref = PrefsUtility.appearance_twopane(context, sharedPreferences);

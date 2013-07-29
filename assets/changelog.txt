@@ -1,6 +1,7 @@
 41/1.8.1
 Preference to disable internal browser
 Preference to disable link buttons
+Handles deep redirect loops
 
 40/1.8.0
 Better markdown support (superscript, multi-level quotes, code, etc)

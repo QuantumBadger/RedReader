@@ -20,19 +20,22 @@ package org.quantumbadger.redreader.fragments;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.Fragment;
 import org.holoeverywhere.widget.FrameLayout;
+import org.holoeverywhere.widget.Toast;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
@@ -42,11 +45,15 @@ import org.quantumbadger.redreader.views.bezelmenu.BezelSwipeOverlay;
 import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
 import org.quantumbadger.redreader.views.liststatus.LoadingView;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class WebViewFragment extends Fragment implements RedditPostView.PostSelectionListener {
 
 	private String url;
-    private String currentUrl;
-    private boolean goingBack;
+    private volatile String currentUrl;
+    private volatile boolean goingBack;
+	private volatile int lastBackDepthAttempt;
 
 	private WebViewFixed webView;
 	private LoadingView loadingView;
@@ -111,8 +118,14 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 			public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
                 // Go back if loading same page to prevent redirect loops.
                 if(goingBack && currentUrl != null && url != null && url.equals(currentUrl)) {
-                    if (webView.canGoBackOrForward(-2)) {
-                        webView.goBackOrForward(-2);
+
+					General.quickToast(context,
+							String.format("Handling redirect loop (level %d)", -lastBackDepthAttempt), Toast.LENGTH_SHORT);
+
+					lastBackDepthAttempt--;
+
+                    if (webView.canGoBackOrForward(lastBackDepthAttempt)) {
+                        webView.goBackOrForward(lastBackDepthAttempt);
                     } else {
                         getSupportActivity().finish();
                     }
@@ -131,9 +144,38 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 			}
 
             @Override
-            public void onPageFinished(WebView view, String url) {
+            public void onPageFinished(final WebView view, final String url) {
                 super.onPageFinished(view, url);
-                goingBack = false;
+
+				new Timer().schedule(new TimerTask() {
+					@Override
+					public void run() {
+
+						if(currentUrl == null || url == null) return;
+
+						if(!url.equals(view.getUrl())) return;
+
+						if(goingBack && url.equals(currentUrl)) {
+							new Handler(Looper.getMainLooper()).post(new Runnable() {
+								public void run() {
+
+									General.quickToast(context,
+											String.format("Handling redirect loop (level %d)", -lastBackDepthAttempt));
+
+									lastBackDepthAttempt--;
+
+									if (webView.canGoBackOrForward(lastBackDepthAttempt)) {
+										webView.goBackOrForward(lastBackDepthAttempt);
+									} else {
+										getSupportActivity().finish();
+									}
+								}
+							});
+						} else {
+							goingBack = false;
+						}
+					}
+				}, 1000);
             }
 
             @Override
@@ -214,6 +256,7 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 
 		if(webView.canGoBack()) {
             goingBack = true;
+			lastBackDepthAttempt = -1;
 			webView.goBack();
 			return true;
 		}

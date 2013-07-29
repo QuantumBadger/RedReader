@@ -58,6 +58,10 @@ public final class RRFragmentLayout extends ViewGroup {
 		return null; // TODO
 	}
 
+	public int getFragmentCount() {
+		return activeViews.size();
+	}
+
 	public Bundle saveState() {
 
 		final Bundle bundle = new Bundle();
@@ -150,7 +154,7 @@ public final class RRFragmentLayout extends ViewGroup {
 		}
 	}
 
-	public void cleanUpInactiveFragments() {
+	private void cleanUpInactiveFragments() {
 
 		final int childCount = getChildCount();
 

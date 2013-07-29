@@ -32,27 +32,23 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.StyleSpan;
 import android.text.style.URLSpan;
-import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewParent;
 import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.TextView;
+import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.widget.ListView;
+import org.quantumbadger.redreader.adapters.CommentListingAdapter;
+import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.views.RedditCommentView;
 
 public class ActiveTextView extends TextView {
 
-	public ActiveTextView(final Context context) {
-		super(context);
-		setup();
-	}
-
-	public ActiveTextView(final Context context, AttributeSet attrs) {
-		super(context, attrs);
-		setup();
-	}
-
-	public ActiveTextView(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-		setup();
+	public ActiveTextView(final Activity activity) {
+		super(activity);
+		setup(activity);
 	}
 
 	private boolean mLinkSet, mDisplayMinLongPress;
@@ -66,7 +62,7 @@ public class ActiveTextView extends TextView {
 		this.attachment = attachment;
 	}
 
-	private void setup() {
+	private void setup(final Activity activity) {
 
 		mSpannable = new SpannableStringBuilder();
 
@@ -107,22 +103,21 @@ public class ActiveTextView extends TextView {
 										mListener.onClickUrl(mUrl);
 									else {
 										if(mUrl != null) {
-											Intent i = new Intent(Intent.ACTION_VIEW);
-											i.setData(Uri.parse(mUrl));
-											getContext().startActivity(i);
+											LinkHandler.onLinkClicked(activity, mUrl, false);
 										}
 									}
 								}
 								Selection.removeSelection(buffer);
 								return true;
-							} else if(action == MotionEvent.ACTION_DOWN) {
+
+							} else {
 								Selection.setSelection(buffer, buffer.getSpanStart(link[0]), buffer.getSpanEnd(link[0]));
 								URLSpan s = (URLSpan) link[0];
 								mUrl = s.getURL();
 								mLinkSet = true;
 								return true;
 							}
-							return false;
+
 						} else {
 							Selection.removeSelection(buffer);
 						}
@@ -199,8 +194,29 @@ public class ActiveTextView extends TextView {
 // Provide an easier interface for the parent view
 		setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				if(!isLinkPending() && mListener != null)
-					mListener.onClickText(attachment);
+				if(!isLinkPending()) {
+					if(mListener != null) mListener.onClickText(attachment);
+
+					ViewParent redditCommentView = getParent();
+					while(redditCommentView != null && !(redditCommentView instanceof RedditCommentView))
+						redditCommentView = redditCommentView.getParent();
+
+					if(redditCommentView != null) {
+
+						ViewParent listView = getParent();
+						while(listView != null && !(listView instanceof ListView))
+							listView = listView.getParent();
+
+						if(listView != null) {
+							final ListAdapter adapter = ((ListView) listView).getAdapterSource();
+
+							if(adapter instanceof CommentListingAdapter) {
+								((CommentListingAdapter)adapter).handleVisibilityToggle((RedditCommentView) redditCommentView);
+							}
+						}
+					}
+
+				}
 				cancelLink();
 			}
 		});

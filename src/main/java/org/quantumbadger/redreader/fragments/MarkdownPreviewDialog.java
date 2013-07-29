@@ -51,7 +51,7 @@ public class MarkdownPreviewDialog extends PropertiesDialog {
 		final MarkdownParagraphGroup parsedGen
 				= MarkdownParser.parse(getArguments().getString("markdown").toCharArray());
 
-		final ViewGroup parsed = parsedGen.buildView(context, null, 14f);
+		final ViewGroup parsed = parsedGen.buildView(context, null, 14f, false);
 
 		final int paddingPx = General.dpToPixels(context, 10);
 		parsed.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);

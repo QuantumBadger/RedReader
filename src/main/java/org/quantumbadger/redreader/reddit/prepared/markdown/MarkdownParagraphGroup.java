@@ -23,6 +23,7 @@ import android.text.Spanned;
 import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.view.ViewGroup;
+import com.laurencedawson.activetextview.ActiveTextView;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.TextView;
@@ -37,7 +38,8 @@ public final class MarkdownParagraphGroup {
 		this.paragraphs = paragraphs;
 	}
 
-	public ViewGroup buildView(final Activity activity, final Integer textColor, final Float textSize) {
+	public ViewGroup buildView(final Activity activity, final Integer textColor, final Float textSize,
+							   final boolean showLinkButtons) {
 
 		final float dpScale = activity.getResources().getDisplayMetrics().density;
 
@@ -51,7 +53,7 @@ public final class MarkdownParagraphGroup {
 
 		for(final MarkdownParagraph paragraph : paragraphs) {
 
-			final TextView tv = new TextView(activity);
+			final ActiveTextView tv = new ActiveTextView(activity);
 			tv.setText(paragraph.spanned);
 
 			if(textColor != null) tv.setTextColor(textColor);
@@ -175,20 +177,22 @@ public final class MarkdownParagraphGroup {
 					throw new RuntimeException("Internal error: empty paragraph when building view");
 			}
 
-			for(final MarkdownParagraph.Link link : paragraph.links) {
+			if(showLinkButtons) {
+				for(final MarkdownParagraph.Link link : paragraph.links) {
 
-				final LinkDetailsView ldv = new LinkDetailsView(activity, link.title, link.subtitle);
-				layout.addView(ldv);
+					final LinkDetailsView ldv = new LinkDetailsView(activity, link.title, link.subtitle);
+					layout.addView(ldv);
 
-				final int linkMarginPx = Math.round(dpScale * 8);
-				((LinearLayout.LayoutParams) ldv.getLayoutParams()).setMargins(0, linkMarginPx, 0, linkMarginPx);
-				ldv.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+					final int linkMarginPx = Math.round(dpScale * 8);
+					((LinearLayout.LayoutParams) ldv.getLayoutParams()).setMargins(0, linkMarginPx, 0, linkMarginPx);
+					ldv.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
 
-				ldv.setOnClickListener(new View.OnClickListener() {
-					public void onClick(View v) {
-						link.onClicked(activity);
-					}
-				});
+					ldv.setOnClickListener(new View.OnClickListener() {
+						public void onClick(View v) {
+							link.onClicked(activity);
+						}
+					});
+				}
 			}
 		}
 

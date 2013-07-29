@@ -21,7 +21,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
-import com.laurencedawson.activetextview.ActiveTextView;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.widget.FrameLayout;
@@ -30,7 +29,6 @@ import org.holoeverywhere.widget.TextView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
-import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedComment;
 
 public class RedditCommentView extends LinearLayout {
@@ -46,6 +44,8 @@ public class RedditCommentView extends LinearLayout {
 
 	private final int bodyCol;
 	private final float fontScale;
+
+	private final boolean showLinkButtons;
 
 	public RedditCommentView(final Context context, final int headerCol, final int bodyCol) {
 
@@ -90,9 +90,11 @@ public class RedditCommentView extends LinearLayout {
 
 		addView(main);
 		main.getLayoutParams().width = LinearLayout.LayoutParams.MATCH_PARENT;
+
+		showLinkButtons = PrefsUtility.pref_appearance_linkbuttons(context, PreferenceManager.getDefaultSharedPreferences(context));
 	}
 
-	public void reset(final Activity activity, final CommentListingFragment fragment, final RedditPreparedComment comment, final ActiveTextView.OnLinkClickedListener listener) {
+	public void reset(final Activity activity, final RedditPreparedComment comment) {
 
 		if(this.comment != null) this.comment.unbind(this);
 
@@ -110,7 +112,7 @@ public class RedditCommentView extends LinearLayout {
 		}
 
 		bodyHolder.removeAllViews();
-		final ViewGroup commentBody = comment.getBody(activity, 13.0f * fontScale, bodyCol);
+		final ViewGroup commentBody = comment.getBody(activity, 13.0f * fontScale, bodyCol, showLinkButtons);
 
 		bodyHolder.addView(commentBody);
 		commentBody.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;

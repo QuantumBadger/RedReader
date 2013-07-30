@@ -26,7 +26,7 @@ public final class MarkdownLine {
 
 	MarkdownLine(CharArrSubstring src, MarkdownParser.MarkdownParagraphType type, int spacesAtStart, int spacesAtEnd,
 				 int prefixLength, int level, int number) {
-		this.src = prefixLength == 0 ? src : src.substring(prefixLength);
+		this.src = src;
 		this.type = type;
 		this.spacesAtStart = spacesAtStart;
 		this.spacesAtEnd = spacesAtEnd;
@@ -121,23 +121,26 @@ public final class MarkdownLine {
 	}
 
 	public MarkdownParagraph tokenize(final MarkdownParagraph parent) {
+
+		final CharArrSubstring cleanedSrc = prefixLength == 0 ? src : src.substring(prefixLength);
+
 		if(type != MarkdownParser.MarkdownParagraphType.CODE && type != MarkdownParser.MarkdownParagraphType.HLINE) {
 
 			if(isPlainText()) {
-				return new MarkdownParagraph(src, parent, type, null, level, number);
+				return new MarkdownParagraph(cleanedSrc, parent, type, null, level, number);
 			} else {
-				final IntArrayLengthPair tokens = MarkdownTokenizer.tokenize(src);
-				return new MarkdownParagraph(src, parent, type, tokens.substringAsArray(0), level, number);
+				final IntArrayLengthPair tokens = MarkdownTokenizer.tokenize(cleanedSrc);
+				return new MarkdownParagraph(cleanedSrc, parent, type, tokens.substringAsArray(0), level, number);
 			}
 
 		} else {
-			return new MarkdownParagraph(src, parent, type, null, level, number);
+			return new MarkdownParagraph(cleanedSrc, parent, type, null, level, number);
 		}
 	}
 
 	private boolean isPlainText() {
 
-		for(int i = 0; i < src.length; i++) {
+		for(int i = prefixLength; i < src.length; i++) {
 			switch(src.arr[i + src.start]) {
 				case '*':
 				case '_':

@@ -37,4 +37,8 @@ public class RRPreferenceLink extends RRPreference {
 		super(preferenceManager, attributes, itemSource);
 		this.uri = uri;
 	}
+
+	public Uri getUri() {
+		return uri;
+	}
 }

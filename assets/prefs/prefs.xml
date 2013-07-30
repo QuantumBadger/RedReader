@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<prefspage>
+
+    <Boolean id="pref_test_bool1" default="true" />
+
+    <Float id="pref_test_float1" default="0.1">
+        <item lstr="0.1" value="0.1" />
+        <item str="pref_test_bool1_title" value="0.2" />
+        <item lstr="0.3" value="0.3" />
+    </Float>
+
+    <Enum id="pref_test_enum1" default="A" enum="org.quantumbadger.redreader.delta.ui.prefs.RRPreferenceEnum$TestEnum">
+        <item lstr="Item A" value="A" />
+    </Enum>
+
+</prefspage>

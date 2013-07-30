@@ -18,18 +18,27 @@
 package org.quantumbadger.redreader.ui.prefs;
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
+import org.quantumbadger.redreader.common.UniqueSynchronizedQueue;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 
 public final class RRPrefs {
 
 	private static RRPrefs prefs;
 
 	private final SQLiteHashMap prefMap;
+
+	private final HashMap<String, LinkedList<RRPreference>> prefPages = new HashMap<String, LinkedList<RRPreference>>();
 
 	public RRPreferenceBoolean pref_test_bool1;
 	public RRPreferenceFloat pref_test_float1;
@@ -49,18 +58,31 @@ public final class RRPrefs {
 
 		prefMap = new SQLiteHashMap(context, "prefs.db");
 
+		final UniqueSynchronizedQueue<String> remainingFiles = new UniqueSynchronizedQueue<String>();
+		remainingFiles.enqueue(getPrefsFileFromUri(Uri.parse("rr://settings/")));
+
+		while(!remainingFiles.isEmpty()) {
+			remainingFiles.enqueue(buildFromFile(context, remainingFiles.dequeue()));
+		}
+	}
+
+	private HashSet<String> buildFromFile(Context context, String filename) throws XmlPullParserException,
+			IOException, XmlParserWrapper.RRParseException, IllegalAccessException, NoSuchFieldException {
+
 		final XmlPullParser xmlResourceParser = XmlPullParserFactory.newInstance().newPullParser();
-		xmlResourceParser.setInput(context.getAssets().open("prefs/prefs.xml"), "UTF-8");
+		xmlResourceParser.setInput(context.getAssets().open(filename), "UTF-8");
 		final XmlParserWrapper parser = new XmlParserWrapper(xmlResourceParser);
+
+		final HashSet<String> linkedFiles = new HashSet<String>();
+		final LinkedList<RRPreference> prefPage = new LinkedList<RRPreference>();
 
 		if(parser.next() != XmlPullParser.START_TAG) throw new RuntimeException("Expected: start tag");
 		if(parser.getName().equals("PrefsPage")) throw new RuntimeException("Expected: PrefsPage tag");
 
-		int type;
-		while((type = parser.next()) != XmlPullParser.END_TAG) {
+		while(parser.next() != XmlPullParser.END_TAG) {
 
 			final RRPreference preference = RRPreference.parse(this, parser);
-			Log.i("RRXML", "id = " + preference.id);
+			Log.i("RRXML", "id = " + (preference.id == null ? "null" : preference.id));
 			Log.i("RRXML", "title = " + context.getString(preference.titleString));
 			Log.i("RRXML", "item count = " + preference.getItems().length);
 			for(int i = 0; i < preference.getItems().length; i++) {
@@ -68,13 +90,52 @@ public final class RRPrefs {
 			}
 			if(preference instanceof RRPreferenceEnum) Log.i("RRXML", "set to = " + ((RRPreferenceEnum) preference).get().name());
 
-			addPreference(preference);
+			prefPage.add(preference);
+
+			if(preference instanceof RRPreferenceLink) {
+
+				final String linkedFilename = getPrefsFileFromUri(((RRPreferenceLink)preference).getUri());
+				if(linkedFilename != null) linkedFiles.add(linkedFilename);
+
+			} else {
+				final Field prefField = getClass().getField(preference.id);
+
+				if(prefField != null) {
+					prefField.set(this, preference);
+				}
+			}
 		}
 
+		prefPages.put(filename, prefPage);
 
+		return linkedFiles;
+	}
 
+	public List<RRPreference> getPrefPage(final Uri uri) {
 
-		// TODO
+		final String filename = getPrefsFileFromUri(uri);
+		if(filename == null) return null;
+
+		return prefPages.get(filename);
+	}
+
+	private String getPrefsFileFromUri(Uri uri) {
+
+		if(!uri.getScheme().equals("rr") || !uri.getAuthority().equals("settings")) {
+			return null;
+		}
+
+		final List<String> segments = uri.getPathSegments();
+
+		final StringBuilder filename = new StringBuilder("prefs/prefs");
+
+		for(String segment : segments) {
+			filename.append('.');
+			filename.append(segment);
+		}
+
+		filename.append(".xml");
+		return filename.toString();
 	}
 
 	public String getRawUserPreference(String id) {
@@ -87,9 +148,5 @@ public final class RRPrefs {
 
 	public RRPreference getPreferenceByName(String name) throws NoSuchFieldException, IllegalAccessException {
 		return (RRPreference) getClass().getField(name).get(this);
-	}
-
-	private void addPreference(RRPreference preference) throws NoSuchFieldException, IllegalAccessException {
-		getClass().getField(preference.id).set(this, preference);
 	}
 }

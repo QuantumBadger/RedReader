@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.common;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
 
@@ -31,6 +32,12 @@ public class UniqueSynchronizedQueue<E> {
 		}
 	}
 
+	public synchronized void enqueue(Collection<E> objects) {
+		for(E object : objects) {
+			enqueue(object);
+		}
+	}
+
 	public synchronized E dequeue() {
 
 		if(queue.isEmpty()) return null;
@@ -38,5 +45,9 @@ public class UniqueSynchronizedQueue<E> {
 		final E result = queue.removeFirst();
 		set.remove(result);
 		return result;
+	}
+
+	public boolean isEmpty() {
+		return queue.isEmpty();
 	}
 }

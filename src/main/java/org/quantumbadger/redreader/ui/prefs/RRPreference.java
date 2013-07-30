@@ -98,15 +98,13 @@ public abstract class RRPreference {
 		this.preferenceManager = preferenceManager;
 		this.id = attributes.get("id");
 
-		final String titleStringKey;
-
 		if(attributes.containsKey("str")) {
-			titleStringKey = attributes.get("str");
+			titleString = getStringByKey(attributes.get("str"));
+		} else if(id != null) {
+			titleString = getStringByKey(id + "_title");
 		} else {
-			titleStringKey = id + "_title";
+			titleString = getStringByKey("prefs_error_invalidtitle");
 		}
-
-		titleString = getStringByKey(titleStringKey);
 
 		this.itemSource = itemSource;
 	}

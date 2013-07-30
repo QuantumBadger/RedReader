@@ -39,9 +39,11 @@ import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.widget.ListView;
 import org.quantumbadger.redreader.adapters.CommentListingAdapter;
 import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.views.RedditCommentView;
 
 public class ActiveTextView extends TextView {
@@ -203,19 +205,28 @@ public class ActiveTextView extends TextView {
 
 					if(redditCommentView != null) {
 
-						ViewParent listView = getParent();
-						while(listView != null && !(listView instanceof ListView))
-							listView = listView.getParent();
+						switch(PrefsUtility.pref_behaviour_actions_comment_tap(activity,
+								PreferenceManager.getDefaultSharedPreferences(activity))) {
+							case COLLAPSE:
 
-						if(listView != null) {
-							final ListAdapter adapter = ((ListView) listView).getAdapterSource();
+								ViewParent listView = getParent();
+								while(listView != null && !(listView instanceof ListView))
+									listView = listView.getParent();
 
-							if(adapter instanceof CommentListingAdapter) {
-								((CommentListingAdapter)adapter).handleVisibilityToggle((RedditCommentView) redditCommentView);
-							}
+								if(listView != null) {
+									final ListAdapter adapter = ((ListView) listView).getAdapterSource();
+
+									if(adapter instanceof CommentListingAdapter) {
+										((CommentListingAdapter)adapter).handleVisibilityToggle((RedditCommentView) redditCommentView);
+									}
+								}
+								break;
+
+							case ACTION_MENU:
+								((RedditCommentView)redditCommentView).showContextMenu();
+								break;
 						}
 					}
-
 				}
 				cancelLink();
 			}

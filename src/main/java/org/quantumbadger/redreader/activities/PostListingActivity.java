@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.WindowManager;
@@ -83,18 +84,27 @@ public class PostListingActivity extends RefreshableActivity
 			if(intent.hasExtra("subreddit")) {
 
 				subreddit = intent.getParcelableExtra("subreddit");
-				controller = new PostListingControllerSubreddit(subreddit);
-
-				if(subreddit.isReal()) {
-					OptionsMenuUtility.fixActionBar(this, subreddit.url);
-				} else {
-					OptionsMenuUtility.fixActionBar(this, subreddit.title);
-				}
 
 			} else {
-				throw new RuntimeException("No subreddit provided");
-			}
+                //Handle Subreddit from Intent Filter
+                Uri data = intent.getData();
+                if(data!=null){
+                    String subredditURL = data.getPath();
+                    subreddit = new RedditSubreddit(subredditURL, subredditURL, true);
+                }else{
+				    throw new RuntimeException("No subreddit provided");
+                }
+            }
 
+            if(subreddit!=null){
+                controller = new PostListingControllerSubreddit(subreddit);
+
+                if(subreddit.isReal()) {
+                    OptionsMenuUtility.fixActionBar(this, subreddit.url);
+                } else {
+                    OptionsMenuUtility.fixActionBar(this, subreddit.title);
+                }
+            }
 			super.onCreate(savedInstanceState);
 
 			setContentView(R.layout.main_single);

@@ -21,7 +21,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
-import com.laurencedawson.activetextview.ActiveTextView;
+import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.widget.FrameLayout;
 import org.holoeverywhere.widget.LinearLayout;
@@ -29,7 +29,6 @@ import org.holoeverywhere.widget.TextView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
-import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedComment;
 
 public class RedditCommentView extends LinearLayout {
@@ -45,6 +44,8 @@ public class RedditCommentView extends LinearLayout {
 
 	private final int bodyCol;
 	private final float fontScale;
+
+	private final boolean showLinkButtons;
 
 	public RedditCommentView(final Context context, final int headerCol, final int bodyCol) {
 
@@ -66,6 +67,7 @@ public class RedditCommentView extends LinearLayout {
 		bodyHolder = new FrameLayout(context);
 		bodyHolder.setPadding(0, General.dpToPixels(context, 2), 0, 0);
 		main.addView(bodyHolder);
+		bodyHolder.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
 
 		final int paddingPixelsVertical = General.dpToPixels(context, 8.0f);
 		final int paddingPixelsHorizontal = General.dpToPixels(context, 12.0f);
@@ -87,16 +89,19 @@ public class RedditCommentView extends LinearLayout {
 		leftDividerLine.setBackgroundColor(Color.argb(75, 128, 128, 128));
 
 		addView(main);
+		main.getLayoutParams().width = LinearLayout.LayoutParams.MATCH_PARENT;
+
+		showLinkButtons = PrefsUtility.pref_appearance_linkbuttons(context, PreferenceManager.getDefaultSharedPreferences(context));
 	}
 
-	public void reset(final Context context, final CommentListingFragment fragment, final RedditPreparedComment comment, final ActiveTextView.OnLinkClickedListener listener) {
+	public void reset(final Activity activity, final RedditPreparedComment comment) {
 
 		if(this.comment != null) this.comment.unbind(this);
 
 		this.comment = comment;
 		comment.bind(this);
 
-		final int paddingPixelsPerIndent = General.dpToPixels(context, 10.0f); // TODO Add in vertical lines?
+		final int paddingPixelsPerIndent = General.dpToPixels(activity, 10.0f); // TODO Add in vertical lines?
 		leftIndent.getLayoutParams().width = paddingPixelsPerIndent * comment.indentation;
 		leftDividerLine.setVisibility(comment.indentation == 0 ? GONE : VISIBLE);
 
@@ -107,29 +112,13 @@ public class RedditCommentView extends LinearLayout {
 		}
 
 		bodyHolder.removeAllViews();
-		bodyHolder.addView(comment.getBody(context, 13.0f * fontScale, bodyCol, new ActiveTextView.OnLinkClickedListener() {
+		final ViewGroup commentBody = comment.getBody(activity, 13.0f * fontScale, bodyCol, showLinkButtons);
 
-			public void onClickUrl(String url) {
-				listener.onClickUrl(url);
-			}
+		bodyHolder.addView(commentBody);
+		commentBody.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+		((MarginLayoutParams)commentBody.getLayoutParams()).topMargin = General.dpToPixels(activity, 1);
 
-			public void onClickText(Object attachment) {
-
-				// TODO separate preference for comment body click?
-
-				switch(PrefsUtility.pref_behaviour_actions_comment_tap(context, PreferenceManager.getDefaultSharedPreferences(context))) {
-					case COLLAPSE:
-						fragment.handleCommentVisibilityToggle(RedditCommentView.this);
-						break;
-					case ACTION_MENU:
-						fragment.openContextMenu(RedditCommentView.this);
-						break;
-				}
-
-			}
-		}));
-
-		updateVisibility(context);
+		updateVisibility(activity);
 	}
 
 	private void updateVisibility(final Context context) {

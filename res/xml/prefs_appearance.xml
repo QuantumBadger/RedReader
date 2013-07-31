@@ -97,6 +97,10 @@
             holo:entryValues="@array/pref_appearance_comment_header_items_return"
             holo:defaultValue="@array/pref_appearance_comment_header_items_default" />
 
+        <CheckBoxPreference holo:title="@string/pref_appearance_linkbuttons_title"
+                            holo:key="@string/pref_appearance_linkbuttons_key"
+                            holo:defaultValue="true"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory holo:title="@string/pref_appearance_other_header">

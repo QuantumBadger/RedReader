@@ -19,7 +19,10 @@ package org.quantumbadger.redreader.common;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Handler;
 import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.app.AlertDialog;
+import org.holoeverywhere.preference.PreferenceManager;
 import org.quantumbadger.redreader.activities.CommentListingActivity;
 import org.quantumbadger.redreader.activities.ImageViewActivity;
 import org.quantumbadger.redreader.activities.PostListingActivity;
@@ -28,7 +31,6 @@ import org.quantumbadger.redreader.fragments.UserProfileDialog;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -47,7 +49,27 @@ public class LinkHandler {
 		onLinkClicked(activity, url, forceNoImage, null);
 	}
 
-	public static void onLinkClicked(Activity activity, String url, boolean forceNoImage, final RedditPost post) {
+	public static void onLinkClicked(final Activity activity, final String url,
+									 final boolean forceNoImage, final RedditPost post) {
+
+		if(url.startsWith("rr://")) {
+
+			final Uri rrUri = Uri.parse(url);
+
+			if(rrUri.getAuthority().equals("msg")) {
+				new Handler().post(new Runnable() {
+					public void run() {
+						final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+						builder.setTitle(rrUri.getQueryParameter("title"));
+						builder.setMessage(rrUri.getQueryParameter("message"));
+						AlertDialog alert = builder.create();
+						alert.show();
+					}
+				});
+
+				return;
+			}
+		}
 
 		if(!forceNoImage) {
 			final String imageUrl = getImageUrl(url);
@@ -100,29 +122,35 @@ public class LinkHandler {
 
 		// Use a browser
 
+		if(!PrefsUtility.pref_behaviour_useinternalbrowser(activity, PreferenceManager.getDefaultSharedPreferences(activity))) {
+			openWebBrowser(activity, Uri.parse(url));
+			return;
+		}
+
 		if(youtubeDotComPattern.matcher(url).matches() || vimeoPattern.matcher(url).matches()) {
-			final Intent intent = new Intent(Intent.ACTION_VIEW);
-			intent.setData(Uri.parse(url.replaceAll("&amp;", "&")));
-			activity.startActivity(intent);
+			openWebBrowser(activity, Uri.parse(url.replaceAll("&amp;", "&")));
+			return;
+		}
+
+		final Matcher youtuDotBeMatcher = youtuDotBePattern.matcher(url);
+
+		if(youtuDotBeMatcher.find() && youtuDotBeMatcher.group(1) != null) {
+			final String youtuBeUrl = "http://youtube.com/watch?v=" + youtuDotBeMatcher.group(1)
+					+ (youtuDotBeMatcher.group(2).length() > 0 ? "&" + youtuDotBeMatcher.group(2).substring(1) : "");
+			openWebBrowser(activity, Uri.parse(youtuBeUrl));
 
 		} else {
-
-			final Matcher youtuDotBeMatcher = youtuDotBePattern.matcher(url);
-
-			if(youtuDotBeMatcher.find() && youtuDotBeMatcher.group(1) != null) {
-				final String youtuBeUrl = "http://youtube.com/watch?v=" + youtuDotBeMatcher.group(1)
-						+ (youtuDotBeMatcher.group(2).length() > 0 ? "&" + youtuDotBeMatcher.group(2).substring(1) : "");
-				final Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse(youtuBeUrl));
-				activity.startActivity(intent);
-
-			} else {
-				final Intent intent = new Intent(activity, WebViewActivity.class);
-				intent.putExtra("url", url);
-				intent.putExtra("post", post);
-				activity.startActivity(intent);
-			}
+			final Intent intent = new Intent(activity, WebViewActivity.class);
+			intent.putExtra("url", url);
+			intent.putExtra("post", post);
+			activity.startActivity(intent);
 		}
+	}
+
+	private static void openWebBrowser(Activity activity, Uri uri) {
+		final Intent intent = new Intent(Intent.ACTION_VIEW);
+		intent.setData(uri);
+		activity.startActivity(intent);
 	}
 
 	public static final Pattern imgurPattern = Pattern.compile(".*imgur\\.com/(\\w+).*"),

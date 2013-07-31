@@ -33,6 +33,7 @@ import org.holoeverywhere.widget.LinearLayout;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
@@ -241,5 +242,10 @@ public class PostListingActivity extends RefreshableActivity
 
 	public void onSessionChanged(UUID session, SessionChangeType type, long timestamp) {
 		controller.setSession(session);
+	}
+
+	@Override
+	public void onBackPressed() {
+		if(General.onBackPressed()) super.onBackPressed();
 	}
 }

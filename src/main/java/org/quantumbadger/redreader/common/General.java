@@ -20,11 +20,13 @@ package org.quantumbadger.redreader.common;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.os.SystemClock;
 import android.util.Log;
 import android.util.TypedValue;
 import android.widget.Toast;
@@ -44,6 +46,29 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class General {
+
+	private static long lastBackPress = -1;
+
+	public static boolean onBackPressed() {
+
+		if(lastBackPress < SystemClock.uptimeMillis() - 300) {
+			lastBackPress = SystemClock.uptimeMillis();
+			return true;
+		}
+
+		return false;
+	}
+
+	private static Typeface monoTypeface;
+
+	public static Typeface getMonoTypeface(Context context) {
+
+		if(monoTypeface == null) {
+			monoTypeface = Typeface.createFromAsset(context.getAssets(), "fonts/VeraMono.ttf");
+		}
+
+		return monoTypeface;
+	}
 
 	public static Message handlerMessage(int what, Object obj) {
 		final Message msg = new Message();
@@ -113,6 +138,14 @@ public final class General {
 		new Handler(Looper.getMainLooper()).post(new Runnable() {
 			public void run() {
 				Toast.makeText(context, text, Toast.LENGTH_LONG).show();
+			}
+		});
+	}
+
+	public static void quickToast(final Context context, final String text, final int duration) {
+		new Handler(Looper.getMainLooper()).post(new Runnable() {
+			public void run() {
+				Toast.makeText(context, text, duration).show();
 			}
 		});
 	}

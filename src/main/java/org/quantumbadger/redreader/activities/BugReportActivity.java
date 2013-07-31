@@ -141,9 +141,13 @@ public class BugReportActivity extends Activity {
 
 	public static void appendException(StringBuilder sb, Throwable t, int recurseLimit) {
 		if(t != null) {
-			sb.append("Exception: " + t.getMessage() + "\r\n");
+
+			sb.append("Exception: ");
+			sb.append(t.getClass().getCanonicalName()).append("\r\n");
+			sb.append(t.getMessage()).append("\r\n");
+
 			for(StackTraceElement elem : t.getStackTrace()) {
-				sb.append("  " + elem.toString() + "\r\n");
+				sb.append("  ").append(elem.toString()).append("\r\n");
 			}
 
 			if(recurseLimit > 0 && t.getCause() != null) {

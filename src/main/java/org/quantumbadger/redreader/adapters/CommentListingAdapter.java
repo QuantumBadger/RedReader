@@ -51,6 +51,10 @@ public final class CommentListingAdapter extends BaseAdapter {
 		rrCommentBodyCol = attr.getColor(1, 0);
 	}
 
+	public void handleVisibilityToggle(RedditCommentView commentView) {
+		fragment.handleCommentVisibilityToggle(commentView);
+	}
+
 	public int getCount() {
 		return commentsToReport.size();
 	}
@@ -90,7 +94,7 @@ public final class CommentListingAdapter extends BaseAdapter {
 			convertView = new RedditCommentView(viewGroup.getContext(), rrCommentHeaderCol, rrCommentBodyCol);
 		}
 
-		((RedditCommentView)convertView).reset(viewGroup.getContext(), fragment, commentsToReport.get(i), fragment);
+		((RedditCommentView)convertView).reset(fragment.getSupportActivity(), commentsToReport.get(i));
 
 		return convertView;
 	}

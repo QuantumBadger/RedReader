@@ -20,6 +20,8 @@ package org.quantumbadger.redreader.fragments;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
@@ -29,9 +31,11 @@ import android.webkit.WebViewClient;
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.Fragment;
 import org.holoeverywhere.widget.FrameLayout;
+import org.holoeverywhere.widget.Toast;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
@@ -41,9 +45,15 @@ import org.quantumbadger.redreader.views.bezelmenu.BezelSwipeOverlay;
 import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
 import org.quantumbadger.redreader.views.liststatus.LoadingView;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class WebViewFragment extends Fragment implements RedditPostView.PostSelectionListener {
 
 	private String url;
+    private volatile String currentUrl;
+    private volatile boolean goingBack;
+	private volatile int lastBackDepthAttempt;
 
 	private WebViewFixed webView;
 	private LoadingView loadingView;
@@ -106,9 +116,25 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 		webView.setWebViewClient(new WebViewClient() {
 			@Override
 			public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
-				// TODO handle reddit URLs in the app
-				webView.loadUrl(url);
-				return true;
+                // Go back if loading same page to prevent redirect loops.
+                if(goingBack && currentUrl != null && url != null && url.equals(currentUrl)) {
+
+					General.quickToast(context,
+							String.format("Handling redirect loop (level %d)", -lastBackDepthAttempt), Toast.LENGTH_SHORT);
+
+					lastBackDepthAttempt--;
+
+                    if (webView.canGoBackOrForward(lastBackDepthAttempt)) {
+                        webView.goBackOrForward(lastBackDepthAttempt);
+                    } else {
+                        getSupportActivity().finish();
+                    }
+                } else  {
+                    // TODO handle reddit URLs in the app
+                    webView.loadUrl(url);
+                    currentUrl = url;
+                }
+                return true;
 			}
 
 			@Override
@@ -116,7 +142,47 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 				super.onPageStarted(view, url, favicon);
 				getSupportActivity().setTitle(url);
 			}
-		});
+
+            @Override
+            public void onPageFinished(final WebView view, final String url) {
+                super.onPageFinished(view, url);
+
+				new Timer().schedule(new TimerTask() {
+					@Override
+					public void run() {
+
+						if(currentUrl == null || url == null) return;
+
+						if(!url.equals(view.getUrl())) return;
+
+						if(goingBack && url.equals(currentUrl)) {
+							new Handler(Looper.getMainLooper()).post(new Runnable() {
+								public void run() {
+
+									General.quickToast(context,
+											String.format("Handling redirect loop (level %d)", -lastBackDepthAttempt));
+
+									lastBackDepthAttempt--;
+
+									if (webView.canGoBackOrForward(lastBackDepthAttempt)) {
+										webView.goBackOrForward(lastBackDepthAttempt);
+									} else {
+										getSupportActivity().finish();
+									}
+								}
+							});
+						} else {
+							goingBack = false;
+						}
+					}
+				}, 1000);
+            }
+
+            @Override
+            public void doUpdateVisitedHistory(WebView view, String url, boolean isReload) {
+                super.doUpdateVisitedHistory(view, url, isReload);
+            }
+        });
 
 		webView.setWebChromeClient(new WebChromeClient() {
 			@Override
@@ -188,11 +254,12 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 
 	public boolean onBackButtonPressed() {
 
-		/*
 		if(webView.canGoBack()) {
+            goingBack = true;
+			lastBackDepthAttempt = -1;
 			webView.goBack();
 			return true;
-		}*/ // Websites with redirects cause this to fail
+		}
 
 		return false;
 	}
@@ -204,6 +271,10 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 	public void onPostCommentsSelected(final RedditPreparedPost post) {
 		((RedditPostView.PostSelectionListener)getSupportActivity()).onPostCommentsSelected(post);
 	}
+
+    public String getCurrentUrl() {
+        return (currentUrl != null) ? currentUrl : url;
+    }
 
 	@Override
 	public void onPause() {

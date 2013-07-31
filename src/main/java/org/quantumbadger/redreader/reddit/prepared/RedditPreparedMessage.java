@@ -21,13 +21,15 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.text.SpannableStringBuilder;
 import android.view.ViewGroup;
-import com.laurencedawson.activetextview.ActiveTextView;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.holoeverywhere.app.Activity;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.BetterSSB;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.reddit.RedditPreparedInboxItem;
+import org.quantumbadger.redreader.reddit.prepared.markdown.MarkdownParagraphGroup;
+import org.quantumbadger.redreader.reddit.prepared.markdown.MarkdownParser;
 import org.quantumbadger.redreader.reddit.things.RedditMessage;
 
 import java.util.HashSet;
@@ -35,7 +37,7 @@ import java.util.HashSet;
 public final class RedditPreparedMessage implements RedditPreparedInboxItem {
 
 	public SpannableStringBuilder header;
-	public final RedditCommentTextParser.ViewGenerator body;
+	public final MarkdownParagraphGroup body;
 	public final String idAndType;
 	public final RedditMessage src;
 
@@ -55,7 +57,7 @@ public final class RedditPreparedMessage implements RedditPreparedInboxItem {
 		rrCommentHeaderBoldCol = appearance.getColor(0, 255);
 		rrCommentHeaderAuthorCol = appearance.getColor(1, 255);
 
-		body = RedditCommentTextParser.parse(StringEscapeUtils.unescapeHtml4(message.body));
+		body = MarkdownParser.parse(StringEscapeUtils.unescapeHtml4(message.body).toCharArray());
 
 		idAndType = message.name;
 
@@ -81,7 +83,7 @@ public final class RedditPreparedMessage implements RedditPreparedInboxItem {
 		return header;
 	}
 
-	public ViewGroup getBody(Context context, float textSize, Integer textCol, ActiveTextView.OnLinkClickedListener listener) {
-		return body.generate(context, textSize, textCol, listener, this);
+	public ViewGroup getBody(Activity context, float textSize, Integer textCol, boolean showLinkButtons) {
+		return body.buildView(context, textCol, textSize, showLinkButtons);
 	}
 }

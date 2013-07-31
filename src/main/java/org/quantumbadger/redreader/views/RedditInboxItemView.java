@@ -18,11 +18,13 @@
 package org.quantumbadger.redreader.views;
 
 import android.content.Context;
-import com.laurencedawson.activetextview.ActiveTextView;
+import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.widget.FrameLayout;
 import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.TextView;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.reddit.RedditPreparedInboxItem;
 
 public class RedditInboxItemView extends LinearLayout {
@@ -31,6 +33,8 @@ public class RedditInboxItemView extends LinearLayout {
 	private final FrameLayout bodyHolder;
 
 	private final int bodyCol;
+
+	private final boolean showLinkButtons;
 
 	public RedditInboxItemView(final Context context, final int headerCol, final int bodyCol) {
 
@@ -56,14 +60,16 @@ public class RedditInboxItemView extends LinearLayout {
 
 		setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
 
+		showLinkButtons = PrefsUtility.pref_appearance_linkbuttons(context, PreferenceManager.getDefaultSharedPreferences(context));
+
 		addView(main);
 	}
 
-	public void reset(final Context context, final RedditPreparedInboxItem item, final ActiveTextView.OnLinkClickedListener listener) {
+	public void reset(final Activity context, final RedditPreparedInboxItem item) {
 
 		header.setText(item.getHeader());
 
 		bodyHolder.removeAllViews();
-		bodyHolder.addView(item.getBody(context, 13.0f, bodyCol, listener));
+		bodyHolder.addView(item.getBody(context, 13.0f, bodyCol, showLinkButtons));
 	}
 }

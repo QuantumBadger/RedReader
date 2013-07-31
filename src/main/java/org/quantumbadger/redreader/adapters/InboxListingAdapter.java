@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import com.laurencedawson.activetextview.ActiveTextView;
+import org.holoeverywhere.app.Fragment;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.reddit.RedditPreparedInboxItem;
 import org.quantumbadger.redreader.views.RedditInboxItemView;
@@ -35,11 +36,11 @@ public final class InboxListingAdapter extends BaseAdapter {
 
 	private final int rrCommentHeaderCol, rrCommentBodyCol;
 
-	private final ActiveTextView.OnLinkClickedListener listener;
+	private final Fragment parentFragment;
 
-	public InboxListingAdapter(Context context, ActiveTextView.OnLinkClickedListener listener) {
+	public InboxListingAdapter(Context context, Fragment parentFragment) {
 
-		this.listener = listener;
+		this.parentFragment = parentFragment;
 
 		final TypedArray attr = context.obtainStyledAttributes(new int[] {
 				R.attr.rrCommentHeaderCol,
@@ -78,7 +79,7 @@ public final class InboxListingAdapter extends BaseAdapter {
 			convertView = new RedditInboxItemView(viewGroup.getContext(), rrCommentHeaderCol, rrCommentBodyCol);
 		}
 
-		((RedditInboxItemView)convertView).reset(viewGroup.getContext(), items.get(i), listener);
+		((RedditInboxItemView)convertView).reset(parentFragment.getSupportActivity(), items.get(i));
 
 		return convertView;
 	}

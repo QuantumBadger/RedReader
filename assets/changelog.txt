@@ -1,7 +1,21 @@
-40/1.7.6
-[TODO] Better markdown support
+42/1.8.2
+Bugfix when linkifying HTTPS links
+Bugfix when joining two consecutive markdown lines
+Bugfix where comment tap action pref was not respected
+
+41/1.8.1
+Preference to disable internal browser
+Preference to disable link buttons
+Handles deep redirect loops
+
+40/1.8.0
+Better markdown support (superscript, multi-level quotes, code, etc)
+Links in comments are represented by buttons
+Better back button handling in internal browser (thanks to Evan Tatarka)
 Ability to switch from internal to external browser (thanks to trevor-e)
-[TODO] Back button delay
+Custom subreddit bugfix (thanks to DubHunt)
+Search bugfix
+Back button delay
 Samsung multi-window support (phone reboot required)
 
 39/1.7.5

@@ -24,7 +24,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.SpannableStringBuilder;
 import android.view.ViewGroup;
-import com.laurencedawson.activetextview.ActiveTextView;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.http.StatusLine;
 import org.holoeverywhere.app.Activity;
@@ -38,6 +37,8 @@ import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.Hideable;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.RedditPreparedInboxItem;
+import org.quantumbadger.redreader.reddit.prepared.markdown.MarkdownParagraphGroup;
+import org.quantumbadger.redreader.reddit.prepared.markdown.MarkdownParser;
 import org.quantumbadger.redreader.reddit.things.RedditComment;
 import org.quantumbadger.redreader.views.RedditCommentView;
 
@@ -49,7 +50,7 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 
 	public SpannableStringBuilder header;
 
-	private final MarkdownParser.MarkdownParagraphGroup body;
+	private final MarkdownParagraphGroup body;
 
 	public final int indentation;
 	private final LinkedList<RedditPreparedComment> directReplies = new LinkedList<RedditPreparedComment>();
@@ -92,7 +93,7 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 		rrPostSubtitleUpvoteCol = appearance.getColor(2, 255);
 		rrPostSubtitleDownvoteCol = appearance.getColor(3, 255);
 
-		body = new MarkdownParser.MarkdownParagraphGroup(StringEscapeUtils.unescapeHtml4(comment.body));
+		body = MarkdownParser.parse(StringEscapeUtils.unescapeHtml4(comment.body).toCharArray());
 		if(comment.author_flair_text != null) {
 			flair = StringEscapeUtils.unescapeHtml4(comment.author_flair_text);
 		} else {
@@ -354,9 +355,8 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 		return header;
 	}
 
-	public ViewGroup getBody(Context context, float textSize, Integer textCol, ActiveTextView.OnLinkClickedListener listener) {
-		//return body.generate(context, textSize, textCol, listener, this);
-		return body.buildView(context);
+	public ViewGroup getBody(Activity activity, float textSize, Integer textCol, boolean showLinkButtons) {
+		return body.buildView(activity, textCol, textSize, showLinkButtons);
 	}
 
 	public RedditCommentView getBoundView() {

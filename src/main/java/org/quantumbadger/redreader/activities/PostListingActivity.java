@@ -87,16 +87,16 @@ public class PostListingActivity extends RefreshableActivity
 
 			} else {
                 //Handle Subreddit from Intent Filter
-                Uri data = intent.getData();
-                if(data!=null){
+                final Uri data = intent.getData();
+                if(data != null){
                     String subredditURL = data.getPath();
                     subreddit = new RedditSubreddit(subredditURL, subredditURL, true);
-                }else{
+                } else {
 				    throw new RuntimeException("No subreddit provided");
                 }
             }
 
-            if(subreddit!=null){
+            if(subreddit != null){
                 controller = new PostListingControllerSubreddit(subreddit);
 
                 if(subreddit.isReal()) {
@@ -105,6 +105,7 @@ public class PostListingActivity extends RefreshableActivity
                     OptionsMenuUtility.fixActionBar(this, subreddit.title);
                 }
             }
+
 			super.onCreate(savedInstanceState);
 
 			setContentView(R.layout.main_single);

@@ -36,6 +36,8 @@ public class RedditInboxItemView extends LinearLayout {
 
 	private final boolean showLinkButtons;
 
+	private RedditPreparedInboxItem currentItem = null;
+
 	public RedditInboxItemView(final Context context, final int headerCol, final int bodyCol) {
 
 		super(context);
@@ -67,9 +69,15 @@ public class RedditInboxItemView extends LinearLayout {
 
 	public void reset(final Activity context, final RedditPreparedInboxItem item) {
 
+		currentItem = item;
+
 		header.setText(item.getHeader());
 
 		bodyHolder.removeAllViews();
 		bodyHolder.addView(item.getBody(context, 13.0f, bodyCol, showLinkButtons));
+	}
+
+	public void handleInboxClick(Activity activity) {
+		if(currentItem != null) currentItem.handleInboxClick(activity);
 	}
 }

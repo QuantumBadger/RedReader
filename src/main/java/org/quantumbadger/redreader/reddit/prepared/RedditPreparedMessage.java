@@ -86,4 +86,8 @@ public final class RedditPreparedMessage implements RedditPreparedInboxItem {
 	public ViewGroup getBody(Activity context, float textSize, Integer textCol, boolean showLinkButtons) {
 		return body.buildView(context, textCol, textSize, showLinkButtons);
 	}
+
+	public void handleInboxClick(Activity activity) {
+		// Do nothing
+	}
 }

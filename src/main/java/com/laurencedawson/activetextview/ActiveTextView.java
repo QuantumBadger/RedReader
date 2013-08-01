@@ -45,6 +45,7 @@ import org.quantumbadger.redreader.adapters.CommentListingAdapter;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.views.RedditCommentView;
+import org.quantumbadger.redreader.views.RedditInboxItemView;
 
 public class ActiveTextView extends TextView {
 
@@ -199,11 +200,14 @@ public class ActiveTextView extends TextView {
 				if(!isLinkPending()) {
 					if(mListener != null) mListener.onClickText(attachment);
 
-					ViewParent redditCommentView = getParent();
-					while(redditCommentView != null && !(redditCommentView instanceof RedditCommentView))
-						redditCommentView = redditCommentView.getParent();
+					ViewParent redditView = getParent();
+					while(redditView != null
+							&& !(redditView instanceof RedditCommentView || redditView instanceof RedditInboxItemView))
+						redditView = redditView.getParent();
 
-					if(redditCommentView != null) {
+					if(redditView != null) {
+
+						if(redditView instanceof RedditCommentView) {
 
 						switch(PrefsUtility.pref_behaviour_actions_comment_tap(activity,
 								PreferenceManager.getDefaultSharedPreferences(activity))) {
@@ -217,14 +221,20 @@ public class ActiveTextView extends TextView {
 									final ListAdapter adapter = ((ListView) listView).getAdapterSource();
 
 									if(adapter instanceof CommentListingAdapter) {
-										((CommentListingAdapter)adapter).handleVisibilityToggle((RedditCommentView) redditCommentView);
+										((CommentListingAdapter)adapter).handleVisibilityToggle((RedditCommentView) redditView);
 									}
 								}
 								break;
 
 							case ACTION_MENU:
-								((RedditCommentView)redditCommentView).showContextMenu();
+								((RedditCommentView)redditView).showContextMenu();
 								break;
+						}
+
+						} else {
+
+							((RedditInboxItemView)redditView).handleInboxClick(activity);
+
 						}
 					}
 				}

@@ -18,15 +18,12 @@
 package org.quantumbadger.redreader.fragments;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
-import com.laurencedawson.activetextview.ActiveTextView;
 import org.apache.http.StatusLine;
 import org.holoeverywhere.app.AlertDialog;
 import org.holoeverywhere.app.Dialog;
@@ -39,7 +36,6 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BugReportActivity;
-import org.quantumbadger.redreader.activities.CommentListingActivity;
 import org.quantumbadger.redreader.adapters.InboxListingAdapter;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
@@ -120,7 +116,7 @@ public final class InboxListingFragment extends DialogFragment {
 				final Object item = lv.getAdapter().getItem(position);
 
 				if(item != null && item instanceof RedditPreparedInboxItem) {
-					handleClick((RedditPreparedInboxItem)item);
+					((RedditPreparedInboxItem)item).handleInboxClick(getSupportActivity());
 				}
 			}
 		});
@@ -260,13 +256,5 @@ public final class InboxListingFragment extends DialogFragment {
 		cm.makeRequest(request);
 	}
 
-	private void handleClick(RedditPreparedInboxItem item) {
-		if(item instanceof RedditPreparedComment) {
-			final URI commentContext = Constants.Reddit.getUri(((RedditPreparedComment)item).src.context);
 
-			final Intent intent = new Intent(getSupportActivity(), CommentListingActivity.class);
-			intent.setData(Uri.parse(commentContext.toString()));
-			startActivity(intent);
-		}
-	}
 }

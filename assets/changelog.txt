@@ -4,6 +4,7 @@ Up button handled correctly for incoming intents (thanks to andrewgiang)
 Bugfix when linkifying HTTPS links
 Bugfix when joining two consecutive markdown lines
 Bugfix where comment tap action pref was not respected
+Bugfix where tapping an inbox item didn't take you to the relevant thread
 
 41/1.8.1
 Preference to disable internal browser

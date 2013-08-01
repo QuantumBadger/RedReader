@@ -27,4 +27,6 @@ public interface RedditPreparedInboxItem {
 
 	public ViewGroup getBody(Activity activity, float textSize, Integer textCol, boolean showLinkButtons);
 
+	public void handleInboxClick(Activity activity);
+
 }

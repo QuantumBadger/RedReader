@@ -1,5 +1,6 @@
 42/1.8.2
 Reddit links in other apps handled (thanks to andrewgiang)
+Up button handled correctly for incoming intents (thanks to andrewgiang)
 Bugfix when linkifying HTTPS links
 Bugfix when joining two consecutive markdown lines
 Bugfix where comment tap action pref was not respected

@@ -17,15 +17,20 @@
 
 package org.quantumbadger.redreader.activities;
 
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
 import android.view.WindowManager;
+
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+
 import org.holoeverywhere.app.AlertDialog;
 import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.preference.SharedPreferences;
@@ -234,8 +239,13 @@ public class PostListingActivity extends RefreshableActivity
 	public boolean onOptionsItemSelected(final MenuItem item) {
 		switch(item.getItemId()) {
 			case android.R.id.home:
-				finish();
-				return true;
+                Intent upIntent = NavUtils.getParentActivityIntent(this);
+                if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
+                    TaskStackBuilder.from(this).addNextIntent(upIntent).startActivities();
+                } else {
+                    NavUtils.navigateUpTo(this, upIntent);
+                }
+                return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}

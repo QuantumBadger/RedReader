@@ -99,26 +99,26 @@ public final class PrefsUtility {
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
 
 		final AppearanceTheme theme = appearance_theme(activity, prefs);
-
+        final boolean isNightMode = appearance_nightmode(activity, prefs);
 		switch(theme) {
 			case RED:
-				activity.setTheme(R.style.RR_Light_Red);
+                activity.setTheme(isNightMode ? R.style.RR_Dark_Red : R.style.RR_Light_Red);
 				break;
 
 			case GREEN:
-				activity.setTheme(R.style.RR_Light_Green);
+                activity.setTheme(isNightMode?R.style.RR_Dark_Green:R.style.RR_Light_Green);
 				break;
 
 			case BLUE:
-				activity.setTheme(R.style.RR_Light_Blue);
+                activity.setTheme(isNightMode ? R.style.RR_Dark_Blue : R.style.RR_Light_Blue);
 				break;
 
 			case LTBLUE:
-				activity.setTheme(R.style.RR_Light_LtBlue);
+                activity.setTheme(isNightMode? R.style.RR_Dark_LtBlue:R.style.RR_Light_LtBlue);
 				break;
 
 			case ORANGE:
-				activity.setTheme(R.style.RR_Light_Orange);
+                activity.setTheme(isNightMode?R.style.RR_Dark_Orange:R.style.RR_Light_Orange);
 				break;
 
 			case GRAY:
@@ -140,7 +140,9 @@ public final class PrefsUtility {
 			res.updateConfiguration(conf, dm);
 		}
 	}
-
+    public static boolean appearance_nightmode(final Context context, final SharedPreferences sharedPreferences) {
+        return getBoolean(R.string.pref_apperance_nightmode_key, false, context, sharedPreferences);
+    }
 	public static boolean appearance_solidblack(final Context context, final SharedPreferences sharedPreferences) {
 		return getBoolean(R.string.pref_appearance_solidblack_key, false, context, sharedPreferences);
 	}

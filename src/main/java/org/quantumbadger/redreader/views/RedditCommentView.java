@@ -18,7 +18,9 @@
 package org.quantumbadger.redreader.views;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.view.View;
 import android.view.ViewGroup;
 import org.holoeverywhere.app.Activity;
@@ -40,7 +42,7 @@ public class RedditCommentView extends LinearLayout {
 
 	private final LinearLayout main;
 
-	private final View leftIndent, leftDividerLine;
+	private final IndentView indent;
 
 	private final int bodyCol;
 	private final float fontScale;
@@ -75,18 +77,9 @@ public class RedditCommentView extends LinearLayout {
 
 		setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
 
-		leftIndent = new View(context);
-		addView(leftIndent);
-
-		leftIndent.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
-		leftIndent.setBackgroundColor(Color.argb(20, 128, 128, 128));
-
-		leftDividerLine = new View(context);
-		addView(leftDividerLine);
-
-		leftDividerLine.getLayoutParams().width = General.dpToPixels(context, 2);
-		leftDividerLine.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
-		leftDividerLine.setBackgroundColor(Color.argb(75, 128, 128, 128));
+		indent = new IndentView(context);
+		addView(indent);
+		indent.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
 
 		addView(main);
 		main.getLayoutParams().width = LinearLayout.LayoutParams.MATCH_PARENT;
@@ -101,9 +94,7 @@ public class RedditCommentView extends LinearLayout {
 		this.comment = comment;
 		comment.bind(this);
 
-		final int paddingPixelsPerIndent = General.dpToPixels(activity, 10.0f); // TODO Add in vertical lines?
-		leftIndent.getLayoutParams().width = paddingPixelsPerIndent * comment.indentation;
-		leftDividerLine.setVisibility(comment.indentation == 0 ? GONE : VISIBLE);
+		indent.setIndentation(comment.indentation);
 
 		if(!comment.isCollapsed()) {
 			header.setText(comment.header);
@@ -152,4 +143,69 @@ public class RedditCommentView extends LinearLayout {
 	public void updateAppearance() {
 		header.setText(comment.header);
 	}
+
+	/**
+	 * Draws the left margin for comments based on the
+	 * RedditPreparedComment#indentation number
+	 *
+	 * @author Gabriel Castro &lt;dev@GabrielCastro.ca&gt;
+	 */
+	private static class IndentView extends View {
+
+		private Paint mPaint = new Paint();
+		private int mIndent;
+
+		private final int mPixlesPerIndent;
+		private final int mPixlesPerLine;
+		private final float mHalfALine;
+
+		public IndentView(Context context) {
+			super(context);
+
+			mPixlesPerIndent = General.dpToPixels(context, 10.0f);
+			mPixlesPerLine = General.dpToPixels(context, 2);
+			mHalfALine = mPixlesPerLine / 2;
+
+			this.setBackgroundColor(Color.argb(20, 128, 128, 128));
+			mPaint.setColor(Color.argb(75, 128, 128, 128));
+			mPaint.setStrokeWidth(mPixlesPerLine);
+		}
+
+
+
+		@Override
+		protected void onDraw(Canvas canvas) {
+			super.onDraw(canvas);
+			int height = getMeasuredHeight();
+
+			// only draw the right divider
+			// TODO setting?
+			//float rightLine = getWidth() - mHalfALine;
+			//canvas.drawLine(rightLine, 0, rightLine, getHeight(), mPaint);
+
+			float[] lines = new float[mIndent * 4];
+			float x;
+			// i keeps track of indentation, and
+			// l is to populate the float[] with line co-ordinates
+			for (int i = 0, l = 0; i < mIndent; ++l) {
+				x = (mPixlesPerIndent * ++i) - mHalfALine;
+				lines[l]   = x;      // start-x
+				lines[++l] = 0;      // start-y
+				lines[++l] = x;      // stop-x
+				lines[++l] = height; // stop-y
+			}
+			canvas.drawLines(lines, mPaint);
+		}
+
+		/**
+		 * Sets the indentation for the View
+		 * @param indent comment indentation number
+		 */
+		public void setIndentation(int indent) {
+			this.getLayoutParams().width = (mPixlesPerIndent * indent);
+			this.mIndent = indent;
+			this.invalidate();
+		}
+	}
+
 }

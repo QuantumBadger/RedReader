@@ -104,7 +104,13 @@
                   android:configChanges="orientation|screenSize|keyboardHidden"/>
 
         <activity android:name=".activities.PostSubmitActivity"
-                  android:configChanges="orientation|screenSize|keyboardHidden"/>
+                  android:configChanges="orientation|screenSize|keyboardHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
 
         <activity android:name=".activities.CaptchaActivity"
                   android:configChanges="orientation|screenSize|keyboardHidden"/>

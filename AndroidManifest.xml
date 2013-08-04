@@ -18,8 +18,8 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="org.quantumbadger.redreader"
-          android:versionCode="42"
-          android:versionName="1.8.2"
+          android:versionCode="43"
+          android:versionName="1.8.3"
           android:installLocation="auto">
 
     <uses-sdk android:minSdkVersion="8"

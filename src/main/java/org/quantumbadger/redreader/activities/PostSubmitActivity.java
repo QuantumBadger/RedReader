@@ -26,10 +26,8 @@ import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ScrollView;
-
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-
 import org.apache.http.StatusLine;
 import org.holoeverywhere.ArrayAdapter;
 import org.holoeverywhere.app.Activity;
@@ -76,10 +74,19 @@ public class PostSubmitActivity extends Activity {
 		textEdit = (EditText)layout.findViewById(R.id.post_submit_body);
 
         final Intent intent = getIntent();
-        if(intent != null && intent.hasExtra("subreddit")) {
-			final String subreddit = intent.getStringExtra("subreddit");
-			if(subreddit != null && subreddit.length() > 0 && !subreddit.matches("/?(r/)?all/?") && subreddit.matches("/?(r/)?\\w+/?")) {
-				subredditEdit.setText(subreddit);
+        if(intent != null) {
+
+			if(intent.hasExtra("subreddit")) {
+
+				final String subreddit = intent.getStringExtra("subreddit");
+
+				if(subreddit != null && subreddit.length() > 0 && !subreddit.matches("/?(r/)?all/?") && subreddit.matches("/?(r/)?\\w+/?")) {
+					subredditEdit.setText(subreddit);
+				}
+
+			} else if(intent.getAction().equalsIgnoreCase(Intent.ACTION_SEND) && intent.hasExtra(Intent.EXTRA_TEXT)){
+				final String url = intent.getStringExtra(Intent.EXTRA_TEXT);
+				textEdit.setText(url);
 			}
 
 		} else if(savedInstanceState != null && savedInstanceState.containsKey("post_title")) {
@@ -87,14 +94,7 @@ public class PostSubmitActivity extends Activity {
 			textEdit.setText(savedInstanceState.getString("post_body"));
 			subredditEdit.setText(savedInstanceState.getString("subreddit"));
 			typeSpinner.setSelection(savedInstanceState.getInt("post_type"));
-		}else{
-            if(intent.getAction().equalsIgnoreCase(Intent.ACTION_SEND) && intent.hasExtra(Intent.EXTRA_TEXT)){
-                final String url = intent.getStringExtra(Intent.EXTRA_TEXT);
-                textEdit.setText(url);
-            }
-
-
-        }
+		}
 
 		final ArrayList<RedditAccount> accounts = RedditAccountManager.getInstance(this).getAccounts();
 		final ArrayList<String> usernames = new ArrayList<String>();

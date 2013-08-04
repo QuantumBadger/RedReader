@@ -176,6 +176,10 @@ public final class PrefsUtility {
 		return getBoolean(R.string.pref_appearance_linkbuttons_key, true, context, sharedPreferences);
 	}
 
+	public static boolean pref_appearance_indentlines(final Context context, final SharedPreferences sharedPreferences) {
+		return getBoolean(R.string.pref_appearance_indentlines_key, false, context, sharedPreferences);
+	}
+
 	public static boolean appearance_loading_detail(final Context context, final SharedPreferences sharedPreferences) {
 		return getBoolean(R.string.pref_appearance_loading_detail_key, false, context, sharedPreferences);
 	}

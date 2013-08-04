@@ -152,49 +152,54 @@ public class RedditCommentView extends LinearLayout {
 	 */
 	private static class IndentView extends View {
 
-		private Paint mPaint = new Paint();
+		private final Paint mPaint = new Paint();
 		private int mIndent;
 
-		private final int mPixlesPerIndent;
-		private final int mPixlesPerLine;
+		private final int mPixelsPerIndent;
+		private final int mPixelsPerLine;
 		private final float mHalfALine;
+
+		private final boolean mPrefDrawLines;
 
 		public IndentView(Context context) {
 			super(context);
 
-			mPixlesPerIndent = General.dpToPixels(context, 10.0f);
-			mPixlesPerLine = General.dpToPixels(context, 2);
-			mHalfALine = mPixlesPerLine / 2;
+			mPixelsPerIndent = General.dpToPixels(context, 10.0f);
+			mPixelsPerLine = General.dpToPixels(context, 2);
+			mHalfALine = mPixelsPerLine / 2;
 
 			this.setBackgroundColor(Color.argb(20, 128, 128, 128));
 			mPaint.setColor(Color.argb(75, 128, 128, 128));
-			mPaint.setStrokeWidth(mPixlesPerLine);
+			mPaint.setStrokeWidth(mPixelsPerLine);
+
+			mPrefDrawLines = PrefsUtility.pref_appearance_indentlines(context, PreferenceManager.getDefaultSharedPreferences(context));
 		}
 
-
-
 		@Override
-		protected void onDraw(Canvas canvas) {
+		protected void onDraw(final Canvas canvas) {
+
 			super.onDraw(canvas);
-			int height = getMeasuredHeight();
 
-			// only draw the right divider
-			// TODO setting?
-			//float rightLine = getWidth() - mHalfALine;
-			//canvas.drawLine(rightLine, 0, rightLine, getHeight(), mPaint);
+			final int height = getMeasuredHeight();
 
-			float[] lines = new float[mIndent * 4];
-			float x;
-			// i keeps track of indentation, and
-			// l is to populate the float[] with line co-ordinates
-			for (int i = 0, l = 0; i < mIndent; ++l) {
-				x = (mPixlesPerIndent * ++i) - mHalfALine;
-				lines[l]   = x;      // start-x
-				lines[++l] = 0;      // start-y
-				lines[++l] = x;      // stop-x
-				lines[++l] = height; // stop-y
+			if(mPrefDrawLines) {
+				final float[] lines = new float[mIndent * 4];
+				float x;
+				// i keeps track of indentation, and
+				// l is to populate the float[] with line co-ordinates
+				for (int i = 0, l = 0; i < mIndent; ++l) {
+					x = (mPixelsPerIndent * ++i) - mHalfALine;
+					lines[l]   = x;      // start-x
+					lines[++l] = 0;      // start-y
+					lines[++l] = x;      // stop-x
+					lines[++l] = height; // stop-y
+				}
+				canvas.drawLines(lines, mPaint);
+
+			} else {
+				final float rightLine = getWidth() - mHalfALine;
+				canvas.drawLine(rightLine, 0, rightLine, getHeight(), mPaint);
 			}
-			canvas.drawLines(lines, mPaint);
 		}
 
 		/**
@@ -202,7 +207,7 @@ public class RedditCommentView extends LinearLayout {
 		 * @param indent comment indentation number
 		 */
 		public void setIndentation(int indent) {
-			this.getLayoutParams().width = (mPixlesPerIndent * indent);
+			this.getLayoutParams().width = (mPixelsPerIndent * indent);
 			this.mIndent = indent;
 			this.invalidate();
 		}

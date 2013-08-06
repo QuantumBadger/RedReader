@@ -41,7 +41,7 @@ import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.TextView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.views.list.ListSectionHeader;
+import org.quantumbadger.redreader.views.list.ListSectionHeaderView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -84,7 +84,7 @@ public final class ChangelogDialog extends PropertiesDialog {
 					curVersionCode = Integer.parseInt(lineSplit[0]);
 					curVersionName = lineSplit[1];
 
-					final ListSectionHeader header = new ListSectionHeader(context);
+					final ListSectionHeaderView header = new ListSectionHeaderView(context);
 					header.reset(curVersionName);
 					header.setColor(Color.rgb(0x00, 0x99, 0xCC));
 					items.addView(header);

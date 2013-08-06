@@ -15,8 +15,9 @@
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.ui.prefs;
+package org.quantumbadger.redreader.settings;
 
+import android.net.Uri;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
@@ -25,6 +26,10 @@ import java.util.HashMap;
 public class RRPreferenceBoolean extends RRPreference {
 
 	private boolean value;
+
+	public Uri getUri() {
+		return null;
+	}
 
 	protected static RRPreferenceBoolean parse(RRPrefs preferenceManager, HashMap<String, String> attributes, ItemSource itemSource) throws NoSuchFieldException, IllegalAccessException, IOException, XmlPullParserException {
 

@@ -21,6 +21,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
+import org.quantumbadger.redreader.ui.RRContext;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -34,16 +35,16 @@ public abstract class RRFragment {
 	private final Parcelable state;
 	private View contentView;
 
-	private final RRFragmentLayout fragmentManager;
+	protected final RRContext context;
 
-	public RRFragment(RRFragmentLayout fragmentManager, Uri uri, Bundle args, Parcelable state) {
-		this.fragmentManager = fragmentManager;
+	public RRFragment(RRContext context, Uri uri, Bundle args, Parcelable state) {
+		this.context = context.forFragment(this);
 		this.uri = uri;
 		this.args = args;
 		this.state = state;
 	}
 
-	public static RRFragment restore(final RRFragmentLayout fragmentManager, final Bundle bundle)
+	public static RRFragment restore(final RRContext context, final Bundle bundle)
 			throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException,
 			InvocationTargetException, InstantiationException {
 
@@ -55,7 +56,7 @@ public abstract class RRFragment {
 		final Class<? extends RRFragment> fragType = (Class<? extends RRFragment>) Class.forName(bundle.getString("fragType"));
 
 		final Constructor<? extends RRFragment> fragConstructor = fragType.getConstructor(RRFragmentLayout.class, Uri.class, Bundle.class, Parcelable.class);
-		return fragConstructor.newInstance(fragmentManager, uri, args,  bundle);
+		return fragConstructor.newInstance(context, uri, args,  bundle);
 	}
 
 	public final Bundle saveState() {
@@ -88,7 +89,7 @@ public abstract class RRFragment {
 	}
 
 	public int minWidthPx(final float dpScale) {
-		return (int) (100 * dpScale);
+		return (int) (300 * dpScale);
 	}
 
 	public int maxWidthPx(final float dpScale) {
@@ -98,8 +99,6 @@ public abstract class RRFragment {
 	public abstract int preferredWidthLeftcolPx(final float dpScale);
 
 	// TODO prepare actionbar
-
-	// TODO prepare view
 
 	protected abstract View buildContentView();
 
@@ -124,10 +123,11 @@ public abstract class RRFragment {
 	}
 
 	public final void open(Uri uri, RRUriHandler.Mode mode, Bundle arguments) {
-		fragmentManager.handleUri(this, uri, mode, arguments);
+		context.fragmentLayout.handleUri(this, uri, mode, arguments);
 	}
 
 	public final void finish() {
-		fragmentManager.removeFragmentsAfter(this);
+		context.fragmentLayout.removeFragmentsAfter(this);
+		context.fragmentLayout.removeTopFragment();
 	}
 }

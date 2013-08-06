@@ -17,24 +17,25 @@
 
 package org.quantumbadger.redreader.settings;
 
-import android.os.Bundle;
-import org.holoeverywhere.preference.PreferenceActivity;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.common.PrefsUtility;
+import android.net.Uri;
 
-import java.util.List;
+import java.util.HashMap;
 
-public final class SettingsActivity extends PreferenceActivity {
+public class RRPreferenceHeader extends RRPreference {
 
-	@Override
-	protected void onCreate(final Bundle savedInstanceState) {
-		PrefsUtility.applyTheme(this);
-		super.onCreate(savedInstanceState);
+	public Uri getUri() {
+		return null;
 	}
 
-	@Override
-	public void onBuildHeaders(final List<Header> target) {
+	private RRPreferenceHeader(RRPrefs preferenceManager, HashMap<String, String> attributes, ItemSource itemSource) throws NoSuchFieldException, IllegalAccessException {
+		super(preferenceManager, attributes, itemSource);
+	}
 
-		loadHeadersFromResource(R.xml.prefheaders, target);
+	public static RRPreferenceHeader parse(RRPrefs preferenceManager, HashMap<String, String> attributes, ItemSource itemSource) throws NoSuchFieldException, IllegalAccessException {
+		return new RRPreferenceHeader(preferenceManager, attributes, itemSource);
+	}
+
+	public boolean isGreyedOut() {
+		return true;
 	}
 }

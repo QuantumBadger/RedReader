@@ -28,6 +28,8 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.Transformation;
+import org.holoeverywhere.app.Activity;
+import org.quantumbadger.redreader.ui.RRContext;
 
 import java.util.LinkedList;
 
@@ -42,16 +44,11 @@ public final class RRFragmentLayout extends ViewGroup {
 
 	private RRUriHandler uriHandler;
 
-	public RRFragmentLayout(Context context) {
-		super(context);
-	}
+	private final RRContext context;
 
-	public RRFragmentLayout(Context context, AttributeSet attrs) {
-		super(context, attrs);
-	}
-
-	public RRFragmentLayout(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
+	public RRFragmentLayout(Activity activity) {
+		super(activity);
+		this.context = new RRContext(activity, this);
 	}
 
 	public static RRFragmentLayout restore(Context context, Bundle bundle) {
@@ -135,7 +132,7 @@ public final class RRFragmentLayout extends ViewGroup {
 	}
 
 	public void handleUri(RRFragment parent, Uri child, RRUriHandler.Mode mode, Bundle arguments) {
-		final RRUriHandler.Result result = uriHandler.handle(this, child, mode, arguments);
+		final RRUriHandler.Result result = uriHandler.handle(context, child, mode, arguments);
 
 		if(result == null) throw new RuntimeException("No handler for " + child.toString() + " found.");
 
@@ -145,13 +142,17 @@ public final class RRFragmentLayout extends ViewGroup {
 	}
 
 	public void handleUri(Uri child, RRUriHandler.Mode mode, Bundle arguments) {
-		final RRUriHandler.Result result = uriHandler.handle(this, child, mode, arguments);
+		final RRUriHandler.Result result = uriHandler.handle(context, child, mode, arguments);
 
 		if(result == null) throw new RuntimeException("No handler for " + child.toString() + " found.");
 
 		if(result.fragmentToOpen != null) {
 			appendFragment(result.fragmentToOpen);
 		}
+	}
+
+	public void handleUri(Uri child) {
+		handleUri(child, RRUriHandler.Mode.ANY, null);
 	}
 
 	private void cleanUpInactiveFragments() {

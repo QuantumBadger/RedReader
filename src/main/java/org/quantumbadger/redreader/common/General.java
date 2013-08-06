@@ -331,4 +331,8 @@ public final class General {
 			}
 		}
 	}
+
+	public static void runOnUiThread(final Runnable runnable) {
+		new Handler(Looper.getMainLooper()).post(runnable);
+	}
 }

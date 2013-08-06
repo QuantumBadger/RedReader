@@ -19,9 +19,11 @@ package org.quantumbadger.redreader.activities;
 
 import android.os.Bundle;
 import org.holoeverywhere.app.Activity;
+import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.settings.RRPrefs;
 import org.quantumbadger.redreader.ui.frag.RRFragmentLayout;
-import org.quantumbadger.redreader.ui.prefs.RRPrefs;
+import org.quantumbadger.redreader.ui.settings.PrefsUriHandler;
 
 public class MainActivity extends Activity {
 
@@ -30,6 +32,8 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 
+		super.onCreate(savedInstanceState);
+
 		try {
 			RRPrefs.getPrefs(this);
 		} catch(Exception e) {
@@ -37,8 +41,11 @@ public class MainActivity extends Activity {
 		}
 
 		layout = new RRFragmentLayout(this);
+		layout.setUriHandler(new PrefsUriHandler());
 
 		setContentView(layout);
+
+		layout.handleUri(Constants.Internal.getUri(Constants.Internal.URI_HOST_PREFSPAGE));
 	}
 
 	@Override

@@ -15,11 +15,12 @@
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.ui.prefs;
+package org.quantumbadger.redreader.settings;
 
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
+import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.UniqueSynchronizedQueue;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -44,12 +45,16 @@ public final class RRPrefs {
 	public RRPreferenceFloat pref_test_float1;
 	public RRPreferenceEnum<RRPreferenceEnum.TestEnum> pref_test_enum1;
 
-	public static synchronized RRPrefs getPrefs(Context context) throws IOException, XmlPullParserException,
-			XmlParserWrapper.RRParseException, IllegalAccessException, NoSuchFieldException {
+	public static synchronized RRPrefs getPrefs(Context context) {
 
 		if(prefs != null) return prefs;
 
-		prefs = new RRPrefs(context);
+		try {
+			prefs = new RRPrefs(context);
+		} catch(Exception e) {
+			throw new RuntimeException(e);
+		}
+
 		return prefs;
 	}
 
@@ -59,10 +64,18 @@ public final class RRPrefs {
 		prefMap = new SQLiteHashMap(context, "prefs.db");
 
 		final UniqueSynchronizedQueue<String> remainingFiles = new UniqueSynchronizedQueue<String>();
-		remainingFiles.enqueue(getPrefsFileFromUri(Uri.parse("rr://settings/")));
+		remainingFiles.enqueue(getPrefsFileFromUri(Constants.Internal.getUri(Constants.Internal.URI_HOST_PREFSPAGE)));
+
+		final HashSet<String> handledFiles = new HashSet<String>();
 
 		while(!remainingFiles.isEmpty()) {
-			remainingFiles.enqueue(buildFromFile(context, remainingFiles.dequeue()));
+
+			final String next = remainingFiles.dequeue();
+
+			if(!handledFiles.contains(next)) {
+				handledFiles.add(next);
+				remainingFiles.enqueue(buildFromFile(context, next));
+			}
 		}
 	}
 
@@ -97,7 +110,7 @@ public final class RRPrefs {
 				final String linkedFilename = getPrefsFileFromUri(((RRPreferenceLink)preference).getUri());
 				if(linkedFilename != null) linkedFiles.add(linkedFilename);
 
-			} else {
+			} else if(preference.id != null) {
 				final Field prefField = getClass().getField(preference.id);
 
 				if(prefField != null) {
@@ -121,7 +134,8 @@ public final class RRPrefs {
 
 	private String getPrefsFileFromUri(Uri uri) {
 
-		if(!uri.getScheme().equals("rr") || !uri.getAuthority().equals("settings")) {
+		if(!uri.getScheme().equals(Constants.Internal.URI_SCHEME)
+				|| !uri.getAuthority().equals(Constants.Internal.URI_HOST_PREFSPAGE)) {
 			return null;
 		}
 

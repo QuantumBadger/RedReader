@@ -495,4 +495,10 @@
 
     <string name="web_view_open_browser">View in Browser</string>
 
+    <!-- Temporary v2 strings -->
+
+    <string name="pref_test_bool1_title">Pref Test Bool1</string>
+    <string name="pref_test_float1_title">Pref Test Float1</string>
+    <string name="pref_test_enum1_title">Pref Test Enum1</string>
+
 </resources>

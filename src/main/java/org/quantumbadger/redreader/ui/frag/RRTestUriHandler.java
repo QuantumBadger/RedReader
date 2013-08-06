@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import org.quantumbadger.redreader.ui.RRContext;
 
 import java.util.Random;
 import java.util.Set;
@@ -30,7 +31,7 @@ import java.util.Set;
 public class RRTestUriHandler extends RRUriHandler {
 
 	@Override
-	public Result handle(final RRFragmentLayout fragmentManager, Uri uri, Mode mode, Bundle arguments) {
+	public Result handle(final RRContext context, Uri uri, Mode mode, Bundle arguments) {
 
 		if(!uri.getScheme().equals("rr")) return null;
 
@@ -56,7 +57,7 @@ public class RRTestUriHandler extends RRUriHandler {
 			text = uri.toString();
 		}
 
-		final RRFragment fragment = new RRFragment(fragmentManager, uri, arguments, null) {
+		final RRFragment fragment = new RRFragment(context, uri, arguments, null) {
 			@Override
 			public int preferredWidthLeftcolPx(float dpScale) {
 				return (int) (dpScale * 100);
@@ -64,7 +65,7 @@ public class RRTestUriHandler extends RRUriHandler {
 
 			@Override
 			protected View buildContentView() {
-				final TextView tv = new TextView(fragmentManager.getContext());
+				final TextView tv = new TextView(context.activity);
 				tv.setText(text);
 				tv.setBackgroundColor(col);
 				return tv;

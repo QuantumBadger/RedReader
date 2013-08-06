@@ -3,14 +3,18 @@
 
     <Boolean id="pref_test_bool1" default="true" />
 
+    <Header str="app_name" />
+
     <Float id="pref_test_float1" default="0.1">
         <item lstr="0.1" value="0.1" />
         <item str="pref_test_bool1_title" value="0.2" />
         <item lstr="0.3" value="0.3" />
     </Float>
 
-    <Enum id="pref_test_enum1" default="A" enum="org.quantumbadger.redreader.delta.ui.prefs.RRPreferenceEnum$TestEnum">
+    <Enum id="pref_test_enum1" default="A" enum="org.quantumbadger.redreader.settings.RRPreferenceEnum$TestEnum">
         <item lstr="Item A" value="A" />
     </Enum>
+
+    <Link str="app_name" uri="rr://settings"/>
 
 </prefspage>

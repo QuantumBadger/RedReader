@@ -19,7 +19,7 @@ package org.quantumbadger.redreader.common;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.util.Log;
+import android.net.Uri;
 import org.quantumbadger.redreader.RedReader;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 
@@ -43,6 +43,17 @@ public final class Constants {
 
 		public static boolean isImageGif(String mimetype) {
 			return mimetype.equalsIgnoreCase("image/gif");
+		}
+	}
+
+	public static final class Internal {
+
+		public static final String
+				URI_SCHEME = "rr",
+				URI_HOST_PREFSPAGE = "settings";
+
+		public static Uri getUri(String host) {
+			return Uri.parse(URI_SCHEME + "://" + host);
 		}
 	}
 

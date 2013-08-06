@@ -24,12 +24,12 @@ import org.holoeverywhere.widget.TextView;
 import org.quantumbadger.redreader.R;
 
 // TODO doesn't need to be in a frame layout
-public class ListSectionHeader extends FrameLayout {
+public class ListSectionHeaderView extends FrameLayout {
 
 	private final TextView textView;
 	private final View lineView;
 
-	public ListSectionHeader(final Context context) {
+	public ListSectionHeaderView(final Context context) {
 
 		super(context);
 		final View view = inflate(context, R.layout.list_sectionheader, null);

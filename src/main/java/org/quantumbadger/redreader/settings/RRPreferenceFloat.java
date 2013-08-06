@@ -15,7 +15,7 @@
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.ui.prefs;
+package org.quantumbadger.redreader.settings;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -24,7 +24,8 @@ import java.util.HashMap;
 
 public class RRPreferenceFloat extends RRPreference {
 
-	private float value;
+	private String value;
+	private float floatValue;
 
 	protected static RRPreferenceFloat parse(RRPrefs preferenceManager, HashMap<String, String> attributes, ItemSource itemSource) throws NoSuchFieldException, IllegalAccessException, IOException, XmlPullParserException {
 
@@ -33,22 +34,28 @@ public class RRPreferenceFloat extends RRPreference {
 		final String defaultValue = attributes.get("default");
 		final String userValue = preferenceManager.getRawUserPreference(id);
 
-		final float value = Float.parseFloat(userValue != null ? userValue : defaultValue);
+		final String value = userValue != null ? userValue : defaultValue;
 
 		return new RRPreferenceFloat(preferenceManager, attributes, itemSource, value);
 	}
 
-	private RRPreferenceFloat(RRPrefs preferenceManager, HashMap<String, String> attributes, ItemSource itemSource, float value) throws NoSuchFieldException, IllegalAccessException {
+	private RRPreferenceFloat(RRPrefs preferenceManager, HashMap<String, String> attributes, ItemSource itemSource, String value) throws NoSuchFieldException, IllegalAccessException {
 		super(preferenceManager, attributes, itemSource);
 		this.value = value;
+		this.floatValue = Float.parseFloat(value);
 	}
 
-	public float get() {
+	public String getRaw() {
 		return value;
 	}
 
+	public float get() {
+		return floatValue;
+	}
+
 	public void set(String value) {
-		this.value = Float.parseFloat(value);
+		this.value = value;
+		this.floatValue = Float.parseFloat(value);
 		setRawUserPreference(String.valueOf(value));
 	}
 }

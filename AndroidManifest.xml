@@ -18,8 +18,8 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="org.quantumbadger.redreader"
-          android:versionCode="42"
-          android:versionName="1.8.2"
+          android:versionCode="43"
+          android:versionName="1.8.3"
           android:installLocation="auto">
 
     <uses-sdk android:minSdkVersion="8"
@@ -104,7 +104,13 @@
                   android:configChanges="orientation|screenSize|keyboardHidden"/>
 
         <activity android:name=".activities.PostSubmitActivity"
-                  android:configChanges="orientation|screenSize|keyboardHidden"/>
+                  android:configChanges="orientation|screenSize|keyboardHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
 
         <activity android:name=".activities.CaptchaActivity"
                   android:configChanges="orientation|screenSize|keyboardHidden"/>

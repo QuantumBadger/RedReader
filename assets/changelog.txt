@@ -1,3 +1,7 @@
+43/1.8.3
+Can share links from other apps (thanks to andrewgiang)
+Preference to show comment indent lines (thanks to GzFighter)
+
 42/1.8.2
 Reddit links in other apps handled (thanks to andrewgiang)
 Up button handled correctly for incoming intents (thanks to andrewgiang)

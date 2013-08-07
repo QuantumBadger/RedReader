@@ -105,6 +105,10 @@
                             holo:key="@string/pref_appearance_linkbuttons_key"
                             holo:defaultValue="true"/>
 
+        <CheckBoxPreference holo:title="@string/pref_appearance_indentlines_title"
+                            holo:key="@string/pref_appearance_indentlines_key"
+                            holo:defaultValue="false"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory holo:title="@string/pref_appearance_other_header">

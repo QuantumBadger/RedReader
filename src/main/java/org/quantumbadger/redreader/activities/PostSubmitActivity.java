@@ -73,10 +73,20 @@ public class PostSubmitActivity extends Activity {
 		titleEdit = (EditText)layout.findViewById(R.id.post_submit_title);
 		textEdit = (EditText)layout.findViewById(R.id.post_submit_body);
 
-		if(getIntent() != null && getIntent().hasExtra("subreddit")) {
-			final String subreddit = getIntent().getStringExtra("subreddit");
-			if(subreddit != null && subreddit.length() > 0 && !subreddit.matches("/?(r/)?all/?") && subreddit.matches("/?(r/)?\\w+/?")) {
-				subredditEdit.setText(subreddit);
+        final Intent intent = getIntent();
+        if(intent != null) {
+
+			if(intent.hasExtra("subreddit")) {
+
+				final String subreddit = intent.getStringExtra("subreddit");
+
+				if(subreddit != null && subreddit.length() > 0 && !subreddit.matches("/?(r/)?all/?") && subreddit.matches("/?(r/)?\\w+/?")) {
+					subredditEdit.setText(subreddit);
+				}
+
+			} else if(intent.getAction().equalsIgnoreCase(Intent.ACTION_SEND) && intent.hasExtra(Intent.EXTRA_TEXT)){
+				final String url = intent.getStringExtra(Intent.EXTRA_TEXT);
+				textEdit.setText(url);
 			}
 
 		} else if(savedInstanceState != null && savedInstanceState.containsKey("post_title")) {
@@ -104,28 +114,12 @@ public class PostSubmitActivity extends Activity {
 		typeSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, postTypes));
 
 		// TODO remove the duplicate code here
-		if(typeSpinner.getSelectedItem().equals("Link")) {
-			textEdit.setHint("URL"); // TODO string
-			textEdit.setInputType(android.text.InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_URI);
-			textEdit.setSingleLine(true);
-		} else {
-			textEdit.setHint("Self Text"); // TODO string
-			textEdit.setInputType(android.text.InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-			textEdit.setSingleLine(false);
-		}
+        setHint();
 
-		typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				if(typeSpinner.getSelectedItem().equals("Link")) {
-					textEdit.setHint("URL"); // TODO string
-					textEdit.setInputType(android.text.InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_URI);
-					textEdit.setSingleLine(true);
-				} else {
-					textEdit.setHint("Self Text"); // TODO string
-					textEdit.setInputType(android.text.InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-					textEdit.setSingleLine(false);
-				}
-			}
+                setHint();
+            }
 
 			public void onNothingSelected(AdapterView<?> parent) {
 			}
@@ -136,7 +130,19 @@ public class PostSubmitActivity extends Activity {
 		setContentView(sv);
 	}
 
-	@Override
+    private void setHint() {
+        if(typeSpinner.getSelectedItem().equals("Link")) {
+            textEdit.setHint("URL"); // TODO string
+            textEdit.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_URI);
+            textEdit.setSingleLine(true);
+        } else {
+            textEdit.setHint("Self Text"); // TODO string
+            textEdit.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+            textEdit.setSingleLine(false);
+        }
+    }
+
+    @Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putString("post_title", titleEdit.getText().toString());

@@ -24,8 +24,8 @@ import java.util.HashMap;
 
 public class RRPreferenceFloat extends RRPreference {
 
-	private String value;
-	private float floatValue;
+	private volatile String value;
+	private volatile float floatValue;
 
 	protected static RRPreferenceFloat parse(RRPrefs preferenceManager, HashMap<String, String> attributes, ItemSource itemSource) throws NoSuchFieldException, IllegalAccessException, IOException, XmlPullParserException {
 
@@ -53,7 +53,7 @@ public class RRPreferenceFloat extends RRPreference {
 		return floatValue;
 	}
 
-	public void set(String value) {
+	public synchronized void set(String value) {
 		this.value = value;
 		this.floatValue = Float.parseFloat(value);
 		setRawUserPreference(String.valueOf(value));

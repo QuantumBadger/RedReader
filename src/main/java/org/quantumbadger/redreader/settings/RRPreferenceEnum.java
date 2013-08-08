@@ -26,7 +26,7 @@ import java.util.HashMap;
 
 public class RRPreferenceEnum<E extends Enum> extends RRPreference {
 
-	private E value;
+	private volatile E value;
 	private final Method enumValueOf;
 
 	enum TestEnum {A}
@@ -62,7 +62,7 @@ public class RRPreferenceEnum<E extends Enum> extends RRPreference {
 		return value;
 	}
 
-	public void set(String value) {
+	public synchronized void set(String value) {
 		try {
 			//noinspection unchecked
 			this.value = (E) enumValueOf.invoke(null, value);
@@ -74,7 +74,7 @@ public class RRPreferenceEnum<E extends Enum> extends RRPreference {
 		setRawUserPreference(value);
 	}
 
-	public void set(E enumValue) {
+	public synchronized void set(E enumValue) {
 		this.value = enumValue;
 		setRawUserPreference(enumValue.name());
 	}

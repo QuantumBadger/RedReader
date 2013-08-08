@@ -20,8 +20,8 @@ public class PrefsPageFragment extends RRFragment {
 	}
 
 	@Override
-	public int preferredWidthLeftcolPx(float dpScale) {
-		return (int) (dpScale * 350);
+	public int maxWidthPx(float dpScale) {
+		return (int) (400 * dpScale);
 	}
 
 	@Override

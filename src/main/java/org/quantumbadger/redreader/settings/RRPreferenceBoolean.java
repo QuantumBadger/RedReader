@@ -25,7 +25,7 @@ import java.util.HashMap;
 
 public class RRPreferenceBoolean extends RRPreference {
 
-	private boolean value;
+	private volatile boolean value;
 
 	public Uri getUri() {
 		return null;
@@ -52,7 +52,7 @@ public class RRPreferenceBoolean extends RRPreference {
 		return value;
 	}
 
-	public void set(boolean value) {
+	public synchronized void set(boolean value) {
 		this.value = value;
 		setRawUserPreference(value ? "true" : "false");
 	}

@@ -80,23 +80,22 @@ public abstract class RRFragment {
 		return uri.toString();
 	}
 
-	public boolean showActionbarWhenFullscreen() {
-		return true;
-	}
-
-	public boolean isInitiallyFullscreen() {
-		return false;
-	}
-
 	public int minWidthPx(final float dpScale) {
 		return (int) (300 * dpScale);
+	}
+
+	public int preferredWidthPx(final float dpScale) {
+		return (int) (350 * dpScale);
+	}
+
+	public int preferredWidthLeftcolPx(final float dpScale) {
+		return preferredWidthPx(dpScale);
 	}
 
 	public int maxWidthPx(final float dpScale) {
 		return (int) (1000 * dpScale);
 	}
 
-	public abstract int preferredWidthLeftcolPx(final float dpScale);
 
 	// TODO prepare actionbar
 

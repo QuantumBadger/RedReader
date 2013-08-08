@@ -196,14 +196,25 @@ public final class RRFragmentLayout extends ViewGroup {
 				final RRFragment rightPane = activeViews.getFirst();
 
 				final LayoutParams leftPaneLayoutParams = (LayoutParams)leftPane.getContentView().getLayoutParams();
+				final LayoutParams rightPaneLayoutParams = (LayoutParams)rightPane.getContentView().getLayoutParams();
 
-				leftPaneLayoutParams.calculateWidth(leftPane, true, true, width, dpScale);
-				((LayoutParams)(rightPane.getContentView().getLayoutParams())).calculateWidth(rightPane, true, false, width - leftPaneLayoutParams.desiredWidth, dpScale);
+				final int leftWidth, rightWidth;
+
+				final int leftPreferredWidth = leftPane.preferredWidthLeftcolPx(dpScale);
+				final int rightPreferredWidth = rightPane.preferredWidthPx(dpScale);
+
+				if(leftPreferredWidth + rightPreferredWidth > width) {
+					leftPaneLayoutParams.calculateWidth(leftPane, true, width / 2, width, dpScale);
+					rightPaneLayoutParams.calculateWidth(rightPane, true, width / 2, width, dpScale);
+
+				} else {
+					leftPaneLayoutParams.calculateWidth(leftPane, true, leftPreferredWidth, width, dpScale);
+					rightPaneLayoutParams.calculateWidth(rightPane, true, width - leftPaneLayoutParams.desiredWidth, width, dpScale);
+				}
 
 			} else {
 				final RRFragment rightPane = activeViews.getFirst();
-
-				((LayoutParams)(rightPane.getContentView().getLayoutParams())).calculateWidth(rightPane, true, false, width, dpScale);
+				((LayoutParams)(rightPane.getContentView().getLayoutParams())).calculateWidth(rightPane, true, width, width, dpScale);
 			}
 		}
 
@@ -370,30 +381,25 @@ public final class RRFragmentLayout extends ViewGroup {
 			super(source);
 		}
 
-		public void calculateWidth(RRFragment fragment, boolean animate, boolean isLeftPane, int maxWidthPx, float dpScale) {
+		public void calculateWidth(RRFragment fragment, boolean animate, int newWidth, int deviceWidth, float dpScale) {
 
 			this.fragment = fragment;
 
-			final int result;
+			newWidth = Math.min(deviceWidth, bound(fragment.minWidthPx(dpScale), fragment.maxWidthPx(dpScale), newWidth));
 
-			if(desiredWidth < 0) animate = false;
+			if(desiredWidth <= 0) animate = false;
 
-			if(isLeftPane) {
-				result = bound(fragment.minWidthPx(dpScale), fragment.maxWidthPx(dpScale),
-						Math.min(maxWidthPx, fragment.preferredWidthLeftcolPx(dpScale)));
-			} else {
-				result = bound(fragment.minWidthPx(dpScale), fragment.maxWidthPx(dpScale), maxWidthPx);
-			}
+			if(newWidth != desiredWidth) {
 
-			if(desiredWidth != result) {
+				desiredWidth = newWidth;
 
-				if(!animate) width = result;
-				desiredWidth = result;
+				if(!animate) {
+					width = newWidth;
 
-				if(animate) {
+				} else {
 
 					final View v = fragment.getContentView();
-					final WidthAnimation anim = new WidthAnimation(v, desiredWidth);
+					final WidthAnimation anim = new WidthAnimation(v, newWidth);
 					anim.setInterpolator(new AccelerateDecelerateInterpolator());
 					anim.setDuration(500);
 					v.startAnimation(anim);

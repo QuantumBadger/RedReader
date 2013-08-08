@@ -1,10 +1,7 @@
 package org.quantumbadger.redreader.ui.settings;
 
 import android.view.View;
-import org.holoeverywhere.widget.CheckBox;
-import org.holoeverywhere.widget.FrameLayout;
-import org.holoeverywhere.widget.LinearLayout;
-import org.holoeverywhere.widget.TextView;
+import org.holoeverywhere.widget.*;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.settings.RRPreference;
@@ -17,9 +14,11 @@ import org.quantumbadger.redreader.ui.frag.RRUriHandler;
 public final class PreferenceView extends FrameLayout implements RRPreference.Listener {
 
 	protected RRPreference preference;
+	protected String rawValue;
 
 	protected TextView textView, subtitleView;
 	protected CheckBox checkBox;
+	protected RadioButton radioButton;
 	private View divider;
 
 	protected final RRContext context;
@@ -34,6 +33,7 @@ public final class PreferenceView extends FrameLayout implements RRPreference.Li
 		textView = (TextView)ll.findViewById(R.id.list_item_text);
 		subtitleView = (TextView)ll.findViewById(R.id.list_item_subtitle);
 		checkBox = (CheckBox)ll.findViewById(R.id.list_item_checkbox);
+		radioButton = (RadioButton)ll.findViewById(R.id.list_item_radiobutton);
 		addView(ll);
 
 		final int hPadding = General.dpToPixels(context.activity, 12);
@@ -43,6 +43,12 @@ public final class PreferenceView extends FrameLayout implements RRPreference.Li
 	}
 
 	public void reset(final RRPreference preference, final boolean hideDivider) {
+		reset(preference, null, hideDivider);
+	}
+
+	public void reset(final RRPreference preference, final String rawValue, final boolean hideDivider) {
+
+		this.rawValue = rawValue;
 
 		if(this.preference != null) {
 			this.preference.removeListener(this);
@@ -56,20 +62,38 @@ public final class PreferenceView extends FrameLayout implements RRPreference.Li
 		divider.setVisibility(hideDivider ? GONE : VISIBLE);
 
 		if(preference instanceof RRPreferenceBoolean) {
+			radioButton.setVisibility(GONE);
 			checkBox.setVisibility(VISIBLE);
 			checkBox.setChecked(((RRPreferenceBoolean) preference).get());
 			subtitleView.setVisibility(GONE);
 
 		} else if(preference instanceof RRPreferenceEnum || preference instanceof RRPreferenceFloat) {
-			checkBox.setVisibility(GONE);
-			subtitleView.setVisibility(VISIBLE);
-			subtitleView.setText(getSubtitle());
 
+			checkBox.setVisibility(GONE);
+
+			if(rawValue == null) {
+				subtitleView.setVisibility(VISIBLE);
+				subtitleView.setText(getSubtitle());
+				radioButton.setVisibility(GONE);
+
+			} else {
+				radioButton.setVisibility(VISIBLE);
+				subtitleView.setVisibility(GONE);
+				updateRadioButton();
+			}
 
 		} else {
 			checkBox.setVisibility(GONE);
+			radioButton.setVisibility(GONE);
 			subtitleView.setVisibility(GONE);
 		}
+	}
+
+	private void updateRadioButton() {
+		radioButton.setChecked(
+				preference instanceof RRPreferenceEnum
+						? ((RRPreferenceEnum) this.preference).get().name().equals(rawValue)
+						: ((RRPreferenceFloat) this.preference).getRaw().equals(rawValue));
 	}
 
 	public final void onClick() {
@@ -91,7 +115,12 @@ public final class PreferenceView extends FrameLayout implements RRPreference.Li
 					checkBox.setChecked(((RRPreferenceBoolean) preference).get());
 
 				} else if(preference instanceof RRPreferenceEnum || preference instanceof RRPreferenceFloat) {
-					subtitleView.setText(getSubtitle());
+
+					if(rawValue != null) {
+						updateRadioButton();
+					} else {
+						subtitleView.setText(getSubtitle());
+					}
 				}
 			}
 		});

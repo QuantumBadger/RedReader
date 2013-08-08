@@ -100,6 +100,16 @@ public final class PreferenceView extends FrameLayout implements RRPreference.Li
 		if(preference instanceof RRPreferenceBoolean) {
 			((RRPreferenceBoolean) preference).set(!((RRPreferenceBoolean) preference).get());
 
+		} else if(rawValue != null) {
+
+			if(preference instanceof RRPreferenceFloat) {
+				((RRPreferenceFloat) preference).set(rawValue);
+			} else if(preference instanceof RRPreferenceEnum){
+				((RRPreferenceEnum) preference).set(rawValue);
+			} else {
+				throw new RuntimeException();
+			}
+
 		} else {
 			context.fragmentLayout.handleUri(context.fragment, preference.getUri(), RRUriHandler.Mode.ANY, null);
 		}

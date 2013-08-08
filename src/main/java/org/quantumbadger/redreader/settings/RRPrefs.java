@@ -163,4 +163,18 @@ public final class RRPrefs {
 	public RRPreference getPreferenceByName(String name) throws NoSuchFieldException, IllegalAccessException {
 		return (RRPreference) getClass().getField(name).get(this);
 	}
+
+	public RRPreference getPref(Uri uri) {
+
+		if(!uri.getScheme().equals(Constants.Internal.URI_SCHEME)
+				|| !uri.getAuthority().equals(Constants.Internal.URI_HOST_PREF)) {
+			return null;
+		}
+
+		try {
+			return getPreferenceByName(uri.getPath().replaceAll("^/|/$", ""));
+		} catch(Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 }

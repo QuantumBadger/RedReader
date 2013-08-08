@@ -11,9 +11,14 @@ public class PrefsUriHandler extends RRUriHandler {
 	@Override
 	public Result handle(RRContext context, Uri uri, Mode mode, Bundle arguments) {
 
-		if(!uri.getScheme().equals(Constants.Internal.URI_SCHEME)
-				|| !uri.getHost().equals(Constants.Internal.URI_HOST_PREFSPAGE)) return null;
+		if(!uri.getScheme().equals(Constants.Internal.URI_SCHEME)) return null;
 
-		return new Result(new PrefsPageFragment(context, uri, null, null));
+		if(uri.getHost().equals(Constants.Internal.URI_HOST_PREFSPAGE)) {
+			return new Result(new PrefsPageFragment(context, uri, null, null));
+
+		} else if(uri.getHost().equals(Constants.Internal.URI_HOST_PREF)) {
+			return new Result(new PrefFragment(context, uri, null, null));
+
+		} else return null;
 	}
 }

@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.settings;
 import android.content.Context;
 import android.net.Uri;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.common.Constants;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -40,7 +41,7 @@ public abstract class RRPreference {
 	private ItemSource itemSource;
 
 	public Uri getUri() {
-		throw new UnsupportedOperationException();
+		return Constants.Internal.getUri(Constants.Internal.URI_HOST_PREF, id);
 	}
 
 	protected static RRPreference parse(RRPrefs preferenceManager, XmlParserWrapper parser) throws XmlParserWrapper.RRParseException, NoSuchFieldException, IllegalAccessException, IOException, XmlPullParserException {
@@ -168,8 +169,12 @@ public abstract class RRPreference {
 		this.itemSource = itemSource;
 	}
 
-	public Item[] getItems() throws NoSuchFieldException, IllegalAccessException {
-		return itemSource.getItems(this);
+	public Item[] getItems() {
+		try {
+			return itemSource.getItems(this);
+		} catch(Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 

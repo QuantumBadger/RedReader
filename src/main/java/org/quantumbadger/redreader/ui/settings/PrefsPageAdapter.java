@@ -1,6 +1,5 @@
 package org.quantumbadger.redreader.ui.settings;
 
-import android.database.DataSetObserver;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -38,9 +37,6 @@ public class PrefsPageAdapter extends BaseAdapter implements RRPreference.Listen
 	public boolean isEnabled(int position) {
 		return !prefsPage[position].isGreyedOut();
 	}
-
-	public void registerDataSetObserver(DataSetObserver observer) {}
-	public void unregisterDataSetObserver(DataSetObserver observer) {}
 
 	public int getCount() {
 		return prefsPage.length;
@@ -119,7 +115,6 @@ public class PrefsPageAdapter extends BaseAdapter implements RRPreference.Listen
 	}
 
 	public void onPreferenceChanged(RRPreference preference) {
-
 		General.runOnUiThread(new Runnable() {
 			public void run() {
 				notifyDataSetChanged();

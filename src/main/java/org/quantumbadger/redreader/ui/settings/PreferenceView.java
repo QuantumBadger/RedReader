@@ -14,7 +14,7 @@ import org.quantumbadger.redreader.ui.frag.RRUriHandler;
 public final class PreferenceView extends FrameLayout implements RRPreference.Listener {
 
 	protected RRPreference preference;
-	protected String rawValue;
+	protected RRPreference.Item rawValue;
 
 	protected TextView textView, subtitleView;
 	protected CheckBox checkBox;
@@ -46,7 +46,7 @@ public final class PreferenceView extends FrameLayout implements RRPreference.Li
 		reset(preference, null, hideDivider);
 	}
 
-	public void reset(final RRPreference preference, final String rawValue, final boolean hideDivider) {
+	public void reset(final RRPreference preference, final RRPreference.Item rawValue, final boolean hideDivider) {
 
 		this.rawValue = rawValue;
 
@@ -58,7 +58,12 @@ public final class PreferenceView extends FrameLayout implements RRPreference.Li
 
 		preference.addListener(this);
 
-		textView.setText(preference.titleString);
+		if(rawValue == null) {
+			textView.setText(preference.titleString);
+		} else {
+			textView.setText(rawValue.getName(context.activity));
+		}
+
 		divider.setVisibility(hideDivider ? GONE : VISIBLE);
 
 		if(preference instanceof RRPreferenceBoolean) {
@@ -92,8 +97,8 @@ public final class PreferenceView extends FrameLayout implements RRPreference.Li
 	private void updateRadioButton() {
 		radioButton.setChecked(
 				preference instanceof RRPreferenceEnum
-						? ((RRPreferenceEnum) this.preference).get().name().equals(rawValue)
-						: ((RRPreferenceFloat) this.preference).getRaw().equals(rawValue));
+						? ((RRPreferenceEnum) this.preference).get().name().equals(rawValue.value)
+						: ((RRPreferenceFloat) this.preference).getRaw().equals(rawValue.value));
 	}
 
 	public final void onClick() {
@@ -103,9 +108,9 @@ public final class PreferenceView extends FrameLayout implements RRPreference.Li
 		} else if(rawValue != null) {
 
 			if(preference instanceof RRPreferenceFloat) {
-				((RRPreferenceFloat) preference).set(rawValue);
+				((RRPreferenceFloat) preference).set(rawValue.value);
 			} else if(preference instanceof RRPreferenceEnum){
-				((RRPreferenceEnum) preference).set(rawValue);
+				((RRPreferenceEnum) preference).set(rawValue.value);
 			} else {
 				throw new RuntimeException();
 			}

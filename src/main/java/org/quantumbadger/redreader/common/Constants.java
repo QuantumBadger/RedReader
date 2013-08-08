@@ -50,10 +50,15 @@ public final class Constants {
 
 		public static final String
 				URI_SCHEME = "rr",
-				URI_HOST_PREFSPAGE = "settings";
+				URI_HOST_PREFSPAGE = "settings",
+				URI_HOST_PREF = "pref";
 
 		public static Uri getUri(String host) {
 			return Uri.parse(URI_SCHEME + "://" + host);
+		}
+
+		public static Uri getUri(String host, String path) {
+			return Uri.parse(URI_SCHEME + "://" + host + "/" + path);
 		}
 	}
 

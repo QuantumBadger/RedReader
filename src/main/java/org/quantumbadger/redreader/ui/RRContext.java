@@ -4,23 +4,17 @@ import org.holoeverywhere.app.Activity;
 import org.quantumbadger.redreader.ui.frag.RRFragment;
 import org.quantumbadger.redreader.ui.frag.RRFragmentLayout;
 
-public final class RRContext {
+public class RRContext {
 
 	public final Activity activity;
 	public final RRFragmentLayout fragmentLayout;
-	public final RRFragment fragment;
-
-	public RRContext(Activity activity, RRFragmentLayout fragmentLayout, RRFragment fragment) {
-		this.activity = activity;
-		this.fragmentLayout = fragmentLayout;
-		this.fragment = fragment;
-	}
 
 	public RRContext(Activity activity, RRFragmentLayout fragmentLayout) {
-		this(activity, fragmentLayout, null);
+		this.activity = activity;
+		this.fragmentLayout = fragmentLayout;
 	}
 
-	public RRContext forFragment(RRFragment fragment) {
-		return new RRContext(activity, fragmentLayout, fragment);
+	public RRFragmentContext forFragment(RRFragment fragment) {
+		return new RRFragmentContext(activity, fragmentLayout, fragment);
 	}
 }

@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
 import org.quantumbadger.redreader.ui.RRContext;
+import org.quantumbadger.redreader.ui.RRFragmentContext;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -35,7 +36,7 @@ public abstract class RRFragment {
 	private final Parcelable state;
 	private View contentView;
 
-	protected final RRContext context;
+	protected final RRFragmentContext context;
 
 	public RRFragment(RRContext context, Uri uri, Bundle args, Parcelable state) {
 		this.context = context.forFragment(this);

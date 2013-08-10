@@ -28,7 +28,7 @@ public abstract class RRListViewItem {
 	private static final AtomicLong maxItemId = new AtomicLong(0);
 	public final long globalItemId = maxItemId.incrementAndGet();
 
-	private volatile boolean shouldCacheView = true; // TODO should be false
+	private volatile boolean shouldCacheView = false;
 	private final AtomicReference<ReferenceCountedBitmap> cachedView = new AtomicReference<ReferenceCountedBitmap>();
 
 	protected int width = -1;
@@ -36,10 +36,9 @@ public abstract class RRListViewItem {
 
 	private RRListView parent;
 
-	private boolean dividingLine;
 	private float xVel = 0, xPos = 0; // TODO account for dpi, fps
 
-	protected int measureHeight(int width) {
+	protected synchronized final int measureHeight(int width) {
 
 		if(width == this.width) return height;
 
@@ -58,7 +57,6 @@ public abstract class RRListViewItem {
 		this.parent = parent;
 	}
 
-	// TODO return height:
 	public final void draw(Canvas c, int width) {
 
 		if(width != this.width) measureHeight(width);
@@ -89,13 +87,13 @@ public abstract class RRListViewItem {
 	protected abstract void onRender(Canvas c);
 
 	@Override
-	public int hashCode() {
+	public final int hashCode() {
 		return (int)globalItemId;
 	}
 
 	public abstract boolean isVisible();
 
-	public void setCache(final boolean enabled, final RRListView.RenderThread renderThread) {
+	public final void setCache(final boolean enabled, final RRListView.RenderThread renderThread) {
 
 		shouldCacheView = enabled;
 
@@ -109,7 +107,7 @@ public abstract class RRListViewItem {
 		}
 	}
 
-	public ReferenceCountedBitmap doCacheRender(final int width, final boolean evenIfCacheIsDisabled) {
+	public final ReferenceCountedBitmap doCacheRender(final int width, final boolean evenIfCacheIsDisabled) {
 
 		if(width == 0) return null;
 
@@ -131,5 +129,19 @@ public abstract class RRListViewItem {
 		}
 
 		return newCachedView;
+	}
+
+	public synchronized final void invalidate() {
+
+		final ReferenceCountedBitmap lastCacheContents = cachedView.getAndSet(null);
+
+		if(lastCacheContents != null) {
+			lastCacheContents.release();
+		}
+
+		width = -1;
+		height = -1;
+
+		// TODO notify parent that this view is invalidated
 	}
 }

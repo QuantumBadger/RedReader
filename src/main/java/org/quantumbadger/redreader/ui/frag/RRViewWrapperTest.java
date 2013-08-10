@@ -23,21 +23,21 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 
-public class RRViewTest extends RRView {
+public class RRViewWrapperTest extends RRViewWrapper {
 
 	private float[] xPos, yPos;
 
 	final Paint paint = new Paint();
 
-	public RRViewTest(Context context) {
+	public RRViewWrapperTest(Context context) {
 		super(context);
 	}
 
-	public RRViewTest(Context context, AttributeSet attrs) {
+	public RRViewWrapperTest(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 
-	public RRViewTest(Context context, AttributeSet attrs, int defStyle) {
+	public RRViewWrapperTest(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 	}
 

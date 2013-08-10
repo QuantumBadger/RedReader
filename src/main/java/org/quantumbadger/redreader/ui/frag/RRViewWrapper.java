@@ -23,19 +23,19 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-public abstract class RRView extends View {
+public abstract class RRViewWrapper extends View {
 
 	private final TouchEvent reusableTouchEvent = new TouchEvent();
 
-	public RRView(Context context) {
+	public RRViewWrapper(Context context) {
 		super(context);
 	}
 
-	public RRView(Context context, AttributeSet attrs) {
+	public RRViewWrapper(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 
-	public RRView(Context context, AttributeSet attrs, int defStyle) {
+	public RRViewWrapper(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 	}
 
@@ -45,7 +45,7 @@ public abstract class RRView extends View {
 		START, MOVE, FINISH, CANCEL
 	}
 
-	protected final class TouchEvent {
+	public final class TouchEvent {
 
 		public int pointerCount = 0;
 

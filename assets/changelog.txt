@@ -1,4 +1,5 @@
 43/1.8.3
+Better GIF support on Android 4.0+
 Can share links from other apps (thanks to andrewgiang)
 Preference to show comment indent lines (thanks to GzFighter)
 

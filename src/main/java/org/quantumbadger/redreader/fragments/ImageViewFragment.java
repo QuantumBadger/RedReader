@@ -37,6 +37,7 @@ package org.quantumbadger.redreader.fragments;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -63,6 +64,7 @@ import org.quantumbadger.redreader.image.GifDecoderThread;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
+import org.quantumbadger.redreader.views.GIFView;
 import org.quantumbadger.redreader.views.RedditPostView;
 import org.quantumbadger.redreader.views.bezelmenu.BezelSwipeOverlay;
 import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
@@ -172,42 +174,64 @@ public class ImageViewFragment extends Fragment implements RedditPostView.PostSe
 
 						if(Constants.Mime.isImageGif(mimetype)) {
 
-							try {
+							if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
 
-								gifThread = new GifDecoderThread(cacheFile.getInputStream(), new GifDecoderThread.OnGifLoadedListener() {
-
-									public void onGifLoaded() {
-										new Handler(Looper.getMainLooper()).post(new Runnable() {
-											public void run() {
-												imageView = new ImageView(context);
-												imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-												setContentView(imageView);
-												gifThread.setView(imageView);
-
-												imageView.setOnClickListener(new View.OnClickListener() {
-													public void onClick(View v) {
-														getSupportActivity().finish();
-													}
-												});
-											}
-										});
-									}
-
-									public void onOutOfMemory() {
-										General.quickToast(context, R.string.imageview_oom);
-										revertToWeb();
-									}
-
-									public void onGifInvalid() {
-										General.quickToast(context, R.string.imageview_invalid_gif);
-										revertToWeb();
+								new Handler(Looper.getMainLooper()).post(new Runnable() {
+									public void run() {
+										try {
+											final GIFView gifView = new GIFView(getSupportActivity(), cacheFile.getInputStream());
+											setContentView(gifView);
+											gifView.setOnClickListener(new View.OnClickListener() {
+												public void onClick(View v) {
+													getSupportActivity().finish();
+												}
+											});
+										} catch(Exception e) {
+											General.quickToast(context, R.string.imageview_invalid_gif);
+											revertToWeb();
+										}
 									}
 								});
 
-								gifThread.start();
+							} else {
 
-							} catch(IOException e) {
-								throw new RuntimeException(e);
+								try {
+
+									gifThread = new GifDecoderThread(cacheFile.getInputStream(), new GifDecoderThread.OnGifLoadedListener() {
+
+										public void onGifLoaded() {
+											new Handler(Looper.getMainLooper()).post(new Runnable() {
+												public void run() {
+													imageView = new ImageView(context);
+													imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+													setContentView(imageView);
+													gifThread.setView(imageView);
+
+													imageView.setOnClickListener(new View.OnClickListener() {
+														public void onClick(View v) {
+															getSupportActivity().finish();
+														}
+													});
+												}
+											});
+										}
+
+										public void onOutOfMemory() {
+											General.quickToast(context, R.string.imageview_oom);
+											revertToWeb();
+										}
+
+										public void onGifInvalid() {
+											General.quickToast(context, R.string.imageview_invalid_gif);
+											revertToWeb();
+										}
+									});
+
+									gifThread.start();
+
+								} catch(IOException e) {
+									throw new RuntimeException(e);
+								}
 							}
 
 						} else {

@@ -17,34 +17,94 @@
 
 package org.quantumbadger.redreader.ui.list;
 
-import java.util.HashSet;
+import java.util.Arrays;
 
 public final class RRListViewCacheManager {
 
-	private final HashSet<RRListViewItem> cached = new HashSet<RRListViewItem>(64);
+	private ListItemArrayLengthPair cached = new ListItemArrayLengthPair(1024);
+	private ListItemArrayLengthPair tmp = new ListItemArrayLengthPair(1024);
 
 	public synchronized void update(RRListViewContents.RRListViewFlattenedContents fc,
 									int firstItemVisible, int lastItemVisible, int cacheSizeEitherSide,
 									RRListView.RenderThread thread) {
 
-		// TODO make local vars for fc.items, fc.items[i]
+		final int cacheStart = Math.max(0, firstItemVisible - cacheSizeEitherSide);
+		final int cacheEnd = Math.min(fc.itemCount, lastItemVisible + cacheSizeEitherSide);
+		final int cacheLen = cacheEnd - cacheStart;
 
-		final HashSet<RRListViewItem> noLongerCached = new HashSet<RRListViewItem>(cached);
+		System.arraycopy(fc.items, cacheStart, tmp.data, 0, cacheLen);
+		tmp.pos = cacheLen;
+		tmp.bubbleSort();
 
-		final int firstItemToCache = Math.max(0, firstItemVisible - cacheSizeEitherSide);
-		final int lastItemToCache = Math.min(fc.itemCount - 1, lastItemVisible + cacheSizeEitherSide);
+		int cachedPos = 0, tmpPos = 0;
 
-		for(int i = firstItemToCache; i <= lastItemToCache; i++) {
+		while(cachedPos < cached.pos && tmpPos < tmp.pos) {
 
-			if(!noLongerCached.remove(fc.items[i])) {
-				fc.items[i].setCache(true, thread);
-				cached.add(fc.items[i]);
+			final int cachedId = cached.data[cachedPos].globalItemId;
+			final int tmpId = tmp.data[tmpPos].globalItemId;
+
+			if(cachedId == tmpId) {
+				cachedPos++;
+				tmpPos++;
+
+			} else if(cachedId > tmpId) {
+				tmp.data[tmpPos].setCache(true, thread);
+				tmpPos++;
+
+			} else {
+				cached.data[cachedPos].setCache(false, null);
+				cachedPos++;
 			}
 		}
 
-		for(final RRListViewItem item : noLongerCached) {
-			item.setCache(false, null);
-			cached.remove(item);
+		while(cachedPos < cached.pos) {
+			cached.data[cachedPos].setCache(false, null);
+			cachedPos++;
+		}
+
+		while(tmpPos < tmp.pos) {
+			tmp.data[tmpPos].setCache(true, thread);
+			tmpPos++;
+		}
+
+		cached.clear();
+
+		final ListItemArrayLengthPair newCached = tmp;
+		tmp = cached;
+		cached = newCached;
+	}
+
+	private final class ListItemArrayLengthPair {
+
+		public final RRListViewItem[] data;
+		public int pos = 0;
+
+		public ListItemArrayLengthPair(int capacity) {
+			this.data = new RRListViewItem[capacity];
+		}
+
+		public void clear() {
+			Arrays.fill(data, 0, pos, null); // Avoids memory leaks
+			pos = 0;
+		}
+
+		// We expect the list to be in order almost all of the time
+		public void bubbleSort() {
+
+			boolean isSorted = false;
+
+			while(!isSorted) {
+
+				isSorted = true;
+
+				for(int i = 1; i < pos; i++) {
+					if(data[i].globalItemId < data[i - 1].globalItemId) {
+						final RRListViewItem tmp = data[i - 1];
+						data[i - 1] = data[i];
+						data[i] = tmp;
+					}
+				}
+			}
 		}
 	}
 }

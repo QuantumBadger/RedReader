@@ -20,13 +20,13 @@ package org.quantumbadger.redreader.ui.list;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 public abstract class RRListViewItem {
 
-	private static final AtomicLong maxItemId = new AtomicLong(0);
-	public final long globalItemId = maxItemId.incrementAndGet();
+	private static final AtomicInteger maxItemId = new AtomicInteger(0);
+	public final int globalItemId = maxItemId.incrementAndGet();
 
 	private volatile boolean shouldCacheView = false;
 	private final AtomicReference<ReferenceCountedBitmap> cachedView = new AtomicReference<ReferenceCountedBitmap>();
@@ -88,7 +88,7 @@ public abstract class RRListViewItem {
 
 	@Override
 	public final int hashCode() {
-		return (int)globalItemId;
+		return globalItemId;
 	}
 
 	public abstract boolean isVisible();
@@ -121,7 +121,6 @@ public abstract class RRListViewItem {
 		onRender(new Canvas(newCache));
 
 		final ReferenceCountedBitmap newCachedView = new ReferenceCountedBitmap(newCache);
-		newCachedView.lock();
 
 		if(shouldCacheView && this.width == width) {
 			final ReferenceCountedBitmap oldCachedView = cachedView.getAndSet(newCachedView);

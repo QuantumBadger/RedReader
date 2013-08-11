@@ -8,7 +8,7 @@ import org.quantumbadger.redreader.settings.RRPreference;
 import org.quantumbadger.redreader.settings.RRPreferenceBoolean;
 import org.quantumbadger.redreader.settings.RRPreferenceEnum;
 import org.quantumbadger.redreader.settings.RRPreferenceFloat;
-import org.quantumbadger.redreader.ui.RRContext;
+import org.quantumbadger.redreader.ui.RRFragmentContext;
 import org.quantumbadger.redreader.ui.frag.RRUriHandler;
 
 public final class PreferenceView extends FrameLayout implements RRPreference.Listener {
@@ -21,9 +21,9 @@ public final class PreferenceView extends FrameLayout implements RRPreference.Li
 	protected RadioButton radioButton;
 	private View divider;
 
-	protected final RRContext context;
+	protected final RRFragmentContext context;
 
-	public PreferenceView(final RRContext context) {
+	public PreferenceView(final RRFragmentContext context) {
 
 		super(context.activity);
 		this.context = context;

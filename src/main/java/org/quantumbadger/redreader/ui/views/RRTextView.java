@@ -15,17 +15,11 @@ public class RRTextView extends RRView {
 	public void setText(CharSequence text) {
 		this.text = text;
 		staticLayout = null;
-		invalidate();
 	}
 
 	public void setTextPaint(TextPaint textPaint) {
 		this.textPaint = textPaint;
 		staticLayout = null;
-		invalidate();
-	}
-
-	private void regenerateLayout() {
-		staticLayout = new StaticLayout(text, textPaint, getWidth(), Layout.Alignment.ALIGN_NORMAL, 1, 0, false);
 	}
 
 	@Override
@@ -39,7 +33,7 @@ public class RRTextView extends RRView {
 
 	@Override
 	protected int onMeasureByWidth(int width) {
-		if(staticLayout == null) regenerateLayout();
+		staticLayout = new StaticLayout(text, textPaint, width, Layout.Alignment.ALIGN_NORMAL, 1, 0, false);
 		return staticLayout.getHeight();
 	}
 

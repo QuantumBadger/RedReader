@@ -8,7 +8,7 @@ import org.quantumbadger.redreader.settings.RRPreference;
 import org.quantumbadger.redreader.settings.RRPreferenceBoolean;
 import org.quantumbadger.redreader.settings.RRPreferenceHeader;
 import org.quantumbadger.redreader.settings.RRPreferenceLink;
-import org.quantumbadger.redreader.ui.RRContext;
+import org.quantumbadger.redreader.ui.RRFragmentContext;
 import org.quantumbadger.redreader.views.list.ListSectionHeaderView;
 
 import java.util.List;
@@ -16,11 +16,11 @@ import java.util.List;
 public class PrefsPageAdapter extends BaseAdapter implements RRPreference.Listener {
 
 	private final RRPreference[] prefsPage;
-	private final RRContext context;
+	private final RRFragmentContext context;
 
 	private static final int PREF_HEADER = 0, PREF_BOOLEAN = 1, PREF_LINK = 2, PREF_LINK_SUBTITLE = 3;
 
-	public PrefsPageAdapter(final RRContext context, final List<RRPreference> prefsPage) {
+	public PrefsPageAdapter(final RRFragmentContext context, final List<RRPreference> prefsPage) {
 
 		this.prefsPage = prefsPage.toArray(new RRPreference[prefsPage.size()]);
 		this.context = context;

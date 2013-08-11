@@ -35,43 +35,52 @@ public class RRTestUriHandler extends RRUriHandler {
 
 		if(!uri.getScheme().equals("rr")) return null;
 
-		if(!uri.getHost().equals("testfragment")) return null;
+		if(uri.getHost().equals("testfragment")) {
 
-		Log.e("RRTF", uri.toString());
+			Log.e("RRTF", uri.toString());
 
-		final Set<String> queryFields = uri.getQueryParameterNames();
+			final Set<String> queryFields = uri.getQueryParameterNames();
 
-		final int col;
-		final String text;
+			final int col;
+			final String text;
 
-		if(queryFields.contains("col")) {
-			col = Color.parseColor("#" + uri.getQueryParameter("col"));
-		} else {
-			final Random r = new Random();
-			col = Color.rgb(r.nextInt(255), r.nextInt(255), r.nextInt(255));
-		}
-
-		if(queryFields.contains("text")) {
-			text = uri.getQueryParameter("text");
-		} else {
-			text = uri.toString();
-		}
-
-		final RRFragment fragment = new RRFragment(context, uri, arguments, null) {
-			@Override
-			public int preferredWidthLeftcolPx(float dpScale) {
-				return (int) (dpScale * 100);
+			if(queryFields.contains("col")) {
+				col = Color.parseColor("#" + uri.getQueryParameter("col"));
+			} else {
+				final Random r = new Random();
+				col = Color.rgb(r.nextInt(255), r.nextInt(255), r.nextInt(255));
 			}
 
-			@Override
-			protected View buildContentView() {
-				final TextView tv = new TextView(context.activity);
-				tv.setText(text);
-				tv.setBackgroundColor(col);
-				return tv;
+			if(queryFields.contains("text")) {
+				text = uri.getQueryParameter("text");
+			} else {
+				text = uri.toString();
 			}
-		};
 
-		return new Result(fragment);
+			final RRFragment fragment = new RRFragment(context, uri, arguments, null) {
+				@Override
+				public int preferredWidthLeftcolPx(float dpScale) {
+					return (int) (dpScale * 100);
+				}
+
+				@Override
+				protected View buildContentView() {
+					final TextView tv = new TextView(context.activity);
+					tv.setText(text);
+					tv.setBackgroundColor(col);
+					return tv;
+				}
+			};
+
+			return new Result(fragment);
+		}
+
+		if(uri.getHost().equals("listtest")) {
+
+			return new Result(new RRListTestFragment(context, uri, null, null));
+
+		}
+
+		return null;
 	}
 }

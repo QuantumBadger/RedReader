@@ -17,12 +17,12 @@
 
 package org.quantumbadger.redreader.ui.list;
 
-import android.content.Context;
 import android.graphics.Canvas;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import org.quantumbadger.redreader.ui.RRFragmentContext;
 
 import java.util.LinkedList;
 
@@ -43,8 +43,8 @@ public final class RRListView extends View {
 	private volatile RenderThread thread;
 	private volatile boolean isPaused = true;
 
-	public RRListView(Context context) {
-		super(context);
+	public RRListView(RRFragmentContext context) {
+		super(context.activity);
 		setWillNotDraw(false);
 	}
 

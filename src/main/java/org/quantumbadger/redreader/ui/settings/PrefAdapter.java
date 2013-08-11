@@ -5,15 +5,15 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.settings.RRPreference;
-import org.quantumbadger.redreader.ui.RRContext;
+import org.quantumbadger.redreader.ui.RRFragmentContext;
 
 public class PrefAdapter extends BaseAdapter implements RRPreference.Listener {
 
 	private final RRPreference preference;
 	private final RRPreference.Item[] values;
-	private final RRContext context;
+	private final RRFragmentContext context;
 
-	public PrefAdapter(final RRContext context, final RRPreference preference) {
+	public PrefAdapter(final RRFragmentContext context, final RRPreference preference) {
 
 		this.values = preference.getItems();
 		this.preference = preference;

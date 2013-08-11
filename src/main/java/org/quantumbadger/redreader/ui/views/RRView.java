@@ -41,11 +41,8 @@ public abstract class RRView implements RRViewParent, TouchEventHandler {
 	protected abstract void onRender(Canvas canvas);
 
 	public final void invalidate() {
-		invalidate(this);
-	}
-
-	public final void invalidate(final RRView view) {
-		parent.invalidate(this);
+		width = -1;
+		parent.invalidate();
 	}
 
 	public final void setTouchEventHandler(TouchEventHandler touchEventHandler) {

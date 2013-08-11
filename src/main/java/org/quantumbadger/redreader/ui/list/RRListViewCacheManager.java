@@ -17,8 +17,6 @@
 
 package org.quantumbadger.redreader.ui.list;
 
-import android.util.Log;
-
 import java.util.HashSet;
 
 public final class RRListViewCacheManager {
@@ -41,14 +39,12 @@ public final class RRListViewCacheManager {
 			if(!noLongerCached.remove(fc.items[i])) {
 				fc.items[i].setCache(true, thread);
 				cached.add(fc.items[i]);
-				Log.i("SCROLL CACHE", "Item added to cache: " + i + ", #" + fc.items[i].globalItemId);
 			}
 		}
 
 		for(final RRListViewItem item : noLongerCached) {
 			item.setCache(false, null);
 			cached.remove(item);
-			Log.i("SCROLL CACHE", "Item removed from cache, #" + item.globalItemId);
 		}
 	}
 }

@@ -10,18 +10,18 @@ public class RRListItemViewWrapper extends RRListViewItem implements RRViewParen
 	private final RRView view;
 	private boolean isVisible = true;
 
-	public RRListItemViewWrapper(RRView view) {
+	public RRListItemViewWrapper(final RRView view) {
 		this.view = view;
 		view.setParent(this);
 	}
 
 	@Override
-	protected int onMeasureHeight(int width) {
+	protected int onMeasureHeight(final int width) {
 		return view.setWidth(width);
 	}
 
 	@Override
-	protected void onRender(Canvas c) {
+	protected void onRender(final Canvas c) {
 		view.draw(c);
 	}
 

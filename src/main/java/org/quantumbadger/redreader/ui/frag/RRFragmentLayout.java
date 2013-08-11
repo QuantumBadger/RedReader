@@ -37,6 +37,8 @@ public final class RRFragmentLayout extends ViewGroup {
 
 	final boolean twoPane = true;
 
+	private boolean paused = true;
+
 	private final LinkedList<RRFragment> activeViews = new LinkedList<RRFragment>();
 
 	private double hOffset = 0, hVel = 0;
@@ -425,5 +427,27 @@ public final class RRFragmentLayout extends ViewGroup {
 	@Override
 	protected RRFragmentLayout.LayoutParams generateDefaultLayoutParams() {
 		return new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+	}
+
+	public void onResume() {
+
+		if(!paused) return;
+
+		for(RRFragment fragment : activeViews) {
+			fragment.onResume();
+		}
+
+		paused = false;
+	}
+
+	public void onPause() {
+
+		if(paused) return;
+
+		for(RRFragment fragment : activeViews) {
+			fragment.onPause();
+		}
+
+		paused = true;
 	}
 }

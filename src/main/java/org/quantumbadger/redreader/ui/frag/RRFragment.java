@@ -130,4 +130,7 @@ public abstract class RRFragment {
 		context.fragmentLayout.removeFragmentsAfter(this);
 		context.fragmentLayout.removeTopFragment();
 	}
+
+	public void onResume() {}
+	public void onPause() {}
 }

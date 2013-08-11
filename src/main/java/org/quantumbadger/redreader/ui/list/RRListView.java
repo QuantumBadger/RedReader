@@ -18,8 +18,6 @@
 package org.quantumbadger.redreader.ui.list;
 
 import android.graphics.Canvas;
-import android.os.SystemClock;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import org.quantumbadger.redreader.ui.RRFragmentContext;
@@ -155,45 +153,37 @@ public final class RRListView extends View {
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
 
-		final long start = SystemClock.currentThreadTimeMillis();
+		final int action = ev.getAction() & MotionEvent.ACTION_MASK;
 
-		try {
+		if(action == MotionEvent.ACTION_DOWN) {
 
-			final int action = ev.getAction() & MotionEvent.ACTION_MASK;
+			lastYPos = ev.getY();
+			downId = ev.getPointerId(0);
+			return true;
 
-			if(action == MotionEvent.ACTION_DOWN) {
+		} else if(action == MotionEvent.ACTION_UP
+				|| action == MotionEvent.ACTION_OUTSIDE
+				|| action == MotionEvent.ACTION_CANCEL
+				|| action == MotionEvent.ACTION_POINTER_UP) {
 
-				lastYPos = ev.getY();
-				downId = ev.getPointerId(0);
-				return true;
+			if(ev.getPointerId(ev.getActionIndex()) != downId) return false;
+			downId = -1;
 
-			} else if(action == MotionEvent.ACTION_UP
-					|| action == MotionEvent.ACTION_OUTSIDE
-					|| action == MotionEvent.ACTION_CANCEL
-					|| action == MotionEvent.ACTION_POINTER_UP) {
+			return false;
 
-				if(ev.getPointerId(ev.getActionIndex()) != downId) return false;
-				downId = -1;
+		} else if(action == MotionEvent.ACTION_MOVE) {
 
-				return false;
+			if(ev.getPointerId(ev.getActionIndex()) != downId) return false;
 
-			} else if(action == MotionEvent.ACTION_MOVE) {
+			final float yDelta = ev.getY() - lastYPos;
+			lastYPos = ev.getY();
 
-				if(ev.getPointerId(ev.getActionIndex()) != downId) return false;
+			scrollBy(-yDelta);
+			invalidate();
 
-				final float yDelta = ev.getY() - lastYPos;
-				lastYPos = ev.getY();
+			return true;
 
-				scrollBy(-yDelta);
-				invalidate();
-
-				return true;
-
-			} else return false;
-
-		} finally {
-			Log.i("Touch handle time", SystemClock.currentThreadTimeMillis() - start + " ms"); // TODO remove
-		}
+		} else return false;
 	}
 
 	public void resume() {
@@ -210,10 +200,6 @@ public final class RRListView extends View {
 	@Override
 	protected void onDraw(Canvas canvas) {
 
-		//Log.i("SCROLL", String.format("Items %d to %d are visible", firstVisibleItemPos, lastVisibleItemPos));
-
-		final long start = SystemClock.currentThreadTimeMillis();
-
 		if(flattenedContents == null) return;
 
 		final RRListViewContents.RRListViewFlattenedContents fc = flattenedContents;
@@ -224,8 +210,6 @@ public final class RRListView extends View {
 			fc.items[i].draw(canvas, width);
 			canvas.translate(0, fc.items[i].height);
 		}
-
-		Log.i("Drawing time", SystemClock.currentThreadTimeMillis() - start + " ms"); // TODO remove
 	}
 
 	// TODO low priority
@@ -249,18 +233,14 @@ public final class RRListView extends View {
 
 					if(toRender.isEmpty()) {
 						try {
-							Log.i("SCROLL CACHE THREAD", "Waiting...");
 							toRender.wait();
 						} catch(InterruptedException e) {}
 					}
 
 					if(!toRender.isEmpty()) {
-						Log.i("SCROLL CACHE THREAD", "Rendering #" + toRender.getFirst().globalItemId);
 						toRender.removeFirst().doCacheRender(width, false);
 					}
 				}
-
-				Log.i("SCROLL CACHE THREAD", "Exiting");
 			}
 		}
 	}

@@ -2,7 +2,9 @@ package org.quantumbadger.redreader.ui.views;
 
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Looper;
 
 public abstract class RRView implements RRViewParent, TouchEventHandler {
 
@@ -17,7 +19,28 @@ public abstract class RRView implements RRViewParent, TouchEventHandler {
 	public static final int HOVER_START = 1, HOVER_HIGHLIGHT = 2, HOVER_LONGCLICK = 3, HOVER_CANCEL = 4, TAP = 5;
 	public static final int UNSPECIFIED = -1;
 
+	private volatile boolean unrenderable = true;
+	private static final Paint unrenderablePaint = new Paint();
+
+	static {
+		unrenderablePaint.setColor(Color.RED);
+	}
+
 	public final void draw(final Canvas canvas) {
+
+		if(unrenderable || Looper.getMainLooper().getThread() == Thread.currentThread()) {
+			final int size = 20;
+			canvas.drawLine(0, 0, 0, size, unrenderablePaint);
+			canvas.drawLine(0, size, size, size, unrenderablePaint);
+			canvas.drawLine(0, 0, size, 0, unrenderablePaint);
+			canvas.drawLine(size, size, 0, size, unrenderablePaint);
+			canvas.drawLine(0, 0, size, size, unrenderablePaint);
+			canvas.drawLine(0, size, size, 0, unrenderablePaint);
+		}
+
+		if(unrenderable) {
+			return;
+		}
 
 		if(paddingPaint != null) {
 			canvas.drawRect(0, 0, width, paddingTop, paddingPaint);
@@ -62,9 +85,14 @@ public abstract class RRView implements RRViewParent, TouchEventHandler {
 
 	public final int setWidth(final int width) {
 
-		if(this.width == width) return height;
+		if(this.width == width && !unrenderable) return height;
 
 		final int widthMinusPadding = width - paddingLeft - paddingRight;
+
+		if(widthMinusPadding < 0) {
+			unrenderable = true;
+			return 0;
+		}
 
 		final int fixedWidth = getFixedWidth();
 
@@ -77,16 +105,23 @@ public abstract class RRView implements RRViewParent, TouchEventHandler {
 		height = heightMinusPadding + paddingTop + paddingBottom;
 		this.width = width;
 
+		unrenderable = false;
+
 		return height;
 	}
 
 	public final int setHeight(final int height) {
 
-		if(this.height == height) return width;
+		if(this.height == height && !unrenderable) return width;
 
 		final int fixedHeight = getFixedHeight();
 
 		final int heightMinusPadding = height - paddingTop - paddingBottom;
+
+		if(heightMinusPadding < 0) {
+			unrenderable = true;
+			return 0;
+		}
 
 		if(fixedHeight != UNSPECIFIED && fixedHeight != heightMinusPadding) {
 			throw new MeasurementException(this, MeasurementException.InvalidMeasurementType.HEIGHT_IS_FIXED);
@@ -96,6 +131,8 @@ public abstract class RRView implements RRViewParent, TouchEventHandler {
 
 		width = widthMinusPadding + paddingLeft + paddingRight;
 		this.height = height;
+
+		unrenderable = false;
 
 		return width;
 	}
@@ -129,5 +166,12 @@ public abstract class RRView implements RRViewParent, TouchEventHandler {
 
 	public void setParent(RRViewParent parent) {
 		this.parent = parent;
+	}
+
+	public void setPadding(final int padding) {
+		paddingLeft = padding;
+		paddingRight = padding;
+		paddingTop = padding;
+		paddingBottom = padding;
 	}
 }

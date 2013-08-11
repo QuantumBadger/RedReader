@@ -67,4 +67,16 @@ public class MainActivity extends Activity {
 			super.onBackPressed();
 		}
 	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		layout.onResume();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		layout.onPause();
+	}
 }

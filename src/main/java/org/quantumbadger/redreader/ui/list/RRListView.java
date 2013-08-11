@@ -34,7 +34,8 @@ public final class RRListView extends View {
 	private volatile int width, height;
 
 	private int firstVisibleItemPos = 0, lastVisibleItemPos = -1;
-	private float positionInFirstVisibleItem = 0;
+	//private float positionInFirstVisibleItem = 0;
+	private int pxInFirstVisibleItem = 0;
 
 	private int oldWidth = -1;
 
@@ -84,49 +85,26 @@ public final class RRListView extends View {
 		}
 	}
 
-	public void scrollBy(float px) {
-		scrollByInner(px);
-		recalculateLastVisibleItem();
-	}
+	public void scrollBy(int px) {
 
-	private void scrollByInner(float px) {
+		pxInFirstVisibleItem += px;
 
-		if(firstVisibleItemPos < 0) {
-			firstVisibleItemPos = 0;
-			positionInFirstVisibleItem = 0;
-			return;
-		}
+		while(pxInFirstVisibleItem < 0) {
 
-		// TODO height may not have been calculated?
-		// TODO replace recursion with iteration
-		// TODO items as local variable
-
-		if(px >= 0) {
-
-			final float pxRemainingInTopItem = flattenedContents.items[firstVisibleItemPos].height * (1 - positionInFirstVisibleItem);
-
-			if(px < pxRemainingInTopItem) {
-				positionInFirstVisibleItem += px / flattenedContents.items[firstVisibleItemPos].height;
-
-			} else {
-				firstVisibleItemPos++;
-				positionInFirstVisibleItem = 0;
-				scrollByInner(px - pxRemainingInTopItem);
-			}
-
-		} else {
-
-			final float pxRemainingInTopItem = flattenedContents.items[firstVisibleItemPos].height * positionInFirstVisibleItem;
-
-			if(-px < pxRemainingInTopItem) {
-				positionInFirstVisibleItem += px / flattenedContents.items[firstVisibleItemPos].height;
-
+			if(firstVisibleItemPos == 0) {
+				pxInFirstVisibleItem = 0;
 			} else {
 				firstVisibleItemPos--;
-				positionInFirstVisibleItem = 1f;
-				scrollByInner(px + pxRemainingInTopItem);
+				pxInFirstVisibleItem += flattenedContents.items[firstVisibleItemPos].height;
 			}
 		}
+
+		while(pxInFirstVisibleItem >= flattenedContents.items[firstVisibleItemPos].height) {
+			pxInFirstVisibleItem -= flattenedContents.items[firstVisibleItemPos].height;
+			firstVisibleItemPos++;
+		}
+
+		recalculateLastVisibleItem();
 	}
 
 	public void recalculateLastVisibleItem() {
@@ -134,7 +112,7 @@ public final class RRListView extends View {
 		final int width = this.width;
 
 		final RRListViewContents.RRListViewFlattenedContents fc = flattenedContents;
-		int pos = (int) (fc.items[firstVisibleItemPos].measureHeight(width) * (1 - positionInFirstVisibleItem));
+		int pos = (int) (fc.items[firstVisibleItemPos].measureHeight(width) - pxInFirstVisibleItem);
 		int lastVisibleItemPos = firstVisibleItemPos;
 
 		while(pos <= height && lastVisibleItemPos < fc.itemCount - 1) {
@@ -148,7 +126,7 @@ public final class RRListView extends View {
 	}
 
 	private int downId = -1;
-	private float lastYPos = -1;
+	private int lastYPos = -1;
 
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
@@ -157,7 +135,7 @@ public final class RRListView extends View {
 
 		if(action == MotionEvent.ACTION_DOWN) {
 
-			lastYPos = ev.getY();
+			lastYPos = Math.round(ev.getY());
 			downId = ev.getPointerId(0);
 			return true;
 
@@ -175,8 +153,8 @@ public final class RRListView extends View {
 
 			if(ev.getPointerId(ev.getActionIndex()) != downId) return false;
 
-			final float yDelta = ev.getY() - lastYPos;
-			lastYPos = ev.getY();
+			final int yDelta = Math.round(ev.getY() - lastYPos);
+			lastYPos = Math.round(ev.getY());
 
 			scrollBy(-yDelta);
 			invalidate();
@@ -204,7 +182,7 @@ public final class RRListView extends View {
 
 		final RRListViewContents.RRListViewFlattenedContents fc = flattenedContents;
 
-		canvas.translate(0, (int)(fc.items[firstVisibleItemPos].height * -positionInFirstVisibleItem)); // TODO height may not have been calculated here...
+		canvas.translate(0, -pxInFirstVisibleItem);
 
 		for(int i = firstVisibleItemPos; i <= lastVisibleItemPos; i++) {
 			fc.items[i].draw(canvas, width);

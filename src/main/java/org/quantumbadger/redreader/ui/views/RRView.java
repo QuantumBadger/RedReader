@@ -33,7 +33,7 @@ public abstract class RRView implements RRViewParent, TouchEventHandler {
 			canvas.drawLine(0, 0, 0, size, unrenderablePaint);
 			canvas.drawLine(0, size, size, size, unrenderablePaint);
 			canvas.drawLine(0, 0, size, 0, unrenderablePaint);
-			canvas.drawLine(size, size, 0, size, unrenderablePaint);
+			canvas.drawLine(size, size, size, 0, unrenderablePaint);
 			canvas.drawLine(0, 0, size, size, unrenderablePaint);
 			canvas.drawLine(0, size, size, 0, unrenderablePaint);
 		}

@@ -19,6 +19,9 @@ package org.quantumbadger.redreader.ui.list;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
@@ -29,7 +32,7 @@ public abstract class RRListViewItem {
 	public final int globalItemId = maxItemId.incrementAndGet();
 
 	private volatile boolean shouldCacheView = false;
-	private final AtomicReference<ReferenceCountedBitmap> cachedView = new AtomicReference<ReferenceCountedBitmap>();
+	private final AtomicReference<Bitmap> cachedView = new AtomicReference<Bitmap>();
 
 	protected int width = -1;
 	public int height = -1;
@@ -38,15 +41,26 @@ public abstract class RRListViewItem {
 
 	private float xVel = 0, xPos = 0; // TODO account for dpi, fps
 
-	protected synchronized final int measureHeight(int width) {
+	private static final Handler recycleHandler = new Handler(Looper.getMainLooper()) {
+		@Override
+		public void handleMessage(Message msg) {
+			((Bitmap)msg.obj).recycle();
+		}
+	};
+
+	private void updateCache(Bitmap newCache) {
+		final Bitmap cache = cachedView.getAndSet(newCache);
+		if(cache != null) recycleHandler.sendMessage(Message.obtain(recycleHandler, 0, cache));
+	}
+
+	protected synchronized final int setWidth(int width) {
 
 		if(width == this.width) return height;
 
 		this.width = width;
 		height = onMeasureHeight(width);
 
-		final ReferenceCountedBitmap cache = cachedView.getAndSet(null);
-		if(cache != null) cache.release();
+		updateCache(null);
 
 		return height;
 	}
@@ -59,28 +73,19 @@ public abstract class RRListViewItem {
 
 	public final void draw(Canvas c, int width) {
 
-		if(width != this.width) measureHeight(width);
+		if(width != this.width) setWidth(width);
 
-		final ReferenceCountedBitmap currentCachedView = cachedView.get();
-		final Bitmap cache = currentCachedView == null ? null : currentCachedView.lock();
+		final Bitmap cache = cachedView.get();
 
-		try {
-
-			if(cache == null) {
-				if(shouldCacheView) {
-					final ReferenceCountedBitmap newlyCachedView = doCacheRender(width, true);
-					final Bitmap newCache = newlyCachedView.lock();
-					c.drawBitmap(newCache, 0, 0, null);
-					newlyCachedView.release();
-				} else {
-					onRender(c);
-				}
+		if(cache == null || cache.isRecycled()) {
+			if(shouldCacheView) {
+				final Bitmap newCache = doCacheRender(width, true);
+				c.drawBitmap(newCache, 0, 0, null);
 			} else {
-				c.drawBitmap(cache, 0, 0, null);
+				onRender(c);
 			}
-
-		} finally {
-			if(currentCachedView != null) currentCachedView.release();
+		} else {
+			c.drawBitmap(cache, 0, 0, null);
 		}
 	}
 
@@ -101,42 +106,31 @@ public abstract class RRListViewItem {
 			if(cachedView.get() == null && renderThread != null) renderThread.add(this);
 
 		} else {
-
-			final ReferenceCountedBitmap cache = cachedView.getAndSet(null);
-			if(cache != null) cache.release();
+			updateCache(null);
 		}
 	}
 
-	public final ReferenceCountedBitmap doCacheRender(final int width, final boolean evenIfCacheIsDisabled) {
+	public final Bitmap doCacheRender(final int width, final boolean evenIfCacheIsDisabled) {
 
 		if(width == 0) return null;
 
 		if(!evenIfCacheIsDisabled && !shouldCacheView) return null;
 
-		final int currentWidth = this.width;
-
-		if(width != currentWidth || height < 0) measureHeight(width);
+		if(width != this.width || height < 0) setWidth(width);
 
 		final Bitmap newCache = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 		onRender(new Canvas(newCache));
 
-		final ReferenceCountedBitmap newCachedView = new ReferenceCountedBitmap(newCache);
-
 		if(shouldCacheView && this.width == width) {
-			final ReferenceCountedBitmap oldCachedView = cachedView.getAndSet(newCachedView);
-			if(oldCachedView != null) oldCachedView.release();
+			updateCache(newCache);
 		}
 
-		return newCachedView;
+		return newCache;
 	}
 
-	public synchronized final void invalidate() {
+	public final void invalidate() {
 
-		final ReferenceCountedBitmap lastCacheContents = cachedView.getAndSet(null);
-
-		if(lastCacheContents != null) {
-			lastCacheContents.release();
-		}
+		updateCache(null);
 
 		width = -1;
 		height = -1;

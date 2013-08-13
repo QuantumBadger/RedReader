@@ -112,12 +112,12 @@ public final class RRListView extends View {
 		final int width = this.width;
 
 		final RRListViewContents.RRListViewFlattenedContents fc = flattenedContents;
-		int pos = (int) (fc.items[firstVisibleItemPos].measureHeight(width) - pxInFirstVisibleItem);
+		int pos = (int) (fc.items[firstVisibleItemPos].setWidth(width) - pxInFirstVisibleItem);
 		int lastVisibleItemPos = firstVisibleItemPos;
 
 		while(pos <= height && lastVisibleItemPos < fc.itemCount - 1) {
 			lastVisibleItemPos++;
-			pos += fc.items[lastVisibleItemPos].measureHeight(width);
+			pos += fc.items[lastVisibleItemPos].setWidth(width);
 		}
 
 		this.lastVisibleItemPos = lastVisibleItemPos;

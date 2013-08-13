@@ -17,22 +17,14 @@
 
 package org.quantumbadger.redreader.ui.list;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicReference;
 
 public abstract class RRListViewItem {
 
 	private static final AtomicInteger maxItemId = new AtomicInteger(0);
 	public final int globalItemId = maxItemId.incrementAndGet();
-
-	private volatile boolean shouldCacheView = false;
-	private final AtomicReference<Bitmap> cachedView = new AtomicReference<Bitmap>();
 
 	protected int width = -1;
 	public int height = -1;
@@ -41,18 +33,6 @@ public abstract class RRListViewItem {
 
 	private float xVel = 0, xPos = 0; // TODO account for dpi, fps
 
-	private static final Handler recycleHandler = new Handler(Looper.getMainLooper()) {
-		@Override
-		public void handleMessage(Message msg) {
-			((Bitmap)msg.obj).recycle();
-		}
-	};
-
-	private void updateCache(Bitmap newCache) {
-		final Bitmap cache = cachedView.getAndSet(newCache);
-		if(cache != null) recycleHandler.sendMessage(Message.obtain(recycleHandler, 0, cache));
-	}
-
 	protected synchronized final int setWidth(int width) {
 
 		if(width == this.width) return height;
@@ -60,7 +40,7 @@ public abstract class RRListViewItem {
 		this.width = width;
 		height = onMeasureHeight(width);
 
-		updateCache(null);
+		// TODO invalidate
 
 		return height;
 	}
@@ -72,21 +52,8 @@ public abstract class RRListViewItem {
 	}
 
 	public final void draw(Canvas c, int width) {
-
 		if(width != this.width) setWidth(width);
-
-		final Bitmap cache = cachedView.get();
-
-		if(cache == null || cache.isRecycled()) {
-			if(shouldCacheView) {
-				final Bitmap newCache = doCacheRender(width, true);
-				c.drawBitmap(newCache, 0, 0, null);
-			} else {
-				onRender(c);
-			}
-		} else {
-			c.drawBitmap(cache, 0, 0, null);
-		}
+		onRender(c);
 	}
 
 	protected abstract void onRender(Canvas c);
@@ -98,43 +65,10 @@ public abstract class RRListViewItem {
 
 	public abstract boolean isVisible();
 
-	public final void setCache(final boolean enabled, final RRListView.RenderThread renderThread) {
-
-		shouldCacheView = enabled;
-
-		if(enabled) {
-			if(cachedView.get() == null && renderThread != null) renderThread.add(this);
-
-		} else {
-			updateCache(null);
-		}
-	}
-
-	public final Bitmap doCacheRender(final int width, final boolean evenIfCacheIsDisabled) {
-
-		if(width == 0) return null;
-
-		if(!evenIfCacheIsDisabled && !shouldCacheView) return null;
-
-		if(width != this.width || height < 0) setWidth(width);
-
-		final Bitmap newCache = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-		onRender(new Canvas(newCache));
-
-		if(shouldCacheView && this.width == width) {
-			updateCache(newCache);
-		}
-
-		return newCache;
-	}
-
 	public final void invalidate() {
 
-		updateCache(null);
-
-		width = -1;
-		height = -1;
-
 		// TODO notify parent that this view is invalidated
+		// TODO have separate "relayout" method
+		// TODO extend RRView
 	}
 }

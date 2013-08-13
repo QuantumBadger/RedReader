@@ -22,24 +22,18 @@ import android.view.MotionEvent;
 import android.view.View;
 import org.quantumbadger.redreader.ui.RRFragmentContext;
 
-import java.util.LinkedList;
-
 public final class RRListView extends View {
 
 	private final RRListViewContents contents = new RRListViewContents(this);
 	private volatile RRListViewContents.RRListViewFlattenedContents flattenedContents;
 
-	private final RRListViewCacheManager cacheManager = new RRListViewCacheManager();
-
 	private volatile int width, height;
 
 	private int firstVisibleItemPos = 0, lastVisibleItemPos = -1;
-	//private float positionInFirstVisibleItem = 0;
 	private int pxInFirstVisibleItem = 0;
 
 	private int oldWidth = -1;
 
-	private volatile RenderThread thread;
 	private volatile boolean isPaused = true;
 
 	public RRListView(RRFragmentContext context) {
@@ -122,7 +116,7 @@ public final class RRListView extends View {
 
 		this.lastVisibleItemPos = lastVisibleItemPos;
 
-		cacheManager.update(fc, firstVisibleItemPos, lastVisibleItemPos, 10, thread);
+		// TODO cacheManager.update(fc, firstVisibleItemPos, lastVisibleItemPos, 10, thread);
 	}
 
 	private int downId = -1;
@@ -166,13 +160,10 @@ public final class RRListView extends View {
 
 	public void resume() {
 		isPaused = false;
-		thread = new RenderThread(); // TODO this is unsafe - two threads may run at once
-		thread.start();
 	}
 
 	public void pause() {
 		isPaused = true;
-		thread.interrupt();
 	}
 
 	@Override
@@ -187,39 +178,6 @@ public final class RRListView extends View {
 		for(int i = firstVisibleItemPos; i <= lastVisibleItemPos; i++) {
 			fc.items[i].draw(canvas, width);
 			canvas.translate(0, fc.items[i].height);
-		}
-	}
-
-	// TODO low priority
-	protected final class RenderThread extends Thread {
-
-		// TODO optimise
-		private final LinkedList<RRListViewItem> toRender = new LinkedList<RRListViewItem>();
-
-		public void add(RRListViewItem item) {
-			synchronized(toRender) {
-				toRender.add(item);
-				toRender.notify();
-			}
-		}
-
-		@Override
-		public void run() {
-
-			synchronized(toRender) {
-				while(!isPaused) {
-
-					if(toRender.isEmpty()) {
-						try {
-							toRender.wait();
-						} catch(InterruptedException e) {}
-					}
-
-					if(!toRender.isEmpty()) {
-						toRender.removeFirst().doCacheRender(width, false);
-					}
-				}
-			}
 		}
 	}
 }

@@ -8,6 +8,7 @@ import android.text.TextPaint;
 import android.view.View;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.ui.RRContext;
+import org.quantumbadger.redreader.ui.list.RRListItemViewWrapper;
 import org.quantumbadger.redreader.ui.list.RRListView;
 import org.quantumbadger.redreader.ui.views.RRTextView;
 

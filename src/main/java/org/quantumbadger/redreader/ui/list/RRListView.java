@@ -21,8 +21,12 @@ import android.graphics.Canvas;
 import android.view.MotionEvent;
 import android.view.View;
 import org.quantumbadger.redreader.ui.RRFragmentContext;
+import org.quantumbadger.redreader.ui.views.RRViewParent;
 
-public final class RRListView extends View {
+import java.util.Timer;
+import java.util.TimerTask;
+
+public final class RRListView extends View implements RRViewParent {
 
 	private final RRListViewContents contents = new RRListViewContents(this);
 	private volatile RRListViewContents.RRListViewFlattenedContents flattenedContents;
@@ -36,6 +40,14 @@ public final class RRListView extends View {
 
 	private volatile boolean isPaused = true;
 
+	private Timer cacheEnableTimer;
+	private volatile boolean cacheEnabled = false;
+	private final TimerTask cacheEnableTask = new TimerTask() {
+		public void run() {
+			enableCache();
+		}
+	};
+
 	public RRListView(RRFragmentContext context) {
 		super(context.activity);
 		setWillNotDraw(false);
@@ -47,16 +59,17 @@ public final class RRListView extends View {
 		if(flattenedContents.itemCount - 2 == lastVisibleItemPos) {
 			recalculateLastVisibleItem();
 			postInvalidate();
+			// TODO account for new cache manager
 		}
 	}
 
 	public void onChildInserted() {
-		// TODO invalidate
+		// TODO
 		throw new UnsupportedOperationException();
 	}
 
 	public void onChildrenRecomputed() {
-		// TODO invalidate. If previous top child is now invisible, go to the next one visible one after it in the list
+		// TODO invalidate cache. If previous top child is now invisible, go to the next one visible one after it in the list
 		flattenedContents = contents.getFlattenedContents();
 		recalculateLastVisibleItem();
 		postInvalidate();
@@ -66,8 +79,29 @@ public final class RRListView extends View {
 		return contents;
 	}
 
+	private void enableCache() {
+		cacheEnabled = true;
+	}
+
+	private void brieflyDisableCache() {
+		// TODO replace timer with thread, destroy only in pause()
+		cacheEnableTimer.cancel();
+		cacheEnableTimer.schedule(cacheEnableTask, 250);
+		disableCache();
+	}
+
+	private void disableCache() {
+		cacheEnabled = false;
+		// NOTE do not delete the cache blocks
+	}
+
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+
+		brieflyDisableCache();
+
+		// TODO delete all cache blocks, create a new set
+
 		width = MeasureSpec.getSize(widthMeasureSpec);
 		height = MeasureSpec.getSize(heightMeasureSpec);
 
@@ -80,8 +114,13 @@ public final class RRListView extends View {
 	}
 
 	public void scrollBy(int px) {
-
 		pxInFirstVisibleItem += px;
+		recalculateLastVisibleItem();
+	}
+
+	public void recalculateLastVisibleItem() {
+
+		final RRListViewItem[] items = flattenedContents.items;
 
 		while(pxInFirstVisibleItem < 0) {
 
@@ -89,29 +128,23 @@ public final class RRListView extends View {
 				pxInFirstVisibleItem = 0;
 			} else {
 				firstVisibleItemPos--;
-				pxInFirstVisibleItem += flattenedContents.items[firstVisibleItemPos].height;
+				pxInFirstVisibleItem += items[firstVisibleItemPos].getHeight();
 			}
 		}
 
-		while(pxInFirstVisibleItem >= flattenedContents.items[firstVisibleItemPos].height) {
-			pxInFirstVisibleItem -= flattenedContents.items[firstVisibleItemPos].height;
+		while(pxInFirstVisibleItem >= items[firstVisibleItemPos].getHeight()) {
+			pxInFirstVisibleItem -= items[firstVisibleItemPos].getHeight();
 			firstVisibleItemPos++;
 		}
 
-		recalculateLastVisibleItem();
-	}
-
-	public void recalculateLastVisibleItem() {
-
 		final int width = this.width;
 
-		final RRListViewContents.RRListViewFlattenedContents fc = flattenedContents;
-		int pos = (int) (fc.items[firstVisibleItemPos].setWidth(width) - pxInFirstVisibleItem);
+		int pos = (int) (items[firstVisibleItemPos].setWidth(width) - pxInFirstVisibleItem);
 		int lastVisibleItemPos = firstVisibleItemPos;
 
-		while(pos <= height && lastVisibleItemPos < fc.itemCount - 1) {
+		while(pos <= height && lastVisibleItemPos < flattenedContents.itemCount - 1) {
 			lastVisibleItemPos++;
-			pos += fc.items[lastVisibleItemPos].setWidth(width);
+			pos += items[lastVisibleItemPos].setWidth(width);
 		}
 
 		this.lastVisibleItemPos = lastVisibleItemPos;
@@ -159,10 +192,13 @@ public final class RRListView extends View {
 	}
 
 	public void resume() {
+		cacheEnableTimer = new Timer("Cache Enable Timer");
 		isPaused = false;
 	}
 
 	public void pause() {
+		cacheEnableTimer.cancel();
+		cacheEnableTimer = null;
 		isPaused = true;
 	}
 
@@ -173,11 +209,37 @@ public final class RRListView extends View {
 
 		final RRListViewContents.RRListViewFlattenedContents fc = flattenedContents;
 
-		canvas.translate(0, -pxInFirstVisibleItem);
+		if(!cacheEnabled) {
 
-		for(int i = firstVisibleItemPos; i <= lastVisibleItemPos; i++) {
-			fc.items[i].draw(canvas, width);
-			canvas.translate(0, fc.items[i].height);
+			canvas.translate(0, -pxInFirstVisibleItem);
+
+			for(int i = firstVisibleItemPos; i <= lastVisibleItemPos; i++) {
+				fc.items[i].draw(canvas, width);
+				canvas.translate(0, fc.items[i].getHeight());
+			}
+		} else {
+			// TODO
+		}
+	}
+
+	public void rrInvalidate() {
+		brieflyDisableCache();
+		postInvalidate();
+	}
+
+	public void rrRequestLayout() {
+		// TODO completely flush and rebuild cache manager
+	}
+
+	private final class CacheThread extends Thread {
+
+
+
+		@Override
+		public void run() {
+			while(cacheEnabled) {
+
+			}
 		}
 	}
 }

@@ -19,7 +19,7 @@ public abstract class RRView implements RRViewParent, TouchEventHandler {
 	public static final int HOVER_START = 1, HOVER_HIGHLIGHT = 2, HOVER_LONGCLICK = 3, HOVER_CANCEL = 4, TAP = 5;
 	public static final int UNSPECIFIED = -1;
 
-	private volatile boolean unrenderable = true;
+	private boolean unrenderable = true;
 	private static final Paint unrenderablePaint = new Paint();
 
 	static {
@@ -63,9 +63,12 @@ public abstract class RRView implements RRViewParent, TouchEventHandler {
 
 	protected abstract void onRender(Canvas canvas);
 
-	public final void invalidate() {
-		width = -1;
-		parent.invalidate();
+	public final void rrInvalidate() {
+		parent.rrInvalidate();
+	}
+
+	public final void rrRequestLayout() {
+		parent.rrRequestLayout();
 	}
 
 	public final void setTouchEventHandler(TouchEventHandler touchEventHandler) {

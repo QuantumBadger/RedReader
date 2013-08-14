@@ -18,41 +18,19 @@
 package org.quantumbadger.redreader.ui.list;
 
 import android.graphics.Canvas;
+import org.quantumbadger.redreader.ui.views.RRView;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-public abstract class RRListViewItem {
+public abstract class RRListViewItem extends RRView {
 
 	private static final AtomicInteger maxItemId = new AtomicInteger(0);
 	public final int globalItemId = maxItemId.incrementAndGet();
 
-	protected int width = -1;
-	public int height = -1;
-
-	private RRListView parent;
-
 	private float xVel = 0, xPos = 0; // TODO account for dpi, fps
 
-	protected synchronized final int setWidth(int width) {
-
-		if(width == this.width) return height;
-
-		this.width = width;
-		height = onMeasureHeight(width);
-
-		// TODO invalidate
-
-		return height;
-	}
-
-	protected abstract int onMeasureHeight(int width);
-
-	public final void setParent(RRListView parent) {
-		this.parent = parent;
-	}
-
 	public final void draw(Canvas c, int width) {
-		if(width != this.width) setWidth(width);
+		if(width != getWidth()) setWidth(width);
 		onRender(c);
 	}
 
@@ -64,11 +42,4 @@ public abstract class RRListViewItem {
 	}
 
 	public abstract boolean isVisible();
-
-	public final void invalidate() {
-
-		// TODO notify parent that this view is invalidated
-		// TODO have separate "relayout" method
-		// TODO extend RRView
-	}
 }

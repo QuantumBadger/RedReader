@@ -13,9 +13,6 @@ public class RRListViewCacheBlock {
 
 	private static final int backgroundCol = Color.TRANSPARENT;
 
-	private RRListViewContents.RRListViewFlattenedContents data = null;
-	private int firstVisibleItemPos = -1, lastVisibleItemPos = -1, pxInFirstVisibleItem = -1;
-
 	public RRListViewCacheBlock(final int width, final int height) {
 		cache = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 		canvas = new Canvas(cache);
@@ -23,11 +20,25 @@ public class RRListViewCacheBlock {
 		this.height = height;
 	}
 
-	public void assign(RRListViewContents.RRListViewFlattenedContents data, int firstVisibleItemPos, int pxInFirstVisibleItem) {
+	public void assign(RRListViewFlattenedContents data, int firstVisibleItemPos, int pxInFirstVisibleItem) {
 
-		this.data = data;
-		this.firstVisibleItemPos = firstVisibleItemPos;
-		this.pxInFirstVisibleItem = pxInFirstVisibleItem;
+		final RRListViewItem[] items = data.items;
+
+		while(pxInFirstVisibleItem < 0 && firstVisibleItemPos > 0) {
+			firstVisibleItemPos--;
+			pxInFirstVisibleItem += items[firstVisibleItemPos].getHeight();
+		}
+
+		while(pxInFirstVisibleItem >= items[firstVisibleItemPos].getHeight()) {
+
+			if(firstVisibleItemPos >= items.length - 1) {
+				firstVisibleItemPos = -1;
+				break;
+			} else {
+				pxInFirstVisibleItem -= items[firstVisibleItemPos].getHeight();
+				firstVisibleItemPos++;
+			}
+		}
 
 		int pos = data.items[firstVisibleItemPos].setWidth(width) - pxInFirstVisibleItem;
 		int lastVisibleItemPos = firstVisibleItemPos;
@@ -37,16 +48,16 @@ public class RRListViewCacheBlock {
 			pos += data.items[lastVisibleItemPos].setWidth(width);
 		}
 
-		this.lastVisibleItemPos = lastVisibleItemPos;
-
+		canvas.save();
 		canvas.drawColor(backgroundCol);
-
 		canvas.translate(0, -pxInFirstVisibleItem);
 
 		for(int i = firstVisibleItemPos; i <= lastVisibleItemPos; i++) {
 			data.items[i].draw(canvas, width);
 			canvas.translate(0, data.items[i].getHeight());
 		}
+
+		canvas.restore();
 	}
 
 	public Bitmap getCache() {

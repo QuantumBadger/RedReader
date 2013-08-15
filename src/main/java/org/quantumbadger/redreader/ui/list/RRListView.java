@@ -29,7 +29,7 @@ import java.util.TimerTask;
 public final class RRListView extends View implements RRViewParent {
 
 	private final RRListViewContents contents = new RRListViewContents(this);
-	private volatile RRListViewContents.RRListViewFlattenedContents flattenedContents;
+	private volatile RRListViewFlattenedContents flattenedContents;
 
 	private volatile int width, height;
 
@@ -207,7 +207,7 @@ public final class RRListView extends View implements RRViewParent {
 
 		if(flattenedContents == null) return;
 
-		final RRListViewContents.RRListViewFlattenedContents fc = flattenedContents;
+		final RRListViewFlattenedContents fc = flattenedContents;
 
 		if(!cacheEnabled) {
 

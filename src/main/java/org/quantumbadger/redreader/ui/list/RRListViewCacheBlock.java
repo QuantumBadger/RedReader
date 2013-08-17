@@ -3,6 +3,9 @@ package org.quantumbadger.redreader.ui.list;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+
+import java.util.concurrent.locks.ReentrantLock;
 
 public class RRListViewCacheBlock {
 
@@ -13,6 +16,16 @@ public class RRListViewCacheBlock {
 
 	private static final int backgroundCol = Color.TRANSPARENT;
 
+	protected int firstVisibleItemPos, pxInFirstVisibleItem;
+
+	private final ReentrantLock updateLock = new ReentrantLock();
+
+	private static final Paint invalidPaint = new Paint();
+
+	static {
+		invalidPaint.setColor(Color.MAGENTA);
+	}
+
 	public RRListViewCacheBlock(final int width, final int height) {
 		cache = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 		canvas = new Canvas(cache);
@@ -21,6 +34,11 @@ public class RRListViewCacheBlock {
 	}
 
 	public void assign(RRListViewFlattenedContents data, int firstVisibleItemPos, int pxInFirstVisibleItem) {
+
+		updateLock.lock();
+
+		this.firstVisibleItemPos = firstVisibleItemPos;
+		this.pxInFirstVisibleItem = pxInFirstVisibleItem;
 
 		final RRListViewItem[] items = data.items;
 
@@ -58,9 +76,21 @@ public class RRListViewCacheBlock {
 		}
 
 		canvas.restore();
+
+		updateLock.unlock();
 	}
 
-	public Bitmap getCache() {
-		return cache;
+	public boolean draw(Canvas canvas) {
+
+		if(updateLock.tryLock()) {
+			canvas.drawBitmap(cache, 0, 0, null);
+			updateLock.unlock();
+			return true;
+
+		} else {
+			canvas.drawRect(0, 0, width, height, invalidPaint);
+			return false;
+		}
+
 	}
 }

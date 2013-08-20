@@ -98,7 +98,7 @@ public final class RRListView extends View implements RRViewParent {
 	}
 
 	private synchronized void enableCache() {
-		if(!isMeasured || cacheRing == null) return;
+		if(!isMeasured || cacheRing == null || cacheEnabled) return;
 		cacheEnabled = true;
 		cacheThread = new CacheThread();
 		cacheThread.start();
@@ -108,10 +108,8 @@ public final class RRListView extends View implements RRViewParent {
 	private synchronized void brieflyDisableCache() {
 		// TODO replace timer with thread, destroy only in pause()
 		if(!isPaused) {
-			if(cacheEnableTimer != null) {
-				cacheEnableTimer.cancel();
-				cacheEnableTimer = null;
-			}
+
+			disableCache();
 
 			cacheEnableTimer = new Timer();
 			cacheEnableTimer.schedule(new TimerTask() {
@@ -119,12 +117,17 @@ public final class RRListView extends View implements RRViewParent {
 					enableCache();
 				}
 			}, 250);
-			disableCache();
 		}
 	}
 
 	private synchronized void disableCache() {
 		cacheEnabled = false;
+
+		if(cacheEnableTimer != null) {
+			cacheEnableTimer.cancel();
+			cacheEnableTimer = null;
+		}
+
 		if(cacheThread != null) cacheThread.interrupt();
 		// NOTE do not delete the cache blocks
 	}
@@ -252,14 +255,16 @@ public final class RRListView extends View implements RRViewParent {
 
 	public synchronized void resume() {
 		isPaused = false;
+		brieflyDisableCache();
 		enableCacheAfterMeasuring = true;
-		forceLayout();
 	}
 
 	public synchronized void pause() {
 		isPaused = true;
-		cacheEnableTimer.cancel();
-		cacheEnableTimer = null;
+		if(cacheEnableTimer != null) {
+			cacheEnableTimer.cancel();
+			cacheEnableTimer = null;
+		}
 		disableCache();
 	}
 

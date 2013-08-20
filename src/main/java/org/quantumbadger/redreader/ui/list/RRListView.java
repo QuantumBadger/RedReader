@@ -178,7 +178,7 @@ public final class RRListView extends View implements RRViewParent {
 			}
 		}
 
-		while(firstVisibleItemPos < items.length - 1 && pxInFirstVisibleItem >= items[firstVisibleItemPos].setWidth(width)) {
+		while(firstVisibleItemPos < flattenedContents.itemCount - 1 && pxInFirstVisibleItem >= items[firstVisibleItemPos].setWidth(width)) {
 			pxInFirstVisibleItem -= items[firstVisibleItemPos].getOuterHeight();
 			firstVisibleItemPos++;
 		}

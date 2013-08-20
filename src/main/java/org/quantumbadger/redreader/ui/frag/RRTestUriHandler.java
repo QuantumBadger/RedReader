@@ -23,7 +23,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import org.quantumbadger.redreader.ui.RRContext;
 
 import java.util.Random;
 import java.util.Set;

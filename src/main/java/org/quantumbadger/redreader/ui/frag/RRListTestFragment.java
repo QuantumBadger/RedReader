@@ -7,7 +7,6 @@ import android.os.Parcelable;
 import android.text.TextPaint;
 import android.view.View;
 import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.ui.RRContext;
 import org.quantumbadger.redreader.ui.list.RRListItemViewWrapper;
 import org.quantumbadger.redreader.ui.list.RRListView;
 import org.quantumbadger.redreader.ui.views.RRTextView;
@@ -34,9 +33,7 @@ public class RRListTestFragment extends RRFragment {
 
 		for(int i = 0; i < 100; i++) {
 
-			final RRTextView textView = new RRTextView();
-			textView.setText(i + ". " + UUID.randomUUID().toString());
-			textView.setTextPaint(textPaint);
+			final RRTextView textView = new RRTextView(i + ". " + UUID.randomUUID().toString(), textPaint);
 			textView.setPadding(General.dpToPixels(context.activity, 8));
 
 			final RRListItemViewWrapper itemViewWrapper = new RRListItemViewWrapper(textView);

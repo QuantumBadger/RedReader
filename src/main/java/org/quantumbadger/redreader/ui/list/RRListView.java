@@ -20,11 +20,10 @@ package org.quantumbadger.redreader.ui.list;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 import android.view.View;
-import org.quantumbadger.redreader.ui.RRFragmentContext;
+import org.quantumbadger.redreader.common.RRSchedulerManager;
+import org.quantumbadger.redreader.ui.frag.RRFragmentContext;
 import org.quantumbadger.redreader.ui.views.RRViewParent;
 
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public final class RRListView extends View implements RRViewParent {
@@ -44,8 +43,14 @@ public final class RRListView extends View implements RRViewParent {
 	private volatile RRListViewCacheBlockRing cacheRing;
 	private volatile int pxInFirstCacheBlock = 0;
 
-	private Timer cacheEnableTimer;
+	private final RRSchedulerManager.RRSingleTaskScheduler cacheEnableTimer;
 	private volatile boolean cacheEnabled = false;
+
+	private final Runnable cacheEnableRunnable = new Runnable() {
+		public void run() {
+			enableCache();
+		}
+	};
 
 	private final AtomicInteger ringAdvancesNeeded = new AtomicInteger(0);
 
@@ -55,6 +60,7 @@ public final class RRListView extends View implements RRViewParent {
 
 	public RRListView(RRFragmentContext context) {
 		super(context.activity);
+		cacheEnableTimer = context.scheduler.obtain();
 		setWillNotDraw(false);
 	}
 
@@ -96,6 +102,7 @@ public final class RRListView extends View implements RRViewParent {
 	private synchronized void enableCache() {
 
 		if(!isMeasured || cacheEnabled) return;
+		cacheEnableTimer.cancel();
 
 		if(cacheRing == null) {
 			cacheRing = new RRListViewCacheBlockRing(width, height / 2, 4);
@@ -108,28 +115,21 @@ public final class RRListView extends View implements RRViewParent {
 
 		cacheThread = new CacheThread();
 		cacheThread.start();
+
+		postInvalidate();
 	}
 
 	private synchronized void brieflyDisableCache() {
 		// TODO replace timer with thread, destroy only in pause()
 		if(!isPaused) {
 			disableCache();
-			cacheEnableTimer = new Timer();
-			cacheEnableTimer.schedule(new TimerTask() {
-				public void run() {
-					enableCache();
-				}
-			}, 250);
+			cacheEnableTimer.setSchedule(cacheEnableRunnable, 250);
 		}
 	}
 
 	private synchronized void disableCache() {
 		cacheEnabled = false;
-
-		if(cacheEnableTimer != null) {
-			cacheEnableTimer.cancel();
-			cacheEnableTimer = null;
-		}
+		cacheEnableTimer.cancel();
 
 		if(cacheThread != null) cacheThread.interrupt();
 		// NOTE do not delete the cache blocks
@@ -223,7 +223,7 @@ public final class RRListView extends View implements RRViewParent {
 	private int lastYPos = -1;
 
 	@Override
-	public boolean onTouchEvent(MotionEvent ev) {
+	public boolean onTouchEvent(final MotionEvent ev) {
 
 		final int action = ev.getAction() & MotionEvent.ACTION_MASK;
 
@@ -266,10 +266,7 @@ public final class RRListView extends View implements RRViewParent {
 
 	public synchronized void pause() {
 		isPaused = true;
-		if(cacheEnableTimer != null) {
-			cacheEnableTimer.cancel();
-			cacheEnableTimer = null;
-		}
+		cacheEnableTimer.cancel();
 		disableCache();
 	}
 

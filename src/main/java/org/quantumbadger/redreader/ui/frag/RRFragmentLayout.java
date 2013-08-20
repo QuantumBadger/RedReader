@@ -29,7 +29,7 @@ import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.Transformation;
 import org.holoeverywhere.app.Activity;
-import org.quantumbadger.redreader.ui.RRContext;
+import org.quantumbadger.redreader.common.RRSchedulerManager;
 
 import java.util.LinkedList;
 
@@ -50,7 +50,7 @@ public final class RRFragmentLayout extends ViewGroup {
 
 	public RRFragmentLayout(Activity activity) {
 		super(activity);
-		this.context = new RRContext(activity, this);
+		this.context = new RRContext(activity, this, new RRSchedulerManager());
 	}
 
 	public static RRFragmentLayout restore(Context context, Bundle bundle) {
@@ -429,7 +429,9 @@ public final class RRFragmentLayout extends ViewGroup {
 
 		if(!paused) return;
 
-		for(RRFragment fragment : activeViews) {
+		context.onResume();
+
+		for(final RRFragment fragment : activeViews) {
 			fragment.onResume();
 		}
 
@@ -440,7 +442,9 @@ public final class RRFragmentLayout extends ViewGroup {
 
 		if(paused) return;
 
-		for(RRFragment fragment : activeViews) {
+		context.onPause();
+
+		for(final RRFragment fragment : activeViews) {
 			fragment.onPause();
 		}
 

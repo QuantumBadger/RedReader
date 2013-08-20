@@ -21,8 +21,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
-import org.quantumbadger.redreader.ui.RRContext;
-import org.quantumbadger.redreader.ui.RRFragmentContext;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

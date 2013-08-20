@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.ui.frag;
 
 import android.net.Uri;
 import android.os.Bundle;
-import org.quantumbadger.redreader.ui.RRContext;
 
 public abstract class RRUriHandler {
 

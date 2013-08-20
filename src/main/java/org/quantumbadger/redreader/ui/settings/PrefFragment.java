@@ -8,7 +8,7 @@ import android.widget.AdapterView;
 import org.holoeverywhere.widget.ListView;
 import org.quantumbadger.redreader.settings.RRPreference;
 import org.quantumbadger.redreader.settings.RRPrefs;
-import org.quantumbadger.redreader.ui.RRContext;
+import org.quantumbadger.redreader.ui.frag.RRContext;
 import org.quantumbadger.redreader.ui.frag.RRFragment;
 
 public class PrefFragment extends RRFragment {

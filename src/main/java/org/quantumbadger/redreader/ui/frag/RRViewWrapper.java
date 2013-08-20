@@ -100,7 +100,7 @@ public abstract class RRViewWrapper extends View {
 	}
 
 	@Override
-	public final boolean onTouchEvent(MotionEvent rawEvent) {
+	public final boolean onTouchEvent(final MotionEvent rawEvent) {
 
 		final int action = rawEvent.getActionMasked();
 		final TouchEvent event = this.reusableTouchEvent;

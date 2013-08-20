@@ -9,8 +9,13 @@ public class RRTextView extends RRView {
 
 	private StaticLayout staticLayout;
 
-	private TextPaint textPaint = new TextPaint();
+	private TextPaint textPaint;
 	private CharSequence text;
+
+	public RRTextView(final CharSequence text, final TextPaint textPaint) {
+		this.text = text;
+		this.textPaint = textPaint;
+	}
 
 	public void setText(CharSequence text) {
 		this.text = text;

@@ -28,6 +28,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
+import android.text.TextPaint;
 import android.util.Log;
 import android.util.TypedValue;
 import android.widget.Toast;
@@ -339,6 +340,12 @@ public final class General {
 
 	public static Paint createPaint(int color) {
 		final Paint paint = new Paint();
+		paint.setColor(color);
+		return paint;
+	}
+
+	public static TextPaint createTextPaint(int color) {
+		final TextPaint paint = new TextPaint();
 		paint.setColor(color);
 		return paint;
 	}

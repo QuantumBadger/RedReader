@@ -8,7 +8,7 @@ import org.quantumbadger.redreader.settings.RRPreference;
 import org.quantumbadger.redreader.settings.RRPreferenceBoolean;
 import org.quantumbadger.redreader.settings.RRPreferenceEnum;
 import org.quantumbadger.redreader.settings.RRPreferenceFloat;
-import org.quantumbadger.redreader.ui.RRFragmentContext;
+import org.quantumbadger.redreader.ui.frag.RRFragmentContext;
 import org.quantumbadger.redreader.ui.frag.RRUriHandler;
 
 public final class PreferenceView extends FrameLayout implements RRPreference.Listener {

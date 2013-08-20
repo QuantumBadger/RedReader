@@ -3,7 +3,7 @@ package org.quantumbadger.redreader.ui.settings;
 import android.net.Uri;
 import android.os.Bundle;
 import org.quantumbadger.redreader.common.Constants;
-import org.quantumbadger.redreader.ui.RRContext;
+import org.quantumbadger.redreader.ui.frag.RRContext;
 import org.quantumbadger.redreader.ui.frag.RRUriHandler;
 
 public class PrefsUriHandler extends RRUriHandler {

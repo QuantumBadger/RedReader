@@ -8,7 +8,7 @@ import org.quantumbadger.redreader.settings.RRPreference;
 import org.quantumbadger.redreader.settings.RRPreferenceBoolean;
 import org.quantumbadger.redreader.settings.RRPreferenceHeader;
 import org.quantumbadger.redreader.settings.RRPreferenceLink;
-import org.quantumbadger.redreader.ui.RRFragmentContext;
+import org.quantumbadger.redreader.ui.frag.RRFragmentContext;
 import org.quantumbadger.redreader.views.list.ListSectionHeaderView;
 
 import java.util.List;

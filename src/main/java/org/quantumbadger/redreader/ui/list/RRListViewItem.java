@@ -29,11 +29,6 @@ public abstract class RRListViewItem extends RRView {
 
 	private float xVel = 0, xPos = 0; // TODO account for dpi, fps
 
-	public final void draw(Canvas c, int width) {
-		if(width != getWidth()) setWidth(width);
-		onRender(c);
-	}
-
 	protected abstract void onRender(Canvas c);
 
 	@Override

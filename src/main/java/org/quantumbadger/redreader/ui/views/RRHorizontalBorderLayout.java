@@ -20,18 +20,22 @@ public final class RRHorizontalBorderLayout extends RRView {
 	@Override
 	protected void onRender(final Canvas canvas) {
 
+		final int leftFixedWidth = left.getFixedWidth();
+		final int rightFixedWidth = right.getFixedWidth();
+		final int middleWidth = getInnerWidth() - leftFixedWidth - rightFixedWidth;
+
 		canvas.save();
 
-		left.draw(canvas);
+		left.draw(canvas, leftFixedWidth);
 
-		canvas.translate(left.getWidth(), 0);
+		canvas.translate(leftFixedWidth, 0);
 		canvas.save();
-		canvas.translate(0, (getHeight() - middle.getHeight()) / 2);
-		middle.draw(canvas);
+		canvas.translate(0, (getInnerHeight() - middle.getOuterHeight()) / 2);
+		middle.draw(canvas, middleWidth);
 		canvas.restore();
 
-		canvas.translate(middle.getWidth(), 0);
-		right.draw(canvas);
+		canvas.translate(middleWidth, 0);
+		right.draw(canvas, rightFixedWidth);
 
 		canvas.restore();
 	}
@@ -39,14 +43,14 @@ public final class RRHorizontalBorderLayout extends RRView {
 	@Override
 	protected void handleTouchEvent(int eventType, int x, int y) {
 
-		if(x < left.getWidth()) {
+		if(x < left.getOuterWidth()) {
 			left.onTouchEvent(eventType, x, y);
 
-		} else if(x >= getWidth() - right.getWidth()) {
-			right.onTouchEvent(eventType, x - left.getWidth() - middle.getWidth(), y);
+		} else if(x >= getInnerWidth() - right.getOuterWidth()) {
+			right.onTouchEvent(eventType, x - left.getOuterWidth() - middle.getOuterWidth(), y);
 
 		} else {
-			middle.onTouchEvent(eventType, x - left.getWidth(), y);
+			middle.onTouchEvent(eventType, x - left.getOuterWidth(), y);
 		}
 
 	}

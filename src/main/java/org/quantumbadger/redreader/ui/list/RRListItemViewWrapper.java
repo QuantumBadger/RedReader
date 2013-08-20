@@ -16,7 +16,7 @@ public class RRListItemViewWrapper extends RRListViewItem {
 
 	@Override
 	protected void onRender(final Canvas c) {
-		view.draw(c);
+		view.draw(c, getInnerWidth());
 	}
 
 	@Override

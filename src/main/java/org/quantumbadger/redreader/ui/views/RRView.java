@@ -26,7 +26,7 @@ public abstract class RRView implements RRViewParent, TouchEventHandler {
 		unrenderablePaint.setColor(Color.RED);
 	}
 
-	public final void draw(final Canvas canvas) {
+	public final synchronized void draw(final Canvas canvas, final int desiredWidth) {
 
 		if(unrenderable || Looper.getMainLooper().getThread() == Thread.currentThread()) {
 			final int size = 20;
@@ -41,6 +41,8 @@ public abstract class RRView implements RRViewParent, TouchEventHandler {
 		if(unrenderable) {
 			return;
 		}
+
+		if(width != desiredWidth) setWidth(desiredWidth);
 
 		if(paddingPaint != null) {
 			canvas.drawRect(0, 0, width, paddingTop, paddingPaint);
@@ -86,7 +88,7 @@ public abstract class RRView implements RRViewParent, TouchEventHandler {
 
 	protected abstract void handleTouchEvent(int eventType, int x, int y);
 
-	public final int setWidth(final int width) {
+	public final synchronized int setWidth(final int width) {
 
 		if(this.width == width && !unrenderable) return height;
 
@@ -113,7 +115,7 @@ public abstract class RRView implements RRViewParent, TouchEventHandler {
 		return height;
 	}
 
-	public final int setHeight(final int height) {
+	public final synchronized int setHeight(final int height) {
 
 		if(this.height == height && !unrenderable) return width;
 
@@ -140,18 +142,24 @@ public abstract class RRView implements RRViewParent, TouchEventHandler {
 		return width;
 	}
 
-	public final int getWidth() {
+	public final int getInnerWidth() {
 		if(width < 0) throw new MeasurementException(this, MeasurementException.InvalidMeasurementType.NOT_MEASURED_YET);
 		return width - paddingLeft - paddingRight;
 	}
 
-	public final int getHeight() {
+	public final int getInnerHeight() {
 		if(height < 0) throw new MeasurementException(this, MeasurementException.InvalidMeasurementType.NOT_MEASURED_YET);
 		return height - paddingTop - paddingBottom;
 	}
 
-	public final boolean isMeasured() {
-		return width >= 0 && height >= 0;
+	public final int getOuterWidth() {
+		if(width < 0) throw new MeasurementException(this, MeasurementException.InvalidMeasurementType.NOT_MEASURED_YET);
+		return width;
+	}
+
+	public final int getOuterHeight() {
+		if(height < 0) throw new MeasurementException(this, MeasurementException.InvalidMeasurementType.NOT_MEASURED_YET);
+		return height;
 	}
 
 	protected abstract int onMeasureByWidth(int width);
@@ -177,7 +185,7 @@ public abstract class RRView implements RRViewParent, TouchEventHandler {
 		this.parent = parent;
 	}
 
-	public void setPadding(final int padding) {
+	public synchronized void setPadding(final int padding) {
 		paddingLeft = padding;
 		paddingRight = padding;
 		paddingTop = padding;

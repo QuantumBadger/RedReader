@@ -20,7 +20,7 @@ public class RRVerticalLinearLayout extends RRView {
 
 		for(final RRView child : children) {
 			child.onRender(canvas);
-			canvas.translate(0, child.getHeight());
+			canvas.translate(0, child.getOuterHeight());
 		}
 
 		canvas.restore();
@@ -32,7 +32,7 @@ public class RRVerticalLinearLayout extends RRView {
 		int yPos = 0;
 
 		for(final RRView child : children) {
-			final int nextYPos = yPos + child.getHeight();
+			final int nextYPos = yPos + child.getOuterHeight();
 			if(y >= yPos && y < nextYPos) {
 				child.onTouchEvent(eventType, x, y - yPos);
 				return;

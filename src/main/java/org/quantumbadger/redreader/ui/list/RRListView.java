@@ -179,7 +179,7 @@ public final class RRListView extends View implements RRViewParent {
 		}
 
 		while(firstVisibleItemPos < items.length - 1 && pxInFirstVisibleItem >= items[firstVisibleItemPos].setWidth(width)) {
-			pxInFirstVisibleItem -= items[firstVisibleItemPos].getHeight();
+			pxInFirstVisibleItem -= items[firstVisibleItemPos].getOuterHeight();
 			firstVisibleItemPos++;
 		}
 
@@ -283,7 +283,7 @@ public final class RRListView extends View implements RRViewParent {
 
 			for(int i = firstVisibleItemPos; i <= lastVisibleItemPos; i++) {
 				fc.items[i].draw(canvas, width);
-				canvas.translate(0, fc.items[i].getHeight());
+				canvas.translate(0, fc.items[i].getOuterHeight());
 			}
 		} else {
 			canvas.translate(0, -pxInFirstCacheBlock);

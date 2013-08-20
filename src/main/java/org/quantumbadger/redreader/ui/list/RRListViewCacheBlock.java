@@ -44,16 +44,16 @@ public class RRListViewCacheBlock {
 
 		while(pxInFirstVisibleItem < 0 && firstVisibleItemPos > 0) {
 			firstVisibleItemPos--;
-			pxInFirstVisibleItem += items[firstVisibleItemPos].getHeight();
+			pxInFirstVisibleItem += items[firstVisibleItemPos].getOuterHeight();
 		}
 
-		while(firstVisibleItemPos < items.length - 1 && pxInFirstVisibleItem >= items[firstVisibleItemPos].getHeight()) {
+		while(firstVisibleItemPos < items.length - 1 && pxInFirstVisibleItem >= items[firstVisibleItemPos].setWidth(width)) {
 
 			if(firstVisibleItemPos >= items.length - 1) {
 				firstVisibleItemPos = -1;
 				break;
 			} else {
-				pxInFirstVisibleItem -= items[firstVisibleItemPos].getHeight();
+				pxInFirstVisibleItem -= items[firstVisibleItemPos].getOuterHeight();
 				firstVisibleItemPos++;
 			}
 		}
@@ -72,7 +72,7 @@ public class RRListViewCacheBlock {
 
 		for(int i = firstVisibleItemPos; i <= lastVisibleItemPos; i++) {
 			data.items[i].draw(canvas, width);
-			canvas.translate(0, data.items[i].getHeight());
+			canvas.translate(0, data.items[i].getOuterHeight());
 		}
 
 		canvas.restore();

@@ -45,11 +45,11 @@ public class RRListTestFragment extends RRFragment {
 
 	@Override
 	public void onResume() {
-		lv.resume();
+		lv.onResume();
 	}
 
 	@Override
 	public void onPause() {
-		lv.pause();
+		lv.onPause();
 	}
 }

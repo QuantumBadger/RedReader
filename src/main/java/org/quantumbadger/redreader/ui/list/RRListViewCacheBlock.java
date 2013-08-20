@@ -19,14 +19,15 @@ public class RRListViewCacheBlock {
 
 	private final ReentrantLock updateLock = new ReentrantLock();
 
-	private static final int backgroundCol = Color.BLUE; // TODO transparent
+	private final int backgroundCol; // TODO transparent
 	private static final Paint invalidPaint = General.createPaint(Color.MAGENTA);
 
-	public RRListViewCacheBlock(final int width, final int height) {
+	public RRListViewCacheBlock(final int width, final int height, final int backgroundCol) {
 		cache = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 		canvas = new Canvas(cache);
 		this.width = width;
 		this.height = height;
+		this.backgroundCol = backgroundCol;
 	}
 
 	public void assign(RRListViewFlattenedContents data, int firstVisibleItemPos, int pxInFirstVisibleItem) {

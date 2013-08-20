@@ -18,45 +18,37 @@
 package org.quantumbadger.redreader.ui.list;
 
 import android.graphics.Canvas;
-import android.view.MotionEvent;
-import android.view.View;
+import org.quantumbadger.redreader.common.InterruptableThread;
 import org.quantumbadger.redreader.common.RRSchedulerManager;
+import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
 import org.quantumbadger.redreader.ui.frag.RRFragmentContext;
+import org.quantumbadger.redreader.ui.frag.RRViewWrapper;
 import org.quantumbadger.redreader.ui.views.RRViewParent;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-public final class RRListView extends View implements RRViewParent {
+public final class RRListView extends RRViewWrapper implements RRViewParent {
 
 	private final RRListViewContents contents = new RRListViewContents(this);
 	private volatile RRListViewFlattenedContents flattenedContents;
 
 	private volatile int width, height;
 
-	private int firstVisibleItemPos = 0, lastVisibleItemPos = -1;
-	private int pxInFirstVisibleItem = 0;
+	private int firstVisibleItemPos = 0, lastVisibleItemPos = -1, pxInFirstVisibleItem = 0;
 
-	private int oldWidth = -1;
+	private volatile boolean isPaused = true, isMeasured = false;
 
-	private volatile boolean isPaused = true;
-
-	private volatile RRListViewCacheBlockRing cacheRing;
-	private volatile int pxInFirstCacheBlock = 0;
+	private RRListViewCacheBlockRing cacheRing;
+	private int pxInFirstCacheBlock = 0;
 
 	private final RRSchedulerManager.RRSingleTaskScheduler cacheEnableTimer;
-	private volatile boolean cacheEnabled = false;
-
 	private final Runnable cacheEnableRunnable = new Runnable() {
 		public void run() {
 			enableCache();
 		}
 	};
 
-	private final AtomicInteger ringAdvancesNeeded = new AtomicInteger(0);
-
-	private CacheThread cacheThread;
-
-	private boolean isMeasured = false, enableCacheAfterMeasuring = true;
+	private volatile CacheThread cacheThread = null;
 
 	public RRListView(RRFragmentContext context) {
 		super(context.activity);
@@ -65,6 +57,9 @@ public final class RRListView extends View implements RRViewParent {
 	}
 
 	public synchronized void clearCacheRing() {
+
+		brieflyDisableCache();
+
 		if(cacheRing != null) {
 			// TODO recycle
 			cacheRing = null;
@@ -101,7 +96,8 @@ public final class RRListView extends View implements RRViewParent {
 
 	private synchronized void enableCache() {
 
-		if(!isMeasured || cacheEnabled) return;
+		if(!isMeasured) throw new UnexpectedInternalStateException();
+
 		cacheEnableTimer.cancel();
 
 		if(cacheRing == null) {
@@ -109,30 +105,29 @@ public final class RRListView extends View implements RRViewParent {
 		}
 
 		cacheRing.assign(flattenedContents, firstVisibleItemPos, pxInFirstVisibleItem);
-
 		pxInFirstCacheBlock = 0;
-		cacheEnabled = true;
 
-		cacheThread = new CacheThread();
-		cacheThread.start();
+		if(cacheThread == null) {
+			cacheThread = new CacheThread(cacheRing);
+			cacheThread.start();
+		}
 
 		postInvalidate();
 	}
 
 	private synchronized void brieflyDisableCache() {
-		// TODO replace timer with thread, destroy only in pause()
-		if(!isPaused) {
-			disableCache();
-			cacheEnableTimer.setSchedule(cacheEnableRunnable, 250);
-		}
+		disableCache();
+		cacheEnableTimer.setSchedule(cacheEnableRunnable, 250);
 	}
 
 	private synchronized void disableCache() {
-		cacheEnabled = false;
+
 		cacheEnableTimer.cancel();
 
-		if(cacheThread != null) cacheThread.interrupt();
-		// NOTE do not delete the cache blocks
+		if(cacheThread != null) {
+			cacheThread.stop();
+			cacheThread = null;
+		}
 
 		postInvalidate();
 	}
@@ -140,25 +135,14 @@ public final class RRListView extends View implements RRViewParent {
 	@Override
 	protected synchronized void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
-		brieflyDisableCache();
-		clearCacheRing();
-
 		width = MeasureSpec.getSize(widthMeasureSpec);
 		height = MeasureSpec.getSize(heightMeasureSpec);
-
 		setMeasuredDimension(width, height);
-
 		isMeasured = true;
 
-		if(width != oldWidth) {
-			recalculateLastVisibleItem();
-			oldWidth = width;
-		}
+		recalculateLastVisibleItem();
 
-		if(enableCacheAfterMeasuring) {
-			enableCache();
-			enableCacheAfterMeasuring = false;
-		}
+		clearCacheRing();
 	}
 
 	public synchronized void scrollBy(int px) {
@@ -173,36 +157,24 @@ public final class RRListView extends View implements RRViewParent {
 
 		final RRListViewItem[] items = flattenedContents.items;
 
-		while(pxInFirstVisibleItem < 0) {
+		while(pxInFirstVisibleItem < 0 && firstVisibleItemPos > 0) {
+			pxInFirstVisibleItem += items[--firstVisibleItemPos].setWidth(width);
+		}
 
-			if(firstVisibleItemPos == 0) {
-				pxInFirstVisibleItem = 0;
-			} else {
-				firstVisibleItemPos--;
-				pxInFirstVisibleItem += items[firstVisibleItemPos].setWidth(width);
+		while(pxInFirstVisibleItem >= items[firstVisibleItemPos].setWidth(width)
+				&& firstVisibleItemPos < flattenedContents.itemCount - 1) {
+			pxInFirstVisibleItem -= items[firstVisibleItemPos++].getOuterHeight();
+		}
+
+		if(cacheThread != null) {
+			while(pxInFirstCacheBlock < 0) {
+				pxInFirstCacheBlock += cacheRing.blockHeight;
+				cacheThread.requestMoveBackward();
 			}
-		}
 
-		while(firstVisibleItemPos < flattenedContents.itemCount - 1 && pxInFirstVisibleItem >= items[firstVisibleItemPos].setWidth(width)) {
-			pxInFirstVisibleItem -= items[firstVisibleItemPos].getOuterHeight();
-			firstVisibleItemPos++;
-		}
-
-		while(pxInFirstCacheBlock < 0) {
-			pxInFirstCacheBlock += height / 2;
-
-			synchronized(ringAdvancesNeeded) {
-				ringAdvancesNeeded.decrementAndGet();
-				ringAdvancesNeeded.notifyAll();
-			}
-		}
-
-		while(pxInFirstCacheBlock >= height / 2) {
-			pxInFirstCacheBlock -= height / 2;
-
-			synchronized(ringAdvancesNeeded) {
-				ringAdvancesNeeded.incrementAndGet();
-				ringAdvancesNeeded.notifyAll();
+			while(pxInFirstCacheBlock >= height / 2) {
+				pxInFirstCacheBlock -= cacheRing.blockHeight;
+				cacheThread.requestMoveForward();
 			}
 		}
 
@@ -219,52 +191,37 @@ public final class RRListView extends View implements RRViewParent {
 		this.lastVisibleItemPos = lastVisibleItemPos;
 	}
 
-	private int downId = -1;
 	private int lastYPos = -1;
 
 	@Override
-	public boolean onTouchEvent(final MotionEvent ev) {
+	protected void onTouchEvent(TouchEvent e) {
 
-		final int action = ev.getAction() & MotionEvent.ACTION_MASK;
+		if(e.pointerCount != 1) return;
 
-		if(action == MotionEvent.ACTION_DOWN) {
+		switch(e.type) {
 
-			lastYPos = Math.round(ev.getY());
-			downId = ev.getPointerId(0);
-			return true;
+			case MOVE:
+				scrollBy(Math.round(lastYPos - e.yPos[0]));
+				invalidate();
 
-		} else if(action == MotionEvent.ACTION_UP
-				|| action == MotionEvent.ACTION_OUTSIDE
-				|| action == MotionEvent.ACTION_CANCEL
-				|| action == MotionEvent.ACTION_POINTER_UP) {
+			case START:
+				lastYPos = Math.round(e.yPos[0]);
+				break;
 
-			if(ev.getPointerId(ev.getActionIndex()) != downId) return false;
-			downId = -1;
-
-			return false;
-
-		} else if(action == MotionEvent.ACTION_MOVE) {
-
-			if(ev.getPointerId(ev.getActionIndex()) != downId) return false;
-
-			final int yDelta = Math.round(ev.getY() - lastYPos);
-			lastYPos = Math.round(ev.getY());
-
-			scrollBy(-yDelta);
-			invalidate();
-
-			return true;
-
-		} else return false;
+			case CANCEL:
+			case FINISH:
+				break;
+		}
 	}
 
-	public synchronized void resume() {
+	public synchronized void onResume() {
+		if(!isPaused) throw new UnexpectedInternalStateException();
 		isPaused = false;
-		brieflyDisableCache();
-		enableCacheAfterMeasuring = true;
+		if(isMeasured) brieflyDisableCache();
 	}
 
-	public synchronized void pause() {
+	public synchronized void onPause() {
+		if(isPaused) throw new UnexpectedInternalStateException();
 		isPaused = true;
 		cacheEnableTimer.cancel();
 		disableCache();
@@ -279,7 +236,7 @@ public final class RRListView extends View implements RRViewParent {
 
 		canvas.save();
 
-		if(!cacheEnabled) {
+		if(cacheThread == null) {
 
 			canvas.translate(0, -pxInFirstVisibleItem);
 
@@ -289,7 +246,7 @@ public final class RRListView extends View implements RRViewParent {
 			}
 		} else {
 			canvas.translate(0, -pxInFirstCacheBlock);
-			if(!cacheRing.draw(canvas)) invalidate();
+			if(!cacheRing.draw(canvas, height)) invalidate();
 		}
 
 		canvas.restore();
@@ -304,42 +261,52 @@ public final class RRListView extends View implements RRViewParent {
 		// TODO completely flush and rebuild cache manager
 	}
 
-	private final class CacheThread extends Thread {
+	private final class CacheThread extends InterruptableThread {
 
-		private final RRListViewCacheBlockRing localCacheRing = cacheRing;
+		private final RRListViewCacheBlockRing localCacheRing;
+		private final AtomicInteger ringAdvancesNeeded = new AtomicInteger(0);
+
+		private CacheThread(RRListViewCacheBlockRing cacheRing) {
+			super("CacheThread");
+			this.localCacheRing = cacheRing;
+		}
+
+		public void requestMoveForward() {
+			synchronized(ringAdvancesNeeded) {
+				ringAdvancesNeeded.incrementAndGet();
+				ringAdvancesNeeded.notifyAll();
+			}
+		}
+
+		public void requestMoveBackward() {
+			synchronized(ringAdvancesNeeded) {
+				ringAdvancesNeeded.decrementAndGet();
+				ringAdvancesNeeded.notifyAll();
+			}
+		}
 
 		@Override
-		public void run() {
-			while(cacheEnabled && cacheRing == localCacheRing) {
+		public void run() throws InterruptedException {
 
-				final boolean forward;
+			while(cacheThread == this) {
+
+				int value = 0;
 
 				synchronized(ringAdvancesNeeded) {
 
-					int value = 0;
-					while(cacheEnabled && cacheRing == localCacheRing && (value = ringAdvancesNeeded.get()) == 0) {
-						try {
-							ringAdvancesNeeded.wait();
-						} catch(InterruptedException e) {
-							return;
-						}
-					}
-
-					if(value == 0) return;
-
-					if(value > 0) {
-						forward = true;
-						ringAdvancesNeeded.decrementAndGet();
-					} else {
-						forward = false;
-						ringAdvancesNeeded.incrementAndGet();
+					while(cacheThread == this && (value = ringAdvancesNeeded.get()) == 0) {
+						ringAdvancesNeeded.wait();
 					}
 				}
 
-				if(forward) {
+				if(value == 0) return;
+
+				if(value > 0) {
 					localCacheRing.moveForward();
+					ringAdvancesNeeded.decrementAndGet();
 				} else {
 					localCacheRing.moveBackward();
+					ringAdvancesNeeded.incrementAndGet();
 				}
 			}
 		}

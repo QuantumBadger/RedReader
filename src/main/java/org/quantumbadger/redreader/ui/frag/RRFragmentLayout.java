@@ -290,10 +290,6 @@ public final class RRFragmentLayout extends ViewGroup {
 		}
 	}
 
-	public void onSlideOutTopFinished(RRFragment fragment) {
-		removeView(fragment.getContentView());
-	}
-
 	public void setUriHandler(RRUriHandler uriHandler) {
 		this.uriHandler = uriHandler;
 	}

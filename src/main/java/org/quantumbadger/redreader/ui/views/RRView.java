@@ -140,12 +140,18 @@ public abstract class RRView implements RRViewParent, TouchEventHandler {
 		return width;
 	}
 
-	public int getWidth() {
+	public final int getWidth() {
+		if(width < 0) throw new MeasurementException(this, MeasurementException.InvalidMeasurementType.NOT_MEASURED_YET);
 		return width - paddingLeft - paddingRight;
 	}
 
-	public int getHeight() {
+	public final int getHeight() {
+		if(height < 0) throw new MeasurementException(this, MeasurementException.InvalidMeasurementType.NOT_MEASURED_YET);
 		return height - paddingTop - paddingBottom;
+	}
+
+	public final boolean isMeasured() {
+		return width >= 0 && height >= 0;
 	}
 
 	protected abstract int onMeasureByWidth(int width);

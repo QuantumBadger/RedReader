@@ -5,7 +5,8 @@ public final class MeasurementException extends RuntimeException {
 	public enum InvalidMeasurementType {
 		WIDTH_IS_FIXED, HEIGHT_IS_FIXED,
 		WIDTH_DETERMINED_BY_HEIGHT, HEIGHT_DETERMINED_BY_WIDTH,
-		EXPECTING_FIXED_WIDTH, EXPECTING_FIXED_HEIGHT
+		EXPECTING_FIXED_WIDTH, EXPECTING_FIXED_HEIGHT,
+		NOT_MEASURED_YET
 	}
 
 	public MeasurementException(RRView view, InvalidMeasurementType type) {

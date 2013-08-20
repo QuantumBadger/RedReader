@@ -38,7 +38,7 @@ public final class RRListViewCacheBlockRing {
 		this.data = data;
 
 		for(int i = -1; i < blocks.length - 1; i++) {
-			getRelative(0).assign(data, firstVisibleItemPos, pxInFirstVisibleItem + i * blockHeight);
+			getRelative(i).assign(data, firstVisibleItemPos, pxInFirstVisibleItem + i * blockHeight);
 		}
 	}
 
@@ -51,7 +51,7 @@ public final class RRListViewCacheBlockRing {
 	public synchronized void moveBackward() {
 		moveRelative(-1);
 		final RRListViewCacheBlock secondBlock = getRelative(0);
-		getRelative(-1).assign(data, secondBlock.firstVisibleItemPos, secondBlock.pxInFirstVisibleItem + blockHeight);
+		getRelative(-1).assign(data, secondBlock.firstVisibleItemPos, secondBlock.pxInFirstVisibleItem - blockHeight);
 	}
 
 	public synchronized boolean draw(Canvas canvas) {
@@ -67,6 +67,7 @@ public final class RRListViewCacheBlockRing {
 		while(totalHeight < canvasHeight) {
 			if(!getRelative(block++).draw(canvas)) result = false;
 			canvas.translate(0, blockHeight);
+			totalHeight += blockHeight;
 		}
 
 		canvas.restore();

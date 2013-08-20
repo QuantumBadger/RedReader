@@ -14,7 +14,7 @@ public class RRListViewCacheBlock {
 
 	private final int width, height;
 
-	private static final int backgroundCol = Color.TRANSPARENT;
+	private static final int backgroundCol = Color.BLUE; // TODO transparent
 
 	protected int firstVisibleItemPos, pxInFirstVisibleItem;
 
@@ -47,7 +47,7 @@ public class RRListViewCacheBlock {
 			pxInFirstVisibleItem += items[firstVisibleItemPos].getHeight();
 		}
 
-		while(pxInFirstVisibleItem >= items[firstVisibleItemPos].getHeight()) {
+		while(firstVisibleItemPos < items.length - 1 && pxInFirstVisibleItem >= items[firstVisibleItemPos].getHeight()) {
 
 			if(firstVisibleItemPos >= items.length - 1) {
 				firstVisibleItemPos = -1;

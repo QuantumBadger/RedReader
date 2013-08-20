@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.common;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -334,5 +335,11 @@ public final class General {
 
 	public static void runOnUiThread(final Runnable runnable) {
 		new Handler(Looper.getMainLooper()).post(runnable);
+	}
+
+	public static Paint createPaint(int color) {
+		final Paint paint = new Paint();
+		paint.setColor(color);
+		return paint;
 	}
 }

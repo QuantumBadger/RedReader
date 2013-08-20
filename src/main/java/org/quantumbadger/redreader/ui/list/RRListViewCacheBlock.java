@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import org.quantumbadger.redreader.common.General;
 
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -14,17 +15,12 @@ public class RRListViewCacheBlock {
 
 	private final int width, height;
 
-	private static final int backgroundCol = Color.BLUE; // TODO transparent
-
 	protected int firstVisibleItemPos, pxInFirstVisibleItem;
 
 	private final ReentrantLock updateLock = new ReentrantLock();
 
-	private static final Paint invalidPaint = new Paint();
-
-	static {
-		invalidPaint.setColor(Color.MAGENTA);
-	}
+	private static final int backgroundCol = Color.BLUE; // TODO transparent
+	private static final Paint invalidPaint = General.createPaint(Color.MAGENTA);
 
 	public RRListViewCacheBlock(final int width, final int height) {
 		cache = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);

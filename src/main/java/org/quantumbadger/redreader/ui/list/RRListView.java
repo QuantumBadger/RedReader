@@ -51,22 +51,18 @@ public final class RRListView extends View implements RRViewParent {
 
 	private CacheThread cacheThread;
 
-	private volatile boolean isMeasured = false, enableCacheAfterMeasuring = true;
+	private boolean isMeasured = false, enableCacheAfterMeasuring = true;
 
 	public RRListView(RRFragmentContext context) {
 		super(context.activity);
 		setWillNotDraw(false);
 	}
 
-	public void rebuildCacheRing(final int width, final int height) {
-
-		brieflyDisableCache();
-
+	public synchronized void clearCacheRing() {
 		if(cacheRing != null) {
 			// TODO recycle
+			cacheRing = null;
 		}
-
-		cacheRing = new RRListViewCacheBlockRing(width, height / 2, 4);
 	}
 
 	public void onChildAppended() {
@@ -98,19 +94,26 @@ public final class RRListView extends View implements RRViewParent {
 	}
 
 	private synchronized void enableCache() {
-		if(!isMeasured || cacheRing == null || cacheEnabled) return;
+
+		if(!isMeasured || cacheEnabled) return;
+
+		if(cacheRing == null) {
+			cacheRing = new RRListViewCacheBlockRing(width, height / 2, 4);
+		}
+
+		cacheRing.assign(flattenedContents, firstVisibleItemPos, pxInFirstVisibleItem);
+
+		pxInFirstCacheBlock = 0;
 		cacheEnabled = true;
+
 		cacheThread = new CacheThread();
 		cacheThread.start();
-		cacheRing.assign(flattenedContents, firstVisibleItemPos, pxInFirstVisibleItem);
 	}
 
 	private synchronized void brieflyDisableCache() {
 		// TODO replace timer with thread, destroy only in pause()
 		if(!isPaused) {
-
 			disableCache();
-
 			cacheEnableTimer = new Timer();
 			cacheEnableTimer.schedule(new TimerTask() {
 				public void run() {
@@ -130,12 +133,15 @@ public final class RRListView extends View implements RRViewParent {
 
 		if(cacheThread != null) cacheThread.interrupt();
 		// NOTE do not delete the cache blocks
+
+		postInvalidate();
 	}
 
 	@Override
-	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+	protected synchronized void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
 		brieflyDisableCache();
+		clearCacheRing();
 
 		width = MeasureSpec.getSize(widthMeasureSpec);
 		height = MeasureSpec.getSize(heightMeasureSpec);
@@ -149,20 +155,19 @@ public final class RRListView extends View implements RRViewParent {
 			oldWidth = width;
 		}
 
-		rebuildCacheRing(width, height);
 		if(enableCacheAfterMeasuring) {
 			enableCache();
 			enableCacheAfterMeasuring = false;
 		}
 	}
 
-	public void scrollBy(int px) {
+	public synchronized void scrollBy(int px) {
 		pxInFirstVisibleItem += px;
 		pxInFirstCacheBlock += px;
 		recalculateLastVisibleItem();
 	}
 
-	public void recalculateLastVisibleItem() {
+	public synchronized void recalculateLastVisibleItem() {
 
 		if(!isMeasured) return;
 

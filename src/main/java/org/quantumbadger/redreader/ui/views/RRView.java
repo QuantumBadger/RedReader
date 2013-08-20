@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Looper;
+import org.quantumbadger.redreader.common.General;
 
 public abstract class RRView implements RRViewParent, TouchEventHandler {
 
@@ -20,11 +21,7 @@ public abstract class RRView implements RRViewParent, TouchEventHandler {
 	public static final int UNSPECIFIED = -1;
 
 	private boolean unrenderable = true;
-	private static final Paint unrenderablePaint = new Paint();
-
-	static {
-		unrenderablePaint.setColor(Color.RED);
-	}
+	private static final Paint unrenderablePaint = General.createPaint(Color.RED);
 
 	public final synchronized void draw(final Canvas canvas, final int desiredWidth) {
 

@@ -21,7 +21,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.AttributeSet;
 
 public class RRViewWrapperTest extends RRViewWrapper {
 
@@ -33,19 +32,11 @@ public class RRViewWrapperTest extends RRViewWrapper {
 		super(context);
 	}
 
-	public RRViewWrapperTest(Context context, AttributeSet attrs) {
-		super(context, attrs);
-	}
-
-	public RRViewWrapperTest(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-	}
-
 	@Override
 	protected void onTouchEvent(TouchEvent e) {
 
 		switch(e.type) {
-			case START:
+			case BEGIN:
 			case MOVE:
 				this.xPos = e.xPos.clone();
 				this.yPos = e.yPos.clone();

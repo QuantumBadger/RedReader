@@ -203,7 +203,6 @@ public final class RRListView extends RRViewWrapper implements RRViewParent {
 
 		// TODO don't allow use of mean pos when horizontal swiping, tapping, etc
 		// (although tapping can only be done with one finger anyway, with !followingPointerUp)
-		final float meanXPos = e.pointerCount > 1 ? (float)General.mean(e.xPos) : e.xPos[0];
 		final float meanYPos = e.pointerCount > 1 ? (float)General.mean(e.yPos) : e.yPos[0];
 
 		switch(e.type) {
@@ -212,7 +211,7 @@ public final class RRListView extends RRViewWrapper implements RRViewParent {
 				scrollBy(Math.round(lastYPos - meanYPos));
 				invalidate();
 
-			case START:
+			case BEGIN:
 				lastYPos = Math.round(meanYPos);
 				break;
 

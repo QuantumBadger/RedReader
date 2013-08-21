@@ -356,4 +356,12 @@ public final class General {
 		result /= input.length;
 		return result;
 	}
+
+	public static double euclideanDistanceSquared(final float x, final float y) {
+		return x*x + y*y;
+	}
+
+	public static double sq(final float x) {
+		return x*x;
+	}
 }

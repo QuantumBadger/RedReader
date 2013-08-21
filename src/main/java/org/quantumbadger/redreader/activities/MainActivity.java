@@ -52,7 +52,8 @@ public class MainActivity extends Activity {
 		setContentView(layout);
 
 		//layout.handleUri(Constants.Internal.getUri(Constants.Internal.URI_HOST_PREFSPAGE));
-		layout.handleUri(Uri.parse("rr://listtest"));
+		//layout.handleUri(Uri.parse("rr://listtest"));
+		layout.handleUri(Uri.parse("rr://touchtest"));
 	}
 
 	@Override

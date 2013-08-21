@@ -1,15 +1,18 @@
 package org.quantumbadger.redreader.ui.frag;
 
-import org.holoeverywhere.app.Activity;
-import org.quantumbadger.redreader.common.RRSchedulerManager;
+import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
 
 public final class RRFragmentContext extends RRContext {
 
 	public final RRFragment fragment;
 
-	public RRFragmentContext(Activity activity, RRFragmentLayout fragmentLayout, RRSchedulerManager scheduler,
-							 RRFragment fragment) {
-		super(activity, fragmentLayout, scheduler);
+	public RRFragmentContext(RRContext context, RRFragment fragment) {
+		super(context);
 		this.fragment = fragment;
+	}
+
+	@Override
+	public RRFragmentContext forFragment(RRFragment fragment) {
+		throw new UnexpectedInternalStateException();
 	}
 }

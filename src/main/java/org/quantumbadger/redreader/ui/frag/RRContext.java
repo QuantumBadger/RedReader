@@ -1,5 +1,6 @@
 package org.quantumbadger.redreader.ui.frag;
 
+import android.util.DisplayMetrics;
 import org.holoeverywhere.app.Activity;
 import org.quantumbadger.redreader.common.RRSchedulerManager;
 
@@ -9,21 +10,33 @@ public class RRContext {
 	public final RRFragmentLayout fragmentLayout;
 	public final RRSchedulerManager scheduler;
 
-	public RRContext(Activity activity, RRFragmentLayout fragmentLayout, RRSchedulerManager scheduler) {
+	// TODO spScale may change at runtime?
+	public final float dpScale, spScale;
+
+	RRContext(RRContext context) {
+		this(context.activity, context.fragmentLayout, context.scheduler);
+	}
+
+	RRContext(Activity activity, RRFragmentLayout fragmentLayout, RRSchedulerManager scheduler) {
+
 		this.activity = activity;
 		this.fragmentLayout = fragmentLayout;
 		this.scheduler = scheduler;
+
+		final DisplayMetrics displayMetrics = activity.getResources().getDisplayMetrics();
+		dpScale = displayMetrics.density;
+		spScale = displayMetrics.scaledDensity;
 	}
 
 	public RRFragmentContext forFragment(RRFragment fragment) {
-		return new RRFragmentContext(activity, fragmentLayout, scheduler, fragment);
+		return new RRFragmentContext(this, fragment);
 	}
 
-	void onResume() {
+	final void onResume() {
 		scheduler.onResume();
 	}
 
-	void onPause() {
+	final void onPause() {
 		scheduler.onPause();
 	}
 }

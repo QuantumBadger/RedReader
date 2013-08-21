@@ -6,8 +6,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Looper;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.ui.views.touch.RROffsetClickHandler;
+import org.quantumbadger.redreader.ui.views.touch.RRSingleTouchHandlerProvider;
 
-public abstract class RRView implements RRViewParent, TouchEventHandler {
+public abstract class RRView implements RRViewParent, RRSingleTouchHandlerProvider {
 
 	private RRViewParent parent;
 	private TouchEventHandler touchEventHandler;
@@ -70,20 +72,8 @@ public abstract class RRView implements RRViewParent, TouchEventHandler {
 		parent.rrRequestLayout();
 	}
 
-	public final void setTouchEventHandler(TouchEventHandler touchEventHandler) {
-		this.touchEventHandler = touchEventHandler;
-	}
-
-	public final void onTouchEvent(int eventType, int x, int y) {
-
-		if(touchEventHandler != null) {
-			touchEventHandler.onTouchEvent(eventType, x - paddingLeft, y - paddingTop);
-		} else {
-			handleTouchEvent(eventType, x - paddingLeft, y - paddingTop);
-		}
-	}
-
-	protected abstract void handleTouchEvent(int eventType, int x, int y);
+	// Implements the method in RRSingleTouchHandlerProvider, but forces the offset
+	public abstract RROffsetClickHandler getClickHandler(float x, float y);
 
 	public final synchronized int setWidth(final int width) {
 

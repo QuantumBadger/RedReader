@@ -1,6 +1,9 @@
 package org.quantumbadger.redreader.ui.views;
 
 import android.graphics.Canvas;
+import org.quantumbadger.redreader.ui.views.touch.RRHSwipeHandler;
+import org.quantumbadger.redreader.ui.views.touch.RROffsetClickHandler;
+import org.quantumbadger.redreader.ui.views.touch.RRVSwipeHandler;
 
 public final class RRHorizontalBorderLayout extends RRView {
 
@@ -41,6 +44,22 @@ public final class RRHorizontalBorderLayout extends RRView {
 	}
 
 	@Override
+	public RROffsetClickHandler getClickHandler(float x, float y) {
+		// TODO
+		return null;
+	}
+
+	public RRHSwipeHandler getHSwipeHandler(float x, float y) {
+		// TODO
+		return null;
+	}
+
+	public RRVSwipeHandler getVSwipeHandler(float x, float y) {
+		// TODO
+		return null;
+	}
+/*
+	@Override
 	protected void handleTouchEvent(int eventType, int x, int y) {
 
 		if(x < left.getOuterWidth()) {
@@ -53,7 +72,7 @@ public final class RRHorizontalBorderLayout extends RRView {
 			middle.onTouchEvent(eventType, x - left.getOuterWidth(), y);
 		}
 
-	}
+	}*/
 
 	@Override
 	protected int onMeasureByWidth(int width) {

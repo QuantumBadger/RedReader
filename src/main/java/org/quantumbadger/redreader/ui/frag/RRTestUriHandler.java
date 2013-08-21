@@ -80,6 +80,12 @@ public class RRTestUriHandler extends RRUriHandler {
 
 		}
 
+		if(uri.getHost().equals("touchtest")) {
+
+			return new Result(new RRTouchTestFragment(context, uri, null, null));
+
+		}
+
 		return null;
 	}
 }

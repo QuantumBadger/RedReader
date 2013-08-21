@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.ui.list;
 
 import android.graphics.Canvas;
-import android.util.Log;
 import org.quantumbadger.redreader.common.InterruptableThread;
 import org.quantumbadger.redreader.common.RRSchedulerManager;
 import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
@@ -103,7 +102,6 @@ public final class RRListView extends RRViewWrapper implements RRViewParent {
 
 		if(cacheRing == null) {
 			cacheRing = new RRListViewCacheBlockRing(width, height / 2, 5);
-			Log.e("RRListView", String.format("New ring. Canvas height: %d. Block height: %d", height, height / 2));
 		}
 
 		pxInFirstCacheBlock = 0;
@@ -139,7 +137,6 @@ public final class RRListView extends RRViewWrapper implements RRViewParent {
 
 		width = MeasureSpec.getSize(widthMeasureSpec);
 		height = MeasureSpec.getSize(heightMeasureSpec);
-		Log.e("RRListView", String.format("onMeasure: %d x %d", width, height));
 		setMeasuredDimension(width, height);
 		isMeasured = true;
 

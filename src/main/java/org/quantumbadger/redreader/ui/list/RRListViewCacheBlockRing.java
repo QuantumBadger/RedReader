@@ -43,13 +43,17 @@ public final class RRListViewCacheBlockRing {
 		blocks.getRelative(-1).assign(data, secondBlock.firstVisibleItemPos, secondBlock.pxInFirstVisibleItem - blockHeight);
 	}
 
-	public synchronized boolean draw(final Canvas canvas, final int canvasHeight) {
+	public synchronized boolean draw(final Canvas canvas, final int canvasHeight, final int vOffset) {
+
+		if(canvasHeight / 2 != blockHeight) throw new UnexpectedInternalStateException(String.format("Canvas height: %d. Block height: %d", canvasHeight, blockHeight));
 
 		boolean drawSuccessful = true;
-		int totalHeight = 0;
+		int totalHeight = vOffset;
 		int block = 0;
 
 		canvas.save();
+
+		canvas.translate(0, vOffset);
 
 		while(totalHeight < canvasHeight) {
 			if(!blocks.getRelative(block++).draw(canvas)) drawSuccessful = false;
@@ -60,6 +64,10 @@ public final class RRListViewCacheBlockRing {
 		canvas.restore();
 
 		return drawSuccessful;
+	}
+
+	public synchronized void recycle() {
+		// TODO avoid conflicts
 	}
 
 	private int debugBlockCol(int id) {

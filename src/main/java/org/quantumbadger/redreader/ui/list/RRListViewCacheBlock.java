@@ -41,7 +41,7 @@ public class RRListViewCacheBlock {
 
 		while(pxInFirstVisibleItem < 0 && firstVisibleItemPos > 0) {
 			firstVisibleItemPos--;
-			pxInFirstVisibleItem += items[firstVisibleItemPos].getOuterHeight();
+			pxInFirstVisibleItem += items[firstVisibleItemPos].setWidth(width);
 		}
 
 		while(firstVisibleItemPos < data.itemCount - 1 && pxInFirstVisibleItem >= items[firstVisibleItemPos].setWidth(width)) {

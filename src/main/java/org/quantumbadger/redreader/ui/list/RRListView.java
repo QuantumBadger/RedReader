@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.ui.list;
 
 import android.graphics.Canvas;
+import android.util.Log;
 import org.quantumbadger.redreader.common.InterruptableThread;
 import org.quantumbadger.redreader.common.RRSchedulerManager;
 import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
@@ -61,7 +62,7 @@ public final class RRListView extends RRViewWrapper implements RRViewParent {
 		brieflyDisableCache();
 
 		if(cacheRing != null) {
-			// TODO recycle
+			cacheRing.recycle();
 			cacheRing = null;
 		}
 	}
@@ -102,10 +103,11 @@ public final class RRListView extends RRViewWrapper implements RRViewParent {
 
 		if(cacheRing == null) {
 			cacheRing = new RRListViewCacheBlockRing(width, height / 2, 5);
+			Log.e("RRListView", String.format("New ring. Canvas height: %d. Block height: %d", height, height / 2));
 		}
 
-		cacheRing.assign(flattenedContents, firstVisibleItemPos, pxInFirstVisibleItem);
 		pxInFirstCacheBlock = 0;
+		cacheRing.assign(flattenedContents, firstVisibleItemPos, pxInFirstVisibleItem);
 
 		if(cacheThread == null) {
 			cacheThread = new CacheThread(cacheRing);
@@ -137,6 +139,7 @@ public final class RRListView extends RRViewWrapper implements RRViewParent {
 
 		width = MeasureSpec.getSize(widthMeasureSpec);
 		height = MeasureSpec.getSize(heightMeasureSpec);
+		Log.e("RRListView", String.format("onMeasure: %d x %d", width, height));
 		setMeasuredDimension(width, height);
 		isMeasured = true;
 
@@ -172,7 +175,7 @@ public final class RRListView extends RRViewWrapper implements RRViewParent {
 				cacheThread.requestMoveBackward();
 			}
 
-			while(pxInFirstCacheBlock >= height / 2) {
+			while(pxInFirstCacheBlock >= cacheRing.blockHeight) {
 				pxInFirstCacheBlock -= cacheRing.blockHeight;
 				cacheThread.requestMoveForward();
 			}
@@ -234,9 +237,9 @@ public final class RRListView extends RRViewWrapper implements RRViewParent {
 
 		final RRListViewFlattenedContents fc = flattenedContents;
 
-		canvas.save();
-
 		if(cacheThread == null) {
+
+			canvas.save();
 
 			canvas.translate(0, -pxInFirstVisibleItem);
 
@@ -244,12 +247,12 @@ public final class RRListView extends RRViewWrapper implements RRViewParent {
 				fc.items[i].draw(canvas, width);
 				canvas.translate(0, fc.items[i].getOuterHeight());
 			}
-		} else {
-			canvas.translate(0, -pxInFirstCacheBlock);
-			if(!cacheRing.draw(canvas, height + pxInFirstCacheBlock)) invalidate();
-		}
 
-		canvas.restore();
+			canvas.restore();
+
+		} else {
+			if(!cacheRing.draw(canvas, height, -pxInFirstCacheBlock)) invalidate();
+		}
 	}
 
 	public void rrInvalidate() {

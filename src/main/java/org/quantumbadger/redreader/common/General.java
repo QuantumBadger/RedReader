@@ -349,4 +349,11 @@ public final class General {
 		paint.setColor(color);
 		return paint;
 	}
+
+	public static double mean(final float[] input) {
+		double result = 0;
+		for(float f : input) result += f;
+		result /= input.length;
+		return result;
+	}
 }

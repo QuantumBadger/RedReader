@@ -53,14 +53,18 @@ public abstract class RRViewWrapper extends View {
 
 		public float[] xStart, yStart;
 		public float[] xPos, yPos;
+		public int[] pointerId;
 
 		public long startTime, currentTime;
 
-		public void start(float[] xPos, float[] yPos) {
+		public boolean isFollowingPointerUp = false;
+
+		private void start(float[] xPos, float[] yPos, int[] pointerId) {
 			this.xPos = xPos;
 			this.yPos = yPos;
 			this.xStart = xPos.clone();
 			this.yStart = yPos.clone();
+			this.pointerId = pointerId;
 		}
 
 		private void updatePositions(MotionEvent rawEvent) {
@@ -83,17 +87,51 @@ public abstract class RRViewWrapper extends View {
 		private void onTouchEventBegin(long timeMs, MotionEvent rawEvent) {
 
 			pointerCount = rawEvent.getPointerCount();
+			this.isFollowingPointerUp = false;
 
 			final float[] xPos = new float[pointerCount];
 			final float[] yPos = new float[pointerCount];
+			final int[] pointerId = new int[pointerCount];
 
 			for(int i = 0; i < pointerCount; i++) {
 				xPos[i] = rawEvent.getX(i);
 				yPos[i] = rawEvent.getY(i);
+				pointerId[i] = rawEvent.getPointerId(i);
 			}
 
 			type = TouchEventType.START;
-			start(xPos, yPos);
+			start(xPos, yPos, pointerId);
+			startTime = timeMs;
+			onTouchEvent(this);
+		}
+
+		private void onTouchEventBeginFollowingPointerUp(long timeMs, MotionEvent rawEvent) {
+
+			pointerCount = rawEvent.getPointerCount() - 1;
+			this.isFollowingPointerUp = true;
+
+			final float[] xPos = new float[pointerCount];
+			final float[] yPos = new float[pointerCount];
+			final int[] pointerId = new int[pointerCount];
+
+			final int pointerUpIndex = rawEvent.getActionIndex();
+
+			int i = 0, j = 0;
+
+			while(j < pointerCount) {
+
+				if(i != pointerUpIndex) {
+					xPos[j] = rawEvent.getX(i);
+					yPos[j] = rawEvent.getY(i);
+					pointerId[j] = rawEvent.getPointerId(i);
+					j++;
+				}
+
+				i++;
+			}
+
+			type = TouchEventType.START;
+			start(xPos, yPos, pointerId);
 			startTime = timeMs;
 			onTouchEvent(this);
 		}
@@ -125,9 +163,8 @@ public abstract class RRViewWrapper extends View {
 
 			case MotionEvent.ACTION_POINTER_UP:
 			case MotionEvent.ACTION_UP:
-				if(event.type != null) {
-					event.cancel(rawEvent, true);
-				}
+				if(event.type != null) event.cancel(rawEvent, true);
+				if(event.pointerCount > 1) event.onTouchEventBeginFollowingPointerUp(rawEventTimeMs, rawEvent);
 				break;
 
 			case MotionEvent.ACTION_MOVE:

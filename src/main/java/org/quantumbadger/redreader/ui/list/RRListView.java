@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.ui.list;
 
 import android.graphics.Canvas;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.InterruptableThread;
 import org.quantumbadger.redreader.common.RRSchedulerManager;
 import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
@@ -196,16 +197,23 @@ public final class RRListView extends RRViewWrapper implements RRViewParent {
 	@Override
 	protected void onTouchEvent(TouchEvent e) {
 
-		if(e.pointerCount != 1) return;
+		if(e.pointerCount != 1 || e.isFollowingPointerUp) {
+			// TODO disallow tap and hover events - allow only swipes
+		}
+
+		// TODO don't allow use of mean pos when horizontal swiping, tapping, etc
+		// (although tapping can only be done with one finger anyway, with !followingPointerUp)
+		final float meanXPos = e.pointerCount > 1 ? (float)General.mean(e.xPos) : e.xPos[0];
+		final float meanYPos = e.pointerCount > 1 ? (float)General.mean(e.yPos) : e.yPos[0];
 
 		switch(e.type) {
 
 			case MOVE:
-				scrollBy(Math.round(lastYPos - e.yPos[0]));
+				scrollBy(Math.round(lastYPos - meanYPos));
 				invalidate();
 
 			case START:
-				lastYPos = Math.round(e.yPos[0]);
+				lastYPos = Math.round(meanYPos);
 				break;
 
 			case CANCEL:

@@ -101,7 +101,7 @@ public final class RRListView extends RRViewWrapper implements RRViewParent {
 		cacheEnableTimer.cancel();
 
 		if(cacheRing == null) {
-			cacheRing = new RRListViewCacheBlockRing(width, height / 2, 4);
+			cacheRing = new RRListViewCacheBlockRing(width, height / 2, 5);
 		}
 
 		cacheRing.assign(flattenedContents, firstVisibleItemPos, pxInFirstVisibleItem);
@@ -246,7 +246,7 @@ public final class RRListView extends RRViewWrapper implements RRViewParent {
 			}
 		} else {
 			canvas.translate(0, -pxInFirstCacheBlock);
-			if(!cacheRing.draw(canvas, height)) invalidate();
+			if(!cacheRing.draw(canvas, height + pxInFirstCacheBlock)) invalidate();
 		}
 
 		canvas.restore();

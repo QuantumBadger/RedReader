@@ -21,7 +21,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 import org.quantumbadger.redreader.common.Constants;
-import org.quantumbadger.redreader.common.UniqueSynchronizedQueue;
+import org.quantumbadger.redreader.common.collections.UniqueSynchronizedQueue;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;

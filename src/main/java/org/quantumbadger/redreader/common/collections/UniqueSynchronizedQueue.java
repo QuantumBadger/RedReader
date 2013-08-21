@@ -15,7 +15,7 @@
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.common;
+package org.quantumbadger.redreader.common.collections;
 
 import java.util.Collection;
 import java.util.HashSet;

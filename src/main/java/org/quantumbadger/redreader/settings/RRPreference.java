@@ -21,7 +21,7 @@ import android.content.Context;
 import android.net.Uri;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.Constants;
-import org.quantumbadger.redreader.common.WeakReferenceListManager;
+import org.quantumbadger.redreader.common.collections.WeakReferenceListManager;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 

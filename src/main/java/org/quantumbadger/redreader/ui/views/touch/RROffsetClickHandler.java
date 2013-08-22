@@ -15,17 +15,28 @@
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.ui.prefs;
+package org.quantumbadger.redreader.ui.views.touch;
 
-import java.util.HashMap;
+public class RROffsetClickHandler implements RRClickHandler {
 
-public class RRPreferenceHeader extends RRPreference {
+	private final RRClickHandler child;
 
-	private RRPreferenceHeader(RRPrefs preferenceManager, HashMap<String, String> attributes, ItemSource itemSource) throws NoSuchFieldException, IllegalAccessException {
-		super(preferenceManager, attributes, itemSource);
+	private int offsetX = 0, offsetY = 0;
+
+	public RROffsetClickHandler(RRClickHandler child) {
+		this.child = child;
 	}
 
-	public static RRPreferenceHeader parse(RRPrefs preferenceManager, HashMap<String, String> attributes, ItemSource itemSource) throws NoSuchFieldException, IllegalAccessException {
-		return new RRPreferenceHeader(preferenceManager, attributes, itemSource);
+	public void addOffset(int x, int y) {
+		offsetX += x;
+		offsetY += y;
+	}
+
+	public boolean onHoverBegin(float x, float y) {
+		return child.onHoverBegin(x + offsetX, y + offsetY);
+	}
+
+	public void onHoverEnd(ClickType clickType) {
+		child.onHoverEnd(clickType);
 	}
 }

@@ -86,17 +86,4 @@ public final class RRListViewContents {
 		return flattenedContents;
 	}
 
-	public static final class RRListViewFlattenedContents {
-
-		final RRListViewItem[] items;
-		final int itemCount;
-		final RRListViewItemToIntMap reverseMap;
-
-		public RRListViewFlattenedContents(RRListViewItem[] items, int itemCount, RRListViewItemToIntMap reverseMap) {
-			this.items = items;
-			this.itemCount = itemCount;
-			this.reverseMap = reverseMap;
-		}
-	}
-
 }

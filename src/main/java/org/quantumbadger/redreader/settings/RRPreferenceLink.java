@@ -15,29 +15,31 @@
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.ui.frag;
+package org.quantumbadger.redreader.settings;
 
 import android.net.Uri;
-import android.os.Bundle;
 
-public abstract class RRUriHandler {
+import java.util.HashMap;
 
-	public abstract Result handle(RRContext context, Uri uri, Mode mode, Bundle arguments);
+public class RRPreferenceLink extends RRPreference {
 
-	public class Result {
+	private final Uri uri;
 
-		public final RRFragment fragmentToOpen;
-
-		public Result() {
-			this(null);
-		}
-
-		public Result(RRFragment fragment) {
-			fragmentToOpen = fragment;
-		}
+	@Override
+	public Uri getUri() {
+		return uri;
 	}
 
-	public enum Mode {
-		ANY, FORCE_INTERNAL_BROWSER, FORCE_EXTERNAL_BROWSER
+	protected static RRPreferenceLink parse(RRPrefs preferenceManager, HashMap<String, String> attributes, ItemSource itemSource)
+			throws NoSuchFieldException, IllegalAccessException {
+
+		final Uri uri = Uri.parse(attributes.get("uri"));
+
+		return new RRPreferenceLink(preferenceManager, attributes, itemSource, uri);
+	}
+
+	protected RRPreferenceLink(RRPrefs preferenceManager, HashMap<String, String> attributes, ItemSource itemSource, Uri uri) throws NoSuchFieldException, IllegalAccessException {
+		super(preferenceManager, attributes, itemSource);
+		this.uri = uri;
 	}
 }

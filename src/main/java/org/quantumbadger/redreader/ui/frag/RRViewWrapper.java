@@ -18,34 +18,25 @@
 package org.quantumbadger.redreader.ui.frag;
 
 import android.content.Context;
-import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import org.quantumbadger.redreader.common.General;
 
-public abstract class RRView extends View {
+public abstract class RRViewWrapper extends View {
 
 	private final TouchEvent reusableTouchEvent = new TouchEvent();
 
-	public RRView(Context context) {
+	public RRViewWrapper(Context context) {
 		super(context);
-	}
-
-	public RRView(Context context, AttributeSet attrs) {
-		super(context, attrs);
-	}
-
-	public RRView(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
 	}
 
 	protected abstract void onTouchEvent(TouchEvent e);
 
 	public static enum TouchEventType {
-		START, MOVE, FINISH, CANCEL
+		BEGIN, MOVE, FINISH, CANCEL
 	}
 
-	protected final class TouchEvent {
+	public final class TouchEvent {
 
 		public int pointerCount = 0;
 
@@ -53,17 +44,29 @@ public abstract class RRView extends View {
 
 		public float[] xStart, yStart;
 		public float[] xPos, yPos;
+		public float[] xLastPos, yLastPos;
+		public int[] pointerId;
 
 		public long startTime, currentTime;
 
-		public void start(float[] xPos, float[] yPos) {
+		public boolean isFollowingPointerUp = false;
+
+		private void start(float[] xPos, float[] yPos, int[] pointerId) {
+			type = TouchEventType.BEGIN;
 			this.xPos = xPos;
 			this.yPos = yPos;
 			this.xStart = xPos.clone();
 			this.yStart = yPos.clone();
+			this.xLastPos = xPos.clone();
+			this.yLastPos = yPos.clone();
+			this.pointerId = pointerId;
 		}
 
 		private void updatePositions(MotionEvent rawEvent) {
+
+			System.arraycopy(xPos, 0, xLastPos, 0, xPos.length);
+			System.arraycopy(yPos, 0, yLastPos, 0, yPos.length);
+
 			for(int i = 0; i < xPos.length; i++) {
 				xPos[i] = rawEvent.getX(i);
 				yPos[i] = rawEvent.getY(i);
@@ -71,9 +74,6 @@ public abstract class RRView extends View {
 		}
 
 		private void cancel(MotionEvent rawEvent, boolean finish) {
-
-			Log.i("RRTouch", String.format("Pointers: %d, time: %d ms", pointerCount, rawEvent.getEventTime() - startTime));
-
 			type = finish ? TouchEventType.FINISH : TouchEventType.CANCEL;
 			updatePositions(rawEvent);
 			onTouchEvent(this);
@@ -83,24 +83,78 @@ public abstract class RRView extends View {
 		private void onTouchEventBegin(long timeMs, MotionEvent rawEvent) {
 
 			pointerCount = rawEvent.getPointerCount();
+			this.isFollowingPointerUp = false;
 
 			final float[] xPos = new float[pointerCount];
 			final float[] yPos = new float[pointerCount];
+			final int[] pointerId = new int[pointerCount];
 
 			for(int i = 0; i < pointerCount; i++) {
 				xPos[i] = rawEvent.getX(i);
 				yPos[i] = rawEvent.getY(i);
+				pointerId[i] = rawEvent.getPointerId(i);
 			}
 
-			type = TouchEventType.START;
-			start(xPos, yPos);
+			start(xPos, yPos, pointerId);
 			startTime = timeMs;
 			onTouchEvent(this);
+		}
+
+		private void onTouchEventBeginFollowingPointerUp(long timeMs, MotionEvent rawEvent) {
+
+			pointerCount = rawEvent.getPointerCount() - 1;
+			this.isFollowingPointerUp = true;
+
+			final float[] xPos = new float[pointerCount];
+			final float[] yPos = new float[pointerCount];
+			final int[] pointerId = new int[pointerCount];
+
+			final int pointerUpIndex = rawEvent.getActionIndex();
+
+			int i = 0, j = 0;
+
+			while(j < pointerCount) {
+
+				if(i != pointerUpIndex) {
+					xPos[j] = rawEvent.getX(i);
+					yPos[j] = rawEvent.getY(i);
+					pointerId[j] = rawEvent.getPointerId(i);
+					j++;
+				}
+
+				i++;
+			}
+
+			start(xPos, yPos, pointerId);
+			startTime = timeMs;
+			onTouchEvent(this);
+		}
+
+		public double totalDistanceMovedSquared(final int pointerIndex) {
+			return General.euclideanDistanceSquared(
+					xPos[pointerIndex] - xStart[pointerIndex],
+					yPos[pointerIndex] - yStart[pointerIndex]);
+		}
+
+		public float totalDistanceMovedX(final int pointerIndex) {
+			return xPos[pointerIndex] - xStart[pointerIndex];
+		}
+
+		public float totalDistanceMovedY(final int pointerIndex) {
+			return yPos[pointerIndex] - yStart[pointerIndex];
+		}
+
+		public float xDelta(int i) {
+			return xPos[i] - xLastPos[i];
+		}
+
+		public float yDelta(int i) {
+			return yPos[i] - yLastPos[i];
 		}
 	}
 
 	@Override
-	public final boolean onTouchEvent(MotionEvent rawEvent) {
+	public final boolean onTouchEvent(final MotionEvent rawEvent) {
 
 		final int action = rawEvent.getActionMasked();
 		final TouchEvent event = this.reusableTouchEvent;
@@ -125,9 +179,8 @@ public abstract class RRView extends View {
 
 			case MotionEvent.ACTION_POINTER_UP:
 			case MotionEvent.ACTION_UP:
-				if(event.type != null) {
-					event.cancel(rawEvent, true);
-				}
+				if(event.type != null) event.cancel(rawEvent, true);
+				if(event.pointerCount > 1) event.onTouchEventBeginFollowingPointerUp(rawEventTimeMs, rawEvent);
 				break;
 
 			case MotionEvent.ACTION_MOVE:

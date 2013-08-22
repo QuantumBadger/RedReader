@@ -15,35 +15,55 @@
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.views.list;
+package org.quantumbadger.redreader.ui.frag;
 
 import android.content.Context;
-import android.view.View;
-import org.holoeverywhere.widget.FrameLayout;
-import org.holoeverywhere.widget.TextView;
-import org.quantumbadger.redreader.R;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 
-// TODO doesn't need to be in a frame layout
-public class ListSectionHeader extends FrameLayout {
+public class RRViewWrapperTest extends RRViewWrapper {
 
-	private final TextView textView;
-	private final View lineView;
+	private float[] xPos, yPos;
 
-	public ListSectionHeader(final Context context) {
+	final Paint paint = new Paint();
 
+	public RRViewWrapperTest(Context context) {
 		super(context);
-		final View view = inflate(context, R.layout.list_sectionheader, null);
-		textView = (TextView)view.findViewById(R.id.list_sectionheader_text);
-		lineView = view.findViewById(R.id.list_sectionheader_line);
-		addView(view);
 	}
 
-	public void reset(final String text) {
-		textView.setText(text);
+	@Override
+	protected void onTouchEvent(TouchEvent e) {
+
+		switch(e.type) {
+			case BEGIN:
+			case MOVE:
+				this.xPos = e.xPos.clone();
+				this.yPos = e.yPos.clone();
+				break;
+
+			case FINISH:
+			case CANCEL:
+				xPos = null;
+				yPos = null;
+		}
+
+		invalidate();
 	}
 
-	public void setColor(int color) {
-		textView.setTextColor(color);
-		lineView.setBackgroundColor(color);
+	@Override
+	protected void onDraw(Canvas canvas) {
+
+		paint.setColor(Color.GREEN);
+
+		if(xPos != null) {
+
+			for(int i = 0; i < xPos.length; i++) {
+				canvas.drawLine(xPos[i], 0, xPos[i], getHeight(), paint);
+				canvas.drawLine(0, yPos[i], getWidth(), yPos[i], paint);
+			}
+
+		}
+
 	}
 }

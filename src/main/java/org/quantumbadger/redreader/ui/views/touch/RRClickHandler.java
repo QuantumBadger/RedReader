@@ -15,39 +15,12 @@
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.common;
+package org.quantumbadger.redreader.ui.views.touch;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.LinkedList;
+public interface RRClickHandler {
 
-public class UniqueSynchronizedQueue<E> {
+	public static enum ClickType {CLICK, LONG_CLICK, CANCEL}
 
-	private final HashSet<E> set = new HashSet<E>();
-	private final LinkedList<E> queue = new LinkedList<E>();
-
-	public synchronized void enqueue(E object) {
-		if(set.add(object)) {
-			queue.addLast(object);
-		}
-	}
-
-	public synchronized void enqueue(Collection<E> objects) {
-		for(E object : objects) {
-			enqueue(object);
-		}
-	}
-
-	public synchronized E dequeue() {
-
-		if(queue.isEmpty()) return null;
-
-		final E result = queue.removeFirst();
-		set.remove(result);
-		return result;
-	}
-
-	public boolean isEmpty() {
-		return queue.isEmpty();
-	}
+	public boolean onHoverBegin(float x, float y);
+	public void onHoverEnd(ClickType clickType);
 }

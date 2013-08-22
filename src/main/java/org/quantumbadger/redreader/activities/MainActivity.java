@@ -17,11 +17,15 @@
 
 package org.quantumbadger.redreader.activities;
 
+import android.net.Uri;
 import android.os.Bundle;
 import org.holoeverywhere.app.Activity;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.settings.RRPrefs;
 import org.quantumbadger.redreader.ui.frag.RRFragmentLayout;
-import org.quantumbadger.redreader.ui.prefs.RRPrefs;
+import org.quantumbadger.redreader.ui.frag.RRSequentialUriHandler;
+import org.quantumbadger.redreader.ui.frag.RRTestUriHandler;
+import org.quantumbadger.redreader.ui.settings.PrefsUriHandler;
 
 public class MainActivity extends Activity {
 
@@ -29,6 +33,8 @@ public class MainActivity extends Activity {
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
+
+		super.onCreate(savedInstanceState);
 
 		try {
 			RRPrefs.getPrefs(this);
@@ -38,7 +44,16 @@ public class MainActivity extends Activity {
 
 		layout = new RRFragmentLayout(this);
 
+		final RRSequentialUriHandler uriHandler = new RRSequentialUriHandler();
+		uriHandler.addHandler(new PrefsUriHandler());
+		uriHandler.addHandler(new RRTestUriHandler());
+		layout.setUriHandler(uriHandler);
+
 		setContentView(layout);
+
+		//layout.handleUri(Constants.Internal.getUri(Constants.Internal.URI_HOST_PREFSPAGE));
+		//layout.handleUri(Uri.parse("rr://listtest"));
+		layout.handleUri(Uri.parse("rr://touchtest"));
 	}
 
 	@Override
@@ -52,5 +67,17 @@ public class MainActivity extends Activity {
 		} else {
 			super.onBackPressed();
 		}
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		layout.onResume();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		layout.onPause();
 	}
 }

@@ -15,7 +15,7 @@
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.ui.prefs;
+package org.quantumbadger.redreader.settings;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -26,7 +26,7 @@ import java.util.HashMap;
 
 public class RRPreferenceEnum<E extends Enum> extends RRPreference {
 
-	private E value;
+	private volatile E value;
 	private final Method enumValueOf;
 
 	enum TestEnum {A}
@@ -62,7 +62,7 @@ public class RRPreferenceEnum<E extends Enum> extends RRPreference {
 		return value;
 	}
 
-	public void set(String value) {
+	public synchronized void set(String value) {
 		try {
 			//noinspection unchecked
 			this.value = (E) enumValueOf.invoke(null, value);
@@ -74,8 +74,27 @@ public class RRPreferenceEnum<E extends Enum> extends RRPreference {
 		setRawUserPreference(value);
 	}
 
-	public void set(E enumValue) {
+	public synchronized void set(E enumValue) {
 		this.value = enumValue;
 		setRawUserPreference(enumValue.name());
+	}
+
+	public Item getItem(E enumValue) {
+
+		final Item[] allItems;
+
+		try {
+			allItems = getItems();
+		} catch(Exception e) {
+			throw new RuntimeException(e);
+		}
+
+		final String enumName = enumValue.name();
+
+		for(final Item item : allItems) {
+			if(enumName.equalsIgnoreCase(item.value)) return item;
+		}
+
+		return null;
 	}
 }

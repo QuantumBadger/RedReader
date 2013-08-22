@@ -17,53 +17,75 @@
 
 package org.quantumbadger.redreader.ui.list;
 
-import android.content.Context;
 import android.graphics.Canvas;
-import android.os.SystemClock;
-import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
+import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.InterruptableThread;
+import org.quantumbadger.redreader.common.RRSchedulerManager;
+import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
+import org.quantumbadger.redreader.ui.frag.RRFragmentContext;
+import org.quantumbadger.redreader.ui.frag.RRViewWrapper;
+import org.quantumbadger.redreader.ui.views.RRViewParent;
 
-import java.util.LinkedList;
+import java.util.concurrent.atomic.AtomicInteger;
 
-public final class RRListView extends View {
+public final class RRListView extends RRViewWrapper implements RRViewParent {
 
 	private final RRListViewContents contents = new RRListViewContents(this);
-	private volatile RRListViewContents.RRListViewFlattenedContents flattenedContents;
-
-	private final RRListViewCacheManager cacheManager = new RRListViewCacheManager();
+	private volatile RRListViewFlattenedContents flattenedContents;
 
 	private volatile int width, height;
 
-	private int firstVisibleItemPos = 0, lastVisibleItemPos = -1;
-	private float positionInFirstVisibleItem = 0;
+	private int firstVisibleItemPos = 0, lastVisibleItemPos = -1, pxInFirstVisibleItem = 0;
 
-	private int oldWidth = -1;
+	private volatile boolean isPaused = true, isMeasured = false;
 
-	private volatile RenderThread thread;
-	private volatile boolean isPaused = true;
+	private RRListViewCacheBlockRing cacheRing;
+	private int pxInFirstCacheBlock = 0;
 
-	public RRListView(Context context) {
-		super(context);
+	private final RRSchedulerManager.RRSingleTaskScheduler cacheEnableTimer;
+	private final Runnable cacheEnableRunnable = new Runnable() {
+		public void run() {
+			enableCache();
+		}
+	};
+
+	private volatile CacheThread cacheThread = null;
+
+	public RRListView(RRFragmentContext context) {
+		super(context.activity);
+		cacheEnableTimer = context.scheduler.obtain();
 		setWillNotDraw(false);
+	}
+
+	public synchronized void clearCacheRing() {
+
+		brieflyDisableCache();
+
+		if(cacheRing != null) {
+			cacheRing.recycle();
+			cacheRing = null;
+		}
 	}
 
 	public void onChildAppended() {
 
 		flattenedContents = contents.getFlattenedContents();
 		if(flattenedContents.itemCount - 2 == lastVisibleItemPos) {
+			brieflyDisableCache();
 			recalculateLastVisibleItem();
 			postInvalidate();
+			// TODO account for new cache manager
 		}
 	}
 
 	public void onChildInserted() {
-		// TODO invalidate
+		// TODO
 		throw new UnsupportedOperationException();
 	}
 
 	public void onChildrenRecomputed() {
-		// TODO invalidate. If previous top child is now invisible, go to the next one visible one after it in the list
+		// TODO invalidate cache. If previous top child is now invisible, go to the next one visible one after it in the list
+		brieflyDisableCache();
 		flattenedContents = contents.getFlattenedContents();
 		recalculateLastVisibleItem();
 		postInvalidate();
@@ -73,194 +95,226 @@ public final class RRListView extends View {
 		return contents;
 	}
 
-	@Override
-	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		width = MeasureSpec.getSize(widthMeasureSpec);
-		height = MeasureSpec.getSize(heightMeasureSpec);
+	private synchronized void enableCache() {
 
-		setMeasuredDimension(width, height);
+		if(!isMeasured) throw new UnexpectedInternalStateException();
 
-		if(width != oldWidth) {
-			recalculateLastVisibleItem();
-			oldWidth = width;
+		cacheEnableTimer.cancel();
+
+		if(cacheRing == null) {
+			cacheRing = new RRListViewCacheBlockRing(width, height / 2, 5);
 		}
+
+		pxInFirstCacheBlock = 0;
+		cacheRing.assign(flattenedContents, firstVisibleItemPos, pxInFirstVisibleItem);
+
+		if(cacheThread == null) {
+			cacheThread = new CacheThread(cacheRing);
+			cacheThread.start();
+		}
+
+		postInvalidate();
 	}
 
-	public void scrollBy(float px) {
-		scrollByInner(px);
+	private synchronized void brieflyDisableCache() {
+		disableCache();
+		cacheEnableTimer.setSchedule(cacheEnableRunnable, 250);
+	}
+
+	private synchronized void disableCache() {
+
+		cacheEnableTimer.cancel();
+
+		if(cacheThread != null) {
+			cacheThread.stop();
+			cacheThread = null;
+		}
+
+		postInvalidate();
+	}
+
+	@Override
+	protected synchronized void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+
+		width = MeasureSpec.getSize(widthMeasureSpec);
+		height = MeasureSpec.getSize(heightMeasureSpec);
+		setMeasuredDimension(width, height);
+		isMeasured = true;
+
+		recalculateLastVisibleItem();
+
+		clearCacheRing();
+	}
+
+	public synchronized void scrollBy(int px) {
+		pxInFirstVisibleItem += px;
+		pxInFirstCacheBlock += px;
 		recalculateLastVisibleItem();
 	}
 
-	private void scrollByInner(float px) {
+	public synchronized void recalculateLastVisibleItem() {
 
-		if(firstVisibleItemPos < 0) {
-			firstVisibleItemPos = 0;
-			positionInFirstVisibleItem = 0;
-			return;
+		if(!isMeasured) return;
+
+		final RRListViewItem[] items = flattenedContents.items;
+
+		while(pxInFirstVisibleItem < 0 && firstVisibleItemPos > 0) {
+			pxInFirstVisibleItem += items[--firstVisibleItemPos].setWidth(width);
 		}
 
-		// TODO height may not have been calculated?
-		// TODO replace recursion with iteration
-		// TODO items as local variable
+		while(pxInFirstVisibleItem >= items[firstVisibleItemPos].setWidth(width)
+				&& firstVisibleItemPos < flattenedContents.itemCount - 1) {
+			pxInFirstVisibleItem -= items[firstVisibleItemPos++].getOuterHeight();
+		}
 
-		if(px >= 0) {
-
-			final float pxRemainingInTopItem = flattenedContents.items[firstVisibleItemPos].height * (1 - positionInFirstVisibleItem);
-
-			if(px < pxRemainingInTopItem) {
-				positionInFirstVisibleItem += px / flattenedContents.items[firstVisibleItemPos].height;
-
-			} else {
-				firstVisibleItemPos++;
-				positionInFirstVisibleItem = 0;
-				scrollByInner(px - pxRemainingInTopItem);
+		if(cacheThread != null) {
+			while(pxInFirstCacheBlock < 0) {
+				pxInFirstCacheBlock += cacheRing.blockHeight;
+				cacheThread.requestMoveBackward();
 			}
 
-		} else {
-
-			final float pxRemainingInTopItem = flattenedContents.items[firstVisibleItemPos].height * positionInFirstVisibleItem;
-
-			if(-px < pxRemainingInTopItem) {
-				positionInFirstVisibleItem += px / flattenedContents.items[firstVisibleItemPos].height;
-
-			} else {
-				firstVisibleItemPos--;
-				positionInFirstVisibleItem = 1f;
-				scrollByInner(px + pxRemainingInTopItem);
+			while(pxInFirstCacheBlock >= cacheRing.blockHeight) {
+				pxInFirstCacheBlock -= cacheRing.blockHeight;
+				cacheThread.requestMoveForward();
 			}
 		}
-	}
-
-	public void recalculateLastVisibleItem() {
 
 		final int width = this.width;
 
-		final RRListViewContents.RRListViewFlattenedContents fc = flattenedContents;
-		int pos = (int) (fc.items[firstVisibleItemPos].measureHeight(width) * (1 - positionInFirstVisibleItem));
+		int pos = items[firstVisibleItemPos].setWidth(width) - pxInFirstVisibleItem;
 		int lastVisibleItemPos = firstVisibleItemPos;
 
-		while(pos <= height && lastVisibleItemPos < fc.itemCount - 1) {
+		while(pos <= height && lastVisibleItemPos < flattenedContents.itemCount - 1) {
 			lastVisibleItemPos++;
-			pos += fc.items[lastVisibleItemPos].measureHeight(width);
+			pos += items[lastVisibleItemPos].setWidth(width);
 		}
 
 		this.lastVisibleItemPos = lastVisibleItemPos;
-
-		cacheManager.update(fc, firstVisibleItemPos, lastVisibleItemPos, 10, thread);
 	}
 
-	private int downId = -1;
-	private float lastYPos = -1;
+	private int lastYPos = -1;
 
 	@Override
-	public boolean onTouchEvent(MotionEvent ev) {
+	protected void onTouchEvent(TouchEvent e) {
 
-		final long start = SystemClock.currentThreadTimeMillis();
+		if(e.pointerCount != 1 || e.isFollowingPointerUp) {
+			// TODO disallow tap and hover events - allow only swipes
+		}
 
-		try {
+		// TODO don't allow use of mean pos when horizontal swiping, tapping, etc
+		// (although tapping can only be done with one finger anyway, with !followingPointerUp)
+		final float meanYPos = e.pointerCount > 1 ? (float)General.mean(e.yPos) : e.yPos[0];
 
-			final int action = ev.getAction() & MotionEvent.ACTION_MASK;
+		switch(e.type) {
 
-			if(action == MotionEvent.ACTION_DOWN) {
-
-				lastYPos = ev.getY();
-				downId = ev.getPointerId(0);
-				return true;
-
-			} else if(action == MotionEvent.ACTION_UP
-					|| action == MotionEvent.ACTION_OUTSIDE
-					|| action == MotionEvent.ACTION_CANCEL
-					|| action == MotionEvent.ACTION_POINTER_UP) {
-
-				if(ev.getPointerId(ev.getActionIndex()) != downId) return false;
-				downId = -1;
-
-				return false;
-
-			} else if(action == MotionEvent.ACTION_MOVE) {
-
-				if(ev.getPointerId(ev.getActionIndex()) != downId) return false;
-
-				final float yDelta = ev.getY() - lastYPos;
-				lastYPos = ev.getY();
-
-				scrollBy(-yDelta);
+			case MOVE:
+				scrollBy(Math.round(lastYPos - meanYPos));
 				invalidate();
 
-				return true;
+			case BEGIN:
+				lastYPos = Math.round(meanYPos);
+				break;
 
-			} else return false;
-
-		} finally {
-			Log.i("Touch handle time", SystemClock.currentThreadTimeMillis() - start + " ms"); // TODO remove
+			case CANCEL:
+			case FINISH:
+				break;
 		}
 	}
 
-	public void resume() {
+	public synchronized void onResume() {
+		if(!isPaused) throw new UnexpectedInternalStateException();
 		isPaused = false;
-		thread = new RenderThread(); // TODO this is unsafe - two threads may run at once
-		thread.start();
+		if(isMeasured) brieflyDisableCache();
 	}
 
-	public void pause() {
+	public synchronized void onPause() {
+		if(isPaused) throw new UnexpectedInternalStateException();
 		isPaused = true;
-		thread.interrupt();
+		cacheEnableTimer.cancel();
+		disableCache();
 	}
 
 	@Override
 	protected void onDraw(Canvas canvas) {
 
-		//Log.i("SCROLL", String.format("Items %d to %d are visible", firstVisibleItemPos, lastVisibleItemPos));
-
-		final long start = SystemClock.currentThreadTimeMillis();
-
 		if(flattenedContents == null) return;
 
-		final RRListViewContents.RRListViewFlattenedContents fc = flattenedContents;
+		final RRListViewFlattenedContents fc = flattenedContents;
 
-		canvas.translate(0, (int)(fc.items[firstVisibleItemPos].height * -positionInFirstVisibleItem)); // TODO height may not have been calculated here...
+		if(cacheThread == null) {
 
-		for(int i = firstVisibleItemPos; i <= lastVisibleItemPos; i++) {
-			fc.items[i].draw(canvas, width);
-			canvas.translate(0, fc.items[i].height);
+			canvas.save();
+
+			canvas.translate(0, -pxInFirstVisibleItem);
+
+			for(int i = firstVisibleItemPos; i <= lastVisibleItemPos; i++) {
+				fc.items[i].draw(canvas, width);
+				canvas.translate(0, fc.items[i].getOuterHeight());
+			}
+
+			canvas.restore();
+
+		} else {
+			if(!cacheRing.draw(canvas, height, -pxInFirstCacheBlock)) invalidate();
 		}
-
-		Log.i("Drawing time", SystemClock.currentThreadTimeMillis() - start + " ms"); // TODO remove
 	}
 
-	// TODO low priority
-	protected final class RenderThread extends Thread {
+	public void rrInvalidate() {
+		brieflyDisableCache();
+		postInvalidate();
+	}
 
-		// TODO optimise
-		private final LinkedList<RRListViewItem> toRender = new LinkedList<RRListViewItem>();
+	public void rrRequestLayout() {
+		// TODO completely flush and rebuild cache manager
+	}
 
-		public void add(RRListViewItem item) {
-			synchronized(toRender) {
-				toRender.add(item);
-				toRender.notify();
+	private final class CacheThread extends InterruptableThread {
+
+		private final RRListViewCacheBlockRing localCacheRing;
+		private final AtomicInteger ringAdvancesNeeded = new AtomicInteger(0);
+
+		private CacheThread(RRListViewCacheBlockRing cacheRing) {
+			super("CacheThread");
+			this.localCacheRing = cacheRing;
+		}
+
+		public void requestMoveForward() {
+			synchronized(ringAdvancesNeeded) {
+				ringAdvancesNeeded.incrementAndGet();
+				ringAdvancesNeeded.notifyAll();
+			}
+		}
+
+		public void requestMoveBackward() {
+			synchronized(ringAdvancesNeeded) {
+				ringAdvancesNeeded.decrementAndGet();
+				ringAdvancesNeeded.notifyAll();
 			}
 		}
 
 		@Override
-		public void run() {
+		public void run() throws InterruptedException {
 
-			synchronized(toRender) {
-				while(!isPaused) {
+			while(cacheThread == this) {
 
-					if(toRender.isEmpty()) {
-						try {
-							Log.i("SCROLL CACHE THREAD", "Waiting...");
-							toRender.wait();
-						} catch(InterruptedException e) {}
-					}
+				int value = 0;
 
-					if(!toRender.isEmpty()) {
-						Log.i("SCROLL CACHE THREAD", "Rendering #" + toRender.getFirst().globalItemId);
-						toRender.removeFirst().doCacheRender(width, false);
+				synchronized(ringAdvancesNeeded) {
+
+					while(cacheThread == this && (value = ringAdvancesNeeded.get()) == 0) {
+						ringAdvancesNeeded.wait();
 					}
 				}
 
-				Log.i("SCROLL CACHE THREAD", "Exiting");
+				if(value == 0) return;
+
+				if(value > 0) {
+					localCacheRing.moveForward();
+					ringAdvancesNeeded.decrementAndGet();
+				} else {
+					localCacheRing.moveBackward();
+					ringAdvancesNeeded.incrementAndGet();
+				}
 			}
 		}
 	}

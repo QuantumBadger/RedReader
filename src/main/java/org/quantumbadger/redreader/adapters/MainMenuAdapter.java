@@ -30,15 +30,15 @@ import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.fragments.MainMenuFragment;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.views.list.ListItemView;
-import org.quantumbadger.redreader.views.list.ListSectionHeader;
-import org.quantumbadger.redreader.views.list.MainMenuItem;
+import org.quantumbadger.redreader.views.list.ListSectionHeaderView;
+import org.quantumbadger.redreader.views.list.MenuItem;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 public class MainMenuAdapter extends BaseAdapter {
 
-	private final ArrayList<MainMenuItem> items = new ArrayList<MainMenuItem>(100);
+	private final ArrayList<MenuItem> items = new ArrayList<MenuItem>(100);
 	private final RedditAccount user;
 	private final MainMenuSelectionListener selectionListener;
 
@@ -100,18 +100,18 @@ public class MainMenuAdapter extends BaseAdapter {
 
 	public View getView(final int i, View convertView, final ViewGroup viewGroup) {
 
-		final MainMenuItem item = items.get(i);
+		final MenuItem item = items.get(i);
 
 		if(convertView == null) {
 			if(item.isHeader) {
-				convertView = new ListSectionHeader(viewGroup.getContext());
+				convertView = new ListSectionHeaderView(viewGroup.getContext());
 			} else {
 				convertView = new ListItemView(viewGroup.getContext());
 			}
 		}
 
 		if(item.isHeader) {
-			((ListSectionHeader)convertView).reset(item.title);
+			((ListSectionHeaderView)convertView).reset(item.title);
 		} else {
 			final boolean firstInSection = (i == 0) || items.get(i - 1).isHeader;
 			((ListItemView)convertView).reset(item.icon, item.title, firstInSection);
@@ -123,7 +123,7 @@ public class MainMenuAdapter extends BaseAdapter {
 	// Only run in UI thread
 	private void build() {
 
-		//items.add(new MainMenuItem("Reddit"));
+		//items.add(new MenuItem("Reddit"));
 
 		items.add(makeItem(context.getString(R.string.mainmenu_frontpage), MainMenuFragment.MainMenuAction.FRONTPAGE, null, null));
 		items.add(makeItem(context.getString(R.string.mainmenu_all), MainMenuFragment.MainMenuAction.ALL, null, null));
@@ -131,7 +131,7 @@ public class MainMenuAdapter extends BaseAdapter {
 
 		if(!user.isAnonymous()) {
 
-			items.add(new MainMenuItem(user.username));
+			items.add(new MenuItem(user.username));
 
 			items.add(makeItem(context.getString(R.string.mainmenu_profile), MainMenuFragment.MainMenuAction.PROFILE, null, rrIconPerson));
 			items.add(makeItem(context.getString(R.string.mainmenu_inbox), MainMenuFragment.MainMenuAction.INBOX, null, rrIconEnvOpen));
@@ -141,17 +141,17 @@ public class MainMenuAdapter extends BaseAdapter {
 			items.add(makeItem(context.getString(R.string.mainmenu_upvoted), MainMenuFragment.MainMenuAction.LIKED, null, rrIconThumbUp));
 		}
 
-		items.add(new MainMenuItem(context.getString(R.string.mainmenu_header_subreddits)));
+		items.add(new MenuItem(context.getString(R.string.mainmenu_header_subreddits)));
 		//items.add(makeItem("Add Subreddit", null, null, null)); // TODO
 
 		notifyDataSetChanged();
 	}
 
-	private MainMenuItem makeItem(final int nameRes, final MainMenuFragment.MainMenuAction action, final String actionName, final Drawable icon) {
+	private MenuItem makeItem(final int nameRes, final MainMenuFragment.MainMenuAction action, final String actionName, final Drawable icon) {
 		return makeItem(context.getString(nameRes), action, actionName, icon);
 	}
 
-	private MainMenuItem makeItem(final String name, final MainMenuFragment.MainMenuAction action, final String actionName, final Drawable icon) {
+	private MenuItem makeItem(final String name, final MainMenuFragment.MainMenuAction action, final String actionName, final Drawable icon) {
 
 		final View.OnClickListener clickListener = new View.OnClickListener() {
 			public void onClick(final View view) {
@@ -159,10 +159,10 @@ public class MainMenuAdapter extends BaseAdapter {
 			}
 		};
 
-		return new MainMenuItem(name, icon, clickListener, null);
+		return new MenuItem(name, icon, clickListener, null);
 	}
 
-	private MainMenuItem makeItem(final String name, final RedditSubreddit subreddit) {
+	private MenuItem makeItem(final String name, final RedditSubreddit subreddit) {
 
 		final View.OnClickListener clickListener = new View.OnClickListener() {
 			public void onClick(final View view) {
@@ -170,7 +170,7 @@ public class MainMenuAdapter extends BaseAdapter {
 			}
 		};
 
-		return new MainMenuItem(name, null, clickListener, null);
+		return new MenuItem(name, null, clickListener, null);
 	}
 
 	public void setSubreddits(final Collection<RedditSubreddit> subreddits) {

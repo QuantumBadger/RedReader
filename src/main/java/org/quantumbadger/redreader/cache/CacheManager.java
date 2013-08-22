@@ -43,7 +43,7 @@ import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
-import org.quantumbadger.redreader.common.UniqueSynchronizedQueue;
+import org.quantumbadger.redreader.common.collections.UniqueSynchronizedQueue;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
 import java.io.*;

@@ -15,26 +15,11 @@
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.settings;
+package org.quantumbadger.redreader.ui.views.touch;
 
-import android.os.Bundle;
-import org.holoeverywhere.preference.PreferenceActivity;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.common.PrefsUtility;
+public interface RRSingleTouchHandlerProvider {
 
-import java.util.List;
-
-public final class SettingsActivity extends PreferenceActivity {
-
-	@Override
-	protected void onCreate(final Bundle savedInstanceState) {
-		PrefsUtility.applyTheme(this);
-		super.onCreate(savedInstanceState);
-	}
-
-	@Override
-	public void onBuildHeaders(final List<Header> target) {
-
-		loadHeadersFromResource(R.xml.prefheaders, target);
-	}
+	public RRClickHandler getClickHandler(float x, float y);
+	public RRHSwipeHandler getHSwipeHandler(float x, float y);
+	public RRVSwipeHandler getVSwipeHandler(float x, float y);
 }

@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.activities;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -35,7 +34,6 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.AccountListDialog;
 import org.quantumbadger.redreader.listingcontrollers.CommentListingController;
 import org.quantumbadger.redreader.listingcontrollers.PostListingController;
-import org.quantumbadger.redreader.settings.SettingsActivity;
 
 public final class OptionsMenuUtility {
 
@@ -117,8 +115,8 @@ public final class OptionsMenuUtility {
 			case SETTINGS:
 				menu.add(activity.getString(R.string.options_settings)).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 					public boolean onMenuItemClick(final MenuItem item) {
-						final Intent intent = new Intent(activity, SettingsActivity.class);
-						activity.startActivityForResult(intent, 1);
+						//final Intent intent = new Intent(activity, SettingsActivity.class);
+						//activity.startActivityForResult(intent, 1);
 						return true;
 					}
 				});

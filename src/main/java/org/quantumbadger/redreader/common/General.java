@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.common;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -27,6 +28,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
+import android.text.TextPaint;
 import android.util.Log;
 import android.util.TypedValue;
 import android.widget.Toast;
@@ -330,5 +332,36 @@ public final class General {
 				return null;
 			}
 		}
+	}
+
+	public static void runOnUiThread(final Runnable runnable) {
+		new Handler(Looper.getMainLooper()).post(runnable);
+	}
+
+	public static Paint createPaint(int color) {
+		final Paint paint = new Paint();
+		paint.setColor(color);
+		return paint;
+	}
+
+	public static TextPaint createTextPaint(int color) {
+		final TextPaint paint = new TextPaint();
+		paint.setColor(color);
+		return paint;
+	}
+
+	public static double mean(final float[] input) {
+		double result = 0;
+		for(float f : input) result += f;
+		result /= input.length;
+		return result;
+	}
+
+	public static double euclideanDistanceSquared(final float x, final float y) {
+		return x*x + y*y;
+	}
+
+	public static double sq(final float x) {
+		return x*x;
 	}
 }

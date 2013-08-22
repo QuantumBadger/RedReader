@@ -15,30 +15,10 @@
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.ui.prefs;
+package org.quantumbadger.redreader.ui.views.touch;
 
-import android.net.Uri;
-
-import java.util.HashMap;
-
-public class RRPreferenceLink extends RRPreference {
-
-	private final Uri uri;
-
-	protected RRPreferenceLink parse(RRPrefs preferenceManager, HashMap<String, String> attributes, ItemSource itemSource)
-			throws NoSuchFieldException, IllegalAccessException {
-
-		final Uri uri = Uri.parse(attributes.get("uri"));
-
-		return new RRPreferenceLink(preferenceManager, attributes, itemSource, uri);
-	}
-
-	protected RRPreferenceLink(RRPrefs preferenceManager, HashMap<String, String> attributes, ItemSource itemSource, Uri uri) throws NoSuchFieldException, IllegalAccessException {
-		super(preferenceManager, attributes, itemSource);
-		this.uri = uri;
-	}
-
-	public Uri getUri() {
-		return uri;
-	}
+public interface RRVSwipeHandler {
+	public void onVSwipeBegin();
+	public void onVSwipeDelta(float dy);
+	public void onVSwipeEnd();
 }

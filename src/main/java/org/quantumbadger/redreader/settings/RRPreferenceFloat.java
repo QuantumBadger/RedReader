@@ -15,40 +15,47 @@
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.ui.prefs;
+package org.quantumbadger.redreader.settings;
 
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.util.HashMap;
 
-public class RRPreferenceBoolean extends RRPreference {
+public class RRPreferenceFloat extends RRPreference {
 
-	private boolean value;
+	private volatile String value;
+	private volatile float floatValue;
 
-	protected static RRPreferenceBoolean parse(RRPrefs preferenceManager, HashMap<String, String> attributes, ItemSource itemSource) throws NoSuchFieldException, IllegalAccessException, IOException, XmlPullParserException {
+	protected static RRPreferenceFloat parse(RRPrefs preferenceManager, HashMap<String, String> attributes, ItemSource itemSource) throws NoSuchFieldException, IllegalAccessException, IOException, XmlPullParserException {
 
 		final String id = attributes.get("id");
 
 		final String defaultValue = attributes.get("default");
 		final String userValue = preferenceManager.getRawUserPreference(id);
 
-		final boolean value = (userValue != null ? userValue : defaultValue).toLowerCase().equals("true");
+		final String value = userValue != null ? userValue : defaultValue;
 
-		return new RRPreferenceBoolean(preferenceManager, attributes, itemSource, value);
+		return new RRPreferenceFloat(preferenceManager, attributes, itemSource, value);
 	}
 
-	private RRPreferenceBoolean(RRPrefs preferenceManager, HashMap<String, String> attributes, ItemSource itemSource, boolean value) throws NoSuchFieldException, IllegalAccessException {
+	private RRPreferenceFloat(RRPrefs preferenceManager, HashMap<String, String> attributes, ItemSource itemSource, String value) throws NoSuchFieldException, IllegalAccessException {
 		super(preferenceManager, attributes, itemSource);
 		this.value = value;
+		this.floatValue = Float.parseFloat(value);
 	}
 
-	public boolean get() {
+	public String getRaw() {
 		return value;
 	}
 
-	public void set(boolean value) {
+	public float get() {
+		return floatValue;
+	}
+
+	public synchronized void set(String value) {
 		this.value = value;
-		setRawUserPreference(value ? "true" : "false");
+		this.floatValue = Float.parseFloat(value);
+		setRawUserPreference(String.valueOf(value));
 	}
 }

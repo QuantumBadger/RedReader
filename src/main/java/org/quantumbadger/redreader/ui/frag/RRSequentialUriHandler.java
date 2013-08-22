@@ -31,10 +31,10 @@ public class RRSequentialUriHandler extends RRUriHandler {
 	}
 
 	@Override
-	public Result handle(RRFragmentLayout fragmentManager, Uri uri, Mode mode, Bundle arguments) {
+	public Result handle(RRContext context, Uri uri, Mode mode, Bundle arguments) {
 
 		for(RRUriHandler handler : handlers) {
-			final Result r = handler.handle(fragmentManager, uri, mode, arguments);
+			final Result r = handler.handle(context, uri, mode, arguments);
 			if(r != null) return r;
 		}
 

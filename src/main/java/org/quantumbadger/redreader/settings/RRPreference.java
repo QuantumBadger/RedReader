@@ -15,28 +15,35 @@
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.ui.prefs;
+package org.quantumbadger.redreader.settings;
 
 import android.content.Context;
+import android.net.Uri;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.collections.WeakReferenceListManager;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
-import java.lang.ref.WeakReference;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 
 public abstract class RRPreference {
 
-	private final LinkedList<WeakReference<Listener>> listeners = new LinkedList<WeakReference<Listener>>();
+	private final WeakReferenceListManager<Listener> listeners = new WeakReferenceListManager<Listener>();
+	private final ListenerOperator listenerNotifyOperator = new ListenerOperator(this);
+
 	private final RRPrefs preferenceManager;
 
 	public final String id;
 	public final int titleString;
 
 	private ItemSource itemSource;
+
+	public Uri getUri() {
+		return Constants.Internal.getUri(Constants.Internal.URI_HOST_PREF, id);
+	}
 
 	protected static RRPreference parse(RRPrefs preferenceManager, XmlParserWrapper parser) throws XmlParserWrapper.RRParseException, NoSuchFieldException, IllegalAccessException, IOException, XmlPullParserException {
 
@@ -84,6 +91,8 @@ public abstract class RRPreference {
 				return RRPreferenceEnum.parse(preferenceManager, attributes, itemSource);
 			} else if(type.equals("Header")) {
 				return RRPreferenceHeader.parse(preferenceManager, attributes, itemSource);
+			} else if(type.equals("Link")) {
+				return RRPreferenceLink.parse(preferenceManager, attributes, itemSource);
 			} else {
 				throw new RuntimeException("Unknown preference type: " + type);
 			}
@@ -114,23 +123,8 @@ public abstract class RRPreference {
 	}
 
 	protected void setRawUserPreference(String value) {
-
 		preferenceManager.setRawUserPreference(id, value);
-
-		synchronized(this) {
-
-			final Iterator<WeakReference<Listener>> iter = listeners.iterator();
-
-			while(iter.hasNext()) {
-				final Listener listener = iter.next().get();
-
-				if(listener == null) {
-					iter.remove();
-				} else {
-					listener.onPreferenceChanged(this);
-				}
-			}
-		}
+		listeners.map(listenerNotifyOperator);
 	}
 
 	protected RRPreference getPreferenceById(String name) throws NoSuchFieldException, IllegalAccessException {
@@ -138,11 +132,28 @@ public abstract class RRPreference {
 	}
 
 	public final synchronized void addListener(Listener listener) {
-		listeners.add(new WeakReference<Listener>(listener));
+		listeners.add(listener);
 	}
 
-	public interface Listener {
+	public final synchronized void removeListener(final Listener listener) {
+		listeners.remove(listener);
+	}
+
+	public static interface Listener {
 		public void onPreferenceChanged(RRPreference preference);
+	}
+
+	public static final class ListenerOperator implements WeakReferenceListManager.Operator<Listener> {
+
+		private final RRPreference preference;
+
+		public ListenerOperator(RRPreference preference) {
+			this.preference = preference;
+		}
+
+		public void operate(Listener listener) {
+			listener.onPreferenceChanged(preference);
+		}
 	}
 
 	private ItemSource getItemSource() {
@@ -153,8 +164,12 @@ public abstract class RRPreference {
 		this.itemSource = itemSource;
 	}
 
-	public Item[] getItems() throws NoSuchFieldException, IllegalAccessException {
-		return itemSource.getItems(this);
+	public Item[] getItems() {
+		try {
+			return itemSource.getItems(this);
+		} catch(Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 
@@ -191,7 +206,7 @@ public abstract class RRPreference {
 		}
 	}
 
-	protected static abstract class Item {
+	public static abstract class Item {
 
 		public final String value;
 
@@ -230,5 +245,26 @@ public abstract class RRPreference {
 		public String getName(Context context) {
 			return context.getString(name);
 		}
+	}
+
+	public Item getItem(String value) {
+
+		final Item[] allItems;
+
+		try {
+			allItems = getItems();
+		} catch(Exception e) {
+			throw new RuntimeException(e);
+		}
+
+		for(final Item item : allItems) {
+			if(value.equals(item.value)) return item;
+		}
+
+		return null;
+	}
+
+	public boolean isGreyedOut() {
+		return false;
 	}
 }

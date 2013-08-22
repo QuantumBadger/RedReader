@@ -53,11 +53,7 @@ public class ListItemView extends FrameLayout {
 
 	public void reset(final Drawable icon, final CharSequence text, final boolean hideDivider) {
 
-		if(hideDivider) {
-			divider.setVisibility(View.GONE);
-		} else {
-			divider.setVisibility(View.VISIBLE);
-		}
+		divider.setVisibility(hideDivider ? View.GONE : View.VISIBLE);
 
 		textView.setText(text);
 

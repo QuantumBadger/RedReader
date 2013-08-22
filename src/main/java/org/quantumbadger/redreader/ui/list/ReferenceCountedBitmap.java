@@ -19,25 +19,33 @@ package org.quantumbadger.redreader.ui.list;
 
 import android.graphics.Bitmap;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public final class ReferenceCountedBitmap {
 
-	private int references = 0;
+	private final AtomicInteger references = new AtomicInteger(1);
 	private final Bitmap bitmap;
-
 
 	public ReferenceCountedBitmap(Bitmap bitmap) {
 		this.bitmap = bitmap;
 	}
 
-	public synchronized Bitmap lock() {
-		if(bitmap.isRecycled()) return null;
-		references++;
-		return bitmap;
+	public Bitmap lock() {
+		return !bitmap.isRecycled() && doLock() ? bitmap : null;
 	}
 
-	public synchronized void release() {
-		references--;
-		if(references == 0) {
+	private boolean doLock() {
+
+		while(true) {
+			final int refCount = references.get();
+			if(refCount == 0) return false;
+			if(references.compareAndSet(refCount, refCount + 1)) return true;
+		}
+	}
+
+	public void release() {
+
+		if(references.decrementAndGet() == 0) {
 			bitmap.recycle();
 		}
 	}

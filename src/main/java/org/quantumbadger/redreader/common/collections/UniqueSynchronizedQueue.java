@@ -15,29 +15,39 @@
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.ui.frag;
+package org.quantumbadger.redreader.common.collections;
 
-import android.net.Uri;
-import android.os.Bundle;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.LinkedList;
 
-public abstract class RRUriHandler {
+public class UniqueSynchronizedQueue<E> {
 
-	public abstract Result handle(RRContext context, Uri uri, Mode mode, Bundle arguments);
+	private final HashSet<E> set = new HashSet<E>();
+	private final LinkedList<E> queue = new LinkedList<E>();
 
-	public class Result {
-
-		public final RRFragment fragmentToOpen;
-
-		public Result() {
-			this(null);
-		}
-
-		public Result(RRFragment fragment) {
-			fragmentToOpen = fragment;
+	public synchronized void enqueue(E object) {
+		if(set.add(object)) {
+			queue.addLast(object);
 		}
 	}
 
-	public enum Mode {
-		ANY, FORCE_INTERNAL_BROWSER, FORCE_EXTERNAL_BROWSER
+	public synchronized void enqueue(Collection<E> objects) {
+		for(E object : objects) {
+			enqueue(object);
+		}
+	}
+
+	public synchronized E dequeue() {
+
+		if(queue.isEmpty()) return null;
+
+		final E result = queue.removeFirst();
+		set.remove(result);
+		return result;
+	}
+
+	public boolean isEmpty() {
+		return queue.isEmpty();
 	}
 }

@@ -20,7 +20,7 @@ package org.quantumbadger.redreader.views.list;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
-public final class MainMenuItem implements View.OnClickListener {
+public final class MenuItem implements View.OnClickListener {
 
 	public final String title;
 	public final Drawable icon;
@@ -28,7 +28,7 @@ public final class MainMenuItem implements View.OnClickListener {
 	private final View.OnClickListener clickListener;
 	private final View.OnLongClickListener longClickListener;
 
-	public MainMenuItem(final String title) {
+	public MenuItem(final String title) {
 		this.title = title;
 		icon = null;
 		isHeader = true;
@@ -36,7 +36,7 @@ public final class MainMenuItem implements View.OnClickListener {
 		longClickListener = null;
 	}
 
-	public MainMenuItem(final String title, final Drawable icon, final View.OnClickListener clickListener, final View.OnLongClickListener longClickListener) {
+	public MenuItem(final String title, final Drawable icon, final View.OnClickListener clickListener, final View.OnLongClickListener longClickListener) {
 		this.title = title;
 		this.icon = icon;
 		isHeader = false;

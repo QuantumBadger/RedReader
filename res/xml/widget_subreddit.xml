@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:initialLayout="@layout/widget_subreddit"
+                    android:minHeight="72dp"
+                    android:minWidth="146dp"
+                    android:resizeMode="horizontal|vertical"
+                    android:updatePeriodMillis="180000">
+
+</appwidget-provider>

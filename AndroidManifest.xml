@@ -22,48 +22,78 @@
           android:versionName="2.0.0_a01"
           android:installLocation="auto">
 
-    <uses-sdk android:minSdkVersion="8"
-              android:targetSdkVersion="16" />
+    <uses-sdk
+            android:minSdkVersion="8"
+            android:targetSdkVersion="16"/>
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
-    <application android:name="org.quantumbadger.redreader.RedReader"
-                 android:icon="@drawable/icon"
-                 android:label="@string/app_name"
-                 android:theme="@style/RR.Startup"
-                 android:largeHeap="true"
-                 android:hardwareAccelerated="true"
-                 android:allowBackup="true">
+    <application
+            android:name="org.quantumbadger.redreader.RedReader"
+            android:icon="@drawable/icon"
+            android:label="@string/app_name"
+            android:theme="@style/RR.Startup"
+            android:largeHeap="true"
+            android:hardwareAccelerated="true"
+            android:allowBackup="true">
 
-        <activity android:name=".activities.MainActivity"
-                  android:configChanges="orientation|screenSize|keyboardHidden"
-                  android:clearTaskOnLaunch="false"
-                  android:finishOnTaskLaunch="false">
+        <activity
+                android:name=".activities.MainActivity"
+                android:configChanges="orientation|screenSize|keyboardHidden"
+                android:clearTaskOnLaunch="false"
+                android:finishOnTaskLaunch="false">
 
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER"/>
             </intent-filter>
 
         </activity>
 
-        <activity android:name=".activities.BugReportActivity"
-                  android:configChanges="orientation|screenSize|keyboardHidden"
-                  android:theme="@style/Holo.Theme"
-                  android:launchMode="singleInstance"/>
+        <activity
+                android:name=".activities.BugReportActivity"
+                android:configChanges="orientation|screenSize|keyboardHidden"
+                android:theme="@style/Holo.Theme"
+                android:launchMode="singleInstance"/>
 
-        <uses-library android:required="false" android:name="com.sec.android.app.multiwindow" />
-        <meta-data android:name="com.sec.android.support.multiwindow" android:value="true" />
+        <uses-library
+                android:required="false"
+                android:name="com.sec.android.app.multiwindow"/>
 
-        <meta-data android:name="com.sec.android.multiwindow.DEFAULT_SIZE_W" android:resource="@dimen/app_defaultsize_w" />
-        <meta-data android:name="com.sec.android.multiwindow.DEFAULT_SIZE_H" android:resource="@dimen/app_defaultsize_h" />
-        <meta-data android:name="com.sec.android.multiwindow.MINIMUM_SIZE_W" android:resource="@dimen/app_minimumsize_w" />
-        <meta-data android:name="com.sec.android.multiwindow.MINIMUM_SIZE_H" android:resource="@dimen/app_minimumsize_h" />
+        <meta-data
+                android:name="com.sec.android.support.multiwindow"
+                android:value="true"/>
 
+        <meta-data
+                android:name="com.sec.android.multiwindow.DEFAULT_SIZE_W"
+                android:resource="@dimen/app_defaultsize_w"/>
+        <meta-data
+                android:name="com.sec.android.multiwindow.DEFAULT_SIZE_H"
+                android:resource="@dimen/app_defaultsize_h"/>
+        <meta-data
+                android:name="com.sec.android.multiwindow.MINIMUM_SIZE_W"
+                android:resource="@dimen/app_minimumsize_w"/>
+        <meta-data
+                android:name="com.sec.android.multiwindow.MINIMUM_SIZE_H"
+                android:resource="@dimen/app_minimumsize_h"/>
+
+
+        <receiver
+                android:name=".widgets.SubredditWidgetProvider"
+                android:icon="@drawable/icon"
+                android:label="Subreddit Widget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data
+                    android:name="android.appwidget.provider"
+                    android:resource="@xml/widget_subreddit"/>
+        </receiver>
     </application>
 
 </manifest>

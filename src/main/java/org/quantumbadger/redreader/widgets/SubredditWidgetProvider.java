@@ -7,6 +7,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -67,5 +68,29 @@ public class SubredditWidgetProvider extends AppWidgetProvider {
             remoteViews.setOnClickPendingIntent(R.id.refresh_btn, pendingIntent);
             appWidgetManager.updateAppWidget(widgetId, remoteViews);
         }
+    }
+
+    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
+                                int appWidgetId, String subreddit) {
+        Log.d("LOG UPDATE APP", "updateAppWidget appWidgetId=" + appWidgetId + " subreddit=" + subreddit);
+
+
+        // Construct the RemoteViews object.  It takes the package name (in our case, it's our
+        // package, but it needs this because on the other side it's the widget host inflating
+        // the layout from our package).
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_subreddit);
+        views.setTextViewText(R.id.subreddit_name, subreddit);
+
+        // Register an onClickListener
+        Intent intent = new Intent(context, SubredditWidgetProvider.class);
+
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
+                0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setOnClickPendingIntent(R.id.refresh_btn, pendingIntent);
+        // Tell the widget manager
+        appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 }

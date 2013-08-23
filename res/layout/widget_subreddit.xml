@@ -8,12 +8,28 @@
               android:orientation="vertical"
         >
 
-    <ImageButton
-            android:id="@+id/refresh_btn"
-            android:layout_width="wrap_content"
+    <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?android:attr/selectableItemBackground"
-            android:src="@drawable/ic_action_refresh_dark"/>
+            android:orientation="horizontal">
+
+        <ImageButton
+                android:id="@+id/refresh_btn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/ic_action_refresh_dark"/>
+
+        <TextView
+                android:id="@+id/subreddit_name"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                style="@style/Holo.TextAppearance.Large"
+                android:gravity="center_vertical"
+                android:text="/r/adviceanimals"
+                />
+    </LinearLayout>
+
 
     <TextView
             android:id="@+id/update_tv"

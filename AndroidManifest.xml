@@ -94,6 +94,12 @@
                     android:name="android.appwidget.provider"
                     android:resource="@xml/widget_subreddit"/>
         </receiver>
+        <activity android:name=".widgets.SubredditWidgetConfigure">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

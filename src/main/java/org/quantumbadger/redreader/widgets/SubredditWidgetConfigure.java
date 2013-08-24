@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-
 import org.holoeverywhere.ArrayAdapter;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.widget.Spinner;

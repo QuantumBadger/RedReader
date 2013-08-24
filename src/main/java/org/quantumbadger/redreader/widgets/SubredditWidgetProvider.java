@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
-
 import org.quantumbadger.redreader.R;
 
 import java.util.Random;

@@ -102,6 +102,12 @@
             </intent-filter>
         </receiver>
         <service android:name=".reddit.RedditInboxPoller"/>
+        <activity android:name=".widgets.SubredditWidgetConfigure">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

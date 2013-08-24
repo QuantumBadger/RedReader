@@ -14,7 +14,7 @@ Features
 * Two-column tablet mode (can be used on your phone, if it's big enough)
 * Image precaching (optional: always, never, or Wi-Fi only).
 * Built in image viewer, and GIF player.
-* Compression - both during downloads, and in cache storage.
+* Downloads are compressed to save bandwidth.
 * Night mode (i.e. a dark theme)
 * Holo theme on every device
 * Support for Android 2.2+ (but works best on Android 4.0+)
@@ -50,6 +50,8 @@ License
 -------
 
 RedReader is licensed under the GPL, version 3. A copy of the license is included in "LICENSE.txt".
+
+Bitcoin donations are accepted at the following address: `1874wapGxDo2vEp4avisda4gx3SCjsHCQJ`
 
 
 Thanks

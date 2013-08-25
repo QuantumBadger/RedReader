@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.ui.list;
 
 import android.graphics.Canvas;
-import org.quantumbadger.redreader.common.InterruptableThread;
 import org.quantumbadger.redreader.common.RRSchedulerManager;
 import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
 import org.quantumbadger.redreader.ui.frag.RRFragmentContext;
@@ -29,8 +28,6 @@ import org.quantumbadger.redreader.ui.views.touch.RRSingleTouchViewWrapper;
 import org.quantumbadger.redreader.ui.views.touch.RRVSwipeHandler;
 import org.quantumbadger.redreader.views.list.RRSwipeVelocityTracker2D;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 public final class RRListView extends RRSingleTouchViewWrapper implements RRViewParent, RRVSwipeHandler {
 
 	private final RRListViewContents contents = new RRListViewContents(this);
@@ -40,9 +37,10 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 
 	private int firstVisibleItemPos = 0, lastVisibleItemPos = -1, pxInFirstVisibleItem = 0;
 
-	private volatile boolean isPaused = true, isMeasured = false;
+	// TODO due to synchronization, most of this stuff doesn't need to be volatile any more
+	private volatile boolean isPaused = true, isCacheEnabled = false, isMeasured = false;
 
-	private RRListViewCacheBlockRing cacheRing;
+	private volatile RRListViewCacheBlockRing cacheRing = null;
 	private int pxInFirstCacheBlock = 0;
 
 	private final RRSchedulerManager.RRSingleTaskScheduler cacheEnableTimer;
@@ -51,8 +49,6 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 			enableCache();
 		}
 	};
-
-	private volatile CacheThread cacheThread = null;
 
 	private final RRSwipeVelocityTracker2D velocityTracker = new RRSwipeVelocityTracker2D();
 	private float velocity = 0;
@@ -68,6 +64,7 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 		brieflyDisableCache();
 
 		if(cacheRing != null) {
+			cacheRing.onPause();
 			cacheRing.recycle();
 			cacheRing = null;
 		}
@@ -106,6 +103,7 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 		if(!isMeasured) throw new UnexpectedInternalStateException();
 
 		cacheEnableTimer.cancel();
+		isCacheEnabled = true;
 
 		if(cacheRing == null) {
 			cacheRing = new RRListViewCacheBlockRing(width, height / 2, 5);
@@ -113,11 +111,7 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 
 		pxInFirstCacheBlock = 0;
 		cacheRing.assign(flattenedContents, firstVisibleItemPos, pxInFirstVisibleItem);
-
-		if(cacheThread == null) {
-			cacheThread = new CacheThread(cacheRing);
-			cacheThread.start();
-		}
+		cacheRing.onResume();
 
 		postInvalidate();
 	}
@@ -128,14 +122,9 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 	}
 
 	private synchronized void disableCache() {
-
 		cacheEnableTimer.cancel();
-
-		if(cacheThread != null) {
-			cacheThread.stop();
-			cacheThread = null;
-		}
-
+		isCacheEnabled = false;
+		if(cacheRing != null) cacheRing.onPause();
 		postInvalidate();
 	}
 
@@ -173,15 +162,15 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 			pxInFirstVisibleItem -= items[firstVisibleItemPos++].getOuterHeight();
 		}
 
-		if(cacheThread != null) {
+		if(isCacheEnabled && cacheRing != null) {
 			while(pxInFirstCacheBlock < 0) {
 				pxInFirstCacheBlock += cacheRing.blockHeight;
-				cacheThread.requestMoveBackward();
+				cacheRing.moveBackward();
 			}
 
 			while(pxInFirstCacheBlock >= cacheRing.blockHeight) {
 				pxInFirstCacheBlock -= cacheRing.blockHeight;
-				cacheThread.requestMoveForward();
+				cacheRing.moveForward();
 			}
 		}
 
@@ -227,7 +216,7 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 
 		final RRListViewFlattenedContents fc = flattenedContents;
 
-		if(cacheThread == null) {
+		if(!isCacheEnabled || cacheRing == null) {
 
 			canvas.save();
 
@@ -287,56 +276,5 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 	public void onVSwipeEnd(long timestamp) {
 		velocity = velocityTracker.getVelocity(timestamp);
 		invalidate();
-	}
-
-	private final class CacheThread extends InterruptableThread {
-
-		private final RRListViewCacheBlockRing localCacheRing;
-		public final AtomicInteger ringAdvancesNeeded = new AtomicInteger(0);
-
-		private CacheThread(RRListViewCacheBlockRing cacheRing) {
-			super("CacheThread");
-			this.localCacheRing = cacheRing;
-		}
-
-		public void requestMoveForward() {
-			synchronized(ringAdvancesNeeded) {
-				ringAdvancesNeeded.incrementAndGet();
-				ringAdvancesNeeded.notifyAll();
-			}
-		}
-
-		public void requestMoveBackward() {
-			synchronized(ringAdvancesNeeded) {
-				ringAdvancesNeeded.decrementAndGet();
-				ringAdvancesNeeded.notifyAll();
-			}
-		}
-
-		@Override
-		public void run() throws InterruptedException {
-
-			while(cacheThread == this) {
-
-				int value = 0;
-
-				synchronized(ringAdvancesNeeded) {
-
-					while(cacheThread == this && (value = ringAdvancesNeeded.get()) == 0) {
-						ringAdvancesNeeded.wait();
-					}
-				}
-
-				if(value == 0) return;
-
-				if(value > 0) {
-					localCacheRing.moveForward();
-					ringAdvancesNeeded.decrementAndGet();
-				} else {
-					localCacheRing.moveBackward();
-					ringAdvancesNeeded.incrementAndGet();
-				}
-			}
-		}
 	}
 }

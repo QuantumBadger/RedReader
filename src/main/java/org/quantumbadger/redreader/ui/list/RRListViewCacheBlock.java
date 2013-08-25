@@ -13,11 +13,14 @@ public class RRListViewCacheBlock {
 	private final int width, height;
 
 	protected int firstVisibleItemPos, pxInFirstVisibleItem;
+	private RRListViewFlattenedContents data;
 
 	private final ReentrantLock updateLock = new ReentrantLock();
 
 	private final int backgroundCol;
 	private static final Paint invalidPaint = General.createPaint(Color.MAGENTA);
+
+	private volatile boolean invalidated = true, assigned = false;
 
 	public RRListViewCacheBlock(final int width, final int height, final int backgroundCol) {
 		cache = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
@@ -31,8 +34,28 @@ public class RRListViewCacheBlock {
 
 		updateLock.lock();
 
+		invalidated = true;
 		this.firstVisibleItemPos = firstVisibleItemPos;
 		this.pxInFirstVisibleItem = pxInFirstVisibleItem;
+		this.data = data;
+		assigned = true;
+
+		updateLock.unlock();
+	}
+
+	public boolean lockRender() {
+
+		updateLock.lock();
+
+		if(invalidated && assigned) {
+			return true;
+		} else {
+			updateLock.unlock();
+			return false;
+		}
+	}
+
+	public void doRender() {
 
 		final RRListViewItem[] items = data.items;
 
@@ -71,11 +94,15 @@ public class RRListViewCacheBlock {
 
 		canvas.restore();
 
+		invalidated = false;
+
 		updateLock.unlock();
 	}
 
 	public boolean draw(Canvas canvas) {
 
+		// TODO no need to try locking here - a short pause is better than the magenta background
+		// TODO replace lock with synchronization
 		if(updateLock.tryLock()) {
 			canvas.drawBitmap(cache, 0, 0, null);
 			updateLock.unlock();

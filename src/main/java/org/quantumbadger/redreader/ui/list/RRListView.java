@@ -18,17 +18,19 @@
 package org.quantumbadger.redreader.ui.list;
 
 import android.graphics.Canvas;
-import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.InterruptableThread;
 import org.quantumbadger.redreader.common.RRSchedulerManager;
 import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
 import org.quantumbadger.redreader.ui.frag.RRFragmentContext;
-import org.quantumbadger.redreader.ui.frag.RRViewWrapper;
 import org.quantumbadger.redreader.ui.views.RRViewParent;
+import org.quantumbadger.redreader.ui.views.touch.RRClickHandler;
+import org.quantumbadger.redreader.ui.views.touch.RRHSwipeHandler;
+import org.quantumbadger.redreader.ui.views.touch.RRSingleTouchViewWrapper;
+import org.quantumbadger.redreader.ui.views.touch.RRVSwipeHandler;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-public final class RRListView extends RRViewWrapper implements RRViewParent {
+public final class RRListView extends RRSingleTouchViewWrapper implements RRViewParent, RRVSwipeHandler {
 
 	private final RRListViewContents contents = new RRListViewContents(this);
 	private volatile RRListViewFlattenedContents flattenedContents;
@@ -52,7 +54,7 @@ public final class RRListView extends RRViewWrapper implements RRViewParent {
 	private volatile CacheThread cacheThread = null;
 
 	public RRListView(RRFragmentContext context) {
-		super(context.activity);
+		super(context);
 		cacheEnableTimer = context.scheduler.obtain();
 		setWillNotDraw(false);
 	}
@@ -146,7 +148,7 @@ public final class RRListView extends RRViewWrapper implements RRViewParent {
 		clearCacheRing();
 	}
 
-	public synchronized void scrollBy(int px) {
+	public synchronized void scrollBy(float px) {
 		pxInFirstVisibleItem += px;
 		pxInFirstCacheBlock += px;
 		recalculateLastVisibleItem();
@@ -192,34 +194,6 @@ public final class RRListView extends RRViewWrapper implements RRViewParent {
 		this.lastVisibleItemPos = lastVisibleItemPos;
 	}
 
-	private int lastYPos = -1;
-
-	@Override
-	protected void onTouchEvent(TouchEvent e) {
-
-		if(e.pointerCount != 1 || e.isFollowingPointerUp) {
-			// TODO disallow tap and hover events - allow only swipes
-		}
-
-		// TODO don't allow use of mean pos when horizontal swiping, tapping, etc
-		// (although tapping can only be done with one finger anyway, with !followingPointerUp)
-		final float meanYPos = e.pointerCount > 1 ? (float)General.mean(e.yPos) : e.yPos[0];
-
-		switch(e.type) {
-
-			case MOVE:
-				scrollBy(Math.round(lastYPos - meanYPos));
-				invalidate();
-
-			case BEGIN:
-				lastYPos = Math.round(meanYPos);
-				break;
-
-			case CANCEL:
-			case FINISH:
-				break;
-		}
-	}
 
 	public synchronized void onResume() {
 		if(!isPaused) throw new UnexpectedInternalStateException();
@@ -266,6 +240,33 @@ public final class RRListView extends RRViewWrapper implements RRViewParent {
 
 	public void rrRequestLayout() {
 		// TODO completely flush and rebuild cache manager
+	}
+
+	public RRClickHandler getClickHandler(float x, float y) {
+		// TODO if velocity != 0, return null, set velocity = 0
+		// TODO else, return the item at that y coord
+		return null;
+	}
+
+	public RRHSwipeHandler getHSwipeHandler(float x, float y) {
+		// TODO return item at that y coord
+		return null;
+	}
+
+	public RRVSwipeHandler getVSwipeHandler(float x, float y) {
+		return this;
+	}
+
+	public void onVSwipeBegin() {
+	}
+
+	public void onVSwipeDelta(float dy) {
+		scrollBy(-dy);
+		invalidate();
+	}
+
+	public void onVSwipeEnd() {
+		// TODO set velocity
 	}
 
 	private final class CacheThread extends InterruptableThread {

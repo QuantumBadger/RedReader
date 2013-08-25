@@ -68,15 +68,15 @@ public class RRTouchTestFragment extends RRFragment {
 
 			public RRVSwipeHandler getVSwipeHandler(float x, float y) {
 				return new RRVSwipeHandler() {
-					public void onVSwipeBegin() {
+					public void onVSwipeBegin(long timestamp) {
 						Log.i("RRTouchTestFragment", String.format("onVSwipeBegin()"));
 					}
 
-					public void onVSwipeDelta(float dx) {
+					public void onVSwipeDelta(long timestamp, float dx) {
 						Log.i("RRTouchTestFragment", String.format("onVSwipeDelta(%.1f)", dx));
 					}
 
-					public void onVSwipeEnd() {
+					public void onVSwipeEnd(long timestamp) {
 						Log.i("RRTouchTestFragment", String.format("onVSwipeEnd()"));
 					}
 				};

@@ -124,7 +124,7 @@ public abstract class RRSingleTouchViewWrapper extends RRViewWrapper implements 
 								vSwipeHandler = getVSwipeHandler(e.xPos[0], e.yPos[0]);
 
 								if(vSwipeHandler != null) {
-									vSwipeHandler.onVSwipeBegin();
+									vSwipeHandler.onVSwipeBegin(e.currentTime);
 									currentState = GlobalTouchDetectionState.IN_V_SWIPE;
 								} else {
 									currentState = GlobalTouchDetectionState.IGNORE;
@@ -139,7 +139,7 @@ public abstract class RRSingleTouchViewWrapper extends RRViewWrapper implements 
 						break;
 
 					case IN_V_SWIPE:
-						vSwipeHandler.onVSwipeDelta(e.yDelta(0));
+						vSwipeHandler.onVSwipeDelta(e.currentTime, e.yDelta(0));
 						break;
 
 					case IGNORE:
@@ -169,7 +169,7 @@ public abstract class RRSingleTouchViewWrapper extends RRViewWrapper implements 
 						break;
 
 					case IN_V_SWIPE:
-						vSwipeHandler.onVSwipeEnd();
+						vSwipeHandler.onVSwipeEnd(e.currentTime);
 						break;
 
 					case NOT_A_CLICK:

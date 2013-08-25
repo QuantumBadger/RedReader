@@ -27,6 +27,7 @@ import org.quantumbadger.redreader.ui.views.touch.RRClickHandler;
 import org.quantumbadger.redreader.ui.views.touch.RRHSwipeHandler;
 import org.quantumbadger.redreader.ui.views.touch.RRSingleTouchViewWrapper;
 import org.quantumbadger.redreader.ui.views.touch.RRVSwipeHandler;
+import org.quantumbadger.redreader.views.list.RRSwipeVelocityTracker2D;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -52,6 +53,9 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 	};
 
 	private volatile CacheThread cacheThread = null;
+
+	private final RRSwipeVelocityTracker2D velocityTracker = new RRSwipeVelocityTracker2D();
+	private float velocity = 0;
 
 	public RRListView(RRFragmentContext context) {
 		super(context);
@@ -213,6 +217,14 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 
 		if(flattenedContents == null) return;
 
+		if(Math.abs(velocity) > 0.2) {
+			scrollBy(velocity / 60f);
+			velocity *= 0.975;
+			invalidate();
+		} else {
+			velocity = 0;
+		}
+
 		final RRListViewFlattenedContents fc = flattenedContents;
 
 		if(cacheThread == null) {
@@ -243,6 +255,12 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 	}
 
 	public RRClickHandler getClickHandler(float x, float y) {
+
+		if(Math.abs(velocity) > 0.2) {
+			velocity = 0;
+			return null;
+		}
+
 		// TODO if velocity != 0, return null, set velocity = 0
 		// TODO else, return the item at that y coord
 		return null;
@@ -257,22 +275,24 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 		return this;
 	}
 
-	public void onVSwipeBegin() {
+	public void onVSwipeBegin(long timestamp) {
 	}
 
-	public void onVSwipeDelta(float dy) {
+	public void onVSwipeDelta(long timestamp, float dy) {
 		scrollBy(-dy);
+		velocityTracker.addDelta(timestamp, -dy);
 		invalidate();
 	}
 
-	public void onVSwipeEnd() {
-		// TODO set velocity
+	public void onVSwipeEnd(long timestamp) {
+		velocity = velocityTracker.getVelocity(timestamp);
+		invalidate();
 	}
 
 	private final class CacheThread extends InterruptableThread {
 
 		private final RRListViewCacheBlockRing localCacheRing;
-		private final AtomicInteger ringAdvancesNeeded = new AtomicInteger(0);
+		public final AtomicInteger ringAdvancesNeeded = new AtomicInteger(0);
 
 		private CacheThread(RRListViewCacheBlockRing cacheRing) {
 			super("CacheThread");

@@ -10,6 +10,8 @@ public final class RRListViewCacheBlockRing {
 	private final FixedCircularList<RRListViewCacheBlock> blocks;
 	public final int blockHeight;
 
+	private final Object updateLock = new Object();
+
 	private RRListViewFlattenedContents data;
 
 	public RRListViewCacheBlockRing(final int blockWidth, final int blockHeight, final int blockCount) {
@@ -24,26 +26,32 @@ public final class RRListViewCacheBlockRing {
 
 	public synchronized void assign(final RRListViewFlattenedContents data, final int firstVisibleItemPos, final int pxInFirstVisibleItem) {
 
-		this.data = data;
+		synchronized(updateLock) {
+			this.data = data;
 
-		for(int i = -1; i < blocks.size - 1; i++) {
-			blocks.getRelative(i).assign(data, firstVisibleItemPos, pxInFirstVisibleItem + i * blockHeight);
+			for(int i = -1; i < blocks.size - 1; i++) {
+				blocks.getRelative(i).assign(data, firstVisibleItemPos, pxInFirstVisibleItem + i * blockHeight);
+			}
 		}
 	}
 
 	public synchronized void moveForward() {
-		blocks.moveRelative(1);
+		synchronized(updateLock) {
+			blocks.moveRelative(1);
+		}
 		final RRListViewCacheBlock penultimateBlock = blocks.getRelative(-3);
 		blocks.getRelative(-2).assign(data, penultimateBlock.firstVisibleItemPos, penultimateBlock.pxInFirstVisibleItem + blockHeight);
 	}
 
 	public synchronized void moveBackward() {
-		blocks.moveRelative(-1);
+		synchronized(updateLock) {
+			blocks.moveRelative(-1);
+		}
 		final RRListViewCacheBlock secondBlock = blocks.getRelative(0);
 		blocks.getRelative(-1).assign(data, secondBlock.firstVisibleItemPos, secondBlock.pxInFirstVisibleItem - blockHeight);
 	}
 
-	public synchronized boolean draw(final Canvas canvas, final int canvasHeight, final int vOffset) {
+	public boolean draw(final Canvas canvas, final int canvasHeight, final int vOffset) {
 
 		if(canvasHeight / 2 != blockHeight) throw new UnexpectedInternalStateException(String.format("Canvas height: %d. Block height: %d", canvasHeight, blockHeight));
 
@@ -55,10 +63,13 @@ public final class RRListViewCacheBlockRing {
 
 		canvas.translate(0, vOffset);
 
-		while(totalHeight < canvasHeight) {
-			if(!blocks.getRelative(block++).draw(canvas)) drawSuccessful = false;
-			canvas.translate(0, blockHeight);
-			totalHeight += blockHeight;
+		synchronized(updateLock) {
+
+			while(totalHeight < canvasHeight) {
+				if(!blocks.getRelative(block++).draw(canvas)) drawSuccessful = false;
+				canvas.translate(0, blockHeight);
+				totalHeight += blockHeight;
+			}
 		}
 
 		canvas.restore();
@@ -71,6 +82,9 @@ public final class RRListViewCacheBlockRing {
 	}
 
 	private int debugBlockCol(int id) {
+
+		if(id < 100) return Color.TRANSPARENT;
+
 		switch(id) {
 			case 0: return Color.RED;
 			case 1: return Color.GREEN;

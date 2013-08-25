@@ -19,12 +19,14 @@ package org.quantumbadger.redreader.ui.frag;
 
 import android.content.Context;
 import android.view.MotionEvent;
+import android.view.VelocityTracker;
 import android.view.View;
 import org.quantumbadger.redreader.common.General;
 
 public abstract class RRViewWrapper extends View {
 
 	private final TouchEvent reusableTouchEvent = new TouchEvent();
+	private final VelocityTracker velocityTracker = VelocityTracker.obtain();
 
 	public RRViewWrapper(Context context) {
 		super(context);
@@ -153,8 +155,15 @@ public abstract class RRViewWrapper extends View {
 		}
 	}
 
+	public final float getVVelocity() {
+		velocityTracker.computeCurrentVelocity(1000);
+		return velocityTracker.getYVelocity();
+	}
+
 	@Override
 	public final boolean onTouchEvent(final MotionEvent rawEvent) {
+
+		velocityTracker.addMovement(rawEvent);
 
 		final int action = rawEvent.getActionMasked();
 		final TouchEvent event = this.reusableTouchEvent;

@@ -19,12 +19,16 @@ package org.quantumbadger.redreader.views.list;
 
 public final class RRSwipeVelocityTracker2D {
 
-	private final SwipeHistory swipeHistory = new SwipeHistory(32);
+	private final SwipeHistory swipeHistory = new SwipeHistory(64);
 	private float position = 0;
 
 	public void addDelta(long timestamp, float dx) {
 		position += dx;
 		swipeHistory.add(position, timestamp);
+	}
+
+	public void clear() {
+		swipeHistory.clear();
 	}
 
 	public float getVelocity(long timestamp) {

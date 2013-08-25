@@ -26,8 +26,8 @@ import org.quantumbadger.redreader.ui.views.touch.RRClickHandler;
 import org.quantumbadger.redreader.ui.views.touch.RRHSwipeHandler;
 import org.quantumbadger.redreader.ui.views.touch.RRSingleTouchViewWrapper;
 import org.quantumbadger.redreader.ui.views.touch.RRVSwipeHandler;
-import org.quantumbadger.redreader.views.list.RRSwipeVelocityTracker2D;
 
+// TODO require that all operations are performed in UI thread, to avoid synchronization/volatility
 public final class RRListView extends RRSingleTouchViewWrapper implements RRViewParent, RRVSwipeHandler {
 
 	private final RRListViewContents contents = new RRListViewContents(this);
@@ -35,10 +35,9 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 
 	private volatile int width, height;
 
-	private int firstVisibleItemPos = 0, lastVisibleItemPos = -1, pxInFirstVisibleItem = 0;
+	private volatile int firstVisibleItemPos = 0, lastVisibleItemPos = -1, pxInFirstVisibleItem = 0;
 
-	// TODO due to synchronization, most of this stuff doesn't need to be volatile any more
-	private volatile boolean isPaused = true, isCacheEnabled = false, isMeasured = false;
+	private boolean isPaused = true, isCacheEnabled = false, isMeasured = false;
 
 	private volatile RRListViewCacheBlockRing cacheRing = null;
 	private int pxInFirstCacheBlock = 0;
@@ -50,8 +49,9 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 		}
 	};
 
-	private final RRSwipeVelocityTracker2D velocityTracker = new RRSwipeVelocityTracker2D();
 	private float velocity = 0;
+
+	private static final float minVelocity = 1;
 
 	public RRListView(RRFragmentContext context) {
 		super(context);
@@ -153,6 +153,8 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 
 		final RRListViewItem[] items = flattenedContents.items;
 
+		final int width = this.width;
+
 		while(pxInFirstVisibleItem < 0 && firstVisibleItemPos > 0) {
 			pxInFirstVisibleItem += items[--firstVisibleItemPos].setWidth(width);
 		}
@@ -173,8 +175,6 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 				cacheRing.moveForward();
 			}
 		}
-
-		final int width = this.width;
 
 		int pos = items[firstVisibleItemPos].setWidth(width) - pxInFirstVisibleItem;
 		int lastVisibleItemPos = firstVisibleItemPos;
@@ -206,9 +206,10 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 
 		if(flattenedContents == null) return;
 
-		if(Math.abs(velocity) > 0.2) {
-			scrollBy(velocity / 60f);
+		if(Math.abs(velocity) > minVelocity) {
+			scrollBy(velocity / 60f); // TODO detect time elapsed since last draw
 			velocity *= 0.975;
+			velocity -= 0.1;
 			invalidate();
 		} else {
 			velocity = 0;
@@ -245,12 +246,11 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 
 	public RRClickHandler getClickHandler(float x, float y) {
 
-		if(Math.abs(velocity) > 0.2) {
+		if(Math.abs(velocity) > minVelocity) {
 			velocity = 0;
-			return null;
+			return null;  // TODO only if faster than certain value
 		}
 
-		// TODO if velocity != 0, return null, set velocity = 0
 		// TODO else, return the item at that y coord
 		return null;
 	}
@@ -269,12 +269,11 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 
 	public void onVSwipeDelta(long timestamp, float dy) {
 		scrollBy(-dy);
-		velocityTracker.addDelta(timestamp, -dy);
 		invalidate();
 	}
 
-	public void onVSwipeEnd(long timestamp) {
-		velocity = velocityTracker.getVelocity(timestamp);
+	public void onVSwipeEnd(long timestamp, float yVelocity) {
+		velocity = -yVelocity;
 		invalidate();
 	}
 }

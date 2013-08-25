@@ -17,7 +17,6 @@
 
 package org.quantumbadger.redreader.ui.views.touch;
 
-import android.util.Log;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.RRSchedulerManager;
 import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
@@ -98,9 +97,6 @@ public abstract class RRSingleTouchViewWrapper extends RRViewWrapper implements 
 
 						final double euclideanDistanceSquared = e.totalDistanceMovedSquared(0);
 
-						Log.i("RRTouchTestFragment", "Moved " + (int)Math.sqrt(euclideanDistanceSquared));
-						Log.i("RRTouchTestFragment", "dpScale " + context.dpScale);
-
 						if(euclideanDistanceSquared > General.sq(13f * context.dpScale)) {
 
 							longClickScheduler.cancel();
@@ -169,7 +165,7 @@ public abstract class RRSingleTouchViewWrapper extends RRViewWrapper implements 
 						break;
 
 					case IN_V_SWIPE:
-						vSwipeHandler.onVSwipeEnd(e.currentTime);
+						vSwipeHandler.onVSwipeEnd(e.currentTime, getVVelocity());
 						break;
 
 					case NOT_A_CLICK:

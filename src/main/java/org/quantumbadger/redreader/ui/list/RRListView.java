@@ -224,7 +224,7 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 			canvas.translate(0, -pxInFirstVisibleItem);
 
 			for(int i = firstVisibleItemPos; i <= lastVisibleItemPos; i++) {
-				fc.items[i].draw(canvas, width);
+				fc.items[i].draw(canvas);
 				canvas.translate(0, fc.items[i].getOuterHeight());
 			}
 
@@ -244,23 +244,42 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 		// TODO completely flush and rebuild cache manager
 	}
 
-	public RRClickHandler getClickHandler(float x, float y) {
+	public RRClickHandler getClickHandler(int x, int y) {
 
 		if(Math.abs(velocity) > minVelocity) {
 			velocity = 0;
 			return null;  // TODO only if faster than certain value
 		}
 
-		// TODO else, return the item at that y coord
+		final RRListViewFlattenedContents fc = flattenedContents;
+		int totalHeight = -pxInFirstVisibleItem;
+		int lastHeight = totalHeight;
+
+		for(int i = firstVisibleItemPos; i <= lastVisibleItemPos; i++) {
+			totalHeight += fc.items[i].getOuterHeight();
+			if(totalHeight > y) return fc.items[i].getClickHandler(x, y - lastHeight);
+			lastHeight = totalHeight;
+		}
+
 		return null;
 	}
 
-	public RRHSwipeHandler getHSwipeHandler(float x, float y) {
-		// TODO return item at that y coord
+	public RRHSwipeHandler getHSwipeHandler(int x, int y) {
+
+		final RRListViewFlattenedContents fc = flattenedContents;
+		int totalHeight = -pxInFirstVisibleItem;
+		int lastHeight = totalHeight;
+
+		for(int i = firstVisibleItemPos; i <= lastVisibleItemPos; i++) {
+			totalHeight += fc.items[i].getOuterHeight();
+			if(totalHeight > y) return fc.items[i].getHSwipeHandler(x, y - lastHeight);
+			lastHeight = totalHeight;
+		}
+
 		return null;
 	}
 
-	public RRVSwipeHandler getVSwipeHandler(float x, float y) {
+	public RRVSwipeHandler getVSwipeHandler(int x, int y) {
 		return this;
 	}
 
@@ -275,5 +294,18 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 	public void onVSwipeEnd(long timestamp, float yVelocity) {
 		velocity = -yVelocity;
 		invalidate();
+	}
+
+	public RRListViewItem getItemAt(final int yCoord) {
+
+		final RRListViewFlattenedContents fc = flattenedContents;
+		int totalHeight = -pxInFirstVisibleItem;
+
+		for(int i = firstVisibleItemPos; i <= lastVisibleItemPos; i++) {
+			totalHeight += fc.items[i].getOuterHeight();
+			if(totalHeight > yCoord) return fc.items[i];
+		}
+
+		return null;
 	}
 }

@@ -37,7 +37,7 @@ public class RRTouchTestFragment extends RRFragment {
 	protected View buildContentView() {
 
 		return new RRSingleTouchViewWrapper(context) {
-			public RRClickHandler getClickHandler(float x, float y) {
+			public RRClickHandler getClickHandler(int x, int y) {
 				return new RRClickHandler() {
 					public boolean onHoverBegin(float x, float y) {
 						Log.i("RRTouchTestFragment", String.format("onHoverBegin(%.1f, %.1f)", x, y));
@@ -50,7 +50,7 @@ public class RRTouchTestFragment extends RRFragment {
 				};
 			}
 
-			public RRHSwipeHandler getHSwipeHandler(float x, float y) {
+			public RRHSwipeHandler getHSwipeHandler(int x, int y) {
 				return new RRHSwipeHandler() {
 					public void onHSwipeBegin() {
 						Log.i("RRTouchTestFragment", String.format("onHSwipeBegin()"));
@@ -66,7 +66,7 @@ public class RRTouchTestFragment extends RRFragment {
 				};
 			}
 
-			public RRVSwipeHandler getVSwipeHandler(float x, float y) {
+			public RRVSwipeHandler getVSwipeHandler(int x, int y) {
 				return new RRVSwipeHandler() {
 					public void onVSwipeBegin(long timestamp) {
 						Log.i("RRTouchTestFragment", String.format("onVSwipeBegin()"));
@@ -76,7 +76,7 @@ public class RRTouchTestFragment extends RRFragment {
 						Log.i("RRTouchTestFragment", String.format("onVSwipeDelta(%.1f)", dx));
 					}
 
-					public void onVSwipeEnd(long timestamp) {
+					public void onVSwipeEnd(long timestamp, float yVelocity) {
 						Log.i("RRTouchTestFragment", String.format("onVSwipeEnd()"));
 					}
 				};

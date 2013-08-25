@@ -19,7 +19,7 @@ package org.quantumbadger.redreader.ui.views.touch;
 
 public interface RRSingleTouchHandlerProvider {
 
-	public RRClickHandler getClickHandler(float x, float y);
-	public RRHSwipeHandler getHSwipeHandler(float x, float y);
-	public RRVSwipeHandler getVSwipeHandler(float x, float y);
+	public RRClickHandler getClickHandler(int x, int y);
+	public RRHSwipeHandler getHSwipeHandler(int x, int y);
+	public RRVSwipeHandler getVSwipeHandler(int x, int y);
 }

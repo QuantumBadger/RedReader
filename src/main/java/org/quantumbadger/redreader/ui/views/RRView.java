@@ -6,26 +6,30 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Looper;
 import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.ui.views.touch.RROffsetClickHandler;
+import org.quantumbadger.redreader.ui.views.touch.RRClickHandler;
+import org.quantumbadger.redreader.ui.views.touch.RRHSwipeHandler;
 import org.quantumbadger.redreader.ui.views.touch.RRSingleTouchHandlerProvider;
+import org.quantumbadger.redreader.ui.views.touch.RRVSwipeHandler;
 
 public abstract class RRView implements RRViewParent, RRSingleTouchHandlerProvider {
 
 	private RRViewParent parent;
-	private TouchEventHandler touchEventHandler;
 
 	protected int paddingTop, paddingBottom, paddingLeft, paddingRight;
 	protected Paint paddingPaint = null, backgroundPaint = null;
 
 	private int width = -1, height = -1;
+	private int xPositionInParent = 0, yPositionInParent = 0;
 
-	public static final int HOVER_START = 1, HOVER_HIGHLIGHT = 2, HOVER_LONGCLICK = 3, HOVER_CANCEL = 4, TAP = 5;
 	public static final int UNSPECIFIED = -1;
 
 	private boolean unrenderable = true;
 	private static final Paint unrenderablePaint = General.createPaint(Color.RED);
 
-	public final synchronized void draw(final Canvas canvas, final int desiredWidth) {
+	public final synchronized void draw(final Canvas canvas) {
+
+		canvas.save();
+		canvas.translate(xPositionInParent, yPositionInParent);
 
 		if(unrenderable || Looper.getMainLooper().getThread() == Thread.currentThread()) {
 			final int size = 20;
@@ -35,13 +39,9 @@ public abstract class RRView implements RRViewParent, RRSingleTouchHandlerProvid
 			canvas.drawLine(size, size, size, 0, unrenderablePaint);
 			canvas.drawLine(0, 0, size, size, unrenderablePaint);
 			canvas.drawLine(0, size, size, 0, unrenderablePaint);
-		}
 
-		if(unrenderable) {
-			return;
+			if(unrenderable) return;
 		}
-
-		if(width != desiredWidth) setWidth(desiredWidth);
 
 		if(paddingPaint != null) {
 			canvas.drawRect(0, 0, width, paddingTop, paddingPaint);
@@ -54,7 +54,6 @@ public abstract class RRView implements RRViewParent, RRSingleTouchHandlerProvid
 			canvas.drawRect(paddingLeft, paddingTop, width - paddingRight, height - paddingBottom, backgroundPaint);
 		}
 
-		canvas.save();
 		canvas.translate(paddingLeft, paddingTop);
 
 		onRender(canvas);
@@ -64,6 +63,19 @@ public abstract class RRView implements RRViewParent, RRSingleTouchHandlerProvid
 
 	protected abstract void onRender(Canvas canvas);
 
+	public final void setPositionInParent(int x, int y) {
+		xPositionInParent = x;
+		yPositionInParent = y;
+	}
+
+	public int getXPositionInParent() {
+		return xPositionInParent;
+	}
+
+	public int getYPositionInParent() {
+		return yPositionInParent;
+	}
+
 	public final void rrInvalidate() {
 		parent.rrInvalidate();
 	}
@@ -71,9 +83,6 @@ public abstract class RRView implements RRViewParent, RRSingleTouchHandlerProvid
 	public final void rrRequestLayout() {
 		parent.rrRequestLayout();
 	}
-
-	// Implements the method in RRSingleTouchHandlerProvider, but forces the offset
-	public abstract RROffsetClickHandler getClickHandler(float x, float y);
 
 	public final synchronized int setWidth(final int width) {
 
@@ -178,4 +187,62 @@ public abstract class RRView implements RRViewParent, RRSingleTouchHandlerProvid
 		paddingTop = padding;
 		paddingBottom = padding;
 	}
+
+	public final RRHSwipeHandler getHSwipeHandler(int x, int y) {
+
+		final RRHSwipeHandler down = getHSwipeHandlerTraversingDown();
+		if(down != null) return down;
+
+		final RRView child = getChildAt(x - paddingLeft, y - paddingTop);
+		if(child != null) {
+			final RRHSwipeHandler childHandler = child.getHSwipeHandler(x - paddingLeft - child.xPositionInParent,
+					y - paddingTop - child.yPositionInParent);
+			if(childHandler != null) return childHandler;
+		}
+
+		return getHSwipeHandlerTraversingUp();
+	}
+
+	public final RRVSwipeHandler getVSwipeHandler(int x, int y) {
+
+		final RRVSwipeHandler down = getVSwipeHandlerTraversingDown();
+		if(down != null) return down;
+
+		final RRView child = getChildAt(x - paddingLeft, y - paddingTop);
+		if(child != null) {
+			final RRVSwipeHandler childHandler = child.getVSwipeHandler(x - paddingLeft - child.xPositionInParent,
+					y - paddingTop - child.yPositionInParent);
+			if(childHandler != null) return childHandler;
+		}
+
+		return getVSwipeHandlerTraversingUp();
+	}
+
+	public final RRClickHandler getClickHandler(int x, int y) {
+
+		final RRClickHandler down = getClickHandlerTraversingDown();
+		if(down != null) return down;
+
+		final RRView child = getChildAt(x - paddingLeft, y - paddingTop);
+		if(child != null) {
+			final RRClickHandler childHandler = child.getClickHandler(x - paddingLeft - child.xPositionInParent,
+					y - paddingTop - child.yPositionInParent);
+			if(childHandler != null) return childHandler;
+		}
+
+		return getClickHandlerTraversingUp();
+	}
+
+	public RRView getChildAt(int x, int y) {
+		return null;
+	}
+
+	public RRHSwipeHandler getHSwipeHandlerTraversingDown() { return null; }
+	public RRHSwipeHandler getHSwipeHandlerTraversingUp() { return null; }
+
+	public RRVSwipeHandler getVSwipeHandlerTraversingDown() { return null; }
+	public RRVSwipeHandler getVSwipeHandlerTraversingUp() { return null; }
+
+	public RRClickHandler getClickHandlerTraversingDown() { return null; }
+	public RRClickHandler getClickHandlerTraversingUp() { return null; }
 }

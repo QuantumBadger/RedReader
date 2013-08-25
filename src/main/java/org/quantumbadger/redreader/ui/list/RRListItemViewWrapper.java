@@ -3,9 +3,6 @@ package org.quantumbadger.redreader.ui.list;
 import android.graphics.Canvas;
 import org.quantumbadger.redreader.ui.views.MeasurementException;
 import org.quantumbadger.redreader.ui.views.RRView;
-import org.quantumbadger.redreader.ui.views.touch.RRHSwipeHandler;
-import org.quantumbadger.redreader.ui.views.touch.RROffsetClickHandler;
-import org.quantumbadger.redreader.ui.views.touch.RRVSwipeHandler;
 
 public class RRListItemViewWrapper extends RRListViewItem {
 
@@ -19,27 +16,12 @@ public class RRListItemViewWrapper extends RRListViewItem {
 
 	@Override
 	protected void onRender(final Canvas c) {
-		view.draw(c, getInnerWidth());
-	}
-
-	@Override
-	public RROffsetClickHandler getClickHandler(float x, float y) {
-		// TODO padding? implement this in RRView
-		return null;
-	}
-
-	public RRHSwipeHandler getHSwipeHandler(float x, float y) {
-		// TODO
-		return null;
-	}
-
-	public RRVSwipeHandler getVSwipeHandler(float x, float y) {
-		// TODO
-		return null;
+		view.draw(c);
 	}
 
 	@Override
 	protected int onMeasureByWidth(int width) {
+		view.setPositionInParent(0, 0);
 		return view.setWidth(width);
 	}
 

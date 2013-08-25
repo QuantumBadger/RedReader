@@ -1,9 +1,6 @@
 package org.quantumbadger.redreader.ui.views;
 
 import android.graphics.Canvas;
-import org.quantumbadger.redreader.ui.views.touch.RRHSwipeHandler;
-import org.quantumbadger.redreader.ui.views.touch.RROffsetClickHandler;
-import org.quantumbadger.redreader.ui.views.touch.RRVSwipeHandler;
 
 public final class RRHorizontalBorderLayout extends RRView {
 
@@ -22,57 +19,10 @@ public final class RRHorizontalBorderLayout extends RRView {
 
 	@Override
 	protected void onRender(final Canvas canvas) {
-
-		final int leftFixedWidth = left.getFixedWidth();
-		final int rightFixedWidth = right.getFixedWidth();
-		final int middleWidth = getInnerWidth() - leftFixedWidth - rightFixedWidth;
-
-		canvas.save();
-
-		left.draw(canvas, leftFixedWidth);
-
-		canvas.translate(leftFixedWidth, 0);
-		canvas.save();
-		canvas.translate(0, (getInnerHeight() - middle.getOuterHeight()) / 2);
-		middle.draw(canvas, middleWidth);
-		canvas.restore();
-
-		canvas.translate(middleWidth, 0);
-		right.draw(canvas, rightFixedWidth);
-
-		canvas.restore();
+		left.draw(canvas);
+		middle.draw(canvas);
+		right.draw(canvas);
 	}
-
-	@Override
-	public RROffsetClickHandler getClickHandler(float x, float y) {
-		// TODO
-		return null;
-	}
-
-	public RRHSwipeHandler getHSwipeHandler(float x, float y) {
-		// TODO
-		return null;
-	}
-
-	public RRVSwipeHandler getVSwipeHandler(float x, float y) {
-		// TODO
-		return null;
-	}
-/*
-	@Override
-	protected void handleTouchEvent(int eventType, int x, int y) {
-
-		if(x < left.getOuterWidth()) {
-			left.onTouchEvent(eventType, x, y);
-
-		} else if(x >= getInnerWidth() - right.getOuterWidth()) {
-			right.onTouchEvent(eventType, x - left.getOuterWidth() - middle.getOuterWidth(), y);
-
-		} else {
-			middle.onTouchEvent(eventType, x - left.getOuterWidth(), y);
-		}
-
-	}*/
 
 	@Override
 	protected int onMeasureByWidth(int width) {
@@ -94,11 +44,22 @@ public final class RRHorizontalBorderLayout extends RRView {
 		left.setHeight(height);
 		right.setHeight(height);
 
+		left.setPositionInParent(0, 0);
+		middle.setPositionInParent(leftFixedWidth, (getInnerHeight() - middle.getOuterHeight()) / 2);
+		right.setPositionInParent(leftFixedWidth + middleWidth, 0);
+
 		return height;
 	}
 
 	@Override
 	protected int onMeasureByHeight(int height) {
 		throw new MeasurementException(this, MeasurementException.InvalidMeasurementType.HEIGHT_DETERMINED_BY_WIDTH);
+	}
+
+	@Override
+	public RRView getChildAt(int x, int y) {
+		if(y < left.getOuterWidth()) return left;
+		else if(y < left.getOuterWidth() + middle.getOuterWidth()) return middle;
+		else return right;
 	}
 }

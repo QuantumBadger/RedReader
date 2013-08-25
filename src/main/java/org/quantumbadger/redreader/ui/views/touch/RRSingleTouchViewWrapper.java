@@ -76,7 +76,7 @@ public abstract class RRSingleTouchViewWrapper extends RRViewWrapper implements 
 
 				} else {
 
-					clickHandler = getClickHandler(e.xPos[0], e.yPos[0]);
+					clickHandler = getClickHandler((int)e.xPos[0], (int)e.yPos[0]);
 
 					if(clickHandler == null || !clickHandler.onHoverBegin(e.xPos[0], e.yPos[0])) {
 						currentState = GlobalTouchDetectionState.NOT_A_CLICK;
@@ -106,7 +106,7 @@ public abstract class RRSingleTouchViewWrapper extends RRViewWrapper implements 
 							}
 
 							if(Math.abs(e.totalDistanceMovedX(0)) > Math.abs(e.totalDistanceMovedY(0))) {
-								hSwipeHandler = getHSwipeHandler(e.xPos[0], e.yPos[0]);
+								hSwipeHandler = getHSwipeHandler((int)e.xPos[0], (int)e.yPos[0]);
 
 								if(hSwipeHandler != null) {
 									hSwipeHandler.onHSwipeBegin();
@@ -117,7 +117,7 @@ public abstract class RRSingleTouchViewWrapper extends RRViewWrapper implements 
 								}
 
 							} else {
-								vSwipeHandler = getVSwipeHandler(e.xPos[0], e.yPos[0]);
+								vSwipeHandler = getVSwipeHandler((int)e.xPos[0], (int)e.yPos[0]);
 
 								if(vSwipeHandler != null) {
 									vSwipeHandler.onVSwipeBegin(e.currentTime);

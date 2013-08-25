@@ -88,7 +88,7 @@ public class RRListViewCacheBlock {
 		canvas.translate(0, -pxInFirstVisibleItem);
 
 		for(int i = firstVisibleItemPos; i <= lastVisibleItemPos; i++) {
-			data.items[i].draw(canvas, width);
+			data.items[i].draw(canvas);
 			canvas.translate(0, data.items[i].getOuterHeight());
 		}
 

@@ -4,9 +4,6 @@ import android.graphics.Canvas;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
-import org.quantumbadger.redreader.ui.views.touch.RRHSwipeHandler;
-import org.quantumbadger.redreader.ui.views.touch.RROffsetClickHandler;
-import org.quantumbadger.redreader.ui.views.touch.RRVSwipeHandler;
 
 public class RRTextView extends RRView {
 
@@ -33,19 +30,6 @@ public class RRTextView extends RRView {
 	@Override
 	protected void onRender(Canvas canvas) {
 		staticLayout.draw(canvas);
-	}
-
-	@Override
-	public RROffsetClickHandler getClickHandler(float x, float y) {
-		return null;
-	}
-
-	public RRHSwipeHandler getHSwipeHandler(float x, float y) {
-		return null;
-	}
-
-	public RRVSwipeHandler getVSwipeHandler(float x, float y) {
-		return null;
 	}
 
 	@Override

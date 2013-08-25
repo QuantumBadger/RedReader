@@ -1,9 +1,6 @@
 package org.quantumbadger.redreader.ui.views;
 
 import android.graphics.Canvas;
-import org.quantumbadger.redreader.ui.views.touch.RRHSwipeHandler;
-import org.quantumbadger.redreader.ui.views.touch.RROffsetClickHandler;
-import org.quantumbadger.redreader.ui.views.touch.RRVSwipeHandler;
 
 import java.util.ArrayList;
 
@@ -18,46 +15,18 @@ public class RRVerticalLinearLayout extends RRView {
 
 	@Override
 	public void onRender(final Canvas canvas) {
-
-		canvas.save();
-
-		for(final RRView child : children) {
-			child.onRender(canvas);
-			canvas.translate(0, child.getOuterHeight());
-		}
-
-		canvas.restore();
+		for(final RRView child : children) child.onRender(canvas);
 	}
 
 	@Override
-	public RROffsetClickHandler getClickHandler(float x, float y) {
-		// TODO
-		return null;
-	}
-
-	public RRHSwipeHandler getHSwipeHandler(float x, float y) {
-		// TODO
-		return null;
-	}
-
-	public RRVSwipeHandler getVSwipeHandler(float x, float y) {
-		// TODO
-		return null;
-	}
-/*
-	@Override
-	protected void handleTouchEvent(int eventType, int x, int y) {
-
-		int yPos = 0;
+	public RRView getChildAt(final int x, final int y) {
 
 		for(final RRView child : children) {
-			final int nextYPos = yPos + child.getOuterHeight();
-			if(y >= yPos && y < nextYPos) {
-				child.onTouchEvent(eventType, x, y - yPos);
-				return;
-			}
+			if(child.getYPositionInParent() <= y || child.getOuterHeight() > y) return child;
 		}
-	}*/
+
+		return null;
+	}
 
 	@Override
 	protected int onMeasureByWidth(final int width) {
@@ -65,6 +34,7 @@ public class RRVerticalLinearLayout extends RRView {
 		int totalHeight = 0;
 
 		for(final RRView child : children) {
+			child.setPositionInParent(0, totalHeight);
 			totalHeight += child.setWidth(width);
 		}
 

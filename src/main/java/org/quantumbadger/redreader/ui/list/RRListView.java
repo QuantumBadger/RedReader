@@ -210,7 +210,7 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 		if(Math.abs(velocity) > minVelocity) {
 			scrollBy(velocity / 60f); // TODO detect time elapsed since last draw
 			velocity *= 0.975;
-			velocity -= 0.1;
+			velocity += 0.05 * (velocity > 0 ? -1 : 1); // TODO take into account dpi
 			invalidate();
 		} else {
 			velocity = 0;

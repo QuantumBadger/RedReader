@@ -15,6 +15,7 @@ public class RRTextView extends RRView {
 	public RRTextView(final CharSequence text, final TextPaint textPaint) {
 		this.text = text;
 		this.textPaint = textPaint;
+		textPaint.setAntiAlias(true);
 	}
 
 	public void setText(CharSequence text) {
@@ -24,7 +25,8 @@ public class RRTextView extends RRView {
 
 	public void setTextPaint(TextPaint textPaint) {
 		this.textPaint = textPaint;
-		staticLayout = null;
+		textPaint.setAntiAlias(true);
+		staticLayout = null; // TODO request layout
 	}
 
 	@Override

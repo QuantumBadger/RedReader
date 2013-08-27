@@ -26,6 +26,12 @@ public abstract class RRView implements RRViewParent, RRSingleTouchHandlerProvid
 	private boolean unrenderable = true;
 	private static final Paint unrenderablePaint = General.createPaint(Color.RED);
 
+	 public final synchronized int setWidthAndDraw(final Canvas canvas, final int width) {
+		 final int drawnHeight = setWidth(width);
+		 draw(canvas);
+		 return drawnHeight;
+	 }
+
 	public final synchronized void draw(final Canvas canvas) {
 
 		canvas.save();
@@ -77,11 +83,22 @@ public abstract class RRView implements RRViewParent, RRSingleTouchHandlerProvid
 	}
 
 	public final void rrInvalidate() {
-		parent.rrInvalidate();
+		parent.rrInvalidate(this);
 	}
 
-	public final void rrRequestLayout() {
-		parent.rrRequestLayout();
+	public void rrInvalidate(RRView child) {
+		parent.rrInvalidate(this);
+	}
+
+	public synchronized final void rrRequestLayout() {
+		parent.rrRequestLayout(this);
+		width = -1;
+		height = -1;
+		unrenderable = true;
+	}
+
+	public synchronized final void rrRequestLayout(RRView child) {
+		rrRequestLayout();
 	}
 
 	public final synchronized int setWidth(final int width) {

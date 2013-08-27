@@ -21,6 +21,7 @@ import android.graphics.Canvas;
 import org.quantumbadger.redreader.common.RRSchedulerManager;
 import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
 import org.quantumbadger.redreader.ui.frag.RRFragmentContext;
+import org.quantumbadger.redreader.ui.views.RRView;
 import org.quantumbadger.redreader.ui.views.RRViewParent;
 import org.quantumbadger.redreader.ui.views.touch.RRClickHandler;
 import org.quantumbadger.redreader.ui.views.touch.RRHSwipeHandler;
@@ -224,8 +225,8 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 			canvas.translate(0, -pxInFirstVisibleItem);
 
 			for(int i = firstVisibleItemPos; i <= lastVisibleItemPos; i++) {
-				fc.items[i].draw(canvas);
-				canvas.translate(0, fc.items[i].getOuterHeight());
+				final int drawnHeight = fc.items[i].setWidthAndDraw(canvas, width);
+				canvas.translate(0, drawnHeight);
 			}
 
 			canvas.restore();
@@ -235,13 +236,16 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 		}
 	}
 
-	public void rrInvalidate() {
+	public void rrInvalidate(RRView child) {
+		// TODO detect if child is on screen/in cache
 		brieflyDisableCache();
 		postInvalidate();
 	}
 
-	public void rrRequestLayout() {
-		// TODO completely flush and rebuild cache manager
+	public void rrRequestLayout(RRView child) {
+		// TODO detect if child is on screen/in cache
+		brieflyDisableCache();
+		postInvalidate();
 	}
 
 	public RRClickHandler getClickHandler(int x, int y) {

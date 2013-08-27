@@ -28,8 +28,7 @@ public class RRListTestFragment extends RRFragment {
 
 		final TextPaint textPaint = new TextPaint();
 		textPaint.setColor(Color.WHITE);
-		textPaint.setTextSize(50);
-		textPaint.setAntiAlias(true);
+		textPaint.setTextSize(20f * context.spScale);
 
 		for(int i = 0; i < 100; i++) {
 

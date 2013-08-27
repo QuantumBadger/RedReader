@@ -9,6 +9,7 @@ import android.view.View;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.ui.list.RRListItemViewWrapper;
 import org.quantumbadger.redreader.ui.list.RRListView;
+import org.quantumbadger.redreader.ui.views.RRSwipableView;
 import org.quantumbadger.redreader.ui.views.RRTextView;
 
 import java.util.UUID;
@@ -35,7 +36,7 @@ public class RRListTestFragment extends RRFragment {
 			final RRTextView textView = new RRTextView(i + ". " + UUID.randomUUID().toString(), textPaint);
 			textView.setPadding(General.dpToPixels(context.activity, 8));
 
-			final RRListItemViewWrapper itemViewWrapper = new RRListItemViewWrapper(textView);
+			final RRListItemViewWrapper itemViewWrapper = new RRListItemViewWrapper(new RRSwipableView(textView));
 			lv.getContents().appendChild(itemViewWrapper);
 		}
 

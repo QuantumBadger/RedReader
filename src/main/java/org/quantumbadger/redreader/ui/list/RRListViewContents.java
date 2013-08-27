@@ -35,6 +35,7 @@ public final class RRListViewContents {
 	public synchronized void appendChild(RRListViewItem item) {
 
 		items.add(item);
+		item.setParent(parent);
 
 		if(item.isVisible()) {
 
@@ -61,6 +62,7 @@ public final class RRListViewContents {
 	public synchronized void appendChildAfter(RRListViewItem parent, RRListViewItem item) {
 
 		items.add(items.indexOf(parent) + 1, item);
+		item.setParent(parent);
 		if(item.isVisible()) recomputeFlattenedContents();
 	}
 

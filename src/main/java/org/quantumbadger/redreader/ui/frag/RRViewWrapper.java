@@ -155,9 +155,14 @@ public abstract class RRViewWrapper extends View {
 		}
 	}
 
-	public final float getVVelocity() {
+	public final float getYVelocity() {
 		velocityTracker.computeCurrentVelocity(1000);
 		return velocityTracker.getYVelocity();
+	}
+
+	public final float getXVelocity() {
+		velocityTracker.computeCurrentVelocity(1000);
+		return velocityTracker.getXVelocity();
 	}
 
 	@Override

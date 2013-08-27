@@ -35,7 +35,7 @@
 package org.quantumbadger.redreader.ui.views.touch;
 
 public interface RRHSwipeHandler {
-	public void onHSwipeBegin();
-	public void onHSwipeDelta(float dx);
-	public void onHSwipeEnd();
+	public void onHSwipeBegin(long timestamp);
+	public void onHSwipeDelta(long timestamp, float dx);
+	public void onHSwipeEnd(long timestamp, float xVelocity);
 }

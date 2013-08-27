@@ -52,15 +52,15 @@ public class RRTouchTestFragment extends RRFragment {
 
 			public RRHSwipeHandler getHSwipeHandler(int x, int y) {
 				return new RRHSwipeHandler() {
-					public void onHSwipeBegin() {
+					public void onHSwipeBegin(long timestamp) {
 						Log.i("RRTouchTestFragment", String.format("onHSwipeBegin()"));
 					}
 
-					public void onHSwipeDelta(float dx) {
+					public void onHSwipeDelta(long timestamp, float dx) {
 						Log.i("RRTouchTestFragment", String.format("onHSwipeDelta(%.1f)", dx));
 					}
 
-					public void onHSwipeEnd() {
+					public void onHSwipeEnd(long timestamp, float xVelocity) {
 						Log.i("RRTouchTestFragment", String.format("onHSwipeEnd()"));
 					}
 				};

@@ -38,4 +38,9 @@ public class RRListItemViewWrapper extends RRListViewItem {
 	public void setVisible(final boolean isVisible) {
 		this.isVisible = isVisible;
 	}
+
+	@Override
+	public RRView getChildAt(int x, int y) {
+		return view;
+	}
 }

@@ -239,13 +239,13 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 	public void rrInvalidate(RRView child) {
 		// TODO detect if child is on screen/in cache
 		brieflyDisableCache();
-		postInvalidate();
+		//postInvalidate();
 	}
 
 	public void rrRequestLayout(RRView child) {
 		// TODO detect if child is on screen/in cache
 		brieflyDisableCache();
-		postInvalidate();
+		//postInvalidate();
 	}
 
 	public RRClickHandler getClickHandler(int x, int y) {

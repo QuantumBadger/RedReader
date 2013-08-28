@@ -18,15 +18,21 @@ public class RRSwipableView extends RRView implements RRHSwipeHandler {
 	@Override
 	protected void onRender(Canvas canvas) {
 
-		if(Math.abs(xVel) > 0.2) {
+		if(Math.abs(xVel) > 0.2 || Math.abs(xPos) > 1) {
 			xVel *= 0.95;
-			setXPos(xPos + xVel / 60); // TODO detect elapsed time
+			xVel += findAcceleration() / 60f;
+			setXPos(xPos + xVel / 60f); // TODO detect elapsed time
 			rrInvalidate();
 		} else {
 			xVel = 0;
+			xPos = 0;
 		}
 
 		child.draw(canvas);
+	}
+
+	private float findAcceleration() {
+		return -5 * xPos; // DPI?
 	}
 
 	@Override

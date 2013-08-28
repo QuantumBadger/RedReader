@@ -79,7 +79,7 @@ public final class RRSchedulerManager {
 
 		public void setSchedule(final Runnable task, final long delay, final boolean runOnUiThread) {
 			synchronized(lock) {
-				if(this.task != null) cancel();
+				if(this.task != null) throw new UnexpectedInternalStateException();
 				this.task = task;
 				runtime = SystemClock.uptimeMillis() + delay;
 				this.runOnUiThread = runOnUiThread;
@@ -89,18 +89,19 @@ public final class RRSchedulerManager {
 		}
 
 		private void run() {
+
+			final Runnable task;
+
 			synchronized(lock) {
-
-				if(task == null) throw new UnexpectedInternalStateException();
-
-				final Runnable task = this.task;
+				if(this.task == null) throw new UnexpectedInternalStateException();
+				task = this.task;
 				this.task = null;
+			}
 
-				if(runOnUiThread) {
-					General.runOnUiThread(task);
-				} else {
-					task.run();
-				}
+			if(runOnUiThread) {
+				General.runOnUiThread(task);
+			} else {
+				task.run();
 			}
 		}
 

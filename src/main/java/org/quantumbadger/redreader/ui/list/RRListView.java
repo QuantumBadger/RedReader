@@ -52,8 +52,10 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 	};
 
 	private float velocity = 0;
-
 	private static final float minVelocity = 1;
+
+	private enum SHMLockType { UNLOCKED, LOCKED_TOP, LOCKED_BOTTOM, LOCKED_NONE }
+	private SHMLockType shmLock = SHMLockType.UNLOCKED;
 
 	public RRListView(RRFragmentContext context) {
 		super(context);
@@ -171,7 +173,7 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 			pxInFirstVisibleItem -= items[firstVisibleItemPos++].getOuterHeight();
 		}
 
-		if(isCacheEnabled && cacheRing != null) {
+		if(false && isCacheEnabled && cacheRing != null) {
 			while(pxInFirstCacheBlock < 0) {
 				pxInFirstCacheBlock += cacheRing.blockHeight;
 				cacheRing.moveBackward();
@@ -208,6 +210,28 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 		disableCache();
 	}
 
+	private int calculatePxBeforeListStart() {
+
+		if(firstVisibleItemPos == 0) {
+			return -pxInFirstVisibleItem;
+		}
+
+		int totalHeight = pxInFirstVisibleItem;
+		for(int i = 0; i < firstVisibleItemPos; i++) totalHeight += flattenedContents.items[i].setWidth(width);
+		return -totalHeight;
+	}
+
+	// TODO where the full list height is shorter than the listview, everything will snap to the bottom
+	private int calculatePxAfterListEnd() {
+
+		int totalHeight = -pxInFirstVisibleItem;
+		for(int i = firstVisibleItemPos; i < flattenedContents.itemCount; i++) {
+			totalHeight += flattenedContents.items[i].setWidth(width);
+		}
+
+		return height - totalHeight;
+	}
+
 	@Override
 	protected void onDraw(Canvas canvas) {
 
@@ -215,6 +239,31 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 
 		long uptimeMillis = -1;
 		boolean invalidate = false, brieflyDisableCache = false;
+
+		switch(shmLock) {
+			case UNLOCKED:
+				if(firstVisibleItemPos == 0 && pxInFirstVisibleItem < 0) shmLock = SHMLockType.LOCKED_TOP;
+				else if(lastVisibleItemPos == flattenedContents.itemCount - 1) {
+					if(calculatePxAfterListEnd() > 0) shmLock = SHMLockType.LOCKED_BOTTOM;
+				}
+				break;
+
+			case LOCKED_BOTTOM: {
+				velocity *= 0.92;
+				final float acceleration = -calculatePxAfterListEnd() * 25;
+				velocity += acceleration / 60f; // TODO take into account elapsed time...
+				invalidate = true;
+				break;
+			}
+
+			case LOCKED_TOP: {
+				velocity *= 0.92;
+				final float acceleration = calculatePxBeforeListStart() * 25;
+				velocity += acceleration / 60f; // TODO take into account elapsed time...
+				invalidate = true;
+				break;
+			}
+		}
 
 		if(Math.abs(velocity) > minVelocity) {
 

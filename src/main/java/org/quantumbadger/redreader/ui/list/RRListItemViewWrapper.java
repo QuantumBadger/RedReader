@@ -43,4 +43,9 @@ public class RRListItemViewWrapper extends RRListViewItem {
 	public RRView getChildAt(int x, int y) {
 		return view;
 	}
+
+	@Override
+	public boolean updateChildAnimation(long timeMs) {
+		return view.rrUpdateAnimation(timeMs);
+	}
 }

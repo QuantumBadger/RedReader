@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.ui.list;
 
 import android.graphics.Canvas;
+import android.os.SystemClock;
 import org.quantumbadger.redreader.common.RRSchedulerManager;
 import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
 import org.quantumbadger.redreader.ui.frag.RRFragmentContext;
@@ -122,6 +123,11 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 		cacheEnableTimer.setSchedule(cacheEnableRunnable, 250);
 	}
 
+	public void rrStartAnimation(RRView child) {
+		// TODO detect if child is on screen
+		brieflyDisableCache();
+	}
+
 	private synchronized void disableCache() {
 		cacheEnableTimer.cancel();
 		isCacheEnabled = false;
@@ -207,16 +213,31 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 
 		if(flattenedContents == null) return;
 
+		long uptimeMillis = -1;
+		boolean invalidate = false, brieflyDisableCache = false;
+
 		if(Math.abs(velocity) > minVelocity) {
+
+			uptimeMillis = SystemClock.uptimeMillis();
+
 			scrollBy(velocity / 60f); // TODO detect time elapsed since last draw
 			velocity *= 0.975;
 			velocity += 0.05 * (velocity > 0 ? -1 : 1); // TODO take into account dpi
-			invalidate();
+			invalidate = true;
 		} else {
 			velocity = 0;
 		}
 
 		final RRListViewFlattenedContents fc = flattenedContents;
+
+		for(int i = firstVisibleItemPos; i <= lastVisibleItemPos; i++) {
+			if(fc.items[i].isAnimating()) {
+				if(uptimeMillis == -1) uptimeMillis = SystemClock.uptimeMillis();
+				if(fc.items[i].rrUpdateAnimation(uptimeMillis)) {
+					brieflyDisableCache = true;
+				}
+			}
+		}
 
 		if(!isCacheEnabled || cacheRing == null) {
 
@@ -232,8 +253,11 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 			canvas.restore();
 
 		} else {
-			if(!cacheRing.draw(canvas, height, -pxInFirstCacheBlock)) invalidate();
+			if(!cacheRing.draw(canvas, height, -pxInFirstCacheBlock)) invalidate = true;
 		}
+
+		if(brieflyDisableCache) brieflyDisableCache();
+		else if(invalidate) invalidate();
 	}
 
 	public void rrInvalidate(RRView child) {

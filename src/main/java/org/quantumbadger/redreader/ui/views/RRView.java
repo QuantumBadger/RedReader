@@ -26,6 +26,8 @@ public abstract class RRView implements RRViewParent, RRSingleTouchHandlerProvid
 	private boolean unrenderable = true;
 	private static final Paint unrenderablePaint = General.createPaint(Color.RED);
 
+	private boolean isAnimating = false;
+
 	 public final synchronized int setWidthAndDraw(final Canvas canvas, final int width) {
 		 final int drawnHeight = setWidth(width);
 		 draw(canvas);
@@ -74,12 +76,40 @@ public abstract class RRView implements RRViewParent, RRSingleTouchHandlerProvid
 		yPositionInParent = y;
 	}
 
-	public int getXPositionInParent() {
+	public final int getXPositionInParent() {
 		return xPositionInParent;
 	}
 
-	public int getYPositionInParent() {
+	public final int getYPositionInParent() {
 		return yPositionInParent;
+	}
+
+	public final void rrStartAnimation() {
+		rrStartAnimation(this);
+	}
+
+	public final void rrStartAnimation(RRView child) {
+		isAnimating = true;
+		parent.rrStartAnimation(this);
+	}
+
+	public final boolean rrUpdateAnimation(long timeMs) {
+
+		if(!isAnimating) return false;
+
+		boolean result = updateThisAnimation(timeMs);
+		result |= updateChildAnimation(timeMs);
+		isAnimating = result;
+
+		return result;
+	}
+
+	public boolean updateThisAnimation(long timeMs) {
+		return false;
+	}
+
+	public boolean updateChildAnimation(long timeMs) {
+		return false;
 	}
 
 	public final void rrInvalidate() {
@@ -262,4 +292,8 @@ public abstract class RRView implements RRViewParent, RRSingleTouchHandlerProvid
 
 	public RRClickHandler getClickHandlerTraversingDown() { return null; }
 	public RRClickHandler getClickHandlerTraversingUp() { return null; }
+
+	public boolean isAnimating() {
+		return isAnimating;
+	}
 }

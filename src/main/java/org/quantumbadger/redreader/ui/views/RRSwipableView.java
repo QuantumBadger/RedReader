@@ -16,18 +16,28 @@ public class RRSwipableView extends RRView implements RRHSwipeHandler {
 	}
 
 	@Override
-	protected void onRender(Canvas canvas) {
+	public boolean updateThisAnimation(long timeMs) {
 
 		if(Math.abs(xVel) > 0.2 || Math.abs(xPos) > 1) {
 			xVel *= 0.95;
 			xVel += findAcceleration() / 60f;
 			setXPos(xPos + xVel / 60f); // TODO detect elapsed time
-			rrInvalidate();
+			return true;
+
 		} else {
 			xVel = 0;
 			xPos = 0;
+			return false;
 		}
+	}
 
+	@Override
+	public boolean updateChildAnimation(long timeMs) {
+		return child.rrUpdateAnimation(timeMs);
+	}
+
+	@Override
+	protected void onRender(Canvas canvas) {
 		child.draw(canvas);
 	}
 
@@ -73,7 +83,7 @@ public class RRSwipableView extends RRView implements RRHSwipeHandler {
 
 	public void onHSwipeEnd(long timestamp, float xVelocity) {
 		xVel = xVelocity;
-		rrInvalidate();
+		rrStartAnimation();
 	}
 
 	@Override

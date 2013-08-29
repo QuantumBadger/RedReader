@@ -293,17 +293,17 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 				break;
 
 			case LOCKED_BOTTOM: {
-				velocity *= 0.92;
-				final float acceleration = -calculatePxAfterListEnd() * 40;
-				velocity += acceleration / 60f; // TODO take into account elapsed time...
+				velocity *= 0.9;
+				final float acceleration = -calculatePxAfterListEnd() * 60;
+				velocity += acceleration / 60f; // TODO take into account elapsed time, dpi?
 				invalidate = true;
 				break;
 			}
 
 			case LOCKED_TOP: {
-				velocity *= 0.92;
-				final float acceleration = calculatePxBeforeListStart() * 40;
-				velocity += acceleration / 60f; // TODO take into account elapsed time...
+				velocity *= 0.9;
+				final float acceleration = calculatePxBeforeListStart() * 60;
+				velocity += acceleration / 60f; // TODO take into account elapsed time, dpi?
 				invalidate = true;
 				break;
 			}

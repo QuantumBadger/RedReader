@@ -151,8 +151,9 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 	}
 
 	public synchronized void scrollBy(float px) {
-		pxInFirstVisibleItem += px;
-		pxInFirstCacheBlock += px;
+		final int intPx = Math.round(px);
+		pxInFirstVisibleItem += intPx;
+		pxInFirstCacheBlock += intPx;
 		recalculateLastVisibleItem();
 	}
 
@@ -250,7 +251,7 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 
 			case LOCKED_BOTTOM: {
 				velocity *= 0.92;
-				final float acceleration = -calculatePxAfterListEnd() * 25;
+				final float acceleration = -calculatePxAfterListEnd() * 40;
 				velocity += acceleration / 60f; // TODO take into account elapsed time...
 				invalidate = true;
 				break;
@@ -258,7 +259,7 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 
 			case LOCKED_TOP: {
 				velocity *= 0.92;
-				final float acceleration = calculatePxBeforeListStart() * 25;
+				final float acceleration = calculatePxBeforeListStart() * 40;
 				velocity += acceleration / 60f; // TODO take into account elapsed time...
 				invalidate = true;
 				break;

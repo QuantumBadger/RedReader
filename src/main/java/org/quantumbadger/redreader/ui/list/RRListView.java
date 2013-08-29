@@ -21,6 +21,7 @@ import android.graphics.Canvas;
 import android.os.SystemClock;
 import org.quantumbadger.redreader.common.RRSchedulerManager;
 import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
+import org.quantumbadger.redreader.common.collections.WeakReferenceListManager;
 import org.quantumbadger.redreader.ui.frag.RRFragmentContext;
 import org.quantumbadger.redreader.ui.views.RRView;
 import org.quantumbadger.redreader.ui.views.RRViewParent;
@@ -59,10 +60,28 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 	private enum SHMLockType { UNLOCKED, LOCKED_TOP, LOCKED_BOTTOM, LOCKED_NONE }
 	private SHMLockType shmLock = SHMLockType.UNLOCKED;
 
+	private final WeakReferenceListManager<RRListViewPositionChangeListener> posChangeListeners
+			= new WeakReferenceListManager<RRListViewPositionChangeListener>();
+	private final WeakReferenceListManager.Operator<RRListViewPositionChangeListener> posChangeOperator
+			= new WeakReferenceListManager.Operator<RRListViewPositionChangeListener>() {
+		public void operate(RRListViewPositionChangeListener object) {
+			object.onFirstVisibleItemChanged(firstVisibleItemPos, lastVisibleItemPos, flattenedContents.itemCount);
+		}
+	};
+
+	public interface RRListViewPositionChangeListener {
+		public void onFirstVisibleItemChanged(int firstVisibleItemPos, int lastVisibleItemPos, int totalItemCount);
+	}
+
 	public RRListView(RRFragmentContext context) {
 		super(context);
 		cacheEnableTimer = context.scheduler.obtain();
 		setWillNotDraw(false);
+	}
+
+	public synchronized void addPositionChangeListener(RRListViewPositionChangeListener listener) {
+		posChangeListeners.add(listener);
+		listener.onFirstVisibleItemChanged(firstVisibleItemPos, lastVisibleItemPos, flattenedContents.itemCount);
 	}
 
 	public synchronized void clearCacheRing() {
@@ -172,17 +191,20 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 
 		if(!isMeasured) return;
 
+		boolean firstPosChanged = false;
 		final RRListViewItem[] items = flattenedContents.items;
 
 		final int width = this.width;
 
 		while(pxInFirstVisibleItem < 0 && firstVisibleItemPos > 0) {
 			pxInFirstVisibleItem += items[--firstVisibleItemPos].setWidth(width);
+			firstPosChanged = true;
 		}
 
 		while(pxInFirstVisibleItem >= items[firstVisibleItemPos].setWidth(width)
 				&& firstVisibleItemPos < flattenedContents.itemCount - 1) {
 			pxInFirstVisibleItem -= items[firstVisibleItemPos++].getOuterHeight();
+			firstPosChanged = true;
 		}
 
 		if(isCacheEnabled && cacheRing != null) {
@@ -206,6 +228,10 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 		}
 
 		this.lastVisibleItemPos = lastVisibleItemPos;
+
+		if(firstPosChanged) {
+			posChangeListeners.map(posChangeOperator);
+		}
 	}
 
 

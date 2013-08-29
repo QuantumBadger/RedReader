@@ -173,7 +173,7 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 			pxInFirstVisibleItem -= items[firstVisibleItemPos++].getOuterHeight();
 		}
 
-		if(false && isCacheEnabled && cacheRing != null) {
+		if(isCacheEnabled && cacheRing != null) {
 			while(pxInFirstCacheBlock < 0) {
 				pxInFirstCacheBlock += cacheRing.blockHeight;
 				cacheRing.moveBackward();

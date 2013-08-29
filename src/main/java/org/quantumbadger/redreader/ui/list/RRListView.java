@@ -28,6 +28,7 @@ import org.quantumbadger.redreader.ui.views.touch.RRClickHandler;
 import org.quantumbadger.redreader.ui.views.touch.RRHSwipeHandler;
 import org.quantumbadger.redreader.ui.views.touch.RRSingleTouchViewWrapper;
 import org.quantumbadger.redreader.ui.views.touch.RRVSwipeHandler;
+import org.quantumbadger.redreader.views.list.RRSwipeVelocityTracker2D;
 
 // TODO require that all operations are performed in UI thread, to avoid synchronization/volatility
 public final class RRListView extends RRSingleTouchViewWrapper implements RRViewParent, RRVSwipeHandler {
@@ -53,6 +54,7 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 
 	private float velocity = 0;
 	private static final float minVelocity = 1;
+	private final RRSwipeVelocityTracker2D listVelTracker = new RRSwipeVelocityTracker2D();
 
 	private enum SHMLockType { UNLOCKED, LOCKED_TOP, LOCKED_BOTTOM, LOCKED_NONE }
 	private SHMLockType shmLock = SHMLockType.UNLOCKED;
@@ -150,8 +152,17 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 		clearCacheRing();
 	}
 
-	public synchronized void scrollBy(float px) {
-		final int intPx = Math.round(px);
+	public synchronized void scrollBy(float px, boolean userMotion, long timestamp) {
+
+		final int intPx;
+
+		if(userMotion && px < 0 && pxInFirstVisibleItem <= 0 && firstVisibleItemPos == 0) {
+			intPx = Math.round(px / (1 + 0.01f * (float)-pxInFirstVisibleItem));
+		} else {
+			intPx = Math.round(px);
+		}
+
+		listVelTracker.addDelta(timestamp, intPx);
 		pxInFirstVisibleItem += intPx;
 		pxInFirstCacheBlock += intPx;
 		recalculateLastVisibleItem();
@@ -233,6 +244,38 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 		return height - totalHeight;
 	}
 
+	private boolean isScrollFinished() {
+
+		if(Math.abs(velocity) >= minVelocity) return false;
+
+		switch(shmLock) {
+			case LOCKED_BOTTOM:
+				if(Math.abs(calculatePxAfterListEnd()) <= 1) {
+					velocity = 0;
+					shmLock = SHMLockType.UNLOCKED;
+					return true;
+				}
+
+				break;
+
+			case LOCKED_TOP:
+				if(Math.abs(calculatePxBeforeListStart()) <= 1) {
+					pxInFirstVisibleItem = 0;
+					velocity = 0;
+					shmLock = SHMLockType.UNLOCKED;
+					return true;
+				}
+
+				break;
+
+			default:
+				velocity = 0;
+				return true;
+		}
+
+		return false;
+	}
+
 	@Override
 	protected void onDraw(Canvas canvas) {
 
@@ -266,16 +309,14 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 			}
 		}
 
-		if(Math.abs(velocity) > minVelocity) {
+		if(!isScrollFinished()) {
 
 			uptimeMillis = SystemClock.uptimeMillis();
 
-			scrollBy(velocity / 60f); // TODO detect time elapsed since last draw
+			scrollBy(velocity / 60f, false, uptimeMillis); // TODO detect time elapsed since last draw
 			velocity *= 0.975;
 			velocity += 0.05 * (velocity > 0 ? -1 : 1); // TODO take into account dpi
 			invalidate = true;
-		} else {
-			velocity = 0;
 		}
 
 		final RRListViewFlattenedContents fc = flattenedContents;
@@ -365,12 +406,19 @@ public final class RRListView extends RRSingleTouchViewWrapper implements RRView
 	}
 
 	public void onVSwipeDelta(long timestamp, float dy) {
-		scrollBy(-dy);
+		shmLock = SHMLockType.LOCKED_NONE;
+		scrollBy(-dy, true, timestamp);
 		invalidate();
 	}
 
 	public void onVSwipeEnd(long timestamp, float yVelocity) {
-		velocity = -yVelocity;
+		shmLock = SHMLockType.UNLOCKED;
+
+		if(pxInFirstVisibleItem <= 0 && firstVisibleItemPos == 0) {
+			velocity = listVelTracker.getVelocity(timestamp);
+		} else {
+			velocity = -yVelocity;
+		}
 		invalidate();
 	}
 

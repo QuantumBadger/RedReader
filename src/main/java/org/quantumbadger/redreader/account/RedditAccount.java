@@ -197,9 +197,9 @@ public class RedditAccount {
 		return new PersistentCookieStore(cookies);
 	}
 
-	public byte[] getCookieBytes() {
+	public String getCookieString() {
 		if(cookies == null) return null;
-		return cookies.toByteArray();
+		return cookies.toString();
 	}
 
 	@Override

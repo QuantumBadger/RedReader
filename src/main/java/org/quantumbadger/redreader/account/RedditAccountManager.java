@@ -22,6 +22,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
+import org.quantumbadger.redreader.cache.PersistentCookieStore;
 import org.quantumbadger.redreader.common.UpdateNotifier;
 
 import java.util.ArrayList;
@@ -33,10 +34,10 @@ public final class RedditAccountManager {
 	private RedditAccount defaultAccountCache = null;
 
     private static final String USERDATA_PRIORITY = "priority";
+    private static final String USERDATA_COOKIES = "cookies";
 
 	private static final RedditAccount ANON = new RedditAccount("", null, null, 10);
 
-	private final Context context;
     private final AccountManager mAccountManager;
 
 	private final UpdateNotifier<RedditAccountChangeListener> updateNotifier = new UpdateNotifier<RedditAccountChangeListener>() {
@@ -62,7 +63,6 @@ public final class RedditAccountManager {
 	}
 
 	private RedditAccountManager(final Context context) {
-		this.context = context;
         this.mAccountManager = AccountManager.get(context);
 	}
 
@@ -71,7 +71,8 @@ public final class RedditAccountManager {
         final Account redditAccount = new Account(account.username, RedditAccountAuthenticator.ACCOUNT_TYPE);
 
         Bundle userdata = new Bundle();
-        userdata.putLong(USERDATA_PRIORITY, account.priority);
+        userdata.putString(USERDATA_PRIORITY, Long.toString(account.priority));
+        userdata.putString(USERDATA_COOKIES, account.getCookieString());
 
         mAccountManager.addAccountExplicitly(redditAccount, null, userdata);
         mAccountManager.setAuthToken(redditAccount, RedditAccountAuthenticator.TOKENTYPE_MODHASH, account.modhash);
@@ -189,8 +190,9 @@ public final class RedditAccountManager {
             }
 
             long priority = new Long(mAccountManager.getUserData(account, USERDATA_PRIORITY));
+            String cookies = mAccountManager.getUserData(account, USERDATA_COOKIES);
 
-            RedditAccount redditAccount = new RedditAccount(username, modhash, null, priority);
+            RedditAccount redditAccount = new RedditAccount(username, modhash, cookies == null ? null : new PersistentCookieStore(cookies), priority);
             accountsCache.add(redditAccount);
 
             if(defaultAccountCache == null || redditAccount.priority < defaultAccountCache.priority)

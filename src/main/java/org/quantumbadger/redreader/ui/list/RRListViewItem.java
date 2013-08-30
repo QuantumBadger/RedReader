@@ -27,8 +27,6 @@ public abstract class RRListViewItem extends RRView {
 	private static final AtomicInteger maxItemId = new AtomicInteger(0);
 	public final int globalItemId = maxItemId.incrementAndGet();
 
-	private float xVel = 0, xPos = 0; // TODO account for dpi, fps
-
 	protected abstract void onRender(Canvas c);
 
 	@Override

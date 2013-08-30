@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Looper;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
 import org.quantumbadger.redreader.ui.views.touch.RRClickHandler;
 import org.quantumbadger.redreader.ui.views.touch.RRHSwipeHandler;
 import org.quantumbadger.redreader.ui.views.touch.RRSingleTouchHandlerProvider;
@@ -24,7 +25,7 @@ public abstract class RRView implements RRViewParent, RRSingleTouchHandlerProvid
 	public static final int UNSPECIFIED = -1;
 
 	private boolean unrenderable = true;
-	private static final Paint unrenderablePaint = General.createPaint(Color.RED);
+	private static final Paint uiThreadPaint = General.createPaint(Color.RED);
 
 	private boolean isAnimating = false;
 
@@ -36,20 +37,10 @@ public abstract class RRView implements RRViewParent, RRSingleTouchHandlerProvid
 
 	public final synchronized void draw(final Canvas canvas) {
 
+		if(unrenderable) throw new UnexpectedInternalStateException();
+
 		canvas.save();
 		canvas.translate(xPositionInParent, yPositionInParent);
-
-		if(unrenderable || Looper.getMainLooper().getThread() == Thread.currentThread()) {
-			final int size = 20;
-			canvas.drawLine(0, 0, 0, size, unrenderablePaint);
-			canvas.drawLine(0, size, size, size, unrenderablePaint);
-			canvas.drawLine(0, 0, size, 0, unrenderablePaint);
-			canvas.drawLine(size, size, size, 0, unrenderablePaint);
-			canvas.drawLine(0, 0, size, size, unrenderablePaint);
-			canvas.drawLine(0, size, size, 0, unrenderablePaint);
-
-			if(unrenderable) return;
-		}
 
 		if(paddingPaint != null) {
 			canvas.drawRect(0, 0, width, paddingTop, paddingPaint);
@@ -67,6 +58,19 @@ public abstract class RRView implements RRViewParent, RRSingleTouchHandlerProvid
 		onRender(canvas);
 
 		canvas.restore();
+
+		if(Looper.getMainLooper().getThread() == Thread.currentThread()) {
+			drawCross(canvas, uiThreadPaint, 20);
+		}
+	}
+
+	private void drawCross(final Canvas canvas, final Paint paint, final int size) {
+		canvas.drawLine(0, 0, 0, size, paint);
+		canvas.drawLine(0, size, size, size, paint);
+		canvas.drawLine(0, 0, size, 0, paint);
+		canvas.drawLine(size, size, size, 0, paint);
+		canvas.drawLine(0, 0, size, size, paint);
+		canvas.drawLine(0, size, size, 0, paint);
 	}
 
 	protected abstract void onRender(Canvas canvas);

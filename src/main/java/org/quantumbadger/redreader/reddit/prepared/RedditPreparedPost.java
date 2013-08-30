@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.reddit.prepared;
 
+import android.accounts.*;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,6 +26,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
@@ -32,7 +34,6 @@ import android.text.ClipboardManager;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.http.StatusLine;
 import org.holoeverywhere.app.Activity;
@@ -641,12 +642,7 @@ public final class RedditPreparedPost {
 
 		if(RedditAccountManager.getInstance(activity).getDefaultAccount().isAnonymous()) {
 
-			new Handler(Looper.getMainLooper()).post(new Runnable() {
-				public void run() {
-					Toast.makeText(activity, "You must be logged in to do that.", Toast.LENGTH_SHORT).show();
-				}
-			});
-
+			General.quickToast(activity, "You must be logged in to do that.");
 			return;
 		}
 
@@ -671,7 +667,38 @@ public final class RedditPreparedPost {
 
 		refreshView(activity);
 
-		final RedditAccount user = RedditAccountManager.getInstance(activity).getDefaultAccount();
+		final RedditAccount user = RedditAccountManager.getInstance(activity).getDefaultAccountRequireToken(new AccountManagerCallback<Bundle>() {
+            public void run(AccountManagerFuture<Bundle> bundleAccountManagerFuture) {
+                try {
+                    Bundle bundle = bundleAccountManagerFuture.getResult();
+
+                    Intent intent = (Intent) bundle.get(AccountManager.KEY_INTENT);
+                    if (intent != null) {
+                        General.quickToast(activity, "You must be logged in to do that");
+                        activity.startActivity(intent);
+                    } else {
+                        String token = bundle.getString(AccountManager.KEY_AUTHTOKEN);
+                        String accountName = bundle.getString(AccountManager.KEY_ACCOUNT_NAME);
+
+                        RedditAccountManager manager = RedditAccountManager.getInstance(activity);
+                        manager.setModhash(accountName, token);
+
+                        action(activity, action);
+                    }
+
+                    //TODO Display Error Message
+                } catch (OperationCanceledException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (AuthenticatorException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, activity);
+
+        if (user == null)
+            return;
 
 		RedditAPI.action(CacheManager.getInstance(activity),
 				new APIResponseHandler.ActionResponseHandler(activity) {

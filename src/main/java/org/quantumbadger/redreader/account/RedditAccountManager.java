@@ -140,7 +140,7 @@ public final class RedditAccountManager {
     public synchronized RedditAccount getDefaultAccountRequireToken(AccountManagerCallback<Bundle> callback) {
         RedditAccount account = getDefaultAccount();
 
-        if (account.modhash != null)
+        if (account.modhash != null || account.isAnonymous())
             return account;
         else {
             mAccountManager.getAuthToken(new Account(account.username, RedditAccountAuthenticator.ACCOUNT_TYPE), RedditAccountAuthenticator.TOKENTYPE_MODHASH, null, true, callback, null);
@@ -152,7 +152,7 @@ public final class RedditAccountManager {
     public synchronized RedditAccount getDefaultAccountRequireToken(AccountManagerCallback<Bundle> callback, Activity activity) {
         RedditAccount account = getDefaultAccount();
 
-        if (account.modhash != null)
+        if (account.modhash != null || account.isAnonymous())
             return account;
         else {
             mAccountManager.getAuthToken(new Account(account.username, RedditAccountAuthenticator.ACCOUNT_TYPE), RedditAccountAuthenticator.TOKENTYPE_MODHASH, null, activity, callback, null);
@@ -171,6 +171,17 @@ public final class RedditAccountManager {
         updateNotifier.updateAllListeners();
 	}
 
+    public synchronized void setModhash(String name, String modhash) {
+        final RedditAccount account = getAccount(name);
+        accountsCache.remove(account);
+
+        RedditAccount updatedAccount = new RedditAccount(account.username, account.modhash, account.getCookies(), account.priority);
+        accountsCache.add(updatedAccount);
+
+        if (defaultAccountCache.equals(account))
+            defaultAccountCache = updatedAccount;
+    }
+
     private synchronized void reloadAccounts(boolean keepModhashes) {
 
         LinkedList<RedditAccount> oldAccounts = accountsCache;
@@ -183,9 +194,11 @@ public final class RedditAccountManager {
             String username = account.name;
             String modhash = null;
 
-            for(RedditAccount oldAccount : oldAccounts) {
-                if (oldAccount.equals(account) && keepModhashes) {
-                    modhash = oldAccount.modhash;
+            if (oldAccounts != null) {
+                for(RedditAccount oldAccount : oldAccounts) {
+                    if (oldAccount.equals(account) && keepModhashes) {
+                        modhash = oldAccount.modhash;
+                    }
                 }
             }
 

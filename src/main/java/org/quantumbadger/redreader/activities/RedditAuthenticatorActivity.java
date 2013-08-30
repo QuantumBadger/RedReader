@@ -49,16 +49,12 @@ public class RedditAuthenticatorActivity extends AccountAuthenticatorActivity{
 
     private static String lastUsername = "";
 
-    private AccountManager mAccountManager;
-    private String mAuthTokenType;
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.account_login);
-        mAccountManager = AccountManager.get(this);
 
         String accountName = getIntent().getStringExtra(ARG_ACCOUNT_NAME);
-        mAuthTokenType = getIntent().getStringExtra(ARG_AUTH_TYPE);
+        String mAuthTokenType = getIntent().getStringExtra(ARG_AUTH_TYPE);
 
         if (mAuthTokenType == null)
             mAuthTokenType = RedditAccountAuthenticator.TOKENTYPE_MODHASH;

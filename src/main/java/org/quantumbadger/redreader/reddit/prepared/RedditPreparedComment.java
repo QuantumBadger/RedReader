@@ -17,9 +17,12 @@
 
 package org.quantumbadger.redreader.reddit.prepared;
 
+import android.accounts.*;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.SpannableStringBuilder;
@@ -42,6 +45,7 @@ import org.quantumbadger.redreader.reddit.prepared.markdown.MarkdownParser;
 import org.quantumbadger.redreader.reddit.things.RedditComment;
 import org.quantumbadger.redreader.views.RedditCommentView;
 
+import java.io.IOException;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -251,7 +255,39 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 
 	public void action(final Activity activity, final RedditAPI.RedditAction action) {
 
-		final RedditAccount user = RedditAccountManager.getInstance(activity).getDefaultAccount();
+		final RedditAccount user = RedditAccountManager.getInstance(activity).getDefaultAccountRequireToken(new AccountManagerCallback<Bundle>() {
+            public void run(AccountManagerFuture<Bundle> bundleAccountManagerFuture) {
+                try {
+                    Bundle bundle = bundleAccountManagerFuture.getResult();
+
+                    Intent intent = (Intent)bundle.get(AccountManager.KEY_INTENT);
+                    if (intent != null) {
+                        General.quickToast(activity, "You must be logged in to do that");
+                        activity.startActivity(intent);
+                    }
+                    else {
+                        String token = bundle.getString(AccountManager.KEY_AUTHTOKEN);
+                        String accountName = bundle.getString(AccountManager.KEY_ACCOUNT_NAME);
+
+                        RedditAccountManager manager = RedditAccountManager.getInstance(activity);
+                        manager.setModhash(accountName, token);
+
+                        action(activity, action);
+                    }
+
+                    //TODO Display Error Message
+                } catch (OperationCanceledException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (AuthenticatorException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, activity);
+
+        if (user == null)
+            return;
 
 		if(user.isAnonymous()) {
 			General.quickToast(activity, "You must be logged in to do that.");

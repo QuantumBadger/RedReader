@@ -34,7 +34,9 @@
 
 package org.quantumbadger.redreader.activities;
 
+import android.accounts.*;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -59,11 +61,15 @@ import org.quantumbadger.redreader.fragments.MarkdownPreviewDialog;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 
+import java.io.IOException;
+
 public class CommentEditActivity extends Activity {
 
 	private EditText textEdit;
 
 	private String commentIdAndType = null;
+
+    private final static int REQUEST_CODE_ACCOUNT = 1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -113,83 +119,7 @@ public class CommentEditActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 
 		if(item.getTitle().equals(getString(R.string.comment_edit_save))) {
-
-			final ProgressDialog progressDialog = new ProgressDialog(this);
-			progressDialog.setTitle(getString(R.string.comment_reply_submitting_title));
-			progressDialog.setMessage(getString(R.string.comment_reply_submitting_message));
-			progressDialog.setIndeterminate(true);
-			progressDialog.setCancelable(true);
-			progressDialog.setCanceledOnTouchOutside(false);
-
-			progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-				public void onCancel(final DialogInterface dialogInterface) {
-					General.quickToast(CommentEditActivity.this, R.string.comment_reply_oncancel);
-					progressDialog.dismiss();
-				}
-			});
-
-			progressDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
-				public boolean onKey(final DialogInterface dialogInterface, final int keyCode, final KeyEvent keyEvent) {
-
-					if(keyCode == KeyEvent.KEYCODE_BACK) {
-						General.quickToast(CommentEditActivity.this, R.string.comment_reply_oncancel);
-						progressDialog.dismiss();
-					}
-
-					return true;
-				}
-			});
-
-			final APIResponseHandler.ActionResponseHandler handler = new APIResponseHandler.ActionResponseHandler(this) {
-				@Override
-				protected void onSuccess() {
-					new Handler(Looper.getMainLooper()).post(new Runnable() {
-						public void run() {
-							if(progressDialog.isShowing()) progressDialog.dismiss();
-							General.quickToast(CommentEditActivity.this, R.string.comment_edit_done);
-							finish();
-						}
-					});
-				}
-
-				@Override
-				protected void onCallbackException(Throwable t) {
-					BugReportActivity.handleGlobalError(CommentEditActivity.this, t);
-				}
-
-				@Override
-				protected void onFailure(RequestFailureType type, Throwable t, StatusLine status, String readableMessage) {
-
-					final RRError error = General.getGeneralErrorForFailure(context, type, t, status, null);
-
-					new Handler(Looper.getMainLooper()).post(new Runnable() {
-						public void run() {
-							General.showResultDialog(CommentEditActivity.this, error);
-							if(progressDialog.isShowing()) progressDialog.dismiss();
-						}
-					});
-				}
-
-				@Override
-				protected void onFailure(final APIFailureType type) {
-
-					final RRError error = General.getGeneralErrorForFailure(context, type);
-
-					new Handler(Looper.getMainLooper()).post(new Runnable() {
-						public void run() {
-							General.showResultDialog(CommentEditActivity.this, error);
-							if(progressDialog.isShowing()) progressDialog.dismiss();
-						}
-					});
-				}
-			};
-
-			final CacheManager cm = CacheManager.getInstance(this);
-			final RedditAccount selectedAccount = RedditAccountManager.getInstance(this).getDefaultAccount();
-
-			RedditAPI.editComment(cm, handler, selectedAccount, commentIdAndType, textEdit.getText().toString(), this);
-
-			progressDialog.show();
+            executeAPIRequest();
 
 		} else if(item.getTitle().equals(getString(R.string.comment_reply_preview))) {
 			MarkdownPreviewDialog.newInstance(textEdit.getText().toString()).show(getSupportFragmentManager());
@@ -198,8 +128,130 @@ public class CommentEditActivity extends Activity {
 		return true;
 	}
 
+    public void executeAPIRequest() {
+
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle(getString(R.string.comment_reply_submitting_title));
+        progressDialog.setMessage(getString(R.string.comment_reply_submitting_message));
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(true);
+        progressDialog.setCanceledOnTouchOutside(false);
+
+        progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            public void onCancel(final DialogInterface dialogInterface) {
+                General.quickToast(CommentEditActivity.this, R.string.comment_reply_oncancel);
+                progressDialog.dismiss();
+            }
+        });
+
+        progressDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+            public boolean onKey(final DialogInterface dialogInterface, final int keyCode, final KeyEvent keyEvent) {
+
+                if(keyCode == KeyEvent.KEYCODE_BACK) {
+                    General.quickToast(CommentEditActivity.this, R.string.comment_reply_oncancel);
+                    progressDialog.dismiss();
+                }
+
+                return true;
+            }
+        });
+
+        final APIResponseHandler.ActionResponseHandler handler = new APIResponseHandler.ActionResponseHandler(this) {
+            @Override
+            protected void onSuccess() {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    public void run() {
+                        if(progressDialog.isShowing()) progressDialog.dismiss();
+                        General.quickToast(CommentEditActivity.this, R.string.comment_edit_done);
+                        finish();
+                    }
+                });
+            }
+
+            @Override
+            protected void onCallbackException(Throwable t) {
+                BugReportActivity.handleGlobalError(CommentEditActivity.this, t);
+            }
+
+            @Override
+            protected void onFailure(RequestFailureType type, Throwable t, StatusLine status, String readableMessage) {
+
+                final RRError error = General.getGeneralErrorForFailure(context, type, t, status, null);
+
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    public void run() {
+                        General.showResultDialog(CommentEditActivity.this, error);
+                        if(progressDialog.isShowing()) progressDialog.dismiss();
+                    }
+                });
+            }
+
+            @Override
+            protected void onFailure(final APIFailureType type) {
+
+                final RRError error = General.getGeneralErrorForFailure(context, type);
+
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    public void run() {
+                        General.showResultDialog(CommentEditActivity.this, error);
+                        if(progressDialog.isShowing()) progressDialog.dismiss();
+                    }
+                });
+            }
+        };
+
+        final CacheManager cm = CacheManager.getInstance(this);
+        final RedditAccount selectedAccount = RedditAccountManager.getInstance(this).getDefaultAccountRequireToken(new AccountManagerCallback<Bundle>() {
+            public void run(AccountManagerFuture<Bundle> bundleAccountManagerFuture) {
+                try {
+                    Bundle bundle = bundleAccountManagerFuture.getResult();
+
+                    Intent intent = (Intent)bundle.get(AccountManager.KEY_INTENT);
+                    if (intent != null) {
+                        startActivityForResult(intent, REQUEST_CODE_ACCOUNT);
+                    }
+                    else {
+                        String token = bundle.getString(AccountManager.KEY_AUTHTOKEN);
+                        String accountName = bundle.getString(AccountManager.KEY_ACCOUNT_NAME);
+
+                        RedditAccountManager manager = RedditAccountManager.getInstance(getApplicationContext());
+                        manager.setModhash(accountName, token);
+                        RedditAccount selectedAccount = manager.getDefaultAccount();
+
+                        RedditAPI.editComment(cm, handler, selectedAccount, commentIdAndType, textEdit.getText().toString(), getApplicationContext());
+
+                        progressDialog.show();
+                    }
+
+                    //TODO Display Error Message
+                } catch (OperationCanceledException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (AuthenticatorException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, this);
+        if (selectedAccount != null) {
+            RedditAPI.editComment(cm, handler, selectedAccount, commentIdAndType, textEdit.getText().toString(), this);
+
+            progressDialog.show();
+        }
+    }
+
 	@Override
 	public void onBackPressed() {
 		if(General.onBackPressed()) super.onBackPressed();
 	}
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CODE_ACCOUNT) {
+            if (resultCode == RESULT_OK)
+                executeAPIRequest();
+            else
+                General.quickToast(this, "Login failed");
+        }
+    }
 }

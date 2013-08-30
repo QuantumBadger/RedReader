@@ -182,9 +182,6 @@ public class RedditAuthenticatorActivity extends AccountAuthenticatorActivity{
                             default:
                                 throw new RuntimeException();
                         }
-
-                        //final AlertDialog alertDialog = alertBuilder.create();
-                        //alertDialog.show();
                     }
                 });
 
@@ -196,20 +193,15 @@ public class RedditAuthenticatorActivity extends AccountAuthenticatorActivity{
     }
 
     private void finishLogin(final RedditAccount.LoginResultPair result) {
-        String username = result.account.username;
-        String modhash = result.account.modhash;
-
-        final Account account = new Account(username, getIntent().getStringExtra(ARG_ACCOUNT_TYPE));
 
         if (getIntent().getBooleanExtra(ARG_CREATE_ACCOUNT, false)) {
-            mAccountManager.addAccountExplicitly(account, null, null);
+            RedditAccountManager.getInstance(this).addAccount(result.account);
         }
-        mAccountManager.setAuthToken(account, mAuthTokenType, modhash);
 
         Bundle data = new Bundle();
-        data.putString(AccountManager.KEY_ACCOUNT_NAME, username);
+        data.putString(AccountManager.KEY_ACCOUNT_NAME, result.account.username);
         data.putString(AccountManager.KEY_ACCOUNT_TYPE, getIntent().getStringExtra(ARG_ACCOUNT_TYPE));
-        data.putString(AccountManager.KEY_AUTHTOKEN, modhash);
+        data.putString(AccountManager.KEY_AUTHTOKEN, result.account.modhash);
 
         setAccountAuthenticatorResult(data);
         setResult(RESULT_OK, new Intent().putExtras(data));

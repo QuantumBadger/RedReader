@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.fragments;
 
+import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import org.holoeverywhere.app.DialogFragment;
 import org.holoeverywhere.widget.ListView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
+import org.quantumbadger.redreader.account.RedditAccountAuthenticator;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.adapters.AccountListAdapter;
@@ -65,8 +67,13 @@ public class AccountListDialog extends DialogFragment implements RedditAccountCh
 			public void onItemClick(AdapterView<?> adapterView, View view, int position, final long id) {
 
 				if(position == 0) {
-					new AddAccountDialog().show(getSupportActivity());
-					dismiss();
+                    RedditAccountAuthenticator authenticator = new RedditAccountAuthenticator(getSupportActivity());
+                    try {
+                        authenticator.addAccount(null, RedditAccountAuthenticator.ACCOUNT_TYPE, RedditAccountAuthenticator.TOKENTYPE_MODHASH, null, null);
+                    } catch (NetworkErrorException e) {
+                        e.printStackTrace();
+                    }
+                    dismiss();
 				} else {
 
 					final RedditAccount account = (RedditAccount)lv.getAdapter().getItem(position);

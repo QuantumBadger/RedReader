@@ -20,5 +20,4 @@
                        android:accountType="com.reddit"
                        android:icon="@drawable/icon"
                        android:smallIcon="@drawable/icon"
-                       android:label="@string/accounts_anon"
-                       android:accountPreferences="@xml/prefs_network"/>
+                       android:label="@string/accounts_type"/>

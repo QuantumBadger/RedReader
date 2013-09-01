@@ -49,6 +49,9 @@ public class RedditAuthenticatorActivity extends AccountAuthenticatorActivity{
 
     private static String lastUsername = "";
 
+    private ProgressDialog progressDialog;
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.account_login);
@@ -77,6 +80,20 @@ public class RedditAuthenticatorActivity extends AccountAuthenticatorActivity{
                 finish();
             }
         });
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle(R.string.accounts_loggingin);
+        progressDialog.setMessage(getString(R.string.accounts_loggingin_msg));
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(true);
+        progressDialog.setCanceledOnTouchOutside(false);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        progressDialog.dismiss();
     }
 
     private void submit() {
@@ -85,16 +102,7 @@ public class RedditAuthenticatorActivity extends AccountAuthenticatorActivity{
 
         lastUsername = username;
 
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        final Thread thread;
-        progressDialog.setTitle(R.string.accounts_loggingin);
-        progressDialog.setMessage(getString(R.string.accounts_loggingin_msg));
-        progressDialog.setIndeterminate(true);
-
         final AtomicBoolean cancelled = new AtomicBoolean(false);
-
-        progressDialog.setCancelable(true);
-        progressDialog.setCanceledOnTouchOutside(false);
 
         progressDialog.show();
 
@@ -117,7 +125,7 @@ public class RedditAuthenticatorActivity extends AccountAuthenticatorActivity{
             }
         });
 
-        thread = new Thread() {
+        final Thread thread = new Thread() {
             @Override
             public void run() {
 

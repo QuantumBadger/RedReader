@@ -242,15 +242,15 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 
 	public void refreshView(final Context context) {
 		new Handler(Looper.getMainLooper()).post(new Runnable() {
-			public void run() {
-				rebuildHeader(context);
-				if(boundView != null) {
-					boundView.updateAppearance();
-					boundView.requestLayout();
-					boundView.invalidate();
-				}
-			}
-		});
+            public void run() {
+                rebuildHeader(context);
+                if (boundView != null) {
+                    boundView.updateAppearance();
+                    boundView.requestLayout();
+                    boundView.invalidate();
+                }
+            }
+        });
 	}
 
 	public void action(final Activity activity, final RedditAPI.RedditAction action) {
@@ -270,7 +270,7 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
                         String accountName = bundle.getString(AccountManager.KEY_ACCOUNT_NAME);
 
                         RedditAccountManager manager = RedditAccountManager.getInstance(activity);
-                        manager.setModhash(accountName, token);
+                        manager.addModhashToCache(accountName, token);
 
                         action(activity, action);
                     }

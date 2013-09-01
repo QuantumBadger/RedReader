@@ -681,7 +681,7 @@ public final class RedditPreparedPost {
                         String accountName = bundle.getString(AccountManager.KEY_ACCOUNT_NAME);
 
                         RedditAccountManager manager = RedditAccountManager.getInstance(activity);
-                        manager.setModhash(accountName, token);
+                        manager.addModhashToCache(accountName, token);
 
                         action(activity, action);
                     }

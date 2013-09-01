@@ -199,16 +199,6 @@ public class CommentReplyActivity extends Activity {
 
 			final CacheManager cm = CacheManager.getInstance(this);
 
-			/*final ArrayList<RedditAccount> accounts = RedditAccountManager.getInstance(this).getAccounts();
-			RedditAccount selectedAccount = null;
-
-			for(RedditAccount account : accounts) {
-				if(!account.isAnonymous() && account.username.equalsIgnoreCase((String)usernameSpinner.getSelectedItem())) {
-					selectedAccount = account;
-					break;
-				}
-			}*/
-
             final RedditAccount selectedAccount = RedditAccountManager.getInstance(this).getAccountRequireToken((String) usernameSpinner.getSelectedItem(), new AccountManagerCallback<Bundle>() {
                 public void run(AccountManagerFuture<Bundle> bundleAccountManagerFuture) {
                     try {
@@ -224,7 +214,7 @@ public class CommentReplyActivity extends Activity {
                             String accountName = bundle.getString(AccountManager.KEY_ACCOUNT_NAME);
 
                             RedditAccountManager manager = RedditAccountManager.getInstance(getApplicationContext());
-                            manager.setModhash(accountName, token);
+                            manager.addModhashToCache(accountName, token);
                             RedditAccount selectedAccount = manager.getDefaultAccount();
 
                             RedditAPI.comment(cm, handler, selectedAccount, parentIdAndType, textEdit.getText().toString(), getApplicationContext());

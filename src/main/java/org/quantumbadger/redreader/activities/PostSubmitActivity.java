@@ -281,7 +281,7 @@ public class PostSubmitActivity extends Activity {
                         String accountName = bundle.getString(AccountManager.KEY_ACCOUNT_NAME);
 
                         RedditAccountManager manager = RedditAccountManager.getInstance(getApplicationContext());
-                        manager.setModhash(accountName, token);
+                        manager.addModhashToCache(accountName, token);
                         RedditAccount selectedAccount = manager.getDefaultAccount();
 
                         RedditAPI.submit(cm, handler, selectedAccount, is_self, subreddit, title, text, captchaId, captchaText, getApplicationContext());

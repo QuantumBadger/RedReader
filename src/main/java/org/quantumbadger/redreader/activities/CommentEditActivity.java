@@ -215,7 +215,7 @@ public class CommentEditActivity extends Activity {
                         String accountName = bundle.getString(AccountManager.KEY_ACCOUNT_NAME);
 
                         RedditAccountManager manager = RedditAccountManager.getInstance(getApplicationContext());
-                        manager.setModhash(accountName, token);
+                        manager.addModhashToCache(accountName, token);
                         RedditAccount selectedAccount = manager.getDefaultAccount();
 
                         RedditAPI.editComment(cm, handler, selectedAccount, commentIdAndType, textEdit.getText().toString(), getApplicationContext());

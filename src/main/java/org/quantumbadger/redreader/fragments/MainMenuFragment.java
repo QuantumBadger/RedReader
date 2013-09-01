@@ -143,7 +143,7 @@ public class MainMenuFragment extends Fragment implements MainMenuSelectionListe
                         String accountName = bundle.getString(AccountManager.KEY_ACCOUNT_NAME);
 
                         RedditAccountManager manager = RedditAccountManager.getInstance(getSupportActivity());
-                        manager.setModhash(accountName, token);
+                        manager.addModhashToCache(accountName, token);
 
                         loadSubreddits(context);
                     }

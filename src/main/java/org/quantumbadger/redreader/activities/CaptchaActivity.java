@@ -87,7 +87,7 @@ public class CaptchaActivity extends Activity {
                         String accountName = bundle.getString(AccountManager.KEY_ACCOUNT_NAME);
 
                         RedditAccountManager manager = RedditAccountManager.getInstance(getApplicationContext());
-                        manager.setModhash(accountName, token);
+                        manager.addModhashToCache(accountName, token);
 
                         loadCaptcha();
                     }

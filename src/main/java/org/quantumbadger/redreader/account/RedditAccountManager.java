@@ -89,6 +89,14 @@ public final class RedditAccountManager {
         return new ArrayList<RedditAccount>(accountsCache);
 	}
 
+    /**
+     * Returns the requested reddit account.
+     * Do not use if you require a modhash
+     *
+     * @param username Username of the disired account
+     * @return Requested reddit account. Modhash will be NULL, if not in Cache
+     */
+
 	public RedditAccount getAccount(String username) {
 
 		final ArrayList<RedditAccount> accounts = getAccounts();
@@ -104,6 +112,19 @@ public final class RedditAccountManager {
 		return selectedAccount;
 	}
 
+    /**
+     * Returns the requested reddit account.
+     * If no modhash is set in the account cache, the android account manager is called.
+     *
+     * It is your responsibility to add the aquired modhash to the cache via addModhashToCache().
+     *
+     * Intended for use without a visible UI, i.e. in a network polling service.
+     *
+     * @param username Username of the disired account
+     * @param callback Callback that gets called, when the account manager returns his authtoken
+     * @return Requested reddit account. NULL, if no modhash was in cache
+     */
+
     public RedditAccount getAccountRequireToken(String username, AccountManagerCallback<Bundle> callback) {
         RedditAccount account = getAccount(username);
 
@@ -115,6 +136,21 @@ public final class RedditAccountManager {
             return null;
         }
     }
+
+    /**
+     * Returns the requested reddit account.
+     * If no modhash is set in the account cache, the android account manager is called.
+     *
+     * It is your responsibility to add the aquired modhash to the cache via addModhashToCache().
+     *
+     * Intended for use in activities. If no AuthToken included in the intent, it should start the
+     * intent for result and retry the authentication after completition.
+     *
+     * @param username Username of the disired account
+     * @param callback Callback that gets called, when the account manager returns his authtoken
+     * @param activity activity that should display the login request
+     * @return Requested reddit account. NULL, if no modhash was in cache
+     */
 
     public RedditAccount getAccountRequireToken(String username, AccountManagerCallback<Bundle> callback, Activity activity) {
         RedditAccount account = getAccount(username);
@@ -128,6 +164,13 @@ public final class RedditAccountManager {
         }
     }
 
+    /**
+     * Returns the default reddit account.
+     * Do not use if you require a modhash.
+     *
+     * @return Default reddit account. Modhash will be NULL, if not in Cache
+     */
+
 	public synchronized RedditAccount getDefaultAccount() {
 
         if(defaultAccountCache == null) {
@@ -136,6 +179,18 @@ public final class RedditAccountManager {
 
         return defaultAccountCache;
 	}
+
+    /**
+     * Returns the default reddit account.
+     * If no modhash is set in the account cache, the android account manager is called.
+     *
+     * It is your responsibility to add the aquired modhash to the cache via addModhashToCache().
+     *
+     * Intended for use without a visible UI, i.e. in a network polling service.
+     *
+     * @param callback Callback that gets called, when the account manager returns his authtoken
+     * @return Default reddit account. NULL, if no modhash was in cache
+     */
 
     public synchronized RedditAccount getDefaultAccountRequireToken(AccountManagerCallback<Bundle> callback) {
         RedditAccount account = getDefaultAccount();
@@ -148,6 +203,20 @@ public final class RedditAccountManager {
             return null;
         }
     }
+
+    /**
+     * Returns the default reddit account.
+     * If no modhash is set in the account cache, the android account manager is called.
+     *
+     * It is your responsibility to add the aquired modhash to the cache via addModhashToCache().
+     *
+     * Intended for use in activities. If no AuthToken included in the intent, it should start the
+     * intent for result and retry the authentication after completition.
+     *
+     * @param callback Callback that gets called, when the account manager returns his authtoken
+     * @param activity activity that should display the login request
+     * @return Default reddit account. NULL, if no modhash was in cache
+     */
 
     public synchronized RedditAccount getDefaultAccountRequireToken(AccountManagerCallback<Bundle> callback, Activity activity) {
         RedditAccount account = getDefaultAccount();
@@ -171,8 +240,16 @@ public final class RedditAccountManager {
         updateNotifier.updateAllListeners();
 	}
 
-    public synchronized void setModhash(String name, String modhash) {
-        final RedditAccount account = getAccount(name);
+    /**
+     * Adds the modhash to the account cache.
+     * It won't be request from the account manager until the next restart of the app
+     *
+     * @param username
+     * @param modhash
+     */
+
+    public synchronized void addModhashToCache(String username, String modhash) {
+        final RedditAccount account = getAccount(username);
         accountsCache.remove(account);
 
         RedditAccount updatedAccount = new RedditAccount(account.username, modhash, account.getCookies(), account.priority);

@@ -175,7 +175,7 @@ public final class RedditAccountManager {
         final RedditAccount account = getAccount(name);
         accountsCache.remove(account);
 
-        RedditAccount updatedAccount = new RedditAccount(account.username, account.modhash, account.getCookies(), account.priority);
+        RedditAccount updatedAccount = new RedditAccount(account.username, modhash, account.getCookies(), account.priority);
         accountsCache.add(updatedAccount);
 
         if (defaultAccountCache.equals(account))

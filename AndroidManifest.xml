@@ -120,6 +120,12 @@
                        android:resource="@xml/reddit_authenticator" />
         </service>
 
+        <provider
+            android:name=".sync.StubContentProvider"
+            android:authorities="org.quantumbadger.redreader.provider"
+            android:export="false"
+            android:syncable="true"/>
+
     </application>
 
 </manifest>

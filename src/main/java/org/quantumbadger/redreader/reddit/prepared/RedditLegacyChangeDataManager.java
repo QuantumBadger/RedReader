@@ -29,7 +29,7 @@ import org.quantumbadger.redreader.common.RRTime;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class RedditChangeDataManager extends SQLiteOpenHelper {
+public class RedditLegacyChangeDataManager extends SQLiteOpenHelper {
 
 	private static final String USERDATA_DB_FILENAME = "change_data.db";
 	private static final int DB_VERSION = 1;
@@ -45,14 +45,14 @@ public class RedditChangeDataManager extends SQLiteOpenHelper {
 			FIELD_ACTIONS_DIRTY = "dirty", // For future use
 			FIELD_ACTIONS_LASTUPDATE = "lastupdate";
 
-	private static RedditChangeDataManager singleton;
+	private static RedditLegacyChangeDataManager singleton;
 
-	public static synchronized RedditChangeDataManager getInstance(final Context context) {
-		if(singleton == null) singleton = new RedditChangeDataManager(context.getApplicationContext());
+	public static synchronized RedditLegacyChangeDataManager getInstance(final Context context) {
+		if(singleton == null) singleton = new RedditLegacyChangeDataManager(context.getApplicationContext());
 		return singleton;
 	}
 
-	private RedditChangeDataManager(final Context context) {
+	private RedditLegacyChangeDataManager(final Context context) {
 		super(context.getApplicationContext(), USERDATA_DB_FILENAME, null, DB_VERSION);
 	}
 

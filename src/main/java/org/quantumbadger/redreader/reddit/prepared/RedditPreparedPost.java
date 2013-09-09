@@ -152,9 +152,9 @@ public final class RedditPreparedPost {
 
 		lastChange = timestamp;
 		if(voteDirection != 0 || saved || hidden) {
-			RedditChangeDataManager.getInstance(context).update(parentSubreddit.url, user, this, true);
+			RedditLegacyChangeDataManager.getInstance(context).update(parentSubreddit.url, user, this, true);
 		} else if(updateNeeded) {
-			RedditChangeDataManager.getInstance(context).update(parentSubreddit.url, user, this, false);
+			RedditLegacyChangeDataManager.getInstance(context).update(parentSubreddit.url, user, this, false);
 		}
 
 		rebuildSubtitle(context);
@@ -621,7 +621,7 @@ public final class RedditPreparedPost {
 	public void markAsRead(final Context context) {
 		setRead(true);
 		final RedditAccount user = RedditAccountManager.getInstance(context).getDefaultAccount();
-		RedditChangeDataManager.getInstance(context).update(parentSubreddit.url, user, RedditPreparedPost.this, true);
+		RedditLegacyChangeDataManager.getInstance(context).update(parentSubreddit.url, user, RedditPreparedPost.this, true);
 	}
 
 	public void refreshView(final Context context) {
@@ -709,7 +709,7 @@ public final class RedditPreparedPost {
 					@Override
 					protected void onSuccess() {
 						lastChange = RRTime.utcCurrentTimeMillis();
-						RedditChangeDataManager.getInstance(context).update(parentSubreddit == null ? null : parentSubreddit.url,
+						RedditLegacyChangeDataManager.getInstance(context).update(parentSubreddit == null ? null : parentSubreddit.url,
 								user, RedditPreparedPost.this, true);
 					}
 

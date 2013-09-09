@@ -25,7 +25,9 @@ import java.util.regex.Pattern;
 
 public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit> {
 
-    public static final class InvalidSubredditNameException extends RuntimeException {}
+	public static final int db_version = 1;
+
+	public static final class InvalidSubredditNameException extends RuntimeException {}
 
 	public String header_img, header_title;
 	public String description, description_html, public_description;
@@ -33,7 +35,10 @@ public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit> 
 	public long created, created_utc;
 	public Integer accounts_active, subscribers;
 	public boolean over18;
-	private final boolean isReal, isSortable;
+	public long downloadTime;
+
+	// TODO remove
+	private transient final boolean isReal, isSortable;
     private static final Pattern NAME_PATTERN = Pattern.compile("(/)?(r/)?([\\w\\+\\-]+)");
 
     /**
@@ -41,7 +46,7 @@ public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit> 
      * @return a subreddit name in the form "/r/subreddit" (lower-cased)
      * @throws InvalidSubredditNameException if {@code name} is null or not in the expected format
      */
-    public static final String getNormalizedName(String name) throws InvalidSubredditNameException {
+    public static String getNormalizedName(String name) throws InvalidSubredditNameException {
         Matcher matcher = NAME_PATTERN.matcher(name);
         if(matcher.matches()) {
             return "/r/" + matcher.group(3).toLowerCase();

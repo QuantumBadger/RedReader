@@ -118,9 +118,9 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 
 		lastChange = timestamp;
 		if(src.likes != null) {
-			RedditChangeDataManager.getInstance(context).update(src.link_id, user, this, true);
+			RedditLegacyChangeDataManager.getInstance(context).update(src.link_id, user, this, true);
 		} else if(needsUpdating) {
-			RedditChangeDataManager.getInstance(context).update(src.link_id, user, this, false);
+			RedditLegacyChangeDataManager.getInstance(context).update(src.link_id, user, this, false);
 		}
 
 		rebuildHeader(context);
@@ -303,7 +303,7 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 					@Override
 					protected void onSuccess() {
 						lastChange = RRTime.utcCurrentTimeMillis();
-						RedditChangeDataManager.getInstance(context).update(src.link_id, user, RedditPreparedComment.this, true);
+						RedditLegacyChangeDataManager.getInstance(context).update(src.link_id, user, RedditPreparedComment.this, true);
 						refreshView(activity);
 					}
 

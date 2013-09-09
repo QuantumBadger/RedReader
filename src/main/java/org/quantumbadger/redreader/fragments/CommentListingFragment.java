@@ -62,7 +62,7 @@ import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.RedditAPI;
-import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
+import org.quantumbadger.redreader.reddit.prepared.RedditLegacyChangeDataManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedComment;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.prepared.markdown.MarkdownParser;
@@ -444,7 +444,7 @@ public class CommentListingFragment extends Fragment
 					final JsonBufferedObject listing = thing.getObject("data");
 					final JsonBufferedArray topLevelComments = listing.getArray("children");
 
-					final HashSet<String> needsChanging = RedditChangeDataManager.getInstance(context).getChangedForParent(parentPostIdAndType, user);
+					final HashSet<String> needsChanging = RedditLegacyChangeDataManager.getInstance(context).getChangedForParent(parentPostIdAndType, user);
 
 					for(final JsonValue commentThingValue : topLevelComments) {
 						buildComments(commentThingValue, null, timestamp, needsChanging);

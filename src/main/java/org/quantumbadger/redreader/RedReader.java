@@ -22,7 +22,7 @@ import org.holoeverywhere.app.Application;
 import org.holoeverywhere.preference.PreferenceManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.common.PrefsUtility;
-import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
+import org.quantumbadger.redreader.reddit.prepared.RedditLegacyChangeDataManager;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -73,7 +73,7 @@ public class RedReader extends Application {
 
 				cm.pruneCache(); // Hope for the best :)
 
-				final RedditChangeDataManager cdm = RedditChangeDataManager.getInstance(RedReader.this);
+				final RedditLegacyChangeDataManager cdm = RedditLegacyChangeDataManager.getInstance(RedReader.this);
 				cdm.prune(PrefsUtility.pref_cache_maxage(RedReader.this, PreferenceManager.getDefaultSharedPreferences(RedReader.this)));
 
 			}

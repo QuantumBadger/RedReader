@@ -47,7 +47,7 @@ import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
-import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
+import org.quantumbadger.redreader.reddit.prepared.RedditLegacyChangeDataManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
@@ -442,7 +442,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 
 				final CacheManager cm = CacheManager.getInstance(context);
 
-				final HashSet<String> needsChanging = RedditChangeDataManager.getInstance(context).getChangedForParent(subreddit.url, user);
+				final HashSet<String> needsChanging = RedditLegacyChangeDataManager.getInstance(context).getChangedForParent(subreddit.url, user);
 
 				for(final JsonValue postThingValue : posts) {
 

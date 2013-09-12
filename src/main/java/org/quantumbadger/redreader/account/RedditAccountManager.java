@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.account;
 
 import android.accounts.*;
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -89,14 +88,6 @@ public final class RedditAccountManager {
         return new ArrayList<RedditAccount>(accountsCache);
 	}
 
-    /**
-     * Returns the requested reddit account.
-     * Do not use if you require a modhash
-     *
-     * @param username Username of the disired account
-     * @return Requested reddit account. Modhash will be NULL, if not in Cache
-     */
-
 	public RedditAccount getAccount(String username) {
 
 		final ArrayList<RedditAccount> accounts = getAccounts();
@@ -112,65 +103,6 @@ public final class RedditAccountManager {
 		return selectedAccount;
 	}
 
-    /**
-     * Returns the requested reddit account.
-     * If no modhash is set in the account cache, the android account manager is called.
-     *
-     * It is your responsibility to add the aquired modhash to the cache via addModhashToCache().
-     *
-     * Intended for use without a visible UI, i.e. in a network polling service.
-     *
-     * @param username Username of the disired account
-     * @param callback Callback that gets called, when the account manager returns his authtoken
-     * @return Requested reddit account. NULL, if no modhash was in cache
-     */
-
-    public RedditAccount getAccountRequireToken(String username, AccountManagerCallback<Bundle> callback) {
-        RedditAccount account = getAccount(username);
-
-        if (account.getCookieString() != null)
-            return account;
-        else {
-            mAccountManager.getAuthToken(new Account(account.username, RedditAccountAuthenticator.ACCOUNT_TYPE), RedditAccountAuthenticator.TOKENTYPE_COOKIE, null, true, callback, null);
-
-            return null;
-        }
-    }
-
-    /**
-     * Returns the requested reddit account.
-     * If no modhash is set in the account cache, the android account manager is called.
-     *
-     * It is your responsibility to add the aquired modhash to the cache via addModhashToCache().
-     *
-     * Intended for use in activities. If no AuthToken included in the intent, it should start the
-     * intent for result and retry the authentication after completition.
-     *
-     * @param username Username of the disired account
-     * @param callback Callback that gets called, when the account manager returns his authtoken
-     * @param activity activity that should display the login request
-     * @return Requested reddit account. NULL, if no modhash was in cache
-     */
-
-    public RedditAccount getAccountRequireToken(String username, AccountManagerCallback<Bundle> callback, Activity activity) {
-        RedditAccount account = getAccount(username);
-
-        if (account.getCookieString() != null)
-            return account;
-        else {
-            mAccountManager.getAuthToken(new Account(account.username, RedditAccountAuthenticator.ACCOUNT_TYPE), RedditAccountAuthenticator.TOKENTYPE_COOKIE, null, activity, callback, null);
-
-            return null;
-        }
-    }
-
-    /**
-     * Returns the default reddit account.
-     * Do not use if you require a modhash.
-     *
-     * @return Default reddit account. Modhash will be NULL, if not in Cache
-     */
-
 	public synchronized RedditAccount getDefaultAccount() {
 
         if(defaultAccountCache == null) {
@@ -179,56 +111,6 @@ public final class RedditAccountManager {
 
         return defaultAccountCache;
 	}
-
-    /**
-     * Returns the default reddit account.
-     * If no modhash is set in the account cache, the android account manager is called.
-     *
-     * It is your responsibility to add the aquired modhash to the cache via addModhashToCache().
-     *
-     * Intended for use without a visible UI, i.e. in a network polling service.
-     *
-     * @param callback Callback that gets called, when the account manager returns his authtoken
-     * @return Default reddit account. NULL, if no modhash was in cache
-     */
-
-    public synchronized RedditAccount getDefaultAccountRequireToken(AccountManagerCallback<Bundle> callback) {
-        RedditAccount account = getDefaultAccount();
-
-        if (account.getCookieString() != null)
-            return account;
-        else {
-            mAccountManager.getAuthToken(new Account(account.username, RedditAccountAuthenticator.ACCOUNT_TYPE), RedditAccountAuthenticator.TOKENTYPE_COOKIE, null, true, callback, null);
-
-            return null;
-        }
-    }
-
-    /**
-     * Returns the default reddit account.
-     * If no modhash is set in the account cache, the android account manager is called.
-     *
-     * It is your responsibility to add the aquired modhash to the cache via addModhashToCache().
-     *
-     * Intended for use in activities. If no AuthToken included in the intent, it should start the
-     * intent for result and retry the authentication after completition.
-     *
-     * @param callback Callback that gets called, when the account manager returns his authtoken
-     * @param activity activity that should display the login request
-     * @return Default reddit account. NULL, if no modhash was in cache
-     */
-
-    public synchronized RedditAccount getDefaultAccountRequireToken(AccountManagerCallback<Bundle> callback, Activity activity) {
-        RedditAccount account = getDefaultAccount();
-
-        if (account.getCookieString() != null)
-            return account;
-        else {
-            mAccountManager.getAuthToken(new Account(account.username, RedditAccountAuthenticator.ACCOUNT_TYPE), RedditAccountAuthenticator.TOKENTYPE_COOKIE, null, activity, callback, null);
-
-            return null;
-        }
-    }
 
 	public synchronized void setDefaultAccount(final RedditAccount newDefault) {
 
@@ -239,25 +121,6 @@ public final class RedditAccountManager {
         reloadAccounts(true);
         updateNotifier.updateAllListeners();
 	}
-
-    /**
-     * Adds the modhash to the account cache.
-     * It won't be request from the account manager until the next restart of the app
-     *
-     * @param username Username of the account where the cookie should be set
-     * @param cookies Cookie to write in the cache
-     */
-
-    public synchronized void setCookiesToCache(String username, String cookies) {
-        final RedditAccount account = getAccount(username);
-        accountsCache.remove(account);
-
-        RedditAccount updatedAccount = new RedditAccount(account.username, account.modhash, cookies == null ? null : new PersistentCookieStore(cookies), account.priority);
-        accountsCache.add(updatedAccount);
-
-        if (defaultAccountCache.equals(account))
-            defaultAccountCache = updatedAccount;
-    }
 
     private synchronized void reloadAccounts(boolean keepCookies) {
 
@@ -271,9 +134,15 @@ public final class RedditAccountManager {
             String username = account.name;
             String cookies = null;
 
-            for(RedditAccount oldAccount : oldAccounts) {
-                if (oldAccount.equals(account) && keepCookies) {
-                    cookies = oldAccount.getCookieString();
+            //This is not save to call!
+            //It will return NULL, if no Cookie is stored in the AccountManager
+            cookies = mAccountManager.peekAuthToken(account, RedditAccountAuthenticator.TOKENTYPE_COOKIE);
+
+            if (oldAccounts != null) {
+                for(RedditAccount oldAccount : oldAccounts) {
+                    if (oldAccount.equals(account) && keepCookies) {
+                        cookies = oldAccount.getCookieString();
+                    }
                 }
             }
 

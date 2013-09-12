@@ -17,7 +17,6 @@
 
 package org.quantumbadger.redreader.activities;
 
-import android.accounts.Account;
 import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountManager;
 import android.content.DialogInterface;

@@ -17,7 +17,6 @@
 
 package org.quantumbadger.redreader.activities;
 
-import android.accounts.*;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -49,7 +48,6 @@ import org.quantumbadger.redreader.fragments.MarkdownPreviewDialog;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 // TODO save draft as static var (as in comments)
@@ -254,54 +252,17 @@ public class PostSubmitActivity extends Activity {
 
 		final boolean is_self = !typeSpinner.getSelectedItem().equals("Link");
 
-        String subredditTemp = subredditEdit.getText().toString();
-        final String title = titleEdit.getText().toString();
-        final String text = textEdit.getText().toString();
-        final String captchaId = data.getStringExtra("captchaId");
-        final String captchaText = data.getStringExtra("captchaText");
+		final RedditAccount selectedAccount = RedditAccountManager.getInstance(this).getAccount((String) usernameSpinner.getSelectedItem());
 
-        while(subredditTemp.startsWith("/")) subredditTemp = subredditTemp.substring(1);
-        while(subredditTemp.startsWith("r/")) subredditTemp = subredditTemp.substring(2);
-        while(subredditTemp.endsWith("/")) subredditTemp = subredditTemp.substring(0, subredditTemp.length() - 1);
+		String subreddit = subredditEdit.getText().toString();
+		final String title = titleEdit.getText().toString();
+		final String text = textEdit.getText().toString();
+		final String captchaId = data.getStringExtra("captchaId");
+		final String captchaText = data.getStringExtra("captchaText");
 
-        final String subreddit = subredditTemp;
-
-		final RedditAccount selectedAccount = RedditAccountManager.getInstance(this).getAccountRequireToken((String) usernameSpinner.getSelectedItem(), new AccountManagerCallback<Bundle>() {
-            public void run(AccountManagerFuture<Bundle> bundleAccountManagerFuture) {
-                try {
-                    Bundle bundle = bundleAccountManagerFuture.getResult();
-
-                    Intent intent = (Intent)bundle.get(AccountManager.KEY_INTENT);
-                    if (intent != null) {
-                        startActivity(intent);
-                        General.quickToast(getApplicationContext(), "You have to log in to do that");
-                    }
-                    else {
-                        String token = bundle.getString(AccountManager.KEY_AUTHTOKEN);
-                        String accountName = bundle.getString(AccountManager.KEY_ACCOUNT_NAME);
-
-                        RedditAccountManager manager = RedditAccountManager.getInstance(getApplicationContext());
-                        manager.addModhashToCache(accountName, token);
-                        RedditAccount selectedAccount = manager.getDefaultAccount();
-
-                        RedditAPI.submit(cm, handler, selectedAccount, is_self, subreddit, title, text, captchaId, captchaText, getApplicationContext());
-
-                        progressDialog.show();
-                    }
-
-                    //TODO Display Error Message
-                } catch (OperationCanceledException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (AuthenticatorException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, this);
-
-        if (selectedAccount == null)
-            return;
+		while(subreddit.startsWith("/")) subreddit = subreddit.substring(1);
+		while(subreddit.startsWith("r/")) subreddit = subreddit.substring(2);
+		while(subreddit.endsWith("/")) subreddit = subreddit.substring(0, subreddit.length() - 1);
 
 		RedditAPI.submit(cm, handler, selectedAccount, is_self, subreddit, title, text, captchaId, captchaText, this);
 

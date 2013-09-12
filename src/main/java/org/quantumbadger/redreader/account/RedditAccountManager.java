@@ -195,7 +195,7 @@ public final class RedditAccountManager {
     public synchronized RedditAccount getDefaultAccountRequireToken(AccountManagerCallback<Bundle> callback) {
         RedditAccount account = getDefaultAccount();
 
-        if (account.modhash != null || account.isAnonymous())
+        if (account.modhash != null)
             return account;
         else {
             mAccountManager.getAuthToken(new Account(account.username, RedditAccountAuthenticator.ACCOUNT_TYPE), RedditAccountAuthenticator.TOKENTYPE_MODHASH, null, true, callback, null);
@@ -221,7 +221,7 @@ public final class RedditAccountManager {
     public synchronized RedditAccount getDefaultAccountRequireToken(AccountManagerCallback<Bundle> callback, Activity activity) {
         RedditAccount account = getDefaultAccount();
 
-        if (account.modhash != null || account.isAnonymous())
+        if (account.modhash != null)
             return account;
         else {
             mAccountManager.getAuthToken(new Account(account.username, RedditAccountAuthenticator.ACCOUNT_TYPE), RedditAccountAuthenticator.TOKENTYPE_MODHASH, null, activity, callback, null);
@@ -240,25 +240,6 @@ public final class RedditAccountManager {
         updateNotifier.updateAllListeners();
 	}
 
-    /**
-     * Adds the modhash to the account cache.
-     * It won't be request from the account manager until the next restart of the app
-     *
-     * @param username
-     * @param modhash
-     */
-
-    public synchronized void addModhashToCache(String username, String modhash) {
-        final RedditAccount account = getAccount(username);
-        accountsCache.remove(account);
-
-        RedditAccount updatedAccount = new RedditAccount(account.username, modhash, account.getCookies(), account.priority);
-        accountsCache.add(updatedAccount);
-
-        if (defaultAccountCache.equals(account))
-            defaultAccountCache = updatedAccount;
-    }
-
     private synchronized void reloadAccounts(boolean keepModhashes) {
 
         LinkedList<RedditAccount> oldAccounts = accountsCache;
@@ -271,11 +252,9 @@ public final class RedditAccountManager {
             String username = account.name;
             String modhash = null;
 
-            if (oldAccounts != null) {
-                for(RedditAccount oldAccount : oldAccounts) {
-                    if (oldAccount.equals(account) && keepModhashes) {
-                        modhash = oldAccount.modhash;
-                    }
+            for(RedditAccount oldAccount : oldAccounts) {
+                if (oldAccount.equals(account) && keepModhashes) {
+                    modhash = oldAccount.modhash;
                 }
             }
 

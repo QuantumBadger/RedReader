@@ -21,6 +21,8 @@ import android.accounts.*;
 import android.content.Context;
 import android.os.Bundle;
 
+import org.holoeverywhere.preference.PreferenceManager;
+import org.holoeverywhere.preference.SharedPreferences;
 import org.quantumbadger.redreader.cache.PersistentCookieStore;
 import org.quantumbadger.redreader.common.UpdateNotifier;
 
@@ -34,10 +36,12 @@ public final class RedditAccountManager {
 
     private static final String USERDATA_PRIORITY = "priority";
     private static final String USERDATA_MODHASH = "modhash";
+    private static final String ANON_PRIORITY_PREF = "anonymous_account_priority";
 
 	private static final RedditAccount ANON = new RedditAccount("", null, null, 10);
 
     private final AccountManager mAccountManager;
+    private final Context mContext;
 
 	private final UpdateNotifier<RedditAccountChangeListener> updateNotifier = new UpdateNotifier<RedditAccountChangeListener>() {
 		@Override
@@ -63,6 +67,7 @@ public final class RedditAccountManager {
 
 	private RedditAccountManager(final Context context) {
         this.mAccountManager = AccountManager.get(context);
+        this.mContext = context;
 	}
 
 	public synchronized void addAccount(final RedditAccount account) {
@@ -114,11 +119,21 @@ public final class RedditAccountManager {
 
 	public synchronized void setDefaultAccount(final RedditAccount newDefault) {
 
-        Account updateAccount = new Account(newDefault.username, RedditAccountAuthenticator.ACCOUNT_TYPE);
+        if (!newDefault.isAnonymous()) {
+            Account updateAccount = new Account(newDefault.username, RedditAccountAuthenticator.ACCOUNT_TYPE);
 
-        mAccountManager.setUserData(updateAccount, USERDATA_PRIORITY, Long.toString(getDefaultAccount().priority - 1));
+            mAccountManager.setUserData(updateAccount, USERDATA_PRIORITY, Long.toString(getDefaultAccount().priority - 1));
 
-        reloadAccounts(true);
+            reloadAccounts(true);
+        }
+        else {
+            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mContext).edit();
+            editor.putLong(ANON_PRIORITY_PREF, newDefault.priority);
+            editor.commit();
+
+            defaultAccountCache = newDefault;
+        }
+
         updateNotifier.updateAllListeners();
 	}
 
@@ -129,6 +144,12 @@ public final class RedditAccountManager {
         defaultAccountCache = null;
 
         Account[] accounts = mAccountManager.getAccountsByType(RedditAccountAuthenticator.ACCOUNT_TYPE);
+
+        long anonymousAccountPriority = PreferenceManager.getDefaultSharedPreferences(mContext).getLong(ANON_PRIORITY_PREF, 10);
+        RedditAccount anon = getAnon();
+        RedditAccount priorityAnon = new RedditAccount(anon.username, anon.modhash, anon.getCookies(), anonymousAccountPriority);
+        accountsCache.add(priorityAnon);
+        defaultAccountCache = priorityAnon;
 
         for (Account account : accounts) {
             String username = account.name;

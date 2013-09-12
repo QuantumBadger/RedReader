@@ -18,9 +18,6 @@
 package org.quantumbadger.redreader.fragments;
 
 import android.accounts.AccountManager;
-import android.accounts.AccountManagerCallback;
-import android.accounts.AccountManagerFuture;
-import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -70,7 +67,7 @@ public class AccountListDialog extends DialogFragment implements RedditAccountCh
 			public void onItemClick(AdapterView<?> adapterView, View view, int position, final long id) {
 
 				if(position == 0) {
-                    AccountManager.get(getSupportActivity()).addAccount(RedditAccountAuthenticator.ACCOUNT_TYPE, RedditAccountAuthenticator.TOKENTYPE_MODHASH, null, null, getSupportActivity(), null, null);
+                    AccountManager.get(getSupportActivity()).addAccount(RedditAccountAuthenticator.ACCOUNT_TYPE, RedditAccountAuthenticator.TOKENTYPE_COOKIE, null, null, getSupportActivity(), null, null);
                     dismiss();
 				} else {
 

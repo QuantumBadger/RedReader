@@ -59,7 +59,7 @@ public class RedditAuthenticatorActivity extends AccountAuthenticatorActivity{
         String mAuthTokenType = getIntent().getStringExtra(ARG_AUTH_TYPE);
 
         if (mAuthTokenType == null)
-            mAuthTokenType = RedditAccountAuthenticator.TOKENTYPE_MODHASH;
+            mAuthTokenType = RedditAccountAuthenticator.TOKENTYPE_COOKIE;
 
         if (accountName != null) {
             ((EditText)findViewById(R.id.login_username)).setText(accountName);
@@ -204,7 +204,7 @@ public class RedditAuthenticatorActivity extends AccountAuthenticatorActivity{
         Bundle data = new Bundle();
         data.putString(AccountManager.KEY_ACCOUNT_NAME, result.account.username);
         data.putString(AccountManager.KEY_ACCOUNT_TYPE, getIntent().getStringExtra(ARG_ACCOUNT_TYPE));
-        data.putString(AccountManager.KEY_AUTHTOKEN, result.account.modhash);
+        data.putString(AccountManager.KEY_AUTHTOKEN, result.account.getCookieString());
 
         setAccountAuthenticatorResult(data);
         setResult(RESULT_OK, new Intent().putExtras(data));

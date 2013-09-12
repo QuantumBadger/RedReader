@@ -34,7 +34,7 @@ public final class RedditAccountManager {
 	private RedditAccount defaultAccountCache = null;
 
     private static final String USERDATA_PRIORITY = "priority";
-    private static final String USERDATA_COOKIES = "cookies";
+    private static final String USERDATA_MODHASH = "modhash";
 
 	private static final RedditAccount ANON = new RedditAccount("", null, null, 10);
 
@@ -72,10 +72,10 @@ public final class RedditAccountManager {
 
         Bundle userdata = new Bundle();
         userdata.putString(USERDATA_PRIORITY, Long.toString(account.priority));
-        userdata.putString(USERDATA_COOKIES, account.getCookieString());
+        userdata.putString(USERDATA_MODHASH, account.modhash);
 
         mAccountManager.addAccountExplicitly(redditAccount, null, userdata);
-        mAccountManager.setAuthToken(redditAccount, RedditAccountAuthenticator.TOKENTYPE_MODHASH, account.modhash);
+        mAccountManager.setAuthToken(redditAccount, RedditAccountAuthenticator.TOKENTYPE_COOKIE, account.getCookieString());
 
         updateNotifier.updateAllListeners();
 	}
@@ -128,10 +128,10 @@ public final class RedditAccountManager {
     public RedditAccount getAccountRequireToken(String username, AccountManagerCallback<Bundle> callback) {
         RedditAccount account = getAccount(username);
 
-        if (account.modhash != null)
+        if (account.getCookieString() != null)
             return account;
         else {
-            mAccountManager.getAuthToken(new Account(account.username, RedditAccountAuthenticator.ACCOUNT_TYPE), RedditAccountAuthenticator.TOKENTYPE_MODHASH, null, true, callback, null);
+            mAccountManager.getAuthToken(new Account(account.username, RedditAccountAuthenticator.ACCOUNT_TYPE), RedditAccountAuthenticator.TOKENTYPE_COOKIE, null, true, callback, null);
 
             return null;
         }
@@ -155,10 +155,10 @@ public final class RedditAccountManager {
     public RedditAccount getAccountRequireToken(String username, AccountManagerCallback<Bundle> callback, Activity activity) {
         RedditAccount account = getAccount(username);
 
-        if (account.modhash != null)
+        if (account.getCookieString() != null)
             return account;
         else {
-            mAccountManager.getAuthToken(new Account(account.username, RedditAccountAuthenticator.ACCOUNT_TYPE), RedditAccountAuthenticator.TOKENTYPE_MODHASH, null, activity, callback, null);
+            mAccountManager.getAuthToken(new Account(account.username, RedditAccountAuthenticator.ACCOUNT_TYPE), RedditAccountAuthenticator.TOKENTYPE_COOKIE, null, activity, callback, null);
 
             return null;
         }
@@ -195,10 +195,10 @@ public final class RedditAccountManager {
     public synchronized RedditAccount getDefaultAccountRequireToken(AccountManagerCallback<Bundle> callback) {
         RedditAccount account = getDefaultAccount();
 
-        if (account.modhash != null)
+        if (account.getCookieString() != null)
             return account;
         else {
-            mAccountManager.getAuthToken(new Account(account.username, RedditAccountAuthenticator.ACCOUNT_TYPE), RedditAccountAuthenticator.TOKENTYPE_MODHASH, null, true, callback, null);
+            mAccountManager.getAuthToken(new Account(account.username, RedditAccountAuthenticator.ACCOUNT_TYPE), RedditAccountAuthenticator.TOKENTYPE_COOKIE, null, true, callback, null);
 
             return null;
         }
@@ -221,10 +221,10 @@ public final class RedditAccountManager {
     public synchronized RedditAccount getDefaultAccountRequireToken(AccountManagerCallback<Bundle> callback, Activity activity) {
         RedditAccount account = getDefaultAccount();
 
-        if (account.modhash != null)
+        if (account.getCookieString() != null)
             return account;
         else {
-            mAccountManager.getAuthToken(new Account(account.username, RedditAccountAuthenticator.ACCOUNT_TYPE), RedditAccountAuthenticator.TOKENTYPE_MODHASH, null, activity, callback, null);
+            mAccountManager.getAuthToken(new Account(account.username, RedditAccountAuthenticator.ACCOUNT_TYPE), RedditAccountAuthenticator.TOKENTYPE_COOKIE, null, activity, callback, null);
 
             return null;
         }
@@ -240,7 +240,26 @@ public final class RedditAccountManager {
         updateNotifier.updateAllListeners();
 	}
 
-    private synchronized void reloadAccounts(boolean keepModhashes) {
+    /**
+     * Adds the modhash to the account cache.
+     * It won't be request from the account manager until the next restart of the app
+     *
+     * @param username Username of the account where the cookie should be set
+     * @param cookies Cookie to write in the cache
+     */
+
+    public synchronized void setCookiesToCache(String username, String cookies) {
+        final RedditAccount account = getAccount(username);
+        accountsCache.remove(account);
+
+        RedditAccount updatedAccount = new RedditAccount(account.username, account.modhash, cookies == null ? null : new PersistentCookieStore(cookies), account.priority);
+        accountsCache.add(updatedAccount);
+
+        if (defaultAccountCache.equals(account))
+            defaultAccountCache = updatedAccount;
+    }
+
+    private synchronized void reloadAccounts(boolean keepCookies) {
 
         LinkedList<RedditAccount> oldAccounts = accountsCache;
         accountsCache = new LinkedList<RedditAccount>();
@@ -250,16 +269,16 @@ public final class RedditAccountManager {
 
         for (Account account : accounts) {
             String username = account.name;
-            String modhash = null;
+            String cookies = null;
 
             for(RedditAccount oldAccount : oldAccounts) {
-                if (oldAccount.equals(account) && keepModhashes) {
-                    modhash = oldAccount.modhash;
+                if (oldAccount.equals(account) && keepCookies) {
+                    cookies = oldAccount.getCookieString();
                 }
             }
 
             long priority = new Long(mAccountManager.getUserData(account, USERDATA_PRIORITY));
-            String cookies = mAccountManager.getUserData(account, USERDATA_COOKIES);
+            String modhash = mAccountManager.getUserData(account, USERDATA_MODHASH);
 
             RedditAccount redditAccount = new RedditAccount(username, modhash, cookies == null ? null : new PersistentCookieStore(cookies), priority);
             accountsCache.add(redditAccount);

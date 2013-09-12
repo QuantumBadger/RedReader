@@ -27,7 +27,7 @@ public class RedditAccountAuthenticator extends AbstractAccountAuthenticator{
 
     public final static String ACCOUNT_TYPE = "com.reddit";
 
-    public final static String TOKENTYPE_MODHASH = "modhash";
+    public final static String TOKENTYPE_COOKIE = "cookie";
 
     private final Context mContext;
 
@@ -63,7 +63,7 @@ public class RedditAccountAuthenticator extends AbstractAccountAuthenticator{
     @Override
     public Bundle getAuthToken(AccountAuthenticatorResponse response, Account account, String authTokenType, Bundle options) throws NetworkErrorException {
 
-        if (!authTokenType.equals(TOKENTYPE_MODHASH)) {
+        if (!authTokenType.equals(TOKENTYPE_COOKIE)) {
             final Bundle result = new Bundle();
             result.putString(AccountManager.KEY_ERROR_MESSAGE, "invalid authTokenType");
             return result;

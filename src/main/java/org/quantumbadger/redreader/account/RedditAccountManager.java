@@ -119,19 +119,21 @@ public final class RedditAccountManager {
 
 	public synchronized void setDefaultAccount(final RedditAccount newDefault) {
 
+        long newPriority = defaultAccountCache.priority - 1;
+
         if (!newDefault.isAnonymous()) {
             Account updateAccount = new Account(newDefault.username, RedditAccountAuthenticator.ACCOUNT_TYPE);
 
-            mAccountManager.setUserData(updateAccount, USERDATA_PRIORITY, Long.toString(getDefaultAccount().priority - 1));
+            mAccountManager.setUserData(updateAccount, USERDATA_PRIORITY, Long.toString(newPriority));
 
             reloadAccounts(true);
         }
         else {
             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mContext).edit();
-            editor.putLong(ANON_PRIORITY_PREF, newDefault.priority);
+            editor.putLong(ANON_PRIORITY_PREF, newPriority);
             editor.commit();
 
-            defaultAccountCache = newDefault;
+            defaultAccountCache = new RedditAccount(newDefault.username, newDefault.modhash, newDefault.getCookies(), newPriority);
         }
 
         updateNotifier.updateAllListeners();

@@ -26,7 +26,21 @@ public final class WeakReferenceListManager<E> {
 				operator.operate(object);
 			}
 		}
+	}
 
+	public synchronized <A> void map(final ArgOperator<E, A> operator, final A arg) {
+
+		final Iterator<WeakReference<E>> iterator = data.iterator();
+
+		while(iterator.hasNext()) {
+			final E object = iterator.next().get();
+
+			if(object == null) {
+				iterator.remove();
+			} else {
+				operator.operate(object, arg);
+			}
+		}
 	}
 
 	public synchronized void remove(final E object) {
@@ -39,5 +53,9 @@ public final class WeakReferenceListManager<E> {
 
 	public static interface Operator<E> {
 		public void operate(E object);
+	}
+
+	public static interface ArgOperator<E, A> {
+		public void operate(E object, A arg);
 	}
 }

@@ -19,13 +19,22 @@ package org.quantumbadger.redreader.reddit.things;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import org.quantumbadger.redreader.io.WritableObject;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit> {
+public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>, WritableObject {
 
 	public static final int db_version = 1;
+
+	public String getKey() {
+		return null; // TODO canonicalize
+	}
+
+	public long getTimestamp() {
+		return downloadTime;
+	}
 
 	public static final class InvalidSubredditNameException extends RuntimeException {}
 

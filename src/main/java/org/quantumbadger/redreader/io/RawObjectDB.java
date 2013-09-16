@@ -15,7 +15,7 @@
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.reddit;
+package org.quantumbadger.redreader.io;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -23,15 +23,15 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 
-public class RawObjectDB<E> extends SQLiteOpenHelper {
+public class RawObjectDB<E extends WritableObject<String>> extends SQLiteOpenHelper {
 
 	private final Class<E> clazz;
 	private static final int DB_VERSION = 1;
@@ -40,10 +40,9 @@ public class RawObjectDB<E> extends SQLiteOpenHelper {
 	private final String[] fieldNames;
 
 	private static final String TABLE_NAME = "objects",
-			FIELD_ID = "id",
-			FIELD_USER = "RawObjectDB_user";
+			FIELD_ID = "RawObjectDB_id";
 
-	private RawObjectDB(final Context context, final String dbFilename, final Class<E> clazz) {
+	public RawObjectDB(final Context context, final String dbFilename, final Class<E> clazz) {
 
 		super(context.getApplicationContext(), dbFilename, null, DB_VERSION);
 		this.clazz = clazz;
@@ -86,8 +85,8 @@ public class RawObjectDB<E> extends SQLiteOpenHelper {
 		final StringBuilder query = new StringBuilder("CREATE TABLE ");
 		query.append(TABLE_NAME);
 		query.append('(');
-		query.append(FIELD_USER);
-		query.append(" TEXT");
+		query.append(FIELD_ID);
+		query.append(" TEXT PRIMARY KEY ON CONFLICT REPLACE");
 
 		for(final Field field : fields) {
 			query.append(',');
@@ -95,11 +94,7 @@ public class RawObjectDB<E> extends SQLiteOpenHelper {
 			query.append(getFieldTypeString(field.getType()));
 		}
 
-		query.append(", PRIMARY KEY(");
-		query.append(FIELD_ID);
-		query.append(',');
-		query.append(FIELD_USER);
-		query.append(") ON CONFLICT REPLACE)");
+		query.append(')');
 
 		Log.i("RawObjectDB query string", query.toString());
 
@@ -113,14 +108,13 @@ public class RawObjectDB<E> extends SQLiteOpenHelper {
 		// TODO detect version from static field, delete all data, start again
 	}
 
-	public synchronized Collection<E> getAll(RedditAccount user) {
+	public synchronized Collection<E> getAll() {
 
 		final SQLiteDatabase db = getReadableDatabase();
 
 		try {
 
-			final Cursor cursor = db.query(TABLE_NAME, fieldNames, String.format("%s=?", FIELD_USER),
-					new String[] {user.username}, null, null, null);
+			final Cursor cursor = db.query(TABLE_NAME, fieldNames, null, null, null, null, null);
 
 			try {
 
@@ -138,18 +132,23 @@ public class RawObjectDB<E> extends SQLiteOpenHelper {
 		} finally { db.close(); }
 	}
 
-	public synchronized Collection<E> getByField(final RedditAccount user, final String field, final String value) {
+	public synchronized E getById(final String id) {
+		final ArrayList<E> queryResult = getByField(FIELD_ID, id);
+		if(queryResult.size() != 1) return null;
+		else return queryResult.get(0);
+	}
+
+	public synchronized ArrayList<E> getByField(final String field, final String value) {
 
 		final SQLiteDatabase db = getReadableDatabase();
 
 		try {
 
-			final Cursor cursor = db.query(TABLE_NAME, fieldNames, String.format("%s=? AND %s=?", FIELD_USER, field),
-					new String[] {user.username, value}, null, null, null);
+			final Cursor cursor = db.query(TABLE_NAME, fieldNames, String.format("%s=?", field),
+					new String[] {value}, null, null, null);
 
 			try {
-
-				final LinkedList<E> result = new LinkedList<E>();
+				final ArrayList<E> result = new ArrayList<E>(cursor.getCount());
 				while(cursor.moveToNext()) result.add(readFromCursor(cursor));
 				return result;
 
@@ -195,13 +194,12 @@ public class RawObjectDB<E> extends SQLiteOpenHelper {
 		return obj;
 	}
 
-	public synchronized void put(RedditAccount user, E object) {
+	public synchronized void put(E object) {
 
 		final SQLiteDatabase db = getWritableDatabase();
 
 		try {
 			final ContentValues values = new ContentValues(fields.length + 1);
-			values.put(FIELD_USER, user.username);
 			db.insert(TABLE_NAME, null, toContentValues(object, values));
 
 		} catch(IllegalAccessException e) {
@@ -210,14 +208,13 @@ public class RawObjectDB<E> extends SQLiteOpenHelper {
 		} finally { db.close(); }
 	}
 
-	public synchronized void putAll(final RedditAccount user, final Collection<E> objects) {
+	public synchronized void putAll(final Collection<E> objects) {
 
 		final SQLiteDatabase db = getWritableDatabase();
 
 		try {
 
 			final ContentValues values = new ContentValues(fields.length + 1);
-			values.put(FIELD_USER, user.username);
 
 			for(final E object : objects) {
 				db.insert(TABLE_NAME, null, toContentValues(object, values));
@@ -230,6 +227,8 @@ public class RawObjectDB<E> extends SQLiteOpenHelper {
 	}
 
 	private ContentValues toContentValues(final E obj, final ContentValues result) throws IllegalAccessException {
+
+		result.put(FIELD_ID, obj.getKey());
 
 		for(int i = 0; i < fields.length; i++) {
 
@@ -258,4 +257,5 @@ public class RawObjectDB<E> extends SQLiteOpenHelper {
 
 		return result;
 	}
+
 }

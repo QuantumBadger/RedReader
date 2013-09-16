@@ -17,29 +17,31 @@
 
 package org.quantumbadger.redreader.account;
 
-import android.content.ContentValues;
+import android.accounts.*;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import org.quantumbadger.redreader.activities.BugReportActivity;
+import android.os.Bundle;
+
+import org.holoeverywhere.preference.PreferenceManager;
+import org.holoeverywhere.preference.SharedPreferences;
 import org.quantumbadger.redreader.cache.PersistentCookieStore;
-import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.UpdateNotifier;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
-public final class RedditAccountManager extends SQLiteOpenHelper {
+public final class RedditAccountManager {
 
-	private List<RedditAccount> accountsCache = null;
+	private LinkedList<RedditAccount> accountsCache = null;
 	private RedditAccount defaultAccountCache = null;
+
+    private static final String USERDATA_PRIORITY = "priority";
+    private static final String USERDATA_MODHASH = "modhash";
+    private static final String ANON_PRIORITY_PREF = "anonymous_account_priority";
 
 	private static final RedditAccount ANON = new RedditAccount("", null, null, 10);
 
-	private final Context context;
+    private final AccountManager mAccountManager;
+    private final Context mContext;
 
 	private final UpdateNotifier<RedditAccountChangeListener> updateNotifier = new UpdateNotifier<RedditAccountChangeListener>() {
 		@Override
@@ -47,15 +49,6 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 			listener.onRedditAccountChanged();
 		}
 	};
-
-	private static final String ACCOUNTS_DB_FILENAME = "accounts.db",
-			TABLE = "accounts",
-			FIELD_USERNAME = "username",
-			FIELD_COOKIES = "cookies",
-			FIELD_MODHASH = "modhash",
-			FIELD_PRIORITY = "priority";
-
-	private static final int ACCOUNTS_DB_VERSION = 2;
 
 	private static RedditAccountManager singleton;
 
@@ -73,76 +66,31 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 	}
 
 	private RedditAccountManager(final Context context) {
-		super(context.getApplicationContext(), ACCOUNTS_DB_FILENAME, null, ACCOUNTS_DB_VERSION);
-		this.context = context;
-	}
-
-	@Override
-	public void onCreate(final SQLiteDatabase db) {
-
-		final String queryString = String.format(
-				"CREATE TABLE %s (" +
-						"%s TEXT NOT NULL PRIMARY KEY ON CONFLICT REPLACE," +
-						"%s BLOB," +
-						"%s TEXT," +
-						"%s INTEGER)",
-				TABLE,
-				FIELD_USERNAME,
-				FIELD_COOKIES,
-				FIELD_MODHASH,
-				FIELD_PRIORITY);
-
-		db.execSQL(queryString);
-
-		addAccount(getAnon(), db);
-	}
-
-	@Override
-	public void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion) {
-
-		if(oldVersion == 1 && newVersion == 2) {
-
-			db.execSQL(String.format("UPDATE %s SET %2$s=TRIM(%2$s) WHERE %2$s <> TRIM(%2$s)", TABLE, FIELD_USERNAME));
-
-		} else {
-			throw new RuntimeException("Invalid accounts DB update: " + oldVersion + " to " + newVersion);
-		}
+        this.mAccountManager = AccountManager.get(context);
+        this.mContext = context;
 	}
 
 	public synchronized void addAccount(final RedditAccount account) {
-		addAccount(account, null);
-	}
 
-	private synchronized void addAccount(final RedditAccount account, final SQLiteDatabase inDb) {
+        final Account redditAccount = new Account(account.username, RedditAccountAuthenticator.ACCOUNT_TYPE);
 
-		final SQLiteDatabase db;
-		if(inDb == null) db = getWritableDatabase();
-		else db = inDb;
+        Bundle userdata = new Bundle();
+        userdata.putString(USERDATA_PRIORITY, Long.toString(account.priority));
+        userdata.putString(USERDATA_MODHASH, account.modhash);
 
-		final ContentValues row = new ContentValues();
+        mAccountManager.addAccountExplicitly(redditAccount, null, userdata);
+        mAccountManager.setAuthToken(redditAccount, RedditAccountAuthenticator.TOKENTYPE_COOKIE, account.getCookieString());
 
-		row.put(FIELD_USERNAME, account.username);
-		row.put(FIELD_COOKIES, account.getCookieBytes());
-		row.put(FIELD_MODHASH, account.modhash);
-		row.put(FIELD_PRIORITY, account.priority);
-
-		db.insert(TABLE, null, row);
-
-		reloadAccounts(db);
-		updateNotifier.updateAllListeners();
-
-		if(inDb == null) db.close();
+        updateNotifier.updateAllListeners();
 	}
 
 	public synchronized ArrayList<RedditAccount> getAccounts() {
 
-		if(accountsCache == null) {
-			final SQLiteDatabase db = getReadableDatabase();
-			reloadAccounts(db);
-			db.close();
-		}
+        if(accountsCache == null) {
+            reloadAccounts(true);
+        }
 
-		return new ArrayList<RedditAccount>(accountsCache);
+        return new ArrayList<RedditAccount>(accountsCache);
 	}
 
 	public RedditAccount getAccount(String username) {
@@ -162,71 +110,75 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 
 	public synchronized RedditAccount getDefaultAccount() {
 
-		if(defaultAccountCache == null) {
-			final SQLiteDatabase db = getReadableDatabase();
-			reloadAccounts(db);
-			db.close();
-		}
+        if(defaultAccountCache == null) {
+            reloadAccounts(true);
+        }
 
-		return defaultAccountCache;
+        return defaultAccountCache;
 	}
 
 	public synchronized void setDefaultAccount(final RedditAccount newDefault) {
 
-		final SQLiteDatabase db = getWritableDatabase();
+        long newPriority = defaultAccountCache.priority - 1;
 
-		db.execSQL(
-				String.format("UPDATE %s SET %s=(SELECT MIN(%s)-1 FROM %s) WHERE %s=?", TABLE, FIELD_PRIORITY, FIELD_PRIORITY, TABLE, FIELD_USERNAME),
-				new String[]{newDefault.username});
+        if (!newDefault.isAnonymous()) {
+            Account updateAccount = new Account(newDefault.username, RedditAccountAuthenticator.ACCOUNT_TYPE);
 
-		reloadAccounts(db);
-		db.close();
+            mAccountManager.setUserData(updateAccount, USERDATA_PRIORITY, Long.toString(newPriority));
 
-		updateNotifier.updateAllListeners();
+            reloadAccounts(true);
+        }
+        else {
+            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mContext).edit();
+            editor.putLong(ANON_PRIORITY_PREF, newPriority);
+            editor.commit();
+
+            defaultAccountCache = new RedditAccount(newDefault.username, newDefault.modhash, newDefault.getCookies(), newPriority);
+        }
+
+        updateNotifier.updateAllListeners();
 	}
 
-	private synchronized void reloadAccounts(final SQLiteDatabase db) {
+    private synchronized void reloadAccounts(boolean keepCookies) {
 
-		final String[] fields = new String[] {FIELD_USERNAME, FIELD_COOKIES, FIELD_MODHASH, FIELD_PRIORITY};
+        LinkedList<RedditAccount> oldAccounts = accountsCache;
+        accountsCache = new LinkedList<RedditAccount>();
+        defaultAccountCache = null;
 
-		final Cursor cursor = db.query(TABLE, fields, null, null, null, null, FIELD_PRIORITY + " ASC");
+        Account[] accounts = mAccountManager.getAccountsByType(RedditAccountAuthenticator.ACCOUNT_TYPE);
 
-		accountsCache = new LinkedList<RedditAccount>();
-		defaultAccountCache = null;
+        long anonymousAccountPriority = PreferenceManager.getDefaultSharedPreferences(mContext).getLong(ANON_PRIORITY_PREF, 10);
+        RedditAccount anon = getAnon();
+        RedditAccount priorityAnon = new RedditAccount(anon.username, anon.modhash, anon.getCookies(), anonymousAccountPriority);
+        accountsCache.add(priorityAnon);
+        defaultAccountCache = priorityAnon;
 
-		// TODO handle null? can this even happen?
-		if (cursor != null) {
+        for (Account account : accounts) {
+            String username = account.name;
+            String cookies = null;
 
-			while(cursor.moveToNext()) {
+            //This is not save to call!
+            //It will return NULL, if no Cookie is stored in the AccountManager
+            cookies = mAccountManager.peekAuthToken(account, RedditAccountAuthenticator.TOKENTYPE_COOKIE);
 
-				final String username = cursor.getString(0);
-				final byte[] cookies = cursor.getBlob(1);
-				final String modhash = cursor.getString(2);
-				final long priority = cursor.getLong(3);
+            if (oldAccounts != null) {
+                for(RedditAccount oldAccount : oldAccounts) {
+                    if (oldAccount.equals(account) && keepCookies) {
+                        cookies = oldAccount.getCookieString();
+                    }
+                }
+            }
 
-				final RedditAccount account;
+            long priority = new Long(mAccountManager.getUserData(account, USERDATA_PRIORITY));
+            String modhash = mAccountManager.getUserData(account, USERDATA_MODHASH);
 
-				try {
-					account = new RedditAccount(username, modhash, cookies == null ? null : new PersistentCookieStore(cookies), priority);
+            RedditAccount redditAccount = new RedditAccount(username, modhash, cookies == null ? null : new PersistentCookieStore(cookies), priority);
+            accountsCache.add(redditAccount);
 
-				} catch (IOException e) {
-					BugReportActivity.handleGlobalError(context, new RRError(null, null, e));
-					return;
-				}
-
-				accountsCache.add(account);
-
-				if(defaultAccountCache == null || account.priority < defaultAccountCache.priority) {
-					defaultAccountCache = account;
-				}
-			}
-
-			cursor.close();
-
-		} else {
-			BugReportActivity.handleGlobalError(context, "Cursor was null after query");
-		}
-	}
+            if(defaultAccountCache == null || redditAccount.priority < defaultAccountCache.priority)
+                defaultAccountCache = redditAccount;
+        }
+    }
 
 	public void addUpdateListener(final RedditAccountChangeListener listener) {
 		updateNotifier.addListener(listener);
@@ -234,10 +186,8 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 
 	public void deleteAccount(RedditAccount account) {
 
-		final SQLiteDatabase db = getWritableDatabase();
-		db.delete(TABLE, FIELD_USERNAME + "=?", new String[]{account.username});
-		reloadAccounts(db);
-		updateNotifier.updateAllListeners();
-		db.close();
+        Account deleteAccount = new Account(account.username, RedditAccountAuthenticator.ACCOUNT_TYPE);
+        mAccountManager.removeAccount(deleteAccount, null, null);
+        updateNotifier.updateAllListeners();
 	}
 }

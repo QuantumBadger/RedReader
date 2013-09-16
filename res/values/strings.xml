@@ -162,6 +162,7 @@
     <string name="listing_cached">Viewing cached copy from</string>
 
     <!-- Accounts Dialog -->
+    <string name="accounts_type">Reddit</string>
 
     <string name="accounts_anon">Anonymous</string>
     <string name="accounts_active">Active</string>

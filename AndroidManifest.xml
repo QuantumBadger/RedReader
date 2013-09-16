@@ -31,6 +31,12 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.USE_CREDENTIALS"/>
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
 
     <application
             android:name="org.quantumbadger.redreader.RedReader"
@@ -101,12 +107,37 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
-        <service android:name=".reddit.RedditInboxPoller"/>
+
         <activity android:name=".widgets.SubredditWidgetConfigure">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
             </intent-filter>
         </activity>
+        <activity android:name=".activities.RedditAuthenticatorActivity" android:label="Reddit"/>
+        <service android:name=".account.RedditAccountService">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator" />
+            </intent-filter>
+            <meta-data android:name="android.accounts.AccountAuthenticator"
+                       android:resource="@xml/reddit_authenticator" />
+        </service>
+
+        <service
+            android:name=".sync.MessageSyncService"
+            android:exported="true"
+            android:process=":sync">
+            <intent-filter>com.example.android.datasync.provider
+                <action android:name="android.content.SyncAdapter"/>
+            </intent-filter>
+            <meta-data android:name="android.content.SyncAdapter"
+                       android:resource="@xml/sync_message" />
+        </service>
+
+        <provider
+            android:name=".sync.StubContentProvider"
+            android:authorities="org.quantumbadger.redreader.provider"
+            android:exported="false"
+            android:syncable="true"/>
 
     </application>
 

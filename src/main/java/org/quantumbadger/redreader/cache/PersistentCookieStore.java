@@ -22,8 +22,8 @@ import org.apache.http.client.CookieStore;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.cookie.BasicClientCookie;
 
-import java.io.*;
 import java.util.*;
+import java.util.regex.Pattern;
 
 public final class PersistentCookieStore implements CookieStore {
 
@@ -39,55 +39,28 @@ public final class PersistentCookieStore implements CookieStore {
 		this.cookies.addAll(cookies);
 	}
 
-	public PersistentCookieStore(final byte[] data) throws IOException {
+    public PersistentCookieStore(final String data) throws ArrayIndexOutOfBoundsException{
 
-		final DataInputStream dis = new DataInputStream(new ByteArrayInputStream(data));
+        String[] cookieStrings = data.split(Pattern.quote("; "));
+        Pattern cookieSplitter = Pattern.compile(",");
 
-		final int len = dis.readInt();
+        for (String cookie : cookieStrings) {
+            String[] cookieData = cookieSplitter.split(cookie);
 
-		for(int i = 0; i < len; i++) {
+            final String name = cookieData[0];
+            final String value = cookieData[1];
+            final String domain = cookieData[2];
+            final String path = cookieData[3];
+            final boolean isSecure = Boolean.valueOf(cookieData[4]);
 
-			final String name = dis.readUTF();
-			final String value = dis.readUTF();
-			final String domain = dis.readUTF();
-			final String path = dis.readUTF();
-			final boolean isSecure = dis.readBoolean();
+            final BasicClientCookie result = new BasicClientCookie(name, value);
+            result.setDomain(domain);
+            result.setPath(path);
+            result.setSecure(isSecure);
 
-			final BasicClientCookie cookie = new BasicClientCookie(name, value);
-			cookie.setDomain(domain);
-			cookie.setPath(path);
-			cookie.setSecure(isSecure);
-
-			cookies.add(cookie);
-		}
-	}
-
-	public synchronized byte[] toByteArray() {
-
-		final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		final DataOutputStream dos = new DataOutputStream(baos);
-
-		try {
-
-			dos.writeInt(cookies.size());
-
-			for(final Cookie cookie : cookies) {
-
-				dos.writeUTF(cookie.getName());
-				dos.writeUTF(cookie.getValue());
-				dos.writeUTF(cookie.getDomain());
-				dos.writeUTF(cookie.getPath());
-				dos.writeBoolean(cookie.isSecure());
-			}
-
-			dos.flush();
-			dos.close();
-		} catch(IOException e) {
-			throw new RuntimeException(e);
-		}
-
-		return baos.toByteArray();
-	}
+            cookies.add(result);
+        }
+    }
 
 	public synchronized void addCookie(final Cookie cookie) {
 		cookies.add(cookie);
@@ -125,7 +98,7 @@ public final class PersistentCookieStore implements CookieStore {
 		final LinkedList<String> cookieStrings = new LinkedList<String>();
 
 		for(final Cookie c : cookies) {
-			cookieStrings.add(String.format("%s=%s", c.getName(), c.getValue()));
+			cookieStrings.add(String.format("%s,%s,%s,%s, %b", c.getName(), c.getValue(), c.getDomain(), c.getPath(), c.isSecure()));
 		}
 
 		return StringUtils.join(cookieStrings, "; ");

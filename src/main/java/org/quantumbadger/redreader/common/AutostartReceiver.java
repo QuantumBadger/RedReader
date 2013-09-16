@@ -17,19 +17,34 @@
 
 package org.quantumbadger.redreader.common;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
-import org.quantumbadger.redreader.reddit.RedditInboxPoller;
 
 public class AutostartReceiver extends BroadcastReceiver {
+
+    private static final String ACCOUNT_TYPE = "com.reddit";
+    private static final String SYNC_AUTHORITY = "org.quantumbadger.redreader.provider";
 
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
             Log.d("RedReader", "Autostart init");
-            RedditInboxPoller.startPolling(context);
+
+            AccountManager manager = AccountManager.get(context);
+            Account[] accounts = manager.getAccountsByType(ACCOUNT_TYPE);
+
+            //TODO Make interval a user preference
+            int syncInterval = 15 * 60;
+
+            for (Account account : accounts) {
+                ContentResolver.addPeriodicSync(account, SYNC_AUTHORITY, new Bundle(), syncInterval);
+            }
         }
     }
 }

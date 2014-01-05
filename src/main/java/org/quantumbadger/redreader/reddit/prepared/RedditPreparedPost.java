@@ -166,7 +166,7 @@ public final class RedditPreparedPost {
 
 		final ArrayList<RPVMenuItem> menu = new ArrayList<RPVMenuItem>();
 
-		if(!RedditAccountManager.getInstance(context).getDefaultAccount().isAnonymous()) {
+		if(!General.isProfileRestricted(context)) {
 
 			if(itemPref.contains(Action.UPVOTE)) {
 				if(!post.isUpvoted()) {
@@ -785,11 +785,11 @@ public final class RedditPreparedPost {
 		final Action[] possibleItems = {
 				Action.ACTION_MENU,
 				fragmentParent instanceof CommentListingFragment ? Action.LINK_SWITCH : Action.COMMENTS_SWITCH,
-				Action.UPVOTE,
-				Action.DOWNVOTE,
-				Action.SAVE,
-				Action.HIDE,
-				Action.REPLY,
+                !General.isProfileRestricted(context) ? Action.UPVOTE : null,
+                !General.isProfileRestricted(context) ? Action.DOWNVOTE : null,
+                !General.isProfileRestricted(context) ? Action.SAVE : null,
+                !General.isProfileRestricted(context) ? Action.HIDE : null,
+                !General.isProfileRestricted(context) ? Action.REPLY : null,
 				Action.EXTERNAL,
 				Action.SAVE_IMAGE,
 				Action.SHARE,
@@ -833,7 +833,7 @@ public final class RedditPreparedPost {
 
 		for(final Action action : possibleItems) {
 
-			if(action == Action.SAVE_IMAGE && imageUrl == null) continue;
+			if(action == Action.SAVE_IMAGE && imageUrl == null || action == null) continue;
 
 			if(itemsPref.contains(action)) {
 

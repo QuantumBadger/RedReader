@@ -24,10 +24,7 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
-import android.os.SystemClock;
+import android.os.*;
 import android.text.TextPaint;
 import android.util.Log;
 import android.util.TypedValue;
@@ -381,4 +378,14 @@ public final class General {
 		for(byte b : hash) result.append(String.format("%02X", b));
 		return result.toString();
 	}
+
+    public static boolean isProfileRestricted(Context ctx) {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            UserManager um = (UserManager) ctx.getSystemService(Context.USER_SERVICE);
+            Bundle restrictions = um.getUserRestrictions();
+            return restrictions.getBoolean(UserManager.DISALLOW_MODIFY_ACCOUNTS, false);
+        }
+        else
+            return false;
+    }
 }

@@ -30,6 +30,7 @@ import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.preference.SharedPreferences;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.BetterSSB;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.AccountListDialog;
 import org.quantumbadger.redreader.listingcontrollers.CommentListingController;
@@ -53,7 +54,7 @@ public final class OptionsMenuUtility {
 			if(postsSortable) addAllPostSorts(activity, menu, true);
 			add(activity, menu, Option.REFRESH_POSTS, false);
 			add(activity, menu, Option.PAST_POSTS, false);
-			add(activity, menu, Option.SUBMIT_POST, false);
+            if(!General.isProfileRestricted(activity)) add(activity, menu, Option.SUBMIT_POST, false);
 			add(activity, menu, Option.SEARCH, false);
 
 		} else if(!subredditsVisible && !postsVisible && commentsVisible) {
@@ -88,14 +89,13 @@ public final class OptionsMenuUtility {
 			if(subredditsVisible) add(activity, refreshMenu, Option.REFRESH_SUBREDDITS, true);
 			if(postsVisible) {
 				add(activity, refreshMenu, Option.REFRESH_POSTS, true);
-				add(activity, menu, Option.SUBMIT_POST, false);
+                if(!General.isProfileRestricted(activity)) add(activity, menu, Option.SUBMIT_POST, false);
 				add(activity, menu, Option.SEARCH, false);
 			}
 			if(commentsVisible) add(activity, refreshMenu, Option.REFRESH_COMMENTS, true);
 		}
-
-		add(activity, menu, Option.ACCOUNTS, false);
-		add(activity, menu, Option.THEMES, false);
+        if(!General.isProfileRestricted(activity)) add(activity, menu, Option.ACCOUNTS, false);
+        add(activity, menu, Option.THEMES, false);
 		add(activity, menu, Option.SETTINGS, false);
 	}
 

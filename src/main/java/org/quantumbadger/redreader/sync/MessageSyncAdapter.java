@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.sync;
 
 import android.accounts.Account;
 import android.content.*;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import org.quantumbadger.redreader.common.General;
@@ -29,12 +30,6 @@ public class MessageSyncAdapter extends AbstractThreadedSyncAdapter {
 
     public MessageSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
-
-        this.mContext = context;
-    }
-
-    public MessageSyncAdapter(Context context, boolean autoInitialize, boolean allowParallelSyncs) {
-        super(context, autoInitialize, allowParallelSyncs);
 
         this.mContext = context;
     }

@@ -126,7 +126,7 @@ public final class Constants {
 
 	public static String ua(final Context context) {
 		final String canonicalName = RedReader.class.getCanonicalName();
-		return canonicalName.substring(0, canonicalName.lastIndexOf('.')) + "-" + version(context);
+		return canonicalName.substring(0, canonicalName.lastIndexOf('.')) + "/" + version(context);
 	}
 
 	public static final class Priority {

@@ -68,3 +68,4 @@ Thanks to:
 * [Joda](http://joda-time.sourceforge.net/)
 * [/u/fosterbuster](http://www.reddit.com/user/fosterbuster) for the Danish translation
 * [/u/balducien](http://www.reddit.com/user/balducien) and [/u/andiho](http://www.reddit.com/user/andiho) for the German translation
+* [remil19](https://github.com/remil19) for the French translation

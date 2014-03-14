@@ -276,4 +276,19 @@
         <item>age</item>
     </string-array>
 
+    <!-- Constants. Do not change. -->
+    <string-array name="pref_behaviour_postcount_items_return">
+        <item>R25</item>
+        <item>R50</item>
+        <item>R100</item>
+        <item>ALL</item>
+    </string-array>
+
+    <!-- Constants. Do not change. -->
+    <string-array name="pref_behaviour_postcount_items">
+        <item>25</item>
+        <item>50</item>
+        <item>100</item>
+        <item>@string/pref_behaviour_postcount_items_all</item>
+    </string-array>
 </resources>

@@ -510,4 +510,12 @@
     <string name="pref_appearance_indentlines_title">Show indent lines</string>
     <string name="pref_appearance_indentlines_key">pref_appearance_indentlines</string>
 
+    <!-- 2014-03-14 -->
+
+    <string name="load_more_posts">Load more posts</string>
+
+    <string name="pref_behaviour_postcount_title">Restrict post count</string>
+    <string name="pref_behaviour_postcount_key">pref_behaviour_postcount</string>
+
+    <string name="pref_behaviour_postcount_items_all">All</string>
 </resources>

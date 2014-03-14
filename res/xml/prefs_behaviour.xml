@@ -66,6 +66,12 @@
                             holo:key="@string/pref_behaviour_nsfw_key"
                             holo:defaultValue="false"/>
 
+        <ListPreference holo:title="@string/pref_behaviour_postcount_title"
+                        holo:key="@string/pref_behaviour_postcount_key"
+                        holo:entries="@array/pref_behaviour_postcount_items"
+                        holo:entryValues="@array/pref_behaviour_postcount_items_return"
+                        holo:defaultValue="ALL"/>
+
     </PreferenceCategory>
 
 

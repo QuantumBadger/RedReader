@@ -68,10 +68,10 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 	private URI url;
 	private UUID session = null;
 	private CacheRequest.DownloadType downloadType;
-    private PrefsUtility.PostCount downloadPostCount;
+	private PrefsUtility.PostCount downloadPostCount;
 	private PostListingAdapter adapter;
 	private ListView lv;
-    private TextView loadMoreView;
+	private TextView loadMoreView;
 
 	private SharedPreferences sharedPrefs;
 
@@ -86,7 +86,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 
 	private int postCount = 0;
 	private int postTotalCount = 0;
-    private int postRefreshCount = 0;
+	private int postRefreshCount = 0;
 
 	private static final int NOTIF_DOWNLOAD_NECESSARY = 1,
 			NOTIF_DOWNLOAD_START = 2,
@@ -203,8 +203,8 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 		final Context context = container.getContext();
 		sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-        downloadPostCount = PrefsUtility.pref_behaviour_post_count(context, sharedPrefs);
-        restackRefreshCount();
+		downloadPostCount = PrefsUtility.pref_behaviour_post_count(context, sharedPrefs);
+		restackRefreshCount();
 
 		final LinearLayout outer = new LinearLayout(context) {
 			@Override
@@ -225,14 +225,14 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 			final SubredditHeader subredditHeader = new SubredditHeader(context, subreddit);
 			listHeader.addView(subredditHeader);
 		}
-        loadMoreView = (TextView)LayoutInflater.from(context).inflate(R.layout.load_more_posts, null);
-        loadMoreView.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                listFooterNotifications.removeView(loadMoreView);
-                restackRefreshCount();
-                onLoadMoreItemsCheck();
-            }
-        });
+		loadMoreView = (TextView)LayoutInflater.from(context).inflate(R.layout.load_more_posts, null);
+		loadMoreView.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View view) {
+				listFooterNotifications.removeView(loadMoreView);
+				restackRefreshCount();
+				onLoadMoreItemsCheck();
+			}
+		});
 
 		listHeader.addView(listHeaderNotifications);
 
@@ -270,21 +270,21 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 		if(request != null) request.cancel();
 	}
 
-    public void restackRefreshCount() {
-        if(postRefreshCount == 0) {
-            switch(downloadPostCount) {
-                case R25:
-                    postRefreshCount = 25;
-                    break;
-                case R50:
-                    postRefreshCount = 50;
-                    break;
-                case R100:
-                    postRefreshCount = 100;
-                    break;
-            }
-        }
-    }
+	public void restackRefreshCount() {
+		if(postRefreshCount == 0) {
+			switch(downloadPostCount) {
+				case R25:
+					postRefreshCount = 25;
+					break;
+				case R50:
+					postRefreshCount = 50;
+					break;
+				case R100:
+					postRefreshCount = 100;
+				break;
+			}
+		}
+	}
 
 	public void onPostSelected(final RedditPreparedPost post) {
 		((RedditPostView.PostSelectionListener)getSupportActivity()).onPostSelected(post);
@@ -316,8 +316,8 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 
 	private synchronized void onLoadMoreItemsCheck() {
 
-		if(readyToDownloadMore && after != null && !after.equals(lastAfter) && adapter.getDownloadedCount() > 0
-                && adapter.getDownloadedCount() - lv.getLastVisiblePosition() < 20 && (downloadPostCount == PrefsUtility.PostCount.ALL || postRefreshCount > 0)) {
+			if(readyToDownloadMore && after != null && !after.equals(lastAfter) && adapter.getDownloadedCount() > 0
+				&& adapter.getDownloadedCount() - lv.getLastVisiblePosition() < 20 && (downloadPostCount == PrefsUtility.PostCount.ALL || postRefreshCount > 0)) {
 
 			lastAfter = after;
 			readyToDownloadMore = false;
@@ -333,9 +333,9 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 			request = new PostListingRequest(newUri, RedditAccountManager.getInstance(getSupportActivity()).getDefaultAccount(), session, type, false);
 			CacheManager.getInstance(getSupportActivity()).makeRequest(request);
 		}
-        else if((!(downloadPostCount == PrefsUtility.PostCount.ALL) && postRefreshCount == 0) && loadMoreView.getParent() == null) {
-            listFooterNotifications.addView(loadMoreView);
-        }
+		else if((!(downloadPostCount == PrefsUtility.PostCount.ALL) && postRefreshCount == 0) && loadMoreView.getParent() == null) {
+			listFooterNotifications.addView(loadMoreView);
+		}
 	}
 
 	private class PostListingRequest extends CacheRequest {
@@ -497,7 +497,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 					}
 
 					postCount++;
-                    postRefreshCount--;
+					postRefreshCount--;
 					// TODO make specific to this download? don't keep global post count
 					notificationHandler.sendMessage(General.handlerMessage(NOTIF_PROGRESS, (float) postCount / (float) postTotalCount));
 				}

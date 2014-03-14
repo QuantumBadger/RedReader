@@ -64,7 +64,7 @@ public final class PrefsUtility {
 				|| key.equals(context.getString(R.string.pref_behaviour_fling_post_left_key))
 				|| key.equals(context.getString(R.string.pref_behaviour_fling_post_right_key))
 				|| key.equals(context.getString(R.string.pref_behaviour_nsfw_key))
-                || key.equals(context.getString(R.string.pref_behaviour_postcount_key));
+				|| key.equals(context.getString(R.string.pref_behaviour_postcount_key));
 	}
 
 	public static boolean isRestartRequired(Context context, String key) {
@@ -237,13 +237,13 @@ public final class PrefsUtility {
 		return getBoolean(R.string.pref_behaviour_nsfw_key, false, context, sharedPreferences);
 	}
 
-    public static enum PostCount {
-        R25, R50, R100, ALL
-    }
+	public static enum PostCount {
+		R25, R50, R100, ALL
+	}
 
-    public static PostCount pref_behaviour_post_count(final Context context, final SharedPreferences sharedPreferences) {
-        return PostCount.valueOf(getString(R.string.pref_behaviour_postcount_key, "ALL", context, sharedPreferences));
-    }
+	public static PostCount pref_behaviour_post_count(final Context context, final SharedPreferences sharedPreferences) {
+		return PostCount.valueOf(getString(R.string.pref_behaviour_postcount_key, "ALL", context, sharedPreferences));
+	}
 
 	///////////////////////////////
 	// pref_cache

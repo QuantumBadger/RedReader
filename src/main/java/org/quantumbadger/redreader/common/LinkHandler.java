@@ -191,7 +191,7 @@ public class LinkHandler {
 
 		if(matchImgur.find()) {
 			final String imgId = matchImgur.group(1);
-			if(imgId.length() > 2)
+			if(imgId.length() > 2 && !imgId.startsWith("gallery"))
 				return String.format("http://i.imgur.com/%s.jpg", imgId);
 		}
 

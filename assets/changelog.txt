@@ -1,4 +1,5 @@
 44/1.8.4
+Fixed bug with imgur gallery links
 Added ability to limit number of posts displayed (thanks to Rroia)
 Added French translation (thanks to Rémi Lapeyre)
 User agent change (thanks to Melker Narikka)

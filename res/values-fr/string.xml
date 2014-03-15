@@ -23,7 +23,7 @@
     <!-- First Run Dialog -->
 
     <string name="firstrun_login_title">Login</string>
-    <string name="firstrun_login_message">Vous n'êtes pas encore connecté. Vous pouvez accéder à la liste des comptes en sélectionnant « Comptes » depuis le menu.</string>
+    <string name="firstrun_login_message">Vous n\'êtes pas encore connecté. Vous pouvez accéder à la liste des comptes en sélectionnant « Comptes » depuis le menu.</string>
     <string name="firstrun_login_button_now">Se connecter</string>
     <string name="firstrun_login_button_later">Rester anonyme</string>
 
@@ -119,7 +119,7 @@
     <string name="pref_menus_post_context_items_title">Éléments du menu des posts</string>
 
     <string name="pref_menus_post_toolbar_items_key">pref_menus_post_toolbar_items</string>
-    <string name="pref_menus_post_toolbar_items_title">Éléments de la barre d'outil des posts</string>
+    <string name="pref_menus_post_toolbar_items_title">Éléments de la barre d\'outil des posts</string>
 
     <!-- Options Menu -->
 
@@ -167,13 +167,13 @@
     <string name="accounts_active">Actif</string>
     <string name="accounts_add">Ajouter un compte Reddit</string>
     <string name="accounts_setactive">Rendre actif</string>
-    <string name="accounts_reauth">S'authentifier à nouveau</string>
+    <string name="accounts_reauth">S\'authentifier à nouveau</string>
     <string name="accounts_delete">Supprimer</string>
 
-    <string name="accounts_loggingin">Connexion en cours...</string>
-    <string name="accounts_loggingin_msg">Un moment s'il vous plait…</string>
+    <string name="accounts_loggingin">Connexion en cours…</string>
+    <string name="accounts_loggingin_msg">Un moment s\'il vous plait…</string>
 
-    <string name="accounts_username">Nom d'utilisateur</string>
+    <string name="accounts_username">Nom d\'utilisateur</string>
     <string name="accounts_password">Mot de passe</string>
 
     <string name="accounts_login">Login</string>
@@ -251,7 +251,7 @@
     <string name="action_report">Signaler</string>
     <string name="action_report_sure">Êtes vous sûr de vouloir signaler ceci ?</string>
 
-    <string name="action_save_image">Enregistrer l'image</string>
+    <string name="action_save_image">Enregistrer l\'image</string>
     <string name="action_save_image_success">Enregistrer dans le dossier Images en tant que</string>
 
     <!-- Download Messages -->
@@ -275,7 +275,7 @@
     <string name="comment_edit_save">Sauvegarder</string>
     <string name="comment_reply_preview">Prévisualisation</string>
     <string name="comment_reply_submitting_title">Envoi en cours…</string>
-    <string name="comment_reply_submitting_message">Un moment s'il vous plait…</string>
+    <string name="comment_reply_submitting_message">Un moment s\'il vous plait…</string>
     <string name="comment_reply_oncancel">En attente du résultat…</string>
     <string name="comment_reply_done">Réponse envoyé. Le commentaire apparaitra après le rafraichissement.</string>
     <string name="comment_edit_done">Commentaire édité. Les changements apparaitront après le rafraichissement.</string>
@@ -287,56 +287,56 @@
 
     <!-- Bug Reporting -->
 
-    <string name="bug_title">Une erreur s'est produite.</string>
-    <string name="bug_message">RedReader a rencontré une erreur.\n\nSouhaitez vous soumettre un rapport de bug aux développeurs ? Si oui, un email sera rempli avec les informations importantes et vous pourrez le controler avant de l'envoyer.</string>
+    <string name="bug_title">Une erreur s\'est produite.</string>
+    <string name="bug_message">RedReader a rencontré une erreur.\n\nSouhaitez vous soumettre un rapport de bug aux développeurs ? Si oui, un email sera rempli avec les informations importantes et vous pourrez le controler avant de l\'envoyer.</string>
     <string name="bug_button_send">Envoyer un rapport de bug par email</string>
     <string name="bug_button_ignore">Ne pas envoyez de rapport de bug</string>
 
     <!-- General errors -->
 
     <string name="error_403_title">Utilisateur invalide</string>
-    <string name="error_403_message">L'utilisateur que vous avez sélectionné n'a pas les permissions nécessaires pour faire ça.</string>
+    <string name="error_403_message">L\'utilisateur que vous avez sélectionné n\'a pas les permissions nécessaires pour faire ça.</string>
 
     <string name="error_subreddit_required_title">Subreddit requis</string>
     <string name="error_subreddit_required_message">Vous devez précisé un subreddit.</string>
 
     <string name="error_bad_captcha_title">CAPTCHAA invalide</string>
-    <string name="error_bad_captcha_message">Le CAPTCHA que vous avez entré est incorrect. Merci d'essayer à nouveau.</string>
+    <string name="error_bad_captcha_message">Le CAPTCHA que vous avez entré est incorrect. Merci d\'essayer à nouveau.</string>
 
     <string name="error_404_title">Pas trouvé (404)</string>
-    <string name="error_404_message">Les informations demandées n'ont pas été trouvées.</string>
+    <string name="error_404_message">Les informations demandées n\'ont pas été trouvées.</string>
 
     <string name="error_unknown_api_title">Erreur</string>
-    <string name="error_unknown_api_message">Le serveur n'a pas accepté la requête pour une raison inconnue. Essayez à nouveau.</string>
+    <string name="error_unknown_api_message">Le serveur n\'a pas accepté la requête pour une raison inconnue. Essayez à nouveau.</string>
 
     <string name="error_redditdown_title">Reddit est en panne</string>
     <string name="error_redditdown_message">Reddit est surchargé pour le moment. Essayez à nouveau dans un instant.</string>
 
     <string name="error_cancelled_title">Opération annulée</string>
-    <string name="error_cancelled_message">L'opération actuelle a été annulée.</string>
+    <string name="error_cancelled_message">L\'opération actuelle a été annulée.</string>
 
-    <string name="error_parse_title">Erreur d'analyse</string>
+    <string name="error_parse_title">Erreur d\'analyse</string>
     <string name="error_parse_message">Je ne comprends pas la réponse de Reddit.</string>
 
     <string name="error_unexpected_cache_title">Erreur de cache inattendue</string>
-    <string name="error_unexpected_cache_message">Une erreur interne inconnue vient d'arriver, en rapport avec le cache.</string>
+    <string name="error_unexpected_cache_message">Une erreur interne inconnue vient d\'arriver, en rapport avec le cache.</string>
 
     <string name="error_unexpected_storage_title">Erreur de stockage inattendue</string>
-    <string name="error_unexpected_storage_message">Une erreur interne inconnue vient d'arriver, en rapport avec le stockage.</string>
+    <string name="error_unexpected_storage_message">Une erreur interne inconnue vient d\'arriver, en rapport avec le stockage.</string>
 
     <string name="error_connection_title">Erreur de connexion</string>
     <string name="error_connection_message">Il y a eu un problème de connexion avec le serveur. Vérifiez votre connexion puis réessayez à nouveau.</string>
 
     <string name="error_malformed_url_title">URL malformée</string>
-    <string name="error_malformed_url_message">Une tentative d'accès a été faite a une URL invalide.</string>
+    <string name="error_malformed_url_message">Une tentative d\'accès a été faite a une URL invalide.</string>
 
     <string name="error_unknown_title">Erreur inconnue</string>
-    <string name="error_unknown_message">Une erreur inconnue vient d'arriver. Essayez à nouveau.</string>
+    <string name="error_unknown_message">Une erreur inconnue vient d\'arriver. Essayez à nouveau.</string>
 
     <!-- Post list specific errors -->
 
     <string name="error_postlist_cache_title">Fin des données du cache</string>
-    <string name="error_postlist_cache_message">Vous consultez une version antérieure de reddit et il n'y a pas plus de posts dans le cache pour cette session. Appuyez sur rafraichir pour télécharger les derniers posts ou sélectionnez une autre version depuis le menu.</string>
+    <string name="error_postlist_cache_message">Vous consultez une version antérieure de reddit et il n\'y a pas plus de posts dans le cache pour cette session. Appuyez sur rafraichir pour télécharger les derniers posts ou sélectionnez une autre version depuis le menu.</string>
 
     <string name="error_postlist_redditdown_title">Reddit est surchargé</string>
     <string name="error_postlist_redditdown_message">Reddit est surchargé pour le moment. Appuyez sur rafraichir pour télécharger les derniers posts, ou sélectionnez une version antérieure depuis le menu.</string>
@@ -398,7 +398,7 @@
     <string name="theme_name_night">Nuit</string>
     <string name="theme_name_green">Vert</string>
     <string name="theme_name_blue">Bleu</string>
-    <string name="theme_name_ltblue">Bleu ciel </string>
+    <string name="theme_name_ltblue">Bleu ciel</string>
     <string name="theme_name_orange">Orange</string>
     <string name="theme_name_gray">Gris</string>
 
@@ -425,7 +425,7 @@
     <string name="pref_appearance_scale_normal">Normal</string>
 
     <string name="error_invalid_password_title">Mot de passe erroné</string>
-    <string name="error_invalid_password_message">Votre nom d'utilisateur ou votre mot de passe est erroné.</string>
+    <string name="error_invalid_password_message">Votre nom d\'utilisateur ou votre mot de passe est erroné.</string>
 
     <string name="error_ratelimit_title">Trop de tentatives échouées.</string>
     <string name="error_ratelimit_message">Bloqué en raison de trop de tentatives de connexion échouées à cette IP. Reddit dit :</string>
@@ -435,9 +435,9 @@
     <string name="message_nowloggedin">Vous êtes maintenant connecté.</string>
     <string name="message_cannotlogin">Connexion impossible.</string>
 
-    <string name="error_toast_no_urls_in_comment">Pas d'URL trouvées dans ce commentaire.</string>
-    <string name="error_toast_no_urls_in_self">Pas d'URL trouvées dans ce self text.</string>
-    <string name="error_toast_parent_post_not_downloaded">Le post parent n'est pas encore téléchargé.</string>
+    <string name="error_toast_no_urls_in_comment">Pas d\'URL trouvées dans ce commentaire.</string>
+    <string name="error_toast_no_urls_in_self">Pas d\'URL trouvées dans ce self text.</string>
+    <string name="error_toast_parent_post_not_downloaded">Le post parent n\'est pas encore téléchargé.</string>
 
     <string name="download_subreddits">Téléchargement des subreddits…</string>
 
@@ -450,7 +450,7 @@
     <string name="general_unknown">inconnu</string>
 
     <string name="action_search">Recherche</string>
-    <string name="search_subreddit_restrict">Restreindre la recherche à </string>
+    <string name="search_subreddit_restrict">Restreindre la recherche à</string>
 
     <string name="title_changelog">What\'s New</string>
 

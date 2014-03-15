@@ -133,13 +133,17 @@ public final class PrefsUtility {
 
 		final String lang = getString(R.string.pref_appearance_langforce_key, "auto", activity, prefs);
 
+		final Resources res = activity.getResources();
+		final DisplayMetrics dm = res.getDisplayMetrics();
+		final android.content.res.Configuration conf = res.getConfiguration();
+
 		if(!lang.equals("auto")) {
-			final Resources res = activity.getResources();
-			final DisplayMetrics dm = res.getDisplayMetrics();
-			final android.content.res.Configuration conf = res.getConfiguration();
 			conf.locale = new Locale(lang);
-			res.updateConfiguration(conf, dm);
+		} else {
+			conf.locale = Locale.getDefault();
 		}
+
+		res.updateConfiguration(conf, dm);
 	}
 
 	public static boolean appearance_solidblack(final Context context, final SharedPreferences sharedPreferences) {

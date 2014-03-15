@@ -1,3 +1,8 @@
+44/1.8.4
+Added ability to limit number of posts displayed (thanks to Rroia)
+Added French translation (thanks to Rémi Lapeyre)
+User agent change (thanks to Melker Narikka)
+
 43/1.8.3
 Better GIF support on Android 4.0+
 Can share links from other apps (thanks to andrewgiang)

@@ -95,13 +95,13 @@ public class BugReportActivity extends Activity {
 
 				StringBuilder sb = new StringBuilder(1024);
 
-				sb.append("Error report -- RedReader v" + Constants.version(BugReportActivity.this) + "\r\n\r\n");
+				sb.append("Error report -- RedReader v").append(Constants.version(BugReportActivity.this)).append("\r\n\r\n");
 
 				for(RRError error : errors) {
 					sb.append("-------------------------------");
-					if(error.title != null) sb.append("Title: " + error.title + "\r\n");
-					if(error.message != null) sb.append("Message: " + error.message + "\r\n");
-					if(error.httpStatus != null) sb.append("HTTP Status: " + error.httpStatus + "\r\n");
+					if(error.title != null) sb.append("Title: ").append(error.title).append("\r\n");
+					if(error.message != null) sb.append("Message: ").append(error.message).append("\r\n");
+					if(error.httpStatus != null) sb.append("HTTP Status: ").append(error.httpStatus).append("\r\n");
 					appendException(sb, error.t, 25);
 				}
 

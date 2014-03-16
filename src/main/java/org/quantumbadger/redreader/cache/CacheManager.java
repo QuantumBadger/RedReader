@@ -66,7 +66,6 @@ public final class CacheManager {
 	private final CacheDbManager dbManager;
 
 	private final PriorityBlockingQueue<CacheRequest> requests = new PriorityBlockingQueue<CacheRequest>();
-	private final RequestHandlerThread requestHandler;
 
 	private final UniqueSynchronizedQueue<Long> fileDeletionQueue = new UniqueSynchronizedQueue<Long>();
 
@@ -92,7 +91,8 @@ public final class CacheManager {
 		this.context = context;
 
 		dbManager = new CacheDbManager(context);
-		requestHandler = new RequestHandlerThread();
+
+		RequestHandlerThread requestHandler = new RequestHandlerThread();
 
 		// TODo put somewhere else -- make request specific, no restart needed on prefs change!
 		final HttpParams params = new BasicHttpParams();

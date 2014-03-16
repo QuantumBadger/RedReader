@@ -26,7 +26,6 @@ import org.holoeverywhere.widget.TextView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.BetterSSB;
 import org.quantumbadger.redreader.common.RRTime;
-import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 
 // TODO xml
@@ -36,13 +35,10 @@ public class RedditPostHeaderView extends LinearLayout {
 
 	private final TextView subtitle;
 
-	private final CommentListingFragment fragmentParent;
-
-	public RedditPostHeaderView(final Context context, final RedditPreparedPost post, final CommentListingFragment fragmentParent) {
+	public RedditPostHeaderView(final Context context, final RedditPreparedPost post) {
 
 		super(context);
 		this.post = post;
-		this.fragmentParent = fragmentParent;
 
 		final float dpScale = context.getResources().getDisplayMetrics().density;
 

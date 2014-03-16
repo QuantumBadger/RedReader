@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ import org.holoeverywhere.widget.Toast;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
+import org.quantumbadger.redreader.common.AndroidApi;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
@@ -78,6 +80,7 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 		url = getArguments().getString("url");
 	}
 
+	@SuppressLint("NewApi")
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
@@ -105,10 +108,8 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 		settings.setUseWideViewPort(true);
 		settings.setLoadWithOverviewMode(true);
 
-		try {
+		if (AndroidApi.isHoneyCombOrLater()) {
 			settings.setDisplayZoomControls(false);
-		} catch(NoSuchMethodError e) {
-			// Old version of Android...
 		}
 
 		// TODO handle long clicks
@@ -277,16 +278,25 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
     }
 
 	@Override
+	@SuppressLint("NewApi")
 	public void onPause() {
 		super.onPause();
-		webView.onPause();
+
+		if (AndroidApi.isHoneyCombOrLater()) {
+			webView.onPause();
+		}
+
 		webView.pauseTimers();
 	}
 
 	@Override
+	@SuppressLint("NewApi")
 	public void onResume() {
 		super.onResume();
 		webView.resumeTimers();
-		webView.onResume();
+
+		if (AndroidApi.isHoneyCombOrLater()) {
+			webView.onResume();
+		}
 	}
 }

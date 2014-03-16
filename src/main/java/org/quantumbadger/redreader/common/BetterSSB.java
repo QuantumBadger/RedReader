@@ -29,7 +29,7 @@ public class BetterSSB {
 	private final SpannableStringBuilder sb;
 
 	public static final int
-			BOLD = 1 << 0,
+			BOLD = 1,
 			ITALIC = 1 << 1,
 			UNDERLINE = 1 << 2,
 			STRIKETHROUGH = 1 << 3,

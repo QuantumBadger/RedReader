@@ -16,25 +16,25 @@
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="RR.Dark.ActionBarStyle" parent="@android:style/Widget.Holo.ActionBar">
+    <style name="RR.Dark.ActionBarStyle" parent="@android:style/Widget.Holo.ActionBar"  tools:targetApi="11">
         <item name="android:background">?rrActionBarCol</item>
     </style>
 
-    <style name="RR.Startup.ActionBarStyle" parent="@android:style/Widget.Holo.ActionBar">
+    <style name="RR.Startup.ActionBarStyle" parent="@android:style/Widget.Holo.ActionBar"  tools:targetApi="11">
         <item name="android:background">?rrActionBarCol</item>
         <item name="android:displayOptions">showTitle</item>
     </style>
 
-    <style name="RR.Light.ActionBarStyle" parent="@android:style/Widget.Holo.ActionBar">
+    <style name="RR.Light.ActionBarStyle" parent="@android:style/Widget.Holo.ActionBar"  tools:targetApi="11">
         <item name="android:background">?rrActionBarCol</item>
         <item name="background">?rrActionBarCol</item>
-        <item name="android:titleTextStyle">@android:style/TextAppearance.Holo.Widget.ActionBar.Title.Inverse</item>
+        <item name="android:titleTextStyle"  tools:targetApi="14">@android:style/TextAppearance.Holo.Widget.ActionBar.Title.Inverse</item>
         <item name="android:displayOptions">showTitle</item>
     </style>
 
-    <style name="RR.ActionButton.Overflow" parent="@android:style/Widget.Holo.ActionButton.Overflow">
+    <style name="RR.ActionButton.Overflow" parent="@android:style/Widget.Holo.ActionButton.Overflow"  tools:targetApi="11">
         <item name="android:src">@drawable/ic_action_overflow</item>
     </style>
 

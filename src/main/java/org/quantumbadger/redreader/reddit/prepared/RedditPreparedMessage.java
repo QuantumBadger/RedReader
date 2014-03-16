@@ -41,8 +41,6 @@ public final class RedditPreparedMessage implements RedditPreparedInboxItem {
 	public final String idAndType;
 	public final RedditMessage src;
 
-	private final int rrCommentHeaderBoldCol, rrCommentHeaderAuthorCol;
-
 	public RedditPreparedMessage(final Context context, final RedditMessage message, final long timestamp) {
 
 		this.src = message;
@@ -54,8 +52,8 @@ public final class RedditPreparedMessage implements RedditPreparedInboxItem {
 				R.attr.rrCommentHeaderAuthorCol,
 		});
 
-		rrCommentHeaderBoldCol = appearance.getColor(0, 255);
-		rrCommentHeaderAuthorCol = appearance.getColor(1, 255);
+		int rrCommentHeaderBoldCol = appearance.getColor(0, 255);
+		int rrCommentHeaderAuthorCol = appearance.getColor(1, 255);
 
 		body = MarkdownParser.parse(StringEscapeUtils.unescapeHtml4(message.body).toCharArray());
 

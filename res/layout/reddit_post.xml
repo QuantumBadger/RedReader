@@ -27,7 +27,7 @@
               android:layout_width="wrap_content"
               android:layout_gravity="center_vertical|left"
               android:layout_marginLeft="24dp"
-              android:textSize="14dp"
+              android:textSize="14sp"
               android:textColor="?rrPostFlingTextCol"
               android:textAllCaps="true"
               android:visibility="gone"/>
@@ -37,7 +37,7 @@
               android:layout_width="wrap_content"
               android:layout_gravity="center_vertical|right"
               android:layout_marginRight="24dp"
-              android:textSize="14dp"
+              android:textSize="14sp"
               android:textColor="?rrPostFlingTextCol"
               android:textAllCaps="true"
               android:visibility="gone"/>
@@ -132,7 +132,7 @@
                       android:layout_height="wrap_content"
                       android:layout_width="fill_parent"
                       android:gravity="center"
-                      android:textSize="11dp"
+                      android:textSize="11sp"
                       android:textColor="?rrPostCommentsButtonTextCol"/>
 
         </LinearLayout>

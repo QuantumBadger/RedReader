@@ -576,8 +576,6 @@ public final class RedditPreparedPost {
 						// TODO handle this better - disable caching of images
 						Log.e("RedditPreparedPost", "Out of memory trying to download image");
 						e.printStackTrace();
-						return;
-
 					} catch(Throwable t) {
 						// Just ignore it.
 					}

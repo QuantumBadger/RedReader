@@ -414,7 +414,7 @@ public class CommentListingFragment extends Fragment
 						new Handler(Looper.getMainLooper()).post(new Runnable() {
 							public void run() {
 
-								final RedditPostHeaderView postHeader = new RedditPostHeaderView(getSupportActivity(), CommentListingFragment.this.post, CommentListingFragment.this);
+								final RedditPostHeaderView postHeader = new RedditPostHeaderView(getSupportActivity(), CommentListingFragment.this.post);
 								listHeaderPost.addView(postHeader);
 
 								if(selfText != null) {

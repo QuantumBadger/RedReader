@@ -226,7 +226,7 @@ final class CacheDbManager extends SQLiteOpenHelper {
 			query.append(entriesToDelete.removeFirst());
 
 			for(final long id : entriesToDelete) {
-				query.append("," + id);
+				query.append(",").append(id);
 				if(query.length() > 512 * 1024) break;
 			}
 

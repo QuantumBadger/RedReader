@@ -40,8 +40,6 @@ public class RedditCommentView extends LinearLayout {
 	private final TextView header;
 	private final FrameLayout bodyHolder;
 
-	private final LinearLayout main;
-
 	private final IndentView indent;
 
 	private final int bodyCol;
@@ -56,7 +54,7 @@ public class RedditCommentView extends LinearLayout {
 
 		setOrientation(HORIZONTAL);
 
-		main = new LinearLayout(context);
+		LinearLayout main = new LinearLayout(context);
 		main.setOrientation(VERTICAL);
 
 		fontScale = PrefsUtility.appearance_fontscale_comments(context, PreferenceManager.getDefaultSharedPreferences(context));

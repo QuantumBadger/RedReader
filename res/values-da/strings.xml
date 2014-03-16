@@ -406,7 +406,7 @@
 
     <string name="pref_appearance_twopane_never">Aldrig</string>
     <string name="pref_appearance_twopane_auto">Auto-detekter</string>
-    <string name="pref_appearance_twopane_landscape">Landscape Only</string>
+    <string name="pref_appearance_twopane_landscape">Kun landskab</string>
     <string name="pref_appearance_twopane_force">Tving (ser måske sjovt ud)</string>
 
     <string name="theme_name_red">Rød</string>
@@ -470,7 +470,5 @@
     <string name="title_changelog">Nyheder</string>
 
     <string name="pref_behaviour_commentsort">Standard Kommentar Sortering</string>
-
-    <string name="pref_appearance_twopane_landscape">Kun landskab</string>
 
 </resources>

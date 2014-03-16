@@ -36,7 +36,6 @@ import org.quantumbadger.redreader.views.RedditPostView;
 public class WebViewActivity extends Activity implements RedditPostView.PostSelectionListener {
 
 	private WebViewFragment webView;
-	private String url;
 	public static final int VIEW_IN_BROWSER = 10;
 
 	public void onCreate(final Bundle savedInstanceState) {
@@ -50,7 +49,7 @@ public class WebViewActivity extends Activity implements RedditPostView.PostSele
 
 		final Intent intent = getIntent();
 
-		url = intent.getStringExtra("url");
+        String url = intent.getStringExtra("url");
 		final RedditPost post = intent.getParcelableExtra("post");
 
 		if(url == null) {

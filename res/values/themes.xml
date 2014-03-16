@@ -16,11 +16,11 @@
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="RR.Dark" parent="Holo.Theme">
 
-        <item name="android:actionBarStyle">@style/RR.Dark.ActionBarStyle</item>
+        <item name="android:actionBarStyle" tools:targetApi="11">@style/RR.Dark.ActionBarStyle</item>
         <item name="rrActionBarCol">#222222</item>
 
         <item name="rrListItemBackgroundCol">#000000</item>
@@ -76,17 +76,17 @@
     </style>
 
     <style name="RR.Startup" parent="RR.Dark">
-        <item name="android:actionBarStyle">@style/RR.Startup.ActionBarStyle</item>
+        <item name="android:actionBarStyle" tools:targetApi="11">@style/RR.Startup.ActionBarStyle</item>
     </style>
 
     <style name="RR.Light.DarkActionBar" parent="Holo.Theme.Light">
 
-        <item name="android:selectableItemBackground">@drawable/white_selector</item>
+        <item name="android:selectableItemBackground" tools:targetApi="11">@drawable/white_selector</item>
 
         <item name="android:windowBackground">@color/lightWindowBackground</item>
 
-        <item name="android:actionBarStyle">@style/RR.Light.ActionBarStyle</item>
-        <item name="android:actionOverflowButtonStyle">@style/RR.ActionButton.Overflow</item>
+        <item name="android:actionBarStyle" tools:targetApi="11">@style/RR.Light.ActionBarStyle</item>
+        <item name="android:actionOverflowButtonStyle" tools:targetApi="11">@style/RR.ActionButton.Overflow</item>
         <item name="rrActionBarCol">#222222</item>
 
         <item name="rrListItemBackgroundCol">#FBFBFB</item>
@@ -142,7 +142,7 @@
     </style>
 
     <style name="RR.Dark.NoActionBar" parent="RR.Dark">
-        <item name="android:actionBarStyle">@style/Holo.Theme.NoActionBar</item>
+        <item name="android:actionBarStyle" tools:targetApi="11">@style/Holo.Theme.NoActionBar</item>
     </style>
 
     <style name="RR.Light.Blue" parent="RR.Light.DarkActionBar">

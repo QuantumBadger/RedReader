@@ -457,8 +457,6 @@
     <string name="pref_behaviour_commentsort_key">pref_behaviour_commentsort</string>
     <string name="pref_behaviour_commentsort">Tri des commentaires par défaut</string>
 
-    <string name="pref_appearance_twopane_landscape">Paysage seulement</string>
-
     <!-- 2013-05-18 -->
 
     <string name="action_fling_disabled">Désactivé</string>

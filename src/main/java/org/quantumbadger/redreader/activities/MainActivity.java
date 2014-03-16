@@ -128,7 +128,7 @@ public class MainActivity extends RefreshableActivity
 									new AccountListDialog().show(MainActivity.this);
 								}
 							})
-					.setNegativeButton(R.string.accounts_anon, null)
+					.setNegativeButton(R.string.firstrun_login_button_later, null)
 					.show();
 
 			final SharedPreferences.Editor edit = sharedPreferences.edit();

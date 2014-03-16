@@ -3,6 +3,7 @@ Fixed bug with imgur gallery links
 Added ability to limit number of posts displayed (thanks to Rroia)
 Added French translation (thanks to Rémi Lapeyre)
 User agent change (thanks to Melker Narikka)
+Added back button to Settings action bar
 
 43/1.8.3
 Better GIF support on Android 4.0+

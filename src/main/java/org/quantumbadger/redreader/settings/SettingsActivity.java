@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.settings;
 
 import android.os.Bundle;
+import com.actionbarsherlock.view.MenuItem;
 import org.holoeverywhere.preference.PreferenceActivity;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -30,11 +31,25 @@ public final class SettingsActivity extends PreferenceActivity {
 	protected void onCreate(final Bundle savedInstanceState) {
 		PrefsUtility.applyTheme(this);
 		super.onCreate(savedInstanceState);
+
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	@Override
 	public void onBuildHeaders(final List<Header> target) {
 
 		loadHeadersFromResource(R.xml.prefheaders, target);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(final MenuItem item) {
+		switch(item.getItemId()) {
+			case android.R.id.home:
+				finish();
+				return true;
+			default:
+				return false;
+		}
 	}
 }

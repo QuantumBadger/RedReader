@@ -56,10 +56,7 @@ import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.RequestFailureType;
-import org.quantumbadger.redreader.common.Constants;
-import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.common.LinkHandler;
-import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.image.GifDecoderThread;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
@@ -174,7 +171,7 @@ public class ImageViewFragment extends Fragment implements RedditPostView.PostSe
 
 						if(Constants.Mime.isImageGif(mimetype)) {
 
-							if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+							if(AndroidApi.isIceCreamSandwhichOrLater()) {
 
 								new Handler(Looper.getMainLooper()).post(new Runnable() {
 									public void run() {

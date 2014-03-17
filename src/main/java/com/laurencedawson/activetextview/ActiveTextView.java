@@ -22,6 +22,7 @@
 
 package com.laurencedawson.activetextview;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -42,6 +43,7 @@ import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.widget.ListView;
 import org.quantumbadger.redreader.adapters.CommentListingAdapter;
+import org.quantumbadger.redreader.common.AndroidApi;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.views.RedditCommentView;
@@ -138,6 +140,7 @@ public class ActiveTextView extends TextView {
 // If a long press is detected, cancel the potential opening of a link
 		setOnLongClickListener(new OnLongClickListener() {
 
+			@SuppressLint("NewApi")
 			public boolean onLongClick(View v) {
 
 				if(mLongPressedLinkListener != null) {
@@ -158,13 +161,13 @@ public class ActiveTextView extends TextView {
 											i.setData(Uri.parse(mUrl));
 											getContext().startActivity(i);
 										} else if(item == 1) {
-											if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
-												android.text.ClipboardManager clipboard = (android.text.ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-												clipboard.setText(mUrl);
-											} else {
+											if(AndroidApi.isHoneyCombOrLater()) {
 												android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
 												android.content.ClipData clip = android.content.ClipData.newPlainText("Link", mUrl);
 												clipboard.setPrimaryClip(clip);
+											} else {
+												android.text.ClipboardManager clipboard = (android.text.ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+												clipboard.setText(mUrl);
 											}
 										} else if(item == 2) {
 											Intent share = new Intent(android.content.Intent.ACTION_SEND);

@@ -517,4 +517,20 @@
     <string name="pref_behaviour_postcount_key">pref_behaviour_postcount</string>
 
     <string name="pref_behaviour_postcount_items_all">All</string>
+
+    <!-- 2014-03-17 -->
+    <string name="time_year">year</string>
+    <string name="time_years">years</string>
+    <string name="time_month">month</string>
+    <string name="time_months">months</string>
+    <string name="time_day">day</string>
+    <string name="time_days">days</string>
+    <string name="time_hour">hour</string>
+    <string name="time_hours">hours</string>
+    <string name="time_min">min</string>
+    <string name="time_mins">mins</string>
+    <string name="time_sec">sec</string>
+    <string name="time_secs">secs</string>
+    <string name="time_ms">ms</string>
+
 </resources>

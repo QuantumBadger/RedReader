@@ -102,7 +102,7 @@ public class RedditPostHeaderView extends LinearLayout {
 
 		postListDescSb.append(String.valueOf(post.src.score), BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, pointsCol, 0, 1f);
 		postListDescSb.append(" " + context.getString(R.string.subtitle_points) + " ", 0);
-		postListDescSb.append(RRTime.formatDurationMsAgo(context, RRTime.since(post.src.created_utc * 1000)), BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, boldCol, 0, 1f);
+		postListDescSb.append(RRTime.formatDurationFrom(context, post.src.created_utc * 1000), BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, boldCol, 0, 1f);
 		postListDescSb.append(" " + context.getString(R.string.subtitle_by) + " ", 0);
 		postListDescSb.append(post.src.author, BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, boldCol, 0, 1f);
 		postListDescSb.append(" " + context.getString(R.string.subtitle_to) + " ", 0);

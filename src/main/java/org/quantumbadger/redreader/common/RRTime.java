@@ -19,11 +19,16 @@ package org.quantumbadger.redreader.common;
 
 import android.content.Context;
 import android.text.format.DateFormat;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
+import org.joda.time.*;
+import org.joda.time.format.PeriodFormatter;
+import org.joda.time.format.PeriodFormatterBuilder;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.quantumbadger.redreader.R;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class RRTime {
 
@@ -39,98 +44,43 @@ public class RRTime {
 	public static String formatDateTime(final long utc_ms, final Context context) {
 
 		final DateTime dateTime = new DateTime(utc_ms);
-		final DateTime localDateTime  = dateTime.withZone(DateTimeZone.getDefault());
+		final DateTime localDateTime = dateTime.withZone(DateTimeZone.getDefault());
 
-		if(DateFormat.is24HourFormat(context)) {
+		if (DateFormat.is24HourFormat(context)) {
 			return dtFormatter24hr.print(localDateTime);
 		} else {
 			return dtFormatter12hr.print(localDateTime);
 		}
 	}
 
-	public static String formatDurationMsAgo(final Context context, final long totalMs) {
-		return String.format(context.getString(R.string.time_ago), formatDurationMs(totalMs));
-	}
+	public static String formatDurationFrom(final Context context, final long startTime) {
+		final String space = " ";
+		final String comma = ",";
+		final String separator = comma + space;
 
-	// TODO externalise strings
-	// TODO tidy this up
-	public static String formatDurationMs(final long totalMs) {
+		final long endTime = utcCurrentTimeMillis();
+		final DateTime dateTime = new DateTime(endTime);
+		final DateTime localDateTime = dateTime.withZone(DateTimeZone.getDefault());
+		Period period = new Duration(startTime, endTime).toPeriodTo(localDateTime);
 
-		long ms = totalMs;
+		PeriodFormatter periodFormatter = new PeriodFormatterBuilder()
+				.appendYears().appendSuffix(space).appendSuffix(context.getString(R.string.time_year), context.getString(R.string.time_years)).appendSeparator(separator)
+				.appendMonths().appendSuffix(space).appendSuffix(context.getString(R.string.time_month), context.getString(R.string.time_months)).appendSeparator(separator)
+				.appendDays().appendSuffix(space).appendSuffix(context.getString(R.string.time_day), context.getString(R.string.time_days)).appendSeparator(separator)
+				.appendHours().appendSuffix(space).appendSuffix(context.getString(R.string.time_hour), context.getString(R.string.time_hours)).appendSeparator(separator)
+				.appendMinutes().appendSuffix(space).appendSuffix(context.getString(R.string.time_min), context.getString(R.string.time_mins)).appendSeparator(separator)
+				.appendSeconds().appendSuffix(space).appendSuffix(context.getString(R.string.time_sec), context.getString(R.string.time_secs)).appendSeparator(separator)
+				.appendMillis().appendSuffix(space).appendSuffix(context.getString(R.string.time_ms))
+				.toFormatter();
 
-		final long years = ms / (365L * 24L * 60L * 60L * 1000L);
-		ms %= (365L * 24L * 60L * 60L * 1000L);
+		String duration = periodFormatter.print(period.normalizedStandard(PeriodType.yearMonthDayTime()));
 
-		final long months = ms / (30L * 24L * 60L * 60L * 1000L);
-		ms %= (30L * 24L * 60L * 60L * 1000L);
-
-		if(years > 0) {
-			if(months > 0) {
-				return String.format("%d %s, %d %s", years, s("year", years), months, s("month", months));
-			} else {
-				return String.format("%d %s", years, s("year", years));
-			}
+		List<String> parts = Arrays.asList(duration.split(comma));
+		if (parts.size() >= 2) {
+			duration = parts.get(0) + comma + parts.get(1);
 		}
 
-		final long days = ms / (24L * 60L * 60L * 1000L);
-		ms %= (24L * 60L * 60L * 1000L);
-
-		if(months > 0) {
-			if(days > 0) {
-				return String.format("%d %s, %d %s", months, s("month", months), days, s("day", days));
-			} else {
-				return String.format("%d %s", months, s("month", months));
-			}
-		}
-
-		final long hours = ms / (60L * 60L * 1000L);
-		ms %= (60L * 60L * 1000L);
-
-		if(days > 0) {
-			if(hours > 0) {
-				return String.format("%d %s, %d %s", days, s("day", days), hours, s("hour", hours));
-			} else {
-				return String.format("%d %s", days, s("day", days));
-			}
-		}
-
-		final long mins = ms / (60L * 1000L);
-		ms %= (60L * 1000L);
-
-		if(hours > 0) {
-			if(mins > 0) {
-				return String.format("%d %s, %d %s", hours, s("hour", hours), mins, s("min", mins));
-			} else {
-				return String.format("%d %s", hours, s("hour", hours));
-			}
-		}
-
-		final long secs = ms / 1000;
-		ms %= 1000;
-
-		if(mins > 0) {
-			if(secs > 0) {
-				return String.format("%d %s, %d %s", mins, s("min", mins), secs, s("sec", secs));
-			} else {
-				return String.format("%d %s", mins, s("min", mins));
-			}
-		}
-
-		if(secs > 0) {
-			if(ms > 0) {
-				return String.format("%d %s, %d %s", secs, s("sec", secs), ms, "ms");
-			} else {
-				return String.format("%d %s", secs, s("sec", secs));
-			}
-		}
-
-		return ms + " ms";
-	}
-
-	// TODO use the Android string stuff
-	private static String s(final String str, final long n) {
-		if(n == 1) return str;
-		else return str + "s";
+		return String.format(context.getString(R.string.time_ago), duration);
 	}
 
 	public static long since(long timestamp) {

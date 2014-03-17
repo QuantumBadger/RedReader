@@ -37,7 +37,6 @@ package org.quantumbadger.redreader.fragments;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -171,7 +170,7 @@ public class ImageViewFragment extends Fragment implements RedditPostView.PostSe
 
 						if(Constants.Mime.isImageGif(mimetype)) {
 
-							if(AndroidApi.isIceCreamSandwhichOrLater()) {
+							if(AndroidApi.isIceCreamSandwichOrLater()) {
 
 								new Handler(Looper.getMainLooper()).post(new Runnable() {
 									public void run() {

@@ -9,7 +9,7 @@ public class AndroidApi {
 		return CURRENT_API_VERSION >= Build.VERSION_CODES.HONEYCOMB;
 	}
 
-	public static boolean isIceCreamSandwhichOrLater() {
+	public static boolean isIceCreamSandwichOrLater() {
 		return CURRENT_API_VERSION >= Build.VERSION_CODES.ICE_CREAM_SANDWICH;
 	}
 }

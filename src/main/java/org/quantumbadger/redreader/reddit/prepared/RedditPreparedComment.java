@@ -194,7 +194,7 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 		}
 
 		if(headerItems.contains(PrefsUtility.AppearanceCommentHeaderItems.AGE)) {
-			sb.append(RRTime.formatDurationMsAgo(context, RRTime.utcCurrentTimeMillis() - src.created_utc * 1000L), BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, rrCommentHeaderBoldCol, 0, 1f);
+			sb.append(RRTime.formatDurationFrom(context, src.created_utc * 1000L), BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, rrCommentHeaderBoldCol, 0, 1f);
 		}
 
 		header = sb.get();

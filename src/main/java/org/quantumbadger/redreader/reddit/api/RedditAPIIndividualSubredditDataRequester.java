@@ -34,6 +34,9 @@ import org.quantumbadger.redreader.reddit.things.RedditThing;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class RedditAPIIndividualSubredditDataRequester implements CacheDataSource<String, RedditSubreddit, SubredditRequestFailure> {
 
@@ -99,11 +102,48 @@ public class RedditAPIIndividualSubredditDataRequester implements CacheDataSourc
 		CacheManager.getInstance(context).makeRequest(aboutSubredditCacheRequest);
 	}
 
-	public void performRequest(Collection<String> keys,
-							   TimestampBound timestampBound,
-							   RequestResponseHandler<HashMap<String, RedditSubreddit>, SubredditRequestFailure> handler) {
-		// TODO batch API? or just make lots of requests and build up a hash map?
-		throw new UnsupportedOperationException();
+	public void performRequest(final Collection<String> subredditCanonicalIds,
+							   final TimestampBound timestampBound,
+							   final RequestResponseHandler<HashMap<String, RedditSubreddit>, SubredditRequestFailure> handler) {
+
+		// TODO if there's a bulk API to do this, that would be good... :)
+
+		final HashMap<String, RedditSubreddit> result = new HashMap<String, RedditSubreddit>();
+		final AtomicBoolean stillOkay = new AtomicBoolean(true);
+		final AtomicInteger requestsToGo = new AtomicInteger(subredditCanonicalIds.size());
+		final AtomicLong oldestResult = new AtomicLong(Long.MAX_VALUE);
+
+		final RequestResponseHandler <RedditSubreddit, SubredditRequestFailure> innerHandler
+				= new RequestResponseHandler<RedditSubreddit, SubredditRequestFailure>() {
+			@Override
+			public void onRequestFailed(SubredditRequestFailure failureReason) {
+				synchronized(result) {
+					if(stillOkay.get()) {
+						stillOkay.set(false);
+						handler.onRequestFailed(failureReason);
+					}
+				}
+			}
+
+			@Override
+			public void onRequestSuccess(RedditSubreddit innerResult, long timeCached) {
+				synchronized(result) {
+					if(stillOkay.get()) {
+
+						result.put(innerResult.getKey(), innerResult);
+						oldestResult.set(Math.min(oldestResult.get(), timeCached));
+
+						if(requestsToGo.decrementAndGet() == 0) {
+							handler.onRequestSuccess(result, oldestResult.get());
+						}
+					}
+				}
+			}
+		};
+
+		for(String subredditCanonicalId : subredditCanonicalIds) {
+			performRequest(subredditCanonicalId, timestampBound, innerHandler);
+		}
 	}
 
 	public void performWrite(RedditSubreddit value) {

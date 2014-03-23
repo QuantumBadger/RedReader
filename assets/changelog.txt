@@ -1,4 +1,5 @@
 45/1.8.5
+Added ability to subscribe to/unsubscribe from subreddits
 No longer cuts off subreddit list if you have 100+ subscriptions
 Avoids crashing when the disk is full
 Opens Google Play links externally

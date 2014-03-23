@@ -18,14 +18,25 @@
 package org.quantumbadger.redreader.reddit.api;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
+import org.apache.http.StatusLine;
+import org.holoeverywhere.app.Activity;
 import org.quantumbadger.redreader.account.RedditAccount;
+import org.quantumbadger.redreader.activities.BugReportActivity;
+import org.quantumbadger.redreader.cache.CacheManager;
+import org.quantumbadger.redreader.cache.RequestFailureType;
+import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
 import org.quantumbadger.redreader.common.collections.WeakReferenceListManager;
 import org.quantumbadger.redreader.io.RawObjectDB;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
 import org.quantumbadger.redreader.io.WritableHashSet;
+import org.quantumbadger.redreader.reddit.APIResponseHandler;
+import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.RedditSubredditManager;
 
 import java.util.ArrayList;
@@ -33,7 +44,7 @@ import java.util.HashSet;
 
 public class RedditSubredditSubscriptionManager {
 
-	static enum SubscriptionState { SUBSCRIBED, SUBSCRIBING, UNSUBSCRIBING, NOT_SUBSCRIBED }
+	public static enum SubredditSubscriptionState { SUBSCRIBED, SUBSCRIBING, UNSUBSCRIBING, NOT_SUBSCRIBED }
 
 	private final SubredditSubscriptionStateChangeNotifier notifier = new SubredditSubscriptionStateChangeNotifier();
 	private final WeakReferenceListManager<SubredditSubscriptionStateChangeListener> listeners
@@ -84,12 +95,12 @@ public class RedditSubredditSubscriptionManager {
 		return subscriptions != null;
 	}
 
-	public synchronized SubscriptionState getSubscriptionState(final String subredditCanonicalId) {
+	public synchronized SubredditSubscriptionState getSubscriptionState(final String subredditCanonicalId) {
 
-		if(pendingSubscriptions.contains(subredditCanonicalId)) return SubscriptionState.SUBSCRIBING;
-		else if(pendingUnsubscriptions.contains(subredditCanonicalId)) return SubscriptionState.UNSUBSCRIBING;
-		else if(subscriptions.toHashset().contains(subredditCanonicalId)) return SubscriptionState.SUBSCRIBED;
-		else return SubscriptionState.NOT_SUBSCRIBED;
+		if(pendingSubscriptions.contains(subredditCanonicalId)) return SubredditSubscriptionState.SUBSCRIBING;
+		else if(pendingUnsubscriptions.contains(subredditCanonicalId)) return SubredditSubscriptionState.UNSUBSCRIBING;
+		else if(subscriptions.toHashset().contains(subredditCanonicalId)) return SubredditSubscriptionState.SUBSCRIBED;
+		else return SubredditSubscriptionState.NOT_SUBSCRIBED;
 	}
 
 	private synchronized void onSubscriptionAttempt(final String subredditCanonicalId) {
@@ -100,6 +111,24 @@ public class RedditSubredditSubscriptionManager {
 	private synchronized void onUnsubscriptionAttempt(final String subredditCanonicalId) {
 		pendingUnsubscriptions.add(subredditCanonicalId);
 		listeners.map(notifier, SubredditSubscriptionChangeType.UNSUBSCRIPTION_ATTEMPTED);
+	}
+
+	private synchronized void onSubscriptionChangeAttemptFailed(final String subredditCanonicalId) {
+		pendingUnsubscriptions.remove(subredditCanonicalId);
+		pendingSubscriptions.remove(subredditCanonicalId);
+		listeners.map(notifier, SubredditSubscriptionChangeType.LIST_UPDATED);
+	}
+
+	private synchronized void onSubscriptionAttemptSuccess(final String subredditCanonicalId) {
+		pendingSubscriptions.remove(subredditCanonicalId);
+		subscriptions.toHashset().add(subredditCanonicalId);
+		listeners.map(notifier, SubredditSubscriptionChangeType.LIST_UPDATED);
+	}
+
+	private synchronized void onUnsubscriptionAttemptSuccess(final String subredditCanonicalId) {
+		pendingUnsubscriptions.remove(subredditCanonicalId);
+		subscriptions.toHashset().remove(subredditCanonicalId);
+		listeners.map(notifier, SubredditSubscriptionChangeType.LIST_UPDATED);
 	}
 
 	private synchronized void onNewSubscriptionListReceived(HashSet<String> newSubscriptions, long timestamp) {
@@ -155,20 +184,92 @@ public class RedditSubredditSubscriptionManager {
 
 	}
 
-	public void subscribe(final String subredditCanonicalId) {
+	public void subscribe(final String subredditCanonicalId, final Activity activity) {
 
-		// TODO send request
-		// TODO trigger update
+		RedditAPI.action(
+				CacheManager.getInstance(context),
+				new SubredditActionResponseHandler(activity, RedditAPI.RedditSubredditAction.SUBSCRIBE, subredditCanonicalId),
+				user,
+				subredditCanonicalId,
+				RedditAPI.RedditSubredditAction.SUBSCRIBE,
+				context
+		);
 
 		onSubscriptionAttempt(subredditCanonicalId);
 	}
 
-	public void unsubscribe(final String subredditCanonicalId) {
+	public void unsubscribe(final String subredditCanonicalId, final Activity activity) {
 
-		// TODO send request
-		// TODO trigger update
+		RedditAPI.action(
+				CacheManager.getInstance(context),
+				new SubredditActionResponseHandler(activity, RedditAPI.RedditSubredditAction.UNSUBSCRIBE, subredditCanonicalId),
+				user,
+				subredditCanonicalId,
+				RedditAPI.RedditSubredditAction.UNSUBSCRIBE,
+				context
+		);
 
 		onUnsubscriptionAttempt(subredditCanonicalId);
+	}
+
+	private class SubredditActionResponseHandler extends APIResponseHandler.ActionResponseHandler {
+
+		private final RedditAPI.RedditSubredditAction action;
+		private final Activity activity;
+		private final String canonicalName;
+
+		protected SubredditActionResponseHandler(Activity activity,
+												 RedditAPI.RedditSubredditAction action,
+												 String canonicalName) {
+			super(activity);
+			this.activity = activity;
+			this.action = action;
+			this.canonicalName = canonicalName;
+		}
+
+		@Override
+		protected void onSuccess() {
+
+			switch(action) {
+				case SUBSCRIBE:
+					onSubscriptionAttemptSuccess(canonicalName);
+					break;
+				case UNSUBSCRIBE:
+					onUnsubscriptionAttemptSuccess(canonicalName);
+					break;
+			}
+
+			triggerUpdate(null, TimestampBound.NONE);
+		}
+
+		@Override
+		protected void onCallbackException(Throwable t) {
+			BugReportActivity.handleGlobalError(context, t);
+		}
+
+		@Override
+		protected void onFailure(RequestFailureType type, Throwable t, StatusLine status, String readableMessage) {
+			onSubscriptionChangeAttemptFailed(canonicalName);
+			if(t != null) t.printStackTrace();
+
+			final RRError error = General.getGeneralErrorForFailure(context, type, t, status, null);
+			new Handler(Looper.getMainLooper()).post(new Runnable() {
+				public void run() {
+					General.showResultDialog(activity, error);
+				}
+			});
+		}
+
+		@Override
+		protected void onFailure(APIFailureType type) {
+			onSubscriptionChangeAttemptFailed(canonicalName);
+			final RRError error = General.getGeneralErrorForFailure(context, type);
+			new Handler(Looper.getMainLooper()).post(new Runnable() {
+				public void run() {
+					General.showResultDialog(activity, error);
+				}
+			});
+		}
 	}
 
 	public Long getSubscriptionListTimestamp() {

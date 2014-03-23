@@ -207,7 +207,6 @@ public class MainMenuFragment extends Fragment implements MainMenuSelectionListe
 
 	public void onSubscriptionsChanged(final Collection<String> subscriptions) {
 
-
 		RedditSubredditManager.getInstance(context, user).getSubreddits(
 				subscriptions,
 				TimestampBound.notOlderThan(1000 * 60 * 60 * 24), // 1 day (TODO should use listing age pref)

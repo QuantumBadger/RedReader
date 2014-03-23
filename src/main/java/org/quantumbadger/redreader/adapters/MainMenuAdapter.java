@@ -39,7 +39,8 @@ import java.util.Collections;
 
 public class MainMenuAdapter extends BaseAdapter {
 
-	private final ArrayList<MainMenuItem> items = new ArrayList<MainMenuItem>(100);
+	private final ArrayList<MainMenuItem> mainItems = new ArrayList<MainMenuItem>(16);
+	private final ArrayList<MainMenuItem> subredditItems = new ArrayList<MainMenuItem>(100);
 	private final RedditAccount user;
 	private final MainMenuSelectionListener selectionListener;
 
@@ -73,7 +74,7 @@ public class MainMenuAdapter extends BaseAdapter {
 	}
 
 	public int getCount() {
-		return items.size();
+		return mainItems.size() + subredditItems.size();
 	}
 
 	public Object getItem(final int i) {
@@ -84,9 +85,17 @@ public class MainMenuAdapter extends BaseAdapter {
 		return i;
 	}
 
+	private MainMenuItem getItemInternal(final int id) {
+		if(id < mainItems.size()) {
+			return mainItems.get(id);
+		} else {
+			return subredditItems.get(id - mainItems.size());
+		}
+	}
+
 	@Override
 	public int getItemViewType(final int position) {
-		return items.get(position).isHeader ? 0 : 1;
+		return getItemInternal(position).isHeader ? 0 : 1;
 	}
 
 	@Override
@@ -101,7 +110,7 @@ public class MainMenuAdapter extends BaseAdapter {
 
 	public View getView(final int i, View convertView, final ViewGroup viewGroup) {
 
-		final MainMenuItem item = items.get(i);
+		final MainMenuItem item = getItemInternal(i);
 
 		if(convertView == null) {
 			if(item.isHeader) {
@@ -114,7 +123,7 @@ public class MainMenuAdapter extends BaseAdapter {
 		if(item.isHeader) {
 			((ListSectionHeader)convertView).reset(item.title);
 		} else {
-			final boolean firstInSection = (i == 0) || items.get(i - 1).isHeader;
+			final boolean firstInSection = (i == 0) || getItemInternal(i - 1).isHeader;
 			((ListItemView)convertView).reset(item.icon, item.title, firstInSection);
 		}
 
@@ -126,23 +135,23 @@ public class MainMenuAdapter extends BaseAdapter {
 
 		//items.add(new MainMenuItem("Reddit"));
 
-		items.add(makeItem(context.getString(R.string.mainmenu_frontpage), MainMenuFragment.MainMenuAction.FRONTPAGE, null, null));
-		items.add(makeItem(context.getString(R.string.mainmenu_all), MainMenuFragment.MainMenuAction.ALL, null, null));
-		items.add(makeItem(context.getString(R.string.mainmenu_custom), MainMenuFragment.MainMenuAction.CUSTOM, null, null));
+		mainItems.add(makeItem(context.getString(R.string.mainmenu_frontpage), MainMenuFragment.MainMenuAction.FRONTPAGE, null, null));
+		mainItems.add(makeItem(context.getString(R.string.mainmenu_all), MainMenuFragment.MainMenuAction.ALL, null, null));
+		mainItems.add(makeItem(context.getString(R.string.mainmenu_custom), MainMenuFragment.MainMenuAction.CUSTOM, null, null));
 
 		if(!user.isAnonymous()) {
 
-			items.add(new MainMenuItem(user.username));
+			mainItems.add(new MainMenuItem(user.username));
 
-			items.add(makeItem(context.getString(R.string.mainmenu_profile), MainMenuFragment.MainMenuAction.PROFILE, null, rrIconPerson));
-			items.add(makeItem(context.getString(R.string.mainmenu_inbox), MainMenuFragment.MainMenuAction.INBOX, null, rrIconEnvOpen));
+			mainItems.add(makeItem(context.getString(R.string.mainmenu_profile), MainMenuFragment.MainMenuAction.PROFILE, null, rrIconPerson));
+			mainItems.add(makeItem(context.getString(R.string.mainmenu_inbox), MainMenuFragment.MainMenuAction.INBOX, null, rrIconEnvOpen));
 			//items.add(makeItem("Submitted Posts", MainMenuFragment.MainMenuAction.SUBMITTED, null, rrIconSend));
-			items.add(makeItem(context.getString(R.string.mainmenu_saved), MainMenuFragment.MainMenuAction.SAVED, null, rrIconStarFilled));
-			items.add(makeItem(context.getString(R.string.mainmenu_hidden), MainMenuFragment.MainMenuAction.HIDDEN, null, rrIconCross));
-			items.add(makeItem(context.getString(R.string.mainmenu_upvoted), MainMenuFragment.MainMenuAction.LIKED, null, rrIconThumbUp));
+			mainItems.add(makeItem(context.getString(R.string.mainmenu_saved), MainMenuFragment.MainMenuAction.SAVED, null, rrIconStarFilled));
+			mainItems.add(makeItem(context.getString(R.string.mainmenu_hidden), MainMenuFragment.MainMenuAction.HIDDEN, null, rrIconCross));
+			mainItems.add(makeItem(context.getString(R.string.mainmenu_upvoted), MainMenuFragment.MainMenuAction.LIKED, null, rrIconThumbUp));
 		}
 
-		items.add(new MainMenuItem(context.getString(R.string.mainmenu_header_subreddits)));
+		mainItems.add(new MainMenuItem(context.getString(R.string.mainmenu_header_subreddits)));
 		//items.add(makeItem("Add Subreddit", null, null, null)); // TODO
 
 		notifyDataSetChanged();
@@ -182,8 +191,10 @@ public class MainMenuAdapter extends BaseAdapter {
 		new Handler(Looper.getMainLooper()).post(new Runnable() {
 			public void run() {
 
+				subredditItems.clear();
+
 				for(final RedditSubreddit subreddit : subredditsSorted) {
-					items.add(makeItem(subreddit.display_name.toLowerCase(), subreddit));
+					subredditItems.add(makeItem(subreddit.display_name.toLowerCase(), subreddit));
 				}
 
 				notifyDataSetChanged();
@@ -198,12 +209,12 @@ public class MainMenuAdapter extends BaseAdapter {
 
 	@Override
 	public boolean isEnabled(final int position) {
-		return !items.get(position).isHeader;
+		return !getItemInternal(position).isHeader;
 	}
 
 	public void clickOn(final int position) {
-		if(position < items.size()) {
-			items.get(position).onClick(null);
+		if(position < getCount()) {
+			getItemInternal(position).onClick(null);
 		}
 	}
 }

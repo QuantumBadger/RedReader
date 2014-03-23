@@ -83,12 +83,13 @@ public class RedditSubredditManager {
 		return General.sha1(user.username.getBytes()) + "_" + type + "_subreddits.db";
 	}
 
-	public void getSubreddit(String id,
+	public void getSubreddit(String subredditCanonicalId,
 							 TimestampBound timestampBound,
 							 RequestResponseHandler<RedditSubreddit, SubredditRequestFailure> handler,
 							 UpdatedVersionListener<String, RedditSubreddit> updatedVersionListener) {
 
-		subredditCache.performRequest(id, timestampBound, handler, updatedVersionListener);
+		final String subredditDisplayName = RedditSubreddit.getDisplayNameFromCanonicalName(subredditCanonicalId);
+		subredditCache.performRequest(subredditDisplayName, timestampBound, handler, updatedVersionListener);
 	}
 
 	public void getSubreddits(Collection<String> ids,

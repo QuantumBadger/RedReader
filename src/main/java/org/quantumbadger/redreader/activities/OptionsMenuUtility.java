@@ -32,21 +32,37 @@ import org.holoeverywhere.preference.SharedPreferences;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.BetterSSB;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
 import org.quantumbadger.redreader.fragments.AccountListDialog;
 import org.quantumbadger.redreader.listingcontrollers.CommentListingController;
 import org.quantumbadger.redreader.listingcontrollers.PostListingController;
+import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.settings.SettingsActivity;
 
 public final class OptionsMenuUtility {
 
 	private static enum Option {
-		ACCOUNTS, SETTINGS, SUBMIT_POST, SEARCH, REFRESH_SUBREDDITS, REFRESH_POSTS, REFRESH_COMMENTS, PAST_POSTS, THEMES, PAST_COMMENTS
+		ACCOUNTS,
+		SETTINGS,
+		SUBMIT_POST,
+		SEARCH,
+		REFRESH_SUBREDDITS,
+		REFRESH_POSTS,
+		REFRESH_COMMENTS,
+		PAST_POSTS,
+		THEMES,
+		PAST_COMMENTS,
+		SUBSCRIBE,
+		SUBSCRIBING,
+		UNSUBSCRIBING,
+		UNSUBSCRIBE
 	}
 
 	public static <E extends Activity & OptionsMenuListener> void prepare(
 			final E activity, final Menu menu,
 			final boolean subredditsVisible, final boolean postsVisible, final boolean commentsVisible,
-			final boolean postsSortable, final boolean commentsSortable) {
+			final boolean postsSortable, final boolean commentsSortable,
+			final RedditSubredditSubscriptionManager.SubredditSubscriptionState subredditSubscriptionState) {
 
 		if(subredditsVisible && !postsVisible && !commentsVisible) {
 			add(activity, menu, Option.REFRESH_SUBREDDITS, false);
@@ -57,6 +73,7 @@ public final class OptionsMenuUtility {
 			add(activity, menu, Option.PAST_POSTS, false);
 			add(activity, menu, Option.SUBMIT_POST, false);
 			add(activity, menu, Option.SEARCH, false);
+			addSubscriptionItem(activity, menu, subredditSubscriptionState);
 
 		} else if(!subredditsVisible && !postsVisible && commentsVisible) {
 			if(commentsSortable) addAllCommentSorts(activity, menu, true);
@@ -92,6 +109,7 @@ public final class OptionsMenuUtility {
 				add(activity, refreshMenu, Option.REFRESH_POSTS, true);
 				add(activity, menu, Option.SUBMIT_POST, false);
 				add(activity, menu, Option.SEARCH, false);
+				addSubscriptionItem(activity, menu, subredditSubscriptionState);
 			}
 			if(commentsVisible) add(activity, refreshMenu, Option.REFRESH_COMMENTS, true);
 		}
@@ -99,6 +117,30 @@ public final class OptionsMenuUtility {
 		add(activity, menu, Option.ACCOUNTS, false);
 		add(activity, menu, Option.THEMES, false);
 		add(activity, menu, Option.SETTINGS, false);
+	}
+
+	private static void addSubscriptionItem(final Activity activity, final Menu menu,
+			final RedditSubredditSubscriptionManager.SubredditSubscriptionState subredditSubscriptionState) {
+
+		if(subredditSubscriptionState == null) return;
+
+		switch(subredditSubscriptionState) {
+			case NOT_SUBSCRIBED:
+				add(activity, menu, Option.SUBSCRIBE, false);
+				return;
+			case SUBSCRIBED:
+				add(activity, menu, Option.UNSUBSCRIBE, false);
+				return;
+			case SUBSCRIBING:
+				add(activity, menu, Option.SUBSCRIBING, false);
+				return;
+			case UNSUBSCRIBING:
+				add(activity, menu, Option.UNSUBSCRIBING, false);
+				return;
+			default:
+				throw new UnexpectedInternalStateException("Unknown subscription state");
+		}
+
 	}
 
 	private static void add(final Activity activity, final Menu menu, final Option option, final boolean longText) {
@@ -245,6 +287,34 @@ public final class OptionsMenuUtility {
 						});
 				break;
 
+			case SUBSCRIBE:
+				menu.add(activity.getString(R.string.options_subscribe))
+						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+							public boolean onMenuItemClick(final MenuItem item) {
+								((OptionsMenuPostsListener)activity).onSubscribe();
+								return true;
+							}
+						});
+				break;
+
+			case UNSUBSCRIBE:
+				menu.add(activity.getString(R.string.options_unsubscribe))
+					.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+						public boolean onMenuItemClick(final MenuItem item) {
+							((OptionsMenuPostsListener)activity).onUnsubscribe();
+							return true;
+						}
+					});
+			break;
+
+			case UNSUBSCRIBING:
+				menu.add(activity.getString(R.string.options_unsubscribing)).setEnabled(false);
+				break;
+
+			case SUBSCRIBING:
+				menu.add(activity.getString(R.string.options_subscribing)).setEnabled(false);
+				break;
+
 			default:
 				BugReportActivity.handleGlobalError(activity, "Unknown menu option added");
 		}
@@ -323,6 +393,8 @@ public final class OptionsMenuUtility {
 		public void onSubmitPost();
 		public void onSortSelected(PostListingController.Sort order);
 		public void onSearchPosts();
+		public void onSubscribe();
+		public void onUnsubscribe();
 	}
 
 	public static interface OptionsMenuCommentsListener extends OptionsMenuListener {

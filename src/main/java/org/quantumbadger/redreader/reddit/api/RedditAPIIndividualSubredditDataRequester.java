@@ -45,12 +45,12 @@ public class RedditAPIIndividualSubredditDataRequester implements CacheDataSourc
 		this.user = user;
 	}
 
-	public void performRequest(final String key,
+	public void performRequest(final String subredditCanonicalName,
 							   final TimestampBound timestampBound,
 							   final RequestResponseHandler<RedditSubreddit, SubredditRequestFailure> handler) {
 
 		final CacheRequest aboutSubredditCacheRequest = new CacheRequest(
-				Constants.Reddit.getUri("/r/" + key + "/about.json"),
+				Constants.Reddit.getUri("/r/" + subredditCanonicalName + "/about.json"),
 				user,
 				null,
 				Constants.Priority.API_SUBREDDIT_INVIDIVUAL,

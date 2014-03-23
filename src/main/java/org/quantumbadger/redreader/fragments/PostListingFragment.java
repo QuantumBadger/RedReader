@@ -47,6 +47,7 @@ import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
+import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
@@ -339,6 +340,26 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 		}
 		else if((!(downloadPostCount == PrefsUtility.PostCount.ALL) && postRefreshCount == 0) && loadMoreView.getParent() == null) {
 			listFooterNotifications.addView(loadMoreView);
+		}
+	}
+
+	public void onSubscribe() {
+		try {
+			RedditSubredditSubscriptionManager
+					.getSingleton(getSupportActivity(), RedditAccountManager.getInstance(getSupportActivity()).getDefaultAccount())
+					.subscribe(subreddit.getCanonicalName(), getSupportActivity());
+		} catch(RedditSubreddit.InvalidSubredditNameException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public void onUnsubscribe() {
+		try {
+			RedditSubredditSubscriptionManager
+					.getSingleton(getSupportActivity(), RedditAccountManager.getInstance(getSupportActivity()).getDefaultAccount())
+					.unsubscribe(subreddit.getCanonicalName(), getSupportActivity());
+		} catch(RedditSubreddit.InvalidSubredditNameException e) {
+			throw new RuntimeException(e);
 		}
 	}
 

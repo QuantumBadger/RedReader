@@ -27,7 +27,11 @@ import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.TimestampBound;
+import org.quantumbadger.redreader.io.RequestResponseHandler;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
+import org.quantumbadger.redreader.reddit.api.SubredditRequestFailure;
+import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.things.RedditThing;
 import org.quantumbadger.redreader.reddit.things.RedditUser;
 
@@ -231,6 +235,10 @@ public final class RedditAPI {
 		UPVOTE, UNVOTE, DOWNVOTE, SAVE, HIDE, UNSAVE, UNHIDE, REPORT
 	}
 
+	public static enum RedditSubredditAction {
+		SUBSCRIBE, UNSUBSCRIBE
+	}
+
 	public static void action(final CacheManager cm,
 							  final APIResponseHandler.ActionResponseHandler responseHandler,
 							  final RedditAccount user,
@@ -297,7 +305,91 @@ public final class RedditAPI {
 			case REPORT: return Constants.Reddit.getUri(Constants.Reddit.PATH_REPORT);
 
 			default:
-				throw new RuntimeException("Unknown post action");
+				throw new RuntimeException("Unknown post/comment action");
+		}
+	}
+
+	public static void action(final CacheManager cm,
+							  final APIResponseHandler.ActionResponseHandler responseHandler,
+							  final RedditAccount user,
+							  final String subredditCanonicalName,
+							  final RedditSubredditAction action,
+							  final Context context) {
+
+		RedditSubredditManager.getInstance(context, user).getSubreddit(
+				subredditCanonicalName,
+				TimestampBound.ANY,
+				new RequestResponseHandler<RedditSubreddit, SubredditRequestFailure>() {
+
+					@Override
+					public void onRequestFailed(SubredditRequestFailure failureReason) {
+						responseHandler.notifyFailure(
+								failureReason.requestFailureType,
+								failureReason.t,
+								failureReason.statusLine,
+								failureReason.readableMessage);
+
+					}
+
+					@Override
+					public void onRequestSuccess(RedditSubreddit subreddit, long timeCached) {
+
+						final LinkedList<NameValuePair> postFields = new LinkedList<NameValuePair>();
+
+						postFields.add(new BasicNameValuePair("sr", subreddit.name));
+						postFields.add(new BasicNameValuePair("uh", user.modhash));
+
+						final URI url = prepareActionUri(action, postFields);
+
+						cm.makeRequest(new APIPostRequest(url, user, postFields, context) {
+							@Override
+							protected void onCallbackException(final Throwable t) {
+								BugReportActivity.handleGlobalError(context, t);
+							}
+
+							@Override
+							protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
+								responseHandler.notifyFailure(type, t, status, readableMessage);
+							}
+
+							@Override
+							public void onJsonParseStarted(final JsonValue result, final long timestamp, final UUID session, final boolean fromCache) {
+
+								try {
+
+									final APIResponseHandler.APIFailureType failureType = findFailureType(result);
+
+									if(failureType != null) {
+										responseHandler.notifyFailure(failureType);
+										return;
+									}
+
+								} catch(Throwable t) {
+									notifyFailure(RequestFailureType.PARSE, t, null, "JSON failed to parse");
+								}
+
+								responseHandler.notifySuccess();
+							}
+						});
+					}
+				},
+				null
+		);
+	}
+
+	private static URI prepareActionUri(final RedditSubredditAction action,
+										final LinkedList<NameValuePair> postFields) {
+		switch(action) {
+			case SUBSCRIBE:
+				postFields.add(new BasicNameValuePair("action", "sub"));
+				return Constants.Reddit.getUri(Constants.Reddit.PATH_SUBSCRIBE);
+
+			case UNSUBSCRIBE:
+				postFields.add(new BasicNameValuePair("action", "unsub"));
+				return Constants.Reddit.getUri(Constants.Reddit.PATH_SUBSCRIBE);
+
+			default:
+				throw new RuntimeException("Unknown subreddit action");
 		}
 	}
 

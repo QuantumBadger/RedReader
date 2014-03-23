@@ -27,10 +27,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.view.WindowManager;
-
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-
 import org.holoeverywhere.app.AlertDialog;
 import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.preference.SharedPreferences;
@@ -42,10 +40,12 @@ import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
 import org.quantumbadger.redreader.fragments.SessionListDialog;
 import org.quantumbadger.redreader.listingcontrollers.PostListingController;
 import org.quantumbadger.redreader.listingcontrollers.PostListingControllerSubreddit;
+import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.views.RedditPostView;
@@ -58,7 +58,7 @@ public class PostListingActivity extends RefreshableActivity
 		RedditPostView.PostSelectionListener,
 		SharedPreferences.OnSharedPreferenceChangeListener,
 		OptionsMenuUtility.OptionsMenuPostsListener,
-		SessionChangeListener {
+		SessionChangeListener, RedditSubredditSubscriptionManager.SubredditSubscriptionStateChangeListener {
 
 	private PostListingFragment fragment;
 	private PostListingController controller;
@@ -119,6 +119,8 @@ public class PostListingActivity extends RefreshableActivity
 		} else {
 			throw new RuntimeException("Nothing to show! (should load from bundle)"); // TODO
 		}
+
+		addSubscriptionListener();
 	}
 
 	@Override
@@ -130,12 +132,36 @@ public class PostListingActivity extends RefreshableActivity
 	@Override
 	public boolean onCreateOptionsMenu(final Menu menu) {
 
-		OptionsMenuUtility.prepare(this, menu, false, true, false, subreddit.isSortable(), false);
+		final RedditSubredditSubscriptionManager.SubredditSubscriptionState subredditSubscriptionState;
+		final RedditSubredditSubscriptionManager subredditSubscriptionManager
+				= RedditSubredditSubscriptionManager.getSingleton(
+						this,
+						RedditAccountManager.getInstance(this).getDefaultAccount());
+
+		if(subreddit.isSubscribable() && subredditSubscriptionManager.areSubscriptionsReady()) {
+			try {
+				subredditSubscriptionState = subredditSubscriptionManager.getSubscriptionState(subreddit.getCanonicalName());
+			} catch(RedditSubreddit.InvalidSubredditNameException e) {
+				throw new UnexpectedInternalStateException("Invalid state: subscribable subreddits should have canonical names!");
+			}
+		} else {
+			subredditSubscriptionState = null;
+		}
+
+		OptionsMenuUtility.prepare(this, menu, false, true, false, subreddit.isSortable(), false, subredditSubscriptionState);
 
 		return true;
 	}
 
+	private void addSubscriptionListener() {
+		RedditSubredditSubscriptionManager
+				.getSingleton(this, RedditAccountManager.getInstance(this).getDefaultAccount())
+				.addListener(this);
+	}
+
 	public void onRedditAccountChanged() {
+		addSubscriptionListener();
+		postInvalidateOptionsMenu();
 		requestRefresh(RefreshableFragment.ALL, false);
 	}
 
@@ -219,6 +245,16 @@ public class PostListingActivity extends RefreshableActivity
 		alertDialog.show();
 	}
 
+	@Override
+	public void onSubscribe() {
+		fragment.onSubscribe();
+	}
+
+	@Override
+	public void onUnsubscribe() {
+		fragment.onUnsubscribe();
+	}
+
 	public void onSharedPreferenceChanged(final SharedPreferences prefs, final String key) {
 
 		if(PrefsUtility.isRestartRequired(this, key)) {
@@ -268,5 +304,29 @@ public class PostListingActivity extends RefreshableActivity
 	@Override
 	public void onBackPressed() {
 		if(General.onBackPressed()) super.onBackPressed();
+	}
+
+	@Override
+	public void onSubredditSubscriptionListUpdated(RedditSubredditSubscriptionManager subredditSubscriptionManager) {
+		postInvalidateOptionsMenu();
+	}
+
+	@Override
+	public void onSubredditSubscriptionAttempted(RedditSubredditSubscriptionManager subredditSubscriptionManager) {
+		postInvalidateOptionsMenu();
+	}
+
+	@Override
+	public void onSubredditUnsubscriptionAttempted(RedditSubredditSubscriptionManager subredditSubscriptionManager) {
+		postInvalidateOptionsMenu();
+	}
+
+	private void postInvalidateOptionsMenu() {
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				invalidateOptionsMenu();
+			}
+		});
 	}
 }

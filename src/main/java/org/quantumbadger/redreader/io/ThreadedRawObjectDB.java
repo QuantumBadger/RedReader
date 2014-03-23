@@ -213,6 +213,7 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 
 				public void onRequestSuccess(V result, long timeCached) {
 					performWrite(result);
+					responseHandler.onRequestSuccess(result, timeCached);
 				}
 			});
 		}

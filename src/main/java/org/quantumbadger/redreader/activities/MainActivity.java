@@ -38,14 +38,12 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.adapters.MainMenuSelectionListener;
-import org.quantumbadger.redreader.common.Constants;
-import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.common.LinkHandler;
-import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.fragments.*;
 import org.quantumbadger.redreader.listingcontrollers.CommentListingController;
 import org.quantumbadger.redreader.listingcontrollers.PostListingController;
 import org.quantumbadger.redreader.listingcontrollers.PostListingControllerSubreddit;
+import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.views.RedditPostView;
@@ -60,7 +58,7 @@ public class MainActivity extends RefreshableActivity
 		OptionsMenuUtility.OptionsMenuSubredditsListener,
 		OptionsMenuUtility.OptionsMenuPostsListener,
 		OptionsMenuUtility.OptionsMenuCommentsListener,
-		SessionChangeListener {
+		SessionChangeListener, RedditSubredditSubscriptionManager.SubredditSubscriptionStateChangeListener {
 
 	private boolean twoPane;
 
@@ -149,6 +147,14 @@ public class MainActivity extends RefreshableActivity
 			sharedPreferences.edit().putInt("lastVersion", appVersion).commit();
 			ChangelogDialog.newInstance().show(this);
 		}
+
+		addSubscriptionListener();
+	}
+
+	private void addSubscriptionListener() {
+		RedditSubredditSubscriptionManager
+				.getSingleton(this, RedditAccountManager.getInstance(this).getDefaultAccount())
+				.addListener(this);
 	}
 
 	public void onSelected(final MainMenuFragment.MainMenuAction type, final String name) {
@@ -236,6 +242,8 @@ public class MainActivity extends RefreshableActivity
 	}
 
 	public void onRedditAccountChanged() {
+		addSubscriptionListener();
+		postInvalidateOptionsMenu();
 		requestRefresh(RefreshableFragment.ALL, false);
 	}
 
@@ -415,7 +423,27 @@ public class MainActivity extends RefreshableActivity
 		final boolean postsSortable = postListingController != null && postListingController.isSortable();
 		final boolean commentsSortable = commentListingController != null && commentListingController.isSortable();
 
-		OptionsMenuUtility.prepare(this, menu, isMenuShown, postsVisible, commentsVisible, postsSortable, commentsSortable);
+		final RedditSubredditSubscriptionManager.SubredditSubscriptionState subredditSubscriptionState;
+		final RedditSubredditSubscriptionManager subredditSubscriptionManager
+				= RedditSubredditSubscriptionManager.getSingleton(
+				this,
+				RedditAccountManager.getInstance(this).getDefaultAccount());
+
+		if(postsVisible
+				&& postListingController.getSubreddit().isSubscribable()
+				&& subredditSubscriptionManager.areSubscriptionsReady()) {
+
+			try {
+				subredditSubscriptionState = subredditSubscriptionManager.getSubscriptionState(
+						postListingController.getSubreddit().getCanonicalName());
+			} catch(RedditSubreddit.InvalidSubredditNameException e) {
+				throw new UnexpectedInternalStateException("Invalid state: subscribable subreddits should have canonical names!");
+			}
+		} else {
+			subredditSubscriptionState = null;
+		}
+
+		OptionsMenuUtility.prepare(this, menu, isMenuShown, postsVisible, commentsVisible, postsSortable, commentsSortable, subredditSubscriptionState);
 
 		getSupportActionBar().setHomeButtonEnabled(!isMenuShown);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(!isMenuShown);
@@ -499,6 +527,16 @@ public class MainActivity extends RefreshableActivity
 		alertDialog.show();
 	}
 
+	@Override
+	public void onSubscribe() {
+		if(postListingFragment != null) postListingFragment.onSubscribe();
+	}
+
+	@Override
+	public void onUnsubscribe() {
+		if(postListingFragment != null) postListingFragment.onUnsubscribe();
+	}
+
 	public void onRefreshSubreddits() {
 		requestRefresh(RefreshableFragment.MAIN, true);
 	}
@@ -549,5 +587,29 @@ public class MainActivity extends RefreshableActivity
 				if(commentListingController != null) commentListingController.setSession(session);
 				break;
 		}
+	}
+
+	@Override
+	public void onSubredditSubscriptionListUpdated(RedditSubredditSubscriptionManager subredditSubscriptionManager) {
+		postInvalidateOptionsMenu();
+	}
+
+	@Override
+	public void onSubredditSubscriptionAttempted(RedditSubredditSubscriptionManager subredditSubscriptionManager) {
+		postInvalidateOptionsMenu();
+	}
+
+	@Override
+	public void onSubredditUnsubscriptionAttempted(RedditSubredditSubscriptionManager subredditSubscriptionManager) {
+		postInvalidateOptionsMenu();
+	}
+
+	private void postInvalidateOptionsMenu() {
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				invalidateOptionsMenu();
+			}
+		});
 	}
 }

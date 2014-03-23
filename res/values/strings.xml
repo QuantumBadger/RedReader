@@ -537,4 +537,13 @@
 
     <string name="error_disk_space_title">Out of disk space</string>
     <string name="error_disk_space_message">The download failed because your device is full. Please free up some space and try again.</string>
+
+    <!-- 2014-03-23 -->
+
+    <string name="options_subscribe">Subscribe</string>
+    <string name="options_unsubscribe">Unsubscribe</string>
+    <string name="options_subscribing">Subscribing…</string>
+    <string name="options_unsubscribing">Unsubscribing…</string>
+    <string name="options_sidebar">View Sidebar</string>
+
 </resources>

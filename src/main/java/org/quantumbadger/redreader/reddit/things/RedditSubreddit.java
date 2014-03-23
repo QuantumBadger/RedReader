@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.reddit.things;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
 import org.quantumbadger.redreader.io.WritableObject;
 
 import java.util.regex.Matcher;
@@ -27,7 +28,11 @@ import java.util.regex.Pattern;
 public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>, WritableObject<String> {
 
 	public String getKey() {
-		return getCanonicalName();
+		try {
+			return getCanonicalName();
+		} catch(InvalidSubredditNameException e) {
+			throw new UnexpectedInternalStateException(String.format("Cannot save subreddit '%s'", url));
+		}
 	}
 
 	public long getTimestamp() {
@@ -36,7 +41,19 @@ public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>,
 
 	@WritableObjectVersion public static int DB_VERSION = 1;
 
-	public static final class InvalidSubredditNameException extends RuntimeException {}
+	public boolean isSubscribable() {
+		try {
+			return ACTUAL_SUBREDDIT_PATTERN.matcher(getCanonicalName()).matches();
+		} catch(InvalidSubredditNameException _) {
+			return false;
+		}
+	}
+
+	public static final class InvalidSubredditNameException extends Exception {
+		public InvalidSubredditNameException(String subredditName) {
+			super(String.format("Invalid subreddit name '%s'.", subredditName == null ? "NULL" : subredditName));
+		}
+	}
 
 	@WritableField public String header_img, header_title;
 	@WritableField public String description, description_html, public_description;
@@ -50,7 +67,8 @@ public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>,
 	// TODO remove
 	private transient final boolean isReal, isSortable;
 
-	private static final Pattern NAME_PATTERN = Pattern.compile("(/)?(r/)?([\\w\\+\\-]+)");
+	private static final Pattern NAME_PATTERN = Pattern.compile("(/)?(r/)?([\\w\\+\\-]+)/?");
+	private static final Pattern ACTUAL_SUBREDDIT_PATTERN = Pattern.compile("(/)?(r/)?([\\w]+)/?");
 
 	public RedditSubreddit(CreationData creationData) {
 		this();
@@ -63,16 +81,20 @@ public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>,
 	 * @throws InvalidSubredditNameException if {@code name} is null or not in the expected format
 	 */
 	public static String getCanonicalName(String name) throws InvalidSubredditNameException {
-		Matcher matcher = NAME_PATTERN.matcher(name);
+		final Matcher matcher = NAME_PATTERN.matcher(name);
 		if(matcher.matches()) {
 			return "/r/" + matcher.group(3).toLowerCase();
 		} else {
-			throw new InvalidSubredditNameException();
+			throw new InvalidSubredditNameException(name);
 		}
 	}
 
-	public String getCanonicalName() {
-		return getCanonicalName(display_name);
+	public String getCanonicalName() throws InvalidSubredditNameException {
+		return getCanonicalName(url);
+	}
+
+	public static String getDisplayNameFromCanonicalName(String canonicalName) {
+		return canonicalName.substring(3);
 	}
 
 	public int describeContents() {

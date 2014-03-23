@@ -58,6 +58,7 @@ public final class Constants {
 				PATH_UNSAVE = "/api/unsave",
 				PATH_UNHIDE = "/api/unhide",
 				PATH_REPORT = "/api/report",
+				PATH_SUBSCRIBE = "/api/subscribe",
 				PATH_SUBREDDITS_MINE_SUBSCRIBER = "/subreddits/mine/subscriber.json?limit=100",
 				PATH_SUBREDDITS_MINE_MODERATOR = "/subreddits/mine/moderator.json?limit=100",
 				PATH_SUBREDDITS_POPULAR = "/subreddits/popular.json",

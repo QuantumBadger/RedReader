@@ -322,7 +322,7 @@
     <string name="error_unexpected_cache_message">An unknown internal error has occurred, related to the cache.</string>
 
     <string name="error_unexpected_storage_title">Unexpected Storage Error</string>
-    <string name="error_unexpected_storage_message">An unknown internal error has occurred, related to the cache storage.</string>
+    <string name="error_unexpected_storage_message">An unknown internal error has occurred, related to the cache storage. You are probably running out of space.</string>
 
     <string name="error_connection_title">Connection Error</string>
     <string name="error_connection_message">There was a problem connecting to the server. Please check your connection and try again.</string>
@@ -533,4 +533,8 @@
     <string name="time_secs">secs</string>
     <string name="time_ms">ms</string>
 
+    <!-- 2014-03-18 -->
+
+    <string name="error_disk_space_title">Out of disk space</string>
+    <string name="error_disk_space_message">The download failed because your device is full. Please free up some space and try again.</string>
 </resources>

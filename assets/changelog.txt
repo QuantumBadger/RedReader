@@ -1,3 +1,7 @@
+45/1.8.5
+Avoids crashing when the disk is full
+Tidied up some code (thanks to kageiit)
+
 44/1.8.4
 Fixed bug with imgur gallery links
 Added ability to limit number of posts displayed (thanks to Rroia)

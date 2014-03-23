@@ -23,10 +23,7 @@ import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
-import android.os.SystemClock;
+import android.os.*;
 import android.util.Log;
 import android.util.TypedValue;
 import android.widget.Toast;
@@ -113,6 +110,11 @@ public final class General {
 
 		fis.close();
 		fos.close();
+	}
+
+	public static boolean isCacheDiskFull(final Context context) {
+		final StatFs stat = new StatFs(getBestCacheDir(context).getPath());
+		return (long)stat.getBlockSize() *(long)stat.getAvailableBlocks() < 128 * 1024 * 1024;
 	}
 
 	public static File getBestCacheDir(final Context context) {
@@ -204,6 +206,10 @@ public final class General {
 			case MALFORMED_URL:
 				title = R.string.error_malformed_url_title;
 				message = R.string.error_malformed_url_message;
+				break;
+			case DISK_SPACE:
+				title = R.string.error_disk_space_title;
+				message = R.string.error_disk_space_message;
 				break;
 			case REQUEST:
 

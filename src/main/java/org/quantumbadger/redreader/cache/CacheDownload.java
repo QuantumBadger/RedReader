@@ -377,6 +377,16 @@ public final class CacheDownload {
 				cacheOs.close();
 				success = true;
 
+			} catch(IOException e) {
+
+				if(e.getMessage().contains("ENOSPC")) {
+					notifyAllOnFailure(RequestFailureType.STORAGE, e, null, "Out of disk space");
+
+				} else {
+					e.printStackTrace();
+					notifyAllOnFailure(RequestFailureType.CONNECTION, e, null, "The connection was interrupted");
+				}
+
 			} catch(Throwable t) {
 				t.printStackTrace();
 				notifyAllOnFailure(RequestFailureType.CONNECTION, t, null, "The connection was interrupted");
@@ -445,7 +455,17 @@ public final class CacheDownload {
 				throw new RuntimeException("Session was null, but success was true");
 			}
 
-			notifyAllOnSuccess(cacheFile.getReadableCacheFile(), RRTime.utcCurrentTimeMillis(), session, mimetype);
+			try {
+				notifyAllOnSuccess(cacheFile.getReadableCacheFile(), RRTime.utcCurrentTimeMillis(), session, mimetype);
+
+			} catch(IOException e) {
+				e.printStackTrace();
+				if(e.getMessage().contains("ENOSPC")) {
+					notifyAllOnFailure(RequestFailureType.DISK_SPACE, e, null, "Out of disk space");
+				} else {
+					notifyAllOnFailure(RequestFailureType.STORAGE, e, null, "Out of disk space");
+				}
+			}
 		}
 	}
 

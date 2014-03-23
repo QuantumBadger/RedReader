@@ -395,6 +395,10 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 					title = context.getString(R.string.error_connection_title);
 					message = context.getString(R.string.error_connection_message);
 					break;
+				case DISK_SPACE:
+					title = context.getString(R.string.error_disk_space_title);
+					message = context.getString(R.string.error_disk_space_message);
+					break;
 				case REQUEST:
 
 					if(status != null) {
@@ -475,8 +479,9 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 				final boolean showNsfwThumbnails = PrefsUtility.appearance_thumbnails_nsfw_show(context, sharedPrefs);
 
 				final PrefsUtility.CachePrecacheImages imagePrecachePref = PrefsUtility.cache_precache_images(context, sharedPrefs);
-				final boolean precacheImages = imagePrecachePref == PrefsUtility.CachePrecacheImages.ALWAYS
-						|| (imagePrecachePref == PrefsUtility.CachePrecacheImages.WIFIONLY && isConnectionWifi);
+				final boolean precacheImages = (imagePrecachePref == PrefsUtility.CachePrecacheImages.ALWAYS
+						|| (imagePrecachePref == PrefsUtility.CachePrecacheImages.WIFIONLY && isConnectionWifi))
+						&& !General.isCacheDiskFull(context);
 
 				final CacheManager cm = CacheManager.getInstance(context);
 

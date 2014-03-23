@@ -299,7 +299,7 @@ public final class CacheManager {
 			return os;
 		}
 
-		public ReadableCacheFile getReadableCacheFile() {
+		public ReadableCacheFile getReadableCacheFile() throws IOException {
 
 			if(readableCacheFile == null) {
 
@@ -310,8 +310,9 @@ public final class CacheManager {
 				try {
 					os.flush();
 					os.close();
-				} catch(IOException e) {Log.e("RR DEBUG getReadableCacheFile", "Error closing " + cacheFileId);
-					throw new RuntimeException(e);
+				} catch(IOException e) {
+					Log.e("RR DEBUG getReadableCacheFile", "Error closing " + cacheFileId);
+					throw e;
 				}
 			}
 

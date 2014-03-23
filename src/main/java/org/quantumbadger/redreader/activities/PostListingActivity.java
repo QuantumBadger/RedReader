@@ -35,6 +35,7 @@ import org.holoeverywhere.preference.SharedPreferences;
 import org.holoeverywhere.widget.EditText;
 import org.holoeverywhere.widget.LinearLayout;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.common.General;
@@ -132,13 +133,12 @@ public class PostListingActivity extends RefreshableActivity
 	@Override
 	public boolean onCreateOptionsMenu(final Menu menu) {
 
+		final RedditAccount user = RedditAccountManager.getInstance(this).getDefaultAccount();
 		final RedditSubredditSubscriptionManager.SubredditSubscriptionState subredditSubscriptionState;
 		final RedditSubredditSubscriptionManager subredditSubscriptionManager
-				= RedditSubredditSubscriptionManager.getSingleton(
-						this,
-						RedditAccountManager.getInstance(this).getDefaultAccount());
+				= RedditSubredditSubscriptionManager.getSingleton(this, user);
 
-		if(subreddit.isSubscribable() && subredditSubscriptionManager.areSubscriptionsReady()) {
+		if(!user.isAnonymous() && subreddit.isSubscribable() && subredditSubscriptionManager.areSubscriptionsReady()) {
 			try {
 				subredditSubscriptionState = subredditSubscriptionManager.getSubscriptionState(subreddit.getCanonicalName());
 			} catch(RedditSubreddit.InvalidSubredditNameException e) {

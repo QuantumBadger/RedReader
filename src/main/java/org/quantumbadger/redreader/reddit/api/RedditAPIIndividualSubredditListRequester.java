@@ -184,7 +184,7 @@ public class RedditAPIIndividualSubredditListRequester
 
 					RedditSubredditManager.getInstance(context, user).offerRawSubredditData(toWrite, timestamp);
 					final String receivedAfter = redditListing.getString("after");
-					if(receivedAfter != null) {
+					if(receivedAfter != null && type != RedditSubredditManager.SubredditListType.MOST_POPULAR) {
 
 						doSubredditListRequest(type, new RequestResponseHandler<WritableHashSet, SubredditRequestFailure>() {
 							public void onRequestFailed(SubredditRequestFailure failureReason) {

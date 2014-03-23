@@ -35,6 +35,7 @@ import org.holoeverywhere.preference.SharedPreferences;
 import org.holoeverywhere.widget.EditText;
 import org.holoeverywhere.widget.LinearLayout;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.adapters.MainMenuSelectionListener;
@@ -423,13 +424,13 @@ public class MainActivity extends RefreshableActivity
 		final boolean postsSortable = postListingController != null && postListingController.isSortable();
 		final boolean commentsSortable = commentListingController != null && commentListingController.isSortable();
 
+		final RedditAccount user = RedditAccountManager.getInstance(this).getDefaultAccount();
 		final RedditSubredditSubscriptionManager.SubredditSubscriptionState subredditSubscriptionState;
 		final RedditSubredditSubscriptionManager subredditSubscriptionManager
-				= RedditSubredditSubscriptionManager.getSingleton(
-				this,
-				RedditAccountManager.getInstance(this).getDefaultAccount());
+				= RedditSubredditSubscriptionManager.getSingleton(this, user);
 
 		if(postsVisible
+				&& !user.isAnonymous()
 				&& postListingController.getSubreddit().isSubscribable()
 				&& subredditSubscriptionManager.areSubscriptionsReady()) {
 

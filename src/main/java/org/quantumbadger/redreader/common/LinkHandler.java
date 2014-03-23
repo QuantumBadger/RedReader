@@ -43,6 +43,7 @@ public class LinkHandler {
 			youtubeDotComPattern = Pattern.compile("^https?://[\\.\\w]*youtube\\.\\w+/.*"),
 			youtuDotBePattern = Pattern.compile("^https?://[\\.\\w]*youtu\\.be/([A-Za-z0-9\\-_]+)(\\?.*|).*"),
 			vimeoPattern = Pattern.compile("^https?://[\\.\\w]*vimeo\\.\\w+/.*"),
+			googlePlayPattern = Pattern.compile("^https?://[\\.\\w]*play\\.google\\.\\w+/.*"),
 			shortSubredditPattern = Pattern.compile("^/?r/(\\w+).*");
 
 	public static void onLinkClicked(Activity activity, String url, boolean forceNoImage) {
@@ -127,7 +128,9 @@ public class LinkHandler {
 			return;
 		}
 
-		if(youtubeDotComPattern.matcher(url).matches() || vimeoPattern.matcher(url).matches()) {
+		if(youtubeDotComPattern.matcher(url).matches()
+				|| vimeoPattern.matcher(url).matches()
+				|| googlePlayPattern.matcher(url).matches()) {
 			openWebBrowser(activity, Uri.parse(url.replaceAll("&amp;", "&")));
 			return;
 		}

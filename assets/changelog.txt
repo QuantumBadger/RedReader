@@ -1,5 +1,6 @@
 45/1.8.5
 Avoids crashing when the disk is full
+Opens Google Play links externally
 Tidied up some code (thanks to kageiit)
 
 44/1.8.4

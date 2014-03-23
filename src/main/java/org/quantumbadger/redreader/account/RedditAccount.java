@@ -90,6 +90,10 @@ public class RedditAccount {
 		return username.length() == 0;
 	}
 
+	public String getCanonicalUsername() {
+		return username.toLowerCase().trim();
+	}
+
 	public static LoginResultPair login(final Context context, final String username, final String password, final HttpClient client) {
 
 		final ArrayList<NameValuePair> fields = new ArrayList<NameValuePair>(3);

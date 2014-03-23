@@ -21,7 +21,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.quantumbadger.redreader</groupId>
     <artifactId>redreader</artifactId>
-    <version>1.8.4</version>
+    <version>1.8.5</version>
     <packaging>apk</packaging>
     <name>redreader</name>
 
@@ -88,8 +88,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.5.1</version>
                 <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
+                    <source>1.6</source>
+                    <target>1.6</target>
                 </configuration>
             </plugin>
         </plugins>

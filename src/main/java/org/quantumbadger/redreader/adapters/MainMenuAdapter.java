@@ -35,6 +35,7 @@ import org.quantumbadger.redreader.views.list.MainMenuItem;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 public class MainMenuAdapter extends BaseAdapter {
 
@@ -175,10 +176,13 @@ public class MainMenuAdapter extends BaseAdapter {
 
 	public void setSubreddits(final Collection<RedditSubreddit> subreddits) {
 
+		final ArrayList<RedditSubreddit> subredditsSorted = new ArrayList<RedditSubreddit>(subreddits);
+		Collections.sort(subredditsSorted);
+
 		new Handler(Looper.getMainLooper()).post(new Runnable() {
 			public void run() {
 
-				for(final RedditSubreddit subreddit : subreddits) {
+				for(final RedditSubreddit subreddit : subredditsSorted) {
 					items.add(makeItem(subreddit.display_name.toLowerCase(), subreddit));
 				}
 

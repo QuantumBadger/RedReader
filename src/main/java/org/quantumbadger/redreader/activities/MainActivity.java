@@ -196,7 +196,7 @@ public class MainActivity extends RefreshableActivity
 						String subredditInput = editText.getText().toString().trim();
 
                         try {
-                            final String normalizedName = RedditSubreddit.getNormalizedName(subredditInput);
+                            final String normalizedName = RedditSubreddit.getCanonicalName(subredditInput);
                             final RedditSubreddit subreddit = new RedditSubreddit(normalizedName, normalizedName, true);
                             onSelected(subreddit);
                         }

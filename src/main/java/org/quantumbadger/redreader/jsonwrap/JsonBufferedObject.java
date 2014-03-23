@@ -104,7 +104,8 @@ public final class JsonBufferedObject extends JsonBuffered implements Iterable<M
 	 * @throws java.io.IOException
 	 */
 	public String getString(final String name) throws InterruptedException, IOException {
-		return get(name).asString();
+		final JsonValue jsonValue = get(name);
+		return jsonValue == null ? null : jsonValue.asString();
 	}
 	
 	/**

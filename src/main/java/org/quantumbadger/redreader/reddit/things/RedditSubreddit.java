@@ -19,36 +19,61 @@ package org.quantumbadger.redreader.reddit.things;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import org.quantumbadger.redreader.io.WritableObject;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit> {
+public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>, WritableObject<String> {
 
-    public static final class InvalidSubredditNameException extends RuntimeException {}
+	public String getKey() {
+		return getCanonicalName();
+	}
 
-	public String header_img, header_title;
-	public String description, description_html, public_description;
-	public String id, name, title, display_name, url;
-	public long created, created_utc;
-	public Integer accounts_active, subscribers;
-	public boolean over18;
-	private final boolean isReal, isSortable;
-    private static final Pattern NAME_PATTERN = Pattern.compile("(/)?(r/)?([\\w\\+\\-]+)");
+	public long getTimestamp() {
+		return downloadTime;
+	}
 
-    /**
-     * @param name a subreddit name in the form "subreddit", "r/subreddit" or "/r/subreddit" (case-insensitive)
-     * @return a subreddit name in the form "/r/subreddit" (lower-cased)
-     * @throws InvalidSubredditNameException if {@code name} is null or not in the expected format
-     */
-    public static final String getNormalizedName(String name) throws InvalidSubredditNameException {
-        Matcher matcher = NAME_PATTERN.matcher(name);
-        if(matcher.matches()) {
-            return "/r/" + matcher.group(3).toLowerCase();
-        } else {
-            throw new InvalidSubredditNameException();
-        }
-    }
+	@WritableObjectVersion public static int DB_VERSION = 1;
+
+	public static final class InvalidSubredditNameException extends RuntimeException {}
+
+	@WritableField public String header_img, header_title;
+	@WritableField public String description, description_html, public_description;
+	@WritableField public String id, name, title, display_name, url;
+	@WritableField public long created, created_utc;
+	@WritableField public Integer accounts_active, subscribers;
+	@WritableField public boolean over18;
+
+	@WritableObjectTimestamp public long downloadTime;
+
+	// TODO remove
+	private transient final boolean isReal, isSortable;
+
+	private static final Pattern NAME_PATTERN = Pattern.compile("(/)?(r/)?([\\w\\+\\-]+)");
+
+	public RedditSubreddit(CreationData creationData) {
+		this();
+		downloadTime = creationData.timestamp;
+	}
+
+	/**
+	 * @param name a subreddit name in the form "subreddit", "r/subreddit" or "/r/subreddit" (case-insensitive)
+	 * @return a subreddit name in the form "/r/subreddit" (lower-cased)
+	 * @throws InvalidSubredditNameException if {@code name} is null or not in the expected format
+	 */
+	public static String getCanonicalName(String name) throws InvalidSubredditNameException {
+		Matcher matcher = NAME_PATTERN.matcher(name);
+		if(matcher.matches()) {
+			return "/r/" + matcher.group(3).toLowerCase();
+		} else {
+			throw new InvalidSubredditNameException();
+		}
+	}
+
+	public String getCanonicalName() {
+		return getCanonicalName(display_name);
+	}
 
 	public int describeContents() {
 		return 0;
@@ -57,9 +82,9 @@ public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit> 
 	public void writeToParcel(final Parcel out, final int flags) {
 		out.writeString(header_img);
 		out.writeString(header_title);
-		//out.writeString(description); // TODO See if this still gives a speed increase
-		//out.writeString(description_html);
-		//out.writeString(public_description);
+		out.writeString(description);
+		out.writeString(description_html);
+		out.writeString(public_description);
 		out.writeString(id);
 		out.writeString(name);
 		out.writeString(title);
@@ -93,9 +118,9 @@ public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit> 
 	public RedditSubreddit(final Parcel parcel) {
 		header_img = parcel.readString();
 		header_title = parcel.readString();
-		//description = parcel.readString();
-		//description_html = parcel.readString();
-		//public_description = parcel.readString();
+		description = parcel.readString();
+		description_html = parcel.readString();
+		public_description = parcel.readString();
 		id = parcel.readString();
 		name = parcel.readString();
 		title = parcel.readString();

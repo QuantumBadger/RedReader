@@ -27,14 +27,15 @@ import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.Constants;
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
-import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.things.RedditThing;
 import org.quantumbadger.redreader.reddit.things.RedditUser;
 
 import java.net.URI;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public final class RedditAPI {
 
@@ -298,70 +299,6 @@ public final class RedditAPI {
 			default:
 				throw new RuntimeException("Unknown post action");
 		}
-	}
-
-	// TODO just put this in the main menu fragment
-	public static void getUserSubreddits(final CacheManager cm,
-										 final APIResponseHandler.SubredditResponseHandler responseHandler,
-										 final RedditAccount user,
-										 final CacheRequest.DownloadType downloadType,
-										 final boolean cancelExisting,
-										 final Context context) {
-		final URI uri;
-		if(user.isAnonymous()) {
-			uri = Constants.Reddit.getUri(Constants.Reddit.PATH_SUBREDDITS_POPULAR);
-		} else {
-			uri = Constants.Reddit.getUri(Constants.Reddit.PATH_SUBREDDITS_MINE_SUBSCRIBER);
-		}
-
-		cm.makeRequest(new APIGetRequest(uri, user, Constants.Priority.API_SUBREDDIT_LIST, Constants.FileType.SUBREDDIT_LIST, downloadType, true, cancelExisting, context) {
-
-			@Override
-			protected void onDownloadNecessary() {
-				responseHandler.notifyDownloadNecessary();
-			}
-
-			@Override
-			protected void onDownloadStarted() {
-				responseHandler.notifyDownloadStarted();
-			}
-
-			@Override
-			protected void onCallbackException(final Throwable t) {
-				BugReportActivity.handleGlobalError(context, t);
-			}
-
-			@Override
-			protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
-				responseHandler.notifyFailure(type, t, status, readableMessage);
-			}
-
-			@Override
-			public void onJsonParseStarted(final JsonValue result, final long timestamp, final UUID session, final boolean fromCache) {
-
-				final ArrayList<RedditSubreddit> output = new ArrayList<RedditSubreddit>();
-
-				try {
-
-					final JsonBufferedArray subreddits = result.asObject().getObject("data").getArray("children");
-
-					for(final JsonValue v : subreddits) {
-						final RedditThing thing = v.asObject(RedditThing.class);
-						final RedditSubreddit subreddit = thing.asSubreddit();
-
-						output.add(subreddit);
-					}
-
-					Collections.sort(output);
-
-					responseHandler.notifySuccess(output, timestamp);
-
-				} catch(Throwable t) {
-					// TODO look for error
-					notifyFailure(RequestFailureType.PARSE, t, null, "JSON parse failed for unknown reason");
-				}
-			}
-		});
 	}
 
 	public static void getUser(final CacheManager cm,

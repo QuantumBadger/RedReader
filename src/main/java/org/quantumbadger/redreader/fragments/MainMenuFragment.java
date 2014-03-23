@@ -35,26 +35,34 @@ import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.adapters.MainMenuAdapter;
 import org.quantumbadger.redreader.adapters.MainMenuSelectionListener;
-import org.quantumbadger.redreader.cache.CacheManager;
-import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.TimestampBound;
+import org.quantumbadger.redreader.io.RequestResponseHandler;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
-import org.quantumbadger.redreader.reddit.RedditAPI;
+import org.quantumbadger.redreader.reddit.RedditSubredditManager;
+import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
+import org.quantumbadger.redreader.reddit.api.SubredditRequestFailure;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
 import org.quantumbadger.redreader.views.liststatus.LoadingView;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class MainMenuFragment extends Fragment implements MainMenuSelectionListener {
+public class MainMenuFragment extends Fragment implements MainMenuSelectionListener, RedditSubredditSubscriptionManager.SubredditSubscriptionStateChangeListener {
 
 	private MainMenuAdapter adapter;
 
 	private LinearLayout notifications;
 	private LoadingView loadingView;
+
+	private RedditAccount user;
+	private Context context;
 
 	private boolean force;
 
@@ -82,16 +90,13 @@ public class MainMenuFragment extends Fragment implements MainMenuSelectionListe
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
-		// TODO load menu position?
-
-		final Context context;
 		if(container != null) {
 			context = container.getContext(); // TODO just use the inflater's context in every case?
 		} else {
 			context = inflater.getContext();
 		}
 
-		final RedditAccount user = RedditAccountManager.getInstance(context).getDefaultAccount();
+		user = RedditAccountManager.getInstance(context).getDefaultAccount();
 
 		final LinearLayout outer = new LinearLayout(context);
 		outer.setOrientation(LinearLayout.VERTICAL);
@@ -124,11 +129,7 @@ public class MainMenuFragment extends Fragment implements MainMenuSelectionListe
 
 			@Override
 			protected void onDownloadNecessary() {
-				new Handler(Looper.getMainLooper()).post(new Runnable() {
-					public void run() {
-						notifications.addView(loadingView);
-					}
-				});
+
 			}
 
 			@Override
@@ -139,24 +140,7 @@ public class MainMenuFragment extends Fragment implements MainMenuSelectionListe
 			@Override
 			protected void onSuccess(final List<RedditSubreddit> result, final long timestamp) {
 
-				if(result.size() == 0) {
-					// Just get the defaults instead
-					new Handler(Looper.getMainLooper()).post(new Runnable() {
-						public void run() {
-							notifications.removeView(loadingView);
-							RedditAPI.getUserSubreddits(CacheManager.getInstance(context),
-									accessibleSubredditResponseHandler.get(), RedditAccountManager.getAnon(),
-									force ? CacheRequest.DownloadType.FORCE : CacheRequest.DownloadType.IF_NECESSARY,
-									force, context);
-						}
-					});
 
-				} else {
-
-					adapter.setSubreddits(result);
-
-					if(loadingView != null) loadingView.setDone(R.string.download_done);
-				}
 			}
 
 			@Override
@@ -179,27 +163,76 @@ public class MainMenuFragment extends Fragment implements MainMenuSelectionListe
 
 			@Override
 			protected void onFailure(final APIFailureType type) {
-
-				if(loadingView != null) loadingView.setDone(R.string.download_failed);
-				final RRError error = General.getGeneralErrorForFailure(context, type);
-
-				new Handler(Looper.getMainLooper()).post(new Runnable() {
-					public void run() {
-						notifications.addView(new ErrorView(getSupportActivity(), error));
-					}
-				});
+				onError(General.getGeneralErrorForFailure(context, type));
 			}
 		};
 
-		accessibleSubredditResponseHandler.set(responseHandler);
+		new Handler(Looper.getMainLooper()).post(new Runnable() {
+			public void run() {
+				notifications.addView(loadingView);
+			}
+		});
 
-		RedditAPI.getUserSubreddits(CacheManager.getInstance(context), responseHandler, user,
-				force ? CacheRequest.DownloadType.FORCE : CacheRequest.DownloadType.IF_NECESSARY, force, context);
+		final RedditSubredditSubscriptionManager subredditSubscriptionManager
+				= RedditSubredditSubscriptionManager.getSingleton(context, user);
+
+		if(force) {
+			subredditSubscriptionManager.triggerUpdate(new RequestResponseHandler<HashSet<String>, SubredditRequestFailure>() {
+				@Override
+				public void onRequestFailed(SubredditRequestFailure failureReason) {
+					onError(failureReason.asError(context));
+				}
+
+				@Override
+				public void onRequestSuccess(HashSet<String> result, long timeCached) {
+					subredditSubscriptionManager.addListener(MainMenuFragment.this);
+					onSubscriptionsChanged(result);
+				}
+			}, TimestampBound.NONE);
+
+		} else {
+
+			subredditSubscriptionManager.addListener(MainMenuFragment.this);
+
+			if(subredditSubscriptionManager.areSubscriptionsReady()) {
+				onSubscriptionsChanged(subredditSubscriptionManager.getSubscriptionList());
+			}
+		}
 
 		outer.addView(lv);
 		lv.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
 
 		return outer;
+	}
+
+	public void onSubscriptionsChanged(final Collection<String> subscriptions) {
+
+
+		RedditSubredditManager.getInstance(context, user).getSubreddits(
+				subscriptions,
+				TimestampBound.notOlderThan(1000 * 60 * 60 * 24), // 1 day (TODO should use listing age pref)
+				new RequestResponseHandler<HashMap<String, RedditSubreddit>, SubredditRequestFailure>() {
+					@Override
+					public void onRequestFailed(SubredditRequestFailure failureReason) {
+						onError(failureReason.asError(context));
+					}
+
+					@Override
+					public void onRequestSuccess(HashMap<String, RedditSubreddit> result, long timeCached) {
+						adapter.setSubreddits(result.values());
+					}
+				});
+
+		if(loadingView != null) loadingView.setDone(R.string.download_done);
+	}
+
+	private void onError(final RRError error) {
+		if(loadingView != null) loadingView.setDone(R.string.download_failed);
+		new Handler(Looper.getMainLooper()).post(new Runnable() {
+			public void run() {
+				notifications.addView(new ErrorView(getSupportActivity(), error));
+			}
+		});
 	}
 
 	@Override
@@ -214,4 +247,15 @@ public class MainMenuFragment extends Fragment implements MainMenuSelectionListe
 	public void onSelected(final RedditSubreddit subreddit) {
 		((MainMenuSelectionListener)getSupportActivity()).onSelected(subreddit);
 	}
+
+	@Override
+	public void onSubredditSubscriptionListUpdated(RedditSubredditSubscriptionManager subredditSubscriptionManager) {
+		onSubscriptionsChanged(subredditSubscriptionManager.getSubscriptionList());
+	}
+
+	@Override
+	public void onSubredditSubscriptionAttempted(RedditSubredditSubscriptionManager subredditSubscriptionManager) {}
+
+	@Override
+	public void onSubredditUnsubscriptionAttempted(RedditSubredditSubscriptionManager subredditSubscriptionManager) {}
 }

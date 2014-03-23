@@ -39,6 +39,7 @@ import org.quantumbadger.redreader.reddit.APIResponseHandler;
 
 import java.io.*;
 import java.net.URI;
+import java.security.MessageDigest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -344,5 +345,21 @@ public final class General {
 				return null;
 			}
 		}
+	}
+
+	public static String sha1(final byte[] plaintext) {
+
+		final MessageDigest digest;
+		try {
+			digest = MessageDigest.getInstance("SHA-1");
+		} catch(Exception e) {
+			throw new RuntimeException(e);
+		}
+
+		digest.update(plaintext, 0, plaintext.length);
+		final byte[] hash = digest.digest();
+		final StringBuilder result = new StringBuilder(hash.length * 2);
+		for(byte b : hash) result.append(String.format("%02X", b));
+		return result.toString();
 	}
 }

@@ -458,7 +458,18 @@ public class MainActivity extends RefreshableActivity
 			subredditSubscriptionState = null;
 		}
 
-		OptionsMenuUtility.prepare(this, menu, isMenuShown, postsVisible, commentsVisible, postsSortable, commentsSortable, subredditSubscriptionState);
+		final String subredditDescription = !postsVisible ? null : postListingController.getSubreddit().description_html;
+
+		OptionsMenuUtility.prepare(
+				this,
+				menu,
+				isMenuShown,
+				postsVisible,
+				commentsVisible,
+				postsSortable,
+				commentsSortable,
+				subredditSubscriptionState,
+				postsVisible && subredditDescription != null && subredditDescription.length() > 0);
 
 		getSupportActionBar().setHomeButtonEnabled(!isMenuShown);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(!isMenuShown);
@@ -550,6 +561,16 @@ public class MainActivity extends RefreshableActivity
 	@Override
 	public void onUnsubscribe() {
 		if(postListingFragment != null) postListingFragment.onUnsubscribe();
+	}
+
+	@Override
+	public void onSidebar() {
+		final Intent intent = new Intent(this, HtmlViewActivity.class);
+		intent.putExtra("html", postListingController.getSubreddit().getSidebarHtml());
+		intent.putExtra("title", String.format("%s: %s",
+				getString(R.string.sidebar_activity_title),
+				postListingController.getSubreddit().url));
+		startActivityForResult(intent, 1);
 	}
 
 	public void onRefreshSubreddits() {

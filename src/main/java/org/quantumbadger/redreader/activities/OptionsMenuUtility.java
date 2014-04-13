@@ -55,14 +55,16 @@ public final class OptionsMenuUtility {
 		SUBSCRIBE,
 		SUBSCRIBING,
 		UNSUBSCRIBING,
-		UNSUBSCRIBE
+		UNSUBSCRIBE,
+		SIDEBAR
 	}
 
 	public static <E extends Activity & OptionsMenuListener> void prepare(
 			final E activity, final Menu menu,
 			final boolean subredditsVisible, final boolean postsVisible, final boolean commentsVisible,
 			final boolean postsSortable, final boolean commentsSortable,
-			final RedditSubredditSubscriptionManager.SubredditSubscriptionState subredditSubscriptionState) {
+			final RedditSubredditSubscriptionManager.SubredditSubscriptionState subredditSubscriptionState,
+			final boolean subredditHasSidebar) {
 
 		if(subredditsVisible && !postsVisible && !commentsVisible) {
 			add(activity, menu, Option.REFRESH_SUBREDDITS, false);
@@ -74,6 +76,7 @@ public final class OptionsMenuUtility {
 			add(activity, menu, Option.SUBMIT_POST, false);
 			add(activity, menu, Option.SEARCH, false);
 			addSubscriptionItem(activity, menu, subredditSubscriptionState);
+			if(subredditHasSidebar) add(activity, menu, Option.SIDEBAR, false);
 
 		} else if(!subredditsVisible && !postsVisible && commentsVisible) {
 			if(commentsSortable) addAllCommentSorts(activity, menu, true);
@@ -110,6 +113,7 @@ public final class OptionsMenuUtility {
 				add(activity, menu, Option.SUBMIT_POST, false);
 				add(activity, menu, Option.SEARCH, false);
 				addSubscriptionItem(activity, menu, subredditSubscriptionState);
+				if(subredditHasSidebar) add(activity, menu, Option.SIDEBAR, false);
 			}
 			if(commentsVisible) add(activity, refreshMenu, Option.REFRESH_COMMENTS, true);
 		}
@@ -315,6 +319,15 @@ public final class OptionsMenuUtility {
 				menu.add(activity.getString(R.string.options_subscribing)).setEnabled(false);
 				break;
 
+			case SIDEBAR:
+				menu.add(activity.getString(R.string.options_sidebar)).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+					public boolean onMenuItemClick(final MenuItem item) {
+						((OptionsMenuPostsListener)activity).onSidebar();
+						return true;
+					}
+				});
+				break;
+
 			default:
 				BugReportActivity.handleGlobalError(activity, "Unknown menu option added");
 		}
@@ -395,6 +408,7 @@ public final class OptionsMenuUtility {
 		public void onSearchPosts();
 		public void onSubscribe();
 		public void onUnsubscribe();
+		public void onSidebar();
 	}
 
 	public static interface OptionsMenuCommentsListener extends OptionsMenuListener {

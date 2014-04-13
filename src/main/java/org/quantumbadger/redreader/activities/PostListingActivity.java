@@ -148,7 +148,18 @@ public class PostListingActivity extends RefreshableActivity
 			subredditSubscriptionState = null;
 		}
 
-		OptionsMenuUtility.prepare(this, menu, false, true, false, subreddit.isSortable(), false, subredditSubscriptionState);
+		final String subredditDescription = controller.getSubreddit().description_html;
+
+		OptionsMenuUtility.prepare(
+				this,
+				menu,
+				false,
+				true,
+				false,
+				subreddit.isSortable(),
+				false,
+				subredditSubscriptionState,
+				subredditDescription != null && subredditDescription.length() > 0);
 
 		return true;
 	}
@@ -253,6 +264,16 @@ public class PostListingActivity extends RefreshableActivity
 	@Override
 	public void onUnsubscribe() {
 		fragment.onUnsubscribe();
+	}
+
+	@Override
+	public void onSidebar() {
+		final Intent intent = new Intent(this, HtmlViewActivity.class);
+		intent.putExtra("html", controller.getSubreddit().getSidebarHtml());
+		intent.putExtra("title", String.format("%s: %s",
+				getString(R.string.sidebar_activity_title),
+				controller.getSubreddit().url));
+		startActivityForResult(intent, 1);
 	}
 
 	public void onSharedPreferenceChanged(final SharedPreferences prefs, final String key) {

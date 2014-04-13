@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.reddit.things;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
 import org.quantumbadger.redreader.io.WritableObject;
 
@@ -179,5 +180,25 @@ public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>,
 
 	public boolean isSortable() {
 		return isSortable;
+	}
+
+	public String getSidebarHtml() {
+		final String unescaped = StringEscapeUtils.unescapeHtml4(description_html);
+
+		final StringBuilder result = new StringBuilder(unescaped.length() + 512);
+
+		result.append("<html>");
+
+		result.append("<head>");
+		result.append("<meta name=\"viewport\" content=\"width=device-width, user-scalable=yes\">");
+		result.append("</head>");
+
+		result.append("<body>");
+		result.append(unescaped);
+		result.append("</body>");
+
+		result.append("</html>");
+
+		return result.toString();
 	}
 }

@@ -94,6 +94,9 @@
                   android:configChanges="orientation|screenSize|keyboardHidden"
                   android:theme="@style/RR.Dark.NoActionBar"/>
 
+        <activity android:name=".activities.HtmlViewActivity"
+                  android:configChanges="orientation|screenSize|keyboardHidden"/>
+
         <activity android:name=".activities.ImageViewActivity"
                   android:theme="@style/RR.Dark.NoActionBar"/>
 

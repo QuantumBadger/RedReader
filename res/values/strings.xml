@@ -555,4 +555,6 @@
     <string name="mainmenu_downvoted">Downvoted Posts</string>
     <string name="mainmenu_modmail">Mod Mail</string>
 
+    <string name="sidebar_activity_title">Sidebar</string>
+
 </resources>

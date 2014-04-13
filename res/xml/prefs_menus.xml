@@ -36,6 +36,13 @@
 
 <PreferenceScreen xmlns:holo="http://schemas.android.com/apk/res-auto">
 
+    <MultiSelectListPreference
+        holo:dialogTitle="@string/pref_menus_mainmenu_useritems_title"
+        holo:key="@string/pref_menus_mainmenu_useritems_key"
+        holo:title="@string/pref_menus_mainmenu_useritems_title"
+        holo:entries="@array/pref_menus_mainmenu_useritems_items"
+        holo:entryValues="@array/pref_menus_mainmenu_useritems_items_return"
+        holo:defaultValue="@array/pref_menus_mainmenu_useritems_items_default" />
 
     <MultiSelectListPreference
         holo:dialogTitle="@string/pref_menus_post_context_items_title"

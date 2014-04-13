@@ -293,4 +293,40 @@
         <item>100</item>
         <item>@string/pref_behaviour_postcount_items_all</item>
     </string-array>
+
+
+    <!-- 2014-04-13 -->
+
+    <string-array name="pref_menus_mainmenu_useritems_items">
+        <item>@string/mainmenu_profile</item>
+        <item>@string/mainmenu_inbox</item>
+        <item>@string/mainmenu_submitted</item>
+        <item>@string/mainmenu_saved</item>
+        <item>@string/mainmenu_hidden</item>
+        <item>@string/mainmenu_upvoted</item>
+        <item>@string/mainmenu_downvoted</item>
+        <item>@string/mainmenu_modmail</item>
+    </string-array>
+
+    <!-- Constants. Do not change. -->
+    <string-array name="pref_menus_mainmenu_useritems_items_return">
+        <item>profile</item>
+        <item>inbox</item>
+        <item>submitted</item>
+        <item>saved</item>
+        <item>hidden</item>
+        <item>upvoted</item>
+        <item>downvoted</item>
+        <item>modmail</item>
+    </string-array>
+
+    <!-- Constants. Do not change. -->
+    <string-array name="pref_menus_mainmenu_useritems_items_default">
+        <item>profile</item>
+        <item>inbox</item>
+        <item>saved</item>
+        <item>hidden</item>
+        <item>upvoted</item>
+    </string-array>
+
 </resources>

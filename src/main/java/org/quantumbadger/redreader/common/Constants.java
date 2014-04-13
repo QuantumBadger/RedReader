@@ -107,6 +107,14 @@ public final class Constants {
 		public static String getLikedPath(Context context) {
 			return getUserPath(context) + "/liked";
 		}
+
+		public static String getDislikedPath(Context context) {
+			return getUserPath(context) + "/disliked";
+		}
+
+		public static String getSubmittedPath(Context context) {
+			return getUserPath(context) + "/submitted";
+		}
 	}
 
 	public static String ua(final Context context) {

@@ -25,8 +25,11 @@ import android.os.Looper;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import org.holoeverywhere.preference.PreferenceManager;
+import org.holoeverywhere.preference.SharedPreferences;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
+import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.MainMenuFragment;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.views.list.ListItemView;
@@ -36,6 +39,7 @@ import org.quantumbadger.redreader.views.list.MainMenuItem;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumSet;
 
 public class MainMenuAdapter extends BaseAdapter {
 
@@ -44,7 +48,7 @@ public class MainMenuAdapter extends BaseAdapter {
 	private final RedditAccount user;
 	private final MainMenuSelectionListener selectionListener;
 
-	private final Drawable rrIconPerson, rrIconEnvOpen, rrIconSend, rrIconStarFilled, rrIconCross, rrIconThumbUp;
+	private final Drawable rrIconPerson, rrIconEnvOpen, rrIconSend, rrIconStarFilled, rrIconCross, rrIconThumbUp, rrIconThumbDown;
 
 	private final Context context;
 
@@ -60,7 +64,8 @@ public class MainMenuAdapter extends BaseAdapter {
 				R.attr.rrIconSend,
 				R.attr.rrIconStarFilled,
 				R.attr.rrIconCross,
-				R.attr.rrIconThumbUp
+				R.attr.rrIconThumbUp,
+				R.attr.rrIconThumbDown
 		});
 
 		rrIconPerson = context.getResources().getDrawable(attr.getResourceId(0, 0));
@@ -69,6 +74,7 @@ public class MainMenuAdapter extends BaseAdapter {
 		rrIconStarFilled = context.getResources().getDrawable(attr.getResourceId(3, 0));
 		rrIconCross = context.getResources().getDrawable(attr.getResourceId(4, 0));
 		rrIconThumbUp = context.getResources().getDrawable(attr.getResourceId(5, 0));
+		rrIconThumbDown = context.getResources().getDrawable(attr.getResourceId(6, 0));
 
 		build();
 	}
@@ -143,15 +149,37 @@ public class MainMenuAdapter extends BaseAdapter {
 
 			mainItems.add(new MainMenuItem(user.username));
 
-			mainItems.add(makeItem(context.getString(R.string.mainmenu_profile), MainMenuFragment.MainMenuAction.PROFILE, null, rrIconPerson));
-			mainItems.add(makeItem(context.getString(R.string.mainmenu_inbox), MainMenuFragment.MainMenuAction.INBOX, null, rrIconEnvOpen));
-			//items.add(makeItem("Submitted Posts", MainMenuFragment.MainMenuAction.SUBMITTED, null, rrIconSend));
-			mainItems.add(makeItem(context.getString(R.string.mainmenu_saved), MainMenuFragment.MainMenuAction.SAVED, null, rrIconStarFilled));
-			mainItems.add(makeItem(context.getString(R.string.mainmenu_hidden), MainMenuFragment.MainMenuAction.HIDDEN, null, rrIconCross));
-			mainItems.add(makeItem(context.getString(R.string.mainmenu_upvoted), MainMenuFragment.MainMenuAction.LIKED, null, rrIconThumbUp));
+			final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+			final EnumSet<MainMenuFragment.MainMenuUserItems> mainMenuUserItems
+					= PrefsUtility.pref_menus_mainmenu_useritems(context, sharedPreferences);
+
+			if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.PROFILE))
+				mainItems.add(makeItem(context.getString(R.string.mainmenu_profile), MainMenuFragment.MainMenuAction.PROFILE, null, rrIconPerson));
+
+			if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.INBOX))
+				mainItems.add(makeItem(context.getString(R.string.mainmenu_inbox), MainMenuFragment.MainMenuAction.INBOX, null, rrIconEnvOpen));
+
+			if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.SUBMITTED))
+				mainItems.add(makeItem(context.getString(R.string.mainmenu_submitted), MainMenuFragment.MainMenuAction.SUBMITTED, null, rrIconSend));
+
+			if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.SAVED))
+				mainItems.add(makeItem(context.getString(R.string.mainmenu_saved), MainMenuFragment.MainMenuAction.SAVED, null, rrIconStarFilled));
+
+			if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.HIDDEN))
+				mainItems.add(makeItem(context.getString(R.string.mainmenu_hidden), MainMenuFragment.MainMenuAction.HIDDEN, null, rrIconCross));
+
+			if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.UPVOTED))
+				mainItems.add(makeItem(context.getString(R.string.mainmenu_upvoted), MainMenuFragment.MainMenuAction.UPVOTED, null, rrIconThumbUp));
+
+			if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.DOWNVOTED))
+				mainItems.add(makeItem(context.getString(R.string.mainmenu_downvoted), MainMenuFragment.MainMenuAction.DOWNVOTED, null, rrIconThumbDown));
+
+			if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.MODMAIL))
+				mainItems.add(makeItem(context.getString(R.string.mainmenu_modmail), MainMenuFragment.MainMenuAction.MODMAIL, null, rrIconEnvOpen));
 		}
 
 		mainItems.add(new MainMenuItem(context.getString(R.string.mainmenu_header_subreddits)));
+
 		//items.add(makeItem("Add Subreddit", null, null, null)); // TODO
 
 		notifyDataSetChanged();

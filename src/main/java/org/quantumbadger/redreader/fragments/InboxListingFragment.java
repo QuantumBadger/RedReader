@@ -69,6 +69,8 @@ public final class InboxListingFragment extends DialogFragment {
 	// Workaround for HoloEverywhere bug?
 	private volatile boolean alreadyCreated = false;
 
+	private boolean isModmail = false;
+
 	private final Handler itemHandler = new Handler(Looper.getMainLooper()) {
 		@Override
 		public void handleMessage(final Message msg) {
@@ -132,7 +134,12 @@ public final class InboxListingFragment extends DialogFragment {
 		makeFirstRequest(context);
 
 		final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setTitle(R.string.mainmenu_inbox);
+
+		if(!isModmail) {
+			builder.setTitle(R.string.mainmenu_inbox);
+		} else {
+			builder.setTitle(R.string.mainmenu_modmail);
+		}
 
 		builder.setView(outer);
 
@@ -148,7 +155,13 @@ public final class InboxListingFragment extends DialogFragment {
 		final RedditAccount user = RedditAccountManager.getInstance(context).getDefaultAccount();
 		final CacheManager cm = CacheManager.getInstance(context);
 
-		final URI url = Constants.Reddit.getUri("/message/inbox.json?mark=true&limit=100");
+		final URI url;
+
+		if(!isModmail) {
+			url = Constants.Reddit.getUri("/message/inbox.json?mark=true&limit=100");
+		} else {
+			url = Constants.Reddit.getUri("/message/moderator.json?limit=100");
+		}
 
 		// TODO parameterise limit
 		request = new CacheRequest(url, user, null, Constants.Priority.API_INBOX_LIST, 0, CacheRequest.DownloadType.FORCE, Constants.FileType.INBOX_LIST, true, true, true, context) {
@@ -257,4 +270,7 @@ public final class InboxListingFragment extends DialogFragment {
 	}
 
 
+	public void setModmail(boolean modmail) {
+		this.isModmail = modmail;
+	}
 }

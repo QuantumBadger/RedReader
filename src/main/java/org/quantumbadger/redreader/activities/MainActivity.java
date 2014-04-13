@@ -170,6 +170,10 @@ public class MainActivity extends RefreshableActivity
 				onSelected(new RedditSubreddit("/r/all/", getString(R.string.mainmenu_all), true)); // TODO constant
 				break;
 
+			case SUBMITTED:
+				onSelected(new RedditSubreddit(Constants.Reddit.getSubmittedPath(this), getString(R.string.mainmenu_submitted), false));
+				break;
+
 			case SAVED:
 				onSelected(new RedditSubreddit(Constants.Reddit.getSavedPath(this), getString(R.string.mainmenu_saved), false));
 				break;
@@ -178,8 +182,12 @@ public class MainActivity extends RefreshableActivity
 				onSelected(new RedditSubreddit(Constants.Reddit.getHiddenPath(this), getString(R.string.mainmenu_hidden), false));
 				break;
 
-			case LIKED:
+			case UPVOTED:
 				onSelected(new RedditSubreddit(Constants.Reddit.getLikedPath(this), getString(R.string.mainmenu_upvoted), false));
+				break;
+
+			case DOWNVOTED:
+				onSelected(new RedditSubreddit(Constants.Reddit.getDislikedPath(this), getString(R.string.mainmenu_downvoted), false));
 				break;
 
 			case PROFILE:
@@ -224,6 +232,12 @@ public class MainActivity extends RefreshableActivity
 
 			case INBOX:
 				InboxListingFragment.newInstance().show(this);
+				break;
+
+			case MODMAIL:
+				final InboxListingFragment modmailFragment = InboxListingFragment.newInstance();
+				modmailFragment.setModmail(true);
+				modmailFragment.show(this);
 				break;
 		}
 	}

@@ -546,4 +546,13 @@
     <string name="options_unsubscribing">Unsubscribing…</string>
     <string name="options_sidebar">View Sidebar</string>
 
+    <!-- 2014-04-13 -->
+
+    <string name="pref_menus_mainmenu_useritems_key">pref_menus_mainmenu_useritems</string>
+    <string name="pref_menus_mainmenu_useritems_title">Main Menu User Items</string>
+
+    <string name="mainmenu_submitted">Submitted Posts</string>
+    <string name="mainmenu_downvoted">Downvoted Posts</string>
+    <string name="mainmenu_modmail">Mod Mail</string>
+
 </resources>

@@ -24,6 +24,7 @@ import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.preference.SharedPreferences;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.fragments.MainMenuFragment;
 import org.quantumbadger.redreader.listingcontrollers.CommentListingController;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 
@@ -56,7 +57,8 @@ public final class PrefsUtility {
 	public static boolean isReLayoutRequired(final Context context, final String key) {
 		return context.getString(R.string.pref_appearance_twopane_key).equals(key)
 				|| context.getString(R.string.pref_appearance_theme_key).equals(key)
-				|| context.getString(R.string.pref_appearance_solidblack_key).equals(key);
+				|| context.getString(R.string.pref_appearance_solidblack_key).equals(key)
+				|| context.getString(R.string.pref_menus_mainmenu_useritems_key).equals(key);
 	}
 
 	public static boolean isRefreshRequired(final Context context, final String key) {
@@ -324,6 +326,16 @@ public final class PrefsUtility {
 
 		final EnumSet<RedditPreparedPost.Action> result = EnumSet.noneOf(RedditPreparedPost.Action.class);
 		for(String s : strings) result.add(RedditPreparedPost.Action.valueOf(s.toUpperCase()));
+
+		return result;
+	}
+
+	public static EnumSet<MainMenuFragment.MainMenuUserItems> pref_menus_mainmenu_useritems(final Context context, final SharedPreferences sharedPreferences) {
+
+		final Set<String> strings = getStringSet(R.string.pref_menus_mainmenu_useritems_key, R.array.pref_menus_mainmenu_useritems_items_default, context, sharedPreferences);
+
+		final EnumSet<MainMenuFragment.MainMenuUserItems> result = EnumSet.noneOf(MainMenuFragment.MainMenuUserItems.class);
+		for(String s : strings) result.add(MainMenuFragment.MainMenuUserItems.valueOf(s.toUpperCase()));
 
 		return result;
 	}

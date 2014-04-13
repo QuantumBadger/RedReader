@@ -209,7 +209,7 @@ public class MainMenuFragment extends Fragment implements MainMenuSelectionListe
 
 		RedditSubredditManager.getInstance(context, user).getSubreddits(
 				subscriptions,
-				TimestampBound.notOlderThan(1000 * 60 * 60 * 24), // 1 day (TODO should use listing age pref)
+				TimestampBound.ANY,
 				new RequestResponseHandler<HashMap<String, RedditSubreddit>, SubredditRequestFailure>() {
 					@Override
 					public void onRequestFailed(SubredditRequestFailure failureReason) {

@@ -150,7 +150,7 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 
 			while(iter.hasNext()) {
 				final K key = iter.next();
-				final V dbResult = db.getById(key);
+				final V dbResult = db.getById(key); // TODO this is pretty inefficient
 				if(dbResult != null && timestampBound.verifyTimestamp(dbResult.getTimestamp())) {
 					iter.remove();
 					existingResult.put(key, dbResult);

@@ -20,7 +20,6 @@ package org.quantumbadger.redreader.reddit.api;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import org.apache.http.StatusLine;
 import org.holoeverywhere.app.Activity;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -82,13 +81,11 @@ public class RedditSubredditSubscriptionManager {
 
 		subscriptions = db.getById(user.getCanonicalUsername());
 
-		Log.i("SUBSCR INNER", String.format("Triggering update."));
 		triggerUpdate(null, TimestampBound.notOlderThan(1000 * 60 * 60 * 24)); // Max age, 24 hours
 	}
 
 	public void addListener(SubredditSubscriptionStateChangeListener listener) {
 		listeners.add(listener);
-		Log.i("SUBSCR INNER", "Added listener");
 	}
 
 	public synchronized boolean areSubscriptionsReady() {
@@ -151,15 +148,8 @@ public class RedditSubredditSubscriptionManager {
 	public void triggerUpdate(final RequestResponseHandler<HashSet<String>, SubredditRequestFailure> handler, TimestampBound timestampBound) {
 
 		if(subscriptions != null && timestampBound.verifyTimestamp(subscriptions.getTimestamp())) {
-			Log.i("SUBSCR INNER", "update not needed");
 			return;
 		}
-
-		if(subscriptions != null) {
-			Log.i("SUBSCR INNER EXISTING TIME", String.format("%d", subscriptions.getTimestamp()));
-		}
-
-		Log.i("SUBSCR INNER", String.format("triggerUpdate."));
 
 		new RedditAPIIndividualSubredditListRequester(context, user).performRequest(
 				RedditSubredditManager.SubredditListType.SUBSCRIBED,
@@ -288,7 +278,7 @@ public class RedditSubredditSubscriptionManager {
 			implements WeakReferenceListManager.ArgOperator<SubredditSubscriptionStateChangeListener, SubredditSubscriptionChangeType> {
 
 		public void operate(SubredditSubscriptionStateChangeListener listener, SubredditSubscriptionChangeType changeType) {
-			Log.i("SUBSCR SubredditSubscriptionStateChangeNotifier", changeType.toString());
+
 			switch(changeType) {
 				case LIST_UPDATED:
 					listener.onSubredditSubscriptionListUpdated(RedditSubredditSubscriptionManager.this);

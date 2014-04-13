@@ -133,6 +133,9 @@ public final class RedditPreparedPost {
 			voteDirection = Boolean.TRUE.equals(post.likes) ? 1 : -1;
 		}
 
+		this.saved = post.saved;
+		this.hidden = post.hidden;
+
 		imageUrl = LinkHandler.getImageUrl(post.url);
 		thumbnailUrl = post.thumbnail;
 		hasThumbnail = showThumbnails && (hasThumbnail(post) || imageUrl != null);

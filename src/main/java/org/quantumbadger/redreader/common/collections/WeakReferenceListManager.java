@@ -1,57 +1,24 @@
 package org.quantumbadger.redreader.common.collections;
 
 import java.lang.ref.WeakReference;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.Map;
+import java.util.WeakHashMap;
+
+import static java.util.Collections.synchronizedMap;
 
 public final class WeakReferenceListManager<E> {
+	private final Map<WeakReference<E>, Boolean> weakReferenceList = synchronizedMap(new WeakHashMap<WeakReference<E>, Boolean>());
 
-	// TODO avoid linked list here -- a new object is created for every Link<>
-	private final LinkedList<WeakReference<E>> data = new LinkedList<WeakReference<E>>();
-
-	public synchronized int size() {
-		return data.size();
+	public void add(final E object) {
+		weakReferenceList.put(new WeakReference<E>(object), true);
 	}
 
-	public synchronized void add(final E object) {
-		data.add(new WeakReference<E>(object));
-	}
-
-	public synchronized void map(final Operator<E> operator) {
-
-		final Iterator<WeakReference<E>> iterator = data.iterator();
-
-		while(iterator.hasNext()) {
-			final E object = iterator.next().get();
-
-			if(object == null) {
-				iterator.remove();
-			} else {
-				operator.operate(object);
-			}
-		}
-	}
-
-	public synchronized <A> void map(final ArgOperator<E, A> operator, final A arg) {
-
-		final Iterator<WeakReference<E>> iterator = data.iterator();
-
-		while(iterator.hasNext()) {
-			final E object = iterator.next().get();
-
-			if(object == null) {
-				iterator.remove();
-			} else {
+	public <A> void map(final ArgOperator<E, A> operator, final A arg) {
+		for (WeakReference<E> key : weakReferenceList.keySet()) {
+			final E object = key.get();
+			if (object != null) {
 				operator.operate(object, arg);
 			}
-		}
-	}
-
-	public synchronized void remove(final E object) {
-		final Iterator<WeakReference<E>> iterator = data.iterator();
-
-		while(iterator.hasNext()) {
-			if(iterator.next().get() == object) iterator.remove();
 		}
 	}
 

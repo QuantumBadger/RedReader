@@ -379,7 +379,7 @@ public final class CacheDownload {
 
 			} catch(IOException e) {
 
-				if(e.getMessage().contains("ENOSPC")) {
+				if(e.getMessage() != null && e.getMessage().contains("ENOSPC")) {
 					notifyAllOnFailure(RequestFailureType.STORAGE, e, null, "Out of disk space");
 
 				} else {

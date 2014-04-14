@@ -17,37 +17,24 @@
 
 package org.quantumbadger.redreader.common.collections;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.LinkedList;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+import static java.util.Collections.synchronizedSet;
 
 public class UniqueSynchronizedQueue<E> {
+	private final Set<E> uniqueSynchronizedQueue = synchronizedSet(new LinkedHashSet<E>());
 
-	private final HashSet<E> set = new HashSet<E>();
-	private final LinkedList<E> queue = new LinkedList<E>();
-
-	public synchronized void enqueue(E object) {
-		if(set.add(object)) {
-			queue.addLast(object);
-		}
+	public void enqueue(E object) {
+		uniqueSynchronizedQueue.add(object);
 	}
 
-	public synchronized void enqueue(Collection<E> objects) {
-		for(E object : objects) {
-			enqueue(object);
-		}
-	}
+	public E dequeue() {
+		Iterator<E> i = uniqueSynchronizedQueue.iterator();
+		final E result = i.next();
+		i.remove();
 
-	public synchronized E dequeue() {
-
-		if(queue.isEmpty()) return null;
-
-		final E result = queue.removeFirst();
-		set.remove(result);
 		return result;
-	}
-
-	public boolean isEmpty() {
-		return queue.isEmpty();
 	}
 }

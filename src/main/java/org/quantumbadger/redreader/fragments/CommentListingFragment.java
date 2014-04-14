@@ -609,7 +609,7 @@ public class CommentListingFragment extends Fragment
 			case EDIT: {
 				final Intent intent = new Intent(getSupportActivity(), CommentEditActivity.class);
 				intent.putExtra("commentIdAndType", comment.idAndType);
-				intent.putExtra("commentText", comment.src.body);
+				intent.putExtra("commentText", StringEscapeUtils.unescapeHtml4(comment.src.body));
 				startActivity(intent);
 				break;
 			}

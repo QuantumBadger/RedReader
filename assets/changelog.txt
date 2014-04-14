@@ -2,9 +2,10 @@
 Added ability to subscribe to/unsubscribe from subreddits
 Added ability to view subreddit sidebar
 No longer cuts off subreddit list if you have 100+ subscriptions
-Made Main Menu customisable (under Settings > Menus)
+Made main menu customisable (under Settings > Menus)
 Ability to view mod mail, submitted posts, downvoted posts
 Fixed bug where saved/hidden posts were marked as unsaved/unhidden
+Fixed bug with HTML entities when editing comments
 Avoids crashing when the disk is full
 Opens Google Play links externally
 Tidied up some code (thanks to kageiit)

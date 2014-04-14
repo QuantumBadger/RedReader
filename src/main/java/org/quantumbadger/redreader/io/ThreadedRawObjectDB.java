@@ -19,12 +19,12 @@ package org.quantumbadger.redreader.io;
 
 import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.common.TriggerableThread;
-import org.quantumbadger.redreader.common.collections.UniqueSynchronizedQueue;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 		implements CacheDataSource<K, V, F> {
@@ -41,7 +41,7 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 	}, 0);
 
 	private final HashMap<K, V> toWrite = new HashMap<K, V>();
-	private final UniqueSynchronizedQueue<ReadOperation> toRead = new UniqueSynchronizedQueue<ReadOperation>();
+	private final LinkedBlockingQueue<ReadOperation> toRead = new LinkedBlockingQueue<ReadOperation>();
 	private final Object ioLock = new Object();
 
 	private final RawObjectDB<K, V> db;
@@ -68,9 +68,8 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 
 	private void doRead() {
 		synchronized(ioLock) {
-			ReadOperation op;
-			while((op = toRead.dequeue()) != null) {
-				op.run();
+			while(!toRead.isEmpty()) {
+				toRead.remove().run();
 			}
 		}
 	}
@@ -78,14 +77,14 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 	public void performRequest(K key, TimestampBound timestampBound,
 							   RequestResponseHandler<V, F> handler) {
 
-		toRead.enqueue(new SingleReadOperation(timestampBound, handler, key));
+		toRead.offer(new SingleReadOperation(timestampBound, handler, key));
 		readThread.trigger();
 	}
 
 	public void performRequest(Collection<K> keys, TimestampBound timestampBound,
 							   RequestResponseHandler<HashMap<K, V>, F> handler) {
 
-		toRead.enqueue(new BulkReadOperation(timestampBound, handler, keys));
+		toRead.offer(new BulkReadOperation(timestampBound, handler, keys));
 		readThread.trigger();
 	}
 

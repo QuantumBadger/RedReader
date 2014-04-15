@@ -51,7 +51,7 @@ public final class PostPropertiesDialog extends PropertiesDialog {
 
 		items.addView(propView(context, R.string.props_title, StringEscapeUtils.unescapeHtml4(post.title.trim()), true));
 		items.addView(propView(context, R.string.props_author, post.author, false));
-		items.addView(propView(context, R.string.props_url, post.url, false));
+		items.addView(propView(context, R.string.props_url, StringEscapeUtils.unescapeHtml4(post.url), false));
 		items.addView(propView(context, R.string.props_created, RRTime.formatDateTime(post.created_utc * 1000, context), false));
 
 		if(post.edited instanceof Long) {
@@ -69,7 +69,7 @@ public final class PostPropertiesDialog extends PropertiesDialog {
 		items.addView(propView(context, R.string.props_num_comments, String.valueOf(post.num_comments), false));
 
 		if(post.selftext != null && post.selftext.length() > 0) {
-			items.addView(propView(context, R.string.props_self_markdown, post.selftext, false));
+			items.addView(propView(context, R.string.props_self_markdown, StringEscapeUtils.unescapeHtml4(post.selftext), false));
 		}
 	}
 }

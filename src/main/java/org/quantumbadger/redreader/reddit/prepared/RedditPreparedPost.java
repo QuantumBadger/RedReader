@@ -124,7 +124,7 @@ public final class RedditPreparedPost {
 
 		idAlone = post.id;
 		idAndType = post.name;
-		url = post.url;
+		url = StringEscapeUtils.unescapeHtml4(post.url);
 		commentCount = post.num_comments;
 
 		if(post.likes == null) {
@@ -136,7 +136,7 @@ public final class RedditPreparedPost {
 		this.saved = post.saved;
 		this.hidden = post.hidden;
 
-		imageUrl = LinkHandler.getImageUrl(post.url);
+		imageUrl = LinkHandler.getImageUrl(url);
 		thumbnailUrl = post.thumbnail;
 		hasThumbnail = showThumbnails && (hasThumbnail(post) || imageUrl != null);
 

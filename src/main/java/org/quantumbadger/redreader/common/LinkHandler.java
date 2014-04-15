@@ -131,7 +131,7 @@ public class LinkHandler {
 		if(youtubeDotComPattern.matcher(url).matches()
 				|| vimeoPattern.matcher(url).matches()
 				|| googlePlayPattern.matcher(url).matches()) {
-			openWebBrowser(activity, Uri.parse(url.replaceAll("&amp;", "&")));
+			openWebBrowser(activity, Uri.parse(url));
 			return;
 		}
 

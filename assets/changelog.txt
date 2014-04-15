@@ -1,4 +1,4 @@
-45/1.8.5.1
+47/1.8.5.2
 Added ability to subscribe to/unsubscribe from subreddits
 Added ability to view subreddit sidebar
 No longer cuts off subreddit list if you have 100+ subscriptions

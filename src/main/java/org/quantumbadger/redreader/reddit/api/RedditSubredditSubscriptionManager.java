@@ -159,7 +159,6 @@ public class RedditSubredditSubscriptionManager {
 					// TODO handle failed requests properly -- retry? then notify listeners
 					@Override
 					public void onRequestFailed(SubredditRequestFailure failureReason) {
-						failureReason.t.printStackTrace();
 						if(handler != null) handler.onRequestFailed(failureReason);
 					}
 

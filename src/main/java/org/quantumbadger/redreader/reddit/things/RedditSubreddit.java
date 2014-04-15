@@ -68,7 +68,7 @@ public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>,
 	// TODO remove
 	private transient final boolean isReal, isSortable;
 
-	private static final Pattern NAME_PATTERN = Pattern.compile("(/)?(r/)?([\\w\\+\\-]+)/?");
+	private static final Pattern NAME_PATTERN = Pattern.compile("(/)?(r/)?([\\w\\+\\-\\.]+)/?");
 	private static final Pattern ACTUAL_SUBREDDIT_PATTERN = Pattern.compile("(/)?(r/)?([\\w]+)/?");
 
 	public RedditSubreddit(CreationData creationData) {

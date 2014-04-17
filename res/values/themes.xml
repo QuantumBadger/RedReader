@@ -35,6 +35,7 @@
 
         <item name="rrPostTitleCol">#DDDDDD</item>
         <item name="rrPostTitleReadCol">#909090</item>
+        <item name="rrPostTitleStickyCol">#228822</item>
         <item name="rrPostSubtitleCol">#909090</item>
         <item name="rrPostSubtitleBoldCol">#BBBBBB</item>
         <item name="rrPostSubtitleUpvoteCol">#FF9B76</item>

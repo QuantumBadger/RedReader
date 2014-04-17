@@ -80,7 +80,7 @@ public final class RedditPreparedPost {
 	public final String idAlone, idAndType;
 
 	private int voteDirection;
-	private boolean saved, hidden, read;
+	private boolean saved, hidden, read, stickied;
 
 	public final boolean hasThumbnail;
 	private boolean gotHighResThumb = false;
@@ -135,6 +135,7 @@ public final class RedditPreparedPost {
 
 		this.saved = post.saved;
 		this.hidden = post.hidden;
+		this.stickied = post.stickied;
 
 		imageUrl = LinkHandler.getImageUrl(url);
 		thumbnailUrl = post.thumbnail;
@@ -605,6 +606,8 @@ public final class RedditPreparedPost {
 	public boolean isRead() {
 		return read;
 	}
+
+	public boolean isSticky() { return stickied; }
 
 	public void bind(RedditPostView boundView) {
 		this.boundView = boundView;

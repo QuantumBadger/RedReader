@@ -35,7 +35,6 @@
 
         <item name="rrPostTitleCol">#DDDDDD</item>
         <item name="rrPostTitleReadCol">#909090</item>
-        <item name="rrPostTitleStickyCol">#228822</item>
         <item name="rrPostSubtitleCol">#909090</item>
         <item name="rrPostSubtitleBoldCol">#BBBBBB</item>
         <item name="rrPostSubtitleUpvoteCol">#FF9B76</item>
@@ -44,6 +43,8 @@
         <item name="rrPostCommentsButtonTextCol">#BBBBBB</item>
         <item name="rrPostThumbnailBackground">#000000</item>
         <item name="rrPostFlingTextCol">#FFFFFF</item>
+        <item name="rrPostBackgroundColSticky">#004400</item>
+        <item name="rrPostCommentsButtonBackColSticky">#226622</item>
 
         <!-- Comment -->
 
@@ -117,6 +118,8 @@
         <item name="rrPostCommentsButtonTextCol">#666666</item>
         <item name="rrPostThumbnailBackground">#DDDDDD</item>
         <item name="rrPostFlingTextCol">?rrActionBarCol</item>
+        <item name="rrPostBackgroundColSticky">#DDFFDD</item>
+        <item name="rrPostCommentsButtonBackColSticky">#BBEEBB</item>
 
         <!-- Icons -->
 

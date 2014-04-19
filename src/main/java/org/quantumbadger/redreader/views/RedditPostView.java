@@ -49,7 +49,7 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 
 	private final ImageView thumbnailView, savedIcon, hiddenIcon;
 
-	private final LinearLayout commentsButton;
+	private final LinearLayout visiblePostLayout, commentsButton;
 	private final TextView commentsText;
 
 	private int usageId = 0;
@@ -66,7 +66,13 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 	private final TextView leftOverlayText, rightOverlayText;
 
 	private final Drawable rrIconFfLeft, rrIconFfRight, rrIconTick;
-	private final int rrPostTitleReadCol, rrPostTitleCol, rrPostTitleStickyCol;
+	private final int
+			rrPostTitleReadCol,
+			rrPostTitleCol,
+			rrListItemBackgroundCol,
+			rrPostBackgroundColSticky,
+			rrPostCommentsButtonBackCol,
+			rrPostCommentsButtonBackColSticky;
 
 	private final int offsetBeginAllowed, offsetActionPerformed;
 
@@ -240,7 +246,7 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 		final float fontScale = PrefsUtility.appearance_fontscale_posts(context, PreferenceManager.getDefaultSharedPreferences(context));
 
 		final FrameLayout mainLayout = (FrameLayout) inflate(context, R.layout.reddit_post, null);
-		final LinearLayout visiblePostLayout = (LinearLayout) mainLayout.findViewById(R.id.reddit_post_layout);
+		visiblePostLayout = (LinearLayout) mainLayout.findViewById(R.id.reddit_post_layout);
 
 		thumbnailView = (ImageView) mainLayout.findViewById(R.id.reddit_post_thumbnail_view);
 		savedIcon = (ImageView) mainLayout.findViewById(R.id.reddit_post_saved_icon);
@@ -267,7 +273,10 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 				R.attr.rrIconTick,
 				R.attr.rrPostTitleCol,
 				R.attr.rrPostTitleReadCol,
-				R.attr.rrPostTitleStickyCol
+				R.attr.rrListItemBackgroundCol,
+				R.attr.rrPostBackgroundColSticky,
+				R.attr.rrPostCommentsButtonBackCol,
+				R.attr.rrPostCommentsButtonBackColSticky
 		});
 
 		rrIconFfLeft = attr.getDrawable(0);
@@ -275,7 +284,10 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 		rrIconTick = attr.getDrawable(2);
 		rrPostTitleCol = attr.getColor(3, 0);
 		rrPostTitleReadCol = attr.getColor(4, 0);
-		rrPostTitleStickyCol = attr.getColor(5, 0);
+		rrListItemBackgroundCol = attr.getColor(5, 0);
+		rrPostBackgroundColSticky = attr.getColor(6, 0);
+		rrPostCommentsButtonBackCol = attr.getColor(7, 0);
+		rrPostCommentsButtonBackColSticky = attr.getColor(8, 0);
 
 		setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
 
@@ -319,9 +331,16 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 	}
 
 	public void updateAppearance() {
+
 		if(post.isSticky()) {
-			title.setTextColor(rrPostTitleStickyCol);
-		} else if(post.isRead()) {
+			visiblePostLayout.setBackgroundColor(rrPostBackgroundColSticky);
+			commentsButton.setBackgroundColor(rrPostCommentsButtonBackColSticky);
+		} else {
+			visiblePostLayout.setBackgroundColor(rrListItemBackgroundCol);
+			commentsButton.setBackgroundColor(rrPostCommentsButtonBackCol);
+		}
+
+		if(post.isRead()) {
 			title.setTextColor(rrPostTitleReadCol);
 		} else {
 			title.setTextColor(rrPostTitleCol);

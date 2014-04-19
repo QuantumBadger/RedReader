@@ -30,7 +30,6 @@
 
     <attr name="rrPostTitleCol" format="color" />
     <attr name="rrPostTitleReadCol" format="color" />
-    <attr name="rrPostTitleStickyCol" format="color" />
     <attr name="rrPostSubtitleCol" format="color" />
     <attr name="rrPostSubtitleBoldCol" format="color" />
     <attr name="rrPostSubtitleUpvoteCol" format="color" />
@@ -39,6 +38,8 @@
     <attr name="rrPostCommentsButtonTextCol" format="color" />
     <attr name="rrPostThumbnailBackground" format="color" />
     <attr name="rrPostFlingTextCol" format="color" />
+    <attr name="rrPostBackgroundColSticky" format="color" />
+    <attr name="rrPostCommentsButtonBackColSticky" format="color" />
 
     <attr name="rrCommentBodyCol" format="color" />
     <attr name="rrCommentHeaderCol" format="color" />

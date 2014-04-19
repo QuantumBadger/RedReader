@@ -30,6 +30,7 @@
 
     <attr name="rrPostTitleCol" format="color" />
     <attr name="rrPostTitleReadCol" format="color" />
+    <attr name="rrPostTitleStickyCol" format="color" />
     <attr name="rrPostSubtitleCol" format="color" />
     <attr name="rrPostSubtitleBoldCol" format="color" />
     <attr name="rrPostSubtitleUpvoteCol" format="color" />

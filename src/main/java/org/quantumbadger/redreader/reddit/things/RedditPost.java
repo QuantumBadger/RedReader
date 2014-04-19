@@ -26,7 +26,7 @@ public final class RedditPost implements Parcelable {
 	public String id, name;
 	public String title, url, author, domain, subreddit, subreddit_id;
 	public int num_comments, score, ups, downs;
-	public boolean over_18, hidden, saved, is_self, clicked;
+	public boolean over_18, hidden, saved, is_self, clicked, stickied;
 	public Object edited;
 	public Boolean likes;
 
@@ -56,6 +56,7 @@ public final class RedditPost implements Parcelable {
 		saved = in.readInt() == 1;
 		is_self = in.readInt() == 1;
 		clicked = in.readInt() == 1;
+		stickied = in.readInt() == 1;
 
 		final long in_edited = in.readLong();
 		if(in_edited == -1) {
@@ -102,6 +103,7 @@ public final class RedditPost implements Parcelable {
 		parcel.writeInt(saved ? 1 : 0);
 		parcel.writeInt(is_self ? 1 : 0);
 		parcel.writeInt(clicked ? 1 : 0);
+		parcel.writeInt(stickied ? 1 : 0);
 
 		if(edited instanceof Long) {
 			parcel.writeLong((Long)edited);

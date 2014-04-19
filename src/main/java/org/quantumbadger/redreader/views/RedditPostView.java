@@ -66,7 +66,7 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 	private final TextView leftOverlayText, rightOverlayText;
 
 	private final Drawable rrIconFfLeft, rrIconFfRight, rrIconTick;
-	private final int rrPostTitleReadCol, rrPostTitleCol;
+	private final int rrPostTitleReadCol, rrPostTitleCol, rrPostTitleStickyCol;
 
 	private final int offsetBeginAllowed, offsetActionPerformed;
 
@@ -266,7 +266,8 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 				R.attr.rrIconFfRight,
 				R.attr.rrIconTick,
 				R.attr.rrPostTitleCol,
-				R.attr.rrPostTitleReadCol
+				R.attr.rrPostTitleReadCol,
+				R.attr.rrPostTitleStickyCol
 		});
 
 		rrIconFfLeft = attr.getDrawable(0);
@@ -274,6 +275,7 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 		rrIconTick = attr.getDrawable(2);
 		rrPostTitleCol = attr.getColor(3, 0);
 		rrPostTitleReadCol = attr.getColor(4, 0);
+		rrPostTitleStickyCol = attr.getColor(5, 0);
 
 		setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
 
@@ -317,8 +319,9 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 	}
 
 	public void updateAppearance() {
-
-		if(post.isRead()) {
+		if(post.isSticky()) {
+			title.setTextColor(rrPostTitleStickyCol);
+		} else if(post.isRead()) {
 			title.setTextColor(rrPostTitleReadCol);
 		} else {
 			title.setTextColor(rrPostTitleCol);

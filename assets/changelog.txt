@@ -1,5 +1,6 @@
 48/1.8.6
 Sticky posts highlighted green (thanks to Chris Jones)
+Bugfixes
 
 47/1.8.5.2
 Added ability to subscribe to/unsubscribe from subreddits

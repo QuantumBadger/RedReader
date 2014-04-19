@@ -50,7 +50,7 @@ public class LinkHandler {
 		onLinkClicked(activity, url, forceNoImage, null);
 	}
 
-	public static void onLinkClicked(final Activity activity, final String url,
+	public static void onLinkClicked(final Activity activity, String url,
 									 final boolean forceNoImage, final RedditPost post) {
 
 		if(url.startsWith("rr://")) {
@@ -70,6 +70,10 @@ public class LinkHandler {
 
 				return;
 			}
+		}
+
+		if(!url.contains("://")) {
+			url = "http://" + url;
 		}
 
 		if(!forceNoImage) {

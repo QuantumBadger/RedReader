@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import org.holoeverywhere.app.Activity;
@@ -91,10 +92,16 @@ public class WebViewActivity extends Activity implements RedditPostView.PostSele
 
 			case VIEW_IN_BROWSER:
 				if(webView.getCurrentUrl() != null) {
-					final Intent intent = new Intent(Intent.ACTION_VIEW);
-					intent.setData(Uri.parse(webView.getCurrentUrl()));
-					startActivity(intent);
-					finish(); //to clear from backstack
+					try {
+						final Intent intent = new Intent(Intent.ACTION_VIEW);
+						intent.setData(Uri.parse(webView.getCurrentUrl()));
+						startActivity(intent);
+						finish(); //to clear from backstack
+
+					} catch(Exception e) {
+						Toast.makeText(this, "Error: could not launch browser.", Toast.LENGTH_LONG).show();
+					}
+
 				}
 				return true;
 

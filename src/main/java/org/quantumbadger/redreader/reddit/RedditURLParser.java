@@ -101,11 +101,14 @@ public class RedditURLParser {
 		}
 	}
 
-
-	// TODO human readable name
 	public static abstract class PostListingURL extends RedditURL {
+
 		public abstract PostListingURL after(String after);
 		public abstract PostListingURL limit(Integer limit);
+
+		public PostListingController.Sort getOrder() {
+			return null;
+		}
 	}
 
 	public static class UnknownPostListURL extends  PostListingURL {
@@ -374,6 +377,10 @@ public class RedditURLParser {
 
 		public SubredditPostListURL sort(PostListingController.Sort newOrder) {
 			return new SubredditPostListURL(type, subreddit, newOrder, limit, before, after);
+		}
+
+		public PostListingController.Sort getOrder() {
+			return order;
 		}
 
 		private static PostListingController.Sort getOrder(String sort, String t) {

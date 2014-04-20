@@ -26,6 +26,8 @@ import android.os.Message;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.Toast;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.http.StatusLine;
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.Fragment;
@@ -48,6 +50,7 @@ import org.quantumbadger.redreader.io.RequestResponseHandler;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
+import org.quantumbadger.redreader.listingcontrollers.PostListingController;
 import org.quantumbadger.redreader.reddit.RedditSubredditManager;
 import org.quantumbadger.redreader.reddit.RedditURLParser;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
@@ -57,13 +60,15 @@ import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.things.RedditThing;
+import org.quantumbadger.redreader.views.PostListingHeader;
 import org.quantumbadger.redreader.views.RedditPostView;
-import org.quantumbadger.redreader.views.SubredditHeader;
 import org.quantumbadger.redreader.views.list.ListOverlayView;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
 import org.quantumbadger.redreader.views.liststatus.LoadingView;
 
+import java.text.NumberFormat;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.UUID;
 
 public class PostListingFragment extends Fragment implements RedditPostView.PostSelectionListener, AbsListView.OnScrollListener {
@@ -72,7 +77,6 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 
 	private RedditSubreddit subreddit;
 
-	private Uri url;
 	private UUID session = null;
 	private CacheRequest.DownloadType downloadType;
 	private PrefsUtility.PostCount downloadPostCount;
@@ -185,64 +189,13 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 
 		final Bundle arguments = getArguments();
 
-		url = Uri.parse(arguments.getString("url"));
+		final Uri url = Uri.parse(arguments.getString("url"));
 
-		final RedditURLParser.RedditURL redditURL = RedditURLParser.parse(url);
-
-		if(redditURL != null) {
-			switch(redditURL.pathType()) {
-
-				case SubredditPostListingURL:
-					postListingURL = redditURL.asSubredditPostListURL();
-
-					RedditURLParser.SubredditPostListURL subredditPostListURL
-							= (RedditURLParser.SubredditPostListURL) postListingURL;
-
-					switch(subredditPostListURL.type) {
-
-						// TODO header in other cases
-						case FRONTPAGE:
-							break;
-						case ALL:
-							break;
-
-						case SUBREDDIT: {
-
-							// Request the subreddit data
-
-							final RequestResponseHandler<RedditSubreddit, SubredditRequestFailure> subredditHandler
-									= new RequestResponseHandler<RedditSubreddit, SubredditRequestFailure>() {
-								@Override
-								public void onRequestFailed(SubredditRequestFailure failureReason) {
-									// Ignore
-								}
-
-								@Override
-								public void onRequestSuccess(RedditSubreddit result, long timeCached) {
-									subreddit = result;
-									onSubredditReceived();
-								}
-							};
-
-							try {
-								RedditSubredditManager
-										.getInstance(getSupportActivity(), RedditAccountManager.getInstance(getSupportActivity()).getDefaultAccount())
-										.getSubreddit(RedditSubreddit.getCanonicalName(subredditPostListURL.subreddit), TimestampBound.NONE, subredditHandler, null);
-							} catch(RedditSubreddit.InvalidSubredditNameException e) {
-								throw new RuntimeException(e);
-							}
-							break;
-						}
-
-						case SUBREDDIT_COMBINATION:
-							break;
-						case ALL_SUBTRACTION:
-							break;
-					}
-
-					break;
-			}
-
+		try {
+			postListingURL = (RedditURLParser.PostListingURL) RedditURLParser.parseProbablePostListing(url);
+		} catch(ClassCastException e) {
+			Toast.makeText(getSupportActivity(), "Invalid post listing URL.", Toast.LENGTH_LONG);
+			return;
 		}
 
 		if(arguments.containsKey("session")) {
@@ -265,9 +218,6 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 		final Context context = container.getContext();
 		sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-		downloadPostCount = PrefsUtility.pref_behaviour_post_count(context, sharedPrefs);
-		restackRefreshCount();
-
 		final LinearLayout outer = new LinearLayout(context) {
 			@Override
 			protected void onAttachedToWindow() {
@@ -279,10 +229,19 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 		outer.setOrientation(android.widget.LinearLayout.VERTICAL);
 
 		fragmentHeader = createVerticalLinearLayout(context);
+
+		// TODO output failed URL
+		if(postListingURL == null) {
+			fragmentHeader.addView(new ErrorView(getSupportActivity(), new RRError("Invalid post listing URL", "Could not navigate to that URL.")));
+			return outer;
+		}
+
 		listHeader = createVerticalLinearLayout(context);
 		listHeaderNotifications = createVerticalLinearLayout(context);
 		listFooterNotifications = createVerticalLinearLayout(context);
 
+		downloadPostCount = PrefsUtility.pref_behaviour_post_count(context, sharedPrefs);
+		restackRefreshCount();
 		loadMoreView = (TextView)LayoutInflater.from(context).inflate(R.layout.load_more_posts, null);
 		loadMoreView.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
@@ -312,9 +271,61 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 
 		lv.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
 
-		request = new PostListingRequest(url, RedditAccountManager.getInstance(context).getDefaultAccount(), session, downloadType, true);
+		request = new PostListingRequest(postListingURL.generateJsonUri(), RedditAccountManager.getInstance(context).getDefaultAccount(), session, downloadType, true);
 
 		CacheManager.getInstance(context).makeRequest(request);
+
+		switch(postListingURL.pathType()) {
+
+			case UserPostListingURL:
+				setHeader(postListingURL.humanReadableName(getSupportActivity()), postListingURL.humanReadableUrl());
+				break;
+
+			case SubredditPostListingURL:
+
+				RedditURLParser.SubredditPostListURL subredditPostListURL
+						= (RedditURLParser.SubredditPostListURL) postListingURL;
+
+				switch(subredditPostListURL.type) {
+
+					case FRONTPAGE:
+					case ALL:
+					case SUBREDDIT_COMBINATION:
+					case ALL_SUBTRACTION:
+						setHeader(postListingURL.humanReadableName(getSupportActivity()), postListingURL.humanReadableUrl());
+						break;
+
+					case SUBREDDIT: {
+
+						// Request the subreddit data
+
+						final RequestResponseHandler<RedditSubreddit, SubredditRequestFailure> subredditHandler
+								= new RequestResponseHandler<RedditSubreddit, SubredditRequestFailure>() {
+							@Override
+							public void onRequestFailed(SubredditRequestFailure failureReason) {
+								// Ignore
+							}
+
+							@Override
+							public void onRequestSuccess(RedditSubreddit result, long timeCached) {
+								subreddit = result;
+								onSubredditReceived();
+							}
+						};
+
+						try {
+							RedditSubredditManager
+									.getInstance(getSupportActivity(), RedditAccountManager.getInstance(getSupportActivity()).getDefaultAccount())
+									.getSubreddit(RedditSubreddit.getCanonicalName(subredditPostListURL.subreddit), TimestampBound.NONE, subredditHandler, null);
+						} catch(RedditSubreddit.InvalidSubredditNameException e) {
+							throw new RuntimeException(e);
+						}
+						break;
+					}
+				}
+
+				break;
+		}
 
 		return outer;
 	}
@@ -345,16 +356,39 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 	}
 
 	private void onSubredditReceived() {
+
+		final String subtitle;
+
+		if(postListingURL.getOrder() == null || postListingURL.getOrder() == PostListingController.Sort.HOT) {
+			if(subreddit.subscribers == null) {
+				subtitle = getString(R.string.header_subscriber_count_unknown);
+			} else {
+				subtitle = NumberFormat.getNumberInstance(Locale.getDefault()).format(subreddit.subscribers) + " " + getString(R.string.header_subscriber_count);
+			}
+
+		} else {
+			subtitle = postListingURL.humanReadableUrl();
+		}
+
 		getSupportActivity().runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				final SubredditHeader subredditHeader = new SubredditHeader(getSupportActivity(), subreddit);
-				listHeader.addView(subredditHeader, 0);
-				adapter.notifyDataSetChanged();
+				setHeader(StringEscapeUtils.unescapeHtml4(subreddit.title), subtitle);
 				getSupportActivity().invalidateOptionsMenu();
 			}
 		});
 
+	}
+
+	private void setHeader(final String title, final String subtitle) {
+		getSupportActivity().runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				final PostListingHeader postListingHeader = new PostListingHeader(getSupportActivity(), title, subtitle);
+				listHeader.addView(postListingHeader, 0);
+				adapter.notifyDataSetChanged();
+			}
+		});
 	}
 
 	public void onPostSelected(final RedditPreparedPost post) {
@@ -397,16 +431,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 			lastAfter = after;
 			readyToDownloadMore = false;
 
-			final Uri newUri;
-
-			if(postListingURL != null) {
-				newUri = postListingURL.after(after).generateJsonUri();
-
-			} else {
-				final Uri.Builder uriBuilder = url.buildUpon();
-				uriBuilder.appendQueryParameter("after", after);
-				newUri = uriBuilder.build();
-			}
+			final Uri newUri = postListingURL.after(after).generateJsonUri();
 
 			// TODO customise (currently 3 hrs)
 			CacheRequest.DownloadType type = (RRTime.since(timestamp) < 3 * 60 * 60 * 1000) ? CacheRequest.DownloadType.IF_NECESSARY : CacheRequest.DownloadType.NEVER;

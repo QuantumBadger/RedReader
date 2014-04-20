@@ -557,4 +557,9 @@
 
     <string name="sidebar_activity_title">Sidebar</string>
 
+    <!-- 2014-04-20 -->
+
+    <string name="header_subscriber_count">subscribers</string>
+    <string name="header_subscriber_count_unknown">Subscriber count is unknown</string>
+
 </resources>

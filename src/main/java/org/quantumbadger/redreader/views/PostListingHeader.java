@@ -20,19 +20,13 @@ package org.quantumbadger.redreader.views;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.TextView;
-import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.views.list.RRTouchable;
 
-import java.text.NumberFormat;
-import java.util.Locale;
+public final class PostListingHeader extends LinearLayout implements RRTouchable {
 
-public final class SubredditHeader extends LinearLayout implements RRTouchable {
-
-	// TODO make XML
-	public SubredditHeader(final Context context, final RedditSubreddit subreddit) {
+	public PostListingHeader(final Context context, final String titleText, final String subtitleText) {
 
 		super(context);
 
@@ -48,23 +42,17 @@ public final class SubredditHeader extends LinearLayout implements RRTouchable {
 		final Typeface tf = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Light.ttf");
 
 		final TextView title = new TextView(context);
+		title.setText(titleText);
 		title.setTextSize(22.0f);
 		title.setTypeface(tf);
-		title.setText(StringEscapeUtils.unescapeHtml4(subreddit.title));
 		title.setTextColor(Color.WHITE);
 		addView(title);
 
-		final TextView subs = new TextView(context);
-		subs.setTextSize(14.0f);
-
-		if(subreddit.subscribers == null) {
-			subs.setText("Subscriber count is unknown");
-		} else {
-			subs.setText(NumberFormat.getNumberInstance(Locale.getDefault()).format(subreddit.subscribers) + " subscribers");
-		}
-
-		subs.setTextColor(Color.rgb(200, 200, 200));
-		addView(subs);
+		final TextView subtitle = new TextView(context);
+		subtitle.setTextSize(14.0f);
+		subtitle.setText(subtitleText);
+		subtitle.setTextColor(Color.rgb(200, 200, 200));
+		addView(subtitle);
 
 		setBackgroundColor(Color.rgb(50, 50, 50)); // TODO theme color
 	}

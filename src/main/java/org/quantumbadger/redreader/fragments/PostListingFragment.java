@@ -278,7 +278,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 		switch(postListingURL.pathType()) {
 
 			case UserPostListingURL:
-				setHeader(postListingURL.humanReadableName(getSupportActivity()), postListingURL.humanReadableUrl());
+				setHeader(postListingURL.humanReadableName(getSupportActivity(), true), postListingURL.humanReadableUrl());
 				break;
 
 			case SubredditPostListingURL:
@@ -292,7 +292,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 					case ALL:
 					case SUBREDDIT_COMBINATION:
 					case ALL_SUBTRACTION:
-						setHeader(postListingURL.humanReadableName(getSupportActivity()), postListingURL.humanReadableUrl());
+						setHeader(postListingURL.humanReadableName(getSupportActivity(), true), postListingURL.humanReadableUrl());
 						break;
 
 					case SUBREDDIT: {

@@ -76,7 +76,7 @@ public class RedditURLParser {
 			return (UserPostListingURL)this;
 		}
 
-		public String humanReadableName(Context context) {
+		public String humanReadableName(Context context, boolean shorter) {
 			return humanReadablePath();
 		}
 
@@ -291,38 +291,41 @@ public class RedditURLParser {
 		}
 
 		@Override
-		public String humanReadableName(Context context) {
+		public String humanReadableName(Context context, boolean shorter) {
 
-			final StringBuilder name = new StringBuilder();
+			final String name;
 
 			switch(type) {
 
 				case SAVED:
-					name.append(context.getString(R.string.mainmenu_saved));
+					name = context.getString(R.string.mainmenu_saved);
 					break;
 
 				case HIDDEN:
-					name.append(context.getString(R.string.mainmenu_hidden));
+					name = context.getString(R.string.mainmenu_hidden);
 					break;
 
 				case LIKED:
-					name.append(context.getString(R.string.mainmenu_upvoted));
+					name = context.getString(R.string.mainmenu_upvoted);
 					break;
 
 				case DISLIKED:
-					name.append(context.getString(R.string.mainmenu_downvoted));
+					name = context.getString(R.string.mainmenu_downvoted);
 					break;
 
 				case SUBMITTED:
-					name.append(context.getString(R.string.mainmenu_submitted));
+					name = context.getString(R.string.mainmenu_submitted);
 					break;
 
 				default:
-					return super.humanReadableName(context);
+					return super.humanReadableName(context, shorter);
 			}
 
-
-			return String.format("%s (%s)", name, user);
+			if(shorter) {
+				return name;
+			} else {
+				return String.format("%s (%s)", name, user);
+			}
 		}
 	}
 
@@ -608,7 +611,7 @@ public class RedditURLParser {
 		}
 
 		@Override
-		public String humanReadableName(Context context) {
+		public String humanReadableName(Context context, boolean shorter) {
 
 			switch(type) {
 
@@ -630,7 +633,7 @@ public class RedditURLParser {
 					return subreddit;
 
 				default:
-					return super.humanReadableName(context);
+					return super.humanReadableName(context, shorter);
 			}
 		}
 	}

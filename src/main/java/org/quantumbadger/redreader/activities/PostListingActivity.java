@@ -93,7 +93,7 @@ public class PostListingActivity extends RefreshableActivity
 
 			controller = new PostListingController((RedditURLParser.PostListingURL)url);
 
-			OptionsMenuUtility.fixActionBar(this, url.humanReadableName(this));
+			OptionsMenuUtility.fixActionBar(this, url.humanReadableName(this, false));
 
 			super.onCreate(savedInstanceState);
 

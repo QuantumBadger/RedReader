@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import com.actionbarsherlock.view.MenuItem;
 import org.holoeverywhere.app.Activity;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
@@ -62,4 +63,19 @@ public class HtmlViewActivity extends Activity {
 		if(General.onBackPressed() && !webView.onBackButtonPressed())
 			super.onBackPressed();
 	}
+
+	@Override
+	public boolean onOptionsItemSelected(final MenuItem item) {
+
+		switch(item.getItemId()) {
+
+			case android.R.id.home:
+				finish();
+				return true;
+
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
+
 }

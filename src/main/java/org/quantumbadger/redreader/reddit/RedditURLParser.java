@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.reddit;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
+import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.listingcontrollers.PostListingController;
@@ -223,7 +224,7 @@ public class RedditURLParser {
 
 			// TODO validate username with regex
 			final String username = pathSegments[1];
-			final String typeName = pathSegments[2].toLowerCase();
+			final String typeName = pathSegments[2].toUpperCase();
 			final Type type;
 
 			try {
@@ -265,6 +266,41 @@ public class RedditURLParser {
 		@Override
 		public PathType pathType() {
 			return PathType.UserPostListingURL;
+		}
+
+		@Override
+		public String humanReadableName(Context context) {
+
+			final StringBuilder name = new StringBuilder();
+
+			switch(type) {
+
+				case SAVED:
+					name.append(context.getString(R.string.mainmenu_saved));
+					break;
+
+				case HIDDEN:
+					name.append(context.getString(R.string.mainmenu_hidden));
+					break;
+
+				case LIKED:
+					name.append(context.getString(R.string.mainmenu_upvoted));
+					break;
+
+				case DISLIKED:
+					name.append(context.getString(R.string.mainmenu_downvoted));
+					break;
+
+				case SUBMITTED:
+					name.append(context.getString(R.string.mainmenu_submitted));
+					break;
+
+				default:
+					return super.humanReadableName(context);
+			}
+
+
+			return String.format("%s (%s)", name, user);
 		}
 	}
 
@@ -542,6 +578,33 @@ public class RedditURLParser {
 
 				default:
 					return null;
+			}
+		}
+
+		@Override
+		public String humanReadableName(Context context) {
+
+			switch(type) {
+
+				case FRONTPAGE:
+					return context.getString(R.string.mainmenu_frontpage);
+
+				case ALL:
+					return context.getString(R.string.mainmenu_all);
+
+				case SUBREDDIT:
+					try {
+						return RedditSubreddit.getCanonicalName(subreddit);
+					} catch(RedditSubreddit.InvalidSubredditNameException e) {
+						return subreddit;
+					}
+
+				case SUBREDDIT_COMBINATION:
+				case ALL_SUBTRACTION:
+					return subreddit;
+
+				default:
+					return super.humanReadableName(context);
 			}
 		}
 	}

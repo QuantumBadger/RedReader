@@ -224,15 +224,13 @@ public class RedditURLParser {
 			// TODO validate username with regex
 			final String username = pathSegments[1];
 			final String typeName = pathSegments[2].toLowerCase();
-
 			final Type type;
 
-			if(typeName.equals("saved")) type = Type.SAVED;
-			else if(typeName.equals("hidden")) type = Type.HIDDEN;
-			else if(typeName.equals("liked")) type = Type.LIKED;
-			else if(typeName.equals("disliked")) type = Type.DISLIKED;
-			else if(typeName.equals("submitted")) type = Type.SUBMITTED;
-			else return null;
+			try {
+				type = Type.valueOf(typeName);
+			} catch(Throwable t) {
+				return null;
+			}
 
 			return new UserPostListingURL(type, username, limit, before, after);
 		}
@@ -245,29 +243,7 @@ public class RedditURLParser {
 
 			builder.appendEncodedPath("user");
 			builder.appendPath(user);
-
-			switch(type) {
-
-				case SAVED:
-					builder.appendEncodedPath("saved");
-					break;
-
-				case HIDDEN:
-					builder.appendEncodedPath("hidden");
-					break;
-
-				case LIKED:
-					builder.appendEncodedPath("liked");
-					break;
-
-				case DISLIKED:
-					builder.appendEncodedPath("disliked");
-					break;
-
-				case SUBMITTED:
-					builder.appendEncodedPath("submitted");
-					break;
-			}
+			builder.appendEncodedPath(type.name().toLowerCase());
 
 			if(before != null) {
 				builder.appendQueryParameter("before", before);

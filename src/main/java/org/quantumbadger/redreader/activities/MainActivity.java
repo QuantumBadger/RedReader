@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -261,7 +262,7 @@ public class MainActivity extends RefreshableActivity
 
 		} else {
 			final Intent intent = new Intent(this, PostListingActivity.class);
-			intent.putExtra("url", url.generateUri().toString());
+			intent.setData(url.generateUri());
 			startActivityForResult(intent, 1);
 		}
 	}
@@ -553,7 +554,7 @@ public class MainActivity extends RefreshableActivity
 				final URI url = Constants.Reddit.getUri(urlPath);
 
 				final Intent intent = new Intent(MainActivity.this, PostListingActivity.class);
-				intent.putExtra("url", url.toString());
+				intent.setData(Uri.parse(url.toString()));
 				startActivity(intent);
 			}
 		});

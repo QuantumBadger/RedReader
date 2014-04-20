@@ -85,13 +85,7 @@ public class PostListingActivity extends RefreshableActivity
 
 			final Intent intent = getIntent();
 
-			final RedditURLParser.RedditURL url;
-
-			if(intent.hasExtra("url")) {
-				url = RedditURLParser.parseProbablePostListing(Uri.parse(intent.getStringExtra("url")));
-			} else {
-				url = RedditURLParser.parseProbablePostListing(intent.getData());
-            }
+			final RedditURLParser.RedditURL url = RedditURLParser.parseProbablePostListing(intent.getData());
 
 			if(!(url instanceof RedditURLParser.PostListingURL)) {
 				throw new RuntimeException(String.format("'%s' is not a post listing URL!", url.generateUri()));
@@ -234,7 +228,7 @@ public class PostListingActivity extends RefreshableActivity
 				final URI url = Constants.Reddit.getUri(urlPath);
 
 				final Intent intent = new Intent(PostListingActivity.this, PostListingActivity.class);
-				intent.putExtra("url", url.toString());
+				intent.setData(Uri.parse(url.toString()));
 				startActivity(intent);
 			}
 		});

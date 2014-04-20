@@ -152,7 +152,7 @@ public class UserProfileDialog extends PropertiesDialog {
 						postsButton.setOnClickListener(new View.OnClickListener() {
 							public void onClick(View v) {
 								final Intent intent = new Intent(context, PostListingActivity.class);
-								intent.setData(RedditURLParser.UserPostListingURL.getSubmitted(username).generateUri());
+								intent.setData(RedditURLParser.UserPostListingURL.getSubmitted(username).generateJsonUri());
 								startActivity(intent);
 								dismiss();
 							}

@@ -88,7 +88,7 @@ public class PostListingActivity extends RefreshableActivity
 			final RedditURLParser.RedditURL url = RedditURLParser.parseProbablePostListing(intent.getData());
 
 			if(!(url instanceof RedditURLParser.PostListingURL)) {
-				throw new RuntimeException(String.format("'%s' is not a post listing URL!", url.generateUri()));
+				throw new RuntimeException(String.format("'%s' is not a post listing URL!", url.generateJsonUri()));
 			}
 
 			controller = new PostListingController((RedditURLParser.PostListingURL)url);

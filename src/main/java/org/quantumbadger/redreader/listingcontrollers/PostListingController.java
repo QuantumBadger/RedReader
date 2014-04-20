@@ -69,7 +69,7 @@ public class PostListingController {
 	}
 
 	public Uri getUri() {
-		return url.generateUri();
+		return url.generateJsonUri();
 	}
 
 	public final PostListingFragment get(final boolean force) {

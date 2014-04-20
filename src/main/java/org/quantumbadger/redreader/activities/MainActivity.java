@@ -262,7 +262,7 @@ public class MainActivity extends RefreshableActivity
 
 		} else {
 			final Intent intent = new Intent(this, PostListingActivity.class);
-			intent.setData(url.generateUri());
+			intent.setData(url.generateJsonUri());
 			startActivityForResult(intent, 1);
 		}
 	}

@@ -400,7 +400,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 			final Uri newUri;
 
 			if(postListingURL != null) {
-				newUri = postListingURL.after(after).generateUri();
+				newUri = postListingURL.after(after).generateJsonUri();
 
 			} else {
 				final Uri.Builder uriBuilder = url.buildUpon();

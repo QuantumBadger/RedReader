@@ -65,7 +65,7 @@ public class RedditURLParser {
 	}
 
 	public static abstract class RedditURL {
-		public abstract Uri generateUri();
+		public abstract Uri generateJsonUri();
 		public abstract PathType pathType();
 
 		public final SubredditPostListURL asSubredditPostListURL() {
@@ -76,9 +76,28 @@ public class RedditURLParser {
 			return (UserPostListingURL)this;
 		}
 
-		// TODO strip json, override
 		public String humanReadableName(Context context) {
-			return generateUri().getPath();
+			return humanReadablePath();
+		}
+
+		public String humanReadableUrl() {
+			return "reddit.com" + humanReadablePath();
+		}
+
+		public String humanReadablePath() {
+
+			final Uri src = generateJsonUri();
+
+			final StringBuilder builder = new StringBuilder();
+
+			for(String pathElement : src.getPathSegments()) {
+				if(!pathElement.equals(".json")) {
+					builder.append("/");
+					builder.append(pathElement);
+				}
+			}
+
+			return builder.toString();
 		}
 	}
 
@@ -109,7 +128,7 @@ public class RedditURLParser {
 
 		// TODO handle this better
 		@Override
-		public Uri generateUri() {
+		public Uri generateJsonUri() {
 			if(uri.getPath().endsWith(".json")) {
 				return uri;
 			} else {
@@ -237,7 +256,7 @@ public class RedditURLParser {
 		}
 
 		@Override
-		public Uri generateUri() {
+		public Uri generateJsonUri() {
 
 			Uri.Builder builder = new Uri.Builder();
 			builder.scheme(Constants.Reddit.getScheme()).authority(Constants.Reddit.getDomain());
@@ -388,7 +407,7 @@ public class RedditURLParser {
 
 
 		@Override
-		public Uri generateUri() {
+		public Uri generateJsonUri() {
 
 			Uri.Builder builder = new Uri.Builder();
 			builder.scheme(Constants.Reddit.getScheme()).authority(Constants.Reddit.getDomain());

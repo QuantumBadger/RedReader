@@ -201,12 +201,12 @@ public class MainMenuAdapter extends BaseAdapter {
 		return new MainMenuItem(name, icon, clickListener, null);
 	}
 
-	private MainMenuItem makeItem(final String name, final RedditSubreddit subreddit) {
+	private MainMenuItem makeSubredditItem(final String name) {
 
 		final View.OnClickListener clickListener = new View.OnClickListener() {
 			public void onClick(final View view) {
 				try {
-					selectionListener.onSelected((RedditURLParser.PostListingURL)RedditURLParser.SubredditPostListURL.getSubreddit(subreddit.getCanonicalName()));
+					selectionListener.onSelected((RedditURLParser.PostListingURL)RedditURLParser.SubredditPostListURL.getSubreddit(RedditSubreddit.getCanonicalName(name)));
 				} catch(RedditSubreddit.InvalidSubredditNameException e) {
 					throw new RuntimeException(e);
 				}
@@ -216,18 +216,22 @@ public class MainMenuAdapter extends BaseAdapter {
 		return new MainMenuItem(name, null, clickListener, null);
 	}
 
-	public void setSubreddits(final Collection<RedditSubreddit> subreddits) {
+	public void setSubreddits(final Collection<String> subscriptions) {
 
-		final ArrayList<RedditSubreddit> subredditsSorted = new ArrayList<RedditSubreddit>(subreddits);
-		Collections.sort(subredditsSorted);
+		final ArrayList<String> subscriptionsSorted = new ArrayList<String>(subscriptions);
+		Collections.sort(subscriptionsSorted);
 
 		new Handler(Looper.getMainLooper()).post(new Runnable() {
 			public void run() {
 
 				subredditItems.clear();
 
-				for(final RedditSubreddit subreddit : subredditsSorted) {
-					subredditItems.add(makeItem(subreddit.display_name.toLowerCase(), subreddit));
+				for(final String subreddit : subscriptionsSorted) {
+					try {
+						subredditItems.add(makeSubredditItem(RedditSubreddit.stripRPrefix(subreddit)));
+					} catch(RedditSubreddit.InvalidSubredditNameException e) {
+						subredditItems.add(makeSubredditItem("Invalid: " + subreddit));
+					}
 				}
 
 				notifyDataSetChanged();

@@ -41,7 +41,6 @@ import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
-import org.quantumbadger.redreader.reddit.RedditSubredditManager;
 import org.quantumbadger.redreader.reddit.RedditURLParser;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.api.SubredditRequestFailure;
@@ -50,7 +49,6 @@ import org.quantumbadger.redreader.views.liststatus.ErrorView;
 import org.quantumbadger.redreader.views.liststatus.LoadingView;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -212,21 +210,7 @@ public class MainMenuFragment extends Fragment implements MainMenuSelectionListe
 
 	public void onSubscriptionsChanged(final Collection<String> subscriptions) {
 
-		RedditSubredditManager.getInstance(context, user).getSubreddits(
-				subscriptions,
-				TimestampBound.ANY,
-				new RequestResponseHandler<HashMap<String, RedditSubreddit>, SubredditRequestFailure>() {
-					@Override
-					public void onRequestFailed(SubredditRequestFailure failureReason) {
-						onError(failureReason.asError(context));
-					}
-
-					@Override
-					public void onRequestSuccess(HashMap<String, RedditSubreddit> result, long timeCached) {
-						adapter.setSubreddits(result.values());
-					}
-				});
-
+		adapter.setSubreddits(subscriptions);
 		if(loadingView != null) loadingView.setDone(R.string.download_done);
 	}
 

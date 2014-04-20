@@ -99,12 +99,14 @@ public final class MarkdownParser {
 			mergedLines.add(currentLine);
 		}
 
-		final MarkdownParagraph[] paragraphs = new MarkdownParagraph[mergedLines.size()];
+		final ArrayList<MarkdownParagraph> outputParagraphs = new ArrayList<MarkdownParagraph>(mergedLines.size());
 
-		for(int i = 0; i < paragraphs.length; i++) {
-			paragraphs[i] = mergedLines.get(i).tokenize(i > 0 ? paragraphs[i - 1] : null);
+		for(final MarkdownLine line : mergedLines) {
+			final MarkdownParagraph lastParagraph = outputParagraphs.isEmpty() ? null : outputParagraphs.get(outputParagraphs.size() - 1);
+			final MarkdownParagraph paragraph = line.tokenize(lastParagraph);
+			if(!paragraph.isEmpty()) outputParagraphs.add(paragraph);
 		}
 
-		return new MarkdownParagraphGroup(paragraphs);
+		return new MarkdownParagraphGroup(outputParagraphs.toArray(new MarkdownParagraph[outputParagraphs.size()]));
 	}
 }

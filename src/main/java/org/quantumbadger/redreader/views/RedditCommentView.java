@@ -100,8 +100,10 @@ public class RedditCommentView extends LinearLayout {
 			header.setText("[ + ]  " + comment.header);
 		}
 
+		final boolean hideLinkButtons = comment.src.author.equalsIgnoreCase("autowikibot");
+
 		bodyHolder.removeAllViews();
-		final ViewGroup commentBody = comment.getBody(activity, 13.0f * fontScale, bodyCol, showLinkButtons);
+		final ViewGroup commentBody = comment.getBody(activity, 13.0f * fontScale, bodyCol, showLinkButtons && !hideLinkButtons);
 
 		bodyHolder.addView(commentBody);
 		commentBody.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;

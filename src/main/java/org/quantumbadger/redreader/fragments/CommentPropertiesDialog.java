@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.widget.LinearLayout;
 import org.quantumbadger.redreader.R;
@@ -71,7 +72,7 @@ public final class CommentPropertiesDialog extends PropertiesDialog {
 		items.addView(propView(context, R.string.props_subreddit, comment.subreddit, false));
 
 		if(comment.body != null && comment.body.length() > 0) {
-			items.addView(propView(context, R.string.props_body_markdown, comment.body, false));
+			items.addView(propView(context, R.string.props_body_markdown, StringEscapeUtils.unescapeHtml4(comment.body), false));
 		}
 	}
 }

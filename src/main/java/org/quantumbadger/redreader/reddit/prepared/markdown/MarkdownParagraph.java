@@ -68,6 +68,8 @@ public final class MarkdownParagraph {
 
 		links = new ArrayList<Link>();
 		spanned = internalGenerateSpanned();
+
+		if(tokens == null && raw != null) raw.replaceUnicodeSpaces();
 	}
 
 	private Spanned internalGenerateSpanned() {
@@ -218,13 +220,14 @@ public final class MarkdownParagraph {
 
 				case ' ':
 
+					builder.append(' ');
+
 					if(caretStart >= 0) {
 						builder.setSpan(new SuperscriptSpan(), caretStart, builder.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 						builder.setSpan(new RelativeSizeSpan(0.6f), caretStart, builder.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 						caretStart = -1;
 					}
 
-					builder.append(' ');
 					break;
 
 				default:
@@ -252,5 +255,21 @@ public final class MarkdownParagraph {
 			if(haystack[i] == needle) return i;
 		}
 		return -1;
+	}
+
+	public boolean isEmpty() {
+
+		if(type == MarkdownParser.MarkdownParagraphType.HLINE) return false;
+		if(type == MarkdownParser.MarkdownParagraphType.EMPTY) return true;
+
+		if(tokens == null) {
+			return raw.countSpacesAtStart() == raw.length;
+
+		} else {
+			for(final int token : tokens) {
+				if(!MarkdownTokenizer.isUnicodeWhitespace(token)) return false;
+			}
+			return true;
+		}
 	}
 }

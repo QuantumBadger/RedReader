@@ -3,6 +3,7 @@ Sticky posts highlighted green (thanks to Chris Jones)
 Main menu subscription list loads much more quickly when cached
 Post list header changes when new sort order is selected
 Ability to view sidebar of all subreddits, not just subscribed ones
+Markdown formatting improvements
 Lots of bugfixes
 
 47/1.8.5.2

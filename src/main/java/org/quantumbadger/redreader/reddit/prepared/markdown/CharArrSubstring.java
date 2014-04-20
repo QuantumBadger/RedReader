@@ -146,4 +146,12 @@ public final class CharArrSubstring {
 
 		return true;
 	}
+
+	public void replaceUnicodeSpaces() {
+		for(int i = 0; i < length; i++) {
+			if(MarkdownTokenizer.isUnicodeWhitespace(arr[start + i])) {
+				arr[start + i] = ' ';
+			}
+		}
+	}
 }

@@ -17,6 +17,8 @@
 
 package org.quantumbadger.redreader.reddit.prepared.markdown;
 
+import java.util.HashSet;
+
 public final class MarkdownTokenizer {
 
 	// TODO support double graves
@@ -52,6 +54,8 @@ public final class MarkdownTokenizer {
 			"/user/".toCharArray()
 	};
 
+	private static final HashSet<Integer> unicodeWhitespace = new HashSet<Integer>();
+
 	static {
 		reverseLookup[20 + TOKEN_UNDERSCORE] = new char[] {'_'};
 		reverseLookup[20 + TOKEN_UNDERSCORE_DOUBLE] = new char[] {'_', '_'};
@@ -66,6 +70,29 @@ public final class MarkdownTokenizer {
 		reverseLookup[20 + TOKEN_PAREN_CLOSE] = new char[] {')'};
 		reverseLookup[20 + TOKEN_UNICODE_OPEN] = new char[] {'&', '#'};
 		reverseLookup[20 + TOKEN_UNICODE_CLOSE] = new char[] {';'};
+
+		unicodeWhitespace.add(0x0009);
+		unicodeWhitespace.add(0x000B);
+		unicodeWhitespace.add(0x00A0);
+		unicodeWhitespace.add(0x1680);
+		unicodeWhitespace.add(0x2000);
+		unicodeWhitespace.add(0x2001);
+		unicodeWhitespace.add(0x2002);
+		unicodeWhitespace.add(0x2003);
+		unicodeWhitespace.add(0x2004);
+		unicodeWhitespace.add(0x2005);
+		unicodeWhitespace.add(0x2006);
+		unicodeWhitespace.add(0x2007);
+		unicodeWhitespace.add(0x2008);
+		unicodeWhitespace.add(0x2009);
+		unicodeWhitespace.add(0x200A);
+		unicodeWhitespace.add(0x202F);
+		unicodeWhitespace.add(0x205F);
+		unicodeWhitespace.add(0x3000);
+	}
+
+	public static boolean isUnicodeWhitespace(int codepoint) {
+		return unicodeWhitespace.contains(codepoint);
 	}
 
 	public static IntArrayLengthPair tokenize(final CharArrSubstring input) {
@@ -269,7 +296,7 @@ public final class MarkdownTokenizer {
 
 				default:
 					// TODO test this against reddits impl
-					lastCharOk = token < 0 || (!Character.isLetterOrDigit(token) && token != '/');
+					lastCharOk = token < 0 || (!Character.isLetterOrDigit(token));
 					output.data[output.pos++] = token;
 					break;
 			}
@@ -456,7 +483,12 @@ public final class MarkdownTokenizer {
 					} else {
 
 						final int codePoint = getDecimal(input.data, openingUnicode + 1, closingUnicode);
-						input.data[openingUnicode] = codePoint;
+
+						if(unicodeWhitespace.contains(codePoint)) {
+							input.data[openingUnicode] = ' ';
+						} else {
+							input.data[openingUnicode] = codePoint;
+						}
 
 						for(int j = openingUnicode + 1; j <= closingUnicode; j++) {
 							toDelete[j] = true;

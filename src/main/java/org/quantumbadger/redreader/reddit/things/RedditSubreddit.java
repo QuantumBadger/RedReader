@@ -42,14 +42,6 @@ public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>,
 
 	@WritableObjectVersion public static int DB_VERSION = 1;
 
-	public boolean isSubscribable() {
-		try {
-			return ACTUAL_SUBREDDIT_PATTERN.matcher(getCanonicalName()).matches();
-		} catch(InvalidSubredditNameException _) {
-			return false;
-		}
-	}
-
 	public static final class InvalidSubredditNameException extends Exception {
 		public InvalidSubredditNameException(String subredditName) {
 			super(String.format("Invalid subreddit name '%s'.", subredditName == null ? "NULL" : subredditName));
@@ -64,9 +56,6 @@ public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>,
 	@WritableField public boolean over18;
 
 	@WritableObjectTimestamp public long downloadTime;
-
-	// TODO remove
-	private transient final boolean isReal, isSortable;
 
 	private static final Pattern NAME_PATTERN = Pattern.compile("(/)?(r/)?([\\w\\+\\-\\.]+)/?");
 	private static final Pattern ACTUAL_SUBREDDIT_PATTERN = Pattern.compile("(/)?(r/)?([\\w]+)/?");
@@ -122,24 +111,13 @@ public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>,
 		out.writeInt(accounts_active == null ? -1 : accounts_active);
 		out.writeInt(subscribers == null ? -1 : subscribers);
 		out.writeInt(over18 ? 1 : 0);
-		out.writeInt(isReal ? 1 : 0);
-		out.writeInt(isSortable ? 1 : 0);
 	}
 
-	public RedditSubreddit() {
-		isReal = true;
-		isSortable = true;
-	}
-
-	public boolean isReal() {
-		return isReal;
-	}
+	public RedditSubreddit() {}
 
 	public RedditSubreddit(String url, String title, final boolean isSortable) {
 		this.url = url;
 		this.title = title;
-		isReal = false;
-		this.isSortable = isSortable;
 	}
 
 	public RedditSubreddit(final Parcel parcel) {
@@ -163,9 +141,6 @@ public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>,
 		if(subscribers < 0) subscribers = null;
 
 		over18 = parcel.readInt() == 1;
-
-		isReal = parcel.readInt() == 1;
-		isSortable = parcel.readInt() == 1;
 	}
 
 	public static final Parcelable.Creator<RedditSubreddit> CREATOR = new Parcelable.Creator<RedditSubreddit>() {
@@ -180,10 +155,6 @@ public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>,
 
 	public int compareTo(final RedditSubreddit another) {
 		return display_name.toLowerCase().compareTo(another.display_name.toLowerCase());
-	}
-
-	public boolean isSortable() {
-		return isSortable;
 	}
 
 	public String getSidebarHtml() {

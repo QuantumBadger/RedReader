@@ -44,10 +44,14 @@ import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.*;
+import org.quantumbadger.redreader.io.RequestResponseHandler;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
+import org.quantumbadger.redreader.reddit.RedditSubredditManager;
+import org.quantumbadger.redreader.reddit.RedditURLParser;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
+import org.quantumbadger.redreader.reddit.api.SubredditRequestFailure;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
@@ -59,14 +63,16 @@ import org.quantumbadger.redreader.views.list.ListOverlayView;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
 import org.quantumbadger.redreader.views.liststatus.LoadingView;
 
-import java.net.URI;
 import java.util.HashSet;
 import java.util.UUID;
 
 public class PostListingFragment extends Fragment implements RedditPostView.PostSelectionListener, AbsListView.OnScrollListener {
 
+	private RedditURLParser.PostListingURL postListingURL;
+
 	private RedditSubreddit subreddit;
-	private URI url;
+
+	private Uri url;
 	private UUID session = null;
 	private CacheRequest.DownloadType downloadType;
 	private PrefsUtility.PostCount downloadPostCount;
@@ -76,7 +82,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 
 	private SharedPreferences sharedPrefs;
 
-	private LinearLayout fragmentHeader, listHeaderNotifications, listFooterNotifications;
+	private LinearLayout fragmentHeader, listHeader, listHeaderNotifications, listFooterNotifications;
 
 	private String after = null, lastAfter = null;
 	private CacheRequest request;
@@ -157,13 +163,12 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 		}
 	};
 
-	public static PostListingFragment newInstance(final RedditSubreddit subreddit, final URI url, final UUID session, final CacheRequest.DownloadType downloadType) {
+	public static PostListingFragment newInstance(final Uri url, final UUID session, final CacheRequest.DownloadType downloadType) {
 
 		final PostListingFragment f = new PostListingFragment();
 
 		final Bundle bundle = new Bundle(4);
 
-		bundle.putParcelable("subreddit", subreddit);
 		bundle.putString("url", url.toString());
 		if(session != null) bundle.putString("session", session.toString());
 		bundle.putString("downloadType", downloadType.name());
@@ -180,9 +185,65 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 
 		final Bundle arguments = getArguments();
 
-		subreddit = arguments.getParcelable("subreddit");
+		url = Uri.parse(arguments.getString("url"));
 
-		url = General.uriFromString(arguments.getString("url"));
+		final RedditURLParser.RedditURL redditURL = RedditURLParser.parse(url);
+
+		if(redditURL != null) {
+			switch(redditURL.pathType()) {
+
+				case SubredditPostListingURL:
+					postListingURL = redditURL.asSubredditPostListURL();
+
+					RedditURLParser.SubredditPostListURL subredditPostListURL
+							= (RedditURLParser.SubredditPostListURL) postListingURL;
+
+					switch(subredditPostListURL.type) {
+
+						// TODO header in other cases
+						case FRONTPAGE:
+							break;
+						case ALL:
+							break;
+
+						case SUBREDDIT: {
+
+							// Request the subreddit data
+
+							final RequestResponseHandler<RedditSubreddit, SubredditRequestFailure> subredditHandler
+									= new RequestResponseHandler<RedditSubreddit, SubredditRequestFailure>() {
+								@Override
+								public void onRequestFailed(SubredditRequestFailure failureReason) {
+									// Ignore
+								}
+
+								@Override
+								public void onRequestSuccess(RedditSubreddit result, long timeCached) {
+									subreddit = result;
+									onSubredditReceived();
+								}
+							};
+
+							try {
+								RedditSubredditManager
+										.getInstance(getSupportActivity(), RedditAccountManager.getInstance(getSupportActivity()).getDefaultAccount())
+										.getSubreddit(RedditSubreddit.getCanonicalName(subredditPostListURL.subreddit), TimestampBound.NONE, subredditHandler, null);
+							} catch(RedditSubreddit.InvalidSubredditNameException e) {
+								throw new RuntimeException(e);
+							}
+							break;
+						}
+
+						case SUBREDDIT_COMBINATION:
+							break;
+						case ALL_SUBTRACTION:
+							break;
+					}
+
+					break;
+			}
+
+		}
 
 		if(arguments.containsKey("session")) {
 			session = UUID.fromString(arguments.getString("session"));
@@ -218,14 +279,10 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 		outer.setOrientation(android.widget.LinearLayout.VERTICAL);
 
 		fragmentHeader = createVerticalLinearLayout(context);
-		final LinearLayout listHeader = createVerticalLinearLayout(context);
+		listHeader = createVerticalLinearLayout(context);
 		listHeaderNotifications = createVerticalLinearLayout(context);
 		listFooterNotifications = createVerticalLinearLayout(context);
 
-		if(subreddit.isReal()) {
-			final SubredditHeader subredditHeader = new SubredditHeader(context, subreddit);
-			listHeader.addView(subredditHeader);
-		}
 		loadMoreView = (TextView)LayoutInflater.from(context).inflate(R.layout.load_more_posts, null);
 		loadMoreView.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
@@ -287,6 +344,19 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 		}
 	}
 
+	private void onSubredditReceived() {
+		getSupportActivity().runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				final SubredditHeader subredditHeader = new SubredditHeader(getSupportActivity(), subreddit);
+				listHeader.addView(subredditHeader, 0);
+				adapter.notifyDataSetChanged();
+				getSupportActivity().invalidateOptionsMenu();
+			}
+		});
+
+	}
+
 	public void onPostSelected(final RedditPreparedPost post) {
 		((RedditPostView.PostSelectionListener)getSupportActivity()).onPostSelected(post);
 
@@ -327,10 +397,16 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 			lastAfter = after;
 			readyToDownloadMore = false;
 
-			final Uri.Builder uriBuilder = Uri.parse(url.toString()).buildUpon();
-			uriBuilder.appendQueryParameter("after", after);
+			final Uri newUri;
 
-			final URI newUri = General.uriFromString(uriBuilder.toString());
+			if(postListingURL != null) {
+				newUri = postListingURL.after(after).generateUri();
+
+			} else {
+				final Uri.Builder uriBuilder = url.buildUpon();
+				uriBuilder.appendQueryParameter("after", after);
+				newUri = uriBuilder.build();
+			}
 
 			// TODO customise (currently 3 hrs)
 			CacheRequest.DownloadType type = (RRTime.since(timestamp) < 3 * 60 * 60 * 1000) ? CacheRequest.DownloadType.IF_NECESSARY : CacheRequest.DownloadType.NEVER;
@@ -363,12 +439,16 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 		}
 	}
 
+	public RedditSubreddit getSubreddit() {
+		return subreddit;
+	}
+
 	private class PostListingRequest extends CacheRequest {
 
 		private final boolean firstDownload;
 
-		protected PostListingRequest(URI url, RedditAccount user, UUID requestSession, DownloadType downloadType, boolean firstDownload) {
-			super(url, user, requestSession, Constants.Priority.API_POST_LIST, 0, downloadType, Constants.FileType.POST_LIST, true, true, false, getSupportActivity());
+		protected PostListingRequest(Uri url, RedditAccount user, UUID requestSession, DownloadType downloadType, boolean firstDownload) {
+			super(General.uriFromString(url.toString()), user, requestSession, Constants.Priority.API_POST_LIST, 0, downloadType, Constants.FileType.POST_LIST, true, true, false, getSupportActivity());
 			this.firstDownload = firstDownload;
 		}
 
@@ -506,7 +586,13 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 
 				final CacheManager cm = CacheManager.getInstance(context);
 
-				final HashSet<String> needsChanging = RedditChangeDataManager.getInstance(context).getChangedForParent(subreddit.url, user);
+				// TODO rewrite change data manager
+				final HashSet<String> needsChanging = RedditChangeDataManager.getInstance(context).getChangedForParent("posts", user);
+
+				final boolean showSubredditName
+						= !(postListingURL != null
+						&& postListingURL.pathType() == RedditURLParser.PathType.SubredditPostListingURL
+						&& postListingURL.asSubredditPostListURL().type == RedditURLParser.SubredditPostListURL.Type.SUBREDDIT);
 
 				for(final JsonValue postThingValue : posts) {
 
@@ -522,7 +608,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 
 						final boolean downloadThisThumbnail = downloadThumbnails && (!post.over_18 || showNsfwThumbnails);
 
-						final RedditPreparedPost preparedPost = new RedditPreparedPost(context, cm, postCount, post, timestamp, !subreddit.isReal(), subreddit, needsChanging.contains(post.name), downloadThisThumbnail, precacheImages, user);
+						final RedditPreparedPost preparedPost = new RedditPreparedPost(context, cm, postCount, post, timestamp, showSubredditName, needsChanging.contains(post.name), downloadThisThumbnail, precacheImages, user);
 						adapter.onPostDownloaded(preparedPost);
 					}
 

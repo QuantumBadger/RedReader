@@ -98,7 +98,6 @@ public final class RedditPreparedPost {
 	public final int commentCount;
 
 	private final boolean showSubreddit;
-	private final RedditSubreddit parentSubreddit;
 
 	private RedditPostView boundView = null;
 
@@ -108,12 +107,10 @@ public final class RedditPreparedPost {
 
 	// TODO too many parameters
 	public RedditPreparedPost(final Context context, final CacheManager cm, final int listId, final RedditPost post,
-							  final long timestamp, final boolean showSubreddit, final RedditSubreddit parentSubreddit,
-							  final boolean updateNeeded, final boolean showThumbnails, final boolean precacheImages,
-							  final RedditAccount user) {
+							  final long timestamp, final boolean showSubreddit, final boolean updateNeeded,
+							  final boolean showThumbnails, final boolean precacheImages, final RedditAccount user) {
 
 		this.src = post;
-		this.parentSubreddit = parentSubreddit;
 		this.showSubreddit = showSubreddit;
 
 		if(post.title == null) {
@@ -156,9 +153,9 @@ public final class RedditPreparedPost {
 
 		lastChange = timestamp;
 		if(voteDirection != 0 || saved || hidden) {
-			RedditChangeDataManager.getInstance(context).update(parentSubreddit.url, user, this, true);
+			RedditChangeDataManager.getInstance(context).update("posts", user, this, true);
 		} else if(updateNeeded) {
-			RedditChangeDataManager.getInstance(context).update(parentSubreddit.url, user, this, false);
+			RedditChangeDataManager.getInstance(context).update("posts", user, this, false);
 		}
 
 		rebuildSubtitle(context);
@@ -625,7 +622,7 @@ public final class RedditPreparedPost {
 	public void markAsRead(final Context context) {
 		setRead(true);
 		final RedditAccount user = RedditAccountManager.getInstance(context).getDefaultAccount();
-		RedditChangeDataManager.getInstance(context).update(parentSubreddit.url, user, RedditPreparedPost.this, true);
+		RedditChangeDataManager.getInstance(context).update("posts", user, RedditPreparedPost.this, true);
 	}
 
 	public void refreshView(final Context context) {
@@ -713,8 +710,7 @@ public final class RedditPreparedPost {
 					@Override
 					protected void onSuccess() {
 						lastChange = RRTime.utcCurrentTimeMillis();
-						RedditChangeDataManager.getInstance(context).update(parentSubreddit == null ? null : parentSubreddit.url,
-								user, RedditPreparedPost.this, true);
+						RedditChangeDataManager.getInstance(context).update("posts", user, RedditPreparedPost.this, true);
 					}
 
 					private void revertOnFailure() {

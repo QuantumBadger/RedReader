@@ -76,18 +76,22 @@ public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>,
 		downloadTime = creationData.timestamp;
 	}
 
+	public static String stripRPrefix(String name) throws InvalidSubredditNameException {
+		final Matcher matcher = NAME_PATTERN.matcher(name);
+		if(matcher.matches()) {
+			return matcher.group(3);
+		} else {
+			throw new InvalidSubredditNameException(name);
+		}
+	}
+
 	/**
 	 * @param name a subreddit name in the form "subreddit", "r/subreddit" or "/r/subreddit" (case-insensitive)
 	 * @return a subreddit name in the form "/r/subreddit" (lower-cased)
 	 * @throws InvalidSubredditNameException if {@code name} is null or not in the expected format
 	 */
 	public static String getCanonicalName(String name) throws InvalidSubredditNameException {
-		final Matcher matcher = NAME_PATTERN.matcher(name);
-		if(matcher.matches()) {
-			return "/r/" + matcher.group(3).toLowerCase();
-		} else {
-			throw new InvalidSubredditNameException(name);
-		}
+		return "/r/" + stripRPrefix(name).toLowerCase();
 	}
 
 	public String getCanonicalName() throws InvalidSubredditNameException {

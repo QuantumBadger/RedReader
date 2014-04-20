@@ -17,18 +17,19 @@
 
 package org.quantumbadger.redreader.listingcontrollers;
 
+import android.net.Uri;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
+import org.quantumbadger.redreader.reddit.RedditURLParser;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 
-import java.net.URI;
 import java.util.UUID;
 
 // TODO add notification/header for abnormal sort order
-public abstract class PostListingController {
+public class PostListingController {
 
 	private UUID session = null;
-	private Sort sort = Sort.HOT; // TODO preference?
+	private RedditURLParser.PostListingURL url;
 
 	public void setSession(UUID session) {
 		this.session = session;
@@ -38,26 +39,60 @@ public abstract class PostListingController {
 		return session;
 	}
 
-	public abstract boolean isSortable();
+	public PostListingController(RedditURLParser.PostListingURL url) {
+		this.url = url;
+	}
+
+	public boolean isSortable() {
+		return url.pathType() == RedditURLParser.PathType.SubredditPostListingURL;
+	}
 
 	public static enum Sort {
 		HOT, NEW, RISING, TOP_HOUR, TOP_DAY, TOP_WEEK, TOP_MONTH, TOP_YEAR, TOP_ALL, CONTROVERSIAL
 	}
 
-	public final void setSort(final Sort s) {
-		sort = s;
+	public final void setSort(final Sort order) {
+		if(url.pathType() == RedditURLParser.PathType.SubredditPostListingURL) {
+			url = url.asSubredditPostListURL().sort(order);
+		} else {
+			throw new RuntimeException("Cannot set sort for this URL");
+		}
 	}
 
 	public final Sort getSort() {
-		return sort;
+
+		if(url.pathType() == RedditURLParser.PathType.SubredditPostListingURL) {
+			return url.asSubredditPostListURL().order;
+		}
+
+		return null;
 	}
 
-	public abstract URI getUri();
-
-	public abstract RedditSubreddit getSubreddit();
+	public Uri getUri() {
+		return url.generateUri();
+	}
 
 	public final PostListingFragment get(final boolean force) {
 		if(force) session = null;
-		return PostListingFragment.newInstance(getSubreddit(), getUri(), session, force ? CacheRequest.DownloadType.FORCE : CacheRequest.DownloadType.IF_NECESSARY);
+		return PostListingFragment.newInstance(getUri(), session, force ? CacheRequest.DownloadType.FORCE : CacheRequest.DownloadType.IF_NECESSARY);
+	}
+
+	public final boolean isSubreddit() {
+		return url.pathType() == RedditURLParser.PathType.SubredditPostListingURL
+				&& url.asSubredditPostListURL().type == RedditURLParser.SubredditPostListURL.Type.SUBREDDIT;
+	}
+
+	public final String subredditCanonicalName() {
+
+		if(url.pathType() == RedditURLParser.PathType.SubredditPostListingURL
+				&& url.asSubredditPostListURL().type == RedditURLParser.SubredditPostListURL.Type.SUBREDDIT) {
+			try {
+				return RedditSubreddit.getCanonicalName(url.asSubredditPostListURL().subreddit);
+			} catch(RedditSubreddit.InvalidSubredditNameException e) {
+				throw new RuntimeException(e);
+			}
+		}
+
+		return null;
 	}
 }

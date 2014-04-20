@@ -22,11 +22,9 @@ import android.net.Uri;
 import org.holoeverywhere.preference.PreferenceManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.Constants;
-import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
 
-import java.net.URI;
 import java.util.UUID;
 
 // TODO add notification/header for abnormal sort order
@@ -73,17 +71,17 @@ public class CommentListingController {
 		sort = s;
 	}
 
-	public URI getUri() {
+	public Uri getUri() {
 
 		if(uri != null) {
 
 			Uri.Builder builder = uri.buildUpon();
 			if(!uri.getPath().endsWith(".json")) builder.appendPath(".json");
 
-			return General.uriFromString(builder.toString());
+			return builder.build();
 		}
 
-		return Constants.Reddit.getUri(Constants.Reddit.PATH_COMMENTS + postId + ".json?sort=" + sort.name().toLowerCase());
+		return Uri.parse(Constants.Reddit.getUri(Constants.Reddit.PATH_COMMENTS + postId + ".json?sort=" + sort.name().toLowerCase()).toString());
 	}
 
 	public CommentListingFragment get(final boolean force) {

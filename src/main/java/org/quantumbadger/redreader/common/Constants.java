@@ -20,7 +20,6 @@ package org.quantumbadger.redreader.common;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import org.quantumbadger.redreader.RedReader;
-import org.quantumbadger.redreader.account.RedditAccountManager;
 
 import java.net.URI;
 
@@ -90,30 +89,6 @@ public final class Constants {
 
 		public static boolean isApiErrorSubredditRequired(final String str) {
 			return ".error.SUBREDDIT_REQUIRED.field-sr".equals(str) || "you must specify a subreddit".equals(str);
-		}
-
-		private static String getUserPath(Context context) {
-			return "/user/" + RedditAccountManager.getInstance(context).getDefaultAccount().username;
-		}
-
-		public static String getSavedPath(Context context) {
-			return getUserPath(context) + "/saved";
-		}
-
-		public static String getHiddenPath(Context context) {
-			return getUserPath(context) + "/hidden";
-		}
-
-		public static String getLikedPath(Context context) {
-			return getUserPath(context) + "/liked";
-		}
-
-		public static String getDislikedPath(Context context) {
-			return getUserPath(context) + "/disliked";
-		}
-
-		public static String getSubmittedPath(Context context) {
-			return getUserPath(context) + "/submitted";
 		}
 	}
 

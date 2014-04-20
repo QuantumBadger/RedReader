@@ -18,10 +18,10 @@
 package org.quantumbadger.redreader.adapters;
 
 import org.quantumbadger.redreader.fragments.MainMenuFragment;
-import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
+import org.quantumbadger.redreader.reddit.RedditURLParser;
 
 public interface MainMenuSelectionListener {
 
 	public void onSelected(MainMenuFragment.MainMenuAction type, String name);
-	public void onSelected(RedditSubreddit subreddit);
+	public void onSelected(RedditURLParser.PostListingURL url);
 }

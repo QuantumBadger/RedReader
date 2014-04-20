@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.fragments;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -49,7 +50,7 @@ public class SessionListDialog extends DialogFragment implements RedditAccountCh
 	// Workaround for HoloEverywhere bug?
 	private volatile boolean alreadyCreated = false;
 
-	public static SessionListDialog newInstance(final URI url, final UUID current, final SessionChangeListener.SessionChangeType type) {
+	public static SessionListDialog newInstance(final Uri url, final UUID current, final SessionChangeListener.SessionChangeType type) {
 
 		final SessionListDialog dialog = new SessionListDialog();
 

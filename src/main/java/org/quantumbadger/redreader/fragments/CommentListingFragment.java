@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -128,7 +129,7 @@ public class CommentListingFragment extends Fragment
 	};
 
 	// TODO load more on scroll to bottom?
-	public static CommentListingFragment newInstance(final String parentPostIdAndType, final URI url, final UUID session, final CacheRequest.DownloadType downloadType) {
+	public static CommentListingFragment newInstance(final String parentPostIdAndType, final Uri url, final UUID session, final CacheRequest.DownloadType downloadType) {
 
 		final CommentListingFragment f = new CommentListingFragment();
 
@@ -398,7 +399,7 @@ public class CommentListingFragment extends Fragment
 
 						final RedditSubreddit parentSubreddit = new RedditSubreddit("/r/" + post.subreddit, post.subreddit, false);
 
-						CommentListingFragment.this.post = new RedditPreparedPost(context, cm, 0, post, timestamp, true, parentSubreddit, false, false, false, user);
+						CommentListingFragment.this.post = new RedditPreparedPost(context, cm, 0, post, timestamp, true, false, false, false, user);
 
 						final ViewGroup selfText;
 

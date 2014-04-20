@@ -59,7 +59,6 @@ import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.image.GifDecoderThread;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
-import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.views.GIFView;
 import org.quantumbadger.redreader.views.RedditPostView;
 import org.quantumbadger.redreader.views.bezelmenu.BezelSwipeOverlay;
@@ -291,7 +290,6 @@ public class ImageViewFragment extends Fragment implements RedditPostView.PostSe
 		final RedditPost src_post = getArguments().getParcelable("post");
 		final RedditPreparedPost post = src_post == null ? null
 				: new RedditPreparedPost(context, CacheManager.getInstance(context), 0, src_post, -1, false,
-				new RedditSubreddit("/r/" + src_post.subreddit, src_post.subreddit, false),
 				false, false, false, RedditAccountManager.getInstance(context).getDefaultAccount());
 
 		final FrameLayout outerFrame = new FrameLayout(context);

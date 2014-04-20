@@ -43,7 +43,7 @@ import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
-import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
+import org.quantumbadger.redreader.reddit.RedditURLParser;
 import org.quantumbadger.redreader.reddit.things.RedditUser;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
 import org.quantumbadger.redreader.views.liststatus.LoadingView;
@@ -152,7 +152,7 @@ public class UserProfileDialog extends PropertiesDialog {
 						postsButton.setOnClickListener(new View.OnClickListener() {
 							public void onClick(View v) {
 								final Intent intent = new Intent(context, PostListingActivity.class);
-								intent.putExtra("subreddit", new RedditSubreddit("/user/" + username + "/submitted", "Submitted by " + username, false));
+								intent.putExtra("url", RedditURLParser.UserPostListingURL.getSubmitted(username).generateUri().toString());
 								startActivity(intent);
 								dismiss();
 							}

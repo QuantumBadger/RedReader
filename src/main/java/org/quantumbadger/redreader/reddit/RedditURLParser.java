@@ -17,52 +17,301 @@
 
 package org.quantumbadger.redreader.reddit;
 
+import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.listingcontrollers.PostListingController;
+import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RedditURLContainer {
+public class RedditURLParser {
 
 	public enum PathType {
-		SubredditPostListURL
+		SubredditPostListingURL,
+		UserPostListingURL,
+		UnknownPostListingURL
 	}
 
-	public final PathType type;
-	private final RedditURL url;
-
-	private RedditURLContainer(PathType type, RedditURL url) {
-		this.type = type;
-		this.url = url;
-	}
-
-	public static RedditURLContainer parse(Uri uri) {
+	public static RedditURL parse(Uri uri) {
 
 		{
 			final SubredditPostListURL subredditPostListURL = SubredditPostListURL.parse(uri);
 			if(subredditPostListURL != null) {
-				return new RedditURLContainer(PathType.SubredditPostListURL, subredditPostListURL);
+				return subredditPostListURL;
+			}
+		}
+
+		{
+			final UserPostListingURL userPostListURL = UserPostListingURL.parse(uri);
+			if(userPostListURL != null) {
+				return userPostListURL;
 			}
 		}
 
 		return null;
 	}
 
-	public SubredditPostListURL getAsSubredditPostListURL() {
-		return (SubredditPostListURL)url;
+	public static RedditURL parseProbablePostListing(Uri uri) {
+
+		RedditURL matchURL = parse(uri);
+		if(matchURL != null) return matchURL;
+
+		return new UnknownPostListURL(uri);
 	}
 
 	public static abstract class RedditURL {
-		// TODO .json generate
-
 		public abstract Uri generateUri();
+		public abstract PathType pathType();
+
+		public final SubredditPostListURL asSubredditPostListURL() {
+			return (SubredditPostListURL)this;
+		}
+
+		public final UserPostListingURL asUserPostListURL() {
+			return (UserPostListingURL)this;
+		}
+
+		// TODO strip json, override
+		public String humanReadableName(Context context) {
+			return generateUri().getPath();
+		}
 	}
 
-	public static class SubredditPostListURL extends RedditURL {
+
+	// TODO human readable name
+	public static abstract class PostListingURL extends RedditURL {
+		public abstract PostListingURL after(String after);
+		public abstract PostListingURL limit(Integer limit);
+	}
+
+	public static class UnknownPostListURL extends  PostListingURL {
+
+		private final Uri uri;
+
+		private UnknownPostListURL(Uri uri) {
+			this.uri = uri;
+		}
+
+		@Override
+		public PostListingURL after(String after) {
+			return new UnknownPostListURL(uri.buildUpon().appendQueryParameter("after", after).build());
+		}
+
+		@Override
+		public PostListingURL limit(Integer limit) {
+			return new UnknownPostListURL(uri.buildUpon().appendQueryParameter("limit", String.valueOf("limit")).build());
+		}
+
+		// TODO handle this better
+		@Override
+		public Uri generateUri() {
+			if(uri.getPath().endsWith(".json")) {
+				return uri;
+			} else {
+				return uri.buildUpon().appendEncodedPath(".json").build();
+			}
+		}
+
+		@Override
+		public PathType pathType() {
+			return PathType.UnknownPostListingURL;
+		}
+	}
+
+	public static class UserPostListingURL extends PostListingURL {
+
+		public static UserPostListingURL getSaved(String username) {
+			return new UserPostListingURL(Type.SAVED, username, null, null, null);
+		}
+
+		public static UserPostListingURL getHidden(String username) {
+			return new UserPostListingURL(Type.HIDDEN, username, null, null, null);
+		}
+
+		public static UserPostListingURL getLiked(String username) {
+			return new UserPostListingURL(Type.LIKED, username, null, null, null);
+		}
+
+		public static UserPostListingURL getDisliked(String username) {
+			return new UserPostListingURL(Type.DISLIKED, username, null, null, null);
+		}
+
+		public static UserPostListingURL getSubmitted(String username) {
+			return new UserPostListingURL(Type.SUBMITTED, username, null, null, null);
+		}
+
+		public final Type type;
+		public final String user;
+		public final Integer limit;
+		public final String before, after;
+
+		private UserPostListingURL(Type type, String user, Integer limit, String before, String after) {
+			this.type = type;
+			this.user = user;
+			this.limit = limit;
+			this.before = before;
+			this.after = after;
+		}
+
+		public enum Type {
+			SAVED, HIDDEN, LIKED, DISLIKED, SUBMITTED
+		}
+
+		@Override
+		public UserPostListingURL after(String newAfter) {
+			return new UserPostListingURL(type, user, limit, before, newAfter);
+		}
+
+		@Override
+		public UserPostListingURL limit(Integer newLimit) {
+			return new UserPostListingURL(type, user, newLimit, before, after);
+		}
+
+		public static UserPostListingURL parse(Uri uri) {
+
+			Integer limit = null;
+			String before = null, after = null;
+
+			for(final String parameterKey : General.getUriQueryParameterNames(uri)) {
+
+				if(parameterKey.equalsIgnoreCase("after")) {
+					after = uri.getQueryParameter(parameterKey);
+
+				} else if(parameterKey.equalsIgnoreCase("before")) {
+					before = uri.getQueryParameter(parameterKey);
+
+				} else if(parameterKey.equalsIgnoreCase("limit")) {
+					try {
+						limit = Integer.parseInt(uri.getQueryParameter(parameterKey));
+					} catch(Throwable ignored) {}
+
+				} else {
+					Log.e("SubredditPostListURL", String.format("Unknown query parameter '%s'", parameterKey));
+				}
+			}
+
+			final String[] pathSegments;
+			{
+				final List<String> pathSegmentsList = uri.getPathSegments();
+
+				final ArrayList<String> pathSegmentsFiltered = new ArrayList<String>(pathSegmentsList.size());
+				for(String segment : pathSegmentsList) {
+
+					while(segment.toLowerCase().endsWith(".json") || segment.toLowerCase().endsWith(".xml")) {
+						segment = segment.substring(0, segment.lastIndexOf('.'));
+					}
+
+					if(segment.length() > 0) {
+						pathSegmentsFiltered.add(segment);
+					}
+				}
+
+				pathSegments = pathSegmentsFiltered.toArray(new String[pathSegmentsFiltered.size()]);
+			}
+
+			if(pathSegments.length < 3) {
+				return null;
+			}
+
+			if(!pathSegments[0].equalsIgnoreCase("user")) {
+				return null;
+			}
+
+			// TODO validate username with regex
+			final String username = pathSegments[1];
+			final String typeName = pathSegments[2].toLowerCase();
+
+			final Type type;
+
+			if(typeName.equals("saved")) type = Type.SAVED;
+			else if(typeName.equals("hidden")) type = Type.HIDDEN;
+			else if(typeName.equals("liked")) type = Type.LIKED;
+			else if(typeName.equals("disliked")) type = Type.DISLIKED;
+			else if(typeName.equals("submitted")) type = Type.SUBMITTED;
+			else return null;
+
+			return new UserPostListingURL(type, username, limit, before, after);
+		}
+
+		@Override
+		public Uri generateUri() {
+
+			Uri.Builder builder = new Uri.Builder();
+			builder.scheme(Constants.Reddit.getScheme()).authority(Constants.Reddit.getDomain());
+
+			builder.appendEncodedPath("user");
+			builder.appendPath(user);
+
+			switch(type) {
+
+				case SAVED:
+					builder.appendEncodedPath("saved");
+					break;
+
+				case HIDDEN:
+					builder.appendEncodedPath("hidden");
+					break;
+
+				case LIKED:
+					builder.appendEncodedPath("liked");
+					break;
+
+				case DISLIKED:
+					builder.appendEncodedPath("disliked");
+					break;
+
+				case SUBMITTED:
+					builder.appendEncodedPath("submitted");
+					break;
+			}
+
+			if(before != null) {
+				builder.appendQueryParameter("before", before);
+			}
+
+			if(after != null) {
+				builder.appendQueryParameter("after", after);
+			}
+
+			if(limit != null) {
+				builder.appendQueryParameter("limit", String.valueOf(limit));
+			}
+
+			builder.appendEncodedPath(".json");
+
+			return builder.build();
+		}
+
+		@Override
+		public PathType pathType() {
+			return PathType.UserPostListingURL;
+		}
+	}
+
+	public static class SubredditPostListURL extends PostListingURL {
+
+		public static SubredditPostListURL getFrontPage() {
+			return new SubredditPostListURL(Type.FRONTPAGE, null, PostListingController.Sort.HOT, null, null, null);
+		}
+
+		public static SubredditPostListURL getAll() {
+			return new SubredditPostListURL(Type.ALL, null, PostListingController.Sort.HOT, null, null, null);
+		}
+
+		public static RedditURL getSubreddit(String subreddit) throws RedditSubreddit.InvalidSubredditNameException {
+
+			Uri.Builder builder = new Uri.Builder();
+			builder.scheme(Constants.Reddit.getScheme()).authority(Constants.Reddit.getDomain());
+
+			builder.encodedPath("/r/");
+			builder.appendPath(RedditSubreddit.stripRPrefix(subreddit));
+
+			return RedditURLParser.parse(builder.build());
+		}
 
 		public enum Type {
 			FRONTPAGE, ALL, SUBREDDIT, SUBREDDIT_COMBINATION, ALL_SUBTRACTION
@@ -86,6 +335,10 @@ public class RedditURLContainer {
 
 		public SubredditPostListURL after(String newAfter) {
 			return new SubredditPostListURL(type, subreddit, order, limit, before, newAfter);
+		}
+
+		public SubredditPostListURL limit(Integer newLimit) {
+			return new SubredditPostListURL(type, subreddit, order, newLimit, before, after);
 		}
 
 		public SubredditPostListURL sort(PostListingController.Sort newOrder) {
@@ -150,49 +403,20 @@ public class RedditURLContainer {
 				switch(order) {
 
 					case HOT:
-						builder.appendEncodedPath("hot");
-						break;
-
 					case NEW:
-						builder.appendEncodedPath("new");
-						break;
-
 					case RISING:
-						builder.appendEncodedPath("rising");
-						break;
-
 					case CONTROVERSIAL:
-						builder.appendEncodedPath("controversial");
+						builder.appendEncodedPath(order.name().toLowerCase());
 						break;
 
 					case TOP_HOUR:
-						builder.appendEncodedPath("top");
-						builder.appendQueryParameter("t", "hour");
-						break;
-
 					case TOP_DAY:
-						builder.appendEncodedPath("top");
-						builder.appendQueryParameter("t", "day");
-						break;
-
 					case TOP_WEEK:
-						builder.appendEncodedPath("top");
-						builder.appendQueryParameter("t", "week");
-						break;
-
 					case TOP_MONTH:
-						builder.appendEncodedPath("top");
-						builder.appendQueryParameter("t", "month");
-						break;
-
 					case TOP_YEAR:
-						builder.appendEncodedPath("top");
-						builder.appendQueryParameter("t", "year");
-						break;
-
 					case TOP_ALL:
 						builder.appendEncodedPath("top");
-						builder.appendQueryParameter("t", "all");
+						builder.appendQueryParameter("t", order.name().split("_")[1].toLowerCase());
 						break;
 				}
 			}
@@ -212,6 +436,11 @@ public class RedditURLContainer {
 			builder.appendEncodedPath(".json");
 
 			return builder.build();
+		}
+
+		@Override
+		public PathType pathType() {
+			return PathType.SubredditPostListingURL;
 		}
 
 		public static SubredditPostListURL parse(final Uri uri) {

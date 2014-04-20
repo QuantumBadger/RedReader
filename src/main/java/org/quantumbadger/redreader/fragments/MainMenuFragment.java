@@ -42,6 +42,7 @@ import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditSubredditManager;
+import org.quantumbadger.redreader.reddit.RedditURLParser;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.api.SubredditRequestFailure;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
@@ -247,8 +248,8 @@ public class MainMenuFragment extends Fragment implements MainMenuSelectionListe
 		((MainMenuSelectionListener)getSupportActivity()).onSelected(type, name);
 	}
 
-	public void onSelected(final RedditSubreddit subreddit) {
-		((MainMenuSelectionListener)getSupportActivity()).onSelected(subreddit);
+	public void onSelected(final RedditURLParser.PostListingURL postListingURL) {
+		((MainMenuSelectionListener)getSupportActivity()).onSelected(postListingURL);
 	}
 
 	@Override

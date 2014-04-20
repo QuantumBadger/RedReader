@@ -38,22 +38,21 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
+import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
-import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
 import org.quantumbadger.redreader.fragments.SessionListDialog;
 import org.quantumbadger.redreader.listingcontrollers.PostListingController;
-import org.quantumbadger.redreader.listingcontrollers.PostListingControllerSubreddit;
+import org.quantumbadger.redreader.reddit.RedditURLParser;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
-import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.views.RedditPostView;
 
+import java.net.URI;
 import java.util.UUID;
 
-// TODO handle general URIs
 public class PostListingActivity extends RefreshableActivity
 		implements RedditAccountChangeListener,
 		RedditPostView.PostSelectionListener,
@@ -63,7 +62,6 @@ public class PostListingActivity extends RefreshableActivity
 
 	private PostListingFragment fragment;
 	private PostListingController controller;
-	private RedditSubreddit subreddit;
 
 	private SharedPreferences sharedPreferences;
 
@@ -87,30 +85,21 @@ public class PostListingActivity extends RefreshableActivity
 
 			final Intent intent = getIntent();
 
-			if(intent.hasExtra("subreddit")) {
+			final RedditURLParser.RedditURL url;
 
-				subreddit = intent.getParcelableExtra("subreddit");
-
+			if(intent.hasExtra("url")) {
+				url = RedditURLParser.parseProbablePostListing(Uri.parse(intent.getStringExtra("url")));
 			} else {
-                //Handle Subreddit from Intent Filter
-                final Uri data = intent.getData();
-                if(data != null){
-                    String subredditURL = data.getPath();
-                    subreddit = new RedditSubreddit(subredditURL, subredditURL, true);
-                } else {
-				    throw new RuntimeException("No subreddit provided");
-                }
+				url = RedditURLParser.parseProbablePostListing(intent.getData());
             }
 
-            if(subreddit != null){
-                controller = new PostListingControllerSubreddit(subreddit);
+			if(!(url instanceof RedditURLParser.PostListingURL)) {
+				throw new RuntimeException(String.format("'%s' is not a post listing URL!", url.generateUri()));
+			}
 
-                if(subreddit.isReal()) {
-                    OptionsMenuUtility.fixActionBar(this, subreddit.url);
-                } else {
-                    OptionsMenuUtility.fixActionBar(this, subreddit.title);
-                }
-            }
+			controller = new PostListingController((RedditURLParser.PostListingURL)url);
+
+			OptionsMenuUtility.fixActionBar(this, url.humanReadableName(this));
 
 			super.onCreate(savedInstanceState);
 
@@ -138,17 +127,14 @@ public class PostListingActivity extends RefreshableActivity
 		final RedditSubredditSubscriptionManager subredditSubscriptionManager
 				= RedditSubredditSubscriptionManager.getSingleton(this, user);
 
-		if(!user.isAnonymous() && subreddit.isSubscribable() && subredditSubscriptionManager.areSubscriptionsReady()) {
-			try {
-				subredditSubscriptionState = subredditSubscriptionManager.getSubscriptionState(subreddit.getCanonicalName());
-			} catch(RedditSubreddit.InvalidSubredditNameException e) {
-				throw new UnexpectedInternalStateException("Invalid state: subscribable subreddits should have canonical names!");
-			}
+		if(!user.isAnonymous() && controller.isSubreddit() && subredditSubscriptionManager.areSubscriptionsReady()) {
+			subredditSubscriptionState = subredditSubscriptionManager.getSubscriptionState(controller.subredditCanonicalName());
 		} else {
 			subredditSubscriptionState = null;
 		}
 
-		final String subredditDescription = controller.getSubreddit().description_html;
+		final String subredditDescription = fragment != null && fragment.getSubreddit() != null
+				? fragment.getSubreddit().description_html : null;
 
 		OptionsMenuUtility.prepare(
 				this,
@@ -156,7 +142,7 @@ public class PostListingActivity extends RefreshableActivity
 				false,
 				true,
 				false,
-				subreddit.isSortable(),
+				controller.isSortable(),
 				false,
 				subredditSubscriptionState,
 				subredditDescription != null && subredditDescription.length() > 0);
@@ -207,7 +193,9 @@ public class PostListingActivity extends RefreshableActivity
 
 	public void onSubmitPost() {
 		final Intent intent = new Intent(this, PostSubmitActivity.class);
-		intent.putExtra("subreddit", controller.getSubreddit().url);
+		if(controller.isSubreddit()) {
+			intent.putExtra("subreddit", controller.subredditCanonicalName());
+		}
 		startActivity(intent);
 	}
 
@@ -232,19 +220,21 @@ public class PostListingActivity extends RefreshableActivity
 
 				final String query = editText.getText().toString().toLowerCase().trim();
 
-				final RedditSubreddit sr = controller.getSubreddit();
-				final String restrict_sr = sr.isReal() ? "on" : "off";
+				final String subredditCanonicalName = controller.subredditCanonicalName();
 
-				final String url;
+				final String urlPath;
 
-				if(sr.isReal()) {
-					url = sr.url + "search.json?restrict_sr=on&q=" + query;
+				// TODO build properly
+				if(controller.isSubreddit()) {
+					urlPath = subredditCanonicalName + "/search.json?restrict_sr=on&q=" + query;
 				} else {
-					url = "/search.json?q=" + query;
+					urlPath = "/search.json?q=" + query;
 				}
 
+				final URI url = Constants.Reddit.getUri(urlPath);
+
 				final Intent intent = new Intent(PostListingActivity.this, PostListingActivity.class);
-				intent.putExtra("subreddit", new RedditSubreddit(url, "\"" + query + "\" search results", false));
+				intent.putExtra("url", url.toString());
 				startActivity(intent);
 			}
 		});
@@ -269,10 +259,10 @@ public class PostListingActivity extends RefreshableActivity
 	@Override
 	public void onSidebar() {
 		final Intent intent = new Intent(this, HtmlViewActivity.class);
-		intent.putExtra("html", controller.getSubreddit().getSidebarHtml());
+		intent.putExtra("html", fragment.getSubreddit().getSidebarHtml());
 		intent.putExtra("title", String.format("%s: %s",
 				getString(R.string.sidebar_activity_title),
-				controller.getSubreddit().url));
+				fragment.getSubreddit().url));
 		startActivityForResult(intent, 1);
 	}
 

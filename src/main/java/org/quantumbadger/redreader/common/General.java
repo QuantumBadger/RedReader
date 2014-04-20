@@ -23,6 +23,7 @@ import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.*;
 import android.util.Log;
 import android.util.TypedValue;
@@ -40,6 +41,9 @@ import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import java.io.*;
 import java.net.URI;
 import java.security.MessageDigest;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -361,5 +365,39 @@ public final class General {
 		final StringBuilder result = new StringBuilder(hash.length * 2);
 		for(byte b : hash) result.append(String.format("%02X", b));
 		return result.toString();
+	}
+
+	// Adapted from Android:
+	// http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.1.1_r1/android/net/Uri.java?av=f
+	public static Set<String> getUriQueryParameterNames(final Uri uri) {
+
+		if(uri.isOpaque()) {
+			throw new UnsupportedOperationException("This isn't a hierarchical URI.");
+		}
+
+		final String query = uri.getEncodedQuery();
+		if(query == null) {
+			return Collections.emptySet();
+		}
+
+		final Set<String> names = new LinkedHashSet<String>();
+		int pos = 0;
+		while(pos < query.length()) {
+			int next = query.indexOf('&', pos);
+			int end = (next == -1) ? query.length() : next;
+
+			int separator = query.indexOf('=', pos);
+			if (separator > end || separator == -1) {
+				separator = end;
+			}
+
+			String name = query.substring(pos, separator);
+			names.add(Uri.decode(name));
+
+			// Move start to end of name.
+			pos = end + 1;
+		}
+
+		return Collections.unmodifiableSet(names);
 	}
 }

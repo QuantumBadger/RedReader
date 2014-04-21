@@ -57,6 +57,7 @@ import org.quantumbadger.redreader.fragments.WebViewFragment;
 import org.quantumbadger.redreader.image.ThumbnailScaler;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
+import org.quantumbadger.redreader.reddit.RedditURLParser;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.views.FlatImageButton;
@@ -415,11 +416,15 @@ public final class RedditPreparedPost {
 
 			case GOTO_SUBREDDIT: {
 
-				final RedditSubreddit subreddit = new RedditSubreddit("/r/" + post.src.subreddit, "/r/" + post.src.subreddit, true);
+				try {
+					final Intent intent = new Intent(activity, PostListingActivity.class);
+					intent.setData(RedditURLParser.SubredditPostListURL.getSubreddit(post.src.subreddit).generateJsonUri());
+					activity.startActivityForResult(intent, 1);
 
-				final Intent intent = new Intent(activity, PostListingActivity.class);
-				intent.putExtra("subreddit", subreddit);
-				activity.startActivityForResult(intent, 1);
+				} catch(RedditSubreddit.InvalidSubredditNameException e) {
+					Toast.makeText(activity, R.string.invalid_subreddit_name, Toast.LENGTH_LONG).show();
+				}
+
 				break;
 			}
 

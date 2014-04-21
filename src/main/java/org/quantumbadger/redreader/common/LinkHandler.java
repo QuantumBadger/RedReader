@@ -42,7 +42,6 @@ public class LinkHandler {
 
 	public static final Pattern redditCommentsPattern = Pattern.compile("^https?://[\\.\\w]*reddit\\.com/(r/\\w+/)?comments/(\\w+).*"),
 			redditUserPattern = Pattern.compile("^(?:https?://[\\.\\w]*reddit\\.com)?/?(user|u)/(\\w+).*"),
-			subredditPattern = Pattern.compile("^https?://[\\.\\w]*reddit\\.com(/r/\\w+)/?"),
 			youtubeDotComPattern = Pattern.compile("^https?://[\\.\\w]*youtube\\.\\w+/.*"),
 			youtuDotBePattern = Pattern.compile("^https?://[\\.\\w]*youtu\\.be/([A-Za-z0-9\\-_]+)(\\?.*|).*"),
 			vimeoPattern = Pattern.compile("^https?://[\\.\\w]*vimeo\\.\\w+/.*"),
@@ -84,7 +83,7 @@ public class LinkHandler {
 				activity.startActivity(intent);
 
 			} catch(RedditSubreddit.InvalidSubredditNameException e) {
-				Toast.makeText(activity, R.string.invalid_subreddit_name, Toast.LENGTH_LONG);
+				Toast.makeText(activity, R.string.invalid_subreddit_name, Toast.LENGTH_LONG).show();
 			}
 
 			return;
@@ -124,14 +123,21 @@ public class LinkHandler {
 			return;
 		}
 
-		final Matcher redditSubredditMatcher = subredditPattern.matcher(url);
+		final RedditURLParser.RedditURL redditURL = RedditURLParser.parse(Uri.parse(url));
+		if(redditURL != null) {
 
-		if(redditSubredditMatcher.find()) {
-			final String subredditUrl = redditSubredditMatcher.group(1);
-			final Intent intent = new Intent(activity, PostListingActivity.class);
-			intent.putExtra("subreddit", new RedditSubreddit(subredditUrl, subredditUrl, true));
-			activity.startActivity(intent);
-			return;
+			switch(redditURL.pathType()) {
+
+				case SubredditPostListingURL:
+				case UserPostListingURL:
+				case UnknownPostListingURL:
+
+					final Intent intent = new Intent(activity, PostListingActivity.class);
+					intent.setData(redditURL.generateJsonUri());
+					activity.startActivityForResult(intent, 1);
+
+					break;
+			}
 		}
 
 		// Use a browser

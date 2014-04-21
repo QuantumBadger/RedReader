@@ -39,6 +39,8 @@ public class RedditURLParser {
 
 	public static RedditURL parse(Uri uri) {
 
+		if(uri == null) return null;
+
 		{
 			final SubredditPostListURL subredditPostListURL = SubredditPostListURL.parse(uri);
 			if(subredditPostListURL != null) {

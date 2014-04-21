@@ -4,6 +4,7 @@ Main menu subscription list loads much more quickly when cached
 Post list header changes when new sort order is selected
 Ability to view sidebar of all subreddits, not just subscribed ones
 Markdown formatting improvements
+Reverted "home" button action to behave the same as "back"
 Lots of bugfixes
 
 47/1.8.5.2

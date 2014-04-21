@@ -22,8 +22,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.NavUtils;
-import android.support.v4.app.TaskStackBuilder;
 import android.view.View;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -39,11 +37,9 @@ import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.fragments.SessionListDialog;
 import org.quantumbadger.redreader.listingcontrollers.CommentListingController;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
-import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.views.RedditPostView;
 
 import java.util.UUID;
-import java.util.regex.Matcher;
 
 public class CommentListingActivity extends RefreshableActivity
 		implements RedditAccountChangeListener,
@@ -167,19 +163,7 @@ public class CommentListingActivity extends RefreshableActivity
 	public boolean onOptionsItemSelected(final MenuItem item) {
 		switch(item.getItemId()) {
 			case android.R.id.home:
-                Intent upIntent = NavUtils.getParentActivityIntent(this);
-                if (url != null) {
-                    Matcher subredditMatcher = LinkHandler.subredditPattern.matcher(url);
-                    if (subredditMatcher.find()) {
-                        String subredditUrl = subredditMatcher.group(1);
-                        upIntent.putExtra("subreddit", new RedditSubreddit(subredditUrl, subredditUrl, true));
-                    }
-                }
-                if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
-                    TaskStackBuilder.from(this).addNextIntent(upIntent).startActivities();
-                } else {
-                    finish();
-                }
+                finish();
                 return true;
 			default:
 				return super.onOptionsItemSelected(item);

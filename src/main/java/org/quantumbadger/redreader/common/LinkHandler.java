@@ -20,14 +20,17 @@ package org.quantumbadger.redreader.common;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
+import android.widget.Toast;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.AlertDialog;
 import org.holoeverywhere.preference.PreferenceManager;
+import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.CommentListingActivity;
 import org.quantumbadger.redreader.activities.ImageViewActivity;
 import org.quantumbadger.redreader.activities.PostListingActivity;
 import org.quantumbadger.redreader.activities.WebViewActivity;
 import org.quantumbadger.redreader.fragments.UserProfileDialog;
+import org.quantumbadger.redreader.reddit.RedditURLParser;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 
@@ -72,6 +75,29 @@ public class LinkHandler {
 			}
 		}
 
+		final Matcher shortSubredditMatcher = shortSubredditPattern.matcher(url);
+
+		if(shortSubredditMatcher.find()) {
+			try {
+				final Intent intent = new Intent(activity, PostListingActivity.class);
+				intent.setData(RedditURLParser.SubredditPostListURL.getSubreddit(shortSubredditMatcher.group(1)).generateJsonUri());
+				activity.startActivity(intent);
+
+			} catch(RedditSubreddit.InvalidSubredditNameException e) {
+				Toast.makeText(activity, R.string.invalid_subreddit_name, Toast.LENGTH_LONG);
+			}
+
+			return;
+		}
+
+
+		final Matcher redditUserMatcher = redditUserPattern.matcher(url);
+
+		if(redditUserMatcher.find()) {
+			UserProfileDialog.newInstance(redditUserMatcher.group(2)).show(activity);
+			return;
+		}
+
 		if(!url.contains("://")) {
 			url = "http://" + url;
 		}
@@ -98,27 +124,10 @@ public class LinkHandler {
 			return;
 		}
 
-		final Matcher redditUserMatcher = redditUserPattern.matcher(url);
-
-		if(redditUserMatcher.find()) {
-			UserProfileDialog.newInstance(redditUserMatcher.group(2)).show(activity);
-			return;
-		}
-
 		final Matcher redditSubredditMatcher = subredditPattern.matcher(url);
 
 		if(redditSubredditMatcher.find()) {
 			final String subredditUrl = redditSubredditMatcher.group(1);
-			final Intent intent = new Intent(activity, PostListingActivity.class);
-			intent.putExtra("subreddit", new RedditSubreddit(subredditUrl, subredditUrl, true));
-			activity.startActivity(intent);
-			return;
-		}
-
-		final Matcher shortSubredditMatcher = shortSubredditPattern.matcher(url);
-
-		if(shortSubredditMatcher.find()) {
-			final String subredditUrl = "/r/" + shortSubredditMatcher.group(1);
 			final Intent intent = new Intent(activity, PostListingActivity.class);
 			intent.putExtra("subreddit", new RedditSubreddit(subredditUrl, subredditUrl, true));
 			activity.startActivity(intent);

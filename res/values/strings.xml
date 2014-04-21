@@ -562,4 +562,8 @@
     <string name="header_subscriber_count">subscribers</string>
     <string name="header_subscriber_count_unknown">Subscriber count is unknown</string>
 
+    <!-- 2014-04-21 -->
+
+    <string name="invalid_subreddit_name">Invalid subreddit name</string>
+
 </resources>

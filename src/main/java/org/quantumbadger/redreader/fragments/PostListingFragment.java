@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -98,6 +99,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 	private int postCount = 0;
 	private int postTotalCount = 0;
 	private int postRefreshCount = 0;
+
 
 	private static final int NOTIF_DOWNLOAD_NECESSARY = 1,
 			NOTIF_DOWNLOAD_START = 2,
@@ -190,6 +192,8 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 		final Bundle arguments = getArguments();
 
 		final Uri url = Uri.parse(arguments.getString("url"));
+
+		HiddenSubredditManager.loadHiddens(getSupportActivity());
 
 		try {
 			postListingURL = (RedditURLParser.PostListingURL) RedditURLParser.parseProbablePostListing(url);
@@ -619,6 +623,10 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 						&& postListingURL.pathType() == RedditURLParser.PathType.SubredditPostListingURL
 						&& postListingURL.asSubredditPostListURL().type == RedditURLParser.SubredditPostListURL.Type.SUBREDDIT);
 
+				final boolean isAll
+						= postListingURL.pathType() == RedditURLParser.PathType.SubredditPostListingURL
+						&& postListingURL.asSubredditPostListURL().type == RedditURLParser.SubredditPostListURL.Type.ALL;
+
 				for(final JsonValue postThingValue : posts) {
 
 					final RedditThing postThing = postThingValue.asObject(RedditThing.class);
@@ -628,6 +636,10 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 					final RedditPost post = postThing.asPost();
 
 					after = post.name;
+
+					if(isAll && !HiddenSubredditManager.showSubreddit(post.subreddit)) {
+						continue;
+					}
 
 					if(!post.over_18 || isNsfwAllowed) {
 

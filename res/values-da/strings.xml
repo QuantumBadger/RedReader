@@ -254,6 +254,7 @@
     <string name="action_user_profile">Brugerprofil</string>
     <string name="action_user_profile_short">Bruger</string>
     <string name="action_properties">Egenskaber</string>
+    <string name="action_hidesub">Skjul Subreddit</string>
     <string name="action_comments">Vis Kommentarer</string>
     <string name="action_comments_switch">Skift Til Kommentarer</string>
     <string name="action_comments_short">Kommentarer</string>

@@ -103,7 +103,7 @@ public final class RedditPreparedPost {
 	private RedditPostView boundView = null;
 
 	public static enum Action {
-		UPVOTE, UNVOTE, DOWNVOTE, SAVE, HIDE, UNSAVE, UNHIDE, REPORT, SHARE, REPLY, USER_PROFILE, EXTERNAL, PROPERTIES, COMMENTS, LINK, COMMENTS_SWITCH, LINK_SWITCH, SHARE_COMMENTS, GOTO_SUBREDDIT, ACTION_MENU, SAVE_IMAGE, COPY, SELFTEXT_LINKS
+		UPVOTE, UNVOTE, DOWNVOTE, SAVE, HIDE, UNSAVE, UNHIDE, REPORT, SHARE, REPLY, USER_PROFILE, EXTERNAL, PROPERTIES, COMMENTS, LINK, COMMENTS_SWITCH, LINK_SWITCH, SHARE_COMMENTS, GOTO_SUBREDDIT, ACTION_MENU, SAVE_IMAGE, COPY, SELFTEXT_LINKS, HIDE_SUBREDDIT
 	}
 
 	// TODO too many parameters
@@ -213,6 +213,7 @@ public final class RedditPreparedPost {
 		if(itemPref.contains(Action.SHARE_COMMENTS)) menu.add(new RPVMenuItem(context, R.string.action_share_comments, Action.SHARE_COMMENTS));
 		if(itemPref.contains(Action.COPY)) menu.add(new RPVMenuItem(context, R.string.action_copy, Action.COPY));
 		if(itemPref.contains(Action.USER_PROFILE)) menu.add(new RPVMenuItem(context, R.string.action_user_profile, Action.USER_PROFILE));
+		if(itemPref.contains(Action.HIDE_SUBREDDIT) && HiddenSubredditManager.showSubreddit(post.src.subreddit)) menu.add(new RPVMenuItem(context, R.string.action_hidesub, Action.HIDE_SUBREDDIT));
 		if(itemPref.contains(Action.PROPERTIES)) menu.add(new RPVMenuItem(context, R.string.action_properties, Action.PROPERTIES));
 
 		final String[] menuText = new String[menu.size()];
@@ -462,6 +463,10 @@ public final class RedditPreparedPost {
 				final Intent intent = new Intent(activity, CommentReplyActivity.class);
 				intent.putExtra("parentIdAndType", post.idAndType);
 				activity.startActivity(intent);
+				break;
+
+			case HIDE_SUBREDDIT:
+				HiddenSubredditManager.hideSubreddit(activity, post.src.subreddit);
 				break;
 		}
 	}

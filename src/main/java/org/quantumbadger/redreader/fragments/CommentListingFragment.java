@@ -524,6 +524,12 @@ public class CommentListingFragment extends Fragment
 						menu.add(Menu.NONE, Action.UNVOTE.ordinal(), 0, R.string.action_downvote_remove);
 					}
 
+					if(comment.isSaved()) {
+						menu.add(Menu.NONE, Action.UNSAVE.ordinal(), 0, R.string.action_unsave);
+					} else {
+						menu.add(Menu.NONE, Action.SAVE.ordinal(), 0, R.string.action_save);
+					}
+
 					menu.add(Menu.NONE, Action.REPORT.ordinal(), 0, R.string.action_report);
 					menu.add(Menu.NONE, Action.REPLY.ordinal(), 0, R.string.action_reply);
 
@@ -556,7 +562,7 @@ public class CommentListingFragment extends Fragment
 	public void onClickText(Object attachment) {}
 
 	private static enum Action {
-		UPVOTE, UNVOTE, DOWNVOTE, REPORT, SHARE, COPY, REPLY, USER_PROFILE, COMMENT_LINKS, COLLAPSE, EDIT, PROPERTIES
+		UPVOTE, UNVOTE, DOWNVOTE, SAVE, UNSAVE, REPORT, SHARE, COPY, REPLY, USER_PROFILE, COMMENT_LINKS, COLLAPSE, EDIT, PROPERTIES
 	}
 
 	@Override
@@ -581,6 +587,14 @@ public class CommentListingFragment extends Fragment
 
 			case UNVOTE:
 				comment.action(getSupportActivity(), RedditAPI.RedditAction.UNVOTE);
+				break;
+
+			case SAVE:
+				comment.action(getSupportActivity(), RedditAPI.RedditAction.SAVE);
+				break;
+
+			case UNSAVE:
+				comment.action(getSupportActivity(), RedditAPI.RedditAction.UNSAVE);
 				break;
 
 			case REPORT:

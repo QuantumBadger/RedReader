@@ -38,6 +38,8 @@ public final class RedditComment implements Parcelable {
 	
 	public long created, created_utc;
 
+	public Boolean saved;
+
 	public RedditComment() {}
 
 	// one of the many reasons why the Android API is awful
@@ -76,6 +78,8 @@ public final class RedditComment implements Parcelable {
 
 		created = in.readLong();
 		created_utc = in.readLong();
+
+		saved = in.readInt() != 0;
 	}
 
 	public void writeToParcel(final Parcel parcel, final int flags) {
@@ -110,6 +114,8 @@ public final class RedditComment implements Parcelable {
 
 		parcel.writeLong(created);
 		parcel.writeLong(created_utc);
+
+		parcel.writeInt(saved ? 1 : 0);
 	}
 
 	public int describeContents() {

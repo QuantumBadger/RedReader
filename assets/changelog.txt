@@ -1,4 +1,5 @@
 48/1.8.6
+Added ability to save comments (but not list them, yet)
 Sticky posts highlighted green (thanks to Chris Jones)
 The homescreen icon should now take you to your last position
 Main menu subscription list loads much more quickly when cached

@@ -64,6 +64,7 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 	public final String idAlone, idAndType, flair;
 
 	private int voteDirection;
+	private boolean saved;
 	public long lastChange;
 	public final RedditComment src;
 
@@ -119,6 +120,8 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 		} else {
 			voteDirection = Boolean.TRUE.equals(comment.likes) ? 1 : -1;
 		}
+
+		saved = Boolean.TRUE.equals(comment.saved);
 
 		lastChange = timestamp;
 		if(src.likes != null) {
@@ -268,6 +271,8 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 			case DOWNVOTE: voteDirection = -1; break;
 			case UNVOTE: voteDirection = 0; break;
 			case UPVOTE: voteDirection = 1; break;
+			case SAVE: saved = true; break;
+			case UNSAVE: saved = false; break;
 		}
 
 		refreshView(activity);
@@ -318,7 +323,13 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 							case UNVOTE:
 							case UPVOTE:
 								voteDirection = lastVoteDirection; break;
+							case SAVE:
+								saved = false; break;
+							case UNSAVE:
+								saved = true; break;
 						}
+
+						refreshView(context);
 					}
 
 				}, user, idAndType, action, activity);
@@ -336,9 +347,10 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 		return voteDirection == -1;
 	}
 
-	public void updateFromChangeDb(final long timestamp, final int voteDirection) {
+	public void updateFromChangeDb(final long timestamp, final int voteDirection, final boolean saved) {
 		this.lastChange = timestamp;
 		this.voteDirection = voteDirection;
+		this.saved = saved;
 	}
 
 	public int replyCount() {
@@ -372,5 +384,9 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 		final Intent intent = new Intent(activity, CommentListingActivity.class);
 		intent.setData(Uri.parse(commentContext.toString()));
 		activity.startActivity(intent);
+	}
+
+	public boolean isSaved() {
+		return saved;
 	}
 }

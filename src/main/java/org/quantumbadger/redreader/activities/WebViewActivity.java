@@ -37,7 +37,8 @@ import org.quantumbadger.redreader.views.RedditPostView;
 public class WebViewActivity extends Activity implements RedditPostView.PostSelectionListener {
 
 	private WebViewFragment webView;
-	public static final int VIEW_IN_BROWSER = 10;
+	public static final int VIEW_IN_BROWSER = 10,
+			CLEAR_CACHE = 20;
 
 	public void onCreate(final Bundle savedInstanceState) {
 
@@ -105,6 +106,12 @@ public class WebViewActivity extends Activity implements RedditPostView.PostSele
 				}
 				return true;
 
+			case CLEAR_CACHE:
+
+				webView.clearCache();
+				Toast.makeText(this, R.string.web_view_clear_cache_success_toast, Toast.LENGTH_LONG).show();
+				return true;
+
 			default:
 				return super.onOptionsItemSelected(item);
 		}
@@ -113,6 +120,7 @@ public class WebViewActivity extends Activity implements RedditPostView.PostSele
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, VIEW_IN_BROWSER, 0, R.string.web_view_open_browser);
+		menu.add(0, CLEAR_CACHE, 1, R.string.web_view_clear_cache);
 		return super.onCreateOptionsMenu(menu);
 	}
 }

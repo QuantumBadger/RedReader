@@ -25,10 +25,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
+import android.webkit.*;
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.Fragment;
 import org.holoeverywhere.widget.FrameLayout;
@@ -96,6 +93,8 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
 		final Context context = inflater.getContext();
+
+		CookieSyncManager.createInstance(getSupportActivity());
 
 		outer = (FrameLayout)inflater.inflate(R.layout.web_view_fragment);
 
@@ -266,6 +265,9 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 		outer.removeAllViews();
 		webView.destroy();
 
+		final CookieManager cookieManager = CookieManager.getInstance();
+		cookieManager.removeAllCookie();
+
 		super.onDestroyView();
 	}
 
@@ -314,5 +316,14 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 		if (AndroidApi.isHoneyCombOrLater()) {
 			webView.onResume();
 		}
+	}
+
+	public void clearCache() {
+		webView.clearCache(true);
+		webView.clearHistory();
+		webView.clearFormData();
+
+		final CookieManager cookieManager = CookieManager.getInstance();
+		cookieManager.removeAllCookie();
 	}
 }

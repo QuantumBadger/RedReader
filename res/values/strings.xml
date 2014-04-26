@@ -566,4 +566,9 @@
 
     <string name="invalid_subreddit_name">Invalid subreddit name</string>
 
+    <!-- 2014-04-26 -->
+
+    <string name="web_view_clear_cache">Clear Cache</string>
+    <string name="web_view_clear_cache_success_toast">Cleared cache, history, cookies, and form data.</string>
+
 </resources>

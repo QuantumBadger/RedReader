@@ -41,7 +41,8 @@
         <activity android:name=".activities.MainActivity"
                   android:configChanges="orientation|screenSize|keyboardHidden"
                   android:clearTaskOnLaunch="false"
-                  android:finishOnTaskLaunch="false">
+                  android:finishOnTaskLaunch="false"
+                  android:alwaysRetainTaskState="true">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

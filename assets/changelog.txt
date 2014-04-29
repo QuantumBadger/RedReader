@@ -1,5 +1,9 @@
 48/1.8.6
+Added ability to save comments (but not list them, yet)
 Sticky posts highlighted green (thanks to Chris Jones)
+Added menu option to clear web view cache
+Web view cookies are now deleted when it is closed
+The homescreen icon should now take you to your last position
 Main menu subscription list loads much more quickly when cached
 Post list header changes when new sort order is selected
 Ability to view sidebar of all subreddits, not just subscribed ones

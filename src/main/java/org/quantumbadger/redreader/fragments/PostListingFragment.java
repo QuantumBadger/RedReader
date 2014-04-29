@@ -449,10 +449,13 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 	}
 
 	public void onSubscribe() {
+
+		if(postListingURL.pathType() != RedditURLParser.PathType.SubredditPostListingURL) return;
+
 		try {
 			RedditSubredditSubscriptionManager
 					.getSingleton(getSupportActivity(), RedditAccountManager.getInstance(getSupportActivity()).getDefaultAccount())
-					.subscribe(subreddit.getCanonicalName(), getSupportActivity());
+					.subscribe(RedditSubreddit.getCanonicalName(postListingURL.asSubredditPostListURL().subreddit), getSupportActivity());
 		} catch(RedditSubreddit.InvalidSubredditNameException e) {
 			throw new RuntimeException(e);
 		}

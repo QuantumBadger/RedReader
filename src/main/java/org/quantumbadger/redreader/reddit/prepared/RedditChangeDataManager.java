@@ -183,7 +183,8 @@ public class RedditChangeDataManager extends SQLiteOpenHelper {
 
 		final String[] fields = {
 				FIELD_ACTIONS_LASTUPDATE,
-				FIELD_ACTIONS_VOTEDIRECTION
+				FIELD_ACTIONS_VOTEDIRECTION,
+				FIELD_ACTIONS_SAVED
 		};
 
 		final SQLiteDatabase db = getReadableDatabase();
@@ -199,9 +200,11 @@ public class RedditChangeDataManager extends SQLiteOpenHelper {
 			if(cursor.moveToNext()) {
 
 				final long dbTimestamp = cursor.getLong(0);
+				final int voteDirection = cursor.getInt(1);
+				final boolean saved = cursor.getInt(2) != 0;
 
 				if(dbTimestamp > comment.lastChange) {
-					comment.updateFromChangeDb(dbTimestamp, cursor.getInt(1));
+					comment.updateFromChangeDb(dbTimestamp, voteDirection, saved);
 
 				} else {
 					insert(comment, parent, user);
@@ -227,6 +230,7 @@ public class RedditChangeDataManager extends SQLiteOpenHelper {
 		row.put(FIELD_ACTIONS_PARENT, parent);
 		row.put(FIELD_ACTIONS_VOTEDIRECTION, comment.getVoteDirection());
 		row.put(FIELD_ACTIONS_LASTUPDATE, comment.lastChange);
+		row.put(FIELD_ACTIONS_SAVED, comment.isSaved() ? 1 : 0);
 
 		long pos = db.insert(TABLE_ACTIONS, null, row);
 	}

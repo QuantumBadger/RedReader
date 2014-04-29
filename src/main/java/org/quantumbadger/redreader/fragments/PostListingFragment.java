@@ -23,7 +23,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -100,6 +99,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 	private int postTotalCount = 0;
 	private int postRefreshCount = 0;
 
+	private HiddenSubredditManager hiddenSubs;
 
 	private static final int NOTIF_DOWNLOAD_NECESSARY = 1,
 			NOTIF_DOWNLOAD_START = 2,
@@ -193,7 +193,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 
 		final Uri url = Uri.parse(arguments.getString("url"));
 
-		HiddenSubredditManager.loadHiddens(getSupportActivity());
+		hiddenSubs = HiddenSubredditManager.getInstance(getSupportActivity());
 
 		try {
 			postListingURL = (RedditURLParser.PostListingURL) RedditURLParser.parseProbablePostListing(url);
@@ -578,7 +578,6 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 			notificationHandler.sendMessage(General.handlerMessage(NOTIF_STARTING, null));
 
 			postTotalCount += 25; // TODO this can vary with the user's reddit settings
-
 			// TODO pref (currently 10 mins)
 			if(firstDownload && fromCache && RRTime.since(timestamp) > 10 * 60 * 1000) {
 				notificationHandler.sendMessage(General.handlerMessage(NOTIF_AGE, timestamp));
@@ -629,6 +628,9 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 
 				for(final JsonValue postThingValue : posts) {
 
+					if (postRefreshCount < 0)
+						break;
+
 					final RedditThing postThing = postThingValue.asObject(RedditThing.class);
 
 					if(!postThing.getKind().equals(RedditThing.Kind.POST)) continue;
@@ -637,7 +639,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 
 					after = post.name;
 
-					if(isAll && !HiddenSubredditManager.showSubreddit(post.subreddit)) {
+					if(isAll && !hiddenSubs.isSubredditHidden(post.subreddit)) {
 						continue;
 					}
 

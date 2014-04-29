@@ -27,27 +27,30 @@ import org.quantumbadger.redreader.R;
 import java.util.HashSet;
 
 public class HiddenSubredditManager {
-	private static HashSet<String> HiddenSubreddits;
-	private static boolean IsEmpty;
+	private HashSet<String> hiddenSubreddits;
 
-	public static void loadHiddens(final Context context) {
+	public static HiddenSubredditManager getInstance(final Context context) {
+		return new HiddenSubredditManager(context);
+	}
+
+	public HiddenSubredditManager(final Context context) {
+		loadHiddenSubreddits(context);
+	}
+
+	private void loadHiddenSubreddits(final Context context) {
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-		HiddenSubreddits = PrefsUtility.pref_all_filter(context, prefs);
-		IsEmpty = (HiddenSubreddits.size() == 0);
+		hiddenSubreddits = PrefsUtility.pref_all_filter(context, prefs);
 	}
 
-	public static boolean showSubreddit(String Subreddit) {
-		if (IsEmpty)
-			return true;
-		return !HiddenSubreddits.contains(Subreddit.toLowerCase());
+	public boolean isSubredditHidden(String Subreddit) {
+		return !hiddenSubreddits.contains(Subreddit.toLowerCase());
 	}
 
-	public static void hideSubreddit(final Activity activity, String Subreddit) {
-		HiddenSubreddits.add(Subreddit.toLowerCase());
+	public void hideSubreddit(final Activity activity, String Subreddit) {
+		hiddenSubreddits.add(Subreddit.toLowerCase());
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
 		final SharedPreferences.Editor editor = prefs.edit();
-		editor.putString(activity.getString(R.string.pref_all_filter_key), StringUtils.join(HiddenSubreddits, ','));
+		editor.putString(activity.getString(R.string.pref_all_filter_key), StringUtils.join(hiddenSubreddits, ','));
 		editor.commit();
-		IsEmpty = false;
 	}
 }

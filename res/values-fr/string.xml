@@ -239,7 +239,6 @@
     <string name="action_user_profile">Profil utilisateur</string>
     <string name="action_user_profile_short">Utilisateur</string>
     <string name="action_properties">Propriétés</string>
-    <string name="action_hidesub">Cacher subreddit</string>
     <string name="action_comments">Voir les commentaires</string>
     <string name="action_comments_switch">Passer aux commentaires</string>
     <string name="action_comments_short">Commentaires</string>

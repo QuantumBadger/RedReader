@@ -253,11 +253,12 @@ public final class PrefsUtility {
 
 	public static HashSet<String> pref_all_filter(final Context context, final SharedPreferences sharedPreferences) {
 		String subredditCSV = getString(R.string.pref_all_filter_key, "", context, sharedPreferences);
-		String[] subreddits = subredditCSV.split(",");
 		HashSet<String> subredditHash = new HashSet<String>();
-		for (String SR : subreddits) {
-			subredditHash.add(SR);
-		}
+
+		StringTokenizer st = new StringTokenizer(subredditCSV, ",");
+		while(st.hasMoreTokens())
+			subredditHash.add(st.nextToken());
+
 		return subredditHash;
 	}
 

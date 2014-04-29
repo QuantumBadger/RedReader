@@ -244,7 +244,6 @@ Thanks to /u/balducien and /u/andiho for this translation!
     <string name="action_user_profile">Benutzer anzeigen</string>
     <string name="action_user_profile_short">Benutzer</string>
     <string name="action_properties">Weitere Infos…</string>
-    <string name="action_hidesub">Verstecken Subreddit</string>
     <string name="action_comments">Kommentare anzeigen</string>
     <string name="action_comments_switch">Zu Kommentaren wechseln</string>
     <string name="action_comments_short">Kommentare</string>

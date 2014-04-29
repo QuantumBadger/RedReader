@@ -100,6 +100,8 @@ public final class RedditPreparedPost {
 
 	private final boolean showSubreddit;
 
+	private static HiddenSubredditManager hiddenSubs;
+
 	private RedditPostView boundView = null;
 
 	public static enum Action {
@@ -113,6 +115,7 @@ public final class RedditPreparedPost {
 
 		this.src = post;
 		this.showSubreddit = showSubreddit;
+		this.hiddenSubs = HiddenSubredditManager.getInstance(context);
 
 		if(post.title == null) {
 			title = "[null]";
@@ -213,7 +216,7 @@ public final class RedditPreparedPost {
 		if(itemPref.contains(Action.SHARE_COMMENTS)) menu.add(new RPVMenuItem(context, R.string.action_share_comments, Action.SHARE_COMMENTS));
 		if(itemPref.contains(Action.COPY)) menu.add(new RPVMenuItem(context, R.string.action_copy, Action.COPY));
 		if(itemPref.contains(Action.USER_PROFILE)) menu.add(new RPVMenuItem(context, R.string.action_user_profile, Action.USER_PROFILE));
-		if(itemPref.contains(Action.HIDE_SUBREDDIT) && HiddenSubredditManager.showSubreddit(post.src.subreddit)) menu.add(new RPVMenuItem(context, R.string.action_hidesub, Action.HIDE_SUBREDDIT));
+		if(itemPref.contains(Action.HIDE_SUBREDDIT) && hiddenSubs.isSubredditHidden(post.src.subreddit)) menu.add(new RPVMenuItem(context, R.string.action_hidesub, Action.HIDE_SUBREDDIT));
 		if(itemPref.contains(Action.PROPERTIES)) menu.add(new RPVMenuItem(context, R.string.action_properties, Action.PROPERTIES));
 
 		final String[] menuText = new String[menu.size()];
@@ -466,7 +469,10 @@ public final class RedditPreparedPost {
 				break;
 
 			case HIDE_SUBREDDIT:
-				HiddenSubredditManager.hideSubreddit(activity, post.src.subreddit);
+				hiddenSubs.hideSubreddit(activity, post.src.subreddit);
+				Toast.makeText(activity,
+						String.format("Posts from %s will be hidden after the next refresh. You can change this in the settings.", post.src.subreddit),
+						Toast.LENGTH_LONG).show();
 				break;
 		}
 	}

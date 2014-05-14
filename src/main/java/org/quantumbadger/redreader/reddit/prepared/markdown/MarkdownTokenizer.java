@@ -309,9 +309,9 @@ public final class MarkdownTokenizer {
 		final boolean[] toRevert = new boolean[input.pos];
 		final boolean[] toDelete = new boolean[input.pos];
 
-		int lastUnderscore = -1, lastUnderscoreDouble = -1;
-		int lastAsterisk = -1, lastAsteriskDouble = -1;
-		int lastTildeDouble = -1;
+		int openingUnderscore = -1, openingUnderscoreDouble = -1;
+		int openingAsterisk = -1, openingAsteriskDouble = -1;
+		int openingTildeDouble = -1;
 
 		int lastBracketSquareOpen = -1;
 
@@ -319,63 +319,136 @@ public final class MarkdownTokenizer {
 
 			final int c = input.data[i];
 
+			final boolean beforeASpace = i + 1 < input.pos && input.data[i + 1] == ' ';
+			final boolean afterASpace = i > 0 && input.data[i - 1] == ' ';
+
 			switch(c) {
 
 				case TOKEN_UNDERSCORE:
-					lastUnderscore = lastUnderscore < 0 ? i : -1;
+
+					if(openingUnderscore < 0) {
+						// Opening underscore
+						if(beforeASpace) {
+							toRevert[i] = true;
+						} else {
+							openingUnderscore =  i;
+						}
+
+					} else {
+						// Closing underscore
+						if(afterASpace) {
+							toRevert[i] = true;
+						} else {
+							openingUnderscore = -1;
+						}
+					}
+
 					break;
 
 				case TOKEN_UNDERSCORE_DOUBLE:
 
-					if(lastUnderscoreDouble < 0) {
-						lastUnderscoreDouble = i;
+					if(i != 0 && openingUnderscoreDouble == i - 1) {
+						toRevert[openingUnderscoreDouble] = true;
+						toRevert[i] = true;
+						openingUnderscoreDouble = -1;
 
 					} else {
 
-						if(lastUnderscoreDouble == i - 1) {
-							toRevert[lastUnderscoreDouble] = true;
-							toRevert[i] = true;
-						}
+						if(openingUnderscoreDouble < 0) {
+							// Opening double underscore
+							if(beforeASpace) {
+								toRevert[i] = true;
+							} else {
+								openingUnderscoreDouble = i;
+							}
 
-						lastUnderscoreDouble = -1;
+						} else {
+							// Closing double underscore
+							if(afterASpace) {
+								toRevert[i] = true;
+							} else {
+								openingUnderscoreDouble = -1;
+							}
+						}
 					}
 
 					break;
 
 				case TOKEN_ASTERISK:
-					lastAsterisk = lastAsterisk < 0 ? i : -1;
+
+					if(openingAsterisk < 0) {
+						// Opening asterisk
+						if(beforeASpace) {
+							toRevert[i] = true;
+						} else {
+							openingAsterisk =  i;
+						}
+
+					} else {
+						// Closing asterisk
+						if(afterASpace) {
+							toRevert[i] = true;
+						} else {
+							openingAsterisk = -1;
+						}
+					}
+
 					break;
 
 				case TOKEN_ASTERISK_DOUBLE:
 
-					if(lastAsteriskDouble < 0) {
-						lastAsteriskDouble = i;
+					if(i != 0 && openingAsteriskDouble == i - 1) {
+						toRevert[openingAsteriskDouble] = true;
+						toRevert[i] = true;
+						openingAsteriskDouble = -1;
 
 					} else {
 
-						if(lastAsteriskDouble == i - 1) {
-							toRevert[lastAsteriskDouble] = true;
-							toRevert[i] = true;
-						}
+						if(openingAsteriskDouble < 0) {
+							// Opening double asterisk
+							if(beforeASpace) {
+								toRevert[i] = true;
+							} else {
+								openingAsteriskDouble = i;
+							}
 
-						lastAsteriskDouble = -1;
+						} else {
+							// Closing double asterisk
+							if(afterASpace) {
+								toRevert[i] = true;
+							} else {
+								openingAsteriskDouble = -1;
+							}
+						}
 					}
 
 					break;
 
 				case TOKEN_TILDE_DOUBLE:
 
-					if(lastTildeDouble < 0) {
-						lastTildeDouble = i;
+					if(i != 0 && openingTildeDouble == i - 1) {
+						toRevert[openingTildeDouble] = true;
+						toRevert[i] = true;
+						openingTildeDouble = -1;
 
 					} else {
 
-						if(lastTildeDouble == i - 1) {
-							toRevert[lastTildeDouble] = true;
-							toRevert[i] = true;
-						}
+						if(openingTildeDouble < 0) {
+							// Opening double tilde
+							if(beforeASpace) {
+								toRevert[i] = true;
+							} else {
+								openingTildeDouble = i;
+							}
 
-						lastTildeDouble = -1;
+						} else {
+							// Closing double tilde
+							if(afterASpace) {
+								toRevert[i] = true;
+							} else {
+								openingTildeDouble = -1;
+							}
+						}
 					}
 
 					break;
@@ -517,11 +590,11 @@ public final class MarkdownTokenizer {
 			}
 		}
 
-		if(lastUnderscore >= 0) toRevert[lastUnderscore] = true;
-		if(lastUnderscoreDouble >= 0) toRevert[lastUnderscoreDouble] = true;
-		if(lastAsterisk >= 0) toRevert[lastAsterisk] = true;
-		if(lastAsteriskDouble >= 0) toRevert[lastAsteriskDouble] = true;
-		if(lastTildeDouble >= 0) toRevert[lastTildeDouble] = true;
+		if(openingUnderscore >= 0) toRevert[openingUnderscore] = true;
+		if(openingUnderscoreDouble >= 0) toRevert[openingUnderscoreDouble] = true;
+		if(openingAsterisk >= 0) toRevert[openingAsterisk] = true;
+		if(openingAsteriskDouble >= 0) toRevert[openingAsteriskDouble] = true;
+		if(openingTildeDouble >= 0) toRevert[openingTildeDouble] = true;
 		if(lastBracketSquareOpen >= 0) toRevert[lastBracketSquareOpen] = true;
 
 		for(int j = input.pos - 1; j >= 0 && input.data[j] == ' '; j--) {
@@ -595,7 +668,6 @@ public final class MarkdownTokenizer {
 
 				case '_':
 
-					// TODO check previous
 					if(i < input.pos - 1 && input.data[i + 1] == '_') {
 						i++;
 						output.data[output.pos++] = TOKEN_UNDERSCORE_DOUBLE;

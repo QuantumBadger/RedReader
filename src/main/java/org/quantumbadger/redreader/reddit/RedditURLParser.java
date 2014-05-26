@@ -37,9 +37,20 @@ public class RedditURLParser {
 		UnknownPostListingURL
 	}
 
+	private static boolean isRedditUri(Uri uri) {
+
+		final String[] hostSegments = uri.getHost().toLowerCase().split("\\.");
+		if(hostSegments.length < 2) return false;
+		if(!hostSegments[hostSegments.length - 1].equals("com")) return false;
+		if(!hostSegments[hostSegments.length - 2].equals("reddit")) return false;
+
+		return true;
+	}
+
 	public static RedditURL parse(Uri uri) {
 
 		if(uri == null) return null;
+		if(!isRedditUri(uri)) return null;
 
 		{
 			final SubredditPostListURL subredditPostListURL = SubredditPostListURL.parse(uri);

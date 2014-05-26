@@ -135,8 +135,7 @@ public class LinkHandler {
 					final Intent intent = new Intent(activity, PostListingActivity.class);
 					intent.setData(redditURL.generateJsonUri());
 					activity.startActivityForResult(intent, 1);
-
-					break;
+					return;
 			}
 		}
 

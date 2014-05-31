@@ -116,6 +116,7 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 		settings.setJavaScriptCanOpenWindowsAutomatically(false);
 		settings.setUseWideViewPort(true);
 		settings.setLoadWithOverviewMode(true);
+		settings.setDomStorageEnabled(true);
 
 		if (AndroidApi.isHoneyCombOrLater()) {
 			settings.setDisplayZoomControls(false);

@@ -1,0 +1,575 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of RedReader.
+  ~
+  ~ RedReader is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ RedReader is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+
+    <string name="app_name">RedReader Beta</string>
+
+    <!-- First Run Dialog -->
+
+    <string name="firstrun_login_title">تسجيل الدخول</string>
+    <string name="firstrun_login_message">لم تقم بعملية تسجيل الدخول بعد. تستطيع الوصول إلى قائمة الحسابات عند اختيارك "حسابات" من القائمة.</string>
+    <string name="firstrun_login_button_now">تسجيل الدخول الآن</string>
+    <string name="firstrun_login_button_later">كن مجهولاً</string>
+
+    <!-- Preference Headers -->
+
+    <string name="prefs_category_appearance">المظهر</string>
+    <string name="prefs_category_behaviour">الأسلوب</string>
+    <string name="prefs_category_cache">الخابية</string>
+    <string name="prefs_category_menus">القوائم</string>
+
+    <!-- Appearance Prefs -->
+
+    <string name="pref_appearance_theme_header">الشكل</string>
+    <string name="pref_appearance_font_header">الخط</string>
+    <string name="pref_appearance_thumbnails_header">الصور المصغرة</string>
+    <string name="pref_appearance_tabletmode_header">النمط اللوحي</string>
+    <string name="pref_appearance_comments_header">التعليقات</string>
+    <string name="pref_appearance_other_header">أخرى</string>
+
+    <string name="pref_appearance_twopane_key">pref_appearance_twopane</string>
+    <string name="pref_appearance_twopane_title">النمط اللوحي (عمودين)</string>
+
+    <string name="pref_appearance_theme_key">pref_appearance_theme</string>
+    <string name="pref_appearance_theme_title">الشكل</string>
+
+    <string name="pref_appearance_solidblack_key">pref_appearance_solidblack</string>
+    <string name="pref_appearance_solidblack_title">أسود بالكامل في النمط الليلي</string>
+
+    <string name="pref_appearance_fontscale_posts_key">pref_appearance_fontscale_posts</string>
+    <string name="pref_appearance_fontscale_posts_title">حجم خط المنشورات</string>
+
+    <string name="pref_appearance_fontscale_comments_key">pref_appearance_fontscale_comments</string>
+    <string name="pref_appearance_fontscale_comments_title">حجم خط التعليقات</string>
+
+    <string name="pref_appearance_thumbnails_show_key">pref_appearance_thumbnails_show</string>
+    <string name="pref_appearance_thumbnails_show_title">إظهار الصور المصغرة</string>
+
+    <string name="pref_appearance_thumbnails_nsfw_show_key">pref_appearance_thumbnails_nsfw_show</string>
+    <string name="pref_appearance_thumbnails_nsfw_show_title">إظهار الصور المصغرة للمنشورات الغير لائقة</string>
+
+    <string name="pref_appearance_thumbnails_wifionly_key">pref_appearance_thumbnails_wifionly</string>
+    <string name="pref_appearance_thumbnails_wifionly_title">تحميل الصور المصغرة عند الاتصال عبر الواي فاي فقط</string>
+
+    <string name="pref_appearance_loading_detail_key">pref_appearance_loading_detail</string>
+    <string name="pref_appearance_loading_detail_title">إظهار رسائل التحميل المفصّلة</string>
+
+    <string name="pref_appearance_comment_header_items_key">pref_appearance_comment_header_items</string>
+    <string name="pref_appearance_comment_header_items_title">أعلى التعليق</string>
+
+    <!-- Behaviour Prefs -->
+
+    <string name="pref_behaviour_actions_post_header">إجراءات المنشور</string>
+    <string name="pref_behaviour_actions_comment_header">إجراءات التعليق</string>
+    <string name="pref_behaviour_posts_header">المنشورات</string>
+
+    <string name="pref_behaviour_fling_post_left_key">pref_behaviour_fling_post_left</string>
+    <string name="pref_behaviour_fling_post_left_title">إجراء إزاحة منشور لليسار</string>
+
+    <string name="pref_behaviour_fling_post_right_key">pref_behaviour_fling_post_right</string>
+    <string name="pref_behaviour_fling_post_right_title">إجراء إزاحة منشور لليمين</string>
+
+    <string name="pref_behaviour_actions_comment_tap_key">pref_behaviour_actions_comment_tap</string>
+    <string name="pref_behaviour_actions_comment_tap_title">إجراء التقر على تعليق</string>
+
+    <string name="pref_behaviour_nsfw_key">pref_behaviour_nsfw</string>
+    <string name="pref_behaviour_nsfw_title">إظهار المنشورات غير اللائقة</string>
+
+    <!-- Cache Prefs -->
+
+    <string name="pref_cache_pruning">مسح الخابية</string>
+
+    <string name="pref_cache_maxage_listing_key">pref_cache_maxage_listing</string>
+    <string name="pref_cache_maxage_listing_title">مسح محتويات الخابية بعد</string>
+
+    <string name="pref_cache_maxage_thumb_key">pref_cache_maxage_thumb</string>
+    <string name="pref_cache_maxage_thumb_title">مسح الصور المصغرة بعد</string>
+
+    <string name="pref_cache_maxage_image_key">pref_cache_maxage_image</string>
+    <string name="pref_cache_maxage_image_title">مسح الصور من الخابية بعد</string>
+
+    <string name="pref_cache_precache_images_header">تحميل الصور إلى الخابية</string>
+
+    <string name="pref_cache_precache_images_key">pref_cache_precache_images</string>
+    <string name="pref_cache_precache_images_title">تحميل الصور إلى الخابية</string>
+
+    <!-- TODO use listpreference instead -->
+    <string name="pref_cache_precache_images_wifionly_key">pref_cache_precache_images_wifionly</string>
+    <string name="pref_cache_precache_images_wifionly_title">عند الاتصال بالواي فاي فقط</string>
+
+    <!-- Menu Prefs -->
+
+    <string name="pref_menus_post_context_items_key">pref_menus_post_context_items</string>
+    <string name="pref_menus_post_context_items_title">محتويات قائمة المنشور</string>
+
+    <string name="pref_menus_post_toolbar_items_key">pref_menus_post_toolbar_items</string>
+    <string name="pref_menus_post_toolbar_items_title">محتويات شريط أدوات المنشور</string>
+
+    <!-- Options Menu -->
+
+    <string name="options_accounts">الحسابات</string>
+    <string name="options_accounts_long">حسابات ريديت</string>
+    <string name="options_theme">الأشكال</string>
+    <string name="options_settings">الإعدادات</string>
+
+    <string name="options_submit_post">انشر</string>
+
+    <string name="options_refresh">تحديث</string>
+    <string name="options_refresh_subreddits">تحديث المنتديات الفرعية</string>
+    <string name="options_refresh_posts">تحديث المنشورات</string>
+    <string name="options_refresh_comments">تحديث التعليقات</string>
+
+    <string name="options_past">النسخ السابقة</string>
+    <string name="options_past_posts">نسخ قائمة النشورات السابقة</string>
+    <string name="options_past_comments">نسخ قائمة التعليقات السابقة</string>
+
+    <string name="options_sort">ترتيب/string>
+    <string name="options_sort_subreddits">ترتيب النتديات الفرعية</string>
+    <string name="options_sort_posts">ترتيب المنشورات</string>
+    <string name="options_sort_comments">ترتيب التعليقات</string>
+
+    <!-- Main Menu -->
+
+    <string name="mainmenu_frontpage">الصفحة الرئيسية</string>
+    <string name="mainmenu_all">جميع المنتديات الفرعية</string>
+    <string name="mainmenu_custom">منتدى فرعي مخصص</string>
+    <string name="mainmenu_custom_invalid_name">اسم المنتدى الفرعي غير صحيح.</string>
+    <string name="mainmenu_saved">المنشورات المحفوظة</string>
+    <string name="mainmenu_hidden">المنشورات المخفية</string>
+    <string name="mainmenu_upvoted">المنشورات المنتخبة</string>
+    <string name="mainmenu_inbox">صندوق الوارد</string>
+    <string name="mainmenu_profile">الملف الشخصي</string>
+    <string name="mainmenu_header_subreddits">المنتديات الفرعية</string>
+
+    <!-- General Listing -->
+
+    <string name="listing_cached">نسخة مخبأة من</string>
+
+    <!-- Accounts Dialog -->
+
+    <string name="accounts_anon">مجهول</string>
+    <string name="accounts_active">نشط</string>
+    <string name="accounts_add">إضافة حساب ريديت</string>
+    <string name="accounts_setactive">تنشيط</string>
+    <string name="accounts_reauth">إعادة التوثيق</string>
+    <string name="accounts_delete">مسح</string>
+
+    <string name="accounts_loggingin">جاري تسجيل الدخول...</string>
+    <string name="accounts_loggingin_msg">لحظة...</string>
+
+    <string name="accounts_username">اسم المستخدم</string>
+    <string name="accounts_password">كلمة المرور</string>
+
+    <string name="accounts_login">تسجيل الدخول</string>
+
+    <string name="accounts_delete_sure">سيتم مسح هذا الحساب. هل أنت متأكد؟</string>
+
+    <!-- Post Sorts -->
+
+    <string name="sort_posts_hot">مشهور</string>
+    <string name="sort_posts_new">جديد</string>
+    <string name="sort_posts_rising">متصاعد</string>
+    <string name="sort_posts_controversial">جدلي</string>
+    <string name="sort_posts_top">نخبة</string>
+    <string name="sort_posts_top_hour">نخبة: هذه الساعة</string>
+    <string name="sort_posts_top_today">نخبة: اليوم</string>
+    <string name="sort_posts_top_week">نخبة: هذا الأسبوع</string>
+    <string name="sort_posts_top_month">نخبة: هذا الشهر</string>
+    <string name="sort_posts_top_year">نخبة: هذه السنة</string>
+    <string name="sort_posts_top_all">نخبة: جميع الأوقات</string>
+
+    <!-- Comment Sorts -->
+
+    <string name="sort_comments_best">أفضل</string>
+    <string name="sort_comments_hot">مشهور</string>
+    <string name="sort_comments_new">جديد</string>
+    <string name="sort_comments_old">قديم</string>
+    <string name="sort_comments_controversial">جدلي</string>
+    <string name="sort_comments_top">نخبة</string>
+
+    <!-- Dialog Buttons -->
+
+    <string name="dialog_close">إغلاق</string>
+    <string name="dialog_cancel">إلغاء</string>
+    <string name="dialog_yes">نعم</string>
+    <string name="dialog_no">لا</string>
+    <string name="dialog_go">ذهاب</string>
+
+    <!-- Thing Actions -->
+
+    <string name="action_menu_post_title">إجراءات الإشعار</string>
+
+    <string name="action_upvote">تصويت لأعلى</string>
+    <string name="action_downvote">تصويت لأسفل</string>
+    <string name="action_vote_remove">Remove Vote</string>
+    <string name="action_upvote_remove">Remove Upvote</string>
+    <string name="action_downvote_remove">Remove Downvote</string>
+    <string name="action_save">حفظ</string>
+    <string name="action_hide">إخفاء</string>
+    <string name="action_unsave">إزالة</string>
+    <string name="action_unhide">إظهار</string>
+    <string name="action_external">عرض في متصفح خارجي</string>
+    <string name="action_external_short">في متصفح</string>
+    <string name="action_actionmenu_short">إجراءات</string>
+    <string name="action_actionmenu">قائمة الإجراءات</string>
+    <string name="action_comment_links">الروابط في التعليق</string>
+    <string name="action_selftext_links">الروابط في النص</string>
+    <string name="action_share">مشاركة</string>
+    <string name="action_share_comments">مشاركة التغليقات</string>
+    <string name="action_copy">نسخ</string>
+    <string name="action_gotosubreddit">الى المنتدى الفرعي</string>
+    <string name="action_reply">رد</string>
+    <string name="action_edit">تعديل</string>
+    <string name="action_user_profile">ملف المستخدم</string>
+    <string name="action_user_profile_short">المستخدم</string>
+    <string name="action_properties">الخصائص</string>
+    <string name="action_comments">إظهار التعليقات</string>
+    <string name="action_comments_switch">الانتقال للتعليقات</string>
+    <string name="action_comments_short">التعليقات</string>
+    <string name="action_link">فتح الرابط</string>
+    <string name="action_link_switch">الانتقال للرابط</string>
+    <string name="action_link_short">الرابط</string>
+    <string name="action_collapse">تصغير\تكبير</string>
+    <string name="action_nothing">لاشيء</string>
+
+    <string name="action_report">تقرير</string>
+    <string name="action_report_sure">هل أنت متأكد من ذلك؟</string>
+
+    <string name="action_save_image">حفظ الصورة</string>
+    <string name="action_save_image_success">تم الحفظ في مجلد الصور كـ</string>
+
+    <!-- Download Messages -->
+
+    <string name="download_waiting">…إنتظار</string>
+    <string name="download_connecting">…توصيل</string>
+    <string name="download_downloadstarting">…جاري بدء التحميل</string>
+    <string name="download_downloading">…جاري التحميل</string>
+    <string name="download_loading">…جاري التحميل</string>
+    <string name="download_done">إنتهى التحميل.</string>
+    <string name="download_failed">فشلت عملية التحميل.</string>
+
+    <!-- Image View -->
+
+    <string name="imageview_oom">نفذت الذاكرة. المحاولة باستخدام المتصفح الداخلي.</string>
+    <string name="imageview_invalid_gif">خطأ في الملف. المحاولة باستخدام المتصفح الداخلي.</string>
+
+    <!-- Comment Reply/Edit, Post Submit -->
+
+    <string name="comment_reply_send">إرسال</string>
+    <string name="comment_edit_save">حفظ</string>
+    <string name="comment_reply_preview">معاينة</string>
+    <string name="comment_reply_submitting_title">…تقديم</string>
+    <string name="comment_reply_submitting_message">…لحظة من فضلك</string>
+    <string name="comment_reply_oncancel">…إنتظار نتائج الإجراء</string>
+    <string name="comment_reply_done">تم إرسال الرد. سيظهر التعليق بعد التحديث.</string>
+    <string name="comment_edit_done">تم التعديل. ستظهر التعديلات بعد التحديث.</string>
+    <string name="post_submit_title_hint">العنوان</string>
+    <string name="post_submit_subreddit_hint">المنتدى الفرعي</string>
+    <string name="post_captcha_title">كابتشا</string>
+    <string name="post_captcha_submit_button">قدّم</string>
+    <string name="post_submit_done">تم تقديم الإشعار.</string>
+
+    <!-- Bug Reporting -->
+
+    <string name="bug_title">حدث خطأ.</string>
+    <string name="bug_message">حدث خطأ ما في تطبيق RedReader. هل تريد إرسال تقرير للمطور؟ إن كنت تريد ذلك، سيتم إرسال بريد إلكتروني يحتوي على المعلومات المتعلقة بالخطأ، يمكنك التحقق من هذه المعلومات قبل الإرسال.</string>
+    <string name="bug_button_send">إرسال التقرير عبر البريد الإلكتروني</string>
+    <string name="bug_button_ignore">عدم إرسال التقرير</string>
+
+    <!-- General errors -->
+
+    <string name="error_403_title">اسم المستخدم غير صحيح</string>
+    <string name="error_403_message">لا يمتلك المستخدم الصلاحيات الكافية لعمل ذلك.</string>
+
+    <string name="error_subreddit_required_title">المنتدى الفرعي مطلوب</string>
+    <string name="error_subreddit_required_message">عليك اختيار أحد المنتديات الفرعية.</string>
+
+    <string name="error_bad_captcha_title">الكابتشا غير متوافقة</string>
+    <string name="error_bad_captcha_message">الكابتشا المدخلة غير متوافقة. يرجى المحالة مرة أخرى.</string>
+
+    <string name="error_404_title">غير موجود 404</string>
+    <string name="error_404_message">تعذر إيجاد البيانات المطلوبة.</string>
+
+    <string name="error_unknown_api_title">خطأ</string>
+    <string name="error_unknown_api_message">حدث خطأ عند التواصل مع الخادم. يرجى المحاولة مرة أخرى.</string>
+
+    <string name="error_redditdown_title">ريديت غير فعّال</string>
+    <string name="error_redditdown_message">ريديت تحت ضغط كبير الآن. يرجى المحاولة مرة أخرى.</string>
+
+    <string name="error_cancelled_title">العملية ألغيت</string>
+    <string name="error_cancelled_message">تم إلغاء العملية الحالية.</string>
+
+    <string name="error_parse_title">خطأ في التحليل</string>
+    <string name="error_parse_message">البيانات المرسلة من ريديت غير مفهومة.</string>
+
+    <string name="error_unexpected_cache_title">خطأ في الخابية</string>
+    <string name="error_unexpected_cache_message">حدث خطأ ما متعلق بالخابية.</string>
+
+    <string name="error_unexpected_storage_title">خطأ بالذاكرة</string>
+    <string name="error_unexpected_storage_message">حدث خطأ ما متعلق بالذاكرة، تحقق من عدم امتلائها.</string>
+
+    <string name="error_connection_title">خطأ في الاتصال</string>
+    <string name="error_connection_message">حدث خطأ أثناء المحاولة بالاتصال بالإنترنت، حاول مرة أخرى..</string>
+
+    <string name="error_malformed_url_title">رابط غير صحيح</string>
+    <string name="error_malformed_url_message">حدث خطأ بسبب رابط غير صحيح.</string>
+
+    <string name="error_unknown_title">خطأ غير معروف</string>
+    <string name="error_unknown_message">حدث خطأ ما غير معروف، حاول مرة أخرة.</string>
+
+    <!-- Post list specific errors -->
+
+    <string name="error_postlist_cache_title">انتهت البيانات المخبأة</string>
+    <string name="error_postlist_cache_message">أنت تقوم بعرض نسخة سابقة، ولا يوجد لهذه الجلسة أي منشورات مخبأة. قم بالتحديث أو إختر نسخة سابقة أخرى من القائمة.</string>
+
+    <string name="error_postlist_redditdown_title">ريديت معطل</string>
+    <string name="error_postlist_redditdown_message">ريديت تحت ضغط كثيف حاليا، حاول التحديث مرة أخرة أو استخدم نسخة سابقة.</string>
+
+    <!-- Session List -->
+
+    <string name="session_active">فعال</string>
+
+    <!-- Time -->
+
+    <string name="time_ago">%s مضت</string>
+
+    <!-- User Profile -->
+
+    <string name="userprofile_created">تم إنشاءه</string>
+    <string name="userprofile_hasmail">لديه بريد إلكتروني</string>
+    <string name="userprofile_hasmodmail">لديه بريد إلكتروني كمشرف</string>
+    <string name="userprofile_isfriend">صديق</string>
+    <string name="userprofile_isgold">ريديت ذهبي</string>
+    <string name="userprofile_moderator">مشرف</string>
+    <string name="userprofile_viewcomments">عرض التعليقات</string>
+    <string name="userprofile_viewposts">عرض المنشورات</string>
+
+    <!-- Comment/Post Properties -->
+
+    <string name="props_comment_title">خصائص التعليق</string>
+    <string name="props_post_title">خصائص المنشور</string>
+    <string name="props_error_title">خصائص الخطأ</string>
+
+    <string name="props_title">العنوان</string>
+    <string name="props_author">المؤلف</string>
+    <string name="props_author_flair">أسلوب المؤلف</string>
+    <string name="props_created">تم إنشاؤه</string>
+    <string name="props_edited">تم تعديله</string>
+    <string name="props_score">درجة</string>
+    <string name="props_subreddit">منتدى فرعي</string>
+    <string name="props_url">رابط</string>
+    <string name="props_num_comments">عدد التعليقات</string>
+    <string name="props_body_markdown">المحتوى (ماركداون)</string>
+    <string name="props_self_markdown">نص ذاتي (ماركداون)</string>
+
+    <string name="props_never">ًأبدا</string>
+    <string name="props_up">أعلى</string>
+    <string name="props_down">أسفل</string>
+
+    <!-- General -->
+
+    <string name="general_true">صحيح</string>
+    <string name="general_false">باطل</string>
+
+    <!-- 2013-05-17 Arrays -->
+
+    <string name="pref_appearance_twopane_never">أبداً</string>
+    <string name="pref_appearance_twopane_auto">ضبط تلقائي</string>
+    <string name="pref_appearance_twopane_landscape">بشكل أفقي</string>
+    <string name="pref_appearance_twopane_force">دائماً (قد يبدو غير منساب)</string>
+
+    <string name="theme_name_red">أحمر</string>
+    <string name="theme_name_night">ليلي</string>
+    <string name="theme_name_green">أخضر</string>
+    <string name="theme_name_blue">أزرق</string>
+    <string name="theme_name_ltblue">أزرق فاتح</string>
+    <string name="theme_name_orange">برتقالي</string>
+    <string name="theme_name_gray">رمادي</string>
+
+    <string name="time_1hr">ساعة</string>
+    <string name="time_6hr">6 ساعات</string>
+    <string name="time_1day">يوم</string>
+    <string name="time_3day">3 أيام</string>
+    <string name="time_1week">أسبوع</string>
+    <string name="time_1month">شهر</string>
+    <string name="time_3month">3 أشهر</string>
+
+    <string name="pref_appearance_comment_header_items_author">المؤلف</string>
+    <string name="pref_appearance_comment_header_items_flair">الأسلوب</string>
+    <string name="pref_appearance_comment_header_items_score">الدرجة</string>
+    <string name="pref_appearance_comment_header_items_upsdowns">التصويتات (لأعلى/ﻷسفل)</string>
+    <string name="pref_appearance_comment_header_items_age">العمر</string>
+
+    <!-- 2013-05-17 -->
+
+    <string name="error_toast_notloggedin">عليك تسجيل الدخول أولاً لتتمكن من فعل ذلك.</string>
+
+    <string name="button_moredetail">تفاصيل أكثر</string>
+
+    <string name="pref_appearance_scale_normal">عادي</string>
+
+    <string name="error_invalid_password_title">كلمة المرور غير صحيحية</string>
+    <string name="error_invalid_password_message">اسم المستخدم أو كلمة المرور غير صحيحة.</string>
+
+    <string name="error_ratelimit_title">عدد كبير من المحاولات فاشلة</string>
+    <string name="error_ratelimit_message">تم الحظر بسبب عدد كبير من محاولات تسجيل الدخول الباطلة.</string>
+
+    <string name="general_success">نجاح</string>
+
+    <string name="message_nowloggedin">تم تسجيل الدخول.</string>
+    <string name="message_cannotlogin">لا يمكن تسجيل الدخول.</string>
+
+    <string name="error_toast_no_urls_in_comment">لم يتم العثور على روابط في هذا التعليق.</string>
+    <string name="error_toast_no_urls_in_self">لم يتم العثور على روابط في النص.</string>
+    <string name="error_toast_parent_post_not_downloaded">المنشور الأصل لم يتم تحميله.</string>
+
+    <string name="download_subreddits">تحميل المنتديات الفرعية…</string>
+
+    <string name="subtitle_points">نقاط</string>
+    <string name="subtitle_by">بوساطة</string>
+    <string name="subtitle_to">لـ</string>
+    <string name="subtitle_replies">ردود</string>
+    <string name="subtitle_reply">رد</string>
+
+    <string name="general_unknown">مجهول</string>
+
+    <string name="action_search">بحث</string>
+    <string name="search_subreddit_restrict">حصر البحث في</string>
+
+    <string name="title_changelog">الجديد</string>
+
+    <string name="pref_behaviour_commentsort_key">pref_behaviour_commentsort</string>
+    <string name="pref_behaviour_commentsort">الترتيب الإفتراضي للتعليقات</string>
+
+    <!-- 2013-05-18 -->
+
+    <string name="action_fling_disabled">معطل</string>
+
+    <string name="pref_about_version_key">pref_about_version</string>
+    <string name="pref_about_version_title">نسخة</string>
+
+    <string name="pref_about_changelog_key">pref_about_changelog</string>
+    <string name="prefs_category_about">حول</string>
+
+    <!-- 2013-06-07 -->
+
+    <string name="pref_behaviour_sort_header">ترتيب</string>
+
+    <!-- 2013-06-09 -->
+
+    <string name="pref_appearance_locale_header">المكان</string>
+
+    <string name="pref_appearance_langforce_key">pref_appearance_langforce_key</string>
+    <string name="pref_appearance_langforce_title">اللغة</string>
+
+    <string name="lang_auto">تلقائي</string>
+    <string name="lang_en">إنجليزي</string>
+    <string name="lang_da">دانماركي</string>
+    <string name="lang_de">ألماني</string>
+    <string name="lang_fr">فرنسي</string>
+    <string name="lang_ar">عربي</string>
+
+    <!-- 2013-06-25 -->
+
+    <string name="prefs_category_network">شبكة</string>
+    <string name="pref_network_https_title">تفعيل HTTPS</string>
+    <string name="pref_network_https_key">pref_network_https</string>
+
+    <!-- 2013-07-01 -->
+
+    <string name="web_view_open_browser">عرض باستخدام المتصفح</string>
+
+    <!-- 2013-07-26 -->
+
+    <string name="pref_behaviour_useinternalbrowser_title">استخدام المتصفح الداخلي</string>
+    <string name="pref_behaviour_useinternalbrowser_key">pref_behaviour_useinternalbrowser</string>
+
+    <!-- 2013-07-29 -->
+
+    <string name="pref_appearance_linkbuttons_title">إظهار أزرار الرابط</string>
+    <string name="pref_appearance_linkbuttons_key">pref_appearance_linkbuttons</string>
+
+    <!-- 2013-08-04 -->
+
+    <string name="pref_appearance_indentlines_title">إظهار خطوط المسافة البادئة</string>
+    <string name="pref_appearance_indentlines_key">pref_appearance_indentlines</string>
+
+    <!-- 2014-03-14 -->
+
+    <string name="load_more_posts">تحميل المزيد من المنشورات</string>
+
+    <string name="pref_behaviour_postcount_title">حصر عدد المنشورات</string>
+    <string name="pref_behaviour_postcount_key">pref_behaviour_postcount</string>
+
+    <string name="pref_behaviour_postcount_items_all">كل</string>
+
+    <!-- 2014-03-17 -->
+    <string name="time_year">سنة</string>
+    <string name="time_years">سنوات</string>
+    <string name="time_month">شهر</string>
+    <string name="time_months">أشهر</string>
+    <string name="time_day">يوم</string>
+    <string name="time_days">أيام</string>
+    <string name="time_hour">ساعة</string>
+    <string name="time_hours">ساعات</string>
+    <string name="time_min">دقيقة</string>
+    <string name="time_mins">دقائق</string>
+    <string name="time_sec">ثانية</string>
+    <string name="time_secs">ثواني</string>
+    <string name="time_ms">جزء ثانية</string>
+
+    <!-- 2014-03-18 -->
+
+    <string name="error_disk_space_title">لا يوجد مساحة كافية</string>
+    <string name="error_disk_space_message">خطأ في التحميل لعدم وجود مساحة كافية.</string>
+
+    <!-- 2014-03-23 -->
+
+    <string name="options_subscribe">اشتراك</string>
+    <string name="options_unsubscribe">إلغاء الاشتراك</string>
+    <string name="options_subscribing">اشتراك…</string>
+    <string name="options_unsubscribing">إلغاء الاشتراك…</string>
+    <string name="options_sidebar">إظهار الشريط الجانبي</string>
+
+    <!-- 2014-04-13 -->
+
+    <string name="pref_menus_mainmenu_useritems_key">pref_menus_mainmenu_useritems</string>
+    <string name="pref_menus_mainmenu_useritems_title">مكونات القائمة الرئيسية</string>
+
+    <string name="mainmenu_submitted">منشورات مقدمة</string>
+    <string name="mainmenu_downvoted">منشورات سيئة</string>
+    <string name="mainmenu_modmail">بريد الكتروني مشرف</string>
+
+    <string name="sidebar_activity_title">شريط جانبي</string>
+
+    <!-- 2014-04-20 -->
+
+    <string name="header_subscriber_count">مشتركين</string>
+    <string name="header_subscriber_count_unknown">عدد المشتركين غير معروف</string>
+
+    <!-- 2014-04-21 -->
+
+    <string name="invalid_subreddit_name">اسم المنتدى الفرعي غير صحيح</string>
+
+    <!-- 2014-04-26 -->
+
+    <string name="web_view_clear_cache">امسح الخابية</string>
+    <string name="web_view_clear_cache_success_toast">تم مسح الخابية والذاكرة والكوكيز وبيانات النماذج.</string>
+
+</resources>

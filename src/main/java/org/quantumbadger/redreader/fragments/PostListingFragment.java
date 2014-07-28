@@ -278,6 +278,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 		switch(postListingURL.pathType()) {
 
 			case UserPostListingURL:
+			case SearchPostListingURL:
 				setHeader(postListingURL.humanReadableName(getSupportActivity(), true), postListingURL.humanReadableUrl());
 				break;
 

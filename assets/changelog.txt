@@ -13,6 +13,7 @@ Markdown formatting improvements
 Reverted "home" button action to behave the same as "back"
 Vine links should now work in the internal browser
 Lots of bugfixes
+New icon
 
 47/1.8.5.2
 Added ability to subscribe to/unsubscribe from subreddits

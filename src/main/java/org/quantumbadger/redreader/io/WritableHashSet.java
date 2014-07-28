@@ -113,11 +113,13 @@ public class WritableHashSet implements WritableObject<String> {
 			sb.append(';');
 		}
 
-		sb.deleteCharAt(sb.length() - 1);
 		return sb.toString();
 	}
 
-	public static ArrayList<String> escapedStringToList(final String str) {
+	public static ArrayList<String> escapedStringToList(String str) {
+
+		// Workaround to improve parsing of lists saved by older versions of the app
+		if(str.length() > 0 && !str.endsWith(";")) str += ";";
 
 		final ArrayList<String> result = new ArrayList<String>();
 

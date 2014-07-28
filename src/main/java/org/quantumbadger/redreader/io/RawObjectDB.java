@@ -247,7 +247,9 @@ public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelpe
 
 		try {
 			final ContentValues values = new ContentValues(fields.length + 1);
-			db.insert(TABLE_NAME, null, toContentValues(object, values));
+			final long result = db.insertOrThrow(TABLE_NAME, null, toContentValues(object, values));
+
+			if(result < 0) throw new RuntimeException("Database write failed");
 
 		} catch(IllegalAccessException e) {
 			throw new RuntimeException(e);
@@ -264,7 +266,8 @@ public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelpe
 			final ContentValues values = new ContentValues(fields.length + 1);
 
 			for(final E object : objects) {
-				db.insert(TABLE_NAME, null, toContentValues(object, values));
+				final long result = db.insertOrThrow(TABLE_NAME, null, toContentValues(object, values));
+				if(result < 0) throw new RuntimeException("Bulk database write failed");
 			}
 
 		} catch(IllegalAccessException e) {

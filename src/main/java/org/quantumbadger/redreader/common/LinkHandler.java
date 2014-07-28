@@ -20,11 +20,9 @@ package org.quantumbadger.redreader.common;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
-import android.widget.Toast;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.AlertDialog;
 import org.holoeverywhere.preference.PreferenceManager;
-import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.CommentListingActivity;
 import org.quantumbadger.redreader.activities.ImageViewActivity;
 import org.quantumbadger.redreader.activities.PostListingActivity;
@@ -32,7 +30,6 @@ import org.quantumbadger.redreader.activities.WebViewActivity;
 import org.quantumbadger.redreader.fragments.UserProfileDialog;
 import org.quantumbadger.redreader.reddit.RedditURLParser;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
-import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 
 import java.util.LinkedHashSet;
 import java.util.regex.Matcher;
@@ -40,7 +37,7 @@ import java.util.regex.Pattern;
 
 public class LinkHandler {
 
-	public static final Pattern redditCommentsPattern = Pattern.compile("^https?://[\\.\\w]*reddit\\.com/(r/\\w+/)?comments/(\\w+).*"),
+	public static final Pattern redditCommentsPattern = Pattern.compile("^https?://[\\.\\w]*reddit\\.com/+(r/\\w+/+)?comments/+(\\w+).*"),
 			redditUserPattern = Pattern.compile("^(?:https?://[\\.\\w]*reddit\\.com)?/?(user|u)/(\\w+).*"),
 			youtubeDotComPattern = Pattern.compile("^https?://[\\.\\w]*youtube\\.\\w+/.*"),
 			youtuDotBePattern = Pattern.compile("^https?://[\\.\\w]*youtu\\.be/([A-Za-z0-9\\-_]+)(\\?.*|).*"),
@@ -77,18 +74,8 @@ public class LinkHandler {
 		final Matcher shortSubredditMatcher = shortSubredditPattern.matcher(url);
 
 		if(shortSubredditMatcher.find()) {
-			try {
-				final Intent intent = new Intent(activity, PostListingActivity.class);
-				intent.setData(RedditURLParser.SubredditPostListURL.getSubreddit(shortSubredditMatcher.group(1)).generateJsonUri());
-				activity.startActivity(intent);
-
-			} catch(RedditSubreddit.InvalidSubredditNameException e) {
-				Toast.makeText(activity, R.string.invalid_subreddit_name, Toast.LENGTH_LONG).show();
-			}
-
-			return;
+			url = "http://reddit.com/" + url;
 		}
-
 
 		final Matcher redditUserMatcher = redditUserPattern.matcher(url);
 

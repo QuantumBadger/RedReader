@@ -178,29 +178,31 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 						@Override
 						public void run() {
 
-							if(currentUrl == null || url == null) return;
+							new Handler(Looper.getMainLooper()).post(new Runnable() {
+								public void run() {
 
-							if(!url.equals(view.getUrl())) return;
+									if(currentUrl == null || url == null) return;
 
-							if(goingBack && url.equals(currentUrl)) {
-								new Handler(Looper.getMainLooper()).post(new Runnable() {
-									public void run() {
+									if(!url.equals(view.getUrl())) return;
+
+									if(goingBack && url.equals(currentUrl)) {
 
 										General.quickToast(context,
 												String.format("Handling redirect loop (level %d)", -lastBackDepthAttempt));
 
 										lastBackDepthAttempt--;
 
-										if (webView.canGoBackOrForward(lastBackDepthAttempt)) {
+										if(webView.canGoBackOrForward(lastBackDepthAttempt)) {
 											webView.goBackOrForward(lastBackDepthAttempt);
 										} else {
 											getSupportActivity().finish();
 										}
+
+									} else {
+										goingBack = false;
 									}
-								});
-							} else {
-								goingBack = false;
-							}
+								}
+							});
 						}
 					}, 1000);
 				}

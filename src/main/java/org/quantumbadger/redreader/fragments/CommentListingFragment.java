@@ -429,7 +429,7 @@ public class CommentListingFragment extends Fragment
 								}
 
 								if(!General.isTablet(context, PreferenceManager.getDefaultSharedPreferences(context))) {
-									getSupportActivity().getSupportActionBar().setTitle(post.title);
+									getSupportActivity().getSupportActionBar().setTitle(StringEscapeUtils.unescapeHtml4(post.title));
 								}
 							}
 						});

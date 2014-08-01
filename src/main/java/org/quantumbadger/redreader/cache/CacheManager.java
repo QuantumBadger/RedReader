@@ -162,7 +162,10 @@ public final class CacheManager {
 
 	private void getCacheFileList(final File dir, final HashSet<Long> currentFiles) {
 
-		for(final String file : dir.list()) {
+		final String[] list = dir.list();
+		if(list == null) return;
+
+		for(final String file : list) {
 
 			final Long cacheFileId = isCacheFile(file);
 
@@ -174,7 +177,10 @@ public final class CacheManager {
 
 	private static void pruneTemp(final File dir) {
 
-		for(final String file : dir.list()) {
+		final String[] list = dir.list();
+		if(list == null) return;
+
+		for(final String file : list) {
 
 			if(file.endsWith(tempExt)) {
 				new File(dir, file).delete();

@@ -119,8 +119,14 @@ public class PostListingActivity extends RefreshableActivity
 		final RedditSubredditSubscriptionManager subredditSubscriptionManager
 				= RedditSubredditSubscriptionManager.getSingleton(this, user);
 
-		if(!user.isAnonymous() && controller.isSubreddit() && subredditSubscriptionManager.areSubscriptionsReady()) {
+		if(!user.isAnonymous()
+				&& controller.isSubreddit()
+				&& subredditSubscriptionManager.areSubscriptionsReady()
+				&& fragment != null
+				&& fragment.getSubreddit() != null) {
+
 			subredditSubscriptionState = subredditSubscriptionManager.getSubscriptionState(controller.subredditCanonicalName());
+
 		} else {
 			subredditSubscriptionState = null;
 		}

@@ -457,7 +457,9 @@ public class MainActivity extends RefreshableActivity
 		if(postsVisible
 				&& !user.isAnonymous()
 				&& postListingController.isSubreddit()
-				&& subredditSubscriptionManager.areSubscriptionsReady()) {
+				&& subredditSubscriptionManager.areSubscriptionsReady()
+				&& postListingFragment != null
+				&& postListingFragment.getSubreddit() != null) {
 
 			subredditSubscriptionState = subredditSubscriptionManager.getSubscriptionState(
 					postListingController.subredditCanonicalName());

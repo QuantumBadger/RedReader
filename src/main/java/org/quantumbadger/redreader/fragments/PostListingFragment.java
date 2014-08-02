@@ -459,6 +459,9 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 	}
 
 	public void onUnsubscribe() {
+
+		if(subreddit == null) return;
+
 		try {
 			RedditSubredditSubscriptionManager
 					.getSingleton(getSupportActivity(), RedditAccountManager.getInstance(getSupportActivity()).getDefaultAccount())

@@ -75,8 +75,10 @@ public final class OptionsMenuUtility {
 			add(activity, menu, Option.PAST_POSTS, false);
 			add(activity, menu, Option.SUBMIT_POST, false);
 			add(activity, menu, Option.SEARCH, false);
-			addSubscriptionItem(activity, menu, subredditSubscriptionState);
-			if(subredditHasSidebar) add(activity, menu, Option.SIDEBAR, false);
+			if(subredditSubscriptionState != null) {
+				addSubscriptionItem(activity, menu, subredditSubscriptionState);
+				if(subredditHasSidebar) add(activity, menu, Option.SIDEBAR, false);
+			}
 
 		} else if(!subredditsVisible && !postsVisible && commentsVisible) {
 			if(commentsSortable) addAllCommentSorts(activity, menu, true);
@@ -112,8 +114,10 @@ public final class OptionsMenuUtility {
 				add(activity, refreshMenu, Option.REFRESH_POSTS, true);
 				add(activity, menu, Option.SUBMIT_POST, false);
 				add(activity, menu, Option.SEARCH, false);
-				addSubscriptionItem(activity, menu, subredditSubscriptionState);
-				if(subredditHasSidebar) add(activity, menu, Option.SIDEBAR, false);
+				if(subredditSubscriptionState != null) {
+					addSubscriptionItem(activity, menu, subredditSubscriptionState);
+					if(subredditHasSidebar) add(activity, menu, Option.SIDEBAR, false);
+				}
 			}
 			if(commentsVisible) add(activity, refreshMenu, Option.REFRESH_COMMENTS, true);
 		}

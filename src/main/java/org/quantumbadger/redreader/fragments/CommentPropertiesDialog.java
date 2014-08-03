@@ -64,10 +64,7 @@ public final class CommentPropertiesDialog extends PropertiesDialog {
 		}
 
 		items.addView(propView(context, R.string.props_score,
-				String.format("%d (%d %s, %d %s)",
-						comment.ups - comment.downs,
-						comment.ups, context.getString(R.string.props_up),
-						comment.downs, context.getString(R.string.props_down)), false));
+				String.format("%d", comment.ups - comment.downs), false));
 
 		items.addView(propView(context, R.string.props_subreddit, comment.subreddit, false));
 

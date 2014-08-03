@@ -563,28 +563,39 @@ public final class RedditPreparedPost {
 			@Override
 			protected void onSuccess(final CacheManager.ReadableCacheFile cacheFile, final long timestamp, final UUID session, final boolean fromCache, final String mimetype) {
 
-				// The lock avoids using too much memory
-				synchronized(singleImageDecodeLock) {
+				if(gotHighResThumb && !highRes) return;
+				try {
 
-					if(gotHighResThumb && !highRes) return;
+					BitmapFactory.Options justDecodeBounds = new BitmapFactory.Options();
+					justDecodeBounds.inJustDecodeBounds = true;
+					BitmapFactory.decodeStream(cacheFile.getInputStream(), null, justDecodeBounds);
+					final int width = justDecodeBounds.outWidth;
+					final int height = justDecodeBounds.outHeight;
 
-					try {
-						final Bitmap data = BitmapFactory.decodeStream(cacheFile.getInputStream());
-						if(data == null) return;
-						thumbnailCache = ThumbnailScaler.scale(data, widthPixels);
-						if(thumbnailCache != data) data.recycle();
+					int factor = 1;
 
-						if(highRes) gotHighResThumb = true;
+					while(width / (factor + 1) > widthPixels
+							&& height / (factor + 1) > widthPixels) factor *= 2;
 
-						if(thumbnailCallback != null) thumbnailCallback.betterThumbnailAvailable(thumbnailCache, usageId);
+					BitmapFactory.Options scaledOptions = new BitmapFactory.Options();
+					scaledOptions.inSampleSize = factor;
 
-					} catch (OutOfMemoryError e) {
-						// TODO handle this better - disable caching of images
-						Log.e("RedditPreparedPost", "Out of memory trying to download image");
-						e.printStackTrace();
-					} catch(Throwable t) {
-						// Just ignore it.
-					}
+					final Bitmap data = BitmapFactory.decodeStream(cacheFile.getInputStream(), null, scaledOptions);
+
+					if(data == null) return;
+					thumbnailCache = ThumbnailScaler.scale(data, widthPixels);
+					if(thumbnailCache != data) data.recycle();
+
+					if(highRes) gotHighResThumb = true;
+
+					if(thumbnailCallback != null) thumbnailCallback.betterThumbnailAvailable(thumbnailCache, usageId);
+
+				} catch (OutOfMemoryError e) {
+					// TODO handle this better - disable caching of images
+					Log.e("RedditPreparedPost", "Out of memory trying to download image");
+					e.printStackTrace();
+				} catch(Throwable t) {
+					// Just ignore it.
 				}
 			}
 		});

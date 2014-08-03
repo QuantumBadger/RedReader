@@ -27,6 +27,14 @@ public final class PostListingAdapter extends BaseAdapter {
 	private final PostListingFragment fragmentParent;
 
 	private final Handler postAddedHandler;
+	private boolean postUpdateQueued = false;
+
+	private final Runnable updatePostsRunnable = new Runnable() {
+		@Override
+		public void run() {
+			updatePosts();
+		}
+	};
 
 	public PostListingAdapter(final ListView listViewParent, final PostListingFragment fragmentParent) {
 
@@ -43,17 +51,28 @@ public final class PostListingAdapter extends BaseAdapter {
 
 				posts.add(post);
 
-				if(listViewParent.getLastVisiblePosition() <= postsToReport.size() + 1) {
-					updatePosts();
-				}
+				queuePostUpdate();
 			}
 		};
 	}
 
+	private void queuePostUpdate() {
+
+		if(postsToReport.size() < 8) {
+			updatePosts();
+
+		} else if(!postUpdateQueued) {
+			postAddedHandler.postDelayed(updatePostsRunnable, 400);
+		}
+	}
+
 	private void updatePosts() {
-		postsToReport.clear();
-		postsToReport.addAll(posts);
-		notifyDataSetChanged();
+		postUpdateQueued = false;
+		if(postsToReport.size() != posts.size()) {
+			postsToReport.clear();
+			postsToReport.addAll(posts);
+			notifyDataSetChanged();
+		}
 	}
 
 	public void onScroll() {

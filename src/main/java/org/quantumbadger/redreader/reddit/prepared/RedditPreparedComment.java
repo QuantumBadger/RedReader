@@ -70,7 +70,13 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 
 	private RedditCommentView boundView;
 
-	private final int rrCommentHeaderBoldCol, rrCommentHeaderAuthorCol, rrPostSubtitleUpvoteCol, rrPostSubtitleDownvoteCol;
+	private final int
+			rrCommentHeaderBoldCol,
+			rrCommentHeaderAuthorCol,
+			rrPostSubtitleUpvoteCol,
+			rrPostSubtitleDownvoteCol,
+			rrFlairBackCol,
+			rrFlairTextCol;
 	private final EnumSet<PrefsUtility.AppearanceCommentHeaderItems> headerItems;
 
 	private final RedditPreparedPost parentPost;
@@ -90,13 +96,17 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 				R.attr.rrCommentHeaderBoldCol,
 				R.attr.rrCommentHeaderAuthorCol,
 				R.attr.rrPostSubtitleUpvoteCol,
-				R.attr.rrPostSubtitleDownvoteCol
+				R.attr.rrPostSubtitleDownvoteCol,
+				R.attr.rrFlairBackCol,
+				R.attr.rrFlairTextCol
 		});
 
 		rrCommentHeaderBoldCol = appearance.getColor(0, 255);
 		rrCommentHeaderAuthorCol = appearance.getColor(1, 255);
 		rrPostSubtitleUpvoteCol = appearance.getColor(2, 255);
 		rrPostSubtitleDownvoteCol = appearance.getColor(3, 255);
+		rrFlairBackCol = appearance.getColor(4, 0);
+		rrFlairTextCol = appearance.getColor(5, 255);
 
 		body = MarkdownParser.parse(StringEscapeUtils.unescapeHtml4(comment.body).toCharArray());
 		if(comment.author_flair_text != null) {
@@ -169,7 +179,7 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 				sb.append("  ", 0);
 			}
 
-			sb.append(" " + flair + " ", BetterSSB.FOREGROUND_COLOR | BetterSSB.BACKGROUND_COLOR, Color.rgb(30, 30, 30), Color.rgb(230, 230, 230), 1f); // TODO theme properly
+			sb.append(" " + flair + " ", BetterSSB.FOREGROUND_COLOR | BetterSSB.BACKGROUND_COLOR, rrFlairTextCol, rrFlairBackCol, 1f);
 		}
 
 		if(headerItems.contains(PrefsUtility.AppearanceCommentHeaderItems.AUTHOR)

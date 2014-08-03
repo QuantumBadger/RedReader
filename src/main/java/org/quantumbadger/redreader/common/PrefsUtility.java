@@ -200,7 +200,16 @@ public final class PrefsUtility {
 		final Set<String> strings = getStringSet(R.string.pref_appearance_comment_header_items_key, R.array.pref_appearance_comment_header_items_default, context, sharedPreferences);
 
 		final EnumSet<AppearanceCommentHeaderItems> result = EnumSet.noneOf(AppearanceCommentHeaderItems.class);
-		for(String s : strings) result.add(AppearanceCommentHeaderItems.valueOf(s.toUpperCase()));
+		for(String s : strings) {
+
+			if(s.equalsIgnoreCase("ups_downs")) continue;
+
+			try {
+				result.add(AppearanceCommentHeaderItems.valueOf(s.toUpperCase()));
+			} catch(IllegalArgumentException e) {
+				// Ignore -- this option no longer exists
+			}
+		}
 
 		return result;
 	}

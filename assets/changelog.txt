@@ -1,6 +1,7 @@
 49/1.8.6.1
 Fixed rare crash bug during subreddit (un)subscription
 Fixed rare crash bug when pruning cache
+Fixed bug where searching for multiple words didn't work
 Minor post list performance improvements
 
 48/1.8.6

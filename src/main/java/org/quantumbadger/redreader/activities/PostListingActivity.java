@@ -21,12 +21,12 @@ package org.quantumbadger.redreader.activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.WindowManager;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.AlertDialog;
 import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.preference.SharedPreferences;
@@ -36,7 +36,6 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -48,7 +47,6 @@ import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.views.RedditPostView;
 
-import java.net.URI;
 import java.util.UUID;
 
 public class PostListingActivity extends RefreshableActivity
@@ -56,7 +54,8 @@ public class PostListingActivity extends RefreshableActivity
 		RedditPostView.PostSelectionListener,
 		SharedPreferences.OnSharedPreferenceChangeListener,
 		OptionsMenuUtility.OptionsMenuPostsListener,
-		SessionChangeListener, RedditSubredditSubscriptionManager.SubredditSubscriptionStateChangeListener {
+		SessionChangeListener,
+		RedditSubredditSubscriptionManager.SubredditSubscriptionStateChangeListener {
 
 	private PostListingFragment fragment;
 	private PostListingController controller;
@@ -202,10 +201,15 @@ public class PostListingActivity extends RefreshableActivity
 		requestRefresh(RefreshableFragment.POSTS, false);
 	}
 
+	@Override
 	public void onSearchPosts() {
+		onSearchPosts(controller, this);
+	}
 
-		final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-		final LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.dialog_editbox);
+	public static void onSearchPosts(final PostListingController controller, final Activity activity) {
+
+		final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(activity);
+		final LinearLayout layout = (LinearLayout) activity.getLayoutInflater().inflate(R.layout.dialog_editbox);
 		final EditText editText = (EditText)layout.findViewById(R.id.dialog_editbox_edittext);
 
 		editText.requestFocus();
@@ -218,22 +222,17 @@ public class PostListingActivity extends RefreshableActivity
 
 				final String query = editText.getText().toString().toLowerCase().trim();
 
-				final String subredditCanonicalName = controller.subredditCanonicalName();
+				final RedditURLParser.SearchPostListURL url;
 
-				final String urlPath;
-
-				// TODO build properly
-				if(controller.isSubreddit()) {
-					urlPath = subredditCanonicalName + "/search.json?restrict_sr=on&q=" + query;
+				if(controller != null && controller.isSubreddit()) {
+					url = RedditURLParser.SearchPostListURL.build(controller.subredditCanonicalName(), query);
 				} else {
-					urlPath = "/search.json?q=" + query;
+					url = RedditURLParser.SearchPostListURL.build(null, query);
 				}
 
-				final URI url = Constants.Reddit.getUri(urlPath);
-
-				final Intent intent = new Intent(PostListingActivity.this, PostListingActivity.class);
-				intent.setData(Uri.parse(url.toString()));
-				startActivity(intent);
+				final Intent intent = new Intent(activity, activity.getClass());
+				intent.setData(url.generateJsonUri());
+				activity.startActivity(intent);
 			}
 		});
 

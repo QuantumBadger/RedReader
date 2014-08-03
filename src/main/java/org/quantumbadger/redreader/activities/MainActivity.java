@@ -22,7 +22,6 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -40,7 +39,6 @@ import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.adapters.MainMenuSelectionListener;
-import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -53,7 +51,6 @@ import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.views.RedditPostView;
 
-import java.net.URI;
 import java.util.UUID;
 
 public class MainActivity extends RefreshableActivity
@@ -527,45 +524,7 @@ public class MainActivity extends RefreshableActivity
 	}
 
 	public void onSearchPosts() {
-
-		final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-		final LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.dialog_editbox);
-		final EditText editText = (EditText)layout.findViewById(R.id.dialog_editbox_edittext);
-
-		editText.requestFocus();
-
-		alertBuilder.setView(layout);
-		alertBuilder.setTitle(R.string.action_search);
-
-		alertBuilder.setPositiveButton(R.string.action_search, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-
-				final String query = editText.getText().toString().toLowerCase().trim();
-
-				final String subredditCanonicalName = postListingController.subredditCanonicalName();
-
-				final String urlPath;
-
-				// TODO build properly
-				if(postListingController.isSubreddit()) {
-					urlPath = subredditCanonicalName + "/search.json?restrict_sr=on&q=" + query;
-				} else {
-					urlPath = "/search.json?q=" + query;
-				}
-
-				final URI url = Constants.Reddit.getUri(urlPath);
-
-				final Intent intent = new Intent(MainActivity.this, PostListingActivity.class);
-				intent.setData(Uri.parse(url.toString()));
-				startActivity(intent);
-			}
-		});
-
-		alertBuilder.setNegativeButton(R.string.dialog_cancel, null);
-
-		final AlertDialog alertDialog = alertBuilder.create();
-		alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-		alertDialog.show();
+		PostListingActivity.onSearchPosts(postListingController, this);
 	}
 
 	@Override

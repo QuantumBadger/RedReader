@@ -61,11 +61,7 @@ public final class PostPropertiesDialog extends PropertiesDialog {
 		}
 
 		items.addView(propView(context, R.string.props_subreddit, post.subreddit, false));
-		items.addView(propView(context, R.string.props_score,
-				String.format("%d (%d %s, %d %s)",
-						post.score,
-						post.ups, context.getString(R.string.props_up),
-						post.downs, context.getString(R.string.props_down)), false));
+		items.addView(propView(context, R.string.props_score, String.valueOf(post.score), false));
 		items.addView(propView(context, R.string.props_num_comments, String.valueOf(post.num_comments), false));
 
 		if(post.selftext != null && post.selftext.length() > 0) {

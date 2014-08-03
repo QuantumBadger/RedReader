@@ -474,12 +474,16 @@ public final class RedditPreparedPost {
 		final TypedArray appearance = context.obtainStyledAttributes(new int[]{
 				R.attr.rrPostSubtitleBoldCol,
 				R.attr.rrPostSubtitleUpvoteCol,
-				R.attr.rrPostSubtitleDownvoteCol
+				R.attr.rrPostSubtitleDownvoteCol,
+				R.attr.rrFlairBackCol,
+				R.attr.rrFlairTextCol
 		});
 
 		final int boldCol = appearance.getColor(0, 255),
 				rrPostSubtitleUpvoteCol = appearance.getColor(1, 255),
-				rrPostSubtitleDownvoteCol = appearance.getColor(2, 255);
+				rrPostSubtitleDownvoteCol = appearance.getColor(2, 255),
+				rrFlairBackCol = appearance.getColor(3, 255),
+				rrFlairTextCol = appearance.getColor(4, 255);
 
 		final BetterSSB postListDescSb = new BetterSSB();
 
@@ -502,6 +506,12 @@ public final class RedditPreparedPost {
 		if(src.over_18) {
 			postListDescSb.append(" NSFW ", BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR | BetterSSB.BACKGROUND_COLOR,
 					Color.WHITE, Color.RED, 1f); // TODO color?
+			postListDescSb.append("  ", 0);
+		}
+
+		if(src.link_flair_text != null && src.link_flair_text.length() > 0) {
+			postListDescSb.append(" " + StringEscapeUtils.unescapeHtml4(src.link_flair_text) + " ", BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR | BetterSSB.BACKGROUND_COLOR,
+					rrFlairTextCol, rrFlairBackCol, 1f);
 			postListDescSb.append("  ", 0);
 		}
 

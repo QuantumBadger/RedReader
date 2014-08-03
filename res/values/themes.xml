@@ -45,6 +45,8 @@
         <item name="rrPostFlingTextCol">#FFFFFF</item>
         <item name="rrPostBackgroundColSticky">#004400</item>
         <item name="rrPostCommentsButtonBackColSticky">#226622</item>
+        <item name="rrFlairBackCol">#333333</item>
+        <item name="rrFlairTextCol">#AAAAAA</item>
 
         <!-- Comment -->
 
@@ -120,6 +122,8 @@
         <item name="rrPostFlingTextCol">?rrActionBarCol</item>
         <item name="rrPostBackgroundColSticky">#DDFFDD</item>
         <item name="rrPostCommentsButtonBackColSticky">#BBEEBB</item>
+        <item name="rrFlairBackCol">#DDDDDD</item>
+        <item name="rrFlairTextCol">#444444</item>
 
         <!-- Icons -->
 

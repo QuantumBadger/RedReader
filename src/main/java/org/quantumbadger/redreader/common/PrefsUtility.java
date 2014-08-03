@@ -192,7 +192,7 @@ public final class PrefsUtility {
 	}
 
 	public static enum AppearanceCommentHeaderItems {
-		AUTHOR, FLAIR, SCORE, UPS_DOWNS, AGE
+		AUTHOR, FLAIR, SCORE, AGE
 	}
 
 	public static EnumSet<AppearanceCommentHeaderItems> appearance_comment_header_items(final Context context, final SharedPreferences sharedPreferences) {

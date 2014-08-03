@@ -259,7 +259,6 @@
         <item>@string/pref_appearance_comment_header_items_author</item>
         <item>@string/pref_appearance_comment_header_items_flair</item>
         <item>@string/pref_appearance_comment_header_items_score</item>
-        <item>@string/pref_appearance_comment_header_items_upsdowns</item>
         <item>@string/pref_appearance_comment_header_items_age</item>
     </string-array>
 
@@ -268,7 +267,6 @@
         <item>author</item>
         <item>flair</item>
         <item>score</item>
-        <item>ups_downs</item>
         <item>age</item>
     </string-array>
 

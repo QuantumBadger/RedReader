@@ -96,7 +96,6 @@ public final class InboxListingFragment extends DialogFragment {
 
 		headerItems = PrefsUtility.appearance_comment_header_items(context, PreferenceManager.getDefaultSharedPreferences(context));
 		headerItems.remove(PrefsUtility.AppearanceCommentHeaderItems.SCORE);
-		headerItems.remove(PrefsUtility.AppearanceCommentHeaderItems.UPS_DOWNS);
 
 		final LinearLayout outer = new LinearLayout(context);
 		outer.setOrientation(android.widget.LinearLayout.VERTICAL);

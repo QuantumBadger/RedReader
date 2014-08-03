@@ -198,14 +198,6 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 			sb.append(" " + context.getString(R.string.subtitle_points) +  " ", 0);
 		}
 
-		if(!Boolean.TRUE.equals(src.score_hidden) && headerItems.contains(PrefsUtility.AppearanceCommentHeaderItems.UPS_DOWNS)) {
-			sb.append("(", 0);
-			sb.append(String.valueOf(src.ups), BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, rrPostSubtitleUpvoteCol, 0, 1f);
-			sb.append(" | ", 0);
-			sb.append(String.valueOf(src.downs), BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, rrPostSubtitleDownvoteCol, 0, 1f);
-			sb.append(")  ", 0);
-		}
-
 		if(headerItems.contains(PrefsUtility.AppearanceCommentHeaderItems.AGE)) {
 			sb.append(RRTime.formatDurationFrom(context, src.created_utc * 1000L), BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, rrCommentHeaderBoldCol, 0, 1f);
 		}

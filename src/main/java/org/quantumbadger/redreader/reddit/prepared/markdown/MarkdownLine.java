@@ -150,6 +150,7 @@ public final class MarkdownLine {
 				case '[':
 				case '~':
 				case '#':
+				case '&':
 					return false;
 
 				case '/':

@@ -17,6 +17,8 @@
 
 package org.quantumbadger.redreader.reddit.prepared.markdown;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+
 import java.util.HashSet;
 
 public final class MarkdownTokenizer {
@@ -68,7 +70,7 @@ public final class MarkdownTokenizer {
 		reverseLookup[20 + TOKEN_BRACKET_SQUARE_CLOSE] = new char[] {']'};
 		reverseLookup[20 + TOKEN_PAREN_OPEN] = new char[] {'('};
 		reverseLookup[20 + TOKEN_PAREN_CLOSE] = new char[] {')'};
-		reverseLookup[20 + TOKEN_UNICODE_OPEN] = new char[] {'&', '#'};
+		reverseLookup[20 + TOKEN_UNICODE_OPEN] = new char[] {'&'};
 		reverseLookup[20 + TOKEN_UNICODE_CLOSE] = new char[] {';'};
 
 		unicodeWhitespace.add(0x0009);
@@ -548,26 +550,84 @@ public final class MarkdownTokenizer {
 
 					final int openingUnicode = i;
 					final int closingUnicode = indexOf(input.data, TOKEN_UNICODE_CLOSE, i + 1,
-							Math.min(input.pos, i + 8));
+							Math.min(input.pos, i + 20));
 
-					if(closingUnicode < 0 || !isDigits(input.data, openingUnicode + 1, closingUnicode)) {
+					if(closingUnicode < 0) {
 						toRevert[i] = true;
+
+					} else if(input.data[i + 1] == '#') {
+
+						if(input.data[i + 2] == 'x' && isHexDigits(input.data, openingUnicode + 3, closingUnicode)) {
+
+							final int codePoint = getHex(input.data, openingUnicode + 3, closingUnicode);
+
+							if(unicodeWhitespace.contains(codePoint)) {
+								input.data[openingUnicode] = ' ';
+							} else {
+								input.data[openingUnicode] = codePoint;
+							}
+
+							for(int j = openingUnicode + 1; j <= closingUnicode; j++) {
+								toDelete[j] = true;
+							}
+
+							i = closingUnicode;
+
+						} else if(isDigits(input.data, openingUnicode + 2, closingUnicode)) {
+
+							final int codePoint = getDecimal(input.data, openingUnicode + 2, closingUnicode);
+
+							if(unicodeWhitespace.contains(codePoint)) {
+								input.data[openingUnicode] = ' ';
+							} else {
+								input.data[openingUnicode] = codePoint;
+							}
+
+							for(int j = openingUnicode + 1; j <= closingUnicode; j++) {
+								toDelete[j] = true;
+							}
+
+							i = closingUnicode;
+
+						} else {
+							toRevert[i] = true;
+						}
 
 					} else {
 
-						final int codePoint = getDecimal(input.data, openingUnicode + 1, closingUnicode);
+						final String name = new String(input.data, openingUnicode + 1, closingUnicode - openingUnicode - 1);
 
-						if(unicodeWhitespace.contains(codePoint)) {
-							input.data[openingUnicode] = ' ';
+						final String result = StringEscapeUtils.unescapeHtml4("&" + name + ";");
+
+						Integer codePoint = null;
+
+						if(result.length() == 1) {
+							codePoint = (int)result.charAt(0);
+
+						} else if(name.equalsIgnoreCase("apos")) {
+							codePoint = (int)'\'';
+
+						} else if(name.equalsIgnoreCase("nsub")) {
+							codePoint = (int)'⊄';
+						}
+
+						if(codePoint != null) {
+
+							if(unicodeWhitespace.contains(codePoint)) {
+								input.data[openingUnicode] = ' ';
+							} else {
+								input.data[openingUnicode] = codePoint;
+							}
+
+							for(int j = openingUnicode + 1; j <= closingUnicode; j++) {
+								toDelete[j] = true;
+							}
+
+							i = closingUnicode;
+
 						} else {
-							input.data[openingUnicode] = codePoint;
+							toRevert[i] = true;
 						}
-
-						for(int j = openingUnicode + 1; j <= closingUnicode; j++) {
-							toDelete[j] = true;
-						}
-
-						i = closingUnicode;
 					}
 
 					break;
@@ -712,13 +772,7 @@ public final class MarkdownTokenizer {
 					break;
 
 				case '&':
-
-					if(i < input.pos - 1 && input.data[i + 1] == '#') {
-						i++;
-						output.data[output.pos++] = TOKEN_UNICODE_OPEN;
-
-					} else output.data[output.pos++] = '&';
-
+					output.data[output.pos++] = TOKEN_UNICODE_OPEN;
 					break;
 
 				case ';':
@@ -759,11 +813,34 @@ public final class MarkdownTokenizer {
 		return true;
 	}
 
+	private static boolean isHexDigits(final int[] haystack, final int startInclusive, final int endExclusive) {
+		for(int i = startInclusive; i < endExclusive; i++) {
+			final int c = haystack[i];
+			if((c < '0' || c > '9') && (c < 'a' || c > 'f') && (c < 'A' || c > 'F')) return false;
+		}
+		return true;
+	}
+
 	private static int getDecimal(final int[] chars, final int startInclusive, final int endExclusive) {
 		int result = 0;
 		for(int i = startInclusive; i < endExclusive; i++) {
 			result *= 10;
 			result += chars[i] - '0';
+		}
+		return result;
+	}
+
+	private static int fromHex(int ch) {
+		if(ch >= '0' && ch <= '9') return ch - '0';
+		if(ch >= 'a' && ch <= 'f') return 10 + ch - 'a';
+		return 10 + ch - 'A';
+	}
+
+	private static int getHex(final int[] chars, final int startInclusive, final int endExclusive) {
+		int result = 0;
+		for(int i = startInclusive; i < endExclusive; i++) {
+			result *= 16;
+			result += fromHex(chars[i]);
 		}
 		return result;
 	}

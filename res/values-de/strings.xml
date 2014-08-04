@@ -376,7 +376,7 @@ Thanks to /u/balducien and /u/andiho for this translation!
     <string name="props_author_flair">Flair-Text des Autors</string>
     <string name="props_created">Erstellt</string>
     <string name="props_edited">Geändert</string>
-    <string name="props_score">Punktzahl</string>
+    <string name="props_score">Punktezahl</string>
     <string name="props_subreddit">Subreddit</string>
     <string name="props_url">URL</string>
     <string name="props_num_comments">Anzahl der Kommentare</string>
@@ -547,8 +547,8 @@ Thanks to /u/balducien and /u/andiho for this translation!
 
     <string name="options_subscribe">Abbonieren</string>
     <string name="options_unsubscribe">Abbestellen</string>
-    <string name="options_subscribing">Abboniere…</string>
-    <string name="options_unsubscribing">Bestelle ab…</string>
+    <string name="options_subscribing">Abbonieren…</string>
+    <string name="options_unsubscribing">Abbestellen…</string>
     <string name="options_sidebar">Seitenleiste anzeigen</string>
 
     <!-- 2014-04-13 -->
@@ -564,16 +564,16 @@ Thanks to /u/balducien and /u/andiho for this translation!
 
     <!-- 2014-04-20 -->
 
-    <string name="header_subscriber_count">Abbonierer</string>
-    <string name="header_subscriber_count_unknown">Abboniereranzahl ist unbekannt</string>
+    <string name="header_subscriber_count">Abbonenten</string>
+    <string name="header_subscriber_count_unknown">Abbonentenanzahl ist unbekannt</string>
 
     <!-- 2014-04-21 -->
 
-    <string name="invalid_subreddit_name">Ungültiger Subreddit Name</string>
+    <string name="invalid_subreddit_name">Ungültiger Subreddit-Name</string>
 
     <!-- 2014-04-26 -->
 
     <string name="web_view_clear_cache">Cache leeren</string>
-    <string name="web_view_clear_cache_success_toast">Cache, Verlauf, Cookies und Formulardaten gelöscht</string>
+    <string name="web_view_clear_cache_success_toast">Cache, Verlauf, Cookies und Formulardaten wurden gelöscht</string>
 
 </resources>

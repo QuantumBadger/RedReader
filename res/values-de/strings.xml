@@ -37,12 +37,12 @@ Thanks to /u/balducien and /u/andiho for this translation!
     <string name="prefs_category_appearance">Erscheinungsbild</string>
     <string name="prefs_category_behaviour">Verhalten</string>
     <string name="prefs_category_cache">Cache</string>
-    <string name="prefs_category_menus">Menus</string>
+    <string name="prefs_category_menus">Menüs</string>
 
     <!-- Appearance Prefs -->
 
     <string name="pref_appearance_theme_header">Design</string>
-    <string name="pref_appearance_font_header">Schrift</string>
+    <string name="pref_appearance_font_header">Schriftgröße</string>
     <string name="pref_appearance_thumbnails_header">Vorschaubilder</string>
     <string name="pref_appearance_tabletmode_header">Tablet-Modus</string>
     <string name="pref_appearance_comments_header">Kommentare</string>
@@ -58,10 +58,10 @@ Thanks to /u/balducien and /u/andiho for this translation!
     <string name="pref_appearance_solidblack_title">Echtes Schwarz im Nachtmodus</string>
 
     <string name="pref_appearance_fontscale_posts_key">pref_appearance_fontscale_posts</string>
-    <string name="pref_appearance_fontscale_posts_title">Post-Schriftgrösse</string>
+    <string name="pref_appearance_fontscale_posts_title">Post-Schriftgröße</string>
 
     <string name="pref_appearance_fontscale_comments_key">pref_appearance_fontscale_comments</string>
-    <string name="pref_appearance_fontscale_comments_title">Kommentar-Schriftgrösse</string>
+    <string name="pref_appearance_fontscale_comments_title">Kommentar-Schriftgröße</string>
 
     <string name="pref_appearance_thumbnails_show_key">pref_appearance_thumbnails_show</string>
     <string name="pref_appearance_thumbnails_show_title">Zeige Vorschaubilder</string>
@@ -76,7 +76,7 @@ Thanks to /u/balducien and /u/andiho for this translation!
     <string name="pref_appearance_loading_detail_title">Detaillierte Ladenachrichten</string>
 
     <string name="pref_appearance_comment_header_items_key">pref_appearance_comment_header_items</string>
-    <string name="pref_appearance_comment_header_items_title">Kommentarheader</string>
+    <string name="pref_appearance_comment_header_items_title">Kommentarkopf</string>
 
     <!-- Behaviour Prefs -->
 
@@ -91,10 +91,10 @@ Thanks to /u/balducien and /u/andiho for this translation!
     <string name="pref_behaviour_fling_post_right_title">Posts nach rechts wischen</string>
 
     <string name="pref_behaviour_actions_comment_tap_key">pref_behaviour_actions_comment_tap</string>
-    <string name="pref_behaviour_actions_comment_tap_title">Auf Kommentare Tippen</string>
+    <string name="pref_behaviour_actions_comment_tap_title">Auf Kommentare tippen</string>
 
     <string name="pref_behaviour_nsfw_key">pref_behaviour_nsfw</string>
-    <string name="pref_behaviour_nsfw_title">Zeige NSFW-Inhalt</string>
+    <string name="pref_behaviour_nsfw_title">Zeige NSFW-Inhalte</string>
 
     <!-- Cache Prefs -->
 
@@ -104,7 +104,7 @@ Thanks to /u/balducien and /u/andiho for this translation!
     <string name="pref_cache_maxage_listing_title">Leere Cacheeinträge nach</string>
 
     <string name="pref_cache_maxage_thumb_key">pref_cache_maxage_thumb</string>
-    <string name="pref_cache_maxage_thumb_title">Leere Vorschaubild-Cache nach</string>
+    <string name="pref_cache_maxage_thumb_title">Leere Vorschaubilder-Cache nach</string>
 
     <string name="pref_cache_maxage_image_key">pref_cache_maxage_image</string>
     <string name="pref_cache_maxage_image_title">Leere Bildercache nach</string>
@@ -158,7 +158,7 @@ Thanks to /u/balducien and /u/andiho for this translation!
     <string name="mainmenu_saved">Gespeicherte Posts</string>
     <string name="mainmenu_hidden">Versteckte Posts</string>
     <string name="mainmenu_upvoted">Aufgewertete Posts</string>
-    <string name="mainmenu_inbox">Eingang</string>
+    <string name="mainmenu_inbox">Nachrichten</string>
     <string name="mainmenu_profile">Mein Account</string>
     <string name="mainmenu_header_subreddits">Subreddits</string>
 
@@ -224,7 +224,7 @@ Thanks to /u/balducien and /u/andiho for this translation!
     <string name="action_downvote">Abwerten</string>
     <string name="action_vote_remove">Wertung entfernen</string>
     <string name="action_upvote_remove">Aufwertung entfernen</string>
-    <string name="action_downvote_remove">Abwerten entfernen</string>
+    <string name="action_downvote_remove">Abwertung entfernen</string>
     <string name="action_save">Speichern</string>
     <string name="action_hide">Verstecken</string>
     <string name="action_unsave">Löschen</string>
@@ -294,7 +294,7 @@ Thanks to /u/balducien and /u/andiho for this translation!
 
     <string name="bug_title">Ein Fehler ist aufgetreten.</string>
     <string name="bug_message">RedReader hat einen Fehler gefunden.\n\nWillst du dem Entwickler einen Fehlerbericht senden? Wenn ja, wird ein Email mit allen nötigen Infos erstellt, und du kannst die Inhalte vor dem Senden überprüfen.</string>
-    <string name="bug_button_send">Fehlerbericht mailen</string>
+    <string name="bug_button_send">Fehlerbericht senden</string>
     <string name="bug_button_ignore">Nicht senden</string>
 
     <!-- General errors -->
@@ -306,7 +306,7 @@ Thanks to /u/balducien and /u/andiho for this translation!
     <string name="error_subreddit_required_message">Du musst einen Subreddit festlegen.</string>
 
     <string name="error_bad_captcha_title">Ungültiges CAPTCHA</string>
-    <string name="error_bad_captcha_message">The CAPTCHA you entered was incorrect. Please try again.</string>
+    <string name="error_bad_captcha_message">Das eingegebene CAPTCHA war falsch. Bitte versuche es nochmal.</string>
 
     <string name="error_404_title">Nicht gefunden (404)</string>
     <string name="error_404_message">Die verlangten Daten konnten nicht gefunden werden.</string>
@@ -333,7 +333,7 @@ Thanks to /u/balducien and /u/andiho for this translation!
     <string name="error_connection_message">Es ist ein Problem aufgetreten beim Versuch, den Server zu kontaktieren. Prüf deine Internetverbindung und versuch es erneut.</string>
 
     <string name="error_malformed_url_title">Ungültige URL</string>
-    <string name="error_malformed_url_message">Es wurde versucht, eine inexistente Webseite aufzurufen.</string>
+    <string name="error_malformed_url_message">Es wurde versucht, eine nicht vorhandene Webseite aufzurufen.</string>
 
     <string name="error_unknown_title">Unbekannter Fehler</string>
     <string name="error_unknown_message">Ein unbekannter Fehler ist aufgetreten. Bitte versuch es erneut.</string>
@@ -341,10 +341,10 @@ Thanks to /u/balducien and /u/andiho for this translation!
     <!-- Post list specific errors -->
 
     <string name="error_postlist_cache_title">Ende der gecachten Daten.</string>
-    <string name="error_postlist_cache_message">Du schaust gerade eine vergangene Version hiervon an, und es gibt nicht mehr Posts im Cache. Lade neu, um die neuesten Posts anzuzeigen, oder wähle eine andere, vergangene Version im Menu.</string>
+    <string name="error_postlist_cache_message">Du schaust gerade eine vergangene Version hiervon an, und es gibt nicht mehr Posts im Cache. Lade neu, um die neuesten Posts anzuzeigen, oder wähle eine andere, vergangene Version im Menü.</string>
 
     <string name="error_postlist_redditdown_title">Reddit ist überlastet</string>
-    <string name="error_postlist_redditdown_message">Reddit ist im Moment sehr stark belastet. Lade neu, um die neuesten Posts anzuzeigen, oder wähle eine andere, vergangene Version im Menu.</string>
+    <string name="error_postlist_redditdown_message">Reddit ist im Moment sehr stark belastet. Lade neu, um die neuesten Posts anzuzeigen, oder wähle eine andere, vergangene Version im Menü.</string>
 
     <!-- Session List -->
 
@@ -417,7 +417,7 @@ Thanks to /u/balducien and /u/andiho for this translation!
 
     <string name="pref_appearance_comment_header_items_author">Autor</string>
     <string name="pref_appearance_comment_header_items_flair">Flair</string>
-    <string name="pref_appearance_comment_header_items_score">Punktzahl</string>
+    <string name="pref_appearance_comment_header_items_score">Punktezahl</string>
     <string name="pref_appearance_comment_header_items_upsdowns">Auf-/Abwertungen</string>
     <string name="pref_appearance_comment_header_items_age">Alter</string>
 
@@ -470,5 +470,110 @@ Thanks to /u/balducien and /u/andiho for this translation!
 
     <string name="pref_about_changelog_key">pref_about_changelog</string>
     <string name="prefs_category_about">Infos</string>
+    
+    <!-- 2013-06-07 -->
+
+    <string name="pref_behaviour_sort_header">Sortierung</string>
+
+    <!-- 2013-06-09 -->
+
+    <string name="pref_appearance_locale_header">Lokalisierung</string>
+
+    <string name="pref_appearance_langforce_key">pref_appearance_langforce_key</string>
+    <string name="pref_appearance_langforce_title">Sprache</string>
+
+    <string name="lang_auto">Automatisch</string>
+    <string name="lang_en">Englisch</string>
+    <string name="lang_da">Dänisch</string>
+    <string name="lang_de">Deutsch</string>
+    <string name="lang_fr">Französisch</string>
+    <string name="lang_ar">Arabisch</string>
+
+    <!-- 2013-06-25 -->
+
+    <string name="prefs_category_network">Netzwerk</string>
+    <string name="pref_network_https_title">HTTPS verwenden</string>
+    <string name="pref_network_https_key">pref_network_https</string>
+
+    <!-- 2013-07-01 -->
+
+    <string name="web_view_open_browser">Im Browser anzeigen</string>
+
+    <!-- 2013-07-26 -->
+
+    <string name="pref_behaviour_useinternalbrowser_title">Internen Browser verwenden</string>
+    <string name="pref_behaviour_useinternalbrowser_key">pref_behaviour_useinternalbrowser</string>
+
+    <!-- 2013-07-29 -->
+
+    <string name="pref_appearance_linkbuttons_title">Link-Buttons anzeigen</string>
+    <string name="pref_appearance_linkbuttons_key">pref_appearance_linkbuttons</string>
+
+    <!-- 2013-08-04 -->
+
+    <string name="pref_appearance_indentlines_title">Einzugslinien anzeigen</string>
+    <string name="pref_appearance_indentlines_key">pref_appearance_indentlines</string>
+
+    <!-- 2014-03-14 -->
+
+    <string name="load_more_posts">Mehr Posts laden</string>
+
+    <string name="pref_behaviour_postcount_title">Post-Anzahl beschränken</string>
+    <string name="pref_behaviour_postcount_key">pref_behaviour_postcount</string>
+
+    <string name="pref_behaviour_postcount_items_all">Alle</string>
+
+    <!-- 2014-03-17 -->
+    <string name="time_year">Jahr</string>
+    <string name="time_years">Jahre</string>
+    <string name="time_month">Monat</string>
+    <string name="time_months">Monate</string>
+    <string name="time_day">Tag</string>
+    <string name="time_days">Tage</string>
+    <string name="time_hour">Stunde</string>
+    <string name="time_hours">Stunden</string>
+    <string name="time_min">Minute</string>
+    <string name="time_mins">Minuten</string>
+    <string name="time_sec">Sekunde</string>
+    <string name="time_secs">Sekunden</string>
+    <string name="time_ms">Millisekunden</string>
+
+    <!-- 2014-03-18 -->
+
+    <string name="error_disk_space_title">Speicherplatz voll</string>
+    <string name="error_disk_space_message">Der Download ist fehlgeschlagen weil kein Speicherplatz mehr zur Verfügung steht. Bitte mach Speicherplatz frei und versuche es nochmal.</string>
+
+    <!-- 2014-03-23 -->
+
+    <string name="options_subscribe">Abbonieren</string>
+    <string name="options_unsubscribe">Abbestellen</string>
+    <string name="options_subscribing">Abboniere…</string>
+    <string name="options_unsubscribing">Bestelle ab…</string>
+    <string name="options_sidebar">Seitenleiste anzeigen</string>
+
+    <!-- 2014-04-13 -->
+
+    <string name="pref_menus_mainmenu_useritems_key">pref_menus_mainmenu_useritems</string>
+    <string name="pref_menus_mainmenu_useritems_title">Hauptmenüeinträge</string>
+
+    <string name="mainmenu_submitted">Eingereichte Posts</string>
+    <string name="mainmenu_downvoted">Abgewertete Posts</string>
+    <string name="mainmenu_modmail">Mod Nachrichten</string>
+
+    <string name="sidebar_activity_title">Seitenleiste</string>
+
+    <!-- 2014-04-20 -->
+
+    <string name="header_subscriber_count">Abbonierer</string>
+    <string name="header_subscriber_count_unknown">Abboniereranzahl ist unbekannt</string>
+
+    <!-- 2014-04-21 -->
+
+    <string name="invalid_subreddit_name">Ungültiger Subreddit Name</string>
+
+    <!-- 2014-04-26 -->
+
+    <string name="web_view_clear_cache">Cache leeren</string>
+    <string name="web_view_clear_cache_success_toast">Cache, Verlauf, Cookies und Formulardaten gelöscht</string>
 
 </resources>

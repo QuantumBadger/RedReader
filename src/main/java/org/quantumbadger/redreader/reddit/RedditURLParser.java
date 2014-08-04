@@ -365,8 +365,10 @@ public class RedditURLParser {
 		}
 
 		public static SearchPostListURL build(String subreddit, String query) {
-			while(subreddit.startsWith("/")) subreddit = subreddit.substring(1);
-			while(subreddit.startsWith("r/")) subreddit = subreddit.substring(2);
+			if(subreddit != null) {
+				while(subreddit.startsWith("/")) subreddit = subreddit.substring(1);
+				while(subreddit.startsWith("r/")) subreddit = subreddit.substring(2);
+			}
 			return new SearchPostListURL(subreddit, query, null, null, null);
 		}
 

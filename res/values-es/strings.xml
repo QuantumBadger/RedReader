@@ -148,7 +148,7 @@
 
     <string name="mainmenu_frontpage">Página principal</string>
     <string name="mainmenu_all">Todos los subreddits</string>
-    <string name="mainmenu_custom">Subreddits personalizados</string>
+    <string name="mainmenu_custom">Subreddit personalizado</string>
     <string name="mainmenu_custom_invalid_name">Nombre de subreddit no válido.</string>
     <string name="mainmenu_saved">Posts guardados</string>
     <string name="mainmenu_hidden">Posts ocultos</string>

@@ -1,0 +1,576 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of RedReader.
+  ~
+  ~ RedReader is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ RedReader is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+
+    <string name="app_name">RedReader Beta</string>
+
+    <!-- First Run Dialog -->
+
+    <string name="firstrun_login_title">Iniciar sesión</string>
+    <string name="firstrun_login_message">No has iniciado sesión. Puedes acceder a la lista de cuentas seleccionando "Cuentas" desde el menú.</string>
+    <string name="firstrun_login_button_now">Iniciar sesión ahora</string>
+    <string name="firstrun_login_button_later">Mantenerse anónimo</string>
+
+    <!-- Preference Headers -->
+
+    <string name="prefs_category_appearance">Apariencia</string>
+    <string name="prefs_category_behaviour">Comportamiento</string>
+    <string name="prefs_category_cache">Caché</string>
+    <string name="prefs_category_menus">Menús</string>
+
+    <!-- Appearance Prefs -->
+
+    <string name="pref_appearance_theme_header">Tema</string>
+    <string name="pref_appearance_font_header">Fuente</string>
+    <string name="pref_appearance_thumbnails_header">Miniaturas de imágenes</string>
+    <string name="pref_appearance_tabletmode_header">Modo tablet</string>
+    <string name="pref_appearance_comments_header">Comentarios</string>
+    <string name="pref_appearance_other_header">Otros</string>
+
+    <string name="pref_appearance_twopane_key">pref_appearance_twopane</string>
+    <string name="pref_appearance_twopane_title">Modo tablet (dos paneles)</string>
+
+    <string name="pref_appearance_theme_key">pref_appearance_theme</string>
+    <string name="pref_appearance_theme_title">Tema</string>
+
+    <string name="pref_appearance_solidblack_key">pref_appearance_solidblack</string>
+    <string name="pref_appearance_solidblack_title">Negro total en modo noche</string>
+
+    <string name="pref_appearance_fontscale_posts_key">pref_appearance_fontscale_posts</string>
+    <string name="pref_appearance_fontscale_posts_title">Tamaño en posts</string>
+
+    <string name="pref_appearance_fontscale_comments_key">pref_appearance_fontscale_comments</string>
+    <string name="pref_appearance_fontscale_comments_title">Tamaño en comentarios</string>
+
+    <string name="pref_appearance_thumbnails_show_key">pref_appearance_thumbnails_show</string>
+    <string name="pref_appearance_thumbnails_show_title">Mostrar miniaturas</string>
+
+    <string name="pref_appearance_thumbnails_nsfw_show_key">pref_appearance_thumbnails_nsfw_show</string>
+    <string name="pref_appearance_thumbnails_nsfw_show_title">Mostrar miniaturas NSFW</string>
+
+    <string name="pref_appearance_thumbnails_wifionly_key">pref_appearance_thumbnails_wifionly</string>
+    <string name="pref_appearance_thumbnails_wifionly_title">Miniaturas sólo con Wi-Fi</string>
+
+    <string name="pref_appearance_loading_detail_key">pref_appearance_loading_detail</string>
+    <string name="pref_appearance_loading_detail_title">Mensajes de carga detallados</string>
+
+    <string name="pref_appearance_comment_header_items_key">pref_appearance_comment_header_items</string>
+    <string name="pref_appearance_comment_header_items_title">Cabecera de los comentarios</string>
+
+    <!-- Behaviour Prefs -->
+
+    <string name="pref_behaviour_actions_post_header">Acciones sobre posts</string>
+    <string name="pref_behaviour_actions_comment_header">Acciones sobre comentarios</string>
+    <string name="pref_behaviour_posts_header">Posts</string>
+
+    <string name="pref_behaviour_fling_post_left_key">pref_behaviour_fling_post_left</string>
+    <string name="pref_behaviour_fling_post_left_title">Deslizar hacia la izquierda</string>
+
+    <string name="pref_behaviour_fling_post_right_key">pref_behaviour_fling_post_right</string>
+    <string name="pref_behaviour_fling_post_right_title">Deslizar hacia la derecha</string>
+
+    <string name="pref_behaviour_actions_comment_tap_key">pref_behaviour_actions_comment_tap</string>
+    <string name="pref_behaviour_actions_comment_tap_title">Toque sobre un comentario</string>
+
+    <string name="pref_behaviour_nsfw_key">pref_behaviour_nsfw</string>
+    <string name="pref_behaviour_nsfw_title">Mostrar contenido NSFW</string>
+
+    <!-- Cache Prefs -->
+
+    <string name="pref_cache_pruning">Limpieza de caché</string>
+
+    <string name="pref_cache_maxage_listing_key">pref_cache_maxage_listing</string>
+    <string name="pref_cache_maxage_listing_title">Borrar entradas de caché tras</string>
+
+    <string name="pref_cache_maxage_thumb_key">pref_cache_maxage_thumb</string>
+    <string name="pref_cache_maxage_thumb_title">Borrar miniaturas en caché tras</string>
+
+    <string name="pref_cache_maxage_image_key">pref_cache_maxage_image</string>
+    <string name="pref_cache_maxage_image_title">Borrar imágenes en caché tras</string>
+
+    <string name="pref_cache_precache_images_header">Precacheo de imágenes</string>
+
+    <string name="pref_cache_precache_images_key">pref_cache_precache_images</string>
+    <string name="pref_cache_precache_images_title">Precachear imágenes</string>
+
+    <!-- TODO use listpreference instead -->
+    <string name="pref_cache_precache_images_wifionly_key">pref_cache_precache_images_wifionly</string>
+    <string name="pref_cache_precache_images_wifionly_title">Sólo con Wi-Fi</string>
+
+    <!-- Menu Prefs -->
+
+    <string name="pref_menus_post_context_items_key">pref_menus_post_context_items</string>
+    <string name="pref_menus_post_context_items_title">Menú de los posts</string>
+
+    <string name="pref_menus_post_toolbar_items_key">pref_menus_post_toolbar_items</string>
+    <string name="pref_menus_post_toolbar_items_title">Toolbar de los posts</string>
+
+    <!-- Options Menu -->
+
+    <string name="options_accounts">Cuentas</string>
+    <string name="options_accounts_long">Cuentas de Reddit</string>
+    <string name="options_theme">Temas</string>
+    <string name="options_settings">Preferencias</string>
+
+    <string name="options_submit_post">Enviar post</string>
+
+    <string name="options_refresh">Actualizar</string>
+    <string name="options_refresh_subreddits">Actualizar subreddits</string>
+    <string name="options_refresh_posts">Actualizar posts</string>
+    <string name="options_refresh_comments">Actualizar comentarios</string>
+
+    <string name="options_past">Versiones anteriores</string>
+    <string name="options_past_posts">Versiones anteriores de la lista de posts</string>
+    <string name="options_past_comments">Versiones anteriores de la lista de comentarios</string>
+
+    <string name="options_sort">Ordenar</string>
+    <string name="options_sort_subreddits">Ordenar subreddits</string>
+    <string name="options_sort_posts">Ordenar posts</string>
+    <string name="options_sort_comments">Ordenar comentarios</string>
+
+    <!-- Main Menu -->
+
+    <string name="mainmenu_frontpage">Página principal</string>
+    <string name="mainmenu_all">Todos los subreddits</string>
+    <string name="mainmenu_custom">Subreddits personalizados</string>
+    <string name="mainmenu_custom_invalid_name">Nombre de subreddit no válido.</string>
+    <string name="mainmenu_saved">Posts guardados</string>
+    <string name="mainmenu_hidden">Posts ocultos</string>
+    <string name="mainmenu_upvoted">Posts votados</string>
+    <string name="mainmenu_inbox">Bandeja de entrada</string>
+    <string name="mainmenu_profile">Mi perfil</string>
+    <string name="mainmenu_header_subreddits">Subreddits</string>
+
+    <!-- General Listing -->
+
+    <string name="listing_cached">Viendo copia en caché del</string>
+
+    <!-- Accounts Dialog -->
+
+    <string name="accounts_anon">Anónimo</string>
+    <string name="accounts_active">Activo</string>
+    <string name="accounts_add">Añadir cuenta de Reddit</string>
+    <string name="accounts_setactive">Activar</string>
+    <string name="accounts_reauth">Identificarse de nuevo</string>
+    <string name="accounts_delete">Eliminar</string>
+
+    <string name="accounts_loggingin">Iniciando sesión…</string>
+    <string name="accounts_loggingin_msg">Un momento…</string>
+
+    <string name="accounts_username">Nombre de usuario</string>
+    <string name="accounts_password">Contraseña</string>
+
+    <string name="accounts_login">Iniciar sesión</string>
+
+    <string name="accounts_delete_sure">¿Estás seguro de que quieres eliminar esta cuenta?</string>
+
+    <!-- Post Sorts -->
+
+    <string name="sort_posts_hot">Hot</string>
+    <string name="sort_posts_new">New</string>
+    <string name="sort_posts_rising">Rising</string>
+    <string name="sort_posts_controversial">Controversial</string>
+    <string name="sort_posts_top">Top</string>
+    <string name="sort_posts_top_hour">Top: esta hora</string>
+    <string name="sort_posts_top_today">Top: hoy</string>
+    <string name="sort_posts_top_week">Top: esta semana</string>
+    <string name="sort_posts_top_month">Top: este mes</string>
+    <string name="sort_posts_top_year">Top: este año</string>
+    <string name="sort_posts_top_all">Top: todo</string>
+
+    <!-- Comment Sorts -->
+
+    <string name="sort_comments_best">Best</string>
+    <string name="sort_comments_hot">Hot</string>
+    <string name="sort_comments_new">New</string>
+    <string name="sort_comments_old">Old</string>
+    <string name="sort_comments_controversial">Controversial</string>
+    <string name="sort_comments_top">Top</string>
+
+    <!-- Dialog Buttons -->
+
+    <string name="dialog_close">Cerrar</string>
+    <string name="dialog_cancel">Cancelar</string>
+    <string name="dialog_yes">Sí</string>
+    <string name="dialog_no">No</string>
+    <string name="dialog_go">Ir</string>
+
+    <!-- Thing Actions -->
+
+    <string name="action_menu_post_title">Acciones sobre posts</string>
+
+    <string name="action_upvote">Upvote</string>
+    <string name="action_downvote">Downvote</string>
+    <string name="action_vote_remove">Eliminar vote</string>
+    <string name="action_upvote_remove">Eliminar upvote</string>
+    <string name="action_downvote_remove">Eliminar downvote</string>
+    <string name="action_save">Guardar</string>
+    <string name="action_hide">Esconder</string>
+    <string name="action_unsave">Deshacer guardado</string>
+    <string name="action_unhide">Mostrar de nuevo</string>
+    <string name="action_external">Ver en navegador externo</string>
+    <string name="action_external_short">En navegador</string>
+    <string name="action_actionmenu_short">Acciones</string>
+    <string name="action_actionmenu">Menú de acciones</string>
+    <string name="action_comment_links">Enlaces en comentario</string>
+    <string name="action_selftext_links">Enlaces en self text</string>
+    <string name="action_share">Compartir</string>
+    <string name="action_share_comments">Compartir comentarios</string>
+    <string name="action_copy">Copiar</string>
+    <string name="action_gotosubreddit">Ir a subreddit</string>
+    <string name="action_reply">Contestar</string>
+    <string name="action_edit">Editar</string>
+    <string name="action_user_profile">Perfil de usuario</string>
+    <string name="action_user_profile_short">Usuario</string>
+    <string name="action_properties">Propiedades</string>
+    <string name="action_comments">Ver comentarios</string>
+    <string name="action_comments_switch">Cambiar a comentarios</string>
+    <string name="action_comments_short">Comentarios</string>
+    <string name="action_link">Abrir enlace</string>
+    <string name="action_link_switch">Cambiar a enlace</string>
+    <string name="action_link_short">Enlace</string>
+    <string name="action_collapse">Alternar minimizar</string>
+    <string name="action_nothing">No hacer nada</string>
+
+    <string name="action_report">Reportar</string>
+    <string name="action_report_sure">¿Estás seguro de que quieres reportar esto?</string>
+
+    <string name="action_save_image">Guardar imagen</string>
+    <string name="action_save_image_success">Guardar en el directorio Imágenes como</string>
+
+    <!-- Download Messages -->
+
+    <string name="download_waiting">Esperando…</string>
+    <string name="download_connecting">Conectando…</string>
+    <string name="download_downloadstarting">Empezando descarga…</string>
+    <string name="download_downloading">Descargando…</string>
+    <string name="download_loading">Cargando…</string>
+    <string name="download_done">Hecho.</string>
+    <string name="download_failed">Fallo.</string>
+
+    <!-- Image View -->
+
+    <string name="imageview_oom">No hay memoria suficiente. Probando con navegador interno.</string>
+    <string name="imageview_invalid_gif">GIF inválido. Probando con navegador interno.</string>
+
+    <!-- Comment Reply/Edit, Post Submit -->
+
+    <string name="comment_reply_send">Enviar</string>
+    <string name="comment_edit_save">Guardar</string>
+    <string name="comment_reply_preview">Previsualizar</string>
+    <string name="comment_reply_submitting_title">Enviando…</string>
+    <string name="comment_reply_submitting_message">Un momento…</string>
+    <string name="comment_reply_oncancel">Esperando resultados…</string>
+    <string name="comment_reply_done">Respuesta enviada. El comentario aparecerá si actualizas.</string>
+    <string name="comment_edit_done">Comentario editado. Los cambios aparecerán si actualizas.</string>
+    <string name="post_submit_title_hint">Título</string>
+    <string name="post_submit_subreddit_hint">Subreddit</string>
+    <string name="post_captcha_title">Captcha</string>
+    <string name="post_captcha_submit_button">Enviar</string>
+    <string name="post_submit_done">Post enviado.</string>
+
+    <!-- Bug Reporting -->
+
+    <string name="bug_title">Ha ocurrido un error.</string>
+    <string name="bug_message">RedReader ha encontrado un error.\n\n¿Te gustaría enviar un informe al desarrollador? Si es así, se generará un correo con toda la información relevante, y podrás revisarlo antes de enviarlo.</string>
+    <string name="bug_button_send">Enviar informe por email</string>
+    <string name="bug_button_ignore">No enviar informe</string>
+
+    <!-- General errors -->
+
+    <string name="error_403_title">Usuario no válido</string>
+    <string name="error_403_message">El usuario que has seleccionado no tiene permiso para hacer eso.</string>
+
+    <string name="error_subreddit_required_title">Subreddit requerido</string>
+    <string name="error_subreddit_required_message">Debes especificar un subreddit.</string>
+
+    <string name="error_bad_captcha_title">CAPTCHA no válido</string>
+    <string name="error_bad_captcha_message">El CAPTCHA que has introducido no es correcto. Por favor, inténtalo de nuevo.</string>
+
+    <string name="error_404_title">No encontrado (404)</string>
+    <string name="error_404_message">No se han encontrado los datos solicitados.</string>
+
+    <string name="error_unknown_api_title">Error</string>
+    <string name="error_unknown_api_message">El servidor no ha aceptado la solicitud por una razón desconocida. Por favor, inténtalo de nuevo.</string>
+
+    <string name="error_redditdown_title">Reddit está caído</string>
+    <string name="error_redditdown_message">Reddit está sobrecargado ahora mismo. Por favor, inténtalo de nuevo.</string>
+
+    <string name="error_cancelled_title">Operación cancelada</string>
+    <string name="error_cancelled_message">La operación actual ha sido cancelada.</string>
+
+    <string name="error_parse_title">Error al parsear</string>
+    <string name="error_parse_message">Reddit ha enviado algunos datos que no he podido entender.</string>
+
+    <string name="error_unexpected_cache_title">Error de caché inesperado</string>
+    <string name="error_unexpected_cache_message">Ha ocurrido un error desconocido relacionado con la caché.</string>
+
+    <string name="error_unexpected_storage_title">Error de almacenamiento inesperado</string>
+    <string name="error_unexpected_storage_message">Ha ocurrido un error desconocido relacionado con el almacenamiento de la caché. Probablemente te estés quedando sin espacio.</string>
+
+    <string name="error_connection_title">Error de conexión</string>
+    <string name="error_connection_message">Ha habido un problema conectando con el servidor. Por favor, comprueba tu conexión e inténtalo de nuevo.</string>
+
+    <string name="error_malformed_url_title">URL no válida</string>
+    <string name="error_malformed_url_message">Se ha intentado acceder a una URL no válida.</string>
+
+    <string name="error_unknown_title">Error desconocido</string>
+    <string name="error_unknown_message">Ha ocurrido un error desconocido. Por favor, inténtalo de nuevo.</string>
+
+    <!-- Post list specific errors -->
+
+    <string name="error_postlist_cache_title">Fin de los datos en caché.</string>
+    <string name="error_postlist_cache_message">Estás viendo una versión anterior de este contenido, y no hay más posts de esta sesión en la caché. Presiona actualizar para descargar los últimos posts, o selecciona una versión anterior diferente desde el menú.</string>
+
+    <string name="error_postlist_redditdown_title">Reddit está caído.</string>
+    <string name="error_postlist_redditdown_message">Reddit está sobrecargado ahora mismo. Presiona actualizar para descargar los últimos posts, o selecciona una versión anterior diferente desde el menú.</string>
+
+    <!-- Session List -->
+
+    <string name="session_active">Activa</string>
+
+    <!-- Time -->
+
+    <string name="time_ago">hace %s</string>
+
+    <!-- User Profile -->
+
+    <string name="userprofile_created">Creado</string>
+    <string name="userprofile_hasmail">Tiene email</string>
+    <string name="userprofile_hasmodmail">Tiene email de mods</string>
+    <string name="userprofile_isfriend">Es amigo</string>
+    <string name="userprofile_isgold">Reddit Gold</string>
+    <string name="userprofile_moderator">Es moderador</string>
+    <string name="userprofile_viewcomments">Ver comentarios</string>
+    <string name="userprofile_viewposts">Ver posts</string>
+
+    <!-- Comment/Post Properties -->
+
+    <string name="props_comment_title">Propiedades de comentario</string>
+    <string name="props_post_title">Propiedades de post</string>
+    <string name="props_error_title">Propiedades de error</string>
+
+    <string name="props_title">Título</string>
+    <string name="props_author">Autor</string>
+    <string name="props_author_flair">Texto del flair de autor</string>
+    <string name="props_created">Creado</string>
+    <string name="props_edited">Editado</string>
+    <string name="props_score">Puntuación</string>
+    <string name="props_subreddit">Subreddit</string>
+    <string name="props_url">URL</string>
+    <string name="props_num_comments">Número de comentarios</string>
+    <string name="props_body_markdown">Body (Raw Markdown)</string>
+    <string name="props_self_markdown">Self text (Raw Markdown)</string>
+
+    <string name="props_never">Nunca</string>
+    <string name="props_up">Up</string>
+    <string name="props_down">Down</string>
+
+    <!-- General -->
+
+    <string name="general_true">Sí</string>
+    <string name="general_false">No</string>
+
+    <!-- 2013-05-17 Arrays -->
+
+    <string name="pref_appearance_twopane_never">Nunca</string>
+    <string name="pref_appearance_twopane_auto">Automático</string>
+    <string name="pref_appearance_twopane_landscape">Sólo apaisado</string>
+    <string name="pref_appearance_twopane_force">Siempre (puede verse raro)</string>
+
+    <string name="theme_name_red">Rojo</string>
+    <string name="theme_name_night">Noche</string>
+    <string name="theme_name_green">Verde</string>
+    <string name="theme_name_blue">Azul</string>
+    <string name="theme_name_ltblue">Azul claro</string>
+    <string name="theme_name_orange">Naranja</string>
+    <string name="theme_name_gray">Gris</string>
+
+    <string name="time_1hr">1 hora</string>
+    <string name="time_6hr">6 horas</string>
+    <string name="time_1day">1 día</string>
+    <string name="time_3day">3 días</string>
+    <string name="time_1week">1 semana</string>
+    <string name="time_1month">1 mes</string>
+    <string name="time_3month">3 meses</string>
+
+    <string name="pref_appearance_comment_header_items_author">Autor</string>
+    <string name="pref_appearance_comment_header_items_flair">Flair</string>
+    <string name="pref_appearance_comment_header_items_score">Puntuación</string>
+    <string name="pref_appearance_comment_header_items_upsdowns">Upvotes/downvotes</string>
+    <string name="pref_appearance_comment_header_items_age">Edad</string>
+
+    <!-- 2013-05-17 -->
+
+    <string name="error_toast_notloggedin">Debes haber iniciado sesión para hacer eso.</string>
+
+    <string name="button_moredetail">Más detalle</string>
+
+    <string name="pref_appearance_scale_normal">Normal</string>
+
+    <string name="error_invalid_password_title">Contraseña no válida</string>
+    <string name="error_invalid_password_message">Tu usuario o contraseña es incorrecto.</string>
+
+    <string name="error_ratelimit_title">Demasiados intentos no válidos.</string>
+    <string name="error_ratelimit_message">Bloqueado debido a demasiados intentos no válidos de inicio de sesión desde esta IP. Reddit dice:</string>
+
+    <string name="general_success">Éxito</string>
+
+    <string name="message_nowloggedin">Acabas de iniciar sesión.</string>
+    <string name="message_cannotlogin">No se pudo iniciar sesión.</string>
+
+    <string name="error_toast_no_urls_in_comment">No se encontraron URLs en este comentario.</string>
+    <string name="error_toast_no_urls_in_self">No se encontraron URLs en este self text.</string>
+    <string name="error_toast_parent_post_not_downloaded">No se ha descargado todavía el post principal.</string>
+
+    <string name="download_subreddits">Descargando subreddits…</string>
+
+    <string name="subtitle_points">pts</string>
+    <string name="subtitle_by">por</string>
+    <string name="subtitle_to">en</string>
+    <string name="subtitle_replies">respuestas</string>
+    <string name="subtitle_reply">responder</string>
+
+    <string name="general_unknown">desconocido</string>
+
+    <string name="action_search">Buscar</string>
+    <string name="search_subreddit_restrict">Restringir búsqueda a</string>
+
+    <string name="title_changelog">Novedades</string>
+
+    <string name="pref_behaviour_commentsort_key">pref_behaviour_commentsort</string>
+    <string name="pref_behaviour_commentsort">Orden de comentarios por defecto</string>
+
+    <!-- 2013-05-18 -->
+
+    <string name="action_fling_disabled">Desactivado</string>
+
+    <string name="pref_about_version_key">pref_about_version</string>
+    <string name="pref_about_version_title">Versión</string>
+
+    <string name="pref_about_changelog_key">pref_about_changelog</string>
+    <string name="prefs_category_about">Acerca de</string>
+
+    <!-- 2013-06-07 -->
+
+    <string name="pref_behaviour_sort_header">Orden</string>
+
+    <!-- 2013-06-09 -->
+
+    <string name="pref_appearance_locale_header">Locale</string>
+
+    <string name="pref_appearance_langforce_key">pref_appearance_langforce_key</string>
+    <string name="pref_appearance_langforce_title">Idioma</string>
+
+    <string name="lang_auto">Automático</string>
+    <string name="lang_en">Inglés</string>
+    <string name="lang_da">Danés</string>
+    <string name="lang_de">Alemán</string>
+    <string name="lang_fr">Francés</string>
+    <string name="lang_ar">Árabe</string>
+    <string name="lang_es">Español</string>
+
+    <!-- 2013-06-25 -->
+
+    <string name="prefs_category_network">Red</string>
+    <string name="pref_network_https_title">Activar HTTPS</string>
+    <string name="pref_network_https_key">pref_network_https</string>
+
+    <!-- 2013-07-01 -->
+
+    <string name="web_view_open_browser">Ver en navegador</string>
+
+    <!-- 2013-07-26 -->
+
+    <string name="pref_behaviour_useinternalbrowser_title">Usar navegador interno</string>
+    <string name="pref_behaviour_useinternalbrowser_key">pref_behaviour_useinternalbrowser</string>
+
+    <!-- 2013-07-29 -->
+
+    <string name="pref_appearance_linkbuttons_title">Botones para enlaces</string>
+    <string name="pref_appearance_linkbuttons_key">pref_appearance_linkbuttons</string>
+
+    <!-- 2013-08-04 -->
+
+    <string name="pref_appearance_indentlines_title">Líneas de indentado</string>
+    <string name="pref_appearance_indentlines_key">pref_appearance_indentlines</string>
+
+    <!-- 2014-03-14 -->
+
+    <string name="load_more_posts">Cargar más posts</string>
+
+    <string name="pref_behaviour_postcount_title">Restringir número de posts</string>
+    <string name="pref_behaviour_postcount_key">pref_behaviour_postcount</string>
+
+    <string name="pref_behaviour_postcount_items_all">Todos</string>
+
+    <!-- 2014-03-17 -->
+    <string name="time_year">año</string>
+    <string name="time_years">años</string>
+    <string name="time_month">mes</string>
+    <string name="time_months">meses</string>
+    <string name="time_day">día</string>
+    <string name="time_days">días</string>
+    <string name="time_hour">hora</string>
+    <string name="time_hours">horas</string>
+    <string name="time_min">min</string>
+    <string name="time_mins">mins</string>
+    <string name="time_sec">seg</string>
+    <string name="time_secs">segs</string>
+    <string name="time_ms">ms</string>
+
+    <!-- 2014-03-18 -->
+
+    <string name="error_disk_space_title">Sin espacio en disco</string>
+    <string name="error_disk_space_message">La descarga ha fallado porque tu dispositivo está lleno. Por favor, libera algo de espacio e inténtalo de nuevo.</string>
+
+    <!-- 2014-03-23 -->
+
+    <string name="options_subscribe">Suscribirse</string>
+    <string name="options_unsubscribe">Cancelar subscripción</string>
+    <string name="options_subscribing">Subscribiéndose…</string>
+    <string name="options_unsubscribing">Cancelando la subscripción…</string>
+    <string name="options_sidebar">Ver barra lateral</string>
+
+    <!-- 2014-04-13 -->
+
+    <string name="pref_menus_mainmenu_useritems_key">pref_menus_mainmenu_useritems</string>
+    <string name="pref_menus_mainmenu_useritems_title">Usuario en menú principal</string>
+
+    <string name="mainmenu_submitted">Posts enviados</string>
+    <string name="mainmenu_downvoted">Posts downvoted</string>
+    <string name="mainmenu_modmail">Mail de mods</string>
+
+    <string name="sidebar_activity_title">Barra lateral</string>
+
+    <!-- 2014-04-20 -->
+
+    <string name="header_subscriber_count">subscriptores</string>
+    <string name="header_subscriber_count_unknown">El número de subscriptores es desconocido</string>
+
+    <!-- 2014-04-21 -->
+
+    <string name="invalid_subreddit_name">Nombre de subreddit no válido</string>
+
+    <!-- 2014-04-26 -->
+
+    <string name="web_view_clear_cache">Limpiar caché</string>
+    <string name="web_view_clear_cache_success_toast">Caché, historial, cookies, y datos de formulario borrados.</string>
+
+</resources>

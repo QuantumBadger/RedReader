@@ -18,14 +18,13 @@
 package org.quantumbadger.redreader.views.liststatus;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import org.holoeverywhere.widget.FrameLayout;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.views.list.RRTouchable;
 
 import java.util.concurrent.Executors;
@@ -84,7 +83,7 @@ public class StatusListItemView extends FrameLayout implements RRTouchable {
 
 		Executors.newSingleThreadScheduledExecutor().schedule(new Runnable() {
 			public void run() {
-				new Handler(Looper.getMainLooper()).post(new Runnable() {
+				General.UI_THREAD_HANDLER.post(new Runnable() {
 					public void run() {
 						clearAnimation();
 						setVisibility(GONE);

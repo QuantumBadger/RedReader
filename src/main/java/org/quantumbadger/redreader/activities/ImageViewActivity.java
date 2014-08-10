@@ -20,53 +20,299 @@ package org.quantumbadger.redreader.activities;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.opengl.GLSurfaceView;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.ImageView;
+import org.apache.http.StatusLine;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.preference.SharedPreferences;
+import org.holoeverywhere.widget.FrameLayout;
+import org.holoeverywhere.widget.LinearLayout;
 import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.common.LinkHandler;
-import org.quantumbadger.redreader.common.PrefsUtility;
-import org.quantumbadger.redreader.fragments.ImageViewFragment;
+import org.quantumbadger.redreader.account.RedditAccountManager;
+import org.quantumbadger.redreader.cache.CacheManager;
+import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.cache.RequestFailureType;
+import org.quantumbadger.redreader.common.*;
+import org.quantumbadger.redreader.image.GifDecoderThread;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
+import org.quantumbadger.redreader.views.GIFView;
 import org.quantumbadger.redreader.views.RedditPostView;
+import org.quantumbadger.redreader.views.bezelmenu.BezelSwipeOverlay;
+import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
+import org.quantumbadger.redreader.views.glview.RRGLSurfaceView;
+import org.quantumbadger.redreader.views.imageview.ImageTileSource;
+import org.quantumbadger.redreader.views.imageview.ImageViewDisplayListManager;
+import org.quantumbadger.redreader.views.liststatus.ErrorView;
+import org.quantumbadger.redreader.views.liststatus.LoadingView;
 
+import java.io.DataInputStream;
+import java.io.IOException;
 import java.net.URI;
+import java.util.UUID;
 
-public class ImageViewActivity extends Activity implements RedditPostView.PostSelectionListener {
+public class ImageViewActivity extends Activity implements RedditPostView.PostSelectionListener, ImageViewDisplayListManager.Listener {
 
+	GLSurfaceView surfaceView;
+	private ImageView imageView;
+	private GifDecoderThread gifThread;
+
+	private URI mUrl;
+
+	private boolean mIsPaused = true;
+
+	private boolean mHaveReverted = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+
 		super.onCreate(savedInstanceState);
+
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		final boolean solidblack = PrefsUtility.appearance_solidblack(this, sharedPreferences);
 
 		if(solidblack) getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
 
-		// TODO handle loading from saved instance
-
 		final Intent intent = getIntent();
 
-		final URI url = General.uriFromString(intent.getDataString());
-		final RedditPost post = intent.getParcelableExtra("post");
+		mUrl = General.uriFromString(intent.getDataString());
+		final RedditPost src_post = intent.getParcelableExtra("post");
 
-		if(url == null) {
-			General.quickToast(this, "Invalid URL. Trying external browser.");
-			LinkHandler.onLinkClicked(this, intent.getDataString(), true);
-			finish();
+		if(mUrl == null) {
+			General.quickToast(this, "Invalid URL. Trying web browser.");
+			revertToWeb();
 			return;
 		}
 
-		final ImageViewFragment imageViewFragment = ImageViewFragment.newInstance(url, post);
+		if(!AndroidApi.isGreaterThan(Build.VERSION_CODES.GINGERBREAD_MR1)) {
+			revertToWeb();
+			return;
+		}
 
-		setContentView(View.inflate(this, R.layout.main_single, null));
+		final LoadingView loadingView = new LoadingView(this, R.string.download_loading, true, false);
 
-		getSupportFragmentManager().beginTransaction().add(R.id.main_single_frame, imageViewFragment).commit();
+		final LinearLayout layout = new LinearLayout(this);
+		layout.setOrientation(LinearLayout.VERTICAL);
+		layout.addView(loadingView);
+
+		CacheManager.getInstance(this).makeRequest(
+				new CacheRequest(
+						mUrl,
+						RedditAccountManager.getAnon(),
+						null,
+						Constants.Priority.IMAGE_VIEW,
+						0,
+						CacheRequest.DownloadType.IF_NECESSARY,
+						Constants.FileType.IMAGE,
+						false, false, false, this) {
+
+					private void setContentView(View v) {
+						layout.removeAllViews();
+						layout.addView(v);
+						v.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+						v.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+					}
+
+					@Override
+					protected void onCallbackException(Throwable t) {
+						BugReportActivity.handleGlobalError(context.getApplicationContext(), new RRError(null, null, t));
+					}
+
+					@Override
+					protected void onDownloadNecessary() {
+						loadingView.setIndeterminate(R.string.download_waiting);
+					}
+
+					@Override
+					protected void onDownloadStarted() {
+						loadingView.setIndeterminate(R.string.download_downloading);
+					}
+
+					@Override
+					protected void onFailure(final RequestFailureType type, Throwable t, StatusLine status, final String readableMessage) {
+
+						loadingView.setDone(R.string.download_failed);
+						final RRError error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
+
+						General.UI_THREAD_HANDLER.post(new Runnable() {
+							public void run() {
+								// TODO handle properly
+								layout.addView(new ErrorView(ImageViewActivity.this, error));
+							}
+						});
+					}
+
+					@Override
+					protected void onProgress(long bytesRead, long totalBytes) {
+						loadingView.setProgress(R.string.download_downloading, (float)((double)bytesRead / (double)totalBytes));
+					}
+
+					@Override
+					protected void onSuccess(final CacheManager.ReadableCacheFile cacheFile, long timestamp, UUID session, boolean fromCache, final String mimetype) {
+
+						if(mimetype == null || !Constants.Mime.isImage(mimetype)) {
+							revertToWeb();
+							return;
+						}
+
+						if(Constants.Mime.isImageGif(mimetype)) {
+
+							if(AndroidApi.isIceCreamSandwichOrLater()) {
+
+								General.UI_THREAD_HANDLER.post(new Runnable() {
+									public void run() {
+										try {
+											final GIFView gifView = new GIFView(ImageViewActivity.this, cacheFile.getInputStream());
+											setContentView(gifView);
+											gifView.setOnClickListener(new View.OnClickListener() {
+												public void onClick(View v) {
+													finish();
+												}
+											});
+										} catch(Exception e) {
+											General.quickToast(context, R.string.imageview_invalid_gif);
+											revertToWeb();
+										}
+									}
+								});
+
+							} else {
+
+								try {
+
+									gifThread = new GifDecoderThread(cacheFile.getInputStream(), new GifDecoderThread.OnGifLoadedListener() {
+
+										public void onGifLoaded() {
+											General.UI_THREAD_HANDLER.post(new Runnable() {
+												public void run() {
+													imageView = new ImageView(context);
+													imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+													setContentView(imageView);
+													gifThread.setView(imageView);
+
+													imageView.setOnClickListener(new View.OnClickListener() {
+														public void onClick(View v) {
+															finish();
+														}
+													});
+												}
+											});
+										}
+
+										public void onOutOfMemory() {
+											General.quickToast(context, R.string.imageview_oom);
+											revertToWeb();
+										}
+
+										public void onGifInvalid() {
+											General.quickToast(context, R.string.imageview_invalid_gif);
+											revertToWeb();
+										}
+									});
+
+									gifThread.start();
+
+								} catch(IOException e) {
+									throw new RuntimeException(e);
+								}
+							}
+
+						} else {
+
+							final long bytes = cacheFile.getSize();
+							final byte[] buf = new byte[(int)bytes];
+
+							try {
+								new DataInputStream(cacheFile.getInputStream()).readFully(buf);
+							} catch(IOException e) {
+								throw new RuntimeException(e);
+							}
+
+							final ImageTileSource imageTileSource;
+							try {
+								imageTileSource = new ImageTileSource(buf);
+							} catch(IOException e) {
+								General.quickToast(context, R.string.imageview_decode_failed);
+								revertToWeb();
+								return;
+							}
+
+							General.UI_THREAD_HANDLER.post(new Runnable() {
+								public void run() {
+
+									surfaceView = new RRGLSurfaceView(ImageViewActivity.this, new ImageViewDisplayListManager(imageTileSource, ImageViewActivity.this));
+									setContentView(surfaceView);
+
+									surfaceView.setOnClickListener(new View.OnClickListener() {
+										public void onClick(View v) {
+											finish();
+										}
+									});
+
+									if(mIsPaused) {
+										surfaceView.onPause();
+									} else {
+										surfaceView.onResume();
+									}
+								}
+							});
+						}
+					}
+				});
+
+		final RedditPreparedPost post = src_post == null ? null
+				: new RedditPreparedPost(this, CacheManager.getInstance(this), 0, src_post, -1, false,
+				false, false, false, RedditAccountManager.getInstance(this).getDefaultAccount());
+
+		final FrameLayout outerFrame = new FrameLayout(this);
+		outerFrame.addView(layout);
+
+		if(post != null) {
+
+			final SideToolbarOverlay toolbarOverlay = new SideToolbarOverlay(this);
+
+			final BezelSwipeOverlay bezelOverlay = new BezelSwipeOverlay(this, new BezelSwipeOverlay.BezelSwipeListener() {
+
+				public boolean onSwipe(BezelSwipeOverlay.SwipeEdge edge) {
+
+					toolbarOverlay.setContents(post.generateToolbar(ImageViewActivity.this, false, toolbarOverlay));
+					toolbarOverlay.show(edge == BezelSwipeOverlay.SwipeEdge.LEFT ?
+							SideToolbarOverlay.SideToolbarPosition.LEFT : SideToolbarOverlay.SideToolbarPosition.RIGHT);
+					return true;
+				}
+
+				public boolean onTap() {
+
+					if(toolbarOverlay.isShown()) {
+						toolbarOverlay.hide();
+						return true;
+					}
+
+					return false;
+				}
+			});
+
+			outerFrame.addView(bezelOverlay);
+			outerFrame.addView(toolbarOverlay);
+
+			bezelOverlay.getLayoutParams().width = android.widget.FrameLayout.LayoutParams.MATCH_PARENT;
+			bezelOverlay.getLayoutParams().height = android.widget.FrameLayout.LayoutParams.MATCH_PARENT;
+
+			toolbarOverlay.getLayoutParams().width = android.widget.FrameLayout.LayoutParams.MATCH_PARENT;
+			toolbarOverlay.getLayoutParams().height = android.widget.FrameLayout.LayoutParams.MATCH_PARENT;
+
+		}
+
+		setContentView(outerFrame);
 	}
 
 	public void onPostSelected(final RedditPreparedPost post) {
@@ -82,5 +328,81 @@ public class ImageViewActivity extends Activity implements RedditPostView.PostSe
 	@Override
 	public void onBackPressed() {
 		if(General.onBackPressed()) super.onBackPressed();
+	}
+
+	private void revertToWeb() {
+
+		final Runnable r = new Runnable() {
+			public void run() {
+				if(!mHaveReverted) {
+					mHaveReverted = true;
+					LinkHandler.onLinkClicked(ImageViewActivity.this, mUrl.toString(), true);
+					finish();
+				}
+			}
+		};
+
+		if(General.isThisUIThread()) {
+			r.run();
+		} else {
+			General.UI_THREAD_HANDLER.post(r);
+		}
+	}
+
+	@Override
+	public void onPause() {
+
+		if(mIsPaused) throw new RuntimeException();
+
+		mIsPaused = true;
+
+		Log.i("DEBUG", "ImageViewActivity.onPause()");
+		super.onPause();
+		if(surfaceView != null) {
+			Log.i("DEBUG", "surfaceView.onPause()");
+			surfaceView.onPause();
+		}
+	}
+
+	@Override
+	public void onResume() {
+
+		if(!mIsPaused) throw new RuntimeException();
+
+		mIsPaused = false;
+
+		Log.i("DEBUG", "ImageViewActivity.onResume()");
+		super.onResume();
+		if(surfaceView != null) {
+			Log.i("DEBUG", "surfaceView.onResume()");
+			surfaceView.onResume();
+		}
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		if(gifThread != null) gifThread.stopPlaying();
+	}
+
+	@Override
+	public void onSingleTap() {
+		finish();
+	}
+
+	@Override
+	public void onImageViewDLMOutOfMemory() {
+		if(!mHaveReverted) {
+			General.quickToast(this, R.string.imageview_oom);
+			revertToWeb();
+		}
+	}
+
+	@Override
+	public void onImageViewDLMException(Throwable t) {
+		if(!mHaveReverted) {
+			General.quickToast(this, R.string.imageview_decode_failed);
+			revertToWeb();
+		}
 	}
 }

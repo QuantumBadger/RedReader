@@ -20,8 +20,6 @@ package org.quantumbadger.redreader.activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.View;
@@ -215,7 +213,7 @@ public class PostSubmitActivity extends Activity {
 		final APIResponseHandler.ActionResponseHandler handler = new APIResponseHandler.ActionResponseHandler(this) {
 			@Override
 			protected void onSuccess() {
-				new Handler(Looper.getMainLooper()).post(new Runnable() {
+				General.UI_THREAD_HANDLER.post(new Runnable() {
 					public void run() {
 						if(progressDialog.isShowing()) progressDialog.dismiss();
 						General.quickToast(PostSubmitActivity.this, getString(R.string.post_submit_done));
@@ -234,7 +232,7 @@ public class PostSubmitActivity extends Activity {
 
 				final RRError error = General.getGeneralErrorForFailure(context, type, t, status, null);
 
-				new Handler(Looper.getMainLooper()).post(new Runnable() {
+				General.UI_THREAD_HANDLER.post(new Runnable() {
 					public void run() {
 						General.showResultDialog(PostSubmitActivity.this, error);
 						if(progressDialog.isShowing()) progressDialog.dismiss();
@@ -247,7 +245,7 @@ public class PostSubmitActivity extends Activity {
 
 				final RRError error = General.getGeneralErrorForFailure(context, type);
 
-				new Handler(Looper.getMainLooper()).post(new Runnable() {
+				General.UI_THREAD_HANDLER.post(new Runnable() {
 					public void run() {
 						General.showResultDialog(PostSubmitActivity.this, error);
 						if(progressDialog.isShowing()) progressDialog.dismiss();

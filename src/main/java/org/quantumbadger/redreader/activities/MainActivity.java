@@ -114,7 +114,7 @@ public class MainActivity extends RefreshableActivity
 		PackageInfo pInfo = null;
 		try {
 			pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-		} catch (PackageManager.NameNotFoundException e) {
+		} catch(PackageManager.NameNotFoundException e) {
 			throw new RuntimeException(e);
 		}
 

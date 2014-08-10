@@ -592,4 +592,7 @@
     <string name="karma_link">Link Karma</string>
     <string name="karma_comment">Comment Karma</string>
 
+    <!-- 2014-12-02 -->
+    <string name="imageview_decode_failed">Failed to decode image. Trying internal browser.</string>
+
 </resources>

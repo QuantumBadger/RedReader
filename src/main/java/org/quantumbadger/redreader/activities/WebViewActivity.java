@@ -123,4 +123,8 @@ public class WebViewActivity extends Activity implements RedditPostView.PostSele
 		menu.add(0, CLEAR_CACHE, 1, R.string.web_view_clear_cache);
 		return super.onCreateOptionsMenu(menu);
 	}
+
+	public String getCurrentUrl() {
+		return webView.getCurrentUrl();
+	}
 }

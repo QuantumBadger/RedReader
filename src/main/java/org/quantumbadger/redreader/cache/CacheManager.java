@@ -327,6 +327,10 @@ public final class CacheManager {
 		public String toString() {
 			return String.format("[ReadableCacheFile : id %d]", id);
 		}
+
+		public long getSize() {
+			return getExistingCacheFile(id).length();
+		}
 	}
 
 	public WritableCacheFile openNewCacheFile(final CacheRequest request, final UUID session, final String mimetype) throws IOException {

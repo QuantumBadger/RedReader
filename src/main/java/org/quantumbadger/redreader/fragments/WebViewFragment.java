@@ -228,7 +228,7 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 
 				public boolean onSwipe(BezelSwipeOverlay.SwipeEdge edge) {
 
-					toolbarOverlay.setContents(post.generateToolbar(context, WebViewFragment.this, toolbarOverlay));
+					toolbarOverlay.setContents(post.generateToolbar(getSupportActivity(), false, toolbarOverlay));
 					toolbarOverlay.show(edge == BezelSwipeOverlay.SwipeEdge.LEFT ?
 							SideToolbarOverlay.SideToolbarPosition.LEFT : SideToolbarOverlay.SideToolbarPosition.RIGHT);
 					return true;

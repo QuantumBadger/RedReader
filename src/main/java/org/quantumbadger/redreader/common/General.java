@@ -49,6 +49,8 @@ import java.util.regex.Pattern;
 
 public final class General {
 
+	public static final Handler UI_THREAD_HANDLER = new Handler(Looper.getMainLooper());
+
 	private static long lastBackPress = -1;
 
 	public static boolean onBackPressed() {
@@ -142,7 +144,7 @@ public final class General {
 	}
 
 	public static void quickToast(final Context context, final String text) {
-		new Handler(Looper.getMainLooper()).post(new Runnable() {
+		UI_THREAD_HANDLER.post(new Runnable() {
 			public void run() {
 				Toast.makeText(context, text, Toast.LENGTH_LONG).show();
 			}
@@ -150,7 +152,7 @@ public final class General {
 	}
 
 	public static void quickToast(final Context context, final String text, final int duration) {
-		new Handler(Looper.getMainLooper()).post(new Runnable() {
+		UI_THREAD_HANDLER.post(new Runnable() {
 			public void run() {
 				Toast.makeText(context, text, duration).show();
 			}
@@ -296,7 +298,7 @@ public final class General {
 
 	// TODO add button to show more detail
 	public static void showResultDialog(final Activity context, final RRError error) {
-		new Handler(Looper.getMainLooper()).post(new Runnable() {
+		UI_THREAD_HANDLER.post(new Runnable() {
 			public void run() {
 				final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
 				alertBuilder.setNeutralButton(R.string.dialog_close, null);
@@ -403,5 +405,19 @@ public final class General {
 		}
 
 		return Collections.unmodifiableSet(names);
+	}
+
+	public static int divideCeil(int num, int divisor) {
+		return (num + divisor - 1) / divisor;
+	}
+
+	public static void checkThisIsUIThread() {
+		if(!isThisUIThread()) {
+			throw new RuntimeException("Called from invalid thread");
+		}
+	}
+
+	public static boolean isThisUIThread() {
+		return Looper.getMainLooper().getThread() == Thread.currentThread();
 	}
 }

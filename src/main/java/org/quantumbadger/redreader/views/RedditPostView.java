@@ -170,10 +170,10 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 
 			if(xOffsetPixels > 0) {
 
-				RedditPreparedPost.onActionMenuItemSelected(post, fragmentParent, rightFlingAction.action);
+				RedditPreparedPost.onActionMenuItemSelected(post, fragmentParent.getSupportActivity(), rightFlingAction.action);
 				leftOverlayText.setCompoundDrawablesWithIntrinsicBounds(null, rrIconTick, null, null);
 			} else {
-				RedditPreparedPost.onActionMenuItemSelected(post, fragmentParent, leftFlingAction.action);
+				RedditPreparedPost.onActionMenuItemSelected(post, fragmentParent.getSupportActivity(), leftFlingAction.action);
 				rightOverlayText.setCompoundDrawablesWithIntrinsicBounds(null, rrIconTick, null, null);
 			}
 
@@ -375,7 +375,7 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 	}
 
 	public void rrOnLongClick() {
-		RedditPreparedPost.showActionMenu(getContext(), fragmentParent, post);
+		RedditPreparedPost.showActionMenu(fragmentParent.getSupportActivity(), post);
 	}
 
 	public void betterThumbnailAvailable(final Bitmap thumbnail, final int callbackUsageId) {

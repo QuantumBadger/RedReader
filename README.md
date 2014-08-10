@@ -59,7 +59,6 @@ Thanks
 
 Thanks to:
 
-* Jason Polites, for the [GestureImageView](https://github.com/jasonpolites/gesture-imageview) (Apache License 2.0)
 * Lawrence Dawson, for the [ActiveTextView](https://github.com/laurencedawson/activetextview) (Apache License 2.0)
 * tomorrowkey.jp, for the [GIF decoder](https://code.google.com/p/android-gifview/) (Apache License 2.0)
 * [HoloEverywhere](https://github.com/Prototik/HoloEverywhere) and [ActionBarSherlock](http://actionbarsherlock.com/)

@@ -25,6 +25,8 @@
     <uses-sdk android:minSdkVersion="8"
               android:targetSdkVersion="16" />
 
+    <uses-feature android:glEsVersion="0x00020000" android:required="true" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -100,6 +102,7 @@
                   android:configChanges="orientation|screenSize|keyboardHidden"/>
 
         <activity android:name=".activities.ImageViewActivity"
+                  android:configChanges="orientation|screenSize|keyboardHidden"
                   android:theme="@style/RR.Dark.NoActionBar"/>
 
         <activity android:name=".activities.CommentReplyActivity"

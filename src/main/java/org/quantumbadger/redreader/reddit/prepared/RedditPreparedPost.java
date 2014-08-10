@@ -37,23 +37,17 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.http.StatusLine;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.AlertDialog;
-import org.holoeverywhere.app.Fragment;
 import org.holoeverywhere.preference.PreferenceManager;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.activities.BugReportActivity;
-import org.quantumbadger.redreader.activities.CommentReplyActivity;
-import org.quantumbadger.redreader.activities.MainActivity;
-import org.quantumbadger.redreader.activities.PostListingActivity;
+import org.quantumbadger.redreader.activities.*;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.*;
-import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.fragments.PostPropertiesDialog;
 import org.quantumbadger.redreader.fragments.UserProfileDialog;
-import org.quantumbadger.redreader.fragments.WebViewFragment;
 import org.quantumbadger.redreader.image.ThumbnailScaler;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
@@ -162,58 +156,58 @@ public final class RedditPreparedPost {
 		rebuildSubtitle(context);
 	}
 
-	public static void showActionMenu(final Context context, final Fragment fragmentParent, final RedditPreparedPost post) {
+	public static void showActionMenu(final Activity activity, final RedditPreparedPost post) {
 
-		final EnumSet<Action> itemPref = PrefsUtility.pref_menus_post_context_items(context, PreferenceManager.getDefaultSharedPreferences(context));
+		final EnumSet<Action> itemPref = PrefsUtility.pref_menus_post_context_items(activity, PreferenceManager.getDefaultSharedPreferences(activity));
 
 		final ArrayList<RPVMenuItem> menu = new ArrayList<RPVMenuItem>();
 
-		if(!RedditAccountManager.getInstance(context).getDefaultAccount().isAnonymous()) {
+		if(!RedditAccountManager.getInstance(activity).getDefaultAccount().isAnonymous()) {
 
 			if(itemPref.contains(Action.UPVOTE)) {
 				if(!post.isUpvoted()) {
-					menu.add(new RPVMenuItem(context, R.string.action_upvote, Action.UPVOTE));
+					menu.add(new RPVMenuItem(activity, R.string.action_upvote, Action.UPVOTE));
 				} else {
-					menu.add(new RPVMenuItem(context, R.string.action_upvote_remove, Action.UNVOTE));
+					menu.add(new RPVMenuItem(activity, R.string.action_upvote_remove, Action.UNVOTE));
 				}
 			}
 
 			if(itemPref.contains(Action.DOWNVOTE)) {
 				if(!post.isDownvoted()) {
-					menu.add(new RPVMenuItem(context, R.string.action_downvote, Action.DOWNVOTE));
+					menu.add(new RPVMenuItem(activity, R.string.action_downvote, Action.DOWNVOTE));
 				} else {
-					menu.add(new RPVMenuItem(context, R.string.action_downvote_remove, Action.UNVOTE));
+					menu.add(new RPVMenuItem(activity, R.string.action_downvote_remove, Action.UNVOTE));
 				}
 			}
 
 			if(itemPref.contains(Action.SAVE)) {
 				if(!post.isSaved()) {
-					menu.add(new RPVMenuItem(context, R.string.action_save, Action.SAVE));
+					menu.add(new RPVMenuItem(activity, R.string.action_save, Action.SAVE));
 				} else {
-					menu.add(new RPVMenuItem(context, R.string.action_unsave, Action.UNSAVE));
+					menu.add(new RPVMenuItem(activity, R.string.action_unsave, Action.UNSAVE));
 				}
 			}
 
 			if(itemPref.contains(Action.HIDE)) {
 				if(!post.isHidden()) {
-					menu.add(new RPVMenuItem(context, R.string.action_hide, Action.HIDE));
+					menu.add(new RPVMenuItem(activity, R.string.action_hide, Action.HIDE));
 				} else {
-					menu.add(new RPVMenuItem(context, R.string.action_unhide, Action.UNHIDE));
+					menu.add(new RPVMenuItem(activity, R.string.action_unhide, Action.UNHIDE));
 				}
 			}
 
-			if(itemPref.contains(Action.REPORT)) menu.add(new RPVMenuItem(context, R.string.action_report, Action.REPORT));
+			if(itemPref.contains(Action.REPORT)) menu.add(new RPVMenuItem(activity, R.string.action_report, Action.REPORT));
 		}
 
-		if(itemPref.contains(Action.EXTERNAL)) menu.add(new RPVMenuItem(context, R.string.action_external, Action.EXTERNAL));
-		if(itemPref.contains(Action.SELFTEXT_LINKS) && post.src.selftext != null && post.src.selftext.length() > 1) menu.add(new RPVMenuItem(context, R.string.action_selftext_links, Action.SELFTEXT_LINKS));
-		if(itemPref.contains(Action.SAVE_IMAGE) && post.imageUrl != null) menu.add(new RPVMenuItem(context, R.string.action_save_image, Action.SAVE_IMAGE));
-		if(itemPref.contains(Action.GOTO_SUBREDDIT)) menu.add(new RPVMenuItem(context, R.string.action_gotosubreddit, Action.GOTO_SUBREDDIT));
-		if(itemPref.contains(Action.SHARE)) menu.add(new RPVMenuItem(context, R.string.action_share, Action.SHARE));
-		if(itemPref.contains(Action.SHARE_COMMENTS)) menu.add(new RPVMenuItem(context, R.string.action_share_comments, Action.SHARE_COMMENTS));
-		if(itemPref.contains(Action.COPY)) menu.add(new RPVMenuItem(context, R.string.action_copy, Action.COPY));
-		if(itemPref.contains(Action.USER_PROFILE)) menu.add(new RPVMenuItem(context, R.string.action_user_profile, Action.USER_PROFILE));
-		if(itemPref.contains(Action.PROPERTIES)) menu.add(new RPVMenuItem(context, R.string.action_properties, Action.PROPERTIES));
+		if(itemPref.contains(Action.EXTERNAL)) menu.add(new RPVMenuItem(activity, R.string.action_external, Action.EXTERNAL));
+		if(itemPref.contains(Action.SELFTEXT_LINKS) && post.src.selftext != null && post.src.selftext.length() > 1) menu.add(new RPVMenuItem(activity, R.string.action_selftext_links, Action.SELFTEXT_LINKS));
+		if(itemPref.contains(Action.SAVE_IMAGE) && post.imageUrl != null) menu.add(new RPVMenuItem(activity, R.string.action_save_image, Action.SAVE_IMAGE));
+		if(itemPref.contains(Action.GOTO_SUBREDDIT)) menu.add(new RPVMenuItem(activity, R.string.action_gotosubreddit, Action.GOTO_SUBREDDIT));
+		if(itemPref.contains(Action.SHARE)) menu.add(new RPVMenuItem(activity, R.string.action_share, Action.SHARE));
+		if(itemPref.contains(Action.SHARE_COMMENTS)) menu.add(new RPVMenuItem(activity, R.string.action_share_comments, Action.SHARE_COMMENTS));
+		if(itemPref.contains(Action.COPY)) menu.add(new RPVMenuItem(activity, R.string.action_copy, Action.COPY));
+		if(itemPref.contains(Action.USER_PROFILE)) menu.add(new RPVMenuItem(activity, R.string.action_user_profile, Action.USER_PROFILE));
+		if(itemPref.contains(Action.PROPERTIES)) menu.add(new RPVMenuItem(activity, R.string.action_properties, Action.PROPERTIES));
 
 		final String[] menuText = new String[menu.size()];
 
@@ -221,11 +215,11 @@ public final class RedditPreparedPost {
 			menuText[i] = menu.get(i).title;
 		}
 
-		final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
 		builder.setItems(menuText, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
-				onActionMenuItemSelected(post, fragmentParent, menu.get(which).action);
+				onActionMenuItemSelected(post, activity, menu.get(which).action);
 			}
 		});
 
@@ -237,9 +231,7 @@ public final class RedditPreparedPost {
 		alert.show();
 	}
 
-	public static void onActionMenuItemSelected(final RedditPreparedPost post, final Fragment fragmentParent, final Action action) {
-
-		final Activity activity = fragmentParent.getSupportActivity();
+	public static void onActionMenuItemSelected(final RedditPreparedPost post, final Activity activity, final Action action) {
 
 		switch(action) {
 
@@ -291,7 +283,7 @@ public final class RedditPreparedPost {
 
 			case EXTERNAL: {
 				final Intent intent = new Intent(Intent.ACTION_VIEW);
-                String url = (fragmentParent instanceof WebViewFragment) ? ((WebViewFragment) fragmentParent).getCurrentUrl() : post.url;
+                String url = (activity instanceof WebViewActivity) ? ((WebViewActivity) activity).getCurrentUrl() : post.url;
 				intent.setData(Uri.parse(url));
 				activity.startActivity(intent);
 				break;
@@ -437,25 +429,25 @@ public final class RedditPreparedPost {
 				break;
 
 			case COMMENTS:
-				((RedditPostView.PostSelectionListener)fragmentParent).onPostCommentsSelected(post);
+				((RedditPostView.PostSelectionListener)activity).onPostCommentsSelected(post);
 				break;
 
 			case LINK:
-				((RedditPostView.PostSelectionListener)fragmentParent).onPostSelected(post);
+				((RedditPostView.PostSelectionListener)activity).onPostSelected(post);
 				break;
 
 			case COMMENTS_SWITCH:
 				if(!(activity instanceof MainActivity)) activity.finish();
-				((RedditPostView.PostSelectionListener)fragmentParent).onPostCommentsSelected(post);
+				((RedditPostView.PostSelectionListener)activity).onPostCommentsSelected(post);
 				break;
 
 			case LINK_SWITCH:
 				if(!(activity instanceof MainActivity)) activity.finish();
-				((RedditPostView.PostSelectionListener)fragmentParent).onPostSelected(post);
+				((RedditPostView.PostSelectionListener)activity).onPostSelected(post);
 				break;
 
 			case ACTION_MENU:
-				showActionMenu(activity, fragmentParent, post);
+				showActionMenu(activity, post);
 				break;
 
 			case REPLY:
@@ -803,14 +795,14 @@ public final class RedditPreparedPost {
 		}
 	}
 
-	public VerticalToolbar generateToolbar(final Context context, final Fragment fragmentParent, final SideToolbarOverlay overlay) {
+	public VerticalToolbar generateToolbar(final Activity activity, boolean isComments, final SideToolbarOverlay overlay) {
 
-		final VerticalToolbar toolbar = new VerticalToolbar(context);
-		final EnumSet<Action> itemsPref = PrefsUtility.pref_menus_post_toolbar_items(context, PreferenceManager.getDefaultSharedPreferences(context));
+		final VerticalToolbar toolbar = new VerticalToolbar(activity);
+		final EnumSet<Action> itemsPref = PrefsUtility.pref_menus_post_toolbar_items(activity, PreferenceManager.getDefaultSharedPreferences(activity));
 
 		final Action[] possibleItems = {
 				Action.ACTION_MENU,
-				fragmentParent instanceof CommentListingFragment ? Action.LINK_SWITCH : Action.COMMENTS_SWITCH,
+				isComments ? Action.LINK_SWITCH : Action.COMMENTS_SWITCH,
 				Action.UPVOTE,
 				Action.DOWNVOTE,
 				Action.SAVE,
@@ -863,9 +855,9 @@ public final class RedditPreparedPost {
 
 			if(itemsPref.contains(action)) {
 
-				final FlatImageButton ib = new FlatImageButton(context);
+				final FlatImageButton ib = new FlatImageButton(activity);
 
-				final int buttonPadding = General.dpToPixels(context, 10);
+				final int buttonPadding = General.dpToPixels(activity, 10);
 				ib.setPadding(buttonPadding, buttonPadding, buttonPadding, buttonPadding);
 
 				if(action == Action.UPVOTE && isUpvoted()
@@ -908,7 +900,7 @@ public final class RedditPreparedPost {
 								break;
 						}
 
-						onActionMenuItemSelected(RedditPreparedPost.this, fragmentParent, actionToTake);
+						onActionMenuItemSelected(RedditPreparedPost.this, activity, actionToTake);
 						overlay.hide();
 					}
 				});

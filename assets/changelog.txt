@@ -1,5 +1,8 @@
 54/1.8.7
 Notifications for new inbox messages/comment replies (thanks to NoNeedToBail)
+Image view now shows all images at full resolution
+Double-tap to zoom supported in image view
+Double-tap-and-drag to zoom supported in image view
 
 53/1.8.6.5
 Added asterisk next to edited comments

@@ -264,7 +264,7 @@ public class CommentListingFragment extends Fragment
 
 				if(post == null) return false;
 
-				toolbarOverlay.setContents(post.generateToolbar(context, CommentListingFragment.this, toolbarOverlay));
+				toolbarOverlay.setContents(post.generateToolbar(getSupportActivity(), true, toolbarOverlay));
 				toolbarOverlay.show(edge == BezelSwipeOverlay.SwipeEdge.LEFT ?
 						SideToolbarOverlay.SideToolbarPosition.LEFT : SideToolbarOverlay.SideToolbarPosition.RIGHT);
 				return true;
@@ -547,7 +547,7 @@ public class CommentListingFragment extends Fragment
 					return;
 				}
 
-				RedditPreparedPost.showActionMenu(getSupportActivity(), CommentListingFragment.this, post);
+				RedditPreparedPost.showActionMenu(getSupportActivity(), post);
 			}
 		}
 	}

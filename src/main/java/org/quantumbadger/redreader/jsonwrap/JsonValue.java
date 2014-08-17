@@ -242,32 +242,6 @@ public final class JsonValue {
 	}
 	
 	/**
-	 * Continues the process of parsing the specified JSON stream.
-	 * 
-	 * This method will create a thread and parse the JSON stream in the background.
-	 */
-	public Thread buildInNewThread() {
-		
-		final Thread t = new Thread() {
-			public void run() {
-
-				android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
-
-				try {
-					buildInThisThread();
-				} catch (Throwable t) {
-					// Ignore it -- it'll show up again when another thread tries to access the value
-					t.printStackTrace();
-				}
-			}
-		};
-		
-		t.start();
-		
-		return t;
-	}
-	
-	/**
 	 * @return The type of value this JsonValue contains.
 	 */
 	public Type getType() {

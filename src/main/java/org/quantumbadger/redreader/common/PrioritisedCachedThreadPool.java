@@ -81,7 +81,7 @@ public class PrioritisedCachedThreadPool {
 						mIdleThreads++;
 
 						try {
-							mTasks.wait(10000);
+							mTasks.wait(30000);
 						} catch(InterruptedException e) {
 							throw new RuntimeException(e);
 						} finally {

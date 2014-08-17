@@ -212,21 +212,13 @@ public final class CacheDownload {
 
 			try {
 				value = new JsonValue(bis);
-				value.buildInNewThread();
 
-			} catch (Throwable t) {
-				t.printStackTrace();
-				notifyAllOnFailure(RequestFailureType.PARSE, t, null, "Error parsing the JSON stream");
-				return;
-			}
+				synchronized(this) {
+					this.value = value;
+					notifyAllOnJsonParseStarted(value, RRTime.utcCurrentTimeMillis(), session);
+				}
 
-			synchronized(this) {
-				this.value = value;
-				notifyAllOnJsonParseStarted(value, RRTime.utcCurrentTimeMillis(), session);
-			}
-
-			try {
-				value.join();
+				value.buildInThisThread();
 
 			} catch (Throwable t) {
 				t.printStackTrace();
@@ -331,21 +323,13 @@ public final class CacheDownload {
 
 			try {
 				value = new JsonValue(bis);
-				value.buildInNewThread();
 
-			} catch (Throwable t) {
-				t.printStackTrace();
-				notifyAllOnFailure(RequestFailureType.PARSE, t, null, "Error parsing the JSON stream");
-				return;
-			}
+				synchronized(this) {
+					this.value = value;
+					notifyAllOnJsonParseStarted(value, RRTime.utcCurrentTimeMillis(), session);
+				}
 
-			synchronized(this) {
-				this.value = value;
-				notifyAllOnJsonParseStarted(value, RRTime.utcCurrentTimeMillis(), session);
-			}
-
-			try {
-				value.join();
+				value.buildInThisThread();
 
 			} catch (Throwable t) {
 				t.printStackTrace();

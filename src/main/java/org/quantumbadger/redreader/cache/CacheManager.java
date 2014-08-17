@@ -67,7 +67,7 @@ public final class CacheManager {
 	private final PrioritisedDownloadQueue downloadQueue;
 
 	private final LinkedList<CacheDownloadThread> downloadThreads = new LinkedList<CacheDownloadThread>();
-	private final PrioritisedCachedThreadPool mDiskCacheThreadPool = new PrioritisedCachedThreadPool(1, "Disk Cache");
+	private final PrioritisedCachedThreadPool mDiskCacheThreadPool = new PrioritisedCachedThreadPool(2, "Disk Cache");
 
 	private final Context context;
 
@@ -472,11 +472,10 @@ public final class CacheManager {
 
 					if(request.isJson) {
 
-						final JsonValue value;
-
 						try {
-							value = new JsonValue(getCacheFileInputStream(entry.id));
-							value.buildInNewThread();
+							final JsonValue value = new JsonValue(getCacheFileInputStream(entry.id));
+							request.notifyJsonParseStarted(value, entry.timestamp, entry.session, true);
+							value.buildInThisThread();
 
 						} catch(Throwable t) {
 							dbManager.delete(entry.id);
@@ -490,8 +489,6 @@ public final class CacheManager {
 
 							return;
 						}
-
-						request.notifyJsonParseStarted(value, entry.timestamp, entry.session, true);
 					}
 
 					request.notifySuccess(new ReadableCacheFile(entry.id), entry.timestamp, entry.session, true, entry.mimetype);

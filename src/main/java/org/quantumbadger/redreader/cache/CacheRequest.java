@@ -23,6 +23,7 @@ import org.apache.http.StatusLine;
 import org.apache.http.client.CookieStore;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
+import org.quantumbadger.redreader.common.PrioritisedCachedThreadPool;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
@@ -31,6 +32,8 @@ import java.util.List;
 import java.util.UUID;
 
 public abstract class CacheRequest implements Comparable<CacheRequest> {
+
+	private static final PrioritisedCachedThreadPool JSON_NOTIFY_THREADS = new PrioritisedCachedThreadPool(2, "JSON notify");
 
 	public final URI url;
 	public final RedditAccount user;
@@ -207,10 +210,9 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 
 	public final void notifyJsonParseStarted(final JsonValue result, final long timestamp, final UUID session, final boolean fromCache) {
 
-		new Thread() {
+		JSON_NOTIFY_THREADS.add(new PrioritisedCachedThreadPool.Task(priority, listId) {
 			@Override
 			public void run() {
-				android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
 
 				try {
 					onJsonParseStarted(result, timestamp, session, fromCache);
@@ -223,7 +225,7 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 					}
 				}
 			}
-		}.start();
+		});
 	}
 
 	public final void notifyDownloadNecessary() {

@@ -69,7 +69,6 @@ import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.prepared.markdown.MarkdownParser;
 import org.quantumbadger.redreader.reddit.things.RedditComment;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
-import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.things.RedditThing;
 import org.quantumbadger.redreader.views.RedditCommentView;
 import org.quantumbadger.redreader.views.RedditPostHeaderView;
@@ -396,8 +395,6 @@ public class CommentListingFragment extends Fragment
 						final RedditPost post = postThing.asPost();
 
 						// TODO show upvote/downvote/etc buttons
-
-						final RedditSubreddit parentSubreddit = new RedditSubreddit("/r/" + post.subreddit, post.subreddit, false);
 
 						CommentListingFragment.this.post = new RedditPreparedPost(context, cm, 0, post, timestamp, true, false, false, false, user);
 

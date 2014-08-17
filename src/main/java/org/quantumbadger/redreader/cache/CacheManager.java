@@ -141,7 +141,10 @@ public final class CacheManager {
 		requestHandler.start();
 
 		for(int i = 0; i < 5; i++) { // TODO remove constant --- customizable
-			final CacheDownloadThread downloadThread = new CacheDownloadThread(downloadQueue, true);
+			final CacheDownloadThread downloadThread = new CacheDownloadThread(
+					downloadQueue,
+					true,
+					"Cache Download Thread " + i);
 			downloadThreads.add(downloadThread);
 		}
 	}
@@ -380,6 +383,10 @@ public final class CacheManager {
 	}
 
 	private class RequestHandlerThread extends Thread {
+
+		public RequestHandlerThread() {
+			super("Request Handler Thread");
+		}
 
 		@Override
 		public void run() {

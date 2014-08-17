@@ -24,11 +24,17 @@ final class CacheDownloadThread extends Thread {
 	private final PrioritisedDownloadQueue queue;
 	private final CacheDownload singleDownload;
 
-	public CacheDownloadThread(final PrioritisedDownloadQueue queue, final boolean start) {
-		this(queue, null, start);
+	public CacheDownloadThread(final PrioritisedDownloadQueue queue, final boolean start, final String name) {
+		this(queue, null, start, name);
 	}
 
-	public CacheDownloadThread(final PrioritisedDownloadQueue queue, final CacheDownload singleDownload, final boolean start) {
+	public CacheDownloadThread(
+			final PrioritisedDownloadQueue queue,
+			final CacheDownload singleDownload,
+			final boolean start,
+			final String name) {
+
+		super(name);
 		this.queue = queue;
 		this.singleDownload = singleDownload;
 		if(start) start();

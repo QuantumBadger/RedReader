@@ -84,7 +84,7 @@ class PrioritisedDownloadQueue {
 			}
 
 			downloadsInProgress.put(identifier, download);
-			new CacheDownloadThread(this, download, true);
+			new CacheDownloadThread(this, download, true, "Cache Download Thread: High Priority");
 
 			return;
 		}
@@ -158,6 +158,11 @@ class PrioritisedDownloadQueue {
 	}
 
 	private class RedditQueueProcessor extends Thread {
+
+		public RedditQueueProcessor() {
+			super("Reddit Queue Processor");
+		}
+
 		@Override
 		public void run() {
 
@@ -167,7 +172,7 @@ class PrioritisedDownloadQueue {
 
 				synchronized(this) {
 					final CacheDownload download = getNextRedditInQueue();
-					new CacheDownloadThread(PrioritisedDownloadQueue.this, download, true);
+					new CacheDownloadThread(PrioritisedDownloadQueue.this, download, true, "Cache Download Thread: Reddit");
 				}
 
 				try {

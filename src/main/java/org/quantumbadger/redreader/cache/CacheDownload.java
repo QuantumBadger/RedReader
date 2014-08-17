@@ -24,6 +24,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.protocol.ClientContext;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HTTP;
@@ -41,26 +42,21 @@ import java.util.UUID;
 
 public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 
-	public final CacheRequest initiator;
+	private final CacheRequest mInitiator;
 	private final CacheManager manager;
 	private final UUID session;
 
-	private boolean cancelled = false;
-	private HttpGet httpGet = null;
+	private volatile boolean mCancelled = false;
+	private final HttpRequestBase mHttpRequest;
 
-	private boolean success = false;
-	private CacheManager.WritableCacheFile cacheFile = null;
-
-	private String mimetype;
-
-	private final PrioritisedDownloadQueue queue;
+	private final PrioritisedDownloadQueue mQueue;
 
 	public CacheDownload(final CacheRequest initiator, final CacheManager manager, final PrioritisedDownloadQueue queue) {
 
-		this.initiator = initiator;
+		this.mInitiator = initiator;
 
 		this.manager = manager;
-		this.queue = queue;
+		this.mQueue = queue;
 
 		if(!initiator.setDownload(this)) {
 			cancel();
@@ -71,208 +67,131 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 		} else {
 			session = UUID.randomUUID();
 		}
+
+		if(mInitiator.postFields != null) {
+			final HttpPost httpPost = new HttpPost(mInitiator.url);
+			mHttpRequest = httpPost;
+			try {
+				httpPost.setEntity(new UrlEncodedFormEntity(mInitiator.postFields, HTTP.UTF_8));
+			} catch(UnsupportedEncodingException e) {
+				BugReportActivity.handleGlobalError(initiator.context, e);
+			}
+
+		} else {
+			mHttpRequest = new HttpGet(mInitiator.url);
+		}
 	}
 
 	public synchronized void cancel() {
 
-		cancelled = true;
+		mCancelled = true;
 
 		new Thread() {
 			public void run() {
-				if(httpGet != null) httpGet.abort();
-				initiator.notifyFailure(RequestFailureType.CANCELLED, null, null, "Cancelled");
+				mHttpRequest.abort();
+				mInitiator.notifyFailure(RequestFailureType.CANCELLED, null, null, "Cancelled");
 			}
 		}.start();
 	}
 
 	public void doDownload() {
 
-		if(cancelled) {
+		if(mCancelled) {
 			return;
 		}
 
-		initiator.notifyDownloadStarted();
+		try {
+			mInitiator.notifyDownloadStarted();
+			performDownload(mQueue.getHttpClient(), mHttpRequest);
 
-		if(initiator.postFields != null) {
-
-			try {
-				downloadPost(queue.getHttpClient());
-			} catch(Throwable t) {
-				BugReportActivity.handleGlobalError(initiator.context, t);
-			}
-
-		} else {
-
-			try {
-				downloadGet(queue.getHttpClient());
-			} catch(Throwable t) {
-				BugReportActivity.handleGlobalError(initiator.context, t);
-			} finally {
-				finishGet();
-			}
+		} catch(Throwable t) {
+			BugReportActivity.handleGlobalError(mInitiator.context, t);
 		}
 	}
 
-	// TODO merge with downloadGet
-	private void downloadPost(final HttpClient httpClient) {
+	private void performDownload(final HttpClient httpClient, final HttpRequestBase httpRequest) {
 
-		final HttpPost httpPost = new HttpPost(initiator.url);
-
-		try {
-			httpPost.setEntity(new UrlEncodedFormEntity(initiator.postFields, HTTP.UTF_8));
-		} catch (UnsupportedEncodingException e) {
-			BugReportActivity.handleGlobalError(initiator.context, e);
-			return;
-		}
+		if(mInitiator.isJson) httpRequest.setHeader("Accept-Encoding", "gzip");
 
 		final HttpContext localContext = new BasicHttpContext();
-		localContext.setAttribute(ClientContext.COOKIE_STORE, initiator.getCookies());
+		localContext.setAttribute(ClientContext.COOKIE_STORE, mInitiator.getCookies());
 
 		final HttpResponse response;
 		final StatusLine status;
 
 		try {
-			response = httpClient.execute(httpPost, localContext);
+			if(mCancelled) {
+				mInitiator.notifyFailure(RequestFailureType.CANCELLED, null, null, "Cancelled");
+				return;
+			}
+			response = httpClient.execute(httpRequest, localContext);
 			status = response.getStatusLine();
 
 		} catch(Throwable t) {
 			t.printStackTrace();
-			initiator.notifyFailure(RequestFailureType.CONNECTION, t, null, "Unable to open a connection");
+			mInitiator.notifyFailure(RequestFailureType.CONNECTION, t, null, "Unable to open a connection");
 			return;
 		}
 
 		if(status.getStatusCode() != 200) {
-			initiator.notifyFailure(RequestFailureType.REQUEST, null, status, String.format("HTTP error %d (%s)", status.getStatusCode(), status.getReasonPhrase()));
+			mInitiator.notifyFailure(RequestFailureType.REQUEST, null, status, String.format("HTTP error %d (%s)", status.getStatusCode(), status.getReasonPhrase()));
+			return;
+		}
+
+		if(mCancelled) {
+			mInitiator.notifyFailure(RequestFailureType.CANCELLED, null, null, "Cancelled");
 			return;
 		}
 
 		final HttpEntity entity = response.getEntity();
 
 		if(entity == null) {
-			initiator.notifyFailure(RequestFailureType.CONNECTION, null, status, "Did not receive a valid HTTP response");
+			mInitiator.notifyFailure(RequestFailureType.CONNECTION, null, status, "Did not receive a valid HTTP response");
 			return;
 		}
 
 		final InputStream is;
 
-		try {
-			is = entity.getContent();
-		} catch (Throwable t) {
-			t.printStackTrace();
-			initiator.notifyFailure(RequestFailureType.CONNECTION, t, status, "Could not open an input stream");
-			return;
-		}
-
-		if(initiator.isJson) {
-
-			final BufferedInputStream bis = new BufferedInputStream(is, 8 * 1024);
-
-			final JsonValue value;
-
-			try {
-				value = new JsonValue(bis);
-
-				synchronized(this) {
-					initiator.notifyJsonParseStarted(value, RRTime.utcCurrentTimeMillis(), session, false);
-				}
-
-				value.buildInThisThread();
-
-			} catch (Throwable t) {
-				t.printStackTrace();
-				initiator.notifyFailure(RequestFailureType.PARSE, t, null, "Error parsing the JSON stream");
-				return;
-			}
-
-			success = true;
-
-		} else {
-			throw new RuntimeException("POST requests must be for JSON values");
-		}
-
-	}
-
-	private void downloadGet(final HttpClient httpClient) {
-
-		httpGet = new HttpGet(initiator.url);
-		if(initiator.isJson) httpGet.setHeader("Accept-Encoding", "gzip");
-
-		final HttpContext localContext = new BasicHttpContext();
-		localContext.setAttribute(ClientContext.COOKIE_STORE, initiator.getCookies());
-
-		final HttpResponse response;
-		final StatusLine status;
-
-		try {
-			if(cancelled) {
-				initiator.notifyFailure(RequestFailureType.CANCELLED, null, null, "Cancelled");
-				return;
-			}
-			response = httpClient.execute(httpGet, localContext);
-			status = response.getStatusLine();
-
-		} catch(Throwable t) {
-			t.printStackTrace();
-			initiator.notifyFailure(RequestFailureType.CONNECTION, t, null, "Unable to open a connection");
-			return;
-		}
-
-		if(status.getStatusCode() != 200) {
-			initiator.notifyFailure(RequestFailureType.REQUEST, null, status, String.format("HTTP error %d (%s)", status.getStatusCode(), status.getReasonPhrase()));
-			return;
-		}
-
-		if(cancelled) {
-			initiator.notifyFailure(RequestFailureType.CANCELLED, null, null, "Cancelled");
-			return;
-		}
-
-		final HttpEntity entity = response.getEntity();
-
-		if(entity == null) {
-			initiator.notifyFailure(RequestFailureType.CONNECTION, null, status, "Did not receive a valid HTTP response");
-			return;
-		}
-
-		final InputStream is;
-
+		final String mimetype;
 		try {
 			is = entity.getContent();
 			mimetype = entity.getContentType() == null ? null : entity.getContentType().getValue();
 		} catch (Throwable t) {
 			t.printStackTrace();
-			initiator.notifyFailure(RequestFailureType.CONNECTION, t, status, "Could not open an input stream");
+			mInitiator.notifyFailure(RequestFailureType.CONNECTION, t, status, "Could not open an input stream");
 			return;
 		}
 
 		final NotifyOutputStream cacheOs;
-		if(initiator.cache) {
+		final CacheManager.WritableCacheFile cacheFile;
+		if(mInitiator.cache) {
 			try {
-				cacheFile = manager.openNewCacheFile(initiator, session, mimetype);
+				cacheFile = manager.openNewCacheFile(mInitiator, session, mimetype);
 				cacheOs = cacheFile.getOutputStream();
 			} catch (IOException e) {
 				e.printStackTrace();
-				initiator.notifyFailure(RequestFailureType.STORAGE, e, null, "Could not access the local cache");
+				mInitiator.notifyFailure(RequestFailureType.STORAGE, e, null, "Could not access the local cache");
 				return;
 			}
 		} else {
 			cacheOs = null;
+			cacheFile = null;
 		}
 
 		final long contentLength = entity.getContentLength();
 
-		if(initiator.isJson) {
+		if(mInitiator.isJson) {
 
 			final InputStream bis;
 
-			if(initiator.cache) {
-				final CachingInputStream cis = new CachingInputStream(is, cacheOs, new CachingInputStream.BytesReadListener() {
-					public void onBytesRead(final long total) {
-						initiator.notifyProgress(total, contentLength);
-					}
-				});
+			if(mInitiator.cache) {
 
-				bis = new BufferedInputStream(cis, 8 * 1024);
+				bis = new BufferedInputStream(new CachingInputStream(is, cacheOs, new CachingInputStream.BytesReadListener() {
+					public void onBytesRead(final long total) {
+						mInitiator.notifyProgress(total, contentLength);
+					}
+				}), 8 * 1024);
+
 			} else {
 				bis = new BufferedInputStream(is, 8 * 1024);
 			}
@@ -283,23 +202,33 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 				value = new JsonValue(bis);
 
 				synchronized(this) {
-					initiator.notifyJsonParseStarted(value, RRTime.utcCurrentTimeMillis(), session, false);
+					mInitiator.notifyJsonParseStarted(value, RRTime.utcCurrentTimeMillis(), session, false);
 				}
 
 				value.buildInThisThread();
 
 			} catch (Throwable t) {
 				t.printStackTrace();
-				initiator.notifyFailure(RequestFailureType.PARSE, t, null, "Error parsing the JSON stream");
+				mInitiator.notifyFailure(RequestFailureType.PARSE, t, null, "Error parsing the JSON stream");
 				return;
 			}
 
-			success = true;
+			if(mInitiator.cache && cacheFile != null) {
+				try {
+					mInitiator.notifySuccess(cacheFile.getReadableCacheFile(), RRTime.utcCurrentTimeMillis(), session, false, mimetype);
+				} catch(IOException e) {
+					if(e.getMessage().contains("ENOSPC")) {
+						mInitiator.notifyFailure(RequestFailureType.DISK_SPACE, e, null, "Out of disk space");
+					} else {
+						mInitiator.notifyFailure(RequestFailureType.STORAGE, e, null, "Cache file not found");
+					}
+				}
+			}
 
 		} else {
 
-			if(!initiator.cache) {
-				BugReportActivity.handleGlobalError(initiator.context, "Cache disabled for non-JSON request");
+			if(!mInitiator.cache) {
+				BugReportActivity.handleGlobalError(mInitiator.context, "Cache disabled for non-JSON request");
 				return;
 			}
 
@@ -311,64 +240,37 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 				while((bytesRead = is.read(buf)) > 0) {
 					totalBytesRead += bytesRead;
 					cacheOs.write(buf, 0, bytesRead);
-					initiator.notifyProgress(totalBytesRead, contentLength);
+					mInitiator.notifyProgress(totalBytesRead, contentLength);
 				}
 
 				cacheOs.flush();
 				cacheOs.close();
-				success = true;
 
 			} catch(IOException e) {
 
 				if(e.getMessage() != null && e.getMessage().contains("ENOSPC")) {
-					initiator.notifyFailure(RequestFailureType.STORAGE, e, null, "Out of disk space");
+					mInitiator.notifyFailure(RequestFailureType.STORAGE, e, null, "Out of disk space");
 
 				} else {
 					e.printStackTrace();
-					initiator.notifyFailure(RequestFailureType.CONNECTION, e, null, "The connection was interrupted");
+					mInitiator.notifyFailure(RequestFailureType.CONNECTION, e, null, "The connection was interrupted");
 				}
 
 			} catch(Throwable t) {
 				t.printStackTrace();
-				initiator.notifyFailure(RequestFailureType.CONNECTION, t, null, "The connection was interrupted");
-			}
-		}
-	}
-
-	private synchronized void finishGet() {
-
-		if(success && initiator.cache) {
-
-			if(cacheFile == null) {
-				throw new RuntimeException("Cache file was null, but success was true");
-			}
-
-			if(session == null) {
-				throw new RuntimeException("Session was null, but success was true");
-			}
-
-			try {
-				initiator.notifySuccess(cacheFile.getReadableCacheFile(), RRTime.utcCurrentTimeMillis(), session, false, mimetype);
-
-			} catch(IOException e) {
-				e.printStackTrace();
-				if(e.getMessage().contains("ENOSPC")) {
-					initiator.notifyFailure(RequestFailureType.DISK_SPACE, e, null, "Out of disk space");
-				} else {
-					initiator.notifyFailure(RequestFailureType.STORAGE, e, null, "Out of disk space");
-				}
+				mInitiator.notifyFailure(RequestFailureType.CONNECTION, t, null, "The connection was interrupted");
 			}
 		}
 	}
 
 	@Override
 	public int getPrimaryPriority() {
-		return initiator.priority;
+		return mInitiator.priority;
 	}
 
 	@Override
 	public int getSecondaryPriority() {
-		return initiator.listId;
+		return mInitiator.listId;
 	}
 
 	@Override

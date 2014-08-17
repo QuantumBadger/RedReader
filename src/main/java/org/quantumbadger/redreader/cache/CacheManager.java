@@ -65,8 +65,6 @@ public final class CacheManager {
 	private final UniqueSynchronizedQueue<Long> fileDeletionQueue = new UniqueSynchronizedQueue<Long>();
 
 	private final PrioritisedDownloadQueue downloadQueue;
-
-	private final LinkedList<CacheDownloadThread> downloadThreads = new LinkedList<CacheDownloadThread>();
 	private final PrioritisedCachedThreadPool mDiskCacheThreadPool = new PrioritisedCachedThreadPool(2, "Disk Cache");
 
 	private final Context context;
@@ -135,14 +133,6 @@ public final class CacheManager {
 		downloadQueue = new PrioritisedDownloadQueue(defaultHttpClient);
 
 		requestHandler.start();
-
-		for(int i = 0; i < 5; i++) { // TODO remove constant --- customizable
-			final CacheDownloadThread downloadThread = new CacheDownloadThread(
-					downloadQueue,
-					true,
-					"Cache Download Thread " + i);
-			downloadThreads.add(downloadThread);
-		}
 	}
 
 	private Long isCacheFile(final String file) {
@@ -466,7 +456,18 @@ public final class CacheManager {
 				return;
 			}
 
-			mDiskCacheThreadPool.add(new PrioritisedCachedThreadPool.Task(request.priority, request.listId) {
+			mDiskCacheThreadPool.add(new PrioritisedCachedThreadPool.Task() {
+
+				@Override
+				public int getPrimaryPriority() {
+					return request.priority;
+				}
+
+				@Override
+				public int getSecondaryPriority() {
+					return request.listId;
+				}
+
 				@Override
 				public void run() {
 

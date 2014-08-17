@@ -17,54 +17,22 @@
 
 package org.quantumbadger.redreader.cache;
 
-import org.quantumbadger.redreader.activities.BugReportActivity;
-
 final class CacheDownloadThread extends Thread {
-
-	private final PrioritisedDownloadQueue queue;
 	private final CacheDownload singleDownload;
 
-	public CacheDownloadThread(final PrioritisedDownloadQueue queue, final boolean start, final String name) {
-		this(queue, null, start, name);
-	}
-
 	public CacheDownloadThread(
-			final PrioritisedDownloadQueue queue,
 			final CacheDownload singleDownload,
 			final boolean start,
 			final String name) {
 
 		super(name);
-		this.queue = queue;
 		this.singleDownload = singleDownload;
 		if(start) start();
 	}
 
 	@Override
 	public void run() {
-
 		android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
-
-		if(singleDownload != null) {
-			singleDownload.doDownload();
-
-		} else {
-
-			while(true) {
-
-				CacheDownload download = null;
-
-				try {
-					download = queue.getNextInQueue();
-					download.doDownload();
-				} catch(Throwable t) {
-					if(download != null) {
-						BugReportActivity.handleGlobalError(download.initiator.context, t);
-					} else {
-						t.printStackTrace();
-					}
-				}
-			}
-		}
+		singleDownload.doDownload();
 	}
 }

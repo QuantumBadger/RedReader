@@ -55,7 +55,6 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 	private CacheDownload download;
 	private boolean cancelled;
 
-	public final boolean cancelExisting;
 	public final Context context;
 
 	public enum DownloadType {
@@ -123,7 +122,6 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 		this.isJson = isJson;
 		this.postFields = postFields;
 		this.cache = cache;
-		this.cancelExisting = cancelExisting;
 
 		if(url == null) {
 			notifyFailure(RequestFailureType.MALFORMED_URL, null, null, "Malformed URL");
@@ -210,7 +208,18 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 
 	public final void notifyJsonParseStarted(final JsonValue result, final long timestamp, final UUID session, final boolean fromCache) {
 
-		JSON_NOTIFY_THREADS.add(new PrioritisedCachedThreadPool.Task(priority, listId) {
+		JSON_NOTIFY_THREADS.add(new PrioritisedCachedThreadPool.Task() {
+
+			@Override
+			public int getPrimaryPriority() {
+				return priority;
+			}
+
+			@Override
+			public int getSecondaryPriority() {
+				return listId;
+			}
+
 			@Override
 			public void run() {
 

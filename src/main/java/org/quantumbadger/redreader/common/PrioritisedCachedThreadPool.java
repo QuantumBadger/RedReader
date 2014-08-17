@@ -50,18 +50,13 @@ public class PrioritisedCachedThreadPool {
 
 	public static abstract class Task {
 
-		private final int mPrimaryPriority;
-		private final int mSecondaryPriority;
-
-		protected Task(int mPrimaryPriority, int mSecondaryPriority) {
-			this.mPrimaryPriority = mPrimaryPriority;
-			this.mSecondaryPriority = mSecondaryPriority;
-		}
-
 		public boolean isHigherPriorityThan(Task o) {
-			return mPrimaryPriority < o.mPrimaryPriority || mSecondaryPriority < o.mSecondaryPriority;
+			return getPrimaryPriority() < o.getPrimaryPriority()
+					|| getSecondaryPriority() < o.getSecondaryPriority();
 		}
 
+		public abstract int getPrimaryPriority();
+		public abstract int getSecondaryPriority();
 		public abstract void run();
 	}
 

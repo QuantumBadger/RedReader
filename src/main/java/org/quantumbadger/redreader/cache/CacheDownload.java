@@ -29,6 +29,7 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.protocol.HttpContext;
 import org.quantumbadger.redreader.activities.BugReportActivity;
+import org.quantumbadger.redreader.common.PrioritisedCachedThreadPool;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
@@ -36,26 +37,20 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.util.LinkedList;
 import java.util.UUID;
 
-// TODO notify late joiners of latest progress
-public final class CacheDownload {
+public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 
 	public final CacheRequest initiator;
 	private final CacheManager manager;
-	private final LinkedList<CacheRequest> lateJoiners = new LinkedList<CacheRequest>();
 	private final UUID session;
 
 	private boolean cancelled = false;
 	private HttpGet httpGet = null;
 
-	private volatile CacheRequest highestPriorityReq;
-
 	private boolean success = false;
 	private CacheManager.WritableCacheFile cacheFile = null;
 
-	private JsonValue value = null;
 	private String mimetype;
 
 	private final PrioritisedDownloadQueue queue;
@@ -66,7 +61,6 @@ public final class CacheDownload {
 
 		this.manager = manager;
 		this.queue = queue;
-		highestPriorityReq = initiator;
 
 		if(!initiator.setDownload(this)) {
 			cancel();
@@ -86,50 +80,18 @@ public final class CacheDownload {
 		new Thread() {
 			public void run() {
 				if(httpGet != null) httpGet.abort();
-				queue.exterminateDownload(CacheDownload.this);
-				notifyAllOnFailure(RequestFailureType.CANCELLED, null, null, "Cancelled");
+				initiator.notifyFailure(RequestFailureType.CANCELLED, null, null, "Cancelled");
 			}
 		}.start();
-	}
-
-	// TODO potential concurrency problem -- late joiner may be added after failure
-	public synchronized void addLateJoiner(final CacheRequest request) {
-
-		if(cancelled) {
-			request.notifyFailure(RequestFailureType.CANCELLED, null, null, "Cancelled");
-			return;
-		}
-
-		if(!request.setDownload(this)) {
-			notifyAllOnFailure(RequestFailureType.CANCELLED, null, null, "Cancelled");
-			return;
-		}
-
-		if(request.isJson != initiator.isJson) {
-			BugReportActivity.handleGlobalError(request.context, "Late joiner disagrees with initiator on JSON type");
-			return;
-		}
-
-		lateJoiners.add(request);
-
-		if(request.isHigherPriorityThan(highestPriorityReq)) {
-			highestPriorityReq = request;
-		}
-
-		if(request.isJson) {
-			if(value != null) request.notifyJsonParseStarted(value, RRTime.utcCurrentTimeMillis(), session, false);
-		}
 	}
 
 	public void doDownload() {
 
 		if(cancelled) {
-			queue.removeDownload(this);
-			notifyAllOnFailure(RequestFailureType.CANCELLED, null, null, "Cancelled");
 			return;
 		}
 
-		notifyAllDownloadStarted();
+		initiator.notifyDownloadStarted();
 
 		if(initiator.postFields != null) {
 
@@ -137,8 +99,6 @@ public final class CacheDownload {
 				downloadPost(queue.getHttpClient());
 			} catch(Throwable t) {
 				BugReportActivity.handleGlobalError(initiator.context, t);
-			} finally {
-				queue.removeDownload(this);
 			}
 
 		} else {
@@ -148,7 +108,6 @@ public final class CacheDownload {
 			} catch(Throwable t) {
 				BugReportActivity.handleGlobalError(initiator.context, t);
 			} finally {
-				queue.removeDownload(this);
 				finishGet();
 			}
 		}
@@ -178,19 +137,19 @@ public final class CacheDownload {
 
 		} catch(Throwable t) {
 			t.printStackTrace();
-			notifyAllOnFailure(RequestFailureType.CONNECTION, t, null, "Unable to open a connection");
+			initiator.notifyFailure(RequestFailureType.CONNECTION, t, null, "Unable to open a connection");
 			return;
 		}
 
 		if(status.getStatusCode() != 200) {
-			notifyAllOnFailure(RequestFailureType.REQUEST, null, status, String.format("HTTP error %d (%s)", status.getStatusCode(), status.getReasonPhrase()));
+			initiator.notifyFailure(RequestFailureType.REQUEST, null, status, String.format("HTTP error %d (%s)", status.getStatusCode(), status.getReasonPhrase()));
 			return;
 		}
 
 		final HttpEntity entity = response.getEntity();
 
 		if(entity == null) {
-			notifyAllOnFailure(RequestFailureType.CONNECTION, null, status, "Did not receive a valid HTTP response");
+			initiator.notifyFailure(RequestFailureType.CONNECTION, null, status, "Did not receive a valid HTTP response");
 			return;
 		}
 
@@ -200,7 +159,7 @@ public final class CacheDownload {
 			is = entity.getContent();
 		} catch (Throwable t) {
 			t.printStackTrace();
-			notifyAllOnFailure(RequestFailureType.CONNECTION, t, status, "Could not open an input stream");
+			initiator.notifyFailure(RequestFailureType.CONNECTION, t, status, "Could not open an input stream");
 			return;
 		}
 
@@ -214,15 +173,14 @@ public final class CacheDownload {
 				value = new JsonValue(bis);
 
 				synchronized(this) {
-					this.value = value;
-					notifyAllOnJsonParseStarted(value, RRTime.utcCurrentTimeMillis(), session);
+					initiator.notifyJsonParseStarted(value, RRTime.utcCurrentTimeMillis(), session, false);
 				}
 
 				value.buildInThisThread();
 
 			} catch (Throwable t) {
 				t.printStackTrace();
-				notifyAllOnFailure(RequestFailureType.PARSE, t, null, "Error parsing the JSON stream");
+				initiator.notifyFailure(RequestFailureType.PARSE, t, null, "Error parsing the JSON stream");
 				return;
 			}
 
@@ -247,7 +205,7 @@ public final class CacheDownload {
 
 		try {
 			if(cancelled) {
-				notifyAllOnFailure(RequestFailureType.CANCELLED, null, null, "Cancelled");
+				initiator.notifyFailure(RequestFailureType.CANCELLED, null, null, "Cancelled");
 				return;
 			}
 			response = httpClient.execute(httpGet, localContext);
@@ -255,24 +213,24 @@ public final class CacheDownload {
 
 		} catch(Throwable t) {
 			t.printStackTrace();
-			notifyAllOnFailure(RequestFailureType.CONNECTION, t, null, "Unable to open a connection");
+			initiator.notifyFailure(RequestFailureType.CONNECTION, t, null, "Unable to open a connection");
 			return;
 		}
 
 		if(status.getStatusCode() != 200) {
-			notifyAllOnFailure(RequestFailureType.REQUEST, null, status, String.format("HTTP error %d (%s)", status.getStatusCode(), status.getReasonPhrase()));
+			initiator.notifyFailure(RequestFailureType.REQUEST, null, status, String.format("HTTP error %d (%s)", status.getStatusCode(), status.getReasonPhrase()));
 			return;
 		}
 
 		if(cancelled) {
-			notifyAllOnFailure(RequestFailureType.CANCELLED, null, null, "Cancelled");
+			initiator.notifyFailure(RequestFailureType.CANCELLED, null, null, "Cancelled");
 			return;
 		}
 
 		final HttpEntity entity = response.getEntity();
 
 		if(entity == null) {
-			notifyAllOnFailure(RequestFailureType.CONNECTION, null, status, "Did not receive a valid HTTP response");
+			initiator.notifyFailure(RequestFailureType.CONNECTION, null, status, "Did not receive a valid HTTP response");
 			return;
 		}
 
@@ -283,7 +241,7 @@ public final class CacheDownload {
 			mimetype = entity.getContentType() == null ? null : entity.getContentType().getValue();
 		} catch (Throwable t) {
 			t.printStackTrace();
-			notifyAllOnFailure(RequestFailureType.CONNECTION, t, status, "Could not open an input stream");
+			initiator.notifyFailure(RequestFailureType.CONNECTION, t, status, "Could not open an input stream");
 			return;
 		}
 
@@ -294,7 +252,7 @@ public final class CacheDownload {
 				cacheOs = cacheFile.getOutputStream();
 			} catch (IOException e) {
 				e.printStackTrace();
-				notifyAllOnFailure(RequestFailureType.STORAGE, e, null, "Could not access the local cache");
+				initiator.notifyFailure(RequestFailureType.STORAGE, e, null, "Could not access the local cache");
 				return;
 			}
 		} else {
@@ -310,7 +268,7 @@ public final class CacheDownload {
 			if(initiator.cache) {
 				final CachingInputStream cis = new CachingInputStream(is, cacheOs, new CachingInputStream.BytesReadListener() {
 					public void onBytesRead(final long total) {
-						notifyAllOnProgress(total, contentLength);
+						initiator.notifyProgress(total, contentLength);
 					}
 				});
 
@@ -325,15 +283,14 @@ public final class CacheDownload {
 				value = new JsonValue(bis);
 
 				synchronized(this) {
-					this.value = value;
-					notifyAllOnJsonParseStarted(value, RRTime.utcCurrentTimeMillis(), session);
+					initiator.notifyJsonParseStarted(value, RRTime.utcCurrentTimeMillis(), session, false);
 				}
 
 				value.buildInThisThread();
 
 			} catch (Throwable t) {
 				t.printStackTrace();
-				notifyAllOnFailure(RequestFailureType.PARSE, t, null, "Error parsing the JSON stream");
+				initiator.notifyFailure(RequestFailureType.PARSE, t, null, "Error parsing the JSON stream");
 				return;
 			}
 
@@ -354,7 +311,7 @@ public final class CacheDownload {
 				while((bytesRead = is.read(buf)) > 0) {
 					totalBytesRead += bytesRead;
 					cacheOs.write(buf, 0, bytesRead);
-					notifyAllOnProgress(totalBytesRead, contentLength);
+					initiator.notifyProgress(totalBytesRead, contentLength);
 				}
 
 				cacheOs.flush();
@@ -364,67 +321,18 @@ public final class CacheDownload {
 			} catch(IOException e) {
 
 				if(e.getMessage() != null && e.getMessage().contains("ENOSPC")) {
-					notifyAllOnFailure(RequestFailureType.STORAGE, e, null, "Out of disk space");
+					initiator.notifyFailure(RequestFailureType.STORAGE, e, null, "Out of disk space");
 
 				} else {
 					e.printStackTrace();
-					notifyAllOnFailure(RequestFailureType.CONNECTION, e, null, "The connection was interrupted");
+					initiator.notifyFailure(RequestFailureType.CONNECTION, e, null, "The connection was interrupted");
 				}
 
 			} catch(Throwable t) {
 				t.printStackTrace();
-				notifyAllOnFailure(RequestFailureType.CONNECTION, t, null, "The connection was interrupted");
+				initiator.notifyFailure(RequestFailureType.CONNECTION, t, null, "The connection was interrupted");
 			}
 		}
-	}
-
-	private synchronized void notifyAllOnFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
-
-		initiator.notifyFailure(type, t, status, readableMessage);
-
-		for(final CacheRequest req : lateJoiners) {
-			req.notifyFailure(type, t, status, readableMessage);
-		}
-	}
-
-	private synchronized void notifyAllOnProgress(final long bytesRead, final long bytesTotal) {
-
-		initiator.notifyProgress(bytesRead, bytesTotal);
-
-		for(final CacheRequest req : lateJoiners) {
-			req.notifyProgress(bytesRead, bytesTotal);
-		}
-	}
-
-	private synchronized void notifyAllOnJsonParseStarted(final JsonValue value, final long timestamp, final UUID session) {
-
-		initiator.notifyJsonParseStarted(value, timestamp, session, false);
-
-		for(final CacheRequest req : lateJoiners) {
-			req.notifyJsonParseStarted(value, timestamp, session, false);
-		}
-	}
-
-	private synchronized void notifyAllOnSuccess(final CacheManager.ReadableCacheFile cacheFile, final long timestamp, final UUID session, final String mimetype) {
-
-		initiator.notifySuccess(cacheFile, timestamp, session, false, mimetype);
-
-		for(final CacheRequest req : lateJoiners) {
-			req.notifySuccess(cacheFile, timestamp, session, false, mimetype);
-		}
-	}
-
-	private synchronized void notifyAllDownloadStarted() {
-
-		initiator.notifyDownloadStarted();
-
-		for(final CacheRequest req : lateJoiners) {
-			req.notifyDownloadStarted();
-		}
-	}
-
-	public synchronized boolean isHigherPriorityThan(final CacheDownload another) {
-		return highestPriorityReq.isHigherPriorityThan(another.highestPriorityReq);
 	}
 
 	private synchronized void finishGet() {
@@ -440,20 +348,31 @@ public final class CacheDownload {
 			}
 
 			try {
-				notifyAllOnSuccess(cacheFile.getReadableCacheFile(), RRTime.utcCurrentTimeMillis(), session, mimetype);
+				initiator.notifySuccess(cacheFile.getReadableCacheFile(), RRTime.utcCurrentTimeMillis(), session, false, mimetype);
 
 			} catch(IOException e) {
 				e.printStackTrace();
 				if(e.getMessage().contains("ENOSPC")) {
-					notifyAllOnFailure(RequestFailureType.DISK_SPACE, e, null, "Out of disk space");
+					initiator.notifyFailure(RequestFailureType.DISK_SPACE, e, null, "Out of disk space");
 				} else {
-					notifyAllOnFailure(RequestFailureType.STORAGE, e, null, "Out of disk space");
+					initiator.notifyFailure(RequestFailureType.STORAGE, e, null, "Out of disk space");
 				}
 			}
 		}
 	}
 
-	public RequestIdentifier createIdentifier() {
-		return initiator.createIdentifier();
+	@Override
+	public int getPrimaryPriority() {
+		return initiator.priority;
+	}
+
+	@Override
+	public int getSecondaryPriority() {
+		return initiator.listId;
+	}
+
+	@Override
+	public void run() {
+		doDownload();
 	}
 }

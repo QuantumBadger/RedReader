@@ -116,6 +116,7 @@
         <item>@string/lang_de</item>
         <item>@string/lang_fr</item>
         <item>@string/lang_ar</item>
+        <item>@string/lang_es</item>
     </string-array>
 
     <!-- Constants. Do not change. -->

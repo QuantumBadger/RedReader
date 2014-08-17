@@ -127,6 +127,7 @@
         <item>de</item>
         <item>fr</item>
         <item>ar</item>
+        <item>es</item>
     </string-array>
 
     <string-array name="pref_cache_maxage">

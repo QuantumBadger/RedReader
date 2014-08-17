@@ -1,5 +1,7 @@
 51/1.8.6.3
 Updated HTTPS domain
+Added Spanish translation (thanks to Juanma Reyes)
+Updated Arabic translation (thanks to Husam Bilal)
 
 50/1.8.6.2
 Post flair support

@@ -62,10 +62,10 @@
     <string name="pref_appearance_thumbnails_show_title">إظهار الصور المصغرة</string>
 
     <string name="pref_appearance_thumbnails_nsfw_show_key">pref_appearance_thumbnails_nsfw_show</string>
-    <string name="pref_appearance_thumbnails_nsfw_show_title">إظهار الصور المصغرة للمنشورات الغير لائقة</string>
+    <string name="pref_appearance_thumbnails_nsfw_show_title">إظهار للمنشورات الغير لائقة</string>
 
     <string name="pref_appearance_thumbnails_wifionly_key">pref_appearance_thumbnails_wifionly</string>
-    <string name="pref_appearance_thumbnails_wifionly_title">تحميل الصور المصغرة عند الاتصال عبر الواي فاي فقط</string>
+    <string name="pref_appearance_thumbnails_wifionly_title">عند الاتصال عبر الواي فاي فقط</string>
 
     <string name="pref_appearance_loading_detail_key">pref_appearance_loading_detail</string>
     <string name="pref_appearance_loading_detail_title">إظهار رسائل التحميل المفصّلة</string>
@@ -80,13 +80,13 @@
     <string name="pref_behaviour_posts_header">المنشورات</string>
 
     <string name="pref_behaviour_fling_post_left_key">pref_behaviour_fling_post_left</string>
-    <string name="pref_behaviour_fling_post_left_title">إجراء إزاحة منشور لليسار</string>
+    <string name="pref_behaviour_fling_post_left_title">إجراء إزاحة المنشور لليسار</string>
 
     <string name="pref_behaviour_fling_post_right_key">pref_behaviour_fling_post_right</string>
-    <string name="pref_behaviour_fling_post_right_title">إجراء إزاحة منشور لليمين</string>
+    <string name="pref_behaviour_fling_post_right_title">إجراء إزاحة المنشور لليمين</string>
 
     <string name="pref_behaviour_actions_comment_tap_key">pref_behaviour_actions_comment_tap</string>
-    <string name="pref_behaviour_actions_comment_tap_title">إجراء التقر على تعليق</string>
+    <string name="pref_behaviour_actions_comment_tap_title">إجراء النقر على تعليق</string>
 
     <string name="pref_behaviour_nsfw_key">pref_behaviour_nsfw</string>
     <string name="pref_behaviour_nsfw_title">إظهار المنشورات غير اللائقة</string>
@@ -125,7 +125,7 @@
 
     <string name="options_accounts">الحسابات</string>
     <string name="options_accounts_long">حسابات ريديت</string>
-    <string name="options_theme">الأشكال</string>
+    <string name="options_theme">الشكل</string>
     <string name="options_settings">الإعدادات</string>
 
     <string name="options_submit_post">انشر</string>
@@ -136,11 +136,11 @@
     <string name="options_refresh_comments">تحديث التعليقات</string>
 
     <string name="options_past">النسخ السابقة</string>
-    <string name="options_past_posts">نسخ قائمة النشورات السابقة</string>
-    <string name="options_past_comments">نسخ قائمة التعليقات السابقة</string>
+    <string name="options_past_posts">قائمة المنشورات السابقة</string>
+    <string name="options_past_comments">قائمة التعليقات السابقة</string>
 
     <string name="options_sort">ترتيب</string>
-    <string name="options_sort_subreddits">ترتيب النتديات الفرعية</string>
+    <string name="options_sort_subreddits">ترتيب المنتديات الفرعية</string>
     <string name="options_sort_posts">ترتيب المنشورات</string>
     <string name="options_sort_comments">ترتيب التعليقات</string>
 
@@ -196,12 +196,12 @@
 
     <!-- Comment Sorts -->
 
-    <string name="sort_comments_best">أفضل</string>
-    <string name="sort_comments_hot">مشهور</string>
-    <string name="sort_comments_new">جديد</string>
-    <string name="sort_comments_old">قديم</string>
-    <string name="sort_comments_controversial">جدلي</string>
-    <string name="sort_comments_top">نخبة</string>
+    <string name="sort_comments_best">الأفضلية</string>
+    <string name="sort_comments_hot">الأكثر شهرة</string>
+    <string name="sort_comments_new">الأحدث</string>
+    <string name="sort_comments_old">الأقدم</string>
+    <string name="sort_comments_controversial">الجدلية</string>
+    <string name="sort_comments_top">النخبة</string>
 
     <!-- Dialog Buttons -->
 
@@ -231,7 +231,7 @@
     <string name="action_comment_links">الروابط في التعليق</string>
     <string name="action_selftext_links">الروابط في النص</string>
     <string name="action_share">مشاركة</string>
-    <string name="action_share_comments">مشاركة التغليقات</string>
+    <string name="action_share_comments">مشاركة التعليقات</string>
     <string name="action_copy">نسخ</string>
     <string name="action_gotosubreddit">الى المنتدى الفرعي</string>
     <string name="action_reply">رد</string>
@@ -245,7 +245,7 @@
     <string name="action_link">فتح الرابط</string>
     <string name="action_link_switch">الانتقال للرابط</string>
     <string name="action_link_short">الرابط</string>
-    <string name="action_collapse">تصغير\تكبير</string>
+    <string name="action_collapse">تصغير/تكبير</string>
     <string name="action_nothing">لاشيء</string>
 
     <string name="action_report">تقرير</string>
@@ -552,9 +552,9 @@
     <string name="pref_menus_mainmenu_useritems_key">pref_menus_mainmenu_useritems</string>
     <string name="pref_menus_mainmenu_useritems_title">مكونات القائمة الرئيسية</string>
 
-    <string name="mainmenu_submitted">منشورات مقدمة</string>
-    <string name="mainmenu_downvoted">منشورات سيئة</string>
-    <string name="mainmenu_modmail">بريد الكتروني مشرف</string>
+    <string name="mainmenu_submitted">المنشورات المقدّمة</string>
+    <string name="mainmenu_downvoted">المنشورات السيئة</string>
+    <string name="mainmenu_modmail">بريد المشرف</string>
 
     <string name="sidebar_activity_title">شريط جانبي</string>
 

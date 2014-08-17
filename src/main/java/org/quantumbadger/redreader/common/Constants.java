@@ -50,7 +50,7 @@ public final class Constants {
 				SCHEME_HTTP = "http",
 				SCHEME_HTTPS = "https",
 				DOMAIN_HTTP = "www.reddit.com",
-				DOMAIN_HTTPS = "pay.reddit.com",
+				DOMAIN_HTTPS = DOMAIN_HTTP,
 				PATH_VOTE = "/api/vote",
 				PATH_SAVE = "/api/save",
 				PATH_HIDE = "/api/hide",

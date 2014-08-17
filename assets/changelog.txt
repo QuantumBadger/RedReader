@@ -1,3 +1,6 @@
+51/1.8.6.3
+Updated HTTPS domain
+
 50/1.8.6.2
 Post flair support
 Better comment flair colour

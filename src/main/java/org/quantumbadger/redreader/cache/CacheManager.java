@@ -40,10 +40,7 @@ import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.preference.SharedPreferences;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
-import org.quantumbadger.redreader.common.Constants;
-import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.common.PrefsUtility;
-import org.quantumbadger.redreader.common.UniqueSynchronizedQueue;
+import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
 import java.io.*;
@@ -54,8 +51,6 @@ import java.util.LinkedList;
 import java.util.UUID;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
 
 // TODO consider moving to service
 public final class CacheManager {
@@ -72,6 +67,7 @@ public final class CacheManager {
 	private final PrioritisedDownloadQueue downloadQueue;
 
 	private final LinkedList<CacheDownloadThread> downloadThreads = new LinkedList<CacheDownloadThread>();
+	private final PrioritisedCachedThreadPool mDiskCacheThreadPool = new PrioritisedCachedThreadPool(1, "Disk Cache");
 
 	private final Context context;
 
@@ -269,23 +265,15 @@ public final class CacheManager {
 		private long cacheFileId = -1;
 		private ReadableCacheFile readableCacheFile = null;
 		private final CacheRequest request;
-		private final boolean compressed;
 
 		private WritableCacheFile(final CacheRequest request, final UUID session, final String mimetype) throws IOException {
 
 			this.request = request;
-			compressed = request.isJson;
 
 			final File tmpFile = new File(General.getBestCacheDir(context), UUID.randomUUID().toString() + tempExt);
 			final FileOutputStream fos = new FileOutputStream(tmpFile);
 
-			final OutputStream compressedOs;
-
-			if(compressed) {
-				compressedOs = new GZIPOutputStream(new BufferedOutputStream(fos, 8 * 1024));
-			} else {
-				compressedOs = new BufferedOutputStream(fos, 8 * 1024);
-			}
+			final OutputStream bufferedOs = new BufferedOutputStream(fos, 8 * 1024);
 
 			final NotifyOutputStream.Listener listener = new NotifyOutputStream.Listener() {
 				public void onClose() throws IOException {
@@ -297,11 +285,11 @@ public final class CacheManager {
 
 					dbManager.setEntryDone(cacheFileId);
 
-					readableCacheFile = new ReadableCacheFile(cacheFileId, compressed);
+					readableCacheFile = new ReadableCacheFile(cacheFileId);
 				}
 			};
 
-			this.os = new NotifyOutputStream(compressedOs, listener);
+			this.os = new NotifyOutputStream(bufferedOs, listener);
 		}
 
 		public NotifyOutputStream getOutputStream() {
@@ -332,15 +320,13 @@ public final class CacheManager {
 	public class ReadableCacheFile {
 
 		private final long id;
-		private final boolean compressed;
 
-		private ReadableCacheFile(final long id, final boolean compressed) {
+		private ReadableCacheFile(final long id) {
 			this.id = id;
-			this.compressed = compressed;
 		}
 
 		public InputStream getInputStream() throws IOException {
-			return getCacheFileInputStream(id, compressed);
+			return getCacheFileInputStream(id);
 		}
 
 		@Override
@@ -374,12 +360,8 @@ public final class CacheManager {
 		return null;
 	}
 
-	private InputStream getCacheFileInputStream(final long id, final boolean compressed) throws IOException {
-		if(compressed) {
-			return new BufferedInputStream(new GZIPInputStream(new BufferedInputStream(new FileInputStream(getExistingCacheFile(id)), 8 * 1024)), 8 * 1024);
-		} else {
-			return new BufferedInputStream(new FileInputStream(getExistingCacheFile(id)), 8 * 1024);
-		}
+	private InputStream getCacheFileInputStream(final long id) throws IOException {
+		return new BufferedInputStream(new FileInputStream(getExistingCacheFile(id)), 8 * 1024);
 	}
 
 	private class RequestHandlerThread extends Thread {
@@ -471,32 +453,32 @@ public final class CacheManager {
 
 		private void handleCacheEntryFound(final CacheEntry entry, final CacheRequest request) {
 
-			new Thread() {
+			final File cacheFile = getExistingCacheFile(entry.id);
 
+			if(cacheFile == null) {
+
+				if(request.downloadType == CacheRequest.DownloadType.IF_NECESSARY) {
+					queueDownload(request);
+				} else {
+					request.notifyFailure(RequestFailureType.STORAGE, null, null, "A cache entry was found in the database, but the actual data couldn't be found. Press refresh to download the content again.");
+				}
+
+				return;
+			}
+
+			mDiskCacheThreadPool.add(new PrioritisedCachedThreadPool.Task(request.priority, request.listId) {
+				@Override
 				public void run() {
-
-					final File cacheFile = getExistingCacheFile(entry.id);
-
-					if(cacheFile == null) {
-
-						if(request.downloadType == CacheRequest.DownloadType.IF_NECESSARY) {
-							queueDownload(request);
-						} else {
-							request.notifyFailure(RequestFailureType.STORAGE, null, null, "A cache entry was found in the database, but the actual data couldn't be found. Press refresh to download the content again.");
-						}
-
-						return;
-					}
 
 					if(request.isJson) {
 
 						final JsonValue value;
 
 						try {
-							value = new JsonValue(getCacheFileInputStream(entry.id, true));
+							value = new JsonValue(getCacheFileInputStream(entry.id));
 							value.buildInNewThread();
-						} catch (Throwable t) {
 
+						} catch(Throwable t) {
 							dbManager.delete(entry.id);
 							fileDeletionQueue.enqueue(entry.id);
 
@@ -512,9 +494,9 @@ public final class CacheManager {
 						request.notifyJsonParseStarted(value, entry.timestamp, entry.session, true);
 					}
 
-					request.notifySuccess(new ReadableCacheFile(entry.id, request.isJson), entry.timestamp, entry.session, true, entry.mimetype);
+					request.notifySuccess(new ReadableCacheFile(entry.id), entry.timestamp, entry.session, true, entry.mimetype);
 				}
-			}.start();
+			});
 		}
 	}
 }

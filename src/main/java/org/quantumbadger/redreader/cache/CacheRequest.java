@@ -37,7 +37,7 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 	public final UUID requestSession;
 
 	public final int priority;
-	private final int listId;
+	public final int listId;
 
 	public final DownloadType downloadType;
 

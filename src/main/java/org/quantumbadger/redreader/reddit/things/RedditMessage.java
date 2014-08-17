@@ -25,5 +25,4 @@ public class RedditMessage {
 	public boolean _json_new, was_comment;
 	public JsonValue first_message, replies;
 	public long created, created_utc;
-
 }

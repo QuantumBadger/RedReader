@@ -47,6 +47,7 @@ import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.RedditPreparedInboxItem;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedComment;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedMessage;
+import org.quantumbadger.redreader.reddit.things.RedditMessage;
 import org.quantumbadger.redreader.reddit.things.RedditThing;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
 import org.quantumbadger.redreader.views.liststatus.LoadingView;
@@ -249,6 +250,18 @@ public final class InboxListingFragment extends DialogFragment {
 								final RedditPreparedMessage message = new RedditPreparedMessage(
 										getSupportActivity(), thing.asMessage(), timestamp);
 								itemHandler.sendMessage(General.handlerMessage(0, message));
+
+								if(message.src.replies != null && message.src.replies.getType() == JsonValue.Type.OBJECT) {
+
+									final JsonBufferedArray replies = message.src.replies.asObject().getObject("data").getArray("children");
+
+									for(JsonValue childMsgValue : replies) {
+										final RedditMessage childMsgRaw = childMsgValue.asObject(RedditThing.class).asMessage();
+										final RedditPreparedMessage childMsg = new RedditPreparedMessage(getSupportActivity(), childMsgRaw, timestamp);
+										itemHandler.sendMessage(General.handlerMessage(0, childMsg));
+									}
+								}
+
 								break;
 
 							default:

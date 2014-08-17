@@ -1,3 +1,6 @@
+52/1.8.6.4
+Shows modmail replies
+
 51/1.8.6.3
 Significant post list performance improvement
 Updated HTTPS domain

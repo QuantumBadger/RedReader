@@ -63,6 +63,7 @@ public final class PostListingAdapter extends BaseAdapter {
 
 		} else if(!postUpdateQueued) {
 			postAddedHandler.postDelayed(updatePostsRunnable, 400);
+			postUpdateQueued = true;
 		}
 	}
 
@@ -72,12 +73,6 @@ public final class PostListingAdapter extends BaseAdapter {
 			postsToReport.clear();
 			postsToReport.addAll(posts);
 			notifyDataSetChanged();
-		}
-	}
-
-	public void onScroll() {
-		if(posts.size() != postsToReport.size()) {
-			updatePosts();
 		}
 	}
 

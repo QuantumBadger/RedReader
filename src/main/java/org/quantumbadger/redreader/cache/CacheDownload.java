@@ -246,6 +246,16 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 				cacheOs.flush();
 				cacheOs.close();
 
+				try {
+					mInitiator.notifySuccess(cacheFile.getReadableCacheFile(), RRTime.utcCurrentTimeMillis(), session, false, mimetype);
+				} catch(IOException e) {
+					if(e.getMessage().contains("ENOSPC")) {
+						mInitiator.notifyFailure(RequestFailureType.DISK_SPACE, e, null, "Out of disk space");
+					} else {
+						mInitiator.notifyFailure(RequestFailureType.STORAGE, e, null, "Cache file not found");
+					}
+				}
+
 			} catch(IOException e) {
 
 				if(e.getMessage() != null && e.getMessage().contains("ENOSPC")) {

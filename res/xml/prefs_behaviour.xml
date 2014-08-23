@@ -72,7 +72,12 @@
                         holo:entryValues="@array/pref_behaviour_postcount_items_return"
                         holo:defaultValue="ALL"/>
 
+        <EditTextPreference holo:title="Filtered subreddits"
+                            holo:key="@string/pref_all_filter_key"/>
+
     </PreferenceCategory>
+
+
 
 
 </PreferenceScreen>

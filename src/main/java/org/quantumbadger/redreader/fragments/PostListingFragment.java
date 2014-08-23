@@ -99,6 +99,8 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 	private int postTotalCount = 0;
 	private int postRefreshCount = 0;
 
+	private HiddenSubredditManager hiddenSubs;
+
 	private static final int NOTIF_DOWNLOAD_NECESSARY = 1,
 			NOTIF_DOWNLOAD_START = 2,
 			NOTIF_STARTING = 3,
@@ -190,6 +192,8 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 		final Bundle arguments = getArguments();
 
 		final Uri url = Uri.parse(arguments.getString("url"));
+
+		hiddenSubs = HiddenSubredditManager.getInstance(getSupportActivity());
 
 		try {
 			postListingURL = (RedditURLParser.PostListingURL) RedditURLParser.parseProbablePostListing(url);
@@ -580,7 +584,6 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 			notificationHandler.sendMessage(General.handlerMessage(NOTIF_STARTING, null));
 
 			postTotalCount += 25; // TODO this can vary with the user's reddit settings
-
 			// TODO pref (currently 10 mins)
 			if(firstDownload && fromCache && RRTime.since(timestamp) > 10 * 60 * 1000) {
 				notificationHandler.sendMessage(General.handlerMessage(NOTIF_AGE, timestamp));
@@ -625,7 +628,14 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 						&& postListingURL.pathType() == RedditURLParser.PathType.SubredditPostListingURL
 						&& postListingURL.asSubredditPostListURL().type == RedditURLParser.SubredditPostListURL.Type.SUBREDDIT);
 
+				final boolean isAll
+						= postListingURL.pathType() == RedditURLParser.PathType.SubredditPostListingURL
+						&& postListingURL.asSubredditPostListURL().type == RedditURLParser.SubredditPostListURL.Type.ALL;
+
 				for(final JsonValue postThingValue : posts) {
+
+					if (postRefreshCount < 0)
+						break;
 
 					final RedditThing postThing = postThingValue.asObject(RedditThing.class);
 
@@ -634,6 +644,10 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 					final RedditPost post = postThing.asPost();
 
 					after = post.name;
+
+					if(isAll && !hiddenSubs.isSubredditHidden(post.subreddit)) {
+						continue;
+					}
 
 					if(!post.over_18 || isNsfwAllowed) {
 

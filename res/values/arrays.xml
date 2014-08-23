@@ -201,6 +201,7 @@
         <item>@string/action_share_comments</item>
         <item>@string/action_copy</item>
         <item>@string/action_user_profile</item>
+        <item>@string/action_hidesub</item>
         <item>@string/action_properties</item>
     </string-array>
 
@@ -219,6 +220,7 @@
         <item>share_comments</item>
         <item>copy</item>
         <item>user_profile</item>
+        <item>hide_subreddit</item>
         <item>properties</item>
     </string-array>
 

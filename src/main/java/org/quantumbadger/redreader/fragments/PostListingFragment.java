@@ -500,75 +500,8 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 
 		@Override
 		protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
-
-			final String title, message;
-			int displayType = NOTIF_ERROR;
-
-			switch (type) {
-				case CANCELLED:
-					title = context.getString(R.string.error_cancelled_title);
-					message = context.getString(R.string.error_cancelled_message);
-					break;
-				case PARSE:
-					title = context.getString(R.string.error_parse_title);
-					message = context.getString(R.string.error_parse_message);
-					break;
-				case CACHE_MISS:
-					title = context.getString(R.string.error_postlist_cache_title);
-					message = context.getString(R.string.error_postlist_cache_message);
-					displayType = NOTIF_ERROR_FOOTER;
-					break;
-				case STORAGE:
-					title = context.getString(R.string.error_unexpected_storage_title);
-					message = context.getString(R.string.error_unexpected_storage_message);
-					break;
-				case CONNECTION:
-					// TODO check network and customise message
-					title = context.getString(R.string.error_connection_title);
-					message = context.getString(R.string.error_connection_message);
-					break;
-				case DISK_SPACE:
-					title = context.getString(R.string.error_disk_space_title);
-					message = context.getString(R.string.error_disk_space_message);
-					break;
-				case REQUEST:
-
-					if(status != null) {
-						switch (status.getStatusCode()) {
-							case 403:
-								title = context.getString(R.string.error_403_title);
-								message = context.getString(R.string.error_403_message);
-								break;
-							case 404:
-								title = context.getString(R.string.error_404_title);
-								message = context.getString(R.string.error_404_message);
-								break;
-							case 502:
-							case 503:
-							case 504:
-								title = context.getString(R.string.error_postlist_redditdown_title);
-								message = context.getString(R.string.error_postlist_redditdown_message);
-								break;
-							default:
-								title = context.getString(R.string.error_unknown_api_title);
-								message = context.getString(R.string.error_unknown_api_message);
-								break;
-						}
-					} else {
-						title = context.getString(R.string.error_unknown_api_title);
-						message = context.getString(R.string.error_unknown_api_message);
-					}
-
-					break;
-
-				default:
-					title = context.getString(R.string.error_unknown_title);
-					message = context.getString(R.string.error_unknown_message);
-					break;
-			}
-
-			final RRError error = new RRError(title, message, t, status, url.toString());
-			notificationHandler.sendMessage(General.handlerMessage(displayType, error));
+			final RRError error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
+			notificationHandler.sendMessage(General.handlerMessage(NOTIF_ERROR, error));
 		}
 
 		@Override protected void onProgress(final long bytesRead, final long totalBytes) {}

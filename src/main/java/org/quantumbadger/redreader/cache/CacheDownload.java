@@ -21,6 +21,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.RedirectException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -128,8 +129,15 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 			status = response.getStatusLine();
 
 		} catch(Throwable t) {
-			t.printStackTrace();
-			mInitiator.notifyFailure(RequestFailureType.CONNECTION, t, null, "Unable to open a connection");
+
+			if(t.getCause() != null
+					&& t.getCause() instanceof RedirectException
+					&& httpRequest.getURI().getHost().endsWith("reddit.com")) {
+
+				mInitiator.notifyFailure(RequestFailureType.REDDIT_REDIRECT, t, null, "Unable to open a connection");
+			} else {
+				mInitiator.notifyFailure(RequestFailureType.CONNECTION, t, null, "Unable to open a connection");
+			}
 			return;
 		}
 

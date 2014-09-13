@@ -245,6 +245,10 @@ public final class General {
 				}
 
 				break;
+			case REDDIT_REDIRECT:
+				title = R.string.error_403_title;
+				message = R.string.error_403_message;
+				break;
 
 			default:
 				title = R.string.error_unknown_title;

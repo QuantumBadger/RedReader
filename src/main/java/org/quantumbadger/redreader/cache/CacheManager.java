@@ -95,7 +95,7 @@ public final class CacheManager {
 		params.setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 20000);
 		params.setParameter(CoreConnectionPNames.MAX_HEADER_COUNT, 100);
 		params.setParameter(ClientPNames.HANDLE_REDIRECTS, true);
-		params.setParameter(ClientPNames.MAX_REDIRECTS, 2);
+		params.setParameter(ClientPNames.MAX_REDIRECTS, 5);
 		params.setParameter(ConnManagerPNames.MAX_TOTAL_CONNECTIONS, 50);
 		params.setParameter(ConnManagerPNames.MAX_CONNECTIONS_PER_ROUTE, new ConnPerRoute() {
 			public int getMaxForRoute(HttpRoute route) {

@@ -42,8 +42,7 @@ public class LinkHandler {
 			youtubeDotComPattern = Pattern.compile("^https?://[\\.\\w]*youtube\\.\\w+/.*"),
 			youtuDotBePattern = Pattern.compile("^https?://[\\.\\w]*youtu\\.be/([A-Za-z0-9\\-_]+)(\\?.*|).*"),
 			vimeoPattern = Pattern.compile("^https?://[\\.\\w]*vimeo\\.\\w+/.*"),
-			googlePlayPattern = Pattern.compile("^https?://[\\.\\w]*play\\.google\\.\\w+/.*"),
-			shortSubredditPattern = Pattern.compile("^/?r/(\\w+).*");
+			googlePlayPattern = Pattern.compile("^https?://[\\.\\w]*play\\.google\\.\\w+/.*");
 
 	public static void onLinkClicked(Activity activity, String url, boolean forceNoImage) {
 		onLinkClicked(activity, url, forceNoImage, null);
@@ -71,10 +70,12 @@ public class LinkHandler {
 			}
 		}
 
-		final Matcher shortSubredditMatcher = shortSubredditPattern.matcher(url);
+		if(url.startsWith("r/") || url.startsWith("u/")) {
+			url = "/" + url;
+		}
 
-		if(shortSubredditMatcher.find()) {
-			url = "http://reddit.com/" + url;
+		if(url.startsWith("/")) {
+			url = "http://reddit.com" + url;
 		}
 
 		final Matcher redditUserMatcher = redditUserPattern.matcher(url);

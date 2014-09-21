@@ -93,6 +93,10 @@ public final class PrefsUtility {
 		RED, GREEN, BLUE, LTBLUE, ORANGE, GRAY, NIGHT
 	}
 
+	public static boolean isNightMode(final Context context) {
+		return appearance_theme(context, PreferenceManager.getDefaultSharedPreferences(context)) == AppearanceTheme.NIGHT;
+	}
+
 	public static AppearanceTheme appearance_theme(final Context context, final SharedPreferences sharedPreferences) {
 		return AppearanceTheme.valueOf(getString(R.string.pref_appearance_theme_key, "red", context, sharedPreferences).toUpperCase());
 	}

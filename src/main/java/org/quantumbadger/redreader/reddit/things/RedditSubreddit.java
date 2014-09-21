@@ -157,7 +157,7 @@ public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>,
 		return display_name.toLowerCase().compareTo(another.display_name.toLowerCase());
 	}
 
-	public String getSidebarHtml() {
+	public String getSidebarHtml(boolean nightMode) {
 		final String unescaped = StringEscapeUtils.unescapeHtml4(description_html);
 
 		final StringBuilder result = new StringBuilder(unescaped.length() + 512);
@@ -166,6 +166,14 @@ public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>,
 
 		result.append("<head>");
 		result.append("<meta name=\"viewport\" content=\"width=device-width, user-scalable=yes\">");
+
+		if(nightMode) {
+			result.append("<style>");
+			result.append("body {color: white; background-color: black;}");
+			result.append("a {color: #3399FF; background-color: 000033;}");
+			result.append("</style>");
+		}
+
 		result.append("</head>");
 
 		result.append("<body>");

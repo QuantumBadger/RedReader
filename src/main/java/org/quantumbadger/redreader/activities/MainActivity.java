@@ -540,7 +540,7 @@ public class MainActivity extends RefreshableActivity
 	@Override
 	public void onSidebar() {
 		final Intent intent = new Intent(this, HtmlViewActivity.class);
-		intent.putExtra("html", postListingFragment.getSubreddit().getSidebarHtml());
+		intent.putExtra("html", postListingFragment.getSubreddit().getSidebarHtml(PrefsUtility.isNightMode(this)));
 		intent.putExtra("title", String.format("%s: %s",
 				getString(R.string.sidebar_activity_title),
 				postListingFragment.getSubreddit().url));

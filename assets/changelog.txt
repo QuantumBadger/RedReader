@@ -2,7 +2,9 @@
 Shows modmail replies
 Fixed handling of some links starting with '/'
 Fixed bug where [deleted] comments were highlighted in [deleted] posts
+Sidebar is black when in night mode
 Improved "invalid user" error message
+Cache performance improvement (note: cache entries saved by previous version will be unreadable)
 
 51/1.8.6.3
 Significant post list performance improvement

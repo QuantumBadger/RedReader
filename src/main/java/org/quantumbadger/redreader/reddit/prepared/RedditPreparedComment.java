@@ -164,7 +164,9 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 		}
 
 		if(headerItems.contains(PrefsUtility.AppearanceCommentHeaderItems.AUTHOR)) {
-			if(parentPost != null && src.author.equalsIgnoreCase(parentPost.src.author)) {
+			if(parentPost != null
+					&& src.author.equalsIgnoreCase(parentPost.src.author)
+					&& !src.author.equals("[deleted]")) {
 				sb.append(" " + src.author + " ", BetterSSB.BACKGROUND_COLOR | BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD,
 						Color.WHITE, Color.rgb(0, 126, 168), 1f); // TODO color
 			} else {

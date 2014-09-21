@@ -1,5 +1,8 @@
 52/1.8.6.4
 Shows modmail replies
+Fixed handling of some links starting with '/'
+Fixed bug where [deleted] comments were highlighted in [deleted] posts
+Improved "invalid user" error message
 
 51/1.8.6.3
 Significant post list performance improvement

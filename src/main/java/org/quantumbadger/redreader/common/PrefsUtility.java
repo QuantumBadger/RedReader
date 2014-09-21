@@ -42,7 +42,7 @@ public final class PrefsUtility {
 		return sharedPreferences.getString(context.getString(id), defaultValue);
 	}
 
-	private static Set<String> getStringSet(final int id, final int defaultArrayRes, final Context context, final SharedPreferences sharedPreferences) {
+	public static Set<String> getStringSet(final int id, final int defaultArrayRes, final Context context, final SharedPreferences sharedPreferences) {
 		return sharedPreferences.getStringSet(context.getString(id), setFromArray(context.getResources().getStringArray(defaultArrayRes)));
 	}
 
@@ -196,7 +196,7 @@ public final class PrefsUtility {
 	}
 
 	public static enum AppearanceCommentHeaderItems {
-		AUTHOR, FLAIR, SCORE, AGE
+		AUTHOR, FLAIR, SCORE, AGE, GOLD
 	}
 
 	public static EnumSet<AppearanceCommentHeaderItems> appearance_comment_header_items(final Context context, final SharedPreferences sharedPreferences) {

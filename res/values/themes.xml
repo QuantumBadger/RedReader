@@ -47,6 +47,8 @@
         <item name="rrPostCommentsButtonBackColSticky">#226622</item>
         <item name="rrFlairBackCol">#333333</item>
         <item name="rrFlairTextCol">#AAAAAA</item>
+        <item name="rrGoldBackCol">#B0923C</item>
+        <item name="rrGoldTextCol">#000000</item>
 
         <!-- Comment -->
 
@@ -124,6 +126,8 @@
         <item name="rrPostCommentsButtonBackColSticky">#BBEEBB</item>
         <item name="rrFlairBackCol">#DDDDDD</item>
         <item name="rrFlairTextCol">#444444</item>
+        <item name="rrGoldBackCol">#FFDF52</item>
+        <item name="rrGoldTextCol">#000000</item>
 
         <!-- Icons -->
 

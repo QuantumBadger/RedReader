@@ -222,6 +222,10 @@ public final class CacheManager {
 
 	}
 
+	public synchronized void emptyTheWholeCache() {
+		dbManager.emptyTheWholeCache();
+	}
+
 	public void makeRequest(final CacheRequest request) {
 		requests.put(request);
 	}

@@ -1,4 +1,5 @@
 52/1.8.6.4
+Comment header now shows if a comment has been given reddit gold
 Shows modmail replies
 Fixed handling of some links starting with '/'
 Fixed bug where [deleted] comments were highlighted in [deleted] posts

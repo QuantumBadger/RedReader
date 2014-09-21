@@ -39,6 +39,7 @@ import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.adapters.MainMenuSelectionListener;
+import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -51,6 +52,7 @@ import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.views.RedditPostView;
 
+import java.util.Set;
 import java.util.UUID;
 
 public class MainActivity extends RefreshableActivity
@@ -138,12 +140,39 @@ public class MainActivity extends RefreshableActivity
 
 		} else if(sharedPreferences.contains("lastVersion")) {
 
-			if(sharedPreferences.getInt("lastVersion", 0) != appVersion) {
+			final int lastVersion = sharedPreferences.getInt("lastVersion", 0);
+
+			if(lastVersion != appVersion) {
 
 				General.quickToast(this, "Updated to version " + pInfo.versionName);
 
 				sharedPreferences.edit().putInt("lastVersion", appVersion).commit();
 				ChangelogDialog.newInstance().show(this);
+
+				if(lastVersion <= 51) {
+					// Upgrading from v1.8.6.3 or lower
+
+					final Set<String> existingCommentHeaderItems = PrefsUtility.getStringSet(
+							R.string.pref_appearance_comment_header_items_key,
+							R.array.pref_appearance_comment_header_items_default,
+							this,
+							sharedPreferences
+					);
+
+					existingCommentHeaderItems.add("gold");
+
+					sharedPreferences.edit().putStringSet(
+							R.string.pref_appearance_comment_header_items_key,
+							existingCommentHeaderItems
+					).commit();
+
+					new Thread() {
+						@Override
+						public void run() {
+							CacheManager.getInstance(MainActivity.this).emptyTheWholeCache();
+						}
+					}.start();
+				}
 			}
 
 		} else {

@@ -262,6 +262,7 @@
         <item>@string/pref_appearance_comment_header_items_flair</item>
         <item>@string/pref_appearance_comment_header_items_score</item>
         <item>@string/pref_appearance_comment_header_items_age</item>
+        <item>@string/pref_appearance_comment_header_items_gold</item>
     </string-array>
 
     <!-- Constants. Do not change. -->
@@ -270,6 +271,7 @@
         <item>flair</item>
         <item>score</item>
         <item>age</item>
+        <item>gold</item>
     </string-array>
 
     <!-- Constants. Do not change. -->
@@ -278,6 +280,7 @@
         <item>flair</item>
         <item>score</item>
         <item>age</item>
+        <item>gold</item>
     </string-array>
 
     <!-- Constants. Do not change. -->

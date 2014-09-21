@@ -76,7 +76,9 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 			rrPostSubtitleUpvoteCol,
 			rrPostSubtitleDownvoteCol,
 			rrFlairBackCol,
-			rrFlairTextCol;
+			rrFlairTextCol,
+			rrGoldBackCol,
+			rrGoldTextCol;
 	private final EnumSet<PrefsUtility.AppearanceCommentHeaderItems> headerItems;
 
 	private final RedditPreparedPost parentPost;
@@ -98,7 +100,9 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 				R.attr.rrPostSubtitleUpvoteCol,
 				R.attr.rrPostSubtitleDownvoteCol,
 				R.attr.rrFlairBackCol,
-				R.attr.rrFlairTextCol
+				R.attr.rrFlairTextCol,
+				R.attr.rrGoldBackCol,
+				R.attr.rrGoldTextCol
 		});
 
 		rrCommentHeaderBoldCol = appearance.getColor(0, 255);
@@ -107,6 +111,8 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 		rrPostSubtitleDownvoteCol = appearance.getColor(3, 255);
 		rrFlairBackCol = appearance.getColor(4, 0);
 		rrFlairTextCol = appearance.getColor(5, 255);
+		rrGoldBackCol = appearance.getColor(6, 0);
+		rrGoldTextCol = appearance.getColor(7, 255);
 
 		body = MarkdownParser.parse(StringEscapeUtils.unescapeHtml4(comment.body).toCharArray());
 		if(comment.author_flair_text != null) {
@@ -198,6 +204,26 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 			}
 
 			sb.append(" " + context.getString(R.string.subtitle_points) +  " ", 0);
+		}
+
+		if(headerItems.contains(PrefsUtility.AppearanceCommentHeaderItems.GOLD)) {
+
+			if(src.gilded > 0) {
+
+				sb.append(" ", 0);
+
+				sb.append(" "
+								+ context.getString(R.string.gold)
+								+ " x"
+								+ src.gilded
+								+ " ",
+						BetterSSB.FOREGROUND_COLOR | BetterSSB.BACKGROUND_COLOR,
+						rrGoldTextCol,
+						rrGoldBackCol,
+						1f);
+
+				sb.append("  ", 0);
+			}
 		}
 
 		if(headerItems.contains(PrefsUtility.AppearanceCommentHeaderItems.AGE)) {

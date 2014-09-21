@@ -33,6 +33,7 @@ public final class RedditComment implements Parcelable {
 	public String id, subreddit_id, link_id, parent_id, name, context;
 	
 	public int ups, downs;
+	public int gilded;
 	
 	public Object edited;
 	
@@ -80,6 +81,7 @@ public final class RedditComment implements Parcelable {
 		created_utc = in.readLong();
 
 		saved = in.readInt() != 0;
+		gilded = in.readInt();
 	}
 
 	public void writeToParcel(final Parcel parcel, final int flags) {
@@ -116,6 +118,7 @@ public final class RedditComment implements Parcelable {
 		parcel.writeLong(created_utc);
 
 		parcel.writeInt(saved ? 1 : 0);
+		parcel.writeInt(gilded);
 	}
 
 	public int describeContents() {

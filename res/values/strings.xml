@@ -573,4 +573,8 @@
     <string name="web_view_clear_cache">Clear Cache</string>
     <string name="web_view_clear_cache_success_toast">Cleared cache, history, cookies, and form data.</string>
 
+    <!-- 2014-09-21 -->
+    <string name="gold">Gold</string>
+    <string name="pref_appearance_comment_header_items_gold">Reddit Gold</string>
+
 </resources>

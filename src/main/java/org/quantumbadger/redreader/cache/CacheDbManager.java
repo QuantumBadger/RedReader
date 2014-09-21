@@ -237,4 +237,9 @@ final class CacheDbManager extends SQLiteOpenHelper {
 
 		return filesToDelete;
 	}
+
+	public synchronized void emptyTheWholeCache() {
+		final SQLiteDatabase db = this.getWritableDatabase();
+		db.execSQL(String.format("DELETE FROM %s", TABLE));
+	}
 }

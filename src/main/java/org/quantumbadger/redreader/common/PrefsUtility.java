@@ -307,19 +307,6 @@ public final class PrefsUtility {
 	}
 
 	///////////////////////////////
-	// pref_network
-	///////////////////////////////
-
-	// pref_network_https
-
-	public static boolean httpsEnabled = true;
-
-	public static boolean network_https(final Context context, final SharedPreferences sharedPreferences) {
-		httpsEnabled = getBoolean(R.string.pref_network_https_key, true, context, sharedPreferences);
-		return httpsEnabled;
-	}
-
-	///////////////////////////////
 	// pref_menus
 	///////////////////////////////
 

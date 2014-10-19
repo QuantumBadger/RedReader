@@ -1,5 +1,6 @@
 53/1.8.6.5
 Added Czech translation (thanks to Martin Macko)
+Fixed bug when searching in two-pane mode (thanks to Oleksiy Kovtun)
 Fixed crash bug when selecting "Submit Post"
 
 52/1.8.6.4

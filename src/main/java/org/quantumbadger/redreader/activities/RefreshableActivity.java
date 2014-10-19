@@ -32,15 +32,6 @@ public abstract class RefreshableActivity extends Activity {
 	private boolean paused = false;
 	private final EnumSet<RefreshableFragment> refreshOnResume = EnumSet.noneOf(RefreshableFragment.class);
 
-	private final SharedPreferences.OnSharedPreferenceChangeListener changeListener
-			= new SharedPreferences.OnSharedPreferenceChangeListener() {
-		public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-			if(key.equals(getString(R.string.pref_network_https_key))) {
-				PrefsUtility.network_https(RefreshableActivity.this, prefs);
-			}
-		}
-	};
-
 	public enum RefreshableFragment {
 		MAIN, MAIN_RELAYOUT, POSTS, COMMENTS, RESTART, ALL
 	}
@@ -49,17 +40,12 @@ public abstract class RefreshableActivity extends Activity {
 	protected void onPause() {
 		super.onPause();
 		paused = true;
-		PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(changeListener);
 	}
 
 	@Override
 	protected void onResume() {
 
 		super.onResume();
-
-		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		PrefsUtility.network_https(this, prefs);
-		prefs.registerOnSharedPreferenceChangeListener(changeListener);
 
 		paused = false;
 

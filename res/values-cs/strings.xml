@@ -347,7 +347,7 @@
 
     <!-- Time -->
 
-    <string name="time_ago">Před % vteřinami</string>
+    <string name="time_ago">Před %s vteřinami</string>
 
     <!-- User Profile -->
 

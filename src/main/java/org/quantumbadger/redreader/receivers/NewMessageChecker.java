@@ -54,7 +54,7 @@ public class NewMessageChecker extends BroadcastReceiver {
 
         final URI url;
 
-        url = Constants.Reddit.getUri("/message/unread.json?mark=true&limit=100");
+        url = Constants.Reddit.getUri("/message/unread.json?mark=true&limit=1");
         // TODO modmail stuff?
 
         request = new CacheRequest(url, user, null, Constants.Priority.API_INBOX_LIST, 0, CacheRequest.DownloadType.FORCE, Constants.FileType.INBOX_LIST, true, true, true, context) {
@@ -92,30 +92,33 @@ public class NewMessageChecker extends BroadcastReceiver {
                         JsonValue newMessage = children.get(0);
 
                         android.content.SharedPreferences messageStore = context.getSharedPreferences(PREFS_FILENAME, 0);
-                        String oldMessage = messageStore.getString(PREFS_SAVED_MESSAGE, "Not a message");
+                        String oldMessage = messageStore.getString(PREFS_SAVED_MESSAGE, "No new messages");
                         if (newMessage.toString().equals(oldMessage)) return;
                         messageStore.edit().putString(PREFS_SAVED_MESSAGE, newMessage.toString()).commit();
 
                         RedditThing thing = newMessage.asObject(RedditThing.class);
                         String title;
                         String text;
+                        Class theClass;
                         switch(thing.getKind()) {
                             case COMMENT:
                                 final RedditComment comment = thing.asComment();
                                 title = "New Comment From " + comment.author;
                                 text = comment.body;
+                                theClass = MainActivity.class;
                                 break;
 
                             case MESSAGE:
                                 final RedditMessage message = thing.asMessage();
                                 title = "New Message From " + message.author;
                                 text = message.subject;
+                                theClass = MainActivity.class;
                                 break;
 
                             default:
                                 throw new RuntimeException("Unknown item in list.");
                         }
-                        createNotification(title, text, context);
+                        createNotification(title, text, context, theClass);
                     } catch (IndexOutOfBoundsException e) {} // No new messages
 
                 } catch (Throwable t) {
@@ -128,27 +131,28 @@ public class NewMessageChecker extends BroadcastReceiver {
 
     }
 
-    private void createNotification(String title, String text, Context context) {
+    private void createNotification(String title, String text, Context context, Class theClass) {
 
-        NotificationCompat.Builder testNotification = new NotificationCompat.Builder(context)
+        NotificationCompat.Builder theNotification = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.icon)
                 .setContentTitle(title)
-                .setContentText(text);
+                .setContentText(text)
+                .setAutoCancel(true);
 
-        Intent resultIntent = new Intent(context, MainActivity.class);
+        Intent resultIntent = new Intent(context, theClass);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-        stackBuilder.addParentStack(MainActivity.class);
+        stackBuilder.addParentStack(theClass);
         stackBuilder.addNextIntent(resultIntent);
         PendingIntent resultPendingIntent =
                 stackBuilder.getPendingIntent(
                         0,
                         PendingIntent.FLAG_UPDATE_CURRENT
                 );
-        testNotification.setContentIntent(resultPendingIntent);
+        theNotification.setContentIntent(resultPendingIntent);
 
         NotificationManager mNM = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        mNM.notify(0, testNotification.getNotification());
+        mNM.notify(0, theNotification.getNotification());
     }
 }

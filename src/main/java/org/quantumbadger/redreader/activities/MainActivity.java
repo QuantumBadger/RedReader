@@ -17,6 +17,9 @@
 
 package org.quantumbadger.redreader.activities;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -46,6 +49,7 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.*;
 import org.quantumbadger.redreader.listingcontrollers.CommentListingController;
 import org.quantumbadger.redreader.listingcontrollers.PostListingController;
+import org.quantumbadger.redreader.receivers.NewMessageChecker;
 import org.quantumbadger.redreader.reddit.RedditURLParser;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
@@ -79,8 +83,17 @@ public class MainActivity extends RefreshableActivity
 
 	private SharedPreferences sharedPreferences;
 
+    private PendingIntent pendingIntent;
+    private AlarmManager alarmManager;
+
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
+
+        Intent alarmIntent = new Intent(this, NewMessageChecker.class);
+        pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
+
+        alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 20000, pendingIntent); //TODO make length between checks a setting
 
 		PrefsUtility.applyTheme(this);
 

@@ -5,7 +5,6 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import org.quantumbadger.redreader.activities.MainActivity;
 
 /**
  * Created by Dylan on 11/11/2014.

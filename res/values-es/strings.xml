@@ -39,21 +39,21 @@
     <string name="pref_appearance_theme_header">Tema</string>
     <string name="pref_appearance_font_header">Fuente</string>
     <string name="pref_appearance_thumbnails_header">Miniaturas de imágenes</string>
-    <string name="pref_appearance_tabletmode_header">Modo tablet</string>
+    <string name="pref_appearance_tabletmode_header">Modo tableta</string>
     <string name="pref_appearance_comments_header">Comentarios</string>
     <string name="pref_appearance_other_header">Otros</string>
 
     <string name="pref_appearance_twopane_key">pref_appearance_twopane</string>
-    <string name="pref_appearance_twopane_title">Modo tablet (dos paneles)</string>
+    <string name="pref_appearance_twopane_title">Modo tableta (dos paneles)</string>
 
     <string name="pref_appearance_theme_key">pref_appearance_theme</string>
     <string name="pref_appearance_theme_title">Tema</string>
 
     <string name="pref_appearance_solidblack_key">pref_appearance_solidblack</string>
-    <string name="pref_appearance_solidblack_title">Negro total en modo noche</string>
+    <string name="pref_appearance_solidblack_title">Negro sólido en modo noche</string>
 
     <string name="pref_appearance_fontscale_posts_key">pref_appearance_fontscale_posts</string>
-    <string name="pref_appearance_fontscale_posts_title">Tamaño en posts</string>
+    <string name="pref_appearance_fontscale_posts_title">Tamaño en publicaciones</string>
 
     <string name="pref_appearance_fontscale_comments_key">pref_appearance_fontscale_comments</string>
     <string name="pref_appearance_fontscale_comments_title">Tamaño en comentarios</string>
@@ -77,7 +77,7 @@
 
     <string name="pref_behaviour_actions_post_header">Acciones sobre posts</string>
     <string name="pref_behaviour_actions_comment_header">Acciones sobre comentarios</string>
-    <string name="pref_behaviour_posts_header">Posts</string>
+    <string name="pref_behaviour_posts_header">Publicaciones</string>
 
     <string name="pref_behaviour_fling_post_left_key">pref_behaviour_fling_post_left</string>
     <string name="pref_behaviour_fling_post_left_title">Deslizar hacia la izquierda</string>
@@ -104,10 +104,10 @@
     <string name="pref_cache_maxage_image_key">pref_cache_maxage_image</string>
     <string name="pref_cache_maxage_image_title">Borrar imágenes en caché tras</string>
 
-    <string name="pref_cache_precache_images_header">Precacheo de imágenes</string>
+    <string name="pref_cache_precache_images_header">Guardar previamente imágenes en la caché</string>
 
     <string name="pref_cache_precache_images_key">pref_cache_precache_images</string>
-    <string name="pref_cache_precache_images_title">Precachear imágenes</string>
+    <string name="pref_cache_precache_images_title">Guardar previamente imágenes en la caché</string>
 
     <!-- TODO use listpreference instead -->
     <string name="pref_cache_precache_images_wifionly_key">pref_cache_precache_images_wifionly</string>
@@ -116,10 +116,10 @@
     <!-- Menu Prefs -->
 
     <string name="pref_menus_post_context_items_key">pref_menus_post_context_items</string>
-    <string name="pref_menus_post_context_items_title">Menú de los posts</string>
+    <string name="pref_menus_post_context_items_title">Menú de las publicaciones</string>
 
     <string name="pref_menus_post_toolbar_items_key">pref_menus_post_toolbar_items</string>
-    <string name="pref_menus_post_toolbar_items_title">Toolbar de los posts</string>
+    <string name="pref_menus_post_toolbar_items_title">Barra lateral de las publicaciones</string>
 
     <!-- Options Menu -->
 
@@ -128,20 +128,20 @@
     <string name="options_theme">Temas</string>
     <string name="options_settings">Preferencias</string>
 
-    <string name="options_submit_post">Enviar post</string>
+    <string name="options_submit_post">Enviar publicación</string>
 
     <string name="options_refresh">Actualizar</string>
     <string name="options_refresh_subreddits">Actualizar subreddits</string>
-    <string name="options_refresh_posts">Actualizar posts</string>
+    <string name="options_refresh_posts">Actualizar publicaciones</string>
     <string name="options_refresh_comments">Actualizar comentarios</string>
 
     <string name="options_past">Versiones anteriores</string>
-    <string name="options_past_posts">Versiones anteriores de la lista de posts</string>
+    <string name="options_past_posts">Versiones anteriores de la lista de publicaciones</string>
     <string name="options_past_comments">Versiones anteriores de la lista de comentarios</string>
 
     <string name="options_sort">Ordenar</string>
     <string name="options_sort_subreddits">Ordenar subreddits</string>
-    <string name="options_sort_posts">Ordenar posts</string>
+    <string name="options_sort_posts">Ordenar publicaciones</string>
     <string name="options_sort_comments">Ordenar comentarios</string>
 
     <!-- Main Menu -->
@@ -150,9 +150,9 @@
     <string name="mainmenu_all">Todos los subreddits</string>
     <string name="mainmenu_custom">Subreddit personalizado</string>
     <string name="mainmenu_custom_invalid_name">Nombre de subreddit no válido.</string>
-    <string name="mainmenu_saved">Posts guardados</string>
-    <string name="mainmenu_hidden">Posts ocultos</string>
-    <string name="mainmenu_upvoted">Posts votados</string>
+    <string name="mainmenu_saved">Publicaciones guardadas</string>
+    <string name="mainmenu_hidden">Publicaciones ocultas</string>
+    <string name="mainmenu_upvoted">Publicaciones votadas positivamente</string>
     <string name="mainmenu_inbox">Bandeja de entrada</string>
     <string name="mainmenu_profile">Mi perfil</string>
     <string name="mainmenu_header_subreddits">Subreddits</string>
@@ -182,26 +182,26 @@
 
     <!-- Post Sorts -->
 
-    <string name="sort_posts_hot">Hot</string>
-    <string name="sort_posts_new">New</string>
-    <string name="sort_posts_rising">Rising</string>
-    <string name="sort_posts_controversial">Controversial</string>
-    <string name="sort_posts_top">Top</string>
-    <string name="sort_posts_top_hour">Top: esta hora</string>
-    <string name="sort_posts_top_today">Top: hoy</string>
-    <string name="sort_posts_top_week">Top: esta semana</string>
-    <string name="sort_posts_top_month">Top: este mes</string>
-    <string name="sort_posts_top_year">Top: este año</string>
-    <string name="sort_posts_top_all">Top: todo</string>
+    <string name="sort_posts_hot">Activo</string>
+    <string name="sort_posts_new">Nuevo</string>
+    <string name="sort_posts_rising">Subiendo</string>
+    <string name="sort_posts_controversial">Polémico</string>
+    <string name="sort_posts_top">Popular</string>
+    <string name="sort_posts_top_hour">Popular: esta hora</string>
+    <string name="sort_posts_top_today">Popular: hoy</string>
+    <string name="sort_posts_top_week">Popular: esta semana</string>
+    <string name="sort_posts_top_month">Popular: este mes</string>
+    <string name="sort_posts_top_year">Popular: este año</string>
+    <string name="sort_posts_top_all">Popular: todo</string>
 
     <!-- Comment Sorts -->
 
-    <string name="sort_comments_best">Best</string>
-    <string name="sort_comments_hot">Hot</string>
-    <string name="sort_comments_new">New</string>
-    <string name="sort_comments_old">Old</string>
-    <string name="sort_comments_controversial">Controversial</string>
-    <string name="sort_comments_top">Top</string>
+    <string name="sort_comments_best">Los mejores</string>
+    <string name="sort_comments_hot">Actividad</string>
+    <string name="sort_comments_new">Novedad</string>
+    <string name="sort_comments_old">Antigüedad</string>
+    <string name="sort_comments_controversial">Polémica</string>
+    <string name="sort_comments_top">Popular</string>
 
     <!-- Dialog Buttons -->
 
@@ -213,13 +213,13 @@
 
     <!-- Thing Actions -->
 
-    <string name="action_menu_post_title">Acciones sobre posts</string>
+    <string name="action_menu_post_title">Acciones sobre publicaciones</string>
 
-    <string name="action_upvote">Upvote</string>
-    <string name="action_downvote">Downvote</string>
-    <string name="action_vote_remove">Eliminar vote</string>
-    <string name="action_upvote_remove">Eliminar upvote</string>
-    <string name="action_downvote_remove">Eliminar downvote</string>
+    <string name="action_upvote">Votar positivamente</string>
+    <string name="action_downvote">Votar negativamente</string>
+    <string name="action_vote_remove">Eliminar voto</string>
+    <string name="action_upvote_remove">Eliminar voto positivo</string>
+    <string name="action_downvote_remove">Eliminar voto negativo</string>
     <string name="action_save">Guardar</string>
     <string name="action_hide">Esconder</string>
     <string name="action_unsave">Deshacer guardado</string>
@@ -228,8 +228,8 @@
     <string name="action_external_short">En navegador</string>
     <string name="action_actionmenu_short">Acciones</string>
     <string name="action_actionmenu">Menú de acciones</string>
-    <string name="action_comment_links">Enlaces en comentario</string>
-    <string name="action_selftext_links">Enlaces en self text</string>
+    <string name="action_comment_links">Enlaces en el comentario</string>
+    <string name="action_selftext_links">Enlaces en la publicación de texto</string>
     <string name="action_share">Compartir</string>
     <string name="action_share_comments">Compartir comentarios</string>
     <string name="action_copy">Copiar</string>
@@ -283,7 +283,7 @@
     <string name="post_submit_subreddit_hint">Subreddit</string>
     <string name="post_captcha_title">Captcha</string>
     <string name="post_captcha_submit_button">Enviar</string>
-    <string name="post_submit_done">Post enviado.</string>
+    <string name="post_submit_done">Publicación enviada.</string>
 
     <!-- Bug Reporting -->
 
@@ -336,10 +336,10 @@
     <!-- Post list specific errors -->
 
     <string name="error_postlist_cache_title">Fin de los datos en caché.</string>
-    <string name="error_postlist_cache_message">Estás viendo una versión anterior de este contenido, y no hay más posts de esta sesión en la caché. Presiona actualizar para descargar los últimos posts, o selecciona una versión anterior diferente desde el menú.</string>
+    <string name="error_postlist_cache_message">Estás viendo una versión anterior de este contenido, y no hay más publicaciones de esta sesión en la caché. Presiona actualizar para descargar las últimas publicaciones, o selecciona una versión anterior diferente desde el menú.</string>
 
     <string name="error_postlist_redditdown_title">Reddit está caído.</string>
-    <string name="error_postlist_redditdown_message">Reddit está sobrecargado ahora mismo. Presiona actualizar para descargar los últimos posts, o selecciona una versión anterior diferente desde el menú.</string>
+    <string name="error_postlist_redditdown_message">Reddit está sobrecargado ahora mismo. Presiona actualizar para descargar las últimas publicaciones, o selecciona una versión anterior diferente desde el menú.</string>
 
     <!-- Session List -->
 
@@ -353,34 +353,34 @@
 
     <string name="userprofile_created">Creado</string>
     <string name="userprofile_hasmail">Tiene email</string>
-    <string name="userprofile_hasmodmail">Tiene email de mods</string>
+    <string name="userprofile_hasmodmail">Tiene mensajes de moderadores</string>
     <string name="userprofile_isfriend">Es amigo</string>
     <string name="userprofile_isgold">Reddit Gold</string>
     <string name="userprofile_moderator">Es moderador</string>
     <string name="userprofile_viewcomments">Ver comentarios</string>
-    <string name="userprofile_viewposts">Ver posts</string>
+    <string name="userprofile_viewposts">Ver publicaciones</string>
 
     <!-- Comment/Post Properties -->
 
     <string name="props_comment_title">Propiedades de comentario</string>
-    <string name="props_post_title">Propiedades de post</string>
+    <string name="props_post_title">Propiedades de publicación</string>
     <string name="props_error_title">Propiedades de error</string>
 
     <string name="props_title">Título</string>
     <string name="props_author">Autor</string>
-    <string name="props_author_flair">Texto del flair de autor</string>
+    <string name="props_author_flair">Texto del estilo de autor</string>
     <string name="props_created">Creado</string>
     <string name="props_edited">Editado</string>
     <string name="props_score">Puntuación</string>
     <string name="props_subreddit">Subreddit</string>
     <string name="props_url">URL</string>
     <string name="props_num_comments">Número de comentarios</string>
-    <string name="props_body_markdown">Body (Raw Markdown)</string>
-    <string name="props_self_markdown">Self text (Raw Markdown)</string>
+    <string name="props_body_markdown">Cuerpo (Markdown sin estilizar)</string>
+    <string name="props_self_markdown">Self text (Markdown sin estilizar)</string>
 
     <string name="props_never">Nunca</string>
-    <string name="props_up">Up</string>
-    <string name="props_down">Down</string>
+    <string name="props_up">Arriba</string>
+    <string name="props_down">Abajo</string>
 
     <!-- General -->
 
@@ -411,9 +411,9 @@
     <string name="time_3month">3 meses</string>
 
     <string name="pref_appearance_comment_header_items_author">Autor</string>
-    <string name="pref_appearance_comment_header_items_flair">Flair</string>
+    <string name="pref_appearance_comment_header_items_flair">Estilo</string>
     <string name="pref_appearance_comment_header_items_score">Puntuación</string>
-    <string name="pref_appearance_comment_header_items_upsdowns">Upvotes/downvotes</string>
+    <string name="pref_appearance_comment_header_items_upsdowns">Votos positivos/negativos</string>
     <string name="pref_appearance_comment_header_items_age">Edad</string>
 
     <!-- 2013-05-17 -->
@@ -473,7 +473,7 @@
 
     <!-- 2013-06-09 -->
 
-    <string name="pref_appearance_locale_header">Locale</string>
+    <string name="pref_appearance_locale_header">Local</string>
 
     <string name="pref_appearance_langforce_key">pref_appearance_langforce_key</string>
     <string name="pref_appearance_langforce_title">Idioma</string>
@@ -503,22 +503,22 @@
 
     <!-- 2013-07-29 -->
 
-    <string name="pref_appearance_linkbuttons_title">Botones para enlaces</string>
+    <string name="pref_appearance_linkbuttons_title">Vista previa bajo los enlaces</string>
     <string name="pref_appearance_linkbuttons_key">pref_appearance_linkbuttons</string>
 
     <!-- 2013-08-04 -->
 
-    <string name="pref_appearance_indentlines_title">Líneas de indentado</string>
+    <string name="pref_appearance_indentlines_title">Líneas en la sangría</string>
     <string name="pref_appearance_indentlines_key">pref_appearance_indentlines</string>
 
     <!-- 2014-03-14 -->
 
-    <string name="load_more_posts">Cargar más posts</string>
+    <string name="load_more_posts">Cargar más publicaciones</string>
 
-    <string name="pref_behaviour_postcount_title">Restringir número de posts</string>
+    <string name="pref_behaviour_postcount_title">Restringir número de publicaciones</string>
     <string name="pref_behaviour_postcount_key">pref_behaviour_postcount</string>
 
-    <string name="pref_behaviour_postcount_items_all">Todos</string>
+    <string name="pref_behaviour_postcount_items_all">Mostrar todos</string>
 
     <!-- 2014-03-17 -->
     <string name="time_year">año</string>
@@ -554,8 +554,8 @@
     <string name="pref_menus_mainmenu_useritems_title">Usuario en menú principal</string>
 
     <string name="mainmenu_submitted">Posts enviados</string>
-    <string name="mainmenu_downvoted">Posts downvoted</string>
-    <string name="mainmenu_modmail">Mail de mods</string>
+    <string name="mainmenu_downvoted">Posts votados negativamente</string>
+    <string name="mainmenu_modmail">Mensajes de moderadores</string>
 
     <string name="sidebar_activity_title">Barra lateral</string>
 

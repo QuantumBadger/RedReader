@@ -573,4 +573,8 @@
     <string name="web_view_clear_cache">Limpiar caché</string>
     <string name="web_view_clear_cache_success_toast">Caché, historial, cookies, y datos de formulario borrados.</string>
 
+  <!-- 2014-11-15 -->
+<string name="karma_link">Karma de enlaces</string>
+<string name="karma_comment">Karma de comentarios</string>
+
 </resources>

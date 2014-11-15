@@ -595,20 +595,26 @@ public final class MarkdownTokenizer {
 
 					} else {
 
-						final String name = new String(input.data, openingUnicode + 1, closingUnicode - openingUnicode - 1);
-
-						final String result = StringEscapeUtils.unescapeHtml4("&" + name + ";");
-
 						Integer codePoint = null;
 
-						if(result.length() == 1) {
-							codePoint = (int)result.charAt(0);
+						try {
 
-						} else if(name.equalsIgnoreCase("apos")) {
-							codePoint = (int)'\'';
+							final String name = new String(input.data, openingUnicode + 1, closingUnicode - openingUnicode - 1);
 
-						} else if(name.equalsIgnoreCase("nsub")) {
-							codePoint = (int)'⊄';
+							final String result = StringEscapeUtils.unescapeHtml4("&" + name + ";");
+
+							if(result.length() == 1) {
+								codePoint = (int) result.charAt(0);
+
+							} else if(name.equalsIgnoreCase("apos")) {
+								codePoint = (int) '\'';
+
+							} else if(name.equalsIgnoreCase("nsub")) {
+								codePoint = (int) '⊄';
+							}
+
+						} catch(Throwable ignore) {
+							// Ignore this
 						}
 
 						if(codePoint != null) {

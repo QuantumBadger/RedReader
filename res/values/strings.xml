@@ -578,4 +578,8 @@
     <string name="gold">Gold</string>
     <string name="pref_appearance_comment_header_items_gold">Reddit Gold</string>
 
+    <!-- 2014-11-15 -->
+    <string name="karma_link">Link Karma</string>
+    <string name="karma_comment">Comment Karma</string>
+
 </resources>

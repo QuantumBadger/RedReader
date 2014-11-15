@@ -1,4 +1,5 @@
 53/1.8.6.5
+Added asterisk next to edited comments
 Added Czech translation (thanks to Martin Macko)
 German translation improvements (thanks to andihorner)
 Spanish translation improvements (thanks to moshpirit)

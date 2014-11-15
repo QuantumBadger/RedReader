@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.reddit.api;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 import org.apache.http.StatusLine;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -168,7 +169,9 @@ public class RedditAPIIndividualSubredditListRequester
 						return;
 					}
 
-					if(type == RedditSubredditManager.SubredditListType.SUBSCRIBED && subreddits.getCurrentItemCount() == 0) {
+					if(type == RedditSubredditManager.SubredditListType.SUBSCRIBED
+							&& subreddits.getCurrentItemCount() == 0
+							&& after == null) {
 						doSubredditListRequest(RedditSubredditManager.SubredditListType.MOST_POPULAR, handler, null);
 						return;
 					}
@@ -194,11 +197,19 @@ public class RedditAPIIndividualSubredditListRequester
 							public void onRequestSuccess(WritableHashSet result, long timeCached) {
 								output.addAll(result.toHashset());
 								handler.onRequestSuccess(new WritableHashSet(output, timeCached, type.name()), timeCached);
+
+								if(after == null) {
+									Log.i("SubredditListRequester", "Got " + output.size() + " subreddits in multiple requests");
+								}
 							}
 						}, receivedAfter);
 
 					} else {
 						handler.onRequestSuccess(new WritableHashSet(output, timestamp, type.name()), timestamp);
+
+						if(after == null) {
+							Log.i("SubredditListRequester", "Got " + output.size() + " subreddits in 1 request");
+						}
 					}
 
 				} catch(Exception e) {

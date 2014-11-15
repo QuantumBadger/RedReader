@@ -28,7 +28,7 @@ Thanks to /u/balducien and /u/andiho for this translation!
     <!-- First Run Dialog -->
 
     <string name="firstrun_login_title">Anmelden</string>
-    <string name="firstrun_login_message">Du bist zur Zeit nicht angemeldet. Du kannst die Accountübersicht erreichen, in dem du "Accounts" im Menu auswählst.</string>
+    <string name="firstrun_login_message">Du bist zurzeit nicht angemeldet. Du kannst die Accountübersicht erreichen, indem du "Accounts" im Menü auswählst.</string>
     <string name="firstrun_login_button_now">Jetzt anmelden</string>
     <string name="firstrun_login_button_later">Anonym bleiben</string>
 
@@ -70,7 +70,7 @@ Thanks to /u/balducien and /u/andiho for this translation!
     <string name="pref_appearance_thumbnails_nsfw_show_title">Zeige NSFW-Vorschaubilder</string>
 
     <string name="pref_appearance_thumbnails_wifionly_key">pref_appearance_thumbnails_wifionly</string>
-    <string name="pref_appearance_thumbnails_wifionly_title">Zeige Vorschaubilder nur bei WLAN</string>
+    <string name="pref_appearance_thumbnails_wifionly_title">Zeige Vorschaubilder nur im WLAN</string>
 
     <string name="pref_appearance_loading_detail_key">pref_appearance_loading_detail</string>
     <string name="pref_appearance_loading_detail_title">Detaillierte Ladenachrichten</string>
@@ -116,12 +116,12 @@ Thanks to /u/balducien and /u/andiho for this translation!
 
     <!-- TODO use listpreference instead -->
     <string name="pref_cache_precache_images_wifionly_key">pref_cache_precache_images_wifionly</string>
-    <string name="pref_cache_precache_images_wifionly_title">Nur bei WLAN</string>
+    <string name="pref_cache_precache_images_wifionly_title">Nur im WLAN</string>
 
     <!-- Menu Prefs -->
 
     <string name="pref_menus_post_context_items_key">pref_menus_post_context_items</string>
-    <string name="pref_menus_post_context_items_title">Post-Kontextmenu</string>
+    <string name="pref_menus_post_context_items_title">Post-Kontextmenü</string>
 
     <string name="pref_menus_post_toolbar_items_key">pref_menus_post_toolbar_items</string>
     <string name="pref_menus_post_toolbar_items_title">Post-Toolbar</string>
@@ -210,7 +210,7 @@ Thanks to /u/balducien and /u/andiho for this translation!
 
     <!-- Dialog Buttons -->
 
-    <string name="dialog_close">Schliessen</string>
+    <string name="dialog_close">Schließen</string>
     <string name="dialog_cancel">Abbrechen</string>
     <string name="dialog_yes">Ja</string>
     <string name="dialog_no">Nein</string>
@@ -234,11 +234,11 @@ Thanks to /u/balducien and /u/andiho for this translation!
     <string name="action_actionmenu_short">Aktionen</string>
     <string name="action_actionmenu">Aktionen</string>
     <string name="action_comment_links">Links im Kommentar</string>
-    <string name="action_selftext_links">Links im Self-Text</string>
-    <string name="action_share">Senden</string>
-    <string name="action_share_comments">Kommentare senden</string>
+    <string name="action_selftext_links">Links im Text</string>
+    <string name="action_share">Teilen</string>
+    <string name="action_share_comments">Kommentare teilen</string>
     <string name="action_copy">Kopieren</string>
-    <string name="action_gotosubreddit">Gehe zu Subreddit…</string>
+    <string name="action_gotosubreddit">Gehe zu Subreddit</string>
     <string name="action_reply">Antworten</string>
     <string name="action_edit">Ändern</string>
     <string name="action_user_profile">Benutzer anzeigen</string>
@@ -283,7 +283,7 @@ Thanks to /u/balducien and /u/andiho for this translation!
     <string name="comment_reply_submitting_message">Einen Moment…</string>
     <string name="comment_reply_oncancel">Resultat abwarten…</string>
     <string name="comment_reply_done">Antwort gesandt. Der Kommentar erscheint nach erneutem Laden.</string>
-    <string name="comment_edit_done">Kommentar geändert. Änderungen erscheinen nach erneutem Laden.</string>
+    <string name="comment_edit_done">Kommentar geändert. Die Änderungen erscheinen nach erneutem Laden.</string>
     <string name="post_submit_title_hint">Titel</string>
     <string name="post_submit_subreddit_hint">Subreddit</string>
     <string name="post_captcha_title">Captcha</string>
@@ -312,7 +312,7 @@ Thanks to /u/balducien and /u/andiho for this translation!
     <string name="error_404_message">Die verlangten Daten konnten nicht gefunden werden.</string>
 
     <string name="error_unknown_api_title">Fehler</string>
-    <string name="error_unknown_api_message">Der Server akzeptierte deine Anfrage aus mysteriösen Gründen nicht. Bitte versuch es nochmal.</string>
+    <string name="error_unknown_api_message">Der Server akzeptierte deine Anfrage aus unbekannten Gründen nicht. Bitte versuch es nochmal.</string>
 
     <string name="error_redditdown_title">Reddit ist überlastet.</string>
     <string name="error_redditdown_message">Reddit ist im Moment sehr stark belastet. Bitte versuch es nochmal.</string>
@@ -330,13 +330,13 @@ Thanks to /u/balducien and /u/andiho for this translation!
     <string name="error_unexpected_storage_message">Ein interner Fehler im Zusammenhang mit dem Speicher ist aufgetreten.</string>
 
     <string name="error_connection_title">Verbindungsproblem</string>
-    <string name="error_connection_message">Es ist ein Problem aufgetreten beim Versuch, den Server zu kontaktieren. Prüf deine Internetverbindung und versuch es erneut.</string>
+    <string name="error_connection_message">Es ist ein Problem beim Versuch, den Server zu kontaktieren aufgetreten. Prüf deine Internetverbindung und versuch es erneut.</string>
 
     <string name="error_malformed_url_title">Ungültige URL</string>
     <string name="error_malformed_url_message">Es wurde versucht, eine nicht vorhandene Webseite aufzurufen.</string>
 
     <string name="error_unknown_title">Unbekannter Fehler</string>
-    <string name="error_unknown_message">Ein unbekannter Fehler ist aufgetreten. Bitte versuch es erneut.</string>
+    <string name="error_unknown_message">Ein unbekannter Fehler ist aufgetreten. Bitte versuch es nochmal.</string>
 
     <!-- Post list specific errors -->
 
@@ -441,7 +441,7 @@ Thanks to /u/balducien and /u/andiho for this translation!
     <string name="message_cannotlogin">Anmelden fehlgeschlagen.</string>
 
     <string name="error_toast_no_urls_in_comment">Keine URLs in diesem Kommentar.</string>
-    <string name="error_toast_no_urls_in_self">Keine URLs in diesem Self-Text.</string>
+    <string name="error_toast_no_urls_in_self">Keine URLs in diesem Text.</string>
     <string name="error_toast_parent_post_not_downloaded">Übergeordneter Kommentar noch nicht geladen.</string>
 
     <string name="download_subreddits">Subreddits laden…</string>
@@ -540,14 +540,14 @@ Thanks to /u/balducien and /u/andiho for this translation!
 
     <!-- 2014-03-18 -->
 
-    <string name="error_disk_space_title">Speicherplatz voll</string>
+    <string name="error_disk_space_title">Speicher voll</string>
     <string name="error_disk_space_message">Der Download ist fehlgeschlagen weil kein Speicherplatz mehr zur Verfügung steht. Bitte mach Speicherplatz frei und versuche es nochmal.</string>
 
     <!-- 2014-03-23 -->
 
-    <string name="options_subscribe">Abbonieren</string>
+    <string name="options_subscribe">Abonieren</string>
     <string name="options_unsubscribe">Abbestellen</string>
-    <string name="options_subscribing">Abbonieren…</string>
+    <string name="options_subscribing">Abonieren…</string>
     <string name="options_unsubscribing">Abbestellen…</string>
     <string name="options_sidebar">Seitenleiste anzeigen</string>
 
@@ -564,8 +564,8 @@ Thanks to /u/balducien and /u/andiho for this translation!
 
     <!-- 2014-04-20 -->
 
-    <string name="header_subscriber_count">Abbonenten</string>
-    <string name="header_subscriber_count_unknown">Abbonentenanzahl ist unbekannt</string>
+    <string name="header_subscriber_count">Abonenten</string>
+    <string name="header_subscriber_count_unknown">Abonentenanzahl ist unbekannt</string>
 
     <!-- 2014-04-21 -->
 
@@ -575,5 +575,10 @@ Thanks to /u/balducien and /u/andiho for this translation!
 
     <string name="web_view_clear_cache">Cache leeren</string>
     <string name="web_view_clear_cache_success_toast">Cache, Verlauf, Cookies und Formulardaten wurden gelöscht</string>
+
+    <!-- 2014-09-21 -->
+    
+    <string name="gold">Gold</string>
+    <string name="pref_appearance_comment_header_items_gold">Reddit Gold</string>
 
 </resources>

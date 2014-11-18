@@ -21,8 +21,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.view.View;
-import android.view.ViewGroup;
+import android.util.Log;
+import android.view.*;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.widget.FrameLayout;
@@ -31,9 +31,10 @@ import org.holoeverywhere.widget.TextView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedComment;
 
-public class RedditCommentView extends LinearLayout {
+public class RedditCommentView extends LinearLayout{
 
 	private RedditPreparedComment comment;
 
@@ -47,12 +48,15 @@ public class RedditCommentView extends LinearLayout {
 
 	private final boolean showLinkButtons;
 
-	public RedditCommentView(final Context context, final int headerCol, final int bodyCol) {
+	private CommentListingFragment fragment;
+
+	public RedditCommentView(final Context context, final CommentListingFragment fragment, final int headerCol, final int bodyCol) {
 
 		super(context);
 		this.bodyCol = bodyCol;
-
 		setOrientation(HORIZONTAL);
+
+		this.fragment = fragment;
 
 		LinearLayout main = new LinearLayout(context);
 		main.setOrientation(VERTICAL);
@@ -83,6 +87,43 @@ public class RedditCommentView extends LinearLayout {
 		main.getLayoutParams().width = LinearLayout.LayoutParams.MATCH_PARENT;
 
 		showLinkButtons = PrefsUtility.pref_appearance_linkbuttons(context, PreferenceManager.getDefaultSharedPreferences(context));
+
+		fragment.registerForContextMenu(this);
+
+		main.setOnTouchListener(new SwipeTouchListener(context) {
+			@Override
+			public boolean onTouch(View v, MotionEvent m) {
+				switch(m.getAction()){
+					case MotionEvent.ACTION_DOWN:
+						setBackgroundColor(Color.BLUE);
+						break;
+					case MotionEvent.ACTION_UP:
+						setBackgroundColor(Color.WHITE);
+						break;
+					case MotionEvent.ACTION_CANCEL:
+						setBackgroundColor(Color.WHITE);
+						break;
+				}
+				Log.d("RedditCommentView", "Touch:");
+				return super.onTouch(v, m);
+			}
+
+			@Override
+			public void longPress(){
+				Log.d("RedditCommentView", "Long press");
+				fragment.openContextMenu(RedditCommentView.this);
+			}
+
+			@Override
+			public void swipeLeft() {
+				Log.d("RedditCommentView", "Swiped left");
+			}
+
+			@Override
+			public void swipeRight() {
+				Log.d("RedditCommentView", "Swiped right");
+			}
+		});
 	}
 
 	public void reset(final Activity activity, final RedditPreparedComment comment) {
@@ -212,5 +253,72 @@ public class RedditCommentView extends LinearLayout {
 			this.invalidate();
 		}
 	}
+
+	private class SwipeTouchListener implements View.OnTouchListener {
+		private static final int SWIPE_DISTANCE = 75;
+		private static final int SWIPE_VELOCITY = 60;
+
+		private final GestureDetector gD;
+
+		@Override
+		public boolean onTouch(View v, MotionEvent m){
+			return gD.onTouchEvent(m);
+		}
+
+		public SwipeTouchListener(Context context){
+			gD = new GestureDetector(context, new GestureListener());
+		}
+
+		public void swipeRight(){
+
+		}
+
+		public void swipeLeft(){
+
+		}
+
+		public void longPress(){
+
+		}
+
+		private final class GestureListener extends GestureDetector.SimpleOnGestureListener{
+
+			@Override
+			public void onLongPress(MotionEvent m){
+				longPress();
+				super.onLongPress(m);
+			}
+
+			@Override
+			public boolean onDown(MotionEvent m1){
+				return true;
+			}
+
+			@Override
+			public boolean onFling(MotionEvent m1, MotionEvent m2, float vx, float vy) {
+				Log.d("RedditCommentView", "Fling");
+				try {
+					float disx = m2.getX() - m1.getX();
+					float disy = m2.getY() - m1.getY();
+					float absdisx = Math.abs(disx);
+					float absdisy = Math.abs(disy);
+					if (absdisx > SWIPE_DISTANCE && absdisx > absdisy && Math.abs(vx) > SWIPE_VELOCITY) {
+						if (disx > 0) {
+							swipeRight();
+						} else {
+							swipeLeft();
+						}
+					} else {
+						return false;
+					}
+					return true;
+				} catch (Exception e){
+					Log.d("RedditCommentView",e.getMessage());
+				}
+				return false;
+			}
+		}
+	}
+
 
 }

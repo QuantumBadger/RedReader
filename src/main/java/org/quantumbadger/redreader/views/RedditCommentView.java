@@ -32,6 +32,7 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
+import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedComment;
 
 public class RedditCommentView extends LinearLayout{
@@ -124,6 +125,7 @@ public class RedditCommentView extends LinearLayout{
 						}
 						break;
 				}
+
 				Log.d("RedditCommentView", "Touch:");
 				return super.onTouch(v, m);
 			}
@@ -140,11 +142,19 @@ public class RedditCommentView extends LinearLayout{
 			@Override
 			public void swipeLeft() {
 				Log.d("RedditCommentView", "Swiped left");
+				if(comment.isDownvoted()) {
+					Log.d ("RedditCommentView", "Already Downvoted");
+					comment.action(fragment.getSupportActivity(), RedditAPI.RedditAction.UNVOTE);
+				} else {
+					Log.d ("RedditCommentView", "Need to Downvote");
+					comment.action(fragment.getSupportActivity(), RedditAPI.RedditAction.DOWNVOTE);
+				}
 			}
 
 			@Override
 			public void swipeRight() {
 				Log.d("RedditCommentView", "Swiped right");
+
 			}
 		});
 	}
@@ -293,11 +303,11 @@ public class RedditCommentView extends LinearLayout{
 		}
 
 		public void swipeRight(){
-
+			System.out.println("Comment swipe right");
 		}
 
 		public void swipeLeft(){
-
+			System.out.println("Comment swipe left");
 		}
 
 		public void longPress(){

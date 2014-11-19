@@ -608,7 +608,8 @@ public final class MarkdownTokenizer {
 							codePoint = (int)'\'';
 
 						} else if(name.equalsIgnoreCase("nsub")) {
-							codePoint = (int)'⊄';
+							//What is going on here?
+							// codePoint = (int)'⊄';
 						}
 
 						if(codePoint != null) {

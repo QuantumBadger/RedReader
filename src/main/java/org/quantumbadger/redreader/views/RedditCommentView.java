@@ -21,7 +21,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.util.Log;
 import android.view.*;
 import org.holoeverywhere.app.Activity;
@@ -33,7 +32,6 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
-import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedComment;
 
 public class RedditCommentView extends LinearLayout{
@@ -52,6 +50,8 @@ public class RedditCommentView extends LinearLayout{
 
 	private CommentListingFragment fragment;
 
+	private float initx, inity;
+
 	public RedditCommentView(final Context context, final CommentListingFragment fragment, final int headerCol, final int bodyCol) {
 
 		super(context);
@@ -60,7 +60,13 @@ public class RedditCommentView extends LinearLayout{
 
 		this.fragment = fragment;
 
-		LinearLayout main = new LinearLayout(context);
+		LinearLayout main = new LinearLayout(context){
+			@Override
+			public boolean onInterceptTouchEvent(MotionEvent m){
+				//Steal children's touch events to give main the whole touch area
+				return true;
+			}
+		};
 		main.setOrientation(VERTICAL);
 
 		fontScale = PrefsUtility.appearance_fontscale_comments(context, PreferenceManager.getDefaultSharedPreferences(context));
@@ -90,34 +96,42 @@ public class RedditCommentView extends LinearLayout{
 
 		showLinkButtons = PrefsUtility.pref_appearance_linkbuttons(context, PreferenceManager.getDefaultSharedPreferences(context));
 
-		Rect rect = new Rect();
-		main.getHitRect(rect);
-		rect.bottom += 600;
-		TouchDelegate td = new TouchDelegate(rect, main);
-		main.setTouchDelegate(td);
-
-		main.setOnTouchListener(new SwipeTouchListener(context) {
+		this.setOnTouchListener(new SwipeTouchListener(context) {
 			@Override
 			public boolean onTouch(View v, MotionEvent m) {
-				switch(m.getAction()){
+				switch (m.getAction()) {
 					case MotionEvent.ACTION_DOWN:
+						requestDisallowInterceptTouchEvent(true);
+						initx = m.getX();
+						inity = m.getY();
 						setBackgroundColor(Color.BLUE);
 						break;
 					case MotionEvent.ACTION_UP:
 						setBackgroundColor(Color.WHITE);
 						break;
 					case MotionEvent.ACTION_CANCEL:
+						requestDisallowInterceptTouchEvent(false);
 						setBackgroundColor(Color.WHITE);
 						break;
+					case MotionEvent.ACTION_MOVE:
+						float disx = m.getX() - initx;
+						float disy = m.getX() - inity;
+						initx += disx;
+						inity += disy;
+						//Give parent control back( for scroll ) if moving vertically
+						if(Math.abs(disy)>Math.abs(disx)){
+							requestDisallowInterceptTouchEvent(false);
+						}
+						break;
 				}
-
 				Log.d("RedditCommentView", "Touch:");
 				return super.onTouch(v, m);
 			}
 
 			@Override
-			public void longPress(){
+			public void longPress() {
 				Log.d("RedditCommentView", "Long press");
+				//Only set context menu in fragment when called upon
 				fragment.registerForContextMenu(RedditCommentView.this);
 				fragment.openContextMenu(RedditCommentView.this);
 				fragment.unregisterForContextMenu(RedditCommentView.this);
@@ -126,19 +140,11 @@ public class RedditCommentView extends LinearLayout{
 			@Override
 			public void swipeLeft() {
 				Log.d("RedditCommentView", "Swiped left");
-				if(comment.isDownvoted()) {
-					Log.d ("RedditCommentView", "Already Downvoted");
-					comment.action(fragment.getSupportActivity(), RedditAPI.RedditAction.UNVOTE);
-				} else {
-					Log.d ("RedditCommentView", "Need to Downvote");
-					comment.action(fragment.getSupportActivity(), RedditAPI.RedditAction.DOWNVOTE);
-				}
 			}
 
 			@Override
 			public void swipeRight() {
 				Log.d("RedditCommentView", "Swiped right");
-
 			}
 		});
 	}
@@ -287,11 +293,11 @@ public class RedditCommentView extends LinearLayout{
 		}
 
 		public void swipeRight(){
-			System.out.println("Comment swipe right");
+
 		}
 
 		public void swipeLeft(){
-			System.out.println("Comment swipe left");
+
 		}
 
 		public void longPress(){

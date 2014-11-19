@@ -21,6 +21,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.Log;
 import android.view.*;
 import org.holoeverywhere.app.Activity;
@@ -88,7 +89,11 @@ public class RedditCommentView extends LinearLayout{
 
 		showLinkButtons = PrefsUtility.pref_appearance_linkbuttons(context, PreferenceManager.getDefaultSharedPreferences(context));
 
-		fragment.registerForContextMenu(this);
+		Rect rect = new Rect();
+		main.getHitRect(rect);
+		rect.bottom += 200;
+		TouchDelegate td = new TouchDelegate(rect, main);
+		main.setTouchDelegate(td);
 
 		main.setOnTouchListener(new SwipeTouchListener(context) {
 			@Override
@@ -111,7 +116,9 @@ public class RedditCommentView extends LinearLayout{
 			@Override
 			public void longPress(){
 				Log.d("RedditCommentView", "Long press");
+				fragment.registerForContextMenu(RedditCommentView.this);
 				fragment.openContextMenu(RedditCommentView.this);
+				fragment.unregisterForContextMenu(RedditCommentView.this);
 			}
 
 			@Override

@@ -32,6 +32,7 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
+import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedComment;
 
 public class RedditCommentView extends LinearLayout{
@@ -140,6 +141,13 @@ public class RedditCommentView extends LinearLayout{
 			@Override
 			public void swipeLeft() {
 				Log.d("RedditCommentView", "Swiped left");
+				if(comment.isDownvoted()){
+					Log.d("RedditCommentView", "Must UNVOTE");
+					comment.action(fragment.getSupportActivity(), RedditAPI.RedditAction.UNVOTE);
+				}else{
+					Log.d("RedditCommentView", "Must DOWNVOTE");
+					comment.action(fragment.getSupportActivity(), RedditAPI.RedditAction.DOWNVOTE);
+				}
 			}
 
 			@Override

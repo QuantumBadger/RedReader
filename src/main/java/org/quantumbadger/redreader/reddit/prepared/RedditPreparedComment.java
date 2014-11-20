@@ -348,6 +348,7 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 						lastChange = RRTime.utcCurrentTimeMillis();
 						RedditChangeDataManager.getInstance(context).update(src.link_id, user, RedditPreparedComment.this, true);
 						refreshView(activity);
+					//	boundView.updateAppearance();
 					}
 
 					private void revertOnFailure() {

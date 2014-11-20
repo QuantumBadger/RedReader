@@ -24,6 +24,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.text.SpannableStringBuilder;
 import android.view.ViewGroup;
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -150,7 +151,7 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 	}
 
 	private void rebuildHeader(final Context context) {
-
+		Log.d("RedditPreparedComment", "The header was called to be rebuilt");
 		final BetterSSB sb = new BetterSSB();
 
 		final int pointsCol;
@@ -162,9 +163,11 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 		if(isUpvoted()) {
 			pointsCol = rrPostSubtitleUpvoteCol;
 			score++;
+			Log.d("RedditPreparedComment", "Change to upvote colour");
 		} else if(isDownvoted()) {
 			pointsCol = rrPostSubtitleDownvoteCol;
 			score--;
+			Log.d("RedditPreparedComment", "Change to downvote colour");
 		} else {
 			pointsCol = rrCommentHeaderBoldCol;
 		}
@@ -198,6 +201,7 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 		if(headerItems.contains(PrefsUtility.AppearanceCommentHeaderItems.SCORE)) {
 
 			if(!Boolean.TRUE.equals(src.score_hidden)) {
+				Log.d("RedditPreparedComment", String.valueOf(score));
 				sb.append(String.valueOf(score), BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, pointsCol, 0, 1f);
 			} else {
 				sb.append("??", BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, pointsCol, 0, 1f);
@@ -293,7 +297,7 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 	public void action(final Activity activity, final RedditAPI.RedditAction action) {
 
 		final RedditAccount user = RedditAccountManager.getInstance(activity).getDefaultAccount();
-
+		Log.d("RedditPreparedComment", "The action method has been called");
 		if(user.isAnonymous()) {
 			General.quickToast(activity, "You must be logged in to do that.");
 			return;

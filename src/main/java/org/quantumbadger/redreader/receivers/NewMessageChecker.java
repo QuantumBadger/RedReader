@@ -48,8 +48,7 @@ public class NewMessageChecker extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         boolean notificationsEnabled = PrefsUtility.pref_behaviour_notifications(context, PreferenceManager.getDefaultSharedPreferences(context));
-        System.out.println("Notifications " + (notificationsEnabled ? "enabled" : "disabled"));
-        if (!notificationsEnabled) return; // If notifications are disabled, exit
+        if (!notificationsEnabled) return;
 
         final RedditAccount user = RedditAccountManager.getInstance(context).getDefaultAccount();
         final CacheManager cm = CacheManager.getInstance(context);

@@ -83,17 +83,8 @@ public class MainActivity extends RefreshableActivity
 
 	private SharedPreferences sharedPreferences;
 
-    private PendingIntent pendingIntent;
-    private AlarmManager alarmManager;
-
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
-
-        Intent alarmIntent = new Intent(this, NewMessageChecker.class);
-        pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
-
-        alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setInexactRepeating(AlarmManager.RTC, System.currentTimeMillis(), AlarmManager.INTERVAL_HOUR, pendingIntent); //TODO make length between checks a setting?
 
 		PrefsUtility.applyTheme(this);
 
@@ -195,6 +186,17 @@ public class MainActivity extends RefreshableActivity
 
 		addSubscriptionListener();
 	}
+
+    private void startMessageChecker() {
+        PendingIntent pendingIntent;
+        AlarmManager alarmManager;
+
+        Intent alarmIntent = new Intent(this, NewMessageChecker.class);
+        pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
+
+        alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setInexactRepeating(AlarmManager.RTC, System.currentTimeMillis(), AlarmManager.INTERVAL_HOUR, pendingIntent);
+    }
 
 	private void addSubscriptionListener() {
 		RedditSubredditSubscriptionManager

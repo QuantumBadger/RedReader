@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
 import org.apache.http.StatusLine;
+import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.preference.SharedPreferences;
 import org.holoeverywhere.widget.TextView;
 import org.quantumbadger.redreader.R;
@@ -20,10 +21,7 @@ import org.quantumbadger.redreader.activities.MainActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.RequestFailureType;
-import org.quantumbadger.redreader.common.Constants;
-import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.common.RRError;
-import org.quantumbadger.redreader.common.RRTime;
+import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
@@ -48,6 +46,10 @@ public class NewMessageChecker extends BroadcastReceiver {
     private final String PREFS_SAVED_MESSAGE = "LastMessage";
 
     public void onReceive(Context context, Intent intent) {
+
+        boolean notificationsEnabled = PrefsUtility.pref_behaviour_notifications(context, PreferenceManager.getDefaultSharedPreferences(context));
+        System.out.println("Notifications " + (notificationsEnabled ? "enabled" : "disabled"));
+        if (!notificationsEnabled) return; // If notifications are disabled, exit
 
         final RedditAccount user = RedditAccountManager.getInstance(context).getDefaultAccount();
         final CacheManager cm = CacheManager.getInstance(context);

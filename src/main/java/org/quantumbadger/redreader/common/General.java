@@ -182,6 +182,12 @@ public final class General {
 		return info != null && info.isConnected();
 	}
 
+	public static boolean isConnected(final Context context){
+		ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+		return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+	}
+
 	public static RRError getGeneralErrorForFailure(Context context, RequestFailureType type, Throwable t, StatusLine status, String url) {
 
 		final int title, message;

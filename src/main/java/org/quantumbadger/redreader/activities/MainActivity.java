@@ -93,7 +93,7 @@ public class MainActivity extends RefreshableActivity
         pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
 
         alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 20000, pendingIntent); //TODO make length between checks a setting
+        alarmManager.setInexactRepeating(AlarmManager.RTC, System.currentTimeMillis(), AlarmManager.INTERVAL_HOUR, pendingIntent); //TODO make length between checks a setting?
 
 		PrefsUtility.applyTheme(this);
 

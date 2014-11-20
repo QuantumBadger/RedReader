@@ -149,7 +149,7 @@ public class RedditCommentView extends LinearLayout{
 					Log.d ("RedditCommentView", "Need to Downvote");
 					comment.action(fragment.getSupportActivity(), RedditAPI.RedditAction.DOWNVOTE);
 				}
-				comment.refreshView(context);
+				updateAppearance();
 			}
 
 			@Override
@@ -162,7 +162,7 @@ public class RedditCommentView extends LinearLayout{
 					Log.d("RedditCommentView", "Must UPVOTE");
 					comment.action(fragment.getSupportActivity(), RedditAPI.RedditAction.UPVOTE);
 				}
-				comment.refreshView(context);
+				updateAppearance();
 			}
 		});
 	}

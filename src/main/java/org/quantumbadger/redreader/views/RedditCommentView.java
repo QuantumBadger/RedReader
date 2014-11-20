@@ -120,7 +120,7 @@ public class RedditCommentView extends LinearLayout{
 						initx += disx;
 						inity += disy;
 						//Give parent control back( for scroll ) if moving vertically
-						if(Math.abs(disy)>Math.abs(disx)){
+						if(Math.abs(disy)>Math.abs(disx) && Math.abs(disy) > 75){
 							requestDisallowInterceptTouchEvent(false);
 						}
 						break;

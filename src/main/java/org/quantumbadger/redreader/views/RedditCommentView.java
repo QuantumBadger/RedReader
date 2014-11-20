@@ -141,7 +141,7 @@ public class RedditCommentView extends LinearLayout{
 
 			@Override
 			public void swipeLeft() {
-				Log.d("RedditCommentView", "Swiped left");
+				comment.bind(RedditCommentView.this);
 				if(comment.isDownvoted()) {
 					Log.d ("RedditCommentView", "Already Downvoted");
 					comment.action(fragment.getSupportActivity(), RedditAPI.RedditAction.UNVOTE);
@@ -149,6 +149,7 @@ public class RedditCommentView extends LinearLayout{
 					Log.d ("RedditCommentView", "Need to Downvote");
 					comment.action(fragment.getSupportActivity(), RedditAPI.RedditAction.DOWNVOTE);
 				}
+
 				updateAppearance();
 			}
 
@@ -162,6 +163,7 @@ public class RedditCommentView extends LinearLayout{
 					Log.d("RedditCommentView", "Must UPVOTE");
 					comment.action(fragment.getSupportActivity(), RedditAPI.RedditAction.UPVOTE);
 				}
+
 				updateAppearance();
 			}
 		});

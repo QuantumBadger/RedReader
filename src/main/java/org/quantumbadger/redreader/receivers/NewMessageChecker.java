@@ -55,8 +55,7 @@ public class NewMessageChecker extends BroadcastReceiver {
 
         final URI url;
 
-        url = Constants.Reddit.getUri("/message/unread.json?mark=true&limit=1");
-        // TODO modmail stuff?
+        url = Constants.Reddit.getUri("/message/unread.json?mark=true&limit=2");
 
         request = new CacheRequest(url, user, null, Constants.Priority.API_INBOX_LIST, 0, CacheRequest.DownloadType.FORCE, Constants.FileType.INBOX_LIST, true, true, true, context) {
 
@@ -91,6 +90,7 @@ public class NewMessageChecker extends BroadcastReceiver {
 
                     try {
                         JsonValue newMessage = children.get(0);
+                        int numMessages = children.getCurrentItemCount();
 
                         android.content.SharedPreferences messageStore = context.getSharedPreferences(PREFS_FILENAME, 0);
                         String oldMessage = messageStore.getString(PREFS_SAVED_MESSAGE, "No new messages");
@@ -101,23 +101,29 @@ public class NewMessageChecker extends BroadcastReceiver {
                         String title;
                         String text;
                         Class theClass;
-                        switch(thing.getKind()) {
-                            case COMMENT:
-                                final RedditComment comment = thing.asComment();
-                                title = "New Comment From " + comment.author;
-                                text = comment.body;
-                                theClass = MainActivity.class;
-                                break;
+                        if (numMessages > 1) {
+                            title = "New messages on Reddit";
+                            text = "Touch to view";
+                            theClass = MainActivity.class;
+                        } else {
+                            switch (thing.getKind()) {
+                                case COMMENT:
+                                    final RedditComment comment = thing.asComment();
+                                    title = comment.author + " replied to your comment";
+                                    text = "Touch to view";
+                                    theClass = MainActivity.class;
+                                    break;
 
-                            case MESSAGE:
-                                final RedditMessage message = thing.asMessage();
-                                title = "New Message From " + message.author;
-                                text = message.subject;
-                                theClass = MainActivity.class;
-                                break;
+                                case MESSAGE:
+                                    final RedditMessage message = thing.asMessage();
+                                    title = message.author + " sent you a message";
+                                    text = "Touch to view";
+                                    theClass = MainActivity.class;
+                                    break;
 
-                            default:
-                                throw new RuntimeException("Unknown item in list.");
+                                default:
+                                    throw new RuntimeException("Unknown item in list.");
+                            }
                         }
                         createNotification(title, text, context, theClass);
                     } catch (IndexOutOfBoundsException e) {} // No new messages
@@ -141,19 +147,16 @@ public class NewMessageChecker extends BroadcastReceiver {
                 .setAutoCancel(true);
 
         Intent resultIntent = new Intent(context, theClass);
+        resultIntent.putExtra("isNewMessage", true);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         stackBuilder.addParentStack(theClass);
         stackBuilder.addNextIntent(resultIntent);
-        PendingIntent resultPendingIntent =
-                stackBuilder.getPendingIntent(
-                        0,
-                        PendingIntent.FLAG_UPDATE_CURRENT
-                );
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
         theNotification.setContentIntent(resultPendingIntent);
 
-        NotificationManager mNM = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        mNM.notify(0, theNotification.getNotification());
+        nm.notify(0, theNotification.getNotification());
     }
 }

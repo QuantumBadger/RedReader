@@ -23,6 +23,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
 import android.view.*;
+import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.preference.PreferenceManager;
@@ -144,6 +145,24 @@ public class RedditCommentView extends LinearLayout{
 				comment.bind(RedditCommentView.this);
 				TranslateAnimation anim = new TranslateAnimation(0, -getWidth(), 0,  0);
 				anim.setDuration(750);
+				anim.setAnimationListener(new Animation.AnimationListener() {
+					@Override
+					public void onAnimationStart(Animation animation) {
+						Log.d("RedditCommentView","animation start");
+					}
+
+					@Override
+					public void onAnimationRepeat(Animation animation) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void onAnimationEnd(Animation animation) {
+						Log.d("RedditCommentView","animation end");
+
+					}
+				});
 				startAnimation(anim);
 				if(comment.isDownvoted()){
 					Log.d("RedditCommentView", "Must UNVOTE");
@@ -162,6 +181,24 @@ public class RedditCommentView extends LinearLayout{
 				comment.bind(RedditCommentView.this);
 				TranslateAnimation anim = new TranslateAnimation(0, getWidth(), 0, 0);
 				anim.setDuration(750);
+				anim.setAnimationListener(new Animation.AnimationListener() {
+					@Override
+					public void onAnimationStart(Animation animation) {
+						Log.d("RedditCommentView","animation start");
+					}
+
+					@Override
+					public void onAnimationRepeat(Animation animation) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void onAnimationEnd(Animation animation) {
+						Log.d("RedditCommentView","animation end");
+
+					}
+				});
 				startAnimation(anim);
 				if(comment.isUpvoted()){
 					Log.d("RedditCommentView", "Must UNVOTE");

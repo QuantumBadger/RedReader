@@ -23,6 +23,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
 import android.view.*;
+import android.view.animation.TranslateAnimation;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.widget.FrameLayout;
@@ -142,6 +143,9 @@ public class RedditCommentView extends LinearLayout{
 			@Override
 			public void swipeLeft() {
 				comment.bind(RedditCommentView.this);
+				TranslateAnimation anim = new TranslateAnimation(0, -getWidth(), 0,  0);
+				anim.setDuration(750);
+				startAnimation(anim);
 				if(comment.isDownvoted()) {
 					Log.d ("RedditCommentView", "Already Downvoted");
 					comment.action(fragment.getSupportActivity(), RedditAPI.RedditAction.UNVOTE);
@@ -157,6 +161,9 @@ public class RedditCommentView extends LinearLayout{
 			public void swipeRight() {
 				Log.d("RedditCommentView", "Swiped right");
 
+				TranslateAnimation anim = new TranslateAnimation(0, getWidth(), 0, 0);
+				anim.setDuration(750);
+				startAnimation(anim);
 					Log.d("RedditCommentView", "Must UNVOTE");
 					comment.action(fragment.getSupportActivity(), RedditAPI.RedditAction.UNVOTE);
 				}else{

@@ -185,6 +185,13 @@ public class MainActivity extends RefreshableActivity
 		}
 
 		addSubscriptionListener();
+
+        Boolean startInbox = getIntent().getBooleanExtra("isNewMessage", false);
+        if (startInbox) {
+            InboxListingFragment.newInstance().show(this);
+        } else {
+            startMessageChecker();
+        }
 	}
 
     private void startMessageChecker() {

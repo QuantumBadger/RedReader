@@ -18,9 +18,11 @@
 package org.quantumbadger.redreader.views;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.*;
 import android.view.animation.Animation;
@@ -55,6 +57,10 @@ public class RedditCommentView extends LinearLayout{
 
 	private float initx, inity;
 
+	private final Drawable rrIconFfLeft, rrIconFfRight, rrIconTick;
+
+	private final TextView leftOverlayText, rightOverlayText;
+
 	public RedditCommentView(final Context context, final CommentListingFragment fragment, final int headerCol, final int bodyCol) {
 
 		super(context);
@@ -84,6 +90,22 @@ public class RedditCommentView extends LinearLayout{
 		main.addView(bodyHolder);
 		bodyHolder.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
 
+		final TypedArray attr = context.obtainStyledAttributes(new int[] {
+				R.attr.rrIconFfLeft,
+				R.attr.rrIconFfRight,
+				R.attr.rrIconTick,
+				R.attr.rrPostTitleCol,
+				R.attr.rrPostTitleReadCol,
+				R.attr.rrListItemBackgroundCol,
+				R.attr.rrPostBackgroundColSticky,
+				R.attr.rrPostCommentsButtonBackCol,
+				R.attr.rrPostCommentsButtonBackColSticky
+		});
+
+		rrIconFfLeft = attr.getDrawable(0);
+		rrIconFfRight = attr.getDrawable(1);
+		rrIconTick = attr.getDrawable(2);
+
 		final int paddingPixelsVertical = General.dpToPixels(context, 8.0f);
 		final int paddingPixelsHorizontal = General.dpToPixels(context, 12.0f);
 		main.setPadding(paddingPixelsHorizontal, paddingPixelsVertical, paddingPixelsHorizontal, paddingPixelsVertical);
@@ -96,6 +118,20 @@ public class RedditCommentView extends LinearLayout{
 
 		addView(main);
 		main.getLayoutParams().width = LinearLayout.LayoutParams.MATCH_PARENT;
+
+		leftOverlayText = new TextView(context);
+		rightOverlayText = new TextView(context);
+		main.addView(leftOverlayText);
+		main.addView(rightOverlayText);
+
+		leftOverlayText.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+		rightOverlayText.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+		leftOverlayText.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+		rightOverlayText.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+		rightOverlayText.setCompoundDrawablesWithIntrinsicBounds(null, rrIconTick, null, null);
+		leftOverlayText.setCompoundDrawablesWithIntrinsicBounds(null, rrIconTick, null, null);
+		leftOverlayText.setVisibility(GONE);
+		rightOverlayText.setVisibility(GONE);
 
 		showLinkButtons = PrefsUtility.pref_appearance_linkbuttons(context, PreferenceManager.getDefaultSharedPreferences(context));
 
@@ -144,12 +180,23 @@ public class RedditCommentView extends LinearLayout{
 			@Override
 			public void swipeLeft() {
 				comment.bind(RedditCommentView.this);
+				if(comment.isDownvoted()){
+					Log.d("RedditCommentView", "Must UNVOTE");
+					leftOverlayText.setText("Unvoted");
+					comment.action(fragment.getSupportActivity(), RedditAPI.RedditAction.UNVOTE);
+				}else{
+					Log.d("RedditCommentView", "Must DOWNVOTE");
+					leftOverlayText.setText("Downvoted");
+					comment.action(fragment.getSupportActivity(), RedditAPI.RedditAction.DOWNVOTE);
+				}
+
 				TranslateAnimation anim = new TranslateAnimation(0, -getWidth(), 0,  0);
 				anim.setDuration(750);
 				anim.setAnimationListener(new Animation.AnimationListener() {
 					@Override
 					public void onAnimationStart(Animation animation) {
 						Log.d("RedditCommentView","animation start");
+						leftOverlayText.setVisibility(VISIBLE);
 					}
 
 					@Override
@@ -161,7 +208,7 @@ public class RedditCommentView extends LinearLayout{
 					@Override
 					public void onAnimationEnd(Animation animation) {
 						Log.d("RedditCommentView","animation end");
-
+						leftOverlayText.setVisibility(GONE);
 					}
 				});
 				startAnimation(anim);
@@ -180,12 +227,22 @@ public class RedditCommentView extends LinearLayout{
 			public void swipeRight() {
 				Log.d("RedditCommentView", "Swiped right");
 
+				if(comment.isUpvoted()){
+					Log.d("RedditCommentView", "Must UNVOTE");
+					rightOverlayText.setText("Unvoted");
+					comment.action(fragment.getSupportActivity(), RedditAPI.RedditAction.UNVOTE);
+				}else{
+					Log.d("RedditCommentView", "Must UPVOTE");
+					rightOverlayText.setText("Upvoted");
+					comment.action(fragment.getSupportActivity(), RedditAPI.RedditAction.UPVOTE);
+				}
 				TranslateAnimation anim = new TranslateAnimation(0, getWidth(), 0, 0);
 				anim.setDuration(750);
 				anim.setAnimationListener(new Animation.AnimationListener() {
 					@Override
 					public void onAnimationStart(Animation animation) {
 						Log.d("RedditCommentView","animation start");
+						rightOverlayText.setVisibility(VISIBLE);
 					}
 
 					@Override
@@ -197,7 +254,7 @@ public class RedditCommentView extends LinearLayout{
 					@Override
 					public void onAnimationEnd(Animation animation) {
 						Log.d("RedditCommentView","animation end");
-
+						rightOverlayText.setVisibility(GONE);
 					}
 				});
 				startAnimation(anim);

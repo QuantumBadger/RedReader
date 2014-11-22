@@ -116,18 +116,22 @@ public class RedditCommentView extends LinearLayout{
 		addView(indent);
 		indent.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
 
+		leftOverlayText = new TextView(context);
+		rightOverlayText = new TextView(context);
+		addView(leftOverlayText);
+		addView(rightOverlayText);
+
 		addView(main);
 		main.getLayoutParams().width = LinearLayout.LayoutParams.MATCH_PARENT;
 
-		leftOverlayText = new TextView(context);
-		rightOverlayText = new TextView(context);
-		main.addView(leftOverlayText);
-		main.addView(rightOverlayText);
-
-		leftOverlayText.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-		rightOverlayText.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
 		leftOverlayText.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
 		rightOverlayText.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+		leftOverlayText.setGravity(Gravity.CENTER_VERTICAL);
+		rightOverlayText.setGravity(Gravity.CENTER_VERTICAL);
+		leftOverlayText.setPadding(3,0,3,0);
+		rightOverlayText.setPadding(3,0,3,0);
+		leftOverlayText.setBackgroundColor(Color.BLUE);
+		rightOverlayText.setBackgroundColor(Color.GREEN);
 		rightOverlayText.setCompoundDrawablesWithIntrinsicBounds(null, rrIconTick, null, null);
 		leftOverlayText.setCompoundDrawablesWithIntrinsicBounds(null, rrIconTick, null, null);
 		leftOverlayText.setVisibility(GONE);
@@ -181,7 +185,7 @@ public class RedditCommentView extends LinearLayout{
 				comment.bind(RedditCommentView.this);
 				if(comment.isDownvoted()){
 					Log.d("RedditCommentView", "Must UNVOTE");
-					leftOverlayText.setText("Unvoted");
+					leftOverlayText.setText("   Unvoted  ");
 					comment.action(fragment.getSupportActivity(), RedditAPI.RedditAction.UNVOTE);
 				}else{
 					Log.d("RedditCommentView", "Must DOWNVOTE");

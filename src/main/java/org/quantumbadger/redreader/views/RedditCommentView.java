@@ -80,6 +80,11 @@ public class RedditCommentView extends LinearLayout{
 
 		fontScale = PrefsUtility.appearance_fontscale_comments(context, PreferenceManager.getDefaultSharedPreferences(context));
 
+		leftOverlayText = new TextView(context);
+		rightOverlayText = new TextView(context);
+		main.addView(rightOverlayText);
+		main.addView(leftOverlayText);
+
 		header = new TextView(context);
 		header.setTextSize(11.0f * fontScale);
 		header.setTextColor(headerCol);
@@ -116,24 +121,16 @@ public class RedditCommentView extends LinearLayout{
 		addView(indent);
 		indent.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
 
-		leftOverlayText = new TextView(context);
-		rightOverlayText = new TextView(context);
-		addView(leftOverlayText);
-		addView(rightOverlayText);
-
 		addView(main);
+		//addView(leftOverlayText);
 		main.getLayoutParams().width = LinearLayout.LayoutParams.MATCH_PARENT;
 
 		leftOverlayText.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
 		rightOverlayText.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
-		leftOverlayText.setGravity(Gravity.CENTER_VERTICAL);
-		rightOverlayText.setGravity(Gravity.CENTER_VERTICAL);
-		leftOverlayText.setPadding(3,0,3,0);
-		rightOverlayText.setPadding(3,0,3,0);
-		leftOverlayText.setBackgroundColor(Color.BLUE);
-		rightOverlayText.setBackgroundColor(Color.GREEN);
-		rightOverlayText.setCompoundDrawablesWithIntrinsicBounds(null, rrIconTick, null, null);
-		leftOverlayText.setCompoundDrawablesWithIntrinsicBounds(null, rrIconTick, null, null);
+		leftOverlayText.setGravity(Gravity.CENTER | Gravity.RIGHT);
+		rightOverlayText.setGravity(Gravity.CENTER | Gravity.LEFT);
+		rightOverlayText.setCompoundDrawablesWithIntrinsicBounds(rrIconTick, null, null, null);
+		leftOverlayText.setCompoundDrawablesWithIntrinsicBounds(null, null, rrIconTick, null);
 		leftOverlayText.setVisibility(GONE);
 		rightOverlayText.setVisibility(GONE);
 
@@ -185,7 +182,7 @@ public class RedditCommentView extends LinearLayout{
 				comment.bind(RedditCommentView.this);
 				if(comment.isDownvoted()){
 					Log.d("RedditCommentView", "Must UNVOTE");
-					leftOverlayText.setText("   Unvoted  ");
+					leftOverlayText.setText("Unvoted");
 					comment.action(fragment.getSupportActivity(), RedditAPI.RedditAction.UNVOTE);
 				}else{
 					Log.d("RedditCommentView", "Must DOWNVOTE");
@@ -198,7 +195,10 @@ public class RedditCommentView extends LinearLayout{
 				anim.setAnimationListener(new Animation.AnimationListener() {
 					@Override
 					public void onAnimationStart(Animation animation) {
-						Log.d("RedditCommentView","animation start");
+						Log.d("RedditCommentView", "animation start");
+						leftOverlayText.setMinimumHeight(header.getHeight() + bodyHolder.getHeight());
+						header.setVisibility(GONE);
+						bodyHolder.setVisibility(GONE);
 						leftOverlayText.setVisibility(VISIBLE);
 					}
 
@@ -210,11 +210,14 @@ public class RedditCommentView extends LinearLayout{
 
 					@Override
 					public void onAnimationEnd(Animation animation) {
-						Log.d("RedditCommentView","animation end");
+						Log.d("RedditCommentView", "animation end");
 						leftOverlayText.setVisibility(GONE);
+						header.setVisibility(VISIBLE);
+						bodyHolder.setVisibility(VISIBLE);
 					}
 				});
-				startAnimation(anim);
+				header.startAnimation(anim);
+				bodyHolder.startAnimation(anim);
 				updateAppearance();
 			}
 
@@ -237,6 +240,9 @@ public class RedditCommentView extends LinearLayout{
 					@Override
 					public void onAnimationStart(Animation animation) {
 						Log.d("RedditCommentView","animation start");
+						leftOverlayText.setMinimumHeight(header.getHeight() + bodyHolder.getHeight());
+						header.setVisibility(GONE);
+						bodyHolder.setVisibility(GONE);
 						rightOverlayText.setVisibility(VISIBLE);
 					}
 
@@ -250,9 +256,12 @@ public class RedditCommentView extends LinearLayout{
 					public void onAnimationEnd(Animation animation) {
 						Log.d("RedditCommentView","animation end");
 						rightOverlayText.setVisibility(GONE);
+						header.setVisibility(VISIBLE);
+						bodyHolder.setVisibility(VISIBLE);
 					}
 				});
-				startAnimation(anim);
+				header.startAnimation(anim);
+				bodyHolder.startAnimation(anim);
 				updateAppearance();
 			}
 		});

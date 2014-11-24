@@ -248,7 +248,7 @@ public class RedditCommentView extends LinearLayout{
 					@Override
 					public void onAnimationStart(Animation animation) {
 						Log.d("RedditCommentView","animation start");
-						leftOverlayText.setMinimumHeight(header.getHeight() + bodyHolder.getHeight());
+						rightOverlayText.setMinimumHeight(header.getHeight() + bodyHolder.getHeight());
 						header.setVisibility(GONE);
 						bodyHolder.setVisibility(GONE);
 						rightOverlayText.setVisibility(VISIBLE);

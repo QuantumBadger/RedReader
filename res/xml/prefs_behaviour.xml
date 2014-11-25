@@ -23,6 +23,10 @@
                         holo:key="@string/pref_behaviour_useinternalbrowser_key"
                         holo:defaultValue="true"/>
 
+    <CheckBoxPreference holo:title="@string/pref_behaviour_skip_menu_title"
+                        holo:key="@string/pref_behaviour_skip_menu_key"
+                        holo:defaultValue="false"/>
+
     <PreferenceCategory holo:title="@string/pref_behaviour_sort_header">
 
         <ListPreference holo:title="@string/pref_behaviour_commentsort"

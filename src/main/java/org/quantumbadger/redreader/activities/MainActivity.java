@@ -195,13 +195,10 @@ public class MainActivity extends RefreshableActivity
 	}
 
     private void startMessageChecker() {
-        PendingIntent pendingIntent;
-        AlarmManager alarmManager;
-
         Intent alarmIntent = new Intent(this, NewMessageChecker.class);
-        pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
 
-        alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         alarmManager.setInexactRepeating(AlarmManager.RTC, System.currentTimeMillis(), AlarmManager.INTERVAL_HOUR, pendingIntent);
     }
 

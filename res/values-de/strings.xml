@@ -87,6 +87,9 @@ Thanks to /u/balducien and /u/andiho for this translation!
     <string name="pref_behaviour_fling_post_left_key">pref_behaviour_fling_post_left</string>
     <string name="pref_behaviour_fling_post_left_title">Posts nach links wischen</string>
 
+    <string name="pref_behaviour_skip_menu_key">pref_behaviour_skip_menu</string>
+    <string name="pref_behaviour_skip_menu_title">Auf Öffnen Zur Startseite zurückkehren</string>
+
     <string name="pref_behaviour_fling_post_right_key">pref_behaviour_fling_post_right</string>
     <string name="pref_behaviour_fling_post_right_title">Posts nach rechts wischen</string>
 

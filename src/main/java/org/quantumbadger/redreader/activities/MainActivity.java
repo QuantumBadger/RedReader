@@ -17,6 +17,9 @@
 
 package org.quantumbadger.redreader.activities;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -46,6 +49,7 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.*;
 import org.quantumbadger.redreader.listingcontrollers.CommentListingController;
 import org.quantumbadger.redreader.listingcontrollers.PostListingController;
+import org.quantumbadger.redreader.receivers.NewMessageChecker;
 import org.quantumbadger.redreader.reddit.RedditURLParser;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
@@ -181,7 +185,22 @@ public class MainActivity extends RefreshableActivity
 		}
 
 		addSubscriptionListener();
+
+        Boolean startInbox = getIntent().getBooleanExtra("isNewMessage", false);
+        if (startInbox) {
+            InboxListingFragment.newInstance().show(this);
+        } else {
+            startMessageChecker();
+        }
 	}
+
+    private void startMessageChecker() {
+        Intent alarmIntent = new Intent(this, NewMessageChecker.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
+
+        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setInexactRepeating(AlarmManager.RTC, System.currentTimeMillis(), AlarmManager.INTERVAL_HOUR, pendingIntent);
+    }
 
 	private void addSubscriptionListener() {
 		RedditSubredditSubscriptionManager

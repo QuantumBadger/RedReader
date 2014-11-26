@@ -75,6 +75,9 @@
 
     <!-- Behaviour Prefs -->
 
+    <string name="pref_behaviour_notifications_key">pref_behaviour_notifications</string>
+    <string name="pref_behaviour_notifications_title">الإخطارات</string>
+
     <string name="pref_behaviour_actions_post_header">إجراءات المنشور</string>
     <string name="pref_behaviour_actions_comment_header">إجراءات التعليق</string>
     <string name="pref_behaviour_posts_header">المنشورات</string>

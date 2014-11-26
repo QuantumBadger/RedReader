@@ -90,6 +90,9 @@
 
     <!-- Behaviour Prefs -->
 
+    <string name="pref_behaviour_notifications_key">pref_behaviour_notifications</string>
+    <string name="pref_behaviour_notifications_title">Notifikation</string>
+
     <string name="pref_behaviour_actions_post_header">Indlæg Handlinger</string>
     <string name="pref_behaviour_actions_comment_header">Kommentar Handlinger</string>
     <string name="pref_behaviour_posts_header">Indlæg</string>

@@ -75,6 +75,9 @@
 
     <!-- Behaviour Prefs -->
 
+    <string name="pref_behaviour_notifications_key">pref_behaviour_notifications</string>
+    <string name="pref_behaviour_notifications_title">Notificaciones</string>
+
     <string name="pref_behaviour_actions_post_header">Acciones sobre las publicaciones</string>
     <string name="pref_behaviour_actions_comment_header">Acciones sobre comentarios</string>
     <string name="pref_behaviour_posts_header">Publicaciones</string>

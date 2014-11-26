@@ -80,6 +80,9 @@ Thanks to /u/balducien and /u/andiho for this translation!
 
     <!-- Behaviour Prefs -->
 
+    <string name="pref_behaviour_notifications_key">pref_behaviour_notifications</string>
+    <string name="pref_behaviour_notifications_title">Mitteilung</string>
+
     <string name="pref_behaviour_actions_post_header">Post-Aktionen</string>
     <string name="pref_behaviour_actions_comment_header">Kommentar-Aktionen</string>
     <string name="pref_behaviour_posts_header">Posts</string>

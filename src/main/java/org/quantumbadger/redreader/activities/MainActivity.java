@@ -86,120 +86,110 @@ public class MainActivity extends RefreshableActivity
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 
-		PrefsUtility.applyTheme(this);
+        PrefsUtility.applyTheme(this);
 
-		OptionsMenuUtility.fixActionBar(this, getString(R.string.app_name));
+        OptionsMenuUtility.fixActionBar(this, getString(R.string.app_name));
 
-		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-		sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 
-		final boolean solidblack = PrefsUtility.appearance_solidblack(this, sharedPreferences)
-				&& PrefsUtility.appearance_theme(this, sharedPreferences) == PrefsUtility.AppearanceTheme.NIGHT;
+        final boolean solidblack = PrefsUtility.appearance_solidblack(this, sharedPreferences)
+                && PrefsUtility.appearance_theme(this, sharedPreferences) == PrefsUtility.AppearanceTheme.NIGHT;
 
-		super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
 
-		twoPane = General.isTablet(this, sharedPreferences);
+        twoPane = General.isTablet(this, sharedPreferences);
 
-		final View layout;
+        final View layout;
 
-		if(twoPane)
-			layout = getLayoutInflater().inflate(R.layout.main_double);
-		else
-			layout = getLayoutInflater().inflate(R.layout.main_single);
+        if (twoPane)
+            layout = getLayoutInflater().inflate(R.layout.main_double);
+        else
+            layout = getLayoutInflater().inflate(R.layout.main_single);
 
-		if(solidblack) layout.setBackgroundColor(Color.BLACK);
+        if (solidblack) layout.setBackgroundColor(Color.BLACK);
 
-		setContentView(layout);
+        setContentView(layout);
 
-		doRefresh(RefreshableFragment.MAIN, false);
+        doRefresh(RefreshableFragment.MAIN, false);
 
-		RedditAccountManager.getInstance(this).addUpdateListener(this);
+        RedditAccountManager.getInstance(this).addUpdateListener(this);
 
-		PackageInfo pInfo = null;
-		try {
-			pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-		} catch(PackageManager.NameNotFoundException e) {
-			throw new RuntimeException(e);
-		}
+        PackageInfo pInfo = null;
+        try {
+            pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
-		final int appVersion = pInfo.versionCode;
+        final int appVersion = pInfo.versionCode;
 
-		if(!sharedPreferences.contains("firstRunMessageShown")) {
+        if (!sharedPreferences.contains("firstRunMessageShown")) {
 
-			new AlertDialog.Builder(this)
-					.setTitle(R.string.firstrun_login_title)
-					.setMessage(R.string.firstrun_login_message)
-					.setPositiveButton(R.string.firstrun_login_button_now,
-							new DialogInterface.OnClickListener() {
-								public void onClick(final DialogInterface dialog, final int which) {
-									new AccountListDialog().show(MainActivity.this);
-								}
-							})
-					.setNegativeButton(R.string.firstrun_login_button_later, null)
-					.show();
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.firstrun_login_title)
+                    .setMessage(R.string.firstrun_login_message)
+                    .setPositiveButton(R.string.firstrun_login_button_now,
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(final DialogInterface dialog, final int which) {
+                                    new AccountListDialog().show(MainActivity.this);
+                                }
+                            })
+                    .setNegativeButton(R.string.firstrun_login_button_later, null)
+                    .show();
 
-			final SharedPreferences.Editor edit = sharedPreferences.edit();
-			edit.putString("firstRunMessageShown", "true");
-			edit.commit();
+            final SharedPreferences.Editor edit = sharedPreferences.edit();
+            edit.putString("firstRunMessageShown", "true");
+            edit.commit();
 
-		} else if(sharedPreferences.contains("lastVersion")) {
+        } else if (sharedPreferences.contains("lastVersion")) {
 
-			final int lastVersion = sharedPreferences.getInt("lastVersion", 0);
+            final int lastVersion = sharedPreferences.getInt("lastVersion", 0);
 
-			if(lastVersion != appVersion) {
+            if (lastVersion != appVersion) {
 
-				General.quickToast(this, "Updated to version " + pInfo.versionName);
+                General.quickToast(this, "Updated to version " + pInfo.versionName);
 
-				sharedPreferences.edit().putInt("lastVersion", appVersion).commit();
-				ChangelogDialog.newInstance().show(this);
+                sharedPreferences.edit().putInt("lastVersion", appVersion).commit();
+                ChangelogDialog.newInstance().show(this);
 
-				if(lastVersion <= 51) {
-					// Upgrading from v1.8.6.3 or lower
+                if (lastVersion <= 51) {
+                    // Upgrading from v1.8.6.3 or lower
 
-					final Set<String> existingCommentHeaderItems = PrefsUtility.getStringSet(
-							R.string.pref_appearance_comment_header_items_key,
-							R.array.pref_appearance_comment_header_items_default,
-							this,
-							sharedPreferences
-					);
+                    final Set<String> existingCommentHeaderItems = PrefsUtility.getStringSet(
+                            R.string.pref_appearance_comment_header_items_key,
+                            R.array.pref_appearance_comment_header_items_default,
+                            this,
+                            sharedPreferences
+                    );
 
-					existingCommentHeaderItems.add("gold");
+                    existingCommentHeaderItems.add("gold");
 
-					sharedPreferences.edit().putStringSet(
-							R.string.pref_appearance_comment_header_items_key,
-							existingCommentHeaderItems
-					).commit();
+                    sharedPreferences.edit().putStringSet(
+                            R.string.pref_appearance_comment_header_items_key,
+                            existingCommentHeaderItems
+                    ).commit();
 
-					new Thread() {
-						@Override
-						public void run() {
-							CacheManager.getInstance(MainActivity.this).emptyTheWholeCache();
-						}
-					}.start();
-				}
-			}
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            CacheManager.getInstance(MainActivity.this).emptyTheWholeCache();
+                        }
+                    }.start();
+                }
+            }
 
-		} else {
-			sharedPreferences.edit().putInt("lastVersion", appVersion).commit();
-			ChangelogDialog.newInstance().show(this);
-		}
+        } else {
+            sharedPreferences.edit().putInt("lastVersion", appVersion).commit();
+            ChangelogDialog.newInstance().show(this);
+        }
 
-		addSubscriptionListener();
+        addSubscriptionListener();
 
         Boolean startInbox = getIntent().getBooleanExtra("isNewMessage", false);
         if (startInbox) {
             InboxListingFragment.newInstance().show(this);
-        } else {
-            startMessageChecker();
         }
-	}
-
-    private void startMessageChecker() {
-        Intent alarmIntent = new Intent(this, NewMessageChecker.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
-
-        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setInexactRepeating(AlarmManager.RTC, System.currentTimeMillis(), AlarmManager.INTERVAL_HOUR, pendingIntent);
     }
 
 	private void addSubscriptionListener() {

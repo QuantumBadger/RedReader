@@ -36,14 +36,14 @@
                   android:textAllCaps="true"
                   android:textColor="?rrListHeaderTextCol"
                   android:textSize="12sp"
-                  android:text="Link Karma"/>
+                  android:text="@string/karma_link"/>
 
         <TextView android:id="@+id/layout_karma_text_link"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_gravity="center"
                   android:textSize="18sp"
-                  android:text="1234"/>
+                  android:text="Error"/>
 
     </LinearLayout>
 
@@ -64,14 +64,14 @@
                   android:textAllCaps="true"
                   android:textColor="?rrListHeaderTextCol"
                   android:textSize="12sp"
-                  android:text="Comment Karma"/>
+                  android:text="@string/karma_comment"/>
 
         <TextView android:id="@+id/layout_karma_text_comment"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_gravity="center"
                   android:textSize="18sp"
-                  android:text="1234"/>
+                  android:text="Error"/>
 
     </LinearLayout>
 

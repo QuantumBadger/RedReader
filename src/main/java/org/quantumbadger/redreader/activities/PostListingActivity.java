@@ -230,7 +230,7 @@ public class PostListingActivity extends RefreshableActivity
 					url = RedditURLParser.SearchPostListURL.build(null, query);
 				}
 
-				final Intent intent = new Intent(activity, activity.getClass());
+				final Intent intent = new Intent(activity, PostListingActivity.class);
 				intent.setData(url.generateJsonUri());
 				activity.startActivity(intent);
 			}

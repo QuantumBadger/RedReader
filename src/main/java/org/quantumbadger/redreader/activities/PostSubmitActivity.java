@@ -84,7 +84,7 @@ public class PostSubmitActivity extends Activity {
 					subredditEdit.setText(subreddit);
 				}
 
-			} else if(intent.getAction().equalsIgnoreCase(Intent.ACTION_SEND) && intent.hasExtra(Intent.EXTRA_TEXT)){
+			} else if(Intent.ACTION_SEND.equalsIgnoreCase(intent.getAction()) && intent.hasExtra(Intent.EXTRA_TEXT)){
 				final String url = intent.getStringExtra(Intent.EXTRA_TEXT);
 				textEdit.setText(url);
 			}

@@ -385,6 +385,13 @@
     <string name="props_up">Up</string>
     <string name="props_down">Down</string>
 
+    <!-- Notifications -->
+
+    <string name="notification_comment">replied to your comment</string>
+    <string name="notification_message">sent you a message</string>
+    <string name="notification_message_multiple">New messages on Reddit</string>
+    <string name="notification_message_action">Touch to view</string>
+
     <!-- General -->
 
     <string name="general_true">True</string>
@@ -488,6 +495,7 @@
     <string name="lang_fr">French</string>
     <string name="lang_ar">Arabic</string>
     <string name="lang_es">Spanish</string>
+    <string name="lang_cs">Czech</string>
 
     <!-- 2013-06-25 -->
 
@@ -579,5 +587,9 @@
     <!-- 2014-09-21 -->
     <string name="gold">Gold</string>
     <string name="pref_appearance_comment_header_items_gold">Reddit Gold</string>
+
+    <!-- 2014-11-15 -->
+    <string name="karma_link">Link Karma</string>
+    <string name="karma_comment">Comment Karma</string>
 
 </resources>

@@ -1,3 +1,13 @@
+53/1.8.6.5
+Added asterisk next to edited comments
+Added Czech translation (thanks to Martin Macko)
+German translation improvements (thanks to andihorner)
+Spanish translation improvements (thanks to moshpirit)
+Fixed bug when searching in two-pane mode (thanks to Oleksiy Kovtun)
+Fixed parse error with invalid named Unicode characters
+Fixed bug where users subscribed to precisely 100 subreddits would be shown extra (unwanted) subreddits
+Fixed crash bug when selecting "Submit Post"
+
 52/1.8.6.4
 Comment header now shows if a comment has been given reddit gold
 Shows modmail replies

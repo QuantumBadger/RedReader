@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * This file is part of RedReader.
+ *
+ * RedReader is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * RedReader is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 package org.quantumbadger.redreader.receivers;
 
 import android.app.NotificationManager;
@@ -27,10 +44,6 @@ import org.quantumbadger.redreader.reddit.things.RedditThing;
 
 import java.net.URI;
 import java.util.UUID;
-
-/**
- * Created by Dylan on 10/30/2014.
- */
 
 public class NewMessageChecker extends BroadcastReceiver {
 
@@ -85,40 +98,40 @@ public class NewMessageChecker extends BroadcastReceiver {
                         JsonValue newMessage = children.get(0);
                         int numMessages = children.getCurrentItemCount();
 
-                        android.content.SharedPreferences messageStore = context.getSharedPreferences(PREFS_FILENAME, 0);
-                        String oldMessage = messageStore.getString(PREFS_SAVED_MESSAGE, "No new messages");
-                        if (newMessage.toString().equals(oldMessage)) return;
-                        messageStore.edit().putString(PREFS_SAVED_MESSAGE, newMessage.toString()).commit();
-
                         RedditThing thing = newMessage.asObject(RedditThing.class);
                         String title;
-                        String text;
-                        Class theClass;
-                        if (numMessages > 1) {
-                            title = "New messages on Reddit";
-                            text = "Touch to view";
-                            theClass = MainActivity.class;
-                        } else {
-                            switch (thing.getKind()) {
-                                case COMMENT:
-                                    final RedditComment comment = thing.asComment();
-                                    title = comment.author + " replied to your comment";
-                                    text = "Touch to view";
-                                    theClass = MainActivity.class;
-                                    break;
+                        String text = context.getString(R.string.notification_message_action);
+                        String messageID;
 
-                                case MESSAGE:
-                                    final RedditMessage message = thing.asMessage();
-                                    title = message.author + " sent you a message";
-                                    text = "Touch to view";
-                                    theClass = MainActivity.class;
-                                    break;
+                        switch (thing.getKind()) {
+                            case COMMENT:
+                                final RedditComment comment = thing.asComment();
+                                title = comment.author + " " + context.getString(R.string.notification_comment);
+                                messageID = comment.name;
+                                break;
 
-                                default:
-                                    throw new RuntimeException("Unknown item in list.");
-                            }
+                            case MESSAGE:
+                                final RedditMessage message = thing.asMessage();
+                                title = message.author + " " + context.getString(R.string.notification_message);
+                                messageID = message.name;
+                                break;
+
+                            default:
+                                throw new RuntimeException("Unknown item in list.");
                         }
-                        createNotification(title, text, context, theClass);
+
+                        // Check if the previously saved message is the same as the one we just received
+
+                        android.content.SharedPreferences messageStore = context.getSharedPreferences(PREFS_FILENAME, 0);
+                        String oldMessage = messageStore.getString(PREFS_SAVED_MESSAGE, "No new messages");
+                        if (messageID.equals(oldMessage)) return;
+                        messageStore.edit().putString(PREFS_SAVED_MESSAGE, newMessage.toString()).commit();
+
+                        if (numMessages > 1) {
+                            title = context.getString(R.string.notification_message_multiple);
+                        }
+
+                        createNotification(title, text, context);
                     } catch (IndexOutOfBoundsException e) {} // No new messages
 
                 } catch (Throwable t) {
@@ -131,7 +144,8 @@ public class NewMessageChecker extends BroadcastReceiver {
 
     }
 
-    private void createNotification(String title, String text, Context context, Class theClass) {
+    private void createNotification(String title, String text, Context context) {
+        Class theClass = MainActivity.class;
 
         NotificationCompat.Builder theNotification = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.icon)

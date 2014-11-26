@@ -392,13 +392,6 @@
     <string name="notification_message_multiple">Nuevos mensajes en Reddit</string>
     <string name="notification_message_action">Toque para ver</string>
 
-    <!-- Notifications -->
-
-    <string name="notification_comment"> respondió a tu comentariot</string>
-    <string name="notification_message"> le envió un mensaje</string>
-    <string name="notification_message_multiple">Nuevos mensajes en Reddit</string>
-    <string name="notification_message_action">Toque para ver</string>
-
     <!-- General -->
 
     <string name="general_true">Sí</string>

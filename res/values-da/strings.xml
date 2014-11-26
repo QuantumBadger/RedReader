@@ -402,8 +402,8 @@
 
     <!-- Notifications -->
 
-    <string name="notification_comment"> svarede på din kommentar</string>
-    <string name="notification_message"> sendt dig en besked</string>
+    <string name="notification_comment">svarede på din kommentar</string>
+    <string name="notification_message">sendt dig en besked</string>
     <string name="notification_message_multiple">Nye beskeder på Reddit</string>
     <string name="notification_message_action">Tryk for at se</string>
 

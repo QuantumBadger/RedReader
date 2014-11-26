@@ -106,13 +106,13 @@ public class NewMessageChecker extends BroadcastReceiver {
                         switch (thing.getKind()) {
                             case COMMENT:
                                 final RedditComment comment = thing.asComment();
-                                title = comment.author + context.getString(R.string.notification_comment);
+                                title = comment.author + " " + context.getString(R.string.notification_comment);
                                 messageID = comment.name;
                                 break;
 
                             case MESSAGE:
                                 final RedditMessage message = thing.asMessage();
-                                title = message.author + context.getString(R.string.notification_message);
+                                title = message.author + " " + context.getString(R.string.notification_message);
                                 messageID = message.name;
                                 break;
 

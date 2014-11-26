@@ -400,6 +400,13 @@
     <string name="props_up">Op</string>
     <string name="props_down">Ned</string>
 
+    <!-- Notifications -->
+
+    <string name="notification_comment"> svarede på din kommentar</string>
+    <string name="notification_message"> sendt dig en besked</string>
+    <string name="notification_message_multiple">Nye beskeder på Reddit</string>
+    <string name="notification_message_action">Tryk for at se</string>
+
     <!-- General -->
 
     <string name="general_true">Sandt</string>

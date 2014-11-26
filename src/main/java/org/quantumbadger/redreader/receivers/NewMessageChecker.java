@@ -125,7 +125,7 @@ public class NewMessageChecker extends BroadcastReceiver {
                         android.content.SharedPreferences messageStore = context.getSharedPreferences(PREFS_FILENAME, 0);
                         String oldMessage = messageStore.getString(PREFS_SAVED_MESSAGE, "No new messages");
                         if (messageID.equals(oldMessage)) return;
-                        messageStore.edit().putString(PREFS_SAVED_MESSAGE, newMessage.toString()).commit();
+                        messageStore.edit().putString(PREFS_SAVED_MESSAGE, messageID).commit();
 
                         if (numMessages > 1) {
                             title = context.getString(R.string.notification_message_multiple);

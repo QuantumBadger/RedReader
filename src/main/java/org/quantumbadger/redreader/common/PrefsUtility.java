@@ -230,6 +230,10 @@ public final class PrefsUtility {
         return getBoolean(R.string.pref_behaviour_notifications_key, true, context, sharedPreferences);
     }
 
+	public static boolean pref_behaviour_skip_menu(final Context context, final SharedPreferences sharedPreferences) {
+		return getBoolean(R.string.pref_behaviour_skip_menu_key, true, context, sharedPreferences);
+		}
+
 	// pref_behaviour_fling_post
 
 	public static enum PostFlingAction {

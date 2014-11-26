@@ -190,6 +190,9 @@ public class MainActivity extends RefreshableActivity
         if (startInbox) {
             InboxListingFragment.newInstance().show(this);
         }
+		if(PrefsUtility.pref_behaviour_skip_menu(this, sharedPreferences)){
+			onSelected(RedditURLParser.SubredditPostListURL.getFrontPage());
+		}
     }
 
 	private void addSubscriptionListener() {

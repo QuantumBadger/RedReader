@@ -85,6 +85,9 @@
     <string name="pref_behaviour_fling_post_left_key">pref_behaviour_fling_post_left</string>
     <string name="pref_behaviour_fling_post_left_title">إجراء إزاحة المنشور لليسار</string>
 
+    <string name="pref_behaviour_skip_menu_key">pref_behaviour_skip_menu</string>
+    <string name="pref_behaviour_skip_menu_title">على توسيع الذهاب إلى الصفحة الأولى</string>
+
     <string name="pref_behaviour_fling_post_right_key">pref_behaviour_fling_post_right</string>
     <string name="pref_behaviour_fling_post_right_title">إجراء إزاحة المنشور لليمين</string>
 

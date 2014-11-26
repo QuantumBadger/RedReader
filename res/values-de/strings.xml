@@ -390,6 +390,13 @@ Thanks to /u/balducien and /u/andiho for this translation!
     <string name="props_up">Aufgewertet</string>
     <string name="props_down">Abgewertet</string>
 
+    <!-- Notifications -->
+
+    <string name="notification_comment">, um Ihren Kommentar antwortet</string>
+    <string name="notification_message">Dylan hat Ihnen eine Nachricht</string>
+    <string name="notification_message_multiple">Neue Nachrichten auf Reddit</string>
+    <string name="notification_message_action">Berühren Sie, um zu sehen</string>
+
     <!-- General -->
 
     <string name="general_true">Ja</string>

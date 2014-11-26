@@ -17,16 +17,11 @@
 
 package org.quantumbadger.redreader;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Environment;
 import org.holoeverywhere.app.Application;
 import org.holoeverywhere.preference.PreferenceManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.common.PrefsUtility;
-import org.quantumbadger.redreader.receivers.NewMessageChecker;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 
 import java.io.File;
@@ -83,11 +78,5 @@ public class RedReader extends Application {
 
 			}
 		}.start();
-
-        Intent alarmIntent = new Intent(this, NewMessageChecker.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
-
-        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setInexactRepeating(AlarmManager.RTC, System.currentTimeMillis(), AlarmManager.INTERVAL_HOUR, pendingIntent);
 	}
 }

@@ -17,6 +17,9 @@
 
 package org.quantumbadger.redreader.activities;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -46,6 +49,7 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.*;
 import org.quantumbadger.redreader.listingcontrollers.CommentListingController;
 import org.quantumbadger.redreader.listingcontrollers.PostListingController;
+import org.quantumbadger.redreader.receivers.NewMessageChecker;
 import org.quantumbadger.redreader.reddit.RedditURLParser;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
@@ -82,106 +86,114 @@ public class MainActivity extends RefreshableActivity
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 
-		PrefsUtility.applyTheme(this);
+        PrefsUtility.applyTheme(this);
 
-		OptionsMenuUtility.fixActionBar(this, getString(R.string.app_name));
+        OptionsMenuUtility.fixActionBar(this, getString(R.string.app_name));
 
-		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-		sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 
-		final boolean solidblack = PrefsUtility.appearance_solidblack(this, sharedPreferences)
-				&& PrefsUtility.appearance_theme(this, sharedPreferences) == PrefsUtility.AppearanceTheme.NIGHT;
+        final boolean solidblack = PrefsUtility.appearance_solidblack(this, sharedPreferences)
+                && PrefsUtility.appearance_theme(this, sharedPreferences) == PrefsUtility.AppearanceTheme.NIGHT;
 
-		super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
 
-		twoPane = General.isTablet(this, sharedPreferences);
+        twoPane = General.isTablet(this, sharedPreferences);
 
-		final View layout;
+        final View layout;
 
-		if(twoPane)
-			layout = getLayoutInflater().inflate(R.layout.main_double);
-		else
-			layout = getLayoutInflater().inflate(R.layout.main_single);
+        if (twoPane)
+            layout = getLayoutInflater().inflate(R.layout.main_double);
+        else
+            layout = getLayoutInflater().inflate(R.layout.main_single);
 
-		if(solidblack) layout.setBackgroundColor(Color.BLACK);
+        if (solidblack) layout.setBackgroundColor(Color.BLACK);
 
-		setContentView(layout);
+        setContentView(layout);
 
-		doRefresh(RefreshableFragment.MAIN, false);
+        doRefresh(RefreshableFragment.MAIN, false);
 
-		RedditAccountManager.getInstance(this).addUpdateListener(this);
+        RedditAccountManager.getInstance(this).addUpdateListener(this);
 
-		PackageInfo pInfo = null;
-		try {
-			pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-		} catch(PackageManager.NameNotFoundException e) {
-			throw new RuntimeException(e);
+        PackageInfo pInfo = null;
+        try {
+            pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        final int appVersion = pInfo.versionCode;
+
+        if (!sharedPreferences.contains("firstRunMessageShown")) {
+
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.firstrun_login_title)
+                    .setMessage(R.string.firstrun_login_message)
+                    .setPositiveButton(R.string.firstrun_login_button_now,
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(final DialogInterface dialog, final int which) {
+                                    new AccountListDialog().show(MainActivity.this);
+                                }
+                            })
+                    .setNegativeButton(R.string.firstrun_login_button_later, null)
+                    .show();
+
+            final SharedPreferences.Editor edit = sharedPreferences.edit();
+            edit.putString("firstRunMessageShown", "true");
+            edit.commit();
+
+        } else if (sharedPreferences.contains("lastVersion")) {
+
+            final int lastVersion = sharedPreferences.getInt("lastVersion", 0);
+
+            if (lastVersion != appVersion) {
+
+                General.quickToast(this, "Updated to version " + pInfo.versionName);
+
+                sharedPreferences.edit().putInt("lastVersion", appVersion).commit();
+                ChangelogDialog.newInstance().show(this);
+
+                if (lastVersion <= 51) {
+                    // Upgrading from v1.8.6.3 or lower
+
+                    final Set<String> existingCommentHeaderItems = PrefsUtility.getStringSet(
+                            R.string.pref_appearance_comment_header_items_key,
+                            R.array.pref_appearance_comment_header_items_default,
+                            this,
+                            sharedPreferences
+                    );
+
+                    existingCommentHeaderItems.add("gold");
+
+                    sharedPreferences.edit().putStringSet(
+                            R.string.pref_appearance_comment_header_items_key,
+                            existingCommentHeaderItems
+                    ).commit();
+
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            CacheManager.getInstance(MainActivity.this).emptyTheWholeCache();
+                        }
+                    }.start();
+                }
+            }
+
+        } else {
+            sharedPreferences.edit().putInt("lastVersion", appVersion).commit();
+            ChangelogDialog.newInstance().show(this);
+        }
+
+        addSubscriptionListener();
+
+        Boolean startInbox = getIntent().getBooleanExtra("isNewMessage", false);
+        if (startInbox) {
+            InboxListingFragment.newInstance().show(this);
+        }
+		if(PrefsUtility.pref_behaviour_skip_menu(this, sharedPreferences)){
+			onSelected(RedditURLParser.SubredditPostListURL.getFrontPage());
 		}
-
-		final int appVersion = pInfo.versionCode;
-
-		if(!sharedPreferences.contains("firstRunMessageShown")) {
-
-			new AlertDialog.Builder(this)
-					.setTitle(R.string.firstrun_login_title)
-					.setMessage(R.string.firstrun_login_message)
-					.setPositiveButton(R.string.firstrun_login_button_now,
-							new DialogInterface.OnClickListener() {
-								public void onClick(final DialogInterface dialog, final int which) {
-									new AccountListDialog().show(MainActivity.this);
-								}
-							})
-					.setNegativeButton(R.string.firstrun_login_button_later, null)
-					.show();
-
-			final SharedPreferences.Editor edit = sharedPreferences.edit();
-			edit.putString("firstRunMessageShown", "true");
-			edit.commit();
-
-		} else if(sharedPreferences.contains("lastVersion")) {
-
-			final int lastVersion = sharedPreferences.getInt("lastVersion", 0);
-
-			if(lastVersion != appVersion) {
-
-				General.quickToast(this, "Updated to version " + pInfo.versionName);
-
-				sharedPreferences.edit().putInt("lastVersion", appVersion).commit();
-				ChangelogDialog.newInstance().show(this);
-
-				if(lastVersion <= 51) {
-					// Upgrading from v1.8.6.3 or lower
-
-					final Set<String> existingCommentHeaderItems = PrefsUtility.getStringSet(
-							R.string.pref_appearance_comment_header_items_key,
-							R.array.pref_appearance_comment_header_items_default,
-							this,
-							sharedPreferences
-					);
-
-					existingCommentHeaderItems.add("gold");
-
-					sharedPreferences.edit().putStringSet(
-							R.string.pref_appearance_comment_header_items_key,
-							existingCommentHeaderItems
-					).commit();
-
-					new Thread() {
-						@Override
-						public void run() {
-							CacheManager.getInstance(MainActivity.this).emptyTheWholeCache();
-						}
-					}.start();
-				}
-			}
-
-		} else {
-			sharedPreferences.edit().putInt("lastVersion", appVersion).commit();
-			ChangelogDialog.newInstance().show(this);
-		}
-
-		addSubscriptionListener();
-	}
+    }
 
 	private void addSubscriptionListener() {
 		RedditSubredditSubscriptionManager

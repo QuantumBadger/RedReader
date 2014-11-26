@@ -85,6 +85,9 @@
     <string name="pref_behaviour_fling_post_right_key">pref_behaviour_fling_post_right</string>
     <string name="pref_behaviour_fling_post_right_title">Činnost při posunutí příspěvku doprava</string>
 
+    <string name="pref_behaviour_skip_menu_key">pref_behaviour_skip_menu</string>
+    <string name="pref_behaviour_skip_menu_title">Na otevřených Přejít na titulní stránku</string>
+
     <string name="pref_behaviour_actions_comment_tap_key">pref_behaviour_actions_comment_tap</string>
     <string name="pref_behaviour_actions_comment_tap_title">Činnost při poklepání komentáře</string>
 
@@ -381,6 +384,13 @@
     <string name="props_never">Nikdy</string>
     <string name="props_up">Nahoru</string>
     <string name="props_down">Dolů</string>
+
+    <!-- Notifications -->
+
+    <string name="notification_comment">odpověděl na váš komentář</string>
+    <string name="notification_message">vám poslal zprávu</string>
+    <string name="notification_message_multiple">nových zpráv na Reddit</string>
+    <string name="notification_message_action">Touch zobrazíte</string>
 
     <!-- General -->
 

@@ -75,12 +75,18 @@
 
     <!-- Behaviour Prefs -->
 
+    <string name="pref_behaviour_notifications_key">pref_behaviour_notifications</string>
+    <string name="pref_behaviour_notifications_title">Notifications</string>
+
     <string name="pref_behaviour_actions_post_header">Actions pour les posts</string>
     <string name="pref_behaviour_actions_comment_header">Actions pour les commentaires</string>
     <string name="pref_behaviour_posts_header">Posts</string>
 
     <string name="pref_behaviour_fling_post_left_key">pref_behaviour_fling_post_left</string>
     <string name="pref_behaviour_fling_post_left_title">Glisser vers la gauche</string>
+
+    <string name="pref_behaviour_skip_menu_key">pref_behaviour_skip_menu</string>
+    <string name="pref_behaviour_skip_menu_title">À louvert, afficher la page principale</string>
 
     <string name="pref_behaviour_fling_post_right_key">pref_behaviour_fling_post_right</string>
     <string name="pref_behaviour_fling_post_right_title">Glisser vers la droite</string>
@@ -381,6 +387,13 @@
     <string name="props_never">Jamais</string>
     <string name="props_up">Up</string>
     <string name="props_down">Down</string>
+
+    <!-- Notifications -->
+
+    <string name="notification_comment">a répondu à votre commentaire</string>
+    <string name="notification_message">vous a envoyé un message</string>
+    <string name="notification_message_multiple">Nouveau messages à Reddit</string>
+    <string name="notification_message_action">Touchez pour voir</string>
 
     <!-- General -->
 

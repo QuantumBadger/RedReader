@@ -124,6 +124,8 @@
                   android:theme="@style/Holo.Theme"
                   android:launchMode="singleInstance"/>
 
+        <receiver android:name=".receivers.NewMessageChecker"></receiver>
+
         <uses-library android:required="false" android:name="com.sec.android.app.multiwindow" />
         <meta-data android:name="com.sec.android.support.multiwindow" android:value="true" />
 

@@ -80,12 +80,18 @@ Thanks to /u/balducien and /u/andiho for this translation!
 
     <!-- Behaviour Prefs -->
 
+    <string name="pref_behaviour_notifications_key">pref_behaviour_notifications</string>
+    <string name="pref_behaviour_notifications_title">Mitteilung</string>
+
     <string name="pref_behaviour_actions_post_header">Post-Aktionen</string>
     <string name="pref_behaviour_actions_comment_header">Kommentar-Aktionen</string>
     <string name="pref_behaviour_posts_header">Posts</string>
 
     <string name="pref_behaviour_fling_post_left_key">pref_behaviour_fling_post_left</string>
     <string name="pref_behaviour_fling_post_left_title">Posts nach links wischen</string>
+
+    <string name="pref_behaviour_skip_menu_key">pref_behaviour_skip_menu</string>
+    <string name="pref_behaviour_skip_menu_title">Auf Öffnen Zur Startseite zurückkehren</string>
 
     <string name="pref_behaviour_fling_post_right_key">pref_behaviour_fling_post_right</string>
     <string name="pref_behaviour_fling_post_right_title">Posts nach rechts wischen</string>
@@ -386,6 +392,13 @@ Thanks to /u/balducien and /u/andiho for this translation!
     <string name="props_never">Nie</string>
     <string name="props_up">Aufgewertet</string>
     <string name="props_down">Abgewertet</string>
+
+    <!-- Notifications -->
+
+    <string name="notification_comment">hat auf Ihre Nachricht geantwortet</string>
+    <string name="notification_message">hat Ihnen eine Mitteilung geschickt</string>
+    <string name="notification_message_multiple">Neue  Informationen  an  Reddit</string>
+    <string name="notification_message_action">Klick to see</string>
 
     <!-- General -->
 

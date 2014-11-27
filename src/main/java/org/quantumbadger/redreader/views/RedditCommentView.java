@@ -218,14 +218,7 @@ public class RedditCommentView extends LinearLayout{
 					}
 				});
 				header.startAnimation(anim);
-				if(comment.isDownvoted()) {
-					Log.d ("RedditCommentView", "Already Downvoted");
-					comment.action(fragment.getSupportActivity(), RedditAPI.RedditAction.UNVOTE);
-				} else {
-					Log.d ("RedditCommentView", "Need to Downvote");
-					comment.action(fragment.getSupportActivity(), RedditAPI.RedditAction.DOWNVOTE);
-				}
-
+				bodyHolder.startAnimation(anim);
 				updateAppearance();
 			}
 
@@ -269,13 +262,7 @@ public class RedditCommentView extends LinearLayout{
 					}
 				});
 				header.startAnimation(anim);
-					Log.d("RedditCommentView", "Must UNVOTE");
-					comment.action(fragment.getSupportActivity(), RedditAPI.RedditAction.UNVOTE);
-				}else{
-					Log.d("RedditCommentView", "Must UPVOTE");
-					comment.action(fragment.getSupportActivity(), RedditAPI.RedditAction.UPVOTE);
-				}
-
+				bodyHolder.startAnimation(anim);
 				updateAppearance();
 			}
 		});

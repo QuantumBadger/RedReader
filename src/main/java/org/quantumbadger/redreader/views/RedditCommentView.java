@@ -18,11 +18,15 @@
 package org.quantumbadger.redreader.views;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.view.View;
-import android.view.ViewGroup;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
+import android.view.*;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.widget.FrameLayout;
@@ -31,9 +35,11 @@ import org.holoeverywhere.widget.TextView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.fragments.CommentListingFragment;
+import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedComment;
 
-public class RedditCommentView extends LinearLayout {
+public class RedditCommentView extends LinearLayout{
 
 	private RedditPreparedComment comment;
 
@@ -47,17 +53,37 @@ public class RedditCommentView extends LinearLayout {
 
 	private final boolean showLinkButtons;
 
-	public RedditCommentView(final Context context, final int headerCol, final int bodyCol) {
+	private CommentListingFragment fragment;
+
+	private float initx, inity;
+
+	private final Drawable rrIconFfLeft, rrIconFfRight, rrIconTick;
+
+	private final TextView leftOverlayText, rightOverlayText;
+
+	public RedditCommentView(final Context context, final CommentListingFragment fragment, final int headerCol, final int bodyCol) {
 
 		super(context);
 		this.bodyCol = bodyCol;
-
 		setOrientation(HORIZONTAL);
 
-		LinearLayout main = new LinearLayout(context);
+		this.fragment = fragment;
+
+		LinearLayout main = new LinearLayout(context){
+			@Override
+			public boolean onInterceptTouchEvent(MotionEvent m){
+				//Steal children's touch events to give main the whole touch area
+				return true;
+			}
+		};
 		main.setOrientation(VERTICAL);
 
 		fontScale = PrefsUtility.appearance_fontscale_comments(context, PreferenceManager.getDefaultSharedPreferences(context));
+
+		leftOverlayText = new TextView(context);
+		rightOverlayText = new TextView(context);
+		main.addView(rightOverlayText);
+		main.addView(leftOverlayText);
 
 		header = new TextView(context);
 		header.setTextSize(11.0f * fontScale);
@@ -68,6 +94,22 @@ public class RedditCommentView extends LinearLayout {
 		bodyHolder.setPadding(0, General.dpToPixels(context, 2), 0, 0);
 		main.addView(bodyHolder);
 		bodyHolder.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+
+		final TypedArray attr = context.obtainStyledAttributes(new int[] {
+				R.attr.rrIconFfLeft,
+				R.attr.rrIconFfRight,
+				R.attr.rrIconTick,
+				R.attr.rrPostTitleCol,
+				R.attr.rrPostTitleReadCol,
+				R.attr.rrListItemBackgroundCol,
+				R.attr.rrPostBackgroundColSticky,
+				R.attr.rrPostCommentsButtonBackCol,
+				R.attr.rrPostCommentsButtonBackColSticky
+		});
+
+		rrIconFfLeft = attr.getDrawable(0);
+		rrIconFfRight = attr.getDrawable(1);
+		rrIconTick = attr.getDrawable(2);
 
 		final int paddingPixelsVertical = General.dpToPixels(context, 8.0f);
 		final int paddingPixelsHorizontal = General.dpToPixels(context, 12.0f);
@@ -80,9 +122,150 @@ public class RedditCommentView extends LinearLayout {
 		indent.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
 
 		addView(main);
+		//addView(leftOverlayText);
 		main.getLayoutParams().width = LinearLayout.LayoutParams.MATCH_PARENT;
 
+		leftOverlayText.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+		rightOverlayText.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+		leftOverlayText.setGravity(Gravity.CENTER | Gravity.RIGHT);
+		rightOverlayText.setGravity(Gravity.CENTER | Gravity.LEFT);
+		rightOverlayText.setCompoundDrawablesWithIntrinsicBounds(rrIconTick, null, null, null);
+		leftOverlayText.setCompoundDrawablesWithIntrinsicBounds(null, null, rrIconTick, null);
+		leftOverlayText.setVisibility(GONE);
+		rightOverlayText.setVisibility(GONE);
+
 		showLinkButtons = PrefsUtility.pref_appearance_linkbuttons(context, PreferenceManager.getDefaultSharedPreferences(context));
+
+		this.setOnTouchListener(new SwipeTouchListener(context) {
+			@Override
+			public boolean onTouch(View v, MotionEvent m) {
+				switch (m.getAction()) {
+					case MotionEvent.ACTION_DOWN:
+						requestDisallowInterceptTouchEvent(true);
+						initx = m.getX();
+						inity = m.getY();
+						setBackgroundColor(Color.BLUE);
+						break;
+					case MotionEvent.ACTION_UP:
+						setBackgroundColor(Color.WHITE);
+						break;
+					case MotionEvent.ACTION_CANCEL:
+						requestDisallowInterceptTouchEvent(false);
+						setBackgroundColor(Color.WHITE);
+						break;
+					case MotionEvent.ACTION_MOVE:
+						float disx = m.getX() - initx;
+						float disy = m.getX() - inity;
+						initx += disx;
+						inity += disy;
+						//Give parent control back( for scroll ) if moving vertically
+						if(Math.abs(disy)>Math.abs(disx) && Math.abs(disy) > 75){
+							requestDisallowInterceptTouchEvent(false);
+						}
+						break;
+				}
+
+				Log.d("RedditCommentView", "Touch:");
+				return super.onTouch(v, m);
+			}
+
+			@Override
+			public void longPress() {
+				Log.d("RedditCommentView", "Long press");
+				//Only set context menu in fragment when called upon
+				fragment.registerForContextMenu(RedditCommentView.this);
+				fragment.openContextMenu(RedditCommentView.this);
+				fragment.unregisterForContextMenu(RedditCommentView.this);
+			}
+
+			@Override
+			public void swipeLeft() {
+				comment.bind(RedditCommentView.this);
+				if(comment.isDownvoted()){
+					Log.d("RedditCommentView", "Must UNVOTE");
+					leftOverlayText.setText("Unvoted");
+					comment.action(fragment.getSupportActivity(), RedditAPI.RedditAction.UNVOTE);
+				}else{
+					Log.d("RedditCommentView", "Must DOWNVOTE");
+					leftOverlayText.setText("Downvoted");
+					comment.action(fragment.getSupportActivity(), RedditAPI.RedditAction.DOWNVOTE);
+				}
+
+				TranslateAnimation anim = new TranslateAnimation(0, -getWidth(), 0,  0);
+				anim.setDuration(750);
+				anim.setAnimationListener(new Animation.AnimationListener() {
+					@Override
+					public void onAnimationStart(Animation animation) {
+						Log.d("RedditCommentView", "animation start");
+						leftOverlayText.setMinimumHeight(header.getHeight() + bodyHolder.getHeight());
+						header.setVisibility(GONE);
+						bodyHolder.setVisibility(GONE);
+						leftOverlayText.setVisibility(VISIBLE);
+					}
+
+					@Override
+					public void onAnimationRepeat(Animation animation) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void onAnimationEnd(Animation animation) {
+						Log.d("RedditCommentView", "animation end");
+						leftOverlayText.setVisibility(GONE);
+						header.setVisibility(VISIBLE);
+						bodyHolder.setVisibility(VISIBLE);
+					}
+				});
+				header.startAnimation(anim);
+				bodyHolder.startAnimation(anim);
+				updateAppearance();
+			}
+
+			@Override
+			public void swipeRight() {
+				Log.d("RedditCommentView", "Swiped right");
+
+				if(comment.isUpvoted()){
+					Log.d("RedditCommentView", "Must UNVOTE");
+					rightOverlayText.setText("Unvoted");
+					comment.action(fragment.getSupportActivity(), RedditAPI.RedditAction.UNVOTE);
+				}else{
+					Log.d("RedditCommentView", "Must UPVOTE");
+					rightOverlayText.setText("Upvoted");
+					comment.action(fragment.getSupportActivity(), RedditAPI.RedditAction.UPVOTE);
+				}
+				TranslateAnimation anim = new TranslateAnimation(0, getWidth(), 0, 0);
+				anim.setDuration(750);
+				anim.setAnimationListener(new Animation.AnimationListener() {
+					@Override
+					public void onAnimationStart(Animation animation) {
+						Log.d("RedditCommentView","animation start");
+						rightOverlayText.setMinimumHeight(header.getHeight() + bodyHolder.getHeight());
+						header.setVisibility(GONE);
+						bodyHolder.setVisibility(GONE);
+						rightOverlayText.setVisibility(VISIBLE);
+					}
+
+					@Override
+					public void onAnimationRepeat(Animation animation) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void onAnimationEnd(Animation animation) {
+						Log.d("RedditCommentView","animation end");
+						rightOverlayText.setVisibility(GONE);
+						header.setVisibility(VISIBLE);
+						bodyHolder.setVisibility(VISIBLE);
+					}
+				});
+				header.startAnimation(anim);
+				bodyHolder.startAnimation(anim);
+				updateAppearance();
+			}
+		});
 	}
 
 	public void reset(final Activity activity, final RedditPreparedComment comment) {
@@ -212,5 +395,72 @@ public class RedditCommentView extends LinearLayout {
 			this.invalidate();
 		}
 	}
+
+	private class SwipeTouchListener implements View.OnTouchListener {
+		private static final int SWIPE_DISTANCE = 75;
+		private static final int SWIPE_VELOCITY = 60;
+
+		private final GestureDetector gD;
+
+		@Override
+		public boolean onTouch(View v, MotionEvent m){
+			return gD.onTouchEvent(m);
+		}
+
+		public SwipeTouchListener(Context context){
+			gD = new GestureDetector(context, new GestureListener());
+		}
+
+		public void swipeRight(){
+			System.out.println("Comment swipe right");
+		}
+
+		public void swipeLeft(){
+			System.out.println("Comment swipe left");
+		}
+
+		public void longPress(){
+
+		}
+
+		private final class GestureListener extends GestureDetector.SimpleOnGestureListener{
+
+			@Override
+			public void onLongPress(MotionEvent m){
+				longPress();
+				super.onLongPress(m);
+			}
+
+			@Override
+			public boolean onDown(MotionEvent m1){
+				return true;
+			}
+
+			@Override
+			public boolean onFling(MotionEvent m1, MotionEvent m2, float vx, float vy) {
+				Log.d("RedditCommentView", "Fling");
+				try {
+					float disx = m2.getX() - m1.getX();
+					float disy = m2.getY() - m1.getY();
+					float absdisx = Math.abs(disx);
+					float absdisy = Math.abs(disy);
+					if (absdisx > SWIPE_DISTANCE && absdisx > absdisy && Math.abs(vx) > SWIPE_VELOCITY) {
+						if (disx > 0) {
+							swipeRight();
+						} else {
+							swipeLeft();
+						}
+					} else {
+						return false;
+					}
+					return true;
+				} catch (Exception e){
+					Log.d("RedditCommentView",e.getMessage());
+				}
+				return false;
+			}
+		}
+	}
+
 
 }

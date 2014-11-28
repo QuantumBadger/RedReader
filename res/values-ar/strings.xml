@@ -75,6 +75,9 @@
 
     <!-- Behaviour Prefs -->
 
+    <string name="pref_behaviour_notifications_key">pref_behaviour_notifications</string>
+    <string name="pref_behaviour_notifications_title">الإخطارات</string>
+
     <string name="pref_behaviour_actions_post_header">إجراءات المنشور</string>
     <string name="pref_behaviour_actions_comment_header">إجراءات التعليق</string>
     <string name="pref_behaviour_posts_header">المنشورات</string>
@@ -381,6 +384,14 @@
     <string name="props_never">ًأبدا</string>
     <string name="props_up">أعلى</string>
     <string name="props_down">أسفل</string>
+
+    <!-- Notifications -->
+    <!-- I couldn't figure out how to get the first 2 (with the sender's name that will come before it) to work -->
+
+    <string name="notification_comment">replied to your comment</string>
+    <string name="notification_message">sent you a message</string>
+    <string name="notification_message_multiple">رسائل جديدة على رديت</string>
+    <string name="notification_message_action">المس لعرض</string>
 
     <!-- General -->
 

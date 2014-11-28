@@ -29,6 +29,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application android:name="org.quantumbadger.redreader.RedReader"
                  android:icon="@drawable/icon"
@@ -123,6 +124,13 @@
                   android:configChanges="orientation|screenSize|keyboardHidden"
                   android:theme="@style/Holo.Theme"
                   android:launchMode="singleInstance"/>
+
+        <receiver android:name=".receivers.NewMessageChecker"></receiver>
+        <receiver android:name=".receivers.BootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+            </intent-filter>
+        </receiver>
 
         <uses-library android:required="false" android:name="com.sec.android.app.multiwindow" />
         <meta-data android:name="com.sec.android.support.multiwindow" android:value="true" />

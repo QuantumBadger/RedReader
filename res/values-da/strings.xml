@@ -90,6 +90,9 @@
 
     <!-- Behaviour Prefs -->
 
+    <string name="pref_behaviour_notifications_key">pref_behaviour_notifications</string>
+    <string name="pref_behaviour_notifications_title">Notifikation</string>
+
     <string name="pref_behaviour_actions_post_header">Indlæg Handlinger</string>
     <string name="pref_behaviour_actions_comment_header">Kommentar Handlinger</string>
     <string name="pref_behaviour_posts_header">Indlæg</string>
@@ -396,6 +399,13 @@
     <string name="props_never">Aldrig</string>
     <string name="props_up">Op</string>
     <string name="props_down">Ned</string>
+
+    <!-- Notifications -->
+
+    <string name="notification_comment">svarede på din kommentar</string>
+    <string name="notification_message">sendt dig en besked</string>
+    <string name="notification_message_multiple">Nye beskeder på Reddit</string>
+    <string name="notification_message_action">Tryk for at se</string>
 
     <!-- General -->
 

@@ -17,6 +17,9 @@
 
 package org.quantumbadger.redreader.activities;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -46,6 +49,7 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.*;
 import org.quantumbadger.redreader.listingcontrollers.CommentListingController;
 import org.quantumbadger.redreader.listingcontrollers.PostListingController;
+import org.quantumbadger.redreader.receivers.NewMessageChecker;
 import org.quantumbadger.redreader.reddit.RedditURLParser;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
@@ -98,12 +102,12 @@ public class MainActivity extends RefreshableActivity
 
 		final View layout;
 
-		if(twoPane)
+		if (twoPane)
 			layout = getLayoutInflater().inflate(R.layout.main_double);
 		else
 			layout = getLayoutInflater().inflate(R.layout.main_single);
 
-		if(solidblack) layout.setBackgroundColor(Color.BLACK);
+		if (solidblack) layout.setBackgroundColor(Color.BLACK);
 
 		setContentView(layout);
 
@@ -114,13 +118,13 @@ public class MainActivity extends RefreshableActivity
 		PackageInfo pInfo = null;
 		try {
 			pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-		} catch(PackageManager.NameNotFoundException e) {
+		} catch (PackageManager.NameNotFoundException e) {
 			throw new RuntimeException(e);
 		}
 
 		final int appVersion = pInfo.versionCode;
 
-		if(!sharedPreferences.contains("firstRunMessageShown")) {
+		if (!sharedPreferences.contains("firstRunMessageShown")) {
 
 			new AlertDialog.Builder(this)
 					.setTitle(R.string.firstrun_login_title)
@@ -138,18 +142,18 @@ public class MainActivity extends RefreshableActivity
 			edit.putString("firstRunMessageShown", "true");
 			edit.commit();
 
-		} else if(sharedPreferences.contains("lastVersion")) {
+		} else if (sharedPreferences.contains("lastVersion")) {
 
 			final int lastVersion = sharedPreferences.getInt("lastVersion", 0);
 
-			if(lastVersion != appVersion) {
+			if (lastVersion != appVersion) {
 
 				General.quickToast(this, "Updated to version " + pInfo.versionName);
 
 				sharedPreferences.edit().putInt("lastVersion", appVersion).commit();
 				ChangelogDialog.newInstance().show(this);
 
-				if(lastVersion <= 51) {
+				if (lastVersion <= 51) {
 					// Upgrading from v1.8.6.3 or lower
 
 					final Set<String> existingCommentHeaderItems = PrefsUtility.getStringSet(
@@ -181,6 +185,11 @@ public class MainActivity extends RefreshableActivity
 		}
 
 		addSubscriptionListener();
+
+		Boolean startInbox = getIntent().getBooleanExtra("isNewMessage", false);
+		if (startInbox) {
+			InboxListingFragment.newInstance().show(this);
+		}
 	}
 
 	private void addSubscriptionListener() {
@@ -243,18 +252,18 @@ public class MainActivity extends RefreshableActivity
 
 						final String subredditInput = editText.getText().toString().trim();
 
-                        try {
-                            final String normalizedName = RedditSubreddit.stripRPrefix(subredditInput);
+						try {
+							final String normalizedName = RedditSubreddit.stripRPrefix(subredditInput);
 							final RedditURLParser.RedditURL redditURL = RedditURLParser.SubredditPostListURL.getSubreddit(normalizedName);
 							if(redditURL == null || redditURL.pathType() != RedditURLParser.PathType.SubredditPostListingURL) {
 								General.quickToast(MainActivity.this, R.string.mainmenu_custom_invalid_name);
 							} else {
 								onSelected(redditURL.asSubredditPostListURL());
 							}
-                        }
-                        catch (RedditSubreddit.InvalidSubredditNameException e){
-                            General.quickToast(MainActivity.this, R.string.mainmenu_custom_invalid_name);
-                        }
+						}
+						catch (RedditSubreddit.InvalidSubredditNameException e){
+							General.quickToast(MainActivity.this, R.string.mainmenu_custom_invalid_name);
+						}
 					}
 				});
 

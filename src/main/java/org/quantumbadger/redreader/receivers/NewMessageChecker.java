@@ -47,123 +47,123 @@ import java.util.UUID;
 
 public class NewMessageChecker extends BroadcastReceiver {
 
-    private CacheRequest request;
-    private final String PREFS_FILENAME = "NewMessageChecker";
-    private final String PREFS_SAVED_MESSAGE = "LastMessage";
+	private CacheRequest request;
+	private final String PREFS_FILENAME = "NewMessageChecker";
+	private final String PREFS_SAVED_MESSAGE = "LastMessage";
 
-    public void onReceive(Context context, Intent intent) {
+	public void onReceive(Context context, Intent intent) {
 
-        boolean notificationsEnabled = PrefsUtility.pref_behaviour_notifications(context, PreferenceManager.getDefaultSharedPreferences(context));
-        if (!notificationsEnabled) return;
+		boolean notificationsEnabled = PrefsUtility.pref_behaviour_notifications(context, PreferenceManager.getDefaultSharedPreferences(context));
+		if (!notificationsEnabled) return;
 
-        final RedditAccount user = RedditAccountManager.getInstance(context).getDefaultAccount();
-        final CacheManager cm = CacheManager.getInstance(context);
+		final RedditAccount user = RedditAccountManager.getInstance(context).getDefaultAccount();
+		final CacheManager cm = CacheManager.getInstance(context);
 
-        final URI url;
+		final URI url;
 
-        url = Constants.Reddit.getUri("/message/unread.json?mark=true&limit=2");
+		url = Constants.Reddit.getUri("/message/unread.json?mark=true&limit=2");
 
-        request = new CacheRequest(url, user, null, Constants.Priority.API_INBOX_LIST, 0, CacheRequest.DownloadType.FORCE, Constants.FileType.INBOX_LIST, true, true, true, context) {
+		request = new CacheRequest(url, user, null, Constants.Priority.API_INBOX_LIST, 0, CacheRequest.DownloadType.FORCE, Constants.FileType.INBOX_LIST, true, true, true, context) {
 
-            @Override
-            protected void onDownloadNecessary() {}
+			@Override
+			protected void onDownloadNecessary() {}
 
-            @Override protected void onDownloadStarted() {}
+			@Override protected void onDownloadStarted() {}
 
-            @Override
-            protected void onCallbackException(final Throwable t) {
-                request = null;
-                BugReportActivity.handleGlobalError(context, t);
-            }
+			@Override
+			protected void onCallbackException(final Throwable t) {
+				request = null;
+				BugReportActivity.handleGlobalError(context, t);
+			}
 
-            @Override protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {}
+			@Override protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {}
 
-            @Override protected void onProgress(final long bytesRead, final long totalBytes) {}
+			@Override protected void onProgress(final long bytesRead, final long totalBytes) {}
 
-            @Override
-            protected void onSuccess(final CacheManager.ReadableCacheFile cacheFile, final long timestamp, final UUID session, final boolean fromCache, final String mimetype) {
-                request = null;
-            }
+			@Override
+			protected void onSuccess(final CacheManager.ReadableCacheFile cacheFile, final long timestamp, final UUID session, final boolean fromCache, final String mimetype) {
+				request = null;
+			}
 
-            @Override
-            public void onJsonParseStarted(final JsonValue value, final long timestamp, final UUID session, final boolean fromCache) {
+			@Override
+			public void onJsonParseStarted(final JsonValue value, final long timestamp, final UUID session, final boolean fromCache) {
 
-                try {
+				try {
 
-                    final JsonBufferedObject root = value.asObject();
-                    final JsonBufferedObject data = root.getObject("data");
-                    final JsonBufferedArray children = data.getArray("children");
+					final JsonBufferedObject root = value.asObject();
+					final JsonBufferedObject data = root.getObject("data");
+					final JsonBufferedArray children = data.getArray("children");
 
-                    try {
-                        JsonValue newMessage = children.get(0);
-                        int numMessages = children.getCurrentItemCount();
+					try {
+						JsonValue newMessage = children.get(0);
+						int numMessages = children.getCurrentItemCount();
 
-                        RedditThing thing = newMessage.asObject(RedditThing.class);
-                        String title;
-                        String text = context.getString(R.string.notification_message_action);
-                        String messageID;
+						RedditThing thing = newMessage.asObject(RedditThing.class);
+						String title;
+						String text = context.getString(R.string.notification_message_action);
+						String messageID;
 
-                        switch (thing.getKind()) {
-                            case COMMENT:
-                                final RedditComment comment = thing.asComment();
-                                title = comment.author + " " + context.getString(R.string.notification_comment);
-                                messageID = comment.name;
-                                break;
+						switch (thing.getKind()) {
+							case COMMENT:
+								final RedditComment comment = thing.asComment();
+								title = comment.author + " " + context.getString(R.string.notification_comment);
+								messageID = comment.name;
+								break;
 
-                            case MESSAGE:
-                                final RedditMessage message = thing.asMessage();
-                                title = message.author + " " + context.getString(R.string.notification_message);
-                                messageID = message.name;
-                                break;
+							case MESSAGE:
+								final RedditMessage message = thing.asMessage();
+								title = message.author + " " + context.getString(R.string.notification_message);
+								messageID = message.name;
+								break;
 
-                            default:
-                                throw new RuntimeException("Unknown item in list.");
-                        }
+							default:
+								throw new RuntimeException("Unknown item in list.");
+						}
 
-                        // Check if the previously saved message is the same as the one we just received
+						// Check if the previously saved message is the same as the one we just received
 
-                        android.content.SharedPreferences messageStore = context.getSharedPreferences(PREFS_FILENAME, 0);
-                        String oldMessage = messageStore.getString(PREFS_SAVED_MESSAGE, "No new messages");
-                        if (messageID.equals(oldMessage)) return;
-                        messageStore.edit().putString(PREFS_SAVED_MESSAGE, messageID).commit();
+						android.content.SharedPreferences messageStore = context.getSharedPreferences(PREFS_FILENAME, 0);
+						String oldMessage = messageStore.getString(PREFS_SAVED_MESSAGE, "No new messages");
+						if (messageID.equals(oldMessage)) return;
+						messageStore.edit().putString(PREFS_SAVED_MESSAGE, messageID).commit();
 
-                        if (numMessages > 1) {
-                            title = context.getString(R.string.notification_message_multiple);
-                        }
+						if (numMessages > 1) {
+							title = context.getString(R.string.notification_message_multiple);
+						}
 
-                        createNotification(title, text, context);
-                    } catch (IndexOutOfBoundsException e) {} // No new messages
+						createNotification(title, text, context);
+					} catch (IndexOutOfBoundsException e) {} // No new messages
 
-                } catch (Throwable t) {
-                    notifyFailure(RequestFailureType.PARSE, t, null, "Parse failure");
-                }
-            }
-        };
+				} catch (Throwable t) {
+					notifyFailure(RequestFailureType.PARSE, t, null, "Parse failure");
+				}
+			}
+		};
 
-        cm.makeRequest(request);
+		cm.makeRequest(request);
 
-    }
+	}
 
-    private void createNotification(String title, String text, Context context) {
-        Class theClass = MainActivity.class;
+	private void createNotification(String title, String text, Context context) {
+		Class theClass = MainActivity.class;
 
-        NotificationCompat.Builder theNotification = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.drawable.icon)
-                .setContentTitle(title)
-                .setContentText(text)
-                .setAutoCancel(true);
+		NotificationCompat.Builder theNotification = new NotificationCompat.Builder(context)
+				.setSmallIcon(R.drawable.icon)
+				.setContentTitle(title)
+				.setContentText(text)
+				.setAutoCancel(true);
 
-        Intent resultIntent = new Intent(context, theClass);
-        resultIntent.putExtra("isNewMessage", true);
+		Intent resultIntent = new Intent(context, theClass);
+		resultIntent.putExtra("isNewMessage", true);
 
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-        stackBuilder.addParentStack(theClass);
-        stackBuilder.addNextIntent(resultIntent);
-        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-        theNotification.setContentIntent(resultPendingIntent);
+		TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+		stackBuilder.addParentStack(theClass);
+		stackBuilder.addNextIntent(resultIntent);
+		PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+		theNotification.setContentIntent(resultPendingIntent);
 
-        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+		NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        nm.notify(0, theNotification.getNotification());
-    }
+		nm.notify(0, theNotification.getNotification());
+	}
 }

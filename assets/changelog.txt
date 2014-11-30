@@ -1,3 +1,6 @@
+54/1.8.7
+Notifications for new inbox messages/comment replies (thanks to NoNeedToBail)
+
 53/1.8.6.5
 Added asterisk next to edited comments
 Added Czech translation (thanks to Martin Macko)

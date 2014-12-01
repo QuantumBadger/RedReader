@@ -27,75 +27,75 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Alarms {
-    private static Map<Alarm, AlarmManager> alarmMap = new HashMap<Alarm, AlarmManager>();
-    private static Map<Alarm, PendingIntent> intentMap = new HashMap<Alarm, PendingIntent>();
+	private static Map<Alarm, AlarmManager> alarmMap = new HashMap<Alarm, AlarmManager>();
+	private static Map<Alarm, PendingIntent> intentMap = new HashMap<Alarm, PendingIntent>();
 
-    /*
-        An enum to represent an alarm that may be created.
-        If you wish to add an alarm, just add it at the top of the enum with the 3 arguments,
-        and then call startAlarm() on it.
-     */
+	/*
+		An enum to represent an alarm that may be created.
+		If you wish to add an alarm, just add it at the top of the enum with the 3 arguments,
+		and then call startAlarm() on it.
+	 */
 
-    public enum Alarm {
-        MESSAGE_CHECKER (AlarmManager.INTERVAL_HALF_HOUR, NewMessageChecker.class, true);
+	public enum Alarm {
+		MESSAGE_CHECKER (AlarmManager.INTERVAL_HALF_HOUR, NewMessageChecker.class, true);
 
-        private final long interval;
-        private final Class alarmClass;
-        private final boolean startOnBoot;
+		private final long interval;
+		private final Class alarmClass;
+		private final boolean startOnBoot;
 
-        Alarm(long interval, Class alarmClass, boolean startOnBoot) {
-            this.interval = interval;
-            this.alarmClass = alarmClass;
-            this.startOnBoot = startOnBoot;
-        }
+		Alarm(long interval, Class alarmClass, boolean startOnBoot) {
+			this.interval = interval;
+			this.alarmClass = alarmClass;
+			this.startOnBoot = startOnBoot;
+		}
 
-        private long interval() { return interval; }
-        private Class alarmClass() { return alarmClass; }
-        private boolean startOnBoot() { return startOnBoot; }
-    }
-
-    /**
-     * Starts the specified alarm
-     * @param alarm alarm to start
-     * @param context
-     */
-
-    public static void startAlarm (Alarm alarm, Context context) {
-		if(!alarmMap.containsKey(alarm)) {
-            Intent alarmIntent = new Intent(context, alarm.alarmClass());
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0);
-
-            AlarmManager alarmManager = (AlarmManager)(context.getSystemService(Context.ALARM_SERVICE));
-            alarmManager.setInexactRepeating(AlarmManager.RTC, System.currentTimeMillis(), alarm.interval(), pendingIntent);
-
-            alarmMap.put(alarm, alarmManager);
-            intentMap.put(alarm, pendingIntent);
-        }
+		private long interval() { return interval; }
+		private Class alarmClass() { return alarmClass; }
+		private boolean startOnBoot() { return startOnBoot; }
 	}
 
-    /**
-     * Stops the specified alarm
-     * @param alarm alarm to stop
-     */
+	/**
+	 * Starts the specified alarm
+	 * @param alarm alarm to start
+	 * @param context
+	 */
 
-    public static void stopAlarm (Alarm alarm) {
-        if (alarmMap.containsKey(alarm)) {
-            alarmMap.get(alarm).cancel(intentMap.get(alarm));
-            alarmMap.remove(alarm);
-            intentMap.remove(alarm);
-        }
-    }
+	public static void startAlarm (Alarm alarm, Context context) {
+		if(!alarmMap.containsKey(alarm)) {
+			Intent alarmIntent = new Intent(context, alarm.alarmClass());
+			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0);
 
-    /**
-     * Starts all alarms that are supposed to start at device boot
-     * @param context
-     */
+			AlarmManager alarmManager = (AlarmManager)(context.getSystemService(Context.ALARM_SERVICE));
+			alarmManager.setInexactRepeating(AlarmManager.RTC, System.currentTimeMillis(), alarm.interval(), pendingIntent);
 
-    public static void onBoot(Context context) {
-        for (Alarm alarm : Alarm.values()) {
-            if (alarm.startOnBoot()) {
-                startAlarm(alarm, context);
-            }
-        }
-    }
+			alarmMap.put(alarm, alarmManager);
+			intentMap.put(alarm, pendingIntent);
+		}
+	}
+
+	/**
+	 * Stops the specified alarm
+	 * @param alarm alarm to stop
+	 */
+
+	public static void stopAlarm (Alarm alarm) {
+		if (alarmMap.containsKey(alarm)) {
+			alarmMap.get(alarm).cancel(intentMap.get(alarm));
+			alarmMap.remove(alarm);
+			intentMap.remove(alarm);
+		}
+	}
+
+	/**
+	 * Starts all alarms that are supposed to start at device boot
+	 * @param context
+	 */
+
+	public static void onBoot(Context context) {
+		for (Alarm alarm : Alarm.values()) {
+			if (alarm.startOnBoot()) {
+				startAlarm(alarm, context);
+			}
+		}
+	}
 }

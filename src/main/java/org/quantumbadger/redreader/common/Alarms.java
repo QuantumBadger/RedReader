@@ -37,7 +37,7 @@ public class Alarms {
      */
 
     public enum Alarm {
-        MESSAGE_CHECKER (AlarmManager.INTERVAL_HOUR, NewMessageChecker.class, true);
+        MESSAGE_CHECKER (AlarmManager.INTERVAL_HALF_HOUR, NewMessageChecker.class, true);
 
         private final long interval;
         private final Class alarmClass;
@@ -61,9 +61,7 @@ public class Alarms {
      */
 
     public static void startAlarm (Alarm alarm, Context context) {
-        if (alarmMap.containsKey(alarm)) {
-            return;
-        } else {
+		if(!alarmMap.containsKey(alarm)) {
             Intent alarmIntent = new Intent(context, alarm.alarmClass());
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0);
 
@@ -73,7 +71,7 @@ public class Alarms {
             alarmMap.put(alarm, alarmManager);
             intentMap.put(alarm, pendingIntent);
         }
-    }
+	}
 
     /**
      * Stops the specified alarm
@@ -85,8 +83,6 @@ public class Alarms {
             alarmMap.get(alarm).cancel(intentMap.get(alarm));
             alarmMap.remove(alarm);
             intentMap.remove(alarm);
-        } else {
-            return;
         }
     }
 

@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader;
 
 import android.os.Environment;
+import android.util.Log;
 import org.holoeverywhere.app.Application;
 import org.holoeverywhere.preference.PreferenceManager;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -34,7 +35,10 @@ public class RedReader extends Application {
 
 	@Override
 	public void onCreate() {
+
 		super.onCreate();
+
+		Log.i("RedReader", "Application created.");
 
 		final Thread.UncaughtExceptionHandler androidHandler = Thread.getDefaultUncaughtExceptionHandler();
 

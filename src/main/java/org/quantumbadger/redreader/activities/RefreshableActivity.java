@@ -23,6 +23,7 @@ import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.preference.SharedPreferences;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 
 import java.util.EnumSet;
@@ -71,6 +72,10 @@ public abstract class RefreshableActivity extends Activity {
 	}
 
 	protected void doRefreshNow(RefreshableFragment which, boolean force) {
+
+		if(!General.isConnected(getSupportActionBarContext())){
+			force = false;
+		}
 
 		if(which == RefreshableFragment.RESTART) {
 

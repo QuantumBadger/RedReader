@@ -58,6 +58,24 @@ public class RedditAPIIndividualSubredditListRequester
 							   final TimestampBound timestampBound,
 							   final RequestResponseHandler<WritableHashSet, SubredditRequestFailure> handler) {
 
+		if(type == RedditSubredditManager.SubredditListType.DEFAULTS) {
+
+			final long now = System.currentTimeMillis();
+
+			final HashSet<String> data = new HashSet<String>(Constants.Reddit.DEFAULT_SUBREDDITS.length + 1);
+
+			for(String name : Constants.Reddit.DEFAULT_SUBREDDITS) {
+				data.add(name.toLowerCase());
+			}
+
+			data.add("/r/redreader");
+
+			final WritableHashSet result = new WritableHashSet(data, now, "DEFAULTS");
+			handler.onRequestSuccess(result, now);
+
+			return;
+		}
+
 		if(type == RedditSubredditManager.SubredditListType.MOST_POPULAR) {
 			doSubredditListRequest(RedditSubredditManager.SubredditListType.MOST_POPULAR, handler, null);
 
@@ -65,7 +83,7 @@ public class RedditAPIIndividualSubredditListRequester
 			switch(type) {
 
 				case SUBSCRIBED:
-					performRequest(RedditSubredditManager.SubredditListType.MOST_POPULAR, timestampBound, handler);
+					performRequest(RedditSubredditManager.SubredditListType.DEFAULTS, timestampBound, handler);
 					return;
 
 				case MODERATED: {

@@ -45,13 +45,12 @@ public class RedditSubredditManager {
 
 	// TODO store favourites in preference
 
-	public static enum SubredditListType { SUBSCRIBED, MODERATED, MULTIREDDITS, MOST_POPULAR }
+	public static enum SubredditListType { SUBSCRIBED, MODERATED, MULTIREDDITS, MOST_POPULAR, DEFAULTS }
 
 	private static RedditSubredditManager singleton;
 	private static RedditAccount singletonUser;
 
 	private final WeakCache<String, RedditSubreddit, SubredditRequestFailure> subredditCache;
-	private final Context context;
 
 	public static synchronized RedditSubredditManager getInstance(Context context, RedditAccount user) {
 
@@ -66,7 +65,6 @@ public class RedditSubredditManager {
 	private RedditSubredditManager(Context context, RedditAccount user) {
 
 		this.user = user;
-		this.context = context;
 
 		// Subreddit cache
 

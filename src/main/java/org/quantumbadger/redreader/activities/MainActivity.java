@@ -184,7 +184,7 @@ public class MainActivity extends RefreshableActivity
 
 		Boolean startInbox = getIntent().getBooleanExtra("isNewMessage", false);
 		if(startInbox) {
-			InboxListingFragment.newInstance().show(this);
+			startActivity(new Intent(this, InboxListingActivity.class));
 		}
 	}
 
@@ -272,14 +272,15 @@ public class MainActivity extends RefreshableActivity
 			}
 
 			case INBOX:
-				InboxListingFragment.newInstance().show(this);
+				startActivity(new Intent(this, InboxListingActivity.class));
 				break;
 
-			case MODMAIL:
-				final InboxListingFragment modmailFragment = InboxListingFragment.newInstance();
-				modmailFragment.setModmail(true);
-				modmailFragment.show(this);
+			case MODMAIL: {
+				final Intent intent = new Intent(this, InboxListingActivity.class);
+				intent.putExtra("modmail", true);
+				startActivity(intent);
 				break;
+			}
 		}
 	}
 

@@ -128,10 +128,13 @@
                   android:theme="@style/Holo.Theme"
                   android:launchMode="singleInstance"/>
 
-        <receiver android:name=".receivers.NewMessageChecker"></receiver>
+        <activity android:name=".activities.InboxListingActivity"
+                  android:configChanges="orientation|screenSize|keyboardHidden"/>
+
+        <receiver android:name=".receivers.NewMessageChecker"/>
         <receiver android:name=".receivers.BootReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
 

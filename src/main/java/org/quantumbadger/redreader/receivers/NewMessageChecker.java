@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.receivers;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -31,7 +30,7 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BugReportActivity;
-import org.quantumbadger.redreader.activities.MainActivity;
+import org.quantumbadger.redreader.activities.InboxListingActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.RequestFailureType;
@@ -165,25 +164,16 @@ public class NewMessageChecker extends BroadcastReceiver {
 
 	private void createNotification(String title, String text, Context context) {
 
-		Class theClass = MainActivity.class;
-
-		NotificationCompat.Builder theNotification = new NotificationCompat.Builder(context)
+		final NotificationCompat.Builder notification = new NotificationCompat.Builder(context)
 				.setSmallIcon(R.drawable.icon_inv)
 				.setContentTitle(title)
 				.setContentText(text)
 				.setAutoCancel(true);
 
-		Intent resultIntent = new Intent(context, theClass);
-		resultIntent.putExtra("isNewMessage", true);
+		final Intent intent = new Intent(context, InboxListingActivity.class);
+		notification.setContentIntent(PendingIntent.getActivity(context, 0, intent, 0));
 
-		TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-		stackBuilder.addParentStack(theClass);
-		stackBuilder.addNextIntent(resultIntent);
-		PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-		theNotification.setContentIntent(resultPendingIntent);
-
-		NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-		nm.notify(0, theNotification.getNotification());
+		final NotificationManager nm = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+		nm.notify(0, notification.getNotification());
 	}
 }

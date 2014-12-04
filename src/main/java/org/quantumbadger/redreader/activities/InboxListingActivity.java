@@ -15,7 +15,7 @@
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.fragments;
+package org.quantumbadger.redreader.activities;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -24,10 +24,9 @@ import android.os.Looper;
 import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
+import com.actionbarsherlock.view.MenuItem;
 import org.apache.http.StatusLine;
-import org.holoeverywhere.app.AlertDialog;
-import org.holoeverywhere.app.Dialog;
-import org.holoeverywhere.app.DialogFragment;
+import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.ListView;
@@ -35,7 +34,6 @@ import org.holoeverywhere.widget.TextView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.adapters.InboxListingAdapter;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
@@ -56,7 +54,7 @@ import java.net.URI;
 import java.util.EnumSet;
 import java.util.UUID;
 
-public final class InboxListingFragment extends DialogFragment {
+public final class InboxListingActivity extends Activity {
 
 	private InboxListingAdapter adapter;
 
@@ -67,47 +65,51 @@ public final class InboxListingFragment extends DialogFragment {
 
 	private EnumSet<PrefsUtility.AppearanceCommentHeaderItems> headerItems;
 
-	// Workaround for HoloEverywhere bug?
-	private volatile boolean alreadyCreated = false;
-
 	private boolean isModmail = false;
 
 	private final Handler itemHandler = new Handler(Looper.getMainLooper()) {
 		@Override
 		public void handleMessage(final Message msg) {
-			if(isAdded()) adapter.addItem((RedditPreparedInboxItem)msg.obj);
+			adapter.addItem((RedditPreparedInboxItem)msg.obj);
 		}
 	};
 
 	// TODO load more on scroll to bottom?
 
-	public static InboxListingFragment newInstance() {
-		return new InboxListingFragment();
-	}
-
 	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 
-		if(alreadyCreated) return getDialog();
-		alreadyCreated = true;
+		PrefsUtility.applyTheme(this);
+		super.onCreate(savedInstanceState);
 
-		super.onCreateDialog(savedInstanceState);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-		final Context context = getSupportActivity();
+		final String title;
 
-		headerItems = PrefsUtility.appearance_comment_header_items(context, PreferenceManager.getDefaultSharedPreferences(context));
+		isModmail = getIntent() != null && getIntent().getBooleanExtra("modmail", false);
+
+		if(!isModmail) {
+			title = getString(R.string.mainmenu_inbox);
+		} else {
+			title = getString(R.string.mainmenu_modmail);
+		}
+
+		OptionsMenuUtility.fixActionBar(this, title);
+
+		headerItems = PrefsUtility.appearance_comment_header_items(this, PreferenceManager.getDefaultSharedPreferences(this));
 		headerItems.remove(PrefsUtility.AppearanceCommentHeaderItems.SCORE);
 
-		final LinearLayout outer = new LinearLayout(context);
+		final LinearLayout outer = new LinearLayout(this);
 		outer.setOrientation(android.widget.LinearLayout.VERTICAL);
 
-		loadingView = new LoadingView(context, getString(R.string.download_waiting), true, true);
+		loadingView = new LoadingView(this, getString(R.string.download_waiting), true, true);
 
-		notifications = new LinearLayout(context);
+		notifications = new LinearLayout(this);
 		notifications.setOrientation(android.widget.LinearLayout.VERTICAL);
 		notifications.addView(loadingView);
 
-		final ListView lv = new ListView(context);
+		final ListView lv = new ListView(this);
 
 		lv.setSmoothScrollbarEnabled(false);
 		lv.setVerticalFadingEdgeEnabled(false);
@@ -118,12 +120,12 @@ public final class InboxListingFragment extends DialogFragment {
 				final Object item = lv.getAdapter().getItem(position);
 
 				if(item != null && item instanceof RedditPreparedInboxItem) {
-					((RedditPreparedInboxItem)item).handleInboxClick(getSupportActivity());
+					((RedditPreparedInboxItem)item).handleInboxClick(InboxListingActivity.this);
 				}
 			}
 		});
 
-		adapter = new InboxListingAdapter(context, this);
+		adapter = new InboxListingAdapter(this, this);
 		lv.setAdapter(adapter);
 
 		registerForContextMenu(lv);
@@ -131,19 +133,9 @@ public final class InboxListingFragment extends DialogFragment {
 		outer.addView(notifications);
 		outer.addView(lv);
 
-		makeFirstRequest(context);
+		makeFirstRequest(this);
 
-		final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-		if(!isModmail) {
-			builder.setTitle(R.string.mainmenu_inbox);
-		} else {
-			builder.setTitle(R.string.mainmenu_modmail);
-		}
-
-		builder.setView(outer);
-
-		return builder.create();
+		setContentView(outer);
 	}
 
 	public void cancel() {
@@ -183,14 +175,12 @@ public final class InboxListingFragment extends DialogFragment {
 
 				request = null;
 
-				if(!isAdded()) return;
-
 				if(loadingView != null) loadingView.setDone(R.string.download_failed);
 
 				final RRError error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
 				new Handler(Looper.getMainLooper()).post(new Runnable() {
 					public void run() {
-						if(isAdded()) notifications.addView(new ErrorView(getSupportActivity(), error));
+						notifications.addView(new ErrorView(InboxListingActivity.this, error));
 					}
 				});
 
@@ -207,7 +197,7 @@ public final class InboxListingFragment extends DialogFragment {
 			@Override
 			public void onJsonParseStarted(final JsonValue value, final long timestamp, final UUID session, final boolean fromCache) {
 
-				if(isAdded() && loadingView != null) loadingView.setIndeterminate(R.string.download_downloading);
+				if(loadingView != null) loadingView.setIndeterminate(R.string.download_downloading);
 
 				// TODO pref (currently 10 mins)
 				// TODO xml
@@ -241,14 +231,14 @@ public final class InboxListingFragment extends DialogFragment {
 						switch(thing.getKind()) {
 							case COMMENT:
 								final RedditPreparedComment comment = new RedditPreparedComment(
-										getSupportActivity(), thing.asComment(), null, timestamp, false, null, user, headerItems);
+										InboxListingActivity.this, thing.asComment(), null, timestamp, false, null, user, headerItems);
 								itemHandler.sendMessage(General.handlerMessage(0, comment));
 
 								break;
 
 							case MESSAGE:
 								final RedditPreparedMessage message = new RedditPreparedMessage(
-										getSupportActivity(), thing.asMessage(), timestamp);
+										InboxListingActivity.this, thing.asMessage(), timestamp);
 								itemHandler.sendMessage(General.handlerMessage(0, message));
 
 								if(message.src.replies != null && message.src.replies.getType() == JsonValue.Type.OBJECT) {
@@ -257,7 +247,7 @@ public final class InboxListingFragment extends DialogFragment {
 
 									for(JsonValue childMsgValue : replies) {
 										final RedditMessage childMsgRaw = childMsgValue.asObject(RedditThing.class).asMessage();
-										final RedditPreparedMessage childMsg = new RedditPreparedMessage(getSupportActivity(), childMsgRaw, timestamp);
+										final RedditPreparedMessage childMsg = new RedditPreparedMessage(InboxListingActivity.this, childMsgRaw, timestamp);
 										itemHandler.sendMessage(General.handlerMessage(0, childMsg));
 									}
 								}
@@ -274,15 +264,26 @@ public final class InboxListingFragment extends DialogFragment {
 					return;
 				}
 
-				if(isAdded() && loadingView != null) loadingView.setDone(R.string.download_done);
+				if(loadingView != null) loadingView.setDone(R.string.download_done);
 			}
 		};
 
 		cm.makeRequest(request);
 	}
 
+	@Override
+	public void onBackPressed() {
+		if(General.onBackPressed()) super.onBackPressed();
+	}
 
-	public void setModmail(boolean modmail) {
-		this.isModmail = modmail;
+	@Override
+	public boolean onOptionsItemSelected(final MenuItem item) {
+		switch(item.getItemId()) {
+			case android.R.id.home:
+				finish();
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
 	}
 }

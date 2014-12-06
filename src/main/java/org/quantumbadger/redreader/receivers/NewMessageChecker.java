@@ -26,6 +26,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import org.apache.http.StatusLine;
 import org.holoeverywhere.preference.PreferenceManager;
+import org.holoeverywhere.preference.SharedPreferences;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -48,10 +49,15 @@ import java.util.UUID;
 
 public class NewMessageChecker extends BroadcastReceiver {
 
-	private final String PREFS_FILENAME = "NewMessageChecker";
-	private final String PREFS_SAVED_MESSAGE = "LastMessage";
+	private static final String PREFS_SAVED_MESSAGE_ID = "LastMessageId";
+	private static final String PREFS_SAVED_MESSAGE_TIMESTAMP = "LastMessageTimestamp";
+
 
 	public void onReceive(Context context, Intent intent) {
+		checkForNewMessages(context);
+	}
+
+	public static void checkForNewMessages(Context context) {
 
 		Log.i("RedReader", "Checking for new messages.");
 
@@ -93,7 +99,9 @@ public class NewMessageChecker extends BroadcastReceiver {
 			}
 
 			@Override
-			protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {}
+			protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
+				Log.e("NewMessageChecker", "Request failed", t);
+			}
 
 			@Override
 			protected void onProgress(final long bytesRead, final long totalBytes) {}
@@ -110,47 +118,62 @@ public class NewMessageChecker extends BroadcastReceiver {
 					final JsonBufferedObject data = root.getObject("data");
 					final JsonBufferedArray children = data.getArray("children");
 
-					try {
-						JsonValue newMessage = children.get(0);
-						int numMessages = children.getCurrentItemCount();
+					children.join();
+					final int messageCount = children.getCurrentItemCount();
 
-						RedditThing thing = newMessage.asObject(RedditThing.class);
-						String title;
-						String text = context.getString(R.string.notification_message_action);
-						String messageID;
+					if(messageCount < 1) {
+						return;
+					}
 
-						switch(thing.getKind()) {
-							case COMMENT:
-								final RedditComment comment = thing.asComment();
-								title = comment.author + " " + context.getString(R.string.notification_comment);
-								messageID = comment.name;
-								break;
+					final RedditThing thing = children.get(0).asObject(RedditThing.class);
 
-							case MESSAGE:
-								final RedditMessage message = thing.asMessage();
-								title = message.author + " " + context.getString(R.string.notification_message);
-								messageID = message.name;
-								break;
+					String title;
+					final String text = context.getString(R.string.notification_message_action);
 
-							default:
-								throw new RuntimeException("Unknown item in list.");
+					final String messageID;
+					final long messageTimestamp;
+
+					switch(thing.getKind()) {
+						case COMMENT: {
+							final RedditComment comment = thing.asComment();
+							title = comment.author + " " + context.getString(R.string.notification_comment);
+							messageID = comment.name;
+							messageTimestamp = comment.created_utc;
+							break;
 						}
 
-						// Check if the previously saved message is the same as the one we just received
+						case MESSAGE: {
+							final RedditMessage message = thing.asMessage();
+							title = message.author + " " + context.getString(R.string.notification_message);
+							messageID = message.name;
+							messageTimestamp = message.created_utc;
+							break;
+						}
 
-						android.content.SharedPreferences messageStore = context.getSharedPreferences(PREFS_FILENAME, 0);
-						String oldMessage = messageStore.getString(PREFS_SAVED_MESSAGE, "No new messages");
-						if(messageID.equals(oldMessage)) return;
-						messageStore.edit().putString(PREFS_SAVED_MESSAGE, messageID).commit();
+						default: {
+							throw new RuntimeException("Unknown item in list.");
+						}
+					}
 
-						if(numMessages > 1) {
+					// Check if the previously saved message is the same as the one we just received
+
+					final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+					final String oldMessageId = prefs.getString(PREFS_SAVED_MESSAGE_ID, "");
+					final long oldMessageTimestamp = prefs.getLong(PREFS_SAVED_MESSAGE_TIMESTAMP, 0);
+
+					if(oldMessageId == null || (!messageID.equals(oldMessageId) && oldMessageTimestamp <= messageTimestamp)) {
+
+						prefs.edit()
+								.putString(PREFS_SAVED_MESSAGE_ID, messageID)
+								.putLong(PREFS_SAVED_MESSAGE_TIMESTAMP, messageTimestamp)
+								.commit();
+
+						if(messageCount > 1) {
 							title = context.getString(R.string.notification_message_multiple);
 						}
 
 						createNotification(title, text, context);
-
-					} catch(IndexOutOfBoundsException e) {
-					} // No new messages
+					}
 
 				} catch(Throwable t) {
 					notifyFailure(RequestFailureType.PARSE, t, null, "Parse failure");
@@ -159,10 +182,9 @@ public class NewMessageChecker extends BroadcastReceiver {
 		};
 
 		cm.makeRequest(request);
-
 	}
 
-	private void createNotification(String title, String text, Context context) {
+	private static void createNotification(String title, String text, Context context) {
 
 		final NotificationCompat.Builder notification = new NotificationCompat.Builder(context)
 				.setSmallIcon(R.drawable.icon_inv)

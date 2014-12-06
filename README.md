@@ -69,3 +69,5 @@ Thanks to:
 * [/u/balducien](http://www.reddit.com/user/balducien) and [/u/andiho](http://www.reddit.com/user/andiho) for the German translation
 * [remil19](https://github.com/remil19) for the French translation
 * [Husam Bilal](https://github.com/husam212) for the Arabic translation
+* [Juanma Reyes](https://github.com/jmreyes) and [moshpirit](https://github.com/moshpirit) for the Spanish translation
+* [Martin Macko](https://github.com/LinkedList) for the Czech translation

@@ -37,12 +37,15 @@ import java.util.regex.Pattern;
 
 public class LinkHandler {
 
-	public static final Pattern redditCommentsPattern = Pattern.compile("^https?://[\\.\\w]*reddit\\.com/+(r/\\w+/+)?comments/+(\\w+).*"),
-			redditUserPattern = Pattern.compile("^(?:https?://[\\.\\w]*reddit\\.com)?/?(user|u)/(\\w+).*"),
+	public static final Pattern
 			youtubeDotComPattern = Pattern.compile("^https?://[\\.\\w]*youtube\\.\\w+/.*"),
 			youtuDotBePattern = Pattern.compile("^https?://[\\.\\w]*youtu\\.be/([A-Za-z0-9\\-_]+)(\\?.*|).*"),
 			vimeoPattern = Pattern.compile("^https?://[\\.\\w]*vimeo\\.\\w+/.*"),
 			googlePlayPattern = Pattern.compile("^https?://[\\.\\w]*play\\.google\\.\\w+/.*");
+
+	public static void onLinkClicked(Activity activity, String url) {
+		onLinkClicked(activity, url, false);
+	}
 
 	public static void onLinkClicked(Activity activity, String url, boolean forceNoImage) {
 		onLinkClicked(activity, url, forceNoImage, null);
@@ -75,14 +78,7 @@ public class LinkHandler {
 		}
 
 		if(url.startsWith("/")) {
-			url = "http://reddit.com" + url;
-		}
-
-		final Matcher redditUserMatcher = redditUserPattern.matcher(url);
-
-		if(redditUserMatcher.find()) {
-			UserProfileDialog.newInstance(redditUserMatcher.group(2)).show(activity);
-			return;
+			url = "https://reddit.com" + url;
 		}
 
 		if(!url.contains("://")) {
@@ -101,16 +97,6 @@ public class LinkHandler {
 			}
 		}
 
-		// TODO this is hacky. Generalise the post/comment list fragments?
-		final Matcher redditCommentsMatcher = redditCommentsPattern.matcher(url);
-
-		if(redditCommentsMatcher.find()) {
-			final Intent intent = new Intent(activity, CommentListingActivity.class);
-			intent.putExtra("postId", redditCommentsMatcher.group(2));
-			activity.startActivity(intent);
-			return;
-		}
-
 		final RedditURLParser.RedditURL redditURL = RedditURLParser.parse(Uri.parse(url));
 		if(redditURL != null) {
 
@@ -118,12 +104,26 @@ public class LinkHandler {
 
 				case SubredditPostListingURL:
 				case UserPostListingURL:
-				case UnknownPostListingURL:
+				case UnknownPostListingURL: {
 
 					final Intent intent = new Intent(activity, PostListingActivity.class);
 					intent.setData(redditURL.generateJsonUri());
 					activity.startActivityForResult(intent, 1);
 					return;
+				}
+
+				case CommentListingURL: {
+
+					final Intent intent = new Intent(activity, CommentListingActivity.class);
+					intent.setData(redditURL.generateJsonUri());
+					activity.startActivityForResult(intent, 1);
+					return;
+				}
+
+				case UserProfileURL: {
+					UserProfileDialog.newInstance(redditURL.asUserProfileURL().username).show(activity);
+					return;
+				}
 			}
 		}
 

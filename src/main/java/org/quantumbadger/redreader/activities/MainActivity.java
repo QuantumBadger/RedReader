@@ -49,10 +49,7 @@ import org.quantumbadger.redreader.listingcontrollers.PostListingController;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
-import org.quantumbadger.redreader.reddit.url.PostListingURL;
-import org.quantumbadger.redreader.reddit.url.RedditURLParser;
-import org.quantumbadger.redreader.reddit.url.SubredditPostListURL;
-import org.quantumbadger.redreader.reddit.url.UserPostListingURL;
+import org.quantumbadger.redreader.reddit.url.*;
 import org.quantumbadger.redreader.views.RedditPostView;
 
 import java.util.Set;
@@ -114,7 +111,7 @@ public class MainActivity extends RefreshableActivity
 
 		RedditAccountManager.getInstance(this).addUpdateListener(this);
 
-		PackageInfo pInfo = null;
+		final PackageInfo pInfo;
 		try {
 			pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
 		} catch(PackageManager.NameNotFoundException e) {
@@ -232,7 +229,7 @@ public class MainActivity extends RefreshableActivity
 				break;
 
 			case PROFILE:
-				UserProfileDialog.newInstance(RedditAccountManager.getInstance(this).getDefaultAccount().username).show(this);
+				LinkHandler.onLinkClicked(this, new UserProfileURL(RedditAccountManager.getInstance(this).getDefaultAccount().username).toString());
 				break;
 
 			case CUSTOM: {
@@ -414,7 +411,7 @@ public class MainActivity extends RefreshableActivity
 
 		if(twoPane) {
 
-			commentListingController = new CommentListingController(post.idAlone, this);
+			commentListingController = new CommentListingController(CommentListingURL.forPostId(post.idAlone), this);
 
 			if(isMenuShown) {
 
@@ -440,9 +437,7 @@ public class MainActivity extends RefreshableActivity
 			}
 
 		} else {
-			final Intent intent = new Intent(this, CommentListingActivity.class);
-			intent.putExtra("postId", post.idAlone);
-			startActivityForResult(intent, 1);
+			LinkHandler.onLinkClicked(this, CommentListingURL.forPostId(post.idAlone).toString(), false);
 		}
 	}
 
@@ -481,7 +476,6 @@ public class MainActivity extends RefreshableActivity
 		final boolean commentsVisible = commentListingFragment != null;
 
 		final boolean postsSortable = postListingController != null && postListingController.isSortable();
-		final boolean commentsSortable = commentListingController != null && commentListingController.isSortable();
 
 		final RedditAccount user = RedditAccountManager.getInstance(this).getDefaultAccount();
 		final RedditSubredditSubscriptionManager.SubredditSubscriptionState subredditSubscriptionState;
@@ -512,7 +506,7 @@ public class MainActivity extends RefreshableActivity
 				postsVisible,
 				commentsVisible,
 				postsSortable,
-				commentsSortable,
+				true,
 				subredditSubscriptionState,
 				postsVisible && subredditDescription != null && subredditDescription.length() > 0);
 

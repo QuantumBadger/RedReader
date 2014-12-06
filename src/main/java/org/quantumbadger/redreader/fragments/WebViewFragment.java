@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.fragments;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -35,8 +36,10 @@ import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.common.AndroidApi;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
+import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 import org.quantumbadger.redreader.views.RedditPostView;
 import org.quantumbadger.redreader.views.WebViewFixed;
 import org.quantumbadger.redreader.views.bezelmenu.BezelSwipeOverlay;
@@ -157,10 +160,15 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 							getSupportActivity().finish();
 						}
 					} else  {
-						// TODO handle reddit URLs in the app
-						webView.loadUrl(url);
-						currentUrl = url;
+
+						if(RedditURLParser.parse(Uri.parse(url)) != null) {
+							LinkHandler.onLinkClicked(getSupportActivity(), url, false);
+						} else {
+							webView.loadUrl(url);
+							currentUrl = url;
+						}
 					}
+
 					return true;
 				}
 

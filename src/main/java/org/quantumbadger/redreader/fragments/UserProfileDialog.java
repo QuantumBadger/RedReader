@@ -18,8 +18,6 @@
 package org.quantumbadger.redreader.fragments;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -32,15 +30,10 @@ import org.holoeverywhere.widget.TextView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BugReportActivity;
-import org.quantumbadger.redreader.activities.CommentListingActivity;
-import org.quantumbadger.redreader.activities.PostListingActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.RequestFailureType;
-import org.quantumbadger.redreader.common.Constants;
-import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.common.RRError;
-import org.quantumbadger.redreader.common.RRTime;
+import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.things.RedditUser;
@@ -136,10 +129,7 @@ public class UserProfileDialog extends PropertiesDialog {
 						commentsButton.setText(R.string.userprofile_viewcomments);
 						commentsButton.setOnClickListener(new View.OnClickListener() {
 							public void onClick(View v) {
-								final Intent intent = new Intent(context, CommentListingActivity.class);
-								intent.setData(Uri.parse(Constants.Reddit.getUri("/user/" + username + "/comments.json").toString()));
-								startActivity(intent);
-								dismiss();
+								LinkHandler.onLinkClicked(getSupportActivity(), Constants.Reddit.getUri("/user/" + username + "/comments.json").toString(), false);
 							}
 						});
 						items.addView(commentsButton);
@@ -151,10 +141,7 @@ public class UserProfileDialog extends PropertiesDialog {
 						postsButton.setText(R.string.userprofile_viewposts);
 						postsButton.setOnClickListener(new View.OnClickListener() {
 							public void onClick(View v) {
-								final Intent intent = new Intent(context, PostListingActivity.class);
-								intent.setData(UserPostListingURL.getSubmitted(username).generateJsonUri());
-								startActivity(intent);
-								dismiss();
+								LinkHandler.onLinkClicked(getSupportActivity(), UserPostListingURL.getSubmitted(username).generateJsonUri().toString(), false);
 							}
 						});
 						items.addView(postsButton);

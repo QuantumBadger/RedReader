@@ -70,6 +70,8 @@ import org.quantumbadger.redreader.reddit.prepared.markdown.MarkdownParser;
 import org.quantumbadger.redreader.reddit.things.RedditComment;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.things.RedditThing;
+import org.quantumbadger.redreader.reddit.url.CommentListingURL;
+import org.quantumbadger.redreader.reddit.url.UserProfileURL;
 import org.quantumbadger.redreader.views.RedditCommentView;
 import org.quantumbadger.redreader.views.RedditPostHeaderView;
 import org.quantumbadger.redreader.views.RedditPostView;
@@ -80,7 +82,6 @@ import org.quantumbadger.redreader.views.liststatus.LoadingView;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashSet;
@@ -89,7 +90,7 @@ import java.util.UUID;
 public class CommentListingFragment extends Fragment
 		implements ActiveTextView.OnLinkClickedListener, RedditPostView.PostSelectionListener {
 
-	private URI url;
+	private CommentListingURL url;
 	private UUID session = null;
 	private CacheRequest.DownloadType downloadType;
 	private CommentListingAdapter adapter;
@@ -99,8 +100,6 @@ public class CommentListingFragment extends Fragment
 	private ListView lv;
 
 	private String after = null;
-
-	private String parentPostIdAndType;
 
 	private CacheRequest request;
 
@@ -128,14 +127,13 @@ public class CommentListingFragment extends Fragment
 	};
 
 	// TODO load more on scroll to bottom?
-	public static CommentListingFragment newInstance(final String parentPostIdAndType, final Uri url, final UUID session, final CacheRequest.DownloadType downloadType) {
+	public static CommentListingFragment newInstance(final CommentListingURL url, final UUID session, final CacheRequest.DownloadType downloadType) {
 
 		final CommentListingFragment f = new CommentListingFragment();
 
-		final Bundle bundle = new Bundle(4);
+		final Bundle bundle = new Bundle(3);
 
-		bundle.putString("parentPostIdAndType", parentPostIdAndType);
-		bundle.putString("url", url.toString());
+		bundle.putString("url", url.generateJsonUri().toString());
 		if(session != null) bundle.putString("session", session.toString());
 		bundle.putString("downloadType", downloadType.name());
 
@@ -153,9 +151,8 @@ public class CommentListingFragment extends Fragment
 
 		final Bundle arguments = getArguments();
 
-		parentPostIdAndType = arguments.getString("parentPostIdAndType");
-
-		url = General.uriFromString(arguments.getString("url"));
+		url = CommentListingURL.parse(Uri.parse(arguments.getString("url")));
+		// TODO url may be null...
 
 		if(arguments.containsKey("session")) {
 			session = UUID.fromString(arguments.getString("session"));
@@ -305,7 +302,7 @@ public class CommentListingFragment extends Fragment
 		final CacheManager cm = CacheManager.getInstance(context);
 
 		// TODO parameterise limit
-		request = new CacheRequest(url, user, session, Constants.Priority.API_COMMENT_LIST, 0, downloadType, Constants.FileType.COMMENT_LIST, true, true, false, context) {
+		request = new CacheRequest(General.uriFromString(url.generateJsonUri().toString()), user, session, Constants.Priority.API_COMMENT_LIST, 0, downloadType, Constants.FileType.COMMENT_LIST, true, true, false, context) {
 
 			@Override
 			protected void onDownloadNecessary() {
@@ -445,7 +442,9 @@ public class CommentListingFragment extends Fragment
 					final JsonBufferedObject listing = thing.getObject("data");
 					final JsonBufferedArray topLevelComments = listing.getArray("children");
 
-					final HashSet<String> needsChanging = RedditChangeDataManager.getInstance(context).getChangedForParent(parentPostIdAndType, user);
+					final HashSet<String> needsChanging = RedditChangeDataManager
+							.getInstance(context)
+							.getChangedForParent("t3_" + CommentListingFragment.this.url.postId, user);
 
 					for(final JsonValue commentThingValue : topLevelComments) {
 						buildComments(commentThingValue, null, timestamp, needsChanging);
@@ -676,7 +675,7 @@ public class CommentListingFragment extends Fragment
 				break;
 
 			case USER_PROFILE:
-				UserProfileDialog.newInstance(comment.src.author).show(getSupportActivity());
+				LinkHandler.onLinkClicked(getSupportActivity(), new UserProfileURL(comment.src.author).toString());
 				break;
 
 			case PROPERTIES:

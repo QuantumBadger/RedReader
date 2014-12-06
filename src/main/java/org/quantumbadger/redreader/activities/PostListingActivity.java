@@ -44,6 +44,7 @@ import org.quantumbadger.redreader.fragments.SessionListDialog;
 import org.quantumbadger.redreader.listingcontrollers.PostListingController;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
+import org.quantumbadger.redreader.reddit.url.CommentListingURL;
 import org.quantumbadger.redreader.reddit.url.PostListingURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 import org.quantumbadger.redreader.reddit.url.SearchPostListURL;
@@ -142,7 +143,7 @@ public class PostListingActivity extends RefreshableActivity
 				true,
 				false,
 				controller.isSortable(),
-				false,
+				true,
 				subredditSubscriptionState,
 				subredditDescription != null && subredditDescription.length() > 0);
 
@@ -175,9 +176,7 @@ public class PostListingActivity extends RefreshableActivity
 	}
 
 	public void onPostCommentsSelected(final RedditPreparedPost post) {
-		final Intent intent = new Intent(this, CommentListingActivity.class);
-		intent.putExtra("postId", post.idAlone);
-		startActivityForResult(intent, 1);
+		LinkHandler.onLinkClicked(this, CommentListingURL.forPostId(post.idAlone).toString(), false);
 	}
 
 	public void onRefreshPosts() {

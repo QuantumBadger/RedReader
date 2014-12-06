@@ -122,7 +122,7 @@ public class UserPostListingURL extends PostListingURL {
 			return null;
 		}
 
-		if(!pathSegments[0].equalsIgnoreCase("user")) {
+		if(!pathSegments[0].equalsIgnoreCase("user") && !pathSegments[0].equalsIgnoreCase("u")) {
 			return null;
 		}
 

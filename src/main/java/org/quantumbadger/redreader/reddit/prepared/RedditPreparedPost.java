@@ -47,13 +47,13 @@ import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.fragments.PostPropertiesDialog;
-import org.quantumbadger.redreader.fragments.UserProfileDialog;
 import org.quantumbadger.redreader.image.ThumbnailScaler;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.url.SubredditPostListURL;
+import org.quantumbadger.redreader.reddit.url.UserProfileURL;
 import org.quantumbadger.redreader.views.FlatImageButton;
 import org.quantumbadger.redreader.views.RedditPostView;
 import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
@@ -421,7 +421,7 @@ public final class RedditPreparedPost {
 			}
 
 			case USER_PROFILE:
-				UserProfileDialog.newInstance(post.src.author).show(activity);
+				LinkHandler.onLinkClicked(activity, new UserProfileURL(post.src.author).toString());
 				break;
 
 			case PROPERTIES:

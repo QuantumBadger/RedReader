@@ -21,9 +21,9 @@ import android.content.Context;
 import android.net.Uri;
 import org.holoeverywhere.preference.PreferenceManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
+import org.quantumbadger.redreader.reddit.url.CommentListingURL;
 
 import java.util.UUID;
 
@@ -31,22 +31,15 @@ import java.util.UUID;
 // TODO parse URLs, support parents/context -- use post permalink
 public class CommentListingController {
 
-	private final String postId;
-	private final Uri uri;
-	private UUID session = null;
-	private Sort sort;
-	private final boolean sortable;
+	private CommentListingURL mUrl;
+	private UUID mSession = null;
 
 	public UUID getSession() {
-		return session;
+		return mSession;
 	}
 
 	public void setSession(UUID session) {
-		this.session = session;
-	}
-
-	public boolean isSortable() {
-		return sortable;
+		mSession = session;
 	}
 
 	public static enum Sort {
@@ -80,39 +73,29 @@ public class CommentListingController {
 		}
 	}
 
-	public CommentListingController(final String postId, final Context context) {
-		sort = PrefsUtility.pref_behaviour_commentsort(context, PreferenceManager.getDefaultSharedPreferences(context));
-		this.postId = postId;
-		sortable = true;
-		uri = null;
+	public CommentListingController(CommentListingURL url, final Context context) {
+
+		if(url.order == null) {
+			url = url.order(defaultOrder(context));
+		}
+
+		this.mUrl = url;
 	}
 
-	public CommentListingController(final Uri uri, final Context context) {
-		sort = PrefsUtility.pref_behaviour_commentsort(context, PreferenceManager.getDefaultSharedPreferences(context));
-		postId = null;
-		sortable = false;
-		this.uri = uri;
+	private Sort defaultOrder(final Context context) {
+		return PrefsUtility.pref_behaviour_commentsort(context, PreferenceManager.getDefaultSharedPreferences(context));
 	}
 
 	public void setSort(final Sort s) {
-		sort = s;
+		mUrl = mUrl.order(s);
 	}
 
 	public Uri getUri() {
-
-		if(uri != null) {
-
-			Uri.Builder builder = uri.buildUpon();
-			if(!uri.getPath().endsWith(".json")) builder.appendPath(".json");
-
-			return builder.build();
-		}
-
-		return Uri.parse(Constants.Reddit.getUri(Constants.Reddit.PATH_COMMENTS + postId + ".json?sort=" + sort.key).toString());
+		return mUrl.generateJsonUri();
 	}
 
 	public CommentListingFragment get(final boolean force) {
-		if(force) session = null;
-		return CommentListingFragment.newInstance("t3_" + postId, getUri(), session, force ? CacheRequest.DownloadType.FORCE : CacheRequest.DownloadType.IF_NECESSARY);
+		if(force) mSession = null;
+		return CommentListingFragment.newInstance(mUrl, mSession, force ? CacheRequest.DownloadType.FORCE : CacheRequest.DownloadType.IF_NECESSARY);
 	}
 }

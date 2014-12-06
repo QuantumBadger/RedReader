@@ -32,6 +32,7 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.WebViewFragment;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
+import org.quantumbadger.redreader.reddit.url.CommentListingURL;
 import org.quantumbadger.redreader.views.RedditPostView;
 
 public class WebViewActivity extends Activity implements RedditPostView.PostSelectionListener {
@@ -77,9 +78,7 @@ public class WebViewActivity extends Activity implements RedditPostView.PostSele
 	}
 
 	public void onPostCommentsSelected(final RedditPreparedPost post) {
-		final Intent intent = new Intent(this, CommentListingActivity.class);
-		intent.putExtra("postId", post.idAlone);
-		startActivityForResult(intent, 1);
+		LinkHandler.onLinkClicked(this, CommentListingURL.forPostId(post.idAlone).toString(), false);
 	}
 
 	@Override

@@ -37,6 +37,7 @@ import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.fragments.SessionListDialog;
 import org.quantumbadger.redreader.listingcontrollers.CommentListingController;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
+import org.quantumbadger.redreader.reddit.url.CommentListingURL;
 import org.quantumbadger.redreader.views.RedditPostView;
 
 import java.util.UUID;
@@ -53,9 +54,8 @@ public class CommentListingActivity extends RefreshableActivity
 	private CommentListingFragment fragment = null;
 
 	private SharedPreferences sharedPreferences;
-    private String url;
 
-    public void onCreate(final Bundle savedInstanceState) {
+	public void onCreate(final Bundle savedInstanceState) {
 
         PrefsUtility.applyTheme(this);
 
@@ -84,16 +84,8 @@ public class CommentListingActivity extends RefreshableActivity
 
 			final Intent intent = getIntent();
 
-			if(intent.hasExtra("postId")) {
-				final String postId = intent.getStringExtra("postId");
-				controller = new CommentListingController(postId, this);
-
-
-            } else {
-
-                url = intent.getDataString();
-                controller = new CommentListingController(Uri.parse(url), this);
-			}
+			final String url = intent.getDataString();
+            controller = new CommentListingController(CommentListingURL.parse(Uri.parse(url)), this);
 
 			doRefresh(RefreshableFragment.COMMENTS, false);
 
@@ -110,7 +102,7 @@ public class CommentListingActivity extends RefreshableActivity
 
 	@Override
 	public boolean onCreateOptionsMenu(final Menu menu) {
-		OptionsMenuUtility.prepare(this, menu, false, false, true, false, controller.isSortable(), null, false);
+		OptionsMenuUtility.prepare(this, menu, false, false, true, false, true, null, false);
 		return true;
 	}
 
@@ -188,9 +180,7 @@ public class CommentListingActivity extends RefreshableActivity
 	}
 
 	public void onPostCommentsSelected(final RedditPreparedPost post) {
-		final Intent intent = new Intent(this, CommentListingActivity.class);
-		intent.putExtra("postId", post.idAlone);
-		startActivityForResult(intent, 1);
+		LinkHandler.onLinkClicked(this, CommentListingURL.forPostId(post.idAlone).toString(), false);
 	}
 
 	@Override

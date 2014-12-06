@@ -27,6 +27,7 @@ public class RedditURLParser {
 		UserPostListingURL,
 		SearchPostListingURL,
 		UnknownPostListingURL,
+		UserProfileURL,
 		CommentListingURL
 	}
 
@@ -66,6 +67,20 @@ public class RedditURLParser {
 			}
 		}
 
+		{
+			final CommentListingURL commentListingURL = CommentListingURL.parse(uri);
+			if(commentListingURL != null) {
+				return commentListingURL;
+			}
+		}
+
+		{
+			final UserProfileURL userProfileURL = UserProfileURL.parse(uri);
+			if(userProfileURL != null) {
+				return userProfileURL;
+			}
+		}
+
 		return null;
 	}
 
@@ -87,6 +102,10 @@ public class RedditURLParser {
 
 		public final UserPostListingURL asUserPostListURL() {
 			return (UserPostListingURL)this;
+		}
+
+		public UserProfileURL asUserProfileURL() {
+			return (UserProfileURL)this;
 		}
 
 		public String humanReadableName(Context context, boolean shorter) {
@@ -111,6 +130,11 @@ public class RedditURLParser {
 			}
 
 			return builder.toString();
+		}
+
+		@Override
+		public String toString() {
+			return generateJsonUri().toString();
 		}
 	}
 }

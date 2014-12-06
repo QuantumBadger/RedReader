@@ -39,6 +39,10 @@ public class CommentListingURL extends RedditURLParser.RedditURL {
 
 	public final CommentListingController.Sort order;
 
+	public static CommentListingURL forPostId(String postId) {
+		return new CommentListingURL(null, postId, null, null, null, null);
+	}
+
 	public CommentListingURL(
 			final String after,
 			final String postId,
@@ -64,8 +68,8 @@ public class CommentListingURL extends RedditURLParser.RedditURL {
 		return new CommentListingURL(after, postId, commentId, context, limit, order);
 	}
 
-	public CommentListingController.Sort getOrder() {
-		return order;
+	public CommentListingURL order(CommentListingController.Sort order) {
+		return new CommentListingURL(after, postId, commentId, context, limit, order);
 	}
 
 	@Override

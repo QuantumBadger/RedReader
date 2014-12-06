@@ -18,10 +18,8 @@
 package org.quantumbadger.redreader.reddit.prepared;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.SpannableStringBuilder;
@@ -32,7 +30,6 @@ import org.holoeverywhere.app.Activity;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.activities.CommentListingActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.*;
@@ -415,9 +412,7 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 
 	public void handleInboxClick(Activity activity) {
 		final URI commentContext = Constants.Reddit.getUri(src.context);
-		final Intent intent = new Intent(activity, CommentListingActivity.class);
-		intent.setData(Uri.parse(commentContext.toString()));
-		activity.startActivity(intent);
+		LinkHandler.onLinkClicked(activity, commentContext.toString(), false);
 	}
 
 	public boolean isSaved() {

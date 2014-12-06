@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.activities;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -28,6 +29,7 @@ import com.actionbarsherlock.view.MenuItem;
 import org.apache.http.StatusLine;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.preference.PreferenceManager;
+import org.holoeverywhere.preference.SharedPreferences;
 import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.ListView;
 import org.holoeverywhere.widget.TextView;
@@ -82,6 +84,11 @@ public final class InboxListingActivity extends Activity {
 		PrefsUtility.applyTheme(this);
 		super.onCreate(savedInstanceState);
 
+		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+		final boolean solidblack = PrefsUtility.appearance_solidblack(this, sharedPreferences)
+				&& PrefsUtility.appearance_theme(this, sharedPreferences) == PrefsUtility.AppearanceTheme.NIGHT;
+
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -97,11 +104,15 @@ public final class InboxListingActivity extends Activity {
 
 		OptionsMenuUtility.fixActionBar(this, title);
 
-		headerItems = PrefsUtility.appearance_comment_header_items(this, PreferenceManager.getDefaultSharedPreferences(this));
+		headerItems = PrefsUtility.appearance_comment_header_items(this, sharedPreferences);
 		headerItems.remove(PrefsUtility.AppearanceCommentHeaderItems.SCORE);
 
 		final LinearLayout outer = new LinearLayout(this);
 		outer.setOrientation(android.widget.LinearLayout.VERTICAL);
+
+		if(solidblack) {
+			outer.setBackgroundColor(Color.BLACK);
+		}
 
 		loadingView = new LoadingView(this, getString(R.string.download_waiting), true, true);
 

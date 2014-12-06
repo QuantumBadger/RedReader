@@ -26,7 +26,8 @@ public class RedditURLParser {
 		SubredditPostListingURL,
 		UserPostListingURL,
 		SearchPostListingURL,
-		UnknownPostListingURL
+		UnknownPostListingURL,
+		CommentListingURL
 	}
 
 	private static boolean isRedditUri(Uri uri) {

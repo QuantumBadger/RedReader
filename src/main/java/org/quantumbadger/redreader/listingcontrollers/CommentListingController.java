@@ -50,7 +50,19 @@ public class CommentListingController {
 	}
 
 	public static enum Sort {
-		BEST, HOT, NEW, OLD, TOP, CONTROVERSIAL
+
+		BEST("confidence"),
+		HOT("hot"),
+		NEW("new"),
+		OLD("old"),
+		TOP("top"),
+		CONTROVERSIAL("controversial");
+
+		public final String key;
+
+		private Sort(final String key) {
+			this.key = key;
+		}
 	}
 
 	public CommentListingController(final String postId, final Context context) {
@@ -81,7 +93,7 @@ public class CommentListingController {
 			return builder.build();
 		}
 
-		return Uri.parse(Constants.Reddit.getUri(Constants.Reddit.PATH_COMMENTS + postId + ".json?sort=" + sort.name().toLowerCase()).toString());
+		return Uri.parse(Constants.Reddit.getUri(Constants.Reddit.PATH_COMMENTS + postId + ".json?sort=" + sort.key).toString());
 	}
 
 	public CommentListingFragment get(final boolean force) {

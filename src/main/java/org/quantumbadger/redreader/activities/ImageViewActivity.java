@@ -43,7 +43,7 @@ import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.image.GifDecoderThread;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
-import org.quantumbadger.redreader.reddit.url.CommentListingURL;
+import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.views.GIFView;
 import org.quantumbadger.redreader.views.RedditPostView;
 import org.quantumbadger.redreader.views.bezelmenu.BezelSwipeOverlay;
@@ -321,7 +321,7 @@ public class ImageViewActivity extends Activity implements RedditPostView.PostSe
 	}
 
 	public void onPostCommentsSelected(final RedditPreparedPost post) {
-		LinkHandler.onLinkClicked(this, CommentListingURL.forPostId(post.idAlone).generateJsonUri().toString(), false);
+		LinkHandler.onLinkClicked(this, PostCommentListingURL.forPostId(post.idAlone).generateJsonUri().toString(), false);
 	}
 
 	@Override

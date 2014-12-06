@@ -37,7 +37,8 @@ import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.fragments.SessionListDialog;
 import org.quantumbadger.redreader.listingcontrollers.CommentListingController;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
-import org.quantumbadger.redreader.reddit.url.CommentListingURL;
+import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
+import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 import org.quantumbadger.redreader.views.RedditPostView;
 
 import java.util.UUID;
@@ -85,7 +86,7 @@ public class CommentListingActivity extends RefreshableActivity
 			final Intent intent = getIntent();
 
 			final String url = intent.getDataString();
-            controller = new CommentListingController(CommentListingURL.parse(Uri.parse(url)), this);
+            controller = new CommentListingController(RedditURLParser.parseProbableCommentListing(Uri.parse(url)), this);
 
 			doRefresh(RefreshableFragment.COMMENTS, false);
 
@@ -102,7 +103,7 @@ public class CommentListingActivity extends RefreshableActivity
 
 	@Override
 	public boolean onCreateOptionsMenu(final Menu menu) {
-		OptionsMenuUtility.prepare(this, menu, false, false, true, false, true, null, false);
+		OptionsMenuUtility.prepare(this, menu, false, false, true, false, controller.isSortable(), null, false);
 		return true;
 	}
 
@@ -146,7 +147,7 @@ public class CommentListingActivity extends RefreshableActivity
 		sessionListDialog.show(this);
 	}
 
-	public void onSortSelected(final CommentListingController.Sort order) {
+	public void onSortSelected(final PostCommentListingURL.Sort order) {
 		controller.setSort(order);
 		requestRefresh(RefreshableFragment.COMMENTS, false);
 	}
@@ -180,7 +181,7 @@ public class CommentListingActivity extends RefreshableActivity
 	}
 
 	public void onPostCommentsSelected(final RedditPreparedPost post) {
-		LinkHandler.onLinkClicked(this, CommentListingURL.forPostId(post.idAlone).toString(), false);
+		LinkHandler.onLinkClicked(this, PostCommentListingURL.forPostId(post.idAlone).toString(), false);
 	}
 
 	@Override

@@ -28,7 +28,9 @@ public class RedditURLParser {
 		SearchPostListingURL,
 		UnknownPostListingURL,
 		UserProfileURL,
-		CommentListingURL
+		UserCommentListingURL,
+		UnknownCommentListingURL,
+		PostCommentListingURL
 	}
 
 	private static boolean isRedditUri(Uri uri) {
@@ -68,7 +70,14 @@ public class RedditURLParser {
 		}
 
 		{
-			final CommentListingURL commentListingURL = CommentListingURL.parse(uri);
+			final UserCommentListingURL userCommentListURL = UserCommentListingURL.parse(uri);
+			if(userCommentListURL != null) {
+				return userCommentListURL;
+			}
+		}
+
+		{
+			final PostCommentListingURL commentListingURL = PostCommentListingURL.parse(uri);
 			if(commentListingURL != null) {
 				return commentListingURL;
 			}
@@ -82,6 +91,14 @@ public class RedditURLParser {
 		}
 
 		return null;
+	}
+
+	public static RedditURL parseProbableCommentListing(Uri uri) {
+
+		RedditURL matchURL = parse(uri);
+		if(matchURL != null) return matchURL;
+
+		return new UnknownCommentListURL(uri);
 	}
 
 	public static RedditURL parseProbablePostListing(Uri uri) {
@@ -106,6 +123,14 @@ public class RedditURLParser {
 
 		public UserProfileURL asUserProfileURL() {
 			return (UserProfileURL)this;
+		}
+
+		public PostCommentListingURL asPostCommentListURL() {
+			return (PostCommentListingURL)this;
+		}
+
+		public UserCommentListingURL asUserCommentListURL() {
+			return (UserCommentListingURL)this;
 		}
 
 		public String humanReadableName(Context context, boolean shorter) {

@@ -25,8 +25,8 @@ import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.preference.SharedPreferences;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.fragments.MainMenuFragment;
-import org.quantumbadger.redreader.listingcontrollers.CommentListingController;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
+import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 
 import java.util.*;
 
@@ -252,8 +252,8 @@ public final class PrefsUtility {
 		return CommentAction.valueOf(getString(R.string.pref_behaviour_actions_comment_tap_key, "action_menu", context, sharedPreferences).toUpperCase());
 	}
 
-	public static CommentListingController.Sort pref_behaviour_commentsort(final Context context, final SharedPreferences sharedPreferences) {
-		return CommentListingController.Sort.valueOf(getString(R.string.pref_behaviour_commentsort_key, "best", context, sharedPreferences).toUpperCase());
+	public static PostCommentListingURL.Sort pref_behaviour_commentsort(final Context context, final SharedPreferences sharedPreferences) {
+		return PostCommentListingURL.Sort.valueOf(getString(R.string.pref_behaviour_commentsort_key, "best", context, sharedPreferences).toUpperCase());
 	}
 
 	public static boolean pref_behaviour_nsfw(final Context context, final SharedPreferences sharedPreferences) {

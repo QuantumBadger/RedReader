@@ -595,4 +595,7 @@
     <!-- 2014-12-02 -->
     <string name="imageview_decode_failed">Failed to decode image. Trying internal browser.</string>
 
+    <!-- 2014-12-06 -->
+    <string name="user_comments">Comments</string>
+
 </resources>

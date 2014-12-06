@@ -34,9 +34,9 @@ import org.quantumbadger.redreader.common.BetterSSB;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
 import org.quantumbadger.redreader.fragments.AccountListDialog;
-import org.quantumbadger.redreader.listingcontrollers.CommentListingController;
 import org.quantumbadger.redreader.listingcontrollers.PostListingController;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
+import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.settings.SettingsActivity;
 
 public final class OptionsMenuUtility {
@@ -380,15 +380,15 @@ public final class OptionsMenuUtility {
 			sortComments.getItem().setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 		}
 
-		addSort(activity, sortComments, R.string.sort_comments_best, CommentListingController.Sort.BEST);
-		addSort(activity, sortComments, R.string.sort_comments_hot, CommentListingController.Sort.HOT);
-		addSort(activity, sortComments, R.string.sort_comments_new, CommentListingController.Sort.NEW);
-		addSort(activity, sortComments, R.string.sort_comments_old, CommentListingController.Sort.OLD);
-		addSort(activity, sortComments, R.string.sort_comments_controversial, CommentListingController.Sort.CONTROVERSIAL);
-		addSort(activity, sortComments, R.string.sort_comments_top, CommentListingController.Sort.TOP);
+		addSort(activity, sortComments, R.string.sort_comments_best, PostCommentListingURL.Sort.BEST);
+		addSort(activity, sortComments, R.string.sort_comments_hot, PostCommentListingURL.Sort.HOT);
+		addSort(activity, sortComments, R.string.sort_comments_new, PostCommentListingURL.Sort.NEW);
+		addSort(activity, sortComments, R.string.sort_comments_old, PostCommentListingURL.Sort.OLD);
+		addSort(activity, sortComments, R.string.sort_comments_controversial, PostCommentListingURL.Sort.CONTROVERSIAL);
+		addSort(activity, sortComments, R.string.sort_comments_top, PostCommentListingURL.Sort.TOP);
 	}
 
-	private static void addSort(final Activity activity, final Menu menu, final int name, final CommentListingController.Sort order) {
+	private static void addSort(final Activity activity, final Menu menu, final int name, final PostCommentListingURL.Sort order) {
 
 		menu.add(activity.getString(name)).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 			public boolean onMenuItemClick(final MenuItem item) {
@@ -418,7 +418,7 @@ public final class OptionsMenuUtility {
 	public static interface OptionsMenuCommentsListener extends OptionsMenuListener {
 		public void onRefreshComments();
 		public void onPastComments();
-		public void onSortSelected(CommentListingController.Sort order);
+		public void onSortSelected(PostCommentListingURL.Sort order);
 	}
 
 	public static void fixActionBar(final Activity activity, final String title) {

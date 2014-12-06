@@ -71,6 +71,7 @@ import org.quantumbadger.redreader.reddit.things.RedditComment;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.things.RedditThing;
 import org.quantumbadger.redreader.reddit.url.CommentListingURL;
+import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 import org.quantumbadger.redreader.reddit.url.UserProfileURL;
 import org.quantumbadger.redreader.views.RedditCommentView;
 import org.quantumbadger.redreader.views.RedditPostHeaderView;
@@ -90,7 +91,7 @@ import java.util.UUID;
 public class CommentListingFragment extends Fragment
 		implements ActiveTextView.OnLinkClickedListener, RedditPostView.PostSelectionListener {
 
-	private CommentListingURL url;
+	private RedditURLParser.RedditURL url;
 	private UUID session = null;
 	private CacheRequest.DownloadType downloadType;
 	private CommentListingAdapter adapter;
@@ -151,7 +152,7 @@ public class CommentListingFragment extends Fragment
 
 		final Bundle arguments = getArguments();
 
-		url = CommentListingURL.parse(Uri.parse(arguments.getString("url")));
+		url = RedditURLParser.parseProbableCommentListing(Uri.parse(arguments.getString("url")));
 		// TODO url may be null...
 
 		if(arguments.containsKey("session")) {
@@ -442,9 +443,22 @@ public class CommentListingFragment extends Fragment
 					final JsonBufferedObject listing = thing.getObject("data");
 					final JsonBufferedArray topLevelComments = listing.getArray("children");
 
+					final String parentId;
+
+					switch(CommentListingFragment.this.url.pathType()) {
+						case PostCommentListingURL:
+							parentId = "t3_" + CommentListingFragment.this.url.asPostCommentListURL().postId;
+							break;
+						case UserCommentListingURL:
+							parentId = "/u/" + CommentListingFragment.this.url.asUserCommentListURL().user + "/comments";
+							break;
+						default:
+							throw new RuntimeException("Unknown url type");
+					}
+
 					final HashSet<String> needsChanging = RedditChangeDataManager
 							.getInstance(context)
-							.getChangedForParent("t3_" + CommentListingFragment.this.url.postId, user);
+							.getChangedForParent(parentId, user);
 
 					for(final JsonValue commentThingValue : topLevelComments) {
 						buildComments(commentThingValue, null, timestamp, needsChanging);
@@ -689,7 +703,9 @@ public class CommentListingFragment extends Fragment
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		menu.add(R.string.action_reply);
+		if(url.pathType() == RedditURLParser.PathType.PostCommentListingURL) {
+			menu.add(R.string.action_reply);
+		}
 	}
 
 	@Override
@@ -706,7 +722,6 @@ public class CommentListingFragment extends Fragment
 	private void onParentReply() {
 
 		if(post != null) {
-
 			final Intent intent = new Intent(getSupportActivity(), CommentReplyActivity.class);
 			intent.putExtra("parentIdAndType", post.idAndType);
 			startActivity(intent);

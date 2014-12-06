@@ -411,7 +411,7 @@ public class MainActivity extends RefreshableActivity
 
 		if(twoPane) {
 
-			commentListingController = new CommentListingController(CommentListingURL.forPostId(post.idAlone), this);
+			commentListingController = new CommentListingController(PostCommentListingURL.forPostId(post.idAlone), this);
 
 			if(isMenuShown) {
 
@@ -437,7 +437,7 @@ public class MainActivity extends RefreshableActivity
 			}
 
 		} else {
-			LinkHandler.onLinkClicked(this, CommentListingURL.forPostId(post.idAlone).toString(), false);
+			LinkHandler.onLinkClicked(this, PostCommentListingURL.forPostId(post.idAlone).toString(), false);
 		}
 	}
 
@@ -476,6 +476,7 @@ public class MainActivity extends RefreshableActivity
 		final boolean commentsVisible = commentListingFragment != null;
 
 		final boolean postsSortable = postListingController != null && postListingController.isSortable();
+		final boolean commentsSortable = commentListingController != null && commentListingController.isSortable();
 
 		final RedditAccount user = RedditAccountManager.getInstance(this).getDefaultAccount();
 		final RedditSubredditSubscriptionManager.SubredditSubscriptionState subredditSubscriptionState;
@@ -506,7 +507,7 @@ public class MainActivity extends RefreshableActivity
 				postsVisible,
 				commentsVisible,
 				postsSortable,
-				true,
+				commentsSortable,
 				subredditSubscriptionState,
 				postsVisible && subredditDescription != null && subredditDescription.length() > 0);
 
@@ -526,7 +527,7 @@ public class MainActivity extends RefreshableActivity
 		sessionListDialog.show(this);
 	}
 
-	public void onSortSelected(final CommentListingController.Sort order) {
+	public void onSortSelected(final PostCommentListingURL.Sort order) {
 		commentListingController.setSort(order);
 		requestRefresh(RefreshableFragment.COMMENTS, false);
 	}

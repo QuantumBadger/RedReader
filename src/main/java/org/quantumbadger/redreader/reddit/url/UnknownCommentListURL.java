@@ -17,8 +17,38 @@
 
 package org.quantumbadger.redreader.reddit.url;
 
-public abstract class CommentListingURL extends RedditURLParser.RedditURL {
+import android.net.Uri;
 
-	public abstract CommentListingURL after(String after);
-	public abstract CommentListingURL limit(Integer limit);
+public class UnknownCommentListURL extends CommentListingURL {
+
+	private final Uri uri;
+
+	UnknownCommentListURL(Uri uri) {
+		this.uri = uri;
+	}
+
+	@Override
+	public CommentListingURL after(String after) {
+		return new UnknownCommentListURL(uri.buildUpon().appendQueryParameter("after", after).build());
+	}
+
+	@Override
+	public CommentListingURL limit(Integer limit) {
+		return new UnknownCommentListURL(uri.buildUpon().appendQueryParameter("limit", String.valueOf("limit")).build());
+	}
+
+	// TODO handle this better
+	@Override
+	public Uri generateJsonUri() {
+		if(uri.getPath().endsWith(".json")) {
+			return uri;
+		} else {
+			return uri.buildUpon().appendEncodedPath(".json").build();
+		}
+	}
+
+	@Override
+	public RedditURLParser.PathType pathType() {
+		return RedditURLParser.PathType.UnknownCommentListingURL;
+	}
 }

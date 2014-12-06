@@ -105,15 +105,14 @@ public class LinkHandler {
 				case SubredditPostListingURL:
 				case UserPostListingURL:
 				case UnknownPostListingURL: {
-
 					final Intent intent = new Intent(activity, PostListingActivity.class);
 					intent.setData(redditURL.generateJsonUri());
 					activity.startActivityForResult(intent, 1);
 					return;
 				}
 
-				case CommentListingURL: {
-
+				case PostCommentListingURL:
+				case UserCommentListingURL: {
 					final Intent intent = new Intent(activity, CommentListingActivity.class);
 					intent.setData(redditURL.generateJsonUri());
 					activity.startActivityForResult(intent, 1);

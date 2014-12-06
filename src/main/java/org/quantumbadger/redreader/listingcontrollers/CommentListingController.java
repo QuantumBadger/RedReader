@@ -24,11 +24,12 @@ import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.reddit.url.CommentListingURL;
+import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
+import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 
 import java.util.UUID;
 
 // TODO add notification/header for abnormal sort order
-// TODO parse URLs, support parents/context -- use post permalink
 public class CommentListingController {
 
 	private CommentListingURL mUrl;
@@ -42,52 +43,29 @@ public class CommentListingController {
 		mSession = session;
 	}
 
-	public static enum Sort {
+	public CommentListingController(RedditURLParser.RedditURL url, final Context context) {
 
-		BEST("confidence"),
-		HOT("hot"),
-		NEW("new"),
-		OLD("old"),
-		TOP("top"),
-		CONTROVERSIAL("controversial");
-
-		public final String key;
-
-		private Sort(final String key) {
-			this.key = key;
-		}
-
-		public static Sort lookup(String name) {
-
-			name = name.toUpperCase();
-
-			if(name.equals("CONFIDENCE")) {
-				return BEST; // oh, reddit...
-			}
-
-			try {
-				return Sort.valueOf(name);
-			} catch(IllegalArgumentException e) {
-				return null;
+		if(url.pathType() == RedditURLParser.PathType.PostCommentListingURL) {
+			if(url.asPostCommentListURL().order == null) {
+				url = url.asPostCommentListURL().order(defaultOrder(context));
 			}
 		}
-	}
 
-	public CommentListingController(CommentListingURL url, final Context context) {
-
-		if(url.order == null) {
-			url = url.order(defaultOrder(context));
+		if(!(url instanceof CommentListingURL)) {
+			throw new RuntimeException("Not comment listing URL");
 		}
 
-		this.mUrl = url;
+		this.mUrl = (CommentListingURL)url;
 	}
 
-	private Sort defaultOrder(final Context context) {
+	private PostCommentListingURL.Sort defaultOrder(final Context context) {
 		return PrefsUtility.pref_behaviour_commentsort(context, PreferenceManager.getDefaultSharedPreferences(context));
 	}
 
-	public void setSort(final Sort s) {
-		mUrl = mUrl.order(s);
+	public void setSort(final PostCommentListingURL.Sort s) {
+		if(mUrl.pathType() == RedditURLParser.PathType.PostCommentListingURL) {
+			mUrl = mUrl.asPostCommentListURL().order(s);
+		}
 	}
 
 	public Uri getUri() {
@@ -97,5 +75,9 @@ public class CommentListingController {
 	public CommentListingFragment get(final boolean force) {
 		if(force) mSession = null;
 		return CommentListingFragment.newInstance(mUrl, mSession, force ? CacheRequest.DownloadType.FORCE : CacheRequest.DownloadType.IF_NECESSARY);
+	}
+
+	public boolean isSortable() {
+		return mUrl.pathType() == RedditURLParser.PathType.PostCommentListingURL;
 	}
 }

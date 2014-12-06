@@ -31,8 +31,9 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.MainMenuFragment;
-import org.quantumbadger.redreader.reddit.RedditURLParser;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
+import org.quantumbadger.redreader.reddit.url.PostListingURL;
+import org.quantumbadger.redreader.reddit.url.SubredditPostListURL;
 import org.quantumbadger.redreader.views.list.ListItemView;
 import org.quantumbadger.redreader.views.list.ListSectionHeader;
 import org.quantumbadger.redreader.views.list.MainMenuItem;
@@ -206,7 +207,7 @@ public class MainMenuAdapter extends BaseAdapter {
 		final View.OnClickListener clickListener = new View.OnClickListener() {
 			public void onClick(final View view) {
 				try {
-					selectionListener.onSelected((RedditURLParser.PostListingURL)RedditURLParser.SubredditPostListURL.getSubreddit(RedditSubreddit.getCanonicalName(name)));
+					selectionListener.onSelected((PostListingURL) SubredditPostListURL.getSubreddit(RedditSubreddit.getCanonicalName(name)));
 				} catch(RedditSubreddit.InvalidSubredditNameException e) {
 					throw new RuntimeException(e);
 				}

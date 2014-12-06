@@ -20,8 +20,10 @@ package org.quantumbadger.redreader.listingcontrollers;
 import android.net.Uri;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
-import org.quantumbadger.redreader.reddit.RedditURLParser;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
+import org.quantumbadger.redreader.reddit.url.PostListingURL;
+import org.quantumbadger.redreader.reddit.url.RedditURLParser;
+import org.quantumbadger.redreader.reddit.url.SubredditPostListURL;
 
 import java.util.UUID;
 
@@ -29,7 +31,7 @@ import java.util.UUID;
 public class PostListingController {
 
 	private UUID session = null;
-	private RedditURLParser.PostListingURL url;
+	private PostListingURL url;
 
 	public void setSession(UUID session) {
 		this.session = session;
@@ -39,7 +41,7 @@ public class PostListingController {
 		return session;
 	}
 
-	public PostListingController(RedditURLParser.PostListingURL url) {
+	public PostListingController(PostListingURL url) {
 		this.url = url;
 	}
 
@@ -79,13 +81,13 @@ public class PostListingController {
 
 	public final boolean isSubreddit() {
 		return url.pathType() == RedditURLParser.PathType.SubredditPostListingURL
-				&& url.asSubredditPostListURL().type == RedditURLParser.SubredditPostListURL.Type.SUBREDDIT;
+				&& url.asSubredditPostListURL().type == SubredditPostListURL.Type.SUBREDDIT;
 	}
 
 	public final String subredditCanonicalName() {
 
 		if(url.pathType() == RedditURLParser.PathType.SubredditPostListingURL
-				&& url.asSubredditPostListURL().type == RedditURLParser.SubredditPostListURL.Type.SUBREDDIT) {
+				&& url.asSubredditPostListURL().type == SubredditPostListURL.Type.SUBREDDIT) {
 			try {
 				return RedditSubreddit.getCanonicalName(url.asSubredditPostListURL().subreddit);
 			} catch(RedditSubreddit.InvalidSubredditNameException e) {

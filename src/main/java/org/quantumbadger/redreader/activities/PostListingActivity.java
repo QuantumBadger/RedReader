@@ -42,9 +42,11 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
 import org.quantumbadger.redreader.fragments.SessionListDialog;
 import org.quantumbadger.redreader.listingcontrollers.PostListingController;
-import org.quantumbadger.redreader.reddit.RedditURLParser;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
+import org.quantumbadger.redreader.reddit.url.PostListingURL;
+import org.quantumbadger.redreader.reddit.url.RedditURLParser;
+import org.quantumbadger.redreader.reddit.url.SearchPostListURL;
 import org.quantumbadger.redreader.views.RedditPostView;
 
 import java.util.UUID;
@@ -84,11 +86,11 @@ public class PostListingActivity extends RefreshableActivity
 
 			final RedditURLParser.RedditURL url = RedditURLParser.parseProbablePostListing(intent.getData());
 
-			if(!(url instanceof RedditURLParser.PostListingURL)) {
+			if(!(url instanceof PostListingURL)) {
 				throw new RuntimeException(String.format("'%s' is not a post listing URL!", url.generateJsonUri()));
 			}
 
-			controller = new PostListingController((RedditURLParser.PostListingURL)url);
+			controller = new PostListingController((PostListingURL)url);
 
 			OptionsMenuUtility.fixActionBar(this, url.humanReadableName(this, false));
 
@@ -222,12 +224,12 @@ public class PostListingActivity extends RefreshableActivity
 
 				final String query = editText.getText().toString().toLowerCase().trim();
 
-				final RedditURLParser.SearchPostListURL url;
+				final SearchPostListURL url;
 
 				if(controller != null && controller.isSubreddit()) {
-					url = RedditURLParser.SearchPostListURL.build(controller.subredditCanonicalName(), query);
+					url = SearchPostListURL.build(controller.subredditCanonicalName(), query);
 				} else {
-					url = RedditURLParser.SearchPostListURL.build(null, query);
+					url = SearchPostListURL.build(null, query);
 				}
 
 				final Intent intent = new Intent(activity, PostListingActivity.class);

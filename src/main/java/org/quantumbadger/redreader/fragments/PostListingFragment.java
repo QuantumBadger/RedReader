@@ -52,7 +52,6 @@ import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.listingcontrollers.PostListingController;
 import org.quantumbadger.redreader.reddit.RedditSubredditManager;
-import org.quantumbadger.redreader.reddit.RedditURLParser;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.api.SubredditRequestFailure;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
@@ -60,6 +59,9 @@ import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.things.RedditThing;
+import org.quantumbadger.redreader.reddit.url.PostListingURL;
+import org.quantumbadger.redreader.reddit.url.RedditURLParser;
+import org.quantumbadger.redreader.reddit.url.SubredditPostListURL;
 import org.quantumbadger.redreader.views.PostListingHeader;
 import org.quantumbadger.redreader.views.RedditPostView;
 import org.quantumbadger.redreader.views.list.ListOverlayView;
@@ -73,7 +75,7 @@ import java.util.UUID;
 
 public class PostListingFragment extends Fragment implements RedditPostView.PostSelectionListener, AbsListView.OnScrollListener {
 
-	private RedditURLParser.PostListingURL postListingURL;
+	private PostListingURL postListingURL;
 
 	private RedditSubreddit subreddit;
 
@@ -192,7 +194,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 		final Uri url = Uri.parse(arguments.getString("url"));
 
 		try {
-			postListingURL = (RedditURLParser.PostListingURL) RedditURLParser.parseProbablePostListing(url);
+			postListingURL = (PostListingURL) RedditURLParser.parseProbablePostListing(url);
 		} catch(ClassCastException e) {
 			Toast.makeText(getSupportActivity(), "Invalid post listing URL.", Toast.LENGTH_LONG);
 			return;
@@ -284,8 +286,8 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 
 			case SubredditPostListingURL:
 
-				RedditURLParser.SubredditPostListURL subredditPostListURL
-						= (RedditURLParser.SubredditPostListURL) postListingURL;
+				SubredditPostListURL subredditPostListURL
+						= (SubredditPostListURL) postListingURL;
 
 				switch(subredditPostListURL.type) {
 
@@ -556,7 +558,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 				final boolean showSubredditName
 						= !(postListingURL != null
 						&& postListingURL.pathType() == RedditURLParser.PathType.SubredditPostListingURL
-						&& postListingURL.asSubredditPostListURL().type == RedditURLParser.SubredditPostListURL.Type.SUBREDDIT);
+						&& postListingURL.asSubredditPostListURL().type == SubredditPostListURL.Type.SUBREDDIT);
 
 				for(final JsonValue postThingValue : posts) {
 

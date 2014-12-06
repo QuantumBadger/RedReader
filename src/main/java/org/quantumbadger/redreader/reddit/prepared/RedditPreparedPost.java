@@ -51,9 +51,9 @@ import org.quantumbadger.redreader.fragments.UserProfileDialog;
 import org.quantumbadger.redreader.image.ThumbnailScaler;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
-import org.quantumbadger.redreader.reddit.RedditURLParser;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
+import org.quantumbadger.redreader.reddit.url.SubredditPostListURL;
 import org.quantumbadger.redreader.views.FlatImageButton;
 import org.quantumbadger.redreader.views.RedditPostView;
 import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
@@ -410,7 +410,7 @@ public final class RedditPreparedPost {
 
 				try {
 					final Intent intent = new Intent(activity, PostListingActivity.class);
-					intent.setData(RedditURLParser.SubredditPostListURL.getSubreddit(post.src.subreddit).generateJsonUri());
+					intent.setData(SubredditPostListURL.getSubreddit(post.src.subreddit).generateJsonUri());
 					activity.startActivityForResult(intent, 1);
 
 				} catch(RedditSubreddit.InvalidSubredditNameException e) {

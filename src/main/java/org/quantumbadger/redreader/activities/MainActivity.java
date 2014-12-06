@@ -46,10 +46,13 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.*;
 import org.quantumbadger.redreader.listingcontrollers.CommentListingController;
 import org.quantumbadger.redreader.listingcontrollers.PostListingController;
-import org.quantumbadger.redreader.reddit.RedditURLParser;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
+import org.quantumbadger.redreader.reddit.url.PostListingURL;
+import org.quantumbadger.redreader.reddit.url.RedditURLParser;
+import org.quantumbadger.redreader.reddit.url.SubredditPostListURL;
+import org.quantumbadger.redreader.reddit.url.UserPostListingURL;
 import org.quantumbadger.redreader.views.RedditPostView;
 
 import java.util.Set;
@@ -201,31 +204,31 @@ public class MainActivity extends RefreshableActivity
 		switch(type) {
 
 			case FRONTPAGE:
-				onSelected(RedditURLParser.SubredditPostListURL.getFrontPage());
+				onSelected(SubredditPostListURL.getFrontPage());
 				break;
 
 			case ALL:
-				onSelected(RedditURLParser.SubredditPostListURL.getAll());
+				onSelected(SubredditPostListURL.getAll());
 				break;
 
 			case SUBMITTED:
-				onSelected(RedditURLParser.UserPostListingURL.getSubmitted(username));
+				onSelected(UserPostListingURL.getSubmitted(username));
 				break;
 
 			case SAVED:
-				onSelected(RedditURLParser.UserPostListingURL.getSaved(username));
+				onSelected(UserPostListingURL.getSaved(username));
 				break;
 
 			case HIDDEN:
-				onSelected(RedditURLParser.UserPostListingURL.getHidden(username));
+				onSelected(UserPostListingURL.getHidden(username));
 				break;
 
 			case UPVOTED:
-				onSelected(RedditURLParser.UserPostListingURL.getLiked(username));
+				onSelected(UserPostListingURL.getLiked(username));
 				break;
 
 			case DOWNVOTED:
-				onSelected(RedditURLParser.UserPostListingURL.getDisliked(username));
+				onSelected(UserPostListingURL.getDisliked(username));
 				break;
 
 			case PROFILE:
@@ -250,7 +253,7 @@ public class MainActivity extends RefreshableActivity
 
 						try {
 							final String normalizedName = RedditSubreddit.stripRPrefix(subredditInput);
-							final RedditURLParser.RedditURL redditURL = RedditURLParser.SubredditPostListURL.getSubreddit(normalizedName);
+							final RedditURLParser.RedditURL redditURL = SubredditPostListURL.getSubreddit(normalizedName);
 							if(redditURL == null || redditURL.pathType() != RedditURLParser.PathType.SubredditPostListingURL) {
 								General.quickToast(MainActivity.this, R.string.mainmenu_custom_invalid_name);
 							} else {
@@ -284,7 +287,7 @@ public class MainActivity extends RefreshableActivity
 		}
 	}
 
-	public void onSelected(final RedditURLParser.PostListingURL url) {
+	public void onSelected(final PostListingURL url) {
 
 		if(twoPane) {
 

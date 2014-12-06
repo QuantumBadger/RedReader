@@ -15,13 +15,16 @@
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.adapters;
+package org.quantumbadger.redreader.reddit.url;
 
-import org.quantumbadger.redreader.fragments.MainMenuFragment;
-import org.quantumbadger.redreader.reddit.url.PostListingURL;
+import org.quantumbadger.redreader.listingcontrollers.PostListingController;
 
-public interface MainMenuSelectionListener {
+public abstract class PostListingURL extends RedditURLParser.RedditURL {
 
-	public void onSelected(MainMenuFragment.MainMenuAction type, String name);
-	public void onSelected(PostListingURL url);
+	public abstract PostListingURL after(String after);
+	public abstract PostListingURL limit(Integer limit);
+
+	public PostListingController.Sort getOrder() {
+		return null;
+	}
 }

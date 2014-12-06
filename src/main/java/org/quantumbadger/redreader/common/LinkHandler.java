@@ -28,8 +28,8 @@ import org.quantumbadger.redreader.activities.ImageViewActivity;
 import org.quantumbadger.redreader.activities.PostListingActivity;
 import org.quantumbadger.redreader.activities.WebViewActivity;
 import org.quantumbadger.redreader.fragments.UserProfileDialog;
-import org.quantumbadger.redreader.reddit.RedditURLParser;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
+import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 
 import java.util.LinkedHashSet;
 import java.util.regex.Matcher;

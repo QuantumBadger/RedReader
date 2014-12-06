@@ -130,7 +130,11 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 	}
 
 	public CookieStore getCookies() {
-		return user.getCookies();
+		if(isRedditApi) {
+			return user.getCookies();
+		} else {
+			return ForgetfulCookieStore.INSTANCE;
+		}
 	}
 
 	// Queue helpers

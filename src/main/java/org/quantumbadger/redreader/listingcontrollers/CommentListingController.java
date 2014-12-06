@@ -63,6 +63,21 @@ public class CommentListingController {
 		private Sort(final String key) {
 			this.key = key;
 		}
+
+		public static Sort lookup(String name) {
+
+			name = name.toUpperCase();
+
+			if(name.equals("CONFIDENCE")) {
+				return BEST; // oh, reddit...
+			}
+
+			try {
+				return Sort.valueOf(name);
+			} catch(IllegalArgumentException e) {
+				return null;
+			}
+		}
 	}
 
 	public CommentListingController(final String postId, final Context context) {

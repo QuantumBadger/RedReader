@@ -19,8 +19,13 @@ package org.quantumbadger.redreader.reddit.url;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.listingcontrollers.CommentListingController;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CommentListingURL extends RedditURLParser.RedditURL {
 
@@ -97,6 +102,85 @@ public class CommentListingURL extends RedditURLParser.RedditURL {
 		builder.appendEncodedPath(".json");
 
 		return builder.build();
+	}
+
+	public static CommentListingURL parse(final Uri uri) {
+
+		final String[] pathSegments;
+		{
+			final List<String> pathSegmentsList = uri.getPathSegments();
+
+			final ArrayList<String> pathSegmentsFiltered = new ArrayList<String>(pathSegmentsList.size());
+			for(String segment : pathSegmentsList) {
+
+				while(segment.toLowerCase().endsWith(".json") || segment.toLowerCase().endsWith(".xml")) {
+					segment = segment.substring(0, segment.lastIndexOf('.'));
+				}
+
+				pathSegmentsFiltered.add(segment);
+			}
+
+			pathSegments = pathSegmentsFiltered.toArray(new String[pathSegmentsFiltered.size()]);
+		}
+
+		if(pathSegments.length < 2) {
+			return null;
+		}
+
+		int offset = 0;
+
+		if(pathSegments[0].equalsIgnoreCase("r")) {
+			offset = 2;
+
+			if(pathSegments.length - offset < 2) {
+				return null;
+			}
+		}
+
+		if(!pathSegments[offset].equalsIgnoreCase("comments")) {
+			return null;
+		}
+
+		final String postId;
+		String commentId = null;
+
+		postId = pathSegments[offset + 1];
+		offset += 2;
+
+		if(pathSegments.length - offset >= 2) {
+			commentId = pathSegments[offset + 1];
+		}
+
+		String after = null;
+		Integer limit = null;
+		Integer context = null;
+		CommentListingController.Sort order = null;
+
+		for(final String parameterKey : General.getUriQueryParameterNames(uri)) {
+
+			if(parameterKey.equalsIgnoreCase("after")) {
+				after = uri.getQueryParameter(parameterKey);
+
+			} else if(parameterKey.equalsIgnoreCase("limit")) {
+				try {
+					limit = Integer.parseInt(uri.getQueryParameter(parameterKey));
+				} catch(Throwable ignored) {}
+
+			} else if(parameterKey.equalsIgnoreCase("context")) {
+				try {
+					context = Integer.parseInt(uri.getQueryParameter(parameterKey));
+				} catch(Throwable ignored) {
+				}
+
+			} else if(parameterKey.equalsIgnoreCase("sort")) {
+				order = CommentListingController.Sort.lookup(uri.getQueryParameter(parameterKey));
+
+			} else {
+				Log.e("CommentListingURL", String.format("Unknown query parameter '%s'", parameterKey));
+			}
+		}
+
+		return new CommentListingURL(after, postId, commentId, context, limit, order);
 	}
 
 	@Override

@@ -30,6 +30,8 @@ import android.text.ClipboardManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.ListAdapter;
 import com.actionbarsherlock.view.ContextMenu;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -55,6 +57,7 @@ import org.quantumbadger.redreader.activities.CommentEditActivity;
 import org.quantumbadger.redreader.activities.CommentReplyActivity;
 import org.quantumbadger.redreader.activities.SessionChangeListener;
 import org.quantumbadger.redreader.adapters.CommentListingAdapter;
+import org.quantumbadger.redreader.adapters.HeaderAdapter;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.RequestFailureType;
@@ -89,12 +92,15 @@ import java.util.HashSet;
 import java.util.UUID;
 
 public class CommentListingFragment extends Fragment
-		implements ActiveTextView.OnLinkClickedListener, RedditPostView.PostSelectionListener {
+		implements ActiveTextView.OnLinkClickedListener,
+		RedditPostView.PostSelectionListener,
+		RedditCommentView.CommentClickListener {
 
-	private RedditURLParser.RedditURL url;
+	private RedditURLParser.RedditURL mUrl;
 	private UUID session = null;
 	private CacheRequest.DownloadType downloadType;
-	private CommentListingAdapter adapter;
+	private CommentListingAdapter commentListAdapter;
+	private BaseAdapter outerAdapter;
 
 	private LoadingView loadingView;
 	private LinearLayout notifications, listHeaderNotifications, listHeaderPost, listHeaderSelftext, listFooter;
@@ -104,7 +110,7 @@ public class CommentListingFragment extends Fragment
 
 	private CacheRequest request;
 
-	private RedditPreparedPost post;
+	private RedditPreparedPost mPost;
 
 	private float commentFontScale = 1.0f;
 	private EnumSet<PrefsUtility.AppearanceCommentHeaderItems> headerItems;
@@ -122,7 +128,7 @@ public class CommentListingFragment extends Fragment
 		public void handleMessage(final Message msg) {
 			if(isAdded()) {
 				final ArrayList<RedditPreparedComment> comments = (ArrayList<RedditPreparedComment>) msg.obj;
-				adapter.addComments(comments);
+				commentListAdapter.addComments(comments);
 			}
 		}
 	};
@@ -152,7 +158,7 @@ public class CommentListingFragment extends Fragment
 
 		final Bundle arguments = getArguments();
 
-		url = RedditURLParser.parseProbableCommentListing(Uri.parse(arguments.getString("url")));
+		mUrl = RedditURLParser.parseProbableCommentListing(Uri.parse(arguments.getString("url")));
 		// TODO url may be null...
 
 		if(arguments.containsKey("session")) {
@@ -164,21 +170,26 @@ public class CommentListingFragment extends Fragment
 
 	public void handleCommentVisibilityToggle(RedditCommentView view) {
 
-		if(view.handleVisibilityToggle()) {
-			// Comment is collapsed.
+		final boolean isCollapsed = view.handleVisibilityToggle();
+		outerAdapter.notifyDataSetChanged();
 
-			final int position = adapter.findPositionOf(view.getComment());
+		if(isCollapsed) {
 
-			if(lv.getFirstVisiblePosition() - 1 == position) {
+			final RedditPreparedComment comment = view.getComment();
+			final ListAdapter adapter = lv.getAdapter();
+			final int count = adapter.getCount();
 
-				final RedditPreparedComment comment = adapter.getItem(position);
-				adapter.notifyDataSetChanged();
-				lv.smoothScrollToPosition(adapter.findPositionOf(comment) + 1);
-				return;
+			for(int i = 0; i < count; i++) {
+				if(adapter.getItem(i) == comment) {
+
+					if(i == lv.getFirstVisiblePosition()) {
+						lv.smoothScrollToPosition(i);
+					}
+
+					break;
+				}
 			}
 		}
-
-		adapter.notifyDataSetChanged();
 	}
 
 	private LinearLayout createVerticalLinearLayout(Context context) {
@@ -225,8 +236,25 @@ public class CommentListingFragment extends Fragment
 		lv.addHeaderView(listHeader);
 		lv.addFooterView(listFooter, null, false);
 
-		adapter = new CommentListingAdapter(context, this);
-		lv.setAdapter(adapter);
+		commentListAdapter = new CommentListingAdapter(context, this);
+		outerAdapter = commentListAdapter;
+
+		if(mUrl.pathType() == RedditURLParser.PathType.PostCommentListingURL
+			&& mUrl.asPostCommentListURL().commentId != null) {
+
+			final TextView specificThreadNotif = new TextView(context);
+			// TODO string
+			specificThreadNotif.setText("You are viewing a specific comment thread.");
+			final int paddingPx = General.dpToPixels(context, 6);
+			final int sidePaddingPx = General.dpToPixels(context, 10);
+			specificThreadNotif.setPadding(sidePaddingPx, paddingPx, sidePaddingPx, paddingPx);
+			specificThreadNotif.setTextSize(13f);
+
+			outerAdapter = new HeaderAdapter(specificThreadNotif, outerAdapter);
+		}
+
+
+		lv.setAdapter(outerAdapter);
 
 		registerForContextMenu(lv);
 
@@ -234,16 +262,10 @@ public class CommentListingFragment extends Fragment
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 				if(view instanceof RedditCommentView) {
-					switch(PrefsUtility.pref_behaviour_actions_comment_tap(context, prefs)) {
-						case COLLAPSE:
-							handleCommentVisibilityToggle((RedditCommentView)view);
-							break;
-						case ACTION_MENU:
-							openContextMenu(view);
-							break;
-					}
-				} else if(position == 0 && post != null && !post.src.is_self) {
-					LinkHandler.onLinkClicked(getSupportActivity(), post.url, false, post.src);
+					onCommentClicked((RedditCommentView)view);
+
+				} else if(position == 0 && mPost != null && !mPost.src.is_self) {
+					LinkHandler.onLinkClicked(getSupportActivity(), mPost.url, false, mPost.src);
 				}
 			}
 		});
@@ -260,9 +282,9 @@ public class CommentListingFragment extends Fragment
 
 			public boolean onSwipe(BezelSwipeOverlay.SwipeEdge edge) {
 
-				if(post == null) return false;
+				if(mPost == null) return false;
 
-				toolbarOverlay.setContents(post.generateToolbar(getSupportActivity(), true, toolbarOverlay));
+				toolbarOverlay.setContents(mPost.generateToolbar(getSupportActivity(), true, toolbarOverlay));
 				toolbarOverlay.show(edge == BezelSwipeOverlay.SwipeEdge.LEFT ?
 						SideToolbarOverlay.SideToolbarPosition.LEFT : SideToolbarOverlay.SideToolbarPosition.RIGHT);
 				return true;
@@ -303,14 +325,14 @@ public class CommentListingFragment extends Fragment
 		final CacheManager cm = CacheManager.getInstance(context);
 
 		// TODO parameterise limit
-		request = new CacheRequest(General.uriFromString(url.generateJsonUri().toString()), user, session, Constants.Priority.API_COMMENT_LIST, 0, downloadType, Constants.FileType.COMMENT_LIST, true, true, false, context) {
+		request = new CacheRequest(General.uriFromString(mUrl.generateJsonUri().toString()), user, session, Constants.Priority.API_COMMENT_LIST, 0, downloadType, Constants.FileType.COMMENT_LIST, true, true, false, context) {
 
 			@Override
 			protected void onDownloadNecessary() {
 				new Handler(Looper.getMainLooper()).post(new Runnable() {
 					public void run() {
 						listFooter.addView(loadingView);
-						adapter.notifyDataSetChanged();
+						outerAdapter.notifyDataSetChanged();
 					}
 				});
 			}
@@ -358,7 +380,7 @@ public class CommentListingFragment extends Fragment
 				// TODO pref (currently 10 mins)
 				// TODO xml
 				if(fromCache && RRTime.since(timestamp) > 10 * 60 * 1000) {
-					new Handler(Looper.getMainLooper()).post(new Runnable() {
+					General.UI_THREAD_HANDLER.post(new Runnable() {
 						public void run() {
 							if(isDetached()) return;
 							final TextView cacheNotif = new TextView(context);
@@ -368,7 +390,7 @@ public class CommentListingFragment extends Fragment
 							cacheNotif.setPadding(sidePaddingPx, paddingPx, sidePaddingPx, paddingPx);
 							cacheNotif.setTextSize(13f);
 							listHeaderNotifications.addView(cacheNotif);
-							adapter.notifyDataSetChanged();
+							outerAdapter.notifyDataSetChanged();
 						}
 					});
 				}
@@ -394,7 +416,7 @@ public class CommentListingFragment extends Fragment
 
 						// TODO show upvote/downvote/etc buttons
 
-						CommentListingFragment.this.post = new RedditPreparedPost(context, cm, 0, post, timestamp, true, false, false, false, user);
+						CommentListingFragment.this.mPost = new RedditPreparedPost(context, cm, 0, post, timestamp, true, false, false, false, user);
 
 						final ViewGroup selfText;
 
@@ -410,7 +432,7 @@ public class CommentListingFragment extends Fragment
 						new Handler(Looper.getMainLooper()).post(new Runnable() {
 							public void run() {
 
-								final RedditPostHeaderView postHeader = new RedditPostHeaderView(getSupportActivity(), CommentListingFragment.this.post);
+								final RedditPostHeaderView postHeader = new RedditPostHeaderView(getSupportActivity(), CommentListingFragment.this.mPost);
 								listHeaderPost.addView(postHeader);
 
 								if(selfText != null) {
@@ -445,12 +467,12 @@ public class CommentListingFragment extends Fragment
 
 					final String parentId;
 
-					switch(CommentListingFragment.this.url.pathType()) {
+					switch(CommentListingFragment.this.mUrl.pathType()) {
 						case PostCommentListingURL:
-							parentId = "t3_" + CommentListingFragment.this.url.asPostCommentListURL().postId;
+							parentId = "t3_" + CommentListingFragment.this.mUrl.asPostCommentListURL().postId;
 							break;
 						case UserCommentListingURL:
-							parentId = "/u/" + CommentListingFragment.this.url.asUserCommentListURL().user + "/comments";
+							parentId = "/u/" + CommentListingFragment.this.mUrl.asUserCommentListURL().user + "/comments";
 							break;
 						default:
 							throw new RuntimeException("Unknown url type");
@@ -484,7 +506,7 @@ public class CommentListingFragment extends Fragment
 
 				final RedditComment comment = commentThing.asComment();
 				final RedditPreparedComment preparedComment = new RedditPreparedComment(context, comment, parent,
-						timestamp, needsChanging.contains(comment.name), post, user, headerItems);
+						timestamp, needsChanging.contains(comment.name), mPost, user, headerItems);
 
 				after = preparedComment.idAndType;
 
@@ -515,52 +537,57 @@ public class CommentListingFragment extends Fragment
 
 			final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
 
-			if(info.position > 0) {
+			if(info.position == 0) {
 
-				final RedditPreparedComment comment = (RedditPreparedComment)lv.getAdapter().getItem(info.position);
-				final RedditAccount user = RedditAccountManager.getInstance(getSupportActivity()).getDefaultAccount();
-
-				if(!user.isAnonymous()) {
-
-					if(!comment.isUpvoted()) {
-						menu.add(Menu.NONE, Action.UPVOTE.ordinal(), 0, R.string.action_upvote);
-					} else {
-						menu.add(Menu.NONE, Action.UNVOTE.ordinal(), 0, R.string.action_upvote_remove);
-					}
-
-					if(!comment.isDownvoted()) {
-						menu.add(Menu.NONE, Action.DOWNVOTE.ordinal(), 0, R.string.action_downvote);
-					} else {
-						menu.add(Menu.NONE, Action.UNVOTE.ordinal(), 0, R.string.action_downvote_remove);
-					}
-
-					if(comment.isSaved()) {
-						menu.add(Menu.NONE, Action.UNSAVE.ordinal(), 0, R.string.action_unsave);
-					} else {
-						menu.add(Menu.NONE, Action.SAVE.ordinal(), 0, R.string.action_save);
-					}
-
-					menu.add(Menu.NONE, Action.REPORT.ordinal(), 0, R.string.action_report);
-					menu.add(Menu.NONE, Action.REPLY.ordinal(), 0, R.string.action_reply);
-
-					if(user.username.equalsIgnoreCase(comment.src.author)) menu.add(Menu.NONE, Action.EDIT.ordinal(), 0, R.string.action_edit);
-				}
-
-				menu.add(Menu.NONE, Action.COMMENT_LINKS.ordinal(), 0, R.string.action_comment_links);
-				menu.add(Menu.NONE, Action.COLLAPSE.ordinal(), 0, R.string.action_collapse);
-				menu.add(Menu.NONE, Action.SHARE.ordinal(), 0, R.string.action_share);
-				menu.add(Menu.NONE, Action.COPY.ordinal(), 0, R.string.action_copy);
-				menu.add(Menu.NONE, Action.USER_PROFILE.ordinal(), 0, R.string.action_user_profile);
-				menu.add(Menu.NONE, Action.PROPERTIES.ordinal(), 0, R.string.action_properties);
-
-			} else {
-
-				if(post == null) {
+				if(mPost == null) {
 					General.quickToast(getSupportActivity(), R.string.error_toast_parent_post_not_downloaded);
 					return;
 				}
 
-				RedditPreparedPost.showActionMenu(getSupportActivity(), post);
+				RedditPreparedPost.showActionMenu(getSupportActivity(), mPost);
+
+			} else {
+
+				final Object item = lv.getAdapter().getItem(info.position);
+
+				if(item instanceof RedditPreparedComment) {
+
+					final RedditPreparedComment comment = (RedditPreparedComment)item;
+					final RedditAccount user = RedditAccountManager.getInstance(getSupportActivity()).getDefaultAccount();
+
+					if(!user.isAnonymous()) {
+
+						if(!comment.isUpvoted()) {
+							menu.add(Menu.NONE, Action.UPVOTE.ordinal(), 0, R.string.action_upvote);
+						} else {
+							menu.add(Menu.NONE, Action.UNVOTE.ordinal(), 0, R.string.action_upvote_remove);
+						}
+
+						if(!comment.isDownvoted()) {
+							menu.add(Menu.NONE, Action.DOWNVOTE.ordinal(), 0, R.string.action_downvote);
+						} else {
+							menu.add(Menu.NONE, Action.UNVOTE.ordinal(), 0, R.string.action_downvote_remove);
+						}
+
+						if(comment.isSaved()) {
+							menu.add(Menu.NONE, Action.UNSAVE.ordinal(), 0, R.string.action_unsave);
+						} else {
+							menu.add(Menu.NONE, Action.SAVE.ordinal(), 0, R.string.action_save);
+						}
+
+						menu.add(Menu.NONE, Action.REPORT.ordinal(), 0, R.string.action_report);
+						menu.add(Menu.NONE, Action.REPLY.ordinal(), 0, R.string.action_reply);
+
+						if(user.username.equalsIgnoreCase(comment.src.author)) menu.add(Menu.NONE, Action.EDIT.ordinal(), 0, R.string.action_edit);
+					}
+
+					menu.add(Menu.NONE, Action.COMMENT_LINKS.ordinal(), 0, R.string.action_comment_links);
+					menu.add(Menu.NONE, Action.COLLAPSE.ordinal(), 0, R.string.action_collapse);
+					menu.add(Menu.NONE, Action.SHARE.ordinal(), 0, R.string.action_share);
+					menu.add(Menu.NONE, Action.COPY.ordinal(), 0, R.string.action_copy);
+					menu.add(Menu.NONE, Action.USER_PROFILE.ordinal(), 0, R.string.action_user_profile);
+					menu.add(Menu.NONE, Action.PROPERTIES.ordinal(), 0, R.string.action_properties);
+				}
 			}
 		}
 	}
@@ -571,6 +598,18 @@ public class CommentListingFragment extends Fragment
 
 	public void onClickText(Object attachment) {}
 
+	@Override
+	public void onCommentClicked(final RedditCommentView view) {
+		switch(PrefsUtility.pref_behaviour_actions_comment_tap(context, PreferenceManager.getDefaultSharedPreferences(context))) {
+			case COLLAPSE:
+				handleCommentVisibilityToggle(view);
+				break;
+			case ACTION_MENU:
+				openContextMenu(view);
+				break;
+		}
+	}
+
 	private static enum Action {
 		UPVOTE, UNVOTE, DOWNVOTE, SAVE, UNSAVE, REPORT, SHARE, COPY, REPLY, USER_PROFILE, COMMENT_LINKS, COLLAPSE, EDIT, PROPERTIES
 	}
@@ -580,10 +619,18 @@ public class CommentListingFragment extends Fragment
 
 		final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
 
-		if(info.position <= 0) return false;
+		if(info.position <= 0) {
+			return false;
+		}
+
+		final Object selectedObject = lv.getAdapter().getItem(info.position);
+
+		if(!(selectedObject instanceof RedditPreparedComment)) {
+			return false;
+		}
 
 		final Action action = Action.values()[item.getItemId()];
-		final RedditPreparedComment comment = (RedditPreparedComment)lv.getAdapter().getItem(info.position);
+		final RedditPreparedComment comment = (RedditPreparedComment)selectedObject;
 
 		switch(action) {
 
@@ -703,7 +750,7 @@ public class CommentListingFragment extends Fragment
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		if(url.pathType() == RedditURLParser.PathType.PostCommentListingURL) {
+		if(mUrl.pathType() == RedditURLParser.PathType.PostCommentListingURL) {
 			menu.add(R.string.action_reply);
 		}
 	}
@@ -721,9 +768,9 @@ public class CommentListingFragment extends Fragment
 
 	private void onParentReply() {
 
-		if(post != null) {
+		if(mPost != null) {
 			final Intent intent = new Intent(getSupportActivity(), CommentReplyActivity.class);
-			intent.putExtra("parentIdAndType", post.idAndType);
+			intent.putExtra("parentIdAndType", mPost.idAndType);
 			startActivity(intent);
 
 		} else {

@@ -37,15 +37,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewParent;
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.preference.PreferenceManager;
-import org.holoeverywhere.widget.ListView;
-import org.quantumbadger.redreader.adapters.CommentListingAdapter;
 import org.quantumbadger.redreader.common.AndroidApi;
 import org.quantumbadger.redreader.common.LinkHandler;
-import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.views.RedditCommentView;
 import org.quantumbadger.redreader.views.RedditInboxItemView;
 
@@ -59,8 +54,8 @@ public class ActiveTextView extends TextView {
 	private boolean mLinkSet, mDisplayMinLongPress;
 	private String mUrl;
 	private SpannableStringBuilder mSpannable;
-	private ActiveTextView.OnLinkClickedListener mListener;
-	private ActiveTextView.OnLongPressedLinkListener mLongPressedLinkListener;
+	private OnLinkClickedListener mListener;
+	private OnLongPressedLinkListener mLongPressedLinkListener;
 	private Object attachment;
 
 	public void setAttachment(final Object attachment) {
@@ -197,50 +192,29 @@ public class ActiveTextView extends TextView {
 			}
 		});
 
-// Provide an easier interface for the parent view
 		setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+
 				if(!isLinkPending()) {
 					if(mListener != null) mListener.onClickText(attachment);
 
 					ViewParent redditView = getParent();
 					while(redditView != null
-							&& !(redditView instanceof RedditCommentView || redditView instanceof RedditInboxItemView))
+							&& !(redditView instanceof RedditCommentView || redditView instanceof RedditInboxItemView)) {
 						redditView = redditView.getParent();
+					}
 
 					if(redditView != null) {
 
 						if(redditView instanceof RedditCommentView) {
-
-						switch(PrefsUtility.pref_behaviour_actions_comment_tap(activity,
-								PreferenceManager.getDefaultSharedPreferences(activity))) {
-							case COLLAPSE:
-
-								ViewParent listView = getParent();
-								while(listView != null && !(listView instanceof ListView))
-									listView = listView.getParent();
-
-								if(listView != null) {
-									final ListAdapter adapter = ((ListView) listView).getAdapterSource();
-
-									if(adapter instanceof CommentListingAdapter) {
-										((CommentListingAdapter)adapter).handleVisibilityToggle((RedditCommentView) redditView);
-									}
-								}
-								break;
-
-							case ACTION_MENU:
-								((RedditCommentView)redditView).showContextMenu();
-								break;
-						}
+							((RedditCommentView)redditView).notifyClick();
 
 						} else {
-
 							((RedditInboxItemView)redditView).handleInboxClick(activity);
-
 						}
 					}
 				}
+
 				cancelLink();
 			}
 		});
@@ -345,7 +319,7 @@ public class ActiveTextView extends TextView {
 	 *
 	 * @param clickListener The click listener to call when a link is clicked
 	 */
-	public void setLinkClickedListener(ActiveTextView.OnLinkClickedListener clickListener) {
+	public void setLinkClickedListener(OnLinkClickedListener clickListener) {
 		this.mListener = clickListener;
 	}
 
@@ -356,7 +330,7 @@ public class ActiveTextView extends TextView {
 	 * @param longPressedLinkListener Sets the long press listener to call when "Long press parent" is called
 	 * @param minDisplay              Enable a smaller submenu when long pressed (removes the option Long press parent)
 	 */
-	public void setLongPressedLinkListener(ActiveTextView.OnLongPressedLinkListener longPressedLinkListener, boolean minDisplay) {
+	public void setLongPressedLinkListener(OnLongPressedLinkListener longPressedLinkListener, boolean minDisplay) {
 		this.mLongPressedLinkListener = longPressedLinkListener;
 		this.mDisplayMinLongPress = minDisplay;
 	}

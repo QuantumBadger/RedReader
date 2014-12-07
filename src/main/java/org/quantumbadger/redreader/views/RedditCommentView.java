@@ -47,10 +47,17 @@ public class RedditCommentView extends LinearLayout {
 
 	private final boolean showLinkButtons;
 
-	public RedditCommentView(final Context context, final int headerCol, final int bodyCol) {
+	private final CommentClickListener mClickListener;
+
+	public static interface CommentClickListener {
+		public void onCommentClicked(RedditCommentView view);
+	}
+
+	public RedditCommentView(final Context context, final int headerCol, final int bodyCol, final CommentClickListener clickListener) {
 
 		super(context);
 		this.bodyCol = bodyCol;
+		mClickListener = clickListener;
 
 		setOrientation(HORIZONTAL);
 
@@ -83,6 +90,10 @@ public class RedditCommentView extends LinearLayout {
 		main.getLayoutParams().width = LinearLayout.LayoutParams.MATCH_PARENT;
 
 		showLinkButtons = PrefsUtility.pref_appearance_linkbuttons(context, PreferenceManager.getDefaultSharedPreferences(context));
+	}
+
+	public void notifyClick() {
+		mClickListener.onCommentClicked(this);
 	}
 
 	public void reset(final Activity activity, final RedditPreparedComment comment) {

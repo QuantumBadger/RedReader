@@ -412,7 +412,7 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 
 	public void handleInboxClick(Activity activity) {
 		final URI commentContext = Constants.Reddit.getUri(src.context);
-		LinkHandler.onLinkClicked(activity, commentContext.toString(), false);
+		LinkHandler.onLinkClicked(activity, commentContext.toString());
 	}
 
 	public boolean isSaved() {

@@ -83,6 +83,7 @@ import org.quantumbadger.redreader.views.bezelmenu.BezelSwipeOverlay;
 import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
 import org.quantumbadger.redreader.views.liststatus.LoadingView;
+import org.quantumbadger.redreader.views.liststatus.SpecificCommentThreadView;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -242,15 +243,11 @@ public class CommentListingFragment extends Fragment
 		if(mUrl.pathType() == RedditURLParser.PathType.PostCommentListingURL
 			&& mUrl.asPostCommentListURL().commentId != null) {
 
-			final TextView specificThreadNotif = new TextView(context);
-			// TODO string
-			specificThreadNotif.setText("You are viewing a specific comment thread.");
-			final int paddingPx = General.dpToPixels(context, 6);
-			final int sidePaddingPx = General.dpToPixels(context, 10);
-			specificThreadNotif.setPadding(sidePaddingPx, paddingPx, sidePaddingPx, paddingPx);
-			specificThreadNotif.setTextSize(13f);
+			final SpecificCommentThreadView specificCommentThreadView = new SpecificCommentThreadView(
+					getSupportActivity(),
+					mUrl.asPostCommentListURL());
 
-			outerAdapter = new HeaderAdapter(specificThreadNotif, outerAdapter);
+			outerAdapter = new HeaderAdapter(specificCommentThreadView, outerAdapter);
 		}
 
 

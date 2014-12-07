@@ -56,6 +56,8 @@
         <item name="rrCommentHeaderCol">#BBBBBB</item> <!-- TODO -->
         <item name="rrCommentHeaderBoldCol">#CCCCCC</item>
         <item name="rrCommentHeaderAuthorCol">#FFFFFF</item>
+        <item name="rrCommentSpecificThreadHeaderBackCol">#534300</item>
+        <item name="rrCommentSpecificThreadHeaderTextCol">#FFFFFF</item>
 
         <!-- Icons -->
 
@@ -109,6 +111,8 @@
         <item name="rrCommentHeaderCol">#666666</item> <!-- TODO -->
         <item name="rrCommentHeaderBoldCol">#333333</item>
         <item name="rrCommentHeaderAuthorCol">?rrActionBarCol</item>
+        <item name="rrCommentSpecificThreadHeaderBackCol">#FFFFCC</item>
+        <item name="rrCommentSpecificThreadHeaderTextCol">#000000</item>
 
         <!-- Post -->
 

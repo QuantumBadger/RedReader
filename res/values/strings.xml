@@ -598,4 +598,8 @@
     <!-- 2014-12-06 -->
     <string name="user_comments">Comments</string>
 
+    <!-- 2014-12-07 -->
+    <string name="comment_header_specific_thread_title">You are currently viewing a specific comment thread.</string>
+    <string name="comment_header_specific_thread_message">Click here to view the whole thread.</string>
+
 </resources>

@@ -72,6 +72,10 @@ public class PostCommentListingURL extends CommentListingURL {
 		return new PostCommentListingURL(after, postId, commentId, context, limit, order);
 	}
 
+	public PostCommentListingURL commentId(String commentId) {
+		return new PostCommentListingURL(after, postId, commentId, context, limit, order);
+	}
+
 	@Override
 	public Uri generateJsonUri() {
 

@@ -20,6 +20,7 @@
 
     <style name="RR.Dark.ActionBarStyle" parent="@android:style/Widget.Holo.ActionBar"  tools:targetApi="11">
         <item name="android:background">?rrActionBarCol</item>
+        <item name="android:displayOptions">showTitle</item>
     </style>
 
     <style name="RR.Startup.ActionBarStyle" parent="@android:style/Widget.Holo.ActionBar"  tools:targetApi="11">

@@ -118,6 +118,7 @@ public class CommentListingActivity extends RefreshableActivity
 		final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 		transaction.replace(R.id.main_single_frame, fragment, "comment_listing_fragment");
 		transaction.commit();
+		OptionsMenuUtility.fixActionBar(this, controller.getCommentListingUrl().humanReadableName(this, false));
 	}
 
 	public void onSharedPreferenceChanged(final SharedPreferences prefs, final String key) {

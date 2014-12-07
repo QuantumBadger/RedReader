@@ -72,6 +72,10 @@ public class CommentListingController {
 		return mUrl.generateJsonUri();
 	}
 
+	public CommentListingURL getCommentListingUrl() {
+		return mUrl;
+	}
+
 	public CommentListingFragment get(final boolean force) {
 		if(force) mSession = null;
 		return CommentListingFragment.newInstance(mUrl, mSession, force ? CacheRequest.DownloadType.FORCE : CacheRequest.DownloadType.IF_NECESSARY);

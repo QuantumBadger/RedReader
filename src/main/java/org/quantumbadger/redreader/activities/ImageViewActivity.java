@@ -56,6 +56,7 @@ import org.quantumbadger.redreader.views.liststatus.LoadingView;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.util.UUID;
 
@@ -165,6 +166,19 @@ public class ImageViewActivity extends Activity implements RedditPostView.PostSe
 							return;
 						}
 
+						final InputStream cacheFileInputStream;
+						try {
+							cacheFileInputStream = cacheFile.getInputStream();
+						} catch(IOException e) {
+							notifyFailure(RequestFailureType.PARSE, e, null, "Could not read existing cached image.");
+							return;
+						}
+
+						if(cacheFileInputStream == null) {
+							notifyFailure(RequestFailureType.CACHE_MISS, null, null, "Could not find cached image");
+							return;
+						}
+
 						if(Constants.Mime.isImageGif(mimetype)) {
 
 							if(AndroidApi.isIceCreamSandwichOrLater()) {
@@ -172,7 +186,7 @@ public class ImageViewActivity extends Activity implements RedditPostView.PostSe
 								General.UI_THREAD_HANDLER.post(new Runnable() {
 									public void run() {
 										try {
-											final GIFView gifView = new GIFView(ImageViewActivity.this, cacheFile.getInputStream());
+											final GIFView gifView = new GIFView(ImageViewActivity.this, cacheFileInputStream);
 											setContentView(gifView);
 											gifView.setOnClickListener(new View.OnClickListener() {
 												public void onClick(View v) {
@@ -188,43 +202,38 @@ public class ImageViewActivity extends Activity implements RedditPostView.PostSe
 
 							} else {
 
-								try {
+								gifThread = new GifDecoderThread(cacheFileInputStream, new GifDecoderThread.OnGifLoadedListener() {
 
-									gifThread = new GifDecoderThread(cacheFile.getInputStream(), new GifDecoderThread.OnGifLoadedListener() {
+									public void onGifLoaded() {
+										General.UI_THREAD_HANDLER.post(new Runnable() {
+											public void run() {
+												imageView = new ImageView(context);
+												imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+												setContentView(imageView);
+												gifThread.setView(imageView);
 
-										public void onGifLoaded() {
-											General.UI_THREAD_HANDLER.post(new Runnable() {
-												public void run() {
-													imageView = new ImageView(context);
-													imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-													setContentView(imageView);
-													gifThread.setView(imageView);
+												imageView.setOnClickListener(new View.OnClickListener() {
+													public void onClick(View v) {
+														finish();
+													}
+												});
+											}
+										});
+									}
 
-													imageView.setOnClickListener(new View.OnClickListener() {
-														public void onClick(View v) {
-															finish();
-														}
-													});
-												}
-											});
-										}
+									public void onOutOfMemory() {
+										General.quickToast(context, R.string.imageview_oom);
+										revertToWeb();
+									}
 
-										public void onOutOfMemory() {
-											General.quickToast(context, R.string.imageview_oom);
-											revertToWeb();
-										}
+									public void onGifInvalid() {
+										General.quickToast(context, R.string.imageview_invalid_gif);
+										revertToWeb();
+									}
+								});
 
-										public void onGifInvalid() {
-											General.quickToast(context, R.string.imageview_invalid_gif);
-											revertToWeb();
-										}
-									});
+								gifThread.start();
 
-									gifThread.start();
-
-								} catch(IOException e) {
-									throw new RuntimeException(e);
-								}
 							}
 
 						} else {
@@ -233,7 +242,7 @@ public class ImageViewActivity extends Activity implements RedditPostView.PostSe
 							final byte[] buf = new byte[(int)bytes];
 
 							try {
-								new DataInputStream(cacheFile.getInputStream()).readFully(buf);
+								new DataInputStream(cacheFileInputStream).readFully(buf);
 							} catch(IOException e) {
 								throw new RuntimeException(e);
 							}

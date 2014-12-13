@@ -359,7 +359,14 @@ public final class CacheManager {
 	}
 
 	private InputStream getCacheFileInputStream(final long id) throws IOException {
-		return new BufferedInputStream(new FileInputStream(getExistingCacheFile(id)), 8 * 1024);
+
+		final File cacheFile = getExistingCacheFile(id);
+
+		if(cacheFile == null) {
+			return null;
+		}
+
+		return new BufferedInputStream(new FileInputStream(cacheFile), 8 * 1024);
 	}
 
 	private class RequestHandlerThread extends Thread {
@@ -482,7 +489,14 @@ public final class CacheManager {
 					if(request.isJson) {
 
 						try {
-							final JsonValue value = new JsonValue(getCacheFileInputStream(entry.id));
+							final InputStream cacheFileInputStream = getCacheFileInputStream(entry.id);
+
+							if(cacheFileInputStream == null) {
+								request.notifyFailure(RequestFailureType.CACHE_MISS, null, null, "Couldn't retrieve cache file");
+								return;
+							}
+
+							final JsonValue value = new JsonValue(cacheFileInputStream);
 							request.notifyJsonParseStarted(value, entry.timestamp, entry.session, true);
 							value.buildInThisThread();
 

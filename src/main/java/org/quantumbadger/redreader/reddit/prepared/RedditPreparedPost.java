@@ -61,6 +61,7 @@ import org.quantumbadger.redreader.views.bezelmenu.VerticalToolbar;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.util.*;
 
@@ -362,7 +363,15 @@ public final class RedditPreparedPost {
 						}
 
 						try {
-							General.copyFile(cacheFile.getInputStream(), dst);
+							final InputStream cacheFileInputStream = cacheFile.getInputStream();
+
+							if(cacheFileInputStream == null) {
+								notifyFailure(RequestFailureType.CACHE_MISS, null, null, "Could not find cached image");
+								return;
+							}
+
+							General.copyFile(cacheFileInputStream, dst);
+
 						} catch(IOException e) {
 							notifyFailure(RequestFailureType.STORAGE, e, null, "Could not copy file");
 							return;

@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.reddit.url;
 
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
@@ -98,9 +97,6 @@ public class UserCommentListingURL extends CommentListingURL {
 				try {
 					limit = Integer.parseInt(uri.getQueryParameter(parameterKey));
 				} catch(Throwable ignored) {}
-
-			} else {
-				Log.e("UserCommentListingURL", String.format("Unknown query parameter '%s'", parameterKey));
 			}
 		}
 

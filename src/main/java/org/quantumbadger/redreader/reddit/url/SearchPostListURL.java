@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.reddit.url;
 
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 
@@ -126,9 +125,6 @@ public class SearchPostListURL extends PostListingURL {
 
 			} else if(parameterKey.equalsIgnoreCase("restrict_sr")) {
 				restrict_sr = "on".equalsIgnoreCase(uri.getQueryParameter(parameterKey));
-
-			} else {
-				Log.e("SearchPostListURL", String.format("Unknown query parameter '%s'", parameterKey));
 			}
 		}
 

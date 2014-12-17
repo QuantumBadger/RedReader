@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.reddit.url;
 
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 
@@ -187,9 +186,6 @@ public class PostCommentListingURL extends CommentListingURL {
 
 			} else if(parameterKey.equalsIgnoreCase("sort")) {
 				order = Sort.lookup(uri.getQueryParameter(parameterKey));
-
-			} else {
-				Log.e("CommentListingURL", String.format("Unknown query parameter '%s'", parameterKey));
 			}
 		}
 

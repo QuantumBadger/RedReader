@@ -564,9 +564,13 @@ public class CommentListingFragment extends Fragment
 
 				final Object item = lv.getAdapter().getItem(info.position);
 
-				if(item instanceof RedditPreparedComment) {
+				if(!(item instanceof RedditCommentListItem)) {
+					return;
+				}
 
-					final RedditPreparedComment comment = (RedditPreparedComment)item;
+				if(((RedditCommentListItem)item).isComment()) {
+
+					final RedditPreparedComment comment = ((RedditCommentListItem)item).asComment();
 					final RedditAccount user = RedditAccountManager.getInstance(getSupportActivity()).getDefaultAccount();
 
 					if(!user.isAnonymous()) {
@@ -592,7 +596,8 @@ public class CommentListingFragment extends Fragment
 						menu.add(Menu.NONE, Action.REPORT.ordinal(), 0, R.string.action_report);
 						menu.add(Menu.NONE, Action.REPLY.ordinal(), 0, R.string.action_reply);
 
-						if(user.username.equalsIgnoreCase(comment.src.author)) menu.add(Menu.NONE, Action.EDIT.ordinal(), 0, R.string.action_edit);
+						if(user.username.equalsIgnoreCase(comment.src.author))
+							menu.add(Menu.NONE, Action.EDIT.ordinal(), 0, R.string.action_edit);
 					}
 
 					menu.add(Menu.NONE, Action.COMMENT_LINKS.ordinal(), 0, R.string.action_comment_links);
@@ -639,12 +644,13 @@ public class CommentListingFragment extends Fragment
 
 		final Object selectedObject = lv.getAdapter().getItem(info.position);
 
-		if(!(selectedObject instanceof RedditPreparedComment)) {
+		if(!(selectedObject instanceof RedditCommentListItem)
+				|| !((RedditCommentListItem)selectedObject).isComment()) {
 			return false;
 		}
 
 		final Action action = Action.values()[item.getItemId()];
-		final RedditPreparedComment comment = (RedditPreparedComment)selectedObject;
+		final RedditPreparedComment comment = ((RedditCommentListItem)selectedObject).asComment();
 
 		switch(action) {
 

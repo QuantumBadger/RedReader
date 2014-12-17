@@ -74,7 +74,7 @@ public class PostCommentListingURL extends CommentListingURL {
 
 	public PostCommentListingURL commentId(String commentId) {
 
-		if(commentId.startsWith("t1_")) {
+		if(commentId != null && commentId.startsWith("t1_")) {
 			commentId = commentId.substring(3);
 		}
 

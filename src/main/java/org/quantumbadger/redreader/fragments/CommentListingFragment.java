@@ -48,7 +48,6 @@ import org.holoeverywhere.preference.SharedPreferences;
 import org.holoeverywhere.widget.FrameLayout;
 import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.ListView;
-import org.holoeverywhere.widget.TextView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -79,6 +78,7 @@ import org.quantumbadger.redreader.reddit.things.RedditThing;
 import org.quantumbadger.redreader.reddit.url.CommentListingURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 import org.quantumbadger.redreader.reddit.url.UserProfileURL;
+import org.quantumbadger.redreader.views.CachedHeaderView;
 import org.quantumbadger.redreader.views.RedditCommentView;
 import org.quantumbadger.redreader.views.RedditPostHeaderView;
 import org.quantumbadger.redreader.views.RedditPostView;
@@ -376,17 +376,15 @@ public class CommentListingFragment extends Fragment
 				if(isAdded() && loadingView != null) loadingView.setIndeterminate("Downloading...");
 
 				// TODO pref (currently 10 mins)
-				// TODO xml
 				if(fromCache && RRTime.since(timestamp) > 10 * 60 * 1000) {
 					General.UI_THREAD_HANDLER.post(new Runnable() {
 						public void run() {
 							if(isDetached()) return;
-							final TextView cacheNotif = new TextView(context);
-							cacheNotif.setText(context.getString(R.string.listing_cached) + " " + RRTime.formatDateTime(timestamp, context));
-							final int paddingPx = General.dpToPixels(context, 6);
-							final int sidePaddingPx = General.dpToPixels(context, 10);
-							cacheNotif.setPadding(sidePaddingPx, paddingPx, sidePaddingPx, paddingPx);
-							cacheNotif.setTextSize(13f);
+							final CachedHeaderView cacheNotif = new CachedHeaderView(
+									context,
+									context.getString(R.string.listing_cached) + " " + RRTime.formatDateTime(timestamp, context),
+									null
+							);
 							listHeaderNotifications.addView(cacheNotif);
 							outerAdapter.notifyDataSetChanged();
 						}

@@ -62,6 +62,7 @@ import org.quantumbadger.redreader.reddit.things.RedditThing;
 import org.quantumbadger.redreader.reddit.url.PostListingURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 import org.quantumbadger.redreader.reddit.url.SubredditPostListURL;
+import org.quantumbadger.redreader.views.CachedHeaderView;
 import org.quantumbadger.redreader.views.PostListingHeader;
 import org.quantumbadger.redreader.views.RedditPostView;
 import org.quantumbadger.redreader.views.list.ListOverlayView;
@@ -132,16 +133,18 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 					if(loadingView != null) loadingView.setIndeterminate(R.string.download_downloadstarting);
 					break;
 
-				case NOTIF_AGE:
-					final TextView cacheNotif = new TextView(context);
-					cacheNotif.setText(context.getString(R.string.listing_cached) + " " + RRTime.formatDateTime((Long) msg.obj, context));
-					final int paddingPx = General.dpToPixels(context, 6);
-					cacheNotif.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
-					cacheNotif.setTextSize(13f);
+				case NOTIF_AGE: {
+					final CachedHeaderView cacheNotif = new CachedHeaderView(
+							context,
+							context.getString(R.string.listing_cached) + " " + RRTime.formatDateTime((Long) msg.obj, context),
+							null
+					);
+
 					listHeaderNotifications.addView(cacheNotif);
 					listHeaderNotifications.requestLayout();
 					adapter.notifyDataSetChanged();
 					break;
+				}
 
 				case NOTIF_ERROR: {
 					if(loadingView != null) loadingView.setDone(R.string.download_failed);

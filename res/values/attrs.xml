@@ -73,6 +73,6 @@
     <attr name="rrIconFfRight" format="reference" />
     <attr name="rrIconTick" format="reference" />
     <attr name="rrIconGlobe" format="reference" />
-
+    <attr name="rrIconTime" format="reference" />
 
 </resources>

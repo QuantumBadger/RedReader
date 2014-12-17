@@ -306,6 +306,10 @@ public class CommentListingRequest {
 					mUser,
 					mCommentHeaderItems);
 
+			if(parent != null && parent.isComment()) {
+				parent.asComment().addChild(preparedComment);
+			}
+
 			item = new RedditCommentListItem(parent, preparedComment);
 
 			if(comment.replies.getType() == JsonValue.Type.OBJECT) {

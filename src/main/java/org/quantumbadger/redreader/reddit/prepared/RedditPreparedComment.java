@@ -237,7 +237,7 @@ public final class RedditPreparedComment implements RedditPreparedInboxItem {
 		if(boundView == view) boundView = null;
 	}
 
-	private void addChild(final RedditPreparedComment child) {
+	public void addChild(final RedditPreparedComment child) {
 		directReplies.add(child);
 	}
 

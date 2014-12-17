@@ -18,7 +18,7 @@
 package org.quantumbadger.redreader.reddit;
 
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedComment;
-import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
+import org.quantumbadger.redreader.reddit.prepared.RedditPreparedMoreComments;
 
 public class RedditCommentListItem {
 
@@ -28,23 +28,38 @@ public class RedditCommentListItem {
 
 	private final Type mType;
 	private final RedditCommentListItem mParent;
+	private final int mIndent;
 
 	private final RedditPreparedComment mComment;
 
-	private final PostCommentListingURL mLoadMoreUrl;
+	private final RedditPreparedMoreComments mMoreComments;
 
 	public RedditCommentListItem(final RedditCommentListItem parent, final RedditPreparedComment comment) {
 		mParent = parent;
+		mIndent = computeIndent(parent);
 		mType = Type.COMMENT;
 		mComment = comment;
-		mLoadMoreUrl = null;
+		mMoreComments = null;
 	}
 
-	public RedditCommentListItem(final RedditCommentListItem parent, final PostCommentListingURL loadMoreUrl) {
+	public RedditCommentListItem(final RedditCommentListItem parent, final RedditPreparedMoreComments moreComments) {
 		mParent = parent;
+		mIndent = computeIndent(parent);
 		mType = Type.LOAD_MORE;
 		mComment = null;
-		mLoadMoreUrl = loadMoreUrl;
+		mMoreComments = moreComments;
+	}
+
+	private static int computeIndent(RedditCommentListItem parent) {
+		if(parent == null) {
+			return 0;
+		} else {
+			return parent.getIndent() + 1;
+		}
+	}
+
+	public int getIndent() {
+		return mIndent;
 	}
 
 	public boolean isComment() {
@@ -59,8 +74,8 @@ public class RedditCommentListItem {
 		return mComment;
 	}
 
-	public PostCommentListingURL asLoadMore() {
-		return mLoadMoreUrl;
+	public RedditPreparedMoreComments asLoadMore() {
+		return mMoreComments;
 	}
 
 	public boolean isVisible() {

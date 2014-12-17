@@ -50,6 +50,10 @@ public final class RedditThing {
 		return kinds.get(kind);
 	}
 
+	public RedditMoreComments asMoreComments() throws InstantiationException, IllegalAccessException, InterruptedException, IOException, NoSuchMethodException, InvocationTargetException {
+		return data.asObject(RedditMoreComments.class);
+	}
+
 	public RedditComment asComment() throws InstantiationException, IllegalAccessException, InterruptedException, IOException, NoSuchMethodException, InvocationTargetException {
 		return data.asObject(RedditComment.class);
 	}

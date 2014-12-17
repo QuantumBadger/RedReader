@@ -52,7 +52,6 @@ public final class RedditPreparedComment implements RedditPreparedInboxItem {
 
 	private final MarkdownParagraphGroup body;
 
-	public final int indentation;
 	private final LinkedList<RedditPreparedComment> directReplies = new LinkedList<RedditPreparedComment>();
 
 	private boolean collapsed = false;
@@ -79,9 +78,13 @@ public final class RedditPreparedComment implements RedditPreparedInboxItem {
 
 	private final RedditPreparedPost parentPost;
 
-	public RedditPreparedComment(final Context context, final RedditComment comment, final RedditPreparedComment parentComment,
-								 final long timestamp, final boolean needsUpdating, final RedditPreparedPost parentPost,
-								 final RedditAccount user, final EnumSet<PrefsUtility.AppearanceCommentHeaderItems> headerItems) {
+	public RedditPreparedComment(final Context context,
+								 final RedditComment comment,
+								 final long timestamp,
+								 final boolean needsUpdating,
+								 final RedditPreparedPost parentPost,
+								 final RedditAccount user,
+								 final EnumSet<PrefsUtility.AppearanceCommentHeaderItems> headerItems) {
 
 		this.src = comment;
 		this.parentPost = parentPost;
@@ -115,13 +118,6 @@ public final class RedditPreparedComment implements RedditPreparedInboxItem {
 			flair = StringEscapeUtils.unescapeHtml4(comment.author_flair_text);
 		} else {
 			flair = null;
-		}
-
-		if(parentComment == null) {
-			indentation = 0;
-		} else {
-			indentation = parentComment.indentation + 1;
-			parentComment.addChild(this);
 		}
 
 		idAlone = comment.id;

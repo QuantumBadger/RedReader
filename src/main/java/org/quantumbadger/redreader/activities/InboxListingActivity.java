@@ -242,7 +242,7 @@ public final class InboxListingActivity extends Activity {
 						switch(thing.getKind()) {
 							case COMMENT:
 								final RedditPreparedComment comment = new RedditPreparedComment(
-										InboxListingActivity.this, thing.asComment(), null, timestamp, false, null, user, headerItems);
+										InboxListingActivity.this, thing.asComment(), timestamp, false, null, user, headerItems);
 								itemHandler.sendMessage(General.handlerMessage(0, comment));
 
 								break;

@@ -69,9 +69,11 @@ import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.RedditCommentListItem;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedComment;
+import org.quantumbadger.redreader.reddit.prepared.RedditPreparedMoreComments;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.prepared.markdown.MarkdownParser;
 import org.quantumbadger.redreader.reddit.things.RedditComment;
+import org.quantumbadger.redreader.reddit.things.RedditMoreComments;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.things.RedditThing;
 import org.quantumbadger.redreader.reddit.url.CommentListingURL;
@@ -107,8 +109,6 @@ public class CommentListingFragment extends Fragment
 	private LoadingView loadingView;
 	private LinearLayout notifications, listHeaderNotifications, listHeaderPost, listHeaderSelftext, listFooter;
 	private ListView lv;
-
-	private String after = null;
 
 	private CacheRequest request;
 
@@ -500,15 +500,30 @@ public class CommentListingFragment extends Fragment
 
 				final RedditThing commentThing = value.asObject(RedditThing.class);
 
-				if(commentThing.getKind() != RedditThing.Kind.COMMENT) return;
+				final RedditCommentListItem item;
+				boolean shouldRecurse = false;
 
-				final RedditComment comment = commentThing.asComment();
-				final RedditPreparedComment preparedComment = new RedditPreparedComment(context, comment,
-						(parent != null && parent.isComment()) ? parent.asComment() : null,
-						timestamp, needsChanging.contains(comment.name), mPost, user, headerItems);
-				final RedditCommentListItem item = new RedditCommentListItem(parent, preparedComment);
+				if(commentThing.getKind() == RedditThing.Kind.MORE_COMMENTS
+						&& mUrl.pathType() == RedditURLParser.PathType.PostCommentListingURL) {
 
-				after = preparedComment.idAndType;
+					final RedditMoreComments redditMoreComments = commentThing.asMoreComments();
+					final RedditPreparedMoreComments preparedMoreComments = new RedditPreparedMoreComments(redditMoreComments, mUrl.asPostCommentListURL());
+					item = new RedditCommentListItem(parent, preparedMoreComments);
+
+				} else if(commentThing.getKind() == RedditThing.Kind.COMMENT) {
+
+					final RedditComment comment = commentThing.asComment();
+					final RedditPreparedComment preparedComment = new RedditPreparedComment(context, comment,
+							timestamp, needsChanging.contains(comment.name), mPost, user, headerItems);
+					item = new RedditCommentListItem(parent, preparedComment);
+
+					if(comment.replies.getType() == JsonValue.Type.OBJECT) {
+						shouldRecurse = true;
+					}
+
+				} else {
+					return;
+				}
 
 				buffer.add(item);
 				if(buffer.size() >= 40) {
@@ -516,7 +531,8 @@ public class CommentListingFragment extends Fragment
 					buffer = new ArrayList<RedditCommentListItem>();
 				}
 
-				if(comment.replies.getType() == JsonValue.Type.OBJECT) {
+				if(shouldRecurse) {
+					final RedditComment comment = commentThing.asComment();
 					final JsonBufferedObject replies = comment.replies.asObject();
 					final JsonBufferedArray children = replies.getObject("data").getArray("children");
 

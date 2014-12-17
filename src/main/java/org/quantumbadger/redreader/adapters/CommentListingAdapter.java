@@ -88,7 +88,7 @@ public final class CommentListingAdapter extends BaseAdapter {
 				convertView = new RedditCommentView(viewGroup.getContext(), rrCommentHeaderCol, rrCommentBodyCol, fragment);
 			}
 
-			((RedditCommentView) convertView).reset(fragment.getSupportActivity(), item.asComment());
+			((RedditCommentView) convertView).reset(fragment.getSupportActivity(), item.asComment(), item.getIndent());
 
 		} else {
 
@@ -96,8 +96,7 @@ public final class CommentListingAdapter extends BaseAdapter {
 				convertView = new TextView(viewGroup.getContext());
 			}
 
-			((TextView)convertView).setText("Load more...");
-
+			((TextView)convertView).setText(String.format("Load %d more...", commentsToReport.get(i).asLoadMore().getCount()));
 		}
 
 		return convertView;

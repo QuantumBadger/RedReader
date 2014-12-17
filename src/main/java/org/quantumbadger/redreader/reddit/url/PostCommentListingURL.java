@@ -73,6 +73,11 @@ public class PostCommentListingURL extends CommentListingURL {
 	}
 
 	public PostCommentListingURL commentId(String commentId) {
+
+		if(commentId.startsWith("t1_")) {
+			commentId = commentId.substring(3);
+		}
+
 		return new PostCommentListingURL(after, postId, commentId, context, limit, order);
 	}
 

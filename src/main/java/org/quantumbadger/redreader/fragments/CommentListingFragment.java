@@ -68,10 +68,7 @@ import org.quantumbadger.redreader.views.liststatus.ErrorView;
 import org.quantumbadger.redreader.views.liststatus.LoadingView;
 import org.quantumbadger.redreader.views.liststatus.SpecificCommentThreadView;
 
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.UUID;
+import java.util.*;
 
 public class CommentListingFragment extends Fragment
 		implements ActiveTextView.OnLinkClickedListener,
@@ -79,7 +76,9 @@ public class CommentListingFragment extends Fragment
 		RedditCommentView.CommentClickListener,
 		CommentListingRequest.Listener {
 
-	private RedditURLParser.RedditURL mUrl;
+	private RedditAccount mUser;
+	private ArrayList<RedditURLParser.RedditURL> mAllUrls;
+	private LinkedList<RedditURLParser.RedditURL> mUrlsToDownload;
 	private UUID session = null;
 	private CacheRequest.DownloadType downloadType;
 	private CommentListingAdapter commentListAdapter;
@@ -95,13 +94,25 @@ public class CommentListingFragment extends Fragment
 	private EnumSet<PrefsUtility.AppearanceCommentHeaderItems> headerItems;
 	private boolean mShowLinkButtons;
 
-	public static CommentListingFragment newInstance(final CommentListingURL url, final UUID session, final CacheRequest.DownloadType downloadType) {
+	public static CommentListingFragment newInstance(
+			final List<CommentListingURL> urls,
+			final UUID session,
+			final CacheRequest.DownloadType downloadType) {
 
 		final CommentListingFragment f = new CommentListingFragment();
 
 		final Bundle bundle = new Bundle(3);
 
-		bundle.putString("url", url.generateJsonUri().toString());
+		final String[] urlStrings = new String[urls.size()];
+		{
+			int i = 0;
+			for(final CommentListingURL url : urls) {
+				urlStrings[i++] = url.toString();
+			}
+		}
+
+
+		bundle.putStringArray("urls", urlStrings);
 		if(session != null) bundle.putString("session", session.toString());
 		bundle.putString("downloadType", downloadType.name());
 
@@ -119,14 +130,23 @@ public class CommentListingFragment extends Fragment
 
 		final Bundle arguments = getArguments();
 
-		mUrl = RedditURLParser.parseProbableCommentListing(Uri.parse(arguments.getString("url")));
-		// TODO url may be null...
+		final String[] urls = arguments.getStringArray("urls");
+		mAllUrls = new ArrayList<RedditURLParser.RedditURL>(urls.length);
+		for(final String url : urls) {
+			final RedditURLParser.RedditURL redditURL = RedditURLParser.parseProbableCommentListing(Uri.parse(url));
+			if(redditURL != null) {
+				mAllUrls.add(redditURL);
+			}
+		}
+
+		mUrlsToDownload = new LinkedList<RedditURLParser.RedditURL>(mAllUrls);
 
 		if(arguments.containsKey("session")) {
 			session = UUID.fromString(arguments.getString("session"));
 		}
 
 		downloadType = CacheRequest.DownloadType.valueOf(arguments.getString("downloadType"));
+		mUser = RedditAccountManager.getInstance(getSupportActivity()).getDefaultAccount();
 	}
 
 	public void handleCommentVisibilityToggle(RedditCommentView view) {
@@ -163,7 +183,7 @@ public class CommentListingFragment extends Fragment
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
 		super.onCreateView(inflater, container, savedInstanceState);
-		final Context context = container.getContext();
+		final Context context = getSupportActivity();
 
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		commentFontScale = PrefsUtility.appearance_fontscale_comments(context, prefs);
@@ -200,12 +220,13 @@ public class CommentListingFragment extends Fragment
 		commentListAdapter = new CommentListingAdapter(context, this);
 		outerAdapter = commentListAdapter;
 
-		if(mUrl.pathType() == RedditURLParser.PathType.PostCommentListingURL
-			&& mUrl.asPostCommentListURL().commentId != null) {
+		if(mAllUrls.size() == 1
+			&& mAllUrls.get(0).pathType() == RedditURLParser.PathType.PostCommentListingURL
+			&& mAllUrls.get(0).asPostCommentListURL().commentId != null) {
 
 			final SpecificCommentThreadView specificCommentThreadView = new SpecificCommentThreadView(
 					getSupportActivity(),
-					mUrl.asPostCommentListURL());
+					mAllUrls.get(0).asPostCommentListURL());
 
 			outerAdapter = new HeaderAdapter(specificCommentThreadView, outerAdapter);
 		}
@@ -270,26 +291,24 @@ public class CommentListingFragment extends Fragment
 		toolbarOverlay.getLayoutParams().width = android.widget.FrameLayout.LayoutParams.MATCH_PARENT;
 		toolbarOverlay.getLayoutParams().height = android.widget.FrameLayout.LayoutParams.MATCH_PARENT;
 
-		makeFirstRequest(context);
+		makeNextRequest(context);
 
 		return outerFrame;
 	}
 
-	private void makeFirstRequest(final Context context) {
+	private void makeNextRequest(final Context context) {
 
-		final RedditAccount user = RedditAccountManager.getInstance(context).getDefaultAccount();
-
-		CommentListingRequest request = new CommentListingRequest(
-				context,
-				headerItems,
-				mUrl,
-				user,
-				session,
-				downloadType,
-				this
-		);
-
-		request.performRequest();
+		if(!mUrlsToDownload.isEmpty()) {
+			new CommentListingRequest(
+					context,
+					headerItems,
+					mUrlsToDownload.removeFirst(),
+					mUser,
+					session,
+					downloadType,
+					this
+			);
+		}
 	}
 
 	@Override
@@ -469,6 +488,8 @@ public class CommentListingFragment extends Fragment
 		commentListAdapter.addItems(mItemBuffer);
 		mItemBuffer.clear();
 		if(loadingView != null) loadingView.setDoneNoAnim(R.string.download_done);
+
+		makeNextRequest(getSupportActivity());
 	}
 
 	@Override
@@ -616,7 +637,7 @@ public class CommentListingFragment extends Fragment
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		if(mUrl.pathType() == RedditURLParser.PathType.PostCommentListingURL) {
+		if(mAllUrls.size() > 0 && mAllUrls.get(0).pathType() == RedditURLParser.PathType.PostCommentListingURL) {
 			menu.add(R.string.action_reply);
 		}
 	}

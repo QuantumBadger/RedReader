@@ -52,8 +52,6 @@ public class CommentListingActivity extends RefreshableActivity
 
 	private CommentListingController controller;
 
-	private CommentListingFragment fragment = null;
-
 	private SharedPreferences sharedPreferences;
 
 	public void onCreate(final Bundle savedInstanceState) {
@@ -113,7 +111,7 @@ public class CommentListingActivity extends RefreshableActivity
 
 	@Override
 	protected void doRefresh(final RefreshableFragment which, final boolean force) {
-		fragment = controller.get(force);
+		final CommentListingFragment fragment = controller.get(force);
 		final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 		transaction.replace(R.id.main_single_frame, fragment, "comment_listing_fragment");
 		transaction.commit();

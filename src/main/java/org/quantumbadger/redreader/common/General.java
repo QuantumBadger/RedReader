@@ -41,9 +41,7 @@ import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import java.io.*;
 import java.net.URI;
 import java.security.MessageDigest;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -419,5 +417,11 @@ public final class General {
 
 	public static boolean isThisUIThread() {
 		return Looper.getMainLooper().getThread() == Thread.currentThread();
+	}
+
+	public static <E> List<E> listOfOne(E obj) {
+		final ArrayList<E> result = new ArrayList<E>(1);
+		result.add(obj);
+		return result;
 	}
 }

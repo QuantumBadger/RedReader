@@ -66,6 +66,8 @@ public class CommentListingRequest {
 		mListener = listener;
 
 		mCacheManager = CacheManager.getInstance(context);
+
+		mCacheManager.makeRequest(new CommentListingCacheRequest());
 	}
 
 	private static enum Event {
@@ -155,11 +157,6 @@ public class CommentListingRequest {
 
 
 	private RedditPreparedPost mParentPost = null;
-
-	public void performRequest() {
-		final CacheRequest request = new CommentListingCacheRequest();
-		mCacheManager.makeRequest(request);
-	}
 
 	private class CommentListingCacheRequest extends CacheRequest {
 

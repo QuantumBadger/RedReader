@@ -21,6 +21,7 @@ import android.content.Context;
 import android.net.Uri;
 import org.holoeverywhere.preference.PreferenceManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.reddit.url.CommentListingURL;
@@ -78,7 +79,7 @@ public class CommentListingController {
 
 	public CommentListingFragment get(final boolean force) {
 		if(force) mSession = null;
-		return CommentListingFragment.newInstance(mUrl, mSession, force ? CacheRequest.DownloadType.FORCE : CacheRequest.DownloadType.IF_NECESSARY);
+		return CommentListingFragment.newInstance(General.listOfOne(mUrl), mSession, force ? CacheRequest.DownloadType.FORCE : CacheRequest.DownloadType.IF_NECESSARY);
 	}
 
 	public boolean isSortable() {

@@ -66,6 +66,7 @@ import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.RedditAPI;
+import org.quantumbadger.redreader.reddit.RedditCommentListItem;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedComment;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
@@ -128,8 +129,8 @@ public class CommentListingFragment extends Fragment
 		@Override
 		public void handleMessage(final Message msg) {
 			if(isAdded()) {
-				final ArrayList<RedditPreparedComment> comments = (ArrayList<RedditPreparedComment>) msg.obj;
-				commentListAdapter.addComments(comments);
+				final ArrayList<RedditCommentListItem> items = (ArrayList<RedditCommentListItem>) msg.obj;
+				commentListAdapter.addItems(items);
 			}
 		}
 	};
@@ -493,24 +494,26 @@ public class CommentListingFragment extends Fragment
 				if(isAdded() && loadingView != null) loadingView.setDoneNoAnim(R.string.download_done);
 			}
 
-			private ArrayList<RedditPreparedComment> buffer = new ArrayList<RedditPreparedComment>();
+			private ArrayList<RedditCommentListItem> buffer = new ArrayList<RedditCommentListItem>();
 
-			private void buildComments(final JsonValue value, final RedditPreparedComment parent, final long timestamp, final HashSet<String> needsChanging) throws IOException, InterruptedException, IllegalAccessException, java.lang.InstantiationException, NoSuchMethodException, InvocationTargetException {
+			private void buildComments(final JsonValue value, final RedditCommentListItem parent, final long timestamp, final HashSet<String> needsChanging) throws IOException, InterruptedException, IllegalAccessException, java.lang.InstantiationException, NoSuchMethodException, InvocationTargetException {
 
 				final RedditThing commentThing = value.asObject(RedditThing.class);
 
 				if(commentThing.getKind() != RedditThing.Kind.COMMENT) return;
 
 				final RedditComment comment = commentThing.asComment();
-				final RedditPreparedComment preparedComment = new RedditPreparedComment(context, comment, parent,
+				final RedditPreparedComment preparedComment = new RedditPreparedComment(context, comment,
+						(parent != null && parent.isComment()) ? parent.asComment() : null,
 						timestamp, needsChanging.contains(comment.name), mPost, user, headerItems);
+				final RedditCommentListItem item = new RedditCommentListItem(parent, preparedComment);
 
 				after = preparedComment.idAndType;
 
-				buffer.add(preparedComment);
+				buffer.add(item);
 				if(buffer.size() >= 40) {
 					commentHandler.sendMessage(General.handlerMessage(0, buffer));
-					buffer = new ArrayList<RedditPreparedComment>();
+					buffer = new ArrayList<RedditCommentListItem>();
 				}
 
 				if(comment.replies.getType() == JsonValue.Type.OBJECT) {
@@ -518,7 +521,7 @@ public class CommentListingFragment extends Fragment
 					final JsonBufferedArray children = replies.getObject("data").getArray("children");
 
 					for(final JsonValue v : children) {
-						buildComments(v, preparedComment, timestamp, needsChanging);
+						buildComments(v, item, timestamp, needsChanging);
 					}
 				}
 			}

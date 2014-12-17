@@ -22,17 +22,18 @@ import android.content.res.TypedArray;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import org.holoeverywhere.widget.TextView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
-import org.quantumbadger.redreader.reddit.prepared.RedditPreparedComment;
+import org.quantumbadger.redreader.reddit.RedditCommentListItem;
 import org.quantumbadger.redreader.views.RedditCommentView;
 
 import java.util.ArrayList;
 
 public final class CommentListingAdapter extends BaseAdapter {
 
-	private final ArrayList<RedditPreparedComment> comments = new ArrayList<RedditPreparedComment>(128),
-		commentsToReport = new ArrayList<RedditPreparedComment>(128);
+	private final ArrayList<RedditCommentListItem> comments = new ArrayList<RedditCommentListItem>(128),
+		commentsToReport = new ArrayList<RedditCommentListItem>(128);
 
 	private final int rrCommentHeaderCol, rrCommentBodyCol;
 
@@ -55,7 +56,7 @@ public final class CommentListingAdapter extends BaseAdapter {
 		return commentsToReport.size();
 	}
 
-	public RedditPreparedComment getItem(final int i) {
+	public RedditCommentListItem getItem(final int i) {
 		return commentsToReport.get(i);
 	}
 
@@ -65,26 +66,44 @@ public final class CommentListingAdapter extends BaseAdapter {
 
 	@Override
 	public int getViewTypeCount() {
-		return 1;
+		return 2;
 	}
 
 	@Override
 	public int getItemViewType(final int position) {
-		return 0;
+		if(commentsToReport.get(position).isComment()) {
+			return 0;
+		} else {
+			return 1;
+		}
 	}
 
 	public View getView(final int i, View convertView, final ViewGroup viewGroup) {
 
-		if(convertView == null) {
-			convertView = new RedditCommentView(viewGroup.getContext(), rrCommentHeaderCol, rrCommentBodyCol, fragment);
-		}
+		final RedditCommentListItem item = commentsToReport.get(i);
 
-		((RedditCommentView)convertView).reset(fragment.getSupportActivity(), commentsToReport.get(i));
+		if(item.isComment()) {
+
+			if(convertView == null) {
+				convertView = new RedditCommentView(viewGroup.getContext(), rrCommentHeaderCol, rrCommentBodyCol, fragment);
+			}
+
+			((RedditCommentView) convertView).reset(fragment.getSupportActivity(), item.asComment());
+
+		} else {
+
+			if(convertView == null) {
+				convertView = new TextView(viewGroup.getContext());
+			}
+
+			((TextView)convertView).setText("Load more...");
+
+		}
 
 		return convertView;
 	}
 
-	public void addComments(final ArrayList<RedditPreparedComment> comments) {
+	public void addItems(final ArrayList<RedditCommentListItem> comments) {
 		this.comments.addAll(comments);
 		notifyDataSetChanged();
 	}
@@ -94,8 +113,8 @@ public final class CommentListingAdapter extends BaseAdapter {
 
 		commentsToReport.clear();
 
-		for(final RedditPreparedComment comment : comments) {
-			if(comment.isVisible()) commentsToReport.add(comment);
+		for(final RedditCommentListItem item : comments) {
+			if(item.isVisible()) commentsToReport.add(item);
 		}
 
 		super.notifyDataSetChanged();

@@ -34,7 +34,6 @@ import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
-import org.quantumbadger.redreader.reddit.Hideable;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.RedditPreparedInboxItem;
 import org.quantumbadger.redreader.reddit.prepared.markdown.MarkdownParagraphGroup;
@@ -47,7 +46,7 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.LinkedList;
 
-public final class RedditPreparedComment implements Hideable, RedditPreparedInboxItem {
+public final class RedditPreparedComment implements RedditPreparedInboxItem {
 
 	public SpannableStringBuilder header;
 
@@ -56,7 +55,7 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 	public final int indentation;
 	private final LinkedList<RedditPreparedComment> directReplies = new LinkedList<RedditPreparedComment>();
 
-	private boolean collapsed = false, collapsedByParent = false;
+	private boolean collapsed = false;
 
 	public final String idAlone, idAndType, flair;
 
@@ -247,27 +246,7 @@ public final class RedditPreparedComment implements Hideable, RedditPreparedInbo
 	}
 
 	public void toggleVisibility() {
-
 		collapsed = !collapsed;
-
-		for(final RedditPreparedComment v : directReplies) {
-			v.onParentVisibilityChanged(collapsed);
-		}
-	}
-
-	private void onParentVisibilityChanged(final boolean parentCollapsed) {
-
-		collapsedByParent = parentCollapsed;
-
-		if(!collapsed) {
-			for(final RedditPreparedComment v : directReplies) {
-				v.onParentVisibilityChanged(parentCollapsed);
-			}
-		}
-	}
-
-	public boolean isVisible() {
-		return !collapsedByParent;
 	}
 
 	public boolean isCollapsed() {

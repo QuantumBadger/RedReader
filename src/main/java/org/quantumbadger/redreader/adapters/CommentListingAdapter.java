@@ -96,9 +96,7 @@ public final class CommentListingAdapter extends BaseAdapter {
 				convertView = new LoadMoreCommentsView(viewGroup.getContext());
 			}
 
-			((LoadMoreCommentsView)convertView).reset(
-					String.format("Load %d more...", commentsToReport.get(i).asLoadMore().getCount()),
-					item.getIndent());
+			((LoadMoreCommentsView)convertView).reset(item);
 		}
 
 		return convertView;

@@ -78,10 +78,7 @@ import org.quantumbadger.redreader.reddit.things.RedditThing;
 import org.quantumbadger.redreader.reddit.url.CommentListingURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 import org.quantumbadger.redreader.reddit.url.UserProfileURL;
-import org.quantumbadger.redreader.views.CachedHeaderView;
-import org.quantumbadger.redreader.views.RedditCommentView;
-import org.quantumbadger.redreader.views.RedditPostHeaderView;
-import org.quantumbadger.redreader.views.RedditPostView;
+import org.quantumbadger.redreader.views.*;
 import org.quantumbadger.redreader.views.bezelmenu.BezelSwipeOverlay;
 import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
@@ -260,7 +257,10 @@ public class CommentListingFragment extends Fragment
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 				if(view instanceof RedditCommentView) {
-					onCommentClicked((RedditCommentView)view);
+					onCommentClicked((RedditCommentView) view);
+
+				} else if(view instanceof LoadMoreCommentsView) {
+					LinkHandler.onLinkClicked(getSupportActivity(), ((LoadMoreCommentsView)view).getUrl().toString());
 
 				} else if(position == 0 && mPost != null && !mPost.src.is_self) {
 					LinkHandler.onLinkClicked(getSupportActivity(), mPost.url, false, mPost.src);

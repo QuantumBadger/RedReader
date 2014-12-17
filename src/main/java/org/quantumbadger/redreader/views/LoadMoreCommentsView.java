@@ -27,17 +27,20 @@ import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.TextView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.reddit.RedditCommentListItem;
+import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 
 public class LoadMoreCommentsView extends FrameLayout {
 
 	private final IndentView mIndentView;
 	private final TextView mTitleView;
+	private RedditCommentListItem mItem;
 
 	public LoadMoreCommentsView(Context context) {
 
 		super(context);
 
-		setClickable(true);
+		setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
 
 		final LinearLayout layout = new LinearLayout(context);
 		layout.setOrientation(LinearLayout.HORIZONTAL);
@@ -67,8 +70,13 @@ public class LoadMoreCommentsView extends FrameLayout {
 		textLayout.addView(mTitleView);
 	}
 
-	public void reset(final String title, final int indent) {
-		mTitleView.setText(title);
-		mIndentView.setIndentation(indent);
+	public void reset(RedditCommentListItem item) {
+		mItem = item;
+		mTitleView.setText(String.format("Load %d more...", mItem.asLoadMore().getCount()));
+		mIndentView.setIndentation(mItem.getIndent());
+	}
+
+	public PostCommentListingURL getUrl() {
+		return mItem.asLoadMore().getMoreUrl();
 	}
 }

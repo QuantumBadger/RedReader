@@ -36,7 +36,6 @@ import com.actionbarsherlock.view.MenuItem;
 import com.laurencedawson.activetextview.ActiveTextView;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.holoeverywhere.LayoutInflater;
-import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.AlertDialog;
 import org.holoeverywhere.app.Fragment;
 import org.holoeverywhere.preference.PreferenceManager;
@@ -95,14 +94,6 @@ public class CommentListingFragment extends Fragment
 	private float commentFontScale = 1.0f;
 	private EnumSet<PrefsUtility.AppearanceCommentHeaderItems> headerItems;
 	private boolean mShowLinkButtons;
-
-	private Context context;
-
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		context = activity.getApplicationContext();
-	}
 
 	public static CommentListingFragment newInstance(final CommentListingURL url, final UUID session, final CacheRequest.DownloadType downloadType) {
 
@@ -376,7 +367,10 @@ public class CommentListingFragment extends Fragment
 
 	@Override
 	public void onCommentClicked(final RedditCommentView view) {
-		switch(PrefsUtility.pref_behaviour_actions_comment_tap(context, PreferenceManager.getDefaultSharedPreferences(context))) {
+		switch(PrefsUtility.pref_behaviour_actions_comment_tap(
+				getSupportActivity(),
+				PreferenceManager.getDefaultSharedPreferences(getSupportActivity()))) {
+
 			case COLLAPSE:
 				handleCommentVisibilityToggle(view);
 				break;
@@ -394,12 +388,12 @@ public class CommentListingFragment extends Fragment
 
 	@Override
 	public void onCommentListingRequestDownloadStarted() {
-		loadingView.setIndeterminate(context.getString(R.string.download_connecting));
+		loadingView.setIndeterminate(getSupportActivity().getString(R.string.download_connecting));
 	}
 
 	@Override
 	public void onCommentListingRequestException(final Throwable t) {
-		BugReportActivity.handleGlobalError(context, t);
+		BugReportActivity.handleGlobalError(getSupportActivity(), t);
 	}
 
 	@Override
@@ -415,8 +409,10 @@ public class CommentListingFragment extends Fragment
 		if(RRTime.since(timestamp) > 10 * 60 * 1000) {
 
 			final CachedHeaderView cacheNotif = new CachedHeaderView(
-					context,
-					context.getString(R.string.listing_cached) + " " + RRTime.formatDateTime(timestamp, context),
+					getSupportActivity(),
+					getSupportActivity().getString(R.string.listing_cached)
+							+ " "
+							+ RRTime.formatDateTime(timestamp, getSupportActivity()),
 					null
 			);
 			listHeaderNotifications.addView(cacheNotif);
@@ -426,6 +422,8 @@ public class CommentListingFragment extends Fragment
 
 	@Override
 	public void onCommentListingRequestPostDownloaded(final RedditPreparedPost post) {
+
+		final Context context = getSupportActivity();
 
 		if(mPost == null) {
 
@@ -588,7 +586,7 @@ public class CommentListingFragment extends Fragment
 
 				// TODO this currently just dumps the markdown
 				mailer.putExtra(Intent.EXTRA_TEXT, StringEscapeUtils.unescapeHtml4(comment.src.body));
-				startActivityForResult(Intent.createChooser(mailer, context.getString(R.string.action_share)), 1);
+				startActivityForResult(Intent.createChooser(mailer, getSupportActivity().getString(R.string.action_share)), 1);
 
 				break;
 
@@ -626,7 +624,7 @@ public class CommentListingFragment extends Fragment
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
-		if(item.getTitle().equals(context.getString(R.string.action_reply))) {
+		if(item.getTitle().equals(getSupportActivity().getString(R.string.action_reply))) {
 			onParentReply();
 			return true;
 		}

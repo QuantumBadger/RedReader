@@ -43,10 +43,10 @@ public class CachedHeaderView extends FrameLayout {
 		layout.setGravity(Gravity.CENTER_VERTICAL);
 
 		final TypedArray appearance = context.obtainStyledAttributes(new int[]{R.attr.rrIconTime});
-		final ImageView globe = new ImageView(context);
-		globe.setImageDrawable(appearance.getDrawable(0));
-		layout.addView(globe);
-		((LinearLayout.LayoutParams)globe.getLayoutParams()).setMargins(marginPx, marginPx, marginPx, marginPx);
+		final ImageView icon = new ImageView(context);
+		icon.setImageDrawable(appearance.getDrawable(0));
+		layout.addView(icon);
+		((LinearLayout.LayoutParams)icon.getLayoutParams()).setMargins(marginPx, marginPx, marginPx, marginPx);
 
 		final LinearLayout textLayout = new LinearLayout(context);
 		textLayout.setOrientation(LinearLayout.VERTICAL);

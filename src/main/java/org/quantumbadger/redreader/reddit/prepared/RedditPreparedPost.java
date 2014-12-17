@@ -50,6 +50,8 @@ import org.quantumbadger.redreader.fragments.PostPropertiesDialog;
 import org.quantumbadger.redreader.image.ThumbnailScaler;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
+import org.quantumbadger.redreader.reddit.prepared.markdown.MarkdownParagraphGroup;
+import org.quantumbadger.redreader.reddit.prepared.markdown.MarkdownParser;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.url.SubredditPostListURL;
@@ -96,6 +98,8 @@ public final class RedditPreparedPost {
 	private final boolean showSubreddit;
 
 	private RedditPostView boundView = null;
+
+	public final MarkdownParagraphGroup parsedSelfText;
 
 	public static enum Action {
 		UPVOTE, UNVOTE, DOWNVOTE, SAVE, HIDE, UNSAVE, UNHIDE, REPORT, SHARE, REPLY, USER_PROFILE, EXTERNAL, PROPERTIES, COMMENTS, LINK, COMMENTS_SWITCH, LINK_SWITCH, SHARE_COMMENTS, GOTO_SUBREDDIT, ACTION_MENU, SAVE_IMAGE, COPY, SELFTEXT_LINKS
@@ -155,6 +159,12 @@ public final class RedditPreparedPost {
 		}
 
 		rebuildSubtitle(context);
+
+		if(src.is_self && src.selftext != null && src.selftext.trim().length() > 0) {
+			parsedSelfText = MarkdownParser.parse(StringEscapeUtils.unescapeHtml4(post.selftext).toCharArray());
+		} else {
+			parsedSelfText = null;
+		}
 	}
 
 	public static void showActionMenu(final Activity activity, final RedditPreparedPost post) {

@@ -113,7 +113,6 @@ public class CommentListingActivity extends RefreshableActivity
 
 	@Override
 	protected void doRefresh(final RefreshableFragment which, final boolean force) {
-		if(fragment != null) fragment.cancel();
 		fragment = controller.get(force);
 		final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 		transaction.replace(R.id.main_single_frame, fragment, "comment_listing_fragment");

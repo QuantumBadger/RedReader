@@ -317,7 +317,6 @@ public class MainActivity extends RefreshableActivity
 			}
 
 			if(commentListingFragment != null) {
-				commentListingFragment.cancel();
 				transaction.remove(commentListingFragment);
 			}
 
@@ -361,7 +360,6 @@ public class MainActivity extends RefreshableActivity
 			}
 
 			if(commentListingController != null && (which == RefreshableFragment.ALL || which == RefreshableFragment.COMMENTS)) {
-				if(force && commentListingFragment != null) commentListingFragment.cancel();
 				commentListingFragment = commentListingController.get(force);
 				final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 				transaction.replace(R.id.main_right_frame, commentListingFragment, "comments_fragment");

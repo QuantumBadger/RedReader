@@ -23,9 +23,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.text.ClipboardManager;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +35,6 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.laurencedawson.activetextview.ActiveTextView;
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.http.StatusLine;
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.AlertDialog;
@@ -54,27 +50,15 @@ import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.activities.CommentEditActivity;
 import org.quantumbadger.redreader.activities.CommentReplyActivity;
-import org.quantumbadger.redreader.activities.SessionChangeListener;
 import org.quantumbadger.redreader.adapters.CommentListingAdapter;
 import org.quantumbadger.redreader.adapters.HeaderAdapter;
-import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.*;
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
-import org.quantumbadger.redreader.jsonwrap.JsonValue;
+import org.quantumbadger.redreader.reddit.CommentListingRequest;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.RedditCommentListItem;
-import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedComment;
-import org.quantumbadger.redreader.reddit.prepared.RedditPreparedMoreComments;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
-import org.quantumbadger.redreader.reddit.prepared.markdown.MarkdownParser;
-import org.quantumbadger.redreader.reddit.things.RedditComment;
-import org.quantumbadger.redreader.reddit.things.RedditMoreComments;
-import org.quantumbadger.redreader.reddit.things.RedditPost;
-import org.quantumbadger.redreader.reddit.things.RedditThing;
 import org.quantumbadger.redreader.reddit.url.CommentListingURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 import org.quantumbadger.redreader.reddit.url.UserProfileURL;
@@ -85,8 +69,6 @@ import org.quantumbadger.redreader.views.liststatus.ErrorView;
 import org.quantumbadger.redreader.views.liststatus.LoadingView;
 import org.quantumbadger.redreader.views.liststatus.SpecificCommentThreadView;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashSet;
@@ -95,7 +77,8 @@ import java.util.UUID;
 public class CommentListingFragment extends Fragment
 		implements ActiveTextView.OnLinkClickedListener,
 		RedditPostView.PostSelectionListener,
-		RedditCommentView.CommentClickListener {
+		RedditCommentView.CommentClickListener,
+		CommentListingRequest.Listener {
 
 	private RedditURLParser.RedditURL mUrl;
 	private UUID session = null;
@@ -107,12 +90,11 @@ public class CommentListingFragment extends Fragment
 	private LinearLayout notifications, listHeaderNotifications, listHeaderPost, listHeaderSelftext, listFooter;
 	private ListView lv;
 
-	private CacheRequest request;
-
 	private RedditPreparedPost mPost;
 
 	private float commentFontScale = 1.0f;
 	private EnumSet<PrefsUtility.AppearanceCommentHeaderItems> headerItems;
+	private boolean mShowLinkButtons;
 
 	private Context context;
 
@@ -122,17 +104,6 @@ public class CommentListingFragment extends Fragment
 		context = activity.getApplicationContext();
 	}
 
-	private final Handler commentHandler = new Handler(Looper.getMainLooper()) {
-		@Override
-		public void handleMessage(final Message msg) {
-			if(isAdded()) {
-				final ArrayList<RedditCommentListItem> items = (ArrayList<RedditCommentListItem>) msg.obj;
-				commentListAdapter.addItems(items);
-			}
-		}
-	};
-
-	// TODO load more on scroll to bottom?
 	public static CommentListingFragment newInstance(final CommentListingURL url, final UUID session, final CacheRequest.DownloadType downloadType) {
 
 		final CommentListingFragment f = new CommentListingFragment();
@@ -205,8 +176,8 @@ public class CommentListingFragment extends Fragment
 
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		commentFontScale = PrefsUtility.appearance_fontscale_comments(context, prefs);
-
 		headerItems = PrefsUtility.appearance_comment_header_items(context, prefs);
+		mShowLinkButtons = PrefsUtility.pref_appearance_linkbuttons(context, prefs);
 
 		final LinearLayout outer = new LinearLayout(context);
 		outer.setOrientation(android.widget.LinearLayout.VERTICAL);
@@ -260,7 +231,7 @@ public class CommentListingFragment extends Fragment
 					onCommentClicked((RedditCommentView) view);
 
 				} else if(view instanceof LoadMoreCommentsView) {
-					LinkHandler.onLinkClicked(getSupportActivity(), ((LoadMoreCommentsView)view).getUrl().toString());
+					LinkHandler.onLinkClicked(getSupportActivity(), ((LoadMoreCommentsView) view).getUrl().toString());
 
 				} else if(position == 0 && mPost != null && !mPost.src.is_self) {
 					LinkHandler.onLinkClicked(getSupportActivity(), mPost.url, false, mPost.src);
@@ -313,235 +284,21 @@ public class CommentListingFragment extends Fragment
 		return outerFrame;
 	}
 
-	public void cancel() {
-		if(request != null) request.cancel();
-	}
-
 	private void makeFirstRequest(final Context context) {
 
 		final RedditAccount user = RedditAccountManager.getInstance(context).getDefaultAccount();
-		final CacheManager cm = CacheManager.getInstance(context);
 
-		// TODO parameterise limit
-		request = new CacheRequest(General.uriFromString(mUrl.generateJsonUri().toString()), user, session, Constants.Priority.API_COMMENT_LIST, 0, downloadType, Constants.FileType.COMMENT_LIST, true, true, false, context) {
+		CommentListingRequest request = new CommentListingRequest(
+				context,
+				headerItems,
+				mUrl,
+				user,
+				session,
+				downloadType,
+				this
+		);
 
-			@Override
-			protected void onDownloadNecessary() {
-				new Handler(Looper.getMainLooper()).post(new Runnable() {
-					public void run() {
-						listFooter.addView(loadingView);
-						outerAdapter.notifyDataSetChanged();
-					}
-				});
-			}
-
-			@Override
-			protected void onDownloadStarted() {
-				loadingView.setIndeterminate(context.getString(R.string.download_connecting));
-			}
-
-			@Override
-			protected void onCallbackException(final Throwable t) {
-				request = null;
-				BugReportActivity.handleGlobalError(context, t);
-			}
-
-			@Override
-			protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
-
-				request = null;
-
-				if(!isAdded()) return;
-
-				if(loadingView != null) loadingView.setDoneNoAnim(R.string.download_failed);
-				final RRError error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
-
-				new Handler(Looper.getMainLooper()).post(new Runnable() {
-					public void run() {
-						notifications.addView(new ErrorView(getSupportActivity(), error));
-					}
-				});
-			}
-
-			@Override protected void onProgress(final long bytesRead, final long totalBytes) {}
-
-			@Override
-			protected void onSuccess(final CacheManager.ReadableCacheFile cacheFile, final long timestamp, final UUID session, final boolean fromCache, final String mimetype) {
-				request = null;
-			}
-
-			@Override
-			public void onJsonParseStarted(final JsonValue value, final long timestamp, final UUID session, final boolean fromCache) {
-
-				if(isAdded() && loadingView != null) loadingView.setIndeterminate("Downloading...");
-
-				// TODO pref (currently 10 mins)
-				if(fromCache && RRTime.since(timestamp) > 10 * 60 * 1000) {
-					General.UI_THREAD_HANDLER.post(new Runnable() {
-						public void run() {
-							if(isDetached()) return;
-							final CachedHeaderView cacheNotif = new CachedHeaderView(
-									context,
-									context.getString(R.string.listing_cached) + " " + RRTime.formatDateTime(timestamp, context),
-									null
-							);
-							listHeaderNotifications.addView(cacheNotif);
-							outerAdapter.notifyDataSetChanged();
-						}
-					});
-				}
-
-				((SessionChangeListener)getSupportActivity()).onSessionChanged(session, SessionChangeListener.SessionChangeType.COMMENTS, timestamp);
-
-				// TODO {"error": 403} is received for unauthorized subreddits
-
-				final boolean showLinkButtons = PrefsUtility.pref_appearance_linkbuttons(
-						context, PreferenceManager.getDefaultSharedPreferences(context));
-
-				try {
-
-					// Download main post
-					if(value.getType() == JsonValue.Type.ARRAY) {
-						// lol, reddit api
-						final JsonBufferedArray root = value.asArray();
-						final JsonBufferedObject thing = root.get(0).asObject();
-						final JsonBufferedObject listing = thing.getObject("data");
-						final JsonBufferedArray postContainer = listing.getArray("children");
-						final RedditThing postThing = postContainer.getObject(0, RedditThing.class);
-						final RedditPost post = postThing.asPost();
-
-						// TODO show upvote/downvote/etc buttons
-
-						CommentListingFragment.this.mPost = new RedditPreparedPost(context, cm, 0, post, timestamp, true, false, false, false, user);
-
-						final ViewGroup selfText;
-
-						if(post.is_self && post.selftext != null && post.selftext.trim().length() > 0) {
-
-							selfText = MarkdownParser.parse(StringEscapeUtils.unescapeHtml4(post.selftext).toCharArray())
-									.buildView(getSupportActivity(), null, 14f * commentFontScale, showLinkButtons);
-
-						} else {
-							selfText = null;
-						}
-
-						new Handler(Looper.getMainLooper()).post(new Runnable() {
-							public void run() {
-
-								final RedditPostHeaderView postHeader = new RedditPostHeaderView(getSupportActivity(), CommentListingFragment.this.mPost);
-								listHeaderPost.addView(postHeader);
-
-								if(selfText != null) {
-									selfText.setFocusable(false);
-									selfText.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
-
-									final int paddingPx = General.dpToPixels(context, 10);
-									listHeaderSelftext.addView(selfText);
-									listHeaderSelftext.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
-									listHeaderNotifications.setBackgroundColor(Color.argb(35, 128, 128, 128));
-								}
-
-								if(!General.isTablet(context, PreferenceManager.getDefaultSharedPreferences(context))) {
-									getSupportActivity().getSupportActionBar().setTitle(StringEscapeUtils.unescapeHtml4(post.title));
-								}
-							}
-						});
-					}
-
-					// Download comments
-
-					final JsonBufferedObject thing;
-
-					if(value.getType() == JsonValue.Type.ARRAY) {
-						thing = value.asArray().get(1).asObject();
-					} else {
-						thing = value.asObject();
-					}
-
-					final JsonBufferedObject listing = thing.getObject("data");
-					final JsonBufferedArray topLevelComments = listing.getArray("children");
-
-					final String parentId;
-
-					switch(CommentListingFragment.this.mUrl.pathType()) {
-						case PostCommentListingURL:
-							parentId = "t3_" + CommentListingFragment.this.mUrl.asPostCommentListURL().postId;
-							break;
-						case UserCommentListingURL:
-							parentId = "/u/" + CommentListingFragment.this.mUrl.asUserCommentListURL().user + "/comments";
-							break;
-						default:
-							throw new RuntimeException("Unknown url type");
-					}
-
-					final HashSet<String> needsChanging = RedditChangeDataManager
-							.getInstance(context)
-							.getChangedForParent(parentId, user);
-
-					for(final JsonValue commentThingValue : topLevelComments) {
-						buildComments(commentThingValue, null, timestamp, needsChanging);
-					}
-
-					commentHandler.sendMessage(General.handlerMessage(0, buffer));
-
-				} catch (Throwable t) {
-					notifyFailure(RequestFailureType.PARSE, t, null, "Parse failure");
-					return;
-				}
-
-				if(isAdded() && loadingView != null) loadingView.setDoneNoAnim(R.string.download_done);
-			}
-
-			private ArrayList<RedditCommentListItem> buffer = new ArrayList<RedditCommentListItem>();
-
-			private void buildComments(final JsonValue value, final RedditCommentListItem parent, final long timestamp, final HashSet<String> needsChanging) throws IOException, InterruptedException, IllegalAccessException, java.lang.InstantiationException, NoSuchMethodException, InvocationTargetException {
-
-				final RedditThing commentThing = value.asObject(RedditThing.class);
-
-				final RedditCommentListItem item;
-				boolean shouldRecurse = false;
-
-				if(commentThing.getKind() == RedditThing.Kind.MORE_COMMENTS
-						&& mUrl.pathType() == RedditURLParser.PathType.PostCommentListingURL) {
-
-					final RedditMoreComments redditMoreComments = commentThing.asMoreComments();
-					final RedditPreparedMoreComments preparedMoreComments = new RedditPreparedMoreComments(redditMoreComments, mUrl.asPostCommentListURL());
-					item = new RedditCommentListItem(parent, preparedMoreComments);
-
-				} else if(commentThing.getKind() == RedditThing.Kind.COMMENT) {
-
-					final RedditComment comment = commentThing.asComment();
-					final RedditPreparedComment preparedComment = new RedditPreparedComment(context, comment,
-							timestamp, needsChanging.contains(comment.name), mPost, user, headerItems);
-					item = new RedditCommentListItem(parent, preparedComment);
-
-					if(comment.replies.getType() == JsonValue.Type.OBJECT) {
-						shouldRecurse = true;
-					}
-
-				} else {
-					return;
-				}
-
-				buffer.add(item);
-				if(buffer.size() >= 40) {
-					commentHandler.sendMessage(General.handlerMessage(0, buffer));
-					buffer = new ArrayList<RedditCommentListItem>();
-				}
-
-				if(shouldRecurse) {
-					final RedditComment comment = commentThing.asComment();
-					final JsonBufferedObject replies = comment.replies.asObject();
-					final JsonBufferedArray children = replies.getObject("data").getArray("children");
-
-					for(final JsonValue v : children) {
-						buildComments(v, item, timestamp, needsChanging);
-					}
-				}
-			}
-		};
-
-		cm.makeRequest(request);
+		request.performRequest();
 	}
 
 	@Override
@@ -629,6 +386,98 @@ public class CommentListingFragment extends Fragment
 		}
 	}
 
+	@Override
+	public void onCommentListingRequestDownloadNecessary() {
+		listFooter.addView(loadingView);
+		outerAdapter.notifyDataSetChanged();
+	}
+
+	@Override
+	public void onCommentListingRequestDownloadStarted() {
+		loadingView.setIndeterminate(context.getString(R.string.download_connecting));
+	}
+
+	@Override
+	public void onCommentListingRequestException(final Throwable t) {
+		BugReportActivity.handleGlobalError(context, t);
+	}
+
+	@Override
+	public void onCommentListingRequestFailure(final RRError error) {
+		if(loadingView != null) loadingView.setDoneNoAnim(R.string.download_failed);
+		notifications.addView(new ErrorView(getSupportActivity(), error));
+	}
+
+	@Override
+	public void onCommentListingRequestCachedCopy(final long timestamp) {
+
+		// TODO pref (currently 10 mins)
+		if(RRTime.since(timestamp) > 10 * 60 * 1000) {
+
+			final CachedHeaderView cacheNotif = new CachedHeaderView(
+					context,
+					context.getString(R.string.listing_cached) + " " + RRTime.formatDateTime(timestamp, context),
+					null
+			);
+			listHeaderNotifications.addView(cacheNotif);
+			outerAdapter.notifyDataSetChanged();
+		}
+	}
+
+	@Override
+	public void onCommentListingRequestPostDownloaded(final RedditPreparedPost post) {
+
+		if(mPost == null) {
+
+			mPost = post;
+
+			final RedditPostHeaderView postHeader = new RedditPostHeaderView(getSupportActivity(), CommentListingFragment.this.mPost);
+			listHeaderPost.addView(postHeader);
+
+			if(post.parsedSelfText != null) {
+				final ViewGroup selfText = post.parsedSelfText.buildView(
+						getSupportActivity(), null, 14f * commentFontScale, mShowLinkButtons);
+				selfText.setFocusable(false);
+				selfText.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
+
+				final int paddingPx = General.dpToPixels(context, 10);
+				listHeaderSelftext.addView(selfText);
+				listHeaderSelftext.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
+				listHeaderNotifications.setBackgroundColor(Color.argb(35, 128, 128, 128));
+			}
+
+			if(!General.isTablet(context, PreferenceManager.getDefaultSharedPreferences(context))) {
+				getSupportActivity().getSupportActionBar().setTitle(StringEscapeUtils.unescapeHtml4(post.title));
+			}
+		}
+	}
+
+	private final ArrayList<RedditCommentListItem> mItemBuffer = new ArrayList<RedditCommentListItem>(64);
+
+	@Override
+	public void onCommentListingRequestItemDownloaded(final RedditCommentListItem item) {
+
+		mItemBuffer.add(item);
+
+		if(mItemBuffer.size() >= 20) {
+			commentListAdapter.addItems(mItemBuffer);
+			outerAdapter.notifyDataSetChanged();
+			mItemBuffer.clear();
+		}
+	}
+
+	@Override
+	public void onCommentListingRequestComplete() {
+		commentListAdapter.addItems(mItemBuffer);
+		mItemBuffer.clear();
+		if(loadingView != null) loadingView.setDoneNoAnim(R.string.download_done);
+	}
+
+	@Override
+	public boolean isStillListening() {
+		return isAdded();
+	}
+
 	private static enum Action {
 		UPVOTE, UNVOTE, DOWNVOTE, SAVE, UNSAVE, REPORT, SHARE, COPY, REPLY, USER_PROFILE, COMMENT_LINKS, COLLAPSE, EDIT, PROPERTIES
 	}
@@ -683,7 +532,6 @@ public class CommentListingFragment extends Fragment
 								new DialogInterface.OnClickListener() {
 									public void onClick(final DialogInterface dialog, final int which) {
 										comment.action(getSupportActivity(), RedditAPI.RedditAction.REPORT);
-										// TODO update the view to show the result
 									}
 								})
 						.setNegativeButton(R.string.dialog_cancel, null)

@@ -36,7 +36,7 @@ public class RedditCommentView extends LinearLayout {
 	private final TextView mHeader;
 	private final FrameLayout mBodyHolder;
 
-	private final IndentView mIndent;
+	private final IndentView mIndentView;
 
 	private final int mBodyCol;
 	private final float mFontScale;
@@ -78,9 +78,9 @@ public class RedditCommentView extends LinearLayout {
 
 		setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
 
-		mIndent = new IndentView(context);
-		addView(mIndent);
-		mIndent.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+		mIndentView = new IndentView(context);
+		addView(mIndentView);
+		mIndentView.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
 
 		addView(main);
 		main.getLayoutParams().width = LinearLayout.LayoutParams.MATCH_PARENT;
@@ -99,7 +99,7 @@ public class RedditCommentView extends LinearLayout {
 		this.mComment = comment;
 		comment.bind(this);
 
-		mIndent.setIndentation(indent);
+		mIndentView.setIndentation(indent);
 
 		if(!comment.isCollapsed()) {
 			mHeader.setText(comment.header);

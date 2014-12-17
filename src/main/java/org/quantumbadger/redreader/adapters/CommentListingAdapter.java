@@ -22,10 +22,10 @@ import android.content.res.TypedArray;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import org.holoeverywhere.widget.TextView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.reddit.RedditCommentListItem;
+import org.quantumbadger.redreader.views.LoadMoreCommentsView;
 import org.quantumbadger.redreader.views.RedditCommentView;
 
 import java.util.ArrayList;
@@ -93,10 +93,12 @@ public final class CommentListingAdapter extends BaseAdapter {
 		} else {
 
 			if(convertView == null) {
-				convertView = new TextView(viewGroup.getContext());
+				convertView = new LoadMoreCommentsView(viewGroup.getContext());
 			}
 
-			((TextView)convertView).setText(String.format("Load %d more...", commentsToReport.get(i).asLoadMore().getCount()));
+			((LoadMoreCommentsView)convertView).reset(
+					String.format("Load %d more...", commentsToReport.get(i).asLoadMore().getCount()),
+					item.getIndent());
 		}
 
 		return convertView;

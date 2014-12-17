@@ -17,7 +17,9 @@
 
 package org.quantumbadger.redreader.reddit.things;
 
+import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
+
 public class RedditMoreComments {
 	public int count;
-	public String parent_id;
+	public JsonBufferedArray children;
 }

@@ -17,8 +17,12 @@
 
 package org.quantumbadger.redreader.reddit.prepared;
 
+import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.things.RedditMoreComments;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RedditPreparedMoreComments {
 
@@ -30,8 +34,17 @@ public class RedditPreparedMoreComments {
 		mPostUrl = postUrl;
 	}
 
-	public PostCommentListingURL getMoreUrl() {
-		return mPostUrl.commentId(mSrc.parent_id);
+	public List<PostCommentListingURL> getMoreUrls() {
+
+		final ArrayList<PostCommentListingURL> urls = new ArrayList<PostCommentListingURL>(16);
+
+		for(JsonValue child : mSrc.children) {
+			if(child.getType() == JsonValue.Type.STRING) {
+				urls.add(mPostUrl.commentId(child.asString()));
+			}
+		}
+
+		return urls;
 	}
 
 	public int getCount() {

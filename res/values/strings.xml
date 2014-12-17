@@ -600,6 +600,6 @@
 
     <!-- 2014-12-07 -->
     <string name="comment_header_specific_thread_title">You are currently viewing a specific comment thread.</string>
-    <string name="comment_header_specific_thread_message">Click here to view the whole thread.</string>
+    <string name="comment_header_specific_thread_message">Click here to view all comments for this post.</string>
 
 </resources>

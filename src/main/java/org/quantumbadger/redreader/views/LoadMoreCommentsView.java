@@ -30,6 +30,8 @@ import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.reddit.RedditCommentListItem;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 
+import java.util.List;
+
 public class LoadMoreCommentsView extends FrameLayout {
 
 	private final IndentView mIndentView;
@@ -76,7 +78,7 @@ public class LoadMoreCommentsView extends FrameLayout {
 		mIndentView.setIndentation(mItem.getIndent());
 	}
 
-	public PostCommentListingURL getUrl() {
-		return mItem.asLoadMore().getMoreUrl();
+	public List<PostCommentListingURL> getUrls() {
+		return mItem.asLoadMore().getMoreUrls();
 	}
 }

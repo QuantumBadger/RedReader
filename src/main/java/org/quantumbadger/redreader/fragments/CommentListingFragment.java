@@ -49,6 +49,7 @@ import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.activities.CommentEditActivity;
 import org.quantumbadger.redreader.activities.CommentReplyActivity;
+import org.quantumbadger.redreader.activities.MoreCommentsListingActivity;
 import org.quantumbadger.redreader.adapters.CommentListingAdapter;
 import org.quantumbadger.redreader.adapters.HeaderAdapter;
 import org.quantumbadger.redreader.cache.CacheRequest;
@@ -58,7 +59,7 @@ import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.RedditCommentListItem;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedComment;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
-import org.quantumbadger.redreader.reddit.url.CommentListingURL;
+import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 import org.quantumbadger.redreader.reddit.url.UserProfileURL;
 import org.quantumbadger.redreader.views.*;
@@ -84,7 +85,10 @@ public class CommentListingFragment extends Fragment
 	private CommentListingAdapter commentListAdapter;
 	private BaseAdapter outerAdapter;
 
+	private boolean isCachedNotifShown = false;
+
 	private LoadingView loadingView;
+	private boolean loadingViewIsAdded = false;
 	private LinearLayout notifications, listHeaderNotifications, listHeaderPost, listHeaderSelftext, listFooter;
 	private ListView lv;
 
@@ -95,7 +99,7 @@ public class CommentListingFragment extends Fragment
 	private boolean mShowLinkButtons;
 
 	public static CommentListingFragment newInstance(
-			final List<CommentListingURL> urls,
+			final List<RedditURLParser.RedditURL> urls,
 			final UUID session,
 			final CacheRequest.DownloadType downloadType) {
 
@@ -106,7 +110,7 @@ public class CommentListingFragment extends Fragment
 		final String[] urlStrings = new String[urls.size()];
 		{
 			int i = 0;
-			for(final CommentListingURL url : urls) {
+			for(final RedditURLParser.RedditURL url : urls) {
 				urlStrings[i++] = url.toString();
 			}
 		}
@@ -220,7 +224,7 @@ public class CommentListingFragment extends Fragment
 		commentListAdapter = new CommentListingAdapter(context, this);
 		outerAdapter = commentListAdapter;
 
-		if(mAllUrls.size() == 1
+		if(!mAllUrls.isEmpty()
 			&& mAllUrls.get(0).pathType() == RedditURLParser.PathType.PostCommentListingURL
 			&& mAllUrls.get(0).asPostCommentListURL().commentId != null) {
 
@@ -243,7 +247,15 @@ public class CommentListingFragment extends Fragment
 					onCommentClicked((RedditCommentView) view);
 
 				} else if(view instanceof LoadMoreCommentsView) {
-					LinkHandler.onLinkClicked(getSupportActivity(), ((LoadMoreCommentsView) view).getUrl().toString());
+
+					final ArrayList<String> urls = new ArrayList<String>(16);
+					for(PostCommentListingURL url : ((LoadMoreCommentsView) view).getUrls()) {
+						urls.add(url.toString());
+					}
+
+					final Intent intent = new Intent(context, MoreCommentsListingActivity.class);
+					intent.putStringArrayListExtra("urls", urls);
+					getSupportActivity().startActivity(intent);
 
 				} else if(position == 0 && mPost != null && !mPost.src.is_self) {
 					LinkHandler.onLinkClicked(getSupportActivity(), mPost.url, false, mPost.src);
@@ -401,8 +413,11 @@ public class CommentListingFragment extends Fragment
 
 	@Override
 	public void onCommentListingRequestDownloadNecessary() {
-		listFooter.addView(loadingView);
-		outerAdapter.notifyDataSetChanged();
+		if(!loadingViewIsAdded) {
+			listFooter.addView(loadingView);
+			outerAdapter.notifyDataSetChanged();
+			loadingViewIsAdded = true;
+		}
 	}
 
 	@Override
@@ -417,25 +432,30 @@ public class CommentListingFragment extends Fragment
 
 	@Override
 	public void onCommentListingRequestFailure(final RRError error) {
-		if(loadingView != null) loadingView.setDoneNoAnim(R.string.download_failed);
+		loadingView.setDoneNoAnim(R.string.download_failed);
 		notifications.addView(new ErrorView(getSupportActivity(), error));
 	}
 
 	@Override
 	public void onCommentListingRequestCachedCopy(final long timestamp) {
 
-		// TODO pref (currently 10 mins)
-		if(RRTime.since(timestamp) > 10 * 60 * 1000) {
+		if(!isCachedNotifShown) {
 
-			final CachedHeaderView cacheNotif = new CachedHeaderView(
-					getSupportActivity(),
-					getSupportActivity().getString(R.string.listing_cached)
-							+ " "
-							+ RRTime.formatDateTime(timestamp, getSupportActivity()),
-					null
-			);
-			listHeaderNotifications.addView(cacheNotif);
-			outerAdapter.notifyDataSetChanged();
+			// TODO pref (currently 10 mins)
+			if(RRTime.since(timestamp) > 10 * 60 * 1000) {
+
+				final CachedHeaderView cacheNotif = new CachedHeaderView(
+						getSupportActivity(),
+						getSupportActivity().getString(R.string.listing_cached)
+								+ " "
+								+ RRTime.formatDateTime(timestamp, getSupportActivity()),
+						null
+				);
+				listHeaderNotifications.addView(cacheNotif);
+				outerAdapter.notifyDataSetChanged();
+			}
+
+			isCachedNotifShown = true;
 		}
 	}
 
@@ -487,9 +507,17 @@ public class CommentListingFragment extends Fragment
 	public void onCommentListingRequestComplete() {
 		commentListAdapter.addItems(mItemBuffer);
 		mItemBuffer.clear();
-		if(loadingView != null) loadingView.setDoneNoAnim(R.string.download_done);
 
-		makeNextRequest(getSupportActivity());
+		if(mUrlsToDownload.isEmpty()) {
+
+			loadingView.setDoneNoAnim(R.string.download_done);
+			if(loadingViewIsAdded) {
+				listFooter.removeView(loadingView);
+			}
+
+		} else {
+			makeNextRequest(getSupportActivity());
+		}
 	}
 
 	@Override

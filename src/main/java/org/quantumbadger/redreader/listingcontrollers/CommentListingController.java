@@ -79,7 +79,7 @@ public class CommentListingController {
 
 	public CommentListingFragment get(final boolean force) {
 		if(force) mSession = null;
-		return CommentListingFragment.newInstance(General.listOfOne(mUrl), mSession, force ? CacheRequest.DownloadType.FORCE : CacheRequest.DownloadType.IF_NECESSARY);
+		return CommentListingFragment.newInstance(General.listOfOne((RedditURLParser.RedditURL)mUrl), mSession, force ? CacheRequest.DownloadType.FORCE : CacheRequest.DownloadType.IF_NECESSARY);
 	}
 
 	public boolean isSortable() {

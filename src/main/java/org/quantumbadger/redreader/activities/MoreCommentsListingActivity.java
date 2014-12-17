@@ -15,6 +15,23 @@
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
+/*******************************************************************************
+ * This file is part of RedReader.
+ *
+ * RedReader is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * RedReader is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 package org.quantumbadger.redreader.activities;
 
 import android.content.Intent;
@@ -30,29 +47,26 @@ import org.holoeverywhere.preference.SharedPreferences;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
+import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
-import org.quantumbadger.redreader.fragments.SessionListDialog;
-import org.quantumbadger.redreader.listingcontrollers.CommentListingController;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 import org.quantumbadger.redreader.views.RedditPostView;
 
-import java.util.UUID;
+import java.util.ArrayList;
 
-public class CommentListingActivity extends RefreshableActivity
+public class MoreCommentsListingActivity extends RefreshableActivity
 		implements RedditAccountChangeListener,
 		SharedPreferences.OnSharedPreferenceChangeListener,
 		OptionsMenuUtility.OptionsMenuCommentsListener,
-		RedditPostView.PostSelectionListener,
-		SessionChangeListener {
-
-	private CommentListingController controller;
+		RedditPostView.PostSelectionListener {
 
 	private SharedPreferences sharedPreferences;
+	private final ArrayList<RedditURLParser.RedditURL> mUrls = new ArrayList<RedditURLParser.RedditURL>(32);
 
 	public void onCreate(final Bundle savedInstanceState) {
 
@@ -83,8 +97,14 @@ public class CommentListingActivity extends RefreshableActivity
 
 			final Intent intent = getIntent();
 
-			final String url = intent.getDataString();
-            controller = new CommentListingController(RedditURLParser.parseProbableCommentListing(Uri.parse(url)), this);
+			final ArrayList<String> urls = intent.getStringArrayListExtra("urls");
+
+			for(final String url : urls) {
+				final RedditURLParser.RedditURL redditURL = RedditURLParser.parseProbableCommentListing(Uri.parse(url));
+				if(redditURL != null) {
+					mUrls.add(redditURL);
+				}
+			}
 
 			doRefresh(RefreshableFragment.COMMENTS, false);
 
@@ -101,7 +121,7 @@ public class CommentListingActivity extends RefreshableActivity
 
 	@Override
 	public boolean onCreateOptionsMenu(final Menu menu) {
-		OptionsMenuUtility.prepare(this, menu, false, false, true, false, controller.isSortable(), null, false, true);
+		OptionsMenuUtility.prepare(this, menu, false, false, true, false, false, null, false, false);
 		return true;
 	}
 
@@ -111,11 +131,16 @@ public class CommentListingActivity extends RefreshableActivity
 
 	@Override
 	protected void doRefresh(final RefreshableFragment which, final boolean force) {
-		final CommentListingFragment fragment = controller.get(force);
+
+		final CommentListingFragment fragment = CommentListingFragment.newInstance(
+				mUrls,
+				null,
+				force ? CacheRequest.DownloadType.FORCE : CacheRequest.DownloadType.IF_NECESSARY);
+
 		final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 		transaction.replace(R.id.main_single_frame, fragment, "comment_listing_fragment");
 		transaction.commit();
-		OptionsMenuUtility.fixActionBar(this, controller.getCommentListingUrl().humanReadableName(this, false));
+		OptionsMenuUtility.fixActionBar(this, "More Comments"); // TODO string
 	}
 
 	public void onSharedPreferenceChanged(final SharedPreferences prefs, final String key) {
@@ -136,19 +161,14 @@ public class CommentListingActivity extends RefreshableActivity
 	}
 
 	public void onRefreshComments() {
-		controller.setSession(null);
 		requestRefresh(RefreshableFragment.COMMENTS, true);
 	}
 
-	public void onPastComments() {
-		final SessionListDialog sessionListDialog = SessionListDialog.newInstance(controller.getUri(), controller.getSession(), SessionChangeListener.SessionChangeType.COMMENTS);
-		sessionListDialog.show(this);
-	}
+	@Override
+	public void onPastComments() {}
 
-	public void onSortSelected(final PostCommentListingURL.Sort order) {
-		controller.setSort(order);
-		requestRefresh(RefreshableFragment.COMMENTS, false);
-	}
+	@Override
+	public void onSortSelected(final PostCommentListingURL.Sort order) {}
 
 	@Override
 	public boolean onOptionsItemSelected(final MenuItem item) {
@@ -159,19 +179,6 @@ public class CommentListingActivity extends RefreshableActivity
 			default:
 				return super.onOptionsItemSelected(item);
 		}
-	}
-
-	public void onSessionRefreshSelected(SessionChangeType type) {
-		onRefreshComments();
-	}
-
-	public void onSessionSelected(UUID session, SessionChangeType type) {
-		controller.setSession(session);
-		requestRefresh(RefreshableFragment.COMMENTS, false);
-	}
-
-	public void onSessionChanged(UUID session, SessionChangeType type, long timestamp) {
-		controller.setSession(session);
 	}
 
 	public void onPostSelected(final RedditPreparedPost post) {

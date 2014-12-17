@@ -145,7 +145,8 @@ public class PostListingActivity extends RefreshableActivity
 				controller.isSortable(),
 				true,
 				subredditSubscriptionState,
-				subredditDescription != null && subredditDescription.length() > 0);
+				subredditDescription != null && subredditDescription.length() > 0,
+				false);
 
 		return true;
 	}

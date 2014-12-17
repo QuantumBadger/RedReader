@@ -94,6 +94,10 @@
                     android:value=".activities.PostListingActivity"/>
         </activity>
 
+        <activity android:name=".activities.MoreCommentsListingActivity"
+                  android:configChanges="orientation|screenSize|keyboardHidden">
+        </activity>
+
         <activity android:name=".activities.WebViewActivity"
                   android:configChanges="orientation|screenSize|keyboardHidden"
                   android:theme="@style/RR.Dark.NoActionBar"/>

@@ -64,7 +64,8 @@ public final class OptionsMenuUtility {
 			final boolean subredditsVisible, final boolean postsVisible, final boolean commentsVisible,
 			final boolean postsSortable, final boolean commentsSortable,
 			final RedditSubredditSubscriptionManager.SubredditSubscriptionState subredditSubscriptionState,
-			final boolean subredditHasSidebar) {
+			final boolean subredditHasSidebar,
+			final boolean pastCommentsSupported) {
 
 		if(subredditsVisible && !postsVisible && !commentsVisible) {
 			add(activity, menu, Option.REFRESH_SUBREDDITS, false);
@@ -83,7 +84,9 @@ public final class OptionsMenuUtility {
 		} else if(!subredditsVisible && !postsVisible && commentsVisible) {
 			if(commentsSortable) addAllCommentSorts(activity, menu, true);
 			add(activity, menu, Option.REFRESH_COMMENTS, false);
-			add(activity, menu, Option.PAST_COMMENTS, false);
+			if(pastCommentsSupported) {
+				add(activity, menu, Option.PAST_COMMENTS, false);
+			}
 
 		} else {
 
@@ -98,7 +101,9 @@ public final class OptionsMenuUtility {
 
 				final SubMenu pastMenu = menu.addSubMenu(R.string.options_past);
 				add(activity, pastMenu, Option.PAST_POSTS, true);
-				add(activity, pastMenu, Option.PAST_COMMENTS, true);
+				if(pastCommentsSupported) {
+					add(activity, pastMenu, Option.PAST_COMMENTS, true);
+				}
 
 			} else if(postsVisible) {
 				if(postsSortable) addAllPostSorts(activity, menu, true);

@@ -507,7 +507,8 @@ public class MainActivity extends RefreshableActivity
 				postsSortable,
 				commentsSortable,
 				subredditSubscriptionState,
-				postsVisible && subredditDescription != null && subredditDescription.length() > 0);
+				postsVisible && subredditDescription != null && subredditDescription.length() > 0,
+				true);
 
 		getSupportActionBar().setHomeButtonEnabled(!isMenuShown);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(!isMenuShown);

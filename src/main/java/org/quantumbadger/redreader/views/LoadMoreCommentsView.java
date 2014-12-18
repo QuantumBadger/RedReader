@@ -55,7 +55,7 @@ public class LoadMoreCommentsView extends FrameLayout {
 		layout.addView(mIndentView);
 		mIndentView.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
 
-		final TypedArray appearance = context.obtainStyledAttributes(new int[]{R.attr.rrIconAdd});
+		final TypedArray appearance = context.obtainStyledAttributes(new int[]{R.attr.rrIconForward});
 		final ImageView icon = new ImageView(context);
 		icon.setImageDrawable(appearance.getDrawable(0));
 		layout.addView(icon);

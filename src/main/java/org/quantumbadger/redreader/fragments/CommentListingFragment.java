@@ -379,6 +379,9 @@ public class CommentListingFragment extends Fragment
 							menu.add(Menu.NONE, Action.EDIT.ordinal(), 0, R.string.action_edit);
 					}
 
+					menu.add(Menu.NONE, Action.CONTEXT.ordinal(), 0, R.string.action_comment_context);
+					menu.add(Menu.NONE, Action.GO_TO_COMMENT.ordinal(), 0, R.string.action_comment_go_to);
+
 					menu.add(Menu.NONE, Action.COMMENT_LINKS.ordinal(), 0, R.string.action_comment_links);
 					menu.add(Menu.NONE, Action.COLLAPSE.ordinal(), 0, R.string.action_collapse);
 					menu.add(Menu.NONE, Action.SHARE.ordinal(), 0, R.string.action_share);
@@ -526,7 +529,22 @@ public class CommentListingFragment extends Fragment
 	}
 
 	private static enum Action {
-		UPVOTE, UNVOTE, DOWNVOTE, SAVE, UNSAVE, REPORT, SHARE, COPY, REPLY, USER_PROFILE, COMMENT_LINKS, COLLAPSE, EDIT, PROPERTIES
+		UPVOTE,
+		UNVOTE,
+		DOWNVOTE,
+		SAVE,
+		UNSAVE,
+		REPORT,
+		SHARE,
+		COPY,
+		REPLY,
+		USER_PROFILE,
+		COMMENT_LINKS,
+		COLLAPSE,
+		EDIT,
+		PROPERTIES,
+		CONTEXT,
+		GO_TO_COMMENT
 	}
 
 	@Override
@@ -658,6 +676,29 @@ public class CommentListingFragment extends Fragment
 				CommentPropertiesDialog.newInstance(comment.src).show(getSupportActivity());
 				break;
 
+			case GO_TO_COMMENT: {
+				PostCommentListingURL url = new PostCommentListingURL(
+						null,
+						comment.src.link_id,
+						comment.idAlone,
+						null,
+						null,
+						null);
+				LinkHandler.onLinkClicked(getSupportActivity(), url.toString());
+				break;
+			}
+
+			case CONTEXT: {
+				PostCommentListingURL url = new PostCommentListingURL(
+						null,
+						comment.src.link_id,
+						comment.idAlone,
+						3,
+						null,
+						null);
+				LinkHandler.onLinkClicked(getSupportActivity(), url.toString());
+				break;
+			}
 		}
 
 		return true;

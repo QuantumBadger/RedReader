@@ -604,5 +604,7 @@
 
     <!-- 2014-12-18 -->
     <string name="more_comments_button_text">Load more comments</string>
+    <string name="action_comment_context">Context</string>
+    <string name="action_comment_go_to">Go to Comment</string>
 
 </resources>

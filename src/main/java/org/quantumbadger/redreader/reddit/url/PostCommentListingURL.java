@@ -43,11 +43,19 @@ public class PostCommentListingURL extends CommentListingURL {
 
 	public PostCommentListingURL(
 			final String after,
-			final String postId,
-			final String commentId,
+			String postId,
+			String commentId,
 			final Integer context,
 			final Integer limit,
 			final Sort order) {
+
+		if(postId != null && postId.startsWith("t3_")) {
+			postId = postId.substring(3);
+		}
+
+		if(commentId != null && commentId.startsWith("t1_")) {
+			commentId = commentId.substring(3);
+		}
 
 		this.after = after;
 		this.postId = postId;

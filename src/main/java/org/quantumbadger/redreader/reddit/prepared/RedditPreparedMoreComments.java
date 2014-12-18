@@ -38,10 +38,15 @@ public class RedditPreparedMoreComments {
 
 		final ArrayList<PostCommentListingURL> urls = new ArrayList<PostCommentListingURL>(16);
 
-		for(JsonValue child : mSrc.children) {
-			if(child.getType() == JsonValue.Type.STRING) {
-				urls.add(mPostUrl.commentId(child.asString()));
+		if(mSrc.count > 0) {
+			for(JsonValue child : mSrc.children) {
+				if(child.getType() == JsonValue.Type.STRING) {
+					urls.add(mPostUrl.commentId(child.asString()));
+				}
 			}
+
+		} else {
+			urls.add(mPostUrl.commentId(mSrc.parent_id));
 		}
 
 		return urls;

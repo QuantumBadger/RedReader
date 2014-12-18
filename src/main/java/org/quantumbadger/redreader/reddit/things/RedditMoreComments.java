@@ -22,4 +22,5 @@ import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
 public class RedditMoreComments {
 	public int count;
 	public JsonBufferedArray children;
+	public String parent_id;
 }

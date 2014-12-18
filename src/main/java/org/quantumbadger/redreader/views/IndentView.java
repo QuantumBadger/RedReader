@@ -92,5 +92,6 @@ class IndentView extends View {
 		this.getLayoutParams().width = (mPixelsPerIndent * indent);
 		this.mIndent = indent;
 		this.invalidate();
+		this.requestLayout();
 	}
 }

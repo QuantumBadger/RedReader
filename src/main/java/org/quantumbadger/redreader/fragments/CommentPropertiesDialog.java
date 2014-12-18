@@ -49,6 +49,8 @@ public final class CommentPropertiesDialog extends PropertiesDialog {
 
 		final RedditComment comment = getArguments().getParcelable("comment");
 
+		items.addView(propView(context, "ID", comment.name, false));
+
 		items.addView(propView(context, R.string.props_author, comment.author, false));
 
 		if(comment.author_flair_text != null && comment.author_flair_text.length() > 0) {

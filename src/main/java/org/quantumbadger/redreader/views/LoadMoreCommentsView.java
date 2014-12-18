@@ -72,10 +72,17 @@ public class LoadMoreCommentsView extends FrameLayout {
 		textLayout.addView(mTitleView);
 	}
 
-	public void reset(RedditCommentListItem item) {
+	public void reset(final RedditCommentListItem item) {
+
 		mItem = item;
-		mTitleView.setText(String.format("Load %d more...", mItem.asLoadMore().getCount()));
-		mIndentView.setIndentation(mItem.getIndent());
+
+		if(item.asLoadMore().getCount() > 0) {
+			mTitleView.setText(String.format("Load %d more...", item.asLoadMore().getCount()));
+		} else {
+			mTitleView.setText("Load more...");
+		}
+
+		mIndentView.setIndentation(item.getIndent());
 	}
 
 	public List<PostCommentListingURL> getUrls() {

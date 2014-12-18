@@ -95,7 +95,7 @@ public class ImageViewActivity extends Activity implements RedditPostView.PostSe
 			return;
 		}
 
-		if(!AndroidApi.isGreaterThan(Build.VERSION_CODES.GINGERBREAD_MR1)) {
+		if(!AndroidApi.isGreaterThanOrEqualTo(Build.VERSION_CODES.GINGERBREAD_MR1)) {
 			revertToWeb();
 			return;
 		}

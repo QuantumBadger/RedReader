@@ -1,5 +1,6 @@
 54/1.8.7
 Links to specific comments (e.g. in /r/bestof) now work correctly
+Ability to load more comments
 Tapping a comment reply in the inbox takes you to that specific comment thread
 Notifications for new inbox messages/comment replies (thanks to NoNeedToBail)
 Image view now shows all images at full resolution

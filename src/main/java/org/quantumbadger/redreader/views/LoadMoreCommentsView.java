@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.views;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.view.Gravity;
@@ -26,6 +27,7 @@ import org.holoeverywhere.widget.FrameLayout;
 import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.TextView;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.common.AndroidApi;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.reddit.RedditCommentListItem;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
@@ -38,6 +40,7 @@ public class LoadMoreCommentsView extends FrameLayout {
 	private final TextView mTitleView;
 	private RedditCommentListItem mItem;
 
+	@SuppressLint("NewApi")
 	public LoadMoreCommentsView(Context context) {
 
 		super(context);
@@ -58,6 +61,10 @@ public class LoadMoreCommentsView extends FrameLayout {
 		final TypedArray appearance = context.obtainStyledAttributes(new int[]{R.attr.rrIconForward});
 		final ImageView icon = new ImageView(context);
 		icon.setImageDrawable(appearance.getDrawable(0));
+		if(AndroidApi.isGreaterThanOrEqualTo(11)) {
+			icon.setScaleX(0.75f);
+			icon.setScaleY(0.75f);
+		}
 		layout.addView(icon);
 		((LinearLayout.LayoutParams)icon.getLayoutParams()).setMargins(marginPx, marginPx, marginPx, marginPx);
 
@@ -68,7 +75,7 @@ public class LoadMoreCommentsView extends FrameLayout {
 
 		mTitleView = new TextView(context);
 		mTitleView.setText("Error: text not set");
-		mTitleView.setTextSize(14f);
+		mTitleView.setTextSize(13f);
 		textLayout.addView(mTitleView);
 	}
 
@@ -76,12 +83,27 @@ public class LoadMoreCommentsView extends FrameLayout {
 
 		mItem = item;
 
-		if(item.asLoadMore().getCount() > 0) {
-			mTitleView.setText(String.format("Load %d more...", item.asLoadMore().getCount()));
+		final StringBuilder title = new StringBuilder(getContext().getString(R.string.more_comments_button_text));
+		final int count = item.asLoadMore().getCount();
+
+		if(count == 1) {
+			title
+					.append(" (1 ")
+					.append(getContext().getString(R.string.subtitle_reply))
+					.append(")");
+
+		} else if(count > 1) {
+			title
+					.append(" (")
+					.append(count).append(" ")
+					.append(getContext().getString(R.string.subtitle_replies))
+					.append(")");
+
 		} else {
-			mTitleView.setText("Load more...");
+			title.append("...");
 		}
 
+		mTitleView.setText(title);
 		mIndentView.setIndentation(item.getIndent());
 	}
 

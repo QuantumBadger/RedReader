@@ -18,19 +18,21 @@
 package org.quantumbadger.redreader.views.liststatus;
 
 import android.content.res.TypedArray;
-import android.view.View;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.TextView;
 import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 
 public final class SpecificCommentThreadView extends StatusListItemView {
 
+	private final PostCommentListingURL mUrl;
+
 	public SpecificCommentThreadView(final Activity activity, final PostCommentListingURL url) {
 
 		super(activity);
+
+		mUrl = url;
 
 		final TypedArray attr = activity.obtainStyledAttributes(new int[] {
 				R.attr.rrCommentSpecificThreadHeaderBackCol,
@@ -58,14 +60,12 @@ public final class SpecificCommentThreadView extends StatusListItemView {
 		layout.addView(messageView);
 
 		setContents(layout);
+		setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
 
 		setBackgroundColor(rrCommentSpecificThreadHeaderBackCol);
+	}
 
-		setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				final PostCommentListingURL allComments = url.commentId(null);
-				LinkHandler.onLinkClicked(activity, allComments.toString());
-			}
-		});
+	public PostCommentListingURL getUrl() {
+		return mUrl;
 	}
 }

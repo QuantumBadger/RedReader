@@ -259,6 +259,10 @@ public class CommentListingFragment extends Fragment
 
 				} else if(position == 0 && mPost != null && !mPost.src.is_self) {
 					LinkHandler.onLinkClicked(getSupportActivity(), mPost.url, false, mPost.src);
+
+				} else if(view instanceof SpecificCommentThreadView) {
+					final PostCommentListingURL allComments = ((SpecificCommentThreadView)view).getUrl().commentId(null);
+					LinkHandler.onLinkClicked(getSupportActivity(), allComments.toString());
 				}
 			}
 		});

@@ -286,6 +286,10 @@ public class ImageViewDisplayListManager implements
 	@Override
 	public synchronized void onFingerDown(FingerTracker.Finger finger) {
 
+		if(mScrollbars == null) {
+			return;
+		}
+
 		mScaleAnimation = null;
 		mScrollbars.showBars();
 
@@ -324,6 +328,10 @@ public class ImageViewDisplayListManager implements
 
 	@Override
 	public synchronized void onFingersMoved() {
+
+		if(mScrollbars == null) {
+			return;
+		}
 
 		mScaleAnimation = null;
 		mScrollbars.showBars();
@@ -390,6 +398,10 @@ public class ImageViewDisplayListManager implements
 
 	@Override
 	public synchronized void onFingerUp(FingerTracker.Finger finger) {
+
+		if(mScrollbars == null) {
+			return;
+		}
 
 		mScaleAnimation = null;
 		mScrollbars.showBars();

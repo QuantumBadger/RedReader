@@ -19,8 +19,6 @@ package org.quantumbadger.redreader.activities;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.KeyEvent;
 import android.widget.ScrollView;
 import com.actionbarsherlock.view.Menu;
@@ -153,7 +151,7 @@ public class CommentReplyActivity extends Activity {
 			final APIResponseHandler.ActionResponseHandler handler = new APIResponseHandler.ActionResponseHandler(this) {
 				@Override
 				protected void onSuccess() {
-					new Handler(Looper.getMainLooper()).post(new Runnable() {
+					General.UI_THREAD_HANDLER.post(new Runnable() {
 						public void run() {
 							if(progressDialog.isShowing()) progressDialog.dismiss();
 							General.quickToast(CommentReplyActivity.this, getString(R.string.comment_reply_done));
@@ -172,7 +170,7 @@ public class CommentReplyActivity extends Activity {
 
 					final RRError error = General.getGeneralErrorForFailure(context, type, t, status, null);
 
-					new Handler(Looper.getMainLooper()).post(new Runnable() {
+					General.UI_THREAD_HANDLER.post(new Runnable() {
 						public void run() {
 							General.showResultDialog(CommentReplyActivity.this, error);
 							if(progressDialog.isShowing()) progressDialog.dismiss();
@@ -185,7 +183,7 @@ public class CommentReplyActivity extends Activity {
 
 					final RRError error = General.getGeneralErrorForFailure(context, type);
 
-					new Handler(Looper.getMainLooper()).post(new Runnable() {
+					General.UI_THREAD_HANDLER.post(new Runnable() {
 						public void run() {
 							General.showResultDialog(CommentReplyActivity.this, error);
 							if(progressDialog.isShowing()) progressDialog.dismiss();

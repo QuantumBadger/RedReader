@@ -20,8 +20,6 @@ package org.quantumbadger.redreader.fragments;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.View;
 import android.widget.AdapterView;
 import org.holoeverywhere.app.AlertDialog;
@@ -33,6 +31,7 @@ import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.adapters.AccountListAdapter;
+import org.quantumbadger.redreader.common.General;
 
 public class AccountListDialog extends DialogFragment implements RedditAccountChangeListener {
 
@@ -122,7 +121,7 @@ public class AccountListDialog extends DialogFragment implements RedditAccountCh
 	}
 
 	public void onRedditAccountChanged() {
-		new Handler(Looper.getMainLooper()).post(new Runnable() {
+		General.UI_THREAD_HANDLER.post(new Runnable() {
 			public void run() {
 				lv.setAdapter(new AccountListAdapter(getSupportActivity()));
 			}

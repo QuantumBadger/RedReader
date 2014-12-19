@@ -19,8 +19,6 @@ package org.quantumbadger.redreader.fragments;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.KeyEvent;
 import android.view.View;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -32,6 +30,7 @@ import org.holoeverywhere.widget.EditText;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
+import org.quantumbadger.redreader.common.General;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -109,7 +108,7 @@ public class AddAccountDialog extends DialogFragment {
 						// TODO better HTTP client
 						final RedditAccount.LoginResultPair result = RedditAccount.login(getSupportActivity(), username, password, new DefaultHttpClient());
 
-						new Handler(Looper.getMainLooper()).post(new Runnable() {
+						General.UI_THREAD_HANDLER.post(new Runnable() {
 							public void run() {
 
 								if(cancelled.get()) return; // safe, since we're in the UI thread

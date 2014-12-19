@@ -22,8 +22,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.*;
@@ -192,7 +190,7 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 						@Override
 						public void run() {
 
-							new Handler(Looper.getMainLooper()).post(new Runnable() {
+							General.UI_THREAD_HANDLER.post(new Runnable() {
 								public void run() {
 
 									if(currentUrl == null || url == null) return;

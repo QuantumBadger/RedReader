@@ -19,8 +19,6 @@ package org.quantumbadger.redreader.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.View;
 import org.apache.http.StatusLine;
 import org.holoeverywhere.app.Activity;
@@ -87,18 +85,18 @@ public class UserProfileDialog extends PropertiesDialog {
 			@Override
 			protected void onSuccess(final RedditUser user, long timestamp) {
 
-				new Handler(Looper.getMainLooper()).post(new Runnable() {
+				General.UI_THREAD_HANDLER.post(new Runnable() {
 					public void run() {
 
 						if(!active) return;
 
 						loadingView.setDone(R.string.download_done);
 
-						final LinearLayout karmaLayout = (LinearLayout)getLayoutInflater().inflate(R.layout.karma);
+						final LinearLayout karmaLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.karma);
 						items.addView(karmaLayout);
 
-						final TextView linkKarma = (TextView)karmaLayout.findViewById(R.id.layout_karma_text_link);
-						final TextView commentKarma = (TextView)karmaLayout.findViewById(R.id.layout_karma_text_comment);
+						final TextView linkKarma = (TextView) karmaLayout.findViewById(R.id.layout_karma_text_link);
+						final TextView commentKarma = (TextView) karmaLayout.findViewById(R.id.layout_karma_text_comment);
 
 						linkKarma.setText(String.valueOf(user.link_karma));
 						commentKarma.setText(String.valueOf(user.comment_karma));
@@ -160,7 +158,7 @@ public class UserProfileDialog extends PropertiesDialog {
 			@Override
 			protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
 
-				new Handler(Looper.getMainLooper()).post(new Runnable() {
+				General.UI_THREAD_HANDLER.post(new Runnable() {
 					public void run() {
 
 						if(!active) return;
@@ -176,7 +174,7 @@ public class UserProfileDialog extends PropertiesDialog {
 			@Override
 			protected void onFailure(final APIFailureType type) {
 
-				new Handler(Looper.getMainLooper()).post(new Runnable() {
+				General.UI_THREAD_HANDLER.post(new Runnable() {
 					public void run() {
 
 						if(!active) return;

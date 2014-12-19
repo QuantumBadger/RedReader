@@ -20,8 +20,6 @@ package org.quantumbadger.redreader.fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.View;
 import android.widget.AdapterView;
 import org.holoeverywhere.app.AlertDialog;
@@ -121,7 +119,7 @@ public class SessionListDialog extends DialogFragment implements RedditAccountCh
 	}
 
 	public void onRedditAccountChanged() {
-		new Handler(Looper.getMainLooper()).post(new Runnable() {
+		General.UI_THREAD_HANDLER.post(new Runnable() {
 			public void run() {
 				lv.setAdapter(new SessionListAdapter(getSupportActivity(), url, current));
 			}

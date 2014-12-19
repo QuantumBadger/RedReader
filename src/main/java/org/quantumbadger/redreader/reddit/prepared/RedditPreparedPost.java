@@ -26,8 +26,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Looper;
 import android.text.ClipboardManager;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
@@ -663,7 +661,7 @@ public final class RedditPreparedPost {
 	}
 
 	public void refreshView(final Context context) {
-		new Handler(Looper.getMainLooper()).post(new Runnable() {
+		General.UI_THREAD_HANDLER.post(new Runnable() {
 			public void run() {
 				rebuildSubtitle(context);
 				if(boundView != null) {
@@ -679,7 +677,7 @@ public final class RedditPreparedPost {
 
 		if(RedditAccountManager.getInstance(activity).getDefaultAccount().isAnonymous()) {
 
-			new Handler(Looper.getMainLooper()).post(new Runnable() {
+			General.UI_THREAD_HANDLER.post(new Runnable() {
 				public void run() {
 					Toast.makeText(activity, "You must be logged in to do that.", Toast.LENGTH_SHORT).show();
 				}
@@ -725,7 +723,7 @@ public final class RedditPreparedPost {
 
 						final RRError error = General.getGeneralErrorForFailure(context, type, t, status,
 								"Reddit API action: " + action.toString() + " " + url);
-						new Handler(Looper.getMainLooper()).post(new Runnable() {
+						General.UI_THREAD_HANDLER.post(new Runnable() {
 							public void run() {
 								General.showResultDialog(activity, error);
 							}
@@ -737,7 +735,7 @@ public final class RedditPreparedPost {
 						revertOnFailure();
 
 						final RRError error = General.getGeneralErrorForFailure(context, type);
-						new Handler(Looper.getMainLooper()).post(new Runnable() {
+						General.UI_THREAD_HANDLER.post(new Runnable() {
 							public void run() {
 								General.showResultDialog(activity, error);
 							}

@@ -20,8 +20,6 @@ package org.quantumbadger.redreader.adapters;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -29,6 +27,7 @@ import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.preference.SharedPreferences;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.MainMenuFragment;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
@@ -222,7 +221,7 @@ public class MainMenuAdapter extends BaseAdapter {
 		final ArrayList<String> subscriptionsSorted = new ArrayList<String>(subscriptions);
 		Collections.sort(subscriptionsSorted);
 
-		new Handler(Looper.getMainLooper()).post(new Runnable() {
+		General.UI_THREAD_HANDLER.post(new Runnable() {
 			public void run() {
 
 				subredditItems.clear();

@@ -18,8 +18,6 @@
 package org.quantumbadger.redreader.reddit.api;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
 import org.apache.http.StatusLine;
 import org.holoeverywhere.app.Activity;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -242,7 +240,7 @@ public class RedditSubredditSubscriptionManager {
 			if(t != null) t.printStackTrace();
 
 			final RRError error = General.getGeneralErrorForFailure(context, type, t, status, null);
-			new Handler(Looper.getMainLooper()).post(new Runnable() {
+			General.UI_THREAD_HANDLER.post(new Runnable() {
 				public void run() {
 					General.showResultDialog(activity, error);
 				}
@@ -253,7 +251,7 @@ public class RedditSubredditSubscriptionManager {
 		protected void onFailure(APIFailureType type) {
 			onSubscriptionChangeAttemptFailed(canonicalName);
 			final RRError error = General.getGeneralErrorForFailure(context, type);
-			new Handler(Looper.getMainLooper()).post(new Runnable() {
+			General.UI_THREAD_HANDLER.post(new Runnable() {
 				public void run() {
 					General.showResultDialog(activity, error);
 				}

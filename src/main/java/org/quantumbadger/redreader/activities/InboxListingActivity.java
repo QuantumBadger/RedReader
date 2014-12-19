@@ -189,7 +189,7 @@ public final class InboxListingActivity extends Activity {
 				if(loadingView != null) loadingView.setDone(R.string.download_failed);
 
 				final RRError error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
-				new Handler(Looper.getMainLooper()).post(new Runnable() {
+				General.UI_THREAD_HANDLER.post(new Runnable() {
 					public void run() {
 						notifications.addView(new ErrorView(InboxListingActivity.this, error));
 					}
@@ -213,7 +213,7 @@ public final class InboxListingActivity extends Activity {
 				// TODO pref (currently 10 mins)
 				// TODO xml
 				if(fromCache && RRTime.since(timestamp) > 10 * 60 * 1000) {
-					new Handler(Looper.getMainLooper()).post(new Runnable() {
+					General.UI_THREAD_HANDLER.post(new Runnable() {
 						public void run() {
 							final TextView cacheNotif = new TextView(context);
 							cacheNotif.setText(context.getString(R.string.listing_cached) + RRTime.formatDateTime(timestamp, context));

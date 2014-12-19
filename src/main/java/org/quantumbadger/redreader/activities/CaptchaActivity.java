@@ -21,8 +21,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.View;
@@ -112,7 +110,7 @@ public class CaptchaActivity extends Activity {
 							return;
 						}
 
-						new Handler(Looper.getMainLooper()).post(new Runnable() {
+						General.UI_THREAD_HANDLER.post(new Runnable() {
 							public void run() {
 
 								final LinearLayout ll = new LinearLayout(CaptchaActivity.this);
@@ -120,7 +118,7 @@ public class CaptchaActivity extends Activity {
 
 								final ImageView captchaImg = new ImageView(CaptchaActivity.this);
 								ll.addView(captchaImg);
-								final LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams)captchaImg.getLayoutParams();
+								final LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) captchaImg.getLayoutParams();
 								layoutParams.setMargins(20, 20, 20, 20);
 								layoutParams.height = General.dpToPixels(context, 100);
 								captchaImg.setScaleType(ImageView.ScaleType.FIT_CENTER);
@@ -128,7 +126,7 @@ public class CaptchaActivity extends Activity {
 
 								final EditText captchaText = new EditText(CaptchaActivity.this);
 								ll.addView(captchaText);
-								((LinearLayout.LayoutParams)captchaText.getLayoutParams()).setMargins(20, 0, 20, 20);
+								((LinearLayout.LayoutParams) captchaText.getLayoutParams()).setMargins(20, 0, 20, 20);
 								captchaText.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
 
 								captchaImg.setImageBitmap(image);
@@ -136,9 +134,9 @@ public class CaptchaActivity extends Activity {
 								final Button submitButton = new Button(CaptchaActivity.this);
 								submitButton.setText(R.string.post_captcha_submit_button);
 								ll.addView(submitButton);
-								((LinearLayout.LayoutParams)submitButton.getLayoutParams()).setMargins(20, 0, 20, 20);
-								((LinearLayout.LayoutParams)submitButton.getLayoutParams()).gravity = Gravity.RIGHT;
-								((LinearLayout.LayoutParams)submitButton.getLayoutParams()).width = LinearLayout.LayoutParams.WRAP_CONTENT;
+								((LinearLayout.LayoutParams) submitButton.getLayoutParams()).setMargins(20, 0, 20, 20);
+								((LinearLayout.LayoutParams) submitButton.getLayoutParams()).gravity = Gravity.RIGHT;
+								((LinearLayout.LayoutParams) submitButton.getLayoutParams()).width = LinearLayout.LayoutParams.WRAP_CONTENT;
 
 								submitButton.setOnClickListener(new View.OnClickListener() {
 									public void onClick(View v) {

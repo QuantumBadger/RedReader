@@ -20,8 +20,6 @@ package org.quantumbadger.redreader.reddit.prepared;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.os.Handler;
-import android.os.Looper;
 import android.text.SpannableStringBuilder;
 import android.view.ViewGroup;
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -250,7 +248,7 @@ public final class RedditPreparedComment implements RedditPreparedInboxItem {
 	}
 
 	public void refreshView(final Context context) {
-		new Handler(Looper.getMainLooper()).post(new Runnable() {
+		General.UI_THREAD_HANDLER.post(new Runnable() {
 			public void run() {
 				rebuildHeader(context);
 				if(boundView != null) {
@@ -296,7 +294,7 @@ public final class RedditPreparedComment implements RedditPreparedInboxItem {
 						if(t != null) t.printStackTrace();
 
 						final RRError error = General.getGeneralErrorForFailure(context, type, t, status, null);
-						new Handler(Looper.getMainLooper()).post(new Runnable() {
+						General.UI_THREAD_HANDLER.post(new Runnable() {
 							public void run() {
 								General.showResultDialog(activity, error);
 							}
@@ -308,7 +306,7 @@ public final class RedditPreparedComment implements RedditPreparedInboxItem {
 						revertOnFailure();
 
 						final RRError error = General.getGeneralErrorForFailure(context, type);
-						new Handler(Looper.getMainLooper()).post(new Runnable() {
+						General.UI_THREAD_HANDLER.post(new Runnable() {
 							public void run() {
 								General.showResultDialog(activity, error);
 							}

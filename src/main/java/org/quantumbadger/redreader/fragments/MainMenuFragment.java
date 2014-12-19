@@ -19,8 +19,6 @@ package org.quantumbadger.redreader.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -166,7 +164,7 @@ public class MainMenuFragment extends Fragment implements MainMenuSelectionListe
 
 	private void onError(final RRError error) {
 		if(loadingView != null) loadingView.setDone(R.string.download_failed);
-		new Handler(Looper.getMainLooper()).post(new Runnable() {
+		General.UI_THREAD_HANDLER.post(new Runnable() {
 			public void run() {
 				notifications.addView(new ErrorView(getSupportActivity(), error));
 			}

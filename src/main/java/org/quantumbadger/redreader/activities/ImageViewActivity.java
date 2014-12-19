@@ -34,6 +34,7 @@ import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.preference.SharedPreferences;
 import org.holoeverywhere.widget.FrameLayout;
 import org.holoeverywhere.widget.LinearLayout;
+import org.holoeverywhere.widget.ProgressBar;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -52,7 +53,6 @@ import org.quantumbadger.redreader.views.glview.RRGLSurfaceView;
 import org.quantumbadger.redreader.views.imageview.ImageTileSource;
 import org.quantumbadger.redreader.views.imageview.ImageViewDisplayListManager;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
-import org.quantumbadger.redreader.views.liststatus.LoadingView;
 
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -100,11 +100,11 @@ public class ImageViewActivity extends Activity implements RedditPostView.PostSe
 			return;
 		}
 
-		final LoadingView loadingView = new LoadingView(this, R.string.download_loading, true, false);
+		final ProgressBar progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
 
 		final LinearLayout layout = new LinearLayout(this);
 		layout.setOrientation(LinearLayout.VERTICAL);
-		layout.addView(loadingView);
+		layout.addView(progressBar);
 
 		CacheManager.getInstance(this).makeRequest(
 				new CacheRequest(
@@ -131,31 +131,42 @@ public class ImageViewActivity extends Activity implements RedditPostView.PostSe
 
 					@Override
 					protected void onDownloadNecessary() {
-						loadingView.setIndeterminate(R.string.download_waiting);
+						General.UI_THREAD_HANDLER.post(new Runnable() {
+							@Override
+							public void run() {
+								progressBar.setVisibility(View.VISIBLE);
+								progressBar.setIndeterminate(true);
+							}
+						});
 					}
 
 					@Override
-					protected void onDownloadStarted() {
-						loadingView.setIndeterminate(R.string.download_downloading);
-					}
+					protected void onDownloadStarted() {}
 
 					@Override
 					protected void onFailure(final RequestFailureType type, Throwable t, StatusLine status, final String readableMessage) {
 
-						loadingView.setDone(R.string.download_failed);
 						final RRError error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
 
 						General.UI_THREAD_HANDLER.post(new Runnable() {
 							public void run() {
 								// TODO handle properly
+								progressBar.setVisibility(View.GONE);
 								layout.addView(new ErrorView(ImageViewActivity.this, error));
 							}
 						});
 					}
 
 					@Override
-					protected void onProgress(long bytesRead, long totalBytes) {
-						loadingView.setProgress(R.string.download_downloading, (float)((double)bytesRead / (double)totalBytes));
+					protected void onProgress(final long bytesRead, final long totalBytes) {
+						General.UI_THREAD_HANDLER.post(new Runnable() {
+							@Override
+							public void run() {
+								progressBar.setVisibility(View.VISIBLE);
+								progressBar.setIndeterminate(false);
+								progressBar.setProgress((int) ((100 * bytesRead) / totalBytes));
+							}
+						});
 					}
 
 					@Override

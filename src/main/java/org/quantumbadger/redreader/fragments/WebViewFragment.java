@@ -30,6 +30,7 @@ import android.webkit.*;
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.Fragment;
 import org.holoeverywhere.widget.FrameLayout;
+import org.holoeverywhere.widget.ProgressBar;
 import org.holoeverywhere.widget.Toast;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -44,7 +45,6 @@ import org.quantumbadger.redreader.views.RedditPostView;
 import org.quantumbadger.redreader.views.WebViewFixed;
 import org.quantumbadger.redreader.views.bezelmenu.BezelSwipeOverlay;
 import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
-import org.quantumbadger.redreader.views.liststatus.LoadingView;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -57,7 +57,7 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 	private volatile int lastBackDepthAttempt;
 
 	private WebViewFixed webView;
-	private LoadingView loadingView;
+	private ProgressBar progressView;
 	private FrameLayout outer;
 
 	public static WebViewFragment newInstance(final String url, final RedditPost post) {
@@ -109,8 +109,9 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 		webView = (WebViewFixed)outer.findViewById(R.id.web_view_fragment_webviewfixed);
 		final FrameLayout loadingViewFrame = (FrameLayout)outer.findViewById(R.id.web_view_fragment_loadingview_frame);
 
-		loadingView = new LoadingView(context);
-		loadingViewFrame.addView(loadingView);
+		progressView = new ProgressBar(context, null, android.R.attr.progressBarStyleHorizontal);
+		loadingViewFrame.addView(progressView);
+		loadingViewFrame.setPadding(General.dpToPixels(context, 10), 0,  General.dpToPixels(context, 10), 0);
 
 		final WebSettings settings = webView.getSettings();
 
@@ -129,12 +130,17 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 
 		webView.setWebChromeClient(new WebChromeClient() {
 			@Override
-			public void onProgressChanged(WebView view, int newProgress) {
+			public void onProgressChanged(WebView view, final int newProgress) {
 
 				super.onProgressChanged(view, newProgress);
 
-				loadingView.setProgress(R.string.download_downloading, (float)newProgress / 100.0f);
-				loadingView.setVisibility(newProgress == 100 ? View.GONE : View.VISIBLE);
+				General.UI_THREAD_HANDLER.post(new Runnable() {
+					@Override
+					public void run() {
+						progressView.setProgress(newProgress);
+						progressView.setVisibility(newProgress == 100 ? View.GONE : View.VISIBLE);
+					}
+				});
 			}
 		});
 

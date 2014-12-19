@@ -28,8 +28,8 @@
                         holo:defaultValue="red"/>
 
         <CheckBoxPreference holo:title="@string/pref_appearance_solidblack_title"
-                            holo:key="@string/pref_appearance_solidblack_key"
-                            holo:defaultValue="false"/>
+                            holo:key="@string/pref_appearance_solidblack_2_key"
+                            holo:defaultValue="true"/>
 
     </PreferenceCategory>
 

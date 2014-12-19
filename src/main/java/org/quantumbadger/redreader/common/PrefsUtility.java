@@ -57,7 +57,7 @@ public final class PrefsUtility {
 	public static boolean isReLayoutRequired(final Context context, final String key) {
 		return context.getString(R.string.pref_appearance_twopane_key).equals(key)
 				|| context.getString(R.string.pref_appearance_theme_key).equals(key)
-				|| context.getString(R.string.pref_appearance_solidblack_key).equals(key)
+				|| context.getString(R.string.pref_appearance_solidblack_2_key).equals(key)
 				|| context.getString(R.string.pref_menus_mainmenu_useritems_key).equals(key);
 	}
 
@@ -71,7 +71,7 @@ public final class PrefsUtility {
 
 	public static boolean isRestartRequired(Context context, String key) {
 		return context.getString(R.string.pref_appearance_theme_key).equals(key)
-				|| context.getString(R.string.pref_appearance_solidblack_key).equals(key)
+				|| context.getString(R.string.pref_appearance_solidblack_2_key).equals(key)
 				|| context.getString(R.string.pref_appearance_langforce_key).equals(key);
 	}
 
@@ -153,7 +153,7 @@ public final class PrefsUtility {
 	}
 
 	public static boolean appearance_solidblack(final Context context, final SharedPreferences sharedPreferences) {
-		return getBoolean(R.string.pref_appearance_solidblack_key, false, context, sharedPreferences);
+		return getBoolean(R.string.pref_appearance_solidblack_2_key, true, context, sharedPreferences);
 	}
 
 	public static enum AppearanceThumbnailsShow {

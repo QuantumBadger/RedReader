@@ -54,7 +54,6 @@ Thanks to /u/balducien and /u/andiho for this translation!
     <string name="pref_appearance_theme_key">pref_appearance_theme</string>
     <string name="pref_appearance_theme_title">Design</string>
 
-    <string name="pref_appearance_solidblack_key">pref_appearance_solidblack</string>
     <string name="pref_appearance_solidblack_title">Echtes Schwarz im Nachtmodus</string>
 
     <string name="pref_appearance_fontscale_posts_key">pref_appearance_fontscale_posts</string>

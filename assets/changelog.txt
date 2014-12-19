@@ -10,6 +10,7 @@ Double-tap-and-drag to zoom supported in image view
 Status bar is now hidden in the image view
 Show default subreddits to anonymous users (rather than most popular)
 Got rid of the red icon in night mode
+Performance improvements
 
 53/1.8.6.5
 Added asterisk next to edited comments

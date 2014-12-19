@@ -19,16 +19,8 @@ package org.quantumbadger.redreader.views.liststatus;
 
 import android.content.Context;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.Transformation;
 import org.holoeverywhere.widget.FrameLayout;
-import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.views.list.RRTouchable;
-
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 public class StatusListItemView extends FrameLayout implements RRTouchable {
 
@@ -37,9 +29,7 @@ public class StatusListItemView extends FrameLayout implements RRTouchable {
 	private View contents = null;
 
 	public StatusListItemView(final Context context) {
-
 		super(context);
-
 		dpScale = context.getResources().getDisplayMetrics().density; // TODO xml?
 	}
 
@@ -51,54 +41,11 @@ public class StatusListItemView extends FrameLayout implements RRTouchable {
 
 	public void hideNoAnim() {
 
-		clearAnimation();
 		setVisibility(GONE);
 		removeAllViews();
 		contents = null;
 
 		requestLayout();
-	}
-
-	public void hide(final long initialDelay) {
-
-		if(contents == null) return;
-
-		final long heightAnimMs = 500;
-
-		//AlphaAnimation alphaAnim = new AlphaAnimation(0);
-		//alphaAnim.setDuration(500);
-		//alphaAnim.setStartOffset(initialDelay);
-
-		final HeightAnimation heightAnim = new HeightAnimation(0);
-		heightAnim.setDuration(heightAnimMs);
-		heightAnim.setStartOffset(initialDelay);
-
-		//AnimationSet anim = new AnimationSet(false);
-
-		//anim.addAnimation(alphaAnim);
-		//anim.addAnimation(heightAnim);
-
-		//startAnimation(anim);
-		startAnimation(heightAnim);
-
-		Executors.newSingleThreadScheduledExecutor().schedule(new Runnable() {
-			public void run() {
-				General.UI_THREAD_HANDLER.post(new Runnable() {
-					public void run() {
-						clearAnimation();
-						setVisibility(GONE);
-						removeAllViews();
-
-						if(contents != null) {
-							((LayoutParams) contents.getLayoutParams()).height = 0;
-							contents = null;
-						}
-
-						requestLayout();
-					}
-				});
-			}
-		}, initialDelay + heightAnimMs, TimeUnit.MILLISECONDS);
 	}
 
 	public void rrOnClick(final int x, final int y) {}
@@ -109,45 +56,5 @@ public class StatusListItemView extends FrameLayout implements RRTouchable {
 
 	public boolean rrAllowLongClick() {
 		return false;
-	}
-
-	private class HeightAnimation extends Animation {
-
-		private final int startHeight, endHeight;
-
-		private final LayoutParams layoutParams = (LayoutParams)contents.getLayoutParams();
-
-		public HeightAnimation(final int endHeight) {
-			setInterpolator(new AccelerateDecelerateInterpolator());
-			startHeight = getHeight();
-			this.endHeight = endHeight;
-		}
-
-		@Override
-		protected void applyTransformation(final float interpolatedTime, final Transformation t) {
-			layoutParams.height = (int)(startHeight + ((endHeight - startHeight) * interpolatedTime));
-			requestLayout();
-		}
-
-		@Override
-		public boolean willChangeBounds() {
-			return true;
-		}
-	}
-
-	private class AlphaAnimation extends Animation {
-
-		private final float startAlpha, endAlpha;
-
-		public AlphaAnimation(final int endAlpha) {
-			setInterpolator(new AccelerateInterpolator());
-			startAlpha = getAlpha();
-			this.endAlpha = endAlpha;
-		}
-
-		@Override
-		protected void applyTransformation(final float interpolatedTime, final Transformation t) {
-			setAlpha(startAlpha + ((endAlpha - startAlpha) * interpolatedTime));
-		}
 	}
 }

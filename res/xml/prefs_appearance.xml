@@ -107,12 +107,4 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory holo:title="@string/pref_appearance_other_header">
-
-        <CheckBoxPreference holo:title="@string/pref_appearance_loading_detail_title"
-                        holo:key="@string/pref_appearance_loading_detail_key"
-                        holo:defaultValue="false"/>
-
-    </PreferenceCategory>
-
 </PreferenceScreen>

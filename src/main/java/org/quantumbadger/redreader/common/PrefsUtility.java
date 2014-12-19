@@ -191,10 +191,6 @@ public final class PrefsUtility {
 		return getBoolean(R.string.pref_appearance_indentlines_key, false, context, sharedPreferences);
 	}
 
-	public static boolean appearance_loading_detail(final Context context, final SharedPreferences sharedPreferences) {
-		return getBoolean(R.string.pref_appearance_loading_detail_key, false, context, sharedPreferences);
-	}
-
 	public static enum AppearanceCommentHeaderItems {
 		AUTHOR, FLAIR, SCORE, AGE, GOLD
 	}

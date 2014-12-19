@@ -439,7 +439,7 @@ public class CommentListingFragment extends Fragment
 
 	@Override
 	public void onCommentListingRequestFailure(final RRError error) {
-		loadingView.setDoneNoAnim(R.string.download_failed);
+		loadingView.setDone(R.string.download_failed);
 		notifications.addView(new ErrorView(getSupportActivity(), error));
 	}
 
@@ -517,7 +517,7 @@ public class CommentListingFragment extends Fragment
 
 		if(mUrlsToDownload.isEmpty()) {
 
-			loadingView.setDoneNoAnim(R.string.download_done);
+			loadingView.setDone(R.string.download_done);
 			if(loadingViewIsAdded) {
 				listFooter.removeView(loadingView);
 			}

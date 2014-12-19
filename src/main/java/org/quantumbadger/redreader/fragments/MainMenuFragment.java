@@ -24,7 +24,6 @@ import android.os.Looper;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import org.apache.http.StatusLine;
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.Fragment;
 import org.holoeverywhere.widget.LinearLayout;
@@ -32,26 +31,20 @@ import org.holoeverywhere.widget.ListView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.adapters.MainMenuAdapter;
 import org.quantumbadger.redreader.adapters.MainMenuSelectionListener;
-import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
-import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.api.SubredditRequestFailure;
-import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.url.PostListingURL;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
 import org.quantumbadger.redreader.views.liststatus.LoadingView;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class MainMenuFragment extends Fragment implements MainMenuSelectionListener, RedditSubredditSubscriptionManager.SubredditSubscriptionStateChangeListener {
 
@@ -126,53 +119,10 @@ public class MainMenuFragment extends Fragment implements MainMenuSelectionListe
 			}
 		});
 
-		final AtomicReference<APIResponseHandler.SubredditResponseHandler> accessibleSubredditResponseHandler = new AtomicReference<APIResponseHandler.SubredditResponseHandler>(null);
-
-		final APIResponseHandler.SubredditResponseHandler responseHandler = new APIResponseHandler.SubredditResponseHandler(context) {
-
-			@Override
-			protected void onDownloadNecessary() {
-
-			}
-
-			@Override
-			protected void onDownloadStarted() {
-				loadingView.setIndeterminate(R.string.download_subreddits);
-			}
-
-			@Override
-			protected void onSuccess(final List<RedditSubreddit> result, final long timestamp) {
-
-
-			}
-
-			@Override
-			protected void onCallbackException(final Throwable t) {
-				BugReportActivity.handleGlobalError(context, t);
-			}
-
-			@Override
-			protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
-
-				if(loadingView != null) loadingView.setDone(R.string.download_failed);
-				final RRError error = General.getGeneralErrorForFailure(context, type, t, status, null);
-
-				new Handler(Looper.getMainLooper()).post(new Runnable() {
-					public void run() {
-						notifications.addView(new ErrorView(getSupportActivity(), error));
-					}
-				});
-			}
-
-			@Override
-			protected void onFailure(final APIFailureType type) {
-				onError(General.getGeneralErrorForFailure(context, type));
-			}
-		};
-
-		new Handler(Looper.getMainLooper()).post(new Runnable() {
+		General.UI_THREAD_HANDLER.post(new Runnable() {
 			public void run() {
 				notifications.addView(loadingView);
+				loadingView.setIndeterminate(R.string.download_subreddits);
 			}
 		});
 

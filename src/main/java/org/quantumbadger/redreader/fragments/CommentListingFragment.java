@@ -675,7 +675,11 @@ public class CommentListingFragment extends Fragment
 				break;
 
 			case COLLAPSE:
-				if(comment.getBoundView() != null) handleCommentVisibilityToggle(comment.getBoundView());
+				if(comment.getBoundView() != null) {
+					handleCommentVisibilityToggle(comment.getBoundView());
+				} else {
+					General.quickToast(getSupportActivity(), "Error: Comment is no longer visible.");
+				}
 				break;
 
 			case USER_PROFILE:

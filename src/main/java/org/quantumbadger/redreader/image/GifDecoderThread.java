@@ -109,7 +109,7 @@ public class GifDecoderThread extends Thread {
 
 				final Bitmap img = decoder.getFrame(frame);
 
-				final Message msg = new Message();
+				final Message msg = Message.obtain();
 				msg.obj = img;
 				handler.sendMessage(msg);
 

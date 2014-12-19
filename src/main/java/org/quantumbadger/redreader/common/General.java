@@ -73,7 +73,7 @@ public final class General {
 	}
 
 	public static Message handlerMessage(int what, Object obj) {
-		final Message msg = new Message();
+		final Message msg = Message.obtain();
 		msg.what = what;
 		msg.obj = obj;
 		return msg;

@@ -379,7 +379,7 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 	}
 
 	public void betterThumbnailAvailable(final Bitmap thumbnail, final int callbackUsageId) {
-		final Message msg = new Message();
+		final Message msg = Message.obtain();
 		msg.obj = thumbnail;
 		msg.what = callbackUsageId;
 		thumbnailHandler.sendMessage(msg);

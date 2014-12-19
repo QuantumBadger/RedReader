@@ -424,12 +424,17 @@ public class CommentListingFragment extends Fragment
 			listFooter.addView(loadingView);
 			outerAdapter.notifyDataSetChanged();
 			loadingViewIsAdded = true;
+			loadingView.setIndeterminate(getSupportActivity().getString(R.string.download_waiting));
 		}
 	}
 
 	@Override
 	public void onCommentListingRequestDownloadStarted() {
-		loadingView.setIndeterminate(getSupportActivity().getString(R.string.download_connecting));
+		if(mAllUrls.size() > 1) {
+			loadingView.setIndeterminate(getSupportActivity().getString(R.string.download_downloading));
+		} else {
+			loadingView.setIndeterminate(getSupportActivity().getString(R.string.download_connecting));
+		}
 	}
 
 	@Override
@@ -440,7 +445,7 @@ public class CommentListingFragment extends Fragment
 	@Override
 	public void onCommentListingRequestFailure(final RRError error) {
 		loadingView.setDone(R.string.download_failed);
-		notifications.addView(new ErrorView(getSupportActivity(), error));
+		listFooter.addView(new ErrorView(getSupportActivity(), error));
 	}
 
 	@Override

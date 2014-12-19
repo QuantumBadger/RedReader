@@ -577,7 +577,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 
 						final boolean downloadThisThumbnail = downloadThumbnails && (!post.over_18 || showNsfwThumbnails);
 
-						final RedditPreparedPost preparedPost = new RedditPreparedPost(context, cm, postCount, post, timestamp, showSubredditName, needsChanging.contains(post.name), downloadThisThumbnail, precacheImages, user);
+						final RedditPreparedPost preparedPost = new RedditPreparedPost(context, cm, postCount, post, timestamp, showSubredditName, needsChanging.contains(post.name), downloadThisThumbnail, precacheImages, user, false);
 						adapter.onPostDownloaded(preparedPost);
 					}
 

@@ -102,7 +102,7 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 		final RedditPost src_post = getArguments().getParcelable("post");
 		final RedditPreparedPost post = src_post == null ? null
 				: new RedditPreparedPost(context, CacheManager.getInstance(context), 0, src_post, -1, false,
-				false, false, false, RedditAccountManager.getInstance(context).getDefaultAccount());
+				false, false, false, RedditAccountManager.getInstance(context).getDefaultAccount(), false);
 
 		webView = (WebViewFixed)outer.findViewById(R.id.web_view_fragment_webviewfixed);
 		final FrameLayout loadingViewFrame = (FrameLayout)outer.findViewById(R.id.web_view_fragment_loadingview_frame);

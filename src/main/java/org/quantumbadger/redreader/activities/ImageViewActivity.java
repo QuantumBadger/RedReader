@@ -292,7 +292,7 @@ public class ImageViewActivity extends Activity implements RedditPostView.PostSe
 
 		final RedditPreparedPost post = src_post == null ? null
 				: new RedditPreparedPost(this, CacheManager.getInstance(this), 0, src_post, -1, false,
-				false, false, false, RedditAccountManager.getInstance(this).getDefaultAccount());
+				false, false, false, RedditAccountManager.getInstance(this).getDefaultAccount(), false);
 
 		final FrameLayout outerFrame = new FrameLayout(this);
 		outerFrame.addView(layout);

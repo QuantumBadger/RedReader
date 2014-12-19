@@ -51,6 +51,7 @@ public class CommentListingRequest {
 	public CommentListingRequest(
 			final Context context,
 			final EnumSet<PrefsUtility.AppearanceCommentHeaderItems> commentHeaderItems,
+			final boolean parsePostSelfText,
 			final RedditURLParser.RedditURL url,
 			final RedditAccount user,
 			final UUID session,
@@ -59,6 +60,7 @@ public class CommentListingRequest {
 
 		mContext = context;
 		mCommentHeaderItems = commentHeaderItems;
+		mParsePostSelfText = parsePostSelfText;
 		mUrl = url;
 		mUser = user;
 		mSession = session;
@@ -147,6 +149,7 @@ public class CommentListingRequest {
 
 	private final Context mContext;
 	private final EnumSet<PrefsUtility.AppearanceCommentHeaderItems> mCommentHeaderItems;
+	private final boolean mParsePostSelfText;
 	private final CacheManager mCacheManager;
 	private final RedditURLParser.RedditURL mUrl;
 	private final RedditAccount mUser;
@@ -232,7 +235,8 @@ public class CommentListingRequest {
 							false,
 							false,
 							false,
-							user);
+							user,
+							true);
 
 					notifyListener(Event.EVENT_POST_DOWNLOADED, preparedPost);
 				}

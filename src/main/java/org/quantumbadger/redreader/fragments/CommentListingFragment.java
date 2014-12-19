@@ -318,6 +318,7 @@ public class CommentListingFragment extends Fragment
 			new CommentListingRequest(
 					context,
 					headerItems,
+					mAllUrls.size() == 1,
 					mUrlsToDownload.removeFirst(),
 					mUser,
 					session,

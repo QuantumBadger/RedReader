@@ -106,7 +106,8 @@ public final class RedditPreparedPost {
 	// TODO too many parameters
 	public RedditPreparedPost(final Context context, final CacheManager cm, final int listId, final RedditPost post,
 							  final long timestamp, final boolean showSubreddit, final boolean updateNeeded,
-							  final boolean showThumbnails, final boolean precacheImages, final RedditAccount user) {
+							  final boolean showThumbnails, final boolean precacheImages, final RedditAccount user,
+							  final boolean parseSelfText) {
 
 		this.src = post;
 		this.showSubreddit = showSubreddit;
@@ -158,7 +159,7 @@ public final class RedditPreparedPost {
 
 		rebuildSubtitle(context);
 
-		if(src.is_self && src.selftext != null && src.selftext.trim().length() > 0) {
+		if(parseSelfText && src.is_self && src.selftext != null && src.selftext.trim().length() > 0) {
 			parsedSelfText = MarkdownParser.parse(StringEscapeUtils.unescapeHtml4(post.selftext).toCharArray());
 		} else {
 			parsedSelfText = null;

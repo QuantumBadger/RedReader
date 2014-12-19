@@ -87,6 +87,7 @@
 
     <style name="RR.Startup" parent="RR.Dark">
         <item name="android:actionBarStyle" tools:targetApi="11">@style/RR.Startup.ActionBarStyle</item>
+        <item name="android:windowBackground">@color/darkWindowBackground</item>
     </style>
 
     <style name="RR.Light.DarkActionBar" parent="Holo.Theme.Light">

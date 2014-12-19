@@ -62,7 +62,7 @@ public final class PostListingAdapter extends BaseAdapter {
 			updatePosts();
 
 		} else if(!postUpdateQueued) {
-			postAddedHandler.postDelayed(updatePostsRunnable, 400);
+			postAddedHandler.postDelayed(updatePostsRunnable, 1000);
 			postUpdateQueued = true;
 		}
 	}

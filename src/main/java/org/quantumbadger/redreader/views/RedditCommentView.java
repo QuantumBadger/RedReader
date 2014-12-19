@@ -94,9 +94,13 @@ public class RedditCommentView extends LinearLayout {
 
 	public void reset(final Activity activity, final RedditPreparedComment comment, final int indent) {
 
-		if(this.mComment != null) this.mComment.unbind(this);
+		if(comment == mComment) {
+			return;
+		}
 
-		this.mComment = comment;
+		if(mComment != null) mComment.unbind(this);
+
+		mComment = comment;
 		comment.bind(this);
 
 		mIndentView.setIndentation(indent);

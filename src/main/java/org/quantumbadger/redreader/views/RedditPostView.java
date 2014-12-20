@@ -42,6 +42,7 @@ import org.quantumbadger.redreader.views.list.SwipableListItemView;
 
 public final class RedditPostView extends SwipableListItemView implements RedditPreparedPost.ThumbnailLoadedCallback {
 
+	private final ListView mListView;
 	private final float dpScale;
 
 	private RedditPreparedPost post = null;
@@ -228,6 +229,7 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 
 		super(context, listParent);
 		this.fragmentParent = fragmentParent;
+		mListView = listParent;
 
 		offsetBeginAllowed = General.dpToPixels(context, 50);
 		offsetActionPerformed = General.dpToPixels(context, 150);
@@ -238,6 +240,7 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 				if(usageId != msg.what) return;
 				thumbnailView.setImageBitmap((Bitmap)msg.obj);
 				invalidate(); // TODO is this necessary?
+				mListView.invalidateViews();
 			}
 		};
 

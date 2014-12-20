@@ -657,6 +657,7 @@ public final class RedditPreparedPost {
 
 	public void markAsRead(final Context context) {
 		setRead(true);
+		refreshView(context);
 		final RedditAccount user = RedditAccountManager.getInstance(context).getDefaultAccount();
 		RedditChangeDataManager.getInstance(context).update("posts", user, RedditPreparedPost.this, true);
 	}

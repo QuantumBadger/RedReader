@@ -65,10 +65,6 @@ public final class LoadingView extends StatusListItemView {
 		sendMessage(getContext().getString(textRes), LOADING_DONE);
 	}
 
-	public void setIndeterminate(final String text) {
-		sendMessage(text, LOADING_INDETERMINATE);
-	}
-
 	private void sendMessage(final String text, final int what) {
 		final Message msg = Message.obtain();
 		msg.obj = text;

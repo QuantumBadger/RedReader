@@ -425,16 +425,16 @@ public class CommentListingFragment extends Fragment
 			listFooter.addView(loadingView);
 			outerAdapter.notifyDataSetChanged();
 			loadingViewIsAdded = true;
-			loadingView.setIndeterminate(getSupportActivity().getString(R.string.download_waiting));
+			loadingView.setIndeterminate(R.string.download_waiting);
 		}
 	}
 
 	@Override
 	public void onCommentListingRequestDownloadStarted() {
 		if(mAllUrls.size() > 1) {
-			loadingView.setIndeterminate(getSupportActivity().getString(R.string.download_downloading));
+			loadingView.setIndeterminate(R.string.download_downloading);
 		} else {
-			loadingView.setIndeterminate(getSupportActivity().getString(R.string.download_connecting));
+			loadingView.setIndeterminate(R.string.download_connecting);
 		}
 	}
 
@@ -470,6 +470,11 @@ public class CommentListingFragment extends Fragment
 
 			isCachedNotifShown = true;
 		}
+	}
+
+	@Override
+	public void onCommentListingRequestParseStart() {
+		loadingView.setIndeterminate(R.string.download_loading);
 	}
 
 	@Override
@@ -523,8 +528,8 @@ public class CommentListingFragment extends Fragment
 
 		if(mUrlsToDownload.isEmpty()) {
 
-			loadingView.setDone(R.string.download_done);
 			if(loadingViewIsAdded) {
+				loadingView.setDone(R.string.download_done);
 				listFooter.removeView(loadingView);
 			}
 

@@ -78,6 +78,7 @@ public class CommentListingRequest {
 		EVENT_EXCEPTION,
 		EVENT_FAILURE,
 		EVENT_CACHED_COPY,
+		EVENT_PARSE_START,
 		EVENT_POST_DOWNLOADED,
 		EVENT_ITEM_DOWNLOADED,
 		EVENT_COMPLETE
@@ -93,6 +94,7 @@ public class CommentListingRequest {
 		public void onCommentListingRequestException(Throwable t);
 		public void onCommentListingRequestFailure(RRError error);
 		public void onCommentListingRequestCachedCopy(long timestamp);
+		public void onCommentListingRequestParseStart();
 		public void onCommentListingRequestPostDownloaded(RedditPreparedPost post);
 		public void onCommentListingRequestItemDownloaded(RedditCommentListItem item);
 		public void onCommentListingRequestComplete();
@@ -127,6 +129,10 @@ public class CommentListingRequest {
 
 				case EVENT_CACHED_COPY:
 					mListener.onCommentListingRequestCachedCopy((Long)msg.obj);
+					break;
+
+				case EVENT_PARSE_START:
+					mListener.onCommentListingRequestParseStart();
 					break;
 
 				case EVENT_POST_DOWNLOADED:
@@ -213,6 +219,8 @@ public class CommentListingRequest {
 				notifyListener(Event.EVENT_CACHED_COPY, timestamp);
 			}
 
+			notifyListener(Event.EVENT_PARSE_START);
+
 			try {
 				// Download main post
 				if(value.getType() == JsonValue.Type.ARRAY) {
@@ -236,7 +244,7 @@ public class CommentListingRequest {
 							false,
 							false,
 							user,
-							true);
+							mParsePostSelfText);
 
 					notifyListener(Event.EVENT_POST_DOWNLOADED, preparedPost);
 				}

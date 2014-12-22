@@ -301,10 +301,6 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 	// Only run in the UI thread
 	public void reset(final RedditPreparedPost data) {
 
-		if(post == data) {
-			return;
-		}
-
 		usageId++;
 
 		super.reset();

@@ -586,25 +586,28 @@ public final class RedditPreparedPost {
 				if(gotHighResThumb && !highRes) return;
 				try {
 
-					BitmapFactory.Options justDecodeBounds = new BitmapFactory.Options();
-					justDecodeBounds.inJustDecodeBounds = true;
-					BitmapFactory.decodeStream(cacheFile.getInputStream(), null, justDecodeBounds);
-					final int width = justDecodeBounds.outWidth;
-					final int height = justDecodeBounds.outHeight;
+					synchronized(singleImageDecodeLock) {
 
-					int factor = 1;
+						BitmapFactory.Options justDecodeBounds = new BitmapFactory.Options();
+						justDecodeBounds.inJustDecodeBounds = true;
+						BitmapFactory.decodeStream(cacheFile.getInputStream(), null, justDecodeBounds);
+						final int width = justDecodeBounds.outWidth;
+						final int height = justDecodeBounds.outHeight;
 
-					while(width / (factor + 1) > widthPixels
-							&& height / (factor + 1) > widthPixels) factor *= 2;
+						int factor = 1;
 
-					BitmapFactory.Options scaledOptions = new BitmapFactory.Options();
-					scaledOptions.inSampleSize = factor;
+						while(width / (factor + 1) > widthPixels
+								&& height / (factor + 1) > widthPixels) factor *= 2;
 
-					final Bitmap data = BitmapFactory.decodeStream(cacheFile.getInputStream(), null, scaledOptions);
+						BitmapFactory.Options scaledOptions = new BitmapFactory.Options();
+						scaledOptions.inSampleSize = factor;
 
-					if(data == null) return;
-					thumbnailCache = ThumbnailScaler.scale(data, widthPixels);
-					if(thumbnailCache != data) data.recycle();
+						final Bitmap data = BitmapFactory.decodeStream(cacheFile.getInputStream(), null, scaledOptions);
+
+						if(data == null) return;
+						thumbnailCache = ThumbnailScaler.scale(data, widthPixels);
+						if(thumbnailCache != data) data.recycle();
+					}
 
 					if(highRes) gotHighResThumb = true;
 

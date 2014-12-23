@@ -7,7 +7,6 @@ Notifications for new inbox messages/comment replies (thanks to NoNeedToBail)
 Image view now shows all images at full resolution
 Double-tap to zoom supported in image view
 Double-tap-and-drag to zoom supported in image view
-Status bar is now hidden in the image view
 Show default subreddits to anonymous users (rather than most popular)
 Got rid of the red icon in night mode
 Lots of performance improvements

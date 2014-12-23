@@ -26,7 +26,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import org.apache.http.StatusLine;
 import org.holoeverywhere.app.Activity;
@@ -76,8 +75,6 @@ public class ImageViewActivity extends Activity implements RedditPostView.PostSe
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
-
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		final boolean solidblack = PrefsUtility.appearance_solidblack(this, sharedPreferences);

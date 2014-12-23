@@ -247,6 +247,8 @@ public class CommentListingRequest {
 							mParsePostSelfText);
 
 					notifyListener(Event.EVENT_POST_DOWNLOADED, preparedPost);
+
+					mParentPost = preparedPost;
 				}
 
 				// Download comments

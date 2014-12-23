@@ -725,7 +725,7 @@ public class CommentListingFragment extends Fragment
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		if(mAllUrls.size() > 0 && mAllUrls.get(0).pathType() == RedditURLParser.PathType.PostCommentListingURL) {
+		if(mAllUrls != null && mAllUrls.size() > 0 && mAllUrls.get(0).pathType() == RedditURLParser.PathType.PostCommentListingURL) {
 			menu.add(R.string.action_reply);
 		}
 	}

@@ -116,11 +116,13 @@ public class FingerTracker {
 
 		public void onMove(final MotionEvent event) {
 			final int index = event.findPointerIndex(mAndroidId);
-			mLastPos.set(mCurrentPos);
-			mCurrentPos.set(event, index);
-			mCurrentPos.sub(mLastPos, mPosDifference);
-			mCurrentPos.sub(mStartPos, mTotalPosDifference);
-			mDownDuration = event.getEventTime() - mDownStartTime;
+			if(index >= 0) {
+				mLastPos.set(mCurrentPos);
+				mCurrentPos.set(event, index);
+				mCurrentPos.sub(mLastPos, mPosDifference);
+				mCurrentPos.sub(mStartPos, mTotalPosDifference);
+				mDownDuration = event.getEventTime() - mDownStartTime;
+			}
 		}
 
 		public void onUp(final MotionEvent event) {

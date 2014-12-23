@@ -41,13 +41,16 @@ public class ImageViewTileLoader {
 
 	private final Runnable mNotifyRunnable;
 
+	private final Object mLock;
+
 	public ImageViewTileLoader(
 			ImageTileSource source,
 			ImageViewTileLoaderThread thread,
 			int x,
 			int y,
 			int sampleSize,
-			Listener listener) {
+			Listener listener,
+			final Object lock) {
 
 		mSource = source;
 		mThread = thread;
@@ -55,6 +58,7 @@ public class ImageViewTileLoader {
 		mY = y;
 		mSampleSize = sampleSize;
 		mListener = listener;
+		mLock = lock;
 
 		mNotifyRunnable = new Runnable() {
 			@Override
@@ -64,7 +68,8 @@ public class ImageViewTileLoader {
 		};
 	}
 
-	public synchronized void markAsWanted() {
+	// Caller must synchronize on mLock
+	public void markAsWanted() {
 
 		if(mWanted) {
 			return;
@@ -80,7 +85,7 @@ public class ImageViewTileLoader {
 
 	public void doPrepare() {
 
-		synchronized(this) {
+		synchronized(mLock) {
 
 			if(!mWanted) {
 				return;
@@ -105,7 +110,7 @@ public class ImageViewTileLoader {
 			return;
 		}
 
-		synchronized(this) {
+		synchronized(mLock) {
 			if(mWanted) {
 				mResult = tile;
 			} else {
@@ -116,16 +121,20 @@ public class ImageViewTileLoader {
 		General.UI_THREAD_HANDLER.post(mNotifyRunnable);
 	}
 
-	public synchronized Bitmap get() {
+	public Bitmap get() {
 
-		if(!mWanted) {
-			throw new RuntimeException("Attempted to get unwanted image!");
+		synchronized(mLock) {
+
+			if(!mWanted) {
+				throw new RuntimeException("Attempted to get unwanted image!");
+			}
+
+			return mResult;
 		}
-
-		return mResult;
 	}
 
-	public synchronized void markAsUnwanted() {
+	// Caller must synchronize on mLock
+	public void markAsUnwanted() {
 
 		mWanted = false;
 
@@ -133,14 +142,6 @@ public class ImageViewTileLoader {
 			mResult.recycle();
 			mResult = null;
 		}
-	}
-
-	public synchronized boolean isWanted() {
-		return mWanted;
-	}
-
-	public synchronized boolean isLoaded() {
-		return mResult != null;
 	}
 
 	private class NotifyOOMRunnable implements Runnable {

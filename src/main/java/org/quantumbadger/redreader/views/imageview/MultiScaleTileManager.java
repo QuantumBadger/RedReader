@@ -27,6 +27,8 @@ public class MultiScaleTileManager {
 
 	private int mDesiredScaleIndex = -1;
 
+	private final Object mLock = new Object();
+
 	public static int scaleIndexToSampleSize(int scaleIndex) {
 		return 1 << scaleIndex;
 	}
@@ -45,31 +47,35 @@ public class MultiScaleTileManager {
 		mTileLoaders = new ImageViewTileLoader[sampleSizeToScaleIndex(MAX_SAMPLE_SIZE) + 1];
 
 		for(int s = 0; s < mTileLoaders.length; s++) {
-			mTileLoaders[s] = new ImageViewTileLoader(imageTileSource, thread, x, y, scaleIndexToSampleSize(s), listener);
+			mTileLoaders[s] = new ImageViewTileLoader(imageTileSource, thread, x, y, scaleIndexToSampleSize(s), listener, mLock);
 		}
 	}
 
-	public synchronized Bitmap getAtDesiredScale() {
+	public Bitmap getAtDesiredScale() {
 		return mTileLoaders[mDesiredScaleIndex].get();
 	}
 
-	public synchronized void markAsWanted(int desiredScaleIndex) {
+	public void markAsWanted(int desiredScaleIndex) {
 
 		if(desiredScaleIndex == mDesiredScaleIndex) {
 			return;
 		}
 
 		mDesiredScaleIndex = desiredScaleIndex;
-		mTileLoaders[desiredScaleIndex].markAsWanted();
 
-		for(int s = 0; s < mTileLoaders.length; s++) {
-			if(s != desiredScaleIndex) {
-				mTileLoaders[s].markAsUnwanted();
+		synchronized(mLock) {
+
+			mTileLoaders[desiredScaleIndex].markAsWanted();
+
+			for(int s = 0; s < mTileLoaders.length; s++) {
+				if(s != desiredScaleIndex) {
+					mTileLoaders[s].markAsUnwanted();
+				}
 			}
 		}
 	}
 
-	public synchronized void markAsUnwanted() {
+	public void markAsUnwanted() {
 
 		if(mDesiredScaleIndex == -1) {
 			return;
@@ -77,8 +83,10 @@ public class MultiScaleTileManager {
 
 		mDesiredScaleIndex = -1;
 
-		for(int s = 0; s < mTileLoaders.length; s++) {
-			mTileLoaders[s].markAsUnwanted();
+		synchronized(mLock) {
+			for(int s = 0; s < mTileLoaders.length; s++) {
+				mTileLoaders[s].markAsUnwanted();
+			}
 		}
 	}
 }

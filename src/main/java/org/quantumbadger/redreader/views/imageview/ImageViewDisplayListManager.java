@@ -239,10 +239,10 @@ public class ImageViewDisplayListManager implements
 						&& y <= lastVisibleTileY + 1;
 
 				if(isTileWanted) {
-					getLoader(x, y).markAsWanted(desiredScaleIndex);
+					mTileLoaders[x][y].markAsWanted(desiredScaleIndex);
 
 				} else {
-					getLoader(x, y).markAsUnwanted();
+					mTileLoaders[x][y].markAsUnwanted();
 					mTileLoaded[x][y] = false;
 				}
 
@@ -250,7 +250,7 @@ public class ImageViewDisplayListManager implements
 
 					if(isTileVisible) {
 
-						final Bitmap tile = getLoader(x, y).getAtDesiredScale();
+						final Bitmap tile = mTileLoaders[x][y].getAtDesiredScale();
 
 						if(tile != null) {
 
@@ -519,10 +519,6 @@ public class ImageViewDisplayListManager implements
 		}
 
 		return result;
-	}
-
-	private MultiScaleTileManager getLoader(int x, int y) {
-		return mTileLoaders[x][y];
 	}
 
 	@Override

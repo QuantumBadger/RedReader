@@ -151,6 +151,8 @@ public class CommentListingFragment extends Fragment
 
 		downloadType = CacheRequest.DownloadType.valueOf(arguments.getString("downloadType"));
 		mUser = RedditAccountManager.getInstance(getSupportActivity()).getDefaultAccount();
+
+		getSupportActivity().invalidateOptionsMenu();
 	}
 
 	public void handleCommentVisibilityToggle(RedditCommentView view) {

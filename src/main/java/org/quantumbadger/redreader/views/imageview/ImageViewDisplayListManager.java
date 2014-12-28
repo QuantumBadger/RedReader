@@ -329,6 +329,10 @@ public class ImageViewDisplayListManager implements
 	@Override
 	public synchronized void onFingersMoved() {
 
+		if(mCurrentTouchState == null) {
+			return;
+		}
+
 		if(mScrollbars == null) {
 			return;
 		}

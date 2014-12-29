@@ -223,8 +223,6 @@ public class ImageViewDisplayListManager implements
 
 		final int desiredScaleIndex = MultiScaleTileManager.sampleSizeToScaleIndex(sampleSize);
 
-		boolean alreadyMadeATextureOnThisFrame = false;
-
 		for(int x = 0; x < mHTileCount; x++) {
 			for(int y = 0; y < mVTileCount; y++) {
 
@@ -240,37 +238,34 @@ public class ImageViewDisplayListManager implements
 						&& x <= lastVisibleTileX + 1
 						&& y <= lastVisibleTileY + 1;
 
-				if(isTileWanted) {
+				if(isTileWanted && !mTileLoaded[x][y]) {
 					mTileLoaders[x][y].markAsWanted(desiredScaleIndex);
 
 				} else {
 					mTileLoaders[x][y].markAsUnwanted();
-					mTileLoaded[x][y] = false;
 				}
 
-				if(!alreadyMadeATextureOnThisFrame && isTileVisible != mTileVisibility[x][y] || !mTileLoaded[x][y]) {
+				if(isTileVisible != mTileVisibility[x][y] || !mTileLoaded[x][y]) {
 
-					if(isTileVisible) {
+					if(isTileVisible && !mTileLoaded[x][y]) {
 
 						final Bitmap tile = mTileLoaders[x][y].getAtDesiredScale();
 
 						if(tile != null) {
 
-							mTileLoaded[x][y] = true;
-
 							try {
 								final RRGLTexture texture = new RRGLTexture(context, tile);
 								mTiles[x][y].setTexture(texture);
 								texture.releaseReference();
-								alreadyMadeATextureOnThisFrame = true;
+								mTileLoaded[x][y] = true;
+								tile.recycle();
 
 							} catch(Exception e) {
 								Log.e("ImageViewDisplayListManager", "Exception when creating texture", e);
-								mTileLoaded[x][y] = false;
 							}
 						}
 
-					} else {
+					} else if(!isTileWanted) {
 						mTiles[x][y].setTexture(mNotLoadedTexture);
 					}
 
@@ -284,6 +279,14 @@ public class ImageViewDisplayListManager implements
 		}
 
 		return mScaleAnimation != null;
+	}
+
+	@Override
+	public void onUIAttach() {}
+
+	@Override
+	public void onUIDetach() {
+		mImageTileSource.dispose();
 	}
 
 	@Override
@@ -414,6 +417,10 @@ public class ImageViewDisplayListManager implements
 		mScrollbars.showBars();
 
 		if(mSpareFingers.remove(finger)) {
+			return;
+		}
+
+		if(mCurrentTouchState == null) {
 			return;
 		}
 

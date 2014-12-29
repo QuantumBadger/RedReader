@@ -29,5 +29,7 @@ public interface ImageTileSource {
 
 	public int getTileSize();
 
-	public abstract Bitmap getTile(int sampleSize, int tileX, int tileY);
+	public Bitmap getTile(int sampleSize, int tileX, int tileY);
+
+	public void dispose();
 }

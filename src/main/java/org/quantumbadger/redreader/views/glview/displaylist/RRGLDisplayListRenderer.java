@@ -36,6 +36,9 @@ public class RRGLDisplayListRenderer implements GLSurfaceView.Renderer, Refresha
 		public void onGLSceneCreate(RRGLDisplayList scene, RRGLContext context, Refreshable refreshable);
 		public void onGLSceneResolutionChange(RRGLDisplayList scene, RRGLContext context, int width, int height);
 		public boolean onGLSceneUpdate(RRGLDisplayList scene, RRGLContext context);
+
+		public void onUIAttach();
+		public void onUIDetach();
 	}
 
 	private float[] mPixelMatrix = new float[16];

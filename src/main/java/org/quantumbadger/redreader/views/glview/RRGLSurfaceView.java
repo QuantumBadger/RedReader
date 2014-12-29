@@ -26,6 +26,7 @@ import org.quantumbadger.redreader.views.imageview.FingerTracker;
 public class RRGLSurfaceView extends GLSurfaceView {
 
 	private final FingerTracker mFingerTracker;
+	private final RRGLDisplayListRenderer.DisplayListManager mDisplayListManager;
 
 	public RRGLSurfaceView(Context context, RRGLDisplayListRenderer.DisplayListManager displayListManager) {
 		super(context);
@@ -36,6 +37,7 @@ public class RRGLSurfaceView extends GLSurfaceView {
 		setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
 
 		mFingerTracker = new FingerTracker(displayListManager);
+		mDisplayListManager = displayListManager;
 	}
 
 	@Override
@@ -43,5 +45,17 @@ public class RRGLSurfaceView extends GLSurfaceView {
 		mFingerTracker.onTouchEvent(event);
 		requestRender();
 		return true;
+	}
+
+	@Override
+	protected void onAttachedToWindow() {
+		super.onAttachedToWindow();
+		mDisplayListManager.onUIAttach();
+	}
+
+	@Override
+	protected void onDetachedFromWindow() {
+		super.onDetachedFromWindow();
+		mDisplayListManager.onUIDetach();
 	}
 }

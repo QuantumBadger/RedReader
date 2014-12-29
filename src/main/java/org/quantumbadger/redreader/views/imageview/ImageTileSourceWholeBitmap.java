@@ -21,28 +21,41 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.util.Log;
 import org.quantumbadger.redreader.common.General;
 
 import java.io.IOException;
 
 public class ImageTileSourceWholeBitmap implements ImageTileSource {
 
-	private Bitmap mBitmap;
+	private final byte[] mData;
+	private Bitmap mBitmap = null;
+
+	private final int mWidth, mHeight;
 
 	private static final int TILE_SIZE = 512;
 
 	public ImageTileSourceWholeBitmap(final byte[] data) throws IOException {
-		mBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+
+		mData = data;
+
+		BitmapFactory.Options opts = new BitmapFactory.Options();
+		opts.inJustDecodeBounds = true;
+
+		final Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+		mWidth = bitmap.getWidth();
+		mHeight = bitmap.getHeight();
+		bitmap.recycle();
 	}
 
 	@Override
 	public int getWidth() {
-		return mBitmap.getWidth();
+		return mWidth;
 	}
 
 	@Override
 	public int getHeight() {
-		return mBitmap.getHeight();
+		return mHeight;
 	}
 
 	@Override
@@ -61,7 +74,12 @@ public class ImageTileSourceWholeBitmap implements ImageTileSource {
 	}
 
 	@Override
-	public Bitmap getTile(final int sampleSize, final int tileX, final int tileY) {
+	public synchronized Bitmap getTile(final int sampleSize, final int tileX, final int tileY) {
+
+		if(mBitmap == null) {
+			Log.i("ImageTileSourceWholeBitmap", "Loading bitmap.");
+			mBitmap = BitmapFactory.decodeByteArray(mData, 0, mData.length);
+		}
 
 		final int tileStartX = tileX * TILE_SIZE;
 		final int tileStartY = tileY * TILE_SIZE;
@@ -110,5 +128,15 @@ public class ImageTileSourceWholeBitmap implements ImageTileSource {
 
 			return tile;
 		}
+	}
+
+	@Override
+	public synchronized void dispose() {
+
+		if(mBitmap != null && !mBitmap.isRecycled()) {
+			mBitmap.recycle();
+		}
+
+		mBitmap = null;
 	}
 }

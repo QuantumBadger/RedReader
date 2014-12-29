@@ -78,4 +78,7 @@ public class ImageTileSourceBitmapRegionDecoder implements ImageTileSource {
 				(tileX + 1) * TILE_SIZE,
 				(tileY + 1) * TILE_SIZE), options);
 	}
+
+	@Override
+	public void dispose() {}
 }

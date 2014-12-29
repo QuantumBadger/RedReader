@@ -21,7 +21,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.opengl.GLSurfaceView;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -49,7 +48,8 @@ import org.quantumbadger.redreader.views.RedditPostView;
 import org.quantumbadger.redreader.views.bezelmenu.BezelSwipeOverlay;
 import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
 import org.quantumbadger.redreader.views.glview.RRGLSurfaceView;
-import org.quantumbadger.redreader.views.imageview.ImageTileSourceBitmapRegionDecoder;
+import org.quantumbadger.redreader.views.imageview.ImageTileSource;
+import org.quantumbadger.redreader.views.imageview.ImageTileSourceWholeBitmap;
 import org.quantumbadger.redreader.views.imageview.ImageViewDisplayListManager;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
 
@@ -88,11 +88,6 @@ public class ImageViewActivity extends Activity implements RedditPostView.PostSe
 
 		if(mUrl == null) {
 			General.quickToast(this, "Invalid URL. Trying web browser.");
-			revertToWeb();
-			return;
-		}
-
-		if(!AndroidApi.isGreaterThanOrEqualTo(Build.VERSION_CODES.GINGERBREAD_MR1)) {
 			revertToWeb();
 			return;
 		}
@@ -255,10 +250,11 @@ public class ImageViewActivity extends Activity implements RedditPostView.PostSe
 								throw new RuntimeException(e);
 							}
 
-							final ImageTileSourceBitmapRegionDecoder imageTileSource;
+							final ImageTileSource imageTileSource;
 							try {
-								imageTileSource = new ImageTileSourceBitmapRegionDecoder(buf);
+								imageTileSource = new ImageTileSourceWholeBitmap(buf);
 							} catch(IOException e) {
+								Log.e("ImageViewActivity", "Exception when creating ImageTileSource", e);
 								General.quickToast(context, R.string.imageview_decode_failed);
 								revertToWeb();
 								return;

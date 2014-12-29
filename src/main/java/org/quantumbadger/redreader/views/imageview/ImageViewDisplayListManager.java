@@ -223,6 +223,8 @@ public class ImageViewDisplayListManager implements
 
 		final int desiredScaleIndex = MultiScaleTileManager.sampleSizeToScaleIndex(sampleSize);
 
+		boolean alreadyMadeATextureOnThisFrame = false;
+
 		for(int x = 0; x < mHTileCount; x++) {
 			for(int y = 0; y < mVTileCount; y++) {
 
@@ -246,7 +248,7 @@ public class ImageViewDisplayListManager implements
 					mTileLoaded[x][y] = false;
 				}
 
-				if(isTileVisible != mTileVisibility[x][y] || !mTileLoaded[x][y]) {
+				if(!alreadyMadeATextureOnThisFrame && isTileVisible != mTileVisibility[x][y] || !mTileLoaded[x][y]) {
 
 					if(isTileVisible) {
 
@@ -260,6 +262,7 @@ public class ImageViewDisplayListManager implements
 								final RRGLTexture texture = new RRGLTexture(context, tile);
 								mTiles[x][y].setTexture(texture);
 								texture.releaseReference();
+								alreadyMadeATextureOnThisFrame = true;
 
 							} catch(Exception e) {
 								Log.e("ImageViewDisplayListManager", "Exception when creating texture", e);

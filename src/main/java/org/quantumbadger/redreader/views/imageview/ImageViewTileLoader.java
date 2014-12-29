@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.views.imageview;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 import org.quantumbadger.redreader.common.General;
 
 public class ImageViewTileLoader {
@@ -106,6 +107,7 @@ public class ImageViewTileLoader {
 			return;
 
 		} catch(Throwable t) {
+			Log.e("ImageViewTileLoader", "Exception in getTile()", t);
 			General.UI_THREAD_HANDLER.post(new NotifyErrorRunnable(t));
 			return;
 		}

@@ -49,7 +49,7 @@ import org.quantumbadger.redreader.views.RedditPostView;
 import org.quantumbadger.redreader.views.bezelmenu.BezelSwipeOverlay;
 import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
 import org.quantumbadger.redreader.views.glview.RRGLSurfaceView;
-import org.quantumbadger.redreader.views.imageview.ImageTileSource;
+import org.quantumbadger.redreader.views.imageview.ImageTileSourceBitmapRegionDecoder;
 import org.quantumbadger.redreader.views.imageview.ImageViewDisplayListManager;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
 
@@ -255,9 +255,9 @@ public class ImageViewActivity extends Activity implements RedditPostView.PostSe
 								throw new RuntimeException(e);
 							}
 
-							final ImageTileSource imageTileSource;
+							final ImageTileSourceBitmapRegionDecoder imageTileSource;
 							try {
-								imageTileSource = new ImageTileSource(buf);
+								imageTileSource = new ImageTileSourceBitmapRegionDecoder(buf);
 							} catch(IOException e) {
 								General.quickToast(context, R.string.imageview_decode_failed);
 								revertToWeb();

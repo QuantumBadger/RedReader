@@ -17,60 +17,17 @@
 
 package org.quantumbadger.redreader.views.imageview;
 
-import android.annotation.TargetApi;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.BitmapRegionDecoder;
-import android.graphics.Rect;
-import android.os.Build;
-import org.quantumbadger.redreader.common.General;
 
-import java.io.IOException;
+public interface ImageTileSource {
 
-@TargetApi(Build.VERSION_CODES.GINGERBREAD_MR1)
-public class ImageTileSource {
+	public int getWidth();
+	public int getHeight();
 
-	private final BitmapRegionDecoder mBitmapRegionDecoder;
-	private final int mWidth, mHeight;
+	public int getHTileCount();
+	public int getVTileCount();
 
-	private static final int TILE_SIZE = 256;
+	public int getTileSize();
 
-	public ImageTileSource(final byte[] data) throws IOException {
-		mBitmapRegionDecoder = BitmapRegionDecoder.newInstance(data, 0, data.length, false);
-		mWidth = mBitmapRegionDecoder.getWidth();
-		mHeight = mBitmapRegionDecoder.getHeight();
-	}
-
-	public int getWidth() {
-		return mWidth;
-	}
-
-	public int getHeight() {
-		return mHeight;
-	}
-
-	public int getTileSize() {
-		return TILE_SIZE;
-	}
-
-	public int getHTileCount() {
-		return General.divideCeil(mWidth, TILE_SIZE);
-	}
-
-	public int getVTileCount() {
-		return General.divideCeil(mHeight, TILE_SIZE);
-	}
-
-	public Bitmap getTile(int sampleSize, int tileX, int tileY) {
-
-		BitmapFactory.Options options = new BitmapFactory.Options();
-		options.inSampleSize = sampleSize;
-
-		// TODO check that the decoder doesn't mind the rect going over the edges
-		return mBitmapRegionDecoder.decodeRegion(new Rect(
-				tileX * TILE_SIZE,
-				tileY * TILE_SIZE,
-				(tileX + 1) * TILE_SIZE,
-				(tileY + 1) * TILE_SIZE), options);
-	}
+	public abstract Bitmap getTile(int sampleSize, int tileX, int tileY);
 }

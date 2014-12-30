@@ -196,7 +196,12 @@ public class ImageViewActivity extends Activity implements RedditPostView.PostSe
 													finish();
 												}
 											});
-										} catch(Exception e) {
+
+										} catch(OutOfMemoryError e) {
+											General.quickToast(context, R.string.imageview_oom);
+											revertToWeb();
+
+										} catch(Throwable e) {
 											General.quickToast(context, R.string.imageview_invalid_gif);
 											revertToWeb();
 										}

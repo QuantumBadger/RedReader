@@ -1,3 +1,7 @@
+58/1.8.7.4
+Fixed bug when navigating to the /r/reddit.com subreddit
+Various crash fixes
+
 57/1.8.7.3
 Fixed image decoding failures on Android 2.3, caused by Android's shambolic BitmapRegionDecoder class
 Fixed segfaults on Android 4.X, caused by Android's shambolic BitmapRegionDecoder class

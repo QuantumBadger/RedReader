@@ -58,7 +58,6 @@ public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>,
 	@WritableObjectTimestamp public long downloadTime;
 
 	private static final Pattern NAME_PATTERN = Pattern.compile("(/)?(r/)?([\\w\\+\\-\\.]+)/?");
-	private static final Pattern ACTUAL_SUBREDDIT_PATTERN = Pattern.compile("(/)?(r/)?([\\w]+)/?");
 
 	public RedditSubreddit(CreationData creationData) {
 		this();

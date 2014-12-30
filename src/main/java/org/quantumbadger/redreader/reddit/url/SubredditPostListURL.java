@@ -261,7 +261,7 @@ public class SubredditPostListURL extends PostListingURL {
 						return null;
 					}
 
-				} else if(subreddit.matches("all(\\-\\w+)+")) {
+				} else if(subreddit.matches("all(\\-[\\w\\.]+)+")) {
 
 					if(pathSegments.length == 2) {
 						return new SubredditPostListURL(Type.ALL_SUBTRACTION, subreddit, PostListingController.Sort.HOT, limit, before, after);
@@ -273,7 +273,7 @@ public class SubredditPostListURL extends PostListingURL {
 						return null;
 					}
 
-				} else if(subreddit.matches("\\w+(\\+\\w+)+")) {
+				} else if(subreddit.matches("\\w+(\\+[\\w\\.]+)+")) {
 
 					if(pathSegments.length == 2) {
 						return new SubredditPostListURL(Type.SUBREDDIT_COMBINATION, subreddit, PostListingController.Sort.HOT, limit, before, after);
@@ -285,7 +285,7 @@ public class SubredditPostListURL extends PostListingURL {
 						return null;
 					}
 
-				} else if(subreddit.matches("\\w+")) {
+				} else if(subreddit.matches("[\\w\\.]+")) {
 
 					if(pathSegments.length == 2) {
 						return new SubredditPostListURL(Type.SUBREDDIT, subreddit, PostListingController.Sort.HOT, limit, before, after);

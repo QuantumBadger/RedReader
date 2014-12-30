@@ -286,6 +286,10 @@ public class MainActivity extends RefreshableActivity
 
 	public void onSelected(final PostListingURL url) {
 
+		if(url == null) {
+			return;
+		}
+
 		if(twoPane) {
 
 			postListingController = new PostListingController(url);

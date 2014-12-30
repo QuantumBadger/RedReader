@@ -115,7 +115,7 @@ public class ImageViewTileLoader {
 		synchronized(mLock) {
 			if(mWanted) {
 				mResult = tile;
-			} else {
+			} else if(tile != null) {
 				tile.recycle();
 			}
 		}

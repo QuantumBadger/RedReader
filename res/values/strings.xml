@@ -609,4 +609,9 @@
     <!-- 2014-12-19 -->
     <string name="pref_appearance_solidblack_2_key">pref_appearance_solidblack_2</string>
 
+    <!-- 2015-01-03 -->
+    <string name="webview_https_already">The current URL already uses HTTPS.</string>
+    <string name="webview_https_unknownprotocol">Unknown protocol, was expecting \'http://\'</string>
+    <string name="webview_use_https">Use HTTPS</string>
+
 </resources>

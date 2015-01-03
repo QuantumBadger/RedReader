@@ -39,7 +39,10 @@ public class WebViewActivity extends Activity implements RedditPostView.PostSele
 
 	private WebViewFragment webView;
 	public static final int VIEW_IN_BROWSER = 10,
-			CLEAR_CACHE = 20;
+			CLEAR_CACHE = 20,
+			USE_HTTPS = 30;
+
+	private RedditPost mPost;
 
 	public void onCreate(final Bundle savedInstanceState) {
 
@@ -53,13 +56,13 @@ public class WebViewActivity extends Activity implements RedditPostView.PostSele
 		final Intent intent = getIntent();
 
         String url = intent.getStringExtra("url");
-		final RedditPost post = intent.getParcelableExtra("post");
+		mPost = intent.getParcelableExtra("post");
 
 		if(url == null) {
 			BugReportActivity.handleGlobalError(this, "No URL");
 		}
 
-		webView = WebViewFragment.newInstance(url, post);
+		webView = WebViewFragment.newInstance(url, mPost);
 
 		setContentView(View.inflate(this, R.layout.main_single, null));
 
@@ -84,6 +87,8 @@ public class WebViewActivity extends Activity implements RedditPostView.PostSele
 	@Override
 	public boolean onOptionsItemSelected(final MenuItem item) {
 
+		final String currentUrl = webView.getCurrentUrl();
+
 		switch(item.getItemId()) {
 
 			case android.R.id.home:
@@ -91,17 +96,16 @@ public class WebViewActivity extends Activity implements RedditPostView.PostSele
 				return true;
 
 			case VIEW_IN_BROWSER:
-				if(webView.getCurrentUrl() != null) {
+				if(currentUrl != null) {
 					try {
 						final Intent intent = new Intent(Intent.ACTION_VIEW);
-						intent.setData(Uri.parse(webView.getCurrentUrl()));
+						intent.setData(Uri.parse(currentUrl));
 						startActivity(intent);
 						finish(); //to clear from backstack
 
 					} catch(Exception e) {
 						Toast.makeText(this, "Error: could not launch browser.", Toast.LENGTH_LONG).show();
 					}
-
 				}
 				return true;
 
@@ -110,6 +114,24 @@ public class WebViewActivity extends Activity implements RedditPostView.PostSele
 				webView.clearCache();
 				Toast.makeText(this, R.string.web_view_clear_cache_success_toast, Toast.LENGTH_LONG).show();
 				return true;
+
+			case USE_HTTPS:
+
+				if(currentUrl != null) {
+
+					if(currentUrl.startsWith("https://")) {
+						General.quickToast(this, R.string.webview_https_already);
+						return true;
+					}
+
+					if(!currentUrl.startsWith("http://")) {
+						General.quickToast(this, R.string.webview_https_unknownprotocol);
+						return true;
+					}
+
+					LinkHandler.onLinkClicked(this, currentUrl.replace("http://", "https://"), true, mPost);
+					return true;
+				}
 
 			default:
 				return super.onOptionsItemSelected(item);
@@ -120,6 +142,7 @@ public class WebViewActivity extends Activity implements RedditPostView.PostSele
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, VIEW_IN_BROWSER, 0, R.string.web_view_open_browser);
 		menu.add(0, CLEAR_CACHE, 1, R.string.web_view_clear_cache);
+		menu.add(0, USE_HTTPS, 2, R.string.webview_use_https);
 		return super.onCreateOptionsMenu(menu);
 	}
 

@@ -92,6 +92,8 @@ public class ImageViewActivity extends Activity implements RedditPostView.PostSe
 			return;
 		}
 
+		Log.i("ImageViewActivity", "Loading URL " + mUrl.toString());
+
 		final ProgressBar progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
 
 		final LinearLayout layout = new LinearLayout(this);

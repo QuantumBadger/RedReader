@@ -169,6 +169,19 @@ public class LinkHandler {
 	// TODO handle GIFs
 	public static String getImageUrl(final String url) {
 
+		// TODO download anyway and check the mimetype
+
+		// TODO If this fails - download the page and try to find the image - get content type from HTTP request and save in cache
+		// TODO If this fails, show the internal browser
+
+		final Matcher matchImgur = imgurPattern.matcher(url);
+
+		if(matchImgur.find()) {
+			final String imgId = matchImgur.group(1);
+			if(imgId.length() > 2 && !imgId.startsWith("gallery"))
+				return String.format("https://i.imgur.com/%s.jpg", imgId);
+		}
+
 		final String urlLower = url.toLowerCase();
 
 		final String[] imageExtensions = {".jpg", ".jpeg", ".png", ".gif"};
@@ -188,19 +201,6 @@ public class LinkHandler {
 					return url;
 				}
 			}
-		}
-
-		// TODO download anyway and check the mimetype
-
-		// TODO If this fails - download the page and try to find the image - get content type from HTTP request and save in cache
-		// TODO If this fails, show the internal browser
-
-		final Matcher matchImgur = imgurPattern.matcher(url);
-
-		if(matchImgur.find()) {
-			final String imgId = matchImgur.group(1);
-			if(imgId.length() > 2 && !imgId.startsWith("gallery"))
-				return String.format("http://i.imgur.com/%s.jpg", imgId);
 		}
 
 		final Matcher matchQkme1 = qkmePattern1.matcher(url);

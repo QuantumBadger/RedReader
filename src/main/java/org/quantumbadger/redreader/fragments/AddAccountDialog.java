@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.fragments;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -49,7 +50,9 @@ public class AddAccountDialog extends DialogFragment {
 
 		super.onCreateDialog(savedInstanceState);
 
-		final AlertDialog.Builder builder = new AlertDialog.Builder(getSupportActivity());
+		final Context context = getSupportActivity().getApplicationContext();
+
+		final AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setTitle(R.string.accounts_add);
 
 		final View view = getSupportActivity().getLayoutInflater().inflate(R.layout.dialog_login, null);
@@ -69,7 +72,7 @@ public class AddAccountDialog extends DialogFragment {
 
 				lastUsername = username;
 
-				final ProgressDialog progressDialog = new ProgressDialog(getSupportActivity());
+				final ProgressDialog progressDialog = new ProgressDialog(context);
 				final Thread thread;
 				progressDialog.setTitle(R.string.accounts_loggingin);
 				progressDialog.setMessage(getString(R.string.accounts_loggingin_msg));
@@ -106,7 +109,7 @@ public class AddAccountDialog extends DialogFragment {
 					public void run() {
 
 						// TODO better HTTP client
-						final RedditAccount.LoginResultPair result = RedditAccount.login(getSupportActivity(), username, password, new DefaultHttpClient());
+						final RedditAccount.LoginResultPair result = RedditAccount.login(context, username, password, new DefaultHttpClient());
 
 						General.UI_THREAD_HANDLER.post(new Runnable() {
 							public void run() {
@@ -115,7 +118,7 @@ public class AddAccountDialog extends DialogFragment {
 
 								progressDialog.dismiss();
 
-								final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getSupportActivity());
+								final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
 								alertBuilder.setNeutralButton(R.string.dialog_close, new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface dialog, int which) {
 										new AccountListDialog().show(getSupportActivity());

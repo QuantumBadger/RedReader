@@ -23,10 +23,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.holoeverywhere.app.AlertDialog;
-import org.holoeverywhere.app.Dialog;
-import org.holoeverywhere.app.DialogFragment;
-import org.holoeverywhere.app.ProgressDialog;
+import org.holoeverywhere.app.*;
 import org.holoeverywhere.widget.EditText;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -50,12 +47,13 @@ public class AddAccountDialog extends DialogFragment {
 
 		super.onCreateDialog(savedInstanceState);
 
-		final Context context = getSupportActivity().getApplicationContext();
+		final Activity activity = getSupportActivity();
+		final Context appContext = activity.getApplicationContext();
 
-		final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 		builder.setTitle(R.string.accounts_add);
 
-		final View view = getSupportActivity().getLayoutInflater().inflate(R.layout.dialog_login, null);
+		final View view = activity.getLayoutInflater().inflate(R.layout.dialog_login);
 		builder.setView(view);
 		builder.setCancelable(true);
 
@@ -72,7 +70,7 @@ public class AddAccountDialog extends DialogFragment {
 
 				lastUsername = username;
 
-				final ProgressDialog progressDialog = new ProgressDialog(context);
+				final ProgressDialog progressDialog = new ProgressDialog(activity);
 				final Thread thread;
 				progressDialog.setTitle(R.string.accounts_loggingin);
 				progressDialog.setMessage(getString(R.string.accounts_loggingin_msg));
@@ -109,7 +107,7 @@ public class AddAccountDialog extends DialogFragment {
 					public void run() {
 
 						// TODO better HTTP client
-						final RedditAccount.LoginResultPair result = RedditAccount.login(context, username, password, new DefaultHttpClient());
+						final RedditAccount.LoginResultPair result = RedditAccount.login(appContext, username, password, new DefaultHttpClient());
 
 						General.UI_THREAD_HANDLER.post(new Runnable() {
 							public void run() {
@@ -118,48 +116,48 @@ public class AddAccountDialog extends DialogFragment {
 
 								progressDialog.dismiss();
 
-								final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
+								final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(activity);
 								alertBuilder.setNeutralButton(R.string.dialog_close, new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface dialog, int which) {
-										new AccountListDialog().show(getSupportActivity());
+										new AccountListDialog().show(activity);
 									}
 								});
 
 								// TODO handle errors better
 								switch(result.result) {
 									case CONNECTION_ERROR:
-										alertBuilder.setTitle(R.string.error_connection_title);
-										alertBuilder.setMessage(R.string.message_cannotlogin);
+										alertBuilder.setTitle(appContext.getString(R.string.error_connection_title));
+										alertBuilder.setMessage(appContext.getString(R.string.message_cannotlogin));
 										break;
 									case INTERNAL_ERROR:
-										alertBuilder.setTitle(R.string.error_unknown_title);
-										alertBuilder.setMessage(R.string.message_cannotlogin);
+										alertBuilder.setTitle(appContext.getString(R.string.error_unknown_title));
+										alertBuilder.setMessage(appContext.getString(R.string.message_cannotlogin));
 										break;
 									case JSON_ERROR:
-										alertBuilder.setTitle(R.string.error_parse_title);
-										alertBuilder.setMessage(R.string.message_cannotlogin);
+										alertBuilder.setTitle(appContext.getString(R.string.error_parse_title));
+										alertBuilder.setMessage(appContext.getString(R.string.message_cannotlogin));
 										break;
 									case REQUEST_ERROR:
-										alertBuilder.setTitle(R.string.error_connection_title);
-										alertBuilder.setMessage(R.string.message_cannotlogin);
+										alertBuilder.setTitle(appContext.getString(R.string.error_connection_title));
+										alertBuilder.setMessage(appContext.getString(R.string.message_cannotlogin));
 										break;
 									case UNKNOWN_REDDIT_ERROR:
-										alertBuilder.setTitle(R.string.error_unknown_title);
-										alertBuilder.setMessage(R.string.message_cannotlogin);
+										alertBuilder.setTitle(appContext.getString(R.string.error_unknown_title));
+										alertBuilder.setMessage(appContext.getString(R.string.message_cannotlogin));
 										break;
 									case WRONG_PASSWORD:
-										alertBuilder.setTitle(R.string.error_invalid_password_title);
-										alertBuilder.setMessage(R.string.error_invalid_password_message);
+										alertBuilder.setTitle(appContext.getString(R.string.error_invalid_password_title));
+										alertBuilder.setMessage(appContext.getString(R.string.error_invalid_password_message));
 										break;
 									case RATELIMIT:
-										alertBuilder.setTitle(R.string.error_ratelimit_title);
-										alertBuilder.setMessage(String.format("%s \"%s\"", getString(R.string.error_ratelimit_message), result.extraMessage));
+										alertBuilder.setTitle(appContext.getString(R.string.error_ratelimit_title));
+										alertBuilder.setMessage(String.format("%s \"%s\"", appContext.getString(R.string.error_ratelimit_message), result.extraMessage));
 										break;
 									case SUCCESS:
-										RedditAccountManager.getInstance(getSupportActivity()).addAccount(result.account);
-										RedditAccountManager.getInstance(getSupportActivity()).setDefaultAccount(result.account);
-										alertBuilder.setTitle(R.string.general_success);
-										alertBuilder.setMessage(R.string.message_nowloggedin);
+										RedditAccountManager.getInstance(appContext).addAccount(result.account);
+										RedditAccountManager.getInstance(appContext).setDefaultAccount(result.account);
+										alertBuilder.setTitle(appContext.getString(R.string.general_success));
+										alertBuilder.setMessage(appContext.getString(R.string.message_nowloggedin));
 										lastUsername = "";
 										break;
 									default:

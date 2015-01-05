@@ -266,8 +266,8 @@ public class ImageViewActivity extends Activity implements RedditPostView.PostSe
 								revertToWeb();
 								return;
 
-							} catch(IOException e) {
-								Log.e("ImageViewActivity", "Exception when creating ImageTileSource", e);
+							} catch(Throwable t) {
+								Log.e("ImageViewActivity", "Exception when creating ImageTileSource", t);
 								General.quickToast(context, R.string.imageview_decode_failed);
 								revertToWeb();
 								return;

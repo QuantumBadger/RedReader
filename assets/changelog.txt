@@ -1,4 +1,4 @@
-59/1.8.7.5
+60/1.8.7.6
 The image view now opens imgur links using HTTPS. This should hopefully circumvent a block by the Indian government.
 Added "Use HTTPS" menu option to web view.
 Bugfixes

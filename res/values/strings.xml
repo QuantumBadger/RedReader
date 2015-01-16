@@ -614,4 +614,7 @@
     <string name="webview_https_unknownprotocol">Unknown protocol, was expecting \'http://\'</string>
     <string name="webview_use_https">Use HTTPS</string>
 
+    <!-- 2015-01-16 -->
+    <string name="lang_it">Italian</string>
+
 </resources>

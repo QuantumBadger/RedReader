@@ -71,3 +71,4 @@ Thanks to:
 * [Husam Bilal](https://github.com/husam212) for the Arabic translation
 * [Juanma Reyes](https://github.com/jmreyes) and [moshpirit](https://github.com/moshpirit) for the Spanish translation
 * [Martin Macko](https://github.com/LinkedList) for the Czech translation
+* [klenje](https://github.com/klenje) for the Italian translation

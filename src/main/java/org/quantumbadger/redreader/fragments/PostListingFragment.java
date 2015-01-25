@@ -505,8 +505,22 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 
 		@Override
 		protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
-			final RRError error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
-			notificationHandler.sendMessage(General.handlerMessage(NOTIF_ERROR, error));
+
+			if(type == RequestFailureType.CACHE_MISS) {
+
+				final RRError error = new RRError(
+						context.getString(R.string.error_postlist_cache_title),
+						context.getString(R.string.error_postlist_cache_message),
+						t,
+						status,
+						url.toString());
+
+				notificationHandler.sendMessage(General.handlerMessage(NOTIF_ERROR_FOOTER, error));
+
+			} else {
+				final RRError error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
+				notificationHandler.sendMessage(General.handlerMessage(NOTIF_ERROR, error));
+			}
 		}
 
 		@Override protected void onProgress(final long bytesRead, final long totalBytes) {}

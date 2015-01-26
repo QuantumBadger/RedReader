@@ -84,12 +84,24 @@ public class PostListingController {
 				&& url.asSubredditPostListURL().type == SubredditPostListURL.Type.SUBREDDIT;
 	}
 
+	public final boolean isSubredditSearchResults() {
+		return url.pathType() == RedditURLParser.PathType.SearchPostListingURL
+				&& url.asSearchPostListURL().subreddit != null;
+	}
+
 	public final String subredditCanonicalName() {
 
 		if(url.pathType() == RedditURLParser.PathType.SubredditPostListingURL
 				&& url.asSubredditPostListURL().type == SubredditPostListURL.Type.SUBREDDIT) {
 			try {
 				return RedditSubreddit.getCanonicalName(url.asSubredditPostListURL().subreddit);
+			} catch(RedditSubreddit.InvalidSubredditNameException e) {
+				throw new RuntimeException(e);
+			}
+		} else if(url.pathType() == RedditURLParser.PathType.SearchPostListingURL
+				&& url.asSearchPostListURL().subreddit != null) {
+			try {
+				return RedditSubreddit.getCanonicalName(url.asSearchPostListURL().subreddit);
 			} catch(RedditSubreddit.InvalidSubredditNameException e) {
 				throw new RuntimeException(e);
 			}

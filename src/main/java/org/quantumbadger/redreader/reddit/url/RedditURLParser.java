@@ -117,6 +117,10 @@ public class RedditURLParser {
 			return (SubredditPostListURL)this;
 		}
 
+		public final SearchPostListURL asSearchPostListURL() {
+			return (SearchPostListURL)this;
+		}
+
 		public final UserPostListingURL asUserPostListURL() {
 			return (UserPostListingURL)this;
 		}

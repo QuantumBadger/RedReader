@@ -226,7 +226,7 @@ public class PostListingActivity extends RefreshableActivity
 
 				final SearchPostListURL url;
 
-				if(controller != null && controller.isSubreddit()) {
+				if(controller != null && (controller.isSubreddit() || controller.isSubredditSearchResults())) {
 					url = SearchPostListURL.build(controller.subredditCanonicalName(), query);
 				} else {
 					url = SearchPostListURL.build(null, query);

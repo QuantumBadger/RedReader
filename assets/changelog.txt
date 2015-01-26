@@ -1,5 +1,6 @@
 61/1.8.7.7
 Fixed regression where "cache miss error" would be displayed instead of "end of cached data" message
+Improved behaviour when searching from within search results (thanks to chaitan94)
 Added Italian translation (thanks to klenje)
 
 60/1.8.7.6

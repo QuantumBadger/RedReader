@@ -121,7 +121,7 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 
 	@Override
 	public boolean onCreateOptionsMenu(final Menu menu) {
-		OptionsMenuUtility.prepare(this, menu, false, false, true, false, false, null, false, false);
+		OptionsMenuUtility.prepare(this, menu, false, false, true, false, false, false, null, false, false);
 		return true;
 	}
 

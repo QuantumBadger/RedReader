@@ -21,6 +21,7 @@ import android.content.Context;
 import android.net.Uri;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.listingcontrollers.PostListingController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,15 +30,21 @@ public class SearchPostListURL extends PostListingURL {
 
 	public final String subreddit, query;
 
+	public final PostListingController.Sort order;
 	public final Integer limit;
 	public final String before, after;
 
-	SearchPostListURL(String subreddit, String query, Integer limit, String before, String after) {
+	SearchPostListURL(String subreddit, String query, PostListingController.Sort order, Integer limit, String before, String after) {
 		this.subreddit = subreddit;
 		this.query = query;
+		this.order = order;
 		this.limit = limit;
 		this.before = before;
 		this.after = after;
+	}
+
+	SearchPostListURL(String subreddit, String query, Integer limit, String before, String after) {
+		this(subreddit, query, PostListingController.Sort.RELEVANCE, limit, before, after);
 	}
 
 	public static SearchPostListURL build(String subreddit, String query) {
@@ -50,12 +57,16 @@ public class SearchPostListURL extends PostListingURL {
 
 	@Override
 	public PostListingURL after(String after) {
-		return new SearchPostListURL(subreddit, query, limit, before, after);
+		return new SearchPostListURL(subreddit, query, order, limit, before, after);
 	}
 
 	@Override
 	public PostListingURL limit(Integer limit) {
-		return new SearchPostListURL(subreddit, query, limit, before, after);
+		return new SearchPostListURL(subreddit, query, order, limit, before, after);
+	}
+
+	public SearchPostListURL sort(PostListingController.Sort newOrder) {
+		return new SearchPostListURL(subreddit, query, newOrder, limit, before, after);
 	}
 
 	@Override
@@ -76,6 +87,18 @@ public class SearchPostListURL extends PostListingURL {
 
 		if(query != null) {
 			builder.appendQueryParameter("q", query);
+		}
+
+		if(order != null) {
+			switch(order) {
+				case RELEVANCE:
+				case NEW:
+				case HOT:
+				case TOP:
+				case COMMENTS:
+					builder.appendQueryParameter("sort", order.name().toLowerCase());
+					break;
+			}
 		}
 
 		if(before != null) {
@@ -104,6 +127,7 @@ public class SearchPostListURL extends PostListingURL {
 
 		boolean restrict_sr = false;
 		String query = "";
+		PostListingController.Sort order = null;
 		Integer limit = null;
 		String before = null, after = null;
 
@@ -119,6 +143,9 @@ public class SearchPostListURL extends PostListingURL {
 				try {
 					limit = Integer.parseInt(uri.getQueryParameter(parameterKey));
 				} catch(Throwable ignored) {}
+
+			} else if(parameterKey.equalsIgnoreCase("sort")) {
+				order = PostListingController.parseSort(uri.getQueryParameter(parameterKey));
 
 			} else if(parameterKey.equalsIgnoreCase("q")) {
 				query = uri.getQueryParameter(parameterKey);
@@ -153,7 +180,7 @@ public class SearchPostListURL extends PostListingURL {
 		switch(pathSegments.length) {
 
 			case 1: {
-				return new SearchPostListURL(null, query, limit, before, after);
+				return new SearchPostListURL(null, query, order, limit, before, after);
 			}
 
 			case 3: {
@@ -161,7 +188,7 @@ public class SearchPostListURL extends PostListingURL {
 				if(!pathSegments[0].equals("r")) return null;
 
 				final String subreddit = pathSegments[1];
-				return new SearchPostListURL(restrict_sr ? subreddit : null, query, limit, before, after);
+				return new SearchPostListURL(restrict_sr ? subreddit : null, query, order, limit, before, after);
 			}
 
 			default:

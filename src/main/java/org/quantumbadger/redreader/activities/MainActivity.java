@@ -508,6 +508,7 @@ public class MainActivity extends RefreshableActivity
 				isMenuShown,
 				postsVisible,
 				commentsVisible,
+				false,
 				postsSortable,
 				commentsSortable,
 				subredditSubscriptionState,

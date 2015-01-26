@@ -46,16 +46,29 @@ public class PostListingController {
 	}
 
 	public boolean isSortable() {
-		return url.pathType() == RedditURLParser.PathType.SubredditPostListingURL;
+		return (url.pathType() == RedditURLParser.PathType.SubredditPostListingURL)
+				|| (url.pathType() == RedditURLParser.PathType.SearchPostListingURL);
 	}
 
 	public static enum Sort {
-		HOT, NEW, RISING, TOP_HOUR, TOP_DAY, TOP_WEEK, TOP_MONTH, TOP_YEAR, TOP_ALL, CONTROVERSIAL
+		HOT, NEW, RISING, TOP_HOUR, TOP_DAY, TOP_WEEK, TOP_MONTH, TOP_YEAR, TOP_ALL, CONTROVERSIAL,
+		// Sorts related to Search Listings
+		RELEVANCE, COMMENTS, TOP
+	}
+
+	public static Sort parseSort(String string) {
+		Sort[] sorts = Sort.values();
+		for(Sort sort: sorts)
+			if(sort.name().toLowerCase().contentEquals(string))
+				return sort;
+		return null;
 	}
 
 	public final void setSort(final Sort order) {
 		if(url.pathType() == RedditURLParser.PathType.SubredditPostListingURL) {
 			url = url.asSubredditPostListURL().sort(order);
+		} else if(url.pathType() == RedditURLParser.PathType.SearchPostListingURL) {
+			url = url.asSearchPostListURL().sort(order);
 		} else {
 			throw new RuntimeException("Cannot set sort for this URL");
 		}
@@ -84,9 +97,12 @@ public class PostListingController {
 				&& url.asSubredditPostListURL().type == SubredditPostListURL.Type.SUBREDDIT;
 	}
 
+	public final boolean isSearchResults() {
+		return url.pathType() == RedditURLParser.PathType.SearchPostListingURL;
+	}
+
 	public final boolean isSubredditSearchResults() {
-		return url.pathType() == RedditURLParser.PathType.SearchPostListingURL
-				&& url.asSearchPostListURL().subreddit != null;
+		return isSearchResults() && url.asSearchPostListURL().subreddit != null;
 	}
 
 	public final String subredditCanonicalName() {

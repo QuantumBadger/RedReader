@@ -196,6 +196,11 @@
     <string name="sort_posts_top_year">Top: This Year</string>
     <string name="sort_posts_top_all">Top: All Time</string>
 
+    <!-- Post Search specific Sorts -->
+
+    <string name="sort_posts_relevance">Relevance</string>
+    <string name="sort_posts_comments">Comments</string>
+
     <!-- Comment Sorts -->
 
     <string name="sort_comments_best">Best</string>

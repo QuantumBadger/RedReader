@@ -62,6 +62,7 @@ public final class OptionsMenuUtility {
 	public static <E extends Activity & OptionsMenuListener> void prepare(
 			final E activity, final Menu menu,
 			final boolean subredditsVisible, final boolean postsVisible, final boolean commentsVisible,
+			final boolean areSearchResults,
 			final boolean postsSortable, final boolean commentsSortable,
 			final RedditSubredditSubscriptionManager.SubredditSubscriptionState subredditSubscriptionState,
 			final boolean subredditHasSidebar,
@@ -71,7 +72,12 @@ public final class OptionsMenuUtility {
 			add(activity, menu, Option.REFRESH_SUBREDDITS, false);
 
 		} else if(!subredditsVisible && postsVisible && !commentsVisible) {
-			if(postsSortable) addAllPostSorts(activity, menu, true);
+			if(postsSortable) {
+				if (areSearchResults)
+					addAllSearchSorts(activity, menu, true);
+				else
+					addAllPostSorts(activity, menu, true);
+			}
 			add(activity, menu, Option.REFRESH_POSTS, false);
 			add(activity, menu, Option.PAST_POSTS, false);
 			add(activity, menu, Option.SUBMIT_POST, false);
@@ -96,7 +102,12 @@ public final class OptionsMenuUtility {
 				sortMenu.getItem().setIcon(R.drawable.ic_action_sort);
 				sortMenu.getItem().setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
-				if(postsSortable) addAllPostSorts(activity, sortMenu, false);
+				if(postsSortable) {
+					if (areSearchResults)
+						addAllSearchSorts(activity, sortMenu, false);
+					else
+						addAllPostSorts(activity, sortMenu, false);
+				}
 				if(commentsSortable) addAllCommentSorts(activity, sortMenu, false);
 
 				final SubMenu pastMenu = menu.addSubMenu(R.string.options_past);
@@ -106,7 +117,12 @@ public final class OptionsMenuUtility {
 				}
 
 			} else if(postsVisible) {
-				if(postsSortable) addAllPostSorts(activity, menu, true);
+				if(postsSortable) {
+					if (areSearchResults)
+						addAllSearchSorts(activity, menu, true);
+					else
+						addAllPostSorts(activity, menu, true);
+				}
 				add(activity, menu, Option.PAST_POSTS, false);
 			}
 
@@ -364,6 +380,22 @@ public final class OptionsMenuUtility {
 		addSort(activity, sortPostsTop, R.string.sort_posts_top_month, PostListingController.Sort.TOP_MONTH);
 		addSort(activity, sortPostsTop, R.string.sort_posts_top_year, PostListingController.Sort.TOP_YEAR);
 		addSort(activity, sortPostsTop, R.string.sort_posts_top_all, PostListingController.Sort.TOP_ALL);
+	}
+
+	private static void addAllSearchSorts(final Activity activity, final Menu menu, final boolean icon) {
+
+		final SubMenu sortPosts = menu.addSubMenu(R.string.options_sort_posts);
+
+		if(icon) {
+			sortPosts.getItem().setIcon(R.drawable.ic_action_sort);
+			sortPosts.getItem().setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+		}
+
+		addSort(activity, sortPosts, R.string.sort_posts_relevance, PostListingController.Sort.RELEVANCE);
+		addSort(activity, sortPosts, R.string.sort_posts_new, PostListingController.Sort.NEW);
+		addSort(activity, sortPosts, R.string.sort_posts_hot, PostListingController.Sort.HOT);
+		addSort(activity, sortPosts, R.string.sort_posts_top, PostListingController.Sort.TOP);
+		addSort(activity, sortPosts, R.string.sort_posts_comments, PostListingController.Sort.COMMENTS);
 	}
 
 	private static void addSort(final Activity activity, final Menu menu, final int name, final PostListingController.Sort order) {

@@ -142,6 +142,7 @@ public class PostListingActivity extends RefreshableActivity
 				false,
 				true,
 				false,
+				controller.isSearchResults(),
 				controller.isSortable(),
 				true,
 				subredditSubscriptionState,

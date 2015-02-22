@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -566,6 +567,8 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 				final boolean precacheImages = (imagePrecachePref == PrefsUtility.CachePrecacheImages.ALWAYS
 						|| (imagePrecachePref == PrefsUtility.CachePrecacheImages.WIFIONLY && isConnectionWifi))
 						&& !General.isCacheDiskFull(context);
+
+				Log.i("PostListingFragment", "Precaching images: " + (precacheImages ? "ON" : "OFF"));
 
 				final CacheManager cm = CacheManager.getInstance(context);
 

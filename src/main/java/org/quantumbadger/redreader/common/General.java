@@ -179,7 +179,7 @@ public final class General {
 	public static boolean isConnectionWifi(final Context context){
 		final ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
 		final NetworkInfo info = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-		return info != null && info.isConnected();
+		return info != null && info.getDetailedState() == NetworkInfo.DetailedState.CONNECTED;
 	}
 
 	public static RRError getGeneralErrorForFailure(Context context, RequestFailureType type, Throwable t, StatusLine status, String url) {

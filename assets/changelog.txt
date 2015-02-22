@@ -3,6 +3,7 @@ Ability to sort search results (thanks to chaitan94)
 Fixed regression where "cache miss error" would be displayed instead of "end of cached data" message
 Improved behaviour when searching from within search results (thanks to chaitan94)
 Added Italian translation (thanks to klenje)
+Potential improvement to how WiFi connections are detected (vs mobile data)
 
 60/1.8.7.6
 The image view now opens imgur links using HTTPS. This should hopefully circumvent a block by the Indian government.

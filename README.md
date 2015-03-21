@@ -1,9 +1,9 @@
 RedReader Beta (for Android)
 ============================
 
-![Build Status](https://travis-ci.org/QuantumBadger/RedReader.svg?branch=master)
-
 An unofficial, open source client for reddit.
+
+![Build Status](https://travis-ci.org/QuantumBadger/RedReader.svg?branch=master)
 
 Features
 --------

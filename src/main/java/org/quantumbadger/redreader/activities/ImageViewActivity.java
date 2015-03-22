@@ -248,27 +248,30 @@ public class ImageViewActivity extends Activity implements RedditPostView.PostSe
 
 						} else {
 
-							final long bytes = cacheFile.getSize();
-							final byte[] buf = new byte[(int)bytes];
-
-							try {
-								new DataInputStream(cacheFileInputStream).readFully(buf);
-							} catch(IOException e) {
-								throw new RuntimeException(e);
-							}
-
 							final ImageTileSource imageTileSource;
 							try {
-								imageTileSource = new ImageTileSourceWholeBitmap(buf);
+
+								final long bytes = cacheFile.getSize();
+								final byte[] buf = new byte[(int)bytes];
+
+								try {
+									new DataInputStream(cacheFileInputStream).readFully(buf);
+								} catch(IOException e) {
+									throw new RuntimeException(e);
+								}
+
+								try {
+									imageTileSource = new ImageTileSourceWholeBitmap(buf);
+
+								} catch(Throwable t) {
+									Log.e("ImageViewActivity", "Exception when creating ImageTileSource", t);
+									General.quickToast(context, R.string.imageview_decode_failed);
+									revertToWeb();
+									return;
+								}
 
 							} catch(OutOfMemoryError e) {
 								General.quickToast(context, R.string.imageview_oom);
-								revertToWeb();
-								return;
-
-							} catch(Throwable t) {
-								Log.e("ImageViewActivity", "Exception when creating ImageTileSource", t);
-								General.quickToast(context, R.string.imageview_decode_failed);
 								revertToWeb();
 								return;
 							}

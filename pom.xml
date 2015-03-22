@@ -21,7 +21,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.quantumbadger.redreader</groupId>
     <artifactId>redreader</artifactId>
-    <version>1.8.7.6</version>
+    <version>1.8.7.7</version>
     <packaging>apk</packaging>
     <name>redreader</name>
 
@@ -41,7 +41,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>2.1.1</version>
+            <version>2.5.1</version>
         </dependency>
 
         <dependency>
@@ -54,13 +54,13 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.1</version>
+            <version>3.3.2</version>
         </dependency>
 
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
-            <version>2.3</version>
+            <version>2.7</version>
         </dependency>
 
     </dependencies>

@@ -1,3 +1,6 @@
+62/1.8.7.8
+Added intent support for https (thanks to ajs124)
+
 61/1.8.7.7
 Ability to sort search results (thanks to chaitan94)
 Fixed regression where "cache miss error" would be displayed instead of "end of cached data" message

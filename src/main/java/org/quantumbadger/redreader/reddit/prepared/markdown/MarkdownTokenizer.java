@@ -305,7 +305,7 @@ public final class MarkdownTokenizer {
 		}
 	}
 
-	private static void clean(final IntArrayLengthPair input, final IntArrayLengthPair output) {
+	public static void clean(final IntArrayLengthPair input, final IntArrayLengthPair output) {
 
 		// TODO use single byte array, flags
 		final boolean[] toRevert = new boolean[input.pos];
@@ -475,7 +475,42 @@ public final class MarkdownTokenizer {
 
 				case TOKEN_BRACKET_SQUARE_OPEN:
 					if(lastBracketSquareOpen < 0) {
-						lastBracketSquareOpen = i;
+
+						// Attempt to parse link text with well-bracketed square brackets
+
+						final int closingSquareBracket = findCloseWellBracketed(
+								input.data,
+								TOKEN_BRACKET_SQUARE_OPEN,
+								TOKEN_BRACKET_SQUARE_CLOSE,
+								i,
+								input.pos);
+
+						if(closingSquareBracket > i) {
+
+							final int parenOpenPos = indexOf(input.data, TOKEN_PAREN_OPEN, closingSquareBracket + 1, input.pos);
+
+							if(parenOpenPos > closingSquareBracket
+									&& isSpaces(input.data, closingSquareBracket + 1, parenOpenPos)) {
+
+								lastBracketSquareOpen = i;
+
+								for(int j = i + 1; j < closingSquareBracket; j++) {
+									if(input.data[j] == TOKEN_BRACKET_SQUARE_OPEN) {
+										input.data[j] = '[';
+
+									} else if(input.data[j] == TOKEN_BRACKET_SQUARE_CLOSE) {
+										input.data[j] = ']';
+									}
+								}
+
+							} else {
+								toRevert[i] = true;
+							}
+
+						} else {
+							toRevert[i] = true;
+						}
+
 					} else {
 						toRevert[lastBracketSquareOpen] = true;
 						lastBracketSquareOpen = i;
@@ -493,6 +528,7 @@ public final class MarkdownTokenizer {
 
 						final int parenOpenPos = indexOf(input.data, TOKEN_PAREN_OPEN,
 								lastBracketSquareClose + 1, input.pos);
+
 						boolean linkParseSuccess = false;
 
 						if(parenOpenPos >= 0) {
@@ -504,6 +540,13 @@ public final class MarkdownTokenizer {
 								if(parenClosePos >= 0) {
 
 									linkParseSuccess = true;
+
+									for(int j = lastBracketSquareOpen + 1; j < lastBracketSquareClose; j++) {
+										if(input.data[j] == TOKEN_BRACKET_SQUARE_OPEN
+											|| input.data[j] == TOKEN_BRACKET_SQUARE_CLOSE) {
+											toRevert[j] = true;
+										}
+									}
 
 									for(int j = lastBracketSquareClose + 1; j < parenOpenPos; j++) {
 										toDelete[j] = true;
@@ -533,7 +576,6 @@ public final class MarkdownTokenizer {
 						if(!linkParseSuccess) {
 							toRevert[lastBracketSquareOpen] = true;
 							toRevert[lastBracketSquareClose] = true;
-							i = lastBracketSquareClose;
 						}
 					}
 
@@ -711,7 +753,7 @@ public final class MarkdownTokenizer {
 		return -1;
 	}
 
-	private static void naiveTokenize(final IntArrayLengthPair input, final IntArrayLengthPair output) {
+	public static void naiveTokenize(final IntArrayLengthPair input, final IntArrayLengthPair output) {
 
 		output.clear();
 
@@ -806,6 +848,39 @@ public final class MarkdownTokenizer {
 
 	private static int indexOf(final int[] haystack, final int needle, final int startInclusive, final int endExclusive) {
 		for(int i = startInclusive; i < endExclusive; i++) if(haystack[i] == needle) return i;
+		return -1;
+	}
+
+	private static int reverseIndexOf(final int[] haystack, final int needle, final int startInclusive) {
+		for(int i = startInclusive; i >= 0; i--) if(haystack[i] == needle) return i;
+		return -1;
+	}
+
+	public static int findCloseWellBracketed(
+			final int[] haystack,
+			final int openBracket,
+			final int closeBracket,
+			final int startInclusive,
+			final int endExclusive) {
+
+		if(haystack[startInclusive] != openBracket) {
+			throw new RuntimeException("Internal markdown parser error");
+		}
+
+		int b = 1;
+
+		for(int i = startInclusive + 1; i < endExclusive; i++) {
+			if(haystack[i] == openBracket) {
+				b++;
+			} else if(haystack[i] == closeBracket) {
+				b--;
+			}
+
+			if(b == 0) {
+				return i;
+			}
+		}
+
 		return -1;
 	}
 

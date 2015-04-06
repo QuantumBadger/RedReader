@@ -1,6 +1,7 @@
 62/1.8.7.8
 Added intent support for https (thanks to ajs124)
 Added support for redd.it links (thanks to ajs124)
+Markdown link parsing improvements
 
 61/1.8.7.7
 Ability to sort search results (thanks to chaitan94)

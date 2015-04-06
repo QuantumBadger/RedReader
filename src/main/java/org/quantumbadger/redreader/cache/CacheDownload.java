@@ -141,7 +141,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 			return;
 		}
 
-		if(status.getStatusCode() != 200) {
+		if(status.getStatusCode() != 200 && status.getStatusCode() != 202) {
 			mInitiator.notifyFailure(RequestFailureType.REQUEST, null, status, String.format("HTTP error %d (%s)", status.getStatusCode(), status.getReasonPhrase()));
 			return;
 		}

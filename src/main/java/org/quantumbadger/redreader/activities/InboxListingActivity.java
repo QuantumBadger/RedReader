@@ -25,6 +25,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
+import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import org.apache.http.StatusLine;
 import org.holoeverywhere.app.Activity;
@@ -44,6 +45,8 @@ import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
+import org.quantumbadger.redreader.reddit.APIResponseHandler;
+import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.RedditPreparedInboxItem;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedComment;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedMessage;
@@ -57,6 +60,8 @@ import java.util.EnumSet;
 import java.util.UUID;
 
 public final class InboxListingActivity extends Activity {
+
+	private static final int OPTIONS_MENU_MARK_ALL_AS_READ = 0;
 
 	private InboxListingAdapter adapter;
 
@@ -288,8 +293,55 @@ public final class InboxListingActivity extends Activity {
 	}
 
 	@Override
+	public boolean onCreateOptionsMenu(final Menu menu) {
+		menu.add(0, OPTIONS_MENU_MARK_ALL_AS_READ, 0, R.string.mark_all_as_read);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(final MenuItem item) {
 		switch(item.getItemId()) {
+			case OPTIONS_MENU_MARK_ALL_AS_READ:
+
+				RedditAPI.markAllAsRead(
+						CacheManager.getInstance(this),
+						new APIResponseHandler.ActionResponseHandler(this) {
+							@Override
+							protected void onSuccess() {
+								General.quickToast(context, R.string.mark_all_as_read_success);
+							}
+
+							@Override
+							protected void onCallbackException(final Throwable t) {
+								BugReportActivity.addGlobalError(new RRError("Mark all as Read failed", "Callback exception", t));
+							}
+
+							@Override
+							protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
+								final RRError error = General.getGeneralErrorForFailure(context, type, t, status,
+										"Reddit API action: Mark all as Read");
+								General.UI_THREAD_HANDLER.post(new Runnable() {
+									public void run() {
+										General.showResultDialog(InboxListingActivity.this, error);
+									}
+								});
+							}
+
+							@Override
+							protected void onFailure(final APIFailureType type) {
+
+								final RRError error = General.getGeneralErrorForFailure(context, type);
+								General.UI_THREAD_HANDLER.post(new Runnable() {
+									public void run() {
+										General.showResultDialog(InboxListingActivity.this, error);
+									}
+								});
+							}
+						},
+						RedditAccountManager.getInstance(this).getDefaultAccount(),
+						this);
+
+				return true;
 			case android.R.id.home:
 				finish();
 				return true;

@@ -621,4 +621,8 @@
     <string name="sort_posts_relevance">Relevance</string>
     <string name="sort_posts_comments">Comments</string>
 
+    <!-- 2015-04-06 -->
+    <string name="mark_all_as_read">Mark all as read</string>
+    <string name="mark_all_as_read_success">All messages marked as read.</string>
+
 </resources>

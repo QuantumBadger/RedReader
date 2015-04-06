@@ -147,6 +147,47 @@ public final class RedditAPI {
 		});
 	}
 
+	public static void markAllAsRead(
+			final CacheManager cm,
+			final APIResponseHandler.ActionResponseHandler responseHandler,
+			final RedditAccount user,
+			final Context context) {
+
+		final LinkedList<NameValuePair> postFields = new LinkedList<NameValuePair>();
+		postFields.add(new BasicNameValuePair("uh", user.modhash));
+
+		cm.makeRequest(new APIPostRequest(Constants.Reddit.getUri("/api/read_all_messages"), user, postFields, context) {
+
+			@Override
+			public void onJsonParseStarted(JsonValue result, long timestamp, UUID session, boolean fromCache) {
+
+				try {
+					final APIResponseHandler.APIFailureType failureType = findFailureType(result);
+
+					if(failureType != null) {
+						responseHandler.notifyFailure(failureType);
+						return;
+					}
+
+				} catch(Throwable t) {
+					notifyFailure(RequestFailureType.PARSE, t, null, "JSON failed to parse");
+				}
+
+				responseHandler.notifySuccess();
+			}
+
+			@Override
+			protected void onCallbackException(Throwable t) {
+				BugReportActivity.handleGlobalError(context, t);
+			}
+
+			@Override
+			protected void onFailure(RequestFailureType type, Throwable t, StatusLine status, String readableMessage) {
+				responseHandler.notifyFailure(type, t, status, readableMessage);
+			}
+		});
+	}
+
 	public static void editComment(final CacheManager cm,
 								   final APIResponseHandler.ActionResponseHandler responseHandler,
 								   final RedditAccount user,

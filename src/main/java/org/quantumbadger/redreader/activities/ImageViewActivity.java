@@ -67,7 +67,8 @@ public class ImageViewActivity extends Activity implements RedditPostView.PostSe
 
 	private URI mUrl;
 
-	private boolean mIsPaused = true;
+	private boolean mIsPaused = true, mIsDestroyed = false;
+	private CacheRequest mRequest;
 
 	private boolean mHaveReverted = false;
 
@@ -101,7 +102,7 @@ public class ImageViewActivity extends Activity implements RedditPostView.PostSe
 		layout.addView(progressBar);
 
 		CacheManager.getInstance(this).makeRequest(
-				new CacheRequest(
+				mRequest = new CacheRequest(
 						mUrl,
 						RedditAccountManager.getAnon(),
 						null,
@@ -145,6 +146,7 @@ public class ImageViewActivity extends Activity implements RedditPostView.PostSe
 						General.UI_THREAD_HANDLER.post(new Runnable() {
 							public void run() {
 								// TODO handle properly
+								mRequest = null;
 								progressBar.setVisibility(View.GONE);
 								layout.addView(new ErrorView(ImageViewActivity.this, error));
 							}
@@ -190,6 +192,10 @@ public class ImageViewActivity extends Activity implements RedditPostView.PostSe
 
 								General.UI_THREAD_HANDLER.post(new Runnable() {
 									public void run() {
+
+										if(mIsDestroyed) return;
+										mRequest = null;
+
 										try {
 											final GIFView gifView = new GIFView(ImageViewActivity.this, cacheFileInputStream);
 											setContentView(gifView);
@@ -217,6 +223,10 @@ public class ImageViewActivity extends Activity implements RedditPostView.PostSe
 									public void onGifLoaded() {
 										General.UI_THREAD_HANDLER.post(new Runnable() {
 											public void run() {
+
+												if(mIsDestroyed) return;
+												mRequest = null;
+
 												imageView = new ImageView(context);
 												imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
 												setContentView(imageView);
@@ -278,6 +288,9 @@ public class ImageViewActivity extends Activity implements RedditPostView.PostSe
 
 							General.UI_THREAD_HANDLER.post(new Runnable() {
 								public void run() {
+
+									if(mIsDestroyed) return;
+									mRequest = null;
 
 									surfaceView = new RRGLSurfaceView(ImageViewActivity.this, new ImageViewDisplayListManager(imageTileSource, ImageViewActivity.this));
 									setContentView(surfaceView);
@@ -410,6 +423,8 @@ public class ImageViewActivity extends Activity implements RedditPostView.PostSe
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		mIsDestroyed = true;
+		if(mRequest != null) mRequest.cancel();
 		if(gifThread != null) gifThread.stopPlaying();
 	}
 

@@ -37,10 +37,10 @@ public class RedditURLParser {
 
 		final String[] hostSegments = uri.getHost().toLowerCase().split("\\.");
 		if(hostSegments.length < 2) return false;
-		if(!hostSegments[hostSegments.length - 1].equals("com")) return false;
-		if(!hostSegments[hostSegments.length - 2].equals("reddit")) return false;
+		if(hostSegments[hostSegments.length - 1].equals("com") && hostSegments[hostSegments.length - 2].equals("reddit")) return true;
+		if(hostSegments[hostSegments.length - 1].equals("it") && hostSegments[hostSegments.length - 2].equals("redd")) return true;
 
-		return true;
+		return false;
 	}
 
 	public static RedditURL parse(Uri uri) {

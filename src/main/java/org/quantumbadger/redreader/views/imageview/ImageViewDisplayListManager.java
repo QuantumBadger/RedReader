@@ -549,4 +549,8 @@ public class ImageViewDisplayListManager implements
 	public void onTileLoaderException(Throwable t) {
 		mListener.onImageViewDLMException(t);
 	}
+
+	public void resetTouchState(){
+		mCurrentTouchState = null;
+	}
 }

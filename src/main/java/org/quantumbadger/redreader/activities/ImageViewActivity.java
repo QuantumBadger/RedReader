@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.activities;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.opengl.GLSurfaceView;
@@ -71,6 +72,8 @@ public class ImageViewActivity extends Activity implements RedditPostView.PostSe
 	private CacheRequest mRequest;
 
 	private boolean mHaveReverted = false;
+
+	private ImageViewDisplayListManager mImageViewDisplayerManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -291,8 +294,8 @@ public class ImageViewActivity extends Activity implements RedditPostView.PostSe
 
 									if(mIsDestroyed) return;
 									mRequest = null;
-
-									surfaceView = new RRGLSurfaceView(ImageViewActivity.this, new ImageViewDisplayListManager(imageTileSource, ImageViewActivity.this));
+									mImageViewDisplayerManager = new ImageViewDisplayListManager(imageTileSource, ImageViewActivity.this);
+									surfaceView = new RRGLSurfaceView(ImageViewActivity.this, mImageViewDisplayerManager);
 									setContentView(surfaceView);
 
 									surfaceView.setOnClickListener(new View.OnClickListener() {
@@ -446,6 +449,14 @@ public class ImageViewActivity extends Activity implements RedditPostView.PostSe
 		if(!mHaveReverted) {
 			General.quickToast(this, R.string.imageview_decode_failed);
 			revertToWeb();
+		}
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		if(mImageViewDisplayerManager != null){
+			mImageViewDisplayerManager.resetTouchState();
 		}
 	}
 }

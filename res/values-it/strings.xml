@@ -135,7 +135,7 @@
     <string name="props_down">Giù</string>
     <string name="props_comment_title">Proprietà del commento</string>
     <string name="props_body_markdown">Corpo (Raw Markdown)</string>
-    <string name="props_author_flair">Flair Text dell\'autore</string>
+    <string name="props_author_flair">Flair dell\'autore</string>
     <string name="pref_network_https_title">Attiva HTTPS</string>
     <string name="pref_appearance_twopane_never">Mai</string>
     <string name="pref_appearance_theme_title">Tema</string>
@@ -212,16 +212,16 @@
     <string name="pref_network_https_key">pref_network_https</string>
     <string name="pref_appearance_comment_header_items_key">pref_appearance_comment_header_items</string>
     <string name="accounts_reauth">Nuova identificazione</string>
-    <string name="action_external">Visualizza nel broswer esterno</string>
+    <string name="action_external">Visualizza nel browser esterno</string>
     <string name="action_external_short">Nel browser</string>
-    <string name="action_selftext_links">Link nel Self Text</string>
+    <string name="action_selftext_links">Link nel Self text</string>
     <string name="bug_button_send">Inviare una segnalazione di bug per email</string>
     <string name="comment_reply_send">Invia</string>
     <string name="comment_reply_submitting_message">Un istante…</string>
     <string name="comment_reply_submitting_title">Invio in corso…</string>
     <string name="dialog_go">Vai</string>
     <string name="firstrun_login_button_later">Resta anonimo</string>
-    <string name="firstrun_login_button_now">Collegarsi</string>
+    <string name="firstrun_login_button_now">Collegati</string>
     <string name="header_subscriber_count">abbonati</string>
     <string name="header_subscriber_count_unknown">Il numero di abbonati è sconosciuto</string>
     <string name="mainmenu_saved">Post salvati</string>
@@ -376,4 +376,8 @@
     <string name="error_404_message">I dati richiesti non sono stati trovati.</string>
     <string name="error_403_message">Reddit dice che l\'utente attuale non ha permessi sufficienti. Prova a disconnetterti e poi riconnetterti (eliminando l\'account dalla lista e poi aggiungendolo di nuovo).</string>
     <string name="bug_message">RedReader ha riscontrato un errore.\n\nVuoi inviare una segnalazione di bug allo sviluppatore? In questo caso, un email verrà preparata con tutte le informazioni importanti e la potrai vedere prima che sia inviata.</string>
+    <string name="sort_posts_relevance">Rilevanza</string>
+    <string name="sort_posts_comments">Commenti</string>
+    <string name="mark_all_as_read">Segna tutti come letti</string>
+    <string name="mark_all_as_read_success">Tutti i messaggi segnati come letti.</string>
 </resources>

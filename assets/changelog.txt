@@ -5,6 +5,7 @@ Added support for redd.it links (thanks to ajs124)
 Fixed image view bug when rotating screen while touching (thanks to ThomasKomarnicki)
 Markdown link parsing improvements
 Fixed gif-related hang
+Fixed bug with subreddit names containing colons
 
 61/1.8.7.7
 Ability to sort search results (thanks to chaitan94)

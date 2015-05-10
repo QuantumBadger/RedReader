@@ -35,6 +35,7 @@ public class RedditURLParser {
 
 	private static boolean isRedditUri(Uri uri) {
 
+		if(uri == null || uri.getHost() == null) return false;
 		final String[] hostSegments = uri.getHost().toLowerCase().split("\\.");
 		if(hostSegments.length < 2) return false;
 		if(hostSegments[hostSegments.length - 1].equals("com") && hostSegments[hostSegments.length - 2].equals("reddit")) return true;

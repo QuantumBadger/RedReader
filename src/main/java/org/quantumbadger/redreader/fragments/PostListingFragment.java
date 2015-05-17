@@ -110,7 +110,8 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 			NOTIF_ERROR = 5,
 			NOTIF_PROGRESS = 6,
 			NOTIF_DOWNLOAD_DONE = 7,
-			NOTIF_ERROR_FOOTER = 8;
+			NOTIF_ERROR_FOOTER = 8,
+			NOTIF_AUTHORIZING = 9;
 
 	private final Handler notificationHandler = new Handler(Looper.getMainLooper()) {
 		@Override
@@ -169,6 +170,10 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 					adapter.notifyDataSetChanged();
 					break;
 				}
+
+				case NOTIF_AUTHORIZING:
+					if(loadingView != null) loadingView.setIndeterminate(R.string.download_authorizing);
+					break;
 			}
 		}
 	};
@@ -200,7 +205,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 		try {
 			postListingURL = (PostListingURL) RedditURLParser.parseProbablePostListing(url);
 		} catch(ClassCastException e) {
-			Toast.makeText(getSupportActivity(), "Invalid post listing URL.", Toast.LENGTH_LONG);
+			Toast.makeText(getSupportActivity(), "Invalid post listing URL.", Toast.LENGTH_LONG).show();
 			return;
 		}
 
@@ -524,7 +529,12 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 			}
 		}
 
-		@Override protected void onProgress(final long bytesRead, final long totalBytes) {}
+		@Override protected void onProgress(final boolean authorizationInProgress, final long bytesRead, final long totalBytes) {
+			if(authorizationInProgress) {
+				notificationHandler.sendMessage(General.handlerMessage(NOTIF_AUTHORIZING, null));
+			}
+		}
+
 		@Override protected void onSuccess(final CacheManager.ReadableCacheFile cacheFile, final long timestamp, final UUID session, final boolean fromCache, final String mimetype) {}
 
 		@Override

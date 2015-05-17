@@ -73,7 +73,7 @@ public class RedditAPIIndividualSubredditDataRequester implements CacheDataSourc
 
 			@Override protected void onDownloadNecessary() {}
 			@Override protected void onDownloadStarted() {}
-			@Override protected void onProgress(long bytesRead, long totalBytes) {}
+			@Override protected void onProgress(final boolean authorizationInProgress, long bytesRead, long totalBytes) {}
 
 			@Override
 			protected void onFailure(RequestFailureType type, Throwable t, StatusLine status, String readableMessage) {

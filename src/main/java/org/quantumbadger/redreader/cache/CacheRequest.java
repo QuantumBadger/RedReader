@@ -130,11 +130,7 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 	}
 
 	public CookieStore getCookies() {
-		if(isRedditApi) {
-			return user.getCookies();
-		} else {
-			return ForgetfulCookieStore.INSTANCE;
-		}
+		return ForgetfulCookieStore.INSTANCE;
 	}
 
 	// Queue helpers
@@ -152,10 +148,6 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 		return isHigherPriorityThan(another) ? -1 : (another.isHigherPriorityThan(this) ? 1 : 0);
 	}
 
-	public final RequestIdentifier createIdentifier() {
-		return new RequestIdentifier(url, user, requestSession, cache);
-	}
-
 	// Callbacks
 
 	protected abstract void onCallbackException(Throwable t);
@@ -164,7 +156,7 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 	protected abstract void onDownloadStarted();
 
 	protected abstract void onFailure(RequestFailureType type, Throwable t, StatusLine status, String readableMessage);
-	protected abstract void onProgress(long bytesRead, long totalBytes);
+	protected abstract void onProgress(boolean authorizationInProgress, long bytesRead, long totalBytes);
 	protected abstract void onSuccess(CacheManager.ReadableCacheFile cacheFile, long timestamp, UUID session, boolean fromCache, String mimetype);
 
 	public void onJsonParseStarted(final JsonValue result, final long timestamp, final UUID session, final boolean fromCache) {
@@ -184,9 +176,9 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 		}
 	}
 
-	public final void notifyProgress(final long bytesRead, final long totalBytes) {
+	public final void notifyProgress(final boolean authorizationInProgress, final long bytesRead, final long totalBytes) {
 		try {
-			onProgress(bytesRead, totalBytes);
+			onProgress(authorizationInProgress, bytesRead, totalBytes);
 		} catch(Throwable t1) {
 			try {
 				onCallbackException(t1);

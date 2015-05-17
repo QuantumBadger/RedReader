@@ -355,7 +355,7 @@ public final class RedditPreparedPost {
 					}
 
 					@Override
-					protected void onProgress(long bytesRead, long totalBytes) {}
+					protected void onProgress(boolean authorizationInProgress, long bytesRead, long totalBytes) {}
 
 					@Override
 					protected void onSuccess(CacheManager.ReadableCacheFile cacheFile, long timestamp, UUID session, boolean fromCache, String mimetype) {
@@ -578,7 +578,7 @@ public final class RedditPreparedPost {
 			protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {}
 
 			@Override
-			protected void onProgress(final long bytesRead, final long totalBytes) {}
+			protected void onProgress(final boolean authorizationInProgress, final long bytesRead, final long totalBytes) {}
 
 			@Override
 			protected void onSuccess(final CacheManager.ReadableCacheFile cacheFile, final long timestamp, final UUID session, final boolean fromCache, final String mimetype) {

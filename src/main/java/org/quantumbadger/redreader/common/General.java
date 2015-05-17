@@ -220,6 +220,8 @@ public final class General {
 
 				if(status != null) {
 					switch (status.getStatusCode()) {
+						case 400:
+						case 401:
 						case 403:
 							title = R.string.error_403_title;
 							message = R.string.error_403_message;

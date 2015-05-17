@@ -23,11 +23,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import org.quantumbadger.redreader.activities.BugReportActivity;
-import org.quantumbadger.redreader.cache.PersistentCookieStore;
-import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.UpdateNotifier;
+import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -37,7 +35,7 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 	private List<RedditAccount> accountsCache = null;
 	private RedditAccount defaultAccountCache = null;
 
-	private static final RedditAccount ANON = new RedditAccount("", null, null, 10);
+	private static final RedditAccount ANON = new RedditAccount("", null, 10);
 
 	private final Context context;
 
@@ -48,11 +46,10 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 		}
 	};
 
-	private static final String ACCOUNTS_DB_FILENAME = "accounts.db",
-			TABLE = "accounts",
+	private static final String ACCOUNTS_DB_FILENAME = "accounts_oauth2.db",
+			TABLE = "accounts_oauth2",
 			FIELD_USERNAME = "username",
-			FIELD_COOKIES = "cookies",
-			FIELD_MODHASH = "modhash",
+			FIELD_REFRESH_TOKEN = "refresh_token",
 			FIELD_PRIORITY = "priority";
 
 	private static final int ACCOUNTS_DB_VERSION = 2;
@@ -83,13 +80,11 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 		final String queryString = String.format(
 				"CREATE TABLE %s (" +
 						"%s TEXT NOT NULL PRIMARY KEY ON CONFLICT REPLACE," +
-						"%s BLOB," +
 						"%s TEXT," +
 						"%s INTEGER)",
 				TABLE,
 				FIELD_USERNAME,
-				FIELD_COOKIES,
-				FIELD_MODHASH,
+				FIELD_REFRESH_TOKEN,
 				FIELD_PRIORITY);
 
 		db.execSQL(queryString);
@@ -122,8 +117,13 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 		final ContentValues row = new ContentValues();
 
 		row.put(FIELD_USERNAME, account.username);
-		row.put(FIELD_COOKIES, account.getCookieBytes());
-		row.put(FIELD_MODHASH, account.modhash);
+
+		if(account.refreshToken == null) {
+			row.putNull(FIELD_REFRESH_TOKEN);
+		} else {
+			row.put(FIELD_REFRESH_TOKEN, account.refreshToken.token);
+		}
+
 		row.put(FIELD_PRIORITY, account.priority);
 
 		db.insert(TABLE, null, row);
@@ -187,7 +187,7 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 
 	private synchronized void reloadAccounts(final SQLiteDatabase db) {
 
-		final String[] fields = new String[] {FIELD_USERNAME, FIELD_COOKIES, FIELD_MODHASH, FIELD_PRIORITY};
+		final String[] fields = new String[] {FIELD_USERNAME, FIELD_REFRESH_TOKEN, FIELD_PRIORITY};
 
 		final Cursor cursor = db.query(TABLE, fields, null, null, null, null, FIELD_PRIORITY + " ASC");
 
@@ -200,20 +200,17 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 			while(cursor.moveToNext()) {
 
 				final String username = cursor.getString(0);
-				final byte[] cookies = cursor.getBlob(1);
-				final String modhash = cursor.getString(2);
-				final long priority = cursor.getLong(3);
 
-				final RedditAccount account;
-
-				try {
-					account = new RedditAccount(username, modhash, cookies == null ? null : new PersistentCookieStore(cookies), priority);
-
-				} catch (IOException e) {
-					BugReportActivity.handleGlobalError(context, new RRError(null, null, e));
-					return;
+				final RedditOAuth.RefreshToken refreshToken;
+				if(cursor.isNull(1)) {
+					refreshToken = null;
+				} else {
+					refreshToken = new RedditOAuth.RefreshToken(cursor.getString(1));
 				}
 
+				final long priority = cursor.getLong(2);
+
+				final RedditAccount account = new RedditAccount(username, refreshToken, priority);
 				accountsCache.add(account);
 
 				if(defaultAccountCache == null || account.priority < defaultAccountCache.priority) {

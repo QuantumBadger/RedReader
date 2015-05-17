@@ -21,6 +21,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 import org.apache.http.*;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.params.ClientPNames;
 import org.apache.http.conn.params.ConnManagerPNames;
 import org.apache.http.conn.params.ConnPerRoute;
@@ -77,22 +78,11 @@ public final class CacheManager {
 		return singleton;
 	}
 
-	private CacheManager(final Context context) {
+	public static HttpClient createHttpClient(final Context context) {
 
-		if(!isAlreadyInitialized.compareAndSet(false, true)) {
-			throw new RuntimeException("Attempt to initialize the cache twice.");
-		}
-
-		this.context = context;
-
-		dbManager = new CacheDbManager(context);
-
-		RequestHandlerThread requestHandler = new RequestHandlerThread();
-
-		// TODo put somewhere else -- make request specific, no restart needed on prefs change!
 		final HttpParams params = new BasicHttpParams();
 		params.setParameter(CoreProtocolPNames.USER_AGENT, Constants.ua(context));
-		params.setParameter(CoreConnectionPNames.SO_TIMEOUT, 20000); // TODO remove hardcoded params, put in network prefs
+		params.setParameter(CoreConnectionPNames.SO_TIMEOUT, 20000);
 		params.setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 20000);
 		params.setParameter(CoreConnectionPNames.MAX_HEADER_COUNT, 100);
 		params.setParameter(ClientPNames.HANDLE_REDIRECTS, true);
@@ -110,10 +100,10 @@ public final class CacheManager {
 
 		final ThreadSafeClientConnManager connManager = new ThreadSafeClientConnManager(params, schemeRegistry);
 
-		final DefaultHttpClient defaultHttpClient = new DefaultHttpClient(connManager, params);
-		defaultHttpClient.setHttpRequestRetryHandler(new DefaultHttpRequestRetryHandler(3, true));
+		final DefaultHttpClient httpClient = new DefaultHttpClient(connManager, params);
+		httpClient.setHttpRequestRetryHandler(new DefaultHttpRequestRetryHandler(3, true));
 
-		defaultHttpClient.addResponseInterceptor(new HttpResponseInterceptor() {
+		httpClient.addResponseInterceptor(new HttpResponseInterceptor() {
 
 			public void process(final HttpResponse response, final HttpContext context) throws HttpException, IOException {
 
@@ -131,8 +121,23 @@ public final class CacheManager {
 			}
 		});
 
-		downloadQueue = new PrioritisedDownloadQueue(defaultHttpClient);
+		return httpClient;
+	}
 
+	private CacheManager(final Context context) {
+
+		if(!isAlreadyInitialized.compareAndSet(false, true)) {
+			throw new RuntimeException("Attempt to initialize the cache twice.");
+		}
+
+		this.context = context;
+
+		dbManager = new CacheDbManager(context);
+
+		final HttpClient httpClient = createHttpClient(context);
+		downloadQueue = new PrioritisedDownloadQueue(httpClient);
+
+		final RequestHandlerThread requestHandler = new RequestHandlerThread();
 		requestHandler.start();
 	}
 

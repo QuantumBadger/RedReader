@@ -20,13 +20,12 @@ package org.quantumbadger.redreader.cache;
 import org.apache.http.client.HttpClient;
 import org.quantumbadger.redreader.common.PrioritisedCachedThreadPool;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
 
 
 class PrioritisedDownloadQueue {
 
-	private final HashMap<RequestIdentifier, CacheDownload> redditDownloadsQueued = new HashMap<RequestIdentifier, CacheDownload>();
+	private final HashSet<CacheDownload> redditDownloadsQueued = new HashSet<CacheDownload>();
 
 	private final PrioritisedCachedThreadPool mDownloadThreadPool = new PrioritisedCachedThreadPool(5, "Download");
 
@@ -43,10 +42,8 @@ class PrioritisedDownloadQueue {
 
 	public synchronized void add(final CacheRequest request, final CacheManager manager) {
 
-		final RequestIdentifier identifier = request.createIdentifier();
-
 		if(request.isRedditApi) {
-			redditDownloadsQueued.put(identifier, new CacheDownload(request, manager, this));
+			redditDownloadsQueued.add(new CacheDownload(request, manager, this));
 			notifyAll();
 
 		} else {
@@ -61,16 +58,14 @@ class PrioritisedDownloadQueue {
 		}
 
 		CacheDownload next = null;
-		RequestIdentifier nextKey = null;
 
-		for(final Map.Entry<RequestIdentifier, CacheDownload> entry : redditDownloadsQueued.entrySet()) {
-			if(next == null || entry.getValue().isHigherPriorityThan(next)) {
-				next = entry.getValue();
-				nextKey = entry.getKey();
+		for(final CacheDownload entry : redditDownloadsQueued) {
+			if(next == null || entry.isHigherPriorityThan(next)) {
+				next = entry;
 			}
 		}
 
-		redditDownloadsQueued.remove(nextKey);
+		redditDownloadsQueued.remove(next);
 
 		return next;
 	}
@@ -84,8 +79,6 @@ class PrioritisedDownloadQueue {
 		@Override
 		public void run() {
 
-			android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
-
 			while(true) {
 
 				synchronized(this) {
@@ -94,8 +87,7 @@ class PrioritisedDownloadQueue {
 				}
 
 				try {
-					// TODO allow for burstiness
-					sleep(2000); // Delay imposed by reddit API restrictions.
+					sleep(1500); // Delay imposed by reddit API restrictions.
 				} catch (InterruptedException e) {
 					throw new RuntimeException(e);
 				}

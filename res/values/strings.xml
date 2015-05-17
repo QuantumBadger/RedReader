@@ -625,7 +625,14 @@
     <string name="mark_all_as_read">Mark all as read</string>
     <string name="mark_all_as_read_success">All messages marked as read.</string>
 
+    <!-- 2015-05-17 -->
+    <string name="error_title_login_user_denied_permission">Permission Denied</string>
+    <string name="error_message_login_user_denied_permission">Permission to access the account was denied. Please try again.</string>
+
+    <string name="error_title_login_unknown_reddit_error">Unknown reddit error: </string>
+
     <!-- 2015-05-23 -->
     <string name="imageview_invalid_video">Invalid video. Trying internal browser.</string>
+    <string name="download_authorizing">Authenticating…</string>
 
 </resources>

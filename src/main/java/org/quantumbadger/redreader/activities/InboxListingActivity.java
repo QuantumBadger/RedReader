@@ -203,7 +203,7 @@ public final class InboxListingActivity extends Activity {
 				if(t != null) t.printStackTrace();
 			}
 
-			@Override protected void onProgress(final long bytesRead, final long totalBytes) {}
+			@Override protected void onProgress(final boolean authorizationInProgress, final long bytesRead, final long totalBytes) {}
 
 			@Override
 			protected void onSuccess(final CacheManager.ReadableCacheFile cacheFile, final long timestamp, final UUID session, final boolean fromCache, final String mimetype) {

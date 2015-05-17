@@ -37,11 +37,11 @@ public class UserPostListingURL extends PostListingURL {
 	}
 
 	public static UserPostListingURL getLiked(String username) {
-		return new UserPostListingURL(Type.LIKED, username, null, null, null);
+		return new UserPostListingURL(Type.UPVOTED, username, null, null, null);
 	}
 
 	public static UserPostListingURL getDisliked(String username) {
-		return new UserPostListingURL(Type.DISLIKED, username, null, null, null);
+		return new UserPostListingURL(Type.DOWNVOTED, username, null, null, null);
 	}
 
 	public static UserPostListingURL getSubmitted(String username) {
@@ -62,7 +62,7 @@ public class UserPostListingURL extends PostListingURL {
 	}
 
 	public enum Type {
-		SAVED, HIDDEN, LIKED, DISLIKED, SUBMITTED
+		SAVED, HIDDEN, UPVOTED, DOWNVOTED, SUBMITTED
 	}
 
 	@Override
@@ -183,11 +183,11 @@ public class UserPostListingURL extends PostListingURL {
 				name = context.getString(R.string.mainmenu_hidden);
 				break;
 
-			case LIKED:
+			case UPVOTED:
 				name = context.getString(R.string.mainmenu_upvoted);
 				break;
 
-			case DISLIKED:
+			case DOWNVOTED:
 				name = context.getString(R.string.mainmenu_downvoted);
 				break;
 

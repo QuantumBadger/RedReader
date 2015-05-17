@@ -162,12 +162,12 @@ public class ImageViewActivity extends Activity implements RedditPostView.PostSe
 					}
 
 					@Override
-					protected void onProgress(final long bytesRead, final long totalBytes) {
+					protected void onProgress(final boolean authorizationInProgress, final long bytesRead, final long totalBytes) {
 						General.UI_THREAD_HANDLER.post(new Runnable() {
 							@Override
 							public void run() {
 								progressBar.setVisibility(View.VISIBLE);
-								progressBar.setIndeterminate(false);
+								progressBar.setIndeterminate(authorizationInProgress);
 								progressBar.setProgress((int) ((100 * bytesRead) / totalBytes));
 							}
 						});

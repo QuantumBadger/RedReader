@@ -57,7 +57,6 @@ public final class RedditAPI {
 		final LinkedList<NameValuePair> postFields = new LinkedList<NameValuePair>();
 		postFields.add(new BasicNameValuePair("kind", is_self ? "self" : "link"));
 		postFields.add(new BasicNameValuePair("sendreplies", "true"));
-		postFields.add(new BasicNameValuePair("uh", user.modhash));
 		postFields.add(new BasicNameValuePair("sr", subreddit));
 		postFields.add(new BasicNameValuePair("title", title));
 		postFields.add(new BasicNameValuePair("captcha", captchaText));
@@ -112,7 +111,6 @@ public final class RedditAPI {
 
 		final LinkedList<NameValuePair> postFields = new LinkedList<NameValuePair>();
 		postFields.add(new BasicNameValuePair("thing_id", parentIdAndType));
-		postFields.add(new BasicNameValuePair("uh", user.modhash));
 		postFields.add(new BasicNameValuePair("text", markdown));
 
 		cm.makeRequest(new APIPostRequest(Constants.Reddit.getUri("/api/comment"), user, postFields, context) {
@@ -154,7 +152,6 @@ public final class RedditAPI {
 			final Context context) {
 
 		final LinkedList<NameValuePair> postFields = new LinkedList<NameValuePair>();
-		postFields.add(new BasicNameValuePair("uh", user.modhash));
 
 		cm.makeRequest(new APIPostRequest(Constants.Reddit.getUri("/api/read_all_messages"), user, postFields, context) {
 
@@ -197,7 +194,6 @@ public final class RedditAPI {
 
 		final LinkedList<NameValuePair> postFields = new LinkedList<NameValuePair>();
 		postFields.add(new BasicNameValuePair("thing_id", commentIdAndType));
-		postFields.add(new BasicNameValuePair("uh", user.modhash));
 		postFields.add(new BasicNameValuePair("text", markdown));
 
 		cm.makeRequest(new APIPostRequest(Constants.Reddit.getUri("/api/editusertext"), user, postFields, context) {
@@ -238,7 +234,6 @@ public final class RedditAPI {
 								   final Context context) {
 
 		final LinkedList<NameValuePair> postFields = new LinkedList<NameValuePair>();
-		postFields.add(new BasicNameValuePair("uh", user.modhash));
 
 		cm.makeRequest(new APIPostRequest(Constants.Reddit.getUri("/api/new_captcha"), user, postFields, context) {
 
@@ -289,7 +284,6 @@ public final class RedditAPI {
 
 		final LinkedList<NameValuePair> postFields = new LinkedList<NameValuePair>();
 		postFields.add(new BasicNameValuePair("id", idAndType));
-		postFields.add(new BasicNameValuePair("uh", user.modhash));
 
 		final URI url = prepareActionUri(action, postFields);
 
@@ -378,7 +372,6 @@ public final class RedditAPI {
 						final LinkedList<NameValuePair> postFields = new LinkedList<NameValuePair>();
 
 						postFields.add(new BasicNameValuePair("sr", subreddit.name));
-						postFields.add(new BasicNameValuePair("uh", user.modhash));
 
 						final URI url = prepareActionUri(action, postFields);
 
@@ -587,8 +580,7 @@ public final class RedditAPI {
 		}
 
 		@Override
-		protected final void onProgress(final long bytesRead, final long totalBytes) {
-			throw new RuntimeException("onProgress called for uncached request");
+		protected final void onProgress(final boolean authorizationInProgress, final long bytesRead, final long totalBytes) {
 		}
 
 		@Override
@@ -608,9 +600,7 @@ public final class RedditAPI {
 		}
 
 		@Override
-		protected final void onProgress(final long bytesRead, final long totalBytes) {
-			if(!cache) throw new RuntimeException("onProgress called for uncached request");
-		}
+		protected final void onProgress(final boolean authorizationInProgress, final long bytesRead, final long totalBytes) {}
 
 		@Override
 		public abstract void onJsonParseStarted(JsonValue result, long timestamp, UUID session, boolean fromCache);

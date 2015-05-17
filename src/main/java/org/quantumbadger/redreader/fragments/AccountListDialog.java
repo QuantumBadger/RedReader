@@ -19,26 +19,114 @@ package org.quantumbadger.redreader.fragments;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import org.holoeverywhere.app.AlertDialog;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.DialogFragment;
+import org.holoeverywhere.app.ProgressDialog;
 import org.holoeverywhere.widget.ListView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
+import org.quantumbadger.redreader.activities.OAuthLoginActivity;
 import org.quantumbadger.redreader.adapters.AccountListAdapter;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 
-public class AccountListDialog extends DialogFragment implements RedditAccountChangeListener {
+import java.util.concurrent.atomic.AtomicBoolean;
+
+public class AccountListDialog extends DialogFragment
+		implements RedditAccountChangeListener {
 
 	// Workaround for HoloEverywhere bug?
 	private volatile boolean alreadyCreated = false;
 
 	private ListView lv;
+
+	@Override
+	public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+
+		if(requestCode == 123 && requestCode == resultCode && data.hasExtra("url")) {
+
+			final ProgressDialog progressDialog = new ProgressDialog(getSupportActivity());
+			progressDialog.setTitle(R.string.accounts_loggingin);
+			progressDialog.setMessage(getString(R.string.accounts_loggingin_msg));
+			progressDialog.setIndeterminate(true);
+			progressDialog.setCancelable(true);
+			progressDialog.setCanceledOnTouchOutside(false);
+
+			final AtomicBoolean cancelled = new AtomicBoolean(false);
+
+			progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+				public void onCancel(final DialogInterface dialogInterface) {
+					cancelled.set(true);
+					progressDialog.dismiss();
+				}
+			});
+
+			progressDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+				public boolean onKey(final DialogInterface dialogInterface, final int keyCode, final KeyEvent keyEvent) {
+
+					if(keyCode == KeyEvent.KEYCODE_BACK) {
+						cancelled.set(true);
+						progressDialog.dismiss();
+					}
+
+					return true;
+				}
+			});
+
+			progressDialog.show();
+
+			RedditOAuth.loginAsynchronous(
+					getSupportActivity().getApplicationContext(),
+					Uri.parse(data.getStringExtra("url")),
+
+					new RedditOAuth.LoginListener() {
+						@Override
+						public void onLoginSuccess(final RedditAccount account) {
+							General.UI_THREAD_HANDLER.post(new Runnable() {
+								@Override
+								public void run() {
+									progressDialog.dismiss();
+									if(cancelled.get()) return;
+
+									final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getSupportActivity());
+									alertBuilder.setNeutralButton(R.string.dialog_close, new DialogInterface.OnClickListener() {
+										public void onClick(DialogInterface dialog, int which) {}
+									});
+
+									final Context context = getSupportActivity().getApplicationContext();
+									alertBuilder.setTitle(context.getString(R.string.general_success));
+									alertBuilder.setMessage(context.getString(R.string.message_nowloggedin));
+
+									final AlertDialog alertDialog = alertBuilder.create();
+									alertDialog.show();
+								}
+							});
+						}
+
+						@Override
+						public void onLoginFailure(final RedditOAuth.LoginError error, final RRError details) {
+							General.UI_THREAD_HANDLER.post(new Runnable() {
+								@Override
+								public void run() {
+									progressDialog.dismiss();
+									if(cancelled.get()) return;
+									General.showResultDialog(getSupportActivity(), details);
+								}
+							});
+						}
+					});
+		}
+	}
 
 	@Override
 	public Dialog onCreateDialog(final Bundle savedInstanceState) {
@@ -64,8 +152,10 @@ public class AccountListDialog extends DialogFragment implements RedditAccountCh
 			public void onItemClick(AdapterView<?> adapterView, View view, int position, final long id) {
 
 				if(position == 0) {
-					new AddAccountDialog().show(getSupportActivity());
-					dismiss();
+
+					final Intent loginIntent = new Intent(context, OAuthLoginActivity.class);
+					startActivityForResult(loginIntent, 123);
+
 				} else {
 
 					final RedditAccount account = (RedditAccount)lv.getAdapter().getItem(position);

@@ -95,8 +95,12 @@ public class CaptchaActivity extends Activity {
 					}
 
 					@Override
-					protected void onProgress(long bytesRead, long totalBytes) {
-						loadingView.setProgress(R.string.download_downloading, (float) ((double) bytesRead / (double) totalBytes));
+					protected void onProgress(final boolean authorizationInProgress, long bytesRead, long totalBytes) {
+						if(authorizationInProgress) {
+							loadingView.setIndeterminate(R.string.download_authorizing);
+						} else {
+							loadingView.setProgress(R.string.download_downloading, (float)((double)bytesRead / (double)totalBytes));
+						}
 					}
 
 					@Override

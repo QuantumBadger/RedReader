@@ -34,6 +34,7 @@ import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.common.PrioritisedCachedThreadPool;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
+import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -102,7 +103,6 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 		}
 
 		try {
-			mInitiator.notifyDownloadStarted();
 			performDownload(mQueue.getHttpClient(), mHttpRequest);
 
 		} catch(Throwable t) {
@@ -116,6 +116,38 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 
 		final HttpContext localContext = new BasicHttpContext();
 		localContext.setAttribute(ClientContext.COOKIE_STORE, mInitiator.getCookies());
+
+		if(mInitiator.isRedditApi) {
+
+			RedditOAuth.AccessToken accessToken = mInitiator.user.getMostRecentAccessToken();
+
+			if(accessToken == null || accessToken.isExpired()) {
+
+				mInitiator.notifyProgress(true, 0, 0);
+
+				final RedditOAuth.FetchAccessTokenResult result;
+
+				if(mInitiator.user.isAnonymous()) {
+					result = RedditOAuth.fetchAnonymousAccessTokenSynchronous(mInitiator.context);
+
+				} else {
+					result = RedditOAuth.fetchAccessTokenSynchronous(mInitiator.context, mInitiator.user.refreshToken);
+				}
+
+				if(result.status != RedditOAuth.FetchAccessTokenResultStatus.SUCCESS) {
+					mInitiator.notifyFailure(RequestFailureType.REQUEST, result.error.t, result.error.httpStatus, result.error.title + ": " + result.error.message);
+					return;
+				}
+
+				accessToken = result.accessToken;
+				mInitiator.user.setAccessToken(accessToken);
+			}
+
+			httpRequest.addHeader("Authorization", "bearer " + accessToken.token);
+
+		}
+
+		mInitiator.notifyDownloadStarted();
 
 		final HttpResponse response;
 		final StatusLine status;
@@ -196,7 +228,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 
 				bis = new BufferedInputStream(new CachingInputStream(is, cacheOs, new CachingInputStream.BytesReadListener() {
 					public void onBytesRead(final long total) {
-						mInitiator.notifyProgress(total, contentLength);
+						mInitiator.notifyProgress(false, total, contentLength);
 					}
 				}), 8 * 1024);
 
@@ -248,7 +280,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 				while((bytesRead = is.read(buf)) > 0) {
 					totalBytesRead += bytesRead;
 					cacheOs.write(buf, 0, bytesRead);
-					mInitiator.notifyProgress(totalBytesRead, contentLength);
+					mInitiator.notifyProgress(false, totalBytesRead, contentLength);
 				}
 
 				cacheOs.flush();

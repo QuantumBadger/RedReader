@@ -78,6 +78,7 @@ public class CommentListingRequest {
 		EVENT_EXCEPTION,
 		EVENT_FAILURE,
 		EVENT_CACHED_COPY,
+		EVENT_AUTHORIZING,
 		EVENT_PARSE_START,
 		EVENT_POST_DOWNLOADED,
 		EVENT_ITEM_DOWNLOADED,
@@ -93,6 +94,7 @@ public class CommentListingRequest {
 		public void onCommentListingRequestDownloadStarted();
 		public void onCommentListingRequestException(Throwable t);
 		public void onCommentListingRequestFailure(RRError error);
+		public void onCommentListingRequestAuthorizing();
 		public void onCommentListingRequestCachedCopy(long timestamp);
 		public void onCommentListingRequestParseStart();
 		public void onCommentListingRequestPostDownloaded(RedditPreparedPost post);
@@ -129,6 +131,10 @@ public class CommentListingRequest {
 
 				case EVENT_CACHED_COPY:
 					mListener.onCommentListingRequestCachedCopy((Long)msg.obj);
+					break;
+
+				case EVENT_AUTHORIZING:
+					mListener.onCommentListingRequestAuthorizing();
 					break;
 
 				case EVENT_PARSE_START:
@@ -207,7 +213,11 @@ public class CommentListingRequest {
 		}
 
 		@Override
-		protected void onProgress(final long bytesRead, final long totalBytes) {}
+		protected void onProgress(final boolean authorizationInProgress, final long bytesRead, final long totalBytes) {
+			if(authorizationInProgress) {
+				notifyListener(Event.EVENT_AUTHORIZING);
+			}
+		}
 
 		@Override
 		protected void onSuccess(final CacheManager.ReadableCacheFile cacheFile, final long timestamp, final UUID session, final boolean fromCache, final String mimetype) {}

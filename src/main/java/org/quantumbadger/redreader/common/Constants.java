@@ -106,7 +106,7 @@ public final class Constants {
 		public static final String
 				SCHEME_HTTP = "http",
 				SCHEME_HTTPS = "https",
-				DOMAIN_HTTP = "www.reddit.com",
+				DOMAIN_HTTP = "oauth.reddit.com",
 				DOMAIN_HTTPS = DOMAIN_HTTP,
 				PATH_VOTE = "/api/vote",
 				PATH_SAVE = "/api/save",
@@ -118,7 +118,8 @@ public final class Constants {
 				PATH_SUBREDDITS_MINE_SUBSCRIBER = "/subreddits/mine/subscriber.json?limit=100",
 				PATH_SUBREDDITS_MINE_MODERATOR = "/subreddits/mine/moderator.json?limit=100",
 				PATH_SUBREDDITS_POPULAR = "/subreddits/popular.json",
-				PATH_COMMENTS = "/comments/";
+				PATH_COMMENTS = "/comments/",
+				PATH_ME = "/api/v1/me";
 
 		public static String getScheme() {
 			return PrefsUtility.httpsEnabled ? SCHEME_HTTPS : SCHEME_HTTP;

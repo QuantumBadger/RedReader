@@ -479,6 +479,12 @@ public class CommentListingFragment extends Fragment
 		loadingView.setIndeterminate(R.string.download_loading);
 	}
 
+
+	@Override
+	public void onCommentListingRequestAuthorizing() {
+		loadingView.setIndeterminate(R.string.download_authorizing);
+	}
+
 	@Override
 	public void onCommentListingRequestPostDownloaded(final RedditPreparedPost post) {
 

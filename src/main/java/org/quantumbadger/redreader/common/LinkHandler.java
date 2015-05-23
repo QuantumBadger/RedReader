@@ -184,7 +184,7 @@ public class LinkHandler {
 
 		final String urlLower = url.toLowerCase();
 
-		final String[] imageExtensions = {".jpg", ".jpeg", ".png", ".gif"};
+		final String[] imageExtensions = {".jpg", ".jpeg", ".png", ".gif", ".webm", ".mp4", ".h264", ".gifv", ".mkv", ".3gp"};
 
 		for(final String ext : imageExtensions) {
 			if(urlLower.endsWith(ext)) {

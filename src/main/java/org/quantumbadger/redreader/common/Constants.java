@@ -42,6 +42,10 @@ public final class Constants {
 		public static boolean isImageGif(String mimetype) {
 			return mimetype.equalsIgnoreCase("image/gif");
 		}
+
+		public static boolean isVideo(String mimetype) {
+			return mimetype.startsWith("video/");
+		}
 	}
 
 	public static final class Reddit {

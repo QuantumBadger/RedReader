@@ -21,12 +21,16 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.VideoView;
 import org.apache.http.StatusLine;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.preference.PreferenceManager;
@@ -171,7 +175,7 @@ public class ImageViewActivity extends Activity implements RedditPostView.PostSe
 					@Override
 					protected void onSuccess(final CacheManager.ReadableCacheFile cacheFile, long timestamp, UUID session, boolean fromCache, final String mimetype) {
 
-						if(mimetype == null || !Constants.Mime.isImage(mimetype)) {
+						if(mimetype == null || (!Constants.Mime.isImage(mimetype) && !Constants.Mime.isVideo(mimetype))) {
 							revertToWeb();
 							return;
 						}
@@ -189,7 +193,64 @@ public class ImageViewActivity extends Activity implements RedditPostView.PostSe
 							return;
 						}
 
-						if(Constants.Mime.isImageGif(mimetype)) {
+						if(Constants.Mime.isVideo(mimetype)) {
+
+							General.UI_THREAD_HANDLER.post(new Runnable() {
+								public void run() {
+
+									if(mIsDestroyed) return;
+									mRequest = null;
+
+									try {
+										final RelativeLayout layout = new RelativeLayout(context);
+										layout.setGravity(Gravity.CENTER);
+
+										final VideoView videoView = new VideoView(ImageViewActivity.this);
+
+										videoView.setVideoURI(cacheFile.getUri());
+										layout.addView(videoView);
+										setContentView(layout);
+
+										layout.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+										layout.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+										videoView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+										videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+											@Override
+											public void onPrepared(MediaPlayer mp) {
+												mp.setLooping(true);
+												videoView.start();
+											}
+										});
+
+										videoView.setOnErrorListener(
+												new MediaPlayer.OnErrorListener() {
+													@Override
+													public boolean onError(final MediaPlayer mediaPlayer, final int i, final int i1) {
+														revertToWeb();
+														return true;
+													}
+												});
+
+										videoView.setClickable(true);
+										videoView.setOnClickListener(new View.OnClickListener() {
+											public void onClick(View v) {
+												finish();
+											}
+										});
+
+									} catch(OutOfMemoryError e) {
+										General.quickToast(context, R.string.imageview_oom);
+										revertToWeb();
+
+									} catch(Throwable e) {
+										General.quickToast(context, R.string.imageview_invalid_gif);
+										revertToWeb();
+									}
+								}
+							});
+
+						} else if(Constants.Mime.isImageGif(mimetype)) {
 
 							if(AndroidApi.isIceCreamSandwichOrLater()) {
 

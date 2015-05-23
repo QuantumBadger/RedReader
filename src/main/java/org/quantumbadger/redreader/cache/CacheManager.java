@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.cache;
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 import org.apache.http.*;
 import org.apache.http.client.params.ClientPNames;
@@ -323,6 +324,10 @@ public final class CacheManager {
 			return getCacheFileInputStream(id);
 		}
 
+		public Uri getUri() throws IOException {
+			return getCacheFileUri(id);
+		}
+
 		@Override
 		public String toString() {
 			return String.format("[ReadableCacheFile : id %d]", id);
@@ -367,6 +372,17 @@ public final class CacheManager {
 		}
 
 		return new BufferedInputStream(new FileInputStream(cacheFile), 8 * 1024);
+	}
+
+	private Uri getCacheFileUri(final long id) throws IOException {
+
+		final File cacheFile = getExistingCacheFile(id);
+
+		if(cacheFile == null) {
+			return null;
+		}
+
+		return Uri.fromFile(cacheFile);
 	}
 
 	private class RequestHandlerThread extends Thread {

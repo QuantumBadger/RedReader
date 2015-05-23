@@ -625,4 +625,7 @@
     <string name="mark_all_as_read">Mark all as read</string>
     <string name="mark_all_as_read_success">All messages marked as read.</string>
 
+    <!-- 2015-05-23 -->
+    <string name="imageview_invalid_video">Invalid video. Trying internal browser.</string>
+
 </resources>

@@ -26,6 +26,7 @@ import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -232,10 +233,11 @@ public class ImageViewActivity extends Activity implements RedditPostView.PostSe
 													}
 												});
 
-										videoView.setClickable(true);
-										videoView.setOnClickListener(new View.OnClickListener() {
-											public void onClick(View v) {
+										videoView.setOnTouchListener(new View.OnTouchListener() {
+											@Override
+											public boolean onTouch(final View view, final MotionEvent motionEvent) {
 												finish();
+												return true;
 											}
 										});
 
@@ -244,7 +246,7 @@ public class ImageViewActivity extends Activity implements RedditPostView.PostSe
 										revertToWeb();
 
 									} catch(Throwable e) {
-										General.quickToast(context, R.string.imageview_invalid_gif);
+										General.quickToast(context, R.string.imageview_invalid_video);
 										revertToWeb();
 									}
 								}

@@ -150,6 +150,12 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 			webView.setWebViewClient(new WebViewClient() {
 				@Override
 				public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
+
+					if(url.startsWith("data:")) {
+						// Prevent imgur bug where we're directed to some random data URI
+						return true;
+					}
+
 					// Go back if loading same page to prevent redirect loops.
 					if(goingBack && currentUrl != null && url != null && url.equals(currentUrl)) {
 

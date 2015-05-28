@@ -163,11 +163,13 @@ public class CommentListingFragment extends Fragment
 		if(isCollapsed) {
 
 			final RedditPreparedComment comment = view.getComment();
+
 			final ListAdapter adapter = lv.getAdapter();
 			final int count = adapter.getCount();
 
 			for(int i = 0; i < count; i++) {
-				if(adapter.getItem(i) == comment) {
+				RedditCommentListItem cmt = (RedditCommentListItem) adapter.getItem(i);
+				if(cmt != null && cmt.isComment() && cmt.asComment() == comment) {
 
 					if(i == lv.getFirstVisiblePosition()) {
 						lv.smoothScrollToPosition(i);

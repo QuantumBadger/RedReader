@@ -82,11 +82,14 @@ public class MainActivity extends RefreshableActivity
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 
+		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		if(PrefsUtility.pref_behaviour_skiptofrontpage(this, sharedPreferences))
+			onSelected(SubredditPostListURL.getFrontPage());
+
 		PrefsUtility.applyTheme(this);
 
 		OptionsMenuUtility.fixActionBar(this, getString(R.string.app_name));
 
-		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 
 		final boolean solidblack = PrefsUtility.appearance_solidblack(this, sharedPreferences)

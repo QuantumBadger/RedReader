@@ -232,7 +232,7 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 			});
 
 		} else {
-			webView.loadData(html, "text/html", "UTF-8");
+			webView.loadDataWithBaseURL("http://reddit.com", html, "text/html", "UTF-8", null);
 		}
 
 		final FrameLayout outerFrame = new FrameLayout(context);

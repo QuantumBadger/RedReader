@@ -190,7 +190,7 @@ public class RedditAPIIndividualSubredditListRequester
 					if(type == RedditSubredditManager.SubredditListType.SUBSCRIBED
 							&& subreddits.getCurrentItemCount() == 0
 							&& after == null) {
-						doSubredditListRequest(RedditSubredditManager.SubredditListType.MOST_POPULAR, handler, null);
+						doSubredditListRequest(RedditSubredditManager.SubredditListType.DEFAULTS, handler, null);
 						return;
 					}
 

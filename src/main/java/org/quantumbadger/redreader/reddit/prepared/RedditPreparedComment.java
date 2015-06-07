@@ -299,7 +299,7 @@ public final class RedditPreparedComment implements RedditPreparedInboxItem {
 				| action == RedditAPI.RedditAction.UNVOTE);
 
 		if(src.archived && vote){
-			Toast.makeText(activity, "sorry, this has been archived and can no longer be voted on", Toast.LENGTH_SHORT)
+			Toast.makeText(activity, R.string.error_archived_vote, Toast.LENGTH_SHORT)
 					.show();
 			return;
 		}

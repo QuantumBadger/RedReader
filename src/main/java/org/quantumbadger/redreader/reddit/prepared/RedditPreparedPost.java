@@ -697,22 +697,16 @@ public final class RedditPreparedPost {
 			case DOWNVOTE:
 				if(!src.archived) {
 					voteDirection = -1;
-				} else {
-					voteDirection = lastVoteDirection;
 				}
 				break;
 			case UNVOTE:
 				if(!src.archived) {
 					voteDirection = 0;
-				} else {
-					voteDirection = lastVoteDirection;
 				}
 				break;
 			case UPVOTE:
 				if(!src.archived) {
 					voteDirection = 1;
-				} else {
-					voteDirection = lastVoteDirection;
 				}
 				break;
 
@@ -735,7 +729,7 @@ public final class RedditPreparedPost {
 				| action == RedditAPI.RedditAction.UNVOTE);
 
 		if(src.archived && vote){
-			Toast.makeText(activity, "sorry, this has been archived and can no longer be voted on", Toast.LENGTH_SHORT)
+			Toast.makeText(activity, R.string.error_archived_vote, Toast.LENGTH_SHORT)
 					.show();
 			return;
 		}

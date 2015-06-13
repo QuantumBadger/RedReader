@@ -636,6 +636,6 @@
     <string name="download_authorizing">Authenticating…</string>
 
     <!-- 2015-06-07 -->
-    <string name="error_archived_vote" >sorry, this has been archived and can no longer be voted on</string>
+    <string name="error_archived_vote" >This has been archived and can no longer be voted on.</string>
 
 </resources>

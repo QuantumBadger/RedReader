@@ -694,9 +694,21 @@ public final class RedditPreparedPost {
 		final int lastVoteDirection = voteDirection;
 
 		switch(action) {
-			case DOWNVOTE: voteDirection = -1; break;
-			case UNVOTE: voteDirection = 0; break;
-			case UPVOTE: voteDirection = 1; break;
+			case DOWNVOTE:
+				if(!src.archived) {
+					voteDirection = -1;
+				}
+				break;
+			case UNVOTE:
+				if(!src.archived) {
+					voteDirection = 0;
+				}
+				break;
+			case UPVOTE:
+				if(!src.archived) {
+					voteDirection = 1;
+				}
+				break;
 
 			case SAVE: saved = true; break;
 			case UNSAVE: saved = false; break;
@@ -711,6 +723,16 @@ public final class RedditPreparedPost {
 		}
 
 		refreshView(activity);
+
+		boolean vote = (action == RedditAPI.RedditAction.DOWNVOTE
+				| action == RedditAPI.RedditAction.UPVOTE
+				| action == RedditAPI.RedditAction.UNVOTE);
+
+		if(src.archived && vote){
+			Toast.makeText(activity, R.string.error_archived_vote, Toast.LENGTH_SHORT)
+					.show();
+			return;
+		}
 
 		final RedditAccount user = RedditAccountManager.getInstance(activity).getDefaultAccount();
 

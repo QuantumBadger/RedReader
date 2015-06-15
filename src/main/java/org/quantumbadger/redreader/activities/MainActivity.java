@@ -83,8 +83,10 @@ public class MainActivity extends RefreshableActivity
 	protected void onCreate(final Bundle savedInstanceState) {
 
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-		if(PrefsUtility.pref_behaviour_skiptofrontpage(this, sharedPreferences))
-			onSelected(SubredditPostListURL.getFrontPage());
+		if (savedInstanceState == null) {
+			if(PrefsUtility.pref_behaviour_skiptofrontpage(this, sharedPreferences))
+				onSelected(SubredditPostListURL.getFrontPage());
+		}
 
 		PrefsUtility.applyTheme(this);
 

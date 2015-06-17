@@ -554,9 +554,9 @@ Thanks to /u/balducien and /u/andiho for this translation!
 
     <!-- 2014-03-23 -->
 
-    <string name="options_subscribe">Abonieren</string>
+    <string name="options_subscribe">Abonnieren</string>
     <string name="options_unsubscribe">Abbestellen</string>
-    <string name="options_subscribing">Abonieren…</string>
+    <string name="options_subscribing">Abonnieren…</string>
     <string name="options_unsubscribing">Abbestellen…</string>
     <string name="options_sidebar">Seitenleiste anzeigen</string>
 

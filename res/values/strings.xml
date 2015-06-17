@@ -635,6 +635,10 @@
     <string name="imageview_invalid_video">Invalid video. Trying internal browser.</string>
     <string name="download_authorizing">Authenticating…</string>
 
+    <!-- 2015-05-29 -->
+    <string name="pref_behaviour_skiptofrontpage_title">Skip to front page</string>
+    <string name="pref_behaviour_skiptofrontpage_key">pref_behaviour_skiptofrontpage</string>
+
     <!-- 2015-06-07 -->
     <string name="error_archived_vote" >This has been archived and can no longer be voted on.</string>
 

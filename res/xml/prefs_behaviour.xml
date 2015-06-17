@@ -19,6 +19,10 @@
 
 <PreferenceScreen xmlns:holo="http://schemas.android.com/apk/res-auto">
 
+    <CheckBoxPreference holo:title="@string/pref_behaviour_skiptofrontpage_title"
+                        holo:key="@string/pref_behaviour_skiptofrontpage_key"
+                        holo:defaultValue="false"/>
+
     <CheckBoxPreference holo:title="@string/pref_behaviour_useinternalbrowser_title"
                         holo:key="@string/pref_behaviour_useinternalbrowser_key"
                         holo:defaultValue="true"/>

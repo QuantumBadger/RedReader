@@ -25,7 +25,6 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import org.apache.http.StatusLine;
 import org.holoeverywhere.ArrayAdapter;
-import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.ProgressDialog;
 import org.holoeverywhere.widget.EditText;
 import org.holoeverywhere.widget.LinearLayout;
@@ -44,7 +43,7 @@ import org.quantumbadger.redreader.reddit.RedditAPI;
 
 import java.util.ArrayList;
 
-public class CommentReplyActivity extends Activity {
+public class CommentReplyActivity extends BaseActivity {
 
 	private Spinner usernameSpinner;
 	private EditText textEdit;

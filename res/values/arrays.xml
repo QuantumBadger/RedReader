@@ -338,4 +338,18 @@
         <item>upvoted</item>
     </string-array>
 
+    <!-- 2015-06-20 -->
+    <string-array name="pref_behaviour_screenorientation_array">
+        <item>@string/screen_orientation_auto</item>
+        <item>@string/screen_orientation_portrait</item>
+        <item>@string/screen_orientation_landscape</item>
+    </string-array>
+
+    <!-- Constants. Do not change. -->
+    <string-array name="pref_behaviour_screenorientation_array_return">
+        <item>auto</item>
+        <item>portrait</item>
+        <item>landscape</item>
+    </string-array>
+
 </resources>

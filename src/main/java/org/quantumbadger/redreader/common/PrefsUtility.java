@@ -268,6 +268,14 @@ public final class PrefsUtility {
 		return PostCount.valueOf(getString(R.string.pref_behaviour_postcount_key, "ALL", context, sharedPreferences));
 	}
 
+	public static enum ScreenOrientation {
+		AUTO, PORTRAIT, LANDSCAPE
+	}
+
+	public static ScreenOrientation pref_behaviour_screen_orientation(final Context context, final SharedPreferences sharedPreferences) {
+		return ScreenOrientation.valueOf(getString(R.string.pref_behaviour_screenorientation_key, ScreenOrientation.AUTO.name(), context, sharedPreferences).toUpperCase());
+	}
+
 	///////////////////////////////
 	// pref_cache
 	///////////////////////////////

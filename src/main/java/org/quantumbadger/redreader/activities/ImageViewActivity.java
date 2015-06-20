@@ -33,7 +33,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.VideoView;
 import org.apache.http.StatusLine;
-import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.preference.SharedPreferences;
 import org.holoeverywhere.widget.FrameLayout;
@@ -65,7 +64,7 @@ import java.io.InputStream;
 import java.net.URI;
 import java.util.UUID;
 
-public class ImageViewActivity extends Activity implements RedditPostView.PostSelectionListener, ImageViewDisplayListManager.Listener {
+public class ImageViewActivity extends BaseActivity implements RedditPostView.PostSelectionListener, ImageViewDisplayListManager.Listener {
 
 	GLSurfaceView surfaceView;
 	private ImageView imageView;

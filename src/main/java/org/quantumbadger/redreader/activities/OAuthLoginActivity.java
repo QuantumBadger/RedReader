@@ -24,14 +24,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.webkit.*;
 import com.actionbarsherlock.view.MenuItem;
-import org.holoeverywhere.app.Activity;
 import org.quantumbadger.redreader.common.AndroidApi;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 
 import java.io.ByteArrayInputStream;
 
-public class OAuthLoginActivity extends Activity {
+public class OAuthLoginActivity extends BaseActivity {
 
 	private WebView mWebView;
 

@@ -45,7 +45,6 @@ import java.util.UUID;
 
 public class CommentListingActivity extends RefreshableActivity
 		implements RedditAccountChangeListener,
-		SharedPreferences.OnSharedPreferenceChangeListener,
 		OptionsMenuUtility.OptionsMenuCommentsListener,
 		RedditPostView.PostSelectionListener,
 		SessionChangeListener {
@@ -66,7 +65,6 @@ public class CommentListingActivity extends RefreshableActivity
 		OptionsMenuUtility.fixActionBar(this, getString(R.string.app_name));
 
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-		sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 
 		final boolean solidblack = PrefsUtility.appearance_solidblack(this, sharedPreferences)
 				&& PrefsUtility.appearance_theme(this, sharedPreferences) == PrefsUtility.AppearanceTheme.NIGHT;
@@ -116,23 +114,6 @@ public class CommentListingActivity extends RefreshableActivity
 		transaction.replace(R.id.main_single_frame, fragment, "comment_listing_fragment");
 		transaction.commit();
 		OptionsMenuUtility.fixActionBar(this, controller.getCommentListingUrl().humanReadableName(this, false));
-	}
-
-	public void onSharedPreferenceChanged(final SharedPreferences prefs, final String key) {
-
-		if(PrefsUtility.isRestartRequired(this, key)) {
-			requestRefresh(RefreshableFragment.RESTART, false);
-		}
-
-		if(PrefsUtility.isRefreshRequired(this, key)) {
-			requestRefresh(RefreshableFragment.ALL, false);
-		}
-	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
 	}
 
 	public void onRefreshComments() {

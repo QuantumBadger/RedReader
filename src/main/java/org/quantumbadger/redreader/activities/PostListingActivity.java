@@ -28,8 +28,6 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.AlertDialog;
-import org.holoeverywhere.preference.PreferenceManager;
-import org.holoeverywhere.preference.SharedPreferences;
 import org.holoeverywhere.widget.EditText;
 import org.holoeverywhere.widget.LinearLayout;
 import org.quantumbadger.redreader.R;
@@ -55,15 +53,12 @@ import java.util.UUID;
 public class PostListingActivity extends RefreshableActivity
 		implements RedditAccountChangeListener,
 		RedditPostView.PostSelectionListener,
-		SharedPreferences.OnSharedPreferenceChangeListener,
 		OptionsMenuUtility.OptionsMenuPostsListener,
 		SessionChangeListener,
 		RedditSubredditSubscriptionManager.SubredditSubscriptionStateChangeListener {
 
 	private PostListingFragment fragment;
 	private PostListingController controller;
-
-	private SharedPreferences sharedPreferences;
 
 	public void onCreate(final Bundle savedInstanceState) {
 
@@ -75,9 +70,6 @@ public class PostListingActivity extends RefreshableActivity
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         getWindow().setBackgroundDrawable(new ColorDrawable(getSupportActionBarContext().obtainStyledAttributes(new int[] {R.attr.rrListBackgroundCol}).getColor(0,0)));
-
-		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-		sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 
 		RedditAccountManager.getInstance(this).addUpdateListener(this);
 
@@ -264,23 +256,6 @@ public class PostListingActivity extends RefreshableActivity
 				getString(R.string.sidebar_activity_title),
 				fragment.getSubreddit().url));
 		startActivityForResult(intent, 1);
-	}
-
-	public void onSharedPreferenceChanged(final SharedPreferences prefs, final String key) {
-
-		if(PrefsUtility.isRestartRequired(this, key)) {
-			requestRefresh(RefreshableFragment.RESTART, false);
-		}
-
-		if(PrefsUtility.isRefreshRequired(this, key)) {
-			requestRefresh(RefreshableFragment.ALL, false);
-		}
-	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
 	}
 
 	@Override

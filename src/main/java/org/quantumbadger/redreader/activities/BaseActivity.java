@@ -19,27 +19,54 @@ package org.quantumbadger.redreader.activities;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.preference.SharedPreferences;
+import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.PrefsUtility;
 
-public class BaseActivity extends Activity {
+public class BaseActivity extends Activity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
 	private SharedPreferences sharedPreferences;
+
+	private static boolean closingAll = false;
+
+	public void closeAllExceptMain() {
+		closingAll = true;
+		closeIfNecessary();
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 		setOrientationFromPrefs();
+		closeIfNecessary();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		setOrientationFromPrefs();
+		closeIfNecessary();
+	}
+
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
+	}
+
+	private void closeIfNecessary() {
+		if(closingAll) {
+			if(this instanceof MainActivity) {
+				closingAll = false;
+			} else {
+				finish();
+			}
+		}
 	}
 
 	private void setOrientationFromPrefs() {
@@ -50,5 +77,22 @@ public class BaseActivity extends Activity {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		else if (orientation == PrefsUtility.ScreenOrientation.LANDSCAPE)
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+	}
+
+	protected void onSharedPreferenceChangedInner(final SharedPreferences prefs, final String key) {
+		// Do nothing
+	}
+
+	@Override
+	public final void onSharedPreferenceChanged(final SharedPreferences prefs, final String key) {
+
+		onSharedPreferenceChangedInner(prefs, key);
+
+		if(key.equals(getString(R.string.pref_network_https_key))) {
+			PrefsUtility.network_https(this, prefs);
+
+		} else if(key.equals(getString(R.string.pref_menus_optionsmenu_items_key))) {
+			invalidateOptionsMenu();
+		}
 	}
 }

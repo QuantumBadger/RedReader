@@ -59,7 +59,6 @@ public class MainActivity extends RefreshableActivity
 		implements MainMenuSelectionListener,
 		RedditAccountChangeListener,
 		RedditPostView.PostSelectionListener,
-		SharedPreferences.OnSharedPreferenceChangeListener,
 		OptionsMenuUtility.OptionsMenuSubredditsListener,
 		OptionsMenuUtility.OptionsMenuPostsListener,
 		OptionsMenuUtility.OptionsMenuCommentsListener,
@@ -91,8 +90,6 @@ public class MainActivity extends RefreshableActivity
 		PrefsUtility.applyTheme(this);
 
 		OptionsMenuUtility.fixActionBar(this, getString(R.string.app_name));
-
-		sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 
 		final boolean solidblack = PrefsUtility.appearance_solidblack(this, sharedPreferences)
 				&& PrefsUtility.appearance_theme(this, sharedPreferences) == PrefsUtility.AppearanceTheme.NIGHT;
@@ -454,26 +451,6 @@ public class MainActivity extends RefreshableActivity
 		} else {
 			LinkHandler.onLinkClicked(this, post.url, false, post.src);
 		}
-	}
-
-	public void onSharedPreferenceChanged(final SharedPreferences prefs, final String key) {
-
-		if(PrefsUtility.isRestartRequired(this, key)) {
-			requestRefresh(RefreshableFragment.RESTART, false);
-		}
-
-		if(PrefsUtility.isReLayoutRequired(this, key)) {
-			requestRefresh(RefreshableFragment.MAIN_RELAYOUT, false);
-
-		} else if(PrefsUtility.isRefreshRequired(this, key)) {
-			requestRefresh(RefreshableFragment.ALL, false);
-		}
-	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
 	}
 
 	@Override

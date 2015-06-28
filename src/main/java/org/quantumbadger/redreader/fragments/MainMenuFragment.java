@@ -56,11 +56,11 @@ public class MainMenuFragment extends Fragment implements MainMenuSelectionListe
 
 	private boolean force;
 
-	public static enum MainMenuAction {
+	public enum MainMenuAction {
 		FRONTPAGE, PROFILE, INBOX, SUBMITTED, UPVOTED, DOWNVOTED, SAVED, MODMAIL, HIDDEN, CUSTOM, ALL
 	}
 
-	public static enum MainMenuUserItems {
+	public enum MainMenuUserItems {
 		PROFILE, INBOX, SUBMITTED, SAVED, HIDDEN, UPVOTED, DOWNVOTED, MODMAIL
 	}
 

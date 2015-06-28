@@ -28,7 +28,10 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 
 import java.util.List;
 
-public final class SettingsActivity extends PreferenceActivity {
+public final class SettingsActivity
+		extends PreferenceActivity
+		implements SharedPreferences.OnSharedPreferenceChangeListener {
+
 	private SharedPreferences sharedPreferences;
 
 	@Override
@@ -36,6 +39,7 @@ public final class SettingsActivity extends PreferenceActivity {
 		PrefsUtility.applyTheme(this);
 		super.onCreate(savedInstanceState);
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 		setOrientationFromPrefs();
 
 		getSupportActionBar().setHomeButtonEnabled(true);
@@ -43,14 +47,13 @@ public final class SettingsActivity extends PreferenceActivity {
 	}
 
 	@Override
-	protected void onResume() {
-		super.onResume();
-		setOrientationFromPrefs();
+	protected void onDestroy() {
+		super.onDestroy();
+		sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
 	}
 
 	@Override
 	public void onBuildHeaders(final List<Header> target) {
-
 		loadHeadersFromResource(R.xml.prefheaders, target);
 	}
 
@@ -73,5 +76,13 @@ public final class SettingsActivity extends PreferenceActivity {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		else if (orientation == PrefsUtility.ScreenOrientation.LANDSCAPE)
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+	}
+
+	@Override
+	public void onSharedPreferenceChanged(final SharedPreferences prefs, final String key) {
+
+		if(key.equals(getString(R.string.pref_behaviour_screenorientation_key))) {
+			setOrientationFromPrefs();
+		}
 	}
 }

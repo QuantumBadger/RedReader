@@ -8,6 +8,8 @@ Added preference to skip straight to the front page (thanks to chaitan94)
 Disallow voting on archived posts (thanks to Ciaran Curley)
 Fixed typo in German translation (thanks to Aruee)
 Fixed UTF-8 support in subreddit sidebars
+Added options menu item to close all open activities (hidden by default)
+Added preference to customise options menu
 
 62/1.8.7.8
 Ability to mark all inbox messages as read

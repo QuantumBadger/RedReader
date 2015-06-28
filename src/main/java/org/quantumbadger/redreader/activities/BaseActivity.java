@@ -15,54 +15,31 @@
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.settings;
+package org.quantumbadger.redreader.activities;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import com.actionbarsherlock.view.MenuItem;
-import org.holoeverywhere.preference.PreferenceActivity;
+
+import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.preference.SharedPreferences;
-import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.PrefsUtility;
 
-import java.util.List;
+public class BaseActivity extends Activity {
 
-public final class SettingsActivity extends PreferenceActivity {
 	private SharedPreferences sharedPreferences;
 
 	@Override
-	protected void onCreate(final Bundle savedInstanceState) {
-		PrefsUtility.applyTheme(this);
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		setOrientationFromPrefs();
-
-		getSupportActionBar().setHomeButtonEnabled(true);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		setOrientationFromPrefs();
-	}
-
-	@Override
-	public void onBuildHeaders(final List<Header> target) {
-
-		loadHeadersFromResource(R.xml.prefheaders, target);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(final MenuItem item) {
-		switch(item.getItemId()) {
-			case android.R.id.home:
-				finish();
-				return true;
-			default:
-				return false;
-		}
 	}
 
 	private void setOrientationFromPrefs() {

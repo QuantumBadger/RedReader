@@ -18,8 +18,6 @@
 package org.quantumbadger.redreader.activities;
 
 import android.content.Intent;
-import android.os.Bundle;
-import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.preference.SharedPreferences;
 import org.quantumbadger.redreader.R;
@@ -27,7 +25,7 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 
 import java.util.EnumSet;
 
-public abstract class RefreshableActivity extends Activity {
+public abstract class RefreshableActivity extends BaseActivity {
 
 	private boolean paused = false;
 	private final EnumSet<RefreshableFragment> refreshOnResume = EnumSet.noneOf(RefreshableFragment.class);

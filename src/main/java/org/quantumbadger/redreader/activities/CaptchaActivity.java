@@ -27,7 +27,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import org.apache.http.StatusLine;
-import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.widget.Button;
 import org.holoeverywhere.widget.EditText;
 import org.holoeverywhere.widget.LinearLayout;
@@ -49,7 +48,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.UUID;
 
-public class CaptchaActivity extends Activity {
+public class CaptchaActivity extends BaseActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

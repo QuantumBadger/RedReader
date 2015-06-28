@@ -28,7 +28,6 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import org.apache.http.StatusLine;
 import org.holoeverywhere.ArrayAdapter;
-import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.ProgressDialog;
 import org.holoeverywhere.widget.AdapterView;
 import org.holoeverywhere.widget.EditText;
@@ -49,7 +48,7 @@ import org.quantumbadger.redreader.reddit.RedditAPI;
 import java.util.ArrayList;
 
 // TODO save draft as static var (as in comments)
-public class PostSubmitActivity extends Activity {
+public class PostSubmitActivity extends BaseActivity {
 
 	private Spinner typeSpinner, usernameSpinner;
 	private EditText subredditEdit, titleEdit, textEdit;

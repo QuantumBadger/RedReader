@@ -642,4 +642,12 @@
     <!-- 2015-06-07 -->
     <string name="error_archived_vote" >This has been archived and can no longer be voted on.</string>
 
+    <!-- 2015-06-20 -->
+    <string name="pref_behaviour_screenorientation_title">Screen Orientation</string>
+    <string name="pref_behaviour_screenorientation_key">pref_behaviour_screenorientation</string>
+
+    <string name="screen_orientation_auto">Auto</string>
+    <string name="screen_orientation_portrait">Portrait</string>
+    <string name="screen_orientation_landscape">Landscape</string>
+
 </resources>

@@ -24,7 +24,6 @@ import android.widget.ScrollView;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import org.apache.http.StatusLine;
-import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.ProgressDialog;
 import org.holoeverywhere.widget.EditText;
 import org.holoeverywhere.widget.LinearLayout;
@@ -40,7 +39,7 @@ import org.quantumbadger.redreader.fragments.MarkdownPreviewDialog;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 
-public class CommentEditActivity extends Activity {
+public class CommentEditActivity extends BaseActivity {
 
 	private EditText textEdit;
 

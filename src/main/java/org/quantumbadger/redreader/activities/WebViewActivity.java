@@ -24,7 +24,6 @@ import android.view.View;
 import android.widget.Toast;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import org.holoeverywhere.app.Activity;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
@@ -35,7 +34,7 @@ import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.views.RedditPostView;
 
-public class WebViewActivity extends Activity implements RedditPostView.PostSelectionListener {
+public class WebViewActivity extends BaseActivity implements RedditPostView.PostSelectionListener {
 
 	private WebViewFragment webView;
 	public static final int VIEW_IN_BROWSER = 10,

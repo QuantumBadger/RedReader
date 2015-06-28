@@ -22,7 +22,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ScrollView;
-import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.widget.Button;
 import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.TextView;
@@ -33,7 +32,7 @@ import org.quantumbadger.redreader.common.RRError;
 
 import java.util.LinkedList;
 
-public class BugReportActivity extends Activity {
+public class BugReportActivity extends BaseActivity {
 
 	private static final LinkedList<RRError> errors = new LinkedList<RRError>();
 

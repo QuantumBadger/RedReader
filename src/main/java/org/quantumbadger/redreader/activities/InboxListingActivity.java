@@ -28,7 +28,6 @@ import android.widget.AdapterView;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import org.apache.http.StatusLine;
-import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.preference.SharedPreferences;
 import org.holoeverywhere.widget.LinearLayout;
@@ -59,7 +58,7 @@ import java.net.URI;
 import java.util.EnumSet;
 import java.util.UUID;
 
-public final class InboxListingActivity extends Activity {
+public final class InboxListingActivity extends BaseActivity {
 
 	private static final int OPTIONS_MENU_MARK_ALL_AS_READ = 0;
 

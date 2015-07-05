@@ -170,6 +170,8 @@ public final class RedditPreparedPost {
 
 		final EnumSet<Action> itemPref = PrefsUtility.pref_menus_post_context_items(activity, PreferenceManager.getDefaultSharedPreferences(activity));
 
+		if(itemPref.isEmpty()) return;
+
 		final ArrayList<RPVMenuItem> menu = new ArrayList<RPVMenuItem>();
 
 		if(!RedditAccountManager.getInstance(activity).getDefaultAccount().isAnonymous()) {

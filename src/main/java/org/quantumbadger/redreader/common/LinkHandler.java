@@ -155,7 +155,7 @@ public class LinkHandler {
 		}
 	}
 
-	private static void openWebBrowser(Activity activity, Uri uri) {
+	public static void openWebBrowser(Activity activity, Uri uri) {
 		final Intent intent = new Intent(Intent.ACTION_VIEW);
 		intent.setData(uri);
 		activity.startActivity(intent);

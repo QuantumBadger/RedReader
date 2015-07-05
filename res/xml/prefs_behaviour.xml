@@ -27,6 +27,12 @@
                         holo:key="@string/pref_behaviour_useinternalbrowser_key"
                         holo:defaultValue="true"/>
 
+    <ListPreference holo:title="@string/pref_behaviour_gifview_mode_title"
+                    holo:key="@string/pref_behaviour_gifview_mode_key"
+                    holo:entries="@array/pref_behaviour_gifview_mode_array"
+                    holo:entryValues="@array/pref_behaviour_gifview_mode_array_return"
+                    holo:defaultValue="internal_movie" />
+
 
     <CheckBoxPreference holo:title="@string/pref_behaviour_notifications_title"
                         holo:key="@string/pref_behaviour_notifications_key"

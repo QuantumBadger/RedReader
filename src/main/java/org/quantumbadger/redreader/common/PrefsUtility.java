@@ -240,9 +240,22 @@ public final class PrefsUtility {
 		}
 	}
 
+	// pref_behaviour_gifview_mode
+
+	public enum GifViewMode {
+		INTERNAL_MOVIE,
+		INTERNAL_LEGACY,
+		INTERNAL_BROWSER,
+		EXTERNAL_BROWSER
+	}
+
+	public static GifViewMode pref_behaviour_gifview_mode(final Context context, final SharedPreferences sharedPreferences) {
+		return GifViewMode.valueOf(getString(R.string.pref_behaviour_gifview_mode_key, "internal_movie", context, sharedPreferences).toUpperCase());
+	}
+
 	// pref_behaviour_fling_post
 
-	public static enum PostFlingAction {
+	public enum PostFlingAction {
 		UPVOTE, DOWNVOTE, SAVE, HIDE, COMMENTS, LINK, ACTION_MENU, BROWSER, DISABLED
 	}
 

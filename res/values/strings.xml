@@ -661,4 +661,12 @@
     <string name="pref_behaviour_bezel_toolbar_swipezone_key">pref_behaviour_bezel_toolbar_swipezone</string>
     <string name="pref_behaviour_bezel_toolbar_swipezone_title">Bezel toolbar swipe zone size</string>
 
+    <string name="pref_behaviour_gifview_mode_title">GIF viewer</string>
+    <string name="pref_behaviour_gifview_mode_key">pref_behaviour_gifview_mode</string>
+
+    <string name="pref_behaviour_gifview_mode_internal_movie">Internal viewer (Movie, Android 4.0+)</string>
+    <string name="pref_behaviour_gifview_mode_internal_legacy">Internal viewer (Legacy)</string>
+    <string name="pref_behaviour_gifview_mode_internal_browser">Internal browser</string>
+    <string name="pref_behaviour_gifview_mode_external_browser">External browser</string>
+
 </resources>

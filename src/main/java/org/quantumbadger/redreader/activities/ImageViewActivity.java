@@ -22,6 +22,7 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.Log;
@@ -253,7 +254,26 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 						} else if(Constants.Mime.isImageGif(mimetype)) {
 
-							if(AndroidApi.isIceCreamSandwichOrLater()) {
+							final PrefsUtility.GifViewMode gifViewMode = PrefsUtility.pref_behaviour_gifview_mode(context, sharedPreferences);
+
+							if(gifViewMode == PrefsUtility.GifViewMode.INTERNAL_BROWSER) {
+								revertToWeb();
+								return;
+
+							} else if(gifViewMode == PrefsUtility.GifViewMode.EXTERNAL_BROWSER) {
+								General.UI_THREAD_HANDLER.post(new Runnable() {
+									@Override
+									public void run() {
+										LinkHandler.openWebBrowser(ImageViewActivity.this, Uri.parse(mUrl.toString()));
+										finish();
+									}
+								});
+
+								return;
+							}
+
+							if(AndroidApi.isIceCreamSandwichOrLater()
+									&& gifViewMode == PrefsUtility.GifViewMode.INTERNAL_MOVIE) {
 
 								General.UI_THREAD_HANDLER.post(new Runnable() {
 									public void run() {

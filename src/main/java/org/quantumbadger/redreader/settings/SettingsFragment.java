@@ -59,7 +59,8 @@ public final class SettingsFragment extends PreferenceFragment {
 				R.string.pref_behaviour_actions_comment_tap_key,
 				R.string.pref_behaviour_commentsort_key,
 				R.string.pref_appearance_langforce_key,
-				R.string.pref_behaviour_postcount_key
+				R.string.pref_behaviour_postcount_key,
+				R.string.pref_behaviour_bezel_toolbar_swipezone_key
 		};
 
 		for(int pref : listPrefsToUpdate) {
@@ -73,7 +74,6 @@ public final class SettingsFragment extends PreferenceFragment {
 
 			listPreference.setSummary(listPreference.getEntries()[index]);
 
-			// TODO may cause a (tiny) memory leak, or may be ineffective if weak refs are used
 			listPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 				public boolean onPreferenceChange(Preference preference, Object newValue) {
 					final int index = listPreference.findIndexOfValue((String)newValue);

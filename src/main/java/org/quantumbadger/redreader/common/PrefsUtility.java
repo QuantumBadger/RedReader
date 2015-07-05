@@ -73,7 +73,8 @@ public final class PrefsUtility {
 	public static boolean isRestartRequired(Context context, String key) {
 		return context.getString(R.string.pref_appearance_theme_key).equals(key)
 				|| context.getString(R.string.pref_appearance_solidblack_2_key).equals(key)
-				|| context.getString(R.string.pref_appearance_langforce_key).equals(key);
+				|| context.getString(R.string.pref_appearance_langforce_key).equals(key)
+				|| context.getString(R.string.pref_behaviour_bezel_toolbar_swipezone_key).equals(key);
 	}
 
 	///////////////////////////////
@@ -230,6 +231,14 @@ public final class PrefsUtility {
     public static boolean pref_behaviour_notifications(final Context context, final SharedPreferences sharedPreferences) {
         return getBoolean(R.string.pref_behaviour_notifications_key, true, context, sharedPreferences);
     }
+
+	public static int pref_behaviour_bezel_toolbar_swipezone_dp(final Context context, final SharedPreferences sharedPreferences) {
+		try {
+			return Integer.parseInt(getString(R.string.pref_behaviour_bezel_toolbar_swipezone_key, "10", context, sharedPreferences));
+		} catch(Throwable _) {
+			return 10;
+		}
+	}
 
 	// pref_behaviour_fling_post
 

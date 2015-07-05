@@ -11,6 +11,7 @@ Fixed UTF-8 support in subreddit sidebars
 Added options menu item to close all open activities (hidden by default)
 Added preference to customise options menu
 Post context menu no longer shown if all items are disabled
+Added preference to change bezel toolbar swipe zone size
 
 62/1.8.7.8
 Ability to mark all inbox messages as read

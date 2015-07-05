@@ -3,17 +3,27 @@ package org.quantumbadger.redreader.views.bezelmenu;
 import android.content.Context;
 import android.view.MotionEvent;
 import android.view.View;
+import org.holoeverywhere.preference.PreferenceManager;
+import org.holoeverywhere.preference.SharedPreferences;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.PrefsUtility;
 
 public class BezelSwipeOverlay extends View {
 
 	private final BezelSwipeListener listener;
 
-	public static enum SwipeEdge {LEFT, RIGHT}
+	private final int mSwipeZonePixels;
+
+	public enum SwipeEdge {LEFT, RIGHT}
 
 	public BezelSwipeOverlay(Context context, BezelSwipeListener listener) {
 		super(context);
 		this.listener = listener;
+
+		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		final int swipeZoneDp = PrefsUtility.pref_behaviour_bezel_toolbar_swipezone_dp(context, prefs);
+
+		mSwipeZonePixels = General.dpToPixels(getContext(), swipeZoneDp);
 	}
 
 	@Override
@@ -23,12 +33,10 @@ public class BezelSwipeOverlay extends View {
 
 		if(action == MotionEvent.ACTION_DOWN) {
 
-			final int px = General.dpToPixels(getContext(), 10);
-
-			if(event.getX() < px) {
+			if(event.getX() < mSwipeZonePixels) {
 				return listener.onSwipe(SwipeEdge.LEFT);
 
-			} else if(event.getX() > getWidth() - px) {
+			} else if(event.getX() > getWidth() - mSwipeZonePixels) {
 				return listener.onSwipe(SwipeEdge.RIGHT);
 
 			} else {
@@ -40,7 +48,7 @@ public class BezelSwipeOverlay extends View {
 	}
 
 	public interface BezelSwipeListener {
-		public boolean onSwipe(SwipeEdge edge);
-		public boolean onTap();
+		boolean onSwipe(SwipeEdge edge);
+		boolean onTap();
 	}
 }

@@ -656,4 +656,9 @@
     <string name="pref_menus_optionsmenu_items_key">pref_menus_optionsmenu_items</string>
     <string name="pref_menus_optionsmenu_items_title">Options Menu Items</string>
 
+    <!-- 2015-07-05 -->
+    <string name="pref_behaviour_bezel_toolbar_header">Bezel Toolbar</string>
+    <string name="pref_behaviour_bezel_toolbar_swipezone_key">pref_behaviour_bezel_toolbar_swipezone</string>
+    <string name="pref_behaviour_bezel_toolbar_swipezone_title">Bezel toolbar swipe zone size</string>
+
 </resources>

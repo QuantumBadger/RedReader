@@ -385,4 +385,22 @@
         <item>reply</item>
     </string-array>
 
+    <!-- 2015-07-05 -->
+    <string-array name="pref_behaviour_bezel_toolbar_swipe_zone_array">
+        <item>0 dp</item>
+        <item>10 dp</item>
+        <item>20 dp</item>
+        <item>30 dp</item>
+        <item>40 dp</item>
+    </string-array>
+
+    <!-- Constants. Do not change. -->
+    <string-array name="pref_behaviour_bezel_toolbar_swipe_zone_array_return">
+        <item>0</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>40</item>
+    </string-array>
+
 </resources>

@@ -89,5 +89,15 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory holo:title="@string/pref_behaviour_bezel_toolbar_header">
+
+        <ListPreference holo:title="@string/pref_behaviour_bezel_toolbar_swipezone_title"
+                        holo:key="@string/pref_behaviour_bezel_toolbar_swipezone_key"
+                        holo:entries="@array/pref_behaviour_bezel_toolbar_swipe_zone_array"
+                        holo:entryValues="@array/pref_behaviour_bezel_toolbar_swipe_zone_array_return"
+                        holo:defaultValue="10"/>
+
+    </PreferenceCategory>
+
 
 </PreferenceScreen>

@@ -156,9 +156,13 @@ public class LinkHandler {
 	}
 
 	public static void openWebBrowser(Activity activity, Uri uri) {
-		final Intent intent = new Intent(Intent.ACTION_VIEW);
-		intent.setData(uri);
-		activity.startActivity(intent);
+		try {
+			final Intent intent = new Intent(Intent.ACTION_VIEW);
+			intent.setData(uri);
+			activity.startActivity(intent);
+		} catch(Exception e) {
+			General.quickToast(activity, "Failed to open url \"" + uri.toString() + "\" in external browser");
+		}
 	}
 
 	public static final Pattern imgurPattern = Pattern.compile(".*imgur\\.com/(\\w+).*"),

@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -109,11 +110,13 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 			NOTIF_ERROR_FOOTER = 8,
 			NOTIF_AUTHORIZING = 9;
 
+	private Activity mActivity;
+
 	private final Handler notificationHandler = new Handler(Looper.getMainLooper()) {
 		@Override
 		public void handleMessage(final Message msg) {
 
-			final Context context = getActivity();
+			final Context context = mActivity;
 
 			if(context == null) {
 				Log.e("PLF:notificationHandler", "Context was null");
@@ -215,6 +218,12 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 		}
 
 		downloadType = CacheRequest.DownloadType.valueOf(arguments.getString("downloadType"));
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		mActivity = activity;
 	}
 
 	private LinearLayout createVerticalLinearLayout(Context context) {

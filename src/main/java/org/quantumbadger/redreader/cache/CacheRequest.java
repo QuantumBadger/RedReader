@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.cache;
 
 import android.content.Context;
+import android.util.Log;
 import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
 import org.apache.http.client.CookieStore;
@@ -167,9 +168,13 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 		try {
 			onFailure(type, t, status, readableMessage);
 		} catch(Throwable t1) {
+
+			Log.e("CacheRequest", "Exception thrown by onFailure", t1);
+
 			try {
 				onCallbackException(t1);
 			} catch(Throwable t2) {
+				Log.e("CacheRequest", "Exception thrown by onCallbackException", t2);
 				BugReportActivity.addGlobalError(new RRError(null, null, t1));
 				BugReportActivity.handleGlobalError(context, t2);
 			}
@@ -180,9 +185,13 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 		try {
 			onProgress(authorizationInProgress, bytesRead, totalBytes);
 		} catch(Throwable t1) {
+
+			Log.e("CacheRequest", "Exception thrown by onProgress", t1);
+
 			try {
 				onCallbackException(t1);
 			} catch(Throwable t2) {
+				Log.e("CacheRequest", "Exception thrown by onCallbackException", t2);
 				BugReportActivity.addGlobalError(new RRError(null, null, t1));
 				BugReportActivity.handleGlobalError(context, t2);
 			}
@@ -193,9 +202,13 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 		try {
 			onSuccess(cacheFile, timestamp, session, fromCache, mimetype);
 		} catch(Throwable t1) {
+
+			Log.e("CacheRequest", "Exception thrown by onSuccess", t1);
+
 			try {
 				onCallbackException(t1);
 			} catch(Throwable t2) {
+				Log.e("CacheRequest", "Exception thrown by onCallbackException", t2);
 				BugReportActivity.addGlobalError(new RRError(null, null, t1));
 				BugReportActivity.handleGlobalError(context, t2);
 			}
@@ -222,9 +235,13 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 				try {
 					onJsonParseStarted(result, timestamp, session, fromCache);
 				} catch(Throwable t1) {
+
+					Log.e("CacheRequest", "Exception thrown by onJsonParseStarted", t1);
+
 					try {
 						onCallbackException(t1);
 					} catch(Throwable t2) {
+						Log.e("CacheRequest", "Exception thrown by onCallbackException", t2);
 						BugReportActivity.addGlobalError(new RRError(null, null, t1));
 						BugReportActivity.handleGlobalError(context, t2);
 					}
@@ -237,9 +254,13 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 		try {
 			onDownloadNecessary();
 		} catch(Throwable t1) {
+
+			Log.e("CacheRequest", "Exception thrown by onDownloadNecessary", t1);
+
 			try {
 				onCallbackException(t1);
 			} catch(Throwable t2) {
+				Log.e("CacheRequest", "Exception thrown by onCallbackException", t2);
 				BugReportActivity.addGlobalError(new RRError(null, null, t1));
 				BugReportActivity.handleGlobalError(context, t2);
 			}
@@ -250,9 +271,13 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 		try {
 			onDownloadStarted();
 		} catch(Throwable t1) {
+
+			Log.e("CacheRequest", "Exception thrown by onDownloadStarted", t1);
+
 			try {
 				onCallbackException(t1);
 			} catch(Throwable t2) {
+				Log.e("CacheRequest", "Exception thrown by onCallbackException", t2);
 				BugReportActivity.addGlobalError(new RRError(null, null, t1));
 				BugReportActivity.handleGlobalError(context, t2);
 			}

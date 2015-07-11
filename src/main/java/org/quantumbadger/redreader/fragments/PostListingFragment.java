@@ -115,6 +115,11 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 
 			final Context context = getActivity();
 
+			if(context == null) {
+				Log.e("PLF:notificationHandler", "Context was null");
+				return;
+			}
+
 			// TODO check if attached? if not, queue, and send on "resume"
 			switch(msg.what) {
 				case NOTIF_DOWNLOAD_NECESSARY:

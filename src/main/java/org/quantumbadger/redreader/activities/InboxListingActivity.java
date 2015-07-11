@@ -193,7 +193,7 @@ public final class InboxListingActivity extends BaseActivity {
 				if(loadingView != null) loadingView.setDone(R.string.download_failed);
 
 				final RRError error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
-				General.UI_THREAD_HANDLER.post(new Runnable() {
+				AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 					public void run() {
 						notifications.addView(new ErrorView(InboxListingActivity.this, error));
 					}
@@ -217,7 +217,7 @@ public final class InboxListingActivity extends BaseActivity {
 				// TODO pref (currently 10 mins)
 				// TODO xml
 				if(fromCache && RRTime.since(timestamp) > 10 * 60 * 1000) {
-					General.UI_THREAD_HANDLER.post(new Runnable() {
+					AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 						public void run() {
 							final TextView cacheNotif = new TextView(context);
 							cacheNotif.setText(context.getString(R.string.listing_cached) + RRTime.formatDateTime(timestamp, context));
@@ -319,7 +319,7 @@ public final class InboxListingActivity extends BaseActivity {
 							protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
 								final RRError error = General.getGeneralErrorForFailure(context, type, t, status,
 										"Reddit API action: Mark all as Read");
-								General.UI_THREAD_HANDLER.post(new Runnable() {
+								AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 									public void run() {
 										General.showResultDialog(InboxListingActivity.this, error);
 									}
@@ -330,7 +330,7 @@ public final class InboxListingActivity extends BaseActivity {
 							protected void onFailure(final APIFailureType type) {
 
 								final RRError error = General.getGeneralErrorForFailure(context, type);
-								General.UI_THREAD_HANDLER.post(new Runnable() {
+								AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 									public void run() {
 										General.showResultDialog(InboxListingActivity.this, error);
 									}

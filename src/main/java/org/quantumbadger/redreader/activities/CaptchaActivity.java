@@ -32,10 +32,7 @@ import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.RequestFailureType;
-import org.quantumbadger.redreader.common.Constants;
-import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.common.PrefsUtility;
-import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.views.liststatus.LoadingView;
@@ -109,7 +106,7 @@ public class CaptchaActivity extends BaseActivity {
 							return;
 						}
 
-						General.UI_THREAD_HANDLER.post(new Runnable() {
+						AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 							public void run() {
 
 								final LinearLayout ll = new LinearLayout(CaptchaActivity.this);

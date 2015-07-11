@@ -24,10 +24,7 @@ import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.RequestFailureType;
-import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.common.RRError;
-import org.quantumbadger.redreader.common.TimestampBound;
-import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
+import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.common.collections.WeakReferenceListManager;
 import org.quantumbadger.redreader.io.RawObjectDB;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
@@ -240,7 +237,7 @@ public class RedditSubredditSubscriptionManager {
 			if(t != null) t.printStackTrace();
 
 			final RRError error = General.getGeneralErrorForFailure(context, type, t, status, null);
-			General.UI_THREAD_HANDLER.post(new Runnable() {
+			AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 				public void run() {
 					General.showResultDialog(activity, error);
 				}
@@ -251,7 +248,7 @@ public class RedditSubredditSubscriptionManager {
 		protected void onFailure(APIFailureType type) {
 			onSubscriptionChangeAttemptFailed(canonicalName);
 			final RRError error = General.getGeneralErrorForFailure(context, type);
-			General.UI_THREAD_HANDLER.post(new Runnable() {
+			AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 				public void run() {
 					General.showResultDialog(activity, error);
 				}

@@ -132,7 +132,7 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 
 				super.onProgressChanged(view, newProgress);
 
-				General.UI_THREAD_HANDLER.post(new Runnable() {
+				AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 					@Override
 					public void run() {
 						progressView.setProgress(newProgress);
@@ -198,7 +198,7 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 						@Override
 						public void run() {
 
-							General.UI_THREAD_HANDLER.post(new Runnable() {
+							AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 								public void run() {
 
 									if(currentUrl == null || url == null) return;

@@ -249,7 +249,7 @@ public final class RedditPreparedComment implements RedditPreparedInboxItem {
 	}
 
 	public void refreshView(final Context context) {
-		General.UI_THREAD_HANDLER.post(new Runnable() {
+		AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 			public void run() {
 				rebuildHeader(context);
 				if(boundView != null) {
@@ -317,7 +317,7 @@ public final class RedditPreparedComment implements RedditPreparedInboxItem {
 						if(t != null) t.printStackTrace();
 
 						final RRError error = General.getGeneralErrorForFailure(context, type, t, status, null);
-						General.UI_THREAD_HANDLER.post(new Runnable() {
+						AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 							public void run() {
 								General.showResultDialog(activity, error);
 							}
@@ -329,7 +329,7 @@ public final class RedditPreparedComment implements RedditPreparedInboxItem {
 						revertOnFailure();
 
 						final RRError error = General.getGeneralErrorForFailure(context, type);
-						General.UI_THREAD_HANDLER.post(new Runnable() {
+						AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 							public void run() {
 								General.showResultDialog(activity, error);
 							}

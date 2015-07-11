@@ -31,6 +31,7 @@ import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.adapters.MainMenuAdapter;
 import org.quantumbadger.redreader.adapters.MainMenuSelectionListener;
+import org.quantumbadger.redreader.common.AndroidApi;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.TimestampBound;
@@ -117,7 +118,7 @@ public class MainMenuFragment extends Fragment implements MainMenuSelectionListe
 			}
 		});
 
-		General.UI_THREAD_HANDLER.post(new Runnable() {
+		AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 			public void run() {
 				notifications.addView(loadingView);
 				loadingView.setIndeterminate(R.string.download_subreddits);
@@ -164,7 +165,7 @@ public class MainMenuFragment extends Fragment implements MainMenuSelectionListe
 
 	private void onError(final RRError error) {
 		if(loadingView != null) loadingView.setDone(R.string.download_failed);
-		General.UI_THREAD_HANDLER.post(new Runnable() {
+		AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 			public void run() {
 				notifications.addView(new ErrorView(getActivity(), error));
 			}

@@ -668,7 +668,7 @@ public final class RedditPreparedPost {
 	}
 
 	public void refreshView(final Context context) {
-		General.UI_THREAD_HANDLER.post(new Runnable() {
+		AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 			public void run() {
 				rebuildSubtitle(context);
 				if(boundView != null) {
@@ -684,7 +684,7 @@ public final class RedditPreparedPost {
 
 		if(RedditAccountManager.getInstance(activity).getDefaultAccount().isAnonymous()) {
 
-			General.UI_THREAD_HANDLER.post(new Runnable() {
+			AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 				public void run() {
 					Toast.makeText(activity, "You must be logged in to do that.", Toast.LENGTH_SHORT).show();
 				}
@@ -752,7 +752,7 @@ public final class RedditPreparedPost {
 
 						final RRError error = General.getGeneralErrorForFailure(context, type, t, status,
 								"Reddit API action: " + action.toString() + " " + url);
-						General.UI_THREAD_HANDLER.post(new Runnable() {
+						AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 							public void run() {
 								General.showResultDialog(activity, error);
 							}
@@ -764,7 +764,7 @@ public final class RedditPreparedPost {
 						revertOnFailure();
 
 						final RRError error = General.getGeneralErrorForFailure(context, type);
-						General.UI_THREAD_HANDLER.post(new Runnable() {
+						AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 							public void run() {
 								General.showResultDialog(activity, error);
 							}

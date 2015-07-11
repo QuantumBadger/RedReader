@@ -32,6 +32,7 @@ import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.SessionChangeListener;
 import org.quantumbadger.redreader.adapters.SessionListAdapter;
 import org.quantumbadger.redreader.cache.CacheEntry;
+import org.quantumbadger.redreader.common.AndroidApi;
 import org.quantumbadger.redreader.common.General;
 
 import java.net.URI;
@@ -119,7 +120,7 @@ public class SessionListDialog extends DialogFragment implements RedditAccountCh
 	}
 
 	public void onRedditAccountChanged() {
-		General.UI_THREAD_HANDLER.post(new Runnable() {
+		AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 			public void run() {
 				lv.setAdapter(new SessionListAdapter(getActivity(), url, current));
 			}

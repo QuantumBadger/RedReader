@@ -19,7 +19,7 @@ package org.quantumbadger.redreader.views.imageview;
 
 import android.graphics.Bitmap;
 import android.util.Log;
-import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.AndroidApi;
 
 public class ImageViewTileLoader {
 
@@ -103,12 +103,12 @@ public class ImageViewTileLoader {
 			tile = mSource.getTile(mSampleSize, mX, mY);
 
 		} catch(OutOfMemoryError e) {
-			General.UI_THREAD_HANDLER.post(new NotifyOOMRunnable());
+			AndroidApi.UI_THREAD_HANDLER.post(new NotifyOOMRunnable());
 			return;
 
 		} catch(Throwable t) {
 			Log.e("ImageViewTileLoader", "Exception in getTile()", t);
-			General.UI_THREAD_HANDLER.post(new NotifyErrorRunnable(t));
+			AndroidApi.UI_THREAD_HANDLER.post(new NotifyErrorRunnable(t));
 			return;
 		}
 
@@ -120,7 +120,7 @@ public class ImageViewTileLoader {
 			}
 		}
 
-		General.UI_THREAD_HANDLER.post(mNotifyRunnable);
+		AndroidApi.UI_THREAD_HANDLER.post(mNotifyRunnable);
 	}
 
 	public Bitmap get() {

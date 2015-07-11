@@ -30,6 +30,7 @@ import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.RequestFailureType;
+import org.quantumbadger.redreader.common.AndroidApi;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
@@ -146,7 +147,7 @@ public class CommentReplyActivity extends BaseActivity {
 			final APIResponseHandler.ActionResponseHandler handler = new APIResponseHandler.ActionResponseHandler(this) {
 				@Override
 				protected void onSuccess() {
-					General.UI_THREAD_HANDLER.post(new Runnable() {
+					AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 						public void run() {
 							if(progressDialog.isShowing()) progressDialog.dismiss();
 							General.quickToast(CommentReplyActivity.this, getString(R.string.comment_reply_done));
@@ -165,7 +166,7 @@ public class CommentReplyActivity extends BaseActivity {
 
 					final RRError error = General.getGeneralErrorForFailure(context, type, t, status, null);
 
-					General.UI_THREAD_HANDLER.post(new Runnable() {
+					AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 						public void run() {
 							General.showResultDialog(CommentReplyActivity.this, error);
 							if(progressDialog.isShowing()) progressDialog.dismiss();
@@ -178,7 +179,7 @@ public class CommentReplyActivity extends BaseActivity {
 
 					final RRError error = General.getGeneralErrorForFailure(context, type);
 
-					General.UI_THREAD_HANDLER.post(new Runnable() {
+					AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 						public void run() {
 							General.showResultDialog(CommentReplyActivity.this, error);
 							if(progressDialog.isShowing()) progressDialog.dismiss();

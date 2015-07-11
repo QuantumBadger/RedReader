@@ -85,7 +85,7 @@ public class UserProfileDialog extends PropertiesDialog {
 			@Override
 			protected void onSuccess(final RedditUser user, long timestamp) {
 
-				General.UI_THREAD_HANDLER.post(new Runnable() {
+				AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 					public void run() {
 
 						if(!active) return;
@@ -158,7 +158,7 @@ public class UserProfileDialog extends PropertiesDialog {
 			@Override
 			protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
 
-				General.UI_THREAD_HANDLER.post(new Runnable() {
+				AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 					public void run() {
 
 						if(!active) return;
@@ -174,7 +174,7 @@ public class UserProfileDialog extends PropertiesDialog {
 			@Override
 			protected void onFailure(final APIFailureType type) {
 
-				General.UI_THREAD_HANDLER.post(new Runnable() {
+				AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 					public void run() {
 
 						if(!active) return;

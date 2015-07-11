@@ -17,11 +17,11 @@
 
 package org.quantumbadger.redreader.activities;
 
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.preference.PreferenceManager;
-import org.holoeverywhere.preference.SharedPreferences;
+import android.preference.PreferenceManager;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.PrefsUtility;
 

@@ -17,22 +17,17 @@
 
 package org.quantumbadger.redreader.activities;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.ScrollView;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
+import android.widget.*;
 import org.apache.http.StatusLine;
-import org.holoeverywhere.ArrayAdapter;
-import org.holoeverywhere.app.ProgressDialog;
-import org.holoeverywhere.widget.AdapterView;
-import org.holoeverywhere.widget.EditText;
-import org.holoeverywhere.widget.LinearLayout;
-import org.holoeverywhere.widget.Spinner;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -62,7 +57,7 @@ public class PostSubmitActivity extends BaseActivity {
 
 		super.onCreate(savedInstanceState);
 
-		final LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.post_submit);
+		final LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.post_submit, null);
 
 		typeSpinner = (Spinner)layout.findViewById(R.id.post_submit_type);
 		usernameSpinner = (Spinner)layout.findViewById(R.id.post_submit_username);
@@ -169,7 +164,7 @@ public class PostSubmitActivity extends BaseActivity {
 			startActivityForResult(captchaIntent, 0);
 
 		} else if(item.getTitle().equals(getString(R.string.comment_reply_preview))) {
-			MarkdownPreviewDialog.newInstance(textEdit.getText().toString()).show(getSupportFragmentManager());
+			MarkdownPreviewDialog.newInstance(textEdit.getText().toString()).show(getFragmentManager(), null);
 		}
 
 		return true;

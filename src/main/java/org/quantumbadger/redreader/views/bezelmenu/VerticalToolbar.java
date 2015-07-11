@@ -20,9 +20,9 @@ package org.quantumbadger.redreader.views.bezelmenu;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import org.holoeverywhere.widget.FrameLayout;
-import org.holoeverywhere.widget.LinearLayout;
 
 public class VerticalToolbar extends FrameLayout {
 

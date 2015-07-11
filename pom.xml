@@ -45,13 +45,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.holoeverywhere</groupId>
-            <artifactId>library</artifactId>
-            <version>1.4.2</version>
-            <type>apklib</type>
-        </dependency>
-
-        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.3.2</version>
@@ -85,7 +78,7 @@
                     <resourceDirectory>${project.basedir}/res</resourceDirectory>
                     <nativeLibrariesDirectory>${project.basedir}/src/main/native</nativeLibrariesDirectory>
                     <sdk>
-                        <platform>16</platform>
+                        <platform>22</platform>
                     </sdk>
                     <undeployBeforeDeploy>false</undeployBeforeDeploy>
                 </configuration>

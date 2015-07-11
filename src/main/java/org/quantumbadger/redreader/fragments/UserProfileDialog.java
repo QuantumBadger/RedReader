@@ -17,14 +17,14 @@
 
 package org.quantumbadger.redreader.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import org.apache.http.StatusLine;
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.widget.Button;
-import org.holoeverywhere.widget.LinearLayout;
-import org.holoeverywhere.widget.TextView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BugReportActivity;
@@ -92,7 +92,7 @@ public class UserProfileDialog extends PropertiesDialog {
 
 						loadingView.setDone(R.string.download_done);
 
-						final LinearLayout karmaLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.karma);
+						final LinearLayout karmaLayout = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.karma, null);
 						items.addView(karmaLayout);
 
 						final TextView linkKarma = (TextView) karmaLayout.findViewById(R.id.layout_karma_text_link);
@@ -127,7 +127,7 @@ public class UserProfileDialog extends PropertiesDialog {
 						commentsButton.setText(R.string.userprofile_viewcomments);
 						commentsButton.setOnClickListener(new View.OnClickListener() {
 							public void onClick(View v) {
-								LinkHandler.onLinkClicked(getSupportActivity(), Constants.Reddit.getUri("/user/" + username + "/comments.json").toString(), false);
+								LinkHandler.onLinkClicked(getActivity(), Constants.Reddit.getUri("/user/" + username + "/comments.json").toString(), false);
 							}
 						});
 						items.addView(commentsButton);
@@ -139,7 +139,7 @@ public class UserProfileDialog extends PropertiesDialog {
 						postsButton.setText(R.string.userprofile_viewposts);
 						postsButton.setOnClickListener(new View.OnClickListener() {
 							public void onClick(View v) {
-								LinkHandler.onLinkClicked(getSupportActivity(), UserPostListingURL.getSubmitted(username).generateJsonUri().toString(), false);
+								LinkHandler.onLinkClicked(getActivity(), UserPostListingURL.getSubmitted(username).generateJsonUri().toString(), false);
 							}
 						});
 						items.addView(postsButton);
@@ -166,7 +166,7 @@ public class UserProfileDialog extends PropertiesDialog {
 						loadingView.setDone(R.string.download_failed);
 
 						final RRError error = General.getGeneralErrorForFailure(context, type, t, status, null);
-						items.addView(new ErrorView(getSupportActivity(), error));
+						items.addView(new ErrorView(getActivity(), error));
 					}
 				});
 			}
@@ -182,7 +182,7 @@ public class UserProfileDialog extends PropertiesDialog {
 						loadingView.setDone(R.string.download_failed);
 
 						final RRError error = General.getGeneralErrorForFailure(context, type);
-						items.addView(new ErrorView(getSupportActivity(), error));
+						items.addView(new ErrorView(getActivity(), error));
 					}
 				});
 			}

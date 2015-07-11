@@ -17,17 +17,17 @@
 
 package org.quantumbadger.redreader.fragments;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.app.AlertDialog;
-import org.holoeverywhere.app.Dialog;
-import org.holoeverywhere.app.DialogFragment;
-import org.holoeverywhere.widget.LinearLayout;
-import org.holoeverywhere.widget.TextView;
+import android.widget.TextView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 
@@ -49,7 +49,7 @@ public abstract class PropertiesDialog extends DialogFragment {
 
 		super.onCreateDialog(savedInstanceState);
 
-		final Activity context = getSupportActivity();
+		final Activity context = getActivity();
 
 		final TypedArray attr = context.obtainStyledAttributes(new int[] {
 				R.attr.rrListHeaderTextCol,
@@ -60,6 +60,8 @@ public abstract class PropertiesDialog extends DialogFragment {
 		rrListHeaderTextCol = attr.getColor(0, 0);
 		rrListDividerCol = attr.getColor(1, 0);
 		rrCommentBodyCol = attr.getColor(2, 0);
+
+		attr.recycle();
 
 		final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 

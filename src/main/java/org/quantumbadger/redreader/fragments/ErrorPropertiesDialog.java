@@ -34,10 +34,10 @@
 
 package org.quantumbadger.redreader.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.widget.LinearLayout;
+import android.widget.LinearLayout;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.common.RRError;

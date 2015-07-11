@@ -19,7 +19,7 @@ package org.quantumbadger.redreader.listingcontrollers;
 
 import android.content.Context;
 import android.net.Uri;
-import org.holoeverywhere.preference.PreferenceManager;
+import android.preference.PreferenceManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;

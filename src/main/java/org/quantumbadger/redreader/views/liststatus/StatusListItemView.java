@@ -19,7 +19,7 @@ package org.quantumbadger.redreader.views.liststatus;
 
 import android.content.Context;
 import android.view.View;
-import org.holoeverywhere.widget.FrameLayout;
+import android.widget.FrameLayout;
 import org.quantumbadger.redreader.views.list.RRTouchable;
 
 public class StatusListItemView extends FrameLayout implements RRTouchable {

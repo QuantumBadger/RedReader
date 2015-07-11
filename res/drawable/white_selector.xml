@@ -8,6 +8,6 @@
         <item android:state_focused="true"                                android:state_pressed="true" android:drawable="@color/white_selector" />
         <item android:state_focused="false"                               android:state_pressed="true" android:drawable="@color/white_selector" />
         <item android:state_focused="true"                                                             android:drawable="@color/white_selector" />
-        <item                                                                                          android:drawable="@color/transparent" />
+        <item                                                                                          android:drawable="@color/rr_transparent" />
 
 </selector>

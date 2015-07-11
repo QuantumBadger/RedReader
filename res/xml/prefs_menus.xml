@@ -34,38 +34,38 @@
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<PreferenceScreen xmlns:holo="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <MultiSelectListPreference
-        holo:dialogTitle="@string/pref_menus_mainmenu_useritems_title"
-        holo:key="@string/pref_menus_mainmenu_useritems_key"
-        holo:title="@string/pref_menus_mainmenu_useritems_title"
-        holo:entries="@array/pref_menus_mainmenu_useritems_items"
-        holo:entryValues="@array/pref_menus_mainmenu_useritems_items_return"
-        holo:defaultValue="@array/pref_menus_mainmenu_useritems_items_default" />
+        android:dialogTitle="@string/pref_menus_mainmenu_useritems_title"
+        android:key="@string/pref_menus_mainmenu_useritems_key"
+        android:title="@string/pref_menus_mainmenu_useritems_title"
+        android:entries="@array/pref_menus_mainmenu_useritems_items"
+        android:entryValues="@array/pref_menus_mainmenu_useritems_items_return"
+        android:defaultValue="@array/pref_menus_mainmenu_useritems_items_default" />
 
     <MultiSelectListPreference
-        holo:dialogTitle="@string/pref_menus_post_context_items_title"
-        holo:key="@string/pref_menus_post_context_items_key"
-        holo:title="@string/pref_menus_post_context_items_title"
-        holo:entries="@array/pref_menus_post_context_items"
-        holo:entryValues="@array/pref_menus_post_context_items_return"
-        holo:defaultValue="@array/pref_menus_post_context_items_return" />
+        android:dialogTitle="@string/pref_menus_post_context_items_title"
+        android:key="@string/pref_menus_post_context_items_key"
+        android:title="@string/pref_menus_post_context_items_title"
+        android:entries="@array/pref_menus_post_context_items"
+        android:entryValues="@array/pref_menus_post_context_items_return"
+        android:defaultValue="@array/pref_menus_post_context_items_return" />
 
     <MultiSelectListPreference
-        holo:dialogTitle="@string/pref_menus_post_toolbar_items_title"
-        holo:key="@string/pref_menus_post_toolbar_items_key"
-        holo:title="@string/pref_menus_post_toolbar_items_title"
-        holo:entries="@array/pref_menus_post_toolbar_items"
-        holo:entryValues="@array/pref_menus_post_toolbar_items_return"
-        holo:defaultValue="@array/pref_menus_post_toolbar_items_return" />
+        android:dialogTitle="@string/pref_menus_post_toolbar_items_title"
+        android:key="@string/pref_menus_post_toolbar_items_key"
+        android:title="@string/pref_menus_post_toolbar_items_title"
+        android:entries="@array/pref_menus_post_toolbar_items"
+        android:entryValues="@array/pref_menus_post_toolbar_items_return"
+        android:defaultValue="@array/pref_menus_post_toolbar_items_return" />
 
     <MultiSelectListPreference
-        holo:dialogTitle="@string/pref_menus_optionsmenu_items_title"
-        holo:key="@string/pref_menus_optionsmenu_items_key"
-        holo:title="@string/pref_menus_optionsmenu_items_title"
-        holo:entries="@array/pref_menus_optionsmenu_items_items"
-        holo:entryValues="@array/pref_menus_optionsmenu_items_items_return"
-        holo:defaultValue="@array/pref_menus_optionsmenu_items_items_default" />
+        android:dialogTitle="@string/pref_menus_optionsmenu_items_title"
+        android:key="@string/pref_menus_optionsmenu_items_key"
+        android:title="@string/pref_menus_optionsmenu_items_title"
+        android:entries="@array/pref_menus_optionsmenu_items_items"
+        android:entryValues="@array/pref_menus_optionsmenu_items_items_return"
+        android:defaultValue="@array/pref_menus_optionsmenu_items_items_default" />
 
 </PreferenceScreen>

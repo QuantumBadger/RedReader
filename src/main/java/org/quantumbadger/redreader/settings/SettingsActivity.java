@@ -17,12 +17,12 @@
 
 package org.quantumbadger.redreader.settings;
 
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import com.actionbarsherlock.view.MenuItem;
-import org.holoeverywhere.preference.PreferenceActivity;
-import org.holoeverywhere.preference.PreferenceManager;
-import org.holoeverywhere.preference.SharedPreferences;
+import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
+import android.view.MenuItem;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.PrefsUtility;
 
@@ -42,8 +42,8 @@ public final class SettingsActivity
 		sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 		setOrientationFromPrefs();
 
-		getSupportActionBar().setHomeButtonEnabled(true);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setHomeButtonEnabled(true);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	@Override

@@ -17,40 +17,40 @@
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<PreferenceScreen xmlns:holo="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory holo:title="@string/pref_cache_precache_images_header">
+    <PreferenceCategory android:title="@string/pref_cache_precache_images_header">
 
-    <CheckBoxPreference holo:title="@string/pref_cache_precache_images_title"
-                        holo:key="@string/pref_cache_precache_images_key"
-                        holo:defaultValue="true"/>
+    <CheckBoxPreference android:title="@string/pref_cache_precache_images_title"
+                        android:key="@string/pref_cache_precache_images_key"
+                        android:defaultValue="true"/>
 
-    <CheckBoxPreference holo:title="@string/pref_cache_precache_images_wifionly_title"
-                        holo:key="@string/pref_cache_precache_images_wifionly_key"
-                        holo:dependency="@string/pref_cache_precache_images_key"
-                        holo:defaultValue="true"/>
+    <CheckBoxPreference android:title="@string/pref_cache_precache_images_wifionly_title"
+                        android:key="@string/pref_cache_precache_images_wifionly_key"
+                        android:dependency="@string/pref_cache_precache_images_key"
+                        android:defaultValue="true"/>
 
     </PreferenceCategory>
 
-    <PreferenceCategory holo:title="@string/pref_cache_pruning">
+    <PreferenceCategory android:title="@string/pref_cache_pruning">
 
-    <ListPreference holo:title="@string/pref_cache_maxage_listing_title"
-                    holo:key="@string/pref_cache_maxage_listing_key"
-                    holo:entries="@array/pref_cache_maxage"
-                    holo:entryValues="@array/pref_cache_maxage_return"
-                    holo:defaultValue="168"/>
+    <ListPreference android:title="@string/pref_cache_maxage_listing_title"
+                    android:key="@string/pref_cache_maxage_listing_key"
+                    android:entries="@array/pref_cache_maxage"
+                    android:entryValues="@array/pref_cache_maxage_return"
+                    android:defaultValue="168"/>
 
-    <ListPreference holo:title="@string/pref_cache_maxage_thumb_title"
-                    holo:key="@string/pref_cache_maxage_thumb_key"
-                    holo:entries="@array/pref_cache_maxage"
-                    holo:entryValues="@array/pref_cache_maxage_return"
-                    holo:defaultValue="168"/>
+    <ListPreference android:title="@string/pref_cache_maxage_thumb_title"
+                    android:key="@string/pref_cache_maxage_thumb_key"
+                    android:entries="@array/pref_cache_maxage"
+                    android:entryValues="@array/pref_cache_maxage_return"
+                    android:defaultValue="168"/>
 
-    <ListPreference holo:title="@string/pref_cache_maxage_image_title"
-                    holo:key="@string/pref_cache_maxage_image_key"
-                    holo:entries="@array/pref_cache_maxage"
-                    holo:entryValues="@array/pref_cache_maxage_return"
-                    holo:defaultValue="24"/>
+    <ListPreference android:title="@string/pref_cache_maxage_image_title"
+                    android:key="@string/pref_cache_maxage_image_key"
+                    android:entries="@array/pref_cache_maxage"
+                    android:entryValues="@array/pref_cache_maxage_return"
+                    android:defaultValue="24"/>
 
     </PreferenceCategory>
 

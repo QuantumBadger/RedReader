@@ -21,14 +21,13 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import org.holoeverywhere.widget.LinearLayout;
-import org.holoeverywhere.widget.TextView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.BetterSSB;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 
-// TODO xml
 public class RedditPostHeaderView extends LinearLayout {
 
 	private final RedditPreparedPost post;
@@ -73,15 +72,22 @@ public class RedditPostHeaderView extends LinearLayout {
 		// TODO customise display
 		// TODO preference for the X days, X hours thing
 
-		final TypedArray appearance = context.obtainStyledAttributes(new int[]{
-				R.attr.rrPostSubtitleBoldCol,
-				R.attr.rrPostSubtitleUpvoteCol,
-				R.attr.rrPostSubtitleDownvoteCol
-		});
+		final int boldCol = Color.WHITE;
+		final int rrPostSubtitleUpvoteCol;
+		final int rrPostSubtitleDownvoteCol;
 
-		final int boldCol = Color.WHITE,
-				rrPostSubtitleUpvoteCol = appearance.getColor(1, 255),
-				rrPostSubtitleDownvoteCol = appearance.getColor(2, 255);
+		{
+			final TypedArray appearance = context.obtainStyledAttributes(new int[]{
+					R.attr.rrPostSubtitleBoldCol,
+					R.attr.rrPostSubtitleUpvoteCol,
+					R.attr.rrPostSubtitleDownvoteCol
+			});
+
+			rrPostSubtitleUpvoteCol = appearance.getColor(1, 255);
+			rrPostSubtitleDownvoteCol = appearance.getColor(2, 255);
+
+			appearance.recycle();
+		}
 
 		final BetterSSB postListDescSb = new BetterSSB();
 

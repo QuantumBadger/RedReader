@@ -22,8 +22,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
-import org.holoeverywhere.widget.LinearLayout;
-import org.holoeverywhere.widget.TextView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import org.quantumbadger.redreader.R;
 
 public final class LoadingView extends StatusListItemView {

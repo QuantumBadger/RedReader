@@ -30,7 +30,6 @@
 
     <style name="RR.Light.ActionBarStyle" parent="@android:style/Widget.Holo.ActionBar"  tools:targetApi="11">
         <item name="android:background">?rrActionBarCol</item>
-        <item name="background">?rrActionBarCol</item>
         <item name="android:titleTextStyle"  tools:targetApi="14">@android:style/TextAppearance.Holo.Widget.ActionBar.Title.Inverse</item>
         <item name="android:displayOptions">showTitle</item>
     </style>

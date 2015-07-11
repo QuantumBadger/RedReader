@@ -17,26 +17,22 @@
 
 package org.quantumbadger.redreader.fragments;
 
+import android.app.Fragment;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.Toast;
+import android.widget.*;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.http.StatusLine;
-import org.holoeverywhere.LayoutInflater;
-import org.holoeverywhere.app.Fragment;
-import org.holoeverywhere.preference.PreferenceManager;
-import org.holoeverywhere.preference.SharedPreferences;
-import org.holoeverywhere.widget.LinearLayout;
-import org.holoeverywhere.widget.ListView;
-import org.holoeverywhere.widget.TextView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -117,7 +113,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 		@Override
 		public void handleMessage(final Message msg) {
 
-			final Context context = getSupportActivity();
+			final Context context = getActivity();
 
 			// TODO check if attached? if not, queue, and send on "resume"
 			switch(msg.what) {
@@ -151,7 +147,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 				case NOTIF_ERROR: {
 					if(loadingView != null) loadingView.setDone(R.string.download_failed);
 					final RRError error = (RRError)msg.obj;
-					fragmentHeader.addView(new ErrorView(getSupportActivity(), error));
+					fragmentHeader.addView(new ErrorView(getActivity(), error));
 					break;
 				}
 
@@ -166,7 +162,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 				case NOTIF_ERROR_FOOTER: {
 					if(loadingView != null) loadingView.setDone(R.string.download_failed);
 					final RRError error = (RRError)msg.obj;
-					listFooterNotifications.addView(new ErrorView(getSupportActivity(), error));
+					listFooterNotifications.addView(new ErrorView(getActivity(), error));
 					adapter.notifyDataSetChanged();
 					break;
 				}
@@ -205,7 +201,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 		try {
 			postListingURL = (PostListingURL) RedditURLParser.parseProbablePostListing(url);
 		} catch(ClassCastException e) {
-			Toast.makeText(getSupportActivity(), "Invalid post listing URL.", Toast.LENGTH_LONG).show();
+			Toast.makeText(getActivity(), "Invalid post listing URL.", Toast.LENGTH_LONG).show();
 			return;
 		}
 
@@ -243,7 +239,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 
 		// TODO output failed URL
 		if(postListingURL == null) {
-			fragmentHeader.addView(new ErrorView(getSupportActivity(), new RRError("Invalid post listing URL", "Could not navigate to that URL.")));
+			fragmentHeader.addView(new ErrorView(getActivity(), new RRError("Invalid post listing URL", "Could not navigate to that URL.")));
 			return outer;
 		}
 
@@ -264,7 +260,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 
 		listHeader.addView(listHeaderNotifications);
 
-		lv = (ListView)inflater.inflate(R.layout.reddit_post_list);
+		lv = (ListView)inflater.inflate(R.layout.reddit_post_list, null);
 		lv.setOnScrollListener(this);
 		lv.addHeaderView(listHeader);
 		lv.addFooterView(listFooterNotifications, null, true);
@@ -290,7 +286,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 
 			case UserPostListingURL:
 			case SearchPostListingURL:
-				setHeader(postListingURL.humanReadableName(getSupportActivity(), true), postListingURL.humanReadableUrl());
+				setHeader(postListingURL.humanReadableName(getActivity(), true), postListingURL.humanReadableUrl());
 				break;
 
 			case SubredditPostListingURL:
@@ -304,7 +300,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 					case ALL:
 					case SUBREDDIT_COMBINATION:
 					case ALL_SUBTRACTION:
-						setHeader(postListingURL.humanReadableName(getSupportActivity(), true), postListingURL.humanReadableUrl());
+						setHeader(postListingURL.humanReadableName(getActivity(), true), postListingURL.humanReadableUrl());
 						break;
 
 					case SUBREDDIT: {
@@ -327,7 +323,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 
 						try {
 							RedditSubredditManager
-									.getInstance(getSupportActivity(), RedditAccountManager.getInstance(getSupportActivity()).getDefaultAccount())
+									.getInstance(getActivity(), RedditAccountManager.getInstance(getActivity()).getDefaultAccount())
 									.getSubreddit(RedditSubreddit.getCanonicalName(subredditPostListURL.subreddit), TimestampBound.NONE, subredditHandler, null);
 						} catch(RedditSubreddit.InvalidSubredditNameException e) {
 							throw new RuntimeException(e);
@@ -382,21 +378,21 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 			subtitle = postListingURL.humanReadableUrl();
 		}
 
-		getSupportActivity().runOnUiThread(new Runnable() {
+		getActivity().runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				setHeader(StringEscapeUtils.unescapeHtml4(subreddit.title), subtitle);
-				getSupportActivity().invalidateOptionsMenu();
+				getActivity().invalidateOptionsMenu();
 			}
 		});
 
 	}
 
 	private void setHeader(final String title, final String subtitle) {
-		getSupportActivity().runOnUiThread(new Runnable() {
+		getActivity().runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				final PostListingHeader postListingHeader = new PostListingHeader(getSupportActivity(), title, subtitle);
+				final PostListingHeader postListingHeader = new PostListingHeader(getActivity(), title, subtitle);
 				listHeader.addView(postListingHeader, 0);
 				adapter.notifyDataSetChanged();
 			}
@@ -404,22 +400,22 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 	}
 
 	public void onPostSelected(final RedditPreparedPost post) {
-		((RedditPostView.PostSelectionListener)getSupportActivity()).onPostSelected(post);
+		((RedditPostView.PostSelectionListener)getActivity()).onPostSelected(post);
 
 		new Thread() {
 			public void run() {
-				post.markAsRead(getSupportActivity());
+				post.markAsRead(getActivity());
 			}
 		}.start();
 	}
 
 	public void onPostCommentsSelected(final RedditPreparedPost post) {
 		
-		((RedditPostView.PostSelectionListener)getSupportActivity()).onPostCommentsSelected(post);
+		((RedditPostView.PostSelectionListener)getActivity()).onPostCommentsSelected(post);
 
 		new Thread() {
 			public void run() {
-				post.markAsRead(getSupportActivity());
+				post.markAsRead(getActivity());
 			}
 		}.start();
 	}
@@ -447,8 +443,8 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 			// TODO customise (currently 3 hrs)
 			CacheRequest.DownloadType type = (RRTime.since(timestamp) < 3 * 60 * 60 * 1000) ? CacheRequest.DownloadType.IF_NECESSARY : CacheRequest.DownloadType.NEVER;
 
-			request = new PostListingRequest(newUri, RedditAccountManager.getInstance(getSupportActivity()).getDefaultAccount(), session, type, false);
-			CacheManager.getInstance(getSupportActivity()).makeRequest(request);
+			request = new PostListingRequest(newUri, RedditAccountManager.getInstance(getActivity()).getDefaultAccount(), session, type, false);
+			CacheManager.getInstance(getActivity()).makeRequest(request);
 		}
 		else if((!(downloadPostCount == PrefsUtility.PostCount.ALL) && postRefreshCount == 0) && loadMoreView.getParent() == null) {
 			listFooterNotifications.addView(loadMoreView);
@@ -461,8 +457,8 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 
 		try {
 			RedditSubredditSubscriptionManager
-					.getSingleton(getSupportActivity(), RedditAccountManager.getInstance(getSupportActivity()).getDefaultAccount())
-					.subscribe(RedditSubreddit.getCanonicalName(postListingURL.asSubredditPostListURL().subreddit), getSupportActivity());
+					.getSingleton(getActivity(), RedditAccountManager.getInstance(getActivity()).getDefaultAccount())
+					.subscribe(RedditSubreddit.getCanonicalName(postListingURL.asSubredditPostListURL().subreddit), getActivity());
 		} catch(RedditSubreddit.InvalidSubredditNameException e) {
 			throw new RuntimeException(e);
 		}
@@ -474,8 +470,8 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 
 		try {
 			RedditSubredditSubscriptionManager
-					.getSingleton(getSupportActivity(), RedditAccountManager.getInstance(getSupportActivity()).getDefaultAccount())
-					.unsubscribe(subreddit.getCanonicalName(), getSupportActivity());
+					.getSingleton(getActivity(), RedditAccountManager.getInstance(getActivity()).getDefaultAccount())
+					.unsubscribe(subreddit.getCanonicalName(), getActivity());
 		} catch(RedditSubreddit.InvalidSubredditNameException e) {
 			throw new RuntimeException(e);
 		}
@@ -490,7 +486,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 		private final boolean firstDownload;
 
 		protected PostListingRequest(Uri url, RedditAccount user, UUID requestSession, DownloadType downloadType, boolean firstDownload) {
-			super(General.uriFromString(url.toString()), user, requestSession, Constants.Priority.API_POST_LIST, 0, downloadType, Constants.FileType.POST_LIST, true, true, false, getSupportActivity());
+			super(General.uriFromString(url.toString()), user, requestSession, Constants.Priority.API_POST_LIST, 0, downloadType, Constants.FileType.POST_LIST, true, true, false, getActivity());
 			this.firstDownload = firstDownload;
 		}
 
@@ -550,7 +546,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 			} // TODO resuming a copy
 
 			if(firstDownload) {
-				((SessionChangeListener)getSupportActivity()).onSessionChanged(session, SessionChangeListener.SessionChangeType.POSTS, timestamp);
+				((SessionChangeListener)getActivity()).onSessionChanged(session, SessionChangeListener.SessionChangeType.POSTS, timestamp);
 				PostListingFragment.this.session = session;
 				PostListingFragment.this.timestamp = timestamp;
 			}
@@ -559,7 +555,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 
 			try {
 
-				final Context context = getSupportActivity();
+				final Context context = getActivity();
 				final JsonBufferedObject thing = value.asObject();
 				final JsonBufferedObject listing = thing.getObject("data");
 				final JsonBufferedArray posts = listing.getArray("children");

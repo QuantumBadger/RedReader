@@ -17,18 +17,16 @@
 
 package org.quantumbadger.redreader.views.liststatus;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.view.View;
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.widget.LinearLayout;
-import org.holoeverywhere.widget.TextView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.fragments.ErrorPropertiesDialog;
 
 public final class ErrorView extends StatusListItemView {
 
-	// TODO make XML
-	// TODO show exception on long click
 	public ErrorView(final Activity activity, final RRError error) {
 
 		super(activity);
@@ -57,7 +55,7 @@ public final class ErrorView extends StatusListItemView {
 
 		setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				ErrorPropertiesDialog.newInstance(error).show(activity);
+				ErrorPropertiesDialog.newInstance(error).show(activity.getFragmentManager(), null);
 			}
 		});
 	}

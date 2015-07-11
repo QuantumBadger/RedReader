@@ -19,8 +19,8 @@ package org.quantumbadger.redreader.views.list;
 
 import android.content.Context;
 import android.view.View;
-import org.holoeverywhere.widget.FrameLayout;
-import org.holoeverywhere.widget.TextView;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 import org.quantumbadger.redreader.R;
 
 // TODO doesn't need to be in a frame layout

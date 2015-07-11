@@ -17,12 +17,12 @@
 
 package org.quantumbadger.redreader.reddit.prepared;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.text.SpannableStringBuilder;
 import android.view.ViewGroup;
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.holoeverywhere.app.Activity;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.BetterSSB;
 import org.quantumbadger.redreader.common.LinkHandler;
@@ -47,13 +47,20 @@ public final class RedditPreparedMessage implements RedditPreparedInboxItem {
 
 		// TODO custom time
 
-		final TypedArray appearance = context.obtainStyledAttributes(new int[]{
-				R.attr.rrCommentHeaderBoldCol,
-				R.attr.rrCommentHeaderAuthorCol,
-		});
+		final int rrCommentHeaderBoldCol;
+		final int rrCommentHeaderAuthorCol;
 
-		int rrCommentHeaderBoldCol = appearance.getColor(0, 255);
-		int rrCommentHeaderAuthorCol = appearance.getColor(1, 255);
+		{
+			final TypedArray appearance = context.obtainStyledAttributes(new int[]{
+					R.attr.rrCommentHeaderBoldCol,
+					R.attr.rrCommentHeaderAuthorCol,
+			});
+
+			rrCommentHeaderBoldCol = appearance.getColor(0, 255);
+			rrCommentHeaderAuthorCol = appearance.getColor(1, 255);
+
+			appearance.recycle();
+		}
 
 		body = MarkdownParser.parse(StringEscapeUtils.unescapeHtml4(message.body).toCharArray());
 

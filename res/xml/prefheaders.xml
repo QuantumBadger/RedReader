@@ -16,42 +16,41 @@
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<preference-headers xmlns:holo="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
 
     <header
-        holo:fragment="org.quantumbadger.redreader.settings.SettingsFragment"
-        holo:title="@string/prefs_category_appearance">
+            android:fragment="org.quantumbadger.redreader.settings.SettingsFragment"
+            android:title="@string/prefs_category_appearance">
         <extra android:name="panel" android:value="appearance" />
     </header>
 
     <header
-        holo:fragment="org.quantumbadger.redreader.settings.SettingsFragment"
-        holo:title="@string/prefs_category_behaviour">
+            android:fragment="org.quantumbadger.redreader.settings.SettingsFragment"
+            android:title="@string/prefs_category_behaviour">
         <extra android:name="panel" android:value="behaviour" />
     </header>
 
     <header
-        holo:fragment="org.quantumbadger.redreader.settings.SettingsFragment"
-        holo:title="@string/prefs_category_cache">
+            android:fragment="org.quantumbadger.redreader.settings.SettingsFragment"
+            android:title="@string/prefs_category_cache">
         <extra android:name="panel" android:value="cache" />
     </header>
 
     <header
-        holo:fragment="org.quantumbadger.redreader.settings.SettingsFragment"
-        holo:title="@string/prefs_category_network">
+            android:fragment="org.quantumbadger.redreader.settings.SettingsFragment"
+            android:title="@string/prefs_category_network">
         <extra android:name="panel" android:value="network" />
     </header>
 
     <header
-        holo:fragment="org.quantumbadger.redreader.settings.SettingsFragment"
-        holo:title="@string/prefs_category_menus">
+            android:fragment="org.quantumbadger.redreader.settings.SettingsFragment"
+            android:title="@string/prefs_category_menus">
         <extra android:name="panel" android:value="menus" />
     </header>
 
     <header
-        holo:fragment="org.quantumbadger.redreader.settings.SettingsFragment"
-        holo:title="@string/prefs_category_about">
+            android:fragment="org.quantumbadger.redreader.settings.SettingsFragment"
+            android:title="@string/prefs_category_about">
         <extra android:name="panel" android:value="about" />
     </header>
 

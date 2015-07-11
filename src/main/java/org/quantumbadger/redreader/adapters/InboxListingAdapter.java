@@ -17,12 +17,12 @@
 
 package org.quantumbadger.redreader.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import org.holoeverywhere.app.Activity;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.reddit.RedditPreparedInboxItem;
 import org.quantumbadger.redreader.views.RedditInboxItemView;
@@ -41,13 +41,17 @@ public final class InboxListingAdapter extends BaseAdapter {
 
 		this.parentActivity = parentActivity;
 
-		final TypedArray attr = context.obtainStyledAttributes(new int[] {
-				R.attr.rrCommentHeaderCol,
-				R.attr.rrCommentBodyCol
-		});
+		{
+			final TypedArray attr = context.obtainStyledAttributes(new int[]{
+					R.attr.rrCommentHeaderCol,
+					R.attr.rrCommentBodyCol
+			});
 
-		rrCommentHeaderCol = attr.getColor(0, 0);
-		rrCommentBodyCol = attr.getColor(1, 0);
+			rrCommentHeaderCol = attr.getColor(0, 0);
+			rrCommentBodyCol = attr.getColor(1, 0);
+
+			attr.recycle();
+		}
 	}
 
 	public int getCount() {

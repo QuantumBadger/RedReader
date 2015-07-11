@@ -17,23 +17,23 @@
 
 package org.quantumbadger.redreader.activities;
 
+import android.app.AlertDialog;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.preference.PreferenceManager;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-import org.holoeverywhere.app.AlertDialog;
-import org.holoeverywhere.preference.PreferenceManager;
-import org.holoeverywhere.preference.SharedPreferences;
-import org.holoeverywhere.widget.EditText;
-import org.holoeverywhere.widget.LinearLayout;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
@@ -101,9 +101,9 @@ public class MainActivity extends RefreshableActivity
 		final View layout;
 
 		if(twoPane)
-			layout = getLayoutInflater().inflate(R.layout.main_double);
+			layout = getLayoutInflater().inflate(R.layout.main_double, null);
 		else
-			layout = getLayoutInflater().inflate(R.layout.main_single);
+			layout = getLayoutInflater().inflate(R.layout.main_single, null);
 
 		if(solidblack) layout.setBackgroundColor(Color.BLACK);
 
@@ -130,7 +130,7 @@ public class MainActivity extends RefreshableActivity
 					.setPositiveButton(R.string.firstrun_login_button_now,
 							new DialogInterface.OnClickListener() {
 								public void onClick(final DialogInterface dialog, final int which) {
-									new AccountListDialog().show(MainActivity.this);
+									new AccountListDialog().show(MainActivity.this.getFragmentManager(), null);
 								}
 							})
 					.setNegativeButton(R.string.firstrun_login_button_later, null)
@@ -149,7 +149,7 @@ public class MainActivity extends RefreshableActivity
 				General.quickToast(this, "Updated to version " + pInfo.versionName);
 
 				sharedPreferences.edit().putInt("lastVersion", appVersion).commit();
-				ChangelogDialog.newInstance().show(this);
+				ChangelogDialog.newInstance().show(getFragmentManager(), null);
 
 				if(lastVersion <= 51) {
 					// Upgrading from v1.8.6.3 or lower
@@ -164,7 +164,7 @@ public class MainActivity extends RefreshableActivity
 					existingCommentHeaderItems.add("gold");
 
 					sharedPreferences.edit().putStringSet(
-							R.string.pref_appearance_comment_header_items_key,
+							getString(R.string.pref_appearance_comment_header_items_key),
 							existingCommentHeaderItems
 					).commit();
 
@@ -179,7 +179,7 @@ public class MainActivity extends RefreshableActivity
 
 		} else {
 			sharedPreferences.edit().putInt("lastVersion", appVersion).commit();
-			ChangelogDialog.newInstance().show(this);
+			ChangelogDialog.newInstance().show(getFragmentManager(), null);
 		}
 
 		addSubscriptionListener();
@@ -237,7 +237,7 @@ public class MainActivity extends RefreshableActivity
 			case CUSTOM: {
 
 				final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-				final LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.dialog_editbox);
+				final LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.dialog_editbox, null);
 				final EditText editText = (EditText)layout.findViewById(R.id.dialog_editbox_edittext);
 
 				editText.requestFocus();
@@ -315,7 +315,7 @@ public class MainActivity extends RefreshableActivity
 
 		if(which == RefreshableFragment.MAIN_RELAYOUT) {
 
-			final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+			final FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
 			if(postListingFragment != null) {
 				postListingFragment.cancel();
@@ -327,7 +327,7 @@ public class MainActivity extends RefreshableActivity
 			}
 
 			transaction.commit();
-			getSupportFragmentManager().executePendingTransactions(); // may not be necessary...
+			getFragmentManager().executePendingTransactions(); // may not be necessary...
 
 			mainMenuFragment = null;
 			postListingFragment = null;
@@ -352,7 +352,7 @@ public class MainActivity extends RefreshableActivity
 
 			if(isMenuShown && (which == RefreshableFragment.ALL || which == RefreshableFragment.MAIN)) {
 				mainMenuFragment = MainMenuFragment.newInstance(force);
-				final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+				final FragmentTransaction transaction = getFragmentManager().beginTransaction();
 				transaction.replace(R.id.main_left_frame, mainMenuFragment, "main_fragment");
 				transaction.commit();
 			}
@@ -360,14 +360,14 @@ public class MainActivity extends RefreshableActivity
 			if(postListingController != null && (which == RefreshableFragment.ALL || which == RefreshableFragment.POSTS)) {
 				if(force && postListingFragment != null) postListingFragment.cancel();
 				postListingFragment = postListingController.get(force);
-				final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+				final FragmentTransaction transaction = getFragmentManager().beginTransaction();
 				transaction.replace(postContainer, postListingFragment, "posts_fragment");
 				transaction.commit();
 			}
 
 			if(commentListingController != null && (which == RefreshableFragment.ALL || which == RefreshableFragment.COMMENTS)) {
 				commentListingFragment = commentListingController.get(force);
-				final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+				final FragmentTransaction transaction = getFragmentManager().beginTransaction();
 				transaction.replace(R.id.main_right_frame, commentListingFragment, "comments_fragment");
 				transaction.commit();
 			}
@@ -376,7 +376,7 @@ public class MainActivity extends RefreshableActivity
 
 			if(which == RefreshableFragment.ALL || which == RefreshableFragment.MAIN) {
 				mainMenuFragment = MainMenuFragment.newInstance(force);
-				final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+				final FragmentTransaction transaction = getFragmentManager().beginTransaction();
 				transaction.replace(R.id.main_single_frame, mainMenuFragment, "main_fragment");
 				transaction.commit();
 			}
@@ -397,7 +397,7 @@ public class MainActivity extends RefreshableActivity
 
 		isMenuShown = true;
 
-		final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+		final FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
 		mainMenuFragment = MainMenuFragment.newInstance(false); // TODO preserve position
 		postListingFragment = postListingController.get(false); // TODO preserve position
@@ -419,7 +419,7 @@ public class MainActivity extends RefreshableActivity
 
 			if(isMenuShown) {
 
-				final FragmentManager fm = getSupportFragmentManager();
+				final FragmentManager fm = getFragmentManager();
 
 				fm.beginTransaction().remove(postListingFragment).commit();
 				fm.executePendingTransactions();
@@ -497,8 +497,8 @@ public class MainActivity extends RefreshableActivity
 				postsVisible && subredditDescription != null && subredditDescription.length() > 0,
 				true);
 
-		getSupportActionBar().setHomeButtonEnabled(!isMenuShown);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(!isMenuShown);
+		getActionBar().setHomeButtonEnabled(!isMenuShown);
+		getActionBar().setDisplayHomeAsUpEnabled(!isMenuShown);
 
 		return true;
 	}
@@ -510,7 +510,7 @@ public class MainActivity extends RefreshableActivity
 
 	public void onPastComments() {
 		final SessionListDialog sessionListDialog = SessionListDialog.newInstance(commentListingController.getUri(), commentListingController.getSession(), SessionChangeListener.SessionChangeType.COMMENTS);
-		sessionListDialog.show(this);
+		sessionListDialog.show(getFragmentManager(), null);
 	}
 
 	public void onSortSelected(final PostCommentListingURL.Sort order) {
@@ -525,7 +525,7 @@ public class MainActivity extends RefreshableActivity
 
 	public void onPastPosts() {
 		final SessionListDialog sessionListDialog = SessionListDialog.newInstance(postListingController.getUri(), postListingController.getSession(), SessionChangeListener.SessionChangeType.POSTS);
-		sessionListDialog.show(this);
+		sessionListDialog.show(getFragmentManager(), null);
 	}
 
 	public void onSubmitPost() {

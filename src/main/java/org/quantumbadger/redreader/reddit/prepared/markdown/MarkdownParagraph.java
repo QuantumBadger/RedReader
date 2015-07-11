@@ -17,13 +17,13 @@
 
 package org.quantumbadger.redreader.reddit.prepared.markdown;
 
+import android.app.Activity;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.*;
-import org.holoeverywhere.app.Activity;
 import org.quantumbadger.redreader.common.LinkHandler;
 
 import java.util.ArrayList;

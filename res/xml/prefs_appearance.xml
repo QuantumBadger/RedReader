@@ -17,93 +17,93 @@
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<PreferenceScreen xmlns:holo="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory holo:title="@string/pref_appearance_theme_header">
+    <PreferenceCategory android:title="@string/pref_appearance_theme_header">
 
-        <ListPreference holo:title="@string/pref_appearance_theme_title"
-                        holo:key="@string/pref_appearance_theme_key"
-                        holo:entries="@array/pref_appearance_theme"
-                        holo:entryValues="@array/pref_appearance_theme_return"
-                        holo:defaultValue="red"/>
+        <ListPreference android:title="@string/pref_appearance_theme_title"
+                        android:key="@string/pref_appearance_theme_key"
+                        android:entries="@array/pref_appearance_theme"
+                        android:entryValues="@array/pref_appearance_theme_return"
+                        android:defaultValue="red"/>
 
-        <CheckBoxPreference holo:title="@string/pref_appearance_solidblack_title"
-                            holo:key="@string/pref_appearance_solidblack_2_key"
-                            holo:defaultValue="true"/>
-
-    </PreferenceCategory>
-
-    <PreferenceCategory holo:title="@string/pref_appearance_locale_header">
-
-        <ListPreference holo:title="@string/pref_appearance_langforce_title"
-                        holo:key="@string/pref_appearance_langforce_key"
-                        holo:entries="@array/pref_appearance_langforce"
-                        holo:entryValues="@array/pref_appearance_langforce_return"
-                        holo:defaultValue="auto"/>
+        <CheckBoxPreference android:title="@string/pref_appearance_solidblack_title"
+                            android:key="@string/pref_appearance_solidblack_2_key"
+                            android:defaultValue="true"/>
 
     </PreferenceCategory>
 
-    <PreferenceCategory holo:title="@string/pref_appearance_font_header">
+    <PreferenceCategory android:title="@string/pref_appearance_locale_header">
 
-        <ListPreference holo:title="@string/pref_appearance_fontscale_posts_title"
-                        holo:key="@string/pref_appearance_fontscale_posts_key"
-                        holo:entries="@array/pref_appearance_fontscale"
-                        holo:entryValues="@array/pref_appearance_fontscale_return"
-                        holo:defaultValue="1"/>
-
-        <ListPreference holo:title="@string/pref_appearance_fontscale_comments_title"
-                        holo:key="@string/pref_appearance_fontscale_comments_key"
-                        holo:entries="@array/pref_appearance_fontscale"
-                        holo:entryValues="@array/pref_appearance_fontscale_return"
-                        holo:defaultValue="1"/>
+        <ListPreference android:title="@string/pref_appearance_langforce_title"
+                        android:key="@string/pref_appearance_langforce_key"
+                        android:entries="@array/pref_appearance_langforce"
+                        android:entryValues="@array/pref_appearance_langforce_return"
+                        android:defaultValue="auto"/>
 
     </PreferenceCategory>
 
-    <PreferenceCategory holo:title="@string/pref_appearance_thumbnails_header">
+    <PreferenceCategory android:title="@string/pref_appearance_font_header">
 
-        <CheckBoxPreference holo:title="@string/pref_appearance_thumbnails_show_title"
-                            holo:key="@string/pref_appearance_thumbnails_show_key"
-                            holo:defaultValue="true"/>
+        <ListPreference android:title="@string/pref_appearance_fontscale_posts_title"
+                        android:key="@string/pref_appearance_fontscale_posts_key"
+                        android:entries="@array/pref_appearance_fontscale"
+                        android:entryValues="@array/pref_appearance_fontscale_return"
+                        android:defaultValue="1"/>
 
-        <CheckBoxPreference holo:title="@string/pref_appearance_thumbnails_wifionly_title"
-                            holo:key="@string/pref_appearance_thumbnails_wifionly_key"
-                            holo:dependency="@string/pref_appearance_thumbnails_show_key"
-                            holo:defaultValue="false"/>
-
-        <CheckBoxPreference holo:title="@string/pref_appearance_thumbnails_nsfw_show_title"
-                            holo:key="@string/pref_appearance_thumbnails_nsfw_show_key"
-                            holo:dependency="@string/pref_appearance_thumbnails_show_key"
-                            holo:defaultValue="false"/>
+        <ListPreference android:title="@string/pref_appearance_fontscale_comments_title"
+                        android:key="@string/pref_appearance_fontscale_comments_key"
+                        android:entries="@array/pref_appearance_fontscale"
+                        android:entryValues="@array/pref_appearance_fontscale_return"
+                        android:defaultValue="1"/>
 
     </PreferenceCategory>
 
-    <PreferenceCategory holo:title="@string/pref_appearance_tabletmode_header">
+    <PreferenceCategory android:title="@string/pref_appearance_thumbnails_header">
 
-        <ListPreference holo:title="@string/pref_appearance_twopane_title"
-                        holo:key="@string/pref_appearance_twopane_key"
-                        holo:entries="@array/pref_appearance_twopane"
-                        holo:entryValues="@array/pref_appearance_twopane_return"
-                        holo:defaultValue="auto"/>
+        <CheckBoxPreference android:title="@string/pref_appearance_thumbnails_show_title"
+                            android:key="@string/pref_appearance_thumbnails_show_key"
+                            android:defaultValue="true"/>
+
+        <CheckBoxPreference android:title="@string/pref_appearance_thumbnails_wifionly_title"
+                            android:key="@string/pref_appearance_thumbnails_wifionly_key"
+                            android:dependency="@string/pref_appearance_thumbnails_show_key"
+                            android:defaultValue="false"/>
+
+        <CheckBoxPreference android:title="@string/pref_appearance_thumbnails_nsfw_show_title"
+                            android:key="@string/pref_appearance_thumbnails_nsfw_show_key"
+                            android:dependency="@string/pref_appearance_thumbnails_show_key"
+                            android:defaultValue="false"/>
 
     </PreferenceCategory>
 
-    <PreferenceCategory holo:title="@string/pref_appearance_comments_header">
+    <PreferenceCategory android:title="@string/pref_appearance_tabletmode_header">
+
+        <ListPreference android:title="@string/pref_appearance_twopane_title"
+                        android:key="@string/pref_appearance_twopane_key"
+                        android:entries="@array/pref_appearance_twopane"
+                        android:entryValues="@array/pref_appearance_twopane_return"
+                        android:defaultValue="auto"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_appearance_comments_header">
 
         <MultiSelectListPreference
-            holo:dialogTitle="@string/pref_appearance_comment_header_items_title"
-            holo:key="@string/pref_appearance_comment_header_items_key"
-            holo:title="@string/pref_appearance_comment_header_items_title"
-            holo:entries="@array/pref_appearance_comment_header_items"
-            holo:entryValues="@array/pref_appearance_comment_header_items_return"
-            holo:defaultValue="@array/pref_appearance_comment_header_items_default" />
+            android:dialogTitle="@string/pref_appearance_comment_header_items_title"
+            android:key="@string/pref_appearance_comment_header_items_key"
+            android:title="@string/pref_appearance_comment_header_items_title"
+            android:entries="@array/pref_appearance_comment_header_items"
+            android:entryValues="@array/pref_appearance_comment_header_items_return"
+            android:defaultValue="@array/pref_appearance_comment_header_items_default" />
 
-        <CheckBoxPreference holo:title="@string/pref_appearance_linkbuttons_title"
-                            holo:key="@string/pref_appearance_linkbuttons_key"
-                            holo:defaultValue="true"/>
+        <CheckBoxPreference android:title="@string/pref_appearance_linkbuttons_title"
+                            android:key="@string/pref_appearance_linkbuttons_key"
+                            android:defaultValue="true"/>
 
-        <CheckBoxPreference holo:title="@string/pref_appearance_indentlines_title"
-                            holo:key="@string/pref_appearance_indentlines_key"
-                            holo:defaultValue="false"/>
+        <CheckBoxPreference android:title="@string/pref_appearance_indentlines_title"
+                            android:key="@string/pref_appearance_indentlines_key"
+                            android:defaultValue="false"/>
 
     </PreferenceCategory>
 

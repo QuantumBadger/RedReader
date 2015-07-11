@@ -20,10 +20,10 @@ package org.quantumbadger.redreader.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
@@ -47,8 +47,8 @@ public class WebViewActivity extends BaseActivity implements RedditPostView.Post
 
 		PrefsUtility.applyTheme(this);
 
-		getSupportActionBar().setHomeButtonEnabled(true);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setHomeButtonEnabled(true);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		super.onCreate(savedInstanceState);
 
@@ -65,7 +65,7 @@ public class WebViewActivity extends BaseActivity implements RedditPostView.Post
 
 		setContentView(View.inflate(this, R.layout.main_single, null));
 
-		getSupportFragmentManager().beginTransaction().add(R.id.main_single_frame, webView).commit();
+		getFragmentManager().beginTransaction().add(R.id.main_single_frame, webView).commit();
 	}
 
 	@Override

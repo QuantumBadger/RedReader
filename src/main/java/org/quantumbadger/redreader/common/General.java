@@ -17,8 +17,11 @@
 
 package org.quantumbadger.redreader.common;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
@@ -29,9 +32,6 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.widget.Toast;
 import org.apache.http.StatusLine;
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.app.AlertDialog;
-import org.holoeverywhere.preference.SharedPreferences;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.RequestFailureType;
@@ -304,7 +304,7 @@ public final class General {
 				alertBuilder.setNeutralButton(R.string.dialog_close, null);
 				alertBuilder.setNegativeButton(R.string.button_moredetail, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
-						ErrorPropertiesDialog.newInstance(error).show(context);
+						ErrorPropertiesDialog.newInstance(error).show(context.getFragmentManager(), "ErrorPropertiesDialog");
 					}
 				});
 				alertBuilder.setTitle(error.title);

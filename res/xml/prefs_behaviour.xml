@@ -17,91 +17,91 @@
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<PreferenceScreen xmlns:holo="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <CheckBoxPreference holo:title="@string/pref_behaviour_skiptofrontpage_title"
-                        holo:key="@string/pref_behaviour_skiptofrontpage_key"
-                        holo:defaultValue="false"/>
+    <CheckBoxPreference android:title="@string/pref_behaviour_skiptofrontpage_title"
+                        android:key="@string/pref_behaviour_skiptofrontpage_key"
+                        android:defaultValue="false"/>
 
-    <CheckBoxPreference holo:title="@string/pref_behaviour_useinternalbrowser_title"
-                        holo:key="@string/pref_behaviour_useinternalbrowser_key"
-                        holo:defaultValue="true"/>
+    <CheckBoxPreference android:title="@string/pref_behaviour_useinternalbrowser_title"
+                        android:key="@string/pref_behaviour_useinternalbrowser_key"
+                        android:defaultValue="true"/>
 
-    <ListPreference holo:title="@string/pref_behaviour_gifview_mode_title"
-                    holo:key="@string/pref_behaviour_gifview_mode_key"
-                    holo:entries="@array/pref_behaviour_gifview_mode_array"
-                    holo:entryValues="@array/pref_behaviour_gifview_mode_array_return"
-                    holo:defaultValue="internal_movie" />
-
-
-    <CheckBoxPreference holo:title="@string/pref_behaviour_notifications_title"
-                        holo:key="@string/pref_behaviour_notifications_key"
-                        holo:defaultValue="true"/>
-
-    <ListPreference holo:title="@string/pref_behaviour_screenorientation_title"
-                    holo:key="@string/pref_behaviour_screenorientation_key"
-                    holo:entries="@array/pref_behaviour_screenorientation_array"
-                    holo:entryValues="@array/pref_behaviour_screenorientation_array_return"
-                    holo:defaultValue="auto" />
-
-    <PreferenceCategory holo:title="@string/pref_behaviour_sort_header">
-
-        <ListPreference holo:title="@string/pref_behaviour_commentsort"
-                        holo:key="@string/pref_behaviour_commentsort_key"
-                        holo:entries="@array/pref_behaviour_commentsort_array"
-                        holo:entryValues="@array/pref_behaviour_commentsort_array_return"
-                        holo:defaultValue="best"/>
-
-    </PreferenceCategory>
+    <ListPreference android:title="@string/pref_behaviour_gifview_mode_title"
+                    android:key="@string/pref_behaviour_gifview_mode_key"
+                    android:entries="@array/pref_behaviour_gifview_mode_array"
+                    android:entryValues="@array/pref_behaviour_gifview_mode_array_return"
+                    android:defaultValue="internal_movie" />
 
 
-    <PreferenceCategory holo:title="@string/pref_behaviour_actions_post_header">
+    <CheckBoxPreference android:title="@string/pref_behaviour_notifications_title"
+                        android:key="@string/pref_behaviour_notifications_key"
+                        android:defaultValue="true"/>
 
-        <ListPreference holo:title="@string/pref_behaviour_fling_post_left_title"
-                        holo:key="@string/pref_behaviour_fling_post_left_key"
-                        holo:entries="@array/pref_behaviour_fling_post_actions"
-                        holo:entryValues="@array/pref_behaviour_fling_post_actions_return"
-                        holo:defaultValue="downvote"/>
+    <ListPreference android:title="@string/pref_behaviour_screenorientation_title"
+                    android:key="@string/pref_behaviour_screenorientation_key"
+                    android:entries="@array/pref_behaviour_screenorientation_array"
+                    android:entryValues="@array/pref_behaviour_screenorientation_array_return"
+                    android:defaultValue="auto" />
 
-        <ListPreference holo:title="@string/pref_behaviour_fling_post_right_title"
-                        holo:key="@string/pref_behaviour_fling_post_right_key"
-                        holo:entries="@array/pref_behaviour_fling_post_actions"
-                        holo:entryValues="@array/pref_behaviour_fling_post_actions_return"
-                        holo:defaultValue="upvote"/>
+    <PreferenceCategory android:title="@string/pref_behaviour_sort_header">
+
+        <ListPreference android:title="@string/pref_behaviour_commentsort"
+                        android:key="@string/pref_behaviour_commentsort_key"
+                        android:entries="@array/pref_behaviour_commentsort_array"
+                        android:entryValues="@array/pref_behaviour_commentsort_array_return"
+                        android:defaultValue="best"/>
 
     </PreferenceCategory>
 
-    <PreferenceCategory holo:title="@string/pref_behaviour_actions_comment_header">
 
-        <ListPreference holo:title="@string/pref_behaviour_actions_comment_tap_title"
-                        holo:key="@string/pref_behaviour_actions_comment_tap_key"
-                        holo:entries="@array/pref_behaviour_actions_comment"
-                        holo:entryValues="@array/pref_behaviour_actions_comment_return"
-                        holo:defaultValue="action_menu"/>
+    <PreferenceCategory android:title="@string/pref_behaviour_actions_post_header">
 
-    </PreferenceCategory>
+        <ListPreference android:title="@string/pref_behaviour_fling_post_left_title"
+                        android:key="@string/pref_behaviour_fling_post_left_key"
+                        android:entries="@array/pref_behaviour_fling_post_actions"
+                        android:entryValues="@array/pref_behaviour_fling_post_actions_return"
+                        android:defaultValue="downvote"/>
 
-    <PreferenceCategory holo:title="@string/pref_behaviour_posts_header">
-
-        <CheckBoxPreference holo:title="@string/pref_behaviour_nsfw_title"
-                            holo:key="@string/pref_behaviour_nsfw_key"
-                            holo:defaultValue="false"/>
-
-        <ListPreference holo:title="@string/pref_behaviour_postcount_title"
-                        holo:key="@string/pref_behaviour_postcount_key"
-                        holo:entries="@array/pref_behaviour_postcount_items"
-                        holo:entryValues="@array/pref_behaviour_postcount_items_return"
-                        holo:defaultValue="ALL"/>
+        <ListPreference android:title="@string/pref_behaviour_fling_post_right_title"
+                        android:key="@string/pref_behaviour_fling_post_right_key"
+                        android:entries="@array/pref_behaviour_fling_post_actions"
+                        android:entryValues="@array/pref_behaviour_fling_post_actions_return"
+                        android:defaultValue="upvote"/>
 
     </PreferenceCategory>
 
-    <PreferenceCategory holo:title="@string/pref_behaviour_bezel_toolbar_header">
+    <PreferenceCategory android:title="@string/pref_behaviour_actions_comment_header">
 
-        <ListPreference holo:title="@string/pref_behaviour_bezel_toolbar_swipezone_title"
-                        holo:key="@string/pref_behaviour_bezel_toolbar_swipezone_key"
-                        holo:entries="@array/pref_behaviour_bezel_toolbar_swipe_zone_array"
-                        holo:entryValues="@array/pref_behaviour_bezel_toolbar_swipe_zone_array_return"
-                        holo:defaultValue="10"/>
+        <ListPreference android:title="@string/pref_behaviour_actions_comment_tap_title"
+                        android:key="@string/pref_behaviour_actions_comment_tap_key"
+                        android:entries="@array/pref_behaviour_actions_comment"
+                        android:entryValues="@array/pref_behaviour_actions_comment_return"
+                        android:defaultValue="action_menu"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_behaviour_posts_header">
+
+        <CheckBoxPreference android:title="@string/pref_behaviour_nsfw_title"
+                            android:key="@string/pref_behaviour_nsfw_key"
+                            android:defaultValue="false"/>
+
+        <ListPreference android:title="@string/pref_behaviour_postcount_title"
+                        android:key="@string/pref_behaviour_postcount_key"
+                        android:entries="@array/pref_behaviour_postcount_items"
+                        android:entryValues="@array/pref_behaviour_postcount_items_return"
+                        android:defaultValue="ALL"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_behaviour_bezel_toolbar_header">
+
+        <ListPreference android:title="@string/pref_behaviour_bezel_toolbar_swipezone_title"
+                        android:key="@string/pref_behaviour_bezel_toolbar_swipezone_key"
+                        android:entries="@array/pref_behaviour_bezel_toolbar_swipe_zone_array"
+                        android:entryValues="@array/pref_behaviour_bezel_toolbar_swipe_zone_array_return"
+                        android:defaultValue="10"/>
 
     </PreferenceCategory>
 

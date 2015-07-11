@@ -17,11 +17,11 @@
 
 package org.quantumbadger.redreader.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.ViewGroup;
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.widget.LinearLayout;
+import android.widget.LinearLayout;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.reddit.prepared.markdown.MarkdownParagraphGroup;

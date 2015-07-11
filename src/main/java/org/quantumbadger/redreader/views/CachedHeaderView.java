@@ -20,10 +20,10 @@ package org.quantumbadger.redreader.views;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.view.Gravity;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import org.holoeverywhere.widget.FrameLayout;
-import org.holoeverywhere.widget.LinearLayout;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 
@@ -42,9 +42,14 @@ public class CachedHeaderView extends FrameLayout {
 
 		layout.setGravity(Gravity.CENTER_VERTICAL);
 
-		final TypedArray appearance = context.obtainStyledAttributes(new int[]{R.attr.rrIconTime});
 		final ImageView icon = new ImageView(context);
-		icon.setImageDrawable(appearance.getDrawable(0));
+
+		{
+			final TypedArray appearance = context.obtainStyledAttributes(new int[]{R.attr.rrIconTime});
+			icon.setImageDrawable(appearance.getDrawable(0));
+			appearance.recycle();
+		}
+
 		layout.addView(icon);
 		((LinearLayout.LayoutParams)icon.getLayoutParams()).setMargins(marginPx, marginPx, marginPx, marginPx);
 

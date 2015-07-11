@@ -17,6 +17,8 @@
 
 package org.quantumbadger.redreader.reddit.prepared;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -26,6 +28,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.text.ClipboardManager;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
@@ -33,9 +36,6 @@ import android.view.View;
 import android.widget.Toast;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.http.StatusLine;
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.app.AlertDialog;
-import org.holoeverywhere.preference.PreferenceManager;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -445,7 +445,7 @@ public final class RedditPreparedPost {
 				break;
 
 			case PROPERTIES:
-				PostPropertiesDialog.newInstance(post.src).show(activity);
+				PostPropertiesDialog.newInstance(post.src).show(activity.getFragmentManager(), null);
 				break;
 
 			case COMMENTS:

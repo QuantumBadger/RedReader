@@ -17,15 +17,15 @@
 
 package org.quantumbadger.redreader.fragments;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import org.holoeverywhere.app.AlertDialog;
-import org.holoeverywhere.app.Dialog;
-import org.holoeverywhere.app.DialogFragment;
-import org.holoeverywhere.widget.ListView;
+import android.widget.ListView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -86,9 +86,9 @@ public class SessionListDialog extends DialogFragment implements RedditAccountCh
 		super.onCreateDialog(savedInstanceState);
 
 		final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setTitle(getSupportActivity().getString(R.string.options_past));
+		builder.setTitle(getActivity().getString(R.string.options_past));
 
-		final Context context = getSupportActivity();
+		final Context context = getActivity();
 
 		lv = new ListView(context);
 		builder.setView(lv);
@@ -103,17 +103,17 @@ public class SessionListDialog extends DialogFragment implements RedditAccountCh
 				final CacheEntry ce = (CacheEntry) lv.getItemAtPosition(position);
 
 				if(ce == null) {
-					((SessionChangeListener) getSupportActivity()).onSessionRefreshSelected(type);
+					((SessionChangeListener) getActivity()).onSessionRefreshSelected(type);
 
 				} else {
-					((SessionChangeListener) getSupportActivity()).onSessionSelected(ce.session, type);
+					((SessionChangeListener) getActivity()).onSessionSelected(ce.session, type);
 				}
 
 				dismiss();
 			}
 		});
 
-		builder.setNeutralButton(getSupportActivity().getString(R.string.dialog_close), null);
+		builder.setNeutralButton(getActivity().getString(R.string.dialog_close), null);
 
 		return builder.create();
 	}
@@ -121,7 +121,7 @@ public class SessionListDialog extends DialogFragment implements RedditAccountCh
 	public void onRedditAccountChanged() {
 		General.UI_THREAD_HANDLER.post(new Runnable() {
 			public void run() {
-				lv.setAdapter(new SessionListAdapter(getSupportActivity(), url, current));
+				lv.setAdapter(new SessionListAdapter(getActivity(), url, current));
 			}
 		});
 	}

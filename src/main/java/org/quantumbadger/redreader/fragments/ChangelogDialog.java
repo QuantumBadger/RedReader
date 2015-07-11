@@ -17,11 +17,11 @@
 
 package org.quantumbadger.redreader.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.widget.LinearLayout;
-import org.holoeverywhere.widget.TextView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.views.list.ListSectionHeader;

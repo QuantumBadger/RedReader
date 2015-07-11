@@ -21,10 +21,10 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.ContextMenu;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import org.holoeverywhere.widget.FrameLayout;
-import org.holoeverywhere.widget.LinearLayout;
-import org.holoeverywhere.widget.TextView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import org.quantumbadger.redreader.R;
 
 // TODO just make this a linear layout

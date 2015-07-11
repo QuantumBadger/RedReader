@@ -6,7 +6,7 @@ import android.os.Message;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import org.holoeverywhere.widget.ListView;
+import android.widget.ListView;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;

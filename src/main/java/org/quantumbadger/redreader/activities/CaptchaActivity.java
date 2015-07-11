@@ -24,12 +24,8 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.ScrollView;
+import android.widget.*;
 import org.apache.http.StatusLine;
-import org.holoeverywhere.widget.Button;
-import org.holoeverywhere.widget.EditText;
-import org.holoeverywhere.widget.LinearLayout;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -54,7 +50,7 @@ public class CaptchaActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 
 		PrefsUtility.applyTheme(this);
-		getSupportActionBar().setTitle(R.string.post_captcha_title);
+		getActionBar().setTitle(R.string.post_captcha_title);
 
 		super.onCreate(savedInstanceState);
 

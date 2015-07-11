@@ -13,6 +13,8 @@ Added preference to customise options menu
 Post context menu no longer shown if all items are disabled
 Added preference to change bezel toolbar swipe zone size
 Added preference to change GIF viewer
+Removed dependency on HoloEverywhere
+Removed support for Android 2.x and 3.x
 
 62/1.8.7.8
 Ability to mark all inbox messages as read

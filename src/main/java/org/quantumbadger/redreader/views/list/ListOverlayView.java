@@ -24,8 +24,8 @@ import android.os.Message;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import org.holoeverywhere.widget.FrameLayout;
-import org.holoeverywhere.widget.ListView;
+import android.widget.FrameLayout;
+import android.widget.ListView;
 
 import java.util.Timer;
 import java.util.TimerTask;

@@ -17,13 +17,13 @@
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<PreferenceScreen xmlns:holo="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory holo:title="@string/prefs_category_network">
+    <PreferenceCategory android:title="@string/prefs_category_network">
 
-    <CheckBoxPreference holo:title="@string/pref_network_https_title"
-                        holo:key="@string/pref_network_https_key"
-                        holo:defaultValue="true"/>
+    <CheckBoxPreference android:title="@string/pref_network_https_title"
+                        android:key="@string/pref_network_https_key"
+                        android:defaultValue="true"/>
 
     </PreferenceCategory>
 

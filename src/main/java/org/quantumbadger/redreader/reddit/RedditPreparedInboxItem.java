@@ -17,9 +17,9 @@
 
 package org.quantumbadger.redreader.reddit;
 
+import android.app.Activity;
 import android.text.SpannableStringBuilder;
 import android.view.ViewGroup;
-import org.holoeverywhere.app.Activity;
 
 public interface RedditPreparedInboxItem {
 

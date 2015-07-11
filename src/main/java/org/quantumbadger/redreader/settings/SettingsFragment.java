@@ -20,9 +20,9 @@ package org.quantumbadger.redreader.settings;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import org.holoeverywhere.preference.ListPreference;
-import org.holoeverywhere.preference.Preference;
-import org.holoeverywhere.preference.PreferenceFragment;
+import android.preference.ListPreference;
+import android.preference.Preference;
+import android.preference.PreferenceFragment;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.fragments.ChangelogDialog;
 
@@ -91,7 +91,7 @@ public final class SettingsFragment extends PreferenceFragment {
 		final PackageInfo pInfo;
 
 		try {
-			pInfo = getSupportActivity().getPackageManager().getPackageInfo(getSupportActivity().getPackageName(), 0);
+			pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
 		} catch(PackageManager.NameNotFoundException e) {
 			throw new RuntimeException(e);
 		}
@@ -103,7 +103,7 @@ public final class SettingsFragment extends PreferenceFragment {
 		if(changelogPref != null) {
 			changelogPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 				public boolean onPreferenceClick(Preference preference) {
-					ChangelogDialog.newInstance().show(getSupportActivity());
+					ChangelogDialog.newInstance().show(getActivity().getFragmentManager(), null);
 					return true;
 				}
 			});

@@ -17,10 +17,10 @@
 
 package org.quantumbadger.redreader;
 
+import android.app.Application;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.util.Log;
-import org.holoeverywhere.app.Application;
-import org.holoeverywhere.preference.PreferenceManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.common.Alarms;
 import org.quantumbadger.redreader.common.PrefsUtility;

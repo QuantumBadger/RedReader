@@ -18,7 +18,7 @@
 package org.quantumbadger.redreader.activities;
 
 import android.content.Intent;
-import org.holoeverywhere.preference.SharedPreferences;
+import android.content.SharedPreferences;
 import org.quantumbadger.redreader.common.PrefsUtility;
 
 import java.util.EnumSet;

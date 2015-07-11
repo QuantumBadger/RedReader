@@ -17,10 +17,10 @@
 
 package org.quantumbadger.redreader.views.liststatus;
 
+import android.app.Activity;
 import android.content.res.TypedArray;
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.widget.LinearLayout;
-import org.holoeverywhere.widget.TextView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 

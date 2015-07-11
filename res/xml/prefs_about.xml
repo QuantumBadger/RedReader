@@ -17,15 +17,15 @@
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<PreferenceScreen xmlns:holo="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
 
     <Preference
-        holo:key="@string/pref_about_version_key"
-        holo:title="@string/pref_about_version_title" />
+        android:key="@string/pref_about_version_key"
+        android:title="@string/pref_about_version_title" />
 
     <Preference
-        holo:key="@string/pref_about_changelog_key"
-        holo:title="@string/title_changelog" />
+        android:key="@string/pref_about_changelog_key"
+        android:title="@string/title_changelog" />
 
 </PreferenceScreen>

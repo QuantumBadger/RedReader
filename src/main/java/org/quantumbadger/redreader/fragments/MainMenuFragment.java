@@ -17,15 +17,15 @@
 
 package org.quantumbadger.redreader.fragments;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import org.holoeverywhere.LayoutInflater;
-import org.holoeverywhere.app.Fragment;
-import org.holoeverywhere.widget.LinearLayout;
-import org.holoeverywhere.widget.ListView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -166,7 +166,7 @@ public class MainMenuFragment extends Fragment implements MainMenuSelectionListe
 		if(loadingView != null) loadingView.setDone(R.string.download_failed);
 		General.UI_THREAD_HANDLER.post(new Runnable() {
 			public void run() {
-				notifications.addView(new ErrorView(getSupportActivity(), error));
+				notifications.addView(new ErrorView(getActivity(), error));
 			}
 		});
 	}
@@ -177,11 +177,11 @@ public class MainMenuFragment extends Fragment implements MainMenuSelectionListe
 	}
 
 	public void onSelected(final MainMenuAction type, final String name) {
-		((MainMenuSelectionListener)getSupportActivity()).onSelected(type, name);
+		((MainMenuSelectionListener)getActivity()).onSelected(type, name);
 	}
 
 	public void onSelected(final PostListingURL postListingURL) {
-		((MainMenuSelectionListener)getSupportActivity()).onSelected(postListingURL);
+		((MainMenuSelectionListener)getActivity()).onSelected(postListingURL);
 	}
 
 	@Override

@@ -17,11 +17,11 @@
 
 package org.quantumbadger.redreader.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.widget.LinearLayout;
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.widget.LinearLayout;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.reddit.things.RedditPost;

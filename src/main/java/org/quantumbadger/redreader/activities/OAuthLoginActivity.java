@@ -22,8 +22,8 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.webkit.*;
-import com.actionbarsherlock.view.MenuItem;
 import org.quantumbadger.redreader.common.AndroidApi;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.reddit.api.RedditOAuth;
@@ -118,8 +118,8 @@ public class OAuthLoginActivity extends BaseActivity {
 
 		PrefsUtility.applyTheme(this);
 
-		getSupportActionBar().setHomeButtonEnabled(true);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setHomeButtonEnabled(true);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		super.onCreate(savedInstanceState);
 

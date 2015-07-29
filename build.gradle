@@ -1,0 +1,52 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.2.3'
+    }
+}
+
+apply plugin: 'com.android.application'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'com.fasterxml.jackson.core:jackson-core:2.5.1'
+    compile 'org.apache.commons:commons-lang3:3.3.2'
+    compile 'joda-time:joda-time:2.7'
+
+    testCompile 'junit:junit:4.12'
+}
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion '22.0.1'
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+        buildTypes {
+            debug {
+                debuggable true
+            }
+        }
+    }
+
+    compileOptions {
+        compileOptions.encoding = "UTF-8"
+    }
+    
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+}

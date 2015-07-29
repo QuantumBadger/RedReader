@@ -79,3 +79,7 @@ local.properties
 
 ### Maven ###
 target/
+
+# Gradle
+build/
+.gradle/

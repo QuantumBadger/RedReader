@@ -311,6 +311,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 				switch(subredditPostListURL.type) {
 
 					case FRONTPAGE:
+					case RANDOM:
 					case ALL:
 					case SUBREDDIT_COMBINATION:
 					case ALL_SUBTRACTION:

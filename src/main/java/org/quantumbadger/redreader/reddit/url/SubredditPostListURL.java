@@ -50,7 +50,7 @@ public class SubredditPostListURL extends PostListingURL {
 	}
 
 	public enum Type {
-		FRONTPAGE, ALL, SUBREDDIT, SUBREDDIT_COMBINATION, ALL_SUBTRACTION
+		FRONTPAGE, ALL, SUBREDDIT, SUBREDDIT_COMBINATION, ALL_SUBTRACTION, RANDOM
 	}
 
 	public final Type type;

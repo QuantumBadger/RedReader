@@ -67,9 +67,11 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="http" android:host="www.reddit.com" android:pathPattern="/r/.*/" />
+                <data android:scheme="http" android:host="m.reddit.com" android:pathPattern="/r/.*/" />
                 <data android:scheme="http" android:host="reddit.com" android:pathPattern="/r/.*/" />
                 <data android:scheme="http" android:host="redd.it" android:pathPattern="/" />
                 <data android:scheme="https" android:host="www.reddit.com" android:pathPattern="/r/.*/" />
+                <data android:scheme="https" android:host="m.reddit.com" android:pathPattern="/r/.*/" />
                 <data android:scheme="https" android:host="reddit.com" android:pathPattern="/r/.*/" />
                 <data android:scheme="https" android:host="redd.it" android:pathPattern="/" />
             </intent-filter>
@@ -89,10 +91,14 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="http" android:host="www.reddit.com" android:pathPattern="/r/.*/comments/.*" />
                 <data android:scheme="http" android:host="www.reddit.com" android:pathPrefix="/comments" />
+                <data android:scheme="http" android:host="m.reddit.com" android:pathPattern="/r/.*/comments/.*" />
+                <data android:scheme="http" android:host="m.reddit.com" android:pathPrefix="/comments" />
                 <data android:scheme="http" android:host="reddit.com" android:pathPattern="/r/.*/comments/.*" />
                 <data android:scheme="http" android:host="reddit.com" android:pathPrefix="/comments" />
                 <data android:scheme="https" android:host="www.reddit.com" android:pathPattern="/r/.*/comments/.*" />
                 <data android:scheme="https" android:host="www.reddit.com" android:pathPrefix="/comments" />
+                <data android:scheme="https" android:host="m.reddit.com" android:pathPattern="/r/.*/comments/.*" />
+                <data android:scheme="https" android:host="m.reddit.com" android:pathPrefix="/comments" />
                 <data android:scheme="https" android:host="reddit.com" android:pathPattern="/r/.*/comments/.*" />
                 <data android:scheme="https" android:host="reddit.com" android:pathPrefix="/comments" />
             </intent-filter>

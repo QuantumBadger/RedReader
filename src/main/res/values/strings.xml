@@ -669,4 +669,8 @@
     <string name="pref_behaviour_gifview_mode_internal_browser">Internal browser</string>
     <string name="pref_behaviour_gifview_mode_external_browser">External browser</string>
 
+    <!-- 2015-08-15 -->
+    <string name="pref_appearance_fontscale_inbox_key">pref_appearance_fontscale_inbox</string>
+    <string name="pref_appearance_fontscale_inbox_title">Inbox Font Scale</string>
+
 </resources>

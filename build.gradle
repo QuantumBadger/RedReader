@@ -49,4 +49,12 @@ android {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
     }
+
+    sourceSets {
+        main {
+            java.srcDirs = ['src/main/java']
+            assets.srcDirs = ['assets']
+            res.srcDirs = ['src/main/res']
+        }
+    }
 }

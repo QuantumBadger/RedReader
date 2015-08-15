@@ -2,6 +2,7 @@
 Switched to oAuth authentication
 Support for some types of video link (e.g. those ending in .webm)
 Workaround for imgur redirect bug
+Ability to change inbox font size
 Added screen orientation preference (thanks to chaitan94)
 Fixed scrolling bug when collapsing large comments (thanks to chaitan94)
 Added preference to skip straight to the front page (thanks to chaitan94)

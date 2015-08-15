@@ -181,6 +181,10 @@ public final class PrefsUtility {
 		return Float.valueOf(getString(R.string.pref_appearance_fontscale_comments_key, "1", context,  sharedPreferences));
 	}
 
+	public static float appearance_fontscale_inbox(final Context context, final SharedPreferences sharedPreferences) {
+		return Float.valueOf(getString(R.string.pref_appearance_fontscale_inbox_key, "1", context,  sharedPreferences));
+	}
+
 	public static float appearance_fontscale_posts(final Context context, final SharedPreferences sharedPreferences) {
 		return Float.valueOf(getString(R.string.pref_appearance_fontscale_posts_key, "1", context,  sharedPreferences));
 	}

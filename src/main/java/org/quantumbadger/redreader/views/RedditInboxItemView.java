@@ -33,6 +33,7 @@ public class RedditInboxItemView extends LinearLayout {
 	private final FrameLayout bodyHolder;
 
 	private final int bodyCol;
+	private final float fontScale;
 
 	private final boolean showLinkButtons;
 
@@ -42,6 +43,7 @@ public class RedditInboxItemView extends LinearLayout {
 
 		super(context);
 		this.bodyCol = bodyCol;
+		fontScale = PrefsUtility.appearance_fontscale_inbox(context, PreferenceManager.getDefaultSharedPreferences(context));
 
 		setOrientation(HORIZONTAL);
 
@@ -49,7 +51,7 @@ public class RedditInboxItemView extends LinearLayout {
 		main.setOrientation(VERTICAL);
 
 		header = new TextView(context);
-		header.setTextSize(11.0f);
+		header.setTextSize(11.0f * fontScale);
 		header.setTextColor(headerCol);
 		main.addView(header);
 
@@ -74,7 +76,7 @@ public class RedditInboxItemView extends LinearLayout {
 		header.setText(item.getHeader());
 
 		bodyHolder.removeAllViews();
-		bodyHolder.addView(item.getBody(context, 13.0f, bodyCol, showLinkButtons));
+		bodyHolder.addView(item.getBody(context, 13.0f * fontScale, bodyCol, showLinkButtons));
 	}
 
 	public void handleInboxClick(Activity activity) {

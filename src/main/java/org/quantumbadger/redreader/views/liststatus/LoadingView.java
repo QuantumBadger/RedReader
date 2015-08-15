@@ -37,7 +37,7 @@ public final class LoadingView extends StatusListItemView {
 		public void handleMessage(final Message msg) {
 
 			if(textView != null) {
-				textView.setText((String) msg.obj);
+				textView.setText(((String) msg.obj).toUpperCase());
 			}
 
 			if(msg.what == LOADING_INDETERMINATE) {
@@ -88,8 +88,7 @@ public final class LoadingView extends StatusListItemView {
 		layout.setOrientation(LinearLayout.VERTICAL);
 
 		textView = new TextView(context);
-		textView.setText(initialText);
-		textView.setAllCaps(true);
+		textView.setText(initialText.toUpperCase());
 		textView.setTextSize(13.0f);
 		textView.setPadding((int)(15 * dpScale), (int)(10 * dpScale), (int)(10 * dpScale), (int)(10 * dpScale));
 		textView.setSingleLine(true);

@@ -341,6 +341,11 @@ public final class RedditPreparedComment implements RedditPreparedInboxItem {
 						lastChange = RRTime.utcCurrentTimeMillis();
 						RedditChangeDataManager.getInstance(context).update(src.link_id, user, RedditPreparedComment.this, true);
 						refreshView(activity);
+
+						if(action == RedditAPI.RedditAction.DELETE) {
+							General.quickToast(context, R.string.delete_success);
+						}
+
 					}
 
 					private void revertOnFailure() {

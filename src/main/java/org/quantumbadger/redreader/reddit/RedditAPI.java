@@ -268,7 +268,7 @@ public final class RedditAPI {
 	}
 
 	public static enum RedditAction {
-		UPVOTE, UNVOTE, DOWNVOTE, SAVE, HIDE, UNSAVE, UNHIDE, REPORT
+		UPVOTE, UNVOTE, DOWNVOTE, SAVE, HIDE, UNSAVE, UNHIDE, REPORT, DELETE
 	}
 
 	public static enum RedditSubredditAction {
@@ -338,6 +338,7 @@ public final class RedditAPI {
 			case UNSAVE: return Constants.Reddit.getUri(Constants.Reddit.PATH_UNSAVE);
 			case UNHIDE: return Constants.Reddit.getUri(Constants.Reddit.PATH_UNHIDE);
 			case REPORT: return Constants.Reddit.getUri(Constants.Reddit.PATH_REPORT);
+			case DELETE: return Constants.Reddit.getUri(Constants.Reddit.PATH_DELETE);
 
 			default:
 				throw new RuntimeException("Unknown post/comment action");

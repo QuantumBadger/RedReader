@@ -373,8 +373,10 @@ public class CommentListingFragment extends Fragment
 						menu.add(Menu.NONE, Action.REPORT.ordinal(), 0, R.string.action_report);
 						menu.add(Menu.NONE, Action.REPLY.ordinal(), 0, R.string.action_reply);
 
-						if(user.username.equalsIgnoreCase(comment.src.author))
+						if(user.username.equalsIgnoreCase(comment.src.author)) {
 							menu.add(Menu.NONE, Action.EDIT.ordinal(), 0, R.string.action_edit);
+							menu.add(Menu.NONE, Action.DELETE.ordinal(), 0, R.string.action_delete);
+						}
 					}
 
 					menu.add(Menu.NONE, Action.CONTEXT.ordinal(), 0, R.string.action_comment_context);
@@ -556,6 +558,7 @@ public class CommentListingFragment extends Fragment
 		COMMENT_LINKS,
 		COLLAPSE,
 		EDIT,
+		DELETE,
 		PROPERTIES,
 		CONTEXT,
 		GO_TO_COMMENT
@@ -630,6 +633,21 @@ public class CommentListingFragment extends Fragment
 				intent.putExtra("commentIdAndType", comment.idAndType);
 				intent.putExtra("commentText", StringEscapeUtils.unescapeHtml4(comment.src.body));
 				startActivity(intent);
+				break;
+			}
+
+			case DELETE: {
+				new AlertDialog.Builder(getActivity())
+						.setTitle(R.string.accounts_delete)
+						.setMessage(R.string.delete_confirm)
+						.setPositiveButton(R.string.action_delete,
+								new DialogInterface.OnClickListener() {
+									public void onClick(final DialogInterface dialog, final int which) {
+										comment.action(getActivity(), RedditAPI.RedditAction.DELETE);
+									}
+								})
+						.setNegativeButton(R.string.dialog_cancel, null)
+						.show();
 				break;
 			}
 

@@ -673,4 +673,8 @@
     <string name="pref_appearance_fontscale_inbox_key">pref_appearance_fontscale_inbox</string>
     <string name="pref_appearance_fontscale_inbox_title">Inbox Font Scale</string>
 
+    <string name="action_delete">Delete</string>
+    <string name="delete_confirm">Are you sure you want to delete this?</string>
+    <string name="delete_success">Successfully deleted. The item will still be visible until you refresh.</string>
+
 </resources>

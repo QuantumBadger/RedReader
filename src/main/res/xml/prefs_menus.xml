@@ -44,6 +44,10 @@
         android:entryValues="@array/pref_menus_mainmenu_useritems_items_return"
         android:defaultValue="@array/pref_menus_mainmenu_useritems_items_default" />
 
+    <CheckBoxPreference android:title="@string/pref_appearance_hide_username_main_menu_title"
+                        android:key="@string/pref_appearance_hide_username_main_menu_key"
+                        android:defaultValue="false"/>
+
     <MultiSelectListPreference
         android:dialogTitle="@string/pref_menus_post_context_items_title"
         android:key="@string/pref_menus_post_context_items_key"

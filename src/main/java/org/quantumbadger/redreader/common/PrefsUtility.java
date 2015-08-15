@@ -74,7 +74,8 @@ public final class PrefsUtility {
 		return context.getString(R.string.pref_appearance_theme_key).equals(key)
 				|| context.getString(R.string.pref_appearance_solidblack_2_key).equals(key)
 				|| context.getString(R.string.pref_appearance_langforce_key).equals(key)
-				|| context.getString(R.string.pref_behaviour_bezel_toolbar_swipezone_key).equals(key);
+				|| context.getString(R.string.pref_behaviour_bezel_toolbar_swipezone_key).equals(key)
+				|| context.getString(R.string.pref_appearance_hide_username_main_menu_key).equals(key);
 	}
 
 	///////////////////////////////
@@ -187,6 +188,10 @@ public final class PrefsUtility {
 
 	public static float appearance_fontscale_posts(final Context context, final SharedPreferences sharedPreferences) {
 		return Float.valueOf(getString(R.string.pref_appearance_fontscale_posts_key, "1", context,  sharedPreferences));
+	}
+
+	public static boolean pref_appearance_hide_username_main_menu(final Context context, final SharedPreferences sharedPreferences) {
+		return getBoolean(R.string.pref_appearance_hide_username_main_menu_key, false, context, sharedPreferences);
 	}
 
 	public static boolean pref_appearance_linkbuttons(final Context context, final SharedPreferences sharedPreferences) {

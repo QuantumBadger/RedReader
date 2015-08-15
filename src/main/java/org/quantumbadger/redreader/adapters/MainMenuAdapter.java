@@ -148,7 +148,11 @@ public class MainMenuAdapter extends BaseAdapter {
 
 		if(!user.isAnonymous()) {
 
-			mainItems.add(new MainMenuItem(user.username));
+			if(PrefsUtility.pref_appearance_hide_username_main_menu(context, PreferenceManager.getDefaultSharedPreferences(context))) {
+				mainItems.add(new MainMenuItem(context.getString(R.string.mainmenu_useritems)));
+			} else {
+				mainItems.add(new MainMenuItem(user.username));
+			}
 
 			final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			final EnumSet<MainMenuFragment.MainMenuUserItems> mainMenuUserItems

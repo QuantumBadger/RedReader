@@ -99,6 +99,8 @@
                 <data android:scheme="https" android:host="www.reddit.com" android:pathPrefix="/comments" />
                 <data android:scheme="https" android:host="m.reddit.com" android:pathPattern="/r/.*/comments/.*" />
                 <data android:scheme="https" android:host="m.reddit.com" android:pathPrefix="/comments" />
+                <data android:scheme="https" android:host="pay.reddit.com" android:pathPattern="/r/.*/comments/.*" />
+                <data android:scheme="https" android:host="pay.reddit.com" android:pathPrefix="/comments" />
                 <data android:scheme="https" android:host="reddit.com" android:pathPattern="/r/.*/comments/.*" />
                 <data android:scheme="https" android:host="reddit.com" android:pathPrefix="/comments" />
             </intent-filter>

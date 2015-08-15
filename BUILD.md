@@ -11,7 +11,7 @@ http://developer.android.com/sdk/index.html#download
 
 And download the installer under "Use an existing IDE".
 
-When it's installed, go into the SDK Manager, and install the "SDK Platform" for **API 14** (Android 4.0) and **API 16** (Android 4.1.2). If you wish to use the emulator, install the relevant system images.
+When it's installed, go into the SDK Manager, and install the "SDK Platform" for **API 22**. If you wish to use the emulator, install the relevant system images.
 
 **3\. Download and install IntelliJ IDEA Community Edition.**
 
@@ -43,13 +43,9 @@ In the same dialog, click the green add icon again, but this time select "Androi
 
 Locate the Android SDK home directory. On Windows, this could be in a variety of locations - the easiest way to find out is to open the SDK manager and look for the "SDK Path" in gray at the top of the window. In the IDEA file selector, you'll probably need to click the "show hidden files and directories" icon.
 
-Once you've done this, select "Android 4.1.2" as the build target in the next dialog.
+Once you've done this, select "Android 5.1.1" as the build target in the next dialog.
 
-**9\. Re-import the Maven stuff.**
-
-Open the project tree by clicking the "Project" button at the left of the screen. Right-click RedReader, and select "Maven > Reimport". Don't add the generated XML files to Git.
-
-**10\. Create a run configuration.**
+**9\. Create a run configuration.**
 
 Open the Run menu, and select "Edit Configurations". Press the green add icon, and select "Android Application".
 
@@ -59,7 +55,7 @@ Open the Run menu, and select "Edit Configurations". Press the green add icon, a
 * Under "Name" (at the top), type whatever you like.
 * Press OK.
 
-**11\. Voilà, you're done!**
+**10\. Voilà, you're done!**
 
 Click the green "run" button in the toolbar to build and run RedReader. You'll probably need to uninstall the Google Play copy from your device, or you'll get a certificate conflict.
 

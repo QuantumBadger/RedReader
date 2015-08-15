@@ -35,7 +35,7 @@ Crashes in other parts of the application will cause a prompt to be displayed as
 How to Build
 ------------
 
-RedReader is built using Maven. Several dependencies are required (and listed in pom.xml), but these are handled automatically if you use Maven.
+RedReader is built using Gradle. Several dependencies are required (and listed in build.gradle), but these are handled automatically if you use Gradle.
 
 Detailed instructions on building RedReader using IntelliJ IDEA are in [BUILD.md](BUILD.md).
 

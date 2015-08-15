@@ -17,6 +17,7 @@ Added preference to change bezel toolbar swipe zone size
 Added preference to change GIF viewer
 Added intent support for m.reddit.com (thanks to Septolum)
 Ability to hide username in main menu
+Strips all whitespace when entering custom subreddit
 Removed dependency on HoloEverywhere
 Removed support for Android 2.x and 3.x
 

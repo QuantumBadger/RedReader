@@ -248,7 +248,7 @@ public class MainActivity extends RefreshableActivity
 				alertBuilder.setPositiveButton(R.string.dialog_go, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 
-						final String subredditInput = editText.getText().toString().trim();
+						final String subredditInput = editText.getText().toString().trim().replace(" ", "");
 
 						try {
 							final String normalizedName = RedditSubreddit.stripRPrefix(subredditInput);

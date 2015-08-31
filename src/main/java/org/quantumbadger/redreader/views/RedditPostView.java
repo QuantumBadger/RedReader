@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.views;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
@@ -55,6 +56,7 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 	private final Handler thumbnailHandler;
 
 	private final PostListingFragment fragmentParent;
+	private final Activity mActivity;
 
 	private boolean swipeReady = false, leftOverlayShown = false, rightOverlayShown = false;
 
@@ -168,10 +170,10 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 
 			if(xOffsetPixels > 0) {
 
-				RedditPreparedPost.onActionMenuItemSelected(post, fragmentParent.getActivity(), rightFlingAction.action);
+				RedditPreparedPost.onActionMenuItemSelected(post, mActivity, rightFlingAction.action);
 				leftOverlayText.setCompoundDrawablesWithIntrinsicBounds(null, rrIconTick, null, null);
 			} else {
-				RedditPreparedPost.onActionMenuItemSelected(post, fragmentParent.getActivity(), leftFlingAction.action);
+				RedditPreparedPost.onActionMenuItemSelected(post, mActivity, leftFlingAction.action);
 				rightOverlayText.setCompoundDrawablesWithIntrinsicBounds(null, rrIconTick, null, null);
 			}
 
@@ -222,11 +224,16 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 		}
 	}
 
-	public RedditPostView(final Context context, final ListView listParent, final PostListingFragment fragmentParent) {
+	public RedditPostView(
+			final Context context,
+			final ListView listParent,
+			final PostListingFragment fragmentParent,
+			final Activity activity) {
 
 		super(context, listParent);
 		this.fragmentParent = fragmentParent;
 		mListView = listParent;
+		mActivity = activity;
 
 		offsetBeginAllowed = General.dpToPixels(context, 50);
 		offsetActionPerformed = General.dpToPixels(context, 150);
@@ -379,7 +386,7 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 	}
 
 	public void rrOnLongClick() {
-		RedditPreparedPost.showActionMenu(fragmentParent.getActivity(), post);
+		RedditPreparedPost.showActionMenu(mActivity, post);
 	}
 
 	public void betterThumbnailAvailable(final Bitmap thumbnail, final int callbackUsageId) {

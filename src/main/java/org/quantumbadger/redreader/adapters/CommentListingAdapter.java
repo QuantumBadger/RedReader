@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.view.View;
@@ -39,11 +40,14 @@ public final class CommentListingAdapter extends BaseAdapter {
 
 	private final CommentListingFragment fragment;
 
-	public CommentListingAdapter(Context context, CommentListingFragment fragment) {
+	private final Activity mActivity;
 
+	public CommentListingAdapter(Activity activity, CommentListingFragment fragment) {
+
+		mActivity = activity;
 		this.fragment = fragment;
 
-		final TypedArray attr = context.obtainStyledAttributes(new int[] {
+		final TypedArray attr = activity.obtainStyledAttributes(new int[] {
 				R.attr.rrCommentHeaderCol,
 				R.attr.rrCommentBodyCol
 		});
@@ -88,7 +92,7 @@ public final class CommentListingAdapter extends BaseAdapter {
 				convertView = new RedditCommentView(viewGroup.getContext(), rrCommentHeaderCol, rrCommentBodyCol, fragment);
 			}
 
-			((RedditCommentView) convertView).reset(fragment.getActivity(), item.asComment(), item.getIndent());
+			((RedditCommentView) convertView).reset(mActivity, item.asComment(), item.getIndent());
 
 		} else {
 

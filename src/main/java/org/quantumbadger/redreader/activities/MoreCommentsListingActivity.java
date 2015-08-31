@@ -41,9 +41,11 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -67,6 +69,10 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 	private SharedPreferences sharedPreferences;
 	private final ArrayList<RedditURLParser.RedditURL> mUrls = new ArrayList<RedditURLParser.RedditURL>(32);
 
+	private CommentListingFragment mFragment;
+
+	private FrameLayout mPane;
+
 	public void onCreate(final Bundle savedInstanceState) {
 
         PrefsUtility.applyTheme(this);
@@ -88,6 +94,7 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 		final View layout = getLayoutInflater().inflate(R.layout.main_single, null);
 		if(solidblack) layout.setBackgroundColor(Color.BLACK);
 		setContentView(layout);
+		mPane = (FrameLayout)layout.findViewById(R.id.main_single_frame);
 
 		RedditAccountManager.getInstance(this).addUpdateListener(this);
 
@@ -120,6 +127,11 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 	@Override
 	public boolean onCreateOptionsMenu(final Menu menu) {
 		OptionsMenuUtility.prepare(this, menu, false, false, true, false, false, false, null, false, false);
+
+		if(mFragment != null) {
+			mFragment.onCreateOptionsMenu(menu);
+		}
+
 		return true;
 	}
 
@@ -130,14 +142,14 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 	@Override
 	protected void doRefresh(final RefreshableFragment which, final boolean force) {
 
-		final CommentListingFragment fragment = CommentListingFragment.newInstance(
+		mFragment = new CommentListingFragment(
+				this,
 				mUrls,
 				null,
 				force ? CacheRequest.DownloadType.FORCE : CacheRequest.DownloadType.IF_NECESSARY);
 
-		final FragmentTransaction transaction = getFragmentManager().beginTransaction();
-		transaction.replace(R.id.main_single_frame, fragment, "comment_listing_fragment");
-		transaction.commit();
+		mPane.removeAllViews();
+		mPane.addView(mFragment.onCreateView());
 		OptionsMenuUtility.fixActionBar(this, "More Comments"); // TODO string
 	}
 
@@ -153,6 +165,11 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 
 	@Override
 	public boolean onOptionsItemSelected(final MenuItem item) {
+
+		if(mFragment != null) {
+			mFragment.onOptionsItemSelected(item);
+		}
+
 		switch(item.getItemId()) {
 			case android.R.id.home:
                 finish();
@@ -173,5 +190,23 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 	@Override
 	public void onBackPressed() {
 		if(General.onBackPressed()) super.onBackPressed();
+	}
+
+	@Override
+	public void onCreateContextMenu(final ContextMenu menu, final View v, final ContextMenu.ContextMenuInfo menuInfo) {
+
+		if(mFragment != null) {
+			mFragment.onCreateContextMenu(menu, v, menuInfo);
+		}
+	}
+
+	@Override
+	public boolean onContextItemSelected(final MenuItem item) {
+
+		if(mFragment != null) {
+			mFragment.onContextItemSelected(item);
+		}
+
+		return super.onContextItemSelected(item);
 	}
 }

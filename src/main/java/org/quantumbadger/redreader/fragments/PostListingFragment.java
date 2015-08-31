@@ -18,11 +18,9 @@
 package org.quantumbadger.redreader.fragments;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -72,7 +70,7 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.UUID;
 
-public class PostListingFragment extends Fragment implements RedditPostView.PostSelectionListener, AbsListView.OnScrollListener {
+public class PostListingFragment extends RRFragment implements RedditPostView.PostSelectionListener, AbsListView.OnScrollListener {
 
 	private PostListingURL postListingURL;
 
@@ -110,7 +108,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 			NOTIF_ERROR_FOOTER = 8,
 			NOTIF_AUTHORIZING = 9;
 
-	private Activity mActivity;
+	private final Activity mActivity;
 
 	private final Handler notificationHandler = new Handler(Looper.getMainLooper()) {
 		@Override
@@ -182,29 +180,10 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 		}
 	};
 
-	public static PostListingFragment newInstance(final Uri url, final UUID session, final CacheRequest.DownloadType downloadType) {
-
-		final PostListingFragment f = new PostListingFragment();
-
-		final Bundle bundle = new Bundle(4);
-
-		bundle.putString("url", url.toString());
-		if(session != null) bundle.putString("session", session.toString());
-		bundle.putString("downloadType", downloadType.name());
-
-		f.setArguments(bundle);
-
-		return f;
-	}
-
-	@Override
-	public void onCreate(final Bundle savedInstanceState) {
-		// TODO load position/etc?
-		super.onCreate(savedInstanceState);
-
-		final Bundle arguments = getArguments();
-
-		final Uri url = Uri.parse(arguments.getString("url"));
+	// Session may be null
+	public PostListingFragment(final Activity parent, final Uri url, final UUID session, final CacheRequest.DownloadType downloadType) {
+		super(parent);
+		mActivity = parent;
 
 		try {
 			postListingURL = (PostListingURL) RedditURLParser.parseProbablePostListing(url);
@@ -213,17 +192,8 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 			return;
 		}
 
-		if(arguments.containsKey("session")) {
-			session = UUID.fromString(arguments.getString("session"));
-		}
-
-		downloadType = CacheRequest.DownloadType.valueOf(arguments.getString("downloadType"));
-	}
-
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		mActivity = activity;
+		this.session = session;
+		this.downloadType = downloadType;
 	}
 
 	private LinearLayout createVerticalLinearLayout(Context context) {
@@ -233,10 +203,9 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 	}
 
 	@Override
-	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
+	public View onCreateView() {
 
-		super.onCreateView(inflater, container, savedInstanceState);
-		final Context context = container.getContext();
+		final Context context = getContext();
 		sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
 		final LinearLayout outer = new LinearLayout(context) {
@@ -274,7 +243,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 
 		listHeader.addView(listHeaderNotifications);
 
-		lv = (ListView)inflater.inflate(R.layout.reddit_post_list, null);
+		lv = (ListView)getActivity().getLayoutInflater().inflate(R.layout.reddit_post_list, null);
 		lv.setOnScrollListener(this);
 		lv.addHeaderView(listHeader);
 		lv.addFooterView(listFooterNotifications, null, true);
@@ -282,7 +251,7 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 		lv.setPersistentDrawingCache(ViewGroup.PERSISTENT_ALL_CACHES);
 		lv.setAlwaysDrawnWithCacheEnabled(true);
 
-		adapter = new PostListingAdapter(lv, this);
+		adapter = new PostListingAdapter(lv, this, getActivity());
 		lv.setAdapter(adapter);
 
 		final ListOverlayView lov = new ListOverlayView(context, lv);
@@ -350,11 +319,6 @@ public class PostListingFragment extends Fragment implements RedditPostView.Post
 		}
 
 		return outer;
-	}
-
-	@Override
-	public void onSaveInstanceState(final Bundle outState) {
-		// TODO save menu position
 	}
 
 	public void cancel() {

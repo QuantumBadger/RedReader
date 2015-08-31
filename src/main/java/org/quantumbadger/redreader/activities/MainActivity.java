@@ -28,11 +28,9 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.WindowManager;
+import android.view.*;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -74,6 +72,15 @@ public class MainActivity extends RefreshableActivity
 	private CommentListingController commentListingController;
 	private CommentListingFragment commentListingFragment;
 
+	private View mainMenuView;
+	private View postListingView;
+	private View commentListingView;
+
+	private FrameLayout mSinglePane;
+
+	private FrameLayout mLeftPane;
+	private FrameLayout mRightPane;
+
 	private boolean isMenuShown = true;
 
 	private SharedPreferences sharedPreferences;
@@ -91,25 +98,11 @@ public class MainActivity extends RefreshableActivity
 
 		OptionsMenuUtility.fixActionBar(this, getString(R.string.app_name));
 
-		final boolean solidblack = PrefsUtility.appearance_solidblack(this, sharedPreferences)
-				&& PrefsUtility.appearance_theme(this, sharedPreferences) == PrefsUtility.AppearanceTheme.NIGHT;
-
 		super.onCreate(savedInstanceState);
 
 		twoPane = General.isTablet(this, sharedPreferences);
 
-		final View layout;
-
-		if(twoPane)
-			layout = getLayoutInflater().inflate(R.layout.main_double, null);
-		else
-			layout = getLayoutInflater().inflate(R.layout.main_single, null);
-
-		if(solidblack) layout.setBackgroundColor(Color.BLACK);
-
-		setContentView(layout);
-
-		doRefresh(RefreshableFragment.MAIN, false);
+		doRefresh(RefreshableFragment.MAIN_RELAYOUT, false);
 
 		RedditAccountManager.getInstance(this).addUpdateListener(this);
 
@@ -315,70 +308,80 @@ public class MainActivity extends RefreshableActivity
 
 		if(which == RefreshableFragment.MAIN_RELAYOUT) {
 
-			final FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
-			if(postListingFragment != null) {
-				postListingFragment.cancel();
-				transaction.remove(postListingFragment);
-			}
-
-			if(commentListingFragment != null) {
-				transaction.remove(commentListingFragment);
-			}
-
-			transaction.commit();
-			getFragmentManager().executePendingTransactions(); // may not be necessary...
-
 			mainMenuFragment = null;
 			postListingFragment = null;
 			commentListingFragment = null;
 
+			mainMenuView = null;
+			postListingView = null;
+			commentListingView = null;
+
+			if(mLeftPane != null) mLeftPane.removeAllViews();
+			if(mRightPane != null) mRightPane.removeAllViews();
+
 			twoPane = General.isTablet(this, sharedPreferences);
 
-			if(twoPane)
-				setContentView(R.layout.main_double);
-			else
-				setContentView(R.layout.main_single);
+			final View layout;
+
+			if(twoPane) {
+				layout = getLayoutInflater().inflate(R.layout.main_double, null);
+				mLeftPane = (FrameLayout)layout.findViewById(R.id.main_left_frame);
+				mRightPane = (FrameLayout)layout.findViewById(R.id.main_right_frame);
+				mSinglePane = null;
+			} else {
+				layout = getLayoutInflater().inflate(R.layout.main_single, null);
+				mLeftPane = null;
+				mRightPane = null;
+				mSinglePane = (FrameLayout)layout.findViewById(R.id.main_single_frame);
+			}
+
+			setContentView(layout);
+
+
+			final boolean solidblack = PrefsUtility.appearance_solidblack(this, sharedPreferences)
+					&& PrefsUtility.appearance_theme(this, sharedPreferences) == PrefsUtility.AppearanceTheme.NIGHT;
+
+			if(solidblack) layout.setBackgroundColor(Color.BLACK);
 
 			invalidateOptionsMenu();
-			requestRefresh(RefreshableFragment.MAIN, false);
+			requestRefresh(RefreshableFragment.ALL, false);
 
 			return;
 		}
 
 		if(twoPane) {
 
-			final int postContainer = isMenuShown ? R.id.main_right_frame : R.id.main_left_frame;
+			final FrameLayout postContainer = isMenuShown ? mRightPane : mLeftPane;
 
 			if(isMenuShown && (which == RefreshableFragment.ALL || which == RefreshableFragment.MAIN)) {
-				mainMenuFragment = MainMenuFragment.newInstance(force);
-				final FragmentTransaction transaction = getFragmentManager().beginTransaction();
-				transaction.replace(R.id.main_left_frame, mainMenuFragment, "main_fragment");
-				transaction.commit();
+				mainMenuFragment = new MainMenuFragment(this, force);
+				mainMenuView = mainMenuFragment.onCreateView();
+				mLeftPane.removeAllViews();
+				mLeftPane.addView(mainMenuView);
 			}
 
 			if(postListingController != null && (which == RefreshableFragment.ALL || which == RefreshableFragment.POSTS)) {
 				if(force && postListingFragment != null) postListingFragment.cancel();
-				postListingFragment = postListingController.get(force);
-				final FragmentTransaction transaction = getFragmentManager().beginTransaction();
-				transaction.replace(postContainer, postListingFragment, "posts_fragment");
-				transaction.commit();
+				postListingFragment = postListingController.get(this, force);
+				postListingView = postListingFragment.onCreateView();
+				postContainer.removeAllViews();
+				postContainer.addView(postListingView);
 			}
 
 			if(commentListingController != null && (which == RefreshableFragment.ALL || which == RefreshableFragment.COMMENTS)) {
-				commentListingFragment = commentListingController.get(force);
-				final FragmentTransaction transaction = getFragmentManager().beginTransaction();
-				transaction.replace(R.id.main_right_frame, commentListingFragment, "comments_fragment");
-				transaction.commit();
+				commentListingFragment = commentListingController.get(this, force);
+				commentListingView = commentListingFragment.onCreateView();
+				mRightPane.removeAllViews();
+				mRightPane.addView(commentListingView);
 			}
 
 		} else {
 
 			if(which == RefreshableFragment.ALL || which == RefreshableFragment.MAIN) {
-				mainMenuFragment = MainMenuFragment.newInstance(force);
-				final FragmentTransaction transaction = getFragmentManager().beginTransaction();
-				transaction.replace(R.id.main_single_frame, mainMenuFragment, "main_fragment");
-				transaction.commit();
+				mainMenuFragment = new MainMenuFragment(this, force);
+				mainMenuView = mainMenuFragment.onCreateView();
+				mSinglePane.removeAllViews();
+				mSinglePane.addView(mainMenuView);
 			}
 		}
 
@@ -397,16 +400,17 @@ public class MainActivity extends RefreshableActivity
 
 		isMenuShown = true;
 
-		final FragmentTransaction transaction = getFragmentManager().beginTransaction();
+		mainMenuFragment = new MainMenuFragment(this, false); // TODO preserve position
+		mainMenuView = mainMenuFragment.onCreateView();
 
-		mainMenuFragment = MainMenuFragment.newInstance(false); // TODO preserve position
-		postListingFragment = postListingController.get(false); // TODO preserve position
-
-		transaction.replace(R.id.main_left_frame, mainMenuFragment);
-		transaction.replace(R.id.main_right_frame, postListingFragment);
 		commentListingFragment = null;
+		commentListingView = null;
 
-		transaction.commit();
+		mLeftPane.removeAllViews();
+		mRightPane.removeAllViews();
+
+		mLeftPane.addView(mainMenuView);
+		mRightPane.addView(postListingView);
 
 		invalidateOptionsMenu();
 	}
@@ -419,20 +423,19 @@ public class MainActivity extends RefreshableActivity
 
 			if(isMenuShown) {
 
-				final FragmentManager fm = getFragmentManager();
+				commentListingFragment = commentListingController.get(this, false);
+				commentListingView = commentListingFragment.onCreateView();
 
-				fm.beginTransaction().remove(postListingFragment).commit();
-				fm.executePendingTransactions();
+				mLeftPane.removeAllViews();
+				mRightPane.removeAllViews();
 
-				final FragmentTransaction transaction = fm.beginTransaction();
-				commentListingFragment = commentListingController.get(false);
-				transaction.replace(R.id.main_left_frame, postListingFragment); // TODO fix this...
-				transaction.replace(R.id.main_right_frame, commentListingFragment);
+				mLeftPane.addView(postListingView);
+				mRightPane.addView(commentListingView);
 
 				mainMenuFragment = null;
-				isMenuShown = false;
+				mainMenuView = null;
 
-				transaction.commit();
+				isMenuShown = false;
 
 				invalidateOptionsMenu();
 
@@ -499,6 +502,10 @@ public class MainActivity extends RefreshableActivity
 
 		getActionBar().setHomeButtonEnabled(!isMenuShown);
 		getActionBar().setDisplayHomeAsUpEnabled(!isMenuShown);
+
+		if(commentListingFragment != null) {
+			commentListingFragment.onCreateOptionsMenu(menu);
+		}
 
 		return true;
 	}
@@ -571,6 +578,11 @@ public class MainActivity extends RefreshableActivity
 
 	@Override
 	public boolean onOptionsItemSelected(final MenuItem item) {
+
+		if(commentListingFragment != null) {
+			commentListingFragment.onOptionsItemSelected(item);
+		}
+
 		switch(item.getItemId()) {
 			case android.R.id.home:
 				onBackPressed();
@@ -639,5 +651,23 @@ public class MainActivity extends RefreshableActivity
 				invalidateOptionsMenu();
 			}
 		});
+	}
+
+	@Override
+	public void onCreateContextMenu(final ContextMenu menu, final View v, final ContextMenu.ContextMenuInfo menuInfo) {
+
+		if(commentListingFragment != null) {
+			commentListingFragment.onCreateContextMenu(menu, v, menuInfo);
+		}
+	}
+
+	@Override
+	public boolean onContextItemSelected(final MenuItem item) {
+
+		if(commentListingFragment != null) {
+			commentListingFragment.onContextItemSelected(item);
+		}
+
+		return super.onContextItemSelected(item);
 	}
 }

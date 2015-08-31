@@ -87,29 +87,25 @@ public class CommentListingRequest {
 
 	private static final Event[] EVENT_TYPES = Event.values();
 
-	public static interface Listener extends ToggleableListener {
+	public interface Listener {
 
 		// All called from UI thread
-		public void onCommentListingRequestDownloadNecessary();
-		public void onCommentListingRequestDownloadStarted();
-		public void onCommentListingRequestException(Throwable t);
-		public void onCommentListingRequestFailure(RRError error);
-		public void onCommentListingRequestAuthorizing();
-		public void onCommentListingRequestCachedCopy(long timestamp);
-		public void onCommentListingRequestParseStart();
-		public void onCommentListingRequestPostDownloaded(RedditPreparedPost post);
-		public void onCommentListingRequestItemDownloaded(RedditCommentListItem item);
-		public void onCommentListingRequestComplete();
+		void onCommentListingRequestDownloadNecessary();
+		void onCommentListingRequestDownloadStarted();
+		void onCommentListingRequestException(Throwable t);
+		void onCommentListingRequestFailure(RRError error);
+		void onCommentListingRequestAuthorizing();
+		void onCommentListingRequestCachedCopy(long timestamp);
+		void onCommentListingRequestParseStart();
+		void onCommentListingRequestPostDownloaded(RedditPreparedPost post);
+		void onCommentListingRequestItemDownloaded(RedditCommentListItem item);
+		void onCommentListingRequestComplete();
 	}
 
 	private final Handler mEventHandler = new Handler(Looper.getMainLooper()) {
 
 		@Override
 		public void handleMessage(final Message msg) {
-
-			if(!mListener.isStillListening()) {
-				return;
-			}
 
 			switch(EVENT_TYPES[msg.what]) {
 

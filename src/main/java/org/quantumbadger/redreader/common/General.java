@@ -419,7 +419,7 @@ public final class General {
 		return Looper.getMainLooper().getThread() == Thread.currentThread();
 	}
 
-	public static <E> List<E> listOfOne(E obj) {
+	public static <E> ArrayList<E> listOfOne(E obj) {
 		final ArrayList<E> result = new ArrayList<E>(1);
 		result.add(obj);
 		return result;

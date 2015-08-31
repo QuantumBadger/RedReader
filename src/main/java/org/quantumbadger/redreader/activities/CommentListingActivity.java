@@ -17,13 +17,14 @@
 
 package org.quantumbadger.redreader.activities;
 
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -53,6 +54,8 @@ public class CommentListingActivity extends RefreshableActivity
 
 	private SharedPreferences sharedPreferences;
 
+	private CommentListingFragment mFragment;
+
 	public void onCreate(final Bundle savedInstanceState) {
 
         PrefsUtility.applyTheme(this);
@@ -71,9 +74,7 @@ public class CommentListingActivity extends RefreshableActivity
 
 		// TODO load from savedInstanceState
 
-		final View layout = getLayoutInflater().inflate(R.layout.main_single, null);
-		if(solidblack) layout.setBackgroundColor(Color.BLACK);
-		setContentView(layout);
+		if(solidblack) getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
 
 		RedditAccountManager.getInstance(this).addUpdateListener(this);
 
@@ -100,6 +101,11 @@ public class CommentListingActivity extends RefreshableActivity
 	@Override
 	public boolean onCreateOptionsMenu(final Menu menu) {
 		OptionsMenuUtility.prepare(this, menu, false, false, true, false, false, controller.isSortable(), null, false, true);
+
+		if(mFragment != null) {
+			mFragment.onCreateOptionsMenu(menu);
+		}
+
 		return true;
 	}
 
@@ -109,11 +115,10 @@ public class CommentListingActivity extends RefreshableActivity
 
 	@Override
 	protected void doRefresh(final RefreshableFragment which, final boolean force) {
-		final CommentListingFragment fragment = controller.get(force);
-		final FragmentTransaction transaction = getFragmentManager().beginTransaction();
-		transaction.replace(R.id.main_single_frame, fragment, "comment_listing_fragment");
-		transaction.commit();
+		mFragment = controller.get(this, force);
+		setContentView(mFragment.onCreateView());
 		OptionsMenuUtility.fixActionBar(this, controller.getCommentListingUrl().humanReadableName(this, false));
+		invalidateOptionsMenu();
 	}
 
 	public void onRefreshComments() {
@@ -133,6 +138,13 @@ public class CommentListingActivity extends RefreshableActivity
 
 	@Override
 	public boolean onOptionsItemSelected(final MenuItem item) {
+
+		if(mFragment != null) {
+			if(mFragment.onOptionsItemSelected(item)) {
+				return true;
+			}
+		}
+
 		switch(item.getItemId()) {
 			case android.R.id.home:
                 finish();
@@ -166,5 +178,23 @@ public class CommentListingActivity extends RefreshableActivity
 	@Override
 	public void onBackPressed() {
 		if(General.onBackPressed()) super.onBackPressed();
+	}
+
+	@Override
+	public void onCreateContextMenu(final ContextMenu menu, final View v, final ContextMenu.ContextMenuInfo menuInfo) {
+
+		if(mFragment != null) {
+			mFragment.onCreateContextMenu(menu, v, menuInfo);
+		}
+	}
+
+	@Override
+	public boolean onContextItemSelected(final MenuItem item) {
+
+		if(mFragment != null) {
+			mFragment.onContextItemSelected(item);
+		}
+
+		return super.onContextItemSelected(item);
 	}
 }

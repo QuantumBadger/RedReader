@@ -20,7 +20,6 @@ package org.quantumbadger.redreader.activities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -159,10 +158,8 @@ public class PostListingActivity extends RefreshableActivity
 	@Override
 	protected void doRefresh(final RefreshableFragment which, final boolean force) {
 		if(fragment != null) fragment.cancel();
-		fragment = controller.get(force);
-		final FragmentTransaction transaction = getFragmentManager().beginTransaction();
-		transaction.replace(R.id.main_single_frame, fragment, "post_listing_fragment");
-		transaction.commit();
+		fragment = controller.get(this, force);
+		setContentView(fragment.onCreateView());
 	}
 
 	public void onPostSelected(final RedditPreparedPost post) {

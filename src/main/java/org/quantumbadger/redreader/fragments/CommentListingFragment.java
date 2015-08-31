@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.fragments;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
@@ -60,7 +61,7 @@ import org.quantumbadger.redreader.views.liststatus.SpecificCommentThreadView;
 
 import java.util.*;
 
-public class CommentListingFragment extends Fragment
+public class CommentListingFragment extends RRFragment
 		implements ActiveTextView.OnLinkClickedListener,
 		RedditPostView.PostSelectionListener,
 		RedditCommentView.CommentClickListener,
@@ -87,61 +88,24 @@ public class CommentListingFragment extends Fragment
 	private EnumSet<PrefsUtility.AppearanceCommentHeaderItems> headerItems;
 	private boolean mShowLinkButtons;
 
-	public static CommentListingFragment newInstance(
-			final List<RedditURLParser.RedditURL> urls,
+	public CommentListingFragment(
+			final Activity parent,
+			final ArrayList<RedditURLParser.RedditURL> urls,
 			final UUID session,
 			final CacheRequest.DownloadType downloadType) {
 
-		final CommentListingFragment f = new CommentListingFragment();
+		super(parent);
 
-		final Bundle bundle = new Bundle(3);
-
-		final String[] urlStrings = new String[urls.size()];
-		{
-			int i = 0;
-			for(final RedditURLParser.RedditURL url : urls) {
-				urlStrings[i++] = url.toString();
-			}
-		}
-
-
-		bundle.putStringArray("urls", urlStrings);
-		if(session != null) bundle.putString("session", session.toString());
-		bundle.putString("downloadType", downloadType.name());
-
-		f.setArguments(bundle);
-
-		return f;
-	}
-
-	@Override
-	public void onCreate(final Bundle savedInstanceState) {
-		// TODO load position/etc?
-		super.onCreate(savedInstanceState);
-
-		setHasOptionsMenu(true);
-
-		final Bundle arguments = getArguments();
-
-		final String[] urls = arguments.getStringArray("urls");
-		mAllUrls = new ArrayList<RedditURLParser.RedditURL>(urls.length);
-		for(final String url : urls) {
-			final RedditURLParser.RedditURL redditURL = RedditURLParser.parseProbableCommentListing(Uri.parse(url));
-			if(redditURL != null) {
-				mAllUrls.add(redditURL);
-			}
-		}
+		mAllUrls = urls;
 
 		mUrlsToDownload = new LinkedList<RedditURLParser.RedditURL>(mAllUrls);
 
-		if(arguments.containsKey("session")) {
-			session = UUID.fromString(arguments.getString("session"));
-		}
+		this.session = session;
+		this.downloadType = downloadType;
 
-		downloadType = CacheRequest.DownloadType.valueOf(arguments.getString("downloadType"));
 		mUser = RedditAccountManager.getInstance(getActivity()).getDefaultAccount();
 
-		getActivity().invalidateOptionsMenu();
+		parent.invalidateOptionsMenu();
 	}
 
 	public void handleCommentVisibilityToggle(RedditCommentView view) {
@@ -177,9 +141,8 @@ public class CommentListingFragment extends Fragment
 	}
 
 	@Override
-	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
+	public View onCreateView() {
 
-		super.onCreateView(inflater, container, savedInstanceState);
 		final Context context = getActivity();
 
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -214,7 +177,7 @@ public class CommentListingFragment extends Fragment
 		lv.addHeaderView(listHeader);
 		lv.addFooterView(listFooter, null, false);
 
-		commentListAdapter = new CommentListingAdapter(context, this);
+		commentListAdapter = new CommentListingAdapter(getActivity(), this);
 		outerAdapter = commentListAdapter;
 
 		if(!mAllUrls.isEmpty()
@@ -539,11 +502,6 @@ public class CommentListingFragment extends Fragment
 		}
 	}
 
-	@Override
-	public boolean isStillListening() {
-		return isAdded();
-	}
-
 	private enum Action {
 		UPVOTE,
 		UNVOTE,
@@ -741,7 +699,7 @@ public class CommentListingFragment extends Fragment
 	}
 
 	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+	public void onCreateOptionsMenu(Menu menu) {
 		if(mAllUrls != null && mAllUrls.size() > 0 && mAllUrls.get(0).pathType() == RedditURLParser.PathType.PostCommentListingURL) {
 			menu.add(R.string.action_reply);
 		}

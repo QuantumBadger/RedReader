@@ -1,26 +1,24 @@
 /*******************************************************************************
  * This file is part of RedReader.
- *
+ * <p/>
  * RedReader is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p/>
  * RedReader is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
+ * <p/>
  * You should have received a copy of the GNU General Public License
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
 package org.quantumbadger.redreader.fragments;
 
-import android.app.Fragment;
+import android.app.Activity;
 import android.content.Context;
-import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -45,17 +43,22 @@ import org.quantumbadger.redreader.views.liststatus.LoadingView;
 import java.util.Collection;
 import java.util.HashSet;
 
-public class MainMenuFragment extends Fragment implements MainMenuSelectionListener, RedditSubredditSubscriptionManager.SubredditSubscriptionStateChangeListener {
+public class MainMenuFragment extends RRFragment implements MainMenuSelectionListener, RedditSubredditSubscriptionManager.SubredditSubscriptionStateChangeListener {
 
 	private MainMenuAdapter adapter;
 
 	private LinearLayout notifications;
 	private LoadingView loadingView;
 
-	private RedditAccount user;
-	private Context context;
+	private final Context context;
 
-	private boolean force;
+	private final boolean force;
+
+	public MainMenuFragment(final Activity parent, final boolean force) {
+		super(parent);
+		context = parent;
+		this.force = force;
+	}
 
 	public enum MainMenuAction {
 		FRONTPAGE, PROFILE, INBOX, SUBMITTED, UPVOTED, DOWNVOTED, SAVED, MODMAIL, HIDDEN, CUSTOM, ALL
@@ -65,33 +68,10 @@ public class MainMenuFragment extends Fragment implements MainMenuSelectionListe
 		PROFILE, INBOX, SUBMITTED, SAVED, HIDDEN, UPVOTED, DOWNVOTED, MODMAIL
 	}
 
-	public static MainMenuFragment newInstance(final boolean force) {
-
-		final MainMenuFragment f = new MainMenuFragment();
-
-		final Bundle bundle = new Bundle(1);
-		bundle.putBoolean("force", force);
-		f.setArguments(bundle);
-
-		return f;
-	}
-
 	@Override
-	public void onCreate(final Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		force = getArguments().getBoolean("force");
-	}
+	public View onCreateView() {
 
-	@Override
-	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-
-		if(container != null) {
-			context = container.getContext(); // TODO just use the inflater's context in every case?
-		} else {
-			context = inflater.getContext();
-		}
-
-		user = RedditAccountManager.getInstance(context).getDefaultAccount();
+		final RedditAccount user = RedditAccountManager.getInstance(context).getDefaultAccount();
 
 		final LinearLayout outer = new LinearLayout(context);
 		outer.setOrientation(LinearLayout.VERTICAL);
@@ -158,7 +138,6 @@ public class MainMenuFragment extends Fragment implements MainMenuSelectionListe
 	}
 
 	public void onSubscriptionsChanged(final Collection<String> subscriptions) {
-
 		adapter.setSubreddits(subscriptions);
 		if(loadingView != null) loadingView.setDone(R.string.download_done);
 	}
@@ -170,11 +149,6 @@ public class MainMenuFragment extends Fragment implements MainMenuSelectionListe
 				notifications.addView(new ErrorView(getActivity(), error));
 			}
 		});
-	}
-
-	@Override
-	public void onSaveInstanceState(final Bundle outState) {
-		// TODO save menu position?
 	}
 
 	public void onSelected(final MainMenuAction type, final String name) {
@@ -191,8 +165,10 @@ public class MainMenuFragment extends Fragment implements MainMenuSelectionListe
 	}
 
 	@Override
-	public void onSubredditSubscriptionAttempted(RedditSubredditSubscriptionManager subredditSubscriptionManager) {}
+	public void onSubredditSubscriptionAttempted(RedditSubredditSubscriptionManager subredditSubscriptionManager) {
+	}
 
 	@Override
-	public void onSubredditUnsubscriptionAttempted(RedditSubredditSubscriptionManager subredditSubscriptionManager) {}
+	public void onSubredditUnsubscriptionAttempted(RedditSubredditSubscriptionManager subredditSubscriptionManager) {
+	}
 }

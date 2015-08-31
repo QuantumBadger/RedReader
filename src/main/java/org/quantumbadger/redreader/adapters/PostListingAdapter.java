@@ -1,5 +1,6 @@
 package org.quantumbadger.redreader.adapters;
 
+import android.app.Activity;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -17,6 +18,8 @@ import java.util.HashSet;
 
 
 public final class PostListingAdapter extends BaseAdapter {
+
+	private final Activity mActivity;
 
 	private final ArrayList<RedditPreparedPost> postsToReport = new ArrayList<RedditPreparedPost>(50);
 	private final ArrayList<RedditPreparedPost> posts = new ArrayList<RedditPreparedPost>(50);
@@ -36,10 +39,11 @@ public final class PostListingAdapter extends BaseAdapter {
 		}
 	};
 
-	public PostListingAdapter(final ListView listViewParent, final PostListingFragment fragmentParent) {
+	public PostListingAdapter(final ListView listViewParent, final PostListingFragment fragmentParent, final Activity activity) {
 
 		this.listViewParent = listViewParent;
 		this.fragmentParent = fragmentParent;
+		mActivity = activity;
 
 		postAddedHandler = new Handler(Looper.getMainLooper()) {
 			@Override
@@ -110,7 +114,7 @@ public final class PostListingAdapter extends BaseAdapter {
 	public RedditPostView getView(final int i, View convertView, final ViewGroup viewGroup) {
 
 		if(convertView == null) {
-			convertView = new RedditPostView(viewGroup.getContext(), listViewParent, fragmentParent);
+			convertView = new RedditPostView(viewGroup.getContext(), listViewParent, fragmentParent, mActivity);
 		}
 
 		final RedditPostView rpv = (RedditPostView)convertView;

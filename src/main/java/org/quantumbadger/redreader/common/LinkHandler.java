@@ -24,10 +24,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import org.quantumbadger.redreader.activities.CommentListingActivity;
-import org.quantumbadger.redreader.activities.ImageViewActivity;
-import org.quantumbadger.redreader.activities.PostListingActivity;
-import org.quantumbadger.redreader.activities.WebViewActivity;
+import org.quantumbadger.redreader.activities.*;
 import org.quantumbadger.redreader.fragments.UserProfileDialog;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
 import org.quantumbadger.redreader.image.ImgurAPI;
@@ -90,6 +87,14 @@ public class LinkHandler {
 
 		if(!forceNoImage && isProbablyAnImage(url)) {
 			final Intent intent = new Intent(activity, ImageViewActivity.class);
+			intent.setData(Uri.parse(url));
+			intent.putExtra("post", post);
+			activity.startActivity(intent);
+			return;
+		}
+
+		if(!forceNoImage && imgurAlbumPattern.matcher(url).matches()) {
+			final Intent intent = new Intent(activity, AlbumListingActivity.class);
 			intent.setData(Uri.parse(url));
 			intent.putExtra("post", post);
 			activity.startActivity(intent);
@@ -165,6 +170,7 @@ public class LinkHandler {
 	}
 
 	public static final Pattern imgurPattern = Pattern.compile(".*imgur\\.com/(\\w+).*"),
+			imgurAlbumPattern = Pattern.compile(".*imgur\\.com/a/(\\w+).*"),
 			qkmePattern1 = Pattern.compile(".*qkme\\.me/(\\w+).*"),
 			qkmePattern2 = Pattern.compile(".*quickmeme\\.com/meme/(\\w+).*"),
 			lvmePattern = Pattern.compile(".*livememe\\.com/(\\w+).*");

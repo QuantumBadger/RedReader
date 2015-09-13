@@ -46,6 +46,7 @@ import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.fragments.PostPropertiesDialog;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
+import org.quantumbadger.redreader.image.ImgurAPI;
 import org.quantumbadger.redreader.image.ThumbnailScaler;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
@@ -339,9 +340,9 @@ public final class RedditPreparedPost {
 					}
 
 					@Override
-					public void onSuccess(final String imageUrl, final String title, final String caption, final Boolean isAnimated, final Long width, final Long height) {
+					public void onSuccess(final ImgurAPI.ImageInfo info) {
 
-						CacheManager.getInstance(activity).makeRequest(new CacheRequest(General.uriFromString(imageUrl), anon, null,
+						CacheManager.getInstance(activity).makeRequest(new CacheRequest(General.uriFromString(info.urlOriginal), anon, null,
 								Constants.Priority.IMAGE_VIEW, 0, CacheRequest.DownloadType.IF_NECESSARY,
 								Constants.FileType.IMAGE, false, false, false, activity) {
 
@@ -372,14 +373,14 @@ public final class RedditPreparedPost {
 							@Override
 							protected void onSuccess(CacheManager.ReadableCacheFile cacheFile, long timestamp, UUID session, boolean fromCache, String mimetype) {
 
-								File dst = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), General.uriFromString(imageUrl).getPath());
+								File dst = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), General.uriFromString(info.urlOriginal).getPath());
 
 								if(dst.exists()) {
 									int count = 0;
 
 									while(dst.exists()) {
 										count++;
-										dst = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), count + "_" + General.uriFromString(imageUrl).getPath().substring(1));
+										dst = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), count + "_" + General.uriFromString(info.urlOriginal).getPath().substring(1));
 									}
 								}
 

@@ -43,6 +43,7 @@ import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
+import org.quantumbadger.redreader.image.ImgurAPI;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
@@ -588,15 +589,16 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 							@Override public void onNotAnImage() {}
 
 							@Override
-							public void onSuccess(final String imageUrl, final String title, final String caption, final Boolean isAnimated, final Long width, final Long height) {
+							public void onSuccess(final ImgurAPI.ImageInfo info) {
 
 								if(!precacheImages) return;
 
 								// Don't precache huge images
-								if(width != null && width > 2500) return;
-								if(height != null && height > 2500) return;
+								if(info.width != null && info.width > 2500) return;
+								if(info.height != null && info.height > 2500) return;
+								if(info.size != null && info.size > 10 * 1024 * 1024) return;
 								
-								final URI uri = General.uriFromString(imageUrl);
+								final URI uri = General.uriFromString(info.urlOriginal);
 								if(uri == null) return;
 								
 								CacheManager.getInstance(context).makeRequest(new CacheRequest(
@@ -617,12 +619,12 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 									@Override protected void onDownloadStarted() {}
 
 									@Override protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
-										Log.e("PostListingFragment", "Failed to precache " + imageUrl + "(" + type.toString() + ")");
+										Log.e("PostListingFragment", "Failed to precache " + info.urlOriginal + "(" + type.toString() + ")");
 									}
 									@Override protected void onProgress(final boolean authorizationInProgress, final long bytesRead, final long totalBytes) {}
 
 									@Override protected void onSuccess(final CacheManager.ReadableCacheFile cacheFile, final long timestamp, final UUID session, final boolean fromCache, final String mimetype) {
-										Log.i("PostListingFragment", "Successfully precached " + imageUrl);
+										Log.i("PostListingFragment", "Successfully precached " + info.urlOriginal);
 									}
 								});
 							}

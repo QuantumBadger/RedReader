@@ -7,13 +7,7 @@ public interface GetImageInfoListener {
 
 	void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage);
 
-	void onSuccess(
-			String url,
-			String title,
-			String caption,
-			Boolean isAnimated,
-			Long width,
-			Long height);
+	void onSuccess(ImgurAPI.ImageInfo info);
 
 	void onNotAnImage();
 }

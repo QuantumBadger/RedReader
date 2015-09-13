@@ -203,7 +203,7 @@ public class LinkHandler {
 		final String imageUrlPatternMatch = getImageUrlPatternMatch(url);
 
 		if(imageUrlPatternMatch != null) {
-			listener.onSuccess(imageUrlPatternMatch, null, null, null, null, null);
+			listener.onSuccess(new ImgurAPI.ImageInfo(imageUrlPatternMatch));
 		} else {
 			listener.onNotAnImage();
 		}

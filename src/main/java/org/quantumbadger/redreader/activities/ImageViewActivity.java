@@ -42,6 +42,7 @@ import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
 import org.quantumbadger.redreader.image.GifDecoderThread;
+import org.quantumbadger.redreader.image.ImgurAPI;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
@@ -113,11 +114,11 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 			}
 
 			@Override
-			public void onSuccess(final String imageUrl, final String title, final String caption, final Boolean isAnimated, final Long width, final Long height) {
+			public void onSuccess(final ImgurAPI.ImageInfo info) {
 
-				Log.i("ImageViewActivity", "Got image URL: " + imageUrl);
+				Log.i("ImageViewActivity", "Got image URL: " + info.urlOriginal);
 
-				final URI uri = General.uriFromString(imageUrl);
+				final URI uri = General.uriFromString(info.urlOriginal);
 
 				if(uri == null) {
 					revertToWeb();

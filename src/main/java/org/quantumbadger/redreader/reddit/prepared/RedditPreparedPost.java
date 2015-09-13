@@ -45,6 +45,7 @@ import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.fragments.PostPropertiesDialog;
+import org.quantumbadger.redreader.image.GetImageInfoListener;
 import org.quantumbadger.redreader.image.ThumbnailScaler;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
@@ -79,10 +80,11 @@ public final class RedditPreparedPost {
 	private boolean saved, hidden, read, stickied;
 
 	public final boolean hasThumbnail;
+	public final boolean mIsProbablyAnImage;
 
 	// TODO make it possible to turn off in-memory caching when out of memory
 	private volatile Bitmap thumbnailCache = null;
-	public final String imageUrl, thumbnailUrl;
+	public final String thumbnailUrl;
 
 	private static final Object singleImageDecodeLock = new Object();
 
@@ -120,6 +122,7 @@ public final class RedditPreparedPost {
 		idAlone = post.id;
 		idAndType = post.name;
 		url = StringEscapeUtils.unescapeHtml4(post.url);
+		mIsProbablyAnImage = LinkHandler.isProbablyAnImage(url);
 		commentCount = post.num_comments;
 
 		if(post.likes == null) {
@@ -132,7 +135,6 @@ public final class RedditPreparedPost {
 		this.hidden = post.hidden;
 		this.stickied = post.stickied;
 
-		imageUrl = LinkHandler.getImageUrl(url);
 		thumbnailUrl = post.thumbnail;
 		hasThumbnail = showThumbnails && hasThumbnail(post);
 
@@ -208,7 +210,7 @@ public final class RedditPreparedPost {
 
 		if(itemPref.contains(Action.EXTERNAL)) menu.add(new RPVMenuItem(activity, R.string.action_external, Action.EXTERNAL));
 		if(itemPref.contains(Action.SELFTEXT_LINKS) && post.src.selftext != null && post.src.selftext.length() > 1) menu.add(new RPVMenuItem(activity, R.string.action_selftext_links, Action.SELFTEXT_LINKS));
-		if(itemPref.contains(Action.SAVE_IMAGE) && post.imageUrl != null) menu.add(new RPVMenuItem(activity, R.string.action_save_image, Action.SAVE_IMAGE));
+		if(itemPref.contains(Action.SAVE_IMAGE) && post.mIsProbablyAnImage) menu.add(new RPVMenuItem(activity, R.string.action_save_image, Action.SAVE_IMAGE));
 		if(itemPref.contains(Action.GOTO_SUBREDDIT)) menu.add(new RPVMenuItem(activity, R.string.action_gotosubreddit, Action.GOTO_SUBREDDIT));
 		if(itemPref.contains(Action.SHARE)) menu.add(new RPVMenuItem(activity, R.string.action_share, Action.SHARE));
 		if(itemPref.contains(Action.SHARE_COMMENTS)) menu.add(new RPVMenuItem(activity, R.string.action_share_comments, Action.SHARE_COMMENTS));
@@ -328,66 +330,87 @@ public final class RedditPreparedPost {
 
 				final RedditAccount anon = RedditAccountManager.getAnon();
 
-				CacheManager.getInstance(activity).makeRequest(new CacheRequest(General.uriFromString(post.imageUrl), anon, null,
-						Constants.Priority.IMAGE_VIEW, 0, CacheRequest.DownloadType.IF_NECESSARY,
-						Constants.FileType.IMAGE, false, false, false, activity) {
+				LinkHandler.getImageInfo(activity, post.url, Constants.Priority.IMAGE_VIEW, 0, new GetImageInfoListener() {
 
 					@Override
-					protected void onCallbackException(Throwable t) {
-						BugReportActivity.handleGlobalError(context, t);
-					}
-
-					@Override
-					protected void onDownloadNecessary() {
-						General.quickToast(context, R.string.download_downloading);
-					}
-
-					@Override
-					protected void onDownloadStarted() {}
-
-					@Override
-					protected void onFailure(RequestFailureType type, Throwable t, StatusLine status, String readableMessage) {
-						final RRError error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
+					public void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
+						final RRError error = General.getGeneralErrorForFailure(activity, type, t, status, post.url);
 						General.showResultDialog(activity, error);
 					}
 
 					@Override
-					protected void onProgress(boolean authorizationInProgress, long bytesRead, long totalBytes) {}
+					public void onSuccess(final String imageUrl, final String title, final String caption, final Boolean isAnimated, final Long width, final Long height) {
+
+						CacheManager.getInstance(activity).makeRequest(new CacheRequest(General.uriFromString(imageUrl), anon, null,
+								Constants.Priority.IMAGE_VIEW, 0, CacheRequest.DownloadType.IF_NECESSARY,
+								Constants.FileType.IMAGE, false, false, false, activity) {
+
+							@Override
+							protected void onCallbackException(Throwable t) {
+								BugReportActivity.handleGlobalError(context, t);
+							}
+
+							@Override
+							protected void onDownloadNecessary() {
+								General.quickToast(context, R.string.download_downloading);
+							}
+
+							@Override
+							protected void onDownloadStarted() {
+							}
+
+							@Override
+							protected void onFailure(RequestFailureType type, Throwable t, StatusLine status, String readableMessage) {
+								final RRError error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
+								General.showResultDialog(activity, error);
+							}
+
+							@Override
+							protected void onProgress(boolean authorizationInProgress, long bytesRead, long totalBytes) {
+							}
+
+							@Override
+							protected void onSuccess(CacheManager.ReadableCacheFile cacheFile, long timestamp, UUID session, boolean fromCache, String mimetype) {
+
+								File dst = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), General.uriFromString(imageUrl).getPath());
+
+								if(dst.exists()) {
+									int count = 0;
+
+									while(dst.exists()) {
+										count++;
+										dst = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), count + "_" + General.uriFromString(imageUrl).getPath().substring(1));
+									}
+								}
+
+								try {
+									final InputStream cacheFileInputStream = cacheFile.getInputStream();
+
+									if(cacheFileInputStream == null) {
+										notifyFailure(RequestFailureType.CACHE_MISS, null, null, "Could not find cached image");
+										return;
+									}
+
+									General.copyFile(cacheFileInputStream, dst);
+
+								} catch(IOException e) {
+									notifyFailure(RequestFailureType.STORAGE, e, null, "Could not copy file");
+									return;
+								}
+
+								activity.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
+												Uri.parse("file://" + dst.getAbsolutePath()))
+								);
+
+								General.quickToast(context, context.getString(R.string.action_save_image_success) + " " + dst.getAbsolutePath());
+							}
+						});
+
+					}
 
 					@Override
-					protected void onSuccess(CacheManager.ReadableCacheFile cacheFile, long timestamp, UUID session, boolean fromCache, String mimetype) {
-
-						File dst = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), General.uriFromString(post.imageUrl).getPath());
-
-						if(dst.exists()) {
-							int count = 0;
-
-							while(dst.exists()) {
-								count++;
-								dst = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), count + "_" + General.uriFromString(post.imageUrl).getPath().substring(1));
-							}
-						}
-
-						try {
-							final InputStream cacheFileInputStream = cacheFile.getInputStream();
-
-							if(cacheFileInputStream == null) {
-								notifyFailure(RequestFailureType.CACHE_MISS, null, null, "Could not find cached image");
-								return;
-							}
-
-							General.copyFile(cacheFileInputStream, dst);
-
-						} catch(IOException e) {
-							notifyFailure(RequestFailureType.STORAGE, e, null, "Could not copy file");
-							return;
-						}
-
-						activity.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
-								Uri.parse("file://" + dst.getAbsolutePath()))
-						);
-
-						General.quickToast(context, context.getString(R.string.action_save_image_success) + " " + dst.getAbsolutePath());
+					public void onNotAnImage() {
+						General.quickToast(activity, R.string.selected_link_is_not_image);
 					}
 				});
 
@@ -858,7 +881,7 @@ public final class RedditPreparedPost {
 		final EnumMap<Action, Integer> iconsDark = new EnumMap<Action, Integer>(Action.class);
 		iconsDark.put(Action.ACTION_MENU, R.drawable.ic_action_overflow);
 		iconsDark.put(Action.COMMENTS_SWITCH, R.drawable.ic_action_comments_dark);
-		iconsDark.put(Action.LINK_SWITCH, imageUrl != null ? R.drawable.ic_action_image_dark : R.drawable.ic_action_page_dark);
+		iconsDark.put(Action.LINK_SWITCH, mIsProbablyAnImage ? R.drawable.ic_action_image_dark : R.drawable.ic_action_page_dark);
 		iconsDark.put(Action.UPVOTE, R.drawable.action_upvote_dark);
 		iconsDark.put(Action.DOWNVOTE, R.drawable.action_downvote_dark);
 		iconsDark.put(Action.SAVE, R.drawable.ic_action_star_filled_dark);
@@ -874,7 +897,7 @@ public final class RedditPreparedPost {
 		final EnumMap<Action, Integer> iconsLight = new EnumMap<Action, Integer>(Action.class);
 		iconsLight.put(Action.ACTION_MENU, R.drawable.ic_action_overflow);
 		iconsLight.put(Action.COMMENTS_SWITCH, R.drawable.ic_action_comments_light);
-		iconsLight.put(Action.LINK_SWITCH, imageUrl != null ? R.drawable.ic_action_image_light : R.drawable.ic_action_page_light);
+		iconsLight.put(Action.LINK_SWITCH, mIsProbablyAnImage ? R.drawable.ic_action_image_light : R.drawable.ic_action_page_light);
 		iconsLight.put(Action.UPVOTE, R.drawable.action_upvote_light);
 		iconsLight.put(Action.DOWNVOTE, R.drawable.action_downvote_light);
 		iconsLight.put(Action.SAVE, R.drawable.ic_action_star_filled_light);
@@ -889,7 +912,7 @@ public final class RedditPreparedPost {
 
 		for(final Action action : possibleItems) {
 
-			if(action == Action.SAVE_IMAGE && imageUrl == null) continue;
+			if(action == Action.SAVE_IMAGE && !mIsProbablyAnImage) continue;
 
 			if(itemsPref.contains(action)) {
 

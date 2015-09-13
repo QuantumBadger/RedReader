@@ -1,5 +1,6 @@
 63/1.9.0
 Switched to oAuth authentication
+Imgur .gifv support
 Support for some types of video link (e.g. those ending in .webm)
 Workaround for imgur redirect bug
 Ability to delete comments

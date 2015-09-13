@@ -681,4 +681,7 @@
     <string name="pref_appearance_hide_username_main_menu_title">Hide username in main menu</string>
     <string name="mainmenu_useritems">User Items</string>
 
+    <!-- 2015-09-13 -->
+    <string name="selected_link_is_not_image">The selected link is not an image.</string>
+
 </resources>

@@ -325,10 +325,13 @@ public final class PrefsUtility {
 		result.put(Constants.FileType.POST_LIST, maxAgeListing);
 		result.put(Constants.FileType.COMMENT_LIST, maxAgeListing);
 		result.put(Constants.FileType.SUBREDDIT_LIST, maxAgeListing);
+		result.put(Constants.FileType.SUBREDDIT_ABOUT, maxAgeListing);
 		result.put(Constants.FileType.USER_ABOUT, maxAgeListing);
 		result.put(Constants.FileType.INBOX_LIST, maxAgeListing);
 		result.put(Constants.FileType.THUMBNAIL, maxAgeThumb);
 		result.put(Constants.FileType.IMAGE, maxAgeImage);
+		result.put(Constants.FileType.IMAGE_INFO, maxAgeImage);
+		result.put(Constants.FileType.CAPTCHA, maxAgeImage);
 
 		return result;
 	}

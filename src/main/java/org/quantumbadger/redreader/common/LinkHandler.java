@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.common;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
@@ -28,6 +29,8 @@ import org.quantumbadger.redreader.activities.ImageViewActivity;
 import org.quantumbadger.redreader.activities.PostListingActivity;
 import org.quantumbadger.redreader.activities.WebViewActivity;
 import org.quantumbadger.redreader.fragments.UserProfileDialog;
+import org.quantumbadger.redreader.image.GetImageInfoListener;
+import org.quantumbadger.redreader.image.ImgurAPI;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 
@@ -85,16 +88,12 @@ public class LinkHandler {
 			url = "http://" + url;
 		}
 
-		if(!forceNoImage) {
-			final String imageUrl = getImageUrl(url);
-
-			if(imageUrl != null) {
-				final Intent intent = new Intent(activity, ImageViewActivity.class);
-				intent.setData(Uri.parse(imageUrl));
-				intent.putExtra("post", post);
-				activity.startActivity(intent);
-				return;
-			}
+		if(!forceNoImage && isProbablyAnImage(url)) {
+			final Intent intent = new Intent(activity, ImageViewActivity.class);
+			intent.setData(Uri.parse(url));
+			intent.putExtra("post", post);
+			activity.startActivity(intent);
+			return;
 		}
 
 		final RedditURLParser.RedditURL redditURL = RedditURLParser.parse(Uri.parse(url));
@@ -170,21 +169,47 @@ public class LinkHandler {
 			qkmePattern2 = Pattern.compile(".*quickmeme\\.com/meme/(\\w+).*"),
 			lvmePattern = Pattern.compile(".*livememe\\.com/(\\w+).*");
 
-	// TODO handle GIFs
-	public static String getImageUrl(final String url) {
-
-		// TODO download anyway and check the mimetype
-
-		// TODO If this fails - download the page and try to find the image - get content type from HTTP request and save in cache
-		// TODO If this fails, show the internal browser
+	public static boolean isProbablyAnImage(final String url) {
 
 		final Matcher matchImgur = imgurPattern.matcher(url);
 
 		if(matchImgur.find()) {
 			final String imgId = matchImgur.group(1);
-			if(imgId.length() > 2 && !imgId.startsWith("gallery"))
-				return String.format("https://i.imgur.com/%s.jpg", imgId);
+			if(imgId.length() > 2 && !imgId.startsWith("gallery")) {
+				return true;
+			}
 		}
+
+		return getImageUrlPatternMatch(url) != null;
+	}
+
+	public static void getImageInfo(
+			final Context context,
+			final String url,
+			final int priority,
+			final int listId,
+			final GetImageInfoListener listener) {
+
+		final Matcher matchImgur = imgurPattern.matcher(url);
+
+		if(matchImgur.find()) {
+			final String imgId = matchImgur.group(1);
+			if(imgId.length() > 2 && !imgId.startsWith("gallery")) {
+				ImgurAPI.getImageInfo(context, imgId, priority, listId, listener);
+				return;
+			}
+		}
+
+		final String imageUrlPatternMatch = getImageUrlPatternMatch(url);
+
+		if(imageUrlPatternMatch != null) {
+			listener.onSuccess(imageUrlPatternMatch, null, null, null, null, null);
+		} else {
+			listener.onNotAnImage();
+		}
+	}
+
+	private static String getImageUrlPatternMatch(final String url) {
 
 		final String urlLower = url.toLowerCase();
 
@@ -232,6 +257,7 @@ public class LinkHandler {
 		}
 
 		return null;
+
 	}
 
 	public static LinkedHashSet<String> computeAllLinks(final String text) {

@@ -42,6 +42,7 @@ import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.*;
+import org.quantumbadger.redreader.image.GetImageInfoListener;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
@@ -65,6 +66,7 @@ import org.quantumbadger.redreader.views.list.ListOverlayView;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
 import org.quantumbadger.redreader.views.liststatus.LoadingView;
 
+import java.net.URI;
 import java.text.NumberFormat;
 import java.util.HashSet;
 import java.util.Locale;
@@ -579,13 +581,60 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 						final boolean downloadThisThumbnail = downloadThumbnails && (!post.over_18 || showNsfwThumbnails);
 
 						final RedditPreparedPost preparedPost = new RedditPreparedPost(context, cm, postCount, post, timestamp, showSubredditName, needsChanging.contains(post.name), downloadThisThumbnail, precacheImages, user, false);
+						
+						LinkHandler.getImageInfo(context, post.url, Constants.Priority.IMAGE_PRECACHE, listId, new GetImageInfoListener() {
+							
+							@Override public void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {}
+							@Override public void onNotAnImage() {}
+
+							@Override
+							public void onSuccess(final String imageUrl, final String title, final String caption, final Boolean isAnimated, final Long width, final Long height) {
+
+								if(!precacheImages) return;
+
+								// Don't precache huge images
+								if(width != null && width > 2500) return;
+								if(height != null && height > 2500) return;
+								
+								final URI uri = General.uriFromString(imageUrl);
+								if(uri == null) return;
+								
+								CacheManager.getInstance(context).makeRequest(new CacheRequest(
+										uri,
+										RedditAccountManager.getAnon(),
+										null,
+										Constants.Priority.IMAGE_PRECACHE,
+										listId,
+										DownloadType.IF_NECESSARY,
+										Constants.FileType.IMAGE,
+										false,
+										false,
+										false,
+										context
+								) {
+									@Override protected void onCallbackException(final Throwable t) {}
+									@Override protected void onDownloadNecessary() {}
+									@Override protected void onDownloadStarted() {}
+
+									@Override protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
+										Log.e("PostListingFragment", "Failed to precache " + imageUrl + "(" + type.toString() + ")");
+									}
+									@Override protected void onProgress(final boolean authorizationInProgress, final long bytesRead, final long totalBytes) {}
+
+									@Override protected void onSuccess(final CacheManager.ReadableCacheFile cacheFile, final long timestamp, final UUID session, final boolean fromCache, final String mimetype) {
+										Log.i("PostListingFragment", "Successfully precached " + imageUrl);
+									}
+								});
+							}
+						});
+
 						adapter.onPostDownloaded(preparedPost);
 					}
 
 					postCount++;
 					postRefreshCount--;
 					// TODO make specific to this download? don't keep global post count
-					notificationHandler.sendMessage(General.handlerMessage(NOTIF_PROGRESS, (float) postCount / (float) postTotalCount));
+					notificationHandler.sendMessage(General.handlerMessage(NOTIF_PROGRESS, (float)postCount / (float)postTotalCount));
 				}
 
 				notificationHandler.sendMessage(General.handlerMessage(NOTIF_DOWNLOAD_DONE, null));

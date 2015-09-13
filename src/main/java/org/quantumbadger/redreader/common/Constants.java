@@ -181,6 +181,7 @@ public final class Constants {
 				INBOX_LIST = 140,
 				THUMBNAIL = 200,
 				IMAGE = 201,
-				CAPTCHA = 202;
+				CAPTCHA = 202,
+				IMAGE_INFO = 300;
 	}
 }

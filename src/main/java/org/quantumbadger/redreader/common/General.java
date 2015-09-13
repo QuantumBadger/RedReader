@@ -135,6 +135,10 @@ public final class General {
 		return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics()));
 	}
 
+	public static int spToPixels(final Context context, final float sp) {
+		return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, context.getResources().getDisplayMetrics()));
+	}
+
 	public static void quickToast(final Context context, final int textRes) {
 		quickToast(context, context.getString(textRes));
 	}

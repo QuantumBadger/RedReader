@@ -25,10 +25,12 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import org.apache.http.StatusLine;
+import org.quantumbadger.redreader.adapters.AlbumAdapter;
 import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.image.GetAlbumInfoListener;
@@ -84,8 +86,7 @@ public class AlbumListingActivity extends BaseActivity {
 
 			@Override
 			public void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
-				General.showResultDialog(AlbumListingActivity.this, new RRError(type.toString(), readableMessage, t, status, mUrl));
-				//revertToWeb();
+				revertToWeb();
 			}
 
 			@Override
@@ -96,26 +97,31 @@ public class AlbumListingActivity extends BaseActivity {
 					@Override
 					public void run() {
 
+						if(info.title != null && !info.title.trim().isEmpty()) {
+							OptionsMenuUtility.fixActionBar(AlbumListingActivity.this, "Imgur album: " + info.title);
+						} else {
+							OptionsMenuUtility.fixActionBar(AlbumListingActivity.this, "Imgur album");
+						}
+
 						layout.removeAllViews();
 
-						for(final ImgurAPI.ImageInfo image : info.images) {
+						final ListView listView = new ListView(AlbumListingActivity.this);
+						listView.setAdapter(new AlbumAdapter(info));
+						layout.addView(listView);
 
-							final Button button = new Button(AlbumListingActivity.this);
-							button.setText(
-									image.title != null && !image.title.isEmpty()
-											? "IMAGE NO + TITLE " + image.title
-											: "IMAGE NO");
-							button.setOnClickListener(new View.OnClickListener() {
-								@Override
-								public void onClick(final View v) {
-									LinkHandler.onLinkClicked(
-											AlbumListingActivity.this,
-											image.urlOriginal);
-								}
-							});
+						listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+							@Override
+							public void onItemClick(
+									final AdapterView<?> parent,
+									final View view,
+									final int position,
+									final long id) {
 
-							layout.addView(button);
-						}
+								LinkHandler.onLinkClicked(
+										AlbumListingActivity.this,
+										info.images.get(position).urlOriginal);
+							}
+						});
 
 					}
 				});

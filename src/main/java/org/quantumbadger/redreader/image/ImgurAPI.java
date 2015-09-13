@@ -1,6 +1,7 @@
 package org.quantumbadger.redreader.image;
 
 import android.content.Context;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.http.StatusLine;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BugReportActivity;
@@ -35,8 +36,16 @@ public final class ImgurAPI {
 		public static AlbumInfo parse(final JsonBufferedObject object)
 				throws IOException, InterruptedException {
 			
-			final String title = object.getString("title");
-			final String description = object.getString("description");
+			String title = object.getString("title");
+			String description = object.getString("description");
+
+			if(title != null) {
+				title = StringEscapeUtils.unescapeHtml4(title);
+			}
+
+			if(description != null) {
+				description = StringEscapeUtils.unescapeHtml4(description);
+			}
 
 			final JsonBufferedArray imagesJson = object.getArray("images");
 			final ArrayList<ImageInfo> images = new ArrayList<ImageInfo>();
@@ -57,6 +66,7 @@ public final class ImgurAPI {
 		public final String title;
 		public final String caption;
 
+		public final String type;
 		public final Boolean isAnimated;
 
 		public final Long width;
@@ -70,6 +80,7 @@ public final class ImgurAPI {
 			urlBigSquare = null;
 			title = null;
 			caption = null;
+			type = null;
 			isAnimated = null;
 			width = null;
 			height = null;
@@ -81,6 +92,7 @@ public final class ImgurAPI {
 				final String urlBigSquare,
 				final String title,
 				final String caption,
+				final String type,
 				final Boolean isAnimated,
 				final Long width,
 				final Long height,
@@ -90,6 +102,7 @@ public final class ImgurAPI {
 			this.urlBigSquare = urlBigSquare;
 			this.title = title;
 			this.caption = caption;
+			this.type = type;
 			this.isAnimated = isAnimated;
 			this.width = width;
 			this.height = height;
@@ -106,6 +119,7 @@ public final class ImgurAPI {
 			String urlBigSquare = null;
 			String title = null;
 			String caption = null;
+			String type = null;
 			boolean isAnimated = false;
 			Long width = null;
 			Long height = null;
@@ -114,6 +128,7 @@ public final class ImgurAPI {
 			if(image != null) {
 				title = image.getString("title");
 				caption = image.getString("caption");
+				type = image.getString("type");
 				isAnimated = "true".equals(image.getString("animated"));
 				width = image.getLong("width");
 				height = image.getLong("height");
@@ -126,12 +141,21 @@ public final class ImgurAPI {
 
 				urlBigSquare = links.getString("big_square");
 			}
+			
+			if(title != null) {
+				title = StringEscapeUtils.unescapeHtml4(title);
+			}
+
+			if(caption != null) {
+				caption = StringEscapeUtils.unescapeHtml4(caption);
+			}
 
 			return new ImageInfo(
 					urlOriginal,
 					urlBigSquare,
 					title,
 					caption,
+					type,
 					isAnimated,
 					width,
 					height,

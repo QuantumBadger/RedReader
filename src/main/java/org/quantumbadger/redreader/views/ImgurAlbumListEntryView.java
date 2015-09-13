@@ -2,6 +2,7 @@ package org.quantumbadger.redreader.views;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -16,6 +17,7 @@ import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.AndroidApi;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.image.ImgurAPI;
 
 import java.io.IOException;
@@ -72,9 +74,9 @@ public class ImgurAlbumListEntryView extends LinearLayout {
 		mImageInfo = info;
 
 		if(info.title == null || info.title.trim().isEmpty()) {
-			mTitle.setText("Image " + listPosition);
+			mTitle.setText("Image " + (listPosition + 1));
 		} else {
-			mTitle.setText(listPosition + ". " + info.title.trim());
+			mTitle.setText((listPosition + 1) + ". " + info.title.trim());
 		}
 
 		String subtitle = "";
@@ -113,57 +115,73 @@ public class ImgurAlbumListEntryView extends LinearLayout {
 
 		mThumbnail.setImageBitmap(null);
 
-		// TODO check thumbnail preference
-		CacheManager.getInstance(getContext()).makeRequest(new CacheRequest(
-				General.uriFromString(info.urlBigSquare),
-				RedditAccountManager.getAnon(),
-				null,
-				Constants.Priority.THUMBNAIL,
-				listPosition,
-				CacheRequest.DownloadType.IF_NECESSARY,
-				Constants.FileType.THUMBNAIL,
-				false,
-				false,
-				false,
-				getContext()
-		) {
-			@Override
-			protected void onCallbackException(final Throwable t) {
-				Log.e("ImgurAlbumListEntryView", "Error in album thumbnail fetch callback", t);
-			}
+		final boolean isConnectionWifi = General.isConnectionWifi(getContext());
 
-			@Override
-			protected void onDownloadNecessary() {}
+		final PrefsUtility.AppearanceThumbnailsShow thumbnailsPref = PrefsUtility.appearance_thumbnails_show(
+				getContext(),
+				PreferenceManager.getDefaultSharedPreferences(getContext()));
 
-			@Override
-			protected void onDownloadStarted() {}
+		final boolean downloadThumbnails = thumbnailsPref == PrefsUtility.AppearanceThumbnailsShow.ALWAYS
+				|| (thumbnailsPref == PrefsUtility.AppearanceThumbnailsShow.WIFIONLY && isConnectionWifi);
 
-			@Override
-			protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
-				Log.e("ImgurAlbumListEntryView", "Failed to fetch thumbnail " + url.toString());
-			}
+		if(!downloadThumbnails) {
+			mThumbnail.setVisibility(GONE);
 
-			@Override
-			protected void onProgress(final boolean authorizationInProgress, final long bytesRead, final long totalBytes) {}
+		} else {
 
-			@Override
-			protected void onSuccess(final CacheManager.ReadableCacheFile cacheFile, final long timestamp, final UUID session, final boolean fromCache, final String mimetype) {
+			mThumbnail.setVisibility(VISIBLE);
 
-				if(mImageInfo != info) return;
+			CacheManager.getInstance(getContext()).makeRequest(new CacheRequest(
+					General.uriFromString(info.urlBigSquare),
+					RedditAccountManager.getAnon(),
+					null,
+					Constants.Priority.THUMBNAIL,
+					listPosition,
+					CacheRequest.DownloadType.IF_NECESSARY,
+					Constants.FileType.THUMBNAIL,
+					false,
+					false,
+					false,
+					getContext()
+			) {
+				@Override
+				protected void onCallbackException(final Throwable t) {
+					Log.e("ImgurAlbumListEntryView", "Error in album thumbnail fetch callback", t);
+				}
 
-				// TODO post message rather than runnable
-				AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
-					@Override
-					public void run() {
-						try {
-							mThumbnail.setImageURI(cacheFile.getUri());
-						} catch(IOException e) {
-							throw new RuntimeException(e);
+				@Override
+				protected void onDownloadNecessary() {}
+
+				@Override
+				protected void onDownloadStarted() {}
+
+				@Override
+				protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
+					Log.e("ImgurAlbumListEntryView", "Failed to fetch thumbnail " + url.toString());
+				}
+
+				@Override
+				protected void onProgress(final boolean authorizationInProgress, final long bytesRead, final long totalBytes) {}
+
+				@Override
+				protected void onSuccess(final CacheManager.ReadableCacheFile cacheFile, final long timestamp, final UUID session, final boolean fromCache, final String mimetype) {
+
+					if(mImageInfo != info) return;
+
+					// TODO post message rather than runnable
+					AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+						@Override
+						public void run() {
+							try {
+								mThumbnail.setImageURI(cacheFile.getUri());
+							} catch(IOException e) {
+								throw new RuntimeException(e);
+							}
 						}
-					}
-				});
-			}
-		});
+					});
+				}
+			});
+		}
 	}
 
 

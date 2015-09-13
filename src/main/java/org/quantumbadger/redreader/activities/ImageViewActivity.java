@@ -489,7 +489,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 			public void run() {
 				if(!mHaveReverted) {
 					mHaveReverted = true;
-					LinkHandler.onLinkClicked(ImageViewActivity.this, mUrl.toString(), true);
+					LinkHandler.onLinkClicked(ImageViewActivity.this, mUrl, true);
 					finish();
 				}
 			}

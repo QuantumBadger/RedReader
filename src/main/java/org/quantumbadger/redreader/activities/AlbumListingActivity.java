@@ -24,6 +24,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -35,8 +36,6 @@ import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.image.GetAlbumInfoListener;
 import org.quantumbadger.redreader.image.ImgurAPI;
-import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
-import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 
 import java.util.regex.Matcher;
 
@@ -50,8 +49,14 @@ public class AlbumListingActivity extends BaseActivity {
 
 		super.onCreate(savedInstanceState);
 
+		PrefsUtility.applyTheme(this);
+
+		getActionBar().setHomeButtonEnabled(true);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+
 		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-		final boolean solidblack = PrefsUtility.appearance_solidblack(this, sharedPreferences);
+		final boolean solidblack = PrefsUtility.appearance_solidblack(this, sharedPreferences)
+				&& PrefsUtility.appearance_theme(this, sharedPreferences) == PrefsUtility.AppearanceTheme.NIGHT;
 
 		if(solidblack) getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
 
@@ -122,7 +127,6 @@ public class AlbumListingActivity extends BaseActivity {
 										info.images.get(position).urlOriginal);
 							}
 						});
-
 					}
 				});
 			}
@@ -131,12 +135,15 @@ public class AlbumListingActivity extends BaseActivity {
 		setContentView(layout);
 	}
 
-	public void onPostSelected(final RedditPreparedPost post) {
-		LinkHandler.onLinkClicked(this, post.url, false, post.src);
-	}
-
-	public void onPostCommentsSelected(final RedditPreparedPost post) {
-		LinkHandler.onLinkClicked(this, PostCommentListingURL.forPostId(post.idAlone).generateJsonUri().toString(), false);
+	@Override
+	public boolean onOptionsItemSelected(final MenuItem item) {
+		switch(item.getItemId()) {
+			case android.R.id.home:
+				finish();
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
 	}
 
 	@Override

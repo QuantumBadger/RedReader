@@ -73,7 +73,7 @@ public class AlbumListingActivity extends BaseActivity {
 		final String albumId;
 
 		if(matchImgur.find()) {
-			albumId = matchImgur.group(1);
+			albumId = matchImgur.group(2);
 		} else {
 			revertToWeb();
 			return;

@@ -79,7 +79,6 @@ public final class RedditPreparedPost {
 	private boolean saved, hidden, read, stickied;
 
 	public final boolean hasThumbnail;
-	private boolean gotHighResThumb = false;
 
 	// TODO make it possible to turn off in-memory caching when out of memory
 	private volatile Bitmap thumbnailCache = null;
@@ -135,17 +134,13 @@ public final class RedditPreparedPost {
 
 		imageUrl = LinkHandler.getImageUrl(url);
 		thumbnailUrl = post.thumbnail;
-		hasThumbnail = showThumbnails && (hasThumbnail(post) || imageUrl != null);
+		hasThumbnail = showThumbnails && hasThumbnail(post);
 
 		// TODO parameterise
 		final int thumbnailWidth = General.dpToPixels(context, 64);
 
 		if(hasThumbnail && hasThumbnail(post)) {
-			downloadThumbnail(context, thumbnailWidth, cm, listId, false);
-		}
-
-		if(imageUrl != null && precacheImages) {
-			downloadThumbnail(context, thumbnailWidth, cm, listId, true);
+			downloadThumbnail(context, thumbnailWidth, cm, listId);
 		}
 
 		// TODO precache comments (respect settings)
@@ -552,13 +547,13 @@ public final class RedditPreparedPost {
 				&& !post.thumbnail.equalsIgnoreCase("default");
 	}
 
-	private void downloadThumbnail(final Context context, final int widthPixels, final CacheManager cm, final int listId, final boolean highRes) {
+	private void downloadThumbnail(final Context context, final int widthPixels, final CacheManager cm, final int listId) {
 
-		final String uriStr = highRes ? imageUrl : thumbnailUrl;
+		final String uriStr = thumbnailUrl;
 		final URI uri = General.uriFromString(uriStr);
 
-		final int priority = highRes ? Constants.Priority.IMAGE_PRECACHE : Constants.Priority.THUMBNAIL;
-		final int fileType = highRes ? Constants.FileType.IMAGE : Constants.FileType.THUMBNAIL;
+		final int priority = Constants.Priority.THUMBNAIL;
+		final int fileType = Constants.FileType.THUMBNAIL;
 
 		final RedditAccount anon = RedditAccountManager.getAnon();
 
@@ -585,7 +580,6 @@ public final class RedditPreparedPost {
 			@Override
 			protected void onSuccess(final CacheManager.ReadableCacheFile cacheFile, final long timestamp, final UUID session, final boolean fromCache, final String mimetype) {
 
-				if(gotHighResThumb && !highRes) return;
 				try {
 
 					synchronized(singleImageDecodeLock) {
@@ -610,8 +604,6 @@ public final class RedditPreparedPost {
 						thumbnailCache = ThumbnailScaler.scale(data, widthPixels);
 						if(thumbnailCache != data) data.recycle();
 					}
-
-					if(highRes) gotHighResThumb = true;
 
 					if(thumbnailCallback != null) thumbnailCallback.betterThumbnailAvailable(thumbnailCache, usageId);
 

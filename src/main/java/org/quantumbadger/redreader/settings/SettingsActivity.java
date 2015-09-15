@@ -85,4 +85,9 @@ public final class SettingsActivity
 			setOrientationFromPrefs();
 		}
 	}
+
+	@Override
+	protected boolean isValidFragment(final String fragmentName) {
+		return fragmentName.equals(SettingsFragment.class.getCanonicalName());
+	}
 }

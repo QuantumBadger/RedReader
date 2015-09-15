@@ -253,13 +253,16 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 															}
 														});
 
-												videoView.setOnTouchListener(new View.OnTouchListener() {
+												final View.OnTouchListener touchListener = new View.OnTouchListener() {
 													@Override
 													public boolean onTouch(final View view, final MotionEvent motionEvent) {
 														finish();
 														return true;
 													}
-												});
+												};
+
+												videoView.setOnTouchListener(touchListener);
+												layout.setOnTouchListener(touchListener);
 
 											} catch(OutOfMemoryError e) {
 												General.quickToast(context, R.string.imageview_oom);

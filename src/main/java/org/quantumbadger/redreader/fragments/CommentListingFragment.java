@@ -121,8 +121,15 @@ public class CommentListingFragment extends RRFragment
 			final int count = adapter.getCount();
 
 			for(int i = 0; i < count; i++) {
-				RedditCommentListItem cmt = (RedditCommentListItem) adapter.getItem(i);
-				if(cmt != null && cmt.isComment() && cmt.asComment() == comment) {
+
+				final Object item = adapter.getItem(i);
+
+				if(item == null || !(item instanceof RedditCommentListItem)) {
+					continue;
+				}
+
+				RedditCommentListItem cmt = (RedditCommentListItem)item;
+				if(cmt.isComment() && cmt.asComment() == comment) {
 
 					if(i == lv.getFirstVisiblePosition()) {
 						lv.smoothScrollToPosition(i);

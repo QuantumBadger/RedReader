@@ -35,6 +35,7 @@ import org.quantumbadger.redreader.adapters.AlbumAdapter;
 import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.image.GetAlbumInfoListener;
+import org.quantumbadger.redreader.image.GetImageInfoListener;
 import org.quantumbadger.redreader.image.ImgurAPI;
 
 import java.util.regex.Matcher;
@@ -51,8 +52,10 @@ public class AlbumListingActivity extends BaseActivity {
 
 		PrefsUtility.applyTheme(this);
 
-		getActionBar().setHomeButtonEnabled(true);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		if(getActionBar() != null) {
+			getActionBar().setHomeButtonEnabled(true);
+			getActionBar().setDisplayHomeAsUpEnabled(true);
+		}
 
 		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		final boolean solidblack = PrefsUtility.appearance_solidblack(this, sharedPreferences)
@@ -75,6 +78,7 @@ public class AlbumListingActivity extends BaseActivity {
 		if(matchImgur.find()) {
 			albumId = matchImgur.group(2);
 		} else {
+			Log.e("AlbumListingActivity", "URL match failed");
 			revertToWeb();
 			return;
 		}
@@ -91,7 +95,33 @@ public class AlbumListingActivity extends BaseActivity {
 
 			@Override
 			public void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
-				revertToWeb();
+				Log.e("AlbumListingActivity", "getAlbumInfo call failed: " + type);
+
+				if(status != null) Log.e("AlbumListingActivity", "status was: " + status.toString());
+				if(t != null) Log.e("AlbumListingActivity", "exception was: ", t);
+
+				// It might be a single image, not an album
+
+				ImgurAPI.getImageInfo(AlbumListingActivity.this, albumId, Constants.Priority.IMAGE_VIEW, 0, new GetImageInfoListener() {
+					@Override
+					public void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
+						Log.e("AlbumListingActivity", "Image info request also failed: " + type);
+						revertToWeb();
+					}
+
+					@Override
+					public void onSuccess(final ImgurAPI.ImageInfo info) {
+						Log.i("AlbumListingActivity", "Link was actually an image.");
+						LinkHandler.onLinkClicked(AlbumListingActivity.this, info.urlOriginal);
+						finish();
+					}
+
+					@Override
+					public void onNotAnImage() {
+						Log.i("AlbumListingActivity", "Not an image either");
+						revertToWeb();
+					}
+				});
 			}
 
 			@Override

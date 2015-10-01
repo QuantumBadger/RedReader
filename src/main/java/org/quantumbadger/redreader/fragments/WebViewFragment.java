@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.fragments;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -187,7 +188,12 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 				@Override
 				public void onPageStarted(WebView view, String url, Bitmap favicon) {
 					super.onPageStarted(view, url, favicon);
-					getActivity().setTitle(url);
+
+					final Activity activity = getActivity();
+
+					if(activity != null) {
+						activity.setTitle(url);
+					}
 				}
 
 				@Override

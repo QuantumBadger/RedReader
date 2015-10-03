@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -33,6 +34,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.github.lzyzsd.circleprogress.DonutProgress;
 import org.apache.http.StatusLine;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -64,6 +66,59 @@ import java.util.UUID;
 
 public class ImageViewActivity extends BaseActivity implements RedditPostView.PostSelectionListener, ImageViewDisplayListManager.Listener {
 
+	private class HorizontalSwipeOverlay extends RelativeLayout {
+
+		final RelativeLayout mLayout;
+		final TextView mText;
+		final DonutProgress mProgress;
+
+		public HorizontalSwipeOverlay(final Context context) {
+			super(context);
+
+			mLayout = new RelativeLayout(context);
+
+			mText = new TextView(context);
+			mText.setText("Hello World");
+			mText.setTextSize(30);
+			mText.setTextColor(Color.BLACK);
+			mLayout.addView(mText);
+			((RelativeLayout.LayoutParams)mText.getLayoutParams()).addRule(RelativeLayout.CENTER_IN_PARENT);
+
+			mProgress = new DonutProgress(context);
+
+			mLayout.addView(mProgress);
+			((RelativeLayout.LayoutParams)mProgress.getLayoutParams()).addRule(RelativeLayout.CENTER_IN_PARENT);
+			mProgress.getLayoutParams().width = 350; // TODO dp
+			mProgress.getLayoutParams().height = 350;
+
+			mProgress.setFinishedStrokeColor(Color.RED);
+			mProgress.setUnfinishedStrokeColor(Color.argb(127, 0, 0, 0));
+			mProgress.setUnfinishedStrokeWidth(30); // TODO dp
+			mProgress.setFinishedStrokeWidth(30);
+			mProgress.setStartingDegree(-90);
+			mProgress.initPainters();
+
+			addView(mLayout);
+			((RelativeLayout.LayoutParams)mLayout.getLayoutParams()).addRule(RelativeLayout.CENTER_IN_PARENT);
+
+			setVisibility(GONE);
+		}
+
+		public void onSwipeUpdate(float px) {
+
+			mText.setText((int)(px / 6) + "%");
+			mProgress.setProgress(px / 600);
+
+			if(Math.abs(px) > 20) {
+				setVisibility(VISIBLE);
+			}
+		}
+
+		public void onSwipeEnd() {
+			setVisibility(GONE);
+		}
+	}
+
 	GLSurfaceView surfaceView;
 	private ImageView imageView;
 	private GifDecoderThread gifThread;
@@ -76,6 +131,8 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 	private boolean mHaveReverted = false;
 
 	private ImageViewDisplayListManager mImageViewDisplayerManager;
+
+	private HorizontalSwipeOverlay mSwipeOverlay;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -102,8 +159,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 		final ProgressBar progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
 
-		final LinearLayout layout = new LinearLayout(this);
-		layout.setOrientation(LinearLayout.VERTICAL);
+		final FrameLayout layout = new FrameLayout(this);
 		layout.addView(progressBar);
 
 		LinkHandler.getImageInfo(this, mUrl, Constants.Priority.IMAGE_VIEW, 0, new GetImageInfoListener() {
@@ -139,9 +195,14 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 								false,
 								ImageViewActivity.this) {
 
-							private void setContentView(View v) {
+							private void setMainView(View v) {
+
 								layout.removeAllViews();
 								layout.addView(v);
+
+								mSwipeOverlay = new HorizontalSwipeOverlay(ImageViewActivity.this);
+								layout.addView(mSwipeOverlay);
+
 								v.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
 								v.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
 							}
@@ -232,7 +293,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 												videoView.setMediaController(new MediaController(context));
 
 												layout.addView(videoView);
-												setContentView(layout);
+												setMainView(layout);
 
 												videoView.requestFocus();
 
@@ -310,7 +371,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 												try {
 													final GIFView gifView = new GIFView(ImageViewActivity.this, cacheFileInputStream);
-													setContentView(gifView);
+													setMainView(gifView);
 													gifView.setOnClickListener(new View.OnClickListener() {
 														public void onClick(View v) {
 															finish();
@@ -341,7 +402,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 														imageView = new ImageView(context);
 														imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-														setContentView(imageView);
+														setMainView(imageView);
 														gifThread.setView(imageView);
 
 														imageView.setOnClickListener(new View.OnClickListener() {
@@ -405,7 +466,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 											mRequest = null;
 											mImageViewDisplayerManager = new ImageViewDisplayListManager(imageTileSource, ImageViewActivity.this);
 											surfaceView = new RRGLSurfaceView(ImageViewActivity.this, mImageViewDisplayerManager);
-											setContentView(surfaceView);
+											setMainView(surfaceView);
 
 											surfaceView.setOnClickListener(new View.OnClickListener() {
 												public void onClick(View v) {
@@ -550,6 +611,20 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 	@Override
 	public void onSingleTap() {
 		finish();
+	}
+
+	@Override
+	public void onHorizontalSwipe(final float pixels) {
+		if(mSwipeOverlay != null) {
+			mSwipeOverlay.onSwipeUpdate(pixels);
+		}
+	}
+
+	@Override
+	public void onHorizontalSwipeEnd() {
+		if(mSwipeOverlay != null) {
+			mSwipeOverlay.onSwipeEnd();
+		}
 	}
 
 	@Override

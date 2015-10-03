@@ -48,6 +48,10 @@ public class BoundsHelper {
 		mCoordinateHelper.setScale(mMinScale);
 	}
 
+	public boolean isMinScale() {
+		return mCoordinateHelper.getScale() - 0.000001f <= mMinScale;
+	}
+
 	public void applyBounds() {
 
 		if(mCoordinateHelper.getScale() < mMinScale) {

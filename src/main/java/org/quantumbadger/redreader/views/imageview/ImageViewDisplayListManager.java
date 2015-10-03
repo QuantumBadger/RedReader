@@ -35,10 +35,15 @@ public class ImageViewDisplayListManager implements
 		UIThreadRepeatingTimer.Listener,
 		ImageViewTileLoader.Listener {
 
-	public static interface Listener {
-		public void onSingleTap();
-		public void onImageViewDLMOutOfMemory();
-		public void onImageViewDLMException(Throwable t);
+	public interface Listener {
+
+		void onSingleTap();
+
+		void onHorizontalSwipe(float pixels);
+		void onHorizontalSwipeEnd();
+
+		void onImageViewDLMOutOfMemory();
+		void onImageViewDLMException(Throwable t);
 	}
 
 	private static final long TAP_MAX_DURATION_MS = 225;
@@ -261,7 +266,7 @@ public class ImageViewDisplayListManager implements
 								tile.recycle();
 
 							} catch(Exception e) {
-								Log.e("ImageViewDisplayListManager", "Exception when creating texture", e);
+								Log.e("ImageViewDisplayListMan", "Exception when creating texture", e);
 							}
 						}
 
@@ -312,10 +317,15 @@ public class ImageViewDisplayListManager implements
 					mDoubleTapGapTimer.stopTimer();
 					break;
 
-				case ONE_FINGER_DOWN:
 				case ONE_FINGER_DRAG:
+					mListener.onHorizontalSwipeEnd();
+
+					// Deliberate fallthrough
+
+				case ONE_FINGER_DOWN:
 				case DOUBLE_TAP_ONE_FINGER_DOWN:
 				case DOUBLE_TAP_ONE_FINGER_DRAG:
+
 					mCurrentTouchState = TouchState.TWO_FINGER_PINCH;
 					mPinchFinger1 = mDragFinger;
 					mPinchFinger2 = finger;
@@ -380,7 +390,11 @@ public class ImageViewDisplayListManager implements
 			}
 
 			case ONE_FINGER_DRAG:
-				mCoordinateHelper.translateScreen(mDragFinger.mLastPos, mDragFinger.mCurrentPos);
+				if(mBoundsHelper.isMinScale()) {
+					mListener.onHorizontalSwipe(mDragFinger.mTotalPosDifference.x);
+				} else {
+					mCoordinateHelper.translateScreen(mDragFinger.mLastPos, mDragFinger.mCurrentPos);
+				}
 				break;
 
 			case TWO_FINGER_PINCH: {
@@ -454,6 +468,11 @@ public class ImageViewDisplayListManager implements
 				break;
 
 			case ONE_FINGER_DRAG:
+
+				mListener.onHorizontalSwipeEnd();
+
+				// Deliberate fallthrough
+
 			case DOUBLE_TAP_ONE_FINGER_DRAG:
 
 				if(mSpareFingers.isEmpty()) {

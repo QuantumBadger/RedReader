@@ -32,6 +32,7 @@ import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.impl.NoConnectionReuseStrategy;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
@@ -82,8 +83,8 @@ public final class CacheManager {
 
 		final HttpParams params = new BasicHttpParams();
 		params.setParameter(CoreProtocolPNames.USER_AGENT, Constants.ua(context));
-		params.setParameter(CoreConnectionPNames.SO_TIMEOUT, 20000);
-		params.setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 20000);
+		params.setParameter(CoreConnectionPNames.SO_TIMEOUT, 15000);
+		params.setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 15000);
 		params.setParameter(CoreConnectionPNames.MAX_HEADER_COUNT, 100);
 		params.setParameter(ClientPNames.HANDLE_REDIRECTS, true);
 		params.setParameter(ClientPNames.MAX_REDIRECTS, 5);
@@ -102,6 +103,8 @@ public final class CacheManager {
 
 		final DefaultHttpClient httpClient = new DefaultHttpClient(connManager, params);
 		httpClient.setHttpRequestRetryHandler(new DefaultHttpRequestRetryHandler(3, true));
+
+		httpClient.setReuseStrategy(new NoConnectionReuseStrategy());
 
 		httpClient.addResponseInterceptor(new HttpResponseInterceptor() {
 

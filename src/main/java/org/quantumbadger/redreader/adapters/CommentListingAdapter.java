@@ -54,6 +54,8 @@ public final class CommentListingAdapter extends BaseAdapter {
 
 		rrCommentHeaderCol = attr.getColor(0, 0);
 		rrCommentBodyCol = attr.getColor(1, 0);
+
+		attr.recycle();
 	}
 
 	public int getCount() {

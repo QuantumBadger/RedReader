@@ -42,6 +42,8 @@ public final class SpecificCommentThreadView extends StatusListItemView {
 		final int rrCommentSpecificThreadHeaderBackCol = attr.getColor(0, 0);
 		final int rrCommentSpecificThreadHeaderTextCol = attr.getColor(1, 0);
 
+		attr.recycle();
+
 		final TextView textView = new TextView(activity);
 		textView.setText(R.string.comment_header_specific_thread_title);
 		textView.setTextColor(rrCommentSpecificThreadHeaderTextCol);

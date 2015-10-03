@@ -483,8 +483,12 @@ public final class OptionsMenuUtility {
 	}
 
 	public static void fixActionBar(final Activity activity, final String title) {
+
+		if(activity.getActionBar() == null) return;
+
 		final TypedArray attr = activity.obtainStyledAttributes(new int[] {R.attr.rrActionBarCol});
 		final int actionbarCol = attr.getColor(0, 0);
+		attr.recycle();
 		activity.getActionBar().setBackgroundDrawable(new ColorDrawable(actionbarCol));
 
 		final BetterSSB sb = new BetterSSB();

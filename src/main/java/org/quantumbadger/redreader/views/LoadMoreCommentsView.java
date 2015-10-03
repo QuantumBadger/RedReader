@@ -61,6 +61,8 @@ public class LoadMoreCommentsView extends FrameLayout {
 		final TypedArray appearance = context.obtainStyledAttributes(new int[]{R.attr.rrIconForward});
 		final ImageView icon = new ImageView(context);
 		icon.setImageDrawable(appearance.getDrawable(0));
+		appearance.recycle();
+
 		if(AndroidApi.isGreaterThanOrEqualTo(11)) {
 			icon.setScaleX(0.75f);
 			icon.setScaleY(0.75f);

@@ -516,6 +516,8 @@ public final class RedditPreparedPost {
 				rrFlairBackCol = appearance.getColor(3, 255),
 				rrFlairTextCol = appearance.getColor(4, 255);
 
+		appearance.recycle();
+
 		final BetterSSB postListDescSb = new BetterSSB();
 
 		final int pointsCol;

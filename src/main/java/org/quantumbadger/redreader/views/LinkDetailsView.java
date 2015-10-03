@@ -50,6 +50,7 @@ public class LinkDetailsView extends FrameLayout {
 		final TypedArray appearance = context.obtainStyledAttributes(new int[]{R.attr.rrIconGlobe});
 		final ImageView globe = new ImageView(context);
 		globe.setImageDrawable(appearance.getDrawable(0));
+		appearance.recycle();
 		layout.addView(globe);
 		((LinearLayout.LayoutParams)globe.getLayoutParams()).setMargins(marginPx, marginPx, marginPx, marginPx);
 

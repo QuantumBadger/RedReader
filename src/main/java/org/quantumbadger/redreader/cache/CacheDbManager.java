@@ -235,6 +235,8 @@ final class CacheDbManager extends SQLiteOpenHelper {
 			db.execSQL(query.toString());
 		}
 
+		cursor.close();
+
 		return filesToDelete;
 	}
 

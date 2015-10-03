@@ -42,6 +42,7 @@ public class AccountListAdapter extends BaseAdapter {
 
 		final TypedArray attr = context.obtainStyledAttributes(new int[] {R.attr.rrIconAdd});
 		rrIconAdd = context.getResources().getDrawable(attr.getResourceId(0, 0));
+		attr.recycle();
 	}
 
 	public int getCount() {
@@ -98,6 +99,8 @@ public class AccountListAdapter extends BaseAdapter {
 
 				final TypedArray attr = context.obtainStyledAttributes(new int[] {R.attr.rrListSubtitleCol});
 				final int col = attr.getColor(0, 0);
+				attr.recycle();
+
 
 				username.append("  (" + context.getString(R.string.accounts_active) + ")", BetterSSB.FOREGROUND_COLOR | BetterSSB.SIZE, col, 0, 0.8f);
 			}

@@ -684,4 +684,7 @@
     <!-- 2015-09-13 -->
     <string name="selected_link_is_not_image">The selected link is not an image.</string>
 
+    <!-- 2015-10-03 -->
+    <string name="imgur_album">Imgur album</string>
+
 </resources>

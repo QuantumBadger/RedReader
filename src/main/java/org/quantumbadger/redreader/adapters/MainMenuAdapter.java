@@ -77,6 +77,8 @@ public class MainMenuAdapter extends BaseAdapter {
 		rrIconThumbUp = context.getResources().getDrawable(attr.getResourceId(5, 0));
 		rrIconThumbDown = context.getResources().getDrawable(attr.getResourceId(6, 0));
 
+		attr.recycle();
+
 		build();
 	}
 

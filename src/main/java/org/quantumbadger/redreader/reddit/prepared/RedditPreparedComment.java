@@ -112,6 +112,8 @@ public final class RedditPreparedComment implements RedditPreparedInboxItem {
 		rrGoldBackCol = appearance.getColor(6, 0);
 		rrGoldTextCol = appearance.getColor(7, 255);
 
+		appearance.recycle();
+
 		body = MarkdownParser.parse(StringEscapeUtils.unescapeHtml4(comment.body).toCharArray());
 		if(comment.author_flair_text != null) {
 			flair = StringEscapeUtils.unescapeHtml4(comment.author_flair_text);

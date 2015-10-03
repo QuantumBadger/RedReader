@@ -31,6 +31,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import org.apache.http.StatusLine;
+import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.adapters.AlbumAdapter;
 import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.*;
@@ -51,6 +52,8 @@ public class AlbumListingActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 
 		PrefsUtility.applyTheme(this);
+
+		OptionsMenuUtility.fixActionBar(AlbumListingActivity.this, getString(R.string.imgur_album));
 
 		if(getActionBar() != null) {
 			getActionBar().setHomeButtonEnabled(true);
@@ -86,6 +89,7 @@ public class AlbumListingActivity extends BaseActivity {
 		Log.i("AlbumListingActivity", "Loading URL " + mUrl + ", album id " + albumId);
 
 		final ProgressBar progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
+		progressBar.setIndeterminate(true);
 
 		final LinearLayout layout = new LinearLayout(this);
 		layout.setOrientation(LinearLayout.VERTICAL);
@@ -133,9 +137,7 @@ public class AlbumListingActivity extends BaseActivity {
 					public void run() {
 
 						if(info.title != null && !info.title.trim().isEmpty()) {
-							OptionsMenuUtility.fixActionBar(AlbumListingActivity.this, "Imgur album: " + info.title);
-						} else {
-							OptionsMenuUtility.fixActionBar(AlbumListingActivity.this, "Imgur album");
+							OptionsMenuUtility.fixActionBar(AlbumListingActivity.this, getString(R.string.imgur_album) + ": " + info.title);
 						}
 
 						layout.removeAllViews();

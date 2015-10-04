@@ -99,7 +99,6 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 	private LoadingView loadingView;
 
 	private int postCount = 0;
-	private int postTotalCount = 0;
 	private int postRefreshCount = 0;
 
 	private static final int NOTIF_DOWNLOAD_NECESSARY = 1,
@@ -107,7 +106,6 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 			NOTIF_STARTING = 3,
 			NOTIF_AGE = 4,
 			NOTIF_ERROR = 5,
-			NOTIF_PROGRESS = 6,
 			NOTIF_DOWNLOAD_DONE = 7,
 			NOTIF_ERROR_FOOTER = 8,
 			NOTIF_AUTHORIZING = 9;
@@ -160,10 +158,6 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 					fragmentHeader.addView(new ErrorView(getActivity(), error));
 					break;
 				}
-
-				case NOTIF_PROGRESS:
-					if(loadingView != null) loadingView.setProgress(R.string.download_loading, (Float) msg.obj);
-					break;
 
 				case NOTIF_DOWNLOAD_DONE:
 					if(loadingView != null) loadingView.setDone(R.string.download_done);
@@ -520,8 +514,6 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 
 			notificationHandler.sendMessage(General.handlerMessage(NOTIF_STARTING, null));
 
-			postTotalCount += 25; // TODO this can vary with the user's reddit settings
-
 			// TODO pref (currently 10 mins)
 			if(firstDownload && fromCache && RRTime.since(timestamp) > 10 * 60 * 1000) {
 				notificationHandler.sendMessage(General.handlerMessage(NOTIF_AGE, timestamp));
@@ -638,9 +630,6 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 
 					postCount++;
 					postRefreshCount--;
-
-					// TODO make specific to this download? don't keep global post count
-					notificationHandler.sendMessage(General.handlerMessage(NOTIF_PROGRESS, (float)postCount / (float)postTotalCount));
 				}
 
 				adapter.onPostsDownloaded(downloadedPosts);

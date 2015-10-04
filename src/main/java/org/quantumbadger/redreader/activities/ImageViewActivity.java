@@ -228,7 +228,9 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 									public void run() {
 										// TODO handle properly
 										mRequest = null;
-										setMainView(new ErrorView(ImageViewActivity.this, error));
+										final LinearLayout layout = new LinearLayout(context);
+										layout.addView(new ErrorView(ImageViewActivity.this, error));
+										setMainView(layout);
 									}
 								});
 							}

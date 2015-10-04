@@ -17,7 +17,6 @@
 
 package org.quantumbadger.redreader.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -50,6 +49,7 @@ import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.views.GIFView;
+import org.quantumbadger.redreader.views.HorizontalSwipeProgressOverlay;
 import org.quantumbadger.redreader.views.RedditPostView;
 import org.quantumbadger.redreader.views.bezelmenu.BezelSwipeOverlay;
 import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
@@ -67,75 +67,6 @@ import java.util.UUID;
 
 public class ImageViewActivity extends BaseActivity implements RedditPostView.PostSelectionListener, ImageViewDisplayListManager.Listener {
 
-	private class HorizontalSwipeOverlay extends RelativeLayout {
-
-		private final ImageView mIcon;
-		private final DonutProgress mProgress;
-		private int mCurrentIconResource = 0;
-
-		public HorizontalSwipeOverlay(final Context context) {
-			super(context);
-
-			final View background = new View(context);
-			final int backgroundDimensionsPx = General.dpToPixels(context, 200);
-			background.setBackgroundColor(Color.argb(127, 0, 0, 0));
-			addView(background);
-			background.getLayoutParams().width = backgroundDimensionsPx;
-			background.getLayoutParams().height = backgroundDimensionsPx;
-			((RelativeLayout.LayoutParams)background.getLayoutParams()).addRule(RelativeLayout.CENTER_IN_PARENT);
-
-			mIcon = new ImageView(context);
-			mIcon.setImageResource(R.drawable.ic_action_forward_dark);
-			mCurrentIconResource = R.drawable.ic_action_forward_dark;
-			addView(mIcon);
-			((RelativeLayout.LayoutParams)mIcon.getLayoutParams()).addRule(RelativeLayout.CENTER_IN_PARENT);
-
-			mProgress = new DonutProgress(context);
-
-			addView(mProgress);
-			((RelativeLayout.LayoutParams)mProgress.getLayoutParams()).addRule(RelativeLayout.CENTER_IN_PARENT);
-			final int progressDimensionsPx = General.dpToPixels(context, 150);
-			mProgress.getLayoutParams().width = progressDimensionsPx;
-			mProgress.getLayoutParams().height = progressDimensionsPx;
-
-			mProgress.setFinishedStrokeColor(Color.RED);
-			mProgress.setUnfinishedStrokeColor(Color.argb(127, 0, 0, 0));
-			final int progressStrokeWidthPx = General.dpToPixels(context, 15);
-			mProgress.setUnfinishedStrokeWidth(progressStrokeWidthPx);
-			mProgress.setFinishedStrokeWidth(progressStrokeWidthPx);
-			mProgress.setStartingDegree(-90);
-			mProgress.initPainters();
-
-			setVisibility(GONE);
-		}
-
-		private void setIconResource(final int resource) {
-			if(resource != mCurrentIconResource) {
-				mCurrentIconResource = resource;
-				mIcon.setImageResource(resource);
-			}
-		}
-
-		public void onSwipeUpdate(float px, float maxPx) {
-
-			mProgress.setProgress(-(px / maxPx));
-
-			if(Math.abs(px) > 20) {
-				setVisibility(VISIBLE);
-			}
-
-			if(px < 0) {
-				setIconResource(R.drawable.ic_action_forward_dark);
-			} else {
-				setIconResource(R.drawable.ic_action_back_dark);
-			}
-		}
-
-		public void onSwipeEnd() {
-			setVisibility(GONE);
-		}
-	}
-
 	GLSurfaceView surfaceView;
 	private ImageView imageView;
 	private GifDecoderThread gifThread;
@@ -149,13 +80,15 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 	private ImageViewDisplayListManager mImageViewDisplayerManager;
 
-	private HorizontalSwipeOverlay mSwipeOverlay;
+	private HorizontalSwipeProgressOverlay mSwipeOverlay;
 	private boolean mSwipeCancelled;
 
 	private RedditPost mPost;
 
 	private ImgurAPI.AlbumInfo mAlbumInfo;
 	private int mAlbumImageIndex;
+
+	private FrameLayout mLayout;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -229,8 +162,8 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 		progressBar.getLayoutParams().height = progressDimensionsPx;
 		((RelativeLayout.LayoutParams)progressBar.getLayoutParams()).addRule(RelativeLayout.CENTER_IN_PARENT);
 
-		final FrameLayout layout = new FrameLayout(this);
-		layout.addView(progressLayout);
+		mLayout = new FrameLayout(this);
+		mLayout.addView(progressLayout);
 
 		LinkHandler.getImageInfo(this, mUrl, Constants.Priority.IMAGE_VIEW, 0, new GetImageInfoListener() {
 
@@ -265,18 +198,6 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 								false,
 								ImageViewActivity.this) {
 
-							private void setMainView(View v) {
-
-								layout.removeAllViews();
-								layout.addView(v);
-
-								mSwipeOverlay = new HorizontalSwipeOverlay(ImageViewActivity.this);
-								layout.addView(mSwipeOverlay);
-
-								v.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-								v.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
-							}
-
 							@Override
 							protected void onCallbackException(Throwable t) {
 								BugReportActivity.handleGlobalError(context.getApplicationContext(), new RRError(null, null, t));
@@ -306,8 +227,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 									public void run() {
 										// TODO handle properly
 										mRequest = null;
-										progressBar.setVisibility(View.GONE);
-										layout.addView(new ErrorView(ImageViewActivity.this, error));
+										setMainView(new ErrorView(ImageViewActivity.this, error));
 									}
 								});
 							}
@@ -325,233 +245,14 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 							}
 
 							@Override
-							protected void onSuccess(final CacheManager.ReadableCacheFile cacheFile, long timestamp, UUID session, boolean fromCache, final String mimetype) {
+							protected void onSuccess(
+									final CacheManager.ReadableCacheFile cacheFile,
+									long timestamp,
+									UUID session,
+									boolean fromCache,
+									final String mimetype) {
 
-								if(mimetype == null || (!Constants.Mime.isImage(mimetype) && !Constants.Mime.isVideo(mimetype))) {
-									revertToWeb();
-									return;
-								}
-
-								final InputStream cacheFileInputStream;
-								try {
-									cacheFileInputStream = cacheFile.getInputStream();
-								} catch(IOException e) {
-									notifyFailure(RequestFailureType.PARSE, e, null, "Could not read existing cached image.");
-									return;
-								}
-
-								if(cacheFileInputStream == null) {
-									notifyFailure(RequestFailureType.CACHE_MISS, null, null, "Could not find cached image");
-									return;
-								}
-
-								if(Constants.Mime.isVideo(mimetype)) {
-
-									AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
-										public void run() {
-
-											if(mIsDestroyed) return;
-											mRequest = null;
-
-											try {
-												final RelativeLayout layout = new RelativeLayout(context);
-												layout.setGravity(Gravity.CENTER);
-
-												final VideoView videoView = new VideoView(ImageViewActivity.this);
-
-												videoView.setVideoURI(cacheFile.getUri());
-												videoView.setMediaController(new MediaController(context));
-
-												layout.addView(videoView);
-												setMainView(layout);
-
-												videoView.requestFocus();
-
-												layout.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-												layout.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
-												videoView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
-												videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-													@Override
-													public void onPrepared(MediaPlayer mp) {
-														mp.setLooping(true);
-														videoView.start();
-													}
-												});
-
-												videoView.setOnErrorListener(
-														new MediaPlayer.OnErrorListener() {
-															@Override
-															public boolean onError(final MediaPlayer mediaPlayer, final int i, final int i1) {
-																revertToWeb();
-																return true;
-															}
-														});
-
-												final View.OnTouchListener touchListener = new View.OnTouchListener() {
-													@Override
-													public boolean onTouch(final View view, final MotionEvent motionEvent) {
-														finish();
-														return true;
-													}
-												};
-
-												videoView.setOnTouchListener(touchListener);
-												layout.setOnTouchListener(touchListener);
-
-											} catch(OutOfMemoryError e) {
-												General.quickToast(context, R.string.imageview_oom);
-												revertToWeb();
-
-											} catch(Throwable e) {
-												General.quickToast(context, R.string.imageview_invalid_video);
-												revertToWeb();
-											}
-										}
-									});
-
-								} else if(Constants.Mime.isImageGif(mimetype)) {
-
-									final PrefsUtility.GifViewMode gifViewMode = PrefsUtility.pref_behaviour_gifview_mode(context, sharedPreferences);
-
-									if(gifViewMode == PrefsUtility.GifViewMode.INTERNAL_BROWSER) {
-										revertToWeb();
-										return;
-
-									} else if(gifViewMode == PrefsUtility.GifViewMode.EXTERNAL_BROWSER) {
-										AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
-											@Override
-											public void run() {
-												LinkHandler.openWebBrowser(ImageViewActivity.this, Uri.parse(mUrl));
-												finish();
-											}
-										});
-
-										return;
-									}
-
-									if(AndroidApi.isIceCreamSandwichOrLater()
-											&& gifViewMode == PrefsUtility.GifViewMode.INTERNAL_MOVIE) {
-
-										AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
-											public void run() {
-
-												if(mIsDestroyed) return;
-												mRequest = null;
-
-												try {
-													final GIFView gifView = new GIFView(ImageViewActivity.this, cacheFileInputStream);
-													setMainView(gifView);
-													gifView.setOnClickListener(new View.OnClickListener() {
-														public void onClick(View v) {
-															finish();
-														}
-													});
-
-												} catch(OutOfMemoryError e) {
-													General.quickToast(context, R.string.imageview_oom);
-													revertToWeb();
-
-												} catch(Throwable e) {
-													General.quickToast(context, R.string.imageview_invalid_gif);
-													revertToWeb();
-												}
-											}
-										});
-
-									} else {
-
-										gifThread = new GifDecoderThread(cacheFileInputStream, new GifDecoderThread.OnGifLoadedListener() {
-
-											public void onGifLoaded() {
-												AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
-													public void run() {
-
-														if(mIsDestroyed) return;
-														mRequest = null;
-
-														imageView = new ImageView(context);
-														imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-														setMainView(imageView);
-														gifThread.setView(imageView);
-
-														imageView.setOnClickListener(new View.OnClickListener() {
-															public void onClick(View v) {
-																finish();
-															}
-														});
-													}
-												});
-											}
-
-											public void onOutOfMemory() {
-												General.quickToast(context, R.string.imageview_oom);
-												revertToWeb();
-											}
-
-											public void onGifInvalid() {
-												General.quickToast(context, R.string.imageview_invalid_gif);
-												revertToWeb();
-											}
-										});
-
-										gifThread.start();
-
-									}
-
-								} else {
-
-									final ImageTileSource imageTileSource;
-									try {
-
-										final long bytes = cacheFile.getSize();
-										final byte[] buf = new byte[(int)bytes];
-
-										try {
-											new DataInputStream(cacheFileInputStream).readFully(buf);
-										} catch(IOException e) {
-											throw new RuntimeException(e);
-										}
-
-										try {
-											imageTileSource = new ImageTileSourceWholeBitmap(buf);
-
-										} catch(Throwable t) {
-											Log.e("ImageViewActivity", "Exception when creating ImageTileSource", t);
-											General.quickToast(context, R.string.imageview_decode_failed);
-											revertToWeb();
-											return;
-										}
-
-									} catch(OutOfMemoryError e) {
-										General.quickToast(context, R.string.imageview_oom);
-										revertToWeb();
-										return;
-									}
-
-									AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
-										public void run() {
-
-											if(mIsDestroyed) return;
-											mRequest = null;
-											mImageViewDisplayerManager = new ImageViewDisplayListManager(imageTileSource, ImageViewActivity.this);
-											surfaceView = new RRGLSurfaceView(ImageViewActivity.this, mImageViewDisplayerManager);
-											setMainView(surfaceView);
-
-											surfaceView.setOnClickListener(new View.OnClickListener() {
-												public void onClick(View v) {
-													finish();
-												}
-											});
-
-											if(mIsPaused) {
-												surfaceView.onPause();
-											} else {
-												surfaceView.onResume();
-											}
-										}
-									});
-								}
+								onImageLoaded(cacheFile, mimetype);
 							}
 						});
 			}
@@ -567,7 +268,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 				false, false, false, RedditAccountManager.getInstance(this).getDefaultAccount(), false);
 
 		final FrameLayout outerFrame = new FrameLayout(this);
-		outerFrame.addView(layout);
+		outerFrame.addView(mLayout);
 
 		if(post != null) {
 
@@ -606,6 +307,251 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 		}
 
 		setContentView(outerFrame);
+	}
+
+	private void setMainView(View v) {
+
+		mLayout.removeAllViews();
+		mLayout.addView(v);
+
+		mSwipeOverlay = new HorizontalSwipeProgressOverlay(ImageViewActivity.this);
+		mLayout.addView(mSwipeOverlay);
+
+		v.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+		v.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+	}
+
+	protected void onImageLoaded(
+			final CacheManager.ReadableCacheFile cacheFile,
+			final String mimetype) {
+
+		if(mimetype == null || (!Constants.Mime.isImage(mimetype) && !Constants.Mime.isVideo(mimetype))) {
+			revertToWeb();
+			return;
+		}
+
+		final InputStream cacheFileInputStream;
+		try {
+			cacheFileInputStream = cacheFile.getInputStream();
+		} catch(IOException e) {
+			revertToWeb();
+			return;
+		}
+
+		if(cacheFileInputStream == null) {
+			revertToWeb();
+			return;
+		}
+
+		if(Constants.Mime.isVideo(mimetype)) {
+
+			AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+				public void run() {
+
+					if(mIsDestroyed) return;
+					mRequest = null;
+
+					try {
+						final RelativeLayout layout = new RelativeLayout(ImageViewActivity.this);
+						layout.setGravity(Gravity.CENTER);
+
+						final VideoView videoView = new VideoView(ImageViewActivity.this);
+
+						videoView.setVideoURI(cacheFile.getUri());
+						videoView.setMediaController(new MediaController(ImageViewActivity.this));
+
+						layout.addView(videoView);
+						setMainView(layout);
+
+						videoView.requestFocus();
+
+						layout.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+						layout.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+						videoView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+						videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+							@Override
+							public void onPrepared(MediaPlayer mp) {
+								mp.setLooping(true);
+								videoView.start();
+							}
+						});
+
+						videoView.setOnErrorListener(
+								new MediaPlayer.OnErrorListener() {
+									@Override
+									public boolean onError(final MediaPlayer mediaPlayer, final int i, final int i1) {
+										revertToWeb();
+										return true;
+									}
+								});
+
+						final View.OnTouchListener touchListener = new View.OnTouchListener() {
+							@Override
+							public boolean onTouch(final View view, final MotionEvent motionEvent) {
+								finish();
+								return true;
+							}
+						};
+
+						videoView.setOnTouchListener(touchListener);
+						layout.setOnTouchListener(touchListener);
+
+					} catch(OutOfMemoryError e) {
+						General.quickToast(ImageViewActivity.this, R.string.imageview_oom);
+						revertToWeb();
+
+					} catch(Throwable e) {
+						General.quickToast(ImageViewActivity.this, R.string.imageview_invalid_video);
+						revertToWeb();
+					}
+				}
+			});
+
+		} else if(Constants.Mime.isImageGif(mimetype)) {
+
+			final PrefsUtility.GifViewMode gifViewMode = PrefsUtility.pref_behaviour_gifview_mode(
+					this,
+					PreferenceManager.getDefaultSharedPreferences(this));
+
+			if(gifViewMode == PrefsUtility.GifViewMode.INTERNAL_BROWSER) {
+				revertToWeb();
+				return;
+
+			} else if(gifViewMode == PrefsUtility.GifViewMode.EXTERNAL_BROWSER) {
+				AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+					@Override
+					public void run() {
+						LinkHandler.openWebBrowser(ImageViewActivity.this, Uri.parse(mUrl));
+						finish();
+					}
+				});
+
+				return;
+			}
+
+			if(AndroidApi.isIceCreamSandwichOrLater()
+					&& gifViewMode == PrefsUtility.GifViewMode.INTERNAL_MOVIE) {
+
+				AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+					public void run() {
+
+						if(mIsDestroyed) return;
+						mRequest = null;
+
+						try {
+							final GIFView gifView = new GIFView(ImageViewActivity.this, cacheFileInputStream);
+							setMainView(gifView);
+							gifView.setOnClickListener(new View.OnClickListener() {
+								public void onClick(View v) {
+									finish();
+								}
+							});
+
+						} catch(OutOfMemoryError e) {
+							General.quickToast(ImageViewActivity.this, R.string.imageview_oom);
+							revertToWeb();
+
+						} catch(Throwable e) {
+							General.quickToast(ImageViewActivity.this, R.string.imageview_invalid_gif);
+							revertToWeb();
+						}
+					}
+				});
+
+			} else {
+
+				gifThread = new GifDecoderThread(cacheFileInputStream, new GifDecoderThread.OnGifLoadedListener() {
+
+					public void onGifLoaded() {
+						AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+							public void run() {
+
+								if(mIsDestroyed) return;
+								mRequest = null;
+
+								imageView = new ImageView(ImageViewActivity.this);
+								imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+								setMainView(imageView);
+								gifThread.setView(imageView);
+
+								imageView.setOnClickListener(new View.OnClickListener() {
+									public void onClick(View v) {
+										finish();
+									}
+								});
+							}
+						});
+					}
+
+					public void onOutOfMemory() {
+						General.quickToast(ImageViewActivity.this, R.string.imageview_oom);
+						revertToWeb();
+					}
+
+					public void onGifInvalid() {
+						General.quickToast(ImageViewActivity.this, R.string.imageview_invalid_gif);
+						revertToWeb();
+					}
+				});
+
+				gifThread.start();
+
+			}
+
+		} else {
+
+			final ImageTileSource imageTileSource;
+			try {
+
+				final long bytes = cacheFile.getSize();
+				final byte[] buf = new byte[(int)bytes];
+
+				try {
+					new DataInputStream(cacheFileInputStream).readFully(buf);
+				} catch(IOException e) {
+					throw new RuntimeException(e);
+				}
+
+				try {
+					imageTileSource = new ImageTileSourceWholeBitmap(buf);
+
+				} catch(Throwable t) {
+					Log.e("ImageViewActivity", "Exception when creating ImageTileSource", t);
+					General.quickToast(this, R.string.imageview_decode_failed);
+					revertToWeb();
+					return;
+				}
+
+			} catch(OutOfMemoryError e) {
+				General.quickToast(this, R.string.imageview_oom);
+				revertToWeb();
+				return;
+			}
+
+			AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+				public void run() {
+
+					if(mIsDestroyed) return;
+					mRequest = null;
+					mImageViewDisplayerManager = new ImageViewDisplayListManager(imageTileSource, ImageViewActivity.this);
+					surfaceView = new RRGLSurfaceView(ImageViewActivity.this, mImageViewDisplayerManager);
+					setMainView(surfaceView);
+
+					surfaceView.setOnClickListener(new View.OnClickListener() {
+						public void onClick(View v) {
+							finish();
+						}
+					});
+
+					if(mIsPaused) {
+						surfaceView.onPause();
+					} else {
+						surfaceView.onResume();
+					}
+				}
+			});
+		}
 	}
 
 	public void onPostSelected(final RedditPreparedPost post) {
@@ -647,10 +593,8 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 		mIsPaused = true;
 
-		Log.i("DEBUG", "ImageViewActivity.onPause()");
 		super.onPause();
 		if(surfaceView != null) {
-			Log.i("DEBUG", "surfaceView.onPause()");
 			surfaceView.onPause();
 		}
 	}
@@ -662,10 +606,8 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 		mIsPaused = false;
 
-		Log.i("DEBUG", "ImageViewActivity.onResume()");
 		super.onResume();
 		if(surfaceView != null) {
-			Log.i("DEBUG", "surfaceView.onResume()");
 			surfaceView.onResume();
 		}
 	}

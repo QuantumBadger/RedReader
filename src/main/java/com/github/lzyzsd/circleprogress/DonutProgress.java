@@ -17,6 +17,8 @@ public class DonutProgress extends View {
 	private RectF finishedOuterRect = new RectF();
 	private RectF unfinishedOuterRect = new RectF();
 
+	private boolean indeterminate;
+
 	private float progress = 0;
 	private int finishedStrokeColor;
 	private int unfinishedStrokeColor;
@@ -62,6 +64,11 @@ public class DonutProgress extends View {
 		this.unfinishedStrokeWidth = unfinishedStrokeWidth;
 	}
 
+	public void setIndeterminate(boolean value) {
+		indeterminate = value;
+		invalidate();
+	}
+
 	private float getProgressAngle() {
 		return getProgress() * 360f;
 	}
@@ -71,8 +78,10 @@ public class DonutProgress extends View {
 	}
 
 	public void setProgress(float progress) {
-		this.progress = progress;
-		invalidate();
+		if(Math.abs(progress - this.progress) > 0.0001) {
+			this.progress = progress;
+			invalidate();
+		}
 	}
 
 	public void setFinishedStrokeColor(int finishedStrokeColor) {
@@ -122,7 +131,15 @@ public class DonutProgress extends View {
 				getHeight() - delta);
 
 		canvas.drawArc(unfinishedOuterRect, 0, 360, false, unfinishedPaint);
-		canvas.drawArc(finishedOuterRect, getStartingDegree(), getProgressAngle(), false, finishedPaint);
+
+		if(indeterminate) {
+			final float startAngle = ((float)(System.currentTimeMillis() % 1000) * 360) / 1000;
+			canvas.drawArc(finishedOuterRect, startAngle, 50, false, finishedPaint);
+			invalidate();
+
+		} else {
+			canvas.drawArc(finishedOuterRect, getStartingDegree(), getProgressAngle(), false, finishedPaint);
+		}
 	}
 
 	public void setStartingDegree(int startingDegree) {

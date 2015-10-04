@@ -68,49 +68,65 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 	private class HorizontalSwipeOverlay extends RelativeLayout {
 
-		final RelativeLayout mLayout;
-		final TextView mText;
-		final DonutProgress mProgress;
+		private final ImageView mIcon;
+		private final DonutProgress mProgress;
+		private int mCurrentIconResource = 0;
 
 		public HorizontalSwipeOverlay(final Context context) {
 			super(context);
 
-			mLayout = new RelativeLayout(context);
+			final View background = new View(context);
+			final int backgroundDimensionsPx = General.dpToPixels(context, 200);
+			background.setBackgroundColor(Color.argb(127, 0, 0, 0));
+			addView(background);
+			background.getLayoutParams().width = backgroundDimensionsPx;
+			background.getLayoutParams().height = backgroundDimensionsPx;
+			((RelativeLayout.LayoutParams)background.getLayoutParams()).addRule(RelativeLayout.CENTER_IN_PARENT);
 
-			mText = new TextView(context);
-			mText.setText("Hello World");
-			mText.setTextSize(30);
-			mText.setTextColor(Color.BLACK);
-			mLayout.addView(mText);
-			((RelativeLayout.LayoutParams)mText.getLayoutParams()).addRule(RelativeLayout.CENTER_IN_PARENT);
+			mIcon = new ImageView(context);
+			mIcon.setImageResource(R.drawable.ic_action_forward_dark);
+			mCurrentIconResource = R.drawable.ic_action_forward_dark;
+			addView(mIcon);
+			((RelativeLayout.LayoutParams)mIcon.getLayoutParams()).addRule(RelativeLayout.CENTER_IN_PARENT);
 
 			mProgress = new DonutProgress(context);
 
-			mLayout.addView(mProgress);
+			addView(mProgress);
 			((RelativeLayout.LayoutParams)mProgress.getLayoutParams()).addRule(RelativeLayout.CENTER_IN_PARENT);
-			mProgress.getLayoutParams().width = 350; // TODO dp
-			mProgress.getLayoutParams().height = 350;
+			final int progressDimensionsPx = General.dpToPixels(context, 150);
+			mProgress.getLayoutParams().width = progressDimensionsPx;
+			mProgress.getLayoutParams().height = progressDimensionsPx;
 
 			mProgress.setFinishedStrokeColor(Color.RED);
 			mProgress.setUnfinishedStrokeColor(Color.argb(127, 0, 0, 0));
-			mProgress.setUnfinishedStrokeWidth(30); // TODO dp
-			mProgress.setFinishedStrokeWidth(30);
+			final int progressStrokeWidthPx = General.dpToPixels(context, 15);
+			mProgress.setUnfinishedStrokeWidth(progressStrokeWidthPx);
+			mProgress.setFinishedStrokeWidth(progressStrokeWidthPx);
 			mProgress.setStartingDegree(-90);
 			mProgress.initPainters();
-
-			addView(mLayout);
-			((RelativeLayout.LayoutParams)mLayout.getLayoutParams()).addRule(RelativeLayout.CENTER_IN_PARENT);
 
 			setVisibility(GONE);
 		}
 
+		private void setIconResource(final int resource) {
+			if(resource != mCurrentIconResource) {
+				mCurrentIconResource = resource;
+				mIcon.setImageResource(resource);
+			}
+		}
+
 		public void onSwipeUpdate(float px) {
 
-			mText.setText((int)(px / 6) + "%");
-			mProgress.setProgress(px / 600);
+			mProgress.setProgress(-(px / 600));
 
 			if(Math.abs(px) > 20) {
 				setVisibility(VISIBLE);
+			}
+
+			if(px < 0) {
+				setIconResource(R.drawable.ic_action_forward_dark);
+			} else {
+				setIconResource(R.drawable.ic_action_back_dark);
 			}
 		}
 
@@ -157,10 +173,25 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 		Log.i("ImageViewActivity", "Loading URL " + mUrl);
 
-		final ProgressBar progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
+		final DonutProgress progressBar = new DonutProgress(this);
+		progressBar.setIndeterminate(true);
+		progressBar.setFinishedStrokeColor(Color.rgb(200, 200, 200));
+		progressBar.setUnfinishedStrokeColor(Color.rgb(50, 50, 50));
+		final int progressStrokeWidthPx = General.dpToPixels(this, 15);
+		progressBar.setUnfinishedStrokeWidth(progressStrokeWidthPx);
+		progressBar.setFinishedStrokeWidth(progressStrokeWidthPx);
+		progressBar.setStartingDegree(-90);
+		progressBar.initPainters();
+
+		final RelativeLayout progressLayout = new RelativeLayout(this);
+		progressLayout.addView(progressBar);
+		final int progressDimensionsPx = General.dpToPixels(this, 150);
+		progressBar.getLayoutParams().width = progressDimensionsPx;
+		progressBar.getLayoutParams().height = progressDimensionsPx;
+		((RelativeLayout.LayoutParams)progressBar.getLayoutParams()).addRule(RelativeLayout.CENTER_IN_PARENT);
 
 		final FrameLayout layout = new FrameLayout(this);
-		layout.addView(progressBar);
+		layout.addView(progressLayout);
 
 		LinkHandler.getImageInfo(this, mUrl, Constants.Priority.IMAGE_VIEW, 0, new GetImageInfoListener() {
 
@@ -249,7 +280,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 									public void run() {
 										progressBar.setVisibility(View.VISIBLE);
 										progressBar.setIndeterminate(authorizationInProgress);
-										progressBar.setProgress((int)((100 * bytesRead) / totalBytes));
+										progressBar.setProgress(((float)((1000 * bytesRead) / totalBytes)) / 1000);
 									}
 								});
 							}

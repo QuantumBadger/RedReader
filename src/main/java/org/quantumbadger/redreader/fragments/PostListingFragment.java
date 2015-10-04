@@ -69,6 +69,7 @@ import org.quantumbadger.redreader.views.liststatus.LoadingView;
 
 import java.net.URI;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.UUID;
@@ -567,6 +568,8 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 						&& postListingURL.pathType() == RedditURLParser.PathType.SubredditPostListingURL
 						&& postListingURL.asSubredditPostListURL().type == SubredditPostListURL.Type.SUBREDDIT);
 
+				final ArrayList<RedditPreparedPost> downloadedPosts = new ArrayList<RedditPreparedPost>(25);
+
 				for(final JsonValue postThingValue : posts) {
 
 					final RedditThing postThing = postThingValue.asObject(RedditThing.class);
@@ -630,14 +633,17 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 							}
 						});
 
-						adapter.onPostDownloaded(preparedPost);
+						downloadedPosts.add(preparedPost);
 					}
 
 					postCount++;
 					postRefreshCount--;
+
 					// TODO make specific to this download? don't keep global post count
 					notificationHandler.sendMessage(General.handlerMessage(NOTIF_PROGRESS, (float)postCount / (float)postTotalCount));
 				}
+
+				adapter.onPostsDownloaded(downloadedPosts);
 
 				notificationHandler.sendMessage(General.handlerMessage(NOTIF_DOWNLOAD_DONE, null));
 

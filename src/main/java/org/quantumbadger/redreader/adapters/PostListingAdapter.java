@@ -21,23 +21,14 @@ public final class PostListingAdapter extends BaseAdapter {
 
 	private final Activity mActivity;
 
-	private final ArrayList<RedditPreparedPost> postsToReport = new ArrayList<RedditPreparedPost>(50);
-	private final ArrayList<RedditPreparedPost> posts = new ArrayList<RedditPreparedPost>(50);
+	private final ArrayList<RedditPreparedPost> mPosts = new ArrayList<RedditPreparedPost>(50);
 
 	private final HashSet<String> postIds = new HashSet<String>(100);
 
 	private final ListView listViewParent;
 	private final PostListingFragment fragmentParent;
 
-	private final Handler postAddedHandler;
-	private boolean postUpdateQueued = false;
-
-	private final Runnable updatePostsRunnable = new Runnable() {
-		@Override
-		public void run() {
-			updatePosts();
-		}
-	};
+	private final Handler postsAddedHandler;
 
 	public PostListingAdapter(final ListView listViewParent, final PostListingFragment fragmentParent, final Activity activity) {
 
@@ -45,47 +36,29 @@ public final class PostListingAdapter extends BaseAdapter {
 		this.fragmentParent = fragmentParent;
 		mActivity = activity;
 
-		postAddedHandler = new Handler(Looper.getMainLooper()) {
+		postsAddedHandler = new Handler(Looper.getMainLooper()) {
 			@Override
 			public void handleMessage(final Message msg) {
 
-				final RedditPreparedPost post = (RedditPreparedPost)msg.obj;
+				final ArrayList<RedditPreparedPost> posts = (ArrayList<RedditPreparedPost>)msg.obj;
 
-				if(!postIds.add(post.idAlone)) return;
+				for(final RedditPreparedPost post : posts) {
+					if(postIds.add(post.idAlone)) {
+						mPosts.add(post);
+					}
+				}
 
-				posts.add(post);
-
-				queuePostUpdate();
+				notifyDataSetChanged();
 			}
 		};
 	}
 
-	private void queuePostUpdate() {
-
-		if(postsToReport.size() < 8) {
-			updatePosts();
-
-		} else if(!postUpdateQueued) {
-			postAddedHandler.postDelayed(updatePostsRunnable, 1000);
-			postUpdateQueued = true;
-		}
-	}
-
-	private void updatePosts() {
-		postUpdateQueued = false;
-		if(postsToReport.size() != posts.size()) {
-			postsToReport.clear();
-			postsToReport.addAll(posts);
-			notifyDataSetChanged();
-		}
-	}
-
-	public void onPostDownloaded(final RedditPreparedPost post) {
-		postAddedHandler.sendMessage(General.handlerMessage(0, post));
+	public void onPostsDownloaded(final ArrayList<RedditPreparedPost> posts) {
+		postsAddedHandler.sendMessage(General.handlerMessage(0, posts));
 	}
 
 	public int getCount() {
-		return postsToReport.size();
+		return mPosts.size();
 	}
 
 	public Object getItem(final int i) {
@@ -119,7 +92,7 @@ public final class PostListingAdapter extends BaseAdapter {
 
 		final RedditPostView rpv = (RedditPostView)convertView;
 
-		rpv.reset(postsToReport.get(i));
+		rpv.reset(mPosts.get(i));
 
 		return rpv;
 	}
@@ -130,6 +103,6 @@ public final class PostListingAdapter extends BaseAdapter {
 	}
 
 	public int getDownloadedCount() {
-		return posts.size();
+		return mPosts.size();
 	}
 }

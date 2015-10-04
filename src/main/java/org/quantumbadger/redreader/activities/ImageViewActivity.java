@@ -54,6 +54,7 @@ import org.quantumbadger.redreader.views.RedditPostView;
 import org.quantumbadger.redreader.views.bezelmenu.BezelSwipeOverlay;
 import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
 import org.quantumbadger.redreader.views.glview.RRGLSurfaceView;
+import org.quantumbadger.redreader.views.imageview.BasicGestureHandler;
 import org.quantumbadger.redreader.views.imageview.ImageTileSource;
 import org.quantumbadger.redreader.views.imageview.ImageTileSourceWholeBitmap;
 import org.quantumbadger.redreader.views.imageview.ImageViewDisplayListManager;
@@ -386,16 +387,9 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 									}
 								});
 
-						final View.OnTouchListener touchListener = new View.OnTouchListener() {
-							@Override
-							public boolean onTouch(final View view, final MotionEvent motionEvent) {
-								finish();
-								return true;
-							}
-						};
-
-						videoView.setOnTouchListener(touchListener);
-						layout.setOnTouchListener(touchListener);
+						final BasicGestureHandler gestureHandler = new BasicGestureHandler(ImageViewActivity.this);
+						videoView.setOnTouchListener(gestureHandler);
+						layout.setOnTouchListener(gestureHandler);
 
 					} catch(OutOfMemoryError e) {
 						General.quickToast(ImageViewActivity.this, R.string.imageview_oom);
@@ -442,11 +436,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 						try {
 							final GIFView gifView = new GIFView(ImageViewActivity.this, cacheFileInputStream);
 							setMainView(gifView);
-							gifView.setOnClickListener(new View.OnClickListener() {
-								public void onClick(View v) {
-									finish();
-								}
-							});
+							gifView.setOnTouchListener(new BasicGestureHandler(ImageViewActivity.this));
 
 						} catch(OutOfMemoryError e) {
 							General.quickToast(ImageViewActivity.this, R.string.imageview_oom);
@@ -475,11 +465,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 								setMainView(imageView);
 								gifThread.setView(imageView);
 
-								imageView.setOnClickListener(new View.OnClickListener() {
-									public void onClick(View v) {
-										finish();
-									}
-								});
+								imageView.setOnTouchListener(new BasicGestureHandler(ImageViewActivity.this));
 							}
 						});
 					}
@@ -537,12 +523,6 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 					mImageViewDisplayerManager = new ImageViewDisplayListManager(imageTileSource, ImageViewActivity.this);
 					surfaceView = new RRGLSurfaceView(ImageViewActivity.this, mImageViewDisplayerManager);
 					setMainView(surfaceView);
-
-					surfaceView.setOnClickListener(new View.OnClickListener() {
-						public void onClick(View v) {
-							finish();
-						}
-					});
 
 					if(mIsPaused) {
 						surfaceView.onPause();

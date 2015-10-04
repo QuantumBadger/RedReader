@@ -35,12 +35,7 @@ public class ImageViewDisplayListManager implements
 		UIThreadRepeatingTimer.Listener,
 		ImageViewTileLoader.Listener {
 
-	public interface Listener {
-
-		void onSingleTap();
-
-		void onHorizontalSwipe(float pixels);
-		void onHorizontalSwipeEnd();
+	public interface Listener extends BasicGestureHandler.Listener {
 
 		void onImageViewDLMOutOfMemory();
 		void onImageViewDLMException(Throwable t);

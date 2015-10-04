@@ -48,10 +48,7 @@ import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
 import java.io.*;
 import java.net.URI;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -64,8 +61,6 @@ public final class CacheManager {
 	private final CacheDbManager dbManager;
 
 	private final PriorityBlockingQueue<CacheRequest> requests = new PriorityBlockingQueue<CacheRequest>();
-
-	private final UniqueSynchronizedQueue<Long> fileDeletionQueue = new UniqueSynchronizedQueue<Long>();
 
 	private final PrioritisedDownloadQueue downloadQueue;
 	private final PrioritisedCachedThreadPool mDiskCacheThreadPool = new PrioritisedCachedThreadPool(2, "Disk Cache");
@@ -220,9 +215,13 @@ public final class CacheManager {
 			final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 			final HashMap<Integer, Long> maxAge = PrefsUtility.pref_cache_maxage(context, prefs);
 
-			final LinkedList<Long> filesToDelete = dbManager.getFilesToPrune(currentFiles, maxAge, 72);
+			final ArrayList<Long> filesToDelete = dbManager.getFilesToPrune(currentFiles, maxAge, 72);
+
+			Log.i("CacheManager", "Pruning " + filesToDelete.size() + " files");
+
 			for(final long id : filesToDelete) {
-				fileDeletionQueue.enqueue(id);
+				final File file = getExistingCacheFile(id);
+				if(file != null) file.delete();
 			}
 
 		} catch(Throwable t) {
@@ -237,25 +236,6 @@ public final class CacheManager {
 
 	public void makeRequest(final CacheRequest request) {
 		requests.put(request);
-	}
-
-	private void processDeletionQueue() {
-
-		final int maxToDelete = 2;
-
-		int deleted = 0;
-
-		Long toDelete;
-
-		while(maxToDelete > deleted++ && (toDelete = fileDeletionQueue.dequeue()) != null) {
-
-			// Attempt to delete file
-			final File f = getExistingCacheFile(toDelete);
-
-			if(f != null && !f.delete()) {
-				f.deleteOnExit();
-			}
-		}
 	}
 
 	public LinkedList<CacheEntry> getSessions(URI url, RedditAccount user) {
@@ -408,7 +388,6 @@ public final class CacheManager {
 
 				CacheRequest request;
 				while((request = requests.take()) != null) {
-					processDeletionQueue();
 					handleRequest(request);
 				}
 
@@ -512,8 +491,10 @@ public final class CacheManager {
 
 					if(request.isJson) {
 
+						InputStream cacheFileInputStream = null;
+
 						try {
-							final InputStream cacheFileInputStream = getCacheFileInputStream(entry.id);
+							cacheFileInputStream = getCacheFileInputStream(entry.id);
 
 							if(cacheFileInputStream == null) {
 								request.notifyFailure(RequestFailureType.CACHE_MISS, null, null, "Couldn't retrieve cache file");
@@ -525,8 +506,21 @@ public final class CacheManager {
 							value.buildInThisThread();
 
 						} catch(Throwable t) {
+
+							if(cacheFileInputStream != null) {
+								try {
+									cacheFileInputStream.close();
+								} catch(IOException e) {
+									// Ignore
+								}
+							}
+
 							dbManager.delete(entry.id);
-							fileDeletionQueue.enqueue(entry.id);
+
+							final File existingCacheFile = getExistingCacheFile(entry.id);
+							if(existingCacheFile != null) {
+								existingCacheFile.delete();
+							}
 
 							if(request.downloadType == CacheRequest.DownloadType.IF_NECESSARY) {
 								queueDownload(request);

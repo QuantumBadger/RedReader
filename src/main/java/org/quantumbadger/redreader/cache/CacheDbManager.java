@@ -28,10 +28,7 @@ import org.quantumbadger.redreader.common.RRTime;
 
 import java.io.IOException;
 import java.net.URI;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.UUID;
+import java.util.*;
 
 final class CacheDbManager extends SQLiteOpenHelper {
 
@@ -171,7 +168,7 @@ final class CacheDbManager extends SQLiteOpenHelper {
 		return db.delete(TABLE, FIELD_TIMESTAMP + "<?", new String[] {String.valueOf(timestamp)});
 	}
 
-	public synchronized LinkedList<Long> getFilesToPrune(HashSet<Long> currentFiles, final HashMap<Integer, Long> maxAge, final long defaultMaxAge) {
+	public synchronized ArrayList<Long> getFilesToPrune(HashSet<Long> currentFiles, final HashMap<Integer, Long> maxAge, final long defaultMaxAge) {
 
 		final SQLiteDatabase db = this.getWritableDatabase();
 
@@ -180,8 +177,8 @@ final class CacheDbManager extends SQLiteOpenHelper {
 		final Cursor cursor = db.query(TABLE, new String[] {FIELD_ID, FIELD_TIMESTAMP, FIELD_TYPE}, null, null, null, null, null, null);
 
 		final HashSet<Long> currentEntries = new HashSet<Long>();
-		final LinkedList<Long> entriesToDelete = new LinkedList<Long>(),
-			filesToDelete = new LinkedList<Long>();
+		final ArrayList<Long> entriesToDelete = new ArrayList<Long>();
+		final ArrayList<Long> filesToDelete = new ArrayList<Long>(32);
 
 		while(cursor.moveToNext()) {
 
@@ -223,7 +220,7 @@ final class CacheDbManager extends SQLiteOpenHelper {
 
 			final StringBuilder query = new StringBuilder(String.format("DELETE FROM %s WHERE %s IN (", TABLE, FIELD_ID));
 
-			query.append(entriesToDelete.removeFirst());
+			query.append(entriesToDelete.remove(entriesToDelete.size() - 1));
 
 			for(final long id : entriesToDelete) {
 				query.append(",").append(id);

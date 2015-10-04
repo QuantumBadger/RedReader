@@ -22,6 +22,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import org.quantumbadger.redreader.receivers.NewMessageChecker;
+import org.quantumbadger.redreader.receivers.RegularCachePruner;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,7 +38,8 @@ public class Alarms {
 	 */
 
 	public enum Alarm {
-		MESSAGE_CHECKER (AlarmManager.INTERVAL_HALF_HOUR, NewMessageChecker.class, true);
+		MESSAGE_CHECKER (AlarmManager.INTERVAL_HALF_HOUR, NewMessageChecker.class, true),
+		CACHE_PRUNER (AlarmManager.INTERVAL_HOUR, RegularCachePruner.class, true);
 
 		private final long interval;
 		private final Class alarmClass;

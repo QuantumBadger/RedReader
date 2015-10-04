@@ -18,7 +18,9 @@
 package org.quantumbadger.redreader.views.imageview;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.Log;
 import org.quantumbadger.redreader.common.MutableFloatPoint2D;
 import org.quantumbadger.redreader.common.UIThreadRepeatingTimer;
@@ -120,8 +122,22 @@ public class ImageViewDisplayListManager implements
 		mRefreshable = refreshable;
 		mScreenDensity = glContext.getScreenDensity();
 
-		final Bitmap notLoadedBitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
-		notLoadedBitmap.setPixel(0, 0, Color.rgb(100, 100, 100));
+		final Bitmap notLoadedBitmap = Bitmap.createBitmap(256, 256, Bitmap.Config.ARGB_8888);
+		final Canvas notLoadedCanvas = new Canvas(notLoadedBitmap);
+
+		final Paint whitePaint = new Paint();
+		final Paint greyPaint = new Paint();
+
+		whitePaint.setColor(Color.WHITE);
+		greyPaint.setColor(Color.rgb(150, 150, 150));
+
+		for(int x = 0; x < 4; x++) {
+			for(int y = 0; y < 4; y++) {
+				final Paint paint = ((x ^ y) & 1) == 0 ? whitePaint : greyPaint;
+				notLoadedCanvas.drawRect(x * 64, y * 64, (x + 1) * 64, (y + 1) * 64, paint);
+			}
+		}
+
 		mNotLoadedTexture = new RRGLTexture(glContext, notLoadedBitmap);
 
 		final RRGLRenderableGroup group = new RRGLRenderableGroup();

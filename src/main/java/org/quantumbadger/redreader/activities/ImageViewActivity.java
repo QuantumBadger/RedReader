@@ -42,6 +42,7 @@ import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.*;
+import org.quantumbadger.redreader.image.GetAlbumInfoListener;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
 import org.quantumbadger.redreader.image.GifDecoderThread;
 import org.quantumbadger.redreader.image.ImgurAPI;
@@ -115,9 +116,9 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 			}
 		}
 
-		public void onSwipeUpdate(float px) {
+		public void onSwipeUpdate(float px, float maxPx) {
 
-			mProgress.setProgress(-(px / 600));
+			mProgress.setProgress(-(px / maxPx));
 
 			if(Math.abs(px) > 20) {
 				setVisibility(VISIBLE);
@@ -149,6 +150,12 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 	private ImageViewDisplayListManager mImageViewDisplayerManager;
 
 	private HorizontalSwipeOverlay mSwipeOverlay;
+	private boolean mSwipeCancelled;
+
+	private RedditPost mPost;
+
+	private ImgurAPI.AlbumInfo mAlbumInfo;
+	private int mAlbumImageIndex;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -169,7 +176,39 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 			return;
 		}
 
-		final RedditPost src_post = intent.getParcelableExtra("post");
+		mPost = intent.getParcelableExtra("post");
+
+		if(intent.hasExtra("album")) {
+			ImgurAPI.getAlbumInfo(
+					this,
+					intent.getStringExtra("album"),
+					Constants.Priority.IMAGE_VIEW,
+					0,
+					new GetAlbumInfoListener() {
+
+						@Override
+						public void onFailure(
+								final RequestFailureType type,
+								final Throwable t,
+								final StatusLine status,
+								final String readableMessage) {
+
+							// Do nothing
+						}
+
+						@Override
+						public void onSuccess(final ImgurAPI.AlbumInfo info) {
+							AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+								@Override
+								public void run() {
+									mAlbumInfo = info;
+									mAlbumImageIndex = intent.getIntExtra("albumImageIndex", 0);
+								}
+							});
+						}
+					}
+			);
+		}
 
 		Log.i("ImageViewActivity", "Loading URL " + mUrl);
 
@@ -523,8 +562,8 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 			}
 		});
 
-		final RedditPreparedPost post = src_post == null ? null
-				: new RedditPreparedPost(this, CacheManager.getInstance(this), 0, src_post, -1, false,
+		final RedditPreparedPost post = mPost == null ? null
+				: new RedditPreparedPost(this, CacheManager.getInstance(this), 0, mPost, -1, false,
 				false, false, false, RedditAccountManager.getInstance(this).getDefaultAccount(), false);
 
 		final FrameLayout outerFrame = new FrameLayout(this);
@@ -646,13 +685,70 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 	@Override
 	public void onHorizontalSwipe(final float pixels) {
-		if(mSwipeOverlay != null) {
-			mSwipeOverlay.onSwipeUpdate(pixels);
+
+		if(mSwipeCancelled) return;
+
+		final int swipeDistance = General.dpToPixels(this, 200);
+
+		if(mSwipeOverlay != null && mAlbumInfo != null) {
+			mSwipeOverlay.onSwipeUpdate(pixels, swipeDistance);
+
+			if(pixels >= swipeDistance) {
+				// Back
+
+				mSwipeCancelled = true;
+				if(mSwipeOverlay != null) {
+					mSwipeOverlay.onSwipeEnd();
+				}
+
+				if(mAlbumImageIndex > 0) {
+
+					LinkHandler.onLinkClicked(
+							this,
+							mAlbumInfo.images.get(mAlbumImageIndex - 1).urlOriginal,
+							false,
+							mPost,
+							mAlbumInfo,
+							mAlbumImageIndex - 1);
+
+					finish();
+
+				} else {
+					General.quickToast(this, "Already at first image in album."); // TODO string
+				}
+
+			} else if(pixels <= -swipeDistance) {
+				// Forwards
+
+				mSwipeCancelled = true;
+				if(mSwipeOverlay != null) {
+					mSwipeOverlay.onSwipeEnd();
+				}
+
+				if(mAlbumImageIndex < mAlbumInfo.images.size() - 1) {
+
+					LinkHandler.onLinkClicked(
+							this,
+							mAlbumInfo.images.get(mAlbumImageIndex + 1).urlOriginal,
+							false,
+							mPost,
+							mAlbumInfo,
+							mAlbumImageIndex + 1);
+
+					finish();
+
+				} else {
+					General.quickToast(this, "Already at last image in album."); // TODO string
+				}
+			}
 		}
 	}
 
 	@Override
 	public void onHorizontalSwipeEnd() {
+
+		mSwipeCancelled = false;
+
 		if(mSwipeOverlay != null) {
 			mSwipeOverlay.onSwipeEnd();
 		}

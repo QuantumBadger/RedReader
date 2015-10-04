@@ -156,7 +156,11 @@ public class AlbumListingActivity extends BaseActivity {
 
 								LinkHandler.onLinkClicked(
 										AlbumListingActivity.this,
-										info.images.get(position).urlOriginal);
+										info.images.get(position).urlOriginal,
+										false,
+										null,
+										info,
+										position);
 							}
 						});
 					}

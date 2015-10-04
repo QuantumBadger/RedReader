@@ -22,18 +22,20 @@ public final class ImgurAPI {
 
 	public static class AlbumInfo {
 
+		public final String id;
 		public final String title;
 		public final String description;
 
 		public final ArrayList<ImageInfo> images;
 
-		public AlbumInfo(final String title, final String description, final ArrayList<ImageInfo> images) {
+		public AlbumInfo(final String id, final String title, final String description, final ArrayList<ImageInfo> images) {
+			this.id = id;
 			this.title = title;
 			this.description = description;
 			this.images = new ArrayList<ImageInfo>(images);
 		}
 
-		public static AlbumInfo parse(final JsonBufferedObject object)
+		public static AlbumInfo parse(final String id, final JsonBufferedObject object)
 				throws IOException, InterruptedException {
 			
 			String title = object.getString("title");
@@ -54,7 +56,7 @@ public final class ImgurAPI {
 				images.add(ImageInfo.parse(imageJson.asObject()));
 			}
 
-			return new AlbumInfo(title, description, images);
+			return new AlbumInfo(id, title, description, images);
 		}
 	}
 
@@ -212,7 +214,7 @@ public final class ImgurAPI {
 
 				try {
 					final JsonBufferedObject outer = result.asObject().getObject("album");
-					listener.onSuccess(AlbumInfo.parse(outer));
+					listener.onSuccess(AlbumInfo.parse(albumId, outer));
 
 				} catch(Throwable t) {
 					listener.onFailure(RequestFailureType.PARSE, t, null, "Imgur data parse failed");

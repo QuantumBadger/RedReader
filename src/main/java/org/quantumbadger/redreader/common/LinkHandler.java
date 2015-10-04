@@ -51,8 +51,22 @@ public class LinkHandler {
 		onLinkClicked(activity, url, forceNoImage, null);
 	}
 
-	public static void onLinkClicked(final Activity activity, String url,
-									 final boolean forceNoImage, final RedditPost post) {
+	public static void onLinkClicked(
+			final Activity activity,
+			String url,
+			final boolean forceNoImage,
+			final RedditPost post) {
+
+		onLinkClicked(activity, url, forceNoImage, post, null, 0);
+	}
+
+	public static void onLinkClicked(
+			final Activity activity,
+			String url,
+			final boolean forceNoImage,
+			final RedditPost post,
+			final ImgurAPI.AlbumInfo albumInfo,
+			final int albumImageIndex) {
 
 		if(url.startsWith("rr://")) {
 
@@ -89,6 +103,12 @@ public class LinkHandler {
 			final Intent intent = new Intent(activity, ImageViewActivity.class);
 			intent.setData(Uri.parse(url));
 			intent.putExtra("post", post);
+
+			if(albumInfo != null) {
+				intent.putExtra("album", albumInfo.id);
+				intent.putExtra("albumImageIndex", albumImageIndex);
+			}
+
 			activity.startActivity(intent);
 			return;
 		}

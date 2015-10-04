@@ -137,6 +137,22 @@ public class MainActivity extends RefreshableActivity
 
 			final int lastVersion = sharedPreferences.getInt("lastVersion", 0);
 
+			if(lastVersion < 63) {
+				// Upgrading across the 1.9.0 boundary (when oAuth was introduced)
+
+				new AlertDialog.Builder(this)
+						.setTitle(R.string.firstrun_login_title)
+						.setMessage(R.string.upgrade_v190_login_message)
+						.setPositiveButton(R.string.firstrun_login_button_now,
+								new DialogInterface.OnClickListener() {
+									public void onClick(final DialogInterface dialog, final int which) {
+										new AccountListDialog().show(MainActivity.this.getFragmentManager(), null);
+									}
+								})
+						.setNegativeButton(R.string.firstrun_login_button_later, null)
+						.show();
+			}
+
 			if(lastVersion != appVersion) {
 
 				General.quickToast(this, "Updated to version " + pInfo.versionName);

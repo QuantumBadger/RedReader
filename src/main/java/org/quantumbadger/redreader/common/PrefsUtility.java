@@ -262,6 +262,19 @@ public final class PrefsUtility {
 		return GifViewMode.valueOf(General.asciiUppercase(getString(R.string.pref_behaviour_gifview_mode_key, "internal_movie", context, sharedPreferences)));
 	}
 
+	// pref_behaviour_videoview_mode
+
+	public enum VideoViewMode {
+		INTERNAL_VIDEOVIEW,
+		INTERNAL_BROWSER,
+		EXTERNAL_BROWSER,
+		EXTERNAL_APP_VLC
+	}
+
+	public static VideoViewMode pref_behaviour_videoview_mode(final Context context, final SharedPreferences sharedPreferences) {
+		return VideoViewMode.valueOf(General.asciiUppercase(getString(R.string.pref_behaviour_videoview_mode_key, "internal_videoview", context, sharedPreferences)));
+	}
+
 	// pref_behaviour_fling_post
 
 	public enum PostFlingAction {

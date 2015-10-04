@@ -661,7 +661,7 @@
     <string name="pref_behaviour_bezel_toolbar_swipezone_key">pref_behaviour_bezel_toolbar_swipezone</string>
     <string name="pref_behaviour_bezel_toolbar_swipezone_title">Bezel toolbar swipe zone size</string>
 
-    <string name="pref_behaviour_gifview_mode_title">GIF viewer</string>
+    <string name="pref_behaviour_gifview_mode_title">GIF Viewer</string>
     <string name="pref_behaviour_gifview_mode_key">pref_behaviour_gifview_mode</string>
 
     <string name="pref_behaviour_gifview_mode_internal_movie">Internal viewer (Movie, Android 4.0+)</string>
@@ -692,5 +692,12 @@
     <string name="album_already_last_image">Already at last image in album.</string>
 
     <string name="upgrade_v190_login_message">RedReader has upgraded, and now uses oAuth for reddit authentication. If you were signed in to an account before the upgrade, you are now logged out.</string>
+
+    <string name="pref_behaviour_videoview_mode_title">Video Viewer</string>
+    <string name="pref_behaviour_videoview_mode_key">pref_behaviour_videoview_mode</string>
+    <string name="pref_behaviour_videoview_mode_internal_videoview">Internal VideoView (recommended)</string>
+    <string name="pref_behaviour_videoview_mode_external_app_vlc">External App: VLC</string>
+
+    <string name="videoview_mode_app_vlc_launch_failed">Failed to launch VLC. Please upgrade VLC or change your Video Viewer preference.</string>
 
 </resources>

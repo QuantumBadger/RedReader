@@ -354,52 +354,98 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 					if(mIsDestroyed) return;
 					mRequest = null;
 
-					try {
-						final RelativeLayout layout = new RelativeLayout(ImageViewActivity.this);
-						layout.setGravity(Gravity.CENTER);
+					final PrefsUtility.VideoViewMode videoViewMode = PrefsUtility.pref_behaviour_videoview_mode(
+							ImageViewActivity.this,
+							PreferenceManager.getDefaultSharedPreferences(ImageViewActivity.this));
 
-						final VideoView videoView = new VideoView(ImageViewActivity.this);
+					if(videoViewMode == PrefsUtility.VideoViewMode.INTERNAL_BROWSER) {
+						revertToWeb();
 
-						videoView.setVideoURI(cacheFile.getUri());
-						videoView.setMediaController(new MediaController(ImageViewActivity.this));
+					} else if(videoViewMode == PrefsUtility.VideoViewMode.EXTERNAL_BROWSER) {
 
-						layout.addView(videoView);
-						setMainView(layout);
-
-						videoView.requestFocus();
-
-						layout.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-						layout.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
-						videoView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
-						videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+						AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 							@Override
-							public void onPrepared(MediaPlayer mp) {
-								mp.setLooping(true);
-								videoView.start();
+							public void run() {
+								LinkHandler.openWebBrowser(ImageViewActivity.this, Uri.parse(mUrl));
+								finish();
 							}
 						});
 
-						videoView.setOnErrorListener(
-								new MediaPlayer.OnErrorListener() {
-									@Override
-									public boolean onError(final MediaPlayer mediaPlayer, final int i, final int i1) {
-										revertToWeb();
-										return true;
-									}
-								});
+					} else if(videoViewMode == PrefsUtility.VideoViewMode.EXTERNAL_APP_VLC) {
 
-						final BasicGestureHandler gestureHandler = new BasicGestureHandler(ImageViewActivity.this);
-						videoView.setOnTouchListener(gestureHandler);
-						layout.setOnTouchListener(gestureHandler);
+						AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+							@Override
+							public void run() {
+								Intent intent = new Intent(Intent.ACTION_VIEW);
+								intent.setClassName(
+										"org.videolan.vlc",
+										"org.videolan.vlc.gui.video.VideoPlayerActivity");
+								try {
+									intent.setDataAndType(cacheFile.getUri(), mimetype);
+								} catch(IOException e) {
+									revertToWeb();
+									return;
+								}
 
-					} catch(OutOfMemoryError e) {
-						General.quickToast(ImageViewActivity.this, R.string.imageview_oom);
-						revertToWeb();
+								try {
+									startActivity(intent);
+								} catch(final Throwable t) {
+									General.quickToast(ImageViewActivity.this, R.string.videoview_mode_app_vlc_launch_failed);
+									Log.e("ImageViewActivity", "VLC failed to launch", t);
+								}
+								finish();
+							}
+						});
 
-					} catch(Throwable e) {
-						General.quickToast(ImageViewActivity.this, R.string.imageview_invalid_video);
-						revertToWeb();
+					} else {
+
+						try {
+							final RelativeLayout layout = new RelativeLayout(ImageViewActivity.this);
+							layout.setGravity(Gravity.CENTER);
+
+							final VideoView videoView = new VideoView(ImageViewActivity.this);
+
+							videoView.setVideoURI(cacheFile.getUri());
+							videoView.setMediaController(new MediaController(ImageViewActivity.this));
+
+							layout.addView(videoView);
+							setMainView(layout);
+
+							videoView.requestFocus();
+
+							layout.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+							layout.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+							videoView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+							videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+								@Override
+								public void onPrepared(MediaPlayer mp) {
+									mp.setLooping(true);
+									videoView.start();
+								}
+							});
+
+							videoView.setOnErrorListener(
+									new MediaPlayer.OnErrorListener() {
+										@Override
+										public boolean onError(final MediaPlayer mediaPlayer, final int i, final int i1) {
+											revertToWeb();
+											return true;
+										}
+									});
+
+							final BasicGestureHandler gestureHandler = new BasicGestureHandler(ImageViewActivity.this);
+							videoView.setOnTouchListener(gestureHandler);
+							layout.setOnTouchListener(gestureHandler);
+
+						} catch(OutOfMemoryError e) {
+							General.quickToast(ImageViewActivity.this, R.string.imageview_oom);
+							revertToWeb();
+
+						} catch(Throwable e) {
+							General.quickToast(ImageViewActivity.this, R.string.imageview_invalid_video);
+							revertToWeb();
+						}
 					}
 				}
 			});

@@ -33,6 +33,12 @@
                     android:entryValues="@array/pref_behaviour_gifview_mode_array_return"
                     android:defaultValue="internal_movie" />
 
+    <ListPreference android:title="@string/pref_behaviour_videoview_mode_title"
+                    android:key="@string/pref_behaviour_videoview_mode_key"
+                    android:entries="@array/pref_behaviour_videoview_mode_array"
+                    android:entryValues="@array/pref_behaviour_videoview_mode_array_return"
+                    android:defaultValue="internal_videoview" />
+
 
     <CheckBoxPreference android:title="@string/pref_behaviour_notifications_title"
                         android:key="@string/pref_behaviour_notifications_key"

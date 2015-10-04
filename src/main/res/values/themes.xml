@@ -31,6 +31,9 @@
         <item name="rrListHeaderLineCol">#444444</item>
         <item name="rrListSubtitleCol">#CCCCCC</item>
 
+        <item name="rrLoadingRingForegroundCol">#C8C8C8</item>
+        <item name="rrLoadingRingBackgroundCol">#323232</item>
+
         <!-- Post -->
 
         <item name="rrPostTitleCol">#DDDDDD</item>
@@ -103,6 +106,9 @@
         <item name="rrListItemBackgroundCol">#FBFBFB</item>
         <item name="rrListBackgroundCol">#FFFFFF</item>
 
+        <item name="rrLoadingRingForegroundCol">#222222</item>
+        <item name="rrLoadingRingBackgroundCol">#22000000</item>
+
         <item name="rrListDividerCol">#CCCCCC</item>
         <item name="rrListHeaderTextCol">?rrActionBarCol</item>
         <item name="rrListHeaderLineCol">?rrActionBarCol</item>
@@ -168,22 +174,27 @@
 
     <style name="RR.Light.Blue" parent="RR.Light.DarkActionBar">
         <item name="rrActionBarCol">#06456A</item>
+        <item name="rrLoadingRingForegroundCol">#06456A</item>
     </style>
 
     <style name="RR.Light.LtBlue" parent="RR.Light.DarkActionBar">
         <item name="rrActionBarCol">#33B5E5</item>
+        <item name="rrLoadingRingForegroundCol">#33B5E5</item>
     </style>
 
     <style name="RR.Light.Red" parent="RR.Light.DarkActionBar">
         <item name="rrActionBarCol">#A60000</item>
+        <item name="rrLoadingRingForegroundCol">#A60000</item>
     </style>
 
     <style name="RR.Light.Green" parent="RR.Light.DarkActionBar">
         <item name="rrActionBarCol">#268E00</item>
+        <item name="rrLoadingRingForegroundCol">#268E00</item>
     </style>
 
     <style name="RR.Light.Orange" parent="RR.Light.DarkActionBar">
         <item name="rrActionBarCol">#DD5500</item>
+        <item name="rrLoadingRingForegroundCol">#DD5500</item>
     </style>
 
 </resources>

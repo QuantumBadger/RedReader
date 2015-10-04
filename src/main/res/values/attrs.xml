@@ -25,6 +25,9 @@
     <attr name="rrListHeaderLineCol" format="color" />
     <attr name="rrListSubtitleCol" format="color" />
 
+    <attr name="rrLoadingRingForegroundCol" />
+    <attr name="rrLoadingRingBackgroundCol" />
+
     <attr name="rrListItemBackgroundCol" format="color" />
     <attr name="rrListBackgroundCol" format="color" />
 

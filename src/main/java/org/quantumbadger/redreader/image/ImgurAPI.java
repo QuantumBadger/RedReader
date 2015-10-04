@@ -139,7 +139,7 @@ public final class ImgurAPI {
 
 			if(links != null) {
 				urlOriginal = links.getString("original");
-				if(urlOriginal != null) urlOriginal = urlOriginal.replace(".gif", ".webm");
+				if(urlOriginal != null && isAnimated) urlOriginal = urlOriginal.replace(".gif", ".webm");
 
 				urlBigSquare = links.getString("big_square");
 			}

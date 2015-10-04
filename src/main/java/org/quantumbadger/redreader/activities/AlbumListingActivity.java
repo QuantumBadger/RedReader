@@ -106,7 +106,12 @@ public class AlbumListingActivity extends BaseActivity {
 
 				// It might be a single image, not an album
 
-				LinkHandler.getImageInfo(AlbumListingActivity.this, albumId, Constants.Priority.IMAGE_VIEW, 0, new GetImageInfoListener() {
+				if(status == null) {
+					revertToWeb();
+					return;
+				}
+
+				ImgurAPI.getImageInfo(AlbumListingActivity.this, albumId, Constants.Priority.IMAGE_VIEW, 0, new GetImageInfoListener() {
 					@Override
 					public void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
 						Log.e("AlbumListingActivity", "Image info request also failed: " + type);

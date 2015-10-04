@@ -61,11 +61,11 @@ import org.quantumbadger.redreader.reddit.url.PostListingURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 import org.quantumbadger.redreader.reddit.url.SubredditPostListURL;
 import org.quantumbadger.redreader.views.CachedHeaderView;
+import org.quantumbadger.redreader.views.LoadingSpinnerView;
 import org.quantumbadger.redreader.views.PostListingHeader;
 import org.quantumbadger.redreader.views.RedditPostView;
 import org.quantumbadger.redreader.views.list.ListOverlayView;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
-import org.quantumbadger.redreader.views.liststatus.LoadingView;
 
 import java.net.URI;
 import java.text.NumberFormat;
@@ -96,19 +96,15 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 	private boolean readyToDownloadMore = false;
 	private long timestamp;
 
-	private LoadingView loadingView;
+	private LoadingSpinnerView mLoadingView;
 
 	private int postCount = 0;
 	private int postRefreshCount = 0;
 
-	private static final int NOTIF_DOWNLOAD_NECESSARY = 1,
-			NOTIF_DOWNLOAD_START = 2,
-			NOTIF_STARTING = 3,
-			NOTIF_AGE = 4,
-			NOTIF_ERROR = 5,
-			NOTIF_DOWNLOAD_DONE = 7,
-			NOTIF_ERROR_FOOTER = 8,
-			NOTIF_AUTHORIZING = 9;
+	private static final int
+			NOTIF_AGE = 0,
+			NOTIF_ERROR = 1,
+			NOTIF_ERROR_FOOTER = 2;
 
 	private final Activity mActivity;
 
@@ -125,19 +121,6 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 
 			// TODO check if attached? if not, queue, and send on "resume"
 			switch(msg.what) {
-				case NOTIF_DOWNLOAD_NECESSARY:
-					loadingView = new LoadingView(context, R.string.download_waiting, true, true);
-					listFooterNotifications.addView(loadingView);
-					adapter.notifyDataSetChanged();
-					break;
-
-				case NOTIF_DOWNLOAD_START:
-					loadingView.setIndeterminate(R.string.download_connecting);
-					break;
-
-				case NOTIF_STARTING:
-					if(loadingView != null) loadingView.setIndeterminate(R.string.download_downloadstarting);
-					break;
 
 				case NOTIF_AGE: {
 					final CachedHeaderView cacheNotif = new CachedHeaderView(
@@ -153,27 +136,17 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 				}
 
 				case NOTIF_ERROR: {
-					if(loadingView != null) loadingView.setDone(R.string.download_failed);
 					final RRError error = (RRError)msg.obj;
 					fragmentHeader.addView(new ErrorView(getActivity(), error));
 					break;
 				}
 
-				case NOTIF_DOWNLOAD_DONE:
-					if(loadingView != null) loadingView.setDone(R.string.download_done);
-					break;
-
 				case NOTIF_ERROR_FOOTER: {
-					if(loadingView != null) loadingView.setDone(R.string.download_failed);
 					final RRError error = (RRError)msg.obj;
 					listFooterNotifications.addView(new ErrorView(getActivity(), error));
 					adapter.notifyDataSetChanged();
 					break;
 				}
-
-				case NOTIF_AUTHORIZING:
-					if(loadingView != null) loadingView.setIndeterminate(R.string.download_authorizing);
-					break;
 			}
 		}
 	};
@@ -200,13 +173,21 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 		return result;
 	}
 
+	private void setLoading(boolean isLoading) {
+		if(isLoading) {
+			mLoadingView.setVisibility(View.VISIBLE);
+		} else {
+			mLoadingView.setVisibility(View.GONE);
+		}
+	}
+
 	@Override
 	public View onCreateView() {
 
 		final Context context = getContext();
 		sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-		final LinearLayout outer = new LinearLayout(context) {
+		final FrameLayout overlayContainer = new FrameLayout(context) {
 			@Override
 			protected void onAttachedToWindow() {
 				super.onAttachedToWindow();
@@ -214,7 +195,11 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 			}
 		};
 
+		final LinearLayout outer = new LinearLayout(context);
 		outer.setOrientation(android.widget.LinearLayout.VERTICAL);
+		overlayContainer.addView(outer);
+
+		mLoadingView = new LoadingSpinnerView(context);
 
 		fragmentHeader = createVerticalLinearLayout(context);
 
@@ -246,6 +231,10 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 		lv.addHeaderView(listHeader);
 		lv.addFooterView(listFooterNotifications, null, true);
 
+		listFooterNotifications.addView(mLoadingView);
+		mLoadingView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+		mLoadingView.getLayoutParams().height = General.dpToPixels(context, 200);
+
 		lv.setPersistentDrawingCache(ViewGroup.PERSISTENT_ALL_CACHES);
 		lv.setAlwaysDrawnWithCacheEnabled(true);
 
@@ -261,6 +250,7 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 
 		request = new PostListingRequest(postListingURL.generateJsonUri(), RedditAccountManager.getInstance(context).getDefaultAccount(), session, downloadType, true);
 
+		setLoading(true);
 		CacheManager.getInstance(context).makeRequest(request);
 
 		switch(postListingURL.pathType()) {
@@ -316,7 +306,7 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 				break;
 		}
 
-		return outer;
+		return overlayContainer;
 	}
 
 	public void cancel() {
@@ -420,6 +410,13 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 			CacheRequest.DownloadType type = (RRTime.since(timestamp) < 3 * 60 * 60 * 1000) ? CacheRequest.DownloadType.IF_NECESSARY : CacheRequest.DownloadType.NEVER;
 
 			request = new PostListingRequest(newUri, RedditAccountManager.getInstance(getActivity()).getDefaultAccount(), session, type, false);
+			AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+				@Override
+				public void run() {
+					setLoading(true);
+				}
+			});
+
 			CacheManager.getInstance(getActivity()).makeRequest(request);
 		}
 		else if((!(downloadPostCount == PrefsUtility.PostCount.ALL) && postRefreshCount == 0) && loadMoreView.getParent() == null) {
@@ -467,14 +464,10 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 		}
 
 		@Override
-		protected void onDownloadNecessary() {
-			notificationHandler.sendMessage(General.handlerMessage(NOTIF_DOWNLOAD_NECESSARY, null));
-		}
+		protected void onDownloadNecessary() {}
 
 		@Override
-		protected void onDownloadStarted() {
-			notificationHandler.sendMessage(General.handlerMessage(NOTIF_DOWNLOAD_START, null));
-		}
+		protected void onDownloadStarted() {}
 
 		@Override
 		protected void onCallbackException(final Throwable t) {
@@ -483,6 +476,14 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 
 		@Override
 		protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
+
+			AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+				@Override
+				public void run() {
+					setLoading(false);
+				}
+			});
+
 
 			if(type == RequestFailureType.CACHE_MISS) {
 
@@ -501,18 +502,12 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 			}
 		}
 
-		@Override protected void onProgress(final boolean authorizationInProgress, final long bytesRead, final long totalBytes) {
-			if(authorizationInProgress) {
-				notificationHandler.sendMessage(General.handlerMessage(NOTIF_AUTHORIZING, null));
-			}
-		}
+		@Override protected void onProgress(final boolean authorizationInProgress, final long bytesRead, final long totalBytes) {}
 
 		@Override protected void onSuccess(final CacheManager.ReadableCacheFile cacheFile, final long timestamp, final UUID session, final boolean fromCache, final String mimetype) {}
 
 		@Override
 		public void onJsonParseStarted(final JsonValue value, final long timestamp, final UUID session, final boolean fromCache) {
-
-			notificationHandler.sendMessage(General.handlerMessage(NOTIF_STARTING, null));
 
 			// TODO pref (currently 10 mins)
 			if(firstDownload && fromCache && RRTime.since(timestamp) > 10 * 60 * 1000) {
@@ -634,7 +629,12 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 
 				adapter.onPostsDownloaded(downloadedPosts);
 
-				notificationHandler.sendMessage(General.handlerMessage(NOTIF_DOWNLOAD_DONE, null));
+				AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+					@Override
+					public void run() {
+						setLoading(false);
+					}
+				});
 
 				request = null;
 				readyToDownloadMore = true;

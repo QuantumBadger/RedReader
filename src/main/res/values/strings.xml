@@ -687,4 +687,8 @@
     <!-- 2015-10-03 -->
     <string name="imgur_album">Imgur album</string>
 
+    <!-- 2015-10-04 -->
+    <string name="album_already_first_image">Already at first image in album.</string>
+    <string name="album_already_last_image">Already at last image in album.</string>
+
 </resources>

@@ -714,7 +714,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 					finish();
 
 				} else {
-					General.quickToast(this, "Already at first image in album."); // TODO string
+					General.quickToast(this, R.string.album_already_first_image);
 				}
 
 			} else if(pixels <= -swipeDistance) {
@@ -738,7 +738,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 					finish();
 
 				} else {
-					General.quickToast(this, "Already at last image in album."); // TODO string
+					General.quickToast(this, R.string.album_already_last_image);
 				}
 			}
 		}

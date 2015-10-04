@@ -104,7 +104,9 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 	private static final int
 			NOTIF_AGE = 0,
 			NOTIF_ERROR = 1,
-			NOTIF_ERROR_FOOTER = 2;
+			NOTIF_ERROR_FOOTER = 2,
+			NOTIF_SHOW_LOADING_SPINNER = 3,
+			NOTIF_HIDE_LOADING_SPINNER = 4;
 
 	private final Activity mActivity;
 
@@ -147,6 +149,16 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 					adapter.notifyDataSetChanged();
 					break;
 				}
+
+				case NOTIF_HIDE_LOADING_SPINNER: {
+					mLoadingView.setVisibility(View.GONE);
+					break;
+				}
+
+				case NOTIF_SHOW_LOADING_SPINNER: {
+					mLoadingView.setVisibility(View.VISIBLE);
+					break;
+				}
 			}
 		}
 	};
@@ -171,14 +183,6 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 		final LinearLayout result = new LinearLayout(context);
 		result.setOrientation(LinearLayout.VERTICAL);
 		return result;
-	}
-
-	private void setLoading(boolean isLoading) {
-		if(isLoading) {
-			mLoadingView.setVisibility(View.VISIBLE);
-		} else {
-			mLoadingView.setVisibility(View.GONE);
-		}
 	}
 
 	@Override
@@ -250,7 +254,6 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 
 		request = new PostListingRequest(postListingURL.generateJsonUri(), RedditAccountManager.getInstance(context).getDefaultAccount(), session, downloadType, true);
 
-		setLoading(true);
 		CacheManager.getInstance(context).makeRequest(request);
 
 		switch(postListingURL.pathType()) {
@@ -410,13 +413,7 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 			CacheRequest.DownloadType type = (RRTime.since(timestamp) < 3 * 60 * 60 * 1000) ? CacheRequest.DownloadType.IF_NECESSARY : CacheRequest.DownloadType.NEVER;
 
 			request = new PostListingRequest(newUri, RedditAccountManager.getInstance(getActivity()).getDefaultAccount(), session, type, false);
-			AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
-				@Override
-				public void run() {
-					setLoading(true);
-				}
-			});
-
+			notificationHandler.sendEmptyMessage(NOTIF_SHOW_LOADING_SPINNER);
 			CacheManager.getInstance(getActivity()).makeRequest(request);
 		}
 		else if((!(downloadPostCount == PrefsUtility.PostCount.ALL) && postRefreshCount == 0) && loadMoreView.getParent() == null) {
@@ -477,13 +474,7 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 		@Override
 		protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
 
-			AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
-				@Override
-				public void run() {
-					setLoading(false);
-				}
-			});
-
+			notificationHandler.sendEmptyMessage(NOTIF_HIDE_LOADING_SPINNER);
 
 			if(type == RequestFailureType.CACHE_MISS) {
 
@@ -629,12 +620,7 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 
 				adapter.onPostsDownloaded(downloadedPosts);
 
-				AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
-					@Override
-					public void run() {
-						setLoading(false);
-					}
-				});
+				notificationHandler.sendEmptyMessage(NOTIF_HIDE_LOADING_SPINNER);
 
 				request = null;
 				readyToDownloadMore = true;

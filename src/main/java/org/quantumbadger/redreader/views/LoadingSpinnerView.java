@@ -29,7 +29,5 @@ public class LoadingSpinnerView extends RelativeLayout {
 		mProgressView.getLayoutParams().width = progressDimensionsPx;
 		mProgressView.getLayoutParams().height = progressDimensionsPx;
 		((LayoutParams)mProgressView.getLayoutParams()).addRule(CENTER_IN_PARENT);
-
-		setVisibility(GONE);
 	}
 }

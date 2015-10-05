@@ -62,7 +62,7 @@ public class CaptchaActivity extends BaseActivity {
 			@Override
 			protected void onSuccess(final String captchaId) {
 
-				final URI captchaUrl = Constants.Reddit.getUri("/captcha/" + captchaId);
+				final URI captchaUrl = General.uriFromString("https://reddit.com/captcha/" + captchaId);
 
 				cm.makeRequest(new CacheRequest(captchaUrl, RedditAccountManager.getAnon(), null, Constants.Priority.CAPTCHA,
 						0, CacheRequest.DownloadType.FORCE, Constants.FileType.CAPTCHA, false, false, true, CaptchaActivity.this) {
@@ -83,7 +83,6 @@ public class CaptchaActivity extends BaseActivity {
 					protected void onFailure(RequestFailureType type, Throwable t, StatusLine status, String readableMessage) {
 						final RRError error = General.getGeneralErrorForFailure(CaptchaActivity.this, type, t, status, url.toString());
 						General.showResultDialog(CaptchaActivity.this, error);
-						finish();
 					}
 
 					@Override
@@ -163,14 +162,12 @@ public class CaptchaActivity extends BaseActivity {
 			protected void onFailure(RequestFailureType type, Throwable t, StatusLine status, String readableMessage) {
 				final RRError error = General.getGeneralErrorForFailure(CaptchaActivity.this, type, t, status, null);
 				General.showResultDialog(CaptchaActivity.this, error);
-				finish();
 			}
 
 			@Override
 			protected void onFailure(APIFailureType type) {
 				final RRError error = General.getGeneralErrorForFailure(CaptchaActivity.this, type);
 				General.showResultDialog(CaptchaActivity.this, error);
-				finish();
 			}
 		}, selectedAccount, this);
 	}

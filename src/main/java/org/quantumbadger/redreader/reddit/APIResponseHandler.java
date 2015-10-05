@@ -32,7 +32,7 @@ public abstract class APIResponseHandler {
 	protected final Context context;
 
 	public static enum APIFailureType {
-		INVALID_USER, BAD_CAPTCHA, NOTALLOWED, SUBREDDIT_REQUIRED, UNKNOWN
+		INVALID_USER, BAD_CAPTCHA, NOTALLOWED, SUBREDDIT_REQUIRED, URL_REQUIRED, UNKNOWN
 	}
 
 	private APIResponseHandler(Context context) {

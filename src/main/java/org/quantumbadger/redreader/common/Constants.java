@@ -149,6 +149,10 @@ public final class Constants {
 		public static boolean isApiErrorSubredditRequired(final String str) {
 			return ".error.SUBREDDIT_REQUIRED.field-sr".equals(str) || "you must specify a subreddit".equals(str);
 		}
+
+		public static boolean isApiErrorURLRequired(final String str) {
+			return ".error.NO_URL.field-url".equals(str) || "a url is required".equals(str);
+		}
 	}
 
 	public static String ua(final Context context) {

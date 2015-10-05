@@ -333,7 +333,7 @@
     <string name="pref_cache_precache_images_wifionly_key">pref_cache_precache_images_wifionly</string>
     <string name="pref_menus_mainmenu_useritems_key">pref_menus_mainmenu_useritems</string>
     <string name="pref_menus_mainmenu_useritems_title">Elementi menu principale dell\'utente</string>
-    <string name="pref_menus_post_context_items_key">pref_menus_post_context_items</string>
+    <string name="pref_menus_post_context_items_key">pref_menus_post_context_items_2</string>
     <string name="pref_menus_post_context_items_title">Elementi menu contestuale del post</string>
     <string name="pref_menus_post_toolbar_items_key">pref_menus_post_toolbar_items</string>
     <string name="pref_menus_post_toolbar_items_title">Elementi barra degli strumenti dei post</string>

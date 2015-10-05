@@ -101,8 +101,8 @@ public final class RedditPreparedPost {
 
 	public final MarkdownParagraphGroup parsedSelfText;
 
-	public static enum Action {
-		UPVOTE, UNVOTE, DOWNVOTE, SAVE, HIDE, UNSAVE, UNHIDE, REPORT, SHARE, REPLY, USER_PROFILE, EXTERNAL, PROPERTIES, COMMENTS, LINK, COMMENTS_SWITCH, LINK_SWITCH, SHARE_COMMENTS, GOTO_SUBREDDIT, ACTION_MENU, SAVE_IMAGE, COPY, SELFTEXT_LINKS
+	public enum Action {
+		UPVOTE, UNVOTE, DOWNVOTE, SAVE, HIDE, UNSAVE, UNHIDE, DELETE, REPORT, SHARE, REPLY, USER_PROFILE, EXTERNAL, PROPERTIES, COMMENTS, LINK, COMMENTS_SWITCH, LINK_SWITCH, SHARE_COMMENTS, GOTO_SUBREDDIT, ACTION_MENU, SAVE_IMAGE, COPY, SELFTEXT_LINKS
 	}
 
 	// TODO too many parameters
@@ -170,6 +170,8 @@ public final class RedditPreparedPost {
 
 		if(itemPref.isEmpty()) return;
 
+		final RedditAccount user = RedditAccountManager.getInstance(activity).getDefaultAccount();
+
 		final ArrayList<RPVMenuItem> menu = new ArrayList<RPVMenuItem>();
 
 		if(!RedditAccountManager.getInstance(activity).getDefaultAccount().isAnonymous()) {
@@ -204,6 +206,10 @@ public final class RedditPreparedPost {
 				} else {
 					menu.add(new RPVMenuItem(activity, R.string.action_unhide, Action.UNHIDE));
 				}
+			}
+
+			if(itemPref.contains(Action.DELETE) && user.username.equalsIgnoreCase(post.src.author)) {
+				menu.add(new RPVMenuItem(activity, R.string.action_delete, Action.DELETE));
 			}
 
 			if(itemPref.contains(Action.REPORT)) menu.add(new RPVMenuItem(activity, R.string.action_report, Action.REPORT));
@@ -271,6 +277,20 @@ public final class RedditPreparedPost {
 
 			case UNHIDE:
 				post.action(activity, RedditAPI.RedditAction.UNHIDE);
+				break;
+
+			case DELETE:
+				new AlertDialog.Builder(activity)
+						.setTitle(R.string.accounts_delete)
+						.setMessage(R.string.delete_confirm)
+						.setPositiveButton(R.string.action_delete,
+								new DialogInterface.OnClickListener() {
+									public void onClick(final DialogInterface dialog, final int which) {
+										post.action(activity, RedditAPI.RedditAction.DELETE);
+									}
+								})
+						.setNegativeButton(R.string.dialog_cancel, null)
+						.show();
 				break;
 
 			case REPORT:
@@ -736,7 +756,8 @@ public final class RedditPreparedPost {
 			case HIDE: hidden = true; break;
 			case UNHIDE: hidden = false; break;
 
-			case REPORT: hidden = true; break;
+			case REPORT: break;
+			case DELETE: break;
 
 			default:
 				throw new RuntimeException("Unknown post action");
@@ -793,6 +814,10 @@ public final class RedditPreparedPost {
 					protected void onSuccess() {
 						lastChange = RRTime.utcCurrentTimeMillis();
 						RedditChangeDataManager.getInstance(context).update("posts", user, RedditPreparedPost.this, true);
+
+						if(action == RedditAPI.RedditAction.DELETE) {
+							General.quickToast(activity, R.string.delete_success);
+						}
 					}
 
 					private void revertOnFailure() {
@@ -809,7 +834,8 @@ public final class RedditPreparedPost {
 							case HIDE: hidden = false; break;
 							case UNHIDE: hidden = true; break;
 
-							case REPORT: hidden = false; break;
+							case REPORT: break;
+							case DELETE: break;
 
 							default:
 								throw new RuntimeException("Unknown post action");
@@ -871,6 +897,7 @@ public final class RedditPreparedPost {
 				Action.DOWNVOTE,
 				Action.SAVE,
 				Action.HIDE,
+				Action.DELETE,
 				Action.REPLY,
 				Action.EXTERNAL,
 				Action.SAVE_IMAGE,

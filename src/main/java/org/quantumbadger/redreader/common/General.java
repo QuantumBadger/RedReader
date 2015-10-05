@@ -289,6 +289,11 @@ public final class General {
 				message = R.string.error_subreddit_required_message;
 				break;
 
+			case URL_REQUIRED:
+				title = R.string.error_url_required_title;
+				message = R.string.error_url_required_message;
+				break;
+
 			default:
 				title = R.string.error_unknown_api_title;
 				message = R.string.error_unknown_api_message;

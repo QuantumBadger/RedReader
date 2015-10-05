@@ -122,7 +122,7 @@ Thanks to /u/balducien and /u/andiho for this translation!
 
     <!-- Menu Prefs -->
 
-    <string name="pref_menus_post_context_items_key">pref_menus_post_context_items</string>
+    <string name="pref_menus_post_context_items_key">pref_menus_post_context_items_2</string>
     <string name="pref_menus_post_context_items_title">Post-Kontextmenü</string>
 
     <string name="pref_menus_post_toolbar_items_key">pref_menus_post_toolbar_items</string>

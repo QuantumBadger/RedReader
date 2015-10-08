@@ -190,7 +190,7 @@ public class LinkHandler {
 	}
 
 	public static final Pattern imgurPattern = Pattern.compile(".*imgur\\.com/(\\w+).*"),
-			imgurAlbumPattern = Pattern.compile(".*imgur\\.com/(a|gallery)/(\\w+).*"),
+			imgurAlbumPattern = Pattern.compile(".*imgur\\.com/(a|gallery|r/\\w+)/(\\w+).*"),
 			qkmePattern1 = Pattern.compile(".*qkme\\.me/(\\w+).*"),
 			qkmePattern2 = Pattern.compile(".*quickmeme\\.com/meme/(\\w+).*"),
 			lvmePattern = Pattern.compile(".*livememe\\.com/(\\w+).*");

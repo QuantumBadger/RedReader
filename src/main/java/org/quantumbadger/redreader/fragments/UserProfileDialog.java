@@ -92,7 +92,7 @@ public class UserProfileDialog extends PropertiesDialog {
 
 						loadingView.setDone(R.string.download_done);
 
-						final LinearLayout karmaLayout = (LinearLayout) ((Activity)context).getLayoutInflater().inflate(R.layout.karma, null);
+						final LinearLayout karmaLayout = (LinearLayout) context.getLayoutInflater().inflate(R.layout.karma, null);
 						items.addView(karmaLayout);
 
 						final TextView linkKarma = (TextView) karmaLayout.findViewById(R.id.layout_karma_text_link);
@@ -127,7 +127,7 @@ public class UserProfileDialog extends PropertiesDialog {
 						commentsButton.setText(R.string.userprofile_viewcomments);
 						commentsButton.setOnClickListener(new View.OnClickListener() {
 							public void onClick(View v) {
-								LinkHandler.onLinkClicked((Activity)context, Constants.Reddit.getUri("/user/" + username + "/comments.json").toString(), false);
+								LinkHandler.onLinkClicked(context, Constants.Reddit.getUri("/user/" + username + "/comments.json").toString(), false);
 							}
 						});
 						items.addView(commentsButton);
@@ -139,7 +139,7 @@ public class UserProfileDialog extends PropertiesDialog {
 						postsButton.setText(R.string.userprofile_viewposts);
 						postsButton.setOnClickListener(new View.OnClickListener() {
 							public void onClick(View v) {
-								LinkHandler.onLinkClicked((Activity)context, UserPostListingURL.getSubmitted(username).generateJsonUri().toString(), false);
+								LinkHandler.onLinkClicked(context, UserPostListingURL.getSubmitted(username).generateJsonUri().toString(), false);
 							}
 						});
 						items.addView(postsButton);
@@ -166,7 +166,7 @@ public class UserProfileDialog extends PropertiesDialog {
 						loadingView.setDone(R.string.download_failed);
 
 						final RRError error = General.getGeneralErrorForFailure(context, type, t, status, null);
-						items.addView(new ErrorView((Activity)context, error));
+						items.addView(new ErrorView(context, error));
 					}
 				});
 			}
@@ -182,7 +182,7 @@ public class UserProfileDialog extends PropertiesDialog {
 						loadingView.setDone(R.string.download_failed);
 
 						final RRError error = General.getGeneralErrorForFailure(context, type);
-						items.addView(new ErrorView((Activity)context, error));
+						items.addView(new ErrorView(context, error));
 					}
 				});
 			}

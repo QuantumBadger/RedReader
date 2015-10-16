@@ -231,7 +231,8 @@ public class PostCommentListingURL extends CommentListingURL {
 		NEW("new"),
 		OLD("old"),
 		TOP("top"),
-		CONTROVERSIAL("controversial");
+		CONTROVERSIAL("controversial"),
+		QA("qa");
 
 		public final String key;
 

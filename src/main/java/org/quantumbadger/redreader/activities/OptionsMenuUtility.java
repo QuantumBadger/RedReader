@@ -447,6 +447,7 @@ public final class OptionsMenuUtility {
 		addSort(activity, sortComments, R.string.sort_comments_old, PostCommentListingURL.Sort.OLD);
 		addSort(activity, sortComments, R.string.sort_comments_controversial, PostCommentListingURL.Sort.CONTROVERSIAL);
 		addSort(activity, sortComments, R.string.sort_comments_top, PostCommentListingURL.Sort.TOP);
+		addSort(activity, sortComments, R.string.sort_comments_qa, PostCommentListingURL.Sort.QA);
 	}
 
 	private static void addSort(final Activity activity, final Menu menu, final int name, final PostCommentListingURL.Sort order) {

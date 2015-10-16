@@ -63,6 +63,7 @@
         <item>@string/sort_comments_old</item>
         <item>@string/sort_comments_controversial</item>
         <item>@string/sort_comments_top</item>
+        <item>@string/sort_comments_qa</item>
     </string-array>
 
     <!-- Constants. Do not change. -->
@@ -73,6 +74,7 @@
         <item>old</item>
         <item>controversial</item>
         <item>top</item>
+        <item>qa</item>
     </string-array>
 
     <string-array name="pref_behaviour_actions_comment">

@@ -704,4 +704,7 @@
     <string name="error_url_required_title">URL Required</string>
     <string name="error_url_required_message">You must specify a URL.</string>
 
+    <!-- 2015-10-16 -->
+    <string name="sort_comments_qa">Q&amp;A</string>
+
 </resources>

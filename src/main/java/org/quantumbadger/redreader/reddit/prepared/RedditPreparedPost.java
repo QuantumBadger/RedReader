@@ -453,7 +453,7 @@ public final class RedditPreparedPost {
 				final Intent mailer = new Intent(Intent.ACTION_SEND);
 				mailer.setType("text/plain");
 				mailer.putExtra(Intent.EXTRA_SUBJECT, "Comments for " + post.title);
-				mailer.putExtra(Intent.EXTRA_TEXT, Constants.Reddit.getUri(Constants.Reddit.PATH_COMMENTS + post.idAlone).toString());
+				mailer.putExtra(Intent.EXTRA_TEXT, Constants.Reddit.getNonAPIUri(Constants.Reddit.PATH_COMMENTS + post.idAlone).toString());
 				activity.startActivity(Intent.createChooser(mailer, activity.getString(R.string.action_share_comments)));
 				break;
 			}

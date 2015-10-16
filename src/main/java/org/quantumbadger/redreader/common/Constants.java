@@ -134,6 +134,10 @@ public final class Constants {
 			return General.uriFromString(getScheme() + "://" +  getDomain() + path);
 		}
 
+		public static URI getNonAPIUri(final String path) {
+			return General.uriFromString(getScheme() + "://reddit.com" + path);
+		}
+
 		public static boolean isApiErrorUser(final String str) {
 			return ".error.USER_REQUIRED".equals(str) || "please login to do that".equals(str);
 		}

@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.fragments;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -39,6 +40,8 @@ import java.net.URI;
 import java.util.UUID;
 
 public class SessionListDialog extends DialogFragment implements RedditAccountChangeListener {
+
+	private Activity mActivity;
 
 	private URI url;
 	private UUID current;
@@ -86,10 +89,12 @@ public class SessionListDialog extends DialogFragment implements RedditAccountCh
 
 		super.onCreateDialog(savedInstanceState);
 
-		final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setTitle(getActivity().getString(R.string.options_past));
+		mActivity = getActivity();
 
-		final Context context = getActivity();
+		final AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+		builder.setTitle(mActivity.getString(R.string.options_past));
+
+		final Context context = mActivity;
 
 		lv = new ListView(context);
 		builder.setView(lv);
@@ -104,17 +109,17 @@ public class SessionListDialog extends DialogFragment implements RedditAccountCh
 				final CacheEntry ce = (CacheEntry) lv.getItemAtPosition(position);
 
 				if(ce == null) {
-					((SessionChangeListener) getActivity()).onSessionRefreshSelected(type);
+					((SessionChangeListener) mActivity).onSessionRefreshSelected(type);
 
 				} else {
-					((SessionChangeListener) getActivity()).onSessionSelected(ce.session, type);
+					((SessionChangeListener) mActivity).onSessionSelected(ce.session, type);
 				}
 
 				dismiss();
 			}
 		});
 
-		builder.setNeutralButton(getActivity().getString(R.string.dialog_close), null);
+		builder.setNeutralButton(mActivity.getString(R.string.dialog_close), null);
 
 		return builder.create();
 	}
@@ -122,7 +127,7 @@ public class SessionListDialog extends DialogFragment implements RedditAccountCh
 	public void onRedditAccountChanged() {
 		AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 			public void run() {
-				lv.setAdapter(new SessionListAdapter(getActivity(), url, current));
+				lv.setAdapter(new SessionListAdapter(mActivity, url, current));
 			}
 		});
 	}

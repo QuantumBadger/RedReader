@@ -50,6 +50,8 @@ import java.util.TimerTask;
 
 public class WebViewFragment extends Fragment implements RedditPostView.PostSelectionListener {
 
+	private Activity mActivity;
+
 	private String url, html;
     private volatile String currentUrl;
     private volatile boolean goingBack;
@@ -94,23 +96,23 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
-		final Context context = inflater.getContext();
+		mActivity = getActivity();
 
-		CookieSyncManager.createInstance(getActivity());
+		CookieSyncManager.createInstance(mActivity);
 
 		outer = (FrameLayout)inflater.inflate(R.layout.web_view_fragment, null);
 
 		final RedditPost src_post = getArguments().getParcelable("post");
 		final RedditPreparedPost post = src_post == null ? null
-				: new RedditPreparedPost(context, CacheManager.getInstance(context), 0, src_post, -1, false,
-				false, false, false, RedditAccountManager.getInstance(context).getDefaultAccount(), false);
+				: new RedditPreparedPost(mActivity, CacheManager.getInstance(mActivity), 0, src_post, -1, false,
+				false, false, false, RedditAccountManager.getInstance(mActivity).getDefaultAccount(), false);
 
 		webView = (WebViewFixed)outer.findViewById(R.id.web_view_fragment_webviewfixed);
 		final FrameLayout loadingViewFrame = (FrameLayout)outer.findViewById(R.id.web_view_fragment_loadingview_frame);
 
-		progressView = new ProgressBar(context, null, android.R.attr.progressBarStyleHorizontal);
+		progressView = new ProgressBar(mActivity, null, android.R.attr.progressBarStyleHorizontal);
 		loadingViewFrame.addView(progressView);
-		loadingViewFrame.setPadding(General.dpToPixels(context, 10), 0,  General.dpToPixels(context, 10), 0);
+		loadingViewFrame.setPadding(General.dpToPixels(mActivity, 10), 0,  General.dpToPixels(mActivity, 10), 0);
 
 		final WebSettings settings = webView.getSettings();
 
@@ -162,7 +164,7 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 					// Go back if loading same page to prevent redirect loops.
 					if(goingBack && currentUrl != null && url.equals(currentUrl)) {
 
-						General.quickToast(context,
+						General.quickToast(mActivity,
 								String.format("Handling redirect loop (level %d)", -lastBackDepthAttempt), Toast.LENGTH_SHORT);
 
 						lastBackDepthAttempt--;
@@ -170,12 +172,12 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 						if (webView.canGoBackOrForward(lastBackDepthAttempt)) {
 							webView.goBackOrForward(lastBackDepthAttempt);
 						} else {
-							getActivity().finish();
+							mActivity.finish();
 						}
 					} else  {
 
 						if(RedditURLParser.parse(Uri.parse(url)) != null) {
-							LinkHandler.onLinkClicked(getActivity(), url, false);
+							LinkHandler.onLinkClicked(mActivity, url, false);
 						} else {
 							webView.loadUrl(url);
 							currentUrl = url;
@@ -189,7 +191,7 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 				public void onPageStarted(WebView view, String url, Bitmap favicon) {
 					super.onPageStarted(view, url, favicon);
 
-					final Activity activity = getActivity();
+					final Activity activity = mActivity;
 
 					if(activity != null) {
 						activity.setTitle(url);
@@ -213,7 +215,7 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 
 									if(goingBack && url.equals(currentUrl)) {
 
-										General.quickToast(context,
+										General.quickToast(mActivity,
 												String.format("Handling redirect loop (level %d)", -lastBackDepthAttempt));
 
 										lastBackDepthAttempt--;
@@ -221,7 +223,7 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 										if(webView.canGoBackOrForward(lastBackDepthAttempt)) {
 											webView.goBackOrForward(lastBackDepthAttempt);
 										} else {
-											getActivity().finish();
+											mActivity.finish();
 										}
 
 									} else {
@@ -243,18 +245,18 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 			webView.loadData(html, "text/html; charset=UTF-8", null);
 		}
 
-		final FrameLayout outerFrame = new FrameLayout(context);
+		final FrameLayout outerFrame = new FrameLayout(mActivity);
 		outerFrame.addView(outer);
 
 		if(post != null) {
 
-			final SideToolbarOverlay toolbarOverlay = new SideToolbarOverlay(context);
+			final SideToolbarOverlay toolbarOverlay = new SideToolbarOverlay(mActivity);
 
-			final BezelSwipeOverlay bezelOverlay = new BezelSwipeOverlay(context, new BezelSwipeOverlay.BezelSwipeListener() {
+			final BezelSwipeOverlay bezelOverlay = new BezelSwipeOverlay(mActivity, new BezelSwipeOverlay.BezelSwipeListener() {
 
 				public boolean onSwipe(BezelSwipeOverlay.SwipeEdge edge) {
 
-					toolbarOverlay.setContents(post.generateToolbar(getActivity(), false, toolbarOverlay));
+					toolbarOverlay.setContents(post.generateToolbar(mActivity, false, toolbarOverlay));
 					toolbarOverlay.show(edge == BezelSwipeOverlay.SwipeEdge.LEFT ?
 							SideToolbarOverlay.SideToolbarPosition.LEFT : SideToolbarOverlay.SideToolbarPosition.RIGHT);
 					return true;
@@ -313,11 +315,11 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 	}
 
 	public void onPostSelected(final RedditPreparedPost post) {
-		((RedditPostView.PostSelectionListener)getActivity()).onPostSelected(post);
+		((RedditPostView.PostSelectionListener)mActivity).onPostSelected(post);
 	}
 
 	public void onPostCommentsSelected(final RedditPreparedPost post) {
-		((RedditPostView.PostSelectionListener)getActivity()).onPostCommentsSelected(post);
+		((RedditPostView.PostSelectionListener)mActivity).onPostCommentsSelected(post);
 	}
 
     public String getCurrentUrl() {

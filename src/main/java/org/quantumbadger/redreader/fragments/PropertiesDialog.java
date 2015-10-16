@@ -63,7 +63,7 @@ public abstract class PropertiesDialog extends DialogFragment {
 
 		attr.recycle();
 
-		final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		final AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
 		final LinearLayout items = new LinearLayout(context);
 		items.setOrientation(LinearLayout.VERTICAL);

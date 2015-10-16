@@ -17,10 +17,7 @@
 
 package org.quantumbadger.redreader.fragments;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
-import android.app.ProgressDialog;
+import android.app.*;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -45,6 +42,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class AccountListDialog extends DialogFragment
 		implements RedditAccountChangeListener {
+
+	private Activity mActivity;
 
 	// Workaround for HoloEverywhere bug?
 	private volatile boolean alreadyCreated = false;
@@ -87,7 +86,7 @@ public class AccountListDialog extends DialogFragment
 			progressDialog.show();
 
 			RedditOAuth.loginAsynchronous(
-					getActivity().getApplicationContext(),
+					mActivity.getApplicationContext(),
 					Uri.parse(data.getStringExtra("url")),
 
 					new RedditOAuth.LoginListener() {
@@ -99,12 +98,13 @@ public class AccountListDialog extends DialogFragment
 									progressDialog.dismiss();
 									if(cancelled.get()) return;
 
-									final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
+									final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(mActivity);
 									alertBuilder.setNeutralButton(R.string.dialog_close, new DialogInterface.OnClickListener() {
-										public void onClick(DialogInterface dialog, int which) {}
+										public void onClick(DialogInterface dialog, int which) {
+										}
 									});
 
-									final Context context = getActivity().getApplicationContext();
+									final Context context = mActivity.getApplicationContext();
 									alertBuilder.setTitle(context.getString(R.string.general_success));
 									alertBuilder.setMessage(context.getString(R.string.message_nowloggedin));
 
@@ -121,7 +121,7 @@ public class AccountListDialog extends DialogFragment
 								public void run() {
 									progressDialog.dismiss();
 									if(cancelled.get()) return;
-									General.showResultDialog(getActivity(), details);
+									General.showResultDialog(mActivity, details);
 								}
 							});
 						}
@@ -137,24 +137,24 @@ public class AccountListDialog extends DialogFragment
 		if(alreadyCreated) return getDialog();
 		alreadyCreated = true;
 
-		final Context context = getActivity();
+		mActivity = getActivity();
 
-		final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setTitle(context.getString(R.string.options_accounts_long));
+		final AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+		builder.setTitle(mActivity.getString(R.string.options_accounts_long));
 
-		lv = new ListView(context);
+		lv = new ListView(mActivity);
 		builder.setView(lv);
 
-		lv.setAdapter(new AccountListAdapter(context));
+		lv.setAdapter(new AccountListAdapter(mActivity));
 
-		RedditAccountManager.getInstance(context).addUpdateListener(this);
+		RedditAccountManager.getInstance(mActivity).addUpdateListener(this);
 
 		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			public void onItemClick(AdapterView<?> adapterView, View view, int position, final long id) {
 
 				if(position == 0) {
 
-					final Intent loginIntent = new Intent(context, OAuthLoginActivity.class);
+					final Intent loginIntent = new Intent(mActivity, OAuthLoginActivity.class);
 					startActivityForResult(loginIntent, 123);
 
 				} else {
@@ -168,7 +168,7 @@ public class AccountListDialog extends DialogFragment
 								getString(R.string.accounts_delete)
 							};
 
-					final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+					final AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
 
 					builder.setItems(items, new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int which) {
@@ -176,16 +176,16 @@ public class AccountListDialog extends DialogFragment
 							final String selected = items[which];
 
 							if(selected.equals(getString(R.string.accounts_setactive))) {
-								RedditAccountManager.getInstance(context).setDefaultAccount(account);
+								RedditAccountManager.getInstance(mActivity).setDefaultAccount(account);
 
 							} else if(selected.equals(getString(R.string.accounts_delete))) {
-								new AlertDialog.Builder(context)
+								new AlertDialog.Builder(mActivity)
 										.setTitle(R.string.accounts_delete)
 										.setMessage(R.string.accounts_delete_sure)
 										.setPositiveButton(R.string.accounts_delete,
 												new DialogInterface.OnClickListener() {
 													public void onClick(final DialogInterface dialog, final int which) {
-														RedditAccountManager.getInstance(context).deleteAccount(account);
+														RedditAccountManager.getInstance(mActivity).deleteAccount(account);
 													}
 												})
 										.setNegativeButton(R.string.dialog_cancel, null)
@@ -206,7 +206,7 @@ public class AccountListDialog extends DialogFragment
 			}
 		});
 
-		builder.setNeutralButton(getActivity().getString(R.string.dialog_close), null);
+		builder.setNeutralButton(mActivity.getString(R.string.dialog_close), null);
 
 		return builder.create();
 	}
@@ -214,7 +214,7 @@ public class AccountListDialog extends DialogFragment
 	public void onRedditAccountChanged() {
 		AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 			public void run() {
-				lv.setAdapter(new AccountListAdapter(getActivity()));
+				lv.setAdapter(new AccountListAdapter(mActivity));
 			}
 		});
 	}

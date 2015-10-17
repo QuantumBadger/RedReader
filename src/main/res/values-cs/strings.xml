@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ This file is part of RedReader.
+  ~ This file is part of Scroll.
   ~
-  ~ RedReader is free software: you can redistribute it and/or modify
+  ~ Scroll is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
   ~ the Free Software Foundation, either version 3 of the License, or
   ~ (at your option) any later version.
   ~
-  ~ RedReader is distributed in the hope that it will be useful,
+  ~ Scroll is distributed in the hope that it will be useful,
   ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
   ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   ~ GNU General Public License for more details.
   ~
   ~ You should have received a copy of the GNU General Public License
-  ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+  ~ along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
 <resources>
 
-    <string name="app_name">RedReader Beta</string>
+    <string name="app_name">Scroll Beta</string>
 
     <!-- First Run Dialog -->
 
@@ -287,7 +287,7 @@
     <!-- Bug Reporting -->
 
     <string name="bug_title">Vyskytla se chyba</string>
-    <string name="bug_message">Vyskytla se chyba.\n\nChtěli byste poslat hlášení o chybě vývojáři aplikace RedReader? Pokud ano, tak pro Vás bude předvyplněn email se všemi relevantními informacemi, který můžete před odesláním zkontrolovat.</string>
+    <string name="bug_message">Vyskytla se chyba.\n\nChtěli byste poslat hlášení o chybě vývojáři aplikace Scroll? Pokud ano, tak pro Vás bude předvyplněn email se všemi relevantními informacemi, který můžete před odesláním zkontrolovat.</string>
     <string name="bug_button_send">Poslat hlášení o chybě</string>
     <string name="bug_button_ignore">Neposílat hlášení o chybě</string>
 

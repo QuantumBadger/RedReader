@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ This file is part of RedReader.
+  ~ This file is part of Scroll.
   ~
-  ~ RedReader is free software: you can redistribute it and/or modify
+  ~ Scroll is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
   ~ the Free Software Foundation, either version 3 of the License, or
   ~ (at your option) any later version.
   ~
-  ~ RedReader is distributed in the hope that it will be useful,
+  ~ Scroll is distributed in the hope that it will be useful,
   ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
   ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   ~ GNU General Public License for more details.
   ~
   ~ You should have received a copy of the GNU General Public License
-  ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+  ~ along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
 <resources>
 
-    <string name="app_name">RedReader Béta</string>
+    <string name="app_name">Scroll Béta</string>
 
     <!-- First Run Dialog -->
 
@@ -290,7 +290,7 @@
     <!-- Bug Reporting -->
 
     <string name="bug_title">Une erreur s\'est produite.</string>
-    <string name="bug_message">RedReader a rencontré une erreur.\n\nSouhaitez vous soumettre un rapport de bug aux développeurs ? Si oui, un email sera rempli avec les informations importantes et vous pourrez le controler avant de l\'envoyer.</string>
+    <string name="bug_message">Scroll a rencontré une erreur.\n\nSouhaitez vous soumettre un rapport de bug aux développeurs ? Si oui, un email sera rempli avec les informations importantes et vous pourrez le controler avant de l\'envoyer.</string>
     <string name="bug_button_send">Envoyer un rapport de bug par email</string>
     <string name="bug_button_ignore">Ne pas envoyez de rapport de bug</string>
 

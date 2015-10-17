@@ -1,0 +1,156 @@
+/*******************************************************************************
+ * This file is part of Scroll.
+ *
+ * Scroll is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Scroll is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
+package com.konneh.scroll.reddit.api;
+
+import android.content.Context;
+import org.apache.http.StatusLine;
+import com.konneh.scroll.account.RedditAccount;
+import com.konneh.scroll.cache.CacheManager;
+import com.konneh.scroll.cache.CacheRequest;
+import com.konneh.scroll.cache.RequestFailureType;
+import com.konneh.scroll.common.Constants;
+import com.konneh.scroll.common.TimestampBound;
+import com.konneh.scroll.io.CacheDataSource;
+import com.konneh.scroll.io.RequestResponseHandler;
+import com.konneh.scroll.jsonwrap.JsonValue;
+import com.konneh.scroll.reddit.things.RedditSubreddit;
+import com.konneh.scroll.reddit.things.RedditThing;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
+
+public class RedditAPIIndividualSubredditDataRequester implements CacheDataSource<String, RedditSubreddit, SubredditRequestFailure> {
+
+	private final Context context;
+	private final RedditAccount user;
+
+	public RedditAPIIndividualSubredditDataRequester(Context context, RedditAccount user) {
+		this.context = context;
+		this.user = user;
+	}
+
+	public void performRequest(final String subredditCanonicalName,
+							   final TimestampBound timestampBound,
+							   final RequestResponseHandler<RedditSubreddit, SubredditRequestFailure> handler) {
+
+		final CacheRequest aboutSubredditCacheRequest = new CacheRequest(
+				Constants.Reddit.getUri("/r/" + subredditCanonicalName + "/about.json"),
+				user,
+				null,
+				Constants.Priority.API_SUBREDDIT_INVIDIVUAL,
+				0,
+				CacheRequest.DownloadType.FORCE,
+				Constants.FileType.SUBREDDIT_ABOUT,
+				true,
+				true,
+				false,
+				context
+		) {
+
+			@Override
+			protected void onCallbackException(Throwable t) {
+				handler.onRequestFailed(new SubredditRequestFailure(RequestFailureType.PARSE, t, null, "Parse error", url));
+			}
+
+			@Override protected void onDownloadNecessary() {}
+			@Override protected void onDownloadStarted() {}
+			@Override protected void onProgress(final boolean authorizationInProgress, long bytesRead, long totalBytes) {}
+
+			@Override
+			protected void onFailure(RequestFailureType type, Throwable t, StatusLine status, String readableMessage) {
+				handler.onRequestFailed(new SubredditRequestFailure(type, t, status, readableMessage, url));
+			}
+
+			@Override
+			protected void onSuccess(CacheManager.ReadableCacheFile cacheFile, long timestamp, UUID session,
+									 boolean fromCache, String mimetype) {}
+
+			@Override
+			public void onJsonParseStarted(JsonValue result, long timestamp, UUID session, boolean fromCache) {
+
+				try {
+					final RedditThing subredditThing = result.asObject(RedditThing.class);
+					final RedditSubreddit subreddit = subredditThing.asSubreddit();
+					subreddit.downloadTime = timestamp;
+					handler.onRequestSuccess(subreddit, timestamp);
+
+				} catch(Exception e) {
+					handler.onRequestFailed(new SubredditRequestFailure(RequestFailureType.PARSE, e, null, "Parse error", url));
+				}
+			}
+		};
+
+		CacheManager.getInstance(context).makeRequest(aboutSubredditCacheRequest);
+	}
+
+	public void performRequest(final Collection<String> subredditCanonicalIds,
+							   final TimestampBound timestampBound,
+							   final RequestResponseHandler<HashMap<String, RedditSubreddit>, SubredditRequestFailure> handler) {
+
+		// TODO if there's a bulk API to do this, that would be good... :)
+
+		final HashMap<String, RedditSubreddit> result = new HashMap<String, RedditSubreddit>();
+		final AtomicBoolean stillOkay = new AtomicBoolean(true);
+		final AtomicInteger requestsToGo = new AtomicInteger(subredditCanonicalIds.size());
+		final AtomicLong oldestResult = new AtomicLong(Long.MAX_VALUE);
+
+		final RequestResponseHandler <RedditSubreddit, SubredditRequestFailure> innerHandler
+				= new RequestResponseHandler<RedditSubreddit, SubredditRequestFailure>() {
+			@Override
+			public void onRequestFailed(SubredditRequestFailure failureReason) {
+				synchronized(result) {
+					if(stillOkay.get()) {
+						stillOkay.set(false);
+						handler.onRequestFailed(failureReason);
+					}
+				}
+			}
+
+			@Override
+			public void onRequestSuccess(RedditSubreddit innerResult, long timeCached) {
+				synchronized(result) {
+					if(stillOkay.get()) {
+
+						result.put(innerResult.getKey(), innerResult);
+						oldestResult.set(Math.min(oldestResult.get(), timeCached));
+
+						if(requestsToGo.decrementAndGet() == 0) {
+							handler.onRequestSuccess(result, oldestResult.get());
+						}
+					}
+				}
+			}
+		};
+
+		for(String subredditCanonicalId : subredditCanonicalIds) {
+			performRequest(subredditCanonicalId, timestampBound, innerHandler);
+		}
+	}
+
+	public void performWrite(RedditSubreddit value) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void performWrite(Collection<RedditSubreddit> values) {
+		throw new UnsupportedOperationException();
+	}
+}

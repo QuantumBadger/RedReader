@@ -1,0 +1,92 @@
+/*******************************************************************************
+ * This file is part of Scroll.
+ *
+ * Scroll is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Scroll is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
+package com.konneh.scroll;
+
+import android.app.Application;
+import android.os.Environment;
+import android.preference.PreferenceManager;
+import android.util.Log;
+import com.konneh.scroll.cache.CacheManager;
+import com.konneh.scroll.common.Alarms;
+import com.konneh.scroll.common.PrefsUtility;
+import com.konneh.scroll.receivers.NewMessageChecker;
+import com.konneh.scroll.reddit.prepared.RedditChangeDataManager;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
+import java.util.UUID;
+
+public class Scroll extends Application {
+
+	@Override
+	public void onCreate() {
+
+		super.onCreate();
+
+		Log.i("Scroll", "Application created.");
+
+		final Thread.UncaughtExceptionHandler androidHandler = Thread.getDefaultUncaughtExceptionHandler();
+
+		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+			public void uncaughtException(Thread thread, Throwable t) {
+
+				try {
+					t.printStackTrace();
+
+					File dir = Environment.getExternalStorageDirectory();
+
+					if(dir == null) {
+						dir = Environment.getDataDirectory();
+					}
+
+					final FileOutputStream fos = new FileOutputStream(new File(dir, "redreader_crash_log_" + UUID.randomUUID().toString() + ".txt"));
+					final PrintWriter pw = new PrintWriter(fos);
+					t.printStackTrace(pw);
+					pw.flush();
+					pw.close();
+
+				} catch(Throwable t1) {}
+
+				androidHandler.uncaughtException(thread, t);
+			}
+		});
+
+		final CacheManager cm = CacheManager.getInstance(this);
+
+		cm.pruneTemp();
+
+		new Thread() {
+			@Override
+			public void run() {
+
+				android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
+
+				cm.pruneCache(); // Hope for the best :)
+
+				final RedditChangeDataManager cdm = RedditChangeDataManager.getInstance(Scroll.this);
+				cdm.prune(PrefsUtility.pref_cache_maxage(Scroll.this, PreferenceManager.getDefaultSharedPreferences(Scroll.this)));
+
+			}
+		}.start();
+
+        Alarms.onBoot(this);
+
+		NewMessageChecker.checkForNewMessages(this);
+    }
+}

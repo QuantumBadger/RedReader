@@ -1,9 +1,9 @@
-RedReader Beta (for Android)
+Scroll Beta (for Android)
 ============================
 
-An unofficial, open source client for reddit.
+An unofficial, open source client for reddit, based on [RedReader](https://github.com/QuantumBadger/Scroll)
 
-![Build Status](https://travis-ci.org/QuantumBadger/RedReader.svg?branch=master)
+![Build Status](https://travis-ci.org/kheidler/Scroll.svg?branch=master)
 
 Features
 --------
@@ -25,9 +25,9 @@ Features
 Reporting Bugs
 --------------
 
-RedReader is beta software, so it is possible that you may encounter bugs.
+Scroll is beta software, so it is possible that you may encounter bugs.
 
-Details of each crash in the UI thread will be logged to external storage, under the filename "redreader_crash_log_(UUID).txt" - please attach the relevant log when reporting a bug.
+Details of each crash in the UI thread will be logged to external storage, under the filename "Scroll_crash_log_(UUID).txt" - please attach the relevant log when reporting a bug.
 
 Crashes in other parts of the application will cause a prompt to be displayed asking you to email the exception details directly.
 
@@ -35,32 +35,28 @@ Crashes in other parts of the application will cause a prompt to be displayed as
 How to Build
 ------------
 
-RedReader is built using Gradle. Several dependencies are required (and listed in build.gradle), but these are handled automatically if you use Gradle.
+Scroll is built using Gradle. Several dependencies are required (and listed in build.gradle), but these are handled automatically if you use Gradle.
 
-Detailed instructions on building RedReader using IntelliJ IDEA are in [BUILD.md](BUILD.md).
+Detailed instructions on building Scroll using IntelliJ IDEA are in [BUILD.md](BUILD.md).
 
 
 How to Get
 ----------
 
-RedReader is available for free on the Google Play store:
-
-https://play.google.com/store/apps/details?id=org.quantumbadger.redreader
+Scroll is not yet available on the Google Play store, though it will be soon!
 
 
 License
 -------
 
-RedReader is licensed under the GPL, version 3. A copy of the license is included in "LICENSE.txt".
-
-Bitcoin donations are accepted at the following address: `1874wapGxDo2vEp4avisda4gx3SCjsHCQJ`
-
+Scroll is licensed under the GPL, version 3. A copy of the license is included in "LICENSE.txt".
 
 Thanks
 ------
 
 Thanks to:
 
+* QuantumBadger, and all other contributors of [RedReader](https://github.com/QuantumBadger/RedReader)
 * Lawrence Dawson, for the [ActiveTextView](https://github.com/laurencedawson/activetextview) (Apache License 2.0)
 * tomorrowkey.jp, for the [GIF decoder](https://code.google.com/p/android-gifview/) (Apache License 2.0)
 * [HoloEverywhere](https://github.com/Prototik/HoloEverywhere) and [ActionBarSherlock](http://actionbarsherlock.com/)

@@ -1,5 +1,5 @@
-How to Build RedReader
-======================
+How to Build Scroll
+===================
 
 **1\. Download and install the Java JDK.**
 
@@ -27,9 +27,9 @@ Open IDEA. At the start screen, select "Configure", then "Settings". Expand the 
 
 Press OK to return to the "Configure" screen, and press the back arrow to return to the start screen.
 
-**6\. Get the RedReader source.**
+**6\. Get the Scroll source.**
 
-Using GitHub, fork the RedReader repo. Then, at the IDEA start screen, select "Check out from Version Control", then "GitHub". Login, and specify a password for the IDEA password database.
+Using GitHub, fork the Scroll repo. Then, at the IDEA start screen, select "Check out from Version Control", then "GitHub". Login, and specify a password for the IDEA password database.
 
 Select the relevant repo, create the parent directory, and select "Clone".
 
@@ -49,7 +49,7 @@ Once you've done this, select "Android 5.1.1" as the build target in the next di
 
 Open the Run menu, and select "Edit Configurations". Press the green add icon, and select "Android Application".
 
-* Under Module, select "redreader".
+* Under Module, select "scroll".
 * Specify "MainActivity" as the activity to launch (select the radio button next to "Launch:", click the browser button ("..."), and select "MainActivity" from the list.
 * Select "Show chooser dialog" under "Target Device".
 * Under "Name" (at the top), type whatever you like.
@@ -57,7 +57,7 @@ Open the Run menu, and select "Edit Configurations". Press the green add icon, a
 
 **10\. Voilà, you're done!**
 
-Click the green "run" button in the toolbar to build and run RedReader. You'll probably need to uninstall the Google Play copy from your device, or you'll get a certificate conflict.
+Click the green "run" button in the toolbar to build and run Scroll. You'll probably need to uninstall the Google Play copy from your device, or you'll get a certificate conflict.
 
 **Tips**
 

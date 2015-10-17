@@ -1,18 +1,18 @@
 /*******************************************************************************
- * This file is part of RedReader.
+ * This file is part of Scroll.
  *
- * RedReader is free software: you can redistribute it and/or modify
+ * Scroll is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * RedReader is distributed in the hope that it will be useful,
+ * Scroll is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
 package org.quantumbadger.redreader;
@@ -32,14 +32,14 @@ import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.util.UUID;
 
-public class RedReader extends Application {
+public class Scroll extends Application {
 
 	@Override
 	public void onCreate() {
 
 		super.onCreate();
 
-		Log.i("RedReader", "Application created.");
+		Log.i("Scroll", "Application created.");
 
 		final Thread.UncaughtExceptionHandler androidHandler = Thread.getDefaultUncaughtExceptionHandler();
 
@@ -79,8 +79,8 @@ public class RedReader extends Application {
 
 				cm.pruneCache(); // Hope for the best :)
 
-				final RedditChangeDataManager cdm = RedditChangeDataManager.getInstance(RedReader.this);
-				cdm.prune(PrefsUtility.pref_cache_maxage(RedReader.this, PreferenceManager.getDefaultSharedPreferences(RedReader.this)));
+				final RedditChangeDataManager cdm = RedditChangeDataManager.getInstance(Scroll.this);
+				cdm.prune(PrefsUtility.pref_cache_maxage(Scroll.this, PreferenceManager.getDefaultSharedPreferences(Scroll.this)));
 
 			}
 		}.start();

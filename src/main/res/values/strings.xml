@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ This file is part of RedReader.
+  ~ This file is part of Scroll.
   ~
-  ~ RedReader is free software: you can redistribute it and/or modify
+  ~ Scroll is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
   ~ the Free Software Foundation, either version 3 of the License, or
   ~ (at your option) any later version.
   ~
-  ~ RedReader is distributed in the hope that it will be useful,
+  ~ Scroll is distributed in the hope that it will be useful,
   ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
   ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   ~ GNU General Public License for more details.
   ~
   ~ You should have received a copy of the GNU General Public License
-  ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+  ~ along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
 <resources>
 
-    <string name="app_name">RedReader Beta</string>
+    <string name="app_name">Scroll Beta</string>
 
     <!-- First Run Dialog -->
 
@@ -290,7 +290,7 @@
     <!-- Bug Reporting -->
 
     <string name="bug_title">An error has occurred.</string>
-    <string name="bug_message">RedReader has encountered an error.\n\nWould you like to send a bug report to the developer? If so, an email will be filled in for you with all the relevant information, and you can inspect the contents before sending.</string>
+    <string name="bug_message">Scroll has encountered an error.\n\nWould you like to send a bug report to the developer? If so, an email will be filled in for you with all the relevant information, and you can inspect the contents before sending.</string>
     <string name="bug_button_send">Send bug report by email</string>
     <string name="bug_button_ignore">Don\'t send bug report</string>
 
@@ -691,7 +691,7 @@
     <string name="album_already_first_image">Already at first image in album.</string>
     <string name="album_already_last_image">Already at last image in album.</string>
 
-    <string name="upgrade_v190_login_message">RedReader has upgraded, and now uses oAuth for reddit authentication. If you were signed in to an account before the upgrade, you are now logged out.</string>
+    <string name="upgrade_v190_login_message">Scroll has upgraded, and now uses oAuth for reddit authentication. If you were signed in to an account before the upgrade, you are now logged out.</string>
 
     <string name="pref_behaviour_videoview_mode_title">Video Viewer</string>
     <string name="pref_behaviour_videoview_mode_key">pref_behaviour_videoview_mode</string>

@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ This file is part of RedReader.
+  ~ This file is part of Scroll.
   ~
-  ~ RedReader is free software: you can redistribute it and/or modify
+  ~ Scroll is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
   ~ the Free Software Foundation, either version 3 of the License, or
   ~ (at your option) any later version.
   ~
-  ~ RedReader is distributed in the hope that it will be useful,
+  ~ Scroll is distributed in the hope that it will be useful,
   ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
   ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   ~ GNU General Public License for more details.
   ~
   ~ You should have received a copy of the GNU General Public License
-  ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+  ~ along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
 <resources>
 
-    <string name="app_name">RedReader Beta</string>
+    <string name="app_name">Scroll Beta</string>
 
     <!-- First Run Dialog -->
 
@@ -290,7 +290,7 @@
     <!-- Bug Reporting -->
 
     <string name="bug_title">Ha ocurrido un error.</string>
-    <string name="bug_message">RedReader ha encontrado un error.\n\n¿Te gustaría enviar un informe al desarrollador? Si es así, se generará un correo con toda la información relevante, y podrás revisarlo antes de enviarlo.</string>
+    <string name="bug_message">Scroll ha encontrado un error.\n\n¿Te gustaría enviar un informe al desarrollador? Si es así, se generará un correo con toda la información relevante, y podrás revisarlo antes de enviarlo.</string>
     <string name="bug_button_send">Enviar informe por email</string>
     <string name="bug_button_ignore">No enviar informe</string>
 
@@ -686,7 +686,7 @@
     <string name="album_already_first_image">Ya es la primera imagen del álbum.</string>
     <string name="album_already_last_image">Ya es la última imagen del álbum.</string>
 
-    <string name="upgrade_v190_login_message">RedReader se ha actualizado y ahora utiliza oAuth para la identificación en Reddit. Si no te habías identificado antes de actualizar, ahora estás desconectado.</string>
+    <string name="upgrade_v190_login_message">Scroll se ha actualizado y ahora utiliza oAuth para la identificación en Reddit. Si no te habías identificado antes de actualizar, ahora estás desconectado.</string>
 
     <string name="pref_behaviour_videoview_mode_title">Visor de vídeo</string>
     <string name="pref_behaviour_videoview_mode_key">pref_behaviour_videoview_mode</string>

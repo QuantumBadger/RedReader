@@ -1,25 +1,25 @@
 /*******************************************************************************
- * This file is part of RedReader.
+ * This file is part of Scroll.
  *
- * RedReader is free software: you can redistribute it and/or modify
+ * Scroll is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * RedReader is distributed in the hope that it will be useful,
+ * Scroll is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
 package org.quantumbadger.redreader.common;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
-import org.quantumbadger.redreader.RedReader;
+import org.quantumbadger.redreader.Scroll;
 
 import java.net.URI;
 
@@ -160,7 +160,7 @@ public final class Constants {
 	}
 
 	public static String ua(final Context context) {
-		final String canonicalName = RedReader.class.getCanonicalName();
+		final String canonicalName = Scroll.class.getCanonicalName();
 		return canonicalName.substring(0, canonicalName.lastIndexOf('.')) + "/" + version(context);
 	}
 

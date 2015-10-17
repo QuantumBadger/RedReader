@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">RedReader Beta</string>
+    <string name="app_name">Scroll Beta</string>
     <string name="accounts_active">Attivo</string>
     <string name="accounts_anon">Anonimo</string>
     <string name="accounts_delete">Elimina</string>
@@ -375,7 +375,7 @@
     <string name="error_unknown_api_message">Il server non ha accettato la richiesta per una ragione sconosciuta. Riprova.</string>
     <string name="error_404_message">I dati richiesti non sono stati trovati.</string>
     <string name="error_403_message">Reddit dice che l\'utente attuale non ha permessi sufficienti. Prova a disconnetterti e poi riconnetterti (eliminando l\'account dalla lista e poi aggiungendolo di nuovo).</string>
-    <string name="bug_message">RedReader ha riscontrato un errore.\n\nVuoi inviare una segnalazione di bug allo sviluppatore? In questo caso, un email verrà preparata con tutte le informazioni importanti e la potrai vedere prima che sia inviata.</string>
+    <string name="bug_message">Scroll ha riscontrato un errore.\n\nVuoi inviare una segnalazione di bug allo sviluppatore? In questo caso, un email verrà preparata con tutte le informazioni importanti e la potrai vedere prima che sia inviata.</string>
     <string name="sort_posts_relevance">Rilevanza</string>
     <string name="sort_posts_comments">Commenti</string>
     <string name="mark_all_as_read">Segna tutti come letti</string>

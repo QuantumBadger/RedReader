@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.activities;
+package com.konneh.scroll.activities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -29,15 +29,15 @@ import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.common.BetterSSB;
-import org.quantumbadger.redreader.common.PrefsUtility;
-import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
-import org.quantumbadger.redreader.fragments.AccountListDialog;
-import org.quantumbadger.redreader.listingcontrollers.PostListingController;
-import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
-import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
-import org.quantumbadger.redreader.settings.SettingsActivity;
+import com.konneh.scroll.R;
+import com.konneh.scroll.common.BetterSSB;
+import com.konneh.scroll.common.PrefsUtility;
+import com.konneh.scroll.common.UnexpectedInternalStateException;
+import com.konneh.scroll.fragments.AccountListDialog;
+import com.konneh.scroll.listingcontrollers.PostListingController;
+import com.konneh.scroll.reddit.api.RedditSubredditSubscriptionManager;
+import com.konneh.scroll.reddit.url.PostCommentListingURL;
+import com.konneh.scroll.settings.SettingsActivity;
 
 import java.util.EnumSet;
 

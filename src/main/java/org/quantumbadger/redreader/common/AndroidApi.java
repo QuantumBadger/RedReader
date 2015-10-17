@@ -1,4 +1,4 @@
-package org.quantumbadger.redreader.common;
+package com.konneh.scroll.common;
 
 import android.os.Build;
 import android.os.Handler;

@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.views.list;
+package com.konneh.scroll.views.list;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -25,7 +25,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import org.quantumbadger.redreader.R;
+import com.konneh.scroll.R;
 
 // TODO just make this a linear layout
 public class ListItemView extends FrameLayout {

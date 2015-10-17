@@ -1,7 +1,7 @@
-package org.quantumbadger.redreader.test.general;
+package com.konneh.scroll.test.general;
 
 import org.junit.Test;
-import org.quantumbadger.redreader.common.General;
+import com.konneh.scroll.common.General;
 
 import java.util.Locale;
 

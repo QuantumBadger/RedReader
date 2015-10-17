@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.activities;
+package com.konneh.scroll.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -28,19 +28,19 @@ import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.account.RedditAccountChangeListener;
-import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.common.LinkHandler;
-import org.quantumbadger.redreader.common.PrefsUtility;
-import org.quantumbadger.redreader.fragments.CommentListingFragment;
-import org.quantumbadger.redreader.fragments.SessionListDialog;
-import org.quantumbadger.redreader.listingcontrollers.CommentListingController;
-import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
-import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
-import org.quantumbadger.redreader.reddit.url.RedditURLParser;
-import org.quantumbadger.redreader.views.RedditPostView;
+import com.konneh.scroll.R;
+import com.konneh.scroll.account.RedditAccountChangeListener;
+import com.konneh.scroll.account.RedditAccountManager;
+import com.konneh.scroll.common.General;
+import com.konneh.scroll.common.LinkHandler;
+import com.konneh.scroll.common.PrefsUtility;
+import com.konneh.scroll.fragments.CommentListingFragment;
+import com.konneh.scroll.fragments.SessionListDialog;
+import com.konneh.scroll.listingcontrollers.CommentListingController;
+import com.konneh.scroll.reddit.prepared.RedditPreparedPost;
+import com.konneh.scroll.reddit.url.PostCommentListingURL;
+import com.konneh.scroll.reddit.url.RedditURLParser;
+import com.konneh.scroll.views.RedditPostView;
 
 import java.util.UUID;
 

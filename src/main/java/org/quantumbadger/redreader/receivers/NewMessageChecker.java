@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.receivers;
+package com.konneh.scroll.receivers;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -27,22 +27,22 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import org.apache.http.StatusLine;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.account.RedditAccount;
-import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.activities.BugReportActivity;
-import org.quantumbadger.redreader.activities.InboxListingActivity;
-import org.quantumbadger.redreader.cache.CacheManager;
-import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.cache.RequestFailureType;
-import org.quantumbadger.redreader.common.Constants;
-import org.quantumbadger.redreader.common.PrefsUtility;
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
-import org.quantumbadger.redreader.jsonwrap.JsonValue;
-import org.quantumbadger.redreader.reddit.things.RedditComment;
-import org.quantumbadger.redreader.reddit.things.RedditMessage;
-import org.quantumbadger.redreader.reddit.things.RedditThing;
+import com.konneh.scroll.R;
+import com.konneh.scroll.account.RedditAccount;
+import com.konneh.scroll.account.RedditAccountManager;
+import com.konneh.scroll.activities.BugReportActivity;
+import com.konneh.scroll.activities.InboxListingActivity;
+import com.konneh.scroll.cache.CacheManager;
+import com.konneh.scroll.cache.CacheRequest;
+import com.konneh.scroll.cache.RequestFailureType;
+import com.konneh.scroll.common.Constants;
+import com.konneh.scroll.common.PrefsUtility;
+import com.konneh.scroll.jsonwrap.JsonBufferedArray;
+import com.konneh.scroll.jsonwrap.JsonBufferedObject;
+import com.konneh.scroll.jsonwrap.JsonValue;
+import com.konneh.scroll.reddit.things.RedditComment;
+import com.konneh.scroll.reddit.things.RedditMessage;
+import com.konneh.scroll.reddit.things.RedditThing;
 
 import java.net.URI;
 import java.util.UUID;

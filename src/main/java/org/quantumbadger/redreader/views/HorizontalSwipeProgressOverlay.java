@@ -1,4 +1,4 @@
-package org.quantumbadger.redreader.views;
+package com.konneh.scroll.views;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -6,8 +6,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import com.github.lzyzsd.circleprogress.DonutProgress;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.common.General;
+import com.konneh.scroll.R;
+import com.konneh.scroll.common.General;
 
 public class HorizontalSwipeProgressOverlay extends RelativeLayout {
 

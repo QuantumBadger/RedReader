@@ -1,4 +1,4 @@
-package org.quantumbadger.redreader.views;
+package com.konneh.scroll.views;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -10,15 +10,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import org.apache.http.StatusLine;
-import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.cache.CacheManager;
-import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.cache.RequestFailureType;
-import org.quantumbadger.redreader.common.AndroidApi;
-import org.quantumbadger.redreader.common.Constants;
-import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.common.PrefsUtility;
-import org.quantumbadger.redreader.image.ImgurAPI;
+import com.konneh.scroll.account.RedditAccountManager;
+import com.konneh.scroll.cache.CacheManager;
+import com.konneh.scroll.cache.CacheRequest;
+import com.konneh.scroll.cache.RequestFailureType;
+import com.konneh.scroll.common.AndroidApi;
+import com.konneh.scroll.common.Constants;
+import com.konneh.scroll.common.General;
+import com.konneh.scroll.common.PrefsUtility;
+import com.konneh.scroll.image.ImgurAPI;
 
 import java.io.IOException;
 import java.util.UUID;

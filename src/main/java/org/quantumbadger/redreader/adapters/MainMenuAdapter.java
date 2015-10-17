@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.adapters;
+package com.konneh.scroll.adapters;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -25,17 +25,17 @@ import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.account.RedditAccount;
-import org.quantumbadger.redreader.common.AndroidApi;
-import org.quantumbadger.redreader.common.PrefsUtility;
-import org.quantumbadger.redreader.fragments.MainMenuFragment;
-import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
-import org.quantumbadger.redreader.reddit.url.PostListingURL;
-import org.quantumbadger.redreader.reddit.url.SubredditPostListURL;
-import org.quantumbadger.redreader.views.list.ListItemView;
-import org.quantumbadger.redreader.views.list.ListSectionHeader;
-import org.quantumbadger.redreader.views.list.MainMenuItem;
+import com.konneh.scroll.R;
+import com.konneh.scroll.account.RedditAccount;
+import com.konneh.scroll.common.AndroidApi;
+import com.konneh.scroll.common.PrefsUtility;
+import com.konneh.scroll.fragments.MainMenuFragment;
+import com.konneh.scroll.reddit.things.RedditSubreddit;
+import com.konneh.scroll.reddit.url.PostListingURL;
+import com.konneh.scroll.reddit.url.SubredditPostListURL;
+import com.konneh.scroll.views.list.ListItemView;
+import com.konneh.scroll.views.list.ListSectionHeader;
+import com.konneh.scroll.views.list.MainMenuItem;
 
 import java.util.ArrayList;
 import java.util.Collection;

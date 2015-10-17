@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.settings;
+package com.konneh.scroll.settings;
 
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -23,8 +23,8 @@ import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.common.PrefsUtility;
+import com.konneh.scroll.R;
+import com.konneh.scroll.common.PrefsUtility;
 
 import java.util.List;
 

@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.views;
+package com.konneh.scroll.views;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -23,8 +23,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.preference.PreferenceManager;
 import android.view.View;
-import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.common.PrefsUtility;
+import com.konneh.scroll.common.General;
+import com.konneh.scroll.common.PrefsUtility;
 
 /**
  * Draws the left margin for comments based on the

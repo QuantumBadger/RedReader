@@ -39,10 +39,10 @@ import android.view.View;
 import android.view.ViewParent;
 import android.widget.Button;
 import android.widget.TextView;
-import org.quantumbadger.redreader.common.AndroidApi;
-import org.quantumbadger.redreader.common.LinkHandler;
-import org.quantumbadger.redreader.views.RedditCommentView;
-import org.quantumbadger.redreader.views.RedditInboxItemView;
+import com.konneh.scroll.common.AndroidApi;
+import com.konneh.scroll.common.LinkHandler;
+import com.konneh.scroll.views.RedditCommentView;
+import com.konneh.scroll.views.RedditInboxItemView;
 
 public class ActiveTextView extends TextView {
 

@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.views;
+package com.konneh.scroll.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -23,10 +23,10 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.common.BetterSSB;
-import org.quantumbadger.redreader.common.RRTime;
-import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
+import com.konneh.scroll.R;
+import com.konneh.scroll.common.BetterSSB;
+import com.konneh.scroll.common.RRTime;
+import com.konneh.scroll.reddit.prepared.RedditPreparedPost;
 
 public class RedditPostHeaderView extends LinearLayout {
 

@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.views.bezelmenu;
+package com.konneh.scroll.views.bezelmenu;
 
 import android.content.Context;
 import android.view.Gravity;

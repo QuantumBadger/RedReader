@@ -15,9 +15,9 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.views.imageview;
+package com.konneh.scroll.views.imageview;
 
-import org.quantumbadger.redreader.common.MutableFloatPoint2D;
+import com.konneh.scroll.common.MutableFloatPoint2D;
 
 public class BoundsHelper {
 

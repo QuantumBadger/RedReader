@@ -15,16 +15,16 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.fragments;
+package com.konneh.scroll.fragments;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.common.RRTime;
-import org.quantumbadger.redreader.reddit.things.RedditPost;
+import com.konneh.scroll.R;
+import com.konneh.scroll.common.RRTime;
+import com.konneh.scroll.reddit.things.RedditPost;
 
 public final class PostPropertiesDialog extends PropertiesDialog {
 

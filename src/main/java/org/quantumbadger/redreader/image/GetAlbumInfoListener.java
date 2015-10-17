@@ -1,7 +1,7 @@
-package org.quantumbadger.redreader.image;
+package com.konneh.scroll.image;
 
 import org.apache.http.StatusLine;
-import org.quantumbadger.redreader.cache.RequestFailureType;
+import com.konneh.scroll.cache.RequestFailureType;
 
 public interface GetAlbumInfoListener {
 

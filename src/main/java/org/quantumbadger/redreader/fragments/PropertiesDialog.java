@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.fragments;
+package com.konneh.scroll.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -28,8 +28,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.common.General;
+import com.konneh.scroll.R;
+import com.konneh.scroll.common.General;
 
 public abstract class PropertiesDialog extends DialogFragment {
 

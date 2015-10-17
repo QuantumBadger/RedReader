@@ -15,10 +15,10 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.io;
+package com.konneh.scroll.io;
 
-import org.quantumbadger.redreader.common.TimestampBound;
-import org.quantumbadger.redreader.common.collections.WeakReferenceListManager;
+import com.konneh.scroll.common.TimestampBound;
+import com.konneh.scroll.common.collections.WeakReferenceListManager;
 
 import java.util.Collection;
 import java.util.HashMap;

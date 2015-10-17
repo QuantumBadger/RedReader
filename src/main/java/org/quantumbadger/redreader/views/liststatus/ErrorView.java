@@ -15,15 +15,15 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.views.liststatus;
+package com.konneh.scroll.views.liststatus;
 
 import android.app.Activity;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import org.quantumbadger.redreader.common.RRError;
-import org.quantumbadger.redreader.fragments.ErrorPropertiesDialog;
+import com.konneh.scroll.common.RRError;
+import com.konneh.scroll.fragments.ErrorPropertiesDialog;
 
 public final class ErrorView extends StatusListItemView {
 

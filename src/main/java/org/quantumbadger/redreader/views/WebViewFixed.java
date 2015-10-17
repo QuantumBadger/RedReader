@@ -1,4 +1,4 @@
-package org.quantumbadger.redreader.views;
+package com.konneh.scroll.views;
 
 import android.content.Context;
 import android.util.AttributeSet;

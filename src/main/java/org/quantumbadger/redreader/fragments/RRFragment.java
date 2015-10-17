@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.fragments;
+package com.konneh.scroll.fragments;
 
 import android.app.Activity;
 import android.content.Context;

@@ -15,16 +15,16 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.reddit.prepared;
+package com.konneh.scroll.reddit.prepared;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import org.quantumbadger.redreader.account.RedditAccount;
-import org.quantumbadger.redreader.common.Constants;
-import org.quantumbadger.redreader.common.RRTime;
+import com.konneh.scroll.account.RedditAccount;
+import com.konneh.scroll.common.Constants;
+import com.konneh.scroll.common.RRTime;
 
 import java.util.HashMap;
 import java.util.HashSet;

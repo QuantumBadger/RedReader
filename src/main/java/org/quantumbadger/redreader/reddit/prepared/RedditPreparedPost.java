@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.reddit.prepared;
+package com.konneh.scroll.reddit.prepared;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -36,30 +36,30 @@ import android.view.View;
 import android.widget.Toast;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.http.StatusLine;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.account.RedditAccount;
-import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.activities.*;
-import org.quantumbadger.redreader.cache.CacheManager;
-import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.cache.RequestFailureType;
-import org.quantumbadger.redreader.common.*;
-import org.quantumbadger.redreader.fragments.PostPropertiesDialog;
-import org.quantumbadger.redreader.image.GetImageInfoListener;
-import org.quantumbadger.redreader.image.ImgurAPI;
-import org.quantumbadger.redreader.image.ThumbnailScaler;
-import org.quantumbadger.redreader.reddit.APIResponseHandler;
-import org.quantumbadger.redreader.reddit.RedditAPI;
-import org.quantumbadger.redreader.reddit.prepared.markdown.MarkdownParagraphGroup;
-import org.quantumbadger.redreader.reddit.prepared.markdown.MarkdownParser;
-import org.quantumbadger.redreader.reddit.things.RedditPost;
-import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
-import org.quantumbadger.redreader.reddit.url.SubredditPostListURL;
-import org.quantumbadger.redreader.reddit.url.UserProfileURL;
-import org.quantumbadger.redreader.views.FlatImageButton;
-import org.quantumbadger.redreader.views.RedditPostView;
-import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
-import org.quantumbadger.redreader.views.bezelmenu.VerticalToolbar;
+import com.konneh.scroll.R;
+import com.konneh.scroll.account.RedditAccount;
+import com.konneh.scroll.account.RedditAccountManager;
+import com.konneh.scroll.activities.*;
+import com.konneh.scroll.cache.CacheManager;
+import com.konneh.scroll.cache.CacheRequest;
+import com.konneh.scroll.cache.RequestFailureType;
+import com.konneh.scroll.common.*;
+import com.konneh.scroll.fragments.PostPropertiesDialog;
+import com.konneh.scroll.image.GetImageInfoListener;
+import com.konneh.scroll.image.ImgurAPI;
+import com.konneh.scroll.image.ThumbnailScaler;
+import com.konneh.scroll.reddit.APIResponseHandler;
+import com.konneh.scroll.reddit.RedditAPI;
+import com.konneh.scroll.reddit.prepared.markdown.MarkdownParagraphGroup;
+import com.konneh.scroll.reddit.prepared.markdown.MarkdownParser;
+import com.konneh.scroll.reddit.things.RedditPost;
+import com.konneh.scroll.reddit.things.RedditSubreddit;
+import com.konneh.scroll.reddit.url.SubredditPostListURL;
+import com.konneh.scroll.reddit.url.UserProfileURL;
+import com.konneh.scroll.views.FlatImageButton;
+import com.konneh.scroll.views.RedditPostView;
+import com.konneh.scroll.views.bezelmenu.SideToolbarOverlay;
+import com.konneh.scroll.views.bezelmenu.VerticalToolbar;
 
 import java.io.File;
 import java.io.IOException;

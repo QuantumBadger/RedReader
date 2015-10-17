@@ -1,4 +1,4 @@
-package org.quantumbadger.redreader.adapters;
+package com.konneh.scroll.adapters;
 
 import android.app.Activity;
 import android.os.Handler;
@@ -8,10 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
-import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.fragments.PostListingFragment;
-import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
-import org.quantumbadger.redreader.views.RedditPostView;
+import com.konneh.scroll.common.General;
+import com.konneh.scroll.fragments.PostListingFragment;
+import com.konneh.scroll.reddit.prepared.RedditPreparedPost;
+import com.konneh.scroll.views.RedditPostView;
 
 import java.util.ArrayList;
 import java.util.HashSet;

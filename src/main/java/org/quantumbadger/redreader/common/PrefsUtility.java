@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.common;
+package com.konneh.scroll.common;
 
 import android.app.Activity;
 import android.content.Context;
@@ -23,11 +23,11 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.activities.OptionsMenuUtility;
-import org.quantumbadger.redreader.fragments.MainMenuFragment;
-import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
-import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
+import com.konneh.scroll.R;
+import com.konneh.scroll.activities.OptionsMenuUtility;
+import com.konneh.scroll.fragments.MainMenuFragment;
+import com.konneh.scroll.reddit.prepared.RedditPreparedPost;
+import com.konneh.scroll.reddit.url.PostCommentListingURL;
 
 import java.util.*;
 

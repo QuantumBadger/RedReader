@@ -15,17 +15,17 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader;
+package com.konneh.scroll;
 
 import android.app.Application;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import org.quantumbadger.redreader.cache.CacheManager;
-import org.quantumbadger.redreader.common.Alarms;
-import org.quantumbadger.redreader.common.PrefsUtility;
-import org.quantumbadger.redreader.receivers.NewMessageChecker;
-import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
+import com.konneh.scroll.cache.CacheManager;
+import com.konneh.scroll.common.Alarms;
+import com.konneh.scroll.common.PrefsUtility;
+import com.konneh.scroll.receivers.NewMessageChecker;
+import com.konneh.scroll.reddit.prepared.RedditChangeDataManager;
 
 import java.io.File;
 import java.io.FileOutputStream;

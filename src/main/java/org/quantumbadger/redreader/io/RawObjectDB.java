@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.io;
+package com.konneh.scroll.io;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -23,7 +23,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
+import com.konneh.scroll.common.UnexpectedInternalStateException;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;

@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.common;
+package com.konneh.scroll.common;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -24,12 +24,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import org.quantumbadger.redreader.activities.*;
-import org.quantumbadger.redreader.fragments.UserProfileDialog;
-import org.quantumbadger.redreader.image.GetImageInfoListener;
-import org.quantumbadger.redreader.image.ImgurAPI;
-import org.quantumbadger.redreader.reddit.things.RedditPost;
-import org.quantumbadger.redreader.reddit.url.RedditURLParser;
+import com.konneh.scroll.activities.*;
+import com.konneh.scroll.fragments.UserProfileDialog;
+import com.konneh.scroll.image.GetImageInfoListener;
+import com.konneh.scroll.image.ImgurAPI;
+import com.konneh.scroll.reddit.things.RedditPost;
+import com.konneh.scroll.reddit.url.RedditURLParser;
 
 import java.util.LinkedHashSet;
 import java.util.regex.Matcher;

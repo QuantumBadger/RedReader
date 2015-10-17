@@ -15,9 +15,9 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.reddit.url;
+package com.konneh.scroll.reddit.url;
 
-import org.quantumbadger.redreader.listingcontrollers.PostListingController;
+import com.konneh.scroll.listingcontrollers.PostListingController;
 
 public abstract class PostListingURL extends RedditURLParser.RedditURL {
 

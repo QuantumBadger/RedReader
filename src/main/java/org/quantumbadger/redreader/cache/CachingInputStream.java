@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.cache;
+package com.konneh.scroll.cache;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.activities;
+package com.konneh.scroll.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -31,13 +31,13 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import org.apache.http.StatusLine;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.adapters.AlbumAdapter;
-import org.quantumbadger.redreader.cache.RequestFailureType;
-import org.quantumbadger.redreader.common.*;
-import org.quantumbadger.redreader.image.GetAlbumInfoListener;
-import org.quantumbadger.redreader.image.GetImageInfoListener;
-import org.quantumbadger.redreader.image.ImgurAPI;
+import com.konneh.scroll.R;
+import com.konneh.scroll.adapters.AlbumAdapter;
+import com.konneh.scroll.cache.RequestFailureType;
+import com.konneh.scroll.common.*;
+import com.konneh.scroll.image.GetAlbumInfoListener;
+import com.konneh.scroll.image.GetImageInfoListener;
+import com.konneh.scroll.image.ImgurAPI;
 
 import java.util.regex.Matcher;
 

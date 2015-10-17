@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.common;
+package com.konneh.scroll.common;
 
 import android.content.Context;
 import android.text.format.DateFormat;
@@ -24,7 +24,7 @@ import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.quantumbadger.redreader.R;
+import com.konneh.scroll.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;

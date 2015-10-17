@@ -15,20 +15,20 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.views.imageview;
+package com.konneh.scroll.views.imageview;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
-import org.quantumbadger.redreader.common.MutableFloatPoint2D;
-import org.quantumbadger.redreader.common.UIThreadRepeatingTimer;
-import org.quantumbadger.redreader.common.collections.Stack;
-import org.quantumbadger.redreader.views.glview.Refreshable;
-import org.quantumbadger.redreader.views.glview.displaylist.*;
-import org.quantumbadger.redreader.views.glview.program.RRGLContext;
-import org.quantumbadger.redreader.views.glview.program.RRGLTexture;
+import com.konneh.scroll.common.MutableFloatPoint2D;
+import com.konneh.scroll.common.UIThreadRepeatingTimer;
+import com.konneh.scroll.common.collections.Stack;
+import com.konneh.scroll.views.glview.Refreshable;
+import com.konneh.scroll.views.glview.displaylist.*;
+import com.konneh.scroll.views.glview.program.RRGLContext;
+import com.konneh.scroll.views.glview.program.RRGLTexture;
 
 import java.util.Arrays;
 

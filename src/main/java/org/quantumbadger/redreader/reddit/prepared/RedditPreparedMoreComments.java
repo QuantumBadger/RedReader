@@ -15,11 +15,11 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.reddit.prepared;
+package com.konneh.scroll.reddit.prepared;
 
-import org.quantumbadger.redreader.jsonwrap.JsonValue;
-import org.quantumbadger.redreader.reddit.things.RedditMoreComments;
-import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
+import com.konneh.scroll.jsonwrap.JsonValue;
+import com.konneh.scroll.reddit.things.RedditMoreComments;
+import com.konneh.scroll.reddit.url.PostCommentListingURL;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.fragments;
+package com.konneh.scroll.fragments;
 
 import android.app.*;
 import android.content.Context;
@@ -27,16 +27,16 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.account.RedditAccount;
-import org.quantumbadger.redreader.account.RedditAccountChangeListener;
-import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.activities.OAuthLoginActivity;
-import org.quantumbadger.redreader.adapters.AccountListAdapter;
-import org.quantumbadger.redreader.common.AndroidApi;
-import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.common.RRError;
-import org.quantumbadger.redreader.reddit.api.RedditOAuth;
+import com.konneh.scroll.R;
+import com.konneh.scroll.account.RedditAccount;
+import com.konneh.scroll.account.RedditAccountChangeListener;
+import com.konneh.scroll.account.RedditAccountManager;
+import com.konneh.scroll.activities.OAuthLoginActivity;
+import com.konneh.scroll.adapters.AccountListAdapter;
+import com.konneh.scroll.common.AndroidApi;
+import com.konneh.scroll.common.General;
+import com.konneh.scroll.common.RRError;
+import com.konneh.scroll.reddit.api.RedditOAuth;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 

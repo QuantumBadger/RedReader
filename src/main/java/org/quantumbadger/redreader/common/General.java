@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.common;
+package com.konneh.scroll.common;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -32,11 +32,11 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.widget.Toast;
 import org.apache.http.StatusLine;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.activities.BugReportActivity;
-import org.quantumbadger.redreader.cache.RequestFailureType;
-import org.quantumbadger.redreader.fragments.ErrorPropertiesDialog;
-import org.quantumbadger.redreader.reddit.APIResponseHandler;
+import com.konneh.scroll.R;
+import com.konneh.scroll.activities.BugReportActivity;
+import com.konneh.scroll.cache.RequestFailureType;
+import com.konneh.scroll.fragments.ErrorPropertiesDialog;
+import com.konneh.scroll.reddit.APIResponseHandler;
 
 import java.io.*;
 import java.net.URI;

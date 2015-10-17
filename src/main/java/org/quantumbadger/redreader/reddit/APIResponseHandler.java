@@ -15,15 +15,15 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.reddit;
+package com.konneh.scroll.reddit;
 
 import android.app.Activity;
 import org.apache.http.StatusLine;
-import org.quantumbadger.redreader.activities.BugReportActivity;
-import org.quantumbadger.redreader.cache.RequestFailureType;
-import org.quantumbadger.redreader.common.RRError;
-import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
-import org.quantumbadger.redreader.reddit.things.RedditUser;
+import com.konneh.scroll.activities.BugReportActivity;
+import com.konneh.scroll.cache.RequestFailureType;
+import com.konneh.scroll.common.RRError;
+import com.konneh.scroll.reddit.things.RedditSubreddit;
+import com.konneh.scroll.reddit.things.RedditUser;
 
 import java.util.List;
 

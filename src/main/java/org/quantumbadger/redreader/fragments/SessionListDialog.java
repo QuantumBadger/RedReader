@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.fragments;
+package com.konneh.scroll.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -27,14 +27,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.account.RedditAccountChangeListener;
-import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.activities.SessionChangeListener;
-import org.quantumbadger.redreader.adapters.SessionListAdapter;
-import org.quantumbadger.redreader.cache.CacheEntry;
-import org.quantumbadger.redreader.common.AndroidApi;
-import org.quantumbadger.redreader.common.General;
+import com.konneh.scroll.R;
+import com.konneh.scroll.account.RedditAccountChangeListener;
+import com.konneh.scroll.account.RedditAccountManager;
+import com.konneh.scroll.activities.SessionChangeListener;
+import com.konneh.scroll.adapters.SessionListAdapter;
+import com.konneh.scroll.cache.CacheEntry;
+import com.konneh.scroll.common.AndroidApi;
+import com.konneh.scroll.common.General;
 
 import java.net.URI;
 import java.util.UUID;

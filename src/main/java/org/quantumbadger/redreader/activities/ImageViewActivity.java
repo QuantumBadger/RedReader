@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.activities;
+package com.konneh.scroll.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -35,30 +35,30 @@ import android.view.ViewGroup;
 import android.widget.*;
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import org.apache.http.StatusLine;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.cache.CacheManager;
-import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.cache.RequestFailureType;
-import org.quantumbadger.redreader.common.*;
-import org.quantumbadger.redreader.image.GetAlbumInfoListener;
-import org.quantumbadger.redreader.image.GetImageInfoListener;
-import org.quantumbadger.redreader.image.GifDecoderThread;
-import org.quantumbadger.redreader.image.ImgurAPI;
-import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
-import org.quantumbadger.redreader.reddit.things.RedditPost;
-import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
-import org.quantumbadger.redreader.views.GIFView;
-import org.quantumbadger.redreader.views.HorizontalSwipeProgressOverlay;
-import org.quantumbadger.redreader.views.RedditPostView;
-import org.quantumbadger.redreader.views.bezelmenu.BezelSwipeOverlay;
-import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
-import org.quantumbadger.redreader.views.glview.RRGLSurfaceView;
-import org.quantumbadger.redreader.views.imageview.BasicGestureHandler;
-import org.quantumbadger.redreader.views.imageview.ImageTileSource;
-import org.quantumbadger.redreader.views.imageview.ImageTileSourceWholeBitmap;
-import org.quantumbadger.redreader.views.imageview.ImageViewDisplayListManager;
-import org.quantumbadger.redreader.views.liststatus.ErrorView;
+import com.konneh.scroll.R;
+import com.konneh.scroll.account.RedditAccountManager;
+import com.konneh.scroll.cache.CacheManager;
+import com.konneh.scroll.cache.CacheRequest;
+import com.konneh.scroll.cache.RequestFailureType;
+import com.konneh.scroll.common.*;
+import com.konneh.scroll.image.GetAlbumInfoListener;
+import com.konneh.scroll.image.GetImageInfoListener;
+import com.konneh.scroll.image.GifDecoderThread;
+import com.konneh.scroll.image.ImgurAPI;
+import com.konneh.scroll.reddit.prepared.RedditPreparedPost;
+import com.konneh.scroll.reddit.things.RedditPost;
+import com.konneh.scroll.reddit.url.PostCommentListingURL;
+import com.konneh.scroll.views.GIFView;
+import com.konneh.scroll.views.HorizontalSwipeProgressOverlay;
+import com.konneh.scroll.views.RedditPostView;
+import com.konneh.scroll.views.bezelmenu.BezelSwipeOverlay;
+import com.konneh.scroll.views.bezelmenu.SideToolbarOverlay;
+import com.konneh.scroll.views.glview.RRGLSurfaceView;
+import com.konneh.scroll.views.imageview.BasicGestureHandler;
+import com.konneh.scroll.views.imageview.ImageTileSource;
+import com.konneh.scroll.views.imageview.ImageTileSourceWholeBitmap;
+import com.konneh.scroll.views.imageview.ImageViewDisplayListManager;
+import com.konneh.scroll.views.liststatus.ErrorView;
 
 import java.io.DataInputStream;
 import java.io.IOException;

@@ -15,12 +15,12 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.receivers;
+package com.konneh.scroll.receivers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import org.quantumbadger.redreader.common.Alarms;
+import com.konneh.scroll.common.Alarms;
 
 public class BootReceiver extends BroadcastReceiver {
 

@@ -1,12 +1,12 @@
-package org.quantumbadger.redreader.views.bezelmenu;
+package com.konneh.scroll.views.bezelmenu;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.view.MotionEvent;
 import android.view.View;
-import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.common.PrefsUtility;
+import com.konneh.scroll.common.General;
+import com.konneh.scroll.common.PrefsUtility;
 
 public class BezelSwipeOverlay extends View {
 

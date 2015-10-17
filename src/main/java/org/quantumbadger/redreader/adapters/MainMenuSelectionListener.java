@@ -15,10 +15,10 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.adapters;
+package com.konneh.scroll.adapters;
 
-import org.quantumbadger.redreader.fragments.MainMenuFragment;
-import org.quantumbadger.redreader.reddit.url.PostListingURL;
+import com.konneh.scroll.fragments.MainMenuFragment;
+import com.konneh.scroll.reddit.url.PostListingURL;
 
 public interface MainMenuSelectionListener {
 

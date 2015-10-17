@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.fragments;
+package com.konneh.scroll.fragments;
 
 import android.app.Activity;
 import android.content.Context;
@@ -24,21 +24,21 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.account.RedditAccount;
-import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.adapters.MainMenuAdapter;
-import org.quantumbadger.redreader.adapters.MainMenuSelectionListener;
-import org.quantumbadger.redreader.common.AndroidApi;
-import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.common.RRError;
-import org.quantumbadger.redreader.common.TimestampBound;
-import org.quantumbadger.redreader.io.RequestResponseHandler;
-import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
-import org.quantumbadger.redreader.reddit.api.SubredditRequestFailure;
-import org.quantumbadger.redreader.reddit.url.PostListingURL;
-import org.quantumbadger.redreader.views.liststatus.ErrorView;
-import org.quantumbadger.redreader.views.liststatus.LoadingView;
+import com.konneh.scroll.R;
+import com.konneh.scroll.account.RedditAccount;
+import com.konneh.scroll.account.RedditAccountManager;
+import com.konneh.scroll.adapters.MainMenuAdapter;
+import com.konneh.scroll.adapters.MainMenuSelectionListener;
+import com.konneh.scroll.common.AndroidApi;
+import com.konneh.scroll.common.General;
+import com.konneh.scroll.common.RRError;
+import com.konneh.scroll.common.TimestampBound;
+import com.konneh.scroll.io.RequestResponseHandler;
+import com.konneh.scroll.reddit.api.RedditSubredditSubscriptionManager;
+import com.konneh.scroll.reddit.api.SubredditRequestFailure;
+import com.konneh.scroll.reddit.url.PostListingURL;
+import com.konneh.scroll.views.liststatus.ErrorView;
+import com.konneh.scroll.views.liststatus.LoadingView;
 
 import java.util.Collection;
 import java.util.HashSet;

@@ -15,14 +15,14 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.common;
+package com.konneh.scroll.common;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import org.quantumbadger.redreader.receivers.NewMessageChecker;
-import org.quantumbadger.redreader.receivers.RegularCachePruner;
+import com.konneh.scroll.receivers.NewMessageChecker;
+import com.konneh.scroll.receivers.RegularCachePruner;
 
 import java.util.HashMap;
 import java.util.Map;

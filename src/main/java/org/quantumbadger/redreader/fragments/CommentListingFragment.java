@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.fragments;
+package com.konneh.scroll.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -33,31 +33,31 @@ import android.view.*;
 import android.widget.*;
 import com.laurencedawson.activetextview.ActiveTextView;
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.account.RedditAccount;
-import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.activities.BugReportActivity;
-import org.quantumbadger.redreader.activities.CommentEditActivity;
-import org.quantumbadger.redreader.activities.CommentReplyActivity;
-import org.quantumbadger.redreader.activities.MoreCommentsListingActivity;
-import org.quantumbadger.redreader.adapters.CommentListingAdapter;
-import org.quantumbadger.redreader.adapters.HeaderAdapter;
-import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.common.*;
-import org.quantumbadger.redreader.reddit.CommentListingRequest;
-import org.quantumbadger.redreader.reddit.RedditAPI;
-import org.quantumbadger.redreader.reddit.RedditCommentListItem;
-import org.quantumbadger.redreader.reddit.prepared.RedditPreparedComment;
-import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
-import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
-import org.quantumbadger.redreader.reddit.url.RedditURLParser;
-import org.quantumbadger.redreader.reddit.url.UserProfileURL;
-import org.quantumbadger.redreader.views.*;
-import org.quantumbadger.redreader.views.bezelmenu.BezelSwipeOverlay;
-import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
-import org.quantumbadger.redreader.views.liststatus.ErrorView;
-import org.quantumbadger.redreader.views.liststatus.LoadingView;
-import org.quantumbadger.redreader.views.liststatus.SpecificCommentThreadView;
+import com.konneh.scroll.R;
+import com.konneh.scroll.account.RedditAccount;
+import com.konneh.scroll.account.RedditAccountManager;
+import com.konneh.scroll.activities.BugReportActivity;
+import com.konneh.scroll.activities.CommentEditActivity;
+import com.konneh.scroll.activities.CommentReplyActivity;
+import com.konneh.scroll.activities.MoreCommentsListingActivity;
+import com.konneh.scroll.adapters.CommentListingAdapter;
+import com.konneh.scroll.adapters.HeaderAdapter;
+import com.konneh.scroll.cache.CacheRequest;
+import com.konneh.scroll.common.*;
+import com.konneh.scroll.reddit.CommentListingRequest;
+import com.konneh.scroll.reddit.RedditAPI;
+import com.konneh.scroll.reddit.RedditCommentListItem;
+import com.konneh.scroll.reddit.prepared.RedditPreparedComment;
+import com.konneh.scroll.reddit.prepared.RedditPreparedPost;
+import com.konneh.scroll.reddit.url.PostCommentListingURL;
+import com.konneh.scroll.reddit.url.RedditURLParser;
+import com.konneh.scroll.reddit.url.UserProfileURL;
+import com.konneh.scroll.views.*;
+import com.konneh.scroll.views.bezelmenu.BezelSwipeOverlay;
+import com.konneh.scroll.views.bezelmenu.SideToolbarOverlay;
+import com.konneh.scroll.views.liststatus.ErrorView;
+import com.konneh.scroll.views.liststatus.LoadingView;
+import com.konneh.scroll.views.liststatus.SpecificCommentThreadView;
 
 import java.util.*;
 

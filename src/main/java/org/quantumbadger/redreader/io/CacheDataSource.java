@@ -1,6 +1,6 @@
-package org.quantumbadger.redreader.io;
+package com.konneh.scroll.io;
 
-import org.quantumbadger.redreader.common.TimestampBound;
+import com.konneh.scroll.common.TimestampBound;
 
 import java.util.Collection;
 import java.util.HashMap;

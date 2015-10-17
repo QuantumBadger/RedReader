@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.reddit.things;
+package com.konneh.scroll.reddit.things;
 
 import android.os.Parcel;
 import android.os.Parcelable;

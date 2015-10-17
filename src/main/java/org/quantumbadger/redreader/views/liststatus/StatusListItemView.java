@@ -15,12 +15,12 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.views.liststatus;
+package com.konneh.scroll.views.liststatus;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.FrameLayout;
-import org.quantumbadger.redreader.views.list.RRTouchable;
+import com.konneh.scroll.views.list.RRTouchable;
 
 public class StatusListItemView extends FrameLayout implements RRTouchable {
 

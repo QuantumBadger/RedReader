@@ -15,25 +15,25 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.reddit;
+package com.konneh.scroll.reddit;
 
 import android.content.Context;
 import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
 import org.apache.http.message.BasicNameValuePair;
-import org.quantumbadger.redreader.account.RedditAccount;
-import org.quantumbadger.redreader.activities.BugReportActivity;
-import org.quantumbadger.redreader.cache.CacheManager;
-import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.cache.RequestFailureType;
-import org.quantumbadger.redreader.common.Constants;
-import org.quantumbadger.redreader.common.TimestampBound;
-import org.quantumbadger.redreader.io.RequestResponseHandler;
-import org.quantumbadger.redreader.jsonwrap.JsonValue;
-import org.quantumbadger.redreader.reddit.api.SubredditRequestFailure;
-import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
-import org.quantumbadger.redreader.reddit.things.RedditThing;
-import org.quantumbadger.redreader.reddit.things.RedditUser;
+import com.konneh.scroll.account.RedditAccount;
+import com.konneh.scroll.activities.BugReportActivity;
+import com.konneh.scroll.cache.CacheManager;
+import com.konneh.scroll.cache.CacheRequest;
+import com.konneh.scroll.cache.RequestFailureType;
+import com.konneh.scroll.common.Constants;
+import com.konneh.scroll.common.TimestampBound;
+import com.konneh.scroll.io.RequestResponseHandler;
+import com.konneh.scroll.jsonwrap.JsonValue;
+import com.konneh.scroll.reddit.api.SubredditRequestFailure;
+import com.konneh.scroll.reddit.things.RedditSubreddit;
+import com.konneh.scroll.reddit.things.RedditThing;
+import com.konneh.scroll.reddit.things.RedditUser;
 
 import java.net.URI;
 import java.util.LinkedList;

@@ -1,10 +1,10 @@
-package org.quantumbadger.redreader.adapters;
+package com.konneh.scroll.adapters;
 
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import org.quantumbadger.redreader.image.ImgurAPI;
-import org.quantumbadger.redreader.views.ImgurAlbumListEntryView;
+import com.konneh.scroll.image.ImgurAPI;
+import com.konneh.scroll.views.ImgurAlbumListEntryView;
 
 public class AlbumAdapter extends BaseAdapter {
 

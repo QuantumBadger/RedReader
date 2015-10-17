@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.views.glview;
+package com.konneh.scroll.views.glview;
 
 public interface Refreshable {
 	public void refresh();

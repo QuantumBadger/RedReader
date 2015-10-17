@@ -15,30 +15,30 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.reddit.api;
+package com.konneh.scroll.reddit.api;
 
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 import org.apache.http.StatusLine;
-import org.quantumbadger.redreader.account.RedditAccount;
-import org.quantumbadger.redreader.cache.CacheManager;
-import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.cache.RequestFailureType;
-import org.quantumbadger.redreader.common.Constants;
-import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.common.TimestampBound;
-import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
-import org.quantumbadger.redreader.io.CacheDataSource;
-import org.quantumbadger.redreader.io.RequestResponseHandler;
-import org.quantumbadger.redreader.io.WritableHashSet;
-import org.quantumbadger.redreader.jsonwrap.JsonBuffered;
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
-import org.quantumbadger.redreader.jsonwrap.JsonValue;
-import org.quantumbadger.redreader.reddit.RedditSubredditManager;
-import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
-import org.quantumbadger.redreader.reddit.things.RedditThing;
+import com.konneh.scroll.account.RedditAccount;
+import com.konneh.scroll.cache.CacheManager;
+import com.konneh.scroll.cache.CacheRequest;
+import com.konneh.scroll.cache.RequestFailureType;
+import com.konneh.scroll.common.Constants;
+import com.konneh.scroll.common.General;
+import com.konneh.scroll.common.TimestampBound;
+import com.konneh.scroll.common.UnexpectedInternalStateException;
+import com.konneh.scroll.io.CacheDataSource;
+import com.konneh.scroll.io.RequestResponseHandler;
+import com.konneh.scroll.io.WritableHashSet;
+import com.konneh.scroll.jsonwrap.JsonBuffered;
+import com.konneh.scroll.jsonwrap.JsonBufferedArray;
+import com.konneh.scroll.jsonwrap.JsonBufferedObject;
+import com.konneh.scroll.jsonwrap.JsonValue;
+import com.konneh.scroll.reddit.RedditSubredditManager;
+import com.konneh.scroll.reddit.things.RedditSubreddit;
+import com.konneh.scroll.reddit.things.RedditThing;
 
 import java.net.URI;
 import java.util.*;

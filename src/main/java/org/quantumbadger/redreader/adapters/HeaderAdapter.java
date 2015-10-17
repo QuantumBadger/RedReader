@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.adapters;
+package com.konneh.scroll.adapters;
 
 import android.database.DataSetObserver;
 import android.view.View;

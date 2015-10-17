@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.activities;
+package com.konneh.scroll.activities;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -24,15 +24,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.common.LinkHandler;
-import org.quantumbadger.redreader.common.PrefsUtility;
-import org.quantumbadger.redreader.fragments.WebViewFragment;
-import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
-import org.quantumbadger.redreader.reddit.things.RedditPost;
-import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
-import org.quantumbadger.redreader.views.RedditPostView;
+import com.konneh.scroll.R;
+import com.konneh.scroll.common.General;
+import com.konneh.scroll.common.LinkHandler;
+import com.konneh.scroll.common.PrefsUtility;
+import com.konneh.scroll.fragments.WebViewFragment;
+import com.konneh.scroll.reddit.prepared.RedditPreparedPost;
+import com.konneh.scroll.reddit.things.RedditPost;
+import com.konneh.scroll.reddit.url.PostCommentListingURL;
+import com.konneh.scroll.views.RedditPostView;
 
 public class WebViewActivity extends BaseActivity implements RedditPostView.PostSelectionListener {
 

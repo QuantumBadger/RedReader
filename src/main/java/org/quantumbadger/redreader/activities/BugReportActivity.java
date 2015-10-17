@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.activities;
+package com.konneh.scroll.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -25,10 +25,10 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.common.Constants;
-import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.common.RRError;
+import com.konneh.scroll.R;
+import com.konneh.scroll.common.Constants;
+import com.konneh.scroll.common.General;
+import com.konneh.scroll.common.RRError;
 
 import java.util.LinkedList;
 

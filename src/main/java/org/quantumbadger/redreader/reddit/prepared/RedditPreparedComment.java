@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.reddit.prepared;
+package com.konneh.scroll.reddit.prepared;
 
 import android.app.Activity;
 import android.content.Context;
@@ -26,19 +26,19 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.http.StatusLine;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.account.RedditAccount;
-import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.cache.CacheManager;
-import org.quantumbadger.redreader.cache.RequestFailureType;
-import org.quantumbadger.redreader.common.*;
-import org.quantumbadger.redreader.reddit.APIResponseHandler;
-import org.quantumbadger.redreader.reddit.RedditAPI;
-import org.quantumbadger.redreader.reddit.RedditPreparedInboxItem;
-import org.quantumbadger.redreader.reddit.prepared.markdown.MarkdownParagraphGroup;
-import org.quantumbadger.redreader.reddit.prepared.markdown.MarkdownParser;
-import org.quantumbadger.redreader.reddit.things.RedditComment;
-import org.quantumbadger.redreader.views.RedditCommentView;
+import com.konneh.scroll.R;
+import com.konneh.scroll.account.RedditAccount;
+import com.konneh.scroll.account.RedditAccountManager;
+import com.konneh.scroll.cache.CacheManager;
+import com.konneh.scroll.cache.RequestFailureType;
+import com.konneh.scroll.common.*;
+import com.konneh.scroll.reddit.APIResponseHandler;
+import com.konneh.scroll.reddit.RedditAPI;
+import com.konneh.scroll.reddit.RedditPreparedInboxItem;
+import com.konneh.scroll.reddit.prepared.markdown.MarkdownParagraphGroup;
+import com.konneh.scroll.reddit.prepared.markdown.MarkdownParser;
+import com.konneh.scroll.reddit.things.RedditComment;
+import com.konneh.scroll.views.RedditCommentView;
 
 import java.net.URI;
 import java.util.EnumSet;

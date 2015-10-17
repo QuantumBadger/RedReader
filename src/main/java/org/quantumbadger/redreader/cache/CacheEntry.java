@@ -15,10 +15,10 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.cache;
+package com.konneh.scroll.cache;
 
 import android.database.Cursor;
-import org.quantumbadger.redreader.common.General;
+import com.konneh.scroll.common.General;
 
 import java.net.URI;
 import java.util.UUID;

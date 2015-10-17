@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.reddit;
+package com.konneh.scroll.reddit;
 
 import android.app.Activity;
 import android.text.SpannableStringBuilder;

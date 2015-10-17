@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.cache;
+package com.konneh.scroll.cache;
 
 public enum RequestFailureType {
 	CONNECTION, REQUEST, STORAGE, CACHE_MISS, CANCELLED, MALFORMED_URL, PARSE, DISK_SPACE, REDDIT_REDIRECT

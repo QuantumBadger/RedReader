@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.settings;
+package com.konneh.scroll.settings;
 
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -23,8 +23,8 @@ import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.fragments.ChangelogDialog;
+import com.konneh.scroll.R;
+import com.konneh.scroll.fragments.ChangelogDialog;
 
 public final class SettingsFragment extends PreferenceFragment {
 

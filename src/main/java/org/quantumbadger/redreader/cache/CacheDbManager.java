@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.cache;
+package com.konneh.scroll.cache;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -23,8 +23,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import org.quantumbadger.redreader.activities.BugReportActivity;
-import org.quantumbadger.redreader.common.RRTime;
+import com.konneh.scroll.activities.BugReportActivity;
+import com.konneh.scroll.common.RRTime;
 
 import java.io.IOException;
 import java.net.URI;

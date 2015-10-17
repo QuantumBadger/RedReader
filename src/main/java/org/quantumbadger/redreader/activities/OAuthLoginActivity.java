@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.activities;
+package com.konneh.scroll.activities;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -24,9 +24,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.webkit.*;
-import org.quantumbadger.redreader.common.AndroidApi;
-import org.quantumbadger.redreader.common.PrefsUtility;
-import org.quantumbadger.redreader.reddit.api.RedditOAuth;
+import com.konneh.scroll.common.AndroidApi;
+import com.konneh.scroll.common.PrefsUtility;
+import com.konneh.scroll.reddit.api.RedditOAuth;
 
 import java.io.ByteArrayInputStream;
 

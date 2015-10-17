@@ -32,15 +32,15 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.fragments;
+package com.konneh.scroll.fragments;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.widget.LinearLayout;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.activities.BugReportActivity;
-import org.quantumbadger.redreader.common.RRError;
+import com.konneh.scroll.R;
+import com.konneh.scroll.activities.BugReportActivity;
+import com.konneh.scroll.common.RRError;
 
 public final class ErrorPropertiesDialog extends PropertiesDialog {
 

@@ -15,10 +15,10 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.reddit;
+package com.konneh.scroll.reddit;
 
-import org.quantumbadger.redreader.reddit.prepared.RedditPreparedComment;
-import org.quantumbadger.redreader.reddit.prepared.RedditPreparedMoreComments;
+import com.konneh.scroll.reddit.prepared.RedditPreparedComment;
+import com.konneh.scroll.reddit.prepared.RedditPreparedMoreComments;
 
 public class RedditCommentListItem {
 

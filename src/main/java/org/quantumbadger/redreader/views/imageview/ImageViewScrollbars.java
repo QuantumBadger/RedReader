@@ -15,12 +15,12 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.views.imageview;
+package com.konneh.scroll.views.imageview;
 
-import org.quantumbadger.redreader.common.MutableFloatPoint2D;
-import org.quantumbadger.redreader.views.glview.displaylist.*;
-import org.quantumbadger.redreader.views.glview.program.RRGLContext;
-import org.quantumbadger.redreader.views.glview.program.RRGLMatrixStack;
+import com.konneh.scroll.common.MutableFloatPoint2D;
+import com.konneh.scroll.views.glview.displaylist.*;
+import com.konneh.scroll.views.glview.program.RRGLContext;
+import com.konneh.scroll.views.glview.program.RRGLMatrixStack;
 
 public class ImageViewScrollbars extends RRGLRenderable {
 

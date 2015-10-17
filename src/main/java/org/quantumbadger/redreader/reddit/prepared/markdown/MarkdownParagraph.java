@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.reddit.prepared.markdown;
+package com.konneh.scroll.reddit.prepared.markdown;
 
 import android.app.Activity;
 import android.graphics.Typeface;
@@ -24,7 +24,7 @@ import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.*;
-import org.quantumbadger.redreader.common.LinkHandler;
+import com.konneh.scroll.common.LinkHandler;
 
 import java.util.ArrayList;
 import java.util.List;

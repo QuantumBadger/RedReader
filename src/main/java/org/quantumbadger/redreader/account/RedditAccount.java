@@ -15,9 +15,9 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.account;
+package com.konneh.scroll.account;
 
-import org.quantumbadger.redreader.reddit.api.RedditOAuth;
+import com.konneh.scroll.reddit.api.RedditOAuth;
 
 public class RedditAccount {
 

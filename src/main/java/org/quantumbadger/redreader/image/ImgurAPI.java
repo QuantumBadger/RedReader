@@ -1,18 +1,18 @@
-package org.quantumbadger.redreader.image;
+package com.konneh.scroll.image;
 
 import android.content.Context;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.http.StatusLine;
-import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.activities.BugReportActivity;
-import org.quantumbadger.redreader.cache.CacheManager;
-import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.cache.RequestFailureType;
-import org.quantumbadger.redreader.common.Constants;
-import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
-import org.quantumbadger.redreader.jsonwrap.JsonValue;
+import com.konneh.scroll.account.RedditAccountManager;
+import com.konneh.scroll.activities.BugReportActivity;
+import com.konneh.scroll.cache.CacheManager;
+import com.konneh.scroll.cache.CacheRequest;
+import com.konneh.scroll.cache.RequestFailureType;
+import com.konneh.scroll.common.Constants;
+import com.konneh.scroll.common.General;
+import com.konneh.scroll.jsonwrap.JsonBufferedArray;
+import com.konneh.scroll.jsonwrap.JsonBufferedObject;
+import com.konneh.scroll.jsonwrap.JsonValue;
 
 import java.io.IOException;
 import java.util.ArrayList;

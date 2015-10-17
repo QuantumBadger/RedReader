@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.views.liststatus;
+package com.konneh.scroll.views.liststatus;
 
 import android.content.Context;
 import android.os.Handler;
@@ -24,7 +24,7 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import org.quantumbadger.redreader.R;
+import com.konneh.scroll.R;
 
 public final class LoadingView extends StatusListItemView {
 

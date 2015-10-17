@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.fragments;
+package com.konneh.scroll.fragments;
 
 import android.app.Activity;
 import android.content.Context;
@@ -25,19 +25,19 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import org.apache.http.StatusLine;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.activities.BugReportActivity;
-import org.quantumbadger.redreader.cache.CacheManager;
-import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.cache.RequestFailureType;
-import org.quantumbadger.redreader.common.*;
-import org.quantumbadger.redreader.reddit.APIResponseHandler;
-import org.quantumbadger.redreader.reddit.RedditAPI;
-import org.quantumbadger.redreader.reddit.things.RedditUser;
-import org.quantumbadger.redreader.reddit.url.UserPostListingURL;
-import org.quantumbadger.redreader.views.liststatus.ErrorView;
-import org.quantumbadger.redreader.views.liststatus.LoadingView;
+import com.konneh.scroll.R;
+import com.konneh.scroll.account.RedditAccountManager;
+import com.konneh.scroll.activities.BugReportActivity;
+import com.konneh.scroll.cache.CacheManager;
+import com.konneh.scroll.cache.CacheRequest;
+import com.konneh.scroll.cache.RequestFailureType;
+import com.konneh.scroll.common.*;
+import com.konneh.scroll.reddit.APIResponseHandler;
+import com.konneh.scroll.reddit.RedditAPI;
+import com.konneh.scroll.reddit.things.RedditUser;
+import com.konneh.scroll.reddit.url.UserPostListingURL;
+import com.konneh.scroll.views.liststatus.ErrorView;
+import com.konneh.scroll.views.liststatus.LoadingView;
 
 public class UserProfileDialog extends PropertiesDialog {
 

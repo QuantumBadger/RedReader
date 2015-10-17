@@ -1,4 +1,4 @@
-package org.quantumbadger.redreader.views;
+package com.konneh.scroll.views;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -8,7 +8,7 @@ import android.graphics.Movie;
 import android.graphics.Paint;
 import android.os.SystemClock;
 import android.view.View;
-import org.quantumbadger.redreader.common.AndroidApi;
+import com.konneh.scroll.common.AndroidApi;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

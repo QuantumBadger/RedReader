@@ -15,14 +15,14 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.views.liststatus;
+package com.konneh.scroll.views.liststatus;
 
 import android.app.Activity;
 import android.content.res.TypedArray;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
+import com.konneh.scroll.R;
+import com.konneh.scroll.reddit.url.PostCommentListingURL;
 
 public final class SpecificCommentThreadView extends StatusListItemView {
 

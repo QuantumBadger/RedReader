@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.reddit.prepared.markdown;
+package com.konneh.scroll.reddit.prepared.markdown;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -27,8 +27,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.laurencedawson.activetextview.ActiveTextView;
-import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.views.LinkDetailsView;
+import com.konneh.scroll.common.General;
+import com.konneh.scroll.views.LinkDetailsView;
 
 public final class MarkdownParagraphGroup {
 

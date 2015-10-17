@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.views;
+package com.konneh.scroll.views;
 
 import android.app.Activity;
 import android.content.Context;
@@ -23,9 +23,9 @@ import android.preference.PreferenceManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.common.PrefsUtility;
-import org.quantumbadger.redreader.reddit.RedditPreparedInboxItem;
+import com.konneh.scroll.common.General;
+import com.konneh.scroll.common.PrefsUtility;
+import com.konneh.scroll.reddit.RedditPreparedInboxItem;
 
 public class RedditInboxItemView extends LinearLayout {
 

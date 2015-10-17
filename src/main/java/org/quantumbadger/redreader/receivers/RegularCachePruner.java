@@ -1,10 +1,10 @@
-package org.quantumbadger.redreader.receivers;
+package com.konneh.scroll.receivers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import org.quantumbadger.redreader.cache.CacheManager;
+import com.konneh.scroll.cache.CacheManager;
 
 public class RegularCachePruner extends BroadcastReceiver {
 

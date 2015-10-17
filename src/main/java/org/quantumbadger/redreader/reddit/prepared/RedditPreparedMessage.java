@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.reddit.prepared;
+package com.konneh.scroll.reddit.prepared;
 
 import android.app.Activity;
 import android.content.Context;
@@ -23,14 +23,14 @@ import android.content.res.TypedArray;
 import android.text.SpannableStringBuilder;
 import android.view.ViewGroup;
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.common.BetterSSB;
-import org.quantumbadger.redreader.common.LinkHandler;
-import org.quantumbadger.redreader.common.RRTime;
-import org.quantumbadger.redreader.reddit.RedditPreparedInboxItem;
-import org.quantumbadger.redreader.reddit.prepared.markdown.MarkdownParagraphGroup;
-import org.quantumbadger.redreader.reddit.prepared.markdown.MarkdownParser;
-import org.quantumbadger.redreader.reddit.things.RedditMessage;
+import com.konneh.scroll.R;
+import com.konneh.scroll.common.BetterSSB;
+import com.konneh.scroll.common.LinkHandler;
+import com.konneh.scroll.common.RRTime;
+import com.konneh.scroll.reddit.RedditPreparedInboxItem;
+import com.konneh.scroll.reddit.prepared.markdown.MarkdownParagraphGroup;
+import com.konneh.scroll.reddit.prepared.markdown.MarkdownParser;
+import com.konneh.scroll.reddit.things.RedditMessage;
 
 import java.util.HashSet;
 

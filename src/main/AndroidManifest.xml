@@ -17,7 +17,7 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="org.quantumbadger.redreader"
+          package="com.konneh.scroll"
           android:versionCode="63"
           android:versionName="1.9.0"
           android:installLocation="auto">
@@ -33,7 +33,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
-    <application android:name="org.quantumbadger.redreader.Scroll"
+    <application android:name="com.konneh.scroll.Scroll"
                  android:icon="@drawable/icon"
                  android:label="@string/app_name"
                  android:theme="@style/RR.Startup"

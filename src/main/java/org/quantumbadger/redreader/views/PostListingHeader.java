@@ -15,14 +15,14 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.views;
+package com.konneh.scroll.views;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import org.quantumbadger.redreader.views.list.RRTouchable;
+import com.konneh.scroll.views.list.RRTouchable;
 
 public final class PostListingHeader extends LinearLayout implements RRTouchable {
 

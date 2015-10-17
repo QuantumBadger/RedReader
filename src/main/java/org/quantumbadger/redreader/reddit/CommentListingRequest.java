@@ -15,30 +15,30 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.reddit;
+package com.konneh.scroll.reddit;
 
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import org.apache.http.StatusLine;
-import org.quantumbadger.redreader.account.RedditAccount;
-import org.quantumbadger.redreader.cache.CacheManager;
-import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.cache.RequestFailureType;
-import org.quantumbadger.redreader.common.*;
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
-import org.quantumbadger.redreader.jsonwrap.JsonValue;
-import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
-import org.quantumbadger.redreader.reddit.prepared.RedditPreparedComment;
-import org.quantumbadger.redreader.reddit.prepared.RedditPreparedMoreComments;
-import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
-import org.quantumbadger.redreader.reddit.things.RedditComment;
-import org.quantumbadger.redreader.reddit.things.RedditMoreComments;
-import org.quantumbadger.redreader.reddit.things.RedditPost;
-import org.quantumbadger.redreader.reddit.things.RedditThing;
-import org.quantumbadger.redreader.reddit.url.RedditURLParser;
+import com.konneh.scroll.account.RedditAccount;
+import com.konneh.scroll.cache.CacheManager;
+import com.konneh.scroll.cache.CacheRequest;
+import com.konneh.scroll.cache.RequestFailureType;
+import com.konneh.scroll.common.*;
+import com.konneh.scroll.jsonwrap.JsonBufferedArray;
+import com.konneh.scroll.jsonwrap.JsonBufferedObject;
+import com.konneh.scroll.jsonwrap.JsonValue;
+import com.konneh.scroll.reddit.prepared.RedditChangeDataManager;
+import com.konneh.scroll.reddit.prepared.RedditPreparedComment;
+import com.konneh.scroll.reddit.prepared.RedditPreparedMoreComments;
+import com.konneh.scroll.reddit.prepared.RedditPreparedPost;
+import com.konneh.scroll.reddit.things.RedditComment;
+import com.konneh.scroll.reddit.things.RedditMoreComments;
+import com.konneh.scroll.reddit.things.RedditPost;
+import com.konneh.scroll.reddit.things.RedditThing;
+import com.konneh.scroll.reddit.url.RedditURLParser;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;

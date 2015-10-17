@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.fragments;
+package com.konneh.scroll.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -31,19 +31,19 @@ import android.webkit.*;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.cache.CacheManager;
-import org.quantumbadger.redreader.common.AndroidApi;
-import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.common.LinkHandler;
-import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
-import org.quantumbadger.redreader.reddit.things.RedditPost;
-import org.quantumbadger.redreader.reddit.url.RedditURLParser;
-import org.quantumbadger.redreader.views.RedditPostView;
-import org.quantumbadger.redreader.views.WebViewFixed;
-import org.quantumbadger.redreader.views.bezelmenu.BezelSwipeOverlay;
-import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
+import com.konneh.scroll.R;
+import com.konneh.scroll.account.RedditAccountManager;
+import com.konneh.scroll.cache.CacheManager;
+import com.konneh.scroll.common.AndroidApi;
+import com.konneh.scroll.common.General;
+import com.konneh.scroll.common.LinkHandler;
+import com.konneh.scroll.reddit.prepared.RedditPreparedPost;
+import com.konneh.scroll.reddit.things.RedditPost;
+import com.konneh.scroll.reddit.url.RedditURLParser;
+import com.konneh.scroll.views.RedditPostView;
+import com.konneh.scroll.views.WebViewFixed;
+import com.konneh.scroll.views.bezelmenu.BezelSwipeOverlay;
+import com.konneh.scroll.views.bezelmenu.SideToolbarOverlay;
 
 import java.util.Timer;
 import java.util.TimerTask;

@@ -1,4 +1,4 @@
-package org.quantumbadger.redreader.io;
+package com.konneh.scroll.io;
 
 public interface RequestResponseHandler<E, F> {
 	public void onRequestFailed(F failureReason);

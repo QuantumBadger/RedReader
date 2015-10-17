@@ -15,9 +15,9 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.reddit.things;
+package com.konneh.scroll.reddit.things;
 
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
+import com.konneh.scroll.jsonwrap.JsonBufferedObject;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;

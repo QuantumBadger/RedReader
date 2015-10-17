@@ -15,11 +15,11 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.common;
+package com.konneh.scroll.common;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
-import org.quantumbadger.redreader.Scroll;
+import com.konneh.scroll.Scroll;
 
 import java.net.URI;
 

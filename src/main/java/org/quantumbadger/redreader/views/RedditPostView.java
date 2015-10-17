@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.views;
+package com.konneh.scroll.views;
 
 import android.app.Activity;
 import android.content.Context;
@@ -31,12 +31,12 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.common.PrefsUtility;
-import org.quantumbadger.redreader.fragments.PostListingFragment;
-import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
-import org.quantumbadger.redreader.views.list.SwipableListItemView;
+import com.konneh.scroll.R;
+import com.konneh.scroll.common.General;
+import com.konneh.scroll.common.PrefsUtility;
+import com.konneh.scroll.fragments.PostListingFragment;
+import com.konneh.scroll.reddit.prepared.RedditPreparedPost;
+import com.konneh.scroll.views.list.SwipableListItemView;
 
 public final class RedditPostView extends SwipableListItemView implements RedditPreparedPost.ThumbnailLoadedCallback {
 

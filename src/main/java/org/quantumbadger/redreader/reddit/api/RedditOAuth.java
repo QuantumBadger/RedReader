@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.reddit.api;
+package com.konneh.scroll.reddit.api;
 
 import android.content.Context;
 import android.net.Uri;
@@ -29,14 +29,14 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.account.RedditAccount;
-import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.cache.CacheManager;
-import org.quantumbadger.redreader.common.Constants;
-import org.quantumbadger.redreader.common.RRError;
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
-import org.quantumbadger.redreader.jsonwrap.JsonValue;
+import com.konneh.scroll.R;
+import com.konneh.scroll.account.RedditAccount;
+import com.konneh.scroll.account.RedditAccountManager;
+import com.konneh.scroll.cache.CacheManager;
+import com.konneh.scroll.common.Constants;
+import com.konneh.scroll.common.RRError;
+import com.konneh.scroll.jsonwrap.JsonBufferedObject;
+import com.konneh.scroll.jsonwrap.JsonValue;
 
 import java.io.IOException;
 import java.net.URI;

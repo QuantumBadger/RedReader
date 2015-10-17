@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.common.collections;
+package com.konneh.scroll.common.collections;
 
 import java.util.ArrayList;
 

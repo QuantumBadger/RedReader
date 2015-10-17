@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.activities;
+package com.konneh.scroll.activities;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -25,18 +25,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.*;
 import org.apache.http.StatusLine;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.account.RedditAccount;
-import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.cache.CacheManager;
-import org.quantumbadger.redreader.cache.RequestFailureType;
-import org.quantumbadger.redreader.common.AndroidApi;
-import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.common.PrefsUtility;
-import org.quantumbadger.redreader.common.RRError;
-import org.quantumbadger.redreader.fragments.MarkdownPreviewDialog;
-import org.quantumbadger.redreader.reddit.APIResponseHandler;
-import org.quantumbadger.redreader.reddit.RedditAPI;
+import com.konneh.scroll.R;
+import com.konneh.scroll.account.RedditAccount;
+import com.konneh.scroll.account.RedditAccountManager;
+import com.konneh.scroll.cache.CacheManager;
+import com.konneh.scroll.cache.RequestFailureType;
+import com.konneh.scroll.common.AndroidApi;
+import com.konneh.scroll.common.General;
+import com.konneh.scroll.common.PrefsUtility;
+import com.konneh.scroll.common.RRError;
+import com.konneh.scroll.fragments.MarkdownPreviewDialog;
+import com.konneh.scroll.reddit.APIResponseHandler;
+import com.konneh.scroll.reddit.RedditAPI;
 
 import java.util.ArrayList;
 

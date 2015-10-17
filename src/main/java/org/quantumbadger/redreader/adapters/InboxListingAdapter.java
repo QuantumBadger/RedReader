@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.adapters;
+package com.konneh.scroll.adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -23,9 +23,9 @@ import android.content.res.TypedArray;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.reddit.RedditPreparedInboxItem;
-import org.quantumbadger.redreader.views.RedditInboxItemView;
+import com.konneh.scroll.R;
+import com.konneh.scroll.reddit.RedditPreparedInboxItem;
+import com.konneh.scroll.views.RedditInboxItemView;
 
 import java.util.ArrayList;
 

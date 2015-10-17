@@ -1,4 +1,4 @@
-package org.quantumbadger.redreader.common.collections;
+package com.konneh.scroll.common.collections;
 
 import java.lang.ref.WeakReference;
 import java.util.Iterator;

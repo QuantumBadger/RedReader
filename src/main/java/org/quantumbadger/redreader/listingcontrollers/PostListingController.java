@@ -15,16 +15,16 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.listingcontrollers;
+package com.konneh.scroll.listingcontrollers;
 
 import android.app.Activity;
 import android.net.Uri;
-import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.fragments.PostListingFragment;
-import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
-import org.quantumbadger.redreader.reddit.url.PostListingURL;
-import org.quantumbadger.redreader.reddit.url.RedditURLParser;
-import org.quantumbadger.redreader.reddit.url.SubredditPostListURL;
+import com.konneh.scroll.cache.CacheRequest;
+import com.konneh.scroll.fragments.PostListingFragment;
+import com.konneh.scroll.reddit.things.RedditSubreddit;
+import com.konneh.scroll.reddit.url.PostListingURL;
+import com.konneh.scroll.reddit.url.RedditURLParser;
+import com.konneh.scroll.reddit.url.SubredditPostListURL;
 
 import java.util.UUID;
 

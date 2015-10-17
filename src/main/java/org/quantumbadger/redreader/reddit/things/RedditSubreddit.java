@@ -15,13 +15,13 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.reddit.things;
+package com.konneh.scroll.reddit.things;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
-import org.quantumbadger.redreader.io.WritableObject;
+import com.konneh.scroll.common.UnexpectedInternalStateException;
+import com.konneh.scroll.io.WritableObject;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

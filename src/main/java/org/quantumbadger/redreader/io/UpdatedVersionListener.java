@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.io;
+package com.konneh.scroll.io;
 
 public interface UpdatedVersionListener<K, V extends WritableObject<K>> {
 	public void onUpdatedVersion(V data);

@@ -15,11 +15,11 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.activities;
+package com.konneh.scroll.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import org.quantumbadger.redreader.common.PrefsUtility;
+import com.konneh.scroll.common.PrefsUtility;
 
 import java.util.EnumSet;
 

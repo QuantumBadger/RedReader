@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.account;
+package com.konneh.scroll.account;
 
 public interface RedditAccountChangeListener {
 

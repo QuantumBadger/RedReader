@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.activities;
+package com.konneh.scroll.activities;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -33,26 +33,26 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import org.apache.http.StatusLine;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.account.RedditAccount;
-import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.adapters.InboxListingAdapter;
-import org.quantumbadger.redreader.cache.CacheManager;
-import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.cache.RequestFailureType;
-import org.quantumbadger.redreader.common.*;
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
-import org.quantumbadger.redreader.jsonwrap.JsonValue;
-import org.quantumbadger.redreader.reddit.APIResponseHandler;
-import org.quantumbadger.redreader.reddit.RedditAPI;
-import org.quantumbadger.redreader.reddit.RedditPreparedInboxItem;
-import org.quantumbadger.redreader.reddit.prepared.RedditPreparedComment;
-import org.quantumbadger.redreader.reddit.prepared.RedditPreparedMessage;
-import org.quantumbadger.redreader.reddit.things.RedditMessage;
-import org.quantumbadger.redreader.reddit.things.RedditThing;
-import org.quantumbadger.redreader.views.liststatus.ErrorView;
-import org.quantumbadger.redreader.views.liststatus.LoadingView;
+import com.konneh.scroll.R;
+import com.konneh.scroll.account.RedditAccount;
+import com.konneh.scroll.account.RedditAccountManager;
+import com.konneh.scroll.adapters.InboxListingAdapter;
+import com.konneh.scroll.cache.CacheManager;
+import com.konneh.scroll.cache.CacheRequest;
+import com.konneh.scroll.cache.RequestFailureType;
+import com.konneh.scroll.common.*;
+import com.konneh.scroll.jsonwrap.JsonBufferedArray;
+import com.konneh.scroll.jsonwrap.JsonBufferedObject;
+import com.konneh.scroll.jsonwrap.JsonValue;
+import com.konneh.scroll.reddit.APIResponseHandler;
+import com.konneh.scroll.reddit.RedditAPI;
+import com.konneh.scroll.reddit.RedditPreparedInboxItem;
+import com.konneh.scroll.reddit.prepared.RedditPreparedComment;
+import com.konneh.scroll.reddit.prepared.RedditPreparedMessage;
+import com.konneh.scroll.reddit.things.RedditMessage;
+import com.konneh.scroll.reddit.things.RedditThing;
+import com.konneh.scroll.views.liststatus.ErrorView;
+import com.konneh.scroll.views.liststatus.LoadingView;
 
 import java.net.URI;
 import java.util.EnumSet;

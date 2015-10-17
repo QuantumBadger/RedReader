@@ -15,13 +15,13 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.views.glview;
+package com.konneh.scroll.views.glview;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
-import org.quantumbadger.redreader.views.glview.displaylist.RRGLDisplayListRenderer;
-import org.quantumbadger.redreader.views.imageview.FingerTracker;
+import com.konneh.scroll.views.glview.displaylist.RRGLDisplayListRenderer;
+import com.konneh.scroll.views.imageview.FingerTracker;
 
 public class RRGLSurfaceView extends GLSurfaceView {
 

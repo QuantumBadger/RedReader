@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.views.glview.program;
+package com.konneh.scroll.views.glview.program;
 
 import android.graphics.Bitmap;
 import android.opengl.GLES20;

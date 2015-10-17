@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.activities;
+package com.konneh.scroll.activities;
 
 
 import android.app.Activity;
@@ -29,23 +29,23 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.account.RedditAccount;
-import org.quantumbadger.redreader.account.RedditAccountChangeListener;
-import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.common.LinkHandler;
-import org.quantumbadger.redreader.common.PrefsUtility;
-import org.quantumbadger.redreader.fragments.PostListingFragment;
-import org.quantumbadger.redreader.fragments.SessionListDialog;
-import org.quantumbadger.redreader.listingcontrollers.PostListingController;
-import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
-import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
-import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
-import org.quantumbadger.redreader.reddit.url.PostListingURL;
-import org.quantumbadger.redreader.reddit.url.RedditURLParser;
-import org.quantumbadger.redreader.reddit.url.SearchPostListURL;
-import org.quantumbadger.redreader.views.RedditPostView;
+import com.konneh.scroll.R;
+import com.konneh.scroll.account.RedditAccount;
+import com.konneh.scroll.account.RedditAccountChangeListener;
+import com.konneh.scroll.account.RedditAccountManager;
+import com.konneh.scroll.common.General;
+import com.konneh.scroll.common.LinkHandler;
+import com.konneh.scroll.common.PrefsUtility;
+import com.konneh.scroll.fragments.PostListingFragment;
+import com.konneh.scroll.fragments.SessionListDialog;
+import com.konneh.scroll.listingcontrollers.PostListingController;
+import com.konneh.scroll.reddit.api.RedditSubredditSubscriptionManager;
+import com.konneh.scroll.reddit.prepared.RedditPreparedPost;
+import com.konneh.scroll.reddit.url.PostCommentListingURL;
+import com.konneh.scroll.reddit.url.PostListingURL;
+import com.konneh.scroll.reddit.url.RedditURLParser;
+import com.konneh.scroll.reddit.url.SearchPostListURL;
+import com.konneh.scroll.views.RedditPostView;
 
 import java.util.UUID;
 

@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.cache;
+package com.konneh.scroll.cache;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -30,11 +30,11 @@ import org.apache.http.client.protocol.ClientContext;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.protocol.HttpContext;
-import org.quantumbadger.redreader.activities.BugReportActivity;
-import org.quantumbadger.redreader.common.PrioritisedCachedThreadPool;
-import org.quantumbadger.redreader.common.RRTime;
-import org.quantumbadger.redreader.jsonwrap.JsonValue;
-import org.quantumbadger.redreader.reddit.api.RedditOAuth;
+import com.konneh.scroll.activities.BugReportActivity;
+import com.konneh.scroll.common.PrioritisedCachedThreadPool;
+import com.konneh.scroll.common.RRTime;
+import com.konneh.scroll.jsonwrap.JsonValue;
+import com.konneh.scroll.reddit.api.RedditOAuth;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;

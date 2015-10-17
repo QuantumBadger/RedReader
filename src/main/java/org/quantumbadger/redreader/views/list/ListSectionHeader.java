@@ -15,13 +15,13 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.views.list;
+package com.konneh.scroll.views.list;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import org.quantumbadger.redreader.R;
+import com.konneh.scroll.R;
 
 // TODO doesn't need to be in a frame layout
 public class ListSectionHeader extends FrameLayout {

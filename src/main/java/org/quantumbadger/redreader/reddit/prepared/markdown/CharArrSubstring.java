@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.reddit.prepared.markdown;
+package com.konneh.scroll.reddit.prepared.markdown;
 
 import java.util.LinkedList;
 

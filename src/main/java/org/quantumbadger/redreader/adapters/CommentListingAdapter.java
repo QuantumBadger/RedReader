@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.adapters;
+package com.konneh.scroll.adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -23,11 +23,11 @@ import android.content.res.TypedArray;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.fragments.CommentListingFragment;
-import org.quantumbadger.redreader.reddit.RedditCommentListItem;
-import org.quantumbadger.redreader.views.LoadMoreCommentsView;
-import org.quantumbadger.redreader.views.RedditCommentView;
+import com.konneh.scroll.R;
+import com.konneh.scroll.fragments.CommentListingFragment;
+import com.konneh.scroll.reddit.RedditCommentListItem;
+import com.konneh.scroll.views.LoadMoreCommentsView;
+import com.konneh.scroll.views.RedditCommentView;
 
 import java.util.ArrayList;
 

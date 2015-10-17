@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.views.imageview;
+package com.konneh.scroll.views.imageview;
 
 import android.annotation.TargetApi;
 import android.graphics.Bitmap;
@@ -23,7 +23,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.BitmapRegionDecoder;
 import android.graphics.Rect;
 import android.os.Build;
-import org.quantumbadger.redreader.common.General;
+import com.konneh.scroll.common.General;
 
 import java.io.IOException;
 

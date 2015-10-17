@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.reddit.url;
+package com.konneh.scroll.reddit.url;
 
 import android.content.Context;
 import android.net.Uri;

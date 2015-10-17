@@ -15,18 +15,18 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.cache;
+package com.konneh.scroll.cache;
 
 import android.content.Context;
 import android.util.Log;
 import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
 import org.apache.http.client.CookieStore;
-import org.quantumbadger.redreader.account.RedditAccount;
-import org.quantumbadger.redreader.activities.BugReportActivity;
-import org.quantumbadger.redreader.common.PrioritisedCachedThreadPool;
-import org.quantumbadger.redreader.common.RRError;
-import org.quantumbadger.redreader.jsonwrap.JsonValue;
+import com.konneh.scroll.account.RedditAccount;
+import com.konneh.scroll.activities.BugReportActivity;
+import com.konneh.scroll.common.PrioritisedCachedThreadPool;
+import com.konneh.scroll.common.RRError;
+import com.konneh.scroll.jsonwrap.JsonValue;
 
 import java.net.URI;
 import java.util.List;

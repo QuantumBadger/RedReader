@@ -1,4 +1,4 @@
-package org.quantumbadger.redreader.views.imageview;
+package com.konneh.scroll.views.imageview;
 
 import android.view.MotionEvent;
 import android.view.View;

@@ -15,7 +15,7 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.views;
+package com.konneh.scroll.views;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -26,11 +26,11 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.common.AndroidApi;
-import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.reddit.RedditCommentListItem;
-import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
+import com.konneh.scroll.R;
+import com.konneh.scroll.common.AndroidApi;
+import com.konneh.scroll.common.General;
+import com.konneh.scroll.reddit.RedditCommentListItem;
+import com.konneh.scroll.reddit.url.PostCommentListingURL;
 
 import java.util.List;
 

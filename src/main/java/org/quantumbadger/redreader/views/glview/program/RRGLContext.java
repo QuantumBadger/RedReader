@@ -15,11 +15,11 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.views.glview.program;
+package com.konneh.scroll.views.glview.program;
 
 import android.content.Context;
 import android.opengl.GLES20;
-import org.quantumbadger.redreader.common.General;
+import com.konneh.scroll.common.General;
 
 import java.nio.FloatBuffer;
 

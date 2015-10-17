@@ -15,23 +15,23 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.reddit.api;
+package com.konneh.scroll.reddit.api;
 
 import android.app.Activity;
 import android.content.Context;
 import org.apache.http.StatusLine;
-import org.quantumbadger.redreader.account.RedditAccount;
-import org.quantumbadger.redreader.activities.BugReportActivity;
-import org.quantumbadger.redreader.cache.CacheManager;
-import org.quantumbadger.redreader.cache.RequestFailureType;
-import org.quantumbadger.redreader.common.*;
-import org.quantumbadger.redreader.common.collections.WeakReferenceListManager;
-import org.quantumbadger.redreader.io.RawObjectDB;
-import org.quantumbadger.redreader.io.RequestResponseHandler;
-import org.quantumbadger.redreader.io.WritableHashSet;
-import org.quantumbadger.redreader.reddit.APIResponseHandler;
-import org.quantumbadger.redreader.reddit.RedditAPI;
-import org.quantumbadger.redreader.reddit.RedditSubredditManager;
+import com.konneh.scroll.account.RedditAccount;
+import com.konneh.scroll.activities.BugReportActivity;
+import com.konneh.scroll.cache.CacheManager;
+import com.konneh.scroll.cache.RequestFailureType;
+import com.konneh.scroll.common.*;
+import com.konneh.scroll.common.collections.WeakReferenceListManager;
+import com.konneh.scroll.io.RawObjectDB;
+import com.konneh.scroll.io.RequestResponseHandler;
+import com.konneh.scroll.io.WritableHashSet;
+import com.konneh.scroll.reddit.APIResponseHandler;
+import com.konneh.scroll.reddit.RedditAPI;
+import com.konneh.scroll.reddit.RedditSubredditManager;
 
 import java.util.ArrayList;
 import java.util.HashSet;

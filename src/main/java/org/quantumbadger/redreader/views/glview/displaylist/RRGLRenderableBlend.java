@@ -15,10 +15,10 @@
  * along with Scroll.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.views.glview.displaylist;
+package com.konneh.scroll.views.glview.displaylist;
 
 import android.opengl.GLES20;
-import org.quantumbadger.redreader.views.glview.program.RRGLMatrixStack;
+import com.konneh.scroll.views.glview.program.RRGLMatrixStack;
 
 public class RRGLRenderableBlend extends RRGLRenderableRenderHooks {
 

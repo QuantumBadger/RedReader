@@ -190,7 +190,7 @@ public class RedditAPIIndividualSubredditListRequester
 					if(type == RedditSubredditManager.SubredditListType.SUBSCRIBED
 							&& subreddits.getCurrentItemCount() == 0
 							&& after == null) {
-						doSubredditListRequest(RedditSubredditManager.SubredditListType.DEFAULTS, handler, null);
+						performRequest(RedditSubredditManager.SubredditListType.DEFAULTS, TimestampBound.ANY, handler);
 						return;
 					}
 

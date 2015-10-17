@@ -44,8 +44,9 @@ import java.util.ArrayList;
 
 public final class RedditOAuth {
 
-	private static final String REDIRECT_URI = "http://rr_oauth_redir";
-	private static final String CLIENT_ID = "m_zCW1Dixs9WLA";
+	public static final String REDIRECT_URI = "http://scroll_oauth_redir";
+
+	private static final String CLIENT_ID = "XHwEb5vdMU6tqw";
 	private static final String ALL_SCOPES
 			= "identity,edit,flair,history,modconfig,modflair,modlog,modposts,modwiki,mysubreddits,privatemessages,"
 					+ "read,report,save,submit,subscribe,vote,wikiedit,wikiread";

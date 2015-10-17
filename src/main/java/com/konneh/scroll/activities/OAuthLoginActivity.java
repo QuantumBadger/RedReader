@@ -22,6 +22,7 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.webkit.*;
 import com.konneh.scroll.common.AndroidApi;
@@ -146,7 +147,7 @@ public class OAuthLoginActivity extends BaseActivity {
 			@Override
 			public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
 
-				if(url.startsWith("http://rr_oauth_redir")) { // TODO constant
+				if(url.startsWith(RedditOAuth.REDIRECT_URI)) {
 
 					final Intent intent = new Intent();
 					intent.putExtra("url", url);

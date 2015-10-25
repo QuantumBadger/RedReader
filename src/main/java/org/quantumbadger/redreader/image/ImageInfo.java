@@ -96,6 +96,47 @@ public class ImageInfo {
 				size);
 	}
 
+	public static ImageInfo parseStreamable(final JsonBufferedObject object)
+			throws IOException, InterruptedException {
+
+		JsonBufferedObject fileObj = null;
+		final JsonBufferedObject files = object.getObject("files");
+
+		final String[] preferredTypes = {"mp4", "webm", "mp4-high", "webm-high", "mp4-mobile", "webm-mobile"};
+		String selectedType = null;
+
+		for(final String type : preferredTypes) {
+			fileObj = files.getObject(type);
+			selectedType = type;
+			if(fileObj != null) break;
+		}
+
+		if(fileObj == null) {
+			throw new IOException("No suitable Streamable files found");
+		}
+
+		final String mimeType = "video/" + selectedType.split("\\-")[0];
+
+		final Long width = fileObj.getLong("width");
+		final Long height = fileObj.getLong("height");
+		String urlOriginal = fileObj.getString("url");
+
+		if(urlOriginal.startsWith("//")) {
+			urlOriginal = "https:" + urlOriginal;
+		}
+
+		return new ImageInfo(
+				urlOriginal,
+				null,
+				null,
+				null,
+				mimeType,
+				true,
+				width,
+				height,
+				null);
+	}
+
 	public static ImageInfo parseImgur(final JsonBufferedObject object)
 			throws IOException, InterruptedException {
 

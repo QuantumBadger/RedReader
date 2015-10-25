@@ -46,7 +46,7 @@ import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.fragments.PostPropertiesDialog;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
-import org.quantumbadger.redreader.image.ImgurAPI;
+import org.quantumbadger.redreader.image.ImageInfo;
 import org.quantumbadger.redreader.image.ThumbnailScaler;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
@@ -360,7 +360,7 @@ public final class RedditPreparedPost {
 					}
 
 					@Override
-					public void onSuccess(final ImgurAPI.ImageInfo info) {
+					public void onSuccess(final ImageInfo info) {
 
 						CacheManager.getInstance(activity).makeRequest(new CacheRequest(General.uriFromString(info.urlOriginal), anon, null,
 								Constants.Priority.IMAGE_VIEW, 0, CacheRequest.DownloadType.IF_NECESSARY,

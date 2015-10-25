@@ -3,6 +3,7 @@ package org.quantumbadger.redreader.adapters;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import org.quantumbadger.redreader.image.ImageInfo;
 import org.quantumbadger.redreader.image.ImgurAPI;
 import org.quantumbadger.redreader.views.ImgurAlbumListEntryView;
 
@@ -20,7 +21,7 @@ public class AlbumAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public ImgurAPI.ImageInfo getItem(final int position) {
+	public ImageInfo getItem(final int position) {
 		return mAlbumInfo.images.get(position);
 	}
 

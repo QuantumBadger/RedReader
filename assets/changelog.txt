@@ -1,3 +1,6 @@
+64/1.9.1
+Native support for Gfycat
+
 63/1.9.0
 Switched to oAuth authentication
 Native imgur gallery support

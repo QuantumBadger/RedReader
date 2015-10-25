@@ -18,7 +18,7 @@ import org.quantumbadger.redreader.common.AndroidApi;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
-import org.quantumbadger.redreader.image.ImgurAPI;
+import org.quantumbadger.redreader.image.ImageInfo;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -29,7 +29,7 @@ public class ImgurAlbumListEntryView extends LinearLayout {
 	private final TextView mTitle;
 	private final TextView mSubtitle;
 
-	private ImgurAPI.ImageInfo mImageInfo;
+	private ImageInfo mImageInfo;
 
 	public ImgurAlbumListEntryView(final Context context) {
 
@@ -69,7 +69,7 @@ public class ImgurAlbumListEntryView extends LinearLayout {
 		mSubtitle.setTextColor(Color.rgb(0x90, 0x90, 0x90));
 	}
 
-	public void reset(final int listPosition, final ImgurAPI.ImageInfo info) {
+	public void reset(final int listPosition, final ImageInfo info) {
 
 		mImageInfo = info;
 

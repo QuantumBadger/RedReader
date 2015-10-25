@@ -27,6 +27,8 @@ import android.preference.PreferenceManager;
 import org.quantumbadger.redreader.activities.*;
 import org.quantumbadger.redreader.fragments.UserProfileDialog;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
+import org.quantumbadger.redreader.image.GfycatAPI;
+import org.quantumbadger.redreader.image.ImageInfo;
 import org.quantumbadger.redreader.image.ImgurAPI;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
@@ -189,20 +191,34 @@ public class LinkHandler {
 		}
 	}
 
-	public static final Pattern imgurPattern = Pattern.compile(".*imgur\\.com/(\\w+).*"),
-			imgurAlbumPattern = Pattern.compile(".*imgur\\.com/(a|gallery)/(\\w+).*"),
-			qkmePattern1 = Pattern.compile(".*qkme\\.me/(\\w+).*"),
-			qkmePattern2 = Pattern.compile(".*quickmeme\\.com/meme/(\\w+).*"),
-			lvmePattern = Pattern.compile(".*livememe\\.com/(\\w+).*");
+	public static final Pattern imgurPattern = Pattern.compile(".*[^A-Za-z]imgur\\.com/(\\w+).*"),
+			imgurAlbumPattern = Pattern.compile(".*[^A-Za-z]imgur\\.com/(a|gallery)/(\\w+).*"),
+			qkmePattern1 = Pattern.compile(".*[^A-Za-z]qkme\\.me/(\\w+).*"),
+			qkmePattern2 = Pattern.compile(".*[^A-Za-z]quickmeme\\.com/meme/(\\w+).*"),
+			lvmePattern = Pattern.compile(".*[^A-Za-z]livememe\\.com/(\\w+).*"),
+			gfycatPattern = Pattern.compile(".*[^A-Za-z]gfycat\\.com/(\\w+).*");
 
 	public static boolean isProbablyAnImage(final String url) {
 
-		final Matcher matchImgur = imgurPattern.matcher(url);
+		{
+			final Matcher matchImgur = imgurPattern.matcher(url);
 
-		if(matchImgur.find()) {
-			final String imgId = matchImgur.group(1);
-			if(imgId.length() > 2 && !imgId.startsWith("gallery")) {
-				return true;
+			if(matchImgur.find()) {
+				final String imgId = matchImgur.group(1);
+				if(imgId.length() > 2 && !imgId.startsWith("gallery")) {
+					return true;
+				}
+			}
+		}
+
+		{
+			final Matcher matchGfycat = gfycatPattern.matcher(url);
+
+			if(matchGfycat.find()) {
+				final String imgId = matchGfycat.group(1);
+				if(imgId.length() > 5) {
+					return true;
+				}
 			}
 		}
 
@@ -216,20 +232,34 @@ public class LinkHandler {
 			final int listId,
 			final GetImageInfoListener listener) {
 
-		final Matcher matchImgur = imgurPattern.matcher(url);
+		{
+			final Matcher matchImgur = imgurPattern.matcher(url);
 
-		if(matchImgur.find()) {
-			final String imgId = matchImgur.group(1);
-			if(imgId.length() > 2 && !imgId.startsWith("gallery")) {
-				ImgurAPI.getImageInfo(context, imgId, priority, listId, listener);
-				return;
+			if(matchImgur.find()) {
+				final String imgId = matchImgur.group(1);
+				if(imgId.length() > 2 && !imgId.startsWith("gallery")) {
+					ImgurAPI.getImageInfo(context, imgId, priority, listId, listener);
+					return;
+				}
+			}
+		}
+
+		{
+			final Matcher matchGfycat = gfycatPattern.matcher(url);
+
+			if(matchGfycat.find()) {
+				final String imgId = matchGfycat.group(1);
+				if(imgId.length() > 5) {
+					GfycatAPI.getImageInfo(context, imgId, priority, listId, listener);
+					return;
+				}
 			}
 		}
 
 		final String imageUrlPatternMatch = getImageUrlPatternMatch(url);
 
 		if(imageUrlPatternMatch != null) {
-			listener.onSuccess(new ImgurAPI.ImageInfo(imageUrlPatternMatch));
+			listener.onSuccess(new ImageInfo(imageUrlPatternMatch));
 		} else {
 			listener.onNotAnImage();
 		}

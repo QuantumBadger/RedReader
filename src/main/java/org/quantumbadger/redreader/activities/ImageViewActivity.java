@@ -29,7 +29,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
@@ -41,10 +40,7 @@ import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.*;
-import org.quantumbadger.redreader.image.GetAlbumInfoListener;
-import org.quantumbadger.redreader.image.GetImageInfoListener;
-import org.quantumbadger.redreader.image.GifDecoderThread;
-import org.quantumbadger.redreader.image.ImgurAPI;
+import org.quantumbadger.redreader.image.*;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
@@ -174,7 +170,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 			}
 
 			@Override
-			public void onSuccess(final ImgurAPI.ImageInfo info) {
+			public void onSuccess(final ImageInfo info) {
 
 				Log.i("ImageViewActivity", "Got image URL: " + info.urlOriginal);
 

@@ -37,6 +37,7 @@ import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.image.GetAlbumInfoListener;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
+import org.quantumbadger.redreader.image.ImageInfo;
 import org.quantumbadger.redreader.image.ImgurAPI;
 
 import java.util.regex.Matcher;
@@ -119,7 +120,7 @@ public class AlbumListingActivity extends BaseActivity {
 					}
 
 					@Override
-					public void onSuccess(final ImgurAPI.ImageInfo info) {
+					public void onSuccess(final ImageInfo info) {
 						Log.i("AlbumListingActivity", "Link was actually an image.");
 						LinkHandler.onLinkClicked(AlbumListingActivity.this, info.urlOriginal);
 						finish();

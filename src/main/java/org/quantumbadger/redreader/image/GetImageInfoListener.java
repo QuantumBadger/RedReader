@@ -7,7 +7,7 @@ public interface GetImageInfoListener {
 
 	void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage);
 
-	void onSuccess(ImgurAPI.ImageInfo info);
+	void onSuccess(ImageInfo info);
 
 	void onNotAnImage();
 }

@@ -43,7 +43,7 @@ import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
-import org.quantumbadger.redreader.image.ImgurAPI;
+import org.quantumbadger.redreader.image.ImageInfo;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
@@ -570,7 +570,7 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 							@Override public void onNotAnImage() {}
 
 							@Override
-							public void onSuccess(final ImgurAPI.ImageInfo info) {
+							public void onSuccess(final ImageInfo info) {
 
 								if(!precacheImages) return;
 

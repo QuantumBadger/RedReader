@@ -564,7 +564,10 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 					if(mIsDestroyed) return;
 					mRequest = null;
-					mImageViewDisplayerManager = new ImageViewDisplayListManager(imageTileSource, ImageViewActivity.this);
+					mImageViewDisplayerManager = new ImageViewDisplayListManager(
+							ImageViewActivity.this,
+							imageTileSource,
+							ImageViewActivity.this);
 					surfaceView = new RRGLSurfaceView(ImageViewActivity.this, mImageViewDisplayerManager);
 					setMainView(surfaceView);
 

@@ -17,12 +17,16 @@
 
 package org.quantumbadger.redreader.views.imageview;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import org.quantumbadger.redreader.common.MutableFloatPoint2D;
+import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.UIThreadRepeatingTimer;
 import org.quantumbadger.redreader.common.collections.Stack;
 import org.quantumbadger.redreader.views.glview.Refreshable;
@@ -96,7 +100,10 @@ public class ImageViewDisplayListManager implements
 
 	private float mScreenDensity = 1;
 
-	public ImageViewDisplayListManager(ImageTileSource imageTileSource, Listener listener) {
+	private final int mLoadingCheckerboardDarkCol;
+	private final int mLoadingCheckerboardLightCol;
+
+	public ImageViewDisplayListManager(final Context context, ImageTileSource imageTileSource, Listener listener) {
 		mImageTileSource = imageTileSource;
 		mListener = listener;
 		mHTileCount = mImageTileSource.getHTileCount();
@@ -112,6 +119,18 @@ public class ImageViewDisplayListManager implements
 				mTileLoaders[x][y] = new MultiScaleTileManager(imageTileSource, thread, x, y, this);
 			}
 		}
+
+		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		final PrefsUtility.AppearanceTheme theme = PrefsUtility.appearance_theme(context, prefs);
+
+		if(theme == PrefsUtility.AppearanceTheme.NIGHT) {
+			mLoadingCheckerboardDarkCol = Color.rgb(70, 70, 70);
+			mLoadingCheckerboardLightCol = Color.rgb(110, 110, 110);
+
+		} else {
+			mLoadingCheckerboardDarkCol = Color.rgb(150, 150, 150);
+			mLoadingCheckerboardLightCol = Color.WHITE;
+		}
 	}
 
 	@Override
@@ -125,15 +144,15 @@ public class ImageViewDisplayListManager implements
 		final Bitmap notLoadedBitmap = Bitmap.createBitmap(256, 256, Bitmap.Config.ARGB_8888);
 		final Canvas notLoadedCanvas = new Canvas(notLoadedBitmap);
 
-		final Paint whitePaint = new Paint();
-		final Paint greyPaint = new Paint();
+		final Paint lightPaint = new Paint();
+		final Paint darkPaint = new Paint();
 
-		whitePaint.setColor(Color.WHITE);
-		greyPaint.setColor(Color.rgb(150, 150, 150));
+		lightPaint.setColor(mLoadingCheckerboardLightCol);
+		darkPaint.setColor(mLoadingCheckerboardDarkCol);
 
 		for(int x = 0; x < 4; x++) {
 			for(int y = 0; y < 4; y++) {
-				final Paint paint = ((x ^ y) & 1) == 0 ? whitePaint : greyPaint;
+				final Paint paint = ((x ^ y) & 1) == 0 ? lightPaint : darkPaint;
 				notLoadedCanvas.drawRect(x * 64, y * 64, (x + 1) * 64, (y + 1) * 64, paint);
 			}
 		}

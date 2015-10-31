@@ -707,4 +707,8 @@
     <!-- 2015-10-16 -->
     <string name="sort_comments_qa">Q&amp;A</string>
 
+    <!-- 2015-10-31 -->
+    <string name="pref_behaviour_gallery_swipe_length_title">Gallery Swipe Length</string>
+    <string name="pref_behaviour_gallery_swipe_length_key">pref_behaviour_gallery_swipe_length</string>
+
 </resources>

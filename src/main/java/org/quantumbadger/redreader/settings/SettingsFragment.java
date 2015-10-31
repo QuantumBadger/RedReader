@@ -64,7 +64,8 @@ public final class SettingsFragment extends PreferenceFragment {
 				R.string.pref_behaviour_bezel_toolbar_swipezone_key,
 				R.string.pref_behaviour_gifview_mode_key,
 				R.string.pref_behaviour_videoview_mode_key,
-				R.string.pref_behaviour_screenorientation_key
+				R.string.pref_behaviour_screenorientation_key,
+				R.string.pref_behaviour_gallery_swipe_length_key
 		};
 
 		for(int pref : listPrefsToUpdate) {

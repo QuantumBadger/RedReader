@@ -87,6 +87,8 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 	private FrameLayout mLayout;
 
+	private int mGallerySwipeLengthPx;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
@@ -96,6 +98,9 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 		final boolean solidblack = PrefsUtility.appearance_solidblack(this, sharedPreferences);
 
 		if(solidblack) getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+
+		final int gallerySwipeLengthDp = PrefsUtility.pref_behaviour_gallery_swipe_length_dp(this, sharedPreferences);
+		mGallerySwipeLengthPx = General.dpToPixels(this, gallerySwipeLengthDp);
 
 		final Intent intent = getIntent();
 
@@ -657,12 +662,10 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 		if(mSwipeCancelled) return;
 
-		final int swipeDistance = General.dpToPixels(this, 200);
-
 		if(mSwipeOverlay != null && mAlbumInfo != null) {
-			mSwipeOverlay.onSwipeUpdate(pixels, swipeDistance);
+			mSwipeOverlay.onSwipeUpdate(pixels, mGallerySwipeLengthPx);
 
-			if(pixels >= swipeDistance) {
+			if(pixels >= mGallerySwipeLengthPx) {
 				// Back
 
 				mSwipeCancelled = true;
@@ -686,7 +689,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 					General.quickToast(this, R.string.album_already_first_image);
 				}
 
-			} else if(pixels <= -swipeDistance) {
+			} else if(pixels <= -mGallerySwipeLengthPx) {
 				// Forwards
 
 				mSwipeCancelled = true;

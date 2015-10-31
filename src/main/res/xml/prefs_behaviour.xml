@@ -39,6 +39,11 @@
                     android:entryValues="@array/pref_behaviour_videoview_mode_array_return"
                     android:defaultValue="internal_videoview" />
 
+    <ListPreference android:title="@string/pref_behaviour_gallery_swipe_length_title"
+                    android:key="@string/pref_behaviour_gallery_swipe_length_key"
+                    android:entries="@array/pref_behaviour_gallery_swipe_length_array"
+                    android:entryValues="@array/pref_behaviour_gallery_swipe_length_array_return"
+                    android:defaultValue="150" />
 
     <CheckBoxPreference android:title="@string/pref_behaviour_notifications_title"
                         android:key="@string/pref_behaviour_notifications_key"

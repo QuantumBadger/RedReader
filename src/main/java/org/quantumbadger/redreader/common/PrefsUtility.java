@@ -249,6 +249,14 @@ public final class PrefsUtility {
 		}
 	}
 
+	public static int pref_behaviour_gallery_swipe_length_dp(final Context context, final SharedPreferences sharedPreferences) {
+		try {
+			return Integer.parseInt(getString(R.string.pref_behaviour_gallery_swipe_length_key, "150", context, sharedPreferences));
+		} catch(Throwable _) {
+			return 150;
+		}
+	}
+
 	// pref_behaviour_gifview_mode
 
 	public enum GifViewMode {

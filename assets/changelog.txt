@@ -1,6 +1,11 @@
 64/1.9.1
 Native support for Gfycat and Streamable
+Added album swipe length preference
 Darker image loading checkerboard in night mode
+Added Q&A comment sort
+Fix for subreddit list parse error
+Fix for account list crash
+Spanish translation updates (thanks to moshpirit)
 
 63/1.9.0
 Switched to oAuth authentication

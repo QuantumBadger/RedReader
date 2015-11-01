@@ -5,6 +5,7 @@ Darker image loading checkerboard in night mode
 Added Q&A comment sort
 Fix for subreddit list parse error
 Fix for account list crash
+"Share comment" no longer uses oAuth domain
 Spanish translation updates (thanks to moshpirit)
 
 63/1.9.0

@@ -11,15 +11,13 @@ Features
 * Free and Open Source - no ads/tracking.
 * Swipe posts left and right to perform customisable actions, such as upvote/downvote, or save/hide.
 * Advanced cache management - automatically stores past versions of posts and comments.
-* Streaming - shows posts/comments as they download - good for slow connections.
 * Support for multiple accounts.
 * Two-column tablet mode (can be used on your phone, if it's big enough)
-* Image precaching (optional: always, never, or Wi-Fi only).
-* Built in image viewer, and GIF player.
+* Image and comment precaching (optional: always, never, or Wi-Fi only).
+* Built in image viewer, imgur album viewer, GIF player, and webm/mp4/gifv player.
 * Downloads are compressed to save bandwidth.
 * Night mode (i.e. a dark theme)
 * Holo theme on every device
-* Support for Android 2.2+ (but works best on Android 4.0+)
 
 
 Reporting Bugs

@@ -132,8 +132,7 @@ public final class CacheManager {
 
 		dbManager = new CacheDbManager(context);
 
-		final HttpClient httpClient = createHttpClient(context);
-		downloadQueue = new PrioritisedDownloadQueue(httpClient);
+		downloadQueue = new PrioritisedDownloadQueue(context);
 
 		final RequestHandlerThread requestHandler = new RequestHandlerThread();
 		requestHandler.start();

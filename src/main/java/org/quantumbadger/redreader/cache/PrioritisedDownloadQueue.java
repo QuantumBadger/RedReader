@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.cache;
 
+import android.content.Context;
 import org.apache.http.client.HttpClient;
 import org.quantumbadger.redreader.common.PrioritisedCachedThreadPool;
 
@@ -29,15 +30,15 @@ class PrioritisedDownloadQueue {
 
 	private final PrioritisedCachedThreadPool mDownloadThreadPool = new PrioritisedCachedThreadPool(5, "Download");
 
-	private final HttpClient httpClient;
+	private final Context mContext;
 
-	public PrioritisedDownloadQueue(final HttpClient httpClient) {
-		this.httpClient = httpClient;
+	public PrioritisedDownloadQueue(final Context context) {
+		mContext = context;
 		new RedditQueueProcessor().start();
 	}
 
 	HttpClient getHttpClient() {
-		return httpClient;
+		return CacheManager.createHttpClient(mContext);
 	}
 
 	public synchronized void add(final CacheRequest request, final CacheManager manager) {

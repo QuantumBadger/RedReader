@@ -165,7 +165,7 @@ public class ImageInfo {
 
 		if(links != null) {
 			urlOriginal = links.getString("original");
-			if(urlOriginal != null && isAnimated) urlOriginal = urlOriginal.replace(".gif", ".webm");
+			if(urlOriginal != null && isAnimated) urlOriginal = urlOriginal.replace(".gif", ".mp4");
 
 			urlBigSquare = links.getString("big_square");
 		}

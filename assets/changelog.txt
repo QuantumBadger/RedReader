@@ -1,6 +1,7 @@
 65/1.9.2
 Precaching for comment threads
 Improved connection robustness
+Use .mp4 instead of .webm for imgur (should improve device compatibility)
 Various bugfixes
 
 64/1.9.1

@@ -94,7 +94,7 @@ public final class ImgurAPI {
 				listId,
 				CacheRequest.DownloadType.IF_NECESSARY,
 				Constants.FileType.IMAGE_INFO,
-				false,
+				CacheRequest.DownloadQueueType.IMMEDIATE,
 				true,
 				false,
 				context
@@ -152,7 +152,7 @@ public final class ImgurAPI {
 				listId,
 				CacheRequest.DownloadType.IF_NECESSARY,
 				Constants.FileType.IMAGE_INFO,
-				false,
+				CacheRequest.DownloadQueueType.IMMEDIATE,
 				true,
 				false,
 				context

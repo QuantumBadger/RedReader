@@ -181,7 +181,7 @@ public class CommentListingRequest {
 					0,
 					mDownloadType,
 					Constants.FileType.COMMENT_LIST,
-					true,
+					DownloadQueueType.REDDIT_API,
 					true,
 					false,
 					mContext);

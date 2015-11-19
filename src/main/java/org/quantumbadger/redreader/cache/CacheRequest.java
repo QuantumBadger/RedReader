@@ -47,7 +47,7 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 
 	public final int fileType;
 
-	public final boolean isRedditApi;
+	public final DownloadQueueType queueType;
 	public final boolean isJson;
 	public final List<NameValuePair> postFields;
 
@@ -60,6 +60,12 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 
 	public enum DownloadType {
 		NEVER, IF_NECESSARY, FORCE
+	}
+
+	public enum DownloadQueueType {
+		REDDIT_API,
+		IMMEDIATE,
+		QUEUE_IMAGE_PRECACHE
 	}
 
 	// Called by CacheDownload
@@ -82,17 +88,17 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 
 	protected CacheRequest(final URI url, final RedditAccount user, final UUID requestSession, final int priority,
 						   final int listId, final DownloadType downloadType, final int fileType,
-						   final boolean isRedditApi, final boolean isJson, final boolean cancelExisting,
+						   final DownloadQueueType queueType, final boolean isJson, final boolean cancelExisting,
 						   final Context context) {
 
-		this(url, user, requestSession, priority, listId, downloadType, fileType, isRedditApi, isJson, null,
+		this(url, user, requestSession, priority, listId, downloadType, fileType, queueType, isJson, null,
 				true, cancelExisting, context);
 	}
 
 	// TODO remove this huge constructor, make mutable
 	protected CacheRequest(final URI url, final RedditAccount user, final UUID requestSession, final int priority,
 						   final int listId, final DownloadType downloadType, final int fileType,
-						   final boolean isRedditApi, final boolean isJson, final List<NameValuePair> postFields,
+						   final DownloadQueueType queueType, final boolean isJson, final List<NameValuePair> postFields,
 						   final boolean cache, final boolean cancelExisting, final Context context) {
 
 		this.context = context;
@@ -119,7 +125,7 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 		this.listId = listId;
 		this.downloadType = downloadType;
 		this.fileType = fileType;
-		this.isRedditApi = isRedditApi;
+		this.queueType = queueType;
 		this.isJson = isJson;
 		this.postFields = postFields;
 		this.cache = cache;

@@ -145,7 +145,7 @@ public class RedditAPIIndividualSubredditListRequester
 				0,
 				CacheRequest.DownloadType.FORCE,
 				Constants.FileType.SUBREDDIT_LIST,
-				true,
+				CacheRequest.DownloadQueueType.REDDIT_API,
 				true,
 				false,
 				context

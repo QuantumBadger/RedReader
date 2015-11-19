@@ -195,7 +195,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 								0,
 								CacheRequest.DownloadType.IF_NECESSARY,
 								Constants.FileType.IMAGE,
-								false,
+								CacheRequest.DownloadQueueType.IMMEDIATE,
 								false,
 								false,
 								ImageViewActivity.this) {

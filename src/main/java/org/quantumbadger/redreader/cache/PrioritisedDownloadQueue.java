@@ -42,12 +42,17 @@ class PrioritisedDownloadQueue {
 
 	public synchronized void add(final CacheRequest request, final CacheManager manager) {
 
-		if(request.isRedditApi) {
-			redditDownloadsQueued.add(new CacheDownload(request, manager, this));
+		final CacheDownload download = new CacheDownload(request, manager, this);
+
+		if(request.queueType == CacheRequest.DownloadQueueType.REDDIT_API) {
+			redditDownloadsQueued.add(download);
 			notifyAll();
 
+		} else if(request.queueType == CacheRequest.DownloadQueueType.IMMEDIATE) {
+			new CacheDownloadThread(download, true, "Cache Download Thread: Immediate");
+
 		} else {
-			mDownloadThreadPool.add(new CacheDownload(request, manager, this));
+			mDownloadThreadPool.add(download);
 		}
 	}
 
@@ -87,7 +92,7 @@ class PrioritisedDownloadQueue {
 				}
 
 				try {
-					sleep(1500); // Delay imposed by reddit API restrictions.
+					sleep(1200); // Delay imposed by reddit API restrictions.
 				} catch (InterruptedException e) {
 					throw new RuntimeException(e);
 				}

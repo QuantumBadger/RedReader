@@ -65,7 +65,8 @@ public class CaptchaActivity extends BaseActivity {
 				final URI captchaUrl = General.uriFromString("https://reddit.com/captcha/" + captchaId);
 
 				cm.makeRequest(new CacheRequest(captchaUrl, RedditAccountManager.getAnon(), null, Constants.Priority.CAPTCHA,
-						0, CacheRequest.DownloadType.FORCE, Constants.FileType.CAPTCHA, false, false, true, CaptchaActivity.this) {
+						0, CacheRequest.DownloadType.FORCE, Constants.FileType.CAPTCHA,
+						CacheRequest.DownloadQueueType.IMMEDIATE, false, true, CaptchaActivity.this) {
 					@Override
 					protected void onCallbackException(Throwable t) {
 						BugReportActivity.handleGlobalError(CaptchaActivity.this, t);

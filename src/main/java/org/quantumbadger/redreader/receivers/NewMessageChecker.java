@@ -82,7 +82,7 @@ public class NewMessageChecker extends BroadcastReceiver {
 				0,
 				CacheRequest.DownloadType.FORCE,
 				Constants.FileType.INBOX_LIST,
-				true,
+				CacheRequest.DownloadQueueType.REDDIT_API,
 				true,
 				true,
 				context) {

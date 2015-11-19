@@ -139,7 +139,7 @@ public class ImgurAlbumListEntryView extends LinearLayout {
 					listPosition,
 					CacheRequest.DownloadType.IF_NECESSARY,
 					Constants.FileType.THUMBNAIL,
-					false,
+					CacheRequest.DownloadQueueType.IMMEDIATE,
 					false,
 					false,
 					getContext()

@@ -60,7 +60,7 @@ public class RedditAPIIndividualSubredditDataRequester implements CacheDataSourc
 				0,
 				CacheRequest.DownloadType.FORCE,
 				Constants.FileType.SUBREDDIT_ABOUT,
-				true,
+				CacheRequest.DownloadQueueType.REDDIT_API,
 				true,
 				false,
 				context

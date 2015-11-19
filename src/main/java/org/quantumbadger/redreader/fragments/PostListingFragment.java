@@ -456,7 +456,7 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 		private final boolean firstDownload;
 
 		protected PostListingRequest(Uri url, RedditAccount user, UUID requestSession, DownloadType downloadType, boolean firstDownload) {
-			super(General.uriFromString(url.toString()), user, requestSession, Constants.Priority.API_POST_LIST, 0, downloadType, Constants.FileType.POST_LIST, true, true, false, getActivity());
+			super(General.uriFromString(url.toString()), user, requestSession, Constants.Priority.API_POST_LIST, 0, downloadType, Constants.FileType.POST_LIST, DownloadQueueType.REDDIT_API, true, false, getActivity());
 			this.firstDownload = firstDownload;
 		}
 
@@ -590,7 +590,7 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 										listId,
 										DownloadType.IF_NECESSARY,
 										Constants.FileType.IMAGE,
-										false,
+										DownloadQueueType.QUEUE_IMAGE_PRECACHE,
 										false,
 										false,
 										context

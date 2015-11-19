@@ -171,7 +171,9 @@ public final class InboxListingActivity extends BaseActivity {
 		}
 
 		// TODO parameterise limit
-		request = new CacheRequest(url, user, null, Constants.Priority.API_INBOX_LIST, 0, CacheRequest.DownloadType.FORCE, Constants.FileType.INBOX_LIST, true, true, true, context) {
+		request = new CacheRequest(url, user, null, Constants.Priority.API_INBOX_LIST, 0,
+				CacheRequest.DownloadType.FORCE, Constants.FileType.INBOX_LIST,
+				CacheRequest.DownloadQueueType.REDDIT_API, true, true, context) {
 
 			@Override
 			protected void onDownloadNecessary() {}

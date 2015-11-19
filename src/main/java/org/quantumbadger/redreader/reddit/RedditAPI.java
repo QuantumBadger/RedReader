@@ -575,7 +575,7 @@ public final class RedditAPI {
 		protected void onDownloadStarted() {}
 
 		public APIPostRequest(final URI url, final RedditAccount user, final List<NameValuePair> postFields, final Context context) {
-			super(url, user, null, Constants.Priority.API_ACTION, 0, DownloadType.FORCE, Constants.FileType.NOCACHE, true, true, postFields, false, false, context);
+			super(url, user, null, Constants.Priority.API_ACTION, 0, DownloadType.FORCE, Constants.FileType.NOCACHE, DownloadQueueType.REDDIT_API, true, postFields, false, false, context);
 		}
 
 		@Override
@@ -595,7 +595,7 @@ public final class RedditAPI {
 	private static abstract class APIGetRequest extends CacheRequest {
 
 		public APIGetRequest(final URI url, final RedditAccount user, final int priority, final int fileType, final DownloadType downloadType, final boolean cache, final boolean cancelExisting, final Context context) {
-			super(url, user, null, priority, 0, downloadType, fileType, true, true, null, cache, cancelExisting, context);
+			super(url, user, null, priority, 0, downloadType, fileType, DownloadQueueType.REDDIT_API, true, null, cache, cancelExisting, context);
 		}
 
 		@Override

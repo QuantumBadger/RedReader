@@ -117,7 +117,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 		final HttpContext localContext = new BasicHttpContext();
 		localContext.setAttribute(ClientContext.COOKIE_STORE, mInitiator.getCookies());
 
-		if(mInitiator.isRedditApi) {
+		if(mInitiator.queueType == CacheRequest.DownloadQueueType.REDDIT_API) {
 
 			RedditOAuth.AccessToken accessToken = mInitiator.user.getMostRecentAccessToken();
 

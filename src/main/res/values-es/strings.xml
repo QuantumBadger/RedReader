@@ -648,7 +648,6 @@
     <!-- 2015-06-28 -->
     <string name="options_close_all">Cerrar todos</string>
 
-    <string name="pref_menus_optionsmenu_items_key">pref_menus_optionsmenu_items</string>
     <string name="pref_menus_optionsmenu_items_title">Opciones de los elementos del menú</string>
 
     <!-- 2015-07-05 -->

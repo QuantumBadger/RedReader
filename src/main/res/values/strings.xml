@@ -653,7 +653,7 @@
     <!-- 2015-06-28 -->
     <string name="options_close_all">Close All</string>
 
-    <string name="pref_menus_optionsmenu_items_key">pref_menus_optionsmenu_items</string>
+    <string name="pref_menus_optionsmenu_items_key">pref_menus_optionsmenu_items_2</string>
     <string name="pref_menus_optionsmenu_items_title">Options Menu Items</string>
 
     <!-- 2015-07-05 -->
@@ -719,5 +719,12 @@
 
     <string name="pref_cache_precache_comments_wifionly_key">pref_cache_precache_comments_wifionly</string>
     <string name="pref_cache_precache_comments_wifionly_title">On Wi-Fi only</string>
+
+    <string name="mainmenu_header_subreddits_subscribed">Subscribed Subreddits</string>
+    <string name="mainmenu_header_subreddits_pinned">Pinned Subreddits</string>
+
+    <string name="pin_subreddit">Pin to Main Menu</string>
+    <string name="unpin_subreddit">Unpin from Main Menu</string>
+    <string name="pref_pinned_subreddits_key">pref_pinned_subreddits</string>
 
 </resources>

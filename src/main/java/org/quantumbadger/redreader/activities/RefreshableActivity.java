@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.PrefsUtility;
 
 import java.util.EnumSet;
@@ -43,14 +44,21 @@ public abstract class RefreshableActivity extends BaseActivity {
 
 		if(PrefsUtility.isRestartRequired(this, key)) {
 			requestRefresh(RefreshableFragment.RESTART, false);
-		}
-
-		if(PrefsUtility.isRefreshRequired(this, key)) {
-			requestRefresh(RefreshableFragment.ALL, false);
+			return;
 		}
 
 		if(this instanceof MainActivity && PrefsUtility.isReLayoutRequired(this, key)) {
 			requestRefresh(RefreshableFragment.MAIN_RELAYOUT, false);
+			return;
+		}
+
+		if(PrefsUtility.isRefreshRequired(this, key)) {
+			requestRefresh(RefreshableFragment.ALL, false);
+			return;
+		}
+
+		if(this instanceof MainActivity && key.equals(getString(R.string.pref_pinned_subreddits_key))) {
+			requestRefresh(RefreshableFragment.MAIN, false);
 		}
 	}
 

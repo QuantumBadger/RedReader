@@ -100,7 +100,7 @@ public class CommentListingActivity extends RefreshableActivity
 
 	@Override
 	public boolean onCreateOptionsMenu(final Menu menu) {
-		OptionsMenuUtility.prepare(this, menu, false, false, true, false, false, controller.isSortable(), null, false, true);
+		OptionsMenuUtility.prepare(this, menu, false, false, true, false, false, controller.isSortable(), null, false, true, null);
 
 		if(mFragment != null) {
 			mFragment.onCreateOptionsMenu(menu);

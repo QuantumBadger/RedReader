@@ -366,6 +366,7 @@
         <item>@string/options_submit_post</item>
         <item>@string/action_search</item>
         <item>@string/action_reply</item>
+        <item>@string/pin_subreddit</item>
     </string-array>
 
     <!-- Constants. Do not change. -->
@@ -377,6 +378,7 @@
         <item>submit_post</item>
         <item>search</item>
         <item>reply</item>
+        <item>pin</item>
     </string-array>
 
     <!-- Constants. Do not change. -->
@@ -387,6 +389,7 @@
         <item>submit_post</item>
         <item>search</item>
         <item>reply</item>
+        <item>pin</item>
     </string-array>
 
     <!-- 2015-07-05 -->

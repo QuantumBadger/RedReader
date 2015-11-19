@@ -24,6 +24,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
@@ -41,6 +42,7 @@ import org.quantumbadger.redreader.fragments.SessionListDialog;
 import org.quantumbadger.redreader.listingcontrollers.PostListingController;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
+import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.reddit.url.PostListingURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
@@ -127,6 +129,23 @@ public class PostListingActivity extends RefreshableActivity
 		final String subredditDescription = fragment != null && fragment.getSubreddit() != null
 				? fragment.getSubreddit().description_html : null;
 
+		Boolean subredditPinState = null;
+
+		if(controller.isSubreddit()
+				&& fragment != null
+				&& fragment.getSubreddit() != null) {
+
+			try {
+				subredditPinState = PrefsUtility.pref_pinned_subreddits_check(
+						this,
+						PreferenceManager.getDefaultSharedPreferences(this),
+						fragment.getSubreddit().getCanonicalName());
+
+			} catch(RedditSubreddit.InvalidSubredditNameException e) {
+				subredditPinState = null;
+			}
+		}
+
 		OptionsMenuUtility.prepare(
 				this,
 				menu,
@@ -138,7 +157,8 @@ public class PostListingActivity extends RefreshableActivity
 				true,
 				subredditSubscriptionState,
 				subredditDescription != null && subredditDescription.length() > 0,
-				false);
+				false,
+				subredditPinState);
 
 		return true;
 	}
@@ -253,6 +273,42 @@ public class PostListingActivity extends RefreshableActivity
 				getString(R.string.sidebar_activity_title),
 				fragment.getSubreddit().url));
 		startActivityForResult(intent, 1);
+	}
+
+	@Override
+	public void onPin() {
+
+		if(fragment == null) return;
+
+		try {
+			PrefsUtility.pref_pinned_subreddits_add(
+					this,
+					PreferenceManager.getDefaultSharedPreferences(this),
+					fragment.getSubreddit().getCanonicalName());
+
+		} catch(RedditSubreddit.InvalidSubredditNameException e) {
+			throw new RuntimeException(e);
+		}
+
+		invalidateOptionsMenu();
+	}
+
+	@Override
+	public void onUnpin() {
+
+		if(fragment == null) return;
+
+		try {
+			PrefsUtility.pref_pinned_subreddits_remove(
+					this,
+					PreferenceManager.getDefaultSharedPreferences(this),
+					fragment.getSubreddit().getCanonicalName());
+
+		} catch(RedditSubreddit.InvalidSubredditNameException e) {
+			throw new RuntimeException(e);
+		}
+
+		invalidateOptionsMenu();
 	}
 
 	@Override

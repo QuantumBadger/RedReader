@@ -486,6 +486,8 @@ public class MainActivity extends RefreshableActivity
 		final RedditSubredditSubscriptionManager subredditSubscriptionManager
 				= RedditSubredditSubscriptionManager.getSingleton(this, user);
 
+		Boolean subredditPinState = null;
+
 		if(postsVisible
 				&& !user.isAnonymous()
 				&& postListingController.isSubreddit()
@@ -498,6 +500,22 @@ public class MainActivity extends RefreshableActivity
 
 		} else {
 			subredditSubscriptionState = null;
+		}
+
+		if(postsVisible
+				&& postListingController.isSubreddit()
+				&& postListingFragment != null
+				&& postListingFragment.getSubreddit() != null) {
+
+			try {
+				subredditPinState = PrefsUtility.pref_pinned_subreddits_check(
+						this,
+						sharedPreferences,
+						postListingFragment.getSubreddit().getCanonicalName());
+
+			} catch(RedditSubreddit.InvalidSubredditNameException e) {
+				subredditPinState = null;
+			}
 		}
 
 		final String subredditDescription = postListingFragment != null && postListingFragment.getSubreddit() != null
@@ -514,7 +532,8 @@ public class MainActivity extends RefreshableActivity
 				commentsSortable,
 				subredditSubscriptionState,
 				postsVisible && subredditDescription != null && subredditDescription.length() > 0,
-				true);
+				true,
+				subredditPinState);
 
 		getActionBar().setHomeButtonEnabled(!isMenuShown);
 		getActionBar().setDisplayHomeAsUpEnabled(!isMenuShown);
@@ -586,6 +605,42 @@ public class MainActivity extends RefreshableActivity
 				getString(R.string.sidebar_activity_title),
 				postListingFragment.getSubreddit().url));
 		startActivityForResult(intent, 1);
+	}
+
+	@Override
+	public void onPin() {
+
+		if(postListingFragment == null) return;
+
+		try {
+			PrefsUtility.pref_pinned_subreddits_add(
+					this,
+					sharedPreferences,
+					postListingFragment.getSubreddit().getCanonicalName());
+
+		} catch(RedditSubreddit.InvalidSubredditNameException e) {
+			throw new RuntimeException(e);
+		}
+
+		invalidateOptionsMenu();
+	}
+
+	@Override
+	public void onUnpin() {
+
+		if(postListingFragment == null) return;
+
+		try {
+			PrefsUtility.pref_pinned_subreddits_remove(
+					this,
+					sharedPreferences,
+					postListingFragment.getSubreddit().getCanonicalName());
+
+		} catch(RedditSubreddit.InvalidSubredditNameException e) {
+			throw new RuntimeException(e);
+		}
+
+		invalidateOptionsMenu();
 	}
 
 	public void onRefreshSubreddits() {

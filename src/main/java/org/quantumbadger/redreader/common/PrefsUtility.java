@@ -26,7 +26,9 @@ import android.util.DisplayMetrics;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.OptionsMenuUtility;
 import org.quantumbadger.redreader.fragments.MainMenuFragment;
+import org.quantumbadger.redreader.io.WritableHashSet;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
+import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 
 import java.util.*;
@@ -446,5 +448,66 @@ public final class PrefsUtility {
 		for(String s : strings) result.add(OptionsMenuUtility.OptionsMenuItemsPref.valueOf(General.asciiUppercase(s)));
 
 		return result;
+	}
+
+	///////////////////////////////
+	// pref_pinned_subreddits
+	///////////////////////////////
+
+	public static List<String> pref_pinned_subreddits(final Context context, final SharedPreferences sharedPreferences) {
+		final String value = getString(R.string.pref_pinned_subreddits_key, "", context, sharedPreferences);
+		return WritableHashSet.escapedStringToList(value);
+	}
+
+	public static void pref_pinned_subreddits_add(
+			final Context context,
+			final SharedPreferences sharedPreferences,
+			final String subreddit) throws RedditSubreddit.InvalidSubredditNameException {
+
+		final String name = RedditSubreddit.getCanonicalName(subreddit);
+
+		final String value = getString(R.string.pref_pinned_subreddits_key, "", context, sharedPreferences);
+		final ArrayList<String> list = WritableHashSet.escapedStringToList(value);
+		list.add(name);
+		final String result = WritableHashSet.listToEscapedString(list);
+
+		sharedPreferences.edit().putString(context.getString(R.string.pref_pinned_subreddits_key), result).commit();
+	}
+
+	public static void pref_pinned_subreddits_remove(
+			final Context context,
+			final SharedPreferences sharedPreferences,
+			final String subreddit) throws RedditSubreddit.InvalidSubredditNameException {
+
+		final String name = RedditSubreddit.getCanonicalName(subreddit);
+
+		final String value = getString(R.string.pref_pinned_subreddits_key, "", context, sharedPreferences);
+		final ArrayList<String> list = WritableHashSet.escapedStringToList(value);
+		list.add(name);
+
+		final ArrayList<String> result = new ArrayList<>(list.size());
+		for(final String existingSr : list) {
+			if(!name.toLowerCase().equals(existingSr.toLowerCase())) {
+				result.add(existingSr);
+			}
+		}
+
+		final String resultStr = WritableHashSet.listToEscapedString(result);
+
+		sharedPreferences.edit().putString(context.getString(R.string.pref_pinned_subreddits_key), resultStr).commit();
+	}
+
+	public static boolean pref_pinned_subreddits_check(
+			final Context context,
+			final SharedPreferences sharedPreferences,
+			final String subreddit) throws RedditSubreddit.InvalidSubredditNameException {
+
+		final List<String> list = pref_pinned_subreddits(context, sharedPreferences);
+
+		for(final String existingSr : list) {
+			if(subreddit.toLowerCase().equals(existingSr.toLowerCase())) return true;
+		}
+
+		return false;
 	}
 }

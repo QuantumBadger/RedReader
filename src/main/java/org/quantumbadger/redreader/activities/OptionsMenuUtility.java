@@ -44,7 +44,7 @@ import java.util.EnumSet;
 public final class OptionsMenuUtility {
 
 	public enum OptionsMenuItemsPref {
-		ACCOUNTS, THEME, CLOSE_ALL, PAST, SUBMIT_POST, SEARCH, REPLY
+		ACCOUNTS, THEME, CLOSE_ALL, PAST, SUBMIT_POST, SEARCH, REPLY, PIN
 	}
 
 	private static enum Option {
@@ -63,7 +63,9 @@ public final class OptionsMenuUtility {
 		SUBSCRIBING,
 		UNSUBSCRIBING,
 		UNSUBSCRIBE,
-		SIDEBAR
+		SIDEBAR,
+		PIN,
+		UNPIN
 	}
 
 	public static <E extends BaseActivity & OptionsMenuListener> void prepare(
@@ -73,7 +75,8 @@ public final class OptionsMenuUtility {
 			final boolean postsSortable, final boolean commentsSortable,
 			final RedditSubredditSubscriptionManager.SubredditSubscriptionState subredditSubscriptionState,
 			final boolean subredditHasSidebar,
-			final boolean pastCommentsSupported) {
+			final boolean pastCommentsSupported,
+			final Boolean subredditPinned) {
 
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
 		final EnumSet<OptionsMenuItemsPref> optionsMenuItemsPrefs = PrefsUtility.pref_menus_optionsmenu_items(activity, preferences);
@@ -92,6 +95,15 @@ public final class OptionsMenuUtility {
 			if(optionsMenuItemsPrefs.contains(OptionsMenuItemsPref.PAST)) add(activity, menu, Option.PAST_POSTS, false);
 			if(optionsMenuItemsPrefs.contains(OptionsMenuItemsPref.SUBMIT_POST)) add(activity, menu, Option.SUBMIT_POST, false);
 			if(optionsMenuItemsPrefs.contains(OptionsMenuItemsPref.SEARCH)) add(activity, menu, Option.SEARCH, false);
+
+			if(subredditPinned != null && optionsMenuItemsPrefs.contains(OptionsMenuItemsPref.PIN)) {
+				if(subredditPinned) {
+					add(activity, menu, Option.UNPIN, false);
+				} else {
+					add(activity, menu, Option.PIN, false);
+				}
+			}
+
 			if(subredditSubscriptionState != null) {
 				addSubscriptionItem(activity, menu, subredditSubscriptionState);
 				if(subredditHasSidebar) add(activity, menu, Option.SIDEBAR, false);
@@ -147,6 +159,15 @@ public final class OptionsMenuUtility {
 				add(activity, refreshMenu, Option.REFRESH_POSTS, true);
 				if(optionsMenuItemsPrefs.contains(OptionsMenuItemsPref.SUBMIT_POST)) add(activity, menu, Option.SUBMIT_POST, false);
 				if(optionsMenuItemsPrefs.contains(OptionsMenuItemsPref.SEARCH)) add(activity, menu, Option.SEARCH, false);
+
+				if(subredditPinned != null && optionsMenuItemsPrefs.contains(OptionsMenuItemsPref.PIN)) {
+					if(subredditPinned) {
+						add(activity, menu, Option.UNPIN, false);
+					} else {
+						add(activity, menu, Option.PIN, false);
+					}
+				}
+
 				if(subredditSubscriptionState != null) {
 					addSubscriptionItem(activity, menu, subredditSubscriptionState);
 					if(subredditHasSidebar) add(activity, menu, Option.SIDEBAR, false);
@@ -377,6 +398,24 @@ public final class OptionsMenuUtility {
 				});
 				break;
 
+			case PIN:
+				menu.add(activity.getString(R.string.pin_subreddit)).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+					public boolean onMenuItemClick(final MenuItem item) {
+						((OptionsMenuPostsListener)activity).onPin();
+						return true;
+					}
+				});
+				break;
+
+			case UNPIN:
+				menu.add(activity.getString(R.string.unpin_subreddit)).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+					public boolean onMenuItemClick(final MenuItem item) {
+						((OptionsMenuPostsListener)activity).onUnpin();
+						return true;
+					}
+				});
+				break;
+
 			default:
 				BugReportActivity.handleGlobalError(activity, "Unknown menu option added");
 		}
@@ -475,6 +514,8 @@ public final class OptionsMenuUtility {
 		void onSubscribe();
 		void onUnsubscribe();
 		void onSidebar();
+		void onPin();
+		void onUnpin();
 	}
 
 	public static interface OptionsMenuCommentsListener extends OptionsMenuListener {

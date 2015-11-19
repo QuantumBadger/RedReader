@@ -37,10 +37,7 @@ import org.quantumbadger.redreader.views.list.ListItemView;
 import org.quantumbadger.redreader.views.list.ListSectionHeader;
 import org.quantumbadger.redreader.views.list.MainMenuItem;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.EnumSet;
+import java.util.*;
 
 public class MainMenuAdapter extends BaseAdapter {
 
@@ -185,7 +182,18 @@ public class MainMenuAdapter extends BaseAdapter {
 				mainItems.add(makeItem(context.getString(R.string.mainmenu_modmail), MainMenuFragment.MainMenuAction.MODMAIL, null, rrIconEnvOpen));
 		}
 
-		mainItems.add(new MainMenuItem(context.getString(R.string.mainmenu_header_subreddits)));
+		final List<String> pinnedSubreddits
+				= PrefsUtility.pref_pinned_subreddits(context, PreferenceManager.getDefaultSharedPreferences(context));
+
+		if(!pinnedSubreddits.isEmpty()) {
+			mainItems.add(new MainMenuItem(context.getString(R.string.mainmenu_header_subreddits_pinned)));
+
+			for(final String sr : pinnedSubreddits) {
+				mainItems.add(makeSubredditItem(sr));
+			}
+		}
+
+		mainItems.add(new MainMenuItem(context.getString(R.string.mainmenu_header_subreddits_subscribed)));
 
 		//items.add(makeItem("Add Subreddit", null, null, null)); // TODO
 

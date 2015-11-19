@@ -17,6 +17,7 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-core:2.5.1'
     compile 'org.apache.commons:commons-lang3:3.3.2'
     compile 'joda-time:joda-time:2.7'
+    compile 'com.squareup.okhttp:okhttp:2.5.0'
 
     testCompile 'junit:junit:4.12'
 }

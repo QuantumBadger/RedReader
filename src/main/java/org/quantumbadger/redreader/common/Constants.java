@@ -174,6 +174,7 @@ public final class Constants {
 				API_COMMENT_LIST = -300,
 				THUMBNAIL = 100,
 				IMAGE_PRECACHE = 500,
+				COMMENT_PRECACHE = 500,
 				IMAGE_VIEW = -400,
 				API_USER_ABOUT = -500,
 				API_INBOX_LIST = -500;

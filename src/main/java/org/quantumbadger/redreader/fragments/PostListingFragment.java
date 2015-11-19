@@ -48,7 +48,9 @@ import org.quantumbadger.redreader.io.RequestResponseHandler;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
+import org.quantumbadger.redreader.listingcontrollers.CommentListingController;
 import org.quantumbadger.redreader.listingcontrollers.PostListingController;
+import org.quantumbadger.redreader.reddit.CommentListingRequest;
 import org.quantumbadger.redreader.reddit.RedditSubredditManager;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.api.SubredditRequestFailure;
@@ -57,6 +59,7 @@ import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.things.RedditThing;
+import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.reddit.url.PostListingURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 import org.quantumbadger.redreader.reddit.url.SubredditPostListURL;
@@ -530,11 +533,17 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 				final boolean showNsfwThumbnails = PrefsUtility.appearance_thumbnails_nsfw_show(context, sharedPrefs);
 
 				final PrefsUtility.CachePrecacheImages imagePrecachePref = PrefsUtility.cache_precache_images(context, sharedPrefs);
+				final PrefsUtility.CachePrecacheComments commentPrecachePref = PrefsUtility.cache_precache_comments(context, sharedPrefs);
+
 				final boolean precacheImages = (imagePrecachePref == PrefsUtility.CachePrecacheImages.ALWAYS
 						|| (imagePrecachePref == PrefsUtility.CachePrecacheImages.WIFIONLY && isConnectionWifi))
 						&& !General.isCacheDiskFull(context);
 
+				final boolean precacheComments = (commentPrecachePref == PrefsUtility.CachePrecacheComments.ALWAYS
+						|| (commentPrecachePref == PrefsUtility.CachePrecacheComments.WIFIONLY && isConnectionWifi));
+
 				Log.i("PostListingFragment", "Precaching images: " + (precacheImages ? "ON" : "OFF"));
+				Log.i("PostListingFragment", "Precaching comments: " + (precacheComments ? "ON" : "OFF"));
 
 				final CacheManager cm = CacheManager.getInstance(context);
 
@@ -562,9 +571,54 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 
 						final boolean downloadThisThumbnail = downloadThumbnails && (!post.over_18 || showNsfwThumbnails);
 
-						final RedditPreparedPost preparedPost = new RedditPreparedPost(context, cm, postCount, post, timestamp, showSubredditName, needsChanging.contains(post.name), downloadThisThumbnail, precacheImages, user, false);
+						final int positionInList = postCount;
+
+						final RedditPreparedPost preparedPost = new RedditPreparedPost(context, cm, positionInList, post, timestamp, showSubredditName, needsChanging.contains(post.name), downloadThisThumbnail, precacheImages, user, false);
+
+						if(precacheComments) {
+
+							final CommentListingController controller = new CommentListingController(
+									PostCommentListingURL.forPostId(preparedPost.idAlone),
+									context);
+
+							CacheManager.getInstance(context).makeRequest(new CacheRequest(
+									General.uriFromString(controller.getUri().toString()),
+									RedditAccountManager.getInstance(context).getDefaultAccount(),
+									null,
+									Constants.Priority.COMMENT_PRECACHE,
+									positionInList,
+									DownloadType.IF_NECESSARY,
+									Constants.FileType.COMMENT_LIST,
+									DownloadQueueType.REDDIT_API,
+									false, // Don't parse the JSON
+									false,
+									context) {
+
+								@Override
+								protected void onCallbackException(final Throwable t) {}
+
+								@Override
+								protected void onDownloadNecessary() {}
+
+								@Override
+								protected void onDownloadStarted() {}
+
+								@Override
+								protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
+									Log.e("PostListingFragment", "Failed to precache " + url.toString() + "(" + type.toString() + ")");
+								}
+
+								@Override
+								protected void onProgress(final boolean authorizationInProgress, final long bytesRead, final long totalBytes) {}
+
+								@Override
+								protected void onSuccess(final CacheManager.ReadableCacheFile cacheFile, final long timestamp, final UUID session, final boolean fromCache, final String mimetype) {
+									Log.i("PostListingFragment", "Successfully precached " + url.toString());
+								}
+							});
+						}
 						
-						LinkHandler.getImageInfo(context, post.url, Constants.Priority.IMAGE_PRECACHE, listId, new GetImageInfoListener() {
+						LinkHandler.getImageInfo(context, post.url, Constants.Priority.IMAGE_PRECACHE, positionInList, new GetImageInfoListener() {
 							
 							@Override public void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {}
 							@Override public void onNotAnImage() {}
@@ -587,7 +641,7 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 										RedditAccountManager.getAnon(),
 										null,
 										Constants.Priority.IMAGE_PRECACHE,
-										listId,
+										positionInList,
 										DownloadType.IF_NECESSARY,
 										Constants.FileType.IMAGE,
 										DownloadQueueType.QUEUE_IMAGE_PRECACHE,

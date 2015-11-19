@@ -1,3 +1,8 @@
+65/1.9.2
+Precaching for comment threads
+Improved connection robustness
+Various bugfixes
+
 64/1.9.1
 Native support for Gfycat and Streamable
 Added album swipe length preference

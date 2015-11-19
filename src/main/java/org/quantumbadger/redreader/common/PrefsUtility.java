@@ -367,10 +367,27 @@ public final class PrefsUtility {
 
 		if(!getBoolean(R.string.pref_cache_precache_images_key, true, context,  sharedPreferences)) {
 			return CachePrecacheImages.NEVER;
-		} else if(getBoolean(R.string.pref_cache_precache_images_wifionly_key, false, context, sharedPreferences)) {
+		} else if(getBoolean(R.string.pref_cache_precache_images_wifionly_key, true, context, sharedPreferences)) {
 			return CachePrecacheImages.WIFIONLY;
 		} else {
 			return CachePrecacheImages.ALWAYS;
+		}
+	}
+
+	// pref_cache_precache_comments
+
+	public static enum CachePrecacheComments {
+		NEVER, WIFIONLY, ALWAYS
+	}
+
+	public static CachePrecacheComments cache_precache_comments(final Context context, final SharedPreferences sharedPreferences) {
+
+		if(!getBoolean(R.string.pref_cache_precache_comments_key, true, context,  sharedPreferences)) {
+			return CachePrecacheComments.NEVER;
+		} else if(getBoolean(R.string.pref_cache_precache_comments_wifionly_key, false, context, sharedPreferences)) {
+			return CachePrecacheComments.WIFIONLY;
+		} else {
+			return CachePrecacheComments.ALWAYS;
 		}
 	}
 

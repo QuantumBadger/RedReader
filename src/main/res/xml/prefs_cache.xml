@@ -32,6 +32,19 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/pref_cache_precache_comments_header">
+
+        <CheckBoxPreference android:title="@string/pref_cache_precache_comments_title"
+                            android:key="@string/pref_cache_precache_comments_key"
+                            android:defaultValue="true"/>
+
+        <CheckBoxPreference android:title="@string/pref_cache_precache_comments_wifionly_title"
+                            android:key="@string/pref_cache_precache_comments_wifionly_key"
+                            android:dependency="@string/pref_cache_precache_comments_key"
+                            android:defaultValue="false"/>
+
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/pref_cache_pruning">
 
     <ListPreference android:title="@string/pref_cache_maxage_listing_title"

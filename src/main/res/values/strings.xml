@@ -711,4 +711,13 @@
     <string name="pref_behaviour_gallery_swipe_length_title">Gallery Swipe Length</string>
     <string name="pref_behaviour_gallery_swipe_length_key">pref_behaviour_gallery_swipe_length</string>
 
+    <!-- 2015-11-19 -->
+    <string name="pref_cache_precache_comments_header">Precache Comments</string>
+
+    <string name="pref_cache_precache_comments_key">pref_cache_precache_comments</string>
+    <string name="pref_cache_precache_comments_title">Precache comments</string>
+
+    <string name="pref_cache_precache_comments_wifionly_key">pref_cache_precache_comments_wifionly</string>
+    <string name="pref_cache_precache_comments_wifionly_title">On Wi-Fi only</string>
+
 </resources>

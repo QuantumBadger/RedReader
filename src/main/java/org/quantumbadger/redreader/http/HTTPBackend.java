@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.http;
 
 import android.content.Context;
-import org.apache.commons.lang3.StringUtils;
 import org.quantumbadger.redreader.cache.RequestFailureType;
 
 import java.io.InputStream;

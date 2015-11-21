@@ -31,7 +31,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.http.StatusLine;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -50,7 +49,6 @@ import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.listingcontrollers.CommentListingController;
 import org.quantumbadger.redreader.listingcontrollers.PostListingController;
-import org.quantumbadger.redreader.reddit.CommentListingRequest;
 import org.quantumbadger.redreader.reddit.RedditSubredditManager;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.api.SubredditRequestFailure;
@@ -604,7 +602,7 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 								protected void onDownloadStarted() {}
 
 								@Override
-								protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
+								protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
 									Log.e("PostListingFragment", "Failed to precache " + url.toString() + "(" + type.toString() + ")");
 								}
 

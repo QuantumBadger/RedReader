@@ -24,7 +24,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import org.apache.http.StatusLine;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BugReportActivity;

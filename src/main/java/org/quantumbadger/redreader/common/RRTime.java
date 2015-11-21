@@ -20,13 +20,12 @@ package org.quantumbadger.redreader.common;
 import android.content.Context;
 import android.text.format.DateFormat;
 import org.joda.time.*;
-import org.joda.time.format.PeriodFormatter;
-import org.joda.time.format.PeriodFormatterBuilder;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.PeriodFormatter;
+import org.joda.time.format.PeriodFormatterBuilder;
 import org.quantumbadger.redreader.R;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

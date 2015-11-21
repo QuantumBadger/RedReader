@@ -34,7 +34,6 @@
 
 package org.quantumbadger.redreader.activities;
 
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;

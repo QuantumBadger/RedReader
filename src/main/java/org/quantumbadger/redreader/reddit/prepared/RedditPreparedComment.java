@@ -25,7 +25,6 @@ import android.text.SpannableStringBuilder;
 import android.view.ViewGroup;
 import android.widget.Toast;
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.http.StatusLine;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;

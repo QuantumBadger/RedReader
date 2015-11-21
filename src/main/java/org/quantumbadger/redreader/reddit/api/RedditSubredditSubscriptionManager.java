@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.reddit.api;
 
 import android.app.Activity;
 import android.content.Context;
-import org.apache.http.StatusLine;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheManager;

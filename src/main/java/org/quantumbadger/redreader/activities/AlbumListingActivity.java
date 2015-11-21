@@ -30,7 +30,6 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import org.apache.http.StatusLine;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.adapters.AlbumAdapter;
 import org.quantumbadger.redreader.cache.RequestFailureType;

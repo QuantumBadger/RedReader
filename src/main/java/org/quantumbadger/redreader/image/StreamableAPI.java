@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.image;
 
 import android.content.Context;
-import org.apache.http.StatusLine;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheManager;

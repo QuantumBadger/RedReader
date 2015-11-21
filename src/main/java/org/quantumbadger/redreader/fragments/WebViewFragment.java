@@ -20,7 +20,6 @@ package org.quantumbadger.redreader.fragments;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;

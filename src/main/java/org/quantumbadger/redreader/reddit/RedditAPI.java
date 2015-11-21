@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.reddit;
 
 import android.content.Context;
-import org.apache.http.StatusLine;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -40,7 +39,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import static org.quantumbadger.redreader.http.HTTPBackend.*;
+import static org.quantumbadger.redreader.http.HTTPBackend.PostField;
 
 public final class RedditAPI {
 

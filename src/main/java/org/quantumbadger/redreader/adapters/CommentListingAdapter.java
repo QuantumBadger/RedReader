@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.adapters;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.res.TypedArray;
 import android.view.View;
 import android.view.ViewGroup;

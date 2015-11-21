@@ -9,7 +9,6 @@ import android.view.Gravity;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import org.apache.http.StatusLine;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;

@@ -43,7 +43,10 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
-import org.quantumbadger.redreader.common.*;
+import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.PrioritisedCachedThreadPool;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
 import java.io.*;

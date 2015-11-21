@@ -20,7 +20,10 @@ package org.quantumbadger.redreader.fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.view.*;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 
 public abstract class RRFragment {
 

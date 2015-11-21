@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.reddit.api;
 
 import android.content.Context;
-import org.apache.http.StatusLine;
 import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.RRError;

@@ -33,7 +33,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.github.lzyzsd.circleprogress.DonutProgress;
-import org.apache.http.StatusLine;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;

@@ -37,10 +37,6 @@ class PrioritisedDownloadQueue {
 		new RedditQueueProcessor().start();
 	}
 
-	HttpClient getHttpClient() {
-		return CacheManager.createHttpClient(mContext);
-	}
-
 	public synchronized void add(final CacheRequest request, final CacheManager manager) {
 
 		final CacheDownload download = new CacheDownload(request, manager, this);

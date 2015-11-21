@@ -21,26 +21,23 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.SystemClock;
 import android.util.Base64;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.StatusLine;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.message.BasicNameValuePair;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.cache.CacheManager;
+import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.http.HTTPBackend;
+import org.quantumbadger.redreader.http.apache.ApacheHTTPBackend;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicReference;
 
 public final class RedditOAuth {
 
@@ -160,6 +157,94 @@ public final class RedditOAuth {
 		return uri.build();
 	}
 
+	private static FetchRefreshTokenResult handleRefreshTokenError(
+			final Throwable exception,
+			final Integer httpStatus,
+			final Context context,
+			final String uri) {
+
+		if(httpStatus != null && httpStatus != 200) {
+			return new FetchRefreshTokenResult(
+					FetchRefreshTokenResultStatus.UNKNOWN_ERROR,
+					new RRError(
+							context.getString(R.string.error_unknown_title),
+							context.getString(R.string.message_cannotlogin),
+							null,
+							httpStatus,
+							uri
+					)
+			);
+
+		} else if(exception != null && exception instanceof IOException) {
+			return new FetchRefreshTokenResult(
+					FetchRefreshTokenResultStatus.CONNECTION_ERROR,
+					new RRError(
+							context.getString(R.string.error_connection_title),
+							context.getString(R.string.error_connection_message),
+							exception,
+							null,
+							uri
+					)
+			);
+
+		} else {
+			return new FetchRefreshTokenResult(
+					FetchRefreshTokenResultStatus.UNKNOWN_ERROR,
+					new RRError(
+							context.getString(R.string.error_unknown_title),
+							context.getString(R.string.error_unknown_message),
+							exception,
+							null,
+							uri
+					)
+			);
+		}
+	}
+
+	private static FetchAccessTokenResult handleAccessTokenError(
+			final Throwable exception,
+			final Integer httpStatus,
+			final Context context,
+			final String uri) {
+
+		if(httpStatus != null && httpStatus != 200) {
+			return new FetchAccessTokenResult(
+					FetchAccessTokenResultStatus.UNKNOWN_ERROR,
+					new RRError(
+							context.getString(R.string.error_unknown_title),
+							context.getString(R.string.message_cannotlogin),
+							null,
+							httpStatus,
+							uri
+					)
+			);
+
+		} else if(exception != null && exception instanceof IOException) {
+			return new FetchAccessTokenResult(
+					FetchAccessTokenResultStatus.CONNECTION_ERROR,
+					new RRError(
+							context.getString(R.string.error_connection_title),
+							context.getString(R.string.error_connection_message),
+							exception,
+							null,
+							uri
+					)
+			);
+
+		} else {
+			return new FetchAccessTokenResult(
+					FetchAccessTokenResultStatus.UNKNOWN_ERROR,
+					new RRError(
+							context.getString(R.string.error_unknown_title),
+							context.getString(R.string.error_unknown_message),
+							exception,
+							null,
+							uri
+					)
+			);
+		}
+	}
+
 	private static FetchRefreshTokenResult fetchRefreshTokenSynchronous(final Context context, final Uri redirectUri) {
 
 		final String error = redirectUri.getQueryParameter("error");
@@ -198,57 +283,63 @@ public final class RedditOAuth {
 		}
 
 		final String uri = ACCESS_TOKEN_URL;
-		StatusLine responseStatus = null;
+
+		final ArrayList<HTTPBackend.PostField> postFields = new ArrayList<HTTPBackend.PostField>(3);
+		postFields.add(new HTTPBackend.PostField("grant_type", "authorization_code"));
+		postFields.add(new HTTPBackend.PostField("code", code));
+		postFields.add(new HTTPBackend.PostField("redirect_uri", REDIRECT_URI));
 
 		try {
-			final HttpClient httpClient = CacheManager.createHttpClient(context);
-
-			final HttpPost request = new HttpPost(uri);
-
-			final ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
-			nameValuePairs.add(new BasicNameValuePair("grant_type", "authorization_code"));
-			nameValuePairs.add(new BasicNameValuePair("code", code));
-			nameValuePairs.add(new BasicNameValuePair("redirect_uri", REDIRECT_URI));
-			request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			final HTTPBackend.Request request = new ApacheHTTPBackend().prepareRequest(
+					context,
+					new HTTPBackend.RequestDetails(
+							General.uriFromString(uri),
+							postFields));
 
 			request.addHeader("Authorization", "Basic " + Base64.encodeToString((CLIENT_ID + ":").getBytes(), Base64.URL_SAFE | Base64.NO_WRAP));
 
-			final HttpResponse response = httpClient.execute(request);
-			responseStatus = response.getStatusLine();
+			final AtomicReference<FetchRefreshTokenResult> result = new AtomicReference<FetchRefreshTokenResult>();
 
-			if(responseStatus.getStatusCode() != 200) {
-				return new FetchRefreshTokenResult(
-						FetchRefreshTokenResultStatus.UNKNOWN_ERROR,
-						new RRError(
-								context.getString(R.string.error_unknown_title),
-								context.getString(R.string.message_cannotlogin),
-								null,
-								responseStatus.getStatusCode(),
-								request.getURI().toString()
-						)
-				);
-			}
+			request.executeInThisThread(new HTTPBackend.Listener() {
 
-			final JsonValue jsonValue = new JsonValue(response.getEntity().getContent());
-			jsonValue.buildInThisThread();
-			final JsonBufferedObject responseObject = jsonValue.asObject();
+				@Override
+				public void onError(final RequestFailureType failureType, final Throwable exception, final Integer httpStatus) {
+					result.set(handleRefreshTokenError(exception, httpStatus, context, uri));
+				}
 
-			final RefreshToken refreshToken = new RefreshToken(responseObject.getString("refresh_token"));
-			final AccessToken accessToken = new AccessToken(responseObject.getString("access_token"));
+				@Override
+				public void onSuccess(final String mimetype, final Long bodyBytes, final InputStream body) {
 
-			return new FetchRefreshTokenResult(refreshToken, accessToken);
+					try {
+						final JsonValue jsonValue = new JsonValue(body);
+						jsonValue.buildInThisThread();
+						final JsonBufferedObject responseObject = jsonValue.asObject();
 
-		} catch(IOException e) {
-			return new FetchRefreshTokenResult(
-					FetchRefreshTokenResultStatus.CONNECTION_ERROR,
-					new RRError(
-							context.getString(R.string.error_connection_title),
-							context.getString(R.string.error_connection_message),
-							e,
-							responseStatus.getStatusCode(),
-							uri
-					)
-			);
+						final RefreshToken refreshToken = new RefreshToken(responseObject.getString("refresh_token"));
+						final AccessToken accessToken = new AccessToken(responseObject.getString("access_token"));
+
+						result.set(new FetchRefreshTokenResult(refreshToken, accessToken));
+
+					} catch(IOException e) {
+
+						result.set(new FetchRefreshTokenResult(
+								FetchRefreshTokenResultStatus.CONNECTION_ERROR,
+								new RRError(
+										context.getString(R.string.error_connection_title),
+										context.getString(R.string.error_connection_message),
+										e,
+										null,
+										uri
+								)
+						));
+
+					} catch(Throwable t) {
+						throw new RuntimeException(t);
+					}
+				}
+			});
+
+			return result.get();
 
 		} catch(Throwable t) {
 			return new FetchRefreshTokenResult(
@@ -257,7 +348,7 @@ public final class RedditOAuth {
 							context.getString(R.string.error_unknown_title),
 							context.getString(R.string.error_unknown_message),
 							t,
-							responseStatus.getStatusCode(),
+							null,
 							uri
 					)
 			);
@@ -267,62 +358,94 @@ public final class RedditOAuth {
 	private static FetchUserInfoResult fetchUserInfoSynchronous(final Context context, final AccessToken accessToken) {
 
 		final URI uri = Constants.Reddit.getUri(Constants.Reddit.PATH_ME);
-		StatusLine responseStatus = null;
 
 		try {
-			final HttpClient httpClient = CacheManager.createHttpClient(context);
+			final HTTPBackend.Request request
+					= new ApacheHTTPBackend().prepareRequest(context, new HTTPBackend.RequestDetails(uri, null));
 
-			final HttpGet request = new HttpGet(uri);
 			request.addHeader("Authorization", "bearer " + accessToken.token);
 
-			final HttpResponse response = httpClient.execute(request);
-			responseStatus = response.getStatusLine();
+			final AtomicReference<FetchUserInfoResult> result = new AtomicReference<FetchUserInfoResult>();
 
-			if(responseStatus.getStatusCode() != 200) {
-				return new FetchUserInfoResult(
-						FetchUserInfoResultStatus.CONNECTION_ERROR,
-						new RRError(
-								context.getString(R.string.error_unknown_title),
-								context.getString(R.string.error_unknown_message),
-								null,
-								responseStatus.getStatusCode(),
-								uri.toString()
-						)
-				);
-			}
+			request.executeInThisThread(new HTTPBackend.Listener() {
 
-			final JsonValue jsonValue = new JsonValue(response.getEntity().getContent());
-			jsonValue.buildInThisThread();
-			final JsonBufferedObject responseObject = jsonValue.asObject();
+				@Override
+				public void onError(final RequestFailureType failureType, final Throwable exception, final Integer httpStatus) {
 
-			final String username = responseObject.getString("name");
+					if(httpStatus != null && httpStatus != 200) {
+						result.set(new FetchUserInfoResult(
+								FetchUserInfoResultStatus.CONNECTION_ERROR,
+								new RRError(
+										context.getString(R.string.error_unknown_title),
+										context.getString(R.string.error_unknown_message),
+										null,
+										httpStatus,
+										uri.toString()
+								)
+						));
 
-			if(username == null || username.length() == 0) {
-				return new FetchUserInfoResult(
-						FetchUserInfoResultStatus.INVALID_RESPONSE,
-						new RRError(
-								context.getString(R.string.error_unknown_title),
-								context.getString(R.string.error_unknown_message),
-								null,
-								responseStatus.getStatusCode(),
-								uri.toString()
-						)
-				);
-			}
+					} else {
+						result.set(new FetchUserInfoResult(
+								FetchUserInfoResultStatus.UNKNOWN_ERROR,
+								new RRError(
+										context.getString(R.string.error_unknown_title),
+										context.getString(R.string.error_unknown_message),
+										exception,
+										null,
+										uri.toString()
+								)
+						));
+					}
+				}
 
-			return new FetchUserInfoResult(username);
+				@Override
+				public void onSuccess(final String mimetype, final Long bodyBytes, final InputStream body) {
 
-		} catch(IOException e) {
-			return new FetchUserInfoResult(
-					FetchUserInfoResultStatus.CONNECTION_ERROR,
-					new RRError(
-							context.getString(R.string.error_connection_title),
-							context.getString(R.string.error_connection_message),
-							e,
-							responseStatus != null ? responseStatus.getStatusCode() : null,
-							uri.toString()
-					)
-			);
+					try {
+
+						final JsonValue jsonValue = new JsonValue(body);
+						jsonValue.buildInThisThread();
+						final JsonBufferedObject responseObject = jsonValue.asObject();
+
+						final String username = responseObject.getString("name");
+
+						if(username == null || username.length() == 0) {
+
+							result.set(new FetchUserInfoResult(
+									FetchUserInfoResultStatus.INVALID_RESPONSE,
+									new RRError(
+											context.getString(R.string.error_unknown_title),
+											context.getString(R.string.error_unknown_message),
+											null,
+											null,
+											uri.toString()
+									)
+							));
+
+							return;
+						}
+
+						result.set(new FetchUserInfoResult(username));
+
+					} catch(IOException e) {
+						result.set(new FetchUserInfoResult(
+								FetchUserInfoResultStatus.CONNECTION_ERROR,
+								new RRError(
+										context.getString(R.string.error_connection_title),
+										context.getString(R.string.error_connection_message),
+										e,
+										null,
+										uri.toString()
+								)
+						));
+
+					} catch(Throwable t) {
+						throw new RuntimeException(t);
+					}
+				}
+			});
+
+			return result.get();
 
 		} catch(Throwable t) {
 			return new FetchUserInfoResult(
@@ -331,7 +454,7 @@ public final class RedditOAuth {
 							context.getString(R.string.error_unknown_title),
 							context.getString(R.string.error_unknown_message),
 							t,
-							responseStatus != null ? responseStatus.getStatusCode() : null,
+							null,
 							uri.toString()
 					)
 			);
@@ -466,61 +589,63 @@ public final class RedditOAuth {
 	public static FetchAccessTokenResult fetchAccessTokenSynchronous(final Context context, final RefreshToken refreshToken) {
 
 		final String uri = ACCESS_TOKEN_URL;
-		StatusLine responseStatus = null;
+
+		final ArrayList<HTTPBackend.PostField> postFields = new ArrayList<HTTPBackend.PostField>(2);
+		postFields.add(new HTTPBackend.PostField("grant_type", "refresh_token"));
+		postFields.add(new HTTPBackend.PostField("refresh_token", refreshToken.token));
 
 		try {
-			final HttpClient httpClient = CacheManager.createHttpClient(context);
-
-			final HttpPost request = new HttpPost(uri);
-
-			final ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-			nameValuePairs.add(new BasicNameValuePair("grant_type", "refresh_token"));
-			nameValuePairs.add(new BasicNameValuePair("refresh_token", refreshToken.token));
-			request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			final HTTPBackend.Request request = new ApacheHTTPBackend().prepareRequest(context, new HTTPBackend.RequestDetails(
+					General.uriFromString(uri),
+					postFields));
 
 			request.addHeader("Authorization", "Basic " + Base64.encodeToString((CLIENT_ID + ":").getBytes(), Base64.URL_SAFE | Base64.NO_WRAP));
 
-			final HttpResponse response = httpClient.execute(request);
-			responseStatus = response.getStatusLine();
+			final AtomicReference<FetchAccessTokenResult> result = new AtomicReference<FetchAccessTokenResult>();
 
-			if(responseStatus.getStatusCode() != 200) {
-				return new FetchAccessTokenResult(
-						FetchAccessTokenResultStatus.UNKNOWN_ERROR,
-						new RRError(
-								context.getString(R.string.error_unknown_title),
-								context.getString(R.string.message_cannotlogin),
-								null,
-								responseStatus.getStatusCode(),
-								request.getURI().toString()
-						)
-				);
-			}
+			request.executeInThisThread(new HTTPBackend.Listener() {
+				@Override
+				public void onError(final RequestFailureType failureType, final Throwable exception, final Integer httpStatus) {
+					result.set(handleAccessTokenError(exception, httpStatus, context, uri));
+				}
 
-			final JsonValue jsonValue = new JsonValue(response.getEntity().getContent());
-			jsonValue.buildInThisThread();
-			final JsonBufferedObject responseObject = jsonValue.asObject();
+				@Override
+				public void onSuccess(final String mimetype, final Long bodyBytes, final InputStream body) {
 
-			final String accessTokenString = responseObject.getString("access_token");
+					try {
+						final JsonValue jsonValue = new JsonValue(body);
+						jsonValue.buildInThisThread();
+						final JsonBufferedObject responseObject = jsonValue.asObject();
 
-			if(accessTokenString == null) {
-				throw new RuntimeException("Null access token: " + responseObject.getString("error"));
-			}
+						final String accessTokenString = responseObject.getString("access_token");
 
-			final AccessToken accessToken = new AccessToken(accessTokenString);
+						if(accessTokenString == null) {
+							throw new RuntimeException("Null access token: " + responseObject.getString("error"));
+						}
 
-			return new FetchAccessTokenResult(accessToken);
+						final AccessToken accessToken = new AccessToken(accessTokenString);
 
-		} catch(IOException e) {
-			return new FetchAccessTokenResult(
-					FetchAccessTokenResultStatus.CONNECTION_ERROR,
-					new RRError(
-							context.getString(R.string.error_connection_title),
-							context.getString(R.string.error_connection_message),
-							e,
-							responseStatus != null ? responseStatus.getStatusCode() : null,
-							uri
-					)
-			);
+						result.set(new FetchAccessTokenResult(accessToken));
+
+					} catch(IOException e) {
+						result.set(new FetchAccessTokenResult(
+								FetchAccessTokenResultStatus.CONNECTION_ERROR,
+								new RRError(
+										context.getString(R.string.error_connection_title),
+										context.getString(R.string.error_connection_message),
+										e,
+										null,
+										uri
+								)
+						));
+
+					} catch(Throwable t) {
+						throw new RuntimeException(t);
+					}
+				}
+			});
+
+			return result.get();
 
 		} catch(Throwable t) {
 			return new FetchAccessTokenResult(
@@ -529,7 +654,7 @@ public final class RedditOAuth {
 							context.getString(R.string.error_unknown_title),
 							context.getString(R.string.error_unknown_message),
 							t,
-							responseStatus != null ? responseStatus.getStatusCode() : null,
+							null,
 							uri
 					)
 			);
@@ -539,61 +664,63 @@ public final class RedditOAuth {
 	public static FetchAccessTokenResult fetchAnonymousAccessTokenSynchronous(final Context context) {
 
 		final String uri = ACCESS_TOKEN_URL;
-		StatusLine responseStatus = null;
+
+		final ArrayList<HTTPBackend.PostField> postFields = new ArrayList<HTTPBackend.PostField>(2);
+		postFields.add(new HTTPBackend.PostField("grant_type", "https://oauth.reddit.com/grants/installed_client"));
+		postFields.add(new HTTPBackend.PostField("device_id", "DO_NOT_TRACK_THIS_DEVICE"));
 
 		try {
-			final HttpClient httpClient = CacheManager.createHttpClient(context);
-
-			final HttpPost request = new HttpPost(uri);
-
-			final ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-			nameValuePairs.add(new BasicNameValuePair("grant_type", "https://oauth.reddit.com/grants/installed_client"));
-			nameValuePairs.add(new BasicNameValuePair("device_id", "DO_NOT_TRACK_THIS_DEVICE"));
-			request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			final HTTPBackend.Request request = new ApacheHTTPBackend().prepareRequest(context, new HTTPBackend.RequestDetails(
+					General.uriFromString(uri),
+					postFields));
 
 			request.addHeader("Authorization", "Basic " + Base64.encodeToString((CLIENT_ID + ":").getBytes(), Base64.URL_SAFE | Base64.NO_WRAP));
 
-			final HttpResponse response = httpClient.execute(request);
-			responseStatus = response.getStatusLine();
+			final AtomicReference<FetchAccessTokenResult> result = new AtomicReference<FetchAccessTokenResult>();
 
-			if(responseStatus.getStatusCode() != 200) {
-				return new FetchAccessTokenResult(
-						FetchAccessTokenResultStatus.UNKNOWN_ERROR,
-						new RRError(
-								context.getString(R.string.error_unknown_title),
-								context.getString(R.string.message_cannotlogin),
-								null,
-								responseStatus.getStatusCode(),
-								request.getURI().toString()
-						)
-				);
-			}
+			request.executeInThisThread(new HTTPBackend.Listener() {
+				@Override
+				public void onError(final RequestFailureType failureType, final Throwable exception, final Integer httpStatus) {
+					result.set(handleAccessTokenError(exception, httpStatus, context, uri));
+				}
 
-			final JsonValue jsonValue = new JsonValue(response.getEntity().getContent());
-			jsonValue.buildInThisThread();
-			final JsonBufferedObject responseObject = jsonValue.asObject();
+				@Override
+				public void onSuccess(final String mimetype, final Long bodyBytes, final InputStream body) {
 
-			final String accessTokenString = responseObject.getString("access_token");
+					try {
+						final JsonValue jsonValue = new JsonValue(body);
+						jsonValue.buildInThisThread();
+						final JsonBufferedObject responseObject = jsonValue.asObject();
 
-			if(accessTokenString == null) {
-				throw new RuntimeException("Null access token: " + responseObject.getString("error"));
-			}
+						final String accessTokenString = responseObject.getString("access_token");
 
-			final AccessToken accessToken = new AccessToken(accessTokenString);
+						if(accessTokenString == null) {
+							throw new RuntimeException("Null access token: " + responseObject.getString("error"));
+						}
 
-			return new FetchAccessTokenResult(accessToken);
+						final AccessToken accessToken = new AccessToken(accessTokenString);
 
-		} catch(IOException e) {
-			return new FetchAccessTokenResult(
-					FetchAccessTokenResultStatus.CONNECTION_ERROR,
-					new RRError(
-							context.getString(R.string.error_connection_title),
-							context.getString(R.string.error_connection_message),
-							e,
-							responseStatus != null ? responseStatus.getStatusCode() : null,
-							uri
-					)
-			);
+						result.set(new FetchAccessTokenResult(accessToken));
+
+					} catch(IOException e) {
+						result.set(new FetchAccessTokenResult(
+								FetchAccessTokenResultStatus.CONNECTION_ERROR,
+								new RRError(
+										context.getString(R.string.error_connection_title),
+										context.getString(R.string.error_connection_message),
+										e,
+										null,
+										uri
+								)
+						));
+
+					} catch(Throwable t) {
+						throw new RuntimeException(t);
+					}
+				}
+			});
+
+			return result.get();
 
 		} catch(Throwable t) {
 			return new FetchAccessTokenResult(
@@ -602,7 +729,7 @@ public final class RedditOAuth {
 							context.getString(R.string.error_unknown_title),
 							context.getString(R.string.message_cannotlogin),
 							t,
-							responseStatus != null ? responseStatus.getStatusCode() : null,
+							null,
 							uri
 					)
 			);

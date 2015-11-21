@@ -15,7 +15,7 @@
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.cache;
+package org.quantumbadger.redreader.http.apache;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.HttpEntityWrapper;

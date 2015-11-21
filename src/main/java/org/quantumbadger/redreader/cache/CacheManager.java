@@ -22,28 +22,8 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import org.apache.http.*;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.params.ClientPNames;
-import org.apache.http.conn.params.ConnManagerPNames;
-import org.apache.http.conn.params.ConnPerRoute;
-import org.apache.http.conn.routing.HttpRoute;
-import org.apache.http.conn.scheme.PlainSocketFactory;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
-import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.impl.NoConnectionReuseStrategy;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
-import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.CoreConnectionPNames;
-import org.apache.http.params.CoreProtocolPNames;
-import org.apache.http.params.HttpParams;
-import org.apache.http.protocol.HttpContext;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
-import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.PrioritisedCachedThreadPool;
@@ -75,54 +55,6 @@ public final class CacheManager {
 	public static synchronized CacheManager getInstance(final Context context) {
 		if(singleton == null) singleton = new CacheManager(context.getApplicationContext());
 		return singleton;
-	}
-
-	public static HttpClient createHttpClient(final Context context) {
-
-		final HttpParams params = new BasicHttpParams();
-		params.setParameter(CoreProtocolPNames.USER_AGENT, Constants.ua(context));
-		params.setParameter(CoreConnectionPNames.SO_TIMEOUT, 15000);
-		params.setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 15000);
-		params.setParameter(CoreConnectionPNames.MAX_HEADER_COUNT, 100);
-		params.setParameter(ClientPNames.HANDLE_REDIRECTS, true);
-		params.setParameter(ClientPNames.MAX_REDIRECTS, 5);
-		params.setParameter(ConnManagerPNames.MAX_TOTAL_CONNECTIONS, 50);
-		params.setParameter(ConnManagerPNames.MAX_CONNECTIONS_PER_ROUTE, new ConnPerRoute() {
-			public int getMaxForRoute(HttpRoute route) {
-				return 25;
-			}
-		});
-
-		final SchemeRegistry schemeRegistry = new SchemeRegistry();
-		schemeRegistry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
-		schemeRegistry.register(new Scheme("https", SSLSocketFactory.getSocketFactory(), 443));
-
-		final ThreadSafeClientConnManager connManager = new ThreadSafeClientConnManager(params, schemeRegistry);
-
-		final DefaultHttpClient httpClient = new DefaultHttpClient(connManager, params);
-		httpClient.setHttpRequestRetryHandler(new DefaultHttpRequestRetryHandler(3, true));
-
-		httpClient.setReuseStrategy(new NoConnectionReuseStrategy());
-
-		httpClient.addResponseInterceptor(new HttpResponseInterceptor() {
-
-			public void process(final HttpResponse response, final HttpContext context) throws HttpException, IOException {
-
-				final HttpEntity entity = response.getEntity();
-				final Header encHeader = entity.getContentEncoding();
-
-				if(encHeader == null) return;
-
-				for (final HeaderElement elem : encHeader.getElements()) {
-					if ("gzip".equalsIgnoreCase(elem.getName())) {
-						response.setEntity(new GzipDecompressingEntity(entity));
-						return;
-					}
-				}
-			}
-		});
-
-		return httpClient;
 	}
 
 	private CacheManager(final Context context) {

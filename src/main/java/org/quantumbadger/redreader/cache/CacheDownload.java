@@ -21,7 +21,7 @@ import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.common.PrioritisedCachedThreadPool;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.http.HTTPBackend;
-import org.quantumbadger.redreader.http.apache.ApacheHTTPBackend;
+import org.quantumbadger.redreader.http.okhttp.OKHTTPBackend;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 
@@ -58,7 +58,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 			session = UUID.randomUUID();
 		}
 
-		mRequest = new ApacheHTTPBackend().prepareRequest(
+		mRequest = new OKHTTPBackend().prepareRequest(
 				initiator.context,
 				new HTTPBackend.RequestDetails(mInitiator.url, mInitiator.postFields));
 	}

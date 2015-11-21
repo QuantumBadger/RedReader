@@ -2,12 +2,19 @@ package org.quantumbadger.redreader.http.okhttp;
 
 import android.content.Context;
 import com.squareup.okhttp.*;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
 import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.http.HTTPBackend;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class OKHTTPBackend implements HTTPBackend {
 
@@ -34,15 +41,34 @@ public class OKHTTPBackend implements HTTPBackend {
 
 		final com.squareup.okhttp.Request.Builder builder = new com.squareup.okhttp.Request.Builder();
 
-		builder.get();
+		final List<PostField> postFields = details.getPostFields();
+
+		if(postFields != null) {
+
+			final ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(postFields.size());
+
+			for(final PostField field : postFields) {
+				nameValuePairs.add(new BasicNameValuePair(field.name, field.value));
+			}
+
+			final String postData = URLEncodedUtils.format(nameValuePairs, HTTP.UTF_8);
+			builder.post(RequestBody.create(MediaType.parse("application/x-www-form-urlencoded"), postData));
+
+		} else {
+			builder.get();
+		}
+
 		builder.url(details.getUrl().toString());
 		builder.cacheControl(CacheControl.FORCE_NETWORK);
 
-		final Call call = mClient.newCall(builder.build());
+		final AtomicReference<Call> callRef = new AtomicReference<Call>();
 
 		return new Request() {
 
 			public void executeInThisThread(final Listener listener) {
+
+				final Call call = mClient.newCall(builder.build());
+				callRef.set(call);
 
 				try {
 
@@ -88,12 +114,15 @@ public class OKHTTPBackend implements HTTPBackend {
 
 			@Override
 			public void cancel() {
-				call.cancel();
+				final Call call = callRef.getAndSet(null);
+				if(call != null) {
+					call.cancel();
+				}
 			}
 
 			@Override
 			public void addHeader(final String name, final String value) {
-				throw new UnsupportedOperationException();
+				builder.addHeader(name, value);
 			}
 		};
 	}

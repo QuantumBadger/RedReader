@@ -1,17 +1,29 @@
+/*******************************************************************************
+ * This file is part of RedReader.
+ *
+ * RedReader is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * RedReader is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 package org.quantumbadger.redreader.http.okhttp;
 
 import android.content.Context;
 import com.squareup.okhttp.*;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HTTP;
 import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.http.HTTPBackend;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
@@ -44,15 +56,9 @@ public class OKHTTPBackend implements HTTPBackend {
 		final List<PostField> postFields = details.getPostFields();
 
 		if(postFields != null) {
-
-			final ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(postFields.size());
-
-			for(final PostField field : postFields) {
-				nameValuePairs.add(new BasicNameValuePair(field.name, field.value));
-			}
-
-			final String postData = URLEncodedUtils.format(nameValuePairs, HTTP.UTF_8);
-			builder.post(RequestBody.create(MediaType.parse("application/x-www-form-urlencoded"), postData));
+			builder.post(RequestBody.create(
+					MediaType.parse("application/x-www-form-urlencoded"),
+					PostField.encodeList(postFields)));
 
 		} else {
 			builder.get();

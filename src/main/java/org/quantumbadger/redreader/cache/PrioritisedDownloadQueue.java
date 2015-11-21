@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.cache;
 
 import android.content.Context;
-import org.apache.http.client.HttpClient;
 import org.quantumbadger.redreader.common.PrioritisedCachedThreadPool;
 
 import java.util.HashSet;

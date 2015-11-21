@@ -23,7 +23,7 @@
           android:installLocation="auto">
 
     <uses-sdk android:minSdkVersion="14"
-              android:targetSdkVersion="22" />
+              android:targetSdkVersion="23" />
 
     <uses-feature android:glEsVersion="0x00020000" android:required="true" />
 

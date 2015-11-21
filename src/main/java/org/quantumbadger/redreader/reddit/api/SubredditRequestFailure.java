@@ -28,12 +28,12 @@ import java.net.URI;
 public class SubredditRequestFailure {
 	public final RequestFailureType requestFailureType;
 	public final Throwable t;
-	public final StatusLine statusLine;
+	public final Integer statusLine;
 	public final String readableMessage;
 	public final String url;
 
 	public SubredditRequestFailure(RequestFailureType requestFailureType, Throwable t,
-								   StatusLine statusLine, String readableMessage, String url) {
+								   Integer statusLine, String readableMessage, String url) {
 		this.requestFailureType = requestFailureType;
 		this.t = t;
 		this.statusLine = statusLine;
@@ -42,7 +42,7 @@ public class SubredditRequestFailure {
 	}
 
 	public SubredditRequestFailure(RequestFailureType requestFailureType, Throwable t,
-								   StatusLine statusLine, String readableMessage, URI url) {
+								   Integer statusLine, String readableMessage, URI url) {
 		this(requestFailureType, t, statusLine, readableMessage, url != null ? url.toString() : null);
 	}
 

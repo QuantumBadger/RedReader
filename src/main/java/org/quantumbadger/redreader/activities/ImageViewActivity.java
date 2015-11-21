@@ -125,7 +125,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 						public void onFailure(
 								final RequestFailureType type,
 								final Throwable t,
-								final StatusLine status,
+								final Integer status,
 								final String readableMessage) {
 
 							// Do nothing
@@ -170,7 +170,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 		LinkHandler.getImageInfo(this, mUrl, Constants.Priority.IMAGE_VIEW, 0, new GetImageInfoListener() {
 
 			@Override
-			public void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
+			public void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
 				revertToWeb();
 			}
 
@@ -221,7 +221,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 							}
 
 							@Override
-							protected void onFailure(final RequestFailureType type, Throwable t, StatusLine status, final String readableMessage) {
+							protected void onFailure(final RequestFailureType type, Throwable t, Integer status, final String readableMessage) {
 
 								final RRError error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
 

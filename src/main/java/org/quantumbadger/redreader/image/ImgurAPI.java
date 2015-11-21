@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.image;
 
 import android.content.Context;
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.http.StatusLine;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -111,7 +110,7 @@ public final class ImgurAPI {
 			protected void onDownloadStarted() {}
 
 			@Override
-			protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
+			protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
 				listener.onFailure(type, t, status, readableMessage);
 			}
 
@@ -169,7 +168,7 @@ public final class ImgurAPI {
 			protected void onDownloadStarted() {}
 
 			@Override
-			protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
+			protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
 				listener.onFailure(type, t, status, readableMessage);
 			}
 

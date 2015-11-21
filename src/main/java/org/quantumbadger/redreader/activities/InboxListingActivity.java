@@ -188,7 +188,7 @@ public final class InboxListingActivity extends BaseActivity {
 			}
 
 			@Override
-			protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
+			protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
 
 				request = null;
 
@@ -318,7 +318,7 @@ public final class InboxListingActivity extends BaseActivity {
 							}
 
 							@Override
-							protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
+							protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
 								final RRError error = General.getGeneralErrorForFailure(context, type, t, status,
 										"Reddit API action: Mark all as Read");
 								AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {

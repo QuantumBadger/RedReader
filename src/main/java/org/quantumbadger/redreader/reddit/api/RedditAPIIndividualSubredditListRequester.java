@@ -161,7 +161,7 @@ public class RedditAPIIndividualSubredditListRequester
 			@Override protected void onProgress(final boolean authorizationInProgress, long bytesRead, long totalBytes) {}
 
 			@Override
-			protected void onFailure(RequestFailureType type, Throwable t, StatusLine status, String readableMessage) {
+			protected void onFailure(RequestFailureType type, Throwable t, Integer status, String readableMessage) {
 				handler.onRequestFailed(new SubredditRequestFailure(type, t, status, readableMessage, url.toString()));
 			}
 

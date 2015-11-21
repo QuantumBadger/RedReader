@@ -475,7 +475,7 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 		}
 
 		@Override
-		protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
+		protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
 
 			notificationHandler.sendEmptyMessage(NOTIF_HIDE_LOADING_SPINNER);
 
@@ -620,7 +620,7 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 						
 						LinkHandler.getImageInfo(context, post.url, Constants.Priority.IMAGE_PRECACHE, positionInList, new GetImageInfoListener() {
 							
-							@Override public void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {}
+							@Override public void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {}
 							@Override public void onNotAnImage() {}
 
 							@Override
@@ -653,7 +653,7 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 									@Override protected void onDownloadNecessary() {}
 									@Override protected void onDownloadStarted() {}
 
-									@Override protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
+									@Override protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
 										Log.e("PostListingFragment", "Failed to precache " + info.urlOriginal + "(" + type.toString() + ")");
 									}
 									@Override protected void onProgress(final boolean authorizationInProgress, final long bytesRead, final long totalBytes) {}

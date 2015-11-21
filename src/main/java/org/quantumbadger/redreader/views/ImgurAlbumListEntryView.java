@@ -156,7 +156,7 @@ public class ImgurAlbumListEntryView extends LinearLayout {
 				protected void onDownloadStarted() {}
 
 				@Override
-				protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
+				protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
 					Log.e("ImgurAlbumListEntryView", "Failed to fetch thumbnail " + url.toString());
 				}
 

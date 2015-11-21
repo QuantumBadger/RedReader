@@ -17,13 +17,11 @@
 
 package org.quantumbadger.redreader.common;
 
-import org.apache.http.StatusLine;
-
 public class RRError {
 
 	public final String title, message;
 	public final Throwable t;
-	public final StatusLine httpStatus;
+	public final Integer httpStatus;
 	public final String url;
 
 	public RRError(String title, String message) {
@@ -34,7 +32,7 @@ public class RRError {
 		this(title, message, t, null, null);
 	}
 
-	public RRError(String title, String message, Throwable t, StatusLine httpStatus, String url) {
+	public RRError(String title, String message, Throwable t, Integer httpStatus, String url) {
 
 		this.title = title;
 		this.message = message;

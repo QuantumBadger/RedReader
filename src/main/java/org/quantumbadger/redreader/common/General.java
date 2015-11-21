@@ -184,7 +184,7 @@ public final class General {
 		return info != null && info.getDetailedState() == NetworkInfo.DetailedState.CONNECTED;
 	}
 
-	public static RRError getGeneralErrorForFailure(Context context, RequestFailureType type, Throwable t, StatusLine status, String url) {
+	public static RRError getGeneralErrorForFailure(Context context, RequestFailureType type, Throwable t, Integer status, String url) {
 
 		final int title, message;
 
@@ -221,7 +221,7 @@ public final class General {
 			case REQUEST:
 
 				if(status != null) {
-					switch (status.getStatusCode()) {
+					switch (status) {
 						case 400:
 						case 401:
 						case 403:

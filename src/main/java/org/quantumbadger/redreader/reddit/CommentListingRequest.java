@@ -203,7 +203,7 @@ public class CommentListingRequest {
 		}
 
 		@Override
-		protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
+		protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
 			final RRError error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
 			notifyListener(Event.EVENT_FAILURE, error);
 		}

@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.reddit;
 
 import android.app.Activity;
-import org.apache.http.StatusLine;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.RRError;
@@ -41,10 +40,10 @@ public abstract class APIResponseHandler {
 
 	protected abstract void onCallbackException(Throwable t);
 
-	protected abstract void onFailure(RequestFailureType type, Throwable t, StatusLine status, String readableMessage);
+	protected abstract void onFailure(RequestFailureType type, Throwable t, Integer status, String readableMessage);
 	protected abstract void onFailure(APIFailureType type);
 
-	public final void notifyFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
+	public final void notifyFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
 		try {
 			onFailure(type, t, status, readableMessage);
 		} catch(Throwable t1) {

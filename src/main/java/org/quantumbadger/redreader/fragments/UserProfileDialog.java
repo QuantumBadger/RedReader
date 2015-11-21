@@ -156,7 +156,7 @@ public class UserProfileDialog extends PropertiesDialog {
 			}
 
 			@Override
-			protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
+			protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
 
 				AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 					public void run() {

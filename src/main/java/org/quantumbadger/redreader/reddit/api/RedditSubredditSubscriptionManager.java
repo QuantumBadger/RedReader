@@ -232,7 +232,7 @@ public class RedditSubredditSubscriptionManager {
 		}
 
 		@Override
-		protected void onFailure(RequestFailureType type, Throwable t, StatusLine status, String readableMessage) {
+		protected void onFailure(RequestFailureType type, Throwable t, Integer status, String readableMessage) {
 			onSubscriptionChangeAttemptFailed(canonicalName);
 			if(t != null) t.printStackTrace();
 

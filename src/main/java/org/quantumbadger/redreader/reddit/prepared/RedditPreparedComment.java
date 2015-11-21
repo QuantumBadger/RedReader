@@ -314,7 +314,7 @@ public final class RedditPreparedComment implements RedditPreparedInboxItem {
 					}
 
 					@Override
-					protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
+					protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
 						revertOnFailure();
 						if(t != null) t.printStackTrace();
 

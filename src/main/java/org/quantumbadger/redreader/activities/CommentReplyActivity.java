@@ -162,7 +162,7 @@ public class CommentReplyActivity extends BaseActivity {
 				}
 
 				@Override
-				protected void onFailure(RequestFailureType type, Throwable t, StatusLine status, String readableMessage) {
+				protected void onFailure(RequestFailureType type, Throwable t, Integer status, String readableMessage) {
 
 					final RRError error = General.getGeneralErrorForFailure(context, type, t, status, null);
 

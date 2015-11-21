@@ -223,7 +223,7 @@ public final class RedditOAuth {
 								context.getString(R.string.error_unknown_title),
 								context.getString(R.string.message_cannotlogin),
 								null,
-								responseStatus,
+								responseStatus.getStatusCode(),
 								request.getURI().toString()
 						)
 				);
@@ -245,7 +245,7 @@ public final class RedditOAuth {
 							context.getString(R.string.error_connection_title),
 							context.getString(R.string.error_connection_message),
 							e,
-							responseStatus,
+							responseStatus.getStatusCode(),
 							uri
 					)
 			);
@@ -257,7 +257,7 @@ public final class RedditOAuth {
 							context.getString(R.string.error_unknown_title),
 							context.getString(R.string.error_unknown_message),
 							t,
-							responseStatus,
+							responseStatus.getStatusCode(),
 							uri
 					)
 			);
@@ -285,7 +285,7 @@ public final class RedditOAuth {
 								context.getString(R.string.error_unknown_title),
 								context.getString(R.string.error_unknown_message),
 								null,
-								responseStatus,
+								responseStatus.getStatusCode(),
 								uri.toString()
 						)
 				);
@@ -304,7 +304,7 @@ public final class RedditOAuth {
 								context.getString(R.string.error_unknown_title),
 								context.getString(R.string.error_unknown_message),
 								null,
-								responseStatus,
+								responseStatus.getStatusCode(),
 								uri.toString()
 						)
 				);
@@ -319,7 +319,7 @@ public final class RedditOAuth {
 							context.getString(R.string.error_connection_title),
 							context.getString(R.string.error_connection_message),
 							e,
-							responseStatus,
+							responseStatus != null ? responseStatus.getStatusCode() : null,
 							uri.toString()
 					)
 			);
@@ -331,7 +331,7 @@ public final class RedditOAuth {
 							context.getString(R.string.error_unknown_title),
 							context.getString(R.string.error_unknown_message),
 							t,
-							responseStatus,
+							responseStatus != null ? responseStatus.getStatusCode() : null,
 							uri.toString()
 					)
 			);
@@ -490,7 +490,7 @@ public final class RedditOAuth {
 								context.getString(R.string.error_unknown_title),
 								context.getString(R.string.message_cannotlogin),
 								null,
-								responseStatus,
+								responseStatus.getStatusCode(),
 								request.getURI().toString()
 						)
 				);
@@ -517,7 +517,7 @@ public final class RedditOAuth {
 							context.getString(R.string.error_connection_title),
 							context.getString(R.string.error_connection_message),
 							e,
-							responseStatus,
+							responseStatus != null ? responseStatus.getStatusCode() : null,
 							uri
 					)
 			);
@@ -529,7 +529,7 @@ public final class RedditOAuth {
 							context.getString(R.string.error_unknown_title),
 							context.getString(R.string.error_unknown_message),
 							t,
-							responseStatus,
+							responseStatus != null ? responseStatus.getStatusCode() : null,
 							uri
 					)
 			);
@@ -563,7 +563,7 @@ public final class RedditOAuth {
 								context.getString(R.string.error_unknown_title),
 								context.getString(R.string.message_cannotlogin),
 								null,
-								responseStatus,
+								responseStatus.getStatusCode(),
 								request.getURI().toString()
 						)
 				);
@@ -590,7 +590,7 @@ public final class RedditOAuth {
 							context.getString(R.string.error_connection_title),
 							context.getString(R.string.error_connection_message),
 							e,
-							responseStatus,
+							responseStatus != null ? responseStatus.getStatusCode() : null,
 							uri
 					)
 			);
@@ -602,7 +602,7 @@ public final class RedditOAuth {
 							context.getString(R.string.error_unknown_title),
 							context.getString(R.string.message_cannotlogin),
 							t,
-							responseStatus,
+							responseStatus != null ? responseStatus.getStatusCode() : null,
 							uri
 					)
 			);

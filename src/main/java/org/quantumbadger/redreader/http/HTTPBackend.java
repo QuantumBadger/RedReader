@@ -1,34 +1,57 @@
 package org.quantumbadger.redreader.http;
 
+import android.content.Context;
 import android.net.Uri;
+import org.quantumbadger.redreader.cache.RequestFailureType;
 
 import java.io.InputStream;
+import java.net.URI;
+import java.util.List;
 
 public interface HTTPBackend {
 
 	class RequestDetails {
 
-		private final Uri mUrl;
+		private final URI mUrl;
+		private final List<PostField> mPostFields;
 
-		public RequestDetails(final Uri url) {
+		public RequestDetails(final URI url, final List<PostField> postFields) {
 			mUrl = url;
+			mPostFields = postFields;
 		}
 
-		public Uri getUrl() {
+		public URI getUrl() {
 			return mUrl;
+		}
+
+		public List<PostField> getPostFields() {
+			return mPostFields;
+		}
+	}
+
+	class PostField {
+
+		public final String name;
+		public final String value;
+
+		public PostField(final String name, final String value) {
+			this.name = name;
+			this.value = value;
 		}
 	}
 
 	interface Request {
 
-		void executeInThisThread();
+		void executeInThisThread(final Listener listener);
 
 		void cancel();
+
+		void addHeader(String name, String value);
 	}
 
 	interface Listener {
 
-		void onError(Throwable exception, Integer httpStatus);
+		void onError(RequestFailureType failureType, Throwable exception, Integer httpStatus);
 
 		void onSuccess(
 				String mimetype,
@@ -37,6 +60,6 @@ public interface HTTPBackend {
 	}
 
 	Request prepareRequest(
-			RequestDetails details,
-			Listener listener);
+			Context context,
+			RequestDetails details);
 }

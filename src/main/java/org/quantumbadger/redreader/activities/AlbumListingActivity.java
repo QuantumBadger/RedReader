@@ -99,7 +99,7 @@ public class AlbumListingActivity extends BaseActivity {
 		ImgurAPI.getAlbumInfo(this, albumId, Constants.Priority.IMAGE_VIEW, 0, new GetAlbumInfoListener() {
 
 			@Override
-			public void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
+			public void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
 				Log.e("AlbumListingActivity", "getAlbumInfo call failed: " + type);
 
 				if(status != null) Log.e("AlbumListingActivity", "status was: " + status.toString());
@@ -114,7 +114,7 @@ public class AlbumListingActivity extends BaseActivity {
 
 				ImgurAPI.getImageInfo(AlbumListingActivity.this, albumId, Constants.Priority.IMAGE_VIEW, 0, new GetImageInfoListener() {
 					@Override
-					public void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
+					public void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
 						Log.e("AlbumListingActivity", "Image info request also failed: " + type);
 						revertToWeb();
 					}

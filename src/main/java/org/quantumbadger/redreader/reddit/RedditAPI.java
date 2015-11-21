@@ -18,9 +18,7 @@
 package org.quantumbadger.redreader.reddit;
 
 import android.content.Context;
-import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
-import org.apache.http.message.BasicNameValuePair;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -28,6 +26,7 @@ import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.TimestampBound;
+import org.quantumbadger.redreader.http.HTTPBackend;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.api.SubredditRequestFailure;
@@ -40,6 +39,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import static org.quantumbadger.redreader.http.HTTPBackend.*;
 
 public final class RedditAPI {
 
@@ -54,18 +55,18 @@ public final class RedditAPI {
 							   final String captchaText,
 							   final Context context) {
 
-		final LinkedList<NameValuePair> postFields = new LinkedList<NameValuePair>();
-		postFields.add(new BasicNameValuePair("kind", is_self ? "self" : "link"));
-		postFields.add(new BasicNameValuePair("sendreplies", "true"));
-		postFields.add(new BasicNameValuePair("sr", subreddit));
-		postFields.add(new BasicNameValuePair("title", title));
-		postFields.add(new BasicNameValuePair("captcha", captchaText));
-		postFields.add(new BasicNameValuePair("iden", captchaId));
+		final LinkedList<PostField> postFields = new LinkedList<PostField>();
+		postFields.add(new PostField("kind", is_self ? "self" : "link"));
+		postFields.add(new PostField("sendreplies", "true"));
+		postFields.add(new PostField("sr", subreddit));
+		postFields.add(new PostField("title", title));
+		postFields.add(new PostField("captcha", captchaText));
+		postFields.add(new PostField("iden", captchaId));
 
 		if(is_self)
-			postFields.add(new BasicNameValuePair("text", body));
+			postFields.add(new PostField("text", body));
 		else
-			postFields.add(new BasicNameValuePair("url", body));
+			postFields.add(new PostField("url", body));
 
 
 		cm.makeRequest(new APIPostRequest(Constants.Reddit.getUri("/api/submit"), user, postFields, context) {
@@ -96,7 +97,7 @@ public final class RedditAPI {
 			}
 
 			@Override
-			protected void onFailure(RequestFailureType type, Throwable t, StatusLine status, String readableMessage) {
+			protected void onFailure(RequestFailureType type, Throwable t, Integer status, String readableMessage) {
 				responseHandler.notifyFailure(type, t, status, readableMessage);
 			}
 		});
@@ -109,9 +110,9 @@ public final class RedditAPI {
 							   final String markdown,
 							   final Context context) {
 
-		final LinkedList<NameValuePair> postFields = new LinkedList<NameValuePair>();
-		postFields.add(new BasicNameValuePair("thing_id", parentIdAndType));
-		postFields.add(new BasicNameValuePair("text", markdown));
+		final LinkedList<PostField> postFields = new LinkedList<PostField>();
+		postFields.add(new PostField("thing_id", parentIdAndType));
+		postFields.add(new PostField("text", markdown));
 
 		cm.makeRequest(new APIPostRequest(Constants.Reddit.getUri("/api/comment"), user, postFields, context) {
 
@@ -139,7 +140,7 @@ public final class RedditAPI {
 			}
 
 			@Override
-			protected void onFailure(RequestFailureType type, Throwable t, StatusLine status, String readableMessage) {
+			protected void onFailure(RequestFailureType type, Throwable t, Integer status, String readableMessage) {
 				responseHandler.notifyFailure(type, t, status, readableMessage);
 			}
 		});
@@ -151,7 +152,7 @@ public final class RedditAPI {
 			final RedditAccount user,
 			final Context context) {
 
-		final LinkedList<NameValuePair> postFields = new LinkedList<NameValuePair>();
+		final LinkedList<PostField> postFields = new LinkedList<PostField>();
 
 		cm.makeRequest(new APIPostRequest(Constants.Reddit.getUri("/api/read_all_messages"), user, postFields, context) {
 
@@ -179,7 +180,7 @@ public final class RedditAPI {
 			}
 
 			@Override
-			protected void onFailure(RequestFailureType type, Throwable t, StatusLine status, String readableMessage) {
+			protected void onFailure(RequestFailureType type, Throwable t, Integer status, String readableMessage) {
 				responseHandler.notifyFailure(type, t, status, readableMessage);
 			}
 		});
@@ -192,9 +193,9 @@ public final class RedditAPI {
 								   final String markdown,
 								   final Context context) {
 
-		final LinkedList<NameValuePair> postFields = new LinkedList<NameValuePair>();
-		postFields.add(new BasicNameValuePair("thing_id", commentIdAndType));
-		postFields.add(new BasicNameValuePair("text", markdown));
+		final LinkedList<PostField> postFields = new LinkedList<PostField>();
+		postFields.add(new PostField("thing_id", commentIdAndType));
+		postFields.add(new PostField("text", markdown));
 
 		cm.makeRequest(new APIPostRequest(Constants.Reddit.getUri("/api/editusertext"), user, postFields, context) {
 
@@ -222,7 +223,7 @@ public final class RedditAPI {
 			}
 
 			@Override
-			protected void onFailure(RequestFailureType type, Throwable t, StatusLine status, String readableMessage) {
+			protected void onFailure(RequestFailureType type, Throwable t, Integer status, String readableMessage) {
 				responseHandler.notifyFailure(type, t, status, readableMessage);
 			}
 		});
@@ -233,7 +234,7 @@ public final class RedditAPI {
 								   final RedditAccount user,
 								   final Context context) {
 
-		final LinkedList<NameValuePair> postFields = new LinkedList<NameValuePair>();
+		final LinkedList<PostField> postFields = new LinkedList<PostField>();
 
 		cm.makeRequest(new APIPostRequest(Constants.Reddit.getUri("/api/new_captcha"), user, postFields, context) {
 
@@ -261,7 +262,7 @@ public final class RedditAPI {
 			}
 
 			@Override
-			protected void onFailure(RequestFailureType type, Throwable t, StatusLine status, String readableMessage) {
+			protected void onFailure(RequestFailureType type, Throwable t, Integer status, String readableMessage) {
 				responseHandler.notifyFailure(type, t, status, readableMessage);
 			}
 		});
@@ -282,8 +283,8 @@ public final class RedditAPI {
 							  final RedditAction action,
 							  final Context context) {
 
-		final LinkedList<NameValuePair> postFields = new LinkedList<NameValuePair>();
-		postFields.add(new BasicNameValuePair("id", idAndType));
+		final LinkedList<PostField> postFields = new LinkedList<PostField>();
+		postFields.add(new PostField("id", idAndType));
 
 		final URI url = prepareActionUri(action, postFields);
 
@@ -294,7 +295,7 @@ public final class RedditAPI {
 			}
 
 			@Override
-			protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
+			protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
 				responseHandler.notifyFailure(type, t, status, readableMessage);
 			}
 
@@ -319,18 +320,18 @@ public final class RedditAPI {
 		});
 	}
 
-	private static URI prepareActionUri(final RedditAction action, final LinkedList<NameValuePair> postFields) {
+	private static URI prepareActionUri(final RedditAction action, final LinkedList<PostField> postFields) {
 		switch(action) {
 			case DOWNVOTE:
-				postFields.add(new BasicNameValuePair("dir", "-1"));
+				postFields.add(new PostField("dir", "-1"));
 				return Constants.Reddit.getUri(Constants.Reddit.PATH_VOTE);
 
 			case UNVOTE:
-				postFields.add(new BasicNameValuePair("dir", "0"));
+				postFields.add(new PostField("dir", "0"));
 				return Constants.Reddit.getUri(Constants.Reddit.PATH_VOTE);
 
 			case UPVOTE:
-				postFields.add(new BasicNameValuePair("dir", "1"));
+				postFields.add(new PostField("dir", "1"));
 				return Constants.Reddit.getUri(Constants.Reddit.PATH_VOTE);
 
 			case SAVE: return Constants.Reddit.getUri(Constants.Reddit.PATH_SAVE);
@@ -370,9 +371,9 @@ public final class RedditAPI {
 					@Override
 					public void onRequestSuccess(RedditSubreddit subreddit, long timeCached) {
 
-						final LinkedList<NameValuePair> postFields = new LinkedList<NameValuePair>();
+						final LinkedList<PostField> postFields = new LinkedList<PostField>();
 
-						postFields.add(new BasicNameValuePair("sr", subreddit.name));
+						postFields.add(new PostField("sr", subreddit.name));
 
 						final URI url = prepareActionUri(action, postFields);
 
@@ -383,7 +384,7 @@ public final class RedditAPI {
 							}
 
 							@Override
-							protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
+							protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
 								responseHandler.notifyFailure(type, t, status, readableMessage);
 							}
 
@@ -413,14 +414,14 @@ public final class RedditAPI {
 	}
 
 	private static URI prepareActionUri(final RedditSubredditAction action,
-										final LinkedList<NameValuePair> postFields) {
+										final LinkedList<PostField> postFields) {
 		switch(action) {
 			case SUBSCRIBE:
-				postFields.add(new BasicNameValuePair("action", "sub"));
+				postFields.add(new PostField("action", "sub"));
 				return Constants.Reddit.getUri(Constants.Reddit.PATH_SUBSCRIBE);
 
 			case UNSUBSCRIBE:
-				postFields.add(new BasicNameValuePair("action", "unsub"));
+				postFields.add(new PostField("action", "unsub"));
 				return Constants.Reddit.getUri(Constants.Reddit.PATH_SUBSCRIBE);
 
 			default:
@@ -454,7 +455,7 @@ public final class RedditAPI {
 			}
 
 			@Override
-			protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
+			protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
 				responseHandler.notifyFailure(type, t, status, readableMessage);
 			}
 
@@ -574,7 +575,7 @@ public final class RedditAPI {
 		@Override
 		protected void onDownloadStarted() {}
 
-		public APIPostRequest(final URI url, final RedditAccount user, final List<NameValuePair> postFields, final Context context) {
+		public APIPostRequest(final URI url, final RedditAccount user, final List<HTTPBackend.PostField> postFields, final Context context) {
 			super(url, user, null, Constants.Priority.API_ACTION, 0, DownloadType.FORCE, Constants.FileType.NOCACHE, DownloadQueueType.REDDIT_API, true, postFields, false, false, context);
 		}
 

@@ -99,7 +99,7 @@ public class NewMessageChecker extends BroadcastReceiver {
 			}
 
 			@Override
-			protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
+			protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
 				Log.e("NewMessageChecker", "Request failed", t);
 			}
 

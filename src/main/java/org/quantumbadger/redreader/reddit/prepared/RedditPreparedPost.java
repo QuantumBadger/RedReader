@@ -354,7 +354,7 @@ public final class RedditPreparedPost {
 				LinkHandler.getImageInfo(activity, post.url, Constants.Priority.IMAGE_VIEW, 0, new GetImageInfoListener() {
 
 					@Override
-					public void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
+					public void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
 						final RRError error = General.getGeneralErrorForFailure(activity, type, t, status, post.url);
 						General.showResultDialog(activity, error);
 					}
@@ -381,7 +381,7 @@ public final class RedditPreparedPost {
 							}
 
 							@Override
-							protected void onFailure(RequestFailureType type, Throwable t, StatusLine status, String readableMessage) {
+							protected void onFailure(RequestFailureType type, Throwable t, Integer status, String readableMessage) {
 								final RRError error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
 								General.showResultDialog(activity, error);
 							}
@@ -618,7 +618,7 @@ public final class RedditPreparedPost {
 			}
 
 			@Override
-			protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {}
+			protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {}
 
 			@Override
 			protected void onProgress(final boolean authorizationInProgress, final long bytesRead, final long totalBytes) {}
@@ -785,7 +785,7 @@ public final class RedditPreparedPost {
 					}
 
 					@Override
-					protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
+					protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
 						revertOnFailure();
 						if(t != null) t.printStackTrace();
 

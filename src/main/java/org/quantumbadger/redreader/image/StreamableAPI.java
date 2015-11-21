@@ -69,7 +69,7 @@ public final class StreamableAPI {
 			}
 
 			@Override
-			protected void onFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
+			protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
 				listener.onFailure(type, t, status, readableMessage);
 			}
 

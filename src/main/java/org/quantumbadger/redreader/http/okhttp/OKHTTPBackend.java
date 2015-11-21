@@ -1,6 +1,8 @@
 package org.quantumbadger.redreader.http.okhttp;
 
+import android.content.Context;
 import com.squareup.okhttp.*;
+import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.http.HTTPBackend;
 
 import java.io.IOException;
@@ -28,7 +30,7 @@ public class OKHTTPBackend implements HTTPBackend {
 	}
 
 	@Override
-	public Request prepareRequest(final RequestDetails details, final Listener listener) {
+	public Request prepareRequest(final Context context, final RequestDetails details) {
 
 		final com.squareup.okhttp.Request.Builder builder = new com.squareup.okhttp.Request.Builder();
 
@@ -40,7 +42,7 @@ public class OKHTTPBackend implements HTTPBackend {
 
 		return new Request() {
 
-			public void executeInThisThread() {
+			public void executeInThisThread(final Listener listener) {
 
 				try {
 
@@ -49,13 +51,13 @@ public class OKHTTPBackend implements HTTPBackend {
 					try {
 						response = call.execute();
 					} catch(IOException e) {
-						listener.onError(e, null);
+						listener.onError(RequestFailureType.CONNECTION, e, null);
 						return;
 					}
 
 					final int status = response.code();
 
-					if(status == 200) {
+					if(status == 200 || status == 202) {
 
 						final ResponseBody body = response.body();
 						final InputStream bodyStream;
@@ -66,6 +68,7 @@ public class OKHTTPBackend implements HTTPBackend {
 							bodyBytes = body.contentLength();
 
 						} else {
+							// TODO error
 							bodyStream = null;
 							bodyBytes = null;
 						}
@@ -75,17 +78,22 @@ public class OKHTTPBackend implements HTTPBackend {
 						listener.onSuccess(contentType, bodyBytes, bodyStream);
 
 					} else {
-						listener.onError(null, status);
+						listener.onError(RequestFailureType.REQUEST, null, status);
 					}
 
 				} catch(Throwable t) {
-					listener.onError(t, null);
+					listener.onError(RequestFailureType.CONNECTION, t, null);
 				}
 			}
 
 			@Override
 			public void cancel() {
 				call.cancel();
+			}
+
+			@Override
+			public void addHeader(final String name, final String value) {
+				throw new UnsupportedOperationException();
 			}
 		};
 	}

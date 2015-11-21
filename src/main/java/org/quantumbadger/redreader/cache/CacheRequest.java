@@ -19,13 +19,11 @@ package org.quantumbadger.redreader.cache;
 
 import android.content.Context;
 import android.util.Log;
-import org.apache.http.NameValuePair;
-import org.apache.http.StatusLine;
-import org.apache.http.client.CookieStore;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.common.PrioritisedCachedThreadPool;
 import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.http.HTTPBackend;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
 import java.net.URI;
@@ -49,7 +47,7 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 
 	public final DownloadQueueType queueType;
 	public final boolean isJson;
-	public final List<NameValuePair> postFields;
+	public final List<HTTPBackend.PostField> postFields;
 
 	public final boolean cache;
 
@@ -98,7 +96,7 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 	// TODO remove this huge constructor, make mutable
 	protected CacheRequest(final URI url, final RedditAccount user, final UUID requestSession, final int priority,
 						   final int listId, final DownloadType downloadType, final int fileType,
-						   final DownloadQueueType queueType, final boolean isJson, final List<NameValuePair> postFields,
+						   final DownloadQueueType queueType, final boolean isJson, final List<HTTPBackend.PostField> postFields,
 						   final boolean cache, final boolean cancelExisting, final Context context) {
 
 		this.context = context;
@@ -136,10 +134,6 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 		}
 	}
 
-	public CookieStore getCookies() {
-		return ForgetfulCookieStore.INSTANCE;
-	}
-
 	// Queue helpers
 
 	public final boolean isHigherPriorityThan(final CacheRequest another) {
@@ -162,7 +156,7 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 	protected abstract void onDownloadNecessary();
 	protected abstract void onDownloadStarted();
 
-	protected abstract void onFailure(RequestFailureType type, Throwable t, StatusLine status, String readableMessage);
+	protected abstract void onFailure(RequestFailureType type, Throwable t, Integer httpStatus, String readableMessage);
 	protected abstract void onProgress(boolean authorizationInProgress, long bytesRead, long totalBytes);
 	protected abstract void onSuccess(CacheManager.ReadableCacheFile cacheFile, long timestamp, UUID session, boolean fromCache, String mimetype);
 
@@ -170,9 +164,9 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 		throw new RuntimeException("CacheRequest method has not been overridden");
 	}
 
-	public final void notifyFailure(final RequestFailureType type, final Throwable t, final StatusLine status, final String readableMessage) {
+	public final void notifyFailure(final RequestFailureType type, final Throwable t, final Integer httpStatus, final String readableMessage) {
 		try {
-			onFailure(type, t, status, readableMessage);
+			onFailure(type, t, httpStatus, readableMessage);
 		} catch(Throwable t1) {
 
 			Log.e("CacheRequest", "Exception thrown by onFailure", t1);

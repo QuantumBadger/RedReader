@@ -5,6 +5,7 @@ Precaching for comment threads
 Improved connection robustness
 Use .mp4 instead of .webm for imgur (should improve device compatibility)
 Various bugfixes
+Made post list comments buttons slightly wider
 
 64/1.9.1
 Native support for Gfycat and Streamable

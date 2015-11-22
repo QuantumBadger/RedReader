@@ -17,12 +17,15 @@
 
 package org.quantumbadger.redreader.image;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.quantumbadger.redreader.common.ParcelHelper;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 
 import java.io.IOException;
 
-public class ImageInfo {
+public class ImageInfo implements Parcelable {
 
 	public final String urlOriginal;
 	public final String urlBigSquare;
@@ -49,6 +52,18 @@ public class ImageInfo {
 		width = null;
 		height = null;
 		size = null;
+	}
+
+	private ImageInfo(final Parcel in) {
+		urlOriginal = ParcelHelper.readNullableString(in);
+		urlBigSquare = ParcelHelper.readNullableString(in);
+		title = ParcelHelper.readNullableString(in);
+		caption = ParcelHelper.readNullableString(in);
+		type = ParcelHelper.readNullableString(in);
+		isAnimated = ParcelHelper.readNullableBoolean(in);
+		width = ParcelHelper.readNullableLong(in);
+		height = ParcelHelper.readNullableLong(in);
+		size = ParcelHelper.readNullableLong(in);
 	}
 
 	public ImageInfo(
@@ -189,4 +204,33 @@ public class ImageInfo {
 				height,
 				size);
 	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(final Parcel parcel, final int flags) {
+
+		ParcelHelper.writeNullableString(parcel, urlOriginal);
+		ParcelHelper.writeNullableString(parcel, urlBigSquare);
+		ParcelHelper.writeNullableString(parcel, title);
+		ParcelHelper.writeNullableString(parcel, caption);
+		ParcelHelper.writeNullableString(parcel, type);
+		ParcelHelper.writeNullableBoolean(parcel, isAnimated);
+		ParcelHelper.writeNullableLong(parcel, width);
+		ParcelHelper.writeNullableLong(parcel, height);
+		ParcelHelper.writeNullableLong(parcel, size);
+	}
+
+	public static final Parcelable.Creator<ImageInfo> CREATOR = new Parcelable.Creator<ImageInfo>() {
+		public ImageInfo createFromParcel(final Parcel in) {
+			return new ImageInfo(in);
+		}
+
+		public ImageInfo[] newArray(final int size) {
+			return new ImageInfo[size];
+		}
+	};
 }

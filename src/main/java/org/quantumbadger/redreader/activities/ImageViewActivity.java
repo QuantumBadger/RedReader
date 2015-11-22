@@ -39,15 +39,18 @@ import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.*;
+import org.quantumbadger.redreader.fragments.ImageInfoDialog;
 import org.quantumbadger.redreader.image.*;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
+import org.quantumbadger.redreader.views.FlatImageButton;
 import org.quantumbadger.redreader.views.GIFView;
 import org.quantumbadger.redreader.views.HorizontalSwipeProgressOverlay;
 import org.quantumbadger.redreader.views.RedditPostView;
 import org.quantumbadger.redreader.views.bezelmenu.BezelSwipeOverlay;
 import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
+import org.quantumbadger.redreader.views.floatingtoolbar.FloatingToolbar;
 import org.quantumbadger.redreader.views.glview.RRGLSurfaceView;
 import org.quantumbadger.redreader.views.imageview.BasicGestureHandler;
 import org.quantumbadger.redreader.views.imageview.ImageTileSource;
@@ -81,12 +84,15 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 	private RedditPost mPost;
 
+	private ImageInfo mImageInfo;
 	private ImgurAPI.AlbumInfo mAlbumInfo;
 	private int mAlbumImageIndex;
 
 	private FrameLayout mLayout;
 
 	private int mGallerySwipeLengthPx;
+
+	private FloatingToolbar mFloatingToolbar = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -177,6 +183,8 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 			public void onSuccess(final ImageInfo info) {
 
 				Log.i("ImageViewActivity", "Got image URL: " + info.urlOriginal);
+
+				mImageInfo = info;
 
 				final URI uri = General.uriFromString(info.urlOriginal);
 
@@ -273,6 +281,29 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 		final FrameLayout outerFrame = new FrameLayout(this);
 		outerFrame.addView(mLayout);
 
+		{
+			mFloatingToolbar = new FloatingToolbar(this);
+			mFloatingToolbar.setVisibility(View.GONE);
+			outerFrame.addView(mFloatingToolbar);
+
+			final FlatImageButton ib = new FlatImageButton(this);
+			final int buttonPadding = General.dpToPixels(this, 10);
+			ib.setPadding(buttonPadding, buttonPadding, buttonPadding, buttonPadding);
+			ib.setImageResource(R.drawable.ic_action_info_dark);
+
+			mFloatingToolbar.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+			mFloatingToolbar.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+
+			mFloatingToolbar.addToolbarItem(ib);
+
+			ib.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(final View view) {
+					ImageInfoDialog.newInstance(mImageInfo).show(ImageViewActivity.this.getFragmentManager(), null);
+				}
+			});
+		}
+
 		if(post != null) {
 
 			final SideToolbarOverlay toolbarOverlay = new SideToolbarOverlay(this);
@@ -344,6 +375,19 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 		if(cacheFileInputStream == null) {
 			revertToWeb();
 			return;
+		}
+
+		if(mImageInfo != null
+				&& ((mImageInfo.title != null && mImageInfo.title.length() > 0)
+						|| (mImageInfo.caption != null && mImageInfo.caption.length() > 0))) {
+
+			// TODO preference
+			AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+				@Override
+				public void run() {
+					mFloatingToolbar.setVisibility(View.VISIBLE);
+				}
+			});
 		}
 
 		if(Constants.Mime.isVideo(mimetype)) {

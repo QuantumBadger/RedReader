@@ -727,4 +727,9 @@
     <string name="unpin_subreddit">Unpin from Main Menu</string>
     <string name="pref_pinned_subreddits_key">pref_pinned_subreddits</string>
 
+    <!-- 2015-11-22 -->
+    <string name="props_image_title">Image Info</string>
+    <string name="props_caption">Caption</string>
+    <string name="props_resolution">Resolution</string>
+
 </resources>

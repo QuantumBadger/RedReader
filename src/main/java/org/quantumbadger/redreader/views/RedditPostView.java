@@ -72,7 +72,9 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 			rrListItemBackgroundCol,
 			rrPostBackgroundColSticky,
 			rrPostCommentsButtonBackCol,
-			rrPostCommentsButtonBackColSticky;
+			rrPostCommentsButtonBackColSticky,
+			rrListItemHighlightCol,
+			rrPostCommentsButtonHighlightCol;
 
 	private final int offsetBeginAllowed, offsetActionPerformed;
 
@@ -284,7 +286,9 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 					R.attr.rrListItemBackgroundCol,
 					R.attr.rrPostBackgroundColSticky,
 					R.attr.rrPostCommentsButtonBackCol,
-					R.attr.rrPostCommentsButtonBackColSticky
+					R.attr.rrPostCommentsButtonBackColSticky,
+					R.attr.rrListItemHighlightCol,
+					R.attr.rrPostCommentsButtonHighlightCol
 			});
 
 			rrIconFfLeft = attr.getDrawable(0);
@@ -296,6 +300,8 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 			rrPostBackgroundColSticky = attr.getColor(6, 0);
 			rrPostCommentsButtonBackCol = attr.getColor(7, 0);
 			rrPostCommentsButtonBackColSticky = attr.getColor(8, 0);
+			rrListItemHighlightCol = attr.getColor(9, 0);
+			rrPostCommentsButtonHighlightCol = attr.getColor(10, 0);
 
 			attr.recycle();
 		}
@@ -308,6 +314,8 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 
 	// Only run in the UI thread
 	public void reset(final RedditPreparedPost data) {
+
+		if(data == post) return;
 
 		usageId++;
 
@@ -368,16 +376,20 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 		}
 	}
 
-	public void rrOnClick(final int x, final int y) {
+	private boolean isPositionInCommentsButton(final int x, final int y) {
 
 		final int[] buttonLoc = new int[2];
 		commentsButton.getLocationOnScreen(buttonLoc);
 
-		if(x >= buttonLoc[0]
+		return x >= buttonLoc[0]
 				&& x <= buttonLoc[0] + commentsButton.getWidth()
 				&& y >= buttonLoc[1]
-				&& y <= buttonLoc[1] + commentsButton.getHeight()) {
+				&& y <= buttonLoc[1] + commentsButton.getHeight();
+	}
 
+	public void rrOnClick(final int x, final int y) {
+
+		if(isPositionInCommentsButton(x, y)) {
 			fragmentParent.onPostCommentsSelected(post);
 
 		} else {
@@ -389,6 +401,22 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 		RedditPreparedPost.showActionMenu(mActivity, post);
 	}
 
+	@Override
+	public void rrOnHighlightStart(final int x, final int y) {
+
+		if(isPositionInCommentsButton(x, y)) {
+			commentsButton.setBackgroundColor(rrPostCommentsButtonHighlightCol);
+
+		} else {
+			visiblePostLayout.setBackgroundColor(rrListItemHighlightCol);
+		}
+	}
+
+	@Override
+	public void rrOnHighlightEnd() {
+		updateAppearance();
+	}
+
 	public void betterThumbnailAvailable(final Bitmap thumbnail, final int callbackUsageId) {
 		final Message msg = Message.obtain();
 		msg.obj = thumbnail;
@@ -396,8 +424,8 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 		thumbnailHandler.sendMessage(msg);
 	}
 
-	public static interface PostSelectionListener {
-		public void onPostSelected(RedditPreparedPost post);
-		public void onPostCommentsSelected(RedditPreparedPost post);
+	public interface PostSelectionListener {
+		void onPostSelected(RedditPreparedPost post);
+		void onPostCommentsSelected(RedditPreparedPost post);
 	}
 }

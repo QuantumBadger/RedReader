@@ -18,17 +18,13 @@
 package org.quantumbadger.redreader.views.list;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ListView;
-
-import java.util.Timer;
-import java.util.TimerTask;
+import org.quantumbadger.redreader.common.AndroidApi;
+import org.quantumbadger.redreader.common.HandlerTimer;
 
 // TODO add short highlight timer, add "onHighlight" and "onHighlightEnd" callbacks
 public class ListOverlayView extends FrameLayout {
@@ -48,148 +44,186 @@ public class ListOverlayView extends FrameLayout {
 		CLICK, VERTICAL, HORIZONTAL, LONGCLICK, UNKNOWN
 	}
 
-	private final Object touchEventLock = new Object();
-
 	private MotionEvent downStart = null;
-	private RRTouchable downItem = null;
+	private RRTouchable mDownItem = null;
 	private TouchEventType touchEventType = null;
-	private int downId = -1;
+	private int mDownPointerId = -1;
 
-	private Timer clickTimer = null;
+	private final HandlerTimer mTimer = new HandlerTimer(AndroidApi.UI_THREAD_HANDLER);
+
+	private int mTimerHighlightStart = 0;
+	private int mTimerLongClick = 0;
+
+	private boolean mLongHighlightNotified = false;
 
 	@Override
 	public boolean onInterceptTouchEvent(final MotionEvent ev) {
 
-		synchronized(touchEventLock) {
+		final int action = ev.getAction() & MotionEvent.ACTION_MASK;
 
-			final int action = ev.getAction() & MotionEvent.ACTION_MASK;
+		if(action == MotionEvent.ACTION_DOWN) {
 
-			// TODO change back to switch/case
-			if(action == MotionEvent.ACTION_DOWN) {
+			downStart = MotionEvent.obtain(ev);
 
-				downStart = MotionEvent.obtain(ev);
+			final int itemIndex = child.pointToPosition((int)downStart.getX(), (int)downStart.getY());
 
-				final int itemIndex = child.pointToPosition((int)downStart.getX(), (int)downStart.getY());
+			if(itemIndex < 0) return true;
 
-				if(itemIndex < 0) return true;
+			final View downItemView = child.getChildAt(itemIndex - child.getFirstVisiblePosition());
+			if(!(downItemView instanceof RRTouchable)) return false;
 
-				final View downItemView = child.getChildAt(itemIndex - child.getFirstVisiblePosition());
-				if(!(downItemView instanceof RRTouchable)) return false;
+			mDownItem = (RRTouchable)downItemView;
+			mDownPointerId = ev.getPointerId(0);
 
-				downItem = (RRTouchable)downItemView;
-				downId = ev.getPointerId(0);
+			mDownItem.rrOnFingerDown();
 
-				downItem.rrOnFingerDown();
+			if(mTimerLongClick != 0 || mTimerHighlightStart != 0) {
+				Log.e("clickTimer", "Timer still exists on intercept entry");
+				cancelTimers();
+				notifyHighlightEnd();
+			}
 
-				if(clickTimer != null) {
-					Log.e("clickTimer", "Timer still exists on intercept entry");
-					cancelClickTimer();
+			mTimerHighlightStart = mTimer.setTimer(75, new Runnable() {
+				@Override
+				public void run() {
+					mTimerHighlightStart = 0;
+					mDownItem.rrOnHighlightStart((int)downStart.getRawX(), (int)downStart.getRawY());
+					mLongHighlightNotified = true;
 				}
+			});
 
-				if(downItem.rrAllowLongClick()) {
+			if(mDownItem.rrAllowLongClick()) {
 
-					final Handler longClickHandler = new Handler(Looper.getMainLooper()) {
-						@Override
-						public void handleMessage(final Message msg) {
-							downItem.rrOnLongClick();
-						}
-					};
+				mTimerLongClick = mTimer.setTimer(300, new Runnable() {
+					@Override
+					public void run() {
+						Log.e("LOV-DEBUG", "Long click timer!");
+						mTimerLongClick = 0;
+						touchEventType = TouchEventType.LONGCLICK;
+						mDownItem.rrOnLongClick();
+					}
+				});
+			}
 
-					clickTimer = new Timer("Post list long click timer");
-					clickTimer.schedule(new TimerTask() {
+			touchEventType = TouchEventType.CLICK;
 
+			return false;
+
+		} else if(action == MotionEvent.ACTION_UP
+				|| action == MotionEvent.ACTION_OUTSIDE
+				|| action == MotionEvent.ACTION_CANCEL
+				|| action == MotionEvent.ACTION_POINTER_UP) {
+
+			if(ev.getPointerId(ev.getActionIndex()) != mDownPointerId) return false;
+			mDownPointerId = -1;
+
+			Log.e("LOV-DEBUG", "Pointer up");
+			cancelTimers();
+
+			if(mDownItem != null) {
+				if(touchEventType == null) Log.i("Item selected", mDownItem.toString());
+
+				if(touchEventType == TouchEventType.CLICK) {
+
+					final RRTouchable downItem = mDownItem;
+
+					if(!mLongHighlightNotified) {
+						downItem.rrOnHighlightStart((int)downStart.getRawX(), (int)downStart.getRawY());
+					}
+
+					mLongHighlightNotified = false;
+
+					mTimer.setTimer(250, new Runnable() {
 						@Override
 						public void run() {
-							synchronized(touchEventLock) {
-								touchEventType = TouchEventType.LONGCLICK;
-								longClickHandler.sendEmptyMessage(0);
-							}
+							downItem.rrOnHighlightEnd();
 						}
-					}, 300);
-				}
+					});
 
-				touchEventType = TouchEventType.CLICK;
+					mDownItem.rrOnClick((int)downStart.getRawX(), (int)downStart.getRawY());
 
-				return false;
-
-			} else if(action == MotionEvent.ACTION_UP
-					|| action == MotionEvent.ACTION_OUTSIDE
-					|| action == MotionEvent.ACTION_CANCEL
-					|| action == MotionEvent.ACTION_POINTER_UP) {
-
-				if(ev.getPointerId(ev.getActionIndex()) != downId) return false;
-				downId = -1;
-
-				cancelClickTimer();
-
-				if(downItem != null) {
-					if(touchEventType == null) Log.i("Item selected", downItem.toString());
-					if(touchEventType == TouchEventType.CLICK) downItem.rrOnClick((int)downStart.getRawX(), (int)downStart.getRawY());
-					downItem.rrOnFingerUp();
 				} else {
-					Log.e("LOV", "downItem was null...");
+					notifyHighlightEnd();
 				}
 
-				touchEventType = null;
-
-				return false;
-
-			} else if(action == MotionEvent.ACTION_MOVE) {
-
-				if(downStart == null) return false;
-
-				if(ev.getPointerId(ev.getActionIndex()) != downId) return false;
-
-				final float xDelta = ev.getX() - downStart.getX(), yDelta = ev.getY() - downStart.getY();
-
-				if(touchEventType == null || touchEventType == TouchEventType.CLICK) {
-
-					if(Math.abs(yDelta) > 20 || (Math.abs(yDelta) > 3 * Math.abs(xDelta) && yDelta > 10)) {
-						touchEventType = TouchEventType.VERTICAL;
-						downItem.rrOnFingerUp();
-
-					} else if (Math.abs(xDelta) > 30 || (Math.abs(xDelta) > 3 * Math.abs(yDelta) && xDelta > 15)) {
-						touchEventType = TouchEventType.HORIZONTAL;
-
-					} else {
-						return false;
-					}
-				}
-
-				cancelClickTimer();
-
-				switch(touchEventType) {
-
-					case HORIZONTAL:
-						downItem.rrOnSwipeDelta(xDelta);
-						return true;
-
-					case VERTICAL:
-						return false;
-
-					case LONGCLICK:
-					case CLICK:
-						return true;
-
-					default:
-						return false;
-				}
+				mDownItem.rrOnFingerUp();
 
 			} else {
-
-				// Unknown action
-				Log.i("LOV", String.format("ACTION unknown (%d): index %d, id %d", action, ev.getActionIndex(), downId));
-				return false;
+				Log.e("LOV", "mDownItem was null...");
 			}
+
+			touchEventType = null;
+
+			return false;
+
+		} else if(action == MotionEvent.ACTION_MOVE) {
+
+			if(downStart == null) return false;
+
+			if(ev.getPointerId(ev.getActionIndex()) != mDownPointerId) return false;
+
+			final float xDelta = ev.getX() - downStart.getX(), yDelta = ev.getY() - downStart.getY();
+
+			if(touchEventType == null || touchEventType == TouchEventType.CLICK) {
+
+				if(Math.abs(yDelta) > 20 || (Math.abs(yDelta) > 3 * Math.abs(xDelta) && yDelta > 10)) {
+					touchEventType = TouchEventType.VERTICAL;
+					mDownItem.rrOnFingerUp();
+
+				} else if (Math.abs(xDelta) > 30 || (Math.abs(xDelta) > 3 * Math.abs(yDelta) && xDelta > 15)) {
+					touchEventType = TouchEventType.HORIZONTAL;
+
+				} else {
+					return false;
+				}
+			}
+
+			cancelTimers();
+			notifyHighlightEnd();
+
+			switch(touchEventType) {
+
+				case HORIZONTAL:
+					mDownItem.rrOnSwipeDelta(xDelta);
+					return true;
+
+				case VERTICAL:
+					return false;
+
+				case LONGCLICK:
+				case CLICK:
+					return true;
+
+				default:
+					return false;
+			}
+
+		} else {
+
+			// Unknown action
+			Log.i("LOV", String.format("ACTION unknown (%d): index %d, id %d", action, ev.getActionIndex(), mDownPointerId));
+			return false;
 		}
 	}
 
-	private void cancelClickTimer() {
-		synchronized(touchEventLock) {
-			if(clickTimer != null) {
-				clickTimer.cancel();
-				clickTimer = null;
-			}
+	private void cancelTimers() {
+
+		if(mTimerLongClick != 0) {
+			Log.e("LOV-DEBUG", "Deleting long click timer");
+			mTimer.cancelTimer(mTimerLongClick);
+			mTimerLongClick = 0;
+		}
+
+		if(mTimerHighlightStart != 0) {
+			mTimer.cancelTimer(mTimerHighlightStart);
+			mTimerHighlightStart = 0;
+		}
+	}
+
+	private void notifyHighlightEnd() {
+		if(mLongHighlightNotified) {
+			mDownItem.rrOnHighlightEnd();
+			mLongHighlightNotified = false;
 		}
 	}
 
@@ -198,10 +232,8 @@ public class ListOverlayView extends FrameLayout {
 
 		super.requestDisallowInterceptTouchEvent(disallowIntercept);
 
-		synchronized (touchEventLock) {
 			touchEventType = TouchEventType.UNKNOWN;
-			cancelClickTimer();
-		}
+			cancelTimers();
 	}
 
 	@Override

@@ -19,12 +19,15 @@ package org.quantumbadger.redreader.views.list;
 
 public interface RRTouchable {
 
-	public void rrOnClick(int x, int y);
-	public void rrOnLongClick();
+	void rrOnClick(int x, int y);
+	void rrOnLongClick();
 
-	public void rrOnFingerDown();
-	public void rrOnSwipeDelta(float dx);
-	public void rrOnFingerUp();
+	void rrOnFingerDown();
+	void rrOnSwipeDelta(float dx);
+	void rrOnFingerUp();
 
-	public boolean rrAllowLongClick();
+	void rrOnHighlightStart(int x, int y);
+	void rrOnHighlightEnd();
+
+	boolean rrAllowLongClick();
 }

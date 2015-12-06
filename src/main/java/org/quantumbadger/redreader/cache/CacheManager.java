@@ -190,7 +190,7 @@ public final class CacheManager {
 			final File tmpFile = new File(General.getBestCacheDir(context), UUID.randomUUID().toString() + tempExt);
 			final FileOutputStream fos = new FileOutputStream(tmpFile);
 
-			final OutputStream bufferedOs = new BufferedOutputStream(fos, 8 * 1024);
+			final OutputStream bufferedOs = new BufferedOutputStream(fos, 64 * 1024);
 
 			final NotifyOutputStream.Listener listener = new NotifyOutputStream.Listener() {
 				public void onClose() throws IOException {

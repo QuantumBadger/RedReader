@@ -57,12 +57,19 @@ public final class PostListingHeader extends LinearLayout implements RRTouchable
 		setBackgroundColor(Color.rgb(50, 50, 50)); // TODO theme color
 	}
 
-	public void rrOnClick(final int x, final int y) {}
-	public void rrOnLongClick() {}
-	public void rrOnFingerDown() {}
-	public void rrOnSwipeDelta(final float dx) {}
-	public void rrOnFingerUp() {}
+	@Override public void rrOnClick(final int x, final int y) {}
+	@Override public void rrOnLongClick() {}
+	@Override public void rrOnFingerDown() {}
+	@Override public void rrOnSwipeDelta(final float dx) {}
+	@Override public void rrOnFingerUp() {}
 
+	@Override
+	public void rrOnHighlightStart(final int x, final int y) {}
+
+	@Override
+	public void rrOnHighlightEnd() {}
+
+	@Override
 	public boolean rrAllowLongClick() {
 		return false;
 	}

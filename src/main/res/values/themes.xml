@@ -24,6 +24,7 @@
         <item name="rrActionBarCol">#222222</item>
 
         <item name="rrListItemBackgroundCol">#000000</item>
+        <item name="rrListItemHighlightCol">#555555</item>
         <item name="rrListBackgroundCol">#111111</item>
 
         <item name="rrListDividerCol">#555555</item>
@@ -43,6 +44,7 @@
         <item name="rrPostSubtitleUpvoteCol">#FF9B76</item>
         <item name="rrPostSubtitleDownvoteCol">#9494FF</item>
         <item name="rrPostCommentsButtonBackCol">#444444</item>
+        <item name="rrPostCommentsButtonHighlightCol">#777777</item>
         <item name="rrPostCommentsButtonTextCol">#BBBBBB</item>
         <item name="rrPostThumbnailBackground">#000000</item>
         <item name="rrPostFlingTextCol">#FFFFFF</item>
@@ -104,6 +106,7 @@
         <item name="rrActionBarCol">#222222</item>
 
         <item name="rrListItemBackgroundCol">#FBFBFB</item>
+        <item name="rrListItemHighlightCol">#DDDDDD</item>
         <item name="rrListBackgroundCol">#FFFFFF</item>
 
         <item name="rrLoadingRingForegroundCol">#222222</item>
@@ -132,6 +135,7 @@
         <item name="rrPostSubtitleUpvoteCol">#FF9B76</item>
         <item name="rrPostSubtitleDownvoteCol">#9494FF</item>
         <item name="rrPostCommentsButtonBackCol">#EEEEEE</item>
+        <item name="rrPostCommentsButtonHighlightCol">#CCCCCC</item>
         <item name="rrPostCommentsButtonTextCol">#666666</item>
         <item name="rrPostThumbnailBackground">#DDDDDD</item>
         <item name="rrPostFlingTextCol">?rrActionBarCol</item>

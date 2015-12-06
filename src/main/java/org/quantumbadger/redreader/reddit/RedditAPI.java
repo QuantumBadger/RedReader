@@ -519,6 +519,9 @@ public final class RedditAPI {
 				if(Constants.Reddit.isApiErrorURLRequired(response.asString()))
 					return APIResponseHandler.APIFailureType.URL_REQUIRED;
 
+				if(Constants.Reddit.isApiTooFast(response.asString()))
+					return APIResponseHandler.APIFailureType.TOO_FAST;
+
 				break;
 
 			default:

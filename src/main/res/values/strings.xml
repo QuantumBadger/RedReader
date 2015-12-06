@@ -732,4 +732,8 @@
     <string name="props_caption">Caption</string>
     <string name="props_resolution">Resolution</string>
 
+    <!-- 2015-12-06 -->
+    <string name="error_too_fast_title">Too fast</string>
+    <string name="error_too_fast_message">Reddit says you are making submissions too quickly. Please wait a few minutes before trying again.</string>
+
 </resources>

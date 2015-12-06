@@ -157,6 +157,11 @@ public final class Constants {
 		public static boolean isApiErrorURLRequired(final String str) {
 			return ".error.NO_URL.field-url".equals(str) || "a url is required".equals(str);
 		}
+
+		public static boolean isApiTooFast(final String str) {
+			return ".error.RATELIMIT.field-ratelimit".equals(str)
+					|| (str != null && str.contains("you are doing that too much"));
+		}
 	}
 
 	public static String ua(final Context context) {

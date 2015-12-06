@@ -299,6 +299,11 @@ public final class General {
 				message = R.string.error_url_required_message;
 				break;
 
+			case TOO_FAST:
+				title = R.string.error_too_fast_title;
+				message = R.string.error_too_fast_message;
+				break;
+
 			default:
 				title = R.string.error_unknown_api_title;
 				message = R.string.error_unknown_api_message;

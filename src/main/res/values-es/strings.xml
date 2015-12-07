@@ -705,4 +705,13 @@
     <string name="pref_behaviour_gallery_swipe_length_title">Duración del cambio en la galería</string>
     <string name="pref_behaviour_gallery_swipe_length_key">pref_behaviour_gallery_swipe_length</string>
 
+    <!-- 2015-11-22 -->
+    <string name="props_image_title">Información de la magen</string>
+    <string name="props_caption">Leyenda</string>
+    <string name="props_resolution">Resolución</string>
+
+    <!-- 2015-12-06 -->
+    <string name="error_too_fast_title">Demasiado rápido</string>
+    <string name="error_too_fast_message">Reddit dice que estás mandado envíos muy rápidamente. Por favor, espera unos minutos antes de volver a intentarlo.</string>
+
 </resources>

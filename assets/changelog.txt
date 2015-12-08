@@ -4,6 +4,7 @@ Ability to pin subreddits to top of main menu
 Precaching for comment threads
 Improved connection robustness
 Use .mp4 instead of .webm for imgur (should improve device compatibility)
+Overlay icon for up/downvoted posts
 Various ListView improvements
 Fixed bug where submission rate limit errors were ignored
 Various bugfixes

@@ -61,21 +61,12 @@
                        android:layout_height="match_parent"
                        android:scaleType="center"/>
 
-            <ImageView android:id="@+id/reddit_post_saved_icon"
+            <ImageView android:id="@+id/reddit_post_overlay_icon"
                        android:layout_width="64dp"
                        android:layout_height="match_parent"
                        android:scaleType="center"
                        android:visibility="gone"
-                       android:background="#99000000"
-                       android:src="@drawable/ic_action_star_filled_dark"/>
-
-            <ImageView android:id="@+id/reddit_post_hidden_icon"
-                       android:layout_width="64dp"
-                       android:layout_height="match_parent"
-                       android:scaleType="center"
-                       android:visibility="gone"
-                       android:background="#99000000"
-                       android:src="@drawable/ic_action_cross_dark"/>
+                       android:background="#99000000" />
 
         </FrameLayout>
 

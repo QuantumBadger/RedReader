@@ -817,6 +817,8 @@ public final class RedditPreparedPost {
 						if(action == RedditAPI.RedditAction.DELETE) {
 							General.quickToast(activity, R.string.delete_success);
 						}
+
+						refreshView(context);
 					}
 
 					private void revertOnFailure() {

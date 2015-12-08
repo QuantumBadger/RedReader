@@ -46,7 +46,7 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 	private RedditPreparedPost post = null;
 	private final TextView title, subtitle;
 
-	private final ImageView thumbnailView, savedIcon, hiddenIcon;
+	private final ImageView thumbnailView, overlayIcon;
 
 	private final LinearLayout visiblePostLayout, commentsButton;
 	private final TextView commentsText;
@@ -258,8 +258,7 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 		visiblePostLayout = (LinearLayout) mainLayout.findViewById(R.id.reddit_post_layout);
 
 		thumbnailView = (ImageView) mainLayout.findViewById(R.id.reddit_post_thumbnail_view);
-		savedIcon = (ImageView) mainLayout.findViewById(R.id.reddit_post_saved_icon);
-		hiddenIcon = (ImageView) mainLayout.findViewById(R.id.reddit_post_hidden_icon);
+		overlayIcon = (ImageView) mainLayout.findViewById(R.id.reddit_post_overlay_icon);
 
 		title = (TextView) mainLayout.findViewById(R.id.reddit_post_title);
 		subtitle = (TextView) mainLayout.findViewById(R.id.reddit_post_subtitle);
@@ -315,36 +314,38 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 	// Only run in the UI thread
 	public void reset(final RedditPreparedPost data) {
 
-		if(data == post) return;
+		if(data != post) {
 
-		usageId++;
+			usageId++;
 
-		super.reset();
+			super.reset();
+
+			swipeReady = false;
+			leftOverlayShown = false;
+			rightOverlayShown = false;
+			leftOverlayText.setVisibility(GONE);
+			rightOverlayText.setVisibility(GONE);
+
+			final Bitmap thumbnail = data.getThumbnail(this, usageId);
+			thumbnailView.setImageBitmap(thumbnail);
+
+			title.setText(data.title);
+			commentsText.setText(String.valueOf(data.commentCount));
+
+			if(data.hasThumbnail) {
+				thumbnailView.setVisibility(VISIBLE);
+				thumbnailView.setMinimumWidth((int)(64.0f * dpScale)); // TODO remove constant, customise
+				thumbnailView.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+			} else {
+				thumbnailView.setMinimumWidth(0);
+				thumbnailView.setVisibility(GONE);
+			}
+		}
+
 		if(post != null) post.unbind(this);
 		data.bind(this);
 
-		swipeReady = false;
-		leftOverlayShown = false;
-		rightOverlayShown = false;
-		leftOverlayText.setVisibility(GONE);
-		rightOverlayText.setVisibility(GONE);
-
 		this.post = data;
-
-		final Bitmap thumbnail = data.getThumbnail(this, usageId);
-		thumbnailView.setImageBitmap(thumbnail);
-
-		title.setText(data.title);
-		commentsText.setText(String.valueOf(post.commentCount));
-
-		if(data.hasThumbnail) {
-			thumbnailView.setVisibility(VISIBLE);
-			thumbnailView.setMinimumWidth((int)(64.0f * dpScale)); // TODO remove constant, customise
-			thumbnailView.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
-		} else {
-			thumbnailView.setMinimumWidth(0);
-			thumbnailView.setVisibility(GONE);
-		}
 
 		updateAppearance();
 	}
@@ -367,12 +368,28 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 
 		subtitle.setText(post.postListDescription);
 
+		boolean overlayVisible = true;
+
 		if(post.isSaved()) {
-			savedIcon.setVisibility(ImageView.VISIBLE);
-			hiddenIcon.setVisibility(ImageView.GONE);
+			overlayIcon.setImageResource(R.drawable.ic_action_star_filled_dark);
+
+		} else if(post.isHidden()) {
+			overlayIcon.setImageResource(R.drawable.ic_action_cross_dark);
+
+		} else if(post.isUpvoted()) {
+			overlayIcon.setImageResource(R.drawable.action_upvote_dark);
+
+		} else if(post.isDownvoted()) {
+			overlayIcon.setImageResource(R.drawable.action_downvote_dark);
+
 		} else {
-			savedIcon.setVisibility(ImageView.GONE);
-			hiddenIcon.setVisibility(post.isHidden() ? ImageView.VISIBLE : ImageView.GONE);
+			overlayVisible = false;
+		}
+
+		if(overlayVisible) {
+			overlayIcon.setVisibility(VISIBLE);
+		} else {
+			overlayIcon.setVisibility(GONE);
 		}
 	}
 

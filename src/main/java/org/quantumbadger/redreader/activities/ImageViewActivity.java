@@ -450,7 +450,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 							final VideoView videoView = new VideoView(ImageViewActivity.this);
 
 							videoView.setVideoURI(cacheFile.getUri());
-							videoView.setMediaController(new MediaController(ImageViewActivity.this));
+							videoView.setMediaController(null);
 
 							layout.addView(videoView);
 							setMainView(layout);

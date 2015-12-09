@@ -485,7 +485,7 @@ public final class PrefsUtility {
 		final ArrayList<String> list = WritableHashSet.escapedStringToList(value);
 		list.add(name);
 
-		final ArrayList<String> result = new ArrayList<>(list.size());
+		final ArrayList<String> result = new ArrayList<String>(list.size());
 		for(final String existingSr : list) {
 			if(!name.toLowerCase().equals(existingSr.toLowerCase())) {
 				result.add(existingSr);

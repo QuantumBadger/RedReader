@@ -241,7 +241,6 @@ public final class RedditPreparedPost {
 		//builder.setNeutralButton(R.string.dialog_cancel, null);
 
 		final AlertDialog alert = builder.create();
-		alert.setTitle(R.string.action_menu_post_title);
 		alert.setCanceledOnTouchOutside(true);
 		alert.show();
 	}

@@ -740,5 +740,6 @@
     <string name="block_subreddit">Block Subreddit</string>
     <string name="unblock_subreddit">Unblock Subreddit</string>
     <string name="pref_blocked_subreddits_key">pref_blocked_subreddits</string>
-
+    <string name="block_done">Subreddit blocked. Future visits to /r/all will exclude this subreddit.</string>
+    <string name="unblock_done">Subreddit unblocked. Future visits to /r/all will include this subreddit.</string>
 </resources>

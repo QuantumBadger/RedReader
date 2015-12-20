@@ -504,6 +504,8 @@ public final class PrefsUtility {
 			final String subreddit) throws RedditSubreddit.InvalidSubredditNameException {
 
 		pref_subreddits_add(context, sharedPreferences, subreddit, R.string.pref_blocked_subreddits_key);
+
+		General.quickToast(context, R.string.block_done);
 	}
 
 	public static void pref_blocked_subreddits_remove(
@@ -512,6 +514,8 @@ public final class PrefsUtility {
 			final String subreddit) throws RedditSubreddit.InvalidSubredditNameException {
 
 		pref_subreddits_remove(context, sharedPreferences, subreddit, R.string.pref_blocked_subreddits_key);
+
+		General.quickToast(context, R.string.unblock_done);
 	}
 
 	public static boolean pref_blocked_subreddits_check(

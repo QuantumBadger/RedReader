@@ -464,14 +464,7 @@ public final class PrefsUtility {
 			final SharedPreferences sharedPreferences,
 			final String subreddit) throws RedditSubreddit.InvalidSubredditNameException {
 
-		final String name = RedditSubreddit.getCanonicalName(subreddit);
-
-		final String value = getString(R.string.pref_pinned_subreddits_key, "", context, sharedPreferences);
-		final ArrayList<String> list = WritableHashSet.escapedStringToList(value);
-		list.add(name);
-		final String result = WritableHashSet.listToEscapedString(list);
-
-		sharedPreferences.edit().putString(context.getString(R.string.pref_pinned_subreddits_key), result).commit();
+		pref_subreddits_add(context, sharedPreferences, subreddit, R.string.pref_pinned_subreddits_key);
 	}
 
 	public static void pref_pinned_subreddits_remove(
@@ -479,22 +472,7 @@ public final class PrefsUtility {
 			final SharedPreferences sharedPreferences,
 			final String subreddit) throws RedditSubreddit.InvalidSubredditNameException {
 
-		final String name = RedditSubreddit.getCanonicalName(subreddit);
-
-		final String value = getString(R.string.pref_pinned_subreddits_key, "", context, sharedPreferences);
-		final ArrayList<String> list = WritableHashSet.escapedStringToList(value);
-		list.add(name);
-
-		final ArrayList<String> result = new ArrayList<String>(list.size());
-		for(final String existingSr : list) {
-			if(!name.toLowerCase().equals(existingSr.toLowerCase())) {
-				result.add(existingSr);
-			}
-		}
-
-		final String resultStr = WritableHashSet.listToEscapedString(result);
-
-		sharedPreferences.edit().putString(context.getString(R.string.pref_pinned_subreddits_key), resultStr).commit();
+		pref_subreddits_remove(context, sharedPreferences, subreddit, R.string.pref_pinned_subreddits_key);
 	}
 
 	public static boolean pref_pinned_subreddits_check(
@@ -525,14 +503,7 @@ public final class PrefsUtility {
 			final SharedPreferences sharedPreferences,
 			final String subreddit) throws RedditSubreddit.InvalidSubredditNameException {
 
-		final String name = RedditSubreddit.getCanonicalName(subreddit);
-
-		final String value = getString(R.string.pref_blocked_subreddits_key, "", context, sharedPreferences);
-		final ArrayList<String> list = WritableHashSet.escapedStringToList(value);
-		list.add(name);
-		final String result = WritableHashSet.listToEscapedString(list);
-
-		sharedPreferences.edit().putString(context.getString(R.string.pref_blocked_subreddits_key), result).commit();
+		pref_subreddits_add(context, sharedPreferences, subreddit, R.string.pref_blocked_subreddits_key);
 	}
 
 	public static void pref_blocked_subreddits_remove(
@@ -540,22 +511,7 @@ public final class PrefsUtility {
 			final SharedPreferences sharedPreferences,
 			final String subreddit) throws RedditSubreddit.InvalidSubredditNameException {
 
-		final String name = RedditSubreddit.getCanonicalName(subreddit);
-
-		final String value = getString(R.string.pref_blocked_subreddits_key, "", context, sharedPreferences);
-		final ArrayList<String> list = WritableHashSet.escapedStringToList(value);
-		list.add(name);
-
-		final ArrayList<String> result = new ArrayList<String>(list.size());
-		for(final String existingSr : list) {
-			if(!name.toLowerCase().equals(existingSr.toLowerCase())) {
-				result.add(existingSr);
-			}
-		}
-
-		final String resultStr = WritableHashSet.listToEscapedString(result);
-
-		sharedPreferences.edit().putString(context.getString(R.string.pref_blocked_subreddits_key), resultStr).commit();
+		pref_subreddits_remove(context, sharedPreferences, subreddit, R.string.pref_blocked_subreddits_key);
 	}
 
 	public static boolean pref_blocked_subreddits_check(
@@ -570,5 +526,40 @@ public final class PrefsUtility {
 		}
 
 		return false;
+	}
+
+	///////////////////////////////
+	// Shared pref_subreddits methods
+	///////////////////////////////
+
+	private static void pref_subreddits_add(Context context, SharedPreferences sharedPreferences, String subreddit, int prefId) throws RedditSubreddit.InvalidSubredditNameException {
+		final String name = RedditSubreddit.getCanonicalName(subreddit);
+
+		final String value = getString(prefId, "", context, sharedPreferences);
+		final ArrayList<String> list = WritableHashSet.escapedStringToList(value);
+		list.add(name);
+
+		final String result = WritableHashSet.listToEscapedString(list);
+
+		sharedPreferences.edit().putString(context.getString(prefId), result).commit();
+	}
+
+	private static void pref_subreddits_remove(Context context, SharedPreferences sharedPreferences, String subreddit, int prefId) throws RedditSubreddit.InvalidSubredditNameException {
+		final String name = RedditSubreddit.getCanonicalName(subreddit);
+
+		final String value = getString(prefId, "", context, sharedPreferences);
+		final ArrayList<String> list = WritableHashSet.escapedStringToList(value);
+		list.add(name);
+
+		final ArrayList<String> result = new ArrayList<String>(list.size());
+		for(final String existingSr : list) {
+			if(!name.toLowerCase().equals(existingSr.toLowerCase())) {
+				result.add(existingSr);
+			}
+		}
+
+		final String resultStr = WritableHashSet.listToEscapedString(result);
+
+		sharedPreferences.edit().putString(context.getString(prefId), resultStr).commit();
 	}
 }

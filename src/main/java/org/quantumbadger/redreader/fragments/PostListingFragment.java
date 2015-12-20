@@ -70,10 +70,7 @@ import org.quantumbadger.redreader.views.liststatus.ErrorView;
 
 import java.net.URI;
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.UUID;
+import java.util.*;
 
 public class PostListingFragment extends RRFragment implements RedditPostView.PostSelectionListener, AbsListView.OnScrollListener {
 
@@ -540,6 +537,9 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 				final boolean precacheComments = (commentPrecachePref == PrefsUtility.CachePrecacheComments.ALWAYS
 						|| (commentPrecachePref == PrefsUtility.CachePrecacheComments.WIFIONLY && isConnectionWifi));
 
+                final boolean isAll = url.getPath().startsWith("/r/all/");
+				final List<String> blockedSubreddits = PrefsUtility.pref_blocked_subreddits(context, sharedPrefs); // Grab this so we don't have to pull from the prefs every post
+
 				Log.i("PostListingFragment", "Precaching images: " + (precacheImages ? "ON" : "OFF"));
 				Log.i("PostListingFragment", "Precaching comments: " + (precacheComments ? "ON" : "OFF"));
 
@@ -565,7 +565,9 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 
 					after = post.name;
 
-					if(!post.over_18 || isNsfwAllowed) {
+                    Boolean isPostBlocked = getIsPostBlocked(isAll, blockedSubreddits, post);
+
+					if(!isPostBlocked && (!post.over_18 || isNsfwAllowed)) {
 
 						final boolean downloadThisThumbnail = downloadThumbnails && (!post.over_18 || showNsfwThumbnails);
 
@@ -682,5 +684,18 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 				notifyFailure(RequestFailureType.PARSE, t, null, "Parse failure");
 			}
 		}
-	}
+    }
+
+    private Boolean getIsPostBlocked(boolean isAll, List<String> blockedSubreddits, RedditPost post) throws RedditSubreddit.InvalidSubredditNameException {
+        Boolean isPostBlocked = false;
+
+        if (isAll) {
+            for (String blockedSubredditName : blockedSubreddits) {
+                if (blockedSubredditName.equalsIgnoreCase(RedditSubreddit.getCanonicalName(post.subreddit))) {
+                    isPostBlocked = true;
+                }
+            }
+        }
+        return isPostBlocked;
+    }
 }

@@ -510,4 +510,65 @@ public final class PrefsUtility {
 
 		return false;
 	}
+
+	///////////////////////////////
+	// pref_blocked_subreddits
+	///////////////////////////////
+
+	public static List<String> pref_blocked_subreddits(final Context context, final SharedPreferences sharedPreferences) {
+		final String value = getString(R.string.pref_blocked_subreddits_key, "", context, sharedPreferences);
+		return WritableHashSet.escapedStringToList(value);
+	}
+
+	public static void pref_blocked_subreddits_add(
+			final Context context,
+			final SharedPreferences sharedPreferences,
+			final String subreddit) throws RedditSubreddit.InvalidSubredditNameException {
+
+		final String name = RedditSubreddit.getCanonicalName(subreddit);
+
+		final String value = getString(R.string.pref_blocked_subreddits_key, "", context, sharedPreferences);
+		final ArrayList<String> list = WritableHashSet.escapedStringToList(value);
+		list.add(name);
+		final String result = WritableHashSet.listToEscapedString(list);
+
+		sharedPreferences.edit().putString(context.getString(R.string.pref_blocked_subreddits_key), result).commit();
+	}
+
+	public static void pref_blocked_subreddits_remove(
+			final Context context,
+			final SharedPreferences sharedPreferences,
+			final String subreddit) throws RedditSubreddit.InvalidSubredditNameException {
+
+		final String name = RedditSubreddit.getCanonicalName(subreddit);
+
+		final String value = getString(R.string.pref_blocked_subreddits_key, "", context, sharedPreferences);
+		final ArrayList<String> list = WritableHashSet.escapedStringToList(value);
+		list.add(name);
+
+		final ArrayList<String> result = new ArrayList<String>(list.size());
+		for(final String existingSr : list) {
+			if(!name.toLowerCase().equals(existingSr.toLowerCase())) {
+				result.add(existingSr);
+			}
+		}
+
+		final String resultStr = WritableHashSet.listToEscapedString(result);
+
+		sharedPreferences.edit().putString(context.getString(R.string.pref_blocked_subreddits_key), resultStr).commit();
+	}
+
+	public static boolean pref_blocked_subreddits_check(
+			final Context context,
+			final SharedPreferences sharedPreferences,
+			final String subreddit) throws RedditSubreddit.InvalidSubredditNameException {
+
+		final List<String> list = pref_blocked_subreddits(context, sharedPreferences);
+
+		for(final String existingSr : list) {
+			if (subreddit.toLowerCase().equals(existingSr.toLowerCase())) return true;
+		}
+
+		return false;
+	}
 }

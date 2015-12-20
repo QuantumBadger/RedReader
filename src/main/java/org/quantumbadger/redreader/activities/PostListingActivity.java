@@ -130,6 +130,7 @@ public class PostListingActivity extends RefreshableActivity
 				? fragment.getSubreddit().description_html : null;
 
 		Boolean subredditPinState = null;
+		Boolean subredditBlockedState = null;
 
 		if(controller.isSubreddit()
 				&& fragment != null
@@ -141,8 +142,14 @@ public class PostListingActivity extends RefreshableActivity
 						PreferenceManager.getDefaultSharedPreferences(this),
 						fragment.getSubreddit().getCanonicalName());
 
+				subredditBlockedState = PrefsUtility.pref_blocked_subreddits_check(
+						this,
+						PreferenceManager.getDefaultSharedPreferences(this),
+						fragment.getSubreddit().getCanonicalName());
+
 			} catch(RedditSubreddit.InvalidSubredditNameException e) {
 				subredditPinState = null;
+				subredditBlockedState = null;
 			}
 		}
 
@@ -158,7 +165,8 @@ public class PostListingActivity extends RefreshableActivity
 				subredditSubscriptionState,
 				subredditDescription != null && subredditDescription.length() > 0,
 				false,
-				subredditPinState);
+				subredditPinState,
+				subredditBlockedState);
 
 		return true;
 	}
@@ -300,6 +308,40 @@ public class PostListingActivity extends RefreshableActivity
 
 		try {
 			PrefsUtility.pref_pinned_subreddits_remove(
+					this,
+					PreferenceManager.getDefaultSharedPreferences(this),
+					fragment.getSubreddit().getCanonicalName());
+
+		} catch(RedditSubreddit.InvalidSubredditNameException e) {
+			throw new RuntimeException(e);
+		}
+
+		invalidateOptionsMenu();
+	}
+
+	@Override
+	public void onBlock() {
+		if(fragment == null) return;
+
+		try {
+			PrefsUtility.pref_blocked_subreddits_add(
+					this,
+					PreferenceManager.getDefaultSharedPreferences(this),
+					fragment.getSubreddit().getCanonicalName());
+
+		} catch(RedditSubreddit.InvalidSubredditNameException e) {
+			throw new RuntimeException(e);
+		}
+
+		invalidateOptionsMenu();
+	}
+
+	@Override
+	public void onUnblock() {
+		if(fragment == null) return;
+
+		try {
+			PrefsUtility.pref_blocked_subreddits_remove(
 					this,
 					PreferenceManager.getDefaultSharedPreferences(this),
 					fragment.getSubreddit().getCanonicalName());

@@ -736,4 +736,9 @@
     <string name="error_too_fast_title">Too fast</string>
     <string name="error_too_fast_message">Reddit says you are making submissions too quickly. Please wait a few minutes before trying again.</string>
 
+    <!-- 2015-12-19 -->
+    <string name="block_subreddit">Block Subreddit</string>
+    <string name="unblock_subreddit">Unblock Subreddit</string>
+    <string name="pref_blocked_subreddits_key">pref_blocked_subreddits</string>
+
 </resources>

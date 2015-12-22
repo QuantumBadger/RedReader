@@ -367,6 +367,7 @@
         <item>@string/action_search</item>
         <item>@string/action_reply</item>
         <item>@string/pin_subreddit</item>
+        <item>@string/block_subreddit</item>
     </string-array>
 
     <!-- Constants. Do not change. -->
@@ -379,6 +380,7 @@
         <item>search</item>
         <item>reply</item>
         <item>pin</item>
+        <item>block</item>
     </string-array>
 
     <!-- Constants. Do not change. -->
@@ -390,6 +392,7 @@
         <item>search</item>
         <item>reply</item>
         <item>pin</item>
+        <item>block</item>
     </string-array>
 
     <!-- 2015-07-05 -->

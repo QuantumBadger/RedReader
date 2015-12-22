@@ -537,7 +537,11 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 				final boolean precacheComments = (commentPrecachePref == PrefsUtility.CachePrecacheComments.ALWAYS
 						|| (commentPrecachePref == PrefsUtility.CachePrecacheComments.WIFIONLY && isConnectionWifi));
 
-                final boolean isAll = url.getPath().startsWith("/r/all/");
+                final boolean isAll =
+						postListingURL.pathType() == RedditURLParser.PathType.SubredditPostListingURL
+						&& (postListingURL.asSubredditPostListURL().type == SubredditPostListURL.Type.ALL
+								|| postListingURL.asSubredditPostListURL().type == SubredditPostListURL.Type.ALL_SUBTRACTION);
+				
 				final List<String> blockedSubreddits = PrefsUtility.pref_blocked_subreddits(context, sharedPrefs); // Grab this so we don't have to pull from the prefs every post
 
 				Log.i("PostListingFragment", "Precaching images: " + (precacheImages ? "ON" : "OFF"));

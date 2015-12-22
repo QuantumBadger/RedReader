@@ -1,3 +1,6 @@
+66/1.9.3
+Ability to hide subreddits from /r/all (thanks to Igor Shults)
+
 65/1.9.2
 Ability to view image titles/captions
 Ability to pin subreddits to top of main menu

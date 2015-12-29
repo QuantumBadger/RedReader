@@ -705,6 +705,22 @@
     <string name="pref_behaviour_gallery_swipe_length_title">Duración del cambio en la galería</string>
     <string name="pref_behaviour_gallery_swipe_length_key">pref_behaviour_gallery_swipe_length</string>
 
+    <!-- 2015-11-19 -->
+    <string name="pref_cache_precache_comments_header">Precargar comentarios</string>
+
+    <string name="pref_cache_precache_comments_key">pref_cache_precache_comments</string>
+    <string name="pref_cache_precache_comments_title">Cargar comentarios en caché</string>
+
+    <string name="pref_cache_precache_comments_wifionly_key">pref_cache_precache_comments_wifionly</string>
+    <string name="pref_cache_precache_comments_wifionly_title">Sólo con WiFi</string>
+
+    <string name="mainmenu_header_subreddits_subscribed">Subreddits suscritos</string>
+    <string name="mainmenu_header_subreddits_pinned">Subreddits fijados</string>
+
+    <string name="pin_subreddit">Fijar al menú principal</string>
+    <string name="unpin_subreddit">Quitar del menú principal</string>
+    <string name="pref_pinned_subreddits_key">pref_pinned_subreddits</string>
+
     <!-- 2015-11-22 -->
     <string name="props_image_title">Información de la magen</string>
     <string name="props_caption">Leyenda</string>
@@ -713,5 +729,12 @@
     <!-- 2015-12-06 -->
     <string name="error_too_fast_title">Demasiado rápido</string>
     <string name="error_too_fast_message">Reddit dice que estás mandado envíos muy rápidamente. Por favor, espera unos minutos antes de volver a intentarlo.</string>
+
+    <!-- 2015-12-19 -->
+    <string name="block_subreddit">Bloquear Subreddit</string>
+    <string name="unblock_subreddit">Desbloquear Subreddit</string>
+    <string name="pref_blocked_subreddits_key">pref_blocked_subreddits</string>
+    <string name="block_done">Subreddit bloqueado. Las próximas visitas a /r/all excluirán este subreddit.</string>
+    <string name="unblock_done">Subreddit desbloqueado. Las próximas visitas a /r/all incluirán este subreddit.</string>
 
 </resources>

@@ -111,8 +111,6 @@ public class LinkHandler {
 			}
 
 			activity.startActivity(intent);
-			if(PrefsUtility.pref_behaviour_skipgallerylist(activity, PreferenceManager.getDefaultSharedPreferences(activity)))
-				activity.finish();
 			return;
 		}
 

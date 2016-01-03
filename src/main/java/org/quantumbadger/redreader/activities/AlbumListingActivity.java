@@ -147,6 +147,7 @@ public class AlbumListingActivity extends BaseActivity {
 							info,
 							0);
 					General.quickToast(AlbumListingActivity.this, "Image 1/" + String.valueOf(info.images.size()), Toast.LENGTH_SHORT);
+					finish();
 				}
 					AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 					@Override

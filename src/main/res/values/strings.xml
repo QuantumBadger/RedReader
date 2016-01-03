@@ -746,4 +746,5 @@
     <!-- 2016-01-03 -->
     <string name="pref_behaviour_skipgallerylist_title">Skip Gallery List View</string>
     <string name="pref_behaviour_skipgallerylist_key">pref_behavior_skipgallerylist</string>
+    <string name="first_album_image">Image 1/</string>
 </resources>

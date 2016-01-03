@@ -24,6 +24,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.widget.Toast;
+
 import org.quantumbadger.redreader.activities.*;
 import org.quantumbadger.redreader.fragments.UserProfileDialog;
 import org.quantumbadger.redreader.image.*;
@@ -109,6 +111,8 @@ public class LinkHandler {
 			}
 
 			activity.startActivity(intent);
+			if(PrefsUtility.pref_behaviour_skipgallerylist(activity, PreferenceManager.getDefaultSharedPreferences(activity)))
+				activity.finish();
 			return;
 		}
 

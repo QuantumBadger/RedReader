@@ -33,6 +33,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.github.lzyzsd.circleprogress.DonutProgress;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -169,8 +170,12 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 		progressBar.getLayoutParams().height = progressDimensionsPx;
 		((RelativeLayout.LayoutParams)progressBar.getLayoutParams()).addRule(RelativeLayout.CENTER_IN_PARENT);
 
+		final TextView loadingProgressText = new TextView(this);
+		loadingProgressText.setGravity(Gravity.BOTTOM|Gravity.CENTER);
+
 		mLayout = new FrameLayout(this);
 		mLayout.addView(progressLayout);
+		mLayout.addView(loadingProgressText);
 
 		LinkHandler.getImageInfo(this, mUrl, Constants.Priority.IMAGE_VIEW, 0, new GetImageInfoListener() {
 
@@ -250,7 +255,13 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 									public void run() {
 										progressBar.setVisibility(View.VISIBLE);
 										progressBar.setIndeterminate(authorizationInProgress);
-										progressBar.setProgress(((float)((1000 * bytesRead) / totalBytes)) / 1000);
+										progressBar.setProgress(((float) ((1000 * bytesRead) / totalBytes)) / 1000);
+
+										double mbLoaded = (double)bytesRead / (double)1000000;
+										double mbToLoad = (double)totalBytes / (double)1000000;
+										mbLoaded = Math.floor(mbLoaded * 100) / 100;
+										mbToLoad = Math.floor(mbToLoad * 100) / 100;
+										loadingProgressText.setText(String.valueOf(mbLoaded) + " MB / " + String.valueOf(mbToLoad) + " MB");
 									}
 								});
 							}

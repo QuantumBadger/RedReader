@@ -47,6 +47,7 @@ public class AlbumListingActivity extends BaseActivity {
 
 	private String mUrl;
 	private boolean mHaveReverted = false;
+	private boolean mActivityStopped = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -138,6 +139,18 @@ public class AlbumListingActivity extends BaseActivity {
 			@Override
 			public void onSuccess(final ImgurAPI.AlbumInfo info) {
 				Log.i("AlbumListingActivity", "Got album, " + info.images.size() + " image(s)");
+				if(PrefsUtility.pref_behaviour_skipgallerylist(AlbumListingActivity.this, PreferenceManager.getDefaultSharedPreferences(AlbumListingActivity.this))
+						&& !intent.hasExtra("viewList") && !mActivityStopped) {
+					LinkHandler.onLinkClicked(
+							AlbumListingActivity.this,
+							info.images.get(0).urlOriginal,
+							false,
+							null,
+							info,
+							0);
+					General.quickToast(AlbumListingActivity.this, getString(R.string.first_album_image) + String.valueOf(info.images.size()), Toast.LENGTH_SHORT);
+					finish();
+				}
 					AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 					@Override
 					public void run() {
@@ -171,21 +184,16 @@ public class AlbumListingActivity extends BaseActivity {
 					}
 
 				});
-				if(PrefsUtility.pref_behaviour_skipgallerylist(AlbumListingActivity.this, PreferenceManager.getDefaultSharedPreferences(AlbumListingActivity.this)) && !intent.hasExtra("viewList")) {
-					LinkHandler.onLinkClicked(
-							AlbumListingActivity.this,
-							info.images.get(0).urlOriginal,
-							false,
-							null,
-							info,
-							0);
-					General.quickToast(AlbumListingActivity.this, getString(R.string.first_album_image) + String.valueOf(info.images.size()), Toast.LENGTH_SHORT);
-					finish();
-				}
 			}
 		});
 
 		setContentView(layout);
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		mActivityStopped = true;
 	}
 
 	@Override

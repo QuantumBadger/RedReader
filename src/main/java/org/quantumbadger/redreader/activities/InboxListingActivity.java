@@ -60,8 +60,10 @@ import java.util.UUID;
 public final class InboxListingActivity extends BaseActivity {
 
 	private static final int OPTIONS_MENU_MARK_ALL_AS_READ = 0;
+	private static final int OPTIONS_MENU_SHOW_UNREAD_ONLY = 1;
 
 	private InboxListingAdapter adapter;
+    private SharedPreferences.Editor editor;
 
 	private LoadingView loadingView;
 	private LinearLayout notifications;
@@ -71,6 +73,7 @@ public final class InboxListingActivity extends BaseActivity {
 	private EnumSet<PrefsUtility.AppearanceCommentHeaderItems> headerItems;
 
 	private boolean isModmail = false;
+	private boolean onlyUnread;
 
 	private final Handler itemHandler = new Handler(Looper.getMainLooper()) {
 		@Override
@@ -88,7 +91,7 @@ public final class InboxListingActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 
 		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-
+        editor = sharedPreferences.edit();
 		final boolean solidblack = PrefsUtility.appearance_solidblack(this, sharedPreferences)
 				&& PrefsUtility.appearance_theme(this, sharedPreferences) == PrefsUtility.AppearanceTheme.NIGHT;
 
@@ -98,6 +101,7 @@ public final class InboxListingActivity extends BaseActivity {
 		final String title;
 
 		isModmail = getIntent() != null && getIntent().getBooleanExtra("modmail", false);
+		onlyUnread = sharedPreferences.getBoolean("onlyUnread", false);
 
 		if(!isModmail) {
 			title = getString(R.string.mainmenu_inbox);
@@ -164,7 +168,11 @@ public final class InboxListingActivity extends BaseActivity {
 		final URI url;
 
 		if(!isModmail) {
-			url = Constants.Reddit.getUri("/message/inbox.json?mark=true&limit=100");
+			if(onlyUnread) {
+				url = Constants.Reddit.getUri("/message/unread.json?mark=true&limit=100");
+			}else{
+				url = Constants.Reddit.getUri("/message/inbox.json?mark=true&limit=100");
+			}
 		} else {
 			url = Constants.Reddit.getUri("/message/moderator.json?limit=100");
 		}
@@ -295,6 +303,11 @@ public final class InboxListingActivity extends BaseActivity {
 	@Override
 	public boolean onCreateOptionsMenu(final Menu menu) {
 		menu.add(0, OPTIONS_MENU_MARK_ALL_AS_READ, 0, R.string.mark_all_as_read);
+		menu.add(0, OPTIONS_MENU_SHOW_UNREAD_ONLY, 1, "Unread Messages Only");
+		menu.getItem(1).setCheckable(true);
+		if(onlyUnread){
+			menu.getItem(1).setChecked(true);
+		}
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -302,7 +315,6 @@ public final class InboxListingActivity extends BaseActivity {
 	public boolean onOptionsItemSelected(final MenuItem item) {
 		switch(item.getItemId()) {
 			case OPTIONS_MENU_MARK_ALL_AS_READ:
-
 				RedditAPI.markAllAsRead(
 						CacheManager.getInstance(this),
 						new APIResponseHandler.ActionResponseHandler(this) {
@@ -341,6 +353,19 @@ public final class InboxListingActivity extends BaseActivity {
 						RedditAccountManager.getInstance(this).getDefaultAccount(),
 						this);
 
+				return true;
+			case OPTIONS_MENU_SHOW_UNREAD_ONLY:
+				if (!item.isChecked()) {
+					item.setChecked(true);
+					editor.putBoolean("onlyUnread", true);
+					onlyUnread = true;
+				} else {
+					item.setChecked(false);
+					editor.putBoolean("onlyUnread", false);
+					onlyUnread = false;
+				}
+				editor.commit();
+                makeFirstRequest(this);
 				return true;
 			case android.R.id.home:
 				finish();

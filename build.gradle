@@ -30,11 +30,6 @@ android {
         release {
             minifyEnabled false
         }
-        buildTypes {
-            debug {
-                debuggable true
-            }
-        }
     }
 
     compileOptions {
@@ -53,9 +48,7 @@ android {
 
     sourceSets {
         main {
-            java.srcDirs = ['src/main/java']
             assets.srcDirs = ['assets']
-            res.srcDirs = ['src/main/res']
         }
     }
 }

@@ -23,7 +23,7 @@ public class DHM {
 
 	private final float startPos, startVelocity, accCoefficient, stepLengthSeconds;
 
-	private final ArrayList<Float> results = new ArrayList<Float>();
+	private final ArrayList<Float> results = new ArrayList<>();
 
 	public DHM(final float startPos, final float startVelocity, final float accCoefficient, final float stepLengthSeconds) {
 		this.startPos = startPos;

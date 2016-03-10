@@ -67,7 +67,7 @@ public class OKHTTPBackend implements HTTPBackend {
 		builder.url(details.getUrl().toString());
 		builder.cacheControl(CacheControl.FORCE_NETWORK);
 
-		final AtomicReference<Call> callRef = new AtomicReference<Call>();
+		final AtomicReference<Call> callRef = new AtomicReference<>();
 
 		return new Request() {
 

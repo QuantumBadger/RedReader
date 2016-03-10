@@ -41,8 +41,8 @@ import java.util.*;
 
 public class MainMenuAdapter extends BaseAdapter {
 
-	private final ArrayList<MainMenuItem> mainItems = new ArrayList<MainMenuItem>(16);
-	private final ArrayList<MainMenuItem> subredditItems = new ArrayList<MainMenuItem>(100);
+	private final ArrayList<MainMenuItem> mainItems = new ArrayList<>(16);
+	private final ArrayList<MainMenuItem> subredditItems = new ArrayList<>(100);
 	private final RedditAccount user;
 	private final MainMenuSelectionListener selectionListener;
 
@@ -232,7 +232,7 @@ public class MainMenuAdapter extends BaseAdapter {
 
 	public void setSubreddits(final Collection<String> subscriptions) {
 
-		final ArrayList<String> subscriptionsSorted = new ArrayList<String>(subscriptions);
+		final ArrayList<String> subscriptionsSorted = new ArrayList<>(subscriptions);
 		Collections.sort(subscriptionsSorted);
 
 		AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {

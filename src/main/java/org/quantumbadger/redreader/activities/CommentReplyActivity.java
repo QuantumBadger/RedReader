@@ -73,7 +73,7 @@ public class CommentReplyActivity extends BaseActivity {
 		}
 
 		final ArrayList<RedditAccount> accounts = RedditAccountManager.getInstance(this).getAccounts();
-		final ArrayList<String> usernames = new ArrayList<String>();
+		final ArrayList<String> usernames = new ArrayList<>();
 
 		for(RedditAccount account : accounts) {
 			if(!account.isAnonymous()) {

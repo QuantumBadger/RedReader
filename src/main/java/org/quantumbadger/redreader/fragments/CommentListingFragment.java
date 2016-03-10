@@ -206,7 +206,7 @@ public class CommentListingFragment extends RRFragment
 
 				} else if(view instanceof LoadMoreCommentsView) {
 
-					final ArrayList<String> urls = new ArrayList<String>(16);
+					final ArrayList<String> urls = new ArrayList<>(16);
 					for(PostCommentListingURL url : ((LoadMoreCommentsView) view).getUrls()) {
 						urls.add(url.toString());
 					}
@@ -433,7 +433,7 @@ public class CommentListingFragment extends RRFragment
 		}
 	}
 
-	private final ArrayList<RedditCommentListItem> mItemBuffer = new ArrayList<RedditCommentListItem>(64);
+	private final ArrayList<RedditCommentListItem> mItemBuffer = new ArrayList<>(64);
 
 	@Override
 	public void onCommentListingRequestItemDownloaded(final RedditCommentListItem item) {

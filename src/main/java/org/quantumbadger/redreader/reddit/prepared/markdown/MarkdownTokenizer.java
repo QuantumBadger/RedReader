@@ -56,7 +56,7 @@ public final class MarkdownTokenizer {
 			"/user/".toCharArray()
 	};
 
-	private static final HashSet<Integer> unicodeWhitespace = new HashSet<Integer>();
+	private static final HashSet<Integer> unicodeWhitespace = new HashSet<>();
 
 	static {
 		reverseLookup[20 + TOKEN_UNDERSCORE] = new char[] {'_'};

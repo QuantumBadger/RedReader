@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 public class RRGLRenderableGroup extends RRGLRenderable {
 
-	private final ArrayList<RRGLRenderable> mChildren = new ArrayList<RRGLRenderable>(16);
+	private final ArrayList<RRGLRenderable> mChildren = new ArrayList<>(16);
 
 	public final void add(RRGLRenderable child) {
 		mChildren.add(child);

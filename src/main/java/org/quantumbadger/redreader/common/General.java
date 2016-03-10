@@ -403,7 +403,7 @@ public final class General {
 			return Collections.emptySet();
 		}
 
-		final Set<String> names = new LinkedHashSet<String>();
+		final Set<String> names = new LinkedHashSet<>();
 		int pos = 0;
 		while(pos < query.length()) {
 			int next = query.indexOf('&', pos);
@@ -439,7 +439,7 @@ public final class General {
 	}
 
 	public static <E> ArrayList<E> listOfOne(E obj) {
-		final ArrayList<E> result = new ArrayList<E>(1);
+		final ArrayList<E> result = new ArrayList<>(1);
 		result.add(obj);
 		return result;
 	}

@@ -36,7 +36,7 @@ public class RedditPreparedMoreComments {
 
 	public List<PostCommentListingURL> getMoreUrls() {
 
-		final ArrayList<PostCommentListingURL> urls = new ArrayList<PostCommentListingURL>(16);
+		final ArrayList<PostCommentListingURL> urls = new ArrayList<>(16);
 
 		if(mSrc.count > 0) {
 			for(JsonValue child : mSrc.children) {

@@ -61,7 +61,7 @@ public class RedditAPIIndividualSubredditListRequester
 
 			final long now = System.currentTimeMillis();
 
-			final HashSet<String> data = new HashSet<String>(Constants.Reddit.DEFAULT_SUBREDDITS.length + 1);
+			final HashSet<String> data = new HashSet<>(Constants.Reddit.DEFAULT_SUBREDDITS.length + 1);
 
 			for(String name : Constants.Reddit.DEFAULT_SUBREDDITS) {
 				data.add(name.toLowerCase());
@@ -173,8 +173,8 @@ public class RedditAPIIndividualSubredditListRequester
 
 				try {
 
-					final HashSet<String> output = new HashSet<String>();
-					final ArrayList<RedditSubreddit> toWrite = new ArrayList<RedditSubreddit>();
+					final HashSet<String> output = new HashSet<>();
+					final ArrayList<RedditSubreddit> toWrite = new ArrayList<>();
 
 					final JsonBufferedObject redditListing = result.asObject().getObject("data");
 

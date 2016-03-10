@@ -31,7 +31,7 @@ import java.util.Iterator;
  */
 public final class JsonBufferedArray extends JsonBuffered implements Iterable<JsonValue> {
 	
-	private final ArrayList<JsonValue> contents = new ArrayList<JsonValue>(16);
+	private final ArrayList<JsonValue> contents = new ArrayList<>(16);
 	private int items = 0;
 	
 	@Override

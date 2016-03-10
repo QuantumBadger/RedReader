@@ -32,7 +32,7 @@ import java.util.ArrayList;
 
 public final class CommentListingAdapter extends BaseAdapter {
 
-	private final ArrayList<RedditCommentListItem> comments = new ArrayList<RedditCommentListItem>(128),
+	private final ArrayList<RedditCommentListItem> comments = new ArrayList<>(128),
 		commentsToReport = new ArrayList<RedditCommentListItem>(128);
 
 	private final int rrCommentHeaderCol, rrCommentBodyCol;

@@ -61,7 +61,7 @@ public class WritableHashSet implements WritableObject<String> {
 	}
 
 	public String serializeWithMetadata() {
-		final ArrayList<String> result = new ArrayList<String>(3);
+		final ArrayList<String> result = new ArrayList<>(3);
 		result.add(serialised);
 		result.add(String.valueOf(timestamp));
 		result.add(key);
@@ -121,7 +121,7 @@ public class WritableHashSet implements WritableObject<String> {
 		// Workaround to improve parsing of lists saved by older versions of the app
 		if(str.length() > 0 && !str.endsWith(";")) str += ";";
 
-		final ArrayList<String> result = new ArrayList<String>();
+		final ArrayList<String> result = new ArrayList<>();
 
 		if(str != null) {
 

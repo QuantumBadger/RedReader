@@ -61,7 +61,7 @@ public final class RedditPreparedComment implements RedditPreparedInboxItem {
 
 	private final MarkdownParagraphGroup body;
 
-	private final LinkedList<RedditPreparedComment> directReplies = new LinkedList<RedditPreparedComment>();
+	private final LinkedList<RedditPreparedComment> directReplies = new LinkedList<>();
 
 	private boolean collapsed = false;
 
@@ -469,7 +469,7 @@ public final class RedditPreparedComment implements RedditPreparedInboxItem {
 
 		final RedditAccount user = RedditAccountManager.getInstance(activity).getDefaultAccount();
 
-		final ArrayList<RCVMenuItem> menu = new ArrayList<RCVMenuItem>();
+		final ArrayList<RCVMenuItem> menu = new ArrayList<>();
 
 		if(!user.isAnonymous()) {
 

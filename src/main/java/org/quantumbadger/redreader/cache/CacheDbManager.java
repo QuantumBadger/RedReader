@@ -107,7 +107,7 @@ final class CacheDbManager extends SQLiteOpenHelper {
 
 		final Cursor cursor = db.query(TABLE, fields, queryString, queryParams, null, null, FIELD_TIMESTAMP + " DESC");
 
-		final LinkedList<CacheEntry> result = new LinkedList<CacheEntry>();
+		final LinkedList<CacheEntry> result = new LinkedList<>();
 
 		// TODO can this even happen?
 		if (cursor == null) {
@@ -176,9 +176,9 @@ final class CacheDbManager extends SQLiteOpenHelper {
 
 		final Cursor cursor = db.query(TABLE, new String[] {FIELD_ID, FIELD_TIMESTAMP, FIELD_TYPE}, null, null, null, null, null, null);
 
-		final HashSet<Long> currentEntries = new HashSet<Long>();
-		final ArrayList<Long> entriesToDelete = new ArrayList<Long>();
-		final ArrayList<Long> filesToDelete = new ArrayList<Long>(32);
+		final HashSet<Long> currentEntries = new HashSet<>();
+		final ArrayList<Long> entriesToDelete = new ArrayList<>();
+		final ArrayList<Long> filesToDelete = new ArrayList<>(32);
 
 		while(cursor.moveToNext()) {
 

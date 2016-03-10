@@ -31,7 +31,7 @@ import java.util.ArrayList;
 
 public final class InboxListingAdapter extends BaseAdapter {
 
-	private final ArrayList<RedditPreparedInboxItem> items = new ArrayList<RedditPreparedInboxItem>(128);
+	private final ArrayList<RedditPreparedInboxItem> items = new ArrayList<>(128);
 
 	private final int rrCommentHeaderCol, rrCommentBodyCol;
 

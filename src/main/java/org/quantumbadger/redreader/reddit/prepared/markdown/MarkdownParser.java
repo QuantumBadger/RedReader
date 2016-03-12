@@ -35,7 +35,7 @@ public final class MarkdownParser {
 			lines[i] = MarkdownLine.generate(rawLines[i]);
 		}
 
-		final ArrayList<MarkdownLine> mergedLines = new ArrayList<MarkdownLine>(rawLines.length);
+		final ArrayList<MarkdownLine> mergedLines = new ArrayList<>(rawLines.length);
 		MarkdownLine currentLine = null;
 
 		for(int i = 0; i < lines.length; i++) {
@@ -99,7 +99,7 @@ public final class MarkdownParser {
 			mergedLines.add(currentLine);
 		}
 
-		final ArrayList<MarkdownParagraph> outputParagraphs = new ArrayList<MarkdownParagraph>(mergedLines.size());
+		final ArrayList<MarkdownParagraph> outputParagraphs = new ArrayList<>(mergedLines.size());
 
 		for(final MarkdownLine line : mergedLines) {
 			final MarkdownParagraph lastParagraph = outputParagraphs.isEmpty() ? null : outputParagraphs.get(outputParagraphs.size() - 1);

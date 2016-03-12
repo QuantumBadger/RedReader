@@ -557,7 +557,7 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 						&& postListingURL.pathType() == RedditURLParser.PathType.SubredditPostListingURL
 						&& postListingURL.asSubredditPostListURL().type == SubredditPostListURL.Type.SUBREDDIT);
 
-				final ArrayList<RedditPreparedPost> downloadedPosts = new ArrayList<RedditPreparedPost>(25);
+				final ArrayList<RedditPreparedPost> downloadedPosts = new ArrayList<>(25);
 
 				for(final JsonValue postThingValue : posts) {
 

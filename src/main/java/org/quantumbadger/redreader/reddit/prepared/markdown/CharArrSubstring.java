@@ -38,7 +38,7 @@ public final class CharArrSubstring {
 
 		int curPos = 0;
 
-		final LinkedList<CharArrSubstring> result = new LinkedList<CharArrSubstring>();
+		final LinkedList<CharArrSubstring> result = new LinkedList<>();
 
 		int nextLinebreak;
 

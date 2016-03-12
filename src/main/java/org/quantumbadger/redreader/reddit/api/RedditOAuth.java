@@ -284,7 +284,7 @@ public final class RedditOAuth {
 
 		final String uri = ACCESS_TOKEN_URL;
 
-		final ArrayList<HTTPBackend.PostField> postFields = new ArrayList<HTTPBackend.PostField>(3);
+		final ArrayList<HTTPBackend.PostField> postFields = new ArrayList<>(3);
 		postFields.add(new HTTPBackend.PostField("grant_type", "authorization_code"));
 		postFields.add(new HTTPBackend.PostField("code", code));
 		postFields.add(new HTTPBackend.PostField("redirect_uri", REDIRECT_URI));
@@ -298,7 +298,7 @@ public final class RedditOAuth {
 
 			request.addHeader("Authorization", "Basic " + Base64.encodeToString((CLIENT_ID + ":").getBytes(), Base64.URL_SAFE | Base64.NO_WRAP));
 
-			final AtomicReference<FetchRefreshTokenResult> result = new AtomicReference<FetchRefreshTokenResult>();
+			final AtomicReference<FetchRefreshTokenResult> result = new AtomicReference<>();
 
 			request.executeInThisThread(new HTTPBackend.Listener() {
 
@@ -365,7 +365,7 @@ public final class RedditOAuth {
 
 			request.addHeader("Authorization", "bearer " + accessToken.token);
 
-			final AtomicReference<FetchUserInfoResult> result = new AtomicReference<FetchUserInfoResult>();
+			final AtomicReference<FetchUserInfoResult> result = new AtomicReference<>();
 
 			request.executeInThisThread(new HTTPBackend.Listener() {
 
@@ -590,7 +590,7 @@ public final class RedditOAuth {
 
 		final String uri = ACCESS_TOKEN_URL;
 
-		final ArrayList<HTTPBackend.PostField> postFields = new ArrayList<HTTPBackend.PostField>(2);
+		final ArrayList<HTTPBackend.PostField> postFields = new ArrayList<>(2);
 		postFields.add(new HTTPBackend.PostField("grant_type", "refresh_token"));
 		postFields.add(new HTTPBackend.PostField("refresh_token", refreshToken.token));
 
@@ -601,7 +601,7 @@ public final class RedditOAuth {
 
 			request.addHeader("Authorization", "Basic " + Base64.encodeToString((CLIENT_ID + ":").getBytes(), Base64.URL_SAFE | Base64.NO_WRAP));
 
-			final AtomicReference<FetchAccessTokenResult> result = new AtomicReference<FetchAccessTokenResult>();
+			final AtomicReference<FetchAccessTokenResult> result = new AtomicReference<>();
 
 			request.executeInThisThread(new HTTPBackend.Listener() {
 				@Override
@@ -665,7 +665,7 @@ public final class RedditOAuth {
 
 		final String uri = ACCESS_TOKEN_URL;
 
-		final ArrayList<HTTPBackend.PostField> postFields = new ArrayList<HTTPBackend.PostField>(2);
+		final ArrayList<HTTPBackend.PostField> postFields = new ArrayList<>(2);
 		postFields.add(new HTTPBackend.PostField("grant_type", "https://oauth.reddit.com/grants/installed_client"));
 		postFields.add(new HTTPBackend.PostField("device_id", "DO_NOT_TRACK_THIS_DEVICE"));
 
@@ -676,7 +676,7 @@ public final class RedditOAuth {
 
 			request.addHeader("Authorization", "Basic " + Base64.encodeToString((CLIENT_ID + ":").getBytes(), Base64.URL_SAFE | Base64.NO_WRAP));
 
-			final AtomicReference<FetchAccessTokenResult> result = new AtomicReference<FetchAccessTokenResult>();
+			final AtomicReference<FetchAccessTokenResult> result = new AtomicReference<>();
 
 			request.executeInThisThread(new HTTPBackend.Listener() {
 				@Override

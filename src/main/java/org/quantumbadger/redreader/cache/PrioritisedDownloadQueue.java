@@ -25,7 +25,7 @@ import java.util.HashSet;
 
 class PrioritisedDownloadQueue {
 
-	private final HashSet<CacheDownload> redditDownloadsQueued = new HashSet<CacheDownload>();
+	private final HashSet<CacheDownload> redditDownloadsQueued = new HashSet<>();
 
 	private final PrioritisedCachedThreadPool mDownloadThreadPool = new PrioritisedCachedThreadPool(5, "Download");
 

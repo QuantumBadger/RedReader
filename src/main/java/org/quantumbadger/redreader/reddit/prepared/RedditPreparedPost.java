@@ -171,7 +171,7 @@ public final class RedditPreparedPost {
 
 		final RedditAccount user = RedditAccountManager.getInstance(activity).getDefaultAccount();
 
-		final ArrayList<RPVMenuItem> menu = new ArrayList<RPVMenuItem>();
+		final ArrayList<RPVMenuItem> menu = new ArrayList<>();
 
 		if(!RedditAccountManager.getInstance(activity).getDefaultAccount().isAnonymous()) {
 
@@ -908,7 +908,7 @@ public final class RedditPreparedPost {
 		};
 
 		// TODO make static
-		final EnumMap<Action, Integer> iconsDark = new EnumMap<Action, Integer>(Action.class);
+		final EnumMap<Action, Integer> iconsDark = new EnumMap<>(Action.class);
 		iconsDark.put(Action.ACTION_MENU, R.drawable.ic_action_overflow);
 		iconsDark.put(Action.COMMENTS_SWITCH, R.drawable.ic_action_comments_dark);
 		iconsDark.put(Action.LINK_SWITCH, mIsProbablyAnImage ? R.drawable.ic_action_image_dark : R.drawable.ic_action_page_dark);
@@ -924,7 +924,7 @@ public final class RedditPreparedPost {
 		iconsDark.put(Action.USER_PROFILE, R.drawable.ic_action_person_dark);
 		iconsDark.put(Action.PROPERTIES, R.drawable.ic_action_info_dark);
 
-		final EnumMap<Action, Integer> iconsLight = new EnumMap<Action, Integer>(Action.class);
+		final EnumMap<Action, Integer> iconsLight = new EnumMap<>(Action.class);
 		iconsLight.put(Action.ACTION_MENU, R.drawable.ic_action_overflow);
 		iconsLight.put(Action.COMMENTS_SWITCH, R.drawable.ic_action_comments_light);
 		iconsLight.put(Action.LINK_SWITCH, mIsProbablyAnImage ? R.drawable.ic_action_image_light : R.drawable.ic_action_page_light);

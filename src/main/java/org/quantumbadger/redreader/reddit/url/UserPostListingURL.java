@@ -99,7 +99,7 @@ public class UserPostListingURL extends PostListingURL {
 		{
 			final List<String> pathSegmentsList = uri.getPathSegments();
 
-			final ArrayList<String> pathSegmentsFiltered = new ArrayList<String>(pathSegmentsList.size());
+			final ArrayList<String> pathSegmentsFiltered = new ArrayList<>(pathSegmentsList.size());
 			for(String segment : pathSegmentsList) {
 
 				while(segment.toLowerCase().endsWith(".json") || segment.toLowerCase().endsWith(".xml")) {

@@ -66,7 +66,7 @@ public final class ImgurAPI {
 			}
 
 			final JsonBufferedArray imagesJson = object.getArray("images");
-			final ArrayList<ImageInfo> images = new ArrayList<ImageInfo>();
+			final ArrayList<ImageInfo> images = new ArrayList<>();
 
 			for(final JsonValue imageJson : imagesJson) {
 				images.add(ImageInfo.parseImgur(imageJson.asObject()));

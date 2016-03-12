@@ -40,8 +40,8 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 		}
 	}, 0);
 
-	private final HashMap<K, V> toWrite = new HashMap<K, V>();
-	private final LinkedBlockingQueue<ReadOperation> toRead = new LinkedBlockingQueue<ReadOperation>();
+	private final HashMap<K, V> toWrite = new HashMap<>();
+	private final LinkedBlockingQueue<ReadOperation> toRead = new LinkedBlockingQueue<>();
 	private final Object ioLock = new Object();
 
 	private final RawObjectDB<K, V> db;
@@ -122,7 +122,7 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 
 		public void run() {
 
-			final HashMap<K, V> existingResult = new HashMap<K, V>(keys.size());
+			final HashMap<K, V> existingResult = new HashMap<>(keys.size());
 			long oldestTimestamp = Long.MAX_VALUE;
 
 			synchronized(toWrite) {

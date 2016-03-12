@@ -43,7 +43,7 @@ public final class CacheManager {
 	private static final AtomicBoolean isAlreadyInitialized = new AtomicBoolean(false);
 	private final CacheDbManager dbManager;
 
-	private final PriorityBlockingQueue<CacheRequest> requests = new PriorityBlockingQueue<CacheRequest>();
+	private final PriorityBlockingQueue<CacheRequest> requests = new PriorityBlockingQueue<>();
 
 	private final PrioritisedDownloadQueue downloadQueue;
 	private final PrioritisedCachedThreadPool mDiskCacheThreadPool = new PrioritisedCachedThreadPool(2, "Disk Cache");
@@ -133,7 +133,7 @@ public final class CacheManager {
 
 		try {
 
-			final HashSet<Long> currentFiles = new HashSet<Long>(128);
+			final HashSet<Long> currentFiles = new HashSet<>(128);
 
 			final File externalCacheDir = context.getExternalCacheDir();
 			final File internalCacheDir = context.getCacheDir();

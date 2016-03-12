@@ -23,7 +23,7 @@ import java.util.LinkedList;
 
 public abstract class UpdateNotifier<E> {
 
-	private final LinkedList<WeakReference<E>> listeners = new LinkedList<WeakReference<E>>();
+	private final LinkedList<WeakReference<E>> listeners = new LinkedList<>();
 
 	public synchronized void addListener(final E updateListener) {
 		listeners.add(new WeakReference<E>(updateListener));

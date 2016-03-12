@@ -34,7 +34,7 @@ import java.util.LinkedList;
 
 public class BugReportActivity extends BaseActivity {
 
-	private static final LinkedList<RRError> errors = new LinkedList<RRError>();
+	private static final LinkedList<RRError> errors = new LinkedList<>();
 
 	public static synchronized void addGlobalError(RRError error) {
 		errors.add(error);
@@ -56,7 +56,7 @@ public class BugReportActivity extends BaseActivity {
 	}
 
 	private static synchronized LinkedList<RRError> getErrors() {
-		final LinkedList<RRError> result = new LinkedList<RRError>(errors);
+		final LinkedList<RRError> result = new LinkedList<>(errors);
 		errors.clear();
 		return result;
 	}

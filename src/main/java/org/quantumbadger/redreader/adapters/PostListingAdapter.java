@@ -21,9 +21,9 @@ public final class PostListingAdapter extends BaseAdapter {
 
 	private final Activity mActivity;
 
-	private final ArrayList<RedditPreparedPost> mPosts = new ArrayList<RedditPreparedPost>(50);
+	private final ArrayList<RedditPreparedPost> mPosts = new ArrayList<>(50);
 
-	private final HashSet<String> postIds = new HashSet<String>(100);
+	private final HashSet<String> postIds = new HashSet<>(100);
 
 	private final ListView listViewParent;
 	private final PostListingFragment fragmentParent;

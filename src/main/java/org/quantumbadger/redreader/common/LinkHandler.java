@@ -339,7 +339,7 @@ public class LinkHandler {
 
 	public static LinkedHashSet<String> computeAllLinks(final String text) {
 
-		final LinkedHashSet<String> result = new LinkedHashSet<String>();
+		final LinkedHashSet<String> result = new LinkedHashSet<>();
 
 		// From http://stackoverflow.com/a/1806161/1526861
 		// TODO may not handle .co.uk, similar (but should handle .co/.us/.it/etc fine)

@@ -7,7 +7,7 @@ import java.util.LinkedList;
 public final class WeakReferenceListManager<E> {
 
 	// TODO avoid linked list here -- a new object is created for every Link<>
-	private final LinkedList<WeakReference<E>> data = new LinkedList<WeakReference<E>>();
+	private final LinkedList<WeakReference<E>> data = new LinkedList<>();
 
 	public synchronized int size() {
 		return data.size();

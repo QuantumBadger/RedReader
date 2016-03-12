@@ -106,7 +106,7 @@ public class RedditChangeDataManager extends SQLiteOpenHelper {
 			throw new NullPointerException("Cursor was null after query");
 		}
 
-		final HashSet<String> result = new HashSet<String>(16);
+		final HashSet<String> result = new HashSet<>(16);
 
 		try {
 			while(cursor.moveToNext()) {

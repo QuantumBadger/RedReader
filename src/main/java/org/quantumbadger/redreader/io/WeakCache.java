@@ -27,10 +27,10 @@ import java.util.HashSet;
 
 public final class WeakCache<K, V extends WritableObject<K>, F> implements CacheDataSource<K, V, F> {
 
-	private final HashMap<K, CacheEntry> cached = new HashMap<K, CacheEntry>();
+	private final HashMap<K, CacheEntry> cached = new HashMap<>();
 	private final CacheDataSource<K, V, F> cacheDataSource;
 
-	private final UpdatedVersionListenerNotifier<K, V> updatedVersionListenerNotifier = new UpdatedVersionListenerNotifier<K, V>();
+	private final UpdatedVersionListenerNotifier<K, V> updatedVersionListenerNotifier = new UpdatedVersionListenerNotifier<>();
 
 	public WeakCache(CacheDataSource<K, V, F> cacheDataSource) {
 		this.cacheDataSource = cacheDataSource;
@@ -43,8 +43,8 @@ public final class WeakCache<K, V extends WritableObject<K>, F> implements Cache
 	public synchronized void performRequest(final Collection<K> keys, final TimestampBound timestampBound,
 											final RequestResponseHandler<HashMap<K, V>, F> handler) {
 
-		final HashSet<K> keysRemaining = new HashSet<K>(keys);
-		final HashMap<K, V> cacheResult = new HashMap<K, V>(keys.size());
+		final HashSet<K> keysRemaining = new HashSet<>(keys);
+		final HashMap<K, V> cacheResult = new HashMap<>(keys.size());
 		long oldestTimestamp = Long.MAX_VALUE;
 
 		for(final K key : keys) {

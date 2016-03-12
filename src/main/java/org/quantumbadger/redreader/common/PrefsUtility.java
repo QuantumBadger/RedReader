@@ -36,7 +36,7 @@ import java.util.*;
 public final class PrefsUtility {
 
 	private static <E> Set<E> setFromArray(E[] data) {
-		final HashSet<E> result = new HashSet<E>(data.length);
+		final HashSet<E> result = new HashSet<>(data.length);
 		Collections.addAll(result, data);
 		return result;
 	}
@@ -339,7 +339,7 @@ public final class PrefsUtility {
 
 	public static HashMap<Integer, Long> pref_cache_maxage(final Context context, final SharedPreferences sharedPreferences) {
 
-		final HashMap<Integer, Long> result = new HashMap<Integer, Long>();
+		final HashMap<Integer, Long> result = new HashMap<>();
 
 		final long maxAgeListing = 1000L * 60L * 60L * Long.valueOf(getString(R.string.pref_cache_maxage_listing_key, "168", context, sharedPreferences));
 		final long maxAgeThumb = 1000L * 60L * 60L * Long.valueOf(getString(R.string.pref_cache_maxage_thumb_key, "168", context, sharedPreferences));
@@ -555,7 +555,7 @@ public final class PrefsUtility {
 		final ArrayList<String> list = WritableHashSet.escapedStringToList(value);
 		list.add(name);
 
-		final ArrayList<String> result = new ArrayList<String>(list.size());
+		final ArrayList<String> result = new ArrayList<>(list.size());
 		for(final String existingSr : list) {
 			if(!name.toLowerCase().equals(existingSr.toLowerCase())) {
 				result.add(existingSr);

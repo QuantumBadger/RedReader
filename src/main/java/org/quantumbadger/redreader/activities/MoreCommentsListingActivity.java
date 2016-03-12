@@ -66,7 +66,7 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 		RedditPostView.PostSelectionListener {
 
 	private SharedPreferences sharedPreferences;
-	private final ArrayList<RedditURLParser.RedditURL> mUrls = new ArrayList<RedditURLParser.RedditURL>(32);
+	private final ArrayList<RedditURLParser.RedditURL> mUrls = new ArrayList<>(32);
 
 	private CommentListingFragment mFragment;
 

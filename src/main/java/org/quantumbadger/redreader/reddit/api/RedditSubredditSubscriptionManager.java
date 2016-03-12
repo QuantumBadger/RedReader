@@ -52,7 +52,7 @@ public class RedditSubredditSubscriptionManager {
 	private static RawObjectDB<String, WritableHashSet> db = null;
 
 	private WritableHashSet subscriptions;
-	private HashSet<String> pendingSubscriptions = new HashSet<String>(), pendingUnsubscriptions = new HashSet<String>();
+	private HashSet<String> pendingSubscriptions = new HashSet<>(), pendingUnsubscriptions = new HashSet<>();
 
 	public static synchronized RedditSubredditSubscriptionManager getSingleton(final Context context, final RedditAccount account) {
 

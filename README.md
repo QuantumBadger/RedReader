@@ -25,7 +25,7 @@ Reporting Bugs
 
 RedReader is beta software, so it is possible that you may encounter bugs.
 
-Details of each crash in the UI thread will be logged to external storage, under the filename "redreader_crash_log_(UUID).txt" - please attach the relevant log when reporting a bug.
+Details of each crash in the UI thread will be logged to external storage, under the filename `redreader_crash_log_(UUID).txt` - please attach the relevant log when reporting a bug.
 
 Crashes in other parts of the application will cause a prompt to be displayed asking you to email the exception details directly.
 
@@ -49,7 +49,7 @@ https://play.google.com/store/apps/details?id=org.quantumbadger.redreader
 License
 -------
 
-RedReader is licensed under the GPL, version 3. A copy of the license is included in "LICENSE.txt".
+RedReader is licensed under the GPL, version 3. A copy of the license is included in [LICENSE.txt](LICENSE.txt).
 
 Bitcoin donations are accepted at the following address: `1874wapGxDo2vEp4avisda4gx3SCjsHCQJ`
 

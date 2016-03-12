@@ -54,7 +54,7 @@ public final class RedditAPI {
 							   final String captchaText,
 							   final Context context) {
 
-		final LinkedList<PostField> postFields = new LinkedList<PostField>();
+		final LinkedList<PostField> postFields = new LinkedList<>();
 		postFields.add(new PostField("kind", is_self ? "self" : "link"));
 		postFields.add(new PostField("sendreplies", "true"));
 		postFields.add(new PostField("sr", subreddit));
@@ -109,7 +109,7 @@ public final class RedditAPI {
 							   final String markdown,
 							   final Context context) {
 
-		final LinkedList<PostField> postFields = new LinkedList<PostField>();
+		final LinkedList<PostField> postFields = new LinkedList<>();
 		postFields.add(new PostField("thing_id", parentIdAndType));
 		postFields.add(new PostField("text", markdown));
 
@@ -151,7 +151,7 @@ public final class RedditAPI {
 			final RedditAccount user,
 			final Context context) {
 
-		final LinkedList<PostField> postFields = new LinkedList<PostField>();
+		final LinkedList<PostField> postFields = new LinkedList<>();
 
 		cm.makeRequest(new APIPostRequest(Constants.Reddit.getUri("/api/read_all_messages"), user, postFields, context) {
 
@@ -192,7 +192,7 @@ public final class RedditAPI {
 								   final String markdown,
 								   final Context context) {
 
-		final LinkedList<PostField> postFields = new LinkedList<PostField>();
+		final LinkedList<PostField> postFields = new LinkedList<>();
 		postFields.add(new PostField("thing_id", commentIdAndType));
 		postFields.add(new PostField("text", markdown));
 
@@ -233,7 +233,7 @@ public final class RedditAPI {
 								   final RedditAccount user,
 								   final Context context) {
 
-		final LinkedList<PostField> postFields = new LinkedList<PostField>();
+		final LinkedList<PostField> postFields = new LinkedList<>();
 
 		cm.makeRequest(new APIPostRequest(Constants.Reddit.getUri("/api/new_captcha"), user, postFields, context) {
 
@@ -282,7 +282,7 @@ public final class RedditAPI {
 							  final RedditAction action,
 							  final Context context) {
 
-		final LinkedList<PostField> postFields = new LinkedList<PostField>();
+		final LinkedList<PostField> postFields = new LinkedList<>();
 		postFields.add(new PostField("id", idAndType));
 
 		final URI url = prepareActionUri(action, postFields);
@@ -370,7 +370,7 @@ public final class RedditAPI {
 					@Override
 					public void onRequestSuccess(RedditSubreddit subreddit, long timeCached) {
 
-						final LinkedList<PostField> postFields = new LinkedList<PostField>();
+						final LinkedList<PostField> postFields = new LinkedList<>();
 
 						postFields.add(new PostField("sr", subreddit.name));
 

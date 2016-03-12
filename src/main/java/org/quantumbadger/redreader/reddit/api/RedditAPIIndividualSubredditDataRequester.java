@@ -107,7 +107,7 @@ public class RedditAPIIndividualSubredditDataRequester implements CacheDataSourc
 
 		// TODO if there's a bulk API to do this, that would be good... :)
 
-		final HashMap<String, RedditSubreddit> result = new HashMap<String, RedditSubreddit>();
+		final HashMap<String, RedditSubreddit> result = new HashMap<>();
 		final AtomicBoolean stillOkay = new AtomicBoolean(true);
 		final AtomicInteger requestsToGo = new AtomicInteger(subredditCanonicalIds.size());
 		final AtomicLong oldestResult = new AtomicLong(Long.MAX_VALUE);

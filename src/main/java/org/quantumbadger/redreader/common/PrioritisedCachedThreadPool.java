@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 public class PrioritisedCachedThreadPool {
 
-	private final ArrayList<Task> mTasks = new ArrayList<Task>(16);
+	private final ArrayList<Task> mTasks = new ArrayList<>(16);
 	private final Executor mExecutor = new Executor();
 
 	private final int mMaxThreads;

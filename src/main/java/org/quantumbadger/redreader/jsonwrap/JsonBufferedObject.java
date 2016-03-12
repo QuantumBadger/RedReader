@@ -36,7 +36,7 @@ import java.util.Set;
  */
 public final class JsonBufferedObject extends JsonBuffered implements Iterable<Map.Entry<String, JsonValue>> {
 	
-	private final HashMap<String, JsonValue> properties = new HashMap<String, JsonValue>();
+	private final HashMap<String, JsonValue> properties = new HashMap<>();
 	
 	@Override
 	protected void buildBuffered(final JsonParser jp) throws IOException {

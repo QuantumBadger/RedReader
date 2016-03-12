@@ -22,8 +22,8 @@ import java.util.LinkedList;
 
 public class UniqueSynchronizedQueue<E> {
 
-	private final HashSet<E> set = new HashSet<E>();
-	private final LinkedList<E> queue = new LinkedList<E>();
+	private final HashSet<E> set = new HashSet<>();
+	private final LinkedList<E> queue = new LinkedList<>();
 
 	public synchronized void enqueue(E object) {
 		if(set.add(object)) {

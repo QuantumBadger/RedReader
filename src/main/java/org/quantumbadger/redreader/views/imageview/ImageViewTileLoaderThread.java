@@ -23,7 +23,7 @@ import org.quantumbadger.redreader.common.collections.Stack;
 public class ImageViewTileLoaderThread {
 
 	private final InternalThread mThread = new InternalThread(new InternalRunnable(), 0);
-	private final Stack<ImageViewTileLoader> mStack = new Stack<ImageViewTileLoader>(128);
+	private final Stack<ImageViewTileLoader> mStack = new Stack<>(128);
 
 	public void enqueue(ImageViewTileLoader tile) {
 

@@ -63,7 +63,7 @@ public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelpe
 		super(context.getApplicationContext(), dbFilename, null, getDbVersion(clazz));
 		this.clazz = clazz;
 
-		final LinkedList<Field> fields = new LinkedList<Field>();
+		final LinkedList<Field> fields = new LinkedList<>();
 		for(final Field field : clazz.getDeclaredFields()) {
 			if((field.getModifiers() & Modifier.TRANSIENT) == 0
 					&& !field.isAnnotationPresent(WritableObject.WritableObjectKey.class)
@@ -139,7 +139,7 @@ public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelpe
 
 			try {
 
-				final LinkedList<E> result = new LinkedList<E>();
+				final LinkedList<E> result = new LinkedList<>();
 				while(cursor.moveToNext()) result.add(readFromCursor(cursor));
 				return result;
 
@@ -172,7 +172,7 @@ public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelpe
 					new String[] {value}, null, null, null);
 
 			try {
-				final ArrayList<E> result = new ArrayList<E>(cursor.getCount());
+				final ArrayList<E> result = new ArrayList<>(cursor.getCount());
 				while(cursor.moveToNext()) result.add(readFromCursor(cursor));
 				return result;
 

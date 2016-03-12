@@ -28,8 +28,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Alarms {
-	private static Map<Alarm, AlarmManager> alarmMap = new HashMap<Alarm, AlarmManager>();
-	private static Map<Alarm, PendingIntent> intentMap = new HashMap<Alarm, PendingIntent>();
+	private static Map<Alarm, AlarmManager> alarmMap = new HashMap<>();
+	private static Map<Alarm, PendingIntent> intentMap = new HashMap<>();
 
 	/*
 		An enum to represent an alarm that may be created.

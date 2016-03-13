@@ -536,6 +536,10 @@ public final class RedditPreparedComment implements RedditPreparedInboxItem {
 		alert.show();
 	}
 
+	public int getScore() {
+		return src.ups - src.downs;
+	}
+
 	private static void onActionMenuItemSelected(
 			final RedditPreparedComment comment,
 			final Activity activity,

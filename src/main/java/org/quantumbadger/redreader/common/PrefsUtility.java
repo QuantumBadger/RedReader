@@ -259,6 +259,14 @@ public final class PrefsUtility {
 		}
 	}
 
+	public static Integer pref_behaviour_comment_min(final Context context, final SharedPreferences sharedPreferences) {
+		try {
+			return Integer.parseInt(getString(R.string.pref_behaviour_comment_min_key, "", context, sharedPreferences));
+		} catch(Throwable _) {
+			return null;
+		}
+	}
+
 	// pref_behaviour_gifview_mode
 
 	public enum GifViewMode {

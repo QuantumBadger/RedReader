@@ -106,6 +106,17 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/pref_behaviour_comments_header">
+
+        <EditTextPreference android:title="@string/pref_behaviour_comment_min_title"
+                            android:key="@string/pref_behaviour_comment_min_key"
+                            android:dialogTitle="@string/pref_behaviour_comment_min_dialog_title"
+                            android:inputType="numberSigned"
+                            android:maxLength="5"
+                            android:defaultValue=""/>
+
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/pref_behaviour_bezel_toolbar_header">
 
         <ListPreference android:title="@string/pref_behaviour_bezel_toolbar_swipezone_title"

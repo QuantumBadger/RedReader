@@ -487,6 +487,13 @@ public final class RedditPreparedPost {
 
 			case COMMENTS:
 				((RedditPostView.PostSelectionListener)activity).onPostCommentsSelected(post);
+
+				new Thread() {
+					public void run() {
+						post.markAsRead(activity);
+					}
+				}.start();
+
 				break;
 
 			case LINK:

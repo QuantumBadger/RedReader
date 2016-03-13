@@ -333,8 +333,8 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 			commentsText.setText(String.valueOf(data.commentCount));
 
 			thumbnailView.setVisibility(VISIBLE);
-            thumbnailView.setMinimumWidth((int)(64.0f * dpScale)); // TODO remove constant, customise
-            thumbnailView.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+			thumbnailView.setMinimumWidth((int)(64.0f * dpScale)); // TODO remove constant, customise
+			thumbnailView.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
 		}
 
 		if(post != null) post.unbind(this);

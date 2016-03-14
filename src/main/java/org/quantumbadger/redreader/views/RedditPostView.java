@@ -376,7 +376,8 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 
 		} else if(post.isDownvoted()) {
 			overlayIcon.setImageResource(R.drawable.action_downvote_dark);
-
+		} else if(!post.hasThumbnail) {
+			overlayIcon.setImageResource(R.drawable.ic_action_comments_dark);
 		} else {
 			overlayVisible = false;
 		}

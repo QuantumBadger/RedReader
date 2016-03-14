@@ -30,6 +30,8 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.adapters.AlbumAdapter;
 import org.quantumbadger.redreader.cache.RequestFailureType;
@@ -45,6 +47,7 @@ public class AlbumListingActivity extends BaseActivity {
 
 	private String mUrl;
 	private boolean mHaveReverted = false;
+	private boolean mActivityStopped = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -136,12 +139,23 @@ public class AlbumListingActivity extends BaseActivity {
 			@Override
 			public void onSuccess(final ImgurAPI.AlbumInfo info) {
 				Log.i("AlbumListingActivity", "Got album, " + info.images.size() + " image(s)");
-
-				AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+				if(PrefsUtility.pref_behaviour_skipgallerylist(AlbumListingActivity.this, PreferenceManager.getDefaultSharedPreferences(AlbumListingActivity.this))
+						&& !intent.hasExtra("viewList") && !mActivityStopped) {
+					LinkHandler.onLinkClicked(
+							AlbumListingActivity.this,
+							info.images.get(0).urlOriginal,
+							false,
+							null,
+							info,
+							0);
+					General.quickToast(AlbumListingActivity.this, getString(R.string.first_album_image) + String.valueOf(info.images.size()), Toast.LENGTH_SHORT);
+					finish();
+				}
+					AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 					@Override
 					public void run() {
 
-						if(info.title != null && !info.title.trim().isEmpty()) {
+						if (info.title != null && !info.title.trim().isEmpty()) {
 							OptionsMenuUtility.fixActionBar(AlbumListingActivity.this, getString(R.string.imgur_album) + ": " + info.title);
 						}
 
@@ -158,7 +172,6 @@ public class AlbumListingActivity extends BaseActivity {
 									final View view,
 									final int position,
 									final long id) {
-
 								LinkHandler.onLinkClicked(
 										AlbumListingActivity.this,
 										info.images.get(position).urlOriginal,
@@ -169,11 +182,18 @@ public class AlbumListingActivity extends BaseActivity {
 							}
 						});
 					}
+
 				});
 			}
 		});
 
 		setContentView(layout);
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		mActivityStopped = true;
 	}
 
 	@Override

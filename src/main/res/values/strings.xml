@@ -80,7 +80,6 @@
     <string name="pref_behaviour_actions_post_header">Post Actions</string>
     <string name="pref_behaviour_actions_comment_header">Comment Actions</string>
     <string name="pref_behaviour_posts_header">Posts</string>
-    <string name="pref_behaviour_comments_header">Comments</string>
 
     <string name="pref_behaviour_fling_post_left_key">pref_behaviour_fling_post_left</string>
     <string name="pref_behaviour_fling_post_left_title">Fling Post Left Action</string>
@@ -93,10 +92,6 @@
 
     <string name="pref_behaviour_nsfw_key">pref_behaviour_nsfw</string>
     <string name="pref_behaviour_nsfw_title">Show NSFW content</string>
-
-    <string name="pref_behaviour_comment_min_key">pref_behaviour_comment_min</string>
-    <string name="pref_behaviour_comment_min_title">Minimum Comment Score</string>
-    <string name="pref_behaviour_comment_min_dialog_title">Collapse Comment If Score Less Than (Leave Blank To Show All)</string>
 
     <!-- Cache Prefs -->
 
@@ -747,4 +742,11 @@
     <string name="pref_blocked_subreddits_key">pref_blocked_subreddits</string>
     <string name="block_done">Subreddit blocked. Future visits to /r/all will exclude this subreddit.</string>
     <string name="unblock_done">Subreddit unblocked. Future visits to /r/all will include this subreddit.</string>
+
+    <!-- 2016-03-14-->
+    <string name="pref_behaviour_comment_min_key">pref_behaviour_comment_min</string>
+    <string name="pref_behaviour_comments_header">Comments</string>
+
+    <string name="pref_behaviour_comment_min_title">Minimum Comment Score</string>
+    <string name="pref_behaviour_comment_min_dialog_title">Collapse Comment If Score Less Than (Leave Blank To Show All)</string>
 </resources>

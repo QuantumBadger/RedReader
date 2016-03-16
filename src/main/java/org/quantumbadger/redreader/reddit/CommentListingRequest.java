@@ -18,9 +18,11 @@
 package org.quantumbadger.redreader.reddit;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
@@ -50,7 +52,7 @@ import java.util.UUID;
 
 public class CommentListingRequest {
 
-	public CommentListingRequest(
+    public CommentListingRequest(
 			final Context context,
 			final EnumSet<PrefsUtility.AppearanceCommentHeaderItems> commentHeaderItems,
 			final boolean parsePostSelfText,
@@ -72,7 +74,9 @@ public class CommentListingRequest {
 		mCacheManager = CacheManager.getInstance(context);
 
 		mCacheManager.makeRequest(new CommentListingCacheRequest());
-	}
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+    }
 
 	private static enum Event {
 		EVENT_DOWNLOAD_NECESSARY,
@@ -165,6 +169,7 @@ public class CommentListingRequest {
 	private final RedditAccount mUser;
 	private final UUID mSession;
 	private final CacheRequest.DownloadType mDownloadType;
+    private final SharedPreferences sharedPreferences;
 
 	private final Listener mListener;
 
@@ -337,6 +342,12 @@ public class CommentListingRequest {
 			if(comment.replies.getType() == JsonValue.Type.OBJECT) {
 				shouldRecurse = true;
 			}
+
+            Integer minimumCommentScore = PrefsUtility.pref_behaviour_comment_min(mContext, sharedPreferences);
+
+			if(minimumCommentScore != null && preparedComment.getScore() < minimumCommentScore) {
+                preparedComment.toggleVisibility();
+            }
 
 		} else {
 			return;

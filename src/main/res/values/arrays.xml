@@ -121,6 +121,7 @@
         <item>@string/lang_es</item>
         <item>@string/lang_cs</item>
         <item>@string/lang_it</item>
+        <item>@string/lang_se</item>
     </string-array>
 
     <!-- Constants. Do not change. -->
@@ -134,6 +135,7 @@
         <item>es</item>
         <item>cs</item>
         <item>it</item>
+        <item>se</item>
     </string-array>
 
     <string-array name="pref_cache_maxage">

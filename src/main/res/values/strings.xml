@@ -749,4 +749,8 @@
 
     <string name="pref_behaviour_comment_min_title">Minimum Comment Score</string>
     <string name="pref_behaviour_comment_min_dialog_title">Collapse Comment If Score Less Than (Leave Blank To Show All)</string>
+
+    <!-- 2015-03-20 -->
+    <string name="lang_se">Swedish</string>
+
 </resources>

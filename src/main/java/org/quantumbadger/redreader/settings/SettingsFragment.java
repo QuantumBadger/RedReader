@@ -103,7 +103,11 @@ public final class SettingsFragment extends PreferenceFragment {
 
 			editTextPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 				public boolean onPreferenceChange(Preference preference, Object newValue) {
-					editTextPreference.setSummary(newValue.toString());
+					if(newValue != null) {
+						editTextPreference.setSummary(newValue.toString());
+					} else {
+						editTextPreference.setSummary("(null)");
+					}
 					return true;
 				}
 			});

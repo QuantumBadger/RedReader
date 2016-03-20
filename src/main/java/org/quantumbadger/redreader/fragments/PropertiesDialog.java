@@ -115,6 +115,7 @@ public abstract class PropertiesDialog extends DialogFragment {
 		textView.setTextColor(rrCommentBodyCol);
 		textView.setTextSize(15.0f);
 		textView.setPadding(paddingPixels, 0, paddingPixels, paddingPixels);
+		textView.setTextIsSelectable(true);
 		prop.addView(textView);
 
 		return prop;

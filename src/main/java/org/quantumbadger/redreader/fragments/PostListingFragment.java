@@ -71,6 +71,7 @@ import org.quantumbadger.redreader.views.liststatus.ErrorView;
 import java.net.URI;
 import java.text.NumberFormat;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class PostListingFragment extends RRFragment implements RedditPostView.PostSelectionListener, AbsListView.OnScrollListener {
 
@@ -80,7 +81,7 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 
 	private UUID session = null;
 	private CacheRequest.DownloadType downloadType;
-	private PrefsUtility.PostCount downloadPostCount;
+	private int mPostCountLimit;
 	private PostListingAdapter adapter;
 	private ListView lv;
 	private TextView loadMoreView;
@@ -97,7 +98,7 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 	private LoadingSpinnerView mLoadingView;
 
 	private int postCount = 0;
-	private int postRefreshCount = 0;
+	private final AtomicInteger postRefreshCount = new AtomicInteger(0);
 
 	private static final int
 			NOTIF_AGE = 0,
@@ -215,16 +216,32 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 		listHeaderNotifications = createVerticalLinearLayout(context);
 		listFooterNotifications = createVerticalLinearLayout(context);
 
-		downloadPostCount = PrefsUtility.pref_behaviour_post_count(context, sharedPrefs);
-		restackRefreshCount();
-		loadMoreView = (TextView)LayoutInflater.from(context).inflate(R.layout.load_more_posts, null);
-		loadMoreView.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View view) {
-				listFooterNotifications.removeView(loadMoreView);
-				restackRefreshCount();
-				onLoadMoreItemsCheck();
-			}
-		});
+		switch(PrefsUtility.pref_behaviour_post_count(context, sharedPrefs)) {
+			case ALL:
+				mPostCountLimit = -1;
+				break;
+			case R25:
+				mPostCountLimit = 25;
+				break;
+			case R50:
+				mPostCountLimit = 50;
+				break;
+			case R100:
+				mPostCountLimit = 100;
+				break;
+		}
+
+		if(mPostCountLimit > 0) {
+			restackRefreshCount();
+			loadMoreView = (TextView)LayoutInflater.from(context).inflate(R.layout.load_more_posts, null);
+			loadMoreView.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View view) {
+					listFooterNotifications.removeView(loadMoreView);
+					restackRefreshCount();
+					onLoadMoreItemsCheck();
+				}
+			});
+		}
 
 		listHeader.addView(listHeaderNotifications);
 
@@ -250,7 +267,19 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 
 		lv.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
 
-		request = new PostListingRequest(postListingURL.generateJsonUri(), RedditAccountManager.getInstance(context).getDefaultAccount(), session, downloadType, true);
+		int limit = 50;
+
+		if(mPostCountLimit > 0 && limit > mPostCountLimit) {
+			limit = mPostCountLimit;
+		}
+
+		request = new PostListingRequest(
+				postListingURL.generateJsonUri(),
+				RedditAccountManager.getInstance(context).getDefaultAccount(),
+				session,
+				downloadType,
+				true,
+				limit);
 
 		CacheManager.getInstance(context).makeRequest(request);
 
@@ -314,19 +343,9 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 		if(request != null) request.cancel();
 	}
 
-	public void restackRefreshCount() {
-		if(postRefreshCount == 0) {
-			switch(downloadPostCount) {
-				case R25:
-					postRefreshCount = 25;
-					break;
-				case R50:
-					postRefreshCount = 50;
-					break;
-				case R100:
-					postRefreshCount = 100;
-				break;
-			}
+	public synchronized void restackRefreshCount() {
+		while(postRefreshCount.get() <= 0) {
+			postRefreshCount.addAndGet(mPostCountLimit);
 		}
 	}
 
@@ -395,27 +414,40 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 
 	private synchronized void onLoadMoreItemsCheck() {
 
-		if(readyToDownloadMore
-				&& after != null
-				&& !after.equals(lastAfter)
-				&& adapter.getDownloadedCount() > 0
-				&& adapter.getDownloadedCount() - lv.getLastVisiblePosition() < 20
-				&& (downloadPostCount == PrefsUtility.PostCount.ALL || postRefreshCount > 0)) {
+		if(readyToDownloadMore && after != null && !after.equals(lastAfter)) {
 
-			lastAfter = after;
-			readyToDownloadMore = false;
+			if(adapter.getDownloadedCount() > 0
+					&& adapter.getDownloadedCount() - lv.getLastVisiblePosition() < 20
+					&& (mPostCountLimit <= 0 || postRefreshCount.get() > 0)) {
 
-			final Uri newUri = postListingURL.after(after).generateJsonUri();
+				lastAfter = after;
+				readyToDownloadMore = false;
 
-			// TODO customise (currently 3 hrs)
-			CacheRequest.DownloadType type = (RRTime.since(timestamp) < 3 * 60 * 60 * 1000) ? CacheRequest.DownloadType.IF_NECESSARY : CacheRequest.DownloadType.NEVER;
+				final Uri newUri = postListingURL.after(after).generateJsonUri();
 
-			request = new PostListingRequest(newUri, RedditAccountManager.getInstance(getActivity()).getDefaultAccount(), session, type, false);
-			notificationHandler.sendEmptyMessage(NOTIF_SHOW_LOADING_SPINNER);
-			CacheManager.getInstance(getActivity()).makeRequest(request);
-		}
-		else if((!(downloadPostCount == PrefsUtility.PostCount.ALL) && postRefreshCount == 0) && loadMoreView.getParent() == null) {
-			listFooterNotifications.addView(loadMoreView);
+				// TODO customise (currently 3 hrs)
+				CacheRequest.DownloadType type = (RRTime.since(timestamp) < 3 * 60 * 60 * 1000) ? CacheRequest.DownloadType.IF_NECESSARY : CacheRequest.DownloadType.NEVER;
+
+				int limit = 50;
+
+				if(mPostCountLimit > 0 && limit > postRefreshCount.get()) {
+					limit = postRefreshCount.get();
+				}
+
+				request = new PostListingRequest(newUri, RedditAccountManager.getInstance(getActivity()).getDefaultAccount(), session, type, false, limit);
+				notificationHandler.sendEmptyMessage(NOTIF_SHOW_LOADING_SPINNER);
+				CacheManager.getInstance(getActivity()).makeRequest(request);
+
+			} else if(mPostCountLimit > 0 && postRefreshCount.get() <= 0) {
+				AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+					@Override
+					public void run() {
+						if(loadMoreView.getParent() == null) {
+							listFooterNotifications.addView(loadMoreView);
+						}
+					}
+				});
+			}
 		}
 	}
 
@@ -449,15 +481,18 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 		return subreddit;
 	}
 
+	private static Uri setUriDownloadCount(final Uri input, final int count) {
+		return input.buildUpon().appendQueryParameter("limit", String.valueOf(count)).build();
+	}
+
 	private class PostListingRequest extends CacheRequest {
 
 		private final boolean firstDownload;
 
-		protected PostListingRequest(Uri url, RedditAccount user, UUID requestSession, DownloadType downloadType, boolean firstDownload) {
-			super(General.uriFromString(url.toString()), user, requestSession, Constants.Priority.API_POST_LIST, 0, downloadType, Constants.FileType.POST_LIST, DownloadQueueType.REDDIT_API, true, false, getActivity());
+		protected PostListingRequest(Uri url, RedditAccount user, UUID requestSession, DownloadType downloadType, boolean firstDownload, int limit) {
+			super(General.uriFromString(setUriDownloadCount(url, limit).toString()), user, requestSession, Constants.Priority.API_POST_LIST, 0, downloadType, Constants.FileType.POST_LIST, DownloadQueueType.REDDIT_API, true, false, getActivity());
 			this.firstDownload = firstDownload;
 		}
-
 		@Override
 		protected void onDownloadNecessary() {}
 
@@ -673,7 +708,7 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 					}
 
 					postCount++;
-					postRefreshCount--;
+					postRefreshCount.decrementAndGet();
 				}
 
 				adapter.onPostsDownloaded(downloadedPosts);

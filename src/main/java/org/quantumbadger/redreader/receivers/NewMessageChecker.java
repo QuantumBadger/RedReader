@@ -186,7 +186,7 @@ public class NewMessageChecker extends BroadcastReceiver {
 	private static void createNotification(String title, String text, Context context) {
 
 		final Notification.Builder notification = new Notification.Builder(context)
-				.setSmallIcon(R.drawable.icon_inv)
+				.setSmallIcon(R.drawable.icon_notif)
 				.setContentTitle(title)
 				.setContentText(text)
 				.setAutoCancel(true);

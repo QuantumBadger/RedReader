@@ -113,7 +113,7 @@
                             android:dialogTitle="@string/pref_behaviour_comment_min_dialog_title"
                             android:inputType="numberSigned"
                             android:maxLength="5"
-                            android:defaultValue=""/>
+                            android:defaultValue="-4"/>
 
     </PreferenceCategory>
 

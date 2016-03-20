@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.settings;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
@@ -68,7 +69,11 @@ public final class SettingsFragment extends PreferenceFragment {
 				R.string.pref_behaviour_gallery_swipe_length_key
 		};
 
-		for(int pref : listPrefsToUpdate) {
+		final int[] editTextPrefsToUpdate = {
+				R.string.pref_behaviour_comment_min_key
+		};
+
+		for(final int pref : listPrefsToUpdate) {
 
 			final ListPreference listPreference = (ListPreference)findPreference(getString(pref));
 
@@ -87,6 +92,23 @@ public final class SettingsFragment extends PreferenceFragment {
 				}
 			});
 		}
+
+		for(final int pref : editTextPrefsToUpdate) {
+
+			final EditTextPreference editTextPreference = (EditTextPreference)findPreference(getString(pref));
+
+			if(editTextPreference == null) continue;
+
+			editTextPreference.setSummary(editTextPreference.getText());
+
+			editTextPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+				public boolean onPreferenceChange(Preference preference, Object newValue) {
+					editTextPreference.setSummary(newValue.toString());
+					return true;
+				}
+			});
+		}
+
 
 		final Preference versionPref = findPreference(getString(R.string.pref_about_version_key));
 		final Preference changelogPref = findPreference(getString(R.string.pref_about_changelog_key));

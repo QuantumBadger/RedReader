@@ -4,6 +4,7 @@ Added Swedish translation (thanks to tjernquist)
 Preference to collapse low score comments (thanks to Igor Shults)
 Fixed issue with reddit link handling (thanks to Igor Shults)
 Fix for some posts not being marked as read (thanks to Igor Shults)
+Various build improvements (thanks to mvdan)
 
 65/1.9.2
 Ability to view image titles/captions

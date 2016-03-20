@@ -117,8 +117,9 @@ public final class OptionsMenuUtility {
 
 			if(subredditSubscriptionState != null) {
 				addSubscriptionItem(activity, menu, subredditSubscriptionState);
-				if(subredditHasSidebar) add(activity, menu, Option.SIDEBAR, false);
 			}
+
+			if(subredditHasSidebar) add(activity, menu, Option.SIDEBAR, false);
 
 		} else if(!subredditsVisible && !postsVisible && commentsVisible) {
 			if(commentsSortable) addAllCommentSorts(activity, menu, true);
@@ -181,8 +182,9 @@ public final class OptionsMenuUtility {
 
 				if(subredditSubscriptionState != null) {
 					addSubscriptionItem(activity, menu, subredditSubscriptionState);
-					if(subredditHasSidebar) add(activity, menu, Option.SIDEBAR, false);
 				}
+
+				if(subredditHasSidebar) add(activity, menu, Option.SIDEBAR, false);
 			}
 			if(commentsVisible) add(activity, refreshMenu, Option.REFRESH_COMMENTS, true);
 		}

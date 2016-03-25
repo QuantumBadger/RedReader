@@ -1,6 +1,7 @@
 67/1.9.3.1
 Fix for past versions not showing up in the list
 Fixed issue with disabling minimum comment score
+Fixed issue with intent handling
 
 66/1.9.3
 Ability to hide subreddits from /r/all (thanks to Igor Shults)

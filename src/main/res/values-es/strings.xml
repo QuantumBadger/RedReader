@@ -737,4 +737,14 @@
     <string name="block_done">Subreddit bloqueado. Las próximas visitas a /r/all excluirán este subreddit.</string>
     <string name="unblock_done">Subreddit desbloqueado. Las próximas visitas a /r/all incluirán este subreddit.</string>
 
+    <!-- 2016-03-14-->
+    <string name="pref_behaviour_comment_min_key">pref_behaviour_comment_min</string>
+    <string name="pref_behaviour_comments_header">Comentarios</string>
+
+    <string name="pref_behaviour_comment_min_title">Votos mínimos de comentarios</string>
+    <string name="pref_behaviour_comment_min_dialog_title">Oculta los comentarios si sus votos son menores (en blanco muestra todos)</string>
+
+    <!-- 2016-03-20 -->
+    <string name="lang_se">Sueco</string>
+
 </resources>

@@ -1,3 +1,6 @@
+67/1.9.3.1
+Fix for past versions not showing up in the list
+
 66/1.9.3
 Ability to hide subreddits from /r/all (thanks to Igor Shults)
 Added Swedish translation (thanks to tjernquist)

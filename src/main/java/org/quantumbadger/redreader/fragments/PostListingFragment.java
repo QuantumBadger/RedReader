@@ -267,19 +267,12 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 
 		lv.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
 
-		int limit = 50;
-
-		if(mPostCountLimit > 0 && limit > mPostCountLimit) {
-			limit = mPostCountLimit;
-		}
-
 		request = new PostListingRequest(
 				postListingURL.generateJsonUri(),
 				RedditAccountManager.getInstance(context).getDefaultAccount(),
 				session,
 				downloadType,
-				true,
-				limit);
+				true);
 
 		CacheManager.getInstance(context).makeRequest(request);
 
@@ -434,7 +427,7 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 					limit = postRefreshCount.get();
 				}
 
-				request = new PostListingRequest(newUri, RedditAccountManager.getInstance(getActivity()).getDefaultAccount(), session, type, false, limit);
+				request = new PostListingRequest(setUriDownloadCount(newUri, limit), RedditAccountManager.getInstance(getActivity()).getDefaultAccount(), session, type, false);
 				notificationHandler.sendEmptyMessage(NOTIF_SHOW_LOADING_SPINNER);
 				CacheManager.getInstance(getActivity()).makeRequest(request);
 
@@ -489,8 +482,8 @@ public class PostListingFragment extends RRFragment implements RedditPostView.Po
 
 		private final boolean firstDownload;
 
-		protected PostListingRequest(Uri url, RedditAccount user, UUID requestSession, DownloadType downloadType, boolean firstDownload, int limit) {
-			super(General.uriFromString(setUriDownloadCount(url, limit).toString()), user, requestSession, Constants.Priority.API_POST_LIST, 0, downloadType, Constants.FileType.POST_LIST, DownloadQueueType.REDDIT_API, true, false, getActivity());
+		protected PostListingRequest(Uri url, RedditAccount user, UUID requestSession, DownloadType downloadType, boolean firstDownload) {
+			super(General.uriFromString(url.toString()), user, requestSession, Constants.Priority.API_POST_LIST, 0, downloadType, Constants.FileType.POST_LIST, DownloadQueueType.REDDIT_API, true, false, getActivity());
 			this.firstDownload = firstDownload;
 		}
 		@Override

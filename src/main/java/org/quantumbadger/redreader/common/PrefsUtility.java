@@ -263,8 +263,14 @@ public final class PrefsUtility {
 	public static Integer pref_behaviour_comment_min(final Context context, final SharedPreferences sharedPreferences) {
 		Integer defaultValue = -4;
 
+		final String value = getString(R.string.pref_behaviour_comment_min_key, defaultValue.toString(), context, sharedPreferences);
+
+		if(value == null || value.trim().isEmpty()) {
+			return null;
+		}
+
 		try {
-			return Integer.parseInt(getString(R.string.pref_behaviour_comment_min_key, defaultValue.toString(), context, sharedPreferences));
+			return Integer.parseInt(value);
 		} catch(Throwable _) {
 			return defaultValue;
 		}

@@ -343,7 +343,7 @@ public class CommentListingRequest {
 				shouldRecurse = true;
 			}
 
-            Integer minimumCommentScore = PrefsUtility.pref_behaviour_comment_min(mContext, sharedPreferences);
+            final Integer minimumCommentScore = PrefsUtility.pref_behaviour_comment_min(mContext, sharedPreferences);
 
 			if(minimumCommentScore != null && preparedComment.getScore() < minimumCommentScore) {
                 preparedComment.toggleVisibility();

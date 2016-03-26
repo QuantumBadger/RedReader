@@ -142,7 +142,7 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 			db.close();
 		}
 
-		return new ArrayList<RedditAccount>(accountsCache);
+		return new ArrayList<>(accountsCache);
 	}
 
 	public RedditAccount getAccount(String username) {
@@ -191,7 +191,7 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 
 		final Cursor cursor = db.query(TABLE, fields, null, null, null, null, FIELD_PRIORITY + " ASC");
 
-		accountsCache = new LinkedList<RedditAccount>();
+		accountsCache = new LinkedList<>();
 		defaultAccountCache = null;
 
 		// TODO handle null? can this even happen?

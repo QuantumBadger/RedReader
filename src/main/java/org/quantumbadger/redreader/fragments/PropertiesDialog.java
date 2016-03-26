@@ -17,13 +17,13 @@
 
 package org.quantumbadger.redreader.fragments;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDialogFragment;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -31,7 +31,7 @@ import android.widget.TextView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 
-public abstract class PropertiesDialog extends DialogFragment {
+public abstract class PropertiesDialog extends AppCompatDialogFragment {
 
 	protected int rrListHeaderTextCol, rrListDividerCol, rrCommentBodyCol;
 
@@ -39,7 +39,7 @@ public abstract class PropertiesDialog extends DialogFragment {
 	private volatile boolean alreadyCreated = false;
 
 	protected abstract String getTitle(Context context);
-	protected abstract void prepare(Activity context, LinearLayout items);
+	protected abstract void prepare(AppCompatActivity context, LinearLayout items);
 
 	@Override
 	public final Dialog onCreateDialog(final Bundle savedInstanceState) {
@@ -49,12 +49,12 @@ public abstract class PropertiesDialog extends DialogFragment {
 
 		super.onCreateDialog(savedInstanceState);
 
-		final Activity context = getActivity();
+		final AppCompatActivity context = (AppCompatActivity)getActivity();
 
 		final TypedArray attr = context.obtainStyledAttributes(new int[] {
 				R.attr.rrListHeaderTextCol,
 				R.attr.rrListDividerCol,
-				R.attr.rrCommentBodyCol
+				R.attr.rrMainTextCol
 		});
 
 		rrListHeaderTextCol = attr.getColor(0, 0);
@@ -91,7 +91,7 @@ public abstract class PropertiesDialog extends DialogFragment {
 	// TODO xml?
 	protected final LinearLayout propView(final Context context, final String title, final CharSequence text, final boolean firstInList) {
 
-		final int paddingPixels = General.dpToPixels(context, 6);
+		final int paddingPixels = General.dpToPixels(context, 12);
 
 		final LinearLayout prop = new LinearLayout(context);
 		prop.setOrientation(LinearLayout.VERTICAL);

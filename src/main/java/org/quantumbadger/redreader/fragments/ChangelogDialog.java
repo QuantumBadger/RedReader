@@ -17,13 +17,13 @@
 
 package org.quantumbadger.redreader.fragments;
 
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.RRThemeAttributes;
 import org.quantumbadger.redreader.views.list.ListSectionHeader;
 
 import java.io.BufferedReader;
@@ -42,7 +42,9 @@ public final class ChangelogDialog extends PropertiesDialog {
 	}
 
 	@Override
-	protected void prepare(Activity context, LinearLayout items) {
+	protected void prepare(AppCompatActivity context, LinearLayout items) {
+
+		final RRThemeAttributes attr = new RRThemeAttributes(context);
 
 		final int outerPaddingPx = General.dpToPixels(context, 12);
 		items.setPadding(outerPaddingPx, 0, outerPaddingPx, outerPaddingPx);
@@ -69,7 +71,7 @@ public final class ChangelogDialog extends PropertiesDialog {
 
 					final ListSectionHeader header = new ListSectionHeader(context);
 					header.reset(curVersionName);
-					header.setColor(Color.rgb(0x00, 0x99, 0xCC));
+					header.setColor(attr.colorAccent);
 					items.addView(header);
 
 				} else {

@@ -17,13 +17,13 @@
 
 package org.quantumbadger.redreader.common;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
 import org.quantumbadger.redreader.activities.*;
 import org.quantumbadger.redreader.fragments.UserProfileDialog;
 import org.quantumbadger.redreader.image.*;
@@ -42,16 +42,16 @@ public class LinkHandler {
 			vimeoPattern = Pattern.compile("^https?://[\\.\\w]*vimeo\\.\\w+/.*"),
 			googlePlayPattern = Pattern.compile("^https?://[\\.\\w]*play\\.google\\.\\w+/.*");
 
-	public static void onLinkClicked(Activity activity, String url) {
+	public static void onLinkClicked(AppCompatActivity activity, String url) {
 		onLinkClicked(activity, url, false);
 	}
 
-	public static void onLinkClicked(Activity activity, String url, boolean forceNoImage) {
+	public static void onLinkClicked(AppCompatActivity activity, String url, boolean forceNoImage) {
 		onLinkClicked(activity, url, forceNoImage, null);
 	}
 
 	public static void onLinkClicked(
-			final Activity activity,
+			final AppCompatActivity activity,
 			String url,
 			final boolean forceNoImage,
 			final RedditPost post) {
@@ -60,7 +60,7 @@ public class LinkHandler {
 	}
 
 	public static void onLinkClicked(
-			final Activity activity,
+			final AppCompatActivity activity,
 			String url,
 			final boolean forceNoImage,
 			final RedditPost post,
@@ -143,7 +143,7 @@ public class LinkHandler {
 				}
 
 				case UserProfileURL: {
-					UserProfileDialog.newInstance(redditURL.asUserProfileURL().username).show(activity.getFragmentManager(), null);
+					UserProfileDialog.newInstance(redditURL.asUserProfileURL().username).show(activity.getSupportFragmentManager(), null);
 					return;
 				}
 			}
@@ -178,7 +178,7 @@ public class LinkHandler {
 		}
 	}
 
-	public static void openWebBrowser(Activity activity, Uri uri) {
+	public static void openWebBrowser(AppCompatActivity activity, Uri uri) {
 		try {
 			final Intent intent = new Intent(Intent.ACTION_VIEW);
 			intent.setData(uri);

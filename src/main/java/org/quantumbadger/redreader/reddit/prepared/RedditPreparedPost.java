@@ -17,7 +17,6 @@
 
 package org.quantumbadger.redreader.reddit.prepared;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -29,6 +28,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
 import android.text.ClipboardManager;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
@@ -49,9 +49,6 @@ import org.quantumbadger.redreader.image.ImageInfo;
 import org.quantumbadger.redreader.image.ThumbnailScaler;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
-import org.quantumbadger.redreader.reddit.prepared.markdown.MarkdownParagraphGroup;
-import org.quantumbadger.redreader.reddit.prepared.markdown.MarkdownParser;
-import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.url.SubredditPostListURL;
 import org.quantumbadger.redreader.reddit.url.UserProfileURL;
@@ -68,23 +65,16 @@ import java.util.*;
 
 public final class RedditPreparedPost {
 
-	public final RedditPost src;
+	public final RedditParsedPost src;
+	private final RedditChangeDataManagerVolatile mChangeDataManager;
 
-	public final String title;
 	public SpannableStringBuilder postListDescription;
-	public final String url;
-
-	public final String idAlone, idAndType;
-
-	private int voteDirection;
-	private boolean saved, hidden, read, stickied;
 
 	public final boolean hasThumbnail;
 	public final boolean mIsProbablyAnImage;
 
 	// TODO make it possible to turn off in-memory caching when out of memory
 	private volatile Bitmap thumbnailCache = null;
-	public final String thumbnailUrl;
 
 	private static final Object singleImageDecodeLock = new Object();
 
@@ -92,50 +82,33 @@ public final class RedditPreparedPost {
 	private int usageId = -1;
 
 	public long lastChange = Long.MIN_VALUE;
-	public final int commentCount;
 
 	private final boolean showSubreddit;
 
 	private RedditPostView boundView = null;
-
-	public final MarkdownParagraphGroup parsedSelfText;
 
 	public enum Action {
 		UPVOTE, UNVOTE, DOWNVOTE, SAVE, HIDE, UNSAVE, UNHIDE, DELETE, REPORT, SHARE, REPLY, USER_PROFILE, EXTERNAL, PROPERTIES, COMMENTS, LINK, COMMENTS_SWITCH, LINK_SWITCH, SHARE_COMMENTS, GOTO_SUBREDDIT, ACTION_MENU, SAVE_IMAGE, COPY, SELFTEXT_LINKS
 	}
 
 	// TODO too many parameters
-	public RedditPreparedPost(final Context context, final CacheManager cm, final int listId, final RedditPost post,
-							  final long timestamp, final boolean showSubreddit, final boolean updateNeeded,
-							  final boolean showThumbnails, final boolean precacheImages, final RedditAccount user,
-							  final boolean parseSelfText) {
+	public RedditPreparedPost(
+			final Context context,
+			final CacheManager cm,
+			final int listId,
+			final RedditParsedPost post,
+			final long timestamp,
+			final boolean showSubreddit,
+			final boolean showThumbnails) {
 
 		this.src = post;
 		this.showSubreddit = showSubreddit;
 
-		if(post.title == null) {
-			title = "[null]";
-		} else {
-			title = StringEscapeUtils.unescapeHtml4(post.title.replace('\n', ' ')).trim();
-		}
+		final RedditAccount user = RedditAccountManager.getInstance(context).getDefaultAccount();
+		mChangeDataManager = RedditChangeDataManagerVolatile.getInstance(user);
 
-		idAlone = post.id;
-		idAndType = post.name;
-		url = StringEscapeUtils.unescapeHtml4(post.url);
-		mIsProbablyAnImage = LinkHandler.isProbablyAnImage(url);
-		commentCount = post.num_comments;
+		mIsProbablyAnImage = LinkHandler.isProbablyAnImage(post.getUrl());
 
-		if(post.likes == null) {
-			voteDirection = 0;
-		} else {
-			voteDirection = Boolean.TRUE.equals(post.likes) ? 1 : -1;
-		}
-
-		this.saved = post.saved;
-		this.hidden = post.hidden;
-		this.stickied = post.stickied;
-
-		thumbnailUrl = post.thumbnail;
 		hasThumbnail = showThumbnails && hasThumbnail(post);
 
 		// TODO parameterise
@@ -145,25 +118,15 @@ public final class RedditPreparedPost {
 			downloadThumbnail(context, thumbnailWidth, cm, listId);
 		}
 
-		// TODO precache comments (respect settings)
-
 		lastChange = timestamp;
-		if(voteDirection != 0 || saved || hidden) {
-			RedditChangeDataManager.getInstance(context).update("posts", user, this, true);
-		} else if(updateNeeded) {
-			RedditChangeDataManager.getInstance(context).update("posts", user, this, false);
-		}
+		mChangeDataManager.update(timestamp, post.getSrc());
 
 		rebuildSubtitle(context);
-
-		if(parseSelfText && src.is_self && src.selftext != null && src.selftext.trim().length() > 0) {
-			parsedSelfText = MarkdownParser.parse(StringEscapeUtils.unescapeHtml4(post.selftext).toCharArray());
-		} else {
-			parsedSelfText = null;
-		}
 	}
 
-	public static void showActionMenu(final Activity activity, final RedditPreparedPost post) {
+	public static void showActionMenu(
+			final AppCompatActivity activity,
+			final RedditPreparedPost post) {
 
 		final EnumSet<Action> itemPref = PrefsUtility.pref_menus_post_context_items(activity, PreferenceManager.getDefaultSharedPreferences(activity));
 
@@ -207,7 +170,7 @@ public final class RedditPreparedPost {
 				}
 			}
 
-			if(itemPref.contains(Action.DELETE) && user.username.equalsIgnoreCase(post.src.author)) {
+			if(itemPref.contains(Action.DELETE) && user.username.equalsIgnoreCase(post.src.getAuthor())) {
 				menu.add(new RPVMenuItem(activity, R.string.action_delete, Action.DELETE));
 			}
 
@@ -215,7 +178,7 @@ public final class RedditPreparedPost {
 		}
 
 		if(itemPref.contains(Action.EXTERNAL)) menu.add(new RPVMenuItem(activity, R.string.action_external, Action.EXTERNAL));
-		if(itemPref.contains(Action.SELFTEXT_LINKS) && post.src.selftext != null && post.src.selftext.length() > 1) menu.add(new RPVMenuItem(activity, R.string.action_selftext_links, Action.SELFTEXT_LINKS));
+		if(itemPref.contains(Action.SELFTEXT_LINKS) && post.src.getRawSelfText() != null && post.src.getRawSelfText().length() > 1) menu.add(new RPVMenuItem(activity, R.string.action_selftext_links, Action.SELFTEXT_LINKS));
 		if(itemPref.contains(Action.SAVE_IMAGE) && post.mIsProbablyAnImage) menu.add(new RPVMenuItem(activity, R.string.action_save_image, Action.SAVE_IMAGE));
 		if(itemPref.contains(Action.GOTO_SUBREDDIT)) menu.add(new RPVMenuItem(activity, R.string.action_gotosubreddit, Action.GOTO_SUBREDDIT));
 		if(itemPref.contains(Action.SHARE)) menu.add(new RPVMenuItem(activity, R.string.action_share, Action.SHARE));
@@ -245,7 +208,7 @@ public final class RedditPreparedPost {
 		alert.show();
 	}
 
-	public static void onActionMenuItemSelected(final RedditPreparedPost post, final Activity activity, final Action action) {
+	public static void onActionMenuItemSelected(final RedditPreparedPost post, final AppCompatActivity activity, final Action action) {
 
 		switch(action) {
 
@@ -311,7 +274,7 @@ public final class RedditPreparedPost {
 
 			case EXTERNAL: {
 				final Intent intent = new Intent(Intent.ACTION_VIEW);
-                String url = (activity instanceof WebViewActivity) ? ((WebViewActivity) activity).getCurrentUrl() : post.url;
+                String url = (activity instanceof WebViewActivity) ? ((WebViewActivity) activity).getCurrentUrl() : post.src.getUrl();
 				intent.setData(Uri.parse(url));
 				activity.startActivity(intent);
 				break;
@@ -319,7 +282,7 @@ public final class RedditPreparedPost {
 
 			case SELFTEXT_LINKS: {
 
-				final HashSet<String> linksInComment = LinkHandler.computeAllLinks(StringEscapeUtils.unescapeHtml4(post.src.selftext));
+				final HashSet<String> linksInComment = LinkHandler.computeAllLinks(StringEscapeUtils.unescapeHtml4(post.src.getRawSelfText()));
 
 				if(linksInComment.isEmpty()) {
 					General.quickToast(activity, R.string.error_toast_no_urls_in_self);
@@ -331,7 +294,7 @@ public final class RedditPreparedPost {
 					final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 					builder.setItems(linksArr, new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int which) {
-							LinkHandler.onLinkClicked(activity, linksArr[which], false, post.src);
+							LinkHandler.onLinkClicked(activity, linksArr[which], false, post.src.getSrc());
 							dialog.dismiss();
 						}
 					});
@@ -349,11 +312,11 @@ public final class RedditPreparedPost {
 
 				final RedditAccount anon = RedditAccountManager.getAnon();
 
-				LinkHandler.getImageInfo(activity, post.url, Constants.Priority.IMAGE_VIEW, 0, new GetImageInfoListener() {
+				LinkHandler.getImageInfo(activity, post.src.getUrl(), Constants.Priority.IMAGE_VIEW, 0, new GetImageInfoListener() {
 
 					@Override
 					public void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
-						final RRError error = General.getGeneralErrorForFailure(activity, type, t, status, post.url);
+						final RRError error = General.getGeneralErrorForFailure(activity, type, t, status, post.src.getUrl());
 						General.showResultDialog(activity, error);
 					}
 
@@ -440,8 +403,8 @@ public final class RedditPreparedPost {
 
 				final Intent mailer = new Intent(Intent.ACTION_SEND);
 				mailer.setType("text/plain");
-				mailer.putExtra(Intent.EXTRA_SUBJECT, post.title);
-				mailer.putExtra(Intent.EXTRA_TEXT, post.url);
+				mailer.putExtra(Intent.EXTRA_SUBJECT, post.src.getTitle());
+				mailer.putExtra(Intent.EXTRA_TEXT, post.src.getUrl());
 				activity.startActivity(Intent.createChooser(mailer, activity.getString(R.string.action_share)));
 				break;
 			}
@@ -450,8 +413,8 @@ public final class RedditPreparedPost {
 
 				final Intent mailer = new Intent(Intent.ACTION_SEND);
 				mailer.setType("text/plain");
-				mailer.putExtra(Intent.EXTRA_SUBJECT, "Comments for " + post.title);
-				mailer.putExtra(Intent.EXTRA_TEXT, Constants.Reddit.getNonAPIUri(Constants.Reddit.PATH_COMMENTS + post.idAlone).toString());
+				mailer.putExtra(Intent.EXTRA_SUBJECT, "Comments for " + post.src.getTitle());
+				mailer.putExtra(Intent.EXTRA_TEXT, Constants.Reddit.getNonAPIUri(Constants.Reddit.PATH_COMMENTS + post.src.getIdAlone()).toString());
 				activity.startActivity(Intent.createChooser(mailer, activity.getString(R.string.action_share_comments)));
 				break;
 			}
@@ -459,7 +422,7 @@ public final class RedditPreparedPost {
 			case COPY: {
 
 				ClipboardManager manager = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
-				manager.setText(post.url);
+				manager.setText(post.src.getUrl());
 				break;
 			}
 
@@ -467,7 +430,7 @@ public final class RedditPreparedPost {
 
 				try {
 					final Intent intent = new Intent(activity, PostListingActivity.class);
-					intent.setData(SubredditPostListURL.getSubreddit(post.src.subreddit).generateJsonUri());
+					intent.setData(SubredditPostListURL.getSubreddit(post.src.getSubreddit()).generateJsonUri());
 					activity.startActivityForResult(intent, 1);
 
 				} catch(RedditSubreddit.InvalidSubredditNameException e) {
@@ -478,11 +441,11 @@ public final class RedditPreparedPost {
 			}
 
 			case USER_PROFILE:
-				LinkHandler.onLinkClicked(activity, new UserProfileURL(post.src.author).toString());
+				LinkHandler.onLinkClicked(activity, new UserProfileURL(post.src.getAuthor()).toString());
 				break;
 
 			case PROPERTIES:
-				PostPropertiesDialog.newInstance(post.src).show(activity.getFragmentManager(), null);
+				PostPropertiesDialog.newInstance(post.src.getSrc()).show(activity.getSupportFragmentManager(), null);
 				break;
 
 			case COMMENTS:
@@ -516,10 +479,23 @@ public final class RedditPreparedPost {
 
 			case REPLY:
 				final Intent intent = new Intent(activity, CommentReplyActivity.class);
-				intent.putExtra("parentIdAndType", post.idAndType);
+				intent.putExtra("parentIdAndType", post.src.getIdAndType());
 				activity.startActivity(intent);
 				break;
 		}
+	}
+
+	public int computeScore() {
+
+		int score = src.getScoreExcludingOwnVote();
+
+		if(isUpvoted()) {
+			score++;
+		} else if(isDownvoted()) {
+			score--;
+		}
+
+		return score;
 	}
 
 	private void rebuildSubtitle(Context context) {
@@ -546,61 +522,60 @@ public final class RedditPreparedPost {
 		final BetterSSB postListDescSb = new BetterSSB();
 
 		final int pointsCol;
-		int score = src.score;
 
-		if(Boolean.TRUE.equals(src.likes)) score--;
-		if(Boolean.FALSE.equals(src.likes)) score++;
+		final int score = computeScore();
 
 		if(isUpvoted()) {
 			pointsCol = rrPostSubtitleUpvoteCol;
-			score++;
 		} else if(isDownvoted()) {
 			pointsCol = rrPostSubtitleDownvoteCol;
-			score--;
 		} else {
 			pointsCol = boldCol;
 		}
 
-		if(src.over_18) {
+		if(src.isNsfw()) {
 			postListDescSb.append(" NSFW ", BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR | BetterSSB.BACKGROUND_COLOR,
 					Color.WHITE, Color.RED, 1f); // TODO color?
 			postListDescSb.append("  ", 0);
 		}
 
-		if(src.link_flair_text != null && src.link_flair_text.length() > 0) {
-			postListDescSb.append(" " + StringEscapeUtils.unescapeHtml4(src.link_flair_text) + " ", BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR | BetterSSB.BACKGROUND_COLOR,
+		if(src.getFlairText() != null) {
+			postListDescSb.append(" " + src.getFlairText() + " ", BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR | BetterSSB.BACKGROUND_COLOR,
 					rrFlairTextCol, rrFlairBackCol, 1f);
 			postListDescSb.append("  ", 0);
 		}
 
 		postListDescSb.append(String.valueOf(score), BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, pointsCol, 0, 1f);
 		postListDescSb.append(" " + context.getString(R.string.subtitle_points) + " ", 0);
-		postListDescSb.append(RRTime.formatDurationFrom(context, src.created_utc * 1000), BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, boldCol, 0, 1f);
+		postListDescSb.append(RRTime.formatDurationFrom(context, src.getCreatedTimeSecsUTC() * 1000), BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, boldCol, 0, 1f);
 		postListDescSb.append(" " + context.getString(R.string.subtitle_by) + " ", 0);
-		postListDescSb.append(src.author, BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, boldCol, 0, 1f);
+		postListDescSb.append(src.getAuthor(), BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, boldCol, 0, 1f);
 
 		if(showSubreddit) {
 			postListDescSb.append(" " + context.getString(R.string.subtitle_to) + " ", 0);
-			postListDescSb.append(src.subreddit, BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, boldCol, 0, 1f);
+			postListDescSb.append(src.getSubreddit(), BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, boldCol, 0, 1f);
 		}
 
-		postListDescSb.append(" (" + src.domain + ")", 0);
+		postListDescSb.append(" (" + src.getDomain() + ")", 0);
 
 		postListDescription = postListDescSb.get();
 	}
 
 	// lol, reddit api
-	private static boolean hasThumbnail(final RedditPost post) {
-		return post.thumbnail != null
-				&& post.thumbnail.length() != 0
-				&& !post.thumbnail.equalsIgnoreCase("nsfw")
-				&& !post.thumbnail.equalsIgnoreCase("self")
-				&& !post.thumbnail.equalsIgnoreCase("default");
+	private static boolean hasThumbnail(final RedditParsedPost post) {
+
+		final String url = post.getThumbnailUrl();
+
+		return url != null
+				&& url.length() != 0
+				&& !url.equalsIgnoreCase("nsfw")
+				&& !url.equalsIgnoreCase("self")
+				&& !url.equalsIgnoreCase("default");
 	}
 
 	private void downloadThumbnail(final Context context, final int widthPixels, final CacheManager cm, final int listId) {
 
-		final String uriStr = thumbnailUrl;
+		final String uriStr = src.getThumbnailUrl();
 		final URI uri = General.uriFromString(uriStr);
 
 		final int priority = Constants.Priority.THUMBNAIL;
@@ -677,18 +652,16 @@ public final class RedditPreparedPost {
 	}
 
 	public boolean isSelf() {
-		return src.is_self;
-	}
-
-	public void setRead(boolean read) {
-		this.read = read;
+		return src.isSelfPost();
 	}
 
 	public boolean isRead() {
-		return read;
+		return mChangeDataManager.isRead(src);
 	}
 
-	public boolean isSticky() { return stickied; }
+	public boolean isSticky() {
+		return src.isStickied();
+	}
 
 	public void bind(RedditPostView boundView) {
 		this.boundView = boundView;
@@ -699,15 +672,14 @@ public final class RedditPreparedPost {
 	}
 
 	// TODO handle download failure - show red "X" or something
-	public static interface ThumbnailLoadedCallback {
-		public void betterThumbnailAvailable(Bitmap thumbnail, int usageId);
+	public interface ThumbnailLoadedCallback {
+		void betterThumbnailAvailable(Bitmap thumbnail, int usageId);
 	}
 
 	public void markAsRead(final Context context) {
-		setRead(true);
-		refreshView(context);
 		final RedditAccount user = RedditAccountManager.getInstance(context).getDefaultAccount();
-		RedditChangeDataManager.getInstance(context).update("posts", user, RedditPreparedPost.this, true);
+		RedditChangeDataManagerVolatile.getInstance(user).markRead(RRTime.utcCurrentTimeMillis(), src);
+		refreshView(context);
 	}
 
 	public void refreshView(final Context context) {
@@ -723,9 +695,11 @@ public final class RedditPreparedPost {
 		});
 	}
 
-	public void action(final Activity activity, final RedditAPI.RedditAction action) {
+	public void action(final AppCompatActivity activity, final RedditAPI.RedditAction action) {
 
-		if(RedditAccountManager.getInstance(activity).getDefaultAccount().isAnonymous()) {
+		final RedditAccount user = RedditAccountManager.getInstance(activity).getDefaultAccount();
+
+		if(user.isAnonymous()) {
 
 			AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 				public void run() {
@@ -736,30 +710,44 @@ public final class RedditPreparedPost {
 			return;
 		}
 
-		final int lastVoteDirection = voteDirection;
+		final int lastVoteDirection = getVoteDirection();
+		final boolean archived = src.isArchived();
+
+
+		final long now = RRTime.utcCurrentTimeMillis();
 
 		switch(action) {
 			case DOWNVOTE:
-				if(!src.archived) {
-					voteDirection = -1;
+				if(!archived) {
+					mChangeDataManager.markDownvoted(now, src);
 				}
 				break;
 			case UNVOTE:
-				if(!src.archived) {
-					voteDirection = 0;
+				if(!archived) {
+					mChangeDataManager.markUnvoted(now, src);
 				}
 				break;
 			case UPVOTE:
-				if(!src.archived) {
-					voteDirection = 1;
+				if(!archived) {
+					mChangeDataManager.markUpvoted(now, src);
 				}
 				break;
 
-			case SAVE: saved = true; break;
-			case UNSAVE: saved = false; break;
+			case SAVE:
+				mChangeDataManager.markSaved(now, src, true);
+				break;
 
-			case HIDE: hidden = true; break;
-			case UNHIDE: hidden = false; break;
+			case UNSAVE:
+				mChangeDataManager.markSaved(now, src, false);
+				break;
+
+			case HIDE:
+				mChangeDataManager.markHidden(now, src, true);
+				break;
+
+			case UNHIDE:
+				mChangeDataManager.markHidden(now, src, false);
+				break;
 
 			case REPORT: break;
 			case DELETE: break;
@@ -774,13 +762,11 @@ public final class RedditPreparedPost {
 				| action == RedditAPI.RedditAction.UPVOTE
 				| action == RedditAPI.RedditAction.UNVOTE);
 
-		if(src.archived && vote){
+		if(archived && vote){
 			Toast.makeText(activity, R.string.error_archived_vote, Toast.LENGTH_SHORT)
 					.show();
 			return;
 		}
-
-		final RedditAccount user = RedditAccountManager.getInstance(activity).getDefaultAccount();
 
 		RedditAPI.action(CacheManager.getInstance(activity),
 				new APIResponseHandler.ActionResponseHandler(activity) {
@@ -795,7 +781,7 @@ public final class RedditPreparedPost {
 						if(t != null) t.printStackTrace();
 
 						final RRError error = General.getGeneralErrorForFailure(context, type, t, status,
-								"Reddit API action: " + action.toString() + " " + url);
+								"Reddit API action: " + action.toString() + " " + src.getIdAndType());
 						AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 							public void run() {
 								General.showResultDialog(activity, error);
@@ -817,11 +803,46 @@ public final class RedditPreparedPost {
 
 					@Override
 					protected void onSuccess() {
-						lastChange = RRTime.utcCurrentTimeMillis();
-						RedditChangeDataManager.getInstance(context).update("posts", user, RedditPreparedPost.this, true);
 
-						if(action == RedditAPI.RedditAction.DELETE) {
-							General.quickToast(activity, R.string.delete_success);
+						final long now = RRTime.utcCurrentTimeMillis();
+
+						switch(action) {
+							case DOWNVOTE:
+								mChangeDataManager.markDownvoted(now, src);
+								break;
+
+							case UNVOTE:
+								mChangeDataManager.markUnvoted(now, src);
+								break;
+
+							case UPVOTE:
+								mChangeDataManager.markUpvoted(now, src);
+								break;
+
+							case SAVE:
+								mChangeDataManager.markSaved(now, src, true);
+								break;
+
+							case UNSAVE:
+								mChangeDataManager.markSaved(now, src, false);
+								break;
+
+							case HIDE:
+								mChangeDataManager.markHidden(now, src, true);
+								break;
+
+							case UNHIDE:
+								mChangeDataManager.markHidden(now, src, false);
+								break;
+
+							case REPORT: break;
+
+							case DELETE:
+								General.quickToast(activity, R.string.delete_success);
+								break;
+
+							default:
+								throw new RuntimeException("Unknown post action");
 						}
 
 						refreshView(context);
@@ -829,17 +850,40 @@ public final class RedditPreparedPost {
 
 					private void revertOnFailure() {
 
+						final long now = RRTime.utcCurrentTimeMillis();
+
 						switch(action) {
 							case DOWNVOTE:
 							case UNVOTE:
 							case UPVOTE:
-								voteDirection = lastVoteDirection; break;
+								switch(lastVoteDirection) {
+									case -1:
+										mChangeDataManager.markDownvoted(now, src);
+										break;
 
-							case SAVE: saved = false; break;
-							case UNSAVE: saved = true; break;
+									case 0:
+										mChangeDataManager.markUnvoted(now, src);
+										break;
+									case 1:
+										mChangeDataManager.markUpvoted(now, src);
+										break;
+								}
 
-							case HIDE: hidden = false; break;
-							case UNHIDE: hidden = true; break;
+							case SAVE:
+								mChangeDataManager.markSaved(now, src, false);
+								break;
+
+							case UNSAVE:
+								mChangeDataManager.markSaved(now, src, true);
+								break;
+
+							case HIDE:
+								mChangeDataManager.markHidden(now, src, false);
+								break;
+
+							case UNHIDE:
+								mChangeDataManager.markHidden(now, src, true);
+								break;
 
 							case REPORT: break;
 							case DELETE: break;
@@ -851,35 +895,27 @@ public final class RedditPreparedPost {
 						refreshView(context);
 					}
 
-				}, user, idAndType, action, activity);
+				}, user, src.getIdAndType(), action, activity);
 	}
 
 	public boolean isUpvoted() {
-		return voteDirection == 1;
+		return mChangeDataManager.isUpvoted(src);
 	}
 
 	public boolean isDownvoted() {
-		return voteDirection == -1;
-	}
-
-	public boolean isSaved() {
-		return saved;
-	}
-
-	public boolean isHidden() {
-		return hidden;
+		return mChangeDataManager.isDownvoted(src);
 	}
 
 	public int getVoteDirection() {
-		return voteDirection;
+		return isUpvoted() ? 1 : (isDownvoted() ? -1 : 0);
 	}
 
-	public void updateFromChangeDb(final long dbTimestamp, final int voteDirection, final boolean saved, final boolean hidden, final boolean read) {
-		this.lastChange = dbTimestamp;
-		this.voteDirection = voteDirection;
-		this.saved = saved;
-		this.hidden = hidden;
-		this.read = read;
+	public boolean isSaved() {
+		return mChangeDataManager.isSaved(src);
+	}
+
+	public boolean isHidden() {
+		return Boolean.TRUE.equals(mChangeDataManager.isHidden(src));
 	}
 
 	private static class RPVMenuItem {
@@ -892,7 +928,10 @@ public final class RedditPreparedPost {
 		}
 	}
 
-	public VerticalToolbar generateToolbar(final Activity activity, boolean isComments, final SideToolbarOverlay overlay) {
+	public VerticalToolbar generateToolbar(
+			final AppCompatActivity activity,
+			boolean isComments,
+			final SideToolbarOverlay overlay) {
 
 		final VerticalToolbar toolbar = new VerticalToolbar(activity);
 		final EnumSet<Action> itemsPref = PrefsUtility.pref_menus_post_toolbar_items(activity, PreferenceManager.getDefaultSharedPreferences(activity));

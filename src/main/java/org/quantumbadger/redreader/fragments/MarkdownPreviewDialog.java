@@ -17,9 +17,9 @@
 
 package org.quantumbadger.redreader.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import org.quantumbadger.redreader.R;
@@ -46,7 +46,7 @@ public class MarkdownPreviewDialog extends PropertiesDialog {
 	}
 
 	@Override
-	protected void prepare(Activity context, LinearLayout items) {
+	protected void prepare(AppCompatActivity context, LinearLayout items) {
 
 		final MarkdownParagraphGroup parsedGen
 				= MarkdownParser.parse(getArguments().getString("markdown").toCharArray());

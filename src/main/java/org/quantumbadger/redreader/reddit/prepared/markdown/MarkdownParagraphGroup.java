@@ -17,8 +17,8 @@
 
 package org.quantumbadger.redreader.reddit.prepared.markdown;
 
-import android.app.Activity;
 import android.graphics.Color;
+import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.UnderlineSpan;
@@ -38,7 +38,7 @@ public final class MarkdownParagraphGroup {
 		this.paragraphs = paragraphs;
 	}
 
-	public ViewGroup buildView(final Activity activity, final Integer textColor, final Float textSize,
+	public ViewGroup buildView(final AppCompatActivity activity, final Integer textColor, final Float textSize,
 							   final boolean showLinkButtons) {
 
 		final float dpScale = activity.getResources().getDisplayMetrics().density;

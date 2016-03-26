@@ -134,10 +134,10 @@ public final class WeakCache<K, V extends WritableObject<K>, F> implements Cache
 		final CacheEntry oldEntry = cached.get(value.getKey());
 
 		if(oldEntry != null) {
-			cached.put(value.getKey(), new CacheEntry(new WeakReference<V>(value), oldEntry.listeners));
+			cached.put(value.getKey(), new CacheEntry(new WeakReference<>(value), oldEntry.listeners));
 			oldEntry.listeners.map(updatedVersionListenerNotifier, value);
 		} else {
-			cached.put(value.getKey(), new CacheEntry(new WeakReference<V>(value)));
+			cached.put(value.getKey(), new CacheEntry(new WeakReference<>(value)));
 		}
 
 		if(writeDown) cacheDataSource.performWrite(value);
@@ -149,10 +149,10 @@ public final class WeakCache<K, V extends WritableObject<K>, F> implements Cache
 			final CacheEntry oldEntry = cached.get(value.getKey());
 
 			if(oldEntry != null) {
-				cached.put(value.getKey(), new CacheEntry(new WeakReference<V>(value), oldEntry.listeners));
+				cached.put(value.getKey(), new CacheEntry(new WeakReference<>(value), oldEntry.listeners));
 				oldEntry.listeners.map(updatedVersionListenerNotifier, value);
 			} else {
-				cached.put(value.getKey(), new CacheEntry(new WeakReference<V>(value)));
+				cached.put(value.getKey(), new CacheEntry(new WeakReference<>(value)));
 			}
 		}
 

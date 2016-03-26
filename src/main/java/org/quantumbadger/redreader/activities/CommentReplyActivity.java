@@ -86,7 +86,7 @@ public class CommentReplyActivity extends BaseActivity {
 			finish();
 		}
 
-		usernameSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, usernames));
+		usernameSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, usernames));
 
 		final ScrollView sv = new ScrollView(this);
 		sv.addView(layout);
@@ -204,7 +204,7 @@ public class CommentReplyActivity extends BaseActivity {
 			progressDialog.show();
 
 		} else if(item.getTitle().equals(getString(R.string.comment_reply_preview))) {
-			MarkdownPreviewDialog.newInstance(textEdit.getText().toString()).show(getFragmentManager(), "MarkdownPreviewDialog");
+			MarkdownPreviewDialog.newInstance(textEdit.getText().toString()).show(getSupportFragmentManager(), "MarkdownPreviewDialog");
 		}
 
 		return true;

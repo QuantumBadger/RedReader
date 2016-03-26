@@ -17,14 +17,14 @@
 
 package org.quantumbadger.redreader.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import org.quantumbadger.redreader.common.LinkHandler;
 
-public class LinkDispatchActivity extends Activity {
+public class LinkDispatchActivity extends AppCompatActivity {
 
 	private static final String TAG = "LinkDispatchActivity";
 

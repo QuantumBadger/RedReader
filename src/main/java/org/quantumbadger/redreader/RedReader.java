@@ -19,13 +19,10 @@ package org.quantumbadger.redreader;
 
 import android.app.Application;
 import android.os.Environment;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.common.Alarms;
-import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.receivers.NewMessageChecker;
-import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -78,10 +75,6 @@ public class RedReader extends Application {
 				android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
 
 				cm.pruneCache(); // Hope for the best :)
-
-				final RedditChangeDataManager cdm = RedditChangeDataManager.getInstance(RedReader.this);
-				cdm.prune(PrefsUtility.pref_cache_maxage(RedReader.this, PreferenceManager.getDefaultSharedPreferences(RedReader.this)));
-
 			}
 		}.start();
 

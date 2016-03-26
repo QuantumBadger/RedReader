@@ -17,8 +17,8 @@
 
 package org.quantumbadger.redreader.views.liststatus;
 
-import android.app.Activity;
 import android.graphics.Color;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,7 +27,7 @@ import org.quantumbadger.redreader.fragments.ErrorPropertiesDialog;
 
 public final class ErrorView extends StatusListItemView {
 
-	public ErrorView(final Activity activity, final RRError error) {
+	public ErrorView(final AppCompatActivity activity, final RRError error) {
 
 		super(activity);
 
@@ -55,7 +55,7 @@ public final class ErrorView extends StatusListItemView {
 
 		setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				ErrorPropertiesDialog.newInstance(error).show(activity.getFragmentManager(), null);
+				ErrorPropertiesDialog.newInstance(error).show(activity.getSupportFragmentManager(), null);
 			}
 		});
 	}

@@ -27,14 +27,12 @@ import org.quantumbadger.redreader.R;
 public class ListSectionHeader extends FrameLayout {
 
 	private final TextView textView;
-	private final View lineView;
 
 	public ListSectionHeader(final Context context) {
 
 		super(context);
 		final View view = inflate(context, R.layout.list_sectionheader, null);
 		textView = (TextView)view.findViewById(R.id.list_sectionheader_text);
-		lineView = view.findViewById(R.id.list_sectionheader_line);
 		addView(view);
 	}
 
@@ -44,6 +42,5 @@ public class ListSectionHeader extends FrameLayout {
 
 	public void setColor(int color) {
 		textView.setTextColor(color);
-		lineView.setBackgroundColor(color);
 	}
 }

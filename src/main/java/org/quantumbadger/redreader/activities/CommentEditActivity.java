@@ -172,7 +172,7 @@ public class CommentEditActivity extends BaseActivity {
 			progressDialog.show();
 
 		} else if(item.getTitle().equals(getString(R.string.comment_reply_preview))) {
-			MarkdownPreviewDialog.newInstance(textEdit.getText().toString()).show(getFragmentManager(), "MarkdownPreviewDialog");
+			MarkdownPreviewDialog.newInstance(textEdit.getText().toString()).show(getSupportFragmentManager(), "MarkdownPreviewDialog");
 		}
 
 		return true;

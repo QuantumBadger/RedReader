@@ -26,7 +26,10 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.*;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -58,7 +61,8 @@ public class MainActivity extends RefreshableActivity
 		OptionsMenuUtility.OptionsMenuSubredditsListener,
 		OptionsMenuUtility.OptionsMenuPostsListener,
 		OptionsMenuUtility.OptionsMenuCommentsListener,
-		SessionChangeListener, RedditSubredditSubscriptionManager.SubredditSubscriptionStateChangeListener {
+		SessionChangeListener,
+		RedditSubredditSubscriptionManager.SubredditSubscriptionStateChangeListener {
 
 	private boolean twoPane;
 
@@ -86,21 +90,21 @@ public class MainActivity extends RefreshableActivity
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 
+		PrefsUtility.applyTheme(this);
+
+		super.onCreate(savedInstanceState);
+
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		if (savedInstanceState == null) {
 			if(PrefsUtility.pref_behaviour_skiptofrontpage(this, sharedPreferences))
 				onSelected(SubredditPostListURL.getFrontPage());
 		}
 
-		PrefsUtility.applyTheme(this);
-
 		OptionsMenuUtility.fixActionBar(this, getString(R.string.app_name));
-
-		super.onCreate(savedInstanceState);
 
 		twoPane = General.isTablet(this, sharedPreferences);
 
-		doRefresh(RefreshableFragment.MAIN_RELAYOUT, false);
+		doRefresh(RefreshableFragment.MAIN_RELAYOUT, false, null);
 
 		RedditAccountManager.getInstance(this).addUpdateListener(this);
 
@@ -121,7 +125,7 @@ public class MainActivity extends RefreshableActivity
 					.setPositiveButton(R.string.firstrun_login_button_now,
 							new DialogInterface.OnClickListener() {
 								public void onClick(final DialogInterface dialog, final int which) {
-									new AccountListDialog().show(MainActivity.this.getFragmentManager(), null);
+									new AccountListDialog().show(MainActivity.this.getSupportFragmentManager(), null);
 								}
 							})
 					.setNegativeButton(R.string.firstrun_login_button_later, null)
@@ -144,7 +148,7 @@ public class MainActivity extends RefreshableActivity
 						.setPositiveButton(R.string.firstrun_login_button_now,
 								new DialogInterface.OnClickListener() {
 									public void onClick(final DialogInterface dialog, final int which) {
-										new AccountListDialog().show(MainActivity.this.getFragmentManager(), null);
+										new AccountListDialog().show(MainActivity.this.getSupportFragmentManager(), null);
 									}
 								})
 						.setNegativeButton(R.string.firstrun_login_button_later, null)
@@ -156,7 +160,7 @@ public class MainActivity extends RefreshableActivity
 				General.quickToast(this, "Updated to version " + pInfo.versionName);
 
 				sharedPreferences.edit().putInt("lastVersion", appVersion).commit();
-				ChangelogDialog.newInstance().show(getFragmentManager(), null);
+				ChangelogDialog.newInstance().show(getSupportFragmentManager(), null);
 
 				if(lastVersion <= 51) {
 					// Upgrading from v1.8.6.3 or lower
@@ -186,7 +190,7 @@ public class MainActivity extends RefreshableActivity
 
 		} else {
 			sharedPreferences.edit().putInt("lastVersion", appVersion).commit();
-			ChangelogDialog.newInstance().show(getFragmentManager(), null);
+			ChangelogDialog.newInstance().show(getSupportFragmentManager(), null);
 		}
 
 		addSubscriptionListener();
@@ -318,7 +322,7 @@ public class MainActivity extends RefreshableActivity
 	}
 
 	@Override
-	protected void doRefresh(final RefreshableFragment which, final boolean force) {
+	protected void doRefresh(final RefreshableFragment which, final boolean force, final Bundle savedInstanceState) {
 
 		if(which == RefreshableFragment.MAIN_RELAYOUT) {
 
@@ -368,23 +372,23 @@ public class MainActivity extends RefreshableActivity
 			final FrameLayout postContainer = isMenuShown ? mRightPane : mLeftPane;
 
 			if(isMenuShown && (which == RefreshableFragment.ALL || which == RefreshableFragment.MAIN)) {
-				mainMenuFragment = new MainMenuFragment(this, force);
-				mainMenuView = mainMenuFragment.onCreateView();
+				mainMenuFragment = new MainMenuFragment(this, null, force);
+				mainMenuView = mainMenuFragment.getView();
 				mLeftPane.removeAllViews();
 				mLeftPane.addView(mainMenuView);
 			}
 
 			if(postListingController != null && (which == RefreshableFragment.ALL || which == RefreshableFragment.POSTS)) {
 				if(force && postListingFragment != null) postListingFragment.cancel();
-				postListingFragment = postListingController.get(this, force);
-				postListingView = postListingFragment.onCreateView();
+				postListingFragment = postListingController.get(this, force, null);
+				postListingView = postListingFragment.getView();
 				postContainer.removeAllViews();
 				postContainer.addView(postListingView);
 			}
 
 			if(commentListingController != null && (which == RefreshableFragment.ALL || which == RefreshableFragment.COMMENTS)) {
-				commentListingFragment = commentListingController.get(this, force);
-				commentListingView = commentListingFragment.onCreateView();
+				commentListingFragment = commentListingController.get(this, force, null);
+				commentListingView = commentListingFragment.getView();
 				mRightPane.removeAllViews();
 				mRightPane.addView(commentListingView);
 			}
@@ -392,8 +396,8 @@ public class MainActivity extends RefreshableActivity
 		} else {
 
 			if(which == RefreshableFragment.ALL || which == RefreshableFragment.MAIN) {
-				mainMenuFragment = new MainMenuFragment(this, force);
-				mainMenuView = mainMenuFragment.onCreateView();
+				mainMenuFragment = new MainMenuFragment(this, null, force);
+				mainMenuView = mainMenuFragment.getView();
 				mSinglePane.removeAllViews();
 				mSinglePane.addView(mainMenuView);
 			}
@@ -414,8 +418,8 @@ public class MainActivity extends RefreshableActivity
 
 		isMenuShown = true;
 
-		mainMenuFragment = new MainMenuFragment(this, false); // TODO preserve position
-		mainMenuView = mainMenuFragment.onCreateView();
+		mainMenuFragment = new MainMenuFragment(this, null, false); // TODO preserve position
+		mainMenuView = mainMenuFragment.getView();
 
 		commentListingFragment = null;
 		commentListingView = null;
@@ -433,12 +437,12 @@ public class MainActivity extends RefreshableActivity
 
 		if(twoPane) {
 
-			commentListingController = new CommentListingController(PostCommentListingURL.forPostId(post.idAlone), this);
+			commentListingController = new CommentListingController(PostCommentListingURL.forPostId(post.src.getIdAlone()), this);
 
 			if(isMenuShown) {
 
-				commentListingFragment = commentListingController.get(this, false);
-				commentListingView = commentListingFragment.onCreateView();
+				commentListingFragment = commentListingController.get(this, false, null);
+				commentListingView = commentListingFragment.getView();
 
 				mLeftPane.removeAllViews();
 				mRightPane.removeAllViews();
@@ -458,7 +462,7 @@ public class MainActivity extends RefreshableActivity
 			}
 
 		} else {
-			LinkHandler.onLinkClicked(this, PostCommentListingURL.forPostId(post.idAlone).toString(), false);
+			LinkHandler.onLinkClicked(this, PostCommentListingURL.forPostId(post.src.getIdAlone()).toString(), false);
 		}
 	}
 
@@ -466,7 +470,7 @@ public class MainActivity extends RefreshableActivity
 		if(post.isSelf()) {
 			onPostCommentsSelected(post);
 		} else {
-			LinkHandler.onLinkClicked(this, post.url, false, post.src);
+			LinkHandler.onLinkClicked(this, post.src.getUrl(), false, post.src.getSrc());
 		}
 	}
 
@@ -541,8 +545,8 @@ public class MainActivity extends RefreshableActivity
 				subredditPinState,
 				subredditBlockedState);
 
-		getActionBar().setHomeButtonEnabled(!isMenuShown);
-		getActionBar().setDisplayHomeAsUpEnabled(!isMenuShown);
+		getSupportActionBar().setHomeButtonEnabled(!isMenuShown);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(!isMenuShown);
 
 		if(commentListingFragment != null) {
 			commentListingFragment.onCreateOptionsMenu(menu);
@@ -558,7 +562,7 @@ public class MainActivity extends RefreshableActivity
 
 	public void onPastComments() {
 		final SessionListDialog sessionListDialog = SessionListDialog.newInstance(commentListingController.getUri(), commentListingController.getSession(), SessionChangeListener.SessionChangeType.COMMENTS);
-		sessionListDialog.show(getFragmentManager(), null);
+		sessionListDialog.show(getSupportFragmentManager(), null);
 	}
 
 	public void onSortSelected(final PostCommentListingURL.Sort order) {
@@ -573,7 +577,7 @@ public class MainActivity extends RefreshableActivity
 
 	public void onPastPosts() {
 		final SessionListDialog sessionListDialog = SessionListDialog.newInstance(postListingController.getUri(), postListingController.getSession(), SessionChangeListener.SessionChangeType.POSTS);
-		sessionListDialog.show(getFragmentManager(), null);
+		sessionListDialog.show(getSupportFragmentManager(), null);
 	}
 
 	public void onSubmitPost() {
@@ -762,23 +766,5 @@ public class MainActivity extends RefreshableActivity
 				invalidateOptionsMenu();
 			}
 		});
-	}
-
-	@Override
-	public void onCreateContextMenu(final ContextMenu menu, final View v, final ContextMenu.ContextMenuInfo menuInfo) {
-
-		if(commentListingFragment != null) {
-			commentListingFragment.onCreateContextMenu(menu, v, menuInfo);
-		}
-	}
-
-	@Override
-	public boolean onContextItemSelected(final MenuItem item) {
-
-		if(commentListingFragment != null) {
-			commentListingFragment.onContextItemSelected(item);
-		}
-
-		return super.onContextItemSelected(item);
 	}
 }

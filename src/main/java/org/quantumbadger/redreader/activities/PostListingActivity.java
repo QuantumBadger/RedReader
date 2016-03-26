@@ -18,13 +18,13 @@
 package org.quantumbadger.redreader.activities;
 
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
@@ -58,6 +58,10 @@ public class PostListingActivity extends RefreshableActivity
 		SessionChangeListener,
 		RedditSubredditSubscriptionManager.SubredditSubscriptionStateChangeListener {
 
+	private static final String SAVEDSTATE_SESSION = "pla_session";
+	private static final String SAVEDSTATE_SORT = "pla_sort";
+	private static final String SAVEDSTATE_FRAGMENT = "pla_fragment";
+
 	private PostListingFragment fragment;
 	private PostListingController controller;
 
@@ -65,10 +69,10 @@ public class PostListingActivity extends RefreshableActivity
 
 		PrefsUtility.applyTheme(this);
 
-		// TODO load from savedInstanceState
+		super.onCreate(savedInstanceState);
 
-		getActionBar().setHomeButtonEnabled(true);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         getWindow().setBackgroundDrawable(new ColorDrawable(obtainStyledAttributes(new int[] {R.attr.rrListBackgroundCol}).getColor(0,0)));
 
@@ -86,15 +90,31 @@ public class PostListingActivity extends RefreshableActivity
 
 			controller = new PostListingController((PostListingURL)url);
 
+			Bundle fragmentSavedInstanceState = null;
+
+			if(savedInstanceState != null) {
+
+				if(savedInstanceState.containsKey(SAVEDSTATE_SESSION)) {
+					controller.setSession(UUID.fromString(savedInstanceState.getString(SAVEDSTATE_SESSION)));
+				}
+
+				if(savedInstanceState.containsKey(SAVEDSTATE_SORT)) {
+					controller.setSort(PostListingController.Sort.valueOf(
+							savedInstanceState.getString(SAVEDSTATE_SORT)));
+				}
+
+				if(savedInstanceState.containsKey(SAVEDSTATE_FRAGMENT)) {
+					fragmentSavedInstanceState = savedInstanceState.getBundle(SAVEDSTATE_FRAGMENT);
+				}
+			}
+
 			OptionsMenuUtility.fixActionBar(this, url.humanReadableName(this, false));
 
-			super.onCreate(savedInstanceState);
-
 			setContentView(R.layout.main_single);
-			requestRefresh(RefreshableFragment.POSTS, false);
+			doRefresh(RefreshableFragment.POSTS, false, fragmentSavedInstanceState);
 
 		} else {
-			throw new RuntimeException("Nothing to show! (should load from bundle)"); // TODO
+			throw new RuntimeException("Nothing to show!");
 		}
 
 		addSubscriptionListener();
@@ -103,7 +123,20 @@ public class PostListingActivity extends RefreshableActivity
 	@Override
 	protected void onSaveInstanceState(final Bundle outState) {
 		super.onSaveInstanceState(outState);
-		// TODO save instance state
+
+		final UUID session = controller.getSession();
+		if(session != null) {
+			outState.putString(SAVEDSTATE_SESSION, session.toString());
+		}
+
+		final PostListingController.Sort sort = controller.getSort();
+		if(sort != null) {
+			outState.putString(SAVEDSTATE_SORT, sort.name());
+		}
+
+		if(fragment != null) {
+			outState.putBundle(SAVEDSTATE_FRAGMENT, fragment.onSaveInstanceState());
+		}
 	}
 
 	@Override
@@ -184,18 +217,18 @@ public class PostListingActivity extends RefreshableActivity
 	}
 
 	@Override
-	protected void doRefresh(final RefreshableFragment which, final boolean force) {
+	protected void doRefresh(final RefreshableFragment which, final boolean force, final Bundle savedInstanceState) {
 		if(fragment != null) fragment.cancel();
-		fragment = controller.get(this, force);
-		setContentView(fragment.onCreateView());
+		fragment = controller.get(this, force, savedInstanceState);
+		setContentView(fragment.getView());
 	}
 
 	public void onPostSelected(final RedditPreparedPost post) {
-		LinkHandler.onLinkClicked(this, post.url, false, post.src);
+		LinkHandler.onLinkClicked(this, post.src.getUrl(), false, post.src.getSrc());
 	}
 
 	public void onPostCommentsSelected(final RedditPreparedPost post) {
-		LinkHandler.onLinkClicked(this, PostCommentListingURL.forPostId(post.idAlone).toString(), false);
+		LinkHandler.onLinkClicked(this, PostCommentListingURL.forPostId(post.src.getIdAlone()).toString(), false);
 	}
 
 	public void onRefreshPosts() {
@@ -205,7 +238,7 @@ public class PostListingActivity extends RefreshableActivity
 
 	public void onPastPosts() {
 		final SessionListDialog sessionListDialog = SessionListDialog.newInstance(controller.getUri(), controller.getSession(), SessionChangeType.POSTS);
-		sessionListDialog.show(getFragmentManager(), "SessionListDialog");
+		sessionListDialog.show(getSupportFragmentManager(), "SessionListDialog");
 	}
 
 	public void onSubmitPost() {
@@ -226,7 +259,7 @@ public class PostListingActivity extends RefreshableActivity
 		onSearchPosts(controller, this);
 	}
 
-	public static void onSearchPosts(final PostListingController controller, final Activity activity) {
+	public static void onSearchPosts(final PostListingController controller, final AppCompatActivity activity) {
 
 		final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(activity);
 		final LinearLayout layout = (LinearLayout) activity.getLayoutInflater().inflate(R.layout.dialog_editbox, null);

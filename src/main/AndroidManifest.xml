@@ -73,7 +73,6 @@
         </activity>
 
         <activity android:name=".activities.PostListingActivity"
-                  android:configChanges="orientation|screenSize|keyboardHidden"
                   android:parentActivityName=".activities.MainActivity">
 
             <meta-data
@@ -81,9 +80,7 @@
                     android:value=".activities.MainActivity"/>
         </activity>
 
-        <activity android:name=".activities.CommentListingActivity"
-                  android:configChanges="orientation|screenSize|keyboardHidden"
-                  android:parentActivityName=".activities.PostListingActivity">
+        <activity android:name=".activities.CommentListingActivity">
 
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"

@@ -1,9 +1,9 @@
 package org.quantumbadger.redreader.adapters;
 
-import android.app.Activity;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -19,7 +19,7 @@ import java.util.HashSet;
 
 public final class PostListingAdapter extends BaseAdapter {
 
-	private final Activity mActivity;
+	private final AppCompatActivity mActivity;
 
 	private final ArrayList<RedditPreparedPost> mPosts = new ArrayList<>(50);
 
@@ -30,7 +30,7 @@ public final class PostListingAdapter extends BaseAdapter {
 
 	private final Handler postsAddedHandler;
 
-	public PostListingAdapter(final ListView listViewParent, final PostListingFragment fragmentParent, final Activity activity) {
+	public PostListingAdapter(final ListView listViewParent, final PostListingFragment fragmentParent, final AppCompatActivity activity) {
 
 		this.listViewParent = listViewParent;
 		this.fragmentParent = fragmentParent;
@@ -43,12 +43,14 @@ public final class PostListingAdapter extends BaseAdapter {
 				final ArrayList<RedditPreparedPost> posts = (ArrayList<RedditPreparedPost>)msg.obj;
 
 				for(final RedditPreparedPost post : posts) {
-					if(postIds.add(post.idAlone)) {
+					if(postIds.add(post.src.getIdAlone())) {
 						mPosts.add(post);
 					}
 				}
 
 				notifyDataSetChanged();
+
+				fragmentParent.onPostsAdded();
 			}
 		};
 	}

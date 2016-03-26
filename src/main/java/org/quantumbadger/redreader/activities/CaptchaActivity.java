@@ -46,9 +46,10 @@ public class CaptchaActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 
 		PrefsUtility.applyTheme(this);
-		getActionBar().setTitle(R.string.post_captcha_title);
 
 		super.onCreate(savedInstanceState);
+
+		getSupportActionBar().setTitle(R.string.post_captcha_title);
 
 		final LoadingView loadingView = new LoadingView(this, R.string.download_waiting, true, true);
 		setContentView(loadingView);

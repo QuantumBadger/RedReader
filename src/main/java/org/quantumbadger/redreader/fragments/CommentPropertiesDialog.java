@@ -17,9 +17,9 @@
 
 package org.quantumbadger.redreader.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.LinearLayout;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
@@ -45,11 +45,11 @@ public final class CommentPropertiesDialog extends PropertiesDialog {
 	}
 
 	@Override
-	protected void prepare(Activity context, LinearLayout items) {
+	protected void prepare(AppCompatActivity context, LinearLayout items) {
 
 		final RedditComment comment = getArguments().getParcelable("comment");
 
-		items.addView(propView(context, "ID", comment.name, false));
+		items.addView(propView(context, "ID", comment.name, true));
 
 		items.addView(propView(context, R.string.props_author, comment.author, false));
 

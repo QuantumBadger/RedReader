@@ -19,10 +19,14 @@ package org.quantumbadger.redreader.reddit.things;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
+import java.util.HashSet;
 
-public final class RedditComment implements Parcelable {
+
+public final class RedditComment implements Parcelable, RedditThingWithIdAndType {
 	
 	public String body, body_html, author, subreddit;
 	public String author_flair_text;
@@ -124,6 +128,16 @@ public final class RedditComment implements Parcelable {
 		parcel.writeInt(gilded);
 	}
 
+	@Override
+	public String getIdAlone() {
+		return id;
+	}
+
+	@Override
+	public String getIdAndType() {
+		return name;
+	}
+
 	public int describeContents() {
 		return 0;
 	}
@@ -137,4 +151,8 @@ public final class RedditComment implements Parcelable {
 			return new RedditComment[size];
 		}
 	};
+
+	public HashSet<String> computeAllLinks() {
+		return LinkHandler.computeAllLinks(StringEscapeUtils.unescapeHtml4(body_html));
+	}
 }

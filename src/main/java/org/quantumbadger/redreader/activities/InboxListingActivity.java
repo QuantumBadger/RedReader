@@ -45,16 +45,17 @@ import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
-import org.quantumbadger.redreader.reddit.RedditPreparedInboxItem;
-import org.quantumbadger.redreader.reddit.prepared.RedditPreparedComment;
+import org.quantumbadger.redreader.reddit.prepared.RedditParsedComment;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedMessage;
+import org.quantumbadger.redreader.reddit.prepared.RedditRenderableComment;
+import org.quantumbadger.redreader.reddit.prepared.RedditRenderableInboxItem;
+import org.quantumbadger.redreader.reddit.things.RedditComment;
 import org.quantumbadger.redreader.reddit.things.RedditMessage;
 import org.quantumbadger.redreader.reddit.things.RedditThing;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
 import org.quantumbadger.redreader.views.liststatus.LoadingView;
 
 import java.net.URI;
-import java.util.EnumSet;
 import java.util.UUID;
 
 public final class InboxListingActivity extends BaseActivity {
@@ -70,15 +71,13 @@ public final class InboxListingActivity extends BaseActivity {
 
 	private CacheRequest request;
 
-	private EnumSet<PrefsUtility.AppearanceCommentHeaderItems> headerItems;
-
 	private boolean isModmail = false;
 	private boolean onlyUnread;
 
 	private final Handler itemHandler = new Handler(Looper.getMainLooper()) {
 		@Override
 		public void handleMessage(final Message msg) {
-			adapter.addItem((RedditPreparedInboxItem)msg.obj);
+			adapter.addItem((RedditRenderableInboxItem)msg.obj);
 		}
 	};
 
@@ -90,13 +89,15 @@ public final class InboxListingActivity extends BaseActivity {
 		PrefsUtility.applyTheme(this);
 		super.onCreate(savedInstanceState);
 
+		final RRThemeAttributes theme = new RRThemeAttributes(this);
+
 		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         editor = sharedPreferences.edit();
 		final boolean solidblack = PrefsUtility.appearance_solidblack(this, sharedPreferences)
 				&& PrefsUtility.appearance_theme(this, sharedPreferences) == PrefsUtility.AppearanceTheme.NIGHT;
 
-		getActionBar().setHomeButtonEnabled(true);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		final String title;
 
@@ -110,9 +111,6 @@ public final class InboxListingActivity extends BaseActivity {
 		}
 
 		OptionsMenuUtility.fixActionBar(this, title);
-
-		headerItems = PrefsUtility.appearance_comment_header_items(this, sharedPreferences);
-		headerItems.remove(PrefsUtility.AppearanceCommentHeaderItems.SCORE);
 
 		final LinearLayout outer = new LinearLayout(this);
 		outer.setOrientation(android.widget.LinearLayout.VERTICAL);
@@ -137,13 +135,13 @@ public final class InboxListingActivity extends BaseActivity {
 
 				final Object item = lv.getAdapter().getItem(position);
 
-				if(item != null && item instanceof RedditPreparedInboxItem) {
-					((RedditPreparedInboxItem)item).handleInboxClick(InboxListingActivity.this);
+				if(item != null && item instanceof RedditRenderableInboxItem) {
+					((RedditRenderableInboxItem)item).handleInboxClick(InboxListingActivity.this);
 				}
 			}
 		});
 
-		adapter = new InboxListingAdapter(this, this);
+		adapter = new InboxListingAdapter(this, theme);
 		lv.setAdapter(adapter);
 
 		registerForContextMenu(lv);
@@ -243,7 +241,6 @@ public final class InboxListingActivity extends BaseActivity {
 				// TODO {"error": 403} is received for unauthorized subreddits
 
 				try {
-
 					final JsonBufferedObject root = value.asObject();
 					final JsonBufferedObject data = root.getObject("data");
 					final JsonBufferedArray children = data.getArray("children");
@@ -254,9 +251,10 @@ public final class InboxListingActivity extends BaseActivity {
 
 						switch(thing.getKind()) {
 							case COMMENT:
-								final RedditPreparedComment comment = new RedditPreparedComment(
-										InboxListingActivity.this, thing.asComment(), timestamp, false, null, user, headerItems);
-								itemHandler.sendMessage(General.handlerMessage(0, comment));
+								final RedditComment comment = thing.asComment();
+								final RedditParsedComment parsedComment = new RedditParsedComment(comment);
+								final RedditRenderableComment renderableComment = new RedditRenderableComment(parsedComment, null, -100000, false);
+								itemHandler.sendMessage(General.handlerMessage(0, renderableComment));
 
 								break;
 

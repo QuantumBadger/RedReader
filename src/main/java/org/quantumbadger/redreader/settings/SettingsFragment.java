@@ -25,7 +25,6 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.fragments.ChangelogDialog;
 
 public final class SettingsFragment extends PreferenceFragment {
 
@@ -73,7 +72,7 @@ public final class SettingsFragment extends PreferenceFragment {
 				R.string.pref_behaviour_comment_min_key
 		};
 
-		for(final int pref : listPrefsToUpdate) {
+		for(int pref : listPrefsToUpdate) {
 
 			final ListPreference listPreference = (ListPreference)findPreference(getString(pref));
 
@@ -132,7 +131,8 @@ public final class SettingsFragment extends PreferenceFragment {
 		if(changelogPref != null) {
 			changelogPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 				public boolean onPreferenceClick(Preference preference) {
-					ChangelogDialog.newInstance().show(getActivity().getFragmentManager(), null);
+					// TODO
+					//ChangelogDialog.newInstance().show(((SettingsActivity)getActivity()).getFragmentManager(), null);
 					return true;
 				}
 			});

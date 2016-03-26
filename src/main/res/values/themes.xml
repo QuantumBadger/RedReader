@@ -16,12 +16,20 @@
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
-    <style name="RR.Dark" parent="android:Theme.Holo">
+    <style name="RR.Dark" parent="Theme.AppCompat">
 
-        <item name="android:actionBarStyle" tools:targetApi="11">@style/RR.Dark.ActionBarStyle</item>
+        <item name="android:actionOverflowButtonStyle">@style/RR.Base.Widget.AppCompat.ActionButton.Overflow</item>
+
         <item name="rrActionBarCol">#222222</item>
+        <item name="colorPrimary">?rrActionBarCol</item>
+        <item name="colorPrimaryDark">#111111</item>
+        <item name="colorAccent">#99DDDD</item>
+
+        <item name="rrMainTextCol">#FFFFFF</item>
+
+        <item name="android:windowBackground">@color/darkWindowBackground</item>
 
         <item name="rrListItemBackgroundCol">#000000</item>
         <item name="rrListItemHighlightCol">#555555</item>
@@ -34,6 +42,8 @@
 
         <item name="rrLoadingRingForegroundCol">#C8C8C8</item>
         <item name="rrLoadingRingBackgroundCol">#323232</item>
+
+        <item name="alertDialogTheme">@style/Theme.AppCompat.Dialog.Alert</item>
 
         <!-- Post -->
 
@@ -91,30 +101,36 @@
     </style>
 
     <style name="RR.Startup" parent="RR.Dark">
-        <item name="android:actionBarStyle" tools:targetApi="11">@style/RR.Startup.ActionBarStyle</item>
-        <item name="android:windowBackground">@color/darkWindowBackground</item>
     </style>
 
-    <style name="RR.Light.DarkActionBar" parent="android:Theme.Holo.Light">
+    <style name="RR.Light.DarkActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
 
-        <item name="android:selectableItemBackground" tools:targetApi="11">@drawable/white_selector</item>
+        <item name="android:actionOverflowButtonStyle">@style/RR.Base.Widget.AppCompat.ActionButton.Overflow</item>
+
+        <item name="rrActionBarCol">#222222</item>
+        <item name="colorPrimary">?rrActionBarCol</item>
+        <item name="colorPrimaryDark">#111111</item>
+        <item name="colorAccent">?colorPrimaryDark</item>
+
+        <item name="rrMainTextCol">#000000</item>
+
+        <item name="android:textColorPrimary">#000000</item>
+        <item name="android:textColorSecondary">#000000</item>
+
+        <item name="rrLoadingRingForegroundCol">?rrActionBarCol</item>
+        <item name="rrLoadingRingBackgroundCol">#22000000</item>
 
         <item name="android:windowBackground">@color/lightWindowBackground</item>
-
-        <item name="android:actionBarStyle" tools:targetApi="11">@style/RR.Light.ActionBarStyle</item>
-        <item name="android:actionOverflowButtonStyle" tools:targetApi="11">@style/RR.ActionButton.Overflow</item>
-        <item name="rrActionBarCol">#222222</item>
 
         <item name="rrListItemBackgroundCol">#FBFBFB</item>
         <item name="rrListItemHighlightCol">#DDDDDD</item>
         <item name="rrListBackgroundCol">#FFFFFF</item>
 
-        <item name="rrLoadingRingForegroundCol">#222222</item>
-        <item name="rrLoadingRingBackgroundCol">#22000000</item>
+        <item name="alertDialogTheme">@style/Theme.AppCompat.Light.Dialog.Alert</item>
 
         <item name="rrListDividerCol">#CCCCCC</item>
-        <item name="rrListHeaderTextCol">?rrActionBarCol</item>
-        <item name="rrListHeaderLineCol">?rrActionBarCol</item>
+        <item name="rrListHeaderTextCol">?colorAccent</item>
+        <item name="rrListHeaderLineCol">?colorAccent</item>
         <item name="rrListSubtitleCol">#666666</item>
 
         <!-- Comment -->
@@ -172,33 +188,53 @@
 
     </style>
 
-    <style name="RR.Dark.NoActionBar" parent="RR.Dark">
-        <item name="android:actionBarStyle" tools:targetApi="11">@android:style/Theme.Holo.NoActionBar</item>
+    <style name="RR.Dark.NoActionBar" parent="Theme.AppCompat.NoActionBar">
+
+        <item name="alertDialogTheme">@style/Theme.AppCompat.Dialog.Alert</item>
+
+        <item name="rrMainTextCol">#FFFFFF</item>
+
+        <item name="rrActionBarCol">#222222</item>
+        <item name="colorPrimary">?rrActionBarCol</item>
+        <item name="colorPrimaryDark">#111111</item>
+        <item name="colorAccent">#99DDDD</item>
+
+        <item name="rrListDividerCol">#555555</item>
+        <item name="rrListHeaderTextCol">#CCCCCC</item>
+        <item name="rrListHeaderLineCol">#444444</item>
+        <item name="rrListSubtitleCol">#CCCCCC</item>
+
+    </style>
+
+    <style name="RR.Light.Gray" parent="RR.Light.DarkActionBar">
+        <item name="rrActionBarCol">#222222</item>
+        <item name="colorPrimaryDark">#222222</item>
+        <item name="colorAccent">#607d8b</item>
     </style>
 
     <style name="RR.Light.Blue" parent="RR.Light.DarkActionBar">
-        <item name="rrActionBarCol">#06456A</item>
-        <item name="rrLoadingRingForegroundCol">#06456A</item>
+        <item name="rrActionBarCol">#2196f3</item>
+        <item name="colorPrimaryDark">#1976d2</item>
     </style>
 
     <style name="RR.Light.LtBlue" parent="RR.Light.DarkActionBar">
-        <item name="rrActionBarCol">#33B5E5</item>
-        <item name="rrLoadingRingForegroundCol">#33B5E5</item>
+        <item name="rrActionBarCol">#03a9f4</item>
+        <item name="colorPrimaryDark">#0288d1</item>
     </style>
 
     <style name="RR.Light.Red" parent="RR.Light.DarkActionBar">
-        <item name="rrActionBarCol">#A60000</item>
-        <item name="rrLoadingRingForegroundCol">#A60000</item>
+        <item name="rrActionBarCol">#d32f2f</item>
+        <item name="colorPrimaryDark">#b52626</item>
     </style>
 
     <style name="RR.Light.Green" parent="RR.Light.DarkActionBar">
-        <item name="rrActionBarCol">#268E00</item>
-        <item name="rrLoadingRingForegroundCol">#268E00</item>
+        <item name="rrActionBarCol">#4caf50</item>
+        <item name="colorPrimaryDark">#388e3c</item>
     </style>
 
     <style name="RR.Light.Orange" parent="RR.Light.DarkActionBar">
-        <item name="rrActionBarCol">#DD5500</item>
-        <item name="rrLoadingRingForegroundCol">#DD5500</item>
+        <item name="rrActionBarCol">#ff9800</item>
+        <item name="colorPrimaryDark">#f57c00</item>
     </style>
 
 </resources>

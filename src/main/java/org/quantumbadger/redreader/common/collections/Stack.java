@@ -24,7 +24,7 @@ public class Stack<E> {
 	private final ArrayList<E> mData;
 
 	public Stack(int initialCapacity) {
-		mData = new ArrayList<E>(initialCapacity);
+		mData = new ArrayList<>(initialCapacity);
 	}
 
 	public void push(E obj) {

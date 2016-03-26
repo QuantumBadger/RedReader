@@ -17,49 +17,89 @@
 
 package org.quantumbadger.redreader.reddit;
 
-import org.quantumbadger.redreader.reddit.prepared.RedditPreparedComment;
-import org.quantumbadger.redreader.reddit.prepared.RedditPreparedMoreComments;
+import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.view.ViewGroup;
+import org.quantumbadger.redreader.account.RedditAccountManager;
+import org.quantumbadger.redreader.adapters.GroupedRecyclerViewAdapter;
+import org.quantumbadger.redreader.common.RRThemeAttributes;
+import org.quantumbadger.redreader.fragments.CommentListingFragment;
+import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManagerVolatile;
+import org.quantumbadger.redreader.reddit.prepared.RedditRenderableComment;
+import org.quantumbadger.redreader.reddit.things.RedditMoreComments;
+import org.quantumbadger.redreader.reddit.url.RedditURLParser;
+import org.quantumbadger.redreader.views.LoadMoreCommentsView;
+import org.quantumbadger.redreader.views.RedditCommentView;
 
-public class RedditCommentListItem {
+public class RedditCommentListItem extends GroupedRecyclerViewAdapter.Item {
 
-	public static enum Type {
+	public enum Type {
 		COMMENT, LOAD_MORE
 	}
 
 	private final Type mType;
-	private final RedditCommentListItem mParent;
+
 	private final int mIndent;
+	private final RedditCommentListItem mParent;
+	private final CommentListingFragment mFragment;
+	private final AppCompatActivity mActivity;
+	private final RedditURLParser.RedditURL mCommentListingUrl;
 
-	private final RedditPreparedComment mComment;
+	private final RedditRenderableComment mComment;
+	private final RedditMoreComments mMoreComments;
 
-	private final RedditPreparedMoreComments mMoreComments;
+	private final RedditChangeDataManagerVolatile mChangeDataManager;
 
-	public RedditCommentListItem(final RedditCommentListItem parent, final RedditPreparedComment comment) {
+	public RedditCommentListItem(
+			final RedditRenderableComment comment,
+			final RedditCommentListItem parent,
+			final CommentListingFragment fragment,
+			final AppCompatActivity activity,
+			final RedditURLParser.RedditURL commentListingUrl) {
+
 		mParent = parent;
-		mIndent = computeIndent(parent);
+		mFragment = fragment;
+		mActivity = activity;
+		mCommentListingUrl = commentListingUrl;
 		mType = Type.COMMENT;
 		mComment = comment;
 		mMoreComments = null;
+
+		if(parent == null) {
+			mIndent = 0;
+		} else {
+			mIndent = parent.getIndent() + 1;
+		}
+
+		mChangeDataManager = RedditChangeDataManagerVolatile.getInstance(
+				RedditAccountManager.getInstance(activity).getDefaultAccount());
 	}
 
-	public RedditCommentListItem(final RedditCommentListItem parent, final RedditPreparedMoreComments moreComments) {
+	public RedditCommentListItem(
+			final RedditMoreComments moreComments,
+			final RedditCommentListItem parent,
+			final CommentListingFragment fragment,
+			final AppCompatActivity activity,
+			final RedditURLParser.RedditURL commentListingUrl) {
+
 		mParent = parent;
-		mIndent = computeIndent(parent);
+		mFragment = fragment;
+		mActivity = activity;
+		mCommentListingUrl = commentListingUrl;
 		mType = Type.LOAD_MORE;
 		mComment = null;
 		mMoreComments = moreComments;
-	}
 
-	private static int computeIndent(RedditCommentListItem parent) {
 		if(parent == null) {
-			return 0;
+			mIndent = 0;
 		} else {
-			return parent.getIndent() + 1;
+			mIndent = parent.getIndent() + 1;
 		}
-	}
 
-	public int getIndent() {
-		return mIndent;
+		mChangeDataManager = RedditChangeDataManagerVolatile.getInstance(
+				RedditAccountManager.getInstance(activity).getDefaultAccount());
 	}
 
 	public boolean isComment() {
@@ -70,19 +110,106 @@ public class RedditCommentListItem {
 		return mType == Type.LOAD_MORE;
 	}
 
-	public RedditPreparedComment asComment() {
+	public RedditRenderableComment asComment() {
+
+		if(!isComment()) {
+			throw new RuntimeException("Called asComment() on non-comment item");
+		}
+
 		return mComment;
 	}
 
-	public RedditPreparedMoreComments asLoadMore() {
+	public RedditMoreComments asLoadMore() {
+
+		if(!isLoadMore()) {
+			throw new RuntimeException("Called asLoadMore() on non-load-more item");
+		}
+
 		return mMoreComments;
 	}
 
-	public boolean isVisible() {
-		return (mParent == null) || (!mParent.isCollapsed() && mParent.isVisible());
+	public int getIndent() {
+		return mIndent;
 	}
 
-	public boolean isCollapsed() {
-		return mType == Type.COMMENT && mComment.isCollapsed();
+	public RedditCommentListItem getParent() {
+		return mParent;
 	}
+
+	public boolean isCollapsed(final RedditChangeDataManagerVolatile changeDataManager) {
+
+		if(!isComment()) {
+			return false;
+		}
+
+		return mComment.isCollapsed(changeDataManager);
+
+	}
+
+	public boolean isHidden(final RedditChangeDataManagerVolatile changeDataManager) {
+
+		if(mParent != null) {
+			return mParent.isCollapsed(changeDataManager) || mParent.isHidden(changeDataManager);
+		}
+
+		return false;
+	}
+
+	@Override
+	public Class getViewType() {
+
+		if(isComment()) {
+			return RedditCommentView.class;
+		}
+
+		if(isLoadMore()) {
+			return LoadMoreCommentsView.class;
+		}
+
+		throw new RuntimeException("Unknown item type");
+	}
+
+	@Override
+	public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup viewGroup) {
+
+		final Context context = viewGroup.getContext();
+		final View view;
+
+		if(isComment()) {
+			view = new RedditCommentView(
+					context,
+					new RRThemeAttributes(context),
+					mFragment);
+
+		} else if(isLoadMore()) {
+			view = new LoadMoreCommentsView(
+					context,
+					mCommentListingUrl);
+
+		} else {
+			throw new RuntimeException("Unknown item type");
+		}
+
+		return new RecyclerView.ViewHolder(view) {};
+	}
+
+	@Override
+	public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder) {
+
+		if(isComment()) {
+			((RedditCommentView)viewHolder.itemView).reset(mActivity, this);
+
+		} else if(isLoadMore()) {
+			((LoadMoreCommentsView)viewHolder.itemView).reset(this);
+
+		} else {
+			throw new RuntimeException("Unknown item type");
+		}
+	}
+
+	@Override
+	public boolean isHidden() {
+		return isHidden(mChangeDataManager);
+	}
+
 }

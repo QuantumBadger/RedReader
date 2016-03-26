@@ -17,9 +17,9 @@
 
 package org.quantumbadger.redreader.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.LinearLayout;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.image.ImageInfo;
@@ -43,7 +43,7 @@ public final class ImageInfoDialog extends PropertiesDialog {
 	}
 
 	@Override
-	protected void prepare(Activity context, LinearLayout items) {
+	protected void prepare(AppCompatActivity context, LinearLayout items) {
 
 		final ImageInfo info = getArguments().getParcelable("info");
 

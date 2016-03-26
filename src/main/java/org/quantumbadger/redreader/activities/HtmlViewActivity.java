@@ -34,10 +34,10 @@ public class HtmlViewActivity extends BaseActivity {
 
 		PrefsUtility.applyTheme(this);
 
-		getActionBar().setHomeButtonEnabled(true);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-
 		super.onCreate(savedInstanceState);
+
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		final Intent intent = getIntent();
 
@@ -53,7 +53,7 @@ public class HtmlViewActivity extends BaseActivity {
 
 		setContentView(View.inflate(this, R.layout.main_single, null));
 
-		getFragmentManager().beginTransaction().add(R.id.main_single_frame, webView).commit();
+		getSupportFragmentManager().beginTransaction().add(R.id.main_single_frame, webView).commit();
 	}
 
 	@Override

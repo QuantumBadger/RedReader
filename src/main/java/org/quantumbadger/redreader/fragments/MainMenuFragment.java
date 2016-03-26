@@ -17,8 +17,9 @@
 
 package org.quantumbadger.redreader.fragments;
 
-import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -45,63 +46,52 @@ import java.util.HashSet;
 
 public class MainMenuFragment extends RRFragment implements MainMenuSelectionListener, RedditSubredditSubscriptionManager.SubredditSubscriptionStateChangeListener {
 
-	private MainMenuAdapter adapter;
+	private final MainMenuAdapter mAdapter;
 
-	private LinearLayout notifications;
-	private LoadingView loadingView;
+	private final LinearLayout mNotifications;
+	private final LoadingView mLoadingView;
 
-	private final Context context;
+	private final LinearLayout mOuter;
 
-	private final boolean force;
+	public MainMenuFragment(
+			final AppCompatActivity parent,
+			final Bundle savedInstanceState,
+			final boolean force) {
 
-	public MainMenuFragment(final Activity parent, final boolean force) {
-		super(parent);
-		context = parent;
-		this.force = force;
-	}
-
-	public enum MainMenuAction {
-		FRONTPAGE, PROFILE, INBOX, SUBMITTED, UPVOTED, DOWNVOTED, SAVED, MODMAIL, HIDDEN, CUSTOM, ALL
-	}
-
-	public enum MainMenuUserItems {
-		PROFILE, INBOX, SUBMITTED, SAVED, HIDDEN, UPVOTED, DOWNVOTED, MODMAIL
-	}
-
-	@Override
-	public View onCreateView() {
+		super(parent, savedInstanceState);
+		final Context context = getActivity();
 
 		final RedditAccount user = RedditAccountManager.getInstance(context).getDefaultAccount();
 
-		final LinearLayout outer = new LinearLayout(context);
-		outer.setOrientation(LinearLayout.VERTICAL);
+		mOuter = new LinearLayout(context);
+		mOuter.setOrientation(LinearLayout.VERTICAL);
 
-		notifications = new LinearLayout(context);
-		notifications.setOrientation(LinearLayout.VERTICAL);
+		mNotifications = new LinearLayout(context);
+		mNotifications.setOrientation(LinearLayout.VERTICAL);
 
-		loadingView = new LoadingView(context, R.string.download_waiting, true, true);
+		mLoadingView = new LoadingView(context, R.string.download_waiting, true, true);
 
 		final ListView lv = new ListView(context);
 		lv.setDivider(null);
 
-		lv.addFooterView(notifications);
+		lv.addFooterView(mNotifications);
 
 		final int paddingPx = General.dpToPixels(context, 8);
 		lv.setPadding(paddingPx, 0, paddingPx, 0);
 
-		adapter = new MainMenuAdapter(context, user, this);
-		lv.setAdapter(adapter);
+		mAdapter = new MainMenuAdapter(context, user, this);
+		lv.setAdapter(mAdapter);
 
 		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			public void onItemClick(final AdapterView<?> adapterView, final View view, final int position, final long id) {
-				adapter.clickOn(position);
+				mAdapter.clickOn(position);
 			}
 		});
 
 		AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 			public void run() {
-				notifications.addView(loadingView);
-				loadingView.setIndeterminate(R.string.download_subreddits);
+				mNotifications.addView(mLoadingView);
+				mLoadingView.setIndeterminate(R.string.download_subreddits);
 			}
 		});
 
@@ -131,22 +121,38 @@ public class MainMenuFragment extends RRFragment implements MainMenuSelectionLis
 			}
 		}
 
-		outer.addView(lv);
+		mOuter.addView(lv);
 		lv.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+	}
 
-		return outer;
+	public enum MainMenuAction {
+		FRONTPAGE, PROFILE, INBOX, SUBMITTED, UPVOTED, DOWNVOTED, SAVED, MODMAIL, HIDDEN, CUSTOM, ALL
+	}
+
+	public enum MainMenuUserItems {
+		PROFILE, INBOX, SUBMITTED, SAVED, HIDDEN, UPVOTED, DOWNVOTED, MODMAIL
+	}
+
+	@Override
+	public View getView() {
+		return mOuter;
+	}
+
+	@Override
+	public Bundle onSaveInstanceState() {
+		return null;
 	}
 
 	public void onSubscriptionsChanged(final Collection<String> subscriptions) {
-		adapter.setSubreddits(subscriptions);
-		if(loadingView != null) loadingView.setDone(R.string.download_done);
+		mAdapter.setSubreddits(subscriptions);
+		mLoadingView.setDone(R.string.download_done);
 	}
 
 	private void onError(final RRError error) {
-		if(loadingView != null) loadingView.setDone(R.string.download_failed);
+		mLoadingView.setDone(R.string.download_failed);
 		AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 			public void run() {
-				notifications.addView(new ErrorView(getActivity(), error));
+				mNotifications.addView(new ErrorView(getActivity(), error));
 			}
 		});
 	}

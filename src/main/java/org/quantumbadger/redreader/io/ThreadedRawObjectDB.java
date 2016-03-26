@@ -58,7 +58,7 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 			final ArrayList<V> values;
 
 			synchronized(toWrite) {
-				values = new ArrayList<V>(toWrite.values());
+				values = new ArrayList<>(toWrite.values());
 				toWrite.clear();
 			}
 

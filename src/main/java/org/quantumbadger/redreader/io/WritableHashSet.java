@@ -75,7 +75,7 @@ public class WritableHashSet implements WritableObject<String> {
 
 	public synchronized HashSet<String> toHashset() {
 		if(hashSet != null) return hashSet;
-		return (hashSet = new HashSet<String>(escapedStringToList(serialised)));
+		return (hashSet = new HashSet<>(escapedStringToList(serialised)));
 	}
 
 	public String getKey() {

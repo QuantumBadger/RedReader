@@ -17,9 +17,9 @@
 
 package org.quantumbadger.redreader.reddit.prepared.markdown;
 
-import android.app.Activity;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -52,7 +52,7 @@ public final class MarkdownParagraph {
 			this.url = url;
 		}
 
-		public void onClicked(Activity activity) {
+		public void onClicked(AppCompatActivity activity) {
 			LinkHandler.onLinkClicked(activity, url, false);
 		}
 	}
@@ -66,7 +66,7 @@ public final class MarkdownParagraph {
 		this.level = level;
 		this.number = number;
 
-		links = new ArrayList<Link>();
+		links = new ArrayList<>();
 		spanned = internalGenerateSpanned();
 
 		if(tokens == null && raw != null) raw.replaceUnicodeSpaces();

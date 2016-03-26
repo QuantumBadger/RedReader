@@ -17,13 +17,13 @@
 
 package org.quantumbadger.redreader.fragments;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDialogFragment;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -39,9 +39,9 @@ import org.quantumbadger.redreader.common.General;
 import java.net.URI;
 import java.util.UUID;
 
-public class SessionListDialog extends DialogFragment implements RedditAccountChangeListener {
+public class SessionListDialog extends AppCompatDialogFragment implements RedditAccountChangeListener {
 
-	private Activity mActivity;
+	private AppCompatActivity mActivity;
 
 	private URI url;
 	private UUID current;
@@ -89,7 +89,7 @@ public class SessionListDialog extends DialogFragment implements RedditAccountCh
 
 		super.onCreateDialog(savedInstanceState);
 
-		mActivity = getActivity();
+		mActivity = (AppCompatActivity)getActivity();
 
 		final AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
 		builder.setTitle(mActivity.getString(R.string.options_past));

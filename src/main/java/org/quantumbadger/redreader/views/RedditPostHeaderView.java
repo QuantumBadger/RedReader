@@ -21,10 +21,13 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.BetterSSB;
+import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 
@@ -34,12 +37,12 @@ public class RedditPostHeaderView extends LinearLayout {
 
 	private final TextView subtitle;
 
-	public RedditPostHeaderView(final Context context, final RedditPreparedPost post) {
+	public RedditPostHeaderView(final AppCompatActivity activity, final RedditPreparedPost post) {
 
-		super(context);
+		super(activity);
 		this.post = post;
 
-		final float dpScale = context.getResources().getDisplayMetrics().density;
+		final float dpScale = activity.getResources().getDisplayMetrics().density;
 
 		setOrientation(LinearLayout.VERTICAL);
 
@@ -48,23 +51,40 @@ public class RedditPostHeaderView extends LinearLayout {
 
 		setPadding(sidesPadding, topPadding, sidesPadding, topPadding);
 
-		final Typeface tf = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Light.ttf");
+		final Typeface tf = Typeface.createFromAsset(activity.getAssets(), "fonts/Roboto-Light.ttf");
 
-		final TextView title = new TextView(context);
+		final TextView title = new TextView(activity);
 		title.setTextSize(19.0f);
 		title.setTypeface(tf);
-		title.setText(post.title);
+		title.setText(post.src.getTitle());
 		title.setTextColor(Color.WHITE);
 		addView(title);
 
-		subtitle = new TextView(context);
+		subtitle = new TextView(activity);
 		subtitle.setTextSize(13.0f);
-		rebuildSubtitle(context);
+		rebuildSubtitle(activity);
 
 		subtitle.setTextColor(Color.rgb(200, 200, 200));
 		addView(subtitle);
 
 		setBackgroundColor(Color.rgb(50, 50, 50)); // TODO color
+
+		setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+				if(!post.isSelf()) {
+					LinkHandler.onLinkClicked(activity, post.src.getUrl(), false, post.src.getSrc());
+				}
+			}
+		});
+
+		setOnLongClickListener(new OnLongClickListener() {
+			@Override
+			public boolean onLongClick(final View v) {
+				RedditPreparedPost.showActionMenu(activity, post);
+				return true;
+			}
+		});
 	}
 
 	private void rebuildSubtitle(Context context) {
@@ -100,21 +120,21 @@ public class RedditPostHeaderView extends LinearLayout {
 			pointsCol = boldCol;
 		}
 
-		if(post.src.over_18) {
+		if(post.src.isNsfw()) {
 			postListDescSb.append(" NSFW ", BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR | BetterSSB.BACKGROUND_COLOR,
 					Color.WHITE, Color.RED, 1f); // TODO color?
 			postListDescSb.append("  ", 0);
 		}
 
-		postListDescSb.append(String.valueOf(post.src.score), BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, pointsCol, 0, 1f);
+		postListDescSb.append(String.valueOf(post.computeScore()), BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, pointsCol, 0, 1f);
 		postListDescSb.append(" " + context.getString(R.string.subtitle_points) + " ", 0);
-		postListDescSb.append(RRTime.formatDurationFrom(context, post.src.created_utc * 1000), BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, boldCol, 0, 1f);
+		postListDescSb.append(RRTime.formatDurationFrom(context, post.src.getCreatedTimeSecsUTC() * 1000), BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, boldCol, 0, 1f);
 		postListDescSb.append(" " + context.getString(R.string.subtitle_by) + " ", 0);
-		postListDescSb.append(post.src.author, BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, boldCol, 0, 1f);
+		postListDescSb.append(post.src.getAuthor(), BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, boldCol, 0, 1f);
 		postListDescSb.append(" " + context.getString(R.string.subtitle_to) + " ", 0);
-		postListDescSb.append(post.src.subreddit, BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, boldCol, 0, 1f);
+		postListDescSb.append(post.src.getSubreddit(), BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, boldCol, 0, 1f);
 
-		postListDescSb.append(" (" + post.src.domain + ")", 0);
+		postListDescSb.append(" (" + post.src.getDomain() + ")", 0);
 
 		subtitle.setText(postListDescSb.get());
 	}

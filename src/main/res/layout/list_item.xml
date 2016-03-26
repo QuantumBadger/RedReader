@@ -28,8 +28,6 @@
           android:minHeight="1dp"
           android:background="?rrListDividerCol"/>
 
-    <!-- TODO add right arrow drawable to some main menu items -->
-
     <LinearLayout android:layout_height="wrap_content"
                   android:layout_width="match_parent"
                   android:orientation="horizontal"
@@ -50,7 +48,8 @@
                   android:gravity="center_vertical"
                   android:layout_margin="0dp"
                   android:paddingTop="12dp"
-                  android:paddingBottom="12dp"/>
+                  android:paddingBottom="12dp"
+                  android:textColor="?android:textColorPrimary" />
 
     </LinearLayout>
 

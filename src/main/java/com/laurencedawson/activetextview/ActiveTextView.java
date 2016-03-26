@@ -23,12 +23,7 @@
 package com.laurencedawson.activetextview;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
+import android.support.v7.app.AppCompatActivity;
 import android.text.*;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
@@ -39,14 +34,13 @@ import android.view.View;
 import android.view.ViewParent;
 import android.widget.Button;
 import android.widget.TextView;
-import org.quantumbadger.redreader.common.AndroidApi;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.views.RedditCommentView;
 import org.quantumbadger.redreader.views.RedditInboxItemView;
 
 public class ActiveTextView extends TextView {
 
-	public ActiveTextView(final Activity activity) {
+	public ActiveTextView(final AppCompatActivity activity) {
 		super(activity);
 		setup(activity);
 	}
@@ -62,7 +56,7 @@ public class ActiveTextView extends TextView {
 		this.attachment = attachment;
 	}
 
-	private void setup(final Activity activity) {
+	private void setup(final AppCompatActivity activity) {
 
 		mSpannable = new SpannableStringBuilder();
 
@@ -132,63 +126,27 @@ public class ActiveTextView extends TextView {
 		setFocusable(false);
 		setClickable(false);
 
-// If a long press is detected, cancel the potential opening of a link
+		// If a long press is detected, cancel the potential opening of a link
 		setOnLongClickListener(new OnLongClickListener() {
 
 			@SuppressLint("NewApi")
 			public boolean onLongClick(View v) {
 
-				if(mLongPressedLinkListener != null) {
-					if(isLinkPending()) {
-// Create the dialog
-						AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-						builder.setItems(
+				cancelLink();
 
-								mDisplayMinLongPress ?
-										new String[]{"Open in browser", "Copy link address", "Share link"} // TODO strings
-										: new String[]{"Open in browser", "Copy link address", "Share link", "Long press parent"},
+				final ViewParent redditView = findRedditView();
 
-								new DialogInterface.OnClickListener() {
-									@SuppressWarnings("deprecation")
-									public void onClick(DialogInterface dialog, int item) {
-										if(item == 0) {
-											Intent i = new Intent(Intent.ACTION_VIEW);
-											i.setData(Uri.parse(mUrl));
-											getContext().startActivity(i);
-										} else if(item == 1) {
-											if(AndroidApi.isHoneyCombOrLater()) {
-												android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-												android.content.ClipData clip = android.content.ClipData.newPlainText("Link", mUrl);
-												clipboard.setPrimaryClip(clip);
-											} else {
-												android.text.ClipboardManager clipboard = (android.text.ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-												clipboard.setText(mUrl);
-											}
-										} else if(item == 2) {
-											Intent share = new Intent(android.content.Intent.ACTION_SEND);
-											share.putExtra(android.content.Intent.EXTRA_SUBJECT, mUrl);
-											share.putExtra(android.content.Intent.EXTRA_TEXT, mUrl);
-											share.setType("text/plain");
-											getContext().startActivity(Intent.createChooser(share, "Share"));
-										} else if(item == 3) {
-											mLongPressedLinkListener.onLongPressed();
-										}
-									}
-								});
+				if(redditView != null) {
 
-						final AlertDialog alert = builder.create();
-						alert.setTitle(mUrl);
-						alert.setCanceledOnTouchOutside(true);
-						alert.show();
-					} else
-						mLongPressedLinkListener.onLongPressed();
+					if(redditView instanceof RedditCommentView) {
+						((RedditCommentView)redditView).notifyLongClick();
 
-					cancelLink();
-					return true;
-				} else {
-					cancelLink();
-					return false;
+					} else {
+						((RedditInboxItemView)redditView).handleInboxLongClick(activity);
+					}
 				}
+
+				return true;
 			}
 		});
 
@@ -198,11 +156,7 @@ public class ActiveTextView extends TextView {
 				if(!isLinkPending()) {
 					if(mListener != null) mListener.onClickText(attachment);
 
-					ViewParent redditView = getParent();
-					while(redditView != null
-							&& !(redditView instanceof RedditCommentView || redditView instanceof RedditInboxItemView)) {
-						redditView = redditView.getParent();
-					}
+					final ViewParent redditView = findRedditView();
 
 					if(redditView != null) {
 
@@ -218,6 +172,18 @@ public class ActiveTextView extends TextView {
 				cancelLink();
 			}
 		});
+	}
+
+	private ViewParent findRedditView() {
+
+		ViewParent redditView = getParent();
+
+		while(redditView != null
+				&& !(redditView instanceof RedditCommentView || redditView instanceof RedditInboxItemView)) {
+			redditView = redditView.getParent();
+		}
+
+		return redditView;
 	}
 
 	private boolean isLinkPending() {
@@ -312,26 +278,5 @@ public class ActiveTextView extends TextView {
 	// Called when a link in long clicked
 	public interface OnLongPressedLinkListener {
 		void onLongPressed();
-	}
-
-	/**
-	 * Set a link click listener, this is called when a user clicks on a link
-	 *
-	 * @param clickListener The click listener to call when a link is clicked
-	 */
-	public void setLinkClickedListener(OnLinkClickedListener clickListener) {
-		this.mListener = clickListener;
-	}
-
-	/**
-	 * Set a long press listener, this is called when a user long presses on a link
-	 * a small submenu with a few options is then displayed
-	 *
-	 * @param longPressedLinkListener Sets the long press listener to call when "Long press parent" is called
-	 * @param minDisplay              Enable a smaller submenu when long pressed (removes the option Long press parent)
-	 */
-	public void setLongPressedLinkListener(OnLongPressedLinkListener longPressedLinkListener, boolean minDisplay) {
-		this.mLongPressedLinkListener = longPressedLinkListener;
-		this.mDisplayMinLongPress = minDisplay;
 	}
 }

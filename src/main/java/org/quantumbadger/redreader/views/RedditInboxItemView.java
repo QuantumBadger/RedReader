@@ -17,33 +17,33 @@
 
 package org.quantumbadger.redreader.views;
 
-import android.app.Activity;
 import android.content.Context;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
-import org.quantumbadger.redreader.reddit.RedditPreparedInboxItem;
+import org.quantumbadger.redreader.common.RRThemeAttributes;
+import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManagerVolatile;
+import org.quantumbadger.redreader.reddit.prepared.RedditRenderableInboxItem;
 
 public class RedditInboxItemView extends LinearLayout {
 
 	private final TextView header;
 	private final FrameLayout bodyHolder;
 
-	private final int bodyCol;
-	private final float fontScale;
+	private final RRThemeAttributes mTheme;
 
 	private final boolean showLinkButtons;
 
-	private RedditPreparedInboxItem currentItem = null;
+	private RedditRenderableInboxItem currentItem = null;
 
-	public RedditInboxItemView(final Context context, final int headerCol, final int bodyCol) {
+	public RedditInboxItemView(final Context context, final RRThemeAttributes theme) {
 
 		super(context);
-		this.bodyCol = bodyCol;
-		fontScale = PrefsUtility.appearance_fontscale_inbox(context, PreferenceManager.getDefaultSharedPreferences(context));
+		mTheme = theme;
 
 		setOrientation(HORIZONTAL);
 
@@ -51,8 +51,8 @@ public class RedditInboxItemView extends LinearLayout {
 		main.setOrientation(VERTICAL);
 
 		header = new TextView(context);
-		header.setTextSize(11.0f * fontScale);
-		header.setTextColor(headerCol);
+		header.setTextSize(11.0f * theme.rrCommentFontScale);
+		header.setTextColor(theme.rrCommentHeaderCol);
 		main.addView(header);
 
 		bodyHolder = new FrameLayout(context);
@@ -69,17 +69,29 @@ public class RedditInboxItemView extends LinearLayout {
 		addView(main);
 	}
 
-	public void reset(final Activity context, final RedditPreparedInboxItem item) {
+	public void reset(
+			final AppCompatActivity context,
+			final RedditChangeDataManagerVolatile changeDataManager,
+			final RRThemeAttributes theme,
+			final RedditRenderableInboxItem item) {
 
 		currentItem = item;
 
-		header.setText(item.getHeader());
+		header.setText(item.getHeader(theme, changeDataManager, context));
 
 		bodyHolder.removeAllViews();
-		bodyHolder.addView(item.getBody(context, 13.0f * fontScale, bodyCol, showLinkButtons));
+		bodyHolder.addView(item.getBody(
+				context,
+				mTheme.rrCommentBodyCol,
+				13.0f * mTheme.rrCommentFontScale,
+				showLinkButtons));
 	}
 
-	public void handleInboxClick(Activity activity) {
+	public void handleInboxClick(AppCompatActivity activity) {
 		if(currentItem != null) currentItem.handleInboxClick(activity);
+	}
+
+	public void handleInboxLongClick(AppCompatActivity activity) {
+		if(currentItem != null) currentItem.handleInboxLongClick(activity);
 	}
 }

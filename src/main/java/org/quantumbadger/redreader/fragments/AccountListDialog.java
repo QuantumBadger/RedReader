@@ -17,12 +17,16 @@
 
 package org.quantumbadger.redreader.fragments;
 
-import android.app.*;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDialogFragment;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -40,10 +44,10 @@ import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class AccountListDialog extends DialogFragment
+public class AccountListDialog extends AppCompatDialogFragment
 		implements RedditAccountChangeListener {
 
-	private Activity mActivity;
+	private AppCompatActivity mActivity;
 
 	// Workaround for HoloEverywhere bug?
 	private volatile boolean alreadyCreated = false;
@@ -137,7 +141,7 @@ public class AccountListDialog extends DialogFragment
 		if(alreadyCreated) return getDialog();
 		alreadyCreated = true;
 
-		mActivity = getActivity();
+		mActivity = (AppCompatActivity)getActivity();
 
 		final AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
 		builder.setTitle(mActivity.getString(R.string.options_accounts_long));

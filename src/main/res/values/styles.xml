@@ -16,26 +16,18 @@
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
-    <style name="RR.Dark.ActionBarStyle" parent="@android:style/Widget.Holo.ActionBar"  tools:targetApi="11">
+    <style name="RR.Startup.ActionBarStyle" parent="@style/Widget.AppCompat.ActionBar">
         <item name="android:background">?rrActionBarCol</item>
-        <item name="android:displayOptions">showTitle</item>
     </style>
 
-    <style name="RR.Startup.ActionBarStyle" parent="@android:style/Widget.Holo.ActionBar"  tools:targetApi="11">
-        <item name="android:background">?rrActionBarCol</item>
-        <item name="android:displayOptions">showTitle</item>
-    </style>
-
-    <style name="RR.Light.ActionBarStyle" parent="@android:style/Widget.Holo.ActionBar"  tools:targetApi="11">
-        <item name="android:background">?rrActionBarCol</item>
-        <item name="android:titleTextStyle"  tools:targetApi="14">@android:style/TextAppearance.Holo.Widget.ActionBar.Title.Inverse</item>
-        <item name="android:displayOptions">showTitle</item>
-    </style>
-
-    <style name="RR.ActionButton.Overflow" parent="@android:style/Widget.Holo.ActionButton.Overflow"  tools:targetApi="11">
-        <item name="android:src">@drawable/ic_action_overflow</item>
+    <style name="RR.Base.Widget.AppCompat.ActionButton.Overflow" parent="RtlUnderlay.Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:src">@drawable/abc_ic_menu_moreoverflow_mtrl_alpha</item>
+        <item name="android:background">?attr/actionBarItemBackground</item>
+        <item name="android:contentDescription">@string/abc_action_menu_overflow_description</item>
+        <item name="android:minWidth">48dp</item>
+        <item name="android:minHeight">@dimen/abc_action_button_min_height_material</item>
     </style>
 
 </resources>

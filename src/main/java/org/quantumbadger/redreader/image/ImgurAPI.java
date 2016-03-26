@@ -48,7 +48,7 @@ public final class ImgurAPI {
 			this.id = id;
 			this.title = title;
 			this.description = description;
-			this.images = new ArrayList<ImageInfo>(images);
+			this.images = new ArrayList<>(images);
 		}
 
 		public static AlbumInfo parse(final String id, final JsonBufferedObject object)

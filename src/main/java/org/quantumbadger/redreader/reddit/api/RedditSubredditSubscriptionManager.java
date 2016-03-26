@@ -17,8 +17,8 @@
 
 package org.quantumbadger.redreader.reddit.api;
 
-import android.app.Activity;
 import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -41,7 +41,7 @@ public class RedditSubredditSubscriptionManager {
 
 	private final SubredditSubscriptionStateChangeNotifier notifier = new SubredditSubscriptionStateChangeNotifier();
 	private final WeakReferenceListManager<SubredditSubscriptionStateChangeListener> listeners
-			= new WeakReferenceListManager<SubredditSubscriptionStateChangeListener>();
+			= new WeakReferenceListManager<>();
 
 	private static RedditSubredditSubscriptionManager singleton;
 	private static RedditAccount singletonAccount;
@@ -57,7 +57,7 @@ public class RedditSubredditSubscriptionManager {
 	public static synchronized RedditSubredditSubscriptionManager getSingleton(final Context context, final RedditAccount account) {
 
 		if(db == null) {
-			db = new RawObjectDB<String, WritableHashSet>(context, "rr_subscriptions.db", WritableHashSet.class);
+			db = new RawObjectDB<>(context, "rr_subscriptions.db", WritableHashSet.class);
 		}
 
 		if(singleton == null || !account.equals(RedditSubredditSubscriptionManager.singletonAccount)) {
@@ -136,7 +136,7 @@ public class RedditSubredditSubscriptionManager {
 	}
 
 	public synchronized ArrayList<String> getSubscriptionList() {
-		return new ArrayList<String>(subscriptions.toHashset());
+		return new ArrayList<>(subscriptions.toHashset());
 	}
 
 	public void triggerUpdate(final RequestResponseHandler<HashSet<String>, SubredditRequestFailure> handler, TimestampBound timestampBound) {
@@ -167,7 +167,7 @@ public class RedditSubredditSubscriptionManager {
 
 	}
 
-	public void subscribe(final String subredditCanonicalId, final Activity activity) {
+	public void subscribe(final String subredditCanonicalId, final AppCompatActivity activity) {
 
 		RedditAPI.action(
 				CacheManager.getInstance(context),
@@ -181,7 +181,7 @@ public class RedditSubredditSubscriptionManager {
 		onSubscriptionAttempt(subredditCanonicalId);
 	}
 
-	public void unsubscribe(final String subredditCanonicalId, final Activity activity) {
+	public void unsubscribe(final String subredditCanonicalId, final AppCompatActivity activity) {
 
 		RedditAPI.action(
 				CacheManager.getInstance(context),
@@ -198,10 +198,10 @@ public class RedditSubredditSubscriptionManager {
 	private class SubredditActionResponseHandler extends APIResponseHandler.ActionResponseHandler {
 
 		private final RedditAPI.RedditSubredditAction action;
-		private final Activity activity;
+		private final AppCompatActivity activity;
 		private final String canonicalName;
 
-		protected SubredditActionResponseHandler(Activity activity,
+		protected SubredditActionResponseHandler(AppCompatActivity activity,
 												 RedditAPI.RedditSubredditAction action,
 												 String canonicalName) {
 			super(activity);

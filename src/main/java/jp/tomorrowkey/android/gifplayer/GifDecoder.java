@@ -359,7 +359,7 @@ public class GifDecoder {
 	protected void init() {
 		status = STATUS_OK;
 		frameCount = 0;
-		frames = new Vector<GifFrame>();
+		frames = new Vector<>();
 		gct = null;
 		lct = null;
 	}

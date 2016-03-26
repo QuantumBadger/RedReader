@@ -17,7 +17,7 @@
 
 package org.quantumbadger.redreader.reddit;
 
-import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.RRError;
@@ -28,13 +28,13 @@ import java.util.List;
 
 public abstract class APIResponseHandler {
 
-	protected final Activity context;
+	protected final AppCompatActivity context;
 
 	public enum APIFailureType {
 		INVALID_USER, BAD_CAPTCHA, NOTALLOWED, SUBREDDIT_REQUIRED, URL_REQUIRED, UNKNOWN, TOO_FAST
 	}
 
-	private APIResponseHandler(Activity context) {
+	private APIResponseHandler(AppCompatActivity context) {
 		this.context = context;
 	}
 
@@ -71,7 +71,7 @@ public abstract class APIResponseHandler {
 
 	public static abstract class ActionResponseHandler extends APIResponseHandler {
 
-		protected ActionResponseHandler(Activity context) {
+		protected ActionResponseHandler(AppCompatActivity context) {
 			super(context);
 		}
 
@@ -93,7 +93,7 @@ public abstract class APIResponseHandler {
 
 	public static abstract class NewCaptchaResponseHandler extends APIResponseHandler {
 
-		protected NewCaptchaResponseHandler(Activity context) {
+		protected NewCaptchaResponseHandler(AppCompatActivity context) {
 			super(context);
 		}
 
@@ -115,7 +115,7 @@ public abstract class APIResponseHandler {
 
 	public static abstract class SubredditResponseHandler extends APIResponseHandler {
 
-		protected SubredditResponseHandler(Activity context) {
+		protected SubredditResponseHandler(AppCompatActivity context) {
 			super(context);
 		}
 
@@ -165,7 +165,7 @@ public abstract class APIResponseHandler {
 
 	public static abstract class UserResponseHandler extends APIResponseHandler {
 
-		protected UserResponseHandler(Activity context) {
+		protected UserResponseHandler(AppCompatActivity context) {
 			super(context);
 		}
 

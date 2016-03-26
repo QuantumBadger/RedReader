@@ -17,15 +17,15 @@
 
 package org.quantumbadger.redreader.activities;
 
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.PrefsUtility;
 
-public class BaseActivity extends Activity implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class BaseActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
 	private SharedPreferences sharedPreferences;
 

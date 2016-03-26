@@ -102,8 +102,8 @@ public class PostSubmitActivity extends BaseActivity {
 			finish();
 		}
 
-		usernameSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, usernames));
-		typeSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, postTypes));
+		usernameSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, usernames));
+		typeSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, postTypes));
 
 		// TODO remove the duplicate code here
         setHint();
@@ -164,7 +164,7 @@ public class PostSubmitActivity extends BaseActivity {
 			startActivityForResult(captchaIntent, 0);
 
 		} else if(item.getTitle().equals(getString(R.string.comment_reply_preview))) {
-			MarkdownPreviewDialog.newInstance(textEdit.getText().toString()).show(getFragmentManager(), null);
+			MarkdownPreviewDialog.newInstance(textEdit.getText().toString()).show(getSupportFragmentManager(), null);
 		}
 
 		return true;

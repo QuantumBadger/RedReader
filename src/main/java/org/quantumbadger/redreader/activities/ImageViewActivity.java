@@ -41,6 +41,7 @@ import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.fragments.ImageInfoDialog;
 import org.quantumbadger.redreader.image.*;
+import org.quantumbadger.redreader.reddit.prepared.RedditParsedPost;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
@@ -274,9 +275,24 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 			}
 		});
 
-		final RedditPreparedPost post = mPost == null ? null
-				: new RedditPreparedPost(this, CacheManager.getInstance(this), 0, mPost, -1, false,
-				false, false, false, RedditAccountManager.getInstance(this).getDefaultAccount(), false);
+		final RedditPreparedPost post;
+
+		if(mPost != null) {
+
+			final RedditParsedPost parsedPost = new RedditParsedPost(mPost, false);
+
+			post = new RedditPreparedPost(
+					this,
+					CacheManager.getInstance(this),
+					0,
+					parsedPost,
+					-1,
+					false,
+					false);
+
+		} else {
+			post = null;
+		}
 
 		final FrameLayout outerFrame = new FrameLayout(this);
 		outerFrame.addView(mLayout);
@@ -299,7 +315,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 			ib.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(final View view) {
-					ImageInfoDialog.newInstance(mImageInfo).show(ImageViewActivity.this.getFragmentManager(), null);
+					ImageInfoDialog.newInstance(mImageInfo).show(ImageViewActivity.this.getSupportFragmentManager(), null);
 				}
 			});
 		}
@@ -630,11 +646,11 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 	}
 
 	public void onPostSelected(final RedditPreparedPost post) {
-		LinkHandler.onLinkClicked(this, post.url, false, post.src);
+		LinkHandler.onLinkClicked(this, post.src.getUrl(), false, post.src.getSrc());
 	}
 
 	public void onPostCommentsSelected(final RedditPreparedPost post) {
-		LinkHandler.onLinkClicked(this, PostCommentListingURL.forPostId(post.idAlone).generateJsonUri().toString(), false);
+		LinkHandler.onLinkClicked(this, PostCommentListingURL.forPostId(post.src.getIdAlone()).generateJsonUri().toString(), false);
 	}
 
 	@Override

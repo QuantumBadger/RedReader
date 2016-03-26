@@ -49,15 +49,15 @@ public class AlbumListingActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
-		super.onCreate(savedInstanceState);
-
 		PrefsUtility.applyTheme(this);
+
+		super.onCreate(savedInstanceState);
 
 		OptionsMenuUtility.fixActionBar(AlbumListingActivity.this, getString(R.string.imgur_album));
 
-		if(getActionBar() != null) {
-			getActionBar().setHomeButtonEnabled(true);
-			getActionBar().setDisplayHomeAsUpEnabled(true);
+		if(getSupportActionBar() != null) {
+			getSupportActionBar().setHomeButtonEnabled(true);
+			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		}
 
 		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);

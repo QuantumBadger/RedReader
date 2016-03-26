@@ -17,48 +17,43 @@
 
 package org.quantumbadger.redreader.adapters;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.res.TypedArray;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.reddit.RedditPreparedInboxItem;
+import org.quantumbadger.redreader.account.RedditAccountManager;
+import org.quantumbadger.redreader.common.RRThemeAttributes;
+import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManagerVolatile;
+import org.quantumbadger.redreader.reddit.prepared.RedditRenderableInboxItem;
 import org.quantumbadger.redreader.views.RedditInboxItemView;
 
 import java.util.ArrayList;
 
 public final class InboxListingAdapter extends BaseAdapter {
 
-	private final ArrayList<RedditPreparedInboxItem> items = new ArrayList<>(128);
+	private final ArrayList<RedditRenderableInboxItem> items = new ArrayList<>(128);
 
-	private final int rrCommentHeaderCol, rrCommentBodyCol;
+	private final AppCompatActivity mParentActivity;
+	private final RRThemeAttributes mTheme;
 
-	private final Activity parentActivity;
+	private final RedditChangeDataManagerVolatile mChangeDataManager;
 
-	public InboxListingAdapter(Context context, Activity parentActivity) {
+	public InboxListingAdapter(
+			final AppCompatActivity parentActivity,
+			final RRThemeAttributes theme) {
 
-		this.parentActivity = parentActivity;
+		mParentActivity = parentActivity;
+		mTheme = theme;
 
-		{
-			final TypedArray attr = context.obtainStyledAttributes(new int[]{
-					R.attr.rrCommentHeaderCol,
-					R.attr.rrCommentBodyCol
-			});
-
-			rrCommentHeaderCol = attr.getColor(0, 0);
-			rrCommentBodyCol = attr.getColor(1, 0);
-
-			attr.recycle();
-		}
+		mChangeDataManager = RedditChangeDataManagerVolatile.getInstance(
+				RedditAccountManager.getInstance(parentActivity).getDefaultAccount());
 	}
 
 	public int getCount() {
 		return items.size();
 	}
 
-	public RedditPreparedInboxItem getItem(final int i) {
+	public RedditRenderableInboxItem getItem(final int i) {
 		return items.get(i);
 	}
 
@@ -79,15 +74,19 @@ public final class InboxListingAdapter extends BaseAdapter {
 	public View getView(final int i, View convertView, final ViewGroup viewGroup) {
 
 		if(convertView == null) {
-			convertView = new RedditInboxItemView(viewGroup.getContext(), rrCommentHeaderCol, rrCommentBodyCol);
+			convertView = new RedditInboxItemView(viewGroup.getContext(), mTheme);
 		}
 
-		((RedditInboxItemView)convertView).reset(parentActivity, items.get(i));
+		((RedditInboxItemView)convertView).reset(
+				mParentActivity,
+				mChangeDataManager,
+				mTheme,
+				items.get(i));
 
 		return convertView;
 	}
 
-	public void addItem(final RedditPreparedInboxItem comment) {
+	public void addItem(final RedditRenderableInboxItem comment) {
 		items.add(comment);
 		notifyDataSetChanged();
 	}

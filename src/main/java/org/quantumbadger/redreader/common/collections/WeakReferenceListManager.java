@@ -1,20 +1,19 @@
 package org.quantumbadger.redreader.common.collections;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 
 public final class WeakReferenceListManager<E> {
 
-	// TODO avoid linked list here -- a new object is created for every Link<>
-	private final LinkedList<WeakReference<E>> data = new LinkedList<>();
+	private final ArrayList<WeakReference<E>> data = new ArrayList<>();
 
 	public synchronized int size() {
 		return data.size();
 	}
 
 	public synchronized void add(final E object) {
-		data.add(new WeakReference<E>(object));
+		data.add(new WeakReference<>(object));
 	}
 
 	public synchronized void map(final Operator<E> operator) {
@@ -55,11 +54,28 @@ public final class WeakReferenceListManager<E> {
 		}
 	}
 
-	public static interface Operator<E> {
-		public void operate(E object);
+	public synchronized void clean() {
+
+		final Iterator<WeakReference<E>> iterator = data.iterator();
+
+		while(iterator.hasNext()) {
+			final E object = iterator.next().get();
+
+			if(object == null) {
+				iterator.remove();
+			}
+		}
 	}
 
-	public static interface ArgOperator<E, A> {
-		public void operate(E object, A arg);
+	public synchronized boolean isEmpty() {
+		return data.isEmpty();
+	}
+
+	public interface Operator<E> {
+		void operate(E object);
+	}
+
+	public interface ArgOperator<E, A> {
+		void operate(E object, A arg);
 	}
 }

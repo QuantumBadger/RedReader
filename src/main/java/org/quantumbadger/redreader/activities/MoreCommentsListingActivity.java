@@ -40,7 +40,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -78,8 +77,8 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 
 		super.onCreate(savedInstanceState);
 
-		getActionBar().setHomeButtonEnabled(true);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		OptionsMenuUtility.fixActionBar(this, getString(R.string.app_name));
 
@@ -110,7 +109,7 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 				}
 			}
 
-			doRefresh(RefreshableFragment.COMMENTS, false);
+			doRefresh(RefreshableFragment.COMMENTS, false, null);
 
 		} else {
 			throw new RuntimeException("Nothing to show! (should load from bundle)"); // TODO
@@ -139,17 +138,18 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 	}
 
 	@Override
-	protected void doRefresh(final RefreshableFragment which, final boolean force) {
+	protected void doRefresh(final RefreshableFragment which, final boolean force, final Bundle savedInstanceState) {
 
 		mFragment = new CommentListingFragment(
 				this,
+				savedInstanceState,
 				mUrls,
 				null,
 				force ? CacheRequest.DownloadType.FORCE : CacheRequest.DownloadType.IF_NECESSARY);
 
 		mPane.removeAllViews();
-		mPane.addView(mFragment.onCreateView());
-		OptionsMenuUtility.fixActionBar(this, "More Comments"); // TODO string
+		mPane.addView(mFragment.getView());
+		getSupportActionBar().setTitle("More Comments");
 	}
 
 	public void onRefreshComments() {
@@ -179,33 +179,15 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 	}
 
 	public void onPostSelected(final RedditPreparedPost post) {
-		LinkHandler.onLinkClicked(this, post.url, false, post.src);
+		LinkHandler.onLinkClicked(this, post.src.getUrl(), false, post.src.getSrc());
 	}
 
 	public void onPostCommentsSelected(final RedditPreparedPost post) {
-		LinkHandler.onLinkClicked(this, PostCommentListingURL.forPostId(post.idAlone).toString(), false);
+		LinkHandler.onLinkClicked(this, PostCommentListingURL.forPostId(post.src.getIdAlone()).toString(), false);
 	}
 
 	@Override
 	public void onBackPressed() {
 		if(General.onBackPressed()) super.onBackPressed();
-	}
-
-	@Override
-	public void onCreateContextMenu(final ContextMenu menu, final View v, final ContextMenu.ContextMenuInfo menuInfo) {
-
-		if(mFragment != null) {
-			mFragment.onCreateContextMenu(menu, v, menuInfo);
-		}
-	}
-
-	@Override
-	public boolean onContextItemSelected(final MenuItem item) {
-
-		if(mFragment != null) {
-			mFragment.onContextItemSelected(item);
-		}
-
-		return super.onContextItemSelected(item);
 	}
 }

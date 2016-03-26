@@ -17,20 +17,16 @@
 
 package org.quantumbadger.redreader.activities;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.TypedArray;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.common.BetterSSB;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
 import org.quantumbadger.redreader.fragments.AccountListDialog;
@@ -226,7 +222,7 @@ public final class OptionsMenuUtility {
 			case ACCOUNTS:
 				menu.add(activity.getString(R.string.options_accounts)).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 					public boolean onMenuItemClick(final MenuItem item) {
-						new AccountListDialog().show(activity.getFragmentManager(), null);
+						new AccountListDialog().show(activity.getSupportFragmentManager(), null);
 						return true;
 					}
 				});
@@ -454,7 +450,7 @@ public final class OptionsMenuUtility {
 		}
 	}
 
-	private static void addAllPostSorts(final Activity activity, final Menu menu, final boolean icon) {
+	private static void addAllPostSorts(final AppCompatActivity activity, final Menu menu, final boolean icon) {
 
 		final SubMenu sortPosts = menu.addSubMenu(R.string.options_sort_posts);
 
@@ -478,7 +474,7 @@ public final class OptionsMenuUtility {
 		addSort(activity, sortPostsTop, R.string.sort_posts_top_all, PostListingController.Sort.TOP_ALL);
 	}
 
-	private static void addAllSearchSorts(final Activity activity, final Menu menu, final boolean icon) {
+	private static void addAllSearchSorts(final AppCompatActivity activity, final Menu menu, final boolean icon) {
 
 		final SubMenu sortPosts = menu.addSubMenu(R.string.options_sort_posts);
 
@@ -494,7 +490,7 @@ public final class OptionsMenuUtility {
 		addSort(activity, sortPosts, R.string.sort_posts_comments, PostListingController.Sort.COMMENTS);
 	}
 
-	private static void addSort(final Activity activity, final Menu menu, final int name, final PostListingController.Sort order) {
+	private static void addSort(final AppCompatActivity activity, final Menu menu, final int name, final PostListingController.Sort order) {
 
 		menu.add(activity.getString(name)).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 			public boolean onMenuItemClick(final MenuItem item) {
@@ -504,7 +500,7 @@ public final class OptionsMenuUtility {
 		});
 	}
 
-	private static void addAllCommentSorts(final Activity activity, final Menu menu, final boolean icon) {
+	private static void addAllCommentSorts(final AppCompatActivity activity, final Menu menu, final boolean icon) {
 
 		final SubMenu sortComments = menu.addSubMenu(R.string.options_sort_comments);
 
@@ -522,7 +518,7 @@ public final class OptionsMenuUtility {
 		addSort(activity, sortComments, R.string.sort_comments_qa, PostCommentListingURL.Sort.QA);
 	}
 
-	private static void addSort(final Activity activity, final Menu menu, final int name, final PostCommentListingURL.Sort order) {
+	private static void addSort(final AppCompatActivity activity, final Menu menu, final int name, final PostCommentListingURL.Sort order) {
 
 		menu.add(activity.getString(name)).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 			public boolean onMenuItemClick(final MenuItem item) {
@@ -553,23 +549,14 @@ public final class OptionsMenuUtility {
 		void onUnblock();
 	}
 
-	public static interface OptionsMenuCommentsListener extends OptionsMenuListener {
-		public void onRefreshComments();
-		public void onPastComments();
-		public void onSortSelected(PostCommentListingURL.Sort order);
+	public interface OptionsMenuCommentsListener extends OptionsMenuListener {
+		void onRefreshComments();
+		void onPastComments();
+		void onSortSelected(PostCommentListingURL.Sort order);
 	}
 
-	public static void fixActionBar(final Activity activity, final String title) {
-
-		if(activity.getActionBar() == null) return;
-
-		final TypedArray attr = activity.obtainStyledAttributes(new int[] {R.attr.rrActionBarCol});
-		final int actionbarCol = attr.getColor(0, 0);
-		attr.recycle();
-		activity.getActionBar().setBackgroundDrawable(new ColorDrawable(actionbarCol));
-
-		final BetterSSB sb = new BetterSSB();
-		sb.append(title, BetterSSB.FOREGROUND_COLOR, Color.WHITE, 0, 1f);
-		activity.getActionBar().setTitle(sb.get());
+	public static void fixActionBar(final AppCompatActivity activity, final String title) {
+		if(activity.getSupportActionBar() == null) return;
+		activity.getSupportActionBar().setTitle(title);
 	}
 }

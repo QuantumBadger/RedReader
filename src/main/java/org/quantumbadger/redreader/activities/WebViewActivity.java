@@ -47,10 +47,10 @@ public class WebViewActivity extends BaseActivity implements RedditPostView.Post
 
 		PrefsUtility.applyTheme(this);
 
-		getActionBar().setHomeButtonEnabled(true);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-
 		super.onCreate(savedInstanceState);
+
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		final Intent intent = getIntent();
 
@@ -65,7 +65,7 @@ public class WebViewActivity extends BaseActivity implements RedditPostView.Post
 
 		setContentView(View.inflate(this, R.layout.main_single, null));
 
-		getFragmentManager().beginTransaction().add(R.id.main_single_frame, webView).commit();
+		getSupportFragmentManager().beginTransaction().add(R.id.main_single_frame, webView).commit();
 	}
 
 	@Override
@@ -76,11 +76,11 @@ public class WebViewActivity extends BaseActivity implements RedditPostView.Post
 	}
 
 	public void onPostSelected(final RedditPreparedPost post) {
-		LinkHandler.onLinkClicked(this, post.url, false, post.src);
+		LinkHandler.onLinkClicked(this, post.src.getUrl(), false, post.src.getSrc());
 	}
 
 	public void onPostCommentsSelected(final RedditPreparedPost post) {
-		LinkHandler.onLinkClicked(this, PostCommentListingURL.forPostId(post.idAlone).toString(), false);
+		LinkHandler.onLinkClicked(this, PostCommentListingURL.forPostId(post.src.getIdAlone()).toString(), false);
 	}
 
 	@Override

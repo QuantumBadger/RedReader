@@ -17,24 +17,24 @@
 
 package org.quantumbadger.redreader.reddit.prepared;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableStringBuilder;
-import android.view.ViewGroup;
+import android.view.View;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.BetterSSB;
 import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.common.RRThemeAttributes;
 import org.quantumbadger.redreader.common.RRTime;
-import org.quantumbadger.redreader.reddit.RedditPreparedInboxItem;
 import org.quantumbadger.redreader.reddit.prepared.markdown.MarkdownParagraphGroup;
 import org.quantumbadger.redreader.reddit.prepared.markdown.MarkdownParser;
 import org.quantumbadger.redreader.reddit.things.RedditMessage;
 
 import java.util.HashSet;
 
-public final class RedditPreparedMessage implements RedditPreparedInboxItem {
+public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 
 	public SpannableStringBuilder header;
 	public final MarkdownParagraphGroup body;
@@ -46,6 +46,7 @@ public final class RedditPreparedMessage implements RedditPreparedInboxItem {
 		this.src = message;
 
 		// TODO custom time
+		// TODO respect RRTheme
 
 		final int rrCommentHeaderBoldCol;
 		final int rrCommentHeaderAuthorCol;
@@ -88,11 +89,22 @@ public final class RedditPreparedMessage implements RedditPreparedInboxItem {
 		return header;
 	}
 
-	public ViewGroup getBody(Activity context, float textSize, Integer textCol, boolean showLinkButtons) {
-		return body.buildView(context, textCol, textSize, showLinkButtons);
+	public void handleInboxClick(AppCompatActivity activity) {
+		// Do nothing
 	}
 
-	public void handleInboxClick(Activity activity) {
+	@Override
+	public void handleInboxLongClick(final AppCompatActivity activity) {
 		// Do nothing
+	}
+
+	@Override
+	public CharSequence getHeader(final RRThemeAttributes theme, final RedditChangeDataManagerVolatile changeDataManager, final Context context) {
+		return header;
+	}
+
+	@Override
+	public View getBody(final AppCompatActivity activity, final Integer textColor, final Float textSize, final boolean showLinkButtons) {
+		return body.buildView(activity, textColor, textSize, showLinkButtons);
 	}
 }

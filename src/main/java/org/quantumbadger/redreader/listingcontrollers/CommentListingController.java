@@ -17,10 +17,11 @@
 
 package org.quantumbadger.redreader.listingcontrollers;
 
-import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -70,6 +71,15 @@ public class CommentListingController {
 		}
 	}
 
+	public PostCommentListingURL.Sort getSort() {
+
+		if(mUrl.pathType() == RedditURLParser.PathType.PostCommentListingURL) {
+			return mUrl.asPostCommentListURL().order;
+		}
+
+		return null;
+	}
+
 	public Uri getUri() {
 		return mUrl.generateJsonUri();
 	}
@@ -78,9 +88,9 @@ public class CommentListingController {
 		return mUrl;
 	}
 
-	public CommentListingFragment get(final Activity parent, final boolean force) {
+	public CommentListingFragment get(final AppCompatActivity parent, final boolean force, final Bundle savedInstanceState) {
 		if(force) mSession = null;
-		return new CommentListingFragment(parent, General.listOfOne((RedditURLParser.RedditURL)mUrl), mSession, force ? CacheRequest.DownloadType.FORCE : CacheRequest.DownloadType.IF_NECESSARY);
+		return new CommentListingFragment(parent, savedInstanceState, General.listOfOne((RedditURLParser.RedditURL)mUrl), mSession, force ? CacheRequest.DownloadType.FORCE : CacheRequest.DownloadType.IF_NECESSARY);
 	}
 
 	public boolean isSortable() {

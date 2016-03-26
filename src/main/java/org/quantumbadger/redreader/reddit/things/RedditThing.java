@@ -33,7 +33,7 @@ public final class RedditThing {
 	private static final Hashtable<String, Kind> kinds;
 	
 	static {
-		kinds = new Hashtable<String, Kind>();
+		kinds = new Hashtable<>();
 		kinds.put("t1", Kind.COMMENT);
 		kinds.put("t2", Kind.USER);
 		kinds.put("t3", Kind.POST);

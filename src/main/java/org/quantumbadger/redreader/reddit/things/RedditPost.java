@@ -21,7 +21,7 @@ package org.quantumbadger.redreader.reddit.things;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public final class RedditPost implements Parcelable {
+public final class RedditPost implements Parcelable, RedditThingWithIdAndType {
 
 	public String id, name;
 	public String title, url, author, domain, subreddit, subreddit_id;
@@ -137,4 +137,14 @@ public final class RedditPost implements Parcelable {
 			return new RedditPost[size];
 		}
 	};
+
+	@Override
+	public String getIdAlone() {
+		return id;
+	}
+
+	@Override
+	public String getIdAndType() {
+		return name;
+	}
 }

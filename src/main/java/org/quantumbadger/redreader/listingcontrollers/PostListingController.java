@@ -17,8 +17,9 @@
 
 package org.quantumbadger.redreader.listingcontrollers;
 
-import android.app.Activity;
 import android.net.Uri;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
@@ -88,9 +89,9 @@ public class PostListingController {
 		return url.generateJsonUri();
 	}
 
-	public final PostListingFragment get(final Activity parent, final boolean force) {
+	public final PostListingFragment get(final AppCompatActivity parent, final boolean force, final Bundle savedInstanceState) {
 		if(force) session = null;
-		return new PostListingFragment(parent, getUri(), session, force ? CacheRequest.DownloadType.FORCE : CacheRequest.DownloadType.IF_NECESSARY);
+		return new PostListingFragment(parent, savedInstanceState, getUri(), session, force ? CacheRequest.DownloadType.FORCE : CacheRequest.DownloadType.IF_NECESSARY);
 	}
 
 	public final boolean isSubreddit() {

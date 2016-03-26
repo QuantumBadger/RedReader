@@ -17,7 +17,6 @@
 
 package org.quantumbadger.redreader.views;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
@@ -27,6 +26,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +56,7 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 	private final Handler thumbnailHandler;
 
 	private final PostListingFragment fragmentParent;
-	private final Activity mActivity;
+	private final AppCompatActivity mActivity;
 
 	private boolean swipeReady = false, leftOverlayShown = false, rightOverlayShown = false;
 
@@ -230,7 +230,7 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 			final Context context,
 			final ListView listParent,
 			final PostListingFragment fragmentParent,
-			final Activity activity) {
+			final AppCompatActivity activity) {
 
 		super(context, listParent);
 		this.fragmentParent = fragmentParent;
@@ -329,8 +329,8 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 			final Bitmap thumbnail = data.getThumbnail(this, usageId);
 			thumbnailView.setImageBitmap(thumbnail);
 
-			title.setText(data.title);
-			commentsText.setText(String.valueOf(data.commentCount));
+			title.setText(data.src.getTitle());
+			commentsText.setText(String.valueOf(data.src.getSrc().num_comments));
 
 			if(data.hasThumbnail) {
 				thumbnailView.setVisibility(VISIBLE);

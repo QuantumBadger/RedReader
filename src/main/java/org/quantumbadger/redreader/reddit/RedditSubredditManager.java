@@ -69,12 +69,12 @@ public class RedditSubredditManager {
 		// Subreddit cache
 
 		final RawObjectDB<String, RedditSubreddit> subredditDb
-				= new RawObjectDB<String, RedditSubreddit>(context, getDbFilename("subreddits", user), RedditSubreddit.class);
+				= new RawObjectDB<>(context, getDbFilename("subreddits", user), RedditSubreddit.class);
 
 		final ThreadedRawObjectDB<String, RedditSubreddit, SubredditRequestFailure> subredditDbWrapper
-				= new ThreadedRawObjectDB<String, RedditSubreddit, SubredditRequestFailure>(subredditDb, new RedditAPIIndividualSubredditDataRequester(context, user));
+				= new ThreadedRawObjectDB<>(subredditDb, new RedditAPIIndividualSubredditDataRequester(context, user));
 
-		subredditCache = new WeakCache<String, RedditSubreddit, SubredditRequestFailure>(subredditDbWrapper);
+		subredditCache = new WeakCache<>(subredditDbWrapper);
 	}
 
 	private static String getDbFilename(String type, RedditAccount user) {

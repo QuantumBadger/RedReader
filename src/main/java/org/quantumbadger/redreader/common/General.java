@@ -17,7 +17,6 @@
 
 package org.quantumbadger.redreader.common;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -31,6 +30,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.StatFs;
 import android.os.SystemClock;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.TypedValue;
 import android.widget.Toast;
@@ -314,14 +314,14 @@ public final class General {
 	}
 
 	// TODO add button to show more detail
-	public static void showResultDialog(final Activity context, final RRError error) {
+	public static void showResultDialog(final AppCompatActivity context, final RRError error) {
 		AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 			public void run() {
 				final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
 				alertBuilder.setNeutralButton(R.string.dialog_close, null);
 				alertBuilder.setNegativeButton(R.string.button_moredetail, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
-						ErrorPropertiesDialog.newInstance(error).show(context.getFragmentManager(), "ErrorPropertiesDialog");
+						ErrorPropertiesDialog.newInstance(error).show(context.getSupportFragmentManager(), "ErrorPropertiesDialog");
 					}
 				});
 				alertBuilder.setTitle(error.title);

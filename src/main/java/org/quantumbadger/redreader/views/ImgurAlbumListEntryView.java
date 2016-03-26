@@ -13,10 +13,7 @@ import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.RequestFailureType;
-import org.quantumbadger.redreader.common.AndroidApi;
-import org.quantumbadger.redreader.common.Constants;
-import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.image.ImageInfo;
 
 import java.io.IOException;
@@ -33,6 +30,8 @@ public class ImgurAlbumListEntryView extends LinearLayout {
 	public ImgurAlbumListEntryView(final Context context) {
 
 		super(context);
+
+		final RRThemeAttributes attr = new RRThemeAttributes(context);
 
 		setOrientation(HORIZONTAL);
 
@@ -64,6 +63,8 @@ public class ImgurAlbumListEntryView extends LinearLayout {
 		mSubtitle.setPadding(0, paddingSeparationPx, 0, 0);
 
 		mTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+		mTitle.setTextColor(attr.rrMainTextCol);
+
 		mSubtitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
 		mSubtitle.setTextColor(Color.rgb(0x90, 0x90, 0x90));
 	}

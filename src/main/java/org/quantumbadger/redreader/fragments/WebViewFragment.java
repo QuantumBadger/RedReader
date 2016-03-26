@@ -18,11 +18,11 @@
 package org.quantumbadger.redreader.fragments;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.Fragment;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,11 +31,11 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.common.AndroidApi;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.reddit.prepared.RedditParsedPost;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
@@ -49,7 +49,7 @@ import java.util.TimerTask;
 
 public class WebViewFragment extends Fragment implements RedditPostView.PostSelectionListener {
 
-	private Activity mActivity;
+	private AppCompatActivity mActivity;
 
 	private String url, html;
     private volatile String currentUrl;
@@ -95,16 +95,31 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
-		mActivity = getActivity();
+		mActivity = (AppCompatActivity)getActivity();
 
 		CookieSyncManager.createInstance(mActivity);
 
 		outer = (FrameLayout)inflater.inflate(R.layout.web_view_fragment, null);
 
 		final RedditPost src_post = getArguments().getParcelable("post");
-		final RedditPreparedPost post = src_post == null ? null
-				: new RedditPreparedPost(mActivity, CacheManager.getInstance(mActivity), 0, src_post, -1, false,
-				false, false, false, RedditAccountManager.getInstance(mActivity).getDefaultAccount(), false);
+		final RedditPreparedPost post;
+
+		if(src_post != null) {
+
+			final RedditParsedPost parsedPost = new RedditParsedPost(src_post, false);
+
+			post = new RedditPreparedPost(
+					mActivity,
+					CacheManager.getInstance(mActivity),
+					0,
+					parsedPost,
+					-1,
+					false,
+					false);
+
+		} else {
+			post = null;
+		}
 
 		webView = (WebViewFixed)outer.findViewById(R.id.web_view_fragment_webviewfixed);
 		final FrameLayout loadingViewFrame = (FrameLayout)outer.findViewById(R.id.web_view_fragment_loadingview_frame);
@@ -190,7 +205,7 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 				public void onPageStarted(WebView view, String url, Bitmap favicon) {
 					super.onPageStarted(view, url, favicon);
 
-					final Activity activity = mActivity;
+					final AppCompatActivity activity = mActivity;
 
 					if(activity != null) {
 						activity.setTitle(url);

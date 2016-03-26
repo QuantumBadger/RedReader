@@ -135,7 +135,7 @@ public final class PrefsUtility {
 				break;
 
 			case GRAY:
-				activity.setTheme(R.style.RR_Light_DarkActionBar);
+				activity.setTheme(R.style.RR_Light_Gray);
 				break;
 
 			case NIGHT:
@@ -205,21 +205,21 @@ public final class PrefsUtility {
 		return getBoolean(R.string.pref_appearance_indentlines_key, false, context, sharedPreferences);
 	}
 
-	public static enum AppearanceCommentHeaderItems {
+	public static enum AppearanceCommentHeaderItem {
 		AUTHOR, FLAIR, SCORE, AGE, GOLD
 	}
 
-	public static EnumSet<AppearanceCommentHeaderItems> appearance_comment_header_items(final Context context, final SharedPreferences sharedPreferences) {
+	public static EnumSet<AppearanceCommentHeaderItem> appearance_comment_header_items(final Context context, final SharedPreferences sharedPreferences) {
 
 		final Set<String> strings = getStringSet(R.string.pref_appearance_comment_header_items_key, R.array.pref_appearance_comment_header_items_default, context, sharedPreferences);
 
-		final EnumSet<AppearanceCommentHeaderItems> result = EnumSet.noneOf(AppearanceCommentHeaderItems.class);
+		final EnumSet<AppearanceCommentHeaderItem> result = EnumSet.noneOf(AppearanceCommentHeaderItem.class);
 		for(String s : strings) {
 
 			if(s.equalsIgnoreCase("ups_downs")) continue;
 
 			try {
-				result.add(AppearanceCommentHeaderItems.valueOf(s.toUpperCase()));
+				result.add(AppearanceCommentHeaderItem.valueOf(s.toUpperCase()));
 			} catch(IllegalArgumentException e) {
 				// Ignore -- this option no longer exists
 			}

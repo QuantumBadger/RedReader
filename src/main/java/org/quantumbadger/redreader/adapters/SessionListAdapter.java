@@ -29,7 +29,7 @@ public class SessionListAdapter extends BaseAdapter {
 
 		this.current = current;
 
-		sessions = new ArrayList<CacheEntry>(
+		sessions = new ArrayList<>(
 				CacheManager.getInstance(context).getSessions(url, RedditAccountManager.getInstance(context).getDefaultAccount()));
 
 		final TypedArray attr = context.obtainStyledAttributes(new int[] {

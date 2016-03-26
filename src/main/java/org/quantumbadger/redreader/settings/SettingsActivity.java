@@ -20,7 +20,6 @@ package org.quantumbadger.redreader.settings;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import org.quantumbadger.redreader.R;
@@ -29,21 +28,22 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import java.util.List;
 
 public final class SettingsActivity
-		extends PreferenceActivity
+		extends AppCompatPreferenceActivity
 		implements SharedPreferences.OnSharedPreferenceChangeListener {
 
 	private SharedPreferences sharedPreferences;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
+
 		PrefsUtility.applyTheme(this);
 		super.onCreate(savedInstanceState);
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 		setOrientationFromPrefs();
 
-		getActionBar().setHomeButtonEnabled(true);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	@Override

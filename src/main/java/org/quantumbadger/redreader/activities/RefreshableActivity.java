@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.PrefsUtility;
 
@@ -91,11 +92,11 @@ public abstract class RefreshableActivity extends BaseActivity {
 			startActivity(intent);
 
 		} else {
-			doRefresh(which, force);
+			doRefresh(which, force, null);
 		}
 	}
 
-	protected abstract void doRefresh(RefreshableFragment which, boolean force);
+	protected abstract void doRefresh(RefreshableFragment which, boolean force, final Bundle savedInstanceState);
 
 	public final void requestRefresh(final RefreshableFragment which, final boolean force) {
 		runOnUiThread(new Runnable() {

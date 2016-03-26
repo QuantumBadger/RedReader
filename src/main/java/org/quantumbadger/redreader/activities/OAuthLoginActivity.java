@@ -118,10 +118,10 @@ public class OAuthLoginActivity extends BaseActivity {
 
 		PrefsUtility.applyTheme(this);
 
-		getActionBar().setHomeButtonEnabled(true);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-
 		super.onCreate(savedInstanceState);
+
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		mWebView = new WebView(this);
 

@@ -24,10 +24,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.ContextMenu;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -50,9 +49,13 @@ public class CommentListingActivity extends RefreshableActivity
 		RedditPostView.PostSelectionListener,
 		SessionChangeListener {
 
-	private CommentListingController controller;
+	private static final String TAG = "CommentListingActivity";
 
-	private SharedPreferences sharedPreferences;
+	private static final String SAVEDSTATE_SESSION = "cla_session";
+	private static final String SAVEDSTATE_SORT = "cla_sort";
+	private static final String SAVEDSTATE_FRAGMENT = "cla_fragment";
+
+	private CommentListingController controller;
 
 	private CommentListingFragment mFragment;
 
@@ -62,17 +65,15 @@ public class CommentListingActivity extends RefreshableActivity
 
 		super.onCreate(savedInstanceState);
 
-		getActionBar().setHomeButtonEnabled(true);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		OptionsMenuUtility.fixActionBar(this, getString(R.string.app_name));
 
-		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
 		final boolean solidblack = PrefsUtility.appearance_solidblack(this, sharedPreferences)
 				&& PrefsUtility.appearance_theme(this, sharedPreferences) == PrefsUtility.AppearanceTheme.NIGHT;
-
-		// TODO load from savedInstanceState
 
 		if(solidblack) getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
 
@@ -85,17 +86,48 @@ public class CommentListingActivity extends RefreshableActivity
 			final String url = intent.getDataString();
             controller = new CommentListingController(RedditURLParser.parseProbableCommentListing(Uri.parse(url)), this);
 
-			doRefresh(RefreshableFragment.COMMENTS, false);
+			Bundle fragmentSavedInstanceState = null;
+
+			if(savedInstanceState != null) {
+
+				if(savedInstanceState.containsKey(SAVEDSTATE_SESSION)) {
+					controller.setSession(UUID.fromString(savedInstanceState.getString(SAVEDSTATE_SESSION)));
+				}
+
+				if(savedInstanceState.containsKey(SAVEDSTATE_SORT)) {
+					controller.setSort(PostCommentListingURL.Sort.valueOf(
+							savedInstanceState.getString(SAVEDSTATE_SORT)));
+				}
+
+				if(savedInstanceState.containsKey(SAVEDSTATE_FRAGMENT)) {
+					fragmentSavedInstanceState = savedInstanceState.getBundle(SAVEDSTATE_FRAGMENT);
+				}
+			}
+
+			doRefresh(RefreshableFragment.COMMENTS, false, fragmentSavedInstanceState);
 
 		} else {
-			throw new RuntimeException("Nothing to show! (should load from bundle)"); // TODO
+			throw new RuntimeException("Nothing to show!");
 		}
 	}
 
 	@Override
 	protected void onSaveInstanceState(final Bundle outState) {
 		super.onSaveInstanceState(outState);
-		// TODO save instance state
+
+		final UUID session = controller.getSession();
+		if(session != null) {
+			outState.putString(SAVEDSTATE_SESSION, session.toString());
+		}
+
+		final PostCommentListingURL.Sort sort = controller.getSort();
+		if(sort != null) {
+			outState.putString(SAVEDSTATE_SORT, sort.name());
+		}
+
+		if(mFragment != null) {
+			outState.putBundle(SAVEDSTATE_FRAGMENT, mFragment.onSaveInstanceState());
+		}
 	}
 
 	@Override
@@ -114,10 +146,10 @@ public class CommentListingActivity extends RefreshableActivity
 	}
 
 	@Override
-	protected void doRefresh(final RefreshableFragment which, final boolean force) {
-		mFragment = controller.get(this, force);
-		setContentView(mFragment.onCreateView());
-		OptionsMenuUtility.fixActionBar(this, controller.getCommentListingUrl().humanReadableName(this, false));
+	protected void doRefresh(final RefreshableFragment which, final boolean force, final Bundle savedInstanceState) {
+		mFragment = controller.get(this, force, savedInstanceState);
+		setContentView(mFragment.getView());
+		getSupportActionBar().setTitle(controller.getCommentListingUrl().humanReadableName(this, false));
 		invalidateOptionsMenu();
 	}
 
@@ -128,7 +160,7 @@ public class CommentListingActivity extends RefreshableActivity
 
 	public void onPastComments() {
 		final SessionListDialog sessionListDialog = SessionListDialog.newInstance(controller.getUri(), controller.getSession(), SessionChangeListener.SessionChangeType.COMMENTS);
-		sessionListDialog.show(getFragmentManager(), null);
+		sessionListDialog.show(getSupportFragmentManager(), null);
 	}
 
 	public void onSortSelected(final PostCommentListingURL.Sort order) {
@@ -164,37 +196,20 @@ public class CommentListingActivity extends RefreshableActivity
 	}
 
 	public void onSessionChanged(UUID session, SessionChangeType type, long timestamp) {
+		Log.i(TAG, type.name() + " session changed to " + (session != null ? session.toString() : "<null>"));
 		controller.setSession(session);
 	}
 
 	public void onPostSelected(final RedditPreparedPost post) {
-		LinkHandler.onLinkClicked(this, post.url, false, post.src);
+		LinkHandler.onLinkClicked(this, post.src.getUrl(), false, post.src.getSrc());
 	}
 
 	public void onPostCommentsSelected(final RedditPreparedPost post) {
-		LinkHandler.onLinkClicked(this, PostCommentListingURL.forPostId(post.idAlone).toString(), false);
+		LinkHandler.onLinkClicked(this, PostCommentListingURL.forPostId(post.src.getIdAlone()).toString(), false);
 	}
 
 	@Override
 	public void onBackPressed() {
 		if(General.onBackPressed()) super.onBackPressed();
-	}
-
-	@Override
-	public void onCreateContextMenu(final ContextMenu menu, final View v, final ContextMenu.ContextMenuInfo menuInfo) {
-
-		if(mFragment != null) {
-			mFragment.onCreateContextMenu(menu, v, menuInfo);
-		}
-	}
-
-	@Override
-	public boolean onContextItemSelected(final MenuItem item) {
-
-		if(mFragment != null) {
-			mFragment.onContextItemSelected(item);
-		}
-
-		return super.onContextItemSelected(item);
 	}
 }

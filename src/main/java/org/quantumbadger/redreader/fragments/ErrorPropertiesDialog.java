@@ -34,9 +34,9 @@
 
 package org.quantumbadger.redreader.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.LinearLayout;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BugReportActivity;
@@ -78,7 +78,7 @@ public final class ErrorPropertiesDialog extends PropertiesDialog {
 	}
 
 	@Override
-	protected void prepare(Activity context, LinearLayout items) {
+	protected void prepare(AppCompatActivity context, LinearLayout items) {
 
 		items.addView(propView(context, R.string.props_title, getArguments().getString("title"), true));
 		items.addView(propView(context, "Message", getArguments().getString("message"), false));

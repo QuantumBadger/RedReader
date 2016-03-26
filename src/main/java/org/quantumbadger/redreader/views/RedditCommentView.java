@@ -17,144 +17,185 @@
 
 package org.quantumbadger.redreader.views;
 
-import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
-import org.quantumbadger.redreader.reddit.prepared.RedditPreparedComment;
+import org.quantumbadger.redreader.common.RRThemeAttributes;
+import org.quantumbadger.redreader.reddit.RedditCommentListItem;
+import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManagerVolatile;
+import org.quantumbadger.redreader.reddit.prepared.RedditRenderableComment;
 
-public class RedditCommentView extends LinearLayout {
+public class RedditCommentView extends LinearLayout
+		implements RedditChangeDataManagerVolatile.Listener {
 
-	private RedditPreparedComment mComment;
+	private RedditCommentListItem mComment;
+
+	private final RedditChangeDataManagerVolatile mChangeDataManager;
+	private final RRThemeAttributes mTheme;
 
 	private final TextView mHeader;
 	private final FrameLayout mBodyHolder;
 
 	private final IndentView mIndentView;
 
-	private final int mBodyCol;
 	private final float mFontScale;
 
 	private final boolean mShowLinkButtons;
 
-	private final CommentClickListener mClickListener;
+	private final CommentListener mListener;
 
-	public static interface CommentClickListener {
-		public void onCommentClicked(RedditCommentView view);
+	public interface CommentListener {
+		void onCommentClicked(RedditCommentView view);
+		void onCommentLongClicked(RedditCommentView view);
+		void onCommentChanged(RedditCommentView view);
 	}
 
-	public RedditCommentView(final Context context, final int headerCol, final int bodyCol, final CommentClickListener clickListener) {
+	public RedditCommentView(
+			final Context context,
+			final RRThemeAttributes themeAttributes,
+			final CommentListener listener) {
 
 		super(context);
-		this.mBodyCol = bodyCol;
-		mClickListener = clickListener;
 
-		setOrientation(HORIZONTAL);
+		mTheme = themeAttributes;
+		mListener = listener;
 
-		LinearLayout main = new LinearLayout(context);
-		main.setOrientation(VERTICAL);
+		mChangeDataManager = RedditChangeDataManagerVolatile.getInstance(
+				RedditAccountManager.getInstance(context).getDefaultAccount());
 
 		mFontScale = PrefsUtility.appearance_fontscale_comments(context, PreferenceManager.getDefaultSharedPreferences(context));
 
 		mHeader = new TextView(context);
 		mHeader.setTextSize(11.0f * mFontScale);
-		mHeader.setTextColor(headerCol);
-		main.addView(mHeader);
+		mHeader.setTextColor(mTheme.rrCommentHeaderCol);
 
 		mBodyHolder = new FrameLayout(context);
 		mBodyHolder.setPadding(0, General.dpToPixels(context, 2), 0, 0);
+
+		// TODO setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
+
+		mShowLinkButtons = PrefsUtility.pref_appearance_linkbuttons(context, PreferenceManager.getDefaultSharedPreferences(context));
+
+		setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(final View view) {
+				mListener.onCommentClicked(RedditCommentView.this);
+			}
+		});
+
+		setOnLongClickListener(new OnLongClickListener() {
+			@Override
+			public boolean onLongClick(final View v) {
+				mListener.onCommentLongClicked(RedditCommentView.this);
+				return true;
+			}
+		});
+
+		setLongClickable(true);
+
+		mIndentView = new IndentView(context);
+
+		final LinearLayout main = new LinearLayout(context);
+		main.setOrientation(VERTICAL);
+		main.addView(mHeader);
 		main.addView(mBodyHolder);
+
 		mBodyHolder.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
 
 		final int paddingPixelsVertical = General.dpToPixels(context, 8.0f);
 		final int paddingPixelsHorizontal = General.dpToPixels(context, 12.0f);
 		main.setPadding(paddingPixelsHorizontal, paddingPixelsVertical, paddingPixelsHorizontal, paddingPixelsVertical);
 
-		setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
+		final LinearLayout outer = new LinearLayout(context);
+		outer.setOrientation(HORIZONTAL);
+		outer.addView(mIndentView);
+		outer.addView(main);
 
-		mIndentView = new IndentView(context);
-		addView(mIndentView);
 		mIndentView.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
-
-		addView(main);
 		main.getLayoutParams().width = LinearLayout.LayoutParams.MATCH_PARENT;
 
-		mShowLinkButtons = PrefsUtility.pref_appearance_linkbuttons(context, PreferenceManager.getDefaultSharedPreferences(context));
+		final View divider = new View(context);
+		divider.setBackgroundColor(Color.argb(128, 128, 128, 128)); // TODO better
+
+		setOrientation(VERTICAL);
+		addView(divider);
+		addView(outer);
+
+		divider.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+		divider.getLayoutParams().height = 1;
+	}
+
+	@Override
+	public void onRedditDataChange(final String thingIdAndType) {
+		mListener.onCommentChanged(this);
 	}
 
 	public void notifyClick() {
-		mClickListener.onCommentClicked(this);
+		mListener.onCommentClicked(this);
 	}
 
-	public void reset(final Activity activity, final RedditPreparedComment comment, final int indent) {
+	public void notifyLongClick() {
+		mListener.onCommentLongClicked(this);
+	}
 
-		if(comment == mComment) {
-			comment.bind(this);
-			return;
+	public void reset(final AppCompatActivity activity, final RedditCommentListItem comment) {
+
+		if(!comment.isComment()) {
+			throw new RuntimeException("Not a comment");
 		}
 
-		if(mComment != null) {
-			mComment.unbind(this);
+		if(mComment != comment) {
+			if(mComment != null) {
+				mChangeDataManager.removeListener(mComment.asComment(), this);
+			}
+
+			mChangeDataManager.addListener(comment.asComment(), this);
 		}
 
 		mComment = comment;
-		comment.bind(this);
 
-		mIndentView.setIndentation(indent);
+		mIndentView.setIndentation(comment.getIndent());
 
-		if(!comment.isCollapsed()) {
-			mHeader.setText(comment.header);
-		} else {
-			mHeader.setText("[ + ]  " + comment.header);
-		}
-
-		final boolean hideLinkButtons = comment.src.author.equalsIgnoreCase("autowikibot");
+		final boolean hideLinkButtons = comment.asComment().getParsedComment().getRawComment().author.equalsIgnoreCase("autowikibot");
 
 		mBodyHolder.removeAllViews();
-		final ViewGroup commentBody = comment.getBody(activity, 13.0f * mFontScale, mBodyCol, mShowLinkButtons && !hideLinkButtons);
+		final View commentBody = comment.asComment().getBody(
+				activity,
+				mTheme.rrCommentBodyCol,
+				13.0f * mFontScale,
+				mShowLinkButtons && !hideLinkButtons);
 
 		mBodyHolder.addView(commentBody);
 		commentBody.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
 		((MarginLayoutParams)commentBody.getLayoutParams()).topMargin = General.dpToPixels(activity, 1);
 
-		updateVisibility(activity);
-	}
+		final RedditRenderableComment renderableComment = mComment.asComment();
 
-	private void updateVisibility(final Context context) {
+		final CharSequence headerText = renderableComment.getHeader(
+				mTheme,
+				mChangeDataManager,
+				activity);
 
-		if(mComment.isCollapsed()) {
-
+		if(mComment.isCollapsed(mChangeDataManager)) {
+			mHeader.setText("[ + ]  " + headerText); // Note that this removes formatting (which is fine)
 			mBodyHolder.setVisibility(GONE);
 
-			if(mComment.replyCount() == 1) {
-				mHeader.setText(String.format("[ + ] %s (1 %s)", mComment.header, context.getString(R.string.subtitle_reply)));
-			} else {
-				mHeader.setText(String.format("[ + ] %s (%d %s)", mComment.header, mComment.replyCount(), context.getString(R.string.subtitle_replies)));
-			}
-
 		} else {
+			mHeader.setText(headerText);
 			mBodyHolder.setVisibility(VISIBLE);
-			mHeader.setText(mComment.header);
 		}
 	}
 
-	public boolean handleVisibilityToggle() {
-		mComment.toggleVisibility();
-		updateVisibility(getContext());
-		return mComment.isCollapsed();
-	}
-
-	public RedditPreparedComment getComment() {
+	public RedditCommentListItem getComment() {
 		return mComment;
-	}
-
-	public void updateAppearance() {
-		mHeader.setText(mComment.header);
 	}
 }

@@ -1,7 +1,7 @@
-RedReader Beta (for Android)
-============================
+ <p align="left"> <img src="https://images.duckduckgo.com/iu/?u=http%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.Mc9813978c3aa8d61505cfbb3ee486e61o0%26pid%3D15.1&f=1" width = "100"/> </p> RedReader Beta (for Android)
+ An unofficial, open source client for reddit.
 
-An unofficial, open source client for reddit.
+============================
 
 ![Build Status](https://travis-ci.org/QuantumBadger/RedReader.svg?branch=master)
 

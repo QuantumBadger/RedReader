@@ -66,7 +66,10 @@ License
 
 RedReader is licensed under the GPL, version 3. A copy of the license is included in [LICENSE.txt](LICENSE.txt).
 
-Bitcoin donations are accepted at the following address: `1874wapGxDo2vEp4avisda4gx3SCjsHCQJ`
+
+<p align="center">
+  <img src="https://en.bitcoin.it/w/images/en/8/8c/RibbonDonateBitcoin.png" width="250"/></p>
+Bitcoin donations are welcome and accepted at the following address: `1874wapGxDo2vEp4avisda4gx3SCjsHCQJ`
 
 
 Thanks

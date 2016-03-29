@@ -18,6 +18,23 @@ Features
 * Downloads are compressed to save bandwidth.
 * Night mode (i.e. a dark theme)
 * Holo theme on every device
+ 
+
+<p align="center">
+  <img src="https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fgetandroidstuff.com%2Fwp-content%2Fuploads%2F2013%2F04%2FRedReader-Beta-the-best-Reddit-Android-App.jpg&f=1" width="550"/>
+</p>
+
+
+How to Get
+----------
+
+RedReader is available for free on the Google Play store:
+
+https://play.google.com/store/apps/details?id=org.quantumbadger.redreader
+
+Redreader can also be found for free on F-Droid:
+
+https://f-droid.org/repository/browse/?fdfilter=redreader&fdid=org.quantumbadger.redreader
 
 
 Reporting Bugs
@@ -36,14 +53,6 @@ How to Build
 RedReader is built using Gradle. Several dependencies are required (and listed in build.gradle), but these are handled automatically if you use Gradle.
 
 Detailed instructions on building RedReader using IntelliJ IDEA are in [BUILD.md](BUILD.md).
-
-
-How to Get
-----------
-
-RedReader is available for free on the Google Play store:
-
-https://play.google.com/store/apps/details?id=org.quantumbadger.redreader
 
 
 License

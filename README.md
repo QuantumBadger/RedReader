@@ -8,16 +8,28 @@ An unofficial, open source client for reddit.
 Features
 --------
 
-* Free and Open Source - no ads/tracking.
+* Free and Open Source Software - no ads/tracking.
+* Lightweight and fast
+* Downloads are compressed to save bandwidth.
+* Support for multiple accounts.
+* Several themes such as Night mode (i.e. dark theme) and Holo
 * Swipe posts left and right to perform customisable actions, such as upvote/downvote, or save/hide.
 * Advanced cache management - automatically stores past versions of posts and comments.
-* Support for multiple accounts.
 * Two-column tablet mode (can be used on your phone, if it's big enough)
 * Image and comment precaching (optional: always, never, or Wi-Fi only).
-* Built in image viewer, imgur album viewer, GIF player, and webm/mp4/gifv player.
-* Downloads are compressed to save bandwidth.
-* Night mode (i.e. a dark theme)
-* Holo theme on every device
+* Built-in image viewer, imgur album viewer, GIF player, and webm/mp4/gifv player.
+
+
+How to Get
+----------
+
+RedReader is available for free on the Google Play store:
+
+https://play.google.com/store/apps/details?id=org.quantumbadger.redreader
+
+RedReader can also be found for free on F-Droid:
+
+https://f-droid.org/repository/browse/?fdfilter=redreader&fdid=org.quantumbadger.redreader
 
 
 Reporting Bugs
@@ -38,20 +50,12 @@ RedReader is built using Gradle. Several dependencies are required (and listed i
 Detailed instructions on building RedReader using IntelliJ IDEA are in [BUILD.md](BUILD.md).
 
 
-How to Get
-----------
-
-RedReader is available for free on the Google Play store:
-
-https://play.google.com/store/apps/details?id=org.quantumbadger.redreader
-
-
 License
 -------
 
 RedReader is licensed under the GPL, version 3. A copy of the license is included in [LICENSE.txt](LICENSE.txt).
 
-Bitcoin donations are accepted at the following address: `1874wapGxDo2vEp4avisda4gx3SCjsHCQJ`
+Bitcoin donations are welcome and accepted at the following address: `1874wapGxDo2vEp4avisda4gx3SCjsHCQJ`
 
 
 Thanks

@@ -4,3 +4,6 @@ android:
     - tools
     - android-23
     - build-tools-23.0.2
+before_install:
+  - echo yes | android update sdk --filter extra-android-support --no-ui --force > /dev/null
+  - echo yes | android update sdk --filter extra-android-m2repository --no-ui --force > /dev/null

@@ -124,7 +124,7 @@ public class ImgurAlbumListEntryView extends LinearLayout {
 		final boolean downloadThumbnails = thumbnailsPref == PrefsUtility.AppearanceThumbnailsShow.ALWAYS
 				|| (thumbnailsPref == PrefsUtility.AppearanceThumbnailsShow.WIFIONLY && isConnectionWifi);
 
-		if(!downloadThumbnails) {
+		if(!downloadThumbnails || info.urlBigSquare == null) {
 			mThumbnail.setVisibility(GONE);
 
 		} else {

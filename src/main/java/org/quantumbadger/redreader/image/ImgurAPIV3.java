@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.image;
 
 import android.content.Context;
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -26,88 +25,22 @@ import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.UUID;
 
-public final class ImgurAPI {
-
-	public static class AlbumInfo {
-
-		public final String id;
-		public final String title;
-		public final String description;
-
-		public final ArrayList<ImageInfo> images;
-
-		public AlbumInfo(final String id, final String title, final String description, final ArrayList<ImageInfo> images) {
-			this.id = id;
-			this.title = title;
-			this.description = description;
-			this.images = new ArrayList<>(images);
-		}
-
-		public static AlbumInfo parse(final String id, final JsonBufferedObject object)
-				throws IOException, InterruptedException {
-			
-			String title = object.getString("title");
-			String description = object.getString("description");
-
-			if(title != null) {
-				title = StringEscapeUtils.unescapeHtml4(title);
-			}
-
-			if(description != null) {
-				description = StringEscapeUtils.unescapeHtml4(description);
-			}
-
-			final JsonBufferedArray imagesJson = object.getArray("images");
-			final ArrayList<ImageInfo> images = new ArrayList<>();
-
-			for(final JsonValue imageJson : imagesJson) {
-				images.add(ImageInfo.parseImgur(imageJson.asObject()));
-			}
-
-			return new AlbumInfo(id, title, description, images);
-		}
-
-		public static AlbumInfo parseV3(final String id, final JsonBufferedObject object)
-				throws IOException, InterruptedException {
-
-			String title = object.getString("title");
-			String description = object.getString("description");
-
-			if(title != null) {
-				title = StringEscapeUtils.unescapeHtml4(title);
-			}
-
-			if(description != null) {
-				description = StringEscapeUtils.unescapeHtml4(description);
-			}
-
-			final JsonBufferedArray imagesJson = object.getArray("images");
-			final ArrayList<ImageInfo> images = new ArrayList<>();
-
-			for(final JsonValue imageJson : imagesJson) {
-				images.add(ImageInfo.parseImgurV3(imageJson.asObject()));
-			}
-
-			return new AlbumInfo(id, title, description, images);
-		}
-	}
+public final class ImgurAPIV3 {
 
 	public static void getAlbumInfo(
 			final Context context,
 			final String albumId,
 			final int priority,
 			final int listId,
+			final boolean withAuth,
 			final GetAlbumInfoListener listener) {
 
-		final String apiUrl = "https://api.imgur.com/2/album/" + albumId + ".json";
+		final String apiUrl = "https://api.imgur.com/3/album/" + albumId;
 
 		CacheManager.getInstance(context).makeRequest(new CacheRequest(
 				General.uriFromString(apiUrl),
@@ -117,7 +50,9 @@ public final class ImgurAPI {
 				listId,
 				CacheRequest.DownloadType.IF_NECESSARY,
 				Constants.FileType.IMAGE_INFO,
-				CacheRequest.DownloadQueueType.IMMEDIATE,
+				withAuth
+						? CacheRequest.DownloadQueueType.IMGUR_API
+						: CacheRequest.DownloadQueueType.IMMEDIATE,
 				true,
 				false,
 				context
@@ -148,8 +83,8 @@ public final class ImgurAPI {
 			public void onJsonParseStarted(final JsonValue result, final long timestamp, final UUID session, final boolean fromCache) {
 
 				try {
-					final JsonBufferedObject outer = result.asObject().getObject("album");
-					listener.onSuccess(AlbumInfo.parse(albumId, outer));
+					final JsonBufferedObject outer = result.asObject().getObject("data");
+					listener.onSuccess(ImgurAPI.AlbumInfo.parseV3(albumId, outer));
 
 				} catch(Throwable t) {
 					listener.onFailure(RequestFailureType.PARSE, t, null, "Imgur data parse failed");
@@ -163,9 +98,10 @@ public final class ImgurAPI {
 			final String imageId,
 			final int priority,
 			final int listId,
+			final boolean withAuth,
 			final GetImageInfoListener listener) {
 
-		final String apiUrl = "https://api.imgur.com/2/image/" + imageId + ".json";
+		final String apiUrl = "https://api.imgur.com/3/image/" + imageId;
 
 		CacheManager.getInstance(context).makeRequest(new CacheRequest(
 				General.uriFromString(apiUrl),
@@ -175,7 +111,9 @@ public final class ImgurAPI {
 				listId,
 				CacheRequest.DownloadType.IF_NECESSARY,
 				Constants.FileType.IMAGE_INFO,
-				CacheRequest.DownloadQueueType.IMMEDIATE,
+				withAuth
+					? CacheRequest.DownloadQueueType.IMGUR_API
+					: CacheRequest.DownloadQueueType.IMMEDIATE,
 				true,
 				false,
 				context
@@ -206,8 +144,8 @@ public final class ImgurAPI {
 			public void onJsonParseStarted(final JsonValue result, final long timestamp, final UUID session, final boolean fromCache) {
 
 				try {
-					final JsonBufferedObject outer = result.asObject().getObject("image");
-					listener.onSuccess(ImageInfo.parseImgur(outer));
+					final JsonBufferedObject outer = result.asObject().getObject("data");
+					listener.onSuccess(ImageInfo.parseImgurV3(outer));
 
 				} catch(Throwable t) {
 					listener.onFailure(RequestFailureType.PARSE, t, null, "Imgur data parse failed");

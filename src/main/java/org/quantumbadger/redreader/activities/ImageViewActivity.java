@@ -120,7 +120,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 		mPost = intent.getParcelableExtra("post");
 
 		if(intent.hasExtra("album")) {
-			ImgurAPI.getAlbumInfo(
+			LinkHandler.getImgurAlbumInfo(
 					this,
 					intent.getStringExtra("album"),
 					Constants.Priority.IMAGE_VIEW,

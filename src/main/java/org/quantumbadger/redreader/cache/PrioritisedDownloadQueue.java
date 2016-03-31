@@ -44,7 +44,8 @@ class PrioritisedDownloadQueue {
 			redditDownloadsQueued.add(download);
 			notifyAll();
 
-		} else if(request.queueType == CacheRequest.DownloadQueueType.IMMEDIATE) {
+		} else if(request.queueType == CacheRequest.DownloadQueueType.IMMEDIATE
+				|| request.queueType == CacheRequest.DownloadQueueType.IMGUR_API) {
 			new CacheDownloadThread(download, true, "Cache Download Thread: Immediate");
 
 		} else {

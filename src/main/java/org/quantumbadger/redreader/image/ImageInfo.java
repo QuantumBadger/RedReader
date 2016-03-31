@@ -205,6 +205,55 @@ public class ImageInfo implements Parcelable {
 				size);
 	}
 
+	public static ImageInfo parseImgurV3(final JsonBufferedObject object)
+			throws IOException, InterruptedException {
+
+		String urlOriginal = null;
+		String title = null;
+		String caption = null;
+		String type = null;
+		boolean isAnimated = false;
+		Long width = null;
+		Long height = null;
+		Long size = null;
+
+		if(object != null) {
+			title = object.getString("title");
+			caption = object.getString("description");
+			type = object.getString("type");
+			isAnimated = object.getBoolean("animated");
+			width = object.getLong("width");
+			height = object.getLong("height");
+			size = object.getLong("size");
+
+			if(object.getString("mp4") != null) {
+				urlOriginal = object.getString("mp4");
+
+			} else {
+				urlOriginal = object.getString("link");
+			}
+		}
+
+		if(title != null) {
+			title = StringEscapeUtils.unescapeHtml4(title);
+		}
+
+		if(caption != null) {
+			caption = StringEscapeUtils.unescapeHtml4(caption);
+		}
+
+		return new ImageInfo(
+				urlOriginal,
+				null,
+				title,
+				caption,
+				type,
+				isAnimated,
+				width,
+				height,
+				size);
+	}
+
 	@Override
 	public int describeContents() {
 		return 0;

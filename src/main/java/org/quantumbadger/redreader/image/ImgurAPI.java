@@ -169,7 +169,8 @@ public final class ImgurAPI {
 
 			@Override
 			protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
-				listener.onFailure(type, t, status, readableMessage);
+				// Pretend this succeeded for now, due to imgur's API deprecation
+				listener.onSuccess(new ImageInfo("https://i.imgur.com/" + imageId + ".jpg"));
 			}
 
 			@Override

@@ -95,7 +95,7 @@ public class AlbumListingActivity extends BaseActivity {
 		layout.setOrientation(LinearLayout.VERTICAL);
 		layout.addView(progressBar);
 
-		ImgurAPI.getAlbumInfo(this, albumId, Constants.Priority.IMAGE_VIEW, 0, new GetAlbumInfoListener() {
+		LinkHandler.getImgurAlbumInfo(this, albumId, Constants.Priority.IMAGE_VIEW, 0, new GetAlbumInfoListener() {
 
 			@Override
 			public void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
@@ -111,7 +111,7 @@ public class AlbumListingActivity extends BaseActivity {
 					return;
 				}
 
-				ImgurAPI.getImageInfo(AlbumListingActivity.this, albumId, Constants.Priority.IMAGE_VIEW, 0, new GetImageInfoListener() {
+				LinkHandler.getImgurImageInfo(AlbumListingActivity.this, albumId, Constants.Priority.IMAGE_VIEW, 0, false, new GetImageInfoListener() {
 					@Override
 					public void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
 						Log.e("AlbumListingActivity", "Image info request also failed: " + type);

@@ -62,6 +62,7 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 
 	public enum DownloadQueueType {
 		REDDIT_API,
+		IMGUR_API,
 		IMMEDIATE,
 		QUEUE_IMAGE_PRECACHE
 	}

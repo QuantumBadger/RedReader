@@ -24,7 +24,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import org.quantumbadger.redreader.activities.*;
+import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.fragments.UserProfileDialog;
 import org.quantumbadger.redreader.image.*;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
@@ -234,6 +236,123 @@ public class LinkHandler {
 		return getImageUrlPatternMatch(url) != null;
 	}
 
+	private static abstract class ImageInfoRetryListener implements GetImageInfoListener {
+
+		private final GetImageInfoListener mListener;
+
+		private ImageInfoRetryListener(final GetImageInfoListener listener) {
+			mListener = listener;
+		}
+
+		@Override
+		public abstract void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage);
+
+		@Override
+		public void onSuccess(final ImageInfo info) {
+			mListener.onSuccess(info);
+		}
+
+		@Override
+		public void onNotAnImage() {
+			mListener.onNotAnImage();
+		}
+	}
+
+	public static void getImgurImageInfo(
+			final Context context,
+			final String imgId,
+			final int priority,
+			final int listId,
+			final boolean returnUrlOnFailure,
+			final GetImageInfoListener listener) {
+
+		Log.i("getImgurImageInfo", "Image " + imgId + ": trying API v3 with auth");
+
+		ImgurAPIV3.getImageInfo(context, imgId, priority, listId, true, new ImageInfoRetryListener(listener) {
+			@Override
+			public void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
+
+				Log.i("getImgurImageInfo", "Image " + imgId + ": trying API v3 without auth");
+
+				ImgurAPIV3.getImageInfo(context, imgId, priority, listId, false, new ImageInfoRetryListener(listener) {
+					@Override
+					public void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
+
+						Log.i("getImgurImageInfo", "Image " + imgId + ": trying API v2");
+
+						ImgurAPI.getImageInfo(context, imgId, priority, listId, new ImageInfoRetryListener(listener) {
+							@Override
+							public void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
+
+								Log.i("getImgurImageInfo", "All API requests failed!");
+
+								if(returnUrlOnFailure) {
+									listener.onSuccess(new ImageInfo("https://i.imgur.com/" + imgId + ".jpg"));
+
+								} else {
+									listener.onFailure(type, t, status, readableMessage);
+								}
+							}
+						});
+					}
+				});
+			}
+		});
+	}
+
+	private static abstract class AlbumInfoRetryListener implements GetAlbumInfoListener {
+
+		private final GetAlbumInfoListener mListener;
+
+		private AlbumInfoRetryListener(final GetAlbumInfoListener listener) {
+			mListener = listener;
+		}
+
+		@Override
+		public abstract void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage);
+
+		@Override
+		public void onSuccess(final ImgurAPI.AlbumInfo info) {
+			mListener.onSuccess(info);
+		}
+	}
+
+	public static void getImgurAlbumInfo(
+			final Context context,
+			final String albumId,
+			final int priority,
+			final int listId,
+			final GetAlbumInfoListener listener) {
+
+		Log.i("getImgurAlbumInfo", "Album " + albumId + ": trying API v3 with auth");
+
+		ImgurAPIV3.getAlbumInfo(context, albumId, priority, listId, true, new AlbumInfoRetryListener(listener) {
+			@Override
+			public void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
+
+				Log.i("getImgurAlbumInfo", "Album " + albumId + ": trying API v3 without auth");
+
+				ImgurAPIV3.getAlbumInfo(context, albumId, priority, listId, false, new AlbumInfoRetryListener(listener) {
+					@Override
+					public void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
+
+						Log.i("getImgurAlbumInfo", "Album " + albumId + ": trying API v2");
+
+						ImgurAPI.getAlbumInfo(context, albumId, priority, listId, new AlbumInfoRetryListener(listener) {
+							@Override
+							public void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
+
+								Log.i("getImgurImageInfo", "All API requests failed!");
+								listener.onFailure(type, t, status, readableMessage);
+							}
+						});
+
+					}
+				});
+			}
+		});
+	}
+
 	public static void getImageInfo(
 			final Context context,
 			final String url,
@@ -247,7 +366,7 @@ public class LinkHandler {
 			if(matchImgur.find()) {
 				final String imgId = matchImgur.group(1);
 				if(imgId.length() > 2 && !imgId.startsWith("gallery")) {
-					ImgurAPI.getImageInfo(context, imgId, priority, listId, listener);
+					getImgurImageInfo(context, imgId, priority, listId, true, listener);
 					return;
 				}
 			}

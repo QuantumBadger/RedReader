@@ -121,6 +121,10 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 
 		}
 
+		if(mInitiator.queueType == CacheRequest.DownloadQueueType.IMGUR_API) {
+			request.addHeader("Authorization", "Client-ID c3713d9e7674477");
+		}
+
 		mInitiator.notifyDownloadStarted();
 
 		request.executeInThisThread(new HTTPBackend.Listener() {
@@ -170,11 +174,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 
 					try {
 						value = new JsonValue(bis);
-
-						synchronized(this) {
-							mInitiator.notifyJsonParseStarted(value, RRTime.utcCurrentTimeMillis(), session, false);
-						}
-
+						mInitiator.notifyJsonParseStarted(value, RRTime.utcCurrentTimeMillis(), session, false);
 						value.buildInThisThread();
 
 					} catch (Throwable t) {

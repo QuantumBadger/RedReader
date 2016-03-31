@@ -1,3 +1,6 @@
+68/1.9.3.2
+Use updated imgur API
+
 67/1.9.3.1
 Fix for past versions not showing up in the list
 Fixed issue with disabling minimum comment score

@@ -48,7 +48,7 @@ public class LinkDispatchActivity extends AppCompatActivity {
 			return;
 		}
 
-		LinkHandler.onLinkClicked(this, data.toString());
+		LinkHandler.onLinkClicked(this, data.toString(), false, null, null, 0, true);
 		finish();
 	}
 }

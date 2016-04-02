@@ -426,7 +426,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 						AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 							@Override
 							public void run() {
-								LinkHandler.openWebBrowser(ImageViewActivity.this, Uri.parse(mUrl));
+								LinkHandler.openWebBrowser(ImageViewActivity.this, Uri.parse(mUrl), false);
 								finish();
 							}
 						});
@@ -524,7 +524,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 				AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 					@Override
 					public void run() {
-						LinkHandler.openWebBrowser(ImageViewActivity.this, Uri.parse(mUrl));
+						LinkHandler.openWebBrowser(ImageViewActivity.this, Uri.parse(mUrl), false);
 						finish();
 					}
 				});

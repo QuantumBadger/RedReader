@@ -1,3 +1,6 @@
+69/1.9.3.3
+Fixed wiki link freeze when internal browser was disabled
+
 68/1.9.3.2
 Use updated imgur API
 

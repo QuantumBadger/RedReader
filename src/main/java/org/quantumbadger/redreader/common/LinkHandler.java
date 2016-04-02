@@ -21,10 +21,13 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.*;
 import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.fragments.UserProfileDialog;
@@ -32,6 +35,7 @@ import org.quantumbadger.redreader.image.*;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -68,6 +72,17 @@ public class LinkHandler {
 			final RedditPost post,
 			final ImgurAPI.AlbumInfo albumInfo,
 			final int albumImageIndex) {
+		onLinkClicked(activity, url, forceNoImage, post, null, 0, false);
+	}
+
+	public static void onLinkClicked(
+			final Activity activity,
+			String url,
+			final boolean forceNoImage,
+			final RedditPost post,
+			final ImgurAPI.AlbumInfo albumInfo,
+			final int albumImageIndex,
+			final boolean fromExternalIntent) {
 
 		if(url.startsWith("rr://")) {
 
@@ -154,15 +169,17 @@ public class LinkHandler {
 		// Use a browser
 
 		if(!PrefsUtility.pref_behaviour_useinternalbrowser(activity, PreferenceManager.getDefaultSharedPreferences(activity))) {
-			openWebBrowser(activity, Uri.parse(url));
-			return;
+			if(openWebBrowser(activity, Uri.parse(url), fromExternalIntent)) {
+				return;
+			}
 		}
 
 		if(youtubeDotComPattern.matcher(url).matches()
 				|| vimeoPattern.matcher(url).matches()
 				|| googlePlayPattern.matcher(url).matches()) {
-			openWebBrowser(activity, Uri.parse(url));
-			return;
+			if(openWebBrowser(activity, Uri.parse(url), fromExternalIntent)) {
+				return;
+			}
 		}
 
 		final Matcher youtuDotBeMatcher = youtuDotBePattern.matcher(url);
@@ -170,24 +187,68 @@ public class LinkHandler {
 		if(youtuDotBeMatcher.find() && youtuDotBeMatcher.group(1) != null) {
 			final String youtuBeUrl = "http://youtube.com/watch?v=" + youtuDotBeMatcher.group(1)
 					+ (youtuDotBeMatcher.group(2).length() > 0 ? "&" + youtuDotBeMatcher.group(2).substring(1) : "");
-			openWebBrowser(activity, Uri.parse(youtuBeUrl));
-
-		} else {
-			final Intent intent = new Intent(activity, WebViewActivity.class);
-			intent.putExtra("url", url);
-			intent.putExtra("post", post);
-			activity.startActivity(intent);
+			if(openWebBrowser(activity, Uri.parse(youtuBeUrl), fromExternalIntent)) {
+				return;
+			}
 		}
+
+		final Intent intent = new Intent(activity, WebViewActivity.class);
+		intent.putExtra("url", url);
+		intent.putExtra("post", post);
+		activity.startActivity(intent);
 	}
 
-	public static void openWebBrowser(Activity activity, Uri uri) {
-		try {
-			final Intent intent = new Intent(Intent.ACTION_VIEW);
-			intent.setData(uri);
-			activity.startActivity(intent);
-		} catch(Exception e) {
-			General.quickToast(activity, "Failed to open url \"" + uri.toString() + "\" in external browser");
+	public static boolean openWebBrowser(Activity activity, Uri uri, final boolean fromExternalIntent) {
+
+		if(!fromExternalIntent) {
+			try {
+				final Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setData(uri);
+				activity.startActivity(intent);
+				return true;
+
+			} catch(Exception e) {
+				General.quickToast(activity, "Failed to open url \"" + uri.toString() + "\" in external browser");
+			}
+
+		} else {
+
+			// We want to make sure we don't just pass this back to ourselves
+
+			final Intent baseIntent = new Intent(Intent.ACTION_VIEW);
+			baseIntent.setData(uri);
+
+			final ArrayList<Intent> targetIntents = new ArrayList<>();
+
+			for (final ResolveInfo info : activity.getPackageManager().queryIntentActivities(baseIntent, 0)) {
+
+				final String packageName = info.activityInfo.packageName;
+				Log.i("RRDEBUG", "Considering " + packageName);
+
+				if (packageName != null && !packageName.startsWith("org.quantumbadger.redreader")) {
+					final Intent intent = new Intent(Intent.ACTION_VIEW);
+					intent.setData(uri);
+					intent.setPackage(packageName);
+					targetIntents.add(intent);
+				}
+			}
+
+			if(!targetIntents.isEmpty()) {
+
+				final Intent chooserIntent = Intent.createChooser(
+						targetIntents.remove(0),
+						activity.getString(R.string.open_with));
+
+				if(!targetIntents.isEmpty()) {
+					chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetIntents.toArray(new Parcelable[]{}));
+				}
+				activity.startActivity(chooserIntent);
+
+				return true;
+			}
 		}
+
+		return false;
 	}
 
 	public static final Pattern imgurPattern = Pattern.compile(".*[^A-Za-z]imgur\\.com/(\\w+).*"),

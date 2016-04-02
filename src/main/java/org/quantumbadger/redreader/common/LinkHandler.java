@@ -72,7 +72,7 @@ public class LinkHandler {
 			final RedditPost post,
 			final ImgurAPI.AlbumInfo albumInfo,
 			final int albumImageIndex) {
-		onLinkClicked(activity, url, forceNoImage, post, null, 0, false);
+		onLinkClicked(activity, url, forceNoImage, post, albumInfo, albumImageIndex, false);
 	}
 
 	public static void onLinkClicked(

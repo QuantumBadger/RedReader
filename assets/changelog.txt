@@ -1,3 +1,6 @@
+70/1.9.3.4
+Fixed album swiping
+
 69/1.9.3.3
 Fixed wiki link freeze when internal browser was disabled
 Re-implemented imgur album thumbnail support for new API

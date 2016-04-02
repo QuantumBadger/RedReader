@@ -208,7 +208,9 @@ public class ImageInfo implements Parcelable {
 	public static ImageInfo parseImgurV3(final JsonBufferedObject object)
 			throws IOException, InterruptedException {
 
+		String id = null;
 		String urlOriginal = null;
+		String thumbnailUrl = null;
 		String title = null;
 		String caption = null;
 		String type = null;
@@ -218,6 +220,7 @@ public class ImageInfo implements Parcelable {
 		Long size = null;
 
 		if(object != null) {
+			id = object.getString("id");
 			title = object.getString("title");
 			caption = object.getString("description");
 			type = object.getString("type");
@@ -242,9 +245,13 @@ public class ImageInfo implements Parcelable {
 			caption = StringEscapeUtils.unescapeHtml4(caption);
 		}
 
+		if(id != null) {
+			thumbnailUrl = "https://i.imgur.com/" + id + "b.jpg";
+		}
+
 		return new ImageInfo(
 				urlOriginal,
-				null,
+				thumbnailUrl,
 				title,
 				caption,
 				type,

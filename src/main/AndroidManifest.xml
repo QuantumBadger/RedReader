@@ -18,8 +18,8 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="org.quantumbadger.redreader"
-          android:versionCode="68"
-          android:versionName="1.9.3.2"
+          android:versionCode="69"
+          android:versionName="1.9.3.3"
           android:installLocation="auto">
 
     <uses-sdk android:minSdkVersion="14"

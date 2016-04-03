@@ -24,11 +24,16 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.webkit.*;
+
+import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.RedReader;
 import org.quantumbadger.redreader.common.AndroidApi;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 
 import java.io.ByteArrayInputStream;
+
+import info.guardianproject.netcipher.web.WebkitProxy;
 
 public class OAuthLoginActivity extends BaseActivity {
 
@@ -124,6 +129,17 @@ public class OAuthLoginActivity extends BaseActivity {
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		mWebView = new WebView(this);
+
+		if(BaseActivity.getTorStatus()) {
+			try {
+				boolean result = WebkitProxy.setProxy(RedReader.class.getCanonicalName(), getApplicationContext(), mWebView, "127.0.0.1", 8118);
+				if(!result) {
+					BugReportActivity.handleGlobalError(this, getResources().getString(R.string.error_tor_setting_failed));
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 
 		final WebSettings settings = mWebView.getSettings();
 

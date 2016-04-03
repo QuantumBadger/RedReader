@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.cache;
 
+import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.common.PrioritisedCachedThreadPool;
 import org.quantumbadger.redreader.common.RRTime;
@@ -37,7 +38,9 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 	private final UUID session;
 
 	private volatile boolean mCancelled = false;
+	private static boolean resetUserCredentials = false;
 	private final HTTPBackend.Request mRequest;
+
 
 	private final PrioritisedDownloadQueue mQueue;
 
@@ -58,7 +61,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 			session = UUID.randomUUID();
 		}
 
-		mRequest = new OKHTTPBackend().prepareRequest(
+		mRequest = OKHTTPBackend.getHttpBackend().prepareRequest(
 				initiator.context,
 				new HTTPBackend.RequestDetails(mInitiator.url, mInitiator.postFields));
 	}
@@ -89,13 +92,21 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 		}
 	}
 
+	public static void resetUserCredentialsOnNextRequest() {
+		resetUserCredentials = true;
+	}
+
 	private void performDownload(final HTTPBackend.Request request) {
 
 		if(mInitiator.queueType == CacheRequest.DownloadQueueType.REDDIT_API) {
 
 			RedditOAuth.AccessToken accessToken = mInitiator.user.getMostRecentAccessToken();
 
-			if(accessToken == null || accessToken.isExpired()) {
+			if(resetUserCredentials || accessToken == null || accessToken.isExpired()) {
+				if(resetUserCredentials) {
+					mInitiator.user.setAccessToken(null);
+					resetUserCredentials = false;
+				}
 
 				mInitiator.notifyProgress(true, 0, 0);
 
@@ -130,6 +141,10 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 		request.executeInThisThread(new HTTPBackend.Listener() {
 			@Override
 			public void onError(final RequestFailureType failureType, final Throwable exception, final Integer httpStatus) {
+				if(mInitiator.queueType == CacheRequest.DownloadQueueType.REDDIT_API && BaseActivity.getTorStatus()) {
+					OKHTTPBackend.recreateHttpBackend();
+					resetUserCredentialsOnNextRequest();
+				}
 				mInitiator.notifyFailure(failureType, exception, httpStatus, "");
 			}
 

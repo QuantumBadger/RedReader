@@ -20,6 +20,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.2.1'
     compile 'com.android.support:recyclerview-v7:23.2.1'
     compile 'com.squareup.okhttp:okhttp:2.7.5'
+    compile 'info.guardianproject.netcipher:netcipher:1.2'
 
     testCompile 'junit:junit:4.12'
 }

@@ -755,5 +755,11 @@
 
     <!-- 2016-04-02 -->
     <string name="open_with">Open with</string>
+    <string name="pref_network_tor_title">Use TOR (Experimental)</string>
+    <string name="pref_network_tor_key">pref_network_tor</string>
+
+    <!-- 2016-04-03 -->
+    <string name="error_tor_not_installed">It appears you don\'t have Orbot installed. Install now?</string>
+    <string name="error_tor_setting_failed">Failed to set proxy.</string>
 
 </resources>

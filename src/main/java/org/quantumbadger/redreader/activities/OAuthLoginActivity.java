@@ -171,7 +171,7 @@ public class OAuthLoginActivity extends BaseActivity {
 
 				} else {
 					setTitle(url);
-					mWebView.loadUrl(url);
+					return false;
 				}
 
 				return true;

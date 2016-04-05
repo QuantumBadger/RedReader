@@ -19,11 +19,15 @@ package org.quantumbadger.redreader.http.okhttp;
 
 import android.content.Context;
 import com.squareup.okhttp.*;
+
+import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.http.HTTPBackend;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
@@ -31,10 +35,17 @@ import java.util.concurrent.atomic.AtomicReference;
 public class OKHTTPBackend implements HTTPBackend {
 
 	private final OkHttpClient mClient;
+	private static HTTPBackend httpBackend;
 
 	public OKHTTPBackend() {
 
 		mClient = new OkHttpClient();
+
+		if(BaseActivity.getTorStatus()) {
+			Proxy tor = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("127.0.0.1", 8118));
+			//SOCKS appears to be broken for now, Relevant: https://github.com/square/okhttp/issues/2315
+			mClient.setProxy(tor);
+		}
 
 		mClient.setFollowRedirects(true);
 		mClient.setFollowSslRedirects(true);
@@ -46,6 +57,17 @@ public class OKHTTPBackend implements HTTPBackend {
 
 		// TODO Is this necessary?
 		mClient.setConnectionPool(ConnectionPool.getDefault());
+	}
+
+	public static synchronized HTTPBackend getHttpBackend() {
+		if(httpBackend == null) {
+			httpBackend = new OKHTTPBackend();
+		}
+		return httpBackend;
+	}
+
+	public static synchronized void recreateHttpBackend() {
+		httpBackend = new OKHTTPBackend();
 	}
 
 	@Override

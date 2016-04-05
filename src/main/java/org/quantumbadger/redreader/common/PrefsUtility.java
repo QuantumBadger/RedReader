@@ -384,6 +384,10 @@ public final class PrefsUtility {
 
 	public static CachePrecacheImages cache_precache_images(final Context context, final SharedPreferences sharedPreferences) {
 
+		if(network_tor(context, sharedPreferences)) {
+			return CachePrecacheImages.NEVER;
+		}
+
 		if(!getBoolean(R.string.pref_cache_precache_images_key, true, context,  sharedPreferences)) {
 			return CachePrecacheImages.NEVER;
 		} else if(getBoolean(R.string.pref_cache_precache_images_wifionly_key, true, context, sharedPreferences)) {
@@ -421,6 +425,13 @@ public final class PrefsUtility {
 	public static boolean network_https(final Context context, final SharedPreferences sharedPreferences) {
 		httpsEnabled = getBoolean(R.string.pref_network_https_key, true, context, sharedPreferences);
 		return httpsEnabled;
+	}
+
+	public static boolean torEnabled = false;
+
+	public static boolean network_tor(final Context context, final SharedPreferences sharedPreferences) {
+		torEnabled = getBoolean(R.string.pref_network_tor_key, false, context, sharedPreferences);
+		return torEnabled ;
 	}
 
 	///////////////////////////////

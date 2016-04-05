@@ -290,7 +290,7 @@ public final class RedditOAuth {
 		postFields.add(new HTTPBackend.PostField("redirect_uri", REDIRECT_URI));
 
 		try {
-			final HTTPBackend.Request request = new OKHTTPBackend().prepareRequest(
+			final HTTPBackend.Request request = OKHTTPBackend.getHttpBackend().prepareRequest(
 					context,
 					new HTTPBackend.RequestDetails(
 							General.uriFromString(uri),
@@ -361,7 +361,7 @@ public final class RedditOAuth {
 
 		try {
 			final HTTPBackend.Request request
-					= new OKHTTPBackend().prepareRequest(context, new HTTPBackend.RequestDetails(uri, null));
+					= OKHTTPBackend.getHttpBackend().prepareRequest(context, new HTTPBackend.RequestDetails(uri, null));
 
 			request.addHeader("Authorization", "bearer " + accessToken.token);
 
@@ -595,7 +595,7 @@ public final class RedditOAuth {
 		postFields.add(new HTTPBackend.PostField("refresh_token", refreshToken.token));
 
 		try {
-			final HTTPBackend.Request request = new OKHTTPBackend().prepareRequest(context, new HTTPBackend.RequestDetails(
+			final HTTPBackend.Request request = OKHTTPBackend.getHttpBackend().prepareRequest(context, new HTTPBackend.RequestDetails(
 					General.uriFromString(uri),
 					postFields));
 
@@ -670,7 +670,7 @@ public final class RedditOAuth {
 		postFields.add(new HTTPBackend.PostField("device_id", "DO_NOT_TRACK_THIS_DEVICE"));
 
 		try {
-			final HTTPBackend.Request request = new OKHTTPBackend().prepareRequest(context, new HTTPBackend.RequestDetails(
+			final HTTPBackend.Request request = OKHTTPBackend.getHttpBackend().prepareRequest(context, new HTTPBackend.RequestDetails(
 					General.uriFromString(uri),
 					postFields));
 

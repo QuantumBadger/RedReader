@@ -55,6 +55,9 @@ public class PostSubmitActivity extends BaseActivity {
 
 		PrefsUtility.applyTheme(this);
 
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 		super.onCreate(savedInstanceState);
 
 		final LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.post_submit, null);
@@ -158,7 +161,9 @@ public class PostSubmitActivity extends BaseActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
-		if(item.getTitle().equals(getString(R.string.comment_reply_send))) {
+		if (item.getItemId() == android.R.id.home) {
+			finish();
+		} else if(item.getTitle().equals(getString(R.string.comment_reply_send))) {
 			final Intent captchaIntent = new Intent(this, CaptchaActivity.class);
 			captchaIntent.putExtra("username", (String)usernameSpinner.getSelectedItem());
 			startActivityForResult(captchaIntent, 0);

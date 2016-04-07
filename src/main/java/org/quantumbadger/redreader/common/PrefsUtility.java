@@ -594,4 +594,50 @@ public final class PrefsUtility {
 
 		sharedPreferences.edit().putString(context.getString(prefId), resultStr).commit();
 	}
+
+	///////////////////////////////
+	// pref_toggled_comments
+	///////////////////////////////
+	public static ArrayList<String> pref_toggled_comments(final Context context, final SharedPreferences sharedPreferences) {
+		final String value = getString(R.string.pref_toggled_comments_key, "", context, sharedPreferences);
+		return WritableHashSet.escapedStringToList(value);
+	}
+
+	public static Long pref_toggled_comments_max_check(final Context context, final SharedPreferences sharedPreferences) {
+		long defaultMax = 100;
+		return getLong(R.string.pref_toggled_comments_max_key, defaultMax, context, sharedPreferences);
+	}
+
+	public static void pref_toggled_comments_add(
+			final Context context,
+			final SharedPreferences sharedPreferences,
+			final String commentId) {
+
+		final int prefId = R.string.pref_toggled_comments_key;
+		final ArrayList<String> list = pref_toggled_comments(context, sharedPreferences);
+		list.add(commentId);
+
+		// Keep the list pruned
+		if (list.size() > pref_toggled_comments_max_check(context, sharedPreferences)) {
+			list.remove(0);
+		}
+
+		final String result = WritableHashSet.listToEscapedString(list);
+
+		sharedPreferences.edit().putString(context.getString(prefId), result).apply();
+	}
+
+	public static void pref_toggled_comments_remove(
+			final Context context,
+			final SharedPreferences sharedPreferences,
+			final String commentId) {
+
+		final int prefId = R.string.pref_toggled_comments_key;
+		final ArrayList<String> list = pref_toggled_comments(context, sharedPreferences);
+		list.remove(commentId);
+
+		final String result = WritableHashSet.listToEscapedString(list);
+
+		sharedPreferences.edit().putString(context.getString(prefId), result).apply();
+	}
 }

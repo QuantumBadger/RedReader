@@ -189,6 +189,16 @@ public class CommentListingFragment extends RRFragment
 					comment,
 					!comment.isCollapsed(changeDataManager));
 
+			AppCompatActivity activity = getActivity();
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
+			String commentId = comment.getIdAlone();
+
+			if (comment.isCollapsed(changeDataManager)) {
+				PrefsUtility.pref_toggled_comments_add(activity, preferences, commentId);
+			} else {
+				PrefsUtility.pref_toggled_comments_remove(activity, preferences, commentId);
+			}
+
 			mCommentListingManager.notifyCommentChanged(item);
 			mCommentListingManager.updateHiddenStatus();
 		}

@@ -762,4 +762,8 @@
     <string name="error_tor_not_installed">It appears you don\'t have Orbot installed. Install now?</string>
     <string name="error_tor_setting_failed">Failed to set proxy.</string>
 
+    <!-- 2016-04-06 -->
+    <string name="pref_toggled_comments_key">pre_toggled_comments</string>
+    <string name="pref_toggled_comments_max_key">pre_toggled_comments_max</string>
+
 </resources>

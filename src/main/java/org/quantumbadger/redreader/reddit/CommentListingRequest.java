@@ -45,6 +45,7 @@ import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class CommentListingRequest {
@@ -231,6 +232,12 @@ public class CommentListingRequest {
 					mContext,
 					PreferenceManager.getDefaultSharedPreferences(context));
 
+			// This list may get outdated by the time more comments are loaded, but we are OK with that
+			// as long as the user can't have multiple posts open, as the comments will remain toggled properly.
+			final List<String> toggledComments = PrefsUtility.pref_toggled_comments(
+					mContext,
+					PreferenceManager.getDefaultSharedPreferences(context));
+
 			if(fromCache) {
 				notifyListener(Event.EVENT_CACHED_COPY, timestamp);
 			}
@@ -279,7 +286,7 @@ public class CommentListingRequest {
 				final ArrayList<RedditCommentListItem> items = new ArrayList<>(200);
 
 				for(final JsonValue commentThingValue : topLevelComments) {
-					buildCommentTree(commentThingValue, null, items, minimumCommentScore);
+					buildCommentTree(commentThingValue, null, items, minimumCommentScore, toggledComments);
 				}
 
 				final RedditChangeDataManagerVolatile changeDataManager
@@ -303,7 +310,8 @@ public class CommentListingRequest {
 			final JsonValue value,
 			final RedditCommentListItem parent,
 			final ArrayList<RedditCommentListItem> output,
-			final Integer minimumCommentScore)
+			final Integer minimumCommentScore,
+			final List<String> toggledComments)
 
 			throws IOException, InterruptedException, IllegalAccessException, java.lang.InstantiationException,
 			NoSuchMethodException, InvocationTargetException {
@@ -328,7 +336,9 @@ public class CommentListingRequest {
 							new RedditParsedComment(comment),
 							mParentPostAuthor,
 							minimumCommentScore,
-							true),
+							true,
+							toggledComments
+							),
 					parent,
 					mFragment,
 					mActivity,
@@ -342,7 +352,7 @@ public class CommentListingRequest {
 				final JsonBufferedArray children = replies.getObject("data").getArray("children");
 
 				for(final JsonValue v : children) {
-					buildCommentTree(v, item, output, minimumCommentScore);
+					buildCommentTree(v, item, output, minimumCommentScore, toggledComments);
 				}
 			}
 		}

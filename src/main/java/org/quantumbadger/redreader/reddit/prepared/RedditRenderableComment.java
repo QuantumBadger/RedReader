@@ -12,6 +12,7 @@ import org.quantumbadger.redreader.reddit.things.RedditComment;
 import org.quantumbadger.redreader.reddit.things.RedditThingWithIdAndType;
 
 import java.net.URI;
+import java.util.List;
 
 public class RedditRenderableComment implements RedditRenderableInboxItem, RedditThingWithIdAndType {
 
@@ -19,17 +20,20 @@ public class RedditRenderableComment implements RedditRenderableInboxItem, Reddi
 	private final String mParentPostAuthor;
 	private final Integer mMinimumCommentScore;
 	private final boolean mShowScore;
+	private final List<String> mToggledComments;
 
 	public RedditRenderableComment(
 			final RedditParsedComment comment,
 			final String parentPostAuthor,
 			final Integer minimumCommentScore,
-			final boolean showScore) {
+			final boolean showScore,
+			final List<String> toggledComments) {
 
 		mComment = comment;
 		mParentPostAuthor = parentPostAuthor;
 		mMinimumCommentScore = minimumCommentScore;
 		mShowScore = showScore;
+		mToggledComments = toggledComments;
 	}
 
 	private int computeScore(final RedditChangeDataManagerVolatile changeDataManager) {
@@ -217,6 +221,10 @@ public class RedditRenderableComment implements RedditRenderableInboxItem, Reddi
 
 		if(collapsed != null) {
 			return collapsed;
+		}
+
+		if (mToggledComments.contains(this.getIdAlone())) {
+			return true;
 		}
 
 		return isScoreBelowThreshold(changeDataManager);

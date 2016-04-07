@@ -756,4 +756,8 @@
     <!-- 2016-04-02 -->
     <string name="open_with">Open with</string>
 
+    <!-- 2016-04-06 -->
+    <string name="pref_toggled_comments_key">pre_toggled_comments</string>
+    <string name="pref_toggled_comments_max_key">pre_toggled_comments_max_key</string>
+
 </resources>

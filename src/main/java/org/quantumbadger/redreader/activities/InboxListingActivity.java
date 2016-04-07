@@ -56,6 +56,7 @@ import org.quantumbadger.redreader.views.liststatus.ErrorView;
 import org.quantumbadger.redreader.views.liststatus.LoadingView;
 
 import java.net.URI;
+import java.util.LinkedList;
 import java.util.UUID;
 
 public final class InboxListingActivity extends BaseActivity {
@@ -253,7 +254,7 @@ public final class InboxListingActivity extends BaseActivity {
 							case COMMENT:
 								final RedditComment comment = thing.asComment();
 								final RedditParsedComment parsedComment = new RedditParsedComment(comment);
-								final RedditRenderableComment renderableComment = new RedditRenderableComment(parsedComment, null, -100000, false);
+								final RedditRenderableComment renderableComment = new RedditRenderableComment(parsedComment, null, -100000, false, new LinkedList<String>());
 								itemHandler.sendMessage(General.handlerMessage(0, renderableComment));
 
 								break;

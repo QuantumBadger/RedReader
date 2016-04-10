@@ -33,6 +33,8 @@ import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BugReportActivity;
@@ -259,6 +261,16 @@ public final class General {
 				message = R.string.error_403_message;
 				break;
 
+			case PARSE_IMGUR:
+				title = R.string.error_parse_imgur_title;
+				message = R.string.error_parse_imgur_message;
+				break;
+
+			case UPLOAD_FAIL_IMGUR:
+				title = R.string.error_upload_fail_imgur_title;
+				message = R.string.error_upload_fail_imgur_message;
+				break;
+
 			default:
 				title = R.string.error_unknown_title;
 				message = R.string.error_unknown_message;
@@ -456,5 +468,27 @@ public final class General {
 		}
 
 		return new String(chars);
+	}
+
+	public static void copyStream(final InputStream in, final OutputStream out) throws IOException {
+
+		int bytesRead;
+		final byte[] buffer = new byte[64 * 1024];
+
+		while((bytesRead = in.read(buffer)) > 0) {
+			out.write(buffer, 0, bytesRead);
+		}
+	}
+
+	public static void setAllMarginsDp(final Context context, final View view, final int marginDp) {
+
+		final ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams)view.getLayoutParams();
+
+		final int marginPx = dpToPixels(context, marginDp);
+
+		layoutParams.leftMargin = marginPx;
+		layoutParams.rightMargin = marginPx;
+		layoutParams.topMargin = marginPx;
+		layoutParams.bottomMargin = marginPx;
 	}
 }

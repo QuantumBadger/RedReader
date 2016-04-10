@@ -55,4 +55,13 @@ public final class ThumbnailScaler {
 			return scaleAndCrop(image, image.getWidth(), Math.round(image.getWidth() * maxHeightWidthRatio), width);
 		}
 	}
+
+	public static Bitmap scaleNoCrop(final Bitmap image, final int desiredSquareSizePx) {
+
+		final int currentSquareSizePx = Math.max(image.getWidth(), image.getHeight());
+
+		final float scale = (float)desiredSquareSizePx / (float)currentSquareSizePx;
+
+		return Bitmap.createScaledBitmap(image, Math.round(scale * image.getWidth()), Math.round(scale * image.getHeight()), true);
+	}
 }

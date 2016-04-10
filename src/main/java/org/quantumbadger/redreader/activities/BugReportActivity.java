@@ -20,12 +20,14 @@ package org.quantumbadger.redreader.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.common.AndroidApi;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.RRError;
@@ -45,14 +47,27 @@ public class BugReportActivity extends BaseActivity {
 	}
 
 	public static synchronized void handleGlobalError(Context context, Throwable t) {
+
+		if(t != null) {
+			Log.e("BugReportActivity", "Handling exception", t);
+		}
+
 		handleGlobalError(context, new RRError(null, null, t));
 	}
 
-	public static synchronized void handleGlobalError(Context context, RRError error) {
-		errors.add(error);
-		final Intent intent = new Intent(context, BugReportActivity.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		context.startActivity(intent);
+	public static synchronized void handleGlobalError(final Context context, final RRError error) {
+
+		addGlobalError(error);
+
+		AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+			@Override
+			public void run() {
+				final Intent intent = new Intent(context, BugReportActivity.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				context.startActivity(intent);
+			}
+		});
+
 	}
 
 	private static synchronized LinkedList<RRError> getErrors() {

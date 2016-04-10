@@ -87,6 +87,10 @@
                     android:value=".activities.PostListingActivity"/>
         </activity>
 
+        <activity android:name=".activities.ImgurUploadActivity"
+                  android:configChanges="orientation|screenSize|keyboardHidden">
+        </activity>
+
         <activity android:name=".activities.MoreCommentsListingActivity"
                   android:configChanges="orientation|screenSize|keyboardHidden">
         </activity>
@@ -128,7 +132,6 @@
 
         <activity android:name=".activities.BugReportActivity"
                   android:configChanges="orientation|screenSize|keyboardHidden"
-                  android:theme="@android:style/Theme.Holo"
                   android:launchMode="singleInstance"/>
 
         <activity android:name=".activities.InboxListingActivity"

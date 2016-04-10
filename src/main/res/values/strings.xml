@@ -762,4 +762,24 @@
     <string name="error_tor_not_installed">It appears you don\'t have Orbot installed. Install now?</string>
     <string name="error_tor_setting_failed">Failed to set proxy.</string>
 
+    <!-- 2016-04-10 -->
+    <string name="error_parse_imgur_title">Parse Error</string>
+    <string name="error_parse_imgur_message">Imgur sent some data I couldn\'t understand.</string>
+
+    <string name="error_upload_fail_imgur_title">Upload failed</string>
+    <string name="error_upload_fail_imgur_message">The upload was rejected by Imgur for an unknown reason.</string>
+
+    <string name="upload_to_imgur">Upload to Imgur</string>
+    <string name="no_file_selected">No file selected</string>
+    <string name="button_upload">Upload</string>
+    <string name="button_browse">Browse…</string>
+
+    <string name="error_file_too_big_title">File too big</string>
+    <string name="error_file_too_big_message">The file size (%1$s) is larger than the upload limit (%2$s).</string>
+
+    <string name="error_file_open_failed_title">Failed to open file</string>
+    <string name="error_file_open_failed_message">An error occurred while trying to open the file.</string>
+
+    <string name="image_selected_summary">Image selected: %1$dx%2$d, %3$s</string>
+
 </resources>

@@ -1,3 +1,8 @@
+71/1.9.4
+Material Design
+Imgur upload support
+Experimental Tor support (thanks to SpotComms)
+
 70/1.9.3.4
 Fixed album swiping
 

@@ -26,10 +26,9 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.WindowManager;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.*;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -252,6 +251,24 @@ public class MainActivity extends RefreshableActivity
 				final EditText editText = (EditText)layout.findViewById(R.id.dialog_editbox_edittext);
 
 				editText.requestFocus();
+
+				editText.addTextChangedListener(new TextWatcher() {
+					@Override
+					public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+					@Override
+					public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+					@Override
+					public void afterTextChanged(Editable s) {
+						if (s.toString().contains(" ")) {
+							String result = s.toString().replaceAll(" ", "");
+
+							editText.setText(result);
+							editText.setSelection(result.length());
+						}
+					}
+				});
 
 				alertBuilder.setView(layout);
 				alertBuilder.setTitle(R.string.mainmenu_custom);

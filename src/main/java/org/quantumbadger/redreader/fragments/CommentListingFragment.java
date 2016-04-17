@@ -223,8 +223,8 @@ public class CommentListingFragment extends RRFragment
 					mUser,
 					mSession,
 					mDownloadType,
-					this,
-					mPost != null ? mPost.src.getAuthor() : "");
+					this
+			);
 		}
 	}
 

@@ -63,8 +63,6 @@ public class CommentListingRequest {
 
 	private final Listener mListener;
 
-	private final String mParentPostAuthor;
-
 	public CommentListingRequest(
 			final Context context,
 			final CommentListingFragment fragment,
@@ -73,8 +71,7 @@ public class CommentListingRequest {
 			final RedditAccount user,
 			final UUID session,
 			final CacheRequest.DownloadType downloadType,
-			final Listener listener,
-			final String parentPostAuthor) {
+			final Listener listener) {
 
 		mContext = context;
 		mFragment = fragment;
@@ -86,7 +83,6 @@ public class CommentListingRequest {
 		mSession = session;
 		mDownloadType = downloadType;
 		mListener = listener;
-		mParentPostAuthor = parentPostAuthor;
 
 		mCacheManager = CacheManager.getInstance(context);
 
@@ -222,6 +218,8 @@ public class CommentListingRequest {
 		@Override
 		public void onJsonParseStarted(final JsonValue value, final long timestamp, final UUID session, final boolean fromCache) {
 
+			String parentPostAuthor = null;
+
 			((SessionChangeListener)mActivity).onSessionChanged(
 					session,
 					SessionChangeListener.SessionChangeType.COMMENTS,
@@ -261,6 +259,8 @@ public class CommentListingRequest {
 							false);
 
 					notifyListener(Event.EVENT_POST_DOWNLOADED, preparedPost);
+
+					parentPostAuthor = parsedPost.getAuthor();
 				}
 
 				// Download comments
@@ -279,7 +279,7 @@ public class CommentListingRequest {
 				final ArrayList<RedditCommentListItem> items = new ArrayList<>(200);
 
 				for(final JsonValue commentThingValue : topLevelComments) {
-					buildCommentTree(commentThingValue, null, items, minimumCommentScore);
+					buildCommentTree(commentThingValue, null, items, minimumCommentScore, parentPostAuthor);
 				}
 
 				final RedditChangeDataManagerVolatile changeDataManager
@@ -303,7 +303,8 @@ public class CommentListingRequest {
 			final JsonValue value,
 			final RedditCommentListItem parent,
 			final ArrayList<RedditCommentListItem> output,
-			final Integer minimumCommentScore)
+			final Integer minimumCommentScore,
+			final String parentPostAuthor)
 
 			throws IOException, InterruptedException, IllegalAccessException, java.lang.InstantiationException,
 			NoSuchMethodException, InvocationTargetException {
@@ -326,7 +327,7 @@ public class CommentListingRequest {
 			final RedditCommentListItem item = new RedditCommentListItem(
 					new RedditRenderableComment(
 							new RedditParsedComment(comment),
-							mParentPostAuthor,
+							parentPostAuthor,
 							minimumCommentScore,
 							true),
 					parent,
@@ -342,7 +343,7 @@ public class CommentListingRequest {
 				final JsonBufferedArray children = replies.getObject("data").getArray("children");
 
 				for(final JsonValue v : children) {
-					buildCommentTree(v, item, output, minimumCommentScore);
+					buildCommentTree(v, item, output, minimumCommentScore, parentPostAuthor);
 				}
 			}
 		}

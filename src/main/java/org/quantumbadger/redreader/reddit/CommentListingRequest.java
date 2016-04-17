@@ -220,10 +220,12 @@ public class CommentListingRequest {
 
 			String parentPostAuthor = null;
 
-			((SessionChangeListener)mActivity).onSessionChanged(
-					session,
-					SessionChangeListener.SessionChangeType.COMMENTS,
-					timestamp);
+			if(mActivity instanceof SessionChangeListener) {
+				((SessionChangeListener)mActivity).onSessionChanged(
+						session,
+						SessionChangeListener.SessionChangeType.COMMENTS,
+						timestamp);
+			}
 
 			final Integer minimumCommentScore = PrefsUtility.pref_behaviour_comment_min(
 					mContext,

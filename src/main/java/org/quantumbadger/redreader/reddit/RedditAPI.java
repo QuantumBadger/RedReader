@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.reddit;
 
 import android.content.Context;
+import android.support.annotation.IntDef;
 
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
@@ -33,6 +34,8 @@ import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.things.RedditThing;
 import org.quantumbadger.redreader.reddit.things.RedditUser;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.net.URI;
 import java.util.LinkedList;
 import java.util.List;
@@ -42,6 +45,21 @@ import java.util.UUID;
 import static org.quantumbadger.redreader.http.HTTPBackend.PostField;
 
 public final class RedditAPI {
+
+	public static final int ACTION_UPVOTE = 0;
+	public static final int ACTION_UNVOTE = 1;
+	public static final int ACTION_DOWNVOTE = 2;
+	public static final int ACTION_SAVE = 3;
+	public static final int ACTION_HIDE = 4;
+	public static final int ACTION_UNSAVE = 5;
+	public static final int ACTION_UNHIDE = 6;
+	public static final int ACTION_REPORT = 7;
+	public static final int ACTION_DELETE = 8;
+
+	@IntDef({ACTION_UPVOTE, ACTION_UNVOTE, ACTION_DOWNVOTE, ACTION_SAVE, ACTION_HIDE, ACTION_UNSAVE,
+		ACTION_UNHIDE, ACTION_REPORT, ACTION_DELETE})
+	@Retention(RetentionPolicy.SOURCE)
+	public @interface RedditAction {}
 
 	public static void submit(final CacheManager cm,
 							   final APIResponseHandler.ActionResponseHandler responseHandler,
@@ -267,10 +285,6 @@ public final class RedditAPI {
 		});
 	}
 
-	public static enum RedditAction {
-		UPVOTE, UNVOTE, DOWNVOTE, SAVE, HIDE, UNSAVE, UNHIDE, REPORT, DELETE
-	}
-
 	public static enum RedditSubredditAction {
 		SUBSCRIBE, UNSUBSCRIBE
 	}
@@ -279,7 +293,7 @@ public final class RedditAPI {
 							  final APIResponseHandler.ActionResponseHandler responseHandler,
 							  final RedditAccount user,
 							  final String idAndType,
-							  final RedditAction action,
+							  final @RedditAction int action,
 							  final Context context) {
 
 		final LinkedList<PostField> postFields = new LinkedList<>();
@@ -319,26 +333,26 @@ public final class RedditAPI {
 		});
 	}
 
-	private static URI prepareActionUri(final RedditAction action, final LinkedList<PostField> postFields) {
+	private static URI prepareActionUri(final @RedditAction int action, final LinkedList<PostField> postFields) {
 		switch(action) {
-			case DOWNVOTE:
+			case ACTION_DOWNVOTE:
 				postFields.add(new PostField("dir", "-1"));
 				return Constants.Reddit.getUri(Constants.Reddit.PATH_VOTE);
 
-			case UNVOTE:
+			case ACTION_UNVOTE:
 				postFields.add(new PostField("dir", "0"));
 				return Constants.Reddit.getUri(Constants.Reddit.PATH_VOTE);
 
-			case UPVOTE:
+			case ACTION_UPVOTE:
 				postFields.add(new PostField("dir", "1"));
 				return Constants.Reddit.getUri(Constants.Reddit.PATH_VOTE);
 
-			case SAVE: return Constants.Reddit.getUri(Constants.Reddit.PATH_SAVE);
-			case HIDE: return Constants.Reddit.getUri(Constants.Reddit.PATH_HIDE);
-			case UNSAVE: return Constants.Reddit.getUri(Constants.Reddit.PATH_UNSAVE);
-			case UNHIDE: return Constants.Reddit.getUri(Constants.Reddit.PATH_UNHIDE);
-			case REPORT: return Constants.Reddit.getUri(Constants.Reddit.PATH_REPORT);
-			case DELETE: return Constants.Reddit.getUri(Constants.Reddit.PATH_DELETE);
+			case ACTION_SAVE: return Constants.Reddit.getUri(Constants.Reddit.PATH_SAVE);
+			case ACTION_HIDE: return Constants.Reddit.getUri(Constants.Reddit.PATH_HIDE);
+			case ACTION_UNSAVE: return Constants.Reddit.getUri(Constants.Reddit.PATH_UNSAVE);
+			case ACTION_UNHIDE: return Constants.Reddit.getUri(Constants.Reddit.PATH_UNHIDE);
+			case ACTION_REPORT: return Constants.Reddit.getUri(Constants.Reddit.PATH_REPORT);
+			case ACTION_DELETE: return Constants.Reddit.getUri(Constants.Reddit.PATH_DELETE);
 
 			default:
 				throw new RuntimeException("Unknown post/comment action");

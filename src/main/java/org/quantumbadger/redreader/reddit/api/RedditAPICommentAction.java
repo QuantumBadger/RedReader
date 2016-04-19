@@ -176,23 +176,23 @@ public class RedditAPICommentAction {
 		switch(action) {
 
 			case UPVOTE:
-				action(activity, comment, RedditAPI.RedditAction.UPVOTE, changeDataManager);
+				action(activity, comment, RedditAPI.ACTION_UPVOTE, changeDataManager);
 				break;
 
 			case DOWNVOTE:
-				action(activity, comment, RedditAPI.RedditAction.DOWNVOTE, changeDataManager);
+				action(activity, comment, RedditAPI.ACTION_DOWNVOTE, changeDataManager);
 				break;
 
 			case UNVOTE:
-				action(activity, comment, RedditAPI.RedditAction.UNVOTE, changeDataManager);
+				action(activity, comment, RedditAPI.ACTION_UNVOTE, changeDataManager);
 				break;
 
 			case SAVE:
-				action(activity, comment, RedditAPI.RedditAction.SAVE, changeDataManager);
+				action(activity, comment, RedditAPI.ACTION_SAVE, changeDataManager);
 				break;
 
 			case UNSAVE:
-				action(activity, comment, RedditAPI.RedditAction.UNSAVE, changeDataManager);
+				action(activity, comment, RedditAPI.ACTION_UNSAVE, changeDataManager);
 				break;
 
 			case REPORT:
@@ -203,7 +203,7 @@ public class RedditAPICommentAction {
 						.setPositiveButton(R.string.action_report,
 								new DialogInterface.OnClickListener() {
 									public void onClick(final DialogInterface dialog, final int which) {
-										action(activity, comment, RedditAPI.RedditAction.REPORT, changeDataManager);
+										action(activity, comment, RedditAPI.ACTION_REPORT, changeDataManager);
 									}
 								})
 						.setNegativeButton(R.string.dialog_cancel, null)
@@ -233,7 +233,7 @@ public class RedditAPICommentAction {
 						.setPositiveButton(R.string.action_delete,
 								new DialogInterface.OnClickListener() {
 									public void onClick(final DialogInterface dialog, final int which) {
-										action(activity, comment, RedditAPI.RedditAction.DELETE, changeDataManager);
+										action(activity, comment, RedditAPI.ACTION_DELETE, changeDataManager);
 									}
 								})
 						.setNegativeButton(R.string.dialog_cancel, null)
@@ -327,7 +327,7 @@ public class RedditAPICommentAction {
 	public static void action(
 			final AppCompatActivity activity,
 			final RedditComment comment,
-			final RedditAPI.RedditAction action,
+			final @RedditAPI.RedditAction int action,
 			final RedditChangeDataManagerVolatile changeDataManager) {
 
 		final RedditAccount user = RedditAccountManager.getInstance(activity).getDefaultAccount();
@@ -341,28 +341,28 @@ public class RedditAPICommentAction {
 		final boolean wasDownvoted = changeDataManager.isUpvoted(comment);
 
 		switch(action) {
-			case DOWNVOTE:
+			case RedditAPI.ACTION_DOWNVOTE:
 				if(!comment.archived) {
 					changeDataManager.markDownvoted(RRTime.utcCurrentTimeMillis(), comment);
 				}
 				break;
-			case UNVOTE:
+			case RedditAPI.ACTION_UNVOTE:
 				if(!comment.archived) {
 					changeDataManager.markUnvoted(RRTime.utcCurrentTimeMillis(), comment);
 				}
 				break;
-			case UPVOTE:
+			case RedditAPI.ACTION_UPVOTE:
 				if(!comment.archived) {
 					changeDataManager.markUpvoted(RRTime.utcCurrentTimeMillis(), comment);
 				}
 				break;
-			case SAVE: changeDataManager.markSaved(RRTime.utcCurrentTimeMillis(), comment, true); break;
-			case UNSAVE: changeDataManager.markSaved(RRTime.utcCurrentTimeMillis(), comment, false); break;
+			case RedditAPI.ACTION_SAVE: changeDataManager.markSaved(RRTime.utcCurrentTimeMillis(), comment, true); break;
+			case RedditAPI.ACTION_UNSAVE: changeDataManager.markSaved(RRTime.utcCurrentTimeMillis(), comment, false); break;
 		}
 
-		boolean vote = (action == RedditAPI.RedditAction.DOWNVOTE
-				| action == RedditAPI.RedditAction.UPVOTE
-				| action == RedditAPI.RedditAction.UNVOTE);
+		boolean vote = (action == RedditAPI.ACTION_DOWNVOTE
+				| action == RedditAPI.ACTION_UPVOTE
+				| action == RedditAPI.ACTION_UNVOTE);
 
 		if(comment.archived && vote){
 			Toast.makeText(activity, R.string.error_archived_vote, Toast.LENGTH_SHORT)
@@ -404,7 +404,7 @@ public class RedditAPICommentAction {
 
 					@Override
 					protected void onSuccess() {
-						if(action == RedditAPI.RedditAction.DELETE) {
+						if(action == RedditAPI.ACTION_DELETE) {
 							General.quickToast(context, R.string.delete_success);
 						}
 					}
@@ -412,9 +412,9 @@ public class RedditAPICommentAction {
 					private void revertOnFailure() {
 
 						switch(action) {
-							case DOWNVOTE:
-							case UNVOTE:
-							case UPVOTE:
+							case RedditAPI.ACTION_DOWNVOTE:
+							case RedditAPI.ACTION_UNVOTE:
+							case RedditAPI.ACTION_UPVOTE:
 								if(wasUpvoted) {
 									changeDataManager.markUpvoted(RRTime.utcCurrentTimeMillis(), comment);
 								} else if(wasDownvoted) {
@@ -422,10 +422,10 @@ public class RedditAPICommentAction {
 								} else {
 									changeDataManager.markUnvoted(RRTime.utcCurrentTimeMillis(), comment);
 								}
-							case SAVE:
+							case RedditAPI.ACTION_SAVE:
 								changeDataManager.markSaved(RRTime.utcCurrentTimeMillis(), comment, false);
 								break;
-							case UNSAVE:
+							case RedditAPI.ACTION_UNSAVE:
 								changeDataManager.markSaved(RRTime.utcCurrentTimeMillis(), comment, true);
 								break;
 						}

@@ -228,31 +228,31 @@ public final class RedditPreparedPost {
 		switch(action) {
 
 			case UPVOTE:
-				post.action(activity, RedditAPI.RedditAction.UPVOTE);
+				post.action(activity, RedditAPI.ACTION_UPVOTE);
 				break;
 
 			case DOWNVOTE:
-				post.action(activity, RedditAPI.RedditAction.DOWNVOTE);
+				post.action(activity, RedditAPI.ACTION_DOWNVOTE);
 				break;
 
 			case UNVOTE:
-				post.action(activity, RedditAPI.RedditAction.UNVOTE);
+				post.action(activity, RedditAPI.ACTION_UNVOTE);
 				break;
 
 			case SAVE:
-				post.action(activity, RedditAPI.RedditAction.SAVE);
+				post.action(activity, RedditAPI.ACTION_SAVE);
 				break;
 
 			case UNSAVE:
-				post.action(activity, RedditAPI.RedditAction.UNSAVE);
+				post.action(activity, RedditAPI.ACTION_UNSAVE);
 				break;
 
 			case HIDE:
-				post.action(activity, RedditAPI.RedditAction.HIDE);
+				post.action(activity, RedditAPI.ACTION_HIDE);
 				break;
 
 			case UNHIDE:
-				post.action(activity, RedditAPI.RedditAction.UNHIDE);
+				post.action(activity, RedditAPI.ACTION_UNHIDE);
 				break;
 
 			case DELETE:
@@ -262,7 +262,7 @@ public final class RedditPreparedPost {
 						.setPositiveButton(R.string.action_delete,
 								new DialogInterface.OnClickListener() {
 									public void onClick(final DialogInterface dialog, final int which) {
-										post.action(activity, RedditAPI.RedditAction.DELETE);
+										post.action(activity, RedditAPI.ACTION_DELETE);
 									}
 								})
 						.setNegativeButton(R.string.dialog_cancel, null)
@@ -277,7 +277,7 @@ public final class RedditPreparedPost {
 						.setPositiveButton(R.string.action_report,
 								new DialogInterface.OnClickListener() {
 									public void onClick(final DialogInterface dialog, final int which) {
-										post.action(activity, RedditAPI.RedditAction.REPORT);
+										post.action(activity, RedditAPI.ACTION_REPORT);
 										// TODO update the view to show the result
 										// TODO don't forget, this also hides
 									}
@@ -710,7 +710,7 @@ public final class RedditPreparedPost {
 		});
 	}
 
-	public void action(final AppCompatActivity activity, final RedditAPI.RedditAction action) {
+	public void action(final AppCompatActivity activity, final @RedditAPI.RedditAction int action) {
 
 		final RedditAccount user = RedditAccountManager.getInstance(activity).getDefaultAccount();
 
@@ -732,40 +732,40 @@ public final class RedditPreparedPost {
 		final long now = RRTime.utcCurrentTimeMillis();
 
 		switch(action) {
-			case DOWNVOTE:
+			case RedditAPI.ACTION_DOWNVOTE:
 				if(!archived) {
 					mChangeDataManager.markDownvoted(now, src);
 				}
 				break;
-			case UNVOTE:
+			case RedditAPI.ACTION_UNVOTE:
 				if(!archived) {
 					mChangeDataManager.markUnvoted(now, src);
 				}
 				break;
-			case UPVOTE:
+			case RedditAPI.ACTION_UPVOTE:
 				if(!archived) {
 					mChangeDataManager.markUpvoted(now, src);
 				}
 				break;
 
-			case SAVE:
+			case RedditAPI.ACTION_SAVE:
 				mChangeDataManager.markSaved(now, src, true);
 				break;
 
-			case UNSAVE:
+			case RedditAPI.ACTION_UNSAVE:
 				mChangeDataManager.markSaved(now, src, false);
 				break;
 
-			case HIDE:
+			case RedditAPI.ACTION_HIDE:
 				mChangeDataManager.markHidden(now, src, true);
 				break;
 
-			case UNHIDE:
+			case RedditAPI.ACTION_UNHIDE:
 				mChangeDataManager.markHidden(now, src, false);
 				break;
 
-			case REPORT: break;
-			case DELETE: break;
+			case RedditAPI.ACTION_REPORT: break;
+			case RedditAPI.ACTION_DELETE: break;
 
 			default:
 				throw new RuntimeException("Unknown post action");
@@ -773,9 +773,9 @@ public final class RedditPreparedPost {
 
 		refreshView(activity);
 
-		boolean vote = (action == RedditAPI.RedditAction.DOWNVOTE
-				| action == RedditAPI.RedditAction.UPVOTE
-				| action == RedditAPI.RedditAction.UNVOTE);
+		boolean vote = (action == RedditAPI.ACTION_DOWNVOTE
+				| action == RedditAPI.ACTION_UPVOTE
+				| action == RedditAPI.ACTION_UNVOTE);
 
 		if(archived && vote){
 			Toast.makeText(activity, R.string.error_archived_vote, Toast.LENGTH_SHORT)
@@ -796,7 +796,7 @@ public final class RedditPreparedPost {
 						if(t != null) t.printStackTrace();
 
 						final RRError error = General.getGeneralErrorForFailure(context, type, t, status,
-								"Reddit API action: " + action.toString() + " " + src.getIdAndType());
+								"Reddit API action code: " + action + " " + src.getIdAndType());
 						AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 							public void run() {
 								General.showResultDialog(activity, error);
@@ -822,37 +822,37 @@ public final class RedditPreparedPost {
 						final long now = RRTime.utcCurrentTimeMillis();
 
 						switch(action) {
-							case DOWNVOTE:
+							case RedditAPI.ACTION_DOWNVOTE:
 								mChangeDataManager.markDownvoted(now, src);
 								break;
 
-							case UNVOTE:
+							case RedditAPI.ACTION_UNVOTE:
 								mChangeDataManager.markUnvoted(now, src);
 								break;
 
-							case UPVOTE:
+							case RedditAPI.ACTION_UPVOTE:
 								mChangeDataManager.markUpvoted(now, src);
 								break;
 
-							case SAVE:
+							case RedditAPI.ACTION_SAVE:
 								mChangeDataManager.markSaved(now, src, true);
 								break;
 
-							case UNSAVE:
+							case RedditAPI.ACTION_UNSAVE:
 								mChangeDataManager.markSaved(now, src, false);
 								break;
 
-							case HIDE:
+							case RedditAPI.ACTION_HIDE:
 								mChangeDataManager.markHidden(now, src, true);
 								break;
 
-							case UNHIDE:
+							case RedditAPI.ACTION_UNHIDE:
 								mChangeDataManager.markHidden(now, src, false);
 								break;
 
-							case REPORT: break;
+							case RedditAPI.ACTION_REPORT: break;
 
-							case DELETE:
+							case RedditAPI.ACTION_DELETE:
 								General.quickToast(activity, R.string.delete_success);
 								break;
 
@@ -868,9 +868,9 @@ public final class RedditPreparedPost {
 						final long now = RRTime.utcCurrentTimeMillis();
 
 						switch(action) {
-							case DOWNVOTE:
-							case UNVOTE:
-							case UPVOTE:
+							case RedditAPI.ACTION_DOWNVOTE:
+							case RedditAPI.ACTION_UNVOTE:
+							case RedditAPI.ACTION_UPVOTE:
 								switch(lastVoteDirection) {
 									case -1:
 										mChangeDataManager.markDownvoted(now, src);
@@ -884,24 +884,24 @@ public final class RedditPreparedPost {
 										break;
 								}
 
-							case SAVE:
+							case RedditAPI.ACTION_SAVE:
 								mChangeDataManager.markSaved(now, src, false);
 								break;
 
-							case UNSAVE:
+							case RedditAPI.ACTION_UNSAVE:
 								mChangeDataManager.markSaved(now, src, true);
 								break;
 
-							case HIDE:
+							case RedditAPI.ACTION_HIDE:
 								mChangeDataManager.markHidden(now, src, false);
 								break;
 
-							case UNHIDE:
+							case RedditAPI.ACTION_UNHIDE:
 								mChangeDataManager.markHidden(now, src, true);
 								break;
 
-							case REPORT: break;
-							case DELETE: break;
+							case RedditAPI.ACTION_REPORT: break;
+							case RedditAPI.ACTION_DELETE: break;
 
 							default:
 								throw new RuntimeException("Unknown post action");

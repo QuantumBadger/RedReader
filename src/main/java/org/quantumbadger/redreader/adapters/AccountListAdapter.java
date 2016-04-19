@@ -63,14 +63,14 @@ public class AccountListAdapter extends HeaderRecyclerAdapter<AccountListAdapter
 	protected VH onCreateHeaderItemViewHolder(ViewGroup parent) {
 		View v = LayoutInflater.from(parent.getContext())
 			.inflate(R.layout.recycler_item, parent, false);
-		return new VH(v, context);
+		return new VH(v);
 	}
 
 	@Override
 	protected VH onCreateContentItemViewHolder(ViewGroup parent) {
 		View v = LayoutInflater.from(parent.getContext())
 			.inflate(R.layout.recycler_item, parent, false);
-		return new VH(v, context);
+		return new VH(v);
 	}
 
 	@Override
@@ -163,13 +163,11 @@ public class AccountListAdapter extends HeaderRecyclerAdapter<AccountListAdapter
 
 	static class VH extends RecyclerView.ViewHolder {
 
-		final Context context;
 		final ImageView icon;
 		final TextView text;
 
-		public VH(View itemView, Context context) {
+		public VH(View itemView) {
 			super(itemView);
-			this.context = context;
 
 			icon = (ImageView) itemView.findViewById(R.id.recycler_item_icon);
 			text = (TextView) itemView.findViewById(R.id.recycler_item_text);

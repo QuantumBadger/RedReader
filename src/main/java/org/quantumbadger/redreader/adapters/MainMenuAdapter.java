@@ -22,6 +22,7 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -66,13 +67,13 @@ public class MainMenuAdapter extends BaseAdapter {
 				R.attr.rrIconThumbDown
 		});
 
-		rrIconPerson = context.getResources().getDrawable(attr.getResourceId(0, 0));
-		rrIconEnvOpen = context.getResources().getDrawable(attr.getResourceId(1, 0));
-		rrIconSend = context.getResources().getDrawable(attr.getResourceId(2, 0));
-		rrIconStarFilled = context.getResources().getDrawable(attr.getResourceId(3, 0));
-		rrIconCross = context.getResources().getDrawable(attr.getResourceId(4, 0));
-		rrIconThumbUp = context.getResources().getDrawable(attr.getResourceId(5, 0));
-		rrIconThumbDown = context.getResources().getDrawable(attr.getResourceId(6, 0));
+		rrIconPerson = ContextCompat.getDrawable(context, attr.getResourceId(0, 0));
+		rrIconEnvOpen = ContextCompat.getDrawable(context, attr.getResourceId(1, 0));
+		rrIconSend = ContextCompat.getDrawable(context, attr.getResourceId(2, 0));
+		rrIconStarFilled = ContextCompat.getDrawable(context, attr.getResourceId(3, 0));
+		rrIconCross = ContextCompat.getDrawable(context, attr.getResourceId(4, 0));
+		rrIconThumbUp = ContextCompat.getDrawable(context, attr.getResourceId(5, 0));
+		rrIconThumbDown = ContextCompat.getDrawable(context, attr.getResourceId(6, 0));
 
 		attr.recycle();
 

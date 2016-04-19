@@ -31,16 +31,31 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.VideoView;
+
 import com.github.lzyzsd.circleprogress.DonutProgress;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.RequestFailureType;
-import org.quantumbadger.redreader.common.*;
+import org.quantumbadger.redreader.common.AndroidApi;
+import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.fragments.ImageInfoDialog;
-import org.quantumbadger.redreader.image.*;
+import org.quantumbadger.redreader.image.GetAlbumInfoListener;
+import org.quantumbadger.redreader.image.GetImageInfoListener;
+import org.quantumbadger.redreader.image.GifDecoderThread;
+import org.quantumbadger.redreader.image.ImageInfo;
+import org.quantumbadger.redreader.image.ImgurAPI;
 import org.quantumbadger.redreader.reddit.prepared.RedditParsedPost;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
@@ -325,15 +340,16 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 			final SideToolbarOverlay toolbarOverlay = new SideToolbarOverlay(this);
 
 			final BezelSwipeOverlay bezelOverlay = new BezelSwipeOverlay(this, new BezelSwipeOverlay.BezelSwipeListener() {
-
-				public boolean onSwipe(BezelSwipeOverlay.SwipeEdge edge) {
+				@Override
+				public boolean onSwipe(@BezelSwipeOverlay.SwipeEdge int edge) {
 
 					toolbarOverlay.setContents(post.generateToolbar(ImageViewActivity.this, false, toolbarOverlay));
-					toolbarOverlay.show(edge == BezelSwipeOverlay.SwipeEdge.LEFT ?
+					toolbarOverlay.show(edge == BezelSwipeOverlay.LEFT ?
 							SideToolbarOverlay.SideToolbarPosition.LEFT : SideToolbarOverlay.SideToolbarPosition.RIGHT);
 					return true;
 				}
 
+				@Override
 				public boolean onTap() {
 
 					if(toolbarOverlay.isShown()) {

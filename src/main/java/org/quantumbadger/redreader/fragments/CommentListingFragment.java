@@ -141,13 +141,13 @@ public class CommentListingFragment extends RRFragment
 		final SideToolbarOverlay toolbarOverlay = new SideToolbarOverlay(context);
 
 		final BezelSwipeOverlay bezelOverlay = new BezelSwipeOverlay(context, new BezelSwipeOverlay.BezelSwipeListener() {
-
-			public boolean onSwipe(BezelSwipeOverlay.SwipeEdge edge) {
+			@Override
+			public boolean onSwipe(@BezelSwipeOverlay.SwipeEdge int edge) {
 
 				if(mPost == null) return false;
 
 				toolbarOverlay.setContents(mPost.generateToolbar(getActivity(), true, toolbarOverlay));
-				toolbarOverlay.show(edge == BezelSwipeOverlay.SwipeEdge.LEFT ?
+				toolbarOverlay.show(edge == BezelSwipeOverlay.LEFT ?
 						SideToolbarOverlay.SideToolbarPosition.LEFT : SideToolbarOverlay.SideToolbarPosition.RIGHT);
 				return true;
 			}

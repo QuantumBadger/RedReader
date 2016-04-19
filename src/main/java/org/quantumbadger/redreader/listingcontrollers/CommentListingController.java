@@ -48,7 +48,7 @@ public class CommentListingController {
 
 	public CommentListingController(RedditURLParser.RedditURL url, final Context context) {
 
-		if(url.pathType() == RedditURLParser.PathType.PostCommentListingURL) {
+		if(url.pathType() == RedditURLParser.POST_COMMENT_LISTING_URL) {
 			if(url.asPostCommentListURL().order == null) {
 				url = url.asPostCommentListURL().order(defaultOrder(context));
 			}
@@ -66,14 +66,14 @@ public class CommentListingController {
 	}
 
 	public void setSort(final PostCommentListingURL.Sort s) {
-		if(mUrl.pathType() == RedditURLParser.PathType.PostCommentListingURL) {
+		if(mUrl.pathType() == RedditURLParser.POST_COMMENT_LISTING_URL) {
 			mUrl = mUrl.asPostCommentListURL().order(s);
 		}
 	}
 
 	public PostCommentListingURL.Sort getSort() {
 
-		if(mUrl.pathType() == RedditURLParser.PathType.PostCommentListingURL) {
+		if(mUrl.pathType() == RedditURLParser.POST_COMMENT_LISTING_URL) {
 			return mUrl.asPostCommentListURL().order;
 		}
 
@@ -94,6 +94,6 @@ public class CommentListingController {
 	}
 
 	public boolean isSortable() {
-		return mUrl.pathType() == RedditURLParser.PathType.PostCommentListingURL;
+		return mUrl.pathType() == RedditURLParser.POST_COMMENT_LISTING_URL;
 	}
 }

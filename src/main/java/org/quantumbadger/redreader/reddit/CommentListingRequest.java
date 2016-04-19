@@ -327,7 +327,7 @@ public class CommentListingRequest {
 		final RedditThing thing = value.asObject(RedditThing.class);
 
 		if(thing.getKind() == RedditThing.Kind.MORE_COMMENTS
-				&& mUrl.pathType() == RedditURLParser.PathType.PostCommentListingURL) {
+				&& mUrl.pathType() == RedditURLParser.POST_COMMENT_LISTING_URL) {
 
 			output.add(new RedditCommentListItem(
 					thing.asMoreComments(),

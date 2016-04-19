@@ -126,7 +126,7 @@ public class CommentListingFragment extends RRFragment
 		mRecyclerView.setLayoutManager(linearLayoutManager);
 		mRecyclerView.setHasFixedSize(true);
 		linearLayoutManager.setSmoothScrollbarEnabled(false);
-		
+
 		mRecyclerView.setAdapter(mCommentListingManager.getAdapter());
 		mOuterFrame.addView(mRecyclerView);
 
@@ -350,7 +350,7 @@ public class CommentListingFragment extends RRFragment
 			}
 
 			if(!mAllUrls.isEmpty()
-					&& mAllUrls.get(0).pathType() == RedditURLParser.PathType.PostCommentListingURL
+					&& mAllUrls.get(0).pathType() == RedditURLParser.POST_COMMENT_LISTING_URL
 					&& mAllUrls.get(0).asPostCommentListURL().commentId != null) {
 
 				final SpecificCommentThreadView specificCommentThreadView = new SpecificCommentThreadView(
@@ -402,7 +402,7 @@ public class CommentListingFragment extends RRFragment
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu) {
-		if(mAllUrls != null && mAllUrls.size() > 0 && mAllUrls.get(0).pathType() == RedditURLParser.PathType.PostCommentListingURL) {
+		if(mAllUrls != null && mAllUrls.size() > 0 && mAllUrls.get(0).pathType() == RedditURLParser.POST_COMMENT_LISTING_URL) {
 			menu.add(R.string.action_reply);
 		}
 	}

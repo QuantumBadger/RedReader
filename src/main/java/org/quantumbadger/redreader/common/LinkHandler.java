@@ -142,24 +142,24 @@ public class LinkHandler {
 
 			switch(redditURL.pathType()) {
 
-				case SubredditPostListingURL:
-				case UserPostListingURL:
-				case UnknownPostListingURL: {
+				case RedditURLParser.SUBREDDIT_POST_LISTING_URL:
+				case RedditURLParser.USER_POST_LISTING_URL:
+				case RedditURLParser.UNKNOWN_POST_LISTING_URL: {
 					final Intent intent = new Intent(activity, PostListingActivity.class);
 					intent.setData(redditURL.generateJsonUri());
 					activity.startActivityForResult(intent, 1);
 					return;
 				}
 
-				case PostCommentListingURL:
-				case UserCommentListingURL: {
+				case RedditURLParser.POST_COMMENT_LISTING_URL:
+				case RedditURLParser.USER_COMMENT_LISTING_URL: {
 					final Intent intent = new Intent(activity, CommentListingActivity.class);
 					intent.setData(redditURL.generateJsonUri());
 					activity.startActivityForResult(intent, 1);
 					return;
 				}
 
-				case UserProfileURL: {
+				case RedditURLParser.USER_PROFILE_URL: {
 					UserProfileDialog.newInstance(redditURL.asUserProfileURL().username).show(activity.getSupportFragmentManager(), null);
 					return;
 				}

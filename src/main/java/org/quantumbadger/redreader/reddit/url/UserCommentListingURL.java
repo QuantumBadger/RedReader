@@ -127,8 +127,9 @@ public class UserCommentListingURL extends CommentListingURL {
 	}
 
 	@Override
-	public RedditURLParser.PathType pathType() {
-		return RedditURLParser.PathType.UserCommentListingURL;
+	@RedditURLParser.PathType
+	public int pathType() {
+		return RedditURLParser.USER_COMMENT_LISTING_URL;
 	}
 
 	@Override

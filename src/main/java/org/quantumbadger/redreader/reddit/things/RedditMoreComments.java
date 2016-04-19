@@ -34,7 +34,7 @@ public class RedditMoreComments {
 
 		final ArrayList<PostCommentListingURL> urls = new ArrayList<>(16);
 
-		if(commentListingURL.pathType() == RedditURLParser.PathType.PostCommentListingURL) {
+		if(commentListingURL.pathType() == RedditURLParser.POST_COMMENT_LISTING_URL) {
 
 			if(count > 0) {
 				for(JsonValue child : children) {

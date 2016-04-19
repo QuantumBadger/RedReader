@@ -281,7 +281,7 @@ public class MainActivity extends RefreshableActivity
 						try {
 							final String normalizedName = RedditSubreddit.stripRPrefix(subredditInput);
 							final RedditURLParser.RedditURL redditURL = SubredditPostListURL.getSubreddit(normalizedName);
-							if(redditURL == null || redditURL.pathType() != RedditURLParser.PathType.SubredditPostListingURL) {
+							if(redditURL == null || redditURL.pathType() != RedditURLParser.SUBREDDIT_POST_LISTING_URL) {
 								General.quickToast(MainActivity.this, R.string.mainmenu_custom_invalid_name);
 							} else {
 								onSelected(redditURL.asSubredditPostListURL());

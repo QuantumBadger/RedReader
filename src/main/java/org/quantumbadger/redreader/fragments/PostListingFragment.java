@@ -286,12 +286,12 @@ public class PostListingFragment extends RRFragment
 
 		switch(mPostListingURL.pathType()) {
 
-			case UserPostListingURL:
-			case SearchPostListingURL:
+			case RedditURLParser.USER_POST_LISTING_URL:
+			case RedditURLParser.SEARCH_POST_LISTING_URL:
 				setHeader(mPostListingURL.humanReadableName(getActivity(), true), mPostListingURL.humanReadableUrl());
 				break;
 
-			case SubredditPostListingURL:
+			case RedditURLParser.SUBREDDIT_POST_LISTING_URL:
 
 				SubredditPostListURL subredditPostListURL
 						= (SubredditPostListURL)mPostListingURL;
@@ -416,7 +416,7 @@ public class PostListingFragment extends RRFragment
 	}
 
 	public void onPostCommentsSelected(final RedditPreparedPost post) {
-		
+
 		((RedditPostView.PostSelectionListener)getActivity()).onPostCommentsSelected(post);
 
 		new Thread() {
@@ -475,7 +475,7 @@ public class PostListingFragment extends RRFragment
 
 	public void onSubscribe() {
 
-		if(mPostListingURL.pathType() != RedditURLParser.PathType.SubredditPostListingURL) return;
+		if(mPostListingURL.pathType() != RedditURLParser.SUBREDDIT_POST_LISTING_URL) return;
 
 		try {
 			RedditSubredditSubscriptionManager
@@ -618,10 +618,10 @@ public class PostListingFragment extends RRFragment
 						|| (commentPrecachePref == PrefsUtility.CachePrecacheComments.WIFIONLY && isConnectionWifi));
 
                 final boolean isAll =
-						mPostListingURL.pathType() == RedditURLParser.PathType.SubredditPostListingURL
+						mPostListingURL.pathType() == RedditURLParser.SUBREDDIT_POST_LISTING_URL
 						&& (mPostListingURL.asSubredditPostListURL().type == SubredditPostListURL.Type.ALL
 								|| mPostListingURL.asSubredditPostListURL().type == SubredditPostListURL.Type.ALL_SUBTRACTION);
-				
+
 				final List<String> blockedSubreddits = PrefsUtility.pref_blocked_subreddits(context, mSharedPreferences); // Grab this so we don't have to pull from the prefs every post
 
 				Log.i("PostListingFragment", "Precaching images: " + (precacheImages ? "ON" : "OFF"));
@@ -631,7 +631,7 @@ public class PostListingFragment extends RRFragment
 
 				final boolean showSubredditName
 						= !(mPostListingURL != null
-						&& mPostListingURL.pathType() == RedditURLParser.PathType.SubredditPostListingURL
+						&& mPostListingURL.pathType() == RedditURLParser.SUBREDDIT_POST_LISTING_URL
 						&& mPostListingURL.asSubredditPostListURL().type == SubredditPostListURL.Type.SUBREDDIT);
 
 				final ArrayList<RedditPreparedPost> downloadedPosts = new ArrayList<>(25);
@@ -707,9 +707,9 @@ public class PostListingFragment extends RRFragment
 								}
 							});
 						}
-						
+
 						LinkHandler.getImageInfo(context, post.url, Constants.Priority.IMAGE_PRECACHE, positionInList, new GetImageInfoListener() {
-							
+
 							@Override public void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {}
 							@Override public void onNotAnImage() {}
 
@@ -722,10 +722,10 @@ public class PostListingFragment extends RRFragment
 								if(info.width != null && info.width > 2500) return;
 								if(info.height != null && info.height > 2500) return;
 								if(info.size != null && info.size > 10 * 1024 * 1024) return;
-								
+
 								final URI uri = General.uriFromString(info.urlOriginal);
 								if(uri == null) return;
-								
+
 								CacheManager.getInstance(context).makeRequest(new CacheRequest(
 										uri,
 										RedditAccountManager.getAnon(),

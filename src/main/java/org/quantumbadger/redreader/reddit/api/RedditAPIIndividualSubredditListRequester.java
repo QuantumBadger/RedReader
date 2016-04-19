@@ -179,8 +179,8 @@ public class RedditAPIIndividualSubredditListRequester
 
 					final JsonBufferedArray subreddits = redditListing.getArray("children");
 
-					final JsonBuffered.Status joinStatus = subreddits.join();
-					if(joinStatus == JsonBuffered.Status.FAILED) {
+					final @JsonBuffered.Status int joinStatus = subreddits.join();
+					if(joinStatus == JsonBuffered.STATUS_FAILED) {
 						handler.onRequestFailed(new SubredditRequestFailure(CacheRequest.REQUEST_FAILURE_PARSE, null, null, "Unknown parse error", url.toString()));
 						return;
 					}

@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.views.list;
 
 import android.content.Context;
+import android.support.annotation.IntDef;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -26,8 +27,23 @@ import android.widget.ListView;
 import org.quantumbadger.redreader.common.AndroidApi;
 import org.quantumbadger.redreader.common.HandlerTimer;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 // TODO add short highlight timer, add "onHighlight" and "onHighlightEnd" callbacks
 public class ListOverlayView extends FrameLayout {
+
+	public static final int TOUCH_EVENT_CLICK = 0;
+	public static final int TOUCH_EVENT_VERTICAL = 1;
+	public static final int TOUCH_EVENT_HORIZONTAL = 2;
+	public static final int TOUCH_EVENT_LONG_CLICK = 3;
+	public static final int TOUCH_EVENT_UNKNOWN = 4;
+	public static final int TOUCH_EVENT_SELECTED = 5;
+
+	@IntDef({TOUCH_EVENT_CLICK, TOUCH_EVENT_VERTICAL, TOUCH_EVENT_HORIZONTAL,
+		TOUCH_EVENT_LONG_CLICK, TOUCH_EVENT_UNKNOWN, TOUCH_EVENT_SELECTED})
+	@Retention(RetentionPolicy.SOURCE)
+	public @interface TouchEventType {}
 
 	private final ListView child;
 
@@ -40,13 +56,9 @@ public class ListOverlayView extends FrameLayout {
 		setLongClickable(false);
 	}
 
-	private enum TouchEventType {
-		CLICK, VERTICAL, HORIZONTAL, LONGCLICK, UNKNOWN
-	}
-
 	private MotionEvent downStart = null;
 	private RRTouchable mDownItem = null;
-	private TouchEventType touchEventType = null;
+	private @TouchEventType int touchEventType = TOUCH_EVENT_SELECTED;
 	private int mDownPointerId = -1;
 
 	private final HandlerTimer mTimer = new HandlerTimer(AndroidApi.UI_THREAD_HANDLER);
@@ -99,13 +111,13 @@ public class ListOverlayView extends FrameLayout {
 					public void run() {
 						Log.e("LOV-DEBUG", "Long click timer!");
 						mTimerLongClick = 0;
-						touchEventType = TouchEventType.LONGCLICK;
+						touchEventType = TOUCH_EVENT_LONG_CLICK;
 						mDownItem.rrOnLongClick();
 					}
 				});
 			}
 
-			touchEventType = TouchEventType.CLICK;
+			touchEventType = TOUCH_EVENT_CLICK;
 
 			return false;
 
@@ -121,9 +133,9 @@ public class ListOverlayView extends FrameLayout {
 			cancelTimers();
 
 			if(mDownItem != null) {
-				if(touchEventType == null) Log.i("Item selected", mDownItem.toString());
+				if(touchEventType == TOUCH_EVENT_SELECTED) Log.i("Item selected", mDownItem.toString());
 
-				if(touchEventType == TouchEventType.CLICK) {
+				if(touchEventType == TOUCH_EVENT_CLICK) {
 
 					final RRTouchable downItem = mDownItem;
 
@@ -152,7 +164,7 @@ public class ListOverlayView extends FrameLayout {
 				Log.e("LOV", "mDownItem was null...");
 			}
 
-			touchEventType = null;
+			touchEventType = TOUCH_EVENT_SELECTED;
 
 			return false;
 
@@ -164,14 +176,14 @@ public class ListOverlayView extends FrameLayout {
 
 			final float xDelta = ev.getX() - downStart.getX(), yDelta = ev.getY() - downStart.getY();
 
-			if(touchEventType == null || touchEventType == TouchEventType.CLICK) {
+			if(touchEventType == TOUCH_EVENT_SELECTED || touchEventType == TOUCH_EVENT_CLICK) {
 
 				if(Math.abs(yDelta) > 20 || (Math.abs(yDelta) > 3 * Math.abs(xDelta) && yDelta > 10)) {
-					touchEventType = TouchEventType.VERTICAL;
+					touchEventType = TOUCH_EVENT_VERTICAL;
 					mDownItem.rrOnFingerUp();
 
 				} else if (Math.abs(xDelta) > 30 || (Math.abs(xDelta) > 3 * Math.abs(yDelta) && xDelta > 15)) {
-					touchEventType = TouchEventType.HORIZONTAL;
+					touchEventType = TOUCH_EVENT_HORIZONTAL;
 
 				} else {
 					return false;
@@ -183,15 +195,15 @@ public class ListOverlayView extends FrameLayout {
 
 			switch(touchEventType) {
 
-				case HORIZONTAL:
+				case TOUCH_EVENT_HORIZONTAL:
 					mDownItem.rrOnSwipeDelta(xDelta);
 					return true;
 
-				case VERTICAL:
+				case TOUCH_EVENT_VERTICAL:
 					return false;
 
-				case LONGCLICK:
-				case CLICK:
+				case TOUCH_EVENT_LONG_CLICK:
+				case TOUCH_EVENT_CLICK:
 					return true;
 
 				default:
@@ -232,7 +244,7 @@ public class ListOverlayView extends FrameLayout {
 
 		super.requestDisallowInterceptTouchEvent(disallowIntercept);
 
-			touchEventType = TouchEventType.UNKNOWN;
+			touchEventType = TOUCH_EVENT_UNKNOWN;
 			cancelTimers();
 	}
 

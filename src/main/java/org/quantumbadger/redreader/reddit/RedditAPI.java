@@ -56,10 +56,17 @@ public final class RedditAPI {
 	public static final int ACTION_REPORT = 7;
 	public static final int ACTION_DELETE = 8;
 
+	public static final int SUBSCRIPTION_ACTION_SUBSCRIBE = 0;
+	public static final int SUBSCRIPTION_ACTION_UNSUBSCRIBE = 1;
+
 	@IntDef({ACTION_UPVOTE, ACTION_UNVOTE, ACTION_DOWNVOTE, ACTION_SAVE, ACTION_HIDE, ACTION_UNSAVE,
 		ACTION_UNHIDE, ACTION_REPORT, ACTION_DELETE})
 	@Retention(RetentionPolicy.SOURCE)
 	public @interface RedditAction {}
+
+	@IntDef({SUBSCRIPTION_ACTION_SUBSCRIBE, SUBSCRIPTION_ACTION_UNSUBSCRIBE})
+	@Retention(RetentionPolicy.SOURCE)
+	public @interface RedditSubredditAction {}
 
 	public static void submit(final CacheManager cm,
 							   final APIResponseHandler.ActionResponseHandler responseHandler,
@@ -285,10 +292,6 @@ public final class RedditAPI {
 		});
 	}
 
-	public static enum RedditSubredditAction {
-		SUBSCRIBE, UNSUBSCRIBE
-	}
-
 	public static void action(final CacheManager cm,
 							  final APIResponseHandler.ActionResponseHandler responseHandler,
 							  final RedditAccount user,
@@ -363,7 +366,7 @@ public final class RedditAPI {
 							  final APIResponseHandler.ActionResponseHandler responseHandler,
 							  final RedditAccount user,
 							  final String subredditCanonicalName,
-							  final RedditSubredditAction action,
+							  final @RedditSubredditAction int action,
 							  final Context context) {
 
 		RedditSubredditManager.getInstance(context, user).getSubreddit(
@@ -426,14 +429,14 @@ public final class RedditAPI {
 		);
 	}
 
-	private static URI subscriptionPrepareActionUri(final RedditSubredditAction action,
+	private static URI subscriptionPrepareActionUri(final @RedditSubredditAction int action,
 										final LinkedList<PostField> postFields) {
 		switch(action) {
-			case SUBSCRIBE:
+			case SUBSCRIPTION_ACTION_SUBSCRIBE:
 				postFields.add(new PostField("action", "sub"));
 				return Constants.Reddit.getUri(Constants.Reddit.PATH_SUBSCRIBE);
 
-			case UNSUBSCRIBE:
+			case SUBSCRIPTION_ACTION_UNSUBSCRIBE:
 				postFields.add(new PostField("action", "unsub"));
 				return Constants.Reddit.getUri(Constants.Reddit.PATH_SUBSCRIBE);
 

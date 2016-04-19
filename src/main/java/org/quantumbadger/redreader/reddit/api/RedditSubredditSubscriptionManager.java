@@ -176,10 +176,10 @@ public class RedditSubredditSubscriptionManager {
 
 		RedditAPI.subscriptionAction(
 				CacheManager.getInstance(context),
-				new SubredditActionResponseHandler(activity, RedditAPI.RedditSubredditAction.SUBSCRIBE, subredditCanonicalId),
+				new SubredditActionResponseHandler(activity, RedditAPI.SUBSCRIPTION_ACTION_SUBSCRIBE, subredditCanonicalId),
 				user,
 				subredditCanonicalId,
-				RedditAPI.RedditSubredditAction.SUBSCRIBE,
+				RedditAPI.SUBSCRIPTION_ACTION_SUBSCRIBE,
 				context
 		);
 
@@ -190,10 +190,10 @@ public class RedditSubredditSubscriptionManager {
 
 		RedditAPI.subscriptionAction(
 				CacheManager.getInstance(context),
-				new SubredditActionResponseHandler(activity, RedditAPI.RedditSubredditAction.UNSUBSCRIBE, subredditCanonicalId),
+				new SubredditActionResponseHandler(activity, RedditAPI.SUBSCRIPTION_ACTION_UNSUBSCRIBE, subredditCanonicalId),
 				user,
 				subredditCanonicalId,
-				RedditAPI.RedditSubredditAction.UNSUBSCRIBE,
+				RedditAPI.SUBSCRIPTION_ACTION_UNSUBSCRIBE,
 				context
 		);
 
@@ -202,12 +202,12 @@ public class RedditSubredditSubscriptionManager {
 
 	private class SubredditActionResponseHandler extends APIResponseHandler.ActionResponseHandler {
 
-		private final RedditAPI.RedditSubredditAction action;
+		private final @RedditAPI.RedditSubredditAction int action;
 		private final AppCompatActivity activity;
 		private final String canonicalName;
 
 		protected SubredditActionResponseHandler(AppCompatActivity activity,
-												 RedditAPI.RedditSubredditAction action,
+												 @RedditAPI.RedditSubredditAction int action,
 												 String canonicalName) {
 			super(activity);
 			this.activity = activity;
@@ -219,10 +219,10 @@ public class RedditSubredditSubscriptionManager {
 		protected void onSuccess() {
 
 			switch(action) {
-				case SUBSCRIBE:
+				case RedditAPI.SUBSCRIPTION_ACTION_SUBSCRIBE:
 					onSubscriptionAttemptSuccess(canonicalName);
 					break;
-				case UNSUBSCRIBE:
+				case RedditAPI.SUBSCRIPTION_ACTION_UNSUBSCRIBE:
 					onUnsubscriptionAttemptSuccess(canonicalName);
 					break;
 			}

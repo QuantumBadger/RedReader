@@ -68,7 +68,7 @@ public class CommentListingFragment extends RRFragment
 	private final ArrayList<RedditURLParser.RedditURL> mAllUrls;
 	private final LinkedList<RedditURLParser.RedditURL> mUrlsToDownload;
 	private final UUID mSession;
-	private final CacheRequest.DownloadType mDownloadType;
+	private final @CacheRequest.DownloadType int mDownloadType;
 
 	private RedditPreparedPost mPost = null;
 
@@ -90,7 +90,7 @@ public class CommentListingFragment extends RRFragment
 			final Bundle savedInstanceState,
 			final ArrayList<RedditURLParser.RedditURL> urls,
 			final UUID session,
-			final CacheRequest.DownloadType downloadType) {
+			final @CacheRequest.DownloadType int downloadType) {
 
 		super(parent, savedInstanceState);
 

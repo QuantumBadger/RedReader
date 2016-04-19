@@ -340,8 +340,8 @@ public final class RedditPreparedPost {
 					public void onSuccess(final ImageInfo info) {
 
 						CacheManager.getInstance(activity).makeRequest(new CacheRequest(General.uriFromString(info.urlOriginal), anon, null,
-								Constants.Priority.IMAGE_VIEW, 0, CacheRequest.DownloadType.IF_NECESSARY,
-								Constants.FileType.IMAGE, CacheRequest.DownloadQueueType.IMMEDIATE, false, false, activity) {
+								Constants.Priority.IMAGE_VIEW, 0, CacheRequest.DOWNLOAD_IF_NECESSARY,
+								Constants.FileType.IMAGE, CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE, false, false, activity) {
 
 							@Override
 							protected void onCallbackException(Throwable t) {
@@ -599,7 +599,7 @@ public final class RedditPreparedPost {
 
 		final RedditAccount anon = RedditAccountManager.getAnon();
 
-		cm.makeRequest(new CacheRequest(uri, anon, null, priority, listId, CacheRequest.DownloadType.IF_NECESSARY, fileType, CacheRequest.DownloadQueueType.IMMEDIATE, false, false, context) {
+		cm.makeRequest(new CacheRequest(uri, anon, null, priority, listId, CacheRequest.DOWNLOAD_IF_NECESSARY, fileType, CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE, false, false, context) {
 
 			@Override
 			protected void onDownloadNecessary() {}

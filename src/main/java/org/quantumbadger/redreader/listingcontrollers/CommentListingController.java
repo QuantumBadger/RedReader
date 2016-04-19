@@ -90,7 +90,7 @@ public class CommentListingController {
 
 	public CommentListingFragment get(final AppCompatActivity parent, final boolean force, final Bundle savedInstanceState) {
 		if(force) mSession = null;
-		return new CommentListingFragment(parent, savedInstanceState, General.listOfOne((RedditURLParser.RedditURL)mUrl), mSession, force ? CacheRequest.DownloadType.FORCE : CacheRequest.DownloadType.IF_NECESSARY);
+		return new CommentListingFragment(parent, savedInstanceState, General.listOfOne((RedditURLParser.RedditURL)mUrl), mSession, force ? CacheRequest.DOWNLOAD_FORCE : CacheRequest.DOWNLOAD_IF_NECESSARY);
 	}
 
 	public boolean isSortable() {

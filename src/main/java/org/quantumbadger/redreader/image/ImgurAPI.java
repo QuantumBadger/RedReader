@@ -53,7 +53,7 @@ public final class ImgurAPI {
 
 		public static AlbumInfo parse(final String id, final JsonBufferedObject object)
 				throws IOException, InterruptedException {
-			
+
 			String title = object.getString("title");
 			String description = object.getString("description");
 
@@ -115,9 +115,9 @@ public final class ImgurAPI {
 				null,
 				priority,
 				listId,
-				CacheRequest.DownloadType.IF_NECESSARY,
+				CacheRequest.DOWNLOAD_IF_NECESSARY,
 				Constants.FileType.IMAGE_INFO,
-				CacheRequest.DownloadQueueType.IMMEDIATE,
+				CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
 				true,
 				false,
 				context
@@ -173,9 +173,9 @@ public final class ImgurAPI {
 				null,
 				priority,
 				listId,
-				CacheRequest.DownloadType.IF_NECESSARY,
+				CacheRequest.DOWNLOAD_IF_NECESSARY,
 				Constants.FileType.IMAGE_INFO,
-				CacheRequest.DownloadQueueType.IMMEDIATE,
+				CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
 				true,
 				false,
 				context

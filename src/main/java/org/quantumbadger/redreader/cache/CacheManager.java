@@ -339,7 +339,7 @@ public final class CacheManager {
 
 			switch(request.downloadType) {
 
-				case NEVER: {
+				case CacheRequest.DOWNLOAD_NEVER: {
 
 					final LinkedList<CacheEntry> result = dbManager.select(request.url, request.user.username, request.requestSession);
 
@@ -354,7 +354,7 @@ public final class CacheManager {
 					break;
 				}
 
-				case IF_NECESSARY: {
+				case CacheRequest.DOWNLOAD_IF_NECESSARY: {
 
 					final LinkedList<CacheEntry> result = dbManager.select(request.url, request.user.username, request.requestSession);
 
@@ -369,7 +369,7 @@ public final class CacheManager {
 					break;
 				}
 
-				case FORCE:
+				case CacheRequest.DOWNLOAD_FORCE:
 					queueDownload(request);
 					break;
 			}
@@ -399,7 +399,7 @@ public final class CacheManager {
 
 			if(cacheFile == null) {
 
-				if(request.downloadType == CacheRequest.DownloadType.IF_NECESSARY) {
+				if(request.downloadType == CacheRequest.DOWNLOAD_IF_NECESSARY) {
 					queueDownload(request);
 				} else {
 					request.notifyFailure(RequestFailureType.STORAGE, null, null, "A cache entry was found in the database, but the actual data couldn't be found. Press refresh to download the content again.");
@@ -456,7 +456,7 @@ public final class CacheManager {
 								existingCacheFile.delete();
 							}
 
-							if(request.downloadType == CacheRequest.DownloadType.IF_NECESSARY) {
+							if(request.downloadType == CacheRequest.DOWNLOAD_IF_NECESSARY) {
 								queueDownload(request);
 							} else {
 								request.notifyFailure(RequestFailureType.PARSE, t, null, "Error parsing the JSON stream");

@@ -48,11 +48,11 @@ public final class ImgurAPIV3 {
 				null,
 				priority,
 				listId,
-				CacheRequest.DownloadType.IF_NECESSARY,
+				CacheRequest.DOWNLOAD_IF_NECESSARY,
 				Constants.FileType.IMAGE_INFO,
 				withAuth
-						? CacheRequest.DownloadQueueType.IMGUR_API
-						: CacheRequest.DownloadQueueType.IMMEDIATE,
+						? CacheRequest.DOWNLOAD_QUEUE_IMGUR_API
+						: CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
 				true,
 				false,
 				context
@@ -109,11 +109,11 @@ public final class ImgurAPIV3 {
 				null,
 				priority,
 				listId,
-				CacheRequest.DownloadType.IF_NECESSARY,
+				CacheRequest.DOWNLOAD_IF_NECESSARY,
 				Constants.FileType.IMAGE_INFO,
 				withAuth
-					? CacheRequest.DownloadQueueType.IMGUR_API
-					: CacheRequest.DownloadQueueType.IMMEDIATE,
+					? CacheRequest.DOWNLOAD_QUEUE_IMGUR_API
+					: CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
 				true,
 				false,
 				context

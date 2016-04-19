@@ -91,7 +91,7 @@ public class PostListingController {
 
 	public final PostListingFragment get(final AppCompatActivity parent, final boolean force, final Bundle savedInstanceState) {
 		if(force) session = null;
-		return new PostListingFragment(parent, savedInstanceState, getUri(), session, force ? CacheRequest.DownloadType.FORCE : CacheRequest.DownloadType.IF_NECESSARY);
+		return new PostListingFragment(parent, savedInstanceState, getUri(), session, force ? CacheRequest.DOWNLOAD_FORCE : CacheRequest.DOWNLOAD_IF_NECESSARY);
 	}
 
 	public final boolean isSubreddit() {

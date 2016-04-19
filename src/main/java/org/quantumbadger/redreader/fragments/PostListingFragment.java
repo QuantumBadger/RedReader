@@ -170,7 +170,7 @@ public class PostListingFragment extends RRFragment
 			final Bundle savedInstanceState,
 			final Uri url,
 			final UUID session,
-			final CacheRequest.DownloadType downloadType) {
+			final @CacheRequest.DownloadType int downloadType) {
 
 		super(parent, savedInstanceState);
 
@@ -448,7 +448,7 @@ public class PostListingFragment extends RRFragment
 				final Uri newUri = mPostListingURL.after(mAfter).generateJsonUri();
 
 				// TODO customise (currently 3 hrs)
-				CacheRequest.DownloadType type = (RRTime.since(mTimestamp) < 3 * 60 * 60 * 1000) ? CacheRequest.DownloadType.IF_NECESSARY : CacheRequest.DownloadType.NEVER;
+				@CacheRequest.DownloadType int type = (RRTime.since(mTimestamp) < 3 * 60 * 60 * 1000) ? CacheRequest.DOWNLOAD_IF_NECESSARY : CacheRequest.DOWNLOAD_NEVER;
 
 				int limit = 50;
 
@@ -534,8 +534,8 @@ public class PostListingFragment extends RRFragment
 
 		private final boolean firstDownload;
 
-		protected PostListingRequest(Uri url, RedditAccount user, UUID requestSession, DownloadType downloadType, boolean firstDownload) {
-			super(General.uriFromString(url.toString()), user, requestSession, Constants.Priority.API_POST_LIST, 0, downloadType, Constants.FileType.POST_LIST, DownloadQueueType.REDDIT_API, true, false, getActivity());
+		protected PostListingRequest(Uri url, RedditAccount user, UUID requestSession, @DownloadType int downloadType, boolean firstDownload) {
+			super(General.uriFromString(url.toString()), user, requestSession, Constants.Priority.API_POST_LIST, 0, downloadType, Constants.FileType.POST_LIST, DOWNLOAD_QUEUE_REDDIT_API, true, false, getActivity());
 			this.firstDownload = firstDownload;
 		}
 		@Override
@@ -677,9 +677,9 @@ public class PostListingFragment extends RRFragment
 									null,
 									Constants.Priority.COMMENT_PRECACHE,
 									positionInList,
-									DownloadType.IF_NECESSARY,
+									DOWNLOAD_IF_NECESSARY,
 									Constants.FileType.COMMENT_LIST,
-									DownloadQueueType.REDDIT_API,
+									DOWNLOAD_QUEUE_REDDIT_API,
 									false, // Don't parse the JSON
 									false,
 									context) {
@@ -732,9 +732,9 @@ public class PostListingFragment extends RRFragment
 										null,
 										Constants.Priority.IMAGE_PRECACHE,
 										positionInList,
-										DownloadType.IF_NECESSARY,
+										DOWNLOAD_IF_NECESSARY,
 										Constants.FileType.IMAGE,
-										DownloadQueueType.QUEUE_IMAGE_PRECACHE,
+										DOWNLOAD_QUEUE_IMAGE_PRECACHE,
 										false,
 										false,
 										context

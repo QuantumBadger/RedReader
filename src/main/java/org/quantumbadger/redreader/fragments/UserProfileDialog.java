@@ -186,6 +186,6 @@ public class UserProfileDialog extends PropertiesDialog {
 				});
 			}
 
-		}, RedditAccountManager.getInstance(context).getDefaultAccount(), CacheRequest.DownloadType.FORCE, true, context);
+		}, RedditAccountManager.getInstance(context).getDefaultAccount(), CacheRequest.DOWNLOAD_FORCE, true, context);
 	}
 }

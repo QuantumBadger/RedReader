@@ -47,9 +47,9 @@ public final class StreamableAPI {
 				null,
 				priority,
 				listId,
-				CacheRequest.DownloadType.IF_NECESSARY,
+				CacheRequest.DOWNLOAD_IF_NECESSARY,
 				Constants.FileType.IMAGE_INFO,
-				CacheRequest.DownloadQueueType.IMMEDIATE,
+				CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
 				true,
 				false,
 				context

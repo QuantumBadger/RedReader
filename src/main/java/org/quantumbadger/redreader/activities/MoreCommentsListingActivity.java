@@ -145,7 +145,7 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 				savedInstanceState,
 				mUrls,
 				null,
-				force ? CacheRequest.DownloadType.FORCE : CacheRequest.DownloadType.IF_NECESSARY);
+				force ? CacheRequest.DOWNLOAD_FORCE : CacheRequest.DOWNLOAD_IF_NECESSARY);
 
 		mPane.removeAllViews();
 		mPane.addView(mFragment.getView());

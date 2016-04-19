@@ -98,7 +98,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 
 	private void performDownload(final HTTPBackend.Request request) {
 
-		if(mInitiator.queueType == CacheRequest.DownloadQueueType.REDDIT_API) {
+		if(mInitiator.queueType == CacheRequest.DOWNLOAD_QUEUE_REDDIT_API) {
 
 			RedditOAuth.AccessToken accessToken = mInitiator.user.getMostRecentAccessToken();
 
@@ -132,7 +132,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 
 		}
 
-		if(mInitiator.queueType == CacheRequest.DownloadQueueType.IMGUR_API) {
+		if(mInitiator.queueType == CacheRequest.DOWNLOAD_QUEUE_IMGUR_API) {
 			request.addHeader("Authorization", "Client-ID c3713d9e7674477");
 		}
 
@@ -141,7 +141,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 		request.executeInThisThread(new HTTPBackend.Listener() {
 			@Override
 			public void onError(final RequestFailureType failureType, final Throwable exception, final Integer httpStatus) {
-				if(mInitiator.queueType == CacheRequest.DownloadQueueType.REDDIT_API && BaseActivity.getTorStatus()) {
+				if(mInitiator.queueType == CacheRequest.DOWNLOAD_QUEUE_REDDIT_API && BaseActivity.getTorStatus()) {
 					OKHTTPBackend.recreateHttpBackend();
 					resetUserCredentialsOnNextRequest();
 				}

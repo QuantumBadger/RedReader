@@ -64,7 +64,7 @@ public class CommentListingRequest {
 	private final RedditURLParser.RedditURL mUrl;
 	private final RedditAccount mUser;
 	private final UUID mSession;
-	private final CacheRequest.DownloadType mDownloadType;
+	private final @CacheRequest.DownloadType int mDownloadType;
 
 	private final Listener mListener;
 
@@ -75,7 +75,7 @@ public class CommentListingRequest {
 			final RedditURLParser.RedditURL url,
 			final RedditAccount user,
 			final UUID session,
-			final CacheRequest.DownloadType downloadType,
+			final @CacheRequest.DownloadType int downloadType,
 			final Listener listener) {
 
 		mContext = context;
@@ -191,7 +191,7 @@ public class CommentListingRequest {
 					0,
 					mDownloadType,
 					Constants.FileType.COMMENT_LIST,
-					DownloadQueueType.REDDIT_API,
+					DOWNLOAD_QUEUE_REDDIT_API,
 					true,
 					false,
 					mContext);

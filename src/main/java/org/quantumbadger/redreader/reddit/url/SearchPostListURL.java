@@ -119,8 +119,7 @@ public class SearchPostListURL extends PostListingURL {
 	}
 
 	@Override
-	@RedditURLParser.PathType
-	public int pathType() {
+	public @RedditURLParser.PathType int pathType() {
 		return RedditURLParser.SEARCH_POST_LISTING_URL;
 	}
 

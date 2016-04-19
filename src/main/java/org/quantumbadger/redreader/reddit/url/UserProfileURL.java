@@ -82,8 +82,7 @@ public class UserProfileURL extends RedditURLParser.RedditURL {
 	}
 
 	@Override
-	@RedditURLParser.PathType
-	public int pathType() {
+	public @RedditURLParser.PathType int pathType() {
 		return RedditURLParser.USER_PROFILE_URL;
 	}
 

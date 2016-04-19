@@ -205,8 +205,7 @@ public class PostCommentListingURL extends CommentListingURL {
 	}
 
 	@Override
-	@RedditURLParser.PathType
-	public int pathType() {
+	public @RedditURLParser.PathType int pathType() {
 		return RedditURLParser.POST_COMMENT_LISTING_URL;
 	}
 

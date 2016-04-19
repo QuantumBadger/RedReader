@@ -123,8 +123,7 @@ public class RedditURLParser {
 	public static abstract class RedditURL {
 		public abstract Uri generateJsonUri();
 
-		@PathType
-		public abstract int pathType();
+		public abstract @PathType int pathType();
 
 		public final SubredditPostListURL asSubredditPostListURL() {
 			return (SubredditPostListURL) this;

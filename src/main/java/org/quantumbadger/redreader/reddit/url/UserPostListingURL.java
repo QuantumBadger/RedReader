@@ -164,8 +164,7 @@ public class UserPostListingURL extends PostListingURL {
 	}
 
 	@Override
-	@RedditURLParser.PathType
-	public int pathType() {
+	public @RedditURLParser.PathType int pathType() {
 		return RedditURLParser.USER_POST_LISTING_URL;
 	}
 

@@ -206,45 +206,45 @@ public class MainActivity extends RefreshableActivity
 				.addListener(this);
 	}
 
-	public void onSelected(final MainMenuFragment.MainMenuAction type, final String name) {
+	public void onSelected(final @MainMenuFragment.MainMenuAction int type, final String name) {
 
 		final String username = RedditAccountManager.getInstance(this).getDefaultAccount().username;
 
 		switch(type) {
 
-			case FRONTPAGE:
+			case MainMenuFragment.FRONTPAGE:
 				onSelected(SubredditPostListURL.getFrontPage());
 				break;
 
-			case ALL:
+			case MainMenuFragment.ALL:
 				onSelected(SubredditPostListURL.getAll());
 				break;
 
-			case SUBMITTED:
+			case MainMenuFragment.SUBMITTED:
 				onSelected(UserPostListingURL.getSubmitted(username));
 				break;
 
-			case SAVED:
+			case MainMenuFragment.SAVED:
 				onSelected(UserPostListingURL.getSaved(username));
 				break;
 
-			case HIDDEN:
+			case MainMenuFragment.HIDDEN:
 				onSelected(UserPostListingURL.getHidden(username));
 				break;
 
-			case UPVOTED:
+			case MainMenuFragment.UPVOTED:
 				onSelected(UserPostListingURL.getLiked(username));
 				break;
 
-			case DOWNVOTED:
+			case MainMenuFragment.DOWNVOTED:
 				onSelected(UserPostListingURL.getDisliked(username));
 				break;
 
-			case PROFILE:
+			case MainMenuFragment.PROFILE:
 				LinkHandler.onLinkClicked(this, new UserProfileURL(RedditAccountManager.getInstance(this).getDefaultAccount().username).toString());
 				break;
 
-			case CUSTOM: {
+			case MainMenuFragment.CUSTOM: {
 
 				final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
 				final LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.dialog_editbox, null);
@@ -301,11 +301,11 @@ public class MainActivity extends RefreshableActivity
 				break;
 			}
 
-			case INBOX:
+			case MainMenuFragment.INBOX:
 				startActivity(new Intent(this, InboxListingActivity.class));
 				break;
 
-			case MODMAIL: {
+			case MainMenuFragment.MODMAIL: {
 				final Intent intent = new Intent(this, InboxListingActivity.class);
 				intent.putExtra("modmail", true);
 				startActivity(intent);

@@ -142,9 +142,9 @@ public class MainMenuAdapter extends BaseAdapter {
 
 		//items.add(new MainMenuItem("Reddit"));
 
-		mainItems.add(makeItem(context.getString(R.string.mainmenu_frontpage), MainMenuFragment.MainMenuAction.FRONTPAGE, null, null));
-		mainItems.add(makeItem(context.getString(R.string.mainmenu_all), MainMenuFragment.MainMenuAction.ALL, null, null));
-		mainItems.add(makeItem(context.getString(R.string.mainmenu_custom), MainMenuFragment.MainMenuAction.CUSTOM, null, null));
+		mainItems.add(makeItem(context.getString(R.string.mainmenu_frontpage), MainMenuFragment.FRONTPAGE, null, null));
+		mainItems.add(makeItem(context.getString(R.string.mainmenu_all), MainMenuFragment.ALL, null, null));
+		mainItems.add(makeItem(context.getString(R.string.mainmenu_custom), MainMenuFragment.CUSTOM, null, null));
 
 		if(!user.isAnonymous()) {
 
@@ -159,28 +159,28 @@ public class MainMenuAdapter extends BaseAdapter {
 					= PrefsUtility.pref_menus_mainmenu_useritems(context, sharedPreferences);
 
 			if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.PROFILE))
-				mainItems.add(makeItem(context.getString(R.string.mainmenu_profile), MainMenuFragment.MainMenuAction.PROFILE, null, rrIconPerson));
+				mainItems.add(makeItem(context.getString(R.string.mainmenu_profile), MainMenuFragment.PROFILE, null, rrIconPerson));
 
 			if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.INBOX))
-				mainItems.add(makeItem(context.getString(R.string.mainmenu_inbox), MainMenuFragment.MainMenuAction.INBOX, null, rrIconEnvOpen));
+				mainItems.add(makeItem(context.getString(R.string.mainmenu_inbox), MainMenuFragment.INBOX, null, rrIconEnvOpen));
 
 			if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.SUBMITTED))
-				mainItems.add(makeItem(context.getString(R.string.mainmenu_submitted), MainMenuFragment.MainMenuAction.SUBMITTED, null, rrIconSend));
+				mainItems.add(makeItem(context.getString(R.string.mainmenu_submitted), MainMenuFragment.SUBMITTED, null, rrIconSend));
 
 			if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.SAVED))
-				mainItems.add(makeItem(context.getString(R.string.mainmenu_saved), MainMenuFragment.MainMenuAction.SAVED, null, rrIconStarFilled));
+				mainItems.add(makeItem(context.getString(R.string.mainmenu_saved), MainMenuFragment.SAVED, null, rrIconStarFilled));
 
 			if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.HIDDEN))
-				mainItems.add(makeItem(context.getString(R.string.mainmenu_hidden), MainMenuFragment.MainMenuAction.HIDDEN, null, rrIconCross));
+				mainItems.add(makeItem(context.getString(R.string.mainmenu_hidden), MainMenuFragment.HIDDEN, null, rrIconCross));
 
 			if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.UPVOTED))
-				mainItems.add(makeItem(context.getString(R.string.mainmenu_upvoted), MainMenuFragment.MainMenuAction.UPVOTED, null, rrIconThumbUp));
+				mainItems.add(makeItem(context.getString(R.string.mainmenu_upvoted), MainMenuFragment.UPVOTED, null, rrIconThumbUp));
 
 			if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.DOWNVOTED))
-				mainItems.add(makeItem(context.getString(R.string.mainmenu_downvoted), MainMenuFragment.MainMenuAction.DOWNVOTED, null, rrIconThumbDown));
+				mainItems.add(makeItem(context.getString(R.string.mainmenu_downvoted), MainMenuFragment.DOWNVOTED, null, rrIconThumbDown));
 
 			if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.MODMAIL))
-				mainItems.add(makeItem(context.getString(R.string.mainmenu_modmail), MainMenuFragment.MainMenuAction.MODMAIL, null, rrIconEnvOpen));
+				mainItems.add(makeItem(context.getString(R.string.mainmenu_modmail), MainMenuFragment.MODMAIL, null, rrIconEnvOpen));
 		}
 
 		final List<String> pinnedSubreddits
@@ -201,11 +201,11 @@ public class MainMenuAdapter extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 
-	private MainMenuItem makeItem(final int nameRes, final MainMenuFragment.MainMenuAction action, final String actionName, final Drawable icon) {
+	private MainMenuItem makeItem(final int nameRes, final @MainMenuFragment.MainMenuAction int action, final String actionName, final Drawable icon) {
 		return makeItem(context.getString(nameRes), action, actionName, icon);
 	}
 
-	private MainMenuItem makeItem(final String name, final MainMenuFragment.MainMenuAction action, final String actionName, final Drawable icon) {
+	private MainMenuItem makeItem(final String name, final @MainMenuFragment.MainMenuAction int action, final String actionName, final Drawable icon) {
 
 		final View.OnClickListener clickListener = new View.OnClickListener() {
 			public void onClick(final View view) {

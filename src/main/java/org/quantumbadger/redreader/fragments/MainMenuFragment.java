@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.IntDef;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,10 +42,29 @@ import org.quantumbadger.redreader.reddit.url.PostListingURL;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
 import org.quantumbadger.redreader.views.liststatus.LoadingView;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.Collection;
 import java.util.HashSet;
 
 public class MainMenuFragment extends RRFragment implements MainMenuSelectionListener, RedditSubredditSubscriptionManager.SubredditSubscriptionStateChangeListener {
+
+	public static final int FRONTPAGE = 0;
+	public static final int PROFILE = 1;
+	public static final int INBOX = 2;
+	public static final int SUBMITTED = 3;
+	public static final int UPVOTED = 4;
+	public static final int DOWNVOTED = 5;
+	public static final int SAVED = 6;
+	public static final int MODMAIL = 7;
+	public static final int HIDDEN = 8;
+	public static final int CUSTOM = 9;
+	public static final int ALL = 10;
+
+	@IntDef({FRONTPAGE, PROFILE, INBOX, SUBMITTED, UPVOTED, DOWNVOTED, SAVED, MODMAIL, HIDDEN,
+		CUSTOM, ALL})
+	@Retention(RetentionPolicy.SOURCE)
+	public @interface MainMenuAction {}
 
 	private final MainMenuAdapter mAdapter;
 
@@ -125,10 +145,6 @@ public class MainMenuFragment extends RRFragment implements MainMenuSelectionLis
 		lv.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
 	}
 
-	public enum MainMenuAction {
-		FRONTPAGE, PROFILE, INBOX, SUBMITTED, UPVOTED, DOWNVOTED, SAVED, MODMAIL, HIDDEN, CUSTOM, ALL
-	}
-
 	public enum MainMenuUserItems {
 		PROFILE, INBOX, SUBMITTED, SAVED, HIDDEN, UPVOTED, DOWNVOTED, MODMAIL
 	}
@@ -157,10 +173,12 @@ public class MainMenuFragment extends RRFragment implements MainMenuSelectionLis
 		});
 	}
 
-	public void onSelected(final MainMenuAction type, final String name) {
+	@Override
+	public void onSelected(final @MainMenuAction int type, final String name) {
 		((MainMenuSelectionListener)getActivity()).onSelected(type, name);
 	}
 
+	@Override
 	public void onSelected(final PostListingURL postListingURL) {
 		((MainMenuSelectionListener)getActivity()).onSelected(postListingURL);
 	}

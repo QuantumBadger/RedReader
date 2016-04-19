@@ -484,7 +484,7 @@ public final class RedditAPI {
 
 		switch(response.getType()) {
 
-			case OBJECT:
+			case JsonValue.TYPE_OBJECT:
 
 				for(final Map.Entry<String, JsonValue> v : response.asObject()) {
 					final APIResponseHandler.APIFailureType failureType = findFailureType(v.getValue());
@@ -493,7 +493,7 @@ public final class RedditAPI {
 
 				break;
 
-			case ARRAY:
+			case JsonValue.TYPE_ARRAY:
 
 				for(final JsonValue v : response.asArray()) {
 					final APIResponseHandler.APIFailureType failureType = findFailureType(v);
@@ -502,7 +502,7 @@ public final class RedditAPI {
 
 				break;
 
-			case STRING:
+			case JsonValue.TYPE_STRING:
 
 				if(Constants.Reddit.isApiErrorUser(response.asString()))
 					return APIResponseHandler.APIFailureType.INVALID_USER;
@@ -536,7 +536,7 @@ public final class RedditAPI {
 
 		switch(response.getType()) {
 
-			case OBJECT:
+			case JsonValue.TYPE_OBJECT:
 
 				for(final Map.Entry<String, JsonValue> v : response.asObject()) {
 					final String captchaId = findCaptchaId(v.getValue());
@@ -545,7 +545,7 @@ public final class RedditAPI {
 
 				break;
 
-			case ARRAY:
+			case JsonValue.TYPE_ARRAY:
 
 				for(final JsonValue v : response.asArray()) {
 					final String captchaId = findCaptchaId(v);
@@ -554,7 +554,7 @@ public final class RedditAPI {
 
 				break;
 
-			case STRING:
+			case JsonValue.TYPE_STRING:
 
 				if(response.asString().length() > 20) { // This is probably it :S
 					return response.asString();

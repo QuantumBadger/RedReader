@@ -269,7 +269,7 @@ public final class InboxListingActivity extends BaseActivity {
 										InboxListingActivity.this, thing.asMessage(), timestamp);
 								itemHandler.sendMessage(General.handlerMessage(0, message));
 
-								if(message.src.replies != null && message.src.replies.getType() == JsonValue.Type.OBJECT) {
+								if(message.src.replies != null && message.src.replies.getType() == JsonValue.TYPE_OBJECT) {
 
 									final JsonBufferedArray replies = message.src.replies.asObject().getObject("data").getArray("children");
 

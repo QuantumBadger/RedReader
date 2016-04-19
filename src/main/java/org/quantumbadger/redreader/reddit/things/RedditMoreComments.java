@@ -38,7 +38,7 @@ public class RedditMoreComments {
 
 			if(count > 0) {
 				for(JsonValue child : children) {
-					if(child.getType() == JsonValue.Type.STRING) {
+					if(child.getType() == JsonValue.TYPE_STRING) {
 						urls.add(commentListingURL.asPostCommentListURL().commentId(child.asString()));
 					}
 				}

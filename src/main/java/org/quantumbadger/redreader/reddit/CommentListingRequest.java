@@ -251,7 +251,7 @@ public class CommentListingRequest {
 
 			try {
 				// Download main post
-				if(value.getType() == JsonValue.Type.ARRAY) {
+				if(value.getType() == JsonValue.TYPE_ARRAY) {
 
 					// lol, reddit api
 					final JsonBufferedArray root = value.asArray();
@@ -281,7 +281,7 @@ public class CommentListingRequest {
 
 				final JsonBufferedObject thing;
 
-				if(value.getType() == JsonValue.Type.ARRAY) {
+				if(value.getType() == JsonValue.TYPE_ARRAY) {
 					thing = value.asArray().get(1).asObject();
 				} else {
 					thing = value.asObject();
@@ -351,7 +351,7 @@ public class CommentListingRequest {
 
 			output.add(item);
 
-			if(comment.replies.getType() == JsonValue.Type.OBJECT) {
+			if(comment.replies.getType() == JsonValue.TYPE_OBJECT) {
 
 				final JsonBufferedObject replies = comment.replies.asObject();
 				final JsonBufferedArray children = replies.getObject("data").getArray("children");

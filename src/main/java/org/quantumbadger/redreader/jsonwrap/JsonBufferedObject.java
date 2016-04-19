@@ -285,10 +285,10 @@ public final class JsonBufferedObject extends JsonBuffered implements Iterable<M
 					final Object result;
 
 					switch(val.getType()) {
-						case BOOLEAN: result = val.asBoolean(); break;
-						case INTEGER: result = val.asLong(); break;
-						case STRING: result = val.asString(); break;
-						case FLOAT: result = val.asDouble(); break;
+						case JsonValue.TYPE_BOOLEAN: result = val.asBoolean(); break;
+						case JsonValue.TYPE_INTEGER: result = val.asLong(); break;
+						case JsonValue.TYPE_STRING: result = val.asString(); break;
+						case JsonValue.TYPE_FLOAT: result = val.asDouble(); break;
 						default: result = val;
 					}
 

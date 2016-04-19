@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.view.MotionEvent;
 import android.view.View;
+
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 
@@ -49,6 +50,7 @@ public class BezelSwipeOverlay extends View {
 
 	public interface BezelSwipeListener {
 		boolean onSwipe(SwipeEdge edge);
+
 		boolean onTap();
 	}
 }

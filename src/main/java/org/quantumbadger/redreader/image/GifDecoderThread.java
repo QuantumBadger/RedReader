@@ -22,10 +22,11 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.widget.ImageView;
-import jp.tomorrowkey.android.gifplayer.GifDecoder;
 
 import java.io.InputStream;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import jp.tomorrowkey.android.gifplayer.GifDecoder;
 
 public class GifDecoderThread extends Thread {
 
@@ -39,9 +40,11 @@ public class GifDecoderThread extends Thread {
 	}
 
 	public interface OnGifLoadedListener {
-		public void onGifLoaded();
-		public void onOutOfMemory();
-		public void onGifInvalid();
+		void onGifLoaded();
+
+		void onOutOfMemory();
+
+		void onGifInvalid();
 	}
 
 	private final Handler handler = new Handler(Looper.getMainLooper()) {

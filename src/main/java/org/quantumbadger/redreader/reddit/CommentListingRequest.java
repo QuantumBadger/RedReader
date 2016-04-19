@@ -23,6 +23,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.SessionChangeListener;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -36,7 +37,11 @@ import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
-import org.quantumbadger.redreader.reddit.prepared.*;
+import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManagerVolatile;
+import org.quantumbadger.redreader.reddit.prepared.RedditParsedComment;
+import org.quantumbadger.redreader.reddit.prepared.RedditParsedPost;
+import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
+import org.quantumbadger.redreader.reddit.prepared.RedditRenderableComment;
 import org.quantumbadger.redreader.reddit.things.RedditComment;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.things.RedditThing;
@@ -107,13 +112,21 @@ public class CommentListingRequest {
 
 		// All called from UI thread
 		void onCommentListingRequestDownloadNecessary();
+
 		void onCommentListingRequestDownloadStarted();
+
 		void onCommentListingRequestException(Throwable t);
+
 		void onCommentListingRequestFailure(RRError error);
+
 		void onCommentListingRequestAuthorizing();
+
 		void onCommentListingRequestCachedCopy(long timestamp);
+
 		void onCommentListingRequestParseStart();
+
 		void onCommentListingRequestPostDownloaded(RedditPreparedPost post);
+
 		void onCommentListingRequestAllItemsDownloaded(ArrayList<RedditCommentListItem> items);
 	}
 

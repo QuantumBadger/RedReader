@@ -24,7 +24,12 @@ package com.laurencedawson.activetextview;
 
 import android.annotation.SuppressLint;
 import android.support.v7.app.AppCompatActivity;
-import android.text.*;
+import android.text.Layout;
+import android.text.Selection;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.SpannedString;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.StyleSpan;
@@ -34,6 +39,7 @@ import android.view.View;
 import android.view.ViewParent;
 import android.widget.Button;
 import android.widget.TextView;
+
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.views.RedditCommentView;
 import org.quantumbadger.redreader.views.RedditInboxItemView;
@@ -271,8 +277,9 @@ public class ActiveTextView extends TextView {
 
 	// Called when a link in long clicked
 	public interface OnLinkClickedListener {
-		public void onClickUrl(String url);
-		public void onClickText(Object attachment);
+		void onClickUrl(String url);
+
+		void onClickText(Object attachment);
 	}
 
 	// Called when a link in long clicked

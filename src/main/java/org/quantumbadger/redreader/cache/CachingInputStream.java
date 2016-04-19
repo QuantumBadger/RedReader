@@ -38,7 +38,7 @@ final class CachingInputStream extends InputStream {
 	}
 
 	public interface BytesReadListener {
-		public void onBytesRead(long total);
+		void onBytesRead(long total);
 	}
 
 	private void notifyOnBytesRead() {

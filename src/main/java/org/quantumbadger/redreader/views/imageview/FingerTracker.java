@@ -18,14 +18,17 @@
 package org.quantumbadger.redreader.views.imageview;
 
 import android.view.MotionEvent;
+
 import org.quantumbadger.redreader.common.MutableFloatPoint2D;
 
 public class FingerTracker {
 
-	public static interface FingerListener {
-		public void onFingerDown(Finger finger);
-		public void onFingersMoved();
-		public void onFingerUp(Finger finger);
+	public interface FingerListener {
+		void onFingerDown(Finger finger);
+
+		void onFingersMoved();
+
+		void onFingerUp(Finger finger);
 	}
 
 	private final Finger[] mFingers = new Finger[10];

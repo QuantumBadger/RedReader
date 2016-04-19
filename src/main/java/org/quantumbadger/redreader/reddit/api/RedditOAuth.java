@@ -21,6 +21,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.SystemClock;
 import android.util.Base64;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -493,8 +494,8 @@ public final class RedditOAuth {
 	}
 
 	public interface LoginListener {
-
 		void onLoginSuccess(RedditAccount account);
+
 		void onLoginFailure(LoginError error, RRError details);
 	}
 

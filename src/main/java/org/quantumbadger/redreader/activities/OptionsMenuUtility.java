@@ -26,6 +26,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
@@ -528,7 +529,8 @@ public final class OptionsMenuUtility {
 		});
 	}
 
-	private interface OptionsMenuListener {}
+	private interface OptionsMenuListener {
+	}
 
 	public interface OptionsMenuSubredditsListener extends OptionsMenuListener {
 		void onRefreshSubreddits();
@@ -536,22 +538,35 @@ public final class OptionsMenuUtility {
 
 	public interface OptionsMenuPostsListener extends OptionsMenuListener {
 		void onRefreshPosts();
+
 		void onPastPosts();
+
 		void onSubmitPost();
+
 		void onSortSelected(PostListingController.Sort order);
+
 		void onSearchPosts();
+
 		void onSubscribe();
+
 		void onUnsubscribe();
+
 		void onSidebar();
+
 		void onPin();
+
 		void onUnpin();
+
 		void onBlock();
+
 		void onUnblock();
 	}
 
 	public interface OptionsMenuCommentsListener extends OptionsMenuListener {
 		void onRefreshComments();
+
 		void onPastComments();
+
 		void onSortSelected(PostCommentListingURL.Sort order);
 	}
 

@@ -22,6 +22,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
+
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.common.General;
@@ -29,9 +30,20 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.PrioritisedCachedThreadPool;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URI;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.UUID;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -333,7 +345,7 @@ public final class CacheManager {
 		private void handleRequest(final CacheRequest request) {
 
 			if(request.url == null) {
-				request.notifyFailure(RequestFailureType.MALFORMED_URL, new NullPointerException("URL was null"), null, "URL was null");
+				request.notifyFailure(CacheRequest.REQUEST_FAILURE_MALFORMED_URL, new NullPointerException("URL was null"), null, "URL was null");
 				return;
 			}
 
@@ -344,7 +356,7 @@ public final class CacheManager {
 					final LinkedList<CacheEntry> result = dbManager.select(request.url, request.user.username, request.requestSession);
 
 					if(result.size() == 0) {
-						request.notifyFailure(RequestFailureType.CACHE_MISS, null, null, "Could not find this data in the cache");
+						request.notifyFailure(CacheRequest.REQUEST_FAILURE_CACHE_MISS, null, null, "Could not find this data in the cache");
 
 					} else {
 						final CacheEntry entry = mostRecentFromList(result);
@@ -402,7 +414,7 @@ public final class CacheManager {
 				if(request.downloadType == CacheRequest.DOWNLOAD_IF_NECESSARY) {
 					queueDownload(request);
 				} else {
-					request.notifyFailure(RequestFailureType.STORAGE, null, null, "A cache entry was found in the database, but the actual data couldn't be found. Press refresh to download the content again.");
+					request.notifyFailure(CacheRequest.REQUEST_FAILURE_STORAGE, null, null, "A cache entry was found in the database, but the actual data couldn't be found. Press refresh to download the content again.");
 				}
 
 				return;
@@ -431,7 +443,7 @@ public final class CacheManager {
 							cacheFileInputStream = getCacheFileInputStream(entry.id);
 
 							if(cacheFileInputStream == null) {
-								request.notifyFailure(RequestFailureType.CACHE_MISS, null, null, "Couldn't retrieve cache file");
+								request.notifyFailure(CacheRequest.REQUEST_FAILURE_CACHE_MISS, null, null, "Couldn't retrieve cache file");
 								return;
 							}
 
@@ -459,7 +471,7 @@ public final class CacheManager {
 							if(request.downloadType == CacheRequest.DOWNLOAD_IF_NECESSARY) {
 								queueDownload(request);
 							} else {
-								request.notifyFailure(RequestFailureType.PARSE, t, null, "Error parsing the JSON stream");
+								request.notifyFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "Error parsing the JSON stream");
 							}
 
 							return;

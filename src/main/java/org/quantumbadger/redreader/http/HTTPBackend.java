@@ -19,7 +19,7 @@ package org.quantumbadger.redreader.http;
 
 import android.content.Context;
 
-import org.quantumbadger.redreader.cache.RequestFailureType;
+import org.quantumbadger.redreader.cache.CacheRequest;
 
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -92,7 +92,7 @@ public interface HTTPBackend {
 	}
 
 	interface Listener {
-		void onError(RequestFailureType failureType, Throwable exception, Integer httpStatus);
+		void onError(@CacheRequest.RequestFailureType int failureType, Throwable exception, Integer httpStatus);
 
 		void onSuccess(String mimetype, Long bodyBytes, InputStream body);
 	}

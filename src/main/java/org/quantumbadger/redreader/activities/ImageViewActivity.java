@@ -43,7 +43,6 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.AndroidApi;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
@@ -144,7 +143,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 						@Override
 						public void onFailure(
-								final RequestFailureType type,
+								final @CacheRequest.RequestFailureType int type,
 								final Throwable t,
 								final Integer status,
 								final String readableMessage) {
@@ -191,7 +190,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 		LinkHandler.getImageInfo(this, mUrl, Constants.Priority.IMAGE_VIEW, 0, new GetImageInfoListener() {
 
 			@Override
-			public void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
+			public void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
 				revertToWeb();
 			}
 
@@ -244,7 +243,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 							}
 
 							@Override
-							protected void onFailure(final RequestFailureType type, Throwable t, Integer status, final String readableMessage) {
+							protected void onFailure(final @CacheRequest.RequestFailureType int type, Throwable t, Integer status, final String readableMessage) {
 
 								final RRError error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
 

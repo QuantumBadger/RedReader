@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.text.ClipboardManager;
 import android.widget.Toast;
+
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -31,8 +32,12 @@ import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.CommentEditActivity;
 import org.quantumbadger.redreader.activities.CommentReplyActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
-import org.quantumbadger.redreader.cache.RequestFailureType;
-import org.quantumbadger.redreader.common.*;
+import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.common.AndroidApi;
+import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.fragments.CommentPropertiesDialog;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
@@ -373,7 +378,7 @@ public class RedditAPICommentAction {
 					}
 
 					@Override
-					protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
+					protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
 						revertOnFailure();
 						if(t != null) t.printStackTrace();
 

@@ -18,11 +18,11 @@
 package org.quantumbadger.redreader.reddit;
 
 import android.content.Context;
+
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.http.HTTPBackend;
@@ -84,7 +84,7 @@ public final class RedditAPI {
 					}
 
 				} catch(Throwable t) {
-					notifyFailure(RequestFailureType.PARSE, t, null, "JSON failed to parse");
+					notifyFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "JSON failed to parse");
 				}
 
 				responseHandler.notifySuccess();
@@ -96,7 +96,7 @@ public final class RedditAPI {
 			}
 
 			@Override
-			protected void onFailure(RequestFailureType type, Throwable t, Integer status, String readableMessage) {
+			protected void onFailure(@CacheRequest.RequestFailureType int type, Throwable t, Integer status, String readableMessage) {
 				responseHandler.notifyFailure(type, t, status, readableMessage);
 			}
 		});
@@ -127,7 +127,7 @@ public final class RedditAPI {
 					}
 
 				} catch(Throwable t) {
-					notifyFailure(RequestFailureType.PARSE, t, null, "JSON failed to parse");
+					notifyFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "JSON failed to parse");
 				}
 
 				responseHandler.notifySuccess();
@@ -139,7 +139,7 @@ public final class RedditAPI {
 			}
 
 			@Override
-			protected void onFailure(RequestFailureType type, Throwable t, Integer status, String readableMessage) {
+			protected void onFailure(@CacheRequest.RequestFailureType int type, Throwable t, Integer status, String readableMessage) {
 				responseHandler.notifyFailure(type, t, status, readableMessage);
 			}
 		});
@@ -167,7 +167,7 @@ public final class RedditAPI {
 					}
 
 				} catch(Throwable t) {
-					notifyFailure(RequestFailureType.PARSE, t, null, "JSON failed to parse");
+					notifyFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "JSON failed to parse");
 				}
 
 				responseHandler.notifySuccess();
@@ -179,7 +179,7 @@ public final class RedditAPI {
 			}
 
 			@Override
-			protected void onFailure(RequestFailureType type, Throwable t, Integer status, String readableMessage) {
+			protected void onFailure(@CacheRequest.RequestFailureType int type, Throwable t, Integer status, String readableMessage) {
 				responseHandler.notifyFailure(type, t, status, readableMessage);
 			}
 		});
@@ -210,7 +210,7 @@ public final class RedditAPI {
 					}
 
 				} catch(Throwable t) {
-					notifyFailure(RequestFailureType.PARSE, t, null, "JSON failed to parse");
+					notifyFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "JSON failed to parse");
 				}
 
 				responseHandler.notifySuccess();
@@ -222,7 +222,7 @@ public final class RedditAPI {
 			}
 
 			@Override
-			protected void onFailure(RequestFailureType type, Throwable t, Integer status, String readableMessage) {
+			protected void onFailure(@CacheRequest.RequestFailureType int type, Throwable t, Integer status, String readableMessage) {
 				responseHandler.notifyFailure(type, t, status, readableMessage);
 			}
 		});
@@ -249,7 +249,7 @@ public final class RedditAPI {
 					}
 
 				} catch(Throwable t) {
-					notifyFailure(RequestFailureType.PARSE, t, null, "JSON failed to parse");
+					notifyFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "JSON failed to parse");
 				}
 
 				responseHandler.notifySuccess(findCaptchaId(result));
@@ -261,7 +261,7 @@ public final class RedditAPI {
 			}
 
 			@Override
-			protected void onFailure(RequestFailureType type, Throwable t, Integer status, String readableMessage) {
+			protected void onFailure(@CacheRequest.RequestFailureType int type, Throwable t, Integer status, String readableMessage) {
 				responseHandler.notifyFailure(type, t, status, readableMessage);
 			}
 		});
@@ -294,7 +294,7 @@ public final class RedditAPI {
 			}
 
 			@Override
-			protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
+			protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
 				responseHandler.notifyFailure(type, t, status, readableMessage);
 			}
 
@@ -311,7 +311,7 @@ public final class RedditAPI {
 					}
 
 				} catch(Throwable t) {
-					notifyFailure(RequestFailureType.PARSE, t, null, "JSON failed to parse");
+					notifyFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "JSON failed to parse");
 				}
 
 				responseHandler.notifySuccess();
@@ -383,7 +383,7 @@ public final class RedditAPI {
 							}
 
 							@Override
-							protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
+							protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
 								responseHandler.notifyFailure(type, t, status, readableMessage);
 							}
 
@@ -400,7 +400,7 @@ public final class RedditAPI {
 									}
 
 								} catch(Throwable t) {
-									notifyFailure(RequestFailureType.PARSE, t, null, "JSON failed to parse");
+									notifyFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "JSON failed to parse");
 								}
 
 								responseHandler.notifySuccess();
@@ -454,7 +454,7 @@ public final class RedditAPI {
 			}
 
 			@Override
-			protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
+			protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
 				responseHandler.notifyFailure(type, t, status, readableMessage);
 			}
 
@@ -469,7 +469,7 @@ public final class RedditAPI {
 
 				} catch(Throwable t) {
 					// TODO look for error
-					notifyFailure(RequestFailureType.PARSE, t, null, "JSON parse failed for unknown reason");
+					notifyFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "JSON parse failed for unknown reason");
 				}
 			}
 		});

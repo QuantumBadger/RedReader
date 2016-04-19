@@ -28,7 +28,6 @@ import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.SessionChangeListener;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -213,7 +212,7 @@ public class CommentListingRequest {
 		}
 
 		@Override
-		protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
+		protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
 			final RRError error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
 			notifyListener(Event.EVENT_FAILURE, error);
 		}
@@ -309,7 +308,7 @@ public class CommentListingRequest {
 				notifyListener(Event.EVENT_ALL_ITEMS_DOWNLOADED, items);
 
 			} catch (Throwable t) {
-				notifyFailure(RequestFailureType.PARSE, t, null, "Parse failure");
+				notifyFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "Parse failure");
 			}
 		}
 	}

@@ -40,7 +40,6 @@ import org.quantumbadger.redreader.activities.SessionChangeListener;
 import org.quantumbadger.redreader.adapters.PostListingAdapter;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
 import org.quantumbadger.redreader.image.ImageInfo;
@@ -550,11 +549,11 @@ public class PostListingFragment extends RRFragment
 		}
 
 		@Override
-		protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
+		protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
 
 			mNotificationHandler.sendEmptyMessage(NOTIF_HIDE_LOADING_SPINNER);
 
-			if(type == RequestFailureType.CACHE_MISS) {
+			if(type == CacheRequest.REQUEST_FAILURE_CACHE_MISS) {
 
 				final RRError error = new RRError(
 						context.getString(R.string.error_postlist_cache_title),
@@ -694,8 +693,8 @@ public class PostListingFragment extends RRFragment
 								protected void onDownloadStarted() {}
 
 								@Override
-								protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
-									Log.e("PostListingFragment", "Failed to precache " + url.toString() + "(" + type.toString() + ")");
+								protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
+									Log.e("PostListingFragment", "Failed to precache " + url.toString() + "(RequestFailureType code: " + type + ")");
 								}
 
 								@Override
@@ -710,7 +709,7 @@ public class PostListingFragment extends RRFragment
 
 						LinkHandler.getImageInfo(context, post.url, Constants.Priority.IMAGE_PRECACHE, positionInList, new GetImageInfoListener() {
 
-							@Override public void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {}
+							@Override public void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {}
 							@Override public void onNotAnImage() {}
 
 							@Override
@@ -743,8 +742,8 @@ public class PostListingFragment extends RRFragment
 									@Override protected void onDownloadNecessary() {}
 									@Override protected void onDownloadStarted() {}
 
-									@Override protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
-										Log.e("PostListingFragment", "Failed to precache " + info.urlOriginal + "(" + type.toString() + ")");
+									@Override protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
+										Log.e("PostListingFragment", "Failed to precache " + info.urlOriginal + "(RequestFailureType code: " + type + ")");
 									}
 									@Override protected void onProgress(final boolean authorizationInProgress, final long bytesRead, final long totalBytes) {}
 
@@ -771,7 +770,7 @@ public class PostListingFragment extends RRFragment
 				onLoadMoreItemsCheck();
 
 			} catch (Throwable t) {
-				notifyFailure(RequestFailureType.PARSE, t, null, "Parse failure");
+				notifyFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "Parse failure");
 			}
 		}
     }

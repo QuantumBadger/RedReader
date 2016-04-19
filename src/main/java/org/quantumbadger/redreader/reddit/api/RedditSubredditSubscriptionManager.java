@@ -23,7 +23,7 @@ import android.support.v7.app.AppCompatActivity;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
-import org.quantumbadger.redreader.cache.RequestFailureType;
+import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.AndroidApi;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.RRError;
@@ -236,7 +236,7 @@ public class RedditSubredditSubscriptionManager {
 		}
 
 		@Override
-		protected void onFailure(RequestFailureType type, Throwable t, Integer status, String readableMessage) {
+		protected void onFailure(@CacheRequest.RequestFailureType int type, Throwable t, Integer status, String readableMessage) {
 			onSubscriptionChangeAttemptFailed(canonicalName);
 			if(t != null) t.printStackTrace();
 

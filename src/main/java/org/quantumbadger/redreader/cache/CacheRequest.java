@@ -45,6 +45,18 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 	public static final int DOWNLOAD_QUEUE_IMMEDIATE = 2;
 	public static final int DOWNLOAD_QUEUE_IMAGE_PRECACHE = 3;
 
+	public static final int REQUEST_FAILURE_CONNECTION = 0;
+	public static final int REQUEST_FAILURE_REQUEST = 1;
+	public static final int REQUEST_FAILURE_STORAGE = 2;
+	public static final int REQUEST_FAILURE_CACHE_MISS = 3;
+	public static final int REQUEST_FAILURE_CANCELLED = 4;
+	public static final int REQUEST_FAILURE_MALFORMED_URL = 5;
+	public static final int REQUEST_FAILURE_PARSE = 6;
+	public static final int REQUEST_FAILURE_DISK_SPACE = 7;
+	public static final int REQUEST_FAILURE_REDDIT_REDIRECT = 8;
+	public static final int REQUEST_FAILURE_PARSE_IMGUR = 9;
+	public static final int REQUEST_FAILURE_UPLOAD_FAIL_IMGUR = 10;
+
 	@IntDef({DOWNLOAD_NEVER, DOWNLOAD_IF_NECESSARY, DOWNLOAD_FORCE})
 	@Retention(RetentionPolicy.SOURCE)
 	public @interface DownloadType {}
@@ -53,6 +65,13 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 		DOWNLOAD_QUEUE_IMAGE_PRECACHE})
 	@Retention(RetentionPolicy.SOURCE)
 	public @interface DownloadQueueType {}
+
+	@IntDef({REQUEST_FAILURE_CONNECTION, REQUEST_FAILURE_REQUEST, REQUEST_FAILURE_STORAGE,
+		REQUEST_FAILURE_CACHE_MISS, REQUEST_FAILURE_CANCELLED, REQUEST_FAILURE_MALFORMED_URL,
+		REQUEST_FAILURE_PARSE, REQUEST_FAILURE_DISK_SPACE, REQUEST_FAILURE_REDDIT_REDIRECT,
+		REQUEST_FAILURE_PARSE_IMGUR, REQUEST_FAILURE_UPLOAD_FAIL_IMGUR})
+	@Retention(RetentionPolicy.SOURCE)
+	public @interface RequestFailureType {}
 
 	private static final PrioritisedCachedThreadPool JSON_NOTIFY_THREADS = new PrioritisedCachedThreadPool(2, "JSON notify");
 
@@ -141,7 +160,7 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 		this.cache = cache;
 
 		if (url == null) {
-			notifyFailure(RequestFailureType.MALFORMED_URL, null, null, "Malformed URL");
+			notifyFailure(REQUEST_FAILURE_MALFORMED_URL, null, null, "Malformed URL");
 			cancel();
 		}
 	}
@@ -169,7 +188,7 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 
 	protected abstract void onDownloadStarted();
 
-	protected abstract void onFailure(RequestFailureType type, Throwable t, Integer httpStatus, String readableMessage);
+	protected abstract void onFailure(@RequestFailureType int type, Throwable t, Integer httpStatus, String readableMessage);
 
 	protected abstract void onProgress(boolean authorizationInProgress, long bytesRead, long totalBytes);
 
@@ -179,7 +198,7 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 		throw new RuntimeException("CacheRequest method has not been overridden");
 	}
 
-	public final void notifyFailure(final RequestFailureType type, final Throwable t, final Integer httpStatus, final String readableMessage) {
+	public final void notifyFailure(final @RequestFailureType int type, final Throwable t, final Integer httpStatus, final String readableMessage) {
 		try {
 			onFailure(type, t, httpStatus, readableMessage);
 		} catch (Throwable t1) {

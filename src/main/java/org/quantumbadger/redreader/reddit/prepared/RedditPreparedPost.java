@@ -46,7 +46,6 @@ import org.quantumbadger.redreader.activities.PostListingActivity;
 import org.quantumbadger.redreader.activities.WebViewActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.AndroidApi;
 import org.quantumbadger.redreader.common.BetterSSB;
 import org.quantumbadger.redreader.common.Constants;
@@ -331,7 +330,7 @@ public final class RedditPreparedPost {
 				LinkHandler.getImageInfo(activity, post.src.getUrl(), Constants.Priority.IMAGE_VIEW, 0, new GetImageInfoListener() {
 
 					@Override
-					public void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
+					public void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
 						final RRError error = General.getGeneralErrorForFailure(activity, type, t, status, post.src.getUrl());
 						General.showResultDialog(activity, error);
 					}
@@ -358,7 +357,7 @@ public final class RedditPreparedPost {
 							}
 
 							@Override
-							protected void onFailure(RequestFailureType type, Throwable t, Integer status, String readableMessage) {
+							protected void onFailure(@CacheRequest.RequestFailureType int type, Throwable t, Integer status, String readableMessage) {
 								final RRError error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
 								General.showResultDialog(activity, error);
 							}
@@ -385,14 +384,14 @@ public final class RedditPreparedPost {
 									final InputStream cacheFileInputStream = cacheFile.getInputStream();
 
 									if(cacheFileInputStream == null) {
-										notifyFailure(RequestFailureType.CACHE_MISS, null, null, "Could not find cached image");
+										notifyFailure(CacheRequest.REQUEST_FAILURE_CACHE_MISS, null, null, "Could not find cached image");
 										return;
 									}
 
 									General.copyFile(cacheFileInputStream, dst);
 
 								} catch(IOException e) {
-									notifyFailure(RequestFailureType.STORAGE, e, null, "Could not copy file");
+									notifyFailure(CacheRequest.REQUEST_FAILURE_STORAGE, e, null, "Could not copy file");
 									return;
 								}
 
@@ -614,7 +613,7 @@ public final class RedditPreparedPost {
 			}
 
 			@Override
-			protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {}
+			protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {}
 
 			@Override
 			protected void onProgress(final boolean authorizationInProgress, final long bytesRead, final long totalBytes) {}
@@ -792,7 +791,7 @@ public final class RedditPreparedPost {
 					}
 
 					@Override
-					protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
+					protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
 						revertOnFailure();
 						if(t != null) t.printStackTrace();
 

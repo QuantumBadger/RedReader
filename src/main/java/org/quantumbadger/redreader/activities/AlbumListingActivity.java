@@ -30,10 +30,15 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.adapters.AlbumAdapter;
-import org.quantumbadger.redreader.cache.RequestFailureType;
-import org.quantumbadger.redreader.common.*;
+import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.common.AndroidApi;
+import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.image.GetAlbumInfoListener;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
 import org.quantumbadger.redreader.image.ImageInfo;
@@ -98,7 +103,7 @@ public class AlbumListingActivity extends BaseActivity {
 		LinkHandler.getImgurAlbumInfo(this, albumId, Constants.Priority.IMAGE_VIEW, 0, new GetAlbumInfoListener() {
 
 			@Override
-			public void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
+			public void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
 				Log.e("AlbumListingActivity", "getAlbumInfo call failed: " + type);
 
 				if(status != null) Log.e("AlbumListingActivity", "status was: " + status.toString());
@@ -113,7 +118,7 @@ public class AlbumListingActivity extends BaseActivity {
 
 				LinkHandler.getImgurImageInfo(AlbumListingActivity.this, albumId, Constants.Priority.IMAGE_VIEW, 0, false, new GetImageInfoListener() {
 					@Override
-					public void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
+					public void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
 						Log.e("AlbumListingActivity", "Image info request also failed: " + type);
 						revertToWeb();
 					}

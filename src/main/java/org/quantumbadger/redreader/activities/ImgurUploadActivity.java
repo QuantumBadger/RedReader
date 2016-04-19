@@ -33,7 +33,6 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.http.HTTPBackend;
 import org.quantumbadger.redreader.image.ThumbnailScaler;
@@ -299,7 +298,7 @@ public class ImgurUploadActivity extends BaseActivity {
 			}
 
 			@Override
-			protected void onFailure(final RequestFailureType type, final Throwable t, final Integer httpStatus, final String readableMessage) {
+			protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer httpStatus, final String readableMessage) {
 
 				General.showResultDialog(ImgurUploadActivity.this, General.getGeneralErrorForFailure(
 						ImgurUploadActivity.this,
@@ -337,7 +336,7 @@ public class ImgurUploadActivity extends BaseActivity {
 					final Boolean success = root.getBoolean("success");
 
 					if(!Boolean.TRUE.equals(success)) {
-						onFailure(RequestFailureType.UPLOAD_FAIL_IMGUR, null, null, null);
+						onFailure(CacheRequest.REQUEST_FAILURE_UPLOAD_FAIL_IMGUR, null, null, null);
 						return;
 					}
 
@@ -345,7 +344,7 @@ public class ImgurUploadActivity extends BaseActivity {
 					imageUri = Uri.parse("https://imgur.com/" + id);
 
 				} catch(final Throwable t) {
-					onFailure(RequestFailureType.PARSE_IMGUR, t, null, t.toString());
+					onFailure(CacheRequest.REQUEST_FAILURE_PARSE_IMGUR, t, null, t.toString());
 					return;
 				}
 

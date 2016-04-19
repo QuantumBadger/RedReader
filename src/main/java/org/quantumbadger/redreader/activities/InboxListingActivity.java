@@ -32,14 +32,20 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.adapters.InboxListingAdapter;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.cache.RequestFailureType;
-import org.quantumbadger.redreader.common.*;
+import org.quantumbadger.redreader.common.AndroidApi;
+import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.RRThemeAttributes;
+import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
@@ -193,7 +199,7 @@ public final class InboxListingActivity extends BaseActivity {
 			}
 
 			@Override
-			protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
+			protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
 
 				request = null;
 
@@ -282,7 +288,7 @@ public final class InboxListingActivity extends BaseActivity {
 					}
 
 				} catch (Throwable t) {
-					notifyFailure(RequestFailureType.PARSE, t, null, "Parse failure");
+					notifyFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "Parse failure");
 					return;
 				}
 
@@ -327,7 +333,7 @@ public final class InboxListingActivity extends BaseActivity {
 							}
 
 							@Override
-							protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
+							protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
 								final RRError error = General.getGeneralErrorForFailure(context, type, t, status,
 										"Reddit API action: Mark all as Read");
 								AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {

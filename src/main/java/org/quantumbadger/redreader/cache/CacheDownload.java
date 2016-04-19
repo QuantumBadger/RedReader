@@ -73,7 +73,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 		new Thread() {
 			public void run() {
 				mRequest.cancel();
-				mInitiator.notifyFailure(RequestFailureType.CANCELLED, null, null, "Cancelled");
+				mInitiator.notifyFailure(CacheRequest.REQUEST_FAILURE_CANCELLED, null, null, "Cancelled");
 			}
 		}.start();
 	}
@@ -120,7 +120,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 				}
 
 				if(result.status != RedditOAuth.FetchAccessTokenResultStatus.SUCCESS) {
-					mInitiator.notifyFailure(RequestFailureType.REQUEST, result.error.t, result.error.httpStatus, result.error.title + ": " + result.error.message);
+					mInitiator.notifyFailure(CacheRequest.REQUEST_FAILURE_REQUEST, result.error.t, result.error.httpStatus, result.error.title + ": " + result.error.message);
 					return;
 				}
 
@@ -140,7 +140,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 
 		request.executeInThisThread(new HTTPBackend.Listener() {
 			@Override
-			public void onError(final RequestFailureType failureType, final Throwable exception, final Integer httpStatus) {
+			public void onError(final @CacheRequest.RequestFailureType int failureType, final Throwable exception, final Integer httpStatus) {
 				if(mInitiator.queueType == CacheRequest.DOWNLOAD_QUEUE_REDDIT_API && BaseActivity.getTorStatus()) {
 					OKHTTPBackend.recreateHttpBackend();
 					resetUserCredentialsOnNextRequest();
@@ -159,7 +159,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 						cacheOs = cacheFile.getOutputStream();
 					} catch (IOException e) {
 						e.printStackTrace();
-						mInitiator.notifyFailure(RequestFailureType.STORAGE, e, null, "Could not access the local cache");
+						mInitiator.notifyFailure(CacheRequest.REQUEST_FAILURE_STORAGE, e, null, "Could not access the local cache");
 						return;
 					}
 				} else {
@@ -194,7 +194,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 
 					} catch (Throwable t) {
 						t.printStackTrace();
-						mInitiator.notifyFailure(RequestFailureType.PARSE, t, null, "Error parsing the JSON stream");
+						mInitiator.notifyFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "Error parsing the JSON stream");
 						return;
 					}
 
@@ -203,9 +203,9 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 							mInitiator.notifySuccess(cacheFile.getReadableCacheFile(), RRTime.utcCurrentTimeMillis(), session, false, mimetype);
 						} catch(IOException e) {
 							if(e.getMessage().contains("ENOSPC")) {
-								mInitiator.notifyFailure(RequestFailureType.DISK_SPACE, e, null, "Out of disk space");
+								mInitiator.notifyFailure(CacheRequest.REQUEST_FAILURE_DISK_SPACE, e, null, "Out of disk space");
 							} else {
-								mInitiator.notifyFailure(RequestFailureType.STORAGE, e, null, "Cache file not found");
+								mInitiator.notifyFailure(CacheRequest.REQUEST_FAILURE_STORAGE, e, null, "Cache file not found");
 							}
 						}
 					}
@@ -237,25 +237,25 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 							mInitiator.notifySuccess(cacheFile.getReadableCacheFile(), RRTime.utcCurrentTimeMillis(), session, false, mimetype);
 						} catch(IOException e) {
 							if(e.getMessage().contains("ENOSPC")) {
-								mInitiator.notifyFailure(RequestFailureType.DISK_SPACE, e, null, "Out of disk space");
+								mInitiator.notifyFailure(CacheRequest.REQUEST_FAILURE_DISK_SPACE, e, null, "Out of disk space");
 							} else {
-								mInitiator.notifyFailure(RequestFailureType.STORAGE, e, null, "Cache file not found");
+								mInitiator.notifyFailure(CacheRequest.REQUEST_FAILURE_STORAGE, e, null, "Cache file not found");
 							}
 						}
 
 					} catch(IOException e) {
 
 						if(e.getMessage() != null && e.getMessage().contains("ENOSPC")) {
-							mInitiator.notifyFailure(RequestFailureType.STORAGE, e, null, "Out of disk space");
+							mInitiator.notifyFailure(CacheRequest.REQUEST_FAILURE_STORAGE, e, null, "Out of disk space");
 
 						} else {
 							e.printStackTrace();
-							mInitiator.notifyFailure(RequestFailureType.CONNECTION, e, null, "The connection was interrupted");
+							mInitiator.notifyFailure(CacheRequest.REQUEST_FAILURE_CONNECTION, e, null, "The connection was interrupted");
 						}
 
 					} catch(Throwable t) {
 						t.printStackTrace();
-						mInitiator.notifyFailure(RequestFailureType.CONNECTION, t, null, "The connection was interrupted");
+						mInitiator.notifyFailure(CacheRequest.REQUEST_FAILURE_CONNECTION, t, null, "The connection was interrupted");
 					}
 				}
 			}

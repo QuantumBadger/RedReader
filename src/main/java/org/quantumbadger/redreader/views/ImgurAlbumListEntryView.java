@@ -12,7 +12,6 @@ import android.widget.TextView;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.image.ImageInfo;
 
@@ -156,7 +155,7 @@ public class ImgurAlbumListEntryView extends LinearLayout {
 				protected void onDownloadStarted() {}
 
 				@Override
-				protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
+				protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
 					Log.e("ImgurAlbumListEntryView", "Failed to fetch thumbnail " + url.toString());
 				}
 

@@ -18,20 +18,21 @@
 package org.quantumbadger.redreader.reddit.api;
 
 import android.content.Context;
-import org.quantumbadger.redreader.cache.RequestFailureType;
+
+import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.RRError;
 
 import java.net.URI;
 
 public class SubredditRequestFailure {
-	public final RequestFailureType requestFailureType;
+	public final @CacheRequest.RequestFailureType int requestFailureType;
 	public final Throwable t;
 	public final Integer statusLine;
 	public final String readableMessage;
 	public final String url;
 
-	public SubredditRequestFailure(RequestFailureType requestFailureType, Throwable t,
+	public SubredditRequestFailure(@CacheRequest.RequestFailureType int requestFailureType, Throwable t,
 								   Integer statusLine, String readableMessage, String url) {
 		this.requestFailureType = requestFailureType;
 		this.t = t;
@@ -40,7 +41,7 @@ public class SubredditRequestFailure {
 		this.url = url;
 	}
 
-	public SubredditRequestFailure(RequestFailureType requestFailureType, Throwable t,
+	public SubredditRequestFailure(@CacheRequest.RequestFailureType int requestFailureType, Throwable t,
 								   Integer statusLine, String readableMessage, URI url) {
 		this(requestFailureType, t, statusLine, readableMessage, url != null ? url.toString() : null);
 	}

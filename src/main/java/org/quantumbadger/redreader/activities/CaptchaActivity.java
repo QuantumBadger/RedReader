@@ -24,14 +24,22 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.cache.RequestFailureType;
-import org.quantumbadger.redreader.common.*;
+import org.quantumbadger.redreader.common.AndroidApi;
+import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.views.liststatus.LoadingView;
@@ -81,7 +89,7 @@ public class CaptchaActivity extends BaseActivity {
 					}
 
 					@Override
-					protected void onFailure(RequestFailureType type, Throwable t, Integer status, String readableMessage) {
+					protected void onFailure(@RequestFailureType int type, Throwable t, Integer status, String readableMessage) {
 						final RRError error = General.getGeneralErrorForFailure(CaptchaActivity.this, type, t, status, url.toString());
 						General.showResultDialog(CaptchaActivity.this, error);
 					}
@@ -160,7 +168,7 @@ public class CaptchaActivity extends BaseActivity {
 			}
 
 			@Override
-			protected void onFailure(RequestFailureType type, Throwable t, Integer status, String readableMessage) {
+			protected void onFailure(@CacheRequest.RequestFailureType int type, Throwable t, Integer status, String readableMessage) {
 				final RRError error = General.getGeneralErrorForFailure(CaptchaActivity.this, type, t, status, null);
 				General.showResultDialog(CaptchaActivity.this, error);
 			}

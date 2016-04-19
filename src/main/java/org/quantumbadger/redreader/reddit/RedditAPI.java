@@ -359,7 +359,7 @@ public final class RedditAPI {
 		}
 	}
 
-	public static void action(final CacheManager cm,
+	public static void subscriptionAction(final CacheManager cm,
 							  final APIResponseHandler.ActionResponseHandler responseHandler,
 							  final RedditAccount user,
 							  final String subredditCanonicalName,
@@ -388,7 +388,7 @@ public final class RedditAPI {
 
 						postFields.add(new PostField("sr", subreddit.name));
 
-						final URI url = prepareActionUri(action, postFields);
+						final URI url = subscriptionPrepareActionUri(action, postFields);
 
 						cm.makeRequest(new APIPostRequest(url, user, postFields, context) {
 							@Override
@@ -426,7 +426,7 @@ public final class RedditAPI {
 		);
 	}
 
-	private static URI prepareActionUri(final RedditSubredditAction action,
+	private static URI subscriptionPrepareActionUri(final RedditSubredditAction action,
 										final LinkedList<PostField> postFields) {
 		switch(action) {
 			case SUBSCRIBE:

@@ -174,7 +174,7 @@ public class RedditSubredditSubscriptionManager {
 
 	public void subscribe(final String subredditCanonicalId, final AppCompatActivity activity) {
 
-		RedditAPI.action(
+		RedditAPI.subscriptionAction(
 				CacheManager.getInstance(context),
 				new SubredditActionResponseHandler(activity, RedditAPI.RedditSubredditAction.SUBSCRIBE, subredditCanonicalId),
 				user,
@@ -188,7 +188,7 @@ public class RedditSubredditSubscriptionManager {
 
 	public void unsubscribe(final String subredditCanonicalId, final AppCompatActivity activity) {
 
-		RedditAPI.action(
+		RedditAPI.subscriptionAction(
 				CacheManager.getInstance(context),
 				new SubredditActionResponseHandler(activity, RedditAPI.RedditSubredditAction.UNSUBSCRIBE, subredditCanonicalId),
 				user,

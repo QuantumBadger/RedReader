@@ -23,12 +23,11 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import org.quantumbadger.redreader.R;
@@ -152,27 +151,11 @@ public class AlbumListingActivity extends BaseActivity {
 
 						layout.removeAllViews();
 
-						final ListView listView = new ListView(AlbumListingActivity.this);
-						listView.setAdapter(new AlbumAdapter(info));
-						layout.addView(listView);
+						final RecyclerView rv = new RecyclerView(AlbumListingActivity.this);
+						layout.addView(rv);
 
-						listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-							@Override
-							public void onItemClick(
-									final AdapterView<?> parent,
-									final View view,
-									final int position,
-									final long id) {
-
-								LinkHandler.onLinkClicked(
-										AlbumListingActivity.this,
-										info.images.get(position).urlOriginal,
-										false,
-										null,
-										info,
-										position);
-							}
-						});
+						rv.setLayoutManager(new LinearLayoutManager(AlbumListingActivity.this));
+						rv.setAdapter(new AlbumAdapter(AlbumListingActivity.this, info));
 					}
 				});
 			}

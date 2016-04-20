@@ -5,11 +5,11 @@ import android.widget.TextView;
 
 import org.quantumbadger.redreader.R;
 
-public class SingleTextVH extends VH {
+public class VH1Text extends VH {
 
 	public final TextView text;
 
-	public SingleTextVH(View itemView) {
+	public VH1Text(View itemView) {
 		super(itemView);
 
 		text = (TextView) itemView.findViewById(R.id.recycler_item_text);

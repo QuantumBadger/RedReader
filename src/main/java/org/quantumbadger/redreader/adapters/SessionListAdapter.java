@@ -16,8 +16,8 @@ import org.quantumbadger.redreader.cache.CacheEntry;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.common.BetterSSB;
 import org.quantumbadger.redreader.common.RRTime;
-import org.quantumbadger.redreader.viewholders.SingleTextIconVH;
-import org.quantumbadger.redreader.viewholders.SingleTextVH;
+import org.quantumbadger.redreader.viewholders.VH1TextIcon;
+import org.quantumbadger.redreader.viewholders.VH1Text;
 import org.quantumbadger.redreader.viewholders.VH;
 
 import java.net.URI;
@@ -51,20 +51,20 @@ public class SessionListAdapter extends HeaderRecyclerAdapter<VH> {
 	@Override
 	protected VH onCreateHeaderItemViewHolder(ViewGroup parent) {
 		View v = LayoutInflater.from(parent.getContext())
-			.inflate(R.layout.list_item_single_text_icon, parent, false);
-		return new SingleTextIconVH(v);
+			.inflate(R.layout.list_item_1_text_icon, parent, false);
+		return new VH1TextIcon(v);
 	}
 
 	@Override
 	protected VH onCreateContentItemViewHolder(ViewGroup parent) {
 		View v = LayoutInflater.from(parent.getContext())
-			.inflate(R.layout.list_item_single_text, parent, false);
-		return new SingleTextVH(v);
+			.inflate(R.layout.list_item_1_text, parent, false);
+		return new VH1Text(v);
 	}
 
 	@Override
 	protected void onBindHeaderItemViewHolder(VH holder, final int position) {
-		final SingleTextIconVH vh = (SingleTextIconVH) holder;
+		final VH1TextIcon vh = (VH1TextIcon) holder;
 		vh.text.setText(context.getString(R.string.options_refresh));
 		vh.icon.setImageDrawable(rrIconRefresh);
 		vh.itemView.setOnClickListener(new View.OnClickListener() {
@@ -78,7 +78,7 @@ public class SessionListAdapter extends HeaderRecyclerAdapter<VH> {
 
 	@Override
 	protected void onBindContentItemViewHolder(VH holder, final int position) {
-		final SingleTextVH vh = (SingleTextVH) holder;
+		final VH1Text vh = (VH1Text) holder;
 		final CacheEntry session = sessions.get(position);
 		final BetterSSB name = new BetterSSB();
 

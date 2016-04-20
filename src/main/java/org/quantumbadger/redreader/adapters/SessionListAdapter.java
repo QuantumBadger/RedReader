@@ -4,110 +4,112 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatDialogFragment;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
+import org.quantumbadger.redreader.activities.SessionChangeListener;
 import org.quantumbadger.redreader.cache.CacheEntry;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.common.BetterSSB;
 import org.quantumbadger.redreader.common.RRTime;
-import org.quantumbadger.redreader.views.list.ListItemView;
+import org.quantumbadger.redreader.viewholders.SingleTextIconVH;
+import org.quantumbadger.redreader.viewholders.SingleTextVH;
+import org.quantumbadger.redreader.viewholders.VH;
 
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class SessionListAdapter extends BaseAdapter {
+public class SessionListAdapter extends HeaderRecyclerAdapter<VH> {
+
+	private final Context context;
+	private final UUID current;
+	private final SessionChangeListener.SessionChangeType type;
+	private final AppCompatDialogFragment fragment;
 
 	private final ArrayList<CacheEntry> sessions;
-	private final UUID current;
-
 	private final Drawable rrIconRefresh;
 
-	public SessionListAdapter(final Context context, final URI url, final UUID current) {
-
+	public SessionListAdapter(final Context context, final URI url, final UUID current, SessionChangeListener.SessionChangeType type, final AppCompatDialogFragment fragment) {
+		this.context = context;
 		this.current = current;
+		this.type = type;
+		this.fragment = fragment;
 
 		sessions = new ArrayList<>(
-				CacheManager.getInstance(context).getSessions(url, RedditAccountManager.getInstance(context).getDefaultAccount()));
+			CacheManager.getInstance(context).getSessions(url, RedditAccountManager.getInstance(context).getDefaultAccount()));
 
-		final TypedArray attr = context.obtainStyledAttributes(new int[] {
-				R.attr.rrIconRefresh,
-		});
-
+		final TypedArray attr = context.obtainStyledAttributes(new int[]{R.attr.rrIconRefresh,});
 		rrIconRefresh = ContextCompat.getDrawable(context, attr.getResourceId(0, 0));
-
 		attr.recycle();
 	}
 
-	public int getCount() {
-		return sessions.size() + 1;
-	}
-
-	public CacheEntry getItem(final int i) {
-		if(i == 0) return null;
-		return sessions.get(i - 1);
-	}
-
-	public long getItemId(final int i) {
-		return i;
+	@Override
+	protected VH onCreateHeaderItemViewHolder(ViewGroup parent) {
+		View v = LayoutInflater.from(parent.getContext())
+			.inflate(R.layout.list_item_single_text_icon, parent, false);
+		return new SingleTextIconVH(v);
 	}
 
 	@Override
-	public int getItemViewType(final int position) {
-		return 0;
+	protected VH onCreateContentItemViewHolder(ViewGroup parent) {
+		View v = LayoutInflater.from(parent.getContext())
+			.inflate(R.layout.list_item_single_text, parent, false);
+		return new SingleTextVH(v);
 	}
 
 	@Override
-	public int getViewTypeCount() {
-		return 1;
+	protected void onBindHeaderItemViewHolder(VH holder, final int position) {
+		final SingleTextIconVH vh = (SingleTextIconVH) holder;
+		vh.text.setText(context.getString(R.string.options_refresh));
+		vh.icon.setImageDrawable(rrIconRefresh);
+		vh.itemView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				((SessionChangeListener) context).onSessionRefreshSelected(type);
+				fragment.dismiss();
+			}
+		});
 	}
 
 	@Override
-	public boolean hasStableIds() {
-		return true;
-	}
+	protected void onBindContentItemViewHolder(VH holder, final int position) {
+		final SingleTextVH vh = (SingleTextVH) holder;
+		final CacheEntry session = sessions.get(position);
+		final BetterSSB name = new BetterSSB();
 
-	public View getView(final int i, View convertView, final ViewGroup viewGroup) {
-
-		final Context context = viewGroup.getContext();
-
-		if(convertView == null) {
-			convertView = new ListItemView(context);
-		}
-
-		if(i == 0) {
-			((ListItemView)convertView).reset(rrIconRefresh, context.getString(R.string.options_refresh), true);
+		if (RRTime.utcCurrentTimeMillis() - session.timestamp < 1000 * 120) {
+			name.append(RRTime.formatDurationFrom(context, session.timestamp), 0);
 		} else {
-
-			final CacheEntry session = sessions.get(i - 1);
-			final BetterSSB name = new BetterSSB();
-
-			if(RRTime.utcCurrentTimeMillis() - session.timestamp < 1000 * 120) {
-				name.append(RRTime.formatDurationFrom(context, session.timestamp), 0);
-			} else {
-				name.append(RRTime.formatDateTime(session.timestamp, context), 0);
-			}
-
-			if(session.session.equals(current)) {
-
-				final TypedArray attr = context.obtainStyledAttributes(new int[] {R.attr.rrListSubtitleCol});
-				final int col = attr.getColor(0, 0);
-				attr.recycle();
-
-				name.append("  (" + context.getString(R.string.session_active) + ")", BetterSSB.FOREGROUND_COLOR | BetterSSB.SIZE, col, 0, 0.8f);
-			}
-
-			((ListItemView)convertView).reset(null, name.get(), true);
+			name.append(RRTime.formatDateTime(session.timestamp, context), 0);
 		}
 
-		return convertView;
+		if (session.session.equals(current)) {
+			final TypedArray attr = context.obtainStyledAttributes(new int[]{R.attr.rrListSubtitleCol});
+			final int col = attr.getColor(0, 0);
+			attr.recycle();
+
+			name.append("  (" + context.getString(R.string.session_active) + ")", BetterSSB.FOREGROUND_COLOR | BetterSSB.SIZE, col, 0, 0.8f);
+		}
+
+		vh.text.setText(name.get());
+
+		vh.itemView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				final CacheEntry ce = sessions.get(position);
+				((SessionChangeListener) context).onSessionSelected(ce.session, type);
+				fragment.dismiss();
+			}
+		});
 	}
 
 	@Override
-	public boolean areAllItemsEnabled() {
-		return true;
+	protected int getContentItemCount() {
+		return sessions.size();
 	}
 }

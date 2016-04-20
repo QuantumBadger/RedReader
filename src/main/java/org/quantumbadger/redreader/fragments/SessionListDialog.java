@@ -1,16 +1,16 @@
 /*******************************************************************************
  * This file is part of RedReader.
- *
+ * <p/>
  * RedReader is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p/>
  * RedReader is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
+ * <p/>
  * You should have received a copy of the GNU General Public License
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
@@ -22,17 +22,16 @@ import android.app.Dialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatDialogFragment;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.SessionChangeListener;
 import org.quantumbadger.redreader.adapters.SessionListAdapter;
-import org.quantumbadger.redreader.cache.CacheEntry;
 import org.quantumbadger.redreader.common.AndroidApi;
 import org.quantumbadger.redreader.common.General;
 
@@ -41,13 +40,11 @@ import java.util.UUID;
 
 public class SessionListDialog extends AppCompatDialogFragment implements RedditAccountChangeListener {
 
-	private AppCompatActivity mActivity;
-
 	private URI url;
 	private UUID current;
 	private SessionChangeListener.SessionChangeType type;
 
-	private ListView lv;
+	private RecyclerView rv;
 
 	// Workaround for HoloEverywhere bug?
 	private volatile boolean alreadyCreated = false;
@@ -58,7 +55,7 @@ public class SessionListDialog extends AppCompatDialogFragment implements Reddit
 
 		final Bundle args = new Bundle(3);
 		args.putString("url", url.toString());
-		if(current != null) args.putString("current", current.toString());
+		if (current != null) args.putString("current", current.toString());
 		args.putString("type", type.name());
 		dialog.setArguments(args);
 
@@ -72,7 +69,7 @@ public class SessionListDialog extends AppCompatDialogFragment implements Reddit
 
 		url = General.uriFromString(getArguments().getString("url"));
 
-		if(getArguments().containsKey("current")) {
+		if (getArguments().containsKey("current")) {
 			current = UUID.fromString(getArguments().getString("current"));
 		} else {
 			current = null;
@@ -81,53 +78,39 @@ public class SessionListDialog extends AppCompatDialogFragment implements Reddit
 		type = SessionChangeListener.SessionChangeType.valueOf(getArguments().getString("type"));
 	}
 
+	@NonNull
 	@Override
 	public Dialog onCreateDialog(final Bundle savedInstanceState) {
 
-		if(alreadyCreated) return getDialog();
+		if (alreadyCreated) return getDialog();
 		alreadyCreated = true;
 
 		super.onCreateDialog(savedInstanceState);
 
-		mActivity = (AppCompatActivity)getActivity();
+		final Context context = getContext();
 
-		final AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-		builder.setTitle(mActivity.getString(R.string.options_past));
+		final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setTitle(context.getString(R.string.options_past));
 
-		final Context context = mActivity;
+		rv = new RecyclerView(context);
+		builder.setView(rv);
 
-		lv = new ListView(context);
-		builder.setView(lv);
-
-		lv.setAdapter(new SessionListAdapter(context, url, current));
+		rv.setLayoutManager(new LinearLayoutManager(context));
+		rv.setAdapter(new SessionListAdapter(context, url, current, type, this));
+		rv.setHasFixedSize(true);
 
 		RedditAccountManager.getInstance(context).addUpdateListener(this);
 
-		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			public void onItemClick(AdapterView<?> adapterView, View view, int position, final long id) {
-
-				final CacheEntry ce = (CacheEntry) lv.getItemAtPosition(position);
-
-				if(ce == null) {
-					((SessionChangeListener) mActivity).onSessionRefreshSelected(type);
-
-				} else {
-					((SessionChangeListener) mActivity).onSessionSelected(ce.session, type);
-				}
-
-				dismiss();
-			}
-		});
-
-		builder.setNeutralButton(mActivity.getString(R.string.dialog_close), null);
+		builder.setNeutralButton(context.getString(R.string.dialog_close), null);
 
 		return builder.create();
 	}
 
+	@Override
 	public void onRedditAccountChanged() {
 		AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 			public void run() {
-				lv.setAdapter(new SessionListAdapter(mActivity, url, current));
+				rv.getAdapter().notifyDataSetChanged();
 			}
 		});
 	}

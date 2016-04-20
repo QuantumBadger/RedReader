@@ -21,7 +21,6 @@ import android.content.Context;
 
 import com.squareup.okhttp.CacheControl;
 import com.squareup.okhttp.Call;
-import com.squareup.okhttp.ConnectionPool;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.RequestBody;
@@ -62,9 +61,6 @@ public class OKHTTPBackend implements HTTPBackend {
 		mClient.setReadTimeout(10000, TimeUnit.SECONDS);
 
 		mClient.setRetryOnConnectionFailure(true);
-
-		// TODO Is this necessary?
-		mClient.setConnectionPool(ConnectionPool.getDefault());
 	}
 
 	public static synchronized HTTPBackend getHttpBackend() {

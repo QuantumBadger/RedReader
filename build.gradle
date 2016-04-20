@@ -14,7 +14,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.fasterxml.jackson.core:jackson-core:2.7.2'
+    compile 'com.fasterxml.jackson.core:jackson-core:2.7.3'
     compile 'org.apache.commons:commons-lang3:3.4'
     compile 'joda-time:joda-time:2.9.2'
     compile 'com.android.support:appcompat-v7:23.2.1'

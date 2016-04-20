@@ -35,18 +35,11 @@ public abstract class PropertiesDialog extends AppCompatDialogFragment {
 
 	protected int rrListHeaderTextCol, rrListDividerCol, rrCommentBodyCol;
 
-	// Workaround for HoloEverywhere bug?
-	private volatile boolean alreadyCreated = false;
-
 	protected abstract String getTitle(Context context);
 	protected abstract void prepare(AppCompatActivity context, LinearLayout items);
 
 	@Override
 	public final Dialog onCreateDialog(final Bundle savedInstanceState) {
-
-		if(alreadyCreated) return getDialog();
-		alreadyCreated = true;
-
 		super.onCreateDialog(savedInstanceState);
 
 		final AppCompatActivity context = (AppCompatActivity)getActivity();

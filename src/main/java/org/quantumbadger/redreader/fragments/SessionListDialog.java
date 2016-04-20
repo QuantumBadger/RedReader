@@ -46,9 +46,6 @@ public class SessionListDialog extends AppCompatDialogFragment implements Reddit
 
 	private RecyclerView rv;
 
-	// Workaround for HoloEverywhere bug?
-	private volatile boolean alreadyCreated = false;
-
 	public static SessionListDialog newInstance(final Uri url, final UUID current, final SessionChangeListener.SessionChangeType type) {
 
 		final SessionListDialog dialog = new SessionListDialog();
@@ -81,10 +78,6 @@ public class SessionListDialog extends AppCompatDialogFragment implements Reddit
 	@NonNull
 	@Override
 	public Dialog onCreateDialog(final Bundle savedInstanceState) {
-
-		if (alreadyCreated) return getDialog();
-		alreadyCreated = true;
-
 		super.onCreateDialog(savedInstanceState);
 
 		final Context context = getContext();

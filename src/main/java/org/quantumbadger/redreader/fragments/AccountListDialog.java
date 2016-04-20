@@ -49,9 +49,6 @@ public class AccountListDialog extends AppCompatDialogFragment
 
 	private AppCompatActivity mActivity;
 
-	// Workaround for HoloEverywhere bug?
-	private volatile boolean alreadyCreated = false;
-
 	private RecyclerView rv;
 
 	@Override
@@ -134,9 +131,6 @@ public class AccountListDialog extends AppCompatDialogFragment
 	@Override
 	public Dialog onCreateDialog(final Bundle savedInstanceState) {
 		super.onCreateDialog(savedInstanceState);
-
-		if (alreadyCreated) return getDialog();
-		alreadyCreated = true;
 
 		mActivity = (AppCompatActivity) getActivity();
 

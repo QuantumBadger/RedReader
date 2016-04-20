@@ -45,7 +45,7 @@ android {
     
     lintOptions {
         checkReleaseBuilds false
-        abortOnError true
+        abortOnError false
     }
 
     packagingOptions {

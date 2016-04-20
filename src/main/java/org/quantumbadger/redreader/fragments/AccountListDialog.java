@@ -157,11 +157,12 @@ public class AccountListDialog extends AppCompatDialogFragment
 		return builder.create();
 	}
 
+	@Override
 	public void onRedditAccountChanged() {
 		AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 			@Override
 			public void run() {
-				rv.setAdapter(new AccountListAdapter(mActivity, AccountListDialog.this));
+				rv.getAdapter().notifyDataSetChanged();
 			}
 		});
 	}

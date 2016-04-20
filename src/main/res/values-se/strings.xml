@@ -179,8 +179,8 @@
     <string name="accounts_reauth">Omautentisering</string>
     <string name="accounts_delete">Radera</string>
 
-    <string name="accounts_loggingin">Loggar in...</string>
-    <string name="accounts_loggingin_msg">Alldeles strax...</string>
+    <string name="accounts_loggingin">Loggar in…</string>
+    <string name="accounts_loggingin_msg">Alldeles strax…</string>
 
     <string name="accounts_username">Användarnamn</string>
     <string name="accounts_password">Lösenord</string>
@@ -265,11 +265,11 @@
 
     <!-- Download Messages -->
 
-    <string name="download_waiting">Väntar...</string>
-    <string name="download_connecting">Ansluter...</string>
-    <string name="download_downloadstarting">Nerladdning börjar...</string>
-    <string name="download_downloading">Laddar Ner...</string>
-    <string name="download_loading">Laddar...</string>
+    <string name="download_waiting">Väntar…</string>
+    <string name="download_connecting">Ansluter…</string>
+    <string name="download_downloadstarting">Nerladdning börjar…</string>
+    <string name="download_downloading">Laddar Ner…</string>
+    <string name="download_loading">Laddar…</string>
     <string name="download_done">Klar.</string>
     <string name="download_failed">Misslyckades.</string>
 
@@ -283,9 +283,9 @@
     <string name="comment_reply_send">Skicka</string>
     <string name="comment_edit_save">Spara</string>
     <string name="comment_reply_preview">Förhandsgranska</string>
-    <string name="comment_reply_submitting_title">Skickar...</string>
-    <string name="comment_reply_submitting_message">Ett ögonblick...</string>
-    <string name="comment_reply_oncancel">Väntar på resultat av handling...</string>
+    <string name="comment_reply_submitting_title">Skickar…</string>
+    <string name="comment_reply_submitting_message">Ett ögonblick…</string>
+    <string name="comment_reply_oncancel">Väntar på resultat av handling…</string>
     <string name="comment_reply_done">Svar skickat. Kommentaren dyker upp efter uppdatering.</string>
     <string name="comment_edit_done">Kommentar ändrad. Ändringar dyker upp efter uppdatering.</string>
     <string name="post_submit_title_hint">Titel</string>
@@ -455,7 +455,7 @@
     <string name="error_toast_no_urls_in_self">Inga URL:er kunde hittas i denna självtext.</string>
     <string name="error_toast_parent_post_not_downloaded">Huvudinlägg har inte laddats ner ännu.</string>
 
-    <string name="download_subreddits">Laddar ner subreddits...</string>
+    <string name="download_subreddits">Laddar ner subreddits…</string>
 
     <string name="subtitle_points">poäng</string>
     <string name="subtitle_by">av</string>

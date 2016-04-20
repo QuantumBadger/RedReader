@@ -172,8 +172,8 @@
     <string name="accounts_reauth">إعادة التوثيق</string>
     <string name="accounts_delete">مسح</string>
 
-    <string name="accounts_loggingin">جاري تسجيل الدخول...</string>
-    <string name="accounts_loggingin_msg">لحظة...</string>
+    <string name="accounts_loggingin">جاري تسجيل الدخول…</string>
+    <string name="accounts_loggingin_msg">لحظة…</string>
 
     <string name="accounts_username">اسم المستخدم</string>
     <string name="accounts_password">كلمة المرور</string>

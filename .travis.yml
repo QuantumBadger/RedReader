@@ -3,7 +3,7 @@ android:
   components:
     - tools
     - android-23
-    - build-tools-23.0.2
+    - build-tools-23.0.3
 before_install:
   - echo yes | android update sdk --filter extra-android-support --no-ui --force > /dev/null
   - echo yes | android update sdk --filter extra-android-m2repository --no-ui --force > /dev/null

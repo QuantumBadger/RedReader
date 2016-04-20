@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -210,6 +211,7 @@ public class CommentListingFragment extends RRFragment
 		return bundle;
 	}
 
+	@SuppressLint("WrongConstant")
 	private void makeNextRequest(final Context context) {
 
 		if(!mUrlsToDownload.isEmpty()) {

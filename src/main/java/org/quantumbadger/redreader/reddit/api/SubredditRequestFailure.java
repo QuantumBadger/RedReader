@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.reddit.api;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 
 import org.quantumbadger.redreader.cache.CacheRequest;
@@ -46,6 +47,7 @@ public class SubredditRequestFailure {
 		this(requestFailureType, t, statusLine, readableMessage, url != null ? url.toString() : null);
 	}
 
+	@SuppressLint("WrongConstant")
 	public RRError asError(Context context) {
 		return General.getGeneralErrorForFailure(context, requestFailureType, t, statusLine, url);
 	}

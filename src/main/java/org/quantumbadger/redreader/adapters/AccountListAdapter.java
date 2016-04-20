@@ -1,16 +1,16 @@
 /*******************************************************************************
  * This file is part of RedReader.
- * <p>
+ * <p/>
  * RedReader is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * <p>
+ * <p/>
  * RedReader is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * <p>
+ * <p/>
  * You should have received a copy of the GNU General Public License
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
@@ -62,22 +62,22 @@ public class AccountListAdapter extends HeaderRecyclerAdapter<AccountListAdapter
 	@Override
 	protected VH onCreateHeaderItemViewHolder(ViewGroup parent) {
 		View v = LayoutInflater.from(parent.getContext())
-			.inflate(R.layout.recycler_item, parent, false);
-		return new VH(v);
+			.inflate(R.layout.list_item_single_text_icon, parent, false);
+		return new SingleTextIconVH(v);
 	}
 
 	@Override
 	protected VH onCreateContentItemViewHolder(ViewGroup parent) {
 		View v = LayoutInflater.from(parent.getContext())
-			.inflate(R.layout.recycler_item, parent, false);
-		return new VH(v);
+			.inflate(R.layout.list_item_single_text, parent, false);
+		return new SingleTextVH(v);
 	}
 
 	@Override
 	protected void onBindHeaderItemViewHolder(VH holder, int position) {
-		holder.text.setText(context.getString(R.string.accounts_add));
-		holder.icon.setVisibility(View.VISIBLE);
-		holder.icon.setImageDrawable(rrIconAdd);
+		final SingleTextIconVH vh = (SingleTextIconVH) holder;
+		vh.text.setText(context.getString(R.string.accounts_add));
+		vh.icon.setImageDrawable(rrIconAdd);
 		holder.itemView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -89,6 +89,7 @@ public class AccountListAdapter extends HeaderRecyclerAdapter<AccountListAdapter
 
 	@Override
 	protected void onBindContentItemViewHolder(VH holder, final int position) {
+		final SingleTextVH vh = (SingleTextVH) holder;
 		final RedditAccount account = accounts.get(position);
 		final BetterSSB username = new BetterSSB();
 
@@ -106,10 +107,9 @@ public class AccountListAdapter extends HeaderRecyclerAdapter<AccountListAdapter
 			username.append("  (" + context.getString(R.string.accounts_active) + ")", BetterSSB.FOREGROUND_COLOR | BetterSSB.SIZE, col, 0, 0.8f);
 		}
 
-		holder.text.setText(username.get());
-		holder.icon.setVisibility(View.GONE);
+		vh.text.setText(username.get());
 
-		holder.itemView.setOnClickListener(new View.OnClickListener() {
+		vh.itemView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				final RedditAccount account = accounts.get(position);
@@ -163,14 +163,30 @@ public class AccountListAdapter extends HeaderRecyclerAdapter<AccountListAdapter
 
 	static class VH extends RecyclerView.ViewHolder {
 
-		final ImageView icon;
+		public VH(View itemView) {
+			super(itemView);
+		}
+	}
+
+	static class SingleTextVH extends VH {
+
 		final TextView text;
 
-		public VH(View itemView) {
+		public SingleTextVH(View itemView) {
+			super(itemView);
+
+			text = (TextView) itemView.findViewById(R.id.recycler_item_text);
+		}
+	}
+
+	static class SingleTextIconVH extends SingleTextVH {
+
+		final ImageView icon;
+
+		public SingleTextIconVH(View itemView) {
 			super(itemView);
 
 			icon = (ImageView) itemView.findViewById(R.id.recycler_item_icon);
-			text = (TextView) itemView.findViewById(R.id.recycler_item_text);
 		}
 	}
 }

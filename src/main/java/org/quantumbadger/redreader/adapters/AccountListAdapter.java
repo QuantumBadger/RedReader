@@ -25,22 +25,22 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.OAuthLoginActivity;
 import org.quantumbadger.redreader.common.BetterSSB;
+import org.quantumbadger.redreader.viewholders.SingleTextIconVH;
+import org.quantumbadger.redreader.viewholders.SingleTextVH;
+import org.quantumbadger.redreader.viewholders.VH;
 
 import java.util.ArrayList;
 
-public class AccountListAdapter extends HeaderRecyclerAdapter<AccountListAdapter.VH> {
+public class AccountListAdapter extends HeaderRecyclerAdapter<VH> {
 
 	private final Context context;
 	private final Fragment fragment;
@@ -159,34 +159,5 @@ public class AccountListAdapter extends HeaderRecyclerAdapter<AccountListAdapter
 	@Override
 	protected int getContentItemCount() {
 		return accounts.size();
-	}
-
-	static class VH extends RecyclerView.ViewHolder {
-
-		public VH(View itemView) {
-			super(itemView);
-		}
-	}
-
-	static class SingleTextVH extends VH {
-
-		final TextView text;
-
-		public SingleTextVH(View itemView) {
-			super(itemView);
-
-			text = (TextView) itemView.findViewById(R.id.recycler_item_text);
-		}
-	}
-
-	static class SingleTextIconVH extends SingleTextVH {
-
-		final ImageView icon;
-
-		public SingleTextIconVH(View itemView) {
-			super(itemView);
-
-			icon = (ImageView) itemView.findViewById(R.id.recycler_item_icon);
-		}
 	}
 }

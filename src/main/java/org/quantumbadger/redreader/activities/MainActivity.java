@@ -212,39 +212,39 @@ public class MainActivity extends RefreshableActivity
 
 		switch(type) {
 
-			case MainMenuFragment.FRONTPAGE:
+			case MainMenuFragment.MENU_MENU_ACTION_FRONTPAGE:
 				onSelected(SubredditPostListURL.getFrontPage());
 				break;
 
-			case MainMenuFragment.ALL:
+			case MainMenuFragment.MENU_MENU_ACTION_ALL:
 				onSelected(SubredditPostListURL.getAll());
 				break;
 
-			case MainMenuFragment.SUBMITTED:
+			case MainMenuFragment.MENU_MENU_ACTION_SUBMITTED:
 				onSelected(UserPostListingURL.getSubmitted(username));
 				break;
 
-			case MainMenuFragment.SAVED:
+			case MainMenuFragment.MENU_MENU_ACTION_SAVED:
 				onSelected(UserPostListingURL.getSaved(username));
 				break;
 
-			case MainMenuFragment.HIDDEN:
+			case MainMenuFragment.MENU_MENU_ACTION_HIDDEN:
 				onSelected(UserPostListingURL.getHidden(username));
 				break;
 
-			case MainMenuFragment.UPVOTED:
+			case MainMenuFragment.MENU_MENU_ACTION_UPVOTED:
 				onSelected(UserPostListingURL.getLiked(username));
 				break;
 
-			case MainMenuFragment.DOWNVOTED:
+			case MainMenuFragment.MENU_MENU_ACTION_DOWNVOTED:
 				onSelected(UserPostListingURL.getDisliked(username));
 				break;
 
-			case MainMenuFragment.PROFILE:
+			case MainMenuFragment.MENU_MENU_ACTION_PROFILE:
 				LinkHandler.onLinkClicked(this, new UserProfileURL(RedditAccountManager.getInstance(this).getDefaultAccount().username).toString());
 				break;
 
-			case MainMenuFragment.CUSTOM: {
+			case MainMenuFragment.MENU_MENU_ACTION_CUSTOM: {
 
 				final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
 				final LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.dialog_editbox, null);
@@ -301,11 +301,11 @@ public class MainActivity extends RefreshableActivity
 				break;
 			}
 
-			case MainMenuFragment.INBOX:
+			case MainMenuFragment.MENU_MENU_ACTION_INBOX:
 				startActivity(new Intent(this, InboxListingActivity.class));
 				break;
 
-			case MainMenuFragment.MODMAIL: {
+			case MainMenuFragment.MENU_MENU_ACTION_MODMAIL: {
 				final Intent intent = new Intent(this, InboxListingActivity.class);
 				intent.putExtra("modmail", true);
 				startActivity(intent);

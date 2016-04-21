@@ -49,20 +49,22 @@ import java.util.HashSet;
 
 public class MainMenuFragment extends RRFragment implements MainMenuSelectionListener, RedditSubredditSubscriptionManager.SubredditSubscriptionStateChangeListener {
 
-	public static final int FRONTPAGE = 0;
-	public static final int PROFILE = 1;
-	public static final int INBOX = 2;
-	public static final int SUBMITTED = 3;
-	public static final int UPVOTED = 4;
-	public static final int DOWNVOTED = 5;
-	public static final int SAVED = 6;
-	public static final int MODMAIL = 7;
-	public static final int HIDDEN = 8;
-	public static final int CUSTOM = 9;
-	public static final int ALL = 10;
+	public static final int MENU_MENU_ACTION_FRONTPAGE = 0;
+	public static final int MENU_MENU_ACTION_PROFILE = 1;
+	public static final int MENU_MENU_ACTION_INBOX = 2;
+	public static final int MENU_MENU_ACTION_SUBMITTED = 3;
+	public static final int MENU_MENU_ACTION_UPVOTED = 4;
+	public static final int MENU_MENU_ACTION_DOWNVOTED = 5;
+	public static final int MENU_MENU_ACTION_SAVED = 6;
+	public static final int MENU_MENU_ACTION_MODMAIL = 7;
+	public static final int MENU_MENU_ACTION_HIDDEN = 8;
+	public static final int MENU_MENU_ACTION_CUSTOM = 9;
+	public static final int MENU_MENU_ACTION_ALL = 10;
 
-	@IntDef({FRONTPAGE, PROFILE, INBOX, SUBMITTED, UPVOTED, DOWNVOTED, SAVED, MODMAIL, HIDDEN,
-		CUSTOM, ALL})
+	@IntDef({MENU_MENU_ACTION_FRONTPAGE, MENU_MENU_ACTION_PROFILE, MENU_MENU_ACTION_INBOX,
+		MENU_MENU_ACTION_SUBMITTED, MENU_MENU_ACTION_UPVOTED, MENU_MENU_ACTION_DOWNVOTED,
+		MENU_MENU_ACTION_SAVED, MENU_MENU_ACTION_MODMAIL, MENU_MENU_ACTION_HIDDEN,
+		MENU_MENU_ACTION_CUSTOM, MENU_MENU_ACTION_ALL})
 	@Retention(RetentionPolicy.SOURCE)
 	public @interface MainMenuAction {}
 

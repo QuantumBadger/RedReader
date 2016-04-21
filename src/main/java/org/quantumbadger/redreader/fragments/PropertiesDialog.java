@@ -22,6 +22,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.view.View;
@@ -35,12 +36,19 @@ public abstract class PropertiesDialog extends AppCompatDialogFragment {
 
 	protected int rrListHeaderTextCol, rrListDividerCol, rrCommentBodyCol;
 
+	// Workaround for HoloEverywhere bug?
+	private volatile boolean alreadyCreated = false;
+
 	protected abstract String getTitle(Context context);
 	protected abstract void prepare(AppCompatActivity context, LinearLayout items);
 
+	@NonNull
 	@Override
 	public final Dialog onCreateDialog(final Bundle savedInstanceState) {
 		super.onCreateDialog(savedInstanceState);
+
+		if(alreadyCreated) return getDialog();
+		alreadyCreated = true;
 
 		final AppCompatActivity context = (AppCompatActivity)getActivity();
 

@@ -19,11 +19,16 @@ package org.quantumbadger.redreader.reddit.api;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
+
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
-import org.quantumbadger.redreader.cache.RequestFailureType;
-import org.quantumbadger.redreader.common.*;
+import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.common.AndroidApi;
+import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.TimestampBound;
+import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
 import org.quantumbadger.redreader.common.collections.WeakReferenceListManager;
 import org.quantumbadger.redreader.io.RawObjectDB;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
@@ -37,7 +42,7 @@ import java.util.HashSet;
 
 public class RedditSubredditSubscriptionManager {
 
-	public static enum SubredditSubscriptionState { SUBSCRIBED, SUBSCRIBING, UNSUBSCRIBING, NOT_SUBSCRIBED }
+	public enum SubredditSubscriptionState { SUBSCRIBED, SUBSCRIBING, UNSUBSCRIBING, NOT_SUBSCRIBED }
 
 	private final SubredditSubscriptionStateChangeNotifier notifier = new SubredditSubscriptionStateChangeNotifier();
 	private final WeakReferenceListManager<SubredditSubscriptionStateChangeListener> listeners
@@ -169,12 +174,12 @@ public class RedditSubredditSubscriptionManager {
 
 	public void subscribe(final String subredditCanonicalId, final AppCompatActivity activity) {
 
-		RedditAPI.action(
+		RedditAPI.subscriptionAction(
 				CacheManager.getInstance(context),
-				new SubredditActionResponseHandler(activity, RedditAPI.RedditSubredditAction.SUBSCRIBE, subredditCanonicalId),
+				new SubredditActionResponseHandler(activity, RedditAPI.SUBSCRIPTION_ACTION_SUBSCRIBE, subredditCanonicalId),
 				user,
 				subredditCanonicalId,
-				RedditAPI.RedditSubredditAction.SUBSCRIBE,
+				RedditAPI.SUBSCRIPTION_ACTION_SUBSCRIBE,
 				context
 		);
 
@@ -183,12 +188,12 @@ public class RedditSubredditSubscriptionManager {
 
 	public void unsubscribe(final String subredditCanonicalId, final AppCompatActivity activity) {
 
-		RedditAPI.action(
+		RedditAPI.subscriptionAction(
 				CacheManager.getInstance(context),
-				new SubredditActionResponseHandler(activity, RedditAPI.RedditSubredditAction.UNSUBSCRIBE, subredditCanonicalId),
+				new SubredditActionResponseHandler(activity, RedditAPI.SUBSCRIPTION_ACTION_UNSUBSCRIBE, subredditCanonicalId),
 				user,
 				subredditCanonicalId,
-				RedditAPI.RedditSubredditAction.UNSUBSCRIBE,
+				RedditAPI.SUBSCRIPTION_ACTION_UNSUBSCRIBE,
 				context
 		);
 
@@ -197,12 +202,12 @@ public class RedditSubredditSubscriptionManager {
 
 	private class SubredditActionResponseHandler extends APIResponseHandler.ActionResponseHandler {
 
-		private final RedditAPI.RedditSubredditAction action;
+		private final @RedditAPI.RedditSubredditAction int action;
 		private final AppCompatActivity activity;
 		private final String canonicalName;
 
 		protected SubredditActionResponseHandler(AppCompatActivity activity,
-												 RedditAPI.RedditSubredditAction action,
+												 @RedditAPI.RedditSubredditAction int action,
 												 String canonicalName) {
 			super(activity);
 			this.activity = activity;
@@ -214,10 +219,10 @@ public class RedditSubredditSubscriptionManager {
 		protected void onSuccess() {
 
 			switch(action) {
-				case SUBSCRIBE:
+				case RedditAPI.SUBSCRIPTION_ACTION_SUBSCRIBE:
 					onSubscriptionAttemptSuccess(canonicalName);
 					break;
-				case UNSUBSCRIBE:
+				case RedditAPI.SUBSCRIPTION_ACTION_UNSUBSCRIBE:
 					onUnsubscriptionAttemptSuccess(canonicalName);
 					break;
 			}
@@ -231,7 +236,7 @@ public class RedditSubredditSubscriptionManager {
 		}
 
 		@Override
-		protected void onFailure(RequestFailureType type, Throwable t, Integer status, String readableMessage) {
+		protected void onFailure(@CacheRequest.RequestFailureType int type, Throwable t, Integer status, String readableMessage) {
 			onSubscriptionChangeAttemptFailed(canonicalName);
 			if(t != null) t.printStackTrace();
 
@@ -260,12 +265,14 @@ public class RedditSubredditSubscriptionManager {
 	}
 
 	public interface SubredditSubscriptionStateChangeListener {
-		public void onSubredditSubscriptionListUpdated(RedditSubredditSubscriptionManager subredditSubscriptionManager);
-		public void onSubredditSubscriptionAttempted(RedditSubredditSubscriptionManager subredditSubscriptionManager);
-		public void onSubredditUnsubscriptionAttempted(RedditSubredditSubscriptionManager subredditSubscriptionManager);
+		void onSubredditSubscriptionListUpdated(RedditSubredditSubscriptionManager subredditSubscriptionManager);
+
+		void onSubredditSubscriptionAttempted(RedditSubredditSubscriptionManager subredditSubscriptionManager);
+
+		void onSubredditUnsubscriptionAttempted(RedditSubredditSubscriptionManager subredditSubscriptionManager);
 	}
 
-	private static enum SubredditSubscriptionChangeType {LIST_UPDATED, SUBSCRIPTION_ATTEMPTED, UNSUBSCRIPTION_ATTEMPTED}
+	private enum SubredditSubscriptionChangeType {LIST_UPDATED, SUBSCRIPTION_ATTEMPTED, UNSUBSCRIPTION_ATTEMPTED}
 
 	private class SubredditSubscriptionStateChangeNotifier
 			implements WeakReferenceListManager.ArgOperator<SubredditSubscriptionStateChangeListener, SubredditSubscriptionChangeType> {

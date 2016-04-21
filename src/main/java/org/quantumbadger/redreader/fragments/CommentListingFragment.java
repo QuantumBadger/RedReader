@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -68,7 +69,7 @@ public class CommentListingFragment extends RRFragment
 	private final ArrayList<RedditURLParser.RedditURL> mAllUrls;
 	private final LinkedList<RedditURLParser.RedditURL> mUrlsToDownload;
 	private final UUID mSession;
-	private final CacheRequest.DownloadType mDownloadType;
+	private final @CacheRequest.DownloadType int mDownloadType;
 
 	private RedditPreparedPost mPost = null;
 
@@ -90,7 +91,7 @@ public class CommentListingFragment extends RRFragment
 			final Bundle savedInstanceState,
 			final ArrayList<RedditURLParser.RedditURL> urls,
 			final UUID session,
-			final CacheRequest.DownloadType downloadType) {
+			final @CacheRequest.DownloadType int downloadType) {
 
 		super(parent, savedInstanceState);
 
@@ -126,7 +127,7 @@ public class CommentListingFragment extends RRFragment
 		mRecyclerView.setLayoutManager(linearLayoutManager);
 		mRecyclerView.setHasFixedSize(true);
 		linearLayoutManager.setSmoothScrollbarEnabled(false);
-		
+
 		mRecyclerView.setAdapter(mCommentListingManager.getAdapter());
 		mOuterFrame.addView(mRecyclerView);
 
@@ -141,13 +142,13 @@ public class CommentListingFragment extends RRFragment
 		final SideToolbarOverlay toolbarOverlay = new SideToolbarOverlay(context);
 
 		final BezelSwipeOverlay bezelOverlay = new BezelSwipeOverlay(context, new BezelSwipeOverlay.BezelSwipeListener() {
-
-			public boolean onSwipe(BezelSwipeOverlay.SwipeEdge edge) {
+			@Override
+			public boolean onSwipe(@BezelSwipeOverlay.SwipeEdge int edge) {
 
 				if(mPost == null) return false;
 
 				toolbarOverlay.setContents(mPost.generateToolbar(getActivity(), true, toolbarOverlay));
-				toolbarOverlay.show(edge == BezelSwipeOverlay.SwipeEdge.LEFT ?
+				toolbarOverlay.show(edge == BezelSwipeOverlay.LEFT ?
 						SideToolbarOverlay.SideToolbarPosition.LEFT : SideToolbarOverlay.SideToolbarPosition.RIGHT);
 				return true;
 			}
@@ -210,6 +211,7 @@ public class CommentListingFragment extends RRFragment
 		return bundle;
 	}
 
+	@SuppressLint("WrongConstant")
 	private void makeNextRequest(final Context context) {
 
 		if(!mUrlsToDownload.isEmpty()) {
@@ -350,7 +352,7 @@ public class CommentListingFragment extends RRFragment
 			}
 
 			if(!mAllUrls.isEmpty()
-					&& mAllUrls.get(0).pathType() == RedditURLParser.PathType.PostCommentListingURL
+					&& mAllUrls.get(0).pathType() == RedditURLParser.POST_COMMENT_LISTING_URL
 					&& mAllUrls.get(0).asPostCommentListURL().commentId != null) {
 
 				final SpecificCommentThreadView specificCommentThreadView = new SpecificCommentThreadView(
@@ -402,7 +404,7 @@ public class CommentListingFragment extends RRFragment
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu) {
-		if(mAllUrls != null && mAllUrls.size() > 0 && mAllUrls.get(0).pathType() == RedditURLParser.PathType.PostCommentListingURL) {
+		if(mAllUrls != null && mAllUrls.size() > 0 && mAllUrls.get(0).pathType() == RedditURLParser.POST_COMMENT_LISTING_URL) {
 			menu.add(R.string.action_reply);
 		}
 	}

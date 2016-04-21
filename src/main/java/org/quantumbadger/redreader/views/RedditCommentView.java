@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -55,7 +56,9 @@ public class RedditCommentView extends LinearLayout
 
 	public interface CommentListener {
 		void onCommentClicked(RedditCommentView view);
+
 		void onCommentLongClicked(RedditCommentView view);
+
 		void onCommentChanged(RedditCommentView view);
 	}
 

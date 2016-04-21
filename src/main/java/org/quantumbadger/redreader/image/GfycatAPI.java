@@ -22,7 +22,6 @@ import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
@@ -47,9 +46,9 @@ public final class GfycatAPI {
 				null,
 				priority,
 				listId,
-				CacheRequest.DownloadType.IF_NECESSARY,
+				CacheRequest.DOWNLOAD_IF_NECESSARY,
 				Constants.FileType.IMAGE_INFO,
-				CacheRequest.DownloadQueueType.IMMEDIATE,
+				CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
 				true,
 				false,
 				context
@@ -68,7 +67,7 @@ public final class GfycatAPI {
 			}
 
 			@Override
-			protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
+			protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
 				listener.onFailure(type, t, status, readableMessage);
 			}
 
@@ -88,7 +87,7 @@ public final class GfycatAPI {
 					listener.onSuccess(ImageInfo.parseGfycat(outer));
 
 				} catch(Throwable t) {
-					listener.onFailure(RequestFailureType.PARSE, t, null, "Gfycat data parse failed");
+					listener.onFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "Gfycat data parse failed");
 				}
 			}
 		});

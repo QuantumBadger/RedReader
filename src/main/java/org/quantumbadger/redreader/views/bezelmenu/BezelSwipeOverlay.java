@@ -3,18 +3,28 @@ package org.quantumbadger.redreader.views.bezelmenu;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.annotation.IntDef;
 import android.view.MotionEvent;
 import android.view.View;
+
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 public class BezelSwipeOverlay extends View {
+
+	public static final int LEFT = 0;
+	public static final int RIGHT = 1;
+
+	@IntDef({LEFT, RIGHT})
+	@Retention(RetentionPolicy.SOURCE)
+	public @interface SwipeEdge {}
 
 	private final BezelSwipeListener listener;
 
 	private final int mSwipeZonePixels;
-
-	public enum SwipeEdge {LEFT, RIGHT}
 
 	public BezelSwipeOverlay(Context context, BezelSwipeListener listener) {
 		super(context);
@@ -34,10 +44,10 @@ public class BezelSwipeOverlay extends View {
 		if(action == MotionEvent.ACTION_DOWN) {
 
 			if(event.getX() < mSwipeZonePixels) {
-				return listener.onSwipe(SwipeEdge.LEFT);
+				return listener.onSwipe(LEFT);
 
 			} else if(event.getX() > getWidth() - mSwipeZonePixels) {
-				return listener.onSwipe(SwipeEdge.RIGHT);
+				return listener.onSwipe(RIGHT);
 
 			} else {
 				return listener.onTap();
@@ -48,7 +58,8 @@ public class BezelSwipeOverlay extends View {
 	}
 
 	public interface BezelSwipeListener {
-		boolean onSwipe(SwipeEdge edge);
+		boolean onSwipe(@SwipeEdge int edge);
+
 		boolean onTap();
 	}
 }

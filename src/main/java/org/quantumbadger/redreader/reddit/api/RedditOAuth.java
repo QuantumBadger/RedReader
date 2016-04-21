@@ -21,10 +21,11 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.SystemClock;
 import android.util.Base64;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.cache.RequestFailureType;
+import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.RRError;
@@ -303,7 +304,7 @@ public final class RedditOAuth {
 			request.executeInThisThread(new HTTPBackend.Listener() {
 
 				@Override
-				public void onError(final RequestFailureType failureType, final Throwable exception, final Integer httpStatus) {
+				public void onError(final @CacheRequest.RequestFailureType int failureType, final Throwable exception, final Integer httpStatus) {
 					result.set(handleRefreshTokenError(exception, httpStatus, context, uri));
 				}
 
@@ -370,7 +371,7 @@ public final class RedditOAuth {
 			request.executeInThisThread(new HTTPBackend.Listener() {
 
 				@Override
-				public void onError(final RequestFailureType failureType, final Throwable exception, final Integer httpStatus) {
+				public void onError(final @CacheRequest.RequestFailureType int failureType, final Throwable exception, final Integer httpStatus) {
 
 					if(httpStatus != null && httpStatus != 200) {
 						result.set(new FetchUserInfoResult(
@@ -493,8 +494,8 @@ public final class RedditOAuth {
 	}
 
 	public interface LoginListener {
-
 		void onLoginSuccess(RedditAccount account);
+
 		void onLoginFailure(LoginError error, RRError details);
 	}
 
@@ -605,7 +606,7 @@ public final class RedditOAuth {
 
 			request.executeInThisThread(new HTTPBackend.Listener() {
 				@Override
-				public void onError(final RequestFailureType failureType, final Throwable exception, final Integer httpStatus) {
+				public void onError(final @CacheRequest.RequestFailureType int failureType, final Throwable exception, final Integer httpStatus) {
 					result.set(handleAccessTokenError(exception, httpStatus, context, uri));
 				}
 
@@ -680,7 +681,7 @@ public final class RedditOAuth {
 
 			request.executeInThisThread(new HTTPBackend.Listener() {
 				@Override
-				public void onError(final RequestFailureType failureType, final Throwable exception, final Integer httpStatus) {
+				public void onError(final @CacheRequest.RequestFailureType int failureType, final Throwable exception, final Integer httpStatus) {
 					result.set(handleAccessTokenError(exception, httpStatus, context, uri));
 				}
 

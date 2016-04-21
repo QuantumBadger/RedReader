@@ -22,8 +22,8 @@ import android.os.Looper;
 
 public class UIThreadRepeatingTimer implements Runnable {
 
-	public static interface Listener {
-		public void onUIThreadRepeatingTimer(UIThreadRepeatingTimer timer);
+	public interface Listener {
+		void onUIThreadRepeatingTimer(UIThreadRepeatingTimer timer);
 	}
 
 	private final Handler mHandler = new Handler(Looper.getMainLooper());

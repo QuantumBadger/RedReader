@@ -33,7 +33,6 @@ import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.activities.InboxListingActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
@@ -79,9 +78,9 @@ public class NewMessageChecker extends BroadcastReceiver {
 				null,
 				Constants.Priority.API_INBOX_LIST,
 				0,
-				CacheRequest.DownloadType.FORCE,
+				CacheRequest.DOWNLOAD_FORCE,
 				Constants.FileType.INBOX_LIST,
-				CacheRequest.DownloadQueueType.REDDIT_API,
+				CacheRequest.DOWNLOAD_QUEUE_REDDIT_API,
 				true,
 				true,
 				context) {
@@ -98,7 +97,7 @@ public class NewMessageChecker extends BroadcastReceiver {
 			}
 
 			@Override
-			protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
+			protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
 				Log.e("NewMessageChecker", "Request failed", t);
 			}
 
@@ -175,7 +174,7 @@ public class NewMessageChecker extends BroadcastReceiver {
 					}
 
 				} catch(Throwable t) {
-					notifyFailure(RequestFailureType.PARSE, t, null, "Parse failure");
+					notifyFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "Parse failure");
 				}
 			}
 		};

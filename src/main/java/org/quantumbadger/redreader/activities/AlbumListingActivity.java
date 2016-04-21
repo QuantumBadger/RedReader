@@ -23,17 +23,21 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.adapters.AlbumAdapter;
-import org.quantumbadger.redreader.cache.RequestFailureType;
-import org.quantumbadger.redreader.common.*;
+import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.common.AndroidApi;
+import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.image.GetAlbumInfoListener;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
 import org.quantumbadger.redreader.image.ImageInfo;
@@ -98,7 +102,7 @@ public class AlbumListingActivity extends BaseActivity {
 		LinkHandler.getImgurAlbumInfo(this, albumId, Constants.Priority.IMAGE_VIEW, 0, new GetAlbumInfoListener() {
 
 			@Override
-			public void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
+			public void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
 				Log.e("AlbumListingActivity", "getAlbumInfo call failed: " + type);
 
 				if(status != null) Log.e("AlbumListingActivity", "status was: " + status.toString());
@@ -113,7 +117,7 @@ public class AlbumListingActivity extends BaseActivity {
 
 				LinkHandler.getImgurImageInfo(AlbumListingActivity.this, albumId, Constants.Priority.IMAGE_VIEW, 0, false, new GetImageInfoListener() {
 					@Override
-					public void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
+					public void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
 						Log.e("AlbumListingActivity", "Image info request also failed: " + type);
 						revertToWeb();
 					}
@@ -147,27 +151,11 @@ public class AlbumListingActivity extends BaseActivity {
 
 						layout.removeAllViews();
 
-						final ListView listView = new ListView(AlbumListingActivity.this);
-						listView.setAdapter(new AlbumAdapter(info));
-						layout.addView(listView);
+						final RecyclerView rv = new RecyclerView(AlbumListingActivity.this);
+						layout.addView(rv);
 
-						listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-							@Override
-							public void onItemClick(
-									final AdapterView<?> parent,
-									final View view,
-									final int position,
-									final long id) {
-
-								LinkHandler.onLinkClicked(
-										AlbumListingActivity.this,
-										info.images.get(position).urlOriginal,
-										false,
-										null,
-										info,
-										position);
-							}
-						});
+						rv.setLayoutManager(new LinearLayoutManager(AlbumListingActivity.this));
+						rv.setAdapter(new AlbumAdapter(AlbumListingActivity.this, info));
 					}
 				});
 			}

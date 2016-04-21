@@ -25,6 +25,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import org.quantumbadger.redreader.R;
 
 // TODO just make this a linear layout
@@ -81,7 +82,7 @@ public class ListItemView extends FrameLayout {
 		if(contextMenuBuilder != null) contextMenuBuilder.build(menu);
 	}
 
-	public static interface ContextMenuBuilder {
-		public void build(ContextMenu menu);
+	public interface ContextMenuBuilder {
+		void build(ContextMenu menu);
 	}
 }

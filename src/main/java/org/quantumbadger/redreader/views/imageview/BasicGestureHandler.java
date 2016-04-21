@@ -10,10 +10,10 @@ public class BasicGestureHandler implements View.OnTouchListener, FingerTracker.
 	}
 
 	public interface Listener {
-
 		void onSingleTap();
 
 		void onHorizontalSwipe(float pixels);
+
 		void onHorizontalSwipeEnd();
 	}
 

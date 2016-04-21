@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:background="?selectableItemBackground"
+	android:minHeight="72dp">
+
+	<ImageView
+		android:id="@+id/recycler_item_icon"
+		android:layout_width="64dp"
+		android:layout_height="64dp"
+		android:layout_gravity="center_vertical"
+		android:layout_marginEnd="24dp"
+		android:layout_marginRight="24dp"
+		android:scaleType="fitCenter"/>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center_vertical"
+		android:orientation="vertical"
+		android:paddingBottom="8dp"
+		android:paddingRight="16dp"
+		android:paddingTop="8dp">
+
+		<TextView
+			android:id="@+id/recycler_item_text"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="center_vertical"
+			android:textColor="?android:textColorPrimary"
+			android:textSize="16sp"/>
+
+		<TextView
+			android:id="@+id/recycler_item_2_text"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="center_vertical"
+			android:textColor="#909090"
+			android:textSize="12sp"/>
+
+	</LinearLayout>
+</LinearLayout>

@@ -27,11 +27,22 @@ import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+
 import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.activities.*;
-import org.quantumbadger.redreader.cache.RequestFailureType;
+import org.quantumbadger.redreader.activities.AlbumListingActivity;
+import org.quantumbadger.redreader.activities.CommentListingActivity;
+import org.quantumbadger.redreader.activities.ImageViewActivity;
+import org.quantumbadger.redreader.activities.PostListingActivity;
+import org.quantumbadger.redreader.activities.WebViewActivity;
+import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.fragments.UserProfileDialog;
-import org.quantumbadger.redreader.image.*;
+import org.quantumbadger.redreader.image.GetAlbumInfoListener;
+import org.quantumbadger.redreader.image.GetImageInfoListener;
+import org.quantumbadger.redreader.image.GfycatAPI;
+import org.quantumbadger.redreader.image.ImageInfo;
+import org.quantumbadger.redreader.image.ImgurAPI;
+import org.quantumbadger.redreader.image.ImgurAPIV3;
+import org.quantumbadger.redreader.image.StreamableAPI;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 
@@ -142,24 +153,24 @@ public class LinkHandler {
 
 			switch(redditURL.pathType()) {
 
-				case SubredditPostListingURL:
-				case UserPostListingURL:
-				case UnknownPostListingURL: {
+				case RedditURLParser.SUBREDDIT_POST_LISTING_URL:
+				case RedditURLParser.USER_POST_LISTING_URL:
+				case RedditURLParser.UNKNOWN_POST_LISTING_URL: {
 					final Intent intent = new Intent(activity, PostListingActivity.class);
 					intent.setData(redditURL.generateJsonUri());
 					activity.startActivityForResult(intent, 1);
 					return;
 				}
 
-				case PostCommentListingURL:
-				case UserCommentListingURL: {
+				case RedditURLParser.POST_COMMENT_LISTING_URL:
+				case RedditURLParser.USER_COMMENT_LISTING_URL: {
 					final Intent intent = new Intent(activity, CommentListingActivity.class);
 					intent.setData(redditURL.generateJsonUri());
 					activity.startActivityForResult(intent, 1);
 					return;
 				}
 
-				case UserProfileURL: {
+				case RedditURLParser.USER_PROFILE_URL: {
 					UserProfileDialog.newInstance(redditURL.asUserProfileURL().username).show(activity.getSupportFragmentManager(), null);
 					return;
 				}
@@ -306,7 +317,7 @@ public class LinkHandler {
 		}
 
 		@Override
-		public abstract void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage);
+		public abstract void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage);
 
 		@Override
 		public void onSuccess(final ImageInfo info) {
@@ -331,19 +342,19 @@ public class LinkHandler {
 
 		ImgurAPIV3.getImageInfo(context, imgId, priority, listId, true, new ImageInfoRetryListener(listener) {
 			@Override
-			public void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
+			public void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
 
 				Log.i("getImgurImageInfo", "Image " + imgId + ": trying API v3 without auth");
 
 				ImgurAPIV3.getImageInfo(context, imgId, priority, listId, false, new ImageInfoRetryListener(listener) {
 					@Override
-					public void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
+					public void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
 
 						Log.i("getImgurImageInfo", "Image " + imgId + ": trying API v2");
 
 						ImgurAPI.getImageInfo(context, imgId, priority, listId, new ImageInfoRetryListener(listener) {
 							@Override
-							public void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
+							public void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
 
 								Log.i("getImgurImageInfo", "All API requests failed!");
 
@@ -370,7 +381,7 @@ public class LinkHandler {
 		}
 
 		@Override
-		public abstract void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage);
+		public abstract void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage);
 
 		@Override
 		public void onSuccess(final ImgurAPI.AlbumInfo info) {
@@ -389,19 +400,19 @@ public class LinkHandler {
 
 		ImgurAPIV3.getAlbumInfo(context, albumId, priority, listId, true, new AlbumInfoRetryListener(listener) {
 			@Override
-			public void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
+			public void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
 
 				Log.i("getImgurAlbumInfo", "Album " + albumId + ": trying API v3 without auth");
 
 				ImgurAPIV3.getAlbumInfo(context, albumId, priority, listId, false, new AlbumInfoRetryListener(listener) {
 					@Override
-					public void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
+					public void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
 
 						Log.i("getImgurAlbumInfo", "Album " + albumId + ": trying API v2");
 
 						ImgurAPI.getAlbumInfo(context, albumId, priority, listId, new AlbumInfoRetryListener(listener) {
 							@Override
-							public void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
+							public void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
 
 								Log.i("getImgurImageInfo", "All API requests failed!");
 								listener.onFailure(type, t, status, readableMessage);

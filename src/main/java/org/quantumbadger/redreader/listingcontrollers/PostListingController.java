@@ -48,8 +48,8 @@ public class PostListingController {
 	}
 
 	public boolean isSortable() {
-		return (url.pathType() == RedditURLParser.PathType.SubredditPostListingURL)
-				|| (url.pathType() == RedditURLParser.PathType.SearchPostListingURL);
+		return (url.pathType() == RedditURLParser.SUBREDDIT_POST_LISTING_URL)
+				|| (url.pathType() == RedditURLParser.SEARCH_POST_LISTING_URL);
 	}
 
 	public static enum Sort {
@@ -67,9 +67,9 @@ public class PostListingController {
 	}
 
 	public final void setSort(final Sort order) {
-		if(url.pathType() == RedditURLParser.PathType.SubredditPostListingURL) {
+		if(url.pathType() == RedditURLParser.SUBREDDIT_POST_LISTING_URL) {
 			url = url.asSubredditPostListURL().sort(order);
-		} else if(url.pathType() == RedditURLParser.PathType.SearchPostListingURL) {
+		} else if(url.pathType() == RedditURLParser.SEARCH_POST_LISTING_URL) {
 			url = url.asSearchPostListURL().sort(order);
 		} else {
 			throw new RuntimeException("Cannot set sort for this URL");
@@ -78,7 +78,7 @@ public class PostListingController {
 
 	public final Sort getSort() {
 
-		if(url.pathType() == RedditURLParser.PathType.SubredditPostListingURL) {
+		if(url.pathType() == RedditURLParser.SUBREDDIT_POST_LISTING_URL) {
 			return url.asSubredditPostListURL().order;
 		}
 
@@ -91,16 +91,16 @@ public class PostListingController {
 
 	public final PostListingFragment get(final AppCompatActivity parent, final boolean force, final Bundle savedInstanceState) {
 		if(force) session = null;
-		return new PostListingFragment(parent, savedInstanceState, getUri(), session, force ? CacheRequest.DownloadType.FORCE : CacheRequest.DownloadType.IF_NECESSARY);
+		return new PostListingFragment(parent, savedInstanceState, getUri(), session, force ? CacheRequest.DOWNLOAD_FORCE : CacheRequest.DOWNLOAD_IF_NECESSARY);
 	}
 
 	public final boolean isSubreddit() {
-		return url.pathType() == RedditURLParser.PathType.SubredditPostListingURL
+		return url.pathType() == RedditURLParser.SUBREDDIT_POST_LISTING_URL
 				&& url.asSubredditPostListURL().type == SubredditPostListURL.Type.SUBREDDIT;
 	}
 
 	public final boolean isSearchResults() {
-		return url.pathType() == RedditURLParser.PathType.SearchPostListingURL;
+		return url.pathType() == RedditURLParser.SEARCH_POST_LISTING_URL;
 	}
 
 	public final boolean isSubredditSearchResults() {
@@ -109,14 +109,14 @@ public class PostListingController {
 
 	public final String subredditCanonicalName() {
 
-		if(url.pathType() == RedditURLParser.PathType.SubredditPostListingURL
+		if(url.pathType() == RedditURLParser.SUBREDDIT_POST_LISTING_URL
 				&& url.asSubredditPostListURL().type == SubredditPostListURL.Type.SUBREDDIT) {
 			try {
 				return RedditSubreddit.getCanonicalName(url.asSubredditPostListURL().subreddit);
 			} catch(RedditSubreddit.InvalidSubredditNameException e) {
 				throw new RuntimeException(e);
 			}
-		} else if(url.pathType() == RedditURLParser.PathType.SearchPostListingURL
+		} else if(url.pathType() == RedditURLParser.SEARCH_POST_LISTING_URL
 				&& url.asSearchPostListURL().subreddit != null) {
 			try {
 				return RedditSubreddit.getCanonicalName(url.asSearchPostListURL().subreddit);

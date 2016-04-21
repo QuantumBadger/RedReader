@@ -1,16 +1,16 @@
 /*******************************************************************************
  * This file is part of RedReader.
- *
+ * <p/>
  * RedReader is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p/>
  * RedReader is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
+ * <p/>
  * You should have received a copy of the GNU General Public License
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
@@ -18,7 +18,8 @@
 package org.quantumbadger.redreader.http;
 
 import android.content.Context;
-import org.quantumbadger.redreader.cache.RequestFailureType;
+
+import org.quantumbadger.redreader.cache.CacheRequest;
 
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -60,7 +61,7 @@ public interface HTTPBackend {
 		public String encode() {
 			try {
 				return URLEncoder.encode(name, "UTF-8") + "=" + URLEncoder.encode(value, "UTF-8");
-			} catch(UnsupportedEncodingException e) {
+			} catch (UnsupportedEncodingException e) {
 				throw new RuntimeException(e);
 			}
 		}
@@ -69,9 +70,9 @@ public interface HTTPBackend {
 
 			final StringBuilder result = new StringBuilder();
 
-			for(final PostField field : fields) {
+			for (final PostField field : fields) {
 
-				if(result.length() > 0) {
+				if (result.length() > 0) {
 					result.append('&');
 				}
 
@@ -83,7 +84,6 @@ public interface HTTPBackend {
 	}
 
 	interface Request {
-
 		void executeInThisThread(final Listener listener);
 
 		void cancel();
@@ -92,16 +92,10 @@ public interface HTTPBackend {
 	}
 
 	interface Listener {
+		void onError(@CacheRequest.RequestFailureType int failureType, Throwable exception, Integer httpStatus);
 
-		void onError(RequestFailureType failureType, Throwable exception, Integer httpStatus);
-
-		void onSuccess(
-				String mimetype,
-				Long bodyBytes,
-				InputStream body);
+		void onSuccess(String mimetype, Long bodyBytes, InputStream body);
 	}
 
-	Request prepareRequest(
-			Context context,
-			RequestDetails details);
+	Request prepareRequest(Context context, RequestDetails details);
 }

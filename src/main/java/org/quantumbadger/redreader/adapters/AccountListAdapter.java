@@ -1,16 +1,16 @@
 /*******************************************************************************
  * This file is part of RedReader.
- * <p>
+ * <p/>
  * RedReader is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * <p>
+ * <p/>
  * RedReader is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * <p>
+ * <p/>
  * You should have received a copy of the GNU General Public License
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
@@ -25,22 +25,22 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.OAuthLoginActivity;
 import org.quantumbadger.redreader.common.BetterSSB;
+import org.quantumbadger.redreader.viewholders.VH1TextIcon;
+import org.quantumbadger.redreader.viewholders.VH1Text;
+import org.quantumbadger.redreader.viewholders.VH;
 
 import java.util.ArrayList;
 
-public class AccountListAdapter extends HeaderRecyclerAdapter<AccountListAdapter.VH> {
+public class AccountListAdapter extends HeaderRecyclerAdapter<VH> {
 
 	private final Context context;
 	private final Fragment fragment;
@@ -62,22 +62,22 @@ public class AccountListAdapter extends HeaderRecyclerAdapter<AccountListAdapter
 	@Override
 	protected VH onCreateHeaderItemViewHolder(ViewGroup parent) {
 		View v = LayoutInflater.from(parent.getContext())
-			.inflate(R.layout.recycler_item, parent, false);
-		return new VH(v);
+			.inflate(R.layout.list_item_1_text_icon, parent, false);
+		return new VH1TextIcon(v);
 	}
 
 	@Override
 	protected VH onCreateContentItemViewHolder(ViewGroup parent) {
 		View v = LayoutInflater.from(parent.getContext())
-			.inflate(R.layout.recycler_item, parent, false);
-		return new VH(v);
+			.inflate(R.layout.list_item_1_text, parent, false);
+		return new VH1Text(v);
 	}
 
 	@Override
 	protected void onBindHeaderItemViewHolder(VH holder, int position) {
-		holder.text.setText(context.getString(R.string.accounts_add));
-		holder.icon.setVisibility(View.VISIBLE);
-		holder.icon.setImageDrawable(rrIconAdd);
+		final VH1TextIcon vh = (VH1TextIcon) holder;
+		vh.text.setText(context.getString(R.string.accounts_add));
+		vh.icon.setImageDrawable(rrIconAdd);
 		holder.itemView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -89,6 +89,7 @@ public class AccountListAdapter extends HeaderRecyclerAdapter<AccountListAdapter
 
 	@Override
 	protected void onBindContentItemViewHolder(VH holder, final int position) {
+		final VH1Text vh = (VH1Text) holder;
 		final RedditAccount account = accounts.get(position);
 		final BetterSSB username = new BetterSSB();
 
@@ -106,10 +107,9 @@ public class AccountListAdapter extends HeaderRecyclerAdapter<AccountListAdapter
 			username.append("  (" + context.getString(R.string.accounts_active) + ")", BetterSSB.FOREGROUND_COLOR | BetterSSB.SIZE, col, 0, 0.8f);
 		}
 
-		holder.text.setText(username.get());
-		holder.icon.setVisibility(View.GONE);
+		vh.text.setText(username.get());
 
-		holder.itemView.setOnClickListener(new View.OnClickListener() {
+		vh.itemView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				final RedditAccount account = accounts.get(position);
@@ -159,18 +159,5 @@ public class AccountListAdapter extends HeaderRecyclerAdapter<AccountListAdapter
 	@Override
 	protected int getContentItemCount() {
 		return accounts.size();
-	}
-
-	static class VH extends RecyclerView.ViewHolder {
-
-		final ImageView icon;
-		final TextView text;
-
-		public VH(View itemView) {
-			super(itemView);
-
-			icon = (ImageView) itemView.findViewById(R.id.recycler_item_icon);
-			text = (TextView) itemView.findViewById(R.id.recycler_item_text);
-		}
 	}
 }

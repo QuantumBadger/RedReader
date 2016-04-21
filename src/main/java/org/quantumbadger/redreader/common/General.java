@@ -36,13 +36,19 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BugReportActivity;
-import org.quantumbadger.redreader.cache.RequestFailureType;
+import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.fragments.ErrorPropertiesDialog;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URI;
 import java.security.MessageDigest;
 import java.util.ArrayList;
@@ -191,41 +197,41 @@ public final class General {
 		return info != null && info.getDetailedState() == NetworkInfo.DetailedState.CONNECTED;
 	}
 
-	public static RRError getGeneralErrorForFailure(Context context, RequestFailureType type, Throwable t, Integer status, String url) {
+	public static RRError getGeneralErrorForFailure(Context context, @CacheRequest.RequestFailureType int type, Throwable t, Integer status, String url) {
 
 		final int title, message;
 
 		switch (type) {
-			case CANCELLED:
+			case CacheRequest.REQUEST_FAILURE_CANCELLED:
 				title = R.string.error_cancelled_title;
 				message = R.string.error_cancelled_message;
 				break;
-			case PARSE:
+			case CacheRequest.REQUEST_FAILURE_PARSE:
 				title = R.string.error_parse_title;
 				message = R.string.error_parse_message;
 				break;
-			case CACHE_MISS:
+			case CacheRequest.REQUEST_FAILURE_CACHE_MISS:
 				title = R.string.error_unexpected_cache_title;
 				message = R.string.error_unexpected_cache_message;
 				break;
-			case STORAGE:
+			case CacheRequest.REQUEST_FAILURE_STORAGE:
 				title = R.string.error_unexpected_storage_title;
 				message = R.string.error_unexpected_storage_message;
 				break;
-			case CONNECTION:
+			case CacheRequest.REQUEST_FAILURE_CONNECTION:
 				// TODO check network and customise message
 				title = R.string.error_connection_title;
 				message = R.string.error_connection_message;
 				break;
-			case MALFORMED_URL:
+			case CacheRequest.REQUEST_FAILURE_MALFORMED_URL:
 				title = R.string.error_malformed_url_title;
 				message = R.string.error_malformed_url_message;
 				break;
-			case DISK_SPACE:
+			case CacheRequest.REQUEST_FAILURE_DISK_SPACE:
 				title = R.string.error_disk_space_title;
 				message = R.string.error_disk_space_message;
 				break;
-			case REQUEST:
+			case CacheRequest.REQUEST_FAILURE_REQUEST:
 
 				if(status != null) {
 					switch (status) {
@@ -256,17 +262,17 @@ public final class General {
 				}
 
 				break;
-			case REDDIT_REDIRECT:
+			case CacheRequest.REQUEST_FAILURE_REDDIT_REDIRECT:
 				title = R.string.error_403_title;
 				message = R.string.error_403_message;
 				break;
 
-			case PARSE_IMGUR:
+			case CacheRequest.REQUEST_FAILURE_PARSE_IMGUR:
 				title = R.string.error_parse_imgur_title;
 				message = R.string.error_parse_imgur_message;
 				break;
 
-			case UPLOAD_FAIL_IMGUR:
+			case CacheRequest.REQUEST_FAILURE_UPLOAD_FAIL_IMGUR:
 				title = R.string.error_upload_fail_imgur_title;
 				message = R.string.error_upload_fail_imgur_message;
 				break;

@@ -206,45 +206,45 @@ public class MainActivity extends RefreshableActivity
 				.addListener(this);
 	}
 
-	public void onSelected(final MainMenuFragment.MainMenuAction type, final String name) {
+	public void onSelected(final @MainMenuFragment.MainMenuAction int type, final String name) {
 
 		final String username = RedditAccountManager.getInstance(this).getDefaultAccount().username;
 
 		switch(type) {
 
-			case FRONTPAGE:
+			case MainMenuFragment.MENU_MENU_ACTION_FRONTPAGE:
 				onSelected(SubredditPostListURL.getFrontPage());
 				break;
 
-			case ALL:
+			case MainMenuFragment.MENU_MENU_ACTION_ALL:
 				onSelected(SubredditPostListURL.getAll());
 				break;
 
-			case SUBMITTED:
+			case MainMenuFragment.MENU_MENU_ACTION_SUBMITTED:
 				onSelected(UserPostListingURL.getSubmitted(username));
 				break;
 
-			case SAVED:
+			case MainMenuFragment.MENU_MENU_ACTION_SAVED:
 				onSelected(UserPostListingURL.getSaved(username));
 				break;
 
-			case HIDDEN:
+			case MainMenuFragment.MENU_MENU_ACTION_HIDDEN:
 				onSelected(UserPostListingURL.getHidden(username));
 				break;
 
-			case UPVOTED:
+			case MainMenuFragment.MENU_MENU_ACTION_UPVOTED:
 				onSelected(UserPostListingURL.getLiked(username));
 				break;
 
-			case DOWNVOTED:
+			case MainMenuFragment.MENU_MENU_ACTION_DOWNVOTED:
 				onSelected(UserPostListingURL.getDisliked(username));
 				break;
 
-			case PROFILE:
+			case MainMenuFragment.MENU_MENU_ACTION_PROFILE:
 				LinkHandler.onLinkClicked(this, new UserProfileURL(RedditAccountManager.getInstance(this).getDefaultAccount().username).toString());
 				break;
 
-			case CUSTOM: {
+			case MainMenuFragment.MENU_MENU_ACTION_CUSTOM: {
 
 				final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
 				final LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.dialog_editbox, null);
@@ -281,7 +281,7 @@ public class MainActivity extends RefreshableActivity
 						try {
 							final String normalizedName = RedditSubreddit.stripRPrefix(subredditInput);
 							final RedditURLParser.RedditURL redditURL = SubredditPostListURL.getSubreddit(normalizedName);
-							if(redditURL == null || redditURL.pathType() != RedditURLParser.PathType.SubredditPostListingURL) {
+							if(redditURL == null || redditURL.pathType() != RedditURLParser.SUBREDDIT_POST_LISTING_URL) {
 								General.quickToast(MainActivity.this, R.string.mainmenu_custom_invalid_name);
 							} else {
 								onSelected(redditURL.asSubredditPostListURL());
@@ -301,11 +301,11 @@ public class MainActivity extends RefreshableActivity
 				break;
 			}
 
-			case INBOX:
+			case MainMenuFragment.MENU_MENU_ACTION_INBOX:
 				startActivity(new Intent(this, InboxListingActivity.class));
 				break;
 
-			case MODMAIL: {
+			case MainMenuFragment.MENU_MENU_ACTION_MODMAIL: {
 				final Intent intent = new Intent(this, InboxListingActivity.class);
 				intent.putExtra("modmail", true);
 				startActivity(intent);

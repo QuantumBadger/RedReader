@@ -18,10 +18,17 @@
 package org.quantumbadger.redreader.http.okhttp;
 
 import android.content.Context;
-import com.squareup.okhttp.*;
+
+import com.squareup.okhttp.CacheControl;
+import com.squareup.okhttp.Call;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
+import com.squareup.okhttp.ResponseBody;
 
 import org.quantumbadger.redreader.activities.BaseActivity;
-import org.quantumbadger.redreader.cache.RequestFailureType;
+import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.http.HTTPBackend;
 
 import java.io.IOException;
@@ -54,9 +61,6 @@ public class OKHTTPBackend implements HTTPBackend {
 		mClient.setReadTimeout(10000, TimeUnit.SECONDS);
 
 		mClient.setRetryOnConnectionFailure(true);
-
-		// TODO Is this necessary?
-		mClient.setConnectionPool(ConnectionPool.getDefault());
 	}
 
 	public static synchronized HTTPBackend getHttpBackend() {
@@ -105,7 +109,7 @@ public class OKHTTPBackend implements HTTPBackend {
 					try {
 						response = call.execute();
 					} catch(IOException e) {
-						listener.onError(RequestFailureType.CONNECTION, e, null);
+						listener.onError(CacheRequest.REQUEST_FAILURE_CONNECTION, e, null);
 						return;
 					}
 
@@ -132,11 +136,11 @@ public class OKHTTPBackend implements HTTPBackend {
 						listener.onSuccess(contentType, bodyBytes, bodyStream);
 
 					} else {
-						listener.onError(RequestFailureType.REQUEST, null, status);
+						listener.onError(CacheRequest.REQUEST_FAILURE_REQUEST, null, status);
 					}
 
 				} catch(Throwable t) {
-					listener.onError(RequestFailureType.CONNECTION, t, null);
+					listener.onError(CacheRequest.REQUEST_FAILURE_CONNECTION, t, null);
 				}
 			}
 

@@ -40,7 +40,6 @@ import org.quantumbadger.redreader.activities.SessionChangeListener;
 import org.quantumbadger.redreader.adapters.PostListingAdapter;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
 import org.quantumbadger.redreader.image.ImageInfo;
@@ -170,7 +169,7 @@ public class PostListingFragment extends RRFragment
 			final Bundle savedInstanceState,
 			final Uri url,
 			final UUID session,
-			final CacheRequest.DownloadType downloadType) {
+			final @CacheRequest.DownloadType int downloadType) {
 
 		super(parent, savedInstanceState);
 
@@ -286,12 +285,12 @@ public class PostListingFragment extends RRFragment
 
 		switch(mPostListingURL.pathType()) {
 
-			case UserPostListingURL:
-			case SearchPostListingURL:
+			case RedditURLParser.USER_POST_LISTING_URL:
+			case RedditURLParser.SEARCH_POST_LISTING_URL:
 				setHeader(mPostListingURL.humanReadableName(getActivity(), true), mPostListingURL.humanReadableUrl());
 				break;
 
-			case SubredditPostListingURL:
+			case RedditURLParser.SUBREDDIT_POST_LISTING_URL:
 
 				SubredditPostListURL subredditPostListURL
 						= (SubredditPostListURL)mPostListingURL;
@@ -416,7 +415,7 @@ public class PostListingFragment extends RRFragment
 	}
 
 	public void onPostCommentsSelected(final RedditPreparedPost post) {
-		
+
 		((RedditPostView.PostSelectionListener)getActivity()).onPostCommentsSelected(post);
 
 		new Thread() {
@@ -448,7 +447,7 @@ public class PostListingFragment extends RRFragment
 				final Uri newUri = mPostListingURL.after(mAfter).generateJsonUri();
 
 				// TODO customise (currently 3 hrs)
-				CacheRequest.DownloadType type = (RRTime.since(mTimestamp) < 3 * 60 * 60 * 1000) ? CacheRequest.DownloadType.IF_NECESSARY : CacheRequest.DownloadType.NEVER;
+				@CacheRequest.DownloadType int type = (RRTime.since(mTimestamp) < 3 * 60 * 60 * 1000) ? CacheRequest.DOWNLOAD_IF_NECESSARY : CacheRequest.DOWNLOAD_NEVER;
 
 				int limit = 50;
 
@@ -475,7 +474,7 @@ public class PostListingFragment extends RRFragment
 
 	public void onSubscribe() {
 
-		if(mPostListingURL.pathType() != RedditURLParser.PathType.SubredditPostListingURL) return;
+		if(mPostListingURL.pathType() != RedditURLParser.SUBREDDIT_POST_LISTING_URL) return;
 
 		try {
 			RedditSubredditSubscriptionManager
@@ -534,8 +533,8 @@ public class PostListingFragment extends RRFragment
 
 		private final boolean firstDownload;
 
-		protected PostListingRequest(Uri url, RedditAccount user, UUID requestSession, DownloadType downloadType, boolean firstDownload) {
-			super(General.uriFromString(url.toString()), user, requestSession, Constants.Priority.API_POST_LIST, 0, downloadType, Constants.FileType.POST_LIST, DownloadQueueType.REDDIT_API, true, false, getActivity());
+		protected PostListingRequest(Uri url, RedditAccount user, UUID requestSession, @DownloadType int downloadType, boolean firstDownload) {
+			super(General.uriFromString(url.toString()), user, requestSession, Constants.Priority.API_POST_LIST, 0, downloadType, Constants.FileType.POST_LIST, DOWNLOAD_QUEUE_REDDIT_API, true, false, getActivity());
 			this.firstDownload = firstDownload;
 		}
 		@Override
@@ -550,11 +549,11 @@ public class PostListingFragment extends RRFragment
 		}
 
 		@Override
-		protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
+		protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
 
 			mNotificationHandler.sendEmptyMessage(NOTIF_HIDE_LOADING_SPINNER);
 
-			if(type == RequestFailureType.CACHE_MISS) {
+			if(type == CacheRequest.REQUEST_FAILURE_CACHE_MISS) {
 
 				final RRError error = new RRError(
 						context.getString(R.string.error_postlist_cache_title),
@@ -618,10 +617,10 @@ public class PostListingFragment extends RRFragment
 						|| (commentPrecachePref == PrefsUtility.CachePrecacheComments.WIFIONLY && isConnectionWifi));
 
                 final boolean isAll =
-						mPostListingURL.pathType() == RedditURLParser.PathType.SubredditPostListingURL
+						mPostListingURL.pathType() == RedditURLParser.SUBREDDIT_POST_LISTING_URL
 						&& (mPostListingURL.asSubredditPostListURL().type == SubredditPostListURL.Type.ALL
 								|| mPostListingURL.asSubredditPostListURL().type == SubredditPostListURL.Type.ALL_SUBTRACTION);
-				
+
 				final List<String> blockedSubreddits = PrefsUtility.pref_blocked_subreddits(context, mSharedPreferences); // Grab this so we don't have to pull from the prefs every post
 
 				Log.i("PostListingFragment", "Precaching images: " + (precacheImages ? "ON" : "OFF"));
@@ -631,7 +630,7 @@ public class PostListingFragment extends RRFragment
 
 				final boolean showSubredditName
 						= !(mPostListingURL != null
-						&& mPostListingURL.pathType() == RedditURLParser.PathType.SubredditPostListingURL
+						&& mPostListingURL.pathType() == RedditURLParser.SUBREDDIT_POST_LISTING_URL
 						&& mPostListingURL.asSubredditPostListURL().type == SubredditPostListURL.Type.SUBREDDIT);
 
 				final ArrayList<RedditPreparedPost> downloadedPosts = new ArrayList<>(25);
@@ -677,9 +676,9 @@ public class PostListingFragment extends RRFragment
 									null,
 									Constants.Priority.COMMENT_PRECACHE,
 									positionInList,
-									DownloadType.IF_NECESSARY,
+									DOWNLOAD_IF_NECESSARY,
 									Constants.FileType.COMMENT_LIST,
-									DownloadQueueType.REDDIT_API,
+									DOWNLOAD_QUEUE_REDDIT_API,
 									false, // Don't parse the JSON
 									false,
 									context) {
@@ -694,8 +693,8 @@ public class PostListingFragment extends RRFragment
 								protected void onDownloadStarted() {}
 
 								@Override
-								protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
-									Log.e("PostListingFragment", "Failed to precache " + url.toString() + "(" + type.toString() + ")");
+								protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
+									Log.e("PostListingFragment", "Failed to precache " + url.toString() + "(RequestFailureType code: " + type + ")");
 								}
 
 								@Override
@@ -707,10 +706,10 @@ public class PostListingFragment extends RRFragment
 								}
 							});
 						}
-						
+
 						LinkHandler.getImageInfo(context, post.url, Constants.Priority.IMAGE_PRECACHE, positionInList, new GetImageInfoListener() {
-							
-							@Override public void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {}
+
+							@Override public void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {}
 							@Override public void onNotAnImage() {}
 
 							@Override
@@ -722,19 +721,19 @@ public class PostListingFragment extends RRFragment
 								if(info.width != null && info.width > 2500) return;
 								if(info.height != null && info.height > 2500) return;
 								if(info.size != null && info.size > 10 * 1024 * 1024) return;
-								
+
 								final URI uri = General.uriFromString(info.urlOriginal);
 								if(uri == null) return;
-								
+
 								CacheManager.getInstance(context).makeRequest(new CacheRequest(
 										uri,
 										RedditAccountManager.getAnon(),
 										null,
 										Constants.Priority.IMAGE_PRECACHE,
 										positionInList,
-										DownloadType.IF_NECESSARY,
+										DOWNLOAD_IF_NECESSARY,
 										Constants.FileType.IMAGE,
-										DownloadQueueType.QUEUE_IMAGE_PRECACHE,
+										DOWNLOAD_QUEUE_IMAGE_PRECACHE,
 										false,
 										false,
 										context
@@ -743,8 +742,8 @@ public class PostListingFragment extends RRFragment
 									@Override protected void onDownloadNecessary() {}
 									@Override protected void onDownloadStarted() {}
 
-									@Override protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
-										Log.e("PostListingFragment", "Failed to precache " + info.urlOriginal + "(" + type.toString() + ")");
+									@Override protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
+										Log.e("PostListingFragment", "Failed to precache " + info.urlOriginal + "(RequestFailureType code: " + type + ")");
 									}
 									@Override protected void onProgress(final boolean authorizationInProgress, final long bytesRead, final long totalBytes) {}
 
@@ -771,7 +770,7 @@ public class PostListingFragment extends RRFragment
 				onLoadMoreItemsCheck();
 
 			} catch (Throwable t) {
-				notifyFailure(RequestFailureType.PARSE, t, null, "Parse failure");
+				notifyFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "Parse failure");
 			}
 		}
     }

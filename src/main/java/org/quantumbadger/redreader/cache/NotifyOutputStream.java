@@ -37,6 +37,6 @@ public class NotifyOutputStream extends FilterOutputStream {
 	}
 
 	public interface Listener {
-		public void onClose() throws IOException;
+		void onClose() throws IOException;
 	}
 }

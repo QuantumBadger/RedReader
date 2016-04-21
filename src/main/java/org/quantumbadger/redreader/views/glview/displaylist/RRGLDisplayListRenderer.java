@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.views.glview.displaylist;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.util.Log;
+
 import org.quantumbadger.redreader.views.glview.RRGLSurfaceView;
 import org.quantumbadger.redreader.views.glview.Refreshable;
 import org.quantumbadger.redreader.views.glview.program.RRGLContext;
@@ -31,14 +32,16 @@ import javax.microedition.khronos.opengles.GL10;
 
 public class RRGLDisplayListRenderer implements GLSurfaceView.Renderer, Refreshable {
 
-	public static interface DisplayListManager extends FingerTracker.FingerListener {
+	public interface DisplayListManager extends FingerTracker.FingerListener {
+		void onGLSceneCreate(RRGLDisplayList scene, RRGLContext context, Refreshable refreshable);
 
-		public void onGLSceneCreate(RRGLDisplayList scene, RRGLContext context, Refreshable refreshable);
-		public void onGLSceneResolutionChange(RRGLDisplayList scene, RRGLContext context, int width, int height);
-		public boolean onGLSceneUpdate(RRGLDisplayList scene, RRGLContext context);
+		void onGLSceneResolutionChange(RRGLDisplayList scene, RRGLContext context, int width, int height);
 
-		public void onUIAttach();
-		public void onUIDetach();
+		boolean onGLSceneUpdate(RRGLDisplayList scene, RRGLContext context);
+
+		void onUIAttach();
+
+		void onUIDetach();
 	}
 
 	private float[] mPixelMatrix = new float[16];

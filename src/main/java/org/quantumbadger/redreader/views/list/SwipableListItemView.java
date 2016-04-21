@@ -135,6 +135,7 @@ public abstract class SwipableListItemView extends FrameLayout implements RRTouc
 
 	@Override
 	protected final void onAnimationEnd() {
+		super.onAnimationEnd();
 		xOffset = 0;
 		swipeStartXOffset = 0;
 		updateOffset();

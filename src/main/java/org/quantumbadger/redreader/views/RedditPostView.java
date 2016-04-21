@@ -30,7 +30,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -443,6 +448,7 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 
 	public interface PostSelectionListener {
 		void onPostSelected(RedditPreparedPost post);
+
 		void onPostCommentsSelected(RedditPreparedPost post);
 	}
 }

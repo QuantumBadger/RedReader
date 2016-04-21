@@ -23,7 +23,6 @@ import android.util.Log;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.TimestampBound;
@@ -142,9 +141,9 @@ public class RedditAPIIndividualSubredditListRequester
 				null,
 				Constants.Priority.API_SUBREDDIT_INVIDIVUAL,
 				0,
-				CacheRequest.DownloadType.FORCE,
+				CacheRequest.DOWNLOAD_FORCE,
 				Constants.FileType.SUBREDDIT_LIST,
-				CacheRequest.DownloadQueueType.REDDIT_API,
+				CacheRequest.DOWNLOAD_QUEUE_REDDIT_API,
 				true,
 				false,
 				context
@@ -152,7 +151,7 @@ public class RedditAPIIndividualSubredditListRequester
 
 			@Override
 			protected void onCallbackException(Throwable t) {
-				handler.onRequestFailed(new SubredditRequestFailure(RequestFailureType.PARSE, t, null, "Internal error", url));
+				handler.onRequestFailed(new SubredditRequestFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "Internal error", url));
 			}
 
 			@Override protected void onDownloadNecessary() {}
@@ -160,7 +159,7 @@ public class RedditAPIIndividualSubredditListRequester
 			@Override protected void onProgress(final boolean authorizationInProgress, long bytesRead, long totalBytes) {}
 
 			@Override
-			protected void onFailure(RequestFailureType type, Throwable t, Integer status, String readableMessage) {
+			protected void onFailure(@CacheRequest.RequestFailureType int type, Throwable t, Integer status, String readableMessage) {
 				handler.onRequestFailed(new SubredditRequestFailure(type, t, status, readableMessage, url.toString()));
 			}
 
@@ -180,9 +179,9 @@ public class RedditAPIIndividualSubredditListRequester
 
 					final JsonBufferedArray subreddits = redditListing.getArray("children");
 
-					final JsonBuffered.Status joinStatus = subreddits.join();
-					if(joinStatus == JsonBuffered.Status.FAILED) {
-						handler.onRequestFailed(new SubredditRequestFailure(RequestFailureType.PARSE, null, null, "Unknown parse error", url.toString()));
+					final @JsonBuffered.Status int joinStatus = subreddits.join();
+					if(joinStatus == JsonBuffered.STATUS_FAILED) {
+						handler.onRequestFailed(new SubredditRequestFailure(CacheRequest.REQUEST_FAILURE_PARSE, null, null, "Unknown parse error", url.toString()));
 						return;
 					}
 
@@ -230,7 +229,7 @@ public class RedditAPIIndividualSubredditListRequester
 					}
 
 				} catch(Exception e) {
-					handler.onRequestFailed(new SubredditRequestFailure(RequestFailureType.PARSE, e, null, "Parse error", url.toString()));
+					handler.onRequestFailed(new SubredditRequestFailure(CacheRequest.REQUEST_FAILURE_PARSE, e, null, "Parse error", url.toString()));
 				}
 			}
 		};

@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 public interface WritableObject<K> {
 
-	public class CreationData {
+	class CreationData {
 		public final String key;
 		public final long timestamp;
 
@@ -17,8 +17,8 @@ public interface WritableObject<K> {
 		}
 	}
 
-	public K getKey();
-	public long getTimestamp();
+	K getKey();
+	long getTimestamp();
 
 	@Retention(RetentionPolicy.RUNTIME) @Target(ElementType.FIELD) @interface WritableObjectVersion {}
 	@Retention(RetentionPolicy.RUNTIME) @Target(ElementType.FIELD) @interface WritableObjectKey {}

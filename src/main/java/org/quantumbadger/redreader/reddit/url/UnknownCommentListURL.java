@@ -48,7 +48,7 @@ public class UnknownCommentListURL extends CommentListingURL {
 	}
 
 	@Override
-	public RedditURLParser.PathType pathType() {
-		return RedditURLParser.PathType.UnknownCommentListingURL;
+	public @RedditURLParser.PathType int pathType() {
+		return RedditURLParser.UNKNOWN_COMMENT_LISTING_URL;
 	}
 }

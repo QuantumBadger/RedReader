@@ -34,15 +34,26 @@ import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.activities.*;
+import org.quantumbadger.redreader.activities.BugReportActivity;
+import org.quantumbadger.redreader.activities.CommentReplyActivity;
+import org.quantumbadger.redreader.activities.MainActivity;
+import org.quantumbadger.redreader.activities.PostListingActivity;
+import org.quantumbadger.redreader.activities.WebViewActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.cache.RequestFailureType;
-import org.quantumbadger.redreader.common.*;
+import org.quantumbadger.redreader.common.AndroidApi;
+import org.quantumbadger.redreader.common.BetterSSB;
+import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.fragments.PostPropertiesDialog;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
 import org.quantumbadger.redreader.image.ImageInfo;
@@ -61,7 +72,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.UUID;
 
 public final class RedditPreparedPost {
 
@@ -213,31 +228,31 @@ public final class RedditPreparedPost {
 		switch(action) {
 
 			case UPVOTE:
-				post.action(activity, RedditAPI.RedditAction.UPVOTE);
+				post.action(activity, RedditAPI.ACTION_UPVOTE);
 				break;
 
 			case DOWNVOTE:
-				post.action(activity, RedditAPI.RedditAction.DOWNVOTE);
+				post.action(activity, RedditAPI.ACTION_DOWNVOTE);
 				break;
 
 			case UNVOTE:
-				post.action(activity, RedditAPI.RedditAction.UNVOTE);
+				post.action(activity, RedditAPI.ACTION_UNVOTE);
 				break;
 
 			case SAVE:
-				post.action(activity, RedditAPI.RedditAction.SAVE);
+				post.action(activity, RedditAPI.ACTION_SAVE);
 				break;
 
 			case UNSAVE:
-				post.action(activity, RedditAPI.RedditAction.UNSAVE);
+				post.action(activity, RedditAPI.ACTION_UNSAVE);
 				break;
 
 			case HIDE:
-				post.action(activity, RedditAPI.RedditAction.HIDE);
+				post.action(activity, RedditAPI.ACTION_HIDE);
 				break;
 
 			case UNHIDE:
-				post.action(activity, RedditAPI.RedditAction.UNHIDE);
+				post.action(activity, RedditAPI.ACTION_UNHIDE);
 				break;
 
 			case DELETE:
@@ -247,7 +262,7 @@ public final class RedditPreparedPost {
 						.setPositiveButton(R.string.action_delete,
 								new DialogInterface.OnClickListener() {
 									public void onClick(final DialogInterface dialog, final int which) {
-										post.action(activity, RedditAPI.RedditAction.DELETE);
+										post.action(activity, RedditAPI.ACTION_DELETE);
 									}
 								})
 						.setNegativeButton(R.string.dialog_cancel, null)
@@ -262,7 +277,7 @@ public final class RedditPreparedPost {
 						.setPositiveButton(R.string.action_report,
 								new DialogInterface.OnClickListener() {
 									public void onClick(final DialogInterface dialog, final int which) {
-										post.action(activity, RedditAPI.RedditAction.REPORT);
+										post.action(activity, RedditAPI.ACTION_REPORT);
 										// TODO update the view to show the result
 										// TODO don't forget, this also hides
 									}
@@ -315,7 +330,7 @@ public final class RedditPreparedPost {
 				LinkHandler.getImageInfo(activity, post.src.getUrl(), Constants.Priority.IMAGE_VIEW, 0, new GetImageInfoListener() {
 
 					@Override
-					public void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
+					public void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
 						final RRError error = General.getGeneralErrorForFailure(activity, type, t, status, post.src.getUrl());
 						General.showResultDialog(activity, error);
 					}
@@ -324,8 +339,8 @@ public final class RedditPreparedPost {
 					public void onSuccess(final ImageInfo info) {
 
 						CacheManager.getInstance(activity).makeRequest(new CacheRequest(General.uriFromString(info.urlOriginal), anon, null,
-								Constants.Priority.IMAGE_VIEW, 0, CacheRequest.DownloadType.IF_NECESSARY,
-								Constants.FileType.IMAGE, CacheRequest.DownloadQueueType.IMMEDIATE, false, false, activity) {
+								Constants.Priority.IMAGE_VIEW, 0, CacheRequest.DOWNLOAD_IF_NECESSARY,
+								Constants.FileType.IMAGE, CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE, false, false, activity) {
 
 							@Override
 							protected void onCallbackException(Throwable t) {
@@ -342,7 +357,7 @@ public final class RedditPreparedPost {
 							}
 
 							@Override
-							protected void onFailure(RequestFailureType type, Throwable t, Integer status, String readableMessage) {
+							protected void onFailure(@CacheRequest.RequestFailureType int type, Throwable t, Integer status, String readableMessage) {
 								final RRError error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
 								General.showResultDialog(activity, error);
 							}
@@ -369,14 +384,14 @@ public final class RedditPreparedPost {
 									final InputStream cacheFileInputStream = cacheFile.getInputStream();
 
 									if(cacheFileInputStream == null) {
-										notifyFailure(RequestFailureType.CACHE_MISS, null, null, "Could not find cached image");
+										notifyFailure(CacheRequest.REQUEST_FAILURE_CACHE_MISS, null, null, "Could not find cached image");
 										return;
 									}
 
 									General.copyFile(cacheFileInputStream, dst);
 
 								} catch(IOException e) {
-									notifyFailure(RequestFailureType.STORAGE, e, null, "Could not copy file");
+									notifyFailure(CacheRequest.REQUEST_FAILURE_STORAGE, e, null, "Could not copy file");
 									return;
 								}
 
@@ -583,7 +598,7 @@ public final class RedditPreparedPost {
 
 		final RedditAccount anon = RedditAccountManager.getAnon();
 
-		cm.makeRequest(new CacheRequest(uri, anon, null, priority, listId, CacheRequest.DownloadType.IF_NECESSARY, fileType, CacheRequest.DownloadQueueType.IMMEDIATE, false, false, context) {
+		cm.makeRequest(new CacheRequest(uri, anon, null, priority, listId, CacheRequest.DOWNLOAD_IF_NECESSARY, fileType, CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE, false, false, context) {
 
 			@Override
 			protected void onDownloadNecessary() {}
@@ -598,7 +613,7 @@ public final class RedditPreparedPost {
 			}
 
 			@Override
-			protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {}
+			protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {}
 
 			@Override
 			protected void onProgress(final boolean authorizationInProgress, final long bytesRead, final long totalBytes) {}
@@ -695,7 +710,7 @@ public final class RedditPreparedPost {
 		});
 	}
 
-	public void action(final AppCompatActivity activity, final RedditAPI.RedditAction action) {
+	public void action(final AppCompatActivity activity, final @RedditAPI.RedditAction int action) {
 
 		final RedditAccount user = RedditAccountManager.getInstance(activity).getDefaultAccount();
 
@@ -717,40 +732,40 @@ public final class RedditPreparedPost {
 		final long now = RRTime.utcCurrentTimeMillis();
 
 		switch(action) {
-			case DOWNVOTE:
+			case RedditAPI.ACTION_DOWNVOTE:
 				if(!archived) {
 					mChangeDataManager.markDownvoted(now, src);
 				}
 				break;
-			case UNVOTE:
+			case RedditAPI.ACTION_UNVOTE:
 				if(!archived) {
 					mChangeDataManager.markUnvoted(now, src);
 				}
 				break;
-			case UPVOTE:
+			case RedditAPI.ACTION_UPVOTE:
 				if(!archived) {
 					mChangeDataManager.markUpvoted(now, src);
 				}
 				break;
 
-			case SAVE:
+			case RedditAPI.ACTION_SAVE:
 				mChangeDataManager.markSaved(now, src, true);
 				break;
 
-			case UNSAVE:
+			case RedditAPI.ACTION_UNSAVE:
 				mChangeDataManager.markSaved(now, src, false);
 				break;
 
-			case HIDE:
+			case RedditAPI.ACTION_HIDE:
 				mChangeDataManager.markHidden(now, src, true);
 				break;
 
-			case UNHIDE:
+			case RedditAPI.ACTION_UNHIDE:
 				mChangeDataManager.markHidden(now, src, false);
 				break;
 
-			case REPORT: break;
-			case DELETE: break;
+			case RedditAPI.ACTION_REPORT: break;
+			case RedditAPI.ACTION_DELETE: break;
 
 			default:
 				throw new RuntimeException("Unknown post action");
@@ -758,9 +773,9 @@ public final class RedditPreparedPost {
 
 		refreshView(activity);
 
-		boolean vote = (action == RedditAPI.RedditAction.DOWNVOTE
-				| action == RedditAPI.RedditAction.UPVOTE
-				| action == RedditAPI.RedditAction.UNVOTE);
+		boolean vote = (action == RedditAPI.ACTION_DOWNVOTE
+				| action == RedditAPI.ACTION_UPVOTE
+				| action == RedditAPI.ACTION_UNVOTE);
 
 		if(archived && vote){
 			Toast.makeText(activity, R.string.error_archived_vote, Toast.LENGTH_SHORT)
@@ -776,12 +791,12 @@ public final class RedditPreparedPost {
 					}
 
 					@Override
-					protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
+					protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
 						revertOnFailure();
 						if(t != null) t.printStackTrace();
 
 						final RRError error = General.getGeneralErrorForFailure(context, type, t, status,
-								"Reddit API action: " + action.toString() + " " + src.getIdAndType());
+								"Reddit API action code: " + action + " " + src.getIdAndType());
 						AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 							public void run() {
 								General.showResultDialog(activity, error);
@@ -807,37 +822,37 @@ public final class RedditPreparedPost {
 						final long now = RRTime.utcCurrentTimeMillis();
 
 						switch(action) {
-							case DOWNVOTE:
+							case RedditAPI.ACTION_DOWNVOTE:
 								mChangeDataManager.markDownvoted(now, src);
 								break;
 
-							case UNVOTE:
+							case RedditAPI.ACTION_UNVOTE:
 								mChangeDataManager.markUnvoted(now, src);
 								break;
 
-							case UPVOTE:
+							case RedditAPI.ACTION_UPVOTE:
 								mChangeDataManager.markUpvoted(now, src);
 								break;
 
-							case SAVE:
+							case RedditAPI.ACTION_SAVE:
 								mChangeDataManager.markSaved(now, src, true);
 								break;
 
-							case UNSAVE:
+							case RedditAPI.ACTION_UNSAVE:
 								mChangeDataManager.markSaved(now, src, false);
 								break;
 
-							case HIDE:
+							case RedditAPI.ACTION_HIDE:
 								mChangeDataManager.markHidden(now, src, true);
 								break;
 
-							case UNHIDE:
+							case RedditAPI.ACTION_UNHIDE:
 								mChangeDataManager.markHidden(now, src, false);
 								break;
 
-							case REPORT: break;
+							case RedditAPI.ACTION_REPORT: break;
 
-							case DELETE:
+							case RedditAPI.ACTION_DELETE:
 								General.quickToast(activity, R.string.delete_success);
 								break;
 
@@ -853,9 +868,9 @@ public final class RedditPreparedPost {
 						final long now = RRTime.utcCurrentTimeMillis();
 
 						switch(action) {
-							case DOWNVOTE:
-							case UNVOTE:
-							case UPVOTE:
+							case RedditAPI.ACTION_DOWNVOTE:
+							case RedditAPI.ACTION_UNVOTE:
+							case RedditAPI.ACTION_UPVOTE:
 								switch(lastVoteDirection) {
 									case -1:
 										mChangeDataManager.markDownvoted(now, src);
@@ -869,24 +884,24 @@ public final class RedditPreparedPost {
 										break;
 								}
 
-							case SAVE:
+							case RedditAPI.ACTION_SAVE:
 								mChangeDataManager.markSaved(now, src, false);
 								break;
 
-							case UNSAVE:
+							case RedditAPI.ACTION_UNSAVE:
 								mChangeDataManager.markSaved(now, src, true);
 								break;
 
-							case HIDE:
+							case RedditAPI.ACTION_HIDE:
 								mChangeDataManager.markHidden(now, src, false);
 								break;
 
-							case UNHIDE:
+							case RedditAPI.ACTION_UNHIDE:
 								mChangeDataManager.markHidden(now, src, true);
 								break;
 
-							case REPORT: break;
-							case DELETE: break;
+							case RedditAPI.ACTION_REPORT: break;
+							case RedditAPI.ACTION_DELETE: break;
 
 							default:
 								throw new RuntimeException("Unknown post action");

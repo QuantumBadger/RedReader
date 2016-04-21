@@ -22,6 +22,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.view.View;
@@ -41,13 +42,13 @@ public abstract class PropertiesDialog extends AppCompatDialogFragment {
 	protected abstract String getTitle(Context context);
 	protected abstract void prepare(AppCompatActivity context, LinearLayout items);
 
+	@NonNull
 	@Override
 	public final Dialog onCreateDialog(final Bundle savedInstanceState) {
+		super.onCreateDialog(savedInstanceState);
 
 		if(alreadyCreated) return getDialog();
 		alreadyCreated = true;
-
-		super.onCreateDialog(savedInstanceState);
 
 		final AppCompatActivity context = (AppCompatActivity)getActivity();
 

@@ -23,11 +23,11 @@ import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.SessionChangeListener;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -36,7 +36,11 @@ import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
-import org.quantumbadger.redreader.reddit.prepared.*;
+import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManagerVolatile;
+import org.quantumbadger.redreader.reddit.prepared.RedditParsedComment;
+import org.quantumbadger.redreader.reddit.prepared.RedditParsedPost;
+import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
+import org.quantumbadger.redreader.reddit.prepared.RedditRenderableComment;
 import org.quantumbadger.redreader.reddit.things.RedditComment;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.things.RedditThing;
@@ -59,7 +63,7 @@ public class CommentListingRequest {
 	private final RedditURLParser.RedditURL mUrl;
 	private final RedditAccount mUser;
 	private final UUID mSession;
-	private final CacheRequest.DownloadType mDownloadType;
+	private final @CacheRequest.DownloadType int mDownloadType;
 
 	private final Listener mListener;
 
@@ -70,7 +74,7 @@ public class CommentListingRequest {
 			final RedditURLParser.RedditURL url,
 			final RedditAccount user,
 			final UUID session,
-			final CacheRequest.DownloadType downloadType,
+			final @CacheRequest.DownloadType int downloadType,
 			final Listener listener) {
 
 		mContext = context;
@@ -107,13 +111,21 @@ public class CommentListingRequest {
 
 		// All called from UI thread
 		void onCommentListingRequestDownloadNecessary();
+
 		void onCommentListingRequestDownloadStarted();
+
 		void onCommentListingRequestException(Throwable t);
+
 		void onCommentListingRequestFailure(RRError error);
+
 		void onCommentListingRequestAuthorizing();
+
 		void onCommentListingRequestCachedCopy(long timestamp);
+
 		void onCommentListingRequestParseStart();
+
 		void onCommentListingRequestPostDownloaded(RedditPreparedPost post);
+
 		void onCommentListingRequestAllItemsDownloaded(ArrayList<RedditCommentListItem> items);
 	}
 
@@ -178,7 +190,7 @@ public class CommentListingRequest {
 					0,
 					mDownloadType,
 					Constants.FileType.COMMENT_LIST,
-					DownloadQueueType.REDDIT_API,
+					DOWNLOAD_QUEUE_REDDIT_API,
 					true,
 					false,
 					mContext);
@@ -200,7 +212,7 @@ public class CommentListingRequest {
 		}
 
 		@Override
-		protected void onFailure(final RequestFailureType type, final Throwable t, final Integer status, final String readableMessage) {
+		protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
 			final RRError error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
 			notifyListener(Event.EVENT_FAILURE, error);
 		}
@@ -239,7 +251,7 @@ public class CommentListingRequest {
 
 			try {
 				// Download main post
-				if(value.getType() == JsonValue.Type.ARRAY) {
+				if(value.getType() == JsonValue.TYPE_ARRAY) {
 
 					// lol, reddit api
 					final JsonBufferedArray root = value.asArray();
@@ -269,7 +281,7 @@ public class CommentListingRequest {
 
 				final JsonBufferedObject thing;
 
-				if(value.getType() == JsonValue.Type.ARRAY) {
+				if(value.getType() == JsonValue.TYPE_ARRAY) {
 					thing = value.asArray().get(1).asObject();
 				} else {
 					thing = value.asObject();
@@ -296,7 +308,7 @@ public class CommentListingRequest {
 				notifyListener(Event.EVENT_ALL_ITEMS_DOWNLOADED, items);
 
 			} catch (Throwable t) {
-				notifyFailure(RequestFailureType.PARSE, t, null, "Parse failure");
+				notifyFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "Parse failure");
 			}
 		}
 	}
@@ -314,7 +326,7 @@ public class CommentListingRequest {
 		final RedditThing thing = value.asObject(RedditThing.class);
 
 		if(thing.getKind() == RedditThing.Kind.MORE_COMMENTS
-				&& mUrl.pathType() == RedditURLParser.PathType.PostCommentListingURL) {
+				&& mUrl.pathType() == RedditURLParser.POST_COMMENT_LISTING_URL) {
 
 			output.add(new RedditCommentListItem(
 					thing.asMoreComments(),
@@ -339,7 +351,7 @@ public class CommentListingRequest {
 
 			output.add(item);
 
-			if(comment.replies.getType() == JsonValue.Type.OBJECT) {
+			if(comment.replies.getType() == JsonValue.TYPE_OBJECT) {
 
 				final JsonBufferedObject replies = comment.replies.asObject();
 				final JsonBufferedArray children = replies.getObject("data").getArray("children");

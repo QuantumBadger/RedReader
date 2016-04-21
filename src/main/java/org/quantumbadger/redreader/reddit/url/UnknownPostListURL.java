@@ -48,7 +48,7 @@ public class UnknownPostListURL extends PostListingURL {
 	}
 
 	@Override
-	public RedditURLParser.PathType pathType() {
-		return RedditURLParser.PathType.UnknownPostListingURL;
+	public @RedditURLParser.PathType int pathType() {
+		return RedditURLParser.UNKNOWN_POST_LISTING_URL;
 	}
 }

@@ -21,7 +21,6 @@ import android.content.Context;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.cache.RequestFailureType;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.io.CacheDataSource;
@@ -57,9 +56,9 @@ public class RedditAPIIndividualSubredditDataRequester implements CacheDataSourc
 				null,
 				Constants.Priority.API_SUBREDDIT_INVIDIVUAL,
 				0,
-				CacheRequest.DownloadType.FORCE,
+				CacheRequest.DOWNLOAD_FORCE,
 				Constants.FileType.SUBREDDIT_ABOUT,
-				CacheRequest.DownloadQueueType.REDDIT_API,
+				CacheRequest.DOWNLOAD_QUEUE_REDDIT_API,
 				true,
 				false,
 				context
@@ -67,7 +66,7 @@ public class RedditAPIIndividualSubredditDataRequester implements CacheDataSourc
 
 			@Override
 			protected void onCallbackException(Throwable t) {
-				handler.onRequestFailed(new SubredditRequestFailure(RequestFailureType.PARSE, t, null, "Parse error", url));
+				handler.onRequestFailed(new SubredditRequestFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "Parse error", url));
 			}
 
 			@Override protected void onDownloadNecessary() {}
@@ -75,7 +74,7 @@ public class RedditAPIIndividualSubredditDataRequester implements CacheDataSourc
 			@Override protected void onProgress(final boolean authorizationInProgress, long bytesRead, long totalBytes) {}
 
 			@Override
-			protected void onFailure(RequestFailureType type, Throwable t, Integer status, String readableMessage) {
+			protected void onFailure(@CacheRequest.RequestFailureType int type, Throwable t, Integer status, String readableMessage) {
 				handler.onRequestFailed(new SubredditRequestFailure(type, t, status, readableMessage, url));
 			}
 
@@ -93,7 +92,7 @@ public class RedditAPIIndividualSubredditDataRequester implements CacheDataSourc
 					handler.onRequestSuccess(subreddit, timestamp);
 
 				} catch(Exception e) {
-					handler.onRequestFailed(new SubredditRequestFailure(RequestFailureType.PARSE, e, null, "Parse error", url));
+					handler.onRequestFailed(new SubredditRequestFailure(CacheRequest.REQUEST_FAILURE_PARSE, e, null, "Parse error", url));
 				}
 			}
 		};

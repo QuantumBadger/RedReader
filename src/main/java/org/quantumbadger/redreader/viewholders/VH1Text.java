@@ -5,6 +5,9 @@ import android.widget.TextView;
 
 import org.quantumbadger.redreader.R;
 
+/**
+ * A view holder for a one line, text only list item.
+ */
 public class VH1Text extends VH {
 
 	public final TextView text;

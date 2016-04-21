@@ -5,6 +5,9 @@ import android.widget.ImageView;
 
 import org.quantumbadger.redreader.R;
 
+/**
+ * A view holder for a one line, text and icon list item.
+ */
 public class VH1TextIcon extends VH1Text {
 
 	public final ImageView icon;

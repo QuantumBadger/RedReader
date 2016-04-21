@@ -5,6 +5,9 @@ import android.widget.TextView;
 
 import org.quantumbadger.redreader.R;
 
+/**
+ * A view holder for a two line, text and icon list item.
+ */
 public class VH2TextIcon extends VH1TextIcon {
 
 	public final TextView text2;

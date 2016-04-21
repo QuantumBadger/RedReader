@@ -9,13 +9,13 @@ import org.quantumbadger.redreader.common.RRThemeAttributes;
 public interface RedditRenderableCommentListItem {
 
 	CharSequence getHeader(
-		final RRThemeAttributes theme,
-		final RedditChangeDataManagerVolatile changeDataManager,
-		final Context context);
+			final RRThemeAttributes theme,
+			final RedditChangeDataManagerVolatile changeDataManager,
+			final Context context);
 
 	View getBody(
-		final AppCompatActivity activity,
-		final Integer textColor,
-		final Float textSize,
-		final boolean showLinkButtons);
+			final AppCompatActivity activity,
+			final Integer textColor,
+			final Float textSize,
+			final boolean showLinkButtons);
 }

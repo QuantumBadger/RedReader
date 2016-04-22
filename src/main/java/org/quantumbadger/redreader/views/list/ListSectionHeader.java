@@ -32,7 +32,7 @@ public class ListSectionHeader extends FrameLayout {
 
 		super(context);
 		final View view = inflate(context, R.layout.list_sectionheader, null);
-		textView = (TextView)view.findViewById(R.id.list_sectionheader_text);
+		textView = (TextView)view.findViewById(R.id.recycler_item_text);
 		addView(view);
 	}
 

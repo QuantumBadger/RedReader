@@ -17,22 +17,13 @@
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:descendantFocusability="blocksDescendants"
-              android:clickable="false"
-              android:focusable="false"
-              android:orientation="vertical">
-
-    <TextView android:id="@+id/list_sectionheader_text"
-              android:layout_width="fill_parent"
-              android:layout_height="wrap_content"
-              android:paddingTop="26dp"
-              android:paddingBottom="2dp"
-              android:paddingLeft="4dp"
-              android:paddingRight="4dp"
-              android:textColor="?rrListHeaderTextCol"
-              android:textSize="16sp" />
-
-</LinearLayout>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+		  android:id="@+id/recycler_item_text"
+		  android:layout_width="match_parent"
+		  android:layout_height="wrap_content"
+		  android:gravity="center_vertical"
+		  android:minHeight="48dp"
+		  android:paddingLeft="16dp"
+		  android:paddingRight="16dp"
+		  android:textColor="?rrListHeaderTextCol"
+		  android:textSize="14sp"/>

@@ -19,12 +19,14 @@ package org.quantumbadger.redreader.fragments;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
-import org.quantumbadger.redreader.views.list.ListSectionHeader;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -69,9 +71,11 @@ public final class ChangelogDialog extends PropertiesDialog {
 					curVersionCode = Integer.parseInt(lineSplit[0]);
 					curVersionName = lineSplit[1];
 
-					final ListSectionHeader header = new ListSectionHeader(context);
-					header.reset(curVersionName);
-					header.setColor(attr.colorAccent);
+					final View header = LayoutInflater.from(context)
+						.inflate(R.layout.list_sectionheader, items, false);
+					final TextView headerText = (TextView) header.findViewById(R.id.recycler_item_text);
+					headerText.setText(curVersionName);
+					headerText.setTextColor(attr.colorAccent);
 					items.addView(header);
 
 				} else {

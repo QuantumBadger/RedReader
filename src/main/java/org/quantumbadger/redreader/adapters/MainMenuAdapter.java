@@ -23,9 +23,12 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.common.AndroidApi;
@@ -35,10 +38,13 @@ import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.url.PostListingURL;
 import org.quantumbadger.redreader.reddit.url.SubredditPostListURL;
 import org.quantumbadger.redreader.views.list.ListItemView;
-import org.quantumbadger.redreader.views.list.ListSectionHeader;
 import org.quantumbadger.redreader.views.list.MainMenuItem;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.List;
 
 public class MainMenuAdapter extends BaseAdapter {
 
@@ -121,14 +127,14 @@ public class MainMenuAdapter extends BaseAdapter {
 
 		if(convertView == null) {
 			if(item.isHeader) {
-				convertView = new ListSectionHeader(viewGroup.getContext());
+				convertView = LayoutInflater.from(context).inflate(R.layout.list_sectionheader, viewGroup, false);
 			} else {
 				convertView = new ListItemView(viewGroup.getContext());
 			}
 		}
 
 		if(item.isHeader) {
-			((ListSectionHeader)convertView).reset(item.title);
+			((TextView) convertView.findViewById(R.id.recycler_item_text)).setText(item.title);
 		} else {
 			final boolean firstInSection = (i == 0) || getItemInternal(i - 1).isHeader;
 			((ListItemView)convertView).reset(item.icon, item.title, firstInSection);

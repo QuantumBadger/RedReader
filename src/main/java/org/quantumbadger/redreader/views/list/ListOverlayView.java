@@ -38,10 +38,10 @@ public class ListOverlayView extends FrameLayout {
 	public static final int TOUCH_EVENT_HORIZONTAL = 2;
 	public static final int TOUCH_EVENT_LONG_CLICK = 3;
 	public static final int TOUCH_EVENT_UNKNOWN = 4;
-	public static final int TOUCH_EVENT_SELECTED = 5;
+	public static final int TOUCH_EVENT_NONE = 5;
 
 	@IntDef({TOUCH_EVENT_CLICK, TOUCH_EVENT_VERTICAL, TOUCH_EVENT_HORIZONTAL,
-		TOUCH_EVENT_LONG_CLICK, TOUCH_EVENT_UNKNOWN, TOUCH_EVENT_SELECTED})
+		TOUCH_EVENT_LONG_CLICK, TOUCH_EVENT_UNKNOWN, TOUCH_EVENT_NONE})
 	@Retention(RetentionPolicy.SOURCE)
 	public @interface TouchEventType {}
 
@@ -58,7 +58,7 @@ public class ListOverlayView extends FrameLayout {
 
 	private MotionEvent downStart = null;
 	private RRTouchable mDownItem = null;
-	private @TouchEventType int touchEventType = TOUCH_EVENT_SELECTED;
+	private @TouchEventType int touchEventType = TOUCH_EVENT_NONE;
 	private int mDownPointerId = -1;
 
 	private final HandlerTimer mTimer = new HandlerTimer(AndroidApi.UI_THREAD_HANDLER);
@@ -133,7 +133,7 @@ public class ListOverlayView extends FrameLayout {
 			cancelTimers();
 
 			if(mDownItem != null) {
-				if(touchEventType == TOUCH_EVENT_SELECTED) Log.i("Item selected", mDownItem.toString());
+				if(touchEventType == TOUCH_EVENT_NONE) Log.i("Item selected", mDownItem.toString());
 
 				if(touchEventType == TOUCH_EVENT_CLICK) {
 
@@ -164,7 +164,7 @@ public class ListOverlayView extends FrameLayout {
 				Log.e("LOV", "mDownItem was null...");
 			}
 
-			touchEventType = TOUCH_EVENT_SELECTED;
+			touchEventType = TOUCH_EVENT_NONE;
 
 			return false;
 
@@ -176,7 +176,7 @@ public class ListOverlayView extends FrameLayout {
 
 			final float xDelta = ev.getX() - downStart.getX(), yDelta = ev.getY() - downStart.getY();
 
-			if(touchEventType == TOUCH_EVENT_SELECTED || touchEventType == TOUCH_EVENT_CLICK) {
+			if(touchEventType == TOUCH_EVENT_NONE || touchEventType == TOUCH_EVENT_CLICK) {
 
 				if(Math.abs(yDelta) > 20 || (Math.abs(yDelta) > 3 * Math.abs(xDelta) && yDelta > 10)) {
 					touchEventType = TOUCH_EVENT_VERTICAL;

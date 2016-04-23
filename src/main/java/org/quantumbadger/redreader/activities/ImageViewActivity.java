@@ -31,30 +31,15 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.VideoView;
-
+import android.widget.*;
 import com.github.lzyzsd.circleprogress.DonutProgress;
-
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.common.AndroidApi;
-import org.quantumbadger.redreader.common.Constants;
-import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.common.LinkHandler;
-import org.quantumbadger.redreader.common.PrefsUtility;
-import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.fragments.ImageInfoDialog;
-import org.quantumbadger.redreader.image.GetAlbumInfoListener;
-import org.quantumbadger.redreader.image.GetImageInfoListener;
-import org.quantumbadger.redreader.image.GifDecoderThread;
-import org.quantumbadger.redreader.image.ImageInfo;
-import org.quantumbadger.redreader.image.ImgurAPI;
+import org.quantumbadger.redreader.image.*;
 import org.quantumbadger.redreader.reddit.prepared.RedditParsedPost;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
@@ -252,7 +237,9 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 										// TODO handle properly
 										mRequest = null;
 										final LinearLayout layout = new LinearLayout(context);
-										layout.addView(new ErrorView(ImageViewActivity.this, error));
+										final ErrorView errorView = new ErrorView(ImageViewActivity.this, error);
+										layout.addView(errorView);
+										errorView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
 										setMainView(layout);
 									}
 								});

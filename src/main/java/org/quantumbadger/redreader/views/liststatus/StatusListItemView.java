@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.views.liststatus;
 
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import org.quantumbadger.redreader.views.list.RRTouchable;
 
@@ -37,6 +38,10 @@ public class StatusListItemView extends FrameLayout implements RRTouchable {
 		if(this.contents != null) removeView(this.contents);
 		this.contents = contents;
 		addView(contents);
+
+		final ViewGroup.LayoutParams layoutParams = contents.getLayoutParams();
+		layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+		layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
 	}
 
 	public void hideNoAnim() {

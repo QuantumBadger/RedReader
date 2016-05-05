@@ -196,7 +196,7 @@
 
         <item name="rrActionBarCol">#222222</item>
         <item name="colorPrimary">?rrActionBarCol</item>
-        <item name="colorPrimaryDark">#111111</item>
+        <item name="colorPrimaryDark">#000000</item>
         <item name="colorAccent">#99DDDD</item>
 
         <item name="rrListDividerCol">#555555</item>

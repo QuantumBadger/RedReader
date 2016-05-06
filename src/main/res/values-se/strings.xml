@@ -636,7 +636,7 @@
     <string name="error_title_login_user_denied_permission">Nekad tillstånd</string>
     <string name="error_message_login_user_denied_permission">Åtkomst till konto nekat. Vänligen försök igen.</string>
 
-    <string name="error_title_login_unknown_reddit_error">Okänt redditfel: </string>
+    <string name="error_title_login_unknown_reddit_error">Okänt redditfel: %s</string>
 
     <!-- 2015-05-23 -->
     <string name="imageview_invalid_video">Ogiltig video. Prövar intern webbläsare.</string>

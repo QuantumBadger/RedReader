@@ -624,7 +624,7 @@
     <string name="error_title_login_user_denied_permission">Permiso denegado</string>
     <string name="error_message_login_user_denied_permission">El permiso para acceder a la cuenta ha sido denegado. Por favor, inténtalo de nuevo.</string>
 
-    <string name="error_title_login_unknown_reddit_error">Error de Reddit desconocido: </string>
+    <string name="error_title_login_unknown_reddit_error">Error de Reddit desconocido: %s</string>
 
     <!-- 2015-05-23 -->
     <string name="imageview_invalid_video">Vídeo inválido. Intentándolo con el navegador interno.</string>

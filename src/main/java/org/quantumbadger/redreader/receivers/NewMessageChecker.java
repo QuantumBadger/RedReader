@@ -142,7 +142,7 @@ public class NewMessageChecker extends BroadcastReceiver {
 
 						case MESSAGE: {
 							final RedditMessage message = thing.asMessage();
-							title = message.author + " " + context.getString(R.string.notification_message);
+							title =context.getString(R.string.notification_message, message.author);
 							messageID = message.name;
 							messageTimestamp = message.created_utc;
 							break;

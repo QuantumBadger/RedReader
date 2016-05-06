@@ -394,7 +394,7 @@
     <!-- Notifications -->
 
     <string name="notification_comment">%s svarade till dig</string>
-    <string name="notification_message">skickade dig ett meddelande</string>
+    <string name="notification_message">%s skickade dig ett meddelande</string>
     <string name="notification_message_multiple">Nya meddelande på Reddit</string>
     <string name="notification_message_action">Tryck för att se</string>
 

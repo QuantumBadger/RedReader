@@ -384,7 +384,7 @@
     <!-- Notifications -->
 
     <string name="notification_comment">%s odpověděl na váš komentář</string>
-    <string name="notification_message">vám poslal zprávu</string>
+    <string name="notification_message">%s vám poslal zprávu</string>
     <string name="notification_message_multiple">nových zpráv na Reddit</string>
     <string name="notification_message_action">Touch zobrazíte</string>
 

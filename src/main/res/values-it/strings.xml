@@ -230,7 +230,7 @@
     <string name="message_cannotlogin">Login non riuscito</string>
     <string name="message_nowloggedin">Login effettuato con successo.</string>
     <string name="notification_comment">%s ti ha risposto</string>
-    <string name="notification_message">ti ha mandato un messaggio</string>
+    <string name="notification_message">%s ti ha mandato un messaggio</string>
     <string name="notification_message_action">Tocca per visualizzare</string>
     <string name="options_accounts_long">Account Reddit</string>
     <string name="options_past">Versioni precedenti</string>

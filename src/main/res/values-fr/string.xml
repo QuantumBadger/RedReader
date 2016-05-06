@@ -387,7 +387,7 @@
     <!-- Notifications -->
 
     <string name="notification_comment">%s a répondu à votre commentaire</string>
-    <string name="notification_message">vous a envoyé un message</string>
+    <string name="notification_message">%s vous a envoyé un message</string>
     <string name="notification_message_multiple">Nouveau messages à Reddit</string>
     <string name="notification_message_action">Touchez pour voir</string>
 

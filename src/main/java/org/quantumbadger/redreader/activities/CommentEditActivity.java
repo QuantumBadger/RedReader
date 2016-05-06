@@ -24,7 +24,6 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import org.quantumbadger.redreader.R;
@@ -53,9 +52,7 @@ public class CommentEditActivity extends BaseActivity {
 
 		super.onCreate(savedInstanceState);
 
-		final LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.comment_edit, null);
-
-		textEdit = (EditText)layout.findViewById(R.id.comment_reply_text);
+		textEdit = (EditText) getLayoutInflater().inflate(R.layout.comment_edit, null);
 
 		if(getIntent() != null && getIntent().hasExtra("commentIdAndType")) {
 			commentIdAndType = getIntent().getStringExtra("commentIdAndType");
@@ -67,7 +64,7 @@ public class CommentEditActivity extends BaseActivity {
 		}
 
 		final ScrollView sv = new ScrollView(this);
-		sv.addView(layout);
+		sv.addView(textEdit);
 		setContentView(sv);
 	}
 

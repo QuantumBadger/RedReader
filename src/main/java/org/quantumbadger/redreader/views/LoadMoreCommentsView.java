@@ -120,22 +120,7 @@ public class LoadMoreCommentsView extends LinearLayout {
 		final StringBuilder title = new StringBuilder(getContext().getString(R.string.more_comments_button_text));
 		final int count = item.asLoadMore().getCount();
 
-		if(count == 1) {
-			title
-					.append(" (1 ")
-					.append(getContext().getString(R.string.subtitle_reply))
-					.append(")");
-
-		} else if(count > 1) {
-			title
-					.append(" (")
-					.append(count).append(" ")
-					.append(getContext().getString(R.string.subtitle_replies))
-					.append(")");
-
-		} else {
-			title.append("...");
-		}
+		title.append(getResources().getQuantityString(R.plurals.subtitle_replies, count, count));
 
 		mTitleView.setText(title);
 		mIndentView.setIndentation(item.getIndent());

@@ -391,7 +391,7 @@ Thanks to /u/balducien and /u/andiho for this translation!
 
     <!-- Notifications -->
 
-    <string name="notification_comment">hat auf Ihre Nachricht geantwortet</string>
+    <string name="notification_comment">%s hat auf Ihre Nachricht geantwortet</string>
     <string name="notification_message">hat Ihnen eine Mitteilung geschickt</string>
     <string name="notification_message_multiple">Neue  Informationen  an  Reddit</string>
     <string name="notification_message_action">Klick to see</string>

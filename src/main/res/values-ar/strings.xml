@@ -387,7 +387,7 @@
     <!-- Notifications -->
     <!-- I couldn't figure out how to get the first 2 (with the sender's name that will come before it) to work -->
 
-    <string name="notification_comment">replied to your comment</string>
+    <string name="notification_comment">%s replied to your comment</string>
     <string name="notification_message">sent you a message</string>
     <string name="notification_message_multiple">رسائل جديدة على رديت</string>
     <string name="notification_message_action">المس لعرض</string>

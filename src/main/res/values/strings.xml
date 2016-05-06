@@ -386,7 +386,7 @@
 
     <!-- Notifications -->
 
-    <string name="notification_comment">replied to you</string>
+    <string name="notification_comment">%s replied to you</string>
     <string name="notification_message">sent you a message</string>
     <string name="notification_message_multiple">New messages on reddit</string>
     <string name="notification_message_action">Touch to view</string>

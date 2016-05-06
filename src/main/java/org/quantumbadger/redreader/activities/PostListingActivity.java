@@ -29,7 +29,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.LinearLayout;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
@@ -262,12 +262,9 @@ public class PostListingActivity extends RefreshableActivity
 	public static void onSearchPosts(final PostListingController controller, final AppCompatActivity activity) {
 
 		final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(activity);
-		final LinearLayout layout = (LinearLayout) activity.getLayoutInflater().inflate(R.layout.dialog_editbox, null);
-		final EditText editText = (EditText)layout.findViewById(R.id.dialog_editbox_edittext);
+		final EditText editText = (EditText) activity.getLayoutInflater().inflate(R.layout.dialog_editbox, null);
 
-		editText.requestFocus();
-
-		alertBuilder.setView(layout);
+		alertBuilder.setView(editText);
 		alertBuilder.setTitle(R.string.action_search);
 
 		alertBuilder.setPositiveButton(R.string.action_search, new DialogInterface.OnClickListener() {

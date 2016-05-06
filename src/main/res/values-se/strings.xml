@@ -578,7 +578,7 @@
 
     <!-- 2014-04-20 -->
 
-    <string name="header_subscriber_count">prenumeranter</string>
+    <string name="header_subscriber_count">%s prenumeranter</string>
     <string name="header_subscriber_count_unknown">Okänt prenumerantantal</string>
 
     <!-- 2014-04-21 -->

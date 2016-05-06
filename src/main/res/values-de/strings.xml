@@ -573,7 +573,7 @@ Thanks to /u/balducien and /u/andiho for this translation!
 
     <!-- 2014-04-20 -->
 
-    <string name="header_subscriber_count">Abonenten</string>
+    <string name="header_subscriber_count">%s Abonenten</string>
     <string name="header_subscriber_count_unknown">Abonentenanzahl ist unbekannt</string>
 
     <!-- 2014-04-21 -->

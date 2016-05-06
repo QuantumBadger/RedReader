@@ -570,7 +570,7 @@
 
     <!-- 2014-04-20 -->
 
-    <string name="header_subscriber_count">مشتركين</string>
+    <string name="header_subscriber_count">%s مشتركين</string>
     <string name="header_subscriber_count_unknown">عدد المشتركين غير معروف</string>
 
     <!-- 2014-04-21 -->

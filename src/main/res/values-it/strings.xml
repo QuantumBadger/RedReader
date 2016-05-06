@@ -222,7 +222,7 @@
     <string name="dialog_go">Vai</string>
     <string name="firstrun_login_button_later">Resta anonimo</string>
     <string name="firstrun_login_button_now">Collegati</string>
-    <string name="header_subscriber_count">abbonati</string>
+    <string name="header_subscriber_count">%s abbonati</string>
     <string name="header_subscriber_count_unknown">Il numero di abbonati è sconosciuto</string>
     <string name="mainmenu_saved">Post salvati</string>
     <string name="mainmenu_submitted">Post inviati</string>

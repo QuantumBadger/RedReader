@@ -574,7 +574,7 @@
 
     <!-- 2014-04-20 -->
 
-    <string name="header_subscriber_count">subscribers</string>
+    <string name="header_subscriber_count">%s subscribers</string>
     <string name="header_subscriber_count_unknown">Subscriber count is unknown</string>
 
     <!-- 2014-04-21 -->

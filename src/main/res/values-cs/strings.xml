@@ -568,7 +568,7 @@
 
     <!-- 2014-04-20 -->
 
-    <string name="header_subscriber_count">přihlášení</string>
+    <string name="header_subscriber_count">%s přihlášení</string>
     <string name="header_subscriber_count_unknown">Počet přihlášených je neznámý</string>
 
     <!-- 2014-04-21 -->

@@ -570,7 +570,7 @@
 
     <!-- 2014-04-20 -->
 
-    <string name="header_subscriber_count">subscriptores</string>
+    <string name="header_subscriber_count">%s subscriptores</string>
     <string name="header_subscriber_count_unknown">El número de subscriptores es desconocido</string>
 
     <!-- 2014-04-21 -->

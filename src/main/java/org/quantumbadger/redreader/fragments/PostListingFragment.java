@@ -30,7 +30,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.AbsListView;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -40,7 +46,14 @@ import org.quantumbadger.redreader.activities.SessionChangeListener;
 import org.quantumbadger.redreader.adapters.PostListingAdapter;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.common.*;
+import org.quantumbadger.redreader.common.AndroidApi;
+import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.RRTime;
+import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
 import org.quantumbadger.redreader.image.ImageInfo;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
@@ -376,7 +389,8 @@ public class PostListingFragment extends RRFragment
 			if(mSubreddit.subscribers == null) {
 				subtitle = getString(R.string.header_subscriber_count_unknown);
 			} else {
-				subtitle = NumberFormat.getNumberInstance(Locale.getDefault()).format(mSubreddit.subscribers) + " " + getString(R.string.header_subscriber_count);
+				subtitle = getContext().getString(R.string.header_subscriber_count,
+					NumberFormat.getNumberInstance(Locale.getDefault()).format(mSubreddit.subscribers));
 			}
 
 		} else {

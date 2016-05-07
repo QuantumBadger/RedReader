@@ -50,7 +50,7 @@ public class SessionListAdapter extends HeaderRecyclerAdapter<VH> {
 	@Override
 	protected VH onCreateHeaderItemViewHolder(ViewGroup parent) {
 		View v = LayoutInflater.from(parent.getContext())
-			.inflate(R.layout.list_item_1_text_icon, parent, false);
+			.inflate(R.layout.list_item_1_text, parent, false);
 		return new VH1Text(v);
 	}
 

@@ -16,7 +16,6 @@ import org.quantumbadger.redreader.cache.CacheEntry;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.common.BetterSSB;
 import org.quantumbadger.redreader.common.RRTime;
-import org.quantumbadger.redreader.viewholders.VH1TextIcon;
 import org.quantumbadger.redreader.viewholders.VH1Text;
 import org.quantumbadger.redreader.viewholders.VH;
 
@@ -52,7 +51,7 @@ public class SessionListAdapter extends HeaderRecyclerAdapter<VH> {
 	protected VH onCreateHeaderItemViewHolder(ViewGroup parent) {
 		View v = LayoutInflater.from(parent.getContext())
 			.inflate(R.layout.list_item_1_text_icon, parent, false);
-		return new VH1TextIcon(v);
+		return new VH1Text(v);
 	}
 
 	@Override
@@ -64,7 +63,7 @@ public class SessionListAdapter extends HeaderRecyclerAdapter<VH> {
 
 	@Override
 	protected void onBindHeaderItemViewHolder(VH holder, final int position) {
-		final VH1TextIcon vh = (VH1TextIcon) holder;
+		final VH1Text vh = (VH1Text) holder;
 		vh.text.setText(context.getString(R.string.options_refresh));
 		vh.text.setCompoundDrawablesWithIntrinsicBounds(rrIconRefresh, null, null, null);
 		vh.itemView.setOnClickListener(new View.OnClickListener() {

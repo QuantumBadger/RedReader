@@ -66,7 +66,7 @@ public class SessionListAdapter extends HeaderRecyclerAdapter<VH> {
 	protected void onBindHeaderItemViewHolder(VH holder, final int position) {
 		final VH1TextIcon vh = (VH1TextIcon) holder;
 		vh.text.setText(context.getString(R.string.options_refresh));
-		vh.icon.setImageDrawable(rrIconRefresh);
+		vh.text.setCompoundDrawablesWithIntrinsicBounds(rrIconRefresh, null, null, null);
 		vh.itemView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {

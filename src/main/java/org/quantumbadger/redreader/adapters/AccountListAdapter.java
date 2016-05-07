@@ -77,7 +77,7 @@ public class AccountListAdapter extends HeaderRecyclerAdapter<VH> {
 	protected void onBindHeaderItemViewHolder(VH holder, int position) {
 		final VH1TextIcon vh = (VH1TextIcon) holder;
 		vh.text.setText(context.getString(R.string.accounts_add));
-		vh.icon.setImageDrawable(rrIconAdd);
+		vh.text.setCompoundDrawablesWithIntrinsicBounds(rrIconAdd, null, null, null);
 		holder.itemView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {

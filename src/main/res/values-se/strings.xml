@@ -168,7 +168,7 @@
 
     <!-- General Listing -->
 
-    <string name="listing_cached">Granska cachade kopior från</string>
+    <string name="listing_cached">Granska cachade kopior från %s</string>
 
     <!-- Accounts Dialog -->
 

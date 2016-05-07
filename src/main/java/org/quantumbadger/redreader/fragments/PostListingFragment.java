@@ -140,7 +140,7 @@ public class PostListingFragment extends RRFragment
 				case NOTIF_AGE: {
 					final CachedHeaderView cacheNotif = new CachedHeaderView(
 							getActivity(),
-							getActivity().getString(R.string.listing_cached) + " " + RRTime.formatDateTime((Long) msg.obj, getActivity()),
+							getActivity().getString(R.string.listing_cached, RRTime.formatDateTime((Long) msg.obj, getActivity())),
 							null
 					);
 

@@ -176,7 +176,7 @@
 
     <!-- General Listing -->
 
-    <string name="listing_cached">Ser på cached kopi fra</string>
+    <string name="listing_cached">Ser på cached kopi fra %s</string>
 
     <!-- Accounts Dialog -->
 

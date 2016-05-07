@@ -161,7 +161,7 @@
 
     <!-- General Listing -->
 
-    <string name="listing_cached">Viewing cached copy from</string>
+    <string name="listing_cached">Viewing cached copy from %s</string>
 
     <!-- Accounts Dialog -->
 

@@ -161,7 +161,7 @@
 
     <!-- General Listing -->
 
-    <string name="listing_cached">نسخة مخبأة من</string>
+    <string name="listing_cached">%s نسخة مخبأة من</string>
 
     <!-- Accounts Dialog -->
 

@@ -158,7 +158,7 @@
 
     <!-- General Listing -->
 
-    <string name="listing_cached">Prohlížení kopie z mezipaměti data</string>
+    <string name="listing_cached">Prohlížení kopie z mezipaměti data %s</string>
 
     <!-- Accounts Dialog -->
 

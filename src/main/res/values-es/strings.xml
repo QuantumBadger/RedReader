@@ -161,7 +161,7 @@
 
     <!-- General Listing -->
 
-    <string name="listing_cached">Viendo copia en caché del</string>
+    <string name="listing_cached">Viendo copia en caché del %s</string>
 
     <!-- Accounts Dialog -->
 

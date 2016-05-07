@@ -180,7 +180,7 @@
     <string name="mainmenu_hidden">Post nascosti</string>
     <string name="mainmenu_header_subreddits">Subreddit</string>
     <string name="mainmenu_frontpage">Pagina principale</string>
-    <string name="listing_cached">Visualizzando copia in cache del</string>
+    <string name="listing_cached">Visualizzando copia in cache del %s</string>
     <string name="load_more_posts">Carica altri post</string>
     <string name="mainmenu_all">Tutti i subreddit</string>
     <string name="mainmenu_custom">Subreddit personalizzato</string>

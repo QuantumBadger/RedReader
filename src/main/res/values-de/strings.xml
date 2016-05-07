@@ -166,7 +166,7 @@ Thanks to /u/balducien and /u/andiho for this translation!
 
     <!-- General Listing -->
 
-    <string name="listing_cached">Kopie aus dem Cache vom</string>
+    <string name="listing_cached">Kopie aus dem Cache vom %s</string>
 
     <!-- Accounts Dialog -->
 

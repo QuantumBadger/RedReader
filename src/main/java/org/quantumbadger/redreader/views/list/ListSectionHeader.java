@@ -18,9 +18,9 @@
 package org.quantumbadger.redreader.views.list;
 
 import android.content.Context;
-import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+
 import org.quantumbadger.redreader.R;
 
 // TODO doesn't need to be in a frame layout
@@ -31,9 +31,8 @@ public class ListSectionHeader extends FrameLayout {
 	public ListSectionHeader(final Context context) {
 
 		super(context);
-		final View view = inflate(context, R.layout.list_sectionheader, null);
-		textView = (TextView)view.findViewById(R.id.list_sectionheader_text);
-		addView(view);
+		textView = (TextView) inflate(context, R.layout.list_sectionheader, null);
+		addView(textView);
 	}
 
 	public void reset(final String text) {

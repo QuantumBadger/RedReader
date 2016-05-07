@@ -29,6 +29,15 @@ android {
     compileSdkVersion 23
     buildToolsVersion '23.0.3'
 
+    defaultConfig {
+        // Stops the Gradle plugin’s automatic rasterization of vectors
+        generatedDensities = []
+    }
+    // Flag to tell aapt to keep the attribute ids around
+    aaptOptions {
+        additionalParameters "--no-version-vectors"
+    }
+
     buildTypes {
         release {
             minifyEnabled false

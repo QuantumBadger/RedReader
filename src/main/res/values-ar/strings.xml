@@ -454,8 +454,11 @@
     <string name="subtitle_points">نقاط</string>
     <string name="subtitle_by">بوساطة</string>
     <string name="subtitle_to">لـ</string>
-    <string name="subtitle_replies">ردود</string>
-    <string name="subtitle_reply">رد</string>
+	<plurals name="subtitle_replies"> 
+		<item quantity="zero">…</item> 
+		<item quantity="one">" (%d رد)"</item> 
+		<item quantity="other">" (%d ردود)"</item>
+	 </plurals>
 
     <string name="general_unknown">مجهول</string>
 

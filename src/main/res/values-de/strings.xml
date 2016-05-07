@@ -458,8 +458,11 @@ Thanks to /u/balducien and /u/andiho for this translation!
     <string name="subtitle_points">Punkte</string>
     <string name="subtitle_by">von</string>
     <string name="subtitle_to">an</string>
-    <string name="subtitle_replies">Antworten</string>
-    <string name="subtitle_reply">Antworten</string>
+	<plurals name="subtitle_replies"> 
+		<item quantity="zero">…</item> 
+		<item quantity="one">" (%d Antworten)"</item> 
+		<item quantity="other">" (%d Antworten)"</item> 
+	</plurals>
 
     <string name="general_unknown">Unbekannt</string>
 

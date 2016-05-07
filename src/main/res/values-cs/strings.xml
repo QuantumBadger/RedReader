@@ -450,8 +450,11 @@
     <string name="subtitle_points">bodů</string>
     <string name="subtitle_by">od</string>
     <string name="subtitle_to">pro</string>
-    <string name="subtitle_replies">odpovědi</string>
-    <string name="subtitle_reply">odpověď</string>
+	<plurals name="subtitle_replies"> 
+		<item quantity="zero">…</item> 
+		<item quantity="one">" (%d odpověď)"</item> 
+		<item quantity="other">" (%d odpovědi)"</item> 
+	</plurals>
 
     <string name="general_unknown">neznámé</string>
 

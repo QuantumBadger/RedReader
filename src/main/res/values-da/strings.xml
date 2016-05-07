@@ -468,8 +468,11 @@
     <string name="subtitle_points">pts</string>
     <string name="subtitle_by">af</string>
     <string name="subtitle_to">til</string>
-    <string name="subtitle_replies">svar</string>
-    <string name="subtitle_reply">svar</string>
+	<plurals name="subtitle_replies"> 
+		<item quantity="zero">…</item> 
+		<item quantity="one">" (%d svar)"</item> 
+		<item quantity="other">" (%d svar)"</item> 
+	</plurals>
 
     <string name="general_unknown">ukendt</string>
 

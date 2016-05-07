@@ -453,8 +453,11 @@
     <string name="subtitle_points">points</string>
     <string name="subtitle_by">par</string>
     <string name="subtitle_to">à</string>
-    <string name="subtitle_replies">réponses</string>
-    <string name="subtitle_reply">réponse</string>
+	<plurals name="subtitle_replies"> 
+		<item quantity="zero">…</item> 
+		<item quantity="one">" (%d réponse)"</item> 
+		<item quantity="other">" (%d réponses)"</item> 
+	</plurals>
 
     <string name="general_unknown">inconnu</string>
 

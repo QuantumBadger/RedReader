@@ -453,8 +453,11 @@
     <string name="subtitle_points">pts</string>
     <string name="subtitle_by">por</string>
     <string name="subtitle_to">en</string>
-    <string name="subtitle_replies">respuestas</string>
-    <string name="subtitle_reply">responder</string>
+	<plurals name="subtitle_replies"> 
+		<item quantity="zero">…</item> 
+		<item quantity="one">" (%d responder)"</item> 
+		<item quantity="other">" (%d respuestas)"</item> 
+	</plurals>
 
     <string name="general_unknown">desconocido</string>
 

@@ -97,8 +97,11 @@
     <string name="pref_behaviour_sort_header">Ordinamento</string>
     <string name="pref_behaviour_posts_header">Post</string>
     <string name="subtitle_points">punti</string>
-    <string name="subtitle_replies">risposte</string>
-    <string name="subtitle_reply">rispondi</string>
+	<plurals name="subtitle_replies"> 
+		<item quantity="zero">…</item> 
+		<item quantity="one">" (%d rispondi)"</item> 
+		<item quantity="other">" (%d risposte)"</item> 
+	</plurals>
     <string name="subtitle_to">a</string>
     <string name="theme_name_blue">Blu</string>
     <string name="theme_name_gray">Grigio</string>
@@ -177,7 +180,7 @@
     <string name="mainmenu_hidden">Post nascosti</string>
     <string name="mainmenu_header_subreddits">Subreddit</string>
     <string name="mainmenu_frontpage">Pagina principale</string>
-    <string name="listing_cached">Visualizzando copia in cache del</string>
+    <string name="listing_cached">Visualizzando copia in cache del %s</string>
     <string name="load_more_posts">Carica altri post</string>
     <string name="mainmenu_all">Tutti i subreddit</string>
     <string name="mainmenu_custom">Subreddit personalizzato</string>
@@ -222,15 +225,15 @@
     <string name="dialog_go">Vai</string>
     <string name="firstrun_login_button_later">Resta anonimo</string>
     <string name="firstrun_login_button_now">Collegati</string>
-    <string name="header_subscriber_count">abbonati</string>
+    <string name="header_subscriber_count">%s abbonati</string>
     <string name="header_subscriber_count_unknown">Il numero di abbonati è sconosciuto</string>
     <string name="mainmenu_saved">Post salvati</string>
     <string name="mainmenu_submitted">Post inviati</string>
     <string name="mainmenu_upvoted">Post mandati su</string>
     <string name="message_cannotlogin">Login non riuscito</string>
     <string name="message_nowloggedin">Login effettuato con successo.</string>
-    <string name="notification_comment">ti ha risposto</string>
-    <string name="notification_message">ti ha mandato un messaggio</string>
+    <string name="notification_comment">%s ti ha risposto</string>
+    <string name="notification_message">%s ti ha mandato un messaggio</string>
     <string name="notification_message_action">Tocca per visualizzare</string>
     <string name="options_accounts_long">Account Reddit</string>
     <string name="options_past">Versioni precedenti</string>

@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.views.list;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.view.ContextMenu;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -34,8 +33,6 @@ public class ListItemView extends FrameLayout {
 	private final TextView textView;
 	private final ImageView imageView;
 	private final View divider;
-
-	private ContextMenuBuilder contextMenuBuilder;
 
 	public ListItemView(final Context context) {
 
@@ -69,20 +66,5 @@ public class ListItemView extends FrameLayout {
 			imageView.setImageBitmap(null);
 			imageView.setVisibility(GONE);
 		}
-
-		contextMenuBuilder = null;
-	}
-
-	public void setContextMenuBuilder(ContextMenuBuilder contextMenuBuilder) {
-		this.contextMenuBuilder = contextMenuBuilder;
-	}
-
-	@Override
-	protected void onCreateContextMenu(ContextMenu menu) {
-		if(contextMenuBuilder != null) contextMenuBuilder.build(menu);
-	}
-
-	public interface ContextMenuBuilder {
-		void build(ContextMenu menu);
 	}
 }

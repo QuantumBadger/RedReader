@@ -168,7 +168,7 @@
 
     <!-- General Listing -->
 
-    <string name="listing_cached">Granska cachade kopior från</string>
+    <string name="listing_cached">Granska cachade kopior från %s</string>
 
     <!-- Accounts Dialog -->
 
@@ -393,8 +393,8 @@
 
     <!-- Notifications -->
 
-    <string name="notification_comment">svarade till dig</string>
-    <string name="notification_message">skickade dig ett meddelande</string>
+    <string name="notification_comment">%s svarade till dig</string>
+    <string name="notification_message">%s skickade dig ett meddelande</string>
     <string name="notification_message_multiple">Nya meddelande på Reddit</string>
     <string name="notification_message_action">Tryck för att se</string>
 
@@ -460,8 +460,11 @@
     <string name="subtitle_points">poäng</string>
     <string name="subtitle_by">av</string>
     <string name="subtitle_to">till</string>
-    <string name="subtitle_replies">svar</string>
-    <string name="subtitle_reply">svara</string>
+	<plurals name="subtitle_replies">
+		<item quantity="zero">…</item>
+		<item quantity="one">" (%d svara)"</item>
+		<item quantity="other">" (%d svar)"</item>
+	</plurals>
 
     <string name="general_unknown">okänt</string>
 
@@ -578,7 +581,7 @@
 
     <!-- 2014-04-20 -->
 
-    <string name="header_subscriber_count">prenumeranter</string>
+    <string name="header_subscriber_count">%s prenumeranter</string>
     <string name="header_subscriber_count_unknown">Okänt prenumerantantal</string>
 
     <!-- 2014-04-21 -->
@@ -636,7 +639,7 @@
     <string name="error_title_login_user_denied_permission">Nekad tillstånd</string>
     <string name="error_message_login_user_denied_permission">Åtkomst till konto nekat. Vänligen försök igen.</string>
 
-    <string name="error_title_login_unknown_reddit_error">Okänt redditfel: </string>
+    <string name="error_title_login_unknown_reddit_error">Okänt redditfel: %s</string>
 
     <!-- 2015-05-23 -->
     <string name="imageview_invalid_video">Ogiltig video. Prövar intern webbläsare.</string>

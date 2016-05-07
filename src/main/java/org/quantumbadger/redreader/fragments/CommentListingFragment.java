@@ -367,9 +367,8 @@ public class CommentListingFragment extends RRFragment
 
 				final CachedHeaderView cacheNotif = new CachedHeaderView(
 						getActivity(),
-						getActivity().getString(R.string.listing_cached)
-								+ " "
-								+ RRTime.formatDateTime(mCachedTimestamp, getActivity()),
+						getActivity().getString(R.string.listing_cached,
+							RRTime.formatDateTime(mCachedTimestamp, getActivity())),
 						null
 				);
 				mCommentListingManager.addNotification(cacheNotif);

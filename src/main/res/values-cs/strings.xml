@@ -158,7 +158,7 @@
 
     <!-- General Listing -->
 
-    <string name="listing_cached">Prohlížení kopie z mezipaměti data</string>
+    <string name="listing_cached">Prohlížení kopie z mezipaměti data %s</string>
 
     <!-- Accounts Dialog -->
 
@@ -383,8 +383,8 @@
 
     <!-- Notifications -->
 
-    <string name="notification_comment">odpověděl na váš komentář</string>
-    <string name="notification_message">vám poslal zprávu</string>
+    <string name="notification_comment">%s odpověděl na váš komentář</string>
+    <string name="notification_message">%s vám poslal zprávu</string>
     <string name="notification_message_multiple">nových zpráv na Reddit</string>
     <string name="notification_message_action">Touch zobrazíte</string>
 
@@ -450,8 +450,11 @@
     <string name="subtitle_points">bodů</string>
     <string name="subtitle_by">od</string>
     <string name="subtitle_to">pro</string>
-    <string name="subtitle_replies">odpovědi</string>
-    <string name="subtitle_reply">odpověď</string>
+	<plurals name="subtitle_replies"> 
+		<item quantity="zero">…</item> 
+		<item quantity="one">" (%d odpověď)"</item> 
+		<item quantity="other">" (%d odpovědi)"</item> 
+	</plurals>
 
     <string name="general_unknown">neznámé</string>
 
@@ -568,7 +571,7 @@
 
     <!-- 2014-04-20 -->
 
-    <string name="header_subscriber_count">přihlášení</string>
+    <string name="header_subscriber_count">%s přihlášení</string>
     <string name="header_subscriber_count_unknown">Počet přihlášených je neznámý</string>
 
     <!-- 2014-04-21 -->

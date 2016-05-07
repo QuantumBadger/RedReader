@@ -161,7 +161,7 @@
 
     <!-- General Listing -->
 
-    <string name="listing_cached">Viewing cached copy from</string>
+    <string name="listing_cached">Viewing cached copy from %s</string>
 
     <!-- Accounts Dialog -->
 
@@ -386,8 +386,8 @@
 
     <!-- Notifications -->
 
-    <string name="notification_comment">a répondu à votre commentaire</string>
-    <string name="notification_message">vous a envoyé un message</string>
+    <string name="notification_comment">%s a répondu à votre commentaire</string>
+    <string name="notification_message">%s vous a envoyé un message</string>
     <string name="notification_message_multiple">Nouveau messages à Reddit</string>
     <string name="notification_message_action">Touchez pour voir</string>
 
@@ -453,8 +453,11 @@
     <string name="subtitle_points">points</string>
     <string name="subtitle_by">par</string>
     <string name="subtitle_to">à</string>
-    <string name="subtitle_replies">réponses</string>
-    <string name="subtitle_reply">réponse</string>
+	<plurals name="subtitle_replies"> 
+		<item quantity="zero">…</item> 
+		<item quantity="one">" (%d réponse)"</item> 
+		<item quantity="other">" (%d réponses)"</item> 
+	</plurals>
 
     <string name="general_unknown">inconnu</string>
 

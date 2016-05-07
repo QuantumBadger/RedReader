@@ -161,7 +161,7 @@
 
     <!-- General Listing -->
 
-    <string name="listing_cached">Viewing cached copy from</string>
+    <string name="listing_cached">Viewing cached copy from %s</string>
 
     <!-- Accounts Dialog -->
 
@@ -386,8 +386,8 @@
 
     <!-- Notifications -->
 
-    <string name="notification_comment">replied to you</string>
-    <string name="notification_message">sent you a message</string>
+    <string name="notification_comment">%s replied to you</string>
+    <string name="notification_message">%s sent you a message</string>
     <string name="notification_message_multiple">New messages on reddit</string>
     <string name="notification_message_action">Touch to view</string>
 
@@ -453,8 +453,11 @@
     <string name="subtitle_points">pts</string>
     <string name="subtitle_by">by</string>
     <string name="subtitle_to">to</string>
-    <string name="subtitle_replies">replies</string>
-    <string name="subtitle_reply">reply</string>
+	<plurals name="subtitle_replies">
+		<item quantity="zero">…</item>
+		<item quantity="one">" (%d reply)"</item>
+		<item quantity="other">" (%d replies)"</item>
+	</plurals>
 
     <string name="general_unknown">unknown</string>
 
@@ -571,7 +574,7 @@
 
     <!-- 2014-04-20 -->
 
-    <string name="header_subscriber_count">subscribers</string>
+    <string name="header_subscriber_count">%s subscribers</string>
     <string name="header_subscriber_count_unknown">Subscriber count is unknown</string>
 
     <!-- 2014-04-21 -->
@@ -629,7 +632,7 @@
     <string name="error_title_login_user_denied_permission">Permission Denied</string>
     <string name="error_message_login_user_denied_permission">Permission to access the account was denied. Please try again.</string>
 
-    <string name="error_title_login_unknown_reddit_error">Unknown reddit error: </string>
+    <string name="error_title_login_unknown_reddit_error">Unknown reddit error: %s</string>
 
     <!-- 2015-05-23 -->
     <string name="imageview_invalid_video">Invalid video. Trying internal browser.</string>

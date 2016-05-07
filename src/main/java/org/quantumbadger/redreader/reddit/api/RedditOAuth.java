@@ -265,7 +265,7 @@ public final class RedditOAuth {
 				return new FetchRefreshTokenResult(
 						FetchRefreshTokenResultStatus.INVALID_REQUEST,
 						new RRError(
-								context.getString(R.string.error_title_login_unknown_reddit_error) + error,
+								context.getString(R.string.error_title_login_unknown_reddit_error, error),
 								context.getString(R.string.error_unknown_message)
 						));
 			}

@@ -130,7 +130,7 @@ public final class OptionsMenuUtility {
 			if(postsVisible && commentsVisible) {
 
 				final SubMenu sortMenu = menu.addSubMenu(R.string.options_sort);
-				sortMenu.getItem().setIcon(R.drawable.ic_action_sort);
+				sortMenu.getItem().setIcon(R.drawable.ic_sort_dark);
 				sortMenu.getItem().setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
 				if(postsSortable) {
@@ -456,7 +456,7 @@ public final class OptionsMenuUtility {
 		final SubMenu sortPosts = menu.addSubMenu(R.string.options_sort_posts);
 
 		if(icon) {
-			sortPosts.getItem().setIcon(R.drawable.ic_action_sort);
+			sortPosts.getItem().setIcon(R.drawable.ic_sort_dark);
 			sortPosts.getItem().setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 		}
 
@@ -480,7 +480,7 @@ public final class OptionsMenuUtility {
 		final SubMenu sortPosts = menu.addSubMenu(R.string.options_sort_posts);
 
 		if(icon) {
-			sortPosts.getItem().setIcon(R.drawable.ic_action_sort);
+			sortPosts.getItem().setIcon(R.drawable.ic_sort_dark);
 			sortPosts.getItem().setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 		}
 
@@ -506,7 +506,7 @@ public final class OptionsMenuUtility {
 		final SubMenu sortComments = menu.addSubMenu(R.string.options_sort_comments);
 
 		if(icon) {
-			sortComments.getItem().setIcon(R.drawable.ic_action_sort);
+			sortComments.getItem().setIcon(R.drawable.ic_sort_dark);
 			sortComments.getItem().setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 		}
 

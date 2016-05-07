@@ -87,7 +87,7 @@
         <item name="rrIconSearch">@drawable/ic_action_search_dark</item>
         <item name="rrIconSend">@drawable/ic_action_send_dark</item>
         <item name="rrIconShare">@drawable/ic_action_share_dark</item>
-        <item name="rrIconSort">@drawable/ic_action_sort_dark</item>
+        <item name="rrIconSort">@drawable/ic_sort_dark</item>
         <item name="rrIconStarFilled">@drawable/ic_action_star_filled_dark</item>
         <item name="rrIconThumbDown">@drawable/ic_action_thumb_down_dark</item>
         <item name="rrIconThumbUp">@drawable/ic_action_thumb_up_dark</item>
@@ -175,7 +175,7 @@
         <item name="rrIconSearch">@drawable/ic_action_search_light</item>
         <item name="rrIconSend">@drawable/ic_action_send_light</item>
         <item name="rrIconShare">@drawable/ic_action_share_light</item>
-        <item name="rrIconSort">@drawable/ic_action_sort_light</item>
+        <item name="rrIconSort">@drawable/ic_sort_light</item>
         <item name="rrIconStarFilled">@drawable/ic_action_star_filled_light</item>
         <item name="rrIconThumbDown">@drawable/ic_action_thumb_down_light</item>
         <item name="rrIconThumbUp">@drawable/ic_action_thumb_up_light</item>

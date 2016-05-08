@@ -34,7 +34,6 @@ import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.OAuthLoginActivity;
 import org.quantumbadger.redreader.common.BetterSSB;
-import org.quantumbadger.redreader.viewholders.VH1TextIcon;
 import org.quantumbadger.redreader.viewholders.VH1Text;
 import org.quantumbadger.redreader.viewholders.VH;
 
@@ -62,8 +61,8 @@ public class AccountListAdapter extends HeaderRecyclerAdapter<VH> {
 	@Override
 	protected VH onCreateHeaderItemViewHolder(ViewGroup parent) {
 		View v = LayoutInflater.from(parent.getContext())
-			.inflate(R.layout.list_item_1_text_icon, parent, false);
-		return new VH1TextIcon(v);
+			.inflate(R.layout.list_item_1_text, parent, false);
+		return new VH1Text(v);
 	}
 
 	@Override
@@ -75,9 +74,9 @@ public class AccountListAdapter extends HeaderRecyclerAdapter<VH> {
 
 	@Override
 	protected void onBindHeaderItemViewHolder(VH holder, int position) {
-		final VH1TextIcon vh = (VH1TextIcon) holder;
+		final VH1Text vh = (VH1Text) holder;
 		vh.text.setText(context.getString(R.string.accounts_add));
-		vh.icon.setImageDrawable(rrIconAdd);
+		vh.text.setCompoundDrawablesWithIntrinsicBounds(rrIconAdd, null, null, null);
 		holder.itemView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {

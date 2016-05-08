@@ -6,6 +6,7 @@
 	android:layout_height="wrap_content"
 	android:layout_gravity="center_vertical"
 	android:background="?selectableItemBackground"
+	android:drawablePadding="24dp"
 	android:gravity="center_vertical"
 	android:minHeight="48dp"
 	android:paddingBottom="8dp"

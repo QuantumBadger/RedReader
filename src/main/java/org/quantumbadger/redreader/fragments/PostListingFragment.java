@@ -74,7 +74,6 @@ import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.reddit.url.PostListingURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 import org.quantumbadger.redreader.reddit.url.SubredditPostListURL;
-import org.quantumbadger.redreader.views.CachedHeaderView;
 import org.quantumbadger.redreader.views.LoadingSpinnerView;
 import org.quantumbadger.redreader.views.PostListingHeader;
 import org.quantumbadger.redreader.views.RedditPostView;
@@ -138,11 +137,9 @@ public class PostListingFragment extends RRFragment
 			switch(msg.what) {
 
 				case NOTIF_AGE: {
-					final CachedHeaderView cacheNotif = new CachedHeaderView(
-							getActivity(),
-							getActivity().getString(R.string.listing_cached, RRTime.formatDateTime((Long) msg.obj, getActivity())),
-							null
-					);
+					final TextView cacheNotif = (TextView) LayoutInflater.from(getActivity())
+						.inflate(R.layout.cached_header, mListHeaderNotifications, false);
+					cacheNotif.setText(getActivity().getString(R.string.listing_cached, RRTime.formatDateTime((Long) msg.obj, getActivity())));
 
 					mListHeaderNotifications.addView(cacheNotif);
 					mListHeaderNotifications.requestLayout();

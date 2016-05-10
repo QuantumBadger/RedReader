@@ -95,7 +95,7 @@
         <item name="rrIconFfRight">@drawable/ic_action_ff_right_dark</item>
         <item name="rrIconTick">@drawable/ic_action_tick_dark</item>
         <item name="rrIconGlobe">@drawable/ic_action_globe_dark</item>
-        <item name="rrIconTime">@drawable/ic_action_time_dark</item>
+        <item name="rrIconTime">@drawable/ic_time_dark</item>
         <item name="rrIconForward">@drawable/ic_action_forward_dark</item>
 
     </style>
@@ -183,7 +183,7 @@
         <item name="rrIconFfRight">@drawable/ic_action_ff_right_light</item>
         <item name="rrIconTick">@drawable/ic_action_tick_light</item>
         <item name="rrIconGlobe">@drawable/ic_action_globe_light</item>
-        <item name="rrIconTime">@drawable/ic_action_time_light</item>
+        <item name="rrIconTime">@drawable/ic_time_light</item>
         <item name="rrIconForward">@drawable/ic_action_forward_light</item>
 
     </style>

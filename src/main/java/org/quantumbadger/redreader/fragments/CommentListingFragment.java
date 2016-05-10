@@ -26,9 +26,16 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.TextView;
+
 import com.laurencedawson.activetextview.ActiveTextView;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -36,7 +43,12 @@ import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.activities.CommentReplyActivity;
 import org.quantumbadger.redreader.adapters.CommentListingManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.common.*;
+import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.RRThemeAttributes;
+import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.reddit.CommentListingRequest;
 import org.quantumbadger.redreader.reddit.RedditCommentListItem;
 import org.quantumbadger.redreader.reddit.api.RedditAPICommentAction;
@@ -44,7 +56,6 @@ import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManagerVolati
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.prepared.RedditRenderableComment;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
-import org.quantumbadger.redreader.views.CachedHeaderView;
 import org.quantumbadger.redreader.views.RedditCommentView;
 import org.quantumbadger.redreader.views.RedditPostHeaderView;
 import org.quantumbadger.redreader.views.RedditPostView;
@@ -365,12 +376,10 @@ public class CommentListingFragment extends RRFragment
 			// TODO pref (currently 10 mins)
 			if(mCachedTimestamp != null && RRTime.since(mCachedTimestamp) > 10 * 60 * 1000) {
 
-				final CachedHeaderView cacheNotif = new CachedHeaderView(
-						getActivity(),
-						getActivity().getString(R.string.listing_cached,
-							RRTime.formatDateTime(mCachedTimestamp, getActivity())),
-						null
-				);
+				final TextView cacheNotif = (TextView) LayoutInflater.from(getActivity())
+					.inflate(R.layout.cached_header, null, false);
+				cacheNotif.setText(getActivity().getString(R.string.listing_cached,
+							RRTime.formatDateTime(mCachedTimestamp, getActivity())));
 				mCommentListingManager.addNotification(cacheNotif);
 			}
 		}

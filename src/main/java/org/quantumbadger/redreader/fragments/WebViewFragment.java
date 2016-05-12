@@ -365,11 +365,6 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 	}
 
 	public void clearCache() {
-		webView.clearCache(true);
-		webView.clearHistory();
-		webView.clearFormData();
-
-		final CookieManager cookieManager = CookieManager.getInstance();
-		cookieManager.removeAllCookie();
+		webView.clearBrowser();
 	}
 }

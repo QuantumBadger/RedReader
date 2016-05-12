@@ -1,8 +1,11 @@
 package org.quantumbadger.redreader.views;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.webkit.CookieManager;
+import android.webkit.ValueCallback;
 import android.webkit.WebView;
 
 import org.quantumbadger.redreader.R;
@@ -26,17 +29,17 @@ public class WebViewFixed extends WebView {
 
 	public WebViewFixed(final Context context) {
 		super(context);
-		setProxy(context);
+		setTor(context);
 	}
 
 	public WebViewFixed(final Context context, final AttributeSet attrs, final int defStyle) {
 		super(context, attrs, defStyle);
-		setProxy(context);
+		setTor(context);
 	}
 
 	public WebViewFixed(final Context context, final AttributeSet attrs) {
 		super(context, attrs);
-		setProxy(context);
+		setTor(context);
 	}
 
 	@Override
@@ -48,9 +51,10 @@ public class WebViewFixed extends WebView {
 		}
 	}
 
-	private void setProxy(final Context context) {
+	private void setTor(final Context context) {
 		if(BaseActivity.getTorStatus()) {
 			try {
+				clearBrowser();
 				boolean result = WebkitProxy.setProxy(RedReader.class.getCanonicalName(), context.getApplicationContext(), this, "127.0.0.1", 8118);
 				if(!result) {
 					BugReportActivity.handleGlobalError(context, getResources().getString(R.string.error_tor_setting_failed));
@@ -59,5 +63,12 @@ public class WebViewFixed extends WebView {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public void clearBrowser() {
+		this.clearCache(true);
+		this.clearFormData();
+		this.clearHistory();
+		CookieManager.getInstance().removeAllCookie();
 	}
 }

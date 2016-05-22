@@ -164,7 +164,7 @@ public class NewMessageChecker extends BroadcastReceiver {
 						prefs.edit()
 								.putString(PREFS_SAVED_MESSAGE_ID, messageID)
 								.putLong(PREFS_SAVED_MESSAGE_TIMESTAMP, messageTimestamp)
-								.commit();
+								.apply();
 
 						if(messageCount > 1) {
 							title = context.getString(R.string.notification_message_multiple);

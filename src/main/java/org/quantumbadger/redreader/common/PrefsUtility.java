@@ -573,7 +573,7 @@ public final class PrefsUtility {
 
 		final String result = WritableHashSet.listToEscapedString(list);
 
-		sharedPreferences.edit().putString(context.getString(prefId), result).commit();
+		sharedPreferences.edit().putString(context.getString(prefId), result).apply();
 	}
 
 	private static void pref_subreddits_remove(Context context, SharedPreferences sharedPreferences, String subreddit, int prefId) throws RedditSubreddit.InvalidSubredditNameException {
@@ -592,6 +592,6 @@ public final class PrefsUtility {
 
 		final String resultStr = WritableHashSet.listToEscapedString(result);
 
-		sharedPreferences.edit().putString(context.getString(prefId), resultStr).commit();
+		sharedPreferences.edit().putString(context.getString(prefId), resultStr).apply();
 	}
 }

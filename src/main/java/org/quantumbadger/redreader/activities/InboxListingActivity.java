@@ -368,7 +368,7 @@ public final class InboxListingActivity extends BaseActivity {
 					editor.putBoolean("onlyUnread", false);
 					onlyUnread = false;
 				}
-				editor.commit();
+				editor.apply();
 				makeFirstRequest(this);
 				return true;
 			case android.R.id.home:

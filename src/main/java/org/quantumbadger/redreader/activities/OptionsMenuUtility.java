@@ -275,7 +275,7 @@ public final class OptionsMenuUtility {
 							public void onClick(DialogInterface dialog, int item) {
 								final SharedPreferences.Editor editor = prefs.edit();
 								editor.putString(activity.getString(R.string.pref_appearance_theme_key), themeValues[item]);
-								editor.commit();
+								editor.apply();
 								dialog.dismiss();
 							}
 						});

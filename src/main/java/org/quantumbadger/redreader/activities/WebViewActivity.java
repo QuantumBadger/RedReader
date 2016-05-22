@@ -54,7 +54,7 @@ public class WebViewActivity extends BaseActivity implements RedditPostView.Post
 
 		final Intent intent = getIntent();
 
-        String url = intent.getStringExtra("url");
+		String url = intent.getStringExtra("url");
 		mPost = intent.getParcelableExtra("post");
 
 		if(url == null) {

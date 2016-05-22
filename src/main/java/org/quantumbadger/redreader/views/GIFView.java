@@ -29,7 +29,7 @@ public final class GIFView extends View {
 			setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 		}
 
-        final byte[] data = streamToBytes(is); // workaround for strange Android bug
+		final byte[] data = streamToBytes(is); // workaround for strange Android bug
 		mMovie = Movie.decodeByteArray(data, 0, data.length);
 
 		if(mMovie.duration() < 1) {

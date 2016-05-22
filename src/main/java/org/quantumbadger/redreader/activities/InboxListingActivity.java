@@ -70,7 +70,7 @@ public final class InboxListingActivity extends BaseActivity {
 	private static final int OPTIONS_MENU_SHOW_UNREAD_ONLY = 1;
 
 	private InboxListingAdapter adapter;
-    private SharedPreferences.Editor editor;
+	private SharedPreferences.Editor editor;
 
 	private LoadingView loadingView;
 	private LinearLayout notifications;
@@ -98,7 +98,7 @@ public final class InboxListingActivity extends BaseActivity {
 		final RRThemeAttributes theme = new RRThemeAttributes(this);
 
 		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        editor = sharedPreferences.edit();
+		editor = sharedPreferences.edit();
 		final boolean solidblack = PrefsUtility.appearance_solidblack(this, sharedPreferences)
 				&& PrefsUtility.appearance_theme(this, sharedPreferences) == PrefsUtility.AppearanceTheme.NIGHT;
 
@@ -369,7 +369,7 @@ public final class InboxListingActivity extends BaseActivity {
 					onlyUnread = false;
 				}
 				editor.commit();
-                makeFirstRequest(this);
+				makeFirstRequest(this);
 				return true;
 			case android.R.id.home:
 				finish();

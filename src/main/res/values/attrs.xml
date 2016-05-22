@@ -69,13 +69,12 @@
     <attr name="rrIconInfo" format="reference" />
     <attr name="rrIconRefresh" format="reference" />
     <attr name="rrIconReply" format="reference" />
-    <attr name="rrIconSearch" format="reference" />
     <attr name="rrIconSend" format="reference" />
     <attr name="rrIconShare" format="reference" />
     <attr name="rrIconSort" format="reference" />
     <attr name="rrIconStarFilled" format="reference" />
-    <attr name="rrIconThumbDown" format="reference" />
-    <attr name="rrIconThumbUp" format="reference" />
+    <attr name="rrIconDownvote" format="reference" />
+    <attr name="rrIconUpvote" format="reference" />
     <attr name="rrIconFfLeft" format="reference" />
     <attr name="rrIconFfRight" format="reference" />
     <attr name="rrIconTick" format="reference" />

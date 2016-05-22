@@ -41,6 +41,8 @@
                  android:hardwareAccelerated="true"
                  android:allowBackup="true">
 
+		<meta-data android:name="com.lge.support.SPLIT_WINDOW" android:value="true" />
+
         <activity android:name=".activities.MainActivity"
                   android:configChanges="orientation|screenSize|keyboardHidden"
                   android:clearTaskOnLaunch="false"

@@ -247,7 +247,7 @@ public final class PrefsUtility {
 	public static int pref_behaviour_bezel_toolbar_swipezone_dp(final Context context, final SharedPreferences sharedPreferences) {
 		try {
 			return Integer.parseInt(getString(R.string.pref_behaviour_bezel_toolbar_swipezone_key, "10", context, sharedPreferences));
-		} catch(Throwable _) {
+		} catch(Throwable e) {
 			return 10;
 		}
 	}
@@ -255,7 +255,7 @@ public final class PrefsUtility {
 	public static int pref_behaviour_gallery_swipe_length_dp(final Context context, final SharedPreferences sharedPreferences) {
 		try {
 			return Integer.parseInt(getString(R.string.pref_behaviour_gallery_swipe_length_key, "150", context, sharedPreferences));
-		} catch(Throwable _) {
+		} catch(Throwable e) {
 			return 150;
 		}
 	}
@@ -271,7 +271,7 @@ public final class PrefsUtility {
 
 		try {
 			return Integer.parseInt(value);
-		} catch(Throwable _) {
+		} catch(Throwable e) {
 			return defaultValue;
 		}
 	}

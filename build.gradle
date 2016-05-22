@@ -55,6 +55,9 @@ android {
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
+
+        // Translations are crowd-sourced
+        disable 'MissingTranslation'
     }
 
     packagingOptions {

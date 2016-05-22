@@ -627,7 +627,7 @@ public class PostListingFragment extends RRFragment
 				final boolean precacheComments = (commentPrecachePref == PrefsUtility.CachePrecacheComments.ALWAYS
 						|| (commentPrecachePref == PrefsUtility.CachePrecacheComments.WIFIONLY && isConnectionWifi));
 
-                final boolean isAll =
+				final boolean isAll =
 						mPostListingURL.pathType() == RedditURLParser.SUBREDDIT_POST_LISTING_URL
 						&& (mPostListingURL.asSubredditPostListURL().type == SubredditPostListURL.Type.ALL
 								|| mPostListingURL.asSubredditPostListURL().type == SubredditPostListURL.Type.ALL_SUBTRACTION);
@@ -656,7 +656,7 @@ public class PostListingFragment extends RRFragment
 
 					mAfter = post.name;
 
-                    Boolean isPostBlocked = getIsPostBlocked(isAll, blockedSubreddits, post);
+					Boolean isPostBlocked = getIsPostBlocked(isAll, blockedSubreddits, post);
 
 					if(!isPostBlocked && (!post.over_18 || isNsfwAllowed)) {
 
@@ -784,18 +784,18 @@ public class PostListingFragment extends RRFragment
 				notifyFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "Parse failure");
 			}
 		}
-    }
+	}
 
-    private Boolean getIsPostBlocked(boolean isAll, List<String> blockedSubreddits, RedditPost post) throws RedditSubreddit.InvalidSubredditNameException {
-        Boolean isPostBlocked = false;
+	private Boolean getIsPostBlocked(boolean isAll, List<String> blockedSubreddits, RedditPost post) throws RedditSubreddit.InvalidSubredditNameException {
+		Boolean isPostBlocked = false;
 
-        if (isAll) {
-            for (String blockedSubredditName : blockedSubreddits) {
-                if (blockedSubredditName.equalsIgnoreCase(RedditSubreddit.getCanonicalName(post.subreddit))) {
-                    isPostBlocked = true;
-                }
-            }
-        }
-        return isPostBlocked;
-    }
+		if (isAll) {
+			for (String blockedSubredditName : blockedSubreddits) {
+				if (blockedSubredditName.equalsIgnoreCase(RedditSubreddit.getCanonicalName(post.subreddit))) {
+					isPostBlocked = true;
+				}
+			}
+		}
+		return isPostBlocked;
+	}
 }

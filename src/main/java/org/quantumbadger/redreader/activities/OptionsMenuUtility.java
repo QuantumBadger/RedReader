@@ -104,13 +104,13 @@ public final class OptionsMenuUtility {
 				}
 			}
 
-            if (subredditBlocked != null && optionsMenuItemsPrefs.contains(OptionsMenuItemsPref.BLOCK)) {
-                if(subredditBlocked) {
-                    add(activity, menu, Option.UNBLOCK, false);
-                } else {
-                    add(activity, menu, Option.BLOCK, false);
-                }
-            }
+			if (subredditBlocked != null && optionsMenuItemsPrefs.contains(OptionsMenuItemsPref.BLOCK)) {
+				if(subredditBlocked) {
+					add(activity, menu, Option.UNBLOCK, false);
+				} else {
+					add(activity, menu, Option.BLOCK, false);
+				}
+			}
 
 			if(subredditSubscriptionState != null) {
 				addSubscriptionItem(activity, menu, subredditSubscriptionState);
@@ -275,7 +275,7 @@ public final class OptionsMenuUtility {
 							public void onClick(DialogInterface dialog, int item) {
 								final SharedPreferences.Editor editor = prefs.edit();
 								editor.putString(activity.getString(R.string.pref_appearance_theme_key), themeValues[item]);
-								editor.commit();
+								editor.apply();
 								dialog.dismiss();
 							}
 						});
@@ -318,22 +318,22 @@ public final class OptionsMenuUtility {
 			case SUBMIT_POST:
 				menu.add(activity.getString(R.string.options_submit_post))
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                            public boolean onMenuItemClick(final MenuItem item) {
-                                ((OptionsMenuPostsListener) activity).onSubmitPost();
-                                return true;
-                            }
-                        });
+							public boolean onMenuItemClick(final MenuItem item) {
+								((OptionsMenuPostsListener) activity).onSubmitPost();
+								return true;
+							}
+						});
 
 				break;
 
 			case SEARCH:
 				menu.add(activity.getString(R.string.action_search))
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                            public boolean onMenuItemClick(final MenuItem item) {
-                                ((OptionsMenuPostsListener) activity).onSearchPosts();
-                                return true;
-                            }
-                        });
+							public boolean onMenuItemClick(final MenuItem item) {
+								((OptionsMenuPostsListener) activity).onSearchPosts();
+								return true;
+							}
+						});
 
 				break;
 
@@ -364,11 +364,11 @@ public final class OptionsMenuUtility {
 			case PAST_COMMENTS:
 				menu.add(activity.getString(longText ? R.string.options_past_comments : R.string.options_past))
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                            public boolean onMenuItemClick(final MenuItem item) {
-                                ((OptionsMenuCommentsListener) activity).onPastComments();
-                                return true;
-                            }
-                        });
+							public boolean onMenuItemClick(final MenuItem item) {
+								((OptionsMenuCommentsListener) activity).onPastComments();
+								return true;
+							}
+						});
 				break;
 
 			case SUBSCRIBE:
@@ -384,12 +384,12 @@ public final class OptionsMenuUtility {
 			case UNSUBSCRIBE:
 				menu.add(activity.getString(R.string.options_unsubscribe))
 					.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                        public boolean onMenuItemClick(final MenuItem item) {
-                            ((OptionsMenuPostsListener) activity).onUnsubscribe();
-                            return true;
-                        }
-                    });
-                break;
+						public boolean onMenuItemClick(final MenuItem item) {
+							((OptionsMenuPostsListener) activity).onUnsubscribe();
+							return true;
+						}
+					});
+				break;
 
 			case UNSUBSCRIBING:
 				menu.add(activity.getString(R.string.options_unsubscribing)).setEnabled(false);
@@ -401,20 +401,20 @@ public final class OptionsMenuUtility {
 
 			case SIDEBAR:
 				menu.add(activity.getString(R.string.options_sidebar)).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(final MenuItem item) {
-                        ((OptionsMenuPostsListener) activity).onSidebar();
-                        return true;
-                    }
-                });
+					public boolean onMenuItemClick(final MenuItem item) {
+						((OptionsMenuPostsListener) activity).onSidebar();
+						return true;
+					}
+				});
 				break;
 
 			case PIN:
 				menu.add(activity.getString(R.string.pin_subreddit)).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(final MenuItem item) {
-                        ((OptionsMenuPostsListener) activity).onPin();
-                        return true;
-                    }
-                });
+					public boolean onMenuItemClick(final MenuItem item) {
+						((OptionsMenuPostsListener) activity).onPin();
+						return true;
+					}
+				});
 				break;
 
 			case UNPIN:
@@ -426,25 +426,25 @@ public final class OptionsMenuUtility {
 				});
 				break;
 
-            case BLOCK:
-                menu.add(activity.getString(R.string.block_subreddit)).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(final MenuItem item) {
-                        ((OptionsMenuPostsListener)activity).onBlock();
-                        return true;
-                    }
-                });
+			case BLOCK:
+				menu.add(activity.getString(R.string.block_subreddit)).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+					public boolean onMenuItemClick(final MenuItem item) {
+						((OptionsMenuPostsListener)activity).onBlock();
+						return true;
+					}
+				});
 
-                break;
+				break;
 
-            case UNBLOCK:
-                menu.add(activity.getString(R.string.unblock_subreddit)).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(final MenuItem item) {
-                        ((OptionsMenuPostsListener)activity).onUnblock();
-                        return true;
-                    }
-                });
+			case UNBLOCK:
+				menu.add(activity.getString(R.string.unblock_subreddit)).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+					public boolean onMenuItemClick(final MenuItem item) {
+						((OptionsMenuPostsListener)activity).onUnblock();
+						return true;
+					}
+				});
 
-                break;
+				break;
 
 			default:
 				BugReportActivity.handleGlobalError(activity, "Unknown menu option added");

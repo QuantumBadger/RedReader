@@ -74,7 +74,7 @@ public class PostListingActivity extends RefreshableActivity
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        getWindow().setBackgroundDrawable(new ColorDrawable(obtainStyledAttributes(new int[] {R.attr.rrListBackgroundCol}).getColor(0,0)));
+		getWindow().setBackgroundDrawable(new ColorDrawable(obtainStyledAttributes(new int[] {R.attr.rrListBackgroundCol}).getColor(0,0)));
 
 		RedditAccountManager.getInstance(this).addUpdateListener(this);
 
@@ -388,7 +388,7 @@ public class PostListingActivity extends RefreshableActivity
 		switch(item.getItemId()) {
 			case android.R.id.home:
 				finish();
-                return true;
+				return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}

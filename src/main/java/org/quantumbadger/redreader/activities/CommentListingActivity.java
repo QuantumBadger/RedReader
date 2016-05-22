@@ -61,7 +61,7 @@ public class CommentListingActivity extends RefreshableActivity
 
 	public void onCreate(final Bundle savedInstanceState) {
 
-        PrefsUtility.applyTheme(this);
+		PrefsUtility.applyTheme(this);
 
 		super.onCreate(savedInstanceState);
 
@@ -84,7 +84,7 @@ public class CommentListingActivity extends RefreshableActivity
 			final Intent intent = getIntent();
 
 			final String url = intent.getDataString();
-            controller = new CommentListingController(RedditURLParser.parseProbableCommentListing(Uri.parse(url)), this);
+			controller = new CommentListingController(RedditURLParser.parseProbableCommentListing(Uri.parse(url)), this);
 
 			Bundle fragmentSavedInstanceState = null;
 
@@ -179,8 +179,8 @@ public class CommentListingActivity extends RefreshableActivity
 
 		switch(item.getItemId()) {
 			case android.R.id.home:
-                finish();
-                return true;
+				finish();
+				return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}

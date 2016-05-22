@@ -240,14 +240,14 @@ public final class PrefsUtility {
 		return getBoolean(R.string.pref_behaviour_useinternalbrowser_key, true, context, sharedPreferences);
 	}
 
-    public static boolean pref_behaviour_notifications(final Context context, final SharedPreferences sharedPreferences) {
-        return getBoolean(R.string.pref_behaviour_notifications_key, true, context, sharedPreferences);
-    }
+	public static boolean pref_behaviour_notifications(final Context context, final SharedPreferences sharedPreferences) {
+		return getBoolean(R.string.pref_behaviour_notifications_key, true, context, sharedPreferences);
+	}
 
 	public static int pref_behaviour_bezel_toolbar_swipezone_dp(final Context context, final SharedPreferences sharedPreferences) {
 		try {
 			return Integer.parseInt(getString(R.string.pref_behaviour_bezel_toolbar_swipezone_key, "10", context, sharedPreferences));
-		} catch(Throwable _) {
+		} catch(Throwable e) {
 			return 10;
 		}
 	}
@@ -255,7 +255,7 @@ public final class PrefsUtility {
 	public static int pref_behaviour_gallery_swipe_length_dp(final Context context, final SharedPreferences sharedPreferences) {
 		try {
 			return Integer.parseInt(getString(R.string.pref_behaviour_gallery_swipe_length_key, "150", context, sharedPreferences));
-		} catch(Throwable _) {
+		} catch(Throwable e) {
 			return 150;
 		}
 	}
@@ -271,7 +271,7 @@ public final class PrefsUtility {
 
 		try {
 			return Integer.parseInt(value);
-		} catch(Throwable _) {
+		} catch(Throwable e) {
 			return defaultValue;
 		}
 	}
@@ -573,7 +573,7 @@ public final class PrefsUtility {
 
 		final String result = WritableHashSet.listToEscapedString(list);
 
-		sharedPreferences.edit().putString(context.getString(prefId), result).commit();
+		sharedPreferences.edit().putString(context.getString(prefId), result).apply();
 	}
 
 	private static void pref_subreddits_remove(Context context, SharedPreferences sharedPreferences, String subreddit, int prefId) throws RedditSubreddit.InvalidSubredditNameException {
@@ -592,6 +592,6 @@ public final class PrefsUtility {
 
 		final String resultStr = WritableHashSet.listToEscapedString(result);
 
-		sharedPreferences.edit().putString(context.getString(prefId), resultStr).commit();
+		sharedPreferences.edit().putString(context.getString(prefId), resultStr).apply();
 	}
 }

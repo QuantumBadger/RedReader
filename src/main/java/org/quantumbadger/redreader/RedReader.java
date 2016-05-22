@@ -78,8 +78,8 @@ public class RedReader extends Application {
 			}
 		}.start();
 
-        Alarms.onBoot(this);
+		Alarms.onBoot(this);
 
 		NewMessageChecker.checkForNewMessages(this);
-    }
+	}
 }

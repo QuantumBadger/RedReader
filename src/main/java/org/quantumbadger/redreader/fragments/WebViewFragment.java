@@ -52,8 +52,8 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 	private AppCompatActivity mActivity;
 
 	private String url, html;
-    private volatile String currentUrl;
-    private volatile boolean goingBack;
+	private volatile String currentUrl;
+	private volatile boolean goingBack;
 	private volatile int lastBackDepthAttempt;
 
 	private WebViewFixed webView;
@@ -320,7 +320,7 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 	public boolean onBackButtonPressed() {
 
 		if(webView.canGoBack()) {
-            goingBack = true;
+			goingBack = true;
 			lastBackDepthAttempt = -1;
 			webView.goBack();
 			return true;
@@ -337,9 +337,9 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 		((RedditPostView.PostSelectionListener)mActivity).onPostCommentsSelected(post);
 	}
 
-    public String getCurrentUrl() {
-        return (currentUrl != null) ? currentUrl : url;
-    }
+	public String getCurrentUrl() {
+		return (currentUrl != null) ? currentUrl : url;
+	}
 
 	@Override
 	@SuppressLint("NewApi")

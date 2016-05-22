@@ -145,7 +145,7 @@ public class MainActivity extends RefreshableActivity
 
 			final SharedPreferences.Editor edit = sharedPreferences.edit();
 			edit.putString("firstRunMessageShown", "true");
-			edit.commit();
+			edit.apply();
 
 		} else if(sharedPreferences.contains("lastVersion")) {
 
@@ -171,7 +171,7 @@ public class MainActivity extends RefreshableActivity
 
 				General.quickToast(this, "Updated to version " + pInfo.versionName);
 
-				sharedPreferences.edit().putInt("lastVersion", appVersion).commit();
+				sharedPreferences.edit().putInt("lastVersion", appVersion).apply();
 				ChangelogDialog.newInstance().show(getSupportFragmentManager(), null);
 
 				if(lastVersion <= 51) {
@@ -189,7 +189,7 @@ public class MainActivity extends RefreshableActivity
 					sharedPreferences.edit().putStringSet(
 							getString(R.string.pref_appearance_comment_header_items_key),
 							existingCommentHeaderItems
-					).commit();
+					).apply();
 
 					new Thread() {
 						@Override
@@ -201,7 +201,7 @@ public class MainActivity extends RefreshableActivity
 			}
 
 		} else {
-			sharedPreferences.edit().putInt("lastVersion", appVersion).commit();
+			sharedPreferences.edit().putInt("lastVersion", appVersion).apply();
 			ChangelogDialog.newInstance().show(getSupportFragmentManager(), null);
 		}
 

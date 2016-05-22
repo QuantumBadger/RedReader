@@ -73,7 +73,7 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 
 	public void onCreate(final Bundle savedInstanceState) {
 
-        PrefsUtility.applyTheme(this);
+		PrefsUtility.applyTheme(this);
 
 		super.onCreate(savedInstanceState);
 
@@ -171,8 +171,8 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 
 		switch(item.getItemId()) {
 			case android.R.id.home:
-                finish();
-                return true;
+				finish();
+				return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}

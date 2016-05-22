@@ -41,7 +41,7 @@ public class HtmlViewActivity extends BaseActivity {
 
 		final Intent intent = getIntent();
 
-        final String html = intent.getStringExtra("html");
+		final String html = intent.getStringExtra("html");
 		final String title = intent.getStringExtra("title");
 		setTitle(title);
 

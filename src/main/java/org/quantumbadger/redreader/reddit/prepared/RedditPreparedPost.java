@@ -289,7 +289,7 @@ public final class RedditPreparedPost {
 
 			case EXTERNAL: {
 				final Intent intent = new Intent(Intent.ACTION_VIEW);
-                String url = (activity instanceof WebViewActivity) ? ((WebViewActivity) activity).getCurrentUrl() : post.src.getUrl();
+				String url = (activity instanceof WebViewActivity) ? ((WebViewActivity) activity).getCurrentUrl() : post.src.getUrl();
 				intent.setData(Uri.parse(url));
 				activity.startActivity(intent);
 				break;

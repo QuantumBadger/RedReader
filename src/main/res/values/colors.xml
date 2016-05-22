@@ -21,7 +21,4 @@
     <color name="lightWindowBackground">#FBFBFB</color>
     <color name="darkWindowBackground">#000000</color>
 
-    <color name="white_selector">#88FFFFFF</color>
-    <color name="rr_transparent">#00000000</color>
-
 </resources>

@@ -22,13 +22,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.UnderlineSpan;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.laurencedawson.activetextview.ActiveTextView;
+
+import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.views.LinkDetailsView;
 
 public final class MarkdownParagraphGroup {
 
@@ -180,7 +183,9 @@ public final class MarkdownParagraphGroup {
 			if(showLinkButtons) {
 				for(final MarkdownParagraph.Link link : paragraph.links) {
 
-					final LinkDetailsView ldv = new LinkDetailsView(activity, link.title, link.subtitle);
+					final View ldv = LayoutInflater.from(activity).inflate(R.layout.link_details, layout, false);
+					((TextView) ldv.findViewById(R.id.title)).setText(link.title);
+					((TextView) ldv.findViewById(R.id.subtitle)).setText(link.subtitle);
 					layout.addView(ldv);
 
 					final int linkMarginPx = Math.round(dpScale * 8);

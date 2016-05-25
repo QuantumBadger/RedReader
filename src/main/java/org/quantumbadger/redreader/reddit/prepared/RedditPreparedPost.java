@@ -972,7 +972,7 @@ public final class RedditPreparedPost {
 		final EnumMap<Action, Integer> iconsDark = new EnumMap<>(Action.class);
 		iconsDark.put(Action.ACTION_MENU, R.drawable.ic_action_overflow);
 		iconsDark.put(Action.COMMENTS_SWITCH, R.drawable.ic_action_comments_dark);
-		iconsDark.put(Action.LINK_SWITCH, mIsProbablyAnImage ? R.drawable.ic_action_image_dark : R.drawable.ic_action_globe_dark);
+		iconsDark.put(Action.LINK_SWITCH, mIsProbablyAnImage ? R.drawable.ic_action_image_dark : R.drawable.ic_action_link_dark);
 		iconsDark.put(Action.UPVOTE, R.drawable.action_upvote_dark);
 		iconsDark.put(Action.DOWNVOTE, R.drawable.action_downvote_dark);
 		iconsDark.put(Action.SAVE, R.drawable.ic_action_star_filled_dark);
@@ -988,7 +988,7 @@ public final class RedditPreparedPost {
 		final EnumMap<Action, Integer> iconsLight = new EnumMap<>(Action.class);
 		iconsLight.put(Action.ACTION_MENU, R.drawable.ic_action_overflow);
 		iconsLight.put(Action.COMMENTS_SWITCH, R.drawable.ic_action_comments_light);
-		iconsLight.put(Action.LINK_SWITCH, mIsProbablyAnImage ? R.drawable.ic_action_image_light : R.drawable.ic_action_globe_light);
+		iconsLight.put(Action.LINK_SWITCH, mIsProbablyAnImage ? R.drawable.ic_action_image_light : R.drawable.ic_action_link_light);
 		iconsLight.put(Action.UPVOTE, R.drawable.action_upvote_light);
 		iconsLight.put(Action.DOWNVOTE, R.drawable.action_downvote_light);
 		iconsLight.put(Action.SAVE, R.drawable.ic_action_star_filled_light);

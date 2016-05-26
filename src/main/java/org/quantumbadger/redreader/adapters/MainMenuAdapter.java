@@ -53,7 +53,7 @@ public class MainMenuAdapter extends BaseAdapter {
 	private final RedditAccount user;
 	private final MainMenuSelectionListener selectionListener;
 
-	private final Drawable rrIconPerson, rrIconEnvOpen, rrIconSend, rrIconStarFilled, rrIconCross, rrIconThumbUp, rrIconThumbDown;
+	private final Drawable rrIconPerson, rrIconEnvOpen, rrIconSend, rrIconStarFilled, rrIconCross, rrIconUpvote, rrIconDownvote;
 
 	private final Context context;
 
@@ -69,8 +69,8 @@ public class MainMenuAdapter extends BaseAdapter {
 				R.attr.rrIconSend,
 				R.attr.rrIconStarFilled,
 				R.attr.rrIconCross,
-				R.attr.rrIconThumbUp,
-				R.attr.rrIconThumbDown
+				R.attr.rrIconUpvote,
+				R.attr.rrIconDownvote
 		});
 
 		rrIconPerson = ContextCompat.getDrawable(context, attr.getResourceId(0, 0));
@@ -78,8 +78,8 @@ public class MainMenuAdapter extends BaseAdapter {
 		rrIconSend = ContextCompat.getDrawable(context, attr.getResourceId(2, 0));
 		rrIconStarFilled = ContextCompat.getDrawable(context, attr.getResourceId(3, 0));
 		rrIconCross = ContextCompat.getDrawable(context, attr.getResourceId(4, 0));
-		rrIconThumbUp = ContextCompat.getDrawable(context, attr.getResourceId(5, 0));
-		rrIconThumbDown = ContextCompat.getDrawable(context, attr.getResourceId(6, 0));
+		rrIconUpvote = ContextCompat.getDrawable(context, attr.getResourceId(5, 0));
+		rrIconDownvote = ContextCompat.getDrawable(context, attr.getResourceId(6, 0));
 
 		attr.recycle();
 
@@ -181,10 +181,10 @@ public class MainMenuAdapter extends BaseAdapter {
 				mainItems.add(makeItem(context.getString(R.string.mainmenu_hidden), MainMenuFragment.MENU_MENU_ACTION_HIDDEN, null, rrIconCross));
 
 			if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.UPVOTED))
-				mainItems.add(makeItem(context.getString(R.string.mainmenu_upvoted), MainMenuFragment.MENU_MENU_ACTION_UPVOTED, null, rrIconThumbUp));
+				mainItems.add(makeItem(context.getString(R.string.mainmenu_upvoted), MainMenuFragment.MENU_MENU_ACTION_UPVOTED, null, rrIconUpvote));
 
 			if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.DOWNVOTED))
-				mainItems.add(makeItem(context.getString(R.string.mainmenu_downvoted), MainMenuFragment.MENU_MENU_ACTION_DOWNVOTED, null, rrIconThumbDown));
+				mainItems.add(makeItem(context.getString(R.string.mainmenu_downvoted), MainMenuFragment.MENU_MENU_ACTION_DOWNVOTED, null, rrIconDownvote));
 
 			if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.MODMAIL))
 				mainItems.add(makeItem(context.getString(R.string.mainmenu_modmail), MainMenuFragment.MENU_MENU_ACTION_MODMAIL, null, rrIconEnvOpen));

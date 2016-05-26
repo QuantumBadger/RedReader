@@ -47,7 +47,7 @@ public class LinkDetailsView extends FrameLayout {
 
 		layout.setGravity(Gravity.CENTER_VERTICAL);
 
-		final TypedArray appearance = context.obtainStyledAttributes(new int[]{R.attr.rrIconGlobe});
+		final TypedArray appearance = context.obtainStyledAttributes(new int[]{R.attr.rrIconLink });
 		final ImageView globe = new ImageView(context);
 		globe.setImageDrawable(appearance.getDrawable(0));
 		appearance.recycle();

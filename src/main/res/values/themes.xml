@@ -84,17 +84,16 @@
         <item name="rrIconInfo">@drawable/ic_action_info_dark</item>
         <item name="rrIconRefresh">@drawable/ic_refresh_dark</item>
         <item name="rrIconReply">@drawable/ic_action_reply_dark</item>
-        <item name="rrIconSearch">@drawable/ic_action_search_dark</item>
         <item name="rrIconSend">@drawable/ic_action_send_dark</item>
         <item name="rrIconShare">@drawable/ic_action_share_dark</item>
         <item name="rrIconSort">@drawable/ic_sort_dark</item>
         <item name="rrIconStarFilled">@drawable/ic_action_star_filled_dark</item>
-        <item name="rrIconThumbDown">@drawable/ic_action_thumb_down_dark</item>
-        <item name="rrIconThumbUp">@drawable/ic_action_thumb_up_dark</item>
+        <item name="rrIconDownvote">@drawable/action_downvote_dark</item>
+        <item name="rrIconUpvote">@drawable/action_upvote_dark</item>
         <item name="rrIconFfLeft">@drawable/ic_action_ff_left_dark</item>
         <item name="rrIconFfRight">@drawable/ic_action_ff_right_dark</item>
         <item name="rrIconTick">@drawable/ic_action_tick_dark</item>
-        <item name="rrIconGlobe">@drawable/ic_action_globe_dark</item>
+        <item name="rrIconLink">@drawable/ic_action_link_dark</item>
         <item name="rrIconTime">@drawable/ic_time_dark</item>
         <item name="rrIconForward">@drawable/ic_action_forward_dark</item>
 
@@ -172,17 +171,16 @@
         <item name="rrIconInfo">@drawable/ic_action_info_light</item>
         <item name="rrIconRefresh">@drawable/ic_refresh_light</item>
         <item name="rrIconReply">@drawable/ic_action_reply_light</item>
-        <item name="rrIconSearch">@drawable/ic_action_search_light</item>
         <item name="rrIconSend">@drawable/ic_action_send_light</item>
         <item name="rrIconShare">@drawable/ic_action_share_light</item>
         <item name="rrIconSort">@drawable/ic_sort_light</item>
         <item name="rrIconStarFilled">@drawable/ic_action_star_filled_light</item>
-        <item name="rrIconThumbDown">@drawable/ic_action_thumb_down_light</item>
-        <item name="rrIconThumbUp">@drawable/ic_action_thumb_up_light</item>
+        <item name="rrIconDownvote">@drawable/action_downvote_light</item>
+        <item name="rrIconUpvote">@drawable/action_upvote_light</item>
         <item name="rrIconFfLeft">@drawable/ic_action_ff_left_light</item>
         <item name="rrIconFfRight">@drawable/ic_action_ff_right_light</item>
         <item name="rrIconTick">@drawable/ic_action_tick_light</item>
-        <item name="rrIconGlobe">@drawable/ic_action_globe_light</item>
+        <item name="rrIconLink">@drawable/ic_action_link_light</item>
         <item name="rrIconTime">@drawable/ic_time_light</item>
         <item name="rrIconForward">@drawable/ic_action_forward_light</item>
 

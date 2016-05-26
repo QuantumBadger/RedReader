@@ -117,6 +117,8 @@
                        android:scaleType="fitCenter"
                        android:layout_marginLeft="8dp"
                        android:layout_marginRight="8dp"
+					   android:layout_marginTop="4dp"
+					   android:layout_marginBottom="2dp"
                        android:contentDescription="Comments"/> <!-- TODO string -->
 
             <TextView android:id="@+id/reddit_post_comments_text"

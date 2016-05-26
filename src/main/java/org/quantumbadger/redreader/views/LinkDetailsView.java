@@ -43,16 +43,16 @@ public class LinkDetailsView extends FrameLayout {
 		final LinearLayout layout = new LinearLayout(context);
 		layout.setOrientation(LinearLayout.HORIZONTAL);
 		addView(layout);
-		final int marginPx = General.dpToPixels(context, 8);
+		final int marginPx = General.dpToPixels(context, 10);
 
 		layout.setGravity(Gravity.CENTER_VERTICAL);
 
 		final TypedArray appearance = context.obtainStyledAttributes(new int[]{R.attr.rrIconLink });
-		final ImageView globe = new ImageView(context);
-		globe.setImageDrawable(appearance.getDrawable(0));
+		final ImageView icon = new ImageView(context);
+		icon.setImageDrawable(appearance.getDrawable(0));
 		appearance.recycle();
-		layout.addView(globe);
-		((LinearLayout.LayoutParams)globe.getLayoutParams()).setMargins(marginPx, marginPx, marginPx, marginPx);
+		layout.addView(icon);
+		((LinearLayout.LayoutParams)icon.getLayoutParams()).setMargins(marginPx, marginPx, marginPx, marginPx);
 
 		final LinearLayout textLayout = new LinearLayout(context);
 		textLayout.setOrientation(LinearLayout.VERTICAL);

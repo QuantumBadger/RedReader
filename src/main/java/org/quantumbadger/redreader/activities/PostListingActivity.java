@@ -268,6 +268,7 @@ public class PostListingActivity extends RefreshableActivity
 		alertBuilder.setTitle(R.string.action_search);
 
 		alertBuilder.setPositiveButton(R.string.action_search, new DialogInterface.OnClickListener() {
+			@Override
 			public void onClick(DialogInterface dialog, int which) {
 
 				final String query = editText.getText().toString().toLowerCase().trim();

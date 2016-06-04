@@ -131,6 +131,7 @@ public class UserProfileDialog extends PropertiesDialog {
 						final Button commentsButton = new Button(context);
 						commentsButton.setText(R.string.userprofile_viewcomments);
 						commentsButton.setOnClickListener(new View.OnClickListener() {
+							@Override
 							public void onClick(View v) {
 								LinkHandler.onLinkClicked(context, Constants.Reddit.getUri("/user/" + username + "/comments.json").toString(), false);
 							}
@@ -143,6 +144,7 @@ public class UserProfileDialog extends PropertiesDialog {
 						final Button postsButton = new Button(context);
 						postsButton.setText(R.string.userprofile_viewposts);
 						postsButton.setOnClickListener(new View.OnClickListener() {
+							@Override
 							public void onClick(View v) {
 								LinkHandler.onLinkClicked(context, UserPostListingURL.getSubmitted(username).generateJsonUri().toString(), false);
 							}

@@ -216,6 +216,7 @@ public class MainMenuAdapter extends BaseAdapter {
 	private MainMenuItem makeItem(final String name, final @MainMenuFragment.MainMenuAction int action, final String actionName, final Drawable icon) {
 
 		final View.OnClickListener clickListener = new View.OnClickListener() {
+			@Override
 			public void onClick(final View view) {
 				selectionListener.onSelected(action, actionName);
 			}
@@ -227,6 +228,7 @@ public class MainMenuAdapter extends BaseAdapter {
 	private MainMenuItem makeSubredditItem(final String name) {
 
 		final View.OnClickListener clickListener = new View.OnClickListener() {
+			@Override
 			public void onClick(final View view) {
 				try {
 					selectionListener.onSelected((PostListingURL) SubredditPostListURL.getSubreddit(RedditSubreddit.getCanonicalName(name)));

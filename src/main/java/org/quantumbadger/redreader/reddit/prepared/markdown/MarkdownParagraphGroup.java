@@ -198,6 +198,7 @@ public final class MarkdownParagraphGroup {
 					ldv.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
 
 					ldv.setOnClickListener(new View.OnClickListener() {
+						@Override
 						public void onClick(View v) {
 							link.onClicked(activity);
 						}

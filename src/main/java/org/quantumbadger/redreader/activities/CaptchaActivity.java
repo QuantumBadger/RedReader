@@ -144,6 +144,7 @@ public class CaptchaActivity extends BaseActivity {
 								((LinearLayout.LayoutParams) submitButton.getLayoutParams()).width = LinearLayout.LayoutParams.WRAP_CONTENT;
 
 								submitButton.setOnClickListener(new View.OnClickListener() {
+									@Override
 									public void onClick(View v) {
 										final Intent result = new Intent();
 										result.putExtra("captchaId", captchaId);

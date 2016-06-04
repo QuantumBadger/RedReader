@@ -246,6 +246,7 @@ public class PostListingFragment extends RRFragment
 			restackRefreshCount();
 			mLoadMoreView = (TextView)LayoutInflater.from(context).inflate(R.layout.load_more_posts, null);
 			mLoadMoreView.setOnClickListener(new View.OnClickListener() {
+				@Override
 				public void onClick(View view) {
 					mListFooterNotifications.removeView(mLoadMoreView);
 					restackRefreshCount();

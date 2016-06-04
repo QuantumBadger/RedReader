@@ -272,6 +272,7 @@ public final class OptionsMenuUtility {
 						dialog.setTitle(R.string.pref_appearance_theme_title);
 
 						dialog.setSingleChoiceItems(themeNames, selectedPos, new DialogInterface.OnClickListener() {
+							@Override
 							public void onClick(DialogInterface dialog, int item) {
 								final SharedPreferences.Editor editor = prefs.edit();
 								editor.putString(activity.getString(R.string.pref_appearance_theme_key), themeValues[item]);

@@ -26,6 +26,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.support.annotation.UiThread;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.View;
@@ -316,7 +317,7 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 		setVisibleView(mainLayout);
 	}
 
-	// Only run in the UI thread
+	@UiThread
 	public void reset(final RedditPreparedPost data) {
 
 		if(data != post) {

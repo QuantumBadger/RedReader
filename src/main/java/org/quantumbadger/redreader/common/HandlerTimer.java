@@ -1,6 +1,7 @@
 package org.quantumbadger.redreader.common;
 
 import android.os.Handler;
+import android.support.annotation.UiThread;
 import android.util.SparseBooleanArray;
 
 public class HandlerTimer {
@@ -26,8 +27,8 @@ public class HandlerTimer {
 		return mNextId;
 	}
 
-	// Must be called from the handler thread
 	// Should never return 0
+	@UiThread
 	public int setTimer(final long delayMs, final Runnable runnable) {
 
 		final int id = getNextId();

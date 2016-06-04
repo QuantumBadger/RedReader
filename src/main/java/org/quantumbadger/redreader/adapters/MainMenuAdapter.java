@@ -22,6 +22,7 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
+import android.support.annotation.UiThread;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -144,7 +145,7 @@ public class MainMenuAdapter extends BaseAdapter {
 		return convertView;
 	}
 
-	// Only run in UI thread
+	@UiThread
 	private void build() {
 
 		//items.add(new MainMenuItem("Reddit"));

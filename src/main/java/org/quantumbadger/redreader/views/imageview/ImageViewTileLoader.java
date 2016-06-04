@@ -18,14 +18,15 @@
 package org.quantumbadger.redreader.views.imageview;
 
 import android.graphics.Bitmap;
+import android.support.annotation.UiThread;
 import android.util.Log;
 
 import org.quantumbadger.redreader.common.AndroidApi;
 
 public class ImageViewTileLoader {
 
+	@UiThread
 	public interface Listener {
-		// All called from UI thread
 		void onTileLoaded(int x, int y, int sampleSize);
 
 		void onTileLoaderOutOfMemory();

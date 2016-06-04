@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.common;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.UiThread;
 
 public class UIThreadRepeatingTimer implements Runnable {
 
@@ -38,7 +39,7 @@ public class UIThreadRepeatingTimer implements Runnable {
 		this.mListener = mListener;
 	}
 
-	// Only call from UI thread
+	@UiThread
 	public void startTimer() {
 
 		General.checkThisIsUIThread();
@@ -47,7 +48,7 @@ public class UIThreadRepeatingTimer implements Runnable {
 		mHandler.postDelayed(this, mIntervalMs);
 	}
 
-	// Only call from UI thread
+	@UiThread
 	public void stopTimer() {
 
 		General.checkThisIsUIThread();

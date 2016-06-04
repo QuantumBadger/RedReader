@@ -29,6 +29,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
@@ -44,7 +45,6 @@ import org.quantumbadger.redreader.reddit.prepared.RedditParsedPost;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
-import org.quantumbadger.redreader.views.FlatImageButton;
 import org.quantumbadger.redreader.views.GIFView;
 import org.quantumbadger.redreader.views.HorizontalSwipeProgressOverlay;
 import org.quantumbadger.redreader.views.RedditPostView;
@@ -303,7 +303,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 			mFloatingToolbar.setVisibility(View.GONE);
 			outerFrame.addView(mFloatingToolbar);
 
-			final FlatImageButton ib = new FlatImageButton(this);
+			final ImageButton ib = (ImageButton) LayoutInflater.from(this).inflate(R.layout.flat_image_button, mFloatingToolbar, false);
 			final int buttonPadding = General.dpToPixels(this, 10);
 			ib.setPadding(buttonPadding, buttonPadding, buttonPadding, buttonPadding);
 			ib.setImageResource(R.drawable.ic_action_info_dark);

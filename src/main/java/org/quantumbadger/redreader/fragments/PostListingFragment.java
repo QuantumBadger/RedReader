@@ -419,6 +419,7 @@ public class PostListingFragment extends RRFragment
 		((RedditPostView.PostSelectionListener)getActivity()).onPostSelected(post);
 
 		new Thread() {
+			@Override
 			public void run() {
 				post.markAsRead(getActivity());
 			}
@@ -430,6 +431,7 @@ public class PostListingFragment extends RRFragment
 		((RedditPostView.PostSelectionListener)getActivity()).onPostCommentsSelected(post);
 
 		new Thread() {
+			@Override
 			public void run() {
 				post.markAsRead(getActivity());
 			}

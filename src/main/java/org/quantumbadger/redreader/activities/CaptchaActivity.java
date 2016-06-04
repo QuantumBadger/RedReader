@@ -115,6 +115,7 @@ public class CaptchaActivity extends BaseActivity {
 						}
 
 						AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+							@Override
 							public void run() {
 
 								final LinearLayout ll = new LinearLayout(CaptchaActivity.this);

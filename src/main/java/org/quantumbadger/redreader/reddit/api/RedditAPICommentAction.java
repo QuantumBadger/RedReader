@@ -384,6 +384,7 @@ public class RedditAPICommentAction {
 
 						final RRError error = General.getGeneralErrorForFailure(context, type, t, status, null);
 						AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+							@Override
 							public void run() {
 								General.showResultDialog(activity, error);
 							}
@@ -396,6 +397,7 @@ public class RedditAPICommentAction {
 
 						final RRError error = General.getGeneralErrorForFailure(context, type);
 						AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+							@Override
 							public void run() {
 								General.showResultDialog(activity, error);
 							}

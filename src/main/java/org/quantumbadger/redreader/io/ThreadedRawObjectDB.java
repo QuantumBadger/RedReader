@@ -30,11 +30,13 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 		implements CacheDataSource<K, V, F> {
 
 	private final TriggerableThread writeThread = new TriggerableThread(new Runnable() {
+		@Override
 		public void run() {
 			doWrite();
 		}
 	}, 1500);
 	private final TriggerableThread readThread = new TriggerableThread(new Runnable() {
+		@Override
 		public void run() {
 			doRead();
 		}
@@ -120,6 +122,7 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 			this.keys = keys;
 		}
 
+		@Override
 		public void run() {
 
 			final HashMap<K, V> existingResult = new HashMap<>(keys.size());
@@ -189,6 +192,7 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 			this.key = key;
 		}
 
+		@Override
 		public void run() {
 
 			synchronized(toWrite) {

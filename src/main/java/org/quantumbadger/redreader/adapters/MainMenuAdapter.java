@@ -245,6 +245,7 @@ public class MainMenuAdapter extends BaseAdapter {
 		Collections.sort(subscriptionsSorted);
 
 		AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+			@Override
 			public void run() {
 
 				subredditItems.clear();

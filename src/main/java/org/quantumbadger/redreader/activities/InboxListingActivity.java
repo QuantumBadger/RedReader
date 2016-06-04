@@ -207,6 +207,7 @@ public final class InboxListingActivity extends BaseActivity {
 
 				final RRError error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
 				AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+					@Override
 					public void run() {
 						notifications.addView(new ErrorView(InboxListingActivity.this, error));
 					}
@@ -231,6 +232,7 @@ public final class InboxListingActivity extends BaseActivity {
 				// TODO xml
 				if(fromCache && RRTime.since(timestamp) > 10 * 60 * 1000) {
 					AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+						@Override
 						public void run() {
 							final TextView cacheNotif = new TextView(context);
 							cacheNotif.setText(context.getString(R.string.listing_cached, RRTime.formatDateTime(timestamp, context)));
@@ -337,6 +339,7 @@ public final class InboxListingActivity extends BaseActivity {
 								final RRError error = General.getGeneralErrorForFailure(context, type, t, status,
 										"Reddit API action: Mark all as Read");
 								AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+									@Override
 									public void run() {
 										General.showResultDialog(InboxListingActivity.this, error);
 									}
@@ -348,6 +351,7 @@ public final class InboxListingActivity extends BaseActivity {
 
 								final RRError error = General.getGeneralErrorForFailure(context, type);
 								AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+									@Override
 									public void run() {
 										General.showResultDialog(InboxListingActivity.this, error);
 									}

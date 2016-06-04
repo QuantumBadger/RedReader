@@ -183,6 +183,7 @@ public class AlbumListingActivity extends BaseActivity {
 	private void revertToWeb() {
 
 		final Runnable r = new Runnable() {
+			@Override
 			public void run() {
 				if(!mHaveReverted) {
 					mHaveReverted = true;

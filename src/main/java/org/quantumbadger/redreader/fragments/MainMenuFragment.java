@@ -111,6 +111,7 @@ public class MainMenuFragment extends RRFragment implements MainMenuSelectionLis
 		});
 
 		AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+			@Override
 			public void run() {
 				mNotifications.addView(mLoadingView);
 				mLoadingView.setIndeterminate(R.string.download_subreddits);
@@ -169,6 +170,7 @@ public class MainMenuFragment extends RRFragment implements MainMenuSelectionLis
 	private void onError(final RRError error) {
 		mLoadingView.setDone(R.string.download_failed);
 		AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+			@Override
 			public void run() {
 				mNotifications.addView(new ErrorView(getActivity(), error));
 			}

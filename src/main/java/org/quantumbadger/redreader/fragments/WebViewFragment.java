@@ -221,6 +221,7 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 						public void run() {
 
 							AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+								@Override
 								public void run() {
 
 									if(currentUrl == null || url == null) return;

@@ -152,6 +152,7 @@ public class CommentReplyActivity extends BaseActivity {
 				@Override
 				protected void onSuccess() {
 					AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+						@Override
 						public void run() {
 							if(progressDialog.isShowing()) progressDialog.dismiss();
 							General.quickToast(CommentReplyActivity.this, getString(R.string.comment_reply_done));
@@ -171,6 +172,7 @@ public class CommentReplyActivity extends BaseActivity {
 					final RRError error = General.getGeneralErrorForFailure(context, type, t, status, null);
 
 					AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+						@Override
 						public void run() {
 							General.showResultDialog(CommentReplyActivity.this, error);
 							if(progressDialog.isShowing()) progressDialog.dismiss();
@@ -184,6 +186,7 @@ public class CommentReplyActivity extends BaseActivity {
 					final RRError error = General.getGeneralErrorForFailure(context, type);
 
 					AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+						@Override
 						public void run() {
 							General.showResultDialog(CommentReplyActivity.this, error);
 							if(progressDialog.isShowing()) progressDialog.dismiss();

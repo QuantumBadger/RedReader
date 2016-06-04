@@ -101,6 +101,7 @@ public class LinkHandler {
 
 			if(rrUri.getAuthority().equals("msg")) {
 				new Handler().post(new Runnable() {
+					@Override
 					public void run() {
 						final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 						builder.setTitle(rrUri.getQueryParameter("title"));

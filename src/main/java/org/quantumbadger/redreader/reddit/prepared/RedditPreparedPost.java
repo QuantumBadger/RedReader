@@ -451,6 +451,7 @@ public final class RedditPreparedPost {
 				((RedditPostView.PostSelectionListener)activity).onPostCommentsSelected(post);
 
 				new Thread() {
+					@Override
 					public void run() {
 						post.markAsRead(activity);
 					}
@@ -683,6 +684,7 @@ public final class RedditPreparedPost {
 
 	public void refreshView(final Context context) {
 		AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+			@Override
 			public void run() {
 				rebuildSubtitle(context);
 				if(boundView != null) {
@@ -701,6 +703,7 @@ public final class RedditPreparedPost {
 		if(user.isAnonymous()) {
 
 			AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+				@Override
 				public void run() {
 					Toast.makeText(activity, "You must be logged in to do that.", Toast.LENGTH_SHORT).show();
 				}
@@ -782,6 +785,7 @@ public final class RedditPreparedPost {
 						final RRError error = General.getGeneralErrorForFailure(context, type, t, status,
 								"Reddit API action code: " + action + " " + src.getIdAndType());
 						AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+							@Override
 							public void run() {
 								General.showResultDialog(activity, error);
 							}
@@ -794,6 +798,7 @@ public final class RedditPreparedPost {
 
 						final RRError error = General.getGeneralErrorForFailure(context, type);
 						AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+							@Override
 							public void run() {
 								General.showResultDialog(activity, error);
 							}

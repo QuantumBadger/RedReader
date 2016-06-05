@@ -195,6 +195,7 @@ public final class RedditPreparedPost {
 		final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
 		builder.setItems(menuText, new DialogInterface.OnClickListener() {
+			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				onActionMenuItemSelected(post, activity, menu.get(which).action);
 			}
@@ -245,6 +246,7 @@ public final class RedditPreparedPost {
 						.setMessage(R.string.delete_confirm)
 						.setPositiveButton(R.string.action_delete,
 								new DialogInterface.OnClickListener() {
+									@Override
 									public void onClick(final DialogInterface dialog, final int which) {
 										post.action(activity, RedditAPI.ACTION_DELETE);
 									}
@@ -260,6 +262,7 @@ public final class RedditPreparedPost {
 						.setMessage(R.string.action_report_sure)
 						.setPositiveButton(R.string.action_report,
 								new DialogInterface.OnClickListener() {
+									@Override
 									public void onClick(final DialogInterface dialog, final int which) {
 										post.action(activity, RedditAPI.ACTION_REPORT);
 										// TODO update the view to show the result
@@ -292,6 +295,7 @@ public final class RedditPreparedPost {
 
 					final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 					builder.setItems(linksArr, new DialogInterface.OnClickListener() {
+						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							LinkHandler.onLinkClicked(activity, linksArr[which], false, post.src.getSrc());
 							dialog.dismiss();
@@ -451,6 +455,7 @@ public final class RedditPreparedPost {
 				((RedditPostView.PostSelectionListener)activity).onPostCommentsSelected(post);
 
 				new Thread() {
+					@Override
 					public void run() {
 						post.markAsRead(activity);
 					}
@@ -683,6 +688,7 @@ public final class RedditPreparedPost {
 
 	public void refreshView(final Context context) {
 		AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+			@Override
 			public void run() {
 				rebuildSubtitle(context);
 				if(boundView != null) {
@@ -701,6 +707,7 @@ public final class RedditPreparedPost {
 		if(user.isAnonymous()) {
 
 			AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+				@Override
 				public void run() {
 					Toast.makeText(activity, "You must be logged in to do that.", Toast.LENGTH_SHORT).show();
 				}
@@ -782,6 +789,7 @@ public final class RedditPreparedPost {
 						final RRError error = General.getGeneralErrorForFailure(context, type, t, status,
 								"Reddit API action code: " + action + " " + src.getIdAndType());
 						AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+							@Override
 							public void run() {
 								General.showResultDialog(activity, error);
 							}
@@ -794,6 +802,7 @@ public final class RedditPreparedPost {
 
 						final RRError error = General.getGeneralErrorForFailure(context, type);
 						AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+							@Override
 							public void run() {
 								General.showResultDialog(activity, error);
 							}
@@ -1010,6 +1019,7 @@ public final class RedditPreparedPost {
 				}
 
 				ib.setOnClickListener(new View.OnClickListener() {
+					@Override
 					public void onClick(View v) {
 
 						final Action actionToTake;

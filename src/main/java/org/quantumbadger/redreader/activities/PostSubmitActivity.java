@@ -237,6 +237,7 @@ public class PostSubmitActivity extends BaseActivity {
 				@Override
 				protected void onSuccess() {
 					AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+						@Override
 						public void run() {
 							if(progressDialog.isShowing()) progressDialog.dismiss();
 							General.quickToast(PostSubmitActivity.this, getString(R.string.post_submit_done));
@@ -256,6 +257,7 @@ public class PostSubmitActivity extends BaseActivity {
 					final RRError error = General.getGeneralErrorForFailure(context, type, t, status, null);
 
 					AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+						@Override
 						public void run() {
 							General.showResultDialog(PostSubmitActivity.this, error);
 							if(progressDialog.isShowing()) progressDialog.dismiss();
@@ -269,6 +271,7 @@ public class PostSubmitActivity extends BaseActivity {
 					final RRError error = General.getGeneralErrorForFailure(context, type);
 
 					AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+						@Override
 						public void run() {
 							General.showResultDialog(PostSubmitActivity.this, error);
 							if(progressDialog.isShowing()) progressDialog.dismiss();

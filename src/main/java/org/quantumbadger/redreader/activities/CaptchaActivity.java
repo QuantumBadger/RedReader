@@ -115,6 +115,7 @@ public class CaptchaActivity extends BaseActivity {
 						}
 
 						AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+							@Override
 							public void run() {
 
 								final LinearLayout ll = new LinearLayout(CaptchaActivity.this);
@@ -143,6 +144,7 @@ public class CaptchaActivity extends BaseActivity {
 								((LinearLayout.LayoutParams) submitButton.getLayoutParams()).width = LinearLayout.LayoutParams.WRAP_CONTENT;
 
 								submitButton.setOnClickListener(new View.OnClickListener() {
+									@Override
 									public void onClick(View v) {
 										final Intent result = new Intent();
 										result.putExtra("captchaId", captchaId);

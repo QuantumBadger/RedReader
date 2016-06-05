@@ -98,12 +98,14 @@ public class BaseActivity extends AppCompatActivity implements SharedPreferences
 				AlertDialog.Builder notInstalled = new AlertDialog.Builder(this);
 				notInstalled.setMessage(R.string.error_tor_not_installed);
 				notInstalled.setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
+					@Override
 					public void onClick(DialogInterface dialog, int id) {
 						startActivity(OrbotHelper.getOrbotInstallIntent(getApplicationContext()));
 						dialog.dismiss();
 					}
 				});
 				notInstalled.setNegativeButton(R.string.dialog_no, new DialogInterface.OnClickListener() {
+					@Override
 					public void onClick(DialogInterface dialog, int id) {
 						dialog.cancel();
 					}

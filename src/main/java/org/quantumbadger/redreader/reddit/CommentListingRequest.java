@@ -22,6 +22,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.support.annotation.UiThread;
 import android.support.v7.app.AppCompatActivity;
 
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -107,9 +108,9 @@ public class CommentListingRequest {
 
 	private static final Event[] EVENT_TYPES = Event.values();
 
+	@UiThread
 	public interface Listener {
 
-		// All called from UI thread
 		void onCommentListingRequestDownloadNecessary();
 
 		void onCommentListingRequestDownloadStarted();

@@ -233,6 +233,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 								final RRError error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
 
 								AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+									@Override
 									public void run() {
 										// TODO handle properly
 										mRequest = null;
@@ -411,6 +412,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 		if(Constants.Mime.isVideo(mimetype)) {
 
 			AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+				@Override
 				public void run() {
 
 					if(mIsDestroyed) return;
@@ -538,6 +540,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 					&& gifViewMode == PrefsUtility.GifViewMode.INTERNAL_MOVIE) {
 
 				AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+					@Override
 					public void run() {
 
 						if(mIsDestroyed) return;
@@ -565,6 +568,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 					public void onGifLoaded() {
 						AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+							@Override
 							public void run() {
 
 								if(mIsDestroyed) return;
@@ -626,6 +630,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 			}
 
 			AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+				@Override
 				public void run() {
 
 					if(mIsDestroyed) return;
@@ -663,6 +668,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 	private void revertToWeb() {
 
 		final Runnable r = new Runnable() {
+			@Override
 			public void run() {
 				if(!mHaveReverted) {
 					mHaveReverted = true;

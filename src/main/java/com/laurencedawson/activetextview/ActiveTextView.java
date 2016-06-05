@@ -157,6 +157,7 @@ public class ActiveTextView extends TextView {
 		});
 
 		setOnClickListener(new OnClickListener() {
+			@Override
 			public void onClick(View v) {
 
 				if(!isLinkPending()) {

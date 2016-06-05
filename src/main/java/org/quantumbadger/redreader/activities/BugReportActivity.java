@@ -103,6 +103,7 @@ public class BugReportActivity extends BaseActivity {
 		send.setText(R.string.bug_button_send);
 
 		send.setOnClickListener(new View.OnClickListener() {
+			@Override
 			public void onClick(View v) {
 
 				final LinkedList<RRError> errors = BugReportActivity.getErrors();
@@ -139,6 +140,7 @@ public class BugReportActivity extends BaseActivity {
 		ignore.setText(R.string.bug_button_ignore);
 
 		ignore.setOnClickListener(new View.OnClickListener() {
+			@Override
 			public void onClick(View v) {
 				finish();
 			}

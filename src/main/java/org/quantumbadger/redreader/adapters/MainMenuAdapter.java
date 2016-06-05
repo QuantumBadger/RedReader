@@ -22,6 +22,7 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
+import android.support.annotation.UiThread;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -144,7 +145,7 @@ public class MainMenuAdapter extends BaseAdapter {
 		return convertView;
 	}
 
-	// Only run in UI thread
+	@UiThread
 	private void build() {
 
 		//items.add(new MainMenuItem("Reddit"));
@@ -215,6 +216,7 @@ public class MainMenuAdapter extends BaseAdapter {
 	private MainMenuItem makeItem(final String name, final @MainMenuFragment.MainMenuAction int action, final String actionName, final Drawable icon) {
 
 		final View.OnClickListener clickListener = new View.OnClickListener() {
+			@Override
 			public void onClick(final View view) {
 				selectionListener.onSelected(action, actionName);
 			}
@@ -226,6 +228,7 @@ public class MainMenuAdapter extends BaseAdapter {
 	private MainMenuItem makeSubredditItem(final String name) {
 
 		final View.OnClickListener clickListener = new View.OnClickListener() {
+			@Override
 			public void onClick(final View view) {
 				try {
 					selectionListener.onSelected((PostListingURL) SubredditPostListURL.getSubreddit(RedditSubreddit.getCanonicalName(name)));
@@ -244,6 +247,7 @@ public class MainMenuAdapter extends BaseAdapter {
 		Collections.sort(subscriptionsSorted);
 
 		AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+			@Override
 			public void run() {
 
 				subredditItems.clear();

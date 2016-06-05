@@ -44,6 +44,7 @@ public final class MainMenuItem implements View.OnClickListener {
 		this.longClickListener = longClickListener;
 	}
 
+	@Override
 	public void onClick(final View view) {
 		if(clickListener != null) clickListener.onClick(view);
 	}

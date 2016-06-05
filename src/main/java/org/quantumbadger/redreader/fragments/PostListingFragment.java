@@ -246,6 +246,7 @@ public class PostListingFragment extends RRFragment
 			restackRefreshCount();
 			mLoadMoreView = (TextView)LayoutInflater.from(context).inflate(R.layout.load_more_posts, null);
 			mLoadMoreView.setOnClickListener(new View.OnClickListener() {
+				@Override
 				public void onClick(View view) {
 					mListFooterNotifications.removeView(mLoadMoreView);
 					restackRefreshCount();
@@ -419,6 +420,7 @@ public class PostListingFragment extends RRFragment
 		((RedditPostView.PostSelectionListener)getActivity()).onPostSelected(post);
 
 		new Thread() {
+			@Override
 			public void run() {
 				post.markAsRead(getActivity());
 			}
@@ -430,6 +432,7 @@ public class PostListingFragment extends RRFragment
 		((RedditPostView.PostSelectionListener)getActivity()).onPostCommentsSelected(post);
 
 		new Thread() {
+			@Override
 			public void run() {
 				post.markAsRead(getActivity());
 			}

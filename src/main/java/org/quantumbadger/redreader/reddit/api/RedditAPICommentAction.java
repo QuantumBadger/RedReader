@@ -147,6 +147,7 @@ public class RedditAPICommentAction {
 		final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
 		builder.setItems(menuText, new DialogInterface.OnClickListener() {
+			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				onActionMenuItemSelected(
 						comment,
@@ -202,6 +203,7 @@ public class RedditAPICommentAction {
 						.setMessage(R.string.action_report_sure)
 						.setPositiveButton(R.string.action_report,
 								new DialogInterface.OnClickListener() {
+									@Override
 									public void onClick(final DialogInterface dialog, final int which) {
 										action(activity, comment, RedditAPI.ACTION_REPORT, changeDataManager);
 									}
@@ -232,6 +234,7 @@ public class RedditAPICommentAction {
 						.setMessage(R.string.delete_confirm)
 						.setPositiveButton(R.string.action_delete,
 								new DialogInterface.OnClickListener() {
+									@Override
 									public void onClick(final DialogInterface dialog, final int which) {
 										action(activity, comment, RedditAPI.ACTION_DELETE, changeDataManager);
 									}
@@ -253,6 +256,7 @@ public class RedditAPICommentAction {
 
 					final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 					builder.setItems(linksArr, new DialogInterface.OnClickListener() {
+						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							LinkHandler.onLinkClicked(activity, linksArr[which], false);
 							dialog.dismiss();
@@ -384,6 +388,7 @@ public class RedditAPICommentAction {
 
 						final RRError error = General.getGeneralErrorForFailure(context, type, t, status, null);
 						AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+							@Override
 							public void run() {
 								General.showResultDialog(activity, error);
 							}
@@ -396,6 +401,7 @@ public class RedditAPICommentAction {
 
 						final RRError error = General.getGeneralErrorForFailure(context, type);
 						AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+							@Override
 							public void run() {
 								General.showResultDialog(activity, error);
 							}

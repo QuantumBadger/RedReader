@@ -136,6 +136,7 @@ public class MainActivity extends RefreshableActivity
 					.setMessage(R.string.firstrun_login_message)
 					.setPositiveButton(R.string.firstrun_login_button_now,
 							new DialogInterface.OnClickListener() {
+								@Override
 								public void onClick(final DialogInterface dialog, final int which) {
 									new AccountListDialog().show(MainActivity.this.getSupportFragmentManager(), null);
 								}
@@ -159,6 +160,7 @@ public class MainActivity extends RefreshableActivity
 						.setMessage(R.string.upgrade_v190_login_message)
 						.setPositiveButton(R.string.firstrun_login_button_now,
 								new DialogInterface.OnClickListener() {
+									@Override
 									public void onClick(final DialogInterface dialog, final int which) {
 										new AccountListDialog().show(MainActivity.this.getSupportFragmentManager(), null);
 									}
@@ -284,6 +286,7 @@ public class MainActivity extends RefreshableActivity
 				alertBuilder.setTitle(R.string.mainmenu_custom);
 
 				alertBuilder.setPositiveButton(R.string.dialog_go, new DialogInterface.OnClickListener() {
+					@Override
 					public void onClick(DialogInterface dialog, int which) {
 
 						final String subredditInput = editText.getText().toString().trim().replace(" ", "");

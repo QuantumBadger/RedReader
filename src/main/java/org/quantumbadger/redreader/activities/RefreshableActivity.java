@@ -100,6 +100,7 @@ public abstract class RefreshableActivity extends BaseActivity {
 
 	public final void requestRefresh(final RefreshableFragment which, final boolean force) {
 		runOnUiThread(new Runnable() {
+			@Override
 			public void run() {
 				if(!paused) {
 					doRefreshNow(which, force);

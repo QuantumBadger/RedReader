@@ -102,6 +102,7 @@ public class AccountListDialog extends AppCompatDialogFragment
 
 								final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(mActivity);
 								alertBuilder.setNeutralButton(R.string.dialog_close, new DialogInterface.OnClickListener() {
+									@Override
 									public void onClick(DialogInterface dialog, int which) {
 									}
 								});

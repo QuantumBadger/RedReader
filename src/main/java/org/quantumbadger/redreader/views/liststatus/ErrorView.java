@@ -54,6 +54,7 @@ public final class ErrorView extends StatusListItemView {
 		setBackgroundColor(Color.rgb(0xCC, 0x00, 0x00));
 
 		setOnClickListener(new OnClickListener() {
+			@Override
 			public void onClick(View v) {
 				ErrorPropertiesDialog.newInstance(error).show(activity.getSupportFragmentManager(), null);
 			}

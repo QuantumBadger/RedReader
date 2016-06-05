@@ -25,12 +25,12 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import org.quantumbadger.redreader.R;
@@ -131,29 +131,17 @@ public final class InboxListingActivity extends BaseActivity {
 		notifications.setOrientation(android.widget.LinearLayout.VERTICAL);
 		notifications.addView(loadingView);
 
-		final ListView lv = new ListView(this);
-
-		lv.setSmoothScrollbarEnabled(false);
-		lv.setVerticalFadingEdgeEnabled(false);
-
-		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-				final Object item = lv.getAdapter().getItem(position);
-
-				if(item != null && item instanceof RedditRenderableInboxItem) {
-					((RedditRenderableInboxItem)item).handleInboxClick(InboxListingActivity.this);
-				}
-			}
-		});
+		final RecyclerView rv = (RecyclerView) LayoutInflater.from(this)
+			.inflate(R.layout.comment_listing_layout, outer, false);
+		rv.setLayoutManager(new LinearLayoutManager(this));
 
 		adapter = new InboxListingAdapter(this, theme);
-		lv.setAdapter(adapter);
+		rv.setAdapter(adapter);
 
-		registerForContextMenu(lv);
+		registerForContextMenu(rv);
 
 		outer.addView(notifications);
-		outer.addView(lv);
+		outer.addView(rv);
 
 		makeFirstRequest(this);
 

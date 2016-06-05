@@ -18,72 +18,61 @@
 package org.quantumbadger.redreader.adapters;
 
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManagerVolatile;
 import org.quantumbadger.redreader.reddit.prepared.RedditRenderableInboxItem;
+import org.quantumbadger.redreader.viewholders.VH;
 import org.quantumbadger.redreader.views.RedditInboxItemView;
 
 import java.util.ArrayList;
 
-public final class InboxListingAdapter extends BaseAdapter {
+public final class InboxListingAdapter extends RecyclerView.Adapter<VH> {
 
 	private final ArrayList<RedditRenderableInboxItem> items = new ArrayList<>(128);
 
-	private final AppCompatActivity mParentActivity;
-	private final RRThemeAttributes mTheme;
+	private final AppCompatActivity parentActivity;
+	private final RRThemeAttributes theme;
 
-	private final RedditChangeDataManagerVolatile mChangeDataManager;
+	private final RedditChangeDataManagerVolatile changeDataManager;
 
 	public InboxListingAdapter(
 			final AppCompatActivity parentActivity,
 			final RRThemeAttributes theme) {
 
-		mParentActivity = parentActivity;
-		mTheme = theme;
+		this.parentActivity = parentActivity;
+		this.theme = theme;
 
-		mChangeDataManager = RedditChangeDataManagerVolatile.getInstance(
+		changeDataManager = RedditChangeDataManagerVolatile.getInstance(
 				RedditAccountManager.getInstance(parentActivity).getDefaultAccount());
 	}
 
-	public int getCount() {
+	@Override
+	public VH onCreateViewHolder(ViewGroup parent, int viewType) {
+		return new VH(new RedditInboxItemView(parent.getContext(), theme));
+	}
+
+	@Override
+	public void onBindViewHolder(final VH holder, final int position) {
+		((RedditInboxItemView) holder.itemView).reset(
+			parentActivity, changeDataManager, theme, items.get(position));
+
+		holder.itemView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				final RedditRenderableInboxItem item = items.get(holder.getAdapterPosition());
+				item.handleInboxClick(parentActivity);
+			}
+		});
+	}
+
+	@Override
+	public int getItemCount() {
 		return items.size();
-	}
-
-	public RedditRenderableInboxItem getItem(final int i) {
-		return items.get(i);
-	}
-
-	public long getItemId(int position) {
-		return position;
-	}
-
-	@Override
-	public int getViewTypeCount() {
-		return 1;
-	}
-
-	@Override
-	public int getItemViewType(final int position) {
-		return 0;
-	}
-
-	public View getView(final int i, View convertView, final ViewGroup viewGroup) {
-
-		if(convertView == null) {
-			convertView = new RedditInboxItemView(viewGroup.getContext(), mTheme);
-		}
-
-		((RedditInboxItemView)convertView).reset(
-				mParentActivity,
-				mChangeDataManager,
-				mTheme,
-				items.get(i));
-
-		return convertView;
 	}
 
 	public void addItem(final RedditRenderableInboxItem comment) {

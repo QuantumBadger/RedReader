@@ -89,7 +89,8 @@ public class RedditAPICommentAction {
 			final CommentListingFragment commentListingFragment,
 			final RedditRenderableComment comment,
 			final RedditCommentView commentView,
-			final RedditChangeDataManagerVolatile changeDataManager) {
+			final RedditChangeDataManagerVolatile changeDataManager,
+			final boolean isArchived) {
 
 		final RedditAccount user = RedditAccountManager.getInstance(activity).getDefaultAccount();
 
@@ -97,16 +98,18 @@ public class RedditAPICommentAction {
 
 		if(!user.isAnonymous()) {
 
-			if(!changeDataManager.isUpvoted(comment)) {
-				menu.add(new RCVMenuItem(activity, R.string.action_upvote, RedditCommentAction.UPVOTE));
-			} else {
-				menu.add(new RCVMenuItem(activity, R.string.action_upvote_remove, RedditCommentAction.UNVOTE));
-			}
+			if (!isArchived) {
+				if (!changeDataManager.isUpvoted(comment)) {
+					menu.add(new RCVMenuItem(activity, R.string.action_upvote, RedditCommentAction.UPVOTE));
+				} else {
+					menu.add(new RCVMenuItem(activity, R.string.action_upvote_remove, RedditCommentAction.UNVOTE));
+				}
 
-			if(!changeDataManager.isDownvoted(comment)) {
-				menu.add(new RCVMenuItem(activity, R.string.action_downvote, RedditCommentAction.DOWNVOTE));
-			} else {
-				menu.add(new RCVMenuItem(activity, R.string.action_downvote_remove, RedditCommentAction.UNVOTE));
+				if (!changeDataManager.isDownvoted(comment)) {
+					menu.add(new RCVMenuItem(activity, R.string.action_downvote, RedditCommentAction.DOWNVOTE));
+				} else {
+					menu.add(new RCVMenuItem(activity, R.string.action_downvote_remove, RedditCommentAction.UNVOTE));
+				}
 			}
 
 			if(changeDataManager.isSaved(comment)) {
@@ -116,10 +119,13 @@ public class RedditAPICommentAction {
 			}
 
 			menu.add(new RCVMenuItem(activity, R.string.action_report, RedditCommentAction.REPORT));
-			menu.add(new RCVMenuItem(activity, R.string.action_reply, RedditCommentAction.REPLY));
+
+			if (!isArchived)
+				menu.add(new RCVMenuItem(activity, R.string.action_reply, RedditCommentAction.REPLY));
 
 			if(user.username.equalsIgnoreCase(comment.getParsedComment().getRawComment().author)) {
-				menu.add(new RCVMenuItem(activity, R.string.action_edit, RedditCommentAction.EDIT));
+				if (!isArchived)
+					menu.add(new RCVMenuItem(activity, R.string.action_edit, RedditCommentAction.EDIT));
 				menu.add(new RCVMenuItem(activity, R.string.action_delete, RedditCommentAction.DELETE));
 			}
 		}

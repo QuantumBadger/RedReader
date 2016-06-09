@@ -69,6 +69,7 @@ public final class RedditPreparedPost {
 
 	public SpannableStringBuilder postListDescription;
 
+	public final boolean isArchived;
 	public final boolean hasThumbnail;
 	public final boolean mIsProbablyAnImage;
 
@@ -105,6 +106,8 @@ public final class RedditPreparedPost {
 
 		final RedditAccount user = RedditAccountManager.getInstance(context).getDefaultAccount();
 		mChangeDataManager = RedditChangeDataManagerVolatile.getInstance(user);
+
+		isArchived = post.isArchived();
 
 		mIsProbablyAnImage = LinkHandler.isProbablyAnImage(post.getUrl());
 

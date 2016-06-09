@@ -32,6 +32,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -187,10 +188,23 @@ public class PostSubmitActivity extends BaseActivity {
 		if (item.getItemId() == android.R.id.home) {
 			finish();
 		} else if(item.getTitle().equals(getString(R.string.comment_reply_send))) {
-			final Intent captchaIntent = new Intent(this, CaptchaActivity.class);
-			captchaIntent.putExtra("username", (String)usernameSpinner.getSelectedItem());
-			startActivityForResult(captchaIntent, REQUEST_CAPTCHA);
-
+			String subreddit = subredditEdit.getText().toString();
+			String postTitle = titleEdit.getText().toString();
+			String text = textEdit.getText().toString();
+			if (subreddit.isEmpty()) {
+				Toast.makeText(this, "Specify subreddit", Toast.LENGTH_SHORT).show();
+				subredditEdit.requestFocus();
+			} else if (postTitle.isEmpty()) {
+				Toast.makeText(this, "Title cannot be empty", Toast.LENGTH_SHORT).show();
+				titleEdit.requestFocus();
+			}  else if ("URL".equals(textEdit.getHint().toString()) && text.isEmpty()) {
+				Toast.makeText(this, "URL cannot be empty", Toast.LENGTH_SHORT).show();
+				textEdit.requestFocus();
+			} else {
+				final Intent captchaIntent = new Intent(this, CaptchaActivity.class);
+				captchaIntent.putExtra("username", (String)usernameSpinner.getSelectedItem());
+				startActivityForResult(captchaIntent, REQUEST_CAPTCHA);
+			}
 		} else if(item.getTitle().equals(getString(R.string.comment_reply_preview))) {
 			MarkdownPreviewDialog.newInstance(textEdit.getText().toString()).show(getSupportFragmentManager(), null);
 		}

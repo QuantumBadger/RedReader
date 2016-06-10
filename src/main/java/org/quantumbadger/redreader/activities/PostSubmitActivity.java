@@ -32,6 +32,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -140,11 +141,11 @@ public class PostSubmitActivity extends BaseActivity {
 		final Object selected = typeSpinner.getSelectedItem();
 
 		if(selected.equals("Link") || selected.equals("Upload to Imgur")) {
-			textEdit.setHint("URL"); // TODO string
+			textEdit.setHint(getString(R.string.submit_post_url_hint));
 			textEdit.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_URI);
 			textEdit.setSingleLine(true);
 		} else if(selected.equals("Self")) {
-			textEdit.setHint("Self Text"); // TODO string
+			textEdit.setHint(getString(R.string.submit_post_self_text_hint));
 			textEdit.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
 			textEdit.setSingleLine(false);
 		} else {
@@ -187,10 +188,23 @@ public class PostSubmitActivity extends BaseActivity {
 		if (item.getItemId() == android.R.id.home) {
 			finish();
 		} else if(item.getTitle().equals(getString(R.string.comment_reply_send))) {
-			final Intent captchaIntent = new Intent(this, CaptchaActivity.class);
-			captchaIntent.putExtra("username", (String)usernameSpinner.getSelectedItem());
-			startActivityForResult(captchaIntent, REQUEST_CAPTCHA);
-
+			String subreddit = subredditEdit.getText().toString();
+			String postTitle = titleEdit.getText().toString();
+			String text = textEdit.getText().toString();
+			if (subreddit.isEmpty()) {
+				Toast.makeText(this, R.string.submit_post_specify_subreddit, Toast.LENGTH_SHORT).show();
+				subredditEdit.requestFocus();
+			} else if (postTitle.isEmpty()) {
+				Toast.makeText(this, R.string.submit_post_title_empty, Toast.LENGTH_SHORT).show();
+				titleEdit.requestFocus();
+			}  else if (getString(R.string.submit_post_url_hint).equals(textEdit.getHint().toString()) && text.isEmpty()) {
+				Toast.makeText(this, R.string.submit_post_url_empty, Toast.LENGTH_SHORT).show();
+				textEdit.requestFocus();
+			} else {
+				final Intent captchaIntent = new Intent(this, CaptchaActivity.class);
+				captchaIntent.putExtra("username", (String)usernameSpinner.getSelectedItem());
+				startActivityForResult(captchaIntent, REQUEST_CAPTCHA);
+			}
 		} else if(item.getTitle().equals(getString(R.string.comment_reply_preview))) {
 			MarkdownPreviewDialog.newInstance(textEdit.getText().toString()).show(getSupportFragmentManager(), null);
 		}

@@ -181,7 +181,9 @@ public class RedditRenderableComment implements RedditRenderableInboxItem, Reddi
 				null,
 				this,
 				null,
-				changeDataManager);
+				changeDataManager,
+				// TODO instead of assuming that it isn't an archived post, somehow find out if it actually is
+				false);
 	}
 
 	@Override

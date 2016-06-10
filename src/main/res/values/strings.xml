@@ -789,5 +789,7 @@
 	<string name="submit_post_specify_subreddit">Specify subreddit</string>
 	<string name="submit_post_title_empty">Title cannot be empty</string>
 	<string name="submit_post_url_empty">URL cannot be empty</string>
+	<string name="submit_post_self_text_hint">Self Text</string>
+	<string name="submit_post_url_hint">URL</string>
 
 </resources>

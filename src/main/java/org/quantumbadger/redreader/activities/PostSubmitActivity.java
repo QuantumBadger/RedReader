@@ -141,11 +141,11 @@ public class PostSubmitActivity extends BaseActivity {
 		final Object selected = typeSpinner.getSelectedItem();
 
 		if(selected.equals("Link") || selected.equals("Upload to Imgur")) {
-			textEdit.setHint("URL"); // TODO string
+			textEdit.setHint(R.string.submit_post_url_hint);
 			textEdit.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_URI);
 			textEdit.setSingleLine(true);
 		} else if(selected.equals("Self")) {
-			textEdit.setHint("Self Text"); // TODO string
+			textEdit.setHint(R.string.submit_post_self_text_hint);
 			textEdit.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
 			textEdit.setSingleLine(false);
 		} else {
@@ -197,7 +197,7 @@ public class PostSubmitActivity extends BaseActivity {
 			} else if (postTitle.isEmpty()) {
 				Toast.makeText(this, R.string.submit_post_title_empty, Toast.LENGTH_SHORT).show();
 				titleEdit.requestFocus();
-			}  else if ("URL".equals(textEdit.getHint().toString()) && text.isEmpty()) {
+			}  else if (getResources().getString(R.string.submit_post_url_hint).equals(textEdit.getHint().toString()) && text.isEmpty()) {
 				Toast.makeText(this, R.string.submit_post_url_empty, Toast.LENGTH_SHORT).show();
 				textEdit.requestFocus();
 			} else {

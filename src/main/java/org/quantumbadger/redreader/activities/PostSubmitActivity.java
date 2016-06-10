@@ -192,13 +192,13 @@ public class PostSubmitActivity extends BaseActivity {
 			String postTitle = titleEdit.getText().toString();
 			String text = textEdit.getText().toString();
 			if (subreddit.isEmpty()) {
-				Toast.makeText(this, "Specify subreddit", Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, R.string.submit_post_specify_subreddit, Toast.LENGTH_SHORT).show();
 				subredditEdit.requestFocus();
 			} else if (postTitle.isEmpty()) {
-				Toast.makeText(this, "Title cannot be empty", Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, R.string.submit_post_title_empty, Toast.LENGTH_SHORT).show();
 				titleEdit.requestFocus();
 			}  else if ("URL".equals(textEdit.getHint().toString()) && text.isEmpty()) {
-				Toast.makeText(this, "URL cannot be empty", Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, R.string.submit_post_url_empty, Toast.LENGTH_SHORT).show();
 				textEdit.requestFocus();
 			} else {
 				final Intent captchaIntent = new Intent(this, CaptchaActivity.class);

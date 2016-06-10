@@ -32,16 +32,30 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.ClipboardManager;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
+
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.activities.*;
+import org.quantumbadger.redreader.activities.BugReportActivity;
+import org.quantumbadger.redreader.activities.CommentReplyActivity;
+import org.quantumbadger.redreader.activities.MainActivity;
+import org.quantumbadger.redreader.activities.PostListingActivity;
+import org.quantumbadger.redreader.activities.WebViewActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.common.*;
+import org.quantumbadger.redreader.common.AndroidApi;
+import org.quantumbadger.redreader.common.BetterSSB;
+import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.fragments.PostPropertiesDialog;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
 import org.quantumbadger.redreader.image.ImageInfo;
@@ -51,7 +65,6 @@ import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.url.SubredditPostListURL;
 import org.quantumbadger.redreader.reddit.url.UserProfileURL;
-import org.quantumbadger.redreader.views.FlatImageButton;
 import org.quantumbadger.redreader.views.RedditPostView;
 import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
 import org.quantumbadger.redreader.views.bezelmenu.VerticalToolbar;
@@ -60,7 +73,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.UUID;
 
 public final class RedditPreparedPost {
 
@@ -1003,7 +1020,7 @@ public final class RedditPreparedPost {
 
 			if(itemsPref.contains(action)) {
 
-				final FlatImageButton ib = new FlatImageButton(activity);
+				final ImageButton ib = (ImageButton) LayoutInflater.from(activity).inflate(R.layout.flat_image_button, toolbar, false);
 
 				final int buttonPadding = General.dpToPixels(activity, 14);
 				ib.setPadding(buttonPadding, buttonPadding, buttonPadding, buttonPadding);

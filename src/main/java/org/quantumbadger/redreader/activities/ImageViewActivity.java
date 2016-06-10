@@ -29,28 +29,43 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.VideoView;
+
 import com.github.lzyzsd.circleprogress.DonutProgress;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.common.*;
+import org.quantumbadger.redreader.common.AndroidApi;
+import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.fragments.ImageInfoDialog;
-import org.quantumbadger.redreader.image.*;
+import org.quantumbadger.redreader.image.GetAlbumInfoListener;
+import org.quantumbadger.redreader.image.GetImageInfoListener;
+import org.quantumbadger.redreader.image.GifDecoderThread;
+import org.quantumbadger.redreader.image.ImageInfo;
+import org.quantumbadger.redreader.image.ImgurAPI;
 import org.quantumbadger.redreader.reddit.prepared.RedditParsedPost;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
-import org.quantumbadger.redreader.views.FlatImageButton;
 import org.quantumbadger.redreader.views.GIFView;
 import org.quantumbadger.redreader.views.HorizontalSwipeProgressOverlay;
 import org.quantumbadger.redreader.views.RedditPostView;
 import org.quantumbadger.redreader.views.bezelmenu.BezelSwipeOverlay;
 import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
-import org.quantumbadger.redreader.views.floatingtoolbar.FloatingToolbar;
 import org.quantumbadger.redreader.views.glview.RRGLSurfaceView;
 import org.quantumbadger.redreader.views.imageview.BasicGestureHandler;
 import org.quantumbadger.redreader.views.imageview.ImageTileSource;
@@ -92,7 +107,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 	private int mGallerySwipeLengthPx;
 
-	private FloatingToolbar mFloatingToolbar = null;
+	private LinearLayout mFloatingToolbar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -300,19 +315,15 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 		outerFrame.addView(mLayout);
 
 		{
-			mFloatingToolbar = new FloatingToolbar(this);
-			mFloatingToolbar.setVisibility(View.GONE);
+			mFloatingToolbar = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.floating_toolbar, outerFrame, false);
 			outerFrame.addView(mFloatingToolbar);
 
-			final FlatImageButton ib = new FlatImageButton(this);
+			final ImageButton ib = (ImageButton) LayoutInflater.from(this).inflate(R.layout.flat_image_button, mFloatingToolbar, false);
 			final int buttonPadding = General.dpToPixels(this, 10);
 			ib.setPadding(buttonPadding, buttonPadding, buttonPadding, buttonPadding);
 			ib.setImageResource(R.drawable.ic_action_info_dark);
 
-			mFloatingToolbar.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-			mFloatingToolbar.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
-
-			mFloatingToolbar.addToolbarItem(ib);
+			mFloatingToolbar.addView(ib);
 
 			ib.setOnClickListener(new View.OnClickListener() {
 				@Override

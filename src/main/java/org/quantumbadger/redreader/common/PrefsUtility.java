@@ -31,7 +31,14 @@ import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 
 public final class PrefsUtility {
 
@@ -145,17 +152,22 @@ public final class PrefsUtility {
 
 		final String lang = getString(R.string.pref_appearance_langforce_key, "auto", activity, prefs);
 
-		final Resources res = activity.getResources();
-		final DisplayMetrics dm = res.getDisplayMetrics();
-		final android.content.res.Configuration conf = res.getConfiguration();
+		for(final Resources res : new Resources[] {
+				activity.getResources(),
+				activity.getApplication().getResources()
+		}) {
 
-		if(!lang.equals("auto")) {
-			conf.locale = new Locale(lang);
-		} else {
-			conf.locale = Locale.getDefault();
+			final DisplayMetrics dm = res.getDisplayMetrics();
+			final android.content.res.Configuration conf = res.getConfiguration();
+
+			if(!lang.equals("auto")) {
+				conf.locale = new Locale(lang);
+			} else {
+				conf.locale = Locale.getDefault();
+			}
+
+			res.updateConfiguration(conf, dm);
 		}
-
-		res.updateConfiguration(conf, dm);
 	}
 
 	public static boolean appearance_solidblack(final Context context, final SharedPreferences sharedPreferences) {

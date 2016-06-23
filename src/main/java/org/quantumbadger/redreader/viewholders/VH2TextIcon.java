@@ -3,7 +3,6 @@ package org.quantumbadger.redreader.viewholders;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import org.quantumbadger.redreader.R;
 
 /**
@@ -14,6 +13,8 @@ public class VH2TextIcon extends VH {
 	public final TextView text;
 	public final TextView text2;
 	public final ImageView icon;
+
+	public long bindingId = 0;
 
 	public VH2TextIcon(View itemView) {
 		super(itemView);

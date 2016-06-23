@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -43,6 +42,9 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH2TextIcon> {
 
 	@Override
 	public void onBindViewHolder(final VH2TextIcon vh, final int position) {
+
+		final long bindingId = ++vh.bindingId;
+
 		final ImageInfo imageInfo = albumInfo.images.get(position);
 
 		if(imageInfo.title == null || imageInfo.title.trim().isEmpty()) {
@@ -133,7 +135,9 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH2TextIcon> {
 						@Override
 						public void run() {
 							try {
-								vh.icon.setImageURI(cacheFile.getUri());
+								if(vh.bindingId == bindingId) {
+									vh.icon.setImageURI(cacheFile.getUri());
+								}
 							} catch(IOException e) {
 								throw new RuntimeException(e);
 							}

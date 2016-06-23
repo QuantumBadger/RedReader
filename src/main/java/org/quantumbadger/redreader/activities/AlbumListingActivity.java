@@ -26,10 +26,10 @@ import android.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.adapters.AlbumAdapter;
 import org.quantumbadger.redreader.cache.CacheRequest;
@@ -151,10 +151,15 @@ public class AlbumListingActivity extends BaseActivity {
 
 						layout.removeAllViews();
 
-						final RecyclerView rv = new RecyclerView(AlbumListingActivity.this);
+						final RecyclerView rv = (RecyclerView)LayoutInflater.from(AlbumListingActivity.this).inflate(
+								R.layout.scrollbar_recyclerview,
+								null);
+
 						layout.addView(rv);
 
-						rv.setLayoutManager(new LinearLayoutManager(AlbumListingActivity.this));
+						final LinearLayoutManager layoutManager = new LinearLayoutManager(AlbumListingActivity.this);
+						layoutManager.setSmoothScrollbarEnabled(true);
+						rv.setLayoutManager(layoutManager);
 						rv.setAdapter(new AlbumAdapter(AlbumListingActivity.this, info));
 					}
 				});

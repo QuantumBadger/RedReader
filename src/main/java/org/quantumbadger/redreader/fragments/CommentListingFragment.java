@@ -33,9 +33,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-
 import com.laurencedawson.activetextview.ActiveTextView;
-
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -132,7 +130,7 @@ public class CommentListingFragment extends RRFragment
 		mOuterFrame = new FrameLayout(context);
 
 		mRecyclerView = (RecyclerView)LayoutInflater.from(context).inflate(
-				R.layout.comment_listing_layout,
+				R.layout.scrollbar_recyclerview,
 				null);
 
 		final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);

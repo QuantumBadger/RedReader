@@ -202,6 +202,13 @@ public class CommentListingFragment extends RRFragment
 
 			mCommentListingManager.notifyCommentChanged(item);
 			mCommentListingManager.updateHiddenStatus();
+
+			final LinearLayoutManager layoutManager = (LinearLayoutManager)mRecyclerView.getLayoutManager();
+			final int position = layoutManager.getPosition(view);
+
+			if(position == layoutManager.findFirstVisibleItemPosition()) {
+				layoutManager.scrollToPositionWithOffset(position, 0);
+			}
 		}
 	}
 

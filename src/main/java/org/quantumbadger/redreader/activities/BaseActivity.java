@@ -21,14 +21,21 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import info.guardianproject.netcipher.proxy.OrbotHelper;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.cache.CacheDownload;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.http.okhttp.OKHTTPBackend;
-import info.guardianproject.netcipher.proxy.OrbotHelper;
+
+import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class BaseActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -36,6 +43,14 @@ public class BaseActivity extends AppCompatActivity implements SharedPreferences
 	private static boolean tor;
 
 	private static boolean closingAll = false;
+
+	private final AtomicInteger mPermissionRequestIdGenerator = new AtomicInteger();
+	private final HashMap<Integer, PermissionCallback> mPermissionRequestCallbacks = new HashMap<>();
+
+	public interface PermissionCallback {
+		void onPermissionGranted();
+		void onPermissionDenied();
+	}
 
 	public void closeAllExceptMain() {
 		closingAll = true;
@@ -73,6 +88,49 @@ public class BaseActivity extends AppCompatActivity implements SharedPreferences
 				closingAll = false;
 			} else {
 				finish();
+			}
+		}
+	}
+
+	public void requestPermissionWithCallback(
+				@NonNull final String permission,
+				@NonNull final PermissionCallback callback) {
+
+		General.checkThisIsUIThread();
+
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+			if(checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED) {
+				callback.onPermissionGranted();
+
+			} else {
+				final int requestCode = mPermissionRequestIdGenerator.incrementAndGet();
+				mPermissionRequestCallbacks.put(requestCode, callback);
+				requestPermissions(new String[]{permission}, requestCode);
+			}
+
+		} else {
+			callback.onPermissionGranted();
+		}
+	}
+
+	@Override
+	public void onRequestPermissionsResult(
+			final int requestCode,
+			@NonNull final String[] permissions,
+			@NonNull final int[] grantResults) {
+
+		final PermissionCallback callback = mPermissionRequestCallbacks.remove(requestCode);
+
+		if(callback != null) {
+			if(permissions.length != 1) {
+				throw new RuntimeException("Unexpected permission result");
+			}
+
+			if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+				callback.onPermissionGranted();
+			} else {
+				callback.onPermissionDenied();
 			}
 		}
 	}

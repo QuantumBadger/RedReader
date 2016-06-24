@@ -792,4 +792,7 @@
 	<string name="submit_post_self_text_hint">Self Text</string>
 	<string name="submit_post_url_hint">URL</string>
 
+	<!-- 2016-06-24 -->
+	<string name="save_image_permission_denied">Permission denied: could not save image.</string>
+
 </resources>

@@ -2,6 +2,7 @@
 Material Design
 Imgur upload support
 Experimental Tor support (thanks to SpotComms)
+Fixed image saving on Android Marshmallow
 
 70/1.9.3.4
 Fixed album swiping

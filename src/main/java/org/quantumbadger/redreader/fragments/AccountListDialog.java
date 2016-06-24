@@ -31,7 +31,6 @@ import android.support.v7.app.AppCompatDialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
-
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
@@ -163,7 +162,7 @@ public class AccountListDialog extends AppCompatDialogFragment
 		AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 			@Override
 			public void run() {
-				rv.getAdapter().notifyDataSetChanged();
+				rv.setAdapter(new AccountListAdapter(mActivity, AccountListDialog.this));
 			}
 		});
 	}

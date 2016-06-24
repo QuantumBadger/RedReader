@@ -89,6 +89,10 @@
                     android:value=".activities.PostListingActivity"/>
         </activity>
 
+		<activity android:name=".activities.ChangelogActivity"
+				  android:configChanges="orientation|screenSize|keyboardHidden">
+		</activity>
+
         <activity android:name=".activities.ImgurUploadActivity"
                   android:configChanges="orientation|screenSize|keyboardHidden">
         </activity>

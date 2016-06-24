@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.settings;
 
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.activities.ChangelogActivity;
 
 public final class SettingsFragment extends PreferenceFragment {
 
@@ -131,8 +133,8 @@ public final class SettingsFragment extends PreferenceFragment {
 		if(changelogPref != null) {
 			changelogPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 				public boolean onPreferenceClick(Preference preference) {
-					// TODO
-					//ChangelogDialog.newInstance().show(((SettingsActivity)getActivity()).getFragmentManager(), null);
+					final Intent intent = new Intent(getActivity(), ChangelogActivity.class);
+					getActivity().startActivity(intent);
 					return true;
 				}
 			});

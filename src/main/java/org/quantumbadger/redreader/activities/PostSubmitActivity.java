@@ -65,10 +65,10 @@ public class PostSubmitActivity extends BaseActivity {
 
 		PrefsUtility.applyTheme(this);
 
+		super.onCreate(savedInstanceState);
+
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-		super.onCreate(savedInstanceState);
 
 		final LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.post_submit, null);
 

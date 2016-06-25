@@ -190,10 +190,7 @@ public class BaseActivity extends AppCompatActivity implements SharedPreferences
 
 		onSharedPreferenceChangedInner(prefs, key);
 
-		if(key.equals(getString(R.string.pref_network_https_key))) {
-			PrefsUtility.network_https(this, prefs);
-
-		} else if(key.equals(getString(R.string.pref_menus_optionsmenu_items_key))) {
+		if(key.equals(getString(R.string.pref_menus_optionsmenu_items_key))) {
 			invalidateOptionsMenu();
 		}
 	}

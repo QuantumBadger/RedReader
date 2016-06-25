@@ -104,10 +104,8 @@ public final class Constants {
 		};
 
 		public static final String
-				SCHEME_HTTP = "http",
 				SCHEME_HTTPS = "https",
-				DOMAIN_HTTP = "oauth.reddit.com",
-				DOMAIN_HTTPS = DOMAIN_HTTP,
+				DOMAIN_HTTPS = "oauth.reddit.com",
 				PATH_VOTE = "/api/vote",
 				PATH_SAVE = "/api/save",
 				PATH_HIDE = "/api/hide",
@@ -123,11 +121,11 @@ public final class Constants {
 				PATH_ME = "/api/v1/me";
 
 		public static String getScheme() {
-			return PrefsUtility.httpsEnabled ? SCHEME_HTTPS : SCHEME_HTTP;
+			return SCHEME_HTTPS;
 		}
 
 		public static String getDomain() {
-			return PrefsUtility.httpsEnabled ? DOMAIN_HTTPS : DOMAIN_HTTP;
+			return DOMAIN_HTTPS;
 		}
 
 		public static URI getUri(final String path) {

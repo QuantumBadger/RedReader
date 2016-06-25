@@ -21,10 +21,6 @@
 
     <PreferenceCategory android:title="@string/prefs_category_network">
 
-    <CheckBoxPreference android:title="@string/pref_network_https_title"
-                        android:key="@string/pref_network_https_key"
-                        android:defaultValue="true"/>
-
     <CheckBoxPreference android:title="@string/pref_network_tor_title"
         android:key="@string/pref_network_tor_key"
         android:defaultValue="false"/>

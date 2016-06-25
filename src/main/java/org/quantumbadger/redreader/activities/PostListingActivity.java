@@ -29,7 +29,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.EditText;
-
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
@@ -110,7 +109,7 @@ public class PostListingActivity extends RefreshableActivity
 
 			OptionsMenuUtility.fixActionBar(this, url.humanReadableName(this, false));
 
-			setContentView(R.layout.main_single);
+			setBaseActivityContentView(R.layout.main_single);
 			doRefresh(RefreshableFragment.POSTS, false, fragmentSavedInstanceState);
 
 		} else {
@@ -220,7 +219,7 @@ public class PostListingActivity extends RefreshableActivity
 	protected void doRefresh(final RefreshableFragment which, final boolean force, final Bundle savedInstanceState) {
 		if(fragment != null) fragment.cancel();
 		fragment = controller.get(this, force, savedInstanceState);
-		setContentView(fragment.getView());
+		setBaseActivityContentView(fragment.getView());
 	}
 
 	public void onPostSelected(final RedditPreparedPost post) {

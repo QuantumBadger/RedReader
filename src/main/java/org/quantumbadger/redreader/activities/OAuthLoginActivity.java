@@ -23,8 +23,12 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.webkit.*;
-
+import android.webkit.CookieManager;
+import android.webkit.WebResourceResponse;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import info.guardianproject.netcipher.web.WebkitProxy;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.RedReader;
 import org.quantumbadger.redreader.common.AndroidApi;
@@ -32,8 +36,6 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 
 import java.io.ByteArrayInputStream;
-
-import info.guardianproject.netcipher.web.WebkitProxy;
 
 public class OAuthLoginActivity extends BaseActivity {
 
@@ -189,7 +191,7 @@ public class OAuthLoginActivity extends BaseActivity {
 			}
 		});
 
-		setContentView(mWebView);
+		setBaseActivityContentView(mWebView);
 	}
 
 	@Override

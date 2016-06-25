@@ -32,7 +32,6 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -157,7 +156,7 @@ public final class InboxListingActivity extends BaseActivity {
 
 		makeFirstRequest(this);
 
-		setContentView(outer);
+		setBaseActivityContentView(outer);
 	}
 
 	public void cancel() {

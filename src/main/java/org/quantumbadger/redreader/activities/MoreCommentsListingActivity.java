@@ -91,7 +91,7 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 
 		final View layout = getLayoutInflater().inflate(R.layout.main_single, null);
 		if(solidblack) layout.setBackgroundColor(Color.BLACK);
-		setContentView(layout);
+		setBaseActivityContentView(layout);
 		mPane = (FrameLayout)layout.findViewById(R.id.main_single_frame);
 
 		RedditAccountManager.getInstance(this).addUpdateListener(this);

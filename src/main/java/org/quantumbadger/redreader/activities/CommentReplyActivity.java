@@ -28,7 +28,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
-
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -95,7 +94,7 @@ public class CommentReplyActivity extends BaseActivity {
 
 		final ScrollView sv = new ScrollView(this);
 		sv.addView(layout);
-		setContentView(sv);
+		setBaseActivityContentView(sv);
 	}
 
 	@Override

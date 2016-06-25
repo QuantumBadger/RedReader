@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.OptionsMenuUtility;
@@ -114,7 +115,7 @@ public final class PrefsUtility {
 		return AppearanceTheme.valueOf(General.asciiUppercase(getString(R.string.pref_appearance_theme_key, "red", context, sharedPreferences)));
 	}
 
-	public static void applyTheme(Activity activity) {
+	public static void applyTheme(@NonNull final Activity activity) {
 
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
 
@@ -150,11 +151,23 @@ public final class PrefsUtility {
 				break;
 		}
 
+		applyLanguage(activity, prefs);
+	}
+
+	public static void applySettingsTheme(@NonNull final Activity activity) {
+
+		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+		activity.setTheme(R.style.RR_Settings);
+		applyLanguage(activity, prefs);
+	}
+
+	private static void applyLanguage(final Activity activity, final SharedPreferences prefs) {
+
 		final String lang = getString(R.string.pref_appearance_langforce_key, "auto", activity, prefs);
 
 		for(final Resources res : new Resources[] {
-				activity.getResources(),
-				activity.getApplication().getResources()
+			activity.getResources(),
+			activity.getApplication().getResources()
 		}) {
 
 			final DisplayMetrics dm = res.getDisplayMetrics();

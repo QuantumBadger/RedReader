@@ -18,7 +18,11 @@
 
 <resources>
 
-    <style name="RR.Dark" parent="Theme.AppCompat">
+	<style name="RR.Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+		<item name="android:textSize">18sp</item>
+	</style>
+
+    <style name="RR.Dark" parent="Theme.AppCompat.NoActionBar">
 
         <item name="android:actionOverflowButtonStyle">@style/RR.Base.Widget.AppCompat.ActionButton.Overflow</item>
 
@@ -44,6 +48,9 @@
         <item name="rrLoadingRingBackgroundCol">#323232</item>
 
         <item name="alertDialogTheme">@style/Theme.AppCompat.Dialog.Alert</item>
+		<item name="rrActionBarPopupThemeStyle">@style/ThemeOverlay.AppCompat.Dark</item>
+
+		<item name="actionBarSize">48dp</item>
 
         <!-- Post -->
 
@@ -99,10 +106,21 @@
 
     </style>
 
+	<style name="RR.Settings" parent="Theme.AppCompat">
+
+		<item name="alertDialogTheme">@style/Theme.AppCompat.Dialog.Alert</item>
+
+		<item name="rrActionBarCol">#555555</item>
+		<item name="colorPrimary">?rrActionBarCol</item>
+		<item name="colorPrimaryDark">#555555</item>
+		<item name="colorAccent">#99DDDD</item>
+		<item name="android:windowBackground">@color/settingsWindowBackground</item>
+	</style>
+
     <style name="RR.Startup" parent="RR.Dark">
     </style>
 
-    <style name="RR.Light.DarkActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="RR.Light.DarkActionBar" parent="Theme.AppCompat.Light.NoActionBar">
 
         <item name="android:actionOverflowButtonStyle">@style/RR.Base.Widget.AppCompat.ActionButton.Overflow</item>
 
@@ -126,11 +144,14 @@
         <item name="rrListBackgroundCol">#FFFFFF</item>
 
         <item name="alertDialogTheme">@style/Theme.AppCompat.Light.Dialog.Alert</item>
+		<item name="rrActionBarPopupThemeStyle">@style/ThemeOverlay.AppCompat.Light</item>
 
         <item name="rrListDividerCol">#CCCCCC</item>
         <item name="rrListHeaderTextCol">?colorAccent</item>
         <item name="rrListHeaderLineCol">?colorAccent</item>
         <item name="rrListSubtitleCol">#666666</item>
+
+		<item name="actionBarSize">48dp</item>
 
         <!-- Comment -->
 

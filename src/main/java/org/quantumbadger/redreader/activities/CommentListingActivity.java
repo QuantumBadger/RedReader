@@ -148,7 +148,7 @@ public class CommentListingActivity extends RefreshableActivity
 	@Override
 	protected void doRefresh(final RefreshableFragment which, final boolean force, final Bundle savedInstanceState) {
 		mFragment = controller.get(this, force, savedInstanceState);
-		setContentView(mFragment.getView());
+		setBaseActivityContentView(mFragment.getView());
 		getSupportActionBar().setTitle(controller.getCommentListingUrl().humanReadableName(this, false));
 		invalidateOptionsMenu();
 	}

@@ -25,8 +25,12 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.FrameLayout;
 import info.guardianproject.netcipher.proxy.OrbotHelper;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.cache.CacheDownload;
@@ -47,6 +51,10 @@ public class BaseActivity extends AppCompatActivity implements SharedPreferences
 	private final AtomicInteger mPermissionRequestIdGenerator = new AtomicInteger();
 	private final HashMap<Integer, PermissionCallback> mPermissionRequestCallbacks = new HashMap<>();
 
+	private FrameLayout mContentView;
+
+	private boolean mToolbarActionBarEnabled = true;
+
 	public interface PermissionCallback {
 		void onPermissionGranted();
 		void onPermissionDenied();
@@ -57,6 +65,10 @@ public class BaseActivity extends AppCompatActivity implements SharedPreferences
 		closeIfNecessary();
 	}
 
+	public void setToolbarActionBarEnabled(boolean toolbarActionBarEnabled) {
+		mToolbarActionBarEnabled = toolbarActionBarEnabled;
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -65,6 +77,34 @@ public class BaseActivity extends AppCompatActivity implements SharedPreferences
 		setOrientationFromPrefs();
 		setTorFromPrefs();
 		closeIfNecessary();
+
+		if(mToolbarActionBarEnabled) {
+			final View outerView = getLayoutInflater().inflate(R.layout.rr_actionbar, null);
+
+			final Toolbar toolbar = (Toolbar) outerView.findViewById(R.id.rr_actionbar_toolbar);
+			mContentView = (FrameLayout) outerView.findViewById(R.id.rr_actionbar_content);
+
+			super.setContentView(outerView);
+			setSupportActionBar(toolbar);
+		}
+	}
+
+	public void setBaseActivityContentView(@LayoutRes int layoutResID) {
+		if(mContentView != null) {
+			mContentView.removeAllViews();
+			getLayoutInflater().inflate(layoutResID, mContentView, true);
+		} else {
+			super.setContentView(layoutResID);
+		}
+	}
+
+	public void setBaseActivityContentView(@NonNull final View view) {
+		if(mContentView != null) {
+			mContentView.removeAllViews();
+			mContentView.addView(view);
+		} else {
+			super.setContentView(view);
+		}
 	}
 
 	@Override

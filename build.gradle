@@ -19,6 +19,7 @@ dependencies {
     compile 'joda-time:joda-time:2.9.3'
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.android.support:recyclerview-v7:23.4.0'
+	compile 'com.android.support:design:23.4.0'
     compile 'com.squareup.okhttp:okhttp:2.7.5'
     compile 'info.guardianproject.netcipher:netcipher:1.2.1'
 

@@ -112,6 +112,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
+		setToolbarActionBarEnabled(false);
 		super.onCreate(savedInstanceState);
 
 		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -370,7 +371,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 		}
 
-		setContentView(outerFrame);
+		setBaseActivityContentView(outerFrame);
 	}
 
 	private void setMainView(View v) {

@@ -13,7 +13,8 @@ public class ChangelogActivity extends BaseActivity {
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 
-		PrefsUtility.applyTheme(this);
+		PrefsUtility.applySettingsTheme(this);
+		setToolbarActionBarEnabled(false);
 
 		super.onCreate(savedInstanceState);
 
@@ -28,7 +29,7 @@ public class ChangelogActivity extends BaseActivity {
 
 		final ScrollView sv = new ScrollView(this);
 		sv.addView(items);
-		setContentView(sv);
+		setBaseActivityContentView(sv);
 	}
 
 	@Override

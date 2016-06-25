@@ -166,7 +166,7 @@ public class AlbumListingActivity extends BaseActivity {
 			}
 		});
 
-		setContentView(layout);
+		setBaseActivityContentView(layout);
 	}
 
 	@Override

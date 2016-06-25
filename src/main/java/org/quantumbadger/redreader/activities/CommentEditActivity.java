@@ -25,7 +25,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ScrollView;
-
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -65,7 +64,7 @@ public class CommentEditActivity extends BaseActivity {
 
 		final ScrollView sv = new ScrollView(this);
 		sv.addView(textEdit);
-		setContentView(sv);
+		setBaseActivityContentView(sv);
 	}
 
 	@Override

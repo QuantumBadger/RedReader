@@ -29,7 +29,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -60,7 +59,7 @@ public class CaptchaActivity extends BaseActivity {
 		getSupportActionBar().setTitle(R.string.post_captcha_title);
 
 		final LoadingView loadingView = new LoadingView(this, R.string.download_waiting, true, true);
-		setContentView(loadingView);
+		setBaseActivityContentView(loadingView);
 
 		final RedditAccount selectedAccount = RedditAccountManager.getInstance(this).getAccount(getIntent().getStringExtra("username"));
 
@@ -156,7 +155,7 @@ public class CaptchaActivity extends BaseActivity {
 
 								final ScrollView sv = new ScrollView(CaptchaActivity.this);
 								sv.addView(ll);
-								setContentView(sv);
+								setBaseActivityContentView(sv);
 							}
 						});
 

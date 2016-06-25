@@ -152,7 +152,7 @@ public class BugReportActivity extends BaseActivity {
 		final ScrollView sv = new ScrollView(this);
 		sv.addView(layout);
 
-		setContentView(sv);
+		setBaseActivityContentView(sv);
 	}
 
 	public static void appendException(StringBuilder sb, Throwable t, int recurseLimit) {

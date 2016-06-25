@@ -22,6 +22,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
+import android.view.Window;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.PrefsUtility;
 
@@ -36,7 +37,8 @@ public final class SettingsActivity
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 
-		PrefsUtility.applyTheme(this);
+		getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+		PrefsUtility.applySettingsTheme(this);
 		super.onCreate(savedInstanceState);
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		sharedPreferences.registerOnSharedPreferenceChangeListener(this);

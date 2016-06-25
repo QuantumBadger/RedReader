@@ -34,7 +34,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
@@ -383,8 +382,7 @@ public class MainActivity extends RefreshableActivity
 				mSinglePane = (FrameLayout)layout.findViewById(R.id.main_single_frame);
 			}
 
-			setContentView(layout);
-
+			setBaseActivityContentView(layout);
 
 			final boolean solidblack = PrefsUtility.appearance_solidblack(this, sharedPreferences)
 					&& PrefsUtility.appearance_theme(this, sharedPreferences) == PrefsUtility.AppearanceTheme.NIGHT;

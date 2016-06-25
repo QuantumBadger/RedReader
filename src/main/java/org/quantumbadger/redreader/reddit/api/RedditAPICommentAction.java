@@ -24,7 +24,6 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.text.ClipboardManager;
 import android.widget.Toast;
-
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -352,17 +351,17 @@ public class RedditAPICommentAction {
 
 		switch(action) {
 			case RedditAPI.ACTION_DOWNVOTE:
-				if(!comment.archived) {
+				if(!comment.isArchived()) {
 					changeDataManager.markDownvoted(RRTime.utcCurrentTimeMillis(), comment);
 				}
 				break;
 			case RedditAPI.ACTION_UNVOTE:
-				if(!comment.archived) {
+				if(!comment.isArchived()) {
 					changeDataManager.markUnvoted(RRTime.utcCurrentTimeMillis(), comment);
 				}
 				break;
 			case RedditAPI.ACTION_UPVOTE:
-				if(!comment.archived) {
+				if(!comment.isArchived()) {
 					changeDataManager.markUpvoted(RRTime.utcCurrentTimeMillis(), comment);
 				}
 				break;
@@ -374,7 +373,7 @@ public class RedditAPICommentAction {
 				| action == RedditAPI.ACTION_UPVOTE
 				| action == RedditAPI.ACTION_UNVOTE);
 
-		if(comment.archived && vote){
+		if(comment.isArchived() && vote){
 			Toast.makeText(activity, R.string.error_archived_vote, Toast.LENGTH_SHORT)
 					.show();
 			return;

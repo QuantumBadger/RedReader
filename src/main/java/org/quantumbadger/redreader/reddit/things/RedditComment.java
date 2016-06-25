@@ -144,6 +144,10 @@ public final class RedditComment implements Parcelable, RedditThingWithIdAndType
 		return name;
 	}
 
+	public boolean isArchived() {
+		return Boolean.TRUE.equals(archived);
+	}
+
 	public int describeContents() {
 		return 0;
 	}

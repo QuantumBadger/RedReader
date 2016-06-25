@@ -18,11 +18,7 @@
 package org.quantumbadger.redreader.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -63,12 +59,6 @@ public class AlbumListingActivity extends BaseActivity {
 			getSupportActionBar().setHomeButtonEnabled(true);
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		}
-
-		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-		final boolean solidblack = PrefsUtility.appearance_solidblack(this, sharedPreferences)
-				&& PrefsUtility.appearance_theme(this, sharedPreferences) == PrefsUtility.AppearanceTheme.NIGHT;
-
-		if(solidblack) getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
 
 		final Intent intent = getIntent();
 

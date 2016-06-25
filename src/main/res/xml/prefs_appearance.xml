@@ -27,10 +27,6 @@
                         android:entryValues="@array/pref_appearance_theme_return"
                         android:defaultValue="red"/>
 
-        <CheckBoxPreference android:title="@string/pref_appearance_solidblack_title"
-                            android:key="@string/pref_appearance_solidblack_2_key"
-                            android:defaultValue="true"/>
-
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_appearance_locale_header">

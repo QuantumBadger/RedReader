@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.activities;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -98,8 +97,6 @@ public final class InboxListingActivity extends BaseActivity {
 
 		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		editor = sharedPreferences.edit();
-		final boolean solidblack = PrefsUtility.appearance_solidblack(this, sharedPreferences)
-				&& PrefsUtility.appearance_theme(this, sharedPreferences) == PrefsUtility.AppearanceTheme.NIGHT;
 
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -119,10 +116,6 @@ public final class InboxListingActivity extends BaseActivity {
 
 		final LinearLayout outer = new LinearLayout(this);
 		outer.setOrientation(android.widget.LinearLayout.VERTICAL);
-
-		if(solidblack) {
-			outer.setBackgroundColor(Color.BLACK);
-		}
 
 		loadingView = new LoadingView(this, getString(R.string.download_waiting), true, true);
 

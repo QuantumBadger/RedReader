@@ -18,12 +18,8 @@
 package org.quantumbadger.redreader.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -69,13 +65,6 @@ public class CommentListingActivity extends RefreshableActivity
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		OptionsMenuUtility.fixActionBar(this, getString(R.string.app_name));
-
-		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-
-		final boolean solidblack = PrefsUtility.appearance_solidblack(this, sharedPreferences)
-				&& PrefsUtility.appearance_theme(this, sharedPreferences) == PrefsUtility.AppearanceTheme.NIGHT;
-
-		if(solidblack) getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
 
 		RedditAccountManager.getInstance(this).addUpdateListener(this);
 

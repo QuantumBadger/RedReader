@@ -36,7 +36,6 @@ package org.quantumbadger.redreader.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -84,13 +83,9 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-		final boolean solidblack = PrefsUtility.appearance_solidblack(this, sharedPreferences)
-				&& PrefsUtility.appearance_theme(this, sharedPreferences) == PrefsUtility.AppearanceTheme.NIGHT;
-
 		// TODO load from savedInstanceState
 
 		final View layout = getLayoutInflater().inflate(R.layout.main_single, null);
-		if(solidblack) layout.setBackgroundColor(Color.BLACK);
 		setBaseActivityContentView(layout);
 		mPane = (FrameLayout)layout.findViewById(R.id.main_single_frame);
 

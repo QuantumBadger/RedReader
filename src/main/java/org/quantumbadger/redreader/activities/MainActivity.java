@@ -23,7 +23,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
@@ -383,11 +382,6 @@ public class MainActivity extends RefreshableActivity
 			}
 
 			setBaseActivityContentView(layout);
-
-			final boolean solidblack = PrefsUtility.appearance_solidblack(this, sharedPreferences)
-					&& PrefsUtility.appearance_theme(this, sharedPreferences) == PrefsUtility.AppearanceTheme.NIGHT;
-
-			if(solidblack) layout.setBackgroundColor(Color.BLACK);
 
 			invalidateOptionsMenu();
 			requestRefresh(RefreshableFragment.ALL, false);

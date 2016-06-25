@@ -21,7 +21,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.opengl.GLSurfaceView;
@@ -116,9 +115,6 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 		super.onCreate(savedInstanceState);
 
 		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-		final boolean solidblack = PrefsUtility.appearance_solidblack(this, sharedPreferences);
-
-		if(solidblack) getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
 
 		final int gallerySwipeLengthDp = PrefsUtility.pref_behaviour_gallery_swipe_length_dp(this, sharedPreferences);
 		mGallerySwipeLengthPx = General.dpToPixels(this, gallerySwipeLengthDp);

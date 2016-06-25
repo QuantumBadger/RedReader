@@ -30,13 +30,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.widget.*;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -46,14 +40,7 @@ import org.quantumbadger.redreader.activities.SessionChangeListener;
 import org.quantumbadger.redreader.adapters.PostListingAdapter;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.common.AndroidApi;
-import org.quantumbadger.redreader.common.Constants;
-import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.common.LinkHandler;
-import org.quantumbadger.redreader.common.PrefsUtility;
-import org.quantumbadger.redreader.common.RRError;
-import org.quantumbadger.redreader.common.RRTime;
-import org.quantumbadger.redreader.common.TimestampBound;
+import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
 import org.quantumbadger.redreader.image.ImageInfo;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
@@ -620,8 +607,11 @@ public class PostListingFragment extends RRFragment
 
 				final boolean showNsfwThumbnails = PrefsUtility.appearance_thumbnails_nsfw_show(context, mSharedPreferences);
 
-				final PrefsUtility.CachePrecacheImages imagePrecachePref = PrefsUtility.cache_precache_images(context, mSharedPreferences);
-				final PrefsUtility.CachePrecacheComments commentPrecachePref = PrefsUtility.cache_precache_comments(context, mSharedPreferences);
+				final PrefsUtility.CachePrecacheImages imagePrecachePref
+						= PrefsUtility.cache_precache_images(context, mSharedPreferences);
+
+				final PrefsUtility.CachePrecacheComments commentPrecachePref
+						= PrefsUtility.cache_precache_comments(context, mSharedPreferences);
 
 				final boolean precacheImages = (imagePrecachePref == PrefsUtility.CachePrecacheImages.ALWAYS
 						|| (imagePrecachePref == PrefsUtility.CachePrecacheImages.WIFIONLY && isConnectionWifi))
@@ -629,6 +619,22 @@ public class PostListingFragment extends RRFragment
 
 				final boolean precacheComments = (commentPrecachePref == PrefsUtility.CachePrecacheComments.ALWAYS
 						|| (commentPrecachePref == PrefsUtility.CachePrecacheComments.WIFIONLY && isConnectionWifi));
+
+				final PrefsUtility.ImageViewMode imageViewMode
+						= PrefsUtility.pref_behaviour_imageview_mode(context, mSharedPreferences);
+
+				final PrefsUtility.GifViewMode gifViewMode
+						= PrefsUtility.pref_behaviour_gifview_mode(context, mSharedPreferences);
+
+				final PrefsUtility.VideoViewMode videoViewMode
+						= PrefsUtility.pref_behaviour_videoview_mode(context, mSharedPreferences);
+
+				final boolean imagesOpenedInternally = (imageViewMode == PrefsUtility.ImageViewMode.INTERNAL_OPENGL);
+
+				final boolean gifsOpenedInternally
+						= (gifViewMode == PrefsUtility.GifViewMode.INTERNAL_MOVIE
+								|| gifViewMode == PrefsUtility.GifViewMode.INTERNAL_LEGACY
+								|| videoViewMode == PrefsUtility.VideoViewMode.INTERNAL_VIDEOVIEW);
 
 				final boolean isAll =
 						mPostListingURL.pathType() == RedditURLParser.SUBREDDIT_POST_LISTING_URL
@@ -732,9 +738,37 @@ public class PostListingFragment extends RRFragment
 								if(!precacheImages) return;
 
 								// Don't precache huge images
-								if(info.width != null && info.width > 2500) return;
-								if(info.height != null && info.height > 2500) return;
-								if(info.size != null && info.size > 10 * 1024 * 1024) return;
+								if(info.width != null && info.width > 2500) {
+									Log.i("PostListingFragment", String.format(
+											"Not precaching '%s': too wide (%d px)", post.url, info.width));
+									return;
+								}
+
+								if(info.height != null && info.height > 2500) {
+									Log.i("PostListingFragment", String.format(
+											"Not precaching '%s': too tall (%d px)", post.url, info.height));
+									return;
+								}
+
+								if(info.size != null && info.size > 10 * 1024 * 1024) {
+									Log.i("PostListingFragment", String.format(
+											"Not precaching '%s': too big (%d kB)", post.url, info.size / 1024));
+									return;
+								}
+
+								// Don't precache gifs if they're opened externally
+								if(Boolean.TRUE.equals(info.isAnimated) && !gifsOpenedInternally) {
+									Log.i("PostListingFragment", String.format(
+											"Not precaching '%s': GIFs are opened externally", post.url));
+									return;
+								}
+
+								// Don't precache images if they're opened externally
+								if(!Boolean.TRUE.equals(info.isAnimated) && !imagesOpenedInternally) {
+									Log.i("PostListingFragment", String.format(
+											"Not precaching '%s': images are opened externally", post.url));
+									return;
+								}
 
 								final URI uri = General.uriFromString(info.urlOriginal);
 								if(uri == null) return;

@@ -21,6 +21,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.text.ClipboardManager;
 import android.widget.Toast;
@@ -45,6 +46,7 @@ import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManagerVolati
 import org.quantumbadger.redreader.reddit.prepared.RedditRenderableComment;
 import org.quantumbadger.redreader.reddit.things.RedditComment;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
+import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 import org.quantumbadger.redreader.reddit.url.UserProfileURL;
 import org.quantumbadger.redreader.views.RedditCommentView;
 
@@ -308,26 +310,27 @@ public class RedditAPICommentAction {
 				break;
 
 			case GO_TO_COMMENT: {
-				PostCommentListingURL url = new PostCommentListingURL(
-						null,
-						comment.link_id,
-						comment.getIdAlone(),
-						null,
-						null,
-						null);
+
+				String rawContextUrl = comment.context;
+
+				if(rawContextUrl.startsWith("r/")) {
+					rawContextUrl = "/" + rawContextUrl;
+				}
+
+				if(rawContextUrl.startsWith("/")) {
+					rawContextUrl = "https://reddit.com" + rawContextUrl;
+				}
+
+				final RedditURLParser.RedditURL contextUrl = RedditURLParser.parse(Uri.parse(rawContextUrl));
+
+				final PostCommentListingURL url = contextUrl.asPostCommentListURL().context(null);
+
 				LinkHandler.onLinkClicked(activity, url.toString());
 				break;
 			}
 
 			case CONTEXT: {
-				PostCommentListingURL url = new PostCommentListingURL(
-						null,
-						comment.link_id,
-						comment.getIdAlone(),
-						3,
-						null,
-						null);
-				LinkHandler.onLinkClicked(activity, url.toString());
+				LinkHandler.onLinkClicked(activity, comment.context);
 				break;
 			}
 		}

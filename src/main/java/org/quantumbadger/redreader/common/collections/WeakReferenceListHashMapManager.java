@@ -10,7 +10,7 @@ public class WeakReferenceListHashMapManager<K, V> {
 
 	private byte mCleanupCounter = 0;
 
-	public void add(final K key, final V value) {
+	public synchronized void add(final K key, final V value) {
 
 		WeakReferenceListManager<V> list = mData.get(key);
 
@@ -27,7 +27,7 @@ public class WeakReferenceListHashMapManager<K, V> {
 		}
 	}
 
-	public void remove(final K key, final V value) {
+	public synchronized void remove(final K key, final V value) {
 
 		WeakReferenceListManager<V> list = mData.get(key);
 
@@ -36,7 +36,7 @@ public class WeakReferenceListHashMapManager<K, V> {
 		}
 	}
 
-	public void map(
+	public synchronized void map(
 			final K key,
 			final WeakReferenceListManager.Operator<V> operator) {
 
@@ -47,7 +47,7 @@ public class WeakReferenceListHashMapManager<K, V> {
 		}
 	}
 
-	public <A> void map(
+	public synchronized <A> void map(
 			final K key,
 			final WeakReferenceListManager.ArgOperator<V, A> operator,
 			final A arg) {
@@ -59,7 +59,7 @@ public class WeakReferenceListHashMapManager<K, V> {
 		}
 	}
 
-	public void clean() {
+	public synchronized void clean() {
 
 		final Iterator<Map.Entry<K, WeakReferenceListManager<V>>> iterator = mData.entrySet().iterator();
 

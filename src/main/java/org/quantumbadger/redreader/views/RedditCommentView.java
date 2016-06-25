@@ -19,6 +19,9 @@ package org.quantumbadger.redreader.views;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -26,7 +29,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -37,6 +39,25 @@ import org.quantumbadger.redreader.reddit.prepared.RedditRenderableComment;
 
 public class RedditCommentView extends LinearLayout
 		implements RedditChangeDataManagerVolatile.Listener {
+
+	private static final Handler HANDLER = new Handler(Looper.getMainLooper()) {
+		@Override
+		public void handleMessage(Message msg) {
+
+			switch(msg.what) {
+				case HANDLER_REQUEST_COMMENT_CHANGED: {
+					final RedditCommentView rcv = (RedditCommentView) msg.obj;
+					rcv.mListener.onCommentChanged(rcv);
+					break;
+				}
+
+				default:
+					throw new RuntimeException("Unknown message type " + msg.what);
+			}
+		}
+	};
+
+	private static final int HANDLER_REQUEST_COMMENT_CHANGED = 1;
 
 	private RedditCommentListItem mComment;
 
@@ -139,7 +160,7 @@ public class RedditCommentView extends LinearLayout
 
 	@Override
 	public void onRedditDataChange(final String thingIdAndType) {
-		mListener.onCommentChanged(this);
+		HANDLER.dispatchMessage(Message.obtain(HANDLER, HANDLER_REQUEST_COMMENT_CHANGED, this));
 	}
 
 	public void notifyClick() {

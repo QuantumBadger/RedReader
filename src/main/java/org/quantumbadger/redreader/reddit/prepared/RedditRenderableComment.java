@@ -6,7 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.common.*;
+import org.quantumbadger.redreader.common.BetterSSB;
+import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.RRThemeAttributes;
+import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.reddit.api.RedditAPICommentAction;
 import org.quantumbadger.redreader.reddit.things.RedditComment;
 import org.quantumbadger.redreader.reddit.things.RedditThingWithIdAndType;
@@ -74,13 +79,42 @@ public class RedditRenderableComment implements RedditRenderableInboxItem, Reddi
 		}
 
 		if(theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.AUTHOR)) {
+
+			boolean setBackgroundColour = false;
+			int backgroundColour = 0; // TODO color from theme
+
 			if(mParentPostAuthor != null
 					&& rawComment.author.equalsIgnoreCase(mParentPostAuthor)
 					&& !rawComment.author.equals("[deleted]")) {
-				sb.append(" " + rawComment.author + " ", BetterSSB.BACKGROUND_COLOR | BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD,
-						Color.WHITE, Color.rgb(0, 126, 168), 1f); // TODO color
+
+				setBackgroundColour = true;
+				backgroundColour = Color.rgb(0, 126, 168);
+
+			} else if("moderator".equals(rawComment.distinguished)) {
+				setBackgroundColour = true;
+				backgroundColour = Color.rgb(0, 170, 0);
+
+			} else if("admin".equals(rawComment.distinguished)) {
+				setBackgroundColour = true;
+				backgroundColour = Color.rgb(170, 0, 0);
+			}
+
+			if(setBackgroundColour) {
+
+				sb.append(
+						" " + rawComment.author + " ",
+						BetterSSB.BACKGROUND_COLOR | BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD,
+						Color.WHITE,
+						backgroundColour,
+						1f);
+
 			} else {
-				sb.append(rawComment.author, BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, theme.rrCommentHeaderAuthorCol, 0, 1f);
+				sb.append(
+						rawComment.author,
+						BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD,
+						theme.rrCommentHeaderAuthorCol,
+						0,
+						1f);
 			}
 		}
 

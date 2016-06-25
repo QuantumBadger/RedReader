@@ -27,23 +27,25 @@ import java.util.HashSet;
 
 
 public final class RedditComment implements Parcelable, RedditThingWithIdAndType {
-	
+
 	public String body, body_html, author, subreddit;
 	public String author_flair_text;
 	public Boolean archived, likes, score_hidden;
-	
+
 	public JsonValue replies;
-	
+
 	public String id, subreddit_id, link_id, parent_id, name, context;
-	
+
 	public int ups, downs;
 	public int gilded;
-	
+
 	public Object edited;
-	
+
 	public long created, created_utc;
 
 	public Boolean saved;
+
+	public String distinguished;
 
 	public RedditComment() {}
 
@@ -88,6 +90,8 @@ public final class RedditComment implements Parcelable, RedditThingWithIdAndType
 
 		saved = in.readInt() != 0;
 		gilded = in.readInt();
+
+		distinguished = in.readString();
 	}
 
 	public void writeToParcel(final Parcel parcel, final int flags) {
@@ -126,6 +130,8 @@ public final class RedditComment implements Parcelable, RedditThingWithIdAndType
 
 		parcel.writeInt(saved ? 1 : 0);
 		parcel.writeInt(gilded);
+
+		parcel.writeString(distinguished);
 	}
 
 	@Override

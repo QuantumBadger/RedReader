@@ -32,31 +32,15 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.VideoView;
-
+import android.widget.*;
 import com.github.lzyzsd.circleprogress.DonutProgress;
-
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.common.AndroidApi;
-import org.quantumbadger.redreader.common.Constants;
-import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.common.LinkHandler;
-import org.quantumbadger.redreader.common.PrefsUtility;
-import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.fragments.ImageInfoDialog;
-import org.quantumbadger.redreader.image.GetAlbumInfoListener;
-import org.quantumbadger.redreader.image.GetImageInfoListener;
-import org.quantumbadger.redreader.image.GifDecoderThread;
-import org.quantumbadger.redreader.image.ImageInfo;
-import org.quantumbadger.redreader.image.ImgurAPI;
+import org.quantumbadger.redreader.image.*;
 import org.quantumbadger.redreader.reddit.prepared.RedditParsedPost;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
@@ -81,7 +65,7 @@ import java.util.UUID;
 
 public class ImageViewActivity extends BaseActivity implements RedditPostView.PostSelectionListener, ImageViewDisplayListManager.Listener {
 
-	GLSurfaceView surfaceView;
+	private GLSurfaceView surfaceView;
 	private ImageView imageView;
 	private GifDecoderThread gifThread;
 
@@ -385,7 +369,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 		v.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
 	}
 
-	protected void onImageLoaded(
+	private void onImageLoaded(
 			final CacheManager.ReadableCacheFile cacheFile,
 			final String mimetype) {
 
@@ -536,14 +520,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 				return;
 
 			} else if(gifViewMode == PrefsUtility.GifViewMode.EXTERNAL_BROWSER) {
-				AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
-					@Override
-					public void run() {
-						LinkHandler.openWebBrowser(ImageViewActivity.this, Uri.parse(mUrl), false);
-						finish();
-					}
-				});
-
+				openInExternalBrowser();
 				return;
 			}
 
@@ -611,6 +588,19 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 			}
 
 		} else {
+
+			final PrefsUtility.ImageViewMode imageViewMode = PrefsUtility.pref_behaviour_imageview_mode(
+					this,
+					PreferenceManager.getDefaultSharedPreferences(this));
+
+			if(imageViewMode == PrefsUtility.ImageViewMode.INTERNAL_BROWSER) {
+				revertToWeb();
+				return;
+
+			} else if(imageViewMode == PrefsUtility.ImageViewMode.EXTERNAL_BROWSER) {
+				openInExternalBrowser();
+				return;
+			}
 
 			final ImageTileSource imageTileSource;
 			try {
@@ -686,6 +676,23 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 					LinkHandler.onLinkClicked(ImageViewActivity.this, mUrl, true);
 					finish();
 				}
+			}
+		};
+
+		if(General.isThisUIThread()) {
+			r.run();
+		} else {
+			AndroidApi.UI_THREAD_HANDLER.post(r);
+		}
+	}
+
+	private void openInExternalBrowser() {
+
+		final Runnable r = new Runnable() {
+			@Override
+			public void run() {
+				LinkHandler.openWebBrowser(ImageViewActivity.this, Uri.parse(mUrl), false);
+				finish();
 			}
 		};
 

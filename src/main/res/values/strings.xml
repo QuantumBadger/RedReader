@@ -794,5 +794,13 @@
 
 	<!-- 2016-06-24 -->
 	<string name="save_image_permission_denied">Permission denied: could not save image.</string>
+	
+	<!-- 2016-06-25 -->
+	<string name="pref_behaviour_imageview_mode_title">Image Viewer</string>
+	<string name="pref_behaviour_imageview_mode_key">pref_behaviour_imageview_mode</string>
+
+	<string name="pref_behaviour_imageview_mode_internal_opengl">Internal viewer (OpenGL)</string>
+	<string name="pref_behaviour_imageview_mode_internal_browser">Internal browser</string>
+	<string name="pref_behaviour_imageview_mode_external_browser">External browser</string>
 
 </resources>

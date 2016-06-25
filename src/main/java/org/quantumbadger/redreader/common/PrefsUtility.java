@@ -31,14 +31,7 @@ import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 
 public final class PrefsUtility {
 
@@ -286,6 +279,18 @@ public final class PrefsUtility {
 		} catch(Throwable e) {
 			return defaultValue;
 		}
+	}
+
+	// pref_behaviour_imageview_mode
+
+	public enum ImageViewMode {
+		INTERNAL_OPENGL,
+		INTERNAL_BROWSER,
+		EXTERNAL_BROWSER
+	}
+
+	public static ImageViewMode pref_behaviour_imageview_mode(final Context context, final SharedPreferences sharedPreferences) {
+		return ImageViewMode.valueOf(General.asciiUppercase(getString(R.string.pref_behaviour_imageview_mode_key, "internal_opengl", context, sharedPreferences)));
 	}
 
 	// pref_behaviour_gifview_mode

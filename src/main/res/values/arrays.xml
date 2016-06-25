@@ -466,5 +466,20 @@
         <item>250</item>
         <item>300</item>
     </string-array>
+	
+	<!-- 2016-06-25 -->
+	
+	<string-array name="pref_behaviour_imageview_mode_array">
+		<item>@string/pref_behaviour_imageview_mode_internal_opengl</item>
+		<item>@string/pref_behaviour_imageview_mode_internal_browser</item>
+		<item>@string/pref_behaviour_imageview_mode_external_browser</item>
+	</string-array>
+
+	<!-- Constants. Do not change. -->
+	<string-array name="pref_behaviour_imageview_mode_array_return">
+		<item>internal_opengl</item>
+		<item>internal_browser</item>
+		<item>external_browser</item>
+	</string-array>
 
 </resources>

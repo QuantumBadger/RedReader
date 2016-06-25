@@ -803,4 +803,11 @@
 	<string name="pref_behaviour_imageview_mode_internal_browser">Internal browser</string>
 	<string name="pref_behaviour_imageview_mode_external_browser">External browser</string>
 
+	<string name="pref_behaviour_albumview_mode_title">Album Viewer</string>
+	<string name="pref_behaviour_albumview_mode_key">pref_behaviour_albumview_mode</string>
+
+	<string name="pref_behaviour_albumview_mode_internal_list">Internal viewer (list)</string>
+	<string name="pref_behaviour_albumview_mode_internal_browser">Internal browser</string>
+	<string name="pref_behaviour_albumview_mode_external_browser">External browser</string>
+
 </resources>

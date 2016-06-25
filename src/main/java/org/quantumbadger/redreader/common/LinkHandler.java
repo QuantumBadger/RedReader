@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.common;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Handler;
@@ -27,7 +28,6 @@ import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.AlbumListingActivity;
 import org.quantumbadger.redreader.activities.CommentListingActivity;
@@ -95,6 +95,8 @@ public class LinkHandler {
 			final int albumImageIndex,
 			final boolean fromExternalIntent) {
 
+		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+
 		if(url.startsWith("rr://")) {
 
 			final Uri rrUri = Uri.parse(url);
@@ -142,11 +144,33 @@ public class LinkHandler {
 		}
 
 		if(!forceNoImage && imgurAlbumPattern.matcher(url).matches()) {
-			final Intent intent = new Intent(activity, AlbumListingActivity.class);
-			intent.setData(Uri.parse(url));
-			intent.putExtra("post", post);
-			activity.startActivity(intent);
-			return;
+
+			final PrefsUtility.AlbumViewMode albumViewMode
+					= PrefsUtility.pref_behaviour_albumview_mode(activity, sharedPreferences);
+
+			switch(albumViewMode) {
+
+				case INTERNAL_LIST: {
+					final Intent intent = new Intent(activity, AlbumListingActivity.class);
+					intent.setData(Uri.parse(url));
+					intent.putExtra("post", post);
+					activity.startActivity(intent);
+					return;
+				}
+
+				case INTERNAL_BROWSER: {
+					final Intent intent = new Intent(activity, WebViewActivity.class);
+					intent.putExtra("url", url);
+					intent.putExtra("post", post);
+					activity.startActivity(intent);
+					return;
+				}
+
+				case EXTERNAL_BROWSER: {
+					openWebBrowser(activity, Uri.parse(url), fromExternalIntent);
+					return;
+				}
+			}
 		}
 
 		final RedditURLParser.RedditURL redditURL = RedditURLParser.parse(Uri.parse(url));
@@ -180,7 +204,7 @@ public class LinkHandler {
 
 		// Use a browser
 
-		if(!PrefsUtility.pref_behaviour_useinternalbrowser(activity, PreferenceManager.getDefaultSharedPreferences(activity))) {
+		if(!PrefsUtility.pref_behaviour_useinternalbrowser(activity, sharedPreferences)) {
 			if(openWebBrowser(activity, Uri.parse(url), fromExternalIntent)) {
 				return;
 			}

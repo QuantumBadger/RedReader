@@ -481,5 +481,18 @@
 		<item>internal_browser</item>
 		<item>external_browser</item>
 	</string-array>
+	
+	<string-array name="pref_behaviour_albumview_mode_array">
+		<item>@string/pref_behaviour_albumview_mode_internal_list</item>
+		<item>@string/pref_behaviour_albumview_mode_internal_browser</item>
+		<item>@string/pref_behaviour_albumview_mode_external_browser</item>
+	</string-array>
+
+	<!-- Constants. Do not change. -->
+	<string-array name="pref_behaviour_albumview_mode_array_return">
+		<item>internal_list</item>
+		<item>internal_browser</item>
+		<item>external_browser</item>
+	</string-array>
 
 </resources>

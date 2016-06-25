@@ -65,6 +65,7 @@ public final class SettingsFragment extends PreferenceFragment {
 				R.string.pref_behaviour_postcount_key,
 				R.string.pref_behaviour_bezel_toolbar_swipezone_key,
 				R.string.pref_behaviour_imageview_mode_key,
+				R.string.pref_behaviour_albumview_mode_key,
 				R.string.pref_behaviour_gifview_mode_key,
 				R.string.pref_behaviour_videoview_mode_key,
 				R.string.pref_behaviour_screenorientation_key,

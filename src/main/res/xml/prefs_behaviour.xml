@@ -45,6 +45,12 @@
                     android:entryValues="@array/pref_behaviour_videoview_mode_array_return"
                     android:defaultValue="internal_videoview" />
 
+	<ListPreference android:title="@string/pref_behaviour_albumview_mode_title"
+					android:key="@string/pref_behaviour_albumview_mode_key"
+					android:entries="@array/pref_behaviour_albumview_mode_array"
+					android:entryValues="@array/pref_behaviour_albumview_mode_array_return"
+					android:defaultValue="internal_list" />
+
     <ListPreference android:title="@string/pref_behaviour_gallery_swipe_length_title"
                     android:key="@string/pref_behaviour_gallery_swipe_length_key"
                     android:entries="@array/pref_behaviour_gallery_swipe_length_array"

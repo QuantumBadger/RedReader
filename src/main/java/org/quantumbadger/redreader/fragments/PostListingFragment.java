@@ -91,6 +91,8 @@ public class PostListingFragment extends RRFragment
 		implements RedditPostView.PostSelectionListener,
 		AbsListView.OnScrollListener {
 
+	private static final String TAG = "PostListingFragment";
+
 	private static final String SAVEDSTATE_FIRST_VISIBLE_POS = "firstVisiblePosition";
 
 	private final PostListingURL mPostListingURL;
@@ -655,8 +657,8 @@ public class PostListingFragment extends RRFragment
 
 				final List<String> blockedSubreddits = PrefsUtility.pref_blocked_subreddits(context, mSharedPreferences); // Grab this so we don't have to pull from the prefs every post
 
-				Log.i("PostListingFragment", "Precaching images: " + (precacheImages ? "ON" : "OFF"));
-				Log.i("PostListingFragment", "Precaching comments: " + (precacheComments ? "ON" : "OFF"));
+				Log.i(TAG, "Precaching images: " + (precacheImages ? "ON" : "OFF"));
+				Log.i(TAG, "Precaching comments: " + (precacheComments ? "ON" : "OFF"));
 
 				final CacheManager cm = CacheManager.getInstance(context);
 
@@ -726,7 +728,7 @@ public class PostListingFragment extends RRFragment
 
 								@Override
 								protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
-									Log.e("PostListingFragment", "Failed to precache " + url.toString() + "(RequestFailureType code: " + type + ")");
+									Log.e(TAG, "Failed to precache " + url.toString() + "(RequestFailureType code: " + type + ")");
 								}
 
 								@Override
@@ -734,7 +736,7 @@ public class PostListingFragment extends RRFragment
 
 								@Override
 								protected void onSuccess(final CacheManager.ReadableCacheFile cacheFile, final long timestamp, final UUID session, final boolean fromCache, final String mimetype) {
-									Log.i("PostListingFragment", "Successfully precached " + url.toString());
+									Log.i(TAG, "Successfully precached " + url.toString());
 								}
 							});
 						}
@@ -751,33 +753,33 @@ public class PostListingFragment extends RRFragment
 
 								// Don't precache huge images
 								if(info.width != null && info.width > 2500) {
-									Log.i("PostListingFragment", String.format(
+									Log.i(TAG, String.format(
 											"Not precaching '%s': too wide (%d px)", post.url, info.width));
 									return;
 								}
 
 								if(info.height != null && info.height > 2500) {
-									Log.i("PostListingFragment", String.format(
+									Log.i(TAG, String.format(
 											"Not precaching '%s': too tall (%d px)", post.url, info.height));
 									return;
 								}
 
 								if(info.size != null && info.size > 10 * 1024 * 1024) {
-									Log.i("PostListingFragment", String.format(
+									Log.i(TAG, String.format(
 											"Not precaching '%s': too big (%d kB)", post.url, info.size / 1024));
 									return;
 								}
 
 								// Don't precache gifs if they're opened externally
 								if(Boolean.TRUE.equals(info.isAnimated) && !gifsOpenedInternally) {
-									Log.i("PostListingFragment", String.format(
+									Log.i(TAG, String.format(
 											"Not precaching '%s': GIFs are opened externally", post.url));
 									return;
 								}
 
 								// Don't precache images if they're opened externally
 								if(!Boolean.TRUE.equals(info.isAnimated) && !imagesOpenedInternally) {
-									Log.i("PostListingFragment", String.format(
+									Log.i(TAG, String.format(
 											"Not precaching '%s': images are opened externally", post.url));
 									return;
 								}
@@ -803,12 +805,12 @@ public class PostListingFragment extends RRFragment
 									@Override protected void onDownloadStarted() {}
 
 									@Override protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
-										Log.e("PostListingFragment", "Failed to precache " + info.urlOriginal + "(RequestFailureType code: " + type + ")");
+										Log.e(TAG, "Failed to precache " + info.urlOriginal + "(RequestFailureType code: " + type + ")");
 									}
 									@Override protected void onProgress(final boolean authorizationInProgress, final long bytesRead, final long totalBytes) {}
 
 									@Override protected void onSuccess(final CacheManager.ReadableCacheFile cacheFile, final long timestamp, final UUID session, final boolean fromCache, final String mimetype) {
-										Log.i("PostListingFragment", "Successfully precached " + info.urlOriginal);
+										Log.i(TAG, "Successfully precached " + info.urlOriginal);
 									}
 								});
 							}

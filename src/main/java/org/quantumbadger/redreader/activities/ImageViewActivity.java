@@ -32,15 +32,29 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.VideoView;
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.common.*;
+import org.quantumbadger.redreader.common.AndroidApi;
+import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.fragments.ImageInfoDialog;
-import org.quantumbadger.redreader.image.*;
+import org.quantumbadger.redreader.image.GetAlbumInfoListener;
+import org.quantumbadger.redreader.image.GetImageInfoListener;
+import org.quantumbadger.redreader.image.GifDecoderThread;
+import org.quantumbadger.redreader.image.ImageInfo;
+import org.quantumbadger.redreader.image.ImgurAPI;
 import org.quantumbadger.redreader.reddit.prepared.RedditParsedPost;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
@@ -64,6 +78,8 @@ import java.net.URI;
 import java.util.UUID;
 
 public class ImageViewActivity extends BaseActivity implements RedditPostView.PostSelectionListener, ImageViewDisplayListManager.Listener {
+
+	private static final String TAG = "ImageViewActivity";
 
 	private GLSurfaceView surfaceView;
 	private ImageView imageView;
@@ -149,7 +165,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 			);
 		}
 
-		Log.i("ImageViewActivity", "Loading URL " + mUrl);
+		Log.i(TAG, "Loading URL " + mUrl);
 
 		final DonutProgress progressBar = new DonutProgress(this);
 		progressBar.setIndeterminate(true);
@@ -181,7 +197,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 			@Override
 			public void onSuccess(final ImageInfo info) {
 
-				Log.i("ImageViewActivity", "Got image URL: " + info.urlOriginal);
+				Log.i(TAG, "Got image URL: " + info.urlOriginal);
 
 				mImageInfo = info;
 
@@ -450,7 +466,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 									startActivity(intent);
 								} catch(final Throwable t) {
 									General.quickToast(ImageViewActivity.this, R.string.videoview_mode_app_vlc_launch_failed);
-									Log.e("ImageViewActivity", "VLC failed to launch", t);
+									Log.e(TAG, "VLC failed to launch", t);
 								}
 								finish();
 							}
@@ -618,7 +634,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 					imageTileSource = new ImageTileSourceWholeBitmap(buf);
 
 				} catch(Throwable t) {
-					Log.e("ImageViewActivity", "Exception when creating ImageTileSource", t);
+					Log.e(TAG, "Exception when creating ImageTileSource", t);
 					General.quickToast(this, R.string.imageview_decode_failed);
 					revertToWeb();
 					return;

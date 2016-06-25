@@ -676,8 +676,8 @@
 
     <string name="pref_behaviour_gifview_mode_internal_movie">Internal viewer (Movie, Android 4.0+)</string>
     <string name="pref_behaviour_gifview_mode_internal_legacy">Internal viewer (Legacy)</string>
-    <string name="pref_behaviour_gifview_mode_internal_browser">Intern webbläsare</string>
-    <string name="pref_behaviour_gifview_mode_external_browser">Extern webbläsare</string>
+    <string name="pref_behaviour_view_mode_internal_browser">Intern webbläsare</string>
+    <string name="pref_behaviour_view_mode_external_browser">Extern webbläsare</string>
 
     <!-- 2015-08-15 -->
     <string name="pref_appearance_fontscale_inbox_key">pref_appearance_fontscale_inbox</string>

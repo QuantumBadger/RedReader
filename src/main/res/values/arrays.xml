@@ -418,8 +418,8 @@
     <string-array name="pref_behaviour_gifview_mode_array">
         <item>@string/pref_behaviour_gifview_mode_internal_movie</item>
         <item>@string/pref_behaviour_gifview_mode_internal_legacy</item>
-        <item>@string/pref_behaviour_gifview_mode_internal_browser</item>
-        <item>@string/pref_behaviour_gifview_mode_external_browser</item>
+        <item>@string/pref_behaviour_view_mode_internal_browser</item>
+        <item>@string/pref_behaviour_view_mode_external_browser</item>
     </string-array>
 
     <!-- Constants. Do not change. -->
@@ -432,8 +432,8 @@
 
     <string-array name="pref_behaviour_videoview_mode_array">
         <item>@string/pref_behaviour_videoview_mode_internal_videoview</item>
-        <item>@string/pref_behaviour_gifview_mode_internal_browser</item>
-        <item>@string/pref_behaviour_gifview_mode_external_browser</item>
+        <item>@string/pref_behaviour_view_mode_internal_browser</item>
+        <item>@string/pref_behaviour_view_mode_external_browser</item>
         <item>@string/pref_behaviour_videoview_mode_external_app_vlc</item>
     </string-array>
 
@@ -471,8 +471,8 @@
 	
 	<string-array name="pref_behaviour_imageview_mode_array">
 		<item>@string/pref_behaviour_imageview_mode_internal_opengl</item>
-		<item>@string/pref_behaviour_imageview_mode_internal_browser</item>
-		<item>@string/pref_behaviour_imageview_mode_external_browser</item>
+		<item>@string/pref_behaviour_view_mode_internal_browser</item>
+		<item>@string/pref_behaviour_view_mode_external_browser</item>
 	</string-array>
 
 	<!-- Constants. Do not change. -->
@@ -484,8 +484,8 @@
 	
 	<string-array name="pref_behaviour_albumview_mode_array">
 		<item>@string/pref_behaviour_albumview_mode_internal_list</item>
-		<item>@string/pref_behaviour_albumview_mode_internal_browser</item>
-		<item>@string/pref_behaviour_albumview_mode_external_browser</item>
+		<item>@string/pref_behaviour_view_mode_internal_browser</item>
+		<item>@string/pref_behaviour_view_mode_external_browser</item>
 	</string-array>
 
 	<!-- Constants. Do not change. -->

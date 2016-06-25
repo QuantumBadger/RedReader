@@ -669,8 +669,9 @@
 
     <string name="pref_behaviour_gifview_mode_internal_movie">Internal viewer (Movie, Android 4.0+)</string>
     <string name="pref_behaviour_gifview_mode_internal_legacy">Internal viewer (Legacy)</string>
-    <string name="pref_behaviour_gifview_mode_internal_browser">Internal browser</string>
-    <string name="pref_behaviour_gifview_mode_external_browser">External browser</string>
+
+	<string name="pref_behaviour_view_mode_internal_browser">Internal browser</string>
+    <string name="pref_behaviour_view_mode_external_browser">External browser</string>
 
     <!-- 2015-08-15 -->
     <string name="pref_appearance_fontscale_inbox_key">pref_appearance_fontscale_inbox</string>
@@ -800,14 +801,10 @@
 	<string name="pref_behaviour_imageview_mode_key">pref_behaviour_imageview_mode</string>
 
 	<string name="pref_behaviour_imageview_mode_internal_opengl">Internal viewer (OpenGL)</string>
-	<string name="pref_behaviour_imageview_mode_internal_browser">Internal browser</string>
-	<string name="pref_behaviour_imageview_mode_external_browser">External browser</string>
 
 	<string name="pref_behaviour_albumview_mode_title">Album Viewer</string>
 	<string name="pref_behaviour_albumview_mode_key">pref_behaviour_albumview_mode</string>
 
 	<string name="pref_behaviour_albumview_mode_internal_list">Internal viewer (list)</string>
-	<string name="pref_behaviour_albumview_mode_internal_browser">Internal browser</string>
-	<string name="pref_behaviour_albumview_mode_external_browser">External browser</string>
 
 </resources>

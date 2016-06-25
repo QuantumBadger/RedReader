@@ -663,8 +663,8 @@
 
     <string name="pref_behaviour_gifview_mode_internal_movie">Visor interno (Movie, Android 4.0+)</string>
     <string name="pref_behaviour_gifview_mode_internal_legacy">Visor interno (Legacy)</string>
-    <string name="pref_behaviour_gifview_mode_internal_browser">Navegador interno</string>
-    <string name="pref_behaviour_gifview_mode_external_browser">Navegador externo</string>
+    <string name="pref_behaviour_view_mode_internal_browser">Navegador interno</string>
+    <string name="pref_behaviour_view_mode_external_browser">Navegador externo</string>
 
     <!-- 2015-08-15 -->
     <string name="pref_appearance_fontscale_inbox_key">pref_appearance_fontscale_inbox</string>

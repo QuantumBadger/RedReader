@@ -759,11 +759,11 @@
 
     <!-- 2016-04-02 -->
     <string name="open_with">Open with</string>
-    <string name="pref_network_tor_title">Use TOR (Experimental)</string>
+    <string name="pref_network_tor_title">Use TOR (experimental)</string>
     <string name="pref_network_tor_key">pref_network_tor</string>
 
     <!-- 2016-04-03 -->
-    <string name="error_tor_not_installed">It appears you don\'t have Orbot installed. Install now?</string>
+    <string name="error_tor_not_installed">Tor will not work unless Orbot is installed. Install now?</string>
     <string name="error_tor_setting_failed">Failed to set proxy.</string>
 
     <!-- 2016-04-10 -->
@@ -806,5 +806,7 @@
 	<string name="pref_behaviour_albumview_mode_key">pref_behaviour_albumview_mode</string>
 
 	<string name="pref_behaviour_albumview_mode_internal_list">Internal viewer (list)</string>
+
+	<string name="error_tor_start_failed">Orbot failed to start. Tor will not work correctly.</string>
 
 </resources>

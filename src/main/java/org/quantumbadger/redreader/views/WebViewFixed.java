@@ -1,19 +1,15 @@
 package org.quantumbadger.redreader.views;
 
 import android.content.Context;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.webkit.CookieManager;
-import android.webkit.ValueCallback;
 import android.webkit.WebView;
-
+import info.guardianproject.netcipher.web.WebkitProxy;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.RedReader;
-import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.BugReportActivity;
-
-import info.guardianproject.netcipher.web.WebkitProxy;
+import org.quantumbadger.redreader.common.TorCommon;
 
 /**
  * Fixes the onWindowFocusChanged bug, by catching NullPointerException.
@@ -52,7 +48,7 @@ public class WebViewFixed extends WebView {
 	}
 
 	private void setTor(final Context context) {
-		if(BaseActivity.getTorStatus()) {
+		if(TorCommon.isTorEnabled()) {
 			try {
 				clearBrowser();
 				boolean result = WebkitProxy.setProxy(RedReader.class.getCanonicalName(), context.getApplicationContext(), this, "127.0.0.1", 8118);

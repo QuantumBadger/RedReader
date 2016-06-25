@@ -17,10 +17,10 @@
 
 package org.quantumbadger.redreader.cache;
 
-import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.common.PrioritisedCachedThreadPool;
 import org.quantumbadger.redreader.common.RRTime;
+import org.quantumbadger.redreader.common.TorCommon;
 import org.quantumbadger.redreader.http.HTTPBackend;
 import org.quantumbadger.redreader.http.okhttp.OKHTTPBackend;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
@@ -30,6 +30,7 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 
@@ -38,7 +39,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 	private final UUID session;
 
 	private volatile boolean mCancelled = false;
-	private static boolean resetUserCredentials = false;
+	private static final AtomicBoolean resetUserCredentials = new AtomicBoolean(false);
 	private final HTTPBackend.Request mRequest;
 
 
@@ -94,20 +95,20 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 	}
 
 	public static void resetUserCredentialsOnNextRequest() {
-		resetUserCredentials = true;
+		resetUserCredentials.set(true);
 	}
 
 	private void performDownload(final HTTPBackend.Request request) {
 
 		if(mInitiator.queueType == CacheRequest.DOWNLOAD_QUEUE_REDDIT_API) {
 
+			if(resetUserCredentials.getAndSet(false)) {
+				mInitiator.user.setAccessToken(null);
+			}
+
 			RedditOAuth.AccessToken accessToken = mInitiator.user.getMostRecentAccessToken();
 
-			if(resetUserCredentials || accessToken == null || accessToken.isExpired()) {
-				if(resetUserCredentials) {
-					mInitiator.user.setAccessToken(null);
-					resetUserCredentials = false;
-				}
+			if(accessToken == null || accessToken.isExpired()) {
 
 				mInitiator.notifyProgress(true, 0, 0);
 
@@ -142,7 +143,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 		request.executeInThisThread(new HTTPBackend.Listener() {
 			@Override
 			public void onError(final @CacheRequest.RequestFailureType int failureType, final Throwable exception, final Integer httpStatus) {
-				if(mInitiator.queueType == CacheRequest.DOWNLOAD_QUEUE_REDDIT_API && BaseActivity.getTorStatus()) {
+				if(mInitiator.queueType == CacheRequest.DOWNLOAD_QUEUE_REDDIT_API && TorCommon.isTorEnabled()) {
 					OKHTTPBackend.recreateHttpBackend();
 					resetUserCredentialsOnNextRequest();
 				}

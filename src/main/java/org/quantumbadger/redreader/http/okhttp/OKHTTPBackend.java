@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.http.okhttp;
 
 import android.content.Context;
-
 import com.squareup.okhttp.CacheControl;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.MediaType;
@@ -26,9 +25,8 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 import com.squareup.okhttp.ResponseBody;
-
-import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.common.TorCommon;
 import org.quantumbadger.redreader.http.HTTPBackend;
 
 import java.io.IOException;
@@ -44,11 +42,11 @@ public class OKHTTPBackend implements HTTPBackend {
 	private final OkHttpClient mClient;
 	private static HTTPBackend httpBackend;
 
-	public OKHTTPBackend() {
+	private OKHTTPBackend() {
 
 		mClient = new OkHttpClient();
 
-		if(BaseActivity.getTorStatus()) {
+		if(TorCommon.isTorEnabled()) {
 			Proxy tor = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("127.0.0.1", 8118));
 			//SOCKS appears to be broken for now, Relevant: https://github.com/square/okhttp/issues/2315
 			mClient.setProxy(tor);

@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.settings;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -27,6 +28,8 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.ChangelogActivity;
+import org.quantumbadger.redreader.common.AndroidApi;
+import org.quantumbadger.redreader.common.TorCommon;
 
 public final class SettingsFragment extends PreferenceFragment {
 
@@ -34,6 +37,8 @@ public final class SettingsFragment extends PreferenceFragment {
 	public void onCreate(final Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
+
+		final Context context = getActivity();
 
 		final String panel = getArguments().getString("panel");
 		final int resource;
@@ -105,6 +110,8 @@ public final class SettingsFragment extends PreferenceFragment {
 			editTextPreference.setSummary(editTextPreference.getText());
 
 			editTextPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+
+				@Override
 				public boolean onPreferenceChange(Preference preference, Object newValue) {
 					if(newValue != null) {
 						editTextPreference.setSummary(newValue.toString());
@@ -119,11 +126,12 @@ public final class SettingsFragment extends PreferenceFragment {
 
 		final Preference versionPref = findPreference(getString(R.string.pref_about_version_key));
 		final Preference changelogPref = findPreference(getString(R.string.pref_about_changelog_key));
+		final Preference torPref = findPreference(getString(R.string.pref_network_tor_key));
 
 		final PackageInfo pInfo;
 
 		try {
-			pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
+			pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
 		} catch(PackageManager.NameNotFoundException e) {
 			throw new RuntimeException(e);
 		}
@@ -135,8 +143,29 @@ public final class SettingsFragment extends PreferenceFragment {
 		if(changelogPref != null) {
 			changelogPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 				public boolean onPreferenceClick(Preference preference) {
-					final Intent intent = new Intent(getActivity(), ChangelogActivity.class);
-					getActivity().startActivity(intent);
+					final Intent intent = new Intent(context, ChangelogActivity.class);
+					context.startActivity(intent);
+					return true;
+				}
+			});
+		}
+
+		if(torPref != null) {
+			torPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+				@Override
+				public boolean onPreferenceChange(Preference preference, final Object newValue) {
+
+					// Run this after the preference has actually changed
+					AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+						@Override
+						public void run() {
+							TorCommon.updateTorStatus(context);
+							if(TorCommon.isTorEnabled() != Boolean.TRUE.equals(newValue)) {
+								throw new RuntimeException("Tor not correctly enabled after preference change");
+							}
+						}
+					});
+
 					return true;
 				}
 			});

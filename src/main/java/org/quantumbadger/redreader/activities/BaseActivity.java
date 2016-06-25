@@ -17,8 +17,6 @@
 
 package org.quantumbadger.redreader.activities;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -31,12 +29,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.FrameLayout;
-import info.guardianproject.netcipher.proxy.OrbotHelper;
 import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.cache.CacheDownload;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
-import org.quantumbadger.redreader.http.okhttp.OKHTTPBackend;
+import org.quantumbadger.redreader.common.TorCommon;
 
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -44,7 +40,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class BaseActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
 	private SharedPreferences sharedPreferences;
-	private static boolean tor;
 
 	private static boolean closingAll = false;
 
@@ -75,7 +70,6 @@ public class BaseActivity extends AppCompatActivity implements SharedPreferences
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 		setOrientationFromPrefs();
-		setTorFromPrefs();
 		closeIfNecessary();
 
 		if(mToolbarActionBarEnabled) {
@@ -111,8 +105,8 @@ public class BaseActivity extends AppCompatActivity implements SharedPreferences
 	protected void onResume() {
 		super.onResume();
 		setOrientationFromPrefs();
-		setTorFromPrefs();
 		closeIfNecessary();
+		TorCommon.updateTorStatus(this);
 	}
 
 
@@ -185,36 +179,7 @@ public class BaseActivity extends AppCompatActivity implements SharedPreferences
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 	}
 
-	private void setTorFromPrefs() {
-		tor = PrefsUtility.network_tor(this, sharedPreferences);
-		if (tor) {
-			if (OrbotHelper.isOrbotInstalled(this)){
-				if(!OrbotHelper.isOrbotRunning(this)) {
-					OrbotHelper.requestStartTor(this);
-				}
-			} else {
-				AlertDialog.Builder notInstalled = new AlertDialog.Builder(this);
-				notInstalled.setMessage(R.string.error_tor_not_installed);
-				notInstalled.setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						startActivity(OrbotHelper.getOrbotInstallIntent(getApplicationContext()));
-						dialog.dismiss();
-					}
-				});
-				notInstalled.setNegativeButton(R.string.dialog_no, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						dialog.cancel();
-					}
-				});
-				AlertDialog notInstalledAlert = notInstalled.create();
-				notInstalledAlert.show();
-			}
-		}
-		OKHTTPBackend.recreateHttpBackend();
-		CacheDownload.resetUserCredentialsOnNextRequest();
-	}
+
 
 	protected void onSharedPreferenceChangedInner(final SharedPreferences prefs, final String key) {
 		// Do nothing
@@ -230,12 +195,6 @@ public class BaseActivity extends AppCompatActivity implements SharedPreferences
 
 		} else if(key.equals(getString(R.string.pref_menus_optionsmenu_items_key))) {
 			invalidateOptionsMenu();
-		} else if(key.equals(R.string.pref_network_tor_key)) {
-			setTorFromPrefs();
 		}
-	}
-
-	public static boolean getTorStatus() {
-		return tor;
 	}
 }

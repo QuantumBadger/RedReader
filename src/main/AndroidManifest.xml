@@ -103,7 +103,7 @@
 
         <activity android:name=".activities.WebViewActivity"
                   android:configChanges="orientation|screenSize|keyboardHidden"
-                  android:theme="@style/RR.Dark.NoActionBar"/>
+                  android:theme="@style/RR.Dark"/>
 
         <activity android:name=".activities.HtmlViewActivity"
                   android:configChanges="orientation|screenSize|keyboardHidden"/>
@@ -116,7 +116,7 @@
 
         <activity android:name=".activities.ImageViewActivity"
                   android:configChanges="orientation|screenSize|keyboardHidden"
-                  android:theme="@style/RR.Dark.NoActionBar"/>
+                  android:theme="@style/RR.Dark"/>
 
         <activity android:name=".activities.CommentReplyActivity"
                   android:configChanges="orientation|screenSize|keyboardHidden"/>

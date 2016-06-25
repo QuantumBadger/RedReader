@@ -207,24 +207,6 @@
 
     </style>
 
-    <style name="RR.Dark.NoActionBar" parent="Theme.AppCompat.NoActionBar">
-
-        <item name="alertDialogTheme">@style/Theme.AppCompat.Dialog.Alert</item>
-
-        <item name="rrMainTextCol">#FFFFFF</item>
-
-        <item name="rrActionBarCol">#222222</item>
-        <item name="colorPrimary">?rrActionBarCol</item>
-        <item name="colorPrimaryDark">#000000</item>
-        <item name="colorAccent">#99DDDD</item>
-
-        <item name="rrListDividerCol">#555555</item>
-        <item name="rrListHeaderTextCol">#CCCCCC</item>
-        <item name="rrListHeaderLineCol">#444444</item>
-        <item name="rrListSubtitleCol">#CCCCCC</item>
-
-    </style>
-
     <style name="RR.Light.Gray" parent="RR.Light.DarkActionBar">
         <item name="rrActionBarCol">#222222</item>
         <item name="colorPrimaryDark">#222222</item>

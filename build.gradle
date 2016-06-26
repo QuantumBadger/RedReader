@@ -31,8 +31,7 @@ android {
     buildToolsVersion '23.0.3'
 
     defaultConfig {
-        // Stops the Gradle plugin’s automatic rasterization of vectors
-        generatedDensities = []
+        vectorDrawables.generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi', 'xxxhdpi']
     }
     // Flag to tell aapt to keep the attribute ids around
     aaptOptions {

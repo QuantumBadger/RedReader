@@ -18,10 +18,7 @@
 package org.quantumbadger.redreader.adapters;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.reddit.RedditCommentListItem;
 import org.quantumbadger.redreader.views.LoadingSpinnerView;
@@ -43,89 +40,36 @@ public class CommentListingManager {
 			GROUP_LOADING = 4,
 			GROUP_FOOTER_ERRORS = 5;
 
-	private final ItemFrameLayout mLoadingItem;
-
-	private static final class ItemFrameLayout extends GroupedRecyclerViewAdapter.Item {
-
-		private final View mChildView;
-		private boolean mHidden;
-
-		private FrameLayout mParent;
-
-		private ItemFrameLayout(final View childView) {
-			mChildView = childView;
-		}
-
-		@Override
-		public Class getViewType() {
-			return this.getClass();
-		}
-
-		@Override
-		public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup viewGroup) {
-			viewGroup.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-
-			final FrameLayout frameLayout = new FrameLayout(viewGroup.getContext());
-			viewGroup.addView(frameLayout);
-			frameLayout.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-
-			return new RecyclerView.ViewHolder(frameLayout) {};
-		}
-
-		@Override
-		public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder) {
-
-			final FrameLayout view = (FrameLayout)viewHolder.itemView;
-			view.removeAllViews();
-
-			if(mParent != null && mChildView.getParent() == mParent) {
-				mParent.removeAllViews();
-			}
-
-			mParent = view;
-
-			view.addView(mChildView);
-			mChildView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-		}
-
-		@Override
-		public boolean isHidden() {
-			return mHidden;
-		}
-
-		public void setHidden(final boolean hidden) {
-			mHidden = hidden;
-		}
-	}
+	private final GroupedRecyclerViewItemFrameLayout mLoadingItem;
 
 	public CommentListingManager(final Context context) {
 
 		// Workaround for RecyclerView scrolling behaviour
 		final View topmostView = new View(context);
-		mAdapter.appendToGroup(0, new ItemFrameLayout(topmostView));
+		mAdapter.appendToGroup(0, new GroupedRecyclerViewItemFrameLayout(topmostView));
 
 		final LoadingSpinnerView loadingSpinnerView = new LoadingSpinnerView(context);
 		final int paddingPx = General.dpToPixels(context, 30);
 		loadingSpinnerView.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
 
-		mLoadingItem = new ItemFrameLayout(loadingSpinnerView);
+		mLoadingItem = new GroupedRecyclerViewItemFrameLayout(loadingSpinnerView);
 		mAdapter.appendToGroup(GROUP_LOADING, mLoadingItem);
 	}
 
 	public void addFooterError(final ErrorView view) {
-		mAdapter.appendToGroup(GROUP_FOOTER_ERRORS, new ItemFrameLayout(view));
+		mAdapter.appendToGroup(GROUP_FOOTER_ERRORS, new GroupedRecyclerViewItemFrameLayout(view));
 	}
 
 	public void addPostHeader(final RedditPostHeaderView view) {
-		mAdapter.appendToGroup(GROUP_POST_HEADER, new ItemFrameLayout(view));
+		mAdapter.appendToGroup(GROUP_POST_HEADER, new GroupedRecyclerViewItemFrameLayout(view));
 	}
 
 	public void addPostSelfText(final View view) {
-		mAdapter.appendToGroup(GROUP_POST_SELFTEXT, new ItemFrameLayout(view));
+		mAdapter.appendToGroup(GROUP_POST_SELFTEXT, new GroupedRecyclerViewItemFrameLayout(view));
 	}
 
 	public void addNotification(final View view) {
-		mAdapter.appendToGroup(GROUP_NOTIFICATIONS, new ItemFrameLayout(view));
+		mAdapter.appendToGroup(GROUP_NOTIFICATIONS, new GroupedRecyclerViewItemFrameLayout(view));
 	}
 
 	public void addComments(final Collection<RedditCommentListItem> comments) {

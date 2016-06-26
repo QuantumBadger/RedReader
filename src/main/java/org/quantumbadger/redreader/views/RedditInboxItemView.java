@@ -17,9 +17,9 @@
 
 package org.quantumbadger.redreader.views;
 
-import android.content.Context;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -40,33 +40,52 @@ public class RedditInboxItemView extends LinearLayout {
 
 	private RedditRenderableInboxItem currentItem = null;
 
-	public RedditInboxItemView(final Context context, final RRThemeAttributes theme) {
+	private final AppCompatActivity mActivity;
 
-		super(context);
+	public RedditInboxItemView(final AppCompatActivity activity, final RRThemeAttributes theme) {
+
+		super(activity);
+
+		mActivity = activity;
 		mTheme = theme;
 
 		setOrientation(HORIZONTAL);
 
-		final LinearLayout main = new LinearLayout(context);
+		final LinearLayout main = new LinearLayout(activity);
 		main.setOrientation(VERTICAL);
 
-		header = new TextView(context);
+		header = new TextView(activity);
 		header.setTextSize(11.0f * theme.rrCommentFontScale);
 		header.setTextColor(theme.rrCommentHeaderCol);
 		main.addView(header);
 
-		bodyHolder = new FrameLayout(context);
-		bodyHolder.setPadding(0, General.dpToPixels(context, 2), 0, 0);
+		bodyHolder = new FrameLayout(activity);
+		bodyHolder.setPadding(0, General.dpToPixels(activity, 2), 0, 0);
 		main.addView(bodyHolder);
 
-		final int paddingPixels = General.dpToPixels(context, 8.0f);
+		final int paddingPixels = General.dpToPixels(activity, 8.0f);
 		setPadding(paddingPixels + paddingPixels, paddingPixels, paddingPixels, paddingPixels);
 
 		setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
 
-		showLinkButtons = PrefsUtility.pref_appearance_linkbuttons(context, PreferenceManager.getDefaultSharedPreferences(context));
+		showLinkButtons = PrefsUtility.pref_appearance_linkbuttons(activity, PreferenceManager.getDefaultSharedPreferences(activity));
 
 		addView(main);
+
+		setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				handleInboxClick(mActivity);
+			}
+		});
+
+		setOnLongClickListener(new OnLongClickListener() {
+			@Override
+			public boolean onLongClick(View v) {
+				handleInboxLongClick(mActivity);
+				return true;
+			}
+		});
 	}
 
 	public void reset(

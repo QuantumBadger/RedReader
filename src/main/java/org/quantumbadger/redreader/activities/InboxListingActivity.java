@@ -24,17 +24,17 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.adapters.InboxListingAdapter;
+import org.quantumbadger.redreader.adapters.GroupedRecyclerViewAdapter;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.AndroidApi;
@@ -49,6 +49,7 @@ import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
+import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManagerVolatile;
 import org.quantumbadger.redreader.reddit.prepared.RedditParsedComment;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedMessage;
 import org.quantumbadger.redreader.reddit.prepared.RedditRenderableComment;
@@ -56,6 +57,7 @@ import org.quantumbadger.redreader.reddit.prepared.RedditRenderableInboxItem;
 import org.quantumbadger.redreader.reddit.things.RedditComment;
 import org.quantumbadger.redreader.reddit.things.RedditMessage;
 import org.quantumbadger.redreader.reddit.things.RedditThing;
+import org.quantumbadger.redreader.views.RedditInboxItemView;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
 import org.quantumbadger.redreader.views.liststatus.LoadingView;
 
@@ -67,7 +69,7 @@ public final class InboxListingActivity extends BaseActivity {
 	private static final int OPTIONS_MENU_MARK_ALL_AS_READ = 0;
 	private static final int OPTIONS_MENU_SHOW_UNREAD_ONLY = 1;
 
-	private InboxListingAdapter adapter;
+	private GroupedRecyclerViewAdapter adapter;
 	private SharedPreferences.Editor editor;
 
 	private LoadingView loadingView;
@@ -78,12 +80,48 @@ public final class InboxListingActivity extends BaseActivity {
 	private boolean isModmail = false;
 	private boolean onlyUnread;
 
+	private RRThemeAttributes mTheme;
+	private RedditChangeDataManagerVolatile mChangeDataManager;
+
 	private final Handler itemHandler = new Handler(Looper.getMainLooper()) {
 		@Override
 		public void handleMessage(final Message msg) {
-			adapter.addItem((RedditRenderableInboxItem)msg.obj);
+			adapter.appendToGroup(0, (GroupedRecyclerViewAdapter.Item)msg.obj);
 		}
 	};
+
+	private final class InboxItem extends GroupedRecyclerViewAdapter.Item {
+
+		private final RedditRenderableInboxItem mItem;
+
+		private InboxItem(RedditRenderableInboxItem mItem) {
+			this.mItem = mItem;
+		}
+
+		@Override
+		public Class getViewType() {
+			return RedditInboxItemView.class;
+		}
+
+		@Override
+		public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup) {
+			return new RecyclerView.ViewHolder(new RedditInboxItemView(InboxListingActivity.this, mTheme)) {};
+		}
+
+		@Override
+		public void onBindViewHolder(RecyclerView.ViewHolder viewHolder) {
+			((RedditInboxItemView)viewHolder.itemView).reset(
+					InboxListingActivity.this,
+					mChangeDataManager,
+					mTheme,
+					mItem);
+		}
+
+		@Override
+		public boolean isHidden() {
+			return false;
+		}
+	}
 
 	// TODO load more on scroll to bottom?
 
@@ -93,7 +131,9 @@ public final class InboxListingActivity extends BaseActivity {
 		PrefsUtility.applyTheme(this);
 		super.onCreate(savedInstanceState);
 
-		final RRThemeAttributes theme = new RRThemeAttributes(this);
+		mTheme = new RRThemeAttributes(this);
+		mChangeDataManager = RedditChangeDataManagerVolatile.getInstance(
+				RedditAccountManager.getInstance(this).getDefaultAccount());
 
 		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		editor = sharedPreferences.edit();
@@ -123,29 +163,20 @@ public final class InboxListingActivity extends BaseActivity {
 		notifications.setOrientation(android.widget.LinearLayout.VERTICAL);
 		notifications.addView(loadingView);
 
-		final ListView lv = new ListView(this);
+		final RecyclerView rv = (RecyclerView)getLayoutInflater().inflate(
+			R.layout.scrollbar_recyclerview,
+			null);
 
-		lv.setSmoothScrollbarEnabled(false);
-		lv.setVerticalFadingEdgeEnabled(false);
+		final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+		rv.setLayoutManager(linearLayoutManager);
+		rv.setHasFixedSize(true);
+		linearLayoutManager.setSmoothScrollbarEnabled(false);
 
-		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-				final Object item = lv.getAdapter().getItem(position);
-
-				if(item != null && item instanceof RedditRenderableInboxItem) {
-					((RedditRenderableInboxItem)item).handleInboxClick(InboxListingActivity.this);
-				}
-			}
-		});
-
-		adapter = new InboxListingAdapter(this, theme);
-		lv.setAdapter(adapter);
-
-		registerForContextMenu(lv);
+		adapter = new GroupedRecyclerViewAdapter(1);
+		rv.setAdapter(adapter);
 
 		outer.addView(notifications);
-		outer.addView(lv);
+		outer.addView(rv);
 
 		makeFirstRequest(this);
 
@@ -254,14 +285,14 @@ public final class InboxListingActivity extends BaseActivity {
 								final RedditComment comment = thing.asComment();
 								final RedditParsedComment parsedComment = new RedditParsedComment(comment);
 								final RedditRenderableComment renderableComment = new RedditRenderableComment(parsedComment, null, -100000, false);
-								itemHandler.sendMessage(General.handlerMessage(0, renderableComment));
+								itemHandler.sendMessage(General.handlerMessage(0, new InboxItem(renderableComment)));
 
 								break;
 
 							case MESSAGE:
 								final RedditPreparedMessage message = new RedditPreparedMessage(
 										InboxListingActivity.this, thing.asMessage(), timestamp);
-								itemHandler.sendMessage(General.handlerMessage(0, message));
+								itemHandler.sendMessage(General.handlerMessage(0, new InboxItem(message)));
 
 								if(message.src.replies != null && message.src.replies.getType() == JsonValue.TYPE_OBJECT) {
 
@@ -270,7 +301,7 @@ public final class InboxListingActivity extends BaseActivity {
 									for(JsonValue childMsgValue : replies) {
 										final RedditMessage childMsgRaw = childMsgValue.asObject(RedditThing.class).asMessage();
 										final RedditPreparedMessage childMsg = new RedditPreparedMessage(InboxListingActivity.this, childMsgRaw, timestamp);
-										itemHandler.sendMessage(General.handlerMessage(0, childMsg));
+										itemHandler.sendMessage(General.handlerMessage(0, new InboxItem(childMsg)));
 									}
 								}
 

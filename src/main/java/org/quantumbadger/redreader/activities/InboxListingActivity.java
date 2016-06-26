@@ -70,7 +70,6 @@ public final class InboxListingActivity extends BaseActivity {
 	private static final int OPTIONS_MENU_SHOW_UNREAD_ONLY = 1;
 
 	private GroupedRecyclerViewAdapter adapter;
-	private SharedPreferences.Editor editor;
 
 	private LoadingView loadingView;
 	private LinearLayout notifications;
@@ -78,7 +77,7 @@ public final class InboxListingActivity extends BaseActivity {
 	private CacheRequest request;
 
 	private boolean isModmail = false;
-	private boolean onlyUnread;
+	private boolean mOnlyShowUnread;
 
 	private RRThemeAttributes mTheme;
 	private RedditChangeDataManagerVolatile mChangeDataManager;
@@ -145,7 +144,6 @@ public final class InboxListingActivity extends BaseActivity {
 				RedditAccountManager.getInstance(this).getDefaultAccount());
 
 		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-		editor = sharedPreferences.edit();
 
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -153,7 +151,7 @@ public final class InboxListingActivity extends BaseActivity {
 		final String title;
 
 		isModmail = getIntent() != null && getIntent().getBooleanExtra("modmail", false);
-		onlyUnread = sharedPreferences.getBoolean("onlyUnread", false);
+		mOnlyShowUnread = sharedPreferences.getBoolean("onlyUnread", false);
 
 		if(!isModmail) {
 			title = getString(R.string.mainmenu_inbox);
@@ -204,7 +202,7 @@ public final class InboxListingActivity extends BaseActivity {
 		final URI url;
 
 		if(!isModmail) {
-			if(onlyUnread) {
+			if(mOnlyShowUnread) {
 				url = Constants.Reddit.getUri("/message/unread.json?mark=true&limit=100");
 			}else{
 				url = Constants.Reddit.getUri("/message/inbox.json?mark=true&limit=100");
@@ -343,7 +341,7 @@ public final class InboxListingActivity extends BaseActivity {
 		menu.add(0, OPTIONS_MENU_MARK_ALL_AS_READ, 0, R.string.mark_all_as_read);
 		menu.add(0, OPTIONS_MENU_SHOW_UNREAD_ONLY, 1, "Unread Messages Only");
 		menu.getItem(1).setCheckable(true);
-		if(onlyUnread){
+		if(mOnlyShowUnread){
 			menu.getItem(1).setChecked(true);
 		}
 		return super.onCreateOptionsMenu(menu);
@@ -394,19 +392,24 @@ public final class InboxListingActivity extends BaseActivity {
 						this);
 
 				return true;
-			case OPTIONS_MENU_SHOW_UNREAD_ONLY:
-				if (!item.isChecked()) {
-					item.setChecked(true);
-					editor.putBoolean("onlyUnread", true);
-					onlyUnread = true;
-				} else {
-					item.setChecked(false);
-					editor.putBoolean("onlyUnread", false);
-					onlyUnread = false;
-				}
-				editor.apply();
-				makeFirstRequest(this);
+
+			case OPTIONS_MENU_SHOW_UNREAD_ONLY: {
+
+				final boolean enabled = !item.isChecked();
+
+				item.setChecked(enabled);
+				mOnlyShowUnread = enabled;
+
+				PreferenceManager
+						.getDefaultSharedPreferences(this)
+						.edit()
+						.putBoolean("onlyUnread", enabled)
+						.apply();
+
+				General.recreateActivityNoAnimation(this);
 				return true;
+			}
+
 			case android.R.id.home:
 				finish();
 				return true;

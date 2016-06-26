@@ -17,10 +17,10 @@
 
 package org.quantumbadger.redreader.activities;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 
 import java.util.EnumSet;
@@ -82,14 +82,7 @@ public abstract class RefreshableActivity extends BaseActivity {
 	protected void doRefreshNow(RefreshableFragment which, boolean force) {
 
 		if(which == RefreshableFragment.RESTART) {
-
-			// http://stackoverflow.com/a/3419987/1526861
-			final Intent intent = getIntent();
-			overridePendingTransition(0, 0);
-			intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-			finish();
-			overridePendingTransition(0, 0);
-			startActivity(intent);
+			General.recreateActivityNoAnimation(this);
 
 		} else {
 			doRefresh(which, force, null);

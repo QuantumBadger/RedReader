@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.common;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
@@ -36,7 +37,6 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheRequest;
@@ -500,5 +500,16 @@ public final class General {
 		layoutParams.rightMargin = marginPx;
 		layoutParams.topMargin = marginPx;
 		layoutParams.bottomMargin = marginPx;
+	}
+
+	public static void recreateActivityNoAnimation(final AppCompatActivity activity) {
+
+		// http://stackoverflow.com/a/3419987/1526861
+		final Intent intent = activity.getIntent();
+		activity.overridePendingTransition(0, 0);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+		activity.finish();
+		activity.overridePendingTransition(0, 0);
+		activity.startActivity(intent);
 	}
 }

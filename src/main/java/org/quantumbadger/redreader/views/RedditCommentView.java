@@ -105,8 +105,6 @@ public class RedditCommentView extends LinearLayout
 		mBodyHolder = new FrameLayout(context);
 		mBodyHolder.setPadding(0, General.dpToPixels(context, 2), 0, 0);
 
-		// TODO setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
-
 		mShowLinkButtons = PrefsUtility.pref_appearance_linkbuttons(context, PreferenceManager.getDefaultSharedPreferences(context));
 
 		setOnClickListener(new OnClickListener() {

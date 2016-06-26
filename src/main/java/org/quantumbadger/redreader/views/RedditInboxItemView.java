@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.views;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -58,10 +59,12 @@ public class RedditInboxItemView extends LinearLayout {
 		header.setTextSize(11.0f * theme.rrCommentFontScale);
 		header.setTextColor(theme.rrCommentHeaderCol);
 		main.addView(header);
+		header.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
 
 		bodyHolder = new FrameLayout(activity);
 		bodyHolder.setPadding(0, General.dpToPixels(activity, 2), 0, 0);
 		main.addView(bodyHolder);
+		bodyHolder.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
 
 		final int paddingPixels = General.dpToPixels(activity, 8.0f);
 		setPadding(paddingPixels + paddingPixels, paddingPixels, paddingPixels, paddingPixels);
@@ -71,6 +74,7 @@ public class RedditInboxItemView extends LinearLayout {
 		showLinkButtons = PrefsUtility.pref_appearance_linkbuttons(activity, PreferenceManager.getDefaultSharedPreferences(activity));
 
 		addView(main);
+		main.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
 
 		setOnClickListener(new OnClickListener() {
 			@Override
@@ -98,12 +102,15 @@ public class RedditInboxItemView extends LinearLayout {
 
 		header.setText(item.getHeader(theme, changeDataManager, context));
 
+		final View body = item.getBody(
+			context,
+			mTheme.rrCommentBodyCol,
+			13.0f * mTheme.rrCommentFontScale,
+			showLinkButtons);
+
 		bodyHolder.removeAllViews();
-		bodyHolder.addView(item.getBody(
-				context,
-				mTheme.rrCommentBodyCol,
-				13.0f * mTheme.rrCommentFontScale,
-				showLinkButtons));
+		bodyHolder.addView(body);
+		body.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
 	}
 
 	public void handleInboxClick(AppCompatActivity activity) {

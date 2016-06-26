@@ -105,7 +105,16 @@ public final class InboxListingActivity extends BaseActivity {
 
 		@Override
 		public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup) {
-			return new RecyclerView.ViewHolder(new RedditInboxItemView(InboxListingActivity.this, mTheme)) {};
+
+			final RedditInboxItemView view = new RedditInboxItemView(InboxListingActivity.this, mTheme);
+
+			final RecyclerView.LayoutParams layoutParams
+					= new RecyclerView.LayoutParams(
+							ViewGroup.LayoutParams.MATCH_PARENT,
+							ViewGroup.LayoutParams.WRAP_CONTENT);
+			view.setLayoutParams(layoutParams);
+
+			return new RecyclerView.ViewHolder(view) {};
 		}
 
 		@Override

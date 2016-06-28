@@ -1,7 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-              android:scrollbars="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<FrameLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
 
-</android.support.v7.widget.RecyclerView>
+	<android.support.v7.widget.RecyclerView
+			android:id="@+id/scrollbar_recyclerview_recyclerview"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent" />
+
+	<FrameLayout
+			android:id="@+id/scrollbar_recyclerview_scrollbarframe"
+			android:layout_width="5dp"
+			android:layout_height="match_parent"
+			android:layout_gravity="right">
+
+		<View
+				android:id="@+id/scrollbar_recyclerview_scrollbar"
+				android:layout_width="match_parent"
+				android:layout_height="75dp"
+				android:visibility="invisible"
+				android:background="#99999999" />
+
+	</FrameLayout>
+
+</FrameLayout>

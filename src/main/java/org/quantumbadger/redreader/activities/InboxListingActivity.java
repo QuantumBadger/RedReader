@@ -24,7 +24,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -58,6 +57,7 @@ import org.quantumbadger.redreader.reddit.things.RedditComment;
 import org.quantumbadger.redreader.reddit.things.RedditMessage;
 import org.quantumbadger.redreader.reddit.things.RedditThing;
 import org.quantumbadger.redreader.views.RedditInboxItemView;
+import org.quantumbadger.redreader.views.ScrollbarRecyclerViewManager;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
 import org.quantumbadger.redreader.views.liststatus.LoadingView;
 
@@ -170,20 +170,14 @@ public final class InboxListingActivity extends BaseActivity {
 		notifications.setOrientation(android.widget.LinearLayout.VERTICAL);
 		notifications.addView(loadingView);
 
-		final RecyclerView rv = (RecyclerView)getLayoutInflater().inflate(
-			R.layout.scrollbar_recyclerview,
-			null);
-
-		final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-		rv.setLayoutManager(linearLayoutManager);
-		rv.setHasFixedSize(true);
-		linearLayoutManager.setSmoothScrollbarEnabled(false);
+		final ScrollbarRecyclerViewManager recyclerViewManager
+				= new ScrollbarRecyclerViewManager(this, null, false);
 
 		adapter = new GroupedRecyclerViewAdapter(1);
-		rv.setAdapter(adapter);
+		recyclerViewManager.getRecyclerView().setAdapter(adapter);
 
 		outer.addView(notifications);
-		outer.addView(rv);
+		outer.addView(recyclerViewManager.getOuterView());
 
 		makeFirstRequest(this);
 

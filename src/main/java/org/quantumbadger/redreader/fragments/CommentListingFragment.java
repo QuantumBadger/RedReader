@@ -57,6 +57,7 @@ import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 import org.quantumbadger.redreader.views.RedditCommentView;
 import org.quantumbadger.redreader.views.RedditPostHeaderView;
 import org.quantumbadger.redreader.views.RedditPostView;
+import org.quantumbadger.redreader.views.ScrollbarRecyclerViewManager;
 import org.quantumbadger.redreader.views.bezelmenu.BezelSwipeOverlay;
 import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
@@ -129,17 +130,13 @@ public class CommentListingFragment extends RRFragment
 
 		mOuterFrame = new FrameLayout(context);
 
-		mRecyclerView = (RecyclerView)LayoutInflater.from(context).inflate(
-				R.layout.scrollbar_recyclerview,
-				null);
+		final ScrollbarRecyclerViewManager recyclerViewManager
+				= new ScrollbarRecyclerViewManager(context, null, false);
 
-		final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-		mRecyclerView.setLayoutManager(linearLayoutManager);
-		mRecyclerView.setHasFixedSize(true);
-		linearLayoutManager.setSmoothScrollbarEnabled(false);
+		mRecyclerView = recyclerViewManager.getRecyclerView();
 
 		mRecyclerView.setAdapter(mCommentListingManager.getAdapter());
-		mOuterFrame.addView(mRecyclerView);
+		mOuterFrame.addView(recyclerViewManager.getOuterView());
 
 		{
 			final RecyclerView.ItemAnimator itemAnimator = mRecyclerView.getItemAnimator();

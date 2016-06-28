@@ -40,13 +40,16 @@ public class CommentListingManager {
 			GROUP_LOADING = 4,
 			GROUP_FOOTER_ERRORS = 5;
 
+	private final GroupedRecyclerViewItemFrameLayout mTopmostWorkaroundItem;
 	private final GroupedRecyclerViewItemFrameLayout mLoadingItem;
 
 	public CommentListingManager(final Context context) {
 
 		// Workaround for RecyclerView scrolling behaviour
 		final View topmostView = new View(context);
-		mAdapter.appendToGroup(0, new GroupedRecyclerViewItemFrameLayout(topmostView));
+		topmostView.setMinimumHeight(1);
+		mTopmostWorkaroundItem = new GroupedRecyclerViewItemFrameLayout(topmostView);
+		mAdapter.appendToGroup(0, mTopmostWorkaroundItem);
 
 		final LoadingSpinnerView loadingSpinnerView = new LoadingSpinnerView(context);
 		final int paddingPx = General.dpToPixels(context, 30);
@@ -56,26 +59,37 @@ public class CommentListingManager {
 		mAdapter.appendToGroup(GROUP_LOADING, mLoadingItem);
 	}
 
+	private void hideWorkaroundItem() {
+		if(!mTopmostWorkaroundItem.isHidden()) {
+			mTopmostWorkaroundItem.setHidden(true);
+			updateHiddenStatus();
+		}
+	}
+
 	public void addFooterError(final ErrorView view) {
 		mAdapter.appendToGroup(GROUP_FOOTER_ERRORS, new GroupedRecyclerViewItemFrameLayout(view));
 	}
 
 	public void addPostHeader(final RedditPostHeaderView view) {
 		mAdapter.appendToGroup(GROUP_POST_HEADER, new GroupedRecyclerViewItemFrameLayout(view));
+		hideWorkaroundItem();
 	}
 
 	public void addPostSelfText(final View view) {
 		mAdapter.appendToGroup(GROUP_POST_SELFTEXT, new GroupedRecyclerViewItemFrameLayout(view));
+		hideWorkaroundItem();
 	}
 
 	public void addNotification(final View view) {
 		mAdapter.appendToGroup(GROUP_NOTIFICATIONS, new GroupedRecyclerViewItemFrameLayout(view));
+		hideWorkaroundItem();
 	}
 
 	public void addComments(final Collection<RedditCommentListItem> comments) {
 		mAdapter.appendToGroup(
 				GROUP_COMMENTS,
 				Collections.<GroupedRecyclerViewAdapter.Item>unmodifiableCollection(comments));
+		hideWorkaroundItem();
 	}
 
 	public void setLoadingVisible(final boolean visible) {

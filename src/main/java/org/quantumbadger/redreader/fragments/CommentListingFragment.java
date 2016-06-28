@@ -360,6 +360,7 @@ public class CommentListingFragment extends RRFragment
 					CommentListingFragment.this.mPost);
 
 			mCommentListingManager.addPostHeader(postHeader);
+			((LinearLayoutManager)mRecyclerView.getLayoutManager()).scrollToPositionWithOffset(0, 0);
 
 			if(post.src.getSelfText() != null) {
 				final ViewGroup selfText = post.src.getSelfText().buildView(

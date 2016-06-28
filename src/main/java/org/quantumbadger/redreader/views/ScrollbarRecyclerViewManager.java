@@ -33,7 +33,7 @@ public class ScrollbarRecyclerViewManager {
 	private final FrameLayout mScrollbarFrame;
 	private final View mScrollbar;
 
-	private boolean mScrollUnnecessary = true;
+	private boolean mScrollUnnecessary = false;
 
 	public ScrollbarRecyclerViewManager(
 			final Context context,

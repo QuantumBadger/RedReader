@@ -69,16 +69,25 @@ public class ScrollbarRecyclerViewManager {
 
 				switch(newState) {
 					case RecyclerView.SCROLL_STATE_IDLE:
-						mScrollbar.setVisibility(View.INVISIBLE);
+						hideScrollbar();
 						break;
 					case RecyclerView.SCROLL_STATE_DRAGGING:
-						mScrollbar.setVisibility(View.VISIBLE);
+						showScrollbar();
 						break;
 					case RecyclerView.SCROLL_STATE_SETTLING:
 						break;
 				}
 			}
 		});
+	}
+
+	private void showScrollbar() {
+		mScrollbar.animate().cancel();
+		mScrollbar.setAlpha(1f);
+	}
+
+	private void hideScrollbar() {
+		mScrollbar.animate().alpha(0).setStartDelay(500).setDuration(500).start();
 	}
 
 	public View getOuterView() {

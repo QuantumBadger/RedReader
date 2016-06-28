@@ -19,7 +19,7 @@
 				android:id="@+id/scrollbar_recyclerview_scrollbar"
 				android:layout_width="match_parent"
 				android:layout_height="75dp"
-				android:visibility="invisible"
+				android:alpha="0.0"
 				android:background="#99999999" />
 
 	</FrameLayout>

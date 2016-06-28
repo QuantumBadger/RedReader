@@ -134,6 +134,7 @@ public class CommentListingFragment extends RRFragment
 				= new ScrollbarRecyclerViewManager(context, null, false);
 
 		mRecyclerView = recyclerViewManager.getRecyclerView();
+		mCommentListingManager.setLayoutManager((LinearLayoutManager) mRecyclerView.getLayoutManager());
 
 		mRecyclerView.setAdapter(mCommentListingManager.getAdapter());
 		mOuterFrame.addView(recyclerViewManager.getOuterView());

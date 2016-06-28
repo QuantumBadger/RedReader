@@ -33,6 +33,8 @@ public class ScrollbarRecyclerViewManager {
 	private final FrameLayout mScrollbarFrame;
 	private final View mScrollbar;
 
+	private boolean mScrollUnnecessary = true;
+
 	public ScrollbarRecyclerViewManager(
 			final Context context,
 			final ViewGroup root,
@@ -50,18 +52,34 @@ public class ScrollbarRecyclerViewManager {
 
 		mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
-			@Override
-			public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+			private void updateScroll() {
+
 				final int firstVisible = linearLayoutManager.findFirstVisibleItemPosition();
 				final int lastVisible = linearLayoutManager.findLastVisibleItemPosition();
+				final int itemsVisible = lastVisible - firstVisible + 1;
 				final int totalCount = linearLayoutManager.getItemCount();
 
-				final int recyclerViewHeight = mRecyclerView.getMeasuredHeight();
-				final int scrollBarHeight = mScrollbar.getMeasuredHeight();
+				final boolean scrollUnnecessary = (itemsVisible == totalCount);
 
-				final double topPadding = ((double) firstVisible / (double) totalCount) * (recyclerViewHeight - scrollBarHeight);
+				if(scrollUnnecessary != mScrollUnnecessary) {
+					mScrollbar.setVisibility(scrollUnnecessary ? View.INVISIBLE : View.VISIBLE);
+				}
 
-				mScrollbarFrame.setPadding(0, (int)Math.round(topPadding), 0, 0);
+				mScrollUnnecessary = scrollUnnecessary;
+
+				if(!scrollUnnecessary) {
+					final int recyclerViewHeight = mRecyclerView.getMeasuredHeight();
+					final int scrollBarHeight = mScrollbar.getMeasuredHeight();
+
+					final double topPadding = ((double) firstVisible / (double) (totalCount - itemsVisible)) * (recyclerViewHeight - scrollBarHeight);
+
+					mScrollbarFrame.setPadding(0, (int) Math.round(topPadding), 0, 0);
+				}
+			}
+
+			@Override
+			public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+				updateScroll();
 			}
 
 			@Override
@@ -77,6 +95,8 @@ public class ScrollbarRecyclerViewManager {
 					case RecyclerView.SCROLL_STATE_SETTLING:
 						break;
 				}
+
+				updateScroll();
 			}
 		});
 	}

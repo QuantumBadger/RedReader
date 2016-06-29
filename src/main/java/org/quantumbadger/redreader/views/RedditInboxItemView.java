@@ -50,20 +50,17 @@ public class RedditInboxItemView extends LinearLayout {
 		mActivity = activity;
 		mTheme = theme;
 
-		setOrientation(HORIZONTAL);
-
-		final LinearLayout main = new LinearLayout(activity);
-		main.setOrientation(VERTICAL);
+		setOrientation(VERTICAL);
 
 		header = new TextView(activity);
 		header.setTextSize(11.0f * theme.rrCommentFontScale);
 		header.setTextColor(theme.rrCommentHeaderCol);
-		main.addView(header);
+		addView(header);
 		header.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
 
 		bodyHolder = new FrameLayout(activity);
 		bodyHolder.setPadding(0, General.dpToPixels(activity, 2), 0, 0);
-		main.addView(bodyHolder);
+		addView(bodyHolder);
 		bodyHolder.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
 
 		final int paddingPixels = General.dpToPixels(activity, 8.0f);
@@ -72,9 +69,6 @@ public class RedditInboxItemView extends LinearLayout {
 		setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
 
 		showLinkButtons = PrefsUtility.pref_appearance_linkbuttons(activity, PreferenceManager.getDefaultSharedPreferences(activity));
-
-		addView(main);
-		main.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
 
 		setOnClickListener(new OnClickListener() {
 			@Override

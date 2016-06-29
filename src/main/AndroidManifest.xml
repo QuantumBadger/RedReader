@@ -75,14 +75,16 @@
         </activity>
 
         <activity android:name=".activities.PostListingActivity"
-                  android:parentActivityName=".activities.MainActivity">
+                  android:parentActivityName=".activities.MainActivity"
+				  android:configChanges="orientation|screenSize|keyboardHidden">
 
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value=".activities.MainActivity"/>
         </activity>
 
-        <activity android:name=".activities.CommentListingActivity">
+        <activity android:name=".activities.CommentListingActivity"
+				  android:configChanges="orientation|screenSize|keyboardHidden">
 
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"

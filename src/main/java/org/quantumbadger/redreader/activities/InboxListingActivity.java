@@ -91,10 +91,12 @@ public final class InboxListingActivity extends BaseActivity {
 
 	private final class InboxItem extends GroupedRecyclerViewAdapter.Item {
 
+		private final int mListPosition;
 		private final RedditRenderableInboxItem mItem;
 
-		private InboxItem(RedditRenderableInboxItem mItem) {
-			this.mItem = mItem;
+		private InboxItem(int listPosition, RedditRenderableInboxItem item) {
+			this.mListPosition = listPosition;
+			this.mItem = item;
 		}
 
 		@Override
@@ -122,7 +124,8 @@ public final class InboxListingActivity extends BaseActivity {
 					InboxListingActivity.this,
 					mChangeDataManager,
 					mTheme,
-					mItem);
+					mItem,
+					mListPosition != 0);
 		}
 
 		@Override
@@ -277,6 +280,8 @@ public final class InboxListingActivity extends BaseActivity {
 					final JsonBufferedObject data = root.getObject("data");
 					final JsonBufferedArray children = data.getArray("children");
 
+					int listPosition = 0;
+
 					for(JsonValue child : children) {
 
 						final RedditThing thing = child.asObject(RedditThing.class);
@@ -286,14 +291,16 @@ public final class InboxListingActivity extends BaseActivity {
 								final RedditComment comment = thing.asComment();
 								final RedditParsedComment parsedComment = new RedditParsedComment(comment);
 								final RedditRenderableComment renderableComment = new RedditRenderableComment(parsedComment, null, -100000, false);
-								itemHandler.sendMessage(General.handlerMessage(0, new InboxItem(renderableComment)));
+								itemHandler.sendMessage(General.handlerMessage(0, new InboxItem(listPosition, renderableComment)));
+								listPosition++;
 
 								break;
 
 							case MESSAGE:
 								final RedditPreparedMessage message = new RedditPreparedMessage(
 										InboxListingActivity.this, thing.asMessage(), timestamp);
-								itemHandler.sendMessage(General.handlerMessage(0, new InboxItem(message)));
+								itemHandler.sendMessage(General.handlerMessage(0, new InboxItem(listPosition, message)));
+								listPosition++;
 
 								if(message.src.replies != null && message.src.replies.getType() == JsonValue.TYPE_OBJECT) {
 
@@ -302,7 +309,8 @@ public final class InboxListingActivity extends BaseActivity {
 									for(JsonValue childMsgValue : replies) {
 										final RedditMessage childMsgRaw = childMsgValue.asObject(RedditThing.class).asMessage();
 										final RedditPreparedMessage childMsg = new RedditPreparedMessage(InboxListingActivity.this, childMsgRaw, timestamp);
-										itemHandler.sendMessage(General.handlerMessage(0, new InboxItem(childMsg)));
+										itemHandler.sendMessage(General.handlerMessage(0, new InboxItem(listPosition, childMsg)));
+										listPosition++;
 									}
 								}
 

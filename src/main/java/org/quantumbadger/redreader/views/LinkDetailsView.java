@@ -25,6 +25,7 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
 import android.view.Gravity;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -73,35 +74,37 @@ public class LinkDetailsView extends FrameLayout {
 			textLayout.addView(subtitleView);
 		}
 
+		final float borderPx = General.dpToPixels(context, 2);
+
 		final RectShape borderShape = new RectShape();
 		final ShapeDrawable border = new ShapeDrawable(borderShape);
-		border.getPaint().setColor(Color.rgb(128, 128, 128));
-		border.getPaint().setStrokeWidth(1f);
+		border.getPaint().setColor(Color.argb(128, 128, 128, 128));
+		border.getPaint().setStrokeWidth(borderPx);
 		border.getPaint().setStyle(Paint.Style.STROKE);
 
 		//noinspection deprecation
 		setBackgroundDrawable(border);
-	}
 
-	@Override
-	public boolean onInterceptTouchEvent(MotionEvent ev) {
+		setOnTouchListener(new OnTouchListener() {
+			@Override
+			public boolean onTouch(final View v, final MotionEvent event) {
 
-		switch(ev.getActionMasked()) {
+				switch(event.getActionMasked()) {
 
-			case MotionEvent.ACTION_DOWN:
-				((ShapeDrawable)getBackground()).getPaint().setColor(Color.rgb(0x00, 0x99, 0xCC));
-				((ShapeDrawable)getBackground()).getPaint().setStrokeWidth(2f);
-				invalidate();
-				break;
+					case MotionEvent.ACTION_DOWN:
+						layout.setBackgroundColor(Color.argb(50, 128, 128, 128));
+						invalidate();
+						break;
 
-			case MotionEvent.ACTION_UP:
-			case MotionEvent.ACTION_CANCEL:
-				((ShapeDrawable)getBackground()).getPaint().setColor(Color.rgb(128, 128, 128));
-				((ShapeDrawable)getBackground()).getPaint().setStrokeWidth(1f);
-				invalidate();
-				break;
-		}
+					case MotionEvent.ACTION_UP:
+					case MotionEvent.ACTION_CANCEL:
+						layout.setBackgroundColor(Color.TRANSPARENT);
+						invalidate();
+						break;
+				}
 
-		return super.onInterceptTouchEvent(ev);
+				return false;
+			}
+		});
 	}
 }

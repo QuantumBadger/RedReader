@@ -17,11 +17,14 @@
 
 package org.quantumbadger.redreader.reddit.things;
 
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
+import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 
 import java.util.HashSet;
 
@@ -146,6 +149,34 @@ public final class RedditComment implements Parcelable, RedditThingWithIdAndType
 
 	public boolean isArchived() {
 		return Boolean.TRUE.equals(archived);
+	}
+
+	@Nullable
+	public PostCommentListingURL getContextUrl() {
+
+		if(context != null) {
+
+			String rawContextUrl = context;
+
+			if(rawContextUrl.startsWith("r/")) {
+				rawContextUrl = "/" + rawContextUrl;
+			}
+
+			if(rawContextUrl.startsWith("/")) {
+				rawContextUrl = "https://reddit.com" + rawContextUrl;
+			}
+
+			return PostCommentListingURL.parse(Uri.parse(rawContextUrl));
+
+		} else {
+			return new PostCommentListingURL(
+				null,
+				link_id,
+				getIdAlone(),
+				3,
+				null,
+				null);
+		}
 	}
 
 	public int describeContents() {

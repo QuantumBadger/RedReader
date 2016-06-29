@@ -30,4 +30,8 @@
         <item name="android:minHeight">@dimen/abc_action_button_min_height_material</item>
     </style>
 
+	<style name="RR.Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+		<item name="android:textSize">18sp</item>
+	</style>
+
 </resources>

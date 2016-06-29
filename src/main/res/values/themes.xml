@@ -18,10 +18,6 @@
 
 <resources>
 
-	<style name="RR.Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-		<item name="android:textSize">18sp</item>
-	</style>
-
     <style name="RR.Dark" parent="Theme.AppCompat.NoActionBar">
 
         <item name="android:actionOverflowButtonStyle">@style/RR.Base.Widget.AppCompat.ActionButton.Overflow</item>

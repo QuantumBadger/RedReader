@@ -18,8 +18,6 @@
 
 <resources>
 
-    <attr name="rrActionBarCol" format="color" />
-
 	<attr name="rrActionBarPopupThemeStyle" format="reference" />
 
     <attr name="rrListDividerCol" format="color" />

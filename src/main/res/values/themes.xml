@@ -22,8 +22,7 @@
 
         <item name="android:actionOverflowButtonStyle">@style/RR.Base.Widget.AppCompat.ActionButton.Overflow</item>
 
-        <item name="rrActionBarCol">#222222</item>
-        <item name="colorPrimary">?rrActionBarCol</item>
+        <item name="colorPrimary">#222222</item>
         <item name="colorPrimaryDark">#000000</item>
         <item name="colorAccent">#99DDDD</item>
 
@@ -104,8 +103,7 @@
 
 		<item name="alertDialogTheme">@style/Theme.AppCompat.Dialog.Alert</item>
 
-		<item name="rrActionBarCol">#555555</item>
-		<item name="colorPrimary">?rrActionBarCol</item>
+		<item name="colorPrimary">#555555</item>
 		<item name="colorPrimaryDark">#555555</item>
 		<item name="colorAccent">#99DDDD</item>
 		<item name="android:windowBackground">@color/settingsWindowBackground</item>
@@ -118,8 +116,7 @@
 
         <item name="android:actionOverflowButtonStyle">@style/RR.Base.Widget.AppCompat.ActionButton.Overflow</item>
 
-        <item name="rrActionBarCol">#222222</item>
-        <item name="colorPrimary">?rrActionBarCol</item>
+        <item name="colorPrimary">#222222</item>
         <item name="colorPrimaryDark">#111111</item>
         <item name="colorAccent">?colorPrimaryDark</item>
 
@@ -128,7 +125,7 @@
         <item name="android:textColorPrimary">#000000</item>
         <item name="android:textColorSecondary">#000000</item>
 
-        <item name="rrLoadingRingForegroundCol">?rrActionBarCol</item>
+        <item name="rrLoadingRingForegroundCol">?colorPrimary</item>
         <item name="rrLoadingRingBackgroundCol">#22000000</item>
 
         <item name="android:windowBackground">@color/lightWindowBackground</item>
@@ -150,7 +147,7 @@
         <item name="rrCommentBodyCol">#000000</item>
         <item name="rrCommentHeaderCol">#666666</item> <!-- TODO -->
         <item name="rrCommentHeaderBoldCol">#333333</item>
-        <item name="rrCommentHeaderAuthorCol">?rrActionBarCol</item>
+        <item name="rrCommentHeaderAuthorCol">?colorPrimary</item>
         <item name="rrCommentSpecificThreadHeaderBackCol">#FFFFCC</item>
         <item name="rrCommentSpecificThreadHeaderTextCol">#000000</item>
 
@@ -166,7 +163,7 @@
         <item name="rrPostCommentsButtonHighlightCol">#CCCCCC</item>
         <item name="rrPostCommentsButtonTextCol">#666666</item>
         <item name="rrPostThumbnailBackground">#DDDDDD</item>
-        <item name="rrPostFlingTextCol">?rrActionBarCol</item>
+        <item name="rrPostFlingTextCol">?colorPrimary</item>
         <item name="rrPostBackgroundColSticky">#DDFFDD</item>
         <item name="rrPostCommentsButtonBackColSticky">#BBEEBB</item>
         <item name="rrFlairBackCol">#DDDDDD</item>
@@ -200,33 +197,33 @@
     </style>
 
     <style name="RR.Light.Gray" parent="RR.Light.DarkActionBar">
-        <item name="rrActionBarCol">#222222</item>
+        <item name="colorPrimary">#222222</item>
         <item name="colorPrimaryDark">#222222</item>
         <item name="colorAccent">#607d8b</item>
     </style>
 
     <style name="RR.Light.Blue" parent="RR.Light.DarkActionBar">
-        <item name="rrActionBarCol">#2196f3</item>
+        <item name="colorPrimary">#2196f3</item>
         <item name="colorPrimaryDark">#1976d2</item>
     </style>
 
     <style name="RR.Light.LtBlue" parent="RR.Light.DarkActionBar">
-        <item name="rrActionBarCol">#03a9f4</item>
+        <item name="colorPrimary">#03a9f4</item>
         <item name="colorPrimaryDark">#0288d1</item>
     </style>
 
     <style name="RR.Light.Red" parent="RR.Light.DarkActionBar">
-        <item name="rrActionBarCol">#d32f2f</item>
+        <item name="colorPrimary">#d32f2f</item>
         <item name="colorPrimaryDark">#b52626</item>
     </style>
 
     <style name="RR.Light.Green" parent="RR.Light.DarkActionBar">
-        <item name="rrActionBarCol">#4caf50</item>
+        <item name="colorPrimary">#4caf50</item>
         <item name="colorPrimaryDark">#388e3c</item>
     </style>
 
     <style name="RR.Light.Orange" parent="RR.Light.DarkActionBar">
-        <item name="rrActionBarCol">#ff9800</item>
+        <item name="colorPrimary">#ff9800</item>
         <item name="colorPrimaryDark">#f57c00</item>
     </style>
 

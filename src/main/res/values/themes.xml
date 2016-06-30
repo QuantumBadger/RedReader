@@ -46,8 +46,6 @@
         <item name="alertDialogTheme">@style/Theme.AppCompat.Dialog.Alert</item>
 		<item name="rrActionBarPopupThemeStyle">@style/ThemeOverlay.AppCompat.Dark</item>
 
-		<item name="actionBarSize">48dp</item>
-
         <!-- Post -->
 
         <item name="rrPostTitleCol">#DDDDDD</item>
@@ -146,8 +144,6 @@
         <item name="rrListHeaderTextCol">?colorAccent</item>
         <item name="rrListHeaderLineCol">?colorAccent</item>
         <item name="rrListSubtitleCol">#666666</item>
-
-		<item name="actionBarSize">48dp</item>
 
         <!-- Comment -->
 

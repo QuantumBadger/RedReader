@@ -69,6 +69,8 @@ public final class InboxListingActivity extends BaseActivity {
 	private static final int OPTIONS_MENU_MARK_ALL_AS_READ = 0;
 	private static final int OPTIONS_MENU_SHOW_UNREAD_ONLY = 1;
 
+	private static final String PREF_ONLY_UNREAD = "inbox_only_show_unread";
+
 	private GroupedRecyclerViewAdapter adapter;
 
 	private LoadingView loadingView;
@@ -154,7 +156,7 @@ public final class InboxListingActivity extends BaseActivity {
 		final String title;
 
 		isModmail = getIntent() != null && getIntent().getBooleanExtra("modmail", false);
-		mOnlyShowUnread = sharedPreferences.getBoolean("onlyUnread", false);
+		mOnlyShowUnread = sharedPreferences.getBoolean(PREF_ONLY_UNREAD, false);
 
 		if(!isModmail) {
 			title = getString(R.string.mainmenu_inbox);
@@ -341,7 +343,7 @@ public final class InboxListingActivity extends BaseActivity {
 	@Override
 	public boolean onCreateOptionsMenu(final Menu menu) {
 		menu.add(0, OPTIONS_MENU_MARK_ALL_AS_READ, 0, R.string.mark_all_as_read);
-		menu.add(0, OPTIONS_MENU_SHOW_UNREAD_ONLY, 1, "Unread Messages Only");
+		menu.add(0, OPTIONS_MENU_SHOW_UNREAD_ONLY, 1, R.string.inbox_unread_only);
 		menu.getItem(1).setCheckable(true);
 		if(mOnlyShowUnread){
 			menu.getItem(1).setChecked(true);
@@ -405,7 +407,7 @@ public final class InboxListingActivity extends BaseActivity {
 				PreferenceManager
 						.getDefaultSharedPreferences(this)
 						.edit()
-						.putBoolean("onlyUnread", enabled)
+						.putBoolean(PREF_ONLY_UNREAD, enabled)
 						.apply();
 
 				General.recreateActivityNoAnimation(this);

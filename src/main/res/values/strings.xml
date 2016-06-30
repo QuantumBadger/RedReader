@@ -806,4 +806,7 @@
 
 	<string name="error_tor_start_failed">Orbot failed to start. Tor will not work correctly.</string>
 
+	<!-- 2016-06-30 -->
+	<string name="inbox_unread_only">Unread Messages Only</string>
+
 </resources>

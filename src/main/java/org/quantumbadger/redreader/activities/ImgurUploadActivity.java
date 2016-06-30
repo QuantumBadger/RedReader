@@ -77,12 +77,11 @@ public class ImgurUploadActivity extends BaseActivity {
 
 		super.onCreate(savedInstanceState);
 
-		OptionsMenuUtility.fixActionBar(this, getString(R.string.upload_to_imgur));
-
 		ActionBar ab = getSupportActionBar();
 		if (ab != null) {
 			ab.setHomeButtonEnabled(true);
 			ab.setDisplayHomeAsUpEnabled(true);
+			ab.setTitle(R.string.upload_to_imgur);
 		}
 
 		final FrameLayout outerLayout = new FrameLayout(this);

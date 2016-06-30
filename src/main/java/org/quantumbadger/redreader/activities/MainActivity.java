@@ -111,7 +111,10 @@ public class MainActivity extends RefreshableActivity
 				onSelected(SubredditPostListURL.getFrontPage());
 		}
 
-		OptionsMenuUtility.fixActionBar(this, getString(R.string.app_name));
+		ActionBar ab = getSupportActionBar();
+		if (ab != null) {
+			ab.setTitle(R.string.app_name);
+		}
 
 		twoPane = General.isTablet(this, sharedPreferences);
 

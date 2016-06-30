@@ -20,11 +20,11 @@ public class ChangelogActivity extends BaseActivity {
 
 		super.onCreate(savedInstanceState);
 
-		OptionsMenuUtility.fixActionBar(this, getString(R.string.title_changelog));
 		ActionBar ab = getSupportActionBar();
 		if (ab != null) {
 			ab.setHomeButtonEnabled(true);
 			ab.setDisplayHomeAsUpEnabled(true);
+			ab.setTitle(R.string.title_changelog);
 		}
 
 		final LinearLayout items = new LinearLayout(this);

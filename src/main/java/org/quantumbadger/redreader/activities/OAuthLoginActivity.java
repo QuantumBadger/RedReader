@@ -22,13 +22,14 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 import android.webkit.CookieManager;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import info.guardianproject.netcipher.web.WebkitProxy;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.RedReader;
 import org.quantumbadger.redreader.common.AndroidApi;
@@ -37,6 +38,8 @@ import org.quantumbadger.redreader.common.TorCommon;
 import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 
 import java.io.ByteArrayInputStream;
+
+import info.guardianproject.netcipher.web.WebkitProxy;
 
 public class OAuthLoginActivity extends BaseActivity {
 
@@ -128,8 +131,11 @@ public class OAuthLoginActivity extends BaseActivity {
 
 		super.onCreate(savedInstanceState);
 
-		getSupportActionBar().setHomeButtonEnabled(true);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		ActionBar ab = getSupportActionBar();
+		if (ab != null) {
+			ab.setHomeButtonEnabled(true);
+			ab.setDisplayHomeAsUpEnabled(true);
+		}
 
 		mWebView = new WebView(this);
 

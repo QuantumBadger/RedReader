@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -70,8 +71,11 @@ public class PostListingActivity extends RefreshableActivity
 
 		super.onCreate(savedInstanceState);
 
-		getSupportActionBar().setHomeButtonEnabled(true);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		ActionBar ab = getSupportActionBar();
+		if (ab != null) {
+			ab.setHomeButtonEnabled(true);
+			ab.setDisplayHomeAsUpEnabled(true);
+		}
 
 		getWindow().setBackgroundDrawable(new ColorDrawable(obtainStyledAttributes(new int[] {R.attr.rrListBackgroundCol}).getColor(0,0)));
 

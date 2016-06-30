@@ -21,6 +21,7 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 import android.view.Window;
 import org.quantumbadger.redreader.R;
@@ -44,8 +45,11 @@ public final class SettingsActivity
 		sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 		setOrientationFromPrefs();
 
-		getSupportActionBar().setHomeButtonEnabled(true);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		ActionBar ab = getSupportActionBar();
+		if (ab != null) {
+			ab.setHomeButtonEnabled(true);
+			ab.setDisplayHomeAsUpEnabled(true);
+		}
 	}
 
 	@Override

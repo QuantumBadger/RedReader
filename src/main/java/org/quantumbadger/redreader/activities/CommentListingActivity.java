@@ -20,9 +20,11 @@ package org.quantumbadger.redreader.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -61,8 +63,11 @@ public class CommentListingActivity extends RefreshableActivity
 
 		super.onCreate(savedInstanceState);
 
-		getSupportActionBar().setHomeButtonEnabled(true);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		ActionBar ab = getSupportActionBar();
+		if (ab != null) {
+			ab.setHomeButtonEnabled(true);
+			ab.setDisplayHomeAsUpEnabled(true);
+		}
 
 		OptionsMenuUtility.fixActionBar(this, getString(R.string.app_name));
 
@@ -138,7 +143,10 @@ public class CommentListingActivity extends RefreshableActivity
 	protected void doRefresh(final RefreshableFragment which, final boolean force, final Bundle savedInstanceState) {
 		mFragment = controller.get(this, force, savedInstanceState);
 		setBaseActivityContentView(mFragment.getView());
-		getSupportActionBar().setTitle(controller.getCommentListingUrl().humanReadableName(this, false));
+		ActionBar ab = getSupportActionBar();
+		if (ab != null) {
+			ab.setTitle(controller.getCommentListingUrl().humanReadableName(this, false));
+		}
 		invalidateOptionsMenu();
 	}
 

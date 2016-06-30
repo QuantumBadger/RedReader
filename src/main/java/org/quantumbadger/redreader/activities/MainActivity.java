@@ -25,6 +25,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -567,8 +568,11 @@ public class MainActivity extends RefreshableActivity
 				subredditPinState,
 				subredditBlockedState);
 
-		getSupportActionBar().setHomeButtonEnabled(!isMenuShown);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(!isMenuShown);
+		ActionBar ab = getSupportActionBar();
+		if (ab != null) {
+			ab.setHomeButtonEnabled(!isMenuShown);
+			ab.setDisplayHomeAsUpEnabled(!isMenuShown);
+		}
 
 		if(commentListingFragment != null) {
 			commentListingFragment.onCreateOptionsMenu(menu);

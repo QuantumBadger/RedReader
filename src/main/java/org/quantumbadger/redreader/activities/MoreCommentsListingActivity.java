@@ -39,6 +39,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -76,8 +77,11 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 
 		super.onCreate(savedInstanceState);
 
-		getSupportActionBar().setHomeButtonEnabled(true);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		ActionBar ab = getSupportActionBar();
+		if (ab != null) {
+			ab.setHomeButtonEnabled(true);
+			ab.setDisplayHomeAsUpEnabled(true);
+		}
 
 		OptionsMenuUtility.fixActionBar(this, getString(R.string.app_name));
 
@@ -144,7 +148,10 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 
 		mPane.removeAllViews();
 		mPane.addView(mFragment.getView());
-		getSupportActionBar().setTitle("More Comments");
+		ActionBar ab = getSupportActionBar();
+		if (ab != null) {
+			ab.setTitle("More Comments");
+		}
 	}
 
 	public void onRefreshComments() {

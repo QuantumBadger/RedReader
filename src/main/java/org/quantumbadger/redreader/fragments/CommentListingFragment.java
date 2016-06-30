@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -380,7 +381,10 @@ public class CommentListingFragment extends RRFragment
 			}
 
 			if(!General.isTablet(context, PreferenceManager.getDefaultSharedPreferences(context))) {
-				getActivity().getSupportActionBar().setTitle(post.src.getTitle());
+				ActionBar ab = getActivity().getSupportActionBar();
+				if (ab != null) {
+					ab.setTitle(post.src.getTitle());
+				}
 			}
 
 			if(!mAllUrls.isEmpty()

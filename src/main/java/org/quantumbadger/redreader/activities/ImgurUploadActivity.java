@@ -24,6 +24,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
+import android.support.v7.app.ActionBar;
 import android.util.Base64OutputStream;
 import android.view.MenuItem;
 import android.view.View;
@@ -76,10 +77,12 @@ public class ImgurUploadActivity extends BaseActivity {
 
 		super.onCreate(savedInstanceState);
 
-		OptionsMenuUtility.fixActionBar(this, getString(R.string.upload_to_imgur));
-
-		getSupportActionBar().setHomeButtonEnabled(true);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		ActionBar ab = getSupportActionBar();
+		if (ab != null) {
+			ab.setHomeButtonEnabled(true);
+			ab.setDisplayHomeAsUpEnabled(true);
+			ab.setTitle(R.string.upload_to_imgur);
+		}
 
 		final FrameLayout outerLayout = new FrameLayout(this);
 

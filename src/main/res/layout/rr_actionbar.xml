@@ -13,9 +13,8 @@
 		<android.support.v7.widget.Toolbar
 				android:id="@+id/rr_actionbar_toolbar"
 				android:layout_width="match_parent"
-				android:layout_height="?attr/actionBarSize"
+				android:layout_height="?actionBarSize"
 				android:background="?attr/colorPrimary"
-				app:titleTextAppearance="@style/RR.Toolbar.TitleText"
 				app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
 				app:popupTheme="?rrActionBarPopupThemeStyle" />
 

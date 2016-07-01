@@ -19,10 +19,12 @@ package org.quantumbadger.redreader.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.adapters.AlbumAdapter;
 import org.quantumbadger.redreader.cache.CacheRequest;
@@ -51,11 +53,11 @@ public class AlbumListingActivity extends BaseActivity {
 
 		super.onCreate(savedInstanceState);
 
-		OptionsMenuUtility.fixActionBar(AlbumListingActivity.this, getString(R.string.imgur_album));
-
-		if(getSupportActionBar() != null) {
-			getSupportActionBar().setHomeButtonEnabled(true);
-			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		ActionBar ab = getSupportActionBar();
+		if (ab != null) {
+			ab.setHomeButtonEnabled(true);
+			ab.setDisplayHomeAsUpEnabled(true);
+			ab.setTitle(R.string.imgur_album);
 		}
 
 		final Intent intent = getIntent();
@@ -134,7 +136,10 @@ public class AlbumListingActivity extends BaseActivity {
 					public void run() {
 
 						if(info.title != null && !info.title.trim().isEmpty()) {
-							OptionsMenuUtility.fixActionBar(AlbumListingActivity.this, getString(R.string.imgur_album) + ": " + info.title);
+							ActionBar ab = getSupportActionBar();
+							if (ab != null) {
+								ab.setTitle(getString(R.string.imgur_album) + getString(R.string.imgur_album) + ": " + info.title);
+							}
 						}
 
 						layout.removeAllViews();

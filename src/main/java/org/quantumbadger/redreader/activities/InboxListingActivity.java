@@ -24,6 +24,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -150,9 +151,6 @@ public final class InboxListingActivity extends BaseActivity {
 
 		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-		getSupportActionBar().setHomeButtonEnabled(true);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 		final String title;
 
 		isModmail = getIntent() != null && getIntent().getBooleanExtra("modmail", false);
@@ -164,7 +162,12 @@ public final class InboxListingActivity extends BaseActivity {
 			title = getString(R.string.mainmenu_modmail);
 		}
 
-		OptionsMenuUtility.fixActionBar(this, title);
+		ActionBar ab = getSupportActionBar();
+		if (ab != null) {
+			ab.setHomeButtonEnabled(true);
+			ab.setDisplayHomeAsUpEnabled(true);
+			ab.setTitle(title);
+		}
 
 		final LinearLayout outer = new LinearLayout(this);
 		outer.setOrientation(android.widget.LinearLayout.VERTICAL);

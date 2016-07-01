@@ -19,7 +19,7 @@
 <resources>
 
     <style name="RR.Startup.ActionBarStyle" parent="@style/Widget.AppCompat.ActionBar">
-        <item name="android:background">?rrActionBarCol</item>
+        <item name="android:background">?colorPrimary</item>
     </style>
 
     <style name="RR.Base.Widget.AppCompat.ActionButton.Overflow" parent="RtlUnderlay.Widget.AppCompat.ActionButton.Overflow">
@@ -29,9 +29,5 @@
         <item name="android:minWidth">48dp</item>
         <item name="android:minHeight">@dimen/abc_action_button_min_height_material</item>
     </style>
-
-	<style name="RR.Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-		<item name="android:textSize">18sp</item>
-	</style>
 
 </resources>

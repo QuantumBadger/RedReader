@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.View;
@@ -56,7 +57,10 @@ public class CaptchaActivity extends BaseActivity {
 
 		super.onCreate(savedInstanceState);
 
-		getSupportActionBar().setTitle(R.string.post_captcha_title);
+		ActionBar ab = getSupportActionBar();
+		if (ab != null) {
+			ab.setTitle(R.string.post_captcha_title);
+		}
 
 		final LoadingView loadingView = new LoadingView(this, R.string.download_waiting, true, true);
 		setBaseActivityContentView(loadingView);

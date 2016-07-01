@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 import android.view.View;
 import org.quantumbadger.redreader.R;
@@ -36,8 +37,11 @@ public class HtmlViewActivity extends BaseActivity {
 
 		super.onCreate(savedInstanceState);
 
-		getSupportActionBar().setHomeButtonEnabled(true);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		ActionBar ab = getSupportActionBar();
+		if (ab != null) {
+			ab.setHomeButtonEnabled(true);
+			ab.setDisplayHomeAsUpEnabled(true);
+		}
 
 		final Intent intent = getIntent();
 

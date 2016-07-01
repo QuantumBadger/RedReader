@@ -21,6 +21,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -67,8 +68,11 @@ public class PostSubmitActivity extends BaseActivity {
 
 		super.onCreate(savedInstanceState);
 
-		getSupportActionBar().setHomeButtonEnabled(true);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		ActionBar ab = getSupportActionBar();
+		if (ab != null) {
+			ab.setHomeButtonEnabled(true);
+			ab.setDisplayHomeAsUpEnabled(true);
+		}
 
 		final LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.post_submit, null);
 

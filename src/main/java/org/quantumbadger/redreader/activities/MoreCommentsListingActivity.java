@@ -78,8 +78,7 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-		OptionsMenuUtility.fixActionBar(this, getString(R.string.app_name));
+		getSupportActionBar().setTitle(R.string.app_name);
 
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 

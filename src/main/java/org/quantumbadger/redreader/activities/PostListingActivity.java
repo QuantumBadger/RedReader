@@ -107,7 +107,7 @@ public class PostListingActivity extends RefreshableActivity
 				}
 			}
 
-			OptionsMenuUtility.fixActionBar(this, url.humanReadableName(this, false));
+			getSupportActionBar().setTitle(url.humanReadableName(this, false));
 
 			setBaseActivityContentView(R.layout.main_single);
 			doRefresh(RefreshableFragment.POSTS, false, fragmentSavedInstanceState);

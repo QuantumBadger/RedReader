@@ -51,11 +51,10 @@ public class AlbumListingActivity extends BaseActivity {
 
 		super.onCreate(savedInstanceState);
 
-		OptionsMenuUtility.fixActionBar(AlbumListingActivity.this, getString(R.string.imgur_album));
-
 		if(getSupportActionBar() != null) {
 			getSupportActionBar().setHomeButtonEnabled(true);
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+			getSupportActionBar().setTitle(R.string.imgur_album);
 		}
 
 		final Intent intent = getIntent();
@@ -134,7 +133,7 @@ public class AlbumListingActivity extends BaseActivity {
 					public void run() {
 
 						if(info.title != null && !info.title.trim().isEmpty()) {
-							OptionsMenuUtility.fixActionBar(AlbumListingActivity.this, getString(R.string.imgur_album) + ": " + info.title);
+							getSupportActionBar().setTitle(getString(R.string.imgur_album) + ": " + info.title);
 						}
 
 						layout.removeAllViews();

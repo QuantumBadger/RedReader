@@ -570,9 +570,4 @@ public final class OptionsMenuUtility {
 
 		void onSortSelected(PostCommentListingURL.Sort order);
 	}
-
-	public static void fixActionBar(final AppCompatActivity activity, final String title) {
-		if(activity.getSupportActionBar() == null) return;
-		activity.getSupportActionBar().setTitle(title);
-	}
 }

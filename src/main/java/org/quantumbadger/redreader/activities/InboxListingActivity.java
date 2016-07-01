@@ -164,7 +164,7 @@ public final class InboxListingActivity extends BaseActivity {
 			title = getString(R.string.mainmenu_modmail);
 		}
 
-		OptionsMenuUtility.fixActionBar(this, title);
+		getSupportActionBar().setTitle(title);
 
 		final LinearLayout outer = new LinearLayout(this);
 		outer.setOrientation(android.widget.LinearLayout.VERTICAL);

@@ -19,7 +19,7 @@
 <resources>
 
     <style name="RR.Startup.ActionBarStyle" parent="@style/Widget.AppCompat.ActionBar">
-        <item name="android:background">?rrActionBarCol</item>
+        <item name="android:background">?colorPrimary</item>
     </style>
 
     <style name="RR.Base.Widget.AppCompat.ActionButton.Overflow" parent="RtlUnderlay.Widget.AppCompat.ActionButton.Overflow">

@@ -63,8 +63,7 @@ public class CommentListingActivity extends RefreshableActivity
 
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-		OptionsMenuUtility.fixActionBar(this, getString(R.string.app_name));
+		getSupportActionBar().setTitle(getString(R.string.app_name));
 
 		RedditAccountManager.getInstance(this).addUpdateListener(this);
 

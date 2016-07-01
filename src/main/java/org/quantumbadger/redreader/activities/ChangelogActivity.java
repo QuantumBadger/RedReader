@@ -18,7 +18,7 @@ public class ChangelogActivity extends BaseActivity {
 
 		super.onCreate(savedInstanceState);
 
-		OptionsMenuUtility.fixActionBar(this, getString(R.string.title_changelog));
+		getSupportActionBar().setTitle(R.string.title_changelog);
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

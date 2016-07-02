@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import org.quantumbadger.redreader.cache.CacheManager;
+import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 
 public class RegularCachePruner extends BroadcastReceiver {
 
@@ -33,6 +34,7 @@ public class RegularCachePruner extends BroadcastReceiver {
 		new Thread() {
 			@Override
 			public void run() {
+				RedditChangeDataManager.pruneAllUsers();
 				CacheManager.getInstance(context).pruneCache();
 			}
 		}.start();

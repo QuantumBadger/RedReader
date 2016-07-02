@@ -92,7 +92,7 @@ public class RedditChangeDataIO {
 
 				dos.writeInt(DB_VERSION);
 
-				RedditChangeDataManager.writeAllEntries(dos);
+				RedditChangeDataManager.writeAllUsers(dos);
 
 				dos.flush();
 				dos.close();
@@ -178,7 +178,7 @@ public class RedditChangeDataIO {
 					return;
 				}
 
-				RedditChangeDataManager.readAllEntries(dis, mContext);
+				RedditChangeDataManager.readAllUsers(dis, mContext);
 
 				Log.i(TAG, "Initial read successful.");
 

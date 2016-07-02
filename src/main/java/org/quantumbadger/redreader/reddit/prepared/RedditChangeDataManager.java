@@ -32,6 +32,7 @@ import org.quantumbadger.redreader.reddit.things.RedditThingWithIdAndType;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -39,33 +40,40 @@ public final class RedditChangeDataManager {
 
 	private static final String TAG = "RedditChangeDataManager";
 
+	private static final long PRUNE_AGE_MS = 7L * 24L * 60L * 60L * 1000L;
+
 	private static final HashMap<RedditAccount, RedditChangeDataManager> INSTANCE_MAP
 			= new HashMap<>();
 
-	public static synchronized RedditChangeDataManager getInstance(final RedditAccount user) {
+	public static RedditChangeDataManager getInstance(final RedditAccount user) {
 
-		RedditChangeDataManager result = INSTANCE_MAP.get(user);
+		synchronized(INSTANCE_MAP) {
 
-		if(result == null) {
-			result = new RedditChangeDataManager();
-			INSTANCE_MAP.put(user, result);
+			RedditChangeDataManager result = INSTANCE_MAP.get(user);
+
+			if(result == null) {
+				result = new RedditChangeDataManager();
+				INSTANCE_MAP.put(user, result);
+			}
+
+			return result;
 		}
-
-		return result;
 	}
 
-	private static synchronized HashMap<RedditAccount, HashMap<String, Entry>> snapshotAllUsers() {
+	private static HashMap<RedditAccount, HashMap<String, Entry>> snapshotAllUsers() {
 
 		final HashMap<RedditAccount, HashMap<String, Entry>> result = new HashMap<>();
 
-		for(final RedditAccount account : INSTANCE_MAP.keySet()) {
-			result.put(account, getInstance(account).snapshot());
+		synchronized(INSTANCE_MAP) {
+			for(final RedditAccount account : INSTANCE_MAP.keySet()) {
+				result.put(account, getInstance(account).snapshot());
+			}
 		}
 
 		return result;
 	}
 
-	public static void writeAllEntries(final ExtendedDataOutputStream dos) throws IOException {
+	public static void writeAllUsers(final ExtendedDataOutputStream dos) throws IOException {
 
 		Log.i(TAG, "Taking snapshot...");
 
@@ -97,7 +105,7 @@ public final class RedditChangeDataManager {
 		Log.i(TAG, "All entries written to stream.");
 	}
 
-	public static void readAllEntries(
+	public static void readAllUsers(
 			final ExtendedDataInputStream dis,
 			final Context context) throws IOException {
 
@@ -136,6 +144,25 @@ public final class RedditChangeDataManager {
 		}
 
 		Log.i(TAG, "All entries read from stream.");
+	}
+
+	public static void pruneAllUsers() {
+
+		Log.i(TAG, "Pruning for all users...");
+
+		final Set<RedditAccount> users;
+
+		synchronized(INSTANCE_MAP) {
+			users = INSTANCE_MAP.keySet();
+		}
+
+		for(final RedditAccount user : users) {
+
+			final RedditChangeDataManager managerForUser = getInstance(user);
+			managerForUser.prune();
+		}
+
+		Log.i(TAG, "Pruning complete.");
 	}
 
 	public interface Listener {
@@ -386,7 +413,7 @@ public final class RedditChangeDataManager {
 
 	private void insertAll(final HashMap<String, Entry> entries) {
 
-		synchronized(this) {
+		synchronized(mLock) {
 			// TODO check timestamps of existing?
 			mEntries.putAll(entries);
 		}
@@ -498,9 +525,35 @@ public final class RedditChangeDataManager {
 		}
 	}
 
-	public HashMap<String, Entry> snapshot() {
+	private HashMap<String, Entry> snapshot() {
 		synchronized(mLock) {
 			return new HashMap<>(mEntries);
+		}
+	}
+
+	private void prune() {
+
+		final long now = System.currentTimeMillis();
+		final long timestampBoundary = now - PRUNE_AGE_MS;
+
+		synchronized(mLock) {
+			final Iterator<Map.Entry<String, Entry>> iterator = mEntries.entrySet().iterator();
+
+			while(iterator.hasNext()) {
+
+				final Map.Entry<String, Entry> entry = iterator.next();
+				final long timestamp = entry.getValue().mTimestamp;
+
+				if(timestamp < timestampBoundary) {
+
+					Log.i(TAG, String.format(
+							"Pruning '%s' (%d hours old)",
+							entry.getKey(),
+							(now - timestamp) / (60L * 60L * 1000L)));
+
+					iterator.remove();
+				}
+			}
 		}
 	}
 }

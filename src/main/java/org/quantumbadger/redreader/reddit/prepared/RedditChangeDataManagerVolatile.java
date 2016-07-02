@@ -43,6 +43,17 @@ public final class RedditChangeDataManagerVolatile {
 		return result;
 	}
 
+	public static synchronized HashMap<RedditAccount, HashMap<String, Entry>> snapshotAllUsers() {
+
+		final HashMap<RedditAccount, HashMap<String, Entry>> result = new HashMap<>();
+
+		for(final RedditAccount account : INSTANCE_MAP.keySet()) {
+			result.put(account, getInstance(account).snapshot());
+		}
+
+		return result;
+	}
+
 	public interface Listener {
 		void onRedditDataChange(final String thingIdAndType);
 	}
@@ -368,6 +379,12 @@ public final class RedditChangeDataManagerVolatile {
 	public Boolean isHidden(final RedditThingWithIdAndType thing) {
 		synchronized(mLock) {
 			return get(thing).isHidden();
+		}
+	}
+
+	public HashMap<String, Entry> snapshot() {
+		synchronized(mLock) {
+			return new HashMap<>(mEntries);
 		}
 	}
 }

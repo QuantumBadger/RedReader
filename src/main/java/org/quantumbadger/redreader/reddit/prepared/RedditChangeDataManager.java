@@ -414,8 +414,18 @@ public final class RedditChangeDataManager {
 	private void insertAll(final HashMap<String, Entry> entries) {
 
 		synchronized(mLock) {
-			// TODO check timestamps of existing?
-			mEntries.putAll(entries);
+
+			for(final Map.Entry<String, Entry> entry : entries.entrySet()) {
+
+				final Entry newEntry = entry.getValue();
+				final Entry existingEntry = mEntries.get(entry.getKey());
+
+				if(existingEntry == null
+						|| existingEntry.mTimestamp < newEntry.mTimestamp) {
+
+					mEntries.put(entry.getKey(), newEntry);
+				}
+			}
 		}
 
 		for(final String idAndType : entries.keySet()) {

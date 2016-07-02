@@ -1,6 +1,7 @@
 71/1.9.4
 Material Design
 Imgur upload support
+Internal viewer now supports images hosted by reddit
 Experimental Tor support (thanks to SpotComms)
 Preference to open images/albums in browser
 Ability to filter read posts in the inbox (thanks to H4rryA)

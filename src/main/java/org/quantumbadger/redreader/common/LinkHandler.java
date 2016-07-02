@@ -293,7 +293,8 @@ public class LinkHandler {
 			qkmePattern2 = Pattern.compile(".*[^A-Za-z]quickmeme\\.com/meme/(\\w+).*"),
 			lvmePattern = Pattern.compile(".*[^A-Za-z]livememe\\.com/(\\w+).*"),
 			gfycatPattern = Pattern.compile(".*[^A-Za-z]gfycat\\.com/(\\w+).*"),
-			streamablePattern = Pattern.compile(".*[^A-Za-z]streamable\\.com/(\\w+).*");
+			streamablePattern = Pattern.compile(".*[^A-Za-z]streamable\\.com/(\\w+).*"),
+			reddituploadsPattern = Pattern.compile(".*[^A-Za-z]i\\.reddituploads\\.com/(\\w+).*");
 
 	public static boolean isProbablyAnImage(final String url) {
 
@@ -325,6 +326,17 @@ public class LinkHandler {
 			if(matchStreamable.find()) {
 				final String imgId = matchStreamable.group(1);
 				if(imgId.length() > 2) {
+					return true;
+				}
+			}
+		}
+
+		{
+			final Matcher matchRedditUploads = reddituploadsPattern.matcher(url);
+
+			if(matchRedditUploads.find()) {
+				final String imgId = matchRedditUploads.group(1);
+				if(imgId.length() > 10) {
 					return true;
 				}
 			}
@@ -488,6 +500,18 @@ public class LinkHandler {
 				final String imgId = matchStreamable.group(1);
 				if(imgId.length() > 2) {
 					StreamableAPI.getImageInfo(context, imgId, priority, listId, listener);
+					return;
+				}
+			}
+		}
+
+		{
+			final Matcher matchRedditUploads = reddituploadsPattern.matcher(url);
+
+			if(matchRedditUploads.find()) {
+				final String imgId = matchRedditUploads.group(1);
+				if(imgId.length() > 10) {
+					listener.onSuccess(new ImageInfo(url));
 					return;
 				}
 			}

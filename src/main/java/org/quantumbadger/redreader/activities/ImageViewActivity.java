@@ -681,6 +681,8 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 	private void revertToWeb() {
 
+		Log.i(TAG, "Reverting to internal browser");
+
 		final Runnable r = new Runnable() {
 			@Override
 			public void run() {

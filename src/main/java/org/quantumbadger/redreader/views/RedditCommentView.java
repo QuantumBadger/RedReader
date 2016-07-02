@@ -158,7 +158,7 @@ public class RedditCommentView extends LinearLayout
 
 	@Override
 	public void onRedditDataChange(final String thingIdAndType) {
-		HANDLER.dispatchMessage(Message.obtain(HANDLER, HANDLER_REQUEST_COMMENT_CHANGED, this));
+		HANDLER.sendMessage(Message.obtain(HANDLER, HANDLER_REQUEST_COMMENT_CHANGED, this));
 	}
 
 	public void notifyClick() {

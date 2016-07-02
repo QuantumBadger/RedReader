@@ -426,6 +426,17 @@ public class CommentListingFragment extends RRFragment
 		}
 
 		if(mUrlsToDownload.isEmpty()) {
+
+			if(mCommentListingManager.getCommentCount() == 0) {
+
+				final View noCommentsYet = LayoutInflater.from(getContext()).inflate(
+						R.layout.no_comments_yet,
+						mRecyclerView,
+						false);
+
+				mCommentListingManager.addViewToComments(noCommentsYet);
+			}
+
 			mCommentListingManager.setLoadingVisible(false);
 
 		} else {

@@ -813,4 +813,6 @@
 	<string name="pref_behaviour_actions_comment_longclick_key">pref_behaviour_actions_comment_longclick</string>
 	<string name="pref_behaviour_actions_comment_longclick_title">Comment Long Click Action</string>
 
+	<string name="no_comments_yet">No comments yet.</string>
+
 </resources>

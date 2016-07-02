@@ -27,6 +27,7 @@
         <item name="colorAccent">#99DDDD</item>
 
         <item name="rrMainTextCol">#FFFFFF</item>
+		<item name="rrSubTextCol">#AAAAAA</item>
 
         <item name="android:windowBackground">@color/darkWindowBackground</item>
 
@@ -123,6 +124,7 @@
         <item name="colorAccent">?colorPrimaryDark</item>
 
         <item name="rrMainTextCol">#000000</item>
+		<item name="rrSubTextCol">#777777</item>
 
         <item name="android:textColorPrimary">#000000</item>
         <item name="android:textColorSecondary">#000000</item>

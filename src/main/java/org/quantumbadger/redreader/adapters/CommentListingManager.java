@@ -34,6 +34,8 @@ public class CommentListingManager {
 	private final GroupedRecyclerViewAdapter mAdapter = new GroupedRecyclerViewAdapter(6);
 	private LinearLayoutManager mLayoutManager;
 
+	private int mCommentCount = 0;
+
 	private static final int
 			GROUP_POST_HEADER = 0,
 			GROUP_NOTIFICATIONS = 1,
@@ -90,6 +92,12 @@ public class CommentListingManager {
 		mAdapter.appendToGroup(
 				GROUP_COMMENTS,
 				Collections.<GroupedRecyclerViewAdapter.Item>unmodifiableCollection(comments));
+		mCommentCount += comments.size();
+		doWorkaround();
+	}
+
+	public void addViewToComments(final View view) {
+		mAdapter.appendToGroup(GROUP_COMMENTS, new GroupedRecyclerViewItemFrameLayout(view));
 		doWorkaround();
 	}
 
@@ -112,5 +120,9 @@ public class CommentListingManager {
 
 	public int getItemCount() {
 		return mAdapter.getItemCount();
+	}
+
+	public int getCommentCount() {
+		return mCommentCount;
 	}
 }

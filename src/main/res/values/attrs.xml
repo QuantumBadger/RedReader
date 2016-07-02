@@ -58,6 +58,7 @@
     <attr name="rrCommentSpecificThreadHeaderTextCol" format="color" />
 
     <attr name="rrMainTextCol" format="color" />
+	<attr name="rrSubTextCol" format="color" />
 
     <!-- icons -->
 

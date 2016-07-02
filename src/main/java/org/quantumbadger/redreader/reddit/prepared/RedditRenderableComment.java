@@ -37,7 +37,7 @@ public class RedditRenderableComment implements RedditRenderableInboxItem, Reddi
 		mShowScore = showScore;
 	}
 
-	private int computeScore(final RedditChangeDataManagerVolatile changeDataManager) {
+	private int computeScore(final RedditChangeDataManager changeDataManager) {
 
 		final RedditComment rawComment = mComment.getRawComment();
 
@@ -58,7 +58,7 @@ public class RedditRenderableComment implements RedditRenderableInboxItem, Reddi
 	@Override
 	public CharSequence getHeader(
 			final RRThemeAttributes theme,
-			final RedditChangeDataManagerVolatile changeDataManager,
+			final RedditChangeDataManager changeDataManager,
 			final Context context) {
 
 		final BetterSSB sb = new BetterSSB();
@@ -206,8 +206,8 @@ public class RedditRenderableComment implements RedditRenderableInboxItem, Reddi
 	@Override
 	public void handleInboxLongClick(final AppCompatActivity activity) {
 
-		final RedditChangeDataManagerVolatile changeDataManager
-				= RedditChangeDataManagerVolatile.getInstance(
+		final RedditChangeDataManager changeDataManager
+				= RedditChangeDataManager.getInstance(
 						RedditAccountManager.getInstance(activity).getDefaultAccount());
 
 		RedditAPICommentAction.showActionMenu(
@@ -234,7 +234,7 @@ public class RedditRenderableComment implements RedditRenderableInboxItem, Reddi
 		return mComment;
 	}
 
-	private boolean isScoreBelowThreshold(final RedditChangeDataManagerVolatile changeDataManager) {
+	private boolean isScoreBelowThreshold(final RedditChangeDataManager changeDataManager) {
 
 		if(mMinimumCommentScore == null) {
 			return false;
@@ -247,7 +247,7 @@ public class RedditRenderableComment implements RedditRenderableInboxItem, Reddi
 		return (computeScore(changeDataManager) < mMinimumCommentScore);
 	}
 
-	public boolean isCollapsed(final RedditChangeDataManagerVolatile changeDataManager) {
+	public boolean isCollapsed(final RedditChangeDataManager changeDataManager) {
 
 		final Boolean collapsed = changeDataManager.isHidden(this);
 

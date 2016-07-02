@@ -41,7 +41,7 @@ import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.fragments.CommentPropertiesDialog;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
-import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManagerVolatile;
+import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditRenderableComment;
 import org.quantumbadger.redreader.reddit.things.RedditComment;
 import org.quantumbadger.redreader.reddit.url.UserProfileURL;
@@ -87,7 +87,7 @@ public class RedditAPICommentAction {
 			final CommentListingFragment commentListingFragment,
 			final RedditRenderableComment comment,
 			final RedditCommentView commentView,
-			final RedditChangeDataManagerVolatile changeDataManager,
+			final RedditChangeDataManager changeDataManager,
 			final boolean isArchived) {
 
 		final RedditAccount user = RedditAccountManager.getInstance(activity).getDefaultAccount();
@@ -174,7 +174,7 @@ public class RedditAPICommentAction {
 			final AppCompatActivity activity,
 			final CommentListingFragment commentListingFragment,
 			final RedditCommentAction action,
-			final RedditChangeDataManagerVolatile changeDataManager) {
+			final RedditChangeDataManager changeDataManager) {
 
 		final RedditComment comment = renderableComment.getParsedComment().getRawComment();
 
@@ -322,7 +322,7 @@ public class RedditAPICommentAction {
 			final AppCompatActivity activity,
 			final RedditComment comment,
 			final @RedditAPI.RedditAction int action,
-			final RedditChangeDataManagerVolatile changeDataManager) {
+			final RedditChangeDataManager changeDataManager) {
 
 		final RedditAccount user = RedditAccountManager.getInstance(activity).getDefaultAccount();
 

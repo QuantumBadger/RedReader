@@ -26,7 +26,7 @@ import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.adapters.GroupedRecyclerViewAdapter;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
-import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManagerVolatile;
+import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditRenderableComment;
 import org.quantumbadger.redreader.reddit.things.RedditMoreComments;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
@@ -50,7 +50,7 @@ public class RedditCommentListItem extends GroupedRecyclerViewAdapter.Item {
 	private final RedditRenderableComment mComment;
 	private final RedditMoreComments mMoreComments;
 
-	private final RedditChangeDataManagerVolatile mChangeDataManager;
+	private final RedditChangeDataManager mChangeDataManager;
 
 	public RedditCommentListItem(
 			final RedditRenderableComment comment,
@@ -73,7 +73,7 @@ public class RedditCommentListItem extends GroupedRecyclerViewAdapter.Item {
 			mIndent = parent.getIndent() + 1;
 		}
 
-		mChangeDataManager = RedditChangeDataManagerVolatile.getInstance(
+		mChangeDataManager = RedditChangeDataManager.getInstance(
 				RedditAccountManager.getInstance(activity).getDefaultAccount());
 	}
 
@@ -98,7 +98,7 @@ public class RedditCommentListItem extends GroupedRecyclerViewAdapter.Item {
 			mIndent = parent.getIndent() + 1;
 		}
 
-		mChangeDataManager = RedditChangeDataManagerVolatile.getInstance(
+		mChangeDataManager = RedditChangeDataManager.getInstance(
 				RedditAccountManager.getInstance(activity).getDefaultAccount());
 	}
 
@@ -136,7 +136,7 @@ public class RedditCommentListItem extends GroupedRecyclerViewAdapter.Item {
 		return mParent;
 	}
 
-	public boolean isCollapsed(final RedditChangeDataManagerVolatile changeDataManager) {
+	public boolean isCollapsed(final RedditChangeDataManager changeDataManager) {
 
 		if(!isComment()) {
 			return false;
@@ -146,7 +146,7 @@ public class RedditCommentListItem extends GroupedRecyclerViewAdapter.Item {
 
 	}
 
-	public boolean isHidden(final RedditChangeDataManagerVolatile changeDataManager) {
+	public boolean isHidden(final RedditChangeDataManager changeDataManager) {
 
 		if(mParent != null) {
 			return mParent.isCollapsed(changeDataManager) || mParent.isHidden(changeDataManager);

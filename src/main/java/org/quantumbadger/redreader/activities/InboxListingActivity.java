@@ -48,7 +48,7 @@ import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
-import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManagerVolatile;
+import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditParsedComment;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedMessage;
 import org.quantumbadger.redreader.reddit.prepared.RedditRenderableComment;
@@ -82,7 +82,7 @@ public final class InboxListingActivity extends BaseActivity {
 	private boolean mOnlyShowUnread;
 
 	private RRThemeAttributes mTheme;
-	private RedditChangeDataManagerVolatile mChangeDataManager;
+	private RedditChangeDataManager mChangeDataManager;
 
 	private final Handler itemHandler = new Handler(Looper.getMainLooper()) {
 		@Override
@@ -145,7 +145,7 @@ public final class InboxListingActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 
 		mTheme = new RRThemeAttributes(this);
-		mChangeDataManager = RedditChangeDataManagerVolatile.getInstance(
+		mChangeDataManager = RedditChangeDataManager.getInstance(
 				RedditAccountManager.getInstance(this).getDefaultAccount());
 
 		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);

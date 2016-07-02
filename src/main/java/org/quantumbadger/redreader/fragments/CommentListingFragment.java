@@ -50,7 +50,7 @@ import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.reddit.CommentListingRequest;
 import org.quantumbadger.redreader.reddit.RedditCommentListItem;
 import org.quantumbadger.redreader.reddit.api.RedditAPICommentAction;
-import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManagerVolatile;
+import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.prepared.RedditRenderableComment;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
@@ -186,7 +186,7 @@ public class CommentListingFragment extends RRFragment
 
 	public void handleCommentVisibilityToggle(final RedditCommentView view) {
 
-		final RedditChangeDataManagerVolatile changeDataManager = RedditChangeDataManagerVolatile.getInstance(mUser);
+		final RedditChangeDataManager changeDataManager = RedditChangeDataManager.getInstance(mUser);
 		final RedditCommentListItem item = view.getComment();
 
 		if(item.isComment()) {
@@ -269,7 +269,7 @@ public class CommentListingFragment extends RRFragment
 							this,
 							item.asComment(),
 							view,
-							RedditChangeDataManagerVolatile.getInstance(mUser),
+							RedditChangeDataManager.getInstance(mUser),
 							isArchived);
 				}
 				break;
@@ -295,7 +295,7 @@ public class CommentListingFragment extends RRFragment
 						this,
 						item.asComment(),
 						view,
-						RedditChangeDataManagerVolatile.getInstance(mUser),
+						RedditChangeDataManager.getInstance(mUser),
 						isArchived);
 				}
 				break;

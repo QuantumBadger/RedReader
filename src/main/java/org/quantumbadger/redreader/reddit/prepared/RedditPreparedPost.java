@@ -83,7 +83,7 @@ import java.util.UUID;
 public final class RedditPreparedPost {
 
 	public final RedditParsedPost src;
-	private final RedditChangeDataManagerVolatile mChangeDataManager;
+	private final RedditChangeDataManager mChangeDataManager;
 
 	public SpannableStringBuilder postListDescription;
 
@@ -123,7 +123,7 @@ public final class RedditPreparedPost {
 		this.showSubreddit = showSubreddit;
 
 		final RedditAccount user = RedditAccountManager.getInstance(context).getDefaultAccount();
-		mChangeDataManager = RedditChangeDataManagerVolatile.getInstance(user);
+		mChangeDataManager = RedditChangeDataManager.getInstance(user);
 
 		isArchived = post.isArchived();
 
@@ -731,7 +731,7 @@ public final class RedditPreparedPost {
 
 	public void markAsRead(final Context context) {
 		final RedditAccount user = RedditAccountManager.getInstance(context).getDefaultAccount();
-		RedditChangeDataManagerVolatile.getInstance(user).markRead(RRTime.utcCurrentTimeMillis(), src);
+		RedditChangeDataManager.getInstance(user).markRead(RRTime.utcCurrentTimeMillis(), src);
 		refreshView(context);
 	}
 

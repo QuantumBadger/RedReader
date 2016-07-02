@@ -35,19 +35,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public final class RedditChangeDataManagerVolatile {
+public final class RedditChangeDataManager {
 
 	private static final String TAG = "RedditChangeDataManager";
 
-	private static final HashMap<RedditAccount, RedditChangeDataManagerVolatile> INSTANCE_MAP
+	private static final HashMap<RedditAccount, RedditChangeDataManager> INSTANCE_MAP
 			= new HashMap<>();
 
-	public static synchronized RedditChangeDataManagerVolatile getInstance(final RedditAccount user) {
+	public static synchronized RedditChangeDataManager getInstance(final RedditAccount user) {
 
-		RedditChangeDataManagerVolatile result = INSTANCE_MAP.get(user);
+		RedditChangeDataManager result = INSTANCE_MAP.get(user);
 
 		if(result == null) {
-			result = new RedditChangeDataManagerVolatile();
+			result = new RedditChangeDataManager();
 			INSTANCE_MAP.put(user, result);
 		}
 

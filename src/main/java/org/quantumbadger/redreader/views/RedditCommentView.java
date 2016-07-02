@@ -34,11 +34,11 @@ import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
 import org.quantumbadger.redreader.reddit.RedditCommentListItem;
-import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManagerVolatile;
+import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditRenderableComment;
 
 public class RedditCommentView extends LinearLayout
-		implements RedditChangeDataManagerVolatile.Listener {
+		implements RedditChangeDataManager.Listener {
 
 	private static final Handler HANDLER = new Handler(Looper.getMainLooper()) {
 		@Override
@@ -61,7 +61,7 @@ public class RedditCommentView extends LinearLayout
 
 	private RedditCommentListItem mComment;
 
-	private final RedditChangeDataManagerVolatile mChangeDataManager;
+	private final RedditChangeDataManager mChangeDataManager;
 	private final RRThemeAttributes mTheme;
 
 	private final TextView mHeader;
@@ -93,7 +93,7 @@ public class RedditCommentView extends LinearLayout
 		mTheme = themeAttributes;
 		mListener = listener;
 
-		mChangeDataManager = RedditChangeDataManagerVolatile.getInstance(
+		mChangeDataManager = RedditChangeDataManager.getInstance(
 				RedditAccountManager.getInstance(context).getDefaultAccount());
 
 		mFontScale = PrefsUtility.appearance_fontscale_comments(context, PreferenceManager.getDefaultSharedPreferences(context));

@@ -99,7 +99,7 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 	}
 
 	@Override
-	public CharSequence getHeader(final RRThemeAttributes theme, final RedditChangeDataManagerVolatile changeDataManager, final Context context) {
+	public CharSequence getHeader(final RRThemeAttributes theme, final RedditChangeDataManager changeDataManager, final Context context) {
 		return header;
 	}
 

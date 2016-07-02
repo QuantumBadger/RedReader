@@ -24,7 +24,6 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.UiThread;
 import android.support.v7.app.AppCompatActivity;
-
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.SessionChangeListener;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -37,7 +36,7 @@ import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
-import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManagerVolatile;
+import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditParsedComment;
 import org.quantumbadger.redreader.reddit.prepared.RedditParsedPost;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
@@ -297,8 +296,8 @@ public class CommentListingRequest {
 					buildCommentTree(commentThingValue, null, items, minimumCommentScore, parentPostAuthor);
 				}
 
-				final RedditChangeDataManagerVolatile changeDataManager
-						= RedditChangeDataManagerVolatile.getInstance(mUser);
+				final RedditChangeDataManager changeDataManager
+						= RedditChangeDataManager.getInstance(mUser);
 
 				for(final RedditCommentListItem item : items) {
 					if(item.isComment()) {

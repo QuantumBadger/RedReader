@@ -21,7 +21,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import org.quantumbadger.redreader.common.TriggerableThread;
-import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManagerVolatile;
+import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -92,7 +92,7 @@ public class RedditChangeDataIO {
 
 				dos.writeInt(DB_VERSION);
 
-				RedditChangeDataManagerVolatile.writeAllEntries(dos);
+				RedditChangeDataManager.writeAllEntries(dos);
 
 				dos.flush();
 				dos.close();
@@ -178,7 +178,7 @@ public class RedditChangeDataIO {
 					return;
 				}
 
-				RedditChangeDataManagerVolatile.readAllEntries(dis, mContext);
+				RedditChangeDataManager.readAllEntries(dis, mContext);
 
 				Log.i(TAG, "Initial read successful.");
 

@@ -28,7 +28,7 @@ import android.widget.TextView;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
-import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManagerVolatile;
+import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditRenderableInboxItem;
 
 public class RedditInboxItemView extends LinearLayout {
@@ -105,7 +105,7 @@ public class RedditInboxItemView extends LinearLayout {
 
 	public void reset(
 			final AppCompatActivity context,
-			final RedditChangeDataManagerVolatile changeDataManager,
+			final RedditChangeDataManager changeDataManager,
 			final RRThemeAttributes theme,
 			final RedditRenderableInboxItem item,
 			final boolean showDividerAtTop) {

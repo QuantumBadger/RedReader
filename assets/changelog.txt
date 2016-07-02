@@ -4,6 +4,8 @@ Imgur upload support
 Internal viewer now supports images hosted by reddit
 Experimental Tor support (thanks to SpotComms)
 Preference to open images/albums in browser
+Preference for comment long-click action (thanks to mateoeh)
+Made default comment tap action "collapse" rather than "menu"
 Ability to filter read posts in the inbox (thanks to H4rryA)
 Mod/admin comments are now distinguished
 Make archived posts read-only (thanks to chaitan94)

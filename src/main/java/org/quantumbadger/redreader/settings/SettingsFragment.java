@@ -65,6 +65,7 @@ public final class SettingsFragment extends PreferenceFragment {
 				R.string.pref_appearance_fontscale_comments_key,
 				R.string.pref_appearance_fontscale_inbox_key,
 				R.string.pref_behaviour_actions_comment_tap_key,
+				R.string.pref_behaviour_actions_comment_longclick_key,
 				R.string.pref_behaviour_commentsort_key,
 				R.string.pref_appearance_langforce_key,
 				R.string.pref_behaviour_postcount_key,

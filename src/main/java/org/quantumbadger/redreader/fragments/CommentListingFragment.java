@@ -279,15 +279,11 @@ public class CommentListingFragment extends RRFragment
 
 	@Override
 	public void onCommentLongClicked(final RedditCommentView view) {
-		switch(PrefsUtility.pref_behaviour_actions_comment_tap(
+		switch(PrefsUtility.pref_behaviour_actions_comment_longclick(
 			getActivity(),
 			PreferenceManager.getDefaultSharedPreferences(getActivity()))) {
 
-			case ACTION_MENU:
-				handleCommentVisibilityToggle(view);
-				break;
-
-			case COLLAPSE:case NOTHING: {
+			case ACTION_MENU:{
 				final RedditCommentListItem item = view.getComment();
 				if(item != null && item.isComment()) {
 					RedditAPICommentAction.showActionMenu(
@@ -301,6 +297,12 @@ public class CommentListingFragment extends RRFragment
 				break;
 			}
 
+			case COLLAPSE:
+				handleCommentVisibilityToggle(view);
+				break;
+
+			case NOTHING:
+				break;
 		}
 	}
 

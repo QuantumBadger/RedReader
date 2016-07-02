@@ -359,12 +359,16 @@ public final class PrefsUtility {
 		return PostFlingAction.valueOf(General.asciiUppercase(getString(R.string.pref_behaviour_fling_post_right_key, "upvote", context, sharedPreferences)));
 	}
 
-	public static enum CommentAction {
+	public enum CommentAction {
 		COLLAPSE, ACTION_MENU, NOTHING
 	}
 
 	public static CommentAction pref_behaviour_actions_comment_tap(final Context context, final SharedPreferences sharedPreferences) {
-		return CommentAction.valueOf(General.asciiUppercase(getString(R.string.pref_behaviour_actions_comment_tap_key, "action_menu", context, sharedPreferences)));
+		return CommentAction.valueOf(General.asciiUppercase(getString(R.string.pref_behaviour_actions_comment_tap_key, "collapse", context, sharedPreferences)));
+	}
+
+	public static CommentAction pref_behaviour_actions_comment_longclick(final Context context, final SharedPreferences sharedPreferences) {
+		return CommentAction.valueOf(General.asciiUppercase(getString(R.string.pref_behaviour_actions_comment_longclick_key, "action_menu", context, sharedPreferences)));
 	}
 
 	public static PostCommentListingURL.Sort pref_behaviour_commentsort(final Context context, final SharedPreferences sharedPreferences) {
@@ -375,7 +379,7 @@ public final class PrefsUtility {
 		return getBoolean(R.string.pref_behaviour_nsfw_key, false, context, sharedPreferences);
 	}
 
-	public static enum PostCount {
+	public enum PostCount {
 		R25, R50, R100, ALL
 	}
 

@@ -3,7 +3,14 @@ Material Design
 Imgur upload support
 Experimental Tor support (thanks to SpotComms)
 Preference to open images/albums in browser
+Ability to filter read posts in the inbox (thanks to H4rryA)
+Mod/admin comments are now distinguished
+Make archived posts read-only (thanks to chaitan94)
 Fixed image saving on Android Marshmallow
+LG split window support
+Various code improvements (thanks to veyndan)
+Fixes and improvements to local change data manager
+Various bugfixes (thanks to mariokmk and Igor Shults)
 
 70/1.9.3.4
 Fixed album swiping

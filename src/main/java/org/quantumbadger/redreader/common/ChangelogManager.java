@@ -29,7 +29,7 @@ import java.io.InputStreamReader;
 
 public class ChangelogManager {
 
-	public static void generateViews(AppCompatActivity context, LinearLayout items) {
+	public static void generateViews(AppCompatActivity context, LinearLayout items, boolean showAll) {
 
 		final RRThemeAttributes attr = new RRThemeAttributes(context);
 
@@ -38,10 +38,13 @@ public class ChangelogManager {
 
 		try {
 			final BufferedReader br = new BufferedReader(
-				new InputStreamReader(context.getAssets().open("changelog.txt")));
+				new InputStreamReader(context.getAssets().open("changelog.txt")),
+				128 * 1024);
 
 			int curVersionCode = -1;
 			String curVersionName = null;
+
+			int itemsToShow = 10;
 
 			String line;
 			while((line = br.readLine()) != null) {
@@ -50,6 +53,13 @@ public class ChangelogManager {
 
 					curVersionCode = -1;
 					curVersionName = null;
+
+					if(!showAll) {
+						itemsToShow--;
+						if(itemsToShow <= 0) {
+							break;
+						}
+					}
 
 				} else if(curVersionName == null) {
 

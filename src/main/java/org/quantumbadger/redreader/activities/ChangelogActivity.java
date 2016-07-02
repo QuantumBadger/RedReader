@@ -42,7 +42,7 @@ public class ChangelogActivity extends BaseActivity {
 		final LinearLayout items = new LinearLayout(this);
 		items.setOrientation(LinearLayout.VERTICAL);
 
-		ChangelogManager.generateViews(this, items);
+		ChangelogManager.generateViews(this, items, true);
 
 		final ScrollView sv = new ScrollView(this);
 		sv.addView(items);

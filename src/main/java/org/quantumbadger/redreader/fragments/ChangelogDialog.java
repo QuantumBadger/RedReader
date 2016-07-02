@@ -36,6 +36,6 @@ public final class ChangelogDialog extends PropertiesDialog {
 
 	@Override
 	protected void prepare(AppCompatActivity context, LinearLayout items) {
-		ChangelogManager.generateViews(context, items);
+		ChangelogManager.generateViews(context, items, false);
 	}
 }

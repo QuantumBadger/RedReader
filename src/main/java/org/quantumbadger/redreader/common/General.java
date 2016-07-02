@@ -480,6 +480,20 @@ public final class General {
 		return new String(chars);
 	}
 
+	public static String asciiLowercase(final String input) {
+
+		final char[] chars = input.toCharArray();
+
+		for(int i = 0; i < chars.length; i++) {
+			if(chars[i] >= 'A' && chars[i] <= 'Z') {
+				chars[i] -= 'A';
+				chars[i] += 'a';
+			}
+		}
+
+		return new String(chars);
+	}
+
 	public static void copyStream(final InputStream in, final OutputStream out) throws IOException {
 
 		int bytesRead;

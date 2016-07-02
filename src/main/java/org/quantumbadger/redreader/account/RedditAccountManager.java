@@ -22,6 +22,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.annotation.NonNull;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.common.UpdateNotifier;
 import org.quantumbadger.redreader.reddit.api.RedditOAuth;
@@ -145,7 +146,11 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 		return new ArrayList<>(accountsCache);
 	}
 
-	public RedditAccount getAccount(String username) {
+	public RedditAccount getAccount(@NonNull final String username) {
+
+		if("".equals(username)) {
+			return getAnon();
+		}
 
 		final ArrayList<RedditAccount> accounts = getAccounts();
 		RedditAccount selectedAccount = null;

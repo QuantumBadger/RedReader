@@ -36,8 +36,8 @@ public class RedditChangeDataIO {
 	private static final String TAG = "RedditChangeDataIO";
 
 	private static final int DB_VERSION = 1;
-	private static final String DB_FILENAME = "rr_cache_data.dat";
-	private static final String DB_WRITETMP_FILENAME = "rr_cache_data_tmp.dat";
+	private static final String DB_FILENAME = "rr_change_data.dat";
+	private static final String DB_WRITETMP_FILENAME = "rr_change_data_tmp.dat";
 
 	private static RedditChangeDataIO INSTANCE;
 	private static boolean STATIC_UPDATE_PENDING = false;

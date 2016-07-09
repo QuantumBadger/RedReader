@@ -67,6 +67,8 @@ public class PostSubmitActivity extends BaseActivity {
 
 		super.onCreate(savedInstanceState);
 
+		getSupportActionBarOrThrow().setTitle(R.string.submit_post_actionbar);
+
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

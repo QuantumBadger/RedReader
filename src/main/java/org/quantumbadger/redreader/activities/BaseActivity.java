@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -62,6 +63,19 @@ public class BaseActivity extends AppCompatActivity implements SharedPreferences
 
 	public void setToolbarActionBarEnabled(boolean toolbarActionBarEnabled) {
 		mToolbarActionBarEnabled = toolbarActionBarEnabled;
+	}
+
+	// Avoids IDE warnings about null pointers
+	@NonNull
+	public final ActionBar getSupportActionBarOrThrow() {
+
+		final ActionBar result = getSupportActionBar();
+
+		if(result == null) {
+			throw new RuntimeException("Action bar is null");
+		}
+
+		return result;
 	}
 
 	@Override

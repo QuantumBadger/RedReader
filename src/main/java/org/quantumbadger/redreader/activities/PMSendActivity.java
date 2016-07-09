@@ -69,6 +69,8 @@ public class PMSendActivity extends BaseActivity {
 
 		super.onCreate(savedInstanceState);
 
+		getSupportActionBarOrThrow().setTitle(R.string.pm_send_actionbar);
+
 		final LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.pm_send, null);
 
 		usernameSpinner = (Spinner)layout.findViewById(R.id.pm_send_username);

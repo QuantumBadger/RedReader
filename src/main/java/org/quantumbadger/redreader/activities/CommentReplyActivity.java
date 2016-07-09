@@ -59,6 +59,8 @@ public class CommentReplyActivity extends BaseActivity {
 
 		super.onCreate(savedInstanceState);
 
+		getSupportActionBarOrThrow().setTitle(R.string.submit_comment_actionbar);
+
 		final LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.comment_reply, null);
 
 		usernameSpinner = (Spinner)layout.findViewById(R.id.comment_reply_username);

@@ -827,4 +827,9 @@
 	<string name="error_too_long_title">Too long</string>
 	<string name="error_too_long_message">Reddit says that the text you entered is too long.</string>
 
+	<string name="pm_send_actionbar">Send Message</string>
+	<string name="submit_post_actionbar">Submit Post</string>
+	<string name="submit_comment_actionbar">Submit Comment</string>
+	<string name="edit_comment_actionbar">Edit Comment</string>
+
 </resources>

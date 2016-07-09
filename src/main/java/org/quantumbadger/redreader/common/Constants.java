@@ -160,6 +160,11 @@ public final class Constants {
 			return ".error.RATELIMIT.field-ratelimit".equals(str)
 					|| (str != null && str.contains("you are doing that too much"));
 		}
+
+		public static boolean isApiTooLong(final String str) {
+			return "TOO_LONG".equals(str)
+				|| (str != null && str.contains("this is too long"));
+		}
 	}
 
 	public static String ua(final Context context) {

@@ -19,7 +19,7 @@ package org.quantumbadger.redreader.reddit;
 
 import android.content.Context;
 import android.support.annotation.IntDef;
-
+import android.support.annotation.NonNull;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -28,6 +28,7 @@ import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.http.HTTPBackend;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
+import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.api.SubredditRequestFailure;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
@@ -94,6 +95,59 @@ public final class RedditAPI {
 
 
 		cm.makeRequest(new APIPostRequest(Constants.Reddit.getUri("/api/submit"), user, postFields, context) {
+
+			@Override
+			public void onJsonParseStarted(JsonValue result, long timestamp, UUID session, boolean fromCache) {
+
+				System.out.println(result.toString());
+
+				try {
+					final APIResponseHandler.APIFailureType failureType = findFailureType(result);
+
+					if(failureType != null) {
+						responseHandler.notifyFailure(failureType);
+						return;
+					}
+
+				} catch(Throwable t) {
+					notifyFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "JSON failed to parse");
+				}
+
+				responseHandler.notifySuccess();
+			}
+
+			@Override
+			protected void onCallbackException(Throwable t) {
+				BugReportActivity.handleGlobalError(context, t);
+			}
+
+			@Override
+			protected void onFailure(@CacheRequest.RequestFailureType int type, Throwable t, Integer status, String readableMessage) {
+				responseHandler.notifyFailure(type, t, status, readableMessage);
+			}
+		});
+	}
+
+	public static void compose(
+			@NonNull final CacheManager cm,
+			@NonNull final APIResponseHandler.ActionResponseHandler responseHandler,
+			@NonNull final RedditAccount user,
+			@NonNull final String recipient,
+			@NonNull final String subject,
+			@NonNull final String body,
+			@NonNull final String captchaId,
+			@NonNull final String captchaText,
+			@NonNull final Context context) {
+
+		final LinkedList<PostField> postFields = new LinkedList<>();
+		postFields.add(new PostField("api_type", "json"));
+		postFields.add(new PostField("captcha", captchaText));
+		postFields.add(new PostField("iden", captchaId));
+		postFields.add(new PostField("subject", subject));
+		postFields.add(new PostField("to", recipient));
+		postFields.add(new PostField("text", body));
+
+		cm.makeRequest(new APIPostRequest(Constants.Reddit.getUri("/api/compose"), user, postFields, context) {
 
 			@Override
 			public void onJsonParseStarted(JsonValue result, long timestamp, UUID session, boolean fromCache) {
@@ -495,8 +549,6 @@ public final class RedditAPI {
 	// lol, reddit api
 	private static APIResponseHandler.APIFailureType findFailureType(final JsonValue response) {
 
-		// TODO doesn't handle unknown failures
-
 		// TODO handle 403 forbidden
 
 		switch(response.getType()) {
@@ -506,6 +558,22 @@ public final class RedditAPI {
 				for(final Map.Entry<String, JsonValue> v : response.asObject()) {
 					final APIResponseHandler.APIFailureType failureType = findFailureType(v.getValue());
 					if(failureType != null) return failureType;
+				}
+
+				try {
+					final JsonBufferedArray errors = response.asObject().getObject("json").getArray("errors");
+
+					if(errors != null) {
+
+						errors.join();
+
+						if(errors.getCurrentItemCount() > 0) {
+							return APIResponseHandler.APIFailureType.UNKNOWN;
+						}
+					}
+
+				} catch(Exception e) {
+					// Do nothing
 				}
 
 				break;
@@ -538,6 +606,9 @@ public final class RedditAPI {
 
 				if(Constants.Reddit.isApiTooFast(response.asString()))
 					return APIResponseHandler.APIFailureType.TOO_FAST;
+
+				if(Constants.Reddit.isApiTooLong(response.asString()))
+					return APIResponseHandler.APIFailureType.TOO_LONG;
 
 				break;
 

@@ -324,6 +324,11 @@ public final class General {
 				message = R.string.error_too_fast_message;
 				break;
 
+			case TOO_LONG:
+				title = R.string.error_too_long_title;
+				message = R.string.error_too_long_message;
+				break;
+
 			default:
 				title = R.string.error_unknown_api_title;
 				message = R.string.error_unknown_api_message;

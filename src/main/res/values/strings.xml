@@ -815,4 +815,16 @@
 
 	<string name="no_comments_yet">No comments yet.</string>
 
+	<!-- 2016-07-09 -->
+	<string name="pm_send_hint_recipient">Recipient</string>
+	<string name="pm_send_hint_subject">Subject</string>
+	<string name="pm_send_hint_message_text">Message text</string>
+
+	<string name="pm_send_done">Message sent.</string>
+
+	<string name="userprofile_pm">Send Message</string>
+
+	<string name="error_too_long_title">Too long</string>
+	<string name="error_too_long_message">Reddit says that the text you entered is too long.</string>
+
 </resources>

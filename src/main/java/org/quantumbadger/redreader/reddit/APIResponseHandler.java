@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.reddit;
 
 import android.support.v7.app.AppCompatActivity;
-
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.RRError;
@@ -32,7 +31,7 @@ public abstract class APIResponseHandler {
 	protected final AppCompatActivity context;
 
 	public enum APIFailureType {
-		INVALID_USER, BAD_CAPTCHA, NOTALLOWED, SUBREDDIT_REQUIRED, URL_REQUIRED, UNKNOWN, TOO_FAST
+		INVALID_USER, BAD_CAPTCHA, NOTALLOWED, SUBREDDIT_REQUIRED, URL_REQUIRED, UNKNOWN, TOO_FAST, TOO_LONG
 	}
 
 	private APIResponseHandler(AppCompatActivity context) {

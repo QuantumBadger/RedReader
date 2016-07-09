@@ -18,16 +18,17 @@
 package org.quantumbadger.redreader.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BugReportActivity;
+import org.quantumbadger.redreader.activities.PMSendActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.AndroidApi;
@@ -153,6 +154,20 @@ public class UserProfileDialog extends PropertiesDialog {
 						// TODO use margin? or framelayout? scale padding dp
 						postsButton.setPadding(20, 20, 20, 20);
 
+						if(!RedditAccountManager.getInstance(context).getDefaultAccount().isAnonymous()) {
+							final Button pmButton = new Button(context);
+							pmButton.setText(R.string.userprofile_pm);
+							pmButton.setOnClickListener(new View.OnClickListener() {
+								@Override
+								public void onClick(View v) {
+									final Intent intent = new Intent(context, PMSendActivity.class);
+									intent.putExtra(PMSendActivity.EXTRA_RECIPIENT, username);
+									startActivity(intent);
+								}
+							});
+							items.addView(pmButton);
+							pmButton.setPadding(20, 20, 20, 20);
+						}
 					}
 				});
 			}

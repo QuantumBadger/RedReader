@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ This file is part of RedReader.
+  ~
+  ~ RedReader is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ RedReader is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<LinearLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:tools="http://schemas.android.com/tools"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical">
+
+	<View
+			android:id="@+id/view_reddit_comment_divider_top"
+			android:layout_width="match_parent"
+			android:layout_height="1dp"
+			android:background="?rrListDividerCol"/>
+
+	<LinearLayout
+			android:id="@+id/view_reddit_comment_indented_content"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
+
+		<org.quantumbadger.redreader.views.IndentView
+				android:id="@+id/view_reddit_comment_indentview"
+				android:layout_width="10dp"
+				android:layout_height="match_parent"/>
+
+		<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="?rrListItemBackgroundCol"
+				android:paddingTop="8dp"
+				android:paddingBottom="8dp"
+				android:paddingLeft="12dp"
+				android:paddingRight="12dp"
+				android:orientation="vertical">
+
+			<TextView
+					android:id="@+id/view_reddit_comment_header"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:textSize="11sp"
+					android:textColor="?rrCommentHeaderCol"/>
+
+			<FrameLayout
+					android:id="@+id/view_reddit_comment_bodyholder"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:paddingTop="2dp"
+					tools:ignore="UselessLeaf"/>
+
+		</LinearLayout>
+
+	</LinearLayout>
+
+</LinearLayout>

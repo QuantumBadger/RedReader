@@ -17,6 +17,8 @@
 
 package org.quantumbadger.redreader.views.list;
 
+import org.quantumbadger.redreader.views.LiveDHM;
+
 import java.util.ArrayList;
 
 public class DHM {
@@ -35,20 +37,30 @@ public class DHM {
 	// Returns number of steps
 	public int calculate(final float xThreshold, final float vThreshold) {
 
-		float x = startPos;
-		float v = startVelocity;
+		final LiveDHM.Params params = new LiveDHM.Params();
+		params.startPosition = startPos;
+		params.startVelocity = startVelocity;
+		params.accelerationCoefficient = accCoefficient;
+		params.stepLengthSeconds = stepLengthSeconds;
+		params.thresholdPositionDifference = xThreshold;
+		params.thresholdVelocity = vThreshold;
 
-		int step = 0;
+		final LiveDHM liveDHM = new LiveDHM(params);
 
-		while((Math.abs(x) >= xThreshold  || Math.abs(v) >= vThreshold) && step < 1000) {
-			v -= stepLengthSeconds * (x * accCoefficient);
-			v *= 0.87; // TODO parameterise
-			x += v * stepLengthSeconds;
-			results.add(x);
-			step++;
+		while(!liveDHM.isEndThresholdReached()) {
+			liveDHM.calculateStep();
+			results.add(liveDHM.getCurrentPosition());
 		}
 
-		return step;
+		return results.size();
+	}
+
+	public int getStepNumberAtTimeNanos(final long nanotime) {
+
+		final long stepLengthMicroseconds = (long)((double)stepLengthSeconds * 1000.0 * 1000.0);
+		final long timeElapsedMicroseconds = nanotime / 1000;
+
+		return (int)(timeElapsedMicroseconds / stepLengthMicroseconds);
 	}
 
 	public float getPositionAt(final int step) {

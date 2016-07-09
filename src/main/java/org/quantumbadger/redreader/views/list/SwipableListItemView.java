@@ -25,6 +25,7 @@ import android.view.animation.Transformation;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import org.quantumbadger.redreader.views.SwipeHistory;
 
 public abstract class SwipableListItemView extends FrameLayout implements RRTouchable {
 
@@ -113,7 +114,7 @@ public abstract class SwipableListItemView extends FrameLayout implements RRTouc
 		fingerSwiping = false;
 
 		if(swipeHistory.size() >= 2) {
-			velocity = (swipeHistory.getMostRecent() - swipeHistory.get(100)) * 10;
+			velocity = (swipeHistory.getMostRecent() - swipeHistory.getAtTimeAgoMs(100)) * 10;
 		} else {
 			velocity = 0;
 		}
@@ -167,66 +168,4 @@ public abstract class SwipableListItemView extends FrameLayout implements RRTouc
 		}
 	}
 
-	private static final class SwipeHistory {
-
-		private final float[] positions;
-		private final long[] timestamps;
-		private int start = 0, len = 0;
-
-		public SwipeHistory(int len) {
-			positions = new float[len];
-			timestamps = new long[len];
-		}
-
-		public void add(float position, long timestamp) {
-
-			if(len >= positions.length) {
-				positions[start] = position;
-				timestamps[start] = timestamp;
-				start = (start + 1) % positions.length;
-
-			} else {
-				positions[(start + len) % positions.length] = position;
-				timestamps[(start + len) % timestamps.length] = timestamp;
-				len++;
-			}
-		}
-
-		public float getMostRecent() {
-			return positions[getNthMostRecentIndex(0)];
-		}
-
-		public float get(long timeAgo) {
-
-			final long timestamp = timestamps[getNthMostRecentIndex(0)] - timeAgo;
-			float result = getMostRecent();
-
-			for(int i = 0; i < len; i++) {
-
-				final int index = getNthMostRecentIndex(i);
-
-				if(timestamp > timestamps[index]) {
-					return result;
-				} else {
-					result = positions[index];
-				}
-			}
-
-			return result;
-		}
-
-		private int getNthMostRecentIndex(int n) {
-			if(n >= len || n < 0) throw new ArrayIndexOutOfBoundsException(n);
-			return (start + len - n - 1) % positions.length;
-		}
-
-		public void clear() {
-			len = 0;
-			start = 0;
-		}
-
-		public int size() {
-			return len;
-		}
-	}
 }

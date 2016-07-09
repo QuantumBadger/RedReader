@@ -18,11 +18,14 @@
 package org.quantumbadger.redreader.views;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
+import android.util.AttributeSet;
 import android.view.View;
+import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 
@@ -44,14 +47,38 @@ class IndentView extends View {
 	private final boolean mPrefDrawLines;
 
 	public IndentView(Context context) {
-		super(context);
+		this(context, null);
+	}
+
+	public IndentView(final Context context, @Nullable final AttributeSet attrs) {
+		this(context, attrs, 0);
+	}
+
+	public IndentView(final Context context, @Nullable final AttributeSet attrs, final int defStyleAttr) {
+
+		super(context, attrs, defStyleAttr);
 
 		mPixelsPerIndent = General.dpToPixels(context, 10.0f);
 		mPixelsPerLine = General.dpToPixels(context, 2);
 		mHalfALine = mPixelsPerLine / 2;
 
-		this.setBackgroundColor(Color.argb(20, 128, 128, 128));
-		mPaint.setColor(Color.argb(75, 128, 128, 128));
+		final int rrIndentBackgroundCol;
+		final int rrIndentLineCol;
+
+		{
+			final TypedArray attr = context.obtainStyledAttributes(new int[]{
+					R.attr.rrIndentBackgroundCol,
+					R.attr.rrIndentLineCol
+			});
+
+			rrIndentBackgroundCol = attr.getColor(0, General.COLOR_INVALID);
+			rrIndentLineCol = attr.getColor(1, General.COLOR_INVALID);
+
+			attr.recycle();
+		}
+
+		this.setBackgroundColor(rrIndentBackgroundCol);
+		mPaint.setColor(rrIndentLineCol);
 		mPaint.setStrokeWidth(mPixelsPerLine);
 
 		mPrefDrawLines = PrefsUtility.pref_appearance_indentlines(context, PreferenceManager.getDefaultSharedPreferences(context));

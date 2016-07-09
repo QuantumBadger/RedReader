@@ -56,6 +56,31 @@
         <item>disabled</item>
     </string-array>
 
+	<string-array name="pref_behaviour_fling_comment_actions">
+		<item>@string/action_upvote</item>
+		<item>@string/action_downvote</item>
+		<item>@string/action_save</item>
+		<item>@string/action_reply</item>
+		<item>@string/action_user_profile</item>
+		<item>@string/action_collapse</item>
+		<item>@string/action_properties</item>
+		<item>@string/action_actionmenu</item>
+		<item>@string/action_fling_disabled</item>
+	</string-array>
+
+	<!-- Constants. Do not change. -->
+	<string-array name="pref_behaviour_fling_comment_actions_return">
+		<item>upvote</item>
+		<item>downvote</item>
+		<item>save</item>
+		<item>reply</item>
+		<item>user_profile</item>
+		<item>collapse</item>
+		<item>properties</item>
+		<item>action_menu</item>
+		<item>disabled</item>
+	</string-array>
+
     <string-array name="pref_behaviour_commentsort_array">
         <item>@string/sort_comments_best</item>
         <item>@string/sort_comments_hot</item>

@@ -69,7 +69,8 @@ public class RedditAPICommentAction {
 		DELETE,
 		PROPERTIES,
 		CONTEXT,
-		GO_TO_COMMENT
+		GO_TO_COMMENT,
+		ACTION_MENU
 	}
 
 	private static class RCVMenuItem {
@@ -168,7 +169,7 @@ public class RedditAPICommentAction {
 		alert.show();
 	}
 
-	private static void onActionMenuItemSelected(
+	public static void onActionMenuItemSelected(
 			final RedditRenderableComment renderableComment,
 			final RedditCommentView commentView,
 			final AppCompatActivity activity,
@@ -315,6 +316,15 @@ public class RedditAPICommentAction {
 				LinkHandler.onLinkClicked(activity, comment.getContextUrl().toString());
 				break;
 			}
+			case ACTION_MENU:
+				showActionMenu(
+						activity,
+						commentListingFragment,
+						renderableComment,
+						commentView,
+						changeDataManager,
+						comment.isArchived());
+				break;
 		}
 	}
 

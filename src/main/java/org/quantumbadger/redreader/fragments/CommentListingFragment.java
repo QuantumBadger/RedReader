@@ -33,7 +33,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import com.laurencedawson.activetextview.ActiveTextView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -42,7 +41,6 @@ import org.quantumbadger.redreader.activities.CommentReplyActivity;
 import org.quantumbadger.redreader.adapters.CommentListingManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
@@ -68,8 +66,7 @@ import java.util.LinkedList;
 import java.util.UUID;
 
 public class CommentListingFragment extends RRFragment
-		implements ActiveTextView.OnLinkClickedListener,
-		RedditPostView.PostSelectionListener,
+		implements RedditPostView.PostSelectionListener,
 		RedditCommentView.CommentListener,
 		CommentListingRequest.Listener {
 
@@ -139,6 +136,9 @@ public class CommentListingFragment extends RRFragment
 		mRecyclerView.setAdapter(mCommentListingManager.getAdapter());
 		mOuterFrame.addView(recyclerViewManager.getOuterView());
 
+		mRecyclerView.setItemAnimator(null);
+
+		/* TODO
 		{
 			final RecyclerView.ItemAnimator itemAnimator = mRecyclerView.getItemAnimator();
 			itemAnimator.setRemoveDuration(80);
@@ -146,6 +146,7 @@ public class CommentListingFragment extends RRFragment
 			itemAnimator.setAddDuration(80);
 			itemAnimator.setMoveDuration(80);
 		}
+		*/
 
 		final SideToolbarOverlay toolbarOverlay = new SideToolbarOverlay(context);
 
@@ -198,7 +199,6 @@ public class CommentListingFragment extends RRFragment
 					comment,
 					!comment.isCollapsed(changeDataManager));
 
-			mCommentListingManager.notifyCommentChanged(item);
 			mCommentListingManager.updateHiddenStatus();
 
 			final LinearLayoutManager layoutManager = (LinearLayoutManager)mRecyclerView.getLayoutManager();
@@ -244,12 +244,6 @@ public class CommentListingFragment extends RRFragment
 			);
 		}
 	}
-
-	public void onClickUrl(String url) {
-		if(url != null) LinkHandler.onLinkClicked(getActivity(), url, false, null);
-	}
-
-	public void onClickText(Object attachment) {}
 
 	@Override
 	public void onCommentClicked(final RedditCommentView view) {
@@ -304,11 +298,6 @@ public class CommentListingFragment extends RRFragment
 			case NOTHING:
 				break;
 		}
-	}
-
-	@Override
-	public void onCommentChanged(final RedditCommentView view) {
-		mCommentListingManager.notifyCommentChanged(view.getComment());
 	}
 
 	@Override

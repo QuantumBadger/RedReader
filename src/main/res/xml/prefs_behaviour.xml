@@ -108,6 +108,18 @@
 						android:entryValues="@array/pref_behaviour_actions_comment_return"
 						android:defaultValue="action_menu"/>
 
+		<ListPreference android:title="@string/pref_behaviour_fling_comment_left_title"
+						android:key="@string/pref_behaviour_fling_comment_left_key"
+						android:entries="@array/pref_behaviour_fling_comment_actions"
+						android:entryValues="@array/pref_behaviour_fling_comment_actions_return"
+						android:defaultValue="downvote"/>
+
+		<ListPreference android:title="@string/pref_behaviour_fling_comment_right_title"
+						android:key="@string/pref_behaviour_fling_comment_right_key"
+						android:entries="@array/pref_behaviour_fling_comment_actions"
+						android:entryValues="@array/pref_behaviour_fling_comment_actions_return"
+						android:defaultValue="upvote"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_behaviour_posts_header">

@@ -23,7 +23,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.text.style.*;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.StrikethroughSpan;
+import android.text.style.StyleSpan;
+import android.text.style.SuperscriptSpan;
+import android.text.style.TypefaceSpan;
+import android.text.style.URLSpan;
 import org.quantumbadger.redreader.common.LinkHandler;
 
 import java.util.ArrayList;
@@ -203,6 +208,8 @@ public final class MarkdownParagraph {
 
 					// TODO
 					//builder.insert(linkStart, "[NUMBER HERE]");
+
+					// TODO use clickable span
 
 					builder.setSpan(new URLSpan(url), linkStart, builder.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 

@@ -831,5 +831,12 @@
 	<string name="submit_post_actionbar">Submit Post</string>
 	<string name="submit_comment_actionbar">Submit Comment</string>
 	<string name="edit_comment_actionbar">Edit Comment</string>
+	
+	<!-- 2016-07-16 -->
+	<string name="pref_behaviour_fling_comment_left_key">pref_behaviour_fling_comment_left</string>
+	<string name="pref_behaviour_fling_comment_left_title">Fling Comment Left Action</string>
+
+	<string name="pref_behaviour_fling_comment_right_key">pref_behaviour_fling_comment_right</string>
+	<string name="pref_behaviour_fling_comment_right_title">Fling Comment Right Action</string>
 
 </resources>

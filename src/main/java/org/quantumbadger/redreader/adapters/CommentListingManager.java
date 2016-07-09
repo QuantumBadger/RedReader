@@ -114,10 +114,6 @@ public class CommentListingManager {
 		mAdapter.updateHiddenStatus();
 	}
 
-	public void notifyCommentChanged(final RedditCommentListItem item) {
-		mAdapter.notifyItemChanged(GROUP_COMMENTS, item);
-	}
-
 	public int getItemCount() {
 		return mAdapter.getItemCount();
 	}

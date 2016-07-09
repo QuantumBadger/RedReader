@@ -18,27 +18,34 @@
 package org.quantumbadger.redreader.views;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
+import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.reddit.RedditCommentListItem;
+import org.quantumbadger.redreader.reddit.api.RedditAPICommentAction;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
+import org.quantumbadger.redreader.reddit.prepared.RedditParsedComment;
 import org.quantumbadger.redreader.reddit.prepared.RedditRenderableComment;
 
-public class RedditCommentView extends LinearLayout
-		implements RedditChangeDataManager.Listener {
+
+public class RedditCommentView extends FlingableItemView implements RedditChangeDataManager.Listener{
 
 	private static final Handler HANDLER = new Handler(Looper.getMainLooper()) {
 		@Override
@@ -47,7 +54,7 @@ public class RedditCommentView extends LinearLayout
 			switch(msg.what) {
 				case HANDLER_REQUEST_COMMENT_CHANGED: {
 					final RedditCommentView rcv = (RedditCommentView) msg.obj;
-					rcv.mListener.onCommentChanged(rcv);
+					rcv.update();
 					break;
 				}
 
@@ -61,6 +68,7 @@ public class RedditCommentView extends LinearLayout
 
 	private RedditCommentListItem mComment;
 
+	private final AppCompatActivity mActivity;
 	private final RedditChangeDataManager mChangeDataManager;
 	private final RRThemeAttributes mTheme;
 
@@ -68,6 +76,7 @@ public class RedditCommentView extends LinearLayout
 	private final FrameLayout mBodyHolder;
 
 	private final IndentView mIndentView;
+	private final LinearLayout mIndentedContent;
 
 	private final float mFontScale;
 
@@ -75,35 +84,223 @@ public class RedditCommentView extends LinearLayout
 
 	private final CommentListener mListener;
 
+	@Nullable
+	private final CommentListingFragment mFragment;
+
+	@Nullable private ActionDescriptionPair mLeftFlingAction;
+	@Nullable private ActionDescriptionPair mRightFlingAction;
+
+	@Override
+	protected void onSetItemFlingPosition(final float position) {
+		mIndentedContent.setTranslationX(position);
+	}
+
+	private final class ActionDescriptionPair {
+		public final RedditAPICommentAction.RedditCommentAction action;
+		public final int descriptionRes;
+
+		private ActionDescriptionPair(RedditAPICommentAction.RedditCommentAction action, int descriptionRes) {
+			this.action = action;
+			this.descriptionRes = descriptionRes;
+		}
+	}
+
+	@Nullable
+	private ActionDescriptionPair chooseFlingAction(final PrefsUtility.CommentFlingAction pref) {
+
+		if(!mComment.isComment()) {
+			return null;
+		}
+
+		final RedditParsedComment comment = mComment.asComment().getParsedComment();
+
+		switch(pref) {
+
+			case UPVOTE:
+				if(mChangeDataManager.isUpvoted(comment)) {
+					return new ActionDescriptionPair(
+							RedditAPICommentAction.RedditCommentAction.UNVOTE,
+							R.string.action_vote_remove);
+				} else {
+					return new ActionDescriptionPair(
+							RedditAPICommentAction.RedditCommentAction.UPVOTE,
+							R.string.action_upvote);
+				}
+
+			case DOWNVOTE:
+				if(mChangeDataManager.isDownvoted(comment)) {
+					return new ActionDescriptionPair(
+							RedditAPICommentAction.RedditCommentAction.UNVOTE,
+							R.string.action_vote_remove);
+				} else {
+					return new ActionDescriptionPair(
+							RedditAPICommentAction.RedditCommentAction.DOWNVOTE,
+							R.string.action_downvote);
+				}
+
+			case SAVE:
+				if(mChangeDataManager.isSaved(comment)) {
+					return new ActionDescriptionPair(
+							RedditAPICommentAction.RedditCommentAction.UNSAVE,
+							R.string.action_unsave);
+				} else {
+					return new ActionDescriptionPair(
+							RedditAPICommentAction.RedditCommentAction.SAVE,
+							R.string.action_save);
+				}
+
+			case REPLY:
+				return new ActionDescriptionPair(
+						RedditAPICommentAction.RedditCommentAction.REPLY,
+						R.string.action_reply);
+
+			case USER_PROFILE:
+				return new ActionDescriptionPair(
+						RedditAPICommentAction.RedditCommentAction.USER_PROFILE,
+						R.string.action_user_profile);
+
+			case COLLAPSE:
+
+				if(mFragment == null) {
+					return null;
+				}
+
+				return new ActionDescriptionPair(
+						RedditAPICommentAction.RedditCommentAction.COLLAPSE,
+						R.string.action_collapse);
+
+			case ACTION_MENU:
+
+				if(mFragment == null) {
+					return null;
+				}
+
+				return new ActionDescriptionPair(
+						RedditAPICommentAction.RedditCommentAction.ACTION_MENU,
+						R.string.action_actionmenu_short);
+
+			case PROPERTIES:
+				return new ActionDescriptionPair(
+						RedditAPICommentAction.RedditCommentAction.PROPERTIES,
+						R.string.action_properties);
+
+			case DISABLED:
+				return null;
+		}
+
+		return null;
+	}
+
+	@NonNull
+	@Override
+	protected String getFlingLeftText() {
+
+		final Context context = getContext();
+
+		final PrefsUtility.CommentFlingAction pref = PrefsUtility.pref_behaviour_fling_comment_left(
+				context,
+				PreferenceManager.getDefaultSharedPreferences(context));
+
+		mLeftFlingAction = chooseFlingAction(pref);
+
+		if(mLeftFlingAction == null) {
+			return "Disabled";
+		}
+
+		return context.getString(mLeftFlingAction.descriptionRes);
+	}
+
+	@NonNull
+	@Override
+	protected String getFlingRightText() {
+
+		final Context context = getContext();
+
+		final PrefsUtility.CommentFlingAction pref = PrefsUtility.pref_behaviour_fling_comment_right(
+				context,
+				PreferenceManager.getDefaultSharedPreferences(context));
+
+		mRightFlingAction = chooseFlingAction(pref);
+
+		if(mRightFlingAction == null) {
+			return "Disabled";
+		}
+
+		return context.getString(mRightFlingAction.descriptionRes);
+	}
+
+	@Override
+	protected boolean allowFlingingLeft() {
+		return mLeftFlingAction != null;
+	}
+
+	@Override
+	protected boolean allowFlingingRight() {
+		return mRightFlingAction != null;
+	}
+
+	@Override
+	protected void onFlungLeft() {
+
+		if(mLeftFlingAction == null || !mComment.isComment()) {
+			return;
+		}
+
+		RedditAPICommentAction.onActionMenuItemSelected(
+				mComment.asComment(),
+				this,
+				mActivity,
+				mFragment,
+				mLeftFlingAction.action,
+				mChangeDataManager);
+	}
+
+	@Override
+	protected void onFlungRight() {
+
+		if(mRightFlingAction == null || !mComment.isComment()) {
+			return;
+		}
+
+		RedditAPICommentAction.onActionMenuItemSelected(
+				mComment.asComment(),
+				this,
+				mActivity,
+				mFragment,
+				mRightFlingAction.action,
+				mChangeDataManager);
+	}
+
 	public interface CommentListener {
 		void onCommentClicked(RedditCommentView view);
-
 		void onCommentLongClicked(RedditCommentView view);
-
-		void onCommentChanged(RedditCommentView view);
 	}
 
 	public RedditCommentView(
-			final Context context,
+			final AppCompatActivity context,
 			final RRThemeAttributes themeAttributes,
-			final CommentListener listener) {
+			final CommentListener listener,
+			final CommentListingFragment fragment) {
 
 		super(context);
 
+		mActivity = context;
 		mTheme = themeAttributes;
 		mListener = listener;
+		mFragment = fragment;
 
 		mChangeDataManager = RedditChangeDataManager.getInstance(
 				RedditAccountManager.getInstance(context).getDefaultAccount());
 
+		final View rootView = LayoutInflater.from(context).inflate(R.layout.reddit_comment, this, true);
+
+		mIndentView = (IndentView)rootView.findViewById(R.id.view_reddit_comment_indentview);
+		mHeader = (TextView)rootView.findViewById(R.id.view_reddit_comment_header);
+		mBodyHolder = (FrameLayout)rootView.findViewById(R.id.view_reddit_comment_bodyholder);
+		mIndentedContent = (LinearLayout)rootView.findViewById(R.id.view_reddit_comment_indented_content);
+
 		mFontScale = PrefsUtility.appearance_fontscale_comments(context, PreferenceManager.getDefaultSharedPreferences(context));
-
-		mHeader = new TextView(context);
-		mHeader.setTextSize(11.0f * mFontScale);
-		mHeader.setTextColor(mTheme.rrCommentHeaderCol);
-
-		mBodyHolder = new FrameLayout(context);
-		mBodyHolder.setPadding(0, General.dpToPixels(context, 2), 0, 0);
+		mHeader.setTextSize(TypedValue.COMPLEX_UNIT_PX, mHeader.getTextSize() * mFontScale);
 
 		mShowLinkButtons = PrefsUtility.pref_appearance_linkbuttons(context, PreferenceManager.getDefaultSharedPreferences(context));
 
@@ -121,39 +318,6 @@ public class RedditCommentView extends LinearLayout
 				return true;
 			}
 		});
-
-		setLongClickable(true);
-
-		mIndentView = new IndentView(context);
-
-		final LinearLayout main = new LinearLayout(context);
-		main.setOrientation(VERTICAL);
-		main.addView(mHeader);
-		main.addView(mBodyHolder);
-
-		mBodyHolder.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-
-		final int paddingPixelsVertical = General.dpToPixels(context, 8.0f);
-		final int paddingPixelsHorizontal = General.dpToPixels(context, 12.0f);
-		main.setPadding(paddingPixelsHorizontal, paddingPixelsVertical, paddingPixelsHorizontal, paddingPixelsVertical);
-
-		final LinearLayout outer = new LinearLayout(context);
-		outer.setOrientation(HORIZONTAL);
-		outer.addView(mIndentView);
-		outer.addView(main);
-
-		mIndentView.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
-		main.getLayoutParams().width = LinearLayout.LayoutParams.MATCH_PARENT;
-
-		final View divider = new View(context);
-		divider.setBackgroundColor(Color.argb(128, 128, 128, 128)); // TODO better
-
-		setOrientation(VERTICAL);
-		addView(divider);
-		addView(outer);
-
-		divider.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-		divider.getLayoutParams().height = 1;
 	}
 
 	@Override
@@ -161,29 +325,33 @@ public class RedditCommentView extends LinearLayout
 		HANDLER.sendMessage(Message.obtain(HANDLER, HANDLER_REQUEST_COMMENT_CHANGED, this));
 	}
 
-	public void notifyClick() {
-		mListener.onCommentClicked(this);
-	}
-
-	public void notifyLongClick() {
-		mListener.onCommentLongClicked(this);
+	private void update() {
+		reset(mActivity, mComment, true);
 	}
 
 	public void reset(final AppCompatActivity activity, final RedditCommentListItem comment) {
+		reset(activity, comment, false);
+	}
 
-		if(!comment.isComment()) {
-			throw new RuntimeException("Not a comment");
-		}
+	public void reset(final AppCompatActivity activity, final RedditCommentListItem comment, final boolean updateOnly) {
 
-		if(mComment != comment) {
-			if(mComment != null) {
-				mChangeDataManager.removeListener(mComment.asComment(), this);
+		if(!updateOnly) {
+			if(!comment.isComment()) {
+				throw new RuntimeException("Not a comment");
 			}
 
-			mChangeDataManager.addListener(comment.asComment(), this);
-		}
+			if(mComment != comment) {
+				if(mComment != null) {
+					mChangeDataManager.removeListener(mComment.asComment(), this);
+				}
 
-		mComment = comment;
+				mChangeDataManager.addListener(comment.asComment(), this);
+			}
+
+			mComment = comment;
+
+			resetSwipeState();
+		}
 
 		mIndentView.setIndentation(comment.getIndent());
 
@@ -208,10 +376,12 @@ public class RedditCommentView extends LinearLayout
 				activity);
 
 		if(mComment.isCollapsed(mChangeDataManager)) {
+			setFlingingEnabled(false);
 			mHeader.setText("[ + ]  " + headerText); // Note that this removes formatting (which is fine)
 			mBodyHolder.setVisibility(GONE);
 
 		} else {
+			setFlingingEnabled(true);
 			mHeader.setText(headerText);
 			mBodyHolder.setVisibility(VISIBLE);
 		}

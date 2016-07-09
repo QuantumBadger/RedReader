@@ -23,6 +23,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -59,6 +60,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class General {
+
+	public static int COLOR_INVALID = Color.MAGENTA;
 
 	private static long lastBackPress = -1;
 

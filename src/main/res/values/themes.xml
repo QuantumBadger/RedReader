@@ -35,6 +35,9 @@
         <item name="rrListItemHighlightCol">#555555</item>
         <item name="rrListBackgroundCol">#111111</item>
 
+		<item name="rrIndentBackgroundCol">#0A0A0A</item>
+		<item name="rrIndentLineCol">#2D2D2D</item>
+
         <item name="rrListDividerCol">#555555</item>
         <item name="rrListHeaderTextCol">#CCCCCC</item>
         <item name="rrListHeaderLineCol">#444444</item>
@@ -132,11 +135,14 @@
         <item name="rrLoadingRingForegroundCol">?colorPrimary</item>
         <item name="rrLoadingRingBackgroundCol">#22000000</item>
 
+		<item name="rrIndentBackgroundCol">#F1F1F1</item>
+		<item name="rrIndentLineCol">#D0D0D0</item>
+
         <item name="android:windowBackground">@color/lightWindowBackground</item>
 
         <item name="rrListItemBackgroundCol">#FBFBFB</item>
         <item name="rrListItemHighlightCol">#DDDDDD</item>
-        <item name="rrListBackgroundCol">#FFFFFF</item>
+        <item name="rrListBackgroundCol">#F5F5F5</item>
 
         <item name="alertDialogTheme">@style/Theme.AppCompat.Light.Dialog.Alert</item>
 		<item name="rrActionBarPopupThemeStyle">@style/ThemeOverlay.AppCompat.Light</item>

@@ -177,8 +177,9 @@ public class RedditCommentListItem extends GroupedRecyclerViewAdapter.Item {
 
 		if(isComment()) {
 			view = new RedditCommentView(
-					context,
+					mActivity,
 					new RRThemeAttributes(context),
+					mFragment,
 					mFragment);
 
 		} else if(isLoadMore()) {

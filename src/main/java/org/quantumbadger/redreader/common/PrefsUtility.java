@@ -359,6 +359,20 @@ public final class PrefsUtility {
 		return PostFlingAction.valueOf(General.asciiUppercase(getString(R.string.pref_behaviour_fling_post_right_key, "upvote", context, sharedPreferences)));
 	}
 
+	// pref_behaviour_fling_comment
+
+	public enum CommentFlingAction {
+		UPVOTE, DOWNVOTE, SAVE, REPLY, USER_PROFILE, COLLAPSE, ACTION_MENU, PROPERTIES, DISABLED
+	}
+
+	public static CommentFlingAction pref_behaviour_fling_comment_left(final Context context, final SharedPreferences sharedPreferences) {
+		return CommentFlingAction.valueOf(General.asciiUppercase(getString(R.string.pref_behaviour_fling_comment_left_key, "downvote", context, sharedPreferences)));
+	}
+
+	public static CommentFlingAction pref_behaviour_fling_comment_right(final Context context, final SharedPreferences sharedPreferences) {
+		return CommentFlingAction.valueOf(General.asciiUppercase(getString(R.string.pref_behaviour_fling_comment_right_key, "upvote", context, sharedPreferences)));
+	}
+
 	public enum CommentAction {
 		COLLAPSE, ACTION_MENU, NOTHING
 	}

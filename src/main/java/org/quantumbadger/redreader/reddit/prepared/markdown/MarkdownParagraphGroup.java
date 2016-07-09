@@ -26,7 +26,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import com.laurencedawson.activetextview.ActiveTextView;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.views.LinkDetailsView;
 
@@ -53,7 +52,7 @@ public final class MarkdownParagraphGroup {
 
 		for(final MarkdownParagraph paragraph : paragraphs) {
 
-			final ActiveTextView tv = new ActiveTextView(activity);
+			final TextView tv = new TextView(activity);
 			tv.setText(paragraph.spanned);
 
 			if(textColor != null) tv.setTextColor(textColor);

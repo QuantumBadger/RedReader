@@ -18,12 +18,14 @@
 package org.quantumbadger.redreader.reddit.prepared;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableStringBuilder;
 import android.view.View;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.activities.PMSendActivity;
 import org.quantumbadger.redreader.common.BetterSSB;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
@@ -89,13 +91,20 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 		return header;
 	}
 
+	private void openReplyActivity(final AppCompatActivity activity) {
+		final Intent intent = new Intent(activity, PMSendActivity.class);
+		intent.putExtra(PMSendActivity.EXTRA_RECIPIENT, src.author);
+		intent.putExtra(PMSendActivity.EXTRA_SUBJECT, src.subject);
+		activity.startActivity(intent);
+	}
+
 	public void handleInboxClick(AppCompatActivity activity) {
-		// Do nothing
+		openReplyActivity(activity);
 	}
 
 	@Override
 	public void handleInboxLongClick(final AppCompatActivity activity) {
-		// Do nothing
+		openReplyActivity(activity);
 	}
 
 	@Override

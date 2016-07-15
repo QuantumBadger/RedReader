@@ -360,6 +360,10 @@ public final class General {
 
 	private static final Pattern urlPattern = Pattern.compile("^(https?)://([^/]+)/+([^\\?#]+)((?:\\?[^#]+)?)((?:#.+)?)$");
 
+	public static String filenameFromString(String url) {
+		return uriFromString(url).getPath().replace(File.separator, "");
+	}
+
 	public static URI uriFromString(String url) {
 
 		try {

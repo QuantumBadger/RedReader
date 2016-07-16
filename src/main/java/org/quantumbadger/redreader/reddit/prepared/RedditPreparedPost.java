@@ -395,9 +395,8 @@ public final class RedditPreparedPost {
 											boolean fromCache,
 											String mimetype) {
 
-										File dst = new File(
-											Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-											General.uriFromString(info.urlOriginal).getPath());
+										String filename = General.filenameFromString(info.urlOriginal);
+										File dst = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), filename);
 
 										if(dst.exists()) {
 											int count = 0;
@@ -406,7 +405,7 @@ public final class RedditPreparedPost {
 												count++;
 												dst = new File(
 													Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-													count + "_" + General.uriFromString(info.urlOriginal).getPath().substring(1));
+													count + "_" + filename.substring(1));
 											}
 										}
 

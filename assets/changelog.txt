@@ -1,4 +1,5 @@
 72/1.9.5
+Comment swiping
 Ability to send and reply to private messages
 Music is no longer paused when GIFs play (thanks to noughtmare and ccrama)
 Fixed saving images with slashes in the path (thanks to 0xKD)

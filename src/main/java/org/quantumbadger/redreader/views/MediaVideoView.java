@@ -1,8 +1,30 @@
+/*******************************************************************************
+ * This file is part of RedReader.
+ *
+ * RedReader is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * RedReader is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
+/*
+	This file was originally part of Slide for Reddit, which is also GPLv3 licensed.
+
+	https://github.com/ccrama/Slide
+ */
+
 package org.quantumbadger.redreader.views;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.graphics.Canvas;
 import android.media.AudioManager;
 import android.media.MediaFormat;
 import android.media.MediaPlayer;
@@ -702,44 +724,5 @@ public class MediaVideoView extends SurfaceView
 			foo.release();
 		}
 		return mAudioSession;
-	}
-
-	@Override
-	protected void onAttachedToWindow() {
-		super.onAttachedToWindow();
-
-//      if (mSubtitleWidget != null) {
-//         mSubtitleWidget.onAttachedToWindow();
-//      }
-	}
-
-	@Override
-	protected void onDetachedFromWindow() {
-		super.onDetachedFromWindow();
-
-//      if (mSubtitleWidget != null) {
-//         mSubtitleWidget.onDetachedFromWindow();
-//      }
-	}
-
-	@Override
-	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-		super.onLayout(changed, left, top, right, bottom);
-
-//      if (mSubtitleWidget != null) {
-//         measureAndLayoutSubtitleWidget();
-//      }
-	}
-
-	@Override
-	public void draw(Canvas canvas) {
-		super.draw(canvas);
-
-//      if (mSubtitleWidget != null) {
-//         final int saveCount = canvas.save();
-//         canvas.translate(getPaddingLeft(), getPaddingTop());
-//         mSubtitleWidget.draw(canvas);
-//         canvas.restoreToCount(saveCount);
-//      }
 	}
 }

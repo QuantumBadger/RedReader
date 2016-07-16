@@ -49,7 +49,8 @@
                   android:orientation="horizontal"
                   android:minHeight="64dp"
                   android:baselineAligned="false"
-                  android:background="?rrListItemBackgroundCol">
+                  android:background="?rrListItemBackgroundCol"
+				  android:elevation="10dp">
 
         <FrameLayout android:layout_width="wrap_content"
                      android:layout_height="match_parent"

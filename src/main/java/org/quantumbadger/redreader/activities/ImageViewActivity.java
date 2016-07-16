@@ -69,6 +69,7 @@ import org.quantumbadger.redreader.views.imageview.ImageTileSource;
 import org.quantumbadger.redreader.views.imageview.ImageTileSourceWholeBitmap;
 import org.quantumbadger.redreader.views.imageview.ImageViewDisplayListManager;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
+import org.quantumbadger.redreader.views.MediaVideoView;
 
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -475,7 +476,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 							final RelativeLayout layout = new RelativeLayout(ImageViewActivity.this);
 							layout.setGravity(Gravity.CENTER);
 
-							final VideoView videoView = new VideoView(ImageViewActivity.this);
+							final MediaVideoView videoView = new MediaVideoView(ImageViewActivity.this);
 
 							videoView.setVideoURI(cacheFile.getUri());
 							videoView.setMediaController(null);

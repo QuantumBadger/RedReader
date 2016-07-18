@@ -17,11 +17,9 @@
 
 package org.quantumbadger.redreader.views;
 
-import android.view.Choreographer;
+public abstract class RRAnimation implements RRChoreographer.Callback {
 
-public abstract class RRAnimation implements Choreographer.FrameCallback {
-
-	private static final Choreographer CHOREOGRAPHER = Choreographer.getInstance();
+	private static final RRChoreographer CHOREOGRAPHER = RRChoreographer.getInstance();
 
 	private long mFirstFrameNanos = -1;
 

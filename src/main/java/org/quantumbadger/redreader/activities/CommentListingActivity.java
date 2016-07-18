@@ -17,12 +17,17 @@
 
 package org.quantumbadger.redreader.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
+import android.widget.EditText;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -120,7 +125,20 @@ public class CommentListingActivity extends RefreshableActivity
 
 	@Override
 	public boolean onCreateOptionsMenu(final Menu menu) {
-		OptionsMenuUtility.prepare(this, menu, false, false, true, false, false, controller.isSortable(), null, false, true, null, null);
+		OptionsMenuUtility.prepare(
+				this,
+				menu,
+				false,
+				false,
+				true,
+				false,
+				false,
+				controller.isSortable(),
+				null,
+				false,
+				true,
+				null,
+				null);
 
 		if(mFragment != null) {
 			mFragment.onCreateOptionsMenu(menu);
@@ -154,6 +172,33 @@ public class CommentListingActivity extends RefreshableActivity
 	public void onSortSelected(final PostCommentListingURL.Sort order) {
 		controller.setSort(order);
 		requestRefresh(RefreshableFragment.COMMENTS, false);
+	}
+
+	@Override
+	public void onSearchComments() {
+
+		final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+		final EditText editText = (EditText) getLayoutInflater().inflate(R.layout.dialog_editbox, null);
+
+		alertBuilder.setView(editText);
+		alertBuilder.setTitle(R.string.action_search);
+
+		alertBuilder.setPositiveButton(R.string.action_search, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+
+				final String query = editText.getText().toString().toLowerCase().trim();
+				controller.setSearchString(query);
+
+				requestRefresh(RefreshableFragment.COMMENTS, false);
+			}
+		});
+
+		alertBuilder.setNegativeButton(R.string.dialog_cancel, null);
+
+		final AlertDialog alertDialog = alertBuilder.create();
+		alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		alertDialog.show();
 	}
 
 	@Override
@@ -198,6 +243,9 @@ public class CommentListingActivity extends RefreshableActivity
 
 	@Override
 	public void onBackPressed() {
-		if(General.onBackPressed()) super.onBackPressed();
+		if (controller.getSearchString() != null) {	// we are in search results, display full list of comments
+			controller.setSearchString(null);
+			requestRefresh(RefreshableFragment.COMMENTS, false);
+		} else if(General.onBackPressed()) super.onBackPressed();
 	}
 }

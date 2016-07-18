@@ -17,6 +17,8 @@
 
 package org.quantumbadger.redreader.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -25,7 +27,11 @@ import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+
+import org.apache.commons.lang3.StringUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -52,6 +58,8 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 	private CommentListingFragment mFragment;
 
 	private FrameLayout mPane;
+
+	private String mSearchString = null;
 
 	public void onCreate(final Bundle savedInstanceState) {
 
@@ -122,6 +130,7 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 				savedInstanceState,
 				mUrls,
 				null,
+				mSearchString,
 				force ? CacheRequest.DOWNLOAD_FORCE : CacheRequest.DOWNLOAD_IF_NECESSARY);
 
 		mPane.removeAllViews();
@@ -138,6 +147,34 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 
 	@Override
 	public void onSortSelected(final PostCommentListingURL.Sort order) {}
+
+	@Override
+	public void onSearchComments() {
+		final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+		final EditText editText = (EditText) getLayoutInflater().inflate(R.layout.dialog_editbox, null);
+
+		alertBuilder.setView(editText);
+		alertBuilder.setTitle(R.string.action_search);
+
+		alertBuilder.setPositiveButton(R.string.action_search, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+
+				mSearchString = editText.getText().toString().toLowerCase().trim();
+				if (StringUtils.isEmpty(mSearchString)) {
+					mSearchString = null;
+				}
+
+				requestRefresh(RefreshableFragment.COMMENTS, false);
+			}
+		});
+
+		alertBuilder.setNegativeButton(R.string.dialog_cancel, null);
+
+		final AlertDialog alertDialog = alertBuilder.create();
+		alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		alertDialog.show();
+	}
 
 	@Override
 	public boolean onOptionsItemSelected(final MenuItem item) {
@@ -165,6 +202,9 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 
 	@Override
 	public void onBackPressed() {
-		if(General.onBackPressed()) super.onBackPressed();
+		if (mSearchString != null) {
+			mSearchString = null;
+			requestRefresh(RefreshableFragment.COMMENTS, false);
+		} else if(General.onBackPressed()) super.onBackPressed();
 	}
 }

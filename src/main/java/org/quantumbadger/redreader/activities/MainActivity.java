@@ -33,6 +33,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
@@ -590,6 +591,11 @@ public class MainActivity extends RefreshableActivity
 	public void onSortSelected(final PostCommentListingURL.Sort order) {
 		commentListingController.setSort(order);
 		requestRefresh(RefreshableFragment.COMMENTS, false);
+	}
+
+	@Override
+	public void onSearchComments() {
+		// we are in dual pane mode. What do we search? Posts or Comments?
 	}
 
 	public void onRefreshPosts() {

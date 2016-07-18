@@ -121,6 +121,7 @@ public final class OptionsMenuUtility {
 		} else if(!subredditsVisible && !postsVisible && commentsVisible) {
 			if(commentsSortable) addAllCommentSorts(activity, menu, true);
 			add(activity, menu, Option.REFRESH_COMMENTS, false);
+			if(optionsMenuItemsPrefs.contains(OptionsMenuItemsPref.SEARCH)) add(activity, menu, Option.SEARCH, false);
 			if(pastCommentsSupported) {
 				if(optionsMenuItemsPrefs.contains(OptionsMenuItemsPref.PAST)) add(activity, menu, Option.PAST_COMMENTS, false);
 			}
@@ -331,8 +332,15 @@ public final class OptionsMenuUtility {
 				menu.add(activity.getString(R.string.action_search))
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 							public boolean onMenuItemClick(final MenuItem item) {
-								((OptionsMenuPostsListener) activity).onSearchPosts();
-								return true;
+								if (activity instanceof OptionsMenuPostsListener) {
+									((OptionsMenuPostsListener) activity).onSearchPosts();
+									return true;
+								} else if (activity instanceof OptionsMenuCommentsListener) {
+									((OptionsMenuCommentsListener) activity).onSearchComments();
+									return true;
+								} else {
+									return false;
+								}
 							}
 						});
 
@@ -569,5 +577,7 @@ public final class OptionsMenuUtility {
 		void onPastComments();
 
 		void onSortSelected(PostCommentListingURL.Sort order);
+
+		void onSearchComments();
 	}
 }

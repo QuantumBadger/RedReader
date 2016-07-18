@@ -20,12 +20,14 @@ package org.quantumbadger.redreader.adapters;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.reddit.RedditCommentListItem;
 import org.quantumbadger.redreader.views.LoadingSpinnerView;
 import org.quantumbadger.redreader.views.RedditPostHeaderView;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -34,6 +36,7 @@ public class CommentListingManager {
 	private final GroupedRecyclerViewAdapter mAdapter = new GroupedRecyclerViewAdapter(6);
 	private LinearLayoutManager mLayoutManager;
 
+	private String mSearchString = null;
 	private int mCommentCount = 0;
 
 	private static final int
@@ -47,8 +50,8 @@ public class CommentListingManager {
 	private final GroupedRecyclerViewItemFrameLayout mLoadingItem;
 	private boolean mWorkaroundDone = false;
 
-	public CommentListingManager(final Context context) {
-
+	public CommentListingManager(final Context context, String searchString) {
+		mSearchString = searchString;
 		final LoadingSpinnerView loadingSpinnerView = new LoadingSpinnerView(context);
 		final int paddingPx = General.dpToPixels(context, 30);
 		loadingSpinnerView.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
@@ -89,11 +92,33 @@ public class CommentListingManager {
 	}
 
 	public void addComments(final Collection<RedditCommentListItem> comments) {
+		Collection<GroupedRecyclerViewAdapter.Item> filteredComments = filter(comments);
 		mAdapter.appendToGroup(
 				GROUP_COMMENTS,
-				Collections.<GroupedRecyclerViewAdapter.Item>unmodifiableCollection(comments));
-		mCommentCount += comments.size();
+				filteredComments);
+		mCommentCount += filteredComments.size();
 		doWorkaround();
+	}
+
+	private Collection<GroupedRecyclerViewAdapter.Item> filter(Collection<RedditCommentListItem> comments) {
+		Collection<RedditCommentListItem> searchComments;
+		if (mSearchString == null) {
+			searchComments = comments;
+		} else {
+		 	searchComments = new ArrayList<>();
+			for (RedditCommentListItem comment : comments) {
+				if (!comment.isComment()) continue;
+				String commentStr = comment.asComment().getParsedComment().getRawComment().body;
+				if (commentStr != null && commentStr.contains(mSearchString)) {
+					searchComments.add(comment);
+				}
+			}
+		}
+		return Collections.<GroupedRecyclerViewAdapter.Item>unmodifiableCollection(searchComments);
+	}
+
+	public boolean isSearchListing() {
+		return mSearchString != null;
 	}
 
 	public void addViewToComments(final View view) {

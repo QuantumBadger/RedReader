@@ -17,25 +17,22 @@
 
 package org.quantumbadger.redreader.activities;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 
-import org.apache.commons.lang3.StringUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.common.DialogUtils;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -150,30 +147,13 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 
 	@Override
 	public void onSearchComments() {
-		final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-		final EditText editText = (EditText) getLayoutInflater().inflate(R.layout.dialog_editbox, null);
-
-		alertBuilder.setView(editText);
-		alertBuilder.setTitle(R.string.action_search);
-
-		alertBuilder.setPositiveButton(R.string.action_search, new DialogInterface.OnClickListener() {
+		DialogUtils.showSearchDialog(this, new DialogUtils.OnSearchListener() {
 			@Override
-			public void onClick(DialogInterface dialog, int which) {
-
-				mSearchString = editText.getText().toString().toLowerCase().trim();
-				if (StringUtils.isEmpty(mSearchString)) {
-					mSearchString = null;
-				}
-
+			public void onSearch(@Nullable String query) {
+				mSearchString = query;
 				requestRefresh(RefreshableFragment.COMMENTS, false);
 			}
 		});
-
-		alertBuilder.setNegativeButton(R.string.dialog_cancel, null);
-
-		final AlertDialog alertDialog = alertBuilder.create();
-		alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-		alertDialog.show();
 	}
 
 	@Override

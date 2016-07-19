@@ -18,21 +18,20 @@
 package org.quantumbadger.redreader.activities;
 
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.WindowManager;
-import android.widget.EditText;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
+import org.quantumbadger.redreader.common.DialogUtils;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -260,17 +259,10 @@ public class PostListingActivity extends RefreshableActivity
 
 	public static void onSearchPosts(final PostListingController controller, final AppCompatActivity activity) {
 
-		final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(activity);
-		final EditText editText = (EditText) activity.getLayoutInflater().inflate(R.layout.dialog_editbox, null);
-
-		alertBuilder.setView(editText);
-		alertBuilder.setTitle(R.string.action_search);
-
-		alertBuilder.setPositiveButton(R.string.action_search, new DialogInterface.OnClickListener() {
+		DialogUtils.showSearchDialog(activity, new DialogUtils.OnSearchListener() {
 			@Override
-			public void onClick(DialogInterface dialog, int which) {
-
-				final String query = editText.getText().toString().toLowerCase().trim();
+			public void onSearch(@Nullable String query) {
+				if (query == null)	return;
 
 				final SearchPostListURL url;
 
@@ -285,12 +277,6 @@ public class PostListingActivity extends RefreshableActivity
 				activity.startActivity(intent);
 			}
 		});
-
-		alertBuilder.setNegativeButton(R.string.dialog_cancel, null);
-
-		final AlertDialog alertDialog = alertBuilder.create();
-		alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-		alertDialog.show();
 	}
 
 	@Override

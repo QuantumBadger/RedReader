@@ -4,6 +4,7 @@ Ability to send and reply to private messages
 Music is no longer paused when GIFs play (thanks to noughtmare and ccrama)
 Fixed saving images with slashes in the path (thanks to 0xKD)
 Made blue theme darker
+Removed "Beta" from the app name
 
 71/1.9.4
 Material Design

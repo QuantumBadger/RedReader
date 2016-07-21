@@ -23,13 +23,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.style.ClickableSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
 import android.text.style.SuperscriptSpan;
 import android.text.style.TypefaceSpan;
-import android.text.style.URLSpan;
+import android.view.View;
 import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.views.LinkifiedTextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -209,9 +211,15 @@ public final class MarkdownParagraph {
 					// TODO
 					//builder.insert(linkStart, "[NUMBER HERE]");
 
-					// TODO use clickable span
+					final ClickableSpan span = new ClickableSpan() {
+						@Override
+						public void onClick(final View widget) {
+							final AppCompatActivity activity = ((LinkifiedTextView)widget).getActivity();
+							LinkHandler.onLinkClicked(activity, url);
+						}
+					};
 
-					builder.setSpan(new URLSpan(url), linkStart, builder.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+					builder.setSpan(span, linkStart, builder.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 
 					i = urlEnd;
 

@@ -28,6 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.views.LinkDetailsView;
+import org.quantumbadger.redreader.views.LinkifiedTextView;
 
 public final class MarkdownParagraphGroup {
 
@@ -52,8 +53,8 @@ public final class MarkdownParagraphGroup {
 
 		for(final MarkdownParagraph paragraph : paragraphs) {
 
-			final TextView tv = new TextView(activity);
-			tv.setText(paragraph.spanned);
+			final TextView tv = new LinkifiedTextView(activity);
+			tv.setText(paragraph.spanned, TextView.BufferType.SPANNABLE);
 
 			if(textColor != null) tv.setTextColor(textColor);
 			if(textSize != null) tv.setTextSize(textSize);

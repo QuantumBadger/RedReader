@@ -25,8 +25,6 @@
 
 <resources>
 
-    <string name="app_name">RedReader Beta</string>
-
     <!-- First Run Dialog -->
 
     <string name="firstrun_login_title">Logga in</string>

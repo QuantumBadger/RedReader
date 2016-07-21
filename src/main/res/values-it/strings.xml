@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">RedReader Beta</string>
     <string name="accounts_active">Attivo</string>
     <string name="accounts_anon">Anonimo</string>
     <string name="accounts_delete">Elimina</string>

@@ -1,4 +1,4 @@
-RedReader Beta (for Android)
+RedReader (for Android)
 ============================
 
 An unofficial, open source client for reddit.
@@ -38,16 +38,6 @@ https://f-droid.org/repository/browse/?fdid=org.quantumbadger.redreader
 [<img src="https://f-droid.org/badge/get-it-on.png"
       alt="Get it on F-Droid"
       height="80">](https://f-droid.org/repository/browse/?fdid=org.quantumbadger.redreader)
-
-
-Reporting Bugs
---------------
-
-RedReader is beta software, so it is possible that you may encounter bugs.
-
-Details of each crash in the UI thread will be logged to external storage, under the filename `redreader_crash_log_(UUID).txt` - please attach the relevant log when reporting a bug.
-
-Crashes in other parts of the application will cause a prompt to be displayed asking you to email the exception details directly.
 
 
 How to Build

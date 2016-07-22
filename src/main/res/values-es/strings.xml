@@ -748,4 +748,89 @@
     <!-- 2016-03-20 -->
     <string name="lang_se">Sueco</string>
 
+    <!-- 2016-04-02 -->
+    <string name="open_with">Abrir con</string>
+    <string name="pref_network_tor_title">Usar TOR (experimental)</string>
+    <string name="pref_network_tor_key">pref_network_tor</string>
+
+    <!-- 2016-04-03 -->
+    <string name="error_tor_not_installed">Tor no funcionará a no ser que Orbot esté instalado. ¿Instalar ahora?</string>
+    <string name="error_tor_setting_failed">Fallo al establecer el proxy.</string>
+
+    <!-- 2016-04-10 -->
+    <string name="error_parse_imgur_title">Error al procesar</string>
+    <string name="error_parse_imgur_message">Imgur ha enviado ciertos datos que no he podido entender.</string>
+
+    <string name="error_upload_fail_imgur_title">Fallo al subir la imagen</string>
+    <string name="error_upload_fail_imgur_message">La subida ha sido rechazada por Imgur por alguna extraña razón.</string>
+
+    <string name="upload_to_imgur">Subir a Imgur</string>
+    <string name="no_file_selected">Ningún archivo seleccionado</string>
+    <string name="button_upload">Subir</string>
+    <string name="button_browse">Navegar…</string>
+
+    <string name="error_file_too_big_title">Archivo demasiado grande</string>
+    <string name="error_file_too_big_message">El tamaño del archivo (%1$s) es mayor que el límite de subida (%2$s).</string>
+
+    <string name="error_file_open_failed_title">Error al abrir la imagen</string>
+    <string name="error_file_open_failed_message">Un error ha ocurrido mientras se intentaba abrir el archivo.</string>
+
+    <string name="image_selected_summary">Imagen seleccionada: %1$dx%2$d, %3$s</string>
+
+	<!-- 2016-06-10 -->
+	<string name="submit_post_specify_subreddit">Especifica el subreddit</string>
+	<string name="submit_post_title_empty">El título no puede quedar vacío</string>
+	<string name="submit_post_url_empty">Introduce el enlace URL</string>
+	<string name="submit_post_self_text_hint">Texto</string>
+	<string name="submit_post_url_hint">URL</string>
+
+	<!-- 2016-06-24 -->
+	<string name="save_image_permission_denied">Permiso denegado: no se puedo guardar la imagen.</string>
+	
+	<!-- 2016-06-25 -->
+	<string name="pref_behaviour_imageview_mode_title">Visor de imágenes</string>
+	<string name="pref_behaviour_imageview_mode_key">pref_behaviour_imageview_mode</string>
+
+	<string name="pref_behaviour_imageview_mode_internal_opengl">Visor interno (OpenGL)</string>
+
+	<string name="pref_behaviour_albumview_mode_title">Visor de álbumes</string>
+	<string name="pref_behaviour_albumview_mode_key">pref_behaviour_albumview_mode</string>
+
+	<string name="pref_behaviour_albumview_mode_internal_list">Visor interno (lista)</string>
+
+	<string name="error_tor_start_failed">Orbot ha fallado al inicarse. Tor no funcionará correctamente.</string>
+
+	<!-- 2016-06-30 -->
+	<string name="inbox_unread_only">Sólo mensajes sin leer</string>
+	
+	<!-- 2016-07-02 -->
+	<string name="pref_behaviour_actions_comment_longclick_key">pref_behaviour_actions_comment_longclick</string>
+	<string name="pref_behaviour_actions_comment_longclick_title">Acción al dejar pulsado un comentario</string>
+
+	<string name="no_comments_yet">Aún sin comentarios.</string>
+
+	<!-- 2016-07-09 -->
+	<string name="pm_send_hint_recipient">Receptor</string>
+	<string name="pm_send_hint_subject">Asunto</string>
+	<string name="pm_send_hint_message_text">Cuerpo del mensaje</string>
+
+	<string name="pm_send_done">Mensaje enviado.</string>
+
+	<string name="userprofile_pm">Enviar mensaje</string>
+
+	<string name="error_too_long_title">Demasiado largo</string>
+	<string name="error_too_long_message">Reddit dice que el texto que has escrito es demasiado largo.</string>
+
+	<string name="pm_send_actionbar">Enviar Mensaje</string>
+	<string name="submit_post_actionbar">Enviar publicación</string>
+	<string name="submit_comment_actionbar">Enviar Comentario</string>
+	<string name="edit_comment_actionbar">Editar Comentario</string>
+	
+	<!-- 2016-07-16 -->
+	<string name="pref_behaviour_fling_comment_left_key">pref_behaviour_fling_comment_left</string>
+	<string name="pref_behaviour_fling_comment_left_title">Acción al desplazar comentario a la izquierda</string>
+
+	<string name="pref_behaviour_fling_comment_right_key">pref_behaviour_fling_comment_right</string>
+	<string name="pref_behaviour_fling_comment_right_title">Acción al desplazar comentario a la izquierda</string>
+
 </resources>

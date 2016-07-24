@@ -109,8 +109,11 @@ public class CommentListingManager {
 			for (RedditCommentListItem comment : comments) {
 				if (!comment.isComment()) continue;
 				String commentStr = comment.asComment().getParsedComment().getRawComment().body;
-				if (commentStr != null && commentStr.contains(mSearchString)) {
-					searchComments.add(comment);
+				if (commentStr != null) {
+					commentStr = commentStr.toLowerCase();
+					if (commentStr.contains(mSearchString)) {
+						searchComments.add(comment);
+					}
 				}
 			}
 		}

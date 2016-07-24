@@ -50,6 +50,8 @@ public class CommentListingActivity extends RefreshableActivity
 
 	private static final String TAG = "CommentListingActivity";
 
+	public static final String EXTRA_SEARCH_STRING = "cla_search_string";
+
 	private static final String SAVEDSTATE_SESSION = "cla_session";
 	private static final String SAVEDSTATE_SORT = "cla_sort";
 	private static final String SAVEDSTATE_FRAGMENT = "cla_fragment";
@@ -75,7 +77,9 @@ public class CommentListingActivity extends RefreshableActivity
 			final Intent intent = getIntent();
 
 			final String url = intent.getDataString();
+			final String searchString = intent.getStringExtra(EXTRA_SEARCH_STRING);
 			controller = new CommentListingController(RedditURLParser.parseProbableCommentListing(Uri.parse(url)), this);
+			controller.setSearchString(searchString);
 
 			Bundle fragmentSavedInstanceState = null;
 
@@ -177,8 +181,9 @@ public class CommentListingActivity extends RefreshableActivity
 		DialogUtils.showSearchDialog(this, new DialogUtils.OnSearchListener() {
 			@Override
 			public void onSearch(@Nullable String query) {
-				controller.setSearchString(query);
-				requestRefresh(RefreshableActivity.RefreshableFragment.COMMENTS, false);
+				Intent searchIntent = getIntent();
+				searchIntent.putExtra(EXTRA_SEARCH_STRING, query);
+				startActivity(searchIntent);
 			}
 		});
 	}
@@ -225,9 +230,6 @@ public class CommentListingActivity extends RefreshableActivity
 
 	@Override
 	public void onBackPressed() {
-		if (controller.getSearchString() != null) {	// we are in search results, display full list of comments
-			controller.setSearchString(null);
-			requestRefresh(RefreshableFragment.COMMENTS, false);
-		} else if(General.onBackPressed()) super.onBackPressed();
+		if(General.onBackPressed()) super.onBackPressed();
 	}
 }

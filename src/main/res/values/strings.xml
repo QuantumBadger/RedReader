@@ -842,4 +842,8 @@
 	<!-- 2016-07-17 -->
 	<string name="comment_header_search_thread_title">You are currently viewing search results for a comment thread.</string>
 	<string name="no_search_results">No search results found.</string>
+
+	<!-- 2016-07-24 -->
+	<string name="action_search_comments">Search Comments</string>
+
 </resources>

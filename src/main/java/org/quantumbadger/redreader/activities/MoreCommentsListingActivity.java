@@ -49,6 +49,8 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 		OptionsMenuUtility.OptionsMenuCommentsListener,
 		RedditPostView.PostSelectionListener {
 
+	private static final String EXTRA_SEARCH_STRING = "mcla_search_string";
+
 	private SharedPreferences sharedPreferences;
 	private final ArrayList<RedditURLParser.RedditURL> mUrls = new ArrayList<>(32);
 
@@ -81,6 +83,7 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 		if(getIntent() != null) {
 
 			final Intent intent = getIntent();
+			mSearchString = intent.getStringExtra(EXTRA_SEARCH_STRING);
 
 			final ArrayList<String> urls = intent.getStringArrayListExtra("urls");
 
@@ -150,8 +153,9 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 		DialogUtils.showSearchDialog(this, new DialogUtils.OnSearchListener() {
 			@Override
 			public void onSearch(@Nullable String query) {
-				mSearchString = query;
-				requestRefresh(RefreshableFragment.COMMENTS, false);
+				Intent searchIntent = getIntent();
+				searchIntent.putExtra(EXTRA_SEARCH_STRING, query);
+				startActivity(searchIntent);
 			}
 		});
 	}
@@ -182,9 +186,6 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 
 	@Override
 	public void onBackPressed() {
-		if (mSearchString != null) {
-			mSearchString = null;
-			requestRefresh(RefreshableFragment.COMMENTS, false);
-		} else if(General.onBackPressed()) super.onBackPressed();
+		if(General.onBackPressed()) super.onBackPressed();
 	}
 }

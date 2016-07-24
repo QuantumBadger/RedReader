@@ -32,12 +32,16 @@ public class DialogUtils {
 	public interface OnSearchListener {
 		void onSearch(@Nullable String query);
 	}
+
 	public static void showSearchDialog (Context context, final OnSearchListener listener) {
+		showSearchDialog(context, R.string.action_search, listener);
+	}
+	public static void showSearchDialog (Context context, int titleRes, final OnSearchListener listener) {
 		final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
 		final EditText editText = (EditText) LayoutInflater.from(context).inflate(R.layout.dialog_editbox, null);
 
 		alertBuilder.setView(editText);
-		alertBuilder.setTitle(R.string.action_search);
+		alertBuilder.setTitle(titleRes);
 
 		alertBuilder.setPositiveButton(R.string.action_search, new DialogInterface.OnClickListener() {
 			@Override

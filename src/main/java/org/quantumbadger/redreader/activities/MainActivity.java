@@ -25,6 +25,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -40,6 +41,7 @@ import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.adapters.MainMenuSelectionListener;
 import org.quantumbadger.redreader.cache.CacheManager;
+import org.quantumbadger.redreader.common.DialogUtils;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -595,7 +597,15 @@ public class MainActivity extends RefreshableActivity
 
 	@Override
 	public void onSearchComments() {
-		// we are in dual pane mode. What do we search? Posts or Comments?
+		DialogUtils.showSearchDialog(this, R.string.action_search_comments, new DialogUtils.OnSearchListener() {
+			@Override
+			public void onSearch(@Nullable String query) {
+				Intent searchIntent = new Intent(MainActivity.this, CommentListingActivity.class);
+				searchIntent.setData(commentListingController.getUri());
+				searchIntent.putExtra(CommentListingActivity.EXTRA_SEARCH_STRING, query);
+				startActivity(searchIntent);
+			}
+		});
 	}
 
 	public void onRefreshPosts() {

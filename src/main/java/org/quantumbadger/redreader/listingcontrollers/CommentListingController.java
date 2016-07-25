@@ -22,6 +22,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -37,6 +38,7 @@ public class CommentListingController {
 
 	private CommentListingURL mUrl;
 	private UUID mSession = null;
+	private String mSearchString = null;
 
 	public UUID getSession() {
 		return mSession;
@@ -80,6 +82,14 @@ public class CommentListingController {
 		return null;
 	}
 
+	public void setSearchString(String searchString) {
+		mSearchString = searchString;
+	}
+
+	public String getSearchString() {
+		return mSearchString;
+	}
+
 	public Uri getUri() {
 		return mUrl.generateJsonUri();
 	}
@@ -90,7 +100,13 @@ public class CommentListingController {
 
 	public CommentListingFragment get(final AppCompatActivity parent, final boolean force, final Bundle savedInstanceState) {
 		if(force) mSession = null;
-		return new CommentListingFragment(parent, savedInstanceState, General.listOfOne((RedditURLParser.RedditURL)mUrl), mSession, force ? CacheRequest.DOWNLOAD_FORCE : CacheRequest.DOWNLOAD_IF_NECESSARY);
+		return new CommentListingFragment(
+				parent,
+				savedInstanceState,
+				General.listOfOne((RedditURLParser.RedditURL)mUrl),
+				mSession,
+				mSearchString,
+				force ? CacheRequest.DOWNLOAD_FORCE : CacheRequest.DOWNLOAD_IF_NECESSARY);
 	}
 
 	public boolean isSortable() {

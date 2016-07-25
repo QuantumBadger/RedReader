@@ -22,15 +22,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 
-public final class SpecificCommentThreadView extends StatusListItemView {
+public final class CommentSubThreadView extends StatusListItemView {
 
 	private final PostCommentListingURL mUrl;
 
-	public SpecificCommentThreadView(final AppCompatActivity activity, final PostCommentListingURL url) {
+	public CommentSubThreadView(
+			final AppCompatActivity activity,
+			final PostCommentListingURL url,
+			int messageRes) {
 
 		super(activity);
 
@@ -47,7 +51,7 @@ public final class SpecificCommentThreadView extends StatusListItemView {
 		attr.recycle();
 
 		final TextView textView = new TextView(activity);
-		textView.setText(R.string.comment_header_specific_thread_title);
+		textView.setText(messageRes);
 		textView.setTextColor(rrCommentSpecificThreadHeaderTextCol);
 		textView.setTextSize(15.0f);
 		textView.setPadding((int) (15 * dpScale), (int) (10 * dpScale), (int) (10 * dpScale), (int) (4 * dpScale));

@@ -50,6 +50,7 @@ public final class OptionsMenuUtility {
 		CLOSE_ALL,
 		SUBMIT_POST,
 		SEARCH,
+		SEARCH_COMMENTS,
 		REFRESH_SUBREDDITS,
 		REFRESH_POSTS,
 		REFRESH_COMMENTS,
@@ -121,6 +122,7 @@ public final class OptionsMenuUtility {
 		} else if(!subredditsVisible && !postsVisible && commentsVisible) {
 			if(commentsSortable) addAllCommentSorts(activity, menu, true);
 			add(activity, menu, Option.REFRESH_COMMENTS, false);
+			if(optionsMenuItemsPrefs.contains(OptionsMenuItemsPref.SEARCH)) add(activity, menu, Option.SEARCH, false);
 			if(pastCommentsSupported) {
 				if(optionsMenuItemsPrefs.contains(OptionsMenuItemsPref.PAST)) add(activity, menu, Option.PAST_COMMENTS, false);
 			}
@@ -148,6 +150,7 @@ public final class OptionsMenuUtility {
 						add(activity, pastMenu, Option.PAST_COMMENTS, true);
 					}
 				}
+				if(optionsMenuItemsPrefs.contains(OptionsMenuItemsPref.SEARCH)) add(activity, menu, Option.SEARCH_COMMENTS, false);
 
 			} else if(postsVisible) {
 				if(postsSortable) {
@@ -328,14 +331,35 @@ public final class OptionsMenuUtility {
 				break;
 
 			case SEARCH:
-				menu.add(activity.getString(R.string.action_search))
+				menu.add(Menu.NONE, Menu.NONE, 1, activity.getString(R.string.action_search))
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 							public boolean onMenuItemClick(final MenuItem item) {
-								((OptionsMenuPostsListener) activity).onSearchPosts();
-								return true;
+								if (activity instanceof OptionsMenuPostsListener) {
+									((OptionsMenuPostsListener) activity).onSearchPosts();
+									return true;
+								} else if (activity instanceof OptionsMenuCommentsListener) {
+									((OptionsMenuCommentsListener) activity).onSearchComments();
+									return true;
+								} else {
+									return false;
+								}
 							}
 						});
 
+				break;
+
+			case SEARCH_COMMENTS:
+				menu.add(Menu.NONE, Menu.NONE, 1, activity.getString(R.string.action_search_comments))
+						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+							@Override
+							public boolean onMenuItemClick(MenuItem item) {
+								if (activity instanceof OptionsMenuCommentsListener) {
+									((OptionsMenuCommentsListener) activity).onSearchComments();
+									return true;
+								}
+								return false;
+							}
+						});
 				break;
 
 			case REFRESH_COMMENTS:
@@ -569,5 +593,7 @@ public final class OptionsMenuUtility {
 		void onPastComments();
 
 		void onSortSelected(PostCommentListingURL.Sort order);
+
+		void onSearchComments();
 	}
 }

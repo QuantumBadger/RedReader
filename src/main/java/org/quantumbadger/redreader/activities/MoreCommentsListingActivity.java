@@ -22,14 +22,17 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.common.DialogUtils;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -46,12 +49,16 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 		OptionsMenuUtility.OptionsMenuCommentsListener,
 		RedditPostView.PostSelectionListener {
 
+	private static final String EXTRA_SEARCH_STRING = "mcla_search_string";
+
 	private SharedPreferences sharedPreferences;
 	private final ArrayList<RedditURLParser.RedditURL> mUrls = new ArrayList<>(32);
 
 	private CommentListingFragment mFragment;
 
 	private FrameLayout mPane;
+
+	private String mSearchString = null;
 
 	public void onCreate(final Bundle savedInstanceState) {
 
@@ -76,6 +83,7 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 		if(getIntent() != null) {
 
 			final Intent intent = getIntent();
+			mSearchString = intent.getStringExtra(EXTRA_SEARCH_STRING);
 
 			final ArrayList<String> urls = intent.getStringArrayListExtra("urls");
 
@@ -122,6 +130,7 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 				savedInstanceState,
 				mUrls,
 				null,
+				mSearchString,
 				force ? CacheRequest.DOWNLOAD_FORCE : CacheRequest.DOWNLOAD_IF_NECESSARY);
 
 		mPane.removeAllViews();
@@ -138,6 +147,18 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 
 	@Override
 	public void onSortSelected(final PostCommentListingURL.Sort order) {}
+
+	@Override
+	public void onSearchComments() {
+		DialogUtils.showSearchDialog(this, new DialogUtils.OnSearchListener() {
+			@Override
+			public void onSearch(@Nullable String query) {
+				Intent searchIntent = getIntent();
+				searchIntent.putExtra(EXTRA_SEARCH_STRING, query);
+				startActivity(searchIntent);
+			}
+		});
+	}
 
 	@Override
 	public boolean onOptionsItemSelected(final MenuItem item) {

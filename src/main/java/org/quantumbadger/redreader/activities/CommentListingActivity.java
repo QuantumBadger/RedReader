@@ -20,12 +20,15 @@ package org.quantumbadger.redreader.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
+import org.quantumbadger.redreader.common.DialogUtils;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -46,6 +49,8 @@ public class CommentListingActivity extends RefreshableActivity
 		SessionChangeListener {
 
 	private static final String TAG = "CommentListingActivity";
+
+	public static final String EXTRA_SEARCH_STRING = "cla_search_string";
 
 	private static final String SAVEDSTATE_SESSION = "cla_session";
 	private static final String SAVEDSTATE_SORT = "cla_sort";
@@ -72,7 +77,9 @@ public class CommentListingActivity extends RefreshableActivity
 			final Intent intent = getIntent();
 
 			final String url = intent.getDataString();
+			final String searchString = intent.getStringExtra(EXTRA_SEARCH_STRING);
 			controller = new CommentListingController(RedditURLParser.parseProbableCommentListing(Uri.parse(url)), this);
+			controller.setSearchString(searchString);
 
 			Bundle fragmentSavedInstanceState = null;
 
@@ -120,7 +127,20 @@ public class CommentListingActivity extends RefreshableActivity
 
 	@Override
 	public boolean onCreateOptionsMenu(final Menu menu) {
-		OptionsMenuUtility.prepare(this, menu, false, false, true, false, false, controller.isSortable(), null, false, true, null, null);
+		OptionsMenuUtility.prepare(
+				this,
+				menu,
+				false,
+				false,
+				true,
+				false,
+				false,
+				controller.isSortable(),
+				null,
+				false,
+				true,
+				null,
+				null);
 
 		if(mFragment != null) {
 			mFragment.onCreateOptionsMenu(menu);
@@ -154,6 +174,18 @@ public class CommentListingActivity extends RefreshableActivity
 	public void onSortSelected(final PostCommentListingURL.Sort order) {
 		controller.setSort(order);
 		requestRefresh(RefreshableFragment.COMMENTS, false);
+	}
+
+	@Override
+	public void onSearchComments() {
+		DialogUtils.showSearchDialog(this, new DialogUtils.OnSearchListener() {
+			@Override
+			public void onSearch(@Nullable String query) {
+				Intent searchIntent = getIntent();
+				searchIntent.putExtra(EXTRA_SEARCH_STRING, query);
+				startActivity(searchIntent);
+			}
+		});
 	}
 
 	@Override

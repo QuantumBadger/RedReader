@@ -27,6 +27,12 @@
                         android:entryValues="@array/pref_appearance_theme_return"
                         android:defaultValue="red"/>
 
+		<ListPreference android:title="@string/pref_appearance_navbar_color_title"
+						android:key="@string/pref_appearance_navbar_color_key"
+						android:entries="@array/pref_appearance_navbar_color_options"
+						android:entryValues="@array/pref_appearance_navbar_color_options_return"
+						android:defaultValue="black"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_appearance_locale_header">

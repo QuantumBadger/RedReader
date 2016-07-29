@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.activities;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -94,6 +95,33 @@ public class BaseActivity extends AppCompatActivity implements SharedPreferences
 
 			super.setContentView(outerView);
 			setSupportActionBar(toolbar);
+
+			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+				final PrefsUtility.AppearanceNavbarColour navbarColour = PrefsUtility.appearance_navbar_colour(
+						this,
+						sharedPreferences);
+
+				if(navbarColour != PrefsUtility.AppearanceNavbarColour.BLACK) {
+
+					final int colour;
+					{
+						final TypedArray appearance = obtainStyledAttributes(new int[]{
+								R.attr.colorPrimary,
+								R.attr.colorPrimaryDark});
+
+						if(navbarColour == PrefsUtility.AppearanceNavbarColour.PRIMARY) {
+							colour = appearance.getColor(0, General.COLOR_INVALID);
+						} else {
+							colour = appearance.getColor(1, General.COLOR_INVALID);
+						}
+
+						appearance.recycle();
+					}
+
+					getWindow().setNavigationBarColor(colour);
+				}
+			}
 		}
 	}
 

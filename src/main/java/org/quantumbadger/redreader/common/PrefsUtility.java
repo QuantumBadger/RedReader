@@ -82,6 +82,7 @@ public final class PrefsUtility {
 
 	public static boolean isRestartRequired(Context context, String key) {
 		return context.getString(R.string.pref_appearance_theme_key).equals(key)
+				|| context.getString(R.string.pref_appearance_navbar_color_key).equals(key)
 				|| context.getString(R.string.pref_appearance_langforce_key).equals(key)
 				|| context.getString(R.string.pref_behaviour_bezel_toolbar_swipezone_key).equals(key)
 				|| context.getString(R.string.pref_appearance_hide_username_main_menu_key).equals(key);
@@ -101,7 +102,7 @@ public final class PrefsUtility {
 		return AppearanceTwopane.valueOf(General.asciiUppercase(getString(R.string.pref_appearance_twopane_key, "auto", context, sharedPreferences)));
 	}
 
-	public static enum AppearanceTheme {
+	public enum AppearanceTheme {
 		RED, GREEN, BLUE, LTBLUE, ORANGE, GRAY, NIGHT
 	}
 
@@ -111,6 +112,14 @@ public final class PrefsUtility {
 
 	public static AppearanceTheme appearance_theme(final Context context, final SharedPreferences sharedPreferences) {
 		return AppearanceTheme.valueOf(General.asciiUppercase(getString(R.string.pref_appearance_theme_key, "red", context, sharedPreferences)));
+	}
+
+	public enum AppearanceNavbarColour {
+		BLACK, PRIMARY, PRIMARYDARK
+	}
+
+	public static AppearanceNavbarColour appearance_navbar_colour(final Context context, final SharedPreferences sharedPreferences) {
+		return AppearanceNavbarColour.valueOf(General.asciiUppercase(getString(R.string.pref_appearance_navbar_color_key, "black", context, sharedPreferences)));
 	}
 
 	public static void applyTheme(@NonNull final Activity activity) {

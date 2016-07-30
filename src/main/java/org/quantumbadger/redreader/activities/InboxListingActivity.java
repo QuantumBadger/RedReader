@@ -149,10 +149,6 @@ public final class InboxListingActivity extends BaseActivity {
 				RedditAccountManager.getInstance(this).getDefaultAccount());
 
 		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-
-		getSupportActionBar().setHomeButtonEnabled(true);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 		final String title;
 
 		isModmail = getIntent() != null && getIntent().getBooleanExtra("modmail", false);
@@ -164,7 +160,7 @@ public final class InboxListingActivity extends BaseActivity {
 			title = getString(R.string.mainmenu_modmail);
 		}
 
-		getSupportActionBar().setTitle(title);
+		setTitle(title);
 
 		final LinearLayout outer = new LinearLayout(this);
 		outer.setOrientation(android.widget.LinearLayout.VERTICAL);
@@ -414,9 +410,6 @@ public final class InboxListingActivity extends BaseActivity {
 				return true;
 			}
 
-			case android.R.id.home:
-				finish();
-				return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}

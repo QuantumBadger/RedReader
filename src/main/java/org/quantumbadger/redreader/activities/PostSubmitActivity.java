@@ -67,10 +67,7 @@ public class PostSubmitActivity extends BaseActivity {
 
 		super.onCreate(savedInstanceState);
 
-		getSupportActionBarOrThrow().setTitle(R.string.submit_post_actionbar);
-
-		getSupportActionBar().setHomeButtonEnabled(true);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		setTitle(R.string.submit_post_actionbar);
 
 		final LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.post_submit, null);
 
@@ -184,11 +181,9 @@ public class PostSubmitActivity extends BaseActivity {
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
+	public boolean onOptionsItemSelected(final MenuItem item) {
 
-		if (item.getItemId() == android.R.id.home) {
-			finish();
-		} else if(item.getTitle().equals(getString(R.string.comment_reply_send))) {
+		if(item.getTitle().equals(getString(R.string.comment_reply_send))) {
 			String subreddit = subredditEdit.getText().toString();
 			String postTitle = titleEdit.getText().toString();
 			String text = textEdit.getText().toString();
@@ -206,11 +201,15 @@ public class PostSubmitActivity extends BaseActivity {
 				captchaIntent.putExtra("username", (String)usernameSpinner.getSelectedItem());
 				startActivityForResult(captchaIntent, REQUEST_CAPTCHA);
 			}
+			return true;
+
 		} else if(item.getTitle().equals(getString(R.string.comment_reply_preview))) {
 			MarkdownPreviewDialog.newInstance(textEdit.getText().toString()).show(getSupportFragmentManager(), null);
-		}
+			return true;
 
-		return true;
+		} else {
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 	@Override

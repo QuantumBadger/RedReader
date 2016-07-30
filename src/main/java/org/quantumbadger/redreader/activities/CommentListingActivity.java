@@ -24,7 +24,6 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -66,9 +65,7 @@ public class CommentListingActivity extends RefreshableActivity
 
 		super.onCreate(savedInstanceState);
 
-		getSupportActionBar().setHomeButtonEnabled(true);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setTitle(getString(R.string.app_name));
+		setTitle(getString(R.string.app_name));
 
 		RedditAccountManager.getInstance(this).addUpdateListener(this);
 
@@ -157,7 +154,7 @@ public class CommentListingActivity extends RefreshableActivity
 	protected void doRefresh(final RefreshableFragment which, final boolean force, final Bundle savedInstanceState) {
 		mFragment = controller.get(this, force, savedInstanceState);
 		setBaseActivityContentView(mFragment.getView());
-		getSupportActionBar().setTitle(controller.getCommentListingUrl().humanReadableName(this, false));
+		setTitle(controller.getCommentListingUrl().humanReadableName(this, false));
 		invalidateOptionsMenu();
 	}
 
@@ -197,13 +194,7 @@ public class CommentListingActivity extends RefreshableActivity
 			}
 		}
 
-		switch(item.getItemId()) {
-			case android.R.id.home:
-				finish();
-				return true;
-			default:
-				return super.onOptionsItemSelected(item);
-		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	public void onSessionRefreshSelected(SessionChangeType type) {

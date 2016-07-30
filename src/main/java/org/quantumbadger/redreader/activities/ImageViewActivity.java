@@ -36,7 +36,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.VideoView;
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -60,6 +59,7 @@ import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.views.GIFView;
 import org.quantumbadger.redreader.views.HorizontalSwipeProgressOverlay;
+import org.quantumbadger.redreader.views.MediaVideoView;
 import org.quantumbadger.redreader.views.RedditPostView;
 import org.quantumbadger.redreader.views.bezelmenu.BezelSwipeOverlay;
 import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
@@ -69,7 +69,6 @@ import org.quantumbadger.redreader.views.imageview.ImageTileSource;
 import org.quantumbadger.redreader.views.imageview.ImageTileSourceWholeBitmap;
 import org.quantumbadger.redreader.views.imageview.ImageViewDisplayListManager;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
-import org.quantumbadger.redreader.views.MediaVideoView;
 
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -110,9 +109,13 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 	private LinearLayout mFloatingToolbar;
 
 	@Override
+	protected boolean baseActivityIsToolbarActionBarEnabled() {
+		return false;
+	}
+
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
-		setToolbarActionBarEnabled(false);
 		super.onCreate(savedInstanceState);
 
 		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);

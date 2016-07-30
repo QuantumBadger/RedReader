@@ -34,7 +34,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
@@ -101,6 +100,11 @@ public class MainActivity extends RefreshableActivity
 	private SharedPreferences sharedPreferences;
 
 	@Override
+	protected boolean baseActivityIsActionBarBackEnabled() {
+		return false;
+	}
+
+	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 
 		PrefsUtility.applyTheme(this);
@@ -113,7 +117,7 @@ public class MainActivity extends RefreshableActivity
 				onSelected(SubredditPostListURL.getFrontPage());
 		}
 
-		getSupportActionBar().setTitle(R.string.app_name);
+		setTitle(R.string.app_name);
 
 		twoPane = General.isTablet(this, sharedPreferences);
 
@@ -570,9 +574,6 @@ public class MainActivity extends RefreshableActivity
 				subredditPinState,
 				subredditBlockedState);
 
-		getSupportActionBar().setHomeButtonEnabled(!isMenuShown);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(!isMenuShown);
-
 		if(commentListingFragment != null) {
 			commentListingFragment.onCreateOptionsMenu(menu);
 		}
@@ -733,7 +734,9 @@ public class MainActivity extends RefreshableActivity
 	public boolean onOptionsItemSelected(final MenuItem item) {
 
 		if(commentListingFragment != null) {
-			commentListingFragment.onOptionsItemSelected(item);
+			if(commentListingFragment.onOptionsItemSelected(item)) {
+				return true;
+			}
 		}
 
 		switch(item.getItemId()) {

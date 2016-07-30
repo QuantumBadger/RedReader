@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
@@ -35,9 +34,6 @@ public class HtmlViewActivity extends BaseActivity {
 		PrefsUtility.applyTheme(this);
 
 		super.onCreate(savedInstanceState);
-
-		getSupportActionBar().setHomeButtonEnabled(true);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		final Intent intent = getIntent();
 
@@ -62,19 +58,4 @@ public class HtmlViewActivity extends BaseActivity {
 		if(General.onBackPressed() && !webView.onBackButtonPressed())
 			super.onBackPressed();
 	}
-
-	@Override
-	public boolean onOptionsItemSelected(final MenuItem item) {
-
-		switch(item.getItemId()) {
-
-			case android.R.id.home:
-				finish();
-				return true;
-
-			default:
-				return super.onOptionsItemSelected(item);
-		}
-	}
-
 }

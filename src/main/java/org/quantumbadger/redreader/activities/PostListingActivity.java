@@ -25,8 +25,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
-import android.view.MenuItem;
-
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
@@ -69,9 +67,6 @@ public class PostListingActivity extends RefreshableActivity
 
 		super.onCreate(savedInstanceState);
 
-		getSupportActionBar().setHomeButtonEnabled(true);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 		getWindow().setBackgroundDrawable(new ColorDrawable(obtainStyledAttributes(new int[] {R.attr.rrListBackgroundCol}).getColor(0,0)));
 
 		RedditAccountManager.getInstance(this).addUpdateListener(this);
@@ -106,7 +101,7 @@ public class PostListingActivity extends RefreshableActivity
 				}
 			}
 
-			getSupportActionBar().setTitle(url.humanReadableName(this, false));
+			setTitle(url.humanReadableName(this, false));
 
 			setBaseActivityContentView(R.layout.main_single);
 			doRefresh(RefreshableFragment.POSTS, false, fragmentSavedInstanceState);
@@ -367,17 +362,6 @@ public class PostListingActivity extends RefreshableActivity
 		}
 
 		invalidateOptionsMenu();
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(final MenuItem item) {
-		switch(item.getItemId()) {
-			case android.R.id.home:
-				finish();
-				return true;
-			default:
-				return super.onOptionsItemSelected(item);
-		}
 	}
 
 	public void onSessionSelected(UUID session, SessionChangeType type) {

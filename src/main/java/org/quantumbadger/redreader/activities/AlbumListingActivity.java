@@ -20,7 +20,6 @@ package org.quantumbadger.redreader.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import org.quantumbadger.redreader.R;
@@ -51,11 +50,7 @@ public class AlbumListingActivity extends BaseActivity {
 
 		super.onCreate(savedInstanceState);
 
-		if(getSupportActionBar() != null) {
-			getSupportActionBar().setHomeButtonEnabled(true);
-			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-			getSupportActionBar().setTitle(R.string.imgur_album);
-		}
+		setTitle(R.string.imgur_album);
 
 		final Intent intent = getIntent();
 
@@ -133,7 +128,7 @@ public class AlbumListingActivity extends BaseActivity {
 					public void run() {
 
 						if(info.title != null && !info.title.trim().isEmpty()) {
-							getSupportActionBar().setTitle(getString(R.string.imgur_album) + ": " + info.title);
+							setTitle(getString(R.string.imgur_album) + ": " + info.title);
 						}
 
 						layout.removeAllViews();
@@ -150,17 +145,6 @@ public class AlbumListingActivity extends BaseActivity {
 		});
 
 		setBaseActivityContentView(layout);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(final MenuItem item) {
-		switch(item.getItemId()) {
-			case android.R.id.home:
-				finish();
-				return true;
-			default:
-				return super.onOptionsItemSelected(item);
-		}
 	}
 
 	@Override

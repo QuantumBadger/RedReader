@@ -31,6 +31,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -39,7 +41,7 @@ import org.quantumbadger.redreader.common.TorCommon;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class BaseActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
+public abstract class BaseActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
 	private SharedPreferences sharedPreferences;
 
@@ -48,9 +50,30 @@ public class BaseActivity extends AppCompatActivity implements SharedPreferences
 	private final AtomicInteger mPermissionRequestIdGenerator = new AtomicInteger();
 	private final HashMap<Integer, PermissionCallback> mPermissionRequestCallbacks = new HashMap<>();
 
+	private TextView mActionbarTitleTextView;
 	private FrameLayout mContentView;
 
-	private boolean mToolbarActionBarEnabled = true;
+	protected boolean baseActivityIsToolbarActionBarEnabled() {
+		return true;
+	}
+
+	protected boolean baseActivityIsActionBarBackEnabled() {
+		return true;
+	}
+
+	@Override
+	public void setTitle(final CharSequence text) {
+		super.setTitle(text);
+
+		if(mActionbarTitleTextView != null) {
+			mActionbarTitleTextView.setText(text);
+		}
+	}
+
+	@Override
+	public void setTitle(final int res) {
+		setTitle(getText(res));
+	}
 
 	public interface PermissionCallback {
 		void onPermissionGranted();
@@ -60,10 +83,6 @@ public class BaseActivity extends AppCompatActivity implements SharedPreferences
 	public void closeAllExceptMain() {
 		closingAll = true;
 		closeIfNecessary();
-	}
-
-	public void setToolbarActionBarEnabled(boolean toolbarActionBarEnabled) {
-		mToolbarActionBarEnabled = toolbarActionBarEnabled;
 	}
 
 	// Avoids IDE warnings about null pointers
@@ -87,7 +106,7 @@ public class BaseActivity extends AppCompatActivity implements SharedPreferences
 		setOrientationFromPrefs();
 		closeIfNecessary();
 
-		if(mToolbarActionBarEnabled) {
+		if(baseActivityIsToolbarActionBarEnabled()) {
 			final View outerView = getLayoutInflater().inflate(R.layout.rr_actionbar, null);
 
 			final Toolbar toolbar = (Toolbar) outerView.findViewById(R.id.rr_actionbar_toolbar);
@@ -95,6 +114,35 @@ public class BaseActivity extends AppCompatActivity implements SharedPreferences
 
 			super.setContentView(outerView);
 			setSupportActionBar(toolbar);
+
+			getSupportActionBarOrThrow().setCustomView(R.layout.actionbar_title);
+			getSupportActionBarOrThrow().setDisplayShowCustomEnabled(true);
+			getSupportActionBarOrThrow().setDisplayShowTitleEnabled(false);
+			toolbar.setContentInsetsAbsolute(0, 0);
+
+			mActionbarTitleTextView = (TextView)toolbar.findViewById(R.id.actionbar_title_text);
+
+			final ImageView actionbarBackIconView = (ImageView)toolbar.findViewById(R.id.actionbar_title_back_image);
+			final View actionbarTitleOuterView = toolbar.findViewById(R.id.actionbar_title_outer);
+
+			if(getTitle() != null) {
+				// Update custom action bar text
+				setTitle(getTitle());
+			}
+
+			if(baseActivityIsActionBarBackEnabled()) {
+				actionbarTitleOuterView.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(final View v) {
+						finish();
+					}
+				});
+
+			} else {
+				actionbarBackIconView.setVisibility(View.GONE);
+				actionbarTitleOuterView.setClickable(false);
+
+			}
 
 			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 

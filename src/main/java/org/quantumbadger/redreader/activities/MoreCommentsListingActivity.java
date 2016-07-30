@@ -27,7 +27,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
-
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -66,9 +65,7 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 
 		super.onCreate(savedInstanceState);
 
-		getSupportActionBar().setHomeButtonEnabled(true);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setTitle(R.string.app_name);
+		setTitle(R.string.app_name);
 
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -135,7 +132,7 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 
 		mPane.removeAllViews();
 		mPane.addView(mFragment.getView());
-		getSupportActionBar().setTitle("More Comments");
+		setTitle("More Comments");
 	}
 
 	public void onRefreshComments() {
@@ -164,16 +161,12 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 	public boolean onOptionsItemSelected(final MenuItem item) {
 
 		if(mFragment != null) {
-			mFragment.onOptionsItemSelected(item);
+			if(mFragment.onOptionsItemSelected(item)) {
+				return true;
+			}
 		}
 
-		switch(item.getItemId()) {
-			case android.R.id.home:
-				finish();
-				return true;
-			default:
-				return super.onOptionsItemSelected(item);
-		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	public void onPostSelected(final RedditPreparedPost post) {

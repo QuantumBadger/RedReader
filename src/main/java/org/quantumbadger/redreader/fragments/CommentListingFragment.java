@@ -33,10 +33,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
+import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.activities.CommentReplyActivity;
 import org.quantumbadger.redreader.adapters.CommentListingManager;
@@ -373,7 +373,7 @@ public class CommentListingFragment extends RRFragment
 			}
 
 			if(!General.isTablet(context, PreferenceManager.getDefaultSharedPreferences(context))) {
-				getActivity().getSupportActionBar().setTitle(post.src.getTitle());
+				((BaseActivity)getActivity()).setTitle(post.src.getTitle());
 			}
 
 			if (mCommentListingManager.isSearchListing()) {

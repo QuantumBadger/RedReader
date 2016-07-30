@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ This file is part of RedReader.
+  ~
+  ~ RedReader is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ RedReader is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<RelativeLayout
+		android:id="@+id/actionbar_title_outer"
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:clickable="true"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:paddingLeft="8dp"
+		android:paddingRight="16dp"
+		android:gravity="center_vertical"
+		android:background="@drawable/rr_actionbar_selector">
+
+	<ImageView
+			android:id="@+id/actionbar_title_back_image"
+			android:layout_margin="8dp"
+			android:layout_alignParentLeft="true"
+			android:layout_centerVertical="true"
+			android:src="@drawable/ic_action_back_dark"
+			android:layout_width="24dp"
+			android:layout_height="24dp"
+			android:scaleType="fitCenter"/>
+
+	<TextView
+			android:id="@+id/actionbar_title_text"
+			android:maxLines="1"
+			android:ellipsize="end"
+			style="@style/RR.Toolbar.TitleText"
+			android:layout_toRightOf="@id/actionbar_title_back_image"
+			android:layout_centerVertical="true"
+			android:gravity="center_vertical"
+			android:paddingLeft="8dp"
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent" />
+</RelativeLayout>

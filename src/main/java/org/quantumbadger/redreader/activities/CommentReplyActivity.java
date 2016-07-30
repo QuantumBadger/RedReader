@@ -59,7 +59,7 @@ public class CommentReplyActivity extends BaseActivity {
 
 		super.onCreate(savedInstanceState);
 
-		getSupportActionBarOrThrow().setTitle(R.string.submit_comment_actionbar);
+		setTitle(R.string.submit_comment_actionbar);
 
 		final LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.comment_reply, null);
 

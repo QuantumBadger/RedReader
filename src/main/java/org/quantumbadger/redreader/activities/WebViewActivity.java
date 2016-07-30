@@ -49,9 +49,6 @@ public class WebViewActivity extends BaseActivity implements RedditPostView.Post
 
 		super.onCreate(savedInstanceState);
 
-		getSupportActionBar().setHomeButtonEnabled(true);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 		final Intent intent = getIntent();
 
 		String url = intent.getStringExtra("url");
@@ -89,10 +86,6 @@ public class WebViewActivity extends BaseActivity implements RedditPostView.Post
 		final String currentUrl = webView.getCurrentUrl();
 
 		switch(item.getItemId()) {
-
-			case android.R.id.home:
-				finish();
-				return true;
 
 			case VIEW_IN_BROWSER:
 				if(currentUrl != null) {

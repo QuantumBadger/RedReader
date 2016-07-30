@@ -22,7 +22,6 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.webkit.CookieManager;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
@@ -128,9 +127,6 @@ public class OAuthLoginActivity extends BaseActivity {
 
 		super.onCreate(savedInstanceState);
 
-		getSupportActionBar().setHomeButtonEnabled(true);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 		mWebView = new WebView(this);
 
 		if(TorCommon.isTorEnabled()) {
@@ -232,19 +228,4 @@ public class OAuthLoginActivity extends BaseActivity {
 			settings.setDisplayZoomControls(false);
 		}
 	}
-
-	@Override
-	public boolean onOptionsItemSelected(final MenuItem item) {
-
-		switch(item.getItemId()) {
-
-			case android.R.id.home:
-				finish();
-				return true;
-
-			default:
-				return super.onOptionsItemSelected(item);
-		}
-	}
-
 }

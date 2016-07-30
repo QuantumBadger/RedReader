@@ -51,7 +51,7 @@ public class CommentEditActivity extends BaseActivity {
 
 		super.onCreate(savedInstanceState);
 
-		getSupportActionBarOrThrow().setTitle(R.string.edit_comment_actionbar);
+		setTitle(R.string.edit_comment_actionbar);
 
 		textEdit = (EditText) getLayoutInflater().inflate(R.layout.comment_edit, null);
 

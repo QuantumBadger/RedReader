@@ -28,16 +28,20 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 public class ChangelogActivity extends BaseActivity {
 
 	@Override
+	protected boolean baseActivityIsToolbarActionBarEnabled() {
+		return false;
+	}
+
+	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 
 		PrefsUtility.applySettingsTheme(this);
-		setToolbarActionBarEnabled(false);
 
 		super.onCreate(savedInstanceState);
 
-		getSupportActionBar().setTitle(R.string.title_changelog);
-		getSupportActionBar().setHomeButtonEnabled(true);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBarOrThrow().setTitle(R.string.title_changelog);
+		getSupportActionBarOrThrow().setHomeButtonEnabled(true);
+		getSupportActionBarOrThrow().setDisplayHomeAsUpEnabled(true);
 
 		final LinearLayout items = new LinearLayout(this);
 		items.setOrientation(LinearLayout.VERTICAL);

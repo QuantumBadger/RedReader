@@ -24,6 +24,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -153,7 +154,11 @@ public class CommentListingActivity extends RefreshableActivity
 	@Override
 	protected void doRefresh(final RefreshableFragment which, final boolean force, final Bundle savedInstanceState) {
 		mFragment = controller.get(this, force, savedInstanceState);
-		setBaseActivityContentView(mFragment.getView());
+
+		final View view = mFragment.getView();
+		setBaseActivityContentView(view);
+		General.setLayoutMatchParent(view);
+
 		setTitle(controller.getCommentListingUrl().humanReadableName(this, false));
 		invalidateOptionsMenu();
 	}

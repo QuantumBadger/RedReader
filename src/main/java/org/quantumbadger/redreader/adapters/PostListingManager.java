@@ -15,22 +15,21 @@
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.views.list;
+package org.quantumbadger.redreader.adapters;
 
-public interface RRTouchable {
-	void rrOnClick(int x, int y);
+import android.content.Context;
+import org.quantumbadger.redreader.reddit.RedditPostListItem;
 
-	void rrOnLongClick();
+import java.util.Collection;
+import java.util.Collections;
 
-	void rrOnFingerDown();
+public class PostListingManager extends RedditListingManager {
 
-	void rrOnSwipeDelta(float dx);
+	public PostListingManager(final Context context) {
+		super(context);
+	}
 
-	void rrOnFingerUp();
-
-	void rrOnHighlightStart(int x, int y);
-
-	void rrOnHighlightEnd();
-
-	boolean rrAllowLongClick();
+	public void addPosts(final Collection<RedditPostListItem> posts) {
+		addItems(Collections.<GroupedRecyclerViewAdapter.Item>unmodifiableCollection(posts));
+	}
 }

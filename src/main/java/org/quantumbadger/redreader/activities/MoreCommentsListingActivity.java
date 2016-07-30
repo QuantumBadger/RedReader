@@ -131,7 +131,11 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 				force ? CacheRequest.DOWNLOAD_FORCE : CacheRequest.DOWNLOAD_IF_NECESSARY);
 
 		mPane.removeAllViews();
-		mPane.addView(mFragment.getView());
+
+		final View view = mFragment.getView();
+		mPane.addView(view);
+		General.setLayoutMatchParent(view);
+
 		setTitle("More Comments");
 	}
 

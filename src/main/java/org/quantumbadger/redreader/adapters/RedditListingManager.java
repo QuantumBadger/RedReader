@@ -20,38 +20,35 @@ package org.quantumbadger.redreader.adapters;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-
 import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.reddit.RedditCommentListItem;
 import org.quantumbadger.redreader.views.LoadingSpinnerView;
+import org.quantumbadger.redreader.views.PostListingHeader;
 import org.quantumbadger.redreader.views.RedditPostHeaderView;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 
-public class CommentListingManager {
+public abstract class RedditListingManager {
 
-	private final GroupedRecyclerViewAdapter mAdapter = new GroupedRecyclerViewAdapter(6);
+	private final GroupedRecyclerViewAdapter mAdapter = new GroupedRecyclerViewAdapter(7);
 	private LinearLayoutManager mLayoutManager;
 
-	private String mSearchString = null;
-	private int mCommentCount = 0;
+	private int mItemCount = 0;
 
 	private static final int
-			GROUP_POST_HEADER = 0,
+			GROUP_HEADER = 0,
 			GROUP_NOTIFICATIONS = 1,
 			GROUP_POST_SELFTEXT = 2,
-			GROUP_COMMENTS = 3,
-			GROUP_LOADING = 4,
-			GROUP_FOOTER_ERRORS = 5;
+			GROUP_ITEMS = 3,
+			GROUP_LOAD_MORE_BUTTON = 4,
+			GROUP_LOADING = 5,
+			GROUP_FOOTER_ERRORS = 6;
 
 	private final GroupedRecyclerViewItemFrameLayout mLoadingItem;
 	private boolean mWorkaroundDone = false;
 
-	public CommentListingManager(final Context context, String searchString) {
-		mSearchString = searchString;
+	public RedditListingManager(final Context context) {
+		General.checkThisIsUIThread();
 		final LoadingSpinnerView loadingSpinnerView = new LoadingSpinnerView(context);
 		final int paddingPx = General.dpToPixels(context, 30);
 		loadingSpinnerView.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
@@ -61,6 +58,7 @@ public class CommentListingManager {
 	}
 
 	public void setLayoutManager(final LinearLayoutManager layoutManager) {
+		General.checkThisIsUIThread();
 		mLayoutManager = layoutManager;
 	}
 
@@ -73,80 +71,81 @@ public class CommentListingManager {
 	}
 
 	public void addFooterError(final ErrorView view) {
+		General.checkThisIsUIThread();
 		mAdapter.appendToGroup(GROUP_FOOTER_ERRORS, new GroupedRecyclerViewItemFrameLayout(view));
 	}
 
 	public void addPostHeader(final RedditPostHeaderView view) {
-		mAdapter.appendToGroup(GROUP_POST_HEADER, new GroupedRecyclerViewItemFrameLayout(view));
+		General.checkThisIsUIThread();
+		mAdapter.appendToGroup(GROUP_HEADER, new GroupedRecyclerViewItemFrameLayout(view));
+		doWorkaround();
+	}
+
+	public void addPostListingHeader(final PostListingHeader view) {
+		General.checkThisIsUIThread();
+		mAdapter.appendToGroup(GROUP_HEADER, new GroupedRecyclerViewItemFrameLayout(view));
 		doWorkaround();
 	}
 
 	public void addPostSelfText(final View view) {
+		General.checkThisIsUIThread();
 		mAdapter.appendToGroup(GROUP_POST_SELFTEXT, new GroupedRecyclerViewItemFrameLayout(view));
 		doWorkaround();
 	}
 
 	public void addNotification(final View view) {
+		General.checkThisIsUIThread();
 		mAdapter.appendToGroup(GROUP_NOTIFICATIONS, new GroupedRecyclerViewItemFrameLayout(view));
 		doWorkaround();
 	}
 
-	public void addComments(final Collection<RedditCommentListItem> comments) {
-		Collection<GroupedRecyclerViewAdapter.Item> filteredComments = filter(comments);
-		mAdapter.appendToGroup(
-				GROUP_COMMENTS,
-				filteredComments);
-		mCommentCount += filteredComments.size();
+	public void addItems(final Collection<GroupedRecyclerViewAdapter.Item> items) {
+		General.checkThisIsUIThread();
+		mAdapter.appendToGroup(GROUP_ITEMS, items);
+		mItemCount += items.size();
 		doWorkaround();
 	}
 
-	private Collection<GroupedRecyclerViewAdapter.Item> filter(Collection<RedditCommentListItem> comments) {
-		Collection<RedditCommentListItem> searchComments;
-		if (mSearchString == null) {
-			searchComments = comments;
-		} else {
-		 	searchComments = new ArrayList<>();
-			for (RedditCommentListItem comment : comments) {
-				if (!comment.isComment()) continue;
-				String commentStr = comment.asComment().getParsedComment().getRawComment().body;
-				if (commentStr != null) {
-					commentStr = commentStr.toLowerCase();
-					if (commentStr.contains(mSearchString)) {
-						searchComments.add(comment);
-					}
-				}
-			}
-		}
-		return Collections.<GroupedRecyclerViewAdapter.Item>unmodifiableCollection(searchComments);
-	}
-
-	public boolean isSearchListing() {
-		return mSearchString != null;
-	}
-
-	public void addViewToComments(final View view) {
-		mAdapter.appendToGroup(GROUP_COMMENTS, new GroupedRecyclerViewItemFrameLayout(view));
+	public void addViewToItems(final View view) {
+		General.checkThisIsUIThread();
+		mAdapter.appendToGroup(GROUP_ITEMS, new GroupedRecyclerViewItemFrameLayout(view));
 		doWorkaround();
+	}
+
+	public void addLoadMoreButton(final View view) {
+		General.checkThisIsUIThread();
+		mAdapter.appendToGroup(GROUP_LOAD_MORE_BUTTON, new GroupedRecyclerViewItemFrameLayout(view));
+		doWorkaround();
+	}
+
+	public void removeLoadMoreButton() {
+		General.checkThisIsUIThread();
+		mAdapter.removeAllFromGroup(GROUP_LOAD_MORE_BUTTON);
 	}
 
 	public void setLoadingVisible(final boolean visible) {
+		General.checkThisIsUIThread();
 		mLoadingItem.setHidden(!visible);
 		mAdapter.updateHiddenStatus();
 	}
 
 	public GroupedRecyclerViewAdapter getAdapter() {
+		General.checkThisIsUIThread();
 		return mAdapter;
 	}
 
 	public void updateHiddenStatus() {
+		General.checkThisIsUIThread();
 		mAdapter.updateHiddenStatus();
 	}
 
-	public int getItemCount() {
+	public int getMainItemCount() {
+		General.checkThisIsUIThread();
 		return mAdapter.getItemCount();
 	}
 
-	public int getCommentCount() {
-		return mCommentCount;
+	public int getTotalItemCount() {
+		General.checkThisIsUIThread();
+		return mItemCount;
 	}
 }

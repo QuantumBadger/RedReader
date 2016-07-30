@@ -25,6 +25,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
+import android.view.View;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
@@ -213,7 +214,10 @@ public class PostListingActivity extends RefreshableActivity
 	protected void doRefresh(final RefreshableFragment which, final boolean force, final Bundle savedInstanceState) {
 		if(fragment != null) fragment.cancel();
 		fragment = controller.get(this, force, savedInstanceState);
-		setBaseActivityContentView(fragment.getView());
+
+		final View view = fragment.getView();
+		setBaseActivityContentView(view);
+		General.setLayoutMatchParent(view);
 	}
 
 	public void onPostSelected(final RedditPreparedPost post) {

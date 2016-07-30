@@ -32,7 +32,7 @@
         <item name="android:windowBackground">@color/darkWindowBackground</item>
 
         <item name="rrListItemBackgroundCol">#000000</item>
-        <item name="rrListItemHighlightCol">#555555</item>
+        <item name="rrListItemBackgroundHighlightCol">#555555</item>
         <item name="rrListBackgroundCol">#111111</item>
 
 		<item name="rrIndentBackgroundCol">#0A0A0A</item>
@@ -66,6 +66,8 @@
         <item name="rrPostFlingTextCol">#FFFFFF</item>
         <item name="rrPostBackgroundColSticky">#004400</item>
         <item name="rrPostCommentsButtonBackColSticky">#226622</item>
+		<item name="rrPostBackgroundColHighlightSticky">#338833</item>
+		<item name="rrPostCommentsButtonHighlightColSticky">#55AA55</item>
         <item name="rrFlairBackCol">#333333</item>
         <item name="rrFlairTextCol">#AAAAAA</item>
         <item name="rrGoldBackCol">#B0923C</item>
@@ -141,7 +143,7 @@
         <item name="android:windowBackground">@color/lightWindowBackground</item>
 
         <item name="rrListItemBackgroundCol">#FBFBFB</item>
-        <item name="rrListItemHighlightCol">#DDDDDD</item>
+        <item name="rrListItemBackgroundHighlightCol">#DDDDDD</item>
         <item name="rrListBackgroundCol">#F5F5F5</item>
 
         <item name="alertDialogTheme">@style/Theme.AppCompat.Light.Dialog.Alert</item>
@@ -178,6 +180,8 @@
         <item name="rrPostFlingTextCol">?colorPrimary</item>
         <item name="rrPostBackgroundColSticky">#DDFFDD</item>
         <item name="rrPostCommentsButtonBackColSticky">#BBEEBB</item>
+		<item name="rrPostBackgroundColHighlightSticky">#AADDAA</item>
+		<item name="rrPostCommentsButtonHighlightColSticky">#88BB88</item>
         <item name="rrFlairBackCol">#DDDDDD</item>
         <item name="rrFlairTextCol">#444444</item>
         <item name="rrGoldBackCol">#FFDF52</item>

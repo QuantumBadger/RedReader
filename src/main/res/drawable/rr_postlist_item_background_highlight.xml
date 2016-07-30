@@ -17,12 +17,6 @@
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:smoothScrollbar="false"
-          android:fadingEdge="none"
-          android:divider="?rrListDividerCol"
-          android:dividerHeight="1dp">
-
-</ListView>
+<color
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:color="?attr/rrListItemBackgroundHighlightCol" />

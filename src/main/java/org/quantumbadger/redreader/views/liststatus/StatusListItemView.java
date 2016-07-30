@@ -21,9 +21,8 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import org.quantumbadger.redreader.views.list.RRTouchable;
 
-public class StatusListItemView extends FrameLayout implements RRTouchable {
+public class StatusListItemView extends FrameLayout {
 
 	protected final float dpScale;
 
@@ -51,18 +50,5 @@ public class StatusListItemView extends FrameLayout implements RRTouchable {
 		contents = null;
 
 		requestLayout();
-	}
-
-	@Override public void rrOnClick(final int x, final int y) {}
-	@Override public void rrOnLongClick() {}
-	@Override public void rrOnFingerDown() {}
-	@Override public void rrOnSwipeDelta(final float dx) {}
-	@Override public void rrOnFingerUp() {}
-	@Override public void rrOnHighlightStart(final int x, final int y) {}
-	@Override public void rrOnHighlightEnd() {}
-
-	@Override
-	public boolean rrAllowLongClick() {
-		return false;
 	}
 }

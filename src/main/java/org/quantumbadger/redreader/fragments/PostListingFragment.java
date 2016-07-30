@@ -21,19 +21,15 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -42,7 +38,7 @@ import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.activities.SessionChangeListener;
-import org.quantumbadger.redreader.adapters.PostListingAdapter;
+import org.quantumbadger.redreader.adapters.PostListingManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.AndroidApi;
@@ -61,6 +57,7 @@ import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.listingcontrollers.CommentListingController;
 import org.quantumbadger.redreader.listingcontrollers.PostListingController;
+import org.quantumbadger.redreader.reddit.RedditPostListItem;
 import org.quantumbadger.redreader.reddit.RedditSubredditManager;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.api.SubredditRequestFailure;
@@ -73,10 +70,9 @@ import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.reddit.url.PostListingURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 import org.quantumbadger.redreader.reddit.url.SubredditPostListURL;
-import org.quantumbadger.redreader.views.LoadingSpinnerView;
 import org.quantumbadger.redreader.views.PostListingHeader;
 import org.quantumbadger.redreader.views.RedditPostView;
-import org.quantumbadger.redreader.views.list.ListOverlayView;
+import org.quantumbadger.redreader.views.ScrollbarRecyclerViewManager;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
 
 import java.net.URI;
@@ -88,8 +84,7 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class PostListingFragment extends RRFragment
-		implements RedditPostView.PostSelectionListener,
-		AbsListView.OnScrollListener {
+		implements RedditPostView.PostSelectionListener {
 
 	private static final String TAG = "PostListingFragment";
 
@@ -101,78 +96,24 @@ public class PostListingFragment extends RRFragment
 
 	private UUID mSession;
 	private int mPostCountLimit;
-	private final PostListingAdapter mAdapter;
-	private final ListView mListView;
 	private TextView mLoadMoreView;
 
 	private final SharedPreferences mSharedPreferences;
 
-	private final LinearLayout mFragmentHeader, mListHeader, mListHeaderNotifications, mListFooterNotifications;
+	private final PostListingManager mPostListingManager;
+	private final RecyclerView mRecyclerView;
 
-	private final FrameLayout mOverlayContainer;
+	private final View mOuter;
 
 	private String mAfter = null, mLastAfter = null;
 	private CacheRequest mRequest;
 	private boolean mReadyToDownloadMore = false;
 	private long mTimestamp;
 
-	private final LoadingSpinnerView mLoadingView;
-
 	private int mPostCount = 0;
 	private final AtomicInteger mPostRefreshCount = new AtomicInteger(0);
 
 	private Integer mPreviousFirstVisibleItemPosition;
-
-	private static final int
-			NOTIF_AGE = 0,
-			NOTIF_ERROR = 1,
-			NOTIF_ERROR_FOOTER = 2,
-			NOTIF_SHOW_LOADING_SPINNER = 3,
-			NOTIF_HIDE_LOADING_SPINNER = 4;
-
-	private final Handler mNotificationHandler = new Handler(Looper.getMainLooper()) {
-		@Override
-		public void handleMessage(final Message msg) {
-
-			// TODO check if attached? if not, queue, and send on "resume"
-			switch(msg.what) {
-
-				case NOTIF_AGE: {
-					final TextView cacheNotif = (TextView) LayoutInflater.from(getActivity())
-						.inflate(R.layout.cached_header, mListHeaderNotifications, false);
-					cacheNotif.setText(getActivity().getString(R.string.listing_cached, RRTime.formatDateTime((Long) msg.obj, getActivity())));
-
-					mListHeaderNotifications.addView(cacheNotif);
-					mListHeaderNotifications.requestLayout();
-					mAdapter.notifyDataSetChanged();
-					break;
-				}
-
-				case NOTIF_ERROR: {
-					final RRError error = (RRError)msg.obj;
-					mFragmentHeader.addView(new ErrorView(getActivity(), error));
-					break;
-				}
-
-				case NOTIF_ERROR_FOOTER: {
-					final RRError error = (RRError)msg.obj;
-					mListFooterNotifications.addView(new ErrorView(getActivity(), error));
-					mAdapter.notifyDataSetChanged();
-					break;
-				}
-
-				case NOTIF_HIDE_LOADING_SPINNER: {
-					mLoadingView.setVisibility(View.GONE);
-					break;
-				}
-
-				case NOTIF_SHOW_LOADING_SPINNER: {
-					mLoadingView.setVisibility(View.VISIBLE);
-					break;
-				}
-			}
-		}
-	};
 
 	// Session may be null
 	public PostListingFragment(
@@ -183,6 +124,8 @@ public class PostListingFragment extends RRFragment
 			final @CacheRequest.DownloadType int downloadType) {
 
 		super(parent, savedInstanceState);
+
+		mPostListingManager = new PostListingManager(parent);
 
 		if(savedInstanceState != null) {
 			mPreviousFirstVisibleItemPosition = savedInstanceState.getInt(SAVEDSTATE_FIRST_VISIBLE_POS);
@@ -196,37 +139,18 @@ public class PostListingFragment extends RRFragment
 			throw new RuntimeException("Invalid post listing URL");
 		}
 
-		this.mSession = session;
+		mSession = session;
 
 		final Context context = getContext();
 		mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-		mOverlayContainer = new FrameLayout(context) {
-			@Override
-			protected void onAttachedToWindow() {
-				super.onAttachedToWindow();
-				getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
-			}
-		};
-
-		final LinearLayout outer = new LinearLayout(context);
-		outer.setOrientation(android.widget.LinearLayout.VERTICAL);
-		mOverlayContainer.addView(outer);
-
-		mLoadingView = new LoadingSpinnerView(context);
-
-		mFragmentHeader = createVerticalLinearLayout(context);
-
 		// TODO output failed URL
 		if(mPostListingURL == null) {
-			mFragmentHeader.addView(new ErrorView(getActivity(), new RRError("Invalid post listing URL", "Could not navigate to that URL.")));
+			mPostListingManager.addFooterError(
+					new ErrorView(getActivity(), new RRError("Invalid post listing URL", "Could not navigate to that URL.")));
 			// TODO proper error handling
 			throw new RuntimeException("Invalid post listing URL");
 		}
-
-		mListHeader = createVerticalLinearLayout(context);
-		mListHeaderNotifications = createVerticalLinearLayout(context);
-		mListFooterNotifications = createVerticalLinearLayout(context);
 
 		switch(PrefsUtility.pref_behaviour_post_count(context, mSharedPreferences)) {
 			case ALL:
@@ -245,40 +169,26 @@ public class PostListingFragment extends RRFragment
 
 		if(mPostCountLimit > 0) {
 			restackRefreshCount();
-			mLoadMoreView = (TextView)LayoutInflater.from(context).inflate(R.layout.load_more_posts, null);
-			mLoadMoreView.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					mListFooterNotifications.removeView(mLoadMoreView);
-					restackRefreshCount();
-					onLoadMoreItemsCheck();
-				}
-			});
 		}
 
-		mListHeader.addView(mListHeaderNotifications);
+		final ScrollbarRecyclerViewManager recyclerViewManager
+				= new ScrollbarRecyclerViewManager(context, null, false);
 
-		mListView = (ListView)getActivity().getLayoutInflater().inflate(R.layout.reddit_post_list, null);
-		mListView.setOnScrollListener(this);
-		mListView.addHeaderView(mListHeader);
-		mListView.addFooterView(mListFooterNotifications, null, true);
+		mRecyclerView = recyclerViewManager.getRecyclerView();
+		mPostListingManager.setLayoutManager((LinearLayoutManager) mRecyclerView.getLayoutManager());
 
-		mListFooterNotifications.addView(mLoadingView);
-		mLoadingView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-		mLoadingView.getLayoutParams().height = General.dpToPixels(context, 200);
+		mRecyclerView.setAdapter(mPostListingManager.getAdapter());
 
-		mListView.setPersistentDrawingCache(ViewGroup.PERSISTENT_ALL_CACHES);
-		mListView.setAlwaysDrawnWithCacheEnabled(true);
+		mOuter = recyclerViewManager.getOuterView();
 
-		mAdapter = new PostListingAdapter(mListView, this, getActivity());
-		mListView.setAdapter(mAdapter);
+		mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+			@Override
+			public void onScrolled(final RecyclerView recyclerView, final int dx, final int dy) {
+				onLoadMoreItemsCheck();
+			}
+		});
 
-		final ListOverlayView lov = new ListOverlayView(context, mListView);
-
-		outer.addView(mFragmentHeader);
-		outer.addView(lov);
-
-		mListView.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+		mRecyclerView.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
 
 		int limit = 50;
 
@@ -293,13 +203,14 @@ public class PostListingFragment extends RRFragment
 				downloadType,
 				true);
 
-		CacheManager.getInstance(context).makeRequest(mRequest);
+		// The request doesn't go ahead until the header is in place.
 
 		switch(mPostListingURL.pathType()) {
 
 			case RedditURLParser.USER_POST_LISTING_URL:
 			case RedditURLParser.SEARCH_POST_LISTING_URL:
 				setHeader(mPostListingURL.humanReadableName(getActivity(), true), mPostListingURL.humanReadableUrl());
+				CacheManager.getInstance(context).makeRequest(mRequest);
 				break;
 
 			case RedditURLParser.SUBREDDIT_POST_LISTING_URL:
@@ -314,6 +225,7 @@ public class PostListingFragment extends RRFragment
 					case SUBREDDIT_COMBINATION:
 					case ALL_SUBTRACTION:
 						setHeader(mPostListingURL.humanReadableName(getActivity(), true), mPostListingURL.humanReadableUrl());
+						CacheManager.getInstance(context).makeRequest(mRequest);
 						break;
 
 					case SUBREDDIT: {
@@ -325,12 +237,24 @@ public class PostListingFragment extends RRFragment
 							@Override
 							public void onRequestFailed(SubredditRequestFailure failureReason) {
 								// Ignore
+								AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+									@Override
+									public void run() {
+										CacheManager.getInstance(context).makeRequest(mRequest);
+									}
+								});
 							}
 
 							@Override
-							public void onRequestSuccess(RedditSubreddit result, long timeCached) {
-								mSubreddit = result;
-								onSubredditReceived();
+							public void onRequestSuccess(final RedditSubreddit result, final long timeCached) {
+								AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+									@Override
+									public void run() {
+										mSubreddit = result;
+										onSubredditReceived();
+										CacheManager.getInstance(context).makeRequest(mRequest);
+									}
+								});
 							}
 						};
 
@@ -357,7 +281,7 @@ public class PostListingFragment extends RRFragment
 
 	@Override
 	public View getView() {
-		return mOverlayContainer;
+		return mOuter;
 	}
 
 	@Override
@@ -365,7 +289,8 @@ public class PostListingFragment extends RRFragment
 
 		final Bundle bundle = new Bundle();
 
-		bundle.putInt(SAVEDSTATE_FIRST_VISIBLE_POS, mListView.getFirstVisiblePosition());
+		final LinearLayoutManager layoutManager = (LinearLayoutManager)mRecyclerView.getLayoutManager();
+		bundle.putInt(SAVEDSTATE_FIRST_VISIBLE_POS, layoutManager.findFirstVisibleItemPosition());
 
 		return bundle;
 	}
@@ -411,8 +336,7 @@ public class PostListingFragment extends RRFragment
 			@Override
 			public void run() {
 				final PostListingHeader postListingHeader = new PostListingHeader(getActivity(), title, subtitle);
-				mListHeader.addView(postListingHeader, 0);
-				mAdapter.notifyDataSetChanged();
+				mPostListingManager.addPostListingHeader(postListingHeader);
 			}
 		});
 	}
@@ -440,21 +364,19 @@ public class PostListingFragment extends RRFragment
 		}.start();
 	}
 
-	public void onScrollStateChanged(AbsListView view, int scrollState) {}
+	private void onLoadMoreItemsCheck() {
 
-	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-		onLoadMoreItemsCheck();
-	}
-
-	private synchronized void onLoadMoreItemsCheck() {
+		General.checkThisIsUIThread();
 
 		if(mReadyToDownloadMore && mAfter != null && !mAfter.equals(mLastAfter)) {
 
-			if(mAdapter.getDownloadedCount() > 0
-					&& (mAdapter.getDownloadedCount() - mListView.getLastVisiblePosition() < 20
+			final LinearLayoutManager layoutManager = (LinearLayoutManager)mRecyclerView.getLayoutManager();
+
+			if(mPostListingManager.getMainItemCount() > 0
+					&& (layoutManager.getItemCount() - layoutManager.findLastVisibleItemPosition() < 20
 					&& (mPostCountLimit <= 0 || mPostRefreshCount.get() > 0)
 					|| (mPreviousFirstVisibleItemPosition != null
-							&& mListView.getAdapter().getCount() <= mPreviousFirstVisibleItemPosition))) {
+							&& layoutManager.getItemCount() <= mPreviousFirstVisibleItemPosition))) {
 
 				mLastAfter = mAfter;
 				mReadyToDownloadMore = false;
@@ -462,7 +384,9 @@ public class PostListingFragment extends RRFragment
 				final Uri newUri = mPostListingURL.after(mAfter).generateJsonUri();
 
 				// TODO customise (currently 3 hrs)
-				@CacheRequest.DownloadType int type = (RRTime.since(mTimestamp) < 3 * 60 * 60 * 1000) ? CacheRequest.DOWNLOAD_IF_NECESSARY : CacheRequest.DOWNLOAD_NEVER;
+				@CacheRequest.DownloadType int type = (RRTime.since(mTimestamp) < 3 * 60 * 60 * 1000)
+						? CacheRequest.DOWNLOAD_IF_NECESSARY
+						: CacheRequest.DOWNLOAD_NEVER;
 
 				int limit = 50;
 
@@ -471,18 +395,26 @@ public class PostListingFragment extends RRFragment
 				}
 
 				mRequest = new PostListingRequest(newUri, RedditAccountManager.getInstance(getActivity()).getDefaultAccount(), mSession, type, false);
-				mNotificationHandler.sendEmptyMessage(NOTIF_SHOW_LOADING_SPINNER);
+				mPostListingManager.setLoadingVisible(true);
 				CacheManager.getInstance(getActivity()).makeRequest(mRequest);
 
 			} else if(mPostCountLimit > 0 && mPostRefreshCount.get() <= 0) {
-				AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
-					@Override
-					public void run() {
-						if(mLoadMoreView.getParent() == null) {
-							mListFooterNotifications.addView(mLoadMoreView);
+
+				if(mLoadMoreView == null) {
+
+					mLoadMoreView = (TextView)LayoutInflater.from(getContext()).inflate(R.layout.load_more_posts, null);
+					mLoadMoreView.setOnClickListener(new View.OnClickListener() {
+						@Override
+						public void onClick(View view) {
+							mPostListingManager.removeLoadMoreButton();
+							mLoadMoreView = null;
+							restackRefreshCount();
+							onLoadMoreItemsCheck();
 						}
-					}
-				});
+					});
+
+					mPostListingManager.addLoadMoreButton(mLoadMoreView);
+				}
 			}
 		}
 	}
@@ -527,20 +459,14 @@ public class PostListingFragment extends RRFragment
 			return;
 		}
 
-		if(mListView.getAdapter().getCount() > mPreviousFirstVisibleItemPosition) {
+		final LinearLayoutManager layoutManager = (LinearLayoutManager)mRecyclerView.getLayoutManager();
 
-			mListView.smoothScrollToPositionFromTop(
-					mPreviousFirstVisibleItemPosition,
-					0,
-					100);
-
+		if(layoutManager.getItemCount() > mPreviousFirstVisibleItemPosition) {
+			layoutManager.scrollToPositionWithOffset(mPreviousFirstVisibleItemPosition, 0);
 			mPreviousFirstVisibleItemPosition = null;
 
 		} else {
-			mListView.smoothScrollToPositionFromTop(
-					mListView.getAdapter().getCount() - 1,
-					0,
-					100);
+			layoutManager.scrollToPosition(layoutManager.getItemCount() - 1);
 		}
 	}
 
@@ -566,23 +492,29 @@ public class PostListingFragment extends RRFragment
 		@Override
 		protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
 
-			mNotificationHandler.sendEmptyMessage(NOTIF_HIDE_LOADING_SPINNER);
+			AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+				@Override
+				public void run() {
 
-			if(type == CacheRequest.REQUEST_FAILURE_CACHE_MISS) {
+					mPostListingManager.setLoadingVisible(false);
 
-				final RRError error = new RRError(
-						context.getString(R.string.error_postlist_cache_title),
-						context.getString(R.string.error_postlist_cache_message),
-						t,
-						status,
-						url.toString());
+					final RRError error;
 
-				mNotificationHandler.sendMessage(General.handlerMessage(NOTIF_ERROR_FOOTER, error));
+					if(type == CacheRequest.REQUEST_FAILURE_CACHE_MISS) {
+						error = new RRError(
+								context.getString(R.string.error_postlist_cache_title),
+								context.getString(R.string.error_postlist_cache_message),
+								t,
+								status,
+								url.toString());
 
-			} else {
-				final RRError error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
-				mNotificationHandler.sendMessage(General.handlerMessage(NOTIF_ERROR, error));
-			}
+					} else {
+						error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
+					}
+
+					mPostListingManager.addFooterError(new ErrorView(getActivity(), error));
+				}
+			});
 		}
 
 		@Override protected void onProgress(final boolean authorizationInProgress, final long bytesRead, final long totalBytes) {}
@@ -592,13 +524,28 @@ public class PostListingFragment extends RRFragment
 		@Override
 		public void onJsonParseStarted(final JsonValue value, final long timestamp, final UUID session, final boolean fromCache) {
 
+			final AppCompatActivity activity = getActivity();
+
 			// TODO pref (currently 10 mins)
 			if(firstDownload && fromCache && RRTime.since(timestamp) > 10 * 60 * 1000) {
-				mNotificationHandler.sendMessage(General.handlerMessage(NOTIF_AGE, timestamp));
+				AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+					@Override
+					public void run() {
+
+						final TextView cacheNotif = (TextView)LayoutInflater.from(getActivity())
+								.inflate(R.layout.cached_header, null, false);
+
+						cacheNotif.setText(getActivity().getString(
+								R.string.listing_cached,
+								RRTime.formatDateTime(timestamp, getActivity())));
+
+						mPostListingManager.addNotification(cacheNotif);
+					}
+				});
 			} // TODO resuming a copy
 
 			if(firstDownload) {
-				((SessionChangeListener)getActivity()).onSessionChanged(session, SessionChangeListener.SessionChangeType.POSTS, timestamp);
+				((SessionChangeListener)activity).onSessionChanged(session, SessionChangeListener.SessionChangeType.POSTS, timestamp);
 				PostListingFragment.this.mSession = session;
 				PostListingFragment.this.mTimestamp = timestamp;
 			}
@@ -607,41 +554,41 @@ public class PostListingFragment extends RRFragment
 
 			try {
 
-				final Context context = getActivity();
 				final JsonBufferedObject thing = value.asObject();
 				final JsonBufferedObject listing = thing.getObject("data");
 				final JsonBufferedArray posts = listing.getArray("children");
 
-				final boolean isNsfwAllowed = PrefsUtility.pref_behaviour_nsfw(context, mSharedPreferences);
-				final boolean isConnectionWifi = General.isConnectionWifi(context);
+				final boolean isNsfwAllowed = PrefsUtility.pref_behaviour_nsfw(activity, mSharedPreferences);
+				final boolean isConnectionWifi = General.isConnectionWifi(activity);
 
-				final PrefsUtility.AppearanceThumbnailsShow thumbnailsPref = PrefsUtility.appearance_thumbnails_show(context, mSharedPreferences);
+				final PrefsUtility.AppearanceThumbnailsShow thumbnailsPref = PrefsUtility.appearance_thumbnails_show(
+						activity, mSharedPreferences);
 				final boolean downloadThumbnails = thumbnailsPref == PrefsUtility.AppearanceThumbnailsShow.ALWAYS
 						|| (thumbnailsPref == PrefsUtility.AppearanceThumbnailsShow.WIFIONLY && isConnectionWifi);
 
-				final boolean showNsfwThumbnails = PrefsUtility.appearance_thumbnails_nsfw_show(context, mSharedPreferences);
+				final boolean showNsfwThumbnails = PrefsUtility.appearance_thumbnails_nsfw_show(activity, mSharedPreferences);
 
 				final PrefsUtility.CachePrecacheImages imagePrecachePref
-						= PrefsUtility.cache_precache_images(context, mSharedPreferences);
+						= PrefsUtility.cache_precache_images(activity, mSharedPreferences);
 
 				final PrefsUtility.CachePrecacheComments commentPrecachePref
-						= PrefsUtility.cache_precache_comments(context, mSharedPreferences);
+						= PrefsUtility.cache_precache_comments(activity, mSharedPreferences);
 
 				final boolean precacheImages = (imagePrecachePref == PrefsUtility.CachePrecacheImages.ALWAYS
 						|| (imagePrecachePref == PrefsUtility.CachePrecacheImages.WIFIONLY && isConnectionWifi))
-						&& !General.isCacheDiskFull(context);
+						&& !General.isCacheDiskFull(activity);
 
 				final boolean precacheComments = (commentPrecachePref == PrefsUtility.CachePrecacheComments.ALWAYS
 						|| (commentPrecachePref == PrefsUtility.CachePrecacheComments.WIFIONLY && isConnectionWifi));
 
 				final PrefsUtility.ImageViewMode imageViewMode
-						= PrefsUtility.pref_behaviour_imageview_mode(context, mSharedPreferences);
+						= PrefsUtility.pref_behaviour_imageview_mode(activity, mSharedPreferences);
 
 				final PrefsUtility.GifViewMode gifViewMode
-						= PrefsUtility.pref_behaviour_gifview_mode(context, mSharedPreferences);
+						= PrefsUtility.pref_behaviour_gifview_mode(activity, mSharedPreferences);
 
 				final PrefsUtility.VideoViewMode videoViewMode
-						= PrefsUtility.pref_behaviour_videoview_mode(context, mSharedPreferences);
+						= PrefsUtility.pref_behaviour_videoview_mode(activity, mSharedPreferences);
 
 				final boolean imagesOpenedInternally = (imageViewMode == PrefsUtility.ImageViewMode.INTERNAL_OPENGL);
 
@@ -655,19 +602,19 @@ public class PostListingFragment extends RRFragment
 						&& (mPostListingURL.asSubredditPostListURL().type == SubredditPostListURL.Type.ALL
 								|| mPostListingURL.asSubredditPostListURL().type == SubredditPostListURL.Type.ALL_SUBTRACTION);
 
-				final List<String> blockedSubreddits = PrefsUtility.pref_blocked_subreddits(context, mSharedPreferences); // Grab this so we don't have to pull from the prefs every post
+				final List<String> blockedSubreddits = PrefsUtility.pref_blocked_subreddits(activity, mSharedPreferences); // Grab this so we don't have to pull from the prefs every post
 
 				Log.i(TAG, "Precaching images: " + (precacheImages ? "ON" : "OFF"));
 				Log.i(TAG, "Precaching comments: " + (precacheComments ? "ON" : "OFF"));
 
-				final CacheManager cm = CacheManager.getInstance(context);
+				final CacheManager cm = CacheManager.getInstance(activity);
 
 				final boolean showSubredditName
 						= !(mPostListingURL != null
 						&& mPostListingURL.pathType() == RedditURLParser.SUBREDDIT_POST_LISTING_URL
 						&& mPostListingURL.asSubredditPostListURL().type == SubredditPostListURL.Type.SUBREDDIT);
 
-				final ArrayList<RedditPreparedPost> downloadedPosts = new ArrayList<>(25);
+				final ArrayList<RedditPostListItem> downloadedPosts = new ArrayList<>(25);
 
 				for(final JsonValue postThingValue : posts) {
 
@@ -690,7 +637,7 @@ public class PostListingFragment extends RRFragment
 						final RedditParsedPost parsedPost = new RedditParsedPost(post, false);
 
 						final RedditPreparedPost preparedPost = new RedditPreparedPost(
-								context,
+								activity,
 								cm,
 								positionInList,
 								parsedPost,
@@ -702,11 +649,11 @@ public class PostListingFragment extends RRFragment
 
 							final CommentListingController controller = new CommentListingController(
 									PostCommentListingURL.forPostId(preparedPost.src.getIdAlone()),
-									context);
+									activity);
 
-							CacheManager.getInstance(context).makeRequest(new CacheRequest(
+							CacheManager.getInstance(activity).makeRequest(new CacheRequest(
 									General.uriFromString(controller.getUri().toString()),
-									RedditAccountManager.getInstance(context).getDefaultAccount(),
+									RedditAccountManager.getInstance(activity).getDefaultAccount(),
 									null,
 									Constants.Priority.COMMENT_PRECACHE,
 									positionInList,
@@ -715,7 +662,7 @@ public class PostListingFragment extends RRFragment
 									DOWNLOAD_QUEUE_REDDIT_API,
 									false, // Don't parse the JSON
 									false,
-									context) {
+									activity) {
 
 								@Override
 								protected void onCallbackException(final Throwable t) {}
@@ -741,7 +688,7 @@ public class PostListingFragment extends RRFragment
 							});
 						}
 
-						LinkHandler.getImageInfo(context, post.url, Constants.Priority.IMAGE_PRECACHE, positionInList, new GetImageInfoListener() {
+						LinkHandler.getImageInfo(activity, post.url, Constants.Priority.IMAGE_PRECACHE, positionInList, new GetImageInfoListener() {
 
 							@Override public void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {}
 							@Override public void onNotAnImage() {}
@@ -787,7 +734,7 @@ public class PostListingFragment extends RRFragment
 								final URI uri = General.uriFromString(info.urlOriginal);
 								if(uri == null) return;
 
-								CacheManager.getInstance(context).makeRequest(new CacheRequest(
+								CacheManager.getInstance(activity).makeRequest(new CacheRequest(
 										uri,
 										RedditAccountManager.getAnon(),
 										null,
@@ -798,7 +745,7 @@ public class PostListingFragment extends RRFragment
 										DOWNLOAD_QUEUE_IMAGE_PRECACHE,
 										false,
 										false,
-										context
+										activity
 								) {
 									@Override protected void onCallbackException(final Throwable t) {}
 									@Override protected void onDownloadNecessary() {}
@@ -816,20 +763,30 @@ public class PostListingFragment extends RRFragment
 							}
 						});
 
-						downloadedPosts.add(preparedPost);
+						downloadedPosts.add(new RedditPostListItem(
+								preparedPost,
+								PostListingFragment.this,
+								activity,
+								mPostListingURL));
 					}
 
 					mPostCount++;
 					mPostRefreshCount.decrementAndGet();
 				}
 
-				mAdapter.onPostsDownloaded(downloadedPosts);
+				AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+					@Override
+					public void run() {
 
-				mNotificationHandler.sendEmptyMessage(NOTIF_HIDE_LOADING_SPINNER);
+						mPostListingManager.addPosts(downloadedPosts);
+						mPostListingManager.setLoadingVisible(false);
+						onPostsAdded();
 
-				mRequest = null;
-				mReadyToDownloadMore = true;
-				onLoadMoreItemsCheck();
+						mRequest = null;
+						mReadyToDownloadMore = true;
+						onLoadMoreItemsCheck();
+					}
+				});
 
 			} catch (Throwable t) {
 				notifyFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "Parse failure");

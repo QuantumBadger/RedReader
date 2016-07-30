@@ -22,9 +22,8 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import org.quantumbadger.redreader.views.list.RRTouchable;
 
-public final class PostListingHeader extends LinearLayout implements RRTouchable {
+public final class PostListingHeader extends LinearLayout {
 
 	public PostListingHeader(final Context context, final String titleText, final String subtitleText) {
 
@@ -55,22 +54,5 @@ public final class PostListingHeader extends LinearLayout implements RRTouchable
 		addView(subtitle);
 
 		setBackgroundColor(Color.rgb(50, 50, 50)); // TODO theme color
-	}
-
-	@Override public void rrOnClick(final int x, final int y) {}
-	@Override public void rrOnLongClick() {}
-	@Override public void rrOnFingerDown() {}
-	@Override public void rrOnSwipeDelta(final float dx) {}
-	@Override public void rrOnFingerUp() {}
-
-	@Override
-	public void rrOnHighlightStart(final int x, final int y) {}
-
-	@Override
-	public void rrOnHighlightEnd() {}
-
-	@Override
-	public boolean rrAllowLongClick() {
-		return false;
 	}
 }

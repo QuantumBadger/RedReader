@@ -32,7 +32,7 @@
     <attr name="rrLoadingRingBackgroundCol" />
 
     <attr name="rrListItemBackgroundCol" format="color" />
-    <attr name="rrListItemHighlightCol" format="color" />
+    <attr name="rrListItemBackgroundHighlightCol" format="color" />
     <attr name="rrListBackgroundCol" format="color" />
 
     <attr name="rrPostTitleCol" format="color" />
@@ -46,8 +46,10 @@
     <attr name="rrPostThumbnailBackground" format="color" />
     <attr name="rrPostFlingTextCol" format="color" />
     <attr name="rrPostBackgroundColSticky" format="color" />
+	<attr name="rrPostBackgroundColHighlightSticky" format="color" />
     <attr name="rrPostCommentsButtonBackColSticky" format="color" />
     <attr name="rrPostCommentsButtonHighlightCol" format="color" />
+	<attr name="rrPostCommentsButtonHighlightColSticky" format="color" />
     <attr name="rrFlairBackCol" format="color" />
     <attr name="rrFlairTextCol" format="color" />
     <attr name="rrGoldBackCol" format="color" />

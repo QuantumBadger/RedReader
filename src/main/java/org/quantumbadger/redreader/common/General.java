@@ -528,6 +528,12 @@ public final class General {
 		layoutParams.bottomMargin = marginPx;
 	}
 
+	public static void setLayoutMatchParent(final View view) {
+		final ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+		layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+		layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
+	}
+
 	public static void recreateActivityNoAnimation(final AppCompatActivity activity) {
 
 		// http://stackoverflow.com/a/3419987/1526861

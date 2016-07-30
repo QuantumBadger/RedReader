@@ -21,32 +21,27 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.UiThread;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
-
 import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
-import org.quantumbadger.redreader.views.list.SwipableListItemView;
 
-public final class RedditPostView extends SwipableListItemView implements RedditPreparedPost.ThumbnailLoadedCallback {
+public final class RedditPostView extends FlingableItemView implements RedditPreparedPost.ThumbnailLoadedCallback {
 
-	private final ListView mListView;
 	private final float dpScale;
 
 	private RedditPreparedPost post = null;
@@ -54,35 +49,73 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 
 	private final ImageView thumbnailView, overlayIcon;
 
-	private final LinearLayout visiblePostLayout, commentsButton;
+	private final LinearLayout mOuterView;
+	private final LinearLayout commentsButton;
 	private final TextView commentsText;
 
 	private int usageId = 0;
 
 	private final Handler thumbnailHandler;
 
-	private final PostListingFragment fragmentParent;
 	private final AppCompatActivity mActivity;
 
-	private boolean swipeReady = false, leftOverlayShown = false, rightOverlayShown = false;
+	private final PrefsUtility.PostFlingAction mLeftFlingPref, mRightFlingPref;
+	private ActionDescriptionPair mLeftFlingAction, mRightFlingAction;
 
-	private final PrefsUtility.PostFlingAction leftFlingPref, rightFlingPref;
-	private ActionDescriptionPair leftFlingAction, rightFlingAction;
-
-	private final TextView leftOverlayText, rightOverlayText;
-
-	private final Drawable rrIconFfLeft, rrIconFfRight, rrIconTick;
 	private final int
 			rrPostTitleReadCol,
-			rrPostTitleCol,
-			rrListItemBackgroundCol,
-			rrPostBackgroundColSticky,
-			rrPostCommentsButtonBackCol,
-			rrPostCommentsButtonBackColSticky,
-			rrListItemHighlightCol,
-			rrPostCommentsButtonHighlightCol;
+			rrPostTitleCol;
 
-	private final int offsetBeginAllowed, offsetActionPerformed;
+	@Override
+	protected void onSetItemFlingPosition(final float position) {
+		mOuterView.setTranslationX(position);
+	}
+
+	@NonNull
+	@Override
+	protected String getFlingLeftText() {
+
+		mLeftFlingAction = chooseFlingAction(mLeftFlingPref);
+
+		if(mLeftFlingAction != null) {
+			return mActivity.getString(mLeftFlingAction.descriptionRes);
+		} else {
+			return "Disabled";
+		}
+	}
+
+	@NonNull
+	@Override
+	protected String getFlingRightText() {
+
+		mRightFlingAction = chooseFlingAction(mRightFlingPref);
+
+		if(mRightFlingAction != null) {
+			return mActivity.getString(mRightFlingAction.descriptionRes);
+		} else {
+			return "Disabled";
+		}
+	}
+
+	@Override
+	protected boolean allowFlingingLeft() {
+		return mLeftFlingAction != null;
+	}
+
+	@Override
+	protected boolean allowFlingingRight() {
+		return mRightFlingAction != null;
+	}
+
+	@Override
+	protected void onFlungLeft() {
+		RedditPreparedPost.onActionMenuItemSelected(post, mActivity, mLeftFlingAction.action);
+	}
+
+	@Override
+	protected void onFlungRight() {
+		RedditPreparedPost.onActionMenuItemSelected(post, mActivity, mRightFlingAction.action);
+	}
 
 	private final class ActionDescriptionPair {
 		public final RedditPreparedPost.Action action;
@@ -92,33 +125,6 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 			this.action = action;
 			this.descriptionRes = descriptionRes;
 		}
-	}
-
-	@Override
-	protected void onSwipeBegin(int xOffsetPixels) {
-		if(offsetBeginAllowed > Math.abs(xOffsetPixels)) {
-
-			leftFlingAction = chooseFlingAction(leftFlingPref);
-			rightFlingAction = chooseFlingAction(rightFlingPref);
-
-			if(leftFlingAction != null) rightOverlayText.setText(leftFlingAction.descriptionRes);
-			if(rightFlingAction != null) leftOverlayText.setText(rightFlingAction.descriptionRes);
-
-			rightOverlayText.setCompoundDrawablesWithIntrinsicBounds(null, rrIconFfLeft, null, null);
-			leftOverlayText.setCompoundDrawablesWithIntrinsicBounds(null, rrIconFfRight, null, null);
-
-			swipeReady = true;
-		}
-	}
-
-	@Override
-	protected boolean leftFlingEnabled() {
-		return leftFlingAction != null;
-	}
-
-	@Override
-	protected boolean rightFlingEnabled() {
-		return rightFlingAction != null;
 	}
 
 	private ActionDescriptionPair chooseFlingAction(PrefsUtility.PostFlingAction pref) {
@@ -169,90 +175,19 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 		return null;
 	}
 
-	@Override
-	protected void onSwipePositionChange(int xOffsetPixels) {
-
-		final int absOffset = Math.abs(xOffsetPixels);
-
-		if(swipeReady && absOffset > offsetActionPerformed) {
-
-			if(xOffsetPixels > 0) {
-
-				RedditPreparedPost.onActionMenuItemSelected(post, mActivity, rightFlingAction.action);
-				leftOverlayText.setCompoundDrawablesWithIntrinsicBounds(null, rrIconTick, null, null);
-			} else {
-				RedditPreparedPost.onActionMenuItemSelected(post, mActivity, leftFlingAction.action);
-				rightOverlayText.setCompoundDrawablesWithIntrinsicBounds(null, rrIconTick, null, null);
-			}
-
-			swipeReady = false;
-
-		} else if(absOffset > 5) {
-
-			if(xOffsetPixels > 0) {
-
-				// Right swipe
-
-				if(!leftOverlayShown) {
-					leftOverlayShown = true;
-					leftOverlayText.setVisibility(View.VISIBLE);
-				}
-
-				if(rightOverlayShown) {
-					rightOverlayShown = false;
-					rightOverlayText.setVisibility(View.GONE);
-				}
-
-			} else {
-
-				// Left swipe
-
-				if(!rightOverlayShown) {
-					rightOverlayShown = true;
-					rightOverlayText.setVisibility(View.VISIBLE);
-				}
-
-				if(leftOverlayShown) {
-					leftOverlayShown = false;
-					leftOverlayText.setVisibility(View.GONE);
-				}
-			}
-
-		} else {
-
-			if(leftOverlayShown) {
-				leftOverlayShown = false;
-				leftOverlayText.setVisibility(View.GONE);
-			}
-
-			if(rightOverlayShown) {
-				rightOverlayShown = false;
-				rightOverlayText.setVisibility(View.GONE);
-			}
-		}
-	}
-
 	public RedditPostView(
 			final Context context,
-			final ListView listParent,
 			final PostListingFragment fragmentParent,
 			final AppCompatActivity activity) {
 
-		super(context, listParent);
-		this.fragmentParent = fragmentParent;
-		mListView = listParent;
+		super(context);
 		mActivity = activity;
-
-		offsetBeginAllowed = General.dpToPixels(context, 50);
-		offsetActionPerformed = General.dpToPixels(context, 150);
 
 		thumbnailHandler = new Handler(Looper.getMainLooper()) {
 			@Override
 			public void handleMessage(final Message msg) {
 				if(usageId != msg.what) return;
 				thumbnailView.setImageBitmap((Bitmap)msg.obj);
-				invalidate(); // TODO is this necessary?
-				mListView.invalidateViews();
 			}
 		};
 
@@ -260,61 +195,57 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 
 		final float fontScale = PrefsUtility.appearance_fontscale_posts(context, PreferenceManager.getDefaultSharedPreferences(context));
 
-		final FrameLayout mainLayout = (FrameLayout) inflate(context, R.layout.reddit_post, null);
-		visiblePostLayout = (LinearLayout) mainLayout.findViewById(R.id.reddit_post_layout);
+		final View rootView = LayoutInflater.from(context).inflate(R.layout.reddit_post, this, true);
 
-		thumbnailView = (ImageView) mainLayout.findViewById(R.id.reddit_post_thumbnail_view);
-		overlayIcon = (ImageView) mainLayout.findViewById(R.id.reddit_post_overlay_icon);
+		mOuterView = (LinearLayout)rootView.findViewById(R.id.reddit_post_layout);
 
-		title = (TextView) mainLayout.findViewById(R.id.reddit_post_title);
-		subtitle = (TextView) mainLayout.findViewById(R.id.reddit_post_subtitle);
-		commentsButton = (LinearLayout) mainLayout.findViewById(R.id.reddit_post_comments_button);
+		mOuterView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+				fragmentParent.onPostSelected(post);
+			}
+		});
+
+		mOuterView.setOnLongClickListener(new OnLongClickListener() {
+			@Override
+			public boolean onLongClick(final View v) {
+				RedditPreparedPost.showActionMenu(mActivity, post);
+				return true;
+			}
+		});
+
+		thumbnailView = (ImageView) rootView.findViewById(R.id.reddit_post_thumbnail_view);
+		overlayIcon = (ImageView) rootView.findViewById(R.id.reddit_post_overlay_icon);
+
+		title = (TextView) rootView.findViewById(R.id.reddit_post_title);
+		subtitle = (TextView) rootView.findViewById(R.id.reddit_post_subtitle);
+		commentsButton = (LinearLayout) rootView.findViewById(R.id.reddit_post_comments_button);
 		commentsText = (TextView)commentsButton.findViewById(R.id.reddit_post_comments_text);
+
+		commentsButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+				fragmentParent.onPostCommentsSelected(post);
+			}
+		});
 
 		title.setTextSize(TypedValue.COMPLEX_UNIT_PX, title.getTextSize() * fontScale);
 		subtitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, subtitle.getTextSize() * fontScale);
 
-		leftOverlayText = (TextView) mainLayout.findViewById(R.id.reddit_post_fling_text_left);
-		rightOverlayText = (TextView) mainLayout.findViewById(R.id.reddit_post_fling_text_right);
-
 		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-		leftFlingPref = PrefsUtility.pref_behaviour_fling_post_left(context, sharedPreferences);
-		rightFlingPref = PrefsUtility.pref_behaviour_fling_post_right(context, sharedPreferences);
+		mLeftFlingPref = PrefsUtility.pref_behaviour_fling_post_left(context, sharedPreferences);
+		mRightFlingPref = PrefsUtility.pref_behaviour_fling_post_right(context, sharedPreferences);
 
 		{
 			final TypedArray attr = context.obtainStyledAttributes(new int[]{
-					R.attr.rrIconFfLeft,
-					R.attr.rrIconFfRight,
-					R.attr.rrIconTick,
 					R.attr.rrPostTitleCol,
 					R.attr.rrPostTitleReadCol,
-					R.attr.rrListItemBackgroundCol,
-					R.attr.rrPostBackgroundColSticky,
-					R.attr.rrPostCommentsButtonBackCol,
-					R.attr.rrPostCommentsButtonBackColSticky,
-					R.attr.rrListItemHighlightCol,
-					R.attr.rrPostCommentsButtonHighlightCol
 			});
 
-			rrIconFfLeft = attr.getDrawable(0);
-			rrIconFfRight = attr.getDrawable(1);
-			rrIconTick = attr.getDrawable(2);
-			rrPostTitleCol = attr.getColor(3, 0);
-			rrPostTitleReadCol = attr.getColor(4, 0);
-			rrListItemBackgroundCol = attr.getColor(5, 0);
-			rrPostBackgroundColSticky = attr.getColor(6, 0);
-			rrPostCommentsButtonBackCol = attr.getColor(7, 0);
-			rrPostCommentsButtonBackColSticky = attr.getColor(8, 0);
-			rrListItemHighlightCol = attr.getColor(9, 0);
-			rrPostCommentsButtonHighlightCol = attr.getColor(10, 0);
-
+			rrPostTitleCol = attr.getColor(0, 0);
+			rrPostTitleReadCol = attr.getColor(1, 0);
 			attr.recycle();
 		}
-
-		setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
-
-		setSwipableView(visiblePostLayout);
-		setVisibleView(mainLayout);
 	}
 
 	@UiThread
@@ -324,13 +255,7 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 
 			usageId++;
 
-			super.reset();
-
-			swipeReady = false;
-			leftOverlayShown = false;
-			rightOverlayShown = false;
-			leftOverlayText.setVisibility(GONE);
-			rightOverlayText.setVisibility(GONE);
+			resetSwipeState();
 
 			final Bitmap thumbnail = data.getThumbnail(this, usageId);
 			thumbnailView.setImageBitmap(thumbnail);
@@ -359,11 +284,11 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 	public void updateAppearance() {
 
 		if(post.isSticky()) {
-			visiblePostLayout.setBackgroundColor(rrPostBackgroundColSticky);
-			commentsButton.setBackgroundColor(rrPostCommentsButtonBackColSticky);
+			mOuterView.setBackgroundResource(R.drawable.rr_postlist_item_selector_sticky);
+			commentsButton.setBackgroundResource(R.drawable.rr_postlist_commentbutton_selector_sticky);
 		} else {
-			visiblePostLayout.setBackgroundColor(rrListItemBackgroundCol);
-			commentsButton.setBackgroundColor(rrPostCommentsButtonBackCol);
+			mOuterView.setBackgroundResource(R.drawable.rr_postlist_item_selector_main);
+			commentsButton.setBackgroundResource(R.drawable.rr_postlist_commentbutton_selector_main);
 		}
 
 		if(post.isRead()) {
@@ -397,47 +322,6 @@ public final class RedditPostView extends SwipableListItemView implements Reddit
 		} else {
 			overlayIcon.setVisibility(GONE);
 		}
-	}
-
-	private boolean isPositionInCommentsButton(final int x, final int y) {
-
-		final int[] buttonLoc = new int[2];
-		commentsButton.getLocationOnScreen(buttonLoc);
-
-		return x >= buttonLoc[0]
-				&& x <= buttonLoc[0] + commentsButton.getWidth()
-				&& y >= buttonLoc[1]
-				&& y <= buttonLoc[1] + commentsButton.getHeight();
-	}
-
-	public void rrOnClick(final int x, final int y) {
-
-		if(isPositionInCommentsButton(x, y)) {
-			fragmentParent.onPostCommentsSelected(post);
-
-		} else {
-			fragmentParent.onPostSelected(post);
-		}
-	}
-
-	public void rrOnLongClick() {
-		RedditPreparedPost.showActionMenu(mActivity, post);
-	}
-
-	@Override
-	public void rrOnHighlightStart(final int x, final int y) {
-
-		if(isPositionInCommentsButton(x, y)) {
-			commentsButton.setBackgroundColor(rrPostCommentsButtonHighlightCol);
-
-		} else {
-			visiblePostLayout.setBackgroundColor(rrListItemHighlightCol);
-		}
-	}
-
-	@Override
-	public void rrOnHighlightEnd() {
-		updateAppearance();
 	}
 
 	public void betterThumbnailAvailable(final Bitmap thumbnail, final int callbackUsageId) {

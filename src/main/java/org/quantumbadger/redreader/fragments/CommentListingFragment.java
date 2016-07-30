@@ -36,10 +36,9 @@ import android.widget.TextView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.activities.CommentReplyActivity;
-import org.quantumbadger.redreader.adapters.CommentListingManager;
+import org.quantumbadger.redreader.adapters.FilteredCommentListingManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -82,7 +81,7 @@ public class CommentListingFragment extends RRFragment
 	private RedditPreparedPost mPost = null;
 	private boolean isArchived;
 
-	private final CommentListingManager mCommentListingManager;
+	private final FilteredCommentListingManager mCommentListingManager;
 
 	private final RecyclerView mRecyclerView;
 
@@ -109,7 +108,7 @@ public class CommentListingFragment extends RRFragment
 			mPreviousFirstVisibleItemPosition = savedInstanceState.getInt(SAVEDSTATE_FIRST_VISIBLE_POS);
 		}
 
-		mCommentListingManager = new CommentListingManager(parent, searchString);
+		mCommentListingManager = new FilteredCommentListingManager(parent, searchString);
 		mAllUrls = urls;
 
 		mUrlsToDownload = new LinkedList<>(mAllUrls);
@@ -373,7 +372,7 @@ public class CommentListingFragment extends RRFragment
 			}
 
 			if(!General.isTablet(context, PreferenceManager.getDefaultSharedPreferences(context))) {
-				((BaseActivity)getActivity()).setTitle(post.src.getTitle());
+				getActivity().setTitle(post.src.getTitle());
 			}
 
 			if (mCommentListingManager.isSearchListing()) {
@@ -416,7 +415,7 @@ public class CommentListingFragment extends RRFragment
 		mUrlsToDownload.removeFirst();
 
 		if(mPreviousFirstVisibleItemPosition != null
-				&& mCommentListingManager.getItemCount() > mPreviousFirstVisibleItemPosition) {
+				&& mCommentListingManager.getTotalItemCount() > mPreviousFirstVisibleItemPosition) {
 
 			((LinearLayoutManager)mRecyclerView.getLayoutManager()).scrollToPositionWithOffset(
 					mPreviousFirstVisibleItemPosition,
@@ -427,7 +426,7 @@ public class CommentListingFragment extends RRFragment
 
 		if(mUrlsToDownload.isEmpty()) {
 
-			if(mCommentListingManager.getCommentCount() == 0) {
+			if(mCommentListingManager.getMainItemCount() == 0) {
 				final View emptyView = LayoutInflater.from(getContext()).inflate(
 						R.layout.no_comments_yet,
 						mRecyclerView,
@@ -437,7 +436,7 @@ public class CommentListingFragment extends RRFragment
 					((TextView) emptyView.findViewById(R.id.empty_view_text)).setText(R.string.no_search_results);
 				}
 
-				mCommentListingManager.addViewToComments(emptyView);
+				mCommentListingManager.addViewToItems(emptyView);
 			}
 
 			mCommentListingManager.setLoadingVisible(false);

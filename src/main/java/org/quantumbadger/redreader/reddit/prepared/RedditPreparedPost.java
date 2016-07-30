@@ -741,8 +741,6 @@ public final class RedditPreparedPost {
 				rebuildSubtitle(context);
 				if(boundView != null) {
 					boundView.updateAppearance();
-					boundView.requestLayout();
-					boundView.invalidate();
 				}
 			}
 		});

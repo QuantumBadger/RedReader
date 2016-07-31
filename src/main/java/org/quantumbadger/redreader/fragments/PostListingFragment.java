@@ -22,6 +22,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,6 +38,7 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BugReportActivity;
+import org.quantumbadger.redreader.activities.OptionsMenuUtility;
 import org.quantumbadger.redreader.activities.SessionChangeListener;
 import org.quantumbadger.redreader.adapters.PostListingManager;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -173,6 +175,15 @@ public class PostListingFragment extends RRFragment
 
 		final ScrollbarRecyclerViewManager recyclerViewManager
 				= new ScrollbarRecyclerViewManager(context, null, false);
+
+		if(parent instanceof OptionsMenuUtility.OptionsMenuPostsListener) {
+			recyclerViewManager.enablePullToRefresh(new SwipeRefreshLayout.OnRefreshListener() {
+				@Override
+				public void onRefresh() {
+					((OptionsMenuUtility.OptionsMenuPostsListener)parent).onRefreshPosts();
+				}
+			});
+		}
 
 		mRecyclerView = recyclerViewManager.getRecyclerView();
 		mPostListingManager.setLayoutManager((LinearLayoutManager) mRecyclerView.getLayoutManager());

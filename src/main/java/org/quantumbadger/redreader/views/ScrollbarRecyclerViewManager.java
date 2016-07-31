@@ -18,6 +18,8 @@
 package org.quantumbadger.redreader.views;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -29,6 +31,7 @@ import org.quantumbadger.redreader.R;
 public class ScrollbarRecyclerViewManager {
 
 	private final View mOuter;
+	private final SwipeRefreshLayout mSwipeRefreshLayout;
 	private final RecyclerView mRecyclerView;
 	private final FrameLayout mScrollbarFrame;
 	private final View mScrollbar;
@@ -41,9 +44,12 @@ public class ScrollbarRecyclerViewManager {
 			final boolean attachToRoot) {
 
 		mOuter = LayoutInflater.from(context).inflate(R.layout.scrollbar_recyclerview, root, attachToRoot);
+		mSwipeRefreshLayout = (SwipeRefreshLayout) mOuter.findViewById(R.id.scrollbar_recyclerview_refreshlayout);
 		mRecyclerView = (RecyclerView) mOuter.findViewById(R.id.scrollbar_recyclerview_recyclerview);
 		mScrollbar = mOuter.findViewById(R.id.scrollbar_recyclerview_scrollbar);
 		mScrollbarFrame = (FrameLayout) mOuter.findViewById(R.id.scrollbar_recyclerview_scrollbarframe);
+
+		mSwipeRefreshLayout.setEnabled(false);
 
 		final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
 		mRecyclerView.setLayoutManager(linearLayoutManager);
@@ -99,6 +105,11 @@ public class ScrollbarRecyclerViewManager {
 				updateScroll();
 			}
 		});
+	}
+
+	public void enablePullToRefresh(@NonNull final SwipeRefreshLayout.OnRefreshListener listener) {
+		mSwipeRefreshLayout.setOnRefreshListener(listener);
+		mSwipeRefreshLayout.setEnabled(true);
 	}
 
 	private void showScrollbar() {

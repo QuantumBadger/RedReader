@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -64,7 +65,11 @@ public final class RedditPostView extends FlingableItemView implements RedditPre
 
 	private final int
 			rrPostTitleReadCol,
-			rrPostTitleCol;
+			rrPostTitleCol,
+			rrListItemBackgroundCol,
+			rrPostBackgroundColSticky,
+			rrPostCommentsButtonBackCol,
+			rrPostCommentsButtonBackColSticky;
 
 	@Override
 	protected void onSetItemFlingPosition(final float position) {
@@ -240,10 +245,18 @@ public final class RedditPostView extends FlingableItemView implements RedditPre
 			final TypedArray attr = context.obtainStyledAttributes(new int[]{
 					R.attr.rrPostTitleCol,
 					R.attr.rrPostTitleReadCol,
+					R.attr.rrListItemBackgroundCol,
+					R.attr.rrPostBackgroundColSticky,
+					R.attr.rrPostCommentsButtonBackCol,
+					R.attr.rrPostCommentsButtonBackColSticky
 			});
 
 			rrPostTitleCol = attr.getColor(0, 0);
 			rrPostTitleReadCol = attr.getColor(1, 0);
+			rrListItemBackgroundCol = attr.getColor(2, 0);
+			rrPostBackgroundColSticky = attr.getColor(3, 0);
+			rrPostCommentsButtonBackCol = attr.getColor(4, 0);
+			rrPostCommentsButtonBackColSticky = attr.getColor(5, 0);
 			attr.recycle();
 		}
 	}
@@ -283,12 +296,25 @@ public final class RedditPostView extends FlingableItemView implements RedditPre
 
 	public void updateAppearance() {
 
-		if(post.isSticky()) {
-			mOuterView.setBackgroundResource(R.drawable.rr_postlist_item_selector_sticky);
-			commentsButton.setBackgroundResource(R.drawable.rr_postlist_commentbutton_selector_sticky);
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			if(post.isSticky()) {
+				mOuterView.setBackgroundResource(R.drawable.rr_postlist_item_selector_sticky);
+				commentsButton.setBackgroundResource(R.drawable.rr_postlist_commentbutton_selector_sticky);
+			} else {
+				mOuterView.setBackgroundResource(R.drawable.rr_postlist_item_selector_main);
+				commentsButton.setBackgroundResource(R.drawable.rr_postlist_commentbutton_selector_main);
+			}
+
 		} else {
-			mOuterView.setBackgroundResource(R.drawable.rr_postlist_item_selector_main);
-			commentsButton.setBackgroundResource(R.drawable.rr_postlist_commentbutton_selector_main);
+			// On KitKat and lower, we can't do easily themed highlighting
+
+			if(post.isSticky()) {
+				mOuterView.setBackgroundColor(rrPostBackgroundColSticky);
+				commentsButton.setBackgroundColor(rrPostCommentsButtonBackColSticky);
+			} else {
+				mOuterView.setBackgroundColor(rrListItemBackgroundCol);
+				commentsButton.setBackgroundColor(rrPostCommentsButtonBackCol);
+			}
 		}
 
 		if(post.isRead()) {

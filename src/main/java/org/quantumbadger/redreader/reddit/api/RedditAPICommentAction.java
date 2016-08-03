@@ -60,7 +60,8 @@ public class RedditAPICommentAction {
 		UNSAVE,
 		REPORT,
 		SHARE,
-		COPY,
+		COPY_TEXT,
+		COPY_URL,
 		REPLY,
 		USER_PROFILE,
 		COMMENT_LINKS,
@@ -139,7 +140,8 @@ public class RedditAPICommentAction {
 		}
 
 		menu.add(new RCVMenuItem(activity, R.string.action_share, RedditCommentAction.SHARE));
-		menu.add(new RCVMenuItem(activity, R.string.action_copy, RedditCommentAction.COPY));
+		menu.add(new RCVMenuItem(activity, R.string.action_copy_text, RedditCommentAction.COPY_TEXT));
+		menu.add(new RCVMenuItem(activity, R.string.action_copy_link, RedditCommentAction.COPY_URL));
 		menu.add(new RCVMenuItem(activity, R.string.action_user_profile, RedditCommentAction.USER_PROFILE));
 		menu.add(new RCVMenuItem(activity, R.string.action_properties, RedditCommentAction.PROPERTIES));
 
@@ -283,16 +285,28 @@ public class RedditAPICommentAction {
 				mailer.putExtra(Intent.EXTRA_SUBJECT, "Comment by " + comment.author + " on Reddit");
 
 				// TODO this currently just dumps the markdown
-				mailer.putExtra(Intent.EXTRA_TEXT, StringEscapeUtils.unescapeHtml4(comment.body));
+				mailer.putExtra(Intent.EXTRA_TEXT,
+						StringEscapeUtils.unescapeHtml4(comment.body)
+								+ "\r\n\r\n"
+								+ comment.getContextUrl().generateNonJsonUri().toString());
+
 				activity.startActivityForResult(Intent.createChooser(mailer, activity.getString(R.string.action_share)), 1);
 
 				break;
 
-			case COPY:
+			case COPY_TEXT: {
 				ClipboardManager manager = (ClipboardManager)activity.getSystemService(Context.CLIPBOARD_SERVICE);
 				// TODO this currently just dumps the markdown
 				manager.setText(StringEscapeUtils.unescapeHtml4(comment.body));
 				break;
+			}
+
+			case COPY_URL: {
+				ClipboardManager manager = (ClipboardManager)activity.getSystemService(Context.CLIPBOARD_SERVICE);
+				// TODO this currently just dumps the markdown
+				manager.setText(comment.getContextUrl().context(null).generateNonJsonUri().toString());
+				break;
+			}
 
 			case COLLAPSE: {
 				commentListingFragment.handleCommentVisibilityToggle(commentView);

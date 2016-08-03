@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.reddit.url;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 
@@ -95,8 +96,25 @@ public class PostCommentListingURL extends CommentListingURL {
 	@Override
 	public Uri generateJsonUri() {
 
-		Uri.Builder builder = new Uri.Builder();
+		final Uri.Builder builder = new Uri.Builder();
 		builder.scheme(Constants.Reddit.getScheme()).authority(Constants.Reddit.getDomain());
+
+		internalGenerateCommon(builder);
+
+		builder.appendEncodedPath(".json");
+
+		return builder.build();
+	}
+
+	public Uri generateNonJsonUri() {
+
+		final Uri.Builder builder = new Uri.Builder();
+		builder.scheme(Constants.Reddit.getScheme()).authority(Constants.Reddit.getHumanReadableDomain());
+		internalGenerateCommon(builder);
+		return builder.build();
+	}
+
+	private void internalGenerateCommon(@NonNull final Uri.Builder builder) {
 
 		builder.encodedPath("/comments");
 		builder.appendPath(postId);
@@ -122,10 +140,6 @@ public class PostCommentListingURL extends CommentListingURL {
 		if(order != null) {
 			builder.appendQueryParameter("sort", order.key);
 		}
-
-		builder.appendEncodedPath(".json");
-
-		return builder.build();
 	}
 
 	public static PostCommentListingURL parse(final Uri uri) {

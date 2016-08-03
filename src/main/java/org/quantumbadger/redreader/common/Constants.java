@@ -106,6 +106,7 @@ public final class Constants {
 		public static final String
 				SCHEME_HTTPS = "https",
 				DOMAIN_HTTPS = "oauth.reddit.com",
+				DOMAIN_HTTPS_HUMAN = "reddit.com",
 				PATH_VOTE = "/api/vote",
 				PATH_SAVE = "/api/save",
 				PATH_HIDE = "/api/hide",
@@ -126,6 +127,10 @@ public final class Constants {
 
 		public static String getDomain() {
 			return DOMAIN_HTTPS;
+		}
+
+		public static String getHumanReadableDomain() {
+			return DOMAIN_HTTPS_HUMAN;
 		}
 
 		public static URI getUri(final String path) {

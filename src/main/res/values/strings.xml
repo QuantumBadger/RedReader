@@ -856,4 +856,8 @@
 
 	<string name="pref_not_supported_before_lollipop">Not supported before Android Lollipop</string>
 
+	<!-- 2016-08-03 -->
+	<string name="action_copy_text">Copy Text</string>
+	<string name="action_copy_link">Copy Link</string>
+
 </resources>

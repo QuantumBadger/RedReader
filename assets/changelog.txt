@@ -3,6 +3,7 @@ Comment swipe actions
 Ability to search comments (thanks to cpalasanu)
 Ability to send and reply to private messages
 Pull-down-to-refresh for posts/comments
+Ability to set default post sort
 Music is no longer paused when GIFs play (thanks to noughtmare and ccrama)
 Fixed saving images with slashes in the path (thanks to 0xKD)
 Action bar back button extended to allow clicking on text

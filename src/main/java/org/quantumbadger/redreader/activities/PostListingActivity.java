@@ -82,7 +82,7 @@ public class PostListingActivity extends RefreshableActivity
 				throw new RuntimeException(String.format("'%s' is not a post listing URL!", url.generateJsonUri()));
 			}
 
-			controller = new PostListingController((PostListingURL)url);
+			controller = new PostListingController((PostListingURL)url, this);
 
 			Bundle fragmentSavedInstanceState = null;
 

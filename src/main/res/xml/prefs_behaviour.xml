@@ -69,6 +69,12 @@
 
     <PreferenceCategory android:title="@string/pref_behaviour_sort_header">
 
+		<ListPreference android:title="@string/pref_behaviour_postsort"
+						android:key="@string/pref_behaviour_postsort_key"
+						android:entries="@array/pref_behaviour_postsort_array"
+						android:entryValues="@array/pref_behaviour_postsort_array_return"
+						android:defaultValue="hot"/>
+
         <ListPreference android:title="@string/pref_behaviour_commentsort"
                         android:key="@string/pref_behaviour_commentsort_key"
                         android:entries="@array/pref_behaviour_commentsort_array"

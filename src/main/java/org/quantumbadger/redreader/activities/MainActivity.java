@@ -340,7 +340,7 @@ public class MainActivity extends RefreshableActivity
 
 		if(twoPane) {
 
-			postListingController = new PostListingController(url);
+			postListingController = new PostListingController(url, this);
 			requestRefresh(RefreshableFragment.POSTS, false);
 
 		} else {

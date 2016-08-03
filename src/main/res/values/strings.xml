@@ -860,4 +860,7 @@
 	<string name="action_copy_text">Copy Text</string>
 	<string name="action_copy_link">Copy Link</string>
 
+	<string name="pref_behaviour_postsort_key">pref_behaviour_postsort</string>
+	<string name="pref_behaviour_postsort">Default Post Sort</string>
+
 </resources>

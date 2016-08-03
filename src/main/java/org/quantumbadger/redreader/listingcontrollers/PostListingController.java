@@ -17,10 +17,13 @@
 
 package org.quantumbadger.redreader.listingcontrollers;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.url.PostListingURL;
@@ -43,7 +46,14 @@ public class PostListingController {
 		return session;
 	}
 
-	public PostListingController(PostListingURL url) {
+	public PostListingController(PostListingURL url, final Context context) {
+
+		if(url.pathType() == RedditURLParser.SUBREDDIT_POST_LISTING_URL) {
+			if(url.asSubredditPostListURL().order == null) {
+				url = url.asSubredditPostListURL().sort(defaultOrder(context));
+			}
+		}
+
 		this.url = url;
 	}
 
@@ -74,6 +84,10 @@ public class PostListingController {
 		} else {
 			throw new RuntimeException("Cannot set sort for this URL");
 		}
+	}
+
+	private Sort defaultOrder(final Context context) {
+		return PrefsUtility.pref_behaviour_postsort(context, PreferenceManager.getDefaultSharedPreferences(context));
 	}
 
 	public final Sort getSort() {

@@ -42,6 +42,8 @@
 			android:id="@+id/actionbar_title_text"
 			android:maxLines="1"
 			android:ellipsize="end"
+			android:scrollHorizontally="true"
+			android:singleLine="true"
 			style="@style/RR.Toolbar.TitleText"
 			android:layout_toRightOf="@id/actionbar_title_back_image"
 			android:layout_centerVertical="true"

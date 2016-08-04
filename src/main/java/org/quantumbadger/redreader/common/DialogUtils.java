@@ -24,7 +24,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.WindowManager;
 import android.widget.EditText;
-
 import org.apache.commons.lang3.StringUtils;
 import org.quantumbadger.redreader.R;
 
@@ -46,7 +45,7 @@ public class DialogUtils {
 		alertBuilder.setPositiveButton(R.string.action_search, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				final String query = editText.getText().toString().toLowerCase().trim();
+				final String query = General.asciiLowercase(editText.getText().toString()).trim();
 				if (StringUtils.isEmpty(query)) {
 					listener.onSearch(null);
 				} else {

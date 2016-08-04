@@ -248,7 +248,7 @@ public final class PrefsUtility {
 			if(s.equalsIgnoreCase("ups_downs")) continue;
 
 			try {
-				result.add(AppearanceCommentHeaderItem.valueOf(s.toUpperCase()));
+				result.add(AppearanceCommentHeaderItem.valueOf(General.asciiUppercase(s)));
 			} catch(IllegalArgumentException e) {
 				// Ignore -- this option no longer exists
 			}
@@ -574,7 +574,7 @@ public final class PrefsUtility {
 		final List<String> list = pref_pinned_subreddits(context, sharedPreferences);
 
 		for(final String existingSr : list) {
-			if(subreddit.toLowerCase().equals(existingSr.toLowerCase())) return true;
+			if(General.asciiLowercase(subreddit).equals(General.asciiLowercase(existingSr))) return true;
 		}
 
 		return false;
@@ -617,7 +617,7 @@ public final class PrefsUtility {
 		final List<String> list = pref_blocked_subreddits(context, sharedPreferences);
 
 		for(final String existingSr : list) {
-			if (subreddit.toLowerCase().equals(existingSr.toLowerCase())) return true;
+			if (General.asciiLowercase(subreddit).equals(General.asciiLowercase(existingSr))) return true;
 		}
 
 		return false;
@@ -648,7 +648,7 @@ public final class PrefsUtility {
 
 		final ArrayList<String> result = new ArrayList<>(list.size());
 		for(final String existingSr : list) {
-			if(!name.toLowerCase().equals(existingSr.toLowerCase())) {
+			if(!General.asciiLowercase(name).equals(General.asciiLowercase(existingSr))) {
 				result.add(existingSr);
 			}
 		}

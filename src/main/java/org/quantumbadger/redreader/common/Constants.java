@@ -36,7 +36,7 @@ public final class Constants {
 	public static final class Mime {
 
 		public static boolean isImage(String mimetype) {
-			return mimetype.toLowerCase().startsWith("image/");
+			return General.asciiLowercase(mimetype).startsWith("image/");
 		}
 
 		public static boolean isImageGif(String mimetype) {

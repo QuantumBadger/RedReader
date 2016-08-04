@@ -64,6 +64,6 @@ public class RedditAccount {
 
 	@Override
 	public int hashCode() {
-		return username.toLowerCase().hashCode();
+		return getCanonicalUsername().hashCode();
 	}
 }

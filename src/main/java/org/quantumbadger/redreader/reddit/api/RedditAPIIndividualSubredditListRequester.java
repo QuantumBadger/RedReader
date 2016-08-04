@@ -39,7 +39,11 @@ import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.things.RedditThing;
 
 import java.net.URI;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.UUID;
 
 public class RedditAPIIndividualSubredditListRequester
 		implements CacheDataSource<RedditSubredditManager.SubredditListType, WritableHashSet, SubredditRequestFailure> {
@@ -63,7 +67,7 @@ public class RedditAPIIndividualSubredditListRequester
 			final HashSet<String> data = new HashSet<>(Constants.Reddit.DEFAULT_SUBREDDITS.length + 1);
 
 			for(String name : Constants.Reddit.DEFAULT_SUBREDDITS) {
-				data.add(name.toLowerCase());
+				data.add(General.asciiLowercase(name));
 			}
 
 			data.add("/r/redreader");

@@ -528,7 +528,7 @@ public class LinkHandler {
 
 	private static String getImageUrlPatternMatch(final String url) {
 
-		final String urlLower = url.toLowerCase();
+		final String urlLower = General.asciiLowercase(url);
 
 		final String[] imageExtensions = {".jpg", ".jpeg", ".png", ".gif", ".webm", ".mp4", ".h264", ".gifv", ".mkv", ".3gp"};
 

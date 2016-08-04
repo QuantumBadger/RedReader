@@ -100,8 +100,8 @@ public class SubredditPostListURL extends PostListingURL {
 			return null;
 		}
 
-		sort = sort.toLowerCase();
-		t = t != null ? t.toLowerCase() : null;
+		sort = General.asciiLowercase(sort);
+		t = t != null ? General.asciiLowercase(t) : null;
 
 		if(sort.equals("hot")) {
 			return PostListingController.Sort.HOT;
@@ -159,7 +159,7 @@ public class SubredditPostListURL extends PostListingURL {
 				case NEW:
 				case RISING:
 				case CONTROVERSIAL:
-					builder.appendEncodedPath(order.name().toLowerCase());
+					builder.appendEncodedPath(General.asciiLowercase(order.name()));
 					break;
 
 				case TOP_HOUR:
@@ -169,7 +169,7 @@ public class SubredditPostListURL extends PostListingURL {
 				case TOP_YEAR:
 				case TOP_ALL:
 					builder.appendEncodedPath("top");
-					builder.appendQueryParameter("t", order.name().split("_")[1].toLowerCase());
+					builder.appendQueryParameter("t", General.asciiLowercase(order.name().split("_")[1]));
 					break;
 			}
 		}
@@ -224,7 +224,7 @@ public class SubredditPostListURL extends PostListingURL {
 			final ArrayList<String> pathSegmentsFiltered = new ArrayList<>(pathSegmentsList.size());
 			for(String segment : pathSegmentsList) {
 
-				while(segment.toLowerCase().endsWith(".json") || segment.toLowerCase().endsWith(".xml")) {
+				while(General.asciiLowercase(segment).endsWith(".json") || General.asciiLowercase(segment).endsWith(".xml")) {
 					segment = segment.substring(0, segment.lastIndexOf('.'));
 				}
 
@@ -336,7 +336,7 @@ public class SubredditPostListURL extends PostListingURL {
 			case TOP_MONTH:
 			case TOP_YEAR:
 			case TOP_ALL:
-				return path + "?t=" + order.name().split("_")[1].toLowerCase();
+				return path + "?t=" + General.asciiLowercase(order.name().split("_")[1]);
 
 			default:
 				return path;

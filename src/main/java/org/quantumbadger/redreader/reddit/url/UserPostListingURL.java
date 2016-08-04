@@ -102,7 +102,7 @@ public class UserPostListingURL extends PostListingURL {
 			final ArrayList<String> pathSegmentsFiltered = new ArrayList<>(pathSegmentsList.size());
 			for(String segment : pathSegmentsList) {
 
-				while(segment.toLowerCase().endsWith(".json") || segment.toLowerCase().endsWith(".xml")) {
+				while(General.asciiLowercase(segment).endsWith(".json") || General.asciiLowercase(segment).endsWith(".xml")) {
 					segment = segment.substring(0, segment.lastIndexOf('.'));
 				}
 
@@ -124,7 +124,7 @@ public class UserPostListingURL extends PostListingURL {
 
 		// TODO validate username with regex
 		final String username = pathSegments[1];
-		final String typeName = pathSegments[2].toUpperCase();
+		final String typeName = General.asciiUppercase(pathSegments[2]);
 		final Type type;
 
 		try {
@@ -144,7 +144,7 @@ public class UserPostListingURL extends PostListingURL {
 
 		builder.appendEncodedPath("user");
 		builder.appendPath(user);
-		builder.appendEncodedPath(type.name().toLowerCase());
+		builder.appendEncodedPath(General.asciiLowercase(type.name()));
 
 		if(before != null) {
 			builder.appendQueryParameter("before", before);

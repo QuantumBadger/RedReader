@@ -96,7 +96,7 @@ public class SearchPostListURL extends PostListingURL {
 				case HOT:
 				case TOP:
 				case COMMENTS:
-					builder.appendQueryParameter("sort", order.name().toLowerCase());
+					builder.appendQueryParameter("sort", General.asciiLowercase(order.name()));
 					break;
 			}
 		}
@@ -162,7 +162,7 @@ public class SearchPostListURL extends PostListingURL {
 			final ArrayList<String> pathSegmentsFiltered = new ArrayList<>(pathSegmentsList.size());
 			for(String segment : pathSegmentsList) {
 
-				while(segment.toLowerCase().endsWith(".json") || segment.toLowerCase().endsWith(".xml")) {
+				while(General.asciiLowercase(segment).endsWith(".json") || General.asciiLowercase(segment).endsWith(".xml")) {
 					segment = segment.substring(0, segment.lastIndexOf('.'));
 				}
 

@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.adapters;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.reddit.RedditCommentListItem;
 
 import java.util.ArrayList;
@@ -55,7 +56,7 @@ public class FilteredCommentListingManager extends RedditListingManager {
 				if (!comment.isComment()) continue;
 				String commentStr = comment.asComment().getParsedComment().getRawComment().body;
 				if (commentStr != null) {
-					commentStr = commentStr.toLowerCase();
+					commentStr = General.asciiLowercase(commentStr);
 					if (commentStr.contains(mSearchString)) {
 						searchComments.add(comment);
 					}

@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.reddit.url;
 import android.content.Context;
 import android.net.Uri;
 import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.General;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,7 @@ public class UserProfileURL extends RedditURLParser.RedditURL {
 			final ArrayList<String> pathSegmentsFiltered = new ArrayList<>(pathSegmentsList.size());
 			for(String segment : pathSegmentsList) {
 
-				while(segment.toLowerCase().endsWith(".json") || segment.toLowerCase().endsWith(".xml")) {
+				while(General.asciiLowercase(segment).endsWith(".json") || General.asciiLowercase(segment).endsWith(".xml")) {
 					segment = segment.substring(0, segment.lastIndexOf('.'));
 				}
 

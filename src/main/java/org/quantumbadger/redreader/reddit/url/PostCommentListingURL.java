@@ -151,7 +151,7 @@ public class PostCommentListingURL extends CommentListingURL {
 			final ArrayList<String> pathSegmentsFiltered = new ArrayList<>(pathSegmentsList.size());
 			for(String segment : pathSegmentsList) {
 
-				while(segment.toLowerCase().endsWith(".json") || segment.toLowerCase().endsWith(".xml")) {
+				while(General.asciiLowercase(segment).endsWith(".json") || General.asciiLowercase(segment).endsWith(".xml")) {
 					segment = segment.substring(0, segment.lastIndexOf('.'));
 				}
 
@@ -260,7 +260,7 @@ public class PostCommentListingURL extends CommentListingURL {
 
 		public static Sort lookup(String name) {
 
-			name = name.toUpperCase();
+			name = General.asciiUppercase(name);
 
 			if(name.equals("CONFIDENCE")) {
 				return BEST; // oh, reddit...

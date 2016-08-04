@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
@@ -71,7 +72,7 @@ public class PostListingController {
 	public static Sort parseSort(String string) {
 		Sort[] sorts = Sort.values();
 		for(Sort sort: sorts)
-			if(sort.name().toLowerCase().contentEquals(string))
+			if(General.asciiLowercase(sort.name()).contentEquals(string))
 				return sort;
 		return null;
 	}

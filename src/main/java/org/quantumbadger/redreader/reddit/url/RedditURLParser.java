@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.reddit.url;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.IntDef;
+import org.quantumbadger.redreader.common.General;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -44,7 +45,7 @@ public class RedditURLParser {
 	private static boolean isRedditUri(Uri uri) {
 
 		if (uri == null || uri.getHost() == null) return false;
-		final String[] hostSegments = uri.getHost().toLowerCase().split("\\.");
+		final String[] hostSegments = General.asciiLowercase(uri.getHost()).split("\\.");
 		if (hostSegments.length < 2) return false;
 		if (hostSegments[hostSegments.length - 1].equals("com") && hostSegments[hostSegments.length - 2].equals("reddit"))
 			return true;

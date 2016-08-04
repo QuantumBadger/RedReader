@@ -26,8 +26,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
-
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
 import org.quantumbadger.redreader.fragments.AccountListDialog;
@@ -265,7 +265,7 @@ public final class OptionsMenuUtility {
 
 						int selectedPos = -1;
 						for(int i = 0; i < themeValues.length; i++) {
-							if(PrefsUtility.AppearanceTheme.valueOf(themeValues[i].toUpperCase()).equals(currentTheme)) {
+							if(PrefsUtility.AppearanceTheme.valueOf(General.asciiUppercase(themeValues[i])).equals(currentTheme)) {
 								selectedPos = i;
 								break;
 							}

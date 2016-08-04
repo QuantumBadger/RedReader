@@ -100,6 +100,7 @@ public class MainMenuFragment extends RRFragment implements MainMenuSelectionLis
 
 		final int paddingPx = General.dpToPixels(context, 8);
 		lv.setPadding(paddingPx, 0, paddingPx, 0);
+		lv.setClipToPadding(false);
 
 		mAdapter = new MainMenuAdapter(context, user, this);
 		lv.setAdapter(mAdapter);

@@ -80,6 +80,7 @@ import org.quantumbadger.redreader.views.liststatus.ErrorView;
 import java.net.URI;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
@@ -114,6 +115,8 @@ public class PostListingFragment extends RRFragment
 
 	private int mPostCount = 0;
 	private final AtomicInteger mPostRefreshCount = new AtomicInteger(0);
+
+	private final HashSet<String> mPostIds = new HashSet<>(200);
 
 	private Integer mPreviousFirstVisibleItemPosition;
 
@@ -639,7 +642,9 @@ public class PostListingFragment extends RRFragment
 
 					Boolean isPostBlocked = getIsPostBlocked(isAll, blockedSubreddits, post);
 
-					if(!isPostBlocked && (!post.over_18 || isNsfwAllowed)) {
+					if(!isPostBlocked
+							&& (!post.over_18 || isNsfwAllowed)
+							&& mPostIds.add(post.getIdAlone())) {
 
 						final boolean downloadThisThumbnail = downloadThumbnails && (!post.over_18 || showNsfwThumbnails);
 
@@ -779,10 +784,10 @@ public class PostListingFragment extends RRFragment
 								PostListingFragment.this,
 								activity,
 								mPostListingURL));
-					}
 
-					mPostCount++;
-					mPostRefreshCount.decrementAndGet();
+						mPostCount++;
+						mPostRefreshCount.decrementAndGet();
+					}
 				}
 
 				AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {

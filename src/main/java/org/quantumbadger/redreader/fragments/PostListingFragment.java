@@ -22,6 +22,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -640,7 +641,7 @@ public class PostListingFragment extends RRFragment
 
 					mAfter = post.name;
 
-					Boolean isPostBlocked = getIsPostBlocked(isAll, blockedSubreddits, post);
+					final boolean isPostBlocked = getIsPostBlocked(isAll, blockedSubreddits, post);
 
 					if(!isPostBlocked
 							&& (!post.over_18 || isNsfwAllowed)
@@ -810,16 +811,19 @@ public class PostListingFragment extends RRFragment
 		}
 	}
 
-	private Boolean getIsPostBlocked(boolean isAll, List<String> blockedSubreddits, RedditPost post) throws RedditSubreddit.InvalidSubredditNameException {
-		Boolean isPostBlocked = false;
+	private boolean getIsPostBlocked(
+			final boolean isAll,
+			@NonNull final List<String> blockedSubreddits,
+			@NonNull final RedditPost post) throws RedditSubreddit.InvalidSubredditNameException {
 
 		if (isAll) {
 			for (String blockedSubredditName : blockedSubreddits) {
 				if (blockedSubredditName.equalsIgnoreCase(RedditSubreddit.getCanonicalName(post.subreddit))) {
-					isPostBlocked = true;
+					return true;
 				}
 			}
 		}
-		return isPostBlocked;
+
+		return false;
 	}
 }

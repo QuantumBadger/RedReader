@@ -104,7 +104,7 @@ public class MainMenuFragment extends RRFragment
 			multiredditSubscriptionManager.triggerUpdate(new RequestResponseHandler<HashSet<String>, SubredditRequestFailure>() {
 				@Override
 				public void onRequestFailed(SubredditRequestFailure failureReason) {
-					onError(failureReason.asError(context));
+					onMultiredditError(failureReason.asError(context));
 				}
 
 				@Override
@@ -117,7 +117,7 @@ public class MainMenuFragment extends RRFragment
 			subredditSubscriptionManager.triggerUpdate(new RequestResponseHandler<HashSet<String>, SubredditRequestFailure>() {
 				@Override
 				public void onRequestFailed(SubredditRequestFailure failureReason) {
-					onError(failureReason.asError(context));
+					onSubredditError(failureReason.asError(context));
 				}
 
 				@Override
@@ -168,8 +168,12 @@ public class MainMenuFragment extends RRFragment
 		mManager.setMultireddits(subscriptions);
 	}
 
-	private void onError(final RRError error) {
+	private void onSubredditError(final RRError error) {
 		mManager.setSubredditsError(new ErrorView(getActivity(), error));
+	}
+
+	private void onMultiredditError(final RRError error) {
+		mManager.setMultiredditsError(new ErrorView(getActivity(), error));
 	}
 
 	@Override

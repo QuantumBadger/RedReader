@@ -216,14 +216,11 @@ public class MainMenuListingManager {
 			}
 		}
 
-		showMultiredditsHeader(context);
 
-		mAdapter.appendToGroup(
-				GROUP_SUBREDDITS_HEADER,
-				new GroupedRecyclerViewItemListSectionHeaderView(
-						context.getString(R.string.mainmenu_header_subreddits_subscribed)));
 
-		{
+		if(!user.isAnonymous()) {
+			showMultiredditsHeader(context);
+
 			final LoadingSpinnerView multiredditsLoadingSpinnerView = new LoadingSpinnerView(context);
 			final int paddingPx = General.dpToPixels(context, 30);
 			multiredditsLoadingSpinnerView.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
@@ -232,6 +229,11 @@ public class MainMenuListingManager {
 					= new GroupedRecyclerViewItemFrameLayout(multiredditsLoadingSpinnerView);
 			mAdapter.appendToGroup(GROUP_MULTIREDDITS_ITEMS, multiredditsLoadingItem);
 		}
+
+		mAdapter.appendToGroup(
+				GROUP_SUBREDDITS_HEADER,
+				new GroupedRecyclerViewItemListSectionHeaderView(
+						context.getString(R.string.mainmenu_header_subreddits_subscribed)));
 
 		{
 			final LoadingSpinnerView subredditsLoadingSpinnerView = new LoadingSpinnerView(context);
@@ -246,6 +248,8 @@ public class MainMenuListingManager {
 
 	private void showMultiredditsHeader(@NonNull final Context context) {
 
+		General.checkThisIsUIThread();
+
 		if(mMultiredditHeaderItem == null) {
 			mMultiredditHeaderItem = new GroupedRecyclerViewItemListSectionHeaderView(
 					context.getString(R.string.mainmenu_header_multireddits));
@@ -255,8 +259,23 @@ public class MainMenuListingManager {
 	}
 
 	private void hideMultiredditsHeader() {
+
+		General.checkThisIsUIThread();
+
 		mMultiredditHeaderItem = null;
 		mAdapter.removeAllFromGroup(GROUP_MULTIREDDITS_HEADER);
+	}
+
+	public void setMultiredditsError(final ErrorView errorView) {
+
+		AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+			@Override
+			public void run() {
+
+				mAdapter.removeAllFromGroup(GROUP_MULTIREDDITS_ITEMS);
+				mAdapter.appendToGroup(GROUP_MULTIREDDITS_ITEMS, new GroupedRecyclerViewItemFrameLayout(errorView));
+			}
+		});
 	}
 
 	public void setSubredditsError(final ErrorView errorView) {

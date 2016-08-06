@@ -33,8 +33,6 @@ public abstract class RedditListingManager {
 	private final GroupedRecyclerViewAdapter mAdapter = new GroupedRecyclerViewAdapter(7);
 	private LinearLayoutManager mLayoutManager;
 
-	private int mItemCount = 0;
-
 	private static final int
 			GROUP_HEADER = 0,
 			GROUP_NOTIFICATIONS = 1,
@@ -102,7 +100,6 @@ public abstract class RedditListingManager {
 	public void addItems(final Collection<GroupedRecyclerViewAdapter.Item> items) {
 		General.checkThisIsUIThread();
 		mAdapter.appendToGroup(GROUP_ITEMS, items);
-		mItemCount += items.size();
 		doWorkaround();
 	}
 
@@ -137,15 +134,5 @@ public abstract class RedditListingManager {
 	public void updateHiddenStatus() {
 		General.checkThisIsUIThread();
 		mAdapter.updateHiddenStatus();
-	}
-
-	public int getMainItemCount() {
-		General.checkThisIsUIThread();
-		return mAdapter.getItemCount();
-	}
-
-	public int getTotalItemCount() {
-		General.checkThisIsUIThread();
-		return mItemCount;
 	}
 }

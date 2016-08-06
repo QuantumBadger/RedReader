@@ -31,6 +31,8 @@ public class FilteredCommentListingManager extends RedditListingManager {
 	@Nullable
 	private final String mSearchString;
 
+	private int mCommentCount;
+
 	public FilteredCommentListingManager(
 			final Context context,
 			@Nullable final String searchString) {
@@ -40,7 +42,9 @@ public class FilteredCommentListingManager extends RedditListingManager {
 	}
 
 	public void addComments(final Collection<RedditCommentListItem> comments) {
-		addItems(filter(comments));
+		final Collection<GroupedRecyclerViewAdapter.Item> filteredComments = filter(comments);
+		addItems(filteredComments);
+		mCommentCount += filteredComments.size();
 	}
 
 	private Collection<GroupedRecyclerViewAdapter.Item> filter(Collection<RedditCommentListItem> comments) {
@@ -69,5 +73,9 @@ public class FilteredCommentListingManager extends RedditListingManager {
 
 	public boolean isSearchListing() {
 		return mSearchString != null;
+	}
+
+	public int getCommentCount() {
+		return mCommentCount;
 	}
 }

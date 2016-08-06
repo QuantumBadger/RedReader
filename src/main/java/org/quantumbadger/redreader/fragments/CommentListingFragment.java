@@ -425,10 +425,12 @@ public class CommentListingFragment extends RRFragment
 
 		mUrlsToDownload.removeFirst();
 
-		if(mPreviousFirstVisibleItemPosition != null
-				&& mCommentListingManager.getTotalItemCount() > mPreviousFirstVisibleItemPosition) {
+		final LinearLayoutManager layoutManager = (LinearLayoutManager)mRecyclerView.getLayoutManager();
 
-			((LinearLayoutManager)mRecyclerView.getLayoutManager()).scrollToPositionWithOffset(
+		if(mPreviousFirstVisibleItemPosition != null
+				&& layoutManager.getItemCount() > mPreviousFirstVisibleItemPosition) {
+
+			layoutManager.scrollToPositionWithOffset(
 					mPreviousFirstVisibleItemPosition,
 					0);
 
@@ -437,7 +439,7 @@ public class CommentListingFragment extends RRFragment
 
 		if(mUrlsToDownload.isEmpty()) {
 
-			if(mCommentListingManager.getMainItemCount() == 0) {
+			if(mCommentListingManager.getCommentCount() == 0) {
 				final View emptyView = LayoutInflater.from(getContext()).inflate(
 						R.layout.no_comments_yet,
 						mRecyclerView,

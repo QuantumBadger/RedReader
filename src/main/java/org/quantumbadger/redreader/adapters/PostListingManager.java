@@ -25,11 +25,18 @@ import java.util.Collections;
 
 public class PostListingManager extends RedditListingManager {
 
+	private int mPostCount;
+
 	public PostListingManager(final Context context) {
 		super(context);
 	}
 
 	public void addPosts(final Collection<RedditPostListItem> posts) {
 		addItems(Collections.<GroupedRecyclerViewAdapter.Item>unmodifiableCollection(posts));
+		mPostCount += posts.size();
+	}
+
+	public int getPostCount() {
+		return mPostCount;
 	}
 }

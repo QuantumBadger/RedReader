@@ -871,4 +871,7 @@
 
 	<string name="mainmenu_header_multireddits">Multireddits</string>
 
+	<string name="pref_behaviour_share_permalink_key">pref_behaviour_share_permalink</string>
+	<string name="pref_behaviour_share_permalink_title">Share as permalink</string>
+
 </resources>

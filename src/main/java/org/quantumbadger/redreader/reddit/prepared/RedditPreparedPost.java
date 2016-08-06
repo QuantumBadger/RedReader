@@ -462,10 +462,16 @@ public final class RedditPreparedPost {
 
 			case SHARE_COMMENTS: {
 
+				final boolean shareAsPermalink = PrefsUtility.pref_behaviour_share_permalink(activity, PreferenceManager.getDefaultSharedPreferences(activity));
+
 				final Intent mailer = new Intent(Intent.ACTION_SEND);
 				mailer.setType("text/plain");
 				mailer.putExtra(Intent.EXTRA_SUBJECT, "Comments for " + post.src.getTitle());
-				mailer.putExtra(Intent.EXTRA_TEXT, Constants.Reddit.getNonAPIUri(Constants.Reddit.PATH_COMMENTS + post.src.getIdAlone()).toString());
+				if (shareAsPermalink) {
+					mailer.putExtra(Intent.EXTRA_TEXT, Constants.Reddit.getNonAPIUri(post.src.getPermalink()).toString());
+				} else {
+					mailer.putExtra(Intent.EXTRA_TEXT, Constants.Reddit.getNonAPIUri(Constants.Reddit.PATH_COMMENTS + post.src.getIdAlone()).toString());
+				}
 				activity.startActivity(Intent.createChooser(mailer, activity.getString(R.string.action_share_comments)));
 				break;
 			}

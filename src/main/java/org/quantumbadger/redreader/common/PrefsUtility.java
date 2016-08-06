@@ -407,6 +407,10 @@ public final class PrefsUtility {
 		return getBoolean(R.string.pref_behaviour_nsfw_key, false, context, sharedPreferences);
 	}
 
+	public static boolean pref_behaviour_share_permalink(final Context context, final SharedPreferences sharedPreferences) {
+		return getBoolean(R.string.pref_behaviour_share_permalink_key, false, context, sharedPreferences);
+	}
+
 	public enum PostCount {
 		R25, R50, R100, ALL
 	}

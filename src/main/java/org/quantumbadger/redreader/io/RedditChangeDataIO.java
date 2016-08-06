@@ -29,6 +29,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class RedditChangeDataIO {
@@ -82,7 +83,7 @@ public class RedditChangeDataIO {
 
 				final File dataFileTmpLocation = getDataFileWriteTmpLocation();
 
-				Log.i(TAG, String.format("Writing tmp data file at '%s'", dataFileTmpLocation.getAbsolutePath()));
+				Log.i(TAG, String.format(Locale.US, "Writing tmp data file at '%s'", dataFileTmpLocation.getAbsolutePath()));
 
 				final ExtendedDataOutputStream dos
 						= new ExtendedDataOutputStream(
@@ -111,7 +112,7 @@ public class RedditChangeDataIO {
 				final long bytes = dataFileLocation.length();
 				final long duration = System.currentTimeMillis() - startTime;
 
-				Log.i(TAG, String.format("%d bytes written in %d ms", bytes, duration));
+				Log.i(TAG, String.format(Locale.US, "%d bytes written in %d ms", bytes, duration));
 
 			} catch(final IOException e) {
 				Log.e(TAG, "Write failed!", e);
@@ -156,7 +157,7 @@ public class RedditChangeDataIO {
 		try {
 			final File dataFileLocation = getDataFileLocation();
 
-			Log.i(TAG, String.format("Data file at '%s'", dataFileLocation.getAbsolutePath()));
+			Log.i(TAG, String.format(Locale.US, "Data file at '%s'", dataFileLocation.getAbsolutePath()));
 
 			if(!dataFileLocation.exists()) {
 				Log.i(TAG, "Data file does not exist. Aborting read.");
@@ -174,7 +175,7 @@ public class RedditChangeDataIO {
 				final int version = dis.readInt();
 
 				if(DB_VERSION != version) {
-					Log.i(TAG, String.format("Wanted version %d, got %d. Aborting read.", DB_VERSION, version));
+					Log.i(TAG, String.format(Locale.US, "Wanted version %d, got %d. Aborting read.", DB_VERSION, version));
 					return;
 				}
 

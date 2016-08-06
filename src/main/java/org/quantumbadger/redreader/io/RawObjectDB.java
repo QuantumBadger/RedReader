@@ -32,6 +32,7 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.Locale;
 
 public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelper {
 
@@ -168,7 +169,7 @@ public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelpe
 
 		try {
 
-			final Cursor cursor = db.query(TABLE_NAME, fieldNames, String.format("%s=?", field),
+			final Cursor cursor = db.query(TABLE_NAME, fieldNames, String.format(Locale.US, "%s=?", field),
 					new String[] {value}, null, null, null);
 
 			try {

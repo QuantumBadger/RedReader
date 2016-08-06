@@ -63,6 +63,7 @@ import org.quantumbadger.redreader.reddit.url.UserPostListingURL;
 import org.quantumbadger.redreader.reddit.url.UserProfileURL;
 import org.quantumbadger.redreader.views.RedditPostView;
 
+import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
 
@@ -650,7 +651,8 @@ public class MainActivity extends RefreshableActivity
 	public void onSidebar() {
 		final Intent intent = new Intent(this, HtmlViewActivity.class);
 		intent.putExtra("html", postListingFragment.getSubreddit().getSidebarHtml(PrefsUtility.isNightMode(this)));
-		intent.putExtra("title", String.format("%s: %s",
+		intent.putExtra("title", String.format(
+				Locale.US, "%s: %s",
 				getString(R.string.sidebar_activity_title),
 				postListingFragment.getSubreddit().url));
 		startActivityForResult(intent, 1);

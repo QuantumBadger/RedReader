@@ -22,7 +22,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
-
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.common.General;
@@ -43,6 +42,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Locale;
 import java.util.UUID;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -264,7 +264,7 @@ public final class CacheManager {
 
 		@Override
 		public String toString() {
-			return String.format("[ReadableCacheFile : id %d]", id);
+			return String.format(Locale.US, "[ReadableCacheFile : id %d]", id);
 		}
 
 		public long getSize() {

@@ -55,6 +55,7 @@ import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
+import java.util.Locale;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -420,7 +421,7 @@ public final class General {
 		digest.update(plaintext, 0, plaintext.length);
 		final byte[] hash = digest.digest();
 		final StringBuilder result = new StringBuilder(hash.length * 2);
-		for(byte b : hash) result.append(String.format("%02X", b));
+		for(byte b : hash) result.append(String.format(Locale.US, "%02X", b));
 		return result.toString();
 	}
 

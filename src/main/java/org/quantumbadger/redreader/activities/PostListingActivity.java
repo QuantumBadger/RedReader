@@ -46,6 +46,7 @@ import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 import org.quantumbadger.redreader.reddit.url.SearchPostListURL;
 import org.quantumbadger.redreader.views.RedditPostView;
 
+import java.util.Locale;
 import java.util.UUID;
 
 public class PostListingActivity extends RefreshableActivity
@@ -79,7 +80,7 @@ public class PostListingActivity extends RefreshableActivity
 			final RedditURLParser.RedditURL url = RedditURLParser.parseProbablePostListing(intent.getData());
 
 			if(!(url instanceof PostListingURL)) {
-				throw new RuntimeException(String.format("'%s' is not a post listing URL!", url.generateJsonUri()));
+				throw new RuntimeException(String.format(Locale.US, "'%s' is not a post listing URL!", url.generateJsonUri()));
 			}
 
 			controller = new PostListingController((PostListingURL)url, this);
@@ -292,7 +293,7 @@ public class PostListingActivity extends RefreshableActivity
 	public void onSidebar() {
 		final Intent intent = new Intent(this, HtmlViewActivity.class);
 		intent.putExtra("html", fragment.getSubreddit().getSidebarHtml(PrefsUtility.isNightMode(this)));
-		intent.putExtra("title", String.format("%s: %s",
+		intent.putExtra("title", String.format(Locale.US, "%s: %s",
 				getString(R.string.sidebar_activity_title),
 				fragment.getSubreddit().url));
 		startActivityForResult(intent, 1);

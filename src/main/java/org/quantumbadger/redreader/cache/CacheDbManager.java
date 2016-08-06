@@ -28,7 +28,12 @@ import org.quantumbadger.redreader.common.RRTime;
 
 import java.io.IOException;
 import java.net.URI;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Locale;
+import java.util.UUID;
 
 final class CacheDbManager extends SQLiteOpenHelper {
 
@@ -97,11 +102,11 @@ final class CacheDbManager extends SQLiteOpenHelper {
 		final String[] queryParams;
 
 		if(session == null) {
-			queryString = String.format("%s=%d AND %s=? AND %s=?", FIELD_STATUS, STATUS_DONE, FIELD_URL, FIELD_USER);
+			queryString = String.format(Locale.US, "%s=%d AND %s=? AND %s=?", FIELD_STATUS, STATUS_DONE, FIELD_URL, FIELD_USER);
 			queryParams = new String[] {url.toString(), user};
 
 		} else {
-			queryString = String.format("%s=%d AND %s=? AND %s=? AND %s=?", FIELD_STATUS, STATUS_DONE, FIELD_URL, FIELD_USER, FIELD_SESSION);
+			queryString = String.format(Locale.US, "%s=%d AND %s=? AND %s=? AND %s=?", FIELD_STATUS, STATUS_DONE, FIELD_URL, FIELD_USER, FIELD_SESSION);
 			queryParams = new String[] {url.toString(), user, session.toString()};
 		}
 
@@ -218,7 +223,7 @@ final class CacheDbManager extends SQLiteOpenHelper {
 
 		if(!entriesToDelete.isEmpty()) {
 
-			final StringBuilder query = new StringBuilder(String.format("DELETE FROM %s WHERE %s IN (", TABLE, FIELD_ID));
+			final StringBuilder query = new StringBuilder(String.format(Locale.US, "DELETE FROM %s WHERE %s IN (", TABLE, FIELD_ID));
 
 			query.append(entriesToDelete.remove(entriesToDelete.size() - 1));
 
@@ -239,6 +244,6 @@ final class CacheDbManager extends SQLiteOpenHelper {
 
 	public synchronized void emptyTheWholeCache() {
 		final SQLiteDatabase db = this.getWritableDatabase();
-		db.execSQL(String.format("DELETE FROM %s", TABLE));
+		db.execSQL(String.format(Locale.US, "DELETE FROM %s", TABLE));
 	}
 }

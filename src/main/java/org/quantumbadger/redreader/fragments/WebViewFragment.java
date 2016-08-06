@@ -49,6 +49,7 @@ import org.quantumbadger.redreader.views.WebViewFixed;
 import org.quantumbadger.redreader.views.bezelmenu.BezelSwipeOverlay;
 import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
 
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -186,7 +187,7 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 				if(goingBack && currentUrl != null && url.equals(currentUrl)) {
 
 					General.quickToast(mActivity,
-							String.format("Handling redirect loop (level %d)", -lastBackDepthAttempt), Toast.LENGTH_SHORT);
+							String.format(Locale.US, "Handling redirect loop (level %d)", -lastBackDepthAttempt), Toast.LENGTH_SHORT);
 
 					lastBackDepthAttempt--;
 
@@ -241,7 +242,7 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 								if(goingBack && url.equals(currentUrl)) {
 
 									General.quickToast(mActivity,
-											String.format("Handling redirect loop (level %d)", -lastBackDepthAttempt));
+											String.format(Locale.US, "Handling redirect loop (level %d)", -lastBackDepthAttempt));
 
 									lastBackDepthAttempt--;
 

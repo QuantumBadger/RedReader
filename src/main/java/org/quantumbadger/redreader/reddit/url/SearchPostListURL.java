@@ -21,7 +21,7 @@ import android.content.Context;
 import android.net.Uri;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.listingcontrollers.PostListingController;
+import org.quantumbadger.redreader.reddit.PostSort;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,11 +30,11 @@ public class SearchPostListURL extends PostListingURL {
 
 	public final String subreddit, query;
 
-	public final PostListingController.Sort order;
+	public final PostSort order;
 	public final Integer limit;
 	public final String before, after;
 
-	SearchPostListURL(String subreddit, String query, PostListingController.Sort order, Integer limit, String before, String after) {
+	SearchPostListURL(String subreddit, String query, PostSort order, Integer limit, String before, String after) {
 		this.subreddit = subreddit;
 		this.query = query;
 		this.order = order;
@@ -44,7 +44,7 @@ public class SearchPostListURL extends PostListingURL {
 	}
 
 	SearchPostListURL(String subreddit, String query, Integer limit, String before, String after) {
-		this(subreddit, query, PostListingController.Sort.RELEVANCE, limit, before, after);
+		this(subreddit, query, PostSort.RELEVANCE, limit, before, after);
 	}
 
 	public static SearchPostListURL build(String subreddit, String query) {
@@ -65,7 +65,7 @@ public class SearchPostListURL extends PostListingURL {
 		return new SearchPostListURL(subreddit, query, order, limit, before, after);
 	}
 
-	public SearchPostListURL sort(PostListingController.Sort newOrder) {
+	public SearchPostListURL sort(PostSort newOrder) {
 		return new SearchPostListURL(subreddit, query, newOrder, limit, before, after);
 	}
 
@@ -127,7 +127,7 @@ public class SearchPostListURL extends PostListingURL {
 
 		boolean restrict_sr = false;
 		String query = "";
-		PostListingController.Sort order = null;
+		PostSort order = null;
 		Integer limit = null;
 		String before = null, after = null;
 
@@ -145,7 +145,7 @@ public class SearchPostListURL extends PostListingURL {
 				} catch(Throwable ignored) {}
 
 			} else if(parameterKey.equalsIgnoreCase("sort")) {
-				order = PostListingController.parseSort(uri.getQueryParameter(parameterKey));
+				order = PostSort.valueOfOrNull(uri.getQueryParameter(parameterKey));
 
 			} else if(parameterKey.equalsIgnoreCase("q")) {
 				query = uri.getQueryParameter(parameterKey);

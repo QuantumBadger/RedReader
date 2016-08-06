@@ -59,7 +59,7 @@ import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.listingcontrollers.CommentListingController;
-import org.quantumbadger.redreader.listingcontrollers.PostListingController;
+import org.quantumbadger.redreader.reddit.PostSort;
 import org.quantumbadger.redreader.reddit.RedditPostListItem;
 import org.quantumbadger.redreader.reddit.RedditSubredditManager;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
@@ -224,6 +224,7 @@ public class PostListingFragment extends RRFragment
 
 			case RedditURLParser.USER_POST_LISTING_URL:
 			case RedditURLParser.SEARCH_POST_LISTING_URL:
+			case RedditURLParser.MULTIREDDIT_POST_LISTING_URL:
 				setHeader(mPostListingURL.humanReadableName(getActivity(), true), mPostListingURL.humanReadableUrl());
 				CacheManager.getInstance(context).makeRequest(mRequest);
 				break;
@@ -324,7 +325,7 @@ public class PostListingFragment extends RRFragment
 
 		final String subtitle;
 
-		if(mPostListingURL.getOrder() == null || mPostListingURL.getOrder() == PostListingController.Sort.HOT) {
+		if(mPostListingURL.getOrder() == null || mPostListingURL.getOrder() == PostSort.HOT) {
 			if(mSubreddit.subscribers == null) {
 				subtitle = getString(R.string.header_subscriber_count_unknown);
 			} else {

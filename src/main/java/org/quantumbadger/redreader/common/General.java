@@ -32,6 +32,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.StatFs;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.TypedValue;
@@ -493,7 +494,8 @@ public final class General {
 		return new String(chars);
 	}
 
-	public static String asciiLowercase(final String input) {
+	@NonNull
+	public static String asciiLowercase(@NonNull final String input) {
 
 		final char[] chars = input.toCharArray();
 

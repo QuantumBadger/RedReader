@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.reddit.api;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
-
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -79,8 +78,6 @@ public class RedditSubredditSubscriptionManager {
 		this.context = context;
 
 		subscriptions = db.getById(user.getCanonicalUsername());
-
-		triggerUpdate(null, TimestampBound.notOlderThan(1000 * 60 * 60 * 24)); // Max age, 24 hours
 	}
 
 	public void addListener(SubredditSubscriptionStateChangeListener listener) {

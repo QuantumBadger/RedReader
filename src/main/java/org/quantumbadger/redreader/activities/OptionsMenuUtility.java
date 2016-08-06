@@ -31,7 +31,7 @@ import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
 import org.quantumbadger.redreader.fragments.AccountListDialog;
-import org.quantumbadger.redreader.listingcontrollers.PostListingController;
+import org.quantumbadger.redreader.reddit.PostSort;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.settings.SettingsActivity;
@@ -485,19 +485,19 @@ public final class OptionsMenuUtility {
 			sortPosts.getItem().setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 		}
 
-		addSort(activity, sortPosts, R.string.sort_posts_hot, PostListingController.Sort.HOT);
-		addSort(activity, sortPosts, R.string.sort_posts_new, PostListingController.Sort.NEW);
-		addSort(activity, sortPosts, R.string.sort_posts_rising, PostListingController.Sort.RISING);
-		addSort(activity, sortPosts, R.string.sort_posts_controversial, PostListingController.Sort.CONTROVERSIAL);
+		addSort(activity, sortPosts, R.string.sort_posts_hot, PostSort.HOT);
+		addSort(activity, sortPosts, R.string.sort_posts_new, PostSort.NEW);
+		addSort(activity, sortPosts, R.string.sort_posts_rising, PostSort.RISING);
+		addSort(activity, sortPosts, R.string.sort_posts_controversial, PostSort.CONTROVERSIAL);
 
 		final SubMenu sortPostsTop = sortPosts.addSubMenu(R.string.sort_posts_top);
 
-		addSort(activity, sortPostsTop, R.string.sort_posts_top_hour, PostListingController.Sort.TOP_HOUR);
-		addSort(activity, sortPostsTop, R.string.sort_posts_top_today, PostListingController.Sort.TOP_DAY);
-		addSort(activity, sortPostsTop, R.string.sort_posts_top_week, PostListingController.Sort.TOP_WEEK);
-		addSort(activity, sortPostsTop, R.string.sort_posts_top_month, PostListingController.Sort.TOP_MONTH);
-		addSort(activity, sortPostsTop, R.string.sort_posts_top_year, PostListingController.Sort.TOP_YEAR);
-		addSort(activity, sortPostsTop, R.string.sort_posts_top_all, PostListingController.Sort.TOP_ALL);
+		addSort(activity, sortPostsTop, R.string.sort_posts_top_hour, PostSort.TOP_HOUR);
+		addSort(activity, sortPostsTop, R.string.sort_posts_top_today, PostSort.TOP_DAY);
+		addSort(activity, sortPostsTop, R.string.sort_posts_top_week, PostSort.TOP_WEEK);
+		addSort(activity, sortPostsTop, R.string.sort_posts_top_month, PostSort.TOP_MONTH);
+		addSort(activity, sortPostsTop, R.string.sort_posts_top_year, PostSort.TOP_YEAR);
+		addSort(activity, sortPostsTop, R.string.sort_posts_top_all, PostSort.TOP_ALL);
 	}
 
 	private static void addAllSearchSorts(final AppCompatActivity activity, final Menu menu, final boolean icon) {
@@ -509,14 +509,14 @@ public final class OptionsMenuUtility {
 			sortPosts.getItem().setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 		}
 
-		addSort(activity, sortPosts, R.string.sort_posts_relevance, PostListingController.Sort.RELEVANCE);
-		addSort(activity, sortPosts, R.string.sort_posts_new, PostListingController.Sort.NEW);
-		addSort(activity, sortPosts, R.string.sort_posts_hot, PostListingController.Sort.HOT);
-		addSort(activity, sortPosts, R.string.sort_posts_top, PostListingController.Sort.TOP);
-		addSort(activity, sortPosts, R.string.sort_posts_comments, PostListingController.Sort.COMMENTS);
+		addSort(activity, sortPosts, R.string.sort_posts_relevance, PostSort.RELEVANCE);
+		addSort(activity, sortPosts, R.string.sort_posts_new, PostSort.NEW);
+		addSort(activity, sortPosts, R.string.sort_posts_hot, PostSort.HOT);
+		addSort(activity, sortPosts, R.string.sort_posts_top, PostSort.TOP);
+		addSort(activity, sortPosts, R.string.sort_posts_comments, PostSort.COMMENTS);
 	}
 
-	private static void addSort(final AppCompatActivity activity, final Menu menu, final int name, final PostListingController.Sort order) {
+	private static void addSort(final AppCompatActivity activity, final Menu menu, final int name, final PostSort order) {
 
 		menu.add(activity.getString(name)).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 			public boolean onMenuItemClick(final MenuItem item) {
@@ -568,7 +568,7 @@ public final class OptionsMenuUtility {
 
 		void onSubmitPost();
 
-		void onSortSelected(PostListingController.Sort order);
+		void onSortSelected(PostSort order);
 
 		void onSearchPosts();
 

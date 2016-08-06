@@ -67,9 +67,7 @@ public final class RedditPostView extends FlingableItemView implements RedditPre
 			rrPostTitleReadCol,
 			rrPostTitleCol,
 			rrListItemBackgroundCol,
-			rrPostBackgroundColSticky,
-			rrPostCommentsButtonBackCol,
-			rrPostCommentsButtonBackColSticky;
+			rrPostCommentsButtonBackCol;
 
 	@Override
 	protected void onSetItemFlingPosition(final float position) {
@@ -246,17 +244,13 @@ public final class RedditPostView extends FlingableItemView implements RedditPre
 					R.attr.rrPostTitleCol,
 					R.attr.rrPostTitleReadCol,
 					R.attr.rrListItemBackgroundCol,
-					R.attr.rrPostBackgroundColSticky,
-					R.attr.rrPostCommentsButtonBackCol,
-					R.attr.rrPostCommentsButtonBackColSticky
+					R.attr.rrPostCommentsButtonBackCol
 			});
 
 			rrPostTitleCol = attr.getColor(0, 0);
 			rrPostTitleReadCol = attr.getColor(1, 0);
 			rrListItemBackgroundCol = attr.getColor(2, 0);
-			rrPostBackgroundColSticky = attr.getColor(3, 0);
-			rrPostCommentsButtonBackCol = attr.getColor(4, 0);
-			rrPostCommentsButtonBackColSticky = attr.getColor(5, 0);
+			rrPostCommentsButtonBackCol = attr.getColor(3, 0);
 			attr.recycle();
 		}
 	}
@@ -297,24 +291,13 @@ public final class RedditPostView extends FlingableItemView implements RedditPre
 	public void updateAppearance() {
 
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			if(post.isSticky()) {
-				mOuterView.setBackgroundResource(R.drawable.rr_postlist_item_selector_sticky);
-				commentsButton.setBackgroundResource(R.drawable.rr_postlist_commentbutton_selector_sticky);
-			} else {
-				mOuterView.setBackgroundResource(R.drawable.rr_postlist_item_selector_main);
-				commentsButton.setBackgroundResource(R.drawable.rr_postlist_commentbutton_selector_main);
-			}
+			mOuterView.setBackgroundResource(R.drawable.rr_postlist_item_selector_main);
+			commentsButton.setBackgroundResource(R.drawable.rr_postlist_commentbutton_selector_main);
 
 		} else {
 			// On KitKat and lower, we can't do easily themed highlighting
-
-			if(post.isSticky()) {
-				mOuterView.setBackgroundColor(rrPostBackgroundColSticky);
-				commentsButton.setBackgroundColor(rrPostCommentsButtonBackColSticky);
-			} else {
-				mOuterView.setBackgroundColor(rrListItemBackgroundCol);
-				commentsButton.setBackgroundColor(rrPostCommentsButtonBackCol);
-			}
+			mOuterView.setBackgroundColor(rrListItemBackgroundCol);
+			commentsButton.setBackgroundColor(rrPostCommentsButtonBackCol);
 		}
 
 		if(post.isRead()) {

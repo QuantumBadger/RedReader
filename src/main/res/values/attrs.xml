@@ -45,11 +45,7 @@
     <attr name="rrPostCommentsButtonTextCol" format="color" />
     <attr name="rrPostThumbnailBackground" format="color" />
     <attr name="rrPostFlingTextCol" format="color" />
-    <attr name="rrPostBackgroundColSticky" format="color" />
-	<attr name="rrPostBackgroundColHighlightSticky" format="color" />
-    <attr name="rrPostCommentsButtonBackColSticky" format="color" />
     <attr name="rrPostCommentsButtonHighlightCol" format="color" />
-	<attr name="rrPostCommentsButtonHighlightColSticky" format="color" />
     <attr name="rrFlairBackCol" format="color" />
     <attr name="rrFlairTextCol" format="color" />
     <attr name="rrGoldBackCol" format="color" />

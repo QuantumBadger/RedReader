@@ -585,6 +585,12 @@ public final class RedditPreparedPost {
 			pointsCol = boldCol;
 		}
 
+		if(src.isStickied()) {
+			postListDescSb.append(" STICKY ", BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR | BetterSSB.BACKGROUND_COLOR,
+					Color.WHITE, Color.rgb(0, 170, 0), 1f); // TODO color?
+			postListDescSb.append("  ", 0);
+		}
+
 		if(src.isNsfw()) {
 			postListDescSb.append(" NSFW ", BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR | BetterSSB.BACKGROUND_COLOR,
 					Color.WHITE, Color.RED, 1f); // TODO color?

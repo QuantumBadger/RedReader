@@ -195,8 +195,9 @@ public class GroupedRecyclerViewAdapter extends RecyclerView.Adapter {
 
 		mItems[group].add(item);
 
-		item.mCurrentlyHidden = false;
-		notifyItemInserted(position);
+		if(!item.mCurrentlyHidden) {
+			notifyItemInserted(position);
+		}
 	}
 
 	public void appendToGroup(final int group, final Collection<Item> items) {

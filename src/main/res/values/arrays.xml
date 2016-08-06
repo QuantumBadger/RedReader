@@ -561,4 +561,17 @@
 		<item>external_browser</item>
 	</string-array>
 
+	<string-array name="mainmenu_custom_destination_type">
+		<item>@string/mainmenu_custom_destination_subreddit</item>
+		<item>@string/mainmenu_custom_destination_user</item>
+		<item>@string/mainmenu_custom_destination_url</item>
+	</string-array>
+
+	<!-- Constants. Do not change. -->
+	<string-array name="mainmenu_custom_destination_type_return">
+		<item>subreddit</item>
+		<item>user</item>
+		<item>url</item>
+	</string-array>
+
 </resources>

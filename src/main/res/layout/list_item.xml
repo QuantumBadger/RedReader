@@ -32,6 +32,7 @@
                   android:layout_width="match_parent"
                   android:orientation="horizontal"
                   android:gravity="center_vertical"
+				  android:background="@drawable/rr_list_item_selector"
                   android:paddingLeft="16dp"
                   android:paddingRight="16dp">
 

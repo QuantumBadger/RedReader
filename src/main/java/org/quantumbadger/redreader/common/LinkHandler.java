@@ -180,6 +180,7 @@ public class LinkHandler {
 			switch(redditURL.pathType()) {
 
 				case RedditURLParser.SUBREDDIT_POST_LISTING_URL:
+				case RedditURLParser.MULTIREDDIT_POST_LISTING_URL:
 				case RedditURLParser.USER_POST_LISTING_URL:
 				case RedditURLParser.UNKNOWN_POST_LISTING_URL: {
 					final Intent intent = new Intent(activity, PostListingActivity.class);

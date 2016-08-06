@@ -1,3 +1,7 @@
+74/1.9.6
+Multireddit viewing support
+Ability to view custom user pages
+
 73/1.9.5.1
 Comment swipe actions
 Ability to search comments (thanks to cpalasanu)

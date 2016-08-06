@@ -23,7 +23,7 @@ import android.support.annotation.Nullable;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.listingcontrollers.PostListingController;
+import org.quantumbadger.redreader.reddit.PostSort;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 
 import java.util.ArrayList;
@@ -57,14 +57,14 @@ public class SubredditPostListURL extends PostListingURL {
 	public final Type type;
 	public final String subreddit;
 
-	@Nullable public final PostListingController.Sort order;
+	@Nullable public final PostSort order;
 	@Nullable public final Integer limit;
 	@Nullable public final String before, after;
 
 	private SubredditPostListURL(
 			Type type,
 			String subreddit,
-			@Nullable PostListingController.Sort order,
+			@Nullable PostSort order,
 			@Nullable Integer limit,
 			@Nullable String before,
 			@Nullable String after) {
@@ -85,48 +85,13 @@ public class SubredditPostListURL extends PostListingURL {
 		return new SubredditPostListURL(type, subreddit, order, newLimit, before, after);
 	}
 
-	public SubredditPostListURL sort(PostListingController.Sort newOrder) {
+	public SubredditPostListURL sort(PostSort newOrder) {
 		return new SubredditPostListURL(type, subreddit, newOrder, limit, before, after);
 	}
 
-	public PostListingController.Sort getOrder() {
+	public PostSort getOrder() {
 		return order;
 	}
-
-	@Nullable
-	private static PostListingController.Sort getOrder(@Nullable String sort, @Nullable String t) {
-
-		if(sort == null) {
-			return null;
-		}
-
-		sort = General.asciiLowercase(sort);
-		t = t != null ? General.asciiLowercase(t) : null;
-
-		if(sort.equals("hot")) {
-			return PostListingController.Sort.HOT;
-		} else if(sort.equals("new")) {
-			return PostListingController.Sort.NEW;
-		} else if(sort.equals("controversial")) {
-			return PostListingController.Sort.CONTROVERSIAL;
-		} else if(sort.equals("rising")) {
-			return PostListingController.Sort.RISING;
-		} else if(sort.equals("top")) {
-
-			if(t == null)				return PostListingController.Sort.TOP_ALL;
-			else if(t.equals("all"))	return PostListingController.Sort.TOP_ALL;
-			else if(t.equals("hour"))	return PostListingController.Sort.TOP_HOUR;
-			else if(t.equals("day"))	return PostListingController.Sort.TOP_DAY;
-			else if(t.equals("week"))	return PostListingController.Sort.TOP_WEEK;
-			else if(t.equals("month"))	return PostListingController.Sort.TOP_MONTH;
-			else if(t.equals("year"))	return PostListingController.Sort.TOP_YEAR;
-			else						return PostListingController.Sort.TOP_ALL;
-
-		} else {
-			return null;
-		}
-	}
-
 
 	@Override
 	public Uri generateJsonUri() {
@@ -153,25 +118,7 @@ public class SubredditPostListURL extends PostListingURL {
 		}
 
 		if(order != null) {
-			switch(order) {
-
-				case HOT:
-				case NEW:
-				case RISING:
-				case CONTROVERSIAL:
-					builder.appendEncodedPath(General.asciiLowercase(order.name()));
-					break;
-
-				case TOP_HOUR:
-				case TOP_DAY:
-				case TOP_WEEK:
-				case TOP_MONTH:
-				case TOP_YEAR:
-				case TOP_ALL:
-					builder.appendEncodedPath("top");
-					builder.appendQueryParameter("t", General.asciiLowercase(order.name().split("_")[1]));
-					break;
-			}
+			order.addToSubredditListingUri(builder);
 		}
 
 		if(before != null) {
@@ -236,9 +183,9 @@ public class SubredditPostListURL extends PostListingURL {
 			pathSegments = pathSegmentsFiltered.toArray(new String[pathSegmentsFiltered.size()]);
 		}
 
-		final PostListingController.Sort order;
+		final PostSort order;
 		if(pathSegments.length > 0) {
-			order = getOrder(pathSegments[pathSegments.length - 1], uri.getQueryParameter("t"));
+			order = PostSort.parse(pathSegments[pathSegments.length - 1], uri.getQueryParameter("t"));
 		} else {
 			order = null;
 		}

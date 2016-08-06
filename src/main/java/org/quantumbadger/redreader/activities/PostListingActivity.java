@@ -37,6 +37,7 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
 import org.quantumbadger.redreader.fragments.SessionListDialog;
 import org.quantumbadger.redreader.listingcontrollers.PostListingController;
+import org.quantumbadger.redreader.reddit.PostSort;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
@@ -94,7 +95,7 @@ public class PostListingActivity extends RefreshableActivity
 				}
 
 				if(savedInstanceState.containsKey(SAVEDSTATE_SORT)) {
-					controller.setSort(PostListingController.Sort.valueOf(
+					controller.setSort(PostSort.valueOf(
 							savedInstanceState.getString(SAVEDSTATE_SORT)));
 				}
 
@@ -124,7 +125,7 @@ public class PostListingActivity extends RefreshableActivity
 			outState.putString(SAVEDSTATE_SESSION, session.toString());
 		}
 
-		final PostListingController.Sort sort = controller.getSort();
+		final PostSort sort = controller.getSort();
 		if(sort != null) {
 			outState.putString(SAVEDSTATE_SORT, sort.name());
 		}
@@ -247,7 +248,7 @@ public class PostListingActivity extends RefreshableActivity
 		startActivity(intent);
 	}
 
-	public void onSortSelected(final PostListingController.Sort order) {
+	public void onSortSelected(final PostSort order) {
 		controller.setSort(order);
 		requestRefresh(RefreshableFragment.POSTS, false);
 	}

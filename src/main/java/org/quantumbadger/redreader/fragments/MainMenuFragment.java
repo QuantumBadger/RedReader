@@ -21,33 +21,32 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.adapters.MainMenuAdapter;
+import org.quantumbadger.redreader.adapters.MainMenuListingManager;
 import org.quantumbadger.redreader.adapters.MainMenuSelectionListener;
-import org.quantumbadger.redreader.common.AndroidApi;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
+import org.quantumbadger.redreader.reddit.api.RedditMultiredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.api.SubredditRequestFailure;
 import org.quantumbadger.redreader.reddit.url.PostListingURL;
+import org.quantumbadger.redreader.views.ScrollbarRecyclerViewManager;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
-import org.quantumbadger.redreader.views.liststatus.LoadingView;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.Collection;
 import java.util.HashSet;
 
-public class MainMenuFragment extends RRFragment implements MainMenuSelectionListener, RedditSubredditSubscriptionManager.SubredditSubscriptionStateChangeListener {
+public class MainMenuFragment extends RRFragment
+		implements MainMenuSelectionListener,
+		RedditSubredditSubscriptionManager.SubredditSubscriptionStateChangeListener,
+		RedditMultiredditSubscriptionManager.MultiredditListChangeListener {
 
 	public static final int MENU_MENU_ACTION_FRONTPAGE = 0;
 	public static final int MENU_MENU_ACTION_PROFILE = 1;
@@ -68,12 +67,9 @@ public class MainMenuFragment extends RRFragment implements MainMenuSelectionLis
 	@Retention(RetentionPolicy.SOURCE)
 	public @interface MainMenuAction {}
 
-	private final MainMenuAdapter mAdapter;
+	private final MainMenuListingManager mManager;
 
-	private final LinearLayout mNotifications;
-	private final LoadingView mLoadingView;
-
-	private final LinearLayout mOuter;
+	private final View mOuter;
 
 	public MainMenuFragment(
 			final AppCompatActivity parent,
@@ -85,44 +81,39 @@ public class MainMenuFragment extends RRFragment implements MainMenuSelectionLis
 
 		final RedditAccount user = RedditAccountManager.getInstance(context).getDefaultAccount();
 
-		mOuter = new LinearLayout(context);
-		mOuter.setOrientation(LinearLayout.VERTICAL);
+		ScrollbarRecyclerViewManager recyclerViewManager = new ScrollbarRecyclerViewManager(parent, null, false);
 
-		mNotifications = new LinearLayout(context);
-		mNotifications.setOrientation(LinearLayout.VERTICAL);
+		mOuter = recyclerViewManager.getOuterView();
+		final RecyclerView recyclerView = recyclerViewManager.getRecyclerView();
 
-		mLoadingView = new LoadingView(context, R.string.download_waiting, true, true);
+		mManager = new MainMenuListingManager(context, this, user);
 
-		final ListView lv = new ListView(context);
-		lv.setDivider(null);
-
-		lv.addFooterView(mNotifications);
+		recyclerView.setAdapter(mManager.getAdapter());
 
 		final int paddingPx = General.dpToPixels(context, 8);
-		lv.setPadding(paddingPx, 0, paddingPx, 0);
-		lv.setClipToPadding(false);
+		recyclerView.setPadding(paddingPx, 0, paddingPx, 0);
+		recyclerView.setClipToPadding(false);
 
-		mAdapter = new MainMenuAdapter(context, user, this);
-		lv.setAdapter(mAdapter);
-
-		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			public void onItemClick(final AdapterView<?> adapterView, final View view, final int position, final long id) {
-				mAdapter.clickOn(position);
-			}
-		});
-
-		AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
-			@Override
-			public void run() {
-				mNotifications.addView(mLoadingView);
-				mLoadingView.setIndeterminate(R.string.download_subreddits);
-			}
-		});
+		final RedditMultiredditSubscriptionManager multiredditSubscriptionManager
+				= RedditMultiredditSubscriptionManager.getSingleton(context, user);
 
 		final RedditSubredditSubscriptionManager subredditSubscriptionManager
 				= RedditSubredditSubscriptionManager.getSingleton(context, user);
 
 		if(force) {
+			multiredditSubscriptionManager.triggerUpdate(new RequestResponseHandler<HashSet<String>, SubredditRequestFailure>() {
+				@Override
+				public void onRequestFailed(SubredditRequestFailure failureReason) {
+					onError(failureReason.asError(context));
+				}
+
+				@Override
+				public void onRequestSuccess(HashSet<String> result, long timeCached) {
+					multiredditSubscriptionManager.addListener(MainMenuFragment.this);
+					onMultiredditSubscriptionsChanged(result);
+				}
+			}, TimestampBound.NONE);
+
 			subredditSubscriptionManager.triggerUpdate(new RequestResponseHandler<HashSet<String>, SubredditRequestFailure>() {
 				@Override
 				public void onRequestFailed(SubredditRequestFailure failureReason) {
@@ -132,21 +123,27 @@ public class MainMenuFragment extends RRFragment implements MainMenuSelectionLis
 				@Override
 				public void onRequestSuccess(HashSet<String> result, long timeCached) {
 					subredditSubscriptionManager.addListener(MainMenuFragment.this);
-					onSubscriptionsChanged(result);
+					onSubredditSubscriptionsChanged(result);
 				}
 			}, TimestampBound.NONE);
 
 		} else {
 
+			multiredditSubscriptionManager.addListener(MainMenuFragment.this);
 			subredditSubscriptionManager.addListener(MainMenuFragment.this);
 
-			if(subredditSubscriptionManager.areSubscriptionsReady()) {
-				onSubscriptionsChanged(subredditSubscriptionManager.getSubscriptionList());
+			if(multiredditSubscriptionManager.areSubscriptionsReady()) {
+				onMultiredditSubscriptionsChanged(multiredditSubscriptionManager.getSubscriptionList());
 			}
-		}
 
-		mOuter.addView(lv);
-		lv.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+			if(subredditSubscriptionManager.areSubscriptionsReady()) {
+				onSubredditSubscriptionsChanged(subredditSubscriptionManager.getSubscriptionList());
+			}
+
+			final TimestampBound.MoreRecentThanBound oneHour = TimestampBound.notOlderThan(1000 * 60 * 60);
+			multiredditSubscriptionManager.triggerUpdate(null, oneHour);
+			subredditSubscriptionManager.triggerUpdate(null, oneHour);
+		}
 	}
 
 	public enum MainMenuUserItems {
@@ -163,24 +160,21 @@ public class MainMenuFragment extends RRFragment implements MainMenuSelectionLis
 		return null;
 	}
 
-	public void onSubscriptionsChanged(final Collection<String> subscriptions) {
-		mAdapter.setSubreddits(subscriptions);
-		mLoadingView.setDone(R.string.download_done);
+	public void onSubredditSubscriptionsChanged(final Collection<String> subscriptions) {
+		mManager.setSubreddits(subscriptions);
+	}
+
+	public void onMultiredditSubscriptionsChanged(final Collection<String> subscriptions) {
+		mManager.setMultireddits(subscriptions);
 	}
 
 	private void onError(final RRError error) {
-		mLoadingView.setDone(R.string.download_failed);
-		AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
-			@Override
-			public void run() {
-				mNotifications.addView(new ErrorView(getActivity(), error));
-			}
-		});
+		mManager.setSubredditsError(new ErrorView(getActivity(), error));
 	}
 
 	@Override
-	public void onSelected(final @MainMenuAction int type, final String name) {
-		((MainMenuSelectionListener)getActivity()).onSelected(type, name);
+	public void onSelected(final @MainMenuAction int type) {
+		((MainMenuSelectionListener)getActivity()).onSelected(type);
 	}
 
 	@Override
@@ -190,7 +184,12 @@ public class MainMenuFragment extends RRFragment implements MainMenuSelectionLis
 
 	@Override
 	public void onSubredditSubscriptionListUpdated(RedditSubredditSubscriptionManager subredditSubscriptionManager) {
-		onSubscriptionsChanged(subredditSubscriptionManager.getSubscriptionList());
+		onSubredditSubscriptionsChanged(subredditSubscriptionManager.getSubscriptionList());
+	}
+
+	@Override
+	public void onMultiredditListUpdated(final RedditMultiredditSubscriptionManager multiredditSubscriptionManager) {
+		onMultiredditSubscriptionsChanged(multiredditSubscriptionManager.getSubscriptionList());
 	}
 
 	@Override

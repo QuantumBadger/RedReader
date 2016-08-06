@@ -70,6 +70,9 @@ public class MainMenuListingManager {
 
 	@Nullable private GroupedRecyclerViewAdapter.Item mMultiredditHeaderItem;
 
+	@Nullable private ArrayList<String> mSubredditSubscriptions;
+	@Nullable private ArrayList<String> mMultiredditSubscriptions;
+
 	@NonNull
 	public GroupedRecyclerViewAdapter getAdapter() {
 		return mAdapter;
@@ -299,6 +302,14 @@ public class MainMenuListingManager {
 			@Override
 			public void run() {
 
+				if(mSubredditSubscriptions != null
+						&& mSubredditSubscriptions.equals(subscriptionsSorted)) {
+
+					return;
+				}
+
+				mSubredditSubscriptions = subscriptionsSorted;
+
 				mAdapter.removeAllFromGroup(GROUP_SUBREDDITS_ITEMS);
 
 				boolean isFirst = true;
@@ -330,6 +341,14 @@ public class MainMenuListingManager {
 		AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 			@Override
 			public void run() {
+
+				if(mMultiredditSubscriptions != null
+						&& mMultiredditSubscriptions.equals(subscriptionsSorted)) {
+
+					return;
+				}
+
+				mMultiredditSubscriptions = subscriptionsSorted;
 
 				mAdapter.removeAllFromGroup(GROUP_MULTIREDDITS_ITEMS);
 

@@ -26,7 +26,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.*;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -44,6 +49,7 @@ import org.quantumbadger.redreader.views.WebViewFixed;
 import org.quantumbadger.redreader.views.bezelmenu.BezelSwipeOverlay;
 import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
 
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -51,7 +57,7 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 
 	private AppCompatActivity mActivity;
 
-	private String url, html;
+	private String mUrl, html;
 	private volatile String currentUrl;
 	private volatile boolean goingBack;
 	private volatile int lastBackDepthAttempt;
@@ -87,7 +93,7 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 	public void onCreate(final Bundle savedInstanceState) {
 		// TODO load position/etc?
 		super.onCreate(savedInstanceState);
-		url = getArguments().getString("url");
+		mUrl = getArguments().getString("url");
 		html = getArguments().getString("html");
 	}
 
@@ -160,50 +166,54 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 		});
 
 
-		if(url != null) {
+		if(mUrl != null) {
+			webView.loadUrl(mUrl);
+		} else {
+			webView.loadDataWithBaseURL("https://reddit.com/", html, "text/html; charset=UTF-8", null, null);
+		}
 
-			webView.loadUrl(url);
+		webView.setWebViewClient(new WebViewClient() {
+			@Override
+			public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
 
-			webView.setWebViewClient(new WebViewClient() {
-				@Override
-				public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
+				if(url == null) return false;
 
-					if(url == null) return false;
-
-					if(url.startsWith("data:")) {
-						// Prevent imgur bug where we're directed to some random data URI
-						return true;
-					}
-
-					// Go back if loading same page to prevent redirect loops.
-					if(goingBack && currentUrl != null && url.equals(currentUrl)) {
-
-						General.quickToast(mActivity,
-								String.format("Handling redirect loop (level %d)", -lastBackDepthAttempt), Toast.LENGTH_SHORT);
-
-						lastBackDepthAttempt--;
-
-						if (webView.canGoBackOrForward(lastBackDepthAttempt)) {
-							webView.goBackOrForward(lastBackDepthAttempt);
-						} else {
-							mActivity.finish();
-						}
-					} else  {
-
-						if(RedditURLParser.parse(Uri.parse(url)) != null) {
-							LinkHandler.onLinkClicked(mActivity, url, false);
-						} else {
-							webView.loadUrl(url);
-							currentUrl = url;
-						}
-					}
-
+				if(url.startsWith("data:")) {
+					// Prevent imgur bug where we're directed to some random data URI
 					return true;
 				}
 
-				@Override
-				public void onPageStarted(WebView view, String url, Bitmap favicon) {
-					super.onPageStarted(view, url, favicon);
+				// Go back if loading same page to prevent redirect loops.
+				if(goingBack && currentUrl != null && url.equals(currentUrl)) {
+
+					General.quickToast(mActivity,
+							String.format(Locale.US, "Handling redirect loop (level %d)", -lastBackDepthAttempt), Toast.LENGTH_SHORT);
+
+					lastBackDepthAttempt--;
+
+					if (webView.canGoBackOrForward(lastBackDepthAttempt)) {
+						webView.goBackOrForward(lastBackDepthAttempt);
+					} else {
+						mActivity.finish();
+					}
+				} else  {
+
+					if(RedditURLParser.parse(Uri.parse(url)) != null) {
+						LinkHandler.onLinkClicked(mActivity, url, false);
+					} else {
+						webView.loadUrl(url);
+						currentUrl = url;
+					}
+				}
+
+				return true;
+			}
+
+			@Override
+			public void onPageStarted(WebView view, String url, Bitmap favicon) {
+				super.onPageStarted(view, url, favicon);
+
+				if(mUrl != null && url != null) {
 
 					final AppCompatActivity activity = mActivity;
 
@@ -211,54 +221,51 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 						activity.setTitle(url);
 					}
 				}
+			}
 
-				@Override
-				public void onPageFinished(final WebView view, final String url) {
-					super.onPageFinished(view, url);
+			@Override
+			public void onPageFinished(final WebView view, final String url) {
+				super.onPageFinished(view, url);
 
-					new Timer().schedule(new TimerTask() {
-						@Override
-						public void run() {
+				new Timer().schedule(new TimerTask() {
+					@Override
+					public void run() {
 
-							AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
-								@Override
-								public void run() {
+						AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+							@Override
+							public void run() {
 
-									if(currentUrl == null || url == null) return;
+								if(currentUrl == null || url == null) return;
 
-									if(!url.equals(view.getUrl())) return;
+								if(!url.equals(view.getUrl())) return;
 
-									if(goingBack && url.equals(currentUrl)) {
+								if(goingBack && url.equals(currentUrl)) {
 
-										General.quickToast(mActivity,
-												String.format("Handling redirect loop (level %d)", -lastBackDepthAttempt));
+									General.quickToast(mActivity,
+											String.format(Locale.US, "Handling redirect loop (level %d)", -lastBackDepthAttempt));
 
-										lastBackDepthAttempt--;
+									lastBackDepthAttempt--;
 
-										if(webView.canGoBackOrForward(lastBackDepthAttempt)) {
-											webView.goBackOrForward(lastBackDepthAttempt);
-										} else {
-											mActivity.finish();
-										}
-
+									if(webView.canGoBackOrForward(lastBackDepthAttempt)) {
+										webView.goBackOrForward(lastBackDepthAttempt);
 									} else {
-										goingBack = false;
+										mActivity.finish();
 									}
+
+								} else {
+									goingBack = false;
 								}
-							});
-						}
-					}, 1000);
-				}
+							}
+						});
+					}
+				}, 1000);
+			}
 
-				@Override
-				public void doUpdateVisitedHistory(WebView view, String url, boolean isReload) {
-					super.doUpdateVisitedHistory(view, url, isReload);
-				}
-			});
-
-		} else {
-			webView.loadData(html, "text/html; charset=UTF-8", null);
-		}
+			@Override
+			public void doUpdateVisitedHistory(WebView view, String url, boolean isReload) {
+				super.doUpdateVisitedHistory(view, url, isReload);
+			}
+		});
 
 		final FrameLayout outerFrame = new FrameLayout(mActivity);
 		outerFrame.addView(outer);
@@ -339,7 +346,7 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 	}
 
 	public String getCurrentUrl() {
-		return (currentUrl != null) ? currentUrl : url;
+		return (currentUrl != null) ? currentUrl : mUrl;
 	}
 
 	@Override

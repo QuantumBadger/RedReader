@@ -19,6 +19,8 @@ package org.quantumbadger.redreader.views.glview.program;
 
 import android.opengl.GLES20;
 
+import java.util.Locale;
+
 public abstract class RRGLProgram {
 
 	private final int mHandle;
@@ -62,7 +64,7 @@ public abstract class RRGLProgram {
 		if(compileStatus[0] == 0) {
 			final String log = GLES20.glGetShaderInfoLog(mHandle);
 			GLES20.glDeleteShader(shaderHandle);
-			throw new RuntimeException(String.format("Shader compile error: \"%s\".", log));
+			throw new RuntimeException(String.format(Locale.US, "Shader compile error: \"%s\".", log));
 		}
 
 		GLES20.glAttachShader(mHandle, shaderHandle);
@@ -86,7 +88,7 @@ public abstract class RRGLProgram {
 		if(linkStatus[0] == 0) {
 			final String log = GLES20.glGetProgramInfoLog(mHandle);
 			GLES20.glDeleteProgram(mHandle);
-			throw new RuntimeException(String.format("Linker error: \"%s\".", log));
+			throw new RuntimeException(String.format(Locale.US, "Linker error: \"%s\".", log));
 		}
 
 		GLES20.glDetachShader(mHandle, mFragmentShaderHandle);

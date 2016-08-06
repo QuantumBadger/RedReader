@@ -48,6 +48,7 @@ import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -554,7 +555,7 @@ public class LinkHandler {
 		if(matchQkme1.find()) {
 			final String imgId = matchQkme1.group(1);
 			if(imgId.length() > 2)
-				return String.format("http://i.qkme.me/%s.jpg", imgId);
+				return String.format(Locale.US, "http://i.qkme.me/%s.jpg", imgId);
 		}
 
 		final Matcher matchQkme2 = qkmePattern2.matcher(url);
@@ -562,7 +563,7 @@ public class LinkHandler {
 		if(matchQkme2.find()) {
 			final String imgId = matchQkme2.group(1);
 			if(imgId.length() > 2)
-				return String.format("http://i.qkme.me/%s.jpg", imgId);
+				return String.format(Locale.US, "http://i.qkme.me/%s.jpg", imgId);
 		}
 
 		final Matcher matchLvme = lvmePattern.matcher(url);
@@ -570,7 +571,7 @@ public class LinkHandler {
 		if(matchLvme.find()) {
 			final String imgId = matchLvme.group(1);
 			if(imgId.length() > 2)
-				return String.format("http://www.livememe.com/%s.jpg", imgId);
+				return String.format(Locale.US, "http://www.livememe.com/%s.jpg", imgId);
 		}
 
 		return null;

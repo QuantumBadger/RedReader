@@ -53,7 +53,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 		this.mQueue = queue;
 
 		if(!initiator.setDownload(this)) {
-			cancel();
+			mCancelled = true;
 		}
 
 		if(initiator.requestSession != null) {

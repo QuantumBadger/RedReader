@@ -33,6 +33,7 @@ import org.quantumbadger.redreader.reddit.things.RedditThingWithIdAndType;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -99,7 +100,7 @@ public final class RedditChangeDataManager {
 				entry.getValue().writeTo(dos);
 			}
 
-			Log.i(TAG, String.format("Wrote %d entries for user '%s'", entrySet.size(), username));
+			Log.i(TAG, String.format(Locale.US, "Wrote %d entries for user '%s'", entrySet.size(), username));
 		}
 
 		Log.i(TAG, "All entries written to stream.");
@@ -120,7 +121,7 @@ public final class RedditChangeDataManager {
 			final String username = dis.readUTF();
 			final int entryCount = dis.readInt();
 
-			Log.i(TAG, String.format("Reading %d entries for user '%s'", entryCount, username));
+			Log.i(TAG, String.format(Locale.US, "Reading %d entries for user '%s'", entryCount, username));
 
 			final HashMap<String, Entry> entries = new HashMap<>(entryCount);
 
@@ -135,11 +136,11 @@ public final class RedditChangeDataManager {
 			final RedditAccount account = RedditAccountManager.getInstance(context).getAccount(username);
 
 			if(account == null) {
-				Log.i(TAG, String.format("Skipping user '%s' as the account no longer exists", username));
+				Log.i(TAG, String.format(Locale.US, "Skipping user '%s' as the account no longer exists", username));
 
 			} else {
 				getInstance(account).insertAll(entries);
-				Log.i(TAG, String.format("Finished inserting entries for user '%s'", username));
+				Log.i(TAG, String.format(Locale.US, "Finished inserting entries for user '%s'", username));
 			}
 		}
 

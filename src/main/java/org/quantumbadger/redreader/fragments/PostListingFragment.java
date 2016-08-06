@@ -22,6 +22,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -80,6 +81,7 @@ import org.quantumbadger.redreader.views.liststatus.ErrorView;
 import java.net.URI;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
@@ -114,6 +116,8 @@ public class PostListingFragment extends RRFragment
 
 	private int mPostCount = 0;
 	private final AtomicInteger mPostRefreshCount = new AtomicInteger(0);
+
+	private final HashSet<String> mPostIds = new HashSet<>(200);
 
 	private Integer mPreviousFirstVisibleItemPosition;
 
@@ -637,9 +641,11 @@ public class PostListingFragment extends RRFragment
 
 					mAfter = post.name;
 
-					Boolean isPostBlocked = getIsPostBlocked(isAll, blockedSubreddits, post);
+					final boolean isPostBlocked = getIsPostBlocked(isAll, blockedSubreddits, post);
 
-					if(!isPostBlocked && (!post.over_18 || isNsfwAllowed)) {
+					if(!isPostBlocked
+							&& (!post.over_18 || isNsfwAllowed)
+							&& mPostIds.add(post.getIdAlone())) {
 
 						final boolean downloadThisThumbnail = downloadThumbnails && (!post.over_18 || showNsfwThumbnails);
 
@@ -779,10 +785,10 @@ public class PostListingFragment extends RRFragment
 								PostListingFragment.this,
 								activity,
 								mPostListingURL));
-					}
 
-					mPostCount++;
-					mPostRefreshCount.decrementAndGet();
+						mPostCount++;
+						mPostRefreshCount.decrementAndGet();
+					}
 				}
 
 				AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
@@ -805,16 +811,19 @@ public class PostListingFragment extends RRFragment
 		}
 	}
 
-	private Boolean getIsPostBlocked(boolean isAll, List<String> blockedSubreddits, RedditPost post) throws RedditSubreddit.InvalidSubredditNameException {
-		Boolean isPostBlocked = false;
+	private boolean getIsPostBlocked(
+			final boolean isAll,
+			@NonNull final List<String> blockedSubreddits,
+			@NonNull final RedditPost post) throws RedditSubreddit.InvalidSubredditNameException {
 
 		if (isAll) {
 			for (String blockedSubredditName : blockedSubreddits) {
 				if (blockedSubredditName.equalsIgnoreCase(RedditSubreddit.getCanonicalName(post.subreddit))) {
-					isPostBlocked = true;
+					return true;
 				}
 			}
 		}
-		return isPostBlocked;
+
+		return false;
 	}
 }

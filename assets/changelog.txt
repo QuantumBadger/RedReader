@@ -1,4 +1,4 @@
-72/1.9.5
+73/1.9.5.1
 Comment swipe actions
 Ability to search comments (thanks to cpalasanu)
 Ability to send and reply to private messages
@@ -12,6 +12,7 @@ Migrated post list to a RecyclerView, fixing lots of bugs
 Made blue theme darker
 Ability to change navbar colour
 Removed "Beta" from the app name
+Lots of bugfixes
 
 71/1.9.4
 Material Design

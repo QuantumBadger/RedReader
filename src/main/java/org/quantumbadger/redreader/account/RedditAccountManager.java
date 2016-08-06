@@ -30,6 +30,7 @@ import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 public final class RedditAccountManager extends SQLiteOpenHelper {
 
@@ -98,7 +99,7 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 
 		if(oldVersion == 1 && newVersion == 2) {
 
-			db.execSQL(String.format("UPDATE %s SET %2$s=TRIM(%2$s) WHERE %2$s <> TRIM(%2$s)", TABLE, FIELD_USERNAME));
+			db.execSQL(String.format(Locale.US, "UPDATE %s SET %2$s=TRIM(%2$s) WHERE %2$s <> TRIM(%2$s)", TABLE, FIELD_USERNAME));
 
 		} else {
 			throw new RuntimeException("Invalid accounts DB update: " + oldVersion + " to " + newVersion);
@@ -181,7 +182,7 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 		final SQLiteDatabase db = getWritableDatabase();
 
 		db.execSQL(
-				String.format("UPDATE %s SET %s=(SELECT MIN(%s)-1 FROM %s) WHERE %s=?", TABLE, FIELD_PRIORITY, FIELD_PRIORITY, TABLE, FIELD_USERNAME),
+				String.format(Locale.US, "UPDATE %s SET %s=(SELECT MIN(%s)-1 FROM %s) WHERE %s=?", TABLE, FIELD_PRIORITY, FIELD_PRIORITY, TABLE, FIELD_USERNAME),
 				new String[]{newDefault.username});
 
 		reloadAccounts(db);

@@ -64,10 +64,6 @@
         <item name="rrPostCommentsButtonTextCol">#BBBBBB</item>
         <item name="rrPostThumbnailBackground">#000000</item>
         <item name="rrPostFlingTextCol">#FFFFFF</item>
-        <item name="rrPostBackgroundColSticky">#004400</item>
-        <item name="rrPostCommentsButtonBackColSticky">#226622</item>
-		<item name="rrPostBackgroundColHighlightSticky">#338833</item>
-		<item name="rrPostCommentsButtonHighlightColSticky">#55AA55</item>
         <item name="rrFlairBackCol">#333333</item>
         <item name="rrFlairTextCol">#AAAAAA</item>
         <item name="rrGoldBackCol">#B0923C</item>
@@ -178,10 +174,6 @@
         <item name="rrPostCommentsButtonTextCol">#666666</item>
         <item name="rrPostThumbnailBackground">#DDDDDD</item>
         <item name="rrPostFlingTextCol">?colorPrimary</item>
-        <item name="rrPostBackgroundColSticky">#DDFFDD</item>
-        <item name="rrPostCommentsButtonBackColSticky">#BBEEBB</item>
-		<item name="rrPostBackgroundColHighlightSticky">#AADDAA</item>
-		<item name="rrPostCommentsButtonHighlightColSticky">#88BB88</item>
         <item name="rrFlairBackCol">#DDDDDD</item>
         <item name="rrFlairTextCol">#444444</item>
         <item name="rrGoldBackCol">#FFDF52</item>

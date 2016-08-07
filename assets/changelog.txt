@@ -2,6 +2,7 @@
 Multireddit viewing support
 Ability to view custom user pages
 Preference to use un-shortened link for "Share Comments" (thanks to fhtagn)
+Preference for cache storage location
 
 73/1.9.5.1
 Comment swipe actions

@@ -95,6 +95,11 @@
 
     <!-- Cache Prefs -->
 
+    <string name="pref_cache_general_header">General</string>
+
+    <string name="pref_cache_location_key">pref_cache_location</string>
+    <string name="pref_cache_location_title">Cache storage location</string>
+
     <string name="pref_cache_pruning">Cache Pruning</string>
 
     <string name="pref_cache_maxage_listing_key">pref_cache_maxage_listing</string>

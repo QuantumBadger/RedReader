@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.http.okhttp;
 
 import android.content.Context;
+import android.util.Log;
 import com.squareup.okhttp.CacheControl;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.MediaType;
@@ -60,6 +61,15 @@ public class OKHTTPBackend implements HTTPBackend {
 		mClient.setReadTimeout(10000, TimeUnit.SECONDS);
 
 		mClient.setRetryOnConnectionFailure(true);
+
+		final HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+			@Override
+			public void log(final String message) {
+				Log.e("RRDEBUG", message);
+			}
+		});
+		interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+		mClient.interceptors().add(interceptor);
 	}
 
 	public static synchronized HTTPBackend getHttpBackend() {

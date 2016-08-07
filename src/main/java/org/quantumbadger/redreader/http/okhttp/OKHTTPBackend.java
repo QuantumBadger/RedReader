@@ -26,6 +26,7 @@ import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 import com.squareup.okhttp.ResponseBody;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.TorCommon;
 import org.quantumbadger.redreader.http.HTTPBackend;
 
@@ -76,6 +77,8 @@ public class OKHTTPBackend implements HTTPBackend {
 	public Request prepareRequest(final Context context, final RequestDetails details) {
 
 		final com.squareup.okhttp.Request.Builder builder = new com.squareup.okhttp.Request.Builder();
+
+		builder.header("User-Agent", Constants.ua(context));
 
 		final List<PostField> postFields = details.getPostFields();
 

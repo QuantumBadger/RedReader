@@ -95,11 +95,6 @@
 
     <!-- Cache Prefs -->
 
-    <string name="pref_cache_general_header">General</string>
-
-    <string name="pref_cache_location_key">pref_cache_location</string>
-    <string name="pref_cache_location_title">Cache storage location</string>
-
     <string name="pref_cache_pruning">Cache Pruning</string>
 
     <string name="pref_cache_maxage_listing_key">pref_cache_maxage_listing</string>
@@ -878,5 +873,11 @@
 
 	<string name="pref_behaviour_share_permalink_key">pref_behaviour_share_permalink</string>
 	<string name="pref_behaviour_share_permalink_title">Share as permalink</string>
+
+	<!-- 2016-08-10 -->
+	<string name="pref_cache_general_header">General</string>
+
+	<string name="pref_cache_location_key">pref_cache_location</string>
+	<string name="pref_cache_location_title">Cache storage location</string>
 
 </resources>

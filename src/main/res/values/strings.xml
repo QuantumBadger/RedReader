@@ -880,4 +880,7 @@
 	<string name="pref_cache_location_key">pref_cache_location</string>
 	<string name="pref_cache_location_title">Cache storage location</string>
 
+	<string name="error_cache_dir_does_not_exist_title">Cache directory missing</string>
+	<string name="error_cache_dir_does_not_exist_message">The cache directory could not be accessed. Please choose a different location in the cache settings.</string>
+
 </resources>

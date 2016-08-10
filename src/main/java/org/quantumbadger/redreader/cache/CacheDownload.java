@@ -160,8 +160,23 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 						cacheFile = manager.openNewCacheFile(mInitiator, session, mimetype);
 						cacheOs = cacheFile.getOutputStream();
 					} catch (IOException e) {
+
 						e.printStackTrace();
-						mInitiator.notifyFailure(CacheRequest.REQUEST_FAILURE_STORAGE, e, null, "Could not access the local cache");
+
+						final int failureType;
+
+						if(manager.getPreferredCacheLocation().exists()) {
+							failureType = CacheRequest.REQUEST_FAILURE_STORAGE;
+						} else {
+							failureType = CacheRequest.REQUEST_FAILURE_CACHE_DIR_DOES_NOT_EXIST;
+						}
+
+						mInitiator.notifyFailure(
+								failureType,
+								e,
+								null,
+								"Could not access the local cache");
+
 						return;
 					}
 				} else {

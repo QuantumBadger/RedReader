@@ -263,6 +263,10 @@ public final class General {
 				title = R.string.error_disk_space_title;
 				message = R.string.error_disk_space_message;
 				break;
+			case CacheRequest.REQUEST_FAILURE_CACHE_DIR_DOES_NOT_EXIST:
+				title = R.string.error_cache_dir_does_not_exist_title;
+				message = R.string.error_cache_dir_does_not_exist_message;
+				break;
 			case CacheRequest.REQUEST_FAILURE_REQUEST:
 
 				if(status != null) {

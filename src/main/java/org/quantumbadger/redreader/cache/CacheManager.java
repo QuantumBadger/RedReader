@@ -40,7 +40,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -131,15 +130,26 @@ public final class CacheManager {
 	}
 
 	public static List<File> getCacheDirs(Context context) {
-		List<File> dirs = new ArrayList<>();
+
+		final ArrayList<File> dirs = new ArrayList<>();
+
 		dirs.add(context.getCacheDir());
+
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-			Collections.addAll(dirs, context.getExternalCacheDirs());
+			for(final File dir : context.getExternalCacheDirs()) {
+				if(dir != null) {
+					dirs.add(dir);
+				}
+			}
+
 		} else {
-			File extDir = context.getExternalCacheDir();
-			if (extDir != null)
+			final File extDir = context.getExternalCacheDir();
+			if (extDir != null) {
 				dirs.add(extDir);
+			}
 		}
+
+
 		return dirs;
 	}
 
@@ -191,19 +201,23 @@ public final class CacheManager {
 		return dbManager.select(url, user.username, null);
 	}
 
+	public File getPreferredCacheLocation() {
+		return new File(
+				PrefsUtility.pref_cache_location(context, PreferenceManager.getDefaultSharedPreferences(context)));
+	}
+
 	public class WritableCacheFile {
 
 		private final NotifyOutputStream os;
 		private long cacheFileId = -1;
 		private ReadableCacheFile readableCacheFile = null;
 		private final CacheRequest request;
-		private String location;
+		private final File location;
 
 		private WritableCacheFile(final CacheRequest request, final UUID session, final String mimetype) throws IOException {
 
 			this.request = request;
-			location = PrefsUtility.pref_cache_location(context,
-					PreferenceManager.getDefaultSharedPreferences(context));
+			location = getPreferredCacheLocation();
 			final File tmpFile = new File(location, UUID.randomUUID().toString() + tempExt);
 			final FileOutputStream fos = new FileOutputStream(tmpFile);
 
@@ -242,7 +256,7 @@ public final class CacheManager {
 					os.flush();
 					os.close();
 				} catch(IOException e) {
-					Log.e("RR DEBUG getReadableCacheFile", "Error closing " + cacheFileId);
+					Log.e("getReadableCacheFile", "Error closing " + cacheFileId);
 					throw e;
 				}
 			}

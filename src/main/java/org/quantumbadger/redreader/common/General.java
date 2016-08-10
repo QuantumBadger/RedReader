@@ -28,10 +28,12 @@ import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Looper;
 import android.os.Message;
 import android.os.StatFs;
 import android.os.SystemClock;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -134,19 +136,42 @@ public final class General {
 	}
 
 	public static boolean isCacheDiskFull(final Context context) {
-		final StatFs stat = new StatFs(getBestCacheDir(context).getPath());
-		return (long)stat.getBlockSize() *(long)stat.getAvailableBlocks() < 128 * 1024 * 1024;
+		final long space = getFreeSpaceAvailable(PrefsUtility.pref_cache_location(context,
+				PreferenceManager.getDefaultSharedPreferences(context)));
+		return space < 128 * 1024 * 1024;
 	}
 
-	public static File getBestCacheDir(final Context context) {
-
-		final File externalCacheDir = context.getExternalCacheDir();
-
-		if(externalCacheDir != null) {
-			return externalCacheDir;
+	/// Get the number of free bytes that are available on the external storage.
+	@SuppressWarnings("deprecation")
+	public static long getFreeSpaceAvailable(String path) {
+		StatFs stat = new StatFs(path);
+		long availableBlocks;
+		long blockSize;
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+			availableBlocks = stat.getAvailableBlocksLong();
+			blockSize = stat.getBlockSizeLong();
+		} else {
+			availableBlocks = stat.getAvailableBlocks();
+			blockSize = stat.getBlockSize();
 		}
+		return availableBlocks * blockSize;
+	}
 
-		return context.getCacheDir();
+	/** Takes a size in bytes and converts it into a human-readable
+	 * String with units.
+	 */
+	public static String addUnits(final long input) {
+		int i = 0;
+		long result = input;
+		while (i <= 3 && result >= 1024)
+			result = input / (long) Math.pow(1024, ++i);
+
+		switch (i) {
+		default: return result + " B";
+		case 1: return result + " KiB";
+		case 2: return result + " MiB";
+		case 3: return result + " GiB";
+		}
 	}
 
 	public static int dpToPixels(final Context context, final float dp) {

@@ -17,8 +17,11 @@
 
 package org.quantumbadger.redreader.settings;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -27,10 +30,21 @@ import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
+import android.text.Html;
+
+import org.quantumbadger.redreader.BuildConfig;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.ChangelogActivity;
+import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.common.AndroidApi;
+import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.TorCommon;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class SettingsFragment extends PreferenceFragment {
 
@@ -185,5 +199,81 @@ public final class SettingsFragment extends PreferenceFragment {
 				pref.setSummary(R.string.pref_not_supported_before_lollipop);
 			}
 		}
+
+		Preference cacheLocationPref = findPreference(getString(R.string.pref_cache_location_key));
+		if (cacheLocationPref != null) {
+			cacheLocationPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+				@Override
+				public boolean onPreferenceClick(Preference preference) {
+					showChooseStorageLocationDialog();
+					return true;
+				}
+			});
+			updateStorageLocationText(PrefsUtility.pref_cache_location(context,
+					PreferenceManager.getDefaultSharedPreferences(context)));
+		}
+	}
+
+	private void showChooseStorageLocationDialog() {
+		final Context context = getActivity();
+		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		String currentStorage = PrefsUtility.pref_cache_location(context, prefs);
+
+		List<File> checkPaths = CacheManager.getCacheDirs(context);
+
+		final List<File> folders = new ArrayList<>(checkPaths.size());
+
+		List<CharSequence> choices = new ArrayList<>(checkPaths.size());
+		int selectedIndex = 0;
+
+		for (int i = 0; i < checkPaths.size(); i++) {
+			File dir = checkPaths.get(i);
+			if (dir == null || !dir.exists() || !dir.canRead() || !dir.canWrite()) {
+				continue;
+			}
+			folders.add(dir);
+			if (currentStorage.equals(dir.getAbsolutePath())) {
+				selectedIndex = i;
+			}
+
+			String path = dir.getAbsolutePath();
+			long bytes = General.getFreeSpaceAvailable(path);
+			String freeSpace = General.addUnits(bytes);
+			if (!path.endsWith("/")) {
+				path += "/";
+			}
+			String appCachePostfix = BuildConfig.APPLICATION_ID + "/cache/";
+			if (path.endsWith("Android/data/" + appCachePostfix)) {
+				path = path.substring(0, path.length() - appCachePostfix.length() - 14);
+			} else if (path.endsWith(appCachePostfix)) {
+				path = path.substring(0, path.length() - appCachePostfix.length() - 1);
+			}
+			choices.add(Html.fromHtml("<small>" + path +
+					" [" + freeSpace + "]</small>"));
+		}
+		new AlertDialog.Builder(context)
+				.setTitle(R.string.pref_cache_location_title)
+				.setSingleChoiceItems(choices.toArray(new CharSequence[choices.size()]),
+						selectedIndex, new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int i) {
+								dialog.dismiss();
+								String path = folders.get(i).getAbsolutePath();
+								PrefsUtility.pref_cache_location(context, prefs, path);
+								updateStorageLocationText(path);
+							}
+						})
+				.setNegativeButton(R.string.dialog_close, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int i) {
+						dialog.dismiss();
+					}
+				})
+				.create()
+				.show();
+	}
+
+	private void updateStorageLocationText(String path) {
+		findPreference(getString(R.string.pref_cache_location_key)).setSummary(path);
 	}
 }

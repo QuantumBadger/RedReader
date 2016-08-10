@@ -33,6 +33,7 @@ import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -430,6 +431,26 @@ public final class PrefsUtility {
 	///////////////////////////////
 	// pref_cache
 	///////////////////////////////
+
+	// pref_cache_location
+
+	public static String pref_cache_location(final Context context,
+			final SharedPreferences sharedPreferences) {
+		File defaultCacheDir = context.getExternalCacheDir();
+		if (defaultCacheDir == null) {
+			defaultCacheDir = context.getCacheDir();
+		}
+		return getString(R.string.pref_cache_location_key,
+				defaultCacheDir.getAbsolutePath(),
+				context, sharedPreferences);
+	}
+
+	public static void pref_cache_location(Context context,
+			final SharedPreferences sharedPreferences, final String path) {
+		sharedPreferences.edit()
+				.putString(context.getString(R.string.pref_cache_location_key), path)
+				.apply();
+	}
 
 	// pref_cache_maxage
 

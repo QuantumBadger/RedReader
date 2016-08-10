@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.cache;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -39,9 +40,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 import java.util.concurrent.PriorityBlockingQueue;
@@ -127,17 +130,23 @@ public final class CacheManager {
 		}
 	}
 
-	public void pruneTemp() {
-
-		final File externalCacheDir = context.getExternalCacheDir();
-		final File internalCacheDir = context.getCacheDir();
-
-		if(externalCacheDir != null) {
-			pruneTemp(externalCacheDir);
+	public static List<File> getCacheDirs(Context context) {
+		List<File> dirs = new ArrayList<>();
+		dirs.add(context.getCacheDir());
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			Collections.addAll(dirs, context.getExternalCacheDirs());
+		} else {
+			File extDir = context.getExternalCacheDir();
+			if (extDir != null)
+				dirs.add(extDir);
 		}
+		return dirs;
+	}
 
-		if(internalCacheDir != null) {
-			pruneTemp(internalCacheDir);
+	public void pruneTemp() {
+		List<File> dirs = getCacheDirs(context);
+		for (File dir : dirs) {
+			pruneTemp(dir);
 		}
 	}
 
@@ -147,15 +156,9 @@ public final class CacheManager {
 
 			final HashSet<Long> currentFiles = new HashSet<>(128);
 
-			final File externalCacheDir = context.getExternalCacheDir();
-			final File internalCacheDir = context.getCacheDir();
-
-			if(externalCacheDir != null) {
-				getCacheFileList(externalCacheDir, currentFiles);
-			}
-
-			if(internalCacheDir != null) {
-				getCacheFileList(internalCacheDir, currentFiles);
+			List<File> dirs = getCacheDirs(context);
+			for (File dir : dirs) {
+				getCacheFileList(dir, currentFiles);
 			}
 
 			final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -194,12 +197,14 @@ public final class CacheManager {
 		private long cacheFileId = -1;
 		private ReadableCacheFile readableCacheFile = null;
 		private final CacheRequest request;
+		private String location;
 
 		private WritableCacheFile(final CacheRequest request, final UUID session, final String mimetype) throws IOException {
 
 			this.request = request;
-
-			final File tmpFile = new File(General.getBestCacheDir(context), UUID.randomUUID().toString() + tempExt);
+			location = PrefsUtility.pref_cache_location(context,
+					PreferenceManager.getDefaultSharedPreferences(context));
+			final File tmpFile = new File(location, UUID.randomUUID().toString() + tempExt);
 			final FileOutputStream fos = new FileOutputStream(tmpFile);
 
 			final OutputStream bufferedOs = new BufferedOutputStream(fos, 64 * 1024);
@@ -209,7 +214,7 @@ public final class CacheManager {
 
 					cacheFileId = dbManager.newEntry(request, session, mimetype);
 
-					final File dstFile = new File(General.getBestCacheDir(context), cacheFileId + ext);
+					final File dstFile = new File(location, cacheFileId + ext);
 					General.moveFile(tmpFile, dstFile);
 
 					dbManager.setEntryDone(cacheFileId);
@@ -277,23 +282,12 @@ public final class CacheManager {
 	}
 
 	private File getExistingCacheFile(final long id) {
-
-		final File externalCacheDir = context.getExternalCacheDir();
-
-		if(externalCacheDir != null) {
-			final File fExternal = new File(externalCacheDir, id + ext);
-
-			if(fExternal.exists()) {
-				return fExternal;
-			}
+		List<File> dirs = getCacheDirs(context);
+		for (File dir : dirs) {
+			final File f = new File(dir, id + ext);
+			if (f.exists())
+				return f;
 		}
-
-		final File fInternal = new File(context.getCacheDir(), id + ext);
-
-		if(fInternal.exists()) {
-			return fInternal;
-		}
-
 		return null;
 	}
 

@@ -19,6 +19,13 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <PreferenceCategory android:title="@string/pref_cache_general_header">
+
+        <Preference android:title="@string/pref_cache_location_title"
+                    android:key="@string/pref_cache_location_key"/>
+
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/pref_cache_precache_images_header">
 
     <CheckBoxPreference android:title="@string/pref_cache_precache_images_title"

@@ -213,6 +213,7 @@ public class MainMenuListingManager {
 
 			boolean isFirst = true;
 
+			Collections.sort(pinnedSubreddits);
 			for(final String sr : pinnedSubreddits) {
 				mAdapter.appendToGroup(GROUP_PINNED_SUBREDDITS_ITEMS, makeSubredditItem(sr, isFirst));
 				isFirst = false;

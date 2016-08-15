@@ -203,7 +203,7 @@ public class MainMenuListingManager {
 
 		final List<String> pinnedSubreddits
 				= PrefsUtility.pref_pinned_subreddits(context, PreferenceManager.getDefaultSharedPreferences(context));
-
+		final PrefsUtility.PinnedSubredditSort pinnedSubredditsSort = PrefsUtility.perf_behaviour_pinned_subredditsort(context, PreferenceManager.getDefaultSharedPreferences(context));
 		if(!pinnedSubreddits.isEmpty()) {
 
 			mAdapter.appendToGroup(
@@ -212,8 +212,10 @@ public class MainMenuListingManager {
 							context.getString(R.string.mainmenu_header_subreddits_pinned)));
 
 			boolean isFirst = true;
-
-			Collections.sort(pinnedSubreddits);
+			switch (pinnedSubredditsSort){
+				case NAME: Collections.sort(pinnedSubreddits); break;
+				case DATE: /*noop*/break;
+			}
 
 			for(final String sr : pinnedSubreddits) {
 				mAdapter.appendToGroup(GROUP_PINNED_SUBREDDITS_ITEMS, makeSubredditItem(sr, isFirst));

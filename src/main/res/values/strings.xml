@@ -883,4 +883,10 @@
 	<string name="error_cache_dir_does_not_exist_title">Cache directory missing</string>
 	<string name="error_cache_dir_does_not_exist_message">The cache directory could not be accessed. Please choose a different location in the cache settings.</string>
 
+	<!-- 2016-08-15 -->
+	<string name="pref_behaviour_pinned_subredditsort_key">pref_behaviour_pinned_subreddit_sort</string>
+	<string name="pref_behaviour_pinned_subredditsort">Pinned Subreddit Sort</string>
+	<string name="sort_pinned_subreddit_name">By Name</string>
+	<string name="sort_pinned_subreddit_date">By Added Date</string>
+
 </resources>

@@ -404,6 +404,14 @@ public final class PrefsUtility {
 		return PostCommentListingURL.Sort.valueOf(General.asciiUppercase(getString(R.string.pref_behaviour_commentsort_key, "best", context, sharedPreferences)));
 	}
 
+	public enum PinnedSubredditSort {
+		NAME, DATE
+	}
+
+	public static PinnedSubredditSort perf_behaviour_pinned_subredditsort(final Context context, final SharedPreferences sharedPreferences) {
+		return PinnedSubredditSort.valueOf(General.asciiUppercase(getString(R.string.pref_behaviour_pinned_subredditsort_key, "name", context, sharedPreferences)));
+	}
+
 	public static boolean pref_behaviour_nsfw(final Context context, final SharedPreferences sharedPreferences) {
 		return getBoolean(R.string.pref_behaviour_nsfw_key, false, context, sharedPreferences);
 	}

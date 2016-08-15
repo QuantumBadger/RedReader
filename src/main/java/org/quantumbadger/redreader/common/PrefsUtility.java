@@ -79,7 +79,8 @@ public final class PrefsUtility {
 				|| key.equals(context.getString(R.string.pref_behaviour_fling_post_right_key))
 				|| key.equals(context.getString(R.string.pref_behaviour_nsfw_key))
 				|| key.equals(context.getString(R.string.pref_behaviour_postcount_key))
-				|| key.equals(context.getString(R.string.pref_behaviour_comment_min_key));
+				|| key.equals(context.getString(R.string.pref_behaviour_comment_min_key))
+				|| key.equals(context.getString(R.string.pref_behaviour_pinned_subredditsort_key));
 	}
 
 	public static boolean isRestartRequired(Context context, String key) {

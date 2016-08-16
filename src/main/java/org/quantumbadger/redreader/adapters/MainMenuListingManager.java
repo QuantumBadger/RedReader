@@ -217,8 +217,6 @@ public class MainMenuListingManager {
 				case DATE: /*noop*/break;
 			}
 
-			Collections.sort(pinnedSubreddits);
-
 			for(final String sr : pinnedSubreddits) {
 				mAdapter.appendToGroup(GROUP_PINNED_SUBREDDITS_ITEMS, makeSubredditItem(sr, isFirst));
 				isFirst = false;

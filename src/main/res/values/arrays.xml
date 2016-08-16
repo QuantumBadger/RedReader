@@ -574,4 +574,16 @@
 		<item>url</item>
 	</string-array>
 
+	<string-array name="pref_behaviour_nsfw">
+		<item>No NSFW Content</item>
+		<item>Show NSFW Content</item>
+		<item>Only NSFW Content</item>
+	</string-array>
+
+	<string-array name="pref_behaviour_nsfw_return">
+		<item>NO_NSFW</item>
+		<item>YES_NSFW</item>
+		<item>ONLY_NSFW</item>
+	</string-array>
+
 </resources>

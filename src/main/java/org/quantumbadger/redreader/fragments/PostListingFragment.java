@@ -574,7 +574,7 @@ public class PostListingFragment extends RRFragment
 				final JsonBufferedObject listing = thing.getObject("data");
 				final JsonBufferedArray posts = listing.getArray("children");
 
-				final boolean isNsfwAllowed = PrefsUtility.pref_behaviour_nsfw(activity, mSharedPreferences);
+				final PrefsUtility.NSFWContent nsfwBehaviour = PrefsUtility.pref_behaviour_nsfw(activity, mSharedPreferences);
 				final boolean isConnectionWifi = General.isConnectionWifi(activity);
 
 				final PrefsUtility.AppearanceThumbnailsShow thumbnailsPref = PrefsUtility.appearance_thumbnails_show(
@@ -645,8 +645,9 @@ public class PostListingFragment extends RRFragment
 					final boolean isPostBlocked = getIsPostBlocked(isAll, blockedSubreddits, post);
 
 					if(!isPostBlocked
-							&& (!post.over_18 || isNsfwAllowed)
-							&& mPostIds.add(post.getIdAlone())) {
+							&& (!post.over_18 || nsfwBehaviour != PrefsUtility.NSFWContent.NO_NSFW)
+							&& mPostIds.add(post.getIdAlone()) &&
+							(post.over_18 || nsfwBehaviour != PrefsUtility.NSFWContent.ONLY_NSFW)) {
 
 						final boolean downloadThisThumbnail = downloadThumbnails && (!post.over_18 || showNsfwThumbnails);
 

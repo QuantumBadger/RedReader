@@ -404,8 +404,12 @@ public final class PrefsUtility {
 		return PostCommentListingURL.Sort.valueOf(General.asciiUppercase(getString(R.string.pref_behaviour_commentsort_key, "best", context, sharedPreferences)));
 	}
 
-	public static boolean pref_behaviour_nsfw(final Context context, final SharedPreferences sharedPreferences) {
-		return getBoolean(R.string.pref_behaviour_nsfw_key, false, context, sharedPreferences);
+	public enum NSFWContent {
+		NO_NSFW, YES_NSFW, ONLY_NSFW
+	}
+
+	public static NSFWContent pref_behaviour_nsfw(final Context context, final SharedPreferences sharedPreferences) {
+		return NSFWContent.valueOf(getString(R.string.pref_behaviour_nsfw_key, "NO_NSFW", context, sharedPreferences));
 	}
 
 	public static boolean pref_behaviour_share_permalink(final Context context, final SharedPreferences sharedPreferences) {

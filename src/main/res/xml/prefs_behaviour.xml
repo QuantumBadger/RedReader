@@ -130,9 +130,11 @@
 
     <PreferenceCategory android:title="@string/pref_behaviour_posts_header">
 
-        <CheckBoxPreference android:title="@string/pref_behaviour_nsfw_title"
-                            android:key="@string/pref_behaviour_nsfw_key"
-                            android:defaultValue="false"/>
+        <ListPreference android:title="@string/pref_behaviour_nsfw_title"
+						android:key="@string/pref_behaviour_nsfw_key"
+						android:entries="@array/pref_behaviour_nsfw"
+						android:entryValues="@array/pref_behaviour_nsfw_return"
+						android:defaultValue="no_nsfw"/>
 
 		<CheckBoxPreference android:title="@string/pref_behaviour_share_permalink_title"
 				android:key="@string/pref_behaviour_share_permalink_key"

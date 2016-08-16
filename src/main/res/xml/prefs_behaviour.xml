@@ -82,7 +82,6 @@
                         android:defaultValue="best"/>
 
 		<ListPreference android:title="@string/pref_behaviour_pinned_subredditsort"
-						android:summary="%s"
 						android:key="@string/pref_behaviour_pinned_subredditsort_key"
 						android:entries="@array/pref_behaviour_pinned_subredditsort_array"
 						android:entryValues="@array/pref_behaviour_pinned_subredditsort_array_return"

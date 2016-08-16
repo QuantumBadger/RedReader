@@ -81,6 +81,12 @@
                         android:entryValues="@array/pref_behaviour_commentsort_array_return"
                         android:defaultValue="best"/>
 
+		<ListPreference android:title="@string/pref_behaviour_pinned_subredditsort"
+						android:key="@string/pref_behaviour_pinned_subredditsort_key"
+						android:entries="@array/pref_behaviour_pinned_subredditsort_array"
+						android:entryValues="@array/pref_behaviour_pinned_subredditsort_array_return"
+						android:defaultValue="name"/>
+
     </PreferenceCategory>
 
 

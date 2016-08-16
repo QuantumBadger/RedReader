@@ -130,6 +130,17 @@
 		<item>qa</item>
 	</string-array>
 
+	<string-array name="pref_behaviour_pinned_subredditsort_array">
+		<item>@string/sort_pinned_subreddit_name</item>
+		<item>@string/sort_pinned_subreddit_date</item>
+	</string-array>
+
+	<!-- Constants. Do not change. -->
+	<string-array name="pref_behaviour_pinned_subredditsort_array_return">
+		<item>name</item>
+		<item>date</item>
+	</string-array>
+
     <string-array name="pref_behaviour_actions_comment">
         <item>@string/action_collapse</item>
         <item>@string/action_actionmenu</item>

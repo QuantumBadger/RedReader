@@ -409,7 +409,7 @@ public final class PrefsUtility {
 		NAME, DATE
 	}
 
-	public static PinnedSubredditSort perf_behaviour_pinned_subredditsort(final Context context, final SharedPreferences sharedPreferences) {
+	public static PinnedSubredditSort pref_behaviour_pinned_subredditsort(final Context context, final SharedPreferences sharedPreferences) {
 		return PinnedSubredditSort.valueOf(General.asciiUppercase(getString(R.string.pref_behaviour_pinned_subredditsort_key, "name", context, sharedPreferences)));
 	}
 

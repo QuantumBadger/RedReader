@@ -203,7 +203,7 @@ public class MainMenuListingManager {
 
 		final List<String> pinnedSubreddits
 				= PrefsUtility.pref_pinned_subreddits(context, PreferenceManager.getDefaultSharedPreferences(context));
-		final PrefsUtility.PinnedSubredditSort pinnedSubredditsSort = PrefsUtility.perf_behaviour_pinned_subredditsort(context, PreferenceManager.getDefaultSharedPreferences(context));
+		final PrefsUtility.PinnedSubredditSort pinnedSubredditsSort = PrefsUtility.pref_behaviour_pinned_subredditsort(context, PreferenceManager.getDefaultSharedPreferences(context));
 		if(!pinnedSubreddits.isEmpty()) {
 
 			mAdapter.appendToGroup(

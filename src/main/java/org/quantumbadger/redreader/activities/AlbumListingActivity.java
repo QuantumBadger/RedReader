@@ -133,12 +133,20 @@ public class AlbumListingActivity extends BaseActivity {
 
 						layout.removeAllViews();
 
-						final ScrollbarRecyclerViewManager recyclerViewManager
-								= new ScrollbarRecyclerViewManager(AlbumListingActivity.this, null, false);
+						if(info.images.size() == 1) {
+							LinkHandler.onLinkClicked(AlbumListingActivity.this, info.images.get(0).urlOriginal);
+							finish();
 
-						layout.addView(recyclerViewManager.getOuterView());
+						} else {
+							final ScrollbarRecyclerViewManager recyclerViewManager
+									= new ScrollbarRecyclerViewManager(AlbumListingActivity.this, null, false);
 
-						recyclerViewManager.getRecyclerView().setAdapter(new AlbumAdapter(AlbumListingActivity.this, info));
+							layout.addView(recyclerViewManager.getOuterView());
+
+							recyclerViewManager.getRecyclerView().setAdapter(new AlbumAdapter(
+									AlbumListingActivity.this,
+									info));
+						}
 					}
 				});
 			}

@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -82,13 +81,11 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 			final Intent intent = getIntent();
 			mSearchString = intent.getStringExtra(EXTRA_SEARCH_STRING);
 
-			final ArrayList<String> urls = intent.getStringArrayListExtra("urls");
+			final ArrayList<String> commentIds = intent.getStringArrayListExtra("commentIds");
+			final String postId = intent.getStringExtra("postId");
 
-			for(final String url : urls) {
-				final RedditURLParser.RedditURL redditURL = RedditURLParser.parseProbableCommentListing(Uri.parse(url));
-				if(redditURL != null) {
-					mUrls.add(redditURL);
-				}
+			for(final String commentId : commentIds) {
+				mUrls.add(PostCommentListingURL.forPostId(postId).commentId(commentId));
 			}
 
 			doRefresh(RefreshableFragment.COMMENTS, false, null);

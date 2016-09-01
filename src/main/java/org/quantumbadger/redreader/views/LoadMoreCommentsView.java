@@ -54,8 +54,6 @@ public class LoadMoreCommentsView extends LinearLayout {
 
 		mCommentListingURL = commentListingURL;
 
-		// TODO setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
-
 		setOrientation(VERTICAL);
 
 		final View divider = new View(context);
@@ -101,14 +99,24 @@ public class LoadMoreCommentsView extends LinearLayout {
 		setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(final View v) {
-				final ArrayList<String> urls = new ArrayList<>(16);
-				for(final PostCommentListingURL url : mItem.asLoadMore().getMoreUrls(mCommentListingURL)) {
-					urls.add(url.toString());
-				}
 
-				final Intent intent = new Intent(context, MoreCommentsListingActivity.class);
-				intent.putStringArrayListExtra("urls", urls);
-				context.startActivity(intent);
+				if(mCommentListingURL.pathType() == RedditURLParser.POST_COMMENT_LISTING_URL) {
+
+					final PostCommentListingURL listingUrl = mCommentListingURL.asPostCommentListURL();
+
+					final ArrayList<String> commentIds = new ArrayList<>(16);
+					for(final PostCommentListingURL url : mItem.asLoadMore().getMoreUrls(mCommentListingURL)) {
+						commentIds.add(url.commentId);
+					}
+
+					final Intent intent = new Intent(context, MoreCommentsListingActivity.class);
+					intent.putExtra("postId", listingUrl.postId);
+					intent.putStringArrayListExtra("commentIds", commentIds);
+					context.startActivity(intent);
+
+				} else {
+					General.quickToast(context, R.string.load_more_comments_failed_unknown_url_type);
+				}
 			}
 		});
 	}

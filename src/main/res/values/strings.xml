@@ -889,4 +889,7 @@
 	<string name="sort_pinned_subreddit_name">By Name</string>
 	<string name="sort_pinned_subreddit_date">By Added Date</string>
 
+	<!-- 2016-09-01 -->
+	<string name="load_more_comments_failed_unknown_url_type">Cannot load more comments: unknown URL type.</string>
+
 </resources>

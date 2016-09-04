@@ -117,6 +117,10 @@
                             android:key="@string/pref_appearance_linkbuttons_key"
                             android:defaultValue="true"/>
 
+		<CheckBoxPreference android:title="@string/pref_appearance_link_text_clickable_title"
+							android:key="@string/pref_appearance_link_text_clickable_key"
+							android:defaultValue="true"/>
+
         <CheckBoxPreference android:title="@string/pref_appearance_indentlines_title"
                             android:key="@string/pref_appearance_indentlines_key"
                             android:defaultValue="false"/>

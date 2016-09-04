@@ -5,6 +5,7 @@ Preference to use un-shortened link for "Share Comments" (thanks to fhtagn)
 Preference for cache storage location (thanks to ShadowNinja)
 Preference to set pinned subreddit sort order (thanks to chippen)
 Preference to hide floating toolbar over images
+Preference to make link text non-clickable
 For albums with only one image, the image is now shown immediately
 Fixed bug with huge "load more comments" links
 

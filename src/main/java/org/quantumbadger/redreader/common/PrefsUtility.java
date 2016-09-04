@@ -232,6 +232,10 @@ public final class PrefsUtility {
 		return getBoolean(R.string.pref_appearance_linkbuttons_key, true, context, sharedPreferences);
 	}
 
+	public static boolean pref_appearance_image_viewer_show_floating_toolbar(final Context context, final SharedPreferences sharedPreferences) {
+		return getBoolean(R.string.pref_appearance_image_viewer_show_floating_toolbar_key, true, context, sharedPreferences);
+	}
+
 	public static boolean pref_appearance_indentlines(final Context context, final SharedPreferences sharedPreferences) {
 		return getBoolean(R.string.pref_appearance_indentlines_key, false, context, sharedPreferences);
 	}

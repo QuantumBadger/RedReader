@@ -26,6 +26,7 @@ import android.net.Uri;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -106,7 +107,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 	private int mGallerySwipeLengthPx;
 
-	private LinearLayout mFloatingToolbar;
+	@Nullable private LinearLayout mFloatingToolbar;
 
 	@Override
 	protected boolean baseActivityIsToolbarActionBarEnabled() {
@@ -315,7 +316,10 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 		final FrameLayout outerFrame = new FrameLayout(this);
 		outerFrame.addView(mLayout);
 
-		{
+		if(PrefsUtility.pref_appearance_image_viewer_show_floating_toolbar(
+				this,
+				PreferenceManager.getDefaultSharedPreferences(this))) {
+
 			mFloatingToolbar = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.floating_toolbar, outerFrame, false);
 			outerFrame.addView(mFloatingToolbar);
 
@@ -416,7 +420,9 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 			AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 				@Override
 				public void run() {
-					mFloatingToolbar.setVisibility(View.VISIBLE);
+					if(mFloatingToolbar != null) {
+						mFloatingToolbar.setVisibility(View.VISIBLE);
+					}
 				}
 			});
 		}

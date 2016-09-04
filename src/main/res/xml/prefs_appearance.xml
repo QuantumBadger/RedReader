@@ -67,6 +67,14 @@
 
     </PreferenceCategory>
 
+	<PreferenceCategory android:title="@string/pref_appearance_image_viewer_header">
+
+		<CheckBoxPreference android:title="@string/pref_appearance_image_viewer_show_floating_toolbar_title"
+							android:key="@string/pref_appearance_image_viewer_show_floating_toolbar_key"
+							android:defaultValue="true"/>
+
+	</PreferenceCategory>
+
     <PreferenceCategory android:title="@string/pref_appearance_thumbnails_header">
 
         <CheckBoxPreference android:title="@string/pref_appearance_thumbnails_show_title"

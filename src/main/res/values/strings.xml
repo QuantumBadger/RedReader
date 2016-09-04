@@ -892,4 +892,10 @@
 	<!-- 2016-09-01 -->
 	<string name="load_more_comments_failed_unknown_url_type">Cannot load more comments: unknown URL type.</string>
 
+	<!-- 2016-09-04 -->
+	<string name="pref_appearance_image_viewer_header">Image Viewer</string>
+
+	<string name="pref_appearance_image_viewer_show_floating_toolbar_title">Show floating toolbar over image</string>
+	<string name="pref_appearance_image_viewer_show_floating_toolbar_key">pref_appearance_image_viewer_show_floating_toolbar</string>
+
 </resources>

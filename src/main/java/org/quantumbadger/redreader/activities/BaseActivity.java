@@ -30,6 +30,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -43,7 +44,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class BaseActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-	private SharedPreferences sharedPreferences;
+	private SharedPreferences mSharedPreferences;
 
 	private static boolean closingAll = false;
 
@@ -100,9 +101,19 @@ public abstract class BaseActivity extends AppCompatActivity implements SharedPr
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+
 		super.onCreate(savedInstanceState);
-		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-		sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+
+		mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+		if(PrefsUtility.pref_appearance_hide_android_status(this, mSharedPreferences)) {
+			getWindow().setFlags(
+					WindowManager.LayoutParams.FLAG_FULLSCREEN,
+					WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		}
+
+
+		mSharedPreferences.registerOnSharedPreferenceChangeListener(this);
 		setOrientationFromPrefs();
 		closeIfNecessary();
 
@@ -148,7 +159,7 @@ public abstract class BaseActivity extends AppCompatActivity implements SharedPr
 
 				final PrefsUtility.AppearanceNavbarColour navbarColour = PrefsUtility.appearance_navbar_colour(
 						this,
-						sharedPreferences);
+						mSharedPreferences);
 
 				if(navbarColour != PrefsUtility.AppearanceNavbarColour.BLACK) {
 
@@ -203,7 +214,7 @@ public abstract class BaseActivity extends AppCompatActivity implements SharedPr
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
+		mSharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
 	}
 
 	private void closeIfNecessary() {
@@ -260,7 +271,8 @@ public abstract class BaseActivity extends AppCompatActivity implements SharedPr
 	}
 
 	private void setOrientationFromPrefs() {
-		PrefsUtility.ScreenOrientation orientation = PrefsUtility.pref_behaviour_screen_orientation(this, sharedPreferences);
+		PrefsUtility.ScreenOrientation orientation = PrefsUtility.pref_behaviour_screen_orientation(this,
+				mSharedPreferences);
 		if (orientation == PrefsUtility.ScreenOrientation.AUTO)
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 		else if (orientation == PrefsUtility.ScreenOrientation.PORTRAIT)

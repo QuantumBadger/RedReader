@@ -88,7 +88,8 @@ public final class PrefsUtility {
 				|| context.getString(R.string.pref_appearance_navbar_color_key).equals(key)
 				|| context.getString(R.string.pref_appearance_langforce_key).equals(key)
 				|| context.getString(R.string.pref_behaviour_bezel_toolbar_swipezone_key).equals(key)
-				|| context.getString(R.string.pref_appearance_hide_username_main_menu_key).equals(key);
+				|| context.getString(R.string.pref_appearance_hide_username_main_menu_key).equals(key)
+				|| context.getString(R.string.pref_appearance_hide_android_status_key).equals(key);
 	}
 
 	///////////////////////////////
@@ -230,6 +231,10 @@ public final class PrefsUtility {
 
 	public static boolean pref_appearance_linkbuttons(final Context context, final SharedPreferences sharedPreferences) {
 		return getBoolean(R.string.pref_appearance_linkbuttons_key, true, context, sharedPreferences);
+	}
+
+	public static boolean pref_appearance_hide_android_status(final Context context, final SharedPreferences sharedPreferences) {
+		return getBoolean(R.string.pref_appearance_hide_android_status_key, false, context, sharedPreferences);
 	}
 
 	public static boolean pref_appearance_link_text_clickable(final Context context, final SharedPreferences sharedPreferences) {

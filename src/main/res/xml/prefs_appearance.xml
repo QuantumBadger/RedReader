@@ -33,6 +33,10 @@
 						android:entryValues="@array/pref_appearance_navbar_color_options_return"
 						android:defaultValue="black"/>
 
+		<CheckBoxPreference android:title="@string/pref_appearance_hide_android_status_title"
+							android:key="@string/pref_appearance_hide_android_status_key"
+							android:defaultValue="false"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_appearance_locale_header">

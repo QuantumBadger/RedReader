@@ -1,6 +1,7 @@
 74/1.9.6
 Multireddit viewing support
 Ability to view custom user pages
+Preference to hide Android status bar
 Preference to use un-shortened link for "Share Comments" (thanks to fhtagn)
 Preference for cache storage location (thanks to ShadowNinja)
 Preference to set pinned subreddit sort order (thanks to chippen)

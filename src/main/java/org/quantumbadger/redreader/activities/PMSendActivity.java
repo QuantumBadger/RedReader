@@ -60,6 +60,8 @@ public class PMSendActivity extends BaseActivity {
 	private EditText subjectEdit;
 	private EditText textEdit;
 
+	private boolean mSendSuccess;
+
 	private static String lastText, lastRecipient, lastSubject;
 
 	@Override
@@ -87,20 +89,23 @@ public class PMSendActivity extends BaseActivity {
 			initialSubject = savedInstanceState.getString(SAVED_STATE_SUBJECT);
 			initialText = savedInstanceState.getString(SAVED_STATE_TEXT);
 
-		} else if(getIntent() != null && getIntent().hasExtra(EXTRA_RECIPIENT)) {
-			initialRecipient = getIntent().getStringExtra(EXTRA_RECIPIENT);
-			initialSubject = getIntent().getStringExtra(EXTRA_SUBJECT);
-			initialText = lastText;
-
-		} else if(lastText != null) {
-			initialRecipient = lastRecipient;
-			initialSubject = lastSubject;
-			initialText = lastText;
-
 		} else {
-			initialRecipient = null;
-			initialSubject = null;
-			initialText = null;
+
+			final Intent intent = getIntent();
+
+			if(intent != null && intent.hasExtra(EXTRA_RECIPIENT)) {
+				initialRecipient = intent.getStringExtra(EXTRA_RECIPIENT);
+			} else {
+				initialRecipient = lastRecipient;
+			}
+
+			if(intent != null && intent.hasExtra(EXTRA_SUBJECT)) {
+				initialSubject = intent.getStringExtra(EXTRA_SUBJECT);
+			} else {
+				initialSubject = lastSubject;
+			}
+
+			initialText = lastText;
 		}
 
 		if(initialRecipient != null) {
@@ -195,7 +200,15 @@ public class PMSendActivity extends BaseActivity {
 					AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 						@Override
 						public void run() {
+
 							if(progressDialog.isShowing()) progressDialog.dismiss();
+
+							mSendSuccess = true;
+
+							lastText = null;
+							lastRecipient = null;
+							lastSubject = null;
+
 							General.quickToast(PMSendActivity.this, getString(R.string.pm_send_done));
 							finish();
 						}
@@ -289,7 +302,7 @@ public class PMSendActivity extends BaseActivity {
 	protected void onDestroy() {
 		super.onDestroy();
 
-		if(textEdit != null) {
+		if(!mSendSuccess && textEdit != null) {
 			lastRecipient = recipientEdit.getText().toString();
 			lastSubject = subjectEdit.getText().toString();
 			lastText = textEdit.getText().toString();

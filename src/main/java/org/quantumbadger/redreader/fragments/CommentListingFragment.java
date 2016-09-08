@@ -133,7 +133,9 @@ public class CommentListingFragment extends RRFragment
 		final ScrollbarRecyclerViewManager recyclerViewManager
 				= new ScrollbarRecyclerViewManager(context, null, false);
 
-		if(parent instanceof OptionsMenuUtility.OptionsMenuCommentsListener) {
+		if(parent instanceof OptionsMenuUtility.OptionsMenuCommentsListener
+				&& PrefsUtility.pref_behaviour_enable_swipe_refresh(context, prefs)) {
+
 			recyclerViewManager.enablePullToRefresh(new SwipeRefreshLayout.OnRefreshListener() {
 				@Override
 				public void onRefresh() {

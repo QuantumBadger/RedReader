@@ -180,7 +180,9 @@ public class PostListingFragment extends RRFragment
 		final ScrollbarRecyclerViewManager recyclerViewManager
 				= new ScrollbarRecyclerViewManager(context, null, false);
 
-		if(parent instanceof OptionsMenuUtility.OptionsMenuPostsListener) {
+		if(parent instanceof OptionsMenuUtility.OptionsMenuPostsListener
+				&& PrefsUtility.pref_behaviour_enable_swipe_refresh(context, mSharedPreferences)) {
+
 			recyclerViewManager.enablePullToRefresh(new SwipeRefreshLayout.OnRefreshListener() {
 				@Override
 				public void onRefresh() {

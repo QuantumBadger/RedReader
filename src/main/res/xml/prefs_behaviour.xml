@@ -67,6 +67,10 @@
                     android:entryValues="@array/pref_behaviour_screenorientation_array_return"
                     android:defaultValue="auto" />
 
+	<CheckBoxPreference android:title="@string/pref_behaviour_enable_swipe_refresh_title"
+						android:key="@string/pref_behaviour_enable_swipe_refresh_key"
+						android:defaultValue="true"/>
+
     <PreferenceCategory android:title="@string/pref_behaviour_sort_header">
 
 		<ListPreference android:title="@string/pref_behaviour_postsort"
@@ -88,7 +92,6 @@
 						android:defaultValue="name"/>
 
     </PreferenceCategory>
-
 
     <PreferenceCategory android:title="@string/pref_behaviour_actions_post_header">
 

@@ -1,4 +1,4 @@
-74/1.9.6
+75/1.9.6
 Multireddit viewing support
 Ability to view custom user pages
 Preference to hide Android status bar
@@ -12,6 +12,8 @@ For albums with only one image, the image is now shown immediately
 When sending PMs, input fields are cleared if send succeeded
 Fixed bug with huge "load more comments" links
 Support for imgflip links
+
+74/1.9.5.2
 Fixed crash due to reddit thumbnail API change
 
 73/1.9.5.1

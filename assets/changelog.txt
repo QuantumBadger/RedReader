@@ -12,6 +12,7 @@ For albums with only one image, the image is now shown immediately
 When sending PMs, input fields are cleared if send succeeded
 Fixed bug with huge "load more comments" links
 Support for imgflip links
+Fixed crash due to reddit thumbnail API change
 
 73/1.9.5.1
 Comment swipe actions

@@ -1,3 +1,6 @@
+74/1.9.5.2
+Fixed crash due to reddit thumbnail API change
+
 73/1.9.5.1
 Comment swipe actions
 Ability to search comments (thanks to cpalasanu)

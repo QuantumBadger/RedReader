@@ -402,7 +402,12 @@ public final class CacheManager {
 
 		private void queueDownload(final CacheRequest request) {
 			request.notifyDownloadNecessary();
-			downloadQueue.add(request, CacheManager.this);
+
+			try {
+				downloadQueue.add(request, CacheManager.this);
+			} catch(final Exception e) {
+				request.notifyFailure(CacheRequest.REQUEST_FAILURE_MALFORMED_URL, e, null, e.toString());
+			}
 		}
 
 		private void handleCacheEntryFound(final CacheEntry entry, final CacheRequest request) {

@@ -58,8 +58,11 @@ public abstract class RefreshableActivity extends BaseActivity {
 			return;
 		}
 
-		if(this instanceof MainActivity && key.equals(getString(R.string.pref_pinned_subreddits_key))) {
-			requestRefresh(RefreshableFragment.MAIN, false);
+		if(this instanceof MainActivity) {
+			if(key.equals(getString(R.string.pref_pinned_subreddits_key)) ||
+					key.equals(getString(R.string.pref_blocked_subreddits_key))) {
+				requestRefresh(RefreshableFragment.MAIN, false);
+			}
 		}
 	}
 

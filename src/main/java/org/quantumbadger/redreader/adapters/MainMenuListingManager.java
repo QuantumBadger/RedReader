@@ -57,13 +57,14 @@ public class MainMenuListingManager {
 			GROUP_USER_ITEMS 				= 3,
 			GROUP_PINNED_SUBREDDITS_HEADER 	= 4,
 			GROUP_PINNED_SUBREDDITS_ITEMS 	= 5,
-			GROUP_MULTIREDDITS_HEADER 		= 6,
-			GROUP_MULTIREDDITS_ITEMS 		= 7,
-			GROUP_SUBREDDITS_HEADER 		= 8,
-			GROUP_SUBREDDITS_ITEMS 			= 9;
+			GROUP_BLOCKED_SUBREDDITS_HEADER	= 6,
+			GROUP_BLOCKED_SUBREDDITS_ITEMS  = 7,
+			GROUP_MULTIREDDITS_HEADER 		= 8,
+			GROUP_MULTIREDDITS_ITEMS 		= 9,
+			GROUP_SUBREDDITS_HEADER 		= 10,
+			GROUP_SUBREDDITS_ITEMS 			= 11;
 
-
-	@NonNull private final GroupedRecyclerViewAdapter mAdapter = new GroupedRecyclerViewAdapter(10);
+	@NonNull private final GroupedRecyclerViewAdapter mAdapter = new GroupedRecyclerViewAdapter(12);
 	@NonNull private final Context mContext;
 
 	@NonNull private final MainMenuSelectionListener mListener;
@@ -223,7 +224,26 @@ public class MainMenuListingManager {
 			}
 		}
 
+		final List<String> blockedSubreddits
+				= PrefsUtility.pref_blocked_subreddits(context, PreferenceManager.getDefaultSharedPreferences(context));
+		final PrefsUtility.BlockedSubredditSort blockedSubredditsSort = PrefsUtility.pref_behaviour_blocked_subredditsort(context, PreferenceManager.getDefaultSharedPreferences(context));
+		if (!blockedSubreddits.isEmpty()) {
+			mAdapter.appendToGroup(
+					GROUP_BLOCKED_SUBREDDITS_HEADER,
+					new GroupedRecyclerViewItemListSectionHeaderView(
+							context.getString(R.string.mainmenu_header_subreddits_blocked)));
 
+			switch (blockedSubredditsSort){
+				case NAME: Collections.sort(blockedSubreddits); break;
+				case DATE: /*noop*/break;
+			}
+
+			boolean isFirst = true;
+			for(final String sr : blockedSubreddits) {
+				mAdapter.appendToGroup(GROUP_BLOCKED_SUBREDDITS_ITEMS, makeSubredditItem(sr, isFirst));
+				isFirst = false;
+			}
+		}
 
 		if(!user.isAnonymous()) {
 			showMultiredditsHeader(context);

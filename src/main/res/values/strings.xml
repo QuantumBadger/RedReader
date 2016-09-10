@@ -908,4 +908,11 @@
 	<!-- 2016-09-08 -->
 	<string name="pref_behaviour_enable_swipe_refresh_title">Swipe down to refresh</string>
 	<string name="pref_behaviour_enable_swipe_refresh_key">pref_behaviour_enable_swipe_refresh</string>
+
+	<!-- 2016-09-10 -->
+	<string name="mainmenu_header_subreddits_blocked">Blocked Subreddits</string>
+	<string name="pref_behaviour_blocked_subredditsort_key">pref_behaviour_blocked_subreddit_sort</string>
+	<string name="pref_behaviour_blocked_subredditsort">Blocked Subreddit Sort</string>
+	<string name="sort_blocked_subreddit_name">By Name</string>
+	<string name="sort_blocked_subreddit_date">By Added Date</string>
 </resources>

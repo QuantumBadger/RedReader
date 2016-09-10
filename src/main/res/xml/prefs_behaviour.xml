@@ -91,6 +91,12 @@
 						android:entryValues="@array/pref_behaviour_pinned_subredditsort_array_return"
 						android:defaultValue="name"/>
 
+		<ListPreference android:title="@string/pref_behaviour_blocked_subredditsort"
+						android:key="@string/pref_behaviour_blocked_subredditsort_key"
+						android:entries="@array/pref_behaviour_blocked_subredditsort_array"
+						android:entryValues="@array/pref_behaviour_blocked_subredditsort_array_return"
+						android:defaultValue="name"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_behaviour_actions_post_header">

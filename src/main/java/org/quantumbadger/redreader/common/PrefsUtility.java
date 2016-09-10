@@ -80,7 +80,8 @@ public final class PrefsUtility {
 				|| key.equals(context.getString(R.string.pref_behaviour_nsfw_key))
 				|| key.equals(context.getString(R.string.pref_behaviour_postcount_key))
 				|| key.equals(context.getString(R.string.pref_behaviour_comment_min_key))
-				|| key.equals(context.getString(R.string.pref_behaviour_pinned_subredditsort_key));
+				|| key.equals(context.getString(R.string.pref_behaviour_pinned_subredditsort_key))
+				|| key.equals(context.getString(R.string.pref_behaviour_blocked_subredditsort_key));
 	}
 
 	public static boolean isRestartRequired(Context context, String key) {
@@ -429,6 +430,14 @@ public final class PrefsUtility {
 
 	public static PinnedSubredditSort pref_behaviour_pinned_subredditsort(final Context context, final SharedPreferences sharedPreferences) {
 		return PinnedSubredditSort.valueOf(General.asciiUppercase(getString(R.string.pref_behaviour_pinned_subredditsort_key, "name", context, sharedPreferences)));
+	}
+
+	public enum BlockedSubredditSort {
+		NAME, DATE
+	}
+
+	public static BlockedSubredditSort pref_behaviour_blocked_subredditsort(final Context context, final SharedPreferences sharedPreferences) {
+		return BlockedSubredditSort.valueOf(General.asciiUppercase(getString(R.string.pref_behaviour_blocked_subredditsort_key, "name", context, sharedPreferences)));
 	}
 
 	public static boolean pref_behaviour_nsfw(final Context context, final SharedPreferences sharedPreferences) {

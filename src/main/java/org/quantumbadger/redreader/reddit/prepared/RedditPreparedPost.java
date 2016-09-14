@@ -49,6 +49,7 @@ import org.quantumbadger.redreader.activities.PostListingActivity;
 import org.quantumbadger.redreader.activities.WebViewActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached;
 import org.quantumbadger.redreader.common.AndroidApi;
 import org.quantumbadger.redreader.common.BetterSSB;
 import org.quantumbadger.redreader.common.Constants;
@@ -351,9 +352,18 @@ public final class RedditPreparedPost {
 							@Override
 							public void onSuccess(final ImageInfo info) {
 
-								CacheManager.getInstance(activity).makeRequest(new CacheRequest(General.uriFromString(info.urlOriginal), anon, null,
-									Constants.Priority.IMAGE_VIEW, 0, CacheRequest.DOWNLOAD_IF_NECESSARY,
-									Constants.FileType.IMAGE, CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE, false, false, activity) {
+								CacheManager.getInstance(activity).makeRequest(new CacheRequest(
+										General.uriFromString(info.urlOriginal),
+										anon,
+										null,
+										Constants.Priority.IMAGE_VIEW,
+										0,
+										DownloadStrategyIfNotCached.INSTANCE,
+										Constants.FileType.IMAGE,
+										CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
+										false,
+										false,
+										activity) {
 
 									@Override
 									protected void onCallbackException(Throwable t) {
@@ -647,7 +657,7 @@ public final class RedditPreparedPost {
 
 		final RedditAccount anon = RedditAccountManager.getAnon();
 
-		cm.makeRequest(new CacheRequest(uri, anon, null, priority, listId, CacheRequest.DOWNLOAD_IF_NECESSARY, fileType, CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE, false, false, context) {
+		cm.makeRequest(new CacheRequest(uri, anon, null, priority, listId, DownloadStrategyIfNotCached.INSTANCE, fileType, CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE, false, false, context) {
 
 			@Override
 			protected void onDownloadNecessary() {}

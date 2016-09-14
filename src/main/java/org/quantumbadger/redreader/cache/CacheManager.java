@@ -353,45 +353,44 @@ public final class CacheManager {
 		private void handleRequest(final CacheRequest request) {
 
 			if(request.url == null) {
-				request.notifyFailure(CacheRequest.REQUEST_FAILURE_MALFORMED_URL, new NullPointerException("URL was null"), null, "URL was null");
+				request.notifyFailure(
+						CacheRequest.REQUEST_FAILURE_MALFORMED_URL,
+						new NullPointerException("URL was null"),
+						null,
+						"URL was null");
 				return;
 			}
 
-			switch(request.downloadType) {
+			if(request.downloadStrategy.shouldDownloadWithoutCheckingCache()) {
+				queueDownload(request);
 
-				case CacheRequest.DOWNLOAD_NEVER: {
+			} else {
 
-					final LinkedList<CacheEntry> result = dbManager.select(request.url, request.user.username, request.requestSession);
+				final LinkedList<CacheEntry> result = dbManager.select(request.url, request.user.username, request.requestSession);
 
-					if(result.size() == 0) {
-						request.notifyFailure(CacheRequest.REQUEST_FAILURE_CACHE_MISS, null, null, "Could not find this data in the cache");
+				if(result.isEmpty()) {
 
-					} else {
-						final CacheEntry entry = mostRecentFromList(result);
-						handleCacheEntryFound(entry, request);
-					}
-
-					break;
-				}
-
-				case CacheRequest.DOWNLOAD_IF_NECESSARY: {
-
-					final LinkedList<CacheEntry> result = dbManager.select(request.url, request.user.username, request.requestSession);
-
-					if(result.size() == 0) {
+					if(request.downloadStrategy.shouldDownloadIfNotCached()) {
 						queueDownload(request);
 
 					} else {
-						final CacheEntry entry = mostRecentFromList(result);
-						handleCacheEntryFound(entry, request);
+						request.notifyFailure(
+								CacheRequest.REQUEST_FAILURE_CACHE_MISS,
+								null,
+								null,
+								"Could not find this data in the cache");
 					}
 
-					break;
-				}
+				} else {
 
-				case CacheRequest.DOWNLOAD_FORCE:
-					queueDownload(request);
-					break;
+					final CacheEntry entry = mostRecentFromList(result);
+
+					if(request.downloadStrategy.shouldDownloadIfCacheEntryFound(entry)) {
+						queueDownload(request);
+					} else {
+						handleCacheEntryFound(entry, request);
+					}
+				}
 			}
 		}
 
@@ -424,11 +423,13 @@ public final class CacheManager {
 
 			if(cacheFile == null) {
 
-				if(request.downloadType == CacheRequest.DOWNLOAD_IF_NECESSARY) {
-					queueDownload(request);
-				} else {
-					request.notifyFailure(CacheRequest.REQUEST_FAILURE_STORAGE, null, null, "A cache entry was found in the database, but the actual data couldn't be found. Press refresh to download the content again.");
-				}
+				request.notifyFailure(
+						CacheRequest.REQUEST_FAILURE_STORAGE,
+						null,
+						null,
+						"A cache entry was found in the database, but the actual data couldn't be found. Press refresh to download the content again.");
+
+				dbManager.delete(entry.id);
 
 				return;
 			}
@@ -481,11 +482,7 @@ public final class CacheManager {
 								existingCacheFile.delete();
 							}
 
-							if(request.downloadType == CacheRequest.DOWNLOAD_IF_NECESSARY) {
-								queueDownload(request);
-							} else {
-								request.notifyFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "Error parsing the JSON stream");
-							}
+							request.notifyFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "Error parsing the JSON stream");
 
 							return;
 						}

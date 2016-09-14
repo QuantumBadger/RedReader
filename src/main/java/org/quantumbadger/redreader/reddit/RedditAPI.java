@@ -24,6 +24,8 @@ import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategy;
+import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.http.HTTPBackend;
@@ -503,13 +505,13 @@ public final class RedditAPI {
 							   final String usernameToGet,
 							   final APIResponseHandler.UserResponseHandler responseHandler,
 							   final RedditAccount user,
-							   final @CacheRequest.DownloadType int downloadType,
+							   final DownloadStrategy downloadStrategy,
 							   final boolean cancelExisting,
 							   final Context context) {
 
 		final URI uri = Constants.Reddit.getUri("/user/" + usernameToGet + "/about.json");
 
-		cm.makeRequest(new APIGetRequest(uri, user, Constants.Priority.API_USER_ABOUT, Constants.FileType.USER_ABOUT, downloadType, true, cancelExisting, context) {
+		cm.makeRequest(new APIGetRequest(uri, user, Constants.Priority.API_USER_ABOUT, Constants.FileType.USER_ABOUT, downloadStrategy, true, cancelExisting, context) {
 
 			@Override
 			protected void onDownloadNecessary() {}
@@ -666,7 +668,8 @@ public final class RedditAPI {
 		protected void onDownloadStarted() {}
 
 		public APIPostRequest(final URI url, final RedditAccount user, final List<HTTPBackend.PostField> postFields, final Context context) {
-			super(url, user, null, Constants.Priority.API_ACTION, 0, DOWNLOAD_FORCE, Constants.FileType.NOCACHE, DOWNLOAD_QUEUE_REDDIT_API, true, postFields, false, false, context);
+			super(url, user, null, Constants.Priority.API_ACTION, 0,
+					DownloadStrategyAlways.INSTANCE, Constants.FileType.NOCACHE, DOWNLOAD_QUEUE_REDDIT_API, true, postFields, false, false, context);
 		}
 
 		@Override
@@ -685,8 +688,8 @@ public final class RedditAPI {
 	// TODO merge get and post into one?
 	private static abstract class APIGetRequest extends CacheRequest {
 
-		public APIGetRequest(final URI url, final RedditAccount user, final int priority, final int fileType, final @DownloadType int downloadType, final boolean cache, final boolean cancelExisting, final Context context) {
-			super(url, user, null, priority, 0, downloadType, fileType, DOWNLOAD_QUEUE_REDDIT_API, true, null, cache, cancelExisting, context);
+		public APIGetRequest(final URI url, final RedditAccount user, final int priority, final int fileType, final DownloadStrategy downloadStrategy, final boolean cache, final boolean cancelExisting, final Context context) {
+			super(url, user, null, priority, 0, downloadStrategy, fileType, DOWNLOAD_QUEUE_REDDIT_API, true, null, cache, cancelExisting, context);
 		}
 
 		@Override

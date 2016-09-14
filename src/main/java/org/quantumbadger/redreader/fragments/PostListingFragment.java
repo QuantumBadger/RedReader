@@ -44,6 +44,10 @@ import org.quantumbadger.redreader.activities.SessionChangeListener;
 import org.quantumbadger.redreader.adapters.PostListingManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategy;
+import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways;
+import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached;
+import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyNever;
 import org.quantumbadger.redreader.common.AndroidApi;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
@@ -127,7 +131,7 @@ public class PostListingFragment extends RRFragment
 			final Bundle savedInstanceState,
 			final Uri url,
 			final UUID session,
-			final @CacheRequest.DownloadType int downloadType) {
+			final boolean forceDownload) {
 
 		super(parent, savedInstanceState);
 
@@ -213,11 +217,20 @@ public class PostListingFragment extends RRFragment
 			limit = mPostCountLimit;
 		}
 
+		final DownloadStrategy downloadStrategy;
+
+		if(forceDownload) {
+			downloadStrategy = DownloadStrategyAlways.INSTANCE;
+
+		} else {
+			downloadStrategy = DownloadStrategyIfNotCached.INSTANCE;
+		}
+
 		mRequest = new PostListingRequest(
 				mPostListingURL.generateJsonUri(),
 				RedditAccountManager.getInstance(context).getDefaultAccount(),
 				session,
-				downloadType,
+				downloadStrategy,
 				true);
 
 		// The request doesn't go ahead until the header is in place.
@@ -402,9 +415,9 @@ public class PostListingFragment extends RRFragment
 				final Uri newUri = mPostListingURL.after(mAfter).generateJsonUri();
 
 				// TODO customise (currently 3 hrs)
-				@CacheRequest.DownloadType int type = (RRTime.since(mTimestamp) < 3 * 60 * 60 * 1000)
-						? CacheRequest.DOWNLOAD_IF_NECESSARY
-						: CacheRequest.DOWNLOAD_NEVER;
+				final DownloadStrategy strategy = (RRTime.since(mTimestamp) < 3 * 60 * 60 * 1000)
+						? DownloadStrategyIfNotCached.INSTANCE
+						: DownloadStrategyNever.INSTANCE;
 
 				int limit = 50;
 
@@ -412,7 +425,7 @@ public class PostListingFragment extends RRFragment
 					limit = mPostRefreshCount.get();
 				}
 
-				mRequest = new PostListingRequest(newUri, RedditAccountManager.getInstance(getActivity()).getDefaultAccount(), mSession, type, false);
+				mRequest = new PostListingRequest(newUri, RedditAccountManager.getInstance(getActivity()).getDefaultAccount(), mSession, strategy, false);
 				mPostListingManager.setLoadingVisible(true);
 				CacheManager.getInstance(getActivity()).makeRequest(mRequest);
 
@@ -492,8 +505,8 @@ public class PostListingFragment extends RRFragment
 
 		private final boolean firstDownload;
 
-		protected PostListingRequest(Uri url, RedditAccount user, UUID requestSession, @DownloadType int downloadType, boolean firstDownload) {
-			super(General.uriFromString(url.toString()), user, requestSession, Constants.Priority.API_POST_LIST, 0, downloadType, Constants.FileType.POST_LIST, DOWNLOAD_QUEUE_REDDIT_API, true, false, getActivity());
+		protected PostListingRequest(Uri url, RedditAccount user, UUID requestSession, DownloadStrategy downloadStrategy, boolean firstDownload) {
+			super(General.uriFromString(url.toString()), user, requestSession, Constants.Priority.API_POST_LIST, 0, downloadStrategy, Constants.FileType.POST_LIST, DOWNLOAD_QUEUE_REDDIT_API, true, false, getActivity());
 			this.firstDownload = firstDownload;
 		}
 		@Override
@@ -677,7 +690,7 @@ public class PostListingFragment extends RRFragment
 									null,
 									Constants.Priority.COMMENT_PRECACHE,
 									positionInList,
-									DOWNLOAD_IF_NECESSARY,
+									DownloadStrategyIfNotCached.INSTANCE,
 									Constants.FileType.COMMENT_LIST,
 									DOWNLOAD_QUEUE_REDDIT_API,
 									false, // Don't parse the JSON
@@ -760,7 +773,7 @@ public class PostListingFragment extends RRFragment
 										null,
 										Constants.Priority.IMAGE_PRECACHE,
 										positionInList,
-										DOWNLOAD_IF_NECESSARY,
+										DownloadStrategyIfNotCached.INSTANCE,
 										Constants.FileType.IMAGE,
 										DOWNLOAD_QUEUE_IMAGE_PRECACHE,
 										false,

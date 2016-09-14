@@ -19,9 +19,11 @@ package org.quantumbadger.redreader.cache;
 
 import android.content.Context;
 import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
+import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategy;
 import org.quantumbadger.redreader.common.PrioritisedCachedThreadPool;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.http.HTTPBackend;
@@ -57,10 +59,6 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 	public static final int REQUEST_FAILURE_UPLOAD_FAIL_IMGUR = 10;
 	public static final int REQUEST_FAILURE_CACHE_DIR_DOES_NOT_EXIST = 11;
 
-	@IntDef({DOWNLOAD_NEVER, DOWNLOAD_IF_NECESSARY, DOWNLOAD_FORCE})
-	@Retention(RetentionPolicy.SOURCE)
-	public @interface DownloadType {}
-
 	@IntDef({DOWNLOAD_QUEUE_REDDIT_API, DOWNLOAD_QUEUE_IMGUR_API, DOWNLOAD_QUEUE_IMMEDIATE,
 		DOWNLOAD_QUEUE_IMAGE_PRECACHE})
 	@Retention(RetentionPolicy.SOURCE)
@@ -82,7 +80,7 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 	public final int priority;
 	public final int listId;
 
-	public final @DownloadType int downloadType;
+	@NonNull public final DownloadStrategy downloadStrategy;
 
 	public final int fileType;
 
@@ -116,17 +114,17 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 	}
 
 	protected CacheRequest(final URI url, final RedditAccount user, final UUID requestSession, final int priority,
-						   final int listId, final @DownloadType int downloadType, final int fileType,
+						   final int listId, @NonNull final DownloadStrategy downloadStrategy, final int fileType,
 						   final @DownloadQueueType int queueType, final boolean isJson, final boolean cancelExisting,
 						   final Context context) {
 
-		this(url, user, requestSession, priority, listId, downloadType, fileType, queueType, isJson, null,
+		this(url, user, requestSession, priority, listId, downloadStrategy, fileType, queueType, isJson, null,
 			true, cancelExisting, context);
 	}
 
 	// TODO remove this huge constructor, make mutable
 	protected CacheRequest(final URI url, final RedditAccount user, final UUID requestSession, final int priority,
-						   final int listId, final @DownloadType int downloadType, final int fileType,
+						   final int listId, @NonNull final DownloadStrategy downloadStrategy, final int fileType,
 						   final @DownloadQueueType int queueType, final boolean isJson, final List<HTTPBackend.PostField> postFields,
 						   final boolean cache, final boolean cancelExisting, final Context context) {
 
@@ -135,8 +133,8 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 		if (user == null)
 			throw new NullPointerException("User was null - set to empty string for anonymous");
 
-		if (downloadType != DOWNLOAD_FORCE && postFields != null)
-			throw new IllegalArgumentException("Download type must be forced for POST requests");
+		if (!downloadStrategy.shouldDownloadWithoutCheckingCache() && postFields != null)
+			throw new IllegalArgumentException("Should not perform cache lookup for POST requests");
 
 		if (!isJson && postFields != null)
 			throw new IllegalArgumentException("POST requests must be for JSON values");
@@ -152,7 +150,7 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 		this.requestSession = requestSession;
 		this.priority = priority;
 		this.listId = listId;
-		this.downloadType = downloadType;
+		this.downloadStrategy = downloadStrategy;
 		this.fileType = fileType;
 		this.queueType = queueType;
 		this.isJson = isJson;

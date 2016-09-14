@@ -23,6 +23,7 @@ import android.util.Log;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.TimestampBound;
@@ -145,7 +146,7 @@ public class RedditAPIIndividualSubredditListRequester
 				null,
 				Constants.Priority.API_SUBREDDIT_INVIDIVUAL,
 				0,
-				CacheRequest.DOWNLOAD_FORCE,
+				DownloadStrategyAlways.INSTANCE,
 				Constants.FileType.SUBREDDIT_LIST,
 				CacheRequest.DOWNLOAD_QUEUE_REDDIT_API,
 				true,

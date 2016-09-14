@@ -34,6 +34,7 @@ import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways;
 import org.quantumbadger.redreader.common.AndroidApi;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
@@ -72,7 +73,7 @@ public class CaptchaActivity extends BaseActivity {
 				final URI captchaUrl = General.uriFromString("https://reddit.com/captcha/" + captchaId);
 
 				cm.makeRequest(new CacheRequest(captchaUrl, RedditAccountManager.getAnon(), null, Constants.Priority.CAPTCHA,
-						0, CacheRequest.DOWNLOAD_FORCE, Constants.FileType.CAPTCHA,
+						0, DownloadStrategyAlways.INSTANCE, Constants.FileType.CAPTCHA,
 						CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE, false, true, CaptchaActivity.this) {
 					@Override
 					protected void onCallbackException(Throwable t) {

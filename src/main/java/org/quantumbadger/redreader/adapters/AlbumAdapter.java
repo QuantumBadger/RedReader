@@ -28,6 +28,7 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached;
 import org.quantumbadger.redreader.common.AndroidApi;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
@@ -114,17 +115,17 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH2TextIcon> {
 			vh.text2.setVisibility(View.VISIBLE);
 
 			CacheManager.getInstance(activity).makeRequest(new CacheRequest(
-				General.uriFromString(imageInfo.urlBigSquare),
-				RedditAccountManager.getAnon(),
-				null,
-				Constants.Priority.THUMBNAIL,
-				position,
-				CacheRequest.DOWNLOAD_IF_NECESSARY,
-				Constants.FileType.THUMBNAIL,
-				CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
-				false,
-				false,
-				activity
+					General.uriFromString(imageInfo.urlBigSquare),
+					RedditAccountManager.getAnon(),
+					null,
+					Constants.Priority.THUMBNAIL,
+					position,
+					DownloadStrategyIfNotCached.INSTANCE,
+					Constants.FileType.THUMBNAIL,
+					CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
+					false,
+					false,
+					activity
 			) {
 				@Override
 				protected void onCallbackException(final Throwable t) {

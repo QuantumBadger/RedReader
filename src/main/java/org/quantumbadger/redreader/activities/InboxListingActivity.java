@@ -36,6 +36,7 @@ import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.adapters.GroupedRecyclerViewAdapter;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways;
 import org.quantumbadger.redreader.common.AndroidApi;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
@@ -208,7 +209,7 @@ public final class InboxListingActivity extends BaseActivity {
 
 		// TODO parameterise limit
 		request = new CacheRequest(url, user, null, Constants.Priority.API_INBOX_LIST, 0,
-				CacheRequest.DOWNLOAD_FORCE, Constants.FileType.INBOX_LIST,
+				DownloadStrategyAlways.INSTANCE, Constants.FileType.INBOX_LIST,
 				CacheRequest.DOWNLOAD_QUEUE_REDDIT_API, true, true, context) {
 
 			@Override

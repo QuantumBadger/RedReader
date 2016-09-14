@@ -28,6 +28,7 @@ import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.SessionChangeListener;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategy;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -63,7 +64,7 @@ public class CommentListingRequest {
 	private final RedditURLParser.RedditURL mUrl;
 	private final RedditAccount mUser;
 	private final UUID mSession;
-	private final @CacheRequest.DownloadType int mDownloadType;
+	private final DownloadStrategy mDownloadStrategy;
 
 	private final Listener mListener;
 
@@ -74,7 +75,7 @@ public class CommentListingRequest {
 			final RedditURLParser.RedditURL url,
 			final RedditAccount user,
 			final UUID session,
-			final @CacheRequest.DownloadType int downloadType,
+			final DownloadStrategy downloadStrategy,
 			final Listener listener) {
 
 		mContext = context;
@@ -85,7 +86,7 @@ public class CommentListingRequest {
 		mUrl = url;
 		mUser = user;
 		mSession = session;
-		mDownloadType = downloadType;
+		mDownloadStrategy = downloadStrategy;
 		mListener = listener;
 
 		mCacheManager = CacheManager.getInstance(context);
@@ -188,7 +189,7 @@ public class CommentListingRequest {
 					mSession,
 					Constants.Priority.API_COMMENT_LIST,
 					0,
-					mDownloadType,
+					mDownloadStrategy,
 					Constants.FileType.COMMENT_LIST,
 					DOWNLOAD_QUEUE_REDDIT_API,
 					true,

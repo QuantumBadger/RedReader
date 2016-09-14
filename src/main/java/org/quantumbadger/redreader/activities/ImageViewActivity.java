@@ -42,6 +42,7 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached;
 import org.quantumbadger.redreader.common.AndroidApi;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
@@ -217,7 +218,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 								null,
 								Constants.Priority.IMAGE_VIEW,
 								0,
-								CacheRequest.DOWNLOAD_IF_NECESSARY,
+								DownloadStrategyIfNotCached.INSTANCE,
 								Constants.FileType.IMAGE,
 								CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
 								false,

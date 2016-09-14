@@ -22,7 +22,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
 import org.quantumbadger.redreader.reddit.PostSort;
@@ -106,7 +105,7 @@ public class PostListingController {
 
 	public final PostListingFragment get(final AppCompatActivity parent, final boolean force, final Bundle savedInstanceState) {
 		if(force) session = null;
-		return new PostListingFragment(parent, savedInstanceState, getUri(), session, force ? CacheRequest.DOWNLOAD_FORCE : CacheRequest.DOWNLOAD_IF_NECESSARY);
+		return new PostListingFragment(parent, savedInstanceState, getUri(), session, force);
 	}
 
 	public final boolean isSubreddit() {

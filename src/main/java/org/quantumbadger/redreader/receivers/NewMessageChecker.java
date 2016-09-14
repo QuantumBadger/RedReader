@@ -33,6 +33,7 @@ import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.activities.InboxListingActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
@@ -78,7 +79,7 @@ public class NewMessageChecker extends BroadcastReceiver {
 				null,
 				Constants.Priority.API_INBOX_LIST,
 				0,
-				CacheRequest.DOWNLOAD_FORCE,
+				DownloadStrategyAlways.INSTANCE,
 				Constants.FileType.INBOX_LIST,
 				CacheRequest.DOWNLOAD_QUEUE_REDDIT_API,
 				true,

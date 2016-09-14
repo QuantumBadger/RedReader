@@ -31,6 +31,7 @@ import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.activities.PMSendActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways;
 import org.quantumbadger.redreader.common.AndroidApi;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
@@ -211,6 +212,6 @@ public class UserProfileDialog extends PropertiesDialog {
 				});
 			}
 
-		}, RedditAccountManager.getInstance(context).getDefaultAccount(), CacheRequest.DOWNLOAD_FORCE, true, context);
+		}, RedditAccountManager.getInstance(context).getDefaultAccount(), DownloadStrategyAlways.INSTANCE, true, context);
 	}
 }

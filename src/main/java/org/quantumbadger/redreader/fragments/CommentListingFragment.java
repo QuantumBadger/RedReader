@@ -41,7 +41,9 @@ import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.activities.CommentReplyActivity;
 import org.quantumbadger.redreader.activities.OptionsMenuUtility;
 import org.quantumbadger.redreader.adapters.FilteredCommentListingManager;
-import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategy;
+import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways;
+import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
@@ -78,7 +80,7 @@ public class CommentListingFragment extends RRFragment
 	private final ArrayList<RedditURLParser.RedditURL> mAllUrls;
 	private final LinkedList<RedditURLParser.RedditURL> mUrlsToDownload;
 	private final UUID mSession;
-	private final @CacheRequest.DownloadType int mDownloadType;
+	private final DownloadStrategy mDownloadStrategy;
 
 	private RedditPreparedPost mPost = null;
 	private boolean isArchived;
@@ -102,7 +104,7 @@ public class CommentListingFragment extends RRFragment
 			final ArrayList<RedditURLParser.RedditURL> urls,
 			final UUID session,
 			final String searchString,
-			final @CacheRequest.DownloadType int downloadType) {
+			final boolean forceDownload) {
 
 		super(parent, savedInstanceState);
 
@@ -116,7 +118,13 @@ public class CommentListingFragment extends RRFragment
 		mUrlsToDownload = new LinkedList<>(mAllUrls);
 
 		this.mSession = session;
-		this.mDownloadType = downloadType;
+
+		if(forceDownload) {
+			mDownloadStrategy = DownloadStrategyAlways.INSTANCE;
+
+		} else {
+			mDownloadStrategy = DownloadStrategyIfNotCached.INSTANCE;
+		}
 
 		mUser = RedditAccountManager.getInstance(getActivity()).getDefaultAccount();
 
@@ -253,7 +261,7 @@ public class CommentListingFragment extends RRFragment
 					mUrlsToDownload.getFirst(),
 					mUser,
 					mSession,
-					mDownloadType,
+					mDownloadStrategy,
 					this
 			);
 		}

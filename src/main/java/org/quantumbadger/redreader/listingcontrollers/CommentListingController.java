@@ -22,8 +22,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-
-import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
@@ -106,7 +104,7 @@ public class CommentListingController {
 				General.listOfOne((RedditURLParser.RedditURL)mUrl),
 				mSession,
 				mSearchString,
-				force ? CacheRequest.DOWNLOAD_FORCE : CacheRequest.DOWNLOAD_IF_NECESSARY);
+				force);
 	}
 
 	public boolean isSortable() {

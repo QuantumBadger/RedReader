@@ -127,7 +127,7 @@
 
     <string name="options_accounts">Accounts</string>
     <string name="options_accounts_long">Reddit-accounts</string>
-    <string name="options_theme">Thema's</string>
+    <string name="options_theme">Thema\'s</string>
     <string name="options_settings">Instellingen</string>
 
     <string name="options_submit_post">Post plaatsen</string>

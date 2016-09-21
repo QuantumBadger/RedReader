@@ -224,24 +224,31 @@ public class MainMenuListingManager {
 			}
 		}
 
-		final List<String> blockedSubreddits
-				= PrefsUtility.pref_blocked_subreddits(context, PreferenceManager.getDefaultSharedPreferences(context));
-		final PrefsUtility.BlockedSubredditSort blockedSubredditsSort = PrefsUtility.pref_behaviour_blocked_subredditsort(context, PreferenceManager.getDefaultSharedPreferences(context));
-		if (!blockedSubreddits.isEmpty()) {
-			mAdapter.appendToGroup(
-					GROUP_BLOCKED_SUBREDDITS_HEADER,
-					new GroupedRecyclerViewItemListSectionHeaderView(
-							context.getString(R.string.mainmenu_header_subreddits_blocked)));
+		if(PrefsUtility.pref_appearance_show_blocked_subreddits_main_menu(
+				context,
+				PreferenceManager.getDefaultSharedPreferences(context))) {
+			final List<String> blockedSubreddits
+					= PrefsUtility.pref_blocked_subreddits(context, PreferenceManager.getDefaultSharedPreferences(context));
+			final PrefsUtility.BlockedSubredditSort blockedSubredditsSort = PrefsUtility.pref_behaviour_blocked_subredditsort(context, PreferenceManager.getDefaultSharedPreferences(context));
+			if (!blockedSubreddits.isEmpty()) {
+				mAdapter.appendToGroup(
+						GROUP_BLOCKED_SUBREDDITS_HEADER,
+						new GroupedRecyclerViewItemListSectionHeaderView(
+								context.getString(R.string.mainmenu_header_subreddits_blocked)));
 
-			switch (blockedSubredditsSort){
-				case NAME: Collections.sort(blockedSubreddits); break;
-				case DATE: /*noop*/break;
-			}
+				switch (blockedSubredditsSort) {
+					case NAME:
+						Collections.sort(blockedSubreddits);
+						break;
+					case DATE: /*noop*/
+						break;
+				}
 
-			boolean isFirst = true;
-			for(final String sr : blockedSubreddits) {
-				mAdapter.appendToGroup(GROUP_BLOCKED_SUBREDDITS_ITEMS, makeSubredditItem(sr, isFirst));
-				isFirst = false;
+				boolean isFirst = true;
+				for (final String sr : blockedSubreddits) {
+					mAdapter.appendToGroup(GROUP_BLOCKED_SUBREDDITS_ITEMS, makeSubredditItem(sr, isFirst));
+					isFirst = false;
+				}
 			}
 		}
 

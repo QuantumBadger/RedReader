@@ -915,4 +915,8 @@
 	<string name="pref_behaviour_blocked_subredditsort">Blocked Subreddit Sort</string>
 	<string name="sort_blocked_subreddit_name">By Name</string>
 	<string name="sort_blocked_subreddit_date">By Added Date</string>
+
+	<!-- 2016-09-21 -->
+	<string name="pref_appearance_show_blocked_subreddits_main_menu_key">pref_appearance_show_blocked_subreddits_main_menu</string>
+	<string name="pref_appearance_show_blocked_subreddits_main_menu_title">Show blocked subreddits in main menu</string>
 </resources>

@@ -231,6 +231,10 @@ public final class PrefsUtility {
 		return getBoolean(R.string.pref_appearance_hide_username_main_menu_key, false, context, sharedPreferences);
 	}
 
+	public static boolean pref_appearance_show_blocked_subreddits_main_menu(final Context context, final SharedPreferences sharedPreferences) {
+		return getBoolean(R.string.pref_appearance_show_blocked_subreddits_main_menu_key, false, context, sharedPreferences);
+	}
+
 	public static boolean pref_appearance_linkbuttons(final Context context, final SharedPreferences sharedPreferences) {
 		return getBoolean(R.string.pref_appearance_linkbuttons_key, true, context, sharedPreferences);
 	}

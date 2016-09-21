@@ -48,6 +48,10 @@
                         android:key="@string/pref_appearance_hide_username_main_menu_key"
                         android:defaultValue="false"/>
 
+	<CheckBoxPreference android:title="@string/pref_appearance_show_blocked_subreddits_main_menu_title"
+						android:key="@string/pref_appearance_show_blocked_subreddits_main_menu_key"
+						android:defaultValue="false"/>
+
     <MultiSelectListPreference
         android:dialogTitle="@string/pref_menus_post_context_items_title"
         android:key="@string/pref_menus_post_context_items_key"

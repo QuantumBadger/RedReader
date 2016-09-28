@@ -8,6 +8,7 @@ Preference to set pinned subreddit sort order (thanks to chippen)
 Preference to hide floating toolbar over images
 Preference to make link text non-clickable
 Preference to disable swipe-down-to-refresh
+Preference to show blocked subreddits in the main menu (thanks to gstraube)
 For albums with only one image, the image is now shown immediately
 When sending PMs, input fields are cleared if send succeeded
 Show action bar back button in two-pane mode (thanks to mariokmk)

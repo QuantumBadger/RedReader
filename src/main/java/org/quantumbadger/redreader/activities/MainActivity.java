@@ -482,6 +482,7 @@ public class MainActivity extends RefreshableActivity
 		mLeftPane.addView(mainMenuView);
 		mRightPane.addView(postListingView);
 
+		showBackButton(false);
 		invalidateOptionsMenu();
 	}
 
@@ -490,6 +491,7 @@ public class MainActivity extends RefreshableActivity
 		if(twoPane) {
 
 			commentListingController = new CommentListingController(PostCommentListingURL.forPostId(post.src.getIdAlone()), this);
+			showBackButton(true);
 
 			if(isMenuShown) {
 
@@ -832,4 +834,13 @@ public class MainActivity extends RefreshableActivity
 			}
 		});
 	}
+
+	private void showBackButton(boolean isVisible) {
+		configBackButton(isVisible, new View.OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+				onBackPressed();
+			}
+		});
+	}	
 }

@@ -54,6 +54,9 @@ public abstract class BaseActivity extends AppCompatActivity implements SharedPr
 	private TextView mActionbarTitleTextView;
 	private FrameLayout mContentView;
 
+	private ImageView mActionbarBackIconView;
+	private View mActionbarTitleOuterView;
+
 	protected boolean baseActivityIsToolbarActionBarEnabled() {
 		return true;
 	}
@@ -99,6 +102,17 @@ public abstract class BaseActivity extends AppCompatActivity implements SharedPr
 		return result;
 	}
 
+	protected void configBackButton(boolean isVisible, View.OnClickListener listener) {
+		if(isVisible) {
+			mActionbarBackIconView.setVisibility(View.VISIBLE);
+			mActionbarTitleOuterView.setOnClickListener(listener);
+			mActionbarTitleOuterView.setClickable(true);
+		} else {
+			mActionbarBackIconView.setVisibility(View.GONE);
+			mActionbarTitleOuterView.setClickable(false);
+		}
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
@@ -133,27 +147,20 @@ public abstract class BaseActivity extends AppCompatActivity implements SharedPr
 
 			mActionbarTitleTextView = (TextView)toolbar.findViewById(R.id.actionbar_title_text);
 
-			final ImageView actionbarBackIconView = (ImageView)toolbar.findViewById(R.id.actionbar_title_back_image);
-			final View actionbarTitleOuterView = toolbar.findViewById(R.id.actionbar_title_outer);
+			mActionbarBackIconView = (ImageView)toolbar.findViewById(R.id.actionbar_title_back_image);
+			mActionbarTitleOuterView = toolbar.findViewById(R.id.actionbar_title_outer);
 
 			if(getTitle() != null) {
 				// Update custom action bar text
 				setTitle(getTitle());
 			}
 
-			if(baseActivityIsActionBarBackEnabled()) {
-				actionbarTitleOuterView.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(final View v) {
-						finish();
-					}
-				});
-
-			} else {
-				actionbarBackIconView.setVisibility(View.GONE);
-				actionbarTitleOuterView.setClickable(false);
-
-			}
+			configBackButton(baseActivityIsActionBarBackEnabled(), new View.OnClickListener() {
+				@Override
+				public void onClick(final View v) {
+					finish();
+				}
+			});
 
 			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 

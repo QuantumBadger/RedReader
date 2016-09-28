@@ -10,6 +10,7 @@ Preference to make link text non-clickable
 Preference to disable swipe-down-to-refresh
 For albums with only one image, the image is now shown immediately
 When sending PMs, input fields are cleared if send succeeded
+Show action bar back button in two-pane mode (thanks to mariokmk)
 Fixed bug with huge "load more comments" links
 Support for imgflip links
 

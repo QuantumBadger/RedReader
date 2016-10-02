@@ -32,7 +32,6 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.text.Html;
-
 import org.quantumbadger.redreader.BuildConfig;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.ChangelogActivity;
@@ -96,7 +95,8 @@ public final class SettingsFragment extends PreferenceFragment {
 				R.string.pref_behaviour_screenorientation_key,
 				R.string.pref_behaviour_gallery_swipe_length_key,
 				R.string.pref_behaviour_pinned_subredditsort_key,
-				R.string.pref_behaviour_blocked_subredditsort_key
+				R.string.pref_behaviour_blocked_subredditsort_key,
+				R.string.pref_cache_rerequest_postlist_age_key
 		};
 
 		final int[] editTextPrefsToUpdate = {

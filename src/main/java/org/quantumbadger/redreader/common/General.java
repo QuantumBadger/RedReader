@@ -229,6 +229,12 @@ public final class General {
 		return info != null && info.getDetailedState() == NetworkInfo.DetailedState.CONNECTED;
 	}
 
+	public static boolean isNetworkConnected(final Context context) {
+		final ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		final NetworkInfo activeNetworkInfo = cm.getActiveNetworkInfo();
+		return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+	}
+
 	public static RRError getGeneralErrorForFailure(Context context, @CacheRequest.RequestFailureType int type, Throwable t, Integer status, String url) {
 
 		final int title, message;
@@ -575,5 +581,9 @@ public final class General {
 		activity.finish();
 		activity.overridePendingTransition(0, 0);
 		activity.startActivity(intent);
+	}
+
+	public static long hoursToMs(final long hours) {
+		return hours * 60L * 60L * 1000L;
 	}
 }

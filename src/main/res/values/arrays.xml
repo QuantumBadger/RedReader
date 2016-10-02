@@ -228,6 +228,8 @@
 
     <string-array name="pref_cache_maxage">
         <item>@string/time_1hr</item>
+		<item>@string/time_2hr</item>
+		<item>@string/time_3hr</item>
         <item>@string/time_6hr</item>
         <item>@string/time_1day</item>
         <item>@string/time_3day</item>
@@ -239,6 +241,8 @@
     <!-- Constants. Do not change. -->
     <string-array name="pref_cache_maxage_return">
         <item>1</item>
+		<item>2</item>
+		<item>3</item>
         <item>6</item>
         <item>24</item>
         <item>72</item>

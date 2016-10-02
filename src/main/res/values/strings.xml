@@ -919,4 +919,12 @@
 	<!-- 2016-09-21 -->
 	<string name="pref_appearance_show_blocked_subreddits_main_menu_key">pref_appearance_show_blocked_subreddits_main_menu</string>
 	<string name="pref_appearance_show_blocked_subreddits_main_menu_title">Show blocked subreddits in main menu</string>
+
+	<!-- 2016-10-02 -->
+	<string name="pref_cache_rerequest_postlist_age_key">pref_cache_rerequest_postlist_age</string>
+	<string name="pref_cache_rerequest_postlist_age_title">Refresh posts if cache older than</string>
+
+	<string name="time_2hr">2 hours</string>
+	<string name="time_3hr">3 hours</string>
+
 </resources>

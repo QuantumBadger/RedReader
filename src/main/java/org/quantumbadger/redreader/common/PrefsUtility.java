@@ -492,6 +492,18 @@ public final class PrefsUtility {
 				.apply();
 	}
 
+	public static long pref_cache_rerequest_postlist_age_ms(final Context context, final SharedPreferences sharedPreferences) {
+		try {
+			final int hours = Integer.parseInt(
+					getString(R.string.pref_cache_rerequest_postlist_age_key, "1", context, sharedPreferences));
+
+			return General.hoursToMs(hours);
+
+		} catch(Throwable e) {
+			return 1;
+		}
+	}
+
 	// pref_cache_maxage
 
 	public static HashMap<Integer, Long> pref_cache_maxage(final Context context, final SharedPreferences sharedPreferences) {

@@ -47,6 +47,7 @@ import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategy;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached;
+import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfTimestampOutsideBounds;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyNever;
 import org.quantumbadger.redreader.common.AndroidApi;
 import org.quantumbadger.redreader.common.Constants;
@@ -221,6 +222,11 @@ public class PostListingFragment extends RRFragment
 
 		if(forceDownload) {
 			downloadStrategy = DownloadStrategyAlways.INSTANCE;
+
+		} else if(session == null && savedInstanceState == null && General.isNetworkConnected(context)) {
+
+			final long maxAgeMs = PrefsUtility.pref_cache_rerequest_postlist_age_ms(context, mSharedPreferences);
+			downloadStrategy = new DownloadStrategyIfTimestampOutsideBounds(TimestampBound.notOlderThan(maxAgeMs));
 
 		} else {
 			downloadStrategy = DownloadStrategyIfNotCached.INSTANCE;

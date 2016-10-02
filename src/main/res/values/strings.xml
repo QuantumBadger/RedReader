@@ -749,7 +749,7 @@
     <string name="pref_behaviour_comments_header">Comments</string>
 
     <string name="pref_behaviour_comment_min_title">Minimum Comment Score</string>
-    <string name="pref_behaviour_comment_min_dialog_title">Collapse Comment If Score Less Than (Leave Blank To Show All)</string>
+    <string name="pref_behaviour_comment_min_dialog_title">Collapse comment if score below (blank to show all)</string>
 
     <!-- 2016-03-20 -->
     <string name="lang_se">Svenska</string>

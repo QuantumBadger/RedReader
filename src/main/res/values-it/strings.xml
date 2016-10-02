@@ -85,10 +85,6 @@
     <string name="general_false">Falso</string>
     <string name="firstrun_login_title">Login</string>
     <string name="error_unknown_api_title">Errore</string>
-    <string name="lang_es">Spagnolo</string>
-    <string name="lang_fr">Francese</string>
-    <string name="lang_it">Italiano</string>
-    <string name="lang_en">Inglese</string>
     <string name="props_created">Creato</string>
     <string name="props_edited">Modificato</string>
     <string name="props_error_title">Proprietà dell\'errore</string>
@@ -185,11 +181,7 @@
     <string name="mainmenu_custom">Subreddit personalizzato</string>
     <string name="mainmenu_custom_invalid_name">Nome del subreddit non valido.</string>
     <string name="mainmenu_downvoted">Post mandati giù</string>
-    <string name="lang_ar">Arabo</string>
     <string name="lang_auto">Automatica</string>
-    <string name="lang_cs">Ceco</string>
-    <string name="lang_da">Danese</string>
-    <string name="lang_de">Tedesco</string>
     <string name="karma_comment">Karma commenti</string>
     <string name="karma_link">Karma link</string>
     <string name="invalid_subreddit_name">Nome del subreddit non valido</string>

@@ -489,12 +489,6 @@
     <string name="pref_appearance_langforce_title">Idioma</string>
 
     <string name="lang_auto">Automático</string>
-    <string name="lang_en">Inglés</string>
-    <string name="lang_da">Danés</string>
-    <string name="lang_de">Alemán</string>
-    <string name="lang_fr">Francés</string>
-    <string name="lang_ar">Árabe</string>
-    <string name="lang_es">Español</string>
 
     <!-- 2013-06-25 -->
 
@@ -610,9 +604,6 @@
   <string name="webview_https_unknownprotocol">Protocolo desconocido, esperaba \'http://\'</string>
   <string name="webview_use_https">Usar HTTPS</string>
   
-   <!-- 2015-01-16 -->
-    <string name="lang_it">Italiano</string>
-
     <!-- 2015-01-26 -->
     <string name="sort_posts_relevance">Relevancia</string>
     <string name="sort_posts_comments">Comentarios</string>
@@ -744,9 +735,6 @@
 
     <string name="pref_behaviour_comment_min_title">Votos mínimos de comentarios</string>
     <string name="pref_behaviour_comment_min_dialog_title">Oculta los comentarios si sus votos son menores (en blanco muestra todos)</string>
-
-    <!-- 2016-03-20 -->
-    <string name="lang_se">Sueco</string>
 
     <!-- 2016-04-02 -->
     <string name="open_with">Abrir con</string>

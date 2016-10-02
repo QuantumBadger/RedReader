@@ -491,14 +491,6 @@
     <string name="pref_appearance_langforce_title">Taal</string>
 
     <string name="lang_auto">Automatisch</string>
-    <string name="lang_en">English</string>
-    <string name="lang_da">Danish</string>
-    <string name="lang_de">German</string>
-    <string name="lang_fr">French</string>
-    <string name="lang_ar">Arabic</string>
-    <string name="lang_es">Spanish</string>
-    <string name="lang_cs">Czech</string>
-    <string name="lang_nl">Dutch</string>
 
     <!-- 2013-06-25 -->
 
@@ -614,9 +606,6 @@
     <string name="webview_https_already">Deze link gebruikt al HTTPS.</string>
     <string name="webview_https_unknownprotocol">Onbekend protocol, \'http://\' was verwacht.</string>
     <string name="webview_use_https">HTTPS gebruiken</string>
-
-    <!-- 2015-01-16 -->
-    <string name="lang_it">Italian</string>
 
     <!-- 2015-01-26 -->
     <string name="sort_posts_relevance">Relevantie</string>
@@ -751,9 +740,6 @@
 
     <string name="pref_behaviour_comment_min_title">Minimale reactiescore</string>
     <string name="pref_behaviour_comment_min_dialog_title">Reactie inklappen als score minder is dan (leeg laten om allen weer te geven)</string>
-
-    <!-- 2016-03-20 -->
-    <string name="lang_se">Swedish</string>
 
     <!-- 2016-04-02 -->
     <string name="open_with">Openen met</string>

@@ -16,6 +16,7 @@ When sending PMs, input fields are cleared if send succeeded
 Show action bar back button in two-pane mode (thanks to mariokmk)
 Fixed bug with huge "load more comments" links
 Support for imgflip links
+Added Dutch translation (thanks to Beleg-Cuthalion)
 
 74/1.9.5.2
 Fixed crash due to reddit thumbnail API change

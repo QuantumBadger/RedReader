@@ -496,13 +496,6 @@
     <string name="pref_appearance_langforce_title">Språk</string>
 
     <string name="lang_auto">Automatiskt</string>
-    <string name="lang_en">Engelska</string>
-    <string name="lang_da">Danska</string>
-    <string name="lang_de">Tyska</string>
-    <string name="lang_fr">Franska</string>
-    <string name="lang_ar">Arabiska</string>
-    <string name="lang_es">Spanska</string>
-    <string name="lang_cs">Tjeckiska</string>
 
     <!-- 2013-06-25 -->
 
@@ -621,9 +614,6 @@
     <string name="webview_https_already">Den nuvarande URL:en använder redan HTTPS.</string>
     <string name="webview_https_unknownprotocol">Okänt protokoll, \'http://\' förväntades</string>
     <string name="webview_use_https">Använd HTTPS</string>
-
-    <!-- 2015-01-16 -->
-    <string name="lang_it">Italienska</string>
 
     <!-- 2015-01-26 -->
     <string name="sort_posts_relevance">Relevans</string>

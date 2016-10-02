@@ -492,12 +492,12 @@
 
     <string name="lang_auto">Automatic</string>
     <string name="lang_en">English</string>
-    <string name="lang_da">Danish</string>
-    <string name="lang_de">German</string>
-    <string name="lang_fr">French</string>
-    <string name="lang_ar">Arabic</string>
-    <string name="lang_es">Spanish</string>
-    <string name="lang_cs">Czech</string>
+    <string name="lang_da">Dansk</string>
+	<string name="lang_de">Deutsch</string>
+	<string name="lang_fr">Français</string>
+	<string name="lang_ar">عربي</string>
+	<string name="lang_es">Español</string>
+	<string name="lang_cs">Česky</string>
 
     <!-- 2013-06-25 -->
 
@@ -615,7 +615,7 @@
     <string name="webview_use_https">Use HTTPS</string>
 
     <!-- 2015-01-16 -->
-    <string name="lang_it">Italian</string>
+	<string name="lang_it">Italiano</string>
 
     <!-- 2015-01-26 -->
     <string name="sort_posts_relevance">Relevance</string>
@@ -752,7 +752,7 @@
     <string name="pref_behaviour_comment_min_dialog_title">Collapse Comment If Score Less Than (Leave Blank To Show All)</string>
 
     <!-- 2016-03-20 -->
-    <string name="lang_se">Swedish</string>
+    <string name="lang_se">Svenska</string>
 
     <!-- 2016-04-02 -->
     <string name="open_with">Open with</string>
@@ -926,5 +926,7 @@
 
 	<string name="time_2hr">2 hours</string>
 	<string name="time_3hr">3 hours</string>
+
+	<string name="lang_nl">Nederlands</string>
 
 </resources>

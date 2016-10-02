@@ -547,7 +547,8 @@ public final class RedditPreparedPost {
 
 			case REPLY:
 				final Intent intent = new Intent(activity, CommentReplyActivity.class);
-				intent.putExtra("parentIdAndType", post.src.getIdAndType());
+				intent.putExtra(CommentReplyActivity.PARENT_ID_AND_TYPE_KEY, post.src.getIdAndType());
+				intent.putExtra(CommentReplyActivity.PARENT_MARKDOWN_KEY, post.src.getUnescapedSelfText());
 				activity.startActivity(intent);
 				break;
 		}

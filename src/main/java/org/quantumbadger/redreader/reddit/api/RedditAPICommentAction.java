@@ -222,7 +222,8 @@ public class RedditAPICommentAction {
 
 			case REPLY: {
 				final Intent intent = new Intent(activity, CommentReplyActivity.class);
-				intent.putExtra("parentIdAndType", comment.getIdAndType());
+				intent.putExtra(CommentReplyActivity.PARENT_ID_AND_TYPE_KEY, comment.getIdAndType());
+				intent.putExtra(CommentReplyActivity.PARENT_MARKDOWN_KEY, StringEscapeUtils.unescapeHtml4(comment.body));
 				activity.startActivity(intent);
 				break;
 			}

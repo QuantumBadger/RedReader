@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.activities;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -28,6 +29,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -47,10 +49,15 @@ public class CommentReplyActivity extends BaseActivity {
 
 	private Spinner usernameSpinner;
 	private EditText textEdit;
+	private TextView parentMarkdown;
 
 	private String parentIdAndType = null;
 
 	private static String lastText, lastParentIdAndType;
+
+	public static final String PARENT_ID_AND_TYPE_KEY = "parentIdAndType";
+	public static final String PARENT_MARKDOWN_KEY = "parent_markdown";
+	private static final String COMMENT_TEXT_KEY = "comment_text";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,23 +66,44 @@ public class CommentReplyActivity extends BaseActivity {
 
 		super.onCreate(savedInstanceState);
 
+		final Intent intent = getIntent();
+
 		setTitle(R.string.submit_comment_actionbar);
 
 		final LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.comment_reply, null);
 
 		usernameSpinner = (Spinner)layout.findViewById(R.id.comment_reply_username);
 		textEdit = (EditText)layout.findViewById(R.id.comment_reply_text);
+		parentMarkdown = (TextView)layout.findViewById(R.id.comment_parent_text);
 
-		if(getIntent() != null && getIntent().hasExtra("parentIdAndType")) {
-			parentIdAndType = getIntent().getStringExtra("parentIdAndType");
+		if(intent != null && intent.hasExtra(PARENT_ID_AND_TYPE_KEY)) {
+			parentIdAndType = intent.getStringExtra(PARENT_ID_AND_TYPE_KEY);
 
-		} else if(savedInstanceState != null && savedInstanceState.containsKey("comment_text")) {
-			textEdit.setText(savedInstanceState.getString("comment_text"));
-			parentIdAndType = savedInstanceState.getString("parentIdAndType");
+		} else if(savedInstanceState != null && savedInstanceState.containsKey(PARENT_ID_AND_TYPE_KEY)) {
+			parentIdAndType = savedInstanceState.getString(PARENT_ID_AND_TYPE_KEY);
 
-		} else if(lastText != null) {
-			textEdit.setText(lastText);
-			parentIdAndType = lastParentIdAndType;
+		} else {
+			throw new RuntimeException("No parent ID in CommentReplyActivity");
+		}
+
+		final String existingCommentText;
+
+		if(savedInstanceState != null && savedInstanceState.containsKey(COMMENT_TEXT_KEY)) {
+			existingCommentText = savedInstanceState.getString(COMMENT_TEXT_KEY);
+
+		} else if(lastText != null && parentIdAndType.equals(lastParentIdAndType)) {
+			existingCommentText = lastText;
+
+		} else {
+			existingCommentText = null;
+		}
+
+		if(existingCommentText != null) {
+			textEdit.setText(existingCommentText);
+		}
+
+		if(intent != null && intent.hasExtra(PARENT_MARKDOWN_KEY)) {
+			parentMarkdown.setText(intent.getStringExtra(PARENT_MARKDOWN_KEY));
 		}
 
 		final ArrayList<RedditAccount> accounts = RedditAccountManager.getInstance(this).getAccounts();
@@ -102,8 +130,8 @@ public class CommentReplyActivity extends BaseActivity {
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		outState.putString("comment_text", textEdit.getText().toString());
-		outState.putString("parentIdAndType", parentIdAndType);
+		outState.putString(COMMENT_TEXT_KEY, textEdit.getText().toString());
+		outState.putString(PARENT_ID_AND_TYPE_KEY, parentIdAndType);
 	}
 
 	@Override
@@ -157,6 +185,8 @@ public class CommentReplyActivity extends BaseActivity {
 						public void run() {
 							if(progressDialog.isShowing()) progressDialog.dismiss();
 							General.quickToast(CommentReplyActivity.this, getString(R.string.comment_reply_done));
+							lastText = null;
+							lastParentIdAndType = null;
 							finish();
 						}
 					});

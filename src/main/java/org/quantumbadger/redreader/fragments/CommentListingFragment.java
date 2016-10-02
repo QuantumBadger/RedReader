@@ -493,7 +493,8 @@ public class CommentListingFragment extends RRFragment
 
 		if(mPost != null) {
 			final Intent intent = new Intent(getActivity(), CommentReplyActivity.class);
-			intent.putExtra("parentIdAndType", mPost.src.getIdAndType());
+			intent.putExtra(CommentReplyActivity.PARENT_ID_AND_TYPE_KEY, mPost.src.getIdAndType());
+			intent.putExtra(CommentReplyActivity.PARENT_MARKDOWN_KEY, mPost.src.getUnescapedSelfText());
 			startActivity(intent);
 
 		} else {

@@ -36,4 +36,11 @@
               android:scrollbars="none"
               android:inputType="textCapSentences|textMultiLine"/>
 
+	<TextView
+			android:id="@+id/comment_parent_text"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_margin="10dp"
+			android:textIsSelectable="true"/>
+
 </LinearLayout>

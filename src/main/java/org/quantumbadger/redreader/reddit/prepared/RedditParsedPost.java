@@ -107,6 +107,10 @@ public class RedditParsedPost implements RedditThingWithIdAndType {
 		return mSrc.selftext;
 	}
 
+	public String getUnescapedSelfText() {
+		return StringEscapeUtils.unescapeHtml4(mSrc.selftext);
+	}
+
 	public String getSubreddit() {
 		return mSrc.subreddit;
 	}

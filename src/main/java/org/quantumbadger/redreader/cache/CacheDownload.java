@@ -74,8 +74,10 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 		new Thread() {
 			@Override
 			public void run() {
-				mRequest.cancel();
-				mInitiator.notifyFailure(CacheRequest.REQUEST_FAILURE_CANCELLED, null, null, "Cancelled");
+				if(mRequest != null) {
+					mRequest.cancel();
+					mInitiator.notifyFailure(CacheRequest.REQUEST_FAILURE_CANCELLED, null, null, "Cancelled");
+				}
 			}
 		}.start();
 	}

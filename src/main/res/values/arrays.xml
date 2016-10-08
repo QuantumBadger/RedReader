@@ -253,6 +253,33 @@
         <item>2191</item>
     </string-array>
 
+	<string-array name="pref_cache_autorefresh_age">
+		<item>@string/time_every_time</item>
+		<item>@string/time_1hr</item>
+		<item>@string/time_2hr</item>
+		<item>@string/time_3hr</item>
+		<item>@string/time_6hr</item>
+		<item>@string/time_1day</item>
+		<item>@string/time_3day</item>
+		<item>@string/time_1week</item>
+		<item>@string/time_1month</item>
+		<item>@string/time_3month</item>
+	</string-array>
+
+	<!-- Constants. Do not change. -->
+	<string-array name="pref_cache_autorefresh_age_return">
+		<item>0</item>
+		<item>1</item>
+		<item>2</item>
+		<item>3</item>
+		<item>6</item>
+		<item>24</item>
+		<item>72</item>
+		<item>168</item>
+		<item>730</item>
+		<item>2191</item>
+	</string-array>
+
     <string-array name="pref_appearance_fontscale">
         <item>0.7x</item>
         <item>0.8x</item>

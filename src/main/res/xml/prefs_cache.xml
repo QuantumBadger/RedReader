@@ -26,8 +26,8 @@
 
 		<ListPreference android:title="@string/pref_cache_rerequest_postlist_age_title"
 						android:key="@string/pref_cache_rerequest_postlist_age_key"
-						android:entries="@array/pref_cache_maxage"
-						android:entryValues="@array/pref_cache_maxage_return"
+						android:entries="@array/pref_cache_autorefresh_age"
+						android:entryValues="@array/pref_cache_autorefresh_age_return"
 						android:defaultValue="1"/>
 
     </PreferenceCategory>

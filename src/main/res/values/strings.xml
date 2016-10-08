@@ -929,4 +929,7 @@
 
 	<string name="lang_nl">Nederlands</string>
 
+	<!-- 2016-10-08 -->
+	<string name="time_every_time">Every time</string>
+
 </resources>

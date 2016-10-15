@@ -821,4 +821,97 @@
 	<string name="pref_behaviour_fling_comment_right_key">pref_behaviour_fling_comment_right</string>
 	<string name="pref_behaviour_fling_comment_right_title">Acción al desplazar comentario a la izquierda</string>
 
+	<!-- 2016-07-17 -->
+	<string name="comment_header_search_thread_title">Estás viendo los resultados de búsqueda para un hilo de comentarios.</string>
+	<string name="no_search_results">No hay resultados de búsqueda.</string>
+
+	<!-- 2016-07-24 -->
+	<string name="action_search_comments">Buscar comentarios</string>
+
+	<!-- 2016-07-29 -->
+	<string name="pref_appearance_navbar_color_key">pref_appearance_navbar_color</string>
+	<string name="pref_appearance_navbar_color_title">Color de la barra de navegación</string>
+
+	<string name="pref_appearance_navbar_color_option_black">Negro</string>
+	<string name="pref_appearance_navbar_color_option_primary">Primario (claro)</string>
+	<string name="pref_appearance_navbar_color_option_primarydark">Primario (oscuro)</string>
+
+	<string name="pref_not_supported_before_lollipop">No soportado en versiones anteriores a Lollipop.</string>
+
+	<!-- 2016-08-03 -->
+	<string name="action_copy_text">Copiar texto</string>
+	<string name="action_copy_link">Copiar enlace</string>
+
+	<string name="pref_behaviour_postsort_key">pref_behaviour_postsort</string>
+	<string name="pref_behaviour_postsort">Orden de publicaciones por defecto</string>
+
+	<!-- 2016-08-06 -->
+	<string name="mainmenu_custom_destination">Ubicación personalizada</string>
+	<string name="mainmenu_custom_destination_subreddit">Subreddit</string>
+	<string name="mainmenu_custom_destination_user">Usuario</string>
+	<string name="mainmenu_custom_destination_url">URL</string>
+
+	<string name="mainmenu_header_multireddits">Multireddits</string>
+
+	<string name="pref_behaviour_share_permalink_key">pref_behaviour_share_permalink</string>
+	<string name="pref_behaviour_share_permalink_title">Compartir como permalink</string>
+
+	<!-- 2016-08-10 -->
+	<string name="pref_cache_general_header">General</string>
+
+	<string name="pref_cache_location_key">pref_cache_location</string>
+	<string name="pref_cache_location_title">Ubicación de almacenamiento de caché</string>
+
+	<string name="error_cache_dir_does_not_exist_title">El directorio de caché no existe</string>
+	<string name="error_cache_dir_does_not_exist_message">No se pudo acceder al directorio de caché. Por favor elige una ubicación diferente en los ajustes de caché.</string>
+
+	<!-- 2016-08-15 -->
+	<string name="pref_behaviour_pinned_subredditsort_key">pref_behaviour_pinned_subreddit_sort</string>
+	<string name="pref_behaviour_pinned_subredditsort">Orden de subreddits fijos</string>
+	<string name="sort_pinned_subreddit_name">Por nombre</string>
+	<string name="sort_pinned_subreddit_date">Por fecha de adición</string>
+
+	<!-- 2016-09-01 -->
+	<string name="load_more_comments_failed_unknown_url_type">No se pueden cargar más comentarios: tipo de URL desconocido.</string>
+
+	<!-- 2016-09-04 -->
+	<string name="pref_appearance_image_viewer_header">Visor de imágenes</string>
+
+	<string name="pref_appearance_image_viewer_show_floating_toolbar_title">Mostrar barra flotante sobre la imagen</string>
+	<string name="pref_appearance_image_viewer_show_floating_toolbar_key">pref_appearance_image_viewer_show_floating_toolbar</string>
+
+	<string name="pref_appearance_link_text_clickable_title">Permitir clic sobre el texto de enlaces</string>
+	<string name="pref_appearance_link_text_clickable_key">pref_appearance_link_text_clickable</string>
+
+	<!-- 2016-09-07 -->
+	<string name="pref_appearance_hide_android_status_title">Ocultar la barra de estado de Android</string>
+	<string name="pref_appearance_hide_android_status_key">pref_appearance_hide_android_status</string>
+
+	<!-- 2016-09-08 -->
+	<string name="pref_behaviour_enable_swipe_refresh_title">Deslizar hacia abajo para actualizar</string>
+	<string name="pref_behaviour_enable_swipe_refresh_key">pref_behaviour_enable_swipe_refresh</string>
+
+	<!-- 2016-09-10 -->
+	<string name="mainmenu_header_subreddits_blocked">Subreddits bloqueados</string>
+	<string name="pref_behaviour_blocked_subredditsort_key">pref_behaviour_blocked_subreddit_sort</string>
+	<string name="pref_behaviour_blocked_subredditsort">Orden de subreddits bloqueados</string>
+	<string name="sort_blocked_subreddit_name">Por nombre</string>
+	<string name="sort_blocked_subreddit_date">Por fecha de adición</string>
+
+	<!-- 2016-09-21 -->
+	<string name="pref_appearance_show_blocked_subreddits_main_menu_key">pref_appearance_show_blocked_subreddits_main_menu</string>
+	<string name="pref_appearance_show_blocked_subreddits_main_menu_title">Mostrar subreddits bloqueados en el menú principal</string>
+
+	<!-- 2016-10-02 -->
+	<string name="pref_cache_rerequest_postlist_age_key">pref_cache_rerequest_postlist_age</string>
+	<string name="pref_cache_rerequest_postlist_age_title">Actualizar publicaciones si la cache tiene más de</string>
+
+	<string name="time_2hr">2 horas</string>
+	<string name="time_3hr">3 horas</string>
+
+	<string name="lang_nl">Neerlandés</string>
+
+	<!-- 2016-10-08 -->
+	<string name="time_every_time">Siempre</string>
+
 </resources>

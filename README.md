@@ -73,5 +73,5 @@ Thanks to:
 * [Martin Macko](https://github.com/LinkedList) for the Czech translation
 * [klenje](https://github.com/klenje) for the Italian translation
 * [Beleg-Cuthalion](https://github.com/Beleg-Cuthalion) for the Dutch translation
-* [tjernquist](https://github.com/tjernquist] for the Swedish translation
+* [tjernquist](https://github.com/tjernquist) for the Swedish translation
 * [Badita Viorel-Octavian](https://github.com/vooctavian) for the Romanian translation

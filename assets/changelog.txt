@@ -1,4 +1,5 @@
 76/1.9.7
+Removed all CAPTCHAs as they are no longer needed
 Updated Spanish translation (thanks to Andrés Hernández)
 Added Romanian translation (thanks to Badita Viorel-Octavian)
 

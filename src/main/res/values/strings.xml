@@ -932,4 +932,7 @@
 	<!-- 2016-10-08 -->
 	<string name="time_every_time">Every time</string>
 
+	<!-- 2016-11-02 -->
+	<string name="lang_ro">Romanian</string>
+
 </resources>

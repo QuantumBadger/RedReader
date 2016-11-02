@@ -78,8 +78,6 @@ public final class RedditAPI {
 							   final String subreddit,
 							   final String title,
 							   final String body,
-							   final String captchaId,
-							   final String captchaText,
 							   final Context context) {
 
 		final LinkedList<PostField> postFields = new LinkedList<>();
@@ -87,8 +85,6 @@ public final class RedditAPI {
 		postFields.add(new PostField("sendreplies", "true"));
 		postFields.add(new PostField("sr", subreddit));
 		postFields.add(new PostField("title", title));
-		postFields.add(new PostField("captcha", captchaText));
-		postFields.add(new PostField("iden", captchaId));
 
 		if(is_self)
 			postFields.add(new PostField("text", body));
@@ -137,14 +133,10 @@ public final class RedditAPI {
 			@NonNull final String recipient,
 			@NonNull final String subject,
 			@NonNull final String body,
-			@NonNull final String captchaId,
-			@NonNull final String captchaText,
 			@NonNull final Context context) {
 
 		final LinkedList<PostField> postFields = new LinkedList<>();
 		postFields.add(new PostField("api_type", "json"));
-		postFields.add(new PostField("captcha", captchaText));
-		postFields.add(new PostField("iden", captchaId));
 		postFields.add(new PostField("subject", subject));
 		postFields.add(new PostField("to", recipient));
 		postFields.add(new PostField("text", body));
@@ -295,45 +287,6 @@ public final class RedditAPI {
 				}
 
 				responseHandler.notifySuccess();
-			}
-
-			@Override
-			protected void onCallbackException(Throwable t) {
-				BugReportActivity.handleGlobalError(context, t);
-			}
-
-			@Override
-			protected void onFailure(@CacheRequest.RequestFailureType int type, Throwable t, Integer status, String readableMessage) {
-				responseHandler.notifyFailure(type, t, status, readableMessage);
-			}
-		});
-	}
-
-	public static void newCaptcha(final CacheManager cm,
-								   final APIResponseHandler.NewCaptchaResponseHandler responseHandler,
-								   final RedditAccount user,
-								   final Context context) {
-
-		final LinkedList<PostField> postFields = new LinkedList<>();
-
-		cm.makeRequest(new APIPostRequest(Constants.Reddit.getUri("/api/new_captcha"), user, postFields, context) {
-
-			@Override
-			public void onJsonParseStarted(JsonValue result, long timestamp, UUID session, boolean fromCache) {
-
-				try {
-					final APIResponseHandler.APIFailureType failureType = findFailureType(result);
-
-					if(failureType != null) {
-						responseHandler.notifyFailure(failureType);
-						return;
-					}
-
-				} catch(Throwable t) {
-					notifyFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "JSON failed to parse");
-				}
-
-				responseHandler.notifySuccess(findCaptchaId(result));
 			}
 
 			@Override
@@ -611,44 +564,6 @@ public final class RedditAPI {
 
 				if(Constants.Reddit.isApiTooLong(response.asString()))
 					return APIResponseHandler.APIFailureType.TOO_LONG;
-
-				break;
-
-			default:
-				// Ignore
-		}
-
-		return null;
-	}
-
-	// lol, reddit api
-	private static String findCaptchaId(final JsonValue response) {
-
-		switch(response.getType()) {
-
-			case JsonValue.TYPE_OBJECT:
-
-				for(final Map.Entry<String, JsonValue> v : response.asObject()) {
-					final String captchaId = findCaptchaId(v.getValue());
-					if(captchaId != null) return captchaId;
-				}
-
-				break;
-
-			case JsonValue.TYPE_ARRAY:
-
-				for(final JsonValue v : response.asArray()) {
-					final String captchaId = findCaptchaId(v);
-					if(captchaId != null) return captchaId;
-				}
-
-				break;
-
-			case JsonValue.TYPE_STRING:
-
-				if(response.asString().length() > 20) { // This is probably it :S
-					return response.asString();
-				}
 
 				break;
 

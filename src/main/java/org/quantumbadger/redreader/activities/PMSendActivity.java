@@ -53,8 +53,6 @@ public class PMSendActivity extends BaseActivity {
 	private static final String SAVED_STATE_TEXT = "pm_text";
 	private static final String SAVED_STATE_SUBJECT = "pm_subject";
 
-	private static final int REQUEST_CAPTCHA = 0;
-
 	private Spinner usernameSpinner;
 	private EditText recipientEdit;
 	private EditText subjectEdit;
@@ -162,11 +160,9 @@ public class PMSendActivity extends BaseActivity {
 	}
 
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
+	public boolean onOptionsItemSelected(MenuItem item) {
 
-		if(requestCode == REQUEST_CAPTCHA) {
-
-			if(resultCode != RESULT_OK) return;
+		if(item.getTitle().equals(getString(R.string.comment_reply_send))) {
 
 			final ProgressDialog progressDialog = new ProgressDialog(this);
 			progressDialog.setTitle(getString(R.string.comment_reply_submitting_title));
@@ -265,9 +261,6 @@ public class PMSendActivity extends BaseActivity {
 				throw new RuntimeException("Selected account no longer present");
 			}
 
-			final String captchaId = data.getStringExtra("captchaId");
-			final String captchaText = data.getStringExtra("captchaText");
-
 			RedditAPI.compose(
 					cm,
 					handler,
@@ -275,21 +268,9 @@ public class PMSendActivity extends BaseActivity {
 					recipientEdit.getText().toString(),
 					subjectEdit.getText().toString(),
 					textEdit.getText().toString(),
-					captchaId,
-					captchaText,
 					this);
 
 			progressDialog.show();
-		}
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-
-		if(item.getTitle().equals(getString(R.string.comment_reply_send))) {
-			final Intent captchaIntent = new Intent(this, CaptchaActivity.class);
-			captchaIntent.putExtra("username", (String)usernameSpinner.getSelectedItem());
-			startActivityForResult(captchaIntent, REQUEST_CAPTCHA);
 
 		} else if(item.getTitle().equals(getString(R.string.comment_reply_preview))) {
 			MarkdownPreviewDialog.newInstance(textEdit.getText().toString()).show(getSupportFragmentManager(), "MarkdownPreviewDialog");

@@ -61,9 +61,7 @@ Thanks
 
 Thanks to:
 
-* Lawrence Dawson, for the [ActiveTextView](https://github.com/laurencedawson/activetextview) (Apache License 2.0)
 * tomorrowkey.jp, for the [GIF decoder](https://code.google.com/p/android-gifview/) (Apache License 2.0)
-* [HoloEverywhere](https://github.com/Prototik/HoloEverywhere) and [ActionBarSherlock](http://actionbarsherlock.com/)
 * Apache, for various libraries
 * The [Jackson JSON processor](http://jackson.codehaus.org/)
 * [Joda](http://joda-time.sourceforge.net/)
@@ -71,6 +69,8 @@ Thanks to:
 * [/u/balducien](http://www.reddit.com/user/balducien) and [/u/andiho](http://www.reddit.com/user/andiho) for the German translation
 * [remil19](https://github.com/remil19) for the French translation
 * [Husam Bilal](https://github.com/husam212) for the Arabic translation
-* [Juanma Reyes](https://github.com/jmreyes) and [moshpirit](https://github.com/moshpirit) for the Spanish translation
+* [Juanma Reyes](https://github.com/jmreyes), [moshpirit](https://github.com/moshpirit), and Andrés Hernández for the Spanish translation
 * [Martin Macko](https://github.com/LinkedList) for the Czech translation
 * [klenje](https://github.com/klenje) for the Italian translation
+* [Beleg-Cuthalion](https://github.com/Beleg-Cuthalion) for the Dutch translation
+* [tjernquist](https://github.com/tjernquist] for the Swedish translation

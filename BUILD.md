@@ -11,7 +11,7 @@ http://developer.android.com/sdk/index.html#download
 
 And download the installer under "Use an existing IDE".
 
-When it's installed, go into the SDK Manager, and install the "SDK Platform" for **API 22**. If you wish to use the emulator, install the relevant system images.
+When it's installed, go into the SDK Manager, and install the necessary SDK Platform, build tools, and support repository. If you wish to use the emulator, install the relevant system images.
 
 **3\. Download and install IntelliJ IDEA Community Edition.**
 
@@ -43,7 +43,7 @@ In the same dialog, click the green add icon again, but this time select "Androi
 
 Locate the Android SDK home directory. On Windows, this could be in a variety of locations - the easiest way to find out is to open the SDK manager and look for the "SDK Path" in gray at the top of the window. In the IDEA file selector, you'll probably need to click the "show hidden files and directories" icon.
 
-Once you've done this, select "Android 5.1.1" as the build target in the next dialog.
+Once you've done this, select the relevant version of Android as the build target in the next dialog.
 
 **9\. Create a run configuration.**
 

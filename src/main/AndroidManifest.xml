@@ -18,7 +18,7 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="org.quantumbadger.redreader"
-          android:versionCode="75"
+          android:versionCode="76"
           android:versionName="1.9.6.1"
           android:installLocation="auto">
 

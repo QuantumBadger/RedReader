@@ -1,0 +1,941 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of RedReader.
+  ~
+  ~ RedReader is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ RedReader is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+
+    <string name="app_name">RedReader</string>
+
+    <!-- First Run Dialog -->
+
+    <string name="firstrun_login_title">Jelentkezz be</string>
+    <string name="firstrun_login_message">Nem vagy bejelentkezve. A felhasználói fiókok listáját a menüben a "Felhasználói fiókok" pontban találhatod meg.</string>
+    <string name="firstrun_login_button_now">Bejelentkezés most</string>
+    <string name="firstrun_login_button_later">Anonim használat</string>
+
+    <!-- Preference Headers -->
+
+    <string name="prefs_category_appearance">Kinézet</string>
+    <string name="prefs_category_behaviour">Viselkedés</string>
+    <string name="prefs_category_cache">Tárhely</string>
+    <string name="prefs_category_menus">Menük</string>
+
+    <!-- Appearance Prefs -->
+
+    <string name="pref_appearance_theme_header">Téma</string>
+    <string name="pref_appearance_font_header">Betűtípus</string>
+    <string name="pref_appearance_thumbnails_header">Előnézet</string>
+    <string name="pref_appearance_tabletmode_header">Tablet Mód</string>
+    <string name="pref_appearance_comments_header">Hozzászólások</string>
+    <string name="pref_appearance_other_header">Továbbiak</string>
+
+    <string name="pref_appearance_twopane_key">pref_appearance_twopane</string>
+    <string name="pref_appearance_twopane_title">Tablet Mód (két sík)</string>
+
+    <string name="pref_appearance_theme_key">pref_appearance_theme</string>
+    <string name="pref_appearance_theme_title">Téma</string>
+
+    <string name="pref_appearance_solidblack_title">Tömör fekete éjszakai módban</string>
+
+    <string name="pref_appearance_fontscale_posts_key">pref_appearance_fontscale_posts</string>
+    <string name="pref_appearance_fontscale_posts_title">Poszt betűtípus méretszorzó</string>
+
+    <string name="pref_appearance_fontscale_comments_key">pref_appearance_fontscale_comments</string>
+    <string name="pref_appearance_fontscale_comments_title">Hozzászólás betűtípus méretszorzó</string>
+
+    <string name="pref_appearance_thumbnails_show_key">pref_appearance_thumbnails_show</string>
+    <string name="pref_appearance_thumbnails_show_title">Előnézetek mutatása</string>
+
+    <string name="pref_appearance_thumbnails_nsfw_show_key">pref_appearance_thumbnails_nsfw_show</string>
+    <string name="pref_appearance_thumbnails_nsfw_show_title">NSFW előnézetek mutatása</string>
+
+    <string name="pref_appearance_thumbnails_wifionly_key">pref_appearance_thumbnails_wifionly</string>
+    <string name="pref_appearance_thumbnails_wifionly_title">Előnézetek csak Wi-Fi-n</string>
+
+    <string name="pref_appearance_loading_detail_key">pref_appearance_loading_detail</string>
+    <string name="pref_appearance_loading_detail_title">Részletes betöltőüzenetek mutatása</string>
+
+    <string name="pref_appearance_comment_header_items_key">pref_appearance_comment_header_items</string>
+    <string name="pref_appearance_comment_header_items_title">Hozzászólás fejléc</string>
+
+    <!-- Behaviour Prefs -->
+
+    <string name="pref_behaviour_notifications_key">pref_behaviour_notifications</string>
+    <string name="pref_behaviour_notifications_title">Figyelmeztetések</string>
+
+    <string name="pref_behaviour_actions_post_header">Poszt Műveletek</string>
+    <string name="pref_behaviour_actions_comment_header">Hozzászólás Műveletek</string>
+    <string name="pref_behaviour_posts_header">Posztok</string>
+
+    <string name="pref_behaviour_fling_post_left_key">pref_behaviour_fling_post_left</string>
+    <string name="pref_behaviour_fling_post_left_title">Művelet poszt balra söprésénél</string>
+
+    <string name="pref_behaviour_fling_post_right_key">pref_behaviour_fling_post_right</string>
+    <string name="pref_behaviour_fling_post_right_title">Művelet poszt jobbra söprésénél</string>
+
+    <string name="pref_behaviour_actions_comment_tap_key">pref_behaviour_actions_comment_tap</string>
+    <string name="pref_behaviour_actions_comment_tap_title">Művelet hozzászólás megérintésénél</string>
+
+    <string name="pref_behaviour_nsfw_key">pref_behaviour_nsfw</string>
+    <string name="pref_behaviour_nsfw_title">Mutass NSFW tartalmakat</string>
+
+    <!-- Cache Prefs -->
+
+    <string name="pref_cache_pruning">Tárhely-takarékosság</string>
+
+    <string name="pref_cache_maxage_listing_key">pref_cache_maxage_listing</string>
+    <string name="pref_cache_maxage_listing_title">Eltárolt listák törlése ennyi idő után</string>
+
+    <string name="pref_cache_maxage_thumb_key">pref_cache_maxage_thumb</string>
+    <string name="pref_cache_maxage_thumb_title">Eltárolt előnézetek törlése ennyi idő után</string>
+
+    <string name="pref_cache_maxage_image_key">pref_cache_maxage_image</string>
+    <string name="pref_cache_maxage_image_title">Eltárolt képek törlése ennyi idő után</string>
+
+    <string name="pref_cache_precache_images_header">Képek előre lehívása</string>
+
+    <string name="pref_cache_precache_images_key">pref_cache_precache_images</string>
+    <string name="pref_cache_precache_images_title">Képek előre lehívása</string>
+
+    <!-- TODO use listpreference instead -->
+    <string name="pref_cache_precache_images_wifionly_key">pref_cache_precache_images_wifionly</string>
+    <string name="pref_cache_precache_images_wifionly_title">Kizárólag Wi-Fi-n</string>
+
+    <!-- Menu Prefs -->
+
+    <string name="pref_menus_post_context_items_key">pref_menus_post_context_items_2</string>
+    <string name="pref_menus_post_context_items_title">Poszt Kontextus Menü Elemek</string>
+
+    <string name="pref_menus_post_toolbar_items_key">pref_menus_post_toolbar_items</string>
+    <string name="pref_menus_post_toolbar_items_title">Poszt Eszköztár Elemek</string>
+
+    <!-- Options Menu -->
+
+    <string name="options_accounts">Felhasználói Fiókok</string>
+    <string name="options_accounts_long">Reddit Felhasználói Fiókok</string>
+    <string name="options_theme">Témák</string>
+    <string name="options_settings">Beállítások</string>
+
+    <string name="options_submit_post">Posztolás</string>
+
+    <string name="options_refresh">Frissítés</string>
+    <string name="options_refresh_subreddits">Alredditek frissítése</string>
+    <string name="options_refresh_posts">Posztok frissítése</string>
+    <string name="options_refresh_comments">Hozzászólások frissítése</string>
+
+    <string name="options_past">Előző verziók</string>
+    <string name="options_past_posts">Posztlista előző verziói</string>
+    <string name="options_past_comments">Hozzászólás-lista előző verziói</string>
+
+    <string name="options_sort">Rendezés</string>
+    <string name="options_sort_subreddits">Alredditek rendezése</string>
+    <string name="options_sort_posts">Posztok rendezése</string>
+    <string name="options_sort_comments">Hozzászólások rendezése</string>
+
+    <!-- Main Menu -->
+
+    <string name="mainmenu_frontpage">Főoldal</string>
+    <string name="mainmenu_all">Összes alreddit</string>
+    <string name="mainmenu_custom">Konkrét alreddit</string>
+    <string name="mainmenu_custom_invalid_name">Érvénytelen alreddit név.</string>
+    <string name="mainmenu_saved">Elmentett posztok</string>
+    <string name="mainmenu_hidden">Elrejtett posztok</string>
+    <string name="mainmenu_upvoted">Upvote-olt posztok</string>
+    <string name="mainmenu_inbox">Postaláda</string>
+    <string name="mainmenu_profile">Saját profil</string>
+    <string name="mainmenu_header_subreddits">Alredditek</string>
+
+    <!-- General Listing -->
+
+    <string name="listing_cached">Eltárolt másolat, %s</string>
+
+    <!-- Accounts Dialog -->
+
+    <string name="accounts_anon">Anonim</string>
+    <string name="accounts_active">Aktív</string>
+    <string name="accounts_add">Reddit-fiók létrehozása</string>
+    <string name="accounts_setactive">Aktívvá tétel</string>
+    <string name="accounts_reauth">Újraazonosítás</string>
+    <string name="accounts_delete">Törlés</string>
+
+    <string name="accounts_loggingin">Bejelentkezés…</string>
+    <string name="accounts_loggingin_msg">Egy pillanat…</string>
+
+    <string name="accounts_username">Felhasználói név</string>
+    <string name="accounts_password">Jelszó</string>
+
+    <string name="accounts_login">Bejelentkezés</string>
+
+    <string name="accounts_delete_sure">Biztos vagy benne, hogy ezt a felhasználói fiókot törölnéd?</string>
+
+    <!-- Post Sorts -->
+
+    <string name="sort_posts_hot">Forró</string>
+    <string name="sort_posts_new">Új</string>
+    <string name="sort_posts_rising">Emelkedő</string>
+    <string name="sort_posts_controversial">Ellentmondásos</string>
+    <string name="sort_posts_top">Csúcs</string>
+    <string name="sort_posts_top_hour">Csúcs: Ebben az Órában</string>
+    <string name="sort_posts_top_today">Csúcs: A Mai Napon</string>
+    <string name="sort_posts_top_week">Csúcs: Ezen a Héten</string>
+    <string name="sort_posts_top_month">Csúcs: Ebben a Hónapban</string>
+    <string name="sort_posts_top_year">Csúcs: Ebben az Évben</string>
+    <string name="sort_posts_top_all">Csúcs: Minden Idők</string>
+
+    <!-- Comment Sorts -->
+
+    <string name="sort_comments_best">Legjobb</string>
+    <string name="sort_comments_hot">Legforróbb</string>
+    <string name="sort_comments_new">Legújabb</string>
+    <string name="sort_comments_old">Legrégibb</string>
+    <string name="sort_comments_controversial">Legellentmondásosabb</string>
+    <string name="sort_comments_top">Legcsúcsabb</string>
+
+    <!-- Dialog Buttons -->
+
+    <string name="dialog_close">Bezárás</string>
+    <string name="dialog_cancel">Mégse</string>
+    <string name="dialog_yes">Igen</string>
+    <string name="dialog_no">Nem</string>
+    <string name="dialog_go">Menj</string>
+
+    <!-- Thing Actions -->
+
+    <string name="action_menu_post_title">Poszt műveletek</string>
+
+    <string name="action_upvote">Upvote-olás</string>
+    <string name="action_downvote">Downvote-olás</string>
+    <string name="action_vote_remove">Szavazat törlése</string>
+    <string name="action_upvote_remove">Upvote törlése</string>
+    <string name="action_downvote_remove">Downvote törlése</string>
+    <string name="action_save">Mentés</string>
+    <string name="action_hide">Elrejtés</string>
+    <string name="action_unsave">Mégsem mentés</string>
+    <string name="action_unhide">Mégis mutatás</string>
+    <string name="action_external">Megtekintés külső böngészőben</string>
+    <string name="action_external_short">Böngészőben</string>
+    <string name="action_actionmenu_short">Műveletek</string>
+    <string name="action_actionmenu">Művelet menü</string>
+    <string name="action_comment_links">Linkek a hozzászólásban</string>
+    <string name="action_selftext_links">Linkek a saját szövegben</string>
+    <string name="action_share">Megosztás</string>
+    <string name="action_share_comments">Hozzászólások megosztása</string>
+    <string name="action_copy">Másolás</string>
+    <string name="action_gotosubreddit">Alreddit megnyitása</string>
+    <string name="action_reply">Válaszolás</string>
+    <string name="action_edit">Szerkesztés</string>
+    <string name="action_user_profile">Felhasználói fiók</string>
+    <string name="action_user_profile_short">Felhasználó</string>
+    <string name="action_properties">Tulajdonságok</string>
+    <string name="action_comments">Hozzászólások Megmutatása</string>
+    <string name="action_comments_switch">Hozzászólásokra váltás</string>
+    <string name="action_comments_short">Hozzászólások</string>
+    <string name="action_link">Link megnyitása</string>
+    <string name="action_link_switch">Linkre váltás</string>
+    <string name="action_link_short">Link</string>
+    <string name="action_collapse">Összecsukás váltása</string>
+    <string name="action_nothing">Semmit</string>
+
+    <string name="action_report">Jelentés</string>
+    <string name="action_report_sure">Biztosan jelenteni akarod ezt?</string>
+
+    <string name="action_save_image">Kép Mentése</string>
+    <string name="action_save_image_success">Elmentve a "Pictures" mappába a következőképp:</string>
+
+    <!-- Download Messages -->
+
+    <string name="download_waiting">Várakozás…</string>
+    <string name="download_connecting">Kapcsolódás…</string>
+    <string name="download_downloadstarting">Letöltés indul…</string>
+    <string name="download_downloading">Letöltés…</string>
+    <string name="download_loading">Betöltés…</string>
+    <string name="download_done">Kész.</string>
+    <string name="download_failed">Sikertelen.</string>
+
+    <!-- Image View -->
+
+    <string name="imageview_oom">Nincs elegendő memória. Kísélet a böngészőben…</string>
+    <string name="imageview_invalid_gif">Érvénytelen GIF. Kísérlet a böngészőben…</string>
+
+    <!-- Comment Reply/Edit, Post Submit -->
+
+    <string name="comment_reply_send">Küldés</string>
+    <string name="comment_edit_save">Mentés</string>
+    <string name="comment_reply_preview">Előnézet</string>
+    <string name="comment_reply_submitting_title">Küldés…</string>
+    <string name="comment_reply_submitting_message">Egy pillanat…</string>
+    <string name="comment_reply_oncancel">Várakozás a művelet eredményére…</string>
+    <string name="comment_reply_done">Válasz elküldve. A hozzászólás egy frissítés után megjelenik.</string>
+    <string name="comment_edit_done">Hozzászólás módosítva. A változtatás egy frissítés után látszani fog.</string>
+    <string name="post_submit_title_hint">Cím</string>
+    <string name="post_submit_subreddit_hint">Alreddit</string>
+    <string name="post_captcha_title">Captcha</string>
+    <string name="post_captcha_submit_button">Küldés</string>
+    <string name="post_submit_done">Poszt elküldve.</string>
+
+    <!-- Bug Reporting -->
+
+    <string name="bug_title">Egy hiba következett be.</string>
+    <string name="bug_message">A RedReader hibát észlelt.\n\nSzeretnél jelentést küldeni a fejlesztőnek? Ha igen, egy e-mail lesz kitöltve az összes szükséges információval, aminek tartalmát elküldés előtt áttekintheted.</string>
+    <string name="bug_button_send">Jelentés küldése e-mailben</string>
+    <string name="bug_button_ignore">Ne küldj jelentést</string>
+
+    <!-- General errors -->
+
+    <string name="error_403_title">Érvénytelen felhasználónév</string>
+    <string name="error_403_message">A Reddit szerint a jelenlegi felhasználó ezt nem teheti meg. Próbálj meg kijelentkezni, majd újra bejelentkezni (töröld a felhasználói fiókot a listából, majd add újra hozzá).</string>
+
+    <string name="error_subreddit_required_title">Alreddit szükséges</string>
+    <string name="error_subreddit_required_message">Meg kell adnod egy alredditet.</string>
+
+    <string name="error_bad_captcha_title">Érvénytelen CAPTCHA</string>
+    <string name="error_bad_captcha_message">A beírt CAPTCHA helytelen. Kérlek, próbáld újra.</string>
+
+    <string name="error_404_title">Nem talált (404)</string>
+    <string name="error_404_message">A kívánt adat nem található.</string>
+
+    <string name="error_unknown_api_title">Hiba</string>
+    <string name="error_unknown_api_message">A szerver ismeretlen okból kifolyólag nem fogadta el a kérést. Kérlek, próbáld újra.</string>
+
+    <string name="error_redditdown_title">A Reddit nem elérhető.</string>
+    <string name="error_redditdown_message">A Reddit jelenleg túl van terhelve. Kérlek, próbáld újra.</string>
+
+    <string name="error_cancelled_title">Művelet lemondva</string>
+    <string name="error_cancelled_message">A legutóbbi művelet le lett mondva.</string>
+
+    <string name="error_parse_title">Kielemzési hiba</string>
+    <string name="error_parse_message">A Reddit olyan adatot küldött, ami nem értelmezhető.</string>
+
+    <string name="error_unexpected_cache_title">Nem várt Cache Miss</string>
+    <string name="error_unexpected_cache_message">Ismeretlen eredetű belső hiba történt a tárhellyel kapcsolatban.</string>
+
+    <string name="error_unexpected_storage_title">Nem várt tárolási hiba</string>
+    <string name="error_unexpected_storage_message">Ismeretlen eredetű belső hiba történt a tárhellyel kapcsolatban. Valószínűleg túl kevés tárhelyed van már hátra.</string>
+
+    <string name="error_connection_title">Connection Error</string>
+    <string name="error_connection_message">Probléma lépett fel a szerverhez való kapcsolódás közben. Ellenőrizd az internetkapcsolatodat.</string>
+
+    <string name="error_malformed_url_title">Hibásan formázott URL</string>
+    <string name="error_malformed_url_message">Hozzáférés volt megkísérelve egy érvénytelen URL-hez.</string>
+
+    <string name="error_unknown_title">Ismeretlen eredetű hiba</string>
+    <string name="error_unknown_message">Egy ismeretlen eredetű hiba lépett fel. Kérlek, próbáld újra.</string>
+
+    <!-- Post list specific errors -->
+
+    <string name="error_postlist_cache_title">Tárolt adatok vége</string>
+    <string name="error_postlist_cache_message">Ennek a tartalomnak egy tárolt verzióját tekintetted meg, de már nincs több poszt a tárhelyen. Frissíts, hogy láthasd a legfrissebb posztokat, vagy válassz másik korábbi verziót a menüben.</string>
+
+    <string name="error_postlist_redditdown_title">A Reddit nem elérhető.</string>
+    <string name="error_postlist_redditdown_message">A Reddit jelenleg túl van terhelve. Frissíts, hogy láthasd a legfrissebb posztokat, vagy válassz másik korábbi verziót a menüben.</string>
+
+    <!-- Session List -->
+
+    <string name="session_active">Aktív</string>
+
+    <!-- Time -->
+
+    <string name="time_ago">%s korábban</string>
+
+    <!-- User Profile -->
+
+    <string name="userprofile_created">Létrehozott</string>
+    <string name="userprofile_hasmail">Üzenete van</string>
+    <string name="userprofile_hasmodmail">Moderátori üzenete van</string>
+    <string name="userprofile_isfriend">Barát</string>
+    <string name="userprofile_isgold">Reddit Arany</string>
+    <string name="userprofile_moderator">Moderátor</string>
+    <string name="userprofile_viewcomments">Hozzászólások mutatása</string>
+    <string name="userprofile_viewposts">Posztok mutatása</string>
+
+    <!-- Comment/Post Properties -->
+
+    <string name="props_comment_title">Hozzászólás-tulajdonságok</string>
+    <string name="props_post_title">Poszttulajdonságok</string>
+    <string name="props_error_title">Hibatulajdonságok</string>
+
+    <string name="props_title">Cím</string>
+    <string name="props_author">Író</string>
+    <string name="props_author_flair">Írói flair-szöveg</string>
+    <string name="props_created">Létrehozott</string>
+    <string name="props_edited">Szerkesztett</string>
+    <string name="props_score">Pontszám</string>
+    <string name="props_subreddit">Alreddit</string>
+    <string name="props_url">URL</string>
+    <string name="props_num_comments">Hozzászólások száma</string>
+    <string name="props_body_markdown">Szövegtest (Raw Markdown)</string>
+    <string name="props_self_markdown">Saját szöveg (Raw Markdown)</string>
+
+    <string name="props_never">Soha</string>
+    <string name="props_up">Fel</string>
+    <string name="props_down">Le</string>
+
+    <!-- Notifications -->
+
+    <string name="notification_comment">%s válaszolt neked</string>
+    <string name="notification_message">%s üzenetet küldött neked</string>
+    <string name="notification_message_multiple">Új üzenet érkezett Redditen</string>
+    <string name="notification_message_action">Érints a megtekintéshez</string>
+
+    <!-- General -->
+
+    <string name="general_true">Igaz</string>
+    <string name="general_false">Hamis</string>
+
+    <!-- 2013-05-17 Arrays -->
+
+    <string name="pref_appearance_twopane_never">Soha</string>
+    <string name="pref_appearance_twopane_auto">Automatikus felismerés</string>
+    <string name="pref_appearance_twopane_landscape">Kizárólag vízszintes</string>
+    <string name="pref_appearance_twopane_force">Mindig (lehet, hogy furcsán fog kinézni)</string>
+
+    <string name="theme_name_red">Vörös</string>
+    <string name="theme_name_night">Éjszakai</string>
+    <string name="theme_name_green">Zöld</string>
+    <string name="theme_name_blue">Kék</string>
+    <string name="theme_name_ltblue">Világoskék</string>
+    <string name="theme_name_orange">Narancssárga</string>
+    <string name="theme_name_gray">Szürke</string>
+
+    <string name="time_1hr">1 óra</string>
+    <string name="time_6hr">6 óra</string>
+    <string name="time_1day">1 nap</string>
+    <string name="time_3day">3 nap</string>
+    <string name="time_1week">1 hét</string>
+    <string name="time_1month">1 hónap</string>
+    <string name="time_3month">3 hónap</string>
+
+    <string name="pref_appearance_comment_header_items_author">Író</string>
+    <string name="pref_appearance_comment_header_items_flair">Flair</string>
+    <string name="pref_appearance_comment_header_items_score">Pontszám</string>
+    <string name="pref_appearance_comment_header_items_upsdowns">Upvote-ok/downvote-ok</string>
+    <string name="pref_appearance_comment_header_items_age">Kor</string>
+
+    <!-- 2013-05-17 -->
+
+    <string name="error_toast_notloggedin">Be kell jelentkezned, hogy ezt megtehesd.</string>
+
+    <string name="button_moredetail">További részletek</string>
+
+    <string name="pref_appearance_scale_normal">Normális</string>
+
+    <string name="error_invalid_password_title">Hibás jelszó</string>
+    <string name="error_invalid_password_message">A felhasználói neved vagy jelszavad helytelen.</string>
+
+    <string name="error_ratelimit_title">Túl sok hibás próbálkozás.</string>
+    <string name="error_ratelimit_message">Megtiltva a túl sok hibás bejelentkezési próbálkozás miatt. A Reddit üzenete:</string>
+
+    <string name="general_success">Siker</string>
+
+    <string name="message_nowloggedin">Be vagy jelentkezve.</string>
+    <string name="message_cannotlogin">Nem lehetett bejelentkezni.</string>
+
+    <string name="error_toast_no_urls_in_comment">Nincs URL ebben a hozzászólásban.</string>
+    <string name="error_toast_no_urls_in_self">Nincs URL ebben a saját szövegben.</string>
+    <string name="error_toast_parent_post_not_downloaded">A szülő poszt még nincsen letöltve.</string>
+
+    <string name="download_subreddits">Alredditek letöltése…</string>
+
+    <string name="subtitle_points">p</string>
+    <string name="subtitle_by">által:</string>
+    <string name="subtitle_to">neki:</string>
+	<plurals name="subtitle_replies">
+		<item quantity="zero">…</item>
+		<item quantity="one">" (%d válasz)"</item>
+		<item quantity="other">" (%d válasz)"</item>
+	</plurals>
+
+    <string name="general_unknown">ismeretlen</string>
+
+    <string name="action_search">Keresés</string>
+    <string name="search_subreddit_restrict">Keresés szűkítése ide:</string>
+
+    <string name="title_changelog">Újdonságok</string>
+
+    <string name="pref_behaviour_commentsort_key">pref_behaviour_commentsort</string>
+    <string name="pref_behaviour_commentsort">Alapértelmezett hozzászólás-rendezés</string>
+
+    <!-- 2013-05-18 -->
+
+    <string name="action_fling_disabled">Tiltott</string>
+
+    <string name="pref_about_version_key">pref_about_version</string>
+    <string name="pref_about_version_title">Verzió</string>
+
+    <string name="pref_about_changelog_key">pref_about_changelog</string>
+    <string name="prefs_category_about">Információ</string>
+
+    <!-- 2013-06-07 -->
+
+    <string name="pref_behaviour_sort_header">Rendezés</string>
+
+    <!-- 2013-06-09 -->
+
+    <string name="pref_appearance_locale_header">Lokalizálás</string>
+
+    <string name="pref_appearance_langforce_key">pref_appearance_langforce_key</string>
+    <string name="pref_appearance_langforce_title">Nyelv</string>
+
+    <string name="lang_auto">Automatikus</string>
+    <string name="lang_en">English</string>
+    <string name="lang_da">Dansk</string>
+	<string name="lang_de">Deutsch</string>
+	<string name="lang_fr">Français</string>
+	<string name="lang_ar">عربي</string>
+	<string name="lang_es">Español</string>
+	<string name="lang_cs">Česky</string>
+
+    <!-- 2013-06-25 -->
+
+    <string name="prefs_category_network">Hálózat</string>
+    <string name="pref_network_https_title">HTTPS engedélyezése</string>
+    <string name="pref_network_https_key">pref_network_https</string>
+
+    <!-- 2013-07-01 -->
+
+    <string name="web_view_open_browser">Megtekintés böngészőben</string>
+
+    <!-- 2013-07-26 -->
+
+    <string name="pref_behaviour_useinternalbrowser_title">Beépített böngésző használata</string>
+    <string name="pref_behaviour_useinternalbrowser_key">pref_behaviour_useinternalbrowser</string>
+
+    <!-- 2013-07-29 -->
+
+    <string name="pref_appearance_linkbuttons_title">Link gombok mutatása</string>
+    <string name="pref_appearance_linkbuttons_key">pref_appearance_linkbuttons</string>
+
+    <!-- 2013-08-04 -->
+
+    <string name="pref_appearance_indentlines_title">Behúzási vonalak mutatása</string>
+    <string name="pref_appearance_indentlines_key">pref_appearance_indentlines</string>
+
+    <!-- 2014-03-14 -->
+
+    <string name="load_more_posts">További posztok betöltése</string>
+
+    <string name="pref_behaviour_postcount_title">Poszt-szám korlátozása</string>
+    <string name="pref_behaviour_postcount_key">pref_behaviour_postcount</string>
+
+    <string name="pref_behaviour_postcount_items_all">MInd</string>
+
+    <!-- 2014-03-17 -->
+    <string name="time_year">év</string>
+    <string name="time_years">év</string>
+    <string name="time_month">hónap</string>
+    <string name="time_months">hónap</string>
+    <string name="time_day">nap</string>
+    <string name="time_days">nap</string>
+    <string name="time_hour">óra</string>
+    <string name="time_hours">óra</string>
+    <string name="time_min">p</string>
+    <string name="time_mins">p</string>
+    <string name="time_sec">mp</string>
+    <string name="time_secs">mp</string>
+    <string name="time_ms">ms</string>
+
+    <!-- 2014-03-18 -->
+
+    <string name="error_disk_space_title">Elfogyott a tárterület</string>
+    <string name="error_disk_space_message">A letöltés sikertelen mert a készüléked tárhelye tele van. Szabadíts fel helyet és próbáld újra.</string>
+
+    <!-- 2014-03-23 -->
+
+    <string name="options_subscribe">Feliratkozás</string>
+    <string name="options_unsubscribe">Leiratkozás</string>
+    <string name="options_subscribing">Feliratkozás…</string>
+    <string name="options_unsubscribing">Leiratkozás…</string>
+    <string name="options_sidebar">Oldalsáv megtekintése</string>
+
+    <!-- 2014-04-13 -->
+
+    <string name="pref_menus_mainmenu_useritems_key">pref_menus_mainmenu_useritems</string>
+    <string name="pref_menus_mainmenu_useritems_title">Main Menu User Items</string>
+
+    <string name="mainmenu_submitted">Küldött posztok</string>
+    <string name="mainmenu_downvoted">Downvote-olt posztok</string>
+    <string name="mainmenu_modmail">Moderátori üzenet</string>
+
+    <string name="sidebar_activity_title">Oldalsáv</string>
+
+    <!-- 2014-04-20 -->
+
+    <string name="header_subscriber_count">%s feliratkozó</string>
+    <string name="header_subscriber_count_unknown">Ismeretlen számú feliratkozó</string>
+
+    <!-- 2014-04-21 -->
+
+    <string name="invalid_subreddit_name">Érvénytelen alreddit név</string>
+
+    <!-- 2014-04-26 -->
+
+    <string name="web_view_clear_cache">Tárhely törlése</string>
+    <string name="web_view_clear_cache_success_toast">Tárhely, látogatási napló, sütik és mezőadatok törölve.</string>
+
+    <!-- 2014-09-21 -->
+    <string name="gold">Arany</string>
+    <string name="pref_appearance_comment_header_items_gold">Reddit Arany</string>
+
+    <!-- 2014-11-15 -->
+    <string name="karma_link">Link Karma</string>
+    <string name="karma_comment">Hozzászólás Karma</string>
+
+    <!-- 2014-12-02 -->
+    <string name="imageview_decode_failed">A kép dekódolása sikertelen. Próbálkozás a böngészőben.</string>
+
+    <!-- 2014-12-06 -->
+    <string name="user_comments">Hozzászólások</string>
+
+    <!-- 2014-12-07 -->
+    <string name="comment_header_specific_thread_title">Jelenleg egy konkrét hozzászólás-szálat nézel.</string>
+    <string name="comment_header_specific_thread_message">Érints ide, hogy a poszt összes hozzászólását lásd.</string>
+
+    <!-- 2014-12-18 -->
+    <string name="more_comments_button_text">További hozzászólások betöltése</string>
+    <string name="action_comment_context">Kontextus</string>
+    <string name="action_comment_go_to">Hozzászóláshoz ugrás</string>
+
+    <!-- 2015-01-03 -->
+    <string name="webview_https_already">Ez az URL eleve HTTPS-t használ.</string>
+    <string name="webview_https_unknownprotocol">Ismeretlen protokoll, elvárt: \'http://\'</string>
+    <string name="webview_use_https">HTTPS használata</string>
+
+    <!-- 2015-01-16 -->
+	<string name="lang_it">Italiano</string>
+
+    <!-- 2015-01-26 -->
+    <string name="sort_posts_relevance">Relevancia</string>
+    <string name="sort_posts_comments">Hozzászólások</string>
+
+    <!-- 2015-04-06 -->
+    <string name="mark_all_as_read">Az összes megjelölése olvasottként</string>
+    <string name="mark_all_as_read_success">Minden üzenet megjelölve olvasottként.</string>
+
+    <!-- 2015-05-17 -->
+    <string name="error_title_login_user_denied_permission">Hozzáférés megtagadva.</string>
+    <string name="error_message_login_user_denied_permission">A felhasználói fiókhoz való hozzáférés megtagadva. Kérlek, próbáld újra.</string>
+
+    <string name="error_title_login_unknown_reddit_error">Ismeretlen Reddit hiba: %s</string>
+
+    <!-- 2015-05-23 -->
+    <string name="imageview_invalid_video">Érvénytelen videó. Próbálkozás a böngészőben.</string>
+    <string name="download_authorizing">Hitelesítés…</string>
+
+    <!-- 2015-05-29 -->
+    <string name="pref_behaviour_skiptofrontpage_title">Főoldalra ugrás</string>
+    <string name="pref_behaviour_skiptofrontpage_key">pref_behaviour_skiptofrontpage</string>
+
+    <!-- 2015-06-07 -->
+    <string name="error_archived_vote" >Archivált, nem lehet rá többé szavazni.</string>
+
+    <!-- 2015-06-20 -->
+    <string name="pref_behaviour_screenorientation_title">Képernyő irányultság</string>
+    <string name="pref_behaviour_screenorientation_key">pref_behaviour_screenorientation</string>
+
+    <string name="screen_orientation_auto">Automatikus</string>
+    <string name="screen_orientation_portrait">Függőleges</string>
+    <string name="screen_orientation_landscape">Vízszintes</string>
+
+    <!-- 2015-06-28 -->
+    <string name="options_close_all">Mindet bezárni</string>
+
+    <string name="pref_menus_optionsmenu_items_key">pref_menus_optionsmenu_items_3</string>
+    <string name="pref_menus_optionsmenu_items_title">Opció menü elemei</string>
+
+    <!-- 2015-07-05 -->
+    <string name="pref_behaviour_bezel_toolbar_header">Keret eszköztár</string>
+    <string name="pref_behaviour_bezel_toolbar_swipezone_key">pref_behaviour_bezel_toolbar_swipezone</string>
+    <string name="pref_behaviour_bezel_toolbar_swipezone_title">Keret eszköztár söprési zóna mérete</string>
+
+    <string name="pref_behaviour_gifview_mode_title">GIF Megtekintő</string>
+    <string name="pref_behaviour_gifview_mode_key">pref_behaviour_gifview_mode</string>
+
+    <string name="pref_behaviour_gifview_mode_internal_movie">Beépített megtekintő (Movie, Android 4.0+)</string>
+    <string name="pref_behaviour_gifview_mode_internal_legacy">Beépített megtekintő (Régi)</string>
+
+	<string name="pref_behaviour_view_mode_internal_browser">Belső böngésző</string>
+    <string name="pref_behaviour_view_mode_external_browser">Külső böngésző</string>
+
+    <!-- 2015-08-15 -->
+    <string name="pref_appearance_fontscale_inbox_key">pref_appearance_fontscale_inbox</string>
+    <string name="pref_appearance_fontscale_inbox_title">Postaláda betűtípus méretszorzó</string>
+
+    <string name="action_delete">Törlés</string>
+    <string name="delete_confirm">Biztosan törölni szeretnéd?</string>
+    <string name="delete_success">Sikeresen törölve. Az elem látszani fog frissítés után is.</string>
+
+    <string name="pref_appearance_hide_username_main_menu_key">pref_appearance_hide_username_main_menu</string>
+    <string name="pref_appearance_hide_username_main_menu_title">Felhasználói név elrejtése a főmenüben</string>
+    <string name="mainmenu_useritems">Felhasználói elemek</string>
+
+    <!-- 2015-09-13 -->
+    <string name="selected_link_is_not_image">A kiválasztott link nem kép.</string>
+
+    <!-- 2015-10-03 -->
+    <string name="imgur_album">Imgur album</string>
+
+    <!-- 2015-10-04 -->
+    <string name="album_already_first_image">Az album első képe.</string>
+    <string name="album_already_last_image">Az album utolsó képe.</string>
+
+    <string name="upgrade_v190_login_message">A RedReader frissítve lett, és a Reddit hitelesítéshez oAuth-ot használ. Ha a frissítés előtt jelentkeztél be egy fiókba, most ki lettél jelentkeztetve.</string>
+
+    <string name="pref_behaviour_videoview_mode_title">Videómegtekintő</string>
+    <string name="pref_behaviour_videoview_mode_key">pref_behaviour_videoview_mode</string>
+    <string name="pref_behaviour_videoview_mode_internal_videoview">Belső VideoView (recommended)</string>
+    <string name="pref_behaviour_videoview_mode_external_app_vlc">Külső App: VLC</string>
+
+    <string name="videoview_mode_app_vlc_launch_failed">Nem sikerült elindítani a VLC-t. Frissítsd a VLC-t, vagy változtasd meg a videómegtekintő beállítást.</string>
+
+    <!-- 2015-10-05 -->
+    <string name="error_url_required_title">URL Szükséges</string>
+    <string name="error_url_required_message">Meg kell adnod egy URL-t.</string>
+
+    <!-- 2015-10-16 -->
+    <string name="sort_comments_qa">Q&amp;A</string>
+
+    <!-- 2015-10-31 -->
+    <string name="pref_behaviour_gallery_swipe_length_title">Galéria söprési hossz</string>
+    <string name="pref_behaviour_gallery_swipe_length_key">pref_behaviour_gallery_swipe_length</string>
+
+    <!-- 2015-11-19 -->
+    <string name="pref_cache_precache_comments_header">Hozzászólások lehívása előre</string>
+
+    <string name="pref_cache_precache_comments_key">pref_cache_precache_comments</string>
+    <string name="pref_cache_precache_comments_title">Hozzászólások lehívása előre</string>
+
+    <string name="pref_cache_precache_comments_wifionly_key">pref_cache_precache_comments_wifionly</string>
+    <string name="pref_cache_precache_comments_wifionly_title">Kizárólag Wi-Fi-n</string>
+
+    <string name="mainmenu_header_subreddits_subscribed">Alreddit feliratkozások</string>
+    <string name="mainmenu_header_subreddits_pinned">Kiemelt alredditek</string>
+
+    <string name="pin_subreddit">Kiemelés a főmenübe</string>
+    <string name="unpin_subreddit">Eltávolítás a főmenüből</string>
+    <string name="pref_pinned_subreddits_key">pref_pinned_subreddits</string>
+
+    <!-- 2015-11-22 -->
+    <string name="props_image_title">Képinformációk</string>
+    <string name="props_caption">Képszöveg</string>
+    <string name="props_resolution">Felbontás</string>
+
+    <!-- 2015-12-06 -->
+    <string name="error_too_fast_title">Túl gyors</string>
+    <string name="error_too_fast_message">A Reddit szerint túl gyorsan posztolsz. Várj néhány percet, és próbáld meg újra.</string>
+
+    <!-- 2015-12-19 -->
+    <string name="block_subreddit">Alreddit letiltássa</string>
+    <string name="unblock_subreddit">Alreddit visszaállítása</string>
+    <string name="pref_blocked_subreddits_key">pref_blocked_subreddits</string>
+    <string name="block_done">Alreddit letiltva. A jövőbeni /r/all látogatásoknál ki lesz zárva.</string>
+    <string name="unblock_done">Alreddit visszaállítva. A jövőbeni /r/all látogatásoknál mutatva lesz.</string>
+
+    <!-- 2016-03-14-->
+    <string name="pref_behaviour_comment_min_key">pref_behaviour_comment_min</string>
+    <string name="pref_behaviour_comments_header">Hozzászólások</string>
+
+    <string name="pref_behaviour_comment_min_title">Minimális hozzászólás pontszám</string>
+    <string name="pref_behaviour_comment_min_dialog_title">Hozzászólás összecsukása, ha a pontszáma kisebb, mint: (hagyd üresen, hogy mindet mutassa)</string>
+
+    <!-- 2016-03-20 -->
+    <string name="lang_se">Svenska</string>
+
+    <!-- 2016-04-02 -->
+    <string name="open_with">Megnyitás ezzel:</string>
+    <string name="pref_network_tor_title">TOR használata (kísérleti verzió)</string>
+    <string name="pref_network_tor_key">pref_network_tor</string>
+
+    <!-- 2016-04-03 -->
+    <string name="error_tor_not_installed">A TOR nem működik, ha nincs feltelepítve az Orbot. Telepíted?</string>
+    <string name="error_tor_setting_failed">Proxy beállítása sikertelen.</string>
+
+    <!-- 2016-04-10 -->
+    <string name="error_parse_imgur_title">Kielemzési hiba</string>
+    <string name="error_parse_imgur_message">Az imgur értelmezhetetlen adatot küldött.</string>
+
+    <string name="error_upload_fail_imgur_title">Feltöltés sikertelen</string>
+    <string name="error_upload_fail_imgur_message">Az imgur elutasította a feltöltést ismeretlen okból.</string>
+
+    <string name="upload_to_imgur">Feltöltés Imgur-re</string>
+    <string name="no_file_selected">Nincs kiválasztva fájl</string>
+    <string name="button_upload">Feltöltés</string>
+    <string name="button_browse">Böngészés…</string>
+
+    <string name="error_file_too_big_title">Túl nagy fájl</string>
+    <string name="error_file_too_big_message">A fájlméret (%1$s) nagyobb, mint ami maximum feltölthető (%2$s).</string>
+
+    <string name="error_file_open_failed_title">Sikertelen megnyitás</string>
+    <string name="error_file_open_failed_message">Hiba történt a megnyitás közben.</string>
+
+    <string name="image_selected_summary">Kiválasztott kép: %1$dx%2$d, %3$s</string>
+
+	<!-- 2016-06-10 -->
+	<string name="submit_post_specify_subreddit">Alreddit meghatározása</string>
+	<string name="submit_post_title_empty">A cím nem lehet üres</string>
+	<string name="submit_post_url_empty">Az URL nem lehet üres</string>
+	<string name="submit_post_self_text_hint">Saját szöveg</string>
+	<string name="submit_post_url_hint">URL</string>
+
+	<!-- 2016-06-24 -->
+	<string name="save_image_permission_denied">Hozzáférés megtagadva: a képet nem lehetett lementeni.</string>
+	
+	<!-- 2016-06-25 -->
+	<string name="pref_behaviour_imageview_mode_title">Képmegtekintő</string>
+	<string name="pref_behaviour_imageview_mode_key">pref_behaviour_imageview_mode</string>
+
+	<string name="pref_behaviour_imageview_mode_internal_opengl">Belső képmegtekintő (OpenGL)</string>
+
+	<string name="pref_behaviour_albumview_mode_title">Albummegtekintő</string>
+	<string name="pref_behaviour_albumview_mode_key">pref_behaviour_albumview_mode</string>
+
+	<string name="pref_behaviour_albumview_mode_internal_list">Belső megtekintő (list)</string>
+
+	<string name="error_tor_start_failed">Az Orbot nem indult el. A TOR nem fog helyesen működni.</string>
+
+	<!-- 2016-06-30 -->
+	<string name="inbox_unread_only">Csak olvasatlan üzenetek</string>
+	
+	<!-- 2016-07-02 -->
+	<string name="pref_behaviour_actions_comment_longclick_key">pref_behaviour_actions_comment_longclick</string>
+	<string name="pref_behaviour_actions_comment_longclick_title">Művelet hozzászólásra hosszú nyomásnál</string>
+
+	<string name="no_comments_yet">Még nincs egy hozzászólás sem.</string>
+
+	<!-- 2016-07-09 -->
+	<string name="pm_send_hint_recipient">Címzett</string>
+	<string name="pm_send_hint_subject">Téma</string>
+	<string name="pm_send_hint_message_text">Üzenet szövege</string>
+
+	<string name="pm_send_done">Üzenet elküldve.</string>
+
+	<string name="userprofile_pm">Üzenet küldése</string>
+
+	<string name="error_too_long_title">Túl hosszú</string>
+	<string name="error_too_long_message">A Reddit szerint az üzeneted túl hosszú.</string>
+
+	<string name="pm_send_actionbar">Üzenet küldése</string>
+	<string name="submit_post_actionbar">Poszt küldése</string>
+	<string name="submit_comment_actionbar">Hozzászólás küldése</string>
+	<string name="edit_comment_actionbar">Hozzászólás szerkesztése</string>
+	
+	<!-- 2016-07-16 -->
+	<string name="pref_behaviour_fling_comment_left_key">pref_behaviour_fling_comment_left</string>
+	<string name="pref_behaviour_fling_comment_left_title">Művelet hozzászólás balra söprésénél</string>
+
+	<string name="pref_behaviour_fling_comment_right_key">pref_behaviour_fling_comment_right</string>
+	<string name="pref_behaviour_fling_comment_right_title">Művelet hozzászólás jobbra söprésénél</string>
+
+	<!-- 2016-07-17 -->
+	<string name="comment_header_search_thread_title">Jelenleg a hozzászólás-szál keresési eredményeit látod.</string>
+	<string name="no_search_results">A keresés eredménytelen.</string>
+
+	<!-- 2016-07-24 -->
+	<string name="action_search_comments">Hozzászólások keresése</string>
+
+	<!-- 2016-07-29 -->
+	<string name="pref_appearance_navbar_color_key">pref_appearance_navbar_color</string>
+	<string name="pref_appearance_navbar_color_title">Navigációs sáv színe</string>
+
+	<string name="pref_appearance_navbar_color_option_black">Fekete</string>
+	<string name="pref_appearance_navbar_color_option_primary">Elsődleges (világos)</string>
+	<string name="pref_appearance_navbar_color_option_primarydark">Elsődleges (sötét)</string>
+
+	<string name="pref_not_supported_before_lollipop">Nem támogatott Android Lollipop előtt</string>
+
+	<!-- 2016-08-03 -->
+	<string name="action_copy_text">Szöveg másolása</string>
+	<string name="action_copy_link">Link másolása</string>
+
+	<string name="pref_behaviour_postsort_key">pref_behaviour_postsort</string>
+	<string name="pref_behaviour_postsort">Alapértelmezett poszt rendezés</string>
+
+	<!-- 2016-08-06 -->
+	<string name="mainmenu_custom_destination">Megadott hely</string>
+	<string name="mainmenu_custom_destination_subreddit">Alreddit</string>
+	<string name="mainmenu_custom_destination_user">Felhasználó</string>
+	<string name="mainmenu_custom_destination_url">URL</string>
+
+	<string name="mainmenu_header_multireddits">Multiredditek</string>
+
+	<string name="pref_behaviour_share_permalink_key">pref_behaviour_share_permalink</string>
+	<string name="pref_behaviour_share_permalink_title">Megosztás permalink-ként</string>
+
+	<!-- 2016-08-10 -->
+	<string name="pref_cache_general_header">Általános</string>
+
+	<string name="pref_cache_location_key">pref_cache_location</string>
+	<string name="pref_cache_location_title">Tárhely tárolási helye</string>
+
+	<string name="error_cache_dir_does_not_exist_title">A tárhely mappája hiányzik</string>
+	<string name="error_cache_dir_does_not_exist_message">A tárhely mappája nem hozzáférhető. Válassz másik helyet a tárhelybeállításokban.</string>
+
+	<!-- 2016-08-15 -->
+	<string name="pref_behaviour_pinned_subredditsort_key">pref_behaviour_pinned_subreddit_sort</string>
+	<string name="pref_behaviour_pinned_subredditsort">Kiemelt alredditek rendezése</string>
+	<string name="sort_pinned_subreddit_name">Név szerint</string>
+	<string name="sort_pinned_subreddit_date">Hozzáadás dátuma szerint</string>
+
+	<!-- 2016-09-01 -->
+	<string name="load_more_comments_failed_unknown_url_type">Nem lehet több hozzászólást betölteni: ismeretlen URL típus.</string>
+
+	<!-- 2016-09-04 -->
+	<string name="pref_appearance_image_viewer_header">Képmegtekintő</string>
+
+	<string name="pref_appearance_image_viewer_show_floating_toolbar_title">Lebegő eszköztár mutatása a kép felett</string>
+	<string name="pref_appearance_image_viewer_show_floating_toolbar_key">pref_appearance_image_viewer_show_floating_toolbar</string>
+
+	<string name="pref_appearance_link_text_clickable_title">A link szövege legyen érinthető</string>
+	<string name="pref_appearance_link_text_clickable_key">pref_appearance_link_text_clickable</string>
+
+	<!-- 2016-09-07 -->
+	<string name="pref_appearance_hide_android_status_title">Az Android állapotsor elrejtése</string>
+	<string name="pref_appearance_hide_android_status_key">pref_appearance_hide_android_status</string>
+
+	<!-- 2016-09-08 -->
+	<string name="pref_behaviour_enable_swipe_refresh_title">Frissítéshez lefelé söprés</string>
+	<string name="pref_behaviour_enable_swipe_refresh_key">pref_behaviour_enable_swipe_refresh</string>
+
+	<!-- 2016-09-10 -->
+	<string name="mainmenu_header_subreddits_blocked">Letiltott alredditek</string>
+	<string name="pref_behaviour_blocked_subredditsort_key">pref_behaviour_blocked_subreddit_sort</string>
+	<string name="pref_behaviour_blocked_subredditsort">Letiltott alredditek rendezése</string>
+	<string name="sort_blocked_subreddit_name">Név szerint</string>
+	<string name="sort_blocked_subreddit_date">Hozzáadás dátuma szerint</string>
+
+	<!-- 2016-09-21 -->
+	<string name="pref_appearance_show_blocked_subreddits_main_menu_key">pref_appearance_show_blocked_subreddits_main_menu</string>
+	<string name="pref_appearance_show_blocked_subreddits_main_menu_title">Letiltott alredditek mutatása a főmenüben</string>
+
+	<!-- 2016-10-02 -->
+	<string name="pref_cache_rerequest_postlist_age_key">pref_cache_rerequest_postlist_age</string>
+	<string name="pref_cache_rerequest_postlist_age_title">Posztok frissítése, ha a tárhely régibb, mint:</string>
+
+	<string name="time_2hr">2 óra</string>
+	<string name="time_3hr">3 óra</string>
+
+	<string name="lang_nl">Nederlands</string>
+
+	<!-- 2016-10-08 -->
+	<string name="time_every_time">Mindig</string>
+
+	<!-- 2016-11-02 -->
+	<string name="lang_ro">Romanian</string>
+  
+	<!-- 2016-11-14 -->  
+  <string name="lang_hu">Magyar</string>
+
+</resources>

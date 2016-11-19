@@ -107,7 +107,37 @@ public final class RedditPreparedPost {
 	private RedditPostView boundView = null;
 
 	public enum Action {
-		UPVOTE, UNVOTE, DOWNVOTE, SAVE, HIDE, UNSAVE, UNHIDE, DELETE, REPORT, SHARE, REPLY, USER_PROFILE, EXTERNAL, PROPERTIES, COMMENTS, LINK, COMMENTS_SWITCH, LINK_SWITCH, SHARE_COMMENTS, GOTO_SUBREDDIT, ACTION_MENU, SAVE_IMAGE, COPY, SELFTEXT_LINKS
+		UPVOTE(R.string.action_upvote),
+		UNVOTE(R.string.action_vote_remove),
+		DOWNVOTE(R.string.action_downvote),
+		SAVE(R.string.action_save),
+		HIDE(R.string.action_hide),
+		UNSAVE(R.string.action_unsave),
+		UNHIDE(R.string.action_unhide),
+		DELETE(R.string.action_delete),
+		REPORT(R.string.action_report),
+		SHARE(R.string.action_share),
+		REPLY(R.string.action_reply),
+		USER_PROFILE(R.string.action_user_profile),
+		EXTERNAL(R.string.action_external),
+		PROPERTIES(R.string.action_properties),
+		COMMENTS(R.string.action_comments),
+		LINK(R.string.action_link),
+		COMMENTS_SWITCH(R.string.action_comments_switch),
+		LINK_SWITCH(R.string.action_link_switch),
+		SHARE_COMMENTS(R.string.action_share_comments),
+		GOTO_SUBREDDIT(R.string.action_gotosubreddit),
+		ACTION_MENU(R.string.action_actionmenu),
+		SAVE_IMAGE(R.string.action_save_image),
+		COPY(R.string.action_copy),
+		SELFTEXT_LINKS(R.string.action_selftext_links);
+
+		public final int descriptionResId;
+
+		Action(final int descriptionResId)
+		{
+			this.descriptionResId = descriptionResId;
+		}
 	}
 
 	// TODO too many parameters
@@ -1117,6 +1147,38 @@ public final class RedditPreparedPost {
 
 						onActionMenuItemSelected(RedditPreparedPost.this, activity, actionToTake);
 						overlay.hide();
+					}
+				});
+
+				Action accessibilityAction = action;
+
+				if(accessibilityAction == Action.UPVOTE && isUpvoted()
+						|| accessibilityAction == Action.DOWNVOTE && isDownvoted())
+				{
+					accessibilityAction = Action.UNVOTE;
+				}
+
+				if(accessibilityAction == Action.SAVE && isSaved())
+				{
+					accessibilityAction = Action.UNSAVE;
+				}
+
+				if(accessibilityAction == Action.HIDE && isHidden())
+				{
+					accessibilityAction = Action.UNHIDE;
+				}
+
+				final int textRes = accessibilityAction.descriptionResId;
+
+				ib.setContentDescription(activity.getString(textRes));
+
+				ib.setOnLongClickListener(new View.OnLongClickListener()
+				{
+					@Override
+					public boolean onLongClick(final View view)
+					{
+						General.quickToast(activity, textRes);
+						return true;
 					}
 				});
 

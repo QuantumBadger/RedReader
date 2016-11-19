@@ -300,6 +300,14 @@
         <item>1.8x</item>
         <item>1.9x</item>
         <item>2.0x</item>
+        <item>2.5x</item>
+        <item>3.0x</item>
+        <item>3.5x</item>
+        <item>4.0x</item>
+        <item>5.0x</item>
+        <item>6.0x</item>
+        <item>7.0x</item>
+        <item>8.0x</item>
     </string-array>
 
     <string-array name="pref_appearance_fontscale_return">
@@ -318,6 +326,14 @@
         <item>1.8</item>
         <item>1.9</item>
         <item>2.0</item>
+        <item>2.5</item>
+        <item>3.0</item>
+        <item>3.5</item>
+        <item>4.0</item>
+        <item>5.0</item>
+        <item>6.0</item>
+        <item>7.0</item>
+        <item>8.0</item>
     </string-array>
 
     <string-array name="pref_menus_post_context_items">

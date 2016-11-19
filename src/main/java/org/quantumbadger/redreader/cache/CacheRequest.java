@@ -37,10 +37,6 @@ import java.util.UUID;
 
 public abstract class CacheRequest implements Comparable<CacheRequest> {
 
-	public static final int DOWNLOAD_NEVER = 0;
-	public static final int DOWNLOAD_IF_NECESSARY = 1;
-	public static final int DOWNLOAD_FORCE = 2;
-
 	public static final int DOWNLOAD_QUEUE_REDDIT_API = 0;
 	public static final int DOWNLOAD_QUEUE_IMGUR_API = 1;
 	public static final int DOWNLOAD_QUEUE_IMMEDIATE = 2;

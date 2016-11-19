@@ -75,3 +75,4 @@ Thanks to:
 * [Beleg-Cuthalion](https://github.com/Beleg-Cuthalion) for the Dutch translation
 * [tjernquist](https://github.com/tjernquist) for the Swedish translation
 * [Badita Viorel-Octavian](https://github.com/vooctavian) for the Romanian translation
+* [András Lengyel-Nagy](https://github.com/lna91) for the Hungarian translation

@@ -491,13 +491,6 @@
     <string name="pref_appearance_langforce_title">Nyelv</string>
 
     <string name="lang_auto">Automatikus</string>
-    <string name="lang_en">English</string>
-    <string name="lang_da">Dansk</string>
-	<string name="lang_de">Deutsch</string>
-	<string name="lang_fr">Français</string>
-	<string name="lang_ar">عربي</string>
-	<string name="lang_es">Español</string>
-	<string name="lang_cs">Česky</string>
 
     <!-- 2013-06-25 -->
 
@@ -613,9 +606,6 @@
     <string name="webview_https_already">Ez az URL eleve HTTPS-t használ.</string>
     <string name="webview_https_unknownprotocol">Ismeretlen protokoll, elvárt: \'http://\'</string>
     <string name="webview_use_https">HTTPS használata</string>
-
-    <!-- 2015-01-16 -->
-	<string name="lang_it">Italiano</string>
 
     <!-- 2015-01-26 -->
     <string name="sort_posts_relevance">Relevancia</string>
@@ -750,9 +740,6 @@
 
     <string name="pref_behaviour_comment_min_title">Minimális hozzászólás pontszám</string>
     <string name="pref_behaviour_comment_min_dialog_title">Hozzászólás összecsukása, ha a pontszáma kisebb, mint: (hagyd üresen, hogy mindet mutassa)</string>
-
-    <!-- 2016-03-20 -->
-    <string name="lang_se">Svenska</string>
 
     <!-- 2016-04-02 -->
     <string name="open_with">Megnyitás ezzel:</string>
@@ -927,15 +914,7 @@
 	<string name="time_2hr">2 óra</string>
 	<string name="time_3hr">3 óra</string>
 
-	<string name="lang_nl">Nederlands</string>
-
 	<!-- 2016-10-08 -->
 	<string name="time_every_time">Mindig</string>
-
-	<!-- 2016-11-02 -->
-	<string name="lang_ro">Romanian</string>
-  
-	<!-- 2016-11-14 -->  
-  <string name="lang_hu">Magyar</string>
 
 </resources>

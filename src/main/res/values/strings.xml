@@ -935,4 +935,7 @@
 	<!-- 2016-11-02 -->
 	<string name="lang_ro">Romanian</string>
 
+	<!-- 2016-11-14 -->
+	<string name="lang_hu">Magyar</string>
+
 </resources>

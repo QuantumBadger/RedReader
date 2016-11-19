@@ -1,3 +1,6 @@
+77/1.9.7
+Hungarian translation (thanks to András Lengyel-Nagy)
+
 76/1.9.6.1
 Removed all CAPTCHAs as they are no longer needed
 Updated Spanish translation (thanks to Andrés Hernández)

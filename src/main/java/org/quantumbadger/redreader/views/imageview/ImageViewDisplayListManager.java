@@ -94,7 +94,7 @@ public class ImageViewDisplayListManager implements
 
 	private FingerTracker.Finger mDragFinger;
 	private FingerTracker.Finger mPinchFinger1, mPinchFinger2;
-	private Stack<FingerTracker.Finger> mSpareFingers = new Stack<>(8);
+	private final Stack<FingerTracker.Finger> mSpareFingers = new Stack<>(8);
 
 	private final UIThreadRepeatingTimer mDoubleTapGapTimer = new UIThreadRepeatingTimer(50, this);
 

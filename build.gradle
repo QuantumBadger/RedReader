@@ -82,6 +82,6 @@ task pmd(type: Pmd) {
     dependsOn 'assembleDebug'
     ruleSetFiles = files("${project.rootDir}/config/pmd/rules.xml")
     ruleSets = [] // otherwise defaults clash with the list in rules.xml
-    source 'src'
+    source 'src/main/java/org/quantumbadger'
     include '**/*.java'
 }

@@ -22,7 +22,7 @@ import org.quantumbadger.redreader.common.MutableFloatPoint2D;
 public class CoordinateHelper {
 
 	private float mScale = 1.0f;
-	private MutableFloatPoint2D mPositionOffset = new MutableFloatPoint2D();
+	private final MutableFloatPoint2D mPositionOffset = new MutableFloatPoint2D();
 
 	public void setScale(final float scale) {
 		mScale = scale;

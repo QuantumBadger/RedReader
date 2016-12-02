@@ -69,7 +69,7 @@ public class RedditChangeDataIO {
 	private final Context mContext;
 	private final Object mLock = new Object();
 
-	private AtomicBoolean mIsInitialReadStarted = new AtomicBoolean(false);
+	private final AtomicBoolean mIsInitialReadStarted = new AtomicBoolean(false);
 	private boolean mIsInitialReadComplete = false;
 	private boolean mUpdatePending = false;
 

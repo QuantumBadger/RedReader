@@ -44,7 +44,7 @@ public class RRGLDisplayListRenderer implements GLSurfaceView.Renderer, Refresha
 		void onUIDetach();
 	}
 
-	private float[] mPixelMatrix = new float[16];
+	private final float[] mPixelMatrix = new float[16];
 
 	private RRGLDisplayList mScene;
 	private RRGLContext mGLContext;

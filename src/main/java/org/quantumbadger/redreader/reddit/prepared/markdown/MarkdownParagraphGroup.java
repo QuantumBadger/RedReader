@@ -49,7 +49,7 @@ public final class MarkdownParagraphGroup {
 		final int maxQuoteLevel = 5;
 
 		final LinearLayout layout = new LinearLayout(activity);
-		layout.setOrientation(android.widget.LinearLayout.VERTICAL);
+		layout.setOrientation(LinearLayout.VERTICAL);
 
 		for(final MarkdownParagraph paragraph : paragraphs) {
 

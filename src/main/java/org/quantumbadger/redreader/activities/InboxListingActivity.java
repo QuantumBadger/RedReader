@@ -164,12 +164,12 @@ public final class InboxListingActivity extends BaseActivity {
 		setTitle(title);
 
 		final LinearLayout outer = new LinearLayout(this);
-		outer.setOrientation(android.widget.LinearLayout.VERTICAL);
+		outer.setOrientation(LinearLayout.VERTICAL);
 
 		loadingView = new LoadingView(this, getString(R.string.download_waiting), true, true);
 
 		notifications = new LinearLayout(this);
-		notifications.setOrientation(android.widget.LinearLayout.VERTICAL);
+		notifications.setOrientation(LinearLayout.VERTICAL);
 		notifications.addView(loadingView);
 
 		final ScrollbarRecyclerViewManager recyclerViewManager

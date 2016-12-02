@@ -8,6 +8,7 @@ buildscript {
 }
 
 apply plugin: 'com.android.application'
+apply plugin: 'pmd'
 
 repositories {
     jcenter()
@@ -70,4 +71,17 @@ android {
             assets.srcDirs = ['assets']
         }
     }
+}
+
+pmd {
+    toolVersion = '5.5.1'
+    consoleOutput = true
+}
+
+task pmd(type: Pmd) {
+    dependsOn 'assembleDebug'
+    ruleSetFiles = files("${project.rootDir}/config/pmd/rules.xml")
+    ruleSets = [] // otherwise defaults clash with the list in rules.xml
+    source 'src'
+    include '**/*.java'
 }

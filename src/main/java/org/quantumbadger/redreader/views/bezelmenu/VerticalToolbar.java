@@ -36,7 +36,7 @@ public class VerticalToolbar extends FrameLayout {
 		// TODO add light, vertical line on swipe side
 
 		buttons = new LinearLayout(context);
-		buttons.setOrientation(android.widget.LinearLayout.VERTICAL);
+		buttons.setOrientation(LinearLayout.VERTICAL);
 
 		final ScrollView sv = new ScrollView(context);
 		sv.addView(buttons);

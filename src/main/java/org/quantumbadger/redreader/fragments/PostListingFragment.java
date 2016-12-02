@@ -104,7 +104,7 @@ public class PostListingFragment extends RRFragment
 	private RedditSubreddit mSubreddit;
 
 	private UUID mSession;
-	private int mPostCountLimit;
+	private final int mPostCountLimit;
 	private TextView mLoadMoreView;
 
 	private final SharedPreferences mSharedPreferences;
@@ -175,6 +175,9 @@ public class PostListingFragment extends RRFragment
 				break;
 			case R100:
 				mPostCountLimit = 100;
+				break;
+			default:
+				mPostCountLimit = 0;
 				break;
 		}
 

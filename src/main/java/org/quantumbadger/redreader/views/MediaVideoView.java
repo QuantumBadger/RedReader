@@ -60,7 +60,7 @@ public class MediaVideoView extends SurfaceView
 	private static final int STATE_PLAYING = 3;
 	private static final int STATE_PAUSED = 4;
 	private static final int STATE_PLAYBACK_COMPLETED = 5;
-	private String TAG = "VideoView";
+	private static final String TAG = "VideoView";
 	// settable by the client
 	private Uri mUri;
 	private Map<String, String> mHeaders;
@@ -163,7 +163,7 @@ public class MediaVideoView extends SurfaceView
 		}
 	};
 	private Vector<Pair<InputStream, MediaFormat>> mPendingSubtitleTracks;
-	private MediaPlayer.OnCompletionListener mCompletionListener =
+	private final MediaPlayer.OnCompletionListener mCompletionListener =
 			new MediaPlayer.OnCompletionListener() {
 				public void onCompletion(MediaPlayer mp) {
 					mCurrentState = STATE_PLAYBACK_COMPLETED;
@@ -176,7 +176,7 @@ public class MediaVideoView extends SurfaceView
 					}
 				}
 			};
-	private MediaPlayer.OnInfoListener mInfoListener =
+	private final MediaPlayer.OnInfoListener mInfoListener =
 			new MediaPlayer.OnInfoListener() {
 				public boolean onInfo(MediaPlayer mp, int arg1, int arg2) {
 					if (mOnInfoListener != null) {
@@ -185,7 +185,7 @@ public class MediaVideoView extends SurfaceView
 					return true;
 				}
 			};
-	private MediaPlayer.OnErrorListener mErrorListener =
+	private final MediaPlayer.OnErrorListener mErrorListener =
 			new MediaPlayer.OnErrorListener() {
 				public boolean onError(MediaPlayer mp, int framework_err, int impl_err) {
 					Log.d(TAG, "Error: " + framework_err + "," + impl_err);
@@ -236,7 +236,7 @@ public class MediaVideoView extends SurfaceView
 					return true;
 				}
 			};
-	private MediaPlayer.OnBufferingUpdateListener mBufferingUpdateListener =
+	private final MediaPlayer.OnBufferingUpdateListener mBufferingUpdateListener =
 			new MediaPlayer.OnBufferingUpdateListener() {
 				public void onBufferingUpdate(MediaPlayer mp, int percent) {
 					mCurrentBufferPercentage = percent;

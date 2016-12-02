@@ -167,10 +167,10 @@ public final class General {
 			result = input / (long) Math.pow(1024, ++i);
 
 		switch (i) {
-		default: return result + " B";
 		case 1: return result + " KiB";
 		case 2: return result + " MiB";
 		case 3: return result + " GiB";
+		default: return result + " B";
 		}
 	}
 

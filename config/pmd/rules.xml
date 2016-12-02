@@ -6,5 +6,9 @@
         xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd">
 
     <rule ref="rulesets/java/imports.xml" />
+    <rule ref="rulesets/java/unusedcode.xml/UnusedLocalVariable"/>
+    <rule ref="rulesets/java/android.xml"/>
+    <rule ref="rulesets/java/clone.xml"/>
+    <rule ref="rulesets/java/finalizers.xml"/>
 
 </ruleset>

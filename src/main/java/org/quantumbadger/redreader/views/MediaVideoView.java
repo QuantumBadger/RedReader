@@ -446,7 +446,7 @@ public class MediaVideoView extends SurfaceView
 			mMediaPlayer = new MediaPlayer();
 			// TODO: create SubtitleController in MediaPlayer, but we need
 			// a context for the subtitle renderers
-			final Context context = getContext();
+			// final Context context = getContext();
 
 			if (mAudioSession != 0) {
 				mMediaPlayer.setAudioSessionId(mAudioSession);

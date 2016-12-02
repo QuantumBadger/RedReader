@@ -41,7 +41,6 @@ public class ChangelogManager {
 				new InputStreamReader(context.getAssets().open("changelog.txt")),
 				128 * 1024);
 
-			int curVersionCode = -1;
 			String curVersionName = null;
 
 			int itemsToShow = 10;
@@ -51,7 +50,6 @@ public class ChangelogManager {
 
 				if(line.length() == 0) {
 
-					curVersionCode = -1;
 					curVersionName = null;
 
 					if(!showAll) {
@@ -64,7 +62,6 @@ public class ChangelogManager {
 				} else if(curVersionName == null) {
 
 					final String[] lineSplit = line.split("/");
-					curVersionCode = Integer.parseInt(lineSplit[0]);
 					curVersionName = lineSplit[1];
 
 					final TextView header = (TextView) LayoutInflater.from(context)

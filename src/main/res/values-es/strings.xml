@@ -597,7 +597,6 @@
   <string name="action_comment_go_to">Ir al comentario</string>
   
   <!-- 2014-12-19 -->
-  <string name="pref_appearance_solidblack_2_key">pref_appearance_solidblack_2</string>
   
   <!-- 2015-01-03 -->
   <string name="webview_https_already">El enlace actual ya usa HTTPS.</string>

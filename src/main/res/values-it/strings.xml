@@ -257,7 +257,6 @@
     <string name="comment_reply_preview">Anteprima</string>
     <string name="pref_appearance_loading_detail_title">Mostra messaggi di caricamento dettagliati</string>
     <string name="pref_appearance_other_header">Altre</string>
-    <string name="pref_appearance_solidblack_2_key">pref_appearance_solidblack_2</string>
     <string name="pref_behaviour_nsfw_title">Mostra il contenuto NSFW</string>
     <string name="pref_cache_precache_images_wifionly_title">Solo in Wi-Fi</string>
     <string name="pref_cache_pruning">Pulizia della cache</string>

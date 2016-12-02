@@ -10,5 +10,8 @@
     <rule ref="rulesets/java/android.xml"/>
     <rule ref="rulesets/java/clone.xml"/>
     <rule ref="rulesets/java/finalizers.xml"/>
+    <rule ref="rulesets/java/unnecessary.xml">
+        <exclude name="UselessParentheses"/> <!--Too nitpicky-->
+    </rule>
 
 </ruleset>

@@ -384,7 +384,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 		mLayout.removeAllViews();
 		mLayout.addView(v);
 
-		mSwipeOverlay = new HorizontalSwipeProgressOverlay(ImageViewActivity.this);
+		mSwipeOverlay = new HorizontalSwipeProgressOverlay(this);
 		mLayout.addView(mSwipeOverlay);
 
 		v.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;

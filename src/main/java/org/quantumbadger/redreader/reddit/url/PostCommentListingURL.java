@@ -228,16 +228,6 @@ public class PostCommentListingURL extends CommentListingURL {
 	}
 
 	@Override
-	public String humanReadablePath() {
-		return super.humanReadablePath();
-	}
-
-	@Override
-	public String humanReadableUrl() {
-		return super.humanReadableUrl();
-	}
-
-	@Override
 	public String humanReadableName(final Context context, final boolean shorter) {
 		return super.humanReadableName(context, shorter);
 	}

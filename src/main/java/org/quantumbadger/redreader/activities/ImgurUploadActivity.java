@@ -87,7 +87,7 @@ public class ImgurUploadActivity extends BaseActivity {
 		mTextView.setText(R.string.no_file_selected);
 		layout.addView(mTextView);
 
-		General.setAllMarginsDp(ImgurUploadActivity.this, mTextView, 10);
+		General.setAllMarginsDp(this, mTextView, 10);
 
 		mUploadButton = new Button(this);
 		mUploadButton.setText(R.string.button_upload);
@@ -148,7 +148,7 @@ public class ImgurUploadActivity extends BaseActivity {
 
 		setBaseActivityContentView(outerLayout);
 
-		General.setAllMarginsDp(ImgurUploadActivity.this, layout, 20);
+		General.setAllMarginsDp(this, layout, 20);
 	}
 
 	private void showLoadingOverlay() {
@@ -275,9 +275,9 @@ public class ImgurUploadActivity extends BaseActivity {
 		final ArrayList<HTTPBackend.PostField> postFields = new ArrayList<>(1);
 		postFields.add(new HTTPBackend.PostField("image", mBase64Data));
 
-		CacheManager.getInstance(ImgurUploadActivity.this).makeRequest(new CacheRequest(
+		CacheManager.getInstance(this).makeRequest(new CacheRequest(
 				General.uriFromString("https://api.imgur.com/3/image"),
-				RedditAccountManager.getInstance(ImgurUploadActivity.this).getDefaultAccount(),
+				RedditAccountManager.getInstance(this).getDefaultAccount(),
 				null,
 				Constants.Priority.API_ACTION,
 				0,
@@ -288,7 +288,7 @@ public class ImgurUploadActivity extends BaseActivity {
 				postFields,
 				false,
 				false,
-				ImgurUploadActivity.this) {
+				this) {
 
 			@Override
 			protected void onCallbackException(final Throwable t) {

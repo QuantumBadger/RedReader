@@ -94,11 +94,11 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 		}
 	}
 
-	@Override
-	protected void onSaveInstanceState(final Bundle outState) {
-		super.onSaveInstanceState(outState);
-		// TODO save instance state
-	}
+	// TODO save instance state
+	// @Override
+	// protected void onSaveInstanceState(final Bundle outState) {
+	// 	super.onSaveInstanceState(outState);
+	// }
 
 	@Override
 	public boolean onCreateOptionsMenu(final Menu menu) {

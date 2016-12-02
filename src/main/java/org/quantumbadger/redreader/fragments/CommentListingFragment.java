@@ -371,7 +371,7 @@ public class CommentListingFragment extends RRFragment
 
 			final RedditPostHeaderView postHeader = new RedditPostHeaderView(
 					getActivity(),
-					CommentListingFragment.this.mPost);
+					this.mPost);
 
 			mCommentListingManager.addPostHeader(postHeader);
 			((LinearLayoutManager)mRecyclerView.getLayoutManager()).scrollToPositionWithOffset(0, 0);

@@ -129,8 +129,8 @@ public class MainMenuFragment extends RRFragment
 
 		} else {
 
-			multiredditSubscriptionManager.addListener(MainMenuFragment.this);
-			subredditSubscriptionManager.addListener(MainMenuFragment.this);
+			multiredditSubscriptionManager.addListener(this);
+			subredditSubscriptionManager.addListener(this);
 
 			if(multiredditSubscriptionManager.areSubscriptionsReady()) {
 				onMultiredditSubscriptionsChanged(multiredditSubscriptionManager.getSubscriptionList());

@@ -1,5 +1,5 @@
 RedReader (for Android)
-============================
+=======================
 
 An unofficial, open source client for reddit.
 
@@ -13,15 +13,18 @@ Features
 * Downloads are compressed to save bandwidth.
 * Support for multiple accounts.
 * Several themes such as Night mode (i.e. dark theme) and Holo
-* Swipe posts left and right to perform customisable actions, such as upvote/downvote, or save/hide.
-* Advanced cache management - automatically stores past versions of posts and comments.
+* Swipe posts left and right to perform customisable actions, such as
+  upvote/downvote, or save/hide.
+* Advanced cache management - automatically stores past versions of
+  posts and comments.
 * Two-column tablet mode (can be used on your phone, if it's big enough)
 * Image and comment precaching (optional: always, never, or Wi-Fi only).
-* Built-in image viewer, imgur album viewer, GIF player, and webm/mp4/gifv player.
+* Built-in image viewer, imgur album viewer, GIF player, and
+  webm/mp4/gifv player.
 
 
-How to Get
-----------
+Downloading
+-----------
 
 RedReader is available for free on the Google Play store:
 
@@ -33,27 +36,32 @@ https://play.google.com/store/apps/details?id=org.quantumbadger.redreader
 
 RedReader can also be found for free on F-Droid:
 
-https://f-droid.org/repository/browse/?fdid=org.quantumbadger.redreader
+https://f-droid.org/app/org.quantumbadger.redreader
 
 [<img src="https://f-droid.org/badge/get-it-on.png"
       alt="Get it on F-Droid"
-      height="80">](https://f-droid.org/repository/browse/?fdid=org.quantumbadger.redreader)
+      height="80">](https://f-droid.org/app/org.quantumbadger.redreader)
 
 
-How to Build
-------------
+Building
+--------
 
-RedReader is built using Gradle. Several dependencies are required (and listed in build.gradle), but these are handled automatically if you use Gradle.
+RedReader is built using Gradle. Several dependencies are required (and
+listed in build.gradle), but these are handled automatically if you use
+Gradle.
 
-Detailed instructions on building RedReader using IntelliJ IDEA are in [BUILD.md](BUILD.md).
+Detailed instructions on building RedReader using IntelliJ IDEA are in
+[BUILD.md](BUILD.md).
 
 
 License
 -------
 
-RedReader is licensed under the GPL, version 3. A copy of the license is included in [LICENSE.txt](LICENSE.txt).
+RedReader is licensed under the GPL, version 3. A copy of the license is
+included in [LICENSE.txt](LICENSE.txt).
 
-Bitcoin donations are welcome and accepted at the following address: `1874wapGxDo2vEp4avisda4gx3SCjsHCQJ`
+Bitcoin donations are welcome and accepted at the following address:
+`1874wapGxDo2vEp4avisda4gx3SCjsHCQJ`
 
 
 Thanks

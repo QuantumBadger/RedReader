@@ -172,8 +172,8 @@
     <string name="accounts_reauth">Reautentificați-vă</string>
     <string name="accounts_delete">Ștergeți</string>
 
-    <string name="accounts_loggingin">Vă înregistrați...</string>
-    <string name="accounts_loggingin_msg">Un moment...</string>
+    <string name="accounts_loggingin">Vă înregistrați…</string>
+    <string name="accounts_loggingin_msg">Un moment…</string>
 
     <string name="accounts_username">Numele contului</string>
     <string name="accounts_password">Parola</string>
@@ -258,11 +258,11 @@
 
     <!-- Download Messages -->
 
-    <string name="download_waiting">Așteptați...</string>
-    <string name="download_connecting">Se conectează...</string>
-    <string name="download_downloadstarting">Începe descărcarea...</string>
-    <string name="download_downloading">Descarcă...</string>
-    <string name="download_loading">Se încarcă...</string>
+    <string name="download_waiting">Așteptați…</string>
+    <string name="download_connecting">Se conectează…</string>
+    <string name="download_downloadstarting">Începe descărcarea…</string>
+    <string name="download_downloading">Descarcă…</string>
+    <string name="download_loading">Se încarcă…</string>
     <string name="download_done">Terminat.</string>
     <string name="download_failed">Eșuat.</string>
 

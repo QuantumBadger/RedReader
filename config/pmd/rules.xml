@@ -5,6 +5,11 @@
         xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0 http://pmd.sf.net/ruleset_xml_schema.xsd"
         xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd">
 
+    <rule ref="rulesets/java/basic.xml">
+        <exclude name="CollapsibleIfStatements"/> <!--sometimes forces hard to read code-->
+        <exclude name="AvoidUsingHardCodedIP"/>
+        <exclude name="SimplifiedTernary"/>
+    </rule>
     <rule ref="rulesets/java/imports.xml" />
     <rule ref="rulesets/java/unusedcode.xml/UnusedLocalVariable"/>
     <rule ref="rulesets/java/android.xml"/>
@@ -13,6 +18,10 @@
     <rule ref="rulesets/java/unnecessary.xml">
         <exclude name="UselessParentheses"/> <!--Too nitpicky-->
     </rule>
+
+    <rule ref="rulesets/java/optimizations.xml/AddEmptyString"/>
+    <rule ref="rulesets/java/optimizations.xml/UseArraysAsList"/>
+    <rule ref="rulesets/java/optimizations.xml/UnnecessaryWrapperObjectCreation"/>
 
     <rule ref="rulesets/java/design.xml/FinalFieldCouldBeStatic"/>
     <rule ref="rulesets/java/design.xml/CloseResource"/>

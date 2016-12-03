@@ -18,16 +18,29 @@
 package org.quantumbadger.redreader.views;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.common.General;
+
 
 public final class PostListingHeader extends LinearLayout {
 
 	public PostListingHeader(final Context context, final String titleText, final String subtitleText) {
 
 		super(context);
+
+		{
+			final TypedArray appearance = context.obtainStyledAttributes(new int[]{
+					R.attr.rrPostListHeaderBackgroundCol});
+
+			setBackgroundColor(appearance.getColor(0, General.COLOR_INVALID));
+
+			appearance.recycle();
+		}
 
 		final float dpScale = context.getResources().getDisplayMetrics().density;
 
@@ -52,7 +65,5 @@ public final class PostListingHeader extends LinearLayout {
 		subtitle.setText(subtitleText);
 		subtitle.setTextColor(Color.rgb(200, 200, 200));
 		addView(subtitle);
-
-		setBackgroundColor(Color.rgb(50, 50, 50)); // TODO theme color
 	}
 }

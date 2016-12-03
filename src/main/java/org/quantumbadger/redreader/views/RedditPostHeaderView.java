@@ -27,6 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.BetterSSB;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
@@ -67,7 +68,14 @@ public class RedditPostHeaderView extends LinearLayout {
 		subtitle.setTextColor(Color.rgb(200, 200, 200));
 		addView(subtitle);
 
-		setBackgroundColor(Color.rgb(50, 50, 50)); // TODO color
+		{
+			final TypedArray appearance = activity.obtainStyledAttributes(new int[]{
+					R.attr.rrPostListHeaderBackgroundCol});
+
+			setBackgroundColor(appearance.getColor(0, General.COLOR_INVALID));
+
+			appearance.recycle();
+		}
 
 		setOnClickListener(new OnClickListener() {
 			@Override

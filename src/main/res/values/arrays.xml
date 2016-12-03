@@ -187,6 +187,7 @@
 		<item>@string/theme_name_ltblue</item>
 		<item>@string/theme_name_orange</item>
 		<item>@string/theme_name_gray</item>
+		<item>@string/theme_name_ultrablack</item>
 	</string-array>
 
 	<!-- Constants. Do not change. -->
@@ -199,6 +200,7 @@
 		<item>ltblue</item>
 		<item>orange</item>
 		<item>gray</item>
+		<item>ultrablack</item>
 	</string-array>
 
     <string-array name="pref_appearance_langforce">

@@ -940,5 +940,6 @@
 
 	<!-- 2016-12-03 -->
 	<string name="theme_name_night_lowcontrast">Night (low contrast)</string>
+	<string name="theme_name_ultrablack">Ultra Black</string>
 
 </resources>

@@ -25,6 +25,8 @@
     <attr name="rrListHeaderLineCol" format="color" />
     <attr name="rrListSubtitleCol" format="color" />
 
+	<attr name="rrPostListHeaderBackgroundCol" format="color"/>
+
 	<attr name="rrIndentBackgroundCol" format="color" />
 	<attr name="rrIndentLineCol" format="color" />
 

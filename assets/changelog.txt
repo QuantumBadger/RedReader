@@ -1,5 +1,6 @@
 77/1.9.7
-Added low-contrast night mode
+Added low-contrast night theme
+Added Ultra Black theme
 Added higher font scale options
 Added accessibility descriptions to bezel toolbar
 Hungarian translation (thanks to András Lengyel-Nagy)

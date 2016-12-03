@@ -181,6 +181,7 @@
 	<string-array name="pref_appearance_theme">
 		<item>@string/theme_name_red</item>
 		<item>@string/theme_name_night</item>
+		<item>@string/theme_name_night_lowcontrast</item>
 		<item>@string/theme_name_green</item>
 		<item>@string/theme_name_blue</item>
 		<item>@string/theme_name_ltblue</item>
@@ -192,6 +193,7 @@
 	<string-array name="pref_appearance_theme_return">
 		<item>red</item>
 		<item>night</item>
+		<item>night_lowcontrast</item>
 		<item>green</item>
 		<item>blue</item>
 		<item>ltblue</item>

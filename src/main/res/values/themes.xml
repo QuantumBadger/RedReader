@@ -103,6 +103,68 @@
 
     </style>
 
+	<style name="RR.Dark.LowContrast" parent="RR.Dark">
+
+		<item name="android:actionOverflowButtonStyle">@style/RR.Base.Widget.AppCompat.ActionButton.Overflow</item>
+
+		<item name="colorPrimary">#333333</item>
+		<item name="colorPrimaryDark">#000000</item>
+		<item name="colorAccent">#99DDDD</item>
+
+		<item name="rrMainTextCol">#999999</item>
+		<item name="rrSubTextCol">#777777</item>
+
+		<item name="android:windowBackground">@color/darkWindowBackground</item>
+
+		<item name="rrListItemBackgroundCol">#222222</item>
+		<item name="rrListItemBackgroundHighlightCol">#555555</item>
+		<item name="rrListBackgroundCol">#222222</item>
+
+		<item name="rrIndentBackgroundCol">#1A1A1A</item>
+		<item name="rrIndentLineCol">#333333</item>
+
+		<item name="rrListDividerCol">#555555</item>
+		<item name="rrListHeaderTextCol">#BBBBBB</item>
+		<item name="rrListHeaderLineCol">#444444</item>
+		<item name="rrListSubtitleCol">#BBBBBB</item>
+
+		<item name="rrLoadingRingForegroundCol">#AAAAAA</item>
+		<item name="rrLoadingRingBackgroundCol">#323232</item>
+
+		<item name="alertDialogTheme">@style/Theme.AppCompat.Dialog.Alert</item>
+		<item name="rrActionBarPopupThemeStyle">@style/ThemeOverlay.AppCompat.Dark</item>
+
+		<item name="actionBarSize">48dp</item>
+
+		<!-- Post -->
+
+		<item name="rrPostTitleCol">#999999</item>
+		<item name="rrPostTitleReadCol">#666666</item>
+		<item name="rrPostSubtitleCol">#777777</item>
+		<item name="rrPostSubtitleBoldCol">#999999</item>
+		<item name="rrPostSubtitleUpvoteCol">#FF9B76</item>
+		<item name="rrPostSubtitleDownvoteCol">#9494FF</item>
+		<item name="rrPostCommentsButtonBackCol">#444444</item>
+		<item name="rrPostCommentsButtonHighlightCol">#777777</item>
+		<item name="rrPostCommentsButtonTextCol">#BBBBBB</item>
+		<item name="rrPostThumbnailBackground">#000000</item>
+		<item name="rrPostFlingTextCol">#BBBBBB</item>
+		<item name="rrFlairBackCol">#333333</item>
+		<item name="rrFlairTextCol">#AAAAAA</item>
+		<item name="rrGoldBackCol">#B0923C</item>
+		<item name="rrGoldTextCol">#000000</item>
+
+		<!-- Comment -->
+
+		<item name="rrCommentBodyCol">#999999</item>
+		<item name="rrCommentHeaderCol">#999999</item>
+		<item name="rrCommentHeaderBoldCol">#AAAAAA</item>
+		<item name="rrCommentHeaderAuthorCol">#BBBBBB</item>
+		<item name="rrCommentSpecificThreadHeaderBackCol">#534300</item>
+		<item name="rrCommentSpecificThreadHeaderTextCol">#CCCCCC</item>
+
+	</style>
+
 	<style name="RR.Settings" parent="Theme.AppCompat">
 
 		<item name="alertDialogTheme">@style/Theme.AppCompat.Dialog.Alert</item>

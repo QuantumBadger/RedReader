@@ -74,9 +74,16 @@ public class LoadMoreCommentsView extends LinearLayout {
 		layout.addView(mIndentView);
 		mIndentView.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
 
-		final TypedArray appearance = context.obtainStyledAttributes(new int[]{R.attr.rrIconForward});
+		final TypedArray appearance = context.obtainStyledAttributes(new int[]{
+				R.attr.rrIconForward,
+				R.attr.rrListItemBackgroundCol});
+
 		final ImageView icon = new ImageView(context);
 		icon.setImageDrawable(appearance.getDrawable(0));
+
+		final int backgroundCol = appearance.getColor(1, General.COLOR_INVALID);
+		layout.setBackgroundColor(backgroundCol);
+
 		appearance.recycle();
 
 		if(AndroidApi.isGreaterThanOrEqualTo(11)) {

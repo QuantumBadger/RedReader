@@ -401,7 +401,12 @@ public final class General {
 	private static final Pattern urlPattern = Pattern.compile("^(https?)://([^/]+)/+([^\\?#]+)((?:\\?[^#]+)?)((?:#.+)?)$");
 
 	public static String filenameFromString(String url) {
-		return uriFromString(url).getPath().replace(File.separator, "");
+		String filename = uriFromString(url).getPath().replace(File.separator, "");
+		String[] parts = filename.substring(1).split("\\.", 2);
+		if(parts.length < 2)
+			filename += ".jpg";
+
+		return filename;
 	}
 
 	public static URI uriFromString(String url) {

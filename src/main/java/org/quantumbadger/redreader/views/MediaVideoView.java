@@ -45,7 +45,8 @@ import android.widget.MediaController;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by vishna on 22/07/15.
@@ -162,7 +163,7 @@ public class MediaVideoView extends SurfaceView
 			}
 		}
 	};
-	private Vector<Pair<InputStream, MediaFormat>> mPendingSubtitleTracks;
+	private List<Pair<InputStream, MediaFormat>> mPendingSubtitleTracks;
 	private final MediaPlayer.OnCompletionListener mCompletionListener =
 			new MediaPlayer.OnCompletionListener() {
 				public void onCompletion(MediaPlayer mp) {
@@ -379,7 +380,7 @@ public class MediaVideoView extends SurfaceView
 		setFocusable(true);
 		setFocusableInTouchMode(true);
 		requestFocus();
-		mPendingSubtitleTracks = new Vector<>();
+		mPendingSubtitleTracks = new ArrayList<>();
 		mCurrentState = STATE_IDLE;
 		mTargetState = STATE_IDLE;
 	}

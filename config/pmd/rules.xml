@@ -25,11 +25,14 @@
 
     <rule ref="rulesets/java/design.xml/FinalFieldCouldBeStatic"/>
     <rule ref="rulesets/java/design.xml/CloseResource"/>
-    <rule ref="rulesets/java/design.xml/SimplifyBooleanExpressions"/>
+    <rule ref="rulesets/java/design.xml/DefaultLabelNotLastInSwitchStmt"/>
+    <rule ref="rulesets/java/design.xml/UnnecessaryLocalBeforeReturn"/>
+    <rule ref="rulesets/java/design.xml/NonCaseLabelInSwitchStatement"/>
+    <rule ref="rulesets/java/design.xml/EqualsNull"/>
     <rule ref="rulesets/java/design.xml/IdempotentOperations"/>
     <rule ref="rulesets/java/design.xml/ImmutableField"/>
-    <rule ref="rulesets/java/design.xml/EqualsNull"/>
-    <rule ref="rulesets/java/design.xml/DefaultLabelNotLastInSwitchStmt"/>
-    <rule ref="rulesets/java/design.xml/NonCaseLabelInSwitchStatement"/>
+    <rule ref="rulesets/java/design.xml/SingularField"/>
+    <rule ref="rulesets/java/design.xml/SimplifyBooleanExpressions"/>
+    <rule ref="rulesets/java/design.xml/LogicInversion"/>
 
 </ruleset>

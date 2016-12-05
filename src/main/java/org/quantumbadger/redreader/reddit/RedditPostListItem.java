@@ -20,10 +20,8 @@ package org.quantumbadger.redreader.reddit;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
-import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.adapters.GroupedRecyclerViewAdapter;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
-import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 import org.quantumbadger.redreader.views.RedditPostView;
@@ -32,11 +30,8 @@ public class RedditPostListItem extends GroupedRecyclerViewAdapter.Item {
 
 	private final PostListingFragment mFragment;
 	private final AppCompatActivity mActivity;
-	private final RedditURLParser.RedditURL mPostListingUrl;
 
 	private final RedditPreparedPost mPost;
-
-	private final RedditChangeDataManager mChangeDataManager;
 
 	public RedditPostListItem(
 			final RedditPreparedPost post,
@@ -47,10 +42,6 @@ public class RedditPostListItem extends GroupedRecyclerViewAdapter.Item {
 		mFragment = fragment;
 		mActivity = activity;
 		mPost = post;
-		mPostListingUrl = postListingUrl;
-
-		mChangeDataManager = RedditChangeDataManager.getInstance(
-				RedditAccountManager.getInstance(activity).getDefaultAccount());
 	}
 
 	@Override

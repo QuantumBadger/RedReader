@@ -18,9 +18,7 @@
 package org.quantumbadger.redreader.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -48,7 +46,6 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 
 	private static final String EXTRA_SEARCH_STRING = "mcla_search_string";
 
-	private SharedPreferences sharedPreferences;
 	private final ArrayList<RedditURLParser.RedditURL> mUrls = new ArrayList<>(32);
 
 	private CommentListingFragment mFragment;
@@ -64,8 +61,6 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 		super.onCreate(savedInstanceState);
 
 		setTitle(R.string.app_name);
-
-		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
 		// TODO load from savedInstanceState
 

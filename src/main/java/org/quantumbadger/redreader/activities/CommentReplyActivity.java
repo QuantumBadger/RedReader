@@ -49,7 +49,6 @@ public class CommentReplyActivity extends BaseActivity {
 
 	private Spinner usernameSpinner;
 	private EditText textEdit;
-	private TextView parentMarkdown;
 
 	private String parentIdAndType = null;
 
@@ -74,7 +73,6 @@ public class CommentReplyActivity extends BaseActivity {
 
 		usernameSpinner = (Spinner)layout.findViewById(R.id.comment_reply_username);
 		textEdit = (EditText)layout.findViewById(R.id.comment_reply_text);
-		parentMarkdown = (TextView)layout.findViewById(R.id.comment_parent_text);
 
 		if(intent != null && intent.hasExtra(PARENT_ID_AND_TYPE_KEY)) {
 			parentIdAndType = intent.getStringExtra(PARENT_ID_AND_TYPE_KEY);
@@ -103,6 +101,7 @@ public class CommentReplyActivity extends BaseActivity {
 		}
 
 		if(intent != null && intent.hasExtra(PARENT_MARKDOWN_KEY)) {
+			TextView parentMarkdown = (TextView)layout.findViewById(R.id.comment_parent_text);
 			parentMarkdown.setText(intent.getStringExtra(PARENT_MARKDOWN_KEY));
 		}
 

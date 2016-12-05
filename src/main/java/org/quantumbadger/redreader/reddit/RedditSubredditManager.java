@@ -31,8 +31,6 @@ import java.util.HashMap;
 
 public class RedditSubredditManager {
 
-	private final RedditAccount user;
-
 	public void offerRawSubredditData(Collection<RedditSubreddit> toWrite, long timestamp) {
 		subredditCache.performWrite(toWrite);
 	}
@@ -63,8 +61,6 @@ public class RedditSubredditManager {
 	}
 
 	private RedditSubredditManager(Context context, RedditAccount user) {
-
-		this.user = user;
 
 		// Subreddit cache
 

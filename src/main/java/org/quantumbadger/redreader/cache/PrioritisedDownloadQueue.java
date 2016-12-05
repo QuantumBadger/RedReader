@@ -29,10 +29,7 @@ class PrioritisedDownloadQueue {
 
 	private final PrioritisedCachedThreadPool mDownloadThreadPool = new PrioritisedCachedThreadPool(5, "Download");
 
-	private final Context mContext;
-
 	public PrioritisedDownloadQueue(final Context context) {
-		mContext = context;
 		new RedditQueueProcessor().start();
 	}
 

@@ -42,15 +42,11 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 	private static final AtomicBoolean resetUserCredentials = new AtomicBoolean(false);
 	private final HTTPBackend.Request mRequest;
 
-
-	private final PrioritisedDownloadQueue mQueue;
-
 	public CacheDownload(final CacheRequest initiator, final CacheManager manager, final PrioritisedDownloadQueue queue) {
 
 		this.mInitiator = initiator;
 
 		this.manager = manager;
-		this.mQueue = queue;
 
 		if(!initiator.setDownload(this)) {
 			mCancelled = true;

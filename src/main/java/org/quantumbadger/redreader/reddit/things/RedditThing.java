@@ -21,7 +21,8 @@ import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public final class RedditThing {
@@ -30,10 +31,10 @@ public final class RedditThing {
 		POST, USER, COMMENT, MESSAGE, SUBREDDIT, MORE_COMMENTS, LISTING
 	}
 	
-	private static final Hashtable<String, Kind> kinds;
+	private static final Map<String, Kind> kinds;
 	
 	static {
-		kinds = new Hashtable<>();
+		kinds = new HashMap<>();
 		kinds.put("t1", Kind.COMMENT);
 		kinds.put("t2", Kind.USER);
 		kinds.put("t3", Kind.POST);

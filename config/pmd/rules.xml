@@ -15,6 +15,7 @@
     <rule ref="rulesets/java/android.xml"/>
     <rule ref="rulesets/java/clone.xml"/>
     <rule ref="rulesets/java/finalizers.xml"/>
+    <rule ref="rulesets/java/migrating.xml"/>
     <rule ref="rulesets/java/unnecessary.xml">
         <exclude name="UselessParentheses"/> <!--Too nitpicky-->
     </rule>
@@ -22,6 +23,9 @@
     <rule ref="rulesets/java/optimizations.xml/AddEmptyString"/>
     <rule ref="rulesets/java/optimizations.xml/UseArraysAsList"/>
     <rule ref="rulesets/java/optimizations.xml/UnnecessaryWrapperObjectCreation"/>
+
+    <rule ref="rulesets/java/controversial.xml/UnnecessaryConstructor"/>
+    <rule ref="rulesets/java/controversial.xml/UnnecessaryParentheses"/>
 
     <rule ref="rulesets/java/design.xml/FinalFieldCouldBeStatic"/>
     <rule ref="rulesets/java/design.xml/CloseResource"/>

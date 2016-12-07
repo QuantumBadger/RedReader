@@ -3,7 +3,9 @@ Added low-contrast night theme
 Added Ultra Black theme
 Added higher font scale options
 Added accessibility descriptions to bezel toolbar
+Fix for saving images with no file extension (thanks to Luís Coelho)
 Hungarian translation (thanks to András Lengyel-Nagy)
+Various codebase improvements (thanks to Daniel Martí)
 
 76/1.9.6.1
 Removed all CAPTCHAs as they are no longer needed

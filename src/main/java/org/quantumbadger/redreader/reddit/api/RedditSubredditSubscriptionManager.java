@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.reddit.api;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -34,12 +35,16 @@ import org.quantumbadger.redreader.io.RequestResponseHandler;
 import org.quantumbadger.redreader.io.WritableHashSet;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
+import org.quantumbadger.redreader.reddit.RedditSubredditHistory;
 import org.quantumbadger.redreader.reddit.RedditSubredditManager;
+import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 
 public class RedditSubredditSubscriptionManager {
+
+	private static final String TAG = "SubscriptionManager";
 
 	public enum SubredditSubscriptionState { SUBSCRIBED, SUBSCRIBING, UNSUBSCRIBING, NOT_SUBSCRIBED }
 
@@ -78,6 +83,7 @@ public class RedditSubredditSubscriptionManager {
 		this.context = context;
 
 		subscriptions = db.getById(user.getCanonicalUsername());
+		addToHistory(subscriptions.toHashset());
 	}
 
 	public void addListener(SubredditSubscriptionStateChangeListener listener) {
@@ -124,7 +130,22 @@ public class RedditSubredditSubscriptionManager {
 		listeners.map(notifier, SubredditSubscriptionChangeType.LIST_UPDATED);
 	}
 
-	private synchronized void onNewSubscriptionListReceived(HashSet<String> newSubscriptions, long timestamp) {
+	private static void addToHistory(final HashSet<String> newSubscriptions)
+	{
+		for(final String sub : newSubscriptions)
+		{
+			try
+			{
+				RedditSubredditHistory.addSubreddit(sub);
+			}
+			catch(RedditSubreddit.InvalidSubredditNameException e)
+			{
+				Log.e(TAG, "Invalid subreddit name " + sub, e);
+			}
+		}
+	}
+
+	private synchronized void onNewSubscriptionListReceived(final HashSet<String> newSubscriptions, final long timestamp) {
 
 		pendingSubscriptions.clear();
 		pendingUnsubscriptions.clear();
@@ -133,6 +154,8 @@ public class RedditSubredditSubscriptionManager {
 
 		// TODO threaded? or already threaded due to cache manager
 		db.put(subscriptions);
+
+		addToHistory(newSubscriptions);
 
 		listeners.map(notifier, SubredditSubscriptionChangeType.LIST_UPDATED);
 	}

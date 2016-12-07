@@ -32,7 +32,7 @@
 			android:layout_marginTop="16dp"
 			android:entries="@array/mainmenu_custom_destination_type"/>
 
-	<EditText
+	<AutoCompleteTextView
 			android:id="@+id/dialog_mainmenu_custom_value"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
@@ -40,9 +40,10 @@
 			android:layout_marginLeft="8dp"
 			android:layout_marginRight="8dp"
 			android:layout_marginTop="16dp"
-			android:inputType="textNoSuggestions">
+			android:inputType="textNoSuggestions"
+			android:completionThreshold="1">
 
 		<requestFocus/>
-	</EditText>
+	</AutoCompleteTextView>
 
 </LinearLayout>

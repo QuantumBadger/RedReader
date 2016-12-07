@@ -30,6 +30,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
@@ -52,6 +55,7 @@ import org.quantumbadger.redreader.fragments.SessionListDialog;
 import org.quantumbadger.redreader.listingcontrollers.CommentListingController;
 import org.quantumbadger.redreader.listingcontrollers.PostListingController;
 import org.quantumbadger.redreader.reddit.PostSort;
+import org.quantumbadger.redreader.reddit.RedditSubredditHistory;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
@@ -272,12 +276,49 @@ public class MainActivity extends RefreshableActivity
 				final View root = getLayoutInflater().inflate(R.layout.dialog_mainmenu_custom, null);
 
 				final Spinner destinationType = (Spinner)root.findViewById(R.id.dialog_mainmenu_custom_type);
-				final EditText editText = (EditText)root.findViewById(R.id.dialog_mainmenu_custom_value);
+				final AutoCompleteTextView editText = (AutoCompleteTextView)root.findViewById(R.id.dialog_mainmenu_custom_value);
 
 				final String[] typeReturnValues
 						= getResources().getStringArray(R.array.mainmenu_custom_destination_type_return);
 
+				final ArrayAdapter<String> autocompleteAdapter = new ArrayAdapter<String>(
+						MainActivity.this,
+						android.R.layout.simple_dropdown_item_1line,
+						RedditSubredditHistory.getSubredditsSorted().toArray(new String[] {}));
+
+				editText.setAdapter(autocompleteAdapter);
+
 				alertBuilder.setView(root);
+
+				destinationType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+				{
+					@Override
+					public void onItemSelected(
+							final AdapterView<?> adapterView,
+							final View view,
+							final int i,
+							final long l)
+					{
+						final String typeName = typeReturnValues[destinationType.getSelectedItemPosition()];
+
+						switch(typeName)
+						{
+							case "subreddit":
+								editText.setAdapter(autocompleteAdapter);
+								break;
+
+							default:
+								editText.setAdapter(null);
+								break;
+						}
+					}
+
+					@Override
+					public void onNothingSelected(final AdapterView<?> adapterView)
+					{
+						editText.setAdapter(null);
+					}
+				});
 
 				alertBuilder.setPositiveButton(R.string.dialog_go, new DialogInterface.OnClickListener() {
 					@Override
@@ -842,5 +883,5 @@ public class MainActivity extends RefreshableActivity
 				onBackPressed();
 			}
 		});
-	}	
+	}
 }

@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.reddit.api;
 
 import android.content.Context;
+import android.util.Log;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
@@ -27,6 +28,7 @@ import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.io.CacheDataSource;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
+import org.quantumbadger.redreader.reddit.RedditSubredditHistory;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.things.RedditThing;
 
@@ -38,6 +40,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class RedditAPIIndividualSubredditDataRequester implements CacheDataSource<String, RedditSubreddit, SubredditRequestFailure> {
+
+	private static final String TAG = "IndividualSRDataReq";
 
 	private final Context context;
 	private final RedditAccount user;
@@ -92,6 +96,8 @@ public class RedditAPIIndividualSubredditDataRequester implements CacheDataSourc
 					subreddit.downloadTime = timestamp;
 					handler.onRequestSuccess(subreddit, timestamp);
 
+					RedditSubredditHistory.addSubreddit(subredditCanonicalName);
+
 				} catch(Exception e) {
 					handler.onRequestFailed(new SubredditRequestFailure(CacheRequest.REQUEST_FAILURE_PARSE, e, null, "Parse error", url));
 				}
@@ -131,6 +137,15 @@ public class RedditAPIIndividualSubredditDataRequester implements CacheDataSourc
 
 						result.put(innerResult.getKey(), innerResult);
 						oldestResult.set(Math.min(oldestResult.get(), timeCached));
+
+						try
+						{
+							RedditSubredditHistory.addSubreddit(innerResult.getCanonicalName());
+						}
+						catch(RedditSubreddit.InvalidSubredditNameException e)
+						{
+							Log.e(TAG, "Invalid subreddit name " + innerResult.name, e);
+						}
 
 						if(requestsToGo.decrementAndGet() == 0) {
 							handler.onRequestSuccess(result, oldestResult.get());

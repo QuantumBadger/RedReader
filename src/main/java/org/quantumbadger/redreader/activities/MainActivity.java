@@ -280,8 +280,8 @@ public class MainActivity extends RefreshableActivity
 				final String[] typeReturnValues
 						= getResources().getStringArray(R.array.mainmenu_custom_destination_type_return);
 
-				final ArrayAdapter<String> autocompleteAdapter = new ArrayAdapter<String>(
-						MainActivity.this,
+				final ArrayAdapter<String> autocompleteAdapter = new ArrayAdapter<>(
+						this,
 						android.R.layout.simple_dropdown_item_1line,
 						RedditSubredditHistory.getSubredditsSorted().toArray(new String[] {}));
 

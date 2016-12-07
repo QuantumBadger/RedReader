@@ -67,4 +67,11 @@
               android:scrollbars="none"
               android:inputType="textCapSentences|textMultiLine"/>
 
+	<CheckBox android:id="@+id/post_submit_send_replies_to_inbox"
+			  android:layout_width="match_parent"
+			  android:layout_height="wrap_content"
+			  android:layout_margin="10dp"
+			  android:checked="true"
+			  android:text="@string/send_replies_to_inbox"/>
+
 </LinearLayout>

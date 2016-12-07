@@ -942,4 +942,7 @@
 	<string name="theme_name_night_lowcontrast">Night (low contrast)</string>
 	<string name="theme_name_ultrablack">Ultra Black</string>
 
+	<!-- 2016-12-07 -->
+	<string name="send_replies_to_inbox">Send replies to my inbox</string>
+
 </resources>

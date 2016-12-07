@@ -71,18 +71,21 @@ public final class RedditAPI {
 	@Retention(RetentionPolicy.SOURCE)
 	public @interface RedditSubredditAction {}
 
-	public static void submit(final CacheManager cm,
-							   final APIResponseHandler.ActionResponseHandler responseHandler,
-							   final RedditAccount user,
-							   final boolean is_self,
-							   final String subreddit,
-							   final String title,
-							   final String body,
-							   final Context context) {
+	public static void submit(
+			final CacheManager cm,
+			final APIResponseHandler.ActionResponseHandler responseHandler,
+			final RedditAccount user,
+			final boolean is_self,
+			final String subreddit,
+			final String title,
+			final String body,
+			final boolean sendRepliesToInbox,
+			final Context context)
+	{
 
 		final LinkedList<PostField> postFields = new LinkedList<>();
 		postFields.add(new PostField("kind", is_self ? "self" : "link"));
-		postFields.add(new PostField("sendreplies", "true"));
+		postFields.add(new PostField("sendreplies", sendRepliesToInbox ? "true" : "false"));
 		postFields.add(new PostField("sr", subreddit));
 		postFields.add(new PostField("title", title));
 

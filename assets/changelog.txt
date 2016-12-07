@@ -3,6 +3,7 @@ Added low-contrast night theme
 Added Ultra Black theme
 Added higher font scale options
 Added accessibility descriptions to bezel toolbar
+Ability to disable inbox replies when submitting posts
 Fix for saving images with no file extension (thanks to Luís Coelho)
 Hungarian translation (thanks to András Lengyel-Nagy)
 Various codebase improvements (thanks to Daniel Martí)

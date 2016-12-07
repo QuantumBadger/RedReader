@@ -28,6 +28,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -53,6 +54,7 @@ public class PostSubmitActivity extends BaseActivity {
 
 	private Spinner typeSpinner, usernameSpinner;
 	private EditText subredditEdit, titleEdit, textEdit;
+	private CheckBox sendRepliesToInboxCheckbox;
 
 	private static final String[] postTypes = {"Link", "Self", "Upload to Imgur"};
 
@@ -75,6 +77,7 @@ public class PostSubmitActivity extends BaseActivity {
 		subredditEdit = (EditText)layout.findViewById(R.id.post_submit_subreddit);
 		titleEdit = (EditText)layout.findViewById(R.id.post_submit_title);
 		textEdit = (EditText)layout.findViewById(R.id.post_submit_body);
+		sendRepliesToInboxCheckbox = (CheckBox)layout.findViewById(R.id.post_submit_send_replies_to_inbox);
 
 		final Intent intent = getIntent();
 		if(intent != null) {
@@ -281,7 +284,10 @@ public class PostSubmitActivity extends BaseActivity {
 				while(subreddit.startsWith("r/")) subreddit = subreddit.substring(2);
 				while(subreddit.endsWith("/")) subreddit = subreddit.substring(0, subreddit.length() - 1);
 
-				RedditAPI.submit(cm, handler, selectedAccount, is_self, subreddit, postTitle, text, this);
+				final boolean sendRepliesToInbox = sendRepliesToInboxCheckbox.isChecked();
+
+				RedditAPI.submit(cm, handler, selectedAccount, is_self, subreddit, postTitle, text,
+						sendRepliesToInbox, this);
 
 				progressDialog.show();
 			}

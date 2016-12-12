@@ -598,7 +598,7 @@ public final class RedditPreparedPost {
 						  shareIntent.setAction(Intent.ACTION_SEND);
 						  shareIntent.putExtra(Intent.EXTRA_STREAM, cacheFile.getUri());
 						  shareIntent.setType(mimetype);
-						  activity.startActivity(Intent.createChooser(shareIntent, activity.getString(R.string.action_share_comments)));
+						  activity.startActivity(Intent.createChooser(shareIntent, activity.getString(R.string.action_share_image)));
 
 						} catch(IOException e) {
 						  notifyFailure(CacheRequest.REQUEST_FAILURE_STORAGE, e, null, "Could not copy file");

@@ -5,6 +5,7 @@ Added higher font scale options
 Added accessibility descriptions to bezel toolbar
 Subreddits autocomplete in "Custom Location"
 Ability to disable inbox replies when submitting posts
+Ability to share image directly rather than link (thanks to Sérgio Sampaio)
 Fix for saving images with no file extension (thanks to Luís Coelho)
 Hungarian translation (thanks to András Lengyel-Nagy)
 Various codebase improvements (thanks to Daniel Martí)

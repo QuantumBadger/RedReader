@@ -945,4 +945,7 @@
 	<!-- 2016-12-07 -->
 	<string name="send_replies_to_inbox">Send replies to my inbox</string>
 
+	<!-- 2016-12-11 -->
+	<string name="action_share_image">Share Image</string>
+
 </resources>

@@ -353,6 +353,7 @@
         <item>@string/action_gotosubreddit</item>
         <item>@string/action_share</item>
         <item>@string/action_share_comments</item>
+        <item>@string/action_share_image</item>
         <item>@string/action_copy</item>
         <item>@string/action_user_profile</item>
         <item>@string/action_properties</item>
@@ -372,6 +373,7 @@
         <item>goto_subreddit</item>
         <item>share</item>
         <item>share_comments</item>
+        <item>share_image</item>
         <item>copy</item>
         <item>user_profile</item>
         <item>properties</item>

@@ -227,12 +227,6 @@ public class MainActivity extends RefreshableActivity
 							existingPostContextItems
 					).apply();
 
-					new Thread() {
-						@Override
-						public void run() {
-							CacheManager.getInstance(MainActivity.this).emptyTheWholeCache();
-						}
-					}.start();
 				}
 			}
 

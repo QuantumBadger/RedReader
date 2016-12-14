@@ -209,6 +209,25 @@ public class MainActivity extends RefreshableActivity
 						}
 					}.start();
 				}
+
+				if(lastVersion <= 76) {
+					// Upgrading from v1.9.6.1 or lower, enable image sharing from post context menu
+
+					final Set<String> existingPostContextItems = PrefsUtility.getStringSet(
+							R.string.pref_menus_post_context_items_key,
+							R.array.pref_menus_post_context_items_return,
+							this,
+							sharedPreferences
+					);
+
+					existingPostContextItems.add("share_image");
+
+					sharedPreferences.edit().putStringSet(
+							getString(R.string.pref_menus_post_context_items_key),
+							existingPostContextItems
+					).apply();
+
+				}
 			}
 
 		} else {

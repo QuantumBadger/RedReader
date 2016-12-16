@@ -83,7 +83,10 @@ public class RedditSubredditSubscriptionManager {
 		this.context = context;
 
 		subscriptions = db.getById(user.getCanonicalUsername());
-		addToHistory(subscriptions.toHashset());
+
+		if(subscriptions != null) {
+			addToHistory(subscriptions.toHashset());
+		}
 	}
 
 	public void addListener(SubredditSubscriptionStateChangeListener listener) {

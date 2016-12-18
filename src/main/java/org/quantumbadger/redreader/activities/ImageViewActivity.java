@@ -271,7 +271,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 									public void run() {
 										progressBar.setVisibility(View.VISIBLE);
 										progressBar.setIndeterminate(authorizationInProgress);
-										progressBar.setProgress(((float)((1000 * bytesRead) / totalBytes)) / 1000);
+										progressBar.setProgress( (int) bytesRead, (int)totalBytes);
 									}
 								});
 							}

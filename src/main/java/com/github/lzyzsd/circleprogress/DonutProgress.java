@@ -7,6 +7,8 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.view.View;
 
+import java.math.BigDecimal;
+
 /**
  * Created by bruce on 14-10-30. Edited by QuantumBadger.
  */

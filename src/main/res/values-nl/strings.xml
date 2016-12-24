@@ -161,7 +161,7 @@
 
     <!-- General Listing -->
 
-    <string name="listing_cached">Gecahete kopie van %s aan het bekijken</string>
+    <string name="listing_cached">Gecachete kopie van %s aan het bekijken</string>
 
     <!-- Accounts Dialog -->
 
@@ -235,17 +235,17 @@
     <string name="action_share">Delen</string>
     <string name="action_share_comments">Reacties delen</string>
     <string name="action_copy">Kopiëren</string>
-    <string name="action_gotosubreddit">Ga naar subreddit</string>
+    <string name="action_gotosubreddit">Naar subreddit gaan</string>
     <string name="action_reply">Reageren</string>
     <string name="action_edit">Aanpassen</string>
     <string name="action_user_profile">Gebruikersprofiel</string>
     <string name="action_user_profile_short">Gebruiker</string>
     <string name="action_properties">Eigenschappen</string>
     <string name="action_comments">Reacties bekijken</string>
-    <string name="action_comments_switch">Schakel naar reacties</string>
+    <string name="action_comments_switch">Naar reacties schakelen</string>
     <string name="action_comments_short">Reacties</string>
     <string name="action_link">Link openen</string>
-    <string name="action_link_switch">Schakel naar link</string>
+    <string name="action_link_switch">Naar link schakelen</string>
     <string name="action_link_short">Link</string>
     <string name="action_collapse">In- of uitklappen</string>
     <string name="action_nothing">Niets doen</string>
@@ -393,8 +393,8 @@
 
     <!-- General -->
 
-    <string name="general_true">Waar</string>
-    <string name="general_false">Onwaar</string>
+    <string name="general_true">Ja</string>
+    <string name="general_false">Nee</string>
 
     <!-- 2013-05-17 Arrays -->
 
@@ -491,6 +491,13 @@
     <string name="pref_appearance_langforce_title">Taal</string>
 
     <string name="lang_auto">Automatisch</string>
+    <string name="lang_en">English</string>
+    <string name="lang_da">Dansk</string>
+    <string name="lang_de">Deutsch</string>
+    <string name="lang_fr">Français</string>
+    <string name="lang_ar">عربي</string>
+    <string name="lang_es">Español</string>
+    <string name="lang_cs">Česky</string>
 
     <!-- 2013-06-25 -->
 
@@ -534,7 +541,7 @@
     <string name="time_day">dag</string>
     <string name="time_days">dagen</string>
     <string name="time_hour">uur</string>
-    <string name="time_hours">uren</string>
+    <string name="time_hours">uur</string>
     <string name="time_min">min</string>
     <string name="time_mins">minuten</string>
     <string name="time_sec">s</string>
@@ -607,13 +614,16 @@
     <string name="webview_https_unknownprotocol">Onbekend protocol, \'http://\' was verwacht.</string>
     <string name="webview_use_https">HTTPS gebruiken</string>
 
+    <!-- 2015-01-16 -->
+	<string name="lang_it">Italiano</string>
+
     <!-- 2015-01-26 -->
     <string name="sort_posts_relevance">Relevantie</string>
     <string name="sort_posts_comments">Reacties</string>
 
     <!-- 2015-04-06 -->
-    <string name="mark_all_as_read">Als gelezen bestempelen</string>
-    <string name="mark_all_as_read_success">Alle berichten als gelezen bestempelen</string>
+    <string name="mark_all_as_read">Als gelezen markeren</string>
+    <string name="mark_all_as_read_success">Alle berichten als gelezen gemarkeerd</string>
 
     <!-- 2015-05-17 -->
     <string name="error_title_login_user_denied_permission">Permissie geweigerd</string>
@@ -757,7 +767,7 @@
     <string name="error_upload_fail_imgur_title">Uploaden mislukt</string>
     <string name="error_upload_fail_imgur_message">Imgur heeft de upload om onbekende reden afgewezen.</string>
 
-    <string name="upload_to_imgur">Uploaden naar Imgur</string>
+    <string name="upload_to_imgur">Naar Imgur uploaden</string>
     <string name="no_file_selected">Geen bestand geselecteerd</string>
     <string name="button_upload">Uploaden</string>
     <string name="button_browse">Bladeren…</string>
@@ -831,7 +841,7 @@
 	<string name="no_search_results">Geen resultaten gevonden.</string>
 
 	<!-- 2016-07-24 -->
-	<string name="action_search_comments">Doorzoek reacties</string>
+	<string name="action_search_comments">Reacties doorzoeken</string>
 
 	<!-- 2016-07-29 -->
 	<string name="pref_appearance_navbar_color_key">pref_appearance_navbar_color</string>
@@ -841,11 +851,11 @@
 	<string name="pref_appearance_navbar_color_option_primary">Primair (licht)</string>
 	<string name="pref_appearance_navbar_color_option_primarydark">Primair (donker)</string>
 
-	<string name="pref_not_supported_before_lollipop">Niet ondersteund versies ouder dan Android Lollipop</string>
+	<string name="pref_not_supported_before_lollipop">Niet ondersteund voor versies ouder dan Android Lollipop</string>
 
 	<!-- 2016-08-03 -->
-	<string name="action_copy_text">Kopieer tekst</string>
-	<string name="action_copy_link">Kopieer link</string>
+	<string name="action_copy_text">Tekst kopiëren</string>
+	<string name="action_copy_link">Link kopiëren</string>
 
 	<string name="pref_behaviour_postsort_key">pref_behaviour_postsort</string>
 	<string name="pref_behaviour_postsort">Standaardpostsortering</string>
@@ -872,7 +882,7 @@
 
 	<!-- 2016-08-15 -->
 	<string name="pref_behaviour_pinned_subredditsort_key">pref_behaviour_pinned_subreddit_sort</string>
-	<string name="pref_behaviour_pinned_subredditsort">Sorteer vastgespelde subreddits</string>
+	<string name="pref_behaviour_pinned_subredditsort">Vastgespelde subreddits sorteren</string>
 	<string name="sort_pinned_subreddit_name">Op naam</string>
 	<string name="sort_pinned_subreddit_date">Op toevoegingsdatum</string>
 
@@ -895,4 +905,44 @@
 	<!-- 2016-09-08 -->
 	<string name="pref_behaviour_enable_swipe_refresh_title">Naar beneden vegen om te verversen</string>
 	<string name="pref_behaviour_enable_swipe_refresh_key">pref_behaviour_enable_swipe_refresh</string>
+
+	<!-- 2016-09-10 -->
+	<string name="mainmenu_header_subreddits_blocked">Geblokkeerde subreddits</string>
+	<string name="pref_behaviour_blocked_subredditsort_key">pref_behaviour_blocked_subreddit_sort</string>
+	<string name="pref_behaviour_blocked_subredditsort">Geblokkeerde subreddits sorteren</string>
+	<string name="sort_blocked_subreddit_name">Op naam</string>
+	<string name="sort_blocked_subreddit_date">Op toevoegdatum</string>
+
+	<!-- 2016-09-21 -->
+	<string name="pref_appearance_show_blocked_subreddits_main_menu_key">pref_appearance_show_blocked_subreddits_main_menu</string>
+	<string name="pref_appearance_show_blocked_subreddits_main_menu_title">Geblokkeerde subreddits in het hoofdmenu weergeven</string>
+
+	<!-- 2016-10-02 -->
+	<string name="pref_cache_rerequest_postlist_age_key">pref_cache_rerequest_postlist_age</string>
+	<string name="pref_cache_rerequest_postlist_age_title">Posts verversen als de cache ouder is dan</string>
+
+	<string name="time_2hr">2 uur</string>
+	<string name="time_3hr">3 uur</string>
+
+	<string name="lang_nl">Nederlands</string>
+
+	<!-- 2016-10-08 -->
+	<string name="time_every_time">Altijd</string>
+
+	<!-- 2016-11-02 -->
+	<string name="lang_ro">Romanian</string>
+
+	<!-- 2016-11-14 -->
+	<string name="lang_hu">Magyar</string>
+
+	<!-- 2016-12-03 -->
+	<string name="theme_name_night_lowcontrast">Nacht (lage contrastwaarde)</string>
+	<string name="theme_name_ultrablack">Ultrazwart</string>
+
+	<!-- 2016-12-07 -->
+	<string name="send_replies_to_inbox">Antwoorden naar mijn inbox sturen</string>
+
+	<!-- 2016-12-11 -->
+	<string name="action_share_image">Afbeelding delen</string>
+
 </resources>

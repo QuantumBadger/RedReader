@@ -202,6 +202,10 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 				Log.i(TAG, "Got image URL: " + info.urlOriginal);
 
+				Log.i(TAG, "Got image Type: " + info.type);
+
+				Log.i(TAG, "Got media Type: " + info.mediaType);
+
 				mImageInfo = info;
 
 				final URI uri = General.uriFromString(info.urlOriginal);
@@ -797,28 +801,18 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 				this,
 				PreferenceManager.getDefaultSharedPreferences(this));
 
-		if (imageViewMode == PrefsUtility.ImageViewMode.EXTERNAL_BROWSER
-				&& videoViewMode == PrefsUtility.VideoViewMode.EXTERNAL_BROWSER
-				&& gifViewMode == PrefsUtility.GifViewMode.EXTERNAL_BROWSER
-				&& mImageInfo.type == null)
-			openInExternalBrowser();
 
-		if (mImageInfo.type != null) {
-			if (Constants.Mime.isImage(mImageInfo.type) && !Constants.Mime.isImageGif(mImageInfo.type))
-				if (imageViewMode == PrefsUtility.ImageViewMode.EXTERNAL_BROWSER)
-					openInExternalBrowser();
-				else
-					makeCacheRequest(progressBar, uri);
+		if (mImageInfo.mediaType != null) {
+			if (mImageInfo.mediaType == ImageInfo.MediaType.IMAGE && imageViewMode == PrefsUtility.ImageViewMode.EXTERNAL_BROWSER)
+				openInExternalBrowser();
 
-			if (Constants.Mime.isImageGif(mImageInfo.type))
-				if (gifViewMode == PrefsUtility.GifViewMode.EXTERNAL_BROWSER)
-					openInExternalBrowser();
-				else makeCacheRequest(progressBar, uri);
+			else if (mImageInfo.mediaType == ImageInfo.MediaType.GIF && gifViewMode == PrefsUtility.GifViewMode.EXTERNAL_BROWSER)
+				openInExternalBrowser();
 
-			if (Constants.Mime.isVideo(mImageInfo.type))
-				if (videoViewMode == PrefsUtility.VideoViewMode.EXTERNAL_BROWSER)
-					openInExternalBrowser();
-				else makeCacheRequest(progressBar, uri);
+			else if (mImageInfo.mediaType == ImageInfo.MediaType.VIDEO && videoViewMode == PrefsUtility.VideoViewMode.EXTERNAL_BROWSER)
+				openInExternalBrowser();
+			else
+				makeCacheRequest(progressBar, uri);
 		} else {
 			makeCacheRequest(progressBar, uri);
 		}

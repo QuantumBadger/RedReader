@@ -420,7 +420,7 @@ public class LinkHandler {
 								Log.i("getImgurImageInfo", "All API requests failed!");
 
 								if(returnUrlOnFailure) {
-									listener.onSuccess(new ImageInfo("https://i.imgur.com/" + imgId + ".jpg", ImageInfo.MediaType.IMAGE));
+									listener.onSuccess(new ImageInfo("https://i.imgur.com/" + imgId + ".jpg", null));
 
 								} else {
 									listener.onFailure(type, t, status, readableMessage);
@@ -567,21 +567,16 @@ public class LinkHandler {
 			}
 		}
 
-		final Map imageUrlPatternMatch = getImageUrlPatternMatch(url);
-
-
-
+		final ImageInfo imageUrlPatternMatch = getImageUrlPatternMatch(url);
 
 		if(imageUrlPatternMatch != null) {
-			final String urlPattern = imageUrlPatternMatch.keySet().toArray()[0].toString();
-			final ImageInfo.MediaType mediaType = (ImageInfo.MediaType) imageUrlPatternMatch.get(urlPattern);
-			listener.onSuccess(new ImageInfo(urlPattern, mediaType));
+			listener.onSuccess(imageUrlPatternMatch);
 		} else {
 			listener.onNotAnImage();
 		}
 	}
 
-	private static Map<String, ImageInfo.MediaType> getImageUrlPatternMatch(final String url) {
+	private static ImageInfo getImageUrlPatternMatch(final String url) {
 
 		final String urlLower = General.asciiLowercase(url);
 
@@ -589,25 +584,21 @@ public class LinkHandler {
 
 		final String[] videoExtentsions = {".webm", ".mp4", ".h264", ".gifv", ".mkv", ".3gp"};
 
-		final Map<String, ImageInfo.MediaType> value = new HashMap<>();
 
 		for(final String ext: imageExtensions) {
 			if(urlLower.endsWith(ext)) {
-				value.put(url, ImageInfo.MediaType.IMAGE );
-				return value;
+				return new ImageInfo(url, ImageInfo.MediaType.IMAGE);
 			}
 		}
 
 		for(final String ext: videoExtentsions) {
 			if(urlLower.endsWith(ext)) {
-				value.put(url, ImageInfo.MediaType.VIDEO);
-				return value;
+				return new ImageInfo(url, ImageInfo.MediaType.VIDEO);
 			}
 		}
 
 		if(urlLower.endsWith(".gif")) {
-			value.put(url, ImageInfo.MediaType.GIF);
-			return value;
+			return new ImageInfo(url, ImageInfo.MediaType.GIF);
 		}
 
 
@@ -617,21 +608,18 @@ public class LinkHandler {
 
 			for(final String ext: imageExtensions) {
 				if(urlBeforeQ.endsWith(ext)) {
-					value.put(url, ImageInfo.MediaType.IMAGE);
-					return value;
+					return new ImageInfo(url, ImageInfo.MediaType.IMAGE);
 				}
 			}
 
 			for(final String ext: videoExtentsions) {
 				if(urlBeforeQ.endsWith(ext)) {
-					value.put(url, ImageInfo.MediaType.VIDEO);
-					return value;
+					return new ImageInfo(url, ImageInfo.MediaType.VIDEO);
 				}
 			}
 
 			if(urlBeforeQ.endsWith(".gif")) {
-				value.put(url, ImageInfo.MediaType.GIF);
-				return value;
+				return new ImageInfo(url, ImageInfo.MediaType.GIF);
 			}
 		}
 
@@ -640,8 +628,7 @@ public class LinkHandler {
 		if(matchQkme1.find()) {
 			final String imgId = matchQkme1.group(1);
 			if(imgId.length() > 2) {
-				value.put(String.format(Locale.US, "http://i.qkme.me/%s.jpg", imgId), ImageInfo.MediaType.IMAGE);
-				return value;
+				return new ImageInfo(String.format(Locale.US, "http://i.qkme.me/%s.jpg", imgId), ImageInfo.MediaType.IMAGE);
 			}
 		}
 
@@ -650,8 +637,7 @@ public class LinkHandler {
 		if(matchQkme2.find()) {
 			final String imgId = matchQkme2.group(1);
 			if (imgId.length() > 2) {
-				value.put(String.format(Locale.US, "http://i.qkme.me/%s.jpg", imgId), ImageInfo.MediaType.IMAGE);
-				return value;
+				return new ImageInfo(String.format(Locale.US, "http://i.qkme.me/%s.jpg", imgId), ImageInfo.MediaType.IMAGE);
 			}
 		}
 
@@ -660,8 +646,7 @@ public class LinkHandler {
 		if(matchLvme.find()) {
 			final String imgId = matchLvme.group(1);
 			if (imgId.length() > 2) {
-				value.put(String.format(Locale.US, "http://www.livememe.com/%s.jpg", imgId), ImageInfo.MediaType.IMAGE);
-				return value;
+				return new ImageInfo(String.format(Locale.US, "http://www.livememe.com/%s.jpg", imgId), ImageInfo.MediaType.IMAGE);
 			}
 		}
 

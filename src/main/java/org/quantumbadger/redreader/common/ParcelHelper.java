@@ -35,11 +35,21 @@ public class ParcelHelper {
 	}
 
 	public static ImageInfo.MediaType readNullableEnum(final Parcel in) {
+
+		final boolean isNull = readBoolean(in);
+		if(isNull) return null;
+
 		return ImageInfo.MediaType.valueOf(in.readString());
 	}
 
 	public static void writeNullableEnum(final Parcel parcel, final ImageInfo.MediaType value) {
-		parcel.writeString(value.name());
+
+		if(value == null) {
+			writeBoolean(parcel, false);
+		} else {
+			writeBoolean(parcel, true);
+			parcel.writeString(value.name());
+		}
 	}
 
 	public static Integer readNullableInt(final Parcel in) {

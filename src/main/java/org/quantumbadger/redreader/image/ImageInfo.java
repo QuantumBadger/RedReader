@@ -43,7 +43,7 @@ public class ImageInfo implements Parcelable {
 	public final MediaType mediaType;
 
 	public enum MediaType {
-		IMAGE, VIDEO, GIF, UNKNOWN
+		IMAGE, VIDEO, GIF
 	}
 
 	public ImageInfo(final String urlOriginal, final MediaType mediaType) {

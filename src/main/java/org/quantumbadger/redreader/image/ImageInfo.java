@@ -17,10 +17,8 @@
 
 package org.quantumbadger.redreader.image;
 
-import android.media.Image;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.provider.MediaStore;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.quantumbadger.redreader.common.ParcelHelper;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
@@ -62,21 +60,6 @@ public class ImageInfo implements Parcelable {
 		size = null;
 		this.mediaType = mediaType;
 	}
-
-//	public ImageInfo(final String urlOriginal) {
-//
-//		this.urlOriginal = urlOriginal;
-//
-//		urlBigSquare = null;
-//		title = null;
-//		caption = null;
-//		type = null;
-//		isAnimated = null;
-//		width = null;
-//		height = null;
-//		size = null;
-//		mediaType = null;
-//	}
 
 	private ImageInfo(final Parcel in) {
 		urlOriginal = ParcelHelper.readNullableString(in);

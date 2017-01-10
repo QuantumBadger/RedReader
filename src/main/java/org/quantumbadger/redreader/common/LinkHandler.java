@@ -582,7 +582,7 @@ public class LinkHandler {
 
 		final String[] imageExtensions = {".jpg", ".jpeg", ".png"};
 
-		final String[] videoExtentsions = {".webm", ".mp4", ".h264", ".gifv", ".mkv", ".3gp"};
+		final String[] videoExtensions = {".webm", ".mp4", ".h264", ".gifv", ".mkv", ".3gp"};
 
 
 		for(final String ext: imageExtensions) {
@@ -591,7 +591,7 @@ public class LinkHandler {
 			}
 		}
 
-		for(final String ext: videoExtentsions) {
+		for(final String ext: videoExtensions) {
 			if(urlLower.endsWith(ext)) {
 				return new ImageInfo(url, ImageInfo.MediaType.VIDEO);
 			}
@@ -612,7 +612,7 @@ public class LinkHandler {
 				}
 			}
 
-			for(final String ext: videoExtentsions) {
+			for(final String ext: videoExtensions) {
 				if(urlBeforeQ.endsWith(ext)) {
 					return new ImageInfo(url, ImageInfo.MediaType.VIDEO);
 				}

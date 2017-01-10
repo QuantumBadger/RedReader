@@ -232,7 +232,7 @@ public class ImageInfo implements Parcelable {
 		Long width = null;
 		Long height = null;
 		Long size = null;
-		Boolean mp4 = false;
+		boolean mp4 = false;
 
 		if(object != null) {
 			id = object.getString("id");

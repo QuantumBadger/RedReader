@@ -46,9 +46,7 @@ import org.quantumbadger.redreader.image.StreamableAPI;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.Locale;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -422,7 +420,7 @@ public class LinkHandler {
 								Log.i("getImgurImageInfo", "All API requests failed!");
 
 								if(returnUrlOnFailure) {
-									listener.onSuccess(new ImageInfo("https://i.imgur.com/" + imgId + ".jpg"));
+									listener.onSuccess(new ImageInfo("https://i.imgur.com/" + imgId + ".jpg", null));
 
 								} else {
 									listener.onFailure(type, t, status, readableMessage);
@@ -537,7 +535,7 @@ public class LinkHandler {
 			if(matchRedditUploads.find()) {
 				final String imgId = matchRedditUploads.group(1);
 				if(imgId.length() > 10) {
-					listener.onSuccess(new ImageInfo(url));
+					listener.onSuccess(new ImageInfo(url, ImageInfo.MediaType.IMAGE));
 					return;
 				}
 			}
@@ -550,7 +548,7 @@ public class LinkHandler {
 				final String imgId = matchImgflip.group(1);
 				if(imgId.length() > 3) {
 					final String imageUrl = "https://i.imgflip.com/" + imgId + ".jpg";
-					listener.onSuccess(new ImageInfo(imageUrl));
+					listener.onSuccess(new ImageInfo(imageUrl, ImageInfo.MediaType.IMAGE));
 					return;
 				}
 			}
@@ -563,41 +561,65 @@ public class LinkHandler {
 				final String imgId = matchMakeameme.group(1);
 				if(imgId.length() > 3) {
 					final String imageUrl = "https://media.makeameme.org/created/" + imgId + ".jpg";
-					listener.onSuccess(new ImageInfo(imageUrl));
+					listener.onSuccess(new ImageInfo(imageUrl, ImageInfo.MediaType.IMAGE));
 					return;
 				}
 			}
 		}
 
-		final String imageUrlPatternMatch = getImageUrlPatternMatch(url);
+		final ImageInfo imageUrlPatternMatch = getImageUrlPatternMatch(url);
 
 		if(imageUrlPatternMatch != null) {
-			listener.onSuccess(new ImageInfo(imageUrlPatternMatch));
+			listener.onSuccess(imageUrlPatternMatch);
 		} else {
 			listener.onNotAnImage();
 		}
 	}
 
-	private static String getImageUrlPatternMatch(final String url) {
+	private static ImageInfo getImageUrlPatternMatch(final String url) {
 
 		final String urlLower = General.asciiLowercase(url);
 
-		final String[] imageExtensions = {".jpg", ".jpeg", ".png", ".gif", ".webm", ".mp4", ".h264", ".gifv", ".mkv", ".3gp"};
+		final String[] imageExtensions = {".jpg", ".jpeg", ".png"};
 
-		for(final String ext : imageExtensions) {
+		final String[] videoExtentsions = {".webm", ".mp4", ".h264", ".gifv", ".mkv", ".3gp"};
+
+
+		for(final String ext: imageExtensions) {
 			if(urlLower.endsWith(ext)) {
-				return url;
+				return new ImageInfo(url, ImageInfo.MediaType.IMAGE);
 			}
 		}
+
+		for(final String ext: videoExtentsions) {
+			if(urlLower.endsWith(ext)) {
+				return new ImageInfo(url, ImageInfo.MediaType.VIDEO);
+			}
+		}
+
+		if(urlLower.endsWith(".gif")) {
+			return new ImageInfo(url, ImageInfo.MediaType.GIF);
+		}
+
 
 		if(url.contains("?")) {
 
 			final String urlBeforeQ = urlLower.split("\\?")[0];
 
-			for(final String ext : imageExtensions) {
+			for(final String ext: imageExtensions) {
 				if(urlBeforeQ.endsWith(ext)) {
-					return url;
+					return new ImageInfo(url, ImageInfo.MediaType.IMAGE);
 				}
+			}
+
+			for(final String ext: videoExtentsions) {
+				if(urlBeforeQ.endsWith(ext)) {
+					return new ImageInfo(url, ImageInfo.MediaType.VIDEO);
+				}
+			}
+
+			if(urlBeforeQ.endsWith(".gif")) {
+				return new ImageInfo(url, ImageInfo.MediaType.GIF);
 			}
 		}
 
@@ -605,24 +627,27 @@ public class LinkHandler {
 
 		if(matchQkme1.find()) {
 			final String imgId = matchQkme1.group(1);
-			if(imgId.length() > 2)
-				return String.format(Locale.US, "http://i.qkme.me/%s.jpg", imgId);
+			if(imgId.length() > 2) {
+				return new ImageInfo(String.format(Locale.US, "http://i.qkme.me/%s.jpg", imgId), ImageInfo.MediaType.IMAGE);
+			}
 		}
 
 		final Matcher matchQkme2 = qkmePattern2.matcher(url);
 
 		if(matchQkme2.find()) {
 			final String imgId = matchQkme2.group(1);
-			if(imgId.length() > 2)
-				return String.format(Locale.US, "http://i.qkme.me/%s.jpg", imgId);
+			if (imgId.length() > 2) {
+				return new ImageInfo(String.format(Locale.US, "http://i.qkme.me/%s.jpg", imgId), ImageInfo.MediaType.IMAGE);
+			}
 		}
 
 		final Matcher matchLvme = lvmePattern.matcher(url);
 
 		if(matchLvme.find()) {
 			final String imgId = matchLvme.group(1);
-			if(imgId.length() > 2)
-				return String.format(Locale.US, "http://www.livememe.com/%s.jpg", imgId);
+			if (imgId.length() > 2) {
+				return new ImageInfo(String.format(Locale.US, "http://www.livememe.com/%s.jpg", imgId), ImageInfo.MediaType.IMAGE);
+			}
 		}
 
 		return null;

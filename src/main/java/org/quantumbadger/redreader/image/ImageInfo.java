@@ -40,7 +40,13 @@ public class ImageInfo implements Parcelable {
 	public final Long height;
 	public final Long size;
 
-	public ImageInfo(final String urlOriginal) {
+	public final MediaType mediaType;
+
+	public enum MediaType {
+		IMAGE, VIDEO, GIF
+	}
+
+	public ImageInfo(final String urlOriginal, final MediaType mediaType) {
 
 		this.urlOriginal = urlOriginal;
 
@@ -52,6 +58,7 @@ public class ImageInfo implements Parcelable {
 		width = null;
 		height = null;
 		size = null;
+		this.mediaType = mediaType;
 	}
 
 	private ImageInfo(final Parcel in) {
@@ -64,6 +71,7 @@ public class ImageInfo implements Parcelable {
 		width = ParcelHelper.readNullableLong(in);
 		height = ParcelHelper.readNullableLong(in);
 		size = ParcelHelper.readNullableLong(in);
+		mediaType = ParcelHelper.readNullableEnum(in);
 	}
 
 	public ImageInfo(
@@ -75,7 +83,9 @@ public class ImageInfo implements Parcelable {
 			final Boolean isAnimated,
 			final Long width,
 			final Long height,
-			final Long size) {
+			final Long size,
+			final MediaType mediaType
+	) {
 
 		this.urlOriginal = urlOriginal;
 		this.urlBigSquare = urlBigSquare;
@@ -86,6 +96,7 @@ public class ImageInfo implements Parcelable {
 		this.width = width;
 		this.height = height;
 		this.size = size;
+		this.mediaType = mediaType;
 	}
 
 	public static ImageInfo parseGfycat(final JsonBufferedObject object)
@@ -108,7 +119,8 @@ public class ImageInfo implements Parcelable {
 				true,
 				width,
 				height,
-				size);
+				size,
+				MediaType.VIDEO);
 	}
 
 	public static ImageInfo parseStreamable(final JsonBufferedObject object)
@@ -149,7 +161,8 @@ public class ImageInfo implements Parcelable {
 				true,
 				width,
 				height,
-				null);
+				null,
+				MediaType.VIDEO);
 	}
 
 	public static ImageInfo parseImgur(final JsonBufferedObject object)
@@ -202,7 +215,8 @@ public class ImageInfo implements Parcelable {
 				isAnimated,
 				width,
 				height,
-				size);
+				size,
+				isAnimated ? MediaType.VIDEO : MediaType.IMAGE);
 	}
 
 	public static ImageInfo parseImgurV3(final JsonBufferedObject object)
@@ -218,6 +232,7 @@ public class ImageInfo implements Parcelable {
 		Long width = null;
 		Long height = null;
 		Long size = null;
+		Boolean mp4 = false;
 
 		if(object != null) {
 			id = object.getString("id");
@@ -231,7 +246,7 @@ public class ImageInfo implements Parcelable {
 
 			if(object.getString("mp4") != null) {
 				urlOriginal = object.getString("mp4");
-
+				mp4 = true;
 			} else {
 				urlOriginal = object.getString("link");
 			}
@@ -258,7 +273,8 @@ public class ImageInfo implements Parcelable {
 				isAnimated,
 				width,
 				height,
-				size);
+				size,
+				mp4 ? MediaType.VIDEO : MediaType.IMAGE);
 	}
 
 	@Override
@@ -278,6 +294,7 @@ public class ImageInfo implements Parcelable {
 		ParcelHelper.writeNullableLong(parcel, width);
 		ParcelHelper.writeNullableLong(parcel, height);
 		ParcelHelper.writeNullableLong(parcel, size);
+		ParcelHelper.writeNullableEnum(parcel, mediaType);
 	}
 
 	public static final Parcelable.Creator<ImageInfo> CREATOR = new Parcelable.Creator<ImageInfo>() {

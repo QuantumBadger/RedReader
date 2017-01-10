@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.common;
 
 import android.os.Parcel;
+import org.quantumbadger.redreader.image.ImageInfo;
 
 public class ParcelHelper {
 
@@ -31,6 +32,24 @@ public class ParcelHelper {
 		if(isNull) return null;
 
 		return in.readString();
+	}
+
+	public static ImageInfo.MediaType readNullableEnum(final Parcel in) {
+
+		final boolean isNull = readBoolean(in);
+		if(isNull) return null;
+
+		return ImageInfo.MediaType.valueOf(in.readString());
+	}
+
+	public static void writeNullableEnum(final Parcel parcel, final ImageInfo.MediaType value) {
+
+		if(value == null) {
+			writeBoolean(parcel, false);
+		} else {
+			writeBoolean(parcel, true);
+			parcel.writeString(value.name());
+		}
 	}
 
 	public static Integer readNullableInt(final Parcel in) {

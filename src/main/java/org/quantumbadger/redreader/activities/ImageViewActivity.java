@@ -202,6 +202,10 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 				Log.i(TAG, "Got image URL: " + info.urlOriginal);
 
+				Log.i(TAG, "Got image Type: " + info.type);
+
+				Log.i(TAG, "Got media Type: " + info.mediaType);
+
 				mImageInfo = info;
 
 				final URI uri = General.uriFromString(info.urlOriginal);
@@ -211,82 +215,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 					return;
 				}
 
-				CacheManager.getInstance(ImageViewActivity.this).makeRequest(
-						mRequest = new CacheRequest(
-								uri,
-								RedditAccountManager.getAnon(),
-								null,
-								Constants.Priority.IMAGE_VIEW,
-								0,
-								DownloadStrategyIfNotCached.INSTANCE,
-								Constants.FileType.IMAGE,
-								CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
-								false,
-								false,
-								ImageViewActivity.this) {
-
-							@Override
-							protected void onCallbackException(Throwable t) {
-								BugReportActivity.handleGlobalError(context.getApplicationContext(), new RRError(null, null, t));
-							}
-
-							@Override
-							protected void onDownloadNecessary() {
-								AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
-									@Override
-									public void run() {
-										progressBar.setVisibility(View.VISIBLE);
-										progressBar.setIndeterminate(true);
-									}
-								});
-							}
-
-							@Override
-							protected void onDownloadStarted() {
-							}
-
-							@Override
-							protected void onFailure(final @CacheRequest.RequestFailureType int type, Throwable t, Integer status, final String readableMessage) {
-
-								final RRError error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
-
-								AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
-									@Override
-									public void run() {
-										// TODO handle properly
-										mRequest = null;
-										final LinearLayout layout = new LinearLayout(context);
-										final ErrorView errorView = new ErrorView(ImageViewActivity.this, error);
-										layout.addView(errorView);
-										errorView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-										setMainView(layout);
-									}
-								});
-							}
-
-							@Override
-							protected void onProgress(final boolean authorizationInProgress, final long bytesRead, final long totalBytes) {
-								AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
-									@Override
-									public void run() {
-										progressBar.setVisibility(View.VISIBLE);
-										progressBar.setIndeterminate(authorizationInProgress);
-										progressBar.setProgress(((float)((1000 * bytesRead) / totalBytes)) / 1000);
-									}
-								});
-							}
-
-							@Override
-							protected void onSuccess(
-									final CacheManager.ReadableCacheFile cacheFile,
-									long timestamp,
-									UUID session,
-									boolean fromCache,
-									final String mimetype) {
-
-								onImageLoaded(cacheFile, mimetype);
-							}
-						});
+				openImage(progressBar, uri);
 			}
 
 			@Override
@@ -329,7 +258,9 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 			ib.setPadding(buttonPadding, buttonPadding, buttonPadding, buttonPadding);
 			ib.setImageResource(R.drawable.ic_action_info_dark);
 
-			mFloatingToolbar.addView(ib);
+			if (mFloatingToolbar != null) {
+				mFloatingToolbar.addView(ib);
+			}
 
 			ib.setOnClickListener(new View.OnClickListener() {
 				@Override
@@ -368,11 +299,11 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 			outerFrame.addView(bezelOverlay);
 			outerFrame.addView(toolbarOverlay);
 
-			bezelOverlay.getLayoutParams().width = android.widget.FrameLayout.LayoutParams.MATCH_PARENT;
-			bezelOverlay.getLayoutParams().height = android.widget.FrameLayout.LayoutParams.MATCH_PARENT;
+			bezelOverlay.getLayoutParams().width = FrameLayout.LayoutParams.MATCH_PARENT;
+			bezelOverlay.getLayoutParams().height = FrameLayout.LayoutParams.MATCH_PARENT;
 
-			toolbarOverlay.getLayoutParams().width = android.widget.FrameLayout.LayoutParams.MATCH_PARENT;
-			toolbarOverlay.getLayoutParams().height = android.widget.FrameLayout.LayoutParams.MATCH_PARENT;
+			toolbarOverlay.getLayoutParams().width = FrameLayout.LayoutParams.MATCH_PARENT;
+			toolbarOverlay.getLayoutParams().height = FrameLayout.LayoutParams.MATCH_PARENT;
 
 		}
 
@@ -446,13 +377,8 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 					} else if(videoViewMode == PrefsUtility.VideoViewMode.EXTERNAL_BROWSER) {
 
-						AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
-							@Override
-							public void run() {
-								LinkHandler.openWebBrowser(ImageViewActivity.this, Uri.parse(mUrl), false);
-								finish();
-							}
-						});
+						openInExternalBrowser();
+						return;
 
 					} else if(videoViewMode == PrefsUtility.VideoViewMode.EXTERNAL_APP_VLC) {
 
@@ -860,4 +786,117 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 			mImageViewDisplayerManager.resetTouchState();
 		}
 	}
+
+	private void openImage(final DonutProgress progressBar, URI uri) {
+
+		final PrefsUtility.ImageViewMode imageViewMode = PrefsUtility.pref_behaviour_imageview_mode(
+				this,
+				PreferenceManager.getDefaultSharedPreferences(this));
+
+		final PrefsUtility.VideoViewMode videoViewMode = PrefsUtility.pref_behaviour_videoview_mode(
+				this,
+				PreferenceManager.getDefaultSharedPreferences(this));
+
+		final PrefsUtility.GifViewMode gifViewMode = PrefsUtility.pref_behaviour_gifview_mode(
+				this,
+				PreferenceManager.getDefaultSharedPreferences(this));
+
+
+		if (mImageInfo.mediaType != null) {
+			if (mImageInfo.mediaType == ImageInfo.MediaType.IMAGE && imageViewMode == PrefsUtility.ImageViewMode.EXTERNAL_BROWSER)
+				openInExternalBrowser();
+
+			else if (mImageInfo.mediaType == ImageInfo.MediaType.GIF && gifViewMode == PrefsUtility.GifViewMode.EXTERNAL_BROWSER)
+				openInExternalBrowser();
+
+			else if (mImageInfo.mediaType == ImageInfo.MediaType.VIDEO && videoViewMode == PrefsUtility.VideoViewMode.EXTERNAL_BROWSER)
+				openInExternalBrowser();
+			else
+				makeCacheRequest(progressBar, uri);
+		} else {
+			makeCacheRequest(progressBar, uri);
+		}
+	}
+
+
+	private void makeCacheRequest(final DonutProgress progressBar, URI uri) {
+		CacheManager.getInstance(this).makeRequest(
+				mRequest = new CacheRequest(
+						uri,
+						RedditAccountManager.getAnon(),
+						null,
+						Constants.Priority.IMAGE_VIEW,
+						0,
+						DownloadStrategyIfNotCached.INSTANCE,
+						Constants.FileType.IMAGE,
+						CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
+						false,
+						false,
+						this) {
+
+					@Override
+					protected void onCallbackException(Throwable t) {
+						BugReportActivity.handleGlobalError(context.getApplicationContext(), new RRError(null, null, t));
+					}
+
+					@Override
+					protected void onDownloadNecessary() {
+						AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+							@Override
+							public void run() {
+								progressBar.setVisibility(View.VISIBLE);
+								progressBar.setIndeterminate(true);
+							}
+						});
+					}
+
+					@Override
+					protected void onDownloadStarted() {
+					}
+
+					@Override
+					protected void onFailure(final @RequestFailureType int type, Throwable t, Integer status, final String readableMessage) {
+
+						final RRError error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
+
+						AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+							@Override
+							public void run() {
+								// TODO handle properly
+								mRequest = null;
+								final LinearLayout layout = new LinearLayout(context);
+								final ErrorView errorView = new ErrorView(ImageViewActivity.this, error);
+								layout.addView(errorView);
+								errorView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+								setMainView(layout);
+							}
+						});
+					}
+
+					@Override
+					protected void onProgress(final boolean authorizationInProgress, final long bytesRead, final long totalBytes) {
+						AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+							@Override
+							public void run() {
+								progressBar.setVisibility(View.VISIBLE);
+								progressBar.setIndeterminate(authorizationInProgress);
+								progressBar.setProgress(((float) ((1000 * bytesRead) / totalBytes)) / 1000);
+							}
+						});
+					}
+
+					@Override
+					protected void onSuccess(
+							final CacheManager.ReadableCacheFile cacheFile,
+							long timestamp,
+							UUID session,
+							boolean fromCache,
+							final String mimetype) {
+
+						onImageLoaded(cacheFile, mimetype);
+					}
+				});
+	}
 }
+
+

@@ -18,12 +18,10 @@
 package org.quantumbadger.redreader.views.imageview;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.quantumbadger.redreader.common.MutableFloatPoint2D;

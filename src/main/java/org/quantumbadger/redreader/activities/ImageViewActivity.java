@@ -28,33 +28,21 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.*;
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached;
-import org.quantumbadger.redreader.common.AndroidApi;
-import org.quantumbadger.redreader.common.Constants;
-import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.common.LinkHandler;
-import org.quantumbadger.redreader.common.PrefsUtility;
-import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.fragments.ImageInfoDialog;
-import org.quantumbadger.redreader.image.GetAlbumInfoListener;
-import org.quantumbadger.redreader.image.GetImageInfoListener;
-import org.quantumbadger.redreader.image.GifDecoderThread;
-import org.quantumbadger.redreader.image.ImageInfo;
-import org.quantumbadger.redreader.image.ImgurAPI;
+import org.quantumbadger.redreader.image.*;
 import org.quantumbadger.redreader.reddit.prepared.RedditParsedPost;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
@@ -81,6 +69,8 @@ import java.util.UUID;
 public class ImageViewActivity extends BaseActivity implements RedditPostView.PostSelectionListener, ImageViewDisplayListManager.Listener {
 
 	private static final String TAG = "ImageViewActivity";
+
+	private TextView mProgressText;
 
 	private GLSurfaceView surfaceView;
 	private ImageView imageView;
@@ -180,12 +170,30 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 		progressBar.setStartingDegree(-90);
 		progressBar.initPainters();
 
-		final RelativeLayout progressLayout = new RelativeLayout(this);
-		progressLayout.addView(progressBar);
+		final LinearLayout progressTextLayout = new LinearLayout(this);
+		progressTextLayout.setOrientation(LinearLayout.VERTICAL);
+		progressTextLayout.setGravity(Gravity.CENTER_HORIZONTAL);
+
+		progressTextLayout.addView(progressBar);
 		final int progressDimensionsPx = General.dpToPixels(this, 150);
 		progressBar.getLayoutParams().width = progressDimensionsPx;
 		progressBar.getLayoutParams().height = progressDimensionsPx;
-		((RelativeLayout.LayoutParams)progressBar.getLayoutParams()).addRule(RelativeLayout.CENTER_IN_PARENT);
+
+		mProgressText = new TextView(this);
+		mProgressText.setText(R.string.download_loading);
+		mProgressText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+		mProgressText.setGravity(Gravity.CENTER_HORIZONTAL);
+		progressTextLayout.addView(mProgressText);
+		mProgressText.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+		mProgressText.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+		((ViewGroup.MarginLayoutParams)mProgressText.getLayoutParams()).topMargin
+				= General.dpToPixels(this, 10);
+
+		final RelativeLayout progressLayout = new RelativeLayout(this);
+		progressLayout.addView(progressTextLayout);
+		((RelativeLayout.LayoutParams) progressTextLayout.getLayoutParams()).addRule(RelativeLayout.CENTER_IN_PARENT);
+		progressTextLayout.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+		progressTextLayout.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
 
 		mLayout = new FrameLayout(this);
 		mLayout.addView(progressLayout);
@@ -245,6 +253,8 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 		final FrameLayout outerFrame = new FrameLayout(this);
 		outerFrame.addView(mLayout);
+		mLayout.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+		mLayout.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
 
 		if(PrefsUtility.pref_appearance_image_viewer_show_floating_toolbar(
 				this,
@@ -861,6 +871,8 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 						false,
 						this) {
 
+					private boolean mProgressTextSet = false;
+
 					@Override
 					protected void onCallbackException(Throwable t) {
 						BugReportActivity.handleGlobalError(context.getApplicationContext(), new RRError(null, null, t));
@@ -908,6 +920,11 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 								progressBar.setVisibility(View.VISIBLE);
 								progressBar.setIndeterminate(authorizationInProgress);
 								progressBar.setProgress(((float) ((1000 * bytesRead) / totalBytes)) / 1000);
+
+								if(!mProgressTextSet) {
+									mProgressText.setText(General.bytesToMegabytes(totalBytes));
+									mProgressTextSet = true;
+								}
 							}
 						});
 					}

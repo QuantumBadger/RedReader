@@ -174,6 +174,13 @@ public final class General {
 		}
 	}
 
+	public static String bytesToMegabytes(final long input) {
+		final long totalKilobytes = input / 1024;
+		final long totalMegabytes = totalKilobytes / 1024;
+		final long remainder = totalKilobytes % 1024;
+		return String.format(Locale.US, "%d.%02d MB", totalMegabytes, (remainder / 10));
+	}
+
 	public static int dpToPixels(final Context context, final float dp) {
 		return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics()));
 	}

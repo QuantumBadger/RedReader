@@ -12,6 +12,7 @@ Various codebase improvements (thanks to Daniel Martí)
 Removed unnecessary image download when opening in external browser (thanks to m3sv)
 Improved precaching behaviour
 Improved Dutch translation (thanks to Beleg-Cuthalion)
+Show download size when loading images
 
 76/1.9.6.1
 Removed all CAPTCHAs as they are no longer needed

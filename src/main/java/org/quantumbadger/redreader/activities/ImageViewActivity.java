@@ -376,9 +376,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 						revertToWeb();
 
 					} else if(videoViewMode == PrefsUtility.VideoViewMode.EXTERNAL_BROWSER) {
-
 						openInExternalBrowser();
-						return;
 
 					} else if(videoViewMode == PrefsUtility.VideoViewMode.EXTERNAL_APP_VLC) {
 
@@ -618,7 +616,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 	private void revertToWeb() {
 
-		Log.i(TAG, "Reverting to internal browser");
+		Log.i(TAG, "Using internal browser");
 
 		final Runnable r = new Runnable() {
 			@Override
@@ -639,6 +637,8 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 	}
 
 	private void openInExternalBrowser() {
+
+		Log.i(TAG, "Using external browser");
 
 		final Runnable r = new Runnable() {
 			@Override
@@ -789,33 +789,60 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 	private void openImage(final DonutProgress progressBar, URI uri) {
 
-		final PrefsUtility.ImageViewMode imageViewMode = PrefsUtility.pref_behaviour_imageview_mode(
-				this,
-				PreferenceManager.getDefaultSharedPreferences(this));
+		if(mImageInfo.mediaType != null) {
 
-		final PrefsUtility.VideoViewMode videoViewMode = PrefsUtility.pref_behaviour_videoview_mode(
-				this,
-				PreferenceManager.getDefaultSharedPreferences(this));
+			Log.i(TAG, "Media type " + mImageInfo.mediaType + " detected");
 
-		final PrefsUtility.GifViewMode gifViewMode = PrefsUtility.pref_behaviour_gifview_mode(
-				this,
-				PreferenceManager.getDefaultSharedPreferences(this));
+			if(mImageInfo.mediaType == ImageInfo.MediaType.IMAGE) {
 
+				final PrefsUtility.ImageViewMode imageViewMode = PrefsUtility.pref_behaviour_imageview_mode(
+						this,
+						PreferenceManager.getDefaultSharedPreferences(this));
 
-		if (mImageInfo.mediaType != null) {
-			if (mImageInfo.mediaType == ImageInfo.MediaType.IMAGE && imageViewMode == PrefsUtility.ImageViewMode.EXTERNAL_BROWSER)
-				openInExternalBrowser();
+				if(imageViewMode == PrefsUtility.ImageViewMode.EXTERNAL_BROWSER) {
+					openInExternalBrowser();
+					return;
 
-			else if (mImageInfo.mediaType == ImageInfo.MediaType.GIF && gifViewMode == PrefsUtility.GifViewMode.EXTERNAL_BROWSER)
-				openInExternalBrowser();
+				} else if(imageViewMode == PrefsUtility.ImageViewMode.INTERNAL_BROWSER) {
+					revertToWeb();
+					return;
 
-			else if (mImageInfo.mediaType == ImageInfo.MediaType.VIDEO && videoViewMode == PrefsUtility.VideoViewMode.EXTERNAL_BROWSER)
-				openInExternalBrowser();
-			else
-				makeCacheRequest(progressBar, uri);
-		} else {
-			makeCacheRequest(progressBar, uri);
+				}
+
+			} else if(mImageInfo.mediaType == ImageInfo.MediaType.GIF) {
+
+				final PrefsUtility.GifViewMode gifViewMode = PrefsUtility.pref_behaviour_gifview_mode(
+						this,
+						PreferenceManager.getDefaultSharedPreferences(this));
+
+				if(gifViewMode == PrefsUtility.GifViewMode.EXTERNAL_BROWSER) {
+					openInExternalBrowser();
+					return;
+
+				} else if(gifViewMode == PrefsUtility.GifViewMode.INTERNAL_BROWSER) {
+					revertToWeb();
+					return;
+				}
+
+			} else if(mImageInfo.mediaType == ImageInfo.MediaType.VIDEO) {
+
+				final PrefsUtility.VideoViewMode videoViewMode = PrefsUtility.pref_behaviour_videoview_mode(
+						this,
+						PreferenceManager.getDefaultSharedPreferences(this));
+
+				if(videoViewMode == PrefsUtility.VideoViewMode.EXTERNAL_BROWSER) {
+					openInExternalBrowser();
+					return;
+
+				} else if(videoViewMode == PrefsUtility.VideoViewMode.INTERNAL_BROWSER) {
+					revertToWeb();
+					return;
+				}
+			}
 		}
+
+		Log.i(TAG, "Proceeding with download");
+		makeCacheRequest(progressBar, uri);
 	}
 
 

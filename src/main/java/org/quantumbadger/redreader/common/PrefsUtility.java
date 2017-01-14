@@ -348,9 +348,16 @@ public final class PrefsUtility {
 	// pref_behaviour_imageview_mode
 
 	public enum ImageViewMode {
-		INTERNAL_OPENGL,
-		INTERNAL_BROWSER,
-		EXTERNAL_BROWSER
+		INTERNAL_OPENGL(true),
+		INTERNAL_BROWSER(false),
+		EXTERNAL_BROWSER(false);
+
+		public final boolean downloadInApp;
+
+		ImageViewMode(final boolean downloadInApp)
+		{
+			this.downloadInApp = downloadInApp;
+		}
 	}
 
 	public static ImageViewMode pref_behaviour_imageview_mode(final Context context, final SharedPreferences sharedPreferences) {
@@ -372,10 +379,17 @@ public final class PrefsUtility {
 	// pref_behaviour_gifview_mode
 
 	public enum GifViewMode {
-		INTERNAL_MOVIE,
-		INTERNAL_LEGACY,
-		INTERNAL_BROWSER,
-		EXTERNAL_BROWSER
+		INTERNAL_MOVIE(true),
+		INTERNAL_LEGACY(true),
+		INTERNAL_BROWSER(false),
+		EXTERNAL_BROWSER(false);
+
+		public final boolean downloadInApp;
+
+		GifViewMode(final boolean downloadInApp)
+		{
+			this.downloadInApp = downloadInApp;
+		}
 	}
 
 	public static GifViewMode pref_behaviour_gifview_mode(final Context context, final SharedPreferences sharedPreferences) {
@@ -385,10 +399,17 @@ public final class PrefsUtility {
 	// pref_behaviour_videoview_mode
 
 	public enum VideoViewMode {
-		INTERNAL_VIDEOVIEW,
-		INTERNAL_BROWSER,
-		EXTERNAL_BROWSER,
-		EXTERNAL_APP_VLC
+		INTERNAL_VIDEOVIEW(true),
+		INTERNAL_BROWSER(false),
+		EXTERNAL_BROWSER(false),
+		EXTERNAL_APP_VLC(true);
+
+		public final boolean downloadInApp;
+
+		VideoViewMode(final boolean downloadInApp)
+		{
+			this.downloadInApp = downloadInApp;
+		}
 	}
 
 	public static VideoViewMode pref_behaviour_videoview_mode(final Context context, final SharedPreferences sharedPreferences) {

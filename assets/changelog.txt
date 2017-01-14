@@ -10,6 +10,7 @@ Fix for saving images with no file extension (thanks to Luís Coelho)
 Hungarian translation (thanks to András Lengyel-Nagy)
 Various codebase improvements (thanks to Daniel Martí)
 Removed unnecessary image download when opening in external browser (thanks to m3sv)
+Improved precaching behaviour
 
 76/1.9.6.1
 Removed all CAPTCHAs as they are no longer needed

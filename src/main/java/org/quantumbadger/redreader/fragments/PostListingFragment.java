@@ -630,13 +630,6 @@ public class PostListingFragment extends RRFragment
 				final PrefsUtility.VideoViewMode videoViewMode
 						= PrefsUtility.pref_behaviour_videoview_mode(activity, mSharedPreferences);
 
-				final boolean imagesOpenedInternally = (imageViewMode == PrefsUtility.ImageViewMode.INTERNAL_OPENGL);
-
-				final boolean gifsOpenedInternally
-						= (gifViewMode == PrefsUtility.GifViewMode.INTERNAL_MOVIE
-								|| gifViewMode == PrefsUtility.GifViewMode.INTERNAL_LEGACY
-								|| videoViewMode == PrefsUtility.VideoViewMode.INTERNAL_VIDEOVIEW);
-
 				final boolean isAll =
 						mPostListingURL.pathType() == RedditURLParser.SUBREDDIT_POST_LISTING_URL
 						&& (mPostListingURL.asSubredditPostListURL().type == SubredditPostListURL.Type.ALL
@@ -741,35 +734,37 @@ public class PostListingFragment extends RRFragment
 								if(!precacheImages) return;
 
 								// Don't precache huge images
-								if(info.width != null && info.width > 2500) {
-									Log.i(TAG, String.format(
-											"Not precaching '%s': too wide (%d px)", post.url, info.width));
-									return;
-								}
-
-								if(info.height != null && info.height > 2500) {
-									Log.i(TAG, String.format(
-											"Not precaching '%s': too tall (%d px)", post.url, info.height));
-									return;
-								}
-
-								if(info.size != null && info.size > 10 * 1024 * 1024) {
+								if(info.size != null && info.size > 15 * 1024 * 1024) {
 									Log.i(TAG, String.format(
 											"Not precaching '%s': too big (%d kB)", post.url, info.size / 1024));
 									return;
 								}
 
 								// Don't precache gifs if they're opened externally
-								if(Boolean.TRUE.equals(info.isAnimated) && !gifsOpenedInternally) {
+								if(ImageInfo.MediaType.GIF.equals(info.mediaType)
+										&& !gifViewMode.downloadInApp) {
+
 									Log.i(TAG, String.format(
 											"Not precaching '%s': GIFs are opened externally", post.url));
 									return;
 								}
 
 								// Don't precache images if they're opened externally
-								if(!Boolean.TRUE.equals(info.isAnimated) && !imagesOpenedInternally) {
+								if(ImageInfo.MediaType.IMAGE.equals(info.mediaType)
+										&& !imageViewMode.downloadInApp) {
+
 									Log.i(TAG, String.format(
 											"Not precaching '%s': images are opened externally", post.url));
+									return;
+								}
+
+
+								// Don't precache videos if they're opened externally
+								if(ImageInfo.MediaType.VIDEO.equals(info.mediaType)
+										&& !videoViewMode.downloadInApp) {
+
+									Log.i(TAG, String.format(
+											"Not precaching '%s': videos are opened externally", post.url));
 									return;
 								}
 

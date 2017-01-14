@@ -113,7 +113,14 @@ public final class PrefsUtility {
 	}
 
 	public static boolean isNightMode(final Context context) {
-		return appearance_theme(context, PreferenceManager.getDefaultSharedPreferences(context)) == AppearanceTheme.NIGHT;
+
+		final AppearanceTheme theme = appearance_theme(
+				context,
+				PreferenceManager.getDefaultSharedPreferences(context));
+
+		return theme == AppearanceTheme.NIGHT
+				|| theme == AppearanceTheme.NIGHT_LOWCONTRAST
+				|| theme == AppearanceTheme.ULTRABLACK;
 	}
 
 	public static AppearanceTheme appearance_theme(final Context context, final SharedPreferences sharedPreferences) {

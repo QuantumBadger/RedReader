@@ -126,10 +126,7 @@ public class ImageViewDisplayListManager implements
 			}
 		}
 
-		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-		final PrefsUtility.AppearanceTheme theme = PrefsUtility.appearance_theme(context, prefs);
-
-		if(theme == PrefsUtility.AppearanceTheme.NIGHT) {
+		if(PrefsUtility.isNightMode(context)) {
 			mLoadingCheckerboardDarkCol = Color.rgb(70, 70, 70);
 			mLoadingCheckerboardLightCol = Color.rgb(110, 110, 110);
 

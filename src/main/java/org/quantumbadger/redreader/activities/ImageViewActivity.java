@@ -181,7 +181,8 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 		mProgressText = new TextView(this);
 		mProgressText.setText(R.string.download_loading);
-		mProgressText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+		mProgressText.setAllCaps(true);
+		mProgressText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 		mProgressText.setGravity(Gravity.CENTER_HORIZONTAL);
 		progressTextLayout.addView(mProgressText);
 		mProgressText.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;

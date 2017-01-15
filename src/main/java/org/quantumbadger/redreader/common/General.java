@@ -286,10 +286,24 @@ public final class General {
 					switch (status) {
 						case 400:
 						case 401:
-						case 403:
-							title = R.string.error_403_title;
-							message = R.string.error_403_message;
+						case 403: {
+							final URI uri = General.uriFromString(url);
+							final boolean isRedditRequest
+									= uri != null
+											&& uri.getHost() != null
+											&& ("reddit.com".equalsIgnoreCase(uri.getHost())
+													|| uri.getHost().endsWith(".reddit.com"));
+
+							if(isRedditRequest) {
+								title = R.string.error_403_title;
+								message = R.string.error_403_message;
+							} else {
+								title = R.string.error_403_title_nonreddit;
+								message = R.string.error_403_message_nonreddit;
+							}
+
 							break;
+						}
 						case 404:
 							title = R.string.error_404_title;
 							message = R.string.error_404_message;

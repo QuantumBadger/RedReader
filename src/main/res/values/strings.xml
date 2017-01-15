@@ -948,4 +948,8 @@
 	<!-- 2016-12-11 -->
 	<string name="action_share_image">Share Image</string>
 
+	<!-- 2017-01-15 -->
+	<string name="error_403_title_nonreddit">Permission Denied</string>
+	<string name="error_403_message_nonreddit">The server responded with a permission denied error.</string>
+
 </resources>

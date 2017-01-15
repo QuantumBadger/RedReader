@@ -723,7 +723,7 @@ public class PostListingFragment extends RRFragment
 							});
 						}
 
-						LinkHandler.getImageInfo(activity, post.url, Constants.Priority.IMAGE_PRECACHE, positionInList, new GetImageInfoListener() {
+						LinkHandler.getImageInfo(activity, parsedPost.getUrl(), Constants.Priority.IMAGE_PRECACHE, positionInList, new GetImageInfoListener() {
 
 							@Override public void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {}
 							@Override public void onNotAnImage() {}
@@ -769,7 +769,11 @@ public class PostListingFragment extends RRFragment
 								}
 
 								final URI uri = General.uriFromString(info.urlOriginal);
-								if(uri == null) return;
+								if(uri == null) {
+									Log.i(TAG, String.format(
+											"Not precaching '%s': failed to parse URL", post.url));
+									return;
+								}
 
 								CacheManager.getInstance(activity).makeRequest(new CacheRequest(
 										uri,
@@ -789,7 +793,14 @@ public class PostListingFragment extends RRFragment
 									@Override protected void onDownloadStarted() {}
 
 									@Override protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
-										Log.e(TAG, "Failed to precache " + info.urlOriginal + "(RequestFailureType code: " + type + ")");
+
+										Log.e(TAG, String.format(
+												Locale.US,
+												"Failed to precache %s (RequestFailureType %d, status %s, readable '%s')",
+														info.urlOriginal,
+														type,
+														status == null ? "NULL" : status.toString(),
+														readableMessage == null ? "NULL" : readableMessage));
 									}
 									@Override protected void onProgress(final boolean authorizationInProgress, final long bytesRead, final long totalBytes) {}
 

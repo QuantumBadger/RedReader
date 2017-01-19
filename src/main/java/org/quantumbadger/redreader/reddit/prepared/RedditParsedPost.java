@@ -107,6 +107,10 @@ public class RedditParsedPost implements RedditThingWithIdAndType {
 		return mSrc.selftext;
 	}
 
+	public boolean isSpoiler() {
+		return Boolean.TRUE.equals(mSrc.spoiler);
+	}
+
 	public String getUnescapedSelfText() {
 		return StringEscapeUtils.unescapeHtml4(mSrc.selftext);
 	}

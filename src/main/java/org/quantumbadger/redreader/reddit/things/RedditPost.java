@@ -29,6 +29,7 @@ public final class RedditPost implements Parcelable, RedditThingWithIdAndType {
 	public boolean archived, over_18, hidden, saved, is_self, clicked, stickied;
 	public Object edited;
 	public Boolean likes;
+	public Boolean spoiler;
 
 	public long created, created_utc;
 
@@ -79,6 +80,18 @@ public final class RedditPost implements Parcelable, RedditThingWithIdAndType {
 		link_flair_text = in.readString();
 		author_flair_text = in.readString();
 		thumbnail = in.readString();
+
+		switch(in.readInt()) {
+			case -1:
+				spoiler = false;
+				break;
+			case 0:
+				spoiler = null;
+				break;
+			case 1:
+				spoiler = true;
+				break;
+		}
 	}
 
 	public int describeContents() {
@@ -126,6 +139,12 @@ public final class RedditPost implements Parcelable, RedditThingWithIdAndType {
 		parcel.writeString(link_flair_text);
 		parcel.writeString(author_flair_text);
 		parcel.writeString(thumbnail);
+
+		if(spoiler == null) {
+			parcel.writeInt(0);
+		} else {
+			parcel.writeInt(spoiler ? 1 : -1);
+		}
 	}
 
 	public static final Parcelable.Creator<RedditPost> CREATOR = new Parcelable.Creator<RedditPost>() {

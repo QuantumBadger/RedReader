@@ -767,6 +767,12 @@ public final class RedditPreparedPost {
 			pointsCol = boldCol;
 		}
 
+		if(src.isSpoiler()) {
+			postListDescSb.append(" SPOILER ", BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR | BetterSSB.BACKGROUND_COLOR,
+					Color.WHITE, Color.rgb(50, 50, 50), 1f);
+			postListDescSb.append("  ", 0);
+		}
+
 		if(src.isStickied()) {
 			postListDescSb.append(" STICKY ", BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR | BetterSSB.BACKGROUND_COLOR,
 					Color.WHITE, Color.rgb(0, 170, 0), 1f); // TODO color?
@@ -897,10 +903,6 @@ public final class RedditPreparedPost {
 
 	public boolean isRead() {
 		return mChangeDataManager.isRead(src);
-	}
-
-	public boolean isSticky() {
-		return src.isStickied();
 	}
 
 	public void bind(RedditPostView boundView) {

@@ -40,6 +40,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Toast;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BugReportActivity;
@@ -404,17 +405,21 @@ public final class General {
 		AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 			@Override
 			public void run() {
-				final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
-				alertBuilder.setNeutralButton(R.string.dialog_close, null);
-				alertBuilder.setNegativeButton(R.string.button_moredetail, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						ErrorPropertiesDialog.newInstance(error).show(context.getSupportFragmentManager(), "ErrorPropertiesDialog");
-					}
-				});
-				alertBuilder.setTitle(error.title);
-				alertBuilder.setMessage(error.message);
-				alertBuilder.create().show();
+				try {
+					final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
+					alertBuilder.setNeutralButton(R.string.dialog_close, null);
+					alertBuilder.setNegativeButton(R.string.button_moredetail, new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							ErrorPropertiesDialog.newInstance(error).show(context.getSupportFragmentManager(), "ErrorPropertiesDialog");
+						}
+					});
+					alertBuilder.setTitle(error.title);
+					alertBuilder.setMessage(error.message);
+					alertBuilder.create().show();
+				} catch(final WindowManager.BadTokenException e) {
+					Log.e("General", "Tried to show result dialog after activity closed", e);
+				}
 			}
 		});
 	}

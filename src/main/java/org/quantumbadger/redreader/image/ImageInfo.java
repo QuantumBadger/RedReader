@@ -247,6 +247,7 @@ public class ImageInfo implements Parcelable {
 			if(object.getString("mp4") != null) {
 				urlOriginal = object.getString("mp4");
 				mp4 = true;
+				size = object.getLong("mp4_size");
 			} else {
 				urlOriginal = object.getString("link");
 			}

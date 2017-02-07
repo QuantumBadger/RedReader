@@ -26,15 +26,19 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
@@ -305,6 +309,17 @@ public class MainActivity extends RefreshableActivity
 						RedditSubredditHistory.getSubredditsSorted().toArray(new String[] {}));
 
 				editText.setAdapter(autocompleteAdapter);
+				editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+					@Override
+					public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+						boolean handled = false;
+						if(actionId == EditorInfo.IME_ACTION_GO) {
+							openCustomLocation(typeReturnValues, destinationType, editText);
+							handled = true;
+						}
+						return handled;
+					}
+				});
 
 				alertBuilder.setView(root);
 
@@ -341,54 +356,7 @@ public class MainActivity extends RefreshableActivity
 				alertBuilder.setPositiveButton(R.string.dialog_go, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-
-						final String typeName = typeReturnValues[destinationType.getSelectedItemPosition()];
-
-						switch(typeName) {
-							case "subreddit": {
-
-								final String subredditInput = editText.getText().toString().trim().replace(" ", "");
-
-								try {
-									final String normalizedName = RedditSubreddit.stripRPrefix(subredditInput);
-									final RedditURLParser.RedditURL redditURL = SubredditPostListURL.getSubreddit(normalizedName);
-									if(redditURL == null || redditURL.pathType() != RedditURLParser.SUBREDDIT_POST_LISTING_URL) {
-										General.quickToast(MainActivity.this, R.string.mainmenu_custom_invalid_name);
-									} else {
-										onSelected(redditURL.asSubredditPostListURL());
-									}
-								} catch(RedditSubreddit.InvalidSubredditNameException e){
-									General.quickToast(MainActivity.this, R.string.mainmenu_custom_invalid_name);
-								}
-								break;
-							}
-
-							case "user":
-
-								String userInput = editText.getText().toString().trim().replace(" ", "");
-
-								if(!userInput.startsWith("/u/")
-										&& !userInput.startsWith("/user/")) {
-
-									if(userInput.startsWith("u/")
-										|| userInput.startsWith("user/")) {
-
-										userInput = "/" + userInput;
-
-									} else {
-										userInput = "/u/" + userInput;
-									}
-								}
-
-								LinkHandler.onLinkClicked(MainActivity.this, userInput);
-
-								break;
-
-							case "url": {
-								LinkHandler.onLinkClicked(MainActivity.this, editText.getText().toString().trim());
-								break;
-							}
-						}
+						openCustomLocation(typeReturnValues, destinationType, editText);
 					}
 				});
 
@@ -412,6 +380,57 @@ public class MainActivity extends RefreshableActivity
 				break;
 			}
 		}
+	}
+
+	private void openCustomLocation(String[] typeReturnValues, Spinner destinationType, AutoCompleteTextView editText) {
+
+		final String typeName = typeReturnValues[destinationType.getSelectedItemPosition()];
+
+		switch(typeName) {
+            case "subreddit": {
+
+                final String subredditInput = editText.getText().toString().trim().replace(" ", "");
+
+                try {
+                    final String normalizedName = RedditSubreddit.stripRPrefix(subredditInput);
+                    final RedditURLParser.RedditURL redditURL = SubredditPostListURL.getSubreddit(normalizedName);
+                    if(redditURL == null || redditURL.pathType() != RedditURLParser.SUBREDDIT_POST_LISTING_URL) {
+                        General.quickToast(this, R.string.mainmenu_custom_invalid_name);
+                    } else {
+                        onSelected(redditURL.asSubredditPostListURL());
+                    }
+                } catch(RedditSubreddit.InvalidSubredditNameException e){
+                    General.quickToast(this, R.string.mainmenu_custom_invalid_name);
+                }
+                break;
+            }
+
+            case "user":
+
+                String userInput = editText.getText().toString().trim().replace(" ", "");
+
+                if(!userInput.startsWith("/u/")
+                        && !userInput.startsWith("/user/")) {
+
+                    if(userInput.startsWith("u/")
+                        || userInput.startsWith("user/")) {
+
+                        userInput = "/" + userInput;
+
+                    } else {
+                        userInput = "/u/" + userInput;
+                    }
+                }
+
+                LinkHandler.onLinkClicked(this, userInput);
+
+                break;
+
+            case "url": {
+                LinkHandler.onLinkClicked(this, editText.getText().toString().trim());
+                break;
+            }
+        }
 	}
 
 	public void onSelected(final PostListingURL url) {

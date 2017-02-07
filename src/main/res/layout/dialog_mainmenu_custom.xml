@@ -41,6 +41,7 @@
 			android:layout_marginRight="16dp"
 			android:layout_marginTop="16dp"
 			android:inputType="textNoSuggestions"
+			android:imeOptions="actionGo"
 			android:completionThreshold="1">
 
 		<requestFocus/>

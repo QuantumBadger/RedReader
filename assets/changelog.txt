@@ -1,3 +1,6 @@
+78/1.9.8
+Support keyboard Go-action in custom location dialog (thanks to gaudecker)
+
 77/1.9.7
 Support for new post spoiler tag
 Added low-contrast night theme

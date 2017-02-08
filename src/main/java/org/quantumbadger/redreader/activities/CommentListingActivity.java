@@ -133,6 +133,7 @@ public class CommentListingActivity extends RefreshableActivity
 				true,
 				false,
 				false,
+				false,
 				controller.isSortable(),
 				null,
 				false,

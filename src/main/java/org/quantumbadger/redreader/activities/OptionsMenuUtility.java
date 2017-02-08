@@ -71,7 +71,7 @@ public final class OptionsMenuUtility {
 	public static <E extends BaseActivity & OptionsMenuListener> void prepare(
 			final E activity, final Menu menu,
 			final boolean subredditsVisible, final boolean postsVisible, final boolean commentsVisible,
-			final boolean areSearchResults,
+			final boolean areSearchResults, final boolean isUserPostListing,
 			final boolean postsSortable, final boolean commentsSortable,
 			final RedditSubredditSubscriptionManager.SubredditSubscriptionState subredditSubscriptionState,
 			final boolean subredditHasSidebar,
@@ -89,8 +89,10 @@ public final class OptionsMenuUtility {
 			if(postsSortable) {
 				if (areSearchResults)
 					addAllSearchSorts(activity, menu, true);
+				else if(isUserPostListing)
+					addAllPostSorts(activity, menu, true, false);
 				else
-					addAllPostSorts(activity, menu, true);
+					addAllPostSorts(activity, menu, true, true);
 			}
 			add(activity, menu, Option.REFRESH_POSTS, false);
 			if(optionsMenuItemsPrefs.contains(OptionsMenuItemsPref.PAST)) add(activity, menu, Option.PAST_POSTS, false);
@@ -139,7 +141,7 @@ public final class OptionsMenuUtility {
 					if (areSearchResults)
 						addAllSearchSorts(activity, sortMenu, false);
 					else
-						addAllPostSorts(activity, sortMenu, false);
+						addAllPostSorts(activity, sortMenu, false, true);
 				}
 				if(commentsSortable) addAllCommentSorts(activity, sortMenu, false);
 
@@ -157,7 +159,7 @@ public final class OptionsMenuUtility {
 					if (areSearchResults)
 						addAllSearchSorts(activity, menu, true);
 					else
-						addAllPostSorts(activity, menu, true);
+						addAllPostSorts(activity, menu, true, true);
 				}
 				add(activity, menu, Option.PAST_POSTS, false);
 			}
@@ -476,7 +478,7 @@ public final class OptionsMenuUtility {
 		}
 	}
 
-	private static void addAllPostSorts(final AppCompatActivity activity, final Menu menu, final boolean icon) {
+	private static void addAllPostSorts(final AppCompatActivity activity, final Menu menu, final boolean icon, final boolean includeRising) {
 
 		final SubMenu sortPosts = menu.addSubMenu(R.string.options_sort_posts);
 
@@ -487,7 +489,8 @@ public final class OptionsMenuUtility {
 
 		addSort(activity, sortPosts, R.string.sort_posts_hot, PostSort.HOT);
 		addSort(activity, sortPosts, R.string.sort_posts_new, PostSort.NEW);
-		addSort(activity, sortPosts, R.string.sort_posts_rising, PostSort.RISING);
+		if(includeRising)
+			addSort(activity, sortPosts, R.string.sort_posts_rising, PostSort.RISING);
 		addSort(activity, sortPosts, R.string.sort_posts_controversial, PostSort.CONTROVERSIAL);
 
 		final SubMenu sortPostsTop = sortPosts.addSubMenu(R.string.sort_posts_top);

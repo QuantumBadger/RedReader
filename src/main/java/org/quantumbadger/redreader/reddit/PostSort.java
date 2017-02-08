@@ -75,6 +75,28 @@ public enum PostSort {
 		}
 	}
 
+	public void addToUserPostListingUri(@NonNull final Uri.Builder builder) {
+
+		switch(this) {
+			case HOT:
+			case NEW:
+			case CONTROVERSIAL:
+				builder.appendQueryParameter("sort", General.asciiLowercase(name()));
+				break;
+
+			case TOP_HOUR:
+			case TOP_DAY:
+			case TOP_WEEK:
+			case TOP_MONTH:
+			case TOP_YEAR:
+			case TOP_ALL:
+				final String parts[] = name().split("_");
+				builder.appendQueryParameter("sort", General.asciiLowercase(parts[0]));
+				builder.appendQueryParameter("t", General.asciiLowercase(parts[1]));
+				break;
+		}
+	}
+
 	public void addToSubredditListingUri(@NonNull final Uri.Builder builder) {
 
 		switch(this) {

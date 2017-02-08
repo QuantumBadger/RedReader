@@ -29,6 +29,7 @@ import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.url.PostListingURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 import org.quantumbadger.redreader.reddit.url.SubredditPostListURL;
+import org.quantumbadger.redreader.reddit.url.UserPostListingURL;
 
 import java.util.UUID;
 
@@ -52,12 +53,19 @@ public class PostListingController {
 			if(url.asSubredditPostListURL().order == null) {
 				url = url.asSubredditPostListURL().sort(defaultOrder(context));
 			}
+		} else if(url.pathType() == RedditURLParser.USER_POST_LISTING_URL) {
+			if(url.asUserPostListURL().order == null) {
+				url = url.asUserPostListURL().sort(PostSort.NEW);
+			}
 		}
 
 		this.url = url;
 	}
 
 	public boolean isSortable() {
+		if(url.pathType() == RedditURLParser.USER_POST_LISTING_URL) {
+			return (url.asUserPostListURL().type == UserPostListingURL.Type.SUBMITTED);
+		}
 		return (url.pathType() == RedditURLParser.SUBREDDIT_POST_LISTING_URL)
 				|| (url.pathType() == RedditURLParser.MULTIREDDIT_POST_LISTING_URL)
 				|| (url.pathType() == RedditURLParser.SEARCH_POST_LISTING_URL);
@@ -72,6 +80,9 @@ public class PostListingController {
 
 		} else if(url.pathType() == RedditURLParser.SEARCH_POST_LISTING_URL) {
 			url = url.asSearchPostListURL().sort(order);
+
+		} else if(url.pathType() == RedditURLParser.USER_POST_LISTING_URL) {
+			url = url.asUserPostListURL().sort(order);
 
 		} else {
 			throw new RuntimeException("Cannot set sort for this URL");
@@ -94,6 +105,10 @@ public class PostListingController {
 
 		if(url.pathType() == RedditURLParser.SEARCH_POST_LISTING_URL) {
 			return url.asSearchPostListURL().order;
+		}
+
+		if(url.pathType() == RedditURLParser.USER_POST_LISTING_URL) {
+			return url.asUserPostListURL().order;
 		}
 
 		return null;
@@ -119,6 +134,10 @@ public class PostListingController {
 
 	public final boolean isSubredditSearchResults() {
 		return isSearchResults() && url.asSearchPostListURL().subreddit != null;
+	}
+
+	public final boolean isUserPostListing() {
+		return url.pathType() == RedditURLParser.USER_POST_LISTING_URL;
 	}
 
 	public final String subredditCanonicalName() {

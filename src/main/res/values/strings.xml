@@ -952,4 +952,8 @@
 	<string name="error_403_title_nonreddit">Permission Denied</string>
 	<string name="error_403_message_nonreddit">The server responded with a permission denied error.</string>
 
+	<!-- 2017-02-12 -->
+	<string name="submit_pmreply_actionbar">Reply</string>
+	<string name="pm_reply_done">Reply sent.</string>
+
 </resources>

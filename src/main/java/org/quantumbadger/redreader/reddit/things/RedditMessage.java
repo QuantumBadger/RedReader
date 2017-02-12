@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.reddit.things;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
 public class RedditMessage {
@@ -25,4 +26,8 @@ public class RedditMessage {
 	public boolean _json_new, was_comment;
 	public JsonValue first_message, replies;
 	public long created, created_utc;
+
+	public String getUnescapedBodyMarkdown() {
+		return StringEscapeUtils.unescapeHtml4(body);
+	}
 }

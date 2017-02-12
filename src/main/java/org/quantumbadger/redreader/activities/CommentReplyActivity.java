@@ -47,12 +47,21 @@ import java.util.ArrayList;
 
 public class CommentReplyActivity extends BaseActivity {
 
+	private enum ParentType {
+		MESSAGE, COMMENT_OR_POST
+	}
+
 	private Spinner usernameSpinner;
 	private EditText textEdit;
 
 	private String parentIdAndType = null;
 
+	private ParentType mParentType;
+
 	private static String lastText, lastParentIdAndType;
+
+	public static final String PARENT_TYPE = "parentType";
+	public static final String PARENT_TYPE_MESSAGE = "parentTypeMessage";
 
 	public static final String PARENT_ID_AND_TYPE_KEY = "parentIdAndType";
 	public static final String PARENT_MARKDOWN_KEY = "parent_markdown";
@@ -67,7 +76,17 @@ public class CommentReplyActivity extends BaseActivity {
 
 		final Intent intent = getIntent();
 
-		setTitle(R.string.submit_comment_actionbar);
+		if(intent != null
+				&& intent.hasExtra(PARENT_TYPE)
+				&& intent.getStringExtra(PARENT_TYPE).equals(PARENT_TYPE_MESSAGE)) {
+
+			mParentType = ParentType.MESSAGE;
+			setTitle(R.string.submit_pmreply_actionbar);
+
+		} else {
+			mParentType = ParentType.COMMENT_OR_POST;
+			setTitle(R.string.submit_comment_actionbar);
+		}
 
 		final LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.comment_reply, null);
 
@@ -183,7 +202,13 @@ public class CommentReplyActivity extends BaseActivity {
 						@Override
 						public void run() {
 							if(progressDialog.isShowing()) progressDialog.dismiss();
-							General.quickToast(CommentReplyActivity.this, getString(R.string.comment_reply_done));
+
+							if(mParentType == ParentType.MESSAGE) {
+								General.quickToast(CommentReplyActivity.this, getString(R.string.pm_reply_done));
+							} else {
+								General.quickToast(CommentReplyActivity.this, getString(R.string.comment_reply_done));
+							}
+
 							lastText = null;
 							lastParentIdAndType = null;
 							finish();

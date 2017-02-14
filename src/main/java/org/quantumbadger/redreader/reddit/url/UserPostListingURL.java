@@ -22,6 +22,7 @@ import android.net.Uri;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.reddit.PostSort;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,33 +30,35 @@ import java.util.List;
 public class UserPostListingURL extends PostListingURL {
 
 	public static UserPostListingURL getSaved(String username) {
-		return new UserPostListingURL(Type.SAVED, username, null, null, null);
+		return new UserPostListingURL(Type.SAVED, username, null, null, null, null);
 	}
 
 	public static UserPostListingURL getHidden(String username) {
-		return new UserPostListingURL(Type.HIDDEN, username, null, null, null);
+		return new UserPostListingURL(Type.HIDDEN, username, null, null, null, null);
 	}
 
 	public static UserPostListingURL getLiked(String username) {
-		return new UserPostListingURL(Type.UPVOTED, username, null, null, null);
+		return new UserPostListingURL(Type.UPVOTED, username, null, null, null, null);
 	}
 
 	public static UserPostListingURL getDisliked(String username) {
-		return new UserPostListingURL(Type.DOWNVOTED, username, null, null, null);
+		return new UserPostListingURL(Type.DOWNVOTED, username, null, null, null, null);
 	}
 
 	public static UserPostListingURL getSubmitted(String username) {
-		return new UserPostListingURL(Type.SUBMITTED, username, null, null, null);
+		return new UserPostListingURL(Type.SUBMITTED, username, null, null, null, null);
 	}
 
 	public final Type type;
 	public final String user;
+	public final PostSort order;
 	public final Integer limit;
 	public final String before, after;
 
-	UserPostListingURL(Type type, String user, Integer limit, String before, String after) {
+	UserPostListingURL(Type type, String user, PostSort order, Integer limit, String before, String after) {
 		this.type = type;
 		this.user = user;
+		this.order = order == PostSort.RISING ? PostSort.NEW : order;
 		this.limit = limit;
 		this.before = before;
 		this.after = after;
@@ -67,12 +70,21 @@ public class UserPostListingURL extends PostListingURL {
 
 	@Override
 	public UserPostListingURL after(String newAfter) {
-		return new UserPostListingURL(type, user, limit, before, newAfter);
+		return new UserPostListingURL(type, user, order, limit, before, newAfter);
 	}
 
 	@Override
 	public UserPostListingURL limit(Integer newLimit) {
-		return new UserPostListingURL(type, user, newLimit, before, after);
+		return new UserPostListingURL(type, user, order, newLimit, before, after);
+	}
+
+	public UserPostListingURL sort(PostSort newOrder) {
+		return new UserPostListingURL(type, user, newOrder, limit, before, after);
+	}
+
+	@Override
+	public PostSort getOrder() {
+		return order;
 	}
 
 	public static UserPostListingURL parse(Uri uri) {
@@ -114,6 +126,13 @@ public class UserPostListingURL extends PostListingURL {
 			pathSegments = pathSegmentsFiltered.toArray(new String[pathSegmentsFiltered.size()]);
 		}
 
+		final PostSort order;
+		if(pathSegments.length > 0) {
+			order = PostSort.parse(uri.getQueryParameter("sort"), uri.getQueryParameter("t"));
+		} else {
+			order = null;
+		}
+
 		if(pathSegments.length < 3) {
 			return null;
 		}
@@ -133,7 +152,7 @@ public class UserPostListingURL extends PostListingURL {
 			return null;
 		}
 
-		return new UserPostListingURL(type, username, limit, before, after);
+		return new UserPostListingURL(type, username, order, limit, before, after);
 	}
 
 	@Override
@@ -145,6 +164,10 @@ public class UserPostListingURL extends PostListingURL {
 		builder.appendEncodedPath("user");
 		builder.appendPath(user);
 		builder.appendEncodedPath(General.asciiLowercase(type.name()));
+
+		if(order != null) {
+			order.addToUserPostListingUri(builder);
+		}
 
 		if(before != null) {
 			builder.appendQueryParameter("before", before);
@@ -166,6 +189,29 @@ public class UserPostListingURL extends PostListingURL {
 	@Override
 	public @RedditURLParser.PathType int pathType() {
 		return RedditURLParser.USER_POST_LISTING_URL;
+	}
+
+	@Override
+	public String humanReadablePath() {
+
+		String path = super.humanReadablePath();
+
+		if(order == null || type != Type.SUBMITTED) {
+			return path;
+		}
+
+		switch(order) {
+			case TOP_HOUR:
+			case TOP_DAY:
+			case TOP_WEEK:
+			case TOP_MONTH:
+			case TOP_YEAR:
+			case TOP_ALL:
+				return path + "?t=" + General.asciiLowercase(order.name().split("_")[1]);
+
+			default:
+				return path + "?sort=" + General.asciiLowercase(order.name());
+		}
 	}
 
 	@Override

@@ -669,6 +669,7 @@ public class MainActivity extends RefreshableActivity
 				postsVisible,
 				commentsVisible,
 				false,
+				false,
 				postsSortable,
 				commentsSortable,
 				subredditSubscriptionState,

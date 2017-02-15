@@ -264,6 +264,7 @@ public class PostListingFragment extends RRFragment
 					case ALL:
 					case SUBREDDIT_COMBINATION:
 					case ALL_SUBTRACTION:
+					case POPULAR:
 						setHeader(mPostListingURL.humanReadableName(getActivity(), true), mPostListingURL.humanReadableUrl());
 						CacheManager.getInstance(context).makeRequest(mRequest);
 						break;
@@ -630,10 +631,11 @@ public class PostListingFragment extends RRFragment
 				final PrefsUtility.VideoViewMode videoViewMode
 						= PrefsUtility.pref_behaviour_videoview_mode(activity, mSharedPreferences);
 
-				final boolean isAll =
+				final boolean subredditFilteringEnabled =
 						mPostListingURL.pathType() == RedditURLParser.SUBREDDIT_POST_LISTING_URL
 						&& (mPostListingURL.asSubredditPostListURL().type == SubredditPostListURL.Type.ALL
-								|| mPostListingURL.asSubredditPostListURL().type == SubredditPostListURL.Type.ALL_SUBTRACTION);
+								|| mPostListingURL.asSubredditPostListURL().type == SubredditPostListURL.Type.ALL_SUBTRACTION
+								|| mPostListingURL.asSubredditPostListURL().type == SubredditPostListURL.Type.POPULAR);
 
 				final List<String> blockedSubreddits = PrefsUtility.pref_blocked_subreddits(activity, mSharedPreferences); // Grab this so we don't have to pull from the prefs every post
 
@@ -659,7 +661,7 @@ public class PostListingFragment extends RRFragment
 
 					mAfter = post.name;
 
-					final boolean isPostBlocked = getIsPostBlocked(isAll, blockedSubreddits, post);
+					final boolean isPostBlocked = subredditFilteringEnabled && getIsPostBlocked(blockedSubreddits, post);
 
 					if(!isPostBlocked
 							&& (!post.over_18 || isNsfwAllowed)
@@ -843,15 +845,12 @@ public class PostListingFragment extends RRFragment
 	}
 
 	private boolean getIsPostBlocked(
-			final boolean isAll,
 			@NonNull final List<String> blockedSubreddits,
 			@NonNull final RedditPost post) throws RedditSubreddit.InvalidSubredditNameException {
 
-		if (isAll) {
-			for (String blockedSubredditName : blockedSubreddits) {
-				if (blockedSubredditName.equalsIgnoreCase(RedditSubreddit.getCanonicalName(post.subreddit))) {
-					return true;
-				}
+		for (String blockedSubredditName : blockedSubreddits) {
+			if (blockedSubredditName.equalsIgnoreCase(RedditSubreddit.getCanonicalName(post.subreddit))) {
+				return true;
 			}
 		}
 

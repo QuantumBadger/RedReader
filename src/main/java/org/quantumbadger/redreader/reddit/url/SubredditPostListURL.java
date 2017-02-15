@@ -51,7 +51,7 @@ public class SubredditPostListURL extends PostListingURL {
 	}
 
 	public enum Type {
-		FRONTPAGE, ALL, SUBREDDIT, SUBREDDIT_COMBINATION, ALL_SUBTRACTION
+		FRONTPAGE, ALL, SUBREDDIT, SUBREDDIT_COMBINATION, ALL_SUBTRACTION, POPULAR
 	}
 
 	public final Type type;
@@ -114,6 +114,10 @@ public class SubredditPostListURL extends PostListingURL {
 			case ALL_SUBTRACTION:
 				builder.encodedPath("/r/");
 				builder.appendPath(subreddit);
+				break;
+
+			case POPULAR:
+				builder.encodedPath("/r/popular");
 				break;
 		}
 
@@ -221,6 +225,10 @@ public class SubredditPostListURL extends PostListingURL {
 						return null;
 					}
 
+				} else if(subreddit.equals("popular")) {
+
+					return new SubredditPostListURL(Type.POPULAR, null, order, limit, before, after);
+
 				} else if(subreddit.matches("all(\\-[\\w\\.]+)+")) {
 
 					if(pathSegments.length == 2) {
@@ -300,6 +308,9 @@ public class SubredditPostListURL extends PostListingURL {
 
 			case ALL:
 				return context.getString(R.string.mainmenu_all);
+
+			case POPULAR:
+				return context.getString(R.string.mainmenu_popular);
 
 			case SUBREDDIT:
 				try {

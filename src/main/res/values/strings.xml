@@ -956,4 +956,7 @@
 	<string name="submit_pmreply_actionbar">Reply</string>
 	<string name="pm_reply_done">Reply sent.</string>
 
+	<!-- 2017-02-15 -->
+	<string name="mainmenu_popular">Popular Subreddits</string>
+
 </resources>

@@ -28,6 +28,7 @@ import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.reddit.url.CommentListingURL;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
+import org.quantumbadger.redreader.reddit.url.UserCommentListingURL;
 
 import java.util.UUID;
 
@@ -52,6 +53,10 @@ public class CommentListingController {
 			if(url.asPostCommentListURL().order == null) {
 				url = url.asPostCommentListURL().order(defaultOrder(context));
 			}
+		} else if(url.pathType() == RedditURLParser.USER_COMMENT_LISTING_URL) {
+			if(url.asUserCommentListURL().order == null) {
+				url = url.asUserCommentListURL().order(UserCommentListingURL.Sort.NEW);
+			}
 		}
 
 		if(!(url instanceof CommentListingURL)) {
@@ -68,6 +73,12 @@ public class CommentListingController {
 	public void setSort(final PostCommentListingURL.Sort s) {
 		if(mUrl.pathType() == RedditURLParser.POST_COMMENT_LISTING_URL) {
 			mUrl = mUrl.asPostCommentListURL().order(s);
+		}
+	}
+
+	public void setSort(final UserCommentListingURL.Sort s) {
+		if(mUrl.pathType() == RedditURLParser.USER_COMMENT_LISTING_URL) {
+			mUrl = mUrl.asUserCommentListURL().order(s);
 		}
 	}
 
@@ -108,6 +119,11 @@ public class CommentListingController {
 	}
 
 	public boolean isSortable() {
-		return mUrl.pathType() == RedditURLParser.POST_COMMENT_LISTING_URL;
+		return mUrl.pathType() == RedditURLParser.POST_COMMENT_LISTING_URL
+				|| mUrl.pathType() == RedditURLParser.USER_COMMENT_LISTING_URL;
+	}
+
+	public boolean isUserCommentListing() {
+		return mUrl.pathType() == RedditURLParser.USER_COMMENT_LISTING_URL;
 	}
 }

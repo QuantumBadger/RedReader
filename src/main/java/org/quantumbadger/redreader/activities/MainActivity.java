@@ -66,6 +66,7 @@ import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.reddit.url.PostListingURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 import org.quantumbadger.redreader.reddit.url.SubredditPostListURL;
+import org.quantumbadger.redreader.reddit.url.UserCommentListingURL;
 import org.quantumbadger.redreader.reddit.url.UserPostListingURL;
 import org.quantumbadger.redreader.reddit.url.UserProfileURL;
 import org.quantumbadger.redreader.views.RedditPostView;
@@ -670,7 +671,7 @@ public class MainActivity extends RefreshableActivity
 				commentsVisible,
 				false,
 				false,
-				postsSortable,
+				false, postsSortable,
 				commentsSortable,
 				subredditSubscriptionState,
 				postsVisible && subredditDescription != null && subredditDescription.length() > 0,
@@ -696,6 +697,11 @@ public class MainActivity extends RefreshableActivity
 	}
 
 	public void onSortSelected(final PostCommentListingURL.Sort order) {
+		commentListingController.setSort(order);
+		requestRefresh(RefreshableFragment.COMMENTS, false);
+	}
+
+	public void onSortSelected(final UserCommentListingURL.Sort order) {
 		commentListingController.setSort(order);
 		requestRefresh(RefreshableFragment.COMMENTS, false);
 	}

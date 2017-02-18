@@ -38,6 +38,7 @@ import org.quantumbadger.redreader.listingcontrollers.CommentListingController;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
+import org.quantumbadger.redreader.reddit.url.UserCommentListingURL;
 import org.quantumbadger.redreader.views.RedditPostView;
 
 import java.util.UUID;
@@ -133,6 +134,7 @@ public class CommentListingActivity extends RefreshableActivity
 				true,
 				false,
 				false,
+				controller.isUserCommentListing(),
 				false,
 				controller.isSortable(),
 				null,
@@ -175,6 +177,11 @@ public class CommentListingActivity extends RefreshableActivity
 	}
 
 	public void onSortSelected(final PostCommentListingURL.Sort order) {
+		controller.setSort(order);
+		requestRefresh(RefreshableFragment.COMMENTS, false);
+	}
+
+	public void onSortSelected(final UserCommentListingURL.Sort order) {
 		controller.setSort(order);
 		requestRefresh(RefreshableFragment.COMMENTS, false);
 	}

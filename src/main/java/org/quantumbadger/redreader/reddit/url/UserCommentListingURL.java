@@ -19,6 +19,9 @@ package org.quantumbadger.redreader.reddit.url;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
@@ -29,23 +32,29 @@ import java.util.List;
 public class UserCommentListingURL extends CommentListingURL {
 
 	public final String user;
+	public final Sort order;
 	public final Integer limit;
 	public final String after;
 
-	UserCommentListingURL(String user, Integer limit, String after) {
+	UserCommentListingURL(String user, Sort order, Integer limit, String after) {
 		this.user = user;
+		this.order = order;
 		this.limit = limit;
 		this.after = after;
 	}
 
 	@Override
 	public UserCommentListingURL after(String newAfter) {
-		return new UserCommentListingURL(user, limit, newAfter);
+		return new UserCommentListingURL(user, order, limit, newAfter);
 	}
 
 	@Override
 	public UserCommentListingURL limit(Integer newLimit) {
-		return new UserCommentListingURL(user, newLimit, after);
+		return new UserCommentListingURL(user, order, newLimit, after);
+	}
+
+	public UserCommentListingURL order(Sort newOrder) {
+		return new UserCommentListingURL(user, newOrder, limit, after);
 	}
 
 	public static UserCommentListingURL parse(Uri uri) {
@@ -67,6 +76,13 @@ public class UserCommentListingURL extends CommentListingURL {
 			}
 
 			pathSegments = pathSegmentsFiltered.toArray(new String[pathSegmentsFiltered.size()]);
+		}
+
+		final Sort order;
+		if(pathSegments.length > 0) {
+			order = Sort.parse(uri.getQueryParameter("sort"), uri.getQueryParameter("t"));
+		} else {
+			order = null;
 		}
 
 		if(pathSegments.length < 3) {
@@ -100,7 +116,7 @@ public class UserCommentListingURL extends CommentListingURL {
 			}
 		}
 
-		return new UserCommentListingURL(username, limit, after);
+		return new UserCommentListingURL(username, order, limit, after);
 	}
 
 	@Override
@@ -112,6 +128,10 @@ public class UserCommentListingURL extends CommentListingURL {
 		builder.appendEncodedPath("user");
 		builder.appendPath(user);
 		builder.appendEncodedPath("comments");
+
+		if(order != null) {
+			order.addToUserCommentListingUri(builder);
+		}
 
 		if(after != null) {
 			builder.appendQueryParameter("after", after);
@@ -140,6 +160,67 @@ public class UserCommentListingURL extends CommentListingURL {
 			return name;
 		} else {
 			return String.format("%s (%s)", name, user);
+		}
+	}
+
+	public enum Sort {
+		NEW, HOT, CONTROVERSIAL, TOP, TOP_HOUR, TOP_DAY, TOP_WEEK, TOP_MONTH, TOP_YEAR, TOP_ALL;
+
+		@Nullable
+		public static Sort parse(@Nullable String sort, @Nullable String t) {
+
+			if(sort == null) {
+				return null;
+			}
+
+			sort = General.asciiLowercase(sort);
+			t = t != null ? General.asciiLowercase(t) : null;
+
+			if(sort.equals("hot")) {
+				return HOT;
+
+			} else if(sort.equals("new")) {
+				return NEW;
+
+			} else if(sort.equals("controversial")) {
+				return CONTROVERSIAL;
+
+			} else if(sort.equals("top")) {
+
+				if(t == null)				return TOP_ALL;
+				else if(t.equals("all"))	return TOP_ALL;
+				else if(t.equals("hour"))	return TOP_HOUR;
+				else if(t.equals("day"))	return TOP_DAY;
+				else if(t.equals("week"))	return TOP_WEEK;
+				else if(t.equals("month"))	return TOP_MONTH;
+				else if(t.equals("year"))	return TOP_YEAR;
+				else						return TOP_ALL;
+
+			} else {
+				return null;
+			}
+		}
+
+		public void addToUserCommentListingUri(@NonNull final Uri.Builder builder) {
+
+			switch(this) {
+				case HOT:
+				case NEW:
+				case CONTROVERSIAL:
+					builder.appendQueryParameter("sort", General.asciiLowercase(name()));
+					break;
+
+				case TOP_HOUR:
+				case TOP_DAY:
+				case TOP_WEEK:
+				case TOP_MONTH:
+				case TOP_YEAR:
+				case TOP_ALL:
+					final String parts[] = name().split("_");
+					builder.appendQueryParameter("sort", General.asciiLowercase(parts[0]));
+					builder.appendQueryParameter("t", General.asciiLowercase(parts[1]));
+					break;
+			}
 		}
 	}
 }

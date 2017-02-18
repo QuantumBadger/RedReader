@@ -35,6 +35,7 @@ import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
+import org.quantumbadger.redreader.reddit.url.UserCommentListingURL;
 import org.quantumbadger.redreader.views.RedditPostView;
 
 import java.util.ArrayList;
@@ -97,7 +98,7 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 
 	@Override
 	public boolean onCreateOptionsMenu(final Menu menu) {
-		OptionsMenuUtility.prepare(this, menu, false, false, true, false, false, false, false, null, false, false, null, null);
+		OptionsMenuUtility.prepare(this, menu, false, false, true, false, false, false, false, false, null, false, false, null, null);
 
 		if(mFragment != null) {
 			mFragment.onCreateOptionsMenu(menu);
@@ -139,6 +140,9 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 
 	@Override
 	public void onSortSelected(final PostCommentListingURL.Sort order) {}
+
+	@Override
+	public void onSortSelected(final UserCommentListingURL.Sort order) {}
 
 	@Override
 	public void onSearchComments() {

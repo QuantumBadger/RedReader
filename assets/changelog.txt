@@ -1,5 +1,5 @@
 78/1.9.8
-Added post fling action preference for "go back"
+Added post/comment fling action preference for "go back"
 Private message replies are now part of the original conversion, rather than starting a new one
 Support keyboard Go-action in custom location dialog (thanks to gaudecker)
 Enable sorting for users' submitted posts/comments (thanks to gaudecker)

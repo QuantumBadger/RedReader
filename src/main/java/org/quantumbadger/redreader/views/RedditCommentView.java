@@ -184,6 +184,11 @@ public class RedditCommentView extends FlingableItemView implements RedditChange
 						RedditAPICommentAction.RedditCommentAction.PROPERTIES,
 						R.string.action_properties);
 
+			case BACK:
+				return new ActionDescriptionPair(
+						RedditAPICommentAction.RedditCommentAction.BACK,
+						R.string.action_back);
+
 			case DISABLED:
 				return null;
 		}

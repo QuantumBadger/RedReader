@@ -71,7 +71,8 @@ public class RedditAPICommentAction {
 		PROPERTIES,
 		CONTEXT,
 		GO_TO_COMMENT,
-		ACTION_MENU
+		ACTION_MENU,
+		BACK
 	}
 
 	private static class RCVMenuItem {
@@ -339,6 +340,10 @@ public class RedditAPICommentAction {
 						commentView,
 						changeDataManager,
 						comment.isArchived());
+				break;
+
+			case BACK:
+				activity.onBackPressed();
 				break;
 		}
 	}

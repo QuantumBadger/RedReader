@@ -433,7 +433,7 @@ public final class PrefsUtility {
 	// pref_behaviour_fling_comment
 
 	public enum CommentFlingAction {
-		UPVOTE, DOWNVOTE, SAVE, REPLY, USER_PROFILE, COLLAPSE, ACTION_MENU, PROPERTIES, DISABLED
+		UPVOTE, DOWNVOTE, SAVE, REPLY, USER_PROFILE, COLLAPSE, ACTION_MENU, PROPERTIES, BACK, DISABLED
 	}
 
 	public static CommentFlingAction pref_behaviour_fling_comment_left(final Context context, final SharedPreferences sharedPreferences) {

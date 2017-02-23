@@ -131,7 +131,8 @@ public final class RedditPreparedPost {
 		ACTION_MENU(R.string.action_actionmenu),
 		SAVE_IMAGE(R.string.action_save_image),
 		COPY(R.string.action_copy),
-		SELFTEXT_LINKS(R.string.action_selftext_links);
+		SELFTEXT_LINKS(R.string.action_selftext_links),
+		BACK(R.string.action_back);
 
 		public final int descriptionResId;
 
@@ -715,6 +716,10 @@ public final class RedditPreparedPost {
 				intent.putExtra(CommentReplyActivity.PARENT_ID_AND_TYPE_KEY, post.src.getIdAndType());
 				intent.putExtra(CommentReplyActivity.PARENT_MARKDOWN_KEY, post.src.getUnescapedSelfText());
 				activity.startActivity(intent);
+				break;
+
+			case BACK:
+				activity.onBackPressed();
 				break;
 		}
 	}

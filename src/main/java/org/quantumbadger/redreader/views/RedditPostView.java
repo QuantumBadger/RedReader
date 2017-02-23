@@ -173,6 +173,9 @@ public final class RedditPostView extends FlingableItemView implements RedditPre
 
 			case ACTION_MENU:
 				return new ActionDescriptionPair(RedditPreparedPost.Action.ACTION_MENU, R.string.action_actionmenu_short);
+
+			case BACK:
+				return new ActionDescriptionPair(RedditPreparedPost.Action.BACK, R.string.action_back);
 		}
 
 		return null;

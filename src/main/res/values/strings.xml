@@ -959,4 +959,7 @@
 	<!-- 2017-02-15 -->
 	<string name="mainmenu_popular">Popular Subreddits</string>
 
+	<!-- 2017-02-23 -->
+	<string name="action_back">Back</string>
+
 </resources>

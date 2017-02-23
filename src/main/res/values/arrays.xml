@@ -40,6 +40,7 @@
         <item>@string/action_link</item>
         <item>@string/action_external</item>
         <item>@string/action_actionmenu</item>
+		<item>@string/action_back</item>
         <item>@string/action_fling_disabled</item>
     </string-array>
 
@@ -53,6 +54,7 @@
         <item>link</item>
         <item>browser</item>
         <item>action_menu</item>
+		<item>back</item>
         <item>disabled</item>
     </string-array>
 

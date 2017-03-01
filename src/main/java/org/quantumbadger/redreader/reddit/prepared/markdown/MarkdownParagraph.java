@@ -63,7 +63,7 @@ public final class MarkdownParagraph {
 			LinkHandler.onLinkClicked(activity, url, false);
 		}
 		public void onLongClicked(AppCompatActivity activity) {
-			LinkHandler.onLinkLongClicked(activity, url, false);
+			LinkHandler.onLinkLongClicked(activity, url);
 		}
 	}
 

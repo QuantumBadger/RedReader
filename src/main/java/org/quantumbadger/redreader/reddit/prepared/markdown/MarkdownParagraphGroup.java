@@ -197,7 +197,7 @@ public final class MarkdownParagraphGroup {
 						@Override
 						public boolean onLongClick(View v){
 							link.onLongClicked(activity);
-							return false;
+							return true;
 						}
 					});
 				}

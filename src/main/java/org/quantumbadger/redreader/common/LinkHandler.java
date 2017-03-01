@@ -243,20 +243,21 @@ public class LinkHandler {
 		activity.startActivity(intent);
 	}
 
-	public static boolean onLinkLongClicked(AppCompatActivity activity, String uri){
+	public static void onLinkLongClicked(AppCompatActivity activity, String uri){
 		onLinkLongClicked(activity, uri, false);
-		return true;
 	}
 
-	public static boolean onLinkLongClicked(final AppCompatActivity activity, final String uri, boolean forceNoImage) {
+	public static void onLinkLongClicked(final AppCompatActivity activity,
+	                                        final String uri,
+	                                        final boolean forceNoImage) {
 		if (uri == null){
-			return false;
+			return;
 		}
 
 		final EnumSet<LinkHandler.LinkAction> itemPref = PrefsUtility.pref_menus_link_context_items(activity, PreferenceManager.getDefaultSharedPreferences(activity));
 
 		if (itemPref.isEmpty()) {
-			return true;
+			return;
 		}
 
 		final ArrayList<LinkMenuItem> menu = new ArrayList<>();
@@ -296,8 +297,6 @@ public class LinkHandler {
 		final AlertDialog alert = builder.create();
 		alert.setCanceledOnTouchOutside(true);
 		alert.show();
-
-		return true;
 	}
 
 	public static void onActionMenuItemSelected(String uri, AppCompatActivity activity, LinkAction action){

@@ -26,13 +26,13 @@ import java.util.UUID;
  * Created by Marco on 01.03.2017.
  */
 public class SaveImageCallback implements BaseActivity.PermissionCallback {
-	private AppCompatActivity activity;
-	private String uri;
+	private final AppCompatActivity activity;
+	private final String uri;
 	public SaveImageCallback(final AppCompatActivity activity, final String uri){
 		this.activity = activity;
 		this.uri = uri;
 	}
-	
+
 	@Override
 	public void onPermissionGranted() {
 

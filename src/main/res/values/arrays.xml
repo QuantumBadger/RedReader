@@ -418,6 +418,31 @@
         <item>properties</item>
     </string-array>
 
+	<string-array name="pref_menus_link_context_items">
+		<item>@string/action_external</item>
+		<item>@string/action_save_image</item>
+		<item>@string/action_share</item>
+		<item>@string/action_share_image</item>
+		<item>@string/action_copy_link</item>
+	</string-array>
+
+	<string-array name="pref_menus_link_context_items_default">
+		<item>external</item>
+		<item>save_image</item>
+		<item>share</item>
+		<item>share_image</item>
+		<item>copy_url</item>
+	</string-array>
+
+	<!-- Constants. Do not change. -->
+	<string-array name="pref_menus_link_context_items_return">
+		<item>external</item>
+		<item>save_image</item>
+		<item>share</item>
+		<item>share_image</item>
+		<item>copy_url</item>
+	</string-array>
+
     <string-array name="pref_appearance_comment_header_items">
         <item>@string/pref_appearance_comment_header_items_author</item>
         <item>@string/pref_appearance_comment_header_items_flair</item>

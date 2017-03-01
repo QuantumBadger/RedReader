@@ -17,8 +17,10 @@
 
 package org.quantumbadger.redreader.common;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ResolveInfo;
@@ -27,26 +29,20 @@ import android.os.Handler;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.ClipboardManager;
 import android.util.Log;
 import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.activities.AlbumListingActivity;
-import org.quantumbadger.redreader.activities.CommentListingActivity;
-import org.quantumbadger.redreader.activities.ImageViewActivity;
-import org.quantumbadger.redreader.activities.PostListingActivity;
-import org.quantumbadger.redreader.activities.WebViewActivity;
+import org.quantumbadger.redreader.activities.*;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.fragments.UserProfileDialog;
-import org.quantumbadger.redreader.image.GetAlbumInfoListener;
-import org.quantumbadger.redreader.image.GetImageInfoListener;
-import org.quantumbadger.redreader.image.GfycatAPI;
-import org.quantumbadger.redreader.image.ImageInfo;
-import org.quantumbadger.redreader.image.ImgurAPI;
-import org.quantumbadger.redreader.image.ImgurAPIV3;
-import org.quantumbadger.redreader.image.StreamableAPI;
+import org.quantumbadger.redreader.image.*;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.LinkedHashSet;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -58,6 +54,19 @@ public class LinkHandler {
 			vimeoPattern = Pattern.compile("^https?://[\\.\\w]*vimeo\\.\\w+/.*"),
 			googlePlayPattern = Pattern.compile("^https?://[\\.\\w]*play\\.google\\.\\w+/.*");
 
+	public enum LinkAction {
+		SHARE(R.string.action_share),
+		COPY_URL(R.string.action_copy_link),
+		SHARE_IMAGE(R.string.action_share_image),
+		SAVE_IMAGE(R.string.action_save),
+		EXTERNAL(R.string.action_external);
+
+		public final int descriptionResId;
+
+		LinkAction(final int descriptionResId){
+			this.descriptionResId = descriptionResId;
+		}
+	}
 	public static void onLinkClicked(AppCompatActivity activity, String url) {
 		onLinkClicked(activity, url, false);
 	}
@@ -234,6 +243,89 @@ public class LinkHandler {
 		activity.startActivity(intent);
 	}
 
+	public static boolean onLinkLongClicked(AppCompatActivity activity, String uri){
+		onLinkLongClicked(activity, uri, false);
+		return true;
+	}
+
+	public static boolean onLinkLongClicked(final AppCompatActivity activity, final String uri, boolean forceNoImage) {
+		if (uri == null){
+			return false;
+		}
+
+		final EnumSet<LinkHandler.LinkAction> itemPref = PrefsUtility.pref_menus_link_context_items(activity, PreferenceManager.getDefaultSharedPreferences(activity));
+
+		if (itemPref.isEmpty()) {
+			return true;
+		}
+
+		final ArrayList<LinkMenuItem> menu = new ArrayList<>();
+
+		if (itemPref.contains(LinkAction.COPY_URL)) {
+			menu.add(new LinkMenuItem(activity, R.string.action_copy_link, LinkAction.COPY_URL));
+		}
+		if (itemPref.contains(LinkAction.EXTERNAL)) {
+			menu.add(new LinkMenuItem(activity, R.string.action_external, LinkAction.EXTERNAL));
+		}
+		if (itemPref.contains(LinkAction.SAVE_IMAGE) && isProbablyAnImage(uri) && !forceNoImage) {
+			menu.add(new LinkMenuItem(activity, R.string.action_save_image, LinkAction.SAVE_IMAGE));
+		}
+		if (itemPref.contains(LinkAction.SHARE)) {
+			menu.add(new LinkMenuItem(activity, R.string.action_share, LinkAction.SHARE));
+		}
+		if (itemPref.contains(LinkAction.SHARE_IMAGE) && isProbablyAnImage(uri) && !forceNoImage) {
+			menu.add(new LinkMenuItem(activity, R.string.action_share_image, LinkAction.SHARE_IMAGE));
+		}
+		final String[] menuText = new String[menu.size()];
+
+		for (int i = 0; i < menuText.length; i++) {
+			menuText[i] = menu.get(i).title;
+		}
+
+		final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+
+		builder.setItems(menuText, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				onActionMenuItemSelected(uri, activity, menu.get(which).action);
+			}
+		});
+
+		//builder.setNeutralButton(R.string.dialog_cancel, null);
+
+		final AlertDialog alert = builder.create();
+		alert.setCanceledOnTouchOutside(true);
+		alert.show();
+
+		return true;
+	}
+
+	public static void onActionMenuItemSelected(String uri, AppCompatActivity activity, LinkAction action){
+		switch (action){
+			case SHARE:
+				final Intent mailer = new Intent(Intent.ACTION_SEND);
+				mailer.setType("text/plain");
+				mailer.putExtra(Intent.EXTRA_TEXT, uri);
+				activity.startActivity(Intent.createChooser(mailer, activity.getString(R.string.action_share)));
+				break;
+			case COPY_URL:
+				ClipboardManager manager = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
+				manager.setText(uri);
+				break;
+
+			case EXTERNAL:
+				final Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setData(Uri.parse(uri));
+				activity.startActivity(intent);
+				break;
+			case SHARE_IMAGE:
+				((BaseActivity)activity).requestPermissionWithCallback(Manifest.permission.WRITE_EXTERNAL_STORAGE, new ShareImageCallback(activity, uri));
+				break;
+			case SAVE_IMAGE:
+				((BaseActivity)activity).requestPermissionWithCallback(Manifest.permission.WRITE_EXTERNAL_STORAGE, new SaveImageCallback(activity, uri));
+				break;
+		}
+	}
 	public static boolean openWebBrowser(AppCompatActivity activity, Uri uri, final boolean fromExternalIntent) {
 
 		if(!fromExternalIntent) {
@@ -684,5 +776,14 @@ public class LinkHandler {
 		}
 
 		return result;
+	}
+	private static class LinkMenuItem {
+		public final String title;
+		public final LinkAction action;
+
+		private LinkMenuItem(Context context, int titleRes, LinkAction action) {
+			this.title = context.getString(titleRes);
+			this.action = action;
+		}
 	}
 }

@@ -26,8 +26,8 @@ import java.util.UUID;
  * Created by Marco Ammon on 01.03.2017.
  */
 public class ShareImageCallback implements BaseActivity.PermissionCallback {
-	private AppCompatActivity activity;
-	private String uri;
+	private final AppCompatActivity activity;
+	private final String uri;
 
 	public ShareImageCallback(final AppCompatActivity activity, final String uri){
 		this.activity = activity;

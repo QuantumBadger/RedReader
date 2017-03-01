@@ -585,5 +585,6 @@ Thanks to /u/balducien and /u/andiho for this translation!
     
     <string name="gold">Gold</string>
     <string name="pref_appearance_comment_header_items_gold">Reddit Gold</string>
+	<string name="web_view_share_open">Teilen/Öffnen</string>
 
 </resources>

@@ -961,5 +961,6 @@
 
 	<!-- 2017-02-23 -->
 	<string name="action_back">Back</string>
+	<string name="web_view_share_open">Share/Open</string>
 
 </resources>

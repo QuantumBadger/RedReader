@@ -766,6 +766,7 @@ Thanks to /u/balducien and /u/andiho for this translation!
 	<string name="pref_cache_rerequest_postlist_age_title">Einreichungen neu laden falls Cache älter ist als</string>
 	<string name="pref_menus_optionsmenu_items_key">pref_menus_optionsmenu_items_3</string>
 	<string name="pref_menus_optionsmenu_items_title">Einträge des Optionsmenüs</string>
+	<string name="pref_menus_link_context_items_title">Link-Kontextmenü</string>
 	<string name="pref_network_tor_key">pref_network_tor</string>
 	<string name="pref_network_tor_title">TOR benutzen (experimentell)</string>
 	<string name="pref_not_supported_before_lollipop">Vor Android Lollipop nicht unterstützt</string>
@@ -777,7 +778,7 @@ Thanks to /u/balducien and /u/andiho for this translation!
 	<string name="screen_orientation_auto">Auto</string>
 	<string name="screen_orientation_landscape">Landschaft</string>
 	<string name="screen_orientation_portrait">Porträt</string>
-	<string name="selected_link_is_not_image">Der aisgewählte Link ist kein Bild.</string>
+	<string name="selected_link_is_not_image">Der ausgewählte Link ist kein Bild.</string>
 	<string name="send_replies_to_inbox">Antworten an meinen Posteingang senden</string>
 	<string name="sort_blocked_subreddit_date">Nach Hinzufügungsdatum</string>
 	<string name="sort_blocked_subreddit_name">Nach Name</string>

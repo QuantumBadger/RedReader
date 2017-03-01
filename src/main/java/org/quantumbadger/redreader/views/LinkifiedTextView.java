@@ -42,7 +42,6 @@ public class LinkifiedTextView extends TextView {
 
 	@Override
 	public boolean onTouchEvent(final MotionEvent event) {
-
 		final CharSequence text = getText();
 
 		if(!(text instanceof Spannable)) {

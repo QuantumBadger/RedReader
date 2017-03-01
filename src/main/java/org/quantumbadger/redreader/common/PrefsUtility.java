@@ -634,6 +634,16 @@ public final class PrefsUtility {
 		return result;
 	}
 
+	public static EnumSet<LinkHandler.LinkAction> pref_menus_link_context_items(final Context context, final SharedPreferences sharedPreferences) {
+
+		final Set<String> strings = getStringSet(R.string.pref_menus_link_context_items_key, R.array.pref_menus_link_context_items_return, context, sharedPreferences);
+
+		final EnumSet<LinkHandler.LinkAction> result = EnumSet.noneOf(LinkHandler.LinkAction.class);
+		for(String s : strings) result.add(LinkHandler.LinkAction.valueOf(General.asciiUppercase(s)));
+		
+		return result;
+	}
+
 	public static EnumSet<MainMenuFragment.MainMenuUserItems> pref_menus_mainmenu_useritems(final Context context, final SharedPreferences sharedPreferences) {
 
 		final Set<String> strings = getStringSet(R.string.pref_menus_mainmenu_useritems_key, R.array.pref_menus_mainmenu_useritems_items_default, context, sharedPreferences);

@@ -92,7 +92,7 @@
     <string name="options_refresh_posts">Aktualigi afiŝojn</string>
     <string name="options_refresh_comments">Aktualigi komentojn</string>
     <string name="options_past">Eksaj versioj</string>
-    <string name="options_past_posts">Listo de eksversioj de afiŝ</string>
+    <string name="options_past_posts">Listo de eksversioj de afiŝoj</string>
     <string name="options_past_comments">Listo de eksversioj de komentoj</string>
     <string name="options_sort">Ordigi</string>
     <string name="options_sort_subreddits">Ordigi redditerojn</string>
@@ -220,10 +220,10 @@
 
     <!-- Comment Reply/Edit, Post Submit -->
 
-    <string name="comment_reply_send">Sandi</string>
+    <string name="comment_reply_send">Sendi</string>
     <string name="comment_edit_save">Konservi</string>
     <string name="comment_reply_preview">Antaŭmontri</string>
-    <string name="comment_reply_submitting_title">Publikado…</string>
+    <string name="comment_reply_submitting_title">Publikigado…</string>
     <string name="comment_reply_submitting_message">Unu momenteto…</string>
     <string name="comment_reply_oncancel">Atendado je rezultoj de ago…</string>
     <string name="comment_reply_done">Respondo sendita. La komento aperos post aktualigo.</string>
@@ -503,7 +503,7 @@
 
     <string name="pref_menus_mainmenu_useritems_title">Elementoj de ĉefmenuo de uzanto</string>
 
-    <string name="mainmenu_submitted">Publikitaj afiŝoj</string>
+    <string name="mainmenu_submitted">Publikigitaj afiŝoj</string>
     <string name="mainmenu_downvoted">Kontraŭ-voĉdonitaj afiŝoj</string>
     <string name="mainmenu_modmail">Retletero al kontrolanto</string>
 
@@ -521,7 +521,7 @@
     <!-- 2014-04-26 -->
 
     <string name="web_view_clear_cache">Forviŝi kaŝmemoron</string>
-    <string name="web_view_clear_cache_success_toast">Forviŝis kaŝmemoron, historion, kuketojn kaj falmular-datumojn.</string>
+    <string name="web_view_clear_cache_success_toast">Forviŝis kaŝmemoron, historion, kuketojn kaj formular-datumojn.</string>
 
     <!-- 2014-09-21 -->
     <string name="gold">Ora</string>
@@ -549,7 +549,7 @@
     <!-- 2015-01-03 -->
     <string name="webview_https_already">La nuna ligilo jam uzas HTTPS-n.</string>
     <string name="webview_https_unknownprotocol">Nekonata protokolo, atendis \'http://\'-n</string>
-    <string name="webview_use_https">Use HTTPS</string>
+    <string name="webview_use_https">Uzi HTTPS-n</string>
 
     <!-- 2015-01-16 -->
 	<string name="lang_it">Itala (Italiano)</string>
@@ -600,7 +600,7 @@
     <string name="pref_behaviour_gifview_mode_internal_legacy">Interna vidigilo (malnova)</string>
 
 	<string name="pref_behaviour_view_mode_internal_browser">Interna vidigilo</string>
-    <string name="pref_behaviour_view_mode_external_browser">Eksterna vidigilo</string>
+    <string name="pref_behaviour_view_mode_external_browser">Ekstera vidigilo</string>
 
     <!-- 2015-08-15 -->
     <string name="pref_appearance_fontscale_inbox_title">Skali tiparon de privataj mesaĝoj</string>
@@ -664,12 +664,12 @@
     <string name="block_subreddit">Bloki redditeron</string>
     <string name="unblock_subreddit">Malbloki redditeron</string>
     <string name="block_done">Redditero blokita. Estontaj vizitoj al /r/all esceptos tiun ĉi redditeron.</string>
-    <string name="unblock_done">Rettitero malblokita. Estontaj vizitoj al /r/all inkludos tiun ĉi redditeron.</string>
+    <string name="unblock_done">Redditero malblokita. Estontaj vizitoj al /r/all inkludos tiun ĉi redditeron.</string>
 
     <!-- 2016-03-14-->
     <string name="pref_behaviour_comments_header">Komentoj</string>
 
-    <string name="pref_behaviour_comment_min_title">Minimima komenta poentaro</string>
+    <string name="pref_behaviour_comment_min_title">Minimuma komenta poentaro</string>
     <string name="pref_behaviour_comment_min_dialog_title">Maletendi komenton, kies poentaro malsuperas (forviŝu por montri ĉiujn)</string>
 
     <!-- 2016-03-20 -->
@@ -810,8 +810,7 @@
 	<string name="pref_appearance_hide_android_status_title">Kaŝi androidan ilobreton</string>
 
 	<!-- 2016-09-08 -->
-	<string name="pref_behaviour_enable_swipe_refresh_title">Swipe down to refresh</string>
-	<string name="pref_behaviour_enable_swipe_refresh_key" translatable="false">pref_behaviour_enable_swipe_refresh</string>
+	<string name="pref_behaviour_enable_swipe_refresh_title">Ŝovumu malsupren por aktualigi</string>
 
 	<!-- 2016-09-10 -->
 	<string name="mainmenu_header_subreddits_blocked">Blokitaj redditeroj</string>
@@ -865,7 +864,7 @@
 	
 	<!-- 2017-03-02 -->
 	<string name="pref_menus_link_context_items_title">Elementoj de ligila kuntekst-menuo</string>
-	<string name="web_view_share_open">Doskonigi/malfermi</string>
+	<string name="web_view_share_open">Diskonigi/malfermi</string>
 	<string name="lang_eo">Esperanto</string>
 	<string name="lang_pl">Pola (Polski)</string>
 </resources>

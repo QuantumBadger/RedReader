@@ -6,6 +6,7 @@ Private message replies are now part of the original conversion, rather than sta
 Support keyboard Go-action in custom location dialog (thanks to gaudecker)
 Enable sorting for users' submitted posts/comments (thanks to gaudecker)
 Show subreddit names in /r/popular
+Subreddit autocomplete is now account-specific (thanks to Clubfan22)
 Updated German translation (thanks to Clubfan22)
 Added Esperanto translation (thanks to verdulo)
 

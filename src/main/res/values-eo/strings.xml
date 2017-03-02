@@ -317,7 +317,7 @@
 
     <string name="props_title">Titolo</string>
     <string name="props_author">Aŭtoro</string>
-    <string name="props_author_flair">Aŭtora talent-teksto</string> <!--- korektenda --->
+    <string name="props_author_flair">Aŭtora Flair-teksto</string>
     <string name="props_created">Kreita je</string>
     <string name="props_edited">Redaktita je</string>
     <string name="props_score">Poentoj</string>
@@ -367,7 +367,7 @@
     <string name="time_3month">3 monatoj</string>
 
     <string name="pref_appearance_comment_header_items_author">Aŭtoro</string>
-    <string name="pref_appearance_comment_header_items_flair">Flair</string> <!--- korektenda ---->
+    <string name="pref_appearance_comment_header_items_flair">Flair</string>
     <string name="pref_appearance_comment_header_items_score">Poentaro</string>
     <string name="pref_appearance_comment_header_items_upsdowns">Voĉdonoj por/kontraŭ</string>
     <string name="pref_appearance_comment_header_items_age">Aĝo</string>
@@ -432,15 +432,6 @@
     <string name="pref_appearance_locale_header">Lingvo</string>
 
     <string name="pref_appearance_langforce_title">Lingvo</string>
-
-    <string name="lang_auto">Aŭtomata</string>
-    <string name="lang_en">Angla (English)</string>
-    <string name="lang_da">Dana (Dansk)</string>
-	<string name="lang_de">Germana (Deutsch)</string>
-	<string name="lang_fr">Franca (Français)</string>
-	<string name="lang_ar">Araba (عربي)</string>
-	<string name="lang_es">Hispana (Español)</string>
-	<string name="lang_cs">Ĉeĥa (Česky)</string>
 
     <!-- 2013-06-25 -->
 
@@ -550,9 +541,6 @@
     <string name="webview_https_already">La nuna ligilo jam uzas HTTPS-n.</string>
     <string name="webview_https_unknownprotocol">Nekonata protokolo, atendis \'http://\'-n</string>
     <string name="webview_use_https">Uzi HTTPS-n</string>
-
-    <!-- 2015-01-16 -->
-	<string name="lang_it">Itala (Italiano)</string>
 
     <!-- 2015-01-26 -->
     <string name="sort_posts_relevance">Rilato</string>
@@ -671,9 +659,6 @@
 
     <string name="pref_behaviour_comment_min_title">Minimuma komenta poentaro</string>
     <string name="pref_behaviour_comment_min_dialog_title">Maletendi komenton, kies poentaro malsuperas (forviŝu por montri ĉiujn)</string>
-
-    <!-- 2016-03-20 -->
-    <string name="lang_se">Sveda (Svenska)</string>
 
     <!-- 2016-04-02 -->
     <string name="open_with">Malfermi per</string>
@@ -827,16 +812,8 @@
 	<string name="time_2hr">2 horoj</string>
 	<string name="time_3hr">3 horoj</string>
 
-	<string name="lang_nl">Nederlanda (Nederlands)</string>
-
 	<!-- 2016-10-08 -->
 	<string name="time_every_time">Ĉiam</string>
-
-	<!-- 2016-11-02 -->
-	<string name="lang_ro">Rumana (Romanian)</string>
-
-	<!-- 2016-11-14 -->
-	<string name="lang_hu">Hungara (Magyar)</string>
 
 	<!-- 2016-12-03 -->
 	<string name="theme_name_night_lowcontrast">Nokta (ete kontrasta)</string>
@@ -865,6 +842,4 @@
 	<!-- 2017-03-02 -->
 	<string name="pref_menus_link_context_items_title">Elementoj de ligila kuntekst-menuo</string>
 	<string name="web_view_share_open">Diskonigi/malfermi</string>
-	<string name="lang_eo">Esperanto</string>
-	<string name="lang_pl">Pola (Polski)</string>
 </resources>

@@ -317,7 +317,7 @@
 
     <string name="props_title">Titolo</string>
     <string name="props_author">Aŭtoro</string>
-    <string name="props_author_flair">Aŭtora talent-teksto</string> <!-- ??? -->
+    <string name="props_author_flair">Aŭtora talent-teksto</string> <!-- korektenda -->
     <string name="props_created">Kreita je</string>
     <string name="props_edited">Redaktita je</string>
     <string name="props_score">Poentoj</string>
@@ -367,7 +367,7 @@
     <string name="time_3month">3 monatoj</string>
 
     <string name="pref_appearance_comment_header_items_author">Aŭtoro</string>
-    <string name="pref_appearance_comment_header_items_flair">Flair</string> <!-- ??? --->
+    <string name="pref_appearance_comment_header_items_flair">Flair</string> <!-- korektenda --->
     <string name="pref_appearance_comment_header_items_score">Poentaro</string>
     <string name="pref_appearance_comment_header_items_upsdowns">Voĉdonoj por/kontraŭ</string>
     <string name="pref_appearance_comment_header_items_age">Aĝo</string>

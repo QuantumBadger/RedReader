@@ -97,6 +97,7 @@
     <string name="options_sort">Ordigi</string>
     <string name="options_sort_subreddits">Ordigi redditerojn</string>
     <string name="options_sort_posts">Ordigi afiŝojn</string>
+	
     <string name="options_sort_comments">Ordigi komentojn</string>
 
     <!-- Main Menu -->
@@ -138,11 +139,11 @@
     <string name="sort_posts_rising">Kreskantaj</string>
     <string name="sort_posts_controversial">Diskutataj</string>
     <string name="sort_posts_top">Popularaj</string>
-    <string name="sort_posts_top_hour">Popularaj: tiu ĉi horo</string>
-    <string name="sort_posts_top_today">Popularaj: hodiaŭ</string>
-    <string name="sort_posts_top_week">Popularaj tiu ĉi semajno</string>
-    <string name="sort_posts_top_month">Popularaj: tiu ĉi monato</string>
-    <string name="sort_posts_top_year">Popularaj: tiu ĉi jaro</string>
+    <string name="sort_posts_top_hour">Popularaj: lasta horo</string>
+    <string name="sort_posts_top_today">Popularaj: lasta tago</string>
+    <string name="sort_posts_top_week">Popularaj lasta semajno</string>
+    <string name="sort_posts_top_month">Popularaj: lasta monato</string>
+    <string name="sort_posts_top_year">Popularaj: lasta jaro</string>
     <string name="sort_posts_top_all">Popularaj: ĉiam</string>
 
     <!-- Comment Sorts -->
@@ -201,7 +202,7 @@
     <string name="action_report">Raporti</string>
     <string name="action_report_sure">Ĉu vi certe volas raporti tion ĉi?</string>
     <string name="action_save_image">Konservi bildon</string>
-    <string name="action_save_image_success">Konservi al bildujo kiel</string>
+    <string name="action_save_image_success">Konservis al bildujo kiel</string>
 
     <!-- Download Messages -->
 
@@ -707,7 +708,7 @@
 
 	<string name="pref_behaviour_albumview_mode_internal_list">Interna vidigilo (listo)</string>
 
-	<string name="error_tor_start_failed">Orbot fiaskis lanĉi. Tor ne funkcios ĝuste.</string>
+	<string name="error_tor_start_failed">Fiaskis lanĉi Orbot-on. Tor ne funkcios.</string>
 
 	<!-- 2016-06-30 -->
 	<string name="inbox_unread_only">Nur nelegitaj mesaĝoj</string>
@@ -841,4 +842,5 @@
 	
 	<!-- 2017-03-02 -->
 	<string name="pref_menus_link_context_items_title">Elementoj de ligila kuntekst-menuo</string>
+	<string name="web_view_share_open">Diskonigi/malfermi</string>
 </resources>

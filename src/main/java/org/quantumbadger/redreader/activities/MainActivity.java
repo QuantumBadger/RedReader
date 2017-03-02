@@ -290,7 +290,7 @@ public class MainActivity extends RefreshableActivity
 				break;
 
 			case MainMenuFragment.MENU_MENU_ACTION_PROFILE:
-				LinkHandler.onLinkClicked(this, new UserProfileURL(RedditAccountManager.getInstance(this).getDefaultAccount().username).toString());
+				LinkHandler.onLinkClicked(this, new UserProfileURL(username).toString());
 				break;
 
 			case MainMenuFragment.MENU_MENU_ACTION_CUSTOM: {
@@ -307,7 +307,7 @@ public class MainActivity extends RefreshableActivity
 				final ArrayAdapter<String> autocompleteAdapter = new ArrayAdapter<>(
 						this,
 						android.R.layout.simple_dropdown_item_1line,
-						RedditSubredditHistory.getSubredditsSorted(username).toArray(new String[] {}));
+						RedditSubredditHistory.getSubredditsSorted(RedditAccountManager.getInstance(this).getDefaultAccount()).toArray(new String[] {}));
 
 				editText.setAdapter(autocompleteAdapter);
 				editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {

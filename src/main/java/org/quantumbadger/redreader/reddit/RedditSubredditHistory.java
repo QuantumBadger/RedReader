@@ -1,5 +1,6 @@
 package org.quantumbadger.redreader.reddit;
 
+import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
@@ -13,36 +14,31 @@ import java.util.HashSet;
 // Keeps an in-memory list of all known subreddits per account
 public class RedditSubredditHistory
 {
-	private static final HashMap<String, HashSet<String>> SUBREDDITS = new HashMap<>();
+	private static final HashMap<RedditAccount, HashSet<String>> SUBREDDITS = new HashMap<>();
 
-	public static synchronized void addSubreddit(final String username, final String name) throws RedditSubreddit.InvalidSubredditNameException
+	public static synchronized void addSubreddit(final RedditAccount account, final String name) throws RedditSubreddit.InvalidSubredditNameException
 	{
-		if (!SUBREDDITS.containsKey(username) || SUBREDDITS.get(username) == null
-				|| !SUBREDDITS.get(username).isEmpty()){
-			putDefaultSubreddits(username);
-		}
-		SUBREDDITS.get(username).add(General.asciiLowercase(RedditSubreddit.stripRPrefix(name)));
+		putDefaultSubreddits(account);
+		SUBREDDITS.get(account).add(General.asciiLowercase(RedditSubreddit.stripRPrefix(name)));
 	}
 
-	public static synchronized ArrayList<String> getSubredditsSorted(final String username)
+	public static synchronized ArrayList<String> getSubredditsSorted(final RedditAccount account)
 	{
-		if (!SUBREDDITS.containsKey(username) || SUBREDDITS.get(username) == null
-				|| !SUBREDDITS.get(username).isEmpty()){
-			putDefaultSubreddits(username);
-		}
-		final ArrayList<String> result = new ArrayList<>(SUBREDDITS.get(username));
+		putDefaultSubreddits(account);
+		final ArrayList<String> result = new ArrayList<>(SUBREDDITS.get(account));
 		Collections.sort(result);
 		return result;
 	}
 
-	private static void putDefaultSubreddits(final String username){
-		if (!SUBREDDITS.containsKey(username) || SUBREDDITS.get(username) == null) {
-			SUBREDDITS.put(username, new HashSet<String>());
+	private static void putDefaultSubreddits(final RedditAccount account){
+		if (!SUBREDDITS.containsKey(account) || SUBREDDITS.get(account) == null) {
+			SUBREDDITS.put(account, new HashSet<String>());
 		}
-		if (SUBREDDITS.get(username).isEmpty()) {
+		HashSet<String> personalizedSubreddits = SUBREDDITS.get(account);
+		if (personalizedSubreddits.isEmpty()) {
 			for (final String subreddit : Constants.Reddit.DEFAULT_SUBREDDITS) {
 				try {
-					addSubreddit(username, subreddit);
+					personalizedSubreddits.add(General.asciiLowercase(RedditSubreddit.stripRPrefix(subreddit)));
 				} catch (final RedditSubreddit.InvalidSubredditNameException e) {
 					throw new RuntimeException(e);
 				}

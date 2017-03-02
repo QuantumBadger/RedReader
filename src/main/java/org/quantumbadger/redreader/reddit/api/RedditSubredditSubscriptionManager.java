@@ -139,7 +139,7 @@ public class RedditSubredditSubscriptionManager {
 		{
 			try
 			{
-				RedditSubredditHistory.addSubreddit(account.username, sub);
+				RedditSubredditHistory.addSubreddit(account, sub);
 			}
 			catch(RedditSubreddit.InvalidSubredditNameException e)
 			{

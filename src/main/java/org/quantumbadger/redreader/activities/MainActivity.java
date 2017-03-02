@@ -307,7 +307,7 @@ public class MainActivity extends RefreshableActivity
 				final ArrayAdapter<String> autocompleteAdapter = new ArrayAdapter<>(
 						this,
 						android.R.layout.simple_dropdown_item_1line,
-						RedditSubredditHistory.getSubredditsSorted().toArray(new String[] {}));
+						RedditSubredditHistory.getSubredditsSorted(username).toArray(new String[] {}));
 
 				editText.setAdapter(autocompleteAdapter);
 				editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {

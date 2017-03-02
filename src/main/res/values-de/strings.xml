@@ -585,7 +585,8 @@ Thanks to /u/balducien and /u/andiho for this translation!
     
     <string name="gold">Gold</string>
     <string name="pref_appearance_comment_header_items_gold">Reddit Gold</string>
-	<string name="action_back">Zurück</string>
+  
+  <string name="action_back">Zurück</string>
 	<string name="action_comment_go_to">Zu Kommentar gehen</string>
 	<string name="action_comment_context">Kontext</string>
 	<string name="action_copy_link">Link kopieren</string>
@@ -817,5 +818,5 @@ Thanks to /u/balducien and /u/andiho for this translation!
 	<string name="webview_https_already">Die aktuelle URL verwendet bereits HTTPS.</string>
 	<string name="webview_https_unknownprotocol">Unbekanntes Protokoll, erwartet wurde \'http://\'</string>
 	<string name="webview_use_https">HTTPS verwenden</string>
-
+  <string name="web_view_share_open">Teilen/Öffnen</string>
 </resources>

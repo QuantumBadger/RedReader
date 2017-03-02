@@ -43,84 +43,84 @@
     <string name="pref_appearance_comments_header">Comments</string>
     <string name="pref_appearance_other_header">Other</string>
 
-    <string name="pref_appearance_twopane_key">pref_appearance_twopane</string>
+    <string name="pref_appearance_twopane_key" translatable="false">pref_appearance_twopane</string>
     <string name="pref_appearance_twopane_title">Tablet Mode (two pane)</string>
 
-    <string name="pref_appearance_theme_key">pref_appearance_theme</string>
+    <string name="pref_appearance_theme_key" translatable="false">pref_appearance_theme</string>
     <string name="pref_appearance_theme_title">Theme</string>
 
     <string name="pref_appearance_solidblack_title">Solid black in night mode</string>
 
-    <string name="pref_appearance_fontscale_posts_key">pref_appearance_fontscale_posts</string>
+    <string name="pref_appearance_fontscale_posts_key" translatable="false">pref_appearance_fontscale_posts</string>
     <string name="pref_appearance_fontscale_posts_title">Posts Font Scale</string>
 
-    <string name="pref_appearance_fontscale_comments_key">pref_appearance_fontscale_comments</string>
+    <string name="pref_appearance_fontscale_comments_key" translatable="false">pref_appearance_fontscale_comments</string>
     <string name="pref_appearance_fontscale_comments_title">Comments Font Scale</string>
 
-    <string name="pref_appearance_thumbnails_show_key">pref_appearance_thumbnails_show</string>
+    <string name="pref_appearance_thumbnails_show_key" translatable="false">pref_appearance_thumbnails_show</string>
     <string name="pref_appearance_thumbnails_show_title">Show thumbnails</string>
 
-    <string name="pref_appearance_thumbnails_nsfw_show_key">pref_appearance_thumbnails_nsfw_show</string>
+    <string name="pref_appearance_thumbnails_nsfw_show_key" translatable="false">pref_appearance_thumbnails_nsfw_show</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">Show NSFW thumbnails</string>
 
-    <string name="pref_appearance_thumbnails_wifionly_key">pref_appearance_thumbnails_wifionly</string>
+    <string name="pref_appearance_thumbnails_wifionly_key" translatable="false">pref_appearance_thumbnails_wifionly</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Thumbnails on Wi-Fi only</string>
 
-    <string name="pref_appearance_loading_detail_key">pref_appearance_loading_detail</string>
+    <string name="pref_appearance_loading_detail_key" translatable="false">pref_appearance_loading_detail</string>
     <string name="pref_appearance_loading_detail_title">Show detailed loading messages</string>
 
-    <string name="pref_appearance_comment_header_items_key">pref_appearance_comment_header_items</string>
+    <string name="pref_appearance_comment_header_items_key" translatable="false">pref_appearance_comment_header_items</string>
     <string name="pref_appearance_comment_header_items_title">Comment Header</string>
 
     <!-- Behaviour Prefs -->
 
-    <string name="pref_behaviour_notifications_key">pref_behaviour_notifications</string>
+    <string name="pref_behaviour_notifications_key" translatable="false">pref_behaviour_notifications</string>
     <string name="pref_behaviour_notifications_title">Notifications</string>
 
     <string name="pref_behaviour_actions_post_header">Post Actions</string>
     <string name="pref_behaviour_actions_comment_header">Comment Actions</string>
     <string name="pref_behaviour_posts_header">Posts</string>
 
-    <string name="pref_behaviour_fling_post_left_key">pref_behaviour_fling_post_left</string>
+    <string name="pref_behaviour_fling_post_left_key" translatable="false">pref_behaviour_fling_post_left</string>
     <string name="pref_behaviour_fling_post_left_title">Fling Post Left Action</string>
 
-    <string name="pref_behaviour_fling_post_right_key">pref_behaviour_fling_post_right</string>
+    <string name="pref_behaviour_fling_post_right_key" translatable="false">pref_behaviour_fling_post_right</string>
     <string name="pref_behaviour_fling_post_right_title">Fling Post Right Action</string>
 
-    <string name="pref_behaviour_actions_comment_tap_key">pref_behaviour_actions_comment_tap</string>
+    <string name="pref_behaviour_actions_comment_tap_key" translatable="false">pref_behaviour_actions_comment_tap</string>
     <string name="pref_behaviour_actions_comment_tap_title">Comment Tap Action</string>
 
-    <string name="pref_behaviour_nsfw_key">pref_behaviour_nsfw</string>
+    <string name="pref_behaviour_nsfw_key" translatable="false">pref_behaviour_nsfw</string>
     <string name="pref_behaviour_nsfw_title">Show NSFW content</string>
 
     <!-- Cache Prefs -->
 
     <string name="pref_cache_pruning">Cache Pruning</string>
 
-    <string name="pref_cache_maxage_listing_key">pref_cache_maxage_listing</string>
+    <string name="pref_cache_maxage_listing_key" translatable="false">pref_cache_maxage_listing</string>
     <string name="pref_cache_maxage_listing_title">Delete cached listings after</string>
 
-    <string name="pref_cache_maxage_thumb_key">pref_cache_maxage_thumb</string>
+    <string name="pref_cache_maxage_thumb_key" translatable="false">pref_cache_maxage_thumb</string>
     <string name="pref_cache_maxage_thumb_title">Delete cached thumbnails after</string>
 
-    <string name="pref_cache_maxage_image_key">pref_cache_maxage_image</string>
+    <string name="pref_cache_maxage_image_key" translatable="false">pref_cache_maxage_image</string>
     <string name="pref_cache_maxage_image_title">Delete cached images after</string>
 
     <string name="pref_cache_precache_images_header">Precache Images</string>
 
-    <string name="pref_cache_precache_images_key">pref_cache_precache_images</string>
+    <string name="pref_cache_precache_images_key" translatable="false">pref_cache_precache_images</string>
     <string name="pref_cache_precache_images_title">Precache images</string>
 
     <!-- TODO use listpreference instead -->
-    <string name="pref_cache_precache_images_wifionly_key">pref_cache_precache_images_wifionly</string>
+    <string name="pref_cache_precache_images_wifionly_key" translatable="false">pref_cache_precache_images_wifionly</string>
     <string name="pref_cache_precache_images_wifionly_title">On Wi-Fi only</string>
 
     <!-- Menu Prefs -->
 
-    <string name="pref_menus_post_context_items_key">pref_menus_post_context_items_2</string>
+    <string name="pref_menus_post_context_items_key" translatable="false">pref_menus_post_context_items_2</string>
     <string name="pref_menus_post_context_items_title">Post Context Menu Items</string>
 
-    <string name="pref_menus_post_toolbar_items_key">pref_menus_post_toolbar_items</string>
+    <string name="pref_menus_post_toolbar_items_key" translatable="false">pref_menus_post_toolbar_items</string>
     <string name="pref_menus_post_toolbar_items_title">Post Toolbar Items</string>
 
     <!-- Options Menu -->
@@ -466,17 +466,17 @@
 
     <string name="title_changelog">What\'s New</string>
 
-    <string name="pref_behaviour_commentsort_key">pref_behaviour_commentsort</string>
+    <string name="pref_behaviour_commentsort_key" translatable="false">pref_behaviour_commentsort</string>
     <string name="pref_behaviour_commentsort">Default Comment Sort</string>
 
     <!-- 2013-05-18 -->
 
     <string name="action_fling_disabled">Disabled</string>
 
-    <string name="pref_about_version_key">pref_about_version</string>
+    <string name="pref_about_version_key" translatable="false">pref_about_version</string>
     <string name="pref_about_version_title">Version</string>
 
-    <string name="pref_about_changelog_key">pref_about_changelog</string>
+    <string name="pref_about_changelog_key" translatable="false">pref_about_changelog</string>
     <string name="prefs_category_about">About</string>
 
     <!-- 2013-06-07 -->
@@ -487,7 +487,7 @@
 
     <string name="pref_appearance_locale_header">Locale</string>
 
-    <string name="pref_appearance_langforce_key">pref_appearance_langforce_key</string>
+    <string name="pref_appearance_langforce_key" translatable="false">pref_appearance_langforce_key</string>
     <string name="pref_appearance_langforce_title">Language</string>
 
     <string name="lang_auto">Automatic</string>
@@ -503,7 +503,7 @@
 
     <string name="prefs_category_network">Network</string>
     <string name="pref_network_https_title">Enable HTTPS</string>
-    <string name="pref_network_https_key">pref_network_https</string>
+    <string name="pref_network_https_key" translatable="false">pref_network_https</string>
 
     <!-- 2013-07-01 -->
 
@@ -512,24 +512,24 @@
     <!-- 2013-07-26 -->
 
     <string name="pref_behaviour_useinternalbrowser_title">Use Internal Browser</string>
-    <string name="pref_behaviour_useinternalbrowser_key">pref_behaviour_useinternalbrowser</string>
+    <string name="pref_behaviour_useinternalbrowser_key" translatable="false">pref_behaviour_useinternalbrowser</string>
 
     <!-- 2013-07-29 -->
 
     <string name="pref_appearance_linkbuttons_title">Show Link Buttons</string>
-    <string name="pref_appearance_linkbuttons_key">pref_appearance_linkbuttons</string>
+    <string name="pref_appearance_linkbuttons_key" translatable="false">pref_appearance_linkbuttons</string>
 
     <!-- 2013-08-04 -->
 
     <string name="pref_appearance_indentlines_title">Show indent lines</string>
-    <string name="pref_appearance_indentlines_key">pref_appearance_indentlines</string>
+    <string name="pref_appearance_indentlines_key" translatable="false">pref_appearance_indentlines</string>
 
     <!-- 2014-03-14 -->
 
     <string name="load_more_posts">Load more posts</string>
 
     <string name="pref_behaviour_postcount_title">Restrict post count</string>
-    <string name="pref_behaviour_postcount_key">pref_behaviour_postcount</string>
+    <string name="pref_behaviour_postcount_key" translatable="false">pref_behaviour_postcount</string>
 
     <string name="pref_behaviour_postcount_items_all">All</string>
 
@@ -563,7 +563,7 @@
 
     <!-- 2014-04-13 -->
 
-    <string name="pref_menus_mainmenu_useritems_key">pref_menus_mainmenu_useritems</string>
+    <string name="pref_menus_mainmenu_useritems_key" translatable="false">pref_menus_mainmenu_useritems</string>
     <string name="pref_menus_mainmenu_useritems_title">Main Menu User Items</string>
 
     <string name="mainmenu_submitted">Submitted Posts</string>
@@ -637,14 +637,14 @@
 
     <!-- 2015-05-29 -->
     <string name="pref_behaviour_skiptofrontpage_title">Skip to front page</string>
-    <string name="pref_behaviour_skiptofrontpage_key">pref_behaviour_skiptofrontpage</string>
+    <string name="pref_behaviour_skiptofrontpage_key" translatable="false">pref_behaviour_skiptofrontpage</string>
 
     <!-- 2015-06-07 -->
     <string name="error_archived_vote" >This has been archived and can no longer be voted on.</string>
 
     <!-- 2015-06-20 -->
     <string name="pref_behaviour_screenorientation_title">Screen Orientation</string>
-    <string name="pref_behaviour_screenorientation_key">pref_behaviour_screenorientation</string>
+    <string name="pref_behaviour_screenorientation_key" translatable="false">pref_behaviour_screenorientation</string>
 
     <string name="screen_orientation_auto">Auto</string>
     <string name="screen_orientation_portrait">Portrait</string>
@@ -653,16 +653,16 @@
     <!-- 2015-06-28 -->
     <string name="options_close_all">Close All</string>
 
-    <string name="pref_menus_optionsmenu_items_key">pref_menus_optionsmenu_items_3</string>
+    <string name="pref_menus_optionsmenu_items_key" translatable="false">pref_menus_optionsmenu_items_3</string>
     <string name="pref_menus_optionsmenu_items_title">Options Menu Items</string>
 
     <!-- 2015-07-05 -->
     <string name="pref_behaviour_bezel_toolbar_header">Bezel Toolbar</string>
-    <string name="pref_behaviour_bezel_toolbar_swipezone_key">pref_behaviour_bezel_toolbar_swipezone</string>
+    <string name="pref_behaviour_bezel_toolbar_swipezone_key" translatable="false">pref_behaviour_bezel_toolbar_swipezone</string>
     <string name="pref_behaviour_bezel_toolbar_swipezone_title">Bezel toolbar swipe zone size</string>
 
     <string name="pref_behaviour_gifview_mode_title">GIF Viewer</string>
-    <string name="pref_behaviour_gifview_mode_key">pref_behaviour_gifview_mode</string>
+    <string name="pref_behaviour_gifview_mode_key" translatable="false">pref_behaviour_gifview_mode</string>
 
     <string name="pref_behaviour_gifview_mode_internal_movie">Internal viewer (Movie, Android 4.0+)</string>
     <string name="pref_behaviour_gifview_mode_internal_legacy">Internal viewer (Legacy)</string>
@@ -671,14 +671,14 @@
     <string name="pref_behaviour_view_mode_external_browser">External browser</string>
 
     <!-- 2015-08-15 -->
-    <string name="pref_appearance_fontscale_inbox_key">pref_appearance_fontscale_inbox</string>
+    <string name="pref_appearance_fontscale_inbox_key" translatable="false">pref_appearance_fontscale_inbox</string>
     <string name="pref_appearance_fontscale_inbox_title">Inbox Font Scale</string>
 
     <string name="action_delete">Delete</string>
     <string name="delete_confirm">Are you sure you want to delete this?</string>
     <string name="delete_success">Successfully deleted. The item will still be visible until you refresh.</string>
 
-    <string name="pref_appearance_hide_username_main_menu_key">pref_appearance_hide_username_main_menu</string>
+    <string name="pref_appearance_hide_username_main_menu_key" translatable="false">pref_appearance_hide_username_main_menu</string>
     <string name="pref_appearance_hide_username_main_menu_title">Hide username in main menu</string>
     <string name="mainmenu_useritems">User Items</string>
 
@@ -695,7 +695,7 @@
     <string name="upgrade_v190_login_message">RedReader has upgraded, and now uses oAuth for reddit authentication. If you were signed in to an account before the upgrade, you are now logged out.</string>
 
     <string name="pref_behaviour_videoview_mode_title">Video Viewer</string>
-    <string name="pref_behaviour_videoview_mode_key">pref_behaviour_videoview_mode</string>
+    <string name="pref_behaviour_videoview_mode_key" translatable="false">pref_behaviour_videoview_mode</string>
     <string name="pref_behaviour_videoview_mode_internal_videoview">Internal VideoView (recommended)</string>
     <string name="pref_behaviour_videoview_mode_external_app_vlc">External App: VLC</string>
 
@@ -710,15 +710,15 @@
 
     <!-- 2015-10-31 -->
     <string name="pref_behaviour_gallery_swipe_length_title">Gallery Swipe Length</string>
-    <string name="pref_behaviour_gallery_swipe_length_key">pref_behaviour_gallery_swipe_length</string>
+    <string name="pref_behaviour_gallery_swipe_length_key" translatable="false">pref_behaviour_gallery_swipe_length</string>
 
     <!-- 2015-11-19 -->
     <string name="pref_cache_precache_comments_header">Precache Comments</string>
 
-    <string name="pref_cache_precache_comments_key">pref_cache_precache_comments</string>
+    <string name="pref_cache_precache_comments_key" translatable="false">pref_cache_precache_comments</string>
     <string name="pref_cache_precache_comments_title">Precache comments</string>
 
-    <string name="pref_cache_precache_comments_wifionly_key">pref_cache_precache_comments_wifionly</string>
+    <string name="pref_cache_precache_comments_wifionly_key" translatable="false">pref_cache_precache_comments_wifionly</string>
     <string name="pref_cache_precache_comments_wifionly_title">On Wi-Fi only</string>
 
     <string name="mainmenu_header_subreddits_subscribed">Subscribed Subreddits</string>
@@ -726,7 +726,7 @@
 
     <string name="pin_subreddit">Pin to Main Menu</string>
     <string name="unpin_subreddit">Unpin from Main Menu</string>
-    <string name="pref_pinned_subreddits_key">pref_pinned_subreddits</string>
+    <string name="pref_pinned_subreddits_key" translatable="false">pref_pinned_subreddits</string>
 
     <!-- 2015-11-22 -->
     <string name="props_image_title">Image Info</string>
@@ -740,12 +740,12 @@
     <!-- 2015-12-19 -->
     <string name="block_subreddit">Block Subreddit</string>
     <string name="unblock_subreddit">Unblock Subreddit</string>
-    <string name="pref_blocked_subreddits_key">pref_blocked_subreddits</string>
+    <string name="pref_blocked_subreddits_key" translatable="false">pref_blocked_subreddits</string>
     <string name="block_done">Subreddit blocked. Future visits to /r/all will exclude this subreddit.</string>
     <string name="unblock_done">Subreddit unblocked. Future visits to /r/all will include this subreddit.</string>
 
     <!-- 2016-03-14-->
-    <string name="pref_behaviour_comment_min_key">pref_behaviour_comment_min</string>
+    <string name="pref_behaviour_comment_min_key" translatable="false">pref_behaviour_comment_min</string>
     <string name="pref_behaviour_comments_header">Comments</string>
 
     <string name="pref_behaviour_comment_min_title">Minimum Comment Score</string>
@@ -757,7 +757,7 @@
     <!-- 2016-04-02 -->
     <string name="open_with">Open with</string>
     <string name="pref_network_tor_title">Use TOR (experimental)</string>
-    <string name="pref_network_tor_key">pref_network_tor</string>
+    <string name="pref_network_tor_key" translatable="false">pref_network_tor</string>
 
     <!-- 2016-04-03 -->
     <string name="error_tor_not_installed">Tor will not work unless Orbot is installed. Install now?</string>
@@ -795,12 +795,12 @@
 	
 	<!-- 2016-06-25 -->
 	<string name="pref_behaviour_imageview_mode_title">Image Viewer</string>
-	<string name="pref_behaviour_imageview_mode_key">pref_behaviour_imageview_mode</string>
+	<string name="pref_behaviour_imageview_mode_key" translatable="false">pref_behaviour_imageview_mode</string>
 
 	<string name="pref_behaviour_imageview_mode_internal_opengl">Internal viewer (OpenGL)</string>
 
 	<string name="pref_behaviour_albumview_mode_title">Album Viewer</string>
-	<string name="pref_behaviour_albumview_mode_key">pref_behaviour_albumview_mode</string>
+	<string name="pref_behaviour_albumview_mode_key" translatable="false">pref_behaviour_albumview_mode</string>
 
 	<string name="pref_behaviour_albumview_mode_internal_list">Internal viewer (list)</string>
 
@@ -810,7 +810,7 @@
 	<string name="inbox_unread_only">Unread Messages Only</string>
 	
 	<!-- 2016-07-02 -->
-	<string name="pref_behaviour_actions_comment_longclick_key">pref_behaviour_actions_comment_longclick</string>
+	<string name="pref_behaviour_actions_comment_longclick_key" translatable="false">pref_behaviour_actions_comment_longclick</string>
 	<string name="pref_behaviour_actions_comment_longclick_title">Comment Long Click Action</string>
 
 	<string name="no_comments_yet">No comments yet.</string>
@@ -833,10 +833,10 @@
 	<string name="edit_comment_actionbar">Edit Comment</string>
 	
 	<!-- 2016-07-16 -->
-	<string name="pref_behaviour_fling_comment_left_key">pref_behaviour_fling_comment_left</string>
+	<string name="pref_behaviour_fling_comment_left_key" translatable="false">pref_behaviour_fling_comment_left</string>
 	<string name="pref_behaviour_fling_comment_left_title">Fling Comment Left Action</string>
 
-	<string name="pref_behaviour_fling_comment_right_key">pref_behaviour_fling_comment_right</string>
+	<string name="pref_behaviour_fling_comment_right_key" translatable="false">pref_behaviour_fling_comment_right</string>
 	<string name="pref_behaviour_fling_comment_right_title">Fling Comment Right Action</string>
 
 	<!-- 2016-07-17 -->
@@ -847,7 +847,7 @@
 	<string name="action_search_comments">Search Comments</string>
 
 	<!-- 2016-07-29 -->
-	<string name="pref_appearance_navbar_color_key">pref_appearance_navbar_color</string>
+	<string name="pref_appearance_navbar_color_key" translatable="false">pref_appearance_navbar_color</string>
 	<string name="pref_appearance_navbar_color_title">Navbar Colour</string>
 
 	<string name="pref_appearance_navbar_color_option_black">Black</string>
@@ -860,7 +860,7 @@
 	<string name="action_copy_text">Copy Text</string>
 	<string name="action_copy_link">Copy Link</string>
 
-	<string name="pref_behaviour_postsort_key">pref_behaviour_postsort</string>
+	<string name="pref_behaviour_postsort_key" translatable="false">pref_behaviour_postsort</string>
 	<string name="pref_behaviour_postsort">Default Post Sort</string>
 
 	<!-- 2016-08-06 -->
@@ -871,20 +871,20 @@
 
 	<string name="mainmenu_header_multireddits">Multireddits</string>
 
-	<string name="pref_behaviour_share_permalink_key">pref_behaviour_share_permalink</string>
+	<string name="pref_behaviour_share_permalink_key" translatable="false">pref_behaviour_share_permalink</string>
 	<string name="pref_behaviour_share_permalink_title">Share as permalink</string>
 
 	<!-- 2016-08-10 -->
 	<string name="pref_cache_general_header">General</string>
 
-	<string name="pref_cache_location_key">pref_cache_location</string>
+	<string name="pref_cache_location_key" translatable="false">pref_cache_location</string>
 	<string name="pref_cache_location_title">Cache storage location</string>
 
 	<string name="error_cache_dir_does_not_exist_title">Cache directory missing</string>
 	<string name="error_cache_dir_does_not_exist_message">The cache directory could not be accessed. Please choose a different location in the cache settings.</string>
 
 	<!-- 2016-08-15 -->
-	<string name="pref_behaviour_pinned_subredditsort_key">pref_behaviour_pinned_subreddit_sort</string>
+	<string name="pref_behaviour_pinned_subredditsort_key" translatable="false">pref_behaviour_pinned_subreddit_sort</string>
 	<string name="pref_behaviour_pinned_subredditsort">Pinned Subreddit Sort</string>
 	<string name="sort_pinned_subreddit_name">By Name</string>
 	<string name="sort_pinned_subreddit_date">By Added Date</string>
@@ -896,32 +896,32 @@
 	<string name="pref_appearance_image_viewer_header">Image Viewer</string>
 
 	<string name="pref_appearance_image_viewer_show_floating_toolbar_title">Show floating toolbar over image</string>
-	<string name="pref_appearance_image_viewer_show_floating_toolbar_key">pref_appearance_image_viewer_show_floating_toolbar</string>
+	<string name="pref_appearance_image_viewer_show_floating_toolbar_key" translatable="false">pref_appearance_image_viewer_show_floating_toolbar</string>
 
 	<string name="pref_appearance_link_text_clickable_title">Make link text clickable</string>
-	<string name="pref_appearance_link_text_clickable_key">pref_appearance_link_text_clickable</string>
+	<string name="pref_appearance_link_text_clickable_key" translatable="false">pref_appearance_link_text_clickable</string>
 
 	<!-- 2016-09-07 -->
 	<string name="pref_appearance_hide_android_status_title">Hide Android status bar</string>
-	<string name="pref_appearance_hide_android_status_key">pref_appearance_hide_android_status</string>
+	<string name="pref_appearance_hide_android_status_key" translatable="false">pref_appearance_hide_android_status</string>
 
 	<!-- 2016-09-08 -->
 	<string name="pref_behaviour_enable_swipe_refresh_title">Swipe down to refresh</string>
-	<string name="pref_behaviour_enable_swipe_refresh_key">pref_behaviour_enable_swipe_refresh</string>
+	<string name="pref_behaviour_enable_swipe_refresh_key" translatable="false">pref_behaviour_enable_swipe_refresh</string>
 
 	<!-- 2016-09-10 -->
 	<string name="mainmenu_header_subreddits_blocked">Blocked Subreddits</string>
-	<string name="pref_behaviour_blocked_subredditsort_key">pref_behaviour_blocked_subreddit_sort</string>
+	<string name="pref_behaviour_blocked_subredditsort_key" translatable="false">pref_behaviour_blocked_subreddit_sort</string>
 	<string name="pref_behaviour_blocked_subredditsort">Blocked Subreddit Sort</string>
 	<string name="sort_blocked_subreddit_name">By Name</string>
 	<string name="sort_blocked_subreddit_date">By Added Date</string>
 
 	<!-- 2016-09-21 -->
-	<string name="pref_appearance_show_blocked_subreddits_main_menu_key">pref_appearance_show_blocked_subreddits_main_menu</string>
+	<string name="pref_appearance_show_blocked_subreddits_main_menu_key" translatable="false">pref_appearance_show_blocked_subreddits_main_menu</string>
 	<string name="pref_appearance_show_blocked_subreddits_main_menu_title">Show blocked subreddits in main menu</string>
 
 	<!-- 2016-10-02 -->
-	<string name="pref_cache_rerequest_postlist_age_key">pref_cache_rerequest_postlist_age</string>
+	<string name="pref_cache_rerequest_postlist_age_key" translatable="false">pref_cache_rerequest_postlist_age</string>
 	<string name="pref_cache_rerequest_postlist_age_title">Refresh posts if cache older than</string>
 
 	<string name="time_2hr">2 hours</string>
@@ -966,4 +966,6 @@
 	<string name="pref_menus_link_context_items_key" translatable="false">pref_menus_link_context_items</string>
 	<string name="pref_menus_link_context_items_title">Link Context Menu Items</string>
 	<string name="web_view_share_open">Share/Open</string>
+	<string name="lang_eo" translatable="false">Esperanto</string>
+	<string name="lang_pl" translatable="false">Polski</string>
 </resources>

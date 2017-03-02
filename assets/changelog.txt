@@ -7,6 +7,7 @@ Support keyboard Go-action in custom location dialog (thanks to gaudecker)
 Enable sorting for users' submitted posts/comments (thanks to gaudecker)
 Show subreddit names in /r/popular
 Updated German translation (thanks to Clubfan22)
+Added Esperanto translation (thanks to verdulo)
 
 77/1.9.7
 Support for new post spoiler tag

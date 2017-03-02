@@ -193,6 +193,13 @@ public final class MarkdownParagraphGroup {
 							link.onClicked(activity);
 						}
 					});
+					ldv.setOnLongClickListener(new View.OnLongClickListener(){
+						@Override
+						public boolean onLongClick(View v){
+							link.onLongClicked(activity);
+							return true;
+						}
+					});
 				}
 			}
 		}

@@ -62,6 +62,9 @@ public final class MarkdownParagraph {
 		public void onClicked(AppCompatActivity activity) {
 			LinkHandler.onLinkClicked(activity, url, false);
 		}
+		public void onLongClicked(AppCompatActivity activity) {
+			LinkHandler.onLinkLongClicked(activity, url);
+		}
 	}
 
 	public MarkdownParagraph(CharArrSubstring raw, MarkdownParagraph parent, MarkdownParser.MarkdownParagraphType type,

@@ -172,6 +172,14 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH2TextIcon> {
 					albumInfo, vh.getAdapterPosition());
 			}
 		});
+		vh.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+			@Override
+			public boolean onLongClick(View v) {
+				LinkHandler.onLinkLongClicked(activity, imageInfo.urlOriginal, false);
+				return true;
+			}
+		});
+
 	}
 
 	@Override

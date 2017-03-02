@@ -148,7 +148,7 @@ public class WebViewActivity extends BaseActivity implements RedditPostView.Post
 		menu.add(0, VIEW_IN_BROWSER, 0, R.string.web_view_open_browser);
 		menu.add(0, CLEAR_CACHE, 1, R.string.web_view_clear_cache);
 		menu.add(0, USE_HTTPS, 2, R.string.webview_use_https);
-		menu.add(0, SHARE, 3, R.string.web_view_share_open);
+		menu.add(0, SHARE, 3, R.string.action_share);
 		return super.onCreateOptionsMenu(menu);
 	}
 

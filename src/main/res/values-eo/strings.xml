@@ -841,5 +841,4 @@
 	
 	<!-- 2017-03-02 -->
 	<string name="pref_menus_link_context_items_title">Elementoj de ligila kuntekst-menuo</string>
-	<string name="web_view_share_open">Diskonigi/malfermi</string>
 </resources>

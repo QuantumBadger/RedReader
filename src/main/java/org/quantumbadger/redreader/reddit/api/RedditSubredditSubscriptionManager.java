@@ -85,7 +85,7 @@ public class RedditSubredditSubscriptionManager {
 		subscriptions = db.getById(user.getCanonicalUsername());
 
 		if(subscriptions != null) {
-			addToHistory(subscriptions.toHashset());
+			addToHistory(user, subscriptions.toHashset());
 		}
 	}
 
@@ -133,13 +133,13 @@ public class RedditSubredditSubscriptionManager {
 		listeners.map(notifier, SubredditSubscriptionChangeType.LIST_UPDATED);
 	}
 
-	private static void addToHistory(final HashSet<String> newSubscriptions)
+	private static void addToHistory(final RedditAccount account, final HashSet<String> newSubscriptions)
 	{
 		for(final String sub : newSubscriptions)
 		{
 			try
 			{
-				RedditSubredditHistory.addSubreddit(sub);
+				RedditSubredditHistory.addSubreddit(account, sub);
 			}
 			catch(RedditSubreddit.InvalidSubredditNameException e)
 			{
@@ -158,7 +158,7 @@ public class RedditSubredditSubscriptionManager {
 		// TODO threaded? or already threaded due to cache manager
 		db.put(subscriptions);
 
-		addToHistory(newSubscriptions);
+		addToHistory(user, newSubscriptions);
 
 		listeners.map(notifier, SubredditSubscriptionChangeType.LIST_UPDATED);
 	}

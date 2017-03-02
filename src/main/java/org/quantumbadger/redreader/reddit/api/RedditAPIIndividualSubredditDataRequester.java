@@ -96,7 +96,7 @@ public class RedditAPIIndividualSubredditDataRequester implements CacheDataSourc
 					subreddit.downloadTime = timestamp;
 					handler.onRequestSuccess(subreddit, timestamp);
 
-					RedditSubredditHistory.addSubreddit(subredditCanonicalName);
+					RedditSubredditHistory.addSubreddit(user, subredditCanonicalName);
 
 				} catch(Exception e) {
 					handler.onRequestFailed(new SubredditRequestFailure(CacheRequest.REQUEST_FAILURE_PARSE, e, null, "Parse error", url));
@@ -140,7 +140,7 @@ public class RedditAPIIndividualSubredditDataRequester implements CacheDataSourc
 
 						try
 						{
-							RedditSubredditHistory.addSubreddit(innerResult.getCanonicalName());
+							RedditSubredditHistory.addSubreddit(user, innerResult.getCanonicalName());
 						}
 						catch(RedditSubreddit.InvalidSubredditNameException e)
 						{

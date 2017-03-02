@@ -1,9 +1,12 @@
 78/1.9.8
+Added long-click menu for links and album list items (thanks to Clubfan22)
+Added share/open option to internal browser (thanks to Clubfan22)
 Added post/comment fling action preference for "go back"
 Private message replies are now part of the original conversion, rather than starting a new one
 Support keyboard Go-action in custom location dialog (thanks to gaudecker)
 Enable sorting for users' submitted posts/comments (thanks to gaudecker)
 Show subreddit names in /r/popular
+Updated German translation (thanks to Clubfan22)
 
 77/1.9.7
 Support for new post spoiler tag

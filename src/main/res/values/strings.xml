@@ -962,8 +962,8 @@
 	<!-- 2017-02-23 -->
 	<string name="action_back">Back</string>
 
-  <!-- 2017-03-02 -->	
-  <string name="pref_menus_link_context_items_key" translatable="false">pref_menus_link_context_items</string>
+	<!-- 2017-03-02 -->
+	<string name="pref_menus_link_context_items_key" translatable="false">pref_menus_link_context_items</string>
 	<string name="pref_menus_link_context_items_title">Link Context Menu Items</string>
-  <string name="web_view_share_open">Share/Open</string>
+	<string name="web_view_share_open">Share/Open</string>
 </resources>

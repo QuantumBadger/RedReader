@@ -18,7 +18,7 @@
 
 <resources>
 
-    <string name="app_name">RedReader</string>
+    <string name="app_name" translatable="false">RedReader</string>
 
     <!-- First Run Dialog -->
 
@@ -491,13 +491,13 @@
     <string name="pref_appearance_langforce_title">Language</string>
 
     <string name="lang_auto">Automatic</string>
-    <string name="lang_en">English</string>
-    <string name="lang_da">Dansk</string>
-	<string name="lang_de">Deutsch</string>
-	<string name="lang_fr">Français</string>
-	<string name="lang_ar">عربي</string>
-	<string name="lang_es">Español</string>
-	<string name="lang_cs">Česky</string>
+    <string name="lang_en" translatable="false">English</string>
+    <string name="lang_da" translatable="false">Dansk</string>
+	<string name="lang_de" translatable="false">Deutsch</string>
+	<string name="lang_fr" translatable="false">Français</string>
+	<string name="lang_ar" translatable="false">عربي</string>
+	<string name="lang_es" translatable="false">Español</string>
+	<string name="lang_cs" translatable="false">Česky</string>
 
     <!-- 2013-06-25 -->
 
@@ -615,7 +615,7 @@
     <string name="webview_use_https">Use HTTPS</string>
 
     <!-- 2015-01-16 -->
-	<string name="lang_it">Italiano</string>
+	<string name="lang_it" translatable="false">Italiano</string>
 
     <!-- 2015-01-26 -->
     <string name="sort_posts_relevance">Relevance</string>
@@ -752,7 +752,7 @@
     <string name="pref_behaviour_comment_min_dialog_title">Collapse comment if score below (blank to show all)</string>
 
     <!-- 2016-03-20 -->
-    <string name="lang_se">Svenska</string>
+    <string name="lang_se" translatable="false">Svenska</string>
 
     <!-- 2016-04-02 -->
     <string name="open_with">Open with</string>
@@ -927,16 +927,16 @@
 	<string name="time_2hr">2 hours</string>
 	<string name="time_3hr">3 hours</string>
 
-	<string name="lang_nl">Nederlands</string>
+	<string name="lang_nl" translatable="false">Nederlands</string>
 
 	<!-- 2016-10-08 -->
 	<string name="time_every_time">Every time</string>
 
 	<!-- 2016-11-02 -->
-	<string name="lang_ro">Romanian</string>
+	<string name="lang_ro" translatable="false">Romanian</string>
 
 	<!-- 2016-11-14 -->
-	<string name="lang_hu">Magyar</string>
+	<string name="lang_hu" translatable="false">Magyar</string>
 
 	<!-- 2016-12-03 -->
 	<string name="theme_name_night_lowcontrast">Night (low contrast)</string>

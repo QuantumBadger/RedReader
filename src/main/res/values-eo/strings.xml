@@ -180,7 +180,7 @@
     <string name="action_actionmenu_short">Agoj</string>
     <string name="action_actionmenu">Menuo de agoj</string>
     <string name="action_comment_links">Ligiloj en komento</string>
-    <string name="action_selftext_links">Ligiloj en mem-teksto</string>
+    <string name="action_selftext_links">Ligiloj en memafiŝo</string>
     <string name="action_share">Diskonigi</string>
     <string name="action_share_comments">Diskonigi komentojn</string>
     <string name="action_copy">Kopii</string>
@@ -325,7 +325,7 @@
     <string name="props_url">URL</string>
     <string name="props_num_comments">Nombro da komentoj</string>
     <string name="props_body_markdown">Tekst-korpo (kruda Markdown)</string>
-    <string name="props_self_markdown">Mem-teksto (kruda Markdown)</string>
+    <string name="props_self_markdown">Memafiŝo (kruda Markdown)</string>
 
     <string name="props_never">Neniam</string>
     <string name="props_up">Supren</string>
@@ -392,7 +392,7 @@
     <string name="message_cannotlogin">Ne povas ensaluti.</string>
 
     <string name="error_toast_no_urls_in_comment">Neniu URL trovita en tiu ĉi komento.</string>
-    <string name="error_toast_no_urls_in_self">Neniu URL trovita en tiu ĉi mem-teksto.</string>
+    <string name="error_toast_no_urls_in_self">Neniu URL trovita en tiu ĉi memafiŝo.</string>
     <string name="error_toast_parent_post_not_downloaded">Superafiŝo ne estas ankoraŭ elŝutita.</string>
 
     <string name="download_subreddits">Elŝutado de redditeroj…</string>
@@ -707,7 +707,7 @@
 	<string name="submit_post_specify_subreddit">Precizigi redditeron</string>
 	<string name="submit_post_title_empty">Titolo ne povas esti malplena</string>
 	<string name="submit_post_url_empty">URL ne povas esti malplena</string>
-	<string name="submit_post_self_text_hint">Mem-teksto</string>
+	<string name="submit_post_self_text_hint">Memafiŝo</string>
 	<string name="submit_post_url_hint">Ligilo</string>
 
 	<!-- 2016-06-24 -->

@@ -326,7 +326,7 @@
 
     <string name="props_title">Tytuł</string>
     <string name="props_author">Autor</string>
-    <string name="props_author_flair">Tekst /'Flair/' autora</string>
+    <string name="props_author_flair">Tekst \'Flair\' autora</string>
     <string name="props_created">Utworzony</string>
     <string name="props_edited">Edytowany</string>
     <string name="props_score">Punkty</string>

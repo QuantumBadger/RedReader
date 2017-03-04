@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources>
 	<string name="app_name">RedReader</string>
 	<string name="accounts_anon">Anônimo</string>
@@ -82,7 +83,7 @@
 	<string name="error_403_title_nonreddit">Permissão Negada</string>
 	<string name="error_404_message">A informação requisitada não pôde ser encontrada.</string>
 	<string name="error_404_title">Não Encontrado (404)</string>
-	<string name="error_bad_captcha_message">O CAPTCHA que você digitou estava incorreto. Por favor tente novamente.</string>
+	<string name="error_bad_captcha_message">O CAPTCHA que você digitou está incorreto. Por favor tente novamente.</string>
 	<string name="error_archived_vote">Isso foi arquivado e não pode ser votado.</string>
 	<string name="error_cache_dir_does_not_exist_message">A pasta de cache não pôde ser acessada. Por favor escolha um local diferente nas configurações de cache.</string>
 	<string name="error_bad_captcha_title">CAPTCHA Inválido</string>
@@ -262,10 +263,10 @@
 	<string name="action_upvote">Positivar</string>
 	<string name="action_upvote_remove">Remover Positivação</string>
 	<string name="comment_header_specific_thread_title">Você está visualizando um tópico de comentário.</string>
-	<string name="comment_reply_done">Resposta enviada. O comentário irá apareder depois de atualizar.</string>
+	<string name="comment_reply_done">Resposta enviada. O comentário irá aparecer depois de atualizar.</string>
 	<string name="comment_reply_oncancel">Esperando resultados da ação.</string>
 	<string name="comment_reply_preview">Visualizar</string>
-	<string name="error_403_message">O usuário não tem premissões para executar esta ação. Tente sair e entrar novamente (removendo a conta da lista de contas, e adicionando novamente).</string>
+	<string name="error_403_message">O usuário não tem permissões para executar esta ação. Tente sair e entrar novamente (removendo a conta da lista de contas, e adicionando novamente).</string>
 	<string name="error_403_message_nonreddit">O servidor respondeu com um erro de permissão negada.</string>
 	<string name="error_cache_dir_does_not_exist_title">Pasta de cache não encontrada</string>
 	<string name="error_cancelled_message">A operação atual foi cancelada.</string>
@@ -281,7 +282,7 @@
 	<string name="userprofile_moderator">É moderador</string>
 	<string name="userprofile_isgold">Reddit Gold</string>
 	<string name="userprofile_isfriend">É Amigo</string>
-	<string name="userprofile_hasmodmail">Tem mensagens de moderadores</string>
+	<string name="userprofile_hasmodmail">Tem email de moderador</string>
 	<string name="userprofile_hasmail">Tem Email</string>
 	<string name="upload_to_imgur">Enviar para Imgur</string>
 	<string name="upgrade_v190_login_message">RedReader atualizou, e agora usa oAuth para a autenticação com o reddit. Se você tiver feito login em uma conta antes da atualização, você será desconectado.</string>
@@ -416,7 +417,7 @@
 	<string name="pref_behaviour_fling_post_left_title">Ação de Deslizar Post para Esquerda</string>
 	<string name="pref_behaviour_fling_comment_right_title">Ação de Deslizar Comentário para Direita</string>
 	<string name="pref_behaviour_fling_comment_left_title">Ação de Deslizar Comentário para Esquerda</string>
-	<string name="pref_behaviour_enable_swipe_refresh_title">Deslizar pra baixo para atualizar</string>
+	<string name="pref_behaviour_enable_swipe_refresh_title">Deslizar para baixo para atualizar</string>
 	<string name="pref_behaviour_commentsort">Ordenação Padrão dos Comentários</string>
 	<string name="pref_behaviour_comments_header">Comentários</string>
 	<string name="pref_behaviour_comment_min_title">Pontuação Mínima dos Comentários</string>
@@ -503,8 +504,8 @@
 	<string name="mainmenu_custom_destination_url">URL</string>
 	<string name="load_more_comments_failed_unknown_url_type">Não foi possível carregar mais comentários: tipo de URL desconhecido.</string>
 	<string name="listing_cached">Visualizando cópia em cache de %s</string>
-	<string name="karma_link">Karma do Link</string>
-	<string name="karma_comment">Karma do Comentário</string>
+	<string name="karma_link">Karma nos Links</string>
+	<string name="karma_comment">Karma nos Comentários</string>
 	<string name="invalid_subreddit_name">Nome de Subreddit Inválido</string>
 	<string name="inbox_unread_only">Apenas Mensagens não Visualizadas</string>
 	<string name="imageview_oom">Sem Memória. Tentando navegador interno.</string>
@@ -521,7 +522,7 @@
 	<string name="error_url_required_message">Você deve especificar uma URL.</string>
 	<string name="error_upload_fail_imgur_message">O envio foi rejeitado pelo Imgur por um motivo desconhecido.</string>
 	<string name="error_unknown_message">Um erro desconhecido aconteceu. Por favor tente novamente.</string>
-	<string name="error_unknown_api_message">O servidr não aceitou a requisição por motivos desconhecidos. Por favor tente novamente.</string>
+	<string name="error_unknown_api_message">O servidor não aceitou a requisição por motivos desconhecidos. Por favor tente novamente.</string>
 	<string name="error_unexpected_storage_title">Erro de armazenamento desconhecido</string>
 	<string name="error_unexpected_storage_message">Ocorreu um erro interno desconhecido, relacionado ao armazenamento de cache. Você provavelmente está ficando sem espaço.</string>
 	<string name="error_unexpected_cache_title">Erro de cache inesperado</string>
@@ -546,12 +547,11 @@
 	<string name="error_subreddit_required_title">Subreddit Requerido</string>
 	<string name="error_title_login_unknown_reddit_error">Erro desconhecido do Reddit: %s</string>
 	<string name="error_title_login_user_denied_permission">Permissão Negada</string>
-	<string name="error_toast_no_urls_in_comment">Nenhuma URL encontrada nesse comentário.</string>
+	<string name="error_toast_no_urls_in_comment">Nenhuma URL encontrada neste comentário.</string>
 	<string name="error_toast_no_urls_in_self">Nenhuma URL encontrada no texto.</string>
 	<string name="error_toast_notloggedin">Você precisa estar logado para fazer isso.</string>
 	<string name="error_toast_parent_post_not_downloaded">O post pai ainda não foi baixado.</string>
 	<string name="error_too_fast_message">Muito rápido</string>
 	<string name="error_too_long_message">Reddit diz que o texto que você inseriu é muito longo.</string>
 	<string name="error_tor_not_installed">O Tor não funcionará a menos que o Orbot esteja instalado. Instalar agora?</string>
-
 </resources>

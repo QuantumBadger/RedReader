@@ -611,8 +611,6 @@ public class MainMenuListingManager {
 							mActivity,
 							PreferenceManager.getDefaultSharedPreferences(mActivity),
 							subredditCanonicalName);
-						//setPinnedSubreddits();
-						//setBlockedSubreddits();
 					} else {
 						Toast.makeText(mActivity, R.string.mainmenu_toast_subscribed, Toast.LENGTH_SHORT).show();
 					}
@@ -624,8 +622,6 @@ public class MainMenuListingManager {
 								mActivity,
 								PreferenceManager.getDefaultSharedPreferences(mActivity),
 								subredditCanonicalName);
-						//setPinnedSubreddits();
-						//setBlockedSubreddits();
 					} else {
 						Toast.makeText(mActivity, R.string.mainmenu_toast_not_pinned, Toast.LENGTH_SHORT).show();
 					}
@@ -638,8 +634,6 @@ public class MainMenuListingManager {
 								mActivity,
 								PreferenceManager.getDefaultSharedPreferences(mActivity),
 								subredditCanonicalName);
-						//setPinnedSubreddits();
-						//setBlockedSubreddits();
 					} else {
 						Toast.makeText(mActivity, R.string.mainmenu_toast_blocked, Toast.LENGTH_SHORT).show();
 					}
@@ -652,8 +646,6 @@ public class MainMenuListingManager {
 								mActivity,
 								PreferenceManager.getDefaultSharedPreferences(mActivity),
 								subredditCanonicalName);
-						//setPinnedSubreddits();
-						//setBlockedSubreddits();
 					} else {
 						Toast.makeText(mActivity, R.string.mainmenu_toast_not_blocked, Toast.LENGTH_SHORT).show();
 					}
@@ -665,6 +657,7 @@ public class MainMenuListingManager {
 						subMan.subscribe(subredditCanonicalName, activity);
 						setPinnedSubreddits();
 						setBlockedSubreddits();
+						Toast.makeText(mActivity, R.string.options_subscribing, Toast.LENGTH_SHORT).show();
 					} else {
 						Toast.makeText(mActivity, R.string.mainmenu_toast_subscribed, Toast.LENGTH_SHORT).show();
 					}
@@ -676,6 +669,7 @@ public class MainMenuListingManager {
 						subMan.unsubscribe(subredditCanonicalName, activity);
 						setPinnedSubreddits();
 						setBlockedSubreddits();
+						Toast.makeText(mActivity, R.string.options_unsubscribing , Toast.LENGTH_SHORT).show();
 					} else {
 						Toast.makeText(mActivity, R.string.mainmenu_toast_not_subscribed, Toast.LENGTH_SHORT).show();
 					}

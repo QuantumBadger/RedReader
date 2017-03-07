@@ -10,6 +10,7 @@ Subreddit autocomplete is now account-specific (thanks to Clubfan22)
 Updated German translation (thanks to Clubfan22)
 Added Esperanto translation (thanks to verdulo)
 Added Polish translation (thanks to verdulo)
+Added Portuguese translation (thanks to Anderson Fernandes)
 
 77/1.9.7
 Support for new post spoiler tag

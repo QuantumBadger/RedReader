@@ -9,6 +9,7 @@ Show subreddit names in /r/popular
 Subreddit autocomplete is now account-specific (thanks to Clubfan22)
 Updated German translation (thanks to Clubfan22)
 Added Esperanto translation (thanks to verdulo)
+Added Polish translation (thanks to verdulo)
 
 77/1.9.7
 Support for new post spoiler tag

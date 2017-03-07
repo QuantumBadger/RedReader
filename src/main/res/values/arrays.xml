@@ -389,7 +389,9 @@
 		<item>@string/action_external</item>
 		<item>@string/action_share</item>
 		<item>@string/action_copy_link</item>
-		<item>@string/options_unsubscribe</item>
+		<item>@string/pin_subreddit</item>
+		<item>@string/options_subscribe</item>
+		<item>@string/block_subreddit</item>
 	</string-array>
 
 	<!-- Constants. Do not change. -->
@@ -397,14 +399,18 @@
 		<item>external</item>
 		<item>share</item>
 		<item>copy_url</item>
-		<item>unsubscribe</item>
+		<item>pin</item>
+		<item>subscribe</item>
+		<item>block</item>
 	</string-array>
 
 	<string-array name="pref_menus_subreddit_context_items_default">
 		<item>external</item>
 		<item>share</item>
 		<item>copy_url</item>
-		<item>unsubscribe</item>
+		<item>pin</item>
+		<item>subscribe</item>
+		<item>block</item>
 	</string-array>
 
     <string-array name="pref_menus_post_toolbar_items">

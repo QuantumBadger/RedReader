@@ -971,5 +971,10 @@
 	<!-- 2017-03-07 -->
 	<string name="pref_menus_subreddit_context_items_key" translatable="false">pref_menus_subreddit_context_items</string>
 	<string name="pref_menus_subreddit_context_items_title">Subreddit Context Menu Items</string>
-	<string name="mainmenu_toast_not_subscribed">You are not subscribed to this subreddit!</string>
+	<string name="mainmenu_toast_not_subscribed">You are not subscribed to this subreddit yet!</string>
+	<string name="mainmenu_toast_subscribed">You are already subscribed to this subreddit!</string>
+	<string name="mainmenu_toast_not_pinned">This subreddit is not pinned to the main menu!</string>
+	<string name="mainmenu_toast_pinned">This subreddit is already pinned to the main menu!</string>
+	<string name="mainmenu_toast_not_blocked">This subreddit is not blocked!</string>
+	<string name="mainmenu_toast_blocked">This subreddit is already blocked!</string>
 </resources>

@@ -88,6 +88,11 @@ public class MainMenuListingManager {
 	public enum SubredditAction {
 		SHARE(R.string.action_share),
 		COPY_URL(R.string.action_copy_link),
+		BLOCK(R.string.block_subreddit),
+		UNBLOCK(R.string.unblock_subreddit),
+		PIN(R.string.pin_subreddit),
+		UNPIN(R.string.unpin_subreddit),
+		SUBSCRIBE(R.string.options_subscribe),
 		UNSUBSCRIBE(R.string.options_unsubscribe),
 		EXTERNAL(R.string.action_external);
 
@@ -223,54 +228,13 @@ public class MainMenuListingManager {
 			}
 		}
 
-		final List<String> pinnedSubreddits
-				= PrefsUtility.pref_pinned_subreddits(context, PreferenceManager.getDefaultSharedPreferences(context));
-		final PrefsUtility.PinnedSubredditSort pinnedSubredditsSort = PrefsUtility.pref_behaviour_pinned_subredditsort(context, PreferenceManager.getDefaultSharedPreferences(context));
-		if(!pinnedSubreddits.isEmpty()) {
-
-			mAdapter.appendToGroup(
-					GROUP_PINNED_SUBREDDITS_HEADER,
-					new GroupedRecyclerViewItemListSectionHeaderView(
-							context.getString(R.string.mainmenu_header_subreddits_pinned)));
-
-			boolean isFirst = true;
-			switch (pinnedSubredditsSort){
-				case NAME: Collections.sort(pinnedSubreddits); break;
-				case DATE: /*noop*/break;
-			}
-
-			for(final String sr : pinnedSubreddits) {
-				mAdapter.appendToGroup(GROUP_PINNED_SUBREDDITS_ITEMS, makeSubredditItem(sr, isFirst));
-				isFirst = false;
-			}
-		}
+		setPinnedSubreddits();
 
 		if(PrefsUtility.pref_appearance_show_blocked_subreddits_main_menu(
 				context,
 				PreferenceManager.getDefaultSharedPreferences(context))) {
-			final List<String> blockedSubreddits
-					= PrefsUtility.pref_blocked_subreddits(context, PreferenceManager.getDefaultSharedPreferences(context));
-			final PrefsUtility.BlockedSubredditSort blockedSubredditsSort = PrefsUtility.pref_behaviour_blocked_subredditsort(context, PreferenceManager.getDefaultSharedPreferences(context));
-			if (!blockedSubreddits.isEmpty()) {
-				mAdapter.appendToGroup(
-						GROUP_BLOCKED_SUBREDDITS_HEADER,
-						new GroupedRecyclerViewItemListSectionHeaderView(
-								context.getString(R.string.mainmenu_header_subreddits_blocked)));
 
-				switch (blockedSubredditsSort) {
-					case NAME:
-						Collections.sort(blockedSubreddits);
-						break;
-					case DATE: /*noop*/
-						break;
-				}
-
-				boolean isFirst = true;
-				for (final String sr : blockedSubreddits) {
-					mAdapter.appendToGroup(GROUP_BLOCKED_SUBREDDITS_ITEMS, makeSubredditItem(sr, isFirst));
-					isFirst = false;
-				}
-			}
+			setBlockedSubreddits();
 		}
 
 		if(!user.isAnonymous()) {
@@ -300,6 +264,74 @@ public class MainMenuListingManager {
 			mAdapter.appendToGroup(GROUP_SUBREDDITS_ITEMS, subredditsLoadingItem);
 		}
 	}
+
+	private void setPinnedSubreddits() {
+		final List<String> pinnedSubreddits
+				= PrefsUtility.pref_pinned_subreddits(mActivity, PreferenceManager.getDefaultSharedPreferences(mActivity));
+		final PrefsUtility.PinnedSubredditSort pinnedSubredditsSort = PrefsUtility.pref_behaviour_pinned_subredditsort(mActivity, PreferenceManager.getDefaultSharedPreferences(mActivity));
+
+
+		if (pinnedSubreddits != null) {
+			mAdapter.removeAllFromGroup(GROUP_PINNED_SUBREDDITS_ITEMS);
+			mAdapter.removeAllFromGroup(GROUP_PINNED_SUBREDDITS_HEADER);
+		}
+		if (!pinnedSubreddits.isEmpty()) {
+			mAdapter.appendToGroup(
+					GROUP_PINNED_SUBREDDITS_HEADER,
+					new GroupedRecyclerViewItemListSectionHeaderView(
+							mActivity.getString(R.string.mainmenu_header_subreddits_pinned)));
+			boolean isFirst = true;
+			switch (pinnedSubredditsSort) {
+				case NAME:
+					Collections.sort(pinnedSubreddits);
+					break;
+				case DATE: /*noop*/
+					break;
+			}
+
+			for (final String sr : pinnedSubreddits) {
+				mAdapter.appendToGroup(GROUP_PINNED_SUBREDDITS_ITEMS, makeSubredditItem(sr, isFirst));
+				isFirst = false;
+			}
+		}
+
+	}
+
+	private void setBlockedSubreddits() {
+
+
+		final List<String> blockedSubreddits
+				= PrefsUtility.pref_blocked_subreddits(mActivity, PreferenceManager.getDefaultSharedPreferences(mActivity));
+		final PrefsUtility.BlockedSubredditSort blockedSubredditsSort = PrefsUtility.pref_behaviour_blocked_subredditsort(mActivity, PreferenceManager.getDefaultSharedPreferences(mActivity));
+
+		if (blockedSubreddits != null) {
+			mAdapter.removeAllFromGroup(GROUP_BLOCKED_SUBREDDITS_ITEMS);
+			mAdapter.removeAllFromGroup(GROUP_BLOCKED_SUBREDDITS_HEADER);
+		}
+
+		if (!blockedSubreddits.isEmpty()) {
+			mAdapter.appendToGroup(
+					GROUP_BLOCKED_SUBREDDITS_HEADER,
+					new GroupedRecyclerViewItemListSectionHeaderView(
+							mActivity.getString(R.string.mainmenu_header_subreddits_blocked)));
+
+			switch (blockedSubredditsSort) {
+				case NAME:
+					Collections.sort(blockedSubreddits);
+					break;
+				case DATE: /*noop*/
+					break;
+			}
+
+			boolean isFirst = true;
+			for (final String sr : blockedSubreddits) {
+				mAdapter.appendToGroup(GROUP_BLOCKED_SUBREDDITS_ITEMS, makeSubredditItem(sr, isFirst));
+				isFirst = false;
+			}
+		}
+
+	}
+
 
 	private void showMultiredditsHeader(@NonNull final Context context) {
 
@@ -471,6 +503,8 @@ public class MainMenuListingManager {
 			public boolean onLongClick(final View view) {
 				try {
 					final EnumSet<SubredditAction> itemPref = PrefsUtility.pref_menus_subreddit_context_items(mActivity, PreferenceManager.getDefaultSharedPreferences(mActivity));
+					List<String> pinnedSubreddits = PrefsUtility.pref_pinned_subreddits(mActivity, PreferenceManager.getDefaultSharedPreferences(mActivity));
+
 					if (itemPref.isEmpty()) {
 						return true;
 					}
@@ -486,9 +520,34 @@ public class MainMenuListingManager {
 						menu.add(new SubredditMenuItem(mActivity, R.string.action_share, SubredditAction.SHARE));
 					}
 
-					if (!RedditAccountManager.getInstance(mActivity).getDefaultAccount().isAnonymous()
-							&& itemPref.contains(SubredditAction.UNSUBSCRIBE)) {
-						menu.add(new SubredditMenuItem(mActivity, R.string.options_unsubscribe, SubredditAction.UNSUBSCRIBE));
+					if (itemPref.contains(SubredditAction.BLOCK)){
+						final List<String> blockedSubreddits = PrefsUtility.pref_blocked_subreddits(mActivity, PreferenceManager.getDefaultSharedPreferences(mActivity));
+
+						if (blockedSubreddits.contains(subredditCanonicalName)){
+							menu.add(new SubredditMenuItem(mActivity, R.string.unblock_subreddit, SubredditAction.UNBLOCK));
+						} else {
+							menu.add(new SubredditMenuItem(mActivity, R.string.block_subreddit, SubredditAction.BLOCK));
+						}
+					}
+
+					if (itemPref.contains(SubredditAction.PIN)){
+						if (pinnedSubreddits.contains(subredditCanonicalName)){
+							menu.add(new SubredditMenuItem(mActivity, R.string.unpin_subreddit,SubredditAction.UNPIN));
+						} else {
+							menu.add(new SubredditMenuItem(mActivity, R.string.pin_subreddit, SubredditAction.PIN));
+						}
+					}
+
+					if (!RedditAccountManager.getInstance(mActivity).getDefaultAccount().isAnonymous()) {
+						if (itemPref.contains(SubredditAction.SUBSCRIBE)) {
+							if (RedditSubredditSubscriptionManager
+									.getSingleton(mActivity, RedditAccountManager.getInstance(mActivity).getDefaultAccount())
+									.getSubscriptionState(subredditCanonicalName) == RedditSubredditSubscriptionManager.SubredditSubscriptionState.SUBSCRIBED) {
+								menu.add(new SubredditMenuItem(mActivity, R.string.options_unsubscribe, SubredditAction.UNSUBSCRIBE));
+							} else {
+								menu.add(new SubredditMenuItem(mActivity, R.string.options_subscribe, SubredditAction.SUBSCRIBE));
+							}
+						}
 					}
 
 					final String[] menuText = new String[menu.size()];
@@ -523,6 +582,11 @@ public class MainMenuListingManager {
 	private void onSubredditActionMenuItemSelected(String subredditCanonicalName, AppCompatActivity activity, SubredditAction action) {
 		try {
 			final String url = "https://" + SubredditPostListURL.getSubreddit(subredditCanonicalName).humanReadableUrl();
+			RedditSubredditSubscriptionManager subMan = RedditSubredditSubscriptionManager
+					.getSingleton(activity, RedditAccountManager.getInstance(activity).getDefaultAccount());
+			List<String> pinnedSubreddits = PrefsUtility.pref_pinned_subreddits(mActivity, PreferenceManager.getDefaultSharedPreferences(mActivity));
+			List<String> blockedSubreddits = PrefsUtility.pref_blocked_subreddits(mActivity, PreferenceManager.getDefaultSharedPreferences(mActivity));
+
 			switch (action) {
 				case SHARE:
 					final Intent mailer = new Intent(Intent.ACTION_SEND);
@@ -541,15 +605,80 @@ public class MainMenuListingManager {
 					activity.startActivity(intent);
 					break;
 
+				case PIN:
+					if (!pinnedSubreddits.contains(subredditCanonicalName)){
+						PrefsUtility.pref_pinned_subreddits_add(
+							mActivity,
+							PreferenceManager.getDefaultSharedPreferences(mActivity),
+							subredditCanonicalName);
+						//setPinnedSubreddits();
+						//setBlockedSubreddits();
+					} else {
+						Toast.makeText(mActivity, R.string.mainmenu_toast_subscribed, Toast.LENGTH_SHORT).show();
+					}
+					break;
+
+				case UNPIN:
+					if (pinnedSubreddits.contains(subredditCanonicalName)) {
+						PrefsUtility.pref_pinned_subreddits_remove(
+								mActivity,
+								PreferenceManager.getDefaultSharedPreferences(mActivity),
+								subredditCanonicalName);
+						//setPinnedSubreddits();
+						//setBlockedSubreddits();
+					} else {
+						Toast.makeText(mActivity, R.string.mainmenu_toast_not_pinned, Toast.LENGTH_SHORT).show();
+					}
+					break;
+
+				case BLOCK:
+
+					if (!blockedSubreddits.contains(subredditCanonicalName)){
+						PrefsUtility.pref_blocked_subreddits_add(
+								mActivity,
+								PreferenceManager.getDefaultSharedPreferences(mActivity),
+								subredditCanonicalName);
+						//setPinnedSubreddits();
+						//setBlockedSubreddits();
+					} else {
+						Toast.makeText(mActivity, R.string.mainmenu_toast_blocked, Toast.LENGTH_SHORT).show();
+					}
+					break;
+
+				case UNBLOCK:
+
+					if (blockedSubreddits.contains(subredditCanonicalName)){
+						PrefsUtility.pref_blocked_subreddits_remove(
+								mActivity,
+								PreferenceManager.getDefaultSharedPreferences(mActivity),
+								subredditCanonicalName);
+						//setPinnedSubreddits();
+						//setBlockedSubreddits();
+					} else {
+						Toast.makeText(mActivity, R.string.mainmenu_toast_not_blocked, Toast.LENGTH_SHORT).show();
+					}
+					break;
+
+				case SUBSCRIBE:
+
+					if (subMan.getSubscriptionState(subredditCanonicalName) == RedditSubredditSubscriptionManager.SubredditSubscriptionState.NOT_SUBSCRIBED){
+						subMan.subscribe(subredditCanonicalName, activity);
+						setPinnedSubreddits();
+						setBlockedSubreddits();
+					} else {
+						Toast.makeText(mActivity, R.string.mainmenu_toast_subscribed, Toast.LENGTH_SHORT).show();
+					}
+					break;
+
 				case UNSUBSCRIBE:
-					RedditSubredditSubscriptionManager subMan =	RedditSubredditSubscriptionManager
-							.getSingleton(activity, RedditAccountManager.getInstance(activity).getDefaultAccount());
+
 					if (subMan.getSubscriptionState(subredditCanonicalName) == RedditSubredditSubscriptionManager.SubredditSubscriptionState.SUBSCRIBED){
 						subMan.unsubscribe(subredditCanonicalName, activity);
+						setPinnedSubreddits();
+						setBlockedSubreddits();
 					} else {
 						Toast.makeText(mActivity, R.string.mainmenu_toast_not_subscribed, Toast.LENGTH_SHORT).show();
 					}
-
 					break;
 			}
 		} catch (RedditSubreddit.InvalidSubredditNameException ex){

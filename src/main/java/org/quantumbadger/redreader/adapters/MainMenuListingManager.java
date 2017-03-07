@@ -17,21 +17,30 @@
 
 package org.quantumbadger.redreader.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.text.ClipboardManager;
 import android.view.View;
+import android.widget.Toast;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
+import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.common.AndroidApi;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.MainMenuFragment;
+import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.url.MultiredditPostListURL;
 import org.quantumbadger.redreader.reddit.url.PostListingURL;
@@ -41,11 +50,7 @@ import org.quantumbadger.redreader.views.list.GroupedRecyclerViewItemListItemVie
 import org.quantumbadger.redreader.views.list.GroupedRecyclerViewItemListSectionHeaderView;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MainMenuListingManager {
@@ -66,6 +71,7 @@ public class MainMenuListingManager {
 
 	@NonNull private final GroupedRecyclerViewAdapter mAdapter = new GroupedRecyclerViewAdapter(12);
 	@NonNull private final Context mContext;
+	@NonNull private final AppCompatActivity mActivity;
 
 	@NonNull private final MainMenuSelectionListener mListener;
 
@@ -79,14 +85,29 @@ public class MainMenuListingManager {
 		return mAdapter;
 	}
 
+	public enum SubredditAction {
+		SHARE(R.string.action_share),
+		COPY_URL(R.string.action_copy_link),
+		UNSUBSCRIBE(R.string.options_unsubscribe),
+		EXTERNAL(R.string.action_external);
+
+		public final int descriptionResId;
+
+		SubredditAction(final int descriptionResId){
+			this.descriptionResId = descriptionResId;
+		}
+	}
+
 	public MainMenuListingManager(
-			@NonNull final Context context,
+			@NonNull final AppCompatActivity activity,
 			@NonNull final MainMenuSelectionListener listener,
 			@NonNull final RedditAccount user) {
 
 		General.checkThisIsUIThread();
 
-		mContext = context.getApplicationContext();
+		mActivity = activity;
+		mContext = activity.getApplicationContext();
+		Context context = activity;
 		mListener = listener;
 
 		final Drawable rrIconPerson;
@@ -445,7 +466,95 @@ public class MainMenuListingManager {
 			}
 		};
 
-		return new GroupedRecyclerViewItemListItemView(null, name, hideDivider, clickListener, null);
+		final View.OnLongClickListener longClickListener = new View.OnLongClickListener() {
+			@Override
+			public boolean onLongClick(final View view) {
+				try {
+					final EnumSet<SubredditAction> itemPref = PrefsUtility.pref_menus_subreddit_context_items(mActivity, PreferenceManager.getDefaultSharedPreferences(mActivity));
+					if (itemPref.isEmpty()) {
+						return true;
+					}
+					final String subredditCanonicalName = RedditSubreddit.getCanonicalName(name);
+					final ArrayList<SubredditMenuItem> menu = new ArrayList<>();
+					if (itemPref.contains(SubredditAction.COPY_URL)){
+						menu.add(new SubredditMenuItem(mActivity, R.string.action_copy_link, SubredditAction.COPY_URL));
+					}
+					if (itemPref.contains(SubredditAction.EXTERNAL)) {
+						menu.add(new SubredditMenuItem(mActivity, R.string.action_external, SubredditAction.EXTERNAL));
+					}
+					if (itemPref.contains(SubredditAction.SHARE)){
+						menu.add(new SubredditMenuItem(mActivity, R.string.action_share, SubredditAction.SHARE));
+					}
+
+					if (!RedditAccountManager.getInstance(mActivity).getDefaultAccount().isAnonymous()
+							&& itemPref.contains(SubredditAction.UNSUBSCRIBE)) {
+						menu.add(new SubredditMenuItem(mActivity, R.string.options_unsubscribe, SubredditAction.UNSUBSCRIBE));
+					}
+
+					final String[] menuText = new String[menu.size()];
+
+					for (int i = 0; i < menuText.length; i++) {
+						menuText[i] = menu.get(i).title;
+					}
+
+					final AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+
+					builder.setItems(menuText, new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							onSubredditActionMenuItemSelected(subredditCanonicalName, mActivity, menu.get(which).action);
+						}
+					});
+
+					final AlertDialog alert = builder.create();
+					alert.setCanceledOnTouchOutside(true);
+					alert.show();
+
+				} catch(RedditSubreddit.InvalidSubredditNameException e) {
+					throw new RuntimeException(e);
+				}
+				return true;
+			}
+		};
+
+		return new GroupedRecyclerViewItemListItemView(null, name, hideDivider, clickListener, longClickListener);
+	}
+
+	private void onSubredditActionMenuItemSelected(String subredditCanonicalName, AppCompatActivity activity, SubredditAction action) {
+		try {
+			final String url = "https://" + SubredditPostListURL.getSubreddit(subredditCanonicalName).humanReadableUrl();
+			switch (action) {
+				case SHARE:
+					final Intent mailer = new Intent(Intent.ACTION_SEND);
+					mailer.setType("text/plain");
+					mailer.putExtra(Intent.EXTRA_TEXT, url);
+					activity.startActivity(Intent.createChooser(mailer, activity.getString(R.string.action_share)));
+					break;
+				case COPY_URL:
+					ClipboardManager manager = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
+					manager.setText(url);
+					break;
+
+				case EXTERNAL:
+					final Intent intent = new Intent(Intent.ACTION_VIEW);
+					intent.setData(Uri.parse(url));
+					activity.startActivity(intent);
+					break;
+
+				case UNSUBSCRIBE:
+					RedditSubredditSubscriptionManager subMan =	RedditSubredditSubscriptionManager
+							.getSingleton(activity, RedditAccountManager.getInstance(activity).getDefaultAccount());
+					if (subMan.getSubscriptionState(subredditCanonicalName) == RedditSubredditSubscriptionManager.SubredditSubscriptionState.SUBSCRIBED){
+						subMan.unsubscribe(subredditCanonicalName, activity);
+					} else {
+						Toast.makeText(mActivity, R.string.mainmenu_toast_not_subscribed, Toast.LENGTH_SHORT).show();
+					}
+
+					break;
+			}
+		} catch (RedditSubreddit.InvalidSubredditNameException ex){
+			throw new RuntimeException(ex);
+		}
 	}
 
 	private GroupedRecyclerViewItemListItemView makeMultiredditItem(
@@ -460,5 +569,15 @@ public class MainMenuListingManager {
 		};
 
 		return new GroupedRecyclerViewItemListItemView(null, name, hideDivider, clickListener, null);
+	}
+
+	private static class SubredditMenuItem {
+		public final String title;
+		public final SubredditAction action;
+
+		private SubredditMenuItem(Context context, int titleRes, SubredditAction action) {
+			this.title = context.getString(titleRes);
+			this.action = action;
+		}
 	}
 }

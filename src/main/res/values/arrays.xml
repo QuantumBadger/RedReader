@@ -385,6 +385,28 @@
         <item>properties</item>
     </string-array>
 
+	<string-array name="pref_menus_subreddit_context_items">
+		<item>@string/action_external</item>
+		<item>@string/action_share</item>
+		<item>@string/action_copy_link</item>
+		<item>@string/options_unsubscribe</item>
+	</string-array>
+
+	<!-- Constants. Do not change. -->
+	<string-array name="pref_menus_subreddit_context_items_return">
+		<item>external</item>
+		<item>share</item>
+		<item>copy_url</item>
+		<item>unsubscribe</item>
+	</string-array>
+
+	<string-array name="pref_menus_subreddit_context_items_default">
+		<item>external</item>
+		<item>share</item>
+		<item>copy_url</item>
+		<item>unsubscribe</item>
+	</string-array>
+
     <string-array name="pref_menus_post_toolbar_items">
         <item>@string/action_actionmenu</item>
         <item>@string/action_comments_switch</item>

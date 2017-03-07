@@ -26,6 +26,7 @@ import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.OptionsMenuUtility;
+import org.quantumbadger.redreader.adapters.MainMenuListingManager;
 import org.quantumbadger.redreader.fragments.MainMenuFragment;
 import org.quantumbadger.redreader.io.WritableHashSet;
 import org.quantumbadger.redreader.reddit.PostSort;
@@ -640,7 +641,17 @@ public final class PrefsUtility {
 
 		final EnumSet<LinkHandler.LinkAction> result = EnumSet.noneOf(LinkHandler.LinkAction.class);
 		for(String s : strings) result.add(LinkHandler.LinkAction.valueOf(General.asciiUppercase(s)));
-		
+
+		return result;
+	}
+
+	public static EnumSet<MainMenuListingManager.SubredditAction> pref_menus_subreddit_context_items(final Context context, final SharedPreferences sharedPreferences) {
+
+		final Set<String> strings = getStringSet(R.string.pref_menus_subreddit_context_items_key, R.array.pref_menus_subreddit_context_items_return, context, sharedPreferences);
+
+		final EnumSet<MainMenuListingManager.SubredditAction> result = EnumSet.noneOf(MainMenuListingManager.SubredditAction.class);
+		for(String s : strings) result.add(MainMenuListingManager.SubredditAction.valueOf(General.asciiUppercase(s)));
+
 		return result;
 	}
 

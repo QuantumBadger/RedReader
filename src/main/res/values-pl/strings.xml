@@ -185,7 +185,7 @@
     <string name="action_external">Otwórz w zewnętrznej przeglądarce</string>
     <string name="action_external_short">W przeglądarce</string>
     <string name="action_actionmenu_short">Akcje</string>
-    <string name="action_actionmenu">Manu akcji</string>
+    <string name="action_actionmenu">Menu akcji</string>
     <string name="action_comment_links">Odnośniki w komentarzu</string>
     <string name="action_selftext_links">Odnośniki w poście tekstowym</string>
     <string name="action_share">Udostępnij</string>
@@ -387,7 +387,7 @@
 
     <string name="button_moredetail">Więcej detali</string>
 
-    <string name="pref_appearance_scale_normal">Domyślny</string>
+    <string name="pref_appearance_scale_normal">Domyślna</string>
 
     <string name="error_invalid_password_title">Nieprawidłowe hasło</string>
     <string name="error_invalid_password_message">Twoja nazwa użytkownika lub hasło są błędne.</string>
@@ -490,7 +490,7 @@
     <string name="options_unsubscribe">Wypisz się</string>
     <string name="options_subscribing">Abonowanie…</string>
     <string name="options_unsubscribing">Wypisywanie…</string>
-    <string name="options_sidebar">Pokazuj panel boczny</string>
+    <string name="options_sidebar">Pokaż panel boczny</string>
 
     <!-- 2014-04-13 -->
 
@@ -820,7 +820,7 @@
 	<string name="time_every_time">Zawsze</string>
 
 	<!-- 2016-12-03 -->
-	<string name="theme_name_night_lowcontrast">Nocna (nicki kontrast)</string>
+	<string name="theme_name_night_lowcontrast">Nocna (niski kontrast)</string>
 	<string name="theme_name_ultrablack">Smolisto czarna</string>
 
 	<!-- 2016-12-07 -->

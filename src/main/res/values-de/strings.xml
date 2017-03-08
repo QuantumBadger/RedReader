@@ -768,6 +768,7 @@ Thanks to /u/balducien and /u/andiho for this translation!
 	<string name="pref_menus_optionsmenu_items_key">pref_menus_optionsmenu_items_3</string>
 	<string name="pref_menus_optionsmenu_items_title">Einträge des Optionsmenüs</string>
 	<string name="pref_menus_link_context_items_title">Link-Kontextmenü</string>
+	<string name="pref_menus_subreddit_context_items_title">Subreddit-Kontextmenü</string>
 	<string name="pref_network_tor_key">pref_network_tor</string>
 	<string name="pref_network_tor_title">TOR benutzen (experimentell)</string>
 	<string name="pref_not_supported_before_lollipop">Vor Android Lollipop nicht unterstützt</string>
@@ -818,4 +819,10 @@ Thanks to /u/balducien and /u/andiho for this translation!
 	<string name="webview_https_already">Die aktuelle URL verwendet bereits HTTPS.</string>
 	<string name="webview_https_unknownprotocol">Unbekanntes Protokoll, erwartet wurde \'http://\'</string>
 	<string name="webview_use_https">HTTPS verwenden</string>
+	<string name="mainmenu_toast_not_subscribed">Sie haben dieses Subreddit noch nicht abonniert!</string>
+	<string name="mainmenu_toast_blocked">Dieses Subreddit ist bereits blockiert!</string>
+	<string name="mainmenu_toast_not_blocked">Dieses Subreddit ist nicht blockiert!</string>
+	<string name="mainmenu_toast_subscribed">Sie haben dieses Subreddit bereits abonniert!</string>
+	<string name="mainmenu_toast_not_pinned">Dieses Subreddit ist nicht angepinnt!</string>
+	<string name="mainmenu_toast_pinned">Dieses Subreddit ist bereits angepinnt!</string>
 </resources>

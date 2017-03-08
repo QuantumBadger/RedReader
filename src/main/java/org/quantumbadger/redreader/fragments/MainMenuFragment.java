@@ -89,7 +89,7 @@ public class MainMenuFragment extends RRFragment
 		mOuter = recyclerViewManager.getOuterView();
 		final RecyclerView recyclerView = recyclerViewManager.getRecyclerView();
 
-		mManager = new MainMenuListingManager(context, this, user);
+		mManager = new MainMenuListingManager(getActivity(), this, user);
 
 		recyclerView.setAdapter(mManager.getAdapter());
 

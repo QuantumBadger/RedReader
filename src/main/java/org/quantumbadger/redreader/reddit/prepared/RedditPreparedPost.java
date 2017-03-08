@@ -683,7 +683,7 @@ public final class RedditPreparedPost {
 			AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 				@Override
 				public void run() {
-					Toast.makeText(activity, "You must be logged in to do that.", Toast.LENGTH_SHORT).show();
+					Toast.makeText(activity, activity.getString(R.string.error_toast_notloggedin), Toast.LENGTH_SHORT).show();
 				}
 			});
 

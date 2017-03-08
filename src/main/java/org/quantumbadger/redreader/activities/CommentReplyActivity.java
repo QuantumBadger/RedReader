@@ -134,7 +134,7 @@ public class CommentReplyActivity extends BaseActivity {
 		}
 
 		if(usernames.size() == 0) {
-			General.quickToast(this, "You must be logged in to do that.");
+			General.quickToast(this, getString(R.string.error_toast_notloggedin));
 			finish();
 		}
 

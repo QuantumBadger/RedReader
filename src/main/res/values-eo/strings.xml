@@ -47,7 +47,7 @@
     <string name="pref_appearance_fontscale_comments_title">Skali tiparon de komentoj</string>
     <string name="pref_appearance_thumbnails_show_title">Montri miniaturojn</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">Montri maldecajn miniaturojn</string>
-    <string name="pref_appearance_thumbnails_wifionly_title">Miniaturoj nur je vifio</string>
+    <string name="pref_appearance_thumbnails_wifionly_title">Miniaturoj nur per vifio</string>
     <string name="pref_appearance_loading_detail_title">Montri detalajn sciigojn pri ŝargado</string>
     <string name="pref_appearance_comment_header_items_title">Koment-kapo</string>
 
@@ -73,7 +73,7 @@
 
     <!-- TODO use listpreference instead -->
 
-    <string name="pref_cache_precache_images_wifionly_title">Nur tra vifio</string>
+    <string name="pref_cache_precache_images_wifionly_title">Nur per vifio</string>
 
     <!-- Menu Prefs -->
 
@@ -120,7 +120,7 @@
     <!-- Accounts Dialog -->
 
     <string name="accounts_anon">Anonimulo</string>
-    <string name="accounts_active">Aktivaj</string>
+    <string name="accounts_active">Aktiva</string>
     <string name="accounts_add">Aldoni Reddit-konton</string>
     <string name="accounts_setactive">Aktivigi</string>
     <string name="accounts_reauth">Reaŭtentigi</string>
@@ -141,7 +141,7 @@
     <string name="sort_posts_top">Popularaj</string>
     <string name="sort_posts_top_hour">Popularaj: lasta horo</string>
     <string name="sort_posts_top_today">Popularaj: lasta tago</string>
-    <string name="sort_posts_top_week">Popularaj lasta semajno</string>
+    <string name="sort_posts_top_week">Popularaj: lasta semajno</string>
     <string name="sort_posts_top_month">Popularaj: lasta monato</string>
     <string name="sort_posts_top_year">Popularaj: lasta jaro</string>
     <string name="sort_posts_top_all">Popularaj: ĉiam</string>
@@ -305,7 +305,7 @@
     <string name="userprofile_hasmail">Havas retpoŝton</string>
     <string name="userprofile_hasmodmail">Havas retpoŝton de kontrolanto</string>
     <string name="userprofile_isfriend">Estas amiko</string>
-    <string name="userprofile_isgold">Ora Reddit</string>
+    <string name="userprofile_isgold">Reddit Gold</string>
     <string name="userprofile_moderator">Estas kontrolanto</string>
     <string name="userprofile_viewcomments">Montri komentojn</string>
     <string name="userprofile_viewposts">Montri afiŝojn</string>
@@ -321,7 +321,7 @@
     <string name="props_author_flair">Aŭtora Flair-teksto</string>
     <string name="props_created">Kreita je</string>
     <string name="props_edited">Redaktita je</string>
-    <string name="props_score">Poentoj</string>
+    <string name="props_score">Poento(j)</string>
     <string name="props_subreddit">Redditero</string>
     <string name="props_url">URL</string>
     <string name="props_num_comments">Nombro da komentoj</string>
@@ -431,9 +431,9 @@
     <!-- 2013-06-09 -->
 
     <string name="pref_appearance_locale_header">Lingvo</string>
-
     <string name="pref_appearance_langforce_title">Lingvo</string>
-
+	<string name="lang_auto">Aŭtomata</string>
+	
     <!-- 2013-06-25 -->
 
     <string name="prefs_category_network">Reto</string>
@@ -516,8 +516,8 @@
     <string name="web_view_clear_cache_success_toast">Forviŝis kaŝmemoron, historion, kuketojn kaj formular-datumojn.</string>
 
     <!-- 2014-09-21 -->
-    <string name="gold">Ora</string>
-    <string name="pref_appearance_comment_header_items_gold">Ora Reddit</string>
+    <string name="gold">Gold</string>
+    <string name="pref_appearance_comment_header_items_gold">Reddit Gold</string>
 
     <!-- 2014-11-15 -->
     <string name="karma_link">Ligila karmo</string>
@@ -562,7 +562,7 @@
     <string name="download_authorizing">Aŭtentigado…</string>
 
     <!-- 2015-05-29 -->
-    <string name="pref_behaviour_skiptofrontpage_title">Transsalte al ĉefpaĝo</string>
+    <string name="pref_behaviour_skiptofrontpage_title">Transsalti al ĉefpaĝo</string>
 
     <!-- 2015-06-07 -->
     <string name="error_archived_vote" >Tio ĉi estas arĥivita kaj oni ne povas plu voĉdoni ĝin.</string>
@@ -632,7 +632,7 @@
     <!-- 2015-11-19 -->
     <string name="pref_cache_precache_comments_header">Antaŭŝargi komentojn</string>
     <string name="pref_cache_precache_comments_title">Antaŭŝargi komentojn</string>
-    <string name="pref_cache_precache_comments_wifionly_title">Nur tra vifio</string>
+    <string name="pref_cache_precache_comments_wifionly_title">Nur per vifio</string>
 
     <string name="mainmenu_header_subreddits_subscribed">Abonataj redditeroj</string>
     <string name="mainmenu_header_subreddits_pinned">Alpinglitaj redditeroj</string>
@@ -772,7 +772,7 @@
 	<string name="pref_behaviour_share_permalink_title">Diskonigi kiel konstantan ligilon</string>
 
 	<!-- 2016-08-10 -->
-	<string name="pref_cache_general_header">Ĝenerala</string>
+	<string name="pref_cache_general_header">Ĝeneralaj</string>
 
 	<string name="pref_cache_location_title">Loko por kaŝmemoro</string>
 
@@ -802,13 +802,13 @@
 	<string name="mainmenu_header_subreddits_blocked">Blokitaj redditeroj</string>
 	<string name="pref_behaviour_blocked_subredditsort">Ordigo de blokitaj redditeroj</string>
 	<string name="sort_blocked_subreddit_name">Laŭ nomo</string>
-	<string name="sort_blocked_subreddit_date">Laŭ dato de aldono</string>
+	<string name="sort_blocked_subreddit_date">Laŭ dato de bloko</string>
 
 	<!-- 2016-09-21 -->
 	<string name="pref_appearance_show_blocked_subreddits_main_menu_title">Montri blokitajn redditerojn en ĉefmenuo</string>
 
 	<!-- 2016-10-02 -->
-	<string name="pref_cache_rerequest_postlist_age_title">Aktualigi afiŝojn se kaŝmemoro malnova ol</string>
+	<string name="pref_cache_rerequest_postlist_age_title">Aktualigi afiŝojn se kaŝmemoro pli malnova ol</string>
 
 	<string name="time_2hr">2 horoj</string>
 	<string name="time_3hr">3 horoj</string>

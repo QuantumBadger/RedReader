@@ -357,7 +357,7 @@ public class RedditAPICommentAction {
 		final RedditAccount user = RedditAccountManager.getInstance(activity).getDefaultAccount();
 
 		if(user.isAnonymous()) {
-			General.quickToast(activity, "You must be logged in to do that.");
+			General.quickToast(activity, activity.getString(R.string.error_toast_notloggedin));
 			return;
 		}
 

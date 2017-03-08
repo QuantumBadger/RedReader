@@ -190,7 +190,7 @@
     <string name="action_edit">Redakti</string>
     <string name="action_user_profile">Profilo de uzanto</string>
     <string name="action_user_profile_short">Uzanto</string>
-    <string name="action_properties">Agordoj</string>
+    <string name="action_properties">Ecoj</string>
     <string name="action_comments">Montri komentojn</string>
     <string name="action_comments_switch">Iri al komentoj</string>
     <string name="action_comments_short">Komentoj</string>
@@ -318,7 +318,7 @@
 
     <string name="props_title">Titolo</string>
     <string name="props_author">Aŭtoro</string>
-    <string name="props_author_flair">Aŭtora Flair-teksto</string>
+    <string name="props_author_flair">Aŭtora etiked-teksto</string>
     <string name="props_created">Kreita je</string>
     <string name="props_edited">Redaktita je</string>
     <string name="props_score">Poento(j)</string>
@@ -349,7 +349,7 @@
     <string name="pref_appearance_twopane_never">Neniam</string>
     <string name="pref_appearance_twopane_auto">Aŭtomate detekti</string>
     <string name="pref_appearance_twopane_landscape">Nur horizontale</string>
-    <string name="pref_appearance_twopane_force">Ĉiam (povus aspekti kurioze)</string>
+    <string name="pref_appearance_twopane_force">Ĉiam (povas aspekti kurioze)</string>
 
     <string name="theme_name_red">Ruĝa</string>
     <string name="theme_name_night">Nokta</string>
@@ -368,7 +368,7 @@
     <string name="time_3month">3 monatoj</string>
 
     <string name="pref_appearance_comment_header_items_author">Aŭtoro</string>
-    <string name="pref_appearance_comment_header_items_flair">Flair</string>
+    <string name="pref_appearance_comment_header_items_flair">Etikedo</string>
     <string name="pref_appearance_comment_header_items_score">Poentaro</string>
     <string name="pref_appearance_comment_header_items_upsdowns">Voĉdonoj por/kontraŭ</string>
     <string name="pref_appearance_comment_header_items_age">Aĝo</string>
@@ -398,7 +398,7 @@
 
     <string name="download_subreddits">Elŝutado de redditeroj…</string>
 
-    <string name="subtitle_points">poentoj</string>
+    <string name="subtitle_points">poento(j)</string>
     <string name="subtitle_by">de</string>
     <string name="subtitle_to">al</string>
 	<plurals name="subtitle_replies">
@@ -843,4 +843,13 @@
 	<!-- 2017-03-02 -->
 	<string name="pref_menus_link_context_items_title">Elementoj de ligila kuntekst-menuo</string>
 	<string name="web_view_share_open">Diskonigi/malfermi</string>
+	
+	<!-- 2017-03-07 -->
+	<string name="pref_menus_subreddit_context_items_title">Elementoj de redditera kuntekst-menuo</string>
+	<string name="mainmenu_toast_not_subscribed">Vi ankoraŭ ne abonas tiun ĉi redditeron!</string>
+	<string name="mainmenu_toast_subscribed">Vi jam abonas tiun ĉi redditero!</string>
+	<string name="mainmenu_toast_not_pinned">Tiu ĉi redditero ne estas alpinglita al la ĉefmenuo!</string>
+	<string name="mainmenu_toast_pinned">Tiu ĉi redditero estas jam alpinglita al la ĉefmenuo!</string>
+	<string name="mainmenu_toast_not_blocked">Tiu ĉi redditero ne estas blokita!</string>
+	<string name="mainmenu_toast_blocked">Tiu ĉi redditero estas jam blokita!</string>
 </resources>

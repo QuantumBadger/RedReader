@@ -977,4 +977,5 @@
 	<string name="mainmenu_toast_pinned">This subreddit is already pinned to the main menu!</string>
 	<string name="mainmenu_toast_not_blocked">This subreddit is not blocked!</string>
 	<string name="mainmenu_toast_blocked">This subreddit is already blocked!</string>
+  <string name="lang_pt" translatable="false">Português</string>
 </resources>

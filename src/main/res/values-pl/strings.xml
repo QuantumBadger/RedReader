@@ -196,7 +196,7 @@
     <string name="action_edit">Edytuj</string>
     <string name="action_user_profile">Profil użytkownika</string>
     <string name="action_user_profile_short">Użytkownik</string>
-    <string name="action_properties">Ustawienia</string>
+    <string name="action_properties">Właściwości</string>
     <string name="action_comments">Pokaż komentarze</string>
     <string name="action_comments_switch">Powrót do komentarzy</string>
     <string name="action_comments_short">Komentarze</string>
@@ -367,13 +367,13 @@
     <string name="theme_name_orange">Pomarańczowa</string>
     <string name="theme_name_gray">Szara</string>
 
-    <string name="time_1hr">1 godzina</string>
-    <string name="time_6hr">6 godzin</string>
-    <string name="time_1day">1 dzień</string>
-    <string name="time_3day">3 dni</string>
-    <string name="time_1week">1 tydzień</string>
-    <string name="time_1month">1 miesiąc</string>
-    <string name="time_3month">3 miesiące</string>
+    <string name="time_1hr">1 godzinie</string>
+    <string name="time_6hr">6 godzinach</string>
+    <string name="time_1day">1 dniu</string>
+    <string name="time_3day">3 dniach</string>
+    <string name="time_1week">1 tygodniu</string>
+    <string name="time_1month">1 miesiącu</string>
+    <string name="time_3month">3 miesiącach</string>
 
     <string name="pref_appearance_comment_header_items_author">Autor</string>
     <string name="pref_appearance_comment_header_items_flair">Flair</string>
@@ -407,7 +407,7 @@
     <string name="download_subreddits">Pobieranie subredditów…</string>
 
     <string name="subtitle_points">pkt.</string>
-    <string name="subtitle_by">prze</string>
+    <string name="subtitle_by">przez</string>
     <string name="subtitle_to">do</string>
 	<plurals name="subtitle_replies">
 		<item quantity="zero">…</item>
@@ -472,11 +472,11 @@
     <string name="time_day">dzień</string>
     <string name="time_days">dni</string>
     <string name="time_hour">godzina</string>
-    <string name="time_hours">godziny</string>
+    <string name="time_hours">godzin(y)</string>
     <string name="time_min">minuta</string>
-    <string name="time_mins">minuty</string>
+    <string name="time_mins">minut(y)</string>
     <string name="time_sec">sekunda</string>
-    <string name="time_secs">sekundy</string>
+    <string name="time_secs">sekund(y)</string>
     <string name="time_ms">ms</string>
 
     <!-- 2014-03-18 -->
@@ -498,7 +498,7 @@
 
     <string name="mainmenu_submitted">Opublikowane posty</string>
     <string name="mainmenu_downvoted">Posty głosowane przeciw</string>
-    <string name="mainmenu_modmail">el-poczta moderatora</string>
+    <string name="mainmenu_modmail">El-poczta moderatora</string>
 
     <string name="sidebar_activity_title">Panel boczny</string>
 
@@ -813,8 +813,8 @@
 	<!-- 2016-10-02 -->
 	<string name="pref_cache_rerequest_postlist_age_title">Odświeżaj posty, jeżeli kopia w pomięci podręcznej starsza niż</string>
 
-	<string name="time_2hr">2 godziny</string>
-	<string name="time_3hr">3 godziny</string>
+	<string name="time_2hr">2 godzinach</string>
+	<string name="time_3hr">3 godzinach</string>
 
 	<!-- 2016-10-08 -->
 	<string name="time_every_time">Zawsze</string>
@@ -846,4 +846,15 @@
 	<!-- 2017-03-02 -->
 	<string name="pref_menus_link_context_items_title">Elementy menu kontekstowego odnośnika</string>
 	<string name="web_view_share_open">Udostępnij/otwórz</string>
+	
+	<!-- 2017-03-07 -->
+	<string name="pref_menus_subreddit_context_items_title">Elementy menu kontekstowego subreddita</string>
+	<string name="mainmenu_toast_not_subscribed">Jeszcze nie abonujesz tego subreddita!</string>
+	<string name="mainmenu_toast_subscribed">Już abonujesz ten subreddit!</string>
+	<string name="mainmenu_toast_not_pinned">Ten subreddit nie jest przypięty do menu głownego!</string>
+	<string name="mainmenu_toast_pinned">Ten subreddit jest już przypięty do menu głównego!</string>
+	<string name="mainmenu_toast_not_blocked">Ten subreddit nie jest jeszcze zablokowany!</string>
+	<string name="mainmenu_toast_blocked">Ten subreddit jest już zablokowany!</string>
+	
+	
 </resources>

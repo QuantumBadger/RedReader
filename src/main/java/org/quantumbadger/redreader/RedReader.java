@@ -20,6 +20,9 @@ package org.quantumbadger.redreader;
 import android.app.Application;
 import android.os.Environment;
 import android.util.Log;
+
+import com.contentsquare.android.ContentSquare;
+
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.common.Alarms;
 import org.quantumbadger.redreader.io.RedditChangeDataIO;
@@ -37,6 +40,7 @@ public class RedReader extends Application {
 	public void onCreate() {
 
 		super.onCreate();
+		ContentSquare.startWithProjectId(getApplicationContext(), "devtest");
 
 		Log.i("RedReader", "Application created.");
 

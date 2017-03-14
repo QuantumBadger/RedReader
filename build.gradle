@@ -15,12 +15,16 @@ repositories {
 }
 
 dependencies {
-    compile 'com.fasterxml.jackson.core:jackson-core:2.7.3'
+
+	debugCompile project(path: ':library', configuration: "debug")
+	releaseCompile project(path: ':library', configuration: "release")
+
+	compile 'com.fasterxml.jackson.core:jackson-core:2.7.3'
     compile 'org.apache.commons:commons-lang3:3.4'
     compile 'joda-time:joda-time:2.9.3'
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support:recyclerview-v7:23.4.0'
-    compile 'com.android.support:design:23.4.0'
+    compile 'com.android.support:appcompat-v7:' + rootProject.ext.supportLibVersion
+    compile 'com.android.support:recyclerview-v7:' + rootProject.ext.supportLibVersion
+    compile 'com.android.support:design:' + rootProject.ext.supportLibVersion
     compile 'com.squareup.okhttp:okhttp:2.7.5'
     compile 'info.guardianproject.netcipher:netcipher:1.2.1'
 
@@ -29,7 +33,7 @@ dependencies {
 
 android {
     compileSdkVersion 23
-    buildToolsVersion '25.0.1'
+    buildToolsVersion rootProject.buildToolsVersion
 
     defaultConfig {
         vectorDrawables.generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi', 'xxxhdpi']

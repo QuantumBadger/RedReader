@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ This file is part of RedReader.
   ~
   ~ RedReader is free software: you can redistribute it and/or modify
@@ -18,17 +17,17 @@
 
 <resources>
 
-    <style name="RR.Startup.ActionBarStyle" parent="@style/Widget.AppCompat.ActionBar">
-        <item name="android:background">?colorPrimary</item>
-    </style>
+	<style name="RR.Startup.ActionBarStyle" parent="@style/Widget.AppCompat.ActionBar">
+		<item name="android:background">?colorPrimary</item>
+	</style>
 
-    <style name="RR.Base.Widget.AppCompat.ActionButton.Overflow" parent="RtlUnderlay.Widget.AppCompat.ActionButton.Overflow">
-        <item name="android:src">@drawable/abc_ic_menu_moreoverflow_mtrl_alpha</item>
-        <item name="android:background">?attr/actionBarItemBackground</item>
-        <item name="android:contentDescription">@string/abc_action_menu_overflow_description</item>
-        <item name="android:minWidth">48dp</item>
-        <item name="android:minHeight">@dimen/abc_action_button_min_height_material</item>
-    </style>
+	<style name="RR.Base.Widget.AppCompat.ActionButton.Overflow" parent="RtlUnderlay.Widget.AppCompat.ActionButton.Overflow">
+		<item name="android:src">@drawable/ic_action_overflow</item>
+		<item name="android:background">?attr/actionBarItemBackground</item>
+		<item name="android:contentDescription">@string/abc_action_menu_overflow_description</item>
+		<item name="android:minWidth">48dp</item>
+		<item name="android:minHeight">@dimen/abc_action_button_min_height_material</item>
+	</style>
 
 	<style name="RR.Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
 		<item name="android:textSize">18sp</item>

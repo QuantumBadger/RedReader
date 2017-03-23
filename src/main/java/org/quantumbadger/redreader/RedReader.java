@@ -40,7 +40,7 @@ public class RedReader extends Application {
 	public void onCreate() {
 
 		super.onCreate();
-		ContentSquare.startWithProjectId(getApplicationContext(), "devtest");
+		ContentSquare.startWithProjectId(getApplicationContext(), "redreaderapp");
 
 		Log.i("RedReader", "Application created.");
 

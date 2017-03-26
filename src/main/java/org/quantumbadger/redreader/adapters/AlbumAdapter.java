@@ -93,6 +93,11 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH2TextIcon> {
 			}
 		}
 
+		if (imageInfo.caption != null && imageInfo.caption.length() > 0) {
+			subtitle += "\r\n";
+			subtitle += imageInfo.caption;
+		}
+
 		vh.text2.setVisibility(subtitle.isEmpty() ? View.GONE : View.VISIBLE);
 
 		vh.text2.setText(subtitle);

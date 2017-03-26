@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 
 public class MarkdownTokenizerTest {
 
-	static CharArrSubstring toCAS(final String s) {
+	private static CharArrSubstring toCAS(final String s) {
 		return CharArrSubstring.generate(s.toCharArray());
 	}
 
@@ -250,25 +250,6 @@ public class MarkdownTokenizerTest {
 		};
 		assertIAEquals(expected, out);
 	}
-
-	@Test
-	public void testTokenizeSuperscript2() {
-		final IntArrayLengthPair out = MarkdownTokenizer.tokenize(toCAS("Ein **TOITSCHER** ^^^Demokrat? ^^^Schreibt ^^^man ^^^das ^^^so?"));
-
-		final int[] expected = new int[] {
-				'E', 'i', 'n', ' ', MarkdownTokenizer.TOKEN_ASTERISK_DOUBLE, 'T',
-				'O', 'I', 'T', 'S', 'C', 'H', 'E','R' , MarkdownTokenizer.TOKEN_ASTERISK_DOUBLE, ' ',
-				MarkdownTokenizer.TOKEN_CARET, MarkdownTokenizer.TOKEN_CARET, 	MarkdownTokenizer.TOKEN_CARET,
-				'D', 'e', 'm', 'o', 'k', 'r', 'a', 't', '?', ' ', MarkdownTokenizer.TOKEN_CARET, MarkdownTokenizer.TOKEN_CARET,
-				MarkdownTokenizer.TOKEN_CARET, 'S', 'c', 'h', 'r', 'e', 'i', 'b', 't', ' ',
-				MarkdownTokenizer.TOKEN_CARET, MarkdownTokenizer.TOKEN_CARET, MarkdownTokenizer.TOKEN_CARET,
-				'm', 'a', 'n', ' ', MarkdownTokenizer.TOKEN_CARET, MarkdownTokenizer.TOKEN_CARET, MarkdownTokenizer.TOKEN_CARET,
-				'd', 'a', 's', ' ', MarkdownTokenizer.TOKEN_CARET, MarkdownTokenizer.TOKEN_CARET, MarkdownTokenizer.TOKEN_CARET,
-				's', 'o', '?'
-		};
-		assertIAEquals(expected, out);
-	}
-
 
 	@Test
 	public void testTokenizeRedditLink1() {

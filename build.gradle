@@ -35,6 +35,20 @@ android {
     compileSdkVersion 23
     buildToolsVersion rootProject.buildToolsVersion
 
+	signingConfigs {
+		release {
+			storeFile file("${rootDir}/config/keystore/shared-keystore.jks")
+			storePassword "Weballwin"
+			keyAlias "Jenkins"
+			keyPassword "Weballwin"
+		}
+	}
+	buildTypes {
+		release {
+			signingConfig signingConfigs.release
+		}
+	}
+
     defaultConfig {
         vectorDrawables.generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi', 'xxxhdpi']
     }

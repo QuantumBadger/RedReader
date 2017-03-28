@@ -194,6 +194,64 @@ public class MarkdownTokenizerTest {
 	}
 
 	@Test
+	public void testTokenizeUnderscore1() {
+		final IntArrayLengthPair out = MarkdownTokenizer.tokenize(toCAS("a_b_c_d"));
+
+		final int[] expected = new int[] {
+				'a', '_', 'b', '_', 'c', '_', 'd'
+		};
+		assertIAEquals(expected, out);
+	}
+
+	@Test
+	public void testTokenizeUnderscore2() {
+		final IntArrayLengthPair out = MarkdownTokenizer.tokenize(toCAS("_abcd_"));
+
+		final int[] expected = new int[] {
+				MarkdownTokenizer.TOKEN_UNDERSCORE, 'a', 'b', 'c', 'd', MarkdownTokenizer.TOKEN_UNDERSCORE
+		};
+		assertIAEquals(expected, out);
+	}
+
+	@Test
+	public void testTokenizeUnderscore3() {
+		final IntArrayLengthPair out = MarkdownTokenizer.tokenize(toCAS("_a_b cd_"));
+
+		final int[] expected = new int[] {
+				MarkdownTokenizer.TOKEN_UNDERSCORE, 'a', '_', 'b', ' ', 'c', 'd', MarkdownTokenizer.TOKEN_UNDERSCORE
+		};
+		assertIAEquals(expected, out);
+	}
+
+	@Test
+	public void testTokenizeUnderscore4() {
+		final IntArrayLengthPair out = MarkdownTokenizer.tokenize(toCAS("ab _abcd_ ab"));
+
+		final int[] expected = new int[] {
+				'a', 'b', ' ', MarkdownTokenizer.TOKEN_UNDERSCORE, 'a', 'b', 'c', 'd',
+				MarkdownTokenizer.TOKEN_UNDERSCORE, ' ', 'a', 'b'
+		};
+		assertIAEquals(expected, out);
+	}
+
+	@Test
+	public void testTokenizeSuperscript1() {
+		final IntArrayLengthPair out = MarkdownTokenizer.tokenize(toCAS("^^^All ^^^of ^^^this ^^^should ^^^be ^^^superscripted"));
+
+		final int[] expected = new int[] {
+				MarkdownTokenizer.TOKEN_CARET, MarkdownTokenizer.TOKEN_CARET, MarkdownTokenizer.TOKEN_CARET,
+				'A', 'l', 'l', ' ',MarkdownTokenizer.TOKEN_CARET, MarkdownTokenizer.TOKEN_CARET,
+				MarkdownTokenizer.TOKEN_CARET, 'o', 'f', ' ', MarkdownTokenizer.TOKEN_CARET, MarkdownTokenizer.TOKEN_CARET,
+				MarkdownTokenizer.TOKEN_CARET, 't', 'h', 'i', 's', ' ', MarkdownTokenizer.TOKEN_CARET, MarkdownTokenizer.TOKEN_CARET,
+				MarkdownTokenizer.TOKEN_CARET, 's', 'h', 'o', 'u', 'l', 'd', ' ', MarkdownTokenizer.TOKEN_CARET,
+				MarkdownTokenizer.TOKEN_CARET, MarkdownTokenizer.TOKEN_CARET, 'b', 'e', ' ', MarkdownTokenizer.TOKEN_CARET,
+				MarkdownTokenizer.TOKEN_CARET, MarkdownTokenizer.TOKEN_CARET, 's', 'u', 'p', 'e', 'r', 's', 'c', 'r', 'i',
+				'p', 't', 'e', 'd'
+		};
+		assertIAEquals(expected, out);
+	}
+
+	@Test
 	public void testTokenizeRedditLink1() {
 
 		final IntArrayLengthPair out = MarkdownTokenizer.tokenize(toCAS("a /r/abc d"));

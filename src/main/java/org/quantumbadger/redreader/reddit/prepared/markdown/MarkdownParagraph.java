@@ -94,7 +94,8 @@ public final class MarkdownParagraph {
 
 		final SpannableStringBuilder builder = new SpannableStringBuilder();
 
-		int boldStart = -1, italicStart = -1, strikeStart = -1, linkStart = -1, caretStart = -1;
+		int boldStart = -1, italicStart = -1, strikeStart = -1, linkStart = -1, caretStart = -1,
+			parentOpenCount = 0, parentCloseCount = 0;
 
 		for(int i = 0; i < tokens.length; i++) {
 
@@ -240,12 +241,39 @@ public final class MarkdownParagraph {
 
 					builder.append(' ');
 
-					if(caretStart >= 0) {
+					if(caretStart >= 0 && parentOpenCount == parentCloseCount) {
 						builder.setSpan(new SuperscriptSpan(), caretStart, builder.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 						builder.setSpan(new RelativeSizeSpan(0.6f), caretStart, builder.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 						caretStart = -1;
 					}
+					break;
+					
+				case '(':
+					if (caretStart >= 0){
+						parentOpenCount++;
+						if (caretStart != builder.length()){
+							builder.append('(');
+						}
+					} else {
+						parentOpenCount = 0;
+						builder.append('(');
+					}
+					break;
 
+				case ')':
+					if (caretStart >= 0){
+						parentCloseCount++;
+						if (parentOpenCount != parentCloseCount){
+							builder.append(')');
+						} else {
+							builder.setSpan(new SuperscriptSpan(), caretStart, builder.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+							builder.setSpan(new RelativeSizeSpan(0.6f), caretStart, builder.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+							caretStart = -1;
+						}
+					} else {
+						parentCloseCount = 0;
+						builder.append(')');
+					}
 					break;
 
 				default:

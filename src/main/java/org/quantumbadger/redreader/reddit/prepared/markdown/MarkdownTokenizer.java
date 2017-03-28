@@ -780,9 +780,14 @@ public final class MarkdownTokenizer {
 						i++;
 						output.data[output.pos++] = TOKEN_UNDERSCORE_DOUBLE;
 					} else {
-						output.data[output.pos++] = TOKEN_UNDERSCORE;
+						if ((i < input.pos -1 && input.data[i+1] == ' ')
+								|| (i > 0 && input.data[i-1] == ' ')
+								|| (i == 0)	|| (i == input.pos - 1)) {
+							output.data[output.pos++] = TOKEN_UNDERSCORE;
+						} else {
+							output.data[output.pos++] = c;
+						}
 					}
-
 					break;
 
 				case '~':

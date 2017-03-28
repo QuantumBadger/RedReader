@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.common;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -616,5 +617,13 @@ public final class General {
 
 	public static long hoursToMs(final long hours) {
 		return hours * 60L * 60L * 1000L;
+	}
+
+	public static void safeDismissDialog(final Dialog dialog) {
+		try {
+			if(dialog.isShowing()) dialog.dismiss();
+		} catch(final Exception e) {
+			Log.e("safeDismissDialog", "Caught exception while dismissing dialog", e);
+		}
 	}
 }

@@ -103,7 +103,7 @@ public class CommentEditActivity extends BaseActivity {
 			progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
 				public void onCancel(final DialogInterface dialogInterface) {
 					General.quickToast(CommentEditActivity.this, R.string.comment_reply_oncancel);
-					progressDialog.dismiss();
+					General.safeDismissDialog(progressDialog);
 				}
 			});
 
@@ -112,7 +112,7 @@ public class CommentEditActivity extends BaseActivity {
 
 					if(keyCode == KeyEvent.KEYCODE_BACK) {
 						General.quickToast(CommentEditActivity.this, R.string.comment_reply_oncancel);
-						progressDialog.dismiss();
+						General.safeDismissDialog(progressDialog);
 					}
 
 					return true;
@@ -125,7 +125,7 @@ public class CommentEditActivity extends BaseActivity {
 					AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 						@Override
 						public void run() {
-							if(progressDialog.isShowing()) progressDialog.dismiss();
+							General.safeDismissDialog(progressDialog);
 							General.quickToast(CommentEditActivity.this, R.string.comment_edit_done);
 							finish();
 						}
@@ -146,7 +146,7 @@ public class CommentEditActivity extends BaseActivity {
 						@Override
 						public void run() {
 							General.showResultDialog(CommentEditActivity.this, error);
-							if(progressDialog.isShowing()) progressDialog.dismiss();
+							General.safeDismissDialog(progressDialog);
 						}
 					});
 				}
@@ -160,7 +160,7 @@ public class CommentEditActivity extends BaseActivity {
 						@Override
 						public void run() {
 							General.showResultDialog(CommentEditActivity.this, error);
-							if(progressDialog.isShowing()) progressDialog.dismiss();
+							General.safeDismissDialog(progressDialog);
 						}
 					});
 				}

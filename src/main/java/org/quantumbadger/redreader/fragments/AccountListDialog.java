@@ -69,7 +69,7 @@ public class AccountListDialog extends AppCompatDialogFragment
 				@Override
 				public void onCancel(final DialogInterface dialogInterface) {
 					cancelled.set(true);
-					progressDialog.dismiss();
+					General.safeDismissDialog(progressDialog);
 				}
 			});
 
@@ -78,7 +78,7 @@ public class AccountListDialog extends AppCompatDialogFragment
 				public boolean onKey(final DialogInterface dialogInterface, final int keyCode, final KeyEvent keyEvent) {
 					if (keyCode == KeyEvent.KEYCODE_BACK) {
 						cancelled.set(true);
-						progressDialog.dismiss();
+						General.safeDismissDialog(progressDialog);
 					}
 					return true;
 				}
@@ -96,7 +96,7 @@ public class AccountListDialog extends AppCompatDialogFragment
 						AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 							@Override
 							public void run() {
-								progressDialog.dismiss();
+								General.safeDismissDialog(progressDialog);
 								if (cancelled.get()) return;
 
 								final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(mActivity);
@@ -121,7 +121,7 @@ public class AccountListDialog extends AppCompatDialogFragment
 						AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 							@Override
 							public void run() {
-								progressDialog.dismiss();
+								General.safeDismissDialog(progressDialog);
 								if (!cancelled.get()) General.showResultDialog(mActivity, details);
 							}
 						});

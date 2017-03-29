@@ -103,6 +103,7 @@ public final class MarkdownParagraphGroup {
 
 				case CODE:
 					tv.setTypeface(General.getMonoTypeface(activity));
+					tv.setBackgroundColor(0x33333333);
 					tv.setText(paragraph.raw.arr, paragraph.raw.start, paragraph.raw.length);
 					layout.addView(tv);
 

@@ -40,5 +40,13 @@
 			android:textColor="#909090"
 			android:textSize="12sp"/>
 
+		<TextView
+			android:id="@+id/recycler_item_3_text"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="center_vertical"
+			android:textColor="?android:textColorPrimary"
+			android:textSize="12sp"/>
+
 	</LinearLayout>
 </LinearLayout>

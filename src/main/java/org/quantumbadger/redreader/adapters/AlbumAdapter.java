@@ -36,12 +36,12 @@ import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.image.ImageInfo;
 import org.quantumbadger.redreader.image.ImgurAPI;
-import org.quantumbadger.redreader.viewholders.VH2TextIcon;
+import org.quantumbadger.redreader.viewholders.VH3TextIcon;
 
 import java.io.IOException;
 import java.util.UUID;
 
-public class AlbumAdapter extends RecyclerView.Adapter<VH2TextIcon> {
+public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 
 	private final AppCompatActivity activity;
 	private final ImgurAPI.AlbumInfo albumInfo;
@@ -52,14 +52,14 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH2TextIcon> {
 	}
 
 	@Override
-	public VH2TextIcon onCreateViewHolder(ViewGroup parent, int viewType) {
+	public VH3TextIcon onCreateViewHolder(ViewGroup parent, int viewType) {
 		View v = LayoutInflater.from(parent.getContext())
-			.inflate(R.layout.list_item_2_text_icon, parent, false);
-		return new VH2TextIcon(v);
+			.inflate(R.layout.list_item_3_text_icon, parent, false);
+		return new VH3TextIcon(v);
 	}
 
 	@Override
-	public void onBindViewHolder(final VH2TextIcon vh, final int position) {
+	public void onBindViewHolder(final VH3TextIcon vh, final int position) {
 
 		final long bindingId = ++vh.bindingId;
 
@@ -93,14 +93,17 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH2TextIcon> {
 			}
 		}
 
-		if (imageInfo.caption != null && imageInfo.caption.length() > 0) {
-			subtitle += "\r\n";
-			subtitle += imageInfo.caption;
-		}
 
 		vh.text2.setVisibility(subtitle.isEmpty() ? View.GONE : View.VISIBLE);
 
 		vh.text2.setText(subtitle);
+
+		if (imageInfo.caption != null && imageInfo.caption.length() > 0) {
+			vh.text3.setText(imageInfo.caption);
+			vh.text3.setVisibility(View.VISIBLE);
+		} else {
+			vh.text3.setVisibility(View.GONE);
+		}
 
 		vh.icon.setImageBitmap(null);
 

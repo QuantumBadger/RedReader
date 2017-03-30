@@ -51,6 +51,7 @@ import org.quantumbadger.redreader.image.ShareImageCallback;
 import org.quantumbadger.redreader.image.ThumbnailScaler;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
+import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.url.SubredditPostListURL;
 import org.quantumbadger.redreader.reddit.url.UserProfileURL;
@@ -112,7 +113,13 @@ public final class RedditPreparedPost {
 		SAVE_IMAGE(R.string.action_save_image),
 		COPY(R.string.action_copy),
 		SELFTEXT_LINKS(R.string.action_selftext_links),
-		BACK(R.string.action_back);
+		BACK(R.string.action_back),
+		BLOCK(R.string.block_subreddit),
+		UNBLOCK(R.string.unblock_subreddit),
+		PIN(R.string.pin_subreddit),
+		UNPIN(R.string.unpin_subreddit),
+		SUBSCRIBE(R.string.options_subscribe),
+		UNSUBSCRIBE(R.string.options_unsubscribe);
 
 		public final int descriptionResId;
 
@@ -220,6 +227,46 @@ public final class RedditPreparedPost {
 		if(itemPref.contains(Action.COPY)) menu.add(new RPVMenuItem(activity, R.string.action_copy, Action.COPY));
 		if(itemPref.contains(Action.USER_PROFILE)) menu.add(new RPVMenuItem(activity, R.string.action_user_profile, Action.USER_PROFILE));
 		if(itemPref.contains(Action.PROPERTIES)) menu.add(new RPVMenuItem(activity, R.string.action_properties, Action.PROPERTIES));
+
+		if (post.showSubreddit){
+			try {
+				String subredditCanonicalName = RedditSubreddit.getCanonicalName(post.src.getSubreddit());
+
+				if (itemPref.contains(Action.BLOCK) && post.showSubreddit) {
+					final List<String> blockedSubreddits = PrefsUtility.pref_blocked_subreddits(activity, PreferenceManager.getDefaultSharedPreferences(activity));
+
+					if (blockedSubreddits.contains(subredditCanonicalName)) {
+						menu.add(new RPVMenuItem(activity, R.string.unblock_subreddit, Action.UNBLOCK));
+					} else {
+						menu.add(new RPVMenuItem(activity, R.string.block_subreddit, Action.BLOCK));
+					}
+				}
+
+				if (itemPref.contains(Action.PIN) && post.showSubreddit) {
+					List<String> pinnedSubreddits = PrefsUtility.pref_pinned_subreddits(activity, PreferenceManager.getDefaultSharedPreferences(activity));
+					if (pinnedSubreddits.contains(subredditCanonicalName)) {
+						menu.add(new RPVMenuItem(activity, R.string.unpin_subreddit, Action.UNPIN));
+					} else {
+						menu.add(new RPVMenuItem(activity, R.string.pin_subreddit, Action.PIN));
+					}
+				}
+
+				if (!RedditAccountManager.getInstance(activity).getDefaultAccount().isAnonymous()) {
+					if (itemPref.contains(Action.SUBSCRIBE)) {
+						if (RedditSubredditSubscriptionManager
+								.getSingleton(activity, RedditAccountManager.getInstance(activity).getDefaultAccount())
+								.getSubscriptionState(subredditCanonicalName) == RedditSubredditSubscriptionManager.SubredditSubscriptionState.SUBSCRIBED) {
+							menu.add(new RPVMenuItem(activity, R.string.options_unsubscribe, Action.UNSUBSCRIBE));
+						} else {
+							menu.add(new RPVMenuItem(activity, R.string.options_subscribe, Action.SUBSCRIBE));
+						}
+					}
+				}
+
+			} catch (RedditSubreddit.InvalidSubredditNameException ex){
+				throw new RuntimeException(ex);
+			}
+		}
 
 		final String[] menuText = new String[menu.size()];
 
@@ -453,6 +500,114 @@ public final class RedditPreparedPost {
 
 			case BACK:
 				activity.onBackPressed();
+				break;
+
+			case PIN:
+
+				try {
+					String subredditCanonicalName = RedditSubreddit.getCanonicalName(post.src.getSubreddit());
+					List<String> pinnedSubreddits = PrefsUtility.pref_pinned_subreddits(activity, PreferenceManager.getDefaultSharedPreferences(activity));
+					if (!pinnedSubreddits.contains(subredditCanonicalName)){
+						PrefsUtility.pref_pinned_subreddits_add(
+								activity,
+								PreferenceManager.getDefaultSharedPreferences(activity),
+								subredditCanonicalName);
+					} else {
+						Toast.makeText(activity, R.string.mainmenu_toast_subscribed, Toast.LENGTH_SHORT).show();
+					}
+				} catch (RedditSubreddit.InvalidSubredditNameException e) {
+					throw new RuntimeException(e);
+				}
+
+				break;
+
+			case UNPIN:
+
+				try {
+					String subredditCanonicalName = RedditSubreddit.getCanonicalName(post.src.getSubreddit());
+					List<String> pinnedSubreddits = PrefsUtility.pref_pinned_subreddits(activity, PreferenceManager.getDefaultSharedPreferences(activity));
+					if (pinnedSubreddits.contains(subredditCanonicalName)) {
+						PrefsUtility.pref_pinned_subreddits_remove(
+								activity,
+								PreferenceManager.getDefaultSharedPreferences(activity),
+								subredditCanonicalName);
+					} else {
+						Toast.makeText(activity, R.string.mainmenu_toast_not_pinned, Toast.LENGTH_SHORT).show();
+					}
+				} catch (RedditSubreddit.InvalidSubredditNameException e){
+					throw new RuntimeException(e);
+				}
+				break;
+
+			case BLOCK:
+
+				try {
+					String subredditCanonicalName = RedditSubreddit.getCanonicalName(post.src.getSubreddit());
+					List<String> blockedSubreddits = PrefsUtility.pref_blocked_subreddits(activity, PreferenceManager.getDefaultSharedPreferences(activity));
+					if (!blockedSubreddits.contains(subredditCanonicalName)) {
+						PrefsUtility.pref_blocked_subreddits_add(
+								activity,
+								PreferenceManager.getDefaultSharedPreferences(activity),
+								subredditCanonicalName);
+					} else {
+						Toast.makeText(activity, R.string.mainmenu_toast_blocked, Toast.LENGTH_SHORT).show();
+					}
+				} catch (RedditSubreddit.InvalidSubredditNameException e){
+					throw new RuntimeException(e);
+				}
+				break;
+
+			case UNBLOCK:
+
+				try {
+					String subredditCanonicalName = RedditSubreddit.getCanonicalName(post.src.getSubreddit());
+					List<String> blockedSubreddits = PrefsUtility.pref_blocked_subreddits(activity, PreferenceManager.getDefaultSharedPreferences(activity));
+					if (blockedSubreddits.contains(subredditCanonicalName)) {
+						PrefsUtility.pref_blocked_subreddits_remove(
+								activity,
+								PreferenceManager.getDefaultSharedPreferences(activity),
+								subredditCanonicalName);
+					} else {
+						Toast.makeText(activity, R.string.mainmenu_toast_not_blocked, Toast.LENGTH_SHORT).show();
+					}
+				} catch (RedditSubreddit.InvalidSubredditNameException e){
+					throw new RuntimeException(e);
+				}
+				break;
+
+			case SUBSCRIBE:
+
+				try {
+					String subredditCanonicalName = RedditSubreddit.getCanonicalName(post.src.getSubreddit());
+					RedditSubredditSubscriptionManager subMan = RedditSubredditSubscriptionManager
+							.getSingleton(activity, RedditAccountManager.getInstance(activity).getDefaultAccount());
+
+					if (subMan.getSubscriptionState(subredditCanonicalName) == RedditSubredditSubscriptionManager.SubredditSubscriptionState.NOT_SUBSCRIBED) {
+						subMan.subscribe(subredditCanonicalName, activity);
+						Toast.makeText(activity, R.string.options_subscribing, Toast.LENGTH_SHORT).show();
+					} else {
+						Toast.makeText(activity, R.string.mainmenu_toast_subscribed, Toast.LENGTH_SHORT).show();
+					}
+				} catch (RedditSubreddit.InvalidSubredditNameException e) {
+					throw new RuntimeException(e);
+				}
+				break;
+
+			case UNSUBSCRIBE:
+
+				try {
+					String subredditCanonicalName = RedditSubreddit.getCanonicalName(post.src.getSubreddit());
+					RedditSubredditSubscriptionManager subMan = RedditSubredditSubscriptionManager
+							.getSingleton(activity, RedditAccountManager.getInstance(activity).getDefaultAccount());
+					if (subMan.getSubscriptionState(subredditCanonicalName) == RedditSubredditSubscriptionManager.SubredditSubscriptionState.SUBSCRIBED) {
+						subMan.unsubscribe(subredditCanonicalName, activity);
+						Toast.makeText(activity, R.string.options_unsubscribing, Toast.LENGTH_SHORT).show();
+					} else {
+						Toast.makeText(activity, R.string.mainmenu_toast_not_subscribed, Toast.LENGTH_SHORT).show();
+					}
+				} catch (RedditSubreddit.InvalidSubredditNameException e) {
+					throw new RuntimeException(e);
+				}
 				break;
 		}
 	}

@@ -20,9 +20,12 @@ package org.quantumbadger.redreader.reddit.prepared;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableStringBuilder;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.CommentReplyActivity;
@@ -116,6 +119,19 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 
 	@Override
 	public View getBody(final AppCompatActivity activity, final Integer textColor, final Float textSize, final boolean showLinkButtons) {
-		return body.buildView(activity, textColor, textSize, showLinkButtons);
+
+		final LinearLayout subjectLayout = new LinearLayout(activity);
+		subjectLayout.setOrientation(LinearLayout.VERTICAL);
+
+		final TextView subjectText = new TextView(activity);
+		subjectText.setText(StringEscapeUtils.unescapeHtml4(src.subject != null ? src.subject : "(no subject)"));
+		subjectText.setTextColor(textColor);
+		subjectText.setTextSize(textSize);
+		subjectText.setTypeface(null, Typeface.BOLD);
+
+		subjectLayout.addView(subjectText);
+		subjectLayout.addView(body.buildView(activity, textColor, textSize, showLinkButtons));
+
+		return subjectLayout;
 	}
 }

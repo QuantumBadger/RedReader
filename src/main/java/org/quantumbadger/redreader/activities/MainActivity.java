@@ -233,6 +233,25 @@ public class MainActivity extends RefreshableActivity
 					).apply();
 
 				}
+
+				if (lastVersion <= 77) {
+					// Upgrading from 77/1.9.7 or lower, enable editing self-post from post context menu
+
+					final Set<String> existingPostContextItems = PrefsUtility.getStringSet(
+							R.string.pref_menus_post_context_items_key,
+							R.array.pref_menus_post_context_items_return,
+							this,
+							sharedPreferences
+					);
+
+					existingPostContextItems.add("edit");
+
+					sharedPreferences.edit().putStringSet(
+							getString(R.string.pref_menus_post_context_items_key),
+							existingPostContextItems
+					).apply();
+
+				}
 			}
 
 		} else {

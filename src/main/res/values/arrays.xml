@@ -367,6 +367,7 @@
         <item>@string/action_copy</item>
         <item>@string/action_user_profile</item>
         <item>@string/action_properties</item>
+		<item>@string/action_edit</item>
     </string-array>
 
     <!-- Constants. Do not change. -->
@@ -387,6 +388,7 @@
         <item>copy</item>
         <item>user_profile</item>
         <item>properties</item>
+		<item>edit</item>
     </string-array>
 
 	<string-array name="pref_menus_subreddit_context_items">

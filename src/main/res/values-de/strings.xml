@@ -825,4 +825,10 @@ Thanks to /u/balducien and /u/andiho for this translation!
 	<string name="mainmenu_toast_subscribed">Sie haben dieses Subreddit bereits abonniert!</string>
 	<string name="mainmenu_toast_not_pinned">Dieses Subreddit ist nicht angepinnt!</string>
 	<string name="mainmenu_toast_pinned">Dieses Subreddit ist bereits angepinnt!</string>
+	<string name="action_subscribe_subreddit">Subreddit abonnieren</string>
+	<string name="action_unblock_subreddit">Subreddit nicht mehr blockieren</string>
+	<string name="action_unpin_subreddit">Subreddit nicht mehr im Hauptmenü anheften</string>
+	<string name="action_unsubscribe_subreddit">Subreddit nicht mehr abonnieren</string>
+	<string name="action_pin_subreddit">Subreddit an Hauptmenü anheften</string>
+	<string name="action_block_subreddit">Subreddit blockieren</string>
 </resources>

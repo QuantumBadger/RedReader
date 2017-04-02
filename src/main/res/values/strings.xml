@@ -977,5 +977,14 @@
 	<string name="mainmenu_toast_pinned">This subreddit is already pinned to the main menu!</string>
 	<string name="mainmenu_toast_not_blocked">This subreddit is not blocked!</string>
 	<string name="mainmenu_toast_blocked">This subreddit is already blocked!</string>
-  <string name="lang_pt" translatable="false">Português</string>
+	<string name="lang_pt" translatable="false">Português</string>
+
+	<!-- 2017-04-02 -->
+	<string name="action_block_subreddit">Block subreddit</string>
+	<string name="action_unblock_subreddit">Unblock subreddit</string>
+	<string name="action_pin_subreddit">Pin subreddit to Main Menu</string>
+	<string name="action_unpin_subreddit">Unpin subreddit from Main Menu</string>
+	<string name="action_subscribe_subreddit">Subscribe to subreddit</string>
+	<string name="action_unsubscribe_subreddit">Unsubscribe from subreddit</string>
+
 </resources>

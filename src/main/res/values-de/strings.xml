@@ -825,4 +825,6 @@ Thanks to /u/balducien and /u/andiho for this translation!
 	<string name="mainmenu_toast_subscribed">Sie haben dieses Subreddit bereits abonniert!</string>
 	<string name="mainmenu_toast_not_pinned">Dieses Subreddit ist nicht angepinnt!</string>
 	<string name="mainmenu_toast_pinned">Dieses Subreddit ist bereits angepinnt!</string>
+	<string name="edit_post_actionbar">Post bearbeiten</string>
+	<string name="post_edit_done">Post geändert. Die Änderungen erscheinen nach erneutem Laden.</string>
 </resources>

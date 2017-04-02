@@ -204,7 +204,7 @@ public final class RedditPreparedPost {
 				}
 			}
 
-			if(itemPref.contains(Action.EDIT) && post.isSelf()){
+			if(itemPref.contains(Action.EDIT) && post.isSelf() && user.username.equalsIgnoreCase(post.src.getAuthor())){
 				menu.add(new RPVMenuItem(activity, R.string.action_edit, Action.EDIT));
 			}
 
@@ -283,6 +283,7 @@ public final class RedditPreparedPost {
 				final Intent editIntent = new Intent(activity, CommentEditActivity.class);
 				editIntent.putExtra("commentIdAndType", post.src.getIdAndType());
 				editIntent.putExtra("commentText", StringEscapeUtils.unescapeHtml4(post.src.getRawSelfText()));
+				editIntent.putExtra("isSelfPost", true);
 				activity.startActivity(editIntent);
 				break;
 

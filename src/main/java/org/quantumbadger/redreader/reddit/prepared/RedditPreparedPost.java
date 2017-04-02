@@ -114,12 +114,12 @@ public final class RedditPreparedPost {
 		COPY(R.string.action_copy),
 		SELFTEXT_LINKS(R.string.action_selftext_links),
 		BACK(R.string.action_back),
-		BLOCK(R.string.block_subreddit),
-		UNBLOCK(R.string.unblock_subreddit),
-		PIN(R.string.pin_subreddit),
-		UNPIN(R.string.unpin_subreddit),
-		SUBSCRIBE(R.string.options_subscribe),
-		UNSUBSCRIBE(R.string.options_unsubscribe);
+		BLOCK(R.string.action_block_subreddit),
+		UNBLOCK(R.string.action_unblock_subreddit),
+		PIN(R.string.action_pin_subreddit),
+		UNPIN(R.string.action_unpin_subreddit),
+		SUBSCRIBE(R.string.action_subscribe_subreddit),
+		UNSUBSCRIBE(R.string.action_unsubscribe_subreddit);
 
 		public final int descriptionResId;
 
@@ -221,13 +221,6 @@ public final class RedditPreparedPost {
 		if(itemPref.contains(Action.SELFTEXT_LINKS) && post.src.getRawSelfText() != null && post.src.getRawSelfText().length() > 1) menu.add(new RPVMenuItem(activity, R.string.action_selftext_links, Action.SELFTEXT_LINKS));
 		if(itemPref.contains(Action.SAVE_IMAGE) && post.mIsProbablyAnImage) menu.add(new RPVMenuItem(activity, R.string.action_save_image, Action.SAVE_IMAGE));
 		if(itemPref.contains(Action.GOTO_SUBREDDIT)) menu.add(new RPVMenuItem(activity, R.string.action_gotosubreddit, Action.GOTO_SUBREDDIT));
-		if(itemPref.contains(Action.SHARE)) menu.add(new RPVMenuItem(activity, R.string.action_share, Action.SHARE));
-		if(itemPref.contains(Action.SHARE_COMMENTS)) menu.add(new RPVMenuItem(activity, R.string.action_share_comments, Action.SHARE_COMMENTS));
-		if(itemPref.contains(Action.SHARE_IMAGE) && post.mIsProbablyAnImage) menu.add(new RPVMenuItem(activity, R.string.action_share_image, Action.SHARE_IMAGE));
-		if(itemPref.contains(Action.COPY)) menu.add(new RPVMenuItem(activity, R.string.action_copy, Action.COPY));
-		if(itemPref.contains(Action.USER_PROFILE)) menu.add(new RPVMenuItem(activity, R.string.action_user_profile, Action.USER_PROFILE));
-		if(itemPref.contains(Action.PROPERTIES)) menu.add(new RPVMenuItem(activity, R.string.action_properties, Action.PROPERTIES));
-
 		if (post.showSubreddit){
 			try {
 				String subredditCanonicalName = RedditSubreddit.getCanonicalName(post.src.getSubreddit());
@@ -236,18 +229,18 @@ public final class RedditPreparedPost {
 					final List<String> blockedSubreddits = PrefsUtility.pref_blocked_subreddits(activity, PreferenceManager.getDefaultSharedPreferences(activity));
 
 					if (blockedSubreddits.contains(subredditCanonicalName)) {
-						menu.add(new RPVMenuItem(activity, R.string.unblock_subreddit, Action.UNBLOCK));
+						menu.add(new RPVMenuItem(activity, R.string.action_unblock_subreddit, Action.UNBLOCK));
 					} else {
-						menu.add(new RPVMenuItem(activity, R.string.block_subreddit, Action.BLOCK));
+						menu.add(new RPVMenuItem(activity, R.string.action_block_subreddit, Action.BLOCK));
 					}
 				}
 
 				if (itemPref.contains(Action.PIN) && post.showSubreddit) {
 					List<String> pinnedSubreddits = PrefsUtility.pref_pinned_subreddits(activity, PreferenceManager.getDefaultSharedPreferences(activity));
 					if (pinnedSubreddits.contains(subredditCanonicalName)) {
-						menu.add(new RPVMenuItem(activity, R.string.unpin_subreddit, Action.UNPIN));
+						menu.add(new RPVMenuItem(activity, R.string.action_unpin_subreddit, Action.UNPIN));
 					} else {
-						menu.add(new RPVMenuItem(activity, R.string.pin_subreddit, Action.PIN));
+						menu.add(new RPVMenuItem(activity, R.string.action_pin_subreddit, Action.PIN));
 					}
 				}
 
@@ -256,9 +249,9 @@ public final class RedditPreparedPost {
 						if (RedditSubredditSubscriptionManager
 								.getSingleton(activity, RedditAccountManager.getInstance(activity).getDefaultAccount())
 								.getSubscriptionState(subredditCanonicalName) == RedditSubredditSubscriptionManager.SubredditSubscriptionState.SUBSCRIBED) {
-							menu.add(new RPVMenuItem(activity, R.string.options_unsubscribe, Action.UNSUBSCRIBE));
+							menu.add(new RPVMenuItem(activity, R.string.action_unsubscribe_subreddit, Action.UNSUBSCRIBE));
 						} else {
-							menu.add(new RPVMenuItem(activity, R.string.options_subscribe, Action.SUBSCRIBE));
+							menu.add(new RPVMenuItem(activity, R.string.action_subscribe_subreddit, Action.SUBSCRIBE));
 						}
 					}
 				}
@@ -267,6 +260,14 @@ public final class RedditPreparedPost {
 				throw new RuntimeException(ex);
 			}
 		}
+
+		if(itemPref.contains(Action.SHARE)) menu.add(new RPVMenuItem(activity, R.string.action_share, Action.SHARE));
+		if(itemPref.contains(Action.SHARE_COMMENTS)) menu.add(new RPVMenuItem(activity, R.string.action_share_comments, Action.SHARE_COMMENTS));
+		if(itemPref.contains(Action.SHARE_IMAGE) && post.mIsProbablyAnImage) menu.add(new RPVMenuItem(activity, R.string.action_share_image, Action.SHARE_IMAGE));
+		if(itemPref.contains(Action.COPY)) menu.add(new RPVMenuItem(activity, R.string.action_copy, Action.COPY));
+		if(itemPref.contains(Action.USER_PROFILE)) menu.add(new RPVMenuItem(activity, R.string.action_user_profile, Action.USER_PROFILE));
+		if(itemPref.contains(Action.PROPERTIES)) menu.add(new RPVMenuItem(activity, R.string.action_properties, Action.PROPERTIES));
+
 
 		final String[] menuText = new String[menu.size()];
 

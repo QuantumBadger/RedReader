@@ -367,9 +367,9 @@
         <item>@string/action_copy</item>
         <item>@string/action_user_profile</item>
         <item>@string/action_properties</item>
-		<item>@string/pin_subreddit</item>
-		<item>@string/options_subscribe</item>
-		<item>@string/block_subreddit</item>
+		<item>@string/action_pin_subreddit</item>
+		<item>@string/action_subscribe_subreddit</item>
+		<item>@string/action_block_subreddit</item>
     </string-array>
 
     <!-- Constants. Do not change. -->

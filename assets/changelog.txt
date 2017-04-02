@@ -3,6 +3,7 @@ Added long-click menu for links and album list items (thanks to Clubfan22)
 Image captions are now shown in the album list view (thanks to Clubfan22)
 Added long-click menu for subreddits in main menu (thanks to Clubfan22)
 Added share/open option to internal browser (thanks to Clubfan22)
+Added block/subscribe/pin subreddit to post context menu (thanks to Clubfan22)
 Added post/comment fling action preference for "go back"
 Subject is now shown for private messages
 Private message replies are now part of the original conversion, rather than starting a new one

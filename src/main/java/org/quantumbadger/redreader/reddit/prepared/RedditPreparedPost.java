@@ -514,7 +514,7 @@ public final class RedditPreparedPost {
 								PreferenceManager.getDefaultSharedPreferences(activity),
 								subredditCanonicalName);
 					} else {
-						Toast.makeText(activity, R.string.mainmenu_toast_subscribed, Toast.LENGTH_SHORT).show();
+						Toast.makeText(activity, R.string.mainmenu_toast_pinned, Toast.LENGTH_SHORT).show();
 					}
 				} catch (RedditSubreddit.InvalidSubredditNameException e) {
 					throw new RuntimeException(e);

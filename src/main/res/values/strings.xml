@@ -980,6 +980,8 @@
 	<string name="lang_pt" translatable="false">Português</string>
 
 	<!-- 2017-04-02 -->
+	<string name="edit_post_actionbar">Edit Post</string>
+	<string name="post_edit_done">Post edited. Changes will appear after you refresh.</string>
 	<string name="action_block_subreddit">Block Subreddit</string>
 	<string name="action_unblock_subreddit">Unblock Subreddit</string>
 	<string name="action_pin_subreddit">Pin Subreddit to Main Menu</string>

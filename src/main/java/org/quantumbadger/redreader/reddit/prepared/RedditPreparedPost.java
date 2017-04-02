@@ -95,6 +95,7 @@ public final class RedditPreparedPost {
 		HIDE(R.string.action_hide),
 		UNSAVE(R.string.action_unsave),
 		UNHIDE(R.string.action_unhide),
+		EDIT(R.string.action_edit),
 		DELETE(R.string.action_delete),
 		REPORT(R.string.action_report),
 		SHARE(R.string.action_share),
@@ -210,6 +211,10 @@ public final class RedditPreparedPost {
 				}
 			}
 
+			if(itemPref.contains(Action.EDIT) && post.isSelf() && user.username.equalsIgnoreCase(post.src.getAuthor())){
+				menu.add(new RPVMenuItem(activity, R.string.action_edit, Action.EDIT));
+			}
+
 			if(itemPref.contains(Action.DELETE) && user.username.equalsIgnoreCase(post.src.getAuthor())) {
 				menu.add(new RPVMenuItem(activity, R.string.action_delete, Action.DELETE));
 			}
@@ -322,6 +327,14 @@ public final class RedditPreparedPost {
 			case UNHIDE:
 				post.action(activity, RedditAPI.ACTION_UNHIDE);
 				break;
+			case EDIT:
+				final Intent editIntent = new Intent(activity, CommentEditActivity.class);
+				editIntent.putExtra("commentIdAndType", post.src.getIdAndType());
+				editIntent.putExtra("commentText", StringEscapeUtils.unescapeHtml4(post.src.getRawSelfText()));
+				editIntent.putExtra("isSelfPost", true);
+				activity.startActivity(editIntent);
+				break;
+
 
 			case DELETE:
 				new AlertDialog.Builder(activity)

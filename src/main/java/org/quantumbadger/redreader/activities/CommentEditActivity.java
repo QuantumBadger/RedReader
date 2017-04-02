@@ -43,6 +43,7 @@ public class CommentEditActivity extends BaseActivity {
 	private EditText textEdit;
 
 	private String commentIdAndType = null;
+	private boolean isSelfPost = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +52,13 @@ public class CommentEditActivity extends BaseActivity {
 
 		super.onCreate(savedInstanceState);
 
-		setTitle(R.string.edit_comment_actionbar);
-
+		if (getIntent() != null && getIntent().hasExtra("isSelfPost")
+				&& getIntent().getBooleanExtra("isSelfPost", false)){
+			setTitle(R.string.edit_post_actionbar);
+			isSelfPost = true;
+		} else {
+			setTitle(R.string.edit_comment_actionbar);
+		}
 		textEdit = (EditText) getLayoutInflater().inflate(R.layout.comment_edit, null);
 
 		if(getIntent() != null && getIntent().hasExtra("commentIdAndType")) {
@@ -125,8 +131,15 @@ public class CommentEditActivity extends BaseActivity {
 					AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 						@Override
 						public void run() {
-							General.safeDismissDialog(progressDialog);
-							General.quickToast(CommentEditActivity.this, R.string.comment_edit_done);
+							
+							General.safeDismissDialog(progressDialog);		
+							
+							if (isSelfPost){
+								General.quickToast(CommentEditActivity.this, R.string.post_edit_done);
+							} else {
+								General.quickToast(CommentEditActivity.this, R.string.comment_edit_done);
+							}
+							
 							finish();
 						}
 					});

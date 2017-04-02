@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.http.okhttp;
 import android.content.Context;
 import okhttp3.CacheControl;
 import okhttp3.Call;
+import okhttp3.ConnectionPool;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
@@ -58,6 +59,8 @@ public class OKHTTPBackend implements HTTPBackend {
 
 		builder.connectTimeout(15000, TimeUnit.SECONDS);
 		builder.readTimeout(10000, TimeUnit.SECONDS);
+
+		builder.connectionPool(new ConnectionPool(1, 5, TimeUnit.SECONDS));
 
 		builder.retryOnConnectionFailure(true);
 

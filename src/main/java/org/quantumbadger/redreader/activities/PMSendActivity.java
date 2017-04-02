@@ -174,7 +174,7 @@ public class PMSendActivity extends BaseActivity {
 			progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
 				public void onCancel(final DialogInterface dialogInterface) {
 					General.quickToast(PMSendActivity.this, getString(R.string.comment_reply_oncancel));
-					progressDialog.dismiss();
+					General.safeDismissDialog(progressDialog);
 				}
 			});
 
@@ -183,7 +183,7 @@ public class PMSendActivity extends BaseActivity {
 
 					if(keyCode == KeyEvent.KEYCODE_BACK) {
 						General.quickToast(PMSendActivity.this, getString(R.string.comment_reply_oncancel));
-						progressDialog.dismiss();
+						General.safeDismissDialog(progressDialog);
 					}
 
 					return true;
@@ -197,7 +197,7 @@ public class PMSendActivity extends BaseActivity {
 						@Override
 						public void run() {
 
-							if(progressDialog.isShowing()) progressDialog.dismiss();
+							General.safeDismissDialog(progressDialog);
 
 							mSendSuccess = true;
 
@@ -225,7 +225,7 @@ public class PMSendActivity extends BaseActivity {
 						@Override
 						public void run() {
 							General.showResultDialog(PMSendActivity.this, error);
-							if(progressDialog.isShowing()) progressDialog.dismiss();
+							General.safeDismissDialog(progressDialog);
 						}
 					});
 				}
@@ -239,7 +239,7 @@ public class PMSendActivity extends BaseActivity {
 						@Override
 						public void run() {
 							General.showResultDialog(PMSendActivity.this, error);
-							if(progressDialog.isShowing()) progressDialog.dismiss();
+							General.safeDismissDialog(progressDialog);
 						}
 					});
 				}

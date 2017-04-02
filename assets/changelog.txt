@@ -1,14 +1,18 @@
 78/1.9.8
 Added edit option to long-click menu for self-posts (thanks to Clubfan22)
 Added long-click menu for links and album list items (thanks to Clubfan22)
+Image captions are now shown in the album list view (thanks to Clubfan22)
 Added long-click menu for subreddits in main menu (thanks to Clubfan22)
 Added share/open option to internal browser (thanks to Clubfan22)
+Added block/subscribe/pin subreddit to post context menu (thanks to Clubfan22)
 Added post/comment fling action preference for "go back"
+Subject is now shown for private messages
 Private message replies are now part of the original conversion, rather than starting a new one
 Support keyboard Go-action in custom location dialog (thanks to gaudecker)
 Enable sorting for users' submitted posts/comments (thanks to gaudecker)
 Show subreddit names in /r/popular
 Subreddit autocomplete is now account-specific (thanks to Clubfan22)
+Markdown parsing improvements (thanks to Clubfan22)
 Translation fix (thanks to philipwhiuk)
 Updated German translation (thanks to Clubfan22)
 Added Esperanto translation (thanks to verdulo)

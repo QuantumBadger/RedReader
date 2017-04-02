@@ -235,7 +235,9 @@ public class MainActivity extends RefreshableActivity
 				}
 
 				if (lastVersion <= 77) {
-					// Upgrading from 77/1.9.7 or lower, enable editing self-post from post context menu
+					
+					// Upgrading from 77/1.9.7 or lower, enable pinning/subscribing/blocking a
+					// subreddit and editing self-posts in the post context menu
 
 					final Set<String> existingPostContextItems = PrefsUtility.getStringSet(
 							R.string.pref_menus_post_context_items_key,
@@ -245,6 +247,9 @@ public class MainActivity extends RefreshableActivity
 					);
 
 					existingPostContextItems.add("edit");
+					existingPostContextItems.add("pin");
+					existingPostContextItems.add("subscribe");
+					existingPostContextItems.add("block");
 
 					sharedPreferences.edit().putStringSet(
 							getString(R.string.pref_menus_post_context_items_key),

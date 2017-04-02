@@ -179,7 +179,7 @@ public class CommentReplyActivity extends BaseActivity {
 			progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
 				public void onCancel(final DialogInterface dialogInterface) {
 					General.quickToast(CommentReplyActivity.this, getString(R.string.comment_reply_oncancel));
-					progressDialog.dismiss();
+					General.safeDismissDialog(progressDialog);
 				}
 			});
 
@@ -188,7 +188,7 @@ public class CommentReplyActivity extends BaseActivity {
 
 					if(keyCode == KeyEvent.KEYCODE_BACK) {
 						General.quickToast(CommentReplyActivity.this, getString(R.string.comment_reply_oncancel));
-						progressDialog.dismiss();
+						General.safeDismissDialog(progressDialog);
 					}
 
 					return true;
@@ -201,7 +201,7 @@ public class CommentReplyActivity extends BaseActivity {
 					AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
 						@Override
 						public void run() {
-							if(progressDialog.isShowing()) progressDialog.dismiss();
+							General.safeDismissDialog(progressDialog);
 
 							if(mParentType == ParentType.MESSAGE) {
 								General.quickToast(CommentReplyActivity.this, getString(R.string.pm_reply_done));
@@ -230,7 +230,7 @@ public class CommentReplyActivity extends BaseActivity {
 						@Override
 						public void run() {
 							General.showResultDialog(CommentReplyActivity.this, error);
-							if(progressDialog.isShowing()) progressDialog.dismiss();
+							General.safeDismissDialog(progressDialog);
 						}
 					});
 				}
@@ -244,7 +244,7 @@ public class CommentReplyActivity extends BaseActivity {
 						@Override
 						public void run() {
 							General.showResultDialog(CommentReplyActivity.this, error);
-							if(progressDialog.isShowing()) progressDialog.dismiss();
+							General.safeDismissDialog(progressDialog);
 						}
 					});
 				}

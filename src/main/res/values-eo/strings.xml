@@ -852,4 +852,15 @@
 	<string name="mainmenu_toast_pinned">Tiu ĉi redditero estas jam alpinglita al la ĉefmenuo!</string>
 	<string name="mainmenu_toast_not_blocked">Tiu ĉi redditero ne estas blokita!</string>
 	<string name="mainmenu_toast_blocked">Tiu ĉi redditero estas jam blokita!</string>
+	
+	<!-- 2017-04-02 -->
+	<string name="edit_post_actionbar">Redakti afiŝon</string>
+	<string name="post_edit_done">Afiŝo redaktita. Ŝanĝoj aperos post aktualigo.</string>
+	<string name="action_block_subreddit">Bloki redditeron</string>
+	<string name="action_unblock_subreddit">Malbloki redditeron</string>
+	<string name="action_pin_subreddit">Alpingli redditeron al ĉefmenuo</string>
+	<string name="action_unpin_subreddit">Depingli redditeron el ĉefmenuo</string>
+	<string name="action_subscribe_subreddit">Aboni redditeron</string>
+	<string name="action_unsubscribe_subreddit">Malaboni redditeron</string>	
+	
 </resources>

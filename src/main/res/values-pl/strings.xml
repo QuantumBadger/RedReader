@@ -856,5 +856,14 @@
 	<string name="mainmenu_toast_not_blocked">Ten subreddit nie jest jeszcze zablokowany!</string>
 	<string name="mainmenu_toast_blocked">Ten subreddit jest już zablokowany!</string>
 	
-	
+	<!-- 2017-04-02 -->
+	<string name="edit_post_actionbar">Edytuj post</string>
+	<string name="post_edit_done">Post został zmieniony. Zmiany pojawią się po odświeżeniu.</string>
+	<string name="action_block_subreddit">Zablokuj subreddit</string>
+	<string name="action_unblock_subreddit">Odblokuj subreddit</string>
+	<string name="action_pin_subreddit">Przypnij subreddit do menu głównego</string>
+	<string name="action_unpin_subreddit">Odepnij subreddit od menu głównego</string>
+	<string name="action_subscribe_subreddit">Abonuj subreddit</string>
+	<string name="action_unsubscribe_subreddit">Wypisz się z subreddita</string>
+
 </resources>

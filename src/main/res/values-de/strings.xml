@@ -833,4 +833,5 @@ Thanks to /u/balducien and /u/andiho for this translation!
 	<string name="action_unsubscribe_subreddit">Subreddit nicht mehr abonnieren</string>
 	<string name="action_pin_subreddit">Subreddit an Hauptmenü anheften</string>
 	<string name="action_block_subreddit">Subreddit blockieren</string>
+	<string name="collapsed_self_post">Text minimiert</string>
 </resources>

@@ -27,11 +27,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import org.quantumbadger.redreader.R;
@@ -44,11 +40,7 @@ import org.quantumbadger.redreader.adapters.FilteredCommentListingManager;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategy;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached;
-import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.common.PrefsUtility;
-import org.quantumbadger.redreader.common.RRError;
-import org.quantumbadger.redreader.common.RRThemeAttributes;
-import org.quantumbadger.redreader.common.RRTime;
+import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.reddit.CommentListingRequest;
 import org.quantumbadger.redreader.reddit.RedditCommentListItem;
 import org.quantumbadger.redreader.reddit.api.RedditAPICommentAction;
@@ -384,9 +376,26 @@ public class CommentListingFragment extends RRFragment
 
 				final int paddingPx = General.dpToPixels(context, 10);
 				final FrameLayout paddingLayout = new FrameLayout(context);
+				final TextView collapsedView = new TextView(context);
+				collapsedView.setText(R.string.collapsed_self_post);
+				collapsedView.setVisibility(View.GONE);
 				paddingLayout.addView(selfText);
+				paddingLayout.addView(collapsedView);
 				paddingLayout.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
 
+				paddingLayout.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						if (selfText.getVisibility() == View.GONE){
+							selfText.setVisibility(View.VISIBLE);
+							collapsedView.setVisibility(View.GONE);
+						} else {
+							selfText.setVisibility(View.GONE);
+							collapsedView.setVisibility(View.VISIBLE);
+						}
+
+					}
+				});
 				// TODO mListHeaderNotifications.setBackgroundColor(Color.argb(35, 128, 128, 128));
 
 				mCommentListingManager.addPostSelfText(paddingLayout);

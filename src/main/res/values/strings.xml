@@ -989,4 +989,7 @@
 	<string name="action_subscribe_subreddit">Subscribe to Subreddit</string>
 	<string name="action_unsubscribe_subreddit">Unsubscribe from Subreddit</string>
 
+	<!-- 2017-04-14 -->
+	<string name="collapsed_self_post">Self-post collapsed</string>
+
 </resources>

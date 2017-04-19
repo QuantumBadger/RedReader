@@ -377,8 +377,9 @@ public class CommentListingFragment extends RRFragment
 				final int paddingPx = General.dpToPixels(context, 10);
 				final FrameLayout paddingLayout = new FrameLayout(context);
 				final TextView collapsedView = new TextView(context);
-				collapsedView.setText(R.string.collapsed_self_post);
+				collapsedView.setText("[ + ]  " + getActivity().getString(R.string.collapsed_self_post));
 				collapsedView.setVisibility(View.GONE);
+				collapsedView.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
 				paddingLayout.addView(selfText);
 				paddingLayout.addView(collapsedView);
 				paddingLayout.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);

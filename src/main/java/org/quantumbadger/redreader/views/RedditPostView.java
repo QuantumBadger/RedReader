@@ -273,14 +273,9 @@ public final class RedditPostView extends FlingableItemView implements RedditPre
 			title.setText(data.src.getTitle());
 			commentsText.setText(String.valueOf(data.src.getSrc().num_comments));
 
-			if(data.hasThumbnail) {
-				thumbnailView.setVisibility(VISIBLE);
-				thumbnailView.setMinimumWidth((int)(64.0f * dpScale)); // TODO remove constant, customise
-				thumbnailView.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
-			} else {
-				thumbnailView.setMinimumWidth(0);
-				thumbnailView.setVisibility(GONE);
-			}
+			thumbnailView.setVisibility(VISIBLE);
+			thumbnailView.setMinimumWidth((int)(64.0f * dpScale)); // TODO remove constant, customise
+			thumbnailView.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
 		}
 
 		if(post != null) post.unbind(this);
@@ -324,7 +319,8 @@ public final class RedditPostView extends FlingableItemView implements RedditPre
 
 		} else if(post.isDownvoted()) {
 			overlayIcon.setImageResource(R.drawable.action_downvote_dark);
-
+		} else if(!post.hasThumbnail) {
+			overlayIcon.setImageResource(R.drawable.ic_action_comments_dark);
 		} else {
 			overlayVisible = false;
 		}

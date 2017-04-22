@@ -863,4 +863,7 @@
 	<string name="action_subscribe_subreddit">Aboni redditeron</string>
 	<string name="action_unsubscribe_subreddit">Malaboni redditeron</string>	
 	
+	<!-- 2017-04-14 -->
+	<string name="collapsed_self_post">Memafiŝo maletendita</string>
+	
 </resources>

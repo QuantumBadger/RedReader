@@ -865,5 +865,8 @@
 	<string name="action_unpin_subreddit">Odepnij subreddit od menu głównego</string>
 	<string name="action_subscribe_subreddit">Abonuj subreddit</string>
 	<string name="action_unsubscribe_subreddit">Wypisz się z subreddita</string>
+	
+	<!-- 2017-04-14 -->
+	<string name="collapsed_self_post">Zwinięto post tekstowy</string>
 
 </resources>

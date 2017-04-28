@@ -15,13 +15,13 @@ repositories {
 }
 
 dependencies {
-    compile 'com.fasterxml.jackson.core:jackson-core:2.7.3'
-    compile 'org.apache.commons:commons-lang3:3.4'
-    compile 'joda-time:joda-time:2.9.7'
+    compile 'com.fasterxml.jackson.core:jackson-core:2.8.8'
+    compile 'org.apache.commons:commons-lang3:3.5'
+    compile 'joda-time:joda-time:2.9.9'
     compile 'com.android.support:appcompat-v7:25.0.1'
     compile 'com.android.support:recyclerview-v7:25.0.1'
     compile 'com.android.support:design:25.0.1'
-    compile 'com.squareup.okhttp3:okhttp:3.6.0'
+    compile 'com.squareup.okhttp3:okhttp:3.7.0'
     compile 'info.guardianproject.netcipher:netcipher:1.2.1'
 
     testCompile 'junit:junit:4.12'

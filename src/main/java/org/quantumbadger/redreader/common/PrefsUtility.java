@@ -101,7 +101,7 @@ public final class PrefsUtility {
 
 	// pref_appearance_twopane
 
-	public static enum AppearanceTwopane {
+	public enum AppearanceTwopane {
 		NEVER, AUTO, FORCE
 	}
 
@@ -212,7 +212,7 @@ public final class PrefsUtility {
 		}
 	}
 
-	public static enum AppearanceThumbnailsShow {
+	public enum AppearanceThumbnailsShow {
 		NEVER, WIFIONLY, ALWAYS
 	}
 
@@ -271,7 +271,7 @@ public final class PrefsUtility {
 		return getBoolean(R.string.pref_appearance_indentlines_key, false, context, sharedPreferences);
 	}
 
-	public static enum AppearanceCommentHeaderItem {
+	public enum AppearanceCommentHeaderItem {
 		AUTHOR, FLAIR, SCORE, AGE, GOLD
 	}
 
@@ -497,7 +497,7 @@ public final class PrefsUtility {
 		return PostCount.valueOf(getString(R.string.pref_behaviour_postcount_key, "ALL", context, sharedPreferences));
 	}
 
-	public static enum ScreenOrientation {
+	public enum ScreenOrientation {
 		AUTO, PORTRAIT, LANDSCAPE
 	}
 
@@ -567,7 +567,7 @@ public final class PrefsUtility {
 
 	// pref_cache_precache_images
 
-	public static enum CachePrecacheImages {
+	public enum CachePrecacheImages {
 		NEVER, WIFIONLY, ALWAYS
 	}
 
@@ -588,7 +588,7 @@ public final class PrefsUtility {
 
 	// pref_cache_precache_comments
 
-	public static enum CachePrecacheComments {
+	public enum CachePrecacheComments {
 		NEVER, WIFIONLY, ALWAYS
 	}
 

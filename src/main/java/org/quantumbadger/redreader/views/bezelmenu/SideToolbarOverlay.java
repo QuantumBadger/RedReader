@@ -28,7 +28,7 @@ public class SideToolbarOverlay extends FrameLayout {
 	private View contents;
 	private SideToolbarPosition shownPosition = null;
 
-	public static enum SideToolbarPosition {
+	public enum SideToolbarPosition {
 		LEFT, RIGHT
 	}
 

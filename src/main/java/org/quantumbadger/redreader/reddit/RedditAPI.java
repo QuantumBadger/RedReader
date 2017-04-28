@@ -28,7 +28,6 @@ import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategy;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.TimestampBound;
-import org.quantumbadger.redreader.http.HTTPBackend;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
@@ -585,7 +584,7 @@ public final class RedditAPI {
 		@Override
 		protected void onDownloadStarted() {}
 
-		public APIPostRequest(final URI url, final RedditAccount user, final List<HTTPBackend.PostField> postFields, final Context context) {
+		public APIPostRequest(final URI url, final RedditAccount user, final List<PostField> postFields, final Context context) {
 			super(url, user, null, Constants.Priority.API_ACTION, 0,
 					DownloadStrategyAlways.INSTANCE, Constants.FileType.NOCACHE, DOWNLOAD_QUEUE_REDDIT_API, true, postFields, false, false, context);
 		}

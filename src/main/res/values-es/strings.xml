@@ -41,84 +41,63 @@
     <string name="pref_appearance_comments_header">Comentarios</string>
     <string name="pref_appearance_other_header">Otros</string>
 
-    <string name="pref_appearance_twopane_key">pref_appearance_twopane</string>
     <string name="pref_appearance_twopane_title">Modo tableta (dos paneles)</string>
 
-    <string name="pref_appearance_theme_key">pref_appearance_theme</string>
     <string name="pref_appearance_theme_title">Tema</string>
 
     <string name="pref_appearance_solidblack_title">Negro sólido en modo noche</string>
 
-    <string name="pref_appearance_fontscale_posts_key">pref_appearance_fontscale_posts</string>
     <string name="pref_appearance_fontscale_posts_title">Tamaño en publicaciones</string>
 
-    <string name="pref_appearance_fontscale_comments_key">pref_appearance_fontscale_comments</string>
     <string name="pref_appearance_fontscale_comments_title">Tamaño en comentarios</string>
 
-    <string name="pref_appearance_thumbnails_show_key">pref_appearance_thumbnails_show</string>
     <string name="pref_appearance_thumbnails_show_title">Mostrar miniaturas</string>
 
-    <string name="pref_appearance_thumbnails_nsfw_show_key">pref_appearance_thumbnails_nsfw_show</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">Mostrar miniaturas NSFW</string>
 
-    <string name="pref_appearance_thumbnails_wifionly_key">pref_appearance_thumbnails_wifionly</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Miniaturas sólo con Wi-Fi</string>
 
-    <string name="pref_appearance_loading_detail_key">pref_appearance_loading_detail</string>
     <string name="pref_appearance_loading_detail_title">Mensajes de carga detallados</string>
 
-    <string name="pref_appearance_comment_header_items_key">pref_appearance_comment_header_items</string>
     <string name="pref_appearance_comment_header_items_title">Cabecera de los comentarios</string>
 
     <!-- Behaviour Prefs -->
 
-    <string name="pref_behaviour_notifications_key">pref_behaviour_notifications</string>
     <string name="pref_behaviour_notifications_title">Notificaciones</string>
 
     <string name="pref_behaviour_actions_post_header">Acciones sobre las publicaciones</string>
     <string name="pref_behaviour_actions_comment_header">Acciones sobre comentarios</string>
     <string name="pref_behaviour_posts_header">Publicaciones</string>
 
-    <string name="pref_behaviour_fling_post_left_key">pref_behaviour_fling_post_left</string>
     <string name="pref_behaviour_fling_post_left_title">Deslizar hacia la izquierda</string>
 
-    <string name="pref_behaviour_fling_post_right_key">pref_behaviour_fling_post_right</string>
     <string name="pref_behaviour_fling_post_right_title">Deslizar hacia la derecha</string>
 
-    <string name="pref_behaviour_actions_comment_tap_key">pref_behaviour_actions_comment_tap</string>
     <string name="pref_behaviour_actions_comment_tap_title">Toque sobre un comentario</string>
 
-    <string name="pref_behaviour_nsfw_key">pref_behaviour_nsfw</string>
     <string name="pref_behaviour_nsfw_title">Mostrar contenido NSFW</string>
 
     <!-- Cache Prefs -->
 
     <string name="pref_cache_pruning">Limpieza de caché</string>
 
-    <string name="pref_cache_maxage_listing_key">pref_cache_maxage_listing</string>
     <string name="pref_cache_maxage_listing_title">Borrar entradas de caché tras</string>
 
-    <string name="pref_cache_maxage_thumb_key">pref_cache_maxage_thumb</string>
     <string name="pref_cache_maxage_thumb_title">Borrar miniaturas en caché tras</string>
 
-    <string name="pref_cache_maxage_image_key">pref_cache_maxage_image</string>
     <string name="pref_cache_maxage_image_title">Borrar imágenes en caché tras</string>
 
     <string name="pref_cache_precache_images_header">Guardar previamente imágenes en la caché</string>
 
-    <string name="pref_cache_precache_images_key">pref_cache_precache_images</string>
     <string name="pref_cache_precache_images_title">Guardar previamente imágenes en la caché</string>
 
     <!-- TODO use listpreference instead -->
-    <string name="pref_cache_precache_images_wifionly_key">pref_cache_precache_images_wifionly</string>
     <string name="pref_cache_precache_images_wifionly_title">Sólo con Wi-Fi</string>
 
     <!-- Menu Prefs -->
 
-    <string name="pref_menus_post_context_items_key">pref_menus_post_context_items_2</string>
     <string name="pref_menus_post_context_items_title">Menú de las publicaciones</string>
 
-    <string name="pref_menus_post_toolbar_items_key">pref_menus_post_toolbar_items</string>
     <string name="pref_menus_post_toolbar_items_title">Barra lateral de las publicaciones</string>
 
     <!-- Options Menu -->
@@ -464,17 +443,14 @@
 
     <string name="title_changelog">Novedades</string>
 
-    <string name="pref_behaviour_commentsort_key">pref_behaviour_commentsort</string>
     <string name="pref_behaviour_commentsort">Orden de comentarios por defecto</string>
 
     <!-- 2013-05-18 -->
 
     <string name="action_fling_disabled">Desactivado</string>
 
-    <string name="pref_about_version_key">pref_about_version</string>
     <string name="pref_about_version_title">Versión</string>
 
-    <string name="pref_about_changelog_key">pref_about_changelog</string>
     <string name="prefs_category_about">Acerca de</string>
 
     <!-- 2013-06-07 -->
@@ -485,7 +461,6 @@
 
     <string name="pref_appearance_locale_header">Local</string>
 
-    <string name="pref_appearance_langforce_key">pref_appearance_langforce_key</string>
     <string name="pref_appearance_langforce_title">Idioma</string>
 
     <string name="lang_auto">Automático</string>
@@ -494,8 +469,6 @@
 
     <string name="prefs_category_network">Red</string>
     <string name="pref_network_https_title">Activar HTTPS</string>
-    <string name="pref_network_https_key">pref_network_https</string>
-
     <!-- 2013-07-01 -->
 
     <string name="web_view_open_browser">Ver en navegador</string>
@@ -503,25 +476,17 @@
     <!-- 2013-07-26 -->
 
     <string name="pref_behaviour_useinternalbrowser_title">Usar navegador interno</string>
-    <string name="pref_behaviour_useinternalbrowser_key">pref_behaviour_useinternalbrowser</string>
-
     <!-- 2013-07-29 -->
 
     <string name="pref_appearance_linkbuttons_title">Vista previa bajo los enlaces</string>
-    <string name="pref_appearance_linkbuttons_key">pref_appearance_linkbuttons</string>
-
     <!-- 2013-08-04 -->
 
     <string name="pref_appearance_indentlines_title">Líneas en la sangría</string>
-    <string name="pref_appearance_indentlines_key">pref_appearance_indentlines</string>
-
     <!-- 2014-03-14 -->
 
     <string name="load_more_posts">Cargar más publicaciones</string>
 
     <string name="pref_behaviour_postcount_title">Restringir número de publicaciones</string>
-    <string name="pref_behaviour_postcount_key">pref_behaviour_postcount</string>
-
     <string name="pref_behaviour_postcount_items_all">Mostrar todos</string>
 
     <!-- 2014-03-17 -->
@@ -554,7 +519,6 @@
 
     <!-- 2014-04-13 -->
 
-    <string name="pref_menus_mainmenu_useritems_key">pref_menus_mainmenu_useritems</string>
     <string name="pref_menus_mainmenu_useritems_title">Usuario en menú principal</string>
 
     <string name="mainmenu_submitted">Publicaciones enviadas</string>
@@ -623,15 +587,11 @@
 
     <!-- 2015-05-29 -->
     <string name="pref_behaviour_skiptofrontpage_title">Ir directamente a la página principal</string>
-    <string name="pref_behaviour_skiptofrontpage_key">pref_behaviour_skiptofrontpage</string>
-
     <!-- 2015-06-07 -->
     <string name="error_archived_vote">Este contenido está archivado, ya no se puede votar.</string>
 
     <!-- 2015-06-20 -->
     <string name="pref_behaviour_screenorientation_title">Orientación de la pantalla</string>
-    <string name="pref_behaviour_screenorientation_key">pref_behaviour_screenorientation</string>
-
     <string name="screen_orientation_auto">Automático</string>
     <string name="screen_orientation_portrait">Vertical</string>
     <string name="screen_orientation_landscape">Horizontal</string>
@@ -643,26 +603,21 @@
 
     <!-- 2015-07-05 -->
     <string name="pref_behaviour_bezel_toolbar_header">Marco de la barra de herramientas</string>
-    <string name="pref_behaviour_bezel_toolbar_swipezone_key">pref_behaviour_bezel_toolbar_swipezone</string>
     <string name="pref_behaviour_bezel_toolbar_swipezone_title">Tamaño del marco de la zona de la barra de herramientas de desplazamiento</string>
 
     <string name="pref_behaviour_gifview_mode_title">Visor de GIF</string>
-    <string name="pref_behaviour_gifview_mode_key">pref_behaviour_gifview_mode</string>
-
     <string name="pref_behaviour_gifview_mode_internal_movie">Visor interno (Movie, Android 4.0+)</string>
     <string name="pref_behaviour_gifview_mode_internal_legacy">Visor interno (Legacy)</string>
     <string name="pref_behaviour_view_mode_internal_browser">Navegador interno</string>
     <string name="pref_behaviour_view_mode_external_browser">Navegador externo</string>
 
     <!-- 2015-08-15 -->
-    <string name="pref_appearance_fontscale_inbox_key">pref_appearance_fontscale_inbox</string>
     <string name="pref_appearance_fontscale_inbox_title">Escala de la fuente de la bandeja de entrada</string>
 
     <string name="action_delete">Eliminar</string>
     <string name="delete_confirm">¿Estás seguro de que quieres eliminarlo?</string>
     <string name="delete_success">Eliminado exitosamente. El elemento seguirá visible hasta que actualices.</string>
 
-    <string name="pref_appearance_hide_username_main_menu_key">pref_appearance_hide_username_main_menu</string>
     <string name="pref_appearance_hide_username_main_menu_title">Esconder el nombre de usuario en el menú principal</string>
     <string name="mainmenu_useritems">Elementos del usuario</string>
 
@@ -679,7 +634,6 @@
     <string name="upgrade_v190_login_message">RedReader se ha actualizado y ahora utiliza oAuth para la identificación en Reddit. Si no te habías identificado antes de actualizar, ahora estás desconectado.</string>
 
     <string name="pref_behaviour_videoview_mode_title">Visor de vídeo</string>
-    <string name="pref_behaviour_videoview_mode_key">pref_behaviour_videoview_mode</string>
     <string name="pref_behaviour_videoview_mode_internal_videoview">Visor de vídeo interno (recommendado)</string>
     <string name="pref_behaviour_videoview_mode_external_app_vlc">Aplicación externa: VLC</string>
 
@@ -694,15 +648,11 @@
     
     <!-- 2015-10-31 -->
     <string name="pref_behaviour_gallery_swipe_length_title">Duración del cambio en la galería</string>
-    <string name="pref_behaviour_gallery_swipe_length_key">pref_behaviour_gallery_swipe_length</string>
-
     <!-- 2015-11-19 -->
     <string name="pref_cache_precache_comments_header">Precargar comentarios</string>
 
-    <string name="pref_cache_precache_comments_key">pref_cache_precache_comments</string>
     <string name="pref_cache_precache_comments_title">Cargar comentarios en caché</string>
 
-    <string name="pref_cache_precache_comments_wifionly_key">pref_cache_precache_comments_wifionly</string>
     <string name="pref_cache_precache_comments_wifionly_title">Sólo con WiFi</string>
 
     <string name="mainmenu_header_subreddits_subscribed">Subreddits suscritos</string>
@@ -710,8 +660,6 @@
 
     <string name="pin_subreddit">Fijar al menú principal</string>
     <string name="unpin_subreddit">Quitar del menú principal</string>
-    <string name="pref_pinned_subreddits_key">pref_pinned_subreddits</string>
-
     <!-- 2015-11-22 -->
     <string name="props_image_title">Información de la magen</string>
     <string name="props_caption">Leyenda</string>
@@ -724,12 +672,10 @@
     <!-- 2015-12-19 -->
     <string name="block_subreddit">Bloquear Subreddit</string>
     <string name="unblock_subreddit">Desbloquear Subreddit</string>
-    <string name="pref_blocked_subreddits_key">pref_blocked_subreddits</string>
     <string name="block_done">Subreddit bloqueado. Las próximas visitas a /r/all excluirán este subreddit.</string>
     <string name="unblock_done">Subreddit desbloqueado. Las próximas visitas a /r/all incluirán este subreddit.</string>
 
     <!-- 2016-03-14-->
-    <string name="pref_behaviour_comment_min_key">pref_behaviour_comment_min</string>
     <string name="pref_behaviour_comments_header">Comentarios</string>
 
     <string name="pref_behaviour_comment_min_title">Votos mínimos de comentarios</string>
@@ -738,8 +684,6 @@
     <!-- 2016-04-02 -->
     <string name="open_with">Abrir con</string>
     <string name="pref_network_tor_title">Usar TOR (experimental)</string>
-    <string name="pref_network_tor_key">pref_network_tor</string>
-
     <!-- 2016-04-03 -->
     <string name="error_tor_not_installed">Tor no funcionará a no ser que Orbot esté instalado. ¿Instalar ahora?</string>
     <string name="error_tor_setting_failed">Fallo al establecer el proxy.</string>
@@ -776,13 +720,9 @@
 	
 	<!-- 2016-06-25 -->
 	<string name="pref_behaviour_imageview_mode_title">Visor de imágenes</string>
-	<string name="pref_behaviour_imageview_mode_key">pref_behaviour_imageview_mode</string>
-
 	<string name="pref_behaviour_imageview_mode_internal_opengl">Visor interno (OpenGL)</string>
 
 	<string name="pref_behaviour_albumview_mode_title">Visor de álbumes</string>
-	<string name="pref_behaviour_albumview_mode_key">pref_behaviour_albumview_mode</string>
-
 	<string name="pref_behaviour_albumview_mode_internal_list">Visor interno (lista)</string>
 
 	<string name="error_tor_start_failed">Orbot ha fallado al inicarse. Tor no funcionará correctamente.</string>
@@ -791,7 +731,6 @@
 	<string name="inbox_unread_only">Sólo mensajes sin leer</string>
 	
 	<!-- 2016-07-02 -->
-	<string name="pref_behaviour_actions_comment_longclick_key">pref_behaviour_actions_comment_longclick</string>
 	<string name="pref_behaviour_actions_comment_longclick_title">Acción al dejar pulsado un comentario</string>
 
 	<string name="no_comments_yet">Aún sin comentarios.</string>
@@ -814,10 +753,8 @@
 	<string name="edit_comment_actionbar">Editar Comentario</string>
 	
 	<!-- 2016-07-16 -->
-	<string name="pref_behaviour_fling_comment_left_key">pref_behaviour_fling_comment_left</string>
 	<string name="pref_behaviour_fling_comment_left_title">Acción al desplazar comentario a la izquierda</string>
 
-	<string name="pref_behaviour_fling_comment_right_key">pref_behaviour_fling_comment_right</string>
 	<string name="pref_behaviour_fling_comment_right_title">Acción al desplazar comentario a la izquierda</string>
 
 	<!-- 2016-07-17 -->
@@ -828,7 +765,6 @@
 	<string name="action_search_comments">Buscar comentarios</string>
 
 	<!-- 2016-07-29 -->
-	<string name="pref_appearance_navbar_color_key">pref_appearance_navbar_color</string>
 	<string name="pref_appearance_navbar_color_title">Color de la barra de navegación</string>
 
 	<string name="pref_appearance_navbar_color_option_black">Negro</string>
@@ -841,7 +777,6 @@
 	<string name="action_copy_text">Copiar texto</string>
 	<string name="action_copy_link">Copiar enlace</string>
 
-	<string name="pref_behaviour_postsort_key">pref_behaviour_postsort</string>
 	<string name="pref_behaviour_postsort">Orden de publicaciones por defecto</string>
 
 	<!-- 2016-08-06 -->
@@ -852,20 +787,17 @@
 
 	<string name="mainmenu_header_multireddits">Multireddits</string>
 
-	<string name="pref_behaviour_share_permalink_key">pref_behaviour_share_permalink</string>
 	<string name="pref_behaviour_share_permalink_title">Compartir como permalink</string>
 
 	<!-- 2016-08-10 -->
 	<string name="pref_cache_general_header">General</string>
 
-	<string name="pref_cache_location_key">pref_cache_location</string>
 	<string name="pref_cache_location_title">Ubicación de almacenamiento de caché</string>
 
 	<string name="error_cache_dir_does_not_exist_title">El directorio de caché no existe</string>
 	<string name="error_cache_dir_does_not_exist_message">No se pudo acceder al directorio de caché. Por favor elige una ubicación diferente en los ajustes de caché.</string>
 
 	<!-- 2016-08-15 -->
-	<string name="pref_behaviour_pinned_subredditsort_key">pref_behaviour_pinned_subreddit_sort</string>
 	<string name="pref_behaviour_pinned_subredditsort">Orden de subreddits fijos</string>
 	<string name="sort_pinned_subreddit_name">Por nombre</string>
 	<string name="sort_pinned_subreddit_date">Por fecha de adición</string>
@@ -877,32 +809,21 @@
 	<string name="pref_appearance_image_viewer_header">Visor de imágenes</string>
 
 	<string name="pref_appearance_image_viewer_show_floating_toolbar_title">Mostrar barra flotante sobre la imagen</string>
-	<string name="pref_appearance_image_viewer_show_floating_toolbar_key">pref_appearance_image_viewer_show_floating_toolbar</string>
-
 	<string name="pref_appearance_link_text_clickable_title">Permitir clic sobre el texto de enlaces</string>
-	<string name="pref_appearance_link_text_clickable_key">pref_appearance_link_text_clickable</string>
-
 	<!-- 2016-09-07 -->
 	<string name="pref_appearance_hide_android_status_title">Ocultar la barra de estado de Android</string>
-	<string name="pref_appearance_hide_android_status_key">pref_appearance_hide_android_status</string>
-
 	<!-- 2016-09-08 -->
 	<string name="pref_behaviour_enable_swipe_refresh_title">Deslizar hacia abajo para actualizar</string>
-	<string name="pref_behaviour_enable_swipe_refresh_key">pref_behaviour_enable_swipe_refresh</string>
-
 	<!-- 2016-09-10 -->
 	<string name="mainmenu_header_subreddits_blocked">Subreddits bloqueados</string>
-	<string name="pref_behaviour_blocked_subredditsort_key">pref_behaviour_blocked_subreddit_sort</string>
 	<string name="pref_behaviour_blocked_subredditsort">Orden de subreddits bloqueados</string>
 	<string name="sort_blocked_subreddit_name">Por nombre</string>
 	<string name="sort_blocked_subreddit_date">Por fecha de adición</string>
 
 	<!-- 2016-09-21 -->
-	<string name="pref_appearance_show_blocked_subreddits_main_menu_key">pref_appearance_show_blocked_subreddits_main_menu</string>
 	<string name="pref_appearance_show_blocked_subreddits_main_menu_title">Mostrar subreddits bloqueados en el menú principal</string>
 
 	<!-- 2016-10-02 -->
-	<string name="pref_cache_rerequest_postlist_age_key">pref_cache_rerequest_postlist_age</string>
 	<string name="pref_cache_rerequest_postlist_age_title">Actualizar publicaciones si la cache tiene más de</string>
 
 	<string name="time_2hr">2 horas</string>

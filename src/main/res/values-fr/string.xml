@@ -41,84 +41,63 @@
     <string name="pref_appearance_comments_header">Commentaires</string>
     <string name="pref_appearance_other_header">Autre</string>
 
-    <string name="pref_appearance_twopane_key">pref_appearance_twopane</string>
     <string name="pref_appearance_twopane_title">Mode tablette (deux panneaux)</string>
 
-    <string name="pref_appearance_theme_key">pref_appearance_theme</string>
     <string name="pref_appearance_theme_title">Thème</string>
 
     <string name="pref_appearance_solidblack_title">Thème sombre en mode nuit</string>
 
-    <string name="pref_appearance_fontscale_posts_key">pref_appearance_fontscale_posts</string>
     <string name="pref_appearance_fontscale_posts_title">Taille de police des posts</string>
 
-    <string name="pref_appearance_fontscale_comments_key">pref_appearance_fontscale_comments</string>
     <string name="pref_appearance_fontscale_comments_title">Taille de police des commentaires</string>
 
-    <string name="pref_appearance_thumbnails_show_key">pref_appearance_thumbnails_show</string>
     <string name="pref_appearance_thumbnails_show_title">Afficher les miniatures</string>
 
-    <string name="pref_appearance_thumbnails_nsfw_show_key">pref_appearance_thumbnails_nsfw_show</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">Afficher les miniatures NSFW</string>
 
-    <string name="pref_appearance_thumbnails_wifionly_key">pref_appearance_thumbnails_wifionly</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Afficher les miniatures en WiFi seulement</string>
 
-    <string name="pref_appearance_loading_detail_key">pref_appearance_loading_detail</string>
     <string name="pref_appearance_loading_detail_title">Afficher des messages de chargements détaillés</string>
 
-    <string name="pref_appearance_comment_header_items_key">pref_appearance_comment_header_items</string>
     <string name="pref_appearance_comment_header_items_title">Entête des commentaires</string>
 
     <!-- Behaviour Prefs -->
 
-    <string name="pref_behaviour_notifications_key">pref_behaviour_notifications</string>
     <string name="pref_behaviour_notifications_title">Notifications</string>
 
     <string name="pref_behaviour_actions_post_header">Actions pour les posts</string>
     <string name="pref_behaviour_actions_comment_header">Actions pour les commentaires</string>
     <string name="pref_behaviour_posts_header">Posts</string>
 
-    <string name="pref_behaviour_fling_post_left_key">pref_behaviour_fling_post_left</string>
     <string name="pref_behaviour_fling_post_left_title">Glisser vers la gauche</string>
 
-    <string name="pref_behaviour_fling_post_right_key">pref_behaviour_fling_post_right</string>
     <string name="pref_behaviour_fling_post_right_title">Glisser vers la droite</string>
 
-    <string name="pref_behaviour_actions_comment_tap_key">pref_behaviour_actions_comment_tap</string>
     <string name="pref_behaviour_actions_comment_tap_title">Click sur un commentaire</string>
 
-    <string name="pref_behaviour_nsfw_key">pref_behaviour_nsfw</string>
     <string name="pref_behaviour_nsfw_title">Afficher le contenu NSFW</string>
 
     <!-- Cache Prefs -->
 
     <string name="pref_cache_pruning">Vidage du cache</string>
 
-    <string name="pref_cache_maxage_listing_key">pref_cache_maxage_listing</string>
     <string name="pref_cache_maxage_listing_title">Supprimer les entrées du cache après</string>
 
-    <string name="pref_cache_maxage_thumb_key">pref_cache_maxage_thumb</string>
     <string name="pref_cache_maxage_thumb_title">Supprimer les miniatures du cache après</string>
 
-    <string name="pref_cache_maxage_image_key">pref_cache_maxage_image</string>
     <string name="pref_cache_maxage_image_title">Supprimer les images du cache après</string>
 
     <string name="pref_cache_precache_images_header">Precache Images</string>
 
-    <string name="pref_cache_precache_images_key">pref_cache_precache_images</string>
     <string name="pref_cache_precache_images_title">Precache images</string>
 
     <!-- TODO use listpreference instead -->
-    <string name="pref_cache_precache_images_wifionly_key">pref_cache_precache_images_wifionly</string>
     <string name="pref_cache_precache_images_wifionly_title">Via Wifi seulement</string>
 
     <!-- Menu Prefs -->
 
-    <string name="pref_menus_post_context_items_key">pref_menus_post_context_items_2</string>
     <string name="pref_menus_post_context_items_title">Éléments du menu des posts</string>
 
-    <string name="pref_menus_post_toolbar_items_key">pref_menus_post_toolbar_items</string>
     <string name="pref_menus_post_toolbar_items_title">Éléments de la barre d\'outil des posts</string>
 
     <!-- Options Menu -->
@@ -464,17 +443,14 @@
 
     <string name="title_changelog">What\'s New</string>
 
-    <string name="pref_behaviour_commentsort_key">pref_behaviour_commentsort</string>
     <string name="pref_behaviour_commentsort">Tri des commentaires par défaut</string>
 
     <!-- 2013-05-18 -->
 
     <string name="action_fling_disabled">Désactivé</string>
 
-    <string name="pref_about_version_key">pref_about_version</string>
     <string name="pref_about_version_title">Version</string>
 
-    <string name="pref_about_changelog_key">pref_about_changelog</string>
     <string name="prefs_category_about">À propos</string>
 
     <!-- 2013-06-07 -->
@@ -485,7 +461,6 @@
 
     <string name="pref_appearance_locale_header">Locale</string>
 
-    <string name="pref_appearance_langforce_key">pref_appearance_langforce_key</string>
     <string name="pref_appearance_langforce_title">Langage</string>
 
     <string name="lang_auto">Automatique</string>
@@ -494,7 +469,6 @@
 
     <string name="prefs_category_network">Réseau</string>
     <string name="pref_network_https_title">Activé HTTPS</string>
-    <string name="pref_network_https_key">pref_network_https</string>
 
     <!-- 2013-07-01 -->
 
@@ -503,16 +477,13 @@
     <!-- 2013-07-26 -->
 
     <string name="pref_behaviour_useinternalbrowser_title">Utilisé le navigateur intégré</string>
-    <string name="pref_behaviour_useinternalbrowser_key">pref_behaviour_useinternalbrowser</string>
 
     <!-- 2013-07-29 -->
 
     <string name="pref_appearance_linkbuttons_title">Show Link Buttons</string>
-    <string name="pref_appearance_linkbuttons_key">pref_appearance_linkbuttons</string>
 
     <!-- 2013-08-04 -->
 
     <string name="pref_appearance_indentlines_title">Show indent lines</string>
-    <string name="pref_appearance_indentlines_key">pref_appearance_indentlines</string>
 
 </resources>

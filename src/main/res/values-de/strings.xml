@@ -46,84 +46,63 @@ Thanks to /u/balducien and /u/andiho for this translation!
     <string name="pref_appearance_comments_header">Kommentare</string>
     <string name="pref_appearance_other_header">Sonstiges</string>
 
-    <string name="pref_appearance_twopane_key">pref_appearance_twopane</string>
     <string name="pref_appearance_twopane_title">Tablet-Modus (Zweispaltig)</string>
 
-    <string name="pref_appearance_theme_key">pref_appearance_theme</string>
     <string name="pref_appearance_theme_title">Design</string>
 
     <string name="pref_appearance_solidblack_title">Echtes Schwarz im Nachtmodus</string>
 
-    <string name="pref_appearance_fontscale_posts_key">pref_appearance_fontscale_posts</string>
     <string name="pref_appearance_fontscale_posts_title">Post-Schriftgröße</string>
 
-    <string name="pref_appearance_fontscale_comments_key">pref_appearance_fontscale_comments</string>
     <string name="pref_appearance_fontscale_comments_title">Kommentar-Schriftgröße</string>
 
-    <string name="pref_appearance_thumbnails_show_key">pref_appearance_thumbnails_show</string>
     <string name="pref_appearance_thumbnails_show_title">Zeige Vorschaubilder</string>
 
-    <string name="pref_appearance_thumbnails_nsfw_show_key">pref_appearance_thumbnails_nsfw_show</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">Zeige NSFW-Vorschaubilder</string>
 
-    <string name="pref_appearance_thumbnails_wifionly_key">pref_appearance_thumbnails_wifionly</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Zeige Vorschaubilder nur im WLAN</string>
 
-    <string name="pref_appearance_loading_detail_key">pref_appearance_loading_detail</string>
     <string name="pref_appearance_loading_detail_title">Detaillierte Ladenachrichten</string>
 
-    <string name="pref_appearance_comment_header_items_key">pref_appearance_comment_header_items</string>
     <string name="pref_appearance_comment_header_items_title">Kommentarkopf</string>
 
     <!-- Behaviour Prefs -->
 
-    <string name="pref_behaviour_notifications_key">pref_behaviour_notifications</string>
     <string name="pref_behaviour_notifications_title">Mitteilung</string>
 
     <string name="pref_behaviour_actions_post_header">Post-Aktionen</string>
     <string name="pref_behaviour_actions_comment_header">Kommentar-Aktionen</string>
     <string name="pref_behaviour_posts_header">Posts</string>
 
-    <string name="pref_behaviour_fling_post_left_key">pref_behaviour_fling_post_left</string>
     <string name="pref_behaviour_fling_post_left_title">Posts nach links wischen</string>
 
-    <string name="pref_behaviour_fling_post_right_key">pref_behaviour_fling_post_right</string>
     <string name="pref_behaviour_fling_post_right_title">Posts nach rechts wischen</string>
 
-    <string name="pref_behaviour_actions_comment_tap_key">pref_behaviour_actions_comment_tap</string>
     <string name="pref_behaviour_actions_comment_tap_title">Auf Kommentare tippen</string>
 
-    <string name="pref_behaviour_nsfw_key">pref_behaviour_nsfw</string>
     <string name="pref_behaviour_nsfw_title">Zeige NSFW-Inhalte</string>
 
     <!-- Cache Prefs -->
 
     <string name="pref_cache_pruning">Cache leeren</string>
 
-    <string name="pref_cache_maxage_listing_key">pref_cache_maxage_listing</string>
     <string name="pref_cache_maxage_listing_title">Leere Cacheeinträge nach</string>
 
-    <string name="pref_cache_maxage_thumb_key">pref_cache_maxage_thumb</string>
     <string name="pref_cache_maxage_thumb_title">Leere Vorschaubilder-Cache nach</string>
 
-    <string name="pref_cache_maxage_image_key">pref_cache_maxage_image</string>
     <string name="pref_cache_maxage_image_title">Leere Bildercache nach</string>
 
     <string name="pref_cache_precache_images_header">Bilder vorabladen</string>
 
-    <string name="pref_cache_precache_images_key">pref_cache_precache_images</string>
     <string name="pref_cache_precache_images_title">Bilder vorabladen</string>
 
     <!-- TODO use listpreference instead -->
-    <string name="pref_cache_precache_images_wifionly_key">pref_cache_precache_images_wifionly</string>
     <string name="pref_cache_precache_images_wifionly_title">Nur im WLAN</string>
 
     <!-- Menu Prefs -->
 
-    <string name="pref_menus_post_context_items_key">pref_menus_post_context_items_2</string>
     <string name="pref_menus_post_context_items_title">Post-Kontextmenü</string>
 
-    <string name="pref_menus_post_toolbar_items_key">pref_menus_post_toolbar_items</string>
     <string name="pref_menus_post_toolbar_items_title">Post-Toolbar</string>
 
     <!-- Options Menu -->
@@ -475,10 +454,8 @@ Thanks to /u/balducien and /u/andiho for this translation!
 
     <string name="action_fling_disabled">Ausschalten</string>
 
-    <string name="pref_about_version_key">pref_about_version</string>
     <string name="pref_about_version_title">Version</string>
 
-    <string name="pref_about_changelog_key">pref_about_changelog</string>
     <string name="prefs_category_about">Infos</string>
     
     <!-- 2013-06-07 -->
@@ -489,7 +466,6 @@ Thanks to /u/balducien and /u/andiho for this translation!
 
     <string name="pref_appearance_locale_header">Lokalisierung</string>
 
-    <string name="pref_appearance_langforce_key">pref_appearance_langforce_key</string>
     <string name="pref_appearance_langforce_title">Sprache</string>
 
     <string name="lang_auto">Automatisch</string>
@@ -498,8 +474,6 @@ Thanks to /u/balducien and /u/andiho for this translation!
 
     <string name="prefs_category_network">Netzwerk</string>
     <string name="pref_network_https_title">HTTPS verwenden</string>
-    <string name="pref_network_https_key">pref_network_https</string>
-
     <!-- 2013-07-01 -->
 
     <string name="web_view_open_browser">Im Browser anzeigen</string>
@@ -507,25 +481,17 @@ Thanks to /u/balducien and /u/andiho for this translation!
     <!-- 2013-07-26 -->
 
     <string name="pref_behaviour_useinternalbrowser_title">Internen Browser verwenden</string>
-    <string name="pref_behaviour_useinternalbrowser_key">pref_behaviour_useinternalbrowser</string>
-
     <!-- 2013-07-29 -->
 
     <string name="pref_appearance_linkbuttons_title">Link-Buttons anzeigen</string>
-    <string name="pref_appearance_linkbuttons_key">pref_appearance_linkbuttons</string>
-
     <!-- 2013-08-04 -->
 
     <string name="pref_appearance_indentlines_title">Einzugslinien anzeigen</string>
-    <string name="pref_appearance_indentlines_key">pref_appearance_indentlines</string>
-
     <!-- 2014-03-14 -->
 
     <string name="load_more_posts">Mehr Posts laden</string>
 
     <string name="pref_behaviour_postcount_title">Post-Anzahl beschränken</string>
-    <string name="pref_behaviour_postcount_key">pref_behaviour_postcount</string>
-
     <string name="pref_behaviour_postcount_items_all">Alle</string>
 
     <!-- 2014-03-17 -->
@@ -558,7 +524,6 @@ Thanks to /u/balducien and /u/andiho for this translation!
 
     <!-- 2014-04-13 -->
 
-    <string name="pref_menus_mainmenu_useritems_key">pref_menus_mainmenu_useritems</string>
     <string name="pref_menus_mainmenu_useritems_title">Hauptmenüeinträge</string>
 
     <string name="mainmenu_submitted">Eingereichte Posts</string>
@@ -680,98 +645,61 @@ Thanks to /u/balducien and /u/andiho for this translation!
 	<string name="pm_send_hint_message_text">Nachrichtentext</string>
 	<string name="pm_send_hint_recipient">Empfänger</string>
 	<string name="pm_send_hint_subject">Betreff</string>
-	<string name="pref_appearance_fontscale_inbox_key">pref_appearance_fontscale_inbox</string>
 	<string name="pref_appearance_fontscale_inbox_title">Skalierung der Schrift im Posteingang</string>
-	<string name="pref_appearance_hide_android_status_key">pref_appearance_hide_android_status</string>
 	<string name="pref_appearance_hide_android_status_title">Android-Statusleiste verstecken</string>
-	<string name="pref_appearance_hide_username_main_menu_key">pref_appearance_hide_username_main_menu</string>
 	<string name="pref_appearance_hide_username_main_menu_title">Benutzername im Hauptmenü verstecken</string>
 	<string name="pref_appearance_image_viewer_header">Bildbetrachter</string>
-	<string name="pref_appearance_image_viewer_show_floating_toolbar_key">
-		pref_appearance_image_viewer_show_floating_toolbar
-	</string>
 	<string name="pref_appearance_image_viewer_show_floating_toolbar_title">Schwebene Werkzeugleiste über Bild
 		anzeigen
 	</string>
-	<string name="pref_appearance_link_text_clickable_key">pref_appearance_link_text_clickable</string>
 	<string name="pref_appearance_link_text_clickable_title">Link-Text klickbar machen</string>
-	<string name="pref_appearance_navbar_color_key">pref_appearance_navbar_color</string>
 	<string name="pref_appearance_navbar_color_option_black">Schwarz</string>
 	<string name="pref_appearance_navbar_color_option_primary">Primär (hell)</string>
 	<string name="pref_appearance_navbar_color_option_primarydark">Primär (dunkel)</string>
 	<string name="pref_appearance_navbar_color_title">Farbe der Navigationsleiste</string>
-	<string name="pref_appearance_show_blocked_subreddits_main_menu_key">
-		pref_appearance_show_blocked_subreddits_main_menu
-	</string>
 	<string name="pref_appearance_show_blocked_subreddits_main_menu_title">Blockierte Subreddits im Hauptmenü anzeigen
 	</string>
-	<string name="pref_behaviour_actions_comment_longclick_key">pref_behaviour_actions_comment_longclick</string>
 	<string name="pref_behaviour_actions_comment_longclick_title">Aktion für langen Klick auf Kommentar</string>
 	<string name="pref_behaviour_albumview_mode_internal_list">Interner Betrachter (Liste)</string>
-	<string name="pref_behaviour_albumview_mode_key">pref_behaviour_albumview_mode</string>
 	<string name="pref_behaviour_albumview_mode_title">Albums-Betrachter</string>
 	<string name="pref_behaviour_bezel_toolbar_header">Randleiste</string>
-	<string name="pref_behaviour_bezel_toolbar_swipezone_key">pref_behaviour_bezel_toolbar_swipezone</string>
 	<string name="pref_behaviour_bezel_toolbar_swipezone_title">Größe der Randleistenwischzone</string>
 	<string name="pref_behaviour_blocked_subredditsort">Sortierung der geblockten Subreddits</string>
-	<string name="pref_behaviour_blocked_subredditsort_key">pref_behaviour_blocked_subreddit_sort</string>
 	<string name="pref_behaviour_comment_min_dialog_title">Kommentar einklappen falls Bewertung unter (leer lassen, um
 		alle Kommentare anzuzeigen)
 	</string>
-	<string name="pref_behaviour_comment_min_key">pref_behaviour_comment_min</string>
 	<string name="pref_behaviour_comment_min_title">Minimale Bewertung von Kommentaren</string>
 	<string name="pref_behaviour_comments_header">Kommentare</string>
-	<string name="pref_behaviour_commentsort_key">pref_behaviour_commentsort</string>
-	<string name="pref_behaviour_enable_swipe_refresh_key">pref_behaviour_enable_swipe_refresh</string>
 	<string name="pref_behaviour_enable_swipe_refresh_title">Nach unten wischen um zu aktualisieren</string>
-	<string name="pref_behaviour_fling_comment_left_key">pref_behaviour_fling_comment_left</string>
 	<string name="pref_behaviour_fling_comment_left_title">Aktion für das Nach-links-Wischen von Kommentaren</string>
 	<string name="pref_behaviour_fling_comment_right_title">Aktion für das Nach-rechts-Wischen von Kommentaren</string>
-	<string name="pref_behaviour_fling_comment_right_key">pref_behaviour_fling_comment_right</string>
-	<string name="pref_behaviour_gallery_swipe_length_key">pref_behaviour_gallery_swipe_length</string>
 	<string name="pref_behaviour_gallery_swipe_length_title">Wischlänge in Gallerie</string>
 	<string name="pref_behaviour_gifview_mode_internal_legacy">Interner Betrachter (veraltet)</string>
 	<string name="pref_behaviour_gifview_mode_internal_movie">Interner Betrachter (Movie, Android 4.0+)</string>
-	<string name="pref_behaviour_gifview_mode_key">pref_behaviour_gifview_mode</string>
 	<string name="pref_behaviour_gifview_mode_title">GIF-Betrachter</string>
 	<string name="pref_behaviour_imageview_mode_internal_opengl">Interner Betrachter (OpenGL)</string>
-	<string name="pref_behaviour_imageview_mode_key">pref_behaviour_imageview_mode</string>
 	<string name="pref_behaviour_imageview_mode_title">Bildbetrachter</string>
 	<string name="pref_behaviour_pinned_subredditsort">Sortierung der angepinnten Subreddits</string>
-	<string name="pref_behaviour_pinned_subredditsort_key">pref_behaviour_pinned_subreddit_sort</string>
 	<string name="pref_behaviour_postsort">Standardmäßige Sortierung von Einreichungen</string>
-	<string name="pref_behaviour_postsort_key">pref_behaviour_postsort</string>
-	<string name="pref_behaviour_screenorientation_key">pref_behaviour_screenorientation</string>
 	<string name="pref_behaviour_screenorientation_title">Bildschirmorientierung</string>
-	<string name="pref_behaviour_share_permalink_key">pref_behaviour_share_permalink</string>
 	<string name="pref_behaviour_share_permalink_title">Als Permalink teilen</string>
-	<string name="pref_behaviour_skiptofrontpage_key">pref_behaviour_skiptofrontpage</string>
 	<string name="pref_behaviour_skiptofrontpage_title">Zu Titelseite überspringen</string>
 	<string name="pref_behaviour_videoview_mode_external_app_vlc">Externe App: VLC</string>
 	<string name="pref_behaviour_videoview_mode_internal_videoview">Interner Video-Betrachter (empfohlen)</string>
-	<string name="pref_behaviour_videoview_mode_key">pref_behaviour_videoview_mode</string>
 	<string name="pref_behaviour_videoview_mode_title">Video-Betrachter</string>
 	<string name="pref_behaviour_view_mode_external_browser">Externer Browser</string>
 	<string name="pref_behaviour_view_mode_internal_browser">Interner Browser</string>
-	<string name="pref_blocked_subreddits_key">pref_blocked_subreddits</string>
 	<string name="pref_cache_general_header">Allgemein</string>
-	<string name="pref_cache_location_key">pref_cache_location</string>
 	<string name="pref_cache_location_title">Speicherort des Caches</string>
 	<string name="pref_cache_precache_comments_header">Kommentare vorladen</string>
-	<string name="pref_cache_precache_comments_key">pref_cache_precache_comments</string>
 	<string name="pref_cache_precache_comments_title">Kommentare vorladen</string>
-	<string name="pref_cache_precache_comments_wifionly_key">pref_cache_precache_comments_wifionly</string>
 	<string name="pref_cache_precache_comments_wifionly_title">Nur im WLAN</string>
-	<string name="pref_cache_rerequest_postlist_age_key">pref_cache_rerequest_postlist_age</string>
 	<string name="pref_cache_rerequest_postlist_age_title">Einreichungen neu laden falls Cache älter ist als</string>
-	<string name="pref_menus_optionsmenu_items_key">pref_menus_optionsmenu_items_3</string>
 	<string name="pref_menus_optionsmenu_items_title">Einträge des Optionsmenüs</string>
 	<string name="pref_menus_link_context_items_title">Link-Kontextmenü</string>
 	<string name="pref_menus_subreddit_context_items_title">Subreddit-Kontextmenü</string>
-	<string name="pref_network_tor_key">pref_network_tor</string>
 	<string name="pref_network_tor_title">TOR benutzen (experimentell)</string>
 	<string name="pref_not_supported_before_lollipop">Vor Android Lollipop nicht unterstützt</string>
-	<string name="pref_pinned_subreddits_key">pref_pinned_subreddits</string>
 	<string name="props_caption">Bildunterschrift</string>
 	<string name="props_image_title">Bildinformationen</string>
 	<string name="props_resolution">Auflösung</string>

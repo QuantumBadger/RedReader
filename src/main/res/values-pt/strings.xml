@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">RedReader</string>
 	<string name="accounts_anon">Anônimo</string>
 	<string name="accounts_password">Senha</string>
 	<string name="accounts_active">Ativo</string>
@@ -138,80 +137,18 @@
 	<string name="post_submit_subreddit_hint">Subreddit</string>
 	<string name="post_submit_title_hint">Título</string>
 	<string name="pref_about_version_title">Versão</string>
-	<string name="pref_about_changelog_key" translatable="false">pref_about_changelog</string>
-	<string name="pref_about_version_key" translatable="false">pref_about_version</string>
 	<string name="pref_appearance_comment_header_items_age">Idade</string>
 	<string name="pref_appearance_comment_header_items_author">Autor</string>
 	<string name="pref_appearance_comment_header_items_gold">Reddit Gold</string>
-	<string name="pref_appearance_comment_header_items_key" translatable="false">pref_appearance_comment_header_items</string>
 	<string name="pref_appearance_comment_header_items_score">Pontuação</string>
 	<string name="pref_appearance_comment_header_items_title">Cabeçalho dos Comentários</string>
 	<string name="pref_appearance_comments_header">Comentários</string>
 	<string name="pref_appearance_font_header">Fonte</string>
-	<string name="pref_appearance_fontscale_comments_key" translatable="false">pref_appearance_fontscale_comments</string>
 	<string name="pref_appearance_fontscale_comments_title">Tamanho da fonte nos comentários</string>
-	<string name="pref_appearance_fontscale_inbox_key" translatable="false">pref_appearance_fontscale_inbox</string>
-	<string name="pref_appearance_fontscale_posts_key" translatable="false">pref_appearance_fontscale_posts</string>
-	<string name="pref_appearance_hide_android_status_key" translatable="false">pref_appearance_hide_android_status</string>
 	<string name="pref_appearance_hide_android_status_title">Esconder barra de status do Android</string>
 	<string name="pref_appearance_fontscale_posts_title">Tamanho da fonte nos posts</string>
 	<string name="pref_appearance_fontscale_inbox_title">Tamanho da fonte na caixa de entrada</string>
-	<string name="pref_appearance_hide_username_main_menu_key" translatable="false">pref_appearance_hide_username_main_menu</string>
 	<string name="pref_appearance_image_viewer_header">Visualizador de Imagens</string>
-	<string name="pref_appearance_image_viewer_show_floating_toolbar_key" translatable="false">pref_appearance_image_viewer_show_floating_toolbar</string>
-	<string name="pref_appearance_indentlines_key" translatable="false">pref_appearance_indentlines</string>
-	<string name="pref_appearance_langforce_key" translatable="false">pref_appearance_langforce_key</string>
-	<string name="pref_appearance_link_text_clickable_key" translatable="false">pref_appearance_link_text_clickable</string>
-	<string name="pref_appearance_linkbuttons_key" translatable="false">pref_appearance_linkbuttons</string>
-	<string name="pref_appearance_loading_detail_key" translatable="false">pref_appearance_loading_detail</string>
-	<string name="pref_appearance_navbar_color_key" translatable="false">pref_appearance_navbar_color</string>
-	<string name="pref_appearance_show_blocked_subreddits_main_menu_key" translatable="false">pref_appearance_show_blocked_subreddits_main_menu</string>
-	<string name="pref_appearance_theme_key" translatable="false">pref_appearance_theme</string>
-	<string name="pref_appearance_thumbnails_nsfw_show_key" translatable="false">pref_appearance_thumbnails_nsfw_show</string>
-	<string name="pref_appearance_thumbnails_show_key" translatable="false">pref_appearance_thumbnails_show</string>
-	<string name="pref_appearance_thumbnails_wifionly_key" translatable="false">pref_appearance_thumbnails_wifionly</string>
-	<string name="pref_appearance_twopane_key" translatable="false">pref_appearance_twopane</string>
-	<string name="pref_behaviour_actions_comment_longclick_key" translatable="false">pref_behaviour_actions_comment_longclick</string>
-	<string name="pref_behaviour_actions_comment_tap_key" translatable="false">pref_behaviour_actions_comment_tap</string>
-	<string name="pref_behaviour_albumview_mode_key" translatable="false">pref_behaviour_albumview_mode</string>
-	<string name="pref_behaviour_bezel_toolbar_swipezone_key" translatable="false">pref_behaviour_bezel_toolbar_swipezone</string>
-	<string name="pref_behaviour_blocked_subredditsort_key" translatable="false">pref_behaviour_blocked_subreddit_sort</string>
-	<string name="pref_behaviour_comment_min_key" translatable="false">pref_behaviour_comment_min</string>
-	<string name="pref_behaviour_commentsort_key" translatable="false">pref_behaviour_commentsort</string>
-	<string name="pref_behaviour_enable_swipe_refresh_key" translatable="false">pref_behaviour_enable_swipe_refresh</string>
-	<string name="pref_behaviour_fling_comment_left_key" translatable="false">pref_behaviour_fling_comment_left</string>
-	<string name="pref_behaviour_fling_comment_right_key" translatable="false">pref_behaviour_fling_comment_right</string>
-	<string name="pref_behaviour_fling_post_left_key" translatable="false">pref_behaviour_fling_post_left</string>
-	<string name="pref_behaviour_fling_post_right_key" translatable="false">pref_behaviour_fling_post_right</string>
-	<string name="pref_behaviour_gallery_swipe_length_key" translatable="false">pref_behaviour_gallery_swipe_length</string>
-	<string name="pref_behaviour_gifview_mode_key" translatable="false">pref_behaviour_gifview_mode</string>
-	<string name="pref_behaviour_imageview_mode_key" translatable="false">pref_behaviour_imageview_mode</string>
-	<string name="pref_behaviour_notifications_key" translatable="false">pref_behaviour_notifications</string>
-	<string name="pref_behaviour_nsfw_key" translatable="false">pref_behaviour_nsfw</string>
-	<string name="pref_behaviour_pinned_subredditsort_key" translatable="false">pref_behaviour_pinned_subreddit_sort</string>
-	<string name="pref_behaviour_postcount_key" translatable="false">pref_behaviour_postcount</string>
-	<string name="pref_behaviour_postsort_key" translatable="false">pref_behaviour_postsort</string>
-	<string name="pref_behaviour_screenorientation_key" translatable="false">pref_behaviour_screenorientation</string>
-	<string name="pref_behaviour_share_permalink_key" translatable="false">pref_behaviour_share_permalink</string>
-	<string name="pref_behaviour_skiptofrontpage_key" translatable="false">pref_behaviour_skiptofrontpage</string>
-	<string name="pref_behaviour_useinternalbrowser_key" translatable="false">pref_behaviour_useinternalbrowser</string>
-	<string name="pref_behaviour_videoview_mode_key" translatable="false">pref_behaviour_videoview_mode</string>
-	<string name="pref_blocked_subreddits_key" translatable="false">pref_blocked_subreddits</string>
-	<string name="pref_cache_location_key" translatable="false">pref_cache_location</string>
-	<string name="pref_cache_maxage_image_key" translatable="false">pref_cache_maxage_image</string>
-	<string name="pref_cache_maxage_listing_key" translatable="false">pref_cache_maxage_listing</string>
-	<string name="pref_cache_maxage_thumb_key" translatable="false">pref_cache_maxage_thumb</string>
-	<string name="pref_cache_precache_comments_key" translatable="false">pref_cache_precache_comments</string>
-	<string name="pref_cache_precache_comments_wifionly_key" translatable="false">pref_cache_precache_comments_wifionly</string>
-	<string name="pref_cache_precache_images_key" translatable="false">pref_cache_precache_images</string>
-	<string name="pref_cache_precache_images_wifionly_key" translatable="false">pref_cache_precache_images_wifionly</string>
-	<string name="pref_cache_rerequest_postlist_age_key" translatable="false">pref_cache_rerequest_postlist_age</string>
-	<string name="pref_menus_mainmenu_useritems_key" translatable="false">pref_menus_mainmenu_useritems</string>
-	<string name="pref_menus_optionsmenu_items_key" translatable="false">pref_menus_optionsmenu_items_3</string>
-	<string name="pref_menus_post_context_items_key" translatable="false">pref_menus_post_context_items_2</string>
-	<string name="pref_menus_post_toolbar_items_key" translatable="false">pref_menus_post_toolbar_items</string>
-	<string name="pref_network_https_key" translatable="false">pref_network_https</string>
-	<string name="pref_network_tor_key" translatable="false">pref_network_tor</string>
 	<string name="time_1day">1 dia</string>
 	<string name="time_1hr">1 hora</string>
 	<string name="time_1month">1 mês</string>
@@ -367,7 +304,6 @@
 	<string name="prefs_category_behaviour">Comportamento</string>
 	<string name="prefs_category_appearance">Aparência</string>
 	<string name="prefs_category_about">Sobre</string>
-	<string name="pref_pinned_subreddits_key" translatable="false">pref_pinned_subreddits</string>
 	<string name="pref_not_supported_before_lollipop">Não suportado em versões anteriores ao Android Lollipop</string>
 	<string name="pref_network_tor_title">Usar TOR (experimental)</string>
 	<string name="pref_network_https_title">Habilitar HTTPS</string>

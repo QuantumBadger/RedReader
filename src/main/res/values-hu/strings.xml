@@ -18,8 +18,6 @@
 
 <resources>
 
-    <string name="app_name">RedReader</string>
-
     <!-- First Run Dialog -->
 
     <string name="firstrun_login_title">Jelentkezz be</string>
@@ -43,84 +41,63 @@
     <string name="pref_appearance_comments_header">Hozzászólások</string>
     <string name="pref_appearance_other_header">Továbbiak</string>
 
-    <string name="pref_appearance_twopane_key">pref_appearance_twopane</string>
     <string name="pref_appearance_twopane_title">Tablet Mód (két sík)</string>
 
-    <string name="pref_appearance_theme_key">pref_appearance_theme</string>
     <string name="pref_appearance_theme_title">Téma</string>
 
     <string name="pref_appearance_solidblack_title">Tömör fekete éjszakai módban</string>
 
-    <string name="pref_appearance_fontscale_posts_key">pref_appearance_fontscale_posts</string>
     <string name="pref_appearance_fontscale_posts_title">Poszt betűtípus méretszorzó</string>
 
-    <string name="pref_appearance_fontscale_comments_key">pref_appearance_fontscale_comments</string>
     <string name="pref_appearance_fontscale_comments_title">Hozzászólás betűtípus méretszorzó</string>
 
-    <string name="pref_appearance_thumbnails_show_key">pref_appearance_thumbnails_show</string>
     <string name="pref_appearance_thumbnails_show_title">Előnézetek mutatása</string>
 
-    <string name="pref_appearance_thumbnails_nsfw_show_key">pref_appearance_thumbnails_nsfw_show</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">NSFW előnézetek mutatása</string>
 
-    <string name="pref_appearance_thumbnails_wifionly_key">pref_appearance_thumbnails_wifionly</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Előnézetek csak Wi-Fi-n</string>
 
-    <string name="pref_appearance_loading_detail_key">pref_appearance_loading_detail</string>
     <string name="pref_appearance_loading_detail_title">Részletes betöltőüzenetek mutatása</string>
 
-    <string name="pref_appearance_comment_header_items_key">pref_appearance_comment_header_items</string>
     <string name="pref_appearance_comment_header_items_title">Hozzászólás fejléc</string>
 
     <!-- Behaviour Prefs -->
 
-    <string name="pref_behaviour_notifications_key">pref_behaviour_notifications</string>
     <string name="pref_behaviour_notifications_title">Figyelmeztetések</string>
 
     <string name="pref_behaviour_actions_post_header">Poszt Műveletek</string>
     <string name="pref_behaviour_actions_comment_header">Hozzászólás Műveletek</string>
     <string name="pref_behaviour_posts_header">Posztok</string>
 
-    <string name="pref_behaviour_fling_post_left_key">pref_behaviour_fling_post_left</string>
     <string name="pref_behaviour_fling_post_left_title">Művelet poszt balra söprésénél</string>
 
-    <string name="pref_behaviour_fling_post_right_key">pref_behaviour_fling_post_right</string>
     <string name="pref_behaviour_fling_post_right_title">Művelet poszt jobbra söprésénél</string>
 
-    <string name="pref_behaviour_actions_comment_tap_key">pref_behaviour_actions_comment_tap</string>
     <string name="pref_behaviour_actions_comment_tap_title">Művelet hozzászólás megérintésénél</string>
 
-    <string name="pref_behaviour_nsfw_key">pref_behaviour_nsfw</string>
     <string name="pref_behaviour_nsfw_title">Mutass NSFW tartalmakat</string>
 
     <!-- Cache Prefs -->
 
     <string name="pref_cache_pruning">Tárhely-takarékosság</string>
 
-    <string name="pref_cache_maxage_listing_key">pref_cache_maxage_listing</string>
     <string name="pref_cache_maxage_listing_title">Eltárolt listák törlése ennyi idő után</string>
 
-    <string name="pref_cache_maxage_thumb_key">pref_cache_maxage_thumb</string>
     <string name="pref_cache_maxage_thumb_title">Eltárolt előnézetek törlése ennyi idő után</string>
 
-    <string name="pref_cache_maxage_image_key">pref_cache_maxage_image</string>
     <string name="pref_cache_maxage_image_title">Eltárolt képek törlése ennyi idő után</string>
 
     <string name="pref_cache_precache_images_header">Képek előre lehívása</string>
 
-    <string name="pref_cache_precache_images_key">pref_cache_precache_images</string>
     <string name="pref_cache_precache_images_title">Képek előre lehívása</string>
 
     <!-- TODO use listpreference instead -->
-    <string name="pref_cache_precache_images_wifionly_key">pref_cache_precache_images_wifionly</string>
     <string name="pref_cache_precache_images_wifionly_title">Kizárólag Wi-Fi-n</string>
 
     <!-- Menu Prefs -->
 
-    <string name="pref_menus_post_context_items_key">pref_menus_post_context_items_2</string>
     <string name="pref_menus_post_context_items_title">Poszt Kontextus Menü Elemek</string>
 
-    <string name="pref_menus_post_toolbar_items_key">pref_menus_post_toolbar_items</string>
     <string name="pref_menus_post_toolbar_items_title">Poszt Eszköztár Elemek</string>
 
     <!-- Options Menu -->
@@ -466,17 +443,14 @@
 
     <string name="title_changelog">Újdonságok</string>
 
-    <string name="pref_behaviour_commentsort_key">pref_behaviour_commentsort</string>
     <string name="pref_behaviour_commentsort">Alapértelmezett hozzászólás-rendezés</string>
 
     <!-- 2013-05-18 -->
 
     <string name="action_fling_disabled">Tiltott</string>
 
-    <string name="pref_about_version_key">pref_about_version</string>
     <string name="pref_about_version_title">Verzió</string>
 
-    <string name="pref_about_changelog_key">pref_about_changelog</string>
     <string name="prefs_category_about">Információ</string>
 
     <!-- 2013-06-07 -->
@@ -487,7 +461,6 @@
 
     <string name="pref_appearance_locale_header">Lokalizálás</string>
 
-    <string name="pref_appearance_langforce_key">pref_appearance_langforce_key</string>
     <string name="pref_appearance_langforce_title">Nyelv</string>
 
     <string name="lang_auto">Automatikus</string>
@@ -496,8 +469,6 @@
 
     <string name="prefs_category_network">Hálózat</string>
     <string name="pref_network_https_title">HTTPS engedélyezése</string>
-    <string name="pref_network_https_key">pref_network_https</string>
-
     <!-- 2013-07-01 -->
 
     <string name="web_view_open_browser">Megtekintés böngészőben</string>
@@ -505,25 +476,17 @@
     <!-- 2013-07-26 -->
 
     <string name="pref_behaviour_useinternalbrowser_title">Beépített böngésző használata</string>
-    <string name="pref_behaviour_useinternalbrowser_key">pref_behaviour_useinternalbrowser</string>
-
     <!-- 2013-07-29 -->
 
     <string name="pref_appearance_linkbuttons_title">Link gombok mutatása</string>
-    <string name="pref_appearance_linkbuttons_key">pref_appearance_linkbuttons</string>
-
     <!-- 2013-08-04 -->
 
     <string name="pref_appearance_indentlines_title">Behúzási vonalak mutatása</string>
-    <string name="pref_appearance_indentlines_key">pref_appearance_indentlines</string>
-
     <!-- 2014-03-14 -->
 
     <string name="load_more_posts">További posztok betöltése</string>
 
     <string name="pref_behaviour_postcount_title">Poszt-szám korlátozása</string>
-    <string name="pref_behaviour_postcount_key">pref_behaviour_postcount</string>
-
     <string name="pref_behaviour_postcount_items_all">MInd</string>
 
     <!-- 2014-03-17 -->
@@ -556,7 +519,6 @@
 
     <!-- 2014-04-13 -->
 
-    <string name="pref_menus_mainmenu_useritems_key">pref_menus_mainmenu_useritems</string>
     <string name="pref_menus_mainmenu_useritems_title">Main Menu User Items</string>
 
     <string name="mainmenu_submitted">Küldött posztok</string>
@@ -627,15 +589,11 @@
 
     <!-- 2015-05-29 -->
     <string name="pref_behaviour_skiptofrontpage_title">Főoldalra ugrás</string>
-    <string name="pref_behaviour_skiptofrontpage_key">pref_behaviour_skiptofrontpage</string>
-
     <!-- 2015-06-07 -->
     <string name="error_archived_vote">Archivált, nem lehet rá többé szavazni.</string>
 
     <!-- 2015-06-20 -->
     <string name="pref_behaviour_screenorientation_title">Képernyő irányultság</string>
-    <string name="pref_behaviour_screenorientation_key">pref_behaviour_screenorientation</string>
-
     <string name="screen_orientation_auto">Automatikus</string>
     <string name="screen_orientation_portrait">Függőleges</string>
     <string name="screen_orientation_landscape">Vízszintes</string>
@@ -643,17 +601,13 @@
     <!-- 2015-06-28 -->
     <string name="options_close_all">Mindet bezárni</string>
 
-    <string name="pref_menus_optionsmenu_items_key">pref_menus_optionsmenu_items_3</string>
     <string name="pref_menus_optionsmenu_items_title">Opció menü elemei</string>
 
     <!-- 2015-07-05 -->
     <string name="pref_behaviour_bezel_toolbar_header">Keret eszköztár</string>
-    <string name="pref_behaviour_bezel_toolbar_swipezone_key">pref_behaviour_bezel_toolbar_swipezone</string>
     <string name="pref_behaviour_bezel_toolbar_swipezone_title">Keret eszköztár söprési zóna mérete</string>
 
     <string name="pref_behaviour_gifview_mode_title">GIF Megtekintő</string>
-    <string name="pref_behaviour_gifview_mode_key">pref_behaviour_gifview_mode</string>
-
     <string name="pref_behaviour_gifview_mode_internal_movie">Beépített megtekintő (Movie, Android 4.0+)</string>
     <string name="pref_behaviour_gifview_mode_internal_legacy">Beépített megtekintő (Régi)</string>
 
@@ -661,14 +615,12 @@
     <string name="pref_behaviour_view_mode_external_browser">Külső böngésző</string>
 
     <!-- 2015-08-15 -->
-    <string name="pref_appearance_fontscale_inbox_key">pref_appearance_fontscale_inbox</string>
     <string name="pref_appearance_fontscale_inbox_title">Postaláda betűtípus méretszorzó</string>
 
     <string name="action_delete">Törlés</string>
     <string name="delete_confirm">Biztosan törölni szeretnéd?</string>
     <string name="delete_success">Sikeresen törölve. Az elem látszani fog frissítés után is.</string>
 
-    <string name="pref_appearance_hide_username_main_menu_key">pref_appearance_hide_username_main_menu</string>
     <string name="pref_appearance_hide_username_main_menu_title">Felhasználói név elrejtése a főmenüben</string>
     <string name="mainmenu_useritems">Felhasználói elemek</string>
 
@@ -685,7 +637,6 @@
     <string name="upgrade_v190_login_message">A RedReader frissítve lett, és a Reddit hitelesítéshez oAuth-ot használ. Ha a frissítés előtt jelentkeztél be egy fiókba, most ki lettél jelentkeztetve.</string>
 
     <string name="pref_behaviour_videoview_mode_title">Videómegtekintő</string>
-    <string name="pref_behaviour_videoview_mode_key">pref_behaviour_videoview_mode</string>
     <string name="pref_behaviour_videoview_mode_internal_videoview">Belső VideoView (recommended)</string>
     <string name="pref_behaviour_videoview_mode_external_app_vlc">Külső App: VLC</string>
 
@@ -700,15 +651,11 @@
 
     <!-- 2015-10-31 -->
     <string name="pref_behaviour_gallery_swipe_length_title">Galéria söprési hossz</string>
-    <string name="pref_behaviour_gallery_swipe_length_key">pref_behaviour_gallery_swipe_length</string>
-
     <!-- 2015-11-19 -->
     <string name="pref_cache_precache_comments_header">Hozzászólások lehívása előre</string>
 
-    <string name="pref_cache_precache_comments_key">pref_cache_precache_comments</string>
     <string name="pref_cache_precache_comments_title">Hozzászólások lehívása előre</string>
 
-    <string name="pref_cache_precache_comments_wifionly_key">pref_cache_precache_comments_wifionly</string>
     <string name="pref_cache_precache_comments_wifionly_title">Kizárólag Wi-Fi-n</string>
 
     <string name="mainmenu_header_subreddits_subscribed">Alreddit feliratkozások</string>
@@ -716,8 +663,6 @@
 
     <string name="pin_subreddit">Kiemelés a főmenübe</string>
     <string name="unpin_subreddit">Eltávolítás a főmenüből</string>
-    <string name="pref_pinned_subreddits_key">pref_pinned_subreddits</string>
-
     <!-- 2015-11-22 -->
     <string name="props_image_title">Képinformációk</string>
     <string name="props_caption">Képszöveg</string>
@@ -730,12 +675,10 @@
     <!-- 2015-12-19 -->
     <string name="block_subreddit">Alreddit letiltássa</string>
     <string name="unblock_subreddit">Alreddit visszaállítása</string>
-    <string name="pref_blocked_subreddits_key">pref_blocked_subreddits</string>
     <string name="block_done">Alreddit letiltva. A jövőbeni /r/all látogatásoknál ki lesz zárva.</string>
     <string name="unblock_done">Alreddit visszaállítva. A jövőbeni /r/all látogatásoknál mutatva lesz.</string>
 
     <!-- 2016-03-14-->
-    <string name="pref_behaviour_comment_min_key">pref_behaviour_comment_min</string>
     <string name="pref_behaviour_comments_header">Hozzászólások</string>
 
     <string name="pref_behaviour_comment_min_title">Minimális hozzászólás pontszám</string>
@@ -744,8 +687,6 @@
     <!-- 2016-04-02 -->
     <string name="open_with">Megnyitás ezzel:</string>
     <string name="pref_network_tor_title">TOR használata (kísérleti verzió)</string>
-    <string name="pref_network_tor_key">pref_network_tor</string>
-
     <!-- 2016-04-03 -->
     <string name="error_tor_not_installed">A TOR nem működik, ha nincs feltelepítve az Orbot. Telepíted?</string>
     <string name="error_tor_setting_failed">Proxy beállítása sikertelen.</string>
@@ -782,13 +723,9 @@
 	
 	<!-- 2016-06-25 -->
 	<string name="pref_behaviour_imageview_mode_title">Képmegtekintő</string>
-	<string name="pref_behaviour_imageview_mode_key">pref_behaviour_imageview_mode</string>
-
 	<string name="pref_behaviour_imageview_mode_internal_opengl">Belső képmegtekintő (OpenGL)</string>
 
 	<string name="pref_behaviour_albumview_mode_title">Albummegtekintő</string>
-	<string name="pref_behaviour_albumview_mode_key">pref_behaviour_albumview_mode</string>
-
 	<string name="pref_behaviour_albumview_mode_internal_list">Belső megtekintő (list)</string>
 
 	<string name="error_tor_start_failed">Az Orbot nem indult el. A TOR nem fog helyesen működni.</string>
@@ -797,7 +734,6 @@
 	<string name="inbox_unread_only">Csak olvasatlan üzenetek</string>
 	
 	<!-- 2016-07-02 -->
-	<string name="pref_behaviour_actions_comment_longclick_key">pref_behaviour_actions_comment_longclick</string>
 	<string name="pref_behaviour_actions_comment_longclick_title">Művelet hozzászólásra hosszú nyomásnál</string>
 
 	<string name="no_comments_yet">Még nincs egy hozzászólás sem.</string>
@@ -820,10 +756,8 @@
 	<string name="edit_comment_actionbar">Hozzászólás szerkesztése</string>
 	
 	<!-- 2016-07-16 -->
-	<string name="pref_behaviour_fling_comment_left_key">pref_behaviour_fling_comment_left</string>
 	<string name="pref_behaviour_fling_comment_left_title">Művelet hozzászólás balra söprésénél</string>
 
-	<string name="pref_behaviour_fling_comment_right_key">pref_behaviour_fling_comment_right</string>
 	<string name="pref_behaviour_fling_comment_right_title">Művelet hozzászólás jobbra söprésénél</string>
 
 	<!-- 2016-07-17 -->
@@ -834,7 +768,6 @@
 	<string name="action_search_comments">Hozzászólások keresése</string>
 
 	<!-- 2016-07-29 -->
-	<string name="pref_appearance_navbar_color_key">pref_appearance_navbar_color</string>
 	<string name="pref_appearance_navbar_color_title">Navigációs sáv színe</string>
 
 	<string name="pref_appearance_navbar_color_option_black">Fekete</string>
@@ -847,7 +780,6 @@
 	<string name="action_copy_text">Szöveg másolása</string>
 	<string name="action_copy_link">Link másolása</string>
 
-	<string name="pref_behaviour_postsort_key">pref_behaviour_postsort</string>
 	<string name="pref_behaviour_postsort">Alapértelmezett poszt rendezés</string>
 
 	<!-- 2016-08-06 -->
@@ -858,20 +790,17 @@
 
 	<string name="mainmenu_header_multireddits">Multiredditek</string>
 
-	<string name="pref_behaviour_share_permalink_key">pref_behaviour_share_permalink</string>
 	<string name="pref_behaviour_share_permalink_title">Megosztás permalink-ként</string>
 
 	<!-- 2016-08-10 -->
 	<string name="pref_cache_general_header">Általános</string>
 
-	<string name="pref_cache_location_key">pref_cache_location</string>
 	<string name="pref_cache_location_title">Tárhely tárolási helye</string>
 
 	<string name="error_cache_dir_does_not_exist_title">A tárhely mappája hiányzik</string>
 	<string name="error_cache_dir_does_not_exist_message">A tárhely mappája nem hozzáférhető. Válassz másik helyet a tárhelybeállításokban.</string>
 
 	<!-- 2016-08-15 -->
-	<string name="pref_behaviour_pinned_subredditsort_key">pref_behaviour_pinned_subreddit_sort</string>
 	<string name="pref_behaviour_pinned_subredditsort">Kiemelt alredditek rendezése</string>
 	<string name="sort_pinned_subreddit_name">Név szerint</string>
 	<string name="sort_pinned_subreddit_date">Hozzáadás dátuma szerint</string>
@@ -883,32 +812,21 @@
 	<string name="pref_appearance_image_viewer_header">Képmegtekintő</string>
 
 	<string name="pref_appearance_image_viewer_show_floating_toolbar_title">Lebegő eszköztár mutatása a kép felett</string>
-	<string name="pref_appearance_image_viewer_show_floating_toolbar_key">pref_appearance_image_viewer_show_floating_toolbar</string>
-
 	<string name="pref_appearance_link_text_clickable_title">A link szövege legyen érinthető</string>
-	<string name="pref_appearance_link_text_clickable_key">pref_appearance_link_text_clickable</string>
-
 	<!-- 2016-09-07 -->
 	<string name="pref_appearance_hide_android_status_title">Az Android állapotsor elrejtése</string>
-	<string name="pref_appearance_hide_android_status_key">pref_appearance_hide_android_status</string>
-
 	<!-- 2016-09-08 -->
 	<string name="pref_behaviour_enable_swipe_refresh_title">Frissítéshez lefelé söprés</string>
-	<string name="pref_behaviour_enable_swipe_refresh_key">pref_behaviour_enable_swipe_refresh</string>
-
 	<!-- 2016-09-10 -->
 	<string name="mainmenu_header_subreddits_blocked">Letiltott alredditek</string>
-	<string name="pref_behaviour_blocked_subredditsort_key">pref_behaviour_blocked_subreddit_sort</string>
 	<string name="pref_behaviour_blocked_subredditsort">Letiltott alredditek rendezése</string>
 	<string name="sort_blocked_subreddit_name">Név szerint</string>
 	<string name="sort_blocked_subreddit_date">Hozzáadás dátuma szerint</string>
 
 	<!-- 2016-09-21 -->
-	<string name="pref_appearance_show_blocked_subreddits_main_menu_key">pref_appearance_show_blocked_subreddits_main_menu</string>
 	<string name="pref_appearance_show_blocked_subreddits_main_menu_title">Letiltott alredditek mutatása a főmenüben</string>
 
 	<!-- 2016-10-02 -->
-	<string name="pref_cache_rerequest_postlist_age_key">pref_cache_rerequest_postlist_age</string>
 	<string name="pref_cache_rerequest_postlist_age_title">Posztok frissítése, ha a tárhely régibb, mint:</string>
 
 	<string name="time_2hr">2 óra</string>

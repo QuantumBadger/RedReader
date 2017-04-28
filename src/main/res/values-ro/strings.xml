@@ -18,8 +18,6 @@
 
 <resources>
 
-    <string name="app_name">RedReader</string>
-
     <!-- First Run Dialog -->
 
     <string name="firstrun_login_title">Logați-vă</string>
@@ -43,84 +41,63 @@
     <string name="pref_appearance_comments_header">Comentariile</string>
     <string name="pref_appearance_other_header">Altele</string>
 
-    <string name="pref_appearance_twopane_key">pref_appearance_twopane</string>
     <string name="pref_appearance_twopane_title">Modul Tabletă (despărțit în două)</string>
 
-    <string name="pref_appearance_theme_key">pref_appearance_theme</string>
     <string name="pref_appearance_theme_title">Design</string>
 
     <string name="pref_appearance_solidblack_title">Negru complet în Modul de Noapte</string>
 
-    <string name="pref_appearance_fontscale_posts_key">pref_appearance_fontscale_posts</string>
     <string name="pref_appearance_fontscale_posts_title">Mărimea fonturilor postărilor</string>
 
-    <string name="pref_appearance_fontscale_comments_key">pref_appearance_fontscale_comments</string>
     <string name="pref_appearance_fontscale_comments_title">Mărimea fonturilor comentariilor</string>
 
-    <string name="pref_appearance_thumbnails_show_key">pref_appearance_thumbnails_show</string>
     <string name="pref_appearance_thumbnails_show_title">Arată thumbnail-urile</string>
 
-    <string name="pref_appearance_thumbnails_nsfw_show_key">pref_appearance_thumbnails_nsfw_show</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">Arată thumbnail-urile NSFW</string>
 
-    <string name="pref_appearance_thumbnails_wifionly_key">pref_appearance_thumbnails_wifionly</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Thumbnail-urile doar prin Wi-Fi</string>
 
-    <string name="pref_appearance_loading_detail_key">pref_appearance_loading_detail</string>
     <string name="pref_appearance_loading_detail_title">Arată detaliat mesajele care se Încarcă</string>
 
-    <string name="pref_appearance_comment_header_items_key">pref_appearance_comment_header_items</string>
     <string name="pref_appearance_comment_header_items_title">Header-ul Comentariilor</string>
 
     <!-- Behaviour Prefs -->
 
-    <string name="pref_behaviour_notifications_key">pref_behaviour_notifications</string>
     <string name="pref_behaviour_notifications_title">Notificări</string>
 
     <string name="pref_behaviour_actions_post_header">Conduita Postărilor</string>
     <string name="pref_behaviour_actions_comment_header">Conduita Comentariilor</string>
     <string name="pref_behaviour_posts_header">Postări</string>
 
-    <string name="pref_behaviour_fling_post_left_key">pref_behaviour_fling_post_left</string>
     <string name="pref_behaviour_fling_post_left_title">Glisarea Postării în Stânga</string>
 
-    <string name="pref_behaviour_fling_post_right_key">pref_behaviour_fling_post_right</string>
     <string name="pref_behaviour_fling_post_right_title">Glisarea Postării în Dreapta</string>
 
-    <string name="pref_behaviour_actions_comment_tap_key">pref_behaviour_actions_comment_tap</string>
     <string name="pref_behaviour_actions_comment_tap_title">Acțiune la Apăsarea Comentariilor</string>
 
-    <string name="pref_behaviour_nsfw_key">pref_behaviour_nsfw</string>
     <string name="pref_behaviour_nsfw_title">Arată conținutul NSFW</string>
 
     <!-- Cache Prefs -->
 
     <string name="pref_cache_pruning">Curățarea Cache</string>
 
-    <string name="pref_cache_maxage_listing_key">pref_cache_maxage_listing</string>
     <string name="pref_cache_maxage_listing_title">Șterge lista cache după</string>
 
-    <string name="pref_cache_maxage_thumb_key">pref_cache_maxage_thumb</string>
     <string name="pref_cache_maxage_thumb_title">Șterge thumbnail-urile din cache după</string>
 
-    <string name="pref_cache_maxage_image_key">pref_cache_maxage_image</string>
     <string name="pref_cache_maxage_image_title">Șterge imaginile din cache după</string>
 
     <string name="pref_cache_precache_images_header">Salvează Imaginile în Cache</string>
 
-    <string name="pref_cache_precache_images_key">pref_cache_precache_images</string>
     <string name="pref_cache_precache_images_title">Salvează imaginile în cache</string>
 
     <!-- TODO use listpreference instead -->
-    <string name="pref_cache_precache_images_wifionly_key">pref_cachcommentse_precache_images_wifionly</string>
     <string name="pref_cache_precache_images_wifionly_title">Doar prin Wi-Fi</string>
 
     <!-- Menu Prefs -->
 
-    <string name="pref_menus_post_context_items_key">pref_menus_post_context_items_2</string>
     <string name="pref_menus_post_context_items_title">Item-urile Meniului Postărilor</string>
 
-    <string name="pref_menus_post_toolbar_items_key">pref_menus_post_toolbar_items</string>
     <string name="pref_menus_post_toolbar_items_title">Toolbar-ul Postărilor</string>
 
     <!-- Options Menu -->
@@ -466,17 +443,14 @@
 
     <string name="title_changelog">Ce Este Nou</string>
 
-    <string name="pref_behaviour_commentsort_key">pref_behaviour_commentsort</string>
     <string name="pref_behaviour_commentsort">Sortarea Implicită a Comentariilor</string>
 
     <!-- 2013-05-18 -->
 
     <string name="action_fling_disabled">Dezactivat</string>
 
-    <string name="pref_about_version_key">pref_about_version</string>
     <string name="pref_about_version_title">Versiune</string>
 
-    <string name="pref_about_changelog_key">pref_about_changelog</string>
     <string name="prefs_category_about">Despre</string>
 
     <!-- 2013-06-07 -->
@@ -487,7 +461,6 @@
 
     <string name="pref_appearance_locale_header">Local</string>
 
-    <string name="pref_appearance_langforce_key">pref_appearance_langforce_key</string>
     <string name="pref_appearance_langforce_title">Limbi</string>
 
     <string name="lang_auto">Automat</string>
@@ -496,8 +469,6 @@
 
     <string name="prefs_category_network">Rețea</string>
     <string name="pref_network_https_title">Activați HTTPS</string>
-    <string name="pref_network_https_key">pref_network_https</string>
-
     <!-- 2013-07-01 -->
 
     <string name="web_view_open_browser">Vizualizați în Browser</string>
@@ -505,25 +476,17 @@
     <!-- 2013-07-26 -->
 
     <string name="pref_behaviour_useinternalbrowser_title">Folosiți Browser-ul Intern</string>
-    <string name="pref_behaviour_useinternalbrowser_key">pref_behaviour_useinternalbrowser</string>
-
     <!-- 2013-07-29 -->
 
     <string name="pref_appearance_linkbuttons_title">Arată Butoanele Link-ului</string>
-    <string name="pref_appearance_linkbuttons_key">pref_appearance_linkbuttons</string>
-
     <!-- 2013-08-04 -->
 
     <string name="pref_appearance_indentlines_title">Arată indentat liniile</string>
-    <string name="pref_appearance_indentlines_key">pref_appearance_indentlines</string>
-
     <!-- 2014-03-14 -->
 
     <string name="load_more_posts">Încarcă mai multe postări</string>
 
     <string name="pref_behaviour_postcount_title">Restricționează limita postărilor</string>
-    <string name="pref_behaviour_postcount_key">pref_behaviour_postcount</string>
-
     <string name="pref_behaviour_postcount_items_all">Toate</string>
 
     <!-- 2014-03-17 -->
@@ -556,7 +519,6 @@
 
     <!-- 2014-04-13 -->
 
-    <string name="pref_menus_mainmenu_useritems_key">pref_menus_mainmenu_useritems</string>
     <string name="pref_menus_mainmenu_useritems_title">Meniul Principal al Itemilor Meniului</string>
 
     <string name="mainmenu_submitted">Postări Efectuate</string>
@@ -608,9 +570,7 @@
     <string name="webview_use_https">Folosește HTTPS</string>
 
     <!-- 2015-01-16 -->
-	<string name="lang_it">Italiană</string>
-
-    <!-- 2015-01-26 -->
+	<!-- 2015-01-26 -->
     <string name="sort_posts_relevance">Relevanță</string>
     <string name="sort_posts_comments">Comentarii</string>
 
@@ -630,15 +590,11 @@
 
     <!-- 2015-05-29 -->
     <string name="pref_behaviour_skiptofrontpage_title">Salt până la prima pagină</string>
-    <string name="pref_behaviour_skiptofrontpage_key">pref_behaviour_skiptofrontpage</string>
-
     <!-- 2015-06-07 -->
     <string name="error_archived_vote">A fost arhivat și nu se mai poate vota.</string>
 
     <!-- 2015-06-20 -->
     <string name="pref_behaviour_screenorientation_title">Orientarea Ecranului</string>
-    <string name="pref_behaviour_screenorientation_key">pref_behaviour_screenorientation</string>
-
     <string name="screen_orientation_auto">Auto</string>
     <string name="screen_orientation_portrait">Portret</string>
     <string name="screen_orientation_landscape">Panoramă</string>
@@ -646,17 +602,13 @@
     <!-- 2015-06-28 -->
     <string name="options_close_all">Închide ToT</string>
 
-    <string name="pref_menus_optionsmenu_items_key">pref_menus_optionsmenu_items_3</string>
     <string name="pref_menus_optionsmenu_items_title">Itemii Meniului Opțiuni</string>
 
     <!-- 2015-07-05 -->
     <string name="pref_behaviour_bezel_toolbar_header">Toolbar Bezel</string>
-    <string name="pref_behaviour_bezel_toolbar_swipezone_key">pref_behaviour_bezel_toolbar_swipezone</string>
     <string name="pref_behaviour_bezel_toolbar_swipezone_title">Zona de glisare a toolbar-ului Bezel</string>
 
     <string name="pref_behaviour_gifview_mode_title">GIF Viewer</string>
-    <string name="pref_behaviour_gifview_mode_key">pref_behaviour_gifview_mode</string>
-
     <string name="pref_behaviour_gifview_mode_internal_movie">Viewer Intern (Movie, Android 4.0+)</string>
     <string name="pref_behaviour_gifview_mode_internal_legacy">Viewer intern (Legacy)</string>
 
@@ -664,14 +616,12 @@
     <string name="pref_behaviour_view_mode_external_browser">Browser Extern</string>
 
     <!-- 2015-08-15 -->
-    <string name="pref_appearance_fontscale_inbox_key">pref_appearance_fontscale_inbox</string>
     <string name="pref_appearance_fontscale_inbox_title">Mărimea Fontului din Inbox</string>
 
     <string name="action_delete">Șterge</string>
     <string name="delete_confirm">Sunteți sigur că doriți ștergerea?</string>
     <string name="delete_success">Ștergere completă. Datele vor fi vizibile până dați refresh.</string>
 
-    <string name="pref_appearance_hide_username_main_menu_key">pref_appearance_hide_username_main_menu</string>
     <string name="pref_appearance_hide_username_main_menu_title">Ascundeți numele în meniul principal</string>
     <string name="mainmenu_useritems">User Items</string>
 
@@ -688,7 +638,6 @@
     <string name="upgrade_v190_login_message">RedReader a fost upgradat, și acum folosește oAuth pentru autentificare. Dacă erați logați inainte de upgrade, acum sunteți automat delogat.</string>
 
     <string name="pref_behaviour_videoview_mode_title">Video Viewer</string>
-    <string name="pref_behaviour_videoview_mode_key">pref_behaviour_videoview_mode</string>
     <string name="pref_behaviour_videoview_mode_internal_videoview">Intern VideoView (recomandat)</string>
     <string name="pref_behaviour_videoview_mode_external_app_vlc">App Extern: VLC</string>
 
@@ -703,15 +652,11 @@
 
     <!-- 2015-10-31 -->
     <string name="pref_behaviour_gallery_swipe_length_title">Lungimea Glisării Galeriei</string>
-    <string name="pref_behaviour_gallery_swipe_length_key">pref_behaviour_gallery_swipe_length</string>
-
     <!-- 2015-11-19 -->
     <string name="pref_cache_precache_comments_header">Comentarii Preîncărcate</string>
 
-    <string name="pref_cache_precache_comments_key">pref_cache_precache_comments</string>
     <string name="pref_cache_precache_comments_title">Preîncarcă comentariile</string>
 
-    <string name="pref_cache_precache_comments_wifionly_key">pref_cache_precache_comments_wifionly</string>
     <string name="pref_cache_precache_comments_wifionly_title">Doar prin Wi-Fi</string>
 
     <string name="mainmenu_header_subreddits_subscribed">Subscribed Subreddits</string>
@@ -719,8 +664,6 @@
 
     <string name="pin_subreddit">Fixați în Meniul Principal</string>
     <string name="unpin_subreddit">Scoateți din Meniul Principal</string>
-    <string name="pref_pinned_subreddits_key">pref_pinned_subreddits</string>
-
     <!-- 2015-11-22 -->
     <string name="props_image_title">Informațiile Imaginii</string>
     <string name="props_caption">Caption</string>
@@ -733,25 +676,19 @@
     <!-- 2015-12-19 -->
     <string name="block_subreddit">Blocați Subreddit-ul</string>
     <string name="unblock_subreddit">Deblocați Subreddit-ul</string>
-    <string name="pref_blocked_subreddits_key">pref_blocked_subreddits</string>
     <string name="block_done">Subreddit blocat. Va fi blocat și pe /r/all.</string>
     <string name="unblock_done">Subreddit deblocat. Va fi deblocat și de pe /r/all</string>
 
     <!-- 2016-03-14-->
-    <string name="pref_behaviour_comment_min_key">pref_behaviour_comment_min</string>
     <string name="pref_behaviour_comments_header">Comentarii</string>
 
     <string name="pref_behaviour_comment_min_title">Scorul Minim al Comentariilor</string>
     <string name="pref_behaviour_comment_min_dialog_title">Minimizează automat comentariile dacă au un scor sub (lăsați gol pentru a le vedea pe toate)</string>
 
     <!-- 2016-03-20 -->
-    <string name="lang_se">Suedeză</string>
-
     <!-- 2016-04-02 -->
     <string name="open_with">Deschideți cu</string>
     <string name="pref_network_tor_title">Folosiți TOR (experimental)</string>
-    <string name="pref_network_tor_key">pref_network_tor</string>
-
     <!-- 2016-04-03 -->
     <string name="error_tor_not_installed">TOR nu va funcționa dacă nu aveți instalat Orbot. Doriți să instalați acum?</string>
     <string name="error_tor_setting_failed">Setare proxy eșuată.</string>
@@ -788,13 +725,9 @@
 	
 	<!-- 2016-06-25 -->
 	<string name="pref_behaviour_imageview_mode_title">Viewer Imagine</string>
-	<string name="pref_behaviour_imageview_mode_key">pref_behaviour_imageview_mode</string>
-
 	<string name="pref_behaviour_imageview_mode_internal_opengl">Viewer Intern (OpenGL)</string>
 
 	<string name="pref_behaviour_albumview_mode_title">Album Viewer</string>
-	<string name="pref_behaviour_albumview_mode_key">pref_behaviour_albumview_mode</string>
-
 	<string name="pref_behaviour_albumview_mode_internal_list">Viewer Intern (list)</string>
 
 	<string name="error_tor_start_failed">Orbot nu s-a încărcat. Tor nu va funcționa corect.</string>
@@ -803,7 +736,6 @@
 	<string name="inbox_unread_only">Doar Mesajele Necitite</string>
 	
 	<!-- 2016-07-02 -->
-	<string name="pref_behaviour_actions_comment_longclick_key">pref_behaviour_actions_comment_longclick</string>
 	<string name="pref_behaviour_actions_comment_longclick_title">cțiunea Apăsării Lungi pe Comment</string>
 
 	<string name="no_comments_yet">Nu sunt comentarii incă.</string>
@@ -826,10 +758,8 @@
 	<string name="edit_comment_actionbar">Editează Comentariu</string>
 	
 	<!-- 2016-07-16 -->
-	<string name="pref_behaviour_fling_comment_left_key">pref_behaviour_fling_comment_left</string>
 	<string name="pref_behaviour_fling_comment_left_title">Acțiunea Glisării Comentariilor în Stânga</string>
 
-	<string name="pref_behaviour_fling_comment_right_key">pref_behaviour_fling_comment_right</string>
 	<string name="pref_behaviour_fling_comment_right_title">Acțiunea Glisării Comentariilor în Dreapta</string>
 
 	<!-- 2016-07-17 -->
@@ -840,7 +770,6 @@
 	<string name="action_search_comments">Caută Comentarii</string>
 
 	<!-- 2016-07-29 -->
-	<string name="pref_appearance_navbar_color_key">pref_appearance_navbar_color</string>
 	<string name="pref_appearance_navbar_color_title">Culoarea Bării de Navigare</string>
 
 	<string name="pref_appearance_navbar_color_option_black">Negru</string>
@@ -853,7 +782,6 @@
 	<string name="action_copy_text">Copiază Text</string>
 	<string name="action_copy_link">Copiază Link</string>
 
-	<string name="pref_behaviour_postsort_key">pref_behaviour_postsort</string>
 	<string name="pref_behaviour_postsort">Sortarea Postărilor Default</string>
 
 	<!-- 2016-08-06 -->
@@ -864,20 +792,17 @@
 
 	<string name="mainmenu_header_multireddits">Multireddit-uri</string>
 
-	<string name="pref_behaviour_share_permalink_key">pref_behaviour_share_permalink</string>
 	<string name="pref_behaviour_share_permalink_title">Distribuie ca permalink</string>
 
 	<!-- 2016-08-10 -->
 	<string name="pref_cache_general_header">General</string>
 
-	<string name="pref_cache_location_key">pref_cache_location</string>
 	<string name="pref_cache_location_title">Locația de stocare Cache</string>
 
 	<string name="error_cache_dir_does_not_exist_title">Cache directory missing</string>
 	<string name="error_cache_dir_does_not_exist_message">Nu se poate accesa folder-ul sursei cache. Alegeți o locație diferită din setări.</string>
 
 	<!-- 2016-08-15 -->
-	<string name="pref_behaviour_pinned_subredditsort_key">pref_behaviour_pinned_subreddit_sort</string>
 	<string name="pref_behaviour_pinned_subredditsort">Sortarea Subreddit-urilor Fixate</string>
 	<string name="sort_pinned_subreddit_name">După Nume</string>
 	<string name="sort_pinned_subreddit_date">După Dată</string>
@@ -889,38 +814,25 @@
 	<string name="pref_appearance_image_viewer_header">Viewer pentru Imagini</string>
 
 	<string name="pref_appearance_image_viewer_show_floating_toolbar_title">Arată toolbar-ul peste imagine</string>
-	<string name="pref_appearance_image_viewer_show_floating_toolbar_key">pref_appearance_image_viewer_show_floating_toolbar</string>
-
 	<string name="pref_appearance_link_text_clickable_title">Fă textul link-ului clickable</string>
-	<string name="pref_appearance_link_text_clickable_key">pref_appearance_link_text_clickable</string>
-
 	<!-- 2016-09-07 -->
 	<string name="pref_appearance_hide_android_status_title">Ascunde bara de status Android</string>
-	<string name="pref_appearance_hide_android_status_key">pref_appearance_hide_android_status</string>
-
 	<!-- 2016-09-08 -->
 	<string name="pref_behaviour_enable_swipe_refresh_title">Glisează în jos pentru reîncărcare</string>
-	<string name="pref_behaviour_enable_swipe_refresh_key">pref_behaviour_enable_swipe_refresh</string>
-
 	<!-- 2016-09-10 -->
 	<string name="mainmenu_header_subreddits_blocked">Subreddit-uri Blocate</string>
-	<string name="pref_behaviour_blocked_subredditsort_key">pref_behaviour_blocked_subreddit_sort</string>
 	<string name="pref_behaviour_blocked_subredditsort">Sortează Subreddit-urile Blocate</string>
 	<string name="sort_blocked_subreddit_name">După Nume</string>
 	<string name="sort_blocked_subreddit_date">După Dată</string>
 
 	<!-- 2016-09-21 -->
-	<string name="pref_appearance_show_blocked_subreddits_main_menu_key">pref_appearance_show_blocked_subreddits_main_menu</string>
 	<string name="pref_appearance_show_blocked_subreddits_main_menu_title">Arătați subreddit-urile blocate în meniul principal</string>
 
 	<!-- 2016-10-02 -->
-	<string name="pref_cache_rerequest_postlist_age_key">pref_cache_rerequest_postlist_age</string>
 	<string name="pref_cache_rerequest_postlist_age_title">Reîncărcați postările dacă memoria cache este mai veche de</string>
 
 	<string name="time_2hr">2 ore</string>
 	<string name="time_3hr">3 ore</string>
-
-	<string name="lang_nl">Olandeză</string>
 
 	<!-- 2016-10-08 -->
 	<string name="time_every_time">Mereu</string>

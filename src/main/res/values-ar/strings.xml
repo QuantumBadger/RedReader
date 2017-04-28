@@ -41,84 +41,63 @@
     <string name="pref_appearance_comments_header">التعليقات</string>
     <string name="pref_appearance_other_header">أخرى</string>
 
-    <string name="pref_appearance_twopane_key">pref_appearance_twopane</string>
     <string name="pref_appearance_twopane_title">النمط اللوحي (عمودين)</string>
 
-    <string name="pref_appearance_theme_key">pref_appearance_theme</string>
     <string name="pref_appearance_theme_title">الشكل</string>
 
     <string name="pref_appearance_solidblack_title">أسود بالكامل في النمط الليلي</string>
 
-    <string name="pref_appearance_fontscale_posts_key">pref_appearance_fontscale_posts</string>
     <string name="pref_appearance_fontscale_posts_title">حجم خط المنشورات</string>
 
-    <string name="pref_appearance_fontscale_comments_key">pref_appearance_fontscale_comments</string>
     <string name="pref_appearance_fontscale_comments_title">حجم خط التعليقات</string>
 
-    <string name="pref_appearance_thumbnails_show_key">pref_appearance_thumbnails_show</string>
     <string name="pref_appearance_thumbnails_show_title">إظهار الصور المصغرة</string>
 
-    <string name="pref_appearance_thumbnails_nsfw_show_key">pref_appearance_thumbnails_nsfw_show</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">إظهار للمنشورات الغير لائقة</string>
 
-    <string name="pref_appearance_thumbnails_wifionly_key">pref_appearance_thumbnails_wifionly</string>
     <string name="pref_appearance_thumbnails_wifionly_title">عند الاتصال عبر الواي فاي فقط</string>
 
-    <string name="pref_appearance_loading_detail_key">pref_appearance_loading_detail</string>
     <string name="pref_appearance_loading_detail_title">إظهار رسائل التحميل المفصّلة</string>
 
-    <string name="pref_appearance_comment_header_items_key">pref_appearance_comment_header_items</string>
     <string name="pref_appearance_comment_header_items_title">أعلى التعليق</string>
 
     <!-- Behaviour Prefs -->
 
-    <string name="pref_behaviour_notifications_key">pref_behaviour_notifications</string>
     <string name="pref_behaviour_notifications_title">الإخطارات</string>
 
     <string name="pref_behaviour_actions_post_header">إجراءات المنشور</string>
     <string name="pref_behaviour_actions_comment_header">إجراءات التعليق</string>
     <string name="pref_behaviour_posts_header">المنشورات</string>
 
-    <string name="pref_behaviour_fling_post_left_key">pref_behaviour_fling_post_left</string>
     <string name="pref_behaviour_fling_post_left_title">إجراء إزاحة المنشور لليسار</string>
 
-    <string name="pref_behaviour_fling_post_right_key">pref_behaviour_fling_post_right</string>
     <string name="pref_behaviour_fling_post_right_title">إجراء إزاحة المنشور لليمين</string>
 
-    <string name="pref_behaviour_actions_comment_tap_key">pref_behaviour_actions_comment_tap</string>
     <string name="pref_behaviour_actions_comment_tap_title">إجراء النقر على تعليق</string>
 
-    <string name="pref_behaviour_nsfw_key">pref_behaviour_nsfw</string>
     <string name="pref_behaviour_nsfw_title">إظهار المنشورات غير اللائقة</string>
 
     <!-- Cache Prefs -->
 
     <string name="pref_cache_pruning">مسح الخابية</string>
 
-    <string name="pref_cache_maxage_listing_key">pref_cache_maxage_listing</string>
     <string name="pref_cache_maxage_listing_title">مسح محتويات الخابية بعد</string>
 
-    <string name="pref_cache_maxage_thumb_key">pref_cache_maxage_thumb</string>
     <string name="pref_cache_maxage_thumb_title">مسح الصور المصغرة بعد</string>
 
-    <string name="pref_cache_maxage_image_key">pref_cache_maxage_image</string>
     <string name="pref_cache_maxage_image_title">مسح الصور من الخابية بعد</string>
 
     <string name="pref_cache_precache_images_header">تحميل الصور إلى الخابية</string>
 
-    <string name="pref_cache_precache_images_key">pref_cache_precache_images</string>
     <string name="pref_cache_precache_images_title">تحميل الصور إلى الخابية</string>
 
     <!-- TODO use listpreference instead -->
-    <string name="pref_cache_precache_images_wifionly_key">pref_cache_precache_images_wifionly</string>
     <string name="pref_cache_precache_images_wifionly_title">عند الاتصال بالواي فاي فقط</string>
 
     <!-- Menu Prefs -->
 
-    <string name="pref_menus_post_context_items_key">pref_menus_post_context_items_2</string>
     <string name="pref_menus_post_context_items_title">محتويات قائمة المنشور</string>
 
-    <string name="pref_menus_post_toolbar_items_key">pref_menus_post_toolbar_items</string>
     <string name="pref_menus_post_toolbar_items_title">محتويات شريط أدوات المنشور</string>
 
     <!-- Options Menu -->
@@ -465,17 +444,14 @@
 
     <string name="title_changelog">الجديد</string>
 
-    <string name="pref_behaviour_commentsort_key">pref_behaviour_commentsort</string>
     <string name="pref_behaviour_commentsort">الترتيب الإفتراضي للتعليقات</string>
 
     <!-- 2013-05-18 -->
 
     <string name="action_fling_disabled">معطل</string>
 
-    <string name="pref_about_version_key">pref_about_version</string>
     <string name="pref_about_version_title">نسخة</string>
 
-    <string name="pref_about_changelog_key">pref_about_changelog</string>
     <string name="prefs_category_about">حول</string>
 
     <!-- 2013-06-07 -->
@@ -486,7 +462,6 @@
 
     <string name="pref_appearance_locale_header">المكان</string>
 
-    <string name="pref_appearance_langforce_key">pref_appearance_langforce_key</string>
     <string name="pref_appearance_langforce_title">اللغة</string>
 
     <string name="lang_auto">تلقائي</string>
@@ -495,8 +470,6 @@
 
     <string name="prefs_category_network">شبكة</string>
     <string name="pref_network_https_title">تفعيل HTTPS</string>
-    <string name="pref_network_https_key">pref_network_https</string>
-
     <!-- 2013-07-01 -->
 
     <string name="web_view_open_browser">عرض باستخدام المتصفح</string>
@@ -504,25 +477,17 @@
     <!-- 2013-07-26 -->
 
     <string name="pref_behaviour_useinternalbrowser_title">استخدام المتصفح الداخلي</string>
-    <string name="pref_behaviour_useinternalbrowser_key">pref_behaviour_useinternalbrowser</string>
-
     <!-- 2013-07-29 -->
 
     <string name="pref_appearance_linkbuttons_title">إظهار أزرار الرابط</string>
-    <string name="pref_appearance_linkbuttons_key">pref_appearance_linkbuttons</string>
-
     <!-- 2013-08-04 -->
 
     <string name="pref_appearance_indentlines_title">إظهار خطوط المسافة البادئة</string>
-    <string name="pref_appearance_indentlines_key">pref_appearance_indentlines</string>
-
     <!-- 2014-03-14 -->
 
     <string name="load_more_posts">تحميل المزيد من المنشورات</string>
 
     <string name="pref_behaviour_postcount_title">حصر عدد المنشورات</string>
-    <string name="pref_behaviour_postcount_key">pref_behaviour_postcount</string>
-
     <string name="pref_behaviour_postcount_items_all">كل</string>
 
     <!-- 2014-03-17 -->
@@ -555,7 +520,6 @@
 
     <!-- 2014-04-13 -->
 
-    <string name="pref_menus_mainmenu_useritems_key">pref_menus_mainmenu_useritems</string>
     <string name="pref_menus_mainmenu_useritems_title">مكونات القائمة الرئيسية</string>
 
     <string name="mainmenu_submitted">المنشورات المقدّمة</string>

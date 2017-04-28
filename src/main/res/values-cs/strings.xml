@@ -41,33 +41,24 @@
     <string name="pref_appearance_comments_header">Komentáře</string>
     <string name="pref_appearance_other_header">Ostatní</string>
 
-    <string name="pref_appearance_twopane_key">pref_appearance_twopane</string>
     <string name="pref_appearance_twopane_title">Režim tabletu (dva panely)</string>
 
-    <string name="pref_appearance_theme_key">pref_appearance_theme</string>
     <string name="pref_appearance_theme_title">Téma</string>
 
     <string name="pref_appearance_solidblack_title">Černá v nočním režimu</string>
 
-    <string name="pref_appearance_fontscale_posts_key">pref_appearance_fontscale_posts</string>
     <string name="pref_appearance_fontscale_posts_title">Měřítko fontu u příspěvku</string>
 
-    <string name="pref_appearance_fontscale_comments_key">pref_appearance_fontscale_comments</string>
     <string name="pref_appearance_fontscale_comments_title">Měřítko fontu u komentářů</string>
 
-    <string name="pref_appearance_thumbnails_show_key">pref_appearance_thumbnails_show</string>
     <string name="pref_appearance_thumbnails_show_title">Zobrazovat náhledy</string>
 
-    <string name="pref_appearance_thumbnails_nsfw_show_key">pref_appearance_thumbnails_nsfw_show</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">Zobrazovat NSFW náhledy</string>
 
-    <string name="pref_appearance_thumbnails_wifionly_key">pref_appearance_thumbnails_wifionly</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Náhledy pouze u Wi-Fi připojení</string>
 
-    <string name="pref_appearance_loading_detail_key">pref_appearance_loading_detail</string>
     <string name="pref_appearance_loading_detail_title">Zobrazovat detailní zprávy při načítání</string>
 
-    <string name="pref_appearance_comment_header_items_key">pref_appearance_comment_header_items</string>
     <string name="pref_appearance_comment_header_items_title">Hlavička komentáře</string>
 
     <!-- Behaviour Prefs -->
@@ -76,46 +67,35 @@
     <string name="pref_behaviour_actions_comment_header">Akce komentáře</string>
     <string name="pref_behaviour_posts_header">Příspěvky</string>
 
-    <string name="pref_behaviour_fling_post_left_key">pref_behaviour_fling_post_left</string>
     <string name="pref_behaviour_fling_post_left_title">Činnost při posunutí příspěvku doleva</string>
 
-    <string name="pref_behaviour_fling_post_right_key">pref_behaviour_fling_post_right</string>
     <string name="pref_behaviour_fling_post_right_title">Činnost při posunutí příspěvku doprava</string>
 
-    <string name="pref_behaviour_actions_comment_tap_key">pref_behaviour_actions_comment_tap</string>
     <string name="pref_behaviour_actions_comment_tap_title">Činnost při poklepání komentáře</string>
 
-    <string name="pref_behaviour_nsfw_key">pref_behaviour_nsfw</string>
     <string name="pref_behaviour_nsfw_title">Zobrazovat NSFW obsah</string>
 
     <!-- Cache Prefs -->
 
     <string name="pref_cache_pruning">Mazání mezipaměti</string>
 
-    <string name="pref_cache_maxage_listing_key">pref_cache_maxage_listing</string>
     <string name="pref_cache_maxage_listing_title">Mazat mezipaměť seznamů po</string>
 
-    <string name="pref_cache_maxage_thumb_key">pref_cache_maxage_thumb</string>
     <string name="pref_cache_maxage_thumb_title">Mazat mezipaměť náhledů po</string>
 
-    <string name="pref_cache_maxage_image_key">pref_cache_maxage_image</string>
     <string name="pref_cache_maxage_image_title">Mazat mezipaměť obrázků po</string>
 
     <string name="pref_cache_precache_images_header">Přednačítání obrázků</string>
 
-    <string name="pref_cache_precache_images_key">pref_cache_precache_images</string>
     <string name="pref_cache_precache_images_title">Přednačítat obrázky</string>
 
     <!-- TODO use listpreference instead -->
-    <string name="pref_cache_precache_images_wifionly_key">pref_cache_precache_images_wifionly</string>
     <string name="pref_cache_precache_images_wifionly_title">Pouze na Wi-Fi připojení</string>
 
     <!-- Menu Prefs -->
 
-    <string name="pref_menus_post_context_items_key">pref_menus_post_context_items_2</string>
     <string name="pref_menus_post_context_items_title">Položky menu příspěvku</string>
 
-    <string name="pref_menus_post_toolbar_items_key">pref_menus_post_toolbar_items</string>
     <string name="pref_menus_post_toolbar_items_title">Položky panelu nástrojů</string>
 
     <!-- Options Menu -->
@@ -461,17 +441,14 @@
 
     <string name="title_changelog">Co je nového</string>
 
-    <string name="pref_behaviour_commentsort_key">pref_behaviour_commentsort</string>
     <string name="pref_behaviour_commentsort">Implicitní řazení komentářů</string>
 
     <!-- 2013-05-18 -->
 
     <string name="action_fling_disabled">Deaktivováno</string>
 
-    <string name="pref_about_version_key">pref_about_version</string>
     <string name="pref_about_version_title">Verze</string>
 
-    <string name="pref_about_changelog_key">pref_about_changelog</string>
     <string name="prefs_category_about">O aplikaci</string>
 
     <!-- 2013-06-07 -->
@@ -482,7 +459,6 @@
 
     <string name="pref_appearance_locale_header">Místní nastavení</string>
 
-    <string name="pref_appearance_langforce_key">pref_appearance_langforce_key</string>
     <string name="pref_appearance_langforce_title">Jazyk</string>
 
     <string name="lang_auto">Automatické</string>
@@ -491,8 +467,6 @@
 
     <string name="prefs_category_network">Síť</string>
     <string name="pref_network_https_title">Aktivovat HTTPS</string>
-    <string name="pref_network_https_key">pref_network_https</string>
-
     <!-- 2013-07-01 -->
 
     <string name="web_view_open_browser">Otevřít v prohlížeči</string>
@@ -500,25 +474,17 @@
     <!-- 2013-07-26 -->
 
     <string name="pref_behaviour_useinternalbrowser_title">Používat vnitřní prohlížeč</string>
-    <string name="pref_behaviour_useinternalbrowser_key">pref_behaviour_useinternalbrowser</string>
-
     <!-- 2013-07-29 -->
 
     <string name="pref_appearance_linkbuttons_title">Ukázat tlačítka odkazu</string>
-    <string name="pref_appearance_linkbuttons_key">pref_appearance_linkbuttons</string>
-
     <!-- 2013-08-04 -->
 
     <string name="pref_appearance_indentlines_title">Ukázat čáry odsazení</string>
-    <string name="pref_appearance_indentlines_key">pref_appearance_indentlines</string>
-
     <!-- 2014-03-14 -->
 
     <string name="load_more_posts">Načíst více příspěvků</string>
 
     <string name="pref_behaviour_postcount_title">Omezit počet příspěvků</string>
-    <string name="pref_behaviour_postcount_key">pref_behaviour_postcount</string>
-
     <string name="pref_behaviour_postcount_items_all">Všechny</string>
 
     <!-- 2014-03-17 -->
@@ -551,7 +517,6 @@
 
     <!-- 2014-04-13 -->
 
-    <string name="pref_menus_mainmenu_useritems_key">pref_menus_mainmenu_useritems</string>
     <string name="pref_menus_mainmenu_useritems_title">Uživatelské položky hlavního menu</string>
 
     <string name="mainmenu_submitted">Odeslané příspěvky</string>

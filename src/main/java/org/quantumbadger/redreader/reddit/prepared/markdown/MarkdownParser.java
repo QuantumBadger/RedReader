@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 public final class MarkdownParser {
 
-	public static enum MarkdownParagraphType {
+	public enum MarkdownParagraphType {
 		TEXT, CODE, BULLET, NUMBERED, QUOTE, HEADER, HLINE, EMPTY
 	}
 

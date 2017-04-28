@@ -43,7 +43,7 @@ public class RedditSubredditManager {
 
 	// TODO store favourites in preference
 
-	public static enum SubredditListType { SUBSCRIBED, MODERATED, MULTIREDDITS, MOST_POPULAR, DEFAULTS }
+	public enum SubredditListType { SUBSCRIBED, MODERATED, MULTIREDDITS, MOST_POPULAR, DEFAULTS }
 
 	private static RedditSubredditManager singleton;
 	private static RedditAccount singletonUser;

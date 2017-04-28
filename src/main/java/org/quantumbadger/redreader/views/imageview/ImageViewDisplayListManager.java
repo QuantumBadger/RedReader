@@ -76,7 +76,7 @@ public class ImageViewDisplayListManager implements
 
 	private Refreshable mRefreshable;
 
-	private static enum TouchState {
+	private enum TouchState {
 		ONE_FINGER_DOWN,
 		ONE_FINGER_DRAG,
 		TWO_FINGER_PINCH,

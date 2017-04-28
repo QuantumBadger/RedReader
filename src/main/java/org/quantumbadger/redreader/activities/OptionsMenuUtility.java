@@ -45,7 +45,7 @@ public final class OptionsMenuUtility {
 		ACCOUNTS, THEME, CLOSE_ALL, PAST, SUBMIT_POST, SEARCH, REPLY, PIN, BLOCK
 	}
 
-	private static enum Option {
+	private enum Option {
 		ACCOUNTS,
 		SETTINGS,
 		CLOSE_ALL,

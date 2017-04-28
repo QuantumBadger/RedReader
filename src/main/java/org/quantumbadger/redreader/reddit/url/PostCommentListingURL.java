@@ -232,7 +232,7 @@ public class PostCommentListingURL extends CommentListingURL {
 		return super.humanReadableName(context, shorter);
 	}
 
-	public static enum Sort {
+	public enum Sort {
 
 		BEST("confidence"),
 		HOT("hot"),

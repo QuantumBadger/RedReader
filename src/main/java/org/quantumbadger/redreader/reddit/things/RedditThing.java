@@ -27,7 +27,7 @@ import java.util.Map;
 
 public final class RedditThing {
 
-	public static enum Kind {
+	public enum Kind {
 		POST, USER, COMMENT, MESSAGE, SUBREDDIT, MORE_COMMENTS, LISTING
 	}
 	

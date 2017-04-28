@@ -637,7 +637,7 @@
     <string name="pref_behaviour_skiptofrontpage_key">pref_behaviour_skiptofrontpage</string>
 
     <!-- 2015-06-07 -->
-    <string name="error_archived_vote" >Detta har arkiverats och kan inte röstas på.</string>
+    <string name="error_archived_vote">Detta har arkiverats och kan inte röstas på.</string>
 
     <!-- 2015-06-20 -->
     <string name="pref_behaviour_screenorientation_title">Skärmorientering</string>

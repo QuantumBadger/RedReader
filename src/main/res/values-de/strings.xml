@@ -652,7 +652,6 @@ Thanks to /u/balducien and /u/andiho for this translation!
 	<string name="inbox_unread_only">Nur ungelesene Nachrichten</string>
 	<string name="karma_comment">Kommentar-Karma</string>
 	<string name="karma_link">Link-Karma</string>
-	<string name="lang_ar"></string>
 	<string name="load_more_comments_failed_unknown_url_type">Es können keine weiteren Kommentare geladen werden:
 		unbekannter URL-Typ.
 	</string>

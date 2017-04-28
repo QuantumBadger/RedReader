@@ -566,7 +566,7 @@
     <string name="pref_behaviour_skiptofrontpage_title">Przejdź do strony głównej</string>
 
     <!-- 2015-06-07 -->
-    <string name="error_archived_vote" >To materiał został zarchiwizowany i nie można już na niego głosować.</string>
+    <string name="error_archived_vote">To materiał został zarchiwizowany i nie można już na niego głosować.</string>
 
     <!-- 2015-06-20 -->
     <string name="pref_behaviour_screenorientation_title">Orientacja ekranu</string>
@@ -845,8 +845,6 @@
 
 	<!-- 2017-03-02 -->
 	<string name="pref_menus_link_context_items_title">Elementy menu kontekstowego odnośnika</string>
-	<string name="web_view_share_open">Udostępnij/otwórz</string>
-	
 	<!-- 2017-03-07 -->
 	<string name="pref_menus_subreddit_context_items_title">Elementy menu kontekstowego subreddita</string>
 	<string name="mainmenu_toast_not_subscribed">Jeszcze nie abonujesz tego subreddita!</string>

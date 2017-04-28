@@ -565,7 +565,7 @@
     <string name="pref_behaviour_skiptofrontpage_title">Transsalti al ĉefpaĝo</string>
 
     <!-- 2015-06-07 -->
-    <string name="error_archived_vote" >Tio ĉi estas arĥivita kaj oni ne povas plu voĉdoni ĝin.</string>
+    <string name="error_archived_vote">Tio ĉi estas arĥivita kaj oni ne povas plu voĉdoni ĝin.</string>
 
     <!-- 2015-06-20 -->
     <string name="pref_behaviour_screenorientation_title">Ekrana orientiĝo</string>
@@ -842,8 +842,6 @@
 	
 	<!-- 2017-03-02 -->
 	<string name="pref_menus_link_context_items_title">Elementoj de ligila kuntekst-menuo</string>
-	<string name="web_view_share_open">Diskonigi/malfermi</string>
-	
 	<!-- 2017-03-07 -->
 	<string name="pref_menus_subreddit_context_items_title">Elementoj de redditera kuntekst-menuo</string>
 	<string name="mainmenu_toast_not_subscribed">Vi ankoraŭ ne abonas tiun ĉi redditeron!</string>

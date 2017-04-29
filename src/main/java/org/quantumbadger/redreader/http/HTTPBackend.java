@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.http;
 
 import android.content.Context;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.http.okhttp.OKHTTPBackend;
 
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -26,9 +27,18 @@ import java.net.URI;
 import java.net.URLEncoder;
 import java.util.List;
 
-public interface HTTPBackend {
+public abstract class HTTPBackend {
 
-	class RequestDetails {
+	private static boolean useJavaBackend = false;
+
+	/**
+	 * Factory method can read configuration information to choose a backend
+	 */
+	public static HTTPBackend getBackend() {
+		return useJavaBackend ? new JavaHTTPBackend() : OKHTTPBackend.getHttpBackend();
+	}
+
+	public static class RequestDetails {
 
 		private final URI mUrl;
 		private final List<PostField> mPostFields;
@@ -47,7 +57,7 @@ public interface HTTPBackend {
 		}
 	}
 
-	class PostField {
+	public static class PostField {
 
 		public final String name;
 		public final String value;
@@ -82,7 +92,7 @@ public interface HTTPBackend {
 		}
 	}
 
-	interface Request {
+	public interface Request {
 		void executeInThisThread(final Listener listener);
 
 		void cancel();
@@ -90,11 +100,14 @@ public interface HTTPBackend {
 		void addHeader(String name, String value);
 	}
 
-	interface Listener {
+	public interface Listener {
 		void onError(@CacheRequest.RequestFailureType int failureType, Throwable exception, Integer httpStatus);
 
 		void onSuccess(String mimetype, Long bodyBytes, InputStream body);
 	}
 
-	Request prepareRequest(Context context, RequestDetails details);
+	public abstract Request prepareRequest(Context context, RequestDetails details);
+
+	public abstract void recreateHttpBackend();
+
 }

@@ -22,7 +22,6 @@ import org.quantumbadger.redreader.common.PrioritisedCachedThreadPool;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.common.TorCommon;
 import org.quantumbadger.redreader.http.HTTPBackend;
-import org.quantumbadger.redreader.http.okhttp.OKHTTPBackend;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 
@@ -58,7 +57,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 			session = UUID.randomUUID();
 		}
 
-		mRequest = OKHTTPBackend.getHttpBackend().prepareRequest(
+		mRequest = HTTPBackend.getBackend().prepareRequest(
 				initiator.context,
 				new HTTPBackend.RequestDetails(mInitiator.url, mInitiator.postFields));
 	}
@@ -142,7 +141,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 			@Override
 			public void onError(final @CacheRequest.RequestFailureType int failureType, final Throwable exception, final Integer httpStatus) {
 				if(mInitiator.queueType == CacheRequest.DOWNLOAD_QUEUE_REDDIT_API && TorCommon.isTorEnabled()) {
-					OKHTTPBackend.recreateHttpBackend();
+					HTTPBackend.getBackend().recreateHttpBackend();
 					resetUserCredentialsOnNextRequest();
 				}
 				mInitiator.notifyFailure(failureType, exception, httpStatus, "");

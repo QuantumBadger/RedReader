@@ -30,7 +30,6 @@ import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.http.HTTPBackend;
-import org.quantumbadger.redreader.http.okhttp.OKHTTPBackend;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
@@ -291,7 +290,7 @@ public final class RedditOAuth {
 		postFields.add(new HTTPBackend.PostField("redirect_uri", REDIRECT_URI));
 
 		try {
-			final HTTPBackend.Request request = OKHTTPBackend.getHttpBackend().prepareRequest(
+			final HTTPBackend.Request request = HTTPBackend.getBackend().prepareRequest(
 					context,
 					new HTTPBackend.RequestDetails(
 							General.uriFromString(uri),
@@ -362,7 +361,7 @@ public final class RedditOAuth {
 
 		try {
 			final HTTPBackend.Request request
-					= OKHTTPBackend.getHttpBackend().prepareRequest(context, new HTTPBackend.RequestDetails(uri, null));
+					= HTTPBackend.getBackend().prepareRequest(context, new HTTPBackend.RequestDetails(uri, null));
 
 			request.addHeader("Authorization", "bearer " + accessToken.token);
 
@@ -596,7 +595,7 @@ public final class RedditOAuth {
 		postFields.add(new HTTPBackend.PostField("refresh_token", refreshToken.token));
 
 		try {
-			final HTTPBackend.Request request = OKHTTPBackend.getHttpBackend().prepareRequest(context, new HTTPBackend.RequestDetails(
+			final HTTPBackend.Request request = HTTPBackend.getBackend().prepareRequest(context, new HTTPBackend.RequestDetails(
 					General.uriFromString(uri),
 					postFields));
 
@@ -671,7 +670,7 @@ public final class RedditOAuth {
 		postFields.add(new HTTPBackend.PostField("device_id", "DO_NOT_TRACK_THIS_DEVICE"));
 
 		try {
-			final HTTPBackend.Request request = OKHTTPBackend.getHttpBackend().prepareRequest(context, new HTTPBackend.RequestDetails(
+			final HTTPBackend.Request request = HTTPBackend.getBackend().prepareRequest(context, new HTTPBackend.RequestDetails(
 					General.uriFromString(uri),
 					postFields));
 

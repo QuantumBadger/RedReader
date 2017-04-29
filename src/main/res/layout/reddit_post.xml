@@ -17,72 +17,61 @@
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<LinearLayout
-		xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:orientation="vertical"
-		android:baselineAligned="false">
+		android:layout_height="wrap_content">
 
 	<View
 			android:id="@+id/view_reddit_post_divider_top"
-			android:layout_width="match_parent"
+			android:layout_width="0dp"
 			android:layout_height="1dp"
-			android:background="?rrListDividerCol"/>
+			android:background="?rrListDividerCol"
+			app:layout_constraintTop_toTopOf="parent"
+			app:layout_constraintLeft_toLeftOf="@+id/reddit_post_thumbnail_view"
+			app:layout_constraintRight_toRightOf="@+id/reddit_post_thumbnail_view" />
 
 	<LinearLayout
 			android:id="@+id/reddit_post_layout"
-			android:layout_width="match_parent"
+			android:layout_width="0dp"
 			android:layout_height="wrap_content"
-			android:gravity="center_vertical"
 			android:background="?rrListItemBackgroundCol"
-			android:orientation="horizontal"
+			android:gravity="center_vertical"
 			android:minHeight="64dp"
-			android:elevation="10dp">
+			android:orientation="horizontal"
+			app:layout_constraintLeft_toLeftOf="parent"
+			app:layout_constraintRight_toRightOf="parent"
+			app:layout_constraintTop_toBottomOf="@+id/reddit_post_thumbnail_view">
 
-		<FrameLayout
-				android:layout_width="wrap_content"
+		<ImageView
+				android:id="@+id/reddit_post_overlay_icon"
+				android:layout_width="64dp"
 				android:layout_height="match_parent"
-				android:baselineAligned="false"
-				android:background="?rrPostThumbnailBackground">
-
-			<ImageView
-					android:id="@+id/reddit_post_thumbnail_view"
-					android:layout_width="wrap_content"
-					android:layout_height="match_parent"
-					android:scaleType="center"/>
-
-			<ImageView
-					android:id="@+id/reddit_post_overlay_icon"
-					android:layout_width="64dp"
-					android:layout_height="match_parent"
-					android:scaleType="center"
-					android:visibility="gone"
-					android:background="#99000000"/>
-
-		</FrameLayout>
+				android:background="#99000000"
+				android:scaleType="center"
+				android:visibility="gone" />
 
 		<LinearLayout
 				android:id="@+id/reddit_post_textLayout"
-				android:layout_height="wrap_content"
 				android:layout_width="0px"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:gravity="center_vertical"
 				android:orientation="vertical"
 				android:paddingLeft="2dp"
-				android:paddingRight="2dp"
-				android:gravity="center_vertical"
-				android:layout_weight="1">
+				android:paddingRight="2dp">
 
 			<!-- todo theme color -->
 			<TextView
 					android:id="@+id/reddit_post_title"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:textColor="?rrPostTitleCol"
+					android:paddingBottom="0dp"
 					android:paddingLeft="10dp"
 					android:paddingRight="5dp"
 					android:paddingTop="5dp"
-					android:paddingBottom="0dp"
-					android:textSize="14sp"/>
+					android:textColor="?rrPostTitleCol"
+					android:textSize="14sp" />
 
 			<!-- todo theme color -->
 			<TextView
@@ -90,12 +79,12 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:gravity="center_vertical"
-					android:textColor="#909090"
+					android:paddingBottom="5dp"
 					android:paddingLeft="10dp"
 					android:paddingRight="5dp"
 					android:paddingTop="1dp"
-					android:paddingBottom="5dp"
-					android:textSize="11sp"/>
+					android:textColor="#909090"
+					android:textSize="11sp" />
 
 		</LinearLayout>
 
@@ -103,31 +92,42 @@
 				android:id="@+id/reddit_post_comments_button"
 				android:layout_width="50dp"
 				android:layout_height="match_parent"
-				android:gravity="center"
 				android:background="?rrPostCommentsButtonBackCol"
+				android:gravity="center"
 				android:orientation="vertical">
 
 			<ImageView
-					android:layout_height="wrap_content"
 					android:layout_width="match_parent"
-					android:src="?rrIconComments"
-					android:scaleType="fitCenter"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="2dp"
 					android:layout_marginLeft="8dp"
 					android:layout_marginRight="8dp"
 					android:layout_marginTop="4dp"
-					android:layout_marginBottom="2dp"
-					android:contentDescription="Comments"/> <!-- TODO string -->
+					android:contentDescription="Comments"
+					android:scaleType="fitCenter"
+					android:src="?rrIconComments" /> <!-- TODO string -->
 
 			<TextView
 					android:id="@+id/reddit_post_comments_text"
-					android:layout_height="wrap_content"
 					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
 					android:gravity="center"
-					android:textSize="11sp"
-					android:textColor="?rrPostCommentsButtonTextCol"/>
+					android:textColor="?rrPostCommentsButtonTextCol"
+					android:textSize="11sp" />
 
 		</LinearLayout>
 
 	</LinearLayout>
 
-</LinearLayout>
+	<org.quantumbadger.redreader.views.PreviewView
+			android:id="@+id/reddit_post_thumbnail_view"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:paddingTop="10dp"
+			android:scaleType="centerCrop"
+			android:adjustViewBounds="true"
+			app:layout_constraintLeft_toLeftOf="parent"
+			app:layout_constraintRight_toRightOf="parent"
+			app:layout_constraintTop_toBottomOf="@+id/view_reddit_post_divider_top" />
+
+</android.support.constraint.ConstraintLayout>

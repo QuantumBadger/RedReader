@@ -48,10 +48,10 @@ import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.fragments.PostPropertiesDialog;
 import org.quantumbadger.redreader.image.SaveImageCallback;
 import org.quantumbadger.redreader.image.ShareImageCallback;
-import org.quantumbadger.redreader.image.ThumbnailScaler;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
+import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.url.SubredditPostListURL;
 import org.quantumbadger.redreader.reddit.url.UserProfileURL;
@@ -151,12 +151,10 @@ public final class RedditPreparedPost {
 		mIsProbablyAnImage = LinkHandler.isProbablyAnImage(post.getUrl());
 
 		hasThumbnail = showThumbnails && hasThumbnail(post);
-
-		// TODO parameterise
-		final int thumbnailWidth = General.dpToPixels(context, 64);
-
-		if(hasThumbnail && hasThumbnail(post)) {
-			downloadThumbnail(context, thumbnailWidth, cm, listId);
+		if(hasThumbnail) {
+			downloadPreview(context, cm, listId);
+		} else {
+			Log.e("Post", "No preview");
 		}
 
 		lastChange = timestamp;
@@ -714,22 +712,15 @@ public final class RedditPreparedPost {
 		postListDescription = postListDescSb.get();
 	}
 
-	// lol, reddit api
 	private static boolean hasThumbnail(final RedditParsedPost post) {
-
-		final String url = post.getThumbnailUrl();
-
-		return url != null
-				&& url.length() != 0
-				&& !url.equalsIgnoreCase("nsfw")
-				&& !url.equalsIgnoreCase("self")
-				&& !url.equalsIgnoreCase("default");
+		List<RedditPost.PreviewImage> previews = post.getPreview();
+		return previews.size() > 0;
 	}
 
-	private void downloadThumbnail(final Context context, final int widthPixels, final CacheManager cm, final int listId) {
+	private void downloadPreview(final Context context, final CacheManager cm, final int listId) {
 
-		final String uriStr = src.getThumbnailUrl();
-		final URI uri = General.uriFromString(uriStr);
+		// Get the largest preview
+		final URI uri = src.getPreview().get(src.getPreview().size()-1).mUri;
 
 		final int priority = Constants.Priority.THUMBNAIL;
 		final int fileType = Constants.FileType.THUMBNAIL;
@@ -763,25 +754,11 @@ public final class RedditPreparedPost {
 
 					synchronized(singleImageDecodeLock) {
 
-						BitmapFactory.Options justDecodeBounds = new BitmapFactory.Options();
-						justDecodeBounds.inJustDecodeBounds = true;
-						BitmapFactory.decodeStream(cacheFile.getInputStream(), null, justDecodeBounds);
-						final int width = justDecodeBounds.outWidth;
-						final int height = justDecodeBounds.outHeight;
-
-						int factor = 1;
-
-						while(width / (factor + 1) > widthPixels
-								&& height / (factor + 1) > widthPixels) factor *= 2;
-
-						BitmapFactory.Options scaledOptions = new BitmapFactory.Options();
-						scaledOptions.inSampleSize = factor;
-
-						final Bitmap data = BitmapFactory.decodeStream(cacheFile.getInputStream(), null, scaledOptions);
+						final Bitmap data = BitmapFactory.decodeStream(cacheFile.getInputStream());
 
 						if(data == null) return;
-						thumbnailCache = ThumbnailScaler.scale(data, widthPixels);
-						if(thumbnailCache != data) data.recycle();
+
+						thumbnailCache = data;
 					}
 
 					if(thumbnailCallback != null) thumbnailCallback.betterThumbnailAvailable(thumbnailCache, usageId);

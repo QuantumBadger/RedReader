@@ -20,8 +20,25 @@ package org.quantumbadger.redreader.reddit.things;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.Html;
+
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class RedditPost implements Parcelable, RedditThingWithIdAndType {
+
+	public static class PreviewImage {
+		public final long mWidth;
+		public final long mHeight;
+		public final URI mUri;
+
+		public PreviewImage(long w, long h, String url) {
+			mWidth = w;
+			mHeight = h;
+			mUri = URI.create(Html.fromHtml(url).toString());
+		}
+	}
 
 	public String id, name;
 	public String title, url, author, domain, subreddit, subreddit_id;
@@ -35,6 +52,7 @@ public final class RedditPost implements Parcelable, RedditThingWithIdAndType {
 
 	public String selftext, permalink, link_flair_text, author_flair_text;
 	public String thumbnail; // an image URL
+	public List<PreviewImage> images = new ArrayList<>();
 
 	public RedditPost() {}
 

@@ -23,6 +23,8 @@ import org.quantumbadger.redreader.reddit.prepared.markdown.MarkdownParser;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.things.RedditThingWithIdAndType;
 
+import java.util.List;
+
 public class RedditParsedPost implements RedditThingWithIdAndType {
 
 	private final RedditPost mSrc;
@@ -93,6 +95,10 @@ public class RedditParsedPost implements RedditThingWithIdAndType {
 
 	public String getThumbnailUrl() {
 		return mSrc.thumbnail;
+	}
+
+	public List<RedditPost.PreviewImage> getPreview() {
+		return mSrc.images;
 	}
 
 	public boolean isArchived() {

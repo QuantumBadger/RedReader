@@ -17,9 +17,13 @@
 
 package org.quantumbadger.redreader.jsonwrap;
 
+import android.util.Log;
+
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
+
+import org.quantumbadger.redreader.reddit.things.RedditPost;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -27,9 +31,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static org.quantumbadger.redreader.jsonwrap.JsonValue.TYPE_ARRAY;
 
 /**
  * A JSON object, which may be partially or fully received.
@@ -235,6 +241,24 @@ public final class JsonBufferedObject extends JsonBuffered implements Iterable<M
 				}
 
 				final JsonValue val;
+
+				// Parse preview images
+				try {
+					if (objectField.getName().equals("images") && properties.containsKey("preview")) {
+						JsonValue images = properties.get("preview").asObject().get("images");
+						if (images != null && images.getType() == TYPE_ARRAY && images.asArray().getCurrentItemCount() > 0) {
+							List<RedditPost.PreviewImage> objImages = (List) objectField.get(o);
+							JsonBufferedObject rawdata = images.asArray().get(0).asObject();
+							for (JsonValue preview : rawdata.properties.get("resolutions").asArray()) {
+								HashMap<String, JsonValue> previewValues = preview.asObject().properties;
+								RedditPost.PreviewImage pi = new RedditPost.PreviewImage(previewValues.get("width").asLong(), previewValues.get("height").asLong(), previewValues.get("url").asString());
+								objImages.add(pi);
+							}
+						}
+					}
+				} catch (Exception e) {
+					Log.e("JsonBufferedObject", "Error parsing preview images", e);
+				}
 
 				if(properties.containsKey(objectField.getName())) {
 					val = properties.get(objectField.getName());

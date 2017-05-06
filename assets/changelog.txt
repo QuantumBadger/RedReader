@@ -1,4 +1,5 @@
 78/1.9.8
+Added buttons to skip between top-level comments
 Added ability to edit self-posts (thanks to Clubfan22)
 Added long-click menu for links and album list items (thanks to Clubfan22)
 Image captions are now shown in the album list view (thanks to Clubfan22)

@@ -135,4 +135,8 @@ public abstract class RedditListingManager {
 		General.checkThisIsUIThread();
 		mAdapter.updateHiddenStatus();
 	}
+
+	public GroupedRecyclerViewAdapter.Item getItemAtPosition(final int position) {
+		return mAdapter.getItemAtPosition(position);
+	}
 }

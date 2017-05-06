@@ -189,6 +189,10 @@ public class GroupedRecyclerViewAdapter extends RecyclerView.Adapter {
 		return count;
 	}
 
+	public Item getItemAtPosition(final int position) {
+		return getItemInternal(position);
+	}
+
 	public void appendToGroup(final int group, final Item item) {
 
 		final int position = getItemPositionInternal(group + 1, 0);

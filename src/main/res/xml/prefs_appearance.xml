@@ -109,6 +109,10 @@
 
     <PreferenceCategory android:title="@string/pref_appearance_comments_header">
 
+		<CheckBoxPreference android:title="@string/pref_appearance_comments_show_floating_toolbar_title"
+							android:key="@string/pref_appearance_comments_show_floating_toolbar_key"
+							android:defaultValue="true"/>
+
         <MultiSelectListPreference
             android:dialogTitle="@string/pref_appearance_comment_header_items_title"
             android:key="@string/pref_appearance_comment_header_items_key"

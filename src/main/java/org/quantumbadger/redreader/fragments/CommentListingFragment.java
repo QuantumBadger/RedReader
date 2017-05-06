@@ -21,14 +21,21 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.*;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -37,6 +44,7 @@ import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.activities.CommentReplyActivity;
 import org.quantumbadger.redreader.activities.OptionsMenuUtility;
 import org.quantumbadger.redreader.adapters.FilteredCommentListingManager;
+import org.quantumbadger.redreader.adapters.GroupedRecyclerViewAdapter;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategy;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached;
@@ -82,6 +90,7 @@ public class CommentListingFragment extends RRFragment
 	private final RecyclerView mRecyclerView;
 
 	private final FrameLayout mOuterFrame;
+	private final @Nullable LinearLayout mFloatingToolbar;
 
 	private final float mCommentFontScale;
 	private final boolean mShowLinkButtons;
@@ -161,6 +170,110 @@ public class CommentListingFragment extends RRFragment
 			itemAnimator.setMoveDuration(80);
 		}
 		*/
+
+		if(!PrefsUtility.pref_appearance_comments_show_floating_toolbar(context, prefs)) {
+			mFloatingToolbar = null;
+
+		} else {
+			mFloatingToolbar = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.floating_toolbar, mOuterFrame, false);
+
+			// We need a container so that setVisible() doesn't mess with the Z-order
+			final FrameLayout floatingToolbarContainer = new FrameLayout(context);
+
+			floatingToolbarContainer.addView(mFloatingToolbar);
+			mOuterFrame.addView(floatingToolbarContainer);
+
+			if(PrefsUtility.isNightMode(context)) {
+				mFloatingToolbar.setBackgroundColor(Color.argb(0xCC, 0x33, 0x33, 0x33));
+			}
+
+			final int buttonVPadding = General.dpToPixels(context, 12);
+			final int buttonHPadding = General.dpToPixels(context, 16);
+
+			{
+				final ImageButton previousButton = (ImageButton) LayoutInflater.from(context).inflate(
+						R.layout.flat_image_button, mFloatingToolbar, false);
+
+				previousButton.setPadding(buttonHPadding, buttonVPadding, buttonHPadding, buttonVPadding);
+				previousButton.setImageResource(R.drawable.ic_ff_up_dark);
+				previousButton.setContentDescription(getString(R.string.button_prev_comment_parent));
+				mFloatingToolbar.addView(previousButton);
+
+				previousButton.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(final View view) {
+
+						final LinearLayoutManager layoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
+
+						for(int pos = layoutManager.findFirstVisibleItemPosition() - 1;
+								pos > 0;
+								pos--) {
+
+							final GroupedRecyclerViewAdapter.Item item = mCommentListingManager.getItemAtPosition(pos);
+
+							if(item instanceof RedditCommentListItem
+									&& ((RedditCommentListItem) item).isComment()
+									&& ((RedditCommentListItem) item).getIndent() == 0) {
+
+								layoutManager.scrollToPositionWithOffset(pos, 0);
+								return;
+							}
+						}
+
+						layoutManager.scrollToPositionWithOffset(0, 0);
+					}
+				});
+
+				previousButton.setOnLongClickListener(new View.OnLongClickListener() {
+					@Override
+					public boolean onLongClick(final View view) {
+						General.quickToast(context, R.string.button_prev_comment_parent);
+						return true;
+					}
+				});
+			}
+
+			{
+				final ImageButton nextButton = (ImageButton) LayoutInflater.from(context).inflate(
+						R.layout.flat_image_button, mFloatingToolbar, false);
+
+				nextButton.setPadding(buttonHPadding, buttonVPadding, buttonHPadding, buttonVPadding);
+				nextButton.setImageResource(R.drawable.ic_ff_down_dark);
+				nextButton.setContentDescription(getString(R.string.button_next_comment_parent));
+				mFloatingToolbar.addView(nextButton);
+
+				nextButton.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(final View view) {
+
+						final LinearLayoutManager layoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
+
+						for(int pos = layoutManager.findFirstVisibleItemPosition() + 1;
+							pos < layoutManager.getItemCount();
+							pos++) {
+
+							final GroupedRecyclerViewAdapter.Item item = mCommentListingManager.getItemAtPosition(pos);
+
+							if(item instanceof RedditCommentListItem
+									&& ((RedditCommentListItem) item).isComment()
+									&& ((RedditCommentListItem) item).getIndent() == 0) {
+
+								layoutManager.scrollToPositionWithOffset(pos, 0);
+								break;
+							}
+						}
+					}
+				});
+
+				nextButton.setOnLongClickListener(new View.OnLongClickListener() {
+					@Override
+					public boolean onLongClick(final View view) {
+						General.quickToast(context, R.string.button_next_comment_parent);
+						return true;
+					}
+				});
+			}
+		}
 
 		final SideToolbarOverlay toolbarOverlay = new SideToolbarOverlay(context);
 
@@ -443,6 +556,13 @@ public class CommentListingFragment extends RRFragment
 
 		mCommentListingManager.addComments(items);
 
+		if(mFloatingToolbar != null) {
+			mFloatingToolbar.setVisibility(View.VISIBLE);
+			final Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.slide_in_from_bottom);
+			animation.setInterpolator(new OvershootInterpolator());
+			mFloatingToolbar.startAnimation(animation);
+		}
+
 		mUrlsToDownload.removeFirst();
 
 		final LinearLayoutManager layoutManager = (LinearLayoutManager)mRecyclerView.getLayoutManager();
@@ -460,6 +580,7 @@ public class CommentListingFragment extends RRFragment
 		if(mUrlsToDownload.isEmpty()) {
 
 			if(mCommentListingManager.getCommentCount() == 0) {
+
 				final View emptyView = LayoutInflater.from(getContext()).inflate(
 						R.layout.no_comments_yet,
 						mRecyclerView,
@@ -470,6 +591,13 @@ public class CommentListingFragment extends RRFragment
 				}
 
 				mCommentListingManager.addViewToItems(emptyView);
+
+			} else {
+
+				final View blankView = new View(getContext());
+				blankView.setMinimumWidth(1);
+				blankView.setMinimumHeight(General.dpToPixels(getContext(), 96));
+				mCommentListingManager.addViewToItems(blankView);
 			}
 
 			mCommentListingManager.setLoadingVisible(false);

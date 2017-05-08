@@ -18,16 +18,20 @@
 package org.quantumbadger.redreader.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
+import android.webkit.DownloadListener;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -52,6 +56,8 @@ import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static org.quantumbadger.redreader.common.General.onBackPressed;
 
 public class WebViewFragment extends Fragment implements RedditPostView.PostSelectionListener {
 
@@ -129,6 +135,34 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 
 		webView = (WebViewFixed)outer.findViewById(R.id.web_view_fragment_webviewfixed);
 		final FrameLayout loadingViewFrame = (FrameLayout)outer.findViewById(R.id.web_view_fragment_loadingview_frame);
+
+		/*handle download links show an alert box to load this outside the internal browser*/
+		webView.setDownloadListener(new DownloadListener() {
+			@Override
+			public void onDownloadStart(final String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
+				{
+					new AlertDialog.Builder(mActivity)
+							.setTitle(R.string.download_link_title)
+							.setMessage(R.string.download_link_message)
+							.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog, int which) {
+									Intent i = new Intent(Intent.ACTION_VIEW);
+									i.setData(Uri.parse(url));
+									getContext().startActivity(i);
+									mActivity.onBackPressed(); //get back from internal browser
+								}
+							})
+							.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog, int which) {
+									mActivity.onBackPressed(); //get back from internal browser
+								}
+							})
+							.setIcon(android.R.drawable.ic_dialog_alert)
+							.show();
+				}
+			}
+		});
+		/*handle download links end*/
 
 		progressView = new ProgressBar(mActivity, null, android.R.attr.progressBarStyleHorizontal);
 		loadingViewFrame.addView(progressView);

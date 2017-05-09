@@ -15,6 +15,7 @@ Enable sorting for users' submitted posts/comments (thanks to gaudecker)
 Show subreddit names in /r/popular
 Subreddit autocomplete is now account-specific (thanks to Clubfan22)
 Markdown parsing improvements (thanks to Clubfan22)
+Various build improvements (thanks to mvdan)
 Translation fix (thanks to philipwhiuk)
 Updated German translation (thanks to Clubfan22)
 Added Esperanto translation (thanks to verdulo)

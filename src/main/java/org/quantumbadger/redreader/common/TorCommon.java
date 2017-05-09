@@ -25,7 +25,7 @@ import android.preference.PreferenceManager;
 import info.guardianproject.netcipher.proxy.OrbotHelper;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.cache.CacheDownload;
-import org.quantumbadger.redreader.http.okhttp.OKHTTPBackend;
+import org.quantumbadger.redreader.http.HTTPBackend;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -73,7 +73,7 @@ public class TorCommon {
 		}
 
 		if(torChanged) {
-			OKHTTPBackend.recreateHttpBackend();
+			HTTPBackend.getBackend().recreateHttpBackend();
 			CacheDownload.resetUserCredentialsOnNextRequest();
 		}
 	}

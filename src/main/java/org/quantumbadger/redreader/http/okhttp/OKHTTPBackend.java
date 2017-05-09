@@ -39,7 +39,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class OKHTTPBackend implements HTTPBackend {
+public class OKHTTPBackend extends HTTPBackend {
 
 	private final OkHttpClient mClient;
 	private static HTTPBackend httpBackend;
@@ -74,7 +74,8 @@ public class OKHTTPBackend implements HTTPBackend {
 		return httpBackend;
 	}
 
-	public static synchronized void recreateHttpBackend() {
+	@Override
+	public synchronized void recreateHttpBackend() {
 		httpBackend = new OKHTTPBackend();
 	}
 

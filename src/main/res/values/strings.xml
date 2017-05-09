@@ -999,9 +999,8 @@
 	<string name="pref_appearance_comments_show_floating_toolbar_title">Show floating toolbar over comments</string>
 	<string name="pref_appearance_comments_show_floating_toolbar_key" translatable="false">pref_appearance_comments_show_floating_toolbar</string>
 
-
 	<!--2017-05-08-->
 	<string name="download_link_title">Download File</string>
-	<string name="download_link_message">This is a download link. Do you want to load this in external browser?</string>
+	<string name="download_link_message">This is a download link. Do you want to load this in an external browser?</string>
 
 </resources>

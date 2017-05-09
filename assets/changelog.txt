@@ -1,3 +1,7 @@
+79/1.9.9
+Download links now handled correctly by internal browser (thanks to Sarbajit Saha)
+Code refactoring (thanks to Mario Kosmiskas)
+
 78/1.9.8
 Added buttons to skip between top-level comments
 Added ability to edit self-posts (thanks to Clubfan22)

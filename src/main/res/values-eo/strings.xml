@@ -864,4 +864,9 @@
 	<!-- 2017-04-14 -->
 	<string name="collapsed_self_post">Memafiŝo maletendita</string>
 	
+	<!-- 2017-05-08 -->
+	<string name="button_next_comment_parent">Sekva supera komento</string>
+	<string name="button_prev_comment_parent">Antaŭa supera komento</string>
+	<string name="download_link_title">Elŝuti dosieron</string>
+	<string name="download_link_message">Tio ĉi estas elŝut-ligilo. Ĉu vi volas malfermi ĝin per ekstera foliumilo?</string>
 </resources>

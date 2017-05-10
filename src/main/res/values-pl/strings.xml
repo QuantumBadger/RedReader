@@ -866,5 +866,10 @@
 	
 	<!-- 2017-04-14 -->
 	<string name="collapsed_self_post">Zwinięto post tekstowy</string>
-
+	
+	<!-- 2017-05-08 -->
+	<string name="button_next_comment_parent">Następny komentarz nadrzędny</string>
+	<string name="button_prev_comment_parent">Poprzedni komentarz nadrzędny</string>
+	<string name="download_link_title">Pobierz plik</string>
+	<string name="download_link_message">To jest odnośnik pobierania. Czy chcesz otworzyć go w zewnętrznej przeglądarce?</string>
 </resources>

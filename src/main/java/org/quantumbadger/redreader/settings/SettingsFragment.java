@@ -54,6 +54,7 @@ public final class SettingsFragment extends PreferenceFragment {
 
 		final Context context = getActivity();
 
+
 		final String panel = getArguments().getString("panel");
 		final int resource;
 

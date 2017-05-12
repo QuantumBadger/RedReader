@@ -19,10 +19,16 @@ package org.quantumbadger.redreader.settings;
 
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.res.TypedArray;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.Window;
+import android.widget.LinearLayout;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.PrefsUtility;
 
@@ -33,20 +39,32 @@ public final class SettingsActivity
 		implements SharedPreferences.OnSharedPreferenceChangeListener {
 
 	private SharedPreferences sharedPreferences;
+	private Toolbar toolbar;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
-
-		getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
-		PrefsUtility.applySettingsTheme(this);
+		PrefsUtility.applyTheme(this);
 		super.onCreate(savedInstanceState);
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 		setOrientationFromPrefs();
-
+		LinearLayout root =
+				(LinearLayout) findViewById(android.R.id.list).getParent().getParent().getParent();
+		toolbar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.layout_setting, root, false);
+		root.addView(toolbar, 0);
+		setSupportActionBar(toolbar);
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			final TypedArray appearance = obtainStyledAttributes(new int[]{
+					R.attr.colorPrimary,
+					R.attr.colorPrimaryDark});
+			getSupportActionBar().setBackgroundDrawable(new ColorDrawable(appearance.getColor(0,0)));
+			appearance.recycle();
+		}
+
 	}
+
 
 	@Override
 	protected void onDestroy() {
@@ -92,4 +110,6 @@ public final class SettingsActivity
 	protected boolean isValidFragment(final String fragmentName) {
 		return fragmentName.equals(SettingsFragment.class.getCanonicalName());
 	}
+
+
 }

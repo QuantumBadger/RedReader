@@ -18,16 +18,17 @@
 package org.quantumbadger.redreader.common;
 
 import android.content.Context;
+import android.support.annotation.StringRes;
 import android.text.format.DateFormat;
-import org.joda.time.*;
+
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Duration;
+import org.joda.time.Period;
+import org.joda.time.PeriodType;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.PeriodFormatter;
-import org.joda.time.format.PeriodFormatterBuilder;
 import org.quantumbadger.redreader.R;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class RRTime {
 
@@ -53,33 +54,43 @@ public class RRTime {
 	}
 
 	public static String formatDurationFrom(final Context context, final long startTime) {
-		final String space = " ";
-		final String comma = ",";
-		final String separator = comma + space;
 
 		final long endTime = utcCurrentTimeMillis();
 		final DateTime dateTime = new DateTime(endTime);
 		final DateTime localDateTime = dateTime.withZone(DateTimeZone.getDefault());
-		Period period = new Duration(startTime, endTime).toPeriodTo(localDateTime);
+		Period period = new Duration(startTime, endTime).toPeriodTo(localDateTime).normalizedStandard(PeriodType.yearMonthDayTime());
 
-		PeriodFormatter periodFormatter = new PeriodFormatterBuilder()
-				.appendYears().appendSuffix(space).appendSuffix(context.getString(R.string.time_year), context.getString(R.string.time_years)).appendSeparator(separator)
-				.appendMonths().appendSuffix(space).appendSuffix(context.getString(R.string.time_month), context.getString(R.string.time_months)).appendSeparator(separator)
-				.appendDays().appendSuffix(space).appendSuffix(context.getString(R.string.time_day), context.getString(R.string.time_days)).appendSeparator(separator)
-				.appendHours().appendSuffix(space).appendSuffix(context.getString(R.string.time_hour), context.getString(R.string.time_hours)).appendSeparator(separator)
-				.appendMinutes().appendSuffix(space).appendSuffix(context.getString(R.string.time_min), context.getString(R.string.time_mins)).appendSeparator(separator)
-				.appendSeconds().appendSuffix(space).appendSuffix(context.getString(R.string.time_sec), context.getString(R.string.time_secs)).appendSeparator(separator)
-				.appendMillis().appendSuffix(space).appendSuffix(context.getString(R.string.time_ms))
-				.toFormatter();
-
-		String duration = periodFormatter.print(period.normalizedStandard(PeriodType.yearMonthDayTime()));
-
-		List<String> parts = Arrays.asList(duration.split(comma));
-		if (parts.size() >= 2) {
-			duration = parts.get(0) + comma + parts.get(1);
+		String formattedDuration = formatDuration(context, period.getYears(), R.string.time_year, R.string.time_years);
+		if (formattedDuration == null) {
+			formattedDuration = formatDuration(context, period.getMonths(), R.string.time_month, R.string.time_months);
+		}
+		if (formattedDuration == null) {
+			formattedDuration = formatDuration(context, period.getDays(), R.string.time_day, R.string.time_days);
+		}
+		if (formattedDuration == null) {
+			formattedDuration = formatDuration(context, period.getHours(), R.string.time_hour, R.string.time_hours);
+		}
+		if (formattedDuration == null) {
+			formattedDuration = formatDuration(context, period.getMinutes(), R.string.time_min, R.string.time_mins);
+		}
+		if (formattedDuration == null) {
+			// No need to being detailed as RedReader doesn't update the displayed timestamps
+			// making any displayed detailed duration out of date almost immediately.
+			formattedDuration = formatDuration(context, 1, R.string.time_min, R.string.time_mins);
 		}
 
-		return String.format(context.getString(R.string.time_ago), duration);
+		return String.format(context.getString(R.string.time_ago), formattedDuration);
+	}
+
+	private static String formatDuration(Context context, int value, @StringRes int singleId, @StringRes int pluralId) {
+		switch (value) {
+			case 0:
+				return null;
+			case 1:
+				return "1 " + context.getString(singleId);
+			default:
+				return String.valueOf(value) + " " + context.getString(pluralId);
+		}
 	}
 
 	public static long since(long timestamp) {

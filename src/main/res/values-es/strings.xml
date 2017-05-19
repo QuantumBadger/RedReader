@@ -832,4 +832,60 @@
 	<!-- 2016-10-08 -->
 	<string name="time_every_time">Siempre</string>
 
+	<!-- 2016-12-03 -->
+	<string name="theme_name_night_lowcontrast">Noche (bajo contraste)</string>
+	<string name="theme_name_ultrablack">Ultra Negro</string>
+
+	<!-- 2016-12-07 -->
+	<string name="send_replies_to_inbox">Enviar respuestas a mi bandeja de entrada</string>
+
+	<!-- 2016-12-11 -->
+	<string name="action_share_image">Compartir imagen</string>
+
+	<!-- 2017-01-15 -->
+	<string name="error_403_title_nonreddit">Permiso Denegado</string>
+	<string name="error_403_message_nonreddit">El servidor respondió con un error de permiso denegado.</string>
+
+	<!-- 2017-02-12 -->
+	<string name="submit_pmreply_actionbar">Respuesta</string>
+	<string name="pm_reply_done">Respuesta enviada.</string>
+
+	<!-- 2017-02-15 -->
+	<string name="mainmenu_popular">Subreddits Populares</string>
+
+	<!-- 2017-02-23 -->
+	<string name="action_back">Volver</string>
+
+	<!-- 2017-03-07 -->
+	<string name="pref_menus_subreddit_context_items_title">Elementos de Menú Contextual del Subreddit</string>
+	<string name="mainmenu_toast_not_subscribed">¡Aún no te has suscrito a este subreddit!</string>
+	<string name="mainmenu_toast_subscribed">¡Ya estás suscrito a este subreddit!</string>
+	<string name="mainmenu_toast_not_pinned">¡Este subreddit no ha sido fijado al menú principal!</string>
+	<string name="mainmenu_toast_pinned">¡Este subreddit ya fue fijado al menú principal!</string>
+	<string name="mainmenu_toast_not_blocked">¡Este subreddit no está bloqueado!</string>
+	<string name="mainmenu_toast_blocked">¡Este subreddit ya está bloqueado!</string>
+
+	<!-- 2017-04-02 -->
+	<string name="edit_post_actionbar">Editar entrada</string>
+	<string name="post_edit_done">Entrada editada. Podrás ver los cambios después de actualizar.</string>
+	<string name="action_block_subreddit">Bloquear Subrredit</string>
+	<string name="action_unblock_subreddit">Desbloquear Subreddit</string>
+	<string name="action_pin_subreddit">Fijar Subreddit al Menú Principal</string>
+	<string name="action_unpin_subreddit">Remover Subreddit del Menú Principal</string>
+	<string name="action_subscribe_subreddit">Suscribirte al Subreddit</string>
+	<string name="action_unsubscribe_subreddit">Anular suscripción al Subreddit</string>
+
+	<!-- 2017-04-14 -->
+	<string name="collapsed_self_post">Entrada colapsada</string>
+
+	<!-- 2017-05-08 -->
+	<string name="button_next_comment_parent">Comentario padre siguiente</string>
+	<string name="button_prev_comment_parent">Comentario padre anterior</string>
+
+	<string name="pref_appearance_comments_show_floating_toolbar_title">Mostrar barra flotante sobre los comentarios</string>
+
+	<!--2017-05-08-->
+	<string name="download_link_title">Descargar archivo</string>
+	<string name="download_link_message">Esto es un enlace de descarga. ¿Deseas abrir esto en un navegador externo?</string>
+
 </resources>

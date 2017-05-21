@@ -74,12 +74,8 @@ public final class RedditPreparedPost {
 	public final boolean hasThumbnail;
 	public final boolean mIsProbablyAnImage;
 
-	// TODO make it possible to turn off in-memory caching when out of memory
 	private volatile CacheManager.ReadableCacheFile thumbnailCache = null;
 
-	private static final Object singleImageDecodeLock = new Object();
-
-	private final int mWidthPixels;
 	private ThumbnailLoadedCallback thumbnailCallback;
 	private int usageId = -1;
 
@@ -152,7 +148,6 @@ public final class RedditPreparedPost {
 
 		mIsProbablyAnImage = LinkHandler.isProbablyAnImage(post.getUrl());
 
-		mWidthPixels = General.dpToPixels(context, 64);
 		hasThumbnail = showThumbnails && hasThumbnail(post);
 
 		if(hasThumbnail && hasThumbnail(post)) {
@@ -776,16 +771,10 @@ public final class RedditPreparedPost {
 	}
 
 	// These operations are ordered so as to avoid race conditions
-	public Bitmap getThumbnail(final ThumbnailLoadedCallback callback, final int usageId) {
+	public CacheManager.ReadableCacheFile getThumbnail(final ThumbnailLoadedCallback callback, final int usageId) {
 		this.thumbnailCallback = callback;
 		this.usageId = usageId;
-		try {
-			return BitmapFactory.decodeStream(thumbnailCache.getInputStream());
-		} catch (Exception e) {
-			Log.e("RedditPreparedPost", "Error loading image from the cache", e);
-		}
-
-		return null;
+		return thumbnailCache;
 	}
 
 	public boolean isSelf() {

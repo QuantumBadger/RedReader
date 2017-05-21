@@ -20,8 +20,6 @@ package org.quantumbadger.redreader.views;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
@@ -39,12 +37,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.cache.CacheManager;
-import org.quantumbadger.redreader.common.AndroidApi;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
+import org.quantumbadger.redreader.image.ImageLoader;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
-
-import java.io.IOException;
 
 public final class RedditPostView extends FlingableItemView implements RedditPreparedPost.ThumbnailLoadedCallback {
 
@@ -200,13 +196,7 @@ public final class RedditPostView extends FlingableItemView implements RedditPre
 				if(usageId != msg.what) return;
 				//Stream Image from cache and assign, old path of bitmap in msg.obj
 				CacheManager.ReadableCacheFile objPath = (CacheManager.ReadableCacheFile)msg.obj;
-				try {
-					Bitmap data = BitmapFactory.decodeStream(objPath.getInputStream());
-					thumbnailView.setImageBitmap(data);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-
+				ImageLoader.loadImage(objPath, thumbnailView);
 			}
 		};
 
@@ -279,13 +269,7 @@ public final class RedditPostView extends FlingableItemView implements RedditPre
 			usageId++;
 
 			resetSwipeState();
-			AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
-				@Override
-				public void run() {
-					final Bitmap thumbnail = data.getThumbnail(RedditPostView.this, usageId);
-					thumbnailView.setImageBitmap(thumbnail);
-				}
-			});
+			ImageLoader.loadImage(data.getThumbnail(RedditPostView.this, usageId), thumbnailView);
 
 			title.setText(data.src.getTitle());
 			commentsText.setText(String.valueOf(data.src.getSrc().num_comments));

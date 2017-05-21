@@ -48,9 +48,9 @@
 
 			<ImageView
 					android:id="@+id/reddit_post_thumbnail_view"
-					android:layout_width="wrap_content"
+					android:layout_width="64dp"
 					android:layout_height="match_parent"
-					android:scaleType="center"/>
+					android:scaleType="centerCrop"/>
 
 			<ImageView
 					android:id="@+id/reddit_post_overlay_icon"

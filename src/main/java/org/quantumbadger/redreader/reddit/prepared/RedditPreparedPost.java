@@ -59,6 +59,7 @@ import org.quantumbadger.redreader.views.RedditPostView;
 import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
 import org.quantumbadger.redreader.views.bezelmenu.VerticalToolbar;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.*;
 
@@ -74,10 +75,11 @@ public final class RedditPreparedPost {
 	public final boolean mIsProbablyAnImage;
 
 	// TODO make it possible to turn off in-memory caching when out of memory
-	private volatile Bitmap thumbnailCache = null;
+	private volatile CacheManager.ReadableCacheFile thumbnailCache = null;
 
 	private static final Object singleImageDecodeLock = new Object();
 
+	private final int mWidthPixels;
 	private ThumbnailLoadedCallback thumbnailCallback;
 	private int usageId = -1;
 
@@ -150,13 +152,11 @@ public final class RedditPreparedPost {
 
 		mIsProbablyAnImage = LinkHandler.isProbablyAnImage(post.getUrl());
 
+		mWidthPixels = General.dpToPixels(context, 64);
 		hasThumbnail = showThumbnails && hasThumbnail(post);
 
-		// TODO parameterise
-		final int thumbnailWidth = General.dpToPixels(context, 64);
-
 		if(hasThumbnail && hasThumbnail(post)) {
-			downloadThumbnail(context, thumbnailWidth, cm, listId);
+			downloadThumbnail(context, cm, listId);
 		}
 
 		lastChange = timestamp;
@@ -726,7 +726,7 @@ public final class RedditPreparedPost {
 				&& !url.equalsIgnoreCase("default");
 	}
 
-	private void downloadThumbnail(final Context context, final int widthPixels, final CacheManager cm, final int listId) {
+	private void downloadThumbnail(final Context context, final CacheManager cm, final int listId) {
 
 		final String uriStr = src.getThumbnailUrl();
 		final URI uri = General.uriFromString(uriStr);
@@ -761,29 +761,7 @@ public final class RedditPreparedPost {
 
 				try {
 
-					synchronized(singleImageDecodeLock) {
-
-						BitmapFactory.Options justDecodeBounds = new BitmapFactory.Options();
-						justDecodeBounds.inJustDecodeBounds = true;
-						BitmapFactory.decodeStream(cacheFile.getInputStream(), null, justDecodeBounds);
-						final int width = justDecodeBounds.outWidth;
-						final int height = justDecodeBounds.outHeight;
-
-						int factor = 1;
-
-						while(width / (factor + 1) > widthPixels
-								&& height / (factor + 1) > widthPixels) factor *= 2;
-
-						BitmapFactory.Options scaledOptions = new BitmapFactory.Options();
-						scaledOptions.inSampleSize = factor;
-
-						final Bitmap data = BitmapFactory.decodeStream(cacheFile.getInputStream(), null, scaledOptions);
-
-						if(data == null) return;
-						thumbnailCache = ThumbnailScaler.scale(data, widthPixels);
-						if(thumbnailCache != data) data.recycle();
-					}
-
+					thumbnailCache = cacheFile;
 					if(thumbnailCallback != null) thumbnailCallback.betterThumbnailAvailable(thumbnailCache, usageId);
 
 				} catch (OutOfMemoryError e) {
@@ -801,7 +779,13 @@ public final class RedditPreparedPost {
 	public Bitmap getThumbnail(final ThumbnailLoadedCallback callback, final int usageId) {
 		this.thumbnailCallback = callback;
 		this.usageId = usageId;
-		return thumbnailCache;
+		try {
+			return BitmapFactory.decodeStream(thumbnailCache.getInputStream());
+		} catch (Exception e) {
+			Log.e("RedditPreparedPost", "Error loading image from the cache", e);
+		}
+
+		return null;
 	}
 
 	public boolean isSelf() {
@@ -822,7 +806,7 @@ public final class RedditPreparedPost {
 
 	// TODO handle download failure - show red "X" or something
 	public interface ThumbnailLoadedCallback {
-		void betterThumbnailAvailable(Bitmap thumbnail, int usageId);
+		void betterThumbnailAvailable(CacheManager.ReadableCacheFile thumbnail, int usageId);
 	}
 
 	public void markAsRead(final Context context) {

@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
@@ -37,9 +38,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.cache.CacheManager;
+import org.quantumbadger.redreader.common.AndroidApi;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
+
+import java.io.IOException;
 
 public final class RedditPostView extends FlingableItemView implements RedditPreparedPost.ThumbnailLoadedCallback {
 
@@ -193,7 +198,15 @@ public final class RedditPostView extends FlingableItemView implements RedditPre
 			@Override
 			public void handleMessage(final Message msg) {
 				if(usageId != msg.what) return;
-				thumbnailView.setImageBitmap((Bitmap)msg.obj);
+				//Stream Image from cache and assign, old path of bitmap in msg.obj
+				CacheManager.ReadableCacheFile objPath = (CacheManager.ReadableCacheFile)msg.obj;
+				try {
+					Bitmap data = BitmapFactory.decodeStream(objPath.getInputStream());
+					thumbnailView.setImageBitmap(data);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
 			}
 		};
 
@@ -266,9 +279,13 @@ public final class RedditPostView extends FlingableItemView implements RedditPre
 			usageId++;
 
 			resetSwipeState();
-
-			final Bitmap thumbnail = data.getThumbnail(this, usageId);
-			thumbnailView.setImageBitmap(thumbnail);
+			AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+				@Override
+				public void run() {
+					final Bitmap thumbnail = data.getThumbnail(RedditPostView.this, usageId);
+					thumbnailView.setImageBitmap(thumbnail);
+				}
+			});
 
 			title.setText(data.src.getTitle());
 			commentsText.setText(String.valueOf(data.src.getSrc().num_comments));
@@ -336,7 +353,8 @@ public final class RedditPostView extends FlingableItemView implements RedditPre
 		}
 	}
 
-	public void betterThumbnailAvailable(final Bitmap thumbnail, final int callbackUsageId) {
+	public void betterThumbnailAvailable(final CacheManager.ReadableCacheFile thumbnail, final int callbackUsageId) {
+		//instead of passing thumbnial pass the path of thumbnail
 		final Message msg = Message.obtain();
 		msg.obj = thumbnail;
 		msg.what = callbackUsageId;

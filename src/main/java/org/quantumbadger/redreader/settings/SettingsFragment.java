@@ -69,6 +69,7 @@ public final class SettingsFragment extends PreferenceFragment {
 
 		final int[] listPrefsToUpdate = {
 				R.string.pref_appearance_twopane_key,
+				R.string.pref_behaviour_self_post_tap_actions_key,
 				R.string.pref_behaviour_fling_post_left_key,
 				R.string.pref_behaviour_fling_post_right_key,
 				R.string.pref_behaviour_fling_comment_left_key,

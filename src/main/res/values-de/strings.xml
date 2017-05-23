@@ -761,4 +761,5 @@ Thanks to /u/balducien and /u/andiho for this translation!
 	<string name="action_pin_subreddit">Subreddit an Hauptmenü anheften</string>
 	<string name="action_block_subreddit">Subreddit blockieren</string>
 	<string name="collapsed_self_post">Text minimiert</string>
+	<string name="pref_behaviour_self_post_tap_actions_title">Auf Self-Post tippen</string>
 </resources>

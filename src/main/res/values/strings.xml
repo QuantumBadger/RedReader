@@ -1003,4 +1003,7 @@
 	<string name="download_link_title">Download File</string>
 	<string name="download_link_message">This is a download link. Do you want to load this in an external browser?</string>
 
+	<!--2017-05-21-->
+	<string name="pref_behaviour_self_post_tap_actions_key" translatable="false">pref_behaviour_self_post_tap_actions</string>
+	<string name="pref_behaviour_self_post_tap_actions_title">Self-Post Tap Action</string>
 </resources>

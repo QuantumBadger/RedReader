@@ -318,7 +318,6 @@ public class CommentListingFragment extends RRFragment
 		final RedditCommentListItem item = view.getComment();
 
 		if(item.isComment()) {
-
 			final RedditRenderableComment comment = item.asComment();
 
 			changeDataManager.markHidden(
@@ -497,19 +496,22 @@ public class CommentListingFragment extends RRFragment
 				paddingLayout.addView(collapsedView);
 				paddingLayout.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
 
-				paddingLayout.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						if (selfText.getVisibility() == View.GONE){
-							selfText.setVisibility(View.VISIBLE);
-							collapsedView.setVisibility(View.GONE);
-						} else {
-							selfText.setVisibility(View.GONE);
-							collapsedView.setVisibility(View.VISIBLE);
-						}
+				PrefsUtility.SelfpostAction actionOnClick = PrefsUtility.pref_behaviour_self_post_tap_actions(context, PreferenceManager.getDefaultSharedPreferences(context));
+				if (actionOnClick == PrefsUtility.SelfpostAction.COLLAPSE) {
+					paddingLayout.setOnClickListener(new View.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							if (selfText.getVisibility() == View.GONE) {
+								selfText.setVisibility(View.VISIBLE);
+								collapsedView.setVisibility(View.GONE);
+							} else {
+								selfText.setVisibility(View.GONE);
+								collapsedView.setVisibility(View.VISIBLE);
+							}
 
-					}
-				});
+						}
+					});
+				}
 				// TODO mListHeaderNotifications.setBackgroundColor(Color.argb(35, 128, 128, 128));
 
 				mCommentListingManager.addPostSelfText(paddingLayout);

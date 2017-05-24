@@ -436,6 +436,14 @@ public final class PrefsUtility {
 		return PostFlingAction.valueOf(General.asciiUppercase(getString(R.string.pref_behaviour_fling_post_right_key, "upvote", context, sharedPreferences)));
 	}
 
+	public enum SelfpostAction {
+		COLLAPSE, NOTHING
+	}
+
+	public static SelfpostAction pref_behaviour_self_post_tap_actions(final Context context, final SharedPreferences sharedPreferences) {
+		return SelfpostAction.valueOf(General.asciiUppercase(getString(R.string.pref_behaviour_self_post_tap_actions_key, "collapse", context, sharedPreferences)));
+	}
+
 	// pref_behaviour_fling_comment
 
 	public enum CommentFlingAction {

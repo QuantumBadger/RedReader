@@ -113,6 +113,12 @@
                         android:entryValues="@array/pref_behaviour_fling_post_actions_return"
                         android:defaultValue="upvote"/>
 
+		<ListPreference android:title="@string/pref_behaviour_self_post_tap_actions_title"
+						android:key="@string/pref_behaviour_self_post_tap_actions_key"
+						android:entries="@array/pref_behaviour_self_post_tap_actions"
+						android:entryValues="@array/pref_behaviour_self_post_tap_actions_return"
+						android:defaultValue="collapse"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_behaviour_actions_comment_header">

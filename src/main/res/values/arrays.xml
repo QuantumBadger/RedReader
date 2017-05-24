@@ -58,6 +58,17 @@
         <item>disabled</item>
     </string-array>
 
+	<string-array name="pref_behaviour_self_post_tap_actions">
+		<item>@string/action_collapse</item>
+		<item>@string/action_nothing</item>
+	</string-array>
+
+	<!-- Constants. Do not change. -->
+	<string-array name="pref_behaviour_self_post_tap_actions_return">
+		<item>collapse</item>
+		<item>nothing</item>
+	</string-array>
+
 	<string-array name="pref_behaviour_fling_comment_actions">
 		<item>@string/action_upvote</item>
 		<item>@string/action_downvote</item>

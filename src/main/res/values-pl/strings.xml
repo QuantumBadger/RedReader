@@ -872,4 +872,7 @@
 	<string name="button_prev_comment_parent">Poprzedni komentarz nadrzędny</string>
 	<string name="download_link_title">Pobierz plik</string>
 	<string name="download_link_message">To jest odnośnik pobierania. Czy chcesz otworzyć go w zewnętrznej przeglądarce?</string>
+	
+	<!--2017-05-21-->
+	<string name="pref_behaviour_self_post_tap_actions_title">Akcja stuknięcia w post tekstowy</string>
 </resources>

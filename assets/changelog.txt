@@ -1,5 +1,6 @@
 79/1.9.9
 Download links now handled correctly by internal browser (thanks to Sarbajit Saha)
+Preference to change self-post tap action (thanks to Clubfan22)
 Code refactoring (thanks to Mario Kosmiskas)
 Translation updates (thanks to verdulo and Andrés Hernández)
 

@@ -196,7 +196,7 @@ public final class General {
 	}
 
 	public static void quickToast(final Context context, final String text) {
-		AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+		Constants.UI_THREAD_HANDLER.post(new Runnable() {
 			@Override
 			public void run() {
 				Toast.makeText(context, text, Toast.LENGTH_LONG).show();
@@ -205,7 +205,7 @@ public final class General {
 	}
 
 	public static void quickToast(final Context context, final String text, final int duration) {
-		AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+		Constants.UI_THREAD_HANDLER.post(new Runnable() {
 			@Override
 			public void run() {
 				Toast.makeText(context, text, duration).show();
@@ -403,7 +403,7 @@ public final class General {
 
 	// TODO add button to show more detail
 	public static void showResultDialog(final AppCompatActivity context, final RRError error) {
-		AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+		Constants.UI_THREAD_HANDLER.post(new Runnable() {
 			@Override
 			public void run() {
 				try {

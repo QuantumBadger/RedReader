@@ -36,7 +36,7 @@ import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.adapters.AccountListAdapter;
-import org.quantumbadger.redreader.common.AndroidApi;
+import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.reddit.api.RedditOAuth;
@@ -93,7 +93,7 @@ public class AccountListDialog extends AppCompatDialogFragment
 				new RedditOAuth.LoginListener() {
 					@Override
 					public void onLoginSuccess(final RedditAccount account) {
-						AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+						Constants.UI_THREAD_HANDLER.post(new Runnable() {
 							@Override
 							public void run() {
 								General.safeDismissDialog(progressDialog);
@@ -118,7 +118,7 @@ public class AccountListDialog extends AppCompatDialogFragment
 
 					@Override
 					public void onLoginFailure(final RedditOAuth.LoginError error, final RRError details) {
-						AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+						Constants.UI_THREAD_HANDLER.post(new Runnable() {
 							@Override
 							public void run() {
 								General.safeDismissDialog(progressDialog);
@@ -159,7 +159,7 @@ public class AccountListDialog extends AppCompatDialogFragment
 
 	@Override
 	public void onRedditAccountChanged() {
-		AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+		Constants.UI_THREAD_HANDLER.post(new Runnable() {
 			@Override
 			public void run() {
 				rv.setAdapter(new AccountListAdapter(mActivity, AccountListDialog.this));

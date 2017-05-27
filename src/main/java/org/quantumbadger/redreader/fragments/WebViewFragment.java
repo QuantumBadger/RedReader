@@ -42,7 +42,7 @@ import android.widget.Toast;
 
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.cache.CacheManager;
-import org.quantumbadger.redreader.common.AndroidApi;
+import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.reddit.prepared.RedditParsedPost;
@@ -168,17 +168,14 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 		loadingViewFrame.setPadding(General.dpToPixels(mActivity, 10), 0, General.dpToPixels(mActivity, 10), 0);
 
 		final WebSettings settings = webView.getSettings();
-
+		//todo alexw
 		settings.setBuiltInZoomControls(true);
 		settings.setJavaScriptEnabled(true);
 		settings.setJavaScriptCanOpenWindowsAutomatically(false);
 		settings.setUseWideViewPort(true);
 		settings.setLoadWithOverviewMode(true);
 		settings.setDomStorageEnabled(true);
-
-		if (AndroidApi.isHoneyCombOrLater()) {
-			settings.setDisplayZoomControls(false);
-		}
+		settings.setDisplayZoomControls(false);
 
 		// TODO handle long clicks
 
@@ -188,7 +185,7 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 
 				super.onProgressChanged(view, newProgress);
 
-				AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+				Constants.UI_THREAD_HANDLER.post(new Runnable() {
 					@Override
 					public void run() {
 						progressView.setProgress(newProgress);
@@ -264,7 +261,7 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 					@Override
 					public void run() {
 
-						AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+						Constants.UI_THREAD_HANDLER.post(new Runnable() {
 							@Override
 							public void run() {
 
@@ -383,26 +380,17 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 	}
 
 	@Override
-	@SuppressLint("NewApi")
 	public void onPause() {
 		super.onPause();
-
-		if (AndroidApi.isHoneyCombOrLater()) {
-			webView.onPause();
-		}
-
+		webView.onPause();
 		webView.pauseTimers();
 	}
 
 	@Override
-	@SuppressLint("NewApi")
 	public void onResume() {
 		super.onResume();
 		webView.resumeTimers();
-
-		if (AndroidApi.isHoneyCombOrLater()) {
-			webView.onResume();
-		}
+		webView.onResume();
 	}
 
 	public void clearCache() {

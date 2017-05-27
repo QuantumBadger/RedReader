@@ -17,7 +17,6 @@
 
 package org.quantumbadger.redreader.activities;
 
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
@@ -30,7 +29,6 @@ import android.webkit.WebViewClient;
 import info.guardianproject.netcipher.web.WebkitProxy;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.RedReader;
-import org.quantumbadger.redreader.common.AndroidApi;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.TorCommon;
 import org.quantumbadger.redreader.reddit.api.RedditOAuth;
@@ -152,7 +150,7 @@ public class OAuthLoginActivity extends BaseActivity {
 		settings.setSavePassword(false);
 		settings.setDatabaseEnabled(false);
 		settings.setAppCacheEnabled(false);
-		disableZoomDeprecated(settings);
+		settings.setDisplayZoomControls(false);
 
 		setTitle(RedditOAuth.getPromptUri().toString());
 		mWebView.loadUrl(RedditOAuth.getPromptUri().toString());
@@ -192,40 +190,23 @@ public class OAuthLoginActivity extends BaseActivity {
 	}
 
 	@Override
-	@SuppressLint("NewApi")
 	protected void onPause() {
 
 		super.onPause();
 
 		if(mWebView != null) {
-
-			if(AndroidApi.isHoneyCombOrLater()) {
-				mWebView.onPause();
-			}
-
+			mWebView.onPause();
 			mWebView.pauseTimers();
 		}
 	}
 
 	@Override
-	@SuppressLint("NewApi")
 	protected void onResume() {
 		super.onResume();
 
 		if(mWebView != null) {
-
 			mWebView.resumeTimers();
-
-			if(AndroidApi.isHoneyCombOrLater()) {
-				mWebView.onResume();
-			}
-		}
-	}
-
-	@SuppressLint("NewApi")
-	private static void disableZoomDeprecated(final WebSettings settings) {
-		if (AndroidApi.isHoneyCombOrLater()) {
-			settings.setDisplayZoomControls(false);
+			mWebView.onResume();
 		}
 	}
 }

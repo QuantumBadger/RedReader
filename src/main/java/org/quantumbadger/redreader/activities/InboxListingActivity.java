@@ -37,7 +37,6 @@ import org.quantumbadger.redreader.adapters.GroupedRecyclerViewAdapter;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways;
-import org.quantumbadger.redreader.common.AndroidApi;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -232,7 +231,7 @@ public final class InboxListingActivity extends BaseActivity {
 				if(loadingView != null) loadingView.setDone(R.string.download_failed);
 
 				final RRError error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
-				AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+				Constants.UI_THREAD_HANDLER.post(new Runnable() {
 					@Override
 					public void run() {
 						notifications.addView(new ErrorView(InboxListingActivity.this, error));
@@ -257,7 +256,7 @@ public final class InboxListingActivity extends BaseActivity {
 				// TODO pref (currently 10 mins)
 				// TODO xml
 				if(fromCache && RRTime.since(timestamp) > 10 * 60 * 1000) {
-					AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+					Constants.UI_THREAD_HANDLER.post(new Runnable() {
 						@Override
 						public void run() {
 							final TextView cacheNotif = new TextView(context);
@@ -369,7 +368,7 @@ public final class InboxListingActivity extends BaseActivity {
 							protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
 								final RRError error = General.getGeneralErrorForFailure(context, type, t, status,
 										"Reddit API action: Mark all as Read");
-								AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+								Constants.UI_THREAD_HANDLER.post(new Runnable() {
 									@Override
 									public void run() {
 										General.showResultDialog(InboxListingActivity.this, error);
@@ -381,7 +380,7 @@ public final class InboxListingActivity extends BaseActivity {
 							protected void onFailure(final APIFailureType type) {
 
 								final RRError error = General.getGeneralErrorForFailure(context, type);
-								AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+								Constants.UI_THREAD_HANDLER.post(new Runnable() {
 									@Override
 									public void run() {
 										General.showResultDialog(InboxListingActivity.this, error);

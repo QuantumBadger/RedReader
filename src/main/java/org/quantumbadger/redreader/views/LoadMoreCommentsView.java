@@ -17,7 +17,6 @@
 
 package org.quantumbadger.redreader.views;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -43,7 +42,6 @@ public class LoadMoreCommentsView extends LinearLayout {
 	private RedditCommentListItem mItem;
 	private final RedditURLParser.RedditURL mCommentListingURL;
 
-	@SuppressLint("NewApi")
 	public LoadMoreCommentsView(
 			final Context context,
 			final RedditURLParser.RedditURL commentListingURL) {

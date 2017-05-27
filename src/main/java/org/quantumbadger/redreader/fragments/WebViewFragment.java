@@ -17,7 +17,6 @@
 
 package org.quantumbadger.redreader.fragments;
 
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -102,7 +101,6 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 		html = getArguments().getString("html");
 	}
 
-	@SuppressLint("NewApi")
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
@@ -168,7 +166,7 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 		loadingViewFrame.setPadding(General.dpToPixels(mActivity, 10), 0, General.dpToPixels(mActivity, 10), 0);
 
 		final WebSettings settings = webView.getSettings();
-		//todo alexw
+
 		settings.setBuiltInZoomControls(true);
 		settings.setJavaScriptEnabled(true);
 		settings.setJavaScriptCanOpenWindowsAutomatically(false);

@@ -17,9 +17,7 @@
 
 package org.quantumbadger.redreader.activities;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.webkit.CookieManager;
 import android.webkit.WebResourceResponse;
@@ -175,7 +173,6 @@ public class OAuthLoginActivity extends BaseActivity {
 			}
 
 			@Override
-			@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 			public WebResourceResponse shouldInterceptRequest(final WebView view, final String url) {
 
 				if(url.matches(".*compact.*\\.css")) {

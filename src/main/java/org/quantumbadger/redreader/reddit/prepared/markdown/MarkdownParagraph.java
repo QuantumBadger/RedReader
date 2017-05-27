@@ -23,12 +23,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.text.style.ClickableSpan;
-import android.text.style.RelativeSizeSpan;
-import android.text.style.StrikethroughSpan;
-import android.text.style.StyleSpan;
-import android.text.style.SuperscriptSpan;
-import android.text.style.TypefaceSpan;
+import android.text.style.*;
 import android.view.View;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.views.LinkifiedTextView;
@@ -151,6 +146,7 @@ public final class MarkdownParagraph {
 						builder.append((char)tokens[i]);
 					}
 
+					builder.setSpan(new BackgroundColorSpan(0x33333333), codeStart, builder.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 					builder.setSpan(new TypefaceSpan("monospace"), codeStart, builder.length(),
 							Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 

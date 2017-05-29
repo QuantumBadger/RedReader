@@ -30,6 +30,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.os.StatFs;
@@ -66,6 +67,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class General {
+
+	public static final Handler UI_THREAD_HANDLER = new Handler(Looper.getMainLooper());
 
 	public static int COLOR_INVALID = Color.MAGENTA;
 
@@ -196,7 +199,7 @@ public final class General {
 	}
 
 	public static void quickToast(final Context context, final String text) {
-		Constants.UI_THREAD_HANDLER.post(new Runnable() {
+		UI_THREAD_HANDLER.post(new Runnable() {
 			@Override
 			public void run() {
 				Toast.makeText(context, text, Toast.LENGTH_LONG).show();
@@ -205,7 +208,7 @@ public final class General {
 	}
 
 	public static void quickToast(final Context context, final String text, final int duration) {
-		Constants.UI_THREAD_HANDLER.post(new Runnable() {
+		UI_THREAD_HANDLER.post(new Runnable() {
 			@Override
 			public void run() {
 				Toast.makeText(context, text, duration).show();
@@ -403,7 +406,7 @@ public final class General {
 
 	// TODO add button to show more detail
 	public static void showResultDialog(final AppCompatActivity context, final RRError error) {
-		Constants.UI_THREAD_HANDLER.post(new Runnable() {
+		UI_THREAD_HANDLER.post(new Runnable() {
 			@Override
 			public void run() {
 				try {

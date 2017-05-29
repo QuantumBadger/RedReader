@@ -30,7 +30,6 @@ import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
@@ -128,7 +127,7 @@ public class CommentEditActivity extends BaseActivity {
 			final APIResponseHandler.ActionResponseHandler handler = new APIResponseHandler.ActionResponseHandler(this) {
 				@Override
 				protected void onSuccess() {
-					Constants.UI_THREAD_HANDLER.post(new Runnable() {
+					General.UI_THREAD_HANDLER.post(new Runnable() {
 						@Override
 						public void run() {
 
@@ -155,7 +154,7 @@ public class CommentEditActivity extends BaseActivity {
 
 					final RRError error = General.getGeneralErrorForFailure(context, type, t, status, null);
 
-					Constants.UI_THREAD_HANDLER.post(new Runnable() {
+					General.UI_THREAD_HANDLER.post(new Runnable() {
 						@Override
 						public void run() {
 							General.showResultDialog(CommentEditActivity.this, error);
@@ -169,7 +168,7 @@ public class CommentEditActivity extends BaseActivity {
 
 					final RRError error = General.getGeneralErrorForFailure(context, type);
 
-					Constants.UI_THREAD_HANDLER.post(new Runnable() {
+					General.UI_THREAD_HANDLER.post(new Runnable() {
 						@Override
 						public void run() {
 							General.showResultDialog(CommentEditActivity.this, error);

@@ -146,7 +146,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 						@Override
 						public void onSuccess(final ImgurAPI.AlbumInfo info) {
-							Constants.UI_THREAD_HANDLER.post(new Runnable() {
+							General.UI_THREAD_HANDLER.post(new Runnable() {
 								@Override
 								public void run() {
 									mAlbumInfo = info;
@@ -360,7 +360,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 						|| (mImageInfo.caption != null && mImageInfo.caption.length() > 0))) {
 
 			// TODO preference
-			Constants.UI_THREAD_HANDLER.post(new Runnable() {
+			General.UI_THREAD_HANDLER.post(new Runnable() {
 				@Override
 				public void run() {
 					if(mFloatingToolbar != null) {
@@ -372,7 +372,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 		if(Constants.Mime.isVideo(mimetype)) {
 
-			Constants.UI_THREAD_HANDLER.post(new Runnable() {
+			General.UI_THREAD_HANDLER.post(new Runnable() {
 				@Override
 				public void run() {
 
@@ -391,7 +391,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 					} else if(videoViewMode == PrefsUtility.VideoViewMode.EXTERNAL_APP_VLC) {
 
-						Constants.UI_THREAD_HANDLER.post(new Runnable() {
+						General.UI_THREAD_HANDLER.post(new Runnable() {
 							@Override
 							public void run() {
 								Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -485,7 +485,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 			if(gifViewMode == PrefsUtility.GifViewMode.INTERNAL_MOVIE) {
 
-				Constants.UI_THREAD_HANDLER.post(new Runnable() {
+				General.UI_THREAD_HANDLER.post(new Runnable() {
 					@Override
 					public void run() {
 
@@ -513,7 +513,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 				gifThread = new GifDecoderThread(cacheFileInputStream, new GifDecoderThread.OnGifLoadedListener() {
 
 					public void onGifLoaded() {
-						Constants.UI_THREAD_HANDLER.post(new Runnable() {
+						General.UI_THREAD_HANDLER.post(new Runnable() {
 							@Override
 							public void run() {
 
@@ -588,7 +588,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 				return;
 			}
 
-			Constants.UI_THREAD_HANDLER.post(new Runnable() {
+			General.UI_THREAD_HANDLER.post(new Runnable() {
 				@Override
 				public void run() {
 
@@ -642,7 +642,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 		if(General.isThisUIThread()) {
 			r.run();
 		} else {
-			Constants.UI_THREAD_HANDLER.post(r);
+			General.UI_THREAD_HANDLER.post(r);
 		}
 	}
 
@@ -661,7 +661,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 		if(General.isThisUIThread()) {
 			r.run();
 		} else {
-			Constants.UI_THREAD_HANDLER.post(r);
+			General.UI_THREAD_HANDLER.post(r);
 		}
 	}
 
@@ -880,7 +880,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 					@Override
 					protected void onDownloadNecessary() {
-						Constants.UI_THREAD_HANDLER.post(new Runnable() {
+						General.UI_THREAD_HANDLER.post(new Runnable() {
 							@Override
 							public void run() {
 								progressBar.setVisibility(View.VISIBLE);
@@ -898,7 +898,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 						final RRError error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
 
-						Constants.UI_THREAD_HANDLER.post(new Runnable() {
+						General.UI_THREAD_HANDLER.post(new Runnable() {
 							@Override
 							public void run() {
 								// TODO handle properly
@@ -914,7 +914,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 					@Override
 					protected void onProgress(final boolean authorizationInProgress, final long bytesRead, final long totalBytes) {
-						Constants.UI_THREAD_HANDLER.post(new Runnable() {
+						General.UI_THREAD_HANDLER.post(new Runnable() {
 							@Override
 							public void run() {
 								progressBar.setVisibility(View.VISIBLE);

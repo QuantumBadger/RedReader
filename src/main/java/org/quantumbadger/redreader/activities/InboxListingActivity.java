@@ -231,7 +231,7 @@ public final class InboxListingActivity extends BaseActivity {
 				if(loadingView != null) loadingView.setDone(R.string.download_failed);
 
 				final RRError error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
-				Constants.UI_THREAD_HANDLER.post(new Runnable() {
+				General.UI_THREAD_HANDLER.post(new Runnable() {
 					@Override
 					public void run() {
 						notifications.addView(new ErrorView(InboxListingActivity.this, error));
@@ -256,7 +256,7 @@ public final class InboxListingActivity extends BaseActivity {
 				// TODO pref (currently 10 mins)
 				// TODO xml
 				if(fromCache && RRTime.since(timestamp) > 10 * 60 * 1000) {
-					Constants.UI_THREAD_HANDLER.post(new Runnable() {
+					General.UI_THREAD_HANDLER.post(new Runnable() {
 						@Override
 						public void run() {
 							final TextView cacheNotif = new TextView(context);
@@ -368,7 +368,7 @@ public final class InboxListingActivity extends BaseActivity {
 							protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
 								final RRError error = General.getGeneralErrorForFailure(context, type, t, status,
 										"Reddit API action: Mark all as Read");
-								Constants.UI_THREAD_HANDLER.post(new Runnable() {
+								General.UI_THREAD_HANDLER.post(new Runnable() {
 									@Override
 									public void run() {
 										General.showResultDialog(InboxListingActivity.this, error);
@@ -380,7 +380,7 @@ public final class InboxListingActivity extends BaseActivity {
 							protected void onFailure(final APIFailureType type) {
 
 								final RRError error = General.getGeneralErrorForFailure(context, type);
-								Constants.UI_THREAD_HANDLER.post(new Runnable() {
+								General.UI_THREAD_HANDLER.post(new Runnable() {
 									@Override
 									public void run() {
 										General.showResultDialog(InboxListingActivity.this, error);

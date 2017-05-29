@@ -90,7 +90,7 @@ public class UserProfileDialog extends PropertiesDialog {
 			@Override
 			protected void onSuccess(final RedditUser user, long timestamp) {
 
-				Constants.UI_THREAD_HANDLER.post(new Runnable() {
+				General.UI_THREAD_HANDLER.post(new Runnable() {
 					@Override
 					public void run() {
 
@@ -180,7 +180,7 @@ public class UserProfileDialog extends PropertiesDialog {
 			@Override
 			protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
 
-				Constants.UI_THREAD_HANDLER.post(new Runnable() {
+				General.UI_THREAD_HANDLER.post(new Runnable() {
 					@Override
 					public void run() {
 
@@ -197,7 +197,7 @@ public class UserProfileDialog extends PropertiesDialog {
 			@Override
 			protected void onFailure(final APIFailureType type) {
 
-				Constants.UI_THREAD_HANDLER.post(new Runnable() {
+				General.UI_THREAD_HANDLER.post(new Runnable() {
 					@Override
 					public void run() {
 

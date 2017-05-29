@@ -228,7 +228,7 @@ public class ImgurUploadActivity extends BaseActivity {
 
 					final String base64String = new String(byteOutput.toByteArray());
 
-					Constants.UI_THREAD_HANDLER.post(new Runnable() {
+					General.UI_THREAD_HANDLER.post(new Runnable() {
 						@Override
 						public void run() {
 							mBase64Data = base64String;
@@ -251,7 +251,7 @@ public class ImgurUploadActivity extends BaseActivity {
 									getString(R.string.error_file_open_failed_message),
 									e));
 
-					Constants.UI_THREAD_HANDLER.post(new Runnable() {
+					General.UI_THREAD_HANDLER.post(new Runnable() {
 						@Override
 						public void run() {
 							mBase64Data = null;
@@ -312,7 +312,7 @@ public class ImgurUploadActivity extends BaseActivity {
 						httpStatus,
 						url.toString()));
 
-				Constants.UI_THREAD_HANDLER.post(new Runnable() {
+				General.UI_THREAD_HANDLER.post(new Runnable() {
 					@Override
 					public void run() {
 						hideLoadingOverlay();
@@ -353,7 +353,7 @@ public class ImgurUploadActivity extends BaseActivity {
 					return;
 				}
 
-				Constants.UI_THREAD_HANDLER.post(new Runnable() {
+				General.UI_THREAD_HANDLER.post(new Runnable() {
 					@Override
 					public void run() {
 

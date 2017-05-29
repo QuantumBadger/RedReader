@@ -36,7 +36,6 @@ import org.quantumbadger.redreader.BuildConfig;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.ChangelogActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
-import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.TorCommon;
@@ -179,7 +178,7 @@ public final class SettingsFragment extends PreferenceFragment {
 				public boolean onPreferenceChange(Preference preference, final Object newValue) {
 
 					// Run this after the preference has actually changed
-					Constants.UI_THREAD_HANDLER.post(new Runnable() {
+					General.UI_THREAD_HANDLER.post(new Runnable() {
 						@Override
 						public void run() {
 							TorCommon.updateTorStatus(context);

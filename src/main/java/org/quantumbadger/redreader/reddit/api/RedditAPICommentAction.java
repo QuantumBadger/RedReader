@@ -32,7 +32,6 @@ import org.quantumbadger.redreader.activities.CommentEditActivity;
 import org.quantumbadger.redreader.activities.CommentReplyActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.RRError;
@@ -407,7 +406,7 @@ public class RedditAPICommentAction {
 						if(t != null) t.printStackTrace();
 
 						final RRError error = General.getGeneralErrorForFailure(context, type, t, status, null);
-						Constants.UI_THREAD_HANDLER.post(new Runnable() {
+						General.UI_THREAD_HANDLER.post(new Runnable() {
 							@Override
 							public void run() {
 								General.showResultDialog(activity, error);
@@ -420,7 +419,7 @@ public class RedditAPICommentAction {
 						revertOnFailure();
 
 						final RRError error = General.getGeneralErrorForFailure(context, type);
-						Constants.UI_THREAD_HANDLER.post(new Runnable() {
+						General.UI_THREAD_HANDLER.post(new Runnable() {
 							@Override
 							public void run() {
 								General.showResultDialog(activity, error);

@@ -41,7 +41,6 @@ import android.widget.Toast;
 
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.cache.CacheManager;
-import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.reddit.prepared.RedditParsedPost;
@@ -183,7 +182,7 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 
 				super.onProgressChanged(view, newProgress);
 
-				Constants.UI_THREAD_HANDLER.post(new Runnable() {
+				General.UI_THREAD_HANDLER.post(new Runnable() {
 					@Override
 					public void run() {
 						progressView.setProgress(newProgress);
@@ -259,7 +258,7 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 					@Override
 					public void run() {
 
-						Constants.UI_THREAD_HANDLER.post(new Runnable() {
+						General.UI_THREAD_HANDLER.post(new Runnable() {
 							@Override
 							public void run() {
 

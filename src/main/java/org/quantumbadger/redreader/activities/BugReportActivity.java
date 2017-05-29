@@ -58,7 +58,7 @@ public class BugReportActivity extends BaseActivity {
 
 		addGlobalError(error);
 
-		Constants.UI_THREAD_HANDLER.post(new Runnable() {
+		General.UI_THREAD_HANDLER.post(new Runnable() {
 			@Override
 			public void run() {
 				final Intent intent = new Intent(context, BugReportActivity.class);

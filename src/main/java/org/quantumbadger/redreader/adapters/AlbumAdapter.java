@@ -156,7 +156,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 				@Override
 				protected void onSuccess(final CacheManager.ReadableCacheFile cacheFile, final long timestamp, final UUID session, final boolean fromCache, final String mimetype) {
 					// TODO post message rather than runnable
-					Constants.UI_THREAD_HANDLER.post(new Runnable() {
+					General.UI_THREAD_HANDLER.post(new Runnable() {
 						@Override
 						public void run() {
 							try {

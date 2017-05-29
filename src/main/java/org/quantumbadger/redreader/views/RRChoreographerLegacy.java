@@ -18,7 +18,8 @@
 package org.quantumbadger.redreader.views;
 
 import android.support.annotation.NonNull;
-import org.quantumbadger.redreader.common.AndroidApi;
+
+import org.quantumbadger.redreader.common.Constants;
 
 public class RRChoreographerLegacy extends RRChoreographer implements Runnable {
 
@@ -36,7 +37,7 @@ public class RRChoreographerLegacy extends RRChoreographer implements Runnable {
 		mCallbackCount++;
 
 		if(!mPosted) {
-			AndroidApi.UI_THREAD_HANDLER.postDelayed(this, 1000 / 60);
+			Constants.UI_THREAD_HANDLER.postDelayed(this, 1000 / 60);
 			mPosted = true;
 		}
 	}

@@ -20,7 +20,6 @@ package org.quantumbadger.redreader.views;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import org.quantumbadger.redreader.common.AndroidApi;
 
 public abstract class RRChoreographer {
 
@@ -31,7 +30,7 @@ public abstract class RRChoreographer {
 	@NonNull
 	public static RRChoreographer getInstance() {
 
-		if(AndroidApi.isGreaterThanOrEqualTo(Build.VERSION_CODES.JELLY_BEAN)) {
+		if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 			Log.i("RRChoreographer", "Using modern Choreographer");
 			return RRChoreographerModern.INSTANCE;
 		} else {

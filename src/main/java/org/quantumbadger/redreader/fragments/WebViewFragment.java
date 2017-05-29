@@ -17,7 +17,6 @@
 
 package org.quantumbadger.redreader.fragments;
 
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -42,7 +41,7 @@ import android.widget.Toast;
 
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.cache.CacheManager;
-import org.quantumbadger.redreader.common.AndroidApi;
+import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.reddit.prepared.RedditParsedPost;
@@ -102,7 +101,6 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 		html = getArguments().getString("html");
 	}
 
-	@SuppressLint("NewApi")
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
@@ -175,10 +173,7 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 		settings.setUseWideViewPort(true);
 		settings.setLoadWithOverviewMode(true);
 		settings.setDomStorageEnabled(true);
-
-		if (AndroidApi.isHoneyCombOrLater()) {
-			settings.setDisplayZoomControls(false);
-		}
+		settings.setDisplayZoomControls(false);
 
 		// TODO handle long clicks
 
@@ -188,7 +183,7 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 
 				super.onProgressChanged(view, newProgress);
 
-				AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+				Constants.UI_THREAD_HANDLER.post(new Runnable() {
 					@Override
 					public void run() {
 						progressView.setProgress(newProgress);
@@ -264,7 +259,7 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 					@Override
 					public void run() {
 
-						AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+						Constants.UI_THREAD_HANDLER.post(new Runnable() {
 							@Override
 							public void run() {
 
@@ -383,26 +378,17 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 	}
 
 	@Override
-	@SuppressLint("NewApi")
 	public void onPause() {
 		super.onPause();
-
-		if (AndroidApi.isHoneyCombOrLater()) {
-			webView.onPause();
-		}
-
+		webView.onPause();
 		webView.pauseTimers();
 	}
 
 	@Override
-	@SuppressLint("NewApi")
 	public void onResume() {
 		super.onResume();
 		webView.resumeTimers();
-
-		if (AndroidApi.isHoneyCombOrLater()) {
-			webView.onResume();
-		}
+		webView.onResume();
 	}
 
 	public void clearCache() {

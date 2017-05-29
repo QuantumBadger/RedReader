@@ -31,7 +31,7 @@ import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.SessionChangeListener;
 import org.quantumbadger.redreader.adapters.SessionListAdapter;
-import org.quantumbadger.redreader.common.AndroidApi;
+import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 
 import java.net.URI;
@@ -106,7 +106,7 @@ public class SessionListDialog extends AppCompatDialogFragment implements Reddit
 
 	@Override
 	public void onRedditAccountChanged() {
-		AndroidApi.UI_THREAD_HANDLER.post(new Runnable() {
+		Constants.UI_THREAD_HANDLER.post(new Runnable() {
 			@Override
 			public void run() {
 				rv.getAdapter().notifyDataSetChanged();

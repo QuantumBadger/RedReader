@@ -19,11 +19,16 @@ package org.quantumbadger.redreader.common;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.Handler;
+import android.os.Looper;
+
 import org.quantumbadger.redreader.RedReader;
 
 import java.net.URI;
 
 public final class Constants {
+
+	public static final Handler UI_THREAD_HANDLER = new Handler(Looper.getMainLooper());
 
 	public static String version(Context context) {
 		try {

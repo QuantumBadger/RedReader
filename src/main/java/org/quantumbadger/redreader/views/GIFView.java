@@ -17,7 +17,6 @@
 
 package org.quantumbadger.redreader.views;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -25,7 +24,6 @@ import android.graphics.Movie;
 import android.graphics.Paint;
 import android.os.SystemClock;
 import android.view.View;
-import org.quantumbadger.redreader.common.AndroidApi;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -38,13 +36,10 @@ public final class GIFView extends View {
 
 	private final Paint paint = new Paint();
 
-	@SuppressLint("NewApi")
 	public GIFView(Context context, InputStream is) {
 		super(context);
 
-		if (AndroidApi.isHoneyCombOrLater()) {
-			setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-		}
+		setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
 		final byte[] data = streamToBytes(is); // workaround for strange Android bug
 		mMovie = Movie.decodeByteArray(data, 0, data.length);
@@ -55,7 +50,6 @@ public final class GIFView extends View {
 
 		paint.setAntiAlias(true);
 		paint.setFilterBitmap(true);
-		//paint.setDither(true);
 	}
 
 	protected void onDraw(final Canvas canvas) {

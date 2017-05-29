@@ -17,7 +17,6 @@
 
 package org.quantumbadger.redreader.views;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -29,7 +28,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.MoreCommentsListingActivity;
-import org.quantumbadger.redreader.common.AndroidApi;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.reddit.RedditCommentListItem;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
@@ -44,7 +42,6 @@ public class LoadMoreCommentsView extends LinearLayout {
 	private RedditCommentListItem mItem;
 	private final RedditURLParser.RedditURL mCommentListingURL;
 
-	@SuppressLint("NewApi")
 	public LoadMoreCommentsView(
 			final Context context,
 			final RedditURLParser.RedditURL commentListingURL) {
@@ -90,10 +87,9 @@ public class LoadMoreCommentsView extends LinearLayout {
 			appearance.recycle();
 		}
 
-		if(AndroidApi.isGreaterThanOrEqualTo(11)) {
-			icon.setScaleX(0.75f);
-			icon.setScaleY(0.75f);
-		}
+		icon.setScaleX(0.75f);
+		icon.setScaleY(0.75f);
+
 		layout.addView(icon);
 		((LinearLayout.LayoutParams)icon.getLayoutParams()).setMargins(marginPx, marginPx, marginPx, marginPx);
 

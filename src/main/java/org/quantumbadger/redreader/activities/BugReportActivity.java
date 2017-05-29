@@ -27,6 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.RRError;
@@ -58,7 +59,7 @@ public class BugReportActivity extends BaseActivity {
 
 		addGlobalError(error);
 
-		General.UI_THREAD_HANDLER.post(new Runnable() {
+		AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
 			@Override
 			public void run() {
 				final Intent intent = new Intent(context, BugReportActivity.class);

@@ -39,6 +39,7 @@ import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
@@ -231,7 +232,7 @@ public class PostSubmitActivity extends BaseActivity {
 				final APIResponseHandler.ActionResponseHandler handler = new APIResponseHandler.ActionResponseHandler(this) {
 					@Override
 					protected void onSuccess() {
-						General.UI_THREAD_HANDLER.post(new Runnable() {
+						AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
 							@Override
 							public void run() {
 								General.safeDismissDialog(progressDialog);
@@ -251,7 +252,7 @@ public class PostSubmitActivity extends BaseActivity {
 
 						final RRError error = General.getGeneralErrorForFailure(context, type, t, status, null);
 
-						General.UI_THREAD_HANDLER.post(new Runnable() {
+						AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
 							@Override
 							public void run() {
 								General.showResultDialog(PostSubmitActivity.this, error);
@@ -265,7 +266,7 @@ public class PostSubmitActivity extends BaseActivity {
 
 						final RRError error = General.getGeneralErrorForFailure(context, type);
 
-						General.UI_THREAD_HANDLER.post(new Runnable() {
+						AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
 							@Override
 							public void run() {
 								General.showResultDialog(PostSubmitActivity.this, error);

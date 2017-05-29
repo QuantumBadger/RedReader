@@ -36,6 +36,7 @@ import android.widget.Toast;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
+import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.MainMenuFragment;
@@ -354,7 +355,7 @@ public class MainMenuListingManager {
 
 	public void setMultiredditsError(final ErrorView errorView) {
 
-		General.UI_THREAD_HANDLER.post(new Runnable() {
+		AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
 			@Override
 			public void run() {
 
@@ -366,7 +367,7 @@ public class MainMenuListingManager {
 
 	public void setSubredditsError(final ErrorView errorView) {
 
-		General.UI_THREAD_HANDLER.post(new Runnable() {
+		AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
 			@Override
 			public void run() {
 
@@ -381,7 +382,7 @@ public class MainMenuListingManager {
 		final ArrayList<String> subscriptionsSorted = new ArrayList<>(subscriptions);
 		Collections.sort(subscriptionsSorted);
 
-		General.UI_THREAD_HANDLER.post(new Runnable() {
+		AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
 			@Override
 			public void run() {
 
@@ -421,7 +422,7 @@ public class MainMenuListingManager {
 		final ArrayList<String> subscriptionsSorted = new ArrayList<>(subscriptions);
 		Collections.sort(subscriptionsSorted);
 
-		General.UI_THREAD_HANDLER.post(new Runnable() {
+		AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
 			@Override
 			public void run() {
 

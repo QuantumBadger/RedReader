@@ -32,6 +32,7 @@ import org.quantumbadger.redreader.activities.PMSendActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways;
+import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
@@ -90,7 +91,7 @@ public class UserProfileDialog extends PropertiesDialog {
 			@Override
 			protected void onSuccess(final RedditUser user, long timestamp) {
 
-				General.UI_THREAD_HANDLER.post(new Runnable() {
+				AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
 					@Override
 					public void run() {
 
@@ -180,7 +181,7 @@ public class UserProfileDialog extends PropertiesDialog {
 			@Override
 			protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
 
-				General.UI_THREAD_HANDLER.post(new Runnable() {
+				AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
 					@Override
 					public void run() {
 
@@ -197,7 +198,7 @@ public class UserProfileDialog extends PropertiesDialog {
 			@Override
 			protected void onFailure(final APIFailureType type) {
 
-				General.UI_THREAD_HANDLER.post(new Runnable() {
+				AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
 					@Override
 					public void run() {
 

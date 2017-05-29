@@ -24,6 +24,7 @@ import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.TimestampBound;
@@ -263,7 +264,7 @@ public class RedditSubredditSubscriptionManager {
 			if(t != null) t.printStackTrace();
 
 			final RRError error = General.getGeneralErrorForFailure(context, type, t, status, null);
-			General.UI_THREAD_HANDLER.post(new Runnable() {
+			AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
 				@Override
 				public void run() {
 					General.showResultDialog(activity, error);
@@ -275,7 +276,7 @@ public class RedditSubredditSubscriptionManager {
 		protected void onFailure(APIFailureType type) {
 			onSubscriptionChangeAttemptFailed(canonicalName);
 			final RRError error = General.getGeneralErrorForFailure(context, type);
-			General.UI_THREAD_HANDLER.post(new Runnable() {
+			AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
 				@Override
 				public void run() {
 					General.showResultDialog(activity, error);

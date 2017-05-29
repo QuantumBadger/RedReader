@@ -49,6 +49,7 @@ import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfTimestampOutsideBounds;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyNever;
+import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
@@ -277,7 +278,7 @@ public class PostListingFragment extends RRFragment
 							@Override
 							public void onRequestFailed(SubredditRequestFailure failureReason) {
 								// Ignore
-								General.UI_THREAD_HANDLER.post(new Runnable() {
+								AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
 									@Override
 									public void run() {
 										CacheManager.getInstance(context).makeRequest(mRequest);
@@ -287,7 +288,7 @@ public class PostListingFragment extends RRFragment
 
 							@Override
 							public void onRequestSuccess(final RedditSubreddit result, final long timeCached) {
-								General.UI_THREAD_HANDLER.post(new Runnable() {
+								AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
 									@Override
 									public void run() {
 										mSubreddit = result;
@@ -532,7 +533,7 @@ public class PostListingFragment extends RRFragment
 		@Override
 		protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
 
-			General.UI_THREAD_HANDLER.post(new Runnable() {
+			AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
 				@Override
 				public void run() {
 
@@ -568,7 +569,7 @@ public class PostListingFragment extends RRFragment
 
 			// TODO pref (currently 10 mins)
 			if(firstDownload && fromCache && RRTime.since(timestamp) > 10 * 60 * 1000) {
-				General.UI_THREAD_HANDLER.post(new Runnable() {
+				AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
 					@Override
 					public void run() {
 
@@ -823,7 +824,7 @@ public class PostListingFragment extends RRFragment
 					}
 				}
 
-				General.UI_THREAD_HANDLER.post(new Runnable() {
+				AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
 					@Override
 					public void run() {
 

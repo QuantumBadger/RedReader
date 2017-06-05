@@ -1006,4 +1006,7 @@
 	<!--2017-05-21-->
 	<string name="pref_behaviour_self_post_tap_actions_key" translatable="false">pref_behaviour_self_post_tap_actions</string>
 	<string name="pref_behaviour_self_post_tap_actions_title">Self-Post Tap Action</string>
+
+	<!-- 2017-06-05 -->
+	<string name="lang_in" translatable="false">Bahasa Indonesia</string>
 </resources>

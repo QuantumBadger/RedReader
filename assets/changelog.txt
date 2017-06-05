@@ -3,6 +3,7 @@ Download links now handled correctly by internal browser (thanks to Sarbajit Sah
 Preference to change self-post tap action (thanks to Clubfan22)
 Code refactoring (thanks to Mario Kosmiskas and awells111)
 Translation updates (thanks to verdulo and Andrés Hernández)
+Added Indonesian translation (thanks to much-doge)
 
 78/1.9.8
 Added buttons to skip between top-level comments

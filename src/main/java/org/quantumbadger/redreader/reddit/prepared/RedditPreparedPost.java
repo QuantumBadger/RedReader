@@ -251,12 +251,18 @@ public final class RedditPreparedPost {
 
 				if (!RedditAccountManager.getInstance(activity).getDefaultAccount().isAnonymous()) {
 					if (itemPref.contains(Action.SUBSCRIBE)) {
-						if (RedditSubredditSubscriptionManager
-								.getSingleton(activity, RedditAccountManager.getInstance(activity).getDefaultAccount())
-								.getSubscriptionState(subredditCanonicalName) == RedditSubredditSubscriptionManager.SubredditSubscriptionState.SUBSCRIBED) {
-							menu.add(new RPVMenuItem(activity, R.string.action_unsubscribe_subreddit, Action.UNSUBSCRIBE));
-						} else {
-							menu.add(new RPVMenuItem(activity, R.string.action_subscribe_subreddit, Action.SUBSCRIBE));
+
+						final RedditSubredditSubscriptionManager subscriptionManager = RedditSubredditSubscriptionManager
+								.getSingleton(activity, RedditAccountManager.getInstance(activity).getDefaultAccount());
+
+						if(subscriptionManager.areSubscriptionsReady()) {
+
+							if(subscriptionManager.getSubscriptionState(subredditCanonicalName)
+									== RedditSubredditSubscriptionManager.SubredditSubscriptionState.SUBSCRIBED) {
+								menu.add(new RPVMenuItem(activity, R.string.action_unsubscribe_subreddit, Action.UNSUBSCRIBE));
+							} else {
+								menu.add(new RPVMenuItem(activity, R.string.action_subscribe_subreddit, Action.SUBSCRIBE));
+							}
 						}
 					}
 				}

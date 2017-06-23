@@ -44,7 +44,7 @@ public class BasicGestureHandler implements View.OnTouchListener, FingerTracker.
 	@Override
 	public boolean onTouch(final View v, final MotionEvent event) {
 		mFingerTracker.onTouchEvent(event);
-		return true;
+		return false;
 	}
 
 	@Override

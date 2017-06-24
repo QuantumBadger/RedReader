@@ -149,6 +149,9 @@ public class MainMenuListingManager {
 				makeItem(R.string.mainmenu_frontpage, MainMenuFragment.MENU_MENU_ACTION_FRONTPAGE, null, true));
 
 		mAdapter.appendToGroup(GROUP_MAIN_ITEMS,
+							   makeItem(R.string.mainmenu_popular, MainMenuFragment.MENU_MENU_ACTION_POPULAR, null, false));
+
+		mAdapter.appendToGroup(GROUP_MAIN_ITEMS,
 				makeItem(R.string.mainmenu_all, MainMenuFragment.MENU_MENU_ACTION_ALL, null, false));
 
 		mAdapter.appendToGroup(GROUP_MAIN_ITEMS,

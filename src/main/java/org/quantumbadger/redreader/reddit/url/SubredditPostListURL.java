@@ -35,6 +35,10 @@ public class SubredditPostListURL extends PostListingURL {
 		return new SubredditPostListURL(Type.FRONTPAGE, null, null, null, null, null);
 	}
 
+	public static SubredditPostListURL getPopular() {
+		return new SubredditPostListURL(Type.POPULAR, null, null, null, null, null);
+	}
+
 	public static SubredditPostListURL getAll() {
 		return new SubredditPostListURL(Type.ALL, null, null, null, null, null);
 	}

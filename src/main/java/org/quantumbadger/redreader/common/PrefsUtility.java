@@ -91,6 +91,7 @@ public final class PrefsUtility {
 				|| context.getString(R.string.pref_appearance_langforce_key).equals(key)
 				|| context.getString(R.string.pref_behaviour_bezel_toolbar_swipezone_key).equals(key)
 				|| context.getString(R.string.pref_appearance_hide_username_main_menu_key).equals(key)
+				|| context.getString(R.string.pref_menus_show_popular_main_menu_key).equals(key)
 				|| context.getString(R.string.pref_appearance_hide_android_status_key).equals(key)
 				|| context.getString(R.string.pref_appearance_comments_show_floating_toolbar_key).equals(key)
 				|| context.getString(R.string.pref_behaviour_enable_swipe_refresh_key).equals(key);
@@ -246,6 +247,10 @@ public final class PrefsUtility {
 
 	public static boolean pref_appearance_hide_username_main_menu(final Context context, final SharedPreferences sharedPreferences) {
 		return getBoolean(R.string.pref_appearance_hide_username_main_menu_key, false, context, sharedPreferences);
+	}
+
+	public static boolean pref_show_popular_main_menu(final Context context, final SharedPreferences sharedPreferences) {
+		return getBoolean(R.string.pref_menus_show_popular_main_menu_key, false, context, sharedPreferences);
 	}
 
 	public static boolean pref_appearance_show_blocked_subreddits_main_menu(final Context context, final SharedPreferences sharedPreferences) {

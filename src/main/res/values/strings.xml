@@ -1009,4 +1009,8 @@
 
 	<!-- 2017-06-05 -->
 	<string name="lang_in" translatable="false">Bahasa Indonesia</string>
+
+	<string name="pref_menus_show_popular_main_menu_key">pref_menus_show_popular_main_menu</string>
+	<string name="pref_menus_show_popular_main_menu_title">Show /r/popular in main menu</string>
+
 </resources>

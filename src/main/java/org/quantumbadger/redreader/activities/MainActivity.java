@@ -235,7 +235,7 @@ public class MainActivity extends RefreshableActivity
 				}
 
 				if (lastVersion <= 77) {
-					
+
 					// Upgrading from 77/1.9.7 or lower, enable pinning/subscribing/blocking a
 					// subreddit and editing self-posts in the post context menu
 
@@ -287,6 +287,10 @@ public class MainActivity extends RefreshableActivity
 
 			case MainMenuFragment.MENU_MENU_ACTION_FRONTPAGE:
 				onSelected(SubredditPostListURL.getFrontPage());
+				break;
+
+			case MainMenuFragment.MENU_MENU_ACTION_POPULAR:
+				onSelected(SubredditPostListURL.getPopular());
 				break;
 
 			case MainMenuFragment.MENU_MENU_ACTION_ALL:

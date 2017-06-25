@@ -848,8 +848,10 @@ public class PostListingFragment extends RRFragment
 			@NonNull final List<String> blockedSubreddits,
 			@NonNull final RedditPost post) throws RedditSubreddit.InvalidSubredditNameException {
 
+		final String canonicalName = RedditSubreddit.getCanonicalName(post.subreddit);
+
 		for (String blockedSubredditName : blockedSubreddits) {
-			if (blockedSubredditName.equalsIgnoreCase(RedditSubreddit.getCanonicalName(post.subreddit))) {
+			if (blockedSubredditName.equalsIgnoreCase(canonicalName)) {
 				return true;
 			}
 		}

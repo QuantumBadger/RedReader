@@ -37,7 +37,9 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.common.AndroidCommon;
+import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.MainMenuFragment;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
@@ -403,7 +405,9 @@ public class MainMenuListingManager {
 					GroupedRecyclerViewItemListItemView item;
 
 					try {
-						item = makeSubredditItem(RedditSubreddit.stripRPrefix(subreddit), isFirst);
+						item = makeSubredditItem(
+								RedditSubreddit.getDisplayNameFromCanonicalName(RedditSubreddit.getCanonicalName(subreddit)),
+								isFirst);
 
 					} catch(RedditSubreddit.InvalidSubredditNameException e) {
 						item = makeSubredditItem("Invalid: " + subreddit, isFirst);
@@ -490,8 +494,16 @@ public class MainMenuListingManager {
 			@Override
 			public void onClick(final View view) {
 				try {
-					mListener.onSelected(
-							(PostListingURL) SubredditPostListURL.getSubreddit(RedditSubreddit.getCanonicalName(name)));
+					final String canonicalName = RedditSubreddit.getCanonicalName(name);
+
+					if(canonicalName.startsWith("/r/")) {
+						mListener.onSelected((PostListingURL) SubredditPostListURL.getSubreddit(canonicalName));
+
+					} else {
+						LinkHandler.onLinkClicked(mActivity, canonicalName);
+					}
+
+
 				} catch(RedditSubreddit.InvalidSubredditNameException e) {
 					throw new RuntimeException(e);
 				}
@@ -587,7 +599,8 @@ public class MainMenuListingManager {
 
 	private void onSubredditActionMenuItemSelected(String subredditCanonicalName, AppCompatActivity activity, SubredditAction action) {
 		try {
-			final String url = "https://" + SubredditPostListURL.getSubreddit(subredditCanonicalName).humanReadableUrl();
+			final String url = Constants.Reddit.getNonAPIUri(subredditCanonicalName).toString();
+
 			RedditSubredditSubscriptionManager subMan = RedditSubredditSubscriptionManager
 					.getSingleton(activity, RedditAccountManager.getInstance(activity).getDefaultAccount());
 			List<String> pinnedSubreddits = PrefsUtility.pref_pinned_subreddits(mActivity, PreferenceManager.getDefaultSharedPreferences(mActivity));

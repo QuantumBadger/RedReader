@@ -60,6 +60,7 @@ public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>,
 	@WritableObjectTimestamp public long downloadTime;
 
 	private static final Pattern NAME_PATTERN = Pattern.compile("(/)?(r/)?([\\w\\+\\-\\.:]+)/?");
+	private static final Pattern USER_PATTERN = Pattern.compile("(/)?(u/|user/)([\\w\\+\\-\\.:]+)/?");
 
 	public RedditSubreddit(CreationData creationData) {
 		this();
@@ -75,12 +76,28 @@ public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>,
 		}
 	}
 
+	public static String stripUserPrefix(String name) {
+		final Matcher matcher = USER_PATTERN.matcher(name);
+		if(matcher.matches()) {
+			return matcher.group(3);
+		} else {
+			return null;
+		}
+	}
+
 	/**
 	 * @param name a subreddit name in the form "subreddit", "r/subreddit" or "/r/subreddit" (case-insensitive)
 	 * @return a subreddit name in the form "/r/subreddit" (lower-cased)
 	 * @throws InvalidSubredditNameException if {@code name} is null or not in the expected format
 	 */
 	public static String getCanonicalName(String name) throws InvalidSubredditNameException {
+
+		final String userSr = stripUserPrefix(name);
+
+		if(userSr != null) {
+			return "/user/" + General.asciiLowercase(userSr);
+		}
+
 		return "/r/" + General.asciiLowercase(stripRPrefix(name));
 	}
 
@@ -89,6 +106,11 @@ public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>,
 	}
 
 	public static String getDisplayNameFromCanonicalName(String canonicalName) {
+
+		if(canonicalName.startsWith("/user/")) {
+			return canonicalName;
+		}
+
 		return canonicalName.substring(3);
 	}
 

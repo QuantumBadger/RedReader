@@ -200,10 +200,16 @@ public class RedditAPIIndividualSubredditListRequester
 					for(final JsonValue v : subreddits) {
 						final RedditThing thing = v.asObject(RedditThing.class);
 						final RedditSubreddit subreddit = thing.asSubreddit();
+
 						subreddit.downloadTime = timestamp;
 
-						toWrite.add(subreddit);
-						output.add(subreddit.getCanonicalName());
+						try {
+							output.add(subreddit.getCanonicalName());
+							toWrite.add(subreddit);
+						} catch(final RedditSubreddit.InvalidSubredditNameException e) {
+							Log.e("SubredditListRequester", "Ignoring invalid subreddit", e);
+						}
+
 					}
 
 					RedditSubredditManager.getInstance(context, user).offerRawSubredditData(toWrite, timestamp);

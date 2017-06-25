@@ -1012,5 +1012,7 @@
 
 	<string name="pref_menus_show_popular_main_menu_key">pref_menus_show_popular_main_menu</string>
 	<string name="pref_menus_show_popular_main_menu_title">Show /r/popular in main menu</string>
+	<string name="pref_behaviour_video_playback_controls_key">pref_behaviour_video_playback_controls</string>
+	<string name="pref_behaviour_video_playback_controls_title">Enable video playback controls</string>
 
 </resources>

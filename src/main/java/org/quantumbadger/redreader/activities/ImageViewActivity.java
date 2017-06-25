@@ -425,9 +425,14 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 							videoView.setVideoURI(cacheFile.getUri());
 
-							MediaController mediaController = new MediaController(ImageViewActivity.this);
-							mediaController.setAnchorView(videoView);
-							videoView.setMediaController(mediaController);
+							if (PrefsUtility.pref_behaviour_video_playback_controls(ImageViewActivity.this,
+																					PreferenceManager.getDefaultSharedPreferences(ImageViewActivity.this))) {
+								MediaController mediaController = new MediaController(ImageViewActivity.this);
+								mediaController.setAnchorView(videoView);
+								videoView.setMediaController(mediaController);
+							} else {
+								videoView.setMediaController(null);
+							}
 
 							layout.addView(videoView);
 							setMainView(layout);
@@ -704,7 +709,8 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 	@Override
 	public void onSingleTap() {
-		if (mImageInfo != null
+		if (PrefsUtility.pref_behaviour_video_playback_controls(this, PreferenceManager.getDefaultSharedPreferences(this))
+				&& mImageInfo != null
 				&& mImageInfo.mediaType != null
 				&& mImageInfo.mediaType == ImageInfo.MediaType.VIDEO) {
 			return;

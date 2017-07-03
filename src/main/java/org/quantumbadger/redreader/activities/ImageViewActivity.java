@@ -74,6 +74,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 	private GLSurfaceView surfaceView;
 	private ImageView imageView;
+	private MediaVideoView videoView;
 	private GifDecoderThread gifThread;
 
 	private String mUrl;
@@ -421,7 +422,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 							final RelativeLayout layout = new RelativeLayout(ImageViewActivity.this);
 							layout.setGravity(Gravity.CENTER);
 
-							final MediaVideoView videoView = new MediaVideoView(ImageViewActivity.this);
+							videoView = new MediaVideoView(ImageViewActivity.this);
 
 							videoView.setVideoURI(cacheFile.getUri());
 
@@ -710,9 +711,8 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 	@Override
 	public void onSingleTap() {
 		if (PrefsUtility.pref_behaviour_video_playback_controls(this, PreferenceManager.getDefaultSharedPreferences(this))
-				&& mImageInfo != null
-				&& mImageInfo.mediaType != null
-				&& mImageInfo.mediaType == ImageInfo.MediaType.VIDEO) {
+				&& videoView != null) {
+			videoView.performClick();
 			return;
 		}
 		finish();

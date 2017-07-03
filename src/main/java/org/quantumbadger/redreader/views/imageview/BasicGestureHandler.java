@@ -39,12 +39,10 @@ public class BasicGestureHandler implements View.OnTouchListener, FingerTracker.
 	private final Listener mListener;
 
 	private FingerTracker.Finger mFirstFinger;
-	private View mView;
 	private int mCurrentFingerCount;
 
 	@Override
 	public boolean onTouch(final View v, final MotionEvent event) {
-		this.mView = v;
 		mFingerTracker.onTouchEvent(event);
 		return true;
 	}
@@ -84,7 +82,6 @@ public class BasicGestureHandler implements View.OnTouchListener, FingerTracker.
 					&& mFirstFinger.mPosDifference.y < 20) {
 
 				mListener.onSingleTap();
-				mView.performClick();
 			}
 
 			mFirstFinger = null;

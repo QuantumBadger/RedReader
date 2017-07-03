@@ -1,4 +1,4 @@
-79/1.9.9
+79/1.9.8.1
 Preference to add /r/popular to the main menu (thanks to ahomphophone)
 Download links now handled correctly by internal browser (thanks to Sarbajit Saha)
 Preference to change self-post tap action (thanks to Clubfan22)

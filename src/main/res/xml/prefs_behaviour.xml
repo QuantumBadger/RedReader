@@ -27,6 +27,10 @@
                         android:key="@string/pref_behaviour_useinternalbrowser_key"
                         android:defaultValue="true"/>
 
+	<CheckBoxPreference android:title="@string/pref_behaviour_video_playback_controls_title"
+						android:key="@string/pref_behaviour_video_playback_controls_key"
+						android:defaultValue="false"/>
+
 	<ListPreference android:title="@string/pref_behaviour_imageview_mode_title"
 					android:key="@string/pref_behaviour_imageview_mode_key"
 					android:entries="@array/pref_behaviour_imageview_mode_array"

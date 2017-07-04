@@ -52,7 +52,7 @@ import java.util.ArrayList;
  * Created by vishna on 22/07/15.
  */
 public class MediaVideoView extends SurfaceView
-		implements MediaController.MediaPlayerControl {
+		implements MediaController.MediaPlayerControl, View.OnClickListener {
 	// all possible internal states
 	private static final int STATE_ERROR = -1;
 	private static final int STATE_IDLE = 0;
@@ -383,6 +383,7 @@ public class MediaVideoView extends SurfaceView
 		mPendingSubtitleTracks = new ArrayList<>();
 		mCurrentState = STATE_IDLE;
 		mTargetState = STATE_IDLE;
+		setOnClickListener(this);
 	}
 
 	/**
@@ -563,11 +564,11 @@ public class MediaVideoView extends SurfaceView
 	}
 
 	@Override
-	public boolean onTouchEvent(MotionEvent ev) {
+	public void onClick(View view)
+	{
 		if (isInPlaybackState() && mMediaController != null) {
 			toggleMediaControlsVisiblity();
 		}
-		return false;
 	}
 
 	@Override

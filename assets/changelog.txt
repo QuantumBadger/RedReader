@@ -1,3 +1,6 @@
+80/1.9.9
+Preference to enable video playback controls (thanks to ahomphophone)
+
 79/1.9.8.1
 Preference to add /r/popular to the main menu (thanks to ahomphophone)
 Download links now handled correctly by internal browser (thanks to Sarbajit Saha)

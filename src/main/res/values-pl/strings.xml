@@ -875,4 +875,7 @@
 	
 	<!--2017-05-21-->
 	<string name="pref_behaviour_self_post_tap_actions_title">Akcja stuknięcia w post tekstowy</string>
+	
+	<!-- 2017-06-05 -->
+	<string name="pref_menus_show_popular_main_menu_title">Pokaż /r/popular w menu głównym</string>
 </resources>

@@ -871,5 +871,8 @@
 	<string name="download_link_message">Tio ĉi estas elŝut-ligilo. Ĉu vi volas malfermi ĝin per ekstera foliumilo?</string>
 	
 	<!--2017-05-21-->
-	<string name="pref_behaviour_self_post_tap_actions_title">Ago je frapeti memafiŝon</string>	
+	<string name="pref_behaviour_self_post_tap_actions_title">Ago je frapeti memafiŝon</string>
+	
+	<!-- 2017-06-05 -->
+	<string name="pref_menus_show_popular_main_menu_title">Montri /r/popular en ĉefmenuo</string>
 </resources>

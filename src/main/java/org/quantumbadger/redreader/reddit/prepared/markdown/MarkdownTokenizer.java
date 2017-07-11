@@ -164,6 +164,8 @@ public final class MarkdownTokenizer {
 							final int linkPrefixEndPos = linkPrefixes[linkStartType].length + linkStartPos;
 							int linkEndPos = linkPrefixEndPos;
 
+							boolean hasOpeningParen = false;
+
 							while(linkEndPos < input.pos) {
 
 								final int lToken = input.data[linkEndPos];
@@ -175,6 +177,10 @@ public final class MarkdownTokenizer {
 												&& lToken != TOKEN_GRAVE
 												&& lToken != TOKEN_BRACKET_SQUARE_OPEN
 												&& lToken != TOKEN_BRACKET_SQUARE_CLOSE;
+
+								if(lToken == '(') {
+									hasOpeningParen = true;
+								}
 
 								if(isValidChar) {
 									linkEndPos++;
@@ -201,7 +207,7 @@ public final class MarkdownTokenizer {
 								linkEndPos--;
 							}
 
-							if(input.data[linkEndPos - 1] == ')') {
+							if(!hasOpeningParen && input.data[linkEndPos - 1] == ')') {
 								linkEndPos--;
 							}
 

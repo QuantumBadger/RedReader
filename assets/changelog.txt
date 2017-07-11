@@ -1,6 +1,7 @@
 80/1.9.9
 Preference to enable video playback controls (thanks to ahomphophone)
 Perform temporary file pruning in the background
+Fix for links ending in parentheses
 Crash fixes
 Translation updates (thanks to verdulo)
 

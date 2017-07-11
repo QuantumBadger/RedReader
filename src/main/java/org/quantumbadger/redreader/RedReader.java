@@ -68,14 +68,13 @@ public class RedReader extends Application {
 
 		final CacheManager cm = CacheManager.getInstance(this);
 
-		cm.pruneTemp();
-
 		new Thread() {
 			@Override
 			public void run() {
 
 				android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
 
+				cm.pruneTemp();
 				cm.pruneCache(); // Hope for the best :)
 			}
 		}.start();

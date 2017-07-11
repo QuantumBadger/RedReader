@@ -1,5 +1,6 @@
 80/1.9.9
 Preference to enable video playback controls (thanks to ahomphophone)
+Perform temporary file pruning in the background
 Translation updates (thanks to verdulo)
 
 79/1.9.8.1

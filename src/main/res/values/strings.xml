@@ -1015,4 +1015,7 @@
 	<string name="pref_behaviour_video_playback_controls_key">pref_behaviour_video_playback_controls</string>
 	<string name="pref_behaviour_video_playback_controls_title">Enable video playback controls</string>
 
+	<!-- 2017-06-05 -->
+	<string name="error_no_suitable_apps_available">No suitable apps available.</string>
+
 </resources>

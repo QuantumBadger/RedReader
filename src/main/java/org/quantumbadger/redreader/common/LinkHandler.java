@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.common;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -313,9 +314,13 @@ public class LinkHandler {
 				break;
 
 			case EXTERNAL:
-				final Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse(uri));
-				activity.startActivity(intent);
+				try {
+					final Intent intent = new Intent(Intent.ACTION_VIEW);
+					intent.setData(Uri.parse(uri));
+					activity.startActivity(intent);
+				} catch(final ActivityNotFoundException e) {
+					General.quickToast(activity, R.string.error_no_suitable_apps_available);
+				}
 				break;
 			case SHARE_IMAGE:
 				((BaseActivity)activity).requestPermissionWithCallback(Manifest.permission.WRITE_EXTERNAL_STORAGE, new ShareImageCallback(activity, uri));

@@ -293,12 +293,14 @@ public class PostListingActivity extends RefreshableActivity
 
 	@Override
 	public void onSidebar() {
-		final Intent intent = new Intent(this, HtmlViewActivity.class);
-		intent.putExtra("html", fragment.getSubreddit().getSidebarHtml(PrefsUtility.isNightMode(this)));
-		intent.putExtra("title", String.format(Locale.US, "%s: %s",
-				getString(R.string.sidebar_activity_title),
-				fragment.getSubreddit().url));
-		startActivityForResult(intent, 1);
+		if(fragment.getSubreddit() != null) {
+			final Intent intent = new Intent(this, HtmlViewActivity.class);
+			intent.putExtra("html", fragment.getSubreddit().getSidebarHtml(PrefsUtility.isNightMode(this)));
+			intent.putExtra("title", String.format(Locale.US, "%s: %s",
+					getString(R.string.sidebar_activity_title),
+					fragment.getSubreddit().url));
+			startActivityForResult(intent, 1);
+		}
 	}
 
 	@Override

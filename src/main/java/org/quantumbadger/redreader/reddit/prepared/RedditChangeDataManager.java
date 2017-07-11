@@ -32,6 +32,7 @@ import org.quantumbadger.redreader.reddit.things.RedditThingWithIdAndType;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
@@ -154,7 +155,7 @@ public final class RedditChangeDataManager {
 		final Set<RedditAccount> users;
 
 		synchronized(INSTANCE_MAP) {
-			users = INSTANCE_MAP.keySet();
+			users = new HashSet<>(INSTANCE_MAP.keySet());
 		}
 
 		for(final RedditAccount user : users) {

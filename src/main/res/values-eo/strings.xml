@@ -21,7 +21,7 @@
     <!-- First Run Dialog -->
 
     <string name="firstrun_login_title">Ensaluti</string>
-    <string name="firstrun_login_message">Vi nuntempe ne estas ensalutinta. Vi povas vidi liston de kontoj per elekti "Kontoj"-n el la menuo.</string>
+    <string name="firstrun_login_message">Vi nuntempe ne estas ensalutinta. Vi povas vidi liston de kontoj per elekti “Kontoj”-n el la menuo.</string>
     <string name="firstrun_login_button_now">Ensaluti nun</string>
     <string name="firstrun_login_button_later">Esti anonima</string>
 
@@ -403,8 +403,8 @@
     <string name="subtitle_to">al</string>
 	<plurals name="subtitle_replies">
 		<item quantity="zero">…</item>
-		<item quantity="one">" (%d respondo)"</item>
-		<item quantity="other">" (%d respondoj)"</item>
+		<item quantity="one">“ (%d respondo)”</item>
+		<item quantity="other">“ (%d respondoj)”</item>
 	</plurals>
 
     <string name="general_unknown">nekonata</string>
@@ -540,7 +540,7 @@
 
     <!-- 2015-01-03 -->
     <string name="webview_https_already">La nuna ligilo jam uzas HTTPS-n.</string>
-    <string name="webview_https_unknownprotocol">Nekonata protokolo, atendis \'http://\'-n</string>
+    <string name="webview_https_unknownprotocol">Nekonata protokolo, atendis ‘http://’-n</string>
     <string name="webview_use_https">Uzi HTTPS-n</string>
 
     <!-- 2015-01-26 -->
@@ -875,4 +875,6 @@
 	
 	<!-- 2017-06-05 -->
 	<string name="pref_menus_show_popular_main_menu_title">Montri /r/popular en ĉefmenuo</string>
+	<string name="pref_behaviour_video_playback_controls_title">Aktivigi filmet-ludadajn stirilojn</string>
+	<string name="error_no_suitable_apps_available">Neniuj taŭgaj aplikaĵoj disponeblaj.</string>
 </resources>

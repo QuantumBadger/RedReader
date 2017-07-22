@@ -878,4 +878,6 @@
 	
 	<!-- 2017-06-05 -->
 	<string name="pref_menus_show_popular_main_menu_title">Pokaż /r/popular w menu głównym</string>
+	<string name="pref_behaviour_video_playback_controls_title">Włącz kontrolki odtwarzania wideo</string>
+	<string name="error_no_suitable_apps_available">Brak odpowiedniej aplikacji.</string>
 </resources>

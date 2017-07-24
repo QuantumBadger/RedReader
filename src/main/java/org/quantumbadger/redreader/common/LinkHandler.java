@@ -52,7 +52,10 @@ public class LinkHandler {
 			youtubeDotComPattern = Pattern.compile("^https?://[\\.\\w]*youtube\\.\\w+/.*"),
 			youtuDotBePattern = Pattern.compile("^https?://[\\.\\w]*youtu\\.be/([A-Za-z0-9\\-_]+)(\\?.*|).*"),
 			vimeoPattern = Pattern.compile("^https?://[\\.\\w]*vimeo\\.\\w+/.*"),
-			googlePlayPattern = Pattern.compile("^https?://[\\.\\w]*play\\.google\\.\\w+/.*");
+			googlePlayPattern = Pattern.compile("^https?://[\\.\\w]*play\\.google\\.\\w+/.*"),
+			vRedditPattern = Pattern.compile("^https?://v\\.reddit\\.com/.*"),
+			vReddDotItPattern = Pattern.compile("^https?://v\\.redd\\.it/.*");
+
 
 	public enum LinkAction {
 		SHARE(R.string.action_share),
@@ -218,10 +221,11 @@ public class LinkHandler {
 				return;
 			}
 		}
-
 		if(youtubeDotComPattern.matcher(url).matches()
 				|| vimeoPattern.matcher(url).matches()
-				|| googlePlayPattern.matcher(url).matches()) {
+				|| googlePlayPattern.matcher(url).matches()
+				|| vRedditPattern.matcher(url).matches()
+				|| vReddDotItPattern.matcher(url).matches()) {
 			if(openWebBrowser(activity, Uri.parse(url), fromExternalIntent)) {
 				return;
 			}

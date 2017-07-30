@@ -391,6 +391,7 @@ public class LinkHandler {
 			gfycatPattern = Pattern.compile(".*[^A-Za-z]gfycat\\.com/(\\w+).*"),
 			streamablePattern = Pattern.compile(".*[^A-Za-z]streamable\\.com/(\\w+).*"),
 			reddituploadsPattern = Pattern.compile(".*[^A-Za-z]i\\.reddituploads\\.com/(\\w+).*"),
+			redditVideosPattern = Pattern.compile(".*[^A-Za-z]v.redd.it/(\\w+).*"),
 			imgflipPattern = Pattern.compile(".*[^A-Za-z]imgflip\\.com/i/(\\w+).*"),
 			makeamemePattern = Pattern.compile(".*[^A-Za-z]makeameme\\.org/meme/([\\w\\-]+).*");
 
@@ -625,44 +626,6 @@ public class LinkHandler {
 			}
 		}
 
-		{
-			final Matcher matchRedditUploads = reddituploadsPattern.matcher(url);
-
-			if(matchRedditUploads.find()) {
-				final String imgId = matchRedditUploads.group(1);
-				if(imgId.length() > 10) {
-					listener.onSuccess(new ImageInfo(url, ImageInfo.MediaType.IMAGE));
-					return;
-				}
-			}
-		}
-
-		{
-			final Matcher matchImgflip = imgflipPattern.matcher(url);
-
-			if(matchImgflip.find()) {
-				final String imgId = matchImgflip.group(1);
-				if(imgId.length() > 3) {
-					final String imageUrl = "https://i.imgflip.com/" + imgId + ".jpg";
-					listener.onSuccess(new ImageInfo(imageUrl, ImageInfo.MediaType.IMAGE));
-					return;
-				}
-			}
-		}
-
-		{
-			final Matcher matchMakeameme = makeamemePattern.matcher(url);
-
-			if(matchMakeameme.find()) {
-				final String imgId = matchMakeameme.group(1);
-				if(imgId.length() > 3) {
-					final String imageUrl = "https://media.makeameme.org/created/" + imgId + ".jpg";
-					listener.onSuccess(new ImageInfo(imageUrl, ImageInfo.MediaType.IMAGE));
-					return;
-				}
-			}
-		}
-
 		final ImageInfo imageUrlPatternMatch = getImageUrlPatternMatch(url);
 
 		if(imageUrlPatternMatch != null) {
@@ -675,6 +638,57 @@ public class LinkHandler {
 	private static ImageInfo getImageUrlPatternMatch(final String url) {
 
 		final String urlLower = General.asciiLowercase(url);
+
+		{
+			final Matcher matchRedditUploads = reddituploadsPattern.matcher(url);
+
+			if(matchRedditUploads.find()) {
+				final String imgId = matchRedditUploads.group(1);
+				if(imgId.length() > 10) {
+					return new ImageInfo(url, ImageInfo.MediaType.IMAGE);
+				}
+			}
+		}
+
+		{
+			final Matcher matchImgflip = imgflipPattern.matcher(url);
+
+			if(matchImgflip.find()) {
+				final String imgId = matchImgflip.group(1);
+				if(imgId.length() > 3) {
+					final String imageUrl = "https://i.imgflip.com/" + imgId + ".jpg";
+					return new ImageInfo(imageUrl, ImageInfo.MediaType.IMAGE);
+				}
+			}
+		}
+
+		{
+			final Matcher matchMakeameme = makeamemePattern.matcher(url);
+
+			if(matchMakeameme.find()) {
+				final String imgId = matchMakeameme.group(1);
+				if(imgId.length() > 3) {
+					final String imageUrl = "https://media.makeameme.org/created/" + imgId + ".jpg";
+					return new ImageInfo(imageUrl, ImageInfo.MediaType.IMAGE);
+				}
+			}
+		}
+
+		{
+			final Matcher match = redditVideosPattern.matcher(url);
+
+			if(match.find()) {
+				final String imgId = match.group(1);
+				if(imgId.length() > 3) {
+
+					// If this stops being valid in future, the reddit JSON provides a "reddit_video" field with a
+					// string value "fallback_url". Note that this would only work with post urls, not comment links.
+
+					final String imageUrl = "https://v.redd.it/" + imgId + "/DASH_2_4_M";
+					return new ImageInfo(imageUrl, ImageInfo.MediaType.IMAGE);
+				}
+			}
+		}
 
 		final String[] imageExtensions = {".jpg", ".jpeg", ".png"};
 

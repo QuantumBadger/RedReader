@@ -1,4 +1,5 @@
 80/1.9.9
+Support for v.redd.it links
 Preference to enable video playback controls (thanks to ahomphophone)
 Perform temporary file pruning in the background
 Fix for links ending in parentheses

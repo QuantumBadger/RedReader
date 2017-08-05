@@ -20,6 +20,8 @@ package org.quantumbadger.redreader.reddit.things;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
+import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 
 public final class RedditPost implements Parcelable, RedditThingWithIdAndType {
 
@@ -36,7 +38,38 @@ public final class RedditPost implements Parcelable, RedditThingWithIdAndType {
 	public String selftext, permalink, link_flair_text, author_flair_text;
 	public String thumbnail; // an image URL
 
+	public JsonBufferedObject media;
+	@Nullable public String rr_internal_dash_url;
+
 	public RedditPost() {}
+
+	@Nullable
+	public String getDashUrl() {
+
+		if(rr_internal_dash_url != null) {
+			return rr_internal_dash_url;
+
+		} else if(media != null) {
+			try {
+				rr_internal_dash_url = media.getObject("reddit_video").getString("fallback_url");
+
+			} catch(final Exception e) {
+				rr_internal_dash_url = null;
+			}
+
+		}
+
+		return rr_internal_dash_url;
+	}
+
+	public String getUrl() {
+
+		if(getDashUrl() != null) {
+			return rr_internal_dash_url;
+		}
+
+		return url;
+	}
 
 	// one of the many reasons why the Android API is awful
 	private RedditPost(final Parcel in) {
@@ -92,6 +125,8 @@ public final class RedditPost implements Parcelable, RedditThingWithIdAndType {
 				spoiler = true;
 				break;
 		}
+
+		rr_internal_dash_url = in.readString();
 	}
 
 	public int describeContents() {
@@ -145,6 +180,9 @@ public final class RedditPost implements Parcelable, RedditThingWithIdAndType {
 		} else {
 			parcel.writeInt(spoiler ? 1 : -1);
 		}
+
+		getDashUrl();
+		parcel.writeString(rr_internal_dash_url);
 	}
 
 	public static final Parcelable.Creator<RedditPost> CREATOR = new Parcelable.Creator<RedditPost>() {

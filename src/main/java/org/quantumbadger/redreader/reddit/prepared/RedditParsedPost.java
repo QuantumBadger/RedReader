@@ -45,7 +45,7 @@ public class RedditParsedPost implements RedditThingWithIdAndType {
 			mTitle = StringEscapeUtils.unescapeHtml4(src.title.replace('\n', ' ')).trim();
 		}
 
-		mUrl = StringEscapeUtils.unescapeHtml4(src.url);
+		mUrl = StringEscapeUtils.unescapeHtml4(src.getUrl());
 		mPermalink = StringEscapeUtils.unescapeHtml4(src.permalink);
 
 		if(parseSelfText && src.is_self && src.selftext != null && src.selftext.trim().length() > 0) {

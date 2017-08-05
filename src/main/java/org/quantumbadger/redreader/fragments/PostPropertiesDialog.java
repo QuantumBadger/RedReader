@@ -51,7 +51,7 @@ public final class PostPropertiesDialog extends PropertiesDialog {
 
 		items.addView(propView(context, R.string.props_title, StringEscapeUtils.unescapeHtml4(post.title.trim()), true));
 		items.addView(propView(context, R.string.props_author, post.author, false));
-		items.addView(propView(context, R.string.props_url, StringEscapeUtils.unescapeHtml4(post.url), false));
+		items.addView(propView(context, R.string.props_url, StringEscapeUtils.unescapeHtml4(post.getUrl()), false));
 		items.addView(propView(context, R.string.props_created, RRTime.formatDateTime(post.created_utc * 1000, context), false));
 
 		if(post.edited instanceof Long) {

@@ -738,7 +738,7 @@ public class PostListingFragment extends RRFragment
 								// Don't precache huge images
 								if(info.size != null && info.size > 15 * 1024 * 1024) {
 									Log.i(TAG, String.format(
-											"Not precaching '%s': too big (%d kB)", post.url, info.size / 1024));
+											"Not precaching '%s': too big (%d kB)", post.getUrl(), info.size / 1024));
 									return;
 								}
 
@@ -747,7 +747,7 @@ public class PostListingFragment extends RRFragment
 										&& !gifViewMode.downloadInApp) {
 
 									Log.i(TAG, String.format(
-											"Not precaching '%s': GIFs are opened externally", post.url));
+											"Not precaching '%s': GIFs are opened externally", post.getUrl()));
 									return;
 								}
 
@@ -756,7 +756,7 @@ public class PostListingFragment extends RRFragment
 										&& !imageViewMode.downloadInApp) {
 
 									Log.i(TAG, String.format(
-											"Not precaching '%s': images are opened externally", post.url));
+											"Not precaching '%s': images are opened externally", post.getUrl()));
 									return;
 								}
 
@@ -766,14 +766,14 @@ public class PostListingFragment extends RRFragment
 										&& !videoViewMode.downloadInApp) {
 
 									Log.i(TAG, String.format(
-											"Not precaching '%s': videos are opened externally", post.url));
+											"Not precaching '%s': videos are opened externally", post.getUrl()));
 									return;
 								}
 
 								final URI uri = General.uriFromString(info.urlOriginal);
 								if(uri == null) {
 									Log.i(TAG, String.format(
-											"Not precaching '%s': failed to parse URL", post.url));
+											"Not precaching '%s': failed to parse URL", post.getUrl()));
 									return;
 								}
 

@@ -681,10 +681,11 @@ public class LinkHandler {
 				final String imgId = match.group(1);
 				if(imgId.length() > 3) {
 
-					// If this stops being valid in future, the reddit JSON provides a "reddit_video" field with a
-					// string value "fallback_url". Note that this would only work with post urls, not comment links.
+					if(url.contains("DASH")) {
+						return new ImageInfo(url, ImageInfo.MediaType.IMAGE);
+					}
 
-					final String imageUrl = "https://v.redd.it/" + imgId + "/DASH_2_4_M";
+					final String imageUrl = "https://v.redd.it/" + imgId + "/DASH_600_K";
 					return new ImageInfo(imageUrl, ImageInfo.MediaType.IMAGE);
 				}
 			}

@@ -1,4 +1,4 @@
-80/1.9.8.2
+80/1.9.8.2.1
 Support for v.redd.it links
 Preference to enable video playback controls (thanks to ahomphophone)
 Perform temporary file pruning in the background

@@ -1,3 +1,6 @@
+81/1.9.9
+Fix for some Gfycat links (thanks to Mark Lee)
+
 80/1.9.8.2.1
 Support for v.redd.it links
 Preference to enable video playback controls (thanks to ahomphophone)

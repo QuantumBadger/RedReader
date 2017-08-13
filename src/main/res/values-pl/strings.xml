@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!--
   ~ This file is part of RedReader.
   ~
@@ -15,7 +15,6 @@
   ~ You should have received a copy of the GNU General Public License
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
   -->
-
 <resources>
 
     <!-- First Run Dialog -->
@@ -259,7 +258,7 @@
     <string name="error_subreddit_required_message">Musisz określić subreddit.</string>
 
     <string name="error_bad_captcha_title">Nieprawidłowa CAPTCHA</string>
-    <string name="error_bad_captcha_message">Wpisana CAPTCHA jest błędna. Prosimy spróbować ponownie</string>
+    <string name="error_bad_captcha_message">Wpisana CAPTCHA jest błędna. Prosimy spróbować ponownie.</string>
 
     <string name="error_404_title">Nie znaleziono (404)</string>
     <string name="error_404_message">Nie można odnaleźć żądanej strony.</string>
@@ -880,4 +879,5 @@
 	<string name="pref_menus_show_popular_main_menu_title">Pokaż /r/popular w menu głównym</string>
 	<string name="pref_behaviour_video_playback_controls_title">Włącz kontrolki odtwarzania wideo</string>
 	<string name="error_no_suitable_apps_available">Brak odpowiedniej aplikacji.</string>
-</resources>
+<string name="pref_appearance_comments_show_floating_toolbar_title">Pokaż pływający pasek nad komentarzami</string>
+	</resources>

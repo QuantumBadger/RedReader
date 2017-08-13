@@ -4,6 +4,7 @@ RedReader (for Android)
 An unofficial, open source client for reddit.
 
 ![Build Status](https://travis-ci.org/QuantumBadger/RedReader.svg?branch=master)
+[![Translation status](https://hosted.weblate.org/widgets/redreader/-/svg-badge.svg)](https://hosted.weblate.org/engage/redreader/?utm_source=widget)
 
 Features
 --------
@@ -41,6 +42,15 @@ https://f-droid.org/app/org.quantumbadger.redreader
 [<img src="https://f-droid.org/badge/get-it-on.png"
       alt="Get it on F-Droid"
       height="80">](https://f-droid.org/app/org.quantumbadger.redreader)
+
+Translating
+-----------
+
+Please help us translate RedReader into new languages, or improve the translations for existing languages!
+
+https://hosted.weblate.org/projects/redreader/strings/
+
+[![Translation status](https://hosted.weblate.org/widgets/redreader/-/svg-badge.svg)](https://hosted.weblate.org/engage/redreader/?utm_source=widget)
 
 
 Building

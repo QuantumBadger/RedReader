@@ -124,9 +124,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activities.CaptchaActivity"
-                  android:configChanges="orientation|screenSize|keyboardHidden"/>
-
         <activity android:name=".activities.BugReportActivity"
                   android:configChanges="orientation|screenSize|keyboardHidden"
                   android:launchMode="singleInstance"/>

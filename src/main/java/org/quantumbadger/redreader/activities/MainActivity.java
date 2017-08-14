@@ -120,6 +120,17 @@ public class MainActivity extends RefreshableActivity
 
 		super.onCreate(savedInstanceState);
 
+		if(!isTaskRoot()
+				&& getIntent().hasCategory(Intent.CATEGORY_LAUNCHER)
+				&& getIntent().getAction() != null
+				&& getIntent().getAction().equals(Intent.ACTION_MAIN)) {
+
+			// Workaround for issue where a new MainActivity is created despite the app already running
+
+			finish();
+			return;
+		}
+
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		if (savedInstanceState == null) {
 			if(PrefsUtility.pref_behaviour_skiptofrontpage(this, sharedPreferences))

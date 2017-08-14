@@ -1,5 +1,6 @@
 81/1.9.9
 Fix for some Gfycat links (thanks to Mark Lee)
+Workaround for app state sometimes being lost when launching from homescreen
 
 80/1.9.8.2.1
 Support for v.redd.it links

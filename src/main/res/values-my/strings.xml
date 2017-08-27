@@ -24,4 +24,18 @@
 
     <string name="pref_appearance_thumbnails_show_title">ပုံစံငယ် များကို ပြပါ</string>
 
+    <string name="pref_behaviour_notifications_title">အသိပေးချက်များ</string>
+
+    <string name="pref_behaviour_actions_post_header">ပိုစ့် လုပ်ဆောင်ချက်များ</string>
+    <string name="pref_behaviour_actions_comment_header">ကွန်းမန့်လုပ်ဆောင်ချက်များ</string>
+    <string name="pref_behaviour_posts_header">ပို့စ်များ</string>
+
+    <string name="pref_cache_precache_images_wifionly_title">ဝိုင်ဖိုင် ဖြင့်သာ</string>
+
+    <string name="options_accounts">အကောင့်</string>
+    <string name="options_accounts_long">Reddit အကောင့်</string>
+    <string name="options_settings">ဆက်တင်</string>
+
+    <string name="options_submit_post">ပို့စ် တင်မည်</string>
+
     </resources>

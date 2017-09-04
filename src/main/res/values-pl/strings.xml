@@ -880,4 +880,6 @@
 	<string name="pref_behaviour_video_playback_controls_title">Włącz kontrolki odtwarzania wideo</string>
 	<string name="error_no_suitable_apps_available">Brak odpowiedniej aplikacji.</string>
 <string name="pref_appearance_comments_show_floating_toolbar_title">Pokaż pływający pasek nad komentarzami</string>
+	<string name="pref_menus_show_popular_main_menu_key">pref_menus_show_popular_main_menu</string>
+	<string name="pref_behaviour_video_playback_controls_key">pref_behaviour_video_playback_controls</string>
 	</resources>

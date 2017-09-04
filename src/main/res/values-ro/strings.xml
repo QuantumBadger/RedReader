@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!--
   ~ This file is part of RedReader.
   ~
@@ -15,7 +15,6 @@
   ~ You should have received a copy of the GNU General Public License
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
   -->
-
 <resources>
 
     <!-- First Run Dialog -->
@@ -836,5 +835,46 @@
 
 	<!-- 2016-10-08 -->
 	<string name="time_every_time">Mereu</string>
+
+<string name="theme_name_night_lowcontrast">Noapte (contrast scăzut)</string>
+	<string name="theme_name_ultrablack">Ultra Întunecat</string>
+
+	<string name="send_replies_to_inbox">Trimite răspunsurile către inbox-ul meu</string>
+
+	<string name="action_share_image">Distribuie imaginea</string>
+
+	<string name="error_403_title_nonreddit">Permisiune refuzată</string>
+	<string name="error_403_message_nonreddit">Server-ul a răspuns cu o eroare de permisiune refuzată.</string>
+
+	<string name="submit_pmreply_actionbar">Răspunde</string>
+	<string name="pm_reply_done">Răspuns trimis.</string>
+
+	<string name="mainmenu_popular">Subreddituri populare</string>
+
+	<string name="action_back">Înapoi</string>
+
+	<string name="mainmenu_toast_not_subscribed">Nu ești abonat la acest subreddit încă!</string>
+	<string name="mainmenu_toast_subscribed">Ești deja abonat la acest subreddit!</string>
+	<string name="mainmenu_toast_not_pinned">Acest subreddit nu este fixat în meniul principal!</string>
+	<string name="mainmenu_toast_pinned">Acest subreddit este deja fixat în meniul principal!</string>
+	<string name="mainmenu_toast_not_blocked">Acest subreddit nu este blocat!</string>
+	<string name="mainmenu_toast_blocked">Acest subreddit este deja blocat!</string>
+	<string name="edit_post_actionbar">Editează postarea</string>
+	<string name="post_edit_done">Postare editată. Schimbările vor apărea după reîmprospătare.</string>
+	<string name="action_block_subreddit">Blochează subreddit</string>
+	<string name="action_unblock_subreddit">Deblochează subreddit</string>
+	<string name="action_pin_subreddit">Fixează subredditul în meniul principal</string>
+	<string name="action_unpin_subreddit">Anulează fixarea subredditului la meniul principal</string>
+	<string name="action_subscribe_subreddit">Abonează-te la subreddit</string>
+	<string name="action_unsubscribe_subreddit">Dezabonează-te de la subreddit</string>
+
+	<string name="pref_appearance_comments_show_floating_toolbar_title">Arată bara plutitoare deasupra comentariilor</string>
+	<string name="download_link_title">Descarcă fișier</string>
+	<string name="download_link_message">Acesta este un link de descărcare. Dorești să îl deschizi într-un browser extern?</string>
+
+	<string name="pref_menus_show_popular_main_menu_title">Afișează /r/popular în meniul principal</string>
+	<string name="pref_behaviour_video_playback_controls_title">Activează controlul pentru video</string>
+
+	<string name="error_no_suitable_apps_available">Nu s-au găsit aplicații potrivite.</string>
 
 </resources>

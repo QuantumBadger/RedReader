@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!--
   ~ This file is part of RedReader.
   ~
@@ -15,7 +15,6 @@
   ~ You should have received a copy of the GNU General Public License
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
   -->
-
 <resources>
 
     <!-- First Run Dialog -->
@@ -845,4 +844,9 @@
 	<!-- 2016-12-11 -->
 	<string name="action_share_image">Afbeelding delen</string>
 
-</resources>
+<string name="submit_pmreply_actionbar">Beantwoord</string>
+	<string name="pm_reply_done">Antwoord verstuurd.</string>
+
+	<string name="action_back">Terug</string>
+
+	</resources>

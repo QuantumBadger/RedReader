@@ -1010,9 +1010,9 @@
 	<!-- 2017-06-05 -->
 	<string name="lang_in" translatable="false">Bahasa Indonesia</string>
 
-	<string name="pref_menus_show_popular_main_menu_key">pref_menus_show_popular_main_menu</string>
+	<string name="pref_menus_show_popular_main_menu_key" translatable="false">pref_menus_show_popular_main_menu</string>
 	<string name="pref_menus_show_popular_main_menu_title">Show /r/popular in main menu</string>
-	<string name="pref_behaviour_video_playback_controls_key">pref_behaviour_video_playback_controls</string>
+	<string name="pref_behaviour_video_playback_controls_key" translatable="false">pref_behaviour_video_playback_controls</string>
 	<string name="pref_behaviour_video_playback_controls_title">Enable video playback controls</string>
 
 	<!-- 2017-06-05 -->

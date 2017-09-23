@@ -558,7 +558,7 @@ public class CommentListingFragment extends RRFragment
 
 		mCommentListingManager.addComments(items);
 
-		if(mFloatingToolbar != null) {
+		if(mFloatingToolbar != null && mFloatingToolbar.getVisibility() != View.VISIBLE) {
 			mFloatingToolbar.setVisibility(View.VISIBLE);
 			final Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.slide_in_from_bottom);
 			animation.setInterpolator(new OvershootInterpolator());

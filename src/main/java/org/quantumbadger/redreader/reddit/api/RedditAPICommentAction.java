@@ -21,6 +21,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.ClipboardManager;
 import android.widget.Toast;
@@ -35,6 +36,7 @@ import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
@@ -285,12 +287,17 @@ public class RedditAPICommentAction {
 				final Intent mailer = new Intent(Intent.ACTION_SEND);
 				mailer.setType("text/plain");
 				mailer.putExtra(Intent.EXTRA_SUBJECT, "Comment by " + comment.author + " on Reddit");
+				String body = "";
 
-				// TODO this currently just dumps the markdown
-				mailer.putExtra(Intent.EXTRA_TEXT,
-						StringEscapeUtils.unescapeHtml4(comment.body)
-								+ "\r\n\r\n"
-								+ comment.getContextUrl().generateNonJsonUri().toString());
+				// TODO this currently just dumps the markdown (only if sharing text is enabled)
+				if (PrefsUtility.pref_behaviour_comment_share_text(activity,
+						PreferenceManager.getDefaultSharedPreferences(activity))) {
+					body = StringEscapeUtils.unescapeHtml4(comment.body)
+							+ "\r\n\r\n";
+				}
+
+				body += comment.getContextUrl().generateNonJsonUri().toString();
+				mailer.putExtra(Intent.EXTRA_TEXT, body);
 
 				activity.startActivityForResult(Intent.createChooser(mailer, activity.getString(R.string.action_share)), 1);
 

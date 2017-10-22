@@ -1018,4 +1018,7 @@
 	<!-- 2017-06-05 -->
 	<string name="error_no_suitable_apps_available">No suitable apps available.</string>
 
+	<!-- 2017-10-22 -->
+	<string name="pref_behaviour_comment_share_text_key" translatable="false">pref_behaviour_comment_share_text</string>
+	<string name="pref_behaviour_comment_share_text_title">Include text when sharing comment</string>
 </resources>

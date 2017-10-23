@@ -21,18 +21,24 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent">
 
-    <org.quantumbadger.redreader.views.WebViewFixed android:id="@+id/web_view_fragment_webviewfixed"
+    <org.quantumbadger.redreader.views.webview.WebViewFixed
+			android:id="@+id/web_view_fragment_webviewfixed"
                                                     android:layout_width="match_parent"
                                                     android:layout_height="match_parent"/>
 
     <RelativeLayout android:layout_height="match_parent"
                     android:layout_width="match_parent">
-
+		<!-- regularly used, hidden when fullscreen videos are being viewed-->
         <FrameLayout android:id="@+id/web_view_fragment_loadingview_frame"
                      android:layout_width="match_parent"
                      android:layout_height="wrap_content"
                      android:layout_alignParentBottom="true"/>
 
-    </RelativeLayout>
+		<!-- used for fullscreen videos, initially hidden-->
+		<FrameLayout android:id="@+id/web_view_fragment_fullscreen_frame"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:layout_alignParentBottom="true"/>
 
+    </RelativeLayout>
 </FrameLayout>

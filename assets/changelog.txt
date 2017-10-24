@@ -1,8 +1,10 @@
-81/1.9.9
+82/1.9.8.3
 Fix for some Gfycat links (thanks to Mark Lee)
 Workaround for app state sometimes being lost when launching from homescreen
+Fix for floating toolbar repeatedly bouncing (thanks to ajgoda90)
+Spanish typo fix (thanks to badcrc)
 
-80/1.9.8.2.1
+81/1.9.8.2.1
 Support for v.redd.it links
 Preference to enable video playback controls (thanks to ahomphophone)
 Perform temporary file pruning in the background

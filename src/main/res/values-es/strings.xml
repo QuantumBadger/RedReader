@@ -363,7 +363,7 @@
 
     <!-- Notifications -->
 
-    <string name="notification_comment">%s respondió a tu comentariot</string>
+    <string name="notification_comment">%s respondió a tu comentario</string>
     <string name="notification_message">%s le envió un mensaje</string>
     <string name="notification_message_multiple">Nuevos mensajes en Reddit</string>
     <string name="notification_message_action">Toque para ver</string>

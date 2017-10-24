@@ -478,7 +478,9 @@ public class CommentListingFragment extends RRFragment
 					this.mPost);
 
 			mCommentListingManager.addPostHeader(postHeader);
-			((LinearLayoutManager)mRecyclerView.getLayoutManager()).scrollToPositionWithOffset(0, 0);
+
+			final LinearLayoutManager layoutManager = (LinearLayoutManager)mRecyclerView.getLayoutManager();
+			layoutManager.scrollToPositionWithOffset(0, 0);
 
 			if(post.src.getSelfText() != null) {
 				final ViewGroup selfText = post.src.getSelfText().buildView(
@@ -507,8 +509,8 @@ public class CommentListingFragment extends RRFragment
 							} else {
 								selfText.setVisibility(View.GONE);
 								collapsedView.setVisibility(View.VISIBLE);
+								layoutManager.scrollToPositionWithOffset(0, 0);
 							}
-
 						}
 					});
 				}

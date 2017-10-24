@@ -1,2 +1,43 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<?xml version='1.0' encoding='UTF-8'?>
+<resources><string name="firstrun_login_title">Увійти</string>
+    <string name="firstrun_login_message">Ви не увійшли в систему. Ви можете відкрити перелік облікових записів, обравши \"Облікові записи\" в меню</string>
+    <string name="firstrun_login_button_now">Увійти</string>
+    <string name="firstrun_login_button_later">Бути анонімним</string>
+
+    <string name="prefs_category_appearance">Зовнішній вигляд</string>
+    <string name="prefs_category_behaviour">Поведінка</string>
+    <string name="prefs_category_cache">Кеш</string>
+    <string name="prefs_category_menus">Меню</string>
+
+    <string name="pref_appearance_theme_header">Тема</string>
+    <string name="pref_appearance_font_header">Шрифт</string>
+    <string name="pref_appearance_thumbnails_header">Мініатюри</string>
+    <string name="pref_appearance_tabletmode_header">Режим планшета</string>
+    <string name="pref_appearance_comments_header">Коментарі</string>
+    <string name="pref_appearance_other_header">Інше</string>
+
+    <string name="pref_appearance_twopane_title">Режим планшета (дві панелі)</string>
+
+    <string name="pref_appearance_theme_title">Тема</string>
+
+    <string name="pref_appearance_fontscale_posts_title">Розмір шрифту в публікаціях</string>
+
+    <string name="pref_appearance_fontscale_comments_title">Розмір шрифту в коментарях</string>
+
+    <string name="pref_appearance_thumbnails_show_title">Показувати мініатюри</string>
+
+    <string name="pref_appearance_thumbnails_nsfw_show_title">Показувати NSFW мініатюри</string>
+
+    <string name="pref_appearance_thumbnails_wifionly_title">Мініатюри лише по Wi-Fi</string>
+
+    <string name="pref_appearance_loading_detail_title">Показувати детальну інформацію при завантаженні</string>
+
+    <string name="pref_appearance_comment_header_items_title">Заголовок коментаря</string>
+
+    <string name="pref_behaviour_notifications_title">Сповіщення</string>
+
+    <string name="pref_behaviour_actions_post_header">Дії публікації</string>
+    <string name="pref_behaviour_actions_comment_header">Дії коментаря</string>
+    <string name="pref_behaviour_posts_header">Публікації</string>
+
+    </resources>

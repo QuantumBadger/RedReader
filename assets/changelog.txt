@@ -1,3 +1,7 @@
+83/1.9.8.4
+Preference to exclude text when sharing comment (thanks to Clubfan22)
+Scroll to top when collapsing self post (thanks to ajgoda90)
+
 82/1.9.8.3
 Fix for some Gfycat links (thanks to Mark Lee)
 Workaround for app state sometimes being lost when launching from homescreen

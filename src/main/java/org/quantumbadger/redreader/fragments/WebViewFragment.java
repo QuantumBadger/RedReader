@@ -22,16 +22,17 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.DownloadListener;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -44,12 +45,14 @@ import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.reddit.prepared.RedditParsedPost;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 import org.quantumbadger.redreader.views.RedditPostView;
-import org.quantumbadger.redreader.views.WebViewFixed;
+import org.quantumbadger.redreader.views.webview.VideoEnabledWebChromeClient;
+import org.quantumbadger.redreader.views.webview.WebViewFixed;
 import org.quantumbadger.redreader.views.bezelmenu.BezelSwipeOverlay;
 import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
 
@@ -133,6 +136,67 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 		webView = (WebViewFixed) outer.findViewById(R.id.web_view_fragment_webviewfixed);
 		final FrameLayout loadingViewFrame = (FrameLayout) outer.findViewById(R.id.web_view_fragment_loadingview_frame);
 
+		progressView = new ProgressBar(mActivity, null, android.R.attr.progressBarStyleHorizontal);
+		loadingViewFrame.addView(progressView);
+		loadingViewFrame.setPadding(General.dpToPixels(mActivity, 10), 0, General.dpToPixels(mActivity, 10), 0);
+		final FrameLayout fullscreenViewFrame = (FrameLayout) outer.findViewById(R.id.web_view_fragment_fullscreen_frame);
+
+		VideoEnabledWebChromeClient chromeClient = new VideoEnabledWebChromeClient(loadingViewFrame, fullscreenViewFrame) {
+			@Override
+			public void onProgressChanged(WebView view, final int newProgress) {
+
+				super.onProgressChanged(view, newProgress);
+
+				AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
+					@Override
+					public void run() {
+						progressView.setProgress(newProgress);
+						progressView.setVisibility(newProgress == 100 ? View.GONE : View.VISIBLE);
+					}
+				});
+			}
+		};
+
+		chromeClient.setOnToggledFullscreen(new VideoEnabledWebChromeClient.ToggledFullscreenCallback()
+		{
+			@Override
+			public void toggledFullscreen(boolean fullscreen)
+			{
+				// Your code to handle the full-screen change, for example showing and hiding the title bar. Example:
+				if (fullscreen)
+				{
+					WindowManager.LayoutParams attrs = getActivity().getWindow().getAttributes();
+					attrs.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
+					attrs.flags |= WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
+					getActivity().getWindow().setAttributes(attrs);
+					((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+					if (android.os.Build.VERSION.SDK_INT >= 14)
+					{
+						//noinspection all
+						getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+					}
+				}
+				else
+				{
+					WindowManager.LayoutParams attrs = getActivity().getWindow().getAttributes();
+					//only re-enable status bar if there is no contradicting preference set
+					if (!PrefsUtility.pref_appearance_hide_android_status(getContext(),
+							PreferenceManager.getDefaultSharedPreferences(getContext()))) {
+						attrs.flags &= ~WindowManager.LayoutParams.FLAG_FULLSCREEN;
+					}
+					attrs.flags &= ~WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
+					getActivity().getWindow().setAttributes(attrs);
+					((AppCompatActivity) getActivity()).getSupportActionBar().show();
+					if (android.os.Build.VERSION.SDK_INT >= 14)
+					{
+						//noinspection all
+						getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+					}
+				}
+
+			}
+		});
+
 		/*handle download links show an alert box to load this outside the internal browser*/
 		webView.setDownloadListener(new DownloadListener() {
 			@Override
@@ -161,9 +225,6 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 		});
 		/*handle download links end*/
 
-		progressView = new ProgressBar(mActivity, null, android.R.attr.progressBarStyleHorizontal);
-		loadingViewFrame.addView(progressView);
-		loadingViewFrame.setPadding(General.dpToPixels(mActivity, 10), 0, General.dpToPixels(mActivity, 10), 0);
 
 		final WebSettings settings = webView.getSettings();
 
@@ -177,21 +238,7 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 
 		// TODO handle long clicks
 
-		webView.setWebChromeClient(new WebChromeClient() {
-			@Override
-			public void onProgressChanged(WebView view, final int newProgress) {
-
-				super.onProgressChanged(view, newProgress);
-
-				AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-					@Override
-					public void run() {
-						progressView.setProgress(newProgress);
-						progressView.setVisibility(newProgress == 100 ? View.GONE : View.VISIBLE);
-					}
-				});
-			}
-		});
+		webView.setWebChromeClient(chromeClient);
 
 
 		if (mUrl != null) {

@@ -64,7 +64,6 @@ public class WebViewFixed extends WebView {
 		@android.webkit.JavascriptInterface @SuppressWarnings("unused")
 		public void notifyVideoEnd() // Must match Javascript interface method of VideoEnabledWebChromeClient
 		{
-			Log.d("___", "GOT IT");
 			// This code is not executed in the UI thread, so we must force that to happen
 			new Handler(Looper.getMainLooper()).post(new Runnable()
 			{

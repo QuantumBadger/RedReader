@@ -762,4 +762,5 @@ Thanks to /u/balducien and /u/andiho for this translation!
 	<string name="action_block_subreddit">Subreddit blockieren</string>
 	<string name="collapsed_self_post">Text minimiert</string>
 	<string name="pref_behaviour_self_post_tap_actions_title">Auf Self-Post tippen</string>
+	<string name="pref_behaviour_comment_share_text_title">Text des Kommentars teilen</string>
 </resources>

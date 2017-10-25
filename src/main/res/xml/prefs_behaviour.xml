@@ -151,6 +151,10 @@
 						android:entryValues="@array/pref_behaviour_fling_comment_actions_return"
 						android:defaultValue="upvote"/>
 
+		<CheckBoxPreference android:title="@string/pref_behaviour_comment_share_text_title"
+				android:key="@string/pref_behaviour_comment_share_text_key"
+				android:defaultValue="true"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_behaviour_posts_header">

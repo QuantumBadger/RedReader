@@ -145,7 +145,7 @@ public class RedditRenderableComment implements RedditRenderableInboxItem, Reddi
 			}
 
 			sb.append(
-					" " + flair + " ",
+					" " + flair + "\u200E ",
 					BetterSSB.FOREGROUND_COLOR | BetterSSB.BACKGROUND_COLOR,
 					theme.rrFlairTextCol,
 					theme.rrFlairBackCol,

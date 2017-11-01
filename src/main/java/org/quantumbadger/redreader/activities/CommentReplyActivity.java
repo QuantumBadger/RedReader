@@ -24,12 +24,16 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -53,6 +57,9 @@ public class CommentReplyActivity extends BaseActivity {
 
 	private Spinner usernameSpinner;
 	private EditText textEdit;
+	private CheckBox inboxReplies;
+
+	private boolean sendRepliesToInbox = true;
 
 	private String parentIdAndType = null;
 
@@ -91,7 +98,12 @@ public class CommentReplyActivity extends BaseActivity {
 		final LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.comment_reply, null);
 
 		usernameSpinner = (Spinner)layout.findViewById(R.id.comment_reply_username);
+		inboxReplies = (CheckBox)layout.findViewById(R.id.comment_reply_inbox);
 		textEdit = (EditText)layout.findViewById(R.id.comment_reply_text);
+
+		if (mParentType == ParentType.COMMENT_OR_POST){
+			inboxReplies.setVisibility(View.VISIBLE);
+		}
 
 		if(intent != null && intent.hasExtra(PARENT_ID_AND_TYPE_KEY)) {
 			parentIdAndType = intent.getStringExtra(PARENT_ID_AND_TYPE_KEY);
@@ -250,6 +262,28 @@ public class CommentReplyActivity extends BaseActivity {
 				}
 			};
 
+			final APIResponseHandler.ActionResponseHandler inboxHandler = new APIResponseHandler.ActionResponseHandler(this) {
+				@Override
+				protected void onSuccess() {
+					// Do nothing (result expected)
+				}
+
+				@Override
+				protected void onCallbackException(Throwable t) {
+					BugReportActivity.handleGlobalError(CommentReplyActivity.this, t);
+				}
+
+				@Override
+				protected void onFailure(@CacheRequest.RequestFailureType int type, Throwable t, Integer status, String readableMessage) {
+					Toast.makeText(context, getString(R.string.disable_replies_to_infobox_failed), Toast.LENGTH_SHORT).show();
+				}
+
+				@Override
+				protected void onFailure(final APIFailureType type) {
+					Toast.makeText(context, getString(R.string.disable_replies_to_infobox_failed), Toast.LENGTH_SHORT).show();
+				}
+			};
+
 			final CacheManager cm = CacheManager.getInstance(this);
 
 			final ArrayList<RedditAccount> accounts = RedditAccountManager.getInstance(this).getAccounts();
@@ -261,8 +295,12 @@ public class CommentReplyActivity extends BaseActivity {
 					break;
 				}
 			}
-
-			RedditAPI.comment(cm, handler, selectedAccount, parentIdAndType, textEdit.getText().toString(), this);
+			if (mParentType == ParentType.COMMENT_OR_POST) {
+				sendRepliesToInbox = inboxReplies.isChecked();
+			} else {
+				sendRepliesToInbox = true;
+			}
+			RedditAPI.comment(cm, handler, inboxHandler, selectedAccount, parentIdAndType, textEdit.getText().toString(), sendRepliesToInbox, this);
 
 			progressDialog.show();
 

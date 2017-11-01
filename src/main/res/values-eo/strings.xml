@@ -666,7 +666,7 @@
 
     <!-- 2016-04-03 -->
     <string name="error_tor_not_installed">Tor ne funkcios antaŭ Orbot estos instalita. Ĉu instali ĝin nun?</string>
-    <string name="error_tor_setting_failed">Fiaskis agordi prokurilon.</string>
+    <string name="error_tor_setting_failed">Fiaskis agordi retperanton.</string>
 
     <!-- 2016-04-10 -->
     <string name="error_parse_imgur_title">Analiz-eraro</string>

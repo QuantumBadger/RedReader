@@ -18,29 +18,40 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical">
 
-    <Spinner android:id="@+id/comment_reply_username"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:layout_margin="10dp"/>
+	<Spinner
+			android:id="@+id/comment_reply_username"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_margin="10dp" />
 
-    <EditText android:id="@+id/comment_reply_text"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_margin="10dp"
-              android:singleLine="false"
-              android:scrollHorizontally="false"
-              android:scrollbars="none"
-              android:inputType="textCapSentences|textMultiLine"/>
+	<CheckBox
+			android:id="@+id/comment_reply_inbox"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_margin="10dp"
+			android:checked="true"
+			android:visibility="gone"
+			android:text="@string/send_replies_to_inbox" />
+
+	<EditText
+			android:id="@+id/comment_reply_text"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_margin="10dp"
+			android:inputType="textCapSentences|textMultiLine"
+			android:scrollHorizontally="false"
+			android:scrollbars="none"
+			android:singleLine="false" />
 
 	<TextView
 			android:id="@+id/comment_parent_text"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_margin="10dp"
-			android:textIsSelectable="true"/>
+			android:textIsSelectable="true" />
 
 </LinearLayout>

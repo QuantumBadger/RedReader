@@ -1021,4 +1021,7 @@
 	<!-- 2017-10-22 -->
 	<string name="pref_behaviour_comment_share_text_key" translatable="false">pref_behaviour_comment_share_text</string>
 	<string name="pref_behaviour_comment_share_text_title">Include text when sharing comment</string>
+
+	<!-- 2017-11-01 -->
+	<string name="disable_replies_to_infobox_failed">Disabling replies to inbox failed</string>
 </resources>

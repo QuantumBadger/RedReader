@@ -1,4 +1,5 @@
 83/1.9.8.4
+Ability to disable inbox replies when commenting (thanks to Clubfan22)
 Fix for fullscreen video in internal browser (thanks to Clubfan22)
 Preference to exclude text when sharing comment (thanks to Clubfan22)
 Scroll to top when collapsing self post (thanks to ajgoda90)

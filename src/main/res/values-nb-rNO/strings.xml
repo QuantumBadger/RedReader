@@ -1,2 +1,54 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<?xml version='1.0' encoding='UTF-8'?>
+<resources><string name="firstrun_login_title">Logg inn</string>
+    <string name="firstrun_login_message">Du er for tiden ikke innlogget. Du har tilgang til kontolisten ved å velge \"Kontoer\" fra menyen.</string>
+    <string name="firstrun_login_button_now">Logg inn nå</string>
+    <string name="firstrun_login_button_later">Forbli anonym</string>
+
+    <string name="prefs_category_appearance">Utseende</string>
+    <string name="prefs_category_behaviour">Oppførsel</string>
+    <string name="prefs_category_menus">Menyer</string>
+
+    <string name="pref_appearance_theme_header">Drakt</string>
+    <string name="pref_appearance_font_header">Skrift</string>
+    <string name="pref_appearance_thumbnails_header">Miniatyrbilder</string>
+    <string name="pref_appearance_tabletmode_header">Brettmodus</string>
+    <string name="pref_appearance_comments_header">Kommentarer</string>
+    <string name="pref_appearance_other_header">Annet</string>
+
+    <string name="pref_appearance_theme_title">Drakt</string>
+
+    <string name="pref_appearance_solidblack_title">Helsvart i nattmodus</string>
+
+    <string name="pref_appearance_fontscale_posts_title">Skriftstørrelse for innlegg</string>
+
+    <string name="pref_appearance_fontscale_comments_title">Skriftstørrelse for kommentarer</string>
+
+    <string name="pref_appearance_thumbnails_show_title">Vis miniatyrbilder</string>
+
+    <string name="pref_appearance_thumbnails_wifionly_title">Miniatyrbilder kun på Wi-Fi</string>
+
+    <string name="pref_appearance_loading_detail_title">Vis detaljerte innlastingsmeldinger</string>
+
+    <string name="pref_appearance_comment_header_items_title">Kommentarhode</string>
+
+    <string name="pref_behaviour_notifications_title">Merknader</string>
+
+    <string name="pref_behaviour_actions_post_header">Innleggshandlinger</string>
+    <string name="pref_behaviour_actions_comment_header">Kommentarhandlinger</string>
+    <string name="pref_behaviour_posts_header">Innlegg</string>
+
+    <string name="pref_cache_precache_images_wifionly_title">Kun på Wi-Fi</string>
+
+    <string name="options_accounts">Kontoer</string>
+    <string name="options_accounts_long">Reddit-kontoer</string>
+    <string name="options_theme">Drakter</string>
+    <string name="options_settings">Innstillinger</string>
+
+    <string name="options_submit_post">Send inn innlegg</string>
+
+    <string name="options_refresh">Oppdater</string>
+    <string name="options_refresh_posts">Oppdater innlegg</string>
+    <string name="options_refresh_comments">Oppdater kommentarer</string>
+
+    <string name="options_past">Tidligere versjoner</string>
+    </resources>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!--
   ~ This file is part of RedReader.
   ~
@@ -15,11 +15,9 @@
   ~ You should have received a copy of the GNU General Public License
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
   -->
-
 <!--
     Thanks to /u/fosterbuster for this translation!
 -->
-
 <!--
     Danish translation. Some english words preserved, since we don't have a proper translation for it, and given the
     userbase a translation would properly just get people confused.
@@ -30,7 +28,6 @@
     Danish = Dansk , Denmark = Danmark , Language = Sprog. Usual acronym is DA (for example: English = EN, german = DE),
     if same context as EN-US it is DA-DK.
 -->
-
 <resources>
 
     <!-- First Run Dialog -->
@@ -51,7 +48,7 @@
 
     <string name="pref_appearance_theme_header">Tema</string>
     <string name="pref_appearance_font_header">Skrifttype</string>
-    <string name="pref_appearance_thumbnails_header">Thumbnails</string>
+    <string name="pref_appearance_thumbnails_header">Miniaturebilleder</string>
     <string name="pref_appearance_tabletmode_header">Tablet Tilstand</string>
     <string name="pref_appearance_comments_header">Kommentarer</string>
     <string name="pref_appearance_other_header">Andet</string>
@@ -140,7 +137,7 @@
 
     <!-- Main Menu -->
 
-    <string name="mainmenu_frontpage">Front Page</string>
+    <string name="mainmenu_frontpage">Forsiden</string>
     <string name="mainmenu_all">Alle Subreddits</string>
     <string name="mainmenu_custom">Brugerdefineret Subreddit</string>
     <string name="mainmenu_custom_invalid_name">Ugyldigt subreddit navn.</string>
@@ -267,7 +264,7 @@
 
     <string name="comment_reply_send">Send</string>
     <string name="comment_edit_save">Gem</string>
-    <string name="comment_reply_preview">Preview</string>
+    <string name="comment_reply_preview">Forhåndsvisning</string>
     <string name="comment_reply_submitting_title">Tilføjer…</string>
     <string name="comment_reply_submitting_message">Et øjeblik…</string>
     <string name="comment_reply_oncancel">Venter på resultater af handling…</string>
@@ -322,7 +319,7 @@
     <string name="error_connection_message">Der var et problem med at forbinde til serveren. Kontrollér din forbindelse og prøv igen.</string>
 
     <string name="error_malformed_url_title">Misdannet URL</string>
-    <string name="error_malformed_url_message">An attempt was made to access an invalid URL.</string>
+    <string name="error_malformed_url_message">Et forsøg blev gjort for at få adgang til en ugyldig WEBADRESSE.</string>
 
     <string name="error_unknown_title">Ukendt Fejl</string>
     <string name="error_unknown_message">En ukendt fejl er opstået. Prøv igen.</string>
@@ -349,7 +346,7 @@
     <string name="userprofile_hasmail">Har Mail</string>
     <string name="userprofile_hasmodmail">Har Mod Mail</string>
     <string name="userprofile_isfriend">Er Ven</string>
-    <string name="userprofile_isgold">Reddit Gold</string>
+    <string name="userprofile_isgold">Reddit Guld</string>
     <string name="userprofile_moderator">Er Moderator</string>
     <string name="userprofile_viewcomments">Vis Kommentarer</string>
     <string name="userprofile_viewposts">Vis Indlæg</string>
@@ -442,7 +439,7 @@
 
     <string name="download_subreddits">Downloader subreddits…</string>
 
-    <string name="subtitle_points">pts</string>
+    <string name="subtitle_points">ptk</string>
     <string name="subtitle_by">af</string>
     <string name="subtitle_to">til</string>
 	<plurals name="subtitle_replies"> 
@@ -460,4 +457,19 @@
 
     <string name="pref_behaviour_commentsort">Standard Kommentar Sortering</string>
 
-</resources>
+<string name="pref_about_version_title">Version</string>
+
+    <string name="prefs_category_about">Om</string>
+
+    <string name="pref_behaviour_sort_header">Sortering</string>
+
+    <string name="pref_appearance_langforce_title">Sprog</string>
+
+    <string name="lang_auto">Automatisk</string>
+    <string name="prefs_category_network">Netværk</string>
+    <string name="pref_network_https_title">Aktiver HTTPS -</string>
+    <string name="web_view_open_browser">Vis i Webbrowser</string>
+
+    <string name="pref_behaviour_useinternalbrowser_title">Brug Intern Browser</string>
+    <string name="pref_appearance_linkbuttons_title">Vis Link Knapper</string>
+    </resources>

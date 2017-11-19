@@ -118,10 +118,10 @@
     <!-- Menu Prefs -->
 
     <string name="pref_menus_post_context_items_key" translatable="false">pref_menus_post_context_items_2</string>
-    <string name="pref_menus_post_context_items_title">Post Context Menu Items</string>
+    <string name="pref_menus_post_context_items_title">Menu Items for Post Context</string>
 
     <string name="pref_menus_post_toolbar_items_key" translatable="false">pref_menus_post_toolbar_items</string>
-    <string name="pref_menus_post_toolbar_items_title">Post Toolbar Items</string>
+    <string name="pref_menus_post_toolbar_items_title">Items in Post Toolbar</string>
 
     <!-- Options Menu -->
 
@@ -138,8 +138,8 @@
     <string name="options_refresh_comments">Refresh Comments</string>
 
     <string name="options_past">Past Versions</string>
-    <string name="options_past_posts">Past Post List Versions</string>
-    <string name="options_past_comments">Past Comment List Versions</string>
+    <string name="options_past_posts">Past Versions of Post List</string>
+    <string name="options_past_comments">Past Versions of Comment List</string>
 
     <string name="options_sort">Sort</string>
     <string name="options_sort_subreddits">Sort Subreddits</string>
@@ -226,8 +226,8 @@
     <string name="action_hide">Hide</string>
     <string name="action_unsave">Unsave</string>
     <string name="action_unhide">Unhide</string>
-    <string name="action_external">View in External Browser</string>
-    <string name="action_external_short">In Browser</string>
+    <string name="action_external">View in External Web Browser</string>
+    <string name="action_external_short">In Web Browser</string>
     <string name="action_actionmenu_short">Actions</string>
     <string name="action_actionmenu">Action Menu</string>
     <string name="action_comment_links">Links in Comment</string>
@@ -290,14 +290,14 @@
     <!-- Bug Reporting -->
 
     <string name="bug_title">An error has occurred.</string>
-    <string name="bug_message">RedReader has encountered an error.\n\nWould you like to send a bug report to the developer? If so, an email will be filled in for you with all the relevant information, and you can inspect the contents before sending.</string>
-    <string name="bug_button_send">Send bug report by email</string>
+    <string name="bug_message">RedReader has encountered an error.\n\nWould you like to send a bug report? An inspectable e-mail will be filled in for you with all the relevant information for you to send.</string>
+    <string name="bug_button_send">Send bug report per e-mail</string>
     <string name="bug_button_ignore">Don\'t send bug report</string>
 
     <!-- General errors -->
 
     <string name="error_403_title">Invalid User</string>
-    <string name="error_403_message">Reddit says the current user does not have permission to do that. Try logging out, and then logging back in (by deleting the account from the accounts list, and then adding it again).</string>
+    <string name="error_403_message">Reddit says the current user does not have permission to do that. Try logging out and in again, (by deleting the account from the accounts list, and then adding it again).</string>
 
     <string name="error_subreddit_required_title">Subreddit Required</string>
     <string name="error_subreddit_required_message">You must specify a subreddit.</string>
@@ -338,10 +338,10 @@
     <!-- Post list specific errors -->
 
     <string name="error_postlist_cache_title">End of Cached Data</string>
-    <string name="error_postlist_cache_message">You are viewing a past version of this content, and no more posts from this session are in the cache. Press refresh to download the latest posts, or select a different past version from the menu.</string>
+    <string name="error_postlist_cache_message">You are viewing a past version of this content, with no more cached posts to show. Press \"Refresh"\ to download the latest posts, or select a different past version from the menu.</string>
 
     <string name="error_postlist_redditdown_title">Reddit is Down</string>
-    <string name="error_postlist_redditdown_message">Reddit is under heavy load at the moment. Press refresh to download the latest posts, or select a different past version from the menu.</string>
+    <string name="error_postlist_redditdown_message">Reddit is under heavy load at the moment. Press \"Refresh"\ to download the latest posts, or select a different past version from the menu.</string>
 
     <!-- Session List -->
 
@@ -393,8 +393,8 @@
 
     <!-- General -->
 
-    <string name="general_true">True</string>
-    <string name="general_false">False</string>
+    <string name="general_true">Yes</string>
+    <string name="general_false">No</string>
 
     <!-- 2013-05-17 Arrays -->
 
@@ -434,10 +434,10 @@
     <string name="pref_appearance_scale_normal">Normal</string>
 
     <string name="error_invalid_password_title">Invalid Password</string>
-    <string name="error_invalid_password_message">Your username or password was incorrect.</string>
+    <string name="error_invalid_password_message">Incorrect username or password.</string>
 
     <string name="error_ratelimit_title">Too many invalid attempts.</string>
-    <string name="error_ratelimit_message">Blocked due to too many invalid login attempts at this IP. Reddit says:</string>
+    <string name="error_ratelimit_message">Blocked due to too many invalid login attempts from this IP. Reddit says:</string>
 
     <string name="general_success">Success</string>
 
@@ -507,11 +507,11 @@
 
     <!-- 2013-07-01 -->
 
-    <string name="web_view_open_browser">View in Browser</string>
+    <string name="web_view_open_browser">View in Web Browser</string>
 
     <!-- 2013-07-26 -->
 
-    <string name="pref_behaviour_useinternalbrowser_title">Use Internal Browser</string>
+    <string name="pref_behaviour_useinternalbrowser_title">Use Internal Web Browser</string>
     <string name="pref_behaviour_useinternalbrowser_key" translatable="false">pref_behaviour_useinternalbrowser</string>
 
     <!-- 2013-07-29 -->
@@ -521,7 +521,7 @@
 
     <!-- 2013-08-04 -->
 
-    <string name="pref_appearance_indentlines_title">Show indent lines</string>
+    <string name="pref_appearance_indentlines_title">Show indented lines</string>
     <string name="pref_appearance_indentlines_key" translatable="false">pref_appearance_indentlines</string>
 
     <!-- 2014-03-14 -->
@@ -564,7 +564,7 @@
     <!-- 2014-04-13 -->
 
     <string name="pref_menus_mainmenu_useritems_key" translatable="false">pref_menus_mainmenu_useritems</string>
-    <string name="pref_menus_mainmenu_useritems_title">Main Menu User Items</string>
+    <string name="pref_menus_mainmenu_useritems_title">User Items in Main Menu</string>
 
     <string name="mainmenu_submitted">Submitted Posts</string>
     <string name="mainmenu_downvoted">Downvoted Posts</string>
@@ -575,7 +575,7 @@
     <!-- 2014-04-20 -->
 
     <string name="header_subscriber_count">%s subscribers</string>
-    <string name="header_subscriber_count_unknown">Subscriber count is unknown</string>
+    <string name="header_subscriber_count_unknown">Subscriber count unknown</string>
 
     <!-- 2014-04-21 -->
 
@@ -676,7 +676,7 @@
 
     <string name="action_delete">Delete</string>
     <string name="delete_confirm">Are you sure you want to delete this?</string>
-    <string name="delete_success">Successfully deleted. The item will still be visible until you refresh.</string>
+    <string name="delete_success">Deleted. The item will still be visible until you refresh.</string>
 
     <string name="pref_appearance_hide_username_main_menu_key" translatable="false">pref_appearance_hide_username_main_menu</string>
     <string name="pref_appearance_hide_username_main_menu_title">Hide username in main menu</string>
@@ -791,7 +791,7 @@
 	<string name="submit_post_url_hint">URL</string>
 
 	<!-- 2016-06-24 -->
-	<string name="save_image_permission_denied">Permission denied: could not save image.</string>
+	<string name="save_image_permission_denied">Permission denied: Could not save image.</string>
 	
 	<!-- 2016-06-25 -->
 	<string name="pref_behaviour_imageview_mode_title">Image Viewer</string>
@@ -890,7 +890,7 @@
 	<string name="sort_pinned_subreddit_date">By Added Date</string>
 
 	<!-- 2016-09-01 -->
-	<string name="load_more_comments_failed_unknown_url_type">Cannot load more comments: unknown URL type.</string>
+	<string name="load_more_comments_failed_unknown_url_type">Cannot load more comments: Unknown URL type.</string>
 
 	<!-- 2016-09-04 -->
 	<string name="pref_appearance_image_viewer_header">Image Viewer</string>
@@ -964,19 +964,19 @@
 
 	<!-- 2017-03-02 -->
 	<string name="pref_menus_link_context_items_key" translatable="false">pref_menus_link_context_items</string>
-	<string name="pref_menus_link_context_items_title">Link Context Menu Items</string>
+	<string name="pref_menus_link_context_items_title">Items in Link Context Menu</string>
 	<string name="lang_eo" translatable="false">Esperanto</string>
 	<string name="lang_pl" translatable="false">Polski</string>
 
 	<!-- 2017-03-07 -->
 	<string name="pref_menus_subreddit_context_items_key" translatable="false">pref_menus_subreddit_context_items</string>
-	<string name="pref_menus_subreddit_context_items_title">Subreddit Context Menu Items</string>
-	<string name="mainmenu_toast_not_subscribed">You are not subscribed to this subreddit yet!</string>
-	<string name="mainmenu_toast_subscribed">You are already subscribed to this subreddit!</string>
-	<string name="mainmenu_toast_not_pinned">This subreddit is not pinned to the main menu!</string>
-	<string name="mainmenu_toast_pinned">This subreddit is already pinned to the main menu!</string>
-	<string name="mainmenu_toast_not_blocked">This subreddit is not blocked!</string>
-	<string name="mainmenu_toast_blocked">This subreddit is already blocked!</string>
+	<string name="pref_menus_subreddit_context_items_title">Items in Subreddit Context Menu</string>
+	<string name="mainmenu_toast_not_subscribed">You are not subscribed to this subreddit yet.</string>
+	<string name="mainmenu_toast_subscribed">You are already subscribed to this subreddit.</string>
+	<string name="mainmenu_toast_not_pinned">This subreddit is not pinned to the main menu.</string>
+	<string name="mainmenu_toast_pinned">This subreddit is already pinned to the main menu.</string>
+	<string name="mainmenu_toast_not_blocked">This subreddit is not blocked.</string>
+	<string name="mainmenu_toast_blocked">This subreddit is already blocked.</string>
 	<string name="lang_pt" translatable="false">Português</string>
 
 	<!-- 2017-04-02 -->
@@ -990,7 +990,7 @@
 	<string name="action_unsubscribe_subreddit">Unsubscribe from Subreddit</string>
 
 	<!-- 2017-04-14 -->
-	<string name="collapsed_self_post">Self-post collapsed</string>
+	<string name="collapsed_self_post">Text collapsed</string>
 
 	<!-- 2017-05-08 -->
 	<string name="button_next_comment_parent">Next Parent Comment</string>
@@ -1001,7 +1001,7 @@
 
 	<!--2017-05-08-->
 	<string name="download_link_title">Download File</string>
-	<string name="download_link_message">This is a download link. Do you want to load this in an external browser?</string>
+	<string name="download_link_message">This is a download link. Do you want to load this in an external web browser?</string>
 
 	<!--2017-05-21-->
 	<string name="pref_behaviour_self_post_tap_actions_key" translatable="false">pref_behaviour_self_post_tap_actions</string>

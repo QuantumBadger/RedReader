@@ -48,6 +48,10 @@
 						android:key="@string/pref_menus_show_popular_main_menu_key"
 						android:defaultValue="false"/>
 
+	<CheckBoxPreference android:title="@string/pref_menus_show_random_main_menu_title"
+						android:key="@string/pref_menus_show_random_main_menu_key"
+						android:defaultValue="false"/>
+
     <CheckBoxPreference android:title="@string/pref_appearance_hide_username_main_menu_title"
                         android:key="@string/pref_appearance_hide_username_main_menu_key"
                         android:defaultValue="false"/>

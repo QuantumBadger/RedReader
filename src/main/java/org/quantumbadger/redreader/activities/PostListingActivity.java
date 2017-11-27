@@ -45,6 +45,7 @@ import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.reddit.url.PostListingURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 import org.quantumbadger.redreader.reddit.url.SearchPostListURL;
+import org.quantumbadger.redreader.reddit.url.SubredditPostListURL;
 import org.quantumbadger.redreader.views.RedditPostView;
 
 import java.util.Locale;
@@ -198,6 +199,18 @@ public class PostListingActivity extends RefreshableActivity
 				subredditPinState,
 				subredditBlockedState);
 
+		if (fragment != null && controller.isRandomSubreddit() && fragment.getSubreddit() != null) {
+			SubredditPostListURL url = SubredditPostListURL.parse(controller.getUri());
+			if (url != null && url.type == SubredditPostListURL.Type.RANDOM) {
+				try {
+					String newSubreddit = RedditSubreddit.stripRPrefix(fragment.getSubreddit().url);
+					url = url.changeSubreddit(newSubreddit);
+					controller = new PostListingController(url, this);
+				} catch (RedditSubreddit.InvalidSubredditNameException e) {
+					throw new RuntimeException(e);
+				}
+			}
+		}
 		return true;
 	}
 

@@ -39,6 +39,10 @@ public class SubredditPostListURL extends PostListingURL {
 		return new SubredditPostListURL(Type.POPULAR, null, null, null, null, null);
 	}
 
+	public static SubredditPostListURL getRandom() {
+		return new SubredditPostListURL(Type.RANDOM, "random", null, null, null, null);
+	}
+
 	public static SubredditPostListURL getAll() {
 		return new SubredditPostListURL(Type.ALL, null, null, null, null, null);
 	}
@@ -55,7 +59,7 @@ public class SubredditPostListURL extends PostListingURL {
 	}
 
 	public enum Type {
-		FRONTPAGE, ALL, SUBREDDIT, SUBREDDIT_COMBINATION, ALL_SUBTRACTION, POPULAR
+		FRONTPAGE, ALL, SUBREDDIT, SUBREDDIT_COMBINATION, ALL_SUBTRACTION, POPULAR, RANDOM
 	}
 
 	public final Type type;
@@ -116,6 +120,7 @@ public class SubredditPostListURL extends PostListingURL {
 			case SUBREDDIT:
 			case SUBREDDIT_COMBINATION:
 			case ALL_SUBTRACTION:
+			case RANDOM:
 				builder.encodedPath("/r/");
 				builder.appendPath(subreddit);
 				break;
@@ -215,7 +220,7 @@ public class SubredditPostListURL extends PostListingURL {
 
 				if(!pathSegments[0].equals("r")) return null;
 
-				final String subreddit = pathSegments[1];
+				final String subreddit = General.asciiLowercase(pathSegments[1]);
 
 				if(subreddit.equals("all")) {
 
@@ -232,6 +237,10 @@ public class SubredditPostListURL extends PostListingURL {
 				} else if(subreddit.equals("popular")) {
 
 					return new SubredditPostListURL(Type.POPULAR, null, order, limit, before, after);
+
+				} else if(subreddit.equals("random") || subreddit.equals("randnsfw")) {
+
+					return new SubredditPostListURL(Type.RANDOM, subreddit, order, limit, before, after);
 
 				} else if(subreddit.matches("all(\\-[\\w\\.]+)+")) {
 
@@ -316,6 +325,9 @@ public class SubredditPostListURL extends PostListingURL {
 			case POPULAR:
 				return context.getString(R.string.mainmenu_popular);
 
+			case RANDOM:
+				return context.getString(R.string.mainmenu_random);
+
 			case SUBREDDIT:
 				try {
 					return RedditSubreddit.getCanonicalName(subreddit);
@@ -330,5 +342,9 @@ public class SubredditPostListURL extends PostListingURL {
 			default:
 				return super.humanReadableName(context, shorter);
 		}
+	}
+
+	public SubredditPostListURL changeSubreddit(String newSubreddit) {
+		return new SubredditPostListURL(type, newSubreddit, order, limit, before, after);
 	}
 }

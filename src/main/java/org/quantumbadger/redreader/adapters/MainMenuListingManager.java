@@ -163,6 +163,13 @@ public class MainMenuListingManager {
 		mAdapter.appendToGroup(GROUP_MAIN_ITEMS,
 				makeItem(R.string.mainmenu_custom_destination, MainMenuFragment.MENU_MENU_ACTION_CUSTOM, null, false));
 
+		if(PrefsUtility.pref_show_random_main_menu(
+				context,
+				PreferenceManager.getDefaultSharedPreferences(context))) {
+			mAdapter.appendToGroup(GROUP_MAIN_ITEMS,
+					makeItem(R.string.mainmenu_random, MainMenuFragment.MENU_MENU_ACTION_RANDOM, null, false));
+		}
+
 		if(!user.isAnonymous()) {
 
 			final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);

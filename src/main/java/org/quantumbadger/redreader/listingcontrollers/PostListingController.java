@@ -128,6 +128,11 @@ public class PostListingController {
 				&& url.asSubredditPostListURL().type == SubredditPostListURL.Type.SUBREDDIT;
 	}
 
+	public final boolean isRandomSubreddit() {
+		return url.pathType() == RedditURLParser.SUBREDDIT_POST_LISTING_URL
+				&& url.asSubredditPostListURL().type == SubredditPostListURL.Type.RANDOM;
+	}
+
 	public final boolean isSearchResults() {
 		return url.pathType() == RedditURLParser.SEARCH_POST_LISTING_URL;
 	}

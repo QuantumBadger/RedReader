@@ -1,3 +1,7 @@
+84/1.9.8.5
+Preference to add "Random Subreddit" item to main menu (thanks to Andrew Philipchik)
+Fixed handling of /r/random (thanks to Andrew Philipchik)
+
 83/1.9.8.4
 Ability to disable inbox replies when commenting (thanks to Clubfan22)
 Fix for fullscreen video in internal browser (thanks to Clubfan22)

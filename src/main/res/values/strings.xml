@@ -152,8 +152,7 @@
     <string name="mainmenu_all">All Subreddits</string>
     <string name="mainmenu_custom">Custom Subreddit</string>
     <string name="mainmenu_custom_invalid_name">Invalid subreddit name.</string>
-	<string name="mainmenu_random">Random Subreddit</string>
-	<string name="mainmenu_saved">Saved Posts</string>
+    <string name="mainmenu_saved">Saved Posts</string>
     <string name="mainmenu_hidden">Hidden Posts</string>
     <string name="mainmenu_upvoted">Upvoted Posts</string>
     <string name="mainmenu_inbox">Inbox</string>
@@ -1013,8 +1012,6 @@
 
 	<string name="pref_menus_show_popular_main_menu_key" translatable="false">pref_menus_show_popular_main_menu</string>
 	<string name="pref_menus_show_popular_main_menu_title">Show /r/popular in main menu</string>
-	<string name="pref_menus_show_random_main_menu_key" translatable="false">pref_menus_show_random_main_menu</string>
-	<string name="pref_menus_show_random_main_menu_title">Show /r/random in main menu</string>
 	<string name="pref_behaviour_video_playback_controls_key" translatable="false">pref_behaviour_video_playback_controls</string>
 	<string name="pref_behaviour_video_playback_controls_title">Enable video playback controls</string>
 
@@ -1027,4 +1024,10 @@
 
 	<!-- 2017-11-01 -->
 	<string name="disable_replies_to_infobox_failed">Disabling replies to inbox failed</string>
+
+	<!-- 2017-12-03 -->
+	<string name="mainmenu_random">Random Subreddit</string>
+	<string name="pref_menus_show_random_main_menu_key" translatable="false">pref_menus_show_random_main_menu</string>
+	<string name="pref_menus_show_random_main_menu_title">Show /r/random in main menu</string>
+
 </resources>

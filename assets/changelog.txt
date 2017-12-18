@@ -1,13 +1,12 @@
-84/1.9.8.5
+83/1.9.8.4
 Preference to add "Random Subreddit" item to main menu (thanks to Andrew Philipchik)
 Fixed handling of /r/random (thanks to Andrew Philipchik)
-
-83/1.9.8.4
 Ability to disable inbox replies when commenting (thanks to Clubfan22)
 Fix for fullscreen video in internal browser (thanks to Clubfan22)
 Preference to exclude text when sharing comment (thanks to Clubfan22)
 Scroll to top when collapsing self post (thanks to ajgoda90)
 Disable sending replies to inbox for comments (thanks to Clubfan22)
+Updated French translation (thanks to Toover)
 
 82/1.9.8.3
 Fix for some Gfycat links (thanks to Mark Lee)

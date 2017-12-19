@@ -169,4 +169,38 @@
     <string name="action_user_profile_short">Käyttäjä</string>
     <string name="action_properties">Ominaisuudet</string>
     <string name="action_comments">Näytä kommentit</string>
+    <string name="action_comments_switch">Vaihda kommenteihin</string>
+    <string name="action_comments_short">Kommentit</string>
+    <string name="action_link">Avaa linkki</string>
+    <string name="action_nothing">Älä tee mitään</string>
+
+    <string name="action_report">Ilmoita</string>
+    <string name="action_report_sure">Haluatko varmasti ilmoittaa tämän?</string>
+
+    <string name="action_save_image">Tallenna kuva</string>
+    <string name="action_save_image_success">Tallennettiin Kuviin nimellä</string>
+
+    <string name="download_waiting">Odota…</string>
+    <string name="download_connecting">Yhdistetään…</string>
+    <string name="download_downloadstarting">Latausta aloitetaan…</string>
+    <string name="download_downloading">Ladataan…</string>
+    <string name="download_loading">Ladataan…</string>
+    <string name="download_done">Valmis.</string>
+    <string name="download_failed">Epäonnistui.</string>
+
+    <string name="imageview_oom">Muisti lopussa. Yritetään sisäistä selainta.</string>
+    <string name="imageview_invalid_gif">Virheellinen GIF. Yritetään sisäistä selainta.</string>
+
+    <string name="comment_reply_send">Lähetä</string>
+    <string name="comment_edit_save">Tallenna</string>
+    <string name="comment_reply_preview">Esikatselu</string>
+    <string name="comment_reply_submitting_title">Julkaistaan…</string>
+    <string name="comment_reply_submitting_message">Hetki…</string>
+    <string name="comment_reply_oncancel">Odotetaan toiminnon tulosta…</string>
+    <string name="comment_reply_done">Vastaus lähetetty. Kommenti näkyy päivittämisen jälkeen.</string>
+    <string name="post_submit_subreddit_hint">Alireddit</string>
+    <string name="bug_button_send">Lähetä virheilmoitus sähköpostilla</string>
+    <string name="bug_button_ignore">Älä lähetä virheilmoitusta</string>
+
+    <string name="error_403_title">Virheellinen käyttäjä</string>
     </resources>

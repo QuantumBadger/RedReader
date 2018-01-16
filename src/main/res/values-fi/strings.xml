@@ -98,7 +98,7 @@
     <string name="mainmenu_profile">Oma profiili</string>
     <string name="mainmenu_header_subreddits">Aliredditit</string>
 
-    <string name="listing_cached">Näytetään välimuistissa oleva kopio %ta</string>
+    <string name="listing_cached">Näytetään välimuistissa oleva kopio %s</string>
 
     <string name="accounts_anon">Anonyymi</string>
     <string name="accounts_active">Läsnäoleva</string>

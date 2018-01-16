@@ -882,4 +882,11 @@
 <string name="pref_appearance_comments_show_floating_toolbar_title">Pokaż pływający pasek nad komentarzami</string>
 	<string name="pref_menus_show_popular_main_menu_key">pref_menus_show_popular_main_menu</string>
 	<string name="pref_behaviour_video_playback_controls_key">pref_behaviour_video_playback_controls</string>
-	</resources>
+	<string name="pref_behaviour_comment_share_text_title">Zawrzyj tekst podczas udostępniania komentarza</string>
+
+	<string name="disable_replies_to_infobox_failed">Nie udało się wyłączyć odpowiedzi do skrzynki odbiorczej</string>
+
+	<string name="mainmenu_random">Losowy subreddit</string>
+	<string name="pref_menus_show_random_main_menu_title">Pokaż /r/random w menu głównym</string>
+
+</resources>

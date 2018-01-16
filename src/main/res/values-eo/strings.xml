@@ -877,4 +877,11 @@
 	<string name="pref_behaviour_video_playback_controls_title">Aktivigi filmet-ludadajn stirilojn</string>
 	<string name="error_no_suitable_apps_available">Neniuj taŭgaj aplikaĵoj disponeblaj.</string>
 <string name="pref_appearance_comments_show_floating_toolbar_title">Montri glitan ilobreton supre de komentoj</string>
-	</resources>
+	<string name="pref_behaviour_comment_share_text_title">Inkluzivi tekston je kunhavigi komenton</string>
+
+	<string name="disable_replies_to_infobox_failed">Malsukcesis malaktivigi respondon al mesaĝujo</string>
+
+	<string name="mainmenu_random">Hazarda redditero</string>
+	<string name="pref_menus_show_random_main_menu_title">Montri /r/random en la ĉefmenuo</string>
+
+</resources>

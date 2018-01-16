@@ -236,6 +236,12 @@
 		<item>@string/lang_eo</item>
 		<item>@string/lang_pl</item>
 		<item>@string/lang_in</item>
+		<item>@string/lang_fi</item>
+		<item>@string/lang_my</item>
+		<item>@string/lang_nb</item>
+		<item>@string/lang_ru</item>
+		<item>@string/lang_uk</item>
+		<item>@string/lang_zh_rCN</item>
     </string-array>
 
     <!-- Constants. Do not change. -->
@@ -257,6 +263,12 @@
 		<item>eo</item>
 		<item>pl</item>
 		<item>in</item>
+		<item>fi</item>
+		<item>my</item>
+		<item>nb-rNO</item>
+		<item>ru</item>
+		<item>uk</item>
+		<item>zh-rCN</item>
     </string-array>
 
     <string-array name="pref_cache_maxage">

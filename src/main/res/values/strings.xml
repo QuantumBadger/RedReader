@@ -1030,4 +1030,12 @@
 	<string name="pref_menus_show_random_main_menu_key" translatable="false">pref_menus_show_random_main_menu</string>
 	<string name="pref_menus_show_random_main_menu_title">Show /r/random in main menu</string>
 
+	<!-- 2018-01-16 -->
+	<string name="lang_fi" translatable="false">Suomi</string>
+	<string name="lang_my" translatable="false">မြန်မာဘာသာ</string>
+	<string name="lang_nb" translatable="false">Bokmål</string>
+	<string name="lang_ru" translatable="false">ру́сский язы́к</string>
+	<string name="lang_uk" translatable="false">українська мова</string>
+	<string name="lang_zh_rCN" translatable="false">汉语</string>
+
 </resources>

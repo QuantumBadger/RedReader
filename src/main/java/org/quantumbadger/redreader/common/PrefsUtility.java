@@ -206,7 +206,15 @@ public final class PrefsUtility {
 			final android.content.res.Configuration conf = res.getConfiguration();
 
 			if(!lang.equals("auto")) {
-				conf.locale = new Locale(lang);
+
+				if(lang.contains("-r")) {
+					final String[] split = lang.split("-r");
+					conf.locale = new Locale(split[0], split[1]);
+
+				} else {
+					conf.locale = new Locale(lang);
+				}
+
 			} else {
 				conf.locale = Locale.getDefault();
 			}

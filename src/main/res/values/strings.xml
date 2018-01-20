@@ -106,6 +106,9 @@
     <string name="pref_cache_maxage_image_key" translatable="false">pref_cache_maxage_image</string>
     <string name="pref_cache_maxage_image_title">Delete cached images after</string>
 
+	<string name="pref_cache_maxage_entry_key" translatable="false">pref_cache_maxage_entry</string>
+	<string name="pref_cache_maxage_entry_title">Delete cached flags (read, upvoted, etc.) after</string>
+
     <string name="pref_cache_precache_images_header">Precache Images</string>
 
     <string name="pref_cache_precache_images_key" translatable="false">pref_cache_precache_images</string>

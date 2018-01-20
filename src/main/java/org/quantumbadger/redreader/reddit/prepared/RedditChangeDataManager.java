@@ -18,9 +18,11 @@
 package org.quantumbadger.redreader.reddit.prepared;
 
 import android.content.Context;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
+import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.collections.WeakReferenceListHashMapManager;
 import org.quantumbadger.redreader.common.collections.WeakReferenceListManager;
 import org.quantumbadger.redreader.io.ExtendedDataInputStream;
@@ -41,8 +43,6 @@ import java.util.Set;
 public final class RedditChangeDataManager {
 
 	private static final String TAG = "RedditChangeDataManager";
-
-	private static final long PRUNE_AGE_MS = 7L * 24L * 60L * 60L * 1000L;
 
 	private static final HashMap<RedditAccount, RedditChangeDataManager> INSTANCE_MAP
 			= new HashMap<>();
@@ -148,7 +148,7 @@ public final class RedditChangeDataManager {
 		Log.i(TAG, "All entries read from stream.");
 	}
 
-	public static void pruneAllUsers() {
+	public static void pruneAllUsers(final Context context) {
 
 		Log.i(TAG, "Pruning for all users...");
 
@@ -161,7 +161,7 @@ public final class RedditChangeDataManager {
 		for(final RedditAccount user : users) {
 
 			final RedditChangeDataManager managerForUser = getInstance(user);
-			managerForUser.prune();
+			managerForUser.prune(context);
 		}
 
 		Log.i(TAG, "Pruning complete.");
@@ -543,10 +543,11 @@ public final class RedditChangeDataManager {
 		}
 	}
 
-	private void prune() {
+	private void prune(final Context context) {
 
 		final long now = System.currentTimeMillis();
-		final long timestampBoundary = now - PRUNE_AGE_MS;
+		final long timestampBoundary = now - PrefsUtility.pref_cache_maxage_entry(
+				context, PreferenceManager.getDefaultSharedPreferences(context));
 
 		synchronized(mLock) {
 			final Iterator<Map.Entry<String, Entry>> iterator = mEntries.entrySet().iterator();

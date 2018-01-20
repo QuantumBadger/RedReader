@@ -39,10 +39,14 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 public final class RedditChangeDataManager {
 
 	private static final String TAG = "RedditChangeDataManager";
+
+	private static final int MAX_ENTRY_COUNT = 10000;
 
 	private static final HashMap<RedditAccount, RedditChangeDataManager> INSTANCE_MAP
 			= new HashMap<>();
@@ -551,11 +555,13 @@ public final class RedditChangeDataManager {
 
 		synchronized(mLock) {
 			final Iterator<Map.Entry<String, Entry>> iterator = mEntries.entrySet().iterator();
+			final SortedMap<Long, String> byTimestamp = new TreeMap<Long, String>();
 
 			while(iterator.hasNext()) {
 
 				final Map.Entry<String, Entry> entry = iterator.next();
 				final long timestamp = entry.getValue().mTimestamp;
+				byTimestamp.put(timestamp, entry.getKey());
 
 				if(timestamp < timestampBoundary) {
 
@@ -566,6 +572,24 @@ public final class RedditChangeDataManager {
 
 					iterator.remove();
 				}
+			}
+
+			// Limit total number of entries to limit our memory usage. This is meant as a
+			// safeguard, as the time-based pruning above should have removed enough already.
+			final Iterator<Map.Entry<Long, String>> iter2 = byTimestamp.entrySet().iterator();
+			while(iter2.hasNext()) {
+				if(mEntries.size() <= MAX_ENTRY_COUNT) {
+					break;
+				}
+
+				final Map.Entry<Long, String> entry = iter2.next();
+
+				Log.i(TAG, String.format(
+						"Evicting '%s' (%d hours old)",
+						entry.getValue(),
+						(now - entry.getKey()) / (60L * 60L * 1000L)));
+
+				mEntries.remove(entry.getValue());
 			}
 		}
 	}

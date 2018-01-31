@@ -92,6 +92,8 @@ Thanks to /u/balducien and /u/andiho for this translation!
 
     <string name="pref_cache_maxage_image_title">Leere Bildercache nach</string>
 
+    <string name="pref_cache_maxage_entry_title">Leere Markierungscache (gelesen, aufgewertet etc.) nach</string>
+
     <string name="pref_cache_precache_images_header">Bilder vorabladen</string>
 
     <string name="pref_cache_precache_images_title">Bilder vorabladen</string>

@@ -18,9 +18,11 @@
 package org.quantumbadger.redreader.reddit.prepared;
 
 import android.content.Context;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
+import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.collections.WeakReferenceListHashMapManager;
 import org.quantumbadger.redreader.common.collections.WeakReferenceListManager;
 import org.quantumbadger.redreader.io.ExtendedDataInputStream;
@@ -37,12 +39,14 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 public final class RedditChangeDataManager {
 
 	private static final String TAG = "RedditChangeDataManager";
 
-	private static final long PRUNE_AGE_MS = 7L * 24L * 60L * 60L * 1000L;
+	private static final int MAX_ENTRY_COUNT = 10000;
 
 	private static final HashMap<RedditAccount, RedditChangeDataManager> INSTANCE_MAP
 			= new HashMap<>();
@@ -148,7 +152,7 @@ public final class RedditChangeDataManager {
 		Log.i(TAG, "All entries read from stream.");
 	}
 
-	public static void pruneAllUsers() {
+	public static void pruneAllUsers(final Context context) {
 
 		Log.i(TAG, "Pruning for all users...");
 
@@ -161,7 +165,7 @@ public final class RedditChangeDataManager {
 		for(final RedditAccount user : users) {
 
 			final RedditChangeDataManager managerForUser = getInstance(user);
-			managerForUser.prune();
+			managerForUser.prune(context);
 		}
 
 		Log.i(TAG, "Pruning complete.");
@@ -543,18 +547,21 @@ public final class RedditChangeDataManager {
 		}
 	}
 
-	private void prune() {
+	private void prune(final Context context) {
 
 		final long now = System.currentTimeMillis();
-		final long timestampBoundary = now - PRUNE_AGE_MS;
+		final long timestampBoundary = now - PrefsUtility.pref_cache_maxage_entry(
+				context, PreferenceManager.getDefaultSharedPreferences(context));
 
 		synchronized(mLock) {
 			final Iterator<Map.Entry<String, Entry>> iterator = mEntries.entrySet().iterator();
+			final SortedMap<Long, String> byTimestamp = new TreeMap<Long, String>();
 
 			while(iterator.hasNext()) {
 
 				final Map.Entry<String, Entry> entry = iterator.next();
 				final long timestamp = entry.getValue().mTimestamp;
+				byTimestamp.put(timestamp, entry.getKey());
 
 				if(timestamp < timestampBoundary) {
 
@@ -565,6 +572,24 @@ public final class RedditChangeDataManager {
 
 					iterator.remove();
 				}
+			}
+
+			// Limit total number of entries to limit our memory usage. This is meant as a
+			// safeguard, as the time-based pruning above should have removed enough already.
+			final Iterator<Map.Entry<Long, String>> iter2 = byTimestamp.entrySet().iterator();
+			while(iter2.hasNext()) {
+				if(mEntries.size() <= MAX_ENTRY_COUNT) {
+					break;
+				}
+
+				final Map.Entry<Long, String> entry = iter2.next();
+
+				Log.i(TAG, String.format(
+						"Evicting '%s' (%d hours old)",
+						entry.getValue(),
+						(now - entry.getKey()) / (60L * 60L * 1000L)));
+
+				mEntries.remove(entry.getValue());
 			}
 		}
 	}

@@ -78,6 +78,12 @@
                     android:entryValues="@array/pref_cache_maxage_return"
                     android:defaultValue="24"/>
 
+    <ListPreference android:title="@string/pref_cache_maxage_entry_title"
+                    android:key="@string/pref_cache_maxage_entry_key"
+                    android:entries="@array/pref_cache_maxage"
+                    android:entryValues="@array/pref_cache_maxage_return"
+                    android:defaultValue="168"/>
+
     </PreferenceCategory>
 
 </PreferenceScreen>

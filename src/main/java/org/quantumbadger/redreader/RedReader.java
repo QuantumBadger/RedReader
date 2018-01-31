@@ -83,7 +83,7 @@ public class RedReader extends Application {
 			@Override
 			public void run() {
 				RedditChangeDataIO.getInstance(RedReader.this).runInitialReadInThisThread();
-				RedditChangeDataManager.pruneAllUsers();
+				RedditChangeDataManager.pruneAllUsers(RedReader.this);
 			}
 		}.start();
 

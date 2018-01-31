@@ -604,6 +604,10 @@ public final class PrefsUtility {
 		return result;
 	}
 
+	public static Long pref_cache_maxage_entry(final Context context, final SharedPreferences sharedPreferences) {
+		return 1000L * 60L * 60L * Long.valueOf(getString(R.string.pref_cache_maxage_entry_key, "168", context, sharedPreferences));
+	}
+
 	// pref_cache_precache_images
 
 	public enum CachePrecacheImages {

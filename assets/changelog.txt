@@ -1,3 +1,6 @@
+84/1.9.8.5
+Added preference for vote/read/etc cache lifetime (thanks to Wolfgang Schnerring)
+
 83/1.9.8.4
 Preference to add "Random Subreddit" item to main menu (thanks to Andrew Philipchik)
 Fixed handling of /r/random (thanks to Andrew Philipchik)

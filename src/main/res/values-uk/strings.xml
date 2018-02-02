@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources><string name="firstrun_login_title">Увійти</string>
-    <string name="firstrun_login_message">Ви не увійшли в систему. Ви можете відкрити перелік облікових записів, обравши \"Облікові записи\" в меню</string>
+    <string name="firstrun_login_message">Ви не увійшли до системи. Ви можете відкрити перелік облікових записів, обравши \"Облікові записи\" в меню.</string>
     <string name="firstrun_login_button_now">Увійти</string>
     <string name="firstrun_login_button_later">Бути анонімним</string>
 
@@ -28,7 +28,7 @@
 
     <string name="pref_appearance_thumbnails_nsfw_show_title">Показувати NSFW мініатюри</string>
 
-    <string name="pref_appearance_thumbnails_wifionly_title">Мініатюри лише по Wi-Fi</string>
+    <string name="pref_appearance_thumbnails_wifionly_title">Мініатюри лише з Wi-Fi</string>
 
     <string name="pref_appearance_loading_detail_title">Показувати детальну інформацію при завантаженні</string>
 
@@ -40,4 +40,418 @@
     <string name="pref_behaviour_actions_comment_header">Дії коментаря</string>
     <string name="pref_behaviour_posts_header">Публікації</string>
 
+    <string name="pref_appearance_solidblack_title">Чорний в нічному режимі</string>
+
+    <string name="pref_behaviour_fling_post_left_title">Змахування запису вліво</string>
+
+    <string name="pref_behaviour_fling_post_right_title">Змахування запису вправо</string>
+
+    <string name="pref_behaviour_actions_comment_tap_title">Торкання коментаря</string>
+
+    <string name="pref_behaviour_nsfw_title">Показувати NSFW зміст</string>
+
+    <string name="pref_cache_pruning">Вік кешу</string>
+
+    <string name="pref_cache_maxage_listing_title">Видаляти кеш переліків через</string>
+
+    <string name="pref_cache_maxage_thumb_title">Видаляти кеш мініатюр через</string>
+
+    <string name="pref_cache_maxage_image_title">Видаляти кеш зображень через</string>
+
+    <string name="pref_cache_precache_images_header">Кешувати зображення заздалегідь</string>
+
+    <string name="pref_cache_precache_images_title">Кешувати зображення заздалегідь</string>
+
+    <string name="pref_cache_precache_images_wifionly_title">Лише по Wi-Fi</string>
+
+    <string name="pref_menus_post_context_items_title">Пункти контекстного меню публікації</string>
+
+    <string name="pref_menus_post_toolbar_items_title">Кнопки панелі публікації</string>
+
+    <string name="options_accounts">Облікові записи</string>
+    <string name="options_accounts_long">Облікові записи Reddit</string>
+    <string name="options_theme">Теми</string>
+    <string name="options_settings">Налаштування</string>
+
+    <string name="options_submit_post">Нова публікація</string>
+
+    <string name="options_refresh">Оновити</string>
+    <string name="options_refresh_subreddits">Оновити сабреддіти</string>
+    <string name="options_refresh_posts">Оновити публікації</string>
+    <string name="options_refresh_comments">Оновити коментарі</string>
+
+    <string name="options_past">Попередні версії</string>
+    <string name="options_past_posts">Старіші переліки публікацій</string>
+    <string name="options_past_comments">Старіші переліки коментарів</string>
+
+    <string name="options_sort">Сортувати</string>
+    <string name="options_sort_subreddits">Сортувати сабреддіти</string>
+    <string name="options_sort_posts">Сортувати публікації</string>
+    <string name="options_sort_comments">Сортувати коментарі</string>
+
+    <string name="mainmenu_frontpage">Головна сторінка</string>
+    <string name="mainmenu_all">Всі сабреддіти</string>
+    <string name="mainmenu_custom">Інший сабреддіт</string>
+    <string name="mainmenu_custom_invalid_name">Недійсне ім\'я сабреддіта.</string>
+    <string name="mainmenu_saved">Збережені публікації</string>
+    <string name="mainmenu_hidden">Приховані публікації</string>
+    <string name="mainmenu_upvoted">Вподобані публікації</string>
+    <string name="mainmenu_inbox">Вхідні</string>
+    <string name="mainmenu_profile">Мій профіль</string>
+    <string name="mainmenu_header_subreddits">Сабреддіти</string>
+
+    <string name="listing_cached">Перегляд кешованої копії від %s</string>
+
+    <string name="accounts_anon">Анонімний</string>
+    <string name="accounts_active">Активний</string>
+    <string name="accounts_add">Додати обліковий запис Reddit</string>
+    <string name="accounts_setactive">Зробити активним</string>
+    <string name="accounts_reauth">Увійти знову</string>
+    <string name="accounts_delete">Видалити</string>
+
+    <string name="accounts_loggingin">Входимо…</string>
+    <string name="accounts_loggingin_msg">Хвилинку…</string>
+
+    <string name="accounts_username">Ім\'я користувача</string>
+    <string name="accounts_password">Пароль</string>
+
+    <string name="accounts_login">Увійти</string>
+
+    <string name="accounts_delete_sure">Ви дійсно бажаєте видалити цей обліковий запис?</string>
+
+    <string name="sort_posts_hot">Гарячі</string>
+    <string name="sort_posts_new">Нове</string>
+    <string name="sort_posts_rising">Стає популярним</string>
+    <string name="sort_posts_controversial">Суперечливе</string>
+    <string name="sort_posts_top">Найпопулярніше</string>
+    <string name="sort_posts_top_hour">Найпопулярніше за годину</string>
+    <string name="sort_posts_top_today">Найпопулярніше за сьогодні</string>
+    <string name="sort_posts_top_week">Найпопулярніше за тиждень</string>
+    <string name="sort_posts_top_month">Найпопулярніше за місяць</string>
+    <string name="sort_posts_top_year">Найпопулярніше за рік</string>
+    <string name="sort_posts_top_all">Найпопулярніше за весь час</string>
+
+    <string name="sort_comments_best">Кращі</string>
+    <string name="sort_comments_hot">Гарячі</string>
+    <string name="sort_comments_new">Нові</string>
+    <string name="sort_comments_old">Старіші</string>
+    <string name="sort_comments_controversial">Суперечливі</string>
+    <string name="sort_comments_top">Кращі</string>
+
+    <string name="dialog_close">Закрити</string>
+    <string name="dialog_cancel">Скасувати</string>
+    <string name="dialog_yes">Так</string>
+    <string name="dialog_no">Ні</string>
+    <string name="dialog_go">Перейти</string>
+
+    <string name="action_menu_post_title">Дії публікації</string>
+
+    <string name="action_upvote">Голосувати \"за\"</string>
+    <string name="action_downvote">Голосувати \"проти\"</string>
+    <string name="action_vote_remove">Прибрати голос</string>
+    <string name="action_upvote_remove">Прибрати голос \"за\"</string>
+    <string name="action_downvote_remove">Прибрати голос \"проти\"</string>
+    <string name="action_save">Зберегти</string>
+    <string name="action_hide">Приховати</string>
+    <string name="action_unsave">Прибрати із збережених</string>
+    <string name="action_unhide">Прибрати із прихованих</string>
+    <string name="action_external">Відкрити у зовнішньому переглядачі</string>
+    <string name="action_external_short">У веб-переглядачі</string>
+    <string name="action_actionmenu_short">Дії</string>
+    <string name="action_actionmenu">Меню дій</string>
+    <string name="action_comment_links">Посилання в коментарях</string>
+    <string name="action_selftext_links">Посилання в тексті публікації</string>
+    <string name="action_share">Поділитися</string>
+    <string name="action_share_comments">Поділитися коментарями</string>
+    <string name="action_copy">Копіювати</string>
+    <string name="action_gotosubreddit">Перейти до сабреддіта</string>
+    <string name="action_reply">Відповісти</string>
+    <string name="action_edit">Редагувати</string>
+    <string name="action_user_profile">Профіль користувача</string>
+    <string name="action_user_profile_short">Користувач</string>
+    <string name="action_properties">Властивості</string>
+    <string name="action_comments">Переглянути коментарі</string>
+    <string name="action_comments_switch">Перейти до коментарів</string>
+    <string name="action_comments_short">Коментарі</string>
+    <string name="action_link">Відкрити посилання</string>
+    <string name="action_link_switch">Перемкнутися на посилання</string>
+    <string name="action_link_short">Посилання</string>
+    <string name="action_collapse">Згорнути/розгорнути</string>
+    <string name="action_nothing">Не робити нічого</string>
+
+    <string name="action_report">Повідомити про порушення</string>
+    <string name="action_report_sure">Ви дійсно бажаєте повідомити про це?</string>
+
+    <string name="action_save_image">Зберегти зображення</string>
+    <string name="action_save_image_success">Збережено в директорію зображень як</string>
+
+    <string name="download_waiting">Очікування…</string>
+    <string name="download_connecting">З’єднання…</string>
+    <string name="download_downloadstarting">Завантаження почалося…</string>
+    <string name="download_downloading">Завантажується…</string>
+    <string name="download_loading">Завантаження…</string>
+    <string name="download_done">Виконано.</string>
+    <string name="download_failed">Не вдалося.</string>
+
+    <string name="imageview_oom">Не вистачило пам\'яті. Спробуємо вбудований переглядач.</string>
+    <string name="imageview_invalid_gif">Некоректний GIF. Спробуємо вбудований переглядач.</string>
+
+    <string name="comment_reply_send">Надіслати</string>
+    <string name="comment_edit_save">Зберегти</string>
+    <string name="comment_reply_preview">Попередній перегляд</string>
+    <string name="comment_reply_submitting_title">Надсилання…</string>
+    <string name="comment_reply_submitting_message">Хвилинку…</string>
+    <string name="comment_reply_oncancel">Очікування результатів дії…</string>
+    <string name="comment_reply_done">Відповідь надіслано. Коментар з\'явиться після оновлення.</string>
+    <string name="comment_edit_done">Коментар змінено. Зміни з\'являться після оновлення.</string>
+    <string name="post_submit_title_hint">Заголовок</string>
+    <string name="post_submit_subreddit_hint">Сабреддіт</string>
+    <string name="post_captcha_title">Захисний код</string>
+    <string name="post_captcha_submit_button">Підтвердити</string>
+    <string name="post_submit_done">Публікацію надіслано.</string>
+
+    <string name="bug_title">Виникла помилка.</string>
+    <string name="bug_message">RedReader зіткнулася з помилкою.
+\n
+\nБажаєте надіслати звіт про помилку розробнику? Якщо це так, буде створено листа з інформацією про помилку і перед надсиланням ви зможете перевірити його зміст.</string>
+    <string name="bug_button_send">Надіслати звіт про помилку електронною поштою</string>
+    <string name="bug_button_ignore">Не відправляти звіт про помилку</string>
+
+    <string name="error_403_title">Неприпустимий користувач</string>
+    <string name="error_403_message">Reddit стверджує, что поточний користувач не має дозволу для цієї дії. Спробуйте вийти, а потім знову увійти до системи (видаливши обліковий запис із переліку та заново додавши його).</string>
+
+    <string name="error_subreddit_required_title">Сабреддіт є обов\'язковим</string>
+    <string name="error_subreddit_required_message">Слід вказати сабреддіт.</string>
+
+    <string name="error_bad_captcha_title">Недійсний код</string>
+    <string name="error_bad_captcha_message">Вказаний захисний код недійсний. Будь ласка, спробуйте знову.</string>
+
+    <string name="error_404_title">Не знайдено (404)</string>
+    <string name="error_404_message">Не вдалося знайти запитувані дані.</string>
+
+    <string name="error_unknown_api_title">Помилка</string>
+    <string name="error_unknown_api_message">Сервер не прийняв запит з невідомої причини. Будь ласка, спробуйте знову.</string>
+
+    <string name="error_redditdown_title">Reddit недоступний</string>
+    <string name="error_redditdown_message">Reddit зараз під великим навантаженням. Будь ласка, спробуйте ще раз.</string>
+
+    <string name="error_cancelled_title">Операцію скасовано</string>
+    <string name="error_cancelled_message">Поточну операцію було скасовано.</string>
+
+    <string name="error_parse_title">Помилка синтаксичного аналізу</string>
+    <string name="error_parse_message">Reddit надіслав дані, які мені не зрозумілі.</string>
+
+    <string name="error_unexpected_cache_title">Несподіваний промах кешу</string>
+    <string name="error_unexpected_cache_message">Сталася невідома внутрішня помилка, пов\'язана з кешем.</string>
+
+    <string name="error_unexpected_storage_title">Неочікувана помилка сховища</string>
+    <string name="error_unexpected_storage_message">Сталася невідома внутрішня помилка, пов\'язана зі сховищем кешу. Ймовірно, закінчилося місце.</string>
+
+    <string name="error_connection_title">Помилка з\'єднання</string>
+    <string name="error_connection_message">Не вдалося з\'єднатися з сервером. Будь ласка, перевірте ваше мережеве з\'єднання і спробуйте знову.</string>
+
+    <string name="error_malformed_url_title">Неправильний URL</string>
+    <string name="error_malformed_url_message">Здійснено спробу отримати дані по неправильно сформованому URL.</string>
+
+    <string name="error_unknown_title">Невідома помилка</string>
+    <string name="error_unknown_message">Сталася невідома помилка. Будь ласка, спробуйте знову.</string>
+
+    <string name="error_postlist_cache_title">Дані в кеші закінчилися</string>
+    <string name="error_postlist_cache_message">Ви переглядаєте попередню версію вмісту і в цій кешованій сесії відсутні публікації. Натисніть оновити для завантаження останніх публікацій або оберіть іншу версію кешованого змісту з меню.</string>
+
+    <string name="error_postlist_redditdown_title">Reddit недоступний</string>
+    <string name="error_postlist_redditdown_message">Reddit зараз під великим навантаженням. Натисніть оновити, щоб завантажити останні публікації, або оберіть іншу попередню версію з меню.</string>
+
+    <string name="session_active">Активна</string>
+
+    <string name="time_ago">%s тому</string>
+
+    <string name="userprofile_created">Створений</string>
+    <string name="userprofile_hasmail">Має пошту</string>
+    <string name="userprofile_isfriend">В друзях</string>
+    <string name="userprofile_isgold">Reddit Золото</string>
+    <string name="userprofile_moderator">Є модератором</string>
+    <string name="userprofile_viewcomments">Переглянути коментарі</string>
+    <string name="userprofile_viewposts">Переглянути публікації</string>
+
+    <string name="props_comment_title">Властивості коментаря</string>
+    <string name="props_post_title">Властивості публікації</string>
+    <string name="props_error_title">Властивості помилки</string>
+
+    <string name="props_title">Заголовок</string>
+    <string name="props_author">Автор</string>
+    <string name="props_author_flair">Флейр текст автора</string>
+    <string name="props_created">Дата створення</string>
+    <string name="props_edited">Дата редагування</string>
+    <string name="props_score">Оцінка</string>
+    <string name="props_subreddit">Сабреддіт</string>
+    <string name="props_url">URL</string>
+    <string name="props_num_comments">Кількість коментарів</string>
+    <string name="props_body_markdown">Текст (розмітка)</string>
+    <string name="props_self_markdown">Текст публікації (розмітка)</string>
+
+    <string name="props_never">Ніколи</string>
+    <string name="props_up">Вгору</string>
+    <string name="props_down">Вниз</string>
+
+    <string name="notification_comment">%s відповів вам</string>
+    <string name="notification_message">%s відправив вам повідомлення</string>
+    <string name="notification_message_multiple">Нові повідомлення на reddit</string>
+    <string name="notification_message_action">Торкніться для перегляду</string>
+
+    <string name="general_true">Так</string>
+    <string name="general_false">Ні</string>
+
+    <string name="pref_appearance_twopane_never">Ніколи</string>
+    <string name="pref_appearance_twopane_auto">Автовизначення</string>
+    <string name="pref_appearance_twopane_landscape">Лише в альбомній орієнтації</string>
+    <string name="pref_appearance_twopane_force">Завжди (може виглядати дивно)</string>
+
+    <string name="theme_name_red">Червона</string>
+    <string name="theme_name_night">Ніч</string>
+    <string name="theme_name_green">Зелена</string>
+    <string name="theme_name_blue">Синя</string>
+    <string name="theme_name_ltblue">Світло-синя</string>
+    <string name="theme_name_orange">Оранжева</string>
+    <string name="theme_name_gray">Сіра</string>
+
+    <string name="time_1hr">1 година</string>
+    <string name="time_6hr">6 годин</string>
+    <string name="time_1day">1 день</string>
+    <string name="time_3day">3 дні</string>
+    <string name="time_1week">1 тиждень</string>
+    <string name="time_1month">1 місяць</string>
+    <string name="time_3month">3 місяці</string>
+
+    <string name="pref_appearance_comment_header_items_author">Автор</string>
+    <string name="pref_appearance_comment_header_items_flair">Флейр</string>
+    <string name="pref_appearance_comment_header_items_score">Оцінка</string>
+    <string name="pref_appearance_comment_header_items_upsdowns">Голоси за/проти</string>
+    <string name="pref_appearance_comment_header_items_age">Вік</string>
+
+    <string name="error_toast_notloggedin">Необхідно увійти до облікового запису.</string>
+
+    <string name="button_moredetail">Детально</string>
+
+    <string name="pref_appearance_scale_normal">Звичайний</string>
+
+    <string name="error_invalid_password_title">Неправильний пароль</string>
+    <string name="error_invalid_password_message">Неправильне ім\'я користувача або пароль.</string>
+
+    <string name="error_ratelimit_title">Занадто багато невдалих спроб увійти.</string>
+    <string name="error_ratelimit_message">Заблоковано через перевищення спроб входу з цьої IP-адреси. Reddit каже:</string>
+
+    <string name="general_success">Успішно</string>
+
+    <string name="message_nowloggedin">Ви увійшли до системи.</string>
+    <string name="message_cannotlogin">Не вдалося увійти до системи.</string>
+
+    <string name="error_toast_no_urls_in_comment">URL в цьому коментарі відсутні.</string>
+    <string name="error_toast_no_urls_in_self">URL в тексті публікації відсутні.</string>
+    <string name="error_toast_parent_post_not_downloaded">Батьківську публікацію ще не завантажено.</string>
+
+    <string name="download_subreddits">Завантажуємо сабреддіти…</string>
+
+    <string name="subtitle_points">очок</string>
+    <string name="subtitle_by">від</string>
+    <string name="subtitle_to">в</string>
+	<string name="general_unknown">невідомий</string>
+
+    <string name="action_search">Пошук</string>
+    <string name="search_subreddit_restrict">Обмежити пошуком в</string>
+
+    <string name="title_changelog">Що нового</string>
+
+    <string name="pref_behaviour_commentsort">Стандартне сортування коментарів</string>
+
+    <string name="action_fling_disabled">Вимкнено</string>
+
+    <string name="pref_about_version_title">Версія</string>
+
+    <string name="prefs_category_about">Про додаток</string>
+
+    <string name="pref_behaviour_sort_header">Сортування</string>
+
+    <string name="pref_appearance_locale_header">Локалізація</string>
+
+    <string name="pref_appearance_langforce_title">Мова</string>
+
+    <string name="lang_auto">Автоматично</string>
+    <string name="prefs_category_network">Мережа</string>
+    <string name="pref_network_https_title">Увімкнути HTTPS</string>
+    <string name="web_view_open_browser">Відкрити у веб-переглядачі</string>
+
+    <string name="pref_behaviour_useinternalbrowser_title">Використовувати вбудований переглядач</string>
+    <string name="pref_appearance_linkbuttons_title">Показувати кнопки посилань</string>
+    <string name="pref_appearance_indentlines_title">Показувати лінії відступів</string>
+    <string name="load_more_posts">Завантажити ще публікації</string>
+
+    <string name="pref_behaviour_postcount_title">Обмежити число публікацій</string>
+    <string name="pref_behaviour_postcount_items_all">Всі</string>
+
+    <string name="time_year">рік</string>
+    <string name="time_years">років</string>
+    <string name="time_month">місяць</string>
+    <string name="time_months">місяців</string>
+    <string name="time_day">день</string>
+    <string name="time_days">днів</string>
+    <string name="time_hour">година</string>
+    <string name="time_hours">годин</string>
+    <string name="time_min">хвилина</string>
+    <string name="time_mins">хвилин</string>
+    <string name="time_sec">секунда</string>
+    <string name="time_secs">секунд</string>
+    <string name="time_ms">мілісекунда</string>
+
+    <string name="error_disk_space_title">Не вистачає місця на диску.</string>
+    <string name="error_disk_space_message">Не вдалося завантажити, оскільки сховище вашого пристрою переповнено. Будь ласка, звільніть місце і спробуйте знову.</string>
+
+    <string name="options_subscribe">Підписатися</string>
+    <string name="options_unsubscribe">Відписатися</string>
+    <string name="options_subscribing">Підписуємося…</string>
+    <string name="options_unsubscribing">Відписуємося…</string>
+    <string name="options_sidebar">Переглянути бокову панель</string>
+
+    <string name="pref_menus_mainmenu_useritems_title">Пункти головного меню користувача</string>
+
+    <string name="mainmenu_submitted">Опубліковане</string>
+    <string name="mainmenu_downvoted">Невподобані публікації</string>
+    <string name="sidebar_activity_title">Бокова панель</string>
+
+    <string name="header_subscriber_count">%d підписників</string>
+    <string name="header_subscriber_count_unknown">Кількість підписників невідома</string>
+
+    <string name="invalid_subreddit_name">Неприпустиме ім\'я сабреддіта</string>
+
+    <string name="web_view_clear_cache">Очистити кеш</string>
+    <string name="web_view_clear_cache_success_toast">Кеш, історія, куки та дані форм видалені.</string>
+
+    <string name="gold">Золото</string>
+    <string name="pref_appearance_comment_header_items_gold">Reddit золото</string>
+
+    <string name="karma_link">Карма посилань</string>
+    <string name="karma_comment">Карма коментарів</string>
+
+    <string name="imageview_decode_failed">Не вдалося відкрити зображення. Спробуємо вбудований переглядач.</string>
+
+    <string name="user_comments">Коментарі</string>
+
+    <string name="comment_header_specific_thread_title">Ви переглядаєте окрему гілку коментарів.</string>
+    <string name="comment_header_specific_thread_message">Натистніть тут для перегляду всіх коментарів до цієї публікації.</string>
+
+    <string name="more_comments_button_text">Завантажити ще коментарі</string>
+    <string name="action_comment_context">Контекст</string>
+    <string name="action_comment_go_to">Перейти до коментаря</string>
+
+    <string name="webview_https_already">Поточний URL вже використовує HTTPS.</string>
+    <string name="webview_https_unknownprotocol">Невідомий протокол, очікувався \'http://\'</string>
+    <string name="webview_use_https">Використовувати HTTPS</string>
+
+    <string name="sort_posts_relevance">Відповідність</string>
+    <string name="sort_posts_comments">Коментарі</string>
+
+    <string name="mark_all_as_read">Позначити все прочитаним</string>
+    <string name="mark_all_as_read_success">Всі повідомлення позначено прочитаними.</string>
+
+    <string name="error_title_login_user_denied_permission">Відмовлено у доступі</string>
     </resources>

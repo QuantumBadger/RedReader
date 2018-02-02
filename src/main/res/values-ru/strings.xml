@@ -100,7 +100,7 @@
     <string name="mainmenu_profile">Мой профиль</string>
     <string name="mainmenu_header_subreddits">Сабреддиты</string>
 
-    <string name="listing_cached">Просмотр кэшированной копии с %s</string>
+    <string name="listing_cached">Просмотр кэшированной копии за %s</string>
 
     <string name="accounts_anon">Анонимный</string>
     <string name="accounts_active">Активна</string>
@@ -257,7 +257,7 @@
     <string name="error_unknown_message">Произошла неизвестная ошибка. Пожалуйста, попробуйте снова.</string>
 
     <string name="error_postlist_cache_title">Конец данных в кэше</string>
-    <string name="error_postlist_cache_message">Вы просматривает предыдущую версию содержимого и больше нет публикаций в этой кэшированной сессии. Нажмите обновить, чтобы загрузить последние публикации, или выберите другую версию кэшированного содержимого из меню.</string>
+    <string name="error_postlist_cache_message">Вы просматривает предыдущую версию содержимого и в этой кэшированной сессии нет публикаций. Нажмите обновить, чтобы загрузить последние публикации, или выберите другую версию кэшированного содержимого из меню.</string>
 
     <string name="error_postlist_redditdown_title">Reddit недоступен</string>
     <string name="error_postlist_redditdown_message">Reddit находится под большой нагрузкой в данный момент. Нажмите обновить, чтобы загрузить последние публикации, или выберите другую версию кэшированного содержимого из меню.</string>
@@ -357,7 +357,7 @@
 	<item quantity="one">(%d ответ)</item>
 	<item quantity="few">(%d ответа)</item>
 	<item quantity="many">(%d ответов)</item>
-	<item quantity="other"></item>
+	<item quantity="other"/>
 </plurals>
 
     <string name="general_unknown">неизвестен</string>
@@ -389,7 +389,7 @@
     <string name="pref_behaviour_useinternalbrowser_title">Использовать встроенный браузер</string>
     <string name="pref_appearance_linkbuttons_title">Показать кнопки ссылок</string>
     <string name="pref_appearance_indentlines_title">Показывать линии отступов</string>
-    <string name="load_more_posts">Загрузить еще публикаций</string>
+    <string name="load_more_posts">Загрузить еще публикации</string>
 
     <string name="pref_behaviour_postcount_title">Ограничить число публикаций</string>
     <string name="pref_behaviour_postcount_items_all">Все</string>
@@ -420,7 +420,7 @@
     <string name="pref_menus_mainmenu_useritems_title">Пункты главного меню пользователя</string>
 
     <string name="mainmenu_submitted">Опубликованное</string>
-    <string name="mainmenu_downvoted">Понравившиеся публикации</string>
+    <string name="mainmenu_downvoted">Не понравившиеся публикации</string>
     <string name="sidebar_activity_title">Боковая панель</string>
 
     <string name="header_subscriber_count">%s подписчиков</string>
@@ -452,7 +452,7 @@
     <string name="webview_https_unknownprotocol">Неизвестный протокол, ожидался \'http://\'</string>
     <string name="webview_use_https">Использовать HTTPS</string>
 
-    <string name="sort_posts_relevance">Релевантность</string>
+    <string name="sort_posts_relevance">Соответствие</string>
     <string name="sort_posts_comments">Комментарии</string>
 
     <string name="mark_all_as_read">Отметить все прочитанным</string>
@@ -711,11 +711,13 @@
 
 	<string name="pref_behaviour_self_post_tap_actions_title">Действие по касанию текста публикации</string>
 
-	<string name="pref_menus_show_popular_main_menu_key"></string>
+	<string name="pref_menus_show_popular_main_menu_key"/>
 	<string name="pref_menus_show_popular_main_menu_title">Показывать /r/popular в главном меню</string>
-	<string name="pref_behaviour_video_playback_controls_key"></string>
+	<string name="pref_behaviour_video_playback_controls_key"/>
 	<string name="pref_behaviour_video_playback_controls_title">Включить элементы управления воспроизведением видео</string>
 
 	<string name="error_no_suitable_apps_available">Нет подходящих приложений.</string>
 
-</resources>
+<string name="subtitle_by">от</string>
+    <string name="subtitle_to">в</string>
+	</resources>

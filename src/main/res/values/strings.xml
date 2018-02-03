@@ -871,6 +871,7 @@
 	<string name="mainmenu_custom_destination_subreddit">Subreddit</string>
 	<string name="mainmenu_custom_destination_user">User</string>
 	<string name="mainmenu_custom_destination_url">URL</string>
+	<string name="mainmenu_custom_destination_search">Search</string>
 
 	<string name="mainmenu_header_multireddits">Multireddits</string>
 
@@ -1040,5 +1041,8 @@
 	<string name="lang_ru" translatable="false">ру́сский язы́к</string>
 	<string name="lang_uk" translatable="false">українська мова</string>
 	<string name="lang_zh_rCN" translatable="false">汉语</string>
+
+	<!-- 2018-02-03 -->
+	<string name="mainmenu_custom_empty_search_query">Empty search query.</string>
 
 </resources>

@@ -742,6 +742,7 @@
 		<item>@string/mainmenu_custom_destination_subreddit</item>
 		<item>@string/mainmenu_custom_destination_user</item>
 		<item>@string/mainmenu_custom_destination_url</item>
+		<item>@string/mainmenu_custom_destination_search</item>
 	</string-array>
 
 	<!-- Constants. Do not change. -->
@@ -749,6 +750,7 @@
 		<item>subreddit</item>
 		<item>user</item>
 		<item>url</item>
+		<item>search</item>
 	</string-array>
 
 </resources>

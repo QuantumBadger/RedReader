@@ -1,5 +1,6 @@
 84/1.9.8.5
 Added preference for vote/read/etc cache lifetime (thanks to Wolfgang Schnerring)
+Added search option to Custom Location dialog (thanks to samdroid-apps)
 
 83/1.9.8.4
 Preference to add "Random Subreddit" item to main menu (thanks to Andrew Philipchik)

@@ -727,4 +727,11 @@
 
 	<string name="error_no_suitable_apps_available">Ingen egnede programmer tilgjengelig.</string>
 
+<string name="pref_behaviour_comment_share_text_title">Inkluder tekst ved deling av kommentar</string>
+
+	<string name="disable_replies_to_infobox_failed">Klarte ikke å slå av svarfunksjon for innboks</string>
+
+	<string name="mainmenu_random">Tilfeldig subreddit</string>
+	<string name="pref_menus_show_random_main_menu_title">Vis /r/random i hovedmenyen</string>
+
 </resources>

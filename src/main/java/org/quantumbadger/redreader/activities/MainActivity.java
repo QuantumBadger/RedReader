@@ -39,6 +39,7 @@ import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import org.apache.commons.lang3.StringUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
@@ -65,6 +66,7 @@ import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.reddit.url.PostListingURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
+import org.quantumbadger.redreader.reddit.url.SearchPostListURL;
 import org.quantumbadger.redreader.reddit.url.SubredditPostListURL;
 import org.quantumbadger.redreader.reddit.url.UserCommentListingURL;
 import org.quantumbadger.redreader.reddit.url.UserPostListingURL;
@@ -474,6 +476,22 @@ public class MainActivity extends RefreshableActivity
                 LinkHandler.onLinkClicked(this, editText.getText().toString().trim());
                 break;
             }
+
+			case "search": {
+				String query = editText.getText().toString().trim();
+
+				if (StringUtils.isEmpty(query)) {
+					General.quickToast(this, R.string.mainmenu_custom_empty_search_query);
+					break;
+				}
+
+				SearchPostListURL url = SearchPostListURL.build(null, query);
+
+				final Intent intent = new Intent(this, PostListingActivity.class);
+				intent.setData(url.generateJsonUri());
+				this.startActivity(intent);
+				break;
+			}
         }
 	}
 

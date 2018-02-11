@@ -283,17 +283,22 @@ public class RedditAPICommentAction {
 				break;
 
 			case SHARE:
-
 				final Intent mailer = new Intent(Intent.ACTION_SEND);
 				mailer.setType("text/plain");
-				mailer.putExtra(Intent.EXTRA_SUBJECT, "Comment by " + comment.author + " on Reddit");
-				String body = "";
 
-				// TODO this currently just dumps the markdown (only if sharing text is enabled)
-				if (PrefsUtility.pref_behaviour_comment_share_text(activity,
+				String body = "";
+				if (PrefsUtility.pref_behaviour_sharing_include_desc(activity,
 						PreferenceManager.getDefaultSharedPreferences(activity))) {
-					body = StringEscapeUtils.unescapeHtml4(comment.body)
-							+ "\r\n\r\n";
+					mailer.putExtra(Intent.EXTRA_SUBJECT,
+							String.format(activity.getText(R.string.share_comment_by_on_reddit).toString(), comment.author)
+					);
+
+					// TODO this currently just dumps the markdown (only if sharing text is enabled)
+					if (PrefsUtility.pref_behaviour_sharing_share_text(activity,
+							PreferenceManager.getDefaultSharedPreferences(activity))) {
+						body = StringEscapeUtils.unescapeHtml4(comment.body)
+								+ "\r\n\r\n";
+					}
 				}
 
 				body += comment.getContextUrl().generateNonJsonUri().toString();

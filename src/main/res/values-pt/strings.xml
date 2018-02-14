@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
 	<string name="accounts_anon">Anônimo</string>
 	<string name="accounts_password">Senha</string>
@@ -489,4 +489,19 @@
 	<string name="error_too_fast_message">Muito rápido</string>
 	<string name="error_too_long_message">Reddit diz que o texto que você inseriu é muito longo.</string>
 	<string name="error_tor_not_installed">O Tor não funcionará a menos que o Orbot esteja instalado. Instalar agora?</string>
-</resources>
+<string name="pref_menus_subreddit_context_items_title">Subreddit Contexto Menu Itens</string>
+	<string name="mainmenu_toast_not_subscribed">Você ainda não está inscrito nesse subreddit!</string>
+	<string name="mainmenu_toast_subscribed">Você já está inscrito nesse subreddit!</string>
+	<string name="mainmenu_toast_not_pinned">Esse subreddit não está fixado no menu principal!</string>
+	<string name="mainmenu_toast_pinned">Esse subreddit já está fixado no menu principal!</string>
+	<string name="mainmenu_toast_not_blocked">Esse subreddit não está bloqueado!</string>
+	<string name="mainmenu_toast_blocked">Esse subreddit já está bloqueado!</string>
+	<string name="post_edit_done">Postagem editada. As mudanças irão aparecer depois de você atualizar.</string>
+	<string name="action_block_subreddit">Bloquear Subreddit</string>
+	<string name="action_unblock_subreddit">Desbloquear Subreddit</string>
+	<string name="action_pin_subreddit">Fixar Subreddit no Menu Principal</string>
+	<string name="action_unpin_subreddit">Desafixar Subreddit do Menu Principal</string>
+	<string name="action_subscribe_subreddit">Se inscrever no Subreddit</string>
+	<string name="action_unsubscribe_subreddit">Se desinscrever do Subreddit</string>
+
+	</resources>

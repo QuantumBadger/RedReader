@@ -17,7 +17,9 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
-				android:hint="@string/search_listing_header_query" />
+				android:hint="@string/search_listing_header_query"
+				android:maxLines="1"
+				android:inputType="text"/>
 
 	</android.support.design.widget.TextInputLayout>
 
@@ -31,7 +33,9 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
-				android:hint="@string/search_listing_header_sub" />
+				android:hint="@string/search_listing_header_sub"
+				android:maxLines="1"
+				android:inputType="textNoSuggestions"/>
 
 	</android.support.design.widget.TextInputLayout>
 

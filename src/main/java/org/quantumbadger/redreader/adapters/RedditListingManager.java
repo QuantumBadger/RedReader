@@ -22,7 +22,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.views.LoadingSpinnerView;
-import org.quantumbadger.redreader.views.PostListingHeader;
 import org.quantumbadger.redreader.views.RedditPostHeaderView;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
 
@@ -79,7 +78,7 @@ public abstract class RedditListingManager {
 		doWorkaround();
 	}
 
-	public void addPostListingHeader(final PostListingHeader view) {
+	public void addPostListingHeader(final View view) {
 		General.checkThisIsUIThread();
 		mAdapter.appendToGroup(GROUP_HEADER, new GroupedRecyclerViewItemFrameLayout(view));
 		doWorkaround();

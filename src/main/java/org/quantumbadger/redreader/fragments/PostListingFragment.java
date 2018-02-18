@@ -77,10 +77,12 @@ import org.quantumbadger.redreader.reddit.things.RedditThing;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.reddit.url.PostListingURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
+import org.quantumbadger.redreader.reddit.url.SearchPostListURL;
 import org.quantumbadger.redreader.reddit.url.SubredditPostListURL;
 import org.quantumbadger.redreader.views.PostListingHeader;
 import org.quantumbadger.redreader.views.RedditPostView;
 import org.quantumbadger.redreader.views.ScrollbarRecyclerViewManager;
+import org.quantumbadger.redreader.views.SearchListingHeader;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
 
 import java.net.URI;
@@ -246,8 +248,12 @@ public class PostListingFragment extends RRFragment
 
 		switch(mPostListingURL.pathType()) {
 
-			case RedditURLParser.USER_POST_LISTING_URL:
 			case RedditURLParser.SEARCH_POST_LISTING_URL:
+				setHeader(new SearchListingHeader(getActivity(), (SearchPostListURL) mPostListingURL));
+				CacheManager.getInstance(context).makeRequest(mRequest);
+				break;
+
+			case RedditURLParser.USER_POST_LISTING_URL:
 			case RedditURLParser.MULTIREDDIT_POST_LISTING_URL:
 				setHeader(mPostListingURL.humanReadableName(getActivity(), true), mPostListingURL.humanReadableUrl());
 				CacheManager.getInstance(context).makeRequest(mRequest);
@@ -388,14 +394,19 @@ public class PostListingFragment extends RRFragment
 	}
 
 	private void setHeader(final String title, final String subtitle) {
+        final PostListingHeader postListingHeader = new PostListingHeader(getActivity(), title, subtitle);
+        setHeader(postListingHeader);
+	}
+
+	private void setHeader(final View view) {
 		getActivity().runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				final PostListingHeader postListingHeader = new PostListingHeader(getActivity(), title, subtitle);
-				mPostListingManager.addPostListingHeader(postListingHeader);
+				mPostListingManager.addPostListingHeader(view);
 			}
 		});
 	}
+
 
 	public void onPostSelected(final RedditPreparedPost post) {
 		((RedditPostView.PostSelectionListener)getActivity()).onPostSelected(post);

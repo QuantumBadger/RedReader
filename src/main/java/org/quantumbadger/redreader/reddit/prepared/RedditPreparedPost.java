@@ -423,7 +423,10 @@ public final class RedditPreparedPost {
 
 				final Intent mailer = new Intent(Intent.ACTION_SEND);
 				mailer.setType("text/plain");
-				mailer.putExtra(Intent.EXTRA_SUBJECT, post.src.getTitle());
+				if (PrefsUtility.pref_behaviour_sharing_include_desc(activity,
+						PreferenceManager.getDefaultSharedPreferences(activity))) {
+					mailer.putExtra(Intent.EXTRA_SUBJECT, post.src.getTitle());
+				}
 				mailer.putExtra(Intent.EXTRA_TEXT, post.src.getUrl());
 				activity.startActivity(Intent.createChooser(mailer, activity.getString(R.string.action_share)));
 				break;
@@ -435,7 +438,12 @@ public final class RedditPreparedPost {
 
 				final Intent mailer = new Intent(Intent.ACTION_SEND);
 				mailer.setType("text/plain");
-				mailer.putExtra(Intent.EXTRA_SUBJECT, "Comments for " + post.src.getTitle());
+				if (PrefsUtility.pref_behaviour_sharing_include_desc(activity,
+						PreferenceManager.getDefaultSharedPreferences(activity))) {
+					mailer.putExtra(Intent.EXTRA_SUBJECT,
+							String.format(activity.getText(R.string.share_comments_for).toString(), post.src.getTitle())
+					);
+				}
 				if (shareAsPermalink) {
 					mailer.putExtra(Intent.EXTRA_TEXT, Constants.Reddit.getNonAPIUri(post.src.getPermalink()).toString());
 				} else {

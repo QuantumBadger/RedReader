@@ -492,8 +492,12 @@ public final class PrefsUtility {
 		return CommentAction.valueOf(General.asciiUppercase(getString(R.string.pref_behaviour_actions_comment_longclick_key, "action_menu", context, sharedPreferences)));
 	}
 
-	public static boolean pref_behaviour_comment_share_text(final Context context, final SharedPreferences sharedPreferences) {
-		return getBoolean(R.string.pref_behaviour_comment_share_text_key, true, context, sharedPreferences);
+	public static boolean pref_behaviour_sharing_share_text(final Context context, final SharedPreferences sharedPreferences) {
+		return getBoolean(R.string.pref_behaviour_sharing_share_text_key, true, context, sharedPreferences);
+	}
+
+	public static boolean pref_behaviour_sharing_include_desc(final Context context, final SharedPreferences sharedPreferences) {
+		return getBoolean(R.string.pref_behaviour_sharing_include_desc_key, true, context, sharedPreferences);
 	}
 
 	public static PostSort pref_behaviour_postsort(final Context context, final SharedPreferences sharedPreferences) {

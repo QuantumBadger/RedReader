@@ -43,5 +43,5 @@
 			android:id="@+id/search_listing_header_search"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="Search" />
+			android:text="@string/action_search" />
 </LinearLayout>

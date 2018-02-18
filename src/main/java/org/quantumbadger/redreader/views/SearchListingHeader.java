@@ -20,8 +20,6 @@ package org.quantumbadger.redreader.views;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -34,7 +32,7 @@ import org.quantumbadger.redreader.activities.PostListingActivity;
 import org.quantumbadger.redreader.reddit.url.SearchPostListURL;
 
 
-public final class SearchListingHeader extends FrameLayout implements TextWatcher  {
+public final class SearchListingHeader extends FrameLayout {
 
 	SearchPostListURL mUrl;
 	EditText mQuery;
@@ -50,7 +48,6 @@ public final class SearchListingHeader extends FrameLayout implements TextWatche
 
 		mQuery = (EditText) findViewById(R.id.search_listing_header_query_editText);
 		mQuery.setText(url.query);
-		mQuery.addTextChangedListener(this);
 
 		mSubreddit = (EditText) findViewById(R.id.search_listing_header_sub_editText);
 		// null and "all" are isomorphic; but SearchPostListURL takes null
@@ -59,7 +56,6 @@ public final class SearchListingHeader extends FrameLayout implements TextWatche
 		} else {
 			mSubreddit.setText(url.subreddit);
 		}
-		mSubreddit.addTextChangedListener(this);
 
 		mSearchButton = (Button) findViewById(R.id.search_listing_header_search);
 		mSearchButton.setOnClickListener(new View.OnClickListener() {
@@ -80,27 +76,5 @@ public final class SearchListingHeader extends FrameLayout implements TextWatche
 				parentActivity.finish();
 			}
 		});
-		updateSearchButtonEnabled();
 	}
-
-	private void updateSearchButtonEnabled() {
-		String query = mQuery.getText().toString();
-		String subreddit = mSubreddit.getText().toString();
-		boolean isSubredditEqual = mUrl.subreddit == null
-				?  (StringUtils.isEmpty(subreddit) || subreddit.equals("all"))
-				: subreddit.equals(mUrl.subreddit);
-		boolean isSameAsUrl = query.equals(mUrl.query) && isSubredditEqual;
-		mSearchButton.setEnabled(!isSameAsUrl);
-	}
-
-	@Override
-	public void afterTextChanged(Editable editable) {
-		updateSearchButtonEnabled();
-	}
-
-	@Override
-	public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-	@Override
-	public void onTextChanged(CharSequence s, int start, int before, int count) {}
 }

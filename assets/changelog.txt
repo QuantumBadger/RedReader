@@ -3,6 +3,7 @@ Added preference for vote/read/etc cache lifetime (thanks to Wolfgang Schnerring
 Added search option to Custom Location dialog (thanks to samdroid-apps)
 Added search text fields to results page (thanks to samdroid-apps)
 Added support for 18:9 aspect ratio devices (thanks to ktechmidas)
+Include description when sharing, and reorganised sharing settings (thanks to c0d3st0rm)
 
 83/1.9.8.4
 Preference to add "Random Subreddit" item to main menu (thanks to Andrew Philipchik)

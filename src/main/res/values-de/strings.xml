@@ -766,6 +766,6 @@ Thanks to /u/balducien and /u/andiho for this translation!
 
 	<string name="pref_appearance_comments_show_floating_toolbar_title">Schwebende Werkzeugleiste über Kommentaren anzeigen</string>
 	<string name="download_link_title">Datei herunterladen</string>
-	<string name="download_link_message">Dies ist ein Download-Link. Soll dies im externen Browser geladen werden?</string>
+	<string name="download_link_message">Dies ist ein Download-Link. Möchten Sie diesen in einem externen Browser laden?</string>
 
 	</resources>

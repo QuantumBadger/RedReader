@@ -761,4 +761,11 @@ Thanks to /u/balducien and /u/andiho for this translation!
 	<string name="pref_behaviour_self_post_tap_actions_title">Auf Self-Post tippen</string>
 	<string name="pref_behaviour_sharing_share_text_title">Text des Kommentars teilen</string>
 	<string name="disable_replies_to_infobox_failed">Das Abbestellen der Weiterleitung der Antworten in den Posteingang ist leider fehlgeschlagen.</string>
-</resources>
+<string name="button_next_comment_parent">Nächster Eltern-Kommentar</string>
+	<string name="button_prev_comment_parent">Vorheriger Eltern-Kommentar</string>
+
+	<string name="pref_appearance_comments_show_floating_toolbar_title">Schwebende Werkzeugleiste über Kommentaren anzeigen</string>
+	<string name="download_link_title">Datei herunterladen</string>
+	<string name="download_link_message">Dies ist ein Download-Link. Soll dies im externen Browser geladen werden?</string>
+
+	</resources>

@@ -768,4 +768,9 @@ Thanks to /u/balducien and /u/andiho for this translation!
 	<string name="download_link_title">Datei herunterladen</string>
 	<string name="download_link_message">Dies ist ein Download-Link. Möchten Sie diesen in einem externen Browser laden?</string>
 
+	<string name="pref_menus_show_popular_main_menu_title">/r/popular im Hauptmenü anzeigen</string>
+	<string name="pref_behaviour_video_playback_controls_title">Videosteuerung aktivieren</string>
+
+	<string name="error_no_suitable_apps_available">Keine passenden Anwendungen verfügbar.</string>
+
 	</resources>

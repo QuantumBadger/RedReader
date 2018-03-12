@@ -1,2 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<?xml version='1.0' encoding='UTF-8'?>
+<resources><string name="firstrun_login_title">Hasi saioa</string>
+    <string name="firstrun_login_message">Oraindik ez duzu saioa hasi. Kontu zerrendara sartu zaitezke menuan Kontuak aukeratuz.</string>
+    <string name="firstrun_login_button_now">Hasi saioa orain</string>
+    <string name="firstrun_login_button_later">Anonimoa izan</string>
+
+    <string name="prefs_category_appearance">Itxura</string>
+    <string name="prefs_category_behaviour">Portaera</string>
+    <string name="prefs_category_cache">Cache</string>
+    <string name="prefs_category_menus">Menuak</string>
+
+    <string name="pref_appearance_theme_header">Itxura</string>
+    </resources>

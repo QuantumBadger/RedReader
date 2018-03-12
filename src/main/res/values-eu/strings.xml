@@ -12,4 +12,13 @@
     <string name="pref_appearance_theme_header">Itxura</string>
     <string name="pref_appearance_tabletmode_header">Tableta modua</string>
     <string name="pref_appearance_font_header">Letra-tipoa</string>
+    <string name="pref_appearance_comments_header">Iruzkinak</string>
+    <string name="pref_appearance_other_header">Bestelakoak</string>
+
+    <string name="pref_appearance_twopane_title">Tableta modua (bi panel)</string>
+
+    <string name="pref_appearance_theme_title">Itxura</string>
+
+    <string name="pref_appearance_solidblack_title">Mate beltza gau moduan</string>
+
     </resources>

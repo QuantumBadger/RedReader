@@ -24,4 +24,8 @@
     <string name="pref_appearance_thumbnails_header">Miniaturak</string>
     <string name="pref_appearance_thumbnails_show_title">Erakutsi miniaturak</string>
 
+    <string name="pref_appearance_fontscale_posts_title">Argitalpenen letra tamaina</string>
+
+    <string name="pref_appearance_fontscale_comments_title">Iruzkinen letra tamaina</string>
+
     </resources>

@@ -28,4 +28,76 @@
 
     <string name="pref_appearance_fontscale_comments_title">Iruzkinen letra tamaina</string>
 
+    <string name="pref_appearance_thumbnails_nsfw_show_title">Erakutsi NSFW miniaturak</string>
+
+    <string name="pref_appearance_thumbnails_wifionly_title">Miniaturak Wi-Fiarekin soilik</string>
+
+    <string name="pref_behaviour_notifications_title">Jakinarazpenak</string>
+
+    <string name="pref_behaviour_nsfw_title">Erakutsi NSFW edukia</string>
+
+    <string name="pref_cache_pruning">Cache garbiketa</string>
+
+    <string name="pref_cache_maxage_listing_title">Ezabatu cachean dauden irudiak</string>
+
+    <string name="pref_cache_maxage_thumb_title">Ezabatu cachean dauden miniaturak</string>
+
+    <string name="pref_cache_maxage_image_title">Ezabatu cachean dauden irudiak</string>
+
+    <string name="pref_cache_precache_images_header">Irudien Aurrekarga</string>
+
+    <string name="pref_cache_precache_images_title">Aurrekargatu irudiak cachean</string>
+
+    <string name="pref_cache_precache_images_wifionly_title">Wi-Fiarekin soilik</string>
+
+    <string name="options_accounts">Kontuak</string>
+    <string name="options_accounts_long">Reddit Kontuak</string>
+    <string name="options_theme">Temak</string>
+    <string name="options_settings">Ezarpenak</string>
+
+    <string name="options_refresh">Birkargatu</string>
+    <string name="options_refresh_subreddits">Birkargatu subredditak</string>
+    <string name="options_refresh_posts">Birkargatu argitalpenak</string>
+    <string name="options_refresh_comments">Birkargatu iruzkinak</string>
+
+    <string name="options_past">Aurreko bertsioak</string>
+    <string name="options_sort">Ordenatu</string>
+    <string name="options_sort_subreddits">Ordenatu subredditak</string>
+    <string name="options_sort_posts">Ordenatu argitalpenak</string>
+    <string name="options_sort_comments">Ordenatu iruzkinak</string>
+
+    <string name="mainmenu_frontpage">Orri nagusia</string>
+    <string name="mainmenu_all">Subreddit guztiak</string>
+    <string name="mainmenu_custom">Subreddit pertsonalizatua</string>
+    <string name="mainmenu_saved">Gordetako argitalpenak</string>
+    <string name="mainmenu_hidden">Ezkutuko argitalpenak</string>
+    <string name="mainmenu_profile">Nire profila</string>
+    <string name="mainmenu_header_subreddits">Subredditak</string>
+
+    <string name="accounts_anon">Anonimoa</string>
+    <string name="accounts_active">Aktibo</string>
+    <string name="accounts_add">Gehitu Reddit kontua</string>
+    <string name="accounts_setactive">Aktibatu</string>
+    <string name="accounts_reauth">Autentifikatu berriro</string>
+    <string name="accounts_delete">Ezabatu</string>
+
+    <string name="accounts_loggingin">Saioa hasten…</string>
+    <string name="accounts_loggingin_msg">Momentu bat…</string>
+
+    <string name="accounts_username">Erabiltzaile-izena</string>
+    <string name="accounts_password">Pasahitza</string>
+
+    <string name="accounts_login">Hasi saioa</string>
+
+    <string name="accounts_delete_sure">Ziur zaude kontu hau ezabatu nahi duzula?</string>
+
+    <string name="sort_posts_new">Berriak</string>
+    <string name="sort_comments_best">Onenak</string>
+    <string name="sort_comments_old">Zaharrak</string>
+    <string name="dialog_cancel">Utzi</string>
+    <string name="dialog_yes">Bai</string>
+    <string name="dialog_no">Ez</string>
+    <string name="action_save">Gorde</string>
+    <string name="action_hide">Ezkutatu</string>
+    <string name="action_share">Partekatu</string>
     </resources>

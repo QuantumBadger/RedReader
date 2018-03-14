@@ -123,28 +123,28 @@
     <string name="action_vote_remove">Ezabatu botoa</string>
     <string name="action_unsave">Ez gorde</string>
     <string name="action_unhide">Ez ezkutatu</string>
-    <string name="action_external">Ikusi kanpo bilatzailean</string>
-    <string name="action_external_short">Bilatzailean</string>
+    <string name="action_external">Ikusi kanpo nabigatzailean</string>
+    <string name="action_external_short">Nabigatzailean</string>
     <string name="action_actionmenu_short">Ekintzak</string>
     <string name="action_actionmenu">Ekintza menua</string>
     <string name="action_comment_links">Estekak iruzkinetan</string>
     <string name="action_share_comments">Iruzkinak partekatu</string>
-    <string name="action_copy">Copiatu</string>
+    <string name="action_copy">Kopiatu</string>
     <string name="action_reply">Erantzun</string>
     <string name="action_edit">Aldatu</string>
     <string name="action_user_profile">Erabiltzaile profila</string>
     <string name="action_user_profile_short">Erabiltzailea</string>
-    <string name="action_comments">Iruzkinak ikusi</string>
+    <string name="action_comments">Ikusi iruzkinak</string>
     <string name="action_comments_switch">Aldatu iruzkinetara</string>
     <string name="action_comments_short">Iruzkinak</string>
-    <string name="action_link">Esteka irekia</string>
-    <string name="action_link_switch">Estekara aldatu</string>
+    <string name="action_link">Ireki esteka</string>
+    <string name="action_link_switch">Aldatu estekara</string>
     <string name="action_link_short">Esteka</string>
     <string name="action_nothing">Utzi</string>
 
     <string name="action_save_image">Gorde irudia</string>
     <string name="download_connecting">Konektatzen…</string>
-    <string name="download_downloading">Deskargatzen…</string>
+    <string name="download_downloading">Jaisten…</string>
     <string name="download_loading">Kargatzen…</string>
     <string name="download_done">Eginda.</string>
     <string name="comment_reply_send">Bidali</string>
@@ -152,7 +152,138 @@
     <string name="comment_reply_done">Erantzuna bidali da. Iruzkina freskatu ostean agertuko da.</string>
     <string name="comment_edit_done">Iruzkina aldatu da. Aldaketak freskatu ostean agertuko dira.</string>
     <string name="post_submit_title_hint">Izenburua</string>
-    <string name="post_captcha_submit_button">Igo</string>
+    <string name="post_captcha_submit_button">Bidali</string>
     <string name="bug_title">Arazo bat gertatu da.</string>
     <string name="error_403_title">Erabiltzaile okerra</string>
+    <string name="sort_posts_controversial">Polemikoak</string>
+    <string name="sort_posts_top_all">Bisitatuenak: Beti</string>
+
+    <string name="sort_comments_controversial">Polemikoak</string>
+    <string name="action_gotosubreddit">Joan subredditera</string>
+    <string name="action_properties">Propietateak</string>
+    <string name="action_report">Salatu</string>
+    <string name="action_report_sure">Ziur zaude hau salatu nahi duzula?</string>
+
+    <string name="action_save_image_success">Gorde irudien karpetara izen honekin</string>
+
+    <string name="download_waiting">Itxaroten…</string>
+    <string name="download_downloadstarting">Jaitsiera hasten…</string>
+    <string name="download_failed">Errorea.</string>
+
+    <string name="imageview_oom">Memoriarik gabe. Barneko nabigatzailearekin saiatzen.</string>
+    <string name="imageview_invalid_gif">GIF baliaezina. Barneko nabigatzailearekin saiatzen.</string>
+
+    <string name="comment_reply_preview">Aurreikusi</string>
+    <string name="comment_reply_submitting_title">Bildatzen…</string>
+    <string name="comment_reply_submitting_message">Momentu bat…</string>
+    <string name="post_submit_subreddit_hint">Subreddit</string>
+    <string name="post_captcha_title">Captcha</string>
+    <string name="bug_message">RedReaderrek errore bat izan du.
+\n
+\nBug txosten bat bidali nahi diozu garatzaileari? Horrela bada, email bat sortuko da informazio guztiarekin, eta bere edukia begiratu dezakezu bidali baino lehen.</string>
+    <string name="bug_button_send">Bidali bug txostena email bidez</string>
+    <string name="bug_button_ignore">Ez bidali bug txostena</string>
+
+    <string name="error_bad_captcha_title">CAPTCHA okerra</string>
+    <string name="error_bad_captcha_message">Sartu duzun CAPTCHA okerra da. Mesedez saiatu berriro.</string>
+
+    <string name="error_404_title">Ez da aurkitu (404)</string>
+    <string name="error_404_message">Eskatu dituzun datuak ez daude eskuragarri.</string>
+
+    <string name="error_unknown_api_title">Errorea</string>
+    <string name="error_unknown_api_message">Zerbitzariak ez du eskaera onartu arrazoi ezezagun batengatik. Mesedez saiatu berriro.</string>
+
+    <string name="error_redditdown_title">Reddit ez dago eskuragarri</string>
+    <string name="error_redditdown_message">Reddit karga handiarekin dago momentu honetan. Mesedez saiatu berriro.</string>
+
+    <string name="error_parse_message">Reddit ulertu ezin izan ditudan datuak bidali ditu.</string>
+
+    <string name="error_connection_title">Konexio errorea</string>
+    <string name="error_connection_message">Arazo bat gertatu da zerbitzarira konektatzean. Mesedez begiratu zure konexioa eta saiatu berriro.</string>
+
+    <string name="error_malformed_url_title">URL malformatua</string>
+    <string name="error_unknown_title">Errore ezezaguna</string>
+    <string name="error_unknown_message">Errore ezezagun bat gertatu da. Mesedez saiatu berriro.</string>
+
+    <string name="error_postlist_redditdown_title">Reddit ez dago eskuragarri</string>
+    <string name="session_active">Aktiboa</string>
+
+    <string name="time_ago">orain dela %s</string>
+
+    <string name="userprofile_created">Sortua</string>
+    <string name="userprofile_isfriend">Laguna da</string>
+    <string name="userprofile_isgold">Reddit Gold</string>
+    <string name="userprofile_moderator">Moderatzailea da</string>
+    <string name="userprofile_viewcomments">Ikusi iruzkinak</string>
+    <string name="userprofile_viewposts">Ikusi argitalpenak</string>
+
+    <string name="props_comment_title">Iruzkinen propietateak</string>
+    <string name="props_post_title">Argitalpenen propietateak</string>
+    <string name="props_error_title">Erroreen propietateak</string>
+
+    <string name="props_title">Izenburua</string>
+    <string name="props_author">Egilea</string>
+    <string name="props_author_flair">Egilearen Flair testua</string>
+    <string name="props_created">Sortua</string>
+    <string name="props_edited">Aldatua</string>
+    <string name="props_score">Puntuazioa</string>
+    <string name="props_subreddit">Subreddita</string>
+    <string name="props_url">URL</string>
+    <string name="props_num_comments">Iruzkin kopurua</string>
+    <string name="props_never">Inoiz</string>
+    <string name="props_up">Gora</string>
+    <string name="props_down">Behera</string>
+
+    <string name="notification_comment">%s-(k) erantzun egin dizu</string>
+    <string name="notification_message">%s-(k) mezu bat bidali dizu</string>
+    <string name="notification_message_multiple">Mezu berriak redditen</string>
+    <string name="notification_message_action">Sakatu ikusteko</string>
+
+    <string name="general_true">Egia</string>
+    <string name="general_false">Gezurra</string>
+
+    <string name="pref_appearance_twopane_never">Inoiz</string>
+    <string name="pref_appearance_twopane_auto">Auto-detektatu</string>
+    <string name="theme_name_red">Gorria</string>
+    <string name="theme_name_night">Gaua</string>
+    <string name="theme_name_green">Berdea</string>
+    <string name="theme_name_blue">Urdina</string>
+    <string name="theme_name_ltblue">Urdin argia</string>
+    <string name="theme_name_orange">Laranja</string>
+    <string name="theme_name_gray">Grisa</string>
+
+    <string name="time_1hr">Ordu bat</string>
+    <string name="time_6hr">6 ordu</string>
+    <string name="time_1day">Egun bat</string>
+    <string name="time_3day">3 egun</string>
+    <string name="time_1week">Aste bat</string>
+    <string name="time_1month">Hilabete bat</string>
+    <string name="time_3month">3 hilabete</string>
+
+    <string name="pref_appearance_comment_header_items_author">Egilea</string>
+    <string name="pref_appearance_comment_header_items_flair">Flair</string>
+    <string name="pref_appearance_comment_header_items_score">Puntuazioa</string>
+    <string name="pref_appearance_comment_header_items_age">Adina</string>
+
+    <string name="error_toast_notloggedin">Saioa hasi behar duzu hori egiteko.</string>
+
+    <string name="button_moredetail">Xehetasun gehiago</string>
+
+    <string name="pref_appearance_scale_normal">Normala</string>
+
+    <string name="error_invalid_password_title">Pasahitz okerra</string>
+    <string name="error_invalid_password_message">Zure erabiltzaile-izena edo pasahitza okerra da.</string>
+
+    <string name="message_nowloggedin">Saioa hasi duzu.</string>
+    <string name="message_cannotlogin">Ezin izan da saioa hasi.</string>
+
+    <string name="error_toast_no_urls_in_comment">Ez da URLrik aurkitu iruzkin honetan.</string>
+    <string name="download_subreddits">Subredditak jaisten…</string>
+
+    <string name="subtitle_points">pt</string>
+    <string name="subtitle_by">-</string>
+    <string name="subtitle_to">-(r)engatik hona:</string>
+	<string name="general_unknown">ezezaguna</string>
+
+    <string name="action_search">Bilatu</string>
     </resources>

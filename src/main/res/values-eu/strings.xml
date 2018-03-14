@@ -100,4 +100,9 @@
     <string name="action_save">Gorde</string>
     <string name="action_hide">Ezkutatu</string>
     <string name="action_share">Partekatu</string>
+    <string name="pref_appearance_loading_detail_title">Erakutsi karga-mezu zehatzak</string>
+
+    <string name="options_submit_post">Argitalpena igo</string>
+
+    <string name="mainmenu_upvoted">Botorik gabeko argitalpenak</string>
     </resources>

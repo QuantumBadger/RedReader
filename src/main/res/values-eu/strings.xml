@@ -108,4 +108,51 @@
     <string name="pref_behaviour_posts_header">Argitalpenak</string>
 
     <string name="mainmenu_inbox">Sarrerako ontzia</string>
+    <string name="sort_posts_top">Bisitatuenak</string>
+    <string name="sort_posts_top_hour">Bisitatuenak: Azken orduan</string>
+    <string name="sort_posts_top_today">Bisitatuenak: Gaur</string>
+    <string name="sort_posts_top_week">Bisitatuenak: Aste honetan</string>
+    <string name="sort_posts_top_month">Bisitatuenak: Hilabete honetan</string>
+    <string name="sort_posts_top_year">Bisitatuenak: Urte honetan</string>
+    <string name="sort_comments_new">Berriak</string>
+    <string name="sort_comments_top">Bisitatuenak</string>
+
+    <string name="dialog_close">Itxi</string>
+    <string name="dialog_go">Joan</string>
+
+    <string name="action_vote_remove">Ezabatu botoa</string>
+    <string name="action_unsave">Ez gorde</string>
+    <string name="action_unhide">Ez ezkutatu</string>
+    <string name="action_external">Ikusi kanpo bilatzailean</string>
+    <string name="action_external_short">Bilatzailean</string>
+    <string name="action_actionmenu_short">Ekintzak</string>
+    <string name="action_actionmenu">Ekintza menua</string>
+    <string name="action_comment_links">Estekak iruzkinetan</string>
+    <string name="action_share_comments">Iruzkinak partekatu</string>
+    <string name="action_copy">Copiatu</string>
+    <string name="action_reply">Erantzun</string>
+    <string name="action_edit">Aldatu</string>
+    <string name="action_user_profile">Erabiltzaile profila</string>
+    <string name="action_user_profile_short">Erabiltzailea</string>
+    <string name="action_comments">Iruzkinak ikusi</string>
+    <string name="action_comments_switch">Aldatu iruzkinetara</string>
+    <string name="action_comments_short">Iruzkinak</string>
+    <string name="action_link">Esteka irekia</string>
+    <string name="action_link_switch">Estekara aldatu</string>
+    <string name="action_link_short">Esteka</string>
+    <string name="action_nothing">Utzi</string>
+
+    <string name="action_save_image">Gorde irudia</string>
+    <string name="download_connecting">Konektatzen…</string>
+    <string name="download_downloading">Deskargatzen…</string>
+    <string name="download_loading">Kargatzen…</string>
+    <string name="download_done">Eginda.</string>
+    <string name="comment_reply_send">Bidali</string>
+    <string name="comment_edit_save">Gorde</string>
+    <string name="comment_reply_done">Erantzuna bidali da. Iruzkina freskatu ostean agertuko da.</string>
+    <string name="comment_edit_done">Iruzkina aldatu da. Aldaketak freskatu ostean agertuko dira.</string>
+    <string name="post_submit_title_hint">Izenburua</string>
+    <string name="post_captcha_submit_button">Igo</string>
+    <string name="bug_title">Arazo bat gertatu da.</string>
+    <string name="error_403_title">Erabiltzaile okerra</string>
     </resources>

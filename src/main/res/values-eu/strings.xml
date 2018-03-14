@@ -105,4 +105,7 @@
     <string name="options_submit_post">Argitalpena igo</string>
 
     <string name="mainmenu_upvoted">Botorik gabeko argitalpenak</string>
+    <string name="pref_behaviour_posts_header">Argitalpenak</string>
+
+    <string name="mainmenu_inbox">Sarrerako ontzia</string>
     </resources>

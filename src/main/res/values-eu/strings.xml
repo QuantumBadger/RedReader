@@ -286,4 +286,74 @@
 	<string name="general_unknown">ezezaguna</string>
 
     <string name="action_search">Bilatu</string>
-    </resources>
+    <string name="pref_about_version_title">Bertsioa</string>
+
+    <string name="prefs_category_about">Honi buruz</string>
+
+    <string name="pref_appearance_locale_header">Lokala</string>
+
+    <string name="pref_appearance_langforce_title">Hizkuntza</string>
+
+    <string name="lang_auto">Automatikoa</string>
+    <string name="prefs_category_network">Sarea</string>
+    <string name="pref_network_https_title">Gaitu HTTPS</string>
+    <string name="web_view_open_browser">Ikusi nabigatzailean</string>
+
+    <string name="pref_behaviour_useinternalbrowser_title">Erabili barneko nabigatzailea</string>
+    <string name="pref_appearance_linkbuttons_title">Erakutsi esteka botoiak</string>
+    <string name="pref_appearance_indentlines_title">Erakutsi indentazio markak</string>
+    <string name="load_more_posts">Kargatu argitalpen gehiago</string>
+
+    <string name="pref_behaviour_postcount_items_all">Guztiak</string>
+
+    <string name="time_year">urte</string>
+    <string name="time_years">urte</string>
+    <string name="time_month">hilabete</string>
+    <string name="time_months">hilabete</string>
+    <string name="time_day">egun</string>
+    <string name="time_days">egun</string>
+    <string name="time_hour">ordu</string>
+    <string name="time_hours">ordu</string>
+    <string name="time_min">min</string>
+    <string name="time_mins">min</string>
+    <string name="time_sec">seg</string>
+    <string name="time_secs">seg</string>
+    <string name="time_ms">ms</string>
+
+    <string name="options_subscribe">Harpidetu</string>
+    <string name="options_unsubscribe">Harpidetza kendu</string>
+    <string name="options_subscribing">Harpidetzen…</string>
+    <string name="options_unsubscribing">Harpidetza kentzen…</string>
+    <string name="mainmenu_submitted">Egindako argitalpenak</string>
+    <string name="header_subscriber_count">%s harpidedun</string>
+    <string name="header_subscriber_count_unknown">Harpidedun zenbakia ezezaguna da</string>
+
+    <string name="web_view_clear_cache">Ezabatu cachea</string>
+    <string name="web_view_clear_cache_success_toast">Cachea, historia, cookieak eta formulario data ezabatuak.</string>
+
+    <string name="gold">Gold</string>
+    <string name="pref_appearance_comment_header_items_gold">Reddit Gold</string>
+
+    <string name="karma_link">Esteka karma</string>
+    <string name="karma_comment">Iruzkin karma</string>
+
+    <string name="user_comments">Iruzkinak</string>
+
+    <string name="action_comment_go_to">Joan iruzkinera</string>
+
+    <string name="webview_https_already">URL honek jada HTTPS erabiltzen du.</string>
+    <string name="webview_https_unknownprotocol">Protokolo ezezaguna, \'http://\' espero zen</string>
+    <string name="webview_use_https">Erabili HTTPS</string>
+
+    <string name="sort_posts_relevance">Adierazgarritasuna</string>
+    <string name="sort_posts_comments">Iruzkinak</string>
+
+    <string name="mark_all_as_read">Markatu denak irakurriak bezala</string>
+    <string name="mark_all_as_read_success">Mezu guztiak irakurriak bezala markatu dira.</string>
+
+    <string name="error_title_login_unknown_reddit_error">Reddit errore ezezaguna: %s</string>
+
+    <string name="screen_orientation_auto">Auto</string>
+    <string name="pref_menus_show_random_main_menu_title">Erakutsi /r/random menu nagusian</string>
+
+</resources>

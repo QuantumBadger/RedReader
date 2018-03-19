@@ -356,4 +356,15 @@
     <string name="screen_orientation_auto">Auto</string>
     <string name="pref_menus_show_random_main_menu_title">Erakutsi /r/random menu nagusian</string>
 
-</resources>
+<string name="search_subreddit_restrict">Mugatu bilaketa...</string>
+
+    <string name="title_changelog">Berriak</string>
+
+    <string name="pref_behaviour_commentsort">Lehenetsitako iruzkin ordena</string>
+
+    <string name="action_fling_disabled">Desgaituta</string>
+
+    <string name="pref_behaviour_sort_header">Ordena</string>
+
+    <string name="pref_behaviour_postcount_title">Mugatu argitalpen kopurua</string>
+    </resources>

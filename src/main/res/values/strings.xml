@@ -1056,4 +1056,7 @@
 	<string name="share_comments_for">Comments for %s</string>
 	<string name="share_comment_by_on_reddit">Comment by %s on Reddit</string>
 
+	<!-- 2018-03-31 -->
+	<string name="lang_eu" translatable="false">Euskara</string>
+
 </resources>

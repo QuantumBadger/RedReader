@@ -242,6 +242,7 @@
 		<item>@string/lang_ru</item>
 		<item>@string/lang_uk</item>
 		<item>@string/lang_zh_rCN</item>
+		<item>@string/lang_eu</item>
     </string-array>
 
     <!-- Constants. Do not change. -->
@@ -269,6 +270,7 @@
 		<item>ru</item>
 		<item>uk</item>
 		<item>zh-rCN</item>
+		<item>eu</item>
     </string-array>
 
     <string-array name="pref_cache_maxage">

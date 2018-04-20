@@ -1,9 +1,10 @@
 buildscript {
     repositories {
         jcenter()
-    }
+		google()
+	}
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'com.android.tools.build:gradle:3.1.1'
     }
 }
 
@@ -12,24 +13,25 @@ apply plugin: 'pmd'
 
 repositories {
     jcenter()
+	google()
 }
 
 dependencies {
-    compile 'com.fasterxml.jackson.core:jackson-core:2.9.3'
-    compile 'org.apache.commons:commons-lang3:3.7'
-    compile 'joda-time:joda-time:2.9.9'
-    compile 'com.android.support:appcompat-v7:25.0.1'
-    compile 'com.android.support:recyclerview-v7:25.0.1'
-    compile 'com.android.support:design:25.0.1'
-    compile 'com.squareup.okhttp3:okhttp:3.9.1'
-    compile 'info.guardianproject.netcipher:netcipher:1.2.1'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.9.3'
+    implementation 'org.apache.commons:commons-lang3:3.7'
+    implementation 'joda-time:joda-time:2.9.9'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation 'com.android.support:design:27.1.1'
+    implementation 'com.squareup.okhttp3:okhttp:3.9.1'
+    implementation 'info.guardianproject.netcipher:netcipher:1.2.1'
 
-    testCompile 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
 }
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '25.0.3'
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         vectorDrawables.generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi', 'xxxhdpi']

@@ -44,10 +44,10 @@ public class ScrollbarRecyclerViewManager {
 			final boolean attachToRoot) {
 
 		mOuter = LayoutInflater.from(context).inflate(R.layout.scrollbar_recyclerview, root, attachToRoot);
-		mSwipeRefreshLayout = (SwipeRefreshLayout) mOuter.findViewById(R.id.scrollbar_recyclerview_refreshlayout);
-		mRecyclerView = (RecyclerView) mOuter.findViewById(R.id.scrollbar_recyclerview_recyclerview);
+		mSwipeRefreshLayout = mOuter.findViewById(R.id.scrollbar_recyclerview_refreshlayout);
+		mRecyclerView = mOuter.findViewById(R.id.scrollbar_recyclerview_recyclerview);
 		mScrollbar = mOuter.findViewById(R.id.scrollbar_recyclerview_scrollbar);
-		mScrollbarFrame = (FrameLayout) mOuter.findViewById(R.id.scrollbar_recyclerview_scrollbarframe);
+		mScrollbarFrame = mOuter.findViewById(R.id.scrollbar_recyclerview_scrollbarframe);
 
 		mSwipeRefreshLayout.setEnabled(false);
 

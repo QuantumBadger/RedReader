@@ -25,6 +25,7 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,12 +34,11 @@ import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.OAuthLoginActivity;
 import org.quantumbadger.redreader.common.BetterSSB;
-import org.quantumbadger.redreader.viewholders.VH;
 import org.quantumbadger.redreader.viewholders.VH1Text;
 
 import java.util.ArrayList;
 
-public class AccountListAdapter extends HeaderRecyclerAdapter<VH> {
+public class AccountListAdapter extends HeaderRecyclerAdapter<RecyclerView.ViewHolder> {
 
 	private final Context context;
 	private final Fragment fragment;
@@ -58,21 +58,21 @@ public class AccountListAdapter extends HeaderRecyclerAdapter<VH> {
 	}
 
 	@Override
-	protected VH onCreateHeaderItemViewHolder(ViewGroup parent) {
+	protected RecyclerView.ViewHolder onCreateHeaderItemViewHolder(ViewGroup parent) {
 		View v = LayoutInflater.from(parent.getContext())
 			.inflate(R.layout.list_item_1_text, parent, false);
 		return new VH1Text(v);
 	}
 
 	@Override
-	protected VH onCreateContentItemViewHolder(ViewGroup parent) {
+	protected RecyclerView.ViewHolder onCreateContentItemViewHolder(ViewGroup parent) {
 		View v = LayoutInflater.from(parent.getContext())
 			.inflate(R.layout.list_item_1_text, parent, false);
 		return new VH1Text(v);
 	}
 
 	@Override
-	protected void onBindHeaderItemViewHolder(VH holder, int position) {
+	protected void onBindHeaderItemViewHolder(RecyclerView.ViewHolder holder, int position) {
 		final VH1Text vh = (VH1Text) holder;
 		vh.text.setText(context.getString(R.string.accounts_add));
 		vh.text.setCompoundDrawablesWithIntrinsicBounds(rrIconAdd, null, null, null);
@@ -86,7 +86,7 @@ public class AccountListAdapter extends HeaderRecyclerAdapter<VH> {
 	}
 
 	@Override
-	protected void onBindContentItemViewHolder(VH holder, final int position) {
+	protected void onBindContentItemViewHolder(RecyclerView.ViewHolder holder, final int position) {
 		final VH1Text vh = (VH1Text) holder;
 		final RedditAccount account = accounts.get(position);
 		final BetterSSB username = new BetterSSB();

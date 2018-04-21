@@ -114,7 +114,6 @@ public class MainMenuListingManager {
 
 		mActivity = activity;
 		mContext = activity.getApplicationContext();
-		Context context = activity;
 		mListener = listener;
 
 		final Drawable rrIconPerson;
@@ -126,7 +125,7 @@ public class MainMenuListingManager {
 		final Drawable rrIconDownvote;
 
 		{
-			final TypedArray attr = context.obtainStyledAttributes(new int[]{
+			final TypedArray attr = activity.obtainStyledAttributes(new int[]{
 					R.attr.rrIconPerson,
 					R.attr.rrIconEnvOpen,
 					R.attr.rrIconSend,
@@ -136,13 +135,13 @@ public class MainMenuListingManager {
 					R.attr.rrIconDownvote
 			});
 
-			rrIconPerson = ContextCompat.getDrawable(context, attr.getResourceId(0, 0));
-			rrIconEnvOpen = ContextCompat.getDrawable(context, attr.getResourceId(1, 0));
-			rrIconSend = ContextCompat.getDrawable(context, attr.getResourceId(2, 0));
-			rrIconStarFilled = ContextCompat.getDrawable(context, attr.getResourceId(3, 0));
-			rrIconCross = ContextCompat.getDrawable(context, attr.getResourceId(4, 0));
-			rrIconUpvote = ContextCompat.getDrawable(context, attr.getResourceId(5, 0));
-			rrIconDownvote = ContextCompat.getDrawable(context, attr.getResourceId(6, 0));
+			rrIconPerson = ContextCompat.getDrawable(activity, attr.getResourceId(0, 0));
+			rrIconEnvOpen = ContextCompat.getDrawable(activity, attr.getResourceId(1, 0));
+			rrIconSend = ContextCompat.getDrawable(activity, attr.getResourceId(2, 0));
+			rrIconStarFilled = ContextCompat.getDrawable(activity, attr.getResourceId(3, 0));
+			rrIconCross = ContextCompat.getDrawable(activity, attr.getResourceId(4, 0));
+			rrIconUpvote = ContextCompat.getDrawable(activity, attr.getResourceId(5, 0));
+			rrIconDownvote = ContextCompat.getDrawable(activity, attr.getResourceId(6, 0));
 
 			attr.recycle();
 		}
@@ -151,8 +150,8 @@ public class MainMenuListingManager {
 				makeItem(R.string.mainmenu_frontpage, MainMenuFragment.MENU_MENU_ACTION_FRONTPAGE, null, true));
 
 		if(PrefsUtility.pref_show_popular_main_menu(
-				context,
-				PreferenceManager.getDefaultSharedPreferences(context))) {
+				activity,
+				PreferenceManager.getDefaultSharedPreferences(activity))) {
 			mAdapter.appendToGroup(GROUP_MAIN_ITEMS,
 								   makeItem(R.string.mainmenu_popular, MainMenuFragment.MENU_MENU_ACTION_POPULAR, null, false));
 		}
@@ -164,27 +163,27 @@ public class MainMenuListingManager {
 				makeItem(R.string.mainmenu_custom_destination, MainMenuFragment.MENU_MENU_ACTION_CUSTOM, null, false));
 
 		if(PrefsUtility.pref_show_random_main_menu(
-				context,
-				PreferenceManager.getDefaultSharedPreferences(context))) {
+				activity,
+				PreferenceManager.getDefaultSharedPreferences(activity))) {
 			mAdapter.appendToGroup(GROUP_MAIN_ITEMS,
 					makeItem(R.string.mainmenu_random, MainMenuFragment.MENU_MENU_ACTION_RANDOM, null, false));
 		}
 
 		if(!user.isAnonymous()) {
 
-			final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+			final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
 			final EnumSet<MainMenuFragment.MainMenuUserItems> mainMenuUserItems
-					= PrefsUtility.pref_menus_mainmenu_useritems(context, sharedPreferences);
+					= PrefsUtility.pref_menus_mainmenu_useritems(activity, sharedPreferences);
 
 			if(!mainMenuUserItems.isEmpty()) {
 				if(PrefsUtility.pref_appearance_hide_username_main_menu(
-						context,
-						PreferenceManager.getDefaultSharedPreferences(context))) {
+						activity,
+						PreferenceManager.getDefaultSharedPreferences(activity))) {
 
 					mAdapter.appendToGroup(
 							GROUP_USER_HEADER,
 							new GroupedRecyclerViewItemListSectionHeaderView(
-									context.getString(R.string.mainmenu_useritems)));
+									activity.getString(R.string.mainmenu_useritems)));
 
 				} else {
 					mAdapter.appendToGroup(
@@ -247,17 +246,17 @@ public class MainMenuListingManager {
 		setPinnedSubreddits();
 
 		if(PrefsUtility.pref_appearance_show_blocked_subreddits_main_menu(
-				context,
-				PreferenceManager.getDefaultSharedPreferences(context))) {
+				activity,
+				PreferenceManager.getDefaultSharedPreferences(activity))) {
 
 			setBlockedSubreddits();
 		}
 
 		if(!user.isAnonymous()) {
-			showMultiredditsHeader(context);
+			showMultiredditsHeader(activity);
 
-			final LoadingSpinnerView multiredditsLoadingSpinnerView = new LoadingSpinnerView(context);
-			final int paddingPx = General.dpToPixels(context, 30);
+			final LoadingSpinnerView multiredditsLoadingSpinnerView = new LoadingSpinnerView(activity);
+			final int paddingPx = General.dpToPixels(activity, 30);
 			multiredditsLoadingSpinnerView.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
 
 			final GroupedRecyclerViewItemFrameLayout multiredditsLoadingItem
@@ -268,11 +267,11 @@ public class MainMenuListingManager {
 		mAdapter.appendToGroup(
 				GROUP_SUBREDDITS_HEADER,
 				new GroupedRecyclerViewItemListSectionHeaderView(
-						context.getString(R.string.mainmenu_header_subreddits_subscribed)));
+						activity.getString(R.string.mainmenu_header_subreddits_subscribed)));
 
 		{
-			final LoadingSpinnerView subredditsLoadingSpinnerView = new LoadingSpinnerView(context);
-			final int paddingPx = General.dpToPixels(context, 30);
+			final LoadingSpinnerView subredditsLoadingSpinnerView = new LoadingSpinnerView(activity);
+			final int paddingPx = General.dpToPixels(activity, 30);
 			subredditsLoadingSpinnerView.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
 
 			final GroupedRecyclerViewItemFrameLayout subredditsLoadingItem

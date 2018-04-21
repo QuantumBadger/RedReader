@@ -73,7 +73,7 @@ public abstract class FlingableItemView extends SwipableItemView {
 			attr.recycle();
 		}
 
-		mFlingHintOuter = (FrameLayout)LayoutInflater.from(context).inflate(R.layout.fling_hint, null);
+		mFlingHintOuter = (FrameLayout)LayoutInflater.from(context).inflate(R.layout.fling_hint, null, false);
 
 		addView(mFlingHintOuter);
 		final ViewGroup.LayoutParams flingHintLayoutParams = mFlingHintOuter.getLayoutParams();

@@ -18,9 +18,14 @@
 package org.quantumbadger.redreader.http.okhttp;
 
 import android.content.Context;
+import android.util.Log;
+
 import okhttp3.CacheControl;
 import okhttp3.Call;
 import okhttp3.ConnectionPool;
+import okhttp3.Cookie;
+import okhttp3.CookieJar;
+import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
@@ -35,6 +40,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
@@ -45,8 +52,36 @@ public class OKHTTPBackend extends HTTPBackend {
 	private static HTTPBackend httpBackend;
 
 	private OKHTTPBackend() {
-
 		final OkHttpClient.Builder builder = new OkHttpClient.Builder();
+
+		// here we set the over18 cookie and return it whenever the url contains search
+		// this is necessary to get the reddit API to return NSFW search results
+		final List<Cookie> list = new ArrayList<>();
+		Cookie.Builder cookieBuilder = new Cookie.Builder();
+
+		cookieBuilder.domain("reddit.com");
+		cookieBuilder.name("over18");
+		cookieBuilder.value("1");
+		cookieBuilder.path("/");
+
+		list.add(cookieBuilder.build());
+
+
+		final CookieJar cookieJar = new CookieJar() {
+			@Override
+			public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
+				//LOL we do not care
+			}
+
+			@Override
+			public List<Cookie> loadForRequest(HttpUrl url) {
+				if (url.toString().contains("search"))
+					return list;
+				else return Collections.emptyList();
+			}
+		};
+
+		builder.cookieJar(cookieJar);
 
 		if(TorCommon.isTorEnabled()) {
 			Proxy tor = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("127.0.0.1", 8118));
@@ -107,47 +142,50 @@ public class OKHTTPBackend extends HTTPBackend {
 			public void executeInThisThread(final Listener listener) {
 
 				final Call call = mClient.newCall(builder.build());
+				Log.d("OK", "calling: " + call.request().url());
 				callRef.set(call);
 
+
+				final Response response;
+
 				try {
+					response = call.execute();
+				} catch(IOException e) {
+					listener.onError(CacheRequest.REQUEST_FAILURE_CONNECTION, e, null);
+					Log.d("OK", "request didn't even connect: " + e.getMessage());
+					return;
+				} catch (Throwable t) {
+					listener.onError(CacheRequest.REQUEST_FAILURE_CONNECTION, t, null);
+					Log.d("OK", "request didn't even connect: " + t.getMessage());
+					return;
+				}
 
-					final Response response;
+				final int status = response.code();
+				Log.d("OK", "request got status: " + status);
 
-					try {
-						response = call.execute();
-					} catch(IOException e) {
-						listener.onError(CacheRequest.REQUEST_FAILURE_CONNECTION, e, null);
-						return;
-					}
 
-					final int status = response.code();
+				if(status == 200 || status == 202) {
 
-					if(status == 200 || status == 202) {
+					final ResponseBody body = response.body();
+					final InputStream bodyStream;
+					final Long bodyBytes;
 
-						final ResponseBody body = response.body();
-						final InputStream bodyStream;
-						final Long bodyBytes;
-
-						if(body != null) {
-							bodyStream = body.byteStream();
-							bodyBytes = body.contentLength();
-
-						} else {
-							// TODO error
-							bodyStream = null;
-							bodyBytes = null;
-						}
-
-						final String contentType = response.header("Content-Type");
-
-						listener.onSuccess(contentType, bodyBytes, bodyStream);
+					if(body != null) {
+						bodyStream = body.byteStream();
+						bodyBytes = body.contentLength();
 
 					} else {
-						listener.onError(CacheRequest.REQUEST_FAILURE_REQUEST, null, status);
+						// TODO error
+						bodyStream = null;
+						bodyBytes = null;
 					}
 
-				} catch(Throwable t) {
-					listener.onError(CacheRequest.REQUEST_FAILURE_CONNECTION, t, null);
+					final String contentType = response.header("Content-Type");
+
+					listener.onSuccess(contentType, bodyBytes, bodyStream);
+
+				} else {
+					listener.onError(CacheRequest.REQUEST_FAILURE_REQUEST, null, status);
 				}
 			}
 

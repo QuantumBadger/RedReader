@@ -73,7 +73,7 @@ public class SearchPostListURL extends PostListingURL {
 	public Uri generateJsonUri() {
 
 		Uri.Builder builder = new Uri.Builder();
-		builder.scheme(Constants.Reddit.getScheme()).authority(Constants.Reddit.getDomain());
+		builder.scheme(Constants.Reddit.getScheme()).authority(Constants.Reddit.getHumanReadableDomain());
 
 		if(subreddit != null) {
 			builder.encodedPath("/r/");
@@ -114,6 +114,10 @@ public class SearchPostListURL extends PostListingURL {
 		}
 
 		builder.appendEncodedPath(".json");
+
+		// if the user doesn't have NSFW content disabled, it won't show up anyway
+		// leaving this on by default doesn't hurt
+		builder.appendQueryParameter("include_over_18", "on");
 
 		return builder.build();
 	}

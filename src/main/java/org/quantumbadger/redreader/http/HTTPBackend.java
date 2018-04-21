@@ -28,14 +28,11 @@ import java.net.URLEncoder;
 import java.util.List;
 
 public abstract class HTTPBackend {
-
-	private static boolean useJavaBackend = false;
-
 	/**
 	 * Factory method can read configuration information to choose a backend
 	 */
 	public static HTTPBackend getBackend() {
-		return useJavaBackend ? new JavaHTTPBackend() : OKHTTPBackend.getHttpBackend();
+		return OKHTTPBackend.getHttpBackend();
 	}
 
 	public static class RequestDetails {

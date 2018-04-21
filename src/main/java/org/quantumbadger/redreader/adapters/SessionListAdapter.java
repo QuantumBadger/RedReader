@@ -22,6 +22,7 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatDialogFragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,14 +33,13 @@ import org.quantumbadger.redreader.cache.CacheEntry;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.common.BetterSSB;
 import org.quantumbadger.redreader.common.RRTime;
-import org.quantumbadger.redreader.viewholders.VH;
 import org.quantumbadger.redreader.viewholders.VH1Text;
 
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class SessionListAdapter extends HeaderRecyclerAdapter<VH> {
+public class SessionListAdapter extends HeaderRecyclerAdapter<RecyclerView.ViewHolder> {
 
 	private final Context context;
 	private final UUID current;
@@ -64,21 +64,21 @@ public class SessionListAdapter extends HeaderRecyclerAdapter<VH> {
 	}
 
 	@Override
-	protected VH onCreateHeaderItemViewHolder(ViewGroup parent) {
+	protected RecyclerView.ViewHolder onCreateHeaderItemViewHolder(ViewGroup parent) {
 		View v = LayoutInflater.from(parent.getContext())
 			.inflate(R.layout.list_item_1_text, parent, false);
 		return new VH1Text(v);
 	}
 
 	@Override
-	protected VH onCreateContentItemViewHolder(ViewGroup parent) {
+	protected RecyclerView.ViewHolder onCreateContentItemViewHolder(ViewGroup parent) {
 		View v = LayoutInflater.from(parent.getContext())
 			.inflate(R.layout.list_item_1_text, parent, false);
 		return new VH1Text(v);
 	}
 
 	@Override
-	protected void onBindHeaderItemViewHolder(VH holder, final int position) {
+	protected void onBindHeaderItemViewHolder(RecyclerView.ViewHolder holder, final int position) {
 		final VH1Text vh = (VH1Text) holder;
 		vh.text.setText(context.getString(R.string.options_refresh));
 		vh.text.setCompoundDrawablesWithIntrinsicBounds(rrIconRefresh, null, null, null);
@@ -92,7 +92,7 @@ public class SessionListAdapter extends HeaderRecyclerAdapter<VH> {
 	}
 
 	@Override
-	protected void onBindContentItemViewHolder(VH holder, final int position) {
+	protected void onBindContentItemViewHolder(RecyclerView.ViewHolder holder, final int position) {
 		final VH1Text vh = (VH1Text) holder;
 		final CacheEntry session = sessions.get(position);
 		final BetterSSB name = new BetterSSB();

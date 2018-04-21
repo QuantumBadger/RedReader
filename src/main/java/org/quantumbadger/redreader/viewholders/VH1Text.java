@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.viewholders;
 
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 import org.quantumbadger.redreader.R;
@@ -24,7 +25,7 @@ import org.quantumbadger.redreader.R;
 /**
  * A view holder for a one line, text only list item.
  */
-public class VH1Text extends VH {
+public class VH1Text extends RecyclerView.ViewHolder {
 
 	public final TextView text;
 

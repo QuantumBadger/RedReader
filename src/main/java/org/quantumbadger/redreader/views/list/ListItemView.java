@@ -42,8 +42,8 @@ public class ListItemView extends FrameLayout {
 		final LinearLayout ll = (LinearLayout)inflate(context, R.layout.list_item, null);
 
 		divider = ll.findViewById(R.id.list_item_divider);
-		textView = (TextView)ll.findViewById(R.id.list_item_text);
-		imageView = (ImageView)ll.findViewById(R.id.list_item_icon);
+		textView = ll.findViewById(R.id.list_item_text);
+		imageView = ll.findViewById(R.id.list_item_icon);
 
 		setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
 

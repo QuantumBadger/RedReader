@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!--
   ~ This file is part of RedReader.
   ~
@@ -15,7 +15,6 @@
   ~ You should have received a copy of the GNU General Public License
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
   -->
-
 <resources>
 
     <!-- First Run Dialog -->
@@ -259,7 +258,7 @@
     <string name="error_subreddit_required_message">Musisz określić subreddit.</string>
 
     <string name="error_bad_captcha_title">Nieprawidłowa CAPTCHA</string>
-    <string name="error_bad_captcha_message">Wpisana CAPTCHA jest błędna. Prosimy spróbować ponownie</string>
+    <string name="error_bad_captcha_message">Wpisana CAPTCHA jest błędna. Prosimy spróbować ponownie.</string>
 
     <string name="error_404_title">Nie znaleziono (404)</string>
     <string name="error_404_message">Nie można odnaleźć żądanej strony.</string>
@@ -880,4 +879,14 @@
 	<string name="pref_menus_show_popular_main_menu_title">Pokaż /r/popular w menu głównym</string>
 	<string name="pref_behaviour_video_playback_controls_title">Włącz kontrolki odtwarzania wideo</string>
 	<string name="error_no_suitable_apps_available">Brak odpowiedniej aplikacji.</string>
+<string name="pref_appearance_comments_show_floating_toolbar_title">Pokaż pływający pasek nad komentarzami</string>
+	<string name="pref_menus_show_popular_main_menu_key">pref_menus_show_popular_main_menu</string>
+	<string name="pref_behaviour_video_playback_controls_key">pref_behaviour_video_playback_controls</string>
+	<string name="pref_behaviour_comment_share_text_title">Zawrzyj tekst podczas udostępniania komentarza</string>
+
+	<string name="disable_replies_to_infobox_failed">Nie udało się wyłączyć odpowiedzi do skrzynki odbiorczej</string>
+
+	<string name="mainmenu_random">Losowy subreddit</string>
+	<string name="pref_menus_show_random_main_menu_title">Pokaż /r/random w menu głównym</string>
+
 </resources>

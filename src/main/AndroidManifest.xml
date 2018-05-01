@@ -18,8 +18,8 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="org.quantumbadger.redreader"
-          android:versionCode="82"
-          android:versionName="1.9.8.3"
+          android:versionCode="84"
+          android:versionName="1.9.8.5"
           android:installLocation="auto">
 
     <uses-sdk android:minSdkVersion="14"
@@ -40,6 +40,7 @@
                  android:largeHeap="true"
                  android:hardwareAccelerated="true"
                  android:allowBackup="true">
+		<meta-data android:name="android.max_aspect" android:value="2.1" />
 
 		<meta-data android:name="com.lge.support.SPLIT_WINDOW" android:value="true" />
 

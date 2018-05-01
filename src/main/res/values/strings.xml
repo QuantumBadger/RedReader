@@ -106,6 +106,9 @@
     <string name="pref_cache_maxage_image_key" translatable="false">pref_cache_maxage_image</string>
     <string name="pref_cache_maxage_image_title">Delete cached images after</string>
 
+	<string name="pref_cache_maxage_entry_key" translatable="false">pref_cache_maxage_entry</string>
+	<string name="pref_cache_maxage_entry_title">Delete cached flags (read, upvoted, etc.) after</string>
+
     <string name="pref_cache_precache_images_header">Precache Images</string>
 
     <string name="pref_cache_precache_images_key" translatable="false">pref_cache_precache_images</string>
@@ -868,6 +871,7 @@
 	<string name="mainmenu_custom_destination_subreddit">Subreddit</string>
 	<string name="mainmenu_custom_destination_user">User</string>
 	<string name="mainmenu_custom_destination_url">URL</string>
+	<string name="mainmenu_custom_destination_search">Search</string>
 
 	<string name="mainmenu_header_multireddits">Multireddits</string>
 
@@ -1019,8 +1023,8 @@
 	<string name="error_no_suitable_apps_available">No suitable apps available.</string>
 
 	<!-- 2017-10-22 -->
-	<string name="pref_behaviour_comment_share_text_key" translatable="false">pref_behaviour_comment_share_text</string>
-	<string name="pref_behaviour_comment_share_text_title">Include text when sharing comment</string>
+	<string name="pref_behaviour_sharing_share_text_key" translatable="false">pref_behaviour_comment_share_text</string>
+	<string name="pref_behaviour_sharing_share_text_title">Include text when sharing comment</string>
 
 	<!-- 2017-11-01 -->
 	<string name="disable_replies_to_infobox_failed">Disabling replies to inbox failed</string>
@@ -1029,5 +1033,30 @@
 	<string name="mainmenu_random">Random Subreddit</string>
 	<string name="pref_menus_show_random_main_menu_key" translatable="false">pref_menus_show_random_main_menu</string>
 	<string name="pref_menus_show_random_main_menu_title">Show /r/random in main menu</string>
+
+	<!-- 2018-01-16 -->
+	<string name="lang_fi" translatable="false">Suomi</string>
+	<string name="lang_my" translatable="false">မြန်မာဘာသာ</string>
+	<string name="lang_nb" translatable="false">Bokmål</string>
+	<string name="lang_ru" translatable="false">ру́сский язы́к</string>
+	<string name="lang_uk" translatable="false">українська мова</string>
+	<string name="lang_zh_rCN" translatable="false">汉语</string>
+
+	<!-- 2018-02-03 -->
+	<string name="mainmenu_custom_empty_search_query">Empty search query.</string>
+
+	<!-- 2018-02-10 -->
+	<string name="search_listing_header_query">Search Query</string>
+	<string name="search_listing_header_sub">Limit to Subreddit</string>
+  
+	<!-- 2018-02-11 -->
+	<string name="pref_behaviour_sharing_header">Sharing</string>
+	<string name="pref_behaviour_sharing_include_desc_key" translatable="false">pref_behaviour_sharing_include_desc</string>
+	<string name="pref_behaviour_sharing_include_desc_title">Include title/description when sharing</string>
+	<string name="share_comments_for">Comments for %s</string>
+	<string name="share_comment_by_on_reddit">Comment by %s on Reddit</string>
+
+	<!-- 2018-03-31 -->
+	<string name="lang_eu" translatable="false">Euskara</string>
 
 </resources>

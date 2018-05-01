@@ -1,3 +1,21 @@
+85/1.9.8.6
+Updated Dutch translation (thanks to Ghostkeeper)
+
+84/1.9.8.5
+Added preference for vote/read/etc cache lifetime (thanks to Wolfgang Schnerring)
+Added search option to Custom Location dialog (thanks to samdroid-apps)
+Added search text fields to results page (thanks to samdroid-apps)
+Added support for 18:9 aspect ratio devices (thanks to ktechmidas)
+Include description when sharing, and reorganised sharing settings (thanks to c0d3st0rm)
+Added Basque translation (thanks to Gontzal Manuel Pujana Onaindia and Javi Sautua)
+Updated Esperanto translation (thanks to Verdulo)
+Updated Polish translation (thanks to Verdulo)
+Updated Russian translation (thanks to Vladislav Glinsky)
+Updated Ukrainian translation (thanks to Vladislav Glinsky)
+Updated Norwegian Bokmål translation (thanks to Allan Nordhøy)
+Updated Portuguese translation (thanks to Rafael Andrade)
+Updated German translation (thanks to Andreas Kleinert)
+
 83/1.9.8.4
 Preference to add "Random Subreddit" item to main menu (thanks to Andrew Philipchik)
 Fixed handling of /r/random (thanks to Andrew Philipchik)
@@ -6,7 +24,18 @@ Fix for fullscreen video in internal browser (thanks to Clubfan22)
 Preference to exclude text when sharing comment (thanks to Clubfan22)
 Scroll to top when collapsing self post (thanks to ajgoda90)
 Disable sending replies to inbox for comments (thanks to Clubfan22)
+Added Finnish translation (thanks to Janne-Pekka Mustonen and Jussi Kuokkanen)
+Added Burmese translation (thanks to BannerCoe)
+Added Norwegian Bokmål translation (thanks to Allan Nordhøy)
+Added Russian translation (thanks to Vladislav Glinsky)
+Added Ukrainian translation (thanks to Vladislav Glinsky)
+Added Simplified Chinese translation (thanks to gensitu)
 Updated French translation (thanks to Toover)
+Updated Danish translation (thanks to Jan Madsen)
+Updated Esperanto translation (thanks to Verdulo)
+Updated Dutch translation (thanks to wb9688)
+Updated Romanian translation (thanks to Gaman Gabriel)
+Updated Polish translation (thanks to Verdulo and Piotr Strebski)
 
 82/1.9.8.3
 Fix for some Gfycat links (thanks to Mark Lee)

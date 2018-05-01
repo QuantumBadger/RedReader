@@ -206,7 +206,15 @@ public final class PrefsUtility {
 			final android.content.res.Configuration conf = res.getConfiguration();
 
 			if(!lang.equals("auto")) {
-				conf.locale = new Locale(lang);
+
+				if(lang.contains("-r")) {
+					final String[] split = lang.split("-r");
+					conf.locale = new Locale(split[0], split[1]);
+
+				} else {
+					conf.locale = new Locale(lang);
+				}
+
 			} else {
 				conf.locale = Locale.getDefault();
 			}
@@ -484,8 +492,12 @@ public final class PrefsUtility {
 		return CommentAction.valueOf(General.asciiUppercase(getString(R.string.pref_behaviour_actions_comment_longclick_key, "action_menu", context, sharedPreferences)));
 	}
 
-	public static boolean pref_behaviour_comment_share_text(final Context context, final SharedPreferences sharedPreferences) {
-		return getBoolean(R.string.pref_behaviour_comment_share_text_key, true, context, sharedPreferences);
+	public static boolean pref_behaviour_sharing_share_text(final Context context, final SharedPreferences sharedPreferences) {
+		return getBoolean(R.string.pref_behaviour_sharing_share_text_key, true, context, sharedPreferences);
+	}
+
+	public static boolean pref_behaviour_sharing_include_desc(final Context context, final SharedPreferences sharedPreferences) {
+		return getBoolean(R.string.pref_behaviour_sharing_include_desc_key, true, context, sharedPreferences);
 	}
 
 	public static PostSort pref_behaviour_postsort(final Context context, final SharedPreferences sharedPreferences) {
@@ -594,6 +606,10 @@ public final class PrefsUtility {
 		result.put(Constants.FileType.CAPTCHA, maxAgeImage);
 
 		return result;
+	}
+
+	public static Long pref_cache_maxage_entry(final Context context, final SharedPreferences sharedPreferences) {
+		return 1000L * 60L * 60L * Long.valueOf(getString(R.string.pref_cache_maxage_entry_key, "168", context, sharedPreferences));
 	}
 
 	// pref_cache_precache_images

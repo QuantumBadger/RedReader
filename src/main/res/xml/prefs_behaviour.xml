@@ -151,10 +151,6 @@
 						android:entryValues="@array/pref_behaviour_fling_comment_actions_return"
 						android:defaultValue="upvote"/>
 
-		<CheckBoxPreference android:title="@string/pref_behaviour_comment_share_text_title"
-				android:key="@string/pref_behaviour_comment_share_text_key"
-				android:defaultValue="true"/>
-
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_behaviour_posts_header">
@@ -162,10 +158,6 @@
         <CheckBoxPreference android:title="@string/pref_behaviour_nsfw_title"
                             android:key="@string/pref_behaviour_nsfw_key"
                             android:defaultValue="false"/>
-
-		<CheckBoxPreference android:title="@string/pref_behaviour_share_permalink_title"
-				android:key="@string/pref_behaviour_share_permalink_key"
-				android:defaultValue="false"/>
 
         <ListPreference android:title="@string/pref_behaviour_postcount_title"
                         android:key="@string/pref_behaviour_postcount_key"
@@ -186,15 +178,31 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_behaviour_bezel_toolbar_header">
+	<PreferenceCategory android:title="@string/pref_behaviour_sharing_header">
 
-        <ListPreference android:title="@string/pref_behaviour_bezel_toolbar_swipezone_title"
-                        android:key="@string/pref_behaviour_bezel_toolbar_swipezone_key"
-                        android:entries="@array/pref_behaviour_bezel_toolbar_swipe_zone_array"
-                        android:entryValues="@array/pref_behaviour_bezel_toolbar_swipe_zone_array_return"
-                        android:defaultValue="10"/>
+		<CheckBoxPreference android:title="@string/pref_behaviour_share_permalink_title"
+				android:key="@string/pref_behaviour_share_permalink_key"
+				android:defaultValue="false"/>
 
-    </PreferenceCategory>
+		<CheckBoxPreference android:title="@string/pref_behaviour_sharing_include_desc_title"
+				android:key="@string/pref_behaviour_sharing_include_desc_key"
+				android:defaultValue="true"/>
+
+		<CheckBoxPreference android:title="@string/pref_behaviour_sharing_share_text_title"
+				android:key="@string/pref_behaviour_sharing_share_text_key"
+				android:defaultValue="true"/>
+
+	</PreferenceCategory>
+
+	<PreferenceCategory android:title="@string/pref_behaviour_bezel_toolbar_header">
+
+		<ListPreference android:title="@string/pref_behaviour_bezel_toolbar_swipezone_title"
+				android:key="@string/pref_behaviour_bezel_toolbar_swipezone_key"
+				android:entries="@array/pref_behaviour_bezel_toolbar_swipe_zone_array"
+				android:entryValues="@array/pref_behaviour_bezel_toolbar_swipe_zone_array_return"
+				android:defaultValue="10"/>
+
+	</PreferenceCategory>
 
 
 </PreferenceScreen>

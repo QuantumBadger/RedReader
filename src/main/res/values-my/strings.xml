@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources><string name="firstrun_login_button_now">ယခု ဝင်ရောက်ရန်</string>
+    <string name="firstrun_login_button_later">အမည်ဝှက်ဖြင့်</string>
+
+    <string name="prefs_category_appearance">အသွင်အပြင်</string>
+    <string name="prefs_category_behaviour">အပြုအမူ</string>
+    <string name="prefs_category_cache">ကတ်ရှ် စနစ်</string>
+    <string name="prefs_category_menus">မီနူး</string>
+
+    <string name="pref_appearance_theme_header">သင်းမ်ပုံစံ</string>
+    <string name="pref_appearance_font_header">ဖွန့် စနစ်</string>
+    <string name="pref_appearance_thumbnails_header">ပုံစံငယ်</string>
+    <string name="pref_appearance_tabletmode_header">ဇယားပုံစံ</string>
+    <string name="pref_appearance_comments_header">ကွန်းမန့်များ</string>
+    <string name="pref_appearance_other_header">အခြား</string>
+
+    <string name="pref_appearance_twopane_title">ဇယား ပုံစံ</string>
+
+    <string name="pref_appearance_theme_title">သင်းမ် ပုံစံ</string>
+
+    <string name="pref_appearance_fontscale_posts_title">ပိုစ့် ဖွန့် စကေး</string>
+
+    <string name="pref_appearance_fontscale_comments_title">ကွန်းမန့် ဖွန့်စကေး</string>
+
+    <string name="pref_appearance_thumbnails_show_title">ပုံစံငယ် များကို ပြပါ</string>
+
+    <string name="pref_behaviour_notifications_title">အသိပေးချက်များ</string>
+
+    <string name="pref_behaviour_actions_post_header">ပိုစ့် လုပ်ဆောင်ချက်များ</string>
+    <string name="pref_behaviour_actions_comment_header">ကွန်းမန့်လုပ်ဆောင်ချက်များ</string>
+    <string name="pref_behaviour_posts_header">ပို့စ်များ</string>
+
+    <string name="pref_cache_precache_images_wifionly_title">ဝိုင်ဖိုင် ဖြင့်သာ</string>
+
+    <string name="options_accounts">အကောင့်</string>
+    <string name="options_accounts_long">Reddit အကောင့်</string>
+    <string name="options_settings">ဆက်တင်</string>
+
+    <string name="options_submit_post">ပို့စ် တင်မည်</string>
+
+    </resources>

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-
+<?xml version='1.0' encoding='UTF-8'?>
 <!--
   ~ This file is part of RedReader.
   ~
@@ -16,11 +15,9 @@
   ~ You should have received a copy of the GNU General Public License
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
   -->
-
 <!--
 Thanks to /u/balducien and /u/andiho for this translation!
 -->
-
 <resources>
 
     <!-- First Run Dialog -->
@@ -92,6 +89,8 @@ Thanks to /u/balducien and /u/andiho for this translation!
 
     <string name="pref_cache_maxage_image_title">Leere Bildercache nach</string>
 
+    <string name="pref_cache_maxage_entry_title">Leere Markierungscache (gelesen, aufgewertet etc.) nach</string>
+
     <string name="pref_cache_precache_images_header">Bilder vorabladen</string>
 
     <string name="pref_cache_precache_images_title">Bilder vorabladen</string>
@@ -107,7 +106,7 @@ Thanks to /u/balducien and /u/andiho for this translation!
 
     <!-- Options Menu -->
 
-    <string name="options_accounts">Accounts</string>
+    <string name="options_accounts">Konten</string>
     <string name="options_accounts_long">Reddit-Accounts</string>
     <string name="options_theme">Designs</string>
     <string name="options_settings">Einstellungen</string>
@@ -222,7 +221,7 @@ Thanks to /u/balducien and /u/andiho for this translation!
     <string name="action_edit">Ändern</string>
     <string name="action_user_profile">Benutzer anzeigen</string>
     <string name="action_user_profile_short">Benutzer</string>
-    <string name="action_properties">Weitere Infos…</string>
+    <string name="action_properties">Eigenschaften</string>
     <string name="action_comments">Kommentare anzeigen</string>
     <string name="action_comments_switch">Zu Kommentaren wechseln</string>
     <string name="action_comments_short">Kommentare</string>
@@ -267,7 +266,7 @@ Thanks to /u/balducien and /u/andiho for this translation!
     <string name="post_submit_subreddit_hint">Subreddit</string>
     <string name="post_captcha_title">Captcha</string>
     <string name="post_captcha_submit_button">Einreichen</string>
-    <string name="post_submit_done">Post eingereicht</string>
+    <string name="post_submit_done">Beitrag übermittelt</string>
 
     <!-- Bug Reporting -->
 
@@ -293,7 +292,7 @@ Thanks to /u/balducien and /u/andiho for this translation!
     <string name="error_unknown_api_title">Fehler</string>
     <string name="error_unknown_api_message">Der Server akzeptierte deine Anfrage aus unbekannten Gründen nicht. Bitte versuch es nochmal.</string>
 
-    <string name="error_redditdown_title">Reddit ist überlastet.</string>
+    <string name="error_redditdown_title">Reddit ist nicht erreichbar</string>
     <string name="error_redditdown_message">Reddit ist im Moment sehr stark belastet. Bitte versuch es nochmal.</string>
 
     <string name="error_cancelled_title">Operation abgebrochen</string>
@@ -319,7 +318,7 @@ Thanks to /u/balducien and /u/andiho for this translation!
 
     <!-- Post list specific errors -->
 
-    <string name="error_postlist_cache_title">Ende der gecachten Daten.</string>
+    <string name="error_postlist_cache_title">Ende der zwischengespeicherten Daten</string>
     <string name="error_postlist_cache_message">Du schaust gerade eine vergangene Version hiervon an, und es gibt nicht mehr Posts im Cache. Lade neu, um die neuesten Posts anzuzeigen, oder wähle eine andere, vergangene Version im Menü.</string>
 
     <string name="error_postlist_redditdown_title">Reddit ist überlastet</string>
@@ -411,7 +410,7 @@ Thanks to /u/balducien and /u/andiho for this translation!
 
     <string name="error_toast_notloggedin">Dazu musst du eingeloggt sein.</string>
 
-    <string name="button_moredetail">Mehr Details…</string>
+    <string name="button_moredetail">Weitere Informationen…</string>
 
     <string name="pref_appearance_scale_normal">Normal</string>
 
@@ -561,11 +560,9 @@ Thanks to /u/balducien and /u/andiho for this translation!
 	<string name="action_share_image">Bild teilen</string>
 	<string name="album_already_first_image">Bereits am ersten Bild des Albums angekommen</string>
 	<string name="album_already_last_image">Bereits am letzten Bild des Albums angekommen</string>
-	<string name="block_done">Subreddit blockiert. Zukünftige Besuche von /r/all werden dieses Subreddit nicht
-		anzeigen
-	</string>
+	<string name="block_done">Subreddit blockiert. Zukünftige Besuche von /r/all werden dieses Subreddit nicht anzeigen.</string>
 	<string name="block_subreddit">Subreddit blockieren</string>
-	<string name="button_browse">Navigieren</string>
+	<string name="button_browse">Durchsuchen …</string>
 	<string name="button_upload">Hochladen</string>
 	<string name="comment_header_search_thread_title">Sie sehen gerade Suchergebnisse eines Kommentarfadens an.</string>
 	<string name="comment_header_specific_thread_message">Hier klicken um alle Kommentare zu diesem Post anzuzeigen.
@@ -574,7 +571,7 @@ Thanks to /u/balducien and /u/andiho for this translation!
 	</string>
 	<string name="delete_confirm">Sind Sie sicher dass Sie das löschen möchten?</string>
 	<string name="delete_success">Erfolgreich entfernt. Das Element wird sichtbar bleiben bis Sie neu laden.</string>
-	<string name="download_authorizing">Authentifizieren...</string>
+	<string name="download_authorizing">Authentifizierung …</string>
 	<string name="edit_comment_actionbar">Kommentar bearbeiten</string>
 	<string name="error_403_message_nonreddit">Der Server hat mit einem \"Erlaubnis verweigert\"-Fehler geantwortet.
 	</string>
@@ -762,6 +759,21 @@ Thanks to /u/balducien and /u/andiho for this translation!
 	<string name="action_block_subreddit">Subreddit blockieren</string>
 	<string name="collapsed_self_post">Text minimiert</string>
 	<string name="pref_behaviour_self_post_tap_actions_title">Auf Self-Post tippen</string>
-	<string name="pref_behaviour_comment_share_text_title">Text des Kommentars teilen</string>
+	<string name="pref_behaviour_sharing_share_text_title">Text des Kommentars teilen</string>
 	<string name="disable_replies_to_infobox_failed">Das Abbestellen der Weiterleitung der Antworten in den Posteingang ist leider fehlgeschlagen.</string>
+<string name="button_next_comment_parent">Nächster Eltern-Kommentar</string>
+	<string name="button_prev_comment_parent">Vorheriger Eltern-Kommentar</string>
+
+	<string name="pref_appearance_comments_show_floating_toolbar_title">Schwebende Werkzeugleiste über Kommentaren anzeigen</string>
+	<string name="download_link_title">Datei herunterladen</string>
+	<string name="download_link_message">Dies ist ein Download-Link. Möchten Sie diesen in einem externen Browser laden?</string>
+
+	<string name="pref_menus_show_popular_main_menu_title">/r/popular im Hauptmenü anzeigen</string>
+	<string name="pref_behaviour_video_playback_controls_title">Videosteuerung aktivieren</string>
+
+	<string name="error_no_suitable_apps_available">Keine passenden Apps verfügbar</string>
+
+	<string name="mainmenu_random">Zufälliger Subreddit</string>
+	<string name="pref_menus_show_random_main_menu_title">/r/random im Hauptmenü anzeigen</string>
+
 </resources>

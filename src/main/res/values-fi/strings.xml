@@ -1,0 +1,206 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources><string name="firstrun_login_title">Kirjaudu sisään</string>
+    <string name="firstrun_login_message">Et ole kirjautunut sisään. Voit määrittää tilisi valitsemalla päävalikosta kohdan Tili.</string>
+    <string name="firstrun_login_button_now">Kirjaudu sisään nyt</string>
+    <string name="firstrun_login_button_later">Ole anonyymi</string>
+
+    <string name="prefs_category_appearance">Ulkoasu</string>
+    <string name="prefs_category_behaviour">Käyttäytyminen</string>
+    <string name="prefs_category_cache">Välimuisti</string>
+    <string name="prefs_category_menus">Valikot</string>
+
+    <string name="pref_appearance_theme_header">Teema</string>
+    <string name="pref_appearance_font_header">Fontti</string>
+    <string name="pref_appearance_thumbnails_header">Esikatselukuvat</string>
+    <string name="pref_appearance_tabletmode_header">Tabletti-tila</string>
+    <string name="pref_appearance_comments_header">Kommentit</string>
+    <string name="pref_appearance_other_header">Muut</string>
+
+    <string name="pref_appearance_twopane_title">Kahden paneelin tabletti-tila</string>
+
+    <string name="pref_appearance_theme_title">Teema</string>
+
+    <string name="pref_appearance_solidblack_title">Tasaisen musta yötila</string>
+
+    <string name="pref_appearance_fontscale_posts_title">Julkaisujen fonttien skaalaus</string>
+
+    <string name="pref_appearance_fontscale_comments_title">Kommenttien fontin skaalaus</string>
+
+    <string name="pref_appearance_thumbnails_show_title">Näytä esikatselukuvat</string>
+
+    <string name="pref_appearance_thumbnails_nsfw_show_title">Näytä sopimattomat esikatselukuvat</string>
+
+    <string name="pref_appearance_thumbnails_wifionly_title">Esikatselukuvat vain Wi-Fi:n kautta</string>
+
+    <string name="pref_appearance_loading_detail_title">Näytä tarkat tiedot ladattaessa viestejä</string>
+
+    <string name="pref_appearance_comment_header_items_title">Kommentin otsikkorivi</string>
+
+    <string name="pref_behaviour_notifications_title">Ilmoitukset</string>
+
+    <string name="pref_behaviour_actions_post_header">Julkaisujen tapahtumat</string>
+    <string name="pref_behaviour_actions_comment_header">Kommenttien tapahtumat</string>
+    <string name="pref_behaviour_posts_header">Julkaisut</string>
+
+    <string name="pref_behaviour_fling_post_right_title">Pyyhkäise julkaisua oikealle</string>
+
+    <string name="pref_behaviour_actions_comment_tap_title">Kommentin näpäytys</string>
+
+    <string name="pref_behaviour_nsfw_title">Näytä sopimaton sisältö</string>
+
+    <string name="pref_cache_pruning">Välimuistin karsiminen</string>
+
+    <string name="pref_cache_maxage_listing_title">Poista välimuistissa oleva listaus</string>
+
+    <string name="pref_cache_maxage_thumb_title">Poista välimuistissa olevat esikatselukuvat</string>
+
+    <string name="pref_cache_maxage_image_title">Poista välimuistissa olevat kuvat</string>
+
+    <string name="pref_cache_precache_images_header">Esilataa kuvat</string>
+
+    <string name="pref_cache_precache_images_title">Esilataa kuvat</string>
+
+    <string name="pref_cache_precache_images_wifionly_title">Vain Wi-Fin kautta</string>
+
+    <string name="pref_menus_post_context_items_title">Julkaisun sisältövalikon kohteet</string>
+
+    <string name="pref_menus_post_toolbar_items_title">Julkaisun työkalupalkin kohteet</string>
+
+    <string name="options_accounts">Tilit</string>
+    <string name="options_accounts_long">Reddit tilit</string>
+    <string name="options_theme">Teemat</string>
+    <string name="options_settings">Asetukset</string>
+
+    <string name="options_submit_post">Lisää julkaisu</string>
+
+    <string name="options_refresh">Päivitä</string>
+    <string name="options_refresh_subreddits">Päivitä aliredditit</string>
+    <string name="options_refresh_posts">Päivitä julkaisut</string>
+    <string name="options_refresh_comments">Päivitä kommentit</string>
+
+    <string name="options_past">Aiemmat versiot</string>
+    <string name="options_past_posts">Vanhojen julkaisulistojen versiot</string>
+    <string name="options_past_comments">Vanhojen kommenttilistojen versiot</string>
+
+    <string name="options_sort">Järjestä</string>
+    <string name="options_sort_subreddits">Järjestä aliredditit</string>
+    <string name="options_sort_posts">Järjestä julkaisut</string>
+    <string name="options_sort_comments">Järjestä kommentit</string>
+
+    <string name="mainmenu_frontpage">Etusivu</string>
+    <string name="mainmenu_all">Kaikki aliredditit</string>
+    <string name="mainmenu_custom">Mukautettu alireddit</string>
+    <string name="mainmenu_custom_invalid_name">Väärä aliredditin nimi.</string>
+    <string name="mainmenu_saved">Tallennetut julkaisut</string>
+    <string name="mainmenu_hidden">Piilotetut julkaisut</string>
+    <string name="mainmenu_upvoted">Upvoutatut julkaisut</string>
+    <string name="mainmenu_inbox">Postilaatikko</string>
+    <string name="mainmenu_profile">Oma profiili</string>
+    <string name="mainmenu_header_subreddits">Aliredditit</string>
+
+    <string name="listing_cached">Näytetään välimuistissa oleva kopio %s</string>
+
+    <string name="accounts_anon">Anonyymi</string>
+    <string name="accounts_active">Läsnäoleva</string>
+    <string name="accounts_add">Lisää Reddit-tili</string>
+    <string name="accounts_setactive">Aseta läsnäolevaksi</string>
+    <string name="accounts_reauth">Uudelleentodenna</string>
+    <string name="accounts_delete">Poista</string>
+
+    <string name="accounts_loggingin">Kirjaudutaan sisään…</string>
+    <string name="accounts_loggingin_msg">Pieni hetki…</string>
+
+    <string name="accounts_username">Käyttäjänimi</string>
+    <string name="accounts_password">Salasana</string>
+
+    <string name="accounts_login">Kirjaudu sisään</string>
+
+    <string name="accounts_delete_sure">Oletko varma että haluat poistaa tämän tilin?</string>
+
+    <string name="sort_posts_hot">Kuumat</string>
+    <string name="sort_posts_new">Uudet</string>
+    <string name="sort_posts_rising">Nousevat</string>
+    <string name="sort_posts_controversial">Ristiriitaiset</string>
+    <string name="sort_posts_top">Ylimmät</string>
+    <string name="sort_posts_top_hour">Ylimmät: Viimeinen tunti</string>
+    <string name="sort_posts_top_today">Ylimmät: Tänään</string>
+    <string name="sort_posts_top_week">Ylimmät: Tämä viikko</string>
+    <string name="sort_posts_top_month">Ylimmät: Tämä kuukausi</string>
+    <string name="sort_posts_top_year">Ylimmät: Tämä vuosi</string>
+    <string name="sort_posts_top_all">Ylimmät: Kaikki ajankohdat</string>
+
+    <string name="sort_comments_best">Parhaat</string>
+    <string name="sort_comments_hot">Kuumat</string>
+    <string name="sort_comments_new">Uudet</string>
+    <string name="sort_comments_old">Vanhat</string>
+    <string name="sort_comments_controversial">Ristiriitaiset</string>
+    <string name="sort_comments_top">Ylimmät</string>
+
+    <string name="dialog_close">Sulje</string>
+    <string name="dialog_cancel">Peruuta</string>
+    <string name="dialog_yes">Kyllä</string>
+    <string name="dialog_no">Ei</string>
+    <string name="dialog_go">Mene</string>
+
+    <string name="action_menu_post_title">Julkaisutoimet</string>
+
+    <string name="action_upvote">Upvouttaa</string>
+    <string name="action_downvote">Downvouttaa</string>
+    <string name="action_vote_remove">Poista voutti</string>
+    <string name="action_upvote_remove">Poista upvoutti</string>
+    <string name="action_downvote_remove">Poista downvoutti</string>
+    <string name="action_save">Tallenna</string>
+    <string name="action_hide">Piilota</string>
+    <string name="action_unsave">Poista tallennettu</string>
+    <string name="action_unhide">Näytä</string>
+    <string name="action_external">Katsele ulkoisessa selaimessa</string>
+    <string name="action_external_short">Selaimessa</string>
+    <string name="action_actionmenu_short">Toimet</string>
+    <string name="action_actionmenu">Toimintovalikko</string>
+    <string name="action_comment_links">Linkit kommenteissa</string>
+    <string name="action_selftext_links">Linkit tekstissä</string>
+    <string name="action_share">Jaa</string>
+    <string name="action_share_comments">Jaa kommentit</string>
+    <string name="action_copy">Kopioi</string>
+    <string name="action_gotosubreddit">Mene aliredditiin</string>
+    <string name="action_reply">Vastaa</string>
+    <string name="action_edit">Muokkaa</string>
+    <string name="action_user_profile">Käyttäjäprofiili</string>
+    <string name="action_user_profile_short">Käyttäjä</string>
+    <string name="action_properties">Ominaisuudet</string>
+    <string name="action_comments">Näytä kommentit</string>
+    <string name="action_comments_switch">Vaihda kommenteihin</string>
+    <string name="action_comments_short">Kommentit</string>
+    <string name="action_link">Avaa linkki</string>
+    <string name="action_nothing">Älä tee mitään</string>
+
+    <string name="action_report">Ilmoita</string>
+    <string name="action_report_sure">Haluatko varmasti ilmoittaa tämän?</string>
+
+    <string name="action_save_image">Tallenna kuva</string>
+    <string name="action_save_image_success">Tallennettiin Kuviin nimellä</string>
+
+    <string name="download_waiting">Odota…</string>
+    <string name="download_connecting">Yhdistetään…</string>
+    <string name="download_downloadstarting">Latausta aloitetaan…</string>
+    <string name="download_downloading">Ladataan…</string>
+    <string name="download_loading">Ladataan…</string>
+    <string name="download_done">Valmis.</string>
+    <string name="download_failed">Epäonnistui.</string>
+
+    <string name="imageview_oom">Muisti lopussa. Yritetään sisäistä selainta.</string>
+    <string name="imageview_invalid_gif">Virheellinen GIF. Yritetään sisäistä selainta.</string>
+
+    <string name="comment_reply_send">Lähetä</string>
+    <string name="comment_edit_save">Tallenna</string>
+    <string name="comment_reply_preview">Esikatselu</string>
+    <string name="comment_reply_submitting_title">Julkaistaan…</string>
+    <string name="comment_reply_submitting_message">Hetki…</string>
+    <string name="comment_reply_oncancel">Odotetaan toiminnon tulosta…</string>
+    <string name="comment_reply_done">Vastaus lähetetty. Kommenti näkyy päivittämisen jälkeen.</string>
+    <string name="post_submit_subreddit_hint">Alireddit</string>
+    <string name="bug_button_send">Lähetä virheilmoitus sähköpostilla</string>
+    <string name="bug_button_ignore">Älä lähetä virheilmoitusta</string>
+
+    <string name="error_403_title">Virheellinen käyttäjä</string>
+    </resources>

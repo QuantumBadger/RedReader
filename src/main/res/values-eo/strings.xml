@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!--
   ~ This file is part of RedReader.
   ~
@@ -15,7 +15,6 @@
   ~ You should have received a copy of the GNU General Public License
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
   -->
-
 <resources>
 
     <!-- First Run Dialog -->
@@ -667,7 +666,7 @@
 
     <!-- 2016-04-03 -->
     <string name="error_tor_not_installed">Tor ne funkcios antaŭ Orbot estos instalita. Ĉu instali ĝin nun?</string>
-    <string name="error_tor_setting_failed">Fiaskis agordi prokurilon.</string>
+    <string name="error_tor_setting_failed">Fiaskis agordi retperanton.</string>
 
     <!-- 2016-04-10 -->
     <string name="error_parse_imgur_title">Analiz-eraro</string>
@@ -877,4 +876,12 @@
 	<string name="pref_menus_show_popular_main_menu_title">Montri /r/popular en ĉefmenuo</string>
 	<string name="pref_behaviour_video_playback_controls_title">Aktivigi filmet-ludadajn stirilojn</string>
 	<string name="error_no_suitable_apps_available">Neniuj taŭgaj aplikaĵoj disponeblaj.</string>
+<string name="pref_appearance_comments_show_floating_toolbar_title">Montri glitan ilobreton supre de komentoj</string>
+	<string name="pref_behaviour_comment_share_text_title">Inkluzivi tekston je kunhavigi komenton</string>
+
+	<string name="disable_replies_to_infobox_failed">Malsukcesis malaktivigi respondon al mesaĝujo</string>
+
+	<string name="mainmenu_random">Hazarda redditero</string>
+	<string name="pref_menus_show_random_main_menu_title">Montri /r/random en la ĉefmenuo</string>
+
 </resources>

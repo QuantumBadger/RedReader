@@ -1,3 +1,4 @@
+# Travis CI configuration
 language: android
 
 jdk: oraclejdk8

@@ -1,4 +1,5 @@
 85/1.9.8.6
+Fixed search to match new reddit API (thanks to ianmcxa)
 Updated Dutch translation (thanks to Ghostkeeper)
 
 84/1.9.8.5

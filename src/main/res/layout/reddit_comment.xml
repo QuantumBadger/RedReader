@@ -64,6 +64,7 @@
 					android:id="@+id/view_reddit_comment_bodyholder"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
+					android:minHeight="14dp"
 					android:paddingTop="2dp"
 					tools:ignore="UselessLeaf"/>
 

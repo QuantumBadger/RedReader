@@ -23,5 +23,6 @@
 	<color name="settingsWindowBackground">#333333</color>
 	<color name="actionbarSelectBackground">#44FFFFFF</color>
 	<color name="listitemSelectBackground">#33888888</color>
+	<color name="adaptiveIconBackground">#9C0F0F</color>
 
 </resources>

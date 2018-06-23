@@ -70,9 +70,6 @@ License
 RedReader is licensed under the GPL, version 3. A copy of the license is
 included in [LICENSE.txt](LICENSE.txt).
 
-Bitcoin donations are welcome and accepted at the following address:
-`1874wapGxDo2vEp4avisda4gx3SCjsHCQJ`
-
 
 Thanks
 ------
@@ -83,14 +80,7 @@ Thanks to:
 * Apache, for various libraries
 * The [Jackson JSON processor](http://jackson.codehaus.org/)
 * [Joda](http://joda-time.sourceforge.net/)
-* [/u/fosterbuster](http://www.reddit.com/user/fosterbuster) for the Danish translation
-* [/u/balducien](http://www.reddit.com/user/balducien) and [/u/andiho](http://www.reddit.com/user/andiho) for the German translation
-* [remil19](https://github.com/remil19) for the French translation
-* [Husam Bilal](https://github.com/husam212) for the Arabic translation
-* [Juanma Reyes](https://github.com/jmreyes), [moshpirit](https://github.com/moshpirit), and Andrés Hernández for the Spanish translation
-* [Martin Macko](https://github.com/LinkedList) for the Czech translation
-* [klenje](https://github.com/klenje) for the Italian translation
-* [Beleg-Cuthalion](https://github.com/Beleg-Cuthalion) for the Dutch translation
-* [tjernquist](https://github.com/tjernquist) for the Swedish translation
-* [Badita Viorel-Octavian](https://github.com/vooctavian) for the Romanian translation
-* [András Lengyel-Nagy](https://github.com/lna91) for the Hungarian translation
+
+A full list of contributors is included in the [changelog](assets/changelog.txt).
+
+The RedReader logo/icon is based on a [CC-BY](https://creativecommons.org/licenses/by/4.0/legalcode) concept by [marty-arts](https://steemit.com/utopian-io/@marty-arts/a-new-logo-for-redreader).

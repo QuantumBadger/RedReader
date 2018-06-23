@@ -1063,4 +1063,7 @@
 	<string name="pref_about_license_key" translatable="false">pref_about_license</string>
 	<string name="title_license">License</string>
 
+	<string name="pref_about_attribution_key" translatable="false">pref_about_attribution</string>
+	<string name="title_attribution">Attribution</string>
+
 </resources>

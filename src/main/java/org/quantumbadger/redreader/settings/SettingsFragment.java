@@ -153,6 +153,7 @@ public final class SettingsFragment extends PreferenceFragment {
 		final Preference changelogPref = findPreference(getString(R.string.pref_about_changelog_key));
 		final Preference torPref = findPreference(getString(R.string.pref_network_tor_key));
 		final Preference licensePref = findPreference(getString(R.string.pref_about_license_key));
+		final Preference attributionPref = findPreference(getString(R.string.pref_about_attribution_key));
 
 		final PackageInfo pInfo;
 
@@ -180,6 +181,15 @@ public final class SettingsFragment extends PreferenceFragment {
 			licensePref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 				public boolean onPreferenceClick(Preference preference) {
 					HtmlViewActivity.showAsset(context, "license.html");
+					return true;
+				}
+			});
+		}
+
+		if(attributionPref != null) {
+			attributionPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+				public boolean onPreferenceClick(Preference preference) {
+					HtmlViewActivity.showAsset(context, "attribution.html");
 					return true;
 				}
 			});

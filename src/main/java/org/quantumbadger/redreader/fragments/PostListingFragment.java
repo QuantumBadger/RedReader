@@ -34,6 +34,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -667,6 +668,7 @@ public class PostListingFragment extends RRFragment
 								|| mPostListingURL.asSubredditPostListURL().type == SubredditPostListURL.Type.POPULAR);
 
 				final List<String> blockedSubreddits = PrefsUtility.pref_blocked_subreddits(activity, mSharedPreferences); // Grab this so we don't have to pull from the prefs every post
+				final List<String> blockedPostUrls = PrefsUtility.pref_blocked_post_urls(activity, mSharedPreferences); // Grab this so we don't have to pull from the prefs every post
 
 				Log.i(TAG, "Precaching images: " + (precacheImages ? "ON" : "OFF"));
 				Log.i(TAG, "Precaching comments: " + (precacheComments ? "ON" : "OFF"));
@@ -690,7 +692,8 @@ public class PostListingFragment extends RRFragment
 
 					mAfter = post.name;
 
-					final boolean isPostBlocked = subredditFilteringEnabled && getIsPostBlocked(blockedSubreddits, post);
+					final boolean isPostBlocked = getIsPostUrlBlocked(post, blockedPostUrls)
+							|| (subredditFilteringEnabled && getIsPostBlocked(blockedSubreddits, post));
 
 					if(!isPostBlocked
 							&& (!post.over_18 || isNsfwAllowed)
@@ -885,6 +888,17 @@ public class PostListingFragment extends RRFragment
 			}
 		}
 
+		return false;
+	}
+
+	private boolean getIsPostUrlBlocked(@NonNull RedditPost post, List<String> blockedUrls) {
+		// check if post should be filtered based on linked URLs
+		for(String blockedUrl : blockedUrls) {
+			if(post.url.contains(blockedUrl)) {
+				Log.d(TAG, "Url '" + post.url + "' is in blocklist");
+				return true;
+			}
+		}
 		return false;
 	}
 }

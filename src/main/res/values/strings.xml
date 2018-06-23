@@ -1080,4 +1080,8 @@
 
 	<string name="sort_posts_best">Best</string>
 
+	<string name="pref_blocked_post_urls_key" translatable="false">pref_blocked_post_urls_key</string>
+	<string name="pref_blocked_post_urls_title">Blocked URL keywords</string>
+	<string name="pref_blocked_post_urls_dialog_title">Enter a list of blocked URL parts, separated by \';\'</string>
+
 </resources>

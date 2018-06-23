@@ -24,6 +24,7 @@ import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.OptionsMenuUtility;
 import org.quantumbadger.redreader.adapters.MainMenuListingManager;
@@ -806,6 +807,15 @@ public final class PrefsUtility {
 		}
 
 		return false;
+	}
+
+	///////////////////////////////
+	// pref_blocked_post_urls
+	///////////////////////////////
+
+	public static List<String> pref_blocked_post_urls(final Context context, final SharedPreferences sharedPreferences) {
+		final String value = getString(R.string.pref_blocked_post_urls_key, "", context, sharedPreferences);
+		return WritableHashSet.escapedStringToList(value);
 	}
 
 	///////////////////////////////

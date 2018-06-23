@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -25,9 +26,43 @@ import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.WebViewFragment;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 public class HtmlViewActivity extends BaseActivity {
 
 	private WebViewFragment webView;
+
+	public static void showAsset(
+			final Context context,
+			final String filename) {
+
+		final String html;
+
+		try {
+			final InputStream asset = context.getAssets().open(filename);
+
+			final ByteArrayOutputStream baos = new ByteArrayOutputStream(16384);
+
+			final byte[] buf = new byte[8192];
+			int bytesRead;
+
+			while((bytesRead = asset.read(buf)) > 0) {
+				baos.write(buf, 0, bytesRead);
+			}
+
+			html = baos.toString("UTF-8");
+
+		} catch(final IOException e) {
+			BugReportActivity.handleGlobalError(context, e);
+			return;
+		}
+
+		final Intent intent = new Intent(context, HtmlViewActivity.class);
+		intent.putExtra("html", html);
+		context.startActivity(intent);
+	}
 
 	public void onCreate(final Bundle savedInstanceState) {
 

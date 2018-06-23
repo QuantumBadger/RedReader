@@ -1059,4 +1059,8 @@
 	<!-- 2018-03-31 -->
 	<string name="lang_eu" translatable="false">Euskara</string>
 
+	<!-- 2018-06-23 -->
+	<string name="pref_about_license_key" translatable="false">pref_about_license</string>
+	<string name="title_license">License</string>
+
 </resources>

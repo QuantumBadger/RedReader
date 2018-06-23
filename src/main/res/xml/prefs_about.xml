@@ -28,4 +28,8 @@
         android:key="@string/pref_about_changelog_key"
         android:title="@string/title_changelog" />
 
+	<Preference
+			android:key="@string/pref_about_license_key"
+			android:title="@string/title_license"/>
+
 </PreferenceScreen>

@@ -81,12 +81,16 @@ public final class RedditAPI {
 			final String title,
 			final String body,
 			final boolean sendRepliesToInbox,
+			final boolean markAsNsfw,
+			final boolean markAsSpoiler,
 			final Context context)
 	{
 
 		final LinkedList<PostField> postFields = new LinkedList<>();
 		postFields.add(new PostField("kind", is_self ? "self" : "link"));
 		postFields.add(new PostField("sendreplies", sendRepliesToInbox ? "true" : "false"));
+		postFields.add(new PostField("nsfw", markAsNsfw ? "true" : "false"));
+		postFields.add(new PostField("spoiler", markAsSpoiler ? "true" : "false"));
 		postFields.add(new PostField("sr", subreddit));
 		postFields.add(new PostField("title", title));
 

@@ -1070,4 +1070,7 @@
 	<string name="pref_appearance_left_handed_key" translatable="false">pref_appearance_left_handed</string>
 	<string name="pref_appearance_left_handed_title">Left-handed mode</string>
 
+	<string name="post_submit_mark_nsfw">Mark as NSFW</string>
+	<string name="post_submit_mark_spoiler">Mark as spoiler</string>
+
 </resources>

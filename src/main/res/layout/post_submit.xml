@@ -20,7 +20,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+			  android:focusableInTouchMode="true">
 
     <Spinner android:id="@+id/post_submit_type"
              android:layout_width="match_parent"
@@ -73,5 +74,19 @@
 			  android:layout_margin="10dp"
 			  android:checked="true"
 			  android:text="@string/send_replies_to_inbox"/>
+
+	<CheckBox android:id="@+id/post_submit_mark_nsfw"
+			  android:layout_width="match_parent"
+			  android:layout_height="wrap_content"
+			  android:layout_margin="10dp"
+			  android:checked="false"
+			  android:text="@string/post_submit_mark_nsfw"/>
+
+	<CheckBox android:id="@+id/post_submit_mark_spoiler"
+			  android:layout_width="match_parent"
+			  android:layout_height="wrap_content"
+			  android:layout_margin="10dp"
+			  android:checked="false"
+			  android:text="@string/post_submit_mark_spoiler"/>
 
 </LinearLayout>

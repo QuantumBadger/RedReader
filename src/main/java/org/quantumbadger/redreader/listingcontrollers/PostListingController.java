@@ -71,6 +71,11 @@ public class PostListingController {
 				|| (url.pathType() == RedditURLParser.SEARCH_POST_LISTING_URL);
 	}
 
+	public boolean isFrontPage() {
+		return url.pathType() == RedditURLParser.SUBREDDIT_POST_LISTING_URL
+				&& url.asSubredditPostListURL().type == SubredditPostListURL.Type.FRONTPAGE;
+	}
+
 	public final void setSort(final PostSort order) {
 		if(url.pathType() == RedditURLParser.SUBREDDIT_POST_LISTING_URL) {
 			url = url.asSubredditPostListURL().sort(order);

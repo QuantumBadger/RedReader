@@ -137,6 +137,7 @@ public class CommentListingActivity extends RefreshableActivity
 				controller.isUserCommentListing(),
 				false,
 				controller.isSortable(),
+				false,
 				null,
 				false,
 				true,

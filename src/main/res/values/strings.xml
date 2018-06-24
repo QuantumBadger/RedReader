@@ -1078,4 +1078,6 @@
 
 	<string name="comment_reply_done_norefresh">Reply sent.</string>
 
+	<string name="sort_posts_best">Best</string>
+
 </resources>

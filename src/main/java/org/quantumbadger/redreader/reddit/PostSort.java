@@ -23,7 +23,7 @@ import android.support.annotation.Nullable;
 import org.quantumbadger.redreader.common.General;
 
 public enum PostSort {
-	HOT, NEW, RISING, TOP_HOUR, TOP_DAY, TOP_WEEK, TOP_MONTH, TOP_YEAR, TOP_ALL, CONTROVERSIAL,
+	HOT, NEW, RISING, TOP_HOUR, TOP_DAY, TOP_WEEK, TOP_MONTH, TOP_YEAR, TOP_ALL, CONTROVERSIAL, BEST,
 	// Sorts related to Search Listings
 	RELEVANCE, COMMENTS, TOP;
 
@@ -52,6 +52,9 @@ public enum PostSort {
 
 		} else if(sort.equals("new")) {
 			return NEW;
+
+		} else if(sort.equals("best")) {
+			return BEST;
 
 		} else if(sort.equals("controversial")) {
 			return CONTROVERSIAL;
@@ -104,6 +107,7 @@ public enum PostSort {
 			case NEW:
 			case RISING:
 			case CONTROVERSIAL:
+			case BEST:
 				builder.appendEncodedPath(General.asciiLowercase(name()));
 				break;
 

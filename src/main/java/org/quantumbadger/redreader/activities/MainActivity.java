@@ -677,6 +677,8 @@ public class MainActivity extends RefreshableActivity
 		final boolean postsSortable = postListingController != null && postListingController.isSortable();
 		final boolean commentsSortable = commentListingController != null && commentListingController.isSortable();
 
+		final boolean isFrontPage = postListingController != null && postListingController.isFrontPage();
+
 		final RedditAccount user = RedditAccountManager.getInstance(this).getDefaultAccount();
 		final RedditSubredditSubscriptionManager.SubredditSubscriptionState subredditSubscriptionState;
 		final RedditSubredditSubscriptionManager subredditSubscriptionManager
@@ -732,8 +734,10 @@ public class MainActivity extends RefreshableActivity
 				commentsVisible,
 				false,
 				false,
-				false, postsSortable,
+				false,
+				postsSortable,
 				commentsSortable,
+				isFrontPage,
 				subredditSubscriptionState,
 				postsVisible && subredditDescription != null && subredditDescription.length() > 0,
 				true,

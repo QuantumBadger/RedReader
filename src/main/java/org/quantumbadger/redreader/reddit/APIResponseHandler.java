@@ -31,7 +31,15 @@ public abstract class APIResponseHandler {
 	protected final AppCompatActivity context;
 
 	public enum APIFailureType {
-		INVALID_USER, BAD_CAPTCHA, NOTALLOWED, SUBREDDIT_REQUIRED, URL_REQUIRED, UNKNOWN, TOO_FAST, TOO_LONG
+		INVALID_USER,
+		BAD_CAPTCHA,
+		NOTALLOWED,
+		SUBREDDIT_REQUIRED,
+		URL_REQUIRED,
+		UNKNOWN,
+		TOO_FAST,
+		TOO_LONG,
+		ALREADY_SUBMITTED
 	}
 
 	private APIResponseHandler(AppCompatActivity context) {

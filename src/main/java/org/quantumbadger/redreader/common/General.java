@@ -392,6 +392,11 @@ public final class General {
 				message = R.string.error_too_long_message;
 				break;
 
+			case ALREADY_SUBMITTED:
+				title = R.string.error_already_submitted_title;
+				message = R.string.error_already_submitted_message;
+				break;
+
 			default:
 				title = R.string.error_unknown_api_title;
 				message = R.string.error_unknown_api_message;

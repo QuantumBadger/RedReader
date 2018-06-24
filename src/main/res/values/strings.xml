@@ -1073,4 +1073,7 @@
 	<string name="post_submit_mark_nsfw">Mark as NSFW</string>
 	<string name="post_submit_mark_spoiler">Mark as spoiler</string>
 
+	<string name="error_already_submitted_title">Already submitted</string>
+	<string name="error_already_submitted_message">This post has already been submitted to this subreddit.</string>
+
 </resources>

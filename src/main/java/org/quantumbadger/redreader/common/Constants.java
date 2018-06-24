@@ -172,6 +172,15 @@ public final class Constants {
 			return "TOO_LONG".equals(str)
 				|| (str != null && str.contains("this is too long"));
 		}
+
+		public static boolean isApiAlreadySubmitted(final String str) {
+			return ".error.ALREADY_SUB.field-url".equals(str)
+					|| (str != null && str.contains("that link has already been submitted"));
+		}
+
+		public static boolean isApiError(final String str) {
+			return str != null && str.startsWith(".error.");
+		}
 	}
 
 	public static String ua(final Context context) {

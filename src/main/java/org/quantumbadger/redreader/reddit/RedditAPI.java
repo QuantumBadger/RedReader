@@ -579,13 +579,26 @@ public final class RedditAPI {
 
 		// TODO handle 403 forbidden
 
+		if(response == null) {
+			return null;
+		}
+
+		boolean unknownError = false;
+
 		switch(response.getType()) {
 
 			case JsonValue.TYPE_OBJECT:
 
 				for(final Map.Entry<String, JsonValue> v : response.asObject()) {
+
 					final APIResponseHandler.APIFailureType failureType = findFailureType(v.getValue());
-					if(failureType != null) return failureType;
+
+					if(failureType == APIResponseHandler.APIFailureType.UNKNOWN) {
+						unknownError = true;
+
+					} else if(failureType != null) {
+						return failureType;
+					}
 				}
 
 				try {
@@ -596,7 +609,7 @@ public final class RedditAPI {
 						errors.join();
 
 						if(errors.getCurrentItemCount() > 0) {
-							return APIResponseHandler.APIFailureType.UNKNOWN;
+							unknownError = true;
 						}
 					}
 
@@ -610,33 +623,47 @@ public final class RedditAPI {
 
 				for(final JsonValue v : response.asArray()) {
 					final APIResponseHandler.APIFailureType failureType = findFailureType(v);
-					if(failureType != null) return failureType;
+
+					if(failureType == APIResponseHandler.APIFailureType.UNKNOWN) {
+						unknownError = true;
+
+					} else if(failureType != null) {
+						return failureType;
+					}
 				}
 
 				break;
 
 			case JsonValue.TYPE_STRING:
 
-				if(Constants.Reddit.isApiErrorUser(response.asString()))
+				final String responseAsString = response.asString();
+
+				if(Constants.Reddit.isApiErrorUser(responseAsString))
 					return APIResponseHandler.APIFailureType.INVALID_USER;
 
-				if(Constants.Reddit.isApiErrorCaptcha(response.asString()))
+				if(Constants.Reddit.isApiErrorCaptcha(responseAsString))
 					return APIResponseHandler.APIFailureType.BAD_CAPTCHA;
 
-				if(Constants.Reddit.isApiErrorNotAllowed(response.asString()))
+				if(Constants.Reddit.isApiErrorNotAllowed(responseAsString))
 					return APIResponseHandler.APIFailureType.NOTALLOWED;
 
-				if(Constants.Reddit.isApiErrorSubredditRequired(response.asString()))
+				if(Constants.Reddit.isApiErrorSubredditRequired(responseAsString))
 					return APIResponseHandler.APIFailureType.SUBREDDIT_REQUIRED;
 
-				if(Constants.Reddit.isApiErrorURLRequired(response.asString()))
+				if(Constants.Reddit.isApiErrorURLRequired(responseAsString))
 					return APIResponseHandler.APIFailureType.URL_REQUIRED;
 
-				if(Constants.Reddit.isApiTooFast(response.asString()))
+				if(Constants.Reddit.isApiTooFast(responseAsString))
 					return APIResponseHandler.APIFailureType.TOO_FAST;
 
-				if(Constants.Reddit.isApiTooLong(response.asString()))
+				if(Constants.Reddit.isApiTooLong(responseAsString))
 					return APIResponseHandler.APIFailureType.TOO_LONG;
+
+				if(Constants.Reddit.isApiAlreadySubmitted(responseAsString))
+					return APIResponseHandler.APIFailureType.ALREADY_SUBMITTED;
+
+				if(Constants.Reddit.isApiError(responseAsString))
+					unknownError = true;
 
 				break;
 
@@ -644,7 +671,7 @@ public final class RedditAPI {
 				// Ignore
 		}
 
-		return null;
+		return unknownError ? APIResponseHandler.APIFailureType.UNKNOWN : null;
 	}
 
 	private static abstract class APIPostRequest extends CacheRequest {

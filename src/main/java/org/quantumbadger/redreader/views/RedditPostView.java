@@ -41,6 +41,8 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 
+import java.util.ArrayList;
+
 public final class RedditPostView extends FlingableItemView implements RedditPreparedPost.ThumbnailLoadedCallback {
 
 	private final float dpScale;
@@ -184,7 +186,8 @@ public final class RedditPostView extends FlingableItemView implements RedditPre
 	public RedditPostView(
 			final Context context,
 			final PostListingFragment fragmentParent,
-			final AppCompatActivity activity) {
+			final AppCompatActivity activity,
+			final boolean leftHandedMode) {
 
 		super(context);
 		mActivity = activity;
@@ -219,6 +222,18 @@ public final class RedditPostView extends FlingableItemView implements RedditPre
 				return true;
 			}
 		});
+
+		if(leftHandedMode) {
+			final ArrayList<View> outerViewElements = new ArrayList<View>(3);
+			for(int i = mOuterView.getChildCount() - 1; i >= 0; i--) {
+				outerViewElements.add(mOuterView.getChildAt(i));
+				mOuterView.removeViewAt(i);
+			}
+
+			for(int i = 0; i < outerViewElements.size(); i++) {
+				mOuterView.addView(outerViewElements.get(i));
+			}
+		}
 
 		thumbnailView = (ImageView) rootView.findViewById(R.id.reddit_post_thumbnail_view);
 		overlayIcon = (ImageView) rootView.findViewById(R.id.reddit_post_overlay_icon);

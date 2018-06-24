@@ -30,6 +30,7 @@
 			android:layout_height="1px"
 			android:background="?rrListDividerCol"/>
 
+	<!-- The elements in the layout below get reversed in left-hand mode -->
 	<LinearLayout
 			android:id="@+id/reddit_post_layout"
 			android:layout_width="match_parent"
@@ -72,7 +73,6 @@
 				android:gravity="center_vertical"
 				android:layout_weight="1">
 
-			<!-- todo theme color -->
 			<TextView
 					android:id="@+id/reddit_post_title"
 					android:layout_width="match_parent"
@@ -84,7 +84,6 @@
 					android:paddingBottom="0dp"
 					android:textSize="14sp"/>
 
-			<!-- todo theme color -->
 			<TextView
 					android:id="@+id/reddit_post_subtitle"
 					android:layout_width="match_parent"
@@ -116,7 +115,7 @@
 					android:layout_marginRight="8dp"
 					android:layout_marginTop="4dp"
 					android:layout_marginBottom="2dp"
-					android:contentDescription="Comments"/> <!-- TODO string -->
+					android:contentDescription="@string/action_comments"/>
 
 			<TextView
 					android:id="@+id/reddit_post_comments_text"

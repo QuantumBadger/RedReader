@@ -19,6 +19,10 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+	<CheckBoxPreference android:title="@string/pref_appearance_left_handed_title"
+						android:key="@string/pref_appearance_left_handed_key"
+						android:defaultValue="false"/>
+
     <PreferenceCategory android:title="@string/pref_appearance_theme_header">
 
         <ListPreference android:title="@string/pref_appearance_theme_title"

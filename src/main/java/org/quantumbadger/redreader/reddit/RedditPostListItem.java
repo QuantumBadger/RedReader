@@ -23,7 +23,6 @@ import android.view.ViewGroup;
 import org.quantumbadger.redreader.adapters.GroupedRecyclerViewAdapter;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
-import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 import org.quantumbadger.redreader.views.RedditPostView;
 
 public class RedditPostListItem extends GroupedRecyclerViewAdapter.Item {
@@ -32,16 +31,18 @@ public class RedditPostListItem extends GroupedRecyclerViewAdapter.Item {
 	private final AppCompatActivity mActivity;
 
 	private final RedditPreparedPost mPost;
+	private final boolean mLeftHandedMode;
 
 	public RedditPostListItem(
 			final RedditPreparedPost post,
 			final PostListingFragment fragment,
 			final AppCompatActivity activity,
-			final RedditURLParser.RedditURL postListingUrl) {
+			final boolean leftHandedMode) {
 
 		mFragment = fragment;
 		mActivity = activity;
 		mPost = post;
+		mLeftHandedMode = leftHandedMode;
 	}
 
 	@Override
@@ -55,7 +56,8 @@ public class RedditPostListItem extends GroupedRecyclerViewAdapter.Item {
 		final RedditPostView view = new RedditPostView(
 				mActivity,
 				mFragment,
-				mActivity);
+				mActivity,
+				mLeftHandedMode);
 
 		return new RecyclerView.ViewHolder(view) {};
 	}

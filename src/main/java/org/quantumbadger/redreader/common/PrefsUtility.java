@@ -294,6 +294,10 @@ public final class PrefsUtility {
 		return getBoolean(R.string.pref_appearance_indentlines_key, false, context, sharedPreferences);
 	}
 
+	public static boolean pref_appearance_left_handed(final Context context, final SharedPreferences sharedPreferences) {
+		return getBoolean(R.string.pref_appearance_left_handed_key, false, context, sharedPreferences);
+	}
+
 	public enum AppearanceCommentHeaderItem {
 		AUTHOR, FLAIR, SCORE, AGE, GOLD
 	}

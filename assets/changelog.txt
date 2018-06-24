@@ -2,6 +2,7 @@
 New icon (based on concept by marty-arts)
 Left-handed mode preference
 Allow marking as NSFW/spoilers when submitting post
+Show post/comment immediately after submitting
 Fixed search to match new reddit API (thanks to ianmcxa)
 Visual fix for comments containing only whitespace (thanks to Briscoooe)
 Updated Dutch translation (thanks to Ghostkeeper)

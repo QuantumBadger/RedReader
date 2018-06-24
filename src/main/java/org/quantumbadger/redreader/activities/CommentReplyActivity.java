@@ -220,7 +220,7 @@ public class CommentReplyActivity extends BaseActivity {
 							if(mParentType == ParentType.MESSAGE) {
 								General.quickToast(CommentReplyActivity.this, getString(R.string.pm_reply_done));
 							} else {
-								General.quickToast(CommentReplyActivity.this, getString(R.string.comment_reply_done));
+								General.quickToast(CommentReplyActivity.this, getString(R.string.comment_reply_done_norefresh));
 							}
 
 							lastText = null;

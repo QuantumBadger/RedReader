@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.reddit;
 import android.content.Context;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
@@ -202,6 +203,8 @@ public final class RedditAPI {
 			@Override
 			public void onJsonParseStarted(JsonValue result, long timestamp, UUID session, boolean fromCache) {
 
+				System.out.println(result.toString());
+
 				try {
 					final APIResponseHandler.APIFailureType failureType = findFailureType(result);
 					if(failureType != null) {
@@ -220,7 +223,13 @@ public final class RedditAPI {
 					notifyFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "JSON failed to parse");
 				}
 
-				responseHandler.notifySuccess(null); // TODO
+				@Nullable String permalink = findStringValue(result, "permalink");
+
+				if(permalink != null && !permalink.contains("?")) {
+					permalink += "?context=1";
+				}
+
+				responseHandler.notifySuccess(permalink);
 			}
 
 			@Override
@@ -597,6 +606,56 @@ public final class RedditAPI {
 		} catch(final Exception e) {
 			Log.e(TAG, "Failed to find redirect URL", e);
 		}
+		return null;
+	}
+
+	@Nullable
+	private static String findStringValue(
+			final JsonValue response,
+			final String key) {
+
+		if(response == null) {
+			return null;
+		}
+
+		switch(response.getType()) {
+
+			case JsonValue.TYPE_OBJECT:
+
+				for(final Map.Entry<String, JsonValue> v : response.asObject()) {
+
+					if(key.equalsIgnoreCase(v.getKey())
+							&& v.getValue().getType() == JsonValue.TYPE_STRING) {
+
+						return v.getValue().asString();
+					}
+
+					final String result = findStringValue(v.getValue(), key);
+
+					if(result != null) {
+						return result;
+					}
+				}
+
+				break;
+
+			case JsonValue.TYPE_ARRAY:
+
+				for(final JsonValue v : response.asArray()) {
+
+					final String result = findStringValue(v, key);
+
+					if(result != null) {
+						return result;
+					}
+				}
+
+				break;
+
+			default:
+				// Ignore
+		}
+
 		return null;
 	}
 

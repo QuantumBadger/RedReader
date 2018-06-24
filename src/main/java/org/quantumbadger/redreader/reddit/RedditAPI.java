@@ -20,7 +20,6 @@ package org.quantumbadger.redreader.reddit;
 import android.content.Context;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
-
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -590,6 +589,13 @@ public final class RedditAPI {
 			case JsonValue.TYPE_OBJECT:
 
 				for(final Map.Entry<String, JsonValue> v : response.asObject()) {
+
+					if("success".equals(v.getKey())
+							&& v.getValue().getType() == JsonValue.TYPE_BOOLEAN
+							&& Boolean.FALSE.equals(v.getValue().asBoolean())) {
+
+						unknownError = true;
+					}
 
 					final APIResponseHandler.APIFailureType failureType = findFailureType(v.getValue());
 

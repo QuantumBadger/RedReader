@@ -51,7 +51,16 @@ public class PostListingController {
 
 		if(url.pathType() == RedditURLParser.SUBREDDIT_POST_LISTING_URL) {
 			if(url.asSubredditPostListURL().order == null) {
-				url = url.asSubredditPostListURL().sort(defaultOrder(context));
+
+				PostSort order = defaultOrder(context);
+
+				if(order == PostSort.BEST
+						&& url.asSubredditPostListURL().type != SubredditPostListURL.Type.FRONTPAGE) {
+
+					order = PostSort.HOT;
+				}
+
+				url = url.asSubredditPostListURL().sort(order);
 			}
 		} else if(url.pathType() == RedditURLParser.USER_POST_LISTING_URL) {
 			if(url.asUserPostListURL().order == null) {

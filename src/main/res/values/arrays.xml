@@ -101,6 +101,7 @@
 		<item>@string/sort_posts_new</item>
 		<item>@string/sort_posts_rising</item>
 		<item>@string/sort_posts_controversial</item>
+		<item>@string/sort_posts_best</item>
 		<item>@string/sort_posts_top_hour</item>
 		<item>@string/sort_posts_top_today</item>
 		<item>@string/sort_posts_top_week</item>
@@ -115,6 +116,7 @@
 		<item>new</item>
 		<item>rising</item>
 		<item>controversial</item>
+		<item>best</item>
 		<item>top_hour</item>
 		<item>top_day</item>
 		<item>top_week</item>

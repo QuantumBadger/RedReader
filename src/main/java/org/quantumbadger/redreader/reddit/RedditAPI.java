@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.reddit;
 import android.content.Context;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -36,7 +37,6 @@ import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.things.RedditThing;
 import org.quantumbadger.redreader.reddit.things.RedditUser;
 
-import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.net.URI;
@@ -48,6 +48,8 @@ import java.util.UUID;
 import static org.quantumbadger.redreader.http.HTTPBackend.PostField;
 
 public final class RedditAPI {
+
+	private static final String TAG = "RedditAPI";
 
 	public static final int ACTION_UPVOTE = 0;
 	public static final int ACTION_UNVOTE = 1;
@@ -118,7 +120,7 @@ public final class RedditAPI {
 					notifyFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "JSON failed to parse");
 				}
 
-				responseHandler.notifySuccess();
+				responseHandler.notifySuccess(findRedirectUrl(result));
 			}
 
 			@Override
@@ -167,7 +169,7 @@ public final class RedditAPI {
 					notifyFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "JSON failed to parse");
 				}
 
-				responseHandler.notifySuccess();
+				responseHandler.notifySuccess(null);
 			}
 
 			@Override
@@ -218,7 +220,7 @@ public final class RedditAPI {
 					notifyFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "JSON failed to parse");
 				}
 
-				responseHandler.notifySuccess();
+				responseHandler.notifySuccess(null); // TODO
 			}
 
 			@Override
@@ -258,7 +260,7 @@ public final class RedditAPI {
 					notifyFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "JSON failed to parse");
 				}
 
-				responseHandler.notifySuccess();
+				responseHandler.notifySuccess(null);
 			}
 
 			@Override
@@ -301,7 +303,7 @@ public final class RedditAPI {
 					notifyFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "JSON failed to parse");
 				}
 
-				responseHandler.notifySuccess();
+				responseHandler.notifySuccess(null);
 			}
 
 			@Override
@@ -355,7 +357,7 @@ public final class RedditAPI {
 					notifyFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "JSON failed to parse");
 				}
 
-				responseHandler.notifySuccess();
+				responseHandler.notifySuccess(null);
 			}
 		});
 	}
@@ -444,7 +446,7 @@ public final class RedditAPI {
 									notifyFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "JSON failed to parse");
 								}
 
-								responseHandler.notifySuccess();
+								responseHandler.notifySuccess(null);
 							}
 						});
 					}
@@ -542,7 +544,7 @@ public final class RedditAPI {
 					notifyFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "JSON failed to parse");
 				}
 
-				responseHandler.notifySuccess();
+				responseHandler.notifySuccess(null);
 			}
 
 			@Override
@@ -563,12 +565,37 @@ public final class RedditAPI {
 			return "t1_" + response.asObject().getArray("jquery").getArray(30)
 					.getArray(3).getArray(0).getObject(0)
 					.getObject("data").getString("id");
-		} catch (NullPointerException e) {
-			// Do noting
-		} catch (InterruptedException e) {
-			// Do nothing
-		} catch (IOException e) {
-			// Do nothing
+		} catch (final Exception e) {
+			Log.e(TAG, "Failed to find comment thing ID", e);
+		}
+		return null;
+	}
+
+	private static String findRedirectUrl(final JsonValue response) {
+		// Returns either the correct value or null
+		try {
+
+			String lastAttr = null;
+
+			for(final JsonValue elem : response.asObject().getArray("jquery")) {
+
+				if(elem.getType() != JsonValue.TYPE_ARRAY) {
+					continue;
+				}
+
+				final JsonBufferedArray arr = elem.asArray();
+
+				if("attr".equals(arr.getString(2))) {
+					lastAttr = arr.getString(3);
+
+				} else if("call".equals(arr.getString(2))
+						&& "redirect".equals(lastAttr)) {
+
+					return arr.getArray(3).getString(0);
+				}
+			}
+		} catch(final Exception e) {
+			Log.e(TAG, "Failed to find redirect URL", e);
 		}
 		return null;
 	}

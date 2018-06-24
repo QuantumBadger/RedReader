@@ -21,6 +21,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -192,7 +193,7 @@ public class PMSendActivity extends BaseActivity {
 
 			final APIResponseHandler.ActionResponseHandler handler = new APIResponseHandler.ActionResponseHandler(this) {
 				@Override
-				protected void onSuccess() {
+				protected void onSuccess(@Nullable final String redirectUrl) {
 					AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
 						@Override
 						public void run() {

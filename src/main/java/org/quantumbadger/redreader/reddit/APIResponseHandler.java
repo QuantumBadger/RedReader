@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.reddit;
 
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheRequest;
@@ -83,9 +84,9 @@ public abstract class APIResponseHandler {
 			super(context);
 		}
 
-		public final void notifySuccess() {
+		public final void notifySuccess(@Nullable final String redirectUrl) {
 			try {
-				onSuccess();
+				onSuccess(redirectUrl);
 			} catch(Throwable t1) {
 				try {
 					onCallbackException(t1);
@@ -96,7 +97,7 @@ public abstract class APIResponseHandler {
 			}
 		}
 
-		protected abstract void onSuccess();
+		protected abstract void onSuccess(@Nullable final String redirectUrl);
 	}
 
 	public static abstract class NewCaptchaResponseHandler extends APIResponseHandler {

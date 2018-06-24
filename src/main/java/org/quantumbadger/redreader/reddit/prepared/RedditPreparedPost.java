@@ -28,6 +28,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.ClipboardManager;
 import android.text.SpannableStringBuilder;
@@ -967,7 +968,7 @@ public final class RedditPreparedPost {
 					}
 
 					@Override
-					protected void onSuccess() {
+					protected void onSuccess(@Nullable final String redirectUrl) {
 
 						final long now = RRTime.utcCurrentTimeMillis();
 

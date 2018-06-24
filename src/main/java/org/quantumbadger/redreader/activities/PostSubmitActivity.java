@@ -21,6 +21,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -41,6 +42,7 @@ import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.fragments.MarkdownPreviewDialog;
@@ -235,12 +237,17 @@ public class PostSubmitActivity extends BaseActivity {
 
 				final APIResponseHandler.ActionResponseHandler handler = new APIResponseHandler.ActionResponseHandler(this) {
 					@Override
-					protected void onSuccess() {
+					protected void onSuccess(@Nullable final String redirectUrl) {
 						AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
 							@Override
 							public void run() {
 								General.safeDismissDialog(progressDialog);
 								General.quickToast(PostSubmitActivity.this, getString(R.string.post_submit_done));
+
+								if(redirectUrl != null) {
+									LinkHandler.onLinkClicked(PostSubmitActivity.this, redirectUrl);
+								}
+
 								finish();
 							}
 						});

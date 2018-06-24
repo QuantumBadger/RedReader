@@ -24,6 +24,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -356,7 +357,7 @@ public final class InboxListingActivity extends BaseActivity {
 						CacheManager.getInstance(this),
 						new APIResponseHandler.ActionResponseHandler(this) {
 							@Override
-							protected void onSuccess() {
+							protected void onSuccess(@Nullable final String redirectUrl) {
 								General.quickToast(context, R.string.mark_all_as_read_success);
 							}
 

@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.ClipboardManager;
 import android.widget.Toast;
@@ -441,7 +442,7 @@ public class RedditAPICommentAction {
 					}
 
 					@Override
-					protected void onSuccess() {
+					protected void onSuccess(@Nullable final String redirectUrl) {
 						if(action == RedditAPI.ACTION_DELETE) {
 							General.quickToast(context, R.string.delete_success);
 						}

@@ -21,6 +21,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,6 +42,7 @@ import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.fragments.MarkdownPreviewDialog;
@@ -209,7 +211,7 @@ public class CommentReplyActivity extends BaseActivity {
 
 			final APIResponseHandler.ActionResponseHandler handler = new APIResponseHandler.ActionResponseHandler(this) {
 				@Override
-				protected void onSuccess() {
+				protected void onSuccess(@Nullable final String redirectUrl) {
 					AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
 						@Override
 						public void run() {
@@ -223,6 +225,11 @@ public class CommentReplyActivity extends BaseActivity {
 
 							lastText = null;
 							lastParentIdAndType = null;
+
+							if(redirectUrl != null) {
+								LinkHandler.onLinkClicked(CommentReplyActivity.this, redirectUrl);
+							}
+
 							finish();
 						}
 					});
@@ -264,7 +271,7 @@ public class CommentReplyActivity extends BaseActivity {
 
 			final APIResponseHandler.ActionResponseHandler inboxHandler = new APIResponseHandler.ActionResponseHandler(this) {
 				@Override
-				protected void onSuccess() {
+				protected void onSuccess(@Nullable final String redirectUrl) {
 					// Do nothing (result expected)
 				}
 

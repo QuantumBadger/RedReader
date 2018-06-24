@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.reddit.api;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -239,7 +240,7 @@ public class RedditSubredditSubscriptionManager {
 		}
 
 		@Override
-		protected void onSuccess() {
+		protected void onSuccess(@Nullable final String redirectUrl) {
 
 			switch(action) {
 				case RedditAPI.SUBSCRIPTION_ACTION_SUBSCRIBE:

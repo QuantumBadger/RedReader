@@ -34,7 +34,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -86,7 +85,9 @@ import org.quantumbadger.redreader.views.ScrollbarRecyclerViewManager;
 import org.quantumbadger.redreader.views.SearchListingHeader;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
 
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URL;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -668,7 +669,7 @@ public class PostListingFragment extends RRFragment
 								|| mPostListingURL.asSubredditPostListURL().type == SubredditPostListURL.Type.POPULAR);
 
 				final List<String> blockedSubreddits = PrefsUtility.pref_blocked_subreddits(activity, mSharedPreferences); // Grab this so we don't have to pull from the prefs every post
-				final List<String> blockedPostUrls = PrefsUtility.pref_blocked_post_urls(activity, mSharedPreferences); // Grab this so we don't have to pull from the prefs every post
+				final List<String> blockedHosts = PrefsUtility.pref_blocked_post_urls(activity, mSharedPreferences); // Grab this so we don't have to pull from the prefs every post
 
 				Log.i(TAG, "Precaching images: " + (precacheImages ? "ON" : "OFF"));
 				Log.i(TAG, "Precaching comments: " + (precacheComments ? "ON" : "OFF"));
@@ -692,7 +693,7 @@ public class PostListingFragment extends RRFragment
 
 					mAfter = post.name;
 
-					final boolean isPostBlocked = getIsPostUrlBlocked(post, blockedPostUrls)
+					final boolean isPostBlocked = getIsPostUrlBlocked(post, blockedHosts)
 							|| (subredditFilteringEnabled && getIsPostBlocked(blockedSubreddits, post));
 
 					if(!isPostBlocked
@@ -891,14 +892,26 @@ public class PostListingFragment extends RRFragment
 		return false;
 	}
 
-	private boolean getIsPostUrlBlocked(@NonNull RedditPost post, List<String> blockedUrls) {
+	private boolean getIsPostUrlBlocked(@NonNull RedditPost post, List<String> blockedHosts) {
+		URL url = null;
+
+		try {
+			url = new URL(post.url);
+		} catch (MalformedURLException e) {
+			// can not parse post URL, something is definitely wrong. Still trying to figure out
+			// if the post should be blocked
+			//TODO regex to parse host and check against blockedUrl as fallback?
+			return false;
+		}
+
 		// check if post should be filtered based on linked URLs
-		for(String blockedUrl : blockedUrls) {
-			if(post.url.contains(blockedUrl)) {
-				Log.d(TAG, "Url '" + post.url + "' is in blocklist");
+		for(String blockedUrl : blockedHosts) {
+			if(url.getHost().equalsIgnoreCase(blockedUrl)) {
+				Log.d(TAG, "URL '" + post.url + "' is blocked by '" + blockedUrl + "'");
 				return true;
 			}
 		}
+
 		return false;
 	}
 }

@@ -27,6 +27,11 @@
                         android:key="@string/pref_behaviour_useinternalbrowser_key"
                         android:defaultValue="true"/>
 
+	<CheckBoxPreference android:title="@string/pref_behaviour_usecustomtabs_title"
+                        android:key="@string/pref_behaviour_usecustomtabs_key"
+                        android:summary="@string/pref_behaviour_usecustomtabs_summary"
+                        android:defaultValue="false"/>
+
 	<CheckBoxPreference android:title="@string/pref_behaviour_video_playback_controls_title"
 						android:key="@string/pref_behaviour_video_playback_controls_key"
 						android:defaultValue="false"/>

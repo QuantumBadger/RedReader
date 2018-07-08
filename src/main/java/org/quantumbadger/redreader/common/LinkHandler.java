@@ -182,6 +182,15 @@ public class LinkHandler {
 						Bundle bundle = new Bundle();
 						bundle.putBinder("android.support.customtabs.extra.SESSION", null);
 						intent.putExtras(bundle);
+
+						intent.putExtra("android.support.customtabs.extra.SHARE_MENU_ITEM", true);
+
+						TypedValue typedValue = new TypedValue();
+						activity.getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+
+						intent.putExtra("android.support.customtabs.extra.TOOLBAR_COLOR", typedValue.data);
+
+						intent.putExtra("android.support.customtabs.extra.ENABLE_URLBAR_HIDING", true);
 					} else {
 						intent.setClass(activity, WebViewActivity.class);
 						intent.putExtra("url", url);
@@ -271,6 +280,8 @@ public class LinkHandler {
 			activity.getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
 
 			intent.putExtra("android.support.customtabs.extra.TOOLBAR_COLOR", typedValue.data);
+
+			intent.putExtra("android.support.customtabs.extra.ENABLE_URLBAR_HIDING", true);
 		} else {
 			intent.setClass(activity, WebViewActivity.class);
 			intent.putExtra("url", url);

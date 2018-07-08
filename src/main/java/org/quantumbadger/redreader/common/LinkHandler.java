@@ -34,6 +34,8 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.ClipboardManager;
 import android.util.Log;
+import android.util.TypedValue;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.*;
 import org.quantumbadger.redreader.cache.CacheRequest;
@@ -264,6 +266,11 @@ public class LinkHandler {
 			intent.putExtras(bundle);
 
 			intent.putExtra("android.support.customtabs.extra.SHARE_MENU_ITEM", true);
+
+			TypedValue typedValue = new TypedValue();
+			activity.getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+
+			intent.putExtra("android.support.customtabs.extra.TOOLBAR_COLOR", typedValue.data);
 		} else {
 			intent.setClass(activity, WebViewActivity.class);
 			intent.putExtra("url", url);

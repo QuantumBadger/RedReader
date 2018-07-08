@@ -262,6 +262,8 @@ public class LinkHandler {
 			Bundle bundle = new Bundle();
 			bundle.putBinder("android.support.customtabs.extra.SESSION", null);
 			intent.putExtras(bundle);
+
+			intent.putExtra("android.support.customtabs.extra.SHARE_MENU_ITEM", true);
 		} else {
 			intent.setClass(activity, WebViewActivity.class);
 			intent.putExtra("url", url);

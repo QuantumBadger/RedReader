@@ -133,6 +133,13 @@
         <activity android:name=".activities.InboxListingActivity"
                   android:configChanges="orientation|screenSize|keyboardHidden"/>
 
+		<activity android:name=".activities.BlocklistListingActivity">
+			<intent-filter>
+				<action android:name="org.quantumbadger.redreader.activities.BlocklistListingActivity" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+
         <receiver android:name=".receivers.NewMessageChecker"/>
         <receiver android:name=".receivers.RegularCachePruner"/>
         <receiver android:name=".receivers.BootReceiver">

@@ -165,11 +165,11 @@
                         android:entryValues="@array/pref_behaviour_postcount_items_return"
                         android:defaultValue="ALL"/>
 
-		<!-- TODO make this a real list where users can add/remove entries -->
-		<EditTextPreference android:title="@string/pref_blocked_post_urls_title"
+		<Preference android:title="@string/pref_blocked_post_urls_title"
 				android:key="@string/pref_blocked_post_urls_key"
-				android:dialogTitle="@string/pref_blocked_post_urls_dialog_title"
-				android:inputType="textNoSuggestions" />
+				android:summary="@string/pref_blocked_post_urls_title">
+			<intent android:action="org.quantumbadger.redreader.activities.BlocklistListingActivity" />
+		</Preference>
 
     </PreferenceCategory>
 

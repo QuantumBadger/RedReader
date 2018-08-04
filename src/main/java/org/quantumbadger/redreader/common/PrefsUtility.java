@@ -24,7 +24,6 @@ import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
-
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.OptionsMenuUtility;
 import org.quantumbadger.redreader.adapters.MainMenuListingManager;
@@ -36,14 +35,7 @@ import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 
 public final class PrefsUtility {
 
@@ -816,6 +808,37 @@ public final class PrefsUtility {
 	public static List<String> pref_blocked_post_urls(final Context context, final SharedPreferences sharedPreferences) {
 		final String value = getString(R.string.pref_blocked_post_urls_key, "", context, sharedPreferences);
 		return WritableHashSet.escapedStringToList(value);
+	}
+
+	public static void pref_blocked_post_urls_add(
+			final Context context,
+			final SharedPreferences sharedPreferences,
+			final String url) {
+
+
+		final String value = getString(R.string.pref_blocked_post_urls_key, "", context, sharedPreferences);
+		final ArrayList<String> list = WritableHashSet.escapedStringToList(value);
+		list.add(url);
+
+		final String result = WritableHashSet.listToEscapedString(list);
+		sharedPreferences.edit().putString(context.getString(R.string.pref_blocked_post_urls_key), result).apply();
+	}
+
+	public static void pref_blocked_post_urls_remove(Context context, SharedPreferences sharedPreferences, String url) {
+		final String value = getString(R.string.pref_blocked_post_urls_key, "", context, sharedPreferences);
+		final ArrayList<String> list = WritableHashSet.escapedStringToList(value);
+		list.add(url);
+
+		final ArrayList<String> result = new ArrayList<>(list.size());
+		for(final String existingUrl : list) {
+			if(!url.equals(existingUrl)) {
+				result.add(existingUrl);
+			}
+		}
+
+		final String resultStr = WritableHashSet.listToEscapedString(result);
+
+		sharedPreferences.edit().putString(context.getString(R.string.pref_blocked_post_urls_key), resultStr).apply();
 	}
 
 	///////////////////////////////

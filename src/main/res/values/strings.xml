@@ -1080,4 +1080,9 @@
 
 	<string name="sort_posts_best">Best</string>
 
+	<!-- 2018-07-08 -->
+	<string name="pref_behaviour_usecustomtabs_key" translatable="false">pref_behaviour_usecustomtabs_key</string>
+	<string name="pref_behaviour_usecustomtabs_title">Use Custom Tabs</string>
+	<string name="pref_behaviour_usecustomtabs_summary">Use Custom Tabs when available</string>
+
 </resources>

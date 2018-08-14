@@ -20,19 +20,18 @@ public class BlocklistListingActivity extends BaseActivity {
 
 	private List<String> blockedPostUrls;
 
-	protected ListAdapter mAdapter;
-	protected ListView mList;
+	private ListAdapter mAdapter;
+	private ListView mList;
 
-	private Handler mHandler = new Handler();
 	private boolean mFinishedStart = false;
 
-	private Runnable mRequestFocus = new Runnable() {
+	private final Handler mHandler = new Handler();
+	private final Runnable mRequestFocus = new Runnable() {
 		public void run() {
 			mList.focusableViewAvailable(mList);
 		}
 	};
-
-	private AdapterView.OnItemClickListener mOnClickListener = new AdapterView.OnItemClickListener() {
+	private final AdapterView.OnItemClickListener mOnClickListener = new AdapterView.OnItemClickListener() {
 		public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 			onListItemClick((ListView) parent, v, position, id);
 		}

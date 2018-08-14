@@ -13,11 +13,17 @@
 			android:orientation="vertical">
 
 		<ListView
-				android:id="@android:id/list"
+				android:id="@+id/blocklist_list"
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
 				android:choiceMode="singleChoice"
 				android:drawSelectorOnTop="false" />
+
+		<TextView
+				android:id="@android:id/empty"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:text="@string/blocklist_no_entries_found" />
 	</LinearLayout>
 
 	<android.support.design.widget.FloatingActionButton

@@ -1081,7 +1081,8 @@
 	<string name="sort_posts_best">Best</string>
 
 	<string name="pref_blocked_post_urls_key" translatable="false">pref_blocked_post_urls_key</string>
-	<string name="pref_blocked_post_urls_title">Blocked URL keywords</string>
-	<string name="pref_blocked_post_urls_dialog_title">Enter a list of blocked URL parts, separated by \';\'</string>
+	<string name="pref_blocked_post_urls_title">Blocked domain keywords</string>
+	<string name="pref_blocked_post_enter_domain">Enter domain keyword</string>
+	<string name="blocklist_no_entries_found">No entries found</string>
 
 </resources>

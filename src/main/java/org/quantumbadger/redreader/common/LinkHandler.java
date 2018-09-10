@@ -440,7 +440,8 @@ public class LinkHandler {
 			reddituploadsPattern = Pattern.compile(".*[^A-Za-z]i\\.reddituploads\\.com/(\\w+).*"),
 			redditVideosPattern = Pattern.compile(".*[^A-Za-z]v.redd.it/(\\w+).*"),
 			imgflipPattern = Pattern.compile(".*[^A-Za-z]imgflip\\.com/i/(\\w+).*"),
-			makeamemePattern = Pattern.compile(".*[^A-Za-z]makeameme\\.org/meme/([\\w\\-]+).*");
+			makeamemePattern = Pattern.compile(".*[^A-Za-z]makeameme\\.org/meme/([\\w\\-]+).*"),
+			deviantartPattern = Pattern.compile("https://www\\.deviantart\\.com/([\\w\\-]+)/art/([\\w\\-]+)");
 
 	public static boolean isProbablyAnImage(final String url) {
 
@@ -505,6 +506,16 @@ public class LinkHandler {
 			if(matchMakeameme.find()) {
 				final String imgId = matchMakeameme.group(1);
 				if(imgId.length() > 3) {
+					return true;
+				}
+			}
+		}
+		{
+			final Matcher matchDeviantart = deviantartPattern.matcher(url);
+
+			if(matchDeviantart.find()) {
+				final String imgId = url;
+				if(imgId.length() > 40) {
 					return true;
 				}
 			}
@@ -668,6 +679,17 @@ public class LinkHandler {
 				final String imgId = matchStreamable.group(1);
 				if(imgId.length() > 2) {
 					StreamableAPI.getImageInfo(context, imgId, priority, listId, listener);
+					return;
+				}
+			}
+		}
+		{
+			final Matcher matchDeviantart = deviantartPattern.matcher(url);
+
+			if(matchDeviantart.find()) {
+				final String imgId = url;
+				if(imgId.length() > 40) {
+					DeviantArtAPI.getImageInfo(context, imgId, priority, listId, listener);
 					return;
 				}
 			}

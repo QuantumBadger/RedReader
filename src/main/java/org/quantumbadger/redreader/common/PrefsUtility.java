@@ -536,9 +536,9 @@ public final class PrefsUtility {
 		return getBoolean(R.string.pref_behaviour_nsfw_key, false, context, sharedPreferences);
 	}
 
-	//Show Visited Posts? False hides them. See strings.xml, prefs_behaviour.xml, PostListingFragment.java
-	public static boolean pref_behaviour_show_visited(final Context context, final SharedPreferences sharedPreferences) {
-		return getBoolean(R.string.pref_behaviour_show_read_posts_key, true, context, sharedPreferences);
+	//Show Visited Posts? True hides them. See strings.xml, prefs_behaviour.xml, PostListingFragment.java
+	public static boolean pref_behaviour_hide_read_posts(final Context context, final SharedPreferences sharedPreferences) {
+		return getBoolean(R.string.pref_behaviour_hide_read_posts_key, false, context, sharedPreferences);
 	}
 
 	public static boolean pref_behaviour_share_permalink(final Context context, final SharedPreferences sharedPreferences) {

@@ -626,7 +626,7 @@ public class PostListingFragment extends RRFragment
 				final JsonBufferedArray posts = listing.getArray("children");
 
 				final boolean isNsfwAllowed = PrefsUtility.pref_behaviour_nsfw(activity, mSharedPreferences);
-				final boolean showVisited = PrefsUtility.pref_behaviour_show_visited(activity, mSharedPreferences);
+				final boolean hideReadPosts = PrefsUtility.pref_behaviour_hide_read_posts(activity, mSharedPreferences);
 				final boolean isConnectionWifi = General.isConnectionWifi(activity);
 
 				final PrefsUtility.AppearanceThumbnailsShow thumbnailsPref = PrefsUtility.appearance_thumbnails_show(
@@ -712,8 +712,9 @@ public class PostListingFragment extends RRFragment
 								showSubredditName,
 								downloadThisThumbnail);
 
-						// Skip adding this post (go to next iteration) if it has been clicked on AND user preference "showVisited" is false
-						if (preparedPost.isRead() && !showVisited) continue;
+						// Skip adding this post (go to next iteration) if it has been clicked on AND user preference
+						// "hideReadPosts" is true
+						if(hideReadPosts && preparedPost.isRead()) continue;
 
 						if(precacheComments) {
 

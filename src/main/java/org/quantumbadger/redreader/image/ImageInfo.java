@@ -278,6 +278,50 @@ public class ImageInfo implements Parcelable {
 				mp4 ? MediaType.VIDEO : MediaType.IMAGE);
 	}
 
+	public static ImageInfo parseDeviantArt(final JsonBufferedObject object)
+			throws IOException, InterruptedException {
+
+		String urlOriginal = null;
+		String thumbnailUrl = null;
+		String title = null;
+		String tags = null;
+		String type = null;
+		Long width = null;
+		Long height = null;
+		Long size = (long) 0;
+
+		if(object != null) {
+			urlOriginal = object.getString("url");
+			thumbnailUrl = object.getString("thumbnail_url");
+			title = object.getString("title");
+			tags = object.getString("tags");
+			type = object.getString("imagetype");
+			width = object.getLong("width");
+			height = object.getLong("height");
+
+		}
+
+		if(title != null) {
+			title = StringEscapeUtils.unescapeHtml4(title);
+		}
+
+		if(tags != null) {
+			tags = StringEscapeUtils.unescapeHtml4(tags);
+		}
+
+		return new ImageInfo(
+				urlOriginal,
+				thumbnailUrl,
+				title,
+				tags,
+				type,
+				false,
+				width,
+				height,
+				size,
+				MediaType.IMAGE);
+	}
+
 	@Override
 	public int describeContents() {
 		return 0;

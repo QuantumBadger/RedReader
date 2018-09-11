@@ -1,6 +1,7 @@
 85/1.9.9
 New icon (based on concept by marty-arts)
 Left-handed mode preference
+Preference to hide read posts (thanks to Andrew Soback)
 Custom Tab preference for web browser (thanks to Cj Malone)
 Allow marking as NSFW/spoilers when submitting post
 Show post/comment immediately after submitting

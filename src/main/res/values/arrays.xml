@@ -760,11 +760,11 @@
 	<!-- 2018-10-6 -->
 
 	<string-array name="pref_menus_mainmenu_shortcutitems_items">
-		<item>@string/mainmenu_shortcut_frontpage</item>
-		<item>@string/mainmenu_shortcut_popular</item>
-		<item>@string/mainmenu_shortcut_all</item>
-		<item>@string/mainmenu_shortcut_custom</item>
-		<item>@string/mainmenu_shortcut_random</item>
+		<item>@string/mainmenu_frontpage</item>
+		<item>@string/mainmenu_popular</item>
+		<item>@string/mainmenu_all</item>
+		<item>@string/mainmenu_custom_destination</item>
+		<item>@string/mainmenu_random</item>
 	</string-array>
 
 	<!-- Constants. Do not change. -->

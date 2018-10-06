@@ -44,13 +44,13 @@
         android:entryValues="@array/pref_menus_mainmenu_useritems_items_return"
         android:defaultValue="@array/pref_menus_mainmenu_useritems_items_default" />
 
-	<CheckBoxPreference android:title="@string/pref_menus_show_popular_main_menu_title"
-						android:key="@string/pref_menus_show_popular_main_menu_key"
-						android:defaultValue="false"/>
-
-	<CheckBoxPreference android:title="@string/pref_menus_show_random_main_menu_title"
-						android:key="@string/pref_menus_show_random_main_menu_key"
-						android:defaultValue="false"/>
+	<MultiSelectListPreference
+		android:dialogTitle="@string/pref_menus_mainmenu_shortcutitems_dialogTitle"
+		android:key="@string/pref_menus_mainmenu_shortcutitems_key"
+		android:title="@string/pref_menus_mainmenu_shortcutitems_title"
+		android:entries="@array/pref_menus_mainmenu_shortcutitems_items"
+		android:entryValues="@array/pref_menus_mainmenu_shortcutitems_items_return"
+		android:defaultValue="@array/pref_menus_mainmenu_shortcutitems_items_default" />
 
     <CheckBoxPreference android:title="@string/pref_appearance_hide_username_main_menu_title"
                         android:key="@string/pref_appearance_hide_username_main_menu_key"
@@ -59,6 +59,14 @@
 	<CheckBoxPreference android:title="@string/pref_appearance_show_blocked_subreddits_main_menu_title"
 						android:key="@string/pref_appearance_show_blocked_subreddits_main_menu_key"
 						android:defaultValue="false"/>
+
+	<CheckBoxPreference android:title="@string/pref_menus_show_multireddit_main_menu_title"
+						android:key="@string/pref_menus_show_multireddit_main_menu_key"
+						android:defaultValue="true"/>
+
+	<CheckBoxPreference android:title="@string/pref_menus_show_subscribed_subreddits_main_menu_title"
+						android:key="@string/pref_menus_show_subscribed_subreddits_main_menu_key"
+						android:defaultValue="true"/>
 
     <MultiSelectListPreference
         android:dialogTitle="@string/pref_menus_post_context_items_title"

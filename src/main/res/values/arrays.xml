@@ -757,4 +757,30 @@
 		<item>search</item>
 	</string-array>
 
+	<!-- 2018-10-6 -->
+
+	<string-array name="pref_menus_mainmenu_shortcutitems_items">
+		<item>@string/mainmenu_shortcut_frontpage</item>
+		<item>@string/mainmenu_shortcut_popular</item>
+		<item>@string/mainmenu_shortcut_all</item>
+		<item>@string/mainmenu_shortcut_custom</item>
+		<item>@string/mainmenu_shortcut_random</item>
+	</string-array>
+
+	<!-- Constants. Do not change. -->
+	<string-array name="pref_menus_mainmenu_shortcutitems_items_return">
+		<item>frontpage</item>
+		<item>popular</item>
+		<item>all</item>
+		<item>custom</item>
+		<item>random</item>
+	</string-array>
+
+	<!-- Constants. Do not change. -->
+	<string-array name="pref_menus_mainmenu_shortcutitems_items_default">
+		<item>frontpage</item>
+		<item>all</item>
+		<item>custom</item>
+	</string-array>
+
 </resources>

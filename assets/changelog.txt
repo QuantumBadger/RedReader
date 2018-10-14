@@ -11,6 +11,7 @@ Preference to hide main menu items (thanks to LizardWithHat)
 Fixed search to match new reddit API (thanks to ianmcxa)
 Visual fix for comments containing only whitespace (thanks to Briscoooe)
 Updated Dutch translation (thanks to Ghostkeeper)
+Updated Czech translation (thanks to Mongata)
 
 84/1.9.8.5
 Added preference for vote/read/etc cache lifetime (thanks to Wolfgang Schnerring)

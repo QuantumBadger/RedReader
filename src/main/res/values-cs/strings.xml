@@ -543,7 +543,7 @@
     <string name="gold">Zlato</string>
     <string name="pref_appearance_comment_header_items_gold">Reddit Zlato</string>
 
-<!-- 2014-11-15 -->
+    <!-- 2014-11-15 -->
     <string name="karma_link">Karma odkazu</string>
     <string name="karma_comment">Karma komentáře</string>
 
@@ -568,7 +568,6 @@
     <string name="webview_use_https">Použijte protokol HTTPS</string>
 
     <!-- 2015-01-16 -->
-	<string name="lang_it" translatable="false">Italian</string>
 
     <!-- 2015-01-26 -->
     <string name="sort_posts_relevance">Relevantnost</string>
@@ -590,14 +589,12 @@
 
     <!-- 2015-05-29 -->
     <string name="pref_behaviour_skiptofrontpage_title">Přejít na hlavní stránu</string>
-    <string name="pref_behaviour_skiptofrontpage_key" translatable="false">pref_behaviour_skiptofrontpage</string>
 
     <!-- 2015-06-07 -->
     <string name="error_archived_vote" >Tento článek byl archivován a nelze pro něj hlasovat.</string>
 
     <!-- 2015-06-20 -->
     <string name="pref_behaviour_screenorientation_title">Orientace monitoru</string>
-    <string name="pref_behaviour_screenorientation_key" translatable="false">pref_behaviour_screenorientation</string>
 
     <string name="screen_orientation_auto">Automaticky</string>
     <string name="screen_orientation_portrait">Portrét</string>
@@ -606,16 +603,13 @@
     <!-- 2015-06-28 -->
     <string name="options_close_all">Zavřít vše</string>
 
-    <string name="pref_menus_optionsmenu_items_key" translatable="false">pref_menus_optionsmenu_items_3</string>
     <string name="pref_menus_optionsmenu_items_title">Položky nastavení menu</string>
 
     <!-- 2015-07-05 -->
     <string name="pref_behaviour_bezel_toolbar_header">Bezel panel nástrojů</string>
-    <string name="pref_behaviour_bezel_toolbar_swipezone_key" translatable="false">pref_behaviour_bezel_toolbar_swipezone</string>
     <string name="pref_behaviour_bezel_toolbar_swipezone_title">Velikost swajp zóny v panelu nástrojů </string>
 
     <string name="pref_behaviour_gifview_mode_title">Prohlížeč GIF souborů</string>
-    <string name="pref_behaviour_gifview_mode_key" translatable="false">pref_behaviour_gifview_mode</string>
 
     <string name="pref_behaviour_gifview_mode_internal_movie">Vnitřní prohlížeč (Movie, Android 4.0+)</string>
     <string name="pref_behaviour_gifview_mode_internal_legacy">Vnitřní prohlížeč (Legacy)</string>
@@ -624,14 +618,12 @@
     <string name="pref_behaviour_view_mode_external_browser">Externí prohlížeč</string>
 
     <!-- 2015-08-15 -->
-    <string name="pref_appearance_fontscale_inbox_key" translatable="false">pref_appearance_fontscale_inbox</string>
     <string name="pref_appearance_fontscale_inbox_title">Velikost písma u doručené pošty</string>
 
     <string name="action_delete">Smazat</string>
     <string name="delete_confirm">Opravdu to chcete smazat?</string>
     <string name="delete_success">Úspěšně smazáno. Položka bude viditelná, dokud neobnovíte stránku.</string>
 
-    <string name="pref_appearance_hide_username_main_menu_key" translatable="false">pref_appearance_hide_username_main_menu</string>
     <string name="pref_appearance_hide_username_main_menu_title">Skrýt uživatelské jméno v hlavním menu</string>
     <string name="mainmenu_useritems">Položky uživatele</string>
 
@@ -648,7 +640,6 @@
     <string name="upgrade_v190_login_message">RedReader se aktualizoval a nyní používá oAuth pro autentizace na Redditu. Pokud jste byl přihlášen před aktualiací, jste nyní odhlášen.</string>
 
     <string name="pref_behaviour_videoview_mode_title">Přehrávač videí</string>
-    <string name="pref_behaviour_videoview_mode_key" translatable="false">pref_behaviour_videoview_mode</string>
     <string name="pref_behaviour_videoview_mode_internal_videoview">Vnitřní VideoView (doporučeno)</string>
     <string name="pref_behaviour_videoview_mode_external_app_vlc">Externí aplikace: VLC</string>
 
@@ -663,15 +654,12 @@
 
     <!-- 2015-10-31 -->
     <string name="pref_behaviour_gallery_swipe_length_title">Délka swajp zóny galerie</string>
-    <string name="pref_behaviour_gallery_swipe_length_key" translatable="false">pref_behaviour_gallery_swipe_length</string>
 
     <!-- 2015-11-19 -->
     <string name="pref_cache_precache_comments_header">Předkešované komentáře</string>
 
-    <string name="pref_cache_precache_comments_key" translatable="false">pref_cache_precache_comments</string>
     <string name="pref_cache_precache_comments_title">Předkešované komentáře</string>
 
-    <string name="pref_cache_precache_comments_wifionly_key" translatable="false">pref_cache_precache_comments_wifionly</string>
     <string name="pref_cache_precache_comments_wifionly_title">Pouze na Wi-Fi</string>
 
     <string name="mainmenu_header_subreddits_subscribed">Odebírané podreddity</string>
@@ -679,7 +667,6 @@
 
     <string name="pin_subreddit">Připíchnout k hlavnímu menu</string>
     <string name="unpin_subreddit">Odebrat z hlavního menu</string>
-    <string name="pref_pinned_subreddits_key" translatable="false">pref_pinned_subreddits</string>
 
     <!-- 2015-11-22 -->
     <string name="props_image_title">Informace k obrázku</string>
@@ -693,24 +680,20 @@
     <!-- 2015-12-19 -->
     <string name="block_subreddit">Blokovat podreddit</string>
     <string name="unblock_subreddit">Odblokovat podreddit</string>
-    <string name="pref_blocked_subreddits_key" translatable="false">pref_blocked_subreddits</string>
     <string name="block_done">Subreddit je blokován. Tento podreddit bude vyloučen z adresy /r/all.</string>
     <string name="unblock_done">Subreddit je odblokován. Tento podreddit bude zahrnut do adresy /r/all.</string>
 
     <!-- 2016-03-14-->
-    <string name="pref_behaviour_comment_min_key" translatable="false">pref_behaviour_comment_min</string>
     <string name="pref_behaviour_comments_header">Komentáře</string>
 
     <string name="pref_behaviour_comment_min_title">Minimální skóre komentáře</string>
     <string name="pref_behaviour_comment_min_dialog_title">Sbalit komentář pokud je skóre nižší (prázné zobrazí vše)</string>
 
     <!-- 2016-03-20 -->
-    <string name="lang_se" translatable="false">Svenska</string>
 
     <!-- 2016-04-02 -->
     <string name="open_with">Otevřít pomocí</string>
     <string name="pref_network_tor_title">Použít síť TOR (experimentální)</string>
-    <string name="pref_network_tor_key" translatable="false">pref_network_tor</string>
 
     <!-- 2016-04-03 -->
     <string name="error_tor_not_installed">Síť Tor nefunguje, pokud nemáte nainstalovaný Orbot. Chcete ho nainstalovat?</string>
@@ -748,12 +731,10 @@
 	
 	<!-- 2016-06-25 -->
 	<string name="pref_behaviour_imageview_mode_title">Prohlížeč obrázků</string>
-	<string name="pref_behaviour_imageview_mode_key" translatable="false">pref_behaviour_imageview_mode</string>
 
 	<string name="pref_behaviour_imageview_mode_internal_opengl">Vnitřní prohlížeč (OpenGL)</string>
 
 	<string name="pref_behaviour_albumview_mode_title">Prohlížeč alb</string>
-	<string name="pref_behaviour_albumview_mode_key" translatable="false">pref_behaviour_albumview_mode</string>
 
 	<string name="pref_behaviour_albumview_mode_internal_list">Vnitřní prohlížeč (seznam)</string>
 
@@ -763,7 +744,6 @@
 	<string name="inbox_unread_only">Pouze nepřečtené zprávy</string>
 	
 	<!-- 2016-07-02 -->
-	<string name="pref_behaviour_actions_comment_longclick_key" translatable="false">pref_behaviour_actions_comment_longclick</string>
 	<string name="pref_behaviour_actions_comment_longclick_title">Akce při delším podržení komentáře</string>
 
 	<string name="no_comments_yet">Zde ještě nejsou žádné komentáře.</string>
@@ -786,10 +766,8 @@
 	<string name="edit_comment_actionbar">Upravit komentář</string>
 	
 	<!-- 2016-07-16 -->
-	<string name="pref_behaviour_fling_comment_left_key" translatable="false">pref_behaviour_fling_comment_left</string>
 	<string name="pref_behaviour_fling_comment_left_title">Akce při posunutí komentáře doleva</string>
 
-	<string name="pref_behaviour_fling_comment_right_key" translatable="false">pref_behaviour_fling_comment_right</string>
 	<string name="pref_behaviour_fling_comment_right_title">Akce při posunutí komentáře doprava</string>
 
 	<!-- 2016-07-17 -->
@@ -800,7 +778,6 @@
 	<string name="action_search_comments">Vyhledat v komentářích</string>
 
 	<!-- 2016-07-29 -->
-	<string name="pref_appearance_navbar_color_key" translatable="false">pref_appearance_navbar_color</string>
 	<string name="pref_appearance_navbar_color_title">Barva navigačního panelu</string>
 
 	<string name="pref_appearance_navbar_color_option_black">Černá</string>
@@ -813,7 +790,6 @@
 	<string name="action_copy_text">Kopírovat text</string>
 	<string name="action_copy_link">Kopírovat odkaz</string>
 
-	<string name="pref_behaviour_postsort_key" translatable="false">pref_behaviour_postsort</string>
 	<string name="pref_behaviour_postsort">Výchozí třídění článků</string>
 
 	<!-- 2016-08-06 -->
@@ -825,20 +801,17 @@
 
 	<string name="mainmenu_header_multireddits">Multireddity</string>
 
-	<string name="pref_behaviour_share_permalink_key" translatable="false">pref_behaviour_share_permalink</string>
 	<string name="pref_behaviour_share_permalink_title">Sdílet jako trvalý odkaz</string>
 
 	<!-- 2016-08-10 -->
 	<string name="pref_cache_general_header">Obecné</string>
 
-	<string name="pref_cache_location_key" translatable="false">pref_cache_location</string>
 	<string name="pref_cache_location_title">Umístění úložiště keše</string>
 
 	<string name="error_cache_dir_does_not_exist_title">Chybí adresář keše</string>
 	<string name="error_cache_dir_does_not_exist_message">Adresář keše nebyl nalezen. Vyberte prosím jiné umístění v nastavení keše.</string>
 
 	<!-- 2016-08-15 -->
-	<string name="pref_behaviour_pinned_subredditsort_key" translatable="false">pref_behaviour_pinned_subreddit_sort</string>
 	<string name="pref_behaviour_pinned_subredditsort">Třídit připíchnuté podreddity</string>
 	<string name="sort_pinned_subreddit_name">Podle jména</string>
 	<string name="sort_pinned_subreddit_date">Podle data přidání</string>
@@ -850,47 +823,33 @@
 	<string name="pref_appearance_image_viewer_header">Prohlížeč obrázků</string>
 
 	<string name="pref_appearance_image_viewer_show_floating_toolbar_title">Zobrazit nad obrázkem pohyblivý panel nástrojů </string>
-	<string name="pref_appearance_image_viewer_show_floating_toolbar_key" translatable="false">pref_appearance_image_viewer_show_floating_toolbar</string>
 
 	<string name="pref_appearance_link_text_clickable_title">Klikatelný text odkazu</string>
-	<string name="pref_appearance_link_text_clickable_key" translatable="false">pref_appearance_link_text_clickable</string>
 
 	<!-- 2016-09-07 -->
 	<string name="pref_appearance_hide_android_status_title">Skrýt Android lištu se statusy</string>
-	<string name="pref_appearance_hide_android_status_key" translatable="false">pref_appearance_hide_android_status</string>
 
 	<!-- 2016-09-08 -->
 	<string name="pref_behaviour_enable_swipe_refresh_title">Obnovit stránku potahnutím směrem dolů</string>
-	<string name="pref_behaviour_enable_swipe_refresh_key" translatable="false">pref_behaviour_enable_swipe_refresh</string>
 
 	<!-- 2016-09-10 -->
 	<string name="mainmenu_header_subreddits_blocked">Blokované podreddity</string>
-	<string name="pref_behaviour_blocked_subredditsort_key" translatable="false">pref_behaviour_blocked_subreddit_sort</string>
 	<string name="pref_behaviour_blocked_subredditsort">Třídit blokované podreddity</string>
 	<string name="sort_blocked_subreddit_name">Podle jména</string>
 	<string name="sort_blocked_subreddit_date">Podle data přidán</string>
 
 	<!-- 2016-09-21 -->
-	<string name="pref_appearance_show_blocked_subreddits_main_menu_key" translatable="false">pref_appearance_show_blocked_subreddits_main_menu</string>
 	<string name="pref_appearance_show_blocked_subreddits_main_menu_title">Zobrazit blokované podreddity v hlavním menu</string>
 
 	<!-- 2016-10-02 -->
-	<string name="pref_cache_rerequest_postlist_age_key" translatable="false">pref_cache_rerequest_postlist_age</string>
 	<string name="pref_cache_rerequest_postlist_age_title">Obnovit články, pokud je keš starší než</string>
 
 	<string name="time_2hr">2 hodiny</string>
 	<string name="time_3hr">3 hodiny</string>
 
-	<string name="lang_nl" translatable="false">Nederlands</string>
 
 	<!-- 2016-10-08 -->
 	<string name="time_every_time">Pokaždé</string>
-
-	<!-- 2016-11-02 -->
-	<string name="lang_ro" translatable="false">Romanian</string>
-
-	<!-- 2016-11-14 -->
-	<string name="lang_hu" translatable="false">Magyar</string>
 
 	<!-- 2016-12-03 -->
 	<string name="theme_name_night_lowcontrast">Noc (nízké rozlišení)</string>
@@ -917,13 +876,9 @@
 	<string name="action_back">Zpět</string>
 
 	<!-- 2017-03-02 -->
-	<string name="pref_menus_link_context_items_key" translatable="false">pref_menus_link_context_items</string>
 	<string name="pref_menus_link_context_items_title">Odkazovat na položky kontextového menu</string>
-	<string name="lang_eo" translatable="false">Esperanto</string>
-	<string name="lang_pl" translatable="false">Polski</string>
 
 	<!-- 2017-03-07 -->
-	<string name="pref_menus_subreddit_context_items_key" translatable="false">pref_menus_subreddit_context_items</string>
 	<string name="pref_menus_subreddit_context_items_title">Položky kontextového menu podredditu</string>
 	<string name="mainmenu_toast_not_subscribed">Ještě nejste přihlášeni k odběru tohoto podredditu!</string>
 	<string name="mainmenu_toast_subscribed">Tento podreddit již odebíráte!</string>
@@ -931,7 +886,6 @@
 	<string name="mainmenu_toast_pinned">Tento podreddit už je připíchnut k hlavnímu menu!</string>
 	<string name="mainmenu_toast_not_blocked">Tento podreddit není blokován!</string>
 	<string name="mainmenu_toast_blocked">Tento podreddit je blokován!</string>
-	<string name="lang_pt" translatable="false">Português</string>
 
 	<!-- 2017-04-02 -->
 	<string name="edit_post_actionbar">Upravit příspěvek</string>
@@ -951,29 +905,23 @@
 	<string name="button_prev_comment_parent">Předchozí nadřazený komentář</string>
 
 	<string name="pref_appearance_comments_show_floating_toolbar_title">Zobrazit pohyblivý panel nástrojů nad komentářem</string>
-	<string name="pref_appearance_comments_show_floating_toolbar_key" translatable="false">pref_appearance_comments_show_floating_toolbar</string>
 
 	<!--2017-05-08-->
 	<string name="download_link_title">Stáhnout soubor</string>
 	<string name="download_link_message">Toto je odkaz pro stahování. Chcete soubor nahrát to externího prohížeče?</string>
 
 	<!--2017-05-21-->
-	<string name="pref_behaviour_self_post_tap_actions_key" translatable="false">pref_behaviour_self_post_tap_actions</string>
 	<string name="pref_behaviour_self_post_tap_actions_title">Akce po kliknutí na vlastní příspěvek</string>
 
 	<!-- 2017-06-05 -->
-	<string name="lang_in" translatable="false">Bahasa Indonesia</string>
 
-	<string name="pref_menus_show_popular_main_menu_key" translatable="false">pref_menus_show_popular_main_menu</string>
 	<string name="pref_menus_show_popular_main_menu_title">Zobrazit /r/popular v hlavním menu</string>
-	<string name="pref_behaviour_video_playback_controls_key" translatable="false">pref_behaviour_video_playback_controls</string>
 	<string name="pref_behaviour_video_playback_controls_title">Povolit ovládání přehrávání videa</string>
 
 	<!-- 2017-06-05 -->
 	<string name="error_no_suitable_apps_available">Nejsou dostupné žádné vhodné aplikace.</string>
 
 	<!-- 2017-10-22 -->
-	<string name="pref_behaviour_sharing_share_text_key" translatable="false">pref_behaviour_comment_share_text</string>
 	<string name="pref_behaviour_sharing_share_text_title">Do sdílení komentářů zahrnout i text</string>
 
 	<!-- 2017-11-01 -->
@@ -981,16 +929,9 @@
 
 	<!-- 2017-12-03 -->
 	<string name="mainmenu_random">Náhodný podreddit</string>
-	<string name="pref_menus_show_random_main_menu_key" translatable="false">pref_menus_show_random_main_menu</string>
 	<string name="pref_menus_show_random_main_menu_title">Zobrazit /r/random v hlavním menu</string>
 
 	<!-- 2018-01-16 -->
-	<string name="lang_fi" translatable="false">Suomi</string>
-	<string name="lang_my" translatable="false">မြန်မာဘာသာ</string>
-	<string name="lang_nb" translatable="false">Bokmål</string>
-	<string name="lang_ru" translatable="false">ру́сский язы́к</string>
-	<string name="lang_uk" translatable="false">українська мова</string>
-	<string name="lang_zh_rCN" translatable="false">汉语</string>
 
 	<!-- 2018-02-03 -->
 	<string name="mainmenu_custom_empty_search_query">Smazat vyhledávání.</string>
@@ -1001,23 +942,16 @@
   
 	<!-- 2018-02-11 -->
 	<string name="pref_behaviour_sharing_header">Sharing</string>
-	<string name="pref_behaviour_sharing_include_desc_key" translatable="false">pref_behaviour_sharing_include_desc</string>
 	<string name="pref_behaviour_sharing_include_desc_title">Při sdílení zahrunout i titulek a popis</string>
 	<string name="share_comments_for">Komentáře k %s</string>
 	<string name="share_comment_by_on_reddit">Komentáře od %s na Redditu</string>
 
-	<!-- 2018-03-31 -->
-	<string name="lang_eu" translatable="false">Euskara</string>
-
 	<!-- 2018-06-23 -->
-	<string name="pref_about_license_key" translatable="false">pref_about_license</string>
 	<string name="title_license">Licence</string>
 
-	<string name="pref_about_attribution_key" translatable="false">pref_about_attribution</string>
 	<string name="title_attribution">Autorství</string>
 
 	<!-- 2018-06-24 -->
-	<string name="pref_appearance_left_handed_key" translatable="false">pref_appearance_left_handed</string>
 	<string name="pref_appearance_left_handed_title">Levostranný režim</string>
 
 	<string name="post_submit_mark_nsfw">Označit jako NSFW (důležité) </string>
@@ -1031,11 +965,9 @@
 	<string name="sort_posts_best">Nejlepší</string>
 
 	<!-- 2018-07-08 -->
-	<string name="pref_behaviour_usecustomtabs_key" translatable="false">pref_behaviour_usecustomtabs_key</string>
 	<string name="pref_behaviour_usecustomtabs_title">Použít vlastní záložky</string>
 	<string name="pref_behaviour_usecustomtabs_summary">Kde je to možné, použít vlastní záložky</string>
 
 	<!-- 2018-09-11 -->
-	<string name="pref_behaviour_hide_read_posts_key" translatable="false">pref_behaviour_hide_read_posts</string>
 	<string name="pref_behaviour_hide_read_posts_title">Skrýt přečtené články</string>
 </resources>

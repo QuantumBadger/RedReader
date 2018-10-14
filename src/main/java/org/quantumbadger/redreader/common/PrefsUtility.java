@@ -71,7 +71,8 @@ public final class PrefsUtility {
 	public static boolean isReLayoutRequired(final Context context, final String key) {
 		return context.getString(R.string.pref_appearance_twopane_key).equals(key)
 				|| context.getString(R.string.pref_appearance_theme_key).equals(key)
-				|| context.getString(R.string.pref_menus_mainmenu_useritems_key).equals(key);
+				|| context.getString(R.string.pref_menus_mainmenu_useritems_key).equals(key)
+				|| context.getString(R.string.pref_menus_mainmenu_shortcutitems_key).equals(key);
 	}
 
 	public static boolean isRefreshRequired(final Context context, final String key) {
@@ -91,11 +92,11 @@ public final class PrefsUtility {
 				|| context.getString(R.string.pref_appearance_langforce_key).equals(key)
 				|| context.getString(R.string.pref_behaviour_bezel_toolbar_swipezone_key).equals(key)
 				|| context.getString(R.string.pref_appearance_hide_username_main_menu_key).equals(key)
-				|| context.getString(R.string.pref_menus_show_popular_main_menu_key).equals(key)
-				|| context.getString(R.string.pref_menus_show_random_main_menu_key).equals(key)
 				|| context.getString(R.string.pref_appearance_hide_android_status_key).equals(key)
 				|| context.getString(R.string.pref_appearance_comments_show_floating_toolbar_key).equals(key)
-				|| context.getString(R.string.pref_behaviour_enable_swipe_refresh_key).equals(key);
+				|| context.getString(R.string.pref_behaviour_enable_swipe_refresh_key).equals(key)
+				|| context.getString(R.string.pref_menus_show_multireddit_main_menu_key).equals(key)
+				|| context.getString(R.string.pref_menus_show_subscribed_subreddits_main_menu_key).equals(key);
 	}
 
 	///////////////////////////////
@@ -264,6 +265,14 @@ public final class PrefsUtility {
 
 	public static boolean pref_show_random_main_menu(final Context context, final SharedPreferences sharedPreferences) {
 		return getBoolean(R.string.pref_menus_show_random_main_menu_key, false, context, sharedPreferences);
+	}
+
+	public static boolean pref_show_multireddit_main_menu(final Context context, final SharedPreferences sharedPreferences) {
+		return getBoolean(R.string.pref_menus_show_multireddit_main_menu_key, true, context, sharedPreferences);
+	}
+
+	public static boolean pref_show_subscribed_subreddits_main_menu(final Context context, final SharedPreferences sharedPreferences) {
+		return getBoolean(R.string.pref_menus_show_subscribed_subreddits_main_menu_key, true, context, sharedPreferences);
 	}
 
 	public static boolean pref_appearance_show_blocked_subreddits_main_menu(final Context context, final SharedPreferences sharedPreferences) {
@@ -721,6 +730,16 @@ public final class PrefsUtility {
 
 		final EnumSet<MainMenuFragment.MainMenuUserItems> result = EnumSet.noneOf(MainMenuFragment.MainMenuUserItems.class);
 		for(String s : strings) result.add(MainMenuFragment.MainMenuUserItems.valueOf(General.asciiUppercase(s)));
+
+		return result;
+	}
+
+	public static EnumSet<MainMenuFragment.MainMenuShortcutItems> pref_menus_mainmenu_shortcutitems(final Context context, final SharedPreferences sharedPreferences) {
+
+		final Set<String> strings = getStringSet(R.string.pref_menus_mainmenu_shortcutitems_key, R.array.pref_menus_mainmenu_shortcutitems_items_default, context, sharedPreferences);
+
+		final EnumSet<MainMenuFragment.MainMenuShortcutItems> result = EnumSet.noneOf(MainMenuFragment.MainMenuShortcutItems.class);
+		for(String s : strings) result.add(MainMenuFragment.MainMenuShortcutItems.valueOf(General.asciiUppercase(s)));
 
 		return result;
 	}

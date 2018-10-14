@@ -146,27 +146,35 @@ public class MainMenuListingManager {
 			attr.recycle();
 		}
 
-		mAdapter.appendToGroup(GROUP_MAIN_ITEMS,
-				makeItem(R.string.mainmenu_frontpage, MainMenuFragment.MENU_MENU_ACTION_FRONTPAGE, null, true));
+		{
+			final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+			final EnumSet<MainMenuFragment.MainMenuShortcutItems> mainMenuShortcutItems
+					= PrefsUtility.pref_menus_mainmenu_shortcutitems(activity, sharedPreferences);
 
-		if(PrefsUtility.pref_show_popular_main_menu(
-				activity,
-				PreferenceManager.getDefaultSharedPreferences(activity))) {
-			mAdapter.appendToGroup(GROUP_MAIN_ITEMS,
-								   makeItem(R.string.mainmenu_popular, MainMenuFragment.MENU_MENU_ACTION_POPULAR, null, false));
-		}
+			if (mainMenuShortcutItems.contains(MainMenuFragment.MainMenuShortcutItems.FRONTPAGE)){
+				mAdapter.appendToGroup(GROUP_MAIN_ITEMS,
+						makeItem(R.string.mainmenu_frontpage, MainMenuFragment.MENU_MENU_ACTION_FRONTPAGE, null, true));
+			}
 
-		mAdapter.appendToGroup(GROUP_MAIN_ITEMS,
-				makeItem(R.string.mainmenu_all, MainMenuFragment.MENU_MENU_ACTION_ALL, null, false));
+			if (mainMenuShortcutItems.contains(MainMenuFragment.MainMenuShortcutItems.POPULAR)){
+				mAdapter.appendToGroup(GROUP_MAIN_ITEMS,
+						makeItem(R.string.mainmenu_popular, MainMenuFragment.MENU_MENU_ACTION_POPULAR, null, false));
+			}
 
-		mAdapter.appendToGroup(GROUP_MAIN_ITEMS,
-				makeItem(R.string.mainmenu_custom_destination, MainMenuFragment.MENU_MENU_ACTION_CUSTOM, null, false));
+			if (mainMenuShortcutItems.contains(MainMenuFragment.MainMenuShortcutItems.ALL)){
+				mAdapter.appendToGroup(GROUP_MAIN_ITEMS,
+						makeItem(R.string.mainmenu_all, MainMenuFragment.MENU_MENU_ACTION_ALL, null, false));
+			}
 
-		if(PrefsUtility.pref_show_random_main_menu(
-				activity,
-				PreferenceManager.getDefaultSharedPreferences(activity))) {
-			mAdapter.appendToGroup(GROUP_MAIN_ITEMS,
-					makeItem(R.string.mainmenu_random, MainMenuFragment.MENU_MENU_ACTION_RANDOM, null, false));
+			if (mainMenuShortcutItems.contains(MainMenuFragment.MainMenuShortcutItems.CUSTOM)){
+				mAdapter.appendToGroup(GROUP_MAIN_ITEMS,
+						makeItem(R.string.mainmenu_custom_destination, MainMenuFragment.MENU_MENU_ACTION_CUSTOM, null, false));
+			}
+
+			if (mainMenuShortcutItems.contains(MainMenuFragment.MainMenuShortcutItems.RANDOM)){
+				mAdapter.appendToGroup(GROUP_MAIN_ITEMS,
+						makeItem(R.string.mainmenu_random, MainMenuFragment.MENU_MENU_ACTION_RANDOM, null, false));
+			}
 		}
 
 		if(!user.isAnonymous()) {
@@ -253,30 +261,40 @@ public class MainMenuListingManager {
 		}
 
 		if(!user.isAnonymous()) {
-			showMultiredditsHeader(activity);
+			if (PrefsUtility.pref_show_multireddit_main_menu(
+					activity,
+					PreferenceManager.getDefaultSharedPreferences(activity))) {
 
-			final LoadingSpinnerView multiredditsLoadingSpinnerView = new LoadingSpinnerView(activity);
-			final int paddingPx = General.dpToPixels(activity, 30);
-			multiredditsLoadingSpinnerView.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
+				showMultiredditsHeader(activity);
 
-			final GroupedRecyclerViewItemFrameLayout multiredditsLoadingItem
-					= new GroupedRecyclerViewItemFrameLayout(multiredditsLoadingSpinnerView);
-			mAdapter.appendToGroup(GROUP_MULTIREDDITS_ITEMS, multiredditsLoadingItem);
+				final LoadingSpinnerView multiredditsLoadingSpinnerView = new LoadingSpinnerView(activity);
+				final int paddingPx = General.dpToPixels(activity, 30);
+				multiredditsLoadingSpinnerView.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
+
+				final GroupedRecyclerViewItemFrameLayout multiredditsLoadingItem
+						= new GroupedRecyclerViewItemFrameLayout(multiredditsLoadingSpinnerView);
+				mAdapter.appendToGroup(GROUP_MULTIREDDITS_ITEMS, multiredditsLoadingItem);
+			}
 		}
 
-		mAdapter.appendToGroup(
-				GROUP_SUBREDDITS_HEADER,
-				new GroupedRecyclerViewItemListSectionHeaderView(
-						activity.getString(R.string.mainmenu_header_subreddits_subscribed)));
+		if (PrefsUtility.pref_show_subscribed_subreddits_main_menu(
+				activity,
+				PreferenceManager.getDefaultSharedPreferences(activity))) {
 
-		{
-			final LoadingSpinnerView subredditsLoadingSpinnerView = new LoadingSpinnerView(activity);
-			final int paddingPx = General.dpToPixels(activity, 30);
-			subredditsLoadingSpinnerView.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
+			mAdapter.appendToGroup(
+					GROUP_SUBREDDITS_HEADER,
+					new GroupedRecyclerViewItemListSectionHeaderView(
+							activity.getString(R.string.mainmenu_header_subreddits_subscribed)));
 
-			final GroupedRecyclerViewItemFrameLayout subredditsLoadingItem
-					= new GroupedRecyclerViewItemFrameLayout(subredditsLoadingSpinnerView);
-			mAdapter.appendToGroup(GROUP_SUBREDDITS_ITEMS, subredditsLoadingItem);
+			{
+				final LoadingSpinnerView subredditsLoadingSpinnerView = new LoadingSpinnerView(activity);
+				final int paddingPx = General.dpToPixels(activity, 30);
+				subredditsLoadingSpinnerView.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
+
+				final GroupedRecyclerViewItemFrameLayout subredditsLoadingItem
+						= new GroupedRecyclerViewItemFrameLayout(subredditsLoadingSpinnerView);
+				mAdapter.appendToGroup(GROUP_SUBREDDITS_ITEMS, subredditsLoadingItem);
+			}
 		}
 	}
 
@@ -407,6 +425,15 @@ public class MainMenuListingManager {
 					return;
 				}
 
+
+				if(!PrefsUtility.pref_show_subscribed_subreddits_main_menu(
+						mActivity,
+						PreferenceManager.getDefaultSharedPreferences(mActivity))){
+					mAdapter.removeAllFromGroup(GROUP_SUBREDDITS_HEADER);
+					mAdapter.removeAllFromGroup(GROUP_SUBREDDITS_ITEMS);
+					return;
+				}
+
 				mSubredditSubscriptions = subscriptionsSorted;
 
 				mAdapter.removeAllFromGroup(GROUP_SUBREDDITS_ITEMS);
@@ -446,6 +473,14 @@ public class MainMenuListingManager {
 				if(mMultiredditSubscriptions != null
 						&& mMultiredditSubscriptions.equals(subscriptionsSorted)) {
 
+					return;
+				}
+
+				if(!PrefsUtility.pref_show_multireddit_main_menu(
+						mActivity,
+						PreferenceManager.getDefaultSharedPreferences(mActivity))) {
+					mAdapter.removeAllFromGroup(GROUP_MULTIREDDITS_HEADER);
+					mAdapter.removeAllFromGroup(GROUP_MULTIREDDITS_ITEMS);
 					return;
 				}
 

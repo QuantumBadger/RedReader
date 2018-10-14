@@ -166,6 +166,10 @@ public class MainMenuFragment extends RRFragment
 		PROFILE, INBOX, SUBMITTED, SAVED, HIDDEN, UPVOTED, DOWNVOTED, MODMAIL
 	}
 
+	public enum MainMenuShortcutItems{
+		FRONTPAGE, POPULAR, ALL, CUSTOM, RANDOM
+	}
+
 	@Override
 	public View getView() {
 		return mOuter;

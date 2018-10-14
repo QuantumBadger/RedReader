@@ -270,6 +270,35 @@ public class MainActivity extends RefreshableActivity
 					).apply();
 
 				}
+
+				if(lastVersion <= 84){
+
+					// Upgrading from 84/1.9.8.5 or lower, change CheckBoxPreferences for
+					// Main Menu Shortcuts into new MultiSelectListPreferences
+
+					final Set<String> existingShortcutPreferences = PrefsUtility.getStringSet(
+							R.string.pref_menus_mainmenu_shortcutitems_key,
+							R.array.pref_menus_mainmenu_shortcutitems_items_default,
+							this,
+							sharedPreferences
+					);
+
+					if(PrefsUtility.pref_show_popular_main_menu(
+							this,
+							sharedPreferences
+					)) existingShortcutPreferences.add("popular");
+
+
+					if(PrefsUtility.pref_show_random_main_menu(
+							this,
+							sharedPreferences
+					)) existingShortcutPreferences.add("random");
+
+					sharedPreferences.edit().putStringSet(
+							getString(R.string.pref_menus_mainmenu_shortcutitems_key),
+							existingShortcutPreferences
+					).apply();
+				}
 			}
 
 		} else {

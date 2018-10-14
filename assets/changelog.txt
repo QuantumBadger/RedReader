@@ -7,6 +7,7 @@ Allow marking as NSFW/spoilers when submitting post
 Show post/comment immediately after submitting
 Added "Best" sort for front page
 Added DeviantArt support (thanks to sharkwouter)
+Preference to hide main menu items (thanks to LizardWithHat)
 Fixed search to match new reddit API (thanks to ianmcxa)
 Visual fix for comments containing only whitespace (thanks to Briscoooe)
 Updated Dutch translation (thanks to Ghostkeeper)

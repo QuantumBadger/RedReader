@@ -45,7 +45,7 @@
         android:defaultValue="@array/pref_menus_mainmenu_useritems_items_default" />
 
 	<MultiSelectListPreference
-		android:dialogTitle="@string/pref_menus_mainmenu_shortcutitems_dialogTitle"
+		android:dialogTitle="@string/pref_menus_mainmenu_shortcutitems_title"
 		android:key="@string/pref_menus_mainmenu_shortcutitems_key"
 		android:title="@string/pref_menus_mainmenu_shortcutitems_title"
 		android:entries="@array/pref_menus_mainmenu_shortcutitems_items"

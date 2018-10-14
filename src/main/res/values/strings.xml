@@ -1091,7 +1091,6 @@
 
 	<!-- 2018-10-06 -->
 	<string name="pref_menus_mainmenu_shortcutitems_title">Main Menu Shortcuts</string>
-	<string name="pref_menus_mainmenu_shortcutitems_dialogTitle">Select which Shortcuts are shown in the Main Menu</string>
 	<string name="pref_menus_mainmenu_shortcutitems_key" translatable="false">pref_menus_mainmenu_shortcutitems_key</string>
 
 	<string name="pref_menus_show_multireddit_main_menu_title">Show Multireddits</string>

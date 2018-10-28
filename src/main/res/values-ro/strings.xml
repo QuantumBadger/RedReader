@@ -687,9 +687,9 @@
     <!-- 2016-03-20 -->
     <!-- 2016-04-02 -->
     <string name="open_with">Deschideți cu</string>
-    <string name="pref_network_tor_title">Folosiți TOR (experimental)</string>
+    <string name="pref_network_tor_title">Folosiți Tor</string>
     <!-- 2016-04-03 -->
-    <string name="error_tor_not_installed">TOR nu va funcționa dacă nu aveți instalat Orbot. Doriți să instalați acum?</string>
+    <string name="error_tor_not_installed">Tor nu va funcționa dacă nu aveți instalat Orbot. Doriți să instalați acum?</string>
     <string name="error_tor_setting_failed">Setare proxy eșuată.</string>
 
     <!-- 2016-04-10 -->

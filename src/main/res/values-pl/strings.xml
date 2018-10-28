@@ -665,7 +665,7 @@
 
     <!-- 2016-04-02 -->
     <string name="open_with">Otwórz za pomocą</string>
-    <string name="pref_network_tor_title">Użyj Tora (eksperymentalne)</string>
+    <string name="pref_network_tor_title">Użyj Tora</string>
 
     <!-- 2016-04-03 -->
     <string name="error_tor_not_installed">Sieć Tor nie będzie działała zanim nie zainstalujesz Orbota. Czy zainstalować teraz??</string>

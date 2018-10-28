@@ -550,7 +550,7 @@
     <string name="pref_behaviour_comment_min_dialog_title">Klapp sammen kommentar hvis poengsummen er under (blank for å vise alle)</string>
 
     <string name="open_with">Åpne med</string>
-    <string name="pref_network_tor_title">Bruk Tor (eksperimentelt)</string>
+    <string name="pref_network_tor_title">Bruk Tor</string>
     <string name="error_tor_not_installed">Tor vil ikke fungere med mindre Orbot er installert. Installere nå?</string>
     <string name="error_tor_setting_failed">Klarte ikke å velge mellomtjener.</string>
 

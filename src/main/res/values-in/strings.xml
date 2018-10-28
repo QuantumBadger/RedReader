@@ -755,7 +755,7 @@
 
     <!-- 2016-04-02 -->
     <string name="open_with">Buka Dengan</string>
-    <string name="pref_network_tor_title">Gunakan TOR (experimental)</string>
+    <string name="pref_network_tor_title">Gunakan Tor</string>
     <string name="pref_network_tor_key" translatable="false">pref_network_tor</string>
 
     <!-- 2016-04-03 -->

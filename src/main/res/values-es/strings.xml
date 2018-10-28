@@ -683,7 +683,7 @@
 
     <!-- 2016-04-02 -->
     <string name="open_with">Abrir con</string>
-    <string name="pref_network_tor_title">Usar TOR (experimental)</string>
+    <string name="pref_network_tor_title">Usar Tor</string>
     <!-- 2016-04-03 -->
     <string name="error_tor_not_installed">Tor no funcionará a no ser que Orbot esté instalado. ¿Instalar ahora?</string>
     <string name="error_tor_setting_failed">Fallo al establecer el proxy.</string>

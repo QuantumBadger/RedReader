@@ -47,6 +47,7 @@ import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached;
 import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.fragments.PostPropertiesDialog;
+import org.quantumbadger.redreader.fragments.ShareOrderDialog;
 import org.quantumbadger.redreader.image.SaveImageCallback;
 import org.quantumbadger.redreader.image.ShareImageCallback;
 import org.quantumbadger.redreader.image.ThumbnailScaler;
@@ -429,7 +430,9 @@ public final class RedditPreparedPost {
 					mailer.putExtra(Intent.EXTRA_SUBJECT, post.src.getTitle());
 				}
 				mailer.putExtra(Intent.EXTRA_TEXT, post.src.getUrl());
-				activity.startActivity(Intent.createChooser(mailer, activity.getString(R.string.action_share)));
+//				activity.startActivity(Intent.createChooser(mailer, activity.getString(R.string.action_share)));
+				ShareOrderDialog.newInstance(mailer).show(activity.getSupportFragmentManager(), null);
+
 				break;
 			}
 

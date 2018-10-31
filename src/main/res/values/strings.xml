@@ -1114,4 +1114,7 @@
 
 	<string name="prefs_category_images_video">Images/Video</string>
 
+	<!-- 2018-11-?? -->
+	<string name="share_order_dialog_title">Select an App for sharing</string>
+
 </resources>

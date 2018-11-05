@@ -42,6 +42,7 @@ import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.MainMenuFragment;
+import org.quantumbadger.redreader.fragments.ShareOrderDialog;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.url.MultiredditPostListURL;
@@ -664,7 +665,8 @@ public class MainMenuListingManager {
 					final Intent mailer = new Intent(Intent.ACTION_SEND);
 					mailer.setType("text/plain");
 					mailer.putExtra(Intent.EXTRA_TEXT, url);
-					activity.startActivity(Intent.createChooser(mailer, activity.getString(R.string.action_share)));
+//					activity.startActivity(Intent.createChooser(mailer, activity.getString(R.string.action_share)));
+					ShareOrderDialog.newInstance(mailer).show(activity.getSupportFragmentManager(), null);
 					break;
 				case COPY_URL:
 					ClipboardManager manager = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);

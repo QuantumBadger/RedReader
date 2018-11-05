@@ -39,6 +39,7 @@ import android.util.TypedValue;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.*;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.fragments.ShareOrderDialog;
 import org.quantumbadger.redreader.fragments.UserProfileDialog;
 import org.quantumbadger.redreader.image.*;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
@@ -353,7 +354,8 @@ public class LinkHandler {
 				final Intent mailer = new Intent(Intent.ACTION_SEND);
 				mailer.setType("text/plain");
 				mailer.putExtra(Intent.EXTRA_TEXT, uri);
-				activity.startActivity(Intent.createChooser(mailer, activity.getString(R.string.action_share)));
+//				activity.startActivity(Intent.createChooser(mailer, activity.getString(R.string.action_share)));
+				ShareOrderDialog.newInstance(mailer).show(activity.getSupportFragmentManager(), null);
 				break;
 			case COPY_URL:
 				ClipboardManager manager = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);

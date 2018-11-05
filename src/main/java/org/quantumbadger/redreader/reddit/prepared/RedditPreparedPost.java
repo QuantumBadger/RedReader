@@ -453,7 +453,8 @@ public final class RedditPreparedPost {
 				} else {
 					mailer.putExtra(Intent.EXTRA_TEXT, Constants.Reddit.getNonAPIUri(Constants.Reddit.PATH_COMMENTS + post.src.getIdAlone()).toString());
 				}
-				activity.startActivity(Intent.createChooser(mailer, activity.getString(R.string.action_share_comments)));
+//				activity.startActivity(Intent.createChooser(mailer, activity.getString(R.string.action_share_comments)));
+				ShareOrderDialog.newInstance(mailer).show(activity.getSupportFragmentManager(), null);
 				break;
 			}
 

@@ -34,6 +34,7 @@ import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.fragments.ShareOrderDialog;
 
 import java.io.File;
 import java.io.IOException;
@@ -156,7 +157,9 @@ public class ShareImageCallback implements BaseActivity.PermissionCallback {
 							shareIntent.setAction(Intent.ACTION_SEND);
 							shareIntent.putExtra(Intent.EXTRA_STREAM, sharedImage);
 							shareIntent.setType(mimetype);
-							activity.startActivity(Intent.createChooser(shareIntent, activity.getString(R.string.action_share_image)));
+//							activity.startActivity(Intent.createChooser(shareIntent, activity.getString(R.string.action_share_image)));
+							ShareOrderDialog.newInstance(shareIntent).show(activity.getSupportFragmentManager(), null);
+
 
 						} catch(IOException e) {
 							notifyFailure(CacheRequest.REQUEST_FAILURE_STORAGE, e, null, "Could not copy file");

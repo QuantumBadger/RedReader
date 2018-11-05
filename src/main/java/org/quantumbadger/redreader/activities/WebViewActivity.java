@@ -28,6 +28,7 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.fragments.ShareOrderDialog;
 import org.quantumbadger.redreader.fragments.WebViewFragment;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
@@ -134,7 +135,8 @@ public class WebViewActivity extends BaseActivity implements RedditPostView.Post
 						mailer.putExtra(Intent.EXTRA_SUBJECT, mPost.title);
 					}
 					mailer.putExtra(Intent.EXTRA_TEXT, currentUrl);
-					startActivity(Intent.createChooser(mailer, getString(R.string.action_share)));
+//					startActivity(Intent.createChooser(mailer, getString(R.string.action_share)));
+					ShareOrderDialog.newInstance(mailer).show(getSupportFragmentManager(), null);
 				}
 				return true;
 

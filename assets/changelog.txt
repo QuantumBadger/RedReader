@@ -10,6 +10,7 @@ Added DeviantArt support (thanks to sharkwouter)
 Preference to hide main menu items (thanks to LizardWithHat)
 Fixed search to match new reddit API (thanks to ianmcxa)
 Visual fix for comments containing only whitespace (thanks to Briscoooe)
+Crash fix for "Share Image" on Android 8.1+ (thanks to LizardWithHat)
 Updated Dutch translation (thanks to Ghostkeeper)
 Updated Czech translation (thanks to Mongata)
 

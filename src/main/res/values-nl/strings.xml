@@ -705,10 +705,10 @@
 
     <!-- 2016-04-02 -->
     <string name="open_with">Openen met</string>
-    <string name="pref_network_tor_title">TOR gebruiken (experimenteel)</string>
+    <string name="pref_network_tor_title">Tor gebruiken</string>
 
     <!-- 2016-04-03 -->
-    <string name="error_tor_not_installed">TOR werkt niet zonder Orbot. Wil je dit nu installeren?</string>
+    <string name="error_tor_not_installed">Tor werkt niet zonder Orbot. Wil je dit nu installeren?</string>
     <string name="error_tor_setting_failed">Instellen van proxy mislukt.</string>
 
     <!-- 2016-04-10 -->
@@ -750,7 +750,7 @@
 
 	<string name="pref_behaviour_albumview_mode_internal_list">Interne weergever (lijst)</string>
 
-	<string name="error_tor_start_failed">Kon Orbot niet starten. TOR zal niet werken.</string>
+	<string name="error_tor_start_failed">Kon Orbot niet starten. Tor zal niet werken.</string>
 
 	<!-- 2016-06-30 -->
 	<string name="inbox_unread_only">Alleen ongelezen berichten</string>

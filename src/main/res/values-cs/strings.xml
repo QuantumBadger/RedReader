@@ -693,7 +693,7 @@
 
     <!-- 2016-04-02 -->
     <string name="open_with">Otevřít pomocí</string>
-    <string name="pref_network_tor_title">Použít síť TOR (experimentální)</string>
+    <string name="pref_network_tor_title">Použít síť Tor</string>
 
     <!-- 2016-04-03 -->
     <string name="error_tor_not_installed">Síť Tor nefunguje, pokud nemáte nainstalovaný Orbot. Chcete ho nainstalovat?</string>

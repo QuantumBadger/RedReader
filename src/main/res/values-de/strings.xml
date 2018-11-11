@@ -695,7 +695,7 @@ Thanks to /u/balducien and /u/andiho for this translation!
 	<string name="pref_menus_optionsmenu_items_title">Einträge des Optionsmenüs</string>
 	<string name="pref_menus_link_context_items_title">Link-Kontextmenü</string>
 	<string name="pref_menus_subreddit_context_items_title">Subreddit-Kontextmenü</string>
-	<string name="pref_network_tor_title">TOR benutzen (experimentell)</string>
+	<string name="pref_network_tor_title">Tor benutzen</string>
 	<string name="pref_not_supported_before_lollipop">Vor Android Lollipop nicht unterstützt</string>
 	<string name="props_caption">Bildunterschrift</string>
 	<string name="props_image_title">Bildinformationen</string>

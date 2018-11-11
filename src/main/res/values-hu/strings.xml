@@ -686,9 +686,9 @@
 
     <!-- 2016-04-02 -->
     <string name="open_with">Megnyitás ezzel:</string>
-    <string name="pref_network_tor_title">TOR használata (kísérleti verzió)</string>
+    <string name="pref_network_tor_title">Tor használata</string>
     <!-- 2016-04-03 -->
-    <string name="error_tor_not_installed">A TOR nem működik, ha nincs feltelepítve az Orbot. Telepíted?</string>
+    <string name="error_tor_not_installed">A Tor nem működik, ha nincs feltelepítve az Orbot. Telepíted?</string>
     <string name="error_tor_setting_failed">Proxy beállítása sikertelen.</string>
 
     <!-- 2016-04-10 -->
@@ -728,7 +728,7 @@
 	<string name="pref_behaviour_albumview_mode_title">Albummegtekintő</string>
 	<string name="pref_behaviour_albumview_mode_internal_list">Belső megtekintő (list)</string>
 
-	<string name="error_tor_start_failed">Az Orbot nem indult el. A TOR nem fog helyesen működni.</string>
+	<string name="error_tor_start_failed">Az Orbot nem indult el. A Tor nem fog helyesen működni.</string>
 
 	<!-- 2016-06-30 -->
 	<string name="inbox_unread_only">Csak olvasatlan üzenetek</string>

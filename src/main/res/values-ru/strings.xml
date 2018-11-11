@@ -541,7 +541,7 @@
     <string name="pref_behaviour_comment_min_dialog_title">Сворачивать комментарии с оценкой ниже (оставьте пустым, чтобы отображать все)</string>
 
     <string name="open_with">Открыть в</string>
-    <string name="pref_network_tor_title">Использовать TOR (экспериментальная функция)</string>
+    <string name="pref_network_tor_title">Использовать Tor</string>
     <string name="error_tor_not_installed">Tor не будет работать, пока не установлен Orbot. Установить сейчас?</string>
     <string name="error_tor_setting_failed">Не удалось задать прокси.</string>
 

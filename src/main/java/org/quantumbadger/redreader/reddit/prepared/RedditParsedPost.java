@@ -129,6 +129,10 @@ public class RedditParsedPost implements RedditThingWithIdAndType {
 		return score;
 	}
 
+	public int getGoldAmount() {
+		return mSrc.gilded;
+	}
+
 	public boolean isNsfw() {
 		return mSrc.over_18;
 	}

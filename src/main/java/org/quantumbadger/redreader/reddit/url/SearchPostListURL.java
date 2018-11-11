@@ -73,7 +73,7 @@ public class SearchPostListURL extends PostListingURL {
 	public Uri generateJsonUri() {
 
 		Uri.Builder builder = new Uri.Builder();
-		builder.scheme(Constants.Reddit.getScheme()).authority(Constants.Reddit.getHumanReadableDomain());
+		builder.scheme(Constants.Reddit.getScheme()).authority(Constants.Reddit.getDomain());
 
 		if(subreddit != null) {
 			builder.encodedPath("/r/");

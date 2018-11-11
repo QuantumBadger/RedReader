@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.image;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -135,6 +136,12 @@ public class ShareImageCallback implements BaseActivity.PermissionCallback {
 							}
 						}
 
+						Uri sharedImage = FileProvider.getUriForFile(
+								context,
+								"org.quantumbadger.redreader.provider",
+								dst
+						);
+
 						try {
 							final InputStream cacheFileInputStream = cacheFile.getInputStream();
 
@@ -147,7 +154,7 @@ public class ShareImageCallback implements BaseActivity.PermissionCallback {
 
 							Intent shareIntent = new Intent();
 							shareIntent.setAction(Intent.ACTION_SEND);
-							shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + dst.getAbsolutePath()));
+							shareIntent.putExtra(Intent.EXTRA_STREAM, sharedImage);
 							shareIntent.setType(mimetype);
 							activity.startActivity(Intent.createChooser(shareIntent, activity.getString(R.string.action_share_image)));
 
@@ -157,7 +164,7 @@ public class ShareImageCallback implements BaseActivity.PermissionCallback {
 						}
 
 						activity.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
-								Uri.parse("file://" + dst.getAbsolutePath()))
+								sharedImage)
 						);
 
 						General.quickToast(context, context.getString(R.string.action_save_image_success) + " " + dst.getAbsolutePath());

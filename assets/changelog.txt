@@ -8,6 +8,7 @@ Show post/comment immediately after submitting
 Added "Best" sort for front page
 Added DeviantArt support (thanks to sharkwouter)
 Preference to hide main menu items (thanks to LizardWithHat)
+Indicate when posts are gilded (thanks to Sam Yuyitung)
 Fixed search to match new reddit API (thanks to ianmcxa)
 Visual fix for comments containing only whitespace (thanks to Briscoooe)
 Crash fix for "Share Image" on Android 8.1+ (thanks to LizardWithHat)

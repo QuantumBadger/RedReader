@@ -1063,9 +1063,6 @@
 	<string name="pref_about_license_key" translatable="false">pref_about_license</string>
 	<string name="title_license">License</string>
 
-	<string name="pref_about_attribution_key" translatable="false">pref_about_attribution</string>
-	<string name="title_attribution">Attribution</string>
-
 	<!-- 2018-06-24 -->
 	<string name="pref_appearance_left_handed_key" translatable="false">pref_appearance_left_handed</string>
 	<string name="pref_appearance_left_handed_title">Left-handed mode</string>

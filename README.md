@@ -82,5 +82,3 @@ Thanks to:
 * [Joda](http://joda-time.sourceforge.net/)
 
 A full list of contributors is included in the [changelog](assets/changelog.txt).
-
-The RedReader logo/icon is based on a [CC-BY](https://creativecommons.org/licenses/by/4.0/legalcode) concept by [marty-arts](https://steemit.com/utopian-io/@marty-arts/a-new-logo-for-redreader).

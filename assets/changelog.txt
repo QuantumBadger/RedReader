@@ -12,6 +12,7 @@ Indicate when posts are gilded (thanks to Sam Yuyitung)
 Fixed search to match new reddit API (thanks to ianmcxa)
 Visual fix for comments containing only whitespace (thanks to Briscoooe)
 Crash fix for "Share Image" on Android 8.1+ (thanks to LizardWithHat)
+Minor string tweaks (thanks to SkewedZeppelin)
 Updated Dutch translation (thanks to Ghostkeeper)
 Updated Czech translation (thanks to Mongata)
 

@@ -21,7 +21,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
@@ -33,23 +32,46 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import com.github.lzyzsd.circleprogress.DonutProgress;
+import com.google.android.exoplayer2.ExoPlaybackException;
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.Player;
+import com.google.android.exoplayer2.source.ExtractorMediaSource;
+import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.MergingMediaSource;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.ui.PlayerView;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached;
-import org.quantumbadger.redreader.common.*;
+import org.quantumbadger.redreader.common.AndroidCommon;
+import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.fragments.ImageInfoDialog;
-import org.quantumbadger.redreader.image.*;
+import org.quantumbadger.redreader.image.GetAlbumInfoListener;
+import org.quantumbadger.redreader.image.GetImageInfoListener;
+import org.quantumbadger.redreader.image.GifDecoderThread;
+import org.quantumbadger.redreader.image.ImageInfo;
+import org.quantumbadger.redreader.image.ImgurAPI;
 import org.quantumbadger.redreader.reddit.prepared.RedditParsedPost;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.views.GIFView;
 import org.quantumbadger.redreader.views.HorizontalSwipeProgressOverlay;
-import org.quantumbadger.redreader.views.MediaVideoView;
 import org.quantumbadger.redreader.views.RedditPostView;
 import org.quantumbadger.redreader.views.bezelmenu.BezelSwipeOverlay;
 import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
@@ -65,6 +87,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class ImageViewActivity extends BaseActivity implements RedditPostView.PostSelectionListener, ImageViewDisplayListManager.Listener {
 
@@ -74,8 +98,10 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 	private GLSurfaceView surfaceView;
 	private ImageView imageView;
-	private MediaVideoView videoView;
 	private GifDecoderThread gifThread;
+
+	private ExoPlayer mVideoPlayer;
+	private PlayerView mVideoPlayerView;
 
 	private String mUrl;
 
@@ -219,13 +245,21 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 				mImageInfo = info;
 
 				final URI uri = General.uriFromString(info.urlOriginal);
+				final URI audioUri;
 
 				if(uri == null) {
 					revertToWeb();
 					return;
 				}
 
-				openImage(progressBar, uri);
+				if(info.urlAudioStream == null) {
+					audioUri = null;
+
+				} else {
+					audioUri = General.uriFromString(info.urlAudioStream);
+				}
+
+				openImage(progressBar, uri, audioUri);
 			}
 
 			@Override
@@ -336,6 +370,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 	private void onImageLoaded(
 			final CacheManager.ReadableCacheFile cacheFile,
+			@Nullable final CacheManager.ReadableCacheFile audioCacheFile,
 			final String mimetype) {
 
 		if(mimetype == null || (!Constants.Mime.isImage(mimetype) && !Constants.Mime.isVideo(mimetype))) {
@@ -419,50 +454,81 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 					} else {
 
 						try {
+
+							Log.i(TAG, "Playing video using ExoPlayer");
+
 							final RelativeLayout layout = new RelativeLayout(ImageViewActivity.this);
 							layout.setGravity(Gravity.CENTER);
 
-							videoView = new MediaVideoView(ImageViewActivity.this);
+							final DefaultTrackSelector trackSelector = new DefaultTrackSelector();
 
-							videoView.setVideoURI(cacheFile.getUri());
+							mVideoPlayer = ExoPlayerFactory.newSimpleInstance(
+									ImageViewActivity.this,
+									trackSelector);
 
-							if (PrefsUtility.pref_behaviour_video_playback_controls(ImageViewActivity.this,
-																					PreferenceManager.getDefaultSharedPreferences(ImageViewActivity.this))) {
-								MediaController mediaController = new MediaController(ImageViewActivity.this);
-								mediaController.setAnchorView(videoView);
-								videoView.setMediaController(mediaController);
-							} else {
-								videoView.setMediaController(null);
-							}
+							mVideoPlayerView = new PlayerView(ImageViewActivity.this);
 
-							layout.addView(videoView);
+							layout.addView(mVideoPlayerView);
 							setMainView(layout);
 
-							videoView.requestFocus();
+							mVideoPlayerView.setPlayer(mVideoPlayer);
+							mVideoPlayerView.requestFocus();
+
+							final DefaultDataSourceFactory dataSourceFactory = new DefaultDataSourceFactory(
+									ImageViewActivity.this,
+									Constants.ua(ImageViewActivity.this),
+									null);
+
+							final MediaSource mediaSource;
+
+							final MediaSource videoMediaSource = new ExtractorMediaSource.Factory(dataSourceFactory)
+									.createMediaSource(cacheFile.getUri());
+
+							if(audioCacheFile == null) {
+								mediaSource = videoMediaSource;
+
+							} else {
+								mediaSource = new MergingMediaSource(
+										videoMediaSource,
+										new ExtractorMediaSource.Factory(dataSourceFactory)
+												.createMediaSource(audioCacheFile.getUri()));
+							}
+
+							mVideoPlayer.prepare(mediaSource);
+
+							mVideoPlayer.setPlayWhenReady(true);
+
+							if (!PrefsUtility.pref_behaviour_video_playback_controls(
+									ImageViewActivity.this,
+									PreferenceManager.getDefaultSharedPreferences(ImageViewActivity.this))) {
+
+								mVideoPlayerView.setUseController(false);
+							}
 
 							layout.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
 							layout.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
-							videoView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+							mVideoPlayerView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
-							videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+							mVideoPlayer.addListener(new Player.EventListener() {
 								@Override
-								public void onPrepared(MediaPlayer mp) {
-									mp.setLooping(true);
-									videoView.start();
+								public void onPlayerStateChanged(final boolean playWhenReady, final int playbackState) {
+
+									// Loop
+									if(playbackState == Player.STATE_ENDED) {
+										mVideoPlayer.seekTo(0);
+									}
+								}
+
+								@Override
+								public void onPlayerError(final ExoPlaybackException error) {
+
+									Log.e(TAG, "ExoPlayer error", error);
+									revertToWeb();
 								}
 							});
 
-							videoView.setOnErrorListener(
-									new MediaPlayer.OnErrorListener() {
-										@Override
-										public boolean onError(final MediaPlayer mediaPlayer, final int i, final int i1) {
-											revertToWeb();
-											return true;
-										}
-									});
-
 							final BasicGestureHandler gestureHandler = new BasicGestureHandler(ImageViewActivity.this);
-							videoView.setOnTouchListener(gestureHandler);
+							mVideoPlayerView.setOnTouchListener(gestureHandler);
 							layout.setOnTouchListener(gestureHandler);
 
 						} catch(OutOfMemoryError e) {
@@ -704,15 +770,26 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 	public void onDestroy() {
 		super.onDestroy();
 		mIsDestroyed = true;
-		if(mRequest != null) mRequest.cancel();
-		if(gifThread != null) gifThread.stopPlaying();
+
+		if(mRequest != null) {
+			mRequest.cancel();
+		}
+
+		if(gifThread != null) {
+			gifThread.stopPlaying();
+		}
+
+		if(mVideoPlayer != null) {
+			mVideoPlayer.release();
+			mVideoPlayer = null;
+		}
 	}
 
 	@Override
 	public void onSingleTap() {
 		if (PrefsUtility.pref_behaviour_video_playback_controls(this, PreferenceManager.getDefaultSharedPreferences(this))
-				&& videoView != null) {
-			videoView.performClick();
+				&& mVideoPlayerView != null) {
+			mVideoPlayerView.performClick();
 			return;
 		}
 		finish();
@@ -811,7 +888,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 		}
 	}
 
-	private void openImage(final DonutProgress progressBar, URI uri) {
+	private void openImage(final DonutProgress progressBar, URI uri, @Nullable final URI audioUri) {
 
 		if(mImageInfo.mediaType != null) {
 
@@ -866,11 +943,19 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 		}
 
 		Log.i(TAG, "Proceeding with download");
-		makeCacheRequest(progressBar, uri);
+		makeCacheRequest(progressBar, uri, audioUri);
 	}
 
 
-	private void makeCacheRequest(final DonutProgress progressBar, URI uri) {
+	private void makeCacheRequest(final DonutProgress progressBar, final URI uri, @Nullable final URI audioUri) {
+
+		final Object resultLock = new Object();
+
+		final AtomicBoolean failed = new AtomicBoolean(false);
+		final AtomicReference<CacheManager.ReadableCacheFile> audio = new AtomicReference<>();
+		final AtomicReference<CacheManager.ReadableCacheFile> video = new AtomicReference<>();
+		final AtomicReference<String> videoMimetype = new AtomicReference<>();
+
 		CacheManager.getInstance(this).makeRequest(
 				mRequest = new CacheRequest(
 						uri,
@@ -910,20 +995,26 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 					@Override
 					protected void onFailure(final @RequestFailureType int type, Throwable t, Integer status, final String readableMessage) {
 
-						final RRError error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
+						synchronized(resultLock) {
 
-						AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-							@Override
-							public void run() {
-								// TODO handle properly
-								mRequest = null;
-								final LinearLayout layout = new LinearLayout(context);
-								final ErrorView errorView = new ErrorView(ImageViewActivity.this, error);
-								layout.addView(errorView);
-								errorView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-								setMainView(layout);
+							if(!failed.getAndSet(true)) {
+
+								final RRError error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
+
+								AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
+									@Override
+									public void run() {
+										// TODO handle properly
+										mRequest = null;
+										final LinearLayout layout = new LinearLayout(context);
+										final ErrorView errorView = new ErrorView(ImageViewActivity.this, error);
+										layout.addView(errorView);
+										errorView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+										setMainView(layout);
+									}
+								});
 							}
-						});
+						}
 					}
 
 					@Override
@@ -951,9 +1042,91 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 							boolean fromCache,
 							final String mimetype) {
 
-						onImageLoaded(cacheFile, mimetype);
+						synchronized(resultLock) {
+
+							if(audio.get() != null || audioUri == null) {
+								onImageLoaded(cacheFile, audio.get(), mimetype);
+
+							} else {
+								video.set(cacheFile);
+								videoMimetype.set(mimetype);
+							}
+						}
 					}
 				});
+
+		if(audioUri != null) {
+			CacheManager.getInstance(this).makeRequest(
+					mRequest = new CacheRequest(
+							audioUri,
+							RedditAccountManager.getAnon(),
+							null,
+							Constants.Priority.IMAGE_VIEW,
+							0,
+							DownloadStrategyIfNotCached.INSTANCE,
+							Constants.FileType.IMAGE,
+							CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
+							false,
+							false,
+							this) {
+
+						@Override
+						protected void onCallbackException(Throwable t) {
+							BugReportActivity.handleGlobalError(context.getApplicationContext(), new RRError(null, null, t));
+						}
+
+						@Override
+						protected void onDownloadNecessary() {}
+
+						@Override
+						protected void onDownloadStarted() {}
+
+						@Override
+						protected void onFailure(final @RequestFailureType int type, Throwable t, Integer status, final String readableMessage) {
+
+							synchronized(resultLock) {
+
+								if(!failed.getAndSet(true)) {
+
+									final RRError error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
+
+									AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
+										@Override
+										public void run() {
+											// TODO handle properly
+											mRequest = null;
+											final LinearLayout layout = new LinearLayout(context);
+											final ErrorView errorView = new ErrorView(ImageViewActivity.this, error);
+											layout.addView(errorView);
+											errorView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+											setMainView(layout);
+										}
+									});
+								}
+							}
+						}
+
+						@Override
+						protected void onProgress(final boolean authorizationInProgress, final long bytesRead, final long totalBytes) {}
+
+						@Override
+						protected void onSuccess(
+								final CacheManager.ReadableCacheFile cacheFile,
+								long timestamp,
+								UUID session,
+								boolean fromCache,
+								final String mimetype) {
+
+							synchronized(resultLock) {
+								if(video.get() != null) {
+									onImageLoaded(video.get(), cacheFile, videoMimetype.get());
+								} else {
+									audio.set(cacheFile);
+								}
+							}
+						}
+					});
+		}
 	}
 }
 

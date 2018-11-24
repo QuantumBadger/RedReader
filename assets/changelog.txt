@@ -1,4 +1,5 @@
 85/1.9.9
+Audio support for v.redd.it videos using internal player
 Left-handed mode preference
 Preference to hide read posts (thanks to Andrew Soback)
 Custom Tab preference for web browser (thanks to Cj Malone)
@@ -11,6 +12,7 @@ Indicate when posts are gilded (thanks to Sam Yuyitung)
 Fixed search to match new reddit API (thanks to ianmcxa)
 Visual fix for comments containing only whitespace (thanks to Briscoooe)
 Crash fix for "Share Image" on Android 8.1+ (thanks to LizardWithHat)
+Switched to ExoPlayer for video playback
 Minor string tweaks (thanks to SkewedZeppelin)
 Updated Dutch translation (thanks to Ghostkeeper)
 Updated Czech translation (thanks to Mongata)

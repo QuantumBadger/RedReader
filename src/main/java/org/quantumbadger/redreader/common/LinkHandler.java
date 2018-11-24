@@ -510,12 +510,24 @@ public class LinkHandler {
 				}
 			}
 		}
+
 		{
 			final Matcher matchDeviantart = deviantartPattern.matcher(url);
 
 			if(matchDeviantart.find()) {
 				final String imgId = url;
 				if(imgId.length() > 40) {
+					return true;
+				}
+			}
+		}
+
+		{
+			final Matcher matchRedditVideos = redditVideosPattern.matcher(url);
+
+			if(matchRedditVideos.find()) {
+				final String imgId = matchRedditVideos.group(1);
+				if(imgId.length() > 3) {
 					return true;
 				}
 			}
@@ -694,6 +706,18 @@ public class LinkHandler {
 				}
 			}
 		}
+		{
+			final Matcher matchRedditVideos = redditVideosPattern.matcher(url);
+
+			if(matchRedditVideos.find()) {
+
+				final String imgId = matchRedditVideos.group(1);
+				if(imgId.length() > 3) {
+					RedditVideosAPI.getImageInfo(context, imgId, priority, listId, listener);
+					return;
+				}
+			}
+		}
 
 		final ImageInfo imageUrlPatternMatch = getImageUrlPatternMatch(url);
 
@@ -738,23 +762,6 @@ public class LinkHandler {
 				final String imgId = matchMakeameme.group(1);
 				if(imgId.length() > 3) {
 					final String imageUrl = "https://media.makeameme.org/created/" + imgId + ".jpg";
-					return new ImageInfo(imageUrl, ImageInfo.MediaType.IMAGE);
-				}
-			}
-		}
-
-		{
-			final Matcher match = redditVideosPattern.matcher(url);
-
-			if(match.find()) {
-				final String imgId = match.group(1);
-				if(imgId.length() > 3) {
-
-					if(url.contains("DASH")) {
-						return new ImageInfo(url, ImageInfo.MediaType.IMAGE);
-					}
-
-					final String imageUrl = "https://v.redd.it/" + imgId + "/DASH_600_K";
 					return new ImageInfo(imageUrl, ImageInfo.MediaType.IMAGE);
 				}
 			}

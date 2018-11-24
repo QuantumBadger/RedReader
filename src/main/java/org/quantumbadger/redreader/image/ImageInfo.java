@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.image;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.quantumbadger.redreader.common.ParcelHelper;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
@@ -29,6 +30,8 @@ public class ImageInfo implements Parcelable {
 
 	public final String urlOriginal;
 	public final String urlBigSquare;
+
+	@Nullable public final String urlAudioStream;
 
 	public final String title;
 	public final String caption;
@@ -47,8 +50,13 @@ public class ImageInfo implements Parcelable {
 	}
 
 	public ImageInfo(final String urlOriginal, final MediaType mediaType) {
+		this(urlOriginal, null, mediaType);
+	}
+
+	public ImageInfo(final String urlOriginal, @Nullable final String urlAudioStream, final MediaType mediaType) {
 
 		this.urlOriginal = urlOriginal;
+		this.urlAudioStream = urlAudioStream;
 
 		urlBigSquare = null;
 		title = null;
@@ -64,6 +72,7 @@ public class ImageInfo implements Parcelable {
 	private ImageInfo(final Parcel in) {
 		urlOriginal = ParcelHelper.readNullableString(in);
 		urlBigSquare = ParcelHelper.readNullableString(in);
+		urlAudioStream = ParcelHelper.readNullableString(in);
 		title = ParcelHelper.readNullableString(in);
 		caption = ParcelHelper.readNullableString(in);
 		type = ParcelHelper.readNullableString(in);
@@ -89,6 +98,7 @@ public class ImageInfo implements Parcelable {
 
 		this.urlOriginal = urlOriginal;
 		this.urlBigSquare = urlBigSquare;
+		this.urlAudioStream = null;
 		this.title = title;
 		this.caption = caption;
 		this.type = type;
@@ -332,6 +342,7 @@ public class ImageInfo implements Parcelable {
 
 		ParcelHelper.writeNullableString(parcel, urlOriginal);
 		ParcelHelper.writeNullableString(parcel, urlBigSquare);
+		ParcelHelper.writeNullableString(parcel, urlAudioStream);
 		ParcelHelper.writeNullableString(parcel, title);
 		ParcelHelper.writeNullableString(parcel, caption);
 		ParcelHelper.writeNullableString(parcel, type);

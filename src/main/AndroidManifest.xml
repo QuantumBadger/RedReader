@@ -22,9 +22,6 @@
           android:versionName="1.9.8.5"
           android:installLocation="auto">
 
-    <uses-sdk android:minSdkVersion="14"
-              android:targetSdkVersion="27" />
-
     <uses-feature android:glEsVersion="0x00020000" android:required="true" />
 
     <uses-permission android:name="android.permission.INTERNET" />

@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -803,46 +804,11 @@ public class PostListingFragment extends RRFragment
 									return;
 								}
 
-								final URI uri = General.uriFromString(info.urlOriginal);
-								if(uri == null) {
-									Log.i(TAG, String.format(
-											"Not precaching '%s': failed to parse URL", post.getUrl()));
-									return;
+								precacheImage(activity, info.urlOriginal, positionInList);
+
+								if(info.urlAudioStream != null) {
+									precacheImage(activity, info.urlAudioStream, positionInList);
 								}
-
-								CacheManager.getInstance(activity).makeRequest(new CacheRequest(
-										uri,
-										RedditAccountManager.getAnon(),
-										null,
-										Constants.Priority.IMAGE_PRECACHE,
-										positionInList,
-										DownloadStrategyIfNotCached.INSTANCE,
-										Constants.FileType.IMAGE,
-										DOWNLOAD_QUEUE_IMAGE_PRECACHE,
-										false,
-										false,
-										activity
-								) {
-									@Override protected void onCallbackException(final Throwable t) {}
-									@Override protected void onDownloadNecessary() {}
-									@Override protected void onDownloadStarted() {}
-
-									@Override protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
-
-										Log.e(TAG, String.format(
-												Locale.US,
-												"Failed to precache %s (RequestFailureType %d, status %s, readable '%s')",
-														info.urlOriginal,
-														type,
-														status == null ? "NULL" : status.toString(),
-														readableMessage == null ? "NULL" : readableMessage));
-									}
-									@Override protected void onProgress(final boolean authorizationInProgress, final long bytesRead, final long totalBytes) {}
-
-									@Override protected void onSuccess(final CacheManager.ReadableCacheFile cacheFile, final long timestamp, final UUID session, final boolean fromCache, final String mimetype) {
-										Log.i(TAG, "Successfully precached " + info.urlOriginal);
-									}
-								});
 							}
 						});
 
@@ -890,5 +856,65 @@ public class PostListingFragment extends RRFragment
 		}
 
 		return false;
+	}
+
+	private void precacheImage(
+			final Activity activity,
+			final String url,
+			final int positionInList) {
+
+		final URI uri = General.uriFromString(url);
+		if(uri == null) {
+			Log.i(TAG, String.format(
+					"Not precaching '%s': failed to parse URL", url));
+			return;
+		}
+
+		CacheManager.getInstance(activity).makeRequest(new CacheRequest(
+				uri,
+				RedditAccountManager.getAnon(),
+				null,
+				Constants.Priority.IMAGE_PRECACHE,
+				positionInList,
+				DownloadStrategyIfNotCached.INSTANCE,
+				Constants.FileType.IMAGE,
+				CacheRequest.DOWNLOAD_QUEUE_IMAGE_PRECACHE,
+				false,
+				false,
+				activity
+		) {
+			@Override
+			protected void onCallbackException(final Throwable t) {
+			}
+
+			@Override
+			protected void onDownloadNecessary() {
+			}
+
+			@Override
+			protected void onDownloadStarted() {
+			}
+
+			@Override
+			protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
+
+				Log.e(TAG, String.format(
+						Locale.US,
+						"Failed to precache %s (RequestFailureType %d, status %s, readable '%s')",
+						url,
+						type,
+						status == null ? "NULL" : status.toString(),
+						readableMessage == null ? "NULL" : readableMessage));
+			}
+
+			@Override
+			protected void onProgress(final boolean authorizationInProgress, final long bytesRead, final long totalBytes) {
+			}
+
+			@Override
+			protected void onSuccess(final CacheManager.ReadableCacheFile cacheFile, final long timestamp, final UUID session, final boolean fromCache, final String mimetype) {
+				Log.i(TAG, "Successfully precached " + url);
+			}
+		});
 	}
 }

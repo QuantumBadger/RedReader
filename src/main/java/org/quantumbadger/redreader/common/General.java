@@ -49,6 +49,8 @@ import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.fragments.ErrorPropertiesDialog;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 
+import java.io.ByteArrayOutputStream;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -56,6 +58,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
+import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -67,7 +70,9 @@ import java.util.regex.Pattern;
 
 public final class General {
 
-	public static int COLOR_INVALID = Color.MAGENTA;
+	public static final Charset CHARSET_UTF8 = Charset.forName("UTF-8");
+
+	public static final int COLOR_INVALID = Color.MAGENTA;
 
 	private static long lastBackPress = -1;
 
@@ -591,6 +596,17 @@ public final class General {
 		}
 	}
 
+	public static byte[] readWholeStream(final InputStream in) throws IOException {
+
+		final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		copyStream(in, baos);
+		return baos.toByteArray();
+	}
+
+	public static String readWholeStreamAsUTF8(final InputStream in) throws IOException {
+		return new String(readWholeStream(in), CHARSET_UTF8);
+	}
+
 	public static void setAllMarginsDp(final Context context, final View view, final int marginDp) {
 
 		final ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams)view.getLayoutParams();
@@ -629,6 +645,15 @@ public final class General {
 			if(dialog.isShowing()) dialog.dismiss();
 		} catch(final Exception e) {
 			Log.e("safeDismissDialog", "Caught exception while dismissing dialog", e);
+		}
+	}
+
+	public static void closeSafely(final Closeable closeable) {
+
+		try {
+			closeable.close();
+		} catch(final IOException e) {
+			Log.e("closeSafely", "Failed to close resource", e);
 		}
 	}
 }

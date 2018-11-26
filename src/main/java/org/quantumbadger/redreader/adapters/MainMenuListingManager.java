@@ -175,6 +175,11 @@ public class MainMenuListingManager {
 				mAdapter.appendToGroup(GROUP_MAIN_ITEMS,
 						makeItem(R.string.mainmenu_random, MainMenuFragment.MENU_MENU_ACTION_RANDOM, null, false));
 			}
+
+			if (mainMenuShortcutItems.contains(MainMenuFragment.MainMenuShortcutItems.RANDOM_NSFW)){
+				mAdapter.appendToGroup(GROUP_MAIN_ITEMS,
+						makeItem(R.string.mainmenu_random_nsfw, MainMenuFragment.MENU_MENU_ACTION_RANDOM_NSFW, null, false));
+			}
 		}
 
 		if(!user.isAnonymous()) {

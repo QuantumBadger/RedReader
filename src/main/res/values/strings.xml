@@ -1096,4 +1096,7 @@
 	<string name="pref_menus_show_subscribed_subreddits_main_menu_key" translatable="false">pref_menus_show_subscribed_main_menu</string>
 	<string name="pref_menus_show_subscribed_subreddits_main_menu_title">Show Subscribed Subreddits</string>
 
+	<!-- 2018-11-26 -->
+	<string name="mainmenu_random_nsfw">Random NSFW Subreddit</string>
+
 </resources>

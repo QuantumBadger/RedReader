@@ -134,6 +134,18 @@ public class ExoPlayerWrapperView extends FrameLayout {
 						}
 					}), buttons);
 
+			addButton(createButton(
+					context,
+					mControlView,
+					R.drawable.exo_controls_rewind,
+					new OnClickListener() {
+						@Override
+						public void onClick(View view) {
+							mVideoPlayer.seekTo(mVideoPlayer.getCurrentPosition() - 3000);
+							updateProgress();
+						}
+					}), buttons);
+
 			final AtomicReference<ImageButton> playButton = new AtomicReference<>();
 
 			playButton.set(createButton(
@@ -156,6 +168,18 @@ public class ExoPlayerWrapperView extends FrameLayout {
 					}));
 
 			addButton(playButton.get(), buttons);
+
+			addButton(createButton(
+					context,
+					mControlView,
+					R.drawable.exo_controls_fastforward,
+					new OnClickListener() {
+						@Override
+						public void onClick(View view) {
+							mVideoPlayer.seekTo(mVideoPlayer.getCurrentPosition() + 3000);
+							updateProgress();
+						}
+					}), buttons);
 
 			mTimeBarView = new DefaultTimeBar(context, null);
 			controlBar.addView(mTimeBarView);

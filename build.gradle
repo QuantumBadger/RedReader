@@ -42,7 +42,9 @@ android {
 
 		minSdkVersion 14
 		targetSdkVersion 27
-    }
+
+		applicationId "org.quantumbadger.redreader"
+	}
     // Flag to tell aapt to keep the attribute ids around
     aaptOptions {
         additionalParameters "--no-version-vectors"

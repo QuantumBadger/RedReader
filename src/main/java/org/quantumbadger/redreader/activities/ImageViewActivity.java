@@ -39,15 +39,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.github.lzyzsd.circleprogress.DonutProgress;
-import com.google.android.exoplayer2.ExoPlaybackException;
-import com.google.android.exoplayer2.ExoPlayer;
-import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.MergingMediaSource;
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -81,6 +75,7 @@ import org.quantumbadger.redreader.views.imageview.ImageTileSource;
 import org.quantumbadger.redreader.views.imageview.ImageTileSourceWholeBitmap;
 import org.quantumbadger.redreader.views.imageview.ImageViewDisplayListManager;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
+import org.quantumbadger.redreader.views.video.ExoPlayerWrapperView;
 
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -100,8 +95,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 	private ImageView imageView;
 	private GifDecoderThread gifThread;
 
-	private ExoPlayer mVideoPlayer;
-	private PlayerView mVideoPlayerView;
+	private ExoPlayerWrapperView mVideoPlayerWrapper;
 
 	private String mUrl;
 
@@ -391,9 +385,13 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 			return;
 		}
 
+		final boolean floatingToolbarShown;
+
 		if(mImageInfo != null
 				&& ((mImageInfo.title != null && mImageInfo.title.length() > 0)
 						|| (mImageInfo.caption != null && mImageInfo.caption.length() > 0))) {
+
+			floatingToolbarShown = true;
 
 			// TODO preference
 			AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
@@ -404,6 +402,9 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 					}
 				}
 			});
+
+		} else {
+			floatingToolbarShown = false;
 		}
 
 		if(Constants.Mime.isVideo(mimetype)) {
@@ -460,20 +461,6 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 							final RelativeLayout layout = new RelativeLayout(ImageViewActivity.this);
 							layout.setGravity(Gravity.CENTER);
 
-							final DefaultTrackSelector trackSelector = new DefaultTrackSelector();
-
-							mVideoPlayer = ExoPlayerFactory.newSimpleInstance(
-									ImageViewActivity.this,
-									trackSelector);
-
-							mVideoPlayerView = new PlayerView(ImageViewActivity.this);
-
-							layout.addView(mVideoPlayerView);
-							setMainView(layout);
-
-							mVideoPlayerView.setPlayer(mVideoPlayer);
-							mVideoPlayerView.requestFocus();
-
 							final DefaultDataSourceFactory dataSourceFactory = new DefaultDataSourceFactory(
 									ImageViewActivity.this,
 									Constants.ua(ImageViewActivity.this),
@@ -494,41 +481,29 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 												.createMediaSource(audioCacheFile.getUri()));
 							}
 
-							mVideoPlayer.prepare(mediaSource);
-
-							mVideoPlayer.setPlayWhenReady(true);
-
-							if (!PrefsUtility.pref_behaviour_video_playback_controls(
+							mVideoPlayerWrapper = new ExoPlayerWrapperView(
 									ImageViewActivity.this,
-									PreferenceManager.getDefaultSharedPreferences(ImageViewActivity.this))) {
+									mediaSource,
+									new ExoPlayerWrapperView.Listener() {
 
-								mVideoPlayerView.setUseController(false);
-							}
+										@Override
+										public void onError() {
+											revertToWeb();
+										}
+									},
+									floatingToolbarShown ? 84 : 0);
+
+							layout.addView(mVideoPlayerWrapper);
+							setMainView(layout);
 
 							layout.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
 							layout.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
-							mVideoPlayerView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
-							mVideoPlayer.addListener(new Player.EventListener() {
-								@Override
-								public void onPlayerStateChanged(final boolean playWhenReady, final int playbackState) {
-
-									// Loop
-									if(playbackState == Player.STATE_ENDED) {
-										mVideoPlayer.seekTo(0);
-									}
-								}
-
-								@Override
-								public void onPlayerError(final ExoPlaybackException error) {
-
-									Log.e(TAG, "ExoPlayer error", error);
-									revertToWeb();
-								}
-							});
+							mVideoPlayerWrapper.setLayoutParams(new RelativeLayout.LayoutParams(
+									ViewGroup.LayoutParams.MATCH_PARENT,
+									ViewGroup.LayoutParams.MATCH_PARENT));
 
 							final BasicGestureHandler gestureHandler = new BasicGestureHandler(ImageViewActivity.this);
-							mVideoPlayerView.setOnTouchListener(gestureHandler);
+							mVideoPlayerWrapper.setOnTouchListener(gestureHandler);
 							layout.setOnTouchListener(gestureHandler);
 
 						} catch(OutOfMemoryError e) {
@@ -779,20 +754,22 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 			gifThread.stopPlaying();
 		}
 
-		if(mVideoPlayer != null) {
-			mVideoPlayer.release();
-			mVideoPlayer = null;
+		if(mVideoPlayerWrapper != null) {
+			mVideoPlayerWrapper.release();
+			mVideoPlayerWrapper = null;
 		}
 	}
 
 	@Override
 	public void onSingleTap() {
 		if (PrefsUtility.pref_behaviour_video_playback_controls(this, PreferenceManager.getDefaultSharedPreferences(this))
-				&& mVideoPlayerView != null) {
-			mVideoPlayerView.performClick();
-			return;
+				&& mVideoPlayerWrapper != null) {
+
+			mVideoPlayerWrapper.handleTap();
+
+		} else {
+			finish();
 		}
-		finish();
 	}
 
 	@Override

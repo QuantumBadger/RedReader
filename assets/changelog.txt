@@ -7,6 +7,7 @@ Allow marking as NSFW/spoilers when submitting post
 Show post/comment immediately after submitting
 Added "Best" sort for front page
 Added DeviantArt support (thanks to sharkwouter)
+Preference to add "Random NSFW" to main menu (thanks to David Austin Vick)
 Preference to hide main menu items (thanks to LizardWithHat)
 Indicate when posts are gilded (thanks to Sam Yuyitung)
 Fixed search to match new reddit API (thanks to ianmcxa)

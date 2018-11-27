@@ -43,6 +43,10 @@ public class SubredditPostListURL extends PostListingURL {
 		return new SubredditPostListURL(Type.RANDOM, "random", null, null, null, null);
 	}
 
+	public static SubredditPostListURL getRandomNsfw() {
+		return new SubredditPostListURL(Type.RANDOM, "randnsfw", null, null, null, null);
+	}
+
 	public static SubredditPostListURL getAll() {
 		return new SubredditPostListURL(Type.ALL, null, null, null, null, null);
 	}
@@ -326,7 +330,7 @@ public class SubredditPostListURL extends PostListingURL {
 				return context.getString(R.string.mainmenu_popular);
 
 			case RANDOM:
-				return context.getString(R.string.mainmenu_random);
+				return context.getString("randnsfw".equals(subreddit) ? R.string.mainmenu_random_nsfw : R.string.mainmenu_random);
 
 			case SUBREDDIT:
 				try {

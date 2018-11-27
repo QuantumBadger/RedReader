@@ -339,6 +339,10 @@ public class MainActivity extends RefreshableActivity
 				onSelected(SubredditPostListURL.getRandom());
 				break;
 
+			case MainMenuFragment.MENU_MENU_ACTION_RANDOM_NSFW:
+				onSelected(SubredditPostListURL.getRandomNsfw());
+				break;
+
 			case MainMenuFragment.MENU_MENU_ACTION_ALL:
 				onSelected(SubredditPostListURL.getAll());
 				break;

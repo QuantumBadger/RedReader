@@ -765,6 +765,7 @@
 		<item>@string/mainmenu_all</item>
 		<item>@string/mainmenu_custom_destination</item>
 		<item>@string/mainmenu_random</item>
+		<item>@string/mainmenu_random_nsfw</item>
 	</string-array>
 
 	<!-- Constants. Do not change. -->
@@ -774,6 +775,7 @@
 		<item>all</item>
 		<item>custom</item>
 		<item>random</item>
+		<item>random_nsfw</item>
 	</string-array>
 
 	<!-- Constants. Do not change. -->

@@ -39,7 +39,7 @@ public final class GfycatAPI {
 			final int listId,
 			final GetImageInfoListener listener) {
 
-		final String apiUrl = "https://gfycat.com/cajax/get/" + imageId;
+		final String apiUrl = "https://api.gfycat.com/v1/gfycats/" + imageId;
 
 		CacheManager.getInstance(context).makeRequest(new CacheRequest(
 				General.uriFromString(apiUrl),

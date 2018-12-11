@@ -176,7 +176,7 @@ public class RedditRenderableComment implements RedditRenderableInboxItem, Reddi
 
 				sb.append(" "
 								+ context.getString(R.string.gold)
-								+ " x"
+								+ BetterSSB.NBSP + "x"
 								+ rawComment.gilded
 								+ " ",
 						BetterSSB.FOREGROUND_COLOR | BetterSSB.BACKGROUND_COLOR,

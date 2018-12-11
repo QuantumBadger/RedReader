@@ -37,6 +37,8 @@ public class BetterSSB {
 			BACKGROUND_COLOR = 1 << 5,
 			SIZE = 1 << 6;
 
+	public static final char NBSP = '\u00A0';
+
 	public BetterSSB() {
 		this.sb = new SpannableStringBuilder();
 	}

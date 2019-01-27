@@ -185,9 +185,11 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 		progressBar.setIndeterminate(true);
 		progressBar.setFinishedStrokeColor(Color.rgb(200, 200, 200));
 		progressBar.setUnfinishedStrokeColor(Color.rgb(50, 50, 50));
+		progressBar.setAspectIndicatorStrokeColor(Color.rgb(200, 200, 200));
 		final int progressStrokeWidthPx = General.dpToPixels(this, 15);
 		progressBar.setUnfinishedStrokeWidth(progressStrokeWidthPx);
 		progressBar.setFinishedStrokeWidth(progressStrokeWidthPx);
+		progressBar.setAspectIndicatorStrokeWidth(General.dpToPixels(this, 1));
 		progressBar.setStartingDegree(-90);
 		progressBar.initPainters();
 
@@ -924,6 +926,23 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 	}
 
 
+	private void manageAspectRatioIndicator(DonutProgress progressBar) {
+		findAspectRatio:
+		if(PrefsUtility.pref_appearance_show_aspect_ratio_indicator(this, PreferenceManager.getDefaultSharedPreferences(this))) {
+			if(mImageInfo.width != null && mImageInfo.height != null && mImageInfo.width > 0 && mImageInfo.height > 0) {
+				progressBar.setLoadingImageAspectRatio((float) mImageInfo.width / mImageInfo.height);
+			} //TODO Get width and height of loading media when not available from API
+			else {
+				break findAspectRatio;
+			}
+
+			progressBar.setAspectIndicatorDisplay(true);
+			return;
+		}
+
+		progressBar.setAspectIndicatorDisplay(false);
+	}
+
 	private void makeCacheRequest(final DonutProgress progressBar, final URI uri, @Nullable final URI audioUri) {
 
 		final Object resultLock = new Object();
@@ -961,6 +980,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 							public void run() {
 								progressBar.setVisibility(View.VISIBLE);
 								progressBar.setIndeterminate(true);
+								manageAspectRatioIndicator(progressBar);
 							}
 						});
 					}
@@ -1002,6 +1022,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 								progressBar.setVisibility(View.VISIBLE);
 								progressBar.setIndeterminate(authorizationInProgress);
 								progressBar.setProgress(((float) ((1000 * bytesRead) / totalBytes)) / 1000);
+								manageAspectRatioIndicator(progressBar);
 
 								if(!mProgressTextSet) {
 									mProgressText.setText(General.bytesToMegabytes(totalBytes));

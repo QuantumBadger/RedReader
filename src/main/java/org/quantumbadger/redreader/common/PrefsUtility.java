@@ -96,7 +96,8 @@ public final class PrefsUtility {
 				|| context.getString(R.string.pref_appearance_comments_show_floating_toolbar_key).equals(key)
 				|| context.getString(R.string.pref_behaviour_enable_swipe_refresh_key).equals(key)
 				|| context.getString(R.string.pref_menus_show_multireddit_main_menu_key).equals(key)
-				|| context.getString(R.string.pref_menus_show_subscribed_subreddits_main_menu_key).equals(key);
+				|| context.getString(R.string.pref_menus_show_subscribed_subreddits_main_menu_key).equals(key)
+				|| context.getString(R.string.pref_appearance_bottom_toolbar_key).equals(key);
 	}
 
 	///////////////////////////////
@@ -305,6 +306,10 @@ public final class PrefsUtility {
 
 	public static boolean pref_appearance_left_handed(final Context context, final SharedPreferences sharedPreferences) {
 		return getBoolean(R.string.pref_appearance_left_handed_key, false, context, sharedPreferences);
+	}
+
+	public static boolean pref_appearance_bottom_toolbar(final Context context, final SharedPreferences sharedPreferences) {
+		return getBoolean(R.string.pref_appearance_bottom_toolbar_key, false, context, sharedPreferences);
 	}
 
 	public enum AppearanceCommentHeaderItem {

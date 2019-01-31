@@ -132,10 +132,18 @@ public abstract class BaseActivity extends AppCompatActivity implements SharedPr
 		closeIfNecessary();
 
 		if(baseActivityIsToolbarActionBarEnabled()) {
-			final View outerView = getLayoutInflater().inflate(R.layout.rr_actionbar, null);
+			final View outerView;
+			final Toolbar toolbar;
 
-			final Toolbar toolbar = (Toolbar) outerView.findViewById(R.id.rr_actionbar_toolbar);
-			mContentView = (FrameLayout) outerView.findViewById(R.id.rr_actionbar_content);
+			if(! PrefsUtility.pref_appearance_bottom_toolbar(this, mSharedPreferences)) {
+				outerView = getLayoutInflater().inflate(R.layout.rr_actionbar, null);
+				toolbar = (Toolbar) outerView.findViewById(R.id.rr_actionbar_toolbar);
+				mContentView = (FrameLayout) outerView.findViewById(R.id.rr_actionbar_content);
+			} else {
+				outerView = getLayoutInflater().inflate(R.layout.rr_actionbar_reverse, null);
+				toolbar = (Toolbar) outerView.findViewById(R.id.rr_actionbar_reverse_toolbar);
+				mContentView = (FrameLayout) outerView.findViewById(R.id.rr_actionbar_reverse_content);
+			}
 
 			super.setContentView(outerView);
 			setSupportActionBar(toolbar);

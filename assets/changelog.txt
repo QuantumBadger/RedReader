@@ -1,3 +1,6 @@
+86/1.9.9.1
+Fix for v.redd.it videos
+
 85/1.9.9
 Audio support for v.redd.it videos using internal player
 Left-handed mode preference

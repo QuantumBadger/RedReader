@@ -124,9 +124,9 @@ public final class RedditVideosAPI {
 						final ImageInfo result;
 
 						if(audioUrl != null) {
-							result = new ImageInfo(videoUrl, audioUrl, ImageInfo.MediaType.VIDEO);
+							result = new ImageInfo(videoUrl, audioUrl, ImageInfo.MediaType.VIDEO, ImageInfo.HasAudio.HAS_AUDIO);
 						} else {
-							result = new ImageInfo(videoUrl, ImageInfo.MediaType.VIDEO);
+							result = new ImageInfo(videoUrl, ImageInfo.MediaType.VIDEO, ImageInfo.HasAudio.NO_AUDIO);
 						}
 
 						Log.i("RedditVideosAPI", String.format(

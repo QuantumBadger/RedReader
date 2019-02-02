@@ -587,7 +587,7 @@ public class LinkHandler {
 								Log.i("getImgurImageInfo", "All API requests failed!");
 
 								if(returnUrlOnFailure) {
-									listener.onSuccess(new ImageInfo("https://i.imgur.com/" + imgId + ".jpg", null));
+									listener.onSuccess(new ImageInfo("https://i.imgur.com/" + imgId + ".jpg", null, ImageInfo.HasAudio.MAYBE_AUDIO));
 
 								} else {
 									listener.onFailure(type, t, status, readableMessage);
@@ -738,7 +738,7 @@ public class LinkHandler {
 			if(matchRedditUploads.find()) {
 				final String imgId = matchRedditUploads.group(1);
 				if(imgId.length() > 10) {
-					return new ImageInfo(url, ImageInfo.MediaType.IMAGE);
+					return new ImageInfo(url, ImageInfo.MediaType.IMAGE, ImageInfo.HasAudio.NO_AUDIO);
 				}
 			}
 		}
@@ -750,7 +750,7 @@ public class LinkHandler {
 				final String imgId = matchImgflip.group(1);
 				if(imgId.length() > 3) {
 					final String imageUrl = "https://i.imgflip.com/" + imgId + ".jpg";
-					return new ImageInfo(imageUrl, ImageInfo.MediaType.IMAGE);
+					return new ImageInfo(imageUrl, ImageInfo.MediaType.IMAGE, ImageInfo.HasAudio.NO_AUDIO);
 				}
 			}
 		}
@@ -762,7 +762,7 @@ public class LinkHandler {
 				final String imgId = matchMakeameme.group(1);
 				if(imgId.length() > 3) {
 					final String imageUrl = "https://media.makeameme.org/created/" + imgId + ".jpg";
-					return new ImageInfo(imageUrl, ImageInfo.MediaType.IMAGE);
+					return new ImageInfo(imageUrl, ImageInfo.MediaType.IMAGE, ImageInfo.HasAudio.NO_AUDIO);
 				}
 			}
 		}
@@ -774,18 +774,18 @@ public class LinkHandler {
 
 		for(final String ext: imageExtensions) {
 			if(urlLower.endsWith(ext)) {
-				return new ImageInfo(url, ImageInfo.MediaType.IMAGE);
+				return new ImageInfo(url, ImageInfo.MediaType.IMAGE, ImageInfo.HasAudio.MAYBE_AUDIO);
 			}
 		}
 
 		for(final String ext: videoExtensions) {
 			if(urlLower.endsWith(ext)) {
-				return new ImageInfo(url, ImageInfo.MediaType.VIDEO);
+				return new ImageInfo(url, ImageInfo.MediaType.VIDEO, ImageInfo.HasAudio.MAYBE_AUDIO);
 			}
 		}
 
 		if(urlLower.endsWith(".gif")) {
-			return new ImageInfo(url, ImageInfo.MediaType.GIF);
+			return new ImageInfo(url, ImageInfo.MediaType.GIF, ImageInfo.HasAudio.MAYBE_AUDIO);
 		}
 
 
@@ -795,18 +795,18 @@ public class LinkHandler {
 
 			for(final String ext: imageExtensions) {
 				if(urlBeforeQ.endsWith(ext)) {
-					return new ImageInfo(url, ImageInfo.MediaType.IMAGE);
+					return new ImageInfo(url, ImageInfo.MediaType.IMAGE, ImageInfo.HasAudio.MAYBE_AUDIO);
 				}
 			}
 
 			for(final String ext: videoExtensions) {
 				if(urlBeforeQ.endsWith(ext)) {
-					return new ImageInfo(url, ImageInfo.MediaType.VIDEO);
+					return new ImageInfo(url, ImageInfo.MediaType.VIDEO, ImageInfo.HasAudio.MAYBE_AUDIO);
 				}
 			}
 
 			if(urlBeforeQ.endsWith(".gif")) {
-				return new ImageInfo(url, ImageInfo.MediaType.GIF);
+				return new ImageInfo(url, ImageInfo.MediaType.GIF, ImageInfo.HasAudio.MAYBE_AUDIO);
 			}
 		}
 
@@ -815,7 +815,7 @@ public class LinkHandler {
 		if(matchQkme1.find()) {
 			final String imgId = matchQkme1.group(1);
 			if(imgId.length() > 2) {
-				return new ImageInfo(String.format(Locale.US, "http://i.qkme.me/%s.jpg", imgId), ImageInfo.MediaType.IMAGE);
+				return new ImageInfo(String.format(Locale.US, "http://i.qkme.me/%s.jpg", imgId), ImageInfo.MediaType.IMAGE, ImageInfo.HasAudio.NO_AUDIO);
 			}
 		}
 
@@ -824,7 +824,7 @@ public class LinkHandler {
 		if(matchQkme2.find()) {
 			final String imgId = matchQkme2.group(1);
 			if (imgId.length() > 2) {
-				return new ImageInfo(String.format(Locale.US, "http://i.qkme.me/%s.jpg", imgId), ImageInfo.MediaType.IMAGE);
+				return new ImageInfo(String.format(Locale.US, "http://i.qkme.me/%s.jpg", imgId), ImageInfo.MediaType.IMAGE, ImageInfo.HasAudio.NO_AUDIO);
 			}
 		}
 
@@ -833,7 +833,7 @@ public class LinkHandler {
 		if(matchLvme.find()) {
 			final String imgId = matchLvme.group(1);
 			if (imgId.length() > 2) {
-				return new ImageInfo(String.format(Locale.US, "http://www.livememe.com/%s.jpg", imgId), ImageInfo.MediaType.IMAGE);
+				return new ImageInfo(String.format(Locale.US, "http://www.livememe.com/%s.jpg", imgId), ImageInfo.MediaType.IMAGE, ImageInfo.HasAudio.NO_AUDIO);
 			}
 		}
 

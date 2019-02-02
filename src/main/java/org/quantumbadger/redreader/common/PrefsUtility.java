@@ -367,6 +367,10 @@ public final class PrefsUtility {
 		return getBoolean(R.string.pref_behaviour_video_playback_controls_key, false, context, sharedPreferences);
 	}
 
+	public static boolean pref_behaviour_video_mute_default(final Context context, final SharedPreferences sharedPreferences) {
+		return getBoolean(R.string.pref_behaviour_video_mute_default_key, true, context, sharedPreferences);
+	}
+
 	public static int pref_behaviour_bezel_toolbar_swipezone_dp(final Context context, final SharedPreferences sharedPreferences) {
 		try {
 			return Integer.parseInt(getString(R.string.pref_behaviour_bezel_toolbar_swipezone_key, "10", context, sharedPreferences));

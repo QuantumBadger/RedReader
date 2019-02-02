@@ -1,4 +1,5 @@
 87/1.9.10
+Audio now muted by default
 Added preference to move toolbar to bottom of screen (thanks to Cameron Merkel)
 Added aspect ratio indicator while loading images (off by default) (thanks to Cameron Merkel)
 Avoid line-breaks in gilding badge (thanks to Marco Costa)

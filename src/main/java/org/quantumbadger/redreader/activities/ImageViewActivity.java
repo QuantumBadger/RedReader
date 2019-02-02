@@ -25,6 +25,7 @@ import android.net.Uri;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.util.TypedValue;
@@ -295,21 +296,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 			mFloatingToolbar = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.floating_toolbar, outerFrame, false);
 			outerFrame.addView(mFloatingToolbar);
 
-			final ImageButton ib = (ImageButton) LayoutInflater.from(this).inflate(R.layout.flat_image_button, mFloatingToolbar, false);
-			final int buttonPadding = General.dpToPixels(this, 10);
-			ib.setPadding(buttonPadding, buttonPadding, buttonPadding, buttonPadding);
-			ib.setImageResource(R.drawable.ic_action_info_dark);
-
-			if (mFloatingToolbar != null) {
-				mFloatingToolbar.addView(ib);
-			}
-
-			ib.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(final View view) {
-					ImageInfoDialog.newInstance(mImageInfo).show(ImageViewActivity.this.getSupportFragmentManager(), null);
-				}
-			});
+			mFloatingToolbar.setVisibility(View.GONE);
 		}
 
 		if(post != null) {
@@ -387,26 +374,25 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 			return;
 		}
 
-		final boolean floatingToolbarShown;
-
 		if(mImageInfo != null
 				&& ((mImageInfo.title != null && mImageInfo.title.length() > 0)
 						|| (mImageInfo.caption != null && mImageInfo.caption.length() > 0))) {
 
-			floatingToolbarShown = true;
-
-			// TODO preference
 			AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
 				@Override
 				public void run() {
-					if(mFloatingToolbar != null) {
-						mFloatingToolbar.setVisibility(View.VISIBLE);
-					}
+
+					addFloatingToolbarButton(
+							R.drawable.ic_action_info_dark,
+							new View.OnClickListener() {
+
+								@Override
+								public void onClick(final View view) {
+									ImageInfoDialog.newInstance(mImageInfo).show(ImageViewActivity.this.getSupportFragmentManager(), null);
+								}
+							});
 				}
 			});
-
-		} else {
-			floatingToolbarShown = false;
 		}
 
 		if(Constants.Mime.isVideo(mimetype)) {
@@ -430,29 +416,24 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 					} else if(videoViewMode == PrefsUtility.VideoViewMode.EXTERNAL_APP_VLC) {
 
-						AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-							@Override
-							public void run() {
-								Intent intent = new Intent(Intent.ACTION_VIEW);
-								intent.setClassName(
-										"org.videolan.vlc",
-										"org.videolan.vlc.gui.video.VideoPlayerActivity");
-								try {
-									intent.setDataAndType(cacheFile.getUri(), mimetype);
-								} catch(IOException e) {
-									revertToWeb();
-									return;
-								}
+						Intent intent = new Intent(Intent.ACTION_VIEW);
+						intent.setClassName(
+								"org.videolan.vlc",
+								"org.videolan.vlc.gui.video.VideoPlayerActivity");
+						try {
+							intent.setDataAndType(cacheFile.getUri(), mimetype);
+						} catch(IOException e) {
+							revertToWeb();
+							return;
+						}
 
-								try {
-									startActivity(intent);
-								} catch(final Throwable t) {
-									General.quickToast(ImageViewActivity.this, R.string.videoview_mode_app_vlc_launch_failed);
-									Log.e(TAG, "VLC failed to launch", t);
-								}
-								finish();
-							}
-						});
+						try {
+							startActivity(intent);
+						} catch(final Throwable t) {
+							General.quickToast(ImageViewActivity.this, R.string.videoview_mode_app_vlc_launch_failed);
+							Log.e(TAG, "VLC failed to launch", t);
+						}
+						finish();
 
 					} else {
 
@@ -493,7 +474,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 											revertToWeb();
 										}
 									},
-									floatingToolbarShown ? 84 : 0);
+									128);
 
 							layout.addView(mVideoPlayerWrapper);
 							setMainView(layout);
@@ -507,6 +488,38 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 							final BasicGestureHandler gestureHandler = new BasicGestureHandler(ImageViewActivity.this);
 							mVideoPlayerWrapper.setOnTouchListener(gestureHandler);
 							layout.setOnTouchListener(gestureHandler);
+
+							final boolean muteByDefault = PrefsUtility.pref_behaviour_video_mute_default(
+									ImageViewActivity.this,
+									PreferenceManager.getDefaultSharedPreferences(ImageViewActivity.this));
+
+							mVideoPlayerWrapper.setMuted(muteByDefault);
+
+							final int iconMuted = R.drawable.ic_volume_off_white_24dp;
+							final int iconUnmuted = R.drawable.ic_volume_up_white_24dp;
+
+							if(mImageInfo != null
+									&& mImageInfo.hasAudio != ImageInfo.HasAudio.NO_AUDIO) {
+
+								final AtomicReference<ImageButton> muteButton = new AtomicReference<>();
+								muteButton.set(addFloatingToolbarButton(
+										muteByDefault ? iconMuted : iconUnmuted,
+										new View.OnClickListener() {
+
+											@Override
+											public void onClick(final View view) {
+												final ImageButton button = muteButton.get();
+
+												if(mVideoPlayerWrapper.isMuted()) {
+													mVideoPlayerWrapper.setMuted(false);
+													button.setImageResource(iconUnmuted);
+												} else {
+													mVideoPlayerWrapper.setMuted(true);
+													button.setImageResource(iconMuted);
+												}
+											}
+										}));
+							}
 
 						} catch(OutOfMemoryError e) {
 							General.quickToast(ImageViewActivity.this, R.string.imageview_oom);
@@ -1125,6 +1138,33 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 						}
 					});
 		}
+	}
+
+	@Nullable
+	private ImageButton addFloatingToolbarButton(
+			final int drawable,
+			@NonNull final View.OnClickListener listener) {
+
+		if(mFloatingToolbar == null) {
+			return null;
+		}
+
+		mFloatingToolbar.setVisibility(View.VISIBLE);
+
+		final ImageButton ib = (ImageButton) LayoutInflater.from(this).inflate(
+				R.layout.flat_image_button,
+				mFloatingToolbar,
+				false);
+
+		final int buttonPadding = General.dpToPixels(this, 10);
+		ib.setPadding(buttonPadding, buttonPadding, buttonPadding, buttonPadding);
+		ib.setImageResource(drawable);
+
+		ib.setOnClickListener(listener);
+
+		mFloatingToolbar.addView(ib);
+
+		return ib;
 	}
 }
 

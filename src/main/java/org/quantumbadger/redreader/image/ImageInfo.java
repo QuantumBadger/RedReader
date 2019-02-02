@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.image;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.quantumbadger.redreader.common.ParcelHelper;
@@ -44,16 +45,41 @@ public class ImageInfo implements Parcelable {
 	public final Long size;
 
 	public final MediaType mediaType;
+	@NonNull public final HasAudio hasAudio;
 
 	public enum MediaType {
 		IMAGE, VIDEO, GIF
 	}
 
-	public ImageInfo(final String urlOriginal, final MediaType mediaType) {
-		this(urlOriginal, null, mediaType);
+	public enum HasAudio {
+		HAS_AUDIO, MAYBE_AUDIO, NO_AUDIO;
+
+		public static @NonNull HasAudio fromBoolean(@Nullable final Boolean value) {
+
+			if(value == null) {
+				return MAYBE_AUDIO;
+			}
+
+			if(value) {
+				return HAS_AUDIO;
+			} else {
+				return NO_AUDIO;
+			}
+		}
 	}
 
-	public ImageInfo(final String urlOriginal, @Nullable final String urlAudioStream, final MediaType mediaType) {
+	public ImageInfo(
+			final String urlOriginal,
+			final MediaType mediaType,
+			@NonNull final HasAudio hasAudio) {
+		this(urlOriginal, null, mediaType, hasAudio);
+	}
+
+	public ImageInfo(
+			final String urlOriginal,
+			@Nullable final String urlAudioStream,
+			final MediaType mediaType,
+			@NonNull final HasAudio hasAudio) {
 
 		this.urlOriginal = urlOriginal;
 		this.urlAudioStream = urlAudioStream;
@@ -67,6 +93,7 @@ public class ImageInfo implements Parcelable {
 		height = null;
 		size = null;
 		this.mediaType = mediaType;
+		this.hasAudio = hasAudio;
 	}
 
 	private ImageInfo(final Parcel in) {
@@ -80,7 +107,8 @@ public class ImageInfo implements Parcelable {
 		width = ParcelHelper.readNullableLong(in);
 		height = ParcelHelper.readNullableLong(in);
 		size = ParcelHelper.readNullableLong(in);
-		mediaType = ParcelHelper.readNullableEnum(in);
+		mediaType = ParcelHelper.readNullableImageInfoMediaType(in);
+		hasAudio = ParcelHelper.readImageInfoHasAudio(in);
 	}
 
 	public ImageInfo(
@@ -93,8 +121,8 @@ public class ImageInfo implements Parcelable {
 			final Long width,
 			final Long height,
 			final Long size,
-			final MediaType mediaType
-	) {
+			final MediaType mediaType,
+			@NonNull final HasAudio hasAudio) {
 
 		this.urlOriginal = urlOriginal;
 		this.urlBigSquare = urlBigSquare;
@@ -107,6 +135,7 @@ public class ImageInfo implements Parcelable {
 		this.height = height;
 		this.size = size;
 		this.mediaType = mediaType;
+		this.hasAudio = hasAudio;
 	}
 
 	public static ImageInfo parseGfycat(final JsonBufferedObject object)
@@ -120,6 +149,8 @@ public class ImageInfo implements Parcelable {
 
 		final String title = object.getString("title");
 
+		@Nullable final Boolean hasAudio = object.getBoolean("hasAudio");
+
 		return new ImageInfo(
 				urlOriginal,
 				null,
@@ -130,7 +161,8 @@ public class ImageInfo implements Parcelable {
 				width,
 				height,
 				size,
-				MediaType.VIDEO);
+				MediaType.VIDEO,
+				HasAudio.fromBoolean(hasAudio));
 	}
 
 	public static ImageInfo parseStreamable(final JsonBufferedObject object)
@@ -172,7 +204,8 @@ public class ImageInfo implements Parcelable {
 				width,
 				height,
 				null,
-				MediaType.VIDEO);
+				MediaType.VIDEO,
+				HasAudio.MAYBE_AUDIO);
 	}
 
 	public static ImageInfo parseImgur(final JsonBufferedObject object)
@@ -226,7 +259,8 @@ public class ImageInfo implements Parcelable {
 				width,
 				height,
 				size,
-				isAnimated ? MediaType.VIDEO : MediaType.IMAGE);
+				isAnimated ? MediaType.VIDEO : MediaType.IMAGE,
+				isAnimated ? HasAudio.MAYBE_AUDIO : HasAudio.NO_AUDIO);
 	}
 
 	public static ImageInfo parseImgurV3(final JsonBufferedObject object)
@@ -243,6 +277,7 @@ public class ImageInfo implements Parcelable {
 		Long height = null;
 		Long size = null;
 		boolean mp4 = false;
+		@Nullable Boolean hasSound = null;
 
 		if(object != null) {
 			id = object.getString("id");
@@ -258,8 +293,10 @@ public class ImageInfo implements Parcelable {
 				urlOriginal = object.getString("mp4");
 				mp4 = true;
 				size = object.getLong("mp4_size");
+				hasSound = object.getBoolean("has_sound");
 			} else {
 				urlOriginal = object.getString("link");
+				hasSound = false;
 			}
 		}
 
@@ -285,7 +322,8 @@ public class ImageInfo implements Parcelable {
 				width,
 				height,
 				size,
-				mp4 ? MediaType.VIDEO : MediaType.IMAGE);
+				mp4 ? MediaType.VIDEO : MediaType.IMAGE,
+				HasAudio.fromBoolean(hasSound));
 	}
 
 	public static ImageInfo parseDeviantArt(final JsonBufferedObject object)
@@ -329,7 +367,8 @@ public class ImageInfo implements Parcelable {
 				width,
 				height,
 				size,
-				MediaType.IMAGE);
+				MediaType.IMAGE,
+				HasAudio.NO_AUDIO);
 	}
 
 	@Override
@@ -351,6 +390,7 @@ public class ImageInfo implements Parcelable {
 		ParcelHelper.writeNullableLong(parcel, height);
 		ParcelHelper.writeNullableLong(parcel, size);
 		ParcelHelper.writeNullableEnum(parcel, mediaType);
+		ParcelHelper.writeNonNullEnum(parcel, hasAudio);
 	}
 
 	public static final Parcelable.Creator<ImageInfo> CREATOR = new Parcelable.Creator<ImageInfo>() {

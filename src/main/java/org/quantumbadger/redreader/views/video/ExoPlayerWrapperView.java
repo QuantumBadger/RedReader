@@ -32,9 +32,9 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import com.google.android.exoplayer2.ExoPlaybackException;
-import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.Player;
+import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.ui.DefaultTimeBar;
@@ -57,7 +57,7 @@ public class ExoPlayerWrapperView extends FrameLayout {
 
 	@NonNull private final Listener mListener;
 
-	@NonNull private final ExoPlayer mVideoPlayer;
+	@NonNull private final SimpleExoPlayer mVideoPlayer;
 
 	@Nullable private final RelativeLayout mControlView;
 
@@ -146,28 +146,30 @@ public class ExoPlayerWrapperView extends FrameLayout {
 						}
 					}), buttons);
 
-			final AtomicReference<ImageButton> playButton = new AtomicReference<>();
+			{
+				final AtomicReference<ImageButton> playButton = new AtomicReference<>();
 
-			playButton.set(createButton(
-					context,
-					mControlView,
-					R.drawable.exo_controls_pause,
-					new OnClickListener() {
-						@Override
-						public void onClick(View view) {
-							mVideoPlayer.setPlayWhenReady(!mVideoPlayer.getPlayWhenReady());
+				playButton.set(createButton(
+						context,
+						mControlView,
+						R.drawable.exo_controls_pause,
+						new OnClickListener() {
+							@Override
+							public void onClick(View view) {
+								mVideoPlayer.setPlayWhenReady(!mVideoPlayer.getPlayWhenReady());
 
-							if(mVideoPlayer.getPlayWhenReady()) {
-								playButton.get().setImageResource(R.drawable.exo_controls_pause);
-							} else {
-								playButton.get().setImageResource(R.drawable.exo_controls_play);
+								if(mVideoPlayer.getPlayWhenReady()) {
+									playButton.get().setImageResource(R.drawable.exo_controls_pause);
+								} else {
+									playButton.get().setImageResource(R.drawable.exo_controls_play);
+								}
+
+								updateProgress();
 							}
+						}));
 
-							updateProgress();
-						}
-					}));
-
-			addButton(playButton.get(), buttons);
+				addButton(playButton.get(), buttons);
+			}
 
 			addButton(createButton(
 					context,
@@ -326,5 +328,13 @@ public class ExoPlayerWrapperView extends FrameLayout {
 				mTimeBarView.setBufferedPosition(0);
 			}
 		}
+	}
+
+	public boolean isMuted() {
+		return mVideoPlayer.getVolume() < 0.01f;
+	}
+
+	public void setMuted(final boolean mute) {
+		mVideoPlayer.setVolume(mute ? 0 : 1);
 	}
 }

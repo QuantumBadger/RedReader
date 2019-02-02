@@ -57,6 +57,7 @@ public class HorizontalSwipeProgressOverlay extends RelativeLayout {
 		mProgress.getLayoutParams().width = progressDimensionsPx;
 		mProgress.getLayoutParams().height = progressDimensionsPx;
 
+		mProgress.setAspectIndicatorDisplay(false);
 		mProgress.setFinishedStrokeColor(Color.RED);
 		mProgress.setUnfinishedStrokeColor(Color.argb(127, 0, 0, 0));
 		final int progressStrokeWidthPx = General.dpToPixels(context, 15);

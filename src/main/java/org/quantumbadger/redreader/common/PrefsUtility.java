@@ -295,6 +295,10 @@ public final class PrefsUtility {
 		return getBoolean(R.string.pref_appearance_image_viewer_show_floating_toolbar_key, true, context, sharedPreferences);
 	}
 
+	public static boolean pref_appearance_show_aspect_ratio_indicator(final Context context, final SharedPreferences sharedPreferences) {
+		return getBoolean(R.string.pref_appearance_show_aspect_ratio_indicator_key, false, context, sharedPreferences);
+	}
+
 	public static boolean pref_appearance_comments_show_floating_toolbar(final Context context, final SharedPreferences sharedPreferences) {
 		return getBoolean(R.string.pref_appearance_comments_show_floating_toolbar_key, true, context, sharedPreferences);
 	}

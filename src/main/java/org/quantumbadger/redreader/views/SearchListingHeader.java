@@ -20,11 +20,14 @@ package org.quantumbadger.redreader.views;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
 import org.quantumbadger.redreader.R;
@@ -48,6 +51,7 @@ public final class SearchListingHeader extends FrameLayout {
 
 		mQuery = (EditText) findViewById(R.id.search_listing_header_query_editText);
 		mQuery.setText(url.query);
+		mQuery.setImeOptions(EditorInfo.IME_ACTION_NEXT);
 
 		mSubreddit = (EditText) findViewById(R.id.search_listing_header_sub_editText);
 		// null and "all" are isomorphic; but SearchPostListURL takes null
@@ -57,24 +61,38 @@ public final class SearchListingHeader extends FrameLayout {
 			mSubreddit.setText(url.subreddit);
 		}
 
+		TextView.OnEditorActionListener onEnter = new TextView.OnEditorActionListener() {
+			@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				performSearch(parentActivity, mSubreddit, mQuery);
+				return true;
+			}
+		};
+        mSubreddit.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
+		mSubreddit.setOnEditorActionListener(onEnter);
+
 		mSearchButton = (Button) findViewById(R.id.search_listing_header_search);
 		mSearchButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				String subreddit = mSubreddit.getText().toString().trim();
-				if (StringUtils.isEmpty(subreddit)) {
-					subreddit = null;
-				}
-				SearchPostListURL url = SearchPostListURL.build(subreddit, mQuery.getText().toString().trim());
-
-				final Intent intent = new Intent(parentActivity, PostListingActivity.class);
-				intent.setData(url.generateJsonUri());
-
-				// Use a startActivity/finish combination to replace this activity with the new
-				// search activity
-				parentActivity.startActivity(intent);
-				parentActivity.finish();
+				performSearch(parentActivity, mSubreddit, mQuery);
 			}
 		});
+	}
+
+	private static void performSearch(final Activity parentActivity, final EditText mSubreddit, final EditText mQuery) {
+		String subreddit = mSubreddit.getText().toString().trim();
+		if (StringUtils.isEmpty(subreddit)) {
+			subreddit = null;
+		}
+		SearchPostListURL url = SearchPostListURL.build(subreddit, mQuery.getText().toString().trim());
+
+		final Intent intent = new Intent(parentActivity, PostListingActivity.class);
+		intent.setData(url.generateJsonUri());
+
+		// Use a startActivity/finish combination to replace this activity with the new
+		// search activity
+		parentActivity.startActivity(intent);
+		parentActivity.finish();
 	}
 }

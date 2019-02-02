@@ -21,9 +21,12 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.Nullable;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.TextView;
 import org.apache.commons.lang3.StringUtils;
 import org.quantumbadger.redreader.R;
 
@@ -39,18 +42,23 @@ public class DialogUtils {
 		final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
 		final EditText editText = (EditText) LayoutInflater.from(context).inflate(R.layout.dialog_editbox, null);
 
+		TextView.OnEditorActionListener onEnter = new TextView.OnEditorActionListener() {
+			@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				performSearch(editText, listener);
+				return true;
+			}
+		};
+		editText.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
+		editText.setOnEditorActionListener(onEnter);
+
 		alertBuilder.setView(editText);
 		alertBuilder.setTitle(titleRes);
 
 		alertBuilder.setPositiveButton(R.string.action_search, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				final String query = General.asciiLowercase(editText.getText().toString()).trim();
-				if (StringUtils.isEmpty(query)) {
-					listener.onSearch(null);
-				} else {
-					listener.onSearch(query);
-				}
+				performSearch(editText, listener);
 			}
 		});
 
@@ -59,5 +67,14 @@ public class DialogUtils {
 		final AlertDialog alertDialog = alertBuilder.create();
 		alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 		alertDialog.show();
+	}
+
+	private static void performSearch(final EditText editText, final OnSearchListener listener) {
+		final String query = General.asciiLowercase(editText.getText().toString()).trim();
+		if (StringUtils.isEmpty(query)) {
+			listener.onSearch(null);
+		} else {
+			listener.onSearch(query);
+		}
 	}
 }

@@ -44,6 +44,7 @@ public class LoadingSpinnerView extends RelativeLayout {
 		typedArray.recycle();
 
 		mProgressView = new DonutProgress(context);
+		mProgressView.setAspectIndicatorDisplay(false);
 		mProgressView.setIndeterminate(true);
 		mProgressView.setFinishedStrokeColor(foreground);
 		mProgressView.setUnfinishedStrokeColor(background);

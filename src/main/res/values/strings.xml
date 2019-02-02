@@ -1099,7 +1099,12 @@
 	<!-- 2018-11-26 -->
 	<string name="mainmenu_random_nsfw">Random NSFW Subreddit</string>
 
-<!-- 2019-01-29 -->
+	<!-- 2019-01-26 -->
+	<string name="pref_appearance_show_aspect_ratio_indicator_key" translatable="false">pref_appearance_show_aspect_ratio_indicator_key</string>
+	<string name="pref_appearance_show_aspect_ratio_indicator_title">Show Aspect Ratio Indicator</string>
+	<string name="pref_appearance_show_aspect_ratio_indicator_summary">Show a visual of loading media when available</string>
+
+	<!-- 2019-01-29 -->
 	<string name="pref_appearance_bottom_toolbar_key" translatable="false">pref_appearance_bottom_toolbar_key</string>
 	<string name="pref_appearance_bottom_toolbar_title">Show Toolbar at Bottom</string>
 

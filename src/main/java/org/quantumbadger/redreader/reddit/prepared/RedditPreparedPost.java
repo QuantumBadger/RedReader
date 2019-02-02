@@ -722,7 +722,7 @@ public final class RedditPreparedPost {
 
 		if (src.getGoldAmount() > 0) {
 			postListDescSb.append(" ", 0);
-			postListDescSb.append(" " + context.getString(R.string.gold) + " x" + src.getGoldAmount() + " ",
+			postListDescSb.append(" " + context.getString(R.string.gold) + BetterSSB.NBSP + "x" + src.getGoldAmount() + " ",
 					BetterSSB.FOREGROUND_COLOR | BetterSSB.BACKGROUND_COLOR, rrGoldTextCol, rrGoldBackCol, 1f);
 			postListDescSb.append("  ", 0);
 		}

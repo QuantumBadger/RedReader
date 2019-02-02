@@ -1112,4 +1112,6 @@
 	<string name="pref_behaviour_video_mute_default_key" translatable="false">pref_behaviour_video_mute_default</string>
 	<string name="pref_behaviour_video_mute_default_title">Mute videos by default</string>
 
+	<string name="prefs_category_images_video">Images/Video</string>
+
 </resources>

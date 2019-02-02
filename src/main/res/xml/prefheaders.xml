@@ -30,6 +30,12 @@
         <extra android:name="panel" android:value="behaviour" />
     </header>
 
+	<header
+			android:fragment="org.quantumbadger.redreader.settings.SettingsFragment"
+			android:title="@string/prefs_category_images_video">
+		<extra android:name="panel" android:value="images_video"/>
+	</header>
+
     <header
             android:fragment="org.quantumbadger.redreader.settings.SettingsFragment"
             android:title="@string/prefs_category_cache">

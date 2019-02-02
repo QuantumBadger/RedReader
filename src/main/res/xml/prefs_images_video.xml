@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ This file is part of RedReader.
+  ~
+  ~ RedReader is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ RedReader is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<CheckBoxPreference android:title="@string/pref_behaviour_video_playback_controls_title"
+						android:key="@string/pref_behaviour_video_playback_controls_key"
+						android:defaultValue="false"/>
+
+	<CheckBoxPreference android:title="@string/pref_behaviour_video_mute_default_title"
+						android:key="@string/pref_behaviour_video_mute_default_key"
+						android:defaultValue="true"/>
+
+	<ListPreference android:title="@string/pref_behaviour_imageview_mode_title"
+					android:key="@string/pref_behaviour_imageview_mode_key"
+					android:entries="@array/pref_behaviour_imageview_mode_array"
+					android:entryValues="@array/pref_behaviour_imageview_mode_array_return"
+					android:defaultValue="internal_opengl" />
+
+    <ListPreference android:title="@string/pref_behaviour_gifview_mode_title"
+                    android:key="@string/pref_behaviour_gifview_mode_key"
+                    android:entries="@array/pref_behaviour_gifview_mode_array"
+                    android:entryValues="@array/pref_behaviour_gifview_mode_array_return"
+                    android:defaultValue="internal_movie" />
+
+    <ListPreference android:title="@string/pref_behaviour_videoview_mode_title"
+                    android:key="@string/pref_behaviour_videoview_mode_key"
+                    android:entries="@array/pref_behaviour_videoview_mode_array"
+                    android:entryValues="@array/pref_behaviour_videoview_mode_array_return"
+                    android:defaultValue="internal_videoview" />
+
+	<ListPreference android:title="@string/pref_behaviour_albumview_mode_title"
+					android:key="@string/pref_behaviour_albumview_mode_key"
+					android:entries="@array/pref_behaviour_albumview_mode_array"
+					android:entryValues="@array/pref_behaviour_albumview_mode_array_return"
+					android:defaultValue="internal_list" />
+
+    <ListPreference android:title="@string/pref_behaviour_gallery_swipe_length_title"
+                    android:key="@string/pref_behaviour_gallery_swipe_length_key"
+                    android:entries="@array/pref_behaviour_gallery_swipe_length_array"
+                    android:entryValues="@array/pref_behaviour_gallery_swipe_length_array_return"
+                    android:defaultValue="150" />
+
+	<CheckBoxPreference android:title="@string/pref_appearance_image_viewer_show_floating_toolbar_title"
+						android:key="@string/pref_appearance_image_viewer_show_floating_toolbar_key"
+						android:defaultValue="true"/>
+
+	<CheckBoxPreference android:title="@string/pref_appearance_show_aspect_ratio_indicator_title"
+						android:key="@string/pref_appearance_show_aspect_ratio_indicator_key"
+						android:summary="@string/pref_appearance_show_aspect_ratio_indicator_summary"
+						android:defaultValue="false"/>
+
+	<PreferenceCategory android:title="@string/pref_appearance_thumbnails_header">
+
+		<CheckBoxPreference android:title="@string/pref_appearance_thumbnails_show_title"
+							android:key="@string/pref_appearance_thumbnails_show_key"
+							android:defaultValue="true"/>
+
+		<CheckBoxPreference android:title="@string/pref_appearance_thumbnails_wifionly_title"
+							android:key="@string/pref_appearance_thumbnails_wifionly_key"
+							android:dependency="@string/pref_appearance_thumbnails_show_key"
+							android:defaultValue="false"/>
+
+		<CheckBoxPreference android:title="@string/pref_appearance_thumbnails_nsfw_show_title"
+							android:key="@string/pref_appearance_thumbnails_nsfw_show_key"
+							android:dependency="@string/pref_appearance_thumbnails_show_key"
+							android:defaultValue="false"/>
+
+	</PreferenceCategory>
+
+</PreferenceScreen>

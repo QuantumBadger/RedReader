@@ -1,3 +1,6 @@
+87/1.9.10
+Avoid line-breaks in gilding badge (thanks to Marco Costa)
+
 86/1.9.9.1
 Fix for v.redd.it videos
 

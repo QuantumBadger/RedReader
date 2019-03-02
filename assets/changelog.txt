@@ -4,6 +4,7 @@ Added preference to move toolbar to bottom of screen (thanks to Cameron Merkel)
 Added aspect ratio indicator while loading images (off by default) (thanks to Cameron Merkel)
 Avoid line-breaks in gilding badge (thanks to Marco Costa)
 In search dialog, keyboard action button now initiates search (thanks to Cameron Merkel)
+Fix for two-factor authentication
 
 86/1.9.9.1
 Fix for v.redd.it videos

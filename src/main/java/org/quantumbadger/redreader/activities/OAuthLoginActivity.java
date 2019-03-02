@@ -139,11 +139,11 @@ public class OAuthLoginActivity extends BaseActivity {
 		final WebSettings settings = mWebView.getSettings();
 
 		settings.setBuiltInZoomControls(false);
-		settings.setJavaScriptEnabled(false);
+		settings.setJavaScriptEnabled(true);
 		settings.setJavaScriptCanOpenWindowsAutomatically(false);
 		settings.setUseWideViewPort(true);
 		settings.setLoadWithOverviewMode(true);
-		settings.setDomStorageEnabled(false);
+		settings.setDomStorageEnabled(true);
 		settings.setSaveFormData(false);
 		settings.setSavePassword(false);
 		settings.setDatabaseEnabled(false);

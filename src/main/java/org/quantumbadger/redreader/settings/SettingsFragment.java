@@ -76,6 +76,7 @@ public final class SettingsFragment extends PreferenceFragment {
 				R.string.pref_behaviour_fling_comment_left_key,
 				R.string.pref_behaviour_fling_comment_right_key,
 				R.string.pref_appearance_theme_key,
+				R.string.pref_appearance_navigate_key,
 				R.string.pref_appearance_navbar_color_key,
 				R.string.pref_cache_maxage_listing_key,
 				R.string.pref_cache_maxage_thumb_key,

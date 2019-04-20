@@ -45,6 +45,16 @@
 							android:key="@string/pref_appearance_bottom_toolbar_key"
 							android:defaultValue="false"/>
 
+	</PreferenceCategory>
+
+	<PreferenceCategory android:title="@string/pref_appearance_navigate_header">
+
+		<ListPreference android:title="@string/pref_appearance_navigate_title"
+				android:key="@string/pref_appearance_navigate_key"
+				android:entries="@array/pref_appearance_navigate"
+				android:entryValues="@array/pref_appearance_navigate_return"
+				android:defaultValue="single_list"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_appearance_locale_header">

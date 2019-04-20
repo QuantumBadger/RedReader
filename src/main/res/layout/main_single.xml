@@ -18,9 +18,31 @@
   -->
 
 <!--suppress AndroidLintMergeRootFrame -->
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:id="@+id/main_single_frame">
 
-</FrameLayout>
+<android.support.v4.widget.DrawerLayout android:id="@+id/drawer_layout"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:app="http://schemas.android.com/apk/res-auto">
+
+	<!-- Layout to contain contents of main body of screen (drawer will slide over this) -->
+
+	<FrameLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:id="@+id/main_single_frame"/>
+
+	<!-- Container for contents of drawer - use NavigationView to make configuration easier -->
+	<android.support.design.widget.NavigationView
+			android:id="@+id/nav_view"
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			app:itemIconTint="#ffffff"
+			app:itemTextColor="#000000"
+			app:itemBackground="@color/drawer_list_selector"
+			app:headerLayout="@layout/header"
+			app:menu="@menu/drawer"
+			android:layout_gravity="start"
+			android:fitsSystemWindows="true" />
+
+</android.support.v4.widget.DrawerLayout>

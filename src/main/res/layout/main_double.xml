@@ -24,13 +24,13 @@
               android:orientation="horizontal"
               android:weightSum="3">
 
-	<android.support.v4.widget.DrawerLayout
-			android:id="@+id/drawer_layout"
+	<android.support.v4.widget.DrawerLayout android:id="@+id/drawer_layout"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:fitsSystemWindows="true">
+			xmlns:app="http://schemas.android.com/apk/res-auto">
 
 		<!-- Layout to contain contents of main body of screen (drawer will slide over this) -->
+
 		<FrameLayout android:layout_height="match_parent"
 				android:layout_width="0px"
 				android:layout_weight="1"
@@ -41,6 +41,11 @@
 				android:id="@+id/nav_view"
 				android:layout_width="wrap_content"
 				android:layout_height="match_parent"
+				app:itemIconTint="#ffffff"
+				app:itemTextColor="#000000"
+				app:itemBackground="@color/drawer_list_selector"
+				app:headerLayout="@layout/header"
+				app:menu="@menu/drawer"
 				android:layout_gravity="start"
 				android:fitsSystemWindows="true" />
 

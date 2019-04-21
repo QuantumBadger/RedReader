@@ -45,7 +45,6 @@
 				app:itemTextColor="#000000"
 				app:itemBackground="@color/drawer_list_selector"
 				app:headerLayout="@layout/header"
-				app:menu="@menu/drawer"
 				android:layout_gravity="start"
 				android:fitsSystemWindows="true" />
 

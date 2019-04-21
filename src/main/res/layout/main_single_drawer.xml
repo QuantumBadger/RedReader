@@ -27,10 +27,10 @@
 
 	<!-- Layout to contain contents of main body of screen (drawer will slide over this) -->
 
-	<FrameLayout
+	<android.support.design.widget.TabLayout
+			android:id="@+id/tabs"
 			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:id="@+id/main_single_frame"/>
+			android:layout_height="match_parent"/>
 
 	<!-- Container for contents of drawer - use NavigationView to make configuration easier -->
 	<android.support.design.widget.NavigationView
@@ -41,8 +41,15 @@
 			app:itemTextColor="#000000"
 			app:itemBackground="@color/drawer_list_selector"
 			app:headerLayout="@layout/header"
-			app:menu="@menu/drawer"
 			android:layout_gravity="start"
-			android:fitsSystemWindows="true" />
+			android:fitsSystemWindows="true">
+
+		<FrameLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:layout_marginTop="352dp"
+				android:id="@+id/main_single_frame"/>
+
+	</android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>

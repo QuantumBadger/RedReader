@@ -116,6 +116,12 @@ public class MainActivity extends RefreshableActivity
 	}
 
 	@Override
+	protected void onResume() {
+		super.onResume();
+		doRefresh(RefreshableFragment.MAIN_RELAYOUT, false, null);
+	}
+
+	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 
 		PrefsUtility.applyTheme(this);
@@ -142,8 +148,6 @@ public class MainActivity extends RefreshableActivity
 		setTitle(R.string.app_name);
 
 		twoPane = General.isTablet(this, sharedPreferences);
-
-		doRefresh(RefreshableFragment.MAIN_RELAYOUT, false, null);
 
 		RedditAccountManager.getInstance(this).addUpdateListener(this);
 

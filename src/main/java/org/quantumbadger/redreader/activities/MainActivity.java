@@ -573,12 +573,20 @@ public class MainActivity extends RefreshableActivity
 			final View layout;
 
 			if(twoPane) {
-				layout = getLayoutInflater().inflate(R.layout.main_double, null);
+				if(PrefsUtility.appearance_navigation_type(this, sharedPreferences).equals("single_list"))
+					layout = getLayoutInflater().inflate(R.layout.main_double_list, null);
+				else
+					layout = getLayoutInflater().inflate(R.layout.main_double_drawer, null);
+
 				mLeftPane = (FrameLayout)layout.findViewById(R.id.main_left_frame);
 				mRightPane = (FrameLayout)layout.findViewById(R.id.main_right_frame);
 				mSinglePane = null;
 			} else {
-				layout = getLayoutInflater().inflate(R.layout.main_single, null);
+				if(PrefsUtility.appearance_navigation_type(this, sharedPreferences).equals("single_list"))
+					layout = getLayoutInflater().inflate(R.layout.main_single_list, null);
+				else
+					layout = getLayoutInflater().inflate(R.layout.main_single_drawer, null);
+
 				mLeftPane = null;
 				mRightPane = null;
 				mSinglePane = (FrameLayout)layout.findViewById(R.id.main_single_frame);

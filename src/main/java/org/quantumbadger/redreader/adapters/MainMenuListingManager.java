@@ -151,24 +151,30 @@ public class MainMenuListingManager {
 			final EnumSet<MainMenuFragment.MainMenuShortcutItems> mainMenuShortcutItems
 					= PrefsUtility.pref_menus_mainmenu_shortcutitems(activity, sharedPreferences);
 
-			if (mainMenuShortcutItems.contains(MainMenuFragment.MainMenuShortcutItems.FRONTPAGE)){
-				mAdapter.appendToGroup(GROUP_MAIN_ITEMS,
-						makeItem(R.string.mainmenu_frontpage, MainMenuFragment.MENU_MENU_ACTION_FRONTPAGE, null, true));
-			}
+			if(PrefsUtility.appearance_navigation_type(
+					activity,
+					PreferenceManager.getDefaultSharedPreferences(activity)).equals("single_list")) {
 
-			if (mainMenuShortcutItems.contains(MainMenuFragment.MainMenuShortcutItems.POPULAR)){
-				mAdapter.appendToGroup(GROUP_MAIN_ITEMS,
-						makeItem(R.string.mainmenu_popular, MainMenuFragment.MENU_MENU_ACTION_POPULAR, null, false));
-			}
+				if (mainMenuShortcutItems.contains(MainMenuFragment.MainMenuShortcutItems.FRONTPAGE)){
+					mAdapter.appendToGroup(GROUP_MAIN_ITEMS,
+							makeItem(R.string.mainmenu_frontpage, MainMenuFragment.MENU_MENU_ACTION_FRONTPAGE, null, true));
+				}
 
-			if (mainMenuShortcutItems.contains(MainMenuFragment.MainMenuShortcutItems.ALL)){
-				mAdapter.appendToGroup(GROUP_MAIN_ITEMS,
-						makeItem(R.string.mainmenu_all, MainMenuFragment.MENU_MENU_ACTION_ALL, null, false));
-			}
+				if (mainMenuShortcutItems.contains(MainMenuFragment.MainMenuShortcutItems.POPULAR)){
+					mAdapter.appendToGroup(GROUP_MAIN_ITEMS,
+							makeItem(R.string.mainmenu_popular, MainMenuFragment.MENU_MENU_ACTION_POPULAR, null, false));
+				}
 
-			if (mainMenuShortcutItems.contains(MainMenuFragment.MainMenuShortcutItems.CUSTOM)){
-				mAdapter.appendToGroup(GROUP_MAIN_ITEMS,
-						makeItem(R.string.mainmenu_custom_destination, MainMenuFragment.MENU_MENU_ACTION_CUSTOM, null, false));
+				if (mainMenuShortcutItems.contains(MainMenuFragment.MainMenuShortcutItems.ALL)){
+					mAdapter.appendToGroup(GROUP_MAIN_ITEMS,
+							makeItem(R.string.mainmenu_all, MainMenuFragment.MENU_MENU_ACTION_ALL, null, false));
+				}
+
+				if (mainMenuShortcutItems.contains(MainMenuFragment.MainMenuShortcutItems.CUSTOM)){
+					mAdapter.appendToGroup(GROUP_MAIN_ITEMS,
+							makeItem(R.string.mainmenu_custom_destination, MainMenuFragment.MENU_MENU_ACTION_CUSTOM, null, false));
+				}
+
 			}
 
 			if (mainMenuShortcutItems.contains(MainMenuFragment.MainMenuShortcutItems.RANDOM)){
@@ -183,76 +189,80 @@ public class MainMenuListingManager {
 		}
 
 		if(!user.isAnonymous()) {
+			if(PrefsUtility.appearance_navigation_type(
+					activity,
+					PreferenceManager.getDefaultSharedPreferences(activity)).equals("single_list")) {
 
-			final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
-			final EnumSet<MainMenuFragment.MainMenuUserItems> mainMenuUserItems
-					= PrefsUtility.pref_menus_mainmenu_useritems(activity, sharedPreferences);
+				final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+				final EnumSet<MainMenuFragment.MainMenuUserItems> mainMenuUserItems
+						= PrefsUtility.pref_menus_mainmenu_useritems(activity, sharedPreferences);
 
-			if(!mainMenuUserItems.isEmpty()) {
-				if(PrefsUtility.pref_appearance_hide_username_main_menu(
-						activity,
-						PreferenceManager.getDefaultSharedPreferences(activity))) {
+				if(!mainMenuUserItems.isEmpty()) {
+					if(PrefsUtility.pref_appearance_hide_username_main_menu(
+							activity,
+							PreferenceManager.getDefaultSharedPreferences(activity))) {
 
-					mAdapter.appendToGroup(
-							GROUP_USER_HEADER,
-							new GroupedRecyclerViewItemListSectionHeaderView(
-									activity.getString(R.string.mainmenu_useritems)));
+						mAdapter.appendToGroup(
+								GROUP_USER_HEADER,
+								new GroupedRecyclerViewItemListSectionHeaderView(
+										activity.getString(R.string.mainmenu_useritems)));
 
-				} else {
-					mAdapter.appendToGroup(
-							GROUP_USER_HEADER,
-							new GroupedRecyclerViewItemListSectionHeaderView(user.username));
+					} else {
+						mAdapter.appendToGroup(
+								GROUP_USER_HEADER,
+								new GroupedRecyclerViewItemListSectionHeaderView(user.username));
+					}
+
+					final AtomicBoolean isFirst = new AtomicBoolean(true);
+
+					if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.PROFILE))
+						mAdapter.appendToGroup(
+								GROUP_USER_ITEMS,
+								makeItem(R.string.mainmenu_profile, MainMenuFragment.MENU_MENU_ACTION_PROFILE,
+										rrIconPerson, isFirst.getAndSet(false)));
+
+					if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.INBOX))
+						mAdapter.appendToGroup(
+								GROUP_USER_ITEMS,
+								makeItem(R.string.mainmenu_inbox, MainMenuFragment.MENU_MENU_ACTION_INBOX,
+										rrIconEnvOpen, isFirst.getAndSet(false)));
+
+					if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.SUBMITTED))
+						mAdapter.appendToGroup(
+								GROUP_USER_ITEMS,
+								makeItem(R.string.mainmenu_submitted, MainMenuFragment.MENU_MENU_ACTION_SUBMITTED,
+										rrIconSend, isFirst.getAndSet(false)));
+
+					if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.SAVED))
+						mAdapter.appendToGroup(
+								GROUP_USER_ITEMS,
+								makeItem(R.string.mainmenu_saved, MainMenuFragment.MENU_MENU_ACTION_SAVED,
+										rrIconStarFilled, isFirst.getAndSet(false)));
+
+					if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.HIDDEN))
+						mAdapter.appendToGroup(
+								GROUP_USER_ITEMS,
+								makeItem(R.string.mainmenu_hidden, MainMenuFragment.MENU_MENU_ACTION_HIDDEN,
+										rrIconCross, isFirst.getAndSet(false)));
+
+					if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.UPVOTED))
+						mAdapter.appendToGroup(
+								GROUP_USER_ITEMS,
+								makeItem(R.string.mainmenu_upvoted, MainMenuFragment.MENU_MENU_ACTION_UPVOTED,
+										rrIconUpvote, isFirst.getAndSet(false)));
+
+					if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.DOWNVOTED))
+						mAdapter.appendToGroup(
+								GROUP_USER_ITEMS,
+								makeItem(R.string.mainmenu_downvoted, MainMenuFragment.MENU_MENU_ACTION_DOWNVOTED,
+										rrIconDownvote, isFirst.getAndSet(false)));
+
+					if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.MODMAIL))
+						mAdapter.appendToGroup(
+								GROUP_USER_ITEMS,
+								makeItem(R.string.mainmenu_modmail, MainMenuFragment.MENU_MENU_ACTION_MODMAIL,
+										rrIconEnvOpen, isFirst.getAndSet(false)));
 				}
-
-				final AtomicBoolean isFirst = new AtomicBoolean(true);
-
-				if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.PROFILE))
-					mAdapter.appendToGroup(
-							GROUP_USER_ITEMS,
-							makeItem(R.string.mainmenu_profile, MainMenuFragment.MENU_MENU_ACTION_PROFILE,
-									rrIconPerson, isFirst.getAndSet(false)));
-
-				if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.INBOX))
-					mAdapter.appendToGroup(
-							GROUP_USER_ITEMS,
-							makeItem(R.string.mainmenu_inbox, MainMenuFragment.MENU_MENU_ACTION_INBOX,
-									rrIconEnvOpen, isFirst.getAndSet(false)));
-
-				if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.SUBMITTED))
-					mAdapter.appendToGroup(
-							GROUP_USER_ITEMS,
-							makeItem(R.string.mainmenu_submitted, MainMenuFragment.MENU_MENU_ACTION_SUBMITTED,
-									rrIconSend, isFirst.getAndSet(false)));
-
-				if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.SAVED))
-					mAdapter.appendToGroup(
-							GROUP_USER_ITEMS,
-							makeItem(R.string.mainmenu_saved, MainMenuFragment.MENU_MENU_ACTION_SAVED,
-									rrIconStarFilled, isFirst.getAndSet(false)));
-
-				if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.HIDDEN))
-					mAdapter.appendToGroup(
-							GROUP_USER_ITEMS,
-							makeItem(R.string.mainmenu_hidden, MainMenuFragment.MENU_MENU_ACTION_HIDDEN,
-									rrIconCross, isFirst.getAndSet(false)));
-
-				if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.UPVOTED))
-					mAdapter.appendToGroup(
-							GROUP_USER_ITEMS,
-							makeItem(R.string.mainmenu_upvoted, MainMenuFragment.MENU_MENU_ACTION_UPVOTED,
-									rrIconUpvote, isFirst.getAndSet(false)));
-
-				if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.DOWNVOTED))
-					mAdapter.appendToGroup(
-							GROUP_USER_ITEMS,
-							makeItem(R.string.mainmenu_downvoted, MainMenuFragment.MENU_MENU_ACTION_DOWNVOTED,
-									rrIconDownvote, isFirst.getAndSet(false)));
-
-				if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.MODMAIL))
-					mAdapter.appendToGroup(
-							GROUP_USER_ITEMS,
-							makeItem(R.string.mainmenu_modmail, MainMenuFragment.MENU_MENU_ACTION_MODMAIL,
-									rrIconEnvOpen, isFirst.getAndSet(false)));
 			}
 		}
 
@@ -266,19 +276,24 @@ public class MainMenuListingManager {
 		}
 
 		if(!user.isAnonymous()) {
-			if (PrefsUtility.pref_show_multireddit_main_menu(
+			if(PrefsUtility.appearance_navigation_type(
 					activity,
-					PreferenceManager.getDefaultSharedPreferences(activity))) {
+					PreferenceManager.getDefaultSharedPreferences(activity)).equals("single_list")) {
 
-				showMultiredditsHeader(activity);
+				if (PrefsUtility.pref_show_multireddit_main_menu(
+						activity,
+						PreferenceManager.getDefaultSharedPreferences(activity))) {
 
-				final LoadingSpinnerView multiredditsLoadingSpinnerView = new LoadingSpinnerView(activity);
-				final int paddingPx = General.dpToPixels(activity, 30);
-				multiredditsLoadingSpinnerView.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
+					showMultiredditsHeader(activity);
 
-				final GroupedRecyclerViewItemFrameLayout multiredditsLoadingItem
-						= new GroupedRecyclerViewItemFrameLayout(multiredditsLoadingSpinnerView);
-				mAdapter.appendToGroup(GROUP_MULTIREDDITS_ITEMS, multiredditsLoadingItem);
+					final LoadingSpinnerView multiredditsLoadingSpinnerView = new LoadingSpinnerView(activity);
+					final int paddingPx = General.dpToPixels(activity, 30);
+					multiredditsLoadingSpinnerView.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
+
+					final GroupedRecyclerViewItemFrameLayout multiredditsLoadingItem
+							= new GroupedRecyclerViewItemFrameLayout(multiredditsLoadingSpinnerView);
+					mAdapter.appendToGroup(GROUP_MULTIREDDITS_ITEMS, multiredditsLoadingItem);
+				}
 			}
 		}
 
@@ -286,10 +301,15 @@ public class MainMenuListingManager {
 				activity,
 				PreferenceManager.getDefaultSharedPreferences(activity))) {
 
-			mAdapter.appendToGroup(
-					GROUP_SUBREDDITS_HEADER,
-					new GroupedRecyclerViewItemListSectionHeaderView(
-							activity.getString(R.string.mainmenu_header_subreddits_subscribed)));
+			if(PrefsUtility.appearance_navigation_type(
+					activity,
+					PreferenceManager.getDefaultSharedPreferences(activity)).equals("single_list")) {
+
+				mAdapter.appendToGroup(
+						GROUP_SUBREDDITS_HEADER,
+						new GroupedRecyclerViewItemListSectionHeaderView(
+								activity.getString(R.string.mainmenu_header_subreddits_subscribed)));
+			}
 
 			{
 				final LoadingSpinnerView subredditsLoadingSpinnerView = new LoadingSpinnerView(activity);

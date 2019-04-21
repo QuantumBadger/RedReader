@@ -133,6 +133,10 @@ public final class PrefsUtility {
 		return AppearanceTheme.valueOf(General.asciiUppercase(getString(R.string.pref_appearance_theme_key, "red", context, sharedPreferences)));
 	}
 
+	public static String appearance_navigation_type(final Context context, final SharedPreferences sharedPreferences) {
+		return getString(R.string.pref_appearance_navigate_key, "single_list", context, sharedPreferences);
+	}
+
 	public enum AppearanceNavbarColour {
 		BLACK, PRIMARY, PRIMARYDARK
 	}

@@ -107,7 +107,7 @@ public class PostListingActivity extends RefreshableActivity
 
 			setTitle(url.humanReadableName(this, false));
 
-			setBaseActivityContentView(R.layout.main_single);
+			setBaseActivityContentView(R.layout.main_single_list);
 			doRefresh(RefreshableFragment.POSTS, false, fragmentSavedInstanceState);
 
 		} else {

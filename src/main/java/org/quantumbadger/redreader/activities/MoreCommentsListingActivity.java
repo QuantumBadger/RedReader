@@ -65,7 +65,7 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 
 		// TODO load from savedInstanceState
 
-		final View layout = getLayoutInflater().inflate(R.layout.main_single, null);
+		final View layout = getLayoutInflater().inflate(R.layout.main_single_list, null);
 		setBaseActivityContentView(layout);
 		mPane = (FrameLayout)layout.findViewById(R.id.main_single_frame);
 

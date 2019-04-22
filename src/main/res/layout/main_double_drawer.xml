@@ -44,9 +44,12 @@
 				app:itemIconTint="#ffffff"
 				app:itemTextColor="#000000"
 				app:itemBackground="@color/drawer_list_selector"
-				app:headerLayout="@layout/header"
 				android:layout_gravity="start"
-				android:fitsSystemWindows="true" />
+				android:fitsSystemWindows="true">
+
+			<include layout="@layout/header"/>
+
+		</android.support.design.widget.NavigationView>
 
 	</android.support.v4.widget.DrawerLayout>
 

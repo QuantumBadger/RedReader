@@ -1,68 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-		android:orientation="vertical"
+android:orientation="vertical"
+android:layout_width="match_parent"
+android:layout_height="wrap_content">
+
+<ImageView
 		android:layout_width="match_parent"
-		android:layout_height="352dp">
+		android:layout_height="200dp"
+		android:src="@drawable/icon"/>
 
-	<ImageView
-			android:layout_width="match_parent"
-			android:layout_height="200dp"
-			android:src="@drawable/icon"/>
+<TextView
+		android:id="@+id/tv_username"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="8dp"
+		android:gravity="center"
+		android:text="@string/accounts_anon"
+		android:textSize="24sp"/>
 
-	<TextView
-			android:id="@+id/tv_username"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:gravity="center"
-			android:text="@string/accounts_username"
-			android:textSize="24sp"/>
+<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center"
+		android:visibility="gone"
+		android:orientation="horizontal">
+	<ImageButton
+			android:layout_width="0dp"
+			android:layout_height="65dp"
+			android:layout_weight=".25"
+			android:src="@drawable/ic_action_env_open_light"/>
+	<ImageButton
+			android:layout_width="0dp"
+			android:layout_height="65dp"
+			android:layout_weight=".25"
+			android:src="@drawable/ic_action_star_filled_light"/>
+	<ImageButton
+			android:layout_width="0dp"
+			android:layout_height="65dp"
+			android:layout_weight=".25"
+			android:src="@drawable/ic_action_cross_light"/>
+	<ImageButton
+			android:layout_width="0dp"
+			android:layout_height="65dp"
+			android:layout_weight=".25"
+			android:src="@drawable/action_upvote_light"/>
+</LinearLayout>
 
-	<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginTop="8dp"
-			android:gravity="center"
-			android:orientation="horizontal">
-		<ImageButton
-				android:layout_width="0dp"
-				android:layout_height="65dp"
-				android:layout_weight=".25"
-				android:src="@drawable/ic_action_env_open_light"/>
-		<ImageButton
-				android:layout_width="0dp"
-				android:layout_height="65dp"
-				android:layout_weight=".25"
-				android:src="@drawable/ic_action_star_filled_light"/>
-		<ImageButton
-				android:layout_width="0dp"
-				android:layout_height="65dp"
-				android:layout_weight=".25"
-				android:src="@drawable/ic_action_cross_light"/>
-		<ImageButton
-				android:layout_width="0dp"
-				android:layout_height="65dp"
-				android:layout_weight=".25"
-				android:src="@drawable/action_upvote_light"/>
-	</LinearLayout>
+<View
+		android:layout_width="match_parent"
+		android:layout_height="2dp"
+		android:layout_marginTop="2dp"
+		android:background="@android:color/black"/>
 
-	<View
-			android:layout_width="match_parent"
-			android:layout_height="2dp"
-			android:layout_marginTop="2dp"
-			android:background="@android:color/black"/>
+<TextView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:padding="8dp"
+		android:gravity="center"
+		android:text="@string/mainmenu_header_subreddits_subscribed"
+		android:textColor="?colorPrimary"
+		android:textSize="18sp"/>
 
-	<TextView
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:padding="8dp"
-			android:gravity="center"
-			android:text="@string/mainmenu_header_subreddits_subscribed"
-			android:textColor="?colorPrimary"
-			android:textSize="18sp"/>
+<View
+		android:layout_width="match_parent"
+		android:layout_height="1dp"
+		android:background="?rrListDividerCol"/>
 
-	<View
-			android:layout_width="match_parent"
-			android:layout_height="1dp"
-			android:background="?rrListDividerCol"/>
+<FrameLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:id="@+id/main_single_frame"/>
 
 </LinearLayout>

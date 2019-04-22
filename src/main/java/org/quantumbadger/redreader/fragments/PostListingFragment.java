@@ -148,7 +148,7 @@ public class PostListingFragment extends RRFragment
 		try {
 			mPostListingURL = (PostListingURL) RedditURLParser.parseProbablePostListing(url);
 		} catch(ClassCastException e) {
-			Toast.makeText(getActivity(), "Invalid post listing URL.", Toast.LENGTH_LONG).show();
+			Toast.makeText(getMyActivity(), "Invalid post listing URL.", Toast.LENGTH_LONG).show();
 			// TODO proper error handling -- show error view
 			throw new RuntimeException("Invalid post listing URL");
 		}
@@ -161,7 +161,7 @@ public class PostListingFragment extends RRFragment
 		// TODO output failed URL
 		if(mPostListingURL == null) {
 			mPostListingManager.addFooterError(
-					new ErrorView(getActivity(), new RRError("Invalid post listing URL", "Could not navigate to that URL.")));
+					new ErrorView(getMyActivity(), new RRError("Invalid post listing URL", "Could not navigate to that URL.")));
 			// TODO proper error handling
 			throw new RuntimeException("Invalid post listing URL");
 		}
@@ -245,18 +245,18 @@ public class PostListingFragment extends RRFragment
 				downloadStrategy,
 				true);
 
-		// The request doesn't go ahead until the header is in place.
+		// The request doesn't go ahead until the drawer is in place.
 
 		switch(mPostListingURL.pathType()) {
 
 			case RedditURLParser.SEARCH_POST_LISTING_URL:
-				setHeader(new SearchListingHeader(getActivity(), (SearchPostListURL) mPostListingURL));
+				setHeader(new SearchListingHeader(getMyActivity(), (SearchPostListURL) mPostListingURL));
 				CacheManager.getInstance(context).makeRequest(mRequest);
 				break;
 
 			case RedditURLParser.USER_POST_LISTING_URL:
 			case RedditURLParser.MULTIREDDIT_POST_LISTING_URL:
-				setHeader(mPostListingURL.humanReadableName(getActivity(), true), mPostListingURL.humanReadableUrl());
+				setHeader(mPostListingURL.humanReadableName(getMyActivity(), true), mPostListingURL.humanReadableUrl());
 				CacheManager.getInstance(context).makeRequest(mRequest);
 				break;
 
@@ -272,7 +272,7 @@ public class PostListingFragment extends RRFragment
 					case SUBREDDIT_COMBINATION:
 					case ALL_SUBTRACTION:
 					case POPULAR:
-						setHeader(mPostListingURL.humanReadableName(getActivity(), true), mPostListingURL.humanReadableUrl());
+						setHeader(mPostListingURL.humanReadableName(getMyActivity(), true), mPostListingURL.humanReadableUrl());
 						CacheManager.getInstance(context).makeRequest(mRequest);
 						break;
 
@@ -309,7 +309,7 @@ public class PostListingFragment extends RRFragment
 
 						try {
 							RedditSubredditManager
-									.getInstance(getActivity(), RedditAccountManager.getInstance(getActivity()).getDefaultAccount())
+									.getInstance(getMyActivity(), RedditAccountManager.getInstance(getMyActivity()).getDefaultAccount())
 									.getSubreddit(RedditSubreddit.getCanonicalName(subredditPostListURL.subreddit), TimestampBound.NONE, subredditHandler, null);
 						} catch(RedditSubreddit.InvalidSubredditNameException e) {
 							throw new RuntimeException(e);
@@ -374,7 +374,7 @@ public class PostListingFragment extends RRFragment
 
 		if(mPostListingURL.getOrder() == null || mPostListingURL.getOrder() == PostSort.HOT) {
 			if(mSubreddit.subscribers == null) {
-				subtitle = getString(R.string.header_subscriber_count_unknown);
+				subtitle = getMyString(R.string.header_subscriber_count_unknown);
 			} else {
 				subtitle = getContext().getString(R.string.header_subscriber_count,
 					NumberFormat.getNumberInstance(Locale.getDefault()).format(mSubreddit.subscribers));
@@ -384,23 +384,24 @@ public class PostListingFragment extends RRFragment
 			subtitle = mPostListingURL.humanReadableUrl();
 		}
 
-		getActivity().runOnUiThread(new Runnable() {
+		getMyActivity().runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				setHeader(StringEscapeUtils.unescapeHtml4(mSubreddit.title), subtitle);
-				getActivity().invalidateOptionsMenu();
+				getMyActivity().invalidateOptionsMenu();
 			}
 		});
 
 	}
 
 	private void setHeader(final String title, final String subtitle) {
-        final PostListingHeader postListingHeader = new PostListingHeader(getActivity(), title, subtitle);
-        setHeader(postListingHeader);
+        final PostListingHeader postListingHeader = new PostListingHeader(getMyActivity(), title, subtitle);
+        if(PrefsUtility.appearance_navigation_type(getContext(), mSharedPreferences).equals("single_list"))
+        	setHeader(postListingHeader);
 	}
 
 	private void setHeader(final View view) {
-		getActivity().runOnUiThread(new Runnable() {
+		getMyActivity().runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				mPostListingManager.addPostListingHeader(view);
@@ -410,24 +411,24 @@ public class PostListingFragment extends RRFragment
 
 
 	public void onPostSelected(final RedditPreparedPost post) {
-		((RedditPostView.PostSelectionListener)getActivity()).onPostSelected(post);
+		((RedditPostView.PostSelectionListener) getMyActivity()).onPostSelected(post);
 
 		new Thread() {
 			@Override
 			public void run() {
-				post.markAsRead(getActivity());
+				post.markAsRead(getMyActivity());
 			}
 		}.start();
 	}
 
 	public void onPostCommentsSelected(final RedditPreparedPost post) {
 
-		((RedditPostView.PostSelectionListener)getActivity()).onPostCommentsSelected(post);
+		((RedditPostView.PostSelectionListener) getMyActivity()).onPostCommentsSelected(post);
 
 		new Thread() {
 			@Override
 			public void run() {
-				post.markAsRead(getActivity());
+				post.markAsRead(getMyActivity());
 			}
 		}.start();
 	}
@@ -461,9 +462,9 @@ public class PostListingFragment extends RRFragment
 					limit = mPostRefreshCount.get();
 				}
 
-				mRequest = new PostListingRequest(newUri, RedditAccountManager.getInstance(getActivity()).getDefaultAccount(), mSession, strategy, false);
+				mRequest = new PostListingRequest(newUri, RedditAccountManager.getInstance(getMyActivity()).getDefaultAccount(), mSession, strategy, false);
 				mPostListingManager.setLoadingVisible(true);
-				CacheManager.getInstance(getActivity()).makeRequest(mRequest);
+				CacheManager.getInstance(getMyActivity()).makeRequest(mRequest);
 
 			} else if(mPostCountLimit > 0 && mPostRefreshCount.get() <= 0) {
 
@@ -492,8 +493,8 @@ public class PostListingFragment extends RRFragment
 
 		try {
 			RedditSubredditSubscriptionManager
-					.getSingleton(getActivity(), RedditAccountManager.getInstance(getActivity()).getDefaultAccount())
-					.subscribe(RedditSubreddit.getCanonicalName(mPostListingURL.asSubredditPostListURL().subreddit), getActivity());
+					.getSingleton(getMyActivity(), RedditAccountManager.getInstance(getMyActivity()).getDefaultAccount())
+					.subscribe(RedditSubreddit.getCanonicalName(mPostListingURL.asSubredditPostListURL().subreddit), getMyActivity());
 		} catch(RedditSubreddit.InvalidSubredditNameException e) {
 			throw new RuntimeException(e);
 		}
@@ -505,8 +506,8 @@ public class PostListingFragment extends RRFragment
 
 		try {
 			RedditSubredditSubscriptionManager
-					.getSingleton(getActivity(), RedditAccountManager.getInstance(getActivity()).getDefaultAccount())
-					.unsubscribe(mSubreddit.getCanonicalName(), getActivity());
+					.getSingleton(getMyActivity(), RedditAccountManager.getInstance(getMyActivity()).getDefaultAccount())
+					.unsubscribe(mSubreddit.getCanonicalName(), getMyActivity());
 		} catch(RedditSubreddit.InvalidSubredditNameException e) {
 			throw new RuntimeException(e);
 		}
@@ -542,7 +543,7 @@ public class PostListingFragment extends RRFragment
 		private final boolean firstDownload;
 
 		protected PostListingRequest(Uri url, RedditAccount user, UUID requestSession, DownloadStrategy downloadStrategy, boolean firstDownload) {
-			super(General.uriFromString(url.toString()), user, requestSession, Constants.Priority.API_POST_LIST, 0, downloadStrategy, Constants.FileType.POST_LIST, DOWNLOAD_QUEUE_REDDIT_API, true, false, getActivity());
+			super(General.uriFromString(url.toString()), user, requestSession, Constants.Priority.API_POST_LIST, 0, downloadStrategy, Constants.FileType.POST_LIST, DOWNLOAD_QUEUE_REDDIT_API, true, false, getMyActivity());
 			this.firstDownload = firstDownload;
 		}
 		@Override
@@ -579,7 +580,7 @@ public class PostListingFragment extends RRFragment
 						error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
 					}
 
-					mPostListingManager.addFooterError(new ErrorView(getActivity(), error));
+					mPostListingManager.addFooterError(new ErrorView(getMyActivity(), error));
 				}
 			});
 		}
@@ -591,7 +592,7 @@ public class PostListingFragment extends RRFragment
 		@Override
 		public void onJsonParseStarted(final JsonValue value, final long timestamp, final UUID session, final boolean fromCache) {
 
-			final AppCompatActivity activity = getActivity();
+			final AppCompatActivity activity = getMyActivity();
 
 			// TODO pref (currently 10 mins)
 			if(firstDownload && fromCache && RRTime.since(timestamp) > 10 * 60 * 1000) {
@@ -599,12 +600,12 @@ public class PostListingFragment extends RRFragment
 					@Override
 					public void run() {
 
-						final TextView cacheNotif = (TextView)LayoutInflater.from(getActivity())
+						final TextView cacheNotif = (TextView)LayoutInflater.from(getMyActivity())
 								.inflate(R.layout.cached_header, null, false);
 
-						cacheNotif.setText(getActivity().getString(
+						cacheNotif.setText(getMyActivity().getString(
 								R.string.listing_cached,
-								RRTime.formatDateTime(timestamp, getActivity())));
+								RRTime.formatDateTime(timestamp, getMyActivity())));
 
 						mPostListingManager.addNotification(cacheNotif);
 					}

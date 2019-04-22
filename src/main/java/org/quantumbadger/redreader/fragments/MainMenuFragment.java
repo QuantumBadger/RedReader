@@ -84,7 +84,7 @@ public class MainMenuFragment extends RRFragment
 			final boolean force) {
 
 		super(parent, savedInstanceState);
-		final Context context = getActivity();
+		final Context context = getMyActivity();
 
 		final RedditAccount user = RedditAccountManager.getInstance(context).getDefaultAccount();
 
@@ -93,7 +93,7 @@ public class MainMenuFragment extends RRFragment
 		mOuter = recyclerViewManager.getOuterView();
 		final RecyclerView recyclerView = recyclerViewManager.getRecyclerView();
 
-		mManager = new MainMenuListingManager(getActivity(), this, user);
+		mManager = new MainMenuListingManager(getMyActivity(), this, user);
 
 		recyclerView.setAdapter(mManager.getAdapter());
 
@@ -105,7 +105,7 @@ public class MainMenuFragment extends RRFragment
 			final TypedArray appearance = context.obtainStyledAttributes(new int[]{
 					R.attr.rrListItemBackgroundCol});
 
-			getActivity().getWindow().setBackgroundDrawable(
+			getMyActivity().getWindow().setBackgroundDrawable(
 					new ColorDrawable(appearance.getColor(0, General.COLOR_INVALID)));
 
 			appearance.recycle();
@@ -190,21 +190,21 @@ public class MainMenuFragment extends RRFragment
 	}
 
 	private void onSubredditError(final RRError error) {
-		mManager.setSubredditsError(new ErrorView(getActivity(), error));
+		mManager.setSubredditsError(new ErrorView(getMyActivity(), error));
 	}
 
 	private void onMultiredditError(final RRError error) {
-		mManager.setMultiredditsError(new ErrorView(getActivity(), error));
+		mManager.setMultiredditsError(new ErrorView(getMyActivity(), error));
 	}
 
 	@Override
 	public void onSelected(final @MainMenuAction int type) {
-		((MainMenuSelectionListener)getActivity()).onSelected(type);
+		((MainMenuSelectionListener) getMyActivity()).onSelected(type);
 	}
 
 	@Override
 	public void onSelected(final PostListingURL postListingURL) {
-		((MainMenuSelectionListener)getActivity()).onSelected(postListingURL);
+		((MainMenuSelectionListener) getMyActivity()).onSelected(postListingURL);
 	}
 
 	@Override

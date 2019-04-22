@@ -21,12 +21,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-public abstract class RRFragment {
+public abstract class RRFragment extends Fragment {
 
 	@NonNull private final AppCompatActivity mParent;
 
@@ -37,24 +38,24 @@ public abstract class RRFragment {
 	}
 
 	@NonNull
-	protected final Context getContext() {
+	public final Context getContext() {
 		return mParent;
 	}
 
 	@NonNull
-	protected final AppCompatActivity getActivity() {
+	public final AppCompatActivity getMyActivity() {
 		return mParent;
 	}
 
-	protected final String getString(final int resource) {
+	public final String getMyString(final int resource) {
 		return mParent.getApplicationContext().getString(resource);
 	}
 
-	protected final void startActivity(final Intent intent) {
+	public final void startActivity(final Intent intent) {
 		mParent.startActivity(intent);
 	}
 
-	protected final void startActivityForResult(final Intent intent, final int requestCode) {
+	public final void startActivityForResult(final Intent intent, final int requestCode) {
 		mParent.startActivityForResult(intent, requestCode);
 	}
 

@@ -36,8 +36,8 @@ public final class CacheEntry {
 	CacheEntry(final Cursor cursor) {
 
 		id = cursor.getLong(0);
-		//url = General.uriFromString(cursor.getString(1));
-		//user = cursor.getString(2);
+		//url = General.uriFromString(cursor.getMyString(1));
+		//user = cursor.getMyString(2);
 		session = UUID.fromString(cursor.getString(3));
 		timestamp = cursor.getLong(4);
 		//status = cursor.getInt(5);

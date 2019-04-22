@@ -26,6 +26,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -105,6 +106,8 @@ public class MainActivity extends RefreshableActivity
 
 	private FrameLayout mLeftPane;
 	private FrameLayout mRightPane;
+
+	private TabLayout mTabLayout;
 
 	private boolean isMenuShown = true;
 
@@ -316,6 +319,39 @@ public class MainActivity extends RefreshableActivity
 		if(startInbox) {
 			startActivity(new Intent(this, InboxListingActivity.class));
 		}
+
+	}
+
+	private void setupTabListener() {
+		mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+			@Override
+			public void onTabSelected(TabLayout.Tab tab) {
+				switch (tab.getPosition()) {
+					case 0:
+						mLeftPane.removeAllViews();
+						postListingController = new PostListingController((PostListingURL) RedditURLParser.parseProbablePostListing(SubredditPostListURL.getFrontPage().generateJsonUri()), MainActivity.this);
+						postListingFragment = postListingController.get(MainActivity.this, false, null);
+						mLeftPane.addView(postListingFragment.getView());
+						break;
+					case 1:
+						mLeftPane.removeAllViews();
+						postListingController = new PostListingController((PostListingURL) RedditURLParser.parseProbablePostListing(SubredditPostListURL.getPopular().generateJsonUri()), MainActivity.this);
+						postListingFragment = postListingController.get(MainActivity.this, false, null);
+						mLeftPane.addView(postListingFragment.getView());
+						break;
+				}
+			}
+
+			@Override
+			public void onTabUnselected(TabLayout.Tab tab) {
+
+			}
+
+			@Override
+			public void onTabReselected(TabLayout.Tab tab) {
+
+			}
+		});
 	}
 
 	private void addSubscriptionListener() {
@@ -577,21 +613,34 @@ public class MainActivity extends RefreshableActivity
 			final View layout;
 
 			if(twoPane) {
-				if(PrefsUtility.appearance_navigation_type(this, sharedPreferences).equals("single_list"))
+				if(PrefsUtility.appearance_navigation_type(this, sharedPreferences).equals("single_list")) {
 					layout = getLayoutInflater().inflate(R.layout.main_double_list, null);
-				else
+					mLeftPane = (FrameLayout)layout.findViewById(R.id.main_left_frame);
+				} else {
 					layout = getLayoutInflater().inflate(R.layout.main_double_drawer, null);
+					mTabLayout = layout.findViewById(R.id.tabLayout);
+					setupTabListener();
+					mLeftPane = (FrameLayout)layout.findViewById(R.id.main_left_frame);
+					postListingController = new PostListingController((PostListingURL) RedditURLParser.parseProbablePostListing(SubredditPostListURL.getFrontPage().generateJsonUri()), this);
+					postListingFragment = postListingController.get(this, false, null);
+					mLeftPane.addView(postListingFragment.getView());
+				}
 
-				mLeftPane = (FrameLayout)layout.findViewById(R.id.main_left_frame);
 				mRightPane = (FrameLayout)layout.findViewById(R.id.main_right_frame);
 				mSinglePane = null;
 			} else {
 				if(PrefsUtility.appearance_navigation_type(this, sharedPreferences).equals("single_list"))
 					layout = getLayoutInflater().inflate(R.layout.main_single_list, null);
-				else
+				else {
 					layout = getLayoutInflater().inflate(R.layout.main_single_drawer, null);
+					mTabLayout = layout.findViewById(R.id.tabLayout);
+					setupTabListener();
+					mLeftPane = (FrameLayout)layout.findViewById(R.id.main_left_frame);
+					postListingController = new PostListingController((PostListingURL) RedditURLParser.parseProbablePostListing(SubredditPostListURL.getFrontPage().generateJsonUri()), this);
+					postListingFragment = postListingController.get(this, false, null);
+					mLeftPane.addView(postListingFragment.getView());
+				}
 
-				mLeftPane = null;
 				mRightPane = null;
 				mSinglePane = (FrameLayout)layout.findViewById(R.id.main_single_frame);
 			}
@@ -633,7 +682,7 @@ public class MainActivity extends RefreshableActivity
 		} else {
 
 			if(which == RefreshableFragment.ALL || which == RefreshableFragment.MAIN) {
-				mainMenuFragment = new MainMenuFragment(this, null, force);
+ 				mainMenuFragment = new MainMenuFragment(this, null, force);
 				mainMenuView = mainMenuFragment.getView();
 				mSinglePane.removeAllViews();
 				mSinglePane.addView(mainMenuView);

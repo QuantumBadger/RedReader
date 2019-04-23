@@ -22,7 +22,7 @@ import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 
 public class RedditAccount {
 
-	public final String username;
+	public final String username, profileImageUrl;
 	public final RedditOAuth.RefreshToken refreshToken;
 
 	private RedditOAuth.AccessToken accessToken;
@@ -31,12 +31,14 @@ public class RedditAccount {
 
 	public RedditAccount(
 			final String username,
+			final String profileImageUrl,
 			final RedditOAuth.RefreshToken refreshToken,
 			final long priority) {
 
 		if(username == null) throw new RuntimeException("Null user in RedditAccount");
 
 		this.username = username.trim();
+		this.profileImageUrl = profileImageUrl;
 		this.refreshToken = refreshToken;
 		this.priority = priority;
 	}

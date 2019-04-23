@@ -128,18 +128,20 @@ public final class RedditOAuth {
 		public final FetchUserInfoResultStatus status;
 		public final RRError error;
 
-		public final String username;
+		public final String username, profileImageUrl;
 
 		public FetchUserInfoResult(final FetchUserInfoResultStatus status, final RRError error) {
 			this.status = status;
 			this.error = error;
 			this.username = null;
+			this.profileImageUrl = null;
 		}
 
-		public FetchUserInfoResult(final String username) {
+		public FetchUserInfoResult(final String username, String profileImageUrl) {
 			this.status = FetchUserInfoResultStatus.SUCCESS;
 			this.error = null;
 			this.username = username;
+			this.profileImageUrl = profileImageUrl;
 		}
 	}
 
@@ -408,6 +410,7 @@ public final class RedditOAuth {
 						final JsonBufferedObject responseObject = jsonValue.asObject();
 
 						final String username = responseObject.getString("name");
+						final String profileImageUrl = responseObject.getString("icon_img");
 
 						if(username == null || username.length() == 0) {
 
@@ -425,7 +428,7 @@ public final class RedditOAuth {
 							return;
 						}
 
-						result.set(new FetchUserInfoResult(username));
+						result.set(new FetchUserInfoResult(username, profileImageUrl));
 
 					} catch(IOException e) {
 						result.set(new FetchUserInfoResult(
@@ -533,6 +536,7 @@ public final class RedditOAuth {
 
 					final RedditAccount account = new RedditAccount(
 							fetchUserInfoResult.username,
+							fetchUserInfoResult.profileImageUrl,
 							fetchRefreshTokenResult.refreshToken,
 							0);
 

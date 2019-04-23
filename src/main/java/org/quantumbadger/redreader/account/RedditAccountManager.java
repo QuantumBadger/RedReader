@@ -37,7 +37,7 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 	private List<RedditAccount> accountsCache = null;
 	private RedditAccount defaultAccountCache = null;
 
-	private static final RedditAccount ANON = new RedditAccount("", null, 10);
+	private static final RedditAccount ANON = new RedditAccount("", "", null, 10);
 
 	private final Context context;
 
@@ -51,6 +51,7 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 	private static final String ACCOUNTS_DB_FILENAME = "accounts_oauth2.db",
 			TABLE = "accounts_oauth2",
 			FIELD_USERNAME = "username",
+			PROFILE_IMAGE = "profile_image",
 			FIELD_REFRESH_TOKEN = "refresh_token",
 			FIELD_PRIORITY = "priority";
 
@@ -83,9 +84,11 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 				"CREATE TABLE %s (" +
 						"%s TEXT NOT NULL PRIMARY KEY ON CONFLICT REPLACE," +
 						"%s TEXT," +
+						"%s TEXT," +
 						"%s INTEGER)",
 				TABLE,
 				FIELD_USERNAME,
+				PROFILE_IMAGE,
 				FIELD_REFRESH_TOKEN,
 				FIELD_PRIORITY);
 
@@ -119,6 +122,7 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 		final ContentValues row = new ContentValues();
 
 		row.put(FIELD_USERNAME, account.username);
+		row.put(PROFILE_IMAGE, account.profileImageUrl);
 
 		if(account.refreshToken == null) {
 			row.putNull(FIELD_REFRESH_TOKEN);
@@ -193,7 +197,7 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 
 	private synchronized void reloadAccounts(final SQLiteDatabase db) {
 
-		final String[] fields = new String[] {FIELD_USERNAME, FIELD_REFRESH_TOKEN, FIELD_PRIORITY};
+		final String[] fields = new String[] {FIELD_USERNAME, PROFILE_IMAGE, FIELD_REFRESH_TOKEN, FIELD_PRIORITY};
 
 		final Cursor cursor = db.query(TABLE, fields, null, null, null, null, FIELD_PRIORITY + " ASC");
 
@@ -206,17 +210,18 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 			while(cursor.moveToNext()) {
 
 				final String username = cursor.getString(0);
+				final String profileImage = cursor.getString(1);
 
 				final RedditOAuth.RefreshToken refreshToken;
-				if(cursor.isNull(1)) {
+				if(cursor.isNull(2)) {
 					refreshToken = null;
 				} else {
-					refreshToken = new RedditOAuth.RefreshToken(cursor.getString(1));
+					refreshToken = new RedditOAuth.RefreshToken(cursor.getString(2));
 				}
 
-				final long priority = cursor.getLong(2);
+				final long priority = cursor.getLong(3);
 
-				final RedditAccount account = new RedditAccount(username, refreshToken, priority);
+				final RedditAccount account = new RedditAccount(username, profileImage, refreshToken, priority);
 				accountsCache.add(account);
 
 				if(defaultAccountCache == null || account.priority < defaultAccountCache.priority) {

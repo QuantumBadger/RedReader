@@ -37,8 +37,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import org.apache.commons.lang3.StringUtils;
 import org.quantumbadger.redreader.R;
@@ -112,6 +117,7 @@ public class MainActivity extends RefreshableActivity
 	private boolean isMenuShown = true;
 
 	private SharedPreferences sharedPreferences;
+	private LinearLayout userInterface;
 
 	@Override
 	protected boolean baseActivityIsActionBarBackEnabled() {
@@ -618,12 +624,7 @@ public class MainActivity extends RefreshableActivity
 					mLeftPane = (FrameLayout)layout.findViewById(R.id.main_left_frame);
 				} else {
 					layout = getLayoutInflater().inflate(R.layout.main_double_drawer, null);
-					mTabLayout = layout.findViewById(R.id.tabLayout);
-					setupTabListener();
-					mLeftPane = (FrameLayout)layout.findViewById(R.id.main_left_frame);
-					postListingController = new PostListingController((PostListingURL) RedditURLParser.parseProbablePostListing(SubredditPostListURL.getFrontPage().generateJsonUri()), this);
-					postListingFragment = postListingController.get(this, false, null);
-					mLeftPane.addView(postListingFragment.getView());
+					setupDrawerLayout(layout, RedditAccountManager.getInstance(this).getDefaultAccount());
 				}
 
 				mRightPane = (FrameLayout)layout.findViewById(R.id.main_right_frame);
@@ -633,12 +634,7 @@ public class MainActivity extends RefreshableActivity
 					layout = getLayoutInflater().inflate(R.layout.main_single_list, null);
 				else {
 					layout = getLayoutInflater().inflate(R.layout.main_single_drawer, null);
-					mTabLayout = layout.findViewById(R.id.tabLayout);
-					setupTabListener();
-					mLeftPane = (FrameLayout)layout.findViewById(R.id.main_left_frame);
-					postListingController = new PostListingController((PostListingURL) RedditURLParser.parseProbablePostListing(SubredditPostListURL.getFrontPage().generateJsonUri()), this);
-					postListingFragment = postListingController.get(this, false, null);
-					mLeftPane.addView(postListingFragment.getView());
+					setupDrawerLayout(layout, RedditAccountManager.getInstance(this).getDefaultAccount());
 				}
 
 				mRightPane = null;
@@ -690,6 +686,64 @@ public class MainActivity extends RefreshableActivity
 		}
 
 		invalidateOptionsMenu();
+	}
+
+	private void setupDrawerLayout(View layout, RedditAccount redditAccount) {
+		if (!redditAccount.isAnonymous()) {
+			userInterface = layout.findViewById(R.id.ll_user_interface);
+			TextView userTextView = layout.findViewById(R.id.tv_username);
+			ImageButton mailedButton = layout.findViewById(R.id.btn_mailed);
+			ImageButton savedButton = layout.findViewById(R.id.btn_saved);
+			ImageButton hiddenButton = layout.findViewById(R.id.btn_hidden);
+			ImageButton upVotedButton = layout.findViewById(R.id.btn_upvoted);
+			ImageView profileImage = layout.findViewById(R.id.iv_profile);
+			profileImage.setVisibility(View.VISIBLE);
+			Glide.with(this).load(redditAccount.profileImageUrl).into(profileImage);
+			userInterface.setVisibility(View.VISIBLE);
+			userTextView.setText(redditAccount.username);
+			setupUserInterfaceClickListener(mailedButton, savedButton, hiddenButton, upVotedButton);
+		}
+		mTabLayout = layout.findViewById(R.id.tabLayout);
+		setupTabListener();
+		mLeftPane = (FrameLayout) layout.findViewById(R.id.main_left_frame);
+		postListingController = new PostListingController((PostListingURL) RedditURLParser.parseProbablePostListing(SubredditPostListURL.getFrontPage().generateJsonUri()), this);
+		postListingFragment = postListingController.get(this, false, null);
+		mLeftPane.addView(postListingFragment.getView());
+	}
+
+	private void setupUserInterfaceClickListener(ImageButton mailedButton,
+												 ImageButton savedButton,
+												 ImageButton hiddenButton,
+												 ImageButton upVotedButton) {
+		final String username = RedditAccountManager.getInstance(this).getDefaultAccount().username;
+
+		mailedButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(MainActivity.this, InboxListingActivity.class));
+			}
+		});
+
+		savedButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				onSelected(UserPostListingURL.getSaved(username));
+			}
+		});
+
+		hiddenButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				onSelected(UserPostListingURL.getHidden(username));
+			}
+		});
+
+		upVotedButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				onSelected(UserPostListingURL.getLiked(username));
+			}
+		});
 	}
 
 	@Override

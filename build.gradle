@@ -28,6 +28,8 @@ dependencies {
     implementation 'info.guardianproject.netcipher:netcipher:1.2.1'
 	implementation 'com.google.android.exoplayer:exoplayer-core:2.9.1'
 	implementation 'com.google.android.exoplayer:exoplayer-ui:2.9.1'
+	implementation 'com.github.bumptech.glide:glide:4.9.0'
+	annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
 
 
     testImplementation 'junit:junit:4.12'

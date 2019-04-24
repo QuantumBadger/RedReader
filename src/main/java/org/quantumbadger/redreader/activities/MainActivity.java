@@ -30,6 +30,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -724,6 +725,9 @@ public class MainActivity extends RefreshableActivity
 		}
 		mTabLayout = layout.findViewById(R.id.tabLayout);
 		mDrawer = layout.findViewById(R.id.drawer_layout);
+		ActionBar actionbar = getSupportActionBar();
+		actionbar.setDisplayHomeAsUpEnabled(true);
+		actionbar.setHomeAsUpIndicator(R.drawable.icon);
 		setupTabListener();
 		mLeftPane = (FrameLayout) layout.findViewById(R.id.main_left_frame);
 		postListingController = new PostListingController((PostListingURL) RedditURLParser.parseProbablePostListing(SubredditPostListURL.getFrontPage().generateJsonUri()), this);
@@ -1096,11 +1100,21 @@ public class MainActivity extends RefreshableActivity
 
 		switch(item.getItemId()) {
 			case android.R.id.home:
-				onBackPressed();
+				onHomePressed();
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
+	}
+
+	private void onHomePressed() {
+		if(PrefsUtility.appearance_navigation_type(this, sharedPreferences).equals("drawer_tabs")) {
+			if(mDrawer.isDrawerOpen(GravityCompat.START))
+				mDrawer.closeDrawers();
+			else
+				mDrawer.openDrawer(GravityCompat.START);
+		} else
+			onBackPressed();
 	}
 
 	public void onSessionSelected(UUID session, SessionChangeType type) {

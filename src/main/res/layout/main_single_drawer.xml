@@ -35,17 +35,20 @@
 		<android.support.design.widget.TabLayout
 				android:id="@+id/tabLayout"
 				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
+				android:layout_height="wrap_content"
+				app:tabMaxWidth="0dp"
+				app:tabGravity="fill"
+				app:tabMode="fixed">
 
 			<android.support.design.widget.TabItem
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:text="Front Page" />
+					android:text="@string/mainmenu_frontpage" />
 
 			<android.support.design.widget.TabItem
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:text="Popular" />
+					android:text="@string/mainmenu_all" />
 
 		</android.support.design.widget.TabLayout>
 

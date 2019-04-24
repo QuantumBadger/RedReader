@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.adapters;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -26,6 +25,7 @@ import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,20 +43,20 @@ import java.util.ArrayList;
 
 public class AccountListAdapter extends HeaderRecyclerAdapter<RecyclerView.ViewHolder> {
 
-	private final Context context;
+	private final AppCompatActivity activity;
 	private final Fragment fragment;
 
 	private final ArrayList<RedditAccount> accounts;
 	private final Drawable rrIconAdd;
 
-	public AccountListAdapter(final Context context, final Fragment fragment) {
-		this.context = context;
+	public AccountListAdapter(final AppCompatActivity activity, final Fragment fragment) {
+		this.activity = activity;
 		this.fragment = fragment;
 
-		accounts = RedditAccountManager.getInstance(context).getAccounts();
+		accounts = RedditAccountManager.getInstance(this.activity).getAccounts();
 
-		final TypedArray attr = context.obtainStyledAttributes(new int[]{R.attr.rrIconAdd});
-		rrIconAdd = ContextCompat.getDrawable(context, attr.getResourceId(0, 0));
+		final TypedArray attr = this.activity.obtainStyledAttributes(new int[]{R.attr.rrIconAdd});
+		rrIconAdd = ContextCompat.getDrawable(this.activity, attr.getResourceId(0, 0));
 		attr.recycle();
 	}
 
@@ -77,12 +77,12 @@ public class AccountListAdapter extends HeaderRecyclerAdapter<RecyclerView.ViewH
 	@Override
 	protected void onBindHeaderItemViewHolder(RecyclerView.ViewHolder holder, int position) {
 		final VH1Text vh = (VH1Text) holder;
-		vh.text.setText(context.getString(R.string.accounts_add));
+		vh.text.setText(activity.getString(R.string.accounts_add));
 		vh.text.setCompoundDrawablesWithIntrinsicBounds(rrIconAdd, null, null, null);
 		holder.itemView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				final Intent loginIntent = new Intent(context, OAuthLoginActivity.class);
+				final Intent loginIntent = new Intent(activity, OAuthLoginActivity.class);
 				fragment.startActivityForResult(loginIntent, 123);
 			}
 		});
@@ -95,17 +95,17 @@ public class AccountListAdapter extends HeaderRecyclerAdapter<RecyclerView.ViewH
 		final BetterSSB username = new BetterSSB();
 
 		if (account.isAnonymous()) {
-			username.append(context.getString(R.string.accounts_anon), 0);
+			username.append(activity.getString(R.string.accounts_anon), 0);
 		} else {
 			username.append(account.username, 0);
 		}
 
-		if (account.equals(RedditAccountManager.getInstance(context).getDefaultAccount())) {
-			final TypedArray attr = context.obtainStyledAttributes(new int[]{R.attr.rrListSubtitleCol});
+		if (account.equals(RedditAccountManager.getInstance(activity).getDefaultAccount())) {
+			final TypedArray attr = activity.obtainStyledAttributes(new int[]{R.attr.rrListSubtitleCol});
 			final int col = attr.getColor(0, 0);
 			attr.recycle();
 
-			username.append("  (" + context.getString(R.string.accounts_active) + ")", BetterSSB.FOREGROUND_COLOR | BetterSSB.SIZE, col, 0, 0.8f);
+			username.append("  (" + activity.getString(R.string.accounts_active) + ")", BetterSSB.FOREGROUND_COLOR | BetterSSB.SIZE, col, 0, 0.8f);
 		}
 
 		vh.text.setText(username.get());
@@ -115,32 +115,34 @@ public class AccountListAdapter extends HeaderRecyclerAdapter<RecyclerView.ViewH
 			public void onClick(View v) {
 				final RedditAccount account = accounts.get(position);
 				final String[] items = account.isAnonymous()
-					? new String[]{context.getString(R.string.accounts_setactive)}
+					? new String[]{activity.getString(R.string.accounts_setactive)}
 					: new String[]{
-					context.getString(R.string.accounts_setactive),
-					context.getString(R.string.accounts_delete)
+					activity.getString(R.string.accounts_setactive),
+					activity.getString(R.string.accounts_delete)
 				};
 
-				final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+				final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
 				builder.setItems(items, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						final String selected = items[which];
 
-						if (selected.equals(context.getString(R.string.accounts_setactive))) {
-							RedditAccountManager.getInstance(context).setDefaultAccount(account);
-							if(PrefsUtility.appearance_navigation_type(context, PreferenceManager.getDefaultSharedPreferences(context)).equals("drawer_tabs"))
-								context.startActivity(new Intent(context, MainActivity.class));
-						} else if (selected.equals(context.getString(R.string.accounts_delete))) {
-							new AlertDialog.Builder(context)
+						if (selected.equals(activity.getString(R.string.accounts_setactive))) {
+							RedditAccountManager.getInstance(activity).setDefaultAccount(account);
+							if(PrefsUtility.appearance_navigation_type(activity, PreferenceManager.getDefaultSharedPreferences(activity)).equals("drawer_tabs")) {
+								activity.startActivity(new Intent(activity, MainActivity.class));
+								activity.finish();
+							}
+						} else if (selected.equals(activity.getString(R.string.accounts_delete))) {
+							new AlertDialog.Builder(activity)
 								.setTitle(R.string.accounts_delete)
 								.setMessage(R.string.accounts_delete_sure)
 								.setPositiveButton(R.string.accounts_delete,
 									new DialogInterface.OnClickListener() {
 										@Override
 										public void onClick(final DialogInterface dialog, final int which) {
-											RedditAccountManager.getInstance(context).deleteAccount(account);
+											RedditAccountManager.getInstance(activity).deleteAccount(account);
 										}
 									})
 								.setNegativeButton(R.string.dialog_cancel, null)
@@ -152,7 +154,7 @@ public class AccountListAdapter extends HeaderRecyclerAdapter<RecyclerView.ViewH
 				builder.setNeutralButton(R.string.dialog_cancel, null);
 
 				final AlertDialog alert = builder.create();
-				alert.setTitle(account.isAnonymous() ? context.getString(R.string.accounts_anon) : account.username);
+				alert.setTitle(account.isAnonymous() ? activity.getString(R.string.accounts_anon) : account.username);
 				alert.setCanceledOnTouchOutside(true);
 				alert.show();
 			}

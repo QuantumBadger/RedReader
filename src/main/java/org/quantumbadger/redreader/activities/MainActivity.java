@@ -610,7 +610,7 @@ public class MainActivity extends RefreshableActivity
 			return;
 		}
 
-		if(twoPane) {
+		if(twoPane && !PrefsUtility.appearance_navigation_type(this, sharedPreferences).equals("drawer_tabs")) {
 
 			postListingController = new PostListingController(url, this);
 			requestRefresh(RefreshableFragment.POSTS, false);

@@ -18,47 +18,60 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:baselineAligned="false"
-              android:orientation="horizontal"
-              android:weightSum="3">
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:baselineAligned="false"
+		android:orientation="horizontal"
+		android:weightSum="3">
 
-	<android.support.v4.widget.DrawerLayout android:id="@+id/drawer_layout"
-			android:layout_width="match_parent"
+	<LinearLayout
+			android:layout_width="0px"
+			android:layout_weight="1"
 			android:layout_height="match_parent"
-			xmlns:app="http://schemas.android.com/apk/res-auto">
+			android:orientation="vertical">
 
-		<!-- Layout to contain contents of main body of screen (drawer will slide over this) -->
+		<include layout="@layout/drawer"/>
 
 		<FrameLayout android:layout_height="match_parent"
-				android:layout_width="0px"
-				android:layout_weight="1"
+				android:layout_width="wrap_content"
 				android:id="@+id/main_left_frame"/>
 
-		<!-- Container for contents of drawer - use NavigationView to make configuration easier -->
-		<android.support.design.widget.NavigationView
-				android:id="@+id/nav_view"
-				android:layout_width="wrap_content"
-				android:layout_height="match_parent"
-				app:itemIconTint="#ffffff"
-				app:itemTextColor="#000000"
-				app:itemBackground="@color/drawer_list_selector"
-				android:layout_gravity="start"
-				android:fitsSystemWindows="true">
+	</LinearLayout>
 
-			<include layout="@layout/drawer"/>
+	<View android:layout_height="match_parent"
+			android:layout_width="2dp"/>
 
-		</android.support.design.widget.NavigationView>
+	<LinearLayout
+			android:layout_width="0px"
+			android:layout_weight="2"
+			android:layout_height="match_parent"
+			android:orientation="vertical">
 
-	</android.support.v4.widget.DrawerLayout>
+		<android.support.design.widget.TabLayout
+				android:id="@+id/tabLayout"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				app:tabMaxWidth="0dp"
+				app:tabGravity="fill"
+				app:tabMode="fixed">
 
-    <View android:layout_height="match_parent"
-          android:layout_width="2dp"/>
+			<android.support.design.widget.TabItem
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@string/mainmenu_frontpage" />
 
-    <FrameLayout android:layout_height="match_parent"
-                 android:layout_width="0px"
-                 android:layout_weight="2"
-                 android:id="@+id/main_right_frame"/>
+			<android.support.design.widget.TabItem
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@string/mainmenu_all" />
+
+		</android.support.design.widget.TabLayout>
+
+		<FrameLayout android:layout_height="match_parent"
+				android:layout_width="match_parent"
+				android:id="@+id/main_right_frame"/>
+
+	</LinearLayout>
 
 </LinearLayout>

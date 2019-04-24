@@ -130,10 +130,7 @@ public class AccountListAdapter extends HeaderRecyclerAdapter<RecyclerView.ViewH
 
 						if (selected.equals(activity.getString(R.string.accounts_setactive))) {
 							RedditAccountManager.getInstance(activity).setDefaultAccount(account);
-							if(PrefsUtility.appearance_navigation_type(activity, PreferenceManager.getDefaultSharedPreferences(activity)).equals("drawer_tabs")) {
-								activity.startActivity(new Intent(activity, MainActivity.class));
-								activity.finish();
-							}
+							refreshActivity();
 						} else if (selected.equals(activity.getString(R.string.accounts_delete))) {
 							new AlertDialog.Builder(activity)
 								.setTitle(R.string.accounts_delete)
@@ -142,6 +139,8 @@ public class AccountListAdapter extends HeaderRecyclerAdapter<RecyclerView.ViewH
 									new DialogInterface.OnClickListener() {
 										@Override
 										public void onClick(final DialogInterface dialog, final int which) {
+											if(account.username.equals(RedditAccountManager.getInstance(activity).getDefaultAccount().username))
+												refreshActivity();
 											RedditAccountManager.getInstance(activity).deleteAccount(account);
 										}
 									})
@@ -159,6 +158,13 @@ public class AccountListAdapter extends HeaderRecyclerAdapter<RecyclerView.ViewH
 				alert.show();
 			}
 		});
+	}
+
+	private void refreshActivity() {
+		if (PrefsUtility.appearance_navigation_type(activity, PreferenceManager.getDefaultSharedPreferences(activity)).equals("drawer_tabs")) {
+			activity.startActivity(new Intent(activity, MainActivity.class));
+			activity.finish();
+		}
 	}
 
 	@Override

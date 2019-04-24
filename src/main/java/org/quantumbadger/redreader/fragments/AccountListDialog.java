@@ -25,6 +25,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDialogFragment;
@@ -35,9 +36,11 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
+import org.quantumbadger.redreader.activities.MainActivity;
 import org.quantumbadger.redreader.adapters.AccountListAdapter;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 
@@ -99,6 +102,8 @@ public class AccountListDialog extends AppCompatDialogFragment
 								General.safeDismissDialog(progressDialog);
 								if (cancelled.get()) return;
 
+								refreshActivity();
+
 								final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(mActivity);
 								alertBuilder.setNeutralButton(R.string.dialog_close, new DialogInterface.OnClickListener() {
 									@Override
@@ -127,6 +132,13 @@ public class AccountListDialog extends AppCompatDialogFragment
 						});
 					}
 				});
+		}
+	}
+
+	private void refreshActivity() {
+		if(PrefsUtility.appearance_navigation_type(mActivity, PreferenceManager.getDefaultSharedPreferences(mActivity)).equals("drawer_tabs")) {
+			mActivity.startActivity(new Intent(mActivity, MainActivity.class));
+			mActivity.finish();
 		}
 	}
 

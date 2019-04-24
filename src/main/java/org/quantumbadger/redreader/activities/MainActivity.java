@@ -701,7 +701,7 @@ public class MainActivity extends RefreshableActivity
 			Glide.with(this).load(redditAccount.profileImageUrl).into(profileImage);
 			userInterface.setVisibility(View.VISIBLE);
 			userTextView.setText(redditAccount.username);
-			setupUserInterfaceClickListener(mailedButton, savedButton, hiddenButton, upVotedButton);
+			setupUserInterfaceClickListener(profileImage, mailedButton, savedButton, hiddenButton, upVotedButton);
 		}
 		mTabLayout = layout.findViewById(R.id.tabLayout);
 		setupTabListener();
@@ -711,11 +711,19 @@ public class MainActivity extends RefreshableActivity
 		mLeftPane.addView(postListingFragment.getView());
 	}
 
-	private void setupUserInterfaceClickListener(ImageButton mailedButton,
+	private void setupUserInterfaceClickListener(ImageView profileImage,
+												 ImageButton mailedButton,
 												 ImageButton savedButton,
 												 ImageButton hiddenButton,
 												 ImageButton upVotedButton) {
 		final String username = RedditAccountManager.getInstance(this).getDefaultAccount().username;
+
+		profileImage.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				LinkHandler.onLinkClicked(MainActivity.this, new UserProfileURL(username).toString());
+			}
+		});
 
 		mailedButton.setOnClickListener(new View.OnClickListener() {
 			@Override

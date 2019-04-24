@@ -122,6 +122,8 @@ public class MainActivity extends RefreshableActivity
 	private SharedPreferences sharedPreferences;
 	private LinearLayout userInterface;
 	private DrawerLayout mDrawer;
+	private int activeTab = 0;
+	private PostSort mOrder = PostSort.HOT;
 
 	@Override
 	protected boolean baseActivityIsActionBarBackEnabled() {
@@ -347,15 +349,19 @@ public class MainActivity extends RefreshableActivity
 			public void onTabSelected(TabLayout.Tab tab) {
 				switch (tab.getPosition()) {
 					case 0:
+						activeTab = 0;
 						mLeftPane.removeAllViews();
 						postListingController = new PostListingController((PostListingURL) RedditURLParser.parseProbablePostListing(SubredditPostListURL.getFrontPage().generateJsonUri()), MainActivity.this);
-						postListingFragment = postListingController.get(MainActivity.this, false, null);
+						postListingController.setSort(mOrder);
+						postListingFragment = postListingController.get(MainActivity.this, true, null);
 						mLeftPane.addView(postListingFragment.getView());
 						break;
 					case 1:
+						activeTab = 1;
 						mLeftPane.removeAllViews();
-						postListingController = new PostListingController((PostListingURL) RedditURLParser.parseProbablePostListing(SubredditPostListURL.getPopular().generateJsonUri()), MainActivity.this);
-						postListingFragment = postListingController.get(MainActivity.this, false, null);
+						postListingController = new PostListingController((PostListingURL) RedditURLParser.parseProbablePostListing(SubredditPostListURL.getAll().generateJsonUri()), MainActivity.this);
+						postListingController.setSort(mOrder);
+						postListingFragment = postListingController.get(MainActivity.this, true, null);
 						mLeftPane.addView(postListingFragment.getView());
 						break;
 				}
@@ -614,7 +620,7 @@ public class MainActivity extends RefreshableActivity
 	@Override
 	protected void doRefresh(final RefreshableFragment which, final boolean force, final Bundle savedInstanceState) {
 
-		if(which == RefreshableFragment.MAIN_RELAYOUT) {
+		if(which == RefreshableFragment.MAIN_RELAYOUT || which == RefreshableFragment.POSTS) {
 
 			mainMenuFragment = null;
 			postListingFragment = null;
@@ -721,7 +727,8 @@ public class MainActivity extends RefreshableActivity
 		setupTabListener();
 		mLeftPane = (FrameLayout) layout.findViewById(R.id.main_left_frame);
 		postListingController = new PostListingController((PostListingURL) RedditURLParser.parseProbablePostListing(SubredditPostListURL.getFrontPage().generateJsonUri()), this);
-		postListingFragment = postListingController.get(this, false, null);
+		postListingController.setSort(mOrder);
+		postListingFragment = postListingController.get(this, true, null);
 		mLeftPane.addView(postListingFragment.getView());
 	}
 
@@ -957,6 +964,7 @@ public class MainActivity extends RefreshableActivity
 	public void onRefreshPosts() {
 		postListingController.setSession(null);
 		requestRefresh(RefreshableFragment.POSTS, true);
+		mTabLayout.getTabAt(activeTab).select();
 	}
 
 	public void onPastPosts() {
@@ -973,8 +981,9 @@ public class MainActivity extends RefreshableActivity
 	}
 
 	public void onSortSelected(final PostSort order) {
-		postListingController.setSort(order);
+		mOrder = order;
 		requestRefresh(RefreshableFragment.POSTS, false);
+		mTabLayout.getTabAt(activeTab).select();
 	}
 
 	public void onSearchPosts() {

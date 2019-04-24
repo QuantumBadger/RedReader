@@ -24,9 +24,12 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -118,6 +121,7 @@ public class MainActivity extends RefreshableActivity
 
 	private SharedPreferences sharedPreferences;
 	private LinearLayout userInterface;
+	private DrawerLayout mDrawer;
 
 	@Override
 	protected boolean baseActivityIsActionBarBackEnabled() {
@@ -128,6 +132,15 @@ public class MainActivity extends RefreshableActivity
 	protected void onResume() {
 		super.onResume();
 		doRefresh(RefreshableFragment.MAIN_RELAYOUT, false, null);
+		if(PrefsUtility.appearance_navigation_type(this, sharedPreferences).equals("drawer_tabs")) {
+			mDrawer.openDrawer(GravityCompat.START, true);
+			new Handler().postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					mDrawer.closeDrawers();
+				}
+			}, 1500);
+		}
 	}
 
 	@Override
@@ -704,6 +717,7 @@ public class MainActivity extends RefreshableActivity
 			setupUserInterfaceClickListener(profileImage, mailedButton, savedButton, hiddenButton, upVotedButton);
 		}
 		mTabLayout = layout.findViewById(R.id.tabLayout);
+		mDrawer = layout.findViewById(R.id.drawer_layout);
 		setupTabListener();
 		mLeftPane = (FrameLayout) layout.findViewById(R.id.main_left_frame);
 		postListingController = new PostListingController((PostListingURL) RedditURLParser.parseProbablePostListing(SubredditPostListURL.getFrontPage().generateJsonUri()), this);

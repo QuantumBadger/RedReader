@@ -136,7 +136,7 @@ public class MainActivity extends RefreshableActivity
 	protected void onResume() {
 		super.onResume();
 		doRefresh(RefreshableFragment.MAIN_RELAYOUT, false, null);
-		if(PrefsUtility.appearance_navigation_type(this, sharedPreferences).equals("drawer_tabs")) {
+		if(PrefsUtility.appearance_navigation_type(this, sharedPreferences).equals("drawer_tabs") && !twoPane) {
 			mDrawer.openDrawer(GravityCompat.START, true);
 			new Handler().postDelayed(new Runnable() {
 				@Override
@@ -346,25 +346,34 @@ public class MainActivity extends RefreshableActivity
 	}
 
 	private void setupTabListener() {
+		FrameLayout frameLayout;
+		if(twoPane)
+			frameLayout = mRightPane;
+		else {
+			frameLayout = mLeftPane;
+			actionbar.setDisplayHomeAsUpEnabled(true);
+			actionbar.setHomeAsUpIndicator(R.drawable.icon);
+		}
+
 		mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 			@Override
 			public void onTabSelected(TabLayout.Tab tab) {
 				switch (tab.getPosition()) {
 					case 0:
 						activeTab = 0;
-						mLeftPane.removeAllViews();
+						frameLayout.removeAllViews();
 						postListingController = new PostListingController((PostListingURL) RedditURLParser.parseProbablePostListing(SubredditPostListURL.getFrontPage().generateJsonUri()), MainActivity.this);
 						postListingController.setSort(mOrder);
 						postListingFragment = postListingController.get(MainActivity.this, true, null);
-						mLeftPane.addView(postListingFragment.getView());
+						frameLayout.addView(postListingFragment.getView());
 						break;
 					case 1:
 						activeTab = 1;
-						mLeftPane.removeAllViews();
+						frameLayout.removeAllViews();
 						postListingController = new PostListingController((PostListingURL) RedditURLParser.parseProbablePostListing(SubredditPostListURL.getAll().generateJsonUri()), MainActivity.this);
 						postListingController.setSort(mOrder);
 						postListingFragment = postListingController.get(MainActivity.this, true, null);
-						mLeftPane.addView(postListingFragment.getView());
+						frameLayout.addView(postListingFragment.getView());
 						break;
 				}
 			}
@@ -647,6 +656,7 @@ public class MainActivity extends RefreshableActivity
 					mLeftPane = (FrameLayout)layout.findViewById(R.id.main_left_frame);
 				} else {
 					layout = getLayoutInflater().inflate(R.layout.main_double_drawer, null);
+					mRightPane = (FrameLayout)layout.findViewById(R.id.main_right_frame);
 					setupDrawerLayout(layout, RedditAccountManager.getInstance(this).getDefaultAccount());
 				}
 
@@ -657,6 +667,7 @@ public class MainActivity extends RefreshableActivity
 					layout = getLayoutInflater().inflate(R.layout.main_single_list, null);
 				else {
 					layout = getLayoutInflater().inflate(R.layout.main_single_drawer, null);
+					mLeftPane = (FrameLayout)layout.findViewById(R.id.main_left_frame);
 					setupDrawerLayout(layout, RedditAccountManager.getInstance(this).getDefaultAccount());
 				}
 
@@ -728,8 +739,6 @@ public class MainActivity extends RefreshableActivity
 		}
 		mTabLayout = layout.findViewById(R.id.tabLayout);
 		mDrawer = layout.findViewById(R.id.drawer_layout);
-		actionbar.setDisplayHomeAsUpEnabled(true);
-		actionbar.setHomeAsUpIndicator(R.drawable.icon);
 		setupTabListener();
 		mLeftPane = (FrameLayout) layout.findViewById(R.id.main_left_frame);
 		postListingController = new PostListingController((PostListingURL) RedditURLParser.parseProbablePostListing(SubredditPostListURL.getFrontPage().generateJsonUri()), this);

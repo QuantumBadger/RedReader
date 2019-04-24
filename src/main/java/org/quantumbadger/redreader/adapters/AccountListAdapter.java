@@ -23,6 +23,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -32,8 +33,10 @@ import android.view.ViewGroup;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
+import org.quantumbadger.redreader.activities.MainActivity;
 import org.quantumbadger.redreader.activities.OAuthLoginActivity;
 import org.quantumbadger.redreader.common.BetterSSB;
+import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.viewholders.VH1Text;
 
 import java.util.ArrayList;
@@ -127,6 +130,8 @@ public class AccountListAdapter extends HeaderRecyclerAdapter<RecyclerView.ViewH
 
 						if (selected.equals(context.getString(R.string.accounts_setactive))) {
 							RedditAccountManager.getInstance(context).setDefaultAccount(account);
+							if(PrefsUtility.appearance_navigation_type(context, PreferenceManager.getDefaultSharedPreferences(context)).equals("drawer_tabs"))
+								context.startActivity(new Intent(context, MainActivity.class));
 						} else if (selected.equals(context.getString(R.string.accounts_delete))) {
 							new AlertDialog.Builder(context)
 								.setTitle(R.string.accounts_delete)

@@ -125,6 +125,7 @@ public class MainActivity extends RefreshableActivity
 	private DrawerLayout mDrawer;
 	private int activeTab = 0;
 	private PostSort mOrder = PostSort.HOT;
+	private ActionBar actionbar;
 
 	@Override
 	protected boolean baseActivityIsActionBarBackEnabled() {
@@ -623,6 +624,8 @@ public class MainActivity extends RefreshableActivity
 
 		if(which == RefreshableFragment.MAIN_RELAYOUT || which == RefreshableFragment.POSTS) {
 
+			actionbar = getSupportActionBar();
+			actionbar.setDisplayHomeAsUpEnabled(false);
 			mainMenuFragment = null;
 			postListingFragment = null;
 			commentListingFragment = null;
@@ -725,7 +728,6 @@ public class MainActivity extends RefreshableActivity
 		}
 		mTabLayout = layout.findViewById(R.id.tabLayout);
 		mDrawer = layout.findViewById(R.id.drawer_layout);
-		ActionBar actionbar = getSupportActionBar();
 		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setHomeAsUpIndicator(R.drawable.icon);
 		setupTabListener();

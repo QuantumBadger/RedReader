@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.settings;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.Window;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.activities.MainActivity;
 import org.quantumbadger.redreader.common.PrefsUtility;
 
 import java.util.List;
@@ -63,6 +65,8 @@ public final class SettingsActivity
 	public boolean onOptionsItemSelected(final MenuItem item) {
 		switch(item.getItemId()) {
 			case android.R.id.home:
+				if(PrefsUtility.appearance_navigation_type(this, sharedPreferences).equals("drawer_tabs"))
+					startActivity(new Intent(this, MainActivity.class));
 				finish();
 				return true;
 			default:

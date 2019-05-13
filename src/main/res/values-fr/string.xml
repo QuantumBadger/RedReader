@@ -126,7 +126,7 @@
 
     <!-- Main Menu -->
 
-    <string name="mainmenu_frontpage">Page d'Accueil</string>
+    <string name="mainmenu_frontpage">Page d\'Accueil</string>
     <string name="mainmenu_all">Tous les subreddits</string>
     <string name="mainmenu_custom">Subreddit personnalisé</string>
     <string name="mainmenu_custom_invalid_name">Nom de subreddit invalide.</string>

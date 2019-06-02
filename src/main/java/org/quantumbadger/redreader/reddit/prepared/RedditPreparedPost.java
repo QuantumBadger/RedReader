@@ -712,7 +712,7 @@ public final class RedditPreparedPost {
 		}
 
 		if(src.getFlairText() != null) {
-			postListDescSb.append(" " + src.getFlairText() + "\u200E ", BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR | BetterSSB.BACKGROUND_COLOR,
+			postListDescSb.append(" " + src.getFlairText() + General.LTR_OVERRIDE_MARK + " ", BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR | BetterSSB.BACKGROUND_COLOR,
 					rrFlairTextCol, rrFlairBackCol, 1f);
 			postListDescSb.append("  ", 0);
 		}

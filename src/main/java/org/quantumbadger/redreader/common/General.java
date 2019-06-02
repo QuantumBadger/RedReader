@@ -72,6 +72,8 @@ public final class General {
 
 	public static final Charset CHARSET_UTF8 = Charset.forName("UTF-8");
 
+	public static final String LTR_OVERRIDE_MARK = "\u202D";
+
 	public static final int COLOR_INVALID = Color.MAGENTA;
 
 	private static long lastBackPress = -1;

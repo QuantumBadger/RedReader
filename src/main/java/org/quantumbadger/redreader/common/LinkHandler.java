@@ -32,7 +32,7 @@ import android.os.Handler;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.text.ClipboardManager;
+import android.content.ClipboardManager;
 import android.util.Log;
 import android.util.TypedValue;
 

@@ -442,9 +442,13 @@ public final class General {
 	public static String filenameFromString(String url) {
 		String filename = uriFromString(url).getPath().replace(File.separator, "");
 		String[] parts = filename.substring(1).split("\\.", 2);
-		if(parts.length < 2)
-			filename += ".jpg";
-
+		if(parts.length < 2) {
+			if (url.contains("v.redd.it")) {
+				filename += ".mp4";
+			} else {
+				filename += ".jpg";
+			}
+		}
 		return filename;
 	}
 

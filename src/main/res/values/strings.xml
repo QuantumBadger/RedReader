@@ -1115,6 +1115,6 @@
 	<string name="prefs_category_images_video">Images/Video</string>
 
 	<!-- 2019-10-01 -->
-	<string name="post_test_copied_to_clipboard">Post copied to clipboard</string>
+	<string name="post_text_copied_to_clipboard">Post copied to clipboard</string>
 
 </resources>

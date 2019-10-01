@@ -972,6 +972,6 @@
 	<string name="pref_behaviour_hide_read_posts_title">Skrýt přečtené články</string>
 
 	<!-- 2019-10-01 -->
-	<string name="post_text_copied_to_clipboard">Příspěvek skopíprován do schránky</string>
+	<string name="post_text_copied_to_clipboard">Příspěvek zkopírován do schránky</string>
 
 </resources>

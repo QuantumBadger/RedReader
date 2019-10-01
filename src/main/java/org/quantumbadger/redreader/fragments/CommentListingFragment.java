@@ -528,7 +528,7 @@ public class CommentListingFragment extends RRFragment
 							clipboardManager.setPrimaryClip(data);
 
 							Context context = getActivity().getApplicationContext();
-							Toast toast = Toast.makeText(context, "Post text was copied", Toast.LENGTH_SHORT);
+							Toast toast = Toast.makeText(context, R.string.post_test_copied_to_clipboard, Toast.LENGTH_SHORT);
 							toast.show();
 							return true;
 						}

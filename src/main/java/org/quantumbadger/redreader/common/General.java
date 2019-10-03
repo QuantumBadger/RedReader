@@ -58,7 +58,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
-import java.net.URL;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.util.ArrayList;
@@ -442,7 +441,7 @@ public final class General {
 
 	public static String filenameFromString(String url) {
 		final URI uri = uriFromString(url);
-		String filename = uri.getPath().replace(File.separator, "");
+		String filename = uriFromString(url).getPath().replace(File.separator, "");
 		String[] parts = filename.substring(1).split("\\.", 2);
 		if(parts.length < 2) {
 			if("v.redd.it".equals(uri.getHost())) {

@@ -1,5 +1,6 @@
 88/1.9.11
 Downloads from v.redd.it saved with .mp4 extension (thanks to sharkwouter)
+Fixed skip to front page setting in two-panel mode (thanks to LizardWithHat)
 Updated French translation (thanks to Tuxicoman2)
 
 87/1.9.10

@@ -1,3 +1,6 @@
+88/1.9.11
+Downloads from v.redd.it saved with .mp4 extension (thanks to sharkwouter)
+
 87/1.9.10
 Audio now muted by default
 Added preference to move toolbar to bottom of screen (thanks to Cameron Merkel)

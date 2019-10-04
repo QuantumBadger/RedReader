@@ -126,7 +126,7 @@
 
     <!-- Main Menu -->
 
-    <string name="mainmenu_frontpage">Front Page</string>
+    <string name="mainmenu_frontpage">Page d\'Accueil</string>
     <string name="mainmenu_all">Tous les subreddits</string>
     <string name="mainmenu_custom">Subreddit personnalisé</string>
     <string name="mainmenu_custom_invalid_name">Nom de subreddit invalide.</string>
@@ -195,11 +195,11 @@
 
     <string name="action_menu_post_title">Action sur le post</string>
 
-    <string name="action_upvote">Upvote</string>
-    <string name="action_downvote">Downvote</string>
+    <string name="action_upvote">Vote positif</string>
+    <string name="action_downvote">Vote négatif</string>
     <string name="action_vote_remove">Supprimer vote</string>
-    <string name="action_upvote_remove">Supprimer upvote</string>
-    <string name="action_downvote_remove">Supprimer downvote</string>
+    <string name="action_upvote_remove">Supprimer vote positif</string>
+    <string name="action_downvote_remove">Supprimer vote négatif</string>
     <string name="action_save">Sauvegarder</string>
     <string name="action_hide">Cacher</string>
     <string name="action_unsave">Ne plus sauvegarder</string>
@@ -737,7 +737,7 @@
 
 
 	<!-- 2016-08-06 -->
-	<string name="mainmenu_custom_destination">Localisation personnalisée</string>
+	<string name="mainmenu_custom_destination">Subreddit personnalisé</string>
 	<string name="mainmenu_custom_destination_subreddit">Subreddit</string>
 	<string name="mainmenu_custom_destination_user">Utilisateur</string>
 	<string name="mainmenu_custom_destination_url">URL</string>

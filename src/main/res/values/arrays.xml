@@ -397,6 +397,7 @@
         <item>@string/action_share_comments</item>
         <item>@string/action_share_image</item>
         <item>@string/action_copy</item>
+		<item>@string/action_copy_selftext</item>
         <item>@string/action_user_profile</item>
         <item>@string/action_properties</item>
 		<item>@string/action_edit</item>
@@ -421,6 +422,7 @@
         <item>share_comments</item>
         <item>share_image</item>
         <item>copy</item>
+		<item>copy_selftext</item>>
         <item>user_profile</item>
         <item>properties</item>
 		<item>edit</item>

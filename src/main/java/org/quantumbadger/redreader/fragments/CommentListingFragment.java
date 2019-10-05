@@ -18,8 +18,6 @@
 package org.quantumbadger.redreader.fragments;
 
 import android.annotation.SuppressLint;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -39,7 +37,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -522,18 +519,8 @@ public class CommentListingFragment extends RRFragment
 				paddingLayout.setOnLongClickListener(new View.OnLongClickListener(){
 					@Override
 					public boolean onLongClick(View v) {
-						ClipboardManager clipboardManager = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-						if(clipboardManager != null) {
-							ClipData data = ClipData.newPlainText(mPost.src.getAuthor(), mPost.src.getRawSelfText());
-							clipboardManager.setPrimaryClip(data);
-
-							Context context = getActivity().getApplicationContext();
-							Toast toast = Toast.makeText(context, R.string.post_text_copied_to_clipboard, Toast.LENGTH_SHORT);
-							toast.show();
-							return true;
-						}
-
-						return false;
+						RedditPreparedPost.showActionMenu(getActivity(), mPost);
+						return true;
 					}
 				});
 				// TODO mListHeaderNotifications.setBackgroundColor(Color.argb(35, 128, 128, 128));

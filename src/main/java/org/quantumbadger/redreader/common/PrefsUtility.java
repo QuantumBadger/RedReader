@@ -54,7 +54,7 @@ public final class PrefsUtility {
 
 	private static String getString(final int id, final String defaultValue, final Context context, final SharedPreferences sharedPreferences) {
 		return sharedPreferences.getString(context.getString(id), defaultValue);
-	}
+}
 
 	public static Set<String> getStringSet(final int id, final int defaultArrayRes, final Context context, final SharedPreferences sharedPreferences) {
 		return sharedPreferences.getStringSet(context.getString(id), setFromArray(context.getResources().getStringArray(defaultArrayRes)));

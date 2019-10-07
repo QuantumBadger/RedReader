@@ -468,7 +468,7 @@ public final class RedditPreparedPost {
 
 				ClipboardManager clipboardManager = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
 				if(clipboardManager != null) {
-					ClipData data = ClipData.newPlainText(post.src.getAuthor(), post.src.getRawSelfText());
+					ClipData data = ClipData.newPlainText(post.src.getAuthor(), post.src.getUrl());
 					clipboardManager.setPrimaryClip(data);
 				}
 				break;

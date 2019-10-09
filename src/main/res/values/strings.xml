@@ -1115,6 +1115,8 @@
 	<string name="prefs_category_images_video">Images/Video</string>
 
 	<!-- 2018-11-?? -->
-	<string name="share_order_dialog_title">Select an App for sharing</string>
+	<string name="share_dialog_title">Select an App for sharing</string>
+	<string name="pref_behaviour_sharing_share_dialog_key" translatable="false">share_order_preference_key</string>
+	<string name="pref_behaviour_sharing_share_dialog_title">Use built-in share dialog</string>
 
 </resources>

@@ -8,6 +8,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.widget.ListView;
 
@@ -42,6 +43,7 @@ public class ShareOrderDialog extends AppCompatDialogFragment implements ShareOr
 		shareIntent = getArguments().getParcelable("intent");
 	}
 
+	@NonNull
 	@Override
 	public Dialog onCreateDialog(final Bundle savedInstanceState){
 		super.onCreateDialog(savedInstanceState);
@@ -52,7 +54,7 @@ public class ShareOrderDialog extends AppCompatDialogFragment implements ShareOr
 		final Context context = this.getContext();
 
 		final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-		builder.setTitle(context.getString(R.string.share_order_dialog_title));
+		builder.setTitle(context.getString(R.string.share_dialog_title));
 
 		ListView listView = new ListView(context);
 		builder.setView(listView);

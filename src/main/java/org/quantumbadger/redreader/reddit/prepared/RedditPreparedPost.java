@@ -430,9 +430,14 @@ public final class RedditPreparedPost {
 					mailer.putExtra(Intent.EXTRA_SUBJECT, post.src.getTitle());
 				}
 				mailer.putExtra(Intent.EXTRA_TEXT, post.src.getUrl());
-//				activity.startActivity(Intent.createChooser(mailer, activity.getString(R.string.action_share)));
-				ShareOrderDialog.newInstance(mailer).show(activity.getSupportFragmentManager(), null);
 
+				if(PrefsUtility.pref_behaviour_sharing_dialog(
+						activity,
+						PreferenceManager.getDefaultSharedPreferences(activity))){
+					ShareOrderDialog.newInstance(mailer).show(activity.getSupportFragmentManager(), null);
+				} else {
+					activity.startActivity(Intent.createChooser(mailer, activity.getString(R.string.action_share)));
+				}
 				break;
 			}
 
@@ -453,8 +458,13 @@ public final class RedditPreparedPost {
 				} else {
 					mailer.putExtra(Intent.EXTRA_TEXT, Constants.Reddit.getNonAPIUri(Constants.Reddit.PATH_COMMENTS + post.src.getIdAlone()).toString());
 				}
-//				activity.startActivity(Intent.createChooser(mailer, activity.getString(R.string.action_share_comments)));
-				ShareOrderDialog.newInstance(mailer).show(activity.getSupportFragmentManager(), null);
+				if(PrefsUtility.pref_behaviour_sharing_dialog(
+						activity,
+						PreferenceManager.getDefaultSharedPreferences(activity))){
+					ShareOrderDialog.newInstance(mailer).show(activity.getSupportFragmentManager(), null);
+				} else {
+					activity.startActivity(Intent.createChooser(mailer, activity.getString(R.string.action_share)));
+				}
 				break;
 			}
 

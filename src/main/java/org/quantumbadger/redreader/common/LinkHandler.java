@@ -354,8 +354,14 @@ public class LinkHandler {
 				final Intent mailer = new Intent(Intent.ACTION_SEND);
 				mailer.setType("text/plain");
 				mailer.putExtra(Intent.EXTRA_TEXT, uri);
-//				activity.startActivity(Intent.createChooser(mailer, activity.getString(R.string.action_share)));
-				ShareOrderDialog.newInstance(mailer).show(activity.getSupportFragmentManager(), null);
+
+				if(PrefsUtility.pref_behaviour_sharing_dialog(
+						activity,
+						PreferenceManager.getDefaultSharedPreferences(activity))){
+					ShareOrderDialog.newInstance(mailer).show(activity.getSupportFragmentManager(), null);
+				} else {
+					activity.startActivity(Intent.createChooser(mailer, activity.getString(R.string.action_share)));
+				}
 				break;
 			case COPY_URL:
 				ClipboardManager manager = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);

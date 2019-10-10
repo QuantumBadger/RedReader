@@ -8,22 +8,30 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.widget.ListView;
 
+import org.apache.commons.lang3.StringUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.adapters.ShareOrderAdapter;
 import org.quantumbadger.redreader.adapters.ShareOrderCallbackListener;
+import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.PrefsUtility;
 
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 
 public class ShareOrderDialog extends AppCompatDialogFragment implements ShareOrderCallbackListener {
+	private static final int amountOfPrioritizedApps = 3;
 	private PackageManager packageManager;
 	private Intent shareIntent;
 	private List<ResolveInfo> orderedAppList;
+	private Context context;
 
 	public static ShareOrderDialog newInstance(final Intent shareIntent) {
 		final ShareOrderDialog dialog = new ShareOrderDialog();
@@ -38,7 +46,7 @@ public class ShareOrderDialog extends AppCompatDialogFragment implements ShareOr
 	@Override
 	public void onCreate(final Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-
+		context = getContext();
 		packageManager = getActivity().getPackageManager();
 		shareIntent = getArguments().getParcelable("intent");
 	}
@@ -48,37 +56,78 @@ public class ShareOrderDialog extends AppCompatDialogFragment implements ShareOr
 	public Dialog onCreateDialog(final Bundle savedInstanceState){
 		super.onCreateDialog(savedInstanceState);
 
-		List<ResolveInfo> appList = packageManager.queryIntentActivities(shareIntent, 0);
-		orderedAppList = prioritizeTopApps(appList);
-
-		final Context context = this.getContext();
+		orderedAppList = prioritizeTopApps(packageManager.queryIntentActivities(shareIntent, 0));
 
 		final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-		builder.setTitle(context.getString(R.string.share_dialog_title));
-
+		builder.setTitle(context.getString(R.string.pref_behaviour_sharing_share_dialog_dialogtitle));
 		ListView listView = new ListView(context);
 		builder.setView(listView);
-
 		listView.setAdapter(new ShareOrderAdapter(context, orderedAppList, this));
 
 		return builder.create();
 	}
 
 	private List<ResolveInfo> prioritizeTopApps(List<ResolveInfo> unorderedList){
-		List<ResolveInfo> orderedList = new LinkedList<ResolveInfo>(unorderedList);
+		if(unorderedList.isEmpty()){
+			General.quickToast(context, R.string.error_toast_no_share_app_installed);
+			dismiss();
+		}
 
-		//TODO: implement preference for Order and ordering
+		// Make a copy of the list since the original is not modifiable
+		LinkedList<ResolveInfo> orderedList = new LinkedList<>(unorderedList);
+
+		List<String> prioritizedAppNames = Arrays.asList(PrefsUtility.pref_behaviour_sharing_dialog_data_get(
+				context,
+				PreferenceManager.getDefaultSharedPreferences(context)).split(";"));
+		ResolveInfo[] prioritizedApps = new ResolveInfo[prioritizedAppNames.size()];
+
+		// get the ResolveInfos for the available prioritized Apps and save them in order
+		int count = 0;
+		Iterator<ResolveInfo> iterator = orderedList.iterator();
+		while(iterator.hasNext()){
+			ResolveInfo currentApp = iterator.next();
+			String currentAppName = currentApp.activityInfo.name;
+			if(prioritizedAppNames.contains(currentAppName)){
+				prioritizedApps[prioritizedAppNames.indexOf(currentAppName)] = currentApp;
+				iterator.remove();
+				// Exit early if all apps matched
+				if(++count >= prioritizedAppNames.size()) break;
+			}
+		}
+
+		// Combine the two lists in order, respecting unavailable apps (null values in the Array)
+		for(int i = prioritizedApps.length - 1; i >= 0; i--){
+			if(prioritizedApps[i] != null){
+				orderedList.addFirst(prioritizedApps[i]);
+			}
+		}
 
 		return orderedList;
 	}
 
-
 	@Override
 	public void onSelectedIntent(int position) {
 		ActivityInfo info = orderedAppList.get(position).activityInfo;
+		persistPriority(info);
 		shareIntent.addCategory(Intent.CATEGORY_LAUNCHER);
 		shareIntent.setClassName(info.applicationInfo.packageName, info.name);
 		shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
 		startActivity(shareIntent);
+	}
+
+	private void persistPriority(ActivityInfo selectedApplication){
+		LinkedList<String> priorityAppList = new LinkedList<>(Arrays.asList(PrefsUtility.pref_behaviour_sharing_dialog_data_get(
+				context,
+				PreferenceManager.getDefaultSharedPreferences(context)).split(";")));
+		if(priorityAppList.contains(selectedApplication.name)){
+			priorityAppList.remove(selectedApplication.name);
+		} else {
+			priorityAppList.removeLast();
+		}
+		priorityAppList.add(0, selectedApplication.name);
+
+		PrefsUtility.pref_behaviour_sharing_dialog_data_set(context,
+				PreferenceManager.getDefaultSharedPreferences(context),
+				StringUtils.join(priorityAppList.iterator(), ";"));
 	}
 }

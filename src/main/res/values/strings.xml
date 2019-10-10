@@ -1115,8 +1115,10 @@
 	<string name="prefs_category_images_video">Images/Video</string>
 
 	<!-- 2018-11-?? -->
-	<string name="share_dialog_title">Select an App for sharing</string>
+	<string name="pref_behaviour_sharing_share_dialog_dialogtitle">Select an App for sharing</string>
 	<string name="pref_behaviour_sharing_share_dialog_key" translatable="false">share_order_preference_key</string>
 	<string name="pref_behaviour_sharing_share_dialog_title">Use built-in share dialog</string>
+	<string name="pref_behaviour_sharing_share_dialog_data" translatable="false">pref_behaviour_sharing_share_dialog_data</string>
+	<string name="error_toast_no_share_app_installed">No suitable app installed to share this.</string>
 
 </resources>

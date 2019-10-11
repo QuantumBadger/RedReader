@@ -134,16 +134,16 @@ public class MainActivity extends RefreshableActivity
 		}
 
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		twoPane = General.isTablet(this, sharedPreferences);
+
+		doRefresh(RefreshableFragment.MAIN_RELAYOUT, false, null);
+
 		if (savedInstanceState == null) {
 			if(PrefsUtility.pref_behaviour_skiptofrontpage(this, sharedPreferences))
 				onSelected(SubredditPostListURL.getFrontPage());
 		}
 
 		setTitle(R.string.app_name);
-
-		twoPane = General.isTablet(this, sharedPreferences);
-
-		doRefresh(RefreshableFragment.MAIN_RELAYOUT, false, null);
 
 		RedditAccountManager.getInstance(this).addUpdateListener(this);
 

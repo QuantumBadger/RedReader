@@ -440,11 +440,16 @@ public final class General {
 	private static final Pattern urlPattern = Pattern.compile("^(https?)://([^/]+)/+([^\\?#]+)((?:\\?[^#]+)?)((?:#.+)?)$");
 
 	public static String filenameFromString(String url) {
-		String filename = uriFromString(url).getPath().replace(File.separator, "");
+		final URI uri = uriFromString(url);
+		String filename = uri.getPath().replace(File.separator, "");
 		String[] parts = filename.substring(1).split("\\.", 2);
-		if(parts.length < 2)
-			filename += ".jpg";
-
+		if(parts.length < 2) {
+			if("v.redd.it".equals(uri.getHost())) {
+				filename += ".mp4";
+			} else {
+				filename += ".jpg";
+			}
+		}
 		return filename;
 	}
 

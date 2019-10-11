@@ -17,12 +17,14 @@
 
 package org.quantumbadger.redreader.receivers;
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -45,10 +47,13 @@ import org.quantumbadger.redreader.reddit.things.RedditThing;
 
 import java.net.URI;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class NewMessageChecker extends BroadcastReceiver {
 
 	private static final String TAG = "NewMessageChecker";
+
+	private static final String NOTIFICATION_CHANNEL_ID = "RRNewMessageChecker";
 
 	private static final String PREFS_SAVED_MESSAGE_ID = "LastMessageId";
 	private static final String PREFS_SAVED_MESSAGE_TIMESTAMP = "LastMessageTimestamp";
@@ -192,19 +197,49 @@ public class NewMessageChecker extends BroadcastReceiver {
 		cm.makeRequest(request);
 	}
 
-	private static void createNotification(String title, String text, Context context) {
+	private static final AtomicBoolean sChannelCreated = new AtomicBoolean(false);
+
+	private static void createNotification(final String title, final String text, final Context context) {
+
+		final NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+		synchronized(sChannelCreated) {
+
+			if(!sChannelCreated.getAndSet(true)) {
+
+				if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+					if(nm.getNotificationChannel(NOTIFICATION_CHANNEL_ID) == null) {
+
+						Log.i(TAG, "Creating notification channel");
+
+						final NotificationChannel channel = new NotificationChannel(
+								NOTIFICATION_CHANNEL_ID,
+								context.getString(R.string.notification_channel_name_reddit_messages),
+								NotificationManager.IMPORTANCE_DEFAULT);
+
+						nm.createNotificationChannel(channel);
+
+					} else {
+						Log.i(TAG, "Not creating notification channel as it already exists");
+					}
+
+				} else {
+					Log.i(TAG, "Not creating notification channel due to old Android version");
+				}
+			}
+		}
 
 		final NotificationCompat.Builder notification = new NotificationCompat.Builder(context)
 				.setSmallIcon(R.drawable.icon_notif)
 				.setContentTitle(title)
 				.setContentText(text)
 				.setAutoCancel(true)
-				.setChannelId("RRNewMessageChecker");
+				.setChannelId(NOTIFICATION_CHANNEL_ID);
 
 		final Intent intent = new Intent(context, InboxListingActivity.class);
 		notification.setContentIntent(PendingIntent.getActivity(context, 0, intent, 0));
 
-		final NotificationManager nm = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
 		nm.notify(0, notification.getNotification());
 	}
 }

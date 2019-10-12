@@ -1,5 +1,6 @@
 88/1.9.11
 Adaptive icon on supported devices (thanks to Riley Inman)
+Added post context menu item to copy self-text (thanks to MichalFerencsik)
 Fixed notifications on Android 8.0+
 Downloads from v.redd.it saved with .mp4 extension (thanks to sharkwouter)
 Fixed skip to front page setting in two-panel mode (thanks to LizardWithHat)

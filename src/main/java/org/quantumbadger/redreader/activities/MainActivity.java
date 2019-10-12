@@ -299,6 +299,25 @@ public class MainActivity extends RefreshableActivity
 							existingShortcutPreferences
 					).apply();
 				}
+
+				if(lastVersion <= 87){
+					// + Context menu of post header will now appear also on post self-text long click
+					// + "Copy Self-Text" context menu item added
+
+					final Set<String> existingPostContextItems = PrefsUtility.getStringSet(
+							R.string.pref_menus_post_context_items_key,
+							R.array.pref_menus_post_context_items_return,
+							this,
+							sharedPreferences
+					);
+
+					existingPostContextItems.add("copy_selftext");
+
+					sharedPreferences.edit().putStringSet(
+							getString(R.string.pref_menus_post_context_items_key),
+							existingPostContextItems
+					).apply();
+				}
 			}
 
 		} else {

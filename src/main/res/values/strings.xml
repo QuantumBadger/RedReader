@@ -1114,8 +1114,9 @@
 
 	<string name="prefs_category_images_video">Images/Video</string>
 
-	<!-- 2019-10-04 -->
-
 	<string name="notification_channel_name_reddit_messages">Incoming Reddit Messages</string>
-
+	
+  <!-- 2019-10-05 -->
+	<string name="post_text_copied_to_clipboard">Post copied to clipboard</string>
+	<string name="action_copy_selftext">Copy Self-Text</string>
 </resources>

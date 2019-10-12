@@ -514,6 +514,14 @@ public class CommentListingFragment extends RRFragment
 						}
 					});
 				}
+
+				paddingLayout.setOnLongClickListener(new View.OnLongClickListener(){
+					@Override
+					public boolean onLongClick(View v) {
+						RedditPreparedPost.showActionMenu(getActivity(), mPost);
+						return true;
+					}
+				});
 				// TODO mListHeaderNotifications.setBackgroundColor(Color.argb(35, 128, 128, 128));
 
 				mCommentListingManager.addPostSelfText(paddingLayout);

@@ -19,6 +19,8 @@ package org.quantumbadger.redreader.reddit.prepared;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -30,7 +32,6 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.text.ClipboardManager;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -114,6 +115,7 @@ public final class RedditPreparedPost {
 		ACTION_MENU(R.string.action_actionmenu),
 		SAVE_IMAGE(R.string.action_save_image),
 		COPY(R.string.action_copy),
+		COPY_SELFTEXT(R.string.action_copy_selftext),
 		SELFTEXT_LINKS(R.string.action_selftext_links),
 		BACK(R.string.action_back),
 		BLOCK(R.string.action_block_subreddit),
@@ -277,6 +279,7 @@ public final class RedditPreparedPost {
 		if(itemPref.contains(Action.SHARE_COMMENTS)) menu.add(new RPVMenuItem(activity, R.string.action_share_comments, Action.SHARE_COMMENTS));
 		if(itemPref.contains(Action.SHARE_IMAGE) && post.mIsProbablyAnImage) menu.add(new RPVMenuItem(activity, R.string.action_share_image, Action.SHARE_IMAGE));
 		if(itemPref.contains(Action.COPY)) menu.add(new RPVMenuItem(activity, R.string.action_copy, Action.COPY));
+		if(itemPref.contains(Action.COPY_SELFTEXT)) menu.add(new RPVMenuItem(activity, R.string.action_copy_selftext, Action.COPY_SELFTEXT));
 		if(itemPref.contains(Action.USER_PROFILE)) menu.add(new RPVMenuItem(activity, R.string.action_user_profile, Action.USER_PROFILE));
 		if(itemPref.contains(Action.PROPERTIES)) menu.add(new RPVMenuItem(activity, R.string.action_properties, Action.PROPERTIES));
 
@@ -463,8 +466,22 @@ public final class RedditPreparedPost {
 
 			case COPY: {
 
-				ClipboardManager manager = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
-				manager.setText(post.src.getUrl());
+				ClipboardManager clipboardManager = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
+				if(clipboardManager != null) {
+					ClipData data = ClipData.newPlainText(post.src.getAuthor(), post.src.getUrl());
+					clipboardManager.setPrimaryClip(data);
+				}
+				break;
+			}
+
+			case COPY_SELFTEXT:{
+				ClipboardManager clipboardManager = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
+				if(clipboardManager != null) {
+					ClipData data = ClipData.newPlainText(post.src.getAuthor(), post.src.getRawSelfText());
+					clipboardManager.setPrimaryClip(data);
+
+					General.quickToast(activity.getApplicationContext(), R.string.post_text_copied_to_clipboard);
+				}
 				break;
 			}
 

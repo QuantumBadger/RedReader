@@ -51,6 +51,7 @@ public final class MarkdownParser {
 			// and now we need to build the table.
 			if((i > lastTableindex) && (currTable.length > 0)){
 				lastTableindex = i;
+				boolean isTable = false;
 				//Do some parsing
 				//AS Per https://www.reddit.com/wiki/markdown#wiki_tables
 				//We are expecting the 2nd line to be the alignment if it does not exist then it
@@ -135,11 +136,12 @@ public final class MarkdownParser {
 						for (int j = 1; j<finalTable.length;j++){
 							lines[tableStart+1+j] = MarkdownLine.generate(CharArrSubstring.generate((finalTable[j]+"   ").toCharArray()));
 						}
+						isTable = true;
 					}
 				}
 				//Finaly empty currTable
 				currTable = new CharArrSubstring[0];
-				//i = tableStart;
+				if(!isTable)i = tableStart;
 				tableStart = -1;
 			}
 			lines[i] = MarkdownLine.generate(rawLines[i]);

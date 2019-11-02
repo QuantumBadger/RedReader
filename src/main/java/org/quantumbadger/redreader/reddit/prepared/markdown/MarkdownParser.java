@@ -57,7 +57,7 @@ public final class MarkdownParser {
 				//We are expecting the 2nd line to be the alignment if it does not exist then it
 				// is an invalid table so we ignore it.
 				// we do this by a REGEX ofc.
-				if(currTable[1].toString().matches("^([-|:]|\\|:)-*:?\\|(?!$)(:?-+:?\\|?(?!$))*:?-+:?\\|?$")){
+				if((currTable.length > 2) && (currTable[1].toString().matches("^([-|:]|\\|:)-*:?\\|(?!$)(:?-+:?\\|?(?!$))*:?-+:?\\|?$"))){
 					//this means that we got the right Data alignment row
 					//first we need to make sure that we have the same number of cols in each line
 					//we do this by making sure that all lines have the | in first and last char

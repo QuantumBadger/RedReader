@@ -153,7 +153,7 @@ public final class MarkdownParser {
 			//We are expecting the 2nd line to be the alignment if it does not exist then it
 			// is an invalid table so we ignore it.
 			// we do this by a REGEX ofc.
-			if (currTable[1].toString().matches("^([-|:]|\\|:)-*:?\\|(?!$)(:?-+:?\\|?(?!$))*:?-+:?\\|?$")) {
+			if((currTable.length > 2) && (currTable[1].toString().matches("^([-|:]|\\|:)-*:?\\|(?!$)(:?-+:?\\|?(?!$))*:?-+:?\\|?$"))){
 				//this means that we got the right Data alignment row
 				//first we need to make sure that we have the same number of cols in each line
 				//we do this by making sure that all lines have the | in first and last char
@@ -235,6 +235,10 @@ public final class MarkdownParser {
 						lines[tableStart + 1 + j] = MarkdownLine.generate(CharArrSubstring.generate((finalTable[j] + "   ").toCharArray()));
 					}
 				}
+			}
+		else{
+			for (int i = tableStart; i < rawLines.length;i++)
+				lines[i] = MarkdownLine.generate(rawLines[i]);
 			}
 		}
 		final ArrayList<MarkdownLine> mergedLines = new ArrayList<>(rawLines.length);

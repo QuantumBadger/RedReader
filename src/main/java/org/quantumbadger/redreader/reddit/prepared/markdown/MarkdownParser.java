@@ -64,10 +64,10 @@ public final class MarkdownParser {
 					String[] tableRaw = new String[currTable.length];
 					for (int j = 0; j < tableRaw.length;j++){
 						String entry  = currTable[j].toString().trim();
-						if(!(entry.charAt(0) == '|')){
+						if(entry.charAt(0) != '|'){
 							entry = '|'+entry;
 						}
-						if(!(entry.charAt(entry.length()-1) == '|')){
+						if(entry.charAt(entry.length()-1) != '|'){
 							entry = entry+'|';
 						}
 						tableRaw[j] = entry;
@@ -76,7 +76,7 @@ public final class MarkdownParser {
 					int expectedCols = tableRaw[0].split("[|]").length;
 					boolean isSameNumberOfCols = true;
 					for(int j = 0; j < tableRaw.length;j++){
-						if(!(expectedCols == tableRaw[j].split("[|]").length)){
+						if(expectedCols != tableRaw[j].split("[|]").length){
 							isSameNumberOfCols = false;
 						}
 					}
@@ -160,10 +160,10 @@ public final class MarkdownParser {
 				String[] tableRaw = new String[currTable.length];
 				for (int j = 0; j < tableRaw.length; j++) {
 					String entry = currTable[j].toString().trim();
-					if (!(entry.charAt(0) == '|')) {
+					if (entry.charAt(0) != '|') {
 						entry = '|' + entry;
 					}
-					if (!(entry.charAt(entry.length() - 1) == '|')) {
+					if (entry.charAt(entry.length() - 1) != '|') {
 						entry = entry + '|';
 					}
 					tableRaw[j] = entry;
@@ -172,7 +172,7 @@ public final class MarkdownParser {
 				int expectedCols = tableRaw[0].split("[|]").length;
 				boolean isSameNumberOfCols = true;
 				for (int j = 0; j < tableRaw.length; j++) {
-					if (!(expectedCols == tableRaw[j].split("[|]").length)) {
+					if (expectedCols != tableRaw[j].split("[|]").length) {
 						isSameNumberOfCols = false;
 					}
 				}

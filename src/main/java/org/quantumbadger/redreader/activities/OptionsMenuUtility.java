@@ -21,8 +21,11 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
@@ -38,6 +41,8 @@ import org.quantumbadger.redreader.reddit.url.UserCommentListingURL;
 import org.quantumbadger.redreader.settings.SettingsActivity;
 
 import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
 
 public final class OptionsMenuUtility {
 
@@ -68,6 +73,7 @@ public final class OptionsMenuUtility {
 		BLOCK,
 		UNBLOCK
 	}
+
 
 	public static <E extends BaseActivity & OptionsMenuListener> void prepare(
 			final E activity, final Menu menu,
@@ -496,22 +502,36 @@ public final class OptionsMenuUtility {
 			sortPosts.getItem().setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 		}
 
-		addSort(activity, sortPosts, R.string.sort_posts_hot, PostSort.HOT);
-		addSort(activity, sortPosts, R.string.sort_posts_new, PostSort.NEW);
+		// Store the menu item for each sorting option in a map
+		Map<PostSort, MenuItem> sortingItems = new HashMap<PostSort, MenuItem>();
+
+		sortingItems.put(PostSort.HOT, addSort(activity, sortPosts, R.string.sort_posts_hot, PostSort.HOT));
+		sortingItems.put(PostSort.NEW, addSort(activity, sortPosts, R.string.sort_posts_new, PostSort.NEW));
 		if(includeRising)
-			addSort(activity, sortPosts, R.string.sort_posts_rising, PostSort.RISING);
-		addSort(activity, sortPosts, R.string.sort_posts_controversial, PostSort.CONTROVERSIAL);
+			sortingItems.put(PostSort.RISING, addSort(activity, sortPosts, R.string.sort_posts_rising, PostSort.RISING));
+		sortingItems.put(PostSort.CONTROVERSIAL, addSort(activity, sortPosts, R.string.sort_posts_controversial, PostSort.CONTROVERSIAL));
 		if(includeBest)
-			addSort(activity, sortPosts, R.string.sort_posts_best, PostSort.BEST);
+			sortingItems.put(PostSort.BEST, addSort(activity, sortPosts, R.string.sort_posts_best, PostSort.BEST));
 
 		final SubMenu sortPostsTop = sortPosts.addSubMenu(R.string.sort_posts_top);
 
-		addSort(activity, sortPostsTop, R.string.sort_posts_top_hour, PostSort.TOP_HOUR);
-		addSort(activity, sortPostsTop, R.string.sort_posts_top_today, PostSort.TOP_DAY);
-		addSort(activity, sortPostsTop, R.string.sort_posts_top_week, PostSort.TOP_WEEK);
-		addSort(activity, sortPostsTop, R.string.sort_posts_top_month, PostSort.TOP_MONTH);
-		addSort(activity, sortPostsTop, R.string.sort_posts_top_year, PostSort.TOP_YEAR);
-		addSort(activity, sortPostsTop, R.string.sort_posts_top_all, PostSort.TOP_ALL);
+		sortingItems.put(PostSort.TOP_HOUR, addSort(activity, sortPostsTop, R.string.sort_posts_top_hour, PostSort.TOP_HOUR));
+		sortingItems.put(PostSort.TOP_DAY, addSort(activity, sortPostsTop, R.string.sort_posts_top_today, PostSort.TOP_DAY));
+		sortingItems.put(PostSort.TOP_WEEK, addSort(activity, sortPostsTop, R.string.sort_posts_top_week, PostSort.TOP_WEEK));
+		sortingItems.put(PostSort.TOP_MONTH, addSort(activity, sortPostsTop, R.string.sort_posts_top_month, PostSort.TOP_MONTH));
+		sortingItems.put(PostSort.TOP_YEAR, addSort(activity, sortPostsTop, R.string.sort_posts_top_year, PostSort.TOP_YEAR));
+		sortingItems.put(PostSort.TOP_ALL, addSort(activity, sortPostsTop, R.string.sort_posts_top_all, PostSort.TOP_ALL));
+
+		// Get the selected sorting method for posts
+		PostSort currentSort = ((OptionsMenuPostsListener) activity).getPostSort();
+		if(sortingItems.containsKey(currentSort)) {
+			// Highlight the corresponding menu item
+			MenuItem toHighlight = sortingItems.get(currentSort);
+
+			SpannableString s = new SpannableString(toHighlight.getTitle());
+			s.setSpan(new ForegroundColorSpan(Color.RED), 0, s.length(), 0);
+			toHighlight.setTitle(s);
+		}
 	}
 
 	private static void addAllSearchSorts(final AppCompatActivity activity, final Menu menu, final boolean icon) {
@@ -530,14 +550,15 @@ public final class OptionsMenuUtility {
 		addSort(activity, sortPosts, R.string.sort_posts_comments, PostSort.COMMENTS);
 	}
 
-	private static void addSort(final AppCompatActivity activity, final Menu menu, final int name, final PostSort order) {
-
-		menu.add(activity.getString(name)).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+	private static MenuItem addSort(final AppCompatActivity activity, final Menu menu, final int name, final PostSort order) {
+		MenuItem item = menu.add(activity.getString(name));
+		item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 			public boolean onMenuItemClick(final MenuItem item) {
-				((OptionsMenuPostsListener)activity).onSortSelected(order);
+				((OptionsMenuPostsListener) activity).onSortSelected(order);
 				return true;
 			}
 		});
+		return item;
 	}
 
 	private static void addAllCommentSorts(final AppCompatActivity activity, final Menu menu, final boolean icon) {
@@ -633,6 +654,8 @@ public final class OptionsMenuUtility {
 		void onBlock();
 
 		void onUnblock();
+
+		PostSort getPostSort();
 	}
 
 	public interface OptionsMenuCommentsListener extends OptionsMenuListener {
@@ -645,5 +668,7 @@ public final class OptionsMenuUtility {
 		void onSortSelected(UserCommentListingURL.Sort order);
 
 		void onSearchComments();
+
+		PostCommentListingURL.Sort getCommentSort();
 	}
 }

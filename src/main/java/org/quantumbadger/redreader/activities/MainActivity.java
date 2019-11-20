@@ -1045,4 +1045,14 @@ public class MainActivity extends RefreshableActivity
 			}
 		});
 	}
+
+	@Override
+	public PostSort getPostSort() {
+		return postListingController.getSort();
+	}
+
+	@Override
+	public PostCommentListingURL.Sort getCommentSort() {
+		return commentListingController.getSort();
+	}
 }

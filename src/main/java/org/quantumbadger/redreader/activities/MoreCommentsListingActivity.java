@@ -196,4 +196,9 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 	public void onBackPressed() {
 		if(General.onBackPressed()) super.onBackPressed();
 	}
+
+	@Override
+	public PostCommentListingURL.Sort getCommentSort() {
+		return null;
+	}
 }

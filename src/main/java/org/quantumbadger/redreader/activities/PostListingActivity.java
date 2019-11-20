@@ -429,4 +429,8 @@ public class PostListingActivity extends RefreshableActivity
 			}
 		});
 	}
+
+	public PostSort getPostSort() {
+		return controller.getSort();
+	}
 }

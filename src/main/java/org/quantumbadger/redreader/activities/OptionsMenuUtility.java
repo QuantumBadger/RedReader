@@ -41,8 +41,6 @@ import org.quantumbadger.redreader.reddit.url.UserCommentListingURL;
 import org.quantumbadger.redreader.settings.SettingsActivity;
 
 import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Map;
 
 public final class OptionsMenuUtility {
 

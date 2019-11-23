@@ -1055,4 +1055,5 @@ public class MainActivity extends RefreshableActivity
 	public PostCommentListingURL.Sort getCommentSort() {
 		return commentListingController.getSort();
 	}
+
 }

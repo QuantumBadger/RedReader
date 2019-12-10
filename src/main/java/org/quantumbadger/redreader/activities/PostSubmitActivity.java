@@ -51,7 +51,7 @@ import org.quantumbadger.redreader.reddit.RedditAPI;
 
 import java.util.ArrayList;
 
-// TODO save draft as static var (as in comments)
+
 public class PostSubmitActivity extends BaseActivity {
 
 	private Spinner typeSpinner, usernameSpinner;
@@ -64,6 +64,14 @@ public class PostSubmitActivity extends BaseActivity {
 
 	private static final int
 			REQUEST_UPLOAD = 1;
+
+	private static int lastType;
+	private static String lastTitle;
+	private static String lastSubreddit;
+	private static String lastText;
+	private static boolean lastNsfw;
+	private static boolean lastSpoiler;
+	private static boolean lastInbox;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +132,16 @@ public class PostSubmitActivity extends BaseActivity {
 
 		usernameSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, usernames));
 		typeSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, postTypes));
+
+		if ((lastTitle != null || lastText != null)
+				&& subredditEdit.getText().toString().equals(lastSubreddit)) {
+			typeSpinner.setSelection(lastType);
+			titleEdit.setText(lastTitle);
+			textEdit.setText(lastText);
+			sendRepliesToInboxCheckbox.setChecked(lastInbox);
+			markAsSpoilerCheckbox.setChecked(lastSpoiler);
+			markAsNsfwCheckbox.setChecked(lastNsfw);
+		}
 
 		// TODO remove the duplicate code here
 		setHint();
@@ -244,6 +262,14 @@ public class PostSubmitActivity extends BaseActivity {
 								General.safeDismissDialog(progressDialog);
 								General.quickToast(PostSubmitActivity.this, getString(R.string.post_submit_done));
 
+								lastType = 0;
+								lastTitle = null;
+								lastSubreddit = null;
+								lastText = null;
+								lastInbox = true;
+								lastNsfw = false;
+								lastSpoiler = false;
+
 								if(redirectUrl != null) {
 									LinkHandler.onLinkClicked(PostSubmitActivity.this, redirectUrl);
 								}
@@ -329,5 +355,20 @@ public class PostSubmitActivity extends BaseActivity {
 	@Override
 	public void onBackPressed() {
 		if(General.onBackPressed()) super.onBackPressed();
+	}
+
+	@Override
+	protected void onDestroy(){
+		super.onDestroy();
+		if(titleEdit != null){
+			lastType = typeSpinner.getSelectedItemPosition();
+			lastTitle = titleEdit.getText().toString();
+			lastSubreddit = subredditEdit.getText().toString();
+			lastText = textEdit.getText().toString();
+			lastInbox = sendRepliesToInboxCheckbox.isChecked();
+			lastNsfw = markAsNsfwCheckbox.isChecked();
+			lastSpoiler = markAsSpoilerCheckbox.isChecked();
+			General.quickToast(this, "Draft saved", 2000);
+		}
 	}
 }

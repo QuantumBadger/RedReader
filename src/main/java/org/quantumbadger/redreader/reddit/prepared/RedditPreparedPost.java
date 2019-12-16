@@ -477,7 +477,7 @@ public final class RedditPreparedPost {
 			case COPY_SELFTEXT:{
 				ClipboardManager clipboardManager = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
 				if(clipboardManager != null) {
-					ClipData data = ClipData.newPlainText(post.src.getAuthor(), post.src.getRawSelfText());
+					ClipData data = ClipData.newPlainText(post.src.getAuthor(), post.src.getTitle());
 					clipboardManager.setPrimaryClip(data);
 
 					General.quickToast(activity.getApplicationContext(), R.string.post_text_copied_to_clipboard);

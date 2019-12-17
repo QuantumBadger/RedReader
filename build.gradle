@@ -41,7 +41,7 @@ android {
         vectorDrawables.generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi', 'xxxhdpi']
 
 		minSdkVersion 14
-		targetSdkVersion 27
+		targetSdkVersion 28
 
 		applicationId "org.quantumbadger.redreader"
 	}

@@ -1,4 +1,4 @@
-88/1.9.11
+89/1.9.11
 Adaptive icon on supported devices (thanks to Riley Inman)
 Added post context menu item to copy self-text (thanks to MichalFerencsik)
 Fixed notifications on Android 8.0+

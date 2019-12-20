@@ -366,7 +366,7 @@ public class PostSubmitActivity extends BaseActivity {
 	protected void onDestroy(){
 		super.onDestroy();
 		// Store information for draft
-		if(titleEdit != null){
+		if(titleEdit != null || textEdit != null ){
 			lastType = typeSpinner.getSelectedItemPosition();
 			lastTitle = titleEdit.getText().toString();
 			lastSubreddit = subredditEdit.getText().toString();
@@ -374,7 +374,6 @@ public class PostSubmitActivity extends BaseActivity {
 			lastInbox = sendRepliesToInboxCheckbox.isChecked();
 			lastNsfw = markAsNsfwCheckbox.isChecked();
 			lastSpoiler = markAsSpoilerCheckbox.isChecked();
-			General.quickToast(this, "Draft saved", 2000);
 		}
 	}
 }

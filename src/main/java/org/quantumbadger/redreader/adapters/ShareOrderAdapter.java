@@ -50,12 +50,12 @@ public class ShareOrderAdapter extends BaseAdapter {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View rowView = null;
 		if(inflater != null) {
-			rowView = inflater.inflate(R.layout.list_item, parent, false);
-			TextView label = rowView.findViewById(R.id.list_item_text);
+			rowView = inflater.inflate(R.layout.list_item_share_dialog, parent, false);
+			TextView label = rowView.findViewById(R.id.list_item_share_dialog_text);
 			label.setText(appList.get(position).loadLabel(packageManager).toString());
-			ImageView icon = rowView.findViewById(R.id.list_item_icon);
+			ImageView icon = rowView.findViewById(R.id.list_item_share_dialog_icon);
 			icon.setImageDrawable(appList.get(position).loadIcon(packageManager));
-			View divider = rowView.findViewById(R.id.list_item_divider);
+			View divider = rowView.findViewById(R.id.list_item_share_dialog_divider);
 			divider.setVisibility(View.INVISIBLE);
 
 			rowView.setOnClickListener(new View.OnClickListener(){

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ This file is part of RedReader.
+  ~
+  ~ RedReader is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ RedReader is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+    <View android:id="@+id/list_item_share_dialog_divider"
+          android:layout_width="match_parent"
+          android:layout_height="1dp"
+          android:minHeight="1dp"
+          android:background="?rrListDividerCol"/>
+
+    <LinearLayout android:layout_height="wrap_content"
+                  android:layout_width="match_parent"
+                  android:orientation="horizontal"
+                  android:gravity="center_vertical"
+				  android:background="@drawable/rr_list_item_selector"
+                  android:paddingLeft="16dp"
+                  android:paddingRight="16dp">
+
+        <ImageView android:id="@+id/list_item_share_dialog_icon"
+                   android:layout_height="32dp"
+                   android:layout_width="32dp"
+                   android:layout_marginRight="16dp"
+                   android:scaleType="fitCenter"/>
+
+        <TextView android:id="@+id/list_item_share_dialog_text"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:textSize="18sp"
+                  android:gravity="center_vertical"
+                  android:layout_margin="0dp"
+                  android:paddingTop="12dp"
+                  android:paddingBottom="12dp"
+                  android:textColor="?android:textColorPrimary" />
+
+    </LinearLayout>
+
+</LinearLayout>
+

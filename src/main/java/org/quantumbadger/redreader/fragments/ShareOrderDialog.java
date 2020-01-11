@@ -121,10 +121,11 @@ public class ShareOrderDialog extends AppCompatDialogFragment implements ShareOr
 				PreferenceManager.getDefaultSharedPreferences(context)).split(";")));
 		if(priorityAppList.contains(selectedApplication.name)){
 			priorityAppList.remove(selectedApplication.name);
-		} else {
-			priorityAppList.removeLast();
 		}
 		priorityAppList.add(0, selectedApplication.name);
+		if(priorityAppList.size() > amountOfPrioritizedApps){
+			priorityAppList.removeLast();
+		}
 
 		PrefsUtility.pref_behaviour_sharing_dialog_data_set(context,
 				PreferenceManager.getDefaultSharedPreferences(context),

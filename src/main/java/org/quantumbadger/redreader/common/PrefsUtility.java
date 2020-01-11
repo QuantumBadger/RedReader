@@ -531,7 +531,7 @@ public final class PrefsUtility {
 	}
 
 	public static boolean pref_behaviour_sharing_dialog(final Context context, final SharedPreferences sharedPreferences) {
-		return getBoolean(R.string.pref_behaviour_sharing_share_dialog_key, true, context, sharedPreferences);
+		return getBoolean(R.string.pref_behaviour_sharing_share_dialog_key, false, context, sharedPreferences);
 	}
 
 	public static String pref_behaviour_sharing_dialog_data_get(final Context context, final SharedPreferences sharedPreferences) {

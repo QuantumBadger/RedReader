@@ -87,16 +87,15 @@ public final class CacheManager {
 		requestHandler.start();
 	}
 
-	private Long isCacheFile(final String file) {
-
-		if(!file.endsWith(ext)) return null;
-
+	private static Long isCacheFile(final String file) {
+		if (!file.endsWith(ext))
+			return null;
 		final String[] fileSplit = file.split("\\.");
-		if(fileSplit.length != 2) return null;
-
+		if (fileSplit.length != 2)
+			return null;
 		try {
 			return Long.parseLong(fileSplit[0]);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			return null;
 		}
 	}

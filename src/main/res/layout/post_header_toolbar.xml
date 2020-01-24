@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ This file is part of RedReader.
+  ~
+  ~ RedReader is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ RedReader is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:background="?rrPostToolbarCol"
+	android:orientation="horizontal"
+	android:visibility="visible">
+
+	<ImageButton
+			android:id="@+id/post_toolbar_botton_add_upvote"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="12dp"
+			android:background="?rrThemedButtonSelector"
+			android:contentDescription="@string/action_upvote"
+			android:src="?rrIconArrowUpBold" />
+
+	<ImageButton
+			android:id="@+id/post_toolbar_botton_remove_upvote"
+			android:visibility="gone"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="12dp"
+			android:background="?rrThemedButtonSelector"
+			android:contentDescription="@string/action_upvote_remove"
+			android:src="@drawable/arrow_up_bold_orangered" />
+
+	<ImageButton
+			android:id="@+id/post_toolbar_botton_add_downvote"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="12dp"
+			android:background="?rrThemedButtonSelector"
+			android:contentDescription="@string/action_downvote"
+			android:src="?rrIconArrowDownBold" />
+
+	<ImageButton
+			android:id="@+id/post_toolbar_botton_remove_downvote"
+			android:visibility="gone"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="12dp"
+			android:background="?rrThemedButtonSelector"
+			android:contentDescription="@string/action_downvote_remove"
+			android:src="@drawable/arrow_down_bold_periwinkle" />
+
+	<ImageButton
+			android:id="@+id/post_toolbar_botton_reply"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="12dp"
+			android:background="?rrThemedButtonSelector"
+			android:contentDescription="@string/action_reply"
+			android:src="?rrIconReply" />
+
+	<ImageButton
+			android:id="@+id/post_toolbar_botton_share"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="12dp"
+			android:background="?rrThemedButtonSelector"
+			android:contentDescription="@string/action_share"
+			android:src="?rrIconShare" />
+
+	<ImageButton
+			android:id="@+id/post_toolbar_botton_more"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="12dp"
+			android:background="?rrThemedButtonSelector"
+			android:src="?rrIconOverflow" />
+
+</LinearLayout>

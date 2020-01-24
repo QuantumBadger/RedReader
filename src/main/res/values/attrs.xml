@@ -63,6 +63,10 @@
     <attr name="rrMainTextCol" format="color" />
 	<attr name="rrSubTextCol" format="color" />
 
+	<attr name="rrPostToolbarCol" format="color" />
+
+	<attr name="rrThemedButtonSelector" format="reference" />
+
     <!-- icons -->
 
     <attr name="rrIconComments" format="reference" />
@@ -77,13 +81,14 @@
     <attr name="rrIconShare" format="reference" />
     <attr name="rrIconSort" format="reference" />
     <attr name="rrIconStarFilled" format="reference" />
-    <attr name="rrIconDownvote" format="reference" />
-    <attr name="rrIconUpvote" format="reference" />
     <attr name="rrIconFfLeft" format="reference" />
     <attr name="rrIconFfRight" format="reference" />
     <attr name="rrIconTick" format="reference" />
     <attr name="rrIconLink" format="reference" />
     <attr name="rrIconTime" format="reference" />
     <attr name="rrIconForward" format="reference" />
+	<attr name="rrIconOverflow" format="reference" />
+	<attr name="rrIconArrowUpBold" format="reference" />
+	<attr name="rrIconArrowDownBold" format="reference" />
 
 </resources>

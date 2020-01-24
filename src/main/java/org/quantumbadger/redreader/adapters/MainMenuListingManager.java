@@ -131,8 +131,8 @@ public class MainMenuListingManager {
 					R.attr.rrIconSend,
 					R.attr.rrIconStarFilled,
 					R.attr.rrIconCross,
-					R.attr.rrIconUpvote,
-					R.attr.rrIconDownvote
+					R.attr.rrIconArrowUpBold,
+					R.attr.rrIconArrowDownBold
 			});
 
 			rrIconPerson = ContextCompat.getDrawable(activity, attr.getResourceId(0, 0));

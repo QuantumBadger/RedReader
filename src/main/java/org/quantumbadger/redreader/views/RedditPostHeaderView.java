@@ -21,15 +21,19 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.account.RedditAccount;
+import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.common.BetterSSB;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.RRTime;
+import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 
 public class RedditPostHeaderView extends LinearLayout {
@@ -37,6 +41,9 @@ public class RedditPostHeaderView extends LinearLayout {
 	private final RedditPreparedPost post;
 
 	private final TextView subtitle;
+
+	@Nullable private final Runnable mChangeListenerAddTask;
+	@Nullable private final Runnable mChangeListenerRemoveTask;
 
 	public RedditPostHeaderView(final AppCompatActivity activity, final RedditPreparedPost post) {
 
@@ -47,10 +54,13 @@ public class RedditPostHeaderView extends LinearLayout {
 
 		setOrientation(LinearLayout.VERTICAL);
 
+		final LinearLayout greyHeader = new LinearLayout(activity);
+		greyHeader.setOrientation(LinearLayout.VERTICAL);
+
 		final int sidesPadding = (int)(15.0f * dpScale);
 		final int topPadding = (int)(10.0f * dpScale);
 
-		setPadding(sidesPadding, topPadding, sidesPadding, topPadding);
+		greyHeader.setPadding(sidesPadding, topPadding, sidesPadding, topPadding);
 
 		final Typeface tf = Typeface.createFromAsset(activity.getAssets(), "fonts/Roboto-Light.ttf");
 
@@ -59,40 +69,121 @@ public class RedditPostHeaderView extends LinearLayout {
 		title.setTypeface(tf);
 		title.setText(post.src.getTitle());
 		title.setTextColor(Color.WHITE);
-		addView(title);
+		greyHeader.addView(title);
 
 		subtitle = new TextView(activity);
 		subtitle.setTextSize(13.0f);
 		rebuildSubtitle(activity);
 
 		subtitle.setTextColor(Color.rgb(200, 200, 200));
-		addView(subtitle);
+		greyHeader.addView(subtitle);
 
 		{
 			final TypedArray appearance = activity.obtainStyledAttributes(new int[]{
 					R.attr.rrPostListHeaderBackgroundCol});
 
-			setBackgroundColor(appearance.getColor(0, General.COLOR_INVALID));
+			greyHeader.setBackgroundColor(appearance.getColor(0, General.COLOR_INVALID));
 
 			appearance.recycle();
 		}
 
-		setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(final View v) {
-				if(!post.isSelf()) {
-					LinkHandler.onLinkClicked(activity, post.src.getUrl(), false, post.src.getSrc());
-				}
+		greyHeader.setOnClickListener(v -> {
+			if(!post.isSelf()) {
+				LinkHandler.onLinkClicked(activity, post.src.getUrl(), false, post.src.getSrc());
 			}
 		});
 
-		setOnLongClickListener(new OnLongClickListener() {
-			@Override
-			public boolean onLongClick(final View v) {
-				RedditPreparedPost.showActionMenu(activity, post);
-				return true;
-			}
+		greyHeader.setOnLongClickListener(v -> {
+			RedditPreparedPost.showActionMenu(activity, post);
+			return true;
 		});
+
+		addView(greyHeader);
+
+		final RedditAccount currentUser = RedditAccountManager.getInstance(activity).getDefaultAccount();
+
+		if(!currentUser.isAnonymous()) {
+
+			// A user is logged in
+
+			final LinearLayout buttons = (LinearLayout)inflate(activity, R.layout.post_header_toolbar, this);
+
+			final ImageButton buttonAddUpvote = buttons.findViewById(R.id.post_toolbar_botton_add_upvote);
+			final ImageButton buttonRemoveUpvote = buttons.findViewById(R.id.post_toolbar_botton_remove_upvote);
+			final ImageButton buttonAddDownvote = buttons.findViewById(R.id.post_toolbar_botton_add_downvote);
+			final ImageButton buttonRemoveDownvote = buttons.findViewById(R.id.post_toolbar_botton_remove_downvote);
+			final ImageButton buttonReply = buttons.findViewById(R.id.post_toolbar_botton_reply);
+			final ImageButton buttonShare = buttons.findViewById(R.id.post_toolbar_botton_share);
+			final ImageButton buttonMore = buttons.findViewById(R.id.post_toolbar_botton_more);
+
+			buttonAddUpvote.setOnClickListener(v -> post.performAction(activity, RedditPreparedPost.Action.UPVOTE));
+			buttonRemoveUpvote.setOnClickListener(v -> post.performAction(activity, RedditPreparedPost.Action.UNVOTE));
+			buttonAddDownvote.setOnClickListener(v -> post.performAction(activity, RedditPreparedPost.Action.DOWNVOTE));
+			buttonRemoveDownvote.setOnClickListener(v -> post.performAction(activity, RedditPreparedPost.Action.UNVOTE));
+			buttonReply.setOnClickListener(v -> post.performAction(activity, RedditPreparedPost.Action.REPLY));
+			buttonShare.setOnClickListener(v -> post.performAction(activity, RedditPreparedPost.Action.SHARE));
+			buttonMore.setOnClickListener(v -> post.performAction(activity, RedditPreparedPost.Action.ACTION_MENU));
+
+			final RedditChangeDataManager changeDataManager = RedditChangeDataManager.getInstance(currentUser);
+
+			final RedditChangeDataManager.Listener changeListener = thingIdAndType -> {
+
+				rebuildSubtitle(activity);
+
+				final boolean isUpvoted = changeDataManager.isUpvoted(post.src);
+				final boolean isDownvoted = changeDataManager.isDownvoted(post.src);
+
+				if(isUpvoted) {
+					buttonAddUpvote.setVisibility(GONE);
+					buttonRemoveUpvote.setVisibility(VISIBLE);
+					buttonAddDownvote.setVisibility(VISIBLE);
+					buttonRemoveDownvote.setVisibility(GONE);
+
+				} else if(isDownvoted) {
+					buttonAddUpvote.setVisibility(VISIBLE);
+					buttonRemoveUpvote.setVisibility(GONE);
+					buttonAddDownvote.setVisibility(GONE);
+					buttonRemoveDownvote.setVisibility(VISIBLE);
+
+				} else {
+					buttonAddUpvote.setVisibility(VISIBLE);
+					buttonRemoveUpvote.setVisibility(GONE);
+					buttonAddDownvote.setVisibility(VISIBLE);
+					buttonRemoveDownvote.setVisibility(GONE);
+				}
+			};
+
+			mChangeListenerAddTask = () -> {
+				changeDataManager.addListener(post.src, changeListener);
+				changeListener.onRedditDataChange(post.src.getIdAndType());
+			};
+
+			mChangeListenerRemoveTask = () -> {
+				changeDataManager.removeListener(post.src, changeListener);
+			};
+
+		} else {
+			mChangeListenerAddTask = null;
+			mChangeListenerRemoveTask = null;
+		}
+	}
+
+	@Override
+	protected void onAttachedToWindow() {
+		super.onAttachedToWindow();
+
+		if(mChangeListenerAddTask != null) {
+			mChangeListenerAddTask.run();
+		}
+	}
+
+	@Override
+	protected void onDetachedFromWindow() {
+		super.onDetachedFromWindow();
+
+		if(mChangeListenerRemoveTask != null) {
+			mChangeListenerRemoveTask.run();
+		}
 	}
 
 	private void rebuildSubtitle(Context context) {

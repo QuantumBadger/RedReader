@@ -335,10 +335,10 @@ public final class RedditPostView extends FlingableItemView implements RedditPre
 			overlayIcon.setImageResource(R.drawable.ic_action_cross_dark);
 
 		} else if(post.isUpvoted()) {
-			overlayIcon.setImageResource(R.drawable.action_upvote_dark);
+			overlayIcon.setImageResource(R.drawable.arrow_up_bold_orangered);
 
 		} else if(post.isDownvoted()) {
-			overlayIcon.setImageResource(R.drawable.action_downvote_dark);
+			overlayIcon.setImageResource(R.drawable.arrow_down_bold_periwinkle);
 
 		} else {
 			overlayVisible = false;

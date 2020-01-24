@@ -64,7 +64,7 @@ import org.quantumbadger.redreader.views.bezelmenu.VerticalToolbar;
 import java.net.URI;
 import java.util.*;
 
-public final class RedditPreparedPost {
+public final class RedditPreparedPost implements RedditChangeDataManager.Listener {
 
 	public final RedditParsedPost src;
 	private final RedditChangeDataManager mChangeDataManager;
@@ -87,7 +87,7 @@ public final class RedditPreparedPost {
 
 	private final boolean showSubreddit;
 
-	private RedditPostView boundView = null;
+	private RedditPostView mBoundView = null;
 
 	public enum Action {
 		UPVOTE(R.string.action_upvote),
@@ -304,6 +304,10 @@ public final class RedditPreparedPost {
 		final AlertDialog alert = builder.create();
 		alert.setCanceledOnTouchOutside(true);
 		alert.show();
+	}
+
+	public void performAction(final AppCompatActivity activity, final Action action) {
+		onActionMenuItemSelected(this, activity, action);
 	}
 
 	public static void onActionMenuItemSelected(final RedditPreparedPost post, final AppCompatActivity activity, final Action action) {
@@ -857,11 +861,28 @@ public final class RedditPreparedPost {
 	}
 
 	public void bind(RedditPostView boundView) {
-		this.boundView = boundView;
+		mBoundView = boundView;
+		mChangeDataManager.addListener(src, this);
 	}
 
 	public void unbind(RedditPostView boundView) {
-		if(this.boundView == boundView) this.boundView = null;
+		if(mBoundView == boundView) {
+			mBoundView = null;
+			mChangeDataManager.removeListener(src, this);
+		}
+	}
+
+	@Override
+	public void onRedditDataChange(final String thingIdAndType) {
+		if(mBoundView != null) {
+
+			final Context context = mBoundView.getContext();
+
+			if(context != null) {
+				rebuildSubtitle(mBoundView.getContext());
+				mBoundView.updateAppearance();
+			}
+		}
 	}
 
 	// TODO handle download failure - show red "X" or something
@@ -872,19 +893,6 @@ public final class RedditPreparedPost {
 	public void markAsRead(final Context context) {
 		final RedditAccount user = RedditAccountManager.getInstance(context).getDefaultAccount();
 		RedditChangeDataManager.getInstance(user).markRead(RRTime.utcCurrentTimeMillis(), src);
-		refreshView(context);
-	}
-
-	public void refreshView(final Context context) {
-		AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-			@Override
-			public void run() {
-				rebuildSubtitle(context);
-				if(boundView != null) {
-					boundView.updateAppearance();
-				}
-			}
-		});
 	}
 
 	public void action(final AppCompatActivity activity, final @RedditAPI.RedditAction int action) {
@@ -948,8 +956,6 @@ public final class RedditPreparedPost {
 			default:
 				throw new RuntimeException("Unknown post action");
 		}
-
-		refreshView(activity);
 
 		boolean vote = (action == RedditAPI.ACTION_DOWNVOTE
 				| action == RedditAPI.ACTION_UPVOTE
@@ -1039,8 +1045,6 @@ public final class RedditPreparedPost {
 							default:
 								throw new RuntimeException("Unknown post action");
 						}
-
-						refreshView(context);
 					}
 
 					private void revertOnFailure() {
@@ -1086,8 +1090,6 @@ public final class RedditPreparedPost {
 							default:
 								throw new RuntimeException("Unknown post action");
 						}
-
-						refreshView(context);
 					}
 
 				}, user, src.getIdAndType(), action, activity);
@@ -1150,11 +1152,11 @@ public final class RedditPreparedPost {
 
 		// TODO make static
 		final EnumMap<Action, Integer> iconsDark = new EnumMap<>(Action.class);
-		iconsDark.put(Action.ACTION_MENU, R.drawable.ic_action_overflow);
+		iconsDark.put(Action.ACTION_MENU, R.drawable.dots_vertical_dark);
 		iconsDark.put(Action.COMMENTS_SWITCH, R.drawable.ic_action_comments_dark);
 		iconsDark.put(Action.LINK_SWITCH, mIsProbablyAnImage ? R.drawable.ic_action_image_dark : R.drawable.ic_action_link_dark);
-		iconsDark.put(Action.UPVOTE, R.drawable.action_upvote_dark);
-		iconsDark.put(Action.DOWNVOTE, R.drawable.action_downvote_dark);
+		iconsDark.put(Action.UPVOTE, R.drawable.arrow_up_bold_dark);
+		iconsDark.put(Action.DOWNVOTE, R.drawable.arrow_down_bold_dark);
 		iconsDark.put(Action.SAVE, R.drawable.ic_action_star_filled_dark);
 		iconsDark.put(Action.HIDE, R.drawable.ic_action_cross_dark);
 		iconsDark.put(Action.REPLY, R.drawable.ic_action_reply_dark);
@@ -1166,11 +1168,11 @@ public final class RedditPreparedPost {
 		iconsDark.put(Action.PROPERTIES, R.drawable.ic_action_info_dark);
 
 		final EnumMap<Action, Integer> iconsLight = new EnumMap<>(Action.class);
-		iconsLight.put(Action.ACTION_MENU, R.drawable.ic_action_overflow);
+		iconsLight.put(Action.ACTION_MENU, R.drawable.dots_vertical_light);
 		iconsLight.put(Action.COMMENTS_SWITCH, R.drawable.ic_action_comments_light);
 		iconsLight.put(Action.LINK_SWITCH, mIsProbablyAnImage ? R.drawable.ic_action_image_light : R.drawable.ic_action_link_light);
-		iconsLight.put(Action.UPVOTE, R.drawable.action_upvote_light);
-		iconsLight.put(Action.DOWNVOTE, R.drawable.action_downvote_light);
+		iconsLight.put(Action.UPVOTE, R.drawable.arrow_up_bold_light);
+		iconsLight.put(Action.DOWNVOTE, R.drawable.arrow_down_bold_light);
 		iconsLight.put(Action.SAVE, R.drawable.ic_action_star_filled_light);
 		iconsLight.put(Action.HIDE, R.drawable.ic_action_cross_light);
 		iconsLight.put(Action.REPLY, R.drawable.ic_action_reply_light);

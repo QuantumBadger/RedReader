@@ -47,25 +47,6 @@ import org.quantumbadger.redreader.reddit.prepared.RedditRenderableComment;
 
 public class RedditCommentView extends FlingableItemView implements RedditChangeDataManager.Listener{
 
-	private static final Handler HANDLER = new Handler(Looper.getMainLooper()) {
-		@Override
-		public void handleMessage(Message msg) {
-
-			switch(msg.what) {
-				case HANDLER_REQUEST_COMMENT_CHANGED: {
-					final RedditCommentView rcv = (RedditCommentView) msg.obj;
-					rcv.update();
-					break;
-				}
-
-				default:
-					throw new RuntimeException("Unknown message type " + msg.what);
-			}
-		}
-	};
-
-	private static final int HANDLER_REQUEST_COMMENT_CHANGED = 1;
-
 	private RedditCommentListItem mComment;
 
 	private final AppCompatActivity mActivity;
@@ -327,10 +308,6 @@ public class RedditCommentView extends FlingableItemView implements RedditChange
 
 	@Override
 	public void onRedditDataChange(final String thingIdAndType) {
-		HANDLER.sendMessage(Message.obtain(HANDLER, HANDLER_REQUEST_COMMENT_CHANGED, this));
-	}
-
-	private void update() {
 		reset(mActivity, mComment, true);
 	}
 

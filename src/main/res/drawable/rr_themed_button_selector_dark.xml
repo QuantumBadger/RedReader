@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <!--
   ~ This file is part of RedReader.
   ~
@@ -16,15 +17,10 @@
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<resources>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-	<color name="lightWindowBackground">#FBFBFB</color>
-	<color name="darkWindowBackground">#000000</color>
-	<color name="settingsWindowBackground">#333333</color>
-	<color name="actionbarSelectBackground">#44FFFFFF</color>
-	<color name="actionbarSelectBackgroundLight">#44000000</color>
-	<color name="listitemSelectBackground">#33888888</color>
-	<color name="redReaderRed">#C6001F</color>
-	<color name="redReaderAlphaIconBackground">#E0E0E0</color>
+	<item android:state_pressed="false" android:drawable="@android:color/transparent" />
 
-</resources>
+	<item android:state_pressed="true" android:drawable="@color/actionbarSelectBackground" />
+
+</selector>

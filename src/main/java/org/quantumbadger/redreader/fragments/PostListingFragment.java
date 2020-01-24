@@ -322,12 +322,6 @@ public class PostListingFragment extends RRFragment
 		}
 	}
 
-	private LinearLayout createVerticalLinearLayout(Context context) {
-		final LinearLayout result = new LinearLayout(context);
-		result.setOrientation(LinearLayout.VERTICAL);
-		return result;
-	}
-
 	@Override
 	public View getView() {
 		return mOuter;

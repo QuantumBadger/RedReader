@@ -22,6 +22,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
+import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.collections.WeakReferenceListHashMapManager;
 import org.quantumbadger.redreader.common.collections.WeakReferenceListManager;
@@ -414,7 +415,10 @@ public final class RedditChangeDataManager {
 			RedditChangeDataIO.notifyUpdateStatic();
 		}
 
-		mListeners.map(thing.getIdAndType(), ListenerNotifyOperator.INSTANCE, thing.getIdAndType());
+		AndroidCommon.UI_THREAD_HANDLER.post(() -> mListeners.map(
+				thing.getIdAndType(),
+				ListenerNotifyOperator.INSTANCE,
+				thing.getIdAndType()));
 	}
 
 	private void insertAll(final HashMap<String, Entry> entries) {

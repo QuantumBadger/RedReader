@@ -71,6 +71,10 @@
         <item name="rrGoldBackCol">#B0923C</item>
         <item name="rrGoldTextCol">#000000</item>
 
+		<item name="rrPostToolbarCol">#181818</item>
+
+		<item name="rrThemedButtonSelector">@drawable/rr_themed_button_selector_dark</item>
+
         <!-- Comment -->
 
         <item name="rrCommentBodyCol">#DDDDDD</item>
@@ -94,14 +98,15 @@
         <item name="rrIconShare">@drawable/ic_action_share_dark</item>
         <item name="rrIconSort">@drawable/ic_sort_dark</item>
         <item name="rrIconStarFilled">@drawable/ic_action_star_filled_dark</item>
-        <item name="rrIconDownvote">@drawable/action_downvote_dark</item>
-        <item name="rrIconUpvote">@drawable/action_upvote_dark</item>
         <item name="rrIconFfLeft">@drawable/ic_fast_rewind_dark</item>
         <item name="rrIconFfRight">@drawable/ic_fast_forward_dark</item>
         <item name="rrIconTick">@drawable/ic_action_tick_dark</item>
         <item name="rrIconLink">@drawable/ic_action_link_dark</item>
         <item name="rrIconTime">@drawable/ic_time_dark</item>
         <item name="rrIconForward">@drawable/ic_action_forward_dark</item>
+		<item name="rrIconOverflow">@drawable/dots_vertical_dark</item>
+		<item name="rrIconArrowUpBold">@drawable/arrow_up_bold_dark</item>
+		<item name="rrIconArrowDownBold">@drawable/arrow_down_bold_dark</item>
 
     </style>
 
@@ -222,6 +227,8 @@
 		<item name="rrGoldBackCol">#B0923C</item>
 		<item name="rrGoldTextCol">#000000</item>
 
+		<item name="rrPostToolbarCol">#000000</item>
+
 		<!-- Comment -->
 
 		<item name="rrCommentBodyCol">#DDDDDD</item>
@@ -311,6 +318,10 @@
         <item name="rrGoldBackCol">#FFDF52</item>
         <item name="rrGoldTextCol">#000000</item>
 
+		<item name="rrPostToolbarCol">#F2FBFB</item>
+
+		<item name="rrThemedButtonSelector">@drawable/rr_themed_button_selector_light</item>
+
         <!-- Icons -->
 
         <item name="rrIconComments">@drawable/ic_action_comments_light</item>
@@ -325,14 +336,15 @@
         <item name="rrIconShare">@drawable/ic_action_share_light</item>
         <item name="rrIconSort">@drawable/ic_sort_light</item>
         <item name="rrIconStarFilled">@drawable/ic_action_star_filled_light</item>
-        <item name="rrIconDownvote">@drawable/action_downvote_light</item>
-        <item name="rrIconUpvote">@drawable/action_upvote_light</item>
         <item name="rrIconFfLeft">@drawable/ic_fast_rewind_light</item>
         <item name="rrIconFfRight">@drawable/ic_fast_forward_light</item>
         <item name="rrIconTick">@drawable/ic_action_tick_light</item>
         <item name="rrIconLink">@drawable/ic_action_link_light</item>
         <item name="rrIconTime">@drawable/ic_time_light</item>
         <item name="rrIconForward">@drawable/ic_action_forward_light</item>
+		<item name="rrIconOverflow">@drawable/dots_vertical_light</item>
+		<item name="rrIconArrowUpBold">@drawable/arrow_up_bold_light</item>
+		<item name="rrIconArrowDownBold">@drawable/arrow_down_bold_light</item>
 
     </style>
 

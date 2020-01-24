@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +29,7 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.fragments.ShareOrderDialog;
 import org.quantumbadger.redreader.fragments.WebViewFragment;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
@@ -134,7 +136,14 @@ public class WebViewActivity extends BaseActivity implements RedditPostView.Post
 						mailer.putExtra(Intent.EXTRA_SUBJECT, mPost.title);
 					}
 					mailer.putExtra(Intent.EXTRA_TEXT, currentUrl);
-					startActivity(Intent.createChooser(mailer, getString(R.string.action_share)));
+
+					if(PrefsUtility.pref_behaviour_sharing_dialog(
+							this,
+							PreferenceManager.getDefaultSharedPreferences(this))){
+						ShareOrderDialog.newInstance(mailer).show(getSupportFragmentManager(), null);
+					} else {
+						startActivity(Intent.createChooser(mailer, getString(R.string.action_share)));
+					}
 				}
 				return true;
 

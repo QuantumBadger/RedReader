@@ -530,6 +530,18 @@ public final class PrefsUtility {
 		return getBoolean(R.string.pref_behaviour_sharing_include_desc_key, true, context, sharedPreferences);
 	}
 
+	public static boolean pref_behaviour_sharing_dialog(final Context context, final SharedPreferences sharedPreferences) {
+		return getBoolean(R.string.pref_behaviour_sharing_share_dialog_key, false, context, sharedPreferences);
+	}
+
+	public static String pref_behaviour_sharing_dialog_data_get(final Context context, final SharedPreferences sharedPreferences) {
+		return getString(R.string.pref_behaviour_sharing_share_dialog_data, "", context, sharedPreferences);
+	}
+
+	public static void pref_behaviour_sharing_dialog_data_set(final Context context, final SharedPreferences sharedPreferences, String appNames) {
+		sharedPreferences.edit().putString(context.getString(R.string.pref_behaviour_sharing_share_dialog_data), appNames).apply();
+	}
+
 	public static PostSort pref_behaviour_postsort(final Context context, final SharedPreferences sharedPreferences) {
 		return PostSort.valueOf(General.asciiUppercase(getString(R.string.pref_behaviour_postsort_key, "hot", context, sharedPreferences)));
 	}

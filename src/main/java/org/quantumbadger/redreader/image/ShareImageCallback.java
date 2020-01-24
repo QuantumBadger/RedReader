@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.image;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import org.quantumbadger.redreader.R;
@@ -33,7 +34,9 @@ import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotC
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.fragments.ShareOrderDialog;
 
 import java.io.File;
 import java.io.IOException;
@@ -156,7 +159,14 @@ public class ShareImageCallback implements BaseActivity.PermissionCallback {
 							shareIntent.setAction(Intent.ACTION_SEND);
 							shareIntent.putExtra(Intent.EXTRA_STREAM, sharedImage);
 							shareIntent.setType(mimetype);
-							activity.startActivity(Intent.createChooser(shareIntent, activity.getString(R.string.action_share_image)));
+
+							if(PrefsUtility.pref_behaviour_sharing_dialog(
+									activity,
+									PreferenceManager.getDefaultSharedPreferences(activity))){
+								ShareOrderDialog.newInstance(shareIntent).show(activity.getSupportFragmentManager(), null);
+							} else {
+								activity.startActivity(Intent.createChooser(shareIntent, activity.getString(R.string.action_share)));
+							}
 
 						} catch(IOException e) {
 							notifyFailure(CacheRequest.REQUEST_FAILURE_STORAGE, e, null, "Could not copy file");

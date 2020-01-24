@@ -42,6 +42,7 @@ import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.fragments.CommentPropertiesDialog;
+import org.quantumbadger.redreader.fragments.ShareOrderDialog;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
@@ -305,7 +306,13 @@ public class RedditAPICommentAction {
 				body += comment.getContextUrl().generateNonJsonUri().toString();
 				mailer.putExtra(Intent.EXTRA_TEXT, body);
 
-				activity.startActivityForResult(Intent.createChooser(mailer, activity.getString(R.string.action_share)), 1);
+				if(PrefsUtility.pref_behaviour_sharing_dialog(
+						activity,
+						PreferenceManager.getDefaultSharedPreferences(activity))){
+					ShareOrderDialog.newInstance(mailer).show(activity.getSupportFragmentManager(), null);
+				} else {
+					activity.startActivity(Intent.createChooser(mailer, activity.getString(R.string.action_share)));
+				}
 
 				break;
 

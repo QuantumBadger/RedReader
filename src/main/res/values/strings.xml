@@ -1116,7 +1116,15 @@
 
 	<string name="notification_channel_name_reddit_messages">Incoming Reddit Messages</string>
 	
-  <!-- 2019-10-05 -->
+	<!-- 2019-10-05 -->
 	<string name="post_text_copied_to_clipboard">Post copied to clipboard</string>
 	<string name="action_copy_selftext">Copy Self-Text</string>
+
+	<!-- 2020-01-11 -->
+	<string name="pref_behaviour_sharing_share_dialog_dialogtitle">Select an App for sharing</string>
+	<string name="pref_behaviour_sharing_share_dialog_key" translatable="false">share_order_preference_key</string>
+	<string name="pref_behaviour_sharing_share_dialog_title">Use built-in share dialog</string>
+	<string name="pref_behaviour_sharing_share_dialog_data" translatable="false">pref_behaviour_sharing_share_dialog_data</string>
+	<string name="error_toast_no_share_app_installed">No suitable app installed to share this.</string>
+
 </resources>

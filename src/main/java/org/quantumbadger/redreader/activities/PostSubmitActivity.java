@@ -51,7 +51,6 @@ import org.quantumbadger.redreader.reddit.RedditAPI;
 
 import java.util.ArrayList;
 
-// TODO save draft as static var (as in comments)
 public class PostSubmitActivity extends BaseActivity {
 
 	private Spinner typeSpinner, usernameSpinner;
@@ -64,6 +63,8 @@ public class PostSubmitActivity extends BaseActivity {
 
 	private static final int
 			REQUEST_UPLOAD = 1;
+
+	private boolean mDraftReset = false;
 
 	private static int lastType;
 	private static String lastTitle;
@@ -207,7 +208,8 @@ public class PostSubmitActivity extends BaseActivity {
 		return true;
 	}
 
-	private static void resetDraft() {
+	private void resetDraft() {
+		mDraftReset = true;
 		lastType = 0;
 		lastTitle = null;
 		lastSubreddit = null;
@@ -365,8 +367,9 @@ public class PostSubmitActivity extends BaseActivity {
 	@Override
 	protected void onDestroy(){
 		super.onDestroy();
+
 		// Store information for draft
-		if(titleEdit != null || textEdit != null ){
+		if(titleEdit != null && textEdit != null && !mDraftReset) {
 			lastType = typeSpinner.getSelectedItemPosition();
 			lastTitle = titleEdit.getText().toString();
 			lastSubreddit = subredditEdit.getText().toString();

@@ -1,3 +1,6 @@
+90/1.10
+Preserve fields when returning to post submission activity (thanks to fguibourt)
+
 89/1.9.11
 Adaptive icon on supported devices (thanks to Riley Inman)
 Added post context menu item to copy self-text (thanks to MichalFerencsik)

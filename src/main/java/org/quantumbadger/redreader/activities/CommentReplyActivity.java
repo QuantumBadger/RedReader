@@ -67,6 +67,7 @@ public class CommentReplyActivity extends BaseActivity {
 
 	private ParentType mParentType;
 
+	private boolean mDraftReset = false;
 	private static String lastText, lastParentIdAndType;
 
 	public static final String PARENT_TYPE = "parentType";
@@ -223,6 +224,7 @@ public class CommentReplyActivity extends BaseActivity {
 								General.quickToast(CommentReplyActivity.this, getString(R.string.comment_reply_done_norefresh));
 							}
 
+							mDraftReset = true;
 							lastText = null;
 							lastParentIdAndType = null;
 
@@ -322,7 +324,7 @@ public class CommentReplyActivity extends BaseActivity {
 	protected void onDestroy() {
 		super.onDestroy();
 
-		if(textEdit != null) {
+		if(textEdit != null && !mDraftReset) {
 			lastText = textEdit.getText().toString();
 			lastParentIdAndType = parentIdAndType;
 		}

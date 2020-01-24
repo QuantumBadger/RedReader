@@ -1,4 +1,5 @@
 90/1.10
+Added post toolbar
 Preserve fields when returning to post submission activity (thanks to fguibourt)
 Fixed issue with HTTP cleartext websites
 

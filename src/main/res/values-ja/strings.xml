@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of RedReader.
+  ~
+  ~ RedReader is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ RedReader is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+<resources>
+    <string name="firstrun_login_title">ログイン</string>
+    <string name="firstrun_login_message">現在ログインしていません。メニューからアカウント項目を選択すればアカウントリストを見られます。</string>
+    <string name="prefs_category_menus">メニュー</string>
+    <string name="pref_appearance_theme_header">テーマ</string>
+    <string name="pref_appearance_comments_header">コメント</string>
+    <string name="pref_appearance_other_header">その他</string>
+    <string name="pref_appearance_theme_title">テーマ</string>
+    <string name="pref_behaviour_notifications_title">通知</string>
+    <string name="options_accounts">アカウント</string>
+    <string name="options_theme">テーマ</string>
+    <string name="options_settings">設定</string>
+    <string name="options_sort">並べ替え</string>
+    <string name="pref_cache_precache_images_wifionly_title">Wi-Fiのみで</string>
+</resources>

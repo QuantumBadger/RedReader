@@ -755,7 +755,7 @@
     <string name="pref_behaviour_comment_min_dialog_title">Collapse comment if score below (blank to show all)</string>
 
     <!-- 2016-03-20 -->
-    <string name="lang_se" translatable="false">Svenska</string>
+    <string name="lang_sv" translatable="false">svenska</string>
 
     <!-- 2016-04-02 -->
     <string name="open_with">Open with</string>
@@ -1037,7 +1037,7 @@
 	<!-- 2018-01-16 -->
 	<string name="lang_fi" translatable="false">Suomi</string>
 	<string name="lang_my" translatable="false">မြန်မာဘာသာ</string>
-	<string name="lang_nb" translatable="false">Bokmål</string>
+	<string name="lang_nb_rNO" translatable="false">Bokmål</string>
 	<string name="lang_ru" translatable="false">ру́сский язы́к</string>
 	<string name="lang_uk" translatable="false">українська мова</string>
 	<string name="lang_zh_rCN" translatable="false">汉语</string>
@@ -1126,5 +1126,12 @@
 	<string name="pref_behaviour_sharing_share_dialog_title">Use built-in share dialog</string>
 	<string name="pref_behaviour_sharing_share_dialog_data" translatable="false">pref_behaviour_sharing_share_dialog_data</string>
 	<string name="error_toast_no_share_app_installed">No suitable app installed to share this.</string>
+
+	<!-- 2020-01-25 -->
+	<string name="lang_zh_rTW" translatable="false">漢語</string>
+	<string name="lang_el" translatable="false">ελληνικά</string>
+	<string name="lang_hi" translatable="false">हिन्दी</string>
+	<string name="lang_ja" translatable="false">日本語</string>
+	<string name="lang_lt" translatable="false">lietuvių kalba</string>
 
 </resources>

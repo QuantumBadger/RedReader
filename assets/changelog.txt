@@ -3,6 +3,11 @@ Added post toolbar
 Added custom share dialog with prioritisation, off by default (thanks to LizardWithHat)
 Preserve fields when returning to post submission activity (thanks to fguibourt)
 Fixed issue with HTTP cleartext websites
+Added Hindi translation (thanks to Chandra Mohan Jha)
+Added Greek translation (thanks to George K)
+Added Japanese translation (thanks to Karthik Nallasivan)
+Added Traditional Chinese translation (thanks to gensitu)
+Assorted translation updates (thanks to Allan Nordhøy, Andrea Troiano, Andrés Hernández, B0pol, Dennis Öberg, Emil Tang Kristensen, Gontzal Manuel Pujana Onaindia, Ignas, Javi Sautua, John Curcio, Karol, LizardWithHat, Louies, Luke, mivek, Mohammed, Nam Portuhkee, Osoitz, Péter Gyetvai, Petter Reinholdtsen, Sohalt, ssantos, Taiite, Venkat Sub, Verdulo, Vladislav Glinsky, wb9688, Wouter Wijsman, zeritti, and zmni!)
 
 89/1.9.11
 Adaptive icon on supported devices (thanks to Riley Inman)

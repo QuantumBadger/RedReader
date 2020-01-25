@@ -221,30 +221,35 @@
 	</string-array>
 
     <string-array name="pref_appearance_langforce">
-        <item>@string/lang_auto</item>
-        <item>@string/lang_en</item>
-        <item>@string/lang_da</item>
-        <item>@string/lang_de</item>
-        <item>@string/lang_fr</item>
-        <item>@string/lang_ar</item>
-        <item>@string/lang_es</item>
-        <item>@string/lang_cs</item>
-        <item>@string/lang_it</item>
-        <item>@string/lang_se</item>
-	    <item>@string/lang_nl</item>
-        <item>@string/lang_pt</item>
-	    <item>@string/lang_ro</item>
+		<item>@string/lang_auto</item>
+		<item>@string/lang_en</item>
+		<item>@string/lang_da</item>
+		<item>@string/lang_de</item>
+		<item>@string/lang_fr</item>
+		<item>@string/lang_ar</item>
+		<item>@string/lang_es</item>
+		<item>@string/lang_cs</item>
+		<item>@string/lang_it</item>
+		<item>@string/lang_nl</item>
+		<item>@string/lang_pt</item>
+		<item>@string/lang_ro</item>
 		<item>@string/lang_hu</item>
 		<item>@string/lang_eo</item>
 		<item>@string/lang_pl</item>
 		<item>@string/lang_in</item>
 		<item>@string/lang_fi</item>
 		<item>@string/lang_my</item>
-		<item>@string/lang_nb</item>
+		<item>@string/lang_nb_rNO</item>
 		<item>@string/lang_ru</item>
 		<item>@string/lang_uk</item>
 		<item>@string/lang_zh_rCN</item>
+		<item>@string/lang_zh_rTW</item>
 		<item>@string/lang_eu</item>
+		<item>@string/lang_el</item>
+		<item>@string/lang_hi</item>
+		<item>@string/lang_ja</item>
+		<item>@string/lang_lt</item>
+		<item>@string/lang_sv</item>
     </string-array>
 
     <!-- Constants. Do not change. -->
@@ -258,7 +263,6 @@
         <item>es</item>
         <item>cs</item>
         <item>it</item>
-        <item>se</item>
 		<item>nl</item>
         <item>pt</item>
 		<item>ro</item>
@@ -272,7 +276,13 @@
 		<item>ru</item>
 		<item>uk</item>
 		<item>zh-rCN</item>
+		<item>zh-rTW</item>
 		<item>eu</item>
+		<item>el</item>
+		<item>hi</item>
+		<item>ja</item>
+		<item>lt</item>
+		<item>sv</item>
     </string-array>
 
     <string-array name="pref_cache_maxage">

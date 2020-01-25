@@ -1,5 +1,22 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources><string name="firstrun_login_title">Logg inn</string>
+<!--
+  ~ This file is part of RedReader.
+  ~
+  ~ RedReader is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ RedReader is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+<resources>
+    <string name="firstrun_login_title">Logg inn</string>
     <string name="firstrun_login_message">Du er for tiden ikke innlogget. Du har tilgang til kontolisten ved å velge \"Kontoer\" fra menyen.</string>
     <string name="firstrun_login_button_now">Logg inn nå</string>
     <string name="firstrun_login_button_later">Forbli anonym</string>
@@ -694,12 +711,12 @@
 
 	<string name="pref_menus_link_context_items_title">Elementer i lenkebindeleddsinformasjonsmeny</string>
 	<string name="pref_menus_subreddit_context_items_title">Elementer i subredditbindeleddsinformasjonsmeny</string>
-	<string name="mainmenu_toast_not_subscribed">Du har ikke abonnert på noen subreddit-er enda.</string>
-	<string name="mainmenu_toast_subscribed">Du har allerede abonnert på denne subreddit-en.</string>
-	<string name="mainmenu_toast_not_pinned">Denne subreddit-en er ikke festet til hovedmenyen.</string>
-	<string name="mainmenu_toast_pinned">Denne subreddit-en er allerede festet til hovedmenyen.</string>
-	<string name="mainmenu_toast_not_blocked">Denne subreddit-en er ikke blokkert.</string>
-	<string name="mainmenu_toast_blocked">Denne subredditen er allerede blokkert.</string>
+	<string name="mainmenu_toast_not_subscribed">Du har ikke abonnert på denne subreddit-en enda!</string>
+	<string name="mainmenu_toast_subscribed">Du har allerede abonnert på denne subreddit-en!</string>
+	<string name="mainmenu_toast_not_pinned">Denne subreddit-en er ikke festet til hovedmenyen!</string>
+	<string name="mainmenu_toast_pinned">Denne subreddit-en er allerede festet til hovedmenyen!</string>
+	<string name="mainmenu_toast_not_blocked">Denne subreddit-en er ikke blokkert!</string>
+	<string name="mainmenu_toast_blocked">Denne subreddit-en er allerede blokkert!</string>
 	<string name="edit_post_actionbar">Rediger innlegg</string>
 	<string name="post_edit_done">Post redigert. Endringer vil framtre etter at du gjenoppfrisker.</string>
 	<string name="action_block_subreddit">Blokker subreddit</string>
@@ -733,5 +750,21 @@
 
 	<string name="mainmenu_random">Tilfeldig subreddit</string>
 	<string name="pref_menus_show_random_main_menu_title">Vis /r/random i hovedmenyen</string>
+
+<string name="pref_cache_maxage_entry_title">Slett hurtiglagrede flagg (lest, oppvotert, osv.) etter</string>
+
+    <string name="mainmenu_custom_destination_search">Søk</string>
+
+	<string name="pref_behaviour_sharing_share_text_title">Inkluder tekst ved deling av kommentar</string>
+
+	<string name="mainmenu_custom_empty_search_query">Tomt søkefilter.</string>
+
+	<string name="search_listing_header_query">Søkefilter</string>
+	<string name="search_listing_header_sub">Begrens til subreddit</string>
+  
+	<string name="pref_behaviour_sharing_header">Deling</string>
+	<string name="pref_behaviour_sharing_include_desc_title">Inkluder tittel/beskrivelse ved deling</string>
+	<string name="share_comments_for">Kommentarer for %s</string>
+	<string name="share_comment_by_on_reddit">Kommentar av %s på Reddit</string>
 
 </resources>

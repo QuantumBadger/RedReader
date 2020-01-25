@@ -1,5 +1,22 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources><string name="firstrun_login_title">Hasi saioa</string>
+<!--
+  ~ This file is part of RedReader.
+  ~
+  ~ RedReader is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ RedReader is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+<resources>
+    <string name="firstrun_login_title">Hasi saioa</string>
     <string name="firstrun_login_message">Oraindik ez duzu saioa hasi. Kontu zerrendara sartu zaitezke menuan Kontuak aukeratuz.</string>
     <string name="firstrun_login_button_now">Hasi saioa orain</string>
     <string name="firstrun_login_button_later">Anonimoa izan</string>
@@ -44,15 +61,15 @@
 
     <string name="pref_cache_maxage_image_title">Ezabatu cachean dauden irudiak</string>
 
-    <string name="pref_cache_precache_images_header">Irudien Aurrekarga</string>
+    <string name="pref_cache_precache_images_header">Irudien aurrekarga</string>
 
     <string name="pref_cache_precache_images_title">Aurrekargatu irudiak cachean</string>
 
     <string name="pref_cache_precache_images_wifionly_title">Wi-Fiarekin soilik</string>
 
     <string name="options_accounts">Kontuak</string>
-    <string name="options_accounts_long">Reddit Kontuak</string>
-    <string name="options_theme">Temak</string>
+    <string name="options_accounts_long">Reddit kontuak</string>
+    <string name="options_theme">Itxura</string>
     <string name="options_settings">Ezarpenak</string>
 
     <string name="options_refresh">Birkargatu</string>
@@ -102,12 +119,12 @@
     <string name="action_share">Partekatu</string>
     <string name="pref_appearance_loading_detail_title">Erakutsi karga-mezu zehatzak</string>
 
-    <string name="options_submit_post">Argitalpena igo</string>
+    <string name="options_submit_post">Argitaratu</string>
 
     <string name="mainmenu_upvoted">Botorik gabeko argitalpenak</string>
     <string name="pref_behaviour_posts_header">Argitalpenak</string>
 
-    <string name="mainmenu_inbox">Sarrerako ontzia</string>
+    <string name="mainmenu_inbox">Sarrera-ontzia</string>
     <string name="sort_posts_top">Bisitatuenak</string>
     <string name="sort_posts_top_hour">Bisitatuenak: Azken orduan</string>
     <string name="sort_posts_top_today">Bisitatuenak: Gaur</string>
@@ -176,7 +193,7 @@
     <string name="comment_reply_preview">Aurreikusi</string>
     <string name="comment_reply_submitting_title">Bildatzen…</string>
     <string name="comment_reply_submitting_message">Momentu bat…</string>
-    <string name="post_submit_subreddit_hint">Subreddit</string>
+    <string name="post_submit_subreddit_hint">Azpireddita</string>
     <string name="post_captcha_title">Captcha</string>
     <string name="bug_message">RedReaderrek errore bat izan du.
 \n
@@ -212,7 +229,7 @@
 
     <string name="userprofile_created">Sortua</string>
     <string name="userprofile_isfriend">Laguna da</string>
-    <string name="userprofile_isgold">Reddit Gold</string>
+    <string name="userprofile_isgold">Reddit urrea</string>
     <string name="userprofile_moderator">Moderatzailea da</string>
     <string name="userprofile_viewcomments">Ikusi iruzkinak</string>
     <string name="userprofile_viewposts">Ikusi argitalpenak</string>
@@ -261,7 +278,7 @@
     <string name="time_3month">3 hilabete</string>
 
     <string name="pref_appearance_comment_header_items_author">Egilea</string>
-    <string name="pref_appearance_comment_header_items_flair">Flair</string>
+    <string name="pref_appearance_comment_header_items_flair">Domina</string>
     <string name="pref_appearance_comment_header_items_score">Puntuazioa</string>
     <string name="pref_appearance_comment_header_items_age">Adina</string>
 
@@ -332,7 +349,7 @@
     <string name="web_view_clear_cache_success_toast">Cachea, historia, cookieak eta formulario data ezabatuak.</string>
 
     <string name="gold">Gold</string>
-    <string name="pref_appearance_comment_header_items_gold">Reddit Gold</string>
+    <string name="pref_appearance_comment_header_items_gold">Reddit urrea</string>
 
     <string name="karma_link">Esteka karma</string>
     <string name="karma_comment">Iruzkin karma</string>
@@ -356,7 +373,7 @@
     <string name="screen_orientation_auto">Auto</string>
     <string name="pref_menus_show_random_main_menu_title">Erakutsi /r/random menu nagusian</string>
 
-<string name="search_subreddit_restrict">Mugatu bilaketa...</string>
+<string name="search_subreddit_restrict">Mugatu bilaketa hona</string>
 
     <string name="title_changelog">Berriak</string>
 
@@ -367,4 +384,382 @@
     <string name="pref_behaviour_sort_header">Ordena</string>
 
     <string name="pref_behaviour_postcount_title">Mugatu argitalpen kopurua</string>
-    </resources>
+    <string name="pref_behaviour_actions_post_header">Argitalpen ekintzak</string>
+    <string name="pref_behaviour_actions_comment_header">Iruzkin ekintzak</string>
+    <string name="pref_appearance_comment_header_items_title">Iruzkin Goiburua</string>
+
+    <string name="options_close_all">Itxi denak</string>
+
+    <string name="pref_menus_optionsmenu_items_title">Aukera menuaren elementuak</string>
+
+    <string name="pref_behaviour_gifview_mode_title">GIF nabigatzailea</string>
+    <string name="pref_behaviour_gifview_mode_internal_movie">Barneko nabigatzailea (Pelikula, Android 4.0+)</string>
+    <string name="pref_behaviour_gifview_mode_internal_legacy">Barneko nabigatzailea (legatua)</string>
+
+	<string name="pref_behaviour_view_mode_internal_browser">Barneko nabigatzailea</string>
+    <string name="pref_behaviour_view_mode_external_browser">Kanpoko nabigatzailea</string>
+
+    <string name="action_delete">Ezabatu</string>
+    <string name="delete_confirm">Hau ezabatu nahi duzula ziur zaude?</string>
+    <string name="pref_appearance_hide_username_main_menu_title">Ezkutatu erabiltzaile-izena menu nagusian</string>
+    <string name="mainmenu_useritems">Erabiltzaile elementuak</string>
+
+    <string name="selected_link_is_not_image">Aukeratutako esteka ez da irudi bat.</string>
+
+    <string name="imgur_album">Imgur albuma</string>
+
+    <string name="album_already_first_image">Jada albumaren lehen irudian.</string>
+    <string name="album_already_last_image">Jada albumaren azken irudian.</string>
+
+    <string name="upgrade_v190_login_message">RedReader eguneratu egin da, eta orain oAuth erabiltzen du reddit autentifikatzeko. Kontu batean bazeuden eguneraketa baino lehen, saioa itxi zaizu.</string>
+
+    <string name="pref_behaviour_videoview_mode_title">Bideo Nabigatzailea</string>
+    <string name="pref_behaviour_videoview_mode_internal_videoview">Barneko VideoView (gomendatua)</string>
+    <string name="videoview_mode_app_vlc_launch_failed">Ezin izan da VLC abiarazi. Mesedez eguneratu VLC edo aldatu zure Bideo nabigatzaile lehentasunak.</string>
+
+    <string name="error_url_required_title">URL bat beharrezkoa</string>
+    <string name="pref_cache_precache_comments_header">Aurrecacheatu iruzkinak</string>
+
+    <string name="pref_cache_precache_comments_title">Aurrecacheatu iruzkinak</string>
+
+    <string name="pref_cache_precache_comments_wifionly_title">Wi-Fiarekin soilik</string>
+
+    <string name="mainmenu_header_subreddits_subscribed">Harpidetutako subredditak</string>
+    <string name="props_image_title">Irudiaren info</string>
+    <string name="props_resolution">Erresoluzioa</string>
+
+    <string name="error_too_fast_title">Azkarregi</string>
+    <string name="error_too_fast_message">Redditek bidalketak azkarregi egiten ari zarela dio. Mesedez itxaron minutu batzuk berriro saiatu baino lehen.</string>
+
+    <string name="block_subreddit">Blokeatu subreddita</string>
+    <string name="unblock_subreddit">Desblokeatu subreddita</string>
+    <string name="pref_behaviour_comments_header">Iruzkinak</string>
+
+    <string name="open_with">Zabaldu honekin</string>
+    <string name="pref_network_tor_title">Erabili TOR (esperimentala)</string>
+    <string name="error_tor_not_installed">Tor-ek ez du funtzionatuko Orbot ez badago instalatuta. Instalatu orain?</string>
+    <string name="error_parse_imgur_message">Imgurrek ulertu ezin izan ditudan datuak bidali ditu.</string>
+
+    <string name="error_upload_fail_imgur_title">Igoerak huts egin du</string>
+    <string name="error_upload_fail_imgur_message">Igoera Imgurrengatik ukatua izan da arrazoi ezezagun batengatik.</string>
+
+    <string name="upload_to_imgur">Igo Imgurrera</string>
+    <string name="no_file_selected">Ez da fitxategirik aukeratu</string>
+    <string name="button_upload">Igo</string>
+    <string name="error_file_too_big_title">Fitxategia handiegia da</string>
+    <string name="error_file_too_big_message">Fitxategiaren tamaina (%1$s) igotzeko muga baino handiagoa da (%2$s).</string>
+
+    <string name="submit_post_title_empty">Izenburua ezin da hutsik egon</string>
+	<string name="submit_post_url_empty">URLa ezin da hutsik egon</string>
+	<string name="submit_post_url_hint">URL</string>
+
+	<string name="pref_behaviour_imageview_mode_title">Irudi nabigatzailea</string>
+	<string name="pref_behaviour_imageview_mode_internal_opengl">Barneko nabigatzailea (OpenGL)</string>
+
+	<string name="pref_behaviour_albumview_mode_title">Album nabigatzailea</string>
+	<string name="pref_behaviour_albumview_mode_internal_list">Barneko nabigatzailea (zerrenda)</string>
+
+	<string name="error_tor_start_failed">Ezin izan da Orbot hasieratu. Tor-ek ez du ondo funtzionatuko.</string>
+
+	<string name="inbox_unread_only">Irakurri gabeko mezuak soilik</string>
+	
+	<string name="no_comments_yet">Ez dago iruzkinik.</string>
+
+	<string name="pm_send_hint_recipient">Hartzailea</string>
+	<string name="pm_send_hint_subject">Gaia</string>
+	<string name="pm_send_hint_message_text">Mezuaren testua</string>
+
+	<string name="pm_send_done">Mezua bidalia.</string>
+
+	<string name="userprofile_pm">Bidali mezua</string>
+
+	<string name="error_too_long_title">Luzeegia</string>
+	<string name="error_too_long_message">Redditek sartu duzun testua luzeegia dela dio.</string>
+
+	<string name="pm_send_actionbar">Bidali mezua</string>
+	<string name="submit_post_actionbar">Bidali argitalpena</string>
+	<string name="submit_comment_actionbar">Bidali iruzkina</string>
+	<string name="edit_comment_actionbar">Editatu iruzkina</string>
+	
+	<string name="no_search_results">Ez da bilaketa emaitzarik aurkitu.</string>
+
+	<string name="action_search_comments">Bilatu iruzkinak</string>
+
+	<string name="pref_appearance_navbar_color_option_black">Beltza</string>
+	<string name="pref_not_supported_before_lollipop">Ez jasangarria Android Lollipop baino lehen</string>
+
+	<string name="action_copy_text">Kopiatu testua</string>
+	<string name="action_copy_link">Kopiatu esteka</string>
+
+	<string name="mainmenu_custom_destination">Leku pertsonalizatua</string>
+	<string name="mainmenu_custom_destination_subreddit">Subreddita</string>
+	<string name="mainmenu_custom_destination_user">Erabiltzailea</string>
+	<string name="mainmenu_custom_destination_url">URL</string>
+	<string name="mainmenu_custom_destination_search">Bilatu</string>
+
+	<string name="mainmenu_header_multireddits">Multiredditak</string>
+
+	<string name="pref_behaviour_share_permalink_title">Partekatu permalink bezala</string>
+
+	<string name="pref_cache_general_header">Orokorra</string>
+
+	<string name="pref_cache_location_title">Cache biltegiratze lekua</string>
+
+	<string name="error_cache_dir_does_not_exist_title">Ez dago cache direktoriorik</string>
+	<string name="error_cache_dir_does_not_exist_message">Ezin izan da cache direktoriora sartu. Mesedez aukeratu beste leku bat cache ezarpenetan.</string>
+
+	<string name="sort_pinned_subreddit_name">Izenez</string>
+	<string name="sort_pinned_subreddit_date">Gehitutako dataz</string>
+
+	<string name="load_more_comments_failed_unknown_url_type">Ezin dira iruzkin gehiago kargatu: URL mota ezezaguna.</string>
+
+	<string name="pref_appearance_image_viewer_header">Irudi nabigatzailea</string>
+
+	<string name="pref_behaviour_enable_swipe_refresh_title">Lerratu beherantz berriro kargatzeko</string>
+	<string name="mainmenu_header_subreddits_blocked">Blokeatutako subredditak</string>
+	<string name="pref_behaviour_blocked_subredditsort">Blokeatutako subredditen ordena</string>
+	<string name="sort_blocked_subreddit_name">Izenez</string>
+	<string name="sort_blocked_subreddit_date">Gehitutako dataz</string>
+
+	<string name="pref_appearance_show_blocked_subreddits_main_menu_title">Erakutsi blokeatutako subredditak menu nagusian</string>
+
+	<string name="pref_cache_rerequest_postlist_age_title">Berriro kargatu argitalpenak hau baino zaharragoak badira</string>
+
+	<string name="time_2hr">2 ordu</string>
+	<string name="time_3hr">3 ordu</string>
+
+	<string name="time_every_time">Beti</string>
+
+	<string name="theme_name_night_lowcontrast">Gaua (kontraste baxua)</string>
+	<string name="theme_name_ultrablack">Ultra beltza</string>
+
+	<string name="action_share_image">Partekatu irudia</string>
+
+	<string name="submit_pmreply_actionbar">Erantzun</string>
+	<string name="pm_reply_done">Erantzuna bidalia.</string>
+
+	<string name="mainmenu_popular">Subreddit ospetsuak</string>
+
+	<string name="action_back">Atzera</string>
+
+	<string name="mainmenu_toast_not_subscribed">Oraindik ez zaude subreddit honetara harpidetuta!</string>
+	<string name="mainmenu_toast_subscribed">Subreddit honetara jada harpidetuta zaude!</string>
+	<string name="mainmenu_toast_not_blocked">Subreddit hau ez dago blokeatuta!</string>
+	<string name="mainmenu_toast_blocked">Subreddit hau jada blokeatuta dago!</string>
+	<string name="edit_post_actionbar">Editatu argitalpena</string>
+	<string name="post_edit_done">Argitalpena editatua. Aldaketak berriro kargatzean agertuko dira.</string>
+	<string name="action_block_subreddit">Blokeatu subreddita</string>
+	<string name="action_unblock_subreddit">Desblokeatu subreddita</string>
+	<string name="action_subscribe_subreddit">Harpidetu subredditera</string>
+	<string name="action_unsubscribe_subreddit">Harpidetza kendu subredditetik</string>
+
+	<string name="download_link_title">Jaitsi fitxategia</string>
+	<string name="download_link_message">Jaisteko esteka bat da hau. Kanpoko nabigatzaile batean kargatu nahi duzu?</string>
+
+	<string name="pref_menus_show_popular_main_menu_title">Erakutsi /r/popular menu nagusian</string>
+	<string name="pref_behaviour_video_playback_controls_title">Gaitu bideo erreprodukzio kontrolak</string>
+
+	<string name="pref_behaviour_sharing_share_text_title">Gehitu testua iruzkina partekatzerakoan</string>
+
+	<string name="mainmenu_random">Ausazko subreddita</string>
+	<string name="mainmenu_custom_empty_search_query">Bilaketa gaia hutsik.</string>
+
+	<string name="search_listing_header_query">Bilaketa gaia</string>
+	<string name="search_listing_header_sub">Mugatu subredditera</string>
+  
+	<string name="pref_behaviour_sharing_header">Partekatzea</string>
+	<string name="pref_behaviour_sharing_include_desc_title">Gehitu izenburua/deskribapena partekatzean</string>
+	<string name="pref_behaviour_fling_post_left_title">Argitalpena ezkerrera lerratzeko ekintza</string>
+
+    <string name="pref_behaviour_fling_post_right_title">Argitalpena eskuinera lerratzeko ekintza</string>
+
+    <string name="pref_behaviour_actions_comment_tap_title">Iruzkina ukitzeko ekintza</string>
+
+    <string name="pref_cache_maxage_entry_title">Cache-aturiko flag-ak ezabatu (irakurri, positibo botatua, etab.) gero</string>
+
+    <string name="pref_menus_post_context_items_title">Argitalpenaren Kontextu menuko elementuak</string>
+
+    <string name="pref_menus_post_toolbar_items_title">Argitalpenaren tresna-barrako elementuak</string>
+
+    <string name="options_past_posts">Aurreko argitalpen zerrenden bertsioak</string>
+    <string name="options_past_comments">Aurreko iruzkin zerrenden bertsioak</string>
+
+    <string name="mainmenu_custom_invalid_name">Baliogabeko subreddit izena.</string>
+    <string name="listing_cached">Cache-aturiko kopia erakusten %s-tik</string>
+
+    <string name="sort_posts_hot">Gehien ikusitakoak</string>
+    <string name="sort_posts_rising">Gora egiten</string>
+    <string name="sort_comments_hot">Gehien ikusitakoak</string>
+    <string name="action_menu_post_title">Argitalpen ekintzak</string>
+
+    <string name="action_upvote">Positibo botatu</string>
+    <string name="action_downvote">Negatibo botatu</string>
+    <string name="action_upvote_remove">Boto positiboa ezabatu</string>
+    <string name="action_downvote_remove">Boto negatiboa ezabatu</string>
+    <string name="comment_reply_oncancel">Ekintza emaitzak itxaroten…</string>
+    <string name="post_submit_done">Argitalpena igota.</string>
+
+    <string name="error_subreddit_required_title">Subreddit-a beharrezkoa da</string>
+    <string name="error_subreddit_required_message">Subreddit-a zehaztu beharra duzu.</string>
+
+    <string name="error_cancelled_title">Ekintza Ezeztatua</string>
+    <string name="error_cancelled_message">Oraingo ekintza ezeztatu da.</string>
+
+    <string name="error_parse_title">Analisi Errorea</string>
+    <string name="error_unexpected_cache_title">Ustekabeko Cache Hutsegite Errorea</string>
+    <string name="error_unexpected_cache_message">Barne-errore ezezaguna gertatu da, cache-arekin erlazionatutakoa.</string>
+
+    <string name="error_unexpected_storage_title">Ustekabeko Biltegiratze Errorea</string>
+    <string name="error_unexpected_storage_message">Barne-errore ezezaguna gertatu da, cache biltegiratzeaarekin erlazionatutakoa. Seguraski lekurik gabe geratu zara.</string>
+
+    <string name="error_malformed_url_message">Baliogabeko URL batera sartzeko saiakera egin da.</string>
+
+    <string name="error_postlist_cache_title">Cache-turiko Datuen Bukaera</string>
+    <string name="error_postlist_cache_message">Aurreko bertsio bateko edukia ikusten ari zara, eta ez daude saio honetako cachetu-riko argitalpen gehiagorik. Sagatu Eguneratu azkenengo argitalpenak deskargatzeko, edo aukeratu aureko bertsio ezberdin bat menutik.</string>
+
+    <string name="error_postlist_redditdown_message">Reddit-ek karga handia du momentu honetan. Sakatu Freskatu azken argitalpenak deskargatzeko, edo aukeratu aureko bertsio ezberdin bat menutik.</string>
+
+    <string name="userprofile_hasmail">Posta dauka</string>
+    <string name="userprofile_hasmodmail">Moderatzaile Posta dauka</string>
+    <string name="props_body_markdown">Gorputza (Markdown gordina)</string>
+    <string name="props_self_markdown">Testu propioa (Markdown gordina)</string>
+
+    <string name="pref_appearance_twopane_landscape">Paisaia Soilik</string>
+    <string name="pref_appearance_twopane_force">Beti (Arraroa ikusi daiteke)</string>
+
+    <string name="pref_appearance_comment_header_items_upsdowns">Boto positiboak/Boto negatiboak</string>
+    <string name="error_ratelimit_title">Baliogabeko saiakera gehiegi.</string>
+    <string name="error_ratelimit_message">Blokeatuta saioa hasteko saiakera gehiegi egin direlako IP honetan. Reddit dio:</string>
+
+    <string name="general_success">Arrakasta</string>
+
+    <string name="error_toast_parent_post_not_downloaded">Guraso argitalpena oraindik ez da deskargatu.</string>
+
+    <string name="error_disk_space_title">Disko-espaziotik kanpo</string>
+    <string name="error_disk_space_message">Deskargak huts egin du gailua beteta dagoelako. Espazioa egin eta saiatu berriz.</string>
+
+    <string name="options_sidebar">Ikusi alboko barra</string>
+
+    <string name="action_selftext_links">Estekak testu propioan</string>
+    <string name="action_collapse">Gaitu itxiera</string>
+    <string name="error_403_message">Redditek erabiltzaileak hori egiteko baimenik ez duela dio. Saiatu saioa ixten, eta saioa berriro hasten (kontua kontuen zerrendatik ezabatuz, eta gero berriro gehituz).</string>
+
+    <string name="error_toast_no_urls_in_self">Ez dira URLak aurkitu testu propio honetan.</string>
+    <plurals name="subtitle_replies">
+	<item quantity="one">…</item>
+	<item quantity="other">(%d eran)</item>
+</plurals>
+
+    <string name="pref_menus_mainmenu_useritems_title">Menu nagusiko erabiltzaile elementuak</string>
+
+    <string name="mainmenu_downvoted">Boto negatiboak dituzten argitalpenak</string>
+    <string name="mainmenu_modmail">Mod posta</string>
+
+    <string name="sidebar_activity_title">Alboko barra</string>
+
+    <string name="invalid_subreddit_name">Subreddit izen baliogabea</string>
+
+    <string name="imageview_decode_failed">Errorea irudia dekodetzen. Barneko nabigatzailearekin saiatzen.</string>
+
+    <string name="comment_header_specific_thread_title">Iruzkin hari espezifiko bat ikusten ari zara.</string>
+    <string name="comment_header_specific_thread_message">Klik egin hemen argitalpen honen iruzkin guztiak ikusteko.</string>
+
+    <string name="more_comments_button_text">Kargatu iruzkin gehiago</string>
+    <string name="action_comment_context">Testuingurua</string>
+    <string name="error_title_login_user_denied_permission">Baimena ukatua</string>
+    <string name="error_message_login_user_denied_permission">Kontura sartzeko baimena ukatu da. Mesedez saiatu berriro.</string>
+
+    <string name="imageview_invalid_video">Bideo baliogabea. Barruko nabigatzailearekin saiatzen.</string>
+    <string name="download_authorizing">Autentifikatzen…</string>
+
+    <string name="pref_behaviour_skiptofrontpage_title">Salto egin azaleko orrira</string>
+    <string name="error_archived_vote">Hau artxibatua izan da eta ezin zaio botorik eman.</string>
+
+    <string name="pref_behaviour_screenorientation_title">Pantailaren orientazioa</string>
+    <string name="screen_orientation_portrait">Bertikala</string>
+    <string name="screen_orientation_landscape">Horizontala</string>
+
+    <string name="pref_behaviour_bezel_toolbar_header">Alaka tresna-barra</string>
+    <string name="pref_behaviour_bezel_toolbar_swipezone_title">Alaka tresna-barraren lerraketa eskualdearen tamaina</string>
+
+    <string name="pref_appearance_fontscale_inbox_title">Sarrera-ontziaren letra tamaina</string>
+
+    <string name="delete_success">Ezabatua. Objektua ikusgarria izango da birkargatu arte.</string>
+
+    <string name="pref_behaviour_videoview_mode_external_app_vlc">Kanpoko app: VLC</string>
+
+    <string name="error_url_required_message">URL bat adierazi behar duzu.</string>
+
+    <string name="sort_comments_qa">Q&amp;A</string>
+
+    <string name="pref_behaviour_gallery_swipe_length_title">Galeria arrastatze luzera</string>
+    <string name="mainmenu_header_subreddits_pinned">Subreddit ainguratuak</string>
+
+    <string name="pin_subreddit">Ainguratu menu nagusira</string>
+    <string name="unpin_subreddit">Aingura kendu menu nagusitik</string>
+    <string name="props_caption">Legenda</string>
+    <string name="block_done">Subreddita blokeatuta. Hurrengo bisitak /r/all-era subreddit hau kenduko dute.</string>
+    <string name="unblock_done">Subreddita desblokeatuta. Hurrengo bisitak /r/all-era subreddit hau jarriko dute.</string>
+
+    <string name="pref_behaviour_comment_min_title">Iruzkin puntuazio minimoa</string>
+    <string name="pref_behaviour_comment_min_dialog_title">Itxi iruzkina puntuazioa hau baino baxuago (zuri utzi denak erakusteko)</string>
+
+    <string name="error_tor_setting_failed">Errorea proxia ezartzen.</string>
+
+    <string name="error_parse_imgur_title">Azterketa errorea</string>
+    <string name="button_browse">Nabigatu…</string>
+
+    <string name="error_file_open_failed_title">Errorea fitxategia zabaltzen</string>
+    <string name="error_file_open_failed_message">Errore bat gertatu da fitxategia zabaltzen saiatzerakoan.</string>
+
+    <string name="image_selected_summary">Irudia aukeratua: %1$dx%2$d, %3$s</string>
+
+	<string name="submit_post_specify_subreddit">Adierazi subreddita</string>
+	<string name="submit_post_self_text_hint">Testu propioa</string>
+	<string name="save_image_permission_denied">Baimena ukatua: ezin izan da irudia gorde.</string>
+	
+	<string name="pref_behaviour_actions_comment_longclick_title">Iruzkinen klik luzearen akzioa</string>
+
+	<string name="pref_behaviour_fling_comment_left_title">Iruzkinen ezker lerraketaren akzioa</string>
+
+	<string name="pref_behaviour_fling_comment_right_title">Iruzkinen eskuin lerraketaren akzioa</string>
+
+	<string name="comment_header_search_thread_title">Iruzkin hari baten bilaketaren emaitzak ikusten ari zaude.</string>
+	<string name="pref_appearance_navbar_color_title">Nabigazio barraren kolorea</string>
+
+	<string name="pref_appearance_navbar_color_option_primary">Nagusia (argia)</string>
+	<string name="pref_appearance_navbar_color_option_primarydark">Nagusia (iluna)</string>
+
+	<string name="pref_behaviour_postsort">Argitalpen orden lehenetsia</string>
+
+	<string name="pref_behaviour_pinned_subredditsort">Ainguratutako subredditen ordena</string>
+	<string name="pref_appearance_image_viewer_show_floating_toolbar_title">Erakutsi tresna-barra flotagarria irudiaren gainean</string>
+	<string name="pref_appearance_link_text_clickable_title">Klikagarria egin estekaren testua</string>
+	<string name="pref_appearance_hide_android_status_title">Ezkutatu Android egoera-barra</string>
+	<string name="send_replies_to_inbox">Bidali erantzunak nire sarrera-ontzira</string>
+
+	<string name="error_403_title_nonreddit">Baimena ukatua</string>
+	<string name="error_403_message_nonreddit">Zerbitzariak baimen ukatuaren errorearekin erantzun du.</string>
+
+	<string name="pref_menus_link_context_items_title">Esteka testuinguru menuaren elementuak</string>
+	<string name="pref_menus_subreddit_context_items_title">Subreddit testuinguru menuaren elementuak</string>
+	<string name="mainmenu_toast_not_pinned">Subreddit hau ez dago menu nagusira ainguratua!</string>
+	<string name="mainmenu_toast_pinned">Subreddit hau jada menu nagusira ainguratua dago!</string>
+	<string name="action_pin_subreddit">Ainguratu subreddita menu nagusira</string>
+	<string name="action_unpin_subreddit">Aingura kendu menu nagusitik subreddit honetarako</string>
+	<string name="collapsed_self_post">Argitalpen propioa itxia</string>
+
+	<string name="button_next_comment_parent">Hurrengo guraso-iruzkina</string>
+	<string name="button_prev_comment_parent">Aurreko guraso-iruzkina</string>
+
+	<string name="pref_appearance_comments_show_floating_toolbar_title">Erakutsi tresna-barra flotagarria iruzkinen gainean</string>
+	<string name="pref_behaviour_self_post_tap_actions_title">Argitalpen propioen ukipen akzioa</string>
+
+	<string name="error_no_suitable_apps_available">Ez dago app egokirik eskuragarri.</string>
+
+	<string name="disable_replies_to_infobox_failed">Erantzunak sarrera-ontzira joatea desgaitzeak huts egin du</string>
+
+	<string name="share_comments_for">%s-(r)entzako iruzkinak</string>
+	<string name="share_comment_by_on_reddit">%s-(r)en iruzkinak Redditen</string>
+
+</resources>

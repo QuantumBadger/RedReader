@@ -531,7 +531,7 @@
 
     <!-- 2014-12-07 -->
     <string name="comment_header_specific_thread_title">Obecnie czytasz pewien wątek komentarzy.</string>
-    <string name="comment_header_specific_thread_message">Stuknij tutaj, aby wyświetlić wszystkie komentarze dla tego postuC.</string>
+    <string name="comment_header_specific_thread_message">Stuknij tutaj, aby wyświetlić wszystkie komentarze dla tego postu.</string>
 
     <!-- 2014-12-18 -->
     <string name="more_comments_button_text">Załaduj więcej komentarzy</string>
@@ -888,5 +888,21 @@
 
 	<string name="mainmenu_random">Losowy subreddit</string>
 	<string name="pref_menus_show_random_main_menu_title">Pokaż /r/random w menu głównym</string>
+
+<string name="pref_cache_maxage_entry_title">Czyść buforowane flagi (przeczytano, zagłosowano, itp.) po</string>
+
+    <string name="mainmenu_custom_destination_search">Wyszukaj</string>
+
+	<string name="pref_behaviour_sharing_share_text_title">Umieść tekst podczas dzielenia się komentarzem</string>
+
+	<string name="mainmenu_custom_empty_search_query">Puste zapytanie wyszukiwania.</string>
+
+	<string name="search_listing_header_query">Zapytanie</string>
+	<string name="search_listing_header_sub">Tylko w subreddicie</string>
+  
+	<string name="pref_behaviour_sharing_header">Udostępnij</string>
+	<string name="pref_behaviour_sharing_include_desc_title">Umieść tytuł/opis podczas udostępniania</string>
+	<string name="share_comments_for">Komentarze dla %s</string>
+	<string name="share_comment_by_on_reddit">Komentarz %s na Reddit</string>
 
 </resources>

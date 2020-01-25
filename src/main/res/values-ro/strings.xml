@@ -78,7 +78,7 @@
 
     <!-- Cache Prefs -->
 
-    <string name="pref_cache_pruning">Curățarea Cache</string>
+    <string name="pref_cache_pruning">Curățare Cache</string>
 
     <string name="pref_cache_maxage_listing_title">Șterge lista cache după</string>
 
@@ -97,21 +97,21 @@
 
     <string name="pref_menus_post_context_items_title">Item-urile Meniului Postărilor</string>
 
-    <string name="pref_menus_post_toolbar_items_title">Toolbar-ul Postărilor</string>
+    <string name="pref_menus_post_toolbar_items_title">Afișează bara de instrumente</string>
 
     <!-- Options Menu -->
 
-    <string name="options_accounts">Accounts</string>
-    <string name="options_accounts_long">Conturile de Reddit</string>
-    <string name="options_theme">Design</string>
+    <string name="options_accounts">Conturi</string>
+    <string name="options_accounts_long">Conturi de Reddit</string>
+    <string name="options_theme">Aspect</string>
     <string name="options_settings">Setări</string>
 
     <string name="options_submit_post">Scrieți o Postare</string>
 
-    <string name="options_refresh">Refresh</string>
-    <string name="options_refresh_subreddits">Refresh Subreddit-urilor</string>
-    <string name="options_refresh_posts">Refresh Postărilor</string>
-    <string name="options_refresh_comments">Refresh Comentariilor</string>
+    <string name="options_refresh">Reîncărcare</string>
+    <string name="options_refresh_subreddits">Reîncărcare Subreddit-uri</string>
+    <string name="options_refresh_posts">Reîncărcare Postări</string>
+    <string name="options_refresh_comments">Reîncărcare Comentarii</string>
 
     <string name="options_past">Versiunile Anterioare</string>
     <string name="options_past_posts">Past Post List Versions</string>
@@ -124,10 +124,10 @@
 
     <!-- Main Menu -->
 
-    <string name="mainmenu_frontpage">Prima Pagină</string>
-    <string name="mainmenu_all">Toate Subreditt-urile</string>
+    <string name="mainmenu_frontpage">Pagina Principală</string>
+    <string name="mainmenu_all">Toate Subreddit-urile</string>
     <string name="mainmenu_custom">Alegeți un Subreddit</string>
-    <string name="mainmenu_custom_invalid_name">Numele Subreddit-ului invalid.</string>
+    <string name="mainmenu_custom_invalid_name">Numele Subreddit-ului este invalid.</string>
     <string name="mainmenu_saved">Postări Salvate</string>
     <string name="mainmenu_hidden">Postări Ascunse</string>
     <string name="mainmenu_upvoted">Postări Apreciate</string>
@@ -137,7 +137,7 @@
 
     <!-- General Listing -->
 
-    <string name="listing_cached">Viewing cached copy from %s</string>
+    <string name="listing_cached">Vizualizarea copiei în cache din %s</string>
 
     <!-- Accounts Dialog -->
 
@@ -145,18 +145,18 @@
     <string name="accounts_active">Activ</string>
     <string name="accounts_add">Adăugați un Cont Reddit</string>
     <string name="accounts_setactive">Activați</string>
-    <string name="accounts_reauth">Reautentificați-vă</string>
-    <string name="accounts_delete">Ștergeți</string>
+    <string name="accounts_reauth">Reautentificare</string>
+    <string name="accounts_delete">Ștergere</string>
 
-    <string name="accounts_loggingin">Vă înregistrați…</string>
+    <string name="accounts_loggingin">Înregistrare…</string>
     <string name="accounts_loggingin_msg">Un moment…</string>
 
-    <string name="accounts_username">Numele contului</string>
+    <string name="accounts_username">Nume de utilizator</string>
     <string name="accounts_password">Parola</string>
 
-    <string name="accounts_login">Logați-vă</string>
+    <string name="accounts_login">Autentificare</string>
 
-    <string name="accounts_delete_sure">Sunteți sigur că vreți să ștergeți contul?</string>
+    <string name="accounts_delete_sure">Sunteți sigur că vreți să ștergeți acest cont?</string>
 
     <!-- Post Sorts -->
 
@@ -166,10 +166,10 @@
     <string name="sort_posts_controversial">Controversat</string>
     <string name="sort_posts_top">Top</string>
     <string name="sort_posts_top_hour">Top: Ultima oră</string>
-    <string name="sort_posts_top_today">Top: Azi</string>
-    <string name="sort_posts_top_week">Top: Săptămâna aceasta</string>
-    <string name="sort_posts_top_month">Top: Luna aceasta</string>
-    <string name="sort_posts_top_year">Top: Anul acesta</string>
+    <string name="sort_posts_top_today">Top: Astăzi</string>
+    <string name="sort_posts_top_week">Top: Ultima săptămână</string>
+    <string name="sort_posts_top_month">Top: Ultima lună</string>
+    <string name="sort_posts_top_year">Top: Ultimul an</string>
     <string name="sort_posts_top_all">Top: De la Început</string>
 
     <!-- Comment Sorts -->
@@ -781,7 +781,7 @@
 	<string name="action_copy_text">Copiază Text</string>
 	<string name="action_copy_link">Copiază Link</string>
 
-	<string name="pref_behaviour_postsort">Sortarea Postărilor Default</string>
+	<string name="pref_behaviour_postsort">Sortarea Implicită a Postărilor</string>
 
 	<!-- 2016-08-06 -->
 	<string name="mainmenu_custom_destination">Locație anume</string>
@@ -877,4 +877,6 @@
 
 	<string name="error_no_suitable_apps_available">Nu s-au găsit aplicații potrivite.</string>
 
-</resources>
+<string name="mainmenu_custom_destination_search">Căutare</string>
+
+	</resources>

@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+  ~ This file is part of RedReader.
+  ~
+  ~ RedReader is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ RedReader is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+<resources>
+	<string name="firstrun_login_title">Log in</string>
+    <string name="firstrun_login_message">You are not currently logged in. You can access the account list by selecting Accounts from the menu.</string>
+    <string name="firstrun_login_button_now">Log in now</string>
+    <string name="firstrun_login_button_later">Be anonymous</string>
+
+    <string name="prefs_category_appearance">Appearance</string>
+    <string name="prefs_category_behaviour">Behaviour</string>
+    <string name="prefs_category_cache">Cache</string>
+    <string name="prefs_category_menus">Menus</string>
+
+    <string name="pref_appearance_theme_header">Theme</string>
+    <string name="pref_appearance_font_header">Font</string>
+    <string name="pref_appearance_thumbnails_header">Thumbnails</string>
+    <string name="pref_appearance_tabletmode_header">Tablet Mode</string>
+    <string name="pref_appearance_comments_header">Comments</string>
+    <string name="pref_appearance_other_header">Other</string>
+
+    <string name="pref_appearance_twopane_title">Tablet Mode (two pane)</string>
+
+    <string name="pref_appearance_theme_title">Theme</string>
+
+    <string name="listing_cached">Viewing cached copy from %s</string>
+
+</resources>

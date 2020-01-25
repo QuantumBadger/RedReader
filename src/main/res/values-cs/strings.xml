@@ -15,150 +15,98 @@
   ~ You should have received a copy of the GNU General Public License
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
   -->
-
 <resources>
-
     <!-- First Run Dialog -->
-
     <string name="firstrun_login_title">Přihlášení</string>
-    <string name="firstrun_login_message">Nejste momentálně přihlášení. Seznam účtů je k dispozici po vybrání "Účty" z nabídky.</string>
+    <string name="firstrun_login_message">Nejste momentálně přihlášeni. Seznam účtů je k dispozici po vybrání Účty z nabídky.</string>
     <string name="firstrun_login_button_now">Přihlásit teď</string>
     <string name="firstrun_login_button_later">Anonymně</string>
-
     <!-- Preference Headers -->
-
     <string name="prefs_category_appearance">Vzhled</string>
     <string name="prefs_category_behaviour">Chování</string>
     <string name="prefs_category_cache">Mezipaměť</string>
     <string name="prefs_category_menus">Nabídky</string>
-
     <!-- Appearance Prefs -->
-
-    <string name="pref_appearance_theme_header">Téma</string>
-    <string name="pref_appearance_font_header">Font</string>
+    <string name="pref_appearance_theme_header">Motiv</string>
+    <string name="pref_appearance_font_header">Písmo</string>
     <string name="pref_appearance_thumbnails_header">Náhledy</string>
     <string name="pref_appearance_tabletmode_header">Režim tabletu</string>
     <string name="pref_appearance_comments_header">Komentáře</string>
     <string name="pref_appearance_other_header">Ostatní</string>
-
     <string name="pref_appearance_twopane_title">Režim tabletu (dva panely)</string>
-
-    <string name="pref_appearance_theme_title">Téma</string>
-
+    <string name="pref_appearance_theme_title">Motiv</string>
     <string name="pref_appearance_solidblack_title">Černá v nočním režimu</string>
-
     <string name="pref_appearance_fontscale_posts_title">Měřítko fontu u příspěvku</string>
-
     <string name="pref_appearance_fontscale_comments_title">Měřítko fontu u komentářů</string>
-
-    <string name="pref_appearance_thumbnails_show_title">Zobrazovat náhledy</string>
-
-    <string name="pref_appearance_thumbnails_nsfw_show_title">Zobrazovat NSFW náhledy</string>
-
+    <string name="pref_appearance_thumbnails_show_title">Zobrazit náhledy</string>
+    <string name="pref_appearance_thumbnails_nsfw_show_title">Zobrazit NSFW náhledy</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Náhledy pouze u Wi-Fi připojení</string>
-
-    <string name="pref_appearance_loading_detail_title">Zobrazovat detailní zprávy při načítání</string>
-
+    <string name="pref_appearance_loading_detail_title">Ukázat detailní zprávy při načítání</string>
     <string name="pref_appearance_comment_header_items_title">Hlavička komentáře</string>
-
     <!-- Behaviour Prefs -->
-
     <string name="pref_behaviour_actions_post_header">Akce příspěvku</string>
     <string name="pref_behaviour_actions_comment_header">Akce komentáře</string>
     <string name="pref_behaviour_posts_header">Příspěvky</string>
-
     <string name="pref_behaviour_fling_post_left_title">Činnost při posunutí příspěvku doleva</string>
-
     <string name="pref_behaviour_fling_post_right_title">Činnost při posunutí příspěvku doprava</string>
-
     <string name="pref_behaviour_actions_comment_tap_title">Činnost při poklepání komentáře</string>
-
-    <string name="pref_behaviour_nsfw_title">Zobrazovat NSFW obsah</string>
-
+    <string name="pref_behaviour_nsfw_title">Ukázat NSFW obsah</string>
     <!-- Cache Prefs -->
-
-    <string name="pref_cache_pruning">Mazání mezipaměti</string>
-
-    <string name="pref_cache_maxage_listing_title">Mazat mezipaměť seznamů po</string>
-
-    <string name="pref_cache_maxage_thumb_title">Mazat mezipaměť náhledů po</string>
-
-    <string name="pref_cache_maxage_image_title">Mazat mezipaměť obrázků po</string>
-
+    <string name="pref_cache_pruning">Úklid mezipaměti</string>
+    <string name="pref_cache_maxage_listing_title">Smazat seznamy v mezipaměť po</string>
+    <string name="pref_cache_maxage_thumb_title">Smazat náhledy v mezipaměť po</string>
+    <string name="pref_cache_maxage_image_title">Smazat obrázky v mezipaměti po</string>
     <string name="pref_cache_precache_images_header">Přednačítání obrázků</string>
-
     <string name="pref_cache_precache_images_title">Přednačítat obrázky</string>
-
     <!-- TODO use listpreference instead -->
-    <string name="pref_cache_precache_images_wifionly_title">Pouze na Wi-Fi připojení</string>
-
+    <string name="pref_cache_precache_images_wifionly_title">Pouze na Wi-Fi</string>
     <!-- Menu Prefs -->
-
-    <string name="pref_menus_post_context_items_title">Položky menu příspěvku</string>
-
+    <string name="pref_menus_post_context_items_title">Položky nabídky příspěvku</string>
     <string name="pref_menus_post_toolbar_items_title">Položky panelu nástrojů</string>
-
     <!-- Options Menu -->
-
     <string name="options_accounts">Účty</string>
     <string name="options_accounts_long">Reddit Účty</string>
-    <string name="options_theme">Témata</string>
+    <string name="options_theme">Motivy</string>
     <string name="options_settings">Nastavení</string>
-
-    <string name="options_submit_post">Vytvořit nový příspěvek</string>
-
+    <string name="options_submit_post">Nový příspěvek</string>
     <string name="options_refresh">Obnovit</string>
-    <string name="options_refresh_subreddits">Obnovit Podreddity</string>
+    <string name="options_refresh_subreddits">Obnovit subreddity</string>
     <string name="options_refresh_posts">Obnovit příspěvky </string>
     <string name="options_refresh_comments">Obnovit komentáře</string>
-
     <string name="options_past">Starší verze</string>
     <string name="options_past_posts">Starší verze seznamu příspěvků</string>
     <string name="options_past_comments">Starší verze seznamu komentářů</string>
-
     <string name="options_sort">Seřadit</string>
-    <string name="options_sort_subreddits">Seřadit Podreddity</string>
+    <string name="options_sort_subreddits">Seřadit subreddity</string>
     <string name="options_sort_posts">Seřadit příspěvky</string>
     <string name="options_sort_comments">Seřadit komentáře</string>
-
     <!-- Main Menu -->
-
     <string name="mainmenu_frontpage">Hlavní strana</string>
-    <string name="mainmenu_all">Všechny Subreddity</string>
-    <string name="mainmenu_custom">Vlastní Subreddit</string>
-    <string name="mainmenu_custom_invalid_name">Neplatný název podredditu.</string>
+    <string name="mainmenu_all">Všechny subreddity</string>
+    <string name="mainmenu_custom">Vlastní subreddit</string>
+    <string name="mainmenu_custom_invalid_name">Neplatný název subredditu.</string>
     <string name="mainmenu_saved">Uložené příspěvky</string>
     <string name="mainmenu_hidden">Schované příspěvky</string>
     <string name="mainmenu_upvoted">Oblíbené příspěvky</string>
     <string name="mainmenu_inbox">Schránka</string>
     <string name="mainmenu_profile">Můj profil</string>
-    <string name="mainmenu_header_subreddits">Podreddity</string>
-
+    <string name="mainmenu_header_subreddits">Subreddity</string>
     <!-- General Listing -->
-
-    <string name="listing_cached">Prohlížení kopie z mezipaměti data %s</string>
-
+    <string name="listing_cached">Prohlížím kopii z mezipaměti z %s</string>
     <!-- Accounts Dialog -->
-
     <string name="accounts_anon">Anonymní</string>
     <string name="accounts_active">Aktivní</string>
     <string name="accounts_add">Přidat reddit účet</string>
-    <string name="accounts_setactive">Zaktivnit</string>
-    <string name="accounts_reauth">Reautentizace</string>
+    <string name="accounts_setactive">Zaktivuj</string>
+    <string name="accounts_reauth">Znovu ověřit</string>
     <string name="accounts_delete">Smazat</string>
-
     <string name="accounts_loggingin">Přihlašuji…</string>
     <string name="accounts_loggingin_msg">Už jen chvíli…</string>
-
     <string name="accounts_username">Uživatelské jméno</string>
     <string name="accounts_password">Heslo</string>
-
     <string name="accounts_login">Přihlásit</string>
-
     <string name="accounts_delete_sure">Jste si jisti, že chcete smazat tento účet?</string>
-
     <!-- Post Sorts -->
-
     <string name="sort_posts_hot">Žhavé</string>
     <string name="sort_posts_new">Nové</string>
     <string name="sort_posts_rising">Na vzestupu</string>
@@ -170,28 +118,21 @@
     <string name="sort_posts_top_month">Nejčtenější: Tento měsíc</string>
     <string name="sort_posts_top_year">Nejčtenější: Tento rok</string>
     <string name="sort_posts_top_all">Nejčtenější: Dlouhodobě</string>
-
     <!-- Comment Sorts -->
-
     <string name="sort_comments_best">Nejlepší</string>
     <string name="sort_comments_hot">Žhavé</string>
     <string name="sort_comments_new">Nové</string>
     <string name="sort_comments_old">Staré</string>
     <string name="sort_comments_controversial">Sporné</string>
     <string name="sort_comments_top">Nejčtenější</string>
-
     <!-- Dialog Buttons -->
-
     <string name="dialog_close">Zavřít</string>
     <string name="dialog_cancel">Zrušit</string>
     <string name="dialog_yes">Ano</string>
     <string name="dialog_no">Ne</string>
     <string name="dialog_go">Přejít</string>
-
     <!-- Thing Actions -->
-
     <string name="action_menu_post_title">Akce příspěvku</string>
-
     <string name="action_upvote">Dát hlas nahoru</string>
     <string name="action_downvote">Dát hlas dolů</string>
     <string name="action_vote_remove">Odebrat hlas</string>
@@ -204,13 +145,13 @@
     <string name="action_external">Zobrazit v externím prohlížeči</string>
     <string name="action_external_short">V prohlížeči</string>
     <string name="action_actionmenu_short">Akce</string>
-    <string name="action_actionmenu">Menu akcí</string>
+    <string name="action_actionmenu">Nabídka akcí</string>
     <string name="action_comment_links">Odkazy v komentáři</string>
     <string name="action_selftext_links">Odkazy ve vlastním textu</string>
     <string name="action_share">Sdílet</string>
     <string name="action_share_comments">Sdílet komentáře</string>
     <string name="action_copy">Kopírovat</string>
-    <string name="action_gotosubreddit">Přejít do podredditu</string>
+    <string name="action_gotosubreddit">Přejít do subredditu</string>
     <string name="action_reply">Odpovědět</string>
     <string name="action_edit">Upravit</string>
     <string name="action_user_profile">Uživatelský profil</string>
@@ -222,112 +163,79 @@
     <string name="action_link">Otevřít odkaz</string>
     <string name="action_link_switch">Přepnout na odkaz</string>
     <string name="action_link_short">Odkaz</string>
-    <string name="action_collapse">Přepnout skrývání</string>
+    <string name="action_collapse">Přepnout sbalení</string>
     <string name="action_nothing">Nedělat nic</string>
-
     <string name="action_report">Nahlásit</string>
     <string name="action_report_sure">Jste si jistí, že to chcete nahlásit?</string>
-
     <string name="action_save_image">Uložit obrázek</string>
     <string name="action_save_image_success">Uloženo do složky obrázků jako</string>
-
     <!-- Download Messages -->
-
-    <string name="download_waiting">Čekání…</string>
-    <string name="download_connecting">Spojování…</string>
+    <string name="download_waiting">Čekám…</string>
+    <string name="download_connecting">Spojuji…</string>
     <string name="download_downloadstarting">Stahování začíná…</string>
-    <string name="download_downloading">Stahování…</string>
-    <string name="download_loading">Načítání…</string>
+    <string name="download_downloading">Stahuji…</string>
+    <string name="download_loading">Načítám…</string>
     <string name="download_done">Hotovo.</string>
     <string name="download_failed">Stahování selhalo.</string>
-
     <!-- Image View -->
-
-    <string name="imageview_oom">Nedostatek paměti. Zkouším vnitřní prohlížeč.</string>
-    <string name="imageview_invalid_gif">Neplatný GIF. Zkouším vnitřní prohlížeč.</string>
-
+    <string name="imageview_oom">Nedostatek paměti. Zkouším vlastní prohlížeč.</string>
+    <string name="imageview_invalid_gif">Neplatný GIF. Zkouším vlastní prohlížeč.</string>
     <!-- Comment Reply/Edit, Post Submit -->
-
     <string name="comment_reply_send">Odeslat</string>
     <string name="comment_edit_save">Uložit</string>
     <string name="comment_reply_preview">Náhled</string>
-    <string name="comment_reply_submitting_title">Odesílání…</string>
+    <string name="comment_reply_submitting_title">Odesílám…</string>
     <string name="comment_reply_submitting_message">Už jen chvíli…</string>
-    <string name="comment_reply_oncancel">Čekání na výsledek akce…</string>
-    <string name="comment_reply_done">Odpověď odeslána. Komentář se objeví poté co obnovíte stránku.</string>
-    <string name="comment_edit_done">Komentář upraven. Změny se objeví potě, co obnovíte stránku.</string>
+    <string name="comment_reply_oncancel">Čekám na výsledek akce…</string>
+    <string name="comment_reply_done">Odpověď odeslána. Komentář se objeví po obnovení stránky.</string>
+    <string name="comment_edit_done">Komentář upraven. Změny se objeví po obnovení stránky.</string>
     <string name="post_submit_title_hint">Název</string>
-    <string name="post_submit_subreddit_hint">Podreddit</string>
+    <string name="post_submit_subreddit_hint">Subreddit</string>
     <string name="post_captcha_title">Captcha</string>
     <string name="post_captcha_submit_button">Odeslat</string>
     <string name="post_submit_done">Příspěvek odeslán.</string>
-
     <!-- Bug Reporting -->
-
-    <string name="bug_title">Vyskytla se chyba</string>
+    <string name="bug_title">Vyskytla se chyba.</string>
     <string name="bug_message">Vyskytla se chyba.\n\nChtěli byste poslat hlášení o chybě vývojáři aplikace RedReader? Pokud ano, tak pro Vás bude předvyplněn email se všemi relevantními informacemi, který můžete před odesláním zkontrolovat.</string>
-    <string name="bug_button_send">Poslat hlášení o chybě</string>
+    <string name="bug_button_send">Poslat hlášení o chybě emailem</string>
     <string name="bug_button_ignore">Neposílat hlášení o chybě</string>
-
     <!-- General errors -->
-
     <string name="error_403_title">Neplatný uživatel</string>
     <string name="error_403_message">Tento uživatel nemá dostatečná oprávnění pro tuto akci. Pokuste se odhlásit a znovu přihlásit (smazáním účtu ze seznamu účtů a poté znovupřidáním).</string>
-
-    <string name="error_subreddit_required_title">Podreddit je vyžadován</string>
-    <string name="error_subreddit_required_message">Musíte zadat podreddit.</string>
-
+    <string name="error_subreddit_required_title">Subreddit je vyžadován</string>
+    <string name="error_subreddit_required_message">Musíte zadat subreddit.</string>
     <string name="error_bad_captcha_title">Neplatná CAPTCHA</string>
-    <string name="error_bad_captcha_message">CAPTCHA kterou jste zadali je neplatná. Prosím vyzkoušejte znova.</string>
-
+    <string name="error_bad_captcha_message">Zadaná CAPTCHA je neplatná. Prosím, zkuste znovu.</string>
     <string name="error_404_title">Nenalezeno (404)</string>
-    <string name="error_404_message">Data, která vyžadujete, nelze najít.</string>
-
+    <string name="error_404_message">Vyžádaná data nelze najít.</string>
     <string name="error_unknown_api_title">Chyba</string>
-    <string name="error_unknown_api_message">Server nepřijal požadavek z neznámého důvodu. Prosím vyzkoušejte znova.</string>
-
+    <string name="error_unknown_api_message">Server nepřijal požadavek z neznámého důvodu. Prosím, zkuste znovu.</string>
     <string name="error_redditdown_title">Reddit spadl</string>
-    <string name="error_redditdown_message">Reddit je momentálně pod velkou zátěží. Prosím vyzkoušejte znova.</string>
-
+    <string name="error_redditdown_message">Reddit je momentálně pod velkou zátěží. Prosím, zkuste znovu.</string>
     <string name="error_cancelled_title">Akce zrušena</string>
-    <string name="error_cancelled_message">Akce byla zrušena.</string>
-
-    <string name="error_parse_title">Chyba parsování</string>
+    <string name="error_cancelled_message">Probíhající operace byla zrušena.</string>
+    <string name="error_parse_title">Chyba rozboru</string>
     <string name="error_parse_message">Reddit poslal data, které nelze zpracovat.</string>
-
     <string name="error_unexpected_cache_title">Nečekaná chyba mezipaměti</string>
-    <string name="error_unexpected_cache_message">Vyskytla se nečekaná chyba mezipaměti.</string>
-
+    <string name="error_unexpected_cache_message">Vyskytla se neznámá interní chyba mezipaměti.</string>
     <string name="error_unexpected_storage_title">Nečekaná chyba úložiště</string>
-    <string name="error_unexpected_storage_message">Vyskytla se nečekaná chyba úložiště. Pravděpodobně Vám dochází místo.</string>
-
+    <string name="error_unexpected_storage_message">Vyskytla se nečekaná interní chyba úložiště mezipaměti. Pravděpodobně Vám dochází místo.</string>
     <string name="error_connection_title">Chyba spojení</string>
-    <string name="error_connection_message">Vyskytla se chyba při připojování k serveru. Prosím zkontrolujte připojení a opakujte akci znova.</string>
-
+    <string name="error_connection_message">Vyskytla se chyba při připojování k serveru. Prosím, zkontrolujte připojení a zkuste znovu.</string>
     <string name="error_malformed_url_title">Chybná adresa</string>
     <string name="error_malformed_url_message">Pokusili jste se přistoupit na neplatnou adresu.</string>
-
     <string name="error_unknown_title">Neznámá chyba</string>
-    <string name="error_unknown_message">Vyskytla se neznámá chyba. Prosím vyzkoušejte akci znova.</string>
-
+    <string name="error_unknown_message">Vyskytla se neznámá chyba. Prosím, zkuste znovu.</string>
     <!-- Post list specific errors -->
-
     <string name="error_postlist_cache_title">Konec dat v mezipaměti</string>
-    <string name="error_postlist_cache_message">Prohlížíte si předchozí verzi. Žádné další příspěvky z tohoto sezení nejsou v mezipaměti. Stlačte obnovit ke stažení posledních příspěvků, nebo vyberte jinou předchozí verzi z menu.</string>
-
+    <string name="error_postlist_cache_message">Prohlížíte si obsah v předchozí verzi. Žádné další příspěvky z tohoto sezení nejsou v mezipaměti. Stiskněte obnovit ke stažení posledních příspěvků nebo vyberte jinou předchozí verzi z menu.</string>
     <string name="error_postlist_redditdown_title">Reddit spadl</string>
-    <string name="error_postlist_redditdown_message">Reddit je momentálně pod velkou zátěží. Stlačte obnovit pro stažení posledních příspěvků, nebo vyberte jinou předchozí verzi z menu.</string>
-
+    <string name="error_postlist_redditdown_message">Reddit je momentálně pod velkou zátěží. Stiskněte obnovit pro stažení posledních příspěvků nebo vyberte jinou předchozí verzi z nabídky.</string>
     <!-- Session List -->
-
     <string name="session_active">Aktivní</string>
-
     <!-- Time -->
-
-    <string name="time_ago">Před %s vteřinami</string>
-
+    <string name="time_ago">Před %s</string>
     <!-- User Profile -->
-
     <string name="userprofile_created">Vytvořeno</string>
     <string name="userprofile_hasmail">Má poštu</string>
     <string name="userprofile_hasmodmail">Má poštu od moderátora</string>
@@ -336,13 +244,10 @@
     <string name="userprofile_moderator">Je moderátor</string>
     <string name="userprofile_viewcomments">Prohlížet komentáře</string>
     <string name="userprofile_viewposts">Prohlížet příspěvky</string>
-
     <!-- Comment/Post Properties -->
-
     <string name="props_comment_title">Vlastnosti komentáře</string>
     <string name="props_post_title">Vlastnosti příspěvku</string>
     <string name="props_error_title">Vlastnosti chyby</string>
-
     <string name="props_title">Název</string>
     <string name="props_author">Autor</string>
     <string name="props_author_flair">Text značky autora</string>
@@ -354,139 +259,94 @@
     <string name="props_num_comments">Počet komentářů</string>
     <string name="props_body_markdown">Tělo (Markdown)</string>
     <string name="props_self_markdown">Vlastní text (Markdown)</string>
-
     <string name="props_never">Nikdy</string>
     <string name="props_up">Nahoru</string>
     <string name="props_down">Dolů</string>
-
     <!-- Notifications -->
-
     <string name="notification_comment">%s odpověděl na váš komentář</string>
     <string name="notification_message">%s vám poslal zprávu</string>
     <string name="notification_message_multiple">nových zpráv na Reddit</string>
-    <string name="notification_message_action">Touch zobrazíte</string>
-
+    <string name="notification_message_action">K zobrazení stiskněte</string>
     <!-- General -->
-
     <string name="general_true">Pravda</string>
     <string name="general_false">Nepravda</string>
-
     <!-- 2013-05-17 Arrays -->
-
     <string name="pref_appearance_twopane_never">Nikdy</string>
     <string name="pref_appearance_twopane_auto">Auto detekce</string>
-    <string name="pref_appearance_twopane_landscape">Pouze na šírku</string>
-    <string name="pref_appearance_twopane_force">Vždy (může vypadat zvláštně)</string>
-
-    <string name="theme_name_red">Červené</string>
+    <string name="pref_appearance_twopane_landscape">Pouze krajina</string>
+    <string name="pref_appearance_twopane_force">Vždy (může vypadat divně)</string>
+    <string name="theme_name_red">Červený</string>
     <string name="theme_name_night">Noční</string>
-    <string name="theme_name_green">Zelené</string>
-    <string name="theme_name_blue">Modré</string>
-    <string name="theme_name_ltblue">Bleděmodré</string>
-    <string name="theme_name_orange">Oranžové</string>
-    <string name="theme_name_gray">Šedé</string>
-
+    <string name="theme_name_green">Zelený</string>
+    <string name="theme_name_blue">Modrý</string>
+    <string name="theme_name_ltblue">Bleděmodrý</string>
+    <string name="theme_name_orange">Oranžový</string>
+    <string name="theme_name_gray">Šedý</string>
     <string name="time_1hr">1 hodina</string>
     <string name="time_6hr">6 hodin</string>
     <string name="time_1day">1 den</string>
-    <string name="time_3day">3 dnů</string>
+    <string name="time_3day">3 dny</string>
     <string name="time_1week">1 týden</string>
     <string name="time_1month">1 měsíc</string>
     <string name="time_3month">3 měsíce</string>
-
     <string name="pref_appearance_comment_header_items_author">Autor</string>
     <string name="pref_appearance_comment_header_items_flair">Značka</string>
     <string name="pref_appearance_comment_header_items_score">Skóre</string>
     <string name="pref_appearance_comment_header_items_upsdowns">Hlasy nahoru/Hlasy dolů</string>
     <string name="pref_appearance_comment_header_items_age">Věk</string>
-
     <!-- 2013-05-17 -->
-
     <string name="error_toast_notloggedin">Musíte být přihlášen, abyste mohl(a) provést danou akci.</string>
-
     <string name="button_moredetail">Více detailů</string>
-
     <string name="pref_appearance_scale_normal">Normální</string>
-
     <string name="error_invalid_password_title">Neplatné heslo</string>
-    <string name="error_invalid_password_message">Vaše přihlašovací jméno nebo heslo je neplatné.</string>
-
+    <string name="error_invalid_password_message">Vaše uživatelské jméno nebo heslo je neplatné.</string>
     <string name="error_ratelimit_title">Příliš mnoho neplatných pokusů.</string>
     <string name="error_ratelimit_message">Blokováno z důvodu příliš mnoha neplatných pokusů na této IP adrese. Zpráva redditu:</string>
-
     <string name="general_success">Úspěch</string>
-
     <string name="message_nowloggedin">Jste přihlášeni.</string>
     <string name="message_cannotlogin">Nemohu se přihlásit.</string>
-
     <string name="error_toast_no_urls_in_comment">V tomto komentáři nebyly nalezeny žádné adresy.</string>
     <string name="error_toast_no_urls_in_self">V tomto vlastním textu nebyly nalezeny žádné adresy.</string>
-    <string name="error_toast_parent_post_not_downloaded">Rodič příspěvku ještě není stažen.</string>
-
-    <string name="download_subreddits">Stauji podreddity…</string>
-
+    <string name="error_toast_parent_post_not_downloaded">Nadřazený příspěvek ještě není stažen.</string>
+    <string name="download_subreddits">Stauji subreddity…</string>
     <string name="subtitle_points">bodů</string>
     <string name="subtitle_by">od</string>
     <string name="subtitle_to">pro</string>
-	<plurals name="subtitle_replies">
-		<item quantity="zero">…</item>
-		<item quantity="one">" (%d odpověď)"</item>
-		<item quantity="other">" (%d odpovědi)"</item>
-	</plurals>
-
+    <plurals name="subtitle_replies">
+        <item quantity="one">…</item>
+        <item quantity="few">(%d odpovědi)</item>
+        <item quantity="other">(%d odpovědí)</item>
+    </plurals>
     <string name="general_unknown">neznámé</string>
-
     <string name="action_search">Hledat</string>
     <string name="search_subreddit_restrict">Omezit hledání na</string>
-
     <string name="title_changelog">Co je nového</string>
-
-    <string name="pref_behaviour_commentsort">Implicitní řazení komentářů</string>
-
+    <string name="pref_behaviour_commentsort">Výchozí řazení komentářů</string>
     <!-- 2013-05-18 -->
-
-    <string name="action_fling_disabled">Deaktivováno</string>
-
+    <string name="action_fling_disabled">Vypnuto</string>
     <string name="pref_about_version_title">Verze</string>
-
     <string name="prefs_category_about">O aplikaci</string>
-
     <!-- 2013-06-07 -->
-
     <string name="pref_behaviour_sort_header">Řazení</string>
-
     <!-- 2013-06-09 -->
-
     <string name="pref_appearance_locale_header">Místní nastavení</string>
-
     <string name="pref_appearance_langforce_title">Jazyk</string>
-
-    <string name="lang_auto">Automatické</string>
-
+    <string name="lang_auto">Automaticky</string>
     <!-- 2013-06-25 -->
-
     <string name="prefs_category_network">Síť</string>
-    <string name="pref_network_https_title">Aktivovat HTTPS</string>
+    <string name="pref_network_https_title">Zapnout HTTPS</string>
     <!-- 2013-07-01 -->
-
     <string name="web_view_open_browser">Otevřít v prohlížeči</string>
-
     <!-- 2013-07-26 -->
-
     <string name="pref_behaviour_useinternalbrowser_title">Používat vnitřní prohlížeč</string>
     <!-- 2013-07-29 -->
-
     <string name="pref_appearance_linkbuttons_title">Ukázat tlačítka odkazu</string>
     <!-- 2013-08-04 -->
-
     <string name="pref_appearance_indentlines_title">Ukázat čáry odsazení</string>
     <!-- 2014-03-14 -->
-
     <string name="load_more_posts">Načíst více příspěvků</string>
-
     <string name="pref_behaviour_postcount_title">Omezit počet příspěvků</string>
     <string name="pref_behaviour_postcount_items_all">Všechny</string>
-
     <!-- 2014-03-17 -->
     <string name="time_year">rok</string>
     <string name="time_years">let</string>
@@ -501,477 +361,466 @@
     <string name="time_sec">vteřina</string>
     <string name="time_secs">vteřin</string>
     <string name="time_ms">ms</string>
-
     <!-- 2014-03-18 -->
-
     <string name="error_disk_space_title">Došlo místo na disku</string>
-    <string name="error_disk_space_message">Stahování selhalo, protože Vaše zařízení je plné. Prosím uvolněte nějaké místo na disku a vyzkoušejte znovu.</string>
-
+    <string name="error_disk_space_message">Stahování selhalo, protože Vaše zařízení je plné. Prosím, uvolněte nějaké místo na disku a zkuste znovu.</string>
     <!-- 2014-03-23 -->
-
-    <string name="options_subscribe">Přihlásit k odběru</string>
-    <string name="options_unsubscribe">Odhlásit z odběru</string>
+    <string name="options_subscribe">Přihlásit odběr</string>
+    <string name="options_unsubscribe">Odhlásit odběr</string>
     <string name="options_subscribing">Přihlašuji…</string>
     <string name="options_unsubscribing">Odhlašuji…</string>
-    <string name="options_sidebar">Prohlížet vedlejší lištu</string>
-
+    <string name="options_sidebar">Postranní lišta prohlížení</string>
     <!-- 2014-04-13 -->
-
-    <string name="pref_menus_mainmenu_useritems_title">Uživatelské položky hlavního menu</string>
-
+    <string name="pref_menus_mainmenu_useritems_title">Uživatelské položky hlavní nabídky</string>
     <string name="mainmenu_submitted">Odeslané příspěvky</string>
     <string name="mainmenu_downvoted">Příspěvky s hlasem dolů</string>
     <string name="mainmenu_modmail">Moderátorská pošta</string>
-
-    <string name="sidebar_activity_title">Vedlejší lišta</string>
-
+    <string name="sidebar_activity_title">Postranní lišta</string>
     <!-- 2014-04-20 -->
-
-    <string name="header_subscriber_count">%s přihlášení</string>
+    <string name="header_subscriber_count">%s přihlášených</string>
     <string name="header_subscriber_count_unknown">Počet přihlášených je neznámý</string>
-
     <!-- 2014-04-21 -->
-
-    <string name="invalid_subreddit_name">Neplatný název podredditu</string>
-
+    <string name="invalid_subreddit_name">Neplatný název subredditu</string>
     <!-- 2014-04-26 -->
-
     <string name="web_view_clear_cache">Vymazat mezipaměť</string>
-    <string name="web_view_clear_cache_success_toast">Vymazána paměť, historie, cookies a data z formulářů.</string>
-
+    <string name="web_view_clear_cache_success_toast">Vymazána mezipaměť, historie, cookies a data formulářů.</string>
     <!-- 2014-09-21 -->
     <string name="gold">Zlato</string>
     <string name="pref_appearance_comment_header_items_gold">Reddit Zlato</string>
 
     <!-- 2014-11-15 -->
-    <string name="karma_link">Karma odkazu</string>
+    <string name="karma_link">Karma link</string>
     <string name="karma_comment">Karma komentáře</string>
 
     <!-- 2014-12-02 -->
-    <string name="imageview_decode_failed">Dekódování obrázku selhalo. Zkouším vnitřní prohlížeč.</string>
+    <string name="imageview_decode_failed">Dekódování obrázku se nezdařilo. Zkusím s interním prohlížečem.</string>
 
     <!-- 2014-12-06 -->
     <string name="user_comments">Komentáře</string>
 
     <!-- 2014-12-07 -->
-    <string name="comment_header_specific_thread_title">Právě se díváte na konkrétní vlákno komentářů. </string>
-    <string name="comment_header_specific_thread_message">Pro zobrazení všech komentářů k tomuto příspěvku klikněte zde.</string>
+    <string name="comment_header_specific_thread_title">Právě prohlížíte vlákno vybraného komentáře.</string>
+    <string name="comment_header_specific_thread_message">Pro prohlédnutí všech komentářů tohoto postu stiskněte zde.</string>
 
     <!-- 2014-12-18 -->
-    <string name="more_comments_button_text">Zobrazit více komentářů</string>
+    <string name="more_comments_button_text">Načti více komentářů</string>
     <string name="action_comment_context">Kontext</string>
-    <string name="action_comment_go_to">Přejít na komentář</string>
+    <string name="action_comment_go_to">Přejdi na komentáře</string>
 
     <!-- 2015-01-03 -->
-    <string name="webview_https_already">Tato URL již používá protokol HTTPS.</string>
-    <string name="webview_https_unknownprotocol">Neznámý protokol, předpokládám \'http://\'</string>
-    <string name="webview_use_https">Použijte protokol HTTPS</string>
+    <string name="webview_https_already">Tento URL již používá HTTPS.</string>
+    <string name="webview_https_unknownprotocol">Neznámý protokol, očekával jsem \'http://\'</string>
+    <string name="webview_use_https">Použij HTTPS</string>
 
     <!-- 2015-01-16 -->
 
     <!-- 2015-01-26 -->
-    <string name="sort_posts_relevance">Relevantnost</string>
+    <string name="sort_posts_relevance">Závažnost</string>
     <string name="sort_posts_comments">Komentáře</string>
 
     <!-- 2015-04-06 -->
-    <string name="mark_all_as_read">Označit jako přečtené</string>
-    <string name="mark_all_as_read_success">Označit všechny zprávy jako přečtené.</string>
+    <string name="mark_all_as_read">Označ vše přečtené</string>
+    <string name="mark_all_as_read_success">Všechny zprávy označeny jako přečtené.</string>
 
     <!-- 2015-05-17 -->
-    <string name="error_title_login_user_denied_permission">Povolení zamítnuto.</string>
-    <string name="error_message_login_user_denied_permission">Přístup k účtu byl zamítnut. Zkuste to prosím znovu.</string>
+    <string name="error_title_login_user_denied_permission">Přístup zamítnut</string>
+    <string name="error_message_login_user_denied_permission">Přístupu k účtu byl zamítnut. Prosím, zkuste znovu.</string>
 
-    <string name="error_title_login_unknown_reddit_error">Neznámá chyba: %s</string>
+    <string name="error_title_login_unknown_reddit_error">Neznámá chyba redditu: %s</string>
 
     <!-- 2015-05-23 -->
-    <string name="imageview_invalid_video">Neplatné video. Zkouším vnitřní prohlížeč.</string>
-    <string name="download_authorizing">Autentizace…</string>
+    <string name="imageview_invalid_video">Neplatné video. Zkouším interní prohlížeč.</string>
+    <string name="download_authorizing">Ověřuji…</string>
 
     <!-- 2015-05-29 -->
-    <string name="pref_behaviour_skiptofrontpage_title">Přejít na hlavní stránu</string>
+    <string name="pref_behaviour_skiptofrontpage_title">Přeskoč na první stránku</string>
 
     <!-- 2015-06-07 -->
-    <string name="error_archived_vote" >Tento článek byl archivován a nelze pro něj hlasovat.</string>
+    <string name="error_archived_vote">Bylo archivováno a nelze dále hlasovat.</string>
 
     <!-- 2015-06-20 -->
-    <string name="pref_behaviour_screenorientation_title">Orientace monitoru</string>
+    <string name="pref_behaviour_screenorientation_title">Orientace obrazovky</string>
 
-    <string name="screen_orientation_auto">Automaticky</string>
-    <string name="screen_orientation_portrait">Portrét</string>
-    <string name="screen_orientation_landscape">Krajina</string>
+    <string name="screen_orientation_auto">Auto</string>
+    <string name="screen_orientation_portrait">Na výšku</string>
+    <string name="screen_orientation_landscape">Na šířku</string>
 
     <!-- 2015-06-28 -->
-    <string name="options_close_all">Zavřít vše</string>
+    <string name="options_close_all">Zavři vše</string>
 
-    <string name="pref_menus_optionsmenu_items_title">Položky nastavení menu</string>
+    <string name="pref_menus_optionsmenu_items_title">Položky nabídky Volby</string>
 
     <!-- 2015-07-05 -->
-    <string name="pref_behaviour_bezel_toolbar_header">Bezel panel nástrojů</string>
-    <string name="pref_behaviour_bezel_toolbar_swipezone_title">Velikost swajp zóny v panelu nástrojů </string>
+    <string name="pref_behaviour_bezel_toolbar_header">Dolní nástrojová lišta</string>
+    <string name="pref_behaviour_bezel_toolbar_swipezone_title">Velikost zóny k tažení dolní nástrojové lišty</string>
 
-    <string name="pref_behaviour_gifview_mode_title">Prohlížeč GIF souborů</string>
+    <string name="pref_behaviour_gifview_mode_title">Prohlížeč GIFu</string>
 
-    <string name="pref_behaviour_gifview_mode_internal_movie">Vnitřní prohlížeč (Movie, Android 4.0+)</string>
-    <string name="pref_behaviour_gifview_mode_internal_legacy">Vnitřní prohlížeč (Legacy)</string>
+    <string name="pref_behaviour_gifview_mode_internal_movie">Interní prohlížeč (Film, Android 4.0+)</string>
+    <string name="pref_behaviour_gifview_mode_internal_legacy">Interní prohlížeč (předchozí generace)</string>
 
-	<string name="pref_behaviour_view_mode_internal_browser">Vnitřní prohlížeč</string>
+    <string name="pref_behaviour_view_mode_internal_browser">Interní prohlížeč</string>
     <string name="pref_behaviour_view_mode_external_browser">Externí prohlížeč</string>
 
     <!-- 2015-08-15 -->
-    <string name="pref_appearance_fontscale_inbox_title">Velikost písma u doručené pošty</string>
+    <string name="pref_appearance_fontscale_inbox_title">Velikost písma ve schránce</string>
 
     <string name="action_delete">Smazat</string>
-    <string name="delete_confirm">Opravdu to chcete smazat?</string>
-    <string name="delete_success">Úspěšně smazáno. Položka bude viditelná, dokud neobnovíte stránku.</string>
+    <string name="delete_confirm">Opravdu chcete toto smazat\?</string>
+    <string name="delete_success">Úspěšně smazáno. Položka zůstane viditelná do nového načtení.</string>
 
-    <string name="pref_appearance_hide_username_main_menu_title">Skrýt uživatelské jméno v hlavním menu</string>
-    <string name="mainmenu_useritems">Položky uživatele</string>
+    <string name="pref_appearance_hide_username_main_menu_title">Skryj uživatelské jméno ve hlavní nabídce</string>
+    <string name="mainmenu_useritems">Uživatelské položky</string>
 
     <!-- 2015-09-13 -->
-    <string name="selected_link_is_not_image">Vybraný odkaz nemá obrázek.</string>
+    <string name="selected_link_is_not_image">Zvolený odkaz není obrázek.</string>
 
     <!-- 2015-10-03 -->
     <string name="imgur_album">Album Imgur</string>
 
     <!-- 2015-10-04 -->
-    <string name="album_already_first_image">Už jste na prvním obrázku v albu.</string>
-    <string name="album_already_last_image">Už jste na posledním obrázku v albu.</string>
+    <string name="album_already_first_image">Jste již u prvního obrázku alba.</string>
+    <string name="album_already_last_image">Jste již u posledního obrázku alba.</string>
 
-    <string name="upgrade_v190_login_message">RedReader se aktualizoval a nyní používá oAuth pro autentizace na Redditu. Pokud jste byl přihlášen před aktualiací, jste nyní odhlášen.</string>
+    <string name="upgrade_v190_login_message">RedReader byl aktualizován a nyní používá OAuth k ověření s Redditem. Pokud jste byli přihlášeni do svého účtu před touto aktualizací, jste nyní odhlášeni.</string>
 
-    <string name="pref_behaviour_videoview_mode_title">Přehrávač videí</string>
-    <string name="pref_behaviour_videoview_mode_internal_videoview">Vnitřní VideoView (doporučeno)</string>
-    <string name="pref_behaviour_videoview_mode_external_app_vlc">Externí aplikace: VLC</string>
+    <string name="pref_behaviour_videoview_mode_title">Přehrávač videa</string>
+    <string name="pref_behaviour_videoview_mode_internal_videoview">Interní VideoView (doporučeno)</string>
+    <string name="pref_behaviour_videoview_mode_external_app_vlc">Externí applikace: VLC</string>
 
-    <string name="videoview_mode_app_vlc_launch_failed">Spuštění VLC se nezdařilo. Prosím aktualizujte verzi VLC nebo změňte preferovaný přehrávač videí.</string>
+    <string name="videoview_mode_app_vlc_launch_failed">Spuštění VLC se nezdařilo. Prosím, aktualizujte VLC nebo změňte volbu VideoViewer.</string>
 
     <!-- 2015-10-05 -->
-    <string name="error_url_required_title">URL je požadované</string>
-    <string name="error_url_required_message">Prosím specifikujte URL.</string>
+    <string name="error_url_required_title">URL je nutné</string>
+    <string name="error_url_required_message">Musíte zadat URL.</string>
 
     <!-- 2015-10-16 -->
-    <string name="sort_comments_qa">Často kladené dotazy</string>
+    <string name="sort_comments_qa">Otázky a odpovědi</string>
 
     <!-- 2015-10-31 -->
-    <string name="pref_behaviour_gallery_swipe_length_title">Délka swajp zóny galerie</string>
+    <string name="pref_behaviour_gallery_swipe_length_title">Délka tahu v Galerii</string>
 
     <!-- 2015-11-19 -->
-    <string name="pref_cache_precache_comments_header">Předkešované komentáře</string>
+    <string name="pref_cache_precache_comments_header">Ulož komentáře do mezipaměti</string>
 
-    <string name="pref_cache_precache_comments_title">Předkešované komentáře</string>
+    <string name="pref_cache_precache_comments_title">Ulož komentáře do mezipaměti</string>
 
-    <string name="pref_cache_precache_comments_wifionly_title">Pouze na Wi-Fi</string>
+    <string name="pref_cache_precache_comments_wifionly_title">Pouze s Wi-Fi</string>
 
-    <string name="mainmenu_header_subreddits_subscribed">Odebírané podreddity</string>
-    <string name="mainmenu_header_subreddits_pinned">Připíchnuté podreddity</string>
+    <string name="mainmenu_header_subreddits_subscribed">Odebírané subreddity</string>
+    <string name="mainmenu_header_subreddits_pinned">Připíchnuté subreddity</string>
 
-    <string name="pin_subreddit">Připíchnout k hlavnímu menu</string>
-    <string name="unpin_subreddit">Odebrat z hlavního menu</string>
+    <string name="pin_subreddit">Připíchni k hlavnímu menu</string>
+    <string name="unpin_subreddit">Uvolni z hlavního menu</string>
 
     <!-- 2015-11-22 -->
-    <string name="props_image_title">Informace k obrázku</string>
-    <string name="props_caption">Popisek</string>
+    <string name="props_image_title">Info k obrázku</string>
+    <string name="props_caption">Titulek</string>
     <string name="props_resolution">Rozlišení</string>
 
     <!-- 2015-12-06 -->
-    <string name="error_too_fast_title">Příliš rychle</string>
-    <string name="error_too_fast_message">Reddit se domnívá, že přispíváte příliš rychle. Prosím počkejte několik minut a poté to zkuste znovu.</string>
+    <string name="error_too_fast_title">Příliš rychlé</string>
+    <string name="error_too_fast_message">Reddit sděluje, že ukládáte příspěvky příliš rychle. Prosím, čekejte několik minut a zkuste znovu.</string>
 
     <!-- 2015-12-19 -->
-    <string name="block_subreddit">Blokovat podreddit</string>
-    <string name="unblock_subreddit">Odblokovat podreddit</string>
-    <string name="block_done">Subreddit je blokován. Tento podreddit bude vyloučen z adresy /r/all.</string>
-    <string name="unblock_done">Subreddit je odblokován. Tento podreddit bude zahrnut do adresy /r/all.</string>
+    <string name="block_subreddit">Zakázat subreddit</string>
+    <string name="unblock_subreddit">Povolit subreddit</string>
+    <string name="block_done">Subreddit je zakázán. Příští návštěvy na /r/all tento subreddit vyloučí.</string>
+    <string name="unblock_done">Subreddit je povolen. Příští návštevy na /r/all tento subreddit zahrnou.</string>
 
     <!-- 2016-03-14-->
     <string name="pref_behaviour_comments_header">Komentáře</string>
 
     <string name="pref_behaviour_comment_min_title">Minimální skóre komentáře</string>
-    <string name="pref_behaviour_comment_min_dialog_title">Sbalit komentář pokud je skóre nižší (prázné zobrazí vše)</string>
+    <string name="pref_behaviour_comment_min_dialog_title">Sbal komentář, je-li skóre nižší než (pokud prázdné, ukaž všechny)</string>
 
     <!-- 2016-03-20 -->
 
     <!-- 2016-04-02 -->
-    <string name="open_with">Otevřít pomocí</string>
-    <string name="pref_network_tor_title">Použít síť Tor</string>
+    <string name="open_with">Otevři s</string>
+    <string name="pref_network_tor_title">Použij TOR (experimentální)</string>
 
     <!-- 2016-04-03 -->
-    <string name="error_tor_not_installed">Síť Tor nefunguje, pokud nemáte nainstalovaný Orbot. Chcete ho nainstalovat?</string>
-    <string name="error_tor_setting_failed">Nepodařilo se nastavit proxy.</string>
+    <string name="error_tor_not_installed">Tor nebude funkční, není-li instalován Orbot. Instalovat\?</string>
+    <string name="error_tor_setting_failed">Nastavení proxy se nezdařilo.</string>
 
     <!-- 2016-04-10 -->
-    <string name="error_parse_imgur_title">Chyba zpracování</string>
-    <string name="error_parse_imgur_message">Imgur odeslal data, která neumím zpracovat.</string>
+    <string name="error_parse_imgur_title">Chyba rozboru</string>
+    <string name="error_parse_imgur_message">Imgur odeslal data, jimž jsem nerozuměl.</string>
 
     <string name="error_upload_fail_imgur_title">Nahrání se nezdařilo</string>
-    <string name="error_upload_fail_imgur_message">Imgur zamítnul nahrávání z neznámých důvodů.</string>
+    <string name="error_upload_fail_imgur_message">Nahrání bylo zamítnuto Imgurem z neznámého důvodu.</string>
 
-    <string name="upload_to_imgur">Nahrát na Imgur</string>
-    <string name="no_file_selected">Nemáte vybraný žádný soubor</string>
-    <string name="button_upload">Nahrát</string>
-    <string name="button_browse">Prohlížet…</string>
+    <string name="upload_to_imgur">Nahrání do Imguru</string>
+    <string name="no_file_selected">Soubor nebyl vybrán</string>
+    <string name="button_upload">Nahrání</string>
+    <string name="button_browse">Listuj…</string>
 
-    <string name="error_file_too_big_title">Příliš velký soubor</string>
-    <string name="error_file_too_big_message">Velikost tohoto souboru (%1$s) je větší než limit pro náhrávání (%2$s).</string>
+    <string name="error_file_too_big_title">Soubor je příliš velký</string>
+    <string name="error_file_too_big_message">Velikost souboru (%1$s) je větší než limit pro nahrání (%2$s).</string>
 
-    <string name="error_file_open_failed_title">Nepodařilo se otevřít soubor</string>
-    <string name="error_file_open_failed_message">Při otevírání souboru došlo k chybě.</string>
+    <string name="error_file_open_failed_title">Otevřít soubor se nezdařilo</string>
+    <string name="error_file_open_failed_message">Při otvírání souboru došlo k chybě.</string>
 
-    <string name="image_selected_summary">Vybraný obrázek: %1$dx%2$d, %3$s</string>
+    <string name="image_selected_summary">Vybrán obrázek: %1$dx%2$d, %3$s</string>
 
-	<!-- 2016-06-10 -->
-	<string name="submit_post_specify_subreddit">Specifikovat podreddit</string>
-	<string name="submit_post_title_empty">Titule nesmí být prázdný</string>
-	<string name="submit_post_url_empty">URL nesmí být prázdné</string>
-	<string name="submit_post_self_text_hint">Vlastní text</string>
-	<string name="submit_post_url_hint">URL</string>
+    <!-- 2016-06-10 -->
+    <string name="submit_post_specify_subreddit">Urči subreddit</string>
+    <string name="submit_post_title_empty">Název nemůže být prázdný</string>
+    <string name="submit_post_url_empty">URL nemůže být prázdné</string>
+    <string name="submit_post_self_text_hint">Vlastní text</string>
+    <string name="submit_post_url_hint">URL</string>
 
-	<!-- 2016-06-24 -->
-	<string name="save_image_permission_denied">Povolení zamítnuto: nelze uložit obrázek.</string>
-	
-	<!-- 2016-06-25 -->
-	<string name="pref_behaviour_imageview_mode_title">Prohlížeč obrázků</string>
+    <!-- 2016-06-24 -->
+    <string name="save_image_permission_denied">Přístup zamítnut: obrázek nemohl být uložen.</string>
 
-	<string name="pref_behaviour_imageview_mode_internal_opengl">Vnitřní prohlížeč (OpenGL)</string>
+    <!-- 2016-06-25 -->
+    <string name="pref_behaviour_imageview_mode_title">Prohlížeč obrázků</string>
 
-	<string name="pref_behaviour_albumview_mode_title">Prohlížeč alb</string>
+    <string name="pref_behaviour_imageview_mode_internal_opengl">Interní prohlížeč (OpenGL)</string>
 
-	<string name="pref_behaviour_albumview_mode_internal_list">Vnitřní prohlížeč (seznam)</string>
+    <string name="pref_behaviour_albumview_mode_title">Prohlížeč alb</string>
 
-	<string name="error_tor_start_failed">Orbot se nepodařilo spustit. Síť Tor nebude fungovat.</string>
+    <string name="pref_behaviour_albumview_mode_internal_list">Interní prohlížeč (seznam)</string>
 
-	<!-- 2016-06-30 -->
-	<string name="inbox_unread_only">Pouze nepřečtené zprávy</string>
-	
-	<!-- 2016-07-02 -->
-	<string name="pref_behaviour_actions_comment_longclick_title">Akce při delším podržení komentáře</string>
+    <string name="error_tor_start_failed">Spustit Orbot se nezdařilo. Tor nebude správně pracovat.</string>
 
-	<string name="no_comments_yet">Zde ještě nejsou žádné komentáře.</string>
+    <!-- 2016-06-30 -->
+    <string name="inbox_unread_only">Pouze nepřečtené zprávy</string>
 
-	<!-- 2016-07-09 -->
-	<string name="pm_send_hint_recipient">Příjemce</string>
-	<string name="pm_send_hint_subject">Předmět</string>
-	<string name="pm_send_hint_message_text">Text zprávy</string>
+    <!-- 2016-07-02 -->
+    <string name="pref_behaviour_actions_comment_longclick_title">Akce dlouhého stisku na komentář</string>
 
-	<string name="pm_send_done">Zpráva odeslána.</string>
+    <string name="no_comments_yet">Zatím žádný komentář.</string>
 
-	<string name="userprofile_pm">Odeslaná zpráva</string>
+    <!-- 2016-07-09 -->
+    <string name="pm_send_hint_recipient">Příjemce</string>
+    <string name="pm_send_hint_subject">Předmět</string>
+    <string name="pm_send_hint_message_text">Text zprávy</string>
 
-	<string name="error_too_long_title">Příliš dlouhý text</string>
-	<string name="error_too_long_message">Reddit říká, že text vaší zprávy je příliš dlouhý.</string>
+    <string name="pm_send_done">Zpráva odeslána.</string>
 
-	<string name="pm_send_actionbar">Odeslaná zpráva</string>
-	<string name="submit_post_actionbar">Přidat příspěvek</string>
-	<string name="submit_comment_actionbar">Přidat komentář</string>
-	<string name="edit_comment_actionbar">Upravit komentář</string>
-	
-	<!-- 2016-07-16 -->
-	<string name="pref_behaviour_fling_comment_left_title">Akce při posunutí komentáře doleva</string>
+    <string name="userprofile_pm">Odešli zprávu</string>
 
-	<string name="pref_behaviour_fling_comment_right_title">Akce při posunutí komentáře doprava</string>
+    <string name="error_too_long_title">Příliš dlouhý</string>
+    <string name="error_too_long_message">Reddit sděluje, že vložený text je příliš dlouhý.</string>
 
-	<!-- 2016-07-17 -->
-	<string name="comment_header_search_thread_title">Právě si prohlížíte výsledky vyhledávní ve vlákně komentářů.</string>
-	<string name="no_search_results">Tomuto vyhledávání neodpovídají žádné výsledky.</string>
+    <string name="pm_send_actionbar">Odešli zprávu</string>
+    <string name="submit_post_actionbar">Vlož příspěvek</string>
+    <string name="submit_comment_actionbar">Vlož komentář</string>
+    <string name="edit_comment_actionbar">Uprav komentář</string>
 
-	<!-- 2016-07-24 -->
-	<string name="action_search_comments">Vyhledat v komentářích</string>
+    <!-- 2016-07-16 -->
+    <string name="pref_behaviour_fling_comment_left_title">Akce odhodit komentář doleva</string>
 
-	<!-- 2016-07-29 -->
-	<string name="pref_appearance_navbar_color_title">Barva navigačního panelu</string>
+    <string name="pref_behaviour_fling_comment_right_title">Akce odhodit komentář doprava</string>
 
-	<string name="pref_appearance_navbar_color_option_black">Černá</string>
-	<string name="pref_appearance_navbar_color_option_primary">Hlavní (světlá)</string>
-	<string name="pref_appearance_navbar_color_option_primarydark">Hlavní (tmavá)</string>
+    <!-- 2016-07-17 -->
+    <string name="comment_header_search_thread_title">Právě vidíte výsledek hledání ve vlákně komentáře.</string>
+    <string name="no_search_results">Hledání nevydalo žádný výsledek.</string>
 
-	<string name="pref_not_supported_before_lollipop">Nepodporováno před Android Lollipop</string>
+    <!-- 2016-07-24 -->
+    <string name="action_search_comments">Hledej v komentářích</string>
 
-	<!-- 2016-08-03 -->
-	<string name="action_copy_text">Kopírovat text</string>
-	<string name="action_copy_link">Kopírovat odkaz</string>
+    <!-- 2016-07-29 -->
+    <string name="pref_appearance_navbar_color_title">Barva navigační lišty</string>
 
-	<string name="pref_behaviour_postsort">Výchozí třídění článků</string>
+    <string name="pref_appearance_navbar_color_option_black">Černá</string>
+    <string name="pref_appearance_navbar_color_option_primary">Primární (světlá)</string>
+    <string name="pref_appearance_navbar_color_option_primarydark">Primární (tmavá)</string>
 
-	<!-- 2016-08-06 -->
-	<string name="mainmenu_custom_destination">Vlastní umístění</string>
-	<string name="mainmenu_custom_destination_subreddit">Podreddit</string>
-	<string name="mainmenu_custom_destination_user">Uživatel</string>
-	<string name="mainmenu_custom_destination_url">URL</string>
-	<string name="mainmenu_custom_destination_search">Hledání</string>
+    <string name="pref_not_supported_before_lollipop">Nepodporováno před verzí Android Lollipop</string>
 
-	<string name="mainmenu_header_multireddits">Multireddity</string>
+    <!-- 2016-08-03 -->
+    <string name="action_copy_text">Kopíruj text</string>
+    <string name="action_copy_link">Kopíruj odkaz</string>
 
-	<string name="pref_behaviour_share_permalink_title">Sdílet jako trvalý odkaz</string>
+    <string name="pref_behaviour_postsort">Výchozí řazení příspěvků</string>
 
-	<!-- 2016-08-10 -->
-	<string name="pref_cache_general_header">Obecné</string>
+    <!-- 2016-08-06 -->
+    <string name="mainmenu_custom_destination">Vlastní umístění</string>
+    <string name="mainmenu_custom_destination_subreddit">Subreddit</string>
+    <string name="mainmenu_custom_destination_user">Uživatel</string>
+    <string name="mainmenu_custom_destination_url">URL</string>
+    <string name="mainmenu_custom_destination_search">Hledání</string>
 
-	<string name="pref_cache_location_title">Umístění úložiště keše</string>
+    <string name="mainmenu_header_multireddits">Multireddits</string>
 
-	<string name="error_cache_dir_does_not_exist_title">Chybí adresář keše</string>
-	<string name="error_cache_dir_does_not_exist_message">Adresář keše nebyl nalezen. Vyberte prosím jiné umístění v nastavení keše.</string>
+    <string name="pref_behaviour_share_permalink_title">Sdílej jako trvalý odkaz</string>
 
-	<!-- 2016-08-15 -->
-	<string name="pref_behaviour_pinned_subredditsort">Třídit připíchnuté podreddity</string>
-	<string name="sort_pinned_subreddit_name">Podle jména</string>
-	<string name="sort_pinned_subreddit_date">Podle data přidání</string>
+    <!-- 2016-08-10 -->
+    <string name="pref_cache_general_header">Obecné</string>
 
-	<!-- 2016-09-01 -->
-	<string name="load_more_comments_failed_unknown_url_type">Nelze načíst více komentářů: neznámý typ URL.</string>
+    <string name="pref_cache_location_title">Umístění mezipaměti v úložišti</string>
 
-	<!-- 2016-09-04 -->
-	<string name="pref_appearance_image_viewer_header">Prohlížeč obrázků</string>
+    <string name="error_cache_dir_does_not_exist_title">Adresář mezipaměti chybí</string>
+    <string name="error_cache_dir_does_not_exist_message">Adresář mezipaměti je nedostupný. Prosím, zvolte jiné umístění v nastevení mezipaměti.</string>
 
-	<string name="pref_appearance_image_viewer_show_floating_toolbar_title">Zobrazit nad obrázkem pohyblivý panel nástrojů </string>
+    <!-- 2016-08-15 -->
+    <string name="pref_behaviour_pinned_subredditsort">Řazení připíchnutých subredditů</string>
+    <string name="sort_pinned_subreddit_name">Podle názvu</string>
+    <string name="sort_pinned_subreddit_date">Podle data připíchnutí</string>
 
-	<string name="pref_appearance_link_text_clickable_title">Klikatelný text odkazu</string>
+    <!-- 2016-09-01 -->
+    <string name="load_more_comments_failed_unknown_url_type">Nelze načíst více komentářů: neznámý typ URL.</string>
 
-	<!-- 2016-09-07 -->
-	<string name="pref_appearance_hide_android_status_title">Skrýt Android lištu se statusy</string>
+    <!-- 2016-09-04 -->
+    <string name="pref_appearance_image_viewer_header">Prohlížeč obrázků</string>
 
-	<!-- 2016-09-08 -->
-	<string name="pref_behaviour_enable_swipe_refresh_title">Obnovit stránku potahnutím směrem dolů</string>
+    <string name="pref_appearance_image_viewer_show_floating_toolbar_title">Ukaž plovoucí nástrojovou lištu přes obrázek</string>
 
-	<!-- 2016-09-10 -->
-	<string name="mainmenu_header_subreddits_blocked">Blokované podreddity</string>
-	<string name="pref_behaviour_blocked_subredditsort">Třídit blokované podreddity</string>
-	<string name="sort_blocked_subreddit_name">Podle jména</string>
-	<string name="sort_blocked_subreddit_date">Podle data přidán</string>
+    <string name="pref_appearance_link_text_clickable_title">Text odkazu bude regovat na stisknutí</string>
 
-	<!-- 2016-09-21 -->
-	<string name="pref_appearance_show_blocked_subreddits_main_menu_title">Zobrazit blokované podreddity v hlavním menu</string>
+    <!-- 2016-09-07 -->
+    <string name="pref_appearance_hide_android_status_title">Skryj stavovou lištu Androidu</string>
 
-	<!-- 2016-10-02 -->
-	<string name="pref_cache_rerequest_postlist_age_title">Obnovit články, pokud je keš starší než</string>
+    <!-- 2016-09-08 -->
+    <string name="pref_behaviour_enable_swipe_refresh_title">Aktualizovat tahem dolů</string>
 
-	<string name="time_2hr">2 hodiny</string>
-	<string name="time_3hr">3 hodiny</string>
+    <!-- 2016-09-10 -->
+    <string name="mainmenu_header_subreddits_blocked">Nepovolené subreddity</string>
+    <string name="pref_behaviour_blocked_subredditsort">Řazení nepovolených subredditů</string>
+    <string name="sort_blocked_subreddit_name">Podle názvu</string>
+    <string name="sort_blocked_subreddit_date">Podle data nepovolení</string>
 
+    <!-- 2016-09-21 -->
+    <string name="pref_appearance_show_blocked_subreddits_main_menu_title">Ukaž nepovolené subreddity v hlavním menu</string>
 
-	<!-- 2016-10-08 -->
-	<string name="time_every_time">Pokaždé</string>
+    <!-- 2016-10-02 -->
+    <string name="pref_cache_rerequest_postlist_age_title">Aktualizuj příspěvky, je-li mezipaměť starší než</string>
 
-	<!-- 2016-12-03 -->
-	<string name="theme_name_night_lowcontrast">Noc (nízké rozlišení)</string>
-	<string name="theme_name_ultrablack">Ultra černá</string>
+    <string name="time_2hr">2 hodiny</string>
+    <string name="time_3hr">3 hodiny</string>
 
-	<!-- 2016-12-07 -->
-	<string name="send_replies_to_inbox">Posílat odpovědi do mé schránky</string>
+    <!-- 2016-10-08 -->
+    <string name="time_every_time">Vždy</string>
 
-	<!-- 2016-12-11 -->
-	<string name="action_share_image">Sdílet obrázek</string>
+    <!-- 2016-12-03 -->
+    <string name="theme_name_night_lowcontrast">Noční (slabý kontrast)</string>
+    <string name="theme_name_ultrablack">Ultra černé</string>
 
-	<!-- 2017-01-15 -->
-	<string name="error_403_title_nonreddit">Povolení zamítnuto</string>
-	<string name="error_403_message_nonreddit">Server zobrazil chybovou hlášku "Povolení zamítnuto".</string>
+    <!-- 2016-12-07 -->
+    <string name="send_replies_to_inbox">Pošli odpovědí do schránky doručené</string>
 
-	<!-- 2017-02-12 -->
-	<string name="submit_pmreply_actionbar">Odpovědět</string>
-	<string name="pm_reply_done">Odpověd odeslána.</string>
+    <!-- 2016-12-11 -->
+    <string name="action_share_image">Sdílej obrázek</string>
 
-	<!-- 2017-02-15 -->
-	<string name="mainmenu_popular">Populární podreddity</string>
+    <!-- 2017-01-15 -->
+    <string name="error_403_title_nonreddit">Přístup odepřen</string>
+    <string name="error_403_message_nonreddit">Server vrátil chybu přístup zamítnut.</string>
 
-	<!-- 2017-02-23 -->
-	<string name="action_back">Zpět</string>
+    <!-- 2017-02-12 -->
+    <string name="submit_pmreply_actionbar">Odpovědět</string>
+    <string name="pm_reply_done">Odpověď odslána.</string>
 
-	<!-- 2017-03-02 -->
-	<string name="pref_menus_link_context_items_title">Odkazovat na položky kontextového menu</string>
+    <!-- 2017-02-15 -->
+    <string name="mainmenu_popular">Oblíbené subreddity</string>
 
-	<!-- 2017-03-07 -->
-	<string name="pref_menus_subreddit_context_items_title">Položky kontextového menu podredditu</string>
-	<string name="mainmenu_toast_not_subscribed">Ještě nejste přihlášeni k odběru tohoto podredditu!</string>
-	<string name="mainmenu_toast_subscribed">Tento podreddit již odebíráte!</string>
-	<string name="mainmenu_toast_not_pinned">Tento podreddit není připíchnut k hlavnímu menu!</string>
-	<string name="mainmenu_toast_pinned">Tento podreddit už je připíchnut k hlavnímu menu!</string>
-	<string name="mainmenu_toast_not_blocked">Tento podreddit není blokován!</string>
-	<string name="mainmenu_toast_blocked">Tento podreddit je blokován!</string>
+    <!-- 2017-02-23 -->
+    <string name="action_back">Zpět</string>
 
-	<!-- 2017-04-02 -->
-	<string name="edit_post_actionbar">Upravit příspěvek</string>
-	<string name="post_edit_done">Příspěvek upraven. Změny se projeví po obnovení stránky.</string>
-	<string name="action_block_subreddit">Blokovat podreddit</string>
-	<string name="action_unblock_subreddit">Povolit podreddit</string>
-	<string name="action_pin_subreddit">Připíchnout podreddit k hlavnímu menu</string>
-	<string name="action_unpin_subreddit">Odstranit podreddit z hlavního menu</string>
-	<string name="action_subscribe_subreddit">Přihlásit se k odběru tohoto podredditu</string>
-	<string name="action_unsubscribe_subreddit">Odhlásit se z odběru tohoto podredditu</string>
+    <!-- 2017-03-02 -->
+    <string name="pref_menus_link_context_items_title">Položky menu Kontext odkazu</string>
 
-	<!-- 2017-04-14 -->
-	<string name="collapsed_self_post">Sbalit vlastní příspěvek</string>
+    <!-- 2017-03-07 -->
+    <string name="pref_menus_subreddit_context_items_title">Položky menu Kontext subredditu</string>
+    <string name="mainmenu_toast_not_subscribed">Zatím tento subreddit neodebíráte!</string>
+    <string name="mainmenu_toast_subscribed">Tento subreddit již odebíráte!</string>
+    <string name="mainmenu_toast_not_pinned">Tento subreddit není připíchnut k hlavnímu menu!</string>
+    <string name="mainmenu_toast_pinned">Tento subreddit je již k hlavnímu menu připíchnut!</string>
+    <string name="mainmenu_toast_not_blocked">Tento subreddit není zakázán!</string>
+    <string name="mainmenu_toast_blocked">Tento subreddit je již zakázán!</string>
 
-	<!-- 2017-05-08 -->
-	<string name="button_next_comment_parent">Další nadřazený komentář</string>
-	<string name="button_prev_comment_parent">Předchozí nadřazený komentář</string>
+    <!-- 2017-04-02 -->
+    <string name="edit_post_actionbar">Uprav příspěvek</string>
+    <string name="post_edit_done">Příspěvek upraven. Úpravy se ukážou po příštím načtení.</string>
+    <string name="action_block_subreddit">Blokuj subreddit</string>
+    <string name="action_unblock_subreddit">Odblokuj subreddit</string>
+    <string name="action_pin_subreddit">Připíchni subreddit k hlavnímu menu</string>
+    <string name="action_unpin_subreddit">Uvolni subreddit z hlavního menu</string>
+    <string name="action_subscribe_subreddit">Objednej subreddit</string>
+    <string name="action_unsubscribe_subreddit">Zruš objednávku subredditu</string>
 
-	<string name="pref_appearance_comments_show_floating_toolbar_title">Zobrazit pohyblivý panel nástrojů nad komentářem</string>
+    <!-- 2017-04-14 -->
+    <string name="collapsed_self_post">Self-post se sbalil</string>
 
-	<!--2017-05-08-->
-	<string name="download_link_title">Stáhnout soubor</string>
-	<string name="download_link_message">Toto je odkaz pro stahování. Chcete soubor nahrát to externího prohížeče?</string>
+    <!-- 2017-05-08 -->
+    <string name="button_next_comment_parent">Další mateřský komentář</string>
+    <string name="button_prev_comment_parent">Předchozí mateřský komentář</string>
 
-	<!--2017-05-21-->
-	<string name="pref_behaviour_self_post_tap_actions_title">Akce po kliknutí na vlastní příspěvek</string>
+    <string name="pref_appearance_comments_show_floating_toolbar_title">Ukaž polovoucí lištu nástrojů přes komentáře</string>
 
-	<!-- 2017-06-05 -->
+    <!--2017-05-08-->
+    <string name="download_link_title">Stáhni soubor</string>
+    <string name="download_link_message">Toto je odkaz ke stažení. Chcete načíst v externím prohlížeči\?</string>
 
-	<string name="pref_menus_show_popular_main_menu_title">Zobrazit /r/popular v hlavním menu</string>
-	<string name="pref_behaviour_video_playback_controls_title">Povolit ovládání přehrávání videa</string>
+    <!--2017-05-21-->
+    <string name="pref_behaviour_self_post_tap_actions_title">Akce klepnutí na Self-Post</string>
 
-	<!-- 2017-06-05 -->
-	<string name="error_no_suitable_apps_available">Nejsou dostupné žádné vhodné aplikace.</string>
+    <!-- 2017-06-05 -->
 
-	<!-- 2017-10-22 -->
-	<string name="pref_behaviour_sharing_share_text_title">Do sdílení komentářů zahrnout i text</string>
+    <string name="pref_menus_show_popular_main_menu_title">Ukaž /r/popular v hlavním menu</string>
+    <string name="pref_behaviour_video_playback_controls_title">Zapni ovládání přehrání videa</string>
 
-	<!-- 2017-11-01 -->
-	<string name="disable_replies_to_infobox_failed">Nepodařilo se zakázat posílání odpovědí do příchozí pošty</string>
+    <!-- 2017-06-05 -->
+    <string name="error_no_suitable_apps_available">Nenalezena vhodná aplikace.</string>
 
-	<!-- 2017-12-03 -->
-	<string name="mainmenu_random">Náhodný podreddit</string>
-	<string name="pref_menus_show_random_main_menu_title">Zobrazit /r/random v hlavním menu</string>
+    <!-- 2017-10-22 -->
+    <string name="pref_behaviour_sharing_share_text_title">Zahrň text při sdílení komentáře</string>
 
-	<!-- 2018-01-16 -->
+    <!-- 2017-11-01 -->
+    <string name="disable_replies_to_infobox_failed">Vypnout odpovědí do schránky doručené se nezdařilo</string>
 
-	<!-- 2018-02-03 -->
-	<string name="mainmenu_custom_empty_search_query">Smazat vyhledávání.</string>
+    <!-- 2017-12-03 -->
+    <string name="mainmenu_random">Nahodilý subreddit</string>
+    <string name="pref_menus_show_random_main_menu_title">Ukaž /r/random (nahodilé) v hlavním menu</string>
 
-	<!-- 2018-02-10 -->
-	<string name="search_listing_header_query">Vyhledávácí dotazy</string>
-	<string name="search_listing_header_sub">Omezit na podreddity</string>
-  
-	<!-- 2018-02-11 -->
-	<string name="pref_behaviour_sharing_header">Sharing</string>
-	<string name="pref_behaviour_sharing_include_desc_title">Při sdílení zahrunout i titulek a popis</string>
-	<string name="share_comments_for">Komentáře k %s</string>
-	<string name="share_comment_by_on_reddit">Komentáře od %s na Redditu</string>
+    <!-- 2018-01-16 -->
 
-	<!-- 2018-06-23 -->
-	<string name="title_license">Licence</string>
+    <!-- 2018-02-03 -->
+    <string name="mainmenu_custom_empty_search_query">Vymaž dotaz hledání.</string>
 
-	<string name="title_attribution">Autorství</string>
+    <!-- 2018-02-10 -->
+    <string name="search_listing_header_query">Vyhledej</string>
+    <string name="search_listing_header_sub">Pouze subreddit</string>
 
-	<!-- 2018-06-24 -->
-	<string name="pref_appearance_left_handed_title">Levostranný režim</string>
+    <!-- 2018-02-11 -->
+    <string name="pref_behaviour_sharing_header">Sdílení</string>
+    <string name="pref_behaviour_sharing_include_desc_title">Zahrň název/popis při sdílení</string>
+    <string name="share_comments_for">Komentáře na %s</string>
+    <string name="share_comment_by_on_reddit">Komentář autorem %s na Reddit</string>
 
-	<string name="post_submit_mark_nsfw">Označit jako NSFW (důležité) </string>
-	<string name="post_submit_mark_spoiler">Označit jako spoiler</string>
+    <!-- 2018-06-23 -->
+    <string name="title_license">Licence</string>
 
-	<string name="error_already_submitted_title">Již bylo publikováno</string>
-	<string name="error_already_submitted_message">Tento příspěvek byl v tomto podredditu již publikován.</string>
+    <string name="title_attribution">Autorství</string>
 
-	<string name="comment_reply_done_norefresh">Odpověď odeslána.</string>
+    <!-- 2018-06-24 -->
+    <string name="pref_appearance_left_handed_title">Levostranný režim</string>
 
-	<string name="sort_posts_best">Nejlepší</string>
+    <string name="post_submit_mark_nsfw">Označit jako NSFW (důležité) </string>
+    <string name="post_submit_mark_spoiler">Označit jako spoiler</string>
 
-	<!-- 2018-07-08 -->
-	<string name="pref_behaviour_usecustomtabs_title">Použít vlastní záložky</string>
-	<string name="pref_behaviour_usecustomtabs_summary">Kde je to možné, použít vlastní záložky</string>
+    <string name="error_already_submitted_title">Již bylo publikováno</string>
+    <string name="error_already_submitted_message">Tento příspěvek byl v tomto podredditu již publikován.</string>
 
-	<!-- 2018-09-11 -->
-	<string name="pref_behaviour_hide_read_posts_title">Skrýt přečtené články</string>
+    <string name="comment_reply_done_norefresh">Odpověď odeslána.</string>
 
-	<!-- 2019-10-01 -->
-	<string name="post_text_copied_to_clipboard">Příspěvek zkopírován do schránky</string>
+    <string name="sort_posts_best">Nejlepší</string>
+
+    <!-- 2018-07-08 -->
+    <string name="pref_behaviour_usecustomtabs_title">Použít vlastní záložky</string>
+    <string name="pref_behaviour_usecustomtabs_summary">Kde je to možné, použít vlastní záložky</string>
+
+    <!-- 2018-09-11 -->
+    <string name="pref_behaviour_hide_read_posts_title">Skrýt přečtené články</string>
+
+    <!-- 2019-10-01 -->
+    <string name="post_text_copied_to_clipboard">Příspěvek zkopírován do schránky</string>
+
+    <!-- Weblate 2020-01-25 -->
+
+    <string name="pref_behaviour_notifications_title">Oznámení</string>
+    <string name="pref_cache_maxage_entry_title">Smazat praporky v mezipaměti (přečteno, upvoted, atd.) po</string>
 
 </resources>

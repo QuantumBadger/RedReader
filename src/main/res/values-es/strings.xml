@@ -14,8 +14,7 @@
   ~
   ~ You should have received a copy of the GNU General Public License
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
-  -->
-<resources>
+  --><resources>
     <!-- First Run Dialog -->
     <string name="firstrun_login_title">Iniciar sesión</string>
     <string name="firstrun_login_message">No has iniciado sesión. Puedes acceder a la lista de cuentas seleccionando "Cuentas" desde el menú.</string>
@@ -658,4 +657,17 @@
     <string name="share_comments_for">Comentarios para %s</string>
     <string name="share_comment_by_on_reddit">Comentarios por %s en Reddit</string>
     <string name="gold">Gold</string>
+    <string name="title_license">Licencia</string>
+    <string name="pref_appearance_left_handed_title">Modo zurdo</string>
+    <string name="post_submit_mark_nsfw">Marcar como NSFW</string>
+    <string name="post_submit_mark_spoiler">Marcar como spoiler</string>
+    <string name="error_already_submitted_message">Esta publicación ya se ha enviado a este subreddit.</string>
+    <string name="comment_reply_done_norefresh">Respuesta enviada.</string>
+    <string name="sort_posts_best">Los mejores</string>
+    <string name="pref_behaviour_usecustomtabs_title">Usar pestañas personalizadas</string>
+    <string name="pref_behaviour_usecustomtabs_summary">Usar pestañas personalizadas cuando estén disponibles</string>
+    <string name="pref_behaviour_hide_read_posts_title">Ocultar publicaciones leídas</string>
+    <string name="pref_menus_show_multireddit_main_menu_title">Mostrar Multireddits</string>
+    <string name="mainmenu_random_nsfw">Subreddit NSFW aleatorio</string>
+    <string name="error_toast_no_share_app_installed">No se ha instalado una aplicación adecuada para compartir esto.</string>
 </resources>

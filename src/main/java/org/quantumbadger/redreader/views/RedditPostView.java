@@ -202,7 +202,8 @@ public final class RedditPostView extends FlingableItemView implements RedditPre
 
 		dpScale = context.getResources().getDisplayMetrics().density; // TODO xml?
 
-		final float fontScale = PrefsUtility.appearance_fontscale_posts(context, PreferenceManager.getDefaultSharedPreferences(context));
+		final float titleFontScale = PrefsUtility.appearance_fontscale_posts(context, PreferenceManager.getDefaultSharedPreferences(context));
+		final float subtitleFontScale = PrefsUtility.appearance_fontscale_post_subtitles(context, PreferenceManager.getDefaultSharedPreferences(context));
 
 		final View rootView = LayoutInflater.from(context).inflate(R.layout.reddit_post, this, true);
 
@@ -250,8 +251,8 @@ public final class RedditPostView extends FlingableItemView implements RedditPre
 			}
 		});
 
-		title.setTextSize(TypedValue.COMPLEX_UNIT_PX, title.getTextSize() * fontScale);
-		subtitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, subtitle.getTextSize() * fontScale);
+		title.setTextSize(TypedValue.COMPLEX_UNIT_PX, title.getTextSize() * titleFontScale);
+		subtitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, subtitle.getTextSize() * subtitleFontScale);
 
 		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 		mLeftFlingPref = PrefsUtility.pref_behaviour_fling_post_left(context, sharedPreferences);

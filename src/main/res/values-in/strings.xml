@@ -238,7 +238,7 @@
     <string name="error_cancelled_message">Operasi ini telah dibatalkan.</string>
     <string name="error_parse_title">Galat Urai</string>
     <string name="error_parse_message">Reddit mengirim data yang tidak saya ketahui.</string>
-    <string name="error_unexpected_cache_title"/>
+    <string name="error_unexpected_cache_title">Galat Cache yang Tak Terduga</string>
     <string name="error_unexpected_cache_message">Telah terjadi galat internal yang tidak diketahui, terkait dengan cache.</string>
     <string name="error_unexpected_storage_title">Galat Penyimpanan Tak Terduga</string>
     <string name="error_unexpected_storage_message">Telah terjadi galat internal yang tidak diketahui, terkait dengan penyimpanan cache. Anda mungkin kehabisan ruang kosong penyimpanan.</string>
@@ -519,9 +519,9 @@
     <string name="pref_cache_precache_comments_wifionly_key" translatable="false">pref_cache_precache_comments_wifionly</string>
     <string name="pref_cache_precache_comments_wifionly_title">Hanya di Wi-Fi</string>
     <string name="mainmenu_header_subreddits_subscribed">Subreddit Disubscribe</string>
-    <string name="mainmenu_header_subreddits_pinned">Subreddit Disematkan</string>
-    <string name="pin_subreddit">Semat ke Menu Utama</string>
-    <string name="unpin_subreddit">Buang dari Menu Utama</string>
+    <string name="mainmenu_header_subreddits_pinned">Subreddit Favorit</string>
+    <string name="pin_subreddit">Pin ke Menu Utama</string>
+    <string name="unpin_subreddit">Hapus dari Menu Utama</string>
     <string name="pref_pinned_subreddits_key" translatable="false">pref_pinned_subreddits</string>
     <!-- 2015-11-22 -->
     <string name="props_image_title">Info Gambar</string>
@@ -636,7 +636,7 @@
     <string name="error_cache_dir_does_not_exist_message">Direktori cache tidak bisa diakses. Silakan pilih lokasi yang berbeda di pengaturan cache.</string>
     <!-- 2016-08-15 -->
     <string name="pref_behaviour_pinned_subredditsort_key" translatable="false">pref_behaviour_pinned_subreddit_sort</string>
-    <string name="pref_behaviour_pinned_subredditsort">Urutan Subreddit Disematkan</string>
+    <string name="pref_behaviour_pinned_subredditsort">Urutan Subreddit Favorit</string>
     <string name="sort_pinned_subreddit_name">Nama</string>
     <string name="sort_pinned_subreddit_date">Tanggal Ditambahkan</string>
     <!-- 2016-09-01 -->
@@ -701,8 +701,8 @@
     <string name="pref_menus_subreddit_context_items_title">Item Menu Konteks Subreddit</string>
     <string name="mainmenu_toast_not_subscribed">Anda belum subscribe ke subreddit ini!</string>
     <string name="mainmenu_toast_subscribed">Anda sudah subscribe ke subreddit ini!</string>
-    <string name="mainmenu_toast_not_pinned">Subreddit tidak disematkan ke menu utama!</string>
-    <string name="mainmenu_toast_pinned">Subreddit ini sudah disematkan ke menu utama!</string>
+    <string name="mainmenu_toast_not_pinned">Subreddit ini tidak dipin ke menu utama!</string>
+    <string name="mainmenu_toast_pinned">Subreddit ini sudah dipin ke menu utama!</string>
     <string name="mainmenu_toast_not_blocked">Subreddit ini tidak diblokir!</string>
     <string name="mainmenu_toast_blocked">Subreddit ini sudah diblokir!</string>
     <string name="lang_pt" translatable="false">Português</string>
@@ -711,8 +711,8 @@
     <string name="post_edit_done">Pos telah disunting. Perubahan akan ditampilkan setelah anda menyegarkan halaman.</string>
     <string name="action_block_subreddit">Blokir Subreddit</string>
     <string name="action_unblock_subreddit">Buka Blokir Subreddit</string>
-    <string name="action_pin_subreddit">Semat Subreddit ke Menu Utama</string>
-    <string name="action_unpin_subreddit">Hapus Semat Subreddit dari Menu Utama</string>
+    <string name="action_pin_subreddit">Pin Subreddit ke Menu Utama</string>
+    <string name="action_unpin_subreddit">Hapus Subreddit dari Menu Utama</string>
     <string name="action_subscribe_subreddit">Subscribe ke Subreddit</string>
     <string name="action_unsubscribe_subreddit">Batal subscribe dari Subreddit</string>
     <!-- 2017-04-14 -->
@@ -767,7 +767,7 @@
     <string name="notification_channel_name_reddit_messages">Pesan Masuk Reddit</string>
     <string name="post_text_copied_to_clipboard">Pos disalin ke papan klip</string>
     <string name="action_copy_selftext">Salin Self-Text</string>
-    <string name="pref_behaviour_sharing_share_dialog_dialogtitle">Pilih Apl untuk berbagi</string>
+    <string name="pref_behaviour_sharing_share_dialog_dialogtitle">Pilih apl untuk berbagi</string>
     <string name="pref_behaviour_sharing_share_dialog_title">Gunakan dialog berbagi bawaan</string>
     <string name="error_toast_no_share_app_installed">Tidak ada apl terpasang untuk berbagi pos ini.</string>
 </resources>

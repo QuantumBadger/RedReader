@@ -166,7 +166,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		lastChange = timestamp;
 		mChangeDataManager.update(timestamp, post.getSrc());
 
-		rebuildSubtitle(context);
+		postListDescription = rebuildSubtitle(context);
 	}
 
 	public static void showActionMenu(
@@ -689,10 +689,21 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		return score;
 	}
 
-	private void rebuildSubtitle(Context context) {
+	private SpannableStringBuilder rebuildSubtitle(Context context) {
+		return rebuildSubtitle(context, false);
+	}
 
-		// TODO customise display
+	public SpannableStringBuilder rebuildSubtitle(Context context, final boolean headerMode) {
+
 		// TODO preference for the X days, X hours thing
+
+		final EnumSet<PrefsUtility.AppearancePostSubtitleItem> mPostSubtitleItems;
+		if(headerMode && PrefsUtility.appearance_post_subtitle_items_use_different_settings(context, PreferenceManager.getDefaultSharedPreferences(context)))
+		{
+			mPostSubtitleItems = PrefsUtility.appearance_post_header_subtitle_items(context, PreferenceManager.getDefaultSharedPreferences(context));
+		} else {
+			mPostSubtitleItems = PrefsUtility.appearance_post_subtitle_items(context, PreferenceManager.getDefaultSharedPreferences(context));
+		}
 
 		final TypedArray appearance = context.obtainStyledAttributes(new int[]{
 				R.attr.rrPostSubtitleBoldCol,
@@ -704,8 +715,15 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				R.attr.rrGoldBackCol
 		});
 
-		final int boldCol = appearance.getColor(0, 255),
-				rrPostSubtitleUpvoteCol = appearance.getColor(1, 255),
+		final int boldCol;
+		if(headerMode) {
+			boldCol = Color.WHITE;
+		}
+		else {
+			boldCol = appearance.getColor(0, 255);
+		}
+
+		final int rrPostSubtitleUpvoteCol = appearance.getColor(1, 255),
 				rrPostSubtitleDownvoteCol = appearance.getColor(2, 255),
 				rrFlairBackCol = appearance.getColor(3, 255),
 				rrFlairTextCol = appearance.getColor(4, 255),
@@ -728,52 +746,76 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			pointsCol = boldCol;
 		}
 
-		if(src.isSpoiler()) {
-			postListDescSb.append(" SPOILER ", BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR | BetterSSB.BACKGROUND_COLOR,
-					Color.WHITE, Color.rgb(50, 50, 50), 1f);
-			postListDescSb.append("  ", 0);
+		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.SPOILER)) {
+			if (src.isSpoiler()) {
+				postListDescSb.append(" SPOILER ", BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR | BetterSSB.BACKGROUND_COLOR,
+						Color.WHITE, Color.rgb(50, 50, 50), 1f);
+				postListDescSb.append("  ", 0);
+			}
 		}
 
-		if(src.isStickied()) {
-			postListDescSb.append(" STICKY ", BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR | BetterSSB.BACKGROUND_COLOR,
-					Color.WHITE, Color.rgb(0, 170, 0), 1f); // TODO color?
-			postListDescSb.append("  ", 0);
+		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.STICKY)) {
+			if (src.isStickied()) {
+				postListDescSb.append(" STICKY ", BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR | BetterSSB.BACKGROUND_COLOR,
+						Color.WHITE, Color.rgb(0, 170, 0), 1f); // TODO color?
+				postListDescSb.append("  ", 0);
+			}
 		}
 
-		if(src.isNsfw()) {
-			postListDescSb.append(" NSFW ", BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR | BetterSSB.BACKGROUND_COLOR,
-					Color.WHITE, Color.RED, 1f); // TODO color?
-			postListDescSb.append("  ", 0);
+		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.NSFW)) {
+			if (src.isNsfw()) {
+				postListDescSb.append(" NSFW ", BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR | BetterSSB.BACKGROUND_COLOR,
+						Color.WHITE, Color.RED, 1f); // TODO color?
+				postListDescSb.append("  ", 0);
+			}
 		}
 
-		if(src.getFlairText() != null) {
-			postListDescSb.append(" " + src.getFlairText() + General.LTR_OVERRIDE_MARK + " ", BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR | BetterSSB.BACKGROUND_COLOR,
-					rrFlairTextCol, rrFlairBackCol, 1f);
-			postListDescSb.append("  ", 0);
+		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.FLAIR)) {
+			if (src.getFlairText() != null) {
+				postListDescSb.append(" " + src.getFlairText() + General.LTR_OVERRIDE_MARK + " ", BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR | BetterSSB.BACKGROUND_COLOR,
+						rrFlairTextCol, rrFlairBackCol, 1f);
+				postListDescSb.append("  ", 0);
+			}
 		}
 
-		postListDescSb.append(String.valueOf(score), BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, pointsCol, 0, 1f);
-		postListDescSb.append(" " + context.getString(R.string.subtitle_points) + " ", 0);
+		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.SCORE)) {
+			postListDescSb.append(String.valueOf(score), BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, pointsCol, 0, 1f);
+			postListDescSb.append(" " + context.getString(R.string.subtitle_points) + " ", 0);
+		}
 
-		if (src.getGoldAmount() > 0) {
+		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.GOLD)) {
+			if (src.getGoldAmount() > 0) {
+				if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.SCORE)) postListDescSb.append(" ", 0);
+				postListDescSb.append(" " + context.getString(R.string.gold) + BetterSSB.NBSP + "x" + src.getGoldAmount() + " ",
+						BetterSSB.FOREGROUND_COLOR | BetterSSB.BACKGROUND_COLOR, rrGoldTextCol, rrGoldBackCol, 1f);
+				postListDescSb.append("  ", 0);
+			}
+		}
+
+		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.AGE)) {
+			postListDescSb.append(RRTime.formatDurationFrom(context, src.getCreatedTimeSecsUTC() * 1000), BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, boldCol, 0, 1f);
 			postListDescSb.append(" ", 0);
-			postListDescSb.append(" " + context.getString(R.string.gold) + BetterSSB.NBSP + "x" + src.getGoldAmount() + " ",
-					BetterSSB.FOREGROUND_COLOR | BetterSSB.BACKGROUND_COLOR, rrGoldTextCol, rrGoldBackCol, 1f);
-			postListDescSb.append("  ", 0);
 		}
 
-		postListDescSb.append(RRTime.formatDurationFrom(context, src.getCreatedTimeSecsUTC() * 1000), BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, boldCol, 0, 1f);
-		postListDescSb.append(" " + context.getString(R.string.subtitle_by) + " ", 0);
-		postListDescSb.append(src.getAuthor(), BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, boldCol, 0, 1f);
-
-		if(showSubreddit) {
-			postListDescSb.append(" " + context.getString(R.string.subtitle_to) + " ", 0);
-			postListDescSb.append(src.getSubreddit(), BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, boldCol, 0, 1f);
+		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.AUTHOR)) {
+			postListDescSb.append(context.getString(R.string.subtitle_by) + " ", 0);
+			postListDescSb.append(src.getAuthor(), BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, boldCol, 0, 1f);
+			postListDescSb.append(" ", 0);
 		}
 
-		postListDescSb.append(" (" + src.getDomain() + ")", 0);
+		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.SUBREDDIT)) {
+			if (showSubreddit) {
+				postListDescSb.append(context.getString(R.string.subtitle_to) + " ", 0);
+				postListDescSb.append(src.getSubreddit(), BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, boldCol, 0, 1f);
+				postListDescSb.append(" ", 0);
+			}
+		}
 
-		postListDescription = postListDescSb.get();
+		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.DOMAIN)) {
+			postListDescSb.append("(" + src.getDomain() + ")", 0);
+		}
+
+		return postListDescSb.get();
 	}
 
 	// lol, reddit api
@@ -893,7 +935,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			final Context context = mBoundView.getContext();
 
 			if(context != null) {
-				rebuildSubtitle(mBoundView.getContext());
+				postListDescription = rebuildSubtitle(mBoundView.getContext());
 				mBoundView.updateAppearance();
 			}
 		}

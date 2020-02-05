@@ -73,7 +73,7 @@ public class RedditPostHeaderView extends LinearLayout {
 
 		subtitle = new TextView(activity);
 		subtitle.setTextSize(13.0f);
-		rebuildSubtitle(activity);
+		subtitle.setText(post.rebuildSubtitle(activity, true));
 
 		subtitle.setTextColor(Color.rgb(200, 200, 200));
 		greyHeader.addView(subtitle);
@@ -128,7 +128,7 @@ public class RedditPostHeaderView extends LinearLayout {
 
 			final RedditChangeDataManager.Listener changeListener = thingIdAndType -> {
 
-				rebuildSubtitle(activity);
+				subtitle.setText(post.rebuildSubtitle(activity, true));
 
 				final boolean isUpvoted = changeDataManager.isUpvoted(post.src);
 				final boolean isDownvoted = changeDataManager.isDownvoted(post.src);
@@ -184,72 +184,5 @@ public class RedditPostHeaderView extends LinearLayout {
 		if(mChangeListenerRemoveTask != null) {
 			mChangeListenerRemoveTask.run();
 		}
-	}
-
-	private void rebuildSubtitle(Context context) {
-
-		// TODO customise display
-		// TODO preference for the X days, X hours thing
-
-		final int boldCol = Color.WHITE;
-		final int rrPostSubtitleUpvoteCol;
-		final int rrPostSubtitleDownvoteCol;
-		final int rrGoldTextCol;
-		final int rrGoldBackCol;
-
-		{
-			final TypedArray appearance = context.obtainStyledAttributes(new int[]{
-					R.attr.rrPostSubtitleBoldCol,
-					R.attr.rrPostSubtitleUpvoteCol,
-					R.attr.rrPostSubtitleDownvoteCol,
-					R.attr.rrGoldTextCol,
-					R.attr.rrGoldBackCol
-
-			});
-
-			rrPostSubtitleUpvoteCol = appearance.getColor(1, 255);
-			rrPostSubtitleDownvoteCol = appearance.getColor(2, 255);
-			rrGoldTextCol = appearance.getColor(3, 255);
-			rrGoldBackCol = appearance.getColor(4, 255);
-
-			appearance.recycle();
-		}
-
-		final BetterSSB postListDescSb = new BetterSSB();
-
-		final int pointsCol;
-		if(post.isUpvoted()) {
-			pointsCol = rrPostSubtitleUpvoteCol;
-		} else if(post.isDownvoted()) {
-			pointsCol = rrPostSubtitleDownvoteCol;
-		} else {
-			pointsCol = boldCol;
-		}
-
-		if(post.src.isNsfw()) {
-			postListDescSb.append(" NSFW ", BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR | BetterSSB.BACKGROUND_COLOR,
-					Color.WHITE, Color.RED, 1f); // TODO color?
-			postListDescSb.append("  ", 0);
-		}
-
-		postListDescSb.append(String.valueOf(post.computeScore()), BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, pointsCol, 0, 1f);
-		postListDescSb.append(" " + context.getString(R.string.subtitle_points) + " ", 0);
-
-		if(post.src.getGoldAmount() > 0) {
-			postListDescSb.append(" ", 0);
-			postListDescSb.append(" " + context.getString(R.string.gold) + BetterSSB.NBSP + "x" + post.src.getGoldAmount() + " ",
-					BetterSSB.FOREGROUND_COLOR | BetterSSB.BACKGROUND_COLOR, rrGoldTextCol, rrGoldBackCol, 1f);
-			postListDescSb.append("  ", 0);
-		}
-
-		postListDescSb.append(RRTime.formatDurationFrom(context, post.src.getCreatedTimeSecsUTC() * 1000), BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, boldCol, 0, 1f);
-		postListDescSb.append(" " + context.getString(R.string.subtitle_by) + " ", 0);
-		postListDescSb.append(post.src.getAuthor(), BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, boldCol, 0, 1f);
-		postListDescSb.append(" " + context.getString(R.string.subtitle_to) + " ", 0);
-		postListDescSb.append(post.src.getSubreddit(), BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR, boldCol, 0, 1f);
-
-		postListDescSb.append(" (" + post.src.getDomain() + ")", 0);
-
-		subtitle.setText(postListDescSb.get());
 	}
 }

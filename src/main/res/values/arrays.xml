@@ -797,4 +797,47 @@
 		<item>custom</item>
 	</string-array>
 
+	<!-- 2020-02-04 -->
+
+	<string-array name="pref_appearance_post_subtitle_items">
+		<item>@string/pref_appearance_comment_header_items_author</item>
+		<item>@string/pref_appearance_comment_header_items_flair</item>
+		<item>@string/pref_appearance_comment_header_items_score</item>
+		<item>@string/pref_appearance_comment_header_items_age</item>
+		<item>@string/pref_appearance_comment_header_items_gold</item>
+		<item>@string/pref_appearance_post_subtitle_items_subreddit</item>
+		<item>@string/pref_appearance_post_subtitle_items_domain</item>
+		<item>@string/pref_appearance_post_subtitle_items_sticky</item>
+		<item>@string/pref_appearance_post_subtitle_items_spoiler</item>
+		<item>@string/pref_appearance_post_subtitle_items_nsfw</item>
+	</string-array>
+
+	<!-- Constants. Do not change. -->
+	<string-array name="pref_appearance_post_subtitle_items_return">
+		<item>author</item>
+		<item>flair</item>
+		<item>score</item>
+		<item>age</item>
+		<item>gold</item>
+		<item>subreddit</item>
+		<item>domain</item>
+		<item>sticky</item>
+		<item>spoiler</item>
+		<item>nsfw</item>
+	</string-array>
+
+	<!-- Constants. Do not change. -->
+	<string-array name="pref_appearance_post_subtitle_items_default">
+		<item>author</item>
+		<item>flair</item>
+		<item>score</item>
+		<item>age</item>
+		<item>gold</item>
+		<item>subreddit</item>
+		<item>domain</item>
+		<item>sticky</item>
+		<item>spoiler</item>
+		<item>nsfw</item>
+	</string-array>
+
 </resources>

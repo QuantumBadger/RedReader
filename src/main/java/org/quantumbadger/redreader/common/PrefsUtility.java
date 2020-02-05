@@ -340,6 +340,34 @@ public final class PrefsUtility {
 		return getBoolean(R.string.pref_appearance_bottom_toolbar_key, false, context, sharedPreferences);
 	}
 
+	public enum AppearancePostSubtitleItem {
+		AUTHOR, FLAIR, SCORE, AGE, GOLD, SUBREDDIT, DOMAIN, STICKY, SPOILER, NSFW
+	}
+
+	public static EnumSet<AppearancePostSubtitleItem> appearance_post_subtitle_items(final Context context, final SharedPreferences sharedPreferences) {
+
+		final Set<String> strings = getStringSet(R.string.pref_appearance_post_subtitle_items_key, R.array.pref_appearance_post_subtitle_items_default, context, sharedPreferences);
+
+		final EnumSet<AppearancePostSubtitleItem> result = EnumSet.noneOf(AppearancePostSubtitleItem.class);
+		for(String s : strings) result.add(AppearancePostSubtitleItem.valueOf(General.asciiUppercase(s)));
+
+		return result;
+	}
+
+	public static boolean appearance_post_subtitle_items_use_different_settings(final Context context, final SharedPreferences sharedPreferences) {
+		return getBoolean(R.string.pref_appearance_post_subtitle_items_use_different_settings_key, false, context, sharedPreferences);
+	}
+
+	public static EnumSet<AppearancePostSubtitleItem> appearance_post_header_subtitle_items(final Context context, final SharedPreferences sharedPreferences) {
+
+		final Set<String> strings = getStringSet(R.string.pref_appearance_post_header_subtitle_items_key, R.array.pref_appearance_post_subtitle_items_default, context, sharedPreferences);
+
+		final EnumSet<AppearancePostSubtitleItem> result = EnumSet.noneOf(AppearancePostSubtitleItem.class);
+		for(String s : strings) result.add(AppearancePostSubtitleItem.valueOf(General.asciiUppercase(s)));
+
+		return result;
+	}
+
 	public enum AppearanceCommentHeaderItem {
 		AUTHOR, FLAIR, SCORE, AGE, GOLD
 	}

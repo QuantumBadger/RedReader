@@ -57,7 +57,6 @@ public class RedditCommentView extends FlingableItemView implements RedditChange
 	private final LinearLayout mIndentedContent;
 
 	private final float mBodyFontScale;
-	private final float mHeaderFontScale;
 
 	private final boolean mShowLinkButtons;
 
@@ -284,7 +283,7 @@ public class RedditCommentView extends FlingableItemView implements RedditChange
 		mIndentedContent = (LinearLayout)rootView.findViewById(R.id.view_reddit_comment_indented_content);
 
 		mBodyFontScale = PrefsUtility.appearance_fontscale_comments(context, PreferenceManager.getDefaultSharedPreferences(context));
-		mHeaderFontScale = PrefsUtility.appearance_fontscale_comment_headers(context, PreferenceManager.getDefaultSharedPreferences(context));
+		final float mHeaderFontScale = PrefsUtility.appearance_fontscale_comment_headers(context, PreferenceManager.getDefaultSharedPreferences(context));
 
 		mHeader.setTextSize(TypedValue.COMPLEX_UNIT_PX, mHeader.getTextSize() * mHeaderFontScale);
 

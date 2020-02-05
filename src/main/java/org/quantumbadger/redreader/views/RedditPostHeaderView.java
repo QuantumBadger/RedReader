@@ -17,7 +17,6 @@
 
 package org.quantumbadger.redreader.views;
 
-import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -29,16 +28,12 @@ import android.widget.TextView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.common.BetterSSB;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
-import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 
 public class RedditPostHeaderView extends LinearLayout {
-
-	private final RedditPreparedPost post;
 
 	private final TextView subtitle;
 
@@ -48,7 +43,6 @@ public class RedditPostHeaderView extends LinearLayout {
 	public RedditPostHeaderView(final AppCompatActivity activity, final RedditPreparedPost post) {
 
 		super(activity);
-		this.post = post;
 
 		final float dpScale = activity.getResources().getDisplayMetrics().density;
 

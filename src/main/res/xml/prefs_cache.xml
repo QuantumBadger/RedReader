@@ -34,27 +34,21 @@
 
     <PreferenceCategory android:title="@string/pref_cache_precache_images_header">
 
-    <CheckBoxPreference android:title="@string/pref_cache_precache_images_title"
-                        android:key="@string/pref_cache_precache_images_key"
-                        android:defaultValue="true"/>
-
-    <CheckBoxPreference android:title="@string/pref_cache_precache_images_wifionly_title"
-                        android:key="@string/pref_cache_precache_images_wifionly_key"
-                        android:dependency="@string/pref_cache_precache_images_key"
-                        android:defaultValue="true"/>
+		<ListPreference android:title="@string/pref_cache_precache_images_title"
+						android:key="@string/pref_cache_precache_images_list_key"
+						android:entries="@array/list_yes_no_or_wifi_items"
+						android:entryValues="@array/list_yes_no_or_wifi_return"
+						android:defaultValue="wifionly"/>
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_cache_precache_comments_header">
 
-        <CheckBoxPreference android:title="@string/pref_cache_precache_comments_title"
-                            android:key="@string/pref_cache_precache_comments_key"
-                            android:defaultValue="true"/>
-
-        <CheckBoxPreference android:title="@string/pref_cache_precache_comments_wifionly_title"
-                            android:key="@string/pref_cache_precache_comments_wifionly_key"
-                            android:dependency="@string/pref_cache_precache_comments_key"
-                            android:defaultValue="false"/>
+		<ListPreference android:title="@string/pref_cache_precache_comments_title"
+						android:key="@string/pref_cache_precache_comments_list_key"
+						android:entries="@array/list_yes_no_or_wifi_items"
+						android:entryValues="@array/list_yes_no_or_wifi_return"
+						android:defaultValue="always"/>
 
     </PreferenceCategory>
 

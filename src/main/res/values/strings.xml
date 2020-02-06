@@ -114,7 +114,6 @@
     <string name="pref_cache_precache_images_key" translatable="false">pref_cache_precache_images</string>
     <string name="pref_cache_precache_images_title">Precache images</string>
 
-    <!-- TODO use listpreference instead -->
     <string name="pref_cache_precache_images_wifionly_key" translatable="false">pref_cache_precache_images_wifionly</string>
     <string name="pref_cache_precache_images_wifionly_title">On Wi-Fi only</string>
 
@@ -1161,5 +1160,13 @@
 	<string name="pref_appearance_post_subtitle_items_use_different_settings_title">Use different settings for opened posts</string>
 	<string name="pref_appearance_post_header_subtitle_items_key" translatable="false">pref_appearance_post_header_subtitle_items_key</string>
 	<string name="pref_appearance_post_header_subtitle_items_title">Opened Post Subtitle Entries</string>
+
+	<!-- 2020-02-05 -->
+	<string name="pref_cache_precache_images_list_key">pref_cache_precache_images_list_key</string>
+	<string name="pref_cache_precache_comments_list_key">pref_cache_precache_comments_list_key</string>
+	<string name="pref_appearance_thumbnails_show_list_key">pref_appearance_thumbnails_show_list_key</string>
+	<string name="list_yes_no_or_wifi_always">Always</string>
+	<string name="list_yes_no_or_wifi_wifionly">On Wi-Fi Only</string>
+	<string name="list_yes_no_or_wifi_never">Never</string>
 
 </resources>

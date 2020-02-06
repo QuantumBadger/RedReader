@@ -68,18 +68,14 @@
 
 	<PreferenceCategory android:title="@string/pref_appearance_thumbnails_header">
 
-		<CheckBoxPreference android:title="@string/pref_appearance_thumbnails_show_title"
-							android:key="@string/pref_appearance_thumbnails_show_key"
-							android:defaultValue="true"/>
-
-		<CheckBoxPreference android:title="@string/pref_appearance_thumbnails_wifionly_title"
-							android:key="@string/pref_appearance_thumbnails_wifionly_key"
-							android:dependency="@string/pref_appearance_thumbnails_show_key"
-							android:defaultValue="false"/>
+		<ListPreference android:title="@string/pref_appearance_thumbnails_show_title"
+						android:key="@string/pref_appearance_thumbnails_show_list_key"
+						android:entries="@array/list_yes_no_or_wifi_items"
+						android:entryValues="@array/list_yes_no_or_wifi_return"
+						android:defaultValue="always"/>
 
 		<CheckBoxPreference android:title="@string/pref_appearance_thumbnails_nsfw_show_title"
 							android:key="@string/pref_appearance_thumbnails_nsfw_show_key"
-							android:dependency="@string/pref_appearance_thumbnails_show_key"
 							android:defaultValue="false"/>
 
 	</PreferenceCategory>

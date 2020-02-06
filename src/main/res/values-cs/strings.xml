@@ -58,7 +58,6 @@
     <string name="pref_cache_maxage_image_title">Smazat obrázky v mezipaměti po</string>
     <string name="pref_cache_precache_images_header">Přednačítání obrázků</string>
     <string name="pref_cache_precache_images_title">Přednačítat obrázky</string>
-    <!-- TODO use listpreference instead -->
     <string name="pref_cache_precache_images_wifionly_title">Pouze na Wi-Fi</string>
     <!-- Menu Prefs -->
     <string name="pref_menus_post_context_items_title">Položky nabídky příspěvku</string>

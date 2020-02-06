@@ -347,6 +347,28 @@ public class MainActivity extends RefreshableActivity
 							getString(R.string.pref_appearance_fontscale_comment_headers_key),
 							existingCommentSelfTextFontscalePreference
 					).apply();
+
+					//Upgrading from 89/1.9.11 or lower, switch to ListPreference for
+					//appearance_thumbnails_show, cache_precache_images, cache_precache_comments
+
+					final String existingThumbnailsShowPreference = PrefsUtility.appearance_thumbnails_show_old(this, sharedPreferences).toString().toLowerCase();
+					final String existingPrecacheImagesPreference = PrefsUtility.cache_precache_images_old(this, sharedPreferences).toString().toLowerCase();
+					final String existingPrecacheCommentsPreference = PrefsUtility.cache_precache_comments_old(this, sharedPreferences).toString().toLowerCase();
+
+					sharedPreferences.edit().putString(
+							getString(R.string.pref_appearance_thumbnails_show_list_key),
+							existingThumbnailsShowPreference
+					).apply();
+
+					sharedPreferences.edit().putString(
+							getString(R.string.pref_cache_precache_images_list_key),
+							existingPrecacheImagesPreference
+					).apply();
+
+					sharedPreferences.edit().putString(
+							getString(R.string.pref_cache_precache_comments_list_key),
+							existingPrecacheCommentsPreference
+					).apply();
 				}
 			}
 

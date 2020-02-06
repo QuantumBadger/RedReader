@@ -62,7 +62,6 @@
 
     <string name="pref_cache_precache_images_header">Afbeeldingen precachen</string>
     <string name="pref_cache_precache_images_title">Afbeeldingen precachen</string>
-    <!-- TODO use listpreference instead -->
     <string name="pref_cache_precache_images_wifionly_title">Alleen via wifi</string>
     <!-- Menu Prefs -->
     <string name="pref_menus_post_context_items_title">Onderdelen postcontextmenu</string>

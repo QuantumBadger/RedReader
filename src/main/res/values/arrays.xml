@@ -840,4 +840,19 @@
 		<item>nsfw</item>
 	</string-array>
 
+	<!-- 2020-02-05 -->
+
+	<string-array name="list_yes_no_or_wifi_items">
+		<item>@string/list_yes_no_or_wifi_always</item>
+		<item>@string/list_yes_no_or_wifi_wifionly</item>
+		<item>@string/list_yes_no_or_wifi_never</item>
+	</string-array>
+
+	<!-- Constants. Do not change. -->
+	<string-array name="list_yes_no_or_wifi_return">
+		<item>always</item>
+		<item>wifionly</item>
+		<item>never</item>
+	</string-array>
+
 </resources>

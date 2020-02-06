@@ -230,6 +230,10 @@ public final class PrefsUtility {
 	}
 
 	public static AppearanceThumbnailsShow appearance_thumbnails_show(final Context context, final SharedPreferences sharedPreferences) {
+		return AppearanceThumbnailsShow.valueOf(getString(R.string.pref_appearance_thumbnails_show_list_key, "always", context, sharedPreferences).toUpperCase());
+	}
+
+	public static AppearanceThumbnailsShow appearance_thumbnails_show_old(final Context context, final SharedPreferences sharedPreferences) {
 
 		if(!getBoolean(R.string.pref_appearance_thumbnails_show_key, true, context,  sharedPreferences)) {
 			return AppearanceThumbnailsShow.NEVER;
@@ -666,6 +670,10 @@ public final class PrefsUtility {
 	}
 
 	public static CachePrecacheImages cache_precache_images(final Context context, final SharedPreferences sharedPreferences) {
+		return CachePrecacheImages.valueOf(getString(R.string.pref_cache_precache_images_list_key, "wifionly", context, sharedPreferences).toUpperCase());
+	}
+
+	public static CachePrecacheImages cache_precache_images_old(final Context context, final SharedPreferences sharedPreferences) {
 
 		if(network_tor(context, sharedPreferences)) {
 			return CachePrecacheImages.NEVER;
@@ -687,6 +695,10 @@ public final class PrefsUtility {
 	}
 
 	public static CachePrecacheComments cache_precache_comments(final Context context, final SharedPreferences sharedPreferences) {
+		return CachePrecacheComments.valueOf(getString(R.string.pref_cache_precache_comments_list_key, "always", context, sharedPreferences).toUpperCase());
+	}
+
+	public static CachePrecacheComments cache_precache_comments_old(final Context context, final SharedPreferences sharedPreferences) {
 
 		if(!getBoolean(R.string.pref_cache_precache_comments_key, true, context,  sharedPreferences)) {
 			return CachePrecacheComments.NEVER;

@@ -114,7 +114,6 @@
     <string name="pref_cache_precache_images_key" translatable="false">pref_cache_precache_images</string>
     <string name="pref_cache_precache_images_title">Precache images</string>
 
-    <!-- TODO use listpreference instead -->
     <string name="pref_cache_precache_images_wifionly_key" translatable="false">pref_cache_precache_images_wifionly</string>
     <string name="pref_cache_precache_images_wifionly_title">On Wi-Fi only</string>
 
@@ -1133,5 +1132,13 @@
 	<string name="lang_hi" translatable="false">हिन्दी</string>
 	<string name="lang_ja" translatable="false">日本語</string>
 	<string name="lang_lt" translatable="false">lietuvių kalba</string>
+
+	<!-- 2020-02-05 -->
+	<string name="pref_cache_precache_images_list_key">pref_cache_precache_images_list_key</string>
+	<string name="pref_cache_precache_comments_list_key">pref_cache_precache_comments_list_key</string>
+	<string name="pref_appearance_thumbnails_show_list_key">pref_appearance_thumbnails_show_list_key</string>
+	<string name="list_yes_no_or_wifi_always">Always</string>
+	<string name="list_yes_no_or_wifi_wifionly">On Wi-Fi Only</string>
+	<string name="list_yes_no_or_wifi_never">Never</string>
 
 </resources>

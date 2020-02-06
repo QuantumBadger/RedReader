@@ -59,7 +59,6 @@
     <string name="pref_cache_maxage_image_title">Borrar imágenes en caché tras</string>
     <string name="pref_cache_precache_images_header">Guardar previamente imágenes en la caché</string>
     <string name="pref_cache_precache_images_title">Guardar previamente imágenes en la caché</string>
-    <!-- TODO use listpreference instead -->
     <string name="pref_cache_precache_images_wifionly_title">Sólo con Wi-Fi</string>
     <!-- Menu Prefs -->
     <string name="pref_menus_post_context_items_title">Menú de las publicaciones</string>

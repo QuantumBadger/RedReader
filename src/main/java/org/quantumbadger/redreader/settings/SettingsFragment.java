@@ -99,7 +99,10 @@ public final class SettingsFragment extends PreferenceFragment {
 				R.string.pref_behaviour_gallery_swipe_length_key,
 				R.string.pref_behaviour_pinned_subredditsort_key,
 				R.string.pref_behaviour_blocked_subredditsort_key,
-				R.string.pref_cache_rerequest_postlist_age_key
+				R.string.pref_cache_rerequest_postlist_age_key,
+				R.string.pref_appearance_thumbnails_show_list_key,
+				R.string.pref_cache_precache_images_list_key,
+				R.string.pref_cache_precache_comments_list_key
 		};
 
 		final int[] editTextPrefsToUpdate = {
@@ -226,6 +229,28 @@ public final class SettingsFragment extends PreferenceFragment {
 			});
 			updateStorageLocationText(PrefsUtility.pref_cache_location(context,
 					PreferenceManager.getDefaultSharedPreferences(context)));
+		}
+
+		//This disables the "Show NSFW thumbnails" setting when Show thumbnails is set to Never
+		//Based off https://stackoverflow.com/a/4137963
+		final ListPreference thumbnailPref = (ListPreference)findPreference(getString(R.string.pref_appearance_thumbnails_show_list_key));
+		final Preference thumbnailNsfwPref = findPreference(getString(R.string.pref_appearance_thumbnails_nsfw_show_key));
+
+		if(thumbnailPref != null) {
+			thumbnailPref.setOnPreferenceChangeListener( new Preference.OnPreferenceChangeListener() {
+				@Override
+				public boolean onPreferenceChange(Preference preference, Object newValue) {
+					final int index = thumbnailPref.findIndexOfValue((String)newValue);
+					thumbnailPref.setSummary(thumbnailPref.getEntries()[index]);
+
+					if(newValue.equals("never"))
+						thumbnailNsfwPref.setEnabled(false);
+					else
+						thumbnailNsfwPref.setEnabled(true);
+
+					return true;
+				}
+			});
 		}
 	}
 

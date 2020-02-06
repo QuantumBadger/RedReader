@@ -89,7 +89,6 @@
 
     <string name="pref_cache_precache_images_title">Förhandscacha bilder</string>
 
-    <!-- TODO use listpreference instead -->
     <string name="pref_cache_precache_images_wifionly_title">Endast över Wi-Fi</string>
 
     <!-- Menu Prefs -->

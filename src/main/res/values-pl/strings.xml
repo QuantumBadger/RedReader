@@ -70,7 +70,6 @@
     <string name="pref_cache_precache_images_header">Wczytuj obrazy z wyprzedzeniem</string>
     <string name="pref_cache_precache_images_title">Wczytuj obrazy z wyprzedzeniem</string>
 
-    <!-- TODO use listpreference instead -->
     <string name="pref_cache_precache_images_wifionly_title">Tylko przez Wi-Fi</string>
 
     <!-- Menu Prefs -->

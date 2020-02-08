@@ -1134,4 +1134,8 @@
 	<string name="lang_ja" translatable="false">日本語</string>
 	<string name="lang_lt" translatable="false">lietuvių kalba</string>
 
+	<!-- 2020-02-08 -->
+	<string name="error_nsfw_subreddits_disabled_title">Disabled</string>
+	<string name="error_nsfw_subreddits_disabled_message">This Subreddit is not displayed because it is flagged NSFW, and NSFW content is disabled in settings.</string>
+
 </resources>

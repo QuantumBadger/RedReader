@@ -280,8 +280,17 @@ public class PostListingFragment extends RRFragment
 									@Override
 									public void run() {
 										mSubreddit = result;
-										onSubredditReceived();
-										CacheManager.getInstance(context).makeRequest(mRequest);
+
+										if(mSubreddit.over18 && ! PrefsUtility.pref_behaviour_nsfw(context, mSharedPreferences)) {
+											mPostListingManager.setLoadingVisible(false);
+											mPostListingManager.addFooterError(
+													new ErrorView(getActivity(), new RRError(
+															context.getString(R.string.error_nsfw_subreddits_disabled_title),
+															context.getString(R.string.error_nsfw_subreddits_disabled_message))));
+										} else {
+											onSubredditReceived();
+											CacheManager.getInstance(context).makeRequest(mRequest);
+										}
 									}
 								});
 							}

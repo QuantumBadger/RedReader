@@ -14,8 +14,7 @@
   ~
   ~ You should have received a copy of the GNU General Public License
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
-  -->
-<resources>
+  --><resources>
     <!-- First Run Dialog -->
     <string name="firstrun_login_title">Anmelden</string>
     <string name="firstrun_login_message">Du bist zurzeit nicht angemeldet. Du kannst die Accountübersicht erreichen, indem du "Accounts" im Menü auswählst.</string>
@@ -298,9 +297,7 @@
     <string name="pref_appearance_comment_header_items_age">Alter</string>
     <!-- 2013-05-17 -->
     <string name="error_toast_notloggedin">Dazu musst du eingeloggt sein.</string>
-
     <string name="button_moredetail">Weitere Informationen…</string>
-
     <string name="pref_appearance_scale_normal">Normal</string>
     <string name="error_invalid_password_title">Ungültiges Passwort</string>
     <string name="error_invalid_password_message">Dein Benutzername oder Passwort ist falsch.</string>
@@ -596,5 +593,15 @@
     <string name="pref_behaviour_sharing_include_desc_title">Titel/Beschreibung beim Teilen mit einschließen</string>
     <string name="share_comments_for">Kommentare für %s</string>
     <string name="share_comment_by_on_reddit">Kommentar von %s auf Reddit</string>
-
+    <string name="title_license">Lizenz</string>
+    <string name="pref_appearance_left_handed_title">Linkshänder-Modus</string>
+    <string name="post_submit_mark_spoiler">Als Spoiler markieren</string>
+    <string name="error_already_submitted_title">Bereits eingereicht</string>
+    <string name="comment_reply_done_norefresh">Antwort gesendet.</string>
+    <string name="sort_posts_best">Beste</string>
+    <string name="pref_behaviour_hide_read_posts_title">Gelesene Beiträge ausblenden</string>
+    <string name="pref_menus_show_subscribed_subreddits_main_menu_title">Zeige Abonnierte Subreddits</string>
+    <string name="pref_appearance_show_aspect_ratio_indicator_summary">Zeigen ein Bild der geladenen Medien, wenn verfügbar</string>
+    <string name="pref_appearance_bottom_toolbar_title">Symbolleiste am unteren Rand anzeigen</string>
+    <string name="pref_behaviour_video_mute_default_title">Videos standardmäßig stumm schalten</string>
 </resources>

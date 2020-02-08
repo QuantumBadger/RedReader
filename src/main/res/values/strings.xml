@@ -1138,11 +1138,11 @@
 	<string name="pref_appearance_fontscale_post_subtitles_key" translatable="false">pref_appearance_fontscale_post_subtitles_key</string>
 	<string name="pref_appearance_fontscale_post_subtitles_title">Post Subtitles Font Scale</string>
 	<string name="pref_appearance_fontscale_post_header_titles_key" translatable="false">pref_appearance_fontscale_post_header_titles_key</string>
-	<string name="pref_appearance_fontscale_post_header_titles_title">Post Header Titles Font Scale</string>
+	<string name="pref_appearance_fontscale_post_header_titles_title">Opened Post Titles Font Scale</string>
 	<string name="pref_appearance_fontscale_post_header_subtitles_key" translatable="false">pref_appearance_fontscale_post_header_subtitles_key</string>
-	<string name="pref_appearance_fontscale_post_header_subtitles_title">Post Header Subtitles Font Scale</string>
+	<string name="pref_appearance_fontscale_post_header_subtitles_title">Opened Post Subtitles Font Scale</string>
 	<string name="pref_appearance_fontscale_post_use_different_scales_key" translatable="false">pref_appearance_fontscale_post_use_different_scales_key</string>
-	<string name="pref_appearance_fontscale_post_use_different_scales_title">Use different post font scales for post headers</string>
+	<string name="pref_appearance_fontscale_post_use_different_scales_title">Use different font settings for opened posts</string>
 	<string name="pref_appearance_fontscale_selftext_key" translatable="false">pref_appearance_fontscale_selftext_key</string>
 	<string name="pref_appearance_fontscale_selftext_title">Self-Text Font Scale</string>
 	<string name="pref_appearance_fontscale_comment_headers_key" translatable="false">pref_appearance_fontscale_comment_headers_key</string>

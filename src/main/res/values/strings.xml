@@ -1169,4 +1169,8 @@
 	<string name="list_yes_no_or_wifi_wifionly">On Wi-Fi Only</string>
 	<string name="list_yes_no_or_wifi_never">Never</string>
 
+	<!-- 2020-02-08 -->
+	<string name="error_nsfw_subreddits_disabled_title">Blocked NSFW Subreddit</string>
+	<string name="error_nsfw_subreddits_disabled_message">NSFW content is currently disabled in the settings.</string>
+
 </resources>

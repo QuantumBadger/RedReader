@@ -14,8 +14,7 @@
   ~
   ~ You should have received a copy of the GNU General Public License
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
-  -->
-<resources>
+  --><resources>
     <!-- First Run Dialog -->
     <string name="firstrun_login_title">Ensaluti</string>
     <string name="firstrun_login_message">Vi nuntempe ne estas ensalutinta. Vi povas vidi liston de kontoj per elekti “Kontoj”-n el la menuo.</string>
@@ -314,9 +313,8 @@
     <string name="subtitle_by">de</string>
     <string name="subtitle_to">al</string>
     <plurals name="subtitle_replies">
-        <item quantity="zero">…</item>
-        <item quantity="one">“ (%d respondo)”</item>
-        <item quantity="other">“ (%d respondoj)”</item>
+        <item quantity="one">…</item>
+        <item quantity="other">(%d respondoj)</item>
     </plurals>
     <string name="general_unknown">nekonata</string>
     <string name="action_search">Serĉi</string>
@@ -491,8 +489,7 @@
     <string name="pref_behaviour_comment_min_dialog_title">Maletendi komenton, kies poentaro malsuperas (forviŝu por montri ĉiujn)</string>
     <!-- 2016-04-02 -->
     <string name="open_with">Malfermi per</string>
-    <string name="pref_network_tor_title">Uzi Tor (eksperimenta)</string>
-
+    <string name="pref_network_tor_title">Uzi Tor</string>
     <!-- 2016-04-03 -->
     <string name="error_tor_not_installed">Tor ne funkcios antaŭ Orbot estos instalita. Ĉu instali ĝin nun?</string>
     <string name="error_tor_setting_failed">Fiaskis agordi retperanton.</string>
@@ -662,5 +659,30 @@
     <string name="pref_behaviour_sharing_include_desc_title">Ampleksi titolon/priskribon dum diskonigi</string>
     <string name="share_comments_for">Komentoj por %s</string>
     <string name="share_comment_by_on_reddit">Komento de %s ĉe Reddit</string>
-
+    <string name="title_license">Permesilo</string>
+    <string name="pref_appearance_left_handed_title">Maldekstr‑mana reĝimo</string>
+    <string name="post_submit_mark_nsfw">Marki kiel maldecan</string>
+    <string name="post_submit_mark_spoiler">Marki kiel malkaŝaĵon</string>
+    <string name="error_already_submitted_title">Jam afiŝita</string>
+    <string name="error_already_submitted_message">Tiu ĉi afiŝo jam estis sendita al tiu ĉi redditero.</string>
+    <string name="comment_reply_done_norefresh">Respondo sendita.</string>
+    <string name="sort_posts_best">Plej bonaj</string>
+    <string name="pref_behaviour_usecustomtabs_title">Uzi proprajn langetojn</string>
+    <string name="pref_behaviour_usecustomtabs_summary">Uzi proprajn langetojn kiam eblas</string>
+    <string name="pref_behaviour_hide_read_posts_title">Kaŝi legitajn afiŝojn</string>
+    <string name="pref_menus_mainmenu_shortcutitems_title">Ligiloj en ĉefmenuo</string>
+    <string name="pref_menus_show_multireddit_main_menu_title">Montri plurredditerojn</string>
+    <string name="pref_menus_show_subscribed_subreddits_main_menu_title">Montri abonatajn redditerojn</string>
+    <string name="mainmenu_random_nsfw">Hazarda maldeca redditero</string>
+    <string name="pref_appearance_show_aspect_ratio_indicator_title">Montri indikilon de bildformato</string>
+    <string name="pref_appearance_show_aspect_ratio_indicator_summary">Montri formaton de ŝargata bildo/filmo dum ŝargi</string>
+    <string name="pref_appearance_bottom_toolbar_title">Montri ilobreton ĉe sube</string>
+    <string name="pref_behaviour_video_mute_default_title">Silentigi filmetojn implicite</string>
+    <string name="prefs_category_images_video">Bildoj/filmetoj</string>
+    <string name="notification_channel_name_reddit_messages">Ricevitaj mesaĝoj el Reddit</string>
+    <string name="post_text_copied_to_clipboard">Afiŝo kopiita al tondujo</string>
+    <string name="action_copy_selftext">Kopii memtekston</string>
+    <string name="pref_behaviour_sharing_share_dialog_dialogtitle">Elektu aplikaĵon por diskonigi</string>
+    <string name="pref_behaviour_sharing_share_dialog_title">Uzi internan fenestron de diskonigo</string>
+    <string name="error_toast_no_share_app_installed">Neniu taŭga aplikaĵo instalita por diskonigi tion ĉi.</string>
 </resources>

@@ -1173,4 +1173,10 @@
 	<string name="error_nsfw_subreddits_disabled_title">Blocked NSFW Subreddit</string>
 	<string name="error_nsfw_subreddits_disabled_message">NSFW content is currently disabled in the settings.</string>
 
+	<!-- 2020-02-13 -->
+	<string name="search_results_short">Search Results</string>
+	<string name="search_results_all">Search for \"%1$s\" on /r/%2$s</string>
+	<string name="search_results_query_only">Search for \"%s\"</string>
+	<string name="search_results_subreddit_only">Search on /r/%s</string>
+
 </resources>

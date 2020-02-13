@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.reddit.url;
 
 import android.content.Context;
 import android.net.Uri;
+import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.reddit.PostSort;
@@ -203,20 +204,13 @@ public class SearchPostListURL extends PostListingURL {
 	@Override
 	public String humanReadableName(Context context, boolean shorter) {
 
-		if(shorter) return "Search Results";
+		if(shorter) return context.getString(R.string.search_results_short);
 
-		// TODO strings
-		final StringBuilder builder = new StringBuilder("Search");
+		if(query != null && subreddit != null) return String.format(context.getString(R.string.search_results_all), query, subreddit);
+		else if(query != null) return String.format(context.getString(R.string.search_results_query_only), query);
+		else if(subreddit != null) return String.format(context.getString(R.string.search_results_subreddit_only), subreddit);
 
-		if(query != null) {
-			builder.append(" for \"").append(query).append("\"");
-		}
-
-		if(subreddit != null) {
-			builder.append(" on /r/").append(subreddit);
-		}
-
-		return builder.toString();
+		return context.getString(R.string.action_search);
 	}
 
 	@Override

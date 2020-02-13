@@ -1134,4 +1134,11 @@
 	<string name="lang_ja" translatable="false">日本語</string>
 	<string name="lang_lt" translatable="false">lietuvių kalba</string>
 
+	<!-- 2020-02-13 -->
+	<string name="search_results_short">Search Results</string>
+	<string name="search_results_all">Search for \"%s\" on /r/%s</string>
+	<string name="search_results_all_query_first">true</string>
+	<string name="search_results_query_only">Search for \"%s\"</string>
+	<string name="search_results_subreddit_only">Search on /r/%s</string>
+
 </resources>

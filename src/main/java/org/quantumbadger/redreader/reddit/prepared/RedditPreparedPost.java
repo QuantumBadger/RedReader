@@ -542,12 +542,10 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				break;
 
 			case COMMENTS_SWITCH:
-				if(!(activity instanceof MainActivity)) activity.finish();
 				((RedditPostView.PostSelectionListener)activity).onPostCommentsSelected(post);
 				break;
 
 			case LINK_SWITCH:
-				if(!(activity instanceof MainActivity)) activity.finish();
 				((RedditPostView.PostSelectionListener)activity).onPostSelected(post);
 				break;
 

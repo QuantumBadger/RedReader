@@ -515,7 +515,7 @@
     <string name="pref_menus_optionsmenu_items_title">Einträge des Optionsmenüs</string>
     <string name="pref_menus_link_context_items_title">Link-Kontextmenü</string>
     <string name="pref_menus_subreddit_context_items_title">Subreddit-Kontextmenü</string>
-    <string name="pref_network_tor_title">TOR benutzen (experimentell)</string>
+    <string name="pref_network_tor_title">TOR benutzen</string>
     <string name="pref_not_supported_before_lollipop">Vor Android Lollipop nicht unterstützt</string>
     <string name="props_caption">Bildunterschrift</string>
     <string name="props_image_title">Bildinformationen</string>
@@ -604,4 +604,17 @@
     <string name="pref_appearance_show_aspect_ratio_indicator_summary">Zeigen ein Bild der geladenen Medien, wenn verfügbar</string>
     <string name="pref_appearance_bottom_toolbar_title">Symbolleiste am unteren Rand anzeigen</string>
     <string name="pref_behaviour_video_mute_default_title">Videos standardmäßig stumm schalten</string>
+    <string name="post_submit_mark_nsfw">Als NSFW markieren</string>
+    <string name="error_already_submitted_message">Dieser Beitrag wurde bereits an diesen Subreddit gesendet.</string>
+    <string name="pref_behaviour_usecustomtabs_title">Benutzerdefinierte Tabs verwenden</string>
+    <string name="pref_behaviour_usecustomtabs_summary">Verwende benutzerdefinierte Tabs, wenn verfügbar</string>
+    <string name="pref_menus_mainmenu_shortcutitems_title">Hauptmenü Kurzbefehle</string>
+    <string name="pref_menus_show_multireddit_main_menu_title">Multireddits anzeigen</string>
+    <string name="mainmenu_random_nsfw">Zufälliger NSFW-Subreddit</string>
+    <string name="prefs_category_images_video">Bilder/Video</string>
+    <string name="notification_channel_name_reddit_messages">Eingehende Reddit-Nachrichten</string>
+    <string name="post_text_copied_to_clipboard">Beitrag in die Zwischenablage kopiert</string>
+    <string name="pref_behaviour_sharing_share_dialog_dialogtitle">Wähle eine App zum Teilen aus</string>
+    <string name="pref_behaviour_sharing_share_dialog_title">Integrierten Freigabedialog verwenden</string>
+    <string name="error_toast_no_share_app_installed">Keine geeignete App installiert, um dies zu teilen.</string>
 </resources>

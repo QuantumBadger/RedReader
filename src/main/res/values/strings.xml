@@ -1136,16 +1136,16 @@
 
 	<!-- 2020-02-03 -->
 	<string name="pref_appearance_fontscale_post_subtitles_key" translatable="false">pref_appearance_fontscale_post_subtitles_key</string>
-	<string name="pref_appearance_fontscale_post_subtitles_title">Post Subtitles Font Scale</string>
+	<string name="pref_appearance_fontscale_post_subtitles_title">Post subtitles font scale</string>
 	<string name="pref_appearance_fontscale_post_header_titles_key" translatable="false">pref_appearance_fontscale_post_header_titles_key</string>
-	<string name="pref_appearance_fontscale_post_header_titles_title">Opened Post Titles Font Scale</string>
+	<string name="pref_appearance_fontscale_post_header_titles_title">Opened post titles font scale</string>
 	<string name="pref_appearance_fontscale_post_header_subtitles_key" translatable="false">pref_appearance_fontscale_post_header_subtitles_key</string>
-	<string name="pref_appearance_fontscale_post_header_subtitles_title">Opened Post Subtitles Font Scale</string>
+	<string name="pref_appearance_fontscale_post_header_subtitles_title">Opened post subtitles font scale</string>
 	<string name="pref_appearance_fontscale_post_use_different_scales_key" translatable="false">pref_appearance_fontscale_post_use_different_scales_key</string>
 	<string name="pref_appearance_fontscale_post_use_different_scales_title">Use different font settings for opened posts</string>
 	<string name="pref_appearance_fontscale_selftext_key" translatable="false">pref_appearance_fontscale_selftext_key</string>
-	<string name="pref_appearance_fontscale_selftext_title">Self-Text Font Scale</string>
+	<string name="pref_appearance_fontscale_selftext_title">Self text font scale</string>
 	<string name="pref_appearance_fontscale_comment_headers_key" translatable="false">pref_appearance_fontscale_comment_headers_key</string>
-	<string name="pref_appearance_fontscale_comment_headers_title">Comment Headers Font Scale</string>
+	<string name="pref_appearance_fontscale_comment_headers_title">Comment headers font scale</string>
 
 </resources>

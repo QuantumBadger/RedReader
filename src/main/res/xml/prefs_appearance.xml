@@ -23,6 +23,12 @@
 						android:key="@string/pref_appearance_left_handed_key"
 						android:defaultValue="false"/>
 
+	<ListPreference android:title="@string/pref_appearance_twopane_title"
+					android:key="@string/pref_appearance_twopane_key"
+					android:entries="@array/pref_appearance_twopane"
+					android:entryValues="@array/pref_appearance_twopane_return"
+					android:defaultValue="auto"/>
+
     <PreferenceCategory android:title="@string/pref_appearance_theme_header">
 
         <ListPreference android:title="@string/pref_appearance_theme_title"
@@ -115,15 +121,6 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_appearance_tabletmode_header">
-
-        <ListPreference android:title="@string/pref_appearance_twopane_title"
-                        android:key="@string/pref_appearance_twopane_key"
-                        android:entries="@array/pref_appearance_twopane"
-                        android:entryValues="@array/pref_appearance_twopane_return"
-                        android:defaultValue="auto"/>
-
-    </PreferenceCategory>
 
 	<PreferenceCategory android:title="@string/pref_appearance_posts_header">
 
@@ -160,6 +157,7 @@
             android:dialogTitle="@string/pref_appearance_comment_header_items_title"
             android:key="@string/pref_appearance_comment_header_items_key"
             android:title="@string/pref_appearance_comment_header_items_title"
+            android:summary="@string/pref_appearance_comment_header_summary"
             android:entries="@array/pref_appearance_comment_header_items"
             android:entryValues="@array/pref_appearance_comment_header_items_return"
             android:defaultValue="@array/pref_appearance_comment_header_items_default" />

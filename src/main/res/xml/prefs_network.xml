@@ -22,8 +22,9 @@
     <PreferenceCategory android:title="@string/prefs_category_network">
 
     <CheckBoxPreference android:title="@string/pref_network_tor_title"
-        android:key="@string/pref_network_tor_key"
-        android:defaultValue="false"/>
+						android:key="@string/pref_network_tor_key"
+						android:summary="@string/pref_network_tor_summary"
+        				android:defaultValue="false"/>
 
     </PreferenceCategory>
 

@@ -29,6 +29,7 @@
 
 	<CheckBoxPreference android:title="@string/pref_behaviour_usecustomtabs_title"
                         android:key="@string/pref_behaviour_usecustomtabs_key"
+						android:dependency="@string/pref_behaviour_useinternalbrowser_key"
                         android:summary="@string/pref_behaviour_usecustomtabs_summary"
                         android:defaultValue="false"/>
 

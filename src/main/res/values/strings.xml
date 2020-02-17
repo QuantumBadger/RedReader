@@ -37,14 +37,13 @@
     <!-- Appearance Prefs -->
 
     <string name="pref_appearance_theme_header">Theme</string>
-    <string name="pref_appearance_font_header">Font</string>
+    <string name="pref_appearance_font_header">Font Scale</string>
     <string name="pref_appearance_thumbnails_header">Thumbnails</string>
-    <string name="pref_appearance_tabletmode_header">Tablet Mode</string>
     <string name="pref_appearance_comments_header">Comments</string>
     <string name="pref_appearance_other_header">Other</string>
 
     <string name="pref_appearance_twopane_key" translatable="false">pref_appearance_twopane</string>
-    <string name="pref_appearance_twopane_title">Tablet Mode (two pane)</string>
+    <string name="pref_appearance_twopane_title">Tablet mode (two pane)</string>
 
     <string name="pref_appearance_theme_key" translatable="false">pref_appearance_theme</string>
     <string name="pref_appearance_theme_title">Theme</string>
@@ -52,10 +51,10 @@
     <string name="pref_appearance_solidblack_title">Solid black in night mode</string>
 
     <string name="pref_appearance_fontscale_posts_key" translatable="false">pref_appearance_fontscale_posts</string>
-    <string name="pref_appearance_fontscale_posts_title">Posts Font Scale</string>
+    <string name="pref_appearance_fontscale_posts_title">Posts</string>
 
     <string name="pref_appearance_fontscale_comments_key" translatable="false">pref_appearance_fontscale_comments</string>
-    <string name="pref_appearance_fontscale_comments_title">Comments Font Scale</string>
+    <string name="pref_appearance_fontscale_comments_title">Comments</string>
 
     <string name="pref_appearance_thumbnails_show_key" translatable="false">pref_appearance_thumbnails_show</string>
     <string name="pref_appearance_thumbnails_show_title">Show thumbnails</string>
@@ -70,7 +69,7 @@
     <string name="pref_appearance_loading_detail_title">Show detailed loading messages</string>
 
     <string name="pref_appearance_comment_header_items_key" translatable="false">pref_appearance_comment_header_items</string>
-    <string name="pref_appearance_comment_header_items_title">Comment Header</string>
+    <string name="pref_appearance_comment_header_items_title">Comment header</string>
 
     <!-- Behaviour Prefs -->
 
@@ -82,13 +81,13 @@
     <string name="pref_behaviour_posts_header">Posts</string>
 
     <string name="pref_behaviour_fling_post_left_key" translatable="false">pref_behaviour_fling_post_left</string>
-    <string name="pref_behaviour_fling_post_left_title">Fling Post Left Action</string>
+    <string name="pref_behaviour_fling_post_left_title">Fling left</string>
 
     <string name="pref_behaviour_fling_post_right_key" translatable="false">pref_behaviour_fling_post_right</string>
-    <string name="pref_behaviour_fling_post_right_title">Fling Post Right Action</string>
+    <string name="pref_behaviour_fling_post_right_title">Fling right</string>
 
     <string name="pref_behaviour_actions_comment_tap_key" translatable="false">pref_behaviour_actions_comment_tap</string>
-    <string name="pref_behaviour_actions_comment_tap_title">Comment Tap Action</string>
+    <string name="pref_behaviour_actions_comment_tap_title">Tap</string>
 
     <string name="pref_behaviour_nsfw_key" translatable="false">pref_behaviour_nsfw</string>
     <string name="pref_behaviour_nsfw_title">Show NSFW content</string>
@@ -121,10 +120,10 @@
     <!-- Menu Prefs -->
 
     <string name="pref_menus_post_context_items_key" translatable="false">pref_menus_post_context_items_2</string>
-    <string name="pref_menus_post_context_items_title">Post Context Menu Items</string>
+    <string name="pref_menus_post_context_items_title">Post context menu items</string>
 
     <string name="pref_menus_post_toolbar_items_key" translatable="false">pref_menus_post_toolbar_items</string>
-    <string name="pref_menus_post_toolbar_items_title">Post Toolbar Items</string>
+    <string name="pref_menus_post_toolbar_items_title">Post toolbar items</string>
 
     <!-- Options Menu -->
 
@@ -470,7 +469,7 @@
     <string name="title_changelog">What\'s New</string>
 
     <string name="pref_behaviour_commentsort_key" translatable="false">pref_behaviour_commentsort</string>
-    <string name="pref_behaviour_commentsort">Default Comment Sort</string>
+    <string name="pref_behaviour_commentsort">Comments (default)</string>
 
     <!-- 2013-05-18 -->
 
@@ -514,12 +513,12 @@
 
     <!-- 2013-07-26 -->
 
-    <string name="pref_behaviour_useinternalbrowser_title">Use Internal Browser</string>
+    <string name="pref_behaviour_useinternalbrowser_title">Use internal browser</string>
     <string name="pref_behaviour_useinternalbrowser_key" translatable="false">pref_behaviour_useinternalbrowser</string>
 
     <!-- 2013-07-29 -->
 
-    <string name="pref_appearance_linkbuttons_title">Show Link Buttons</string>
+    <string name="pref_appearance_linkbuttons_title">Show link buttons</string>
     <string name="pref_appearance_linkbuttons_key" translatable="false">pref_appearance_linkbuttons</string>
 
     <!-- 2013-08-04 -->
@@ -567,7 +566,7 @@
     <!-- 2014-04-13 -->
 
     <string name="pref_menus_mainmenu_useritems_key" translatable="false">pref_menus_mainmenu_useritems</string>
-    <string name="pref_menus_mainmenu_useritems_title">Main Menu User Items</string>
+    <string name="pref_menus_mainmenu_useritems_title">Main menu user items</string>
 
     <string name="mainmenu_submitted">Submitted Posts</string>
     <string name="mainmenu_downvoted">Downvoted Posts</string>
@@ -646,7 +645,7 @@
     <string name="error_archived_vote" >This has been archived and can no longer be voted on.</string>
 
     <!-- 2015-06-20 -->
-    <string name="pref_behaviour_screenorientation_title">Screen Orientation</string>
+    <string name="pref_behaviour_screenorientation_title">Screen orientation</string>
     <string name="pref_behaviour_screenorientation_key" translatable="false">pref_behaviour_screenorientation</string>
 
     <string name="screen_orientation_auto">Auto</string>
@@ -657,14 +656,14 @@
     <string name="options_close_all">Close All</string>
 
     <string name="pref_menus_optionsmenu_items_key" translatable="false">pref_menus_optionsmenu_items_3</string>
-    <string name="pref_menus_optionsmenu_items_title">Options Menu Items</string>
+    <string name="pref_menus_optionsmenu_items_title">Options menu items</string>
 
     <!-- 2015-07-05 -->
     <string name="pref_behaviour_bezel_toolbar_header">Bezel Toolbar</string>
     <string name="pref_behaviour_bezel_toolbar_swipezone_key" translatable="false">pref_behaviour_bezel_toolbar_swipezone</string>
     <string name="pref_behaviour_bezel_toolbar_swipezone_title">Bezel toolbar swipe zone size</string>
 
-    <string name="pref_behaviour_gifview_mode_title">GIF Viewer</string>
+    <string name="pref_behaviour_gifview_mode_title">GIF viewer</string>
     <string name="pref_behaviour_gifview_mode_key" translatable="false">pref_behaviour_gifview_mode</string>
 
     <string name="pref_behaviour_gifview_mode_internal_movie">Internal viewer (Movie, Android 4.0+)</string>
@@ -675,7 +674,7 @@
 
     <!-- 2015-08-15 -->
     <string name="pref_appearance_fontscale_inbox_key" translatable="false">pref_appearance_fontscale_inbox</string>
-    <string name="pref_appearance_fontscale_inbox_title">Inbox Font Scale</string>
+    <string name="pref_appearance_fontscale_inbox_title">Inbox</string>
 
     <string name="action_delete">Delete</string>
     <string name="delete_confirm">Are you sure you want to delete this?</string>
@@ -697,7 +696,7 @@
 
     <string name="upgrade_v190_login_message">RedReader has upgraded, and now uses oAuth for reddit authentication. If you were signed in to an account before the upgrade, you are now logged out.</string>
 
-    <string name="pref_behaviour_videoview_mode_title">Video Viewer</string>
+    <string name="pref_behaviour_videoview_mode_title">Video viewer</string>
     <string name="pref_behaviour_videoview_mode_key" translatable="false">pref_behaviour_videoview_mode</string>
     <string name="pref_behaviour_videoview_mode_internal_videoview">Internal VideoView (recommended)</string>
     <string name="pref_behaviour_videoview_mode_external_app_vlc">External App: VLC</string>
@@ -712,7 +711,7 @@
     <string name="sort_comments_qa">Q&amp;A</string>
 
     <!-- 2015-10-31 -->
-    <string name="pref_behaviour_gallery_swipe_length_title">Gallery Swipe Length</string>
+    <string name="pref_behaviour_gallery_swipe_length_title">Gallery swipe length</string>
     <string name="pref_behaviour_gallery_swipe_length_key" translatable="false">pref_behaviour_gallery_swipe_length</string>
 
     <!-- 2015-11-19 -->
@@ -751,7 +750,7 @@
     <string name="pref_behaviour_comment_min_key" translatable="false">pref_behaviour_comment_min</string>
     <string name="pref_behaviour_comments_header">Comments</string>
 
-    <string name="pref_behaviour_comment_min_title">Minimum Comment Score</string>
+    <string name="pref_behaviour_comment_min_title">Minimum comment score</string>
     <string name="pref_behaviour_comment_min_dialog_title">Collapse comment if score below (blank to show all)</string>
 
     <!-- 2016-03-20 -->
@@ -797,12 +796,12 @@
 	<string name="save_image_permission_denied">Permission denied: could not save image.</string>
 	
 	<!-- 2016-06-25 -->
-	<string name="pref_behaviour_imageview_mode_title">Image Viewer</string>
+	<string name="pref_behaviour_imageview_mode_title">Image viewer</string>
 	<string name="pref_behaviour_imageview_mode_key" translatable="false">pref_behaviour_imageview_mode</string>
 
 	<string name="pref_behaviour_imageview_mode_internal_opengl">Internal viewer (OpenGL)</string>
 
-	<string name="pref_behaviour_albumview_mode_title">Album Viewer</string>
+	<string name="pref_behaviour_albumview_mode_title">Album viewer</string>
 	<string name="pref_behaviour_albumview_mode_key" translatable="false">pref_behaviour_albumview_mode</string>
 
 	<string name="pref_behaviour_albumview_mode_internal_list">Internal viewer (list)</string>
@@ -814,7 +813,7 @@
 	
 	<!-- 2016-07-02 -->
 	<string name="pref_behaviour_actions_comment_longclick_key" translatable="false">pref_behaviour_actions_comment_longclick</string>
-	<string name="pref_behaviour_actions_comment_longclick_title">Comment Long Click Action</string>
+	<string name="pref_behaviour_actions_comment_longclick_title">Long tap</string>
 
 	<string name="no_comments_yet">No comments yet.</string>
 
@@ -837,10 +836,10 @@
 	
 	<!-- 2016-07-16 -->
 	<string name="pref_behaviour_fling_comment_left_key" translatable="false">pref_behaviour_fling_comment_left</string>
-	<string name="pref_behaviour_fling_comment_left_title">Fling Comment Left Action</string>
+	<string name="pref_behaviour_fling_comment_left_title">Fling left</string>
 
 	<string name="pref_behaviour_fling_comment_right_key" translatable="false">pref_behaviour_fling_comment_right</string>
-	<string name="pref_behaviour_fling_comment_right_title">Fling Comment Right Action</string>
+	<string name="pref_behaviour_fling_comment_right_title">Fling right</string>
 
 	<!-- 2016-07-17 -->
 	<string name="comment_header_search_thread_title">You are currently viewing search results for a comment thread.</string>
@@ -851,7 +850,7 @@
 
 	<!-- 2016-07-29 -->
 	<string name="pref_appearance_navbar_color_key" translatable="false">pref_appearance_navbar_color</string>
-	<string name="pref_appearance_navbar_color_title">Navbar Colour</string>
+	<string name="pref_appearance_navbar_color_title">Navigation and status bar colour</string>
 
 	<string name="pref_appearance_navbar_color_option_black">Black</string>
 	<string name="pref_appearance_navbar_color_option_primary">Primary (light)</string>
@@ -864,7 +863,7 @@
 	<string name="action_copy_link">Copy Link</string>
 
 	<string name="pref_behaviour_postsort_key" translatable="false">pref_behaviour_postsort</string>
-	<string name="pref_behaviour_postsort">Default Post Sort</string>
+	<string name="pref_behaviour_postsort">Posts (default)</string>
 
 	<!-- 2016-08-06 -->
 	<string name="mainmenu_custom_destination">Custom Location</string>
@@ -889,7 +888,7 @@
 
 	<!-- 2016-08-15 -->
 	<string name="pref_behaviour_pinned_subredditsort_key" translatable="false">pref_behaviour_pinned_subreddit_sort</string>
-	<string name="pref_behaviour_pinned_subredditsort">Pinned Subreddit Sort</string>
+	<string name="pref_behaviour_pinned_subredditsort">Pinned subreddits</string>
 	<string name="sort_pinned_subreddit_name">By Name</string>
 	<string name="sort_pinned_subreddit_date">By Added Date</string>
 
@@ -906,7 +905,7 @@
 	<string name="pref_appearance_link_text_clickable_key" translatable="false">pref_appearance_link_text_clickable</string>
 
 	<!-- 2016-09-07 -->
-	<string name="pref_appearance_hide_android_status_title">Hide Android status bar</string>
+	<string name="pref_appearance_hide_android_status_title">Hide status bar</string>
 	<string name="pref_appearance_hide_android_status_key" translatable="false">pref_appearance_hide_android_status</string>
 
 	<!-- 2016-09-08 -->
@@ -916,7 +915,7 @@
 	<!-- 2016-09-10 -->
 	<string name="mainmenu_header_subreddits_blocked">Blocked Subreddits</string>
 	<string name="pref_behaviour_blocked_subredditsort_key" translatable="false">pref_behaviour_blocked_subreddit_sort</string>
-	<string name="pref_behaviour_blocked_subredditsort">Blocked Subreddit Sort</string>
+	<string name="pref_behaviour_blocked_subredditsort">Blocked subreddits</string>
 	<string name="sort_blocked_subreddit_name">By Name</string>
 	<string name="sort_blocked_subreddit_date">By Added Date</string>
 
@@ -968,13 +967,13 @@
 
 	<!-- 2017-03-02 -->
 	<string name="pref_menus_link_context_items_key" translatable="false">pref_menus_link_context_items</string>
-	<string name="pref_menus_link_context_items_title">Link Context Menu Items</string>
+	<string name="pref_menus_link_context_items_title">Link context menu items</string>
 	<string name="lang_eo" translatable="false">Esperanto</string>
 	<string name="lang_pl" translatable="false">Polski</string>
 
 	<!-- 2017-03-07 -->
 	<string name="pref_menus_subreddit_context_items_key" translatable="false">pref_menus_subreddit_context_items</string>
-	<string name="pref_menus_subreddit_context_items_title">Subreddit Context Menu Items</string>
+	<string name="pref_menus_subreddit_context_items_title">Subreddit context menu items</string>
 	<string name="mainmenu_toast_not_subscribed">You are not subscribed to this subreddit yet!</string>
 	<string name="mainmenu_toast_subscribed">You are already subscribed to this subreddit!</string>
 	<string name="mainmenu_toast_not_pinned">This subreddit is not pinned to the main menu!</string>
@@ -1009,7 +1008,7 @@
 
 	<!--2017-05-21-->
 	<string name="pref_behaviour_self_post_tap_actions_key" translatable="false">pref_behaviour_self_post_tap_actions</string>
-	<string name="pref_behaviour_self_post_tap_actions_title">Self-Post Tap Action</string>
+	<string name="pref_behaviour_self_post_tap_actions_title">Self-post tap</string>
 
 	<!-- 2017-06-05 -->
 	<string name="lang_in" translatable="false">Bahasa Indonesia</string>
@@ -1087,26 +1086,26 @@
 	<string name="pref_behaviour_hide_read_posts_title">Hide read posts</string>
 
 	<!-- 2018-10-06 -->
-	<string name="pref_menus_mainmenu_shortcutitems_title">Main Menu Shortcuts</string>
+	<string name="pref_menus_mainmenu_shortcutitems_title">Main menu shortcuts</string>
 	<string name="pref_menus_mainmenu_shortcutitems_key" translatable="false">pref_menus_mainmenu_shortcutitems_key</string>
 
-	<string name="pref_menus_show_multireddit_main_menu_title">Show Multireddits</string>
+	<string name="pref_menus_show_multireddit_main_menu_title">Show multireddits</string>
 	<string name="pref_menus_show_multireddit_main_menu_key" translatable="false">pref_menus_show_multireddit_main_menu_key</string>
 
 	<string name="pref_menus_show_subscribed_subreddits_main_menu_key" translatable="false">pref_menus_show_subscribed_main_menu</string>
-	<string name="pref_menus_show_subscribed_subreddits_main_menu_title">Show Subscribed Subreddits</string>
+	<string name="pref_menus_show_subscribed_subreddits_main_menu_title">Show subscribed subreddits</string>
 
 	<!-- 2018-11-26 -->
 	<string name="mainmenu_random_nsfw">Random NSFW Subreddit</string>
 
 	<!-- 2019-01-26 -->
 	<string name="pref_appearance_show_aspect_ratio_indicator_key" translatable="false">pref_appearance_show_aspect_ratio_indicator_key</string>
-	<string name="pref_appearance_show_aspect_ratio_indicator_title">Show Aspect Ratio Indicator</string>
+	<string name="pref_appearance_show_aspect_ratio_indicator_title">Show aspect ratio indicator</string>
 	<string name="pref_appearance_show_aspect_ratio_indicator_summary">Show a visual of loading media when available</string>
 
 	<!-- 2019-01-29 -->
 	<string name="pref_appearance_bottom_toolbar_key" translatable="false">pref_appearance_bottom_toolbar_key</string>
-	<string name="pref_appearance_bottom_toolbar_title">Show Toolbar at Bottom</string>
+	<string name="pref_appearance_bottom_toolbar_title">Show toolbar at bottom</string>
 
 	<!-- 2019-02-02 -->
 	<string name="pref_behaviour_video_mute_default_key" translatable="false">pref_behaviour_video_mute_default</string>
@@ -1133,5 +1132,9 @@
 	<string name="lang_hi" translatable="false">हिन्दी</string>
 	<string name="lang_ja" translatable="false">日本語</string>
 	<string name="lang_lt" translatable="false">lietuvių kalba</string>
+
+	<!-- 2020-02-17 -->
+	<string name="pref_appearance_comment_header_summary">Select which information to display in comments</string>
+	<string name="pref_network_tor_summary">When using an external browser or Custom Tabs, links will not be opened using Tor (unless your browser is configured to use Tor)</string>
 
 </resources>

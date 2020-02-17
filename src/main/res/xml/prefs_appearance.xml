@@ -95,6 +95,7 @@
 			android:dialogTitle="@string/pref_appearance_post_subtitle_items_title"
 			android:key="@string/pref_appearance_post_subtitle_items_key"
 			android:title="@string/pref_appearance_post_subtitle_items_title"
+			android:summary="@string/pref_appearance_post_subtitle_items_summary"
 			android:entries="@array/pref_appearance_post_subtitle_items"
 			android:entryValues="@array/pref_appearance_post_subtitle_items_return"
 			android:defaultValue="@array/pref_appearance_post_subtitle_items_default" />
@@ -104,13 +105,14 @@
 							android:defaultValue="false"/>
 
 		<MultiSelectListPreference
-				android:dialogTitle="@string/pref_appearance_post_header_subtitle_items_title"
-				android:key="@string/pref_appearance_post_header_subtitle_items_key"
-				android:dependency="@string/pref_appearance_post_subtitle_items_use_different_settings_key"
-				android:title="@string/pref_appearance_post_header_subtitle_items_title"
-				android:entries="@array/pref_appearance_post_subtitle_items"
-				android:entryValues="@array/pref_appearance_post_subtitle_items_return"
-				android:defaultValue="@array/pref_appearance_post_subtitle_items_default" />
+			android:dialogTitle="@string/pref_appearance_post_header_subtitle_items_title"
+			android:key="@string/pref_appearance_post_header_subtitle_items_key"
+			android:dependency="@string/pref_appearance_post_subtitle_items_use_different_settings_key"
+			android:title="@string/pref_appearance_post_header_subtitle_items_title"
+			android:summary="@string/pref_appearance_post_header_subtitle_items_summary"
+			android:entries="@array/pref_appearance_post_subtitle_items"
+			android:entryValues="@array/pref_appearance_post_subtitle_items_return"
+			android:defaultValue="@array/pref_appearance_post_subtitle_items_default" />
 
 	</PreferenceCategory>
 

@@ -1137,15 +1137,15 @@
 	<!-- 2020-02-04 -->
 	<string name="pref_appearance_posts_header">Posts</string>
 	<string name="pref_appearance_post_subtitle_items_key" translatable="false">pref_appearance_post_subtitle_items_key</string>
-	<string name="pref_appearance_post_subtitle_items_title">Post Subtitle</string>
-	<string name="pref_appearance_post_subtitle_items_sticky">Sticky Tag</string>
-	<string name="pref_appearance_post_subtitle_items_spoiler">Spoiler Tag</string>
-	<string name="pref_appearance_post_subtitle_items_nsfw">NSFW Tag</string>
+	<string name="pref_appearance_post_subtitle_items_title">Post subtitle</string>
+	<string name="pref_appearance_post_subtitle_items_sticky">Sticky tag</string>
+	<string name="pref_appearance_post_subtitle_items_spoiler">Spoiler tag</string>
+	<string name="pref_appearance_post_subtitle_items_nsfw">NSFW tag</string>
 	<string name="pref_appearance_post_subtitle_items_subreddit">Subreddit</string>
 	<string name="pref_appearance_post_subtitle_items_domain">Domain</string>
 	<string name="pref_appearance_post_subtitle_items_use_different_settings_key" translatable="false">pref_appearance_post_subtitle_items_use_different_settings_key</string>
 	<string name="pref_appearance_post_subtitle_items_use_different_settings_title">Use different subtitle settings for opened posts</string>
 	<string name="pref_appearance_post_header_subtitle_items_key" translatable="false">pref_appearance_post_header_subtitle_items_key</string>
-	<string name="pref_appearance_post_header_subtitle_items_title">Opened Post Subtitle</string>
+	<string name="pref_appearance_post_header_subtitle_items_title">Opened post subtitle</string>
 
 </resources>

@@ -206,11 +206,8 @@ public class SearchPostListURL extends PostListingURL {
 
 		if(shorter) return context.getString(R.string.search_results_short);
 
-		if(query != null && subreddit != null) {
-			if(context.getString(R.string.search_results_all_query_first).equalsIgnoreCase("true"))
-				return String.format(context.getString(R.string.search_results_all), query, subreddit);
-			else return String.format(context.getString(R.string.search_results_all), subreddit, query);
-		} else if(query != null) return String.format(context.getString(R.string.search_results_query_only), query);
+		if(query != null && subreddit != null) return String.format(context.getString(R.string.search_results_all), query, subreddit);
+		else if(query != null) return String.format(context.getString(R.string.search_results_query_only), query);
 		else if(subreddit != null) return String.format(context.getString(R.string.search_results_subreddit_only), subreddit);
 
 		return context.getString(R.string.action_search);

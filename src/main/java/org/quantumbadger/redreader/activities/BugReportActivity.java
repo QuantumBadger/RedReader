@@ -127,9 +127,9 @@ public class BugReportActivity extends BaseActivity {
 				intent.putExtra(Intent.EXTRA_TEXT, sb.toString());
 
 				try {
-					startActivity(Intent.createChooser(intent, "Email bug report"));
+					startActivity(Intent.createChooser(intent, getString(R.string.bug_chooser_title)));
 				} catch (android.content.ActivityNotFoundException ex) {
-					General.quickToast(BugReportActivity.this, "No email apps installed!");
+					General.quickToast(BugReportActivity.this, R.string.error_toast_no_email_apps);
 				}
 
 				finish();

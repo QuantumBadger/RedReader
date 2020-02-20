@@ -395,7 +395,7 @@ public class LinkHandler {
 				return true;
 
 			} catch(Exception e) {
-				General.quickToast(activity, "Failed to open url \"" + uri.toString() + "\" in external browser");
+				General.quickToast(activity, String.format(activity.getString(R.string.error_toast_failed_open_external_browser), uri.toString()));
 			}
 
 		} else {

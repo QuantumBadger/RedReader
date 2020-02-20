@@ -198,7 +198,7 @@ public class MainActivity extends RefreshableActivity
 
 			if(lastVersion != appVersion) {
 
-				General.quickToast(this, "Updated to version " + pInfo.versionName);
+				General.quickToast(this, String.format(getString(R.string.upgrade_message), pInfo.versionName));
 
 				sharedPreferences.edit().putInt("lastVersion", appVersion).apply();
 				ChangelogDialog.newInstance().show(getSupportFragmentManager(), null);

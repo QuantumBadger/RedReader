@@ -1134,4 +1134,10 @@
 	<string name="lang_ja" translatable="false">日本語</string>
 	<string name="lang_lt" translatable="false">lietuvių kalba</string>
 
+	<!-- 2020-02-20 -->
+	<string name="upgrade_message">Updated to version %s</string>
+	<string name="error_toast_failed_open_external_browser">Failed to open url \"%s\" in external browser</string>
+	<string name="error_toast_no_email_apps">No email apps installed!</string>
+	<string name="bug_chooser_title">Email bug report</string>
+
 </resources>

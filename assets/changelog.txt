@@ -1,5 +1,6 @@
 90/1.10
 Added post toolbar
+Fine-grained control over font scaling (thanks to Cameron Merkel)
 Added custom share dialog with prioritisation, off by default (thanks to LizardWithHat)
 Preserve fields when returning to post submission activity (thanks to fguibourt)
 Fixed issue with HTTP cleartext websites

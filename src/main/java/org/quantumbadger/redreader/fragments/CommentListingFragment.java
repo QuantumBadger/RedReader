@@ -92,7 +92,7 @@ public class CommentListingFragment extends RRFragment
 	private final FrameLayout mOuterFrame;
 	private final @Nullable LinearLayout mFloatingToolbar;
 
-	private final float mCommentFontScale;
+	private final float mSelfTextFontScale;
 	private final boolean mShowLinkButtons;
 
 	private Long mCachedTimestamp = null;
@@ -134,7 +134,7 @@ public class CommentListingFragment extends RRFragment
 		final Context context = getActivity();
 
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-		mCommentFontScale = PrefsUtility.appearance_fontscale_comments(context, prefs);
+		mSelfTextFontScale = PrefsUtility.appearance_fontscale_selftext(context, prefs);
 		mShowLinkButtons = PrefsUtility.pref_appearance_linkbuttons(context, prefs);
 
 		mOuterFrame = new FrameLayout(context);
@@ -484,7 +484,7 @@ public class CommentListingFragment extends RRFragment
 
 			if(post.src.getSelfText() != null) {
 				final ViewGroup selfText = post.src.getSelfText().buildView(
-						getActivity(), attr.rrMainTextCol, 14f * mCommentFontScale, mShowLinkButtons);
+						getActivity(), attr.rrMainTextCol, 14f * mSelfTextFontScale, mShowLinkButtons);
 				selfText.setFocusable(false);
 				selfText.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
 

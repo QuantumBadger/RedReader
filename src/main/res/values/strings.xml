@@ -52,7 +52,7 @@
     <string name="pref_appearance_solidblack_title">Solid black in night mode</string>
 
     <string name="pref_appearance_fontscale_posts_key" translatable="false">pref_appearance_fontscale_posts</string>
-    <string name="pref_appearance_fontscale_posts_title">Posts Font Scale</string>
+    <string name="pref_appearance_fontscale_posts_title">Post titles</string>
 
     <string name="pref_appearance_fontscale_comments_key" translatable="false">pref_appearance_fontscale_comments</string>
     <string name="pref_appearance_fontscale_comments_title">Comments Font Scale</string>
@@ -1133,5 +1133,19 @@
 	<string name="lang_hi" translatable="false">हिन्दी</string>
 	<string name="lang_ja" translatable="false">日本語</string>
 	<string name="lang_lt" translatable="false">lietuvių kalba</string>
+
+	<!-- 2020-02-03 -->
+	<string name="pref_appearance_fontscale_post_subtitles_key" translatable="false">pref_appearance_fontscale_post_subtitles_key</string>
+	<string name="pref_appearance_fontscale_post_subtitles_title">Post subtitles</string>
+	<string name="pref_appearance_fontscale_post_header_titles_key" translatable="false">pref_appearance_fontscale_post_header_titles_key</string>
+	<string name="pref_appearance_fontscale_post_header_titles_title">Opened post titles</string>
+	<string name="pref_appearance_fontscale_post_header_subtitles_key" translatable="false">pref_appearance_fontscale_post_header_subtitles_key</string>
+	<string name="pref_appearance_fontscale_post_header_subtitles_title">Opened post subtitles</string>
+	<string name="pref_appearance_fontscale_post_use_different_scales_key" translatable="false">pref_appearance_fontscale_post_use_different_scales_key</string>
+	<string name="pref_appearance_fontscale_post_use_different_scales_title">Use different settings for opened posts</string>
+	<string name="pref_appearance_fontscale_selftext_key" translatable="false">pref_appearance_fontscale_selftext_key</string>
+	<string name="pref_appearance_fontscale_selftext_title">Self text</string>
+	<string name="pref_appearance_fontscale_comment_headers_key" translatable="false">pref_appearance_fontscale_comment_headers_key</string>
+	<string name="pref_appearance_fontscale_comment_headers_title">Comment headers</string>
 
 </resources>

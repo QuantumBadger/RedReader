@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageButton;
@@ -32,6 +33,7 @@ import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.common.BetterSSB;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
@@ -64,15 +66,29 @@ public class RedditPostHeaderView extends LinearLayout {
 
 		final Typeface tf = Typeface.createFromAsset(activity.getAssets(), "fonts/Roboto-Light.ttf");
 
+		final float titleFontScale;
+		if(PrefsUtility.appearance_fontscale_post_use_different_scales(activity, PreferenceManager.getDefaultSharedPreferences(activity))) {
+			titleFontScale = PrefsUtility.appearance_fontscale_post_header_titles(activity, PreferenceManager.getDefaultSharedPreferences(activity));
+		} else {
+			titleFontScale = PrefsUtility.appearance_fontscale_posts(activity, PreferenceManager.getDefaultSharedPreferences(activity));
+		}
+
 		final TextView title = new TextView(activity);
-		title.setTextSize(19.0f);
+		title.setTextSize(19.0f * titleFontScale);
 		title.setTypeface(tf);
 		title.setText(post.src.getTitle());
 		title.setTextColor(Color.WHITE);
 		greyHeader.addView(title);
 
+		final float subtitleFontScale;
+		if(PrefsUtility.appearance_fontscale_post_use_different_scales(activity, PreferenceManager.getDefaultSharedPreferences(activity))) {
+			subtitleFontScale = PrefsUtility.appearance_fontscale_post_header_subtitles(activity, PreferenceManager.getDefaultSharedPreferences(activity));
+		} else {
+			subtitleFontScale = PrefsUtility.appearance_fontscale_post_subtitles(activity, PreferenceManager.getDefaultSharedPreferences(activity));
+		}
+
 		subtitle = new TextView(activity);
-		subtitle.setTextSize(13.0f);
+		subtitle.setTextSize(13.0f * subtitleFontScale);
 		rebuildSubtitle(activity);
 
 		subtitle.setTextColor(Color.rgb(200, 200, 200));

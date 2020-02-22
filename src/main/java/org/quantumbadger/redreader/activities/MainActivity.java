@@ -318,6 +318,35 @@ public class MainActivity extends RefreshableActivity
 							existingPostContextItems
 					).apply();
 				}
+
+				if(lastVersion <= 89) {
+					//Upgrading from 89/1.9.11 or lower, enable finer control over font scales
+					//and set them to match the existing settings and behavior
+
+					final String existingPostFontscalePreference = Float.toString(PrefsUtility.appearance_fontscale_posts(this, sharedPreferences));
+
+					sharedPreferences.edit().putString(
+							getString(R.string.pref_appearance_fontscale_post_subtitles_key),
+							existingPostFontscalePreference
+					).apply();
+
+					sharedPreferences.edit().putBoolean(
+							getString(R.string.pref_appearance_fontscale_post_use_different_scales_key),
+							true
+					).apply();
+
+					final String existingCommentSelfTextFontscalePreference = Float.toString(PrefsUtility.appearance_fontscale_comments(this, sharedPreferences));
+
+					sharedPreferences.edit().putString(
+							getString(R.string.pref_appearance_fontscale_selftext_key),
+							existingCommentSelfTextFontscalePreference
+					).apply();
+
+					sharedPreferences.edit().putString(
+							getString(R.string.pref_appearance_fontscale_comment_headers_key),
+							existingCommentSelfTextFontscalePreference
+					).apply();
+				}
 			}
 
 		} else {

@@ -248,12 +248,36 @@ public final class PrefsUtility {
 		return Float.valueOf(getString(R.string.pref_appearance_fontscale_comments_key, "1", context,  sharedPreferences));
 	}
 
+	public static float appearance_fontscale_comment_headers(final Context context, final SharedPreferences sharedPreferences) {
+		return Float.valueOf(getString(R.string.pref_appearance_fontscale_comment_headers_key, "1", context, sharedPreferences));
+	}
+
 	public static float appearance_fontscale_inbox(final Context context, final SharedPreferences sharedPreferences) {
 		return Float.valueOf(getString(R.string.pref_appearance_fontscale_inbox_key, "1", context,  sharedPreferences));
 	}
 
 	public static float appearance_fontscale_posts(final Context context, final SharedPreferences sharedPreferences) {
 		return Float.valueOf(getString(R.string.pref_appearance_fontscale_posts_key, "1", context,  sharedPreferences));
+	}
+
+	public static float appearance_fontscale_post_subtitles(final Context context, final SharedPreferences sharedPreferences) {
+		return Float.valueOf(getString(R.string.pref_appearance_fontscale_post_subtitles_key, "1", context, sharedPreferences));
+	}
+
+	public static float appearance_fontscale_post_header_titles(final Context context, final SharedPreferences sharedPreferences) {
+		return Float.valueOf(getString(R.string.pref_appearance_fontscale_post_header_titles_key, "1", context, sharedPreferences));
+	}
+
+	public static float appearance_fontscale_post_header_subtitles(final Context context, final SharedPreferences sharedPreferences) {
+		return Float.valueOf(getString(R.string.pref_appearance_fontscale_post_header_subtitles_key, "1", context, sharedPreferences));
+	}
+
+	public static boolean appearance_fontscale_post_use_different_scales(final Context context, final SharedPreferences sharedPreferences) {
+		return getBoolean(R.string.pref_appearance_fontscale_post_use_different_scales_key, false, context, sharedPreferences);
+	}
+
+	public static float appearance_fontscale_selftext(final Context context, final SharedPreferences sharedPreferences) {
+		return Float.valueOf(getString(R.string.pref_appearance_fontscale_selftext_key, "1", context, sharedPreferences));
 	}
 
 	public static boolean pref_appearance_hide_username_main_menu(final Context context, final SharedPreferences sharedPreferences) {

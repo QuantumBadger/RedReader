@@ -21,6 +21,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -276,8 +277,19 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 					if (RedditURLParser.parse(Uri.parse(url)) != null) {
 						LinkHandler.onLinkClicked(mActivity, url, false);
 					} else {
-						webView.loadUrl(url);
-						currentUrl = url;
+						if (! PrefsUtility.pref_behaviour_useinternalbrowser(
+								getActivity(),
+								PreferenceManager.getDefaultSharedPreferences(getActivity()))) {
+							LinkHandler.openWebBrowser((AppCompatActivity)getActivity(), Uri.parse(url), true);
+						} else if (PrefsUtility.pref_behaviour_usecustomtabs(
+								getActivity(),
+								PreferenceManager.getDefaultSharedPreferences(getActivity())) &&
+								Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+							LinkHandler.openCustomTab((AppCompatActivity)getActivity(),Uri.parse(url));
+						} else {
+							webView.loadUrl(url);
+							currentUrl = url;
+						}
 					}
 				}
 

@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.common;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -173,31 +174,16 @@ public class LinkHandler {
 				}
 
 				case INTERNAL_BROWSER: {
-					final Intent intent = new Intent();
 					if (PrefsUtility.pref_behaviour_usecustomtabs(activity, sharedPreferences) &&
 							Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-						intent.setAction(Intent.ACTION_VIEW);
-						intent.setData(Uri.parse(url));
-						intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-						Bundle bundle = new Bundle();
-						bundle.putBinder("android.support.customtabs.extra.SESSION", null);
-						intent.putExtras(bundle);
-
-						intent.putExtra("android.support.customtabs.extra.SHARE_MENU_ITEM", true);
-
-						TypedValue typedValue = new TypedValue();
-						activity.getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
-
-						intent.putExtra("android.support.customtabs.extra.TOOLBAR_COLOR", typedValue.data);
-
-						intent.putExtra("android.support.customtabs.extra.ENABLE_URLBAR_HIDING", true);
+						openCustomTab(activity, Uri.parse(url));
 					} else {
+						final Intent intent = new Intent();
 						intent.setClass(activity, WebViewActivity.class);
 						intent.putExtra("url", url);
 						intent.putExtra("post", post);
+						activity.startActivity(intent);
 					}
-					activity.startActivity(intent);
 					return;
 				}
 
@@ -264,32 +250,17 @@ public class LinkHandler {
 			}
 		}
 
-		final Intent intent = new Intent();
 		if (PrefsUtility.pref_behaviour_usecustomtabs(activity, sharedPreferences)
 				&& Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-			intent.setAction(Intent.ACTION_VIEW);
-			intent.setData(Uri.parse(url));
-			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-			Bundle bundle = new Bundle();
-			bundle.putBinder("android.support.customtabs.extra.SESSION", null);
-			intent.putExtras(bundle);
-
-			intent.putExtra("android.support.customtabs.extra.SHARE_MENU_ITEM", true);
-
-			TypedValue typedValue = new TypedValue();
-			activity.getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
-
-			intent.putExtra("android.support.customtabs.extra.TOOLBAR_COLOR", typedValue.data);
-
-			intent.putExtra("android.support.customtabs.extra.ENABLE_URLBAR_HIDING", true);
+			openCustomTab(activity, Uri.parse(url));
 		} else {
+			final Intent intent = new Intent();
 			intent.setClass(activity, WebViewActivity.class);
 			intent.putExtra("url", url);
 			intent.putExtra("post", post);
+			activity.startActivity(intent);
 		}
 
-		activity.startActivity(intent);
 	}
 
 	public static void onLinkLongClicked(AppCompatActivity activity, String uri){
@@ -436,6 +407,29 @@ public class LinkHandler {
 		}
 
 		return false;
+	}
+
+	@TargetApi(18)
+	public static void openCustomTab(AppCompatActivity activity, Uri uri) {
+		Intent intent = new Intent();
+		intent.setAction(Intent.ACTION_VIEW);
+		intent.setData(uri);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+		Bundle bundle = new Bundle();
+		bundle.putBinder("android.support.customtabs.extra.SESSION", null);
+		intent.putExtras(bundle);
+
+		intent.putExtra("android.support.customtabs.extra.SHARE_MENU_ITEM", true);
+
+		TypedValue typedValue = new TypedValue();
+		activity.getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+
+		intent.putExtra("android.support.customtabs.extra.TOOLBAR_COLOR", typedValue.data);
+
+		intent.putExtra("android.support.customtabs.extra.ENABLE_URLBAR_HIDING", true);
+
+		activity.startActivity(intent);
 	}
 
 	public static final Pattern imgurPattern = Pattern.compile(".*[^A-Za-z]imgur\\.com/(\\w+).*"),

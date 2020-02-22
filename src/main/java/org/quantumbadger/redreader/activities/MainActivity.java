@@ -173,6 +173,7 @@ public class MainActivity extends RefreshableActivity
 
 			final SharedPreferences.Editor edit = sharedPreferences.edit();
 			edit.putString("firstRunMessageShown", "true");
+			edit.putInt("lastVersion", appVersion);
 			edit.apply();
 
 		} else if(sharedPreferences.contains("lastVersion")) {

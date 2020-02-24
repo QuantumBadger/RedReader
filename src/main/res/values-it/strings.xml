@@ -14,8 +14,7 @@
   ~
   ~ You should have received a copy of the GNU General Public License
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
-  -->
-<resources>
+  --><resources>
     <string name="accounts_active">Attivo</string>
     <string name="accounts_anon">Anonimo</string>
     <string name="accounts_delete">Elimina</string>
@@ -406,7 +405,7 @@
     <string name="pref_behaviour_comment_min_title">Punteggio Minimo dei Commenti</string>
     <string name="pref_behaviour_comment_min_dialog_title">Comprimi il commento se il punteggio è inferiore (lasciare vuoto per visualizzarli tutti)</string>
     <string name="open_with">Apri con</string>
-    <string name="pref_network_tor_title">Usa TOR (sperimentale)</string>
+    <string name="pref_network_tor_title">Usa Tor</string>
     <string name="error_tor_not_installed">Tor non funzionerà se Orbot non è installato. Installarlo adesso?</string>
     <string name="error_tor_setting_failed">Impossibile impostare il proxy.</string>
     <string name="error_parse_imgur_message">Imgur ha inviato alcuni dati che non riesco a comprendere.</string>
@@ -549,4 +548,30 @@
     <string name="button_prev_comment_parent">Commento Parent Precedente</string>
     <string name="pref_appearance_comments_show_floating_toolbar_title">Mostra barra mobile degli strumenti sopra i commenti</string>
     <string name="pref_behaviour_self_post_tap_actions_title">Azione Tocco Self-Post</string>
+    <string name="title_license">Licenza</string>
+    <string name="pref_appearance_left_handed_title">Modalità per mancini</string>
+    <string name="post_submit_mark_nsfw">Segna come NSFW</string>
+    <string name="post_submit_mark_spoiler">Segna come spoiler</string>
+    <string name="error_already_submitted_title">Già inserito</string>
+    <string name="error_already_submitted_message">Questo post è già stato inserito in questo subreddit.</string>
+    <string name="comment_reply_done_norefresh">Risposta inviata.</string>
+    <string name="sort_posts_best">Il meglio</string>
+    <string name="pref_behaviour_usecustomtabs_title">Usa schede personalizzate</string>
+    <string name="pref_behaviour_usecustomtabs_summary">Usa schede personalizzate se disponibili</string>
+    <string name="pref_behaviour_hide_read_posts_title">Nascondi post già letti</string>
+    <string name="pref_menus_mainmenu_shortcutitems_title">Scorciatoie del menu principale</string>
+    <string name="pref_menus_show_multireddit_main_menu_title">Mostra Multireddit</string>
+    <string name="pref_menus_show_subscribed_subreddits_main_menu_title">Mostra Subreddit a cui sono iscritto</string>
+    <string name="mainmenu_random_nsfw">Subreddit NSFW casuale</string>
+    <string name="pref_appearance_show_aspect_ratio_indicator_title">Mostra indicatore del rapporto d\'aspetto</string>
+    <string name="pref_appearance_show_aspect_ratio_indicator_summary">Mostra un indicatore di caricamento del contenuto, se disponibile</string>
+    <string name="pref_appearance_bottom_toolbar_title">Mostra barra degli strumenti in basso</string>
+    <string name="pref_behaviour_video_mute_default_title">Muta i video in modo predefinito</string>
+    <string name="prefs_category_images_video">Immagini/Video</string>
+    <string name="notification_channel_name_reddit_messages">Messaggi di Reddit in arrivo</string>
+    <string name="post_text_copied_to_clipboard">Post copiato negli appunti</string>
+    <string name="action_copy_selftext">Copiare Self-Text</string>
+    <string name="pref_behaviour_sharing_share_dialog_dialogtitle">Selezionare un app per condividere</string>
+    <string name="pref_behaviour_sharing_share_dialog_title">Usare la finestra integrata per condividere</string>
+    <string name="error_toast_no_share_app_installed">Non ci sono applicazioni adatte per condividere questo.</string>
 </resources>

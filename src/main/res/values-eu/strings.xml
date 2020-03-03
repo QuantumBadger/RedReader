@@ -571,4 +571,7 @@
     <string name="action_copy_selftext">Kopiatu testu propioa</string>
     <string name="pref_behaviour_sharing_share_dialog_dialogtitle">Aukeratu partekatzeko app bat</string>
     <string name="error_toast_no_share_app_installed">Ez dago app egokirik instalatuta hau partekatzeko.</string>
+    <string name="pref_appearance_show_aspect_ratio_indicator_title">Erakutsi alderdien ratioa</string>
+    <string name="pref_appearance_show_aspect_ratio_indicator_summary">Erakutsi multimedia kargatzeko ikusmena eskuragarri dagoenean</string>
+    <string name="pref_behaviour_sharing_share_dialog_title">Erabili partekatutako elkarrizketa-koadroa</string>
 </resources>

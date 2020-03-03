@@ -185,7 +185,7 @@
     <string name="action_link">Buka Tautan</string>
     <string name="action_link_switch">Beralih ke Tautan</string>
     <string name="action_link_short">Tautan</string>
-    <string name="action_collapse"/>
+    <string name="action_collapse">Toggle tutup</string>
     <string name="action_nothing">Tidak Melakukan Apapun</string>
     <string name="action_report">Laporkan</string>
     <string name="action_report_sure">Apakah anda yakin ingin melaporkan hal ini\?</string>

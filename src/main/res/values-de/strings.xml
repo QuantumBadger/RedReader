@@ -617,4 +617,6 @@
     <string name="pref_behaviour_sharing_share_dialog_dialogtitle">Wähle eine App zum Teilen aus</string>
     <string name="pref_behaviour_sharing_share_dialog_title">Integrierten Freigabedialog verwenden</string>
     <string name="error_toast_no_share_app_installed">Keine geeignete App installiert, um dies zu teilen.</string>
+    <string name="pref_appearance_show_aspect_ratio_indicator_title">Aspect Ratio-Indikator anzeigen</string>
+    <string name="action_copy_selftext">Selbsttext kopieren</string>
 </resources>

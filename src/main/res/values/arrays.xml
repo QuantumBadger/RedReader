@@ -338,6 +338,7 @@
 	</string-array>
 
     <string-array name="pref_appearance_fontscale">
+		<item>@string/pref_appearance_fontscale_use_global</item>
         <item>0.7x</item>
         <item>0.8x</item>
         <item>0.9x</item>
@@ -364,6 +365,7 @@
     </string-array>
 
     <string-array name="pref_appearance_fontscale_return">
+		<item>-1</item>
         <item>0.7</item>
         <item>0.8</item>
         <item>0.9</item>
@@ -853,6 +855,60 @@
 		<item>always</item>
 		<item>wifionly</item>
 		<item>never</item>
+	</string-array>
+
+	<!-- 2020-03-05 -->
+
+	<string-array name="pref_appearance_fontscale_global">
+		<item>0.7x</item>
+		<item>0.8x</item>
+		<item>0.9x</item>
+		<item>@string/pref_appearance_scale_normal</item>
+		<item>1.05x</item>
+		<item>1.1x</item>
+		<item>1.2x</item>
+		<item>1.3x</item>
+		<item>1.4x</item>
+		<item>1.5x</item>
+		<item>1.6x</item>
+		<item>1.7x</item>
+		<item>1.8x</item>
+		<item>1.9x</item>
+		<item>2.0x</item>
+		<item>2.5x</item>
+		<item>3.0x</item>
+		<item>3.5x</item>
+		<item>4.0x</item>
+		<item>5.0x</item>
+		<item>6.0x</item>
+		<item>7.0x</item>
+		<item>8.0x</item>
+	</string-array>
+
+	<string-array name="pref_appearance_fontscale_global_return">
+		<item>0.7</item>
+		<item>0.8</item>
+		<item>0.9</item>
+		<item>1</item>
+		<item>1.05</item>
+		<item>1.1</item>
+		<item>1.2</item>
+		<item>1.3</item>
+		<item>1.4</item>
+		<item>1.5</item>
+		<item>1.6</item>
+		<item>1.7</item>
+		<item>1.8</item>
+		<item>1.9</item>
+		<item>2.0</item>
+		<item>2.5</item>
+		<item>3.0</item>
+		<item>3.5</item>
+		<item>4.0</item>
+		<item>5.0</item>
+		<item>6.0</item>
+		<item>7.0</item>
+		<item>8.0</item>
 	</string-array>
 
 </resources>

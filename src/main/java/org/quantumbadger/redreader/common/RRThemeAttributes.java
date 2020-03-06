@@ -43,7 +43,7 @@ public class RRThemeAttributes {
 
 	private final EnumSet<PrefsUtility.AppearanceCommentHeaderItem> mCommentHeaderItems;
 
-	public final float rrCommentFontScale;
+	public final float rrCommentFontScale, rrCommentHeaderFontScale;
 
 	public RRThemeAttributes(final Context context) {
 
@@ -81,9 +81,17 @@ public class RRThemeAttributes {
 
 		mCommentHeaderItems = PrefsUtility.appearance_comment_header_items(context, prefs);
 
-		rrCommentFontScale = PrefsUtility.appearance_fontscale_inbox(
-				context,
-				prefs);
+		if(PrefsUtility.appearance_fontscale_bodytext(context, prefs) != -1) {
+			rrCommentFontScale = PrefsUtility.appearance_fontscale_bodytext(context, prefs);
+		} else {
+			rrCommentFontScale = PrefsUtility.appearance_fontscale_global(context, prefs);
+		}
+
+		if(PrefsUtility.appearance_fontscale_comment_headers(context, prefs) != -1) {
+			rrCommentHeaderFontScale = PrefsUtility.appearance_fontscale_comment_headers(context, prefs);
+		} else {
+			rrCommentHeaderFontScale = PrefsUtility.appearance_fontscale_global(context, prefs);
+		}
 	}
 
 	public boolean shouldShow(final PrefsUtility.AppearanceCommentHeaderItem type) {

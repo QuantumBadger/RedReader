@@ -61,10 +61,10 @@ public class RedditPostHeaderView extends LinearLayout {
 		final Typeface tf = Typeface.createFromAsset(activity.getAssets(), "fonts/Roboto-Light.ttf");
 
 		final float titleFontScale;
-		if(PrefsUtility.appearance_fontscale_post_use_different_scales(activity, PreferenceManager.getDefaultSharedPreferences(activity))) {
+		if(PrefsUtility.appearance_fontscale_post_header_titles(activity, PreferenceManager.getDefaultSharedPreferences(activity)) != -1) {
 			titleFontScale = PrefsUtility.appearance_fontscale_post_header_titles(activity, PreferenceManager.getDefaultSharedPreferences(activity));
 		} else {
-			titleFontScale = PrefsUtility.appearance_fontscale_posts(activity, PreferenceManager.getDefaultSharedPreferences(activity));
+			titleFontScale = PrefsUtility.appearance_fontscale_global(activity, PreferenceManager.getDefaultSharedPreferences(activity));
 		}
 
 		final TextView title = new TextView(activity);
@@ -75,10 +75,10 @@ public class RedditPostHeaderView extends LinearLayout {
 		greyHeader.addView(title);
 
 		final float subtitleFontScale;
-		if(PrefsUtility.appearance_fontscale_post_use_different_scales(activity, PreferenceManager.getDefaultSharedPreferences(activity))) {
+		if(PrefsUtility.appearance_fontscale_post_header_subtitles(activity, PreferenceManager.getDefaultSharedPreferences(activity)) != -1) {
 			subtitleFontScale = PrefsUtility.appearance_fontscale_post_header_subtitles(activity, PreferenceManager.getDefaultSharedPreferences(activity));
 		} else {
-			subtitleFontScale = PrefsUtility.appearance_fontscale_post_subtitles(activity, PreferenceManager.getDefaultSharedPreferences(activity));
+			subtitleFontScale = PrefsUtility.appearance_fontscale_global(activity, PreferenceManager.getDefaultSharedPreferences(activity));
 		}
 
 		subtitle = new TextView(activity);

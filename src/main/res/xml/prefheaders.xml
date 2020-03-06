@@ -24,6 +24,12 @@
         <extra android:name="panel" android:value="appearance" />
     </header>
 
+	<header
+			android:fragment="org.quantumbadger.redreader.settings.SettingsFragment"
+			android:title="@string/prefs_category_fonts">
+		<extra android:name="panel" android:value="fonts" />
+	</header>
+
     <header
             android:fragment="org.quantumbadger.redreader.settings.SettingsFragment"
             android:title="@string/prefs_category_behaviour">

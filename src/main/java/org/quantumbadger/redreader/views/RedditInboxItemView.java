@@ -67,7 +67,7 @@ public class RedditInboxItemView extends LinearLayout {
 		inner.setOrientation(VERTICAL);
 
 		mHeader = new TextView(activity);
-		mHeader.setTextSize(11.0f * theme.rrCommentFontScale);
+		mHeader.setTextSize(11.0f * theme.rrCommentHeaderFontScale);
 		mHeader.setTextColor(theme.rrCommentHeaderCol);
 		inner.addView(mHeader);
 		mHeader.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;

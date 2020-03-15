@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ This file is part of RedReader.
   ~
@@ -14,95 +14,62 @@
   ~
   ~ You should have received a copy of the GNU General Public License
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
-  -->
-<resources>
+  --><resources>
     <string name="firstrun_login_title">登录</string>
     <string name="firstrun_login_message">您尚未登录。您可以在菜单按下“帐号”查看帐号列表。</string>
     <string name="firstrun_login_button_now">现在登录</string>
     <string name="firstrun_login_button_later">匿名浏览</string>
-
     <string name="prefs_category_appearance">外观</string>
     <string name="prefs_category_behaviour">操作</string>
     <string name="prefs_category_cache">缓存</string>
     <string name="prefs_category_menus">菜单</string>
-
     <string name="pref_appearance_theme_header">主题</string>
     <string name="pref_appearance_font_header">字体</string>
     <string name="pref_appearance_thumbnails_header">缩略图</string>
     <string name="pref_appearance_tabletmode_header">平板电脑模式</string>
     <string name="pref_appearance_comments_header">评论</string>
     <string name="pref_appearance_other_header">其他</string>
-
     <string name="pref_appearance_twopane_title">平板电脑模式（双屏）</string>
-
     <string name="pref_appearance_theme_title">主题</string>
-
     <string name="pref_appearance_solidblack_title">夜间模式下使用黑色</string>
-
     <string name="pref_appearance_fontscale_posts_title">帖子字体大小</string>
-
     <string name="pref_appearance_fontscale_comments_title">评论字体大小</string>
-
     <string name="pref_appearance_thumbnails_show_title">显示缩略图</string>
-
     <string name="pref_appearance_thumbnails_nsfw_show_title">显示不雅缩略图</string>
-
     <string name="pref_appearance_thumbnails_wifionly_title">仅在使用Wi-Fi时显示缩略图</string>
-
     <string name="pref_appearance_loading_detail_title">显示详尽的加载信息</string>
-
     <string name="pref_appearance_comment_header_items_title">评论标题</string>
-
     <string name="pref_behaviour_notifications_title">通知</string>
-
     <string name="pref_behaviour_actions_post_header">帖子选项</string>
     <string name="pref_behaviour_actions_comment_header">评论选项</string>
     <string name="pref_behaviour_posts_header">帖子</string>
-
     <string name="pref_behaviour_fling_post_left_title">帖子左滑选项</string>
-
     <string name="pref_behaviour_fling_post_right_title">帖子右滑选项</string>
-
     <string name="pref_behaviour_actions_comment_tap_title">评论轻触选项</string>
-
     <string name="pref_behaviour_nsfw_title">显示不雅内容</string>
-
     <string name="pref_cache_pruning">缓存清理</string>
-
     <string name="pref_cache_maxage_listing_title">仅保留缓存目录</string>
-
     <string name="pref_cache_maxage_thumb_title">仅保留缓存缩略图</string>
-
     <string name="pref_cache_maxage_image_title">仅保留缓存图片</string>
-
     <string name="pref_cache_precache_images_header">预先缓存图片</string>
-
     <string name="pref_cache_precache_images_title">预先缓存图片</string>
-
     <string name="pref_cache_precache_images_wifionly_title">仅在使用Wi-Fi时预先缓存</string>
-
     <string name="pref_menus_post_context_items_title">帖子菜单选项</string>
-
     <string name="pref_menus_post_toolbar_items_title">帖子任务栏选项</string>
-
     <string name="options_accounts">帐号</string>
     <string name="options_accounts_long">Reddit帐号</string>
     <string name="options_theme">主题</string>
     <string name="options_settings">设置</string>
-
     <string name="options_submit_post">发帖</string>
-
     <string name="options_refresh">刷新</string>
     <string name="options_refresh_subreddits">刷新版块</string>
     <string name="options_refresh_posts">刷新帖子</string>
     <string name="options_refresh_comments">刷新评论</string>
-
     <string name="options_past">过去版本</string>
     <string name="options_sort">排序</string>
     <string name="options_sort_subreddits">版块排序</string>
     <string name="options_sort_posts">帖子排序</string>
     <string name="options_sort_comments">评论排序</string>
-
     <string name="mainmenu_frontpage">主页</string>
     <string name="mainmenu_all">所有版块</string>
     <string name="mainmenu_custom">自订版块</string>
@@ -113,26 +80,19 @@
     <string name="mainmenu_inbox">邮箱</string>
     <string name="mainmenu_profile">个人信息</string>
     <string name="mainmenu_header_subreddits">版块</string>
-
     <string name="listing_cached">正在检视%s的缓存版本</string>
-
     <string name="accounts_anon">匿名</string>
     <string name="accounts_active">使用中</string>
     <string name="accounts_add">添加Reddit帐号</string>
     <string name="accounts_setactive">使用</string>
     <string name="accounts_reauth">重新验证</string>
     <string name="accounts_delete">删除</string>
-
     <string name="accounts_loggingin">登录中……</string>
     <string name="accounts_loggingin_msg">请稍候…</string>
-
     <string name="accounts_username">用户名</string>
     <string name="accounts_password">密码</string>
-
     <string name="accounts_login">登录</string>
-
     <string name="accounts_delete_sure">您确定要删除此帐号吗？</string>
-
     <string name="sort_posts_hot">热门</string>
     <string name="sort_posts_new">最新</string>
     <string name="sort_posts_rising">上升中</string>
@@ -144,22 +104,18 @@
     <string name="sort_posts_top_month">本月最高票</string>
     <string name="sort_posts_top_year">本年最高票</string>
     <string name="sort_posts_top_all">历史最高票</string>
-
     <string name="sort_comments_best">精华</string>
     <string name="sort_comments_hot">热门</string>
     <string name="sort_comments_new">最新</string>
     <string name="sort_comments_old">最旧</string>
     <string name="sort_comments_controversial">最具争议</string>
     <string name="sort_comments_top">最高票</string>
-
     <string name="dialog_close">关闭</string>
     <string name="dialog_cancel">取消</string>
     <string name="dialog_yes">是</string>
     <string name="dialog_no">否</string>
     <string name="dialog_go">前往</string>
-
     <string name="action_menu_post_title">帖子选项</string>
-
     <string name="action_upvote">顶</string>
     <string name="action_downvote">踩</string>
     <string name="action_vote_remove">取消顶踩</string>
@@ -192,13 +148,10 @@
     <string name="action_link_short">链接</string>
     <string name="action_collapse">收起或展开</string>
     <string name="action_nothing">无动作</string>
-
     <string name="action_report">举报</string>
     <string name="action_report_sure">您确定要举报吗？</string>
-
     <string name="action_save_image">保存图片</string>
     <string name="action_save_image_success">已经保存为</string>
-
     <string name="download_waiting">正在等候……</string>
     <string name="download_connecting">连接中……</string>
     <string name="download_downloadstarting">下载准备开始……</string>
@@ -206,10 +159,8 @@
     <string name="download_loading">加载中……</string>
     <string name="download_done">完成。</string>
     <string name="download_failed">失败。</string>
-
     <string name="imageview_oom">内存不足，将使用内部浏览器。</string>
     <string name="imageview_invalid_gif">GIF图无效，将使用内部浏览器显示图片。</string>
-
     <string name="comment_reply_send">发布</string>
     <string name="comment_edit_save">保存</string>
     <string name="comment_reply_preview">预览</string>
@@ -223,61 +174,43 @@
     <string name="post_captcha_title">Captcha</string>
     <string name="post_captcha_submit_button">提交</string>
     <string name="post_submit_done">已发帖。</string>
-
     <string name="bug_title">应用出现了问题。</string>
     <string name="bug_message">RedReader出故障了。 
 \n 
 \n您愿意给开发者发送一份错误报告吗？如果您愿意，我们将撰写一封电子邮件，并填好相关的信息。您可以在发送前查看电邮的内容。</string>
     <string name="bug_button_send">通过电子邮件报告错误</string>
     <string name="bug_button_ignore">不发错误报告</string>
-
     <string name="error_403_title">用户无效</string>
     <string name="error_403_message">Reddit认为您当前的用户无权进行此动作。请先登出再登录（即从帐号清单删除此帐号后重新添加帐号）。</string>
-
     <string name="error_subreddit_required_title">请填写版块</string>
     <string name="error_subreddit_required_message">请填写一个版块。</string>
-
     <string name="error_bad_captcha_title">Captcha无效</string>
     <string name="error_bad_captcha_message">您输入的Captcha有误，请再次输入。</string>
-
     <string name="error_404_title">找不到（404）</string>
     <string name="error_404_message">找不到您请求的数据。</string>
-
     <string name="error_unknown_api_title">错误</string>
     <string name="error_unknown_api_message">服务器不知为何拒绝了您的请求，请再试。</string>
-
     <string name="error_redditdown_title">Reddit现不可用</string>
     <string name="error_redditdown_message">Reddit的流量已经超出负荷，请稍候再试。</string>
-
     <string name="error_cancelled_title">已取消</string>
     <string name="error_parse_title">无法解读</string>
     <string name="error_parse_message">Reddit传送了一些应用不能解读的数据。</string>
-
     <string name="error_unexpected_cache_title">缓存意外地出现问题</string>
     <string name="error_unexpected_cache_message">出现了一个与缓存相关的问题，但原因不明。</string>
-
     <string name="error_unexpected_storage_title">存储意外地出现问题</string>
     <string name="error_unexpected_storage_message">出现了一个与缓存存储相关的问题。存储容量可能很快就被用完。</string>
-
     <string name="error_connection_title">连接问题</string>
     <string name="error_connection_message">应用未能连接至服务器，请检查您的网络连接后重试。</string>
-
     <string name="error_malformed_url_title">地址无效</string>
     <string name="error_malformed_url_message">您刚发送了一个无效的地址。</string>
-
     <string name="error_unknown_title">不明错误</string>
     <string name="error_unknown_message">应用不知为何出现了问题，请稍候再试。</string>
-
     <string name="error_postlist_cache_title">缓存中的数据到此为止</string>
     <string name="error_postlist_cache_message">您正在浏览过去的内容。缓存中已经没有更多此时段的帖子，请刷新下载最新的帖子或从菜单选择内容的另一版本。</string>
-
     <string name="error_postlist_redditdown_title">Reddit现不可用</string>
     <string name="error_postlist_redditdown_message">Reddit的流量已经超出负荷，请刷新下载最新的帖子或从菜单选择内容的另一版本。</string>
-
     <string name="session_active">使用中</string>
-
     <string name="time_ago">%s前</string>
-
     <string name="userprofile_created">创建时间</string>
     <string name="userprofile_hasmail">有未读邮件</string>
     <string name="userprofile_hasmodmail">有未读管理员邮件</string>
@@ -286,11 +219,9 @@
     <string name="userprofile_moderator">管理员</string>
     <string name="userprofile_viewcomments">查看评论</string>
     <string name="userprofile_viewposts">查看帖子</string>
-
     <string name="props_comment_title">评论资料</string>
     <string name="props_post_title">帖子资料</string>
     <string name="props_error_title">错误资料</string>
-
     <string name="props_title">标题</string>
     <string name="props_author">作者</string>
     <string name="props_author_flair">作者标签</string>
@@ -302,24 +233,19 @@
     <string name="props_num_comments">评论数目</string>
     <string name="props_body_markdown">全文（raw markdown）</string>
     <string name="props_self_markdown">原创文章（raw markdown）</string>
-
     <string name="props_never">没有</string>
     <string name="props_up">顶</string>
     <string name="props_down">踩</string>
-
     <string name="notification_comment">%s回复了您的发文</string>
     <string name="notification_message">%s给您发了一则信息</string>
     <string name="notification_message_multiple">您有未读的Reddit信息</string>
     <string name="notification_message_action">轻触查看</string>
-
     <string name="general_true">是</string>
     <string name="general_false">否</string>
-
     <string name="pref_appearance_twopane_never">不使用</string>
     <string name="pref_appearance_twopane_auto">自动侦测</string>
     <string name="pref_appearance_twopane_landscape">只用于横屏</string>
     <string name="pref_appearance_twopane_force">强行使用（看起来会有点怪）</string>
-
     <string name="theme_name_red">红色</string>
     <string name="theme_name_night">夜间</string>
     <string name="theme_name_green">绿色</string>
@@ -327,7 +253,6 @@
     <string name="theme_name_ltblue">浅蓝色</string>
     <string name="theme_name_orange">橙色</string>
     <string name="theme_name_gray">灰色</string>
-
     <string name="time_1hr">一个小时</string>
     <string name="time_6hr">六个小时</string>
     <string name="time_1day">一天</string>
@@ -335,105 +260,71 @@
     <string name="time_1week">一周</string>
     <string name="time_1month">一个月</string>
     <string name="time_3month">三个月</string>
-
     <string name="pref_appearance_comment_header_items_author">作者</string>
     <string name="pref_appearance_comment_header_items_flair">标签</string>
     <string name="pref_appearance_comment_header_items_score">分数</string>
     <string name="pref_appearance_comment_header_items_upsdowns">顶踩</string>
     <string name="error_toast_notloggedin">请先登录。</string>
-
     <string name="button_moredetail">更多资料</string>
-
     <string name="pref_appearance_scale_normal">正常</string>
-
     <string name="error_invalid_password_title">密码错误</string>
     <string name="error_invalid_password_message">用户名或密码有误。</string>
-
     <string name="error_ratelimit_title">您已经试过太多次无效登录。</string>
     <string name="error_ratelimit_message">Reddit因为收到过多无效的登录，已经封禁此IP地址。Reddit表示：</string>
-
     <string name="general_success">成功</string>
-
     <string name="message_nowloggedin">您已经登录。</string>
     <string name="message_cannotlogin">未能登录。</string>
-
     <string name="error_toast_no_urls_in_comment">此评论没有任何网址。</string>
     <string name="error_toast_no_urls_in_self">此文章没有任何网址。</string>
     <string name="error_toast_parent_post_not_downloaded">还未下载父帖子。</string>
-
     <string name="download_subreddits">正在下载版块……</string>
-
     <string name="subtitle_points">分</string>
     <string name="subtitle_by">发表自</string>
     <plurals name="subtitle_replies">
-	<item quantity="other">（%d个回复）</item>
-</plurals>
-
+        <item quantity="one">...(%d个回复)</item>
+        <item quantity="other"></item>
+    </plurals>
     <string name="general_unknown">不明</string>
-
     <string name="action_search">搜索</string>
     <string name="search_subreddit_restrict">限制搜索至</string>
-
     <string name="title_changelog">新动向</string>
-
     <string name="pref_behaviour_commentsort">默认评论排序</string>
-
     <string name="action_fling_disabled">不使用</string>
-
     <string name="pref_about_version_title">版本</string>
-
     <string name="prefs_category_about">关于RedReader</string>
-
     <string name="pref_behaviour_sort_header">排序</string>
-
     <string name="pref_appearance_locale_header">地区</string>
-
     <string name="pref_appearance_langforce_title">语言</string>
-
     <string name="lang_auto">自动选择</string>
     <string name="prefs_category_network">网络连接</string>
     <string name="pref_network_https_title">启用HTTPS</string>
     <string name="web_view_open_browser">使用浏览器查看</string>
-
     <string name="pref_behaviour_useinternalbrowser_title">使用内部浏览器</string>
     <string name="pref_appearance_linkbuttons_title">显示链接按钮</string>
     <string name="load_more_posts">加载更多帖子</string>
-
     <string name="mainmenu_downvoted">踩过的帖子</string>
     <string name="submit_post_actionbar">发帖</string>
-	<string name="pref_behaviour_postsort">默认帖子排序</string>
-
-	<string name="edit_post_actionbar">编辑帖子</string>
-	<string name="post_edit_done">您已经修改帖子，更改将在您刷新后显示。</string>
-	<string name="collapsed_self_post">已收起的原创文章</string>
-
-	<string name="pref_behaviour_self_post_tap_actions_title">轻触原创文章选项</string>
-
-	<string name="pref_appearance_fontscale_inbox_title">邮箱字体大小</string>
-
+    <string name="pref_behaviour_postsort">默认帖子排序</string>
+    <string name="edit_post_actionbar">编辑帖子</string>
+    <string name="post_edit_done">您已经修改帖子，更改将在您刷新后显示。</string>
+    <string name="collapsed_self_post">已收起的原创文章</string>
+    <string name="pref_behaviour_self_post_tap_actions_title">轻触原创文章选项</string>
+    <string name="pref_appearance_fontscale_inbox_title">邮箱字体大小</string>
     <string name="pref_appearance_navbar_color_title">浏览栏颜色</string>
-
-	<string name="pref_appearance_navbar_color_option_black">黑色</string>
-	<string name="pref_appearance_navbar_color_option_primary">主色（光）</string>
-	<string name="pref_appearance_navbar_color_option_primarydark">主色（暗）</string>
-
-	<string name="pref_appearance_hide_android_status_title">隐藏Android状态栏</string>
-	<string name="theme_name_night_lowcontrast">夜间（低对比）</string>
-	<string name="theme_name_ultrablack">纯黑</string>
-
-	<string name="send_replies_to_inbox">发送回复到我的邮箱</string>
-
-	<string name="pref_cache_maxage_entry_title">仅保留缓存标记（如“已读”、“已顶”等）</string>
-
+    <string name="pref_appearance_navbar_color_option_black">黑色</string>
+    <string name="pref_appearance_navbar_color_option_primary">主色（光）</string>
+    <string name="pref_appearance_navbar_color_option_primarydark">主色（暗）</string>
+    <string name="pref_appearance_hide_android_status_title">隐藏Android状态栏</string>
+    <string name="theme_name_night_lowcontrast">夜间（低对比）</string>
+    <string name="theme_name_ultrablack">纯黑</string>
+    <string name="send_replies_to_inbox">发送回复到我的邮箱</string>
+    <string name="pref_cache_maxage_entry_title">仅保留缓存标记（如“已读”、“已顶”等）</string>
     <string name="error_cancelled_message">此动作已取消。</string>
-
     <string name="pref_appearance_comment_header_items_age">新旧</string>
-
     <string name="subtitle_to">至</string>
-	<string name="pref_appearance_indentlines_title">显示缩进线条</string>
+    <string name="pref_appearance_indentlines_title">显示缩进线条</string>
     <string name="pref_behaviour_postcount_title">限制帖子数量</string>
     <string name="pref_behaviour_postcount_items_all">显示全部</string>
-
     <string name="time_year">年</string>
     <string name="time_years">年</string>
     <string name="time_month">个月</string>
@@ -447,318 +338,240 @@
     <string name="time_sec">秒</string>
     <string name="time_secs">秒</string>
     <string name="time_ms">毫秒</string>
-
     <string name="error_disk_space_title">存储不足</string>
     <string name="error_disk_space_message">存储不足，应用无法下载文件，请清理存储后再试。</string>
-
     <string name="options_subscribe">订阅</string>
     <string name="options_unsubscribe">取消订阅</string>
     <string name="options_subscribing">订阅中……</string>
     <string name="options_unsubscribing">正在取消订阅……</string>
     <string name="options_sidebar">检视侧栏</string>
-
     <string name="pref_menus_mainmenu_useritems_title">主菜单用户项目</string>
-
     <string name="mainmenu_submitted">发表的帖子</string>
     <string name="mainmenu_modmail">管理员信息</string>
-
     <string name="sidebar_activity_title">侧栏</string>
-
     <string name="header_subscriber_count">%s个订阅者</string>
     <string name="header_subscriber_count_unknown">不知有多少订阅者</string>
-
     <string name="invalid_subreddit_name">版块名称无效</string>
-
     <string name="web_view_clear_cache">清除缓存</string>
     <string name="web_view_clear_cache_success_toast">已清除缓存、历史、cookies和表格数据。</string>
-
     <string name="gold">黄金</string>
     <string name="pref_appearance_comment_header_items_gold">Reddit黄金</string>
-
     <string name="karma_link">链接Karma</string>
     <string name="karma_comment">评论Karma</string>
-
     <string name="imageview_decode_failed">无法为图片解码，将使用内部浏览器显示图片。</string>
-
     <string name="user_comments">评论</string>
-
     <string name="comment_header_specific_thread_message">按此检视本帖的所有评论。</string>
-
     <string name="more_comments_button_text">加载更多评论</string>
     <string name="action_comment_context">前言后语</string>
     <string name="action_comment_go_to">前往评论</string>
-
     <string name="webview_https_already">本网址已经使用HTTPS。</string>
     <string name="webview_https_unknownprotocol">无法辨识传输协议，协议应为“http://”</string>
     <string name="webview_use_https">使用HTTPS</string>
-
     <string name="sort_posts_relevance">按相关度</string>
     <string name="sort_posts_comments">按评论数量</string>
-
     <string name="mark_all_as_read">标示全部为已读</string>
     <string name="mark_all_as_read_success">所有信息已标示为已读。</string>
-
     <string name="error_title_login_user_denied_permission">被拒绝</string>
     <string name="error_message_login_user_denied_permission">Reddit不认为您有权使用该帐号，请再试。</string>
-
     <string name="error_title_login_unknown_reddit_error">不知的Reddit错误：%s</string>
-
     <string name="imageview_invalid_video">视频无效，将使用内部浏览器播放。</string>
     <string name="download_authorizing">验证中……</string>
-
     <string name="pref_behaviour_skiptofrontpage_title">跳至主页</string>
     <string name="error_archived_vote">本页已被封存，您不可投票。</string>
-
     <string name="pref_behaviour_screenorientation_title">屏幕方向</string>
     <string name="screen_orientation_auto">自动侦测</string>
     <string name="screen_orientation_portrait">竖屏</string>
     <string name="screen_orientation_landscape">横屏</string>
-
     <string name="options_close_all">关闭全部</string>
-
     <string name="pref_menus_optionsmenu_items_title">选单选项</string>
-
     <string name="pref_behaviour_gifview_mode_title">GIF查看器</string>
     <string name="pref_behaviour_gifview_mode_internal_movie">内部查看器（视频，Android4.0+）</string>
     <string name="pref_behaviour_gifview_mode_internal_legacy">内部查看器（旧版）</string>
-
-	<string name="pref_behaviour_view_mode_internal_browser">内部浏览器</string>
+    <string name="pref_behaviour_view_mode_internal_browser">内部浏览器</string>
     <string name="pref_behaviour_view_mode_external_browser">外部浏览器</string>
-
     <string name="action_delete">删除</string>
     <string name="delete_confirm">您确定要删除吗？</string>
     <string name="delete_success">已经删除。项目将在您刷新后消失。</string>
-
     <string name="pref_appearance_hide_username_main_menu_title">在主菜单隐藏用户名</string>
     <string name="mainmenu_useritems">用户项目</string>
-
     <string name="selected_link_is_not_image">您选取的链接不是一张图片。</string>
-
     <string name="imgur_album">Imgur相册</string>
-
     <string name="album_already_first_image">这已是相册的第一张图片。</string>
     <string name="album_already_last_image">这已是相册的最后一张图片。</string>
-
     <string name="pref_behaviour_videoview_mode_title">视频播放器</string>
     <string name="pref_behaviour_videoview_mode_internal_videoview">内部VideoView（建议使用）</string>
     <string name="pref_behaviour_videoview_mode_external_app_vlc">外部应用：VLC</string>
-
     <string name="videoview_mode_app_vlc_launch_failed">无法启用VLC。请更新VLC或更改您选择的播放器。</string>
-
     <string name="error_url_required_title">需要网址</string>
     <string name="error_url_required_message">请提供一个网址。</string>
-
     <string name="sort_comments_qa">问答</string>
-
     <string name="pref_behaviour_gallery_swipe_length_title">相册横扫距离</string>
     <string name="pref_cache_precache_comments_header">预先缓存评论</string>
-
     <string name="pref_cache_precache_comments_title">预先缓存评论</string>
-
     <string name="pref_cache_precache_comments_wifionly_title">仅在Wi-Fi上预先缓存</string>
-
     <string name="mainmenu_header_subreddits_subscribed">已订阅的版块</string>
     <string name="mainmenu_header_subreddits_pinned">钉在主菜单的版块</string>
-
     <string name="pin_subreddit">钉在主菜单</string>
     <string name="unpin_subreddit">不再钉在主菜单</string>
     <string name="props_image_title">图片资讯</string>
     <string name="props_caption">图片说明</string>
     <string name="props_resolution">分辨率</string>
-
     <string name="error_too_fast_title">太快了</string>
     <string name="error_too_fast_message">Reddit认为您的发表过于频密。请在几分钟后再发表。</string>
-
     <string name="block_subreddit">屏蔽版块</string>
     <string name="unblock_subreddit">不再屏蔽版块</string>
     <string name="block_done">您已屏蔽版块。以后，/r/all将不会显示本版块的内容。</string>
     <string name="unblock_done">您已把版块解封。以后，/r/all将包括本版块的内容。</string>
-
     <string name="pref_behaviour_comments_header">评论</string>
-
     <string name="pref_behaviour_comment_min_title">评论最低分数</string>
     <string name="pref_behaviour_comment_min_dialog_title">评论如低于以下分数将会默认收起（若要显示所有评论，请留空）</string>
-
-    <string name="pref_network_tor_title">使用TOR（测试中）</string>
+    <string name="pref_network_tor_title">使用TOR</string>
     <string name="error_tor_not_installed">没有Orbot，Tor将无法运作。您要安装Orbot吗？</string>
     <string name="error_tor_setting_failed">无法设定代理。</string>
-
     <string name="error_parse_imgur_title">读取错误</string>
     <string name="error_parse_imgur_message">Imgur传送了一些应用不能解读的数据。</string>
-
     <string name="error_upload_fail_imgur_title">上载失败</string>
     <string name="error_upload_fail_imgur_message">Imgur不知为何拒绝接纳您的上载。</string>
-
     <string name="upload_to_imgur">上载至Imgur</string>
     <string name="no_file_selected">没有选择文件</string>
     <string name="button_upload">上载</string>
     <string name="button_browse">浏览……</string>
-
     <string name="error_file_too_big_title">文件过大</string>
     <string name="error_file_too_big_message">文件大小（%1$s）超过上载上限（%2$s）。</string>
-
     <string name="error_file_open_failed_title">无法打开文件</string>
     <string name="error_file_open_failed_message">试图打开文件时发生问题。</string>
-
     <string name="image_selected_summary">已选取图片：%1$dx%2$d，%3$s</string>
-
-	<string name="submit_post_specify_subreddit">指定版块</string>
-	<string name="submit_post_title_empty">标题不能留空</string>
-	<string name="submit_post_url_empty">网址不能留空</string>
-	<string name="submit_post_self_text_hint">原创文章</string>
-	<string name="submit_post_url_hint">网址</string>
-
-	<string name="pref_behaviour_imageview_mode_title">图片查看器</string>
-	<string name="pref_behaviour_imageview_mode_internal_opengl">内部查看器（OpenGL）</string>
-
-	<string name="pref_behaviour_albumview_mode_title">相册查看器</string>
-	<string name="pref_behaviour_albumview_mode_internal_list">内部查看器（列表）</string>
-
-	<string name="error_tor_start_failed">Orbot无法启动，Tor将不能正常运作。</string>
-
-	<string name="no_comments_yet">暂无评论。</string>
-
-	<string name="pm_send_hint_recipient">收件人</string>
-	<string name="pm_send_hint_subject">标题</string>
-	<string name="pm_send_hint_message_text">内容</string>
-
-	<string name="pm_send_done">已发送。</string>
-
-	<string name="userprofile_pm">发送信息</string>
-
-	<string name="error_too_long_title">过长</string>
-	<string name="error_too_long_message">Reddit认为您的信息过长。</string>
-
-	<string name="pm_send_actionbar">发送信息</string>
-	<string name="edit_comment_actionbar">编辑评论</string>
-	
-	<string name="no_search_results">没有搜索结果。</string>
-
-	<string name="action_search_comments">搜索评论</string>
-
-	<string name="action_copy_text">复制文字</string>
-	<string name="action_copy_link">复制链接</string>
-
-	<string name="mainmenu_custom_destination">自订位置</string>
-	<string name="mainmenu_custom_destination_subreddit">版块</string>
-	<string name="mainmenu_custom_destination_user">用户</string>
-	<string name="mainmenu_custom_destination_url">网址</string>
-	<string name="mainmenu_custom_destination_search">搜索</string>
-
-	<string name="pref_cache_general_header">一般</string>
-
-	<string name="pref_cache_location_title">缓存存储位置</string>
-
-	<string name="sort_pinned_subreddit_name">按名称</string>
-	<string name="sort_pinned_subreddit_date">按添加日期</string>
-
-	<string name="load_more_comments_failed_unknown_url_type">无法加载更多评论：不明网址类型。</string>
-
-	<string name="pref_appearance_image_viewer_header">图片查看器</string>
-
-	<string name="pref_behaviour_enable_swipe_refresh_title">拉下刷新</string>
-	<string name="sort_blocked_subreddit_name">按名称</string>
-	<string name="sort_blocked_subreddit_date">按添加日期</string>
-
-	<string name="time_2hr">两个小时</string>
-	<string name="time_3hr">三个小时</string>
-
-	<string name="time_every_time">每次刷新</string>
-
-	<string name="action_share_image">分享图片</string>
-
-	<string name="submit_pmreply_actionbar">回复</string>
-	<string name="pm_reply_done">已发送。</string>
-
-	<string name="action_back">返回</string>
-
-	<string name="mainmenu_toast_not_subscribed">您不是本版块的订阅者！</string>
-	<string name="mainmenu_toast_subscribed">您已经是本版块的订阅者！</string>
-	<string name="mainmenu_toast_not_pinned">本版块没有钉在主菜单！</string>
-	<string name="mainmenu_toast_pinned">本版块已经钉在主菜单！</string>
-	<string name="mainmenu_toast_not_blocked">您没有屏蔽本版块！</string>
-	<string name="mainmenu_toast_blocked">您已经屏蔽本版块！</string>
-	<string name="action_pin_subreddit">将版块钉在主菜单</string>
-	<string name="action_unpin_subreddit">不再钉版块在主菜单</string>
-	<string name="action_subscribe_subreddit">订阅版块</string>
-	<string name="action_unsubscribe_subreddit">不再订阅版块</string>
-
-	<string name="button_next_comment_parent">下一个父评论</string>
-	<string name="button_prev_comment_parent">上一个父评论</string>
-
-	<string name="download_link_title">下载文件</string>
-	<string name="pref_menus_show_popular_main_menu_title">在主菜单显示/r/popular</string>
-	<string name="pref_behaviour_video_playback_controls_title">启用视频播放控制</string>
-
-	<string name="error_no_suitable_apps_available">没有合适的应用。</string>
-
-	<string name="mainmenu_random">随机版块</string>
-	<string name="pref_menus_show_random_main_menu_title">在主菜单显示/r/random</string>
-
-	<string name="search_listing_header_sub">限于版块</string>
-  
-	<string name="share_comments_for">%s的评论</string>
-	<string name="share_comment_by_on_reddit">%s的Reddit评论</string>
-
-<string name="options_past_posts">过去的帖子列表</string>
+    <string name="submit_post_specify_subreddit">指定版块</string>
+    <string name="submit_post_title_empty">标题不能留空</string>
+    <string name="submit_post_url_empty">网址不能留空</string>
+    <string name="submit_post_self_text_hint">原创文章</string>
+    <string name="submit_post_url_hint">网址</string>
+    <string name="pref_behaviour_imageview_mode_title">图片查看器</string>
+    <string name="pref_behaviour_imageview_mode_internal_opengl">内部查看器（OpenGL）</string>
+    <string name="pref_behaviour_albumview_mode_title">相册查看器</string>
+    <string name="pref_behaviour_albumview_mode_internal_list">内部查看器（列表）</string>
+    <string name="error_tor_start_failed">Orbot无法启动，Tor将不能正常运作。</string>
+    <string name="no_comments_yet">暂无评论。</string>
+    <string name="pm_send_hint_recipient">收件人</string>
+    <string name="pm_send_hint_subject">标题</string>
+    <string name="pm_send_hint_message_text">内容</string>
+    <string name="pm_send_done">已发送。</string>
+    <string name="userprofile_pm">发送信息</string>
+    <string name="error_too_long_title">过长</string>
+    <string name="error_too_long_message">Reddit认为您的信息过长。</string>
+    <string name="pm_send_actionbar">发送信息</string>
+    <string name="edit_comment_actionbar">编辑评论</string>
+    <string name="no_search_results">没有搜索结果。</string>
+    <string name="action_search_comments">搜索评论</string>
+    <string name="action_copy_text">复制文字</string>
+    <string name="action_copy_link">复制链接</string>
+    <string name="mainmenu_custom_destination">自订位置</string>
+    <string name="mainmenu_custom_destination_subreddit">版块</string>
+    <string name="mainmenu_custom_destination_user">用户</string>
+    <string name="mainmenu_custom_destination_url">网址</string>
+    <string name="mainmenu_custom_destination_search">搜索</string>
+    <string name="pref_cache_general_header">一般</string>
+    <string name="pref_cache_location_title">缓存存储位置</string>
+    <string name="sort_pinned_subreddit_name">按名称</string>
+    <string name="sort_pinned_subreddit_date">按添加日期</string>
+    <string name="load_more_comments_failed_unknown_url_type">无法加载更多评论：不明网址类型。</string>
+    <string name="pref_appearance_image_viewer_header">图片查看器</string>
+    <string name="pref_behaviour_enable_swipe_refresh_title">拉下刷新</string>
+    <string name="sort_blocked_subreddit_name">按名称</string>
+    <string name="sort_blocked_subreddit_date">按添加日期</string>
+    <string name="time_2hr">两个小时</string>
+    <string name="time_3hr">三个小时</string>
+    <string name="time_every_time">每次刷新</string>
+    <string name="action_share_image">分享图片</string>
+    <string name="submit_pmreply_actionbar">回复</string>
+    <string name="pm_reply_done">已发送。</string>
+    <string name="action_back">返回</string>
+    <string name="mainmenu_toast_not_subscribed">您不是本版块的订阅者！</string>
+    <string name="mainmenu_toast_subscribed">您已经是本版块的订阅者！</string>
+    <string name="mainmenu_toast_not_pinned">本版块没有钉在主菜单！</string>
+    <string name="mainmenu_toast_pinned">本版块已经钉在主菜单！</string>
+    <string name="mainmenu_toast_not_blocked">您没有屏蔽本版块！</string>
+    <string name="mainmenu_toast_blocked">您已经屏蔽本版块！</string>
+    <string name="action_pin_subreddit">将版块钉在主菜单</string>
+    <string name="action_unpin_subreddit">不再钉版块在主菜单</string>
+    <string name="action_subscribe_subreddit">订阅版块</string>
+    <string name="action_unsubscribe_subreddit">不再订阅版块</string>
+    <string name="button_next_comment_parent">下一个父评论</string>
+    <string name="button_prev_comment_parent">上一个父评论</string>
+    <string name="download_link_title">下载文件</string>
+    <string name="pref_menus_show_popular_main_menu_title">在主菜单显示/r/popular</string>
+    <string name="pref_behaviour_video_playback_controls_title">启用视频播放控制</string>
+    <string name="error_no_suitable_apps_available">没有合适的应用。</string>
+    <string name="mainmenu_random">随机版块</string>
+    <string name="pref_menus_show_random_main_menu_title">在主菜单显示/r/random</string>
+    <string name="search_listing_header_sub">限于版块</string>
+    <string name="share_comments_for">%s的评论</string>
+    <string name="share_comment_by_on_reddit">%s的Reddit评论</string>
+    <string name="options_past_posts">过去的帖子列表</string>
     <string name="options_past_comments">过去的评论列表</string>
-
     <string name="comment_header_specific_thread_title">您正在浏览一则评论和其回复。</string>
     <string name="pref_behaviour_bezel_toolbar_header">两侧任务栏</string>
     <string name="pref_behaviour_bezel_toolbar_swipezone_title">两侧任务栏滑动区大小</string>
-
     <string name="upgrade_v190_login_message">RedReader已更新，并使用oAuth进行Reddit验证。如果您在更新前登录了您的帐号，您已经被登出。</string>
-
     <string name="open_with">开启的应用</string>
     <string name="save_image_permission_denied">权限被拒：无法存储图片。</string>
-	
-	<string name="inbox_unread_only">仅显示未读的信息</string>
-	
-	<string name="pref_behaviour_actions_comment_longclick_title">评论长按选项</string>
-
-	<string name="submit_comment_actionbar">发表评论</string>
-	<string name="pref_behaviour_fling_comment_left_title">评论左滑选项</string>
-
-	<string name="pref_behaviour_fling_comment_right_title">评论右滑选项</string>
-
-	<string name="comment_header_search_thread_title">以下是一则评论和其回复的搜索结果。</string>
-	<string name="pref_not_supported_before_lollipop">不支持比Android Lollipop更旧的版本</string>
-
-	<string name="mainmenu_header_multireddits">Multireddit</string>
-
-	<string name="pref_behaviour_share_permalink_title">分享永久链接</string>
-
-	<string name="error_cache_dir_does_not_exist_title">缓存路径无效</string>
-	<string name="error_cache_dir_does_not_exist_message">无法使用缓存路径，请在缓存设置中另选存储位置。</string>
-
-	<string name="pref_behaviour_pinned_subredditsort">已钉版块排序</string>
-	<string name="pref_appearance_image_viewer_show_floating_toolbar_title">图片上显示浮动任务栏</string>
-	<string name="pref_appearance_link_text_clickable_title">按下链接文字后开启链接</string>
-	<string name="mainmenu_header_subreddits_blocked">被屏蔽的版块</string>
-	<string name="pref_behaviour_blocked_subredditsort">被屏蔽版块排序</string>
-	<string name="pref_appearance_show_blocked_subreddits_main_menu_title">在主菜单显示被屏蔽的版块</string>
-
-	<string name="pref_cache_rerequest_postlist_age_title">不要刷新帖子，除非缓存已保留</string>
-
-	<string name="error_403_title_nonreddit">访问遭拒</string>
-	<string name="error_403_message_nonreddit">服务器拒绝了访问请求。</string>
-
-	<string name="mainmenu_popular">热门版块</string>
-
-	<string name="pref_menus_link_context_items_title">链接菜单选项</string>
-	<string name="pref_menus_subreddit_context_items_title">版块菜单选项</string>
-	<string name="action_block_subreddit">屏蔽版块</string>
-	<string name="action_unblock_subreddit">不再屏蔽版块</string>
-	<string name="pref_appearance_comments_show_floating_toolbar_title">评论上显示浮动任务栏</string>
-	<string name="download_link_message">这是一个下载链接。您要用外部浏览器开启链接吗？</string>
-
-	<string name="pref_behaviour_sharing_share_text_title">分享评论时同时分享文字</string>
-
-	<string name="disable_replies_to_infobox_failed">无法停止发送回复至邮箱</string>
-
-	<string name="mainmenu_custom_empty_search_query">请输入要搜索的内容。</string>
-
-	<string name="search_listing_header_query">搜索内容</string>
-	<string name="pref_behaviour_sharing_header">分享</string>
-	<string name="pref_behaviour_sharing_include_desc_title">分享时同时分享标题和内容</string>
-	</resources>
+    <string name="inbox_unread_only">仅显示未读的信息</string>
+    <string name="pref_behaviour_actions_comment_longclick_title">评论长按选项</string>
+    <string name="submit_comment_actionbar">发表评论</string>
+    <string name="pref_behaviour_fling_comment_left_title">评论左滑选项</string>
+    <string name="pref_behaviour_fling_comment_right_title">评论右滑选项</string>
+    <string name="comment_header_search_thread_title">以下是一则评论和其回复的搜索结果。</string>
+    <string name="pref_not_supported_before_lollipop">不支持比Android Lollipop更旧的版本</string>
+    <string name="mainmenu_header_multireddits">Multireddit</string>
+    <string name="pref_behaviour_share_permalink_title">分享永久链接</string>
+    <string name="error_cache_dir_does_not_exist_title">缓存路径无效</string>
+    <string name="error_cache_dir_does_not_exist_message">无法使用缓存路径，请在缓存设置中另选存储位置。</string>
+    <string name="pref_behaviour_pinned_subredditsort">已钉版块排序</string>
+    <string name="pref_appearance_image_viewer_show_floating_toolbar_title">图片上显示浮动任务栏</string>
+    <string name="pref_appearance_link_text_clickable_title">按下链接文字后开启链接</string>
+    <string name="mainmenu_header_subreddits_blocked">被屏蔽的版块</string>
+    <string name="pref_behaviour_blocked_subredditsort">被屏蔽版块排序</string>
+    <string name="pref_appearance_show_blocked_subreddits_main_menu_title">在主菜单显示被屏蔽的版块</string>
+    <string name="pref_cache_rerequest_postlist_age_title">不要刷新帖子，除非缓存已保留</string>
+    <string name="error_403_title_nonreddit">访问遭拒</string>
+    <string name="error_403_message_nonreddit">服务器拒绝了访问请求。</string>
+    <string name="mainmenu_popular">热门版块</string>
+    <string name="pref_menus_link_context_items_title">链接菜单选项</string>
+    <string name="pref_menus_subreddit_context_items_title">版块菜单选项</string>
+    <string name="action_block_subreddit">屏蔽版块</string>
+    <string name="action_unblock_subreddit">不再屏蔽版块</string>
+    <string name="pref_appearance_comments_show_floating_toolbar_title">评论上显示浮动任务栏</string>
+    <string name="download_link_message">这是一个下载链接。您要用外部浏览器开启链接吗？</string>
+    <string name="pref_behaviour_sharing_share_text_title">分享评论时同时分享文字</string>
+    <string name="disable_replies_to_infobox_failed">无法停止发送回复至邮箱</string>
+    <string name="mainmenu_custom_empty_search_query">请输入要搜索的内容。</string>
+    <string name="search_listing_header_query">搜索内容</string>
+    <string name="pref_behaviour_sharing_header">分享</string>
+    <string name="pref_behaviour_sharing_include_desc_title">分享时同时分享标题和内容</string>
+    <string name="title_license">许可证</string>
+    <string name="pref_appearance_left_handed_title">左手模式</string>
+    <string name="post_submit_mark_nsfw">标记为NSFW内容</string>
+    <string name="post_submit_mark_spoiler">标为剧透</string>
+    <string name="error_already_submitted_title">已被提交</string>
+    <string name="error_already_submitted_message">该帖子已被提交到此subreddit.</string>
+    <string name="comment_reply_done_norefresh">回复已发送.</string>
+    <string name="sort_posts_best">最佳</string>
+    <string name="pref_behaviour_usecustomtabs_title">使用自定义标签</string>
+    <string name="pref_behaviour_usecustomtabs_summary">使用可用的自定义标签</string>
+    <string name="pref_behaviour_hide_read_posts_title">隐藏已读帖子</string>
+    <string name="pref_menus_mainmenu_shortcutitems_title">主菜单快捷方式</string>
+    <string name="pref_menus_show_multireddit_main_menu_title">显示多个Reddit版块</string>
+    <string name="pref_menus_show_subscribed_subreddits_main_menu_title">显示订阅的Subreddits</string>
+    <string name="mainmenu_random_nsfw">随机NSFW Reddit子版块</string>
+    <string name="pref_appearance_show_aspect_ratio_indicator_title">显示长宽比指示器</string>
+    <string name="pref_appearance_show_aspect_ratio_indicator_summary">在可用时显示加载中媒体的外观</string>
+    <string name="pref_appearance_bottom_toolbar_title">在底部显示工具栏</string>
+    <string name="pref_behaviour_video_mute_default_title">默认将视频静音</string>
+    <string name="prefs_category_images_video">图片/视频</string>
+    <string name="notification_channel_name_reddit_messages">传入的Reddit消息</string>
+    <string name="post_text_copied_to_clipboard">帖子已被复制到剪切板</string>
+    <string name="action_copy_selftext">复制Self-Text</string>
+    <string name="pref_behaviour_sharing_share_dialog_dialogtitle">挑选用于分享的应用</string>
+    <string name="pref_behaviour_sharing_share_dialog_title">使用内置分享对话框</string>
+    <string name="error_toast_no_share_app_installed">未安装合适的应用程序来共享此内容.</string>
+</resources>

@@ -654,7 +654,7 @@
     <string name="webview_https_unknownprotocol">Protocole inconnu, « http:// » était attendu</string>
     <string name="save_image_permission_denied">Autorisation refusée: impossible de sauvegarder l\'image</string>
     <string name="pref_behaviour_sharing_share_text_title">Inclure du texte lors du partage de commentaires</string>
-    <string name="pref_network_tor_title">Utiliser TOR (expérimental)</string>
+    <string name="pref_network_tor_title">Utiliser Tor</string>
     <string name="screen_orientation_landscape">Paysage</string>
     <string name="time_every_time">Toujours</string>
     <string name="share_comment_by_on_reddit">Commentaire de %s sur Reddit</string>

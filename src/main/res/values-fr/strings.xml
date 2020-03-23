@@ -250,7 +250,7 @@
     <string name="props_error_title">Error Properties</string>
     <string name="props_title">Titre</string>
     <string name="props_author">Auteur</string>
-    <string name="props_author_flair">Author Flair Text</string>
+    <string name="props_author_flair">Flair texte de l\'auteur</string>
     <string name="props_created">Créé</string>
     <string name="props_edited">Édité</string>
     <string name="props_score">Score</string>
@@ -583,7 +583,7 @@
     <string name="time_2hr">2 heures</string>
     <string name="props_image_title">Détails de l\'image</string>
     <string name="submit_pmreply_actionbar">Répondre</string>
-    <string name="pref_behaviour_gifview_mode_internal_legacy">Lecteur interne (legacy)</string>
+    <string name="pref_behaviour_gifview_mode_internal_legacy">Lecteur interne (ancien)</string>
     <string name="pref_cache_precache_comments_title">Mettre en cache les commentaires</string>
     <string name="props_resolution">Résolution</string>
     <string name="time_days">jours</string>
@@ -650,7 +650,7 @@
     <string name="pref_behaviour_skiptofrontpage_title">Afficher « À la une » au lancement</string>
     <string name="sort_blocked_subreddit_date">Par date d\'ajout</string>
     <string name="pref_cache_rerequest_postlist_age_title">Actualiser les publications si cache plus ancien que</string>
-    <string name="pref_behaviour_albumview_mode_internal_list">Lecteur interne (list)</string>
+    <string name="pref_behaviour_albumview_mode_internal_list">Lecteur interne (liste)</string>
     <string name="webview_https_unknownprotocol">Protocole inconnu, « http:// » était attendu</string>
     <string name="save_image_permission_denied">Autorisation refusée: impossible de sauvegarder l\'image</string>
     <string name="pref_behaviour_sharing_share_text_title">Inclure du texte lors du partage de commentaires</string>
@@ -669,4 +669,29 @@
     <string name="pref_behaviour_gallery_swipe_length_title">Longueur du balayage de la galerie</string>
     <string name="title_license">Licence</string>
     <string name="pref_appearance_left_handed_title">Le mode gaucher</string>
+    <string name="pref_behaviour_self_post_tap_actions_title">Action au toucher pour le post à soi-même</string>
+    <string name="post_submit_mark_nsfw">Marquer comme NSFW</string>
+    <string name="post_submit_mark_spoiler">Marquer comme divulgâchis</string>
+    <string name="error_already_submitted_title">Déjà envoyé</string>
+    <string name="error_already_submitted_message">Ce post a déjà été envoyé à ce sous-reddit.</string>
+    <string name="comment_reply_done_norefresh">Réponse envoyée.</string>
+    <string name="sort_posts_best">Meilleur</string>
+    <string name="pref_behaviour_usecustomtabs_title">Utiliser les onglets personnalisés</string>
+    <string name="pref_behaviour_usecustomtabs_summary">Utiliser les onglets personnalisés si disponible</string>
+    <string name="pref_behaviour_hide_read_posts_title">Cacher les post lus</string>
+    <string name="pref_menus_mainmenu_shortcutitems_title">Raccourcis du menu principal</string>
+    <string name="pref_menus_show_multireddit_main_menu_title">Afficher les multireddits</string>
+    <string name="pref_menus_show_subscribed_subreddits_main_menu_title">Affichés les sous-reddits auquels vous êtes abonnés</string>
+    <string name="mainmenu_random_nsfw">Sous-reddit NSFW aléatoire</string>
+    <string name="pref_appearance_show_aspect_ratio_indicator_title">Afficher l\'indicateur d\'aspect</string>
+    <string name="pref_appearance_show_aspect_ratio_indicator_summary">Afficher un visuel d\'un média en chargement si disponible</string>
+    <string name="pref_appearance_bottom_toolbar_title">Afficher la barre d\'outils en bas</string>
+    <string name="pref_behaviour_video_mute_default_title">Couper le son des vidéos par défaut</string>
+    <string name="prefs_category_images_video">Images / Vidéos</string>
+    <string name="notification_channel_name_reddit_messages">Messages reddit entrants</string>
+    <string name="post_text_copied_to_clipboard">Poss copié dans le presse papier</string>
+    <string name="action_copy_selftext">Copier le texte à soi-même</string>
+    <string name="pref_behaviour_sharing_share_dialog_dialogtitle">Choisir une appli pour partager</string>
+    <string name="pref_behaviour_sharing_share_dialog_title">Utiliser la boite de dialogue pour partager integré</string>
+    <string name="error_toast_no_share_app_installed">Aucune appli installée ne convient pour partager ceci.</string>
 </resources>

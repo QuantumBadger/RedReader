@@ -17,7 +17,7 @@
   --><resources>
     <!-- First Run Dialog -->
     <string name="firstrun_login_title">Connexion</string>
-    <string name="firstrun_login_message">Vous n\'êtes pas encore connecté. Vous pouvez accéder à la liste des comptes en sélectionnant « Comptes » depuis le menu.</string>
+    <string name="firstrun_login_message">Vous n\'êtes pas encore connecté. Vous pouvez accéder à la liste des comptes en sélectionnant « Comptes » depuis le menu.</string>
     <string name="firstrun_login_button_now">Se connecter</string>
     <string name="firstrun_login_button_later">Rester anonyme</string>
     <!-- Preference Headers -->
@@ -196,8 +196,10 @@
     <string name="post_submit_done">Post envoyé.</string>
     <!-- Bug Reporting -->
     <string name="bug_title">Une erreur s\'est produite.</string>
-    <string name="bug_message">RedReader a rencontré une erreur.\n\nSouhaitez vous soumettre un rapport de bug aux développeurs ? Si oui, un email sera rempli avec les informations importantes et vous pourrez le controler avant de l\'envoyer.</string>
-    <string name="bug_button_send">Envoyer un rapport de bug par email</string>
+    <string name="bug_message">RedReader a rencontré une erreur.
+\n
+\nSouhaitez vous soumettre un rapport de bug aux développeurs \? Si oui, un courriel sera rempli avec les informations importantes et vous pourrez le contrôler avant de l\'envoyer.</string>
+    <string name="bug_button_send">Envoyer un rapport de bug par courriel</string>
     <string name="bug_button_ignore">Ne pas envoyer de rapport de bug</string>
     <!-- General errors -->
     <string name="error_403_title">Utilisateur invalide</string>

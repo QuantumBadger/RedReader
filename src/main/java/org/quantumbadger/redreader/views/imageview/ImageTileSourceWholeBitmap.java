@@ -19,8 +19,6 @@ package org.quantumbadger.redreader.views.imageview;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Rect;
 import android.util.Log;
 import org.quantumbadger.redreader.common.General;
 
@@ -77,57 +75,30 @@ public class ImageTileSourceWholeBitmap implements ImageTileSource {
 	public synchronized Bitmap getTile(final int sampleSize, final int tileX, final int tileY) {
 
 		if(mBitmap == null) {
-			Log.i("ImageTileSourceWholeBitmap", "Loading bitmap.");
+			Log.i("ITSWholeBitmap", "Loading bitmap.");
 			mBitmap = BitmapFactory.decodeByteArray(mData, 0, mData.length);
 		}
 
 		final int tileStartX = tileX * TILE_SIZE;
 		final int tileStartY = tileY * TILE_SIZE;
-		final int tileEndX = (tileX + 1) * TILE_SIZE;
-		final int tileEndY = (tileY + 1) * TILE_SIZE;
+		final int tileEndX = Math.min(mWidth, (tileX + 1) * TILE_SIZE);
+		final int tileEndY = Math.min(mHeight, (tileY + 1) * TILE_SIZE);
 
-		final int outputTileSize = TILE_SIZE / sampleSize;
+		final int inputTileWidthPx = tileEndX - tileStartX;
+		final int inputTileHeightPx = tileEndY - tileStartY;
 
-		if(tileEndX <= getWidth() && tileEndY <= getHeight()) {
+		final int outputTileWidth = inputTileWidthPx / sampleSize;
+		final int outputTileHeight = inputTileHeightPx / sampleSize;
 
-			final Bitmap region = Bitmap.createBitmap(
-					mBitmap,
-					tileStartX,
-					tileStartY,
-					tileEndX - tileStartX,
-					tileEndY - tileStartY);
+		// TODO unnecessary extra step
+		final Bitmap region = Bitmap.createBitmap(
+				mBitmap,
+				tileStartX,
+				tileStartY,
+				inputTileWidthPx,
+				inputTileHeightPx);
 
-			return Bitmap.createScaledBitmap(region, outputTileSize, outputTileSize, true);
-
-		} else {
-
-			final Bitmap tile = Bitmap.createBitmap(outputTileSize, outputTileSize, Bitmap.Config.ARGB_8888);
-			final Canvas canvas = new Canvas(tile);
-
-			final int tileLimitedEndX = Math.min(tileEndX, getWidth());
-			final int tileLimitedEndY = Math.min(tileEndY, getHeight());
-
-			final Rect srcRect = new Rect(
-					tileStartX,
-					tileStartY,
-					tileLimitedEndX,
-					tileLimitedEndY
-			);
-
-			final int srcTileWidth = tileLimitedEndX - tileStartX;
-			final int srcTileHeight = tileLimitedEndY - tileStartY;
-
-			final Rect dstRect = new Rect(
-					0,
-					0,
-					srcTileWidth / sampleSize,
-					srcTileHeight / sampleSize
-			);
-
-			canvas.drawBitmap(mBitmap, srcRect, dstRect, null);
-
-			return tile;
-		}
+		return Bitmap.createScaledBitmap(region, outputTileWidth, outputTileHeight, true);
 	}
 
 	@Override

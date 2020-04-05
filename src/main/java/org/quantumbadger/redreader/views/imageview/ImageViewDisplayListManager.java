@@ -169,16 +169,32 @@ public class ImageViewDisplayListManager implements
 		for(int x = 0; x < mHTileCount; x++) {
 			for(int y = 0; y < mVTileCount; y++) {
 
+				// TODO checkerboard texture is squashed at edges now
 				final RRGLRenderableTexturedQuad quad = new RRGLRenderableTexturedQuad(glContext, mNotLoadedTexture);
 				mTiles[x][y] = quad;
 
-				final RRGLRenderableTranslation translation = new RRGLRenderableTranslation(quad);
-				translation.setPosition(x, y);
+				final RRGLRenderableScale scale = new RRGLRenderableScale(quad);
 
-				final RRGLRenderableScale scale = new RRGLRenderableScale(translation);
-				scale.setScale(mTileSize, mTileSize);
+				int tileWidth = mTileSize;
+				int tileHeight = mTileSize;
 
-				group.add(scale);
+				final int imageWidth = mImageTileSource.getWidth();
+				final int imageHeight = mImageTileSource.getHeight();
+
+				if(x == mHTileCount - 1 && imageWidth % mTileSize != 0) {
+					tileWidth = imageWidth % mTileSize;
+				}
+
+				if(y == mVTileCount - 1 && imageHeight % mTileSize != 0) {
+					tileHeight = imageHeight % mTileSize;
+				}
+
+				scale.setScale(tileWidth, tileHeight);
+
+				final RRGLRenderableTranslation translation = new RRGLRenderableTranslation(scale);
+				translation.setPosition(x * mTileSize, y * mTileSize);
+
+				group.add(translation);
 			}
 		}
 

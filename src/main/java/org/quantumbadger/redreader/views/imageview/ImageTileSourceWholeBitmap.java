@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.views.imageview;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.util.Log;
 import org.quantumbadger.redreader.common.General;
 
@@ -79,6 +80,10 @@ public class ImageTileSourceWholeBitmap implements ImageTileSource {
 			mBitmap = BitmapFactory.decodeByteArray(mData, 0, mData.length);
 		}
 
+		if(sampleSize == 1 && TILE_SIZE >= mWidth && TILE_SIZE >= mHeight) {
+			return mBitmap;
+		}
+
 		final int tileStartX = tileX * TILE_SIZE;
 		final int tileStartY = tileY * TILE_SIZE;
 		final int tileEndX = Math.min(mWidth, (tileX + 1) * TILE_SIZE);
@@ -87,18 +92,26 @@ public class ImageTileSourceWholeBitmap implements ImageTileSource {
 		final int inputTileWidthPx = tileEndX - tileStartX;
 		final int inputTileHeightPx = tileEndY - tileStartY;
 
-		final int outputTileWidth = inputTileWidthPx / sampleSize;
-		final int outputTileHeight = inputTileHeightPx / sampleSize;
+		if(sampleSize == 1) {
+			return Bitmap.createBitmap(
+					mBitmap,
+					tileStartX,
+					tileStartY,
+					inputTileWidthPx,
+					inputTileHeightPx);
+		}
 
-		// TODO unnecessary extra step
-		final Bitmap region = Bitmap.createBitmap(
+		final Matrix scaleMatrix = new Matrix();
+		scaleMatrix.setScale(1.0f / sampleSize, 1.0f / sampleSize);
+
+		return Bitmap.createBitmap(
 				mBitmap,
 				tileStartX,
 				tileStartY,
 				inputTileWidthPx,
-				inputTileHeightPx);
-
-		return Bitmap.createScaledBitmap(region, outputTileWidth, outputTileHeight, true);
+				inputTileHeightPx,
+				scaleMatrix,
+				true);
 	}
 
 	@Override

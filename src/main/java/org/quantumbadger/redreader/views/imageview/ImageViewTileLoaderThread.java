@@ -24,7 +24,7 @@ import java.util.Deque;
 
 public class ImageViewTileLoaderThread {
 
-	private final InternalThread mThread = new InternalThread(new InternalRunnable(), 0);
+	private final TriggerableThread mThread = new TriggerableThread(new InternalRunnable(), 0);
 	private final Deque<ImageViewTileLoader> mQueue = new ArrayDeque<>(128);
 
 	public void enqueue(ImageViewTileLoader tile) {
@@ -59,10 +59,4 @@ public class ImageViewTileLoaderThread {
 		}
 	}
 
-	private class InternalThread extends TriggerableThread {
-
-		public InternalThread(Runnable task, long initialDelay) {
-			super(task, initialDelay);
-		}
-	}
 }

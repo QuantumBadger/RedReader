@@ -18,17 +18,19 @@
 package org.quantumbadger.redreader.views.imageview;
 
 import org.quantumbadger.redreader.common.TriggerableThread;
-import org.quantumbadger.redreader.common.collections.Stack;
+
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 public class ImageViewTileLoaderThread {
 
 	private final InternalThread mThread = new InternalThread(new InternalRunnable(), 0);
-	private final Stack<ImageViewTileLoader> mStack = new Stack<>(128);
+	private final Deque<ImageViewTileLoader> mQueue = new ArrayDeque<>(128);
 
 	public void enqueue(ImageViewTileLoader tile) {
 
-		synchronized(mStack) {
-			mStack.push(tile);
+		synchronized(mQueue) {
+			mQueue.addLast(tile);
 			mThread.trigger();
 		}
 	}
@@ -42,13 +44,13 @@ public class ImageViewTileLoaderThread {
 
 				final ImageViewTileLoader tile;
 
-				synchronized(mStack) {
+				synchronized(mQueue) {
 
-					if(mStack.isEmpty()) {
+					if(mQueue.isEmpty()) {
 						return;
 					}
 
-					tile = mStack.pop();
+					tile = mQueue.removeFirst();
 				}
 
 				tile.doPrepare();

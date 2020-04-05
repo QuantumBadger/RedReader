@@ -158,7 +158,7 @@ public class ImageViewDisplayListManager implements
 			}
 		}
 
-		mNotLoadedTexture = new RRGLTexture(glContext, notLoadedBitmap);
+		mNotLoadedTexture = new RRGLTexture(glContext, notLoadedBitmap, false);
 
 		final RRGLRenderableGroup group = new RRGLRenderableGroup();
 
@@ -290,7 +290,7 @@ public class ImageViewDisplayListManager implements
 						if(tile != null) {
 
 							try {
-								final RRGLTexture texture = new RRGLTexture(context, tile);
+								final RRGLTexture texture = new RRGLTexture(context, tile, true);
 								mTiles[x][y].setTexture(texture);
 								texture.releaseReference();
 								mTileLoaded[x][y] = true;

@@ -27,8 +27,8 @@ public class RRGLTexture {
 	private final RRGLContext mGLContext;
 	private int mRefCount = 1;
 
-	public RRGLTexture(RRGLContext glContext, Bitmap bitmap) {
-		mTextureHandle = loadTexture(bitmap);
+	public RRGLTexture(RRGLContext glContext, Bitmap bitmap, final boolean smooth) {
+		mTextureHandle = loadTexture(bitmap, smooth);
 		mGLContext = glContext;
 	}
 
@@ -47,7 +47,7 @@ public class RRGLTexture {
 		mGLContext.activateTextureByHandle(mTextureHandle);
 	}
 
-	private static int loadTexture(final Bitmap bitmap) {
+	private static int loadTexture(final Bitmap bitmap, final boolean smooth) {
 
 		final int[] textureHandle = new int[1];
 		GLES20.glGenTextures(1, textureHandle, 0);
@@ -56,9 +56,11 @@ public class RRGLTexture {
 			throw new RuntimeException("OpenGL error: glGenTextures failed.");
 		}
 
+		final int filter = smooth ? GLES20.GL_LINEAR : GLES20.GL_NEAREST;
+
 		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureHandle[0]);
-		GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR); // TODO bicubic?
-		GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
+		GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, filter);
+		GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, filter);
 		GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
 		GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
 

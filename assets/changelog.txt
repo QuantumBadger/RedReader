@@ -6,6 +6,7 @@ Added custom share dialog with prioritisation, off by default (thanks to LizardW
 Preserve fields when returning to post submission activity (thanks to fguibourt)
 Fixed issue with HTTP cleartext websites
 Display error when NSFW subreddits are blocked (thanks for Cameron Merkel)
+Various image viewer performance improvements
 Assorted bug fixes (thanks for Cameron Merkel)
 Added Hindi translation (thanks to Chandra Mohan Jha)
 Added Greek translation (thanks to George K)

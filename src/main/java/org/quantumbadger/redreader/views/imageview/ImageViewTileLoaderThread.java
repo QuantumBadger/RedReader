@@ -17,21 +17,33 @@
 
 package org.quantumbadger.redreader.views.imageview;
 
-import org.quantumbadger.redreader.common.TriggerableThread;
+import android.util.Log;
+import org.quantumbadger.redreader.common.TriggerableThreadGroup;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
 
 public class ImageViewTileLoaderThread {
 
-	private final TriggerableThread mThread = new TriggerableThread(new InternalRunnable(), 0);
+	private final TriggerableThreadGroup mThreads;
 	private final Deque<ImageViewTileLoader> mQueue = new ArrayDeque<>(128);
+
+	public ImageViewTileLoaderThread() {
+
+		final int threadCount = Math.max(1, Runtime.getRuntime().availableProcessors() - 1);
+
+		Log.i("IViewTileLoaderThread", "Using thread count: " + threadCount);
+
+		mThreads = new TriggerableThreadGroup(
+				threadCount,
+				new InternalRunnable());
+	}
 
 	public void enqueue(ImageViewTileLoader tile) {
 
 		synchronized(mQueue) {
 			mQueue.addLast(tile);
-			mThread.trigger();
+			mThreads.triggerOne();
 		}
 	}
 

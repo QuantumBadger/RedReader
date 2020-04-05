@@ -18,33 +18,21 @@
 package org.quantumbadger.redreader.views.imageview;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.util.Log;
 import org.quantumbadger.redreader.common.General;
-
-import java.io.IOException;
 
 public class ImageTileSourceWholeBitmap implements ImageTileSource {
 
-	private final byte[] mData;
-	private Bitmap mBitmap = null;
+	private final Bitmap mBitmap;
 
 	private final int mWidth, mHeight;
 
 	private static final int TILE_SIZE = 512;
 
-	public ImageTileSourceWholeBitmap(final byte[] data) throws IOException {
-
-		mData = data;
-
-		BitmapFactory.Options opts = new BitmapFactory.Options();
-		opts.inJustDecodeBounds = true;
-
-		final Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+	public ImageTileSourceWholeBitmap(final Bitmap bitmap) {
+		mBitmap = bitmap;
 		mWidth = bitmap.getWidth();
 		mHeight = bitmap.getHeight();
-		bitmap.recycle();
 	}
 
 	@Override
@@ -73,12 +61,7 @@ public class ImageTileSourceWholeBitmap implements ImageTileSource {
 	}
 
 	@Override
-	public synchronized Bitmap getTile(final int sampleSize, final int tileX, final int tileY) {
-
-		if(mBitmap == null) {
-			Log.i("ITSWholeBitmap", "Loading bitmap.");
-			mBitmap = BitmapFactory.decodeByteArray(mData, 0, mData.length);
-		}
+	public Bitmap getTile(final int sampleSize, final int tileX, final int tileY) {
 
 		if(sampleSize == 1 && TILE_SIZE >= mWidth && TILE_SIZE >= mHeight) {
 			return mBitmap;
@@ -115,12 +98,7 @@ public class ImageTileSourceWholeBitmap implements ImageTileSource {
 	}
 
 	@Override
-	public synchronized void dispose() {
-
-		if(mBitmap != null && !mBitmap.isRecycled()) {
-			mBitmap.recycle();
-		}
-
-		mBitmap = null;
+	public void dispose() {
+		// Nothing to do here
 	}
 }

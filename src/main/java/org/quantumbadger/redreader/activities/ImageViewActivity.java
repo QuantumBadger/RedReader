@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.opengl.GLSurfaceView;
@@ -627,18 +628,9 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 			final ImageTileSource imageTileSource;
 			try {
-
-				final long bytes = cacheFile.getSize();
-				final byte[] buf = new byte[(int)bytes];
-
 				try {
-					new DataInputStream(cacheFileInputStream).readFully(buf);
-				} catch(IOException e) {
-					throw new RuntimeException(e);
-				}
-
-				try {
-					imageTileSource = new ImageTileSourceWholeBitmap(buf);
+					imageTileSource = new ImageTileSourceWholeBitmap(
+							BitmapFactory.decodeStream(cacheFileInputStream));
 
 				} catch(Throwable t) {
 					Log.e(TAG, "Exception when creating ImageTileSource", t);

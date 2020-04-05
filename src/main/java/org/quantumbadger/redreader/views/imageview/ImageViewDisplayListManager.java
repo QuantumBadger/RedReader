@@ -54,6 +54,15 @@ public class ImageViewDisplayListManager implements
 	private static final long TAP_MAX_DURATION_MS = 225;
 	private static final long DOUBLE_TAP_MAX_GAP_DURATION_MS = 275;
 
+	private static final Bitmap NOT_LOADED_BITMAP;
+
+	static {
+		NOT_LOADED_BITMAP = Bitmap.createBitmap(32, 32, Bitmap.Config.ARGB_8888);
+
+		final Canvas notLoadedCanvas = new Canvas(NOT_LOADED_BITMAP);
+		notLoadedCanvas.drawRGB(70, 70, 70);
+	}
+
 	private final Listener mListener;
 
 	private RRGLRenderableTranslation mOverallTranslation;
@@ -104,10 +113,10 @@ public class ImageViewDisplayListManager implements
 
 	private float mScreenDensity = 1;
 
-	private final int mLoadingCheckerboardDarkCol;
-	private final int mLoadingCheckerboardLightCol;
+	public ImageViewDisplayListManager(
+			final ImageTileSource imageTileSource,
+			final Listener listener) {
 
-	public ImageViewDisplayListManager(final Context context, ImageTileSource imageTileSource, Listener listener) {
 		mImageTileSource = imageTileSource;
 		mListener = listener;
 		mHTileCount = mImageTileSource.getHTileCount();
@@ -123,15 +132,6 @@ public class ImageViewDisplayListManager implements
 				mTileLoaders[x][y] = new MultiScaleTileManager(imageTileSource, thread, x, y, this);
 			}
 		}
-
-		if(PrefsUtility.isNightMode(context)) {
-			mLoadingCheckerboardDarkCol = Color.rgb(70, 70, 70);
-			mLoadingCheckerboardLightCol = Color.rgb(110, 110, 110);
-
-		} else {
-			mLoadingCheckerboardDarkCol = Color.rgb(150, 150, 150);
-			mLoadingCheckerboardLightCol = Color.WHITE;
-		}
 	}
 
 	@Override
@@ -142,23 +142,7 @@ public class ImageViewDisplayListManager implements
 		mRefreshable = refreshable;
 		mScreenDensity = glContext.getScreenDensity();
 
-		final Bitmap notLoadedBitmap = Bitmap.createBitmap(256, 256, Bitmap.Config.ARGB_8888);
-		final Canvas notLoadedCanvas = new Canvas(notLoadedBitmap);
-
-		final Paint lightPaint = new Paint();
-		final Paint darkPaint = new Paint();
-
-		lightPaint.setColor(mLoadingCheckerboardLightCol);
-		darkPaint.setColor(mLoadingCheckerboardDarkCol);
-
-		for(int x = 0; x < 4; x++) {
-			for(int y = 0; y < 4; y++) {
-				final Paint paint = ((x ^ y) & 1) == 0 ? lightPaint : darkPaint;
-				notLoadedCanvas.drawRect(x * 64, y * 64, (x + 1) * 64, (y + 1) * 64, paint);
-			}
-		}
-
-		mNotLoadedTexture = new RRGLTexture(glContext, notLoadedBitmap, false);
+		mNotLoadedTexture = new RRGLTexture(glContext, NOT_LOADED_BITMAP, false);
 
 		final RRGLRenderableGroup group = new RRGLRenderableGroup();
 
@@ -169,7 +153,6 @@ public class ImageViewDisplayListManager implements
 		for(int x = 0; x < mHTileCount; x++) {
 			for(int y = 0; y < mVTileCount; y++) {
 
-				// TODO checkerboard texture is squashed at edges now
 				final RRGLRenderableTexturedQuad quad = new RRGLRenderableTexturedQuad(glContext, mNotLoadedTexture);
 				mTiles[x][y] = quad;
 

@@ -79,7 +79,6 @@ import org.quantumbadger.redreader.views.imageview.ImageViewDisplayListManager;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
 import org.quantumbadger.redreader.views.video.ExoPlayerWrapperView;
 
-import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -652,7 +651,6 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 					if(mIsDestroyed) return;
 					mRequest = null;
 					mImageViewDisplayerManager = new ImageViewDisplayListManager(
-							ImageViewActivity.this,
 							imageTileSource,
 							ImageViewActivity.this);
 					surfaceView = new RRGLSurfaceView(ImageViewActivity.this, mImageViewDisplayerManager);

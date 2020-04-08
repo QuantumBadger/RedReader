@@ -49,6 +49,7 @@ import org.quantumbadger.redreader.common.DialogUtils;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.collections.CollectionStream;
 import org.quantumbadger.redreader.fragments.AccountListDialog;
 import org.quantumbadger.redreader.fragments.ChangelogDialog;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
@@ -482,10 +483,12 @@ public class MainActivity extends RefreshableActivity
 				final ArrayList<SubredditCanonicalId> subredditHistory = RedditSubredditHistory.getSubredditsSorted(
 						RedditAccountManager.getInstance(this).getDefaultAccount());
 
-				final ArrayAdapter<SubredditCanonicalId> autocompleteAdapter = new ArrayAdapter<>(
+				final ArrayAdapter<String> autocompleteAdapter = new ArrayAdapter<>(
 						this,
 						android.R.layout.simple_dropdown_item_1line,
-						subredditHistory.toArray(new SubredditCanonicalId[0]));
+						new CollectionStream<>(subredditHistory)
+								.map(SubredditCanonicalId::getDisplayNameLowercase)
+								.collect(new ArrayList<>()));
 
 				editText.setAdapter(autocompleteAdapter);
 				editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {

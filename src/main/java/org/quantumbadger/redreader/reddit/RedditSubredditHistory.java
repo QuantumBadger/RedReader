@@ -16,8 +16,7 @@ public class RedditSubredditHistory {
 
 	private static final HashMap<RedditAccount, HashSet<SubredditCanonicalId>> SUBREDDITS = new HashMap<>();
 
-	private static HashSet<SubredditCanonicalId> getForAccount(
-			final RedditAccount account) {
+	private static HashSet<SubredditCanonicalId> getForAccount(final RedditAccount account) {
 
 		HashSet<SubredditCanonicalId> result = SUBREDDITS.get(account);
 

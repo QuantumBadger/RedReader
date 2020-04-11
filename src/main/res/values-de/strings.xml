@@ -583,7 +583,7 @@
     <string name="pref_menus_show_popular_main_menu_title">/r/popular im Hauptmenü anzeigen</string>
     <string name="pref_behaviour_video_playback_controls_title">Videosteuerung aktivieren</string>
     <string name="error_no_suitable_apps_available">Keine passenden Apps verfügbar</string>
-    <string name="mainmenu_random">Zufälliger Subreddit</string>
+    <string name="mainmenu_random">Zufälliges Subreddit</string>
     <string name="pref_menus_show_random_main_menu_title">/r/random im Hauptmenü anzeigen</string>
     <string name="mainmenu_custom_destination_search">Suche</string>
     <string name="mainmenu_custom_empty_search_query">Leere Suchanfrage.</string>

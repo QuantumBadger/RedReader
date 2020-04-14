@@ -1119,7 +1119,7 @@
 	<string name="action_copy_selftext">Copy Self-Text</string>
 
 	<!-- 2020-01-11 -->
-	<string name="pref_behaviour_sharing_share_dialog_dialogtitle">Select an App for sharing</string>
+	<string name="pref_behaviour_sharing_share_dialog_dialogtitle">Select an app for sharing</string>
 	<string name="pref_behaviour_sharing_share_dialog_key" translatable="false">share_order_preference_key</string>
 	<string name="pref_behaviour_sharing_share_dialog_title">Use built-in share dialog</string>
 	<string name="pref_behaviour_sharing_share_dialog_data" translatable="false">pref_behaviour_sharing_share_dialog_data</string>

@@ -472,7 +472,7 @@
     <string name="error_toast_no_urls_in_self">Ez dira URLak aurkitu testu propio honetan.</string>
     <plurals name="subtitle_replies">
         <item quantity="one">…</item>
-        <item quantity="other">(%d eran)</item>
+        <item quantity="other">(%d erantzun)</item>
     </plurals>
     <string name="pref_menus_mainmenu_useritems_title">Menu nagusiko erabiltzaile elementuak</string>
     <string name="mainmenu_downvoted">Boto negatiboak dituzten argitalpenak</string>

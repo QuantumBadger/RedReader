@@ -52,7 +52,7 @@ public final class PrefsUtility {
 		return result;
 	}
 
-	private static String getString(final int id, final String defaultValue, final Context context, final SharedPreferences sharedPreferences) {
+	public static String getString(final int id, final String defaultValue, final Context context, final SharedPreferences sharedPreferences) {
 		return sharedPreferences.getString(context.getString(id), defaultValue);
 	}
 

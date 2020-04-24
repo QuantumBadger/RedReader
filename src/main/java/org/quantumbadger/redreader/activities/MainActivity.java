@@ -325,8 +325,19 @@ public class MainActivity extends RefreshableActivity
 					//and set them to match the existing settings
 					//The old Inbox Font Scale setting is ignored
 
-					final String existingPostFontscalePreference = Float.toString(PrefsUtility.appearance_fontscale_posts(this, sharedPreferences));
-					final String existingCommentSelfTextFontscalePreference = Float.toString(PrefsUtility.appearance_fontscale_bodytext(this, sharedPreferences));
+					final String existingPostFontscalePreference = PrefsUtility.getString(
+							R.string.pref_appearance_fontscale_posts_key,
+							"-1",
+							this,
+							sharedPreferences
+					);
+
+					final String existingCommentSelfTextFontscalePreference = PrefsUtility.getString(
+							R.string.pref_appearance_fontscale_bodytext_key,
+							"-1",
+							this,
+							sharedPreferences
+					);
 
 					if(existingPostFontscalePreference.equals(existingCommentSelfTextFontscalePreference)) {
 						sharedPreferences.edit().putString(

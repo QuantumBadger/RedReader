@@ -202,19 +202,8 @@ public final class RedditPostView extends FlingableItemView implements RedditPre
 
 		dpScale = context.getResources().getDisplayMetrics().density; // TODO xml?
 
-		final float titleFontScale, subtitleFontScale;
-
-		if(PrefsUtility.appearance_fontscale_posts(context, PreferenceManager.getDefaultSharedPreferences(context)) != -1) {
-			titleFontScale = PrefsUtility.appearance_fontscale_posts(context, PreferenceManager.getDefaultSharedPreferences(context));
-		} else {
-			titleFontScale = PrefsUtility.appearance_fontscale_global(context, PreferenceManager.getDefaultSharedPreferences(context));
-		}
-
-		if(PrefsUtility.appearance_fontscale_post_subtitles(context, PreferenceManager.getDefaultSharedPreferences(context)) != -1) {
-			subtitleFontScale = PrefsUtility.appearance_fontscale_post_subtitles(context, PreferenceManager.getDefaultSharedPreferences(context));
-		} else {
-			subtitleFontScale = PrefsUtility.appearance_fontscale_global(context, PreferenceManager.getDefaultSharedPreferences(context));
-		}
+		final float titleFontScale = PrefsUtility.appearance_fontscale_posts(context, PreferenceManager.getDefaultSharedPreferences(context));
+		final float subtitleFontScale = PrefsUtility.appearance_fontscale_post_subtitles(context, PreferenceManager.getDefaultSharedPreferences(context));
 
 		final View rootView = LayoutInflater.from(context).inflate(R.layout.reddit_post, this, true);
 

@@ -282,18 +282,8 @@ public class RedditCommentView extends FlingableItemView implements RedditChange
 		mBodyHolder = (FrameLayout)rootView.findViewById(R.id.view_reddit_comment_bodyholder);
 		mIndentedContent = (LinearLayout)rootView.findViewById(R.id.view_reddit_comment_indented_content);
 
-		if(PrefsUtility.appearance_fontscale_bodytext(context, PreferenceManager.getDefaultSharedPreferences(context)) != -1) {
-			mBodyFontScale = PrefsUtility.appearance_fontscale_bodytext(context, PreferenceManager.getDefaultSharedPreferences(context));
-		} else {
-			mBodyFontScale = PrefsUtility.appearance_fontscale_global(context, PreferenceManager.getDefaultSharedPreferences(context));
-		}
-
-		final float mHeaderFontScale;
-		if(PrefsUtility.appearance_fontscale_comment_headers(context, PreferenceManager.getDefaultSharedPreferences(context)) != -1) {
-			mHeaderFontScale = PrefsUtility.appearance_fontscale_comment_headers(context, PreferenceManager.getDefaultSharedPreferences(context));
-		} else {
-			mHeaderFontScale = PrefsUtility.appearance_fontscale_global(context, PreferenceManager.getDefaultSharedPreferences(context));
-		}
+		mBodyFontScale = PrefsUtility.appearance_fontscale_bodytext(context, PreferenceManager.getDefaultSharedPreferences(context));
+		final float mHeaderFontScale = PrefsUtility.appearance_fontscale_comment_headers(context, PreferenceManager.getDefaultSharedPreferences(context));
 
 		mHeader.setTextSize(TypedValue.COMPLEX_UNIT_PX, mHeader.getTextSize() * mHeaderFontScale);
 

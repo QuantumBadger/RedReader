@@ -253,30 +253,51 @@ public final class PrefsUtility {
 	}
 
 	public static float appearance_fontscale_bodytext(final Context context, final SharedPreferences sharedPreferences) {
+		if(getString(R.string.pref_appearance_fontscale_bodytext_key, "-1", context, sharedPreferences).equals("-1")) {
+			return appearance_fontscale_global(context, sharedPreferences);
+		}
 		return Float.valueOf(getString(R.string.pref_appearance_fontscale_bodytext_key, "-1", context,  sharedPreferences));
 	}
 
 	public static float appearance_fontscale_comment_headers(final Context context, final SharedPreferences sharedPreferences) {
+		if(getString(R.string.pref_appearance_fontscale_comment_headers_key, "-1", context, sharedPreferences).equals("-1")) {
+			return appearance_fontscale_global(context, sharedPreferences);
+		}
 		return Float.valueOf(getString(R.string.pref_appearance_fontscale_comment_headers_key, "-1", context, sharedPreferences));
 	}
 
 	public static float appearance_fontscale_linkbuttons(final Context context, final SharedPreferences sharedPreferences) {
+		if(getString(R.string.pref_appearance_fontscale_linkbuttons_key, "-1", context, sharedPreferences).equals("-1")) {
+			return appearance_fontscale_global(context, sharedPreferences);
+		}
 		return Float.valueOf(getString(R.string.pref_appearance_fontscale_linkbuttons_key, "-1", context, sharedPreferences));
 	}
 
 	public static float appearance_fontscale_posts(final Context context, final SharedPreferences sharedPreferences) {
+		if(getString(R.string.pref_appearance_fontscale_posts_key, "-1", context, sharedPreferences).equals("-1")) {
+			return appearance_fontscale_global(context, sharedPreferences);
+		}
 		return Float.valueOf(getString(R.string.pref_appearance_fontscale_posts_key, "-1", context,  sharedPreferences));
 	}
 
 	public static float appearance_fontscale_post_subtitles(final Context context, final SharedPreferences sharedPreferences) {
+		if(getString(R.string.pref_appearance_fontscale_post_subtitles_key, "-1", context, sharedPreferences).equals("-1")) {
+			return appearance_fontscale_global(context, sharedPreferences);
+		}
 		return Float.valueOf(getString(R.string.pref_appearance_fontscale_post_subtitles_key, "-1", context, sharedPreferences));
 	}
 
 	public static float appearance_fontscale_post_header_titles(final Context context, final SharedPreferences sharedPreferences) {
+		if(getString(R.string.pref_appearance_fontscale_post_header_titles_key, "-1", context, sharedPreferences).equals("-1")) {
+			return appearance_fontscale_global(context, sharedPreferences);
+		}
 		return Float.valueOf(getString(R.string.pref_appearance_fontscale_post_header_titles_key, "-1", context, sharedPreferences));
 	}
 
 	public static float appearance_fontscale_post_header_subtitles(final Context context, final SharedPreferences sharedPreferences) {
+		if(getString(R.string.pref_appearance_fontscale_post_header_subtitles_key, "-1", context, sharedPreferences).equals("-1")) {
+			return appearance_fontscale_global(context, sharedPreferences);
+		}
 		return Float.valueOf(getString(R.string.pref_appearance_fontscale_post_header_subtitles_key, "-1", context, sharedPreferences));
 	}
 

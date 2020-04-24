@@ -135,11 +135,7 @@ public class CommentListingFragment extends RRFragment
 
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-		if(PrefsUtility.appearance_fontscale_bodytext(context, prefs) != -1) {
-			mSelfTextFontScale = PrefsUtility.appearance_fontscale_bodytext(context, prefs);
-		} else {
-			mSelfTextFontScale = PrefsUtility.appearance_fontscale_global(context, prefs);
-		}
+		mSelfTextFontScale = PrefsUtility.appearance_fontscale_bodytext(context, prefs);
 
 		mShowLinkButtons = PrefsUtility.pref_appearance_linkbuttons(context, prefs);
 

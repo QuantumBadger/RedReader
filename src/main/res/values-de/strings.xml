@@ -106,7 +106,7 @@
     <string name="accounts_username">Benutzername</string>
     <string name="accounts_password">Passwort</string>
     <string name="accounts_login">Anmelden</string>
-    <string name="accounts_delete_sure">Bist du sicher, dass du diesen Account löschen willst?</string>
+    <string name="accounts_delete_sure">Bist du sicher, dass du dieses Konto löschen willst\?</string>
     <!-- Post Sorts -->
     <string name="sort_posts_hot">Angesagt</string>
     <string name="sort_posts_new">Neu</string>
@@ -197,7 +197,9 @@
     <string name="post_submit_done">Beitrag übermittelt</string>
     <!-- Bug Reporting -->
     <string name="bug_title">Ein Fehler ist aufgetreten.</string>
-    <string name="bug_message">RedReader hat einen Fehler gefunden.\n\nWillst du dem Entwickler einen Fehlerbericht senden? Wenn ja, wird ein Email mit allen nötigen Infos erstellt, und du kannst die Inhalte vor dem Senden überprüfen.</string>
+    <string name="bug_message">RedReader hat einen Fehler gefunden.
+\n
+\nWillst du dem Entwickler einen Fehlerbericht senden\? Wenn ja, wird ein E-Mail mit allen nötigen Infos erstellt, und du kannst die Inhalte vor dem Senden überprüfen.</string>
     <string name="bug_button_send">Fehlerbericht senden</string>
     <string name="bug_button_ignore">Nicht senden</string>
     <!-- General errors -->

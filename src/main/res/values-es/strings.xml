@@ -197,7 +197,7 @@
     <!-- Bug Reporting -->
     <string name="bug_title">Ha ocurrido un error.</string>
     <string name="bug_message">RedReader ha encontrado un error.\n\n¿Te gustaría enviar un informe al desarrollador? Si es así, se generará un correo con toda la información relevante, y podrás revisarlo antes de enviarlo.</string>
-    <string name="bug_button_send">Enviar informe por email</string>
+    <string name="bug_button_send">Enviar informe por correo electrónico</string>
     <string name="bug_button_ignore">No enviar informe</string>
     <!-- General errors -->
     <string name="error_403_title">Usuario no válido</string>
@@ -237,7 +237,7 @@
     <string name="time_ago">hace %s</string>
     <!-- User Profile -->
     <string name="userprofile_created">Creado</string>
-    <string name="userprofile_hasmail">Tiene email</string>
+    <string name="userprofile_hasmail">Tiene correo</string>
     <string name="userprofile_hasmodmail">Tiene mensajes de moderadores</string>
     <string name="userprofile_isfriend">Es amigo</string>
     <string name="userprofile_isgold">Reddit Gold</string>

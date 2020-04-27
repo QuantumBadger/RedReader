@@ -105,24 +105,24 @@
     <string name="accounts_username">Nom d\'utilisateur</string>
     <string name="accounts_password">Mot de passe</string>
     <string name="accounts_login">Se connecter</string>
-    <string name="accounts_delete_sure">Êtes vous sûr de vouloir supprimer ce compte ?</string>
+    <string name="accounts_delete_sure">Êtes vous sûr·e de vouloir supprimer ce compte \?</string>
     <!-- Post Sorts -->
     <string name="sort_posts_hot">Populaire</string>
     <string name="sort_posts_new">Nouveau</string>
     <string name="sort_posts_rising">En hausse</string>
     <string name="sort_posts_controversial">Controversé</string>
     <string name="sort_posts_top">Top</string>
-    <string name="sort_posts_top_hour">Top: cette heure-ci</string>
-    <string name="sort_posts_top_today">Top: aujourd\'hui</string>
-    <string name="sort_posts_top_week">Top: cette semaine</string>
-    <string name="sort_posts_top_month">Top: ce mois-ci</string>
-    <string name="sort_posts_top_year">Top: cette année</string>
-    <string name="sort_posts_top_all">Top: depuis toujours</string>
+    <string name="sort_posts_top_hour">Top : cette heure-ci</string>
+    <string name="sort_posts_top_today">Top : aujourd\'hui</string>
+    <string name="sort_posts_top_week">Top : cette semaine</string>
+    <string name="sort_posts_top_month">Top : ce mois-ci</string>
+    <string name="sort_posts_top_year">Top : cette année</string>
+    <string name="sort_posts_top_all">Top : depuis toujours</string>
     <!-- Comment Sorts -->
     <string name="sort_comments_best">Apprécié</string>
-    <string name="sort_comments_hot">Hot</string>
-    <string name="sort_comments_new">New</string>
-    <string name="sort_comments_old">Old</string>
+    <string name="sort_comments_hot">Populaire</string>
+    <string name="sort_comments_new">Nouveau</string>
+    <string name="sort_comments_old">Vieux</string>
     <string name="sort_comments_controversial">Controversé</string>
     <string name="sort_comments_top">Top</string>
     <!-- Dialog Buttons -->
@@ -199,7 +199,7 @@
     <string name="bug_message">RedReader a rencontré une erreur.
 \n
 \nSouhaitez vous soumettre un rapport de bug aux développeurs \? Si oui, un courriel sera rempli avec les informations importantes et vous pourrez le contrôler avant de l\'envoyer.</string>
-    <string name="bug_button_send">Envoyer un rapport de bug par courriel</string>
+    <string name="bug_button_send">Envoyer un rapport d\'erreur par courriel</string>
     <string name="bug_button_ignore">Ne pas envoyer de rapport de bug</string>
     <!-- General errors -->
     <string name="error_403_title">Utilisateur invalide</string>
@@ -239,7 +239,7 @@
     <string name="time_ago">Il y a %s</string>
     <!-- User Profile -->
     <string name="userprofile_created">Créé le</string>
-    <string name="userprofile_hasmail">A un courriel</string>
+    <string name="userprofile_hasmail">A du courrier</string>
     <string name="userprofile_hasmodmail">A un courriel de modérateur</string>
     <string name="userprofile_isfriend">Ami</string>
     <string name="userprofile_isgold">Membre Gold</string>
@@ -393,7 +393,7 @@
     <!-- 2015-05-17 -->
     <string name="error_title_login_user_denied_permission">Permission refusée</string>
     <string name="error_message_login_user_denied_permission">La permission d\'accéder ce compte a été refusée. Merci de réessayer.</string>
-    <string name="error_title_login_unknown_reddit_error">Erreur Reddit inconnue: %s</string>
+    <string name="error_title_login_unknown_reddit_error">Erreur Reddit inconnue : %s</string>
     <!-- 2015-05-23 -->
     <string name="imageview_invalid_video">Vidéo invalide. Essai avec le navigateur interne.</string>
     <string name="download_authorizing">Identification…</string>
@@ -654,7 +654,7 @@
     <string name="pref_cache_rerequest_postlist_age_title">Actualiser les publications si cache plus ancien que</string>
     <string name="pref_behaviour_albumview_mode_internal_list">Lecteur interne (liste)</string>
     <string name="webview_https_unknownprotocol">Protocole inconnu, « http:// » était attendu</string>
-    <string name="save_image_permission_denied">Autorisation refusée: impossible de sauvegarder l\'image</string>
+    <string name="save_image_permission_denied">Autorisation refusée : impossible de sauvegarder l\'image</string>
     <string name="pref_behaviour_sharing_share_text_title">Inclure du texte lors du partage de commentaires</string>
     <string name="pref_network_tor_title">Utiliser Tor</string>
     <string name="screen_orientation_landscape">Paysage</string>

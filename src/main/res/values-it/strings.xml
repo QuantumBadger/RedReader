@@ -227,7 +227,7 @@
     <string name="header_subscriber_count_unknown">Il numero di iscritti è sconosciuto</string>
     <string name="mainmenu_saved">Post salvati</string>
     <string name="mainmenu_submitted">Post inviati</string>
-    <string name="mainmenu_upvoted">"Post upvoted "</string>
+    <string name="mainmenu_upvoted">Post con votati positivi</string>
     <string name="message_cannotlogin">Accesso non riuscito.</string>
     <string name="message_nowloggedin">Accesso effettuato con successo.</string>
     <string name="notification_comment">%s ti ha risposto</string>

@@ -14,8 +14,7 @@
   ~
   ~ You should have received a copy of the GNU General Public License
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
-  -->
-<resources>
+  --><resources>
     <string name="firstrun_login_title">Увійти</string>
     <string name="firstrun_login_message">Ви не увійшли до системи. Ви можете відкрити перелік облікових записів, обравши \"Облікові записи\" в меню.</string>
     <string name="firstrun_login_button_now">Увійти</string>
@@ -187,8 +186,8 @@
     <string name="error_403_message">Reddit стверджує, что поточний користувач не має дозволу для цієї дії. Спробуйте вийти, а потім знову увійти до системи (видаливши обліковий запис із переліку та заново додавши його).</string>
     <string name="error_subreddit_required_title">Сабреддіт є обов\'язковим</string>
     <string name="error_subreddit_required_message">Слід вказати сабреддіт.</string>
-    <string name="error_bad_captcha_title">Недійсний захисний код</string>
-    <string name="error_bad_captcha_message">Введений захисний код невірний. Будь ласка, спробуйте знову.</string>
+    <string name="error_bad_captcha_title">Неправильний захисний код</string>
+    <string name="error_bad_captcha_message">Введений захисний код неправильний. Будь ласка, спробуйте знову.</string>
     <string name="error_404_title">Не знайдено (404)</string>
     <string name="error_404_message">Не вдалося знайти запитувані дані.</string>
     <string name="error_unknown_api_title">Помилка</string>
@@ -271,8 +270,8 @@
     <string name="error_toast_notloggedin">Необхідно увійти до облікового запису.</string>
     <string name="button_moredetail">Детально</string>
     <string name="pref_appearance_scale_normal">Звичайний</string>
-    <string name="error_invalid_password_title">Невірний пароль</string>
-    <string name="error_invalid_password_message">Невірне ім\'я користувача або пароль.</string>
+    <string name="error_invalid_password_title">Неправильний пароль</string>
+    <string name="error_invalid_password_message">Неправильне ім\'я користувача або пароль.</string>
     <string name="error_ratelimit_title">Занадто багато невдалих спроб увійти.</string>
     <string name="error_ratelimit_message">Заблоковано через завелику кількість спроб входу з цієї IP-адреси. Reddit каже:</string>
     <string name="general_success">Успішно</string>
@@ -328,7 +327,7 @@
     <string name="options_sidebar">Переглянути бокову панель</string>
     <string name="pref_menus_mainmenu_useritems_title">Пункти головного меню користувача</string>
     <string name="mainmenu_submitted">Опубліковане</string>
-    <string name="mainmenu_downvoted">Невподобані пости</string>
+    <string name="mainmenu_downvoted">Невподобані публікації</string>
     <string name="sidebar_activity_title">Бокова панель</string>
     <string name="header_subscriber_count">%s підписників</string>
     <string name="header_subscriber_count_unknown">Кількість підписників невідома</string>
@@ -362,7 +361,7 @@
     <string name="imageview_invalid_video">Не вдалося відкрити відео. Спробуємо вбудований браузер.</string>
     <string name="download_authorizing">Аутентифікація…</string>
     <string name="pref_behaviour_skiptofrontpage_title">Перейти на головну сторінку</string>
-    <string name="error_archived_vote">Це було перенесено в архів, тому проголосувати вже не можна.</string>
+    <string name="error_archived_vote">Це було перенесено в архів, тому проголосувати вже неможливо.</string>
     <string name="pref_behaviour_screenorientation_title">Орієнтація екрану</string>
     <string name="screen_orientation_auto">Авто</string>
     <string name="screen_orientation_portrait">Портрет</string>
@@ -409,13 +408,13 @@
     <string name="error_too_fast_message">Reddit каже, що ви надсилаєте надто часто. Будь ласка, зачекайте кілька хвилин і спробуйте знову.</string>
     <string name="block_subreddit">Блокувати сабреддіт</string>
     <string name="unblock_subreddit">Розблокувати сабреддіт</string>
-    <string name="block_done">Сабреддіт заблоковано. Публікації в ньому будуть виключені з /r/all.</string>
-    <string name="unblock_done">Сабреддіт розблоковано. Публікації в ньому будуть включені до /r/all.</string>
+    <string name="block_done">Сабреддіт заблоковано. Публікації з нього будуть виключені з /r/all.</string>
+    <string name="unblock_done">Сабреддіт розблоковано. Публікації з нього будуть включені до /r/all.</string>
     <string name="pref_behaviour_comments_header">Коментарі</string>
     <string name="pref_behaviour_comment_min_title">Мінімальна оцінка коментаря</string>
     <string name="pref_behaviour_comment_min_dialog_title">Згортати коментарі з оцінкою нижчою за (залиште порожнім, щоб показувати всі)</string>
     <string name="open_with">Відкрити в</string>
-    <string name="pref_network_tor_title">Використовувати TOR (експериментальна функція)</string>
+    <string name="pref_network_tor_title">Використовувати TOR</string>
     <string name="error_tor_not_installed">Tor не буде працювати без встановленого Orbot. Встановити зараз\?</string>
     <string name="error_tor_setting_failed">Не вдалося налаштувати проксі-сервер.</string>
     <string name="error_parse_imgur_title">Помилка розбору</string>
@@ -486,8 +485,8 @@
     <string name="load_more_comments_failed_unknown_url_type">Не вдалося завантажити більше коментарів: невідомий тип URL.</string>
     <string name="pref_appearance_image_viewer_header">Переглядач зображень</string>
     <string name="pref_appearance_image_viewer_show_floating_toolbar_title">Показувати переміщувану панель інструментів над зображенням</string>
-    <string name="pref_appearance_link_text_clickable_title">Зробити текст посилань зручнішим для натискання</string>
-    <string name="pref_appearance_hide_android_status_title">Приховати панель стану Android</string>
+    <string name="pref_appearance_link_text_clickable_title">Зробити текст посилань активним</string>
+    <string name="pref_appearance_hide_android_status_title">Приховувати панель стану Android</string>
     <string name="pref_behaviour_enable_swipe_refresh_title">Потягніть вниз для оновлення</string>
     <string name="mainmenu_header_subreddits_blocked">Заблоковані сабреддіти</string>
     <string name="pref_behaviour_blocked_subredditsort">Сортування заблокованих сабреддітів</string>
@@ -547,7 +546,34 @@
     <string name="share_comment_by_on_reddit">Коментар від %s на Reddit</string>
     <plurals name="subtitle_replies">
         <item quantity="one">…</item>
-        <item quantity="few">(%d -ді)</item>
-        <item quantity="many">(%d -дей)</item>
+        <item quantity="few">(%d відповіді)</item>
+        <item quantity="many">(%d відповідей)</item>
+        <item quantity="other">(%d відповідей)</item>
     </plurals>
+    <string name="error_toast_no_share_app_installed">Немає встановлених додатків придатних для поширення.</string>
+    <string name="pref_behaviour_sharing_share_dialog_dialogtitle">Оберіть додаток для поширення</string>
+    <string name="post_text_copied_to_clipboard">Публікацію скопійовано до буфера обміну</string>
+    <string name="prefs_category_images_video">Зображення/Відео</string>
+    <string name="pref_appearance_bottom_toolbar_title">Показувати панель знизу</string>
+    <string name="pref_appearance_show_aspect_ratio_indicator_title">Показувати індикатор співвідношення сторін</string>
+    <string name="pref_menus_show_subscribed_subreddits_main_menu_title">Показувати сабреддіти-підписки</string>
+    <string name="pref_menus_mainmenu_shortcutitems_title">Пункти головного меню</string>
+    <string name="pref_behaviour_usecustomtabs_summary">Використовувати по можливості нетипові вкладки</string>
+    <string name="sort_posts_best">Кращі</string>
+    <string name="error_already_submitted_message">Дану публікацію вже надіслано до цього сабреддіту.</string>
+    <string name="post_submit_mark_spoiler">Позначити як спойлер</string>
+    <string name="title_license">Ліцензія</string>
+    <string name="pref_behaviour_sharing_share_dialog_title">Використовувати вбудований діалог поширення</string>
+    <string name="action_copy_selftext">Копіювати Self-текст</string>
+    <string name="notification_channel_name_reddit_messages">Вхідні повідомлення Reddit</string>
+    <string name="pref_behaviour_video_mute_default_title">Типово вимикати звук відео</string>
+    <string name="pref_appearance_show_aspect_ratio_indicator_summary">Показувати зображення завантажуваного медіа, якщо доступне</string>
+    <string name="mainmenu_random_nsfw">Випадковий NSFW сабреддіт</string>
+    <string name="pref_menus_show_multireddit_main_menu_title">Показувати Мультиреддіти</string>
+    <string name="pref_behaviour_hide_read_posts_title">Приховувати прочитані публікації</string>
+    <string name="pref_behaviour_usecustomtabs_title">Використовувати нетипові вкладки</string>
+    <string name="comment_reply_done_norefresh">Відповідь надіслано.</string>
+    <string name="error_already_submitted_title">Вже надіслано</string>
+    <string name="post_submit_mark_nsfw">Позначити NSFW</string>
+    <string name="pref_appearance_left_handed_title">Режим шульги</string>
 </resources>

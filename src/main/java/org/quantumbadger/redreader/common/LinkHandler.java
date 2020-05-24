@@ -52,6 +52,7 @@ import org.quantumbadger.redreader.image.DeviantArtAPI;
 import org.quantumbadger.redreader.image.GetAlbumInfoListener;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
 import org.quantumbadger.redreader.image.GfycatAPI;
+import org.quantumbadger.redreader.image.RedgifsAPI;
 import org.quantumbadger.redreader.image.ImageInfo;
 import org.quantumbadger.redreader.image.ImgurAPI;
 import org.quantumbadger.redreader.image.ImgurAPIV3;
@@ -444,6 +445,7 @@ public class LinkHandler {
 			qkmePattern2 = Pattern.compile(".*[^A-Za-z]quickmeme\\.com/meme/(\\w+).*"),
 			lvmePattern = Pattern.compile(".*[^A-Za-z]livememe\\.com/(\\w+).*"),
 			gfycatPattern = Pattern.compile(".*[^A-Za-z]gfycat\\.com/(?:gifs/detail/)?(\\w+).*"),
+			redgifsPattern = Pattern.compile(".*[^A-Za-z]redgifs\\.com/watch/(?:gifs/detail/)?(\\w+).*"),
 			streamablePattern = Pattern.compile(".*[^A-Za-z]streamable\\.com/(\\w+).*"),
 			reddituploadsPattern = Pattern.compile(".*[^A-Za-z]i\\.reddituploads\\.com/(\\w+).*"),
 			redditVideosPattern = Pattern.compile(".*[^A-Za-z]v.redd.it/(\\w+).*"),
@@ -469,6 +471,17 @@ public class LinkHandler {
 
 			if(matchGfycat.find()) {
 				final String imgId = matchGfycat.group(1);
+				if(imgId.length() > 5) {
+					return true;
+				}
+			}
+		}
+		
+        {
+			final Matcher matchRedgifs = redgifsPattern.matcher(url);
+
+			if(matchRedgifs.find()) {
+				final String imgId = matchRedgifs.group(1);
 				if(imgId.length() > 5) {
 					return true;
 				}
@@ -687,6 +700,18 @@ public class LinkHandler {
 				final String imgId = matchGfycat.group(1);
 				if(imgId.length() > 5) {
 					GfycatAPI.getImageInfo(context, imgId, priority, listId, listener);
+					return;
+				}
+			}
+		}
+
+		{
+			final Matcher matchRedgifs = redgifsPattern.matcher(url);
+
+			if(matchRedgifs.find()) {
+				final String imgId = matchRedgifs.group(1);
+				if(imgId.length() > 5) {
+					RedgifsAPI.getImageInfo(context, imgId, priority, listId, listener);
 					return;
 				}
 			}

@@ -88,7 +88,7 @@ public final class RedgifsAPI {
 					listener.onSuccess(ImageInfo.parseGfycat(outer));
 
 				} catch(Throwable t) {
-					listener.onFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "Gfycat data parse failed");
+					listener.onFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "Redgifs data parse failed");
 				}
 			}
 		});

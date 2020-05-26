@@ -9,6 +9,7 @@ Fixed issue with HTTP cleartext websites
 Display error when NSFW subreddits are blocked (thanks for Cameron Merkel)
 Various image viewer performance improvements
 Fixed subreddit sidebar on Android 4.x
+Added support for more image hosts (thanks to Tim Coombs)
 Assorted bug fixes (thanks for Cameron Merkel)
 Added Hindi translation (thanks to Chandra Mohan Jha)
 Added Greek translation (thanks to George K)

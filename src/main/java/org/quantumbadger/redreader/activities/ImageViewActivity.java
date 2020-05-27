@@ -246,7 +246,9 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
                 if (lowBwEnabled) {
                     Log.i(TAG, "Updated image URL: " + info.urlLowBw);
                     Log.i(TAG, "Updated image Type: " + info.typeLowBw);
-                    uri = General.uriFromString(info.urlLowBw);
+                    if (info.urlLowBw != null) {
+                        uri = General.uriFromString(info.urlLowBw);
+                    }
                 }
 
                 final URI audioUri;

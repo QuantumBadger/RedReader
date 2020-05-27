@@ -1191,4 +1191,9 @@
 	<string name="error_toast_no_email_apps">No email apps installed!</string>
 	<string name="bug_chooser_title">Email bug report</string>
 
+	<!-- 2020-05-27 -->
+	<string name="pref_network_low_bandwidth_title">Low bandwidth mode</string>
+	<string name="pref_network_low_bandwidth_key" translatable="false">pref_network_low_bandwidth</string>
+	<string name="pref_network_low_bandwidth_summary">Downloads webm instead of mp4 (Gfycat and Redgifs Support only).</string>
+
 </resources>

@@ -771,6 +771,11 @@ public final class PrefsUtility {
 		return getBoolean(R.string.pref_network_tor_key, false, context, sharedPreferences);
 	}
 
+	public static boolean network_low_bandwidth(final Context context, final SharedPreferences sharedPreferences) {
+		return getBoolean(R.string.pref_network_low_bandwidth_key, false, context, sharedPreferences);
+	}
+
+
 	///////////////////////////////
 	// pref_menus
 	///////////////////////////////

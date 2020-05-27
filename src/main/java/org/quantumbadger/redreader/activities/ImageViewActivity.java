@@ -137,6 +137,8 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 		final int gallerySwipeLengthDp = PrefsUtility.pref_behaviour_gallery_swipe_length_dp(this, sharedPreferences);
 		mGallerySwipeLengthPx = General.dpToPixels(this, gallerySwipeLengthDp);
 
+        final boolean lowBwEnabled = PrefsUtility.network_low_bandwidth(this, sharedPreferences);
+
 		final Intent intent = getIntent();
 
 		mUrl = intent.getDataString();
@@ -234,15 +236,20 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 			public void onSuccess(final ImageInfo info) {
 
 				Log.i(TAG, "Got image URL: " + info.urlOriginal);
-
-				Log.i(TAG, "Got image Type: " + info.type);
-
+                Log.i(TAG, "Got image Type: " + info.type);
 				Log.i(TAG, "Got media Type: " + info.mediaType);
 
 				mImageInfo = info;
 
-				final URI uri = General.uriFromString(info.urlOriginal);
-				final URI audioUri;
+                URI uri = General.uriFromString(info.urlOriginal);
+
+                if (lowBwEnabled) {
+                    Log.i(TAG, "Updated image URL: " + info.urlLowBw);
+                    Log.i(TAG, "Updated image Type: " + info.typeLowBw);
+                    uri = General.uriFromString(info.urlLowBw);
+                }
+
+                final URI audioUri;
 
 				if(uri == null) {
 					revertToWeb();

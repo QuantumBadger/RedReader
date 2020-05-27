@@ -25,6 +25,11 @@
 						android:key="@string/pref_network_tor_key"
 						android:summary="@string/pref_network_tor_summary"
         				android:defaultValue="false"/>
+    
+    <CheckBoxPreference android:title="@string/pref_network_low_bandwidth_title"
+						android:key="@string/pref_network_low_bandwidth_key"
+						android:summary="@string/pref_network_low_bandwidth_summary"
+        				android:defaultValue="false"/>
 
     </PreferenceCategory>
 

@@ -31,6 +31,7 @@ public class ImageInfo implements Parcelable {
 
 	public final String urlOriginal;
 	public final String urlBigSquare;
+	public final String urlLowBw;
 
 	@Nullable public final String urlAudioStream;
 
@@ -38,11 +39,13 @@ public class ImageInfo implements Parcelable {
 	public final String caption;
 
 	public final String type;
+	public final String typeLowBw;
 	public final Boolean isAnimated;
 
 	public final Long width;
 	public final Long height;
 	public final Long size;
+	public final Long sizeLowBw;
 
 	public final MediaType mediaType;
 	@NonNull public final HasAudio hasAudio;
@@ -85,13 +88,16 @@ public class ImageInfo implements Parcelable {
 		this.urlAudioStream = urlAudioStream;
 
 		urlBigSquare = null;
+		urlLowBw = null;
 		title = null;
 		caption = null;
 		type = null;
+		typeLowBw = null;
 		isAnimated = null;
 		width = null;
 		height = null;
 		size = null;
+		sizeLowBw = null;
 		this.mediaType = mediaType;
 		this.hasAudio = hasAudio;
 	}
@@ -99,19 +105,22 @@ public class ImageInfo implements Parcelable {
 	private ImageInfo(final Parcel in) {
 		urlOriginal = ParcelHelper.readNullableString(in);
 		urlBigSquare = ParcelHelper.readNullableString(in);
+		urlLowBw = ParcelHelper.readNullableString(in);
 		urlAudioStream = ParcelHelper.readNullableString(in);
 		title = ParcelHelper.readNullableString(in);
 		caption = ParcelHelper.readNullableString(in);
 		type = ParcelHelper.readNullableString(in);
-		isAnimated = ParcelHelper.readNullableBoolean(in);
+		typeLowBw = ParcelHelper.readNullableString(in);
+        isAnimated = ParcelHelper.readNullableBoolean(in);
 		width = ParcelHelper.readNullableLong(in);
 		height = ParcelHelper.readNullableLong(in);
 		size = ParcelHelper.readNullableLong(in);
+		sizeLowBw = ParcelHelper.readNullableLong(in);
 		mediaType = ParcelHelper.readNullableImageInfoMediaType(in);
 		hasAudio = ParcelHelper.readImageInfoHasAudio(in);
 	}
-
-	public ImageInfo(
+	
+    public ImageInfo(
 			final String urlOriginal,
 			final String urlBigSquare,
 			final String title,
@@ -126,14 +135,50 @@ public class ImageInfo implements Parcelable {
 
 		this.urlOriginal = urlOriginal;
 		this.urlBigSquare = urlBigSquare;
+		this.urlLowBw = null;
 		this.urlAudioStream = null;
 		this.title = title;
 		this.caption = caption;
 		this.type = type;
+		this.typeLowBw = null;
 		this.isAnimated = isAnimated;
 		this.width = width;
 		this.height = height;
 		this.size = size;
+		this.sizeLowBw = null;
+		this.mediaType = mediaType;
+		this.hasAudio = hasAudio;
+	}
+
+	public ImageInfo(
+			final String urlOriginal,
+			final String urlBigSquare,
+			final String urlLowBw,
+			final String title,
+			final String caption,
+			final String type,
+			final String typeLowBw,
+			final Boolean isAnimated,
+			final Long width,
+			final Long height,
+			final Long size,
+			final Long sizeLowBw,
+			final MediaType mediaType,
+			@NonNull final HasAudio hasAudio) {
+
+		this.urlOriginal = urlOriginal;
+		this.urlBigSquare = urlBigSquare;
+        this.urlLowBw = urlLowBw;
+        this.urlAudioStream = null;
+		this.title = title;
+		this.caption = caption;
+		this.type = type;
+		this.typeLowBw = typeLowBw;
+		this.isAnimated = isAnimated;
+		this.width = width;
+		this.height = height;
+		this.size = size;
+		this.sizeLowBw = sizeLowBw;
 		this.mediaType = mediaType;
 		this.hasAudio = hasAudio;
 	}
@@ -145,7 +190,9 @@ public class ImageInfo implements Parcelable {
 		final Long height = object.getLong("height");
 
 		final String urlOriginal = object.getString("mp4Url");
+	    final String urlLowBw = object.getString("webmUrl");
 		final Long size = object.getLong("mp4Size");
+		final Long sizeLowBw = object.getLong("webmSize");
 
 		final String title = object.getString("title");
 
@@ -153,14 +200,17 @@ public class ImageInfo implements Parcelable {
 
 		return new ImageInfo(
 				urlOriginal,
-				null,
+                null,
+                urlLowBw,
 				title,
 				null,
 				"video/mp4",
+                "video/webm",
 				true,
 				width,
 				height,
 				size,
+				sizeLowBw,
 				MediaType.VIDEO,
 				HasAudio.fromBoolean(hasAudio));
 	}

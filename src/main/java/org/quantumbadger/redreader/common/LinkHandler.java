@@ -32,17 +32,33 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.ClipboardManager;
 import android.util.Log;
 import android.util.TypedValue;
-
 import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.activities.*;
+import org.quantumbadger.redreader.activities.AlbumListingActivity;
+import org.quantumbadger.redreader.activities.BaseActivity;
+import org.quantumbadger.redreader.activities.CommentListingActivity;
+import org.quantumbadger.redreader.activities.ImageViewActivity;
+import org.quantumbadger.redreader.activities.PostListingActivity;
+import org.quantumbadger.redreader.activities.WebViewActivity;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.fragments.ShareOrderDialog;
 import org.quantumbadger.redreader.fragments.UserProfileDialog;
-import org.quantumbadger.redreader.image.*;
+import org.quantumbadger.redreader.image.DeviantArtAPI;
+import org.quantumbadger.redreader.image.GetAlbumInfoListener;
+import org.quantumbadger.redreader.image.GetImageInfoListener;
+import org.quantumbadger.redreader.image.GfycatAPI;
+import org.quantumbadger.redreader.image.ImageInfo;
+import org.quantumbadger.redreader.image.ImgurAPI;
+import org.quantumbadger.redreader.image.ImgurAPIV3;
+import org.quantumbadger.redreader.image.RedditVideosAPI;
+import org.quantumbadger.redreader.image.SaveImageCallback;
+import org.quantumbadger.redreader.image.ShareImageCallback;
+import org.quantumbadger.redreader.image.StreamableAPI;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 
@@ -322,17 +338,7 @@ public class LinkHandler {
 	public static void onActionMenuItemSelected(String uri, AppCompatActivity activity, LinkAction action){
 		switch (action){
 			case SHARE:
-				final Intent mailer = new Intent(Intent.ACTION_SEND);
-				mailer.setType("text/plain");
-				mailer.putExtra(Intent.EXTRA_TEXT, uri);
-
-				if(PrefsUtility.pref_behaviour_sharing_dialog(
-						activity,
-						PreferenceManager.getDefaultSharedPreferences(activity))){
-					ShareOrderDialog.newInstance(mailer).show(activity.getSupportFragmentManager(), null);
-				} else {
-					activity.startActivity(Intent.createChooser(mailer, activity.getString(R.string.action_share)));
-				}
+				shareText(activity, null, uri);
 				break;
 			case COPY_URL:
 				ClipboardManager manager = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
@@ -874,6 +880,7 @@ public class LinkHandler {
 
 		return result;
 	}
+
 	private static class LinkMenuItem {
 		public final String title;
 		public final LinkAction action;
@@ -881,6 +888,33 @@ public class LinkHandler {
 		private LinkMenuItem(Context context, int titleRes, LinkAction action) {
 			this.title = context.getString(titleRes);
 			this.action = action;
+		}
+	}
+
+	public static void shareText(
+			@NonNull final AppCompatActivity activity,
+			@Nullable final String subject,
+			@NonNull final String text) {
+
+		final Intent mailer = new Intent(Intent.ACTION_SEND);
+		mailer.setType("text/plain");
+		mailer.putExtra(Intent.EXTRA_TEXT, text);
+
+		if(subject != null) {
+			mailer.putExtra(Intent.EXTRA_SUBJECT, subject);
+		}
+
+		if(PrefsUtility.pref_behaviour_sharing_dialog(
+				activity,
+				PreferenceManager.getDefaultSharedPreferences(activity))) {
+			ShareOrderDialog.newInstance(mailer).show(
+					activity.getSupportFragmentManager(),
+					null);
+
+		} else {
+			activity.startActivity(Intent.createChooser(
+					mailer,
+					activity.getString(R.string.action_share)));
 		}
 	}
 }

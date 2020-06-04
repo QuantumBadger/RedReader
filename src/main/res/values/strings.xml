@@ -1179,4 +1179,7 @@
 	<string name="search_results_query_only">Search for \"%s\"</string>
 	<string name="search_results_subreddit_only">Search on /r/%s</string>
 
+	<!-- 2020-04-06 -->
+	<string name="must_login_message">You need to be logged into a Reddit account to do this.</string>
+
 </resources>

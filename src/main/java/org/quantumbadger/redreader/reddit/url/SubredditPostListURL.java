@@ -19,12 +19,14 @@ package org.quantumbadger.redreader.reddit.url;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.reddit.PostSort;
-import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
+import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException;
+import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,23 +53,24 @@ public class SubredditPostListURL extends PostListingURL {
 		return new SubredditPostListURL(Type.ALL, null, null, null, null, null);
 	}
 
-	public static RedditURLParser.RedditURL getSubreddit(String subreddit) throws RedditSubreddit.InvalidSubredditNameException {
+	public static RedditURLParser.RedditURL getSubreddit(String subreddit) throws InvalidSubredditNameException {
+		return getSubreddit(new SubredditCanonicalId(subreddit));
+	}
 
-		Uri.Builder builder = new Uri.Builder();
-		builder.scheme(Constants.Reddit.getScheme()).authority(Constants.Reddit.getDomain());
+	public static RedditURLParser.RedditURL getSubreddit(SubredditCanonicalId subreddit) {
 
-		builder.encodedPath("/r/");
-		builder.appendPath(RedditSubreddit.stripRPrefix(subreddit));
-
-		return RedditURLParser.parse(builder.build());
+		return RedditURLParser.parse(new Uri.Builder()
+				.scheme(Constants.Reddit.getScheme())
+				.authority(Constants.Reddit.getDomain())
+				.encodedPath(subreddit.toString()).build());
 	}
 
 	public enum Type {
 		FRONTPAGE, ALL, SUBREDDIT, SUBREDDIT_COMBINATION, ALL_SUBTRACTION, POPULAR, RANDOM
 	}
 
-	public final Type type;
-	public final String subreddit;
+	@NonNull public final Type type;
+	@Nullable public final String subreddit;
 
 	@Nullable public final PostSort order;
 	@Nullable public final Integer limit;
@@ -334,8 +337,8 @@ public class SubredditPostListURL extends PostListingURL {
 
 			case SUBREDDIT:
 				try {
-					return RedditSubreddit.getCanonicalName(subreddit);
-				} catch(RedditSubreddit.InvalidSubredditNameException e) {
+					return new SubredditCanonicalId(subreddit).toString();
+				} catch(InvalidSubredditNameException e) {
 					return subreddit;
 				}
 

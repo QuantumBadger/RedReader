@@ -38,7 +38,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import org.apache.commons.lang3.StringUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -62,7 +61,9 @@ import org.quantumbadger.redreader.reddit.PostSort;
 import org.quantumbadger.redreader.reddit.RedditSubredditHistory;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
+import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
+import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.reddit.url.PostListingURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
@@ -73,9 +74,10 @@ import org.quantumbadger.redreader.reddit.url.UserPostListingURL;
 import org.quantumbadger.redreader.reddit.url.UserProfileURL;
 import org.quantumbadger.redreader.views.RedditPostView;
 
-import java.util.Locale;
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class MainActivity extends RefreshableActivity
 		implements MainMenuSelectionListener,
@@ -109,6 +111,9 @@ public class MainActivity extends RefreshableActivity
 	private boolean isMenuShown = true;
 
 	private SharedPreferences sharedPreferences;
+
+	private final AtomicReference<RedditSubredditSubscriptionManager.ListenerContext>
+			mSubredditSubscriptionListenerContext = new AtomicReference<>(null);
 
 	@Override
 	protected boolean baseActivityIsActionBarBackEnabled() {
@@ -377,7 +382,7 @@ public class MainActivity extends RefreshableActivity
 			ChangelogDialog.newInstance().show(getSupportFragmentManager(), null);
 		}
 
-		addSubscriptionListener();
+		recreateSubscriptionListener();
 
 		Boolean startInbox = getIntent().getBooleanExtra("isNewMessage", false);
 		if(startInbox) {
@@ -385,10 +390,31 @@ public class MainActivity extends RefreshableActivity
 		}
 	}
 
-	private void addSubscriptionListener() {
-		RedditSubredditSubscriptionManager
-				.getSingleton(this, RedditAccountManager.getInstance(this).getDefaultAccount())
-				.addListener(this);
+	private void recreateSubscriptionListener() {
+
+		final RedditSubredditSubscriptionManager.ListenerContext oldContext
+				= mSubredditSubscriptionListenerContext.getAndSet(
+						RedditSubredditSubscriptionManager
+								.getSingleton(
+										this,
+										RedditAccountManager.getInstance(this).getDefaultAccount())
+								.addListener(this));
+
+		if(oldContext != null) {
+			oldContext.removeListener();
+		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+
+		final RedditSubredditSubscriptionManager.ListenerContext listenerContext
+				= mSubredditSubscriptionListenerContext.get();
+
+		if(listenerContext != null) {
+			listenerContext.removeListener();
+		}
 	}
 
 	@Override
@@ -453,10 +479,13 @@ public class MainActivity extends RefreshableActivity
 				final String[] typeReturnValues
 						= getResources().getStringArray(R.array.mainmenu_custom_destination_type_return);
 
-				final ArrayAdapter<String> autocompleteAdapter = new ArrayAdapter<>(
+				final ArrayList<SubredditCanonicalId> subredditHistory = RedditSubredditHistory.getSubredditsSorted(
+						RedditAccountManager.getInstance(this).getDefaultAccount());
+
+				final ArrayAdapter<SubredditCanonicalId> autocompleteAdapter = new ArrayAdapter<>(
 						this,
 						android.R.layout.simple_dropdown_item_1line,
-						RedditSubredditHistory.getSubredditsSorted(RedditAccountManager.getInstance(this).getDefaultAccount()).toArray(new String[] {}));
+						subredditHistory.toArray(new SubredditCanonicalId[0]));
 
 				editText.setAdapter(autocompleteAdapter);
 				editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -549,7 +578,7 @@ public class MainActivity extends RefreshableActivity
                     } else {
                         onSelected(redditURL.asSubredditPostListURL());
                     }
-                } catch(RedditSubreddit.InvalidSubredditNameException e){
+                } catch(InvalidSubredditNameException e){
                     General.quickToast(this, R.string.mainmenu_custom_invalid_name);
                 }
                 break;
@@ -618,7 +647,7 @@ public class MainActivity extends RefreshableActivity
 	}
 
 	public void onRedditAccountChanged() {
-		addSubscriptionListener();
+		recreateSubscriptionListener();
 		postInvalidateOptionsMenu();
 		requestRefresh(RefreshableFragment.ALL, false);
 	}
@@ -814,14 +843,14 @@ public class MainActivity extends RefreshableActivity
 				subredditPinState = PrefsUtility.pref_pinned_subreddits_check(
 						this,
 						sharedPreferences,
-						postListingFragment.getSubreddit().getCanonicalName());
+						postListingFragment.getSubreddit().getCanonicalId());
 
 				subredditBlockedState = PrefsUtility.pref_blocked_subreddits_check(
 						this,
 						sharedPreferences,
-						postListingFragment.getSubreddit().getCanonicalName());
+						postListingFragment.getSubreddit().getCanonicalId());
 
-			} catch(RedditSubreddit.InvalidSubredditNameException e) {
+			} catch(InvalidSubredditNameException e) {
 				subredditPinState = null;
 				subredditBlockedState = null;
 			}
@@ -901,7 +930,7 @@ public class MainActivity extends RefreshableActivity
 	public void onSubmitPost() {
 		final Intent intent = new Intent(this, PostSubmitActivity.class);
 		if(postListingController.isSubreddit()) {
-			intent.putExtra("subreddit", postListingController.subredditCanonicalName());
+			intent.putExtra("subreddit", postListingController.subredditCanonicalName().toString());
 		}
 		startActivity(intent);
 	}
@@ -927,13 +956,7 @@ public class MainActivity extends RefreshableActivity
 
 	@Override
 	public void onSidebar() {
-		final Intent intent = new Intent(this, HtmlViewActivity.class);
-		intent.putExtra("html", postListingFragment.getSubreddit().getSidebarHtml(PrefsUtility.isNightMode(this)));
-		intent.putExtra("title", String.format(
-				Locale.US, "%s: %s",
-				getString(R.string.sidebar_activity_title),
-				postListingFragment.getSubreddit().url));
-		startActivityForResult(intent, 1);
+		postListingFragment.getSubreddit().showSidebarActivity(this);
 	}
 
 	@Override
@@ -945,9 +968,9 @@ public class MainActivity extends RefreshableActivity
 			PrefsUtility.pref_pinned_subreddits_add(
 					this,
 					sharedPreferences,
-					postListingFragment.getSubreddit().getCanonicalName());
+					postListingFragment.getSubreddit().getCanonicalId());
 
-		} catch(RedditSubreddit.InvalidSubredditNameException e) {
+		} catch(InvalidSubredditNameException e) {
 			throw new RuntimeException(e);
 		}
 
@@ -963,9 +986,9 @@ public class MainActivity extends RefreshableActivity
 			PrefsUtility.pref_pinned_subreddits_remove(
 					this,
 					sharedPreferences,
-					postListingFragment.getSubreddit().getCanonicalName());
+					postListingFragment.getSubreddit().getCanonicalId());
 
-		} catch(RedditSubreddit.InvalidSubredditNameException e) {
+		} catch(InvalidSubredditNameException e) {
 			throw new RuntimeException(e);
 		}
 
@@ -980,9 +1003,9 @@ public class MainActivity extends RefreshableActivity
 			PrefsUtility.pref_blocked_subreddits_add(
 					this,
 					sharedPreferences,
-					postListingFragment.getSubreddit().getCanonicalName());
+					postListingFragment.getSubreddit().getCanonicalId());
 
-		} catch(RedditSubreddit.InvalidSubredditNameException e) {
+		} catch(InvalidSubredditNameException e) {
 			throw new RuntimeException(e);
 		}
 
@@ -997,9 +1020,9 @@ public class MainActivity extends RefreshableActivity
 			PrefsUtility.pref_blocked_subreddits_remove(
 					this,
 					sharedPreferences,
-					postListingFragment.getSubreddit().getCanonicalName());
+					postListingFragment.getSubreddit().getCanonicalId());
 
-		} catch(RedditSubreddit.InvalidSubredditNameException e) {
+		} catch(InvalidSubredditNameException e) {
 			throw new RuntimeException(e);
 		}
 

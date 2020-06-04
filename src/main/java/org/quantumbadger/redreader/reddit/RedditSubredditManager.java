@@ -21,10 +21,15 @@ import android.content.Context;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.TimestampBound;
-import org.quantumbadger.redreader.io.*;
+import org.quantumbadger.redreader.io.RawObjectDB;
+import org.quantumbadger.redreader.io.RequestResponseHandler;
+import org.quantumbadger.redreader.io.ThreadedRawObjectDB;
+import org.quantumbadger.redreader.io.UpdatedVersionListener;
+import org.quantumbadger.redreader.io.WeakCache;
 import org.quantumbadger.redreader.reddit.api.RedditAPIIndividualSubredditDataRequester;
 import org.quantumbadger.redreader.reddit.api.SubredditRequestFailure;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
+import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -48,7 +53,7 @@ public class RedditSubredditManager {
 	private static RedditSubredditManager singleton;
 	private static RedditAccount singletonUser;
 
-	private final WeakCache<String, RedditSubreddit, SubredditRequestFailure> subredditCache;
+	private final WeakCache<SubredditCanonicalId, RedditSubreddit, SubredditRequestFailure> subredditCache;
 
 	public static synchronized RedditSubredditManager getInstance(Context context, RedditAccount user) {
 
@@ -64,10 +69,10 @@ public class RedditSubredditManager {
 
 		// Subreddit cache
 
-		final RawObjectDB<String, RedditSubreddit> subredditDb
+		final RawObjectDB<SubredditCanonicalId, RedditSubreddit> subredditDb
 				= new RawObjectDB<>(context, getDbFilename("subreddits", user), RedditSubreddit.class);
 
-		final ThreadedRawObjectDB<String, RedditSubreddit, SubredditRequestFailure> subredditDbWrapper
+		final ThreadedRawObjectDB<SubredditCanonicalId, RedditSubreddit, SubredditRequestFailure> subredditDbWrapper
 				= new ThreadedRawObjectDB<>(subredditDb, new RedditAPIIndividualSubredditDataRequester(context, user));
 
 		subredditCache = new WeakCache<>(subredditDbWrapper);
@@ -77,18 +82,17 @@ public class RedditSubredditManager {
 		return General.sha1(user.username.getBytes()) + "_" + type + "_subreddits.db";
 	}
 
-	public void getSubreddit(String subredditCanonicalId,
+	public void getSubreddit(SubredditCanonicalId subredditCanonicalId,
 							 TimestampBound timestampBound,
 							 RequestResponseHandler<RedditSubreddit, SubredditRequestFailure> handler,
-							 UpdatedVersionListener<String, RedditSubreddit> updatedVersionListener) {
+							 UpdatedVersionListener<SubredditCanonicalId, RedditSubreddit> updatedVersionListener) {
 
-		final String subredditDisplayName = RedditSubreddit.getDisplayNameFromCanonicalName(subredditCanonicalId);
-		subredditCache.performRequest(subredditDisplayName, timestampBound, handler, updatedVersionListener);
+		subredditCache.performRequest(subredditCanonicalId, timestampBound, handler, updatedVersionListener);
 	}
 
-	public void getSubreddits(Collection<String> ids,
+	public void getSubreddits(Collection<SubredditCanonicalId> ids,
 							 TimestampBound timestampBound,
-							 RequestResponseHandler<HashMap<String, RedditSubreddit>, SubredditRequestFailure> handler) {
+							 RequestResponseHandler<HashMap<SubredditCanonicalId, RedditSubreddit>, SubredditRequestFailure> handler) {
 
 		subredditCache.performRequest(ids, timestampBound, handler);
 	}

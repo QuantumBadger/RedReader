@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.views.webview;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.AttributeSet;
@@ -138,6 +139,19 @@ public class WebViewFixed extends WebView {
 	{
 		addJavascriptInterface();
 		super.loadDataWithBaseURL(baseUrl, data, mimeType, encoding, historyUrl);
+	}
+
+	public void loadHtmlUTF8WithBaseURL(final String baseUrl, final String html) {
+
+		final String mimeType;
+
+		if(Build.VERSION.SDK_INT < 21) {
+			mimeType = "text/html";
+		} else {
+			mimeType = "text/html; charset=utf-8";
+		}
+
+		loadDataWithBaseURL(baseUrl, html, mimeType, "UTF-8", null);
 	}
 
 	@Override

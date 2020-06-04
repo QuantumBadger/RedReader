@@ -27,54 +27,61 @@
 	android:paddingLeft="6dp">
 
 	<ImageButton
-			android:id="@+id/post_toolbar_botton_add_upvote"
+			android:id="@+id/subreddit_toolbar_button_subscribe"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:padding="12dp"
 			android:background="?rrThemedButtonSelector"
-			android:contentDescription="@string/action_upvote"
-			android:src="?rrIconArrowUpBold" />
+			android:contentDescription="@string/action_subscribe_subreddit"
+			android:src="?rrIconStarFilledOff" />
 
 	<ImageButton
-			android:id="@+id/post_toolbar_botton_remove_upvote"
+			android:id="@+id/subreddit_toolbar_button_unsubscribe"
 			android:visibility="gone"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:padding="12dp"
 			android:background="?rrThemedButtonSelector"
-			android:contentDescription="@string/action_upvote_remove"
-			android:src="@drawable/arrow_up_bold_orangered" />
+			android:contentDescription="@string/action_unsubscribe_subreddit"
+			android:src="?rrIconStarFilled" />
+
+	<FrameLayout
+			android:id="@+id/subreddit_toolbar_button_subscribe_loading"
+			android:visibility="gone"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="12dp"/>
 
 	<ImageButton
-			android:id="@+id/post_toolbar_botton_add_downvote"
+			android:id="@+id/subreddit_toolbar_button_pin"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:padding="12dp"
 			android:background="?rrThemedButtonSelector"
-			android:contentDescription="@string/action_downvote"
-			android:src="?rrIconArrowDownBold" />
+			android:contentDescription="@string/pin_subreddit"
+			android:src="?rrIconPinOff" />
 
 	<ImageButton
-			android:id="@+id/post_toolbar_botton_remove_downvote"
+			android:id="@+id/subreddit_toolbar_button_unpin"
 			android:visibility="gone"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:padding="12dp"
 			android:background="?rrThemedButtonSelector"
-			android:contentDescription="@string/action_downvote_remove"
-			android:src="@drawable/arrow_down_bold_periwinkle" />
+			android:contentDescription="@string/unpin_subreddit"
+			android:src="?rrIconPin" />
 
 	<ImageButton
-			android:id="@+id/post_toolbar_botton_reply"
+			android:id="@+id/subreddit_toolbar_button_submit"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:padding="12dp"
 			android:background="?rrThemedButtonSelector"
-			android:contentDescription="@string/action_reply"
+			android:contentDescription="@string/options_submit_post"
 			android:src="?rrIconReply" />
 
 	<ImageButton
-			android:id="@+id/post_toolbar_botton_share"
+			android:id="@+id/subreddit_toolbar_button_share"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:padding="12dp"
@@ -83,11 +90,12 @@
 			android:src="?rrIconShare" />
 
 	<ImageButton
-			android:id="@+id/post_toolbar_botton_more"
+			android:id="@+id/subreddit_toolbar_button_info"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:padding="12dp"
 			android:background="?rrThemedButtonSelector"
-			android:src="?rrIconOverflow" />
+			android:contentDescription="@string/options_sidebar"
+			android:src="?rrIconInfo" />
 
 </LinearLayout>

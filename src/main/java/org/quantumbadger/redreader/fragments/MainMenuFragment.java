@@ -37,6 +37,7 @@ import org.quantumbadger.redreader.io.RequestResponseHandler;
 import org.quantumbadger.redreader.reddit.api.RedditMultiredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.api.SubredditRequestFailure;
+import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
 import org.quantumbadger.redreader.reddit.url.PostListingURL;
 import org.quantumbadger.redreader.views.ScrollbarRecyclerViewManager;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
@@ -46,8 +47,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.Collection;
 import java.util.HashSet;
 
-public class MainMenuFragment extends RRFragment
-		implements MainMenuSelectionListener,
+public class MainMenuFragment extends RRFragment implements
+		MainMenuSelectionListener,
 		RedditSubredditSubscriptionManager.SubredditSubscriptionStateChangeListener,
 		RedditMultiredditSubscriptionManager.MultiredditListChangeListener {
 
@@ -131,14 +132,14 @@ public class MainMenuFragment extends RRFragment
 				}
 			}, TimestampBound.NONE);
 
-			subredditSubscriptionManager.triggerUpdate(new RequestResponseHandler<HashSet<String>, SubredditRequestFailure>() {
+			subredditSubscriptionManager.triggerUpdate(new RequestResponseHandler<HashSet<SubredditCanonicalId>, SubredditRequestFailure>() {
 				@Override
 				public void onRequestFailed(SubredditRequestFailure failureReason) {
 					onSubredditError(failureReason.asError(context));
 				}
 
 				@Override
-				public void onRequestSuccess(HashSet<String> result, long timeCached) {
+				public void onRequestSuccess(HashSet<SubredditCanonicalId> result, long timeCached) {
 					subredditSubscriptionManager.addListener(MainMenuFragment.this);
 					onSubredditSubscriptionsChanged(result);
 				}
@@ -181,7 +182,7 @@ public class MainMenuFragment extends RRFragment
 		return null;
 	}
 
-	public void onSubredditSubscriptionsChanged(final Collection<String> subscriptions) {
+	public void onSubredditSubscriptionsChanged(final Collection<SubredditCanonicalId> subscriptions) {
 		mManager.setSubreddits(subscriptions);
 	}
 

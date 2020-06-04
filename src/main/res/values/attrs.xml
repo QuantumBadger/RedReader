@@ -90,5 +90,9 @@
 	<attr name="rrIconOverflow" format="reference" />
 	<attr name="rrIconArrowUpBold" format="reference" />
 	<attr name="rrIconArrowDownBold" format="reference" />
+	<attr name="rrIconStarFilledOff" format="reference" />
+	<attr name="rrIconPin" format="reference" />
+	<attr name="rrIconPinOff" format="reference" />
+	<attr name="rrIconMessagePlus" format="reference" />
 
 </resources>

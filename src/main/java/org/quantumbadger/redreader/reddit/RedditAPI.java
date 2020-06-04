@@ -37,6 +37,7 @@ import org.quantumbadger.redreader.reddit.api.SubredditRequestFailure;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.things.RedditThing;
 import org.quantumbadger.redreader.reddit.things.RedditUser;
+import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -400,12 +401,12 @@ public final class RedditAPI {
 	public static void subscriptionAction(final CacheManager cm,
 							  final APIResponseHandler.ActionResponseHandler responseHandler,
 							  final RedditAccount user,
-							  final String subredditCanonicalName,
+							  final SubredditCanonicalId subredditId,
 							  final @RedditSubredditAction int action,
 							  final Context context) {
 
 		RedditSubredditManager.getInstance(context, user).getSubreddit(
-				subredditCanonicalName,
+				subredditId,
 				TimestampBound.ANY,
 				new RequestResponseHandler<RedditSubreddit, SubredditRequestFailure>() {
 
@@ -416,7 +417,6 @@ public final class RedditAPI {
 								failureReason.t,
 								failureReason.statusLine,
 								failureReason.readableMessage);
-
 					}
 
 					@Override

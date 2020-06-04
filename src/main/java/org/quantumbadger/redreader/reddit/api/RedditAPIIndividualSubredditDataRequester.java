@@ -29,8 +29,10 @@ import org.quantumbadger.redreader.io.CacheDataSource;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.RedditSubredditHistory;
+import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.things.RedditThing;
+import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -39,7 +41,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class RedditAPIIndividualSubredditDataRequester implements CacheDataSource<String, RedditSubreddit, SubredditRequestFailure> {
+public class RedditAPIIndividualSubredditDataRequester implements CacheDataSource<SubredditCanonicalId, RedditSubreddit, SubredditRequestFailure> {
 
 	private static final String TAG = "IndividualSRDataReq";
 
@@ -51,12 +53,13 @@ public class RedditAPIIndividualSubredditDataRequester implements CacheDataSourc
 		this.user = user;
 	}
 
-	public void performRequest(final String subredditCanonicalName,
+	@Override
+	public void performRequest(final SubredditCanonicalId subredditCanonicalId,
 							   final TimestampBound timestampBound,
 							   final RequestResponseHandler<RedditSubreddit, SubredditRequestFailure> handler) {
 
 		final CacheRequest aboutSubredditCacheRequest = new CacheRequest(
-				Constants.Reddit.getUri("/r/" + subredditCanonicalName + "/about.json"),
+				Constants.Reddit.getUri(subredditCanonicalId.toString() + "/about.json"),
 				user,
 				null,
 				Constants.Priority.API_SUBREDDIT_INVIDIVUAL,
@@ -96,7 +99,7 @@ public class RedditAPIIndividualSubredditDataRequester implements CacheDataSourc
 					subreddit.downloadTime = timestamp;
 					handler.onRequestSuccess(subreddit, timestamp);
 
-					RedditSubredditHistory.addSubreddit(user, subredditCanonicalName);
+					RedditSubredditHistory.addSubreddit(user, subredditCanonicalId);
 
 				} catch(Exception e) {
 					handler.onRequestFailed(new SubredditRequestFailure(CacheRequest.REQUEST_FAILURE_PARSE, e, null, "Parse error", url));
@@ -107,13 +110,14 @@ public class RedditAPIIndividualSubredditDataRequester implements CacheDataSourc
 		CacheManager.getInstance(context).makeRequest(aboutSubredditCacheRequest);
 	}
 
-	public void performRequest(final Collection<String> subredditCanonicalIds,
+	@Override
+	public void performRequest(final Collection<SubredditCanonicalId> subredditCanonicalIds,
 							   final TimestampBound timestampBound,
-							   final RequestResponseHandler<HashMap<String, RedditSubreddit>, SubredditRequestFailure> handler) {
+							   final RequestResponseHandler<HashMap<SubredditCanonicalId, RedditSubreddit>, SubredditRequestFailure> handler) {
 
 		// TODO if there's a bulk API to do this, that would be good... :)
 
-		final HashMap<String, RedditSubreddit> result = new HashMap<>();
+		final HashMap<SubredditCanonicalId, RedditSubreddit> result = new HashMap<>();
 		final AtomicBoolean stillOkay = new AtomicBoolean(true);
 		final AtomicInteger requestsToGo = new AtomicInteger(subredditCanonicalIds.size());
 		final AtomicLong oldestResult = new AtomicLong(Long.MAX_VALUE);
@@ -135,14 +139,15 @@ public class RedditAPIIndividualSubredditDataRequester implements CacheDataSourc
 				synchronized(result) {
 					if(stillOkay.get()) {
 
-						result.put(innerResult.getKey(), innerResult);
-						oldestResult.set(Math.min(oldestResult.get(), timeCached));
-
 						try
 						{
-							RedditSubredditHistory.addSubreddit(user, innerResult.getCanonicalName());
+							final SubredditCanonicalId canonicalId = innerResult.getCanonicalId();
+
+							result.put(canonicalId, innerResult);
+							oldestResult.set(Math.min(oldestResult.get(), timeCached));
+							RedditSubredditHistory.addSubreddit(user, canonicalId);
 						}
-						catch(RedditSubreddit.InvalidSubredditNameException e)
+						catch(final InvalidSubredditNameException e)
 						{
 							Log.e(TAG, "Invalid subreddit name " + innerResult.name, e);
 						}
@@ -155,7 +160,7 @@ public class RedditAPIIndividualSubredditDataRequester implements CacheDataSourc
 			}
 		};
 
-		for(String subredditCanonicalId : subredditCanonicalIds) {
+		for(final SubredditCanonicalId subredditCanonicalId : subredditCanonicalIds) {
 			performRequest(subredditCanonicalId, timestampBound, innerHandler);
 		}
 	}

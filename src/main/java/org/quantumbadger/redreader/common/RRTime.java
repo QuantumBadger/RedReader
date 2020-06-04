@@ -19,7 +19,11 @@ package org.quantumbadger.redreader.common;
 
 import android.content.Context;
 import android.text.format.DateFormat;
-import org.joda.time.*;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Duration;
+import org.joda.time.Period;
+import org.joda.time.PeriodType;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.PeriodFormatter;
@@ -84,5 +88,17 @@ public class RRTime {
 
 	public static long since(long timestamp) {
 		return utcCurrentTimeMillis() - timestamp;
+	}
+
+	public static long secsToMs(long secs) {
+		return secs * 1000;
+	}
+
+	public static long minsToMs(long mins) {
+		return secsToMs(mins * 60);
+	}
+
+	public static long hoursToMs(long hours) {
+		return minsToMs(hours * 60);
 	}
 }

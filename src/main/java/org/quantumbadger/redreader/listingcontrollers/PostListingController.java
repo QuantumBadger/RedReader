@@ -25,7 +25,8 @@ import android.support.v7.app.AppCompatActivity;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
 import org.quantumbadger.redreader.reddit.PostSort;
-import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
+import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException;
+import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
 import org.quantumbadger.redreader.reddit.url.PostListingURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 import org.quantumbadger.redreader.reddit.url.SubredditPostListURL;
@@ -159,20 +160,20 @@ public class PostListingController {
 		return url.pathType() == RedditURLParser.USER_POST_LISTING_URL;
 	}
 
-	public final String subredditCanonicalName() {
+	public final SubredditCanonicalId subredditCanonicalName() {
 
 		if(url.pathType() == RedditURLParser.SUBREDDIT_POST_LISTING_URL
 				&& url.asSubredditPostListURL().type == SubredditPostListURL.Type.SUBREDDIT) {
 			try {
-				return RedditSubreddit.getCanonicalName(url.asSubredditPostListURL().subreddit);
-			} catch(RedditSubreddit.InvalidSubredditNameException e) {
+				return new SubredditCanonicalId(url.asSubredditPostListURL().subreddit);
+			} catch(InvalidSubredditNameException e) {
 				throw new RuntimeException(e);
 			}
 		} else if(url.pathType() == RedditURLParser.SEARCH_POST_LISTING_URL
 				&& url.asSearchPostListURL().subreddit != null) {
 			try {
-				return RedditSubreddit.getCanonicalName(url.asSearchPostListURL().subreddit);
-			} catch(RedditSubreddit.InvalidSubredditNameException e) {
+				return new SubredditCanonicalId(url.asSearchPostListURL().subreddit);
+			} catch(InvalidSubredditNameException e) {
 				throw new RuntimeException(e);
 			}
 		}

@@ -24,6 +24,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -44,8 +45,19 @@ import org.quantumbadger.redreader.activities.SessionChangeListener;
 import org.quantumbadger.redreader.adapters.PostListingManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.cache.downloadstrategy.*;
-import org.quantumbadger.redreader.common.*;
+import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategy;
+import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways;
+import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached;
+import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfTimestampOutsideBounds;
+import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyNever;
+import org.quantumbadger.redreader.common.AndroidCommon;
+import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.RRTime;
+import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
 import org.quantumbadger.redreader.image.ImageInfo;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
@@ -60,10 +72,16 @@ import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager
 import org.quantumbadger.redreader.reddit.api.SubredditRequestFailure;
 import org.quantumbadger.redreader.reddit.prepared.RedditParsedPost;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
+import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.things.RedditThing;
-import org.quantumbadger.redreader.reddit.url.*;
+import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
+import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
+import org.quantumbadger.redreader.reddit.url.PostListingURL;
+import org.quantumbadger.redreader.reddit.url.RedditURLParser;
+import org.quantumbadger.redreader.reddit.url.SearchPostListURL;
+import org.quantumbadger.redreader.reddit.url.SubredditPostListURL;
 import org.quantumbadger.redreader.views.PostListingHeader;
 import org.quantumbadger.redreader.views.RedditPostView;
 import org.quantumbadger.redreader.views.ScrollbarRecyclerViewManager;
@@ -72,7 +90,10 @@ import org.quantumbadger.redreader.views.liststatus.ErrorView;
 
 import java.net.URI;
 import java.text.NumberFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class PostListingFragment extends RRFragment
@@ -236,7 +257,7 @@ public class PostListingFragment extends RRFragment
 
 			case RedditURLParser.USER_POST_LISTING_URL:
 			case RedditURLParser.MULTIREDDIT_POST_LISTING_URL:
-				setHeader(mPostListingURL.humanReadableName(getActivity(), true), mPostListingURL.humanReadableUrl());
+				setHeader(mPostListingURL.humanReadableName(getActivity(), true), mPostListingURL.humanReadableUrl(), null);
 				CacheManager.getInstance(context).makeRequest(mRequest);
 				break;
 
@@ -252,7 +273,7 @@ public class PostListingFragment extends RRFragment
 					case SUBREDDIT_COMBINATION:
 					case ALL_SUBTRACTION:
 					case POPULAR:
-						setHeader(mPostListingURL.humanReadableName(getActivity(), true), mPostListingURL.humanReadableUrl());
+						setHeader(mPostListingURL.humanReadableName(getActivity(), true), mPostListingURL.humanReadableUrl(), null);
 						CacheManager.getInstance(context).makeRequest(mRequest);
 						break;
 
@@ -299,8 +320,8 @@ public class PostListingFragment extends RRFragment
 						try {
 							RedditSubredditManager
 									.getInstance(getActivity(), RedditAccountManager.getInstance(getActivity()).getDefaultAccount())
-									.getSubreddit(RedditSubreddit.getCanonicalName(subredditPostListURL.subreddit), TimestampBound.NONE, subredditHandler, null);
-						} catch(RedditSubreddit.InvalidSubredditNameException e) {
+									.getSubreddit(new SubredditCanonicalId(subredditPostListURL.subreddit), TimestampBound.NONE, subredditHandler, null);
+						} catch(InvalidSubredditNameException e) {
 							throw new RuntimeException(e);
 						}
 						break;
@@ -349,7 +370,7 @@ public class PostListingFragment extends RRFragment
 						mSession,
 						mRequest.downloadStrategy,
 						true);
-			} catch (RedditSubreddit.InvalidSubredditNameException e) {
+			} catch (InvalidSubredditNameException e) {
 				throw new RuntimeException(e);
 			}
 		}
@@ -370,15 +391,25 @@ public class PostListingFragment extends RRFragment
 		getActivity().runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				setHeader(StringEscapeUtils.unescapeHtml4(mSubreddit.title), subtitle);
+				setHeader(StringEscapeUtils.unescapeHtml4(mSubreddit.title), subtitle, mSubreddit);
 				getActivity().invalidateOptionsMenu();
 			}
 		});
 
 	}
 
-	private void setHeader(final String title, final String subtitle) {
-        final PostListingHeader postListingHeader = new PostListingHeader(getActivity(), title, subtitle);
+	private void setHeader(
+			@NonNull final String title,
+			@NonNull final String subtitle,
+			@Nullable final RedditSubreddit subreddit) {
+
+		final PostListingHeader postListingHeader = new PostListingHeader(
+        		getActivity(),
+				title,
+				subtitle,
+				mPostListingURL,
+				subreddit);
+
         setHeader(postListingHeader);
 	}
 
@@ -476,8 +507,8 @@ public class PostListingFragment extends RRFragment
 		try {
 			RedditSubredditSubscriptionManager
 					.getSingleton(getActivity(), RedditAccountManager.getInstance(getActivity()).getDefaultAccount())
-					.subscribe(RedditSubreddit.getCanonicalName(mPostListingURL.asSubredditPostListURL().subreddit), getActivity());
-		} catch(RedditSubreddit.InvalidSubredditNameException e) {
+					.subscribe(new SubredditCanonicalId(mPostListingURL.asSubredditPostListURL().subreddit), getActivity());
+		} catch(InvalidSubredditNameException e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -489,8 +520,8 @@ public class PostListingFragment extends RRFragment
 		try {
 			RedditSubredditSubscriptionManager
 					.getSingleton(getActivity(), RedditAccountManager.getInstance(getActivity()).getDefaultAccount())
-					.unsubscribe(mSubreddit.getCanonicalName(), getActivity());
-		} catch(RedditSubreddit.InvalidSubredditNameException e) {
+					.unsubscribe(mSubreddit.getCanonicalId(), getActivity());
+		} catch(InvalidSubredditNameException e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -576,8 +607,8 @@ public class PostListingFragment extends RRFragment
 
 			final AppCompatActivity activity = getActivity();
 
-			// TODO pref (currently 10 mins)
-			if(firstDownload && fromCache && RRTime.since(timestamp) > 10 * 60 * 1000) {
+			// One hour (matches default refresh value)
+			if(firstDownload && fromCache && RRTime.since(timestamp) > 60 * 60 * 1000) {
 				AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
 					@Override
 					public void run() {
@@ -650,7 +681,9 @@ public class PostListingFragment extends RRFragment
 								|| mPostListingURL.asSubredditPostListURL().type == SubredditPostListURL.Type.ALL_SUBTRACTION
 								|| mPostListingURL.asSubredditPostListURL().type == SubredditPostListURL.Type.POPULAR);
 
-				final List<String> blockedSubreddits = PrefsUtility.pref_blocked_subreddits(activity, mSharedPreferences); // Grab this so we don't have to pull from the prefs every post
+				// Grab this so we don't have to pull from the prefs every post
+				final HashSet<SubredditCanonicalId> blockedSubreddits
+						= new HashSet<>(PrefsUtility.pref_blocked_subreddits(activity, mSharedPreferences));
 
 				Log.i(TAG, "Precaching images: " + (precacheImages ? "ON" : "OFF"));
 				Log.i(TAG, "Precaching comments: " + (precacheComments ? "ON" : "OFF"));
@@ -674,7 +707,8 @@ public class PostListingFragment extends RRFragment
 
 					mAfter = post.name;
 
-					final boolean isPostBlocked = subredditFilteringEnabled && getIsPostBlocked(blockedSubreddits, post);
+					final boolean isPostBlocked = subredditFilteringEnabled
+							&& blockedSubreddits.contains(new SubredditCanonicalId(post.subreddit));
 
 					if(!isPostBlocked
 							&& (!post.over_18 || isNsfwAllowed)
@@ -711,7 +745,8 @@ public class PostListingFragment extends RRFragment
 									null,
 									Constants.Priority.COMMENT_PRECACHE,
 									positionInList,
-									DownloadStrategyIfNotCached.INSTANCE,
+									new DownloadStrategyIfTimestampOutsideBounds(
+											TimestampBound.notOlderThan(RRTime.minsToMs(15))),
 									Constants.FileType.COMMENT_LIST,
 									DOWNLOAD_QUEUE_REDDIT_API,
 									false, // Don't parse the JSON
@@ -824,21 +859,6 @@ public class PostListingFragment extends RRFragment
 				notifyFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "Parse failure");
 			}
 		}
-	}
-
-	private boolean getIsPostBlocked(
-			@NonNull final List<String> blockedSubreddits,
-			@NonNull final RedditPost post) throws RedditSubreddit.InvalidSubredditNameException {
-
-		final String canonicalName = RedditSubreddit.getCanonicalName(post.subreddit);
-
-		for (String blockedSubredditName : blockedSubreddits) {
-			if (blockedSubredditName.equalsIgnoreCase(canonicalName)) {
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 	private void precacheImage(

@@ -40,7 +40,6 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.common.AndroidCommon;
@@ -52,10 +51,10 @@ import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 import org.quantumbadger.redreader.views.RedditPostView;
-import org.quantumbadger.redreader.views.webview.VideoEnabledWebChromeClient;
-import org.quantumbadger.redreader.views.webview.WebViewFixed;
 import org.quantumbadger.redreader.views.bezelmenu.BezelSwipeOverlay;
 import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
+import org.quantumbadger.redreader.views.webview.VideoEnabledWebChromeClient;
+import org.quantumbadger.redreader.views.webview.WebViewFixed;
 
 import java.util.Locale;
 import java.util.Timer;
@@ -245,7 +244,7 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 		if (mUrl != null) {
 			webView.loadUrl(mUrl);
 		} else {
-			webView.loadDataWithBaseURL("https://reddit.com/", html, "text/html; charset=UTF-8", null, null);
+			webView.loadHtmlUTF8WithBaseURL("https://reddit.com/", html);
 		}
 
 		webView.setWebViewClient(new WebViewClient() {

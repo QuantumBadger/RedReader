@@ -49,10 +49,18 @@ public abstract class APIResponseHandler {
 
 	protected abstract void onCallbackException(Throwable t);
 
-	protected abstract void onFailure(@CacheRequest.RequestFailureType int type, Throwable t, Integer status, String readableMessage);
+	protected abstract void onFailure(
+			@CacheRequest.RequestFailureType int type,
+			Throwable t,
+			Integer status,
+			String readableMessage);
 	protected abstract void onFailure(APIFailureType type);
 
-	public final void notifyFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
+	public final void notifyFailure(
+			final @CacheRequest.RequestFailureType int type,
+			final Throwable t,
+			final Integer status,
+			final String readableMessage) {
 		try {
 			onFailure(type, t, status, readableMessage);
 		} catch(Throwable t1) {

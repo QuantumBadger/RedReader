@@ -40,6 +40,7 @@ import org.quantumbadger.redreader.listingcontrollers.PostListingController;
 import org.quantumbadger.redreader.reddit.PostSort;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
+import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.reddit.url.PostListingURL;
@@ -50,6 +51,7 @@ import org.quantumbadger.redreader.views.RedditPostView;
 
 import java.util.Locale;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class PostListingActivity extends RefreshableActivity
 		implements RedditAccountChangeListener,
@@ -64,6 +66,9 @@ public class PostListingActivity extends RefreshableActivity
 
 	private PostListingFragment fragment;
 	private PostListingController controller;
+
+	private final AtomicReference<RedditSubredditSubscriptionManager.ListenerContext>
+			mSubredditSubscriptionListenerContext = new AtomicReference<>(null);
 
 	public void onCreate(final Bundle savedInstanceState) {
 
@@ -114,7 +119,7 @@ public class PostListingActivity extends RefreshableActivity
 			throw new RuntimeException("Nothing to show!");
 		}
 
-		addSubscriptionListener();
+		recreateSubscriptionListener();
 	}
 
 	@Override
@@ -133,6 +138,18 @@ public class PostListingActivity extends RefreshableActivity
 
 		if(fragment != null) {
 			outState.putBundle(SAVEDSTATE_FRAGMENT, fragment.onSaveInstanceState());
+		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+
+		final RedditSubredditSubscriptionManager.ListenerContext listenerContext
+				= mSubredditSubscriptionListenerContext.get();
+
+		if(listenerContext != null) {
+			listenerContext.removeListener();
 		}
 	}
 
@@ -170,14 +187,14 @@ public class PostListingActivity extends RefreshableActivity
 				subredditPinState = PrefsUtility.pref_pinned_subreddits_check(
 						this,
 						PreferenceManager.getDefaultSharedPreferences(this),
-						fragment.getSubreddit().getCanonicalName());
+						fragment.getSubreddit().getCanonicalId());
 
 				subredditBlockedState = PrefsUtility.pref_blocked_subreddits_check(
 						this,
 						PreferenceManager.getDefaultSharedPreferences(this),
-						fragment.getSubreddit().getCanonicalName());
+						fragment.getSubreddit().getCanonicalId());
 
-			} catch(RedditSubreddit.InvalidSubredditNameException e) {
+			} catch(InvalidSubredditNameException e) {
 				subredditPinState = null;
 				subredditBlockedState = null;
 			}
@@ -208,7 +225,7 @@ public class PostListingActivity extends RefreshableActivity
 					String newSubreddit = RedditSubreddit.stripRPrefix(fragment.getSubreddit().url);
 					url = url.changeSubreddit(newSubreddit);
 					controller = new PostListingController(url, this);
-				} catch (RedditSubreddit.InvalidSubredditNameException e) {
+				} catch (InvalidSubredditNameException e) {
 					throw new RuntimeException(e);
 				}
 			}
@@ -216,14 +233,23 @@ public class PostListingActivity extends RefreshableActivity
 		return true;
 	}
 
-	private void addSubscriptionListener() {
-		RedditSubredditSubscriptionManager
-				.getSingleton(this, RedditAccountManager.getInstance(this).getDefaultAccount())
-				.addListener(this);
+	private void recreateSubscriptionListener() {
+
+		final RedditSubredditSubscriptionManager.ListenerContext oldContext
+				= mSubredditSubscriptionListenerContext.getAndSet(
+						RedditSubredditSubscriptionManager
+								.getSingleton(
+										this,
+										RedditAccountManager.getInstance(this).getDefaultAccount())
+								.addListener(this));
+
+		if(oldContext != null) {
+			oldContext.removeListener();
+		}
 	}
 
 	public void onRedditAccountChanged() {
-		addSubscriptionListener();
+		recreateSubscriptionListener();
 		postInvalidateOptionsMenu();
 		requestRefresh(RefreshableFragment.ALL, false);
 	}
@@ -259,7 +285,7 @@ public class PostListingActivity extends RefreshableActivity
 	public void onSubmitPost() {
 		final Intent intent = new Intent(this, PostSubmitActivity.class);
 		if(controller.isSubreddit()) {
-			intent.putExtra("subreddit", controller.subredditCanonicalName());
+			intent.putExtra("subreddit", controller.subredditCanonicalName().toString());
 		}
 		startActivity(intent);
 	}
@@ -284,7 +310,7 @@ public class PostListingActivity extends RefreshableActivity
 				final SearchPostListURL url;
 
 				if(controller != null && (controller.isSubreddit() || controller.isSubredditSearchResults())) {
-					url = SearchPostListURL.build(controller.subredditCanonicalName(), query);
+					url = SearchPostListURL.build(controller.subredditCanonicalName().toString(), query);
 				} else {
 					url = SearchPostListURL.build(null, query);
 				}
@@ -327,9 +353,9 @@ public class PostListingActivity extends RefreshableActivity
 			PrefsUtility.pref_pinned_subreddits_add(
 					this,
 					PreferenceManager.getDefaultSharedPreferences(this),
-					fragment.getSubreddit().getCanonicalName());
+					fragment.getSubreddit().getCanonicalId());
 
-		} catch(RedditSubreddit.InvalidSubredditNameException e) {
+		} catch(InvalidSubredditNameException e) {
 			throw new RuntimeException(e);
 		}
 
@@ -345,9 +371,9 @@ public class PostListingActivity extends RefreshableActivity
 			PrefsUtility.pref_pinned_subreddits_remove(
 					this,
 					PreferenceManager.getDefaultSharedPreferences(this),
-					fragment.getSubreddit().getCanonicalName());
+					fragment.getSubreddit().getCanonicalId());
 
-		} catch(RedditSubreddit.InvalidSubredditNameException e) {
+		} catch(InvalidSubredditNameException e) {
 			throw new RuntimeException(e);
 		}
 
@@ -362,9 +388,9 @@ public class PostListingActivity extends RefreshableActivity
 			PrefsUtility.pref_blocked_subreddits_add(
 					this,
 					PreferenceManager.getDefaultSharedPreferences(this),
-					fragment.getSubreddit().getCanonicalName());
+					fragment.getSubreddit().getCanonicalId());
 
-		} catch(RedditSubreddit.InvalidSubredditNameException e) {
+		} catch(InvalidSubredditNameException e) {
 			throw new RuntimeException(e);
 		}
 
@@ -379,9 +405,9 @@ public class PostListingActivity extends RefreshableActivity
 			PrefsUtility.pref_blocked_subreddits_remove(
 					this,
 					PreferenceManager.getDefaultSharedPreferences(this),
-					fragment.getSubreddit().getCanonicalName());
+					fragment.getSubreddit().getCanonicalId());
 
-		} catch(RedditSubreddit.InvalidSubredditNameException e) {
+		} catch(InvalidSubredditNameException e) {
 			throw new RuntimeException(e);
 		}
 

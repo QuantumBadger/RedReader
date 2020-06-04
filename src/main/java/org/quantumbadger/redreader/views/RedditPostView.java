@@ -330,7 +330,7 @@ public final class RedditPostView extends FlingableItemView implements RedditPre
 		boolean overlayVisible = true;
 
 		if(post.isSaved()) {
-			overlayIcon.setImageResource(R.drawable.ic_action_star_filled_dark);
+			overlayIcon.setImageResource(R.drawable.star_dark);
 
 		} else if(post.isHidden()) {
 			overlayIcon.setImageResource(R.drawable.ic_action_cross_dark);

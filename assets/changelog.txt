@@ -1,5 +1,6 @@
 90/1.10
-Added post toolbar
+Added toolbar when viewing subreddits and comments
+Avoid showing old comment listings (by refreshing if the cached copy is too old)
 Preference to hide items in post subtitle (thanks to Cameron Merkel)
 Fine-grained control over font scaling (thanks to Cameron Merkel)
 Added custom share dialog with prioritisation, off by default (thanks to LizardWithHat)
@@ -7,6 +8,7 @@ Preserve fields when returning to post submission activity (thanks to fguibourt)
 Fixed issue with HTTP cleartext websites
 Display error when NSFW subreddits are blocked (thanks for Cameron Merkel)
 Various image viewer performance improvements
+Fixed subreddit sidebar on Android 4.x
 Assorted bug fixes (thanks for Cameron Merkel)
 Added Hindi translation (thanks to Chandra Mohan Jha)
 Added Greek translation (thanks to George K)

@@ -42,7 +42,6 @@ import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.fragments.CommentPropertiesDialog;
-import org.quantumbadger.redreader.fragments.ShareOrderDialog;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
@@ -53,6 +52,7 @@ import org.quantumbadger.redreader.views.RedditCommentView;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Locale;
 
 public class RedditAPICommentAction {
 
@@ -284,37 +284,33 @@ public class RedditAPICommentAction {
 
 				break;
 
-			case SHARE:
-				final Intent mailer = new Intent(Intent.ACTION_SEND);
-				mailer.setType("text/plain");
+			case SHARE: {
 
 				String body = "";
-				if (PrefsUtility.pref_behaviour_sharing_include_desc(activity,
-						PreferenceManager.getDefaultSharedPreferences(activity))) {
-					mailer.putExtra(Intent.EXTRA_SUBJECT,
-							String.format(activity.getText(R.string.share_comment_by_on_reddit).toString(), comment.author)
-					);
+				String subject = null;
 
-					// TODO this currently just dumps the markdown (only if sharing text is enabled)
-					if (PrefsUtility.pref_behaviour_sharing_share_text(activity,
-							PreferenceManager.getDefaultSharedPreferences(activity))) {
-						body = StringEscapeUtils.unescapeHtml4(comment.body)
-								+ "\r\n\r\n";
-					}
+				if(PrefsUtility.pref_behaviour_sharing_include_desc(
+						activity,
+						PreferenceManager.getDefaultSharedPreferences(activity))) {
+					subject = String.format(
+									Locale.US,
+									activity.getText(R.string.share_comment_by_on_reddit).toString(),
+									comment.author);
+				}
+
+				// TODO this currently just dumps the markdown (only if sharing text is enabled)
+				if(PrefsUtility.pref_behaviour_sharing_share_text(
+						activity,
+						PreferenceManager.getDefaultSharedPreferences(activity))) {
+					body = StringEscapeUtils.unescapeHtml4(comment.body)
+							+ "\r\n\r\n";
 				}
 
 				body += comment.getContextUrl().generateNonJsonUri().toString();
-				mailer.putExtra(Intent.EXTRA_TEXT, body);
 
-				if(PrefsUtility.pref_behaviour_sharing_dialog(
-						activity,
-						PreferenceManager.getDefaultSharedPreferences(activity))){
-					ShareOrderDialog.newInstance(mailer).show(activity.getSupportFragmentManager(), null);
-				} else {
-					activity.startActivity(Intent.createChooser(mailer, activity.getString(R.string.action_share)));
-				}
-
+				LinkHandler.shareText(activity, subject, body);
 				break;
+			}
 
 			case COPY_TEXT: {
 				ClipboardManager manager = (ClipboardManager)activity.getSystemService(Context.CLIPBOARD_SERVICE);
@@ -377,7 +373,7 @@ public class RedditAPICommentAction {
 		final RedditAccount user = RedditAccountManager.getInstance(activity).getDefaultAccount();
 
 		if(user.isAnonymous()) {
-			General.quickToast(activity, activity.getString(R.string.error_toast_notloggedin));
+			General.showMustBeLoggedInDialog(activity);
 			return;
 		}
 

@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.reddit.url;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.IntDef;
+import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 
 import java.lang.annotation.Retention;
@@ -184,6 +185,10 @@ public class RedditURLParser {
 			}
 
 			return builder.toString();
+		}
+
+		public String browserUrl() {
+			return Constants.Reddit.SCHEME_HTTPS + "://" + humanReadableUrl();
 		}
 
 		@Override

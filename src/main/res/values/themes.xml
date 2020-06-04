@@ -97,7 +97,7 @@
         <item name="rrIconSend">@drawable/ic_action_send_dark</item>
         <item name="rrIconShare">@drawable/ic_action_share_dark</item>
         <item name="rrIconSort">@drawable/ic_sort_dark</item>
-        <item name="rrIconStarFilled">@drawable/ic_action_star_filled_dark</item>
+        <item name="rrIconStarFilled">@drawable/star_dark</item>
         <item name="rrIconFfLeft">@drawable/ic_fast_rewind_dark</item>
         <item name="rrIconFfRight">@drawable/ic_fast_forward_dark</item>
         <item name="rrIconTick">@drawable/ic_action_tick_dark</item>
@@ -107,7 +107,11 @@
 		<item name="rrIconOverflow">@drawable/dots_vertical_dark</item>
 		<item name="rrIconArrowUpBold">@drawable/arrow_up_bold_dark</item>
 		<item name="rrIconArrowDownBold">@drawable/arrow_down_bold_dark</item>
-
+		<item name="rrIconStarFilledOff">@drawable/star_off_dark</item>
+		<item name="rrIconPin">@drawable/pin_dark</item>
+		<item name="rrIconPinOff">@drawable/pin_off_dark</item>
+		<item name="rrIconMessagePlus">@drawable/message_plus_dark</item>
+		
     </style>
 
 	<style name="RR.Dark.LowContrast" parent="RR.Dark">
@@ -335,7 +339,7 @@
         <item name="rrIconSend">@drawable/ic_action_send_light</item>
         <item name="rrIconShare">@drawable/ic_action_share_light</item>
         <item name="rrIconSort">@drawable/ic_sort_light</item>
-        <item name="rrIconStarFilled">@drawable/ic_action_star_filled_light</item>
+        <item name="rrIconStarFilled">@drawable/star_light</item>
         <item name="rrIconFfLeft">@drawable/ic_fast_rewind_light</item>
         <item name="rrIconFfRight">@drawable/ic_fast_forward_light</item>
         <item name="rrIconTick">@drawable/ic_action_tick_light</item>
@@ -345,6 +349,10 @@
 		<item name="rrIconOverflow">@drawable/dots_vertical_light</item>
 		<item name="rrIconArrowUpBold">@drawable/arrow_up_bold_light</item>
 		<item name="rrIconArrowDownBold">@drawable/arrow_down_bold_light</item>
+		<item name="rrIconStarFilledOff">@drawable/star_off_light</item>
+		<item name="rrIconPin">@drawable/pin_light</item>
+		<item name="rrIconPinOff">@drawable/pin_off_light</item>
+		<item name="rrIconMessagePlus">@drawable/message_plus_light</item>
 
     </style>
 

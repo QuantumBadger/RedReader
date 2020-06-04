@@ -29,8 +29,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.widget.ListView;
-
-import org.apache.commons.lang3.StringUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.adapters.ShareOrderAdapter;
 import org.quantumbadger.redreader.adapters.ShareOrderCallbackListener;
@@ -136,9 +134,7 @@ public class ShareOrderDialog extends AppCompatDialogFragment implements ShareOr
 		LinkedList<String> priorityAppList = new LinkedList<>(Arrays.asList(PrefsUtility.pref_behaviour_sharing_dialog_data_get(
 				context,
 				PreferenceManager.getDefaultSharedPreferences(context)).split(";")));
-		if(priorityAppList.contains(selectedApplication.name)){
-			priorityAppList.remove(selectedApplication.name);
-		}
+		priorityAppList.remove(selectedApplication.name);
 		priorityAppList.add(0, selectedApplication.name);
 		if(priorityAppList.size() > amountOfPrioritizedApps){
 			priorityAppList.removeLast();
@@ -146,6 +142,6 @@ public class ShareOrderDialog extends AppCompatDialogFragment implements ShareOr
 
 		PrefsUtility.pref_behaviour_sharing_dialog_data_set(context,
 				PreferenceManager.getDefaultSharedPreferences(context),
-				StringUtils.join(priorityAppList.iterator(), ";"));
+				General.join(priorityAppList, ";"));
 	}
 }

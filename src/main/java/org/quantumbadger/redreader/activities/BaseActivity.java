@@ -307,7 +307,8 @@ public abstract class BaseActivity extends AppCompatActivity implements SharedPr
 
 		onSharedPreferenceChangedInner(prefs, key);
 
-		if(key.equals(getString(R.string.pref_menus_optionsmenu_items_key))) {
+		if(key.equals(getString(R.string.pref_menus_optionsmenu_items_key))
+				|| key.equals(getString(R.string.pref_pinned_subreddits_key))) {
 			invalidateOptionsMenu();
 		}
 	}

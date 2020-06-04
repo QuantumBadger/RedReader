@@ -19,10 +19,12 @@ package org.quantumbadger.redreader.common;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
-
 import org.quantumbadger.redreader.RedReader;
+import org.quantumbadger.redreader.common.collections.CollectionStream;
+import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
 
 import java.net.URI;
+import java.util.ArrayList;
 
 public final class Constants {
 
@@ -51,58 +53,66 @@ public final class Constants {
 
 	public static final class Reddit {
 
-		public static final String[] DEFAULT_SUBREDDITS = {
-				"/r/announcements",
-				"/r/Art",
-				"/r/AskReddit",
-				"/r/askscience",
-				"/r/aww",
-				"/r/blog",
-				"/r/books",
-				"/r/creepy",
-				"/r/dataisbeautiful",
-				"/r/DIY",
-				"/r/Documentaries",
-				"/r/EarthPorn",
-				"/r/explainlikeimfive",
-				"/r/Fitness",
-				"/r/food",
-				"/r/funny",
-				"/r/Futurology",
-				"/r/gadgets",
-				"/r/gaming",
-				"/r/GetMotivated",
-				"/r/gifs",
-				"/r/history",
-				"/r/IAmA",
-				"/r/InternetIsBeautiful",
-				"/r/Jokes",
-				"/r/LifeProTips",
-				"/r/listentothis",
-				"/r/mildlyinteresting",
-				"/r/movies",
-				"/r/Music",
-				"/r/news",
-				"/r/nosleep",
-				"/r/nottheonion",
-				"/r/oldschoolcool",
-				"/r/personalfinance",
-				"/r/philosophy",
-				"/r/photoshopbattles",
-				"/r/pics",
-				"/r/science",
-				"/r/Showerthoughts",
-				"/r/space",
-				"/r/sports",
-				"/r/television",
-				"/r/tifu",
-				"/r/todayilearned",
-				"/r/TwoXChromosomes",
-				"/r/UpliftingNews",
-				"/r/videos",
-				"/r/worldnews",
-				"/r/writingprompts"
-		};
+		public static final ArrayList<SubredditCanonicalId> DEFAULT_SUBREDDITS;
+
+		static {
+			final String[] defaultSubredditStrings = {
+					"/r/announcements",
+					"/r/Art",
+					"/r/AskReddit",
+					"/r/askscience",
+					"/r/aww",
+					"/r/blog",
+					"/r/books",
+					"/r/creepy",
+					"/r/dataisbeautiful",
+					"/r/DIY",
+					"/r/Documentaries",
+					"/r/EarthPorn",
+					"/r/explainlikeimfive",
+					"/r/Fitness",
+					"/r/food",
+					"/r/funny",
+					"/r/Futurology",
+					"/r/gadgets",
+					"/r/gaming",
+					"/r/GetMotivated",
+					"/r/gifs",
+					"/r/history",
+					"/r/IAmA",
+					"/r/InternetIsBeautiful",
+					"/r/Jokes",
+					"/r/LifeProTips",
+					"/r/listentothis",
+					"/r/mildlyinteresting",
+					"/r/movies",
+					"/r/Music",
+					"/r/news",
+					"/r/nosleep",
+					"/r/nottheonion",
+					"/r/oldschoolcool",
+					"/r/personalfinance",
+					"/r/philosophy",
+					"/r/photoshopbattles",
+					"/r/pics",
+					"/r/science",
+					"/r/Showerthoughts",
+					"/r/space",
+					"/r/sports",
+					"/r/television",
+					"/r/tifu",
+					"/r/todayilearned",
+					"/r/TwoXChromosomes",
+					"/r/UpliftingNews",
+					"/r/videos",
+					"/r/worldnews",
+					"/r/writingprompts"
+			};
+
+			DEFAULT_SUBREDDITS = new CollectionStream<>(defaultSubredditStrings)
+					.mapRethrowExceptions(SubredditCanonicalId::new)
+					.collect(new ArrayList<>(defaultSubredditStrings.length));
+		}
 
 		public static final String
 				SCHEME_HTTPS = "https",

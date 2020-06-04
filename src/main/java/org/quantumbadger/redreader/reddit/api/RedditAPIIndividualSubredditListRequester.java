@@ -36,8 +36,10 @@ import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.RedditSubredditManager;
+import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.things.RedditThing;
+import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -65,10 +67,10 @@ public class RedditAPIIndividualSubredditListRequester
 
 			final long now = System.currentTimeMillis();
 
-			final HashSet<String> data = new HashSet<>(Constants.Reddit.DEFAULT_SUBREDDITS.length + 1);
+			final HashSet<String> data = new HashSet<>(Constants.Reddit.DEFAULT_SUBREDDITS.size() + 1);
 
-			for(String name : Constants.Reddit.DEFAULT_SUBREDDITS) {
-				data.add(General.asciiLowercase(name));
+			for(final SubredditCanonicalId id : Constants.Reddit.DEFAULT_SUBREDDITS) {
+				data.add(id.toString());
 			}
 
 			data.add("/r/redreader");
@@ -204,9 +206,9 @@ public class RedditAPIIndividualSubredditListRequester
 						subreddit.downloadTime = timestamp;
 
 						try {
-							output.add(subreddit.getCanonicalName());
+							output.add(subreddit.getCanonicalId().toString());
 							toWrite.add(subreddit);
-						} catch(final RedditSubreddit.InvalidSubredditNameException e) {
+						} catch(final InvalidSubredditNameException e) {
 							Log.e("SubredditListRequester", "Ignoring invalid subreddit", e);
 						}
 

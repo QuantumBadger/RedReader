@@ -17,13 +17,15 @@
 
 package org.quantumbadger.redreader.io;
 
+import android.support.annotation.NonNull;
 import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 
-public class WritableHashSet implements WritableObject<String> {
+public class WritableHashSet implements WritableObject<String>, Iterable<String> {
 
 	@WritableObjectVersion
 	public static int DB_VERSION = 1;
@@ -148,5 +150,11 @@ public class WritableHashSet implements WritableObject<String> {
 		}
 
 		return result;
+	}
+
+	@NonNull
+	@Override
+	public Iterator<String> iterator() {
+		return toHashset().iterator();
 	}
 }

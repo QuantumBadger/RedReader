@@ -46,6 +46,7 @@ import android.widget.Toast;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.fragments.AccountListDialog;
 import org.quantumbadger.redreader.fragments.ErrorPropertiesDialog;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 
@@ -61,6 +62,7 @@ import java.net.URI;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Locale;
@@ -662,5 +664,37 @@ public final class General {
 		} catch(final IOException e) {
 			Log.e("closeSafely", "Failed to close resource", e);
 		}
+	}
+
+	public static String join(final Collection<?> elements, final String separator) {
+
+		final StringBuilder result = new StringBuilder();
+
+		boolean first = true;
+
+		for(final Object element : elements) {
+
+			if(!first) {
+				result.append(separator);
+			}
+
+			result.append(element.toString());
+			first = false;
+		}
+
+		return result.toString();
+	}
+
+	public static void showMustBeLoggedInDialog(final AppCompatActivity activity) {
+
+		new AlertDialog.Builder(activity)
+				.setTitle(R.string.firstrun_login_title)
+				.setMessage(R.string.must_login_message)
+				.setPositiveButton(R.string.firstrun_login_button_now,
+						(dialog, which) -> new AccountListDialog().show(
+								activity.getSupportFragmentManager(),
+								null))
+				.setNegativeButton(R.string.firstrun_login_button_later, null)
+				.show();
 	}
 }

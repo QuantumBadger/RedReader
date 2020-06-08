@@ -99,7 +99,6 @@
             android:dialogTitle="@string/pref_appearance_comment_header_items_title"
             android:key="@string/pref_appearance_comment_header_items_key"
             android:title="@string/pref_appearance_comment_header_items_title"
-            android:summary="@string/pref_appearance_comment_header_summary"
             android:entries="@array/pref_appearance_comment_header_items"
             android:entryValues="@array/pref_appearance_comment_header_items_return"
             android:defaultValue="@array/pref_appearance_comment_header_items_default" />

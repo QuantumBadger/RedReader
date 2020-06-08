@@ -346,20 +346,26 @@ public class MainActivity extends RefreshableActivity
 					);
 
 					if(existingPostFontscalePreference.equals(existingCommentSelfTextFontscalePreference)) {
-						sharedPreferences.edit().putString(
-								getString(R.string.pref_appearance_fontscale_global_key),
-								existingPostFontscalePreference
-						).apply();
 
-						sharedPreferences.edit().putString(
-								getString(R.string.pref_appearance_fontscale_posts_key),
-								"-1"
-						).apply();
+						// Avoid setting the global font scale to -1
+						if(!existingPostFontscalePreference.equals("-1")) {
 
-						sharedPreferences.edit().putString(
-								getString(R.string.pref_appearance_fontscale_bodytext_key),
-								"-1"
-						).apply();
+							sharedPreferences.edit().putString(
+									getString(R.string.pref_appearance_fontscale_global_key),
+									existingPostFontscalePreference
+							).apply();
+
+							sharedPreferences.edit().putString(
+									getString(R.string.pref_appearance_fontscale_posts_key),
+									"-1"
+							).apply();
+
+							sharedPreferences.edit().putString(
+									getString(R.string.pref_appearance_fontscale_bodytext_key),
+									"-1"
+							).apply();
+						}
+
 					} else {
 						sharedPreferences.edit().putString(
 								getString(R.string.pref_appearance_fontscale_post_subtitles_key),

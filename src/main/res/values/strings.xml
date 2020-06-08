@@ -1191,4 +1191,10 @@
 	<string name="error_toast_no_email_apps">No email apps installed!</string>
 	<string name="bug_chooser_title">Email bug report</string>
 
+	<!-- 2020-06-08 -->
+	<string name="subscription_successful">Successfully subscribed to %s</string>
+	<string name="unsubscription_successful">Successfully unsubscribed from %s</string>
+	<string name="pin_successful">Pinned %s to main menu</string>
+	<string name="unpin_successful">Unpinned %s from main menu</string>
+
 </resources>

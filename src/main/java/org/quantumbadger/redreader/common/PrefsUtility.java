@@ -876,6 +876,10 @@ public final class PrefsUtility {
 			final SubredditCanonicalId subreddit) {
 
 		pref_subreddits_add(context, sharedPreferences, subreddit, R.string.pref_pinned_subreddits_key);
+
+		General.quickToast(context, context.getApplicationContext().getString(
+				R.string.pin_successful,
+				subreddit.toString()));
 	}
 
 	public static void pref_pinned_subreddits_remove(
@@ -884,6 +888,10 @@ public final class PrefsUtility {
 			final SubredditCanonicalId subreddit) {
 
 		pref_subreddits_remove(context, sharedPreferences, subreddit, R.string.pref_pinned_subreddits_key);
+
+		General.quickToast(context, context.getApplicationContext().getString(
+				R.string.unpin_successful,
+				subreddit.toString()));
 	}
 
 	public static boolean pref_pinned_subreddits_check(

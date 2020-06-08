@@ -22,6 +22,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -160,12 +161,22 @@ public class RedditSubredditSubscriptionManager {
 	}
 
 	private synchronized void onSubscriptionAttemptSuccess(final SubredditCanonicalId id) {
+
+		General.quickToast(context, context.getApplicationContext().getString(
+				R.string.subscription_successful,
+				id.toString()));
+
 		pendingSubscriptions.remove(id);
 		subscriptions.toHashset().add(id.toString());
 		listeners.map(notifier, SubredditSubscriptionChangeType.LIST_UPDATED);
 	}
 
 	private synchronized void onUnsubscriptionAttemptSuccess(final SubredditCanonicalId id) {
+
+		General.quickToast(context, context.getApplicationContext().getString(
+				R.string.unsubscription_successful,
+				id.toString()));
+
 		pendingUnsubscriptions.remove(id);
 		subscriptions.toHashset().remove(id.toString());
 		listeners.map(notifier, SubredditSubscriptionChangeType.LIST_UPDATED);
@@ -322,6 +333,19 @@ public class RedditSubredditSubscriptionManager {
 
 		@Override
 		protected void onFailure(@CacheRequest.RequestFailureType int type, Throwable t, Integer status, String readableMessage) {
+
+			if(status != null && status == 404) {
+				// Weirdly, reddit returns a 404 if we were already subscribed/unsubscribed to
+				// this subreddit.
+
+				if(action == RedditAPI.SUBSCRIPTION_ACTION_SUBSCRIBE
+						|| action == RedditAPI.SUBSCRIPTION_ACTION_UNSUBSCRIBE) {
+
+					onSuccess(null);
+					return;
+				}
+			}
+
 			onSubscriptionChangeAttemptFailed(canonicalName);
 			if(t != null) t.printStackTrace();
 

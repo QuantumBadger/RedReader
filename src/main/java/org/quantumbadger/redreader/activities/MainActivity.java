@@ -328,31 +328,64 @@ public class MainActivity extends RefreshableActivity
 
 				if(lastVersion <= 89) {
 					//Upgrading from 89/1.9.11 or lower, enable finer control over font scales
-					//and set them to match the existing settings and behavior
+					//and set them to match the existing settings
+					//The old Inbox Font Scale setting is ignored
 
-					final String existingPostFontscalePreference = Float.toString(PrefsUtility.appearance_fontscale_posts(this, sharedPreferences));
+					final String existingPostFontscalePreference = PrefsUtility.getString(
+							R.string.pref_appearance_fontscale_posts_key,
+							"-1",
+							this,
+							sharedPreferences
+					);
 
-					sharedPreferences.edit().putString(
-							getString(R.string.pref_appearance_fontscale_post_subtitles_key),
-							existingPostFontscalePreference
-					).apply();
+					final String existingCommentSelfTextFontscalePreference = PrefsUtility.getString(
+							R.string.pref_appearance_fontscale_bodytext_key,
+							"-1",
+							this,
+							sharedPreferences
+					);
 
-					sharedPreferences.edit().putBoolean(
-							getString(R.string.pref_appearance_fontscale_post_use_different_scales_key),
-							true
-					).apply();
+					if(existingPostFontscalePreference.equals(existingCommentSelfTextFontscalePreference)) {
+						sharedPreferences.edit().putString(
+								getString(R.string.pref_appearance_fontscale_global_key),
+								existingPostFontscalePreference
+						).apply();
 
-					final String existingCommentSelfTextFontscalePreference = Float.toString(PrefsUtility.appearance_fontscale_comments(this, sharedPreferences));
+						sharedPreferences.edit().putString(
+								getString(R.string.pref_appearance_fontscale_posts_key),
+								"-1"
+						).apply();
 
-					sharedPreferences.edit().putString(
-							getString(R.string.pref_appearance_fontscale_selftext_key),
-							existingCommentSelfTextFontscalePreference
-					).apply();
+						sharedPreferences.edit().putString(
+								getString(R.string.pref_appearance_fontscale_bodytext_key),
+								"-1"
+						).apply();
+					} else {
+						sharedPreferences.edit().putString(
+								getString(R.string.pref_appearance_fontscale_post_subtitles_key),
+								existingPostFontscalePreference
+						).apply();
 
-					sharedPreferences.edit().putString(
-							getString(R.string.pref_appearance_fontscale_comment_headers_key),
-							existingCommentSelfTextFontscalePreference
-					).apply();
+						sharedPreferences.edit().putString(
+								getString(R.string.pref_appearance_fontscale_post_header_titles_key),
+								existingPostFontscalePreference
+						).apply();
+
+						sharedPreferences.edit().putString(
+								getString(R.string.pref_appearance_fontscale_post_header_subtitles_key),
+								existingPostFontscalePreference
+						).apply();
+
+						sharedPreferences.edit().putString(
+								getString(R.string.pref_appearance_fontscale_comment_headers_key),
+								existingCommentSelfTextFontscalePreference
+						).apply();
+
+						sharedPreferences.edit().putString(
+								getString(R.string.pref_appearance_fontscale_linkbuttons_key),
+								existingCommentSelfTextFontscalePreference
+						).apply();
+					}
 
 					//Upgrading from 89/1.9.11 or lower, switch to ListPreference for
 					//appearance_thumbnails_show, cache_precache_images, cache_precache_comments

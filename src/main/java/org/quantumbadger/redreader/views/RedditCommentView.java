@@ -282,7 +282,7 @@ public class RedditCommentView extends FlingableItemView implements RedditChange
 		mBodyHolder = (FrameLayout)rootView.findViewById(R.id.view_reddit_comment_bodyholder);
 		mIndentedContent = (LinearLayout)rootView.findViewById(R.id.view_reddit_comment_indented_content);
 
-		mBodyFontScale = PrefsUtility.appearance_fontscale_comments(context, PreferenceManager.getDefaultSharedPreferences(context));
+		mBodyFontScale = PrefsUtility.appearance_fontscale_bodytext(context, PreferenceManager.getDefaultSharedPreferences(context));
 		final float mHeaderFontScale = PrefsUtility.appearance_fontscale_comment_headers(context, PreferenceManager.getDefaultSharedPreferences(context));
 
 		mHeader.setTextSize(TypedValue.COMPLEX_UNIT_PX, mHeader.getTextSize() * mHeaderFontScale);

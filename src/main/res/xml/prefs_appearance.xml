@@ -63,64 +63,6 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_appearance_font_header">
-
-        <ListPreference android:title="@string/pref_appearance_fontscale_posts_title"
-                        android:key="@string/pref_appearance_fontscale_posts_key"
-                        android:entries="@array/pref_appearance_fontscale"
-                        android:entryValues="@array/pref_appearance_fontscale_return"
-                        android:defaultValue="1"/>
-
-		<ListPreference android:title="@string/pref_appearance_fontscale_post_subtitles_title"
-						android:key="@string/pref_appearance_fontscale_post_subtitles_key"
-						android:entries="@array/pref_appearance_fontscale"
-						android:entryValues="@array/pref_appearance_fontscale_return"
-						android:defaultValue="1"/>
-
-		<CheckBoxPreference android:title="@string/pref_appearance_fontscale_post_use_different_scales_title"
-							android:key="@string/pref_appearance_fontscale_post_use_different_scales_key"
-							android:defaultValue="false"/>
-
-		<ListPreference android:title="@string/pref_appearance_fontscale_post_header_titles_title"
-						android:key="@string/pref_appearance_fontscale_post_header_titles_key"
-						android:dependency="@string/pref_appearance_fontscale_post_use_different_scales_key"
-						android:entries="@array/pref_appearance_fontscale"
-						android:entryValues="@array/pref_appearance_fontscale_return"
-						android:defaultValue="1"/>
-
-		<ListPreference android:title="@string/pref_appearance_fontscale_post_header_subtitles_title"
-						android:key="@string/pref_appearance_fontscale_post_header_subtitles_key"
-						android:dependency="@string/pref_appearance_fontscale_post_use_different_scales_key"
-						android:entries="@array/pref_appearance_fontscale"
-						android:entryValues="@array/pref_appearance_fontscale_return"
-						android:defaultValue="1"/>
-
-		<ListPreference android:title="@string/pref_appearance_fontscale_selftext_title"
-						android:key="@string/pref_appearance_fontscale_selftext_key"
-						android:entries="@array/pref_appearance_fontscale"
-						android:entryValues="@array/pref_appearance_fontscale_return"
-						android:defaultValue="1"/>
-
-        <ListPreference android:title="@string/pref_appearance_fontscale_comments_title"
-                        android:key="@string/pref_appearance_fontscale_comments_key"
-                        android:entries="@array/pref_appearance_fontscale"
-                        android:entryValues="@array/pref_appearance_fontscale_return"
-                        android:defaultValue="1"/>
-
-		<ListPreference android:title="@string/pref_appearance_fontscale_comment_headers_title"
-						android:key="@string/pref_appearance_fontscale_comment_headers_key"
-						android:entries="@array/pref_appearance_fontscale"
-						android:entryValues="@array/pref_appearance_fontscale_return"
-						android:defaultValue="1"/>
-
-        <ListPreference android:title="@string/pref_appearance_fontscale_inbox_title"
-                        android:key="@string/pref_appearance_fontscale_inbox_key"
-                        android:entries="@array/pref_appearance_fontscale"
-                        android:entryValues="@array/pref_appearance_fontscale_return"
-                        android:defaultValue="1"/>
-
-    </PreferenceCategory>
-
 
 	<PreferenceCategory android:title="@string/pref_appearance_posts_header">
 

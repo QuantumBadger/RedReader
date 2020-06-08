@@ -43,7 +43,7 @@ public class RRThemeAttributes {
 
 	private final EnumSet<PrefsUtility.AppearanceCommentHeaderItem> mCommentHeaderItems;
 
-	public final float rrCommentFontScale;
+	public final float rrCommentFontScale, rrCommentHeaderFontScale;
 
 	public RRThemeAttributes(final Context context) {
 
@@ -81,9 +81,8 @@ public class RRThemeAttributes {
 
 		mCommentHeaderItems = PrefsUtility.appearance_comment_header_items(context, prefs);
 
-		rrCommentFontScale = PrefsUtility.appearance_fontscale_inbox(
-				context,
-				prefs);
+		rrCommentFontScale = PrefsUtility.appearance_fontscale_bodytext(context, prefs);
+		rrCommentHeaderFontScale = PrefsUtility.appearance_fontscale_comment_headers(context, prefs);
 	}
 
 	public boolean shouldShow(final PrefsUtility.AppearanceCommentHeaderItem type) {

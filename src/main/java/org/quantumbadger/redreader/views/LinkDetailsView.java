@@ -62,8 +62,8 @@ public class LinkDetailsView extends FrameLayout {
 		layout.addView(textLayout);
 		((LinearLayout.LayoutParams)textLayout.getLayoutParams()).setMargins(0, marginPx, marginPx, marginPx);
 
-		final float linkFontScale = PrefsUtility.appearance_fontscale_comments(context, PreferenceManager.getDefaultSharedPreferences(context));
-		
+		final float linkFontScale = PrefsUtility.appearance_fontscale_linkbuttons(context, PreferenceManager.getDefaultSharedPreferences(context));
+
 		{
 			final TextView titleView = new TextView(context);
 			titleView.setText(title);

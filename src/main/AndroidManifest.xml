@@ -18,8 +18,8 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="org.quantumbadger.redreader"
-          android:versionCode="89"
-          android:versionName="1.9.11"
+          android:versionCode="90"
+          android:versionName="1.10"
           android:installLocation="auto">
 
     <uses-feature android:glEsVersion="0x00020000" android:required="true" />

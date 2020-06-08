@@ -26,6 +26,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -89,6 +90,8 @@ public class MainActivity extends RefreshableActivity
 		OptionsMenuUtility.OptionsMenuCommentsListener,
 		SessionChangeListener,
 		RedditSubredditSubscriptionManager.SubredditSubscriptionStateChangeListener {
+
+	private static final String TAG = "MainActivity";
 
 	private boolean twoPane;
 
@@ -331,6 +334,8 @@ public class MainActivity extends RefreshableActivity
 					//and set them to match the existing settings
 					//The old Inbox Font Scale setting is ignored
 
+					Log.i(TAG, "[Migration] Upgrading from v89");
+
 					final String existingPostFontscalePreference = PrefsUtility.getString(
 							R.string.pref_appearance_fontscale_posts_key,
 							"-1",
@@ -347,8 +352,12 @@ public class MainActivity extends RefreshableActivity
 
 					if(existingPostFontscalePreference.equals(existingCommentSelfTextFontscalePreference)) {
 
+						Log.i(TAG, "[Migration] Old font preferences were both " + existingPostFontscalePreference);
+
 						// Avoid setting the global font scale to -1
 						if(!existingPostFontscalePreference.equals("-1")) {
+
+							Log.i(TAG, "[Migration] Migrating font preferences");
 
 							sharedPreferences.edit().putString(
 									getString(R.string.pref_appearance_fontscale_global_key),
@@ -367,6 +376,13 @@ public class MainActivity extends RefreshableActivity
 						}
 
 					} else {
+
+						Log.i(TAG, "[Migration] Old font prefs: comments="
+								+ existingCommentSelfTextFontscalePreference
+								+ ", posts="
+								+ existingPostFontscalePreference
+								+ ". Migrating.");
+
 						sharedPreferences.edit().putString(
 								getString(R.string.pref_appearance_fontscale_post_subtitles_key),
 								existingPostFontscalePreference

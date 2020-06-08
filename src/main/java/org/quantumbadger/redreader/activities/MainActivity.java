@@ -165,7 +165,11 @@ public class MainActivity extends RefreshableActivity
 
 		final int appVersion = pInfo.versionCode;
 
+		Log.i(TAG, "[Migration] App version: " + appVersion);
+
 		if(!sharedPreferences.contains("firstRunMessageShown")) {
+
+			Log.i(TAG, "[Migration] Showing first run message");
 
 			new AlertDialog.Builder(this)
 					.setTitle(R.string.firstrun_login_title)
@@ -188,6 +192,8 @@ public class MainActivity extends RefreshableActivity
 		} else if(sharedPreferences.contains("lastVersion")) {
 
 			final int lastVersion = sharedPreferences.getInt("lastVersion", 0);
+
+			Log.i(TAG, "[Migration] Last version: " + lastVersion);
 
 			if(lastVersion < 63) {
 				// Upgrading across the 1.9.0 boundary (when oAuth was introduced)
@@ -434,6 +440,7 @@ public class MainActivity extends RefreshableActivity
 			}
 
 		} else {
+			Log.i(TAG, "[Migration] Last version not set.");
 			sharedPreferences.edit().putInt("lastVersion", appVersion).apply();
 			ChangelogDialog.newInstance().show(getSupportFragmentManager(), null);
 		}

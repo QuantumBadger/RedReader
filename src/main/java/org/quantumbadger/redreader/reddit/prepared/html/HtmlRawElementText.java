@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ClickableSpan;
+import android.text.style.RelativeSizeSpan;
 import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
 import android.text.style.SuperscriptSpan;
@@ -65,6 +66,21 @@ public class HtmlRawElementText extends HtmlRawElement {
 		if(attributes.superscript > 0) {
 			ssb.setSpan(
 					new SuperscriptSpan(),
+					textStart,
+					textEnd,
+					Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+		}
+
+		if(attributes.extraLarge > 0) {
+			ssb.setSpan(
+					new RelativeSizeSpan(1.6f),
+					textStart,
+					textEnd,
+					Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+
+		} else if(attributes.large > 0) {
+			ssb.setSpan(
+					new RelativeSizeSpan(1.3f),
 					textStart,
 					textEnd,
 					Spanned.SPAN_INCLUSIVE_EXCLUSIVE);

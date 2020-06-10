@@ -10,5 +10,8 @@ public class HtmlTextAttributes {
 	public int monospace;
 	public int superscript;
 
+	public int extraLarge;
+	public int large;
+
 	@Nullable public String href;
 }

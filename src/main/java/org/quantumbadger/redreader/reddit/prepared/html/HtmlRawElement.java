@@ -32,8 +32,7 @@ public abstract class HtmlRawElement {
 		if(startToken.type == HtmlReader.TokenType.TAG_START_AND_END) {
 
 			if(startToken.text.equals("hr")) {
-				// TODO Horizontal rule
-				return HtmlRawElementInlineErrorMessage.create("Error: Horizontal rule currently unsupported");
+				return new HtmlRawElementTagHorizontalRule();
 
 			} else {
 				return HtmlRawElementInlineErrorMessage.create("Error: Unexpected tag <" + startToken.text + "/>");

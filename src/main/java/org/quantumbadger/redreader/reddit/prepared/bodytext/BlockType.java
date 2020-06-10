@@ -6,5 +6,6 @@ public enum BlockType {
 	HEADER,
 	BULLET,
 	TABLE,
-	CODE_BLOCK
+	CODE_BLOCK,
+	HORIZONTAL_RULE
 }

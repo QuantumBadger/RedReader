@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Spanned;
 import android.view.View;
 import android.widget.TextView;
+import org.quantumbadger.redreader.views.LinkifiedTextView;
 
 public class BodyTextElementTextSpanned extends BodyTextElement {
 
@@ -22,7 +23,7 @@ public class BodyTextElementTextSpanned extends BodyTextElement {
 			@Nullable final Float textSize,
 			final boolean showLinkButtons) {
 
-		final TextView tv = new TextView(activity);
+		final LinkifiedTextView tv = new LinkifiedTextView(activity);
 
 		if(textColor != null) tv.setTextColor(textColor);
 		if(textSize != null) tv.setTextSize(textSize);

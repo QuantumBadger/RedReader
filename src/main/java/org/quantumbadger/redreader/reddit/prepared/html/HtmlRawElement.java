@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyTextElement;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public abstract class HtmlRawElement {
 	// a, p, table/td/tr/thead/tbody/th, hr, strong, em, "code", "headings", "underline", "strikethrough", "quote", ul/li etc
@@ -84,6 +85,11 @@ public abstract class HtmlRawElement {
 					break;
 				case "sup":
 					result = new HtmlRawElementTagSuperscript(children);
+					break;
+				case "a":
+					result = new HtmlRawElementTagAnchor(
+							children,
+							Objects.requireNonNull(startToken.href));
 					break;
 
 				default:

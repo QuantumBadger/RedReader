@@ -1,8 +1,8 @@
 package org.quantumbadger.redreader.reddit.prepared.html;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyTextElement;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyTextElementVerticalSequence;
@@ -21,14 +21,19 @@ public class HtmlReader {
 
 	public static class Token {
 
-		public static final Token EOF = new Token(TokenType.EOF, "");
+		public static final Token EOF = new Token(TokenType.EOF, "", null);
 
 		@NonNull public final TokenType type;
 		@NonNull public final String text;
+		@Nullable public final String href;
 
-		public Token(@NonNull final TokenType type, @NonNull final String text) {
+		public Token(
+				@NonNull final TokenType type,
+				@NonNull final String text,
+				@Nullable final String href) {
 			this.type = type;
 			this.text = text;
+			this.href = href;
 		}
 
 		@NonNull
@@ -199,8 +204,7 @@ public class HtmlReader {
 				}
 
 				final String tagName = readName();
-
-				Log.i("RREDEBUG", "RRDEBUG got tag " + tagName);
+				@Nullable String href = null;
 
 				skipWhitespace();
 
@@ -209,7 +213,7 @@ public class HtmlReader {
 					if(tryAccept('/')) {
 						skipWhitespace();
 						accept('>');
-						return new Token(TokenType.TAG_START_AND_END, tagName);
+						return new Token(TokenType.TAG_START_AND_END, tagName, href);
 					}
 
 					final String propertyName = readName();
@@ -220,13 +224,15 @@ public class HtmlReader {
 						accept('"');
 						skipWhitespace();
 
-						Log.i("RREDEBUG", "RRDEBUG got property " + propertyName + " = " + value);
+						if(propertyName.equalsIgnoreCase("href")) {
+							href = value;
+						}
 					}
 				}
 
 				accept('>');
 
-				return new Token(type, tagName);
+				return new Token(type, tagName, href);
 
 			} catch(final IndexOutOfBoundsException e) {
 				throw new MalformedHtmlException("Unexpected EOF", mHtml, mPos);
@@ -236,7 +242,7 @@ public class HtmlReader {
 
 		} else {
 			// Raw text
-			return new Token(TokenType.TEXT, normaliseWhitespace(readAndUnescapeUntil('<')));
+			return new Token(TokenType.TEXT, normaliseWhitespace(readAndUnescapeUntil('<')), null);
 		}
 	}
 

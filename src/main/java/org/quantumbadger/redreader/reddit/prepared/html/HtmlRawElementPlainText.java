@@ -12,7 +12,7 @@ import android.text.style.SuperscriptSpan;
 import android.text.style.TypefaceSpan;
 import android.view.View;
 import org.quantumbadger.redreader.common.LinkHandler;
-import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyTextElement;
+import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
 
 import java.util.ArrayList;
 
@@ -91,7 +91,7 @@ public class HtmlRawElementPlainText extends HtmlRawElement {
 	@Override
 	public void generate(
 			@NonNull final AppCompatActivity activity,
-			@NonNull final ArrayList<BodyTextElement> destination) {
+			@NonNull final ArrayList<BodyElement> destination) {
 
 		throw new RuntimeException("Attempt to call generate() on reducible element");
 	}

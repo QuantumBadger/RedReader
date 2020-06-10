@@ -2,7 +2,8 @@ package org.quantumbadger.redreader.reddit.prepared.html;
 
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyTextElement;
+import org.quantumbadger.redreader.reddit.prepared.bodytext.BlockType;
+import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -19,7 +20,7 @@ public abstract class HtmlRawElement {
 
 	public abstract void generate(
 			@NonNull AppCompatActivity activity,
-			@NonNull ArrayList<BodyTextElement> destination);
+			@NonNull ArrayList<BodyElement> destination);
 
 	@NonNull
 	public static HtmlRawElement readFrom(@NonNull final HtmlReaderPeekable reader)
@@ -63,25 +64,25 @@ public abstract class HtmlRawElement {
 					result = new HtmlRawElementTagEmphasis(children);
 					break;
 				case "div":
-					result = new HtmlRawElementBlock(children);
+					result = new HtmlRawElementBlock(BlockType.VERTICAL_SEQUENCE, children);
 					break;
 				case "h1":
-					result = new HtmlRawElementBlock(new HtmlRawElementTagH1(children));
+					result = new HtmlRawElementBlock(BlockType.HEADER, new HtmlRawElementTagH1(children));
 					break;
 				case "h2":
-					result = new HtmlRawElementBlock(new HtmlRawElementTagH2(children));
+					result = new HtmlRawElementBlock(BlockType.HEADER, new HtmlRawElementTagH2(children));
 					break;
 				case "h3":
-					result = new HtmlRawElementBlock(new HtmlRawElementTagH3(children));
+					result = new HtmlRawElementBlock(BlockType.HEADER, new HtmlRawElementTagH3(children));
 					break;
 				case "h4":
-					result = new HtmlRawElementBlock(new HtmlRawElementTagH4(children));
+					result = new HtmlRawElementBlock(BlockType.HEADER, new HtmlRawElementTagH4(children));
 					break;
 				case "strong":
 					result = new HtmlRawElementTagStrong(children);
 					break;
 				case "p":
-					result = new HtmlRawElementBlock(children);
+					result = new HtmlRawElementBlock(BlockType.NORMAL_TEXT, children);
 					break;
 				case "sup":
 					result = new HtmlRawElementTagSuperscript(children);
@@ -93,7 +94,7 @@ public abstract class HtmlRawElement {
 					break;
 
 				case "pre":
-						result = new HtmlRawElementBlock(new HtmlRawElementTagCode(children));
+						result = new HtmlRawElementBlock(BlockType.CODE_BLOCK, new HtmlRawElementTagCode(children));
 					break;
 
 				default:

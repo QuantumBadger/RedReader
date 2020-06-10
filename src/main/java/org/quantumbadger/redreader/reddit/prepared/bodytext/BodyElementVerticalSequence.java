@@ -8,11 +8,12 @@ import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 
-public class BodyTextElementVerticalSequence extends BodyTextElement {
+public class BodyElementVerticalSequence extends BodyElement {
 
-	@NonNull private final ArrayList<BodyTextElement> mElements;
+	@NonNull private final ArrayList<BodyElement> mElements;
 
-	public BodyTextElementVerticalSequence(@NonNull final ArrayList<BodyTextElement> elements) {
+	public BodyElementVerticalSequence(@NonNull final ArrayList<BodyElement> elements) {
+		super(BlockType.VERTICAL_SEQUENCE);
 		mElements = elements;
 	}
 
@@ -27,7 +28,7 @@ public class BodyTextElementVerticalSequence extends BodyTextElement {
 		final LinearLayout result = new LinearLayout(activity);
 		result.setOrientation(LinearLayout.VERTICAL);
 
-		for(final BodyTextElement element : mElements) {
+		for(final BodyElement element : mElements) {
 			result.addView(element.generateView(activity, textColor, textSize, showLinkButtons));
 		}
 

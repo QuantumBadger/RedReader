@@ -4,21 +4,30 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableStringBuilder;
-import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyTextElement;
-import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyTextElementTextSpanned;
+import org.quantumbadger.redreader.reddit.prepared.bodytext.BlockType;
+import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
+import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElementTextSpanned;
 
 import java.util.ArrayList;
 
 public class HtmlRawElementBlock extends HtmlRawElement {
 
-	private final ArrayList<HtmlRawElement> mChildren;
+	@NonNull private final BlockType mBlockType;
+	@NonNull private final ArrayList<HtmlRawElement> mChildren;
 
-	public HtmlRawElementBlock(final ArrayList<HtmlRawElement> children) {
+	public HtmlRawElementBlock(
+			@NonNull final BlockType blockType,
+			final ArrayList<HtmlRawElement> children) {
+
+		mBlockType = blockType;
 		mChildren = children;
 	}
 
-	public HtmlRawElementBlock(final HtmlRawElement... children) {
+	public HtmlRawElementBlock(
+			@NonNull final BlockType blockType,
+			final HtmlRawElement... children) {
 
+		mBlockType = blockType;
 		mChildren = new ArrayList<>(children.length);
 
 		for(final HtmlRawElement child : children) {
@@ -38,13 +47,13 @@ public class HtmlRawElementBlock extends HtmlRawElement {
 			child.reduce(activeAttributes, activity, reduced);
 		}
 
-		destination.add(new HtmlRawElementBlock(reduced));
+		destination.add(new HtmlRawElementBlock(mBlockType, reduced));
 	}
 
 	@Override
 	public void generate(
 			@NonNull final AppCompatActivity activity,
-			@NonNull final ArrayList<BodyTextElement> destination) {
+			@NonNull final ArrayList<BodyElement> destination) {
 
 		@Nullable SpannableStringBuilder currentSsb = null;
 
@@ -61,7 +70,7 @@ public class HtmlRawElementBlock extends HtmlRawElement {
 			} else {
 
 				if(currentSsb != null) {
-					destination.add(new BodyTextElementTextSpanned(currentSsb));
+					destination.add(new BodyElementTextSpanned(mBlockType, currentSsb));
 					currentSsb = null;
 				}
 
@@ -70,7 +79,7 @@ public class HtmlRawElementBlock extends HtmlRawElement {
 		}
 
 		if(currentSsb != null) {
-			destination.add(new BodyTextElementTextSpanned(currentSsb));
+			destination.add(new BodyElementTextSpanned(mBlockType, currentSsb));
 			currentSsb = null;
 		}
 	}

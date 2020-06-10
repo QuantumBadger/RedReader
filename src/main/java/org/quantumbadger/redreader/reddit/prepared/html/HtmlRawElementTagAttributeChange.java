@@ -2,7 +2,7 @@ package org.quantumbadger.redreader.reddit.prepared.html;
 
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyTextElement;
+import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
 
 import java.util.ArrayList;
 
@@ -39,7 +39,7 @@ public abstract class HtmlRawElementTagAttributeChange extends HtmlRawElementTag
 	@Override
 	public final void generate(
 			@NonNull final AppCompatActivity activity,
-			@NonNull final ArrayList<BodyTextElement> destination) {
+			@NonNull final ArrayList<BodyElement> destination) {
 
 		throw new RuntimeException("Attempt to call generate() on reducible element");
 	}

@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.CharacterStyle;
-import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyTextElement;
+import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
 
 import java.util.ArrayList;
 
@@ -47,7 +47,7 @@ public class HtmlRawElementStyledText extends HtmlRawElement {
 	@Override
 	public void generate(
 			@NonNull final AppCompatActivity activity,
-			@NonNull final ArrayList<BodyTextElement> destination) {
+			@NonNull final ArrayList<BodyElement> destination) {
 
 		throw new RuntimeException("Attempt to call generate() on styled text: should be inside a block");
 	}

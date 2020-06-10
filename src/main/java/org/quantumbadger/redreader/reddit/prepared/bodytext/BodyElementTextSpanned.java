@@ -8,11 +8,14 @@ import android.view.View;
 import android.widget.TextView;
 import org.quantumbadger.redreader.views.LinkifiedTextView;
 
-public class BodyTextElementTextSpanned extends BodyTextElement {
+public class BodyElementTextSpanned extends BodyElement {
 
 	@NonNull private final Spanned mSpanned;
 
-	public BodyTextElementTextSpanned(@NonNull final Spanned spanned) {
+	public BodyElementTextSpanned(
+			@NonNull final BlockType blockType,
+			@NonNull final Spanned spanned) {
+		super(blockType);
 		mSpanned = spanned;
 	}
 

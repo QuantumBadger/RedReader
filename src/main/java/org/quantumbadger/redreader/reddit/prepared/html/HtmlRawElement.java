@@ -82,6 +82,9 @@ public abstract class HtmlRawElement {
 				case "p":
 					result = new HtmlRawElementBlock(children);
 					break;
+				case "sup":
+					result = new HtmlRawElementTagSuperscript(children);
+					break;
 
 				default:
 					return HtmlRawElementInlineErrorMessage.create(

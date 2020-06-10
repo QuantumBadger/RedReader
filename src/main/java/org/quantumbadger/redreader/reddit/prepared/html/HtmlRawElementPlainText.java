@@ -55,7 +55,11 @@ public class HtmlRawElementPlainText extends HtmlRawElement {
 
 		if(attributes.superscript > 0) {
 			if(spans == null) spans = new ArrayList<>();
-			spans.add(new SuperscriptSpan());
+
+			for(int i = 0; i < attributes.superscript; i++) {
+				spans.add(new SuperscriptSpan());
+				spans.add(new RelativeSizeSpan(0.85f));
+			}
 		}
 
 		if(attributes.extraLarge > 0) {

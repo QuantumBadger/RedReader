@@ -27,7 +27,7 @@ public class BodyTextElementTextSpanned extends BodyTextElement {
 		if(textColor != null) tv.setTextColor(textColor);
 		if(textSize != null) tv.setTextSize(textSize);
 
-		tv.setText(mSpanned);
+		tv.setText(mSpanned, TextView.BufferType.SPANNABLE);
 
 		return tv;
 	}

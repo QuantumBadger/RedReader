@@ -46,6 +46,8 @@ public class HtmlReader {
 	@NonNull private final String mHtml;
 	private int mPos = 0;
 
+	private boolean mPreformattedTextPending = false;
+
 	public HtmlReader(@NonNull final String html) {
 		mHtml = html;
 	}
@@ -206,6 +208,10 @@ public class HtmlReader {
 				final String tagName = readName();
 				@Nullable String href = null;
 
+				if(tagName.equalsIgnoreCase("pre")) {
+					mPreformattedTextPending = true;
+				}
+
 				skipWhitespace();
 
 				while(mHtml.charAt(mPos) != '>') {
@@ -241,8 +247,25 @@ public class HtmlReader {
 
 
 		} else {
+
+			if(mPreformattedTextPending) {
+
+				mPreformattedTextPending = false;
+
+				String preformattedText = readAndUnescapeUntil('<');
+
+				if(preformattedText.endsWith("\n")) {
+					preformattedText = preformattedText.substring(0, preformattedText.length() - 1);
+				}
+
+				return new Token(TokenType.TEXT, preformattedText, null);
+			}
+
 			// Raw text
-			return new Token(TokenType.TEXT, normaliseWhitespace(readAndUnescapeUntil('<')), null);
+			return new Token(
+					TokenType.TEXT,
+					normaliseWhitespace(readAndUnescapeUntil('<')),
+					null);
 		}
 	}
 

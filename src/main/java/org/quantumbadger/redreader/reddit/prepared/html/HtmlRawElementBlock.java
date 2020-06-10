@@ -17,6 +17,15 @@ public class HtmlRawElementBlock extends HtmlRawElement {
 		mChildren = children;
 	}
 
+	public HtmlRawElementBlock(final HtmlRawElement... children) {
+
+		mChildren = new ArrayList<>(children.length);
+
+		for(final HtmlRawElement child : children) {
+			mChildren.add(child);
+		}
+	}
+
 	@Override
 	public void reduce(
 			@NonNull final HtmlTextAttributes activeAttributes,

@@ -52,7 +52,7 @@ public abstract class HtmlRawElement {
 			final HtmlRawElement result;
 
 			switch(startToken.text.toLowerCase()) {
-				// TODO <a>, <span> (spoiler), <pre>, <table>/etc, <ul>/etc
+				// TODO <span> (spoiler), <table>/etc, <ul>/etc, link buttons, spacing
 				case "code":
 					result = new HtmlRawElementTagCode(children);
 					break;
@@ -66,16 +66,16 @@ public abstract class HtmlRawElement {
 					result = new HtmlRawElementBlock(children);
 					break;
 				case "h1":
-					result = new HtmlRawElementTagH1(children);
+					result = new HtmlRawElementBlock(new HtmlRawElementTagH1(children));
 					break;
 				case "h2":
-					result = new HtmlRawElementTagH2(children);
+					result = new HtmlRawElementBlock(new HtmlRawElementTagH2(children));
 					break;
 				case "h3":
-					result = new HtmlRawElementTagH3(children);
+					result = new HtmlRawElementBlock(new HtmlRawElementTagH3(children));
 					break;
 				case "h4":
-					result = new HtmlRawElementTagH4(children);
+					result = new HtmlRawElementBlock(new HtmlRawElementTagH4(children));
 					break;
 				case "strong":
 					result = new HtmlRawElementTagStrong(children);
@@ -90,6 +90,10 @@ public abstract class HtmlRawElement {
 					result = new HtmlRawElementTagAnchor(
 							children,
 							Objects.requireNonNull(startToken.href));
+					break;
+
+				case "pre":
+						result = new HtmlRawElementBlock(new HtmlRawElementTagCode(children));
 					break;
 
 				default:

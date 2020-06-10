@@ -7,5 +7,6 @@ public enum BlockType {
 	BULLET,
 	TABLE,
 	CODE_BLOCK,
-	HORIZONTAL_RULE
+	HORIZONTAL_RULE,
+	QUOTE
 }

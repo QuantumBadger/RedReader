@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public abstract class HtmlRawElement {
-	// TODO table/td/tr/thead/tbody/th, hr, "quote", <ol> for numbered list
+	// TODO table/td/tr/thead/tbody/th, "quote", <ol> for numbered list, span for spoilers
 	// link buttons
-	// spoilers
+	// old style spoilers
 
 	public abstract void reduce(
 			@NonNull HtmlTextAttributes activeAttributes,
@@ -52,7 +52,7 @@ public abstract class HtmlRawElement {
 			final HtmlRawElement result;
 
 			switch(startToken.text.toLowerCase()) {
-				// TODO <span> (spoiler), <table>/etc, <ol> for numbered list, link buttons, spacing, blockquote
+				// TODO <span> (spoiler), <table>/etc, <ol> for numbered list, link buttons, blockquote
 				case "code":
 					result = new HtmlRawElementTagCode(children);
 					break;
@@ -97,6 +97,9 @@ public abstract class HtmlRawElement {
 					break;
 				case "li":
 					result = new HtmlRawElementBullet(new HtmlRawElementBlock(BlockType.BULLET, children));
+					break;
+				case "blockquote":
+					result = new HtmlRawElementQuote(new HtmlRawElementBlock(BlockType.QUOTE, children));
 					break;
 
 				default:

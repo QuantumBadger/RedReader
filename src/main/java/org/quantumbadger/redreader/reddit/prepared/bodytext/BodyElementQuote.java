@@ -1,21 +1,22 @@
 package org.quantumbadger.redreader.reddit.prepared.bodytext;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import org.quantumbadger.redreader.common.General;
 
 import java.util.ArrayList;
 
-public class BodyElementBullet extends BodyElement {
+public class BodyElementQuote extends BodyElement {
 
 	@NonNull private final ArrayList<BodyElement> mElements;
 
-	public BodyElementBullet(@NonNull final ArrayList<BodyElement> elements) {
-		super(BlockType.BULLET);
+	public BodyElementQuote(@NonNull final ArrayList<BodyElement> elements) {
+		super(BlockType.QUOTE);
 		mElements = elements;
 	}
 
@@ -27,18 +28,22 @@ public class BodyElementBullet extends BodyElement {
 			@Nullable final Float textSize,
 			final boolean showLinkButtons) {
 
-		final LinearLayout bulletItem = new LinearLayout(activity);
+		final LinearLayout quoteLayout = new LinearLayout(activity);
+
 		final int paddingPx = General.dpToPixels(activity, 6);
-		bulletItem.setPadding(paddingPx, paddingPx, paddingPx, 0);
+		quoteLayout.setPadding(paddingPx, paddingPx, paddingPx, 0);
 
-		final TextView bullet = new TextView(activity);
-		bullet.setText("•   ");
-		if(textSize != null) bullet.setTextSize(textSize);
+		final int quoteBarWidth = General.dpToPixels(activity, 3);
 
-		bulletItem.addView(bullet);
+		final View quoteIndent = new View(activity);
+		quoteLayout.addView(quoteIndent);
+		quoteIndent.setBackgroundColor(Color.rgb(128, 128, 128));
+		quoteIndent.getLayoutParams().width = quoteBarWidth;
+		quoteIndent.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+		((ViewGroup.MarginLayoutParams)quoteIndent.getLayoutParams()).rightMargin = quoteBarWidth;
 
 		if(mElements.size() == 1) {
-			bulletItem.addView(mElements.get(0)
+			quoteLayout.addView(mElements.get(0)
 					.generateView(activity, textColor, textSize, showLinkButtons));
 
 		} else {
@@ -49,9 +54,9 @@ public class BodyElementBullet extends BodyElement {
 				subItems.addView(element.generateView(activity, textColor, textSize, showLinkButtons));
 			}
 
-			bulletItem.addView(subItems);
+			quoteLayout.addView(subItems);
 		}
 
-		return bulletItem;
+		return quoteLayout;
 	}
 }

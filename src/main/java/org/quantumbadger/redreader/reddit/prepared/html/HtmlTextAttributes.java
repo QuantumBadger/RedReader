@@ -6,7 +6,6 @@ public class HtmlTextAttributes {
 
 	public int bold;
 	public int italic;
-	public int underline;
 	public int strikethrough;
 	public int monospace;
 	public int superscript;

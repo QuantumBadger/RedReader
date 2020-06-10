@@ -9,6 +9,7 @@ import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElementTextSpanned;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class HtmlRawElementBlock extends HtmlRawElement {
 
@@ -29,10 +30,20 @@ public class HtmlRawElementBlock extends HtmlRawElement {
 
 		mBlockType = blockType;
 		mChildren = new ArrayList<>(children.length);
+		mChildren.addAll(Arrays.asList(children));
+	}
 
-		for(final HtmlRawElement child : children) {
-			mChildren.add(child);
+	public HtmlRawElementBlock reduce(
+			@NonNull final HtmlTextAttributes activeAttributes,
+			@NonNull final AppCompatActivity activity) {
+
+		final ArrayList<HtmlRawElement> reduced = new ArrayList<>();
+
+		for(final HtmlRawElement child : mChildren) {
+			child.reduce(activeAttributes, activity, reduced);
 		}
+
+		return new HtmlRawElementBlock(mBlockType, reduced);
 	}
 
 	@Override
@@ -41,13 +52,7 @@ public class HtmlRawElementBlock extends HtmlRawElement {
 			@NonNull final AppCompatActivity activity,
 			@NonNull final ArrayList<HtmlRawElement> destination) {
 
-		final ArrayList<HtmlRawElement> reduced = new ArrayList<>();
-
-		for(final HtmlRawElement child : mChildren) {
-			child.reduce(activeAttributes, activity, reduced);
-		}
-
-		destination.add(new HtmlRawElementBlock(mBlockType, reduced));
+		destination.add(reduce(activeAttributes, activity));
 	}
 
 	@Override

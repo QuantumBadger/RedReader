@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public abstract class HtmlRawElement {
-	// a, p, table/td/tr/thead/tbody/th, hr, strong, em, "code", "headings", "underline", "strikethrough", "quote", ul/li etc
+	// TODO table/td/tr/thead/tbody/th, hr, "quote", <ol> for numbered list
 	// link buttons
 	// spoilers
 
@@ -53,7 +53,7 @@ public abstract class HtmlRawElement {
 			final HtmlRawElement result;
 
 			switch(startToken.text.toLowerCase()) {
-				// TODO <span> (spoiler), <table>/etc, <ul>/etc, link buttons, spacing
+				// TODO <span> (spoiler), <table>/etc, <ol> for numbered list, link buttons, spacing, blockquote
 				case "code":
 					result = new HtmlRawElementTagCode(children);
 					break;
@@ -88,13 +88,16 @@ public abstract class HtmlRawElement {
 					result = new HtmlRawElementTagSuperscript(children);
 					break;
 				case "a":
-					result = new HtmlRawElementTagAnchor(
-							children,
-							Objects.requireNonNull(startToken.href));
+					result = new HtmlRawElementTagAnchor(children, Objects.requireNonNull(startToken.href));
 					break;
-
 				case "pre":
-						result = new HtmlRawElementBlock(BlockType.CODE_BLOCK, new HtmlRawElementTagCode(children));
+					result = new HtmlRawElementBlock(BlockType.CODE_BLOCK, new HtmlRawElementTagCode(children));
+					break;
+				case "ul":
+					result = new HtmlRawElementTagPassthrough(children);
+					break;
+				case "li":
+					result = new HtmlRawElementBullet(new HtmlRawElementBlock(BlockType.BULLET, children));
 					break;
 
 				default:

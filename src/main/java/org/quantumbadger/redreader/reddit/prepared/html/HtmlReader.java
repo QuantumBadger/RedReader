@@ -73,7 +73,20 @@ public class HtmlReader {
 	}
 
 	private static boolean isNameChar(final char c) {
-		return c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z';
+
+		switch(c) {
+			case 0:
+			case ' ':
+			case '\'':
+			case '"':
+			case '>':
+			case '/':
+			case '=':
+				return false;
+
+			default:
+				return true;
+		}
 	}
 
 	private String readName() throws MalformedHtmlException {
@@ -90,6 +103,10 @@ public class HtmlReader {
 
 		} catch(final IndexOutOfBoundsException e) {
 			throw new MalformedHtmlException("Reached EOF while reading name", mHtml, mPos);
+		}
+
+		if(result.length() == 0) {
+			throw new MalformedHtmlException("Got zero-length name", mHtml, mPos);
 		}
 
 		return result.toString();
@@ -182,14 +199,14 @@ public class HtmlReader {
 
 					final String propertyName = readName();
 
-					// TODO might not have =, may be name only
-					accept('=');
-					accept('"');
-					final String value = readAndUnescapeUntil('"');
-					accept('"');
-					skipWhitespace();
+					if(tryAccept('=')) {
+						accept('"');
+						final String value = readAndUnescapeUntil('"');
+						accept('"');
+						skipWhitespace();
 
-					Log.i("RREDEBUG", "RRDEBUG got property " + propertyName + " = " + value);
+						Log.i("RREDEBUG", "RRDEBUG got property " + propertyName + " = " + value);
+					}
 				}
 
 				accept('>');

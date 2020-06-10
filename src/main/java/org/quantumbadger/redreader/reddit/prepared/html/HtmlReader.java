@@ -1,8 +1,13 @@
 package org.quantumbadger.redreader.reddit.prepared.html;
 
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyTextElement;
+import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyTextElementVerticalSequence;
+
+import java.util.ArrayList;
 
 public class HtmlReader {
 
@@ -37,14 +42,14 @@ public class HtmlReader {
 	private int mPos = 0;
 
 	public HtmlReader(@NonNull final String html) {
-		mHtml = normaliseWhitespace(html);
+		mHtml = html;
 	}
 
 	private static String normaliseWhitespace(@NonNull final String html) {
 
 		final StringBuilder result = new StringBuilder(html.length());
 
-		boolean lastCharWasWhitespace = true;
+		boolean lastCharWasWhitespace = false;
 
 		for(int i = 0; i < html.length(); i++) {
 
@@ -52,6 +57,7 @@ public class HtmlReader {
 
 			if(c == '\n' || c == '\r') {
 				// Ignore
+				// TODO removes linebreaks inside <pre>!
 
 			} else if(isWhitespace(c)) {
 				if(!lastCharWasWhitespace) {
@@ -157,6 +163,13 @@ public class HtmlReader {
 		}
 	}
 
+	private void skipNewlines() {
+
+		while(mPos < mHtml.length() && mHtml.charAt(mPos) == '\n') {
+			mPos++;
+		}
+	}
+
 	@NonNull
 	public Token readNext() throws MalformedHtmlException {
 
@@ -164,6 +177,8 @@ public class HtmlReader {
 			// End of data
 			return Token.EOF;
 		}
+
+		skipNewlines();
 
 		if(mHtml.charAt(mPos) == '<') {
 
@@ -221,7 +236,26 @@ public class HtmlReader {
 
 		} else {
 			// Raw text
-			return new Token(TokenType.TEXT, readAndUnescapeUntil('<'));
+			return new Token(TokenType.TEXT, normaliseWhitespace(readAndUnescapeUntil('<')));
 		}
+	}
+
+	// TODO put this elsewhere?
+	public static BodyTextElement parse(
+			@NonNull final String html,
+			@NonNull final AppCompatActivity activity) throws MalformedHtmlException {
+
+		final HtmlRawElement rootElement
+				= HtmlRawElement.readFrom(new HtmlReaderPeekable(new HtmlReader(html)));
+
+		if(!(rootElement instanceof HtmlRawElementTag)){
+			throw new MalformedHtmlException("Expected root tag, got plain text", html, 0);
+		}
+
+		final ArrayList<BodyTextElement> sections = new ArrayList<>();
+
+		((HtmlRawElementTag)rootElement).reduce(new HtmlTextAttributes(), activity, sections);
+
+		return new BodyTextElementVerticalSequence(sections);
 	}
 }

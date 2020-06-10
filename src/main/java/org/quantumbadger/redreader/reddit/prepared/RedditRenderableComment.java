@@ -222,6 +222,9 @@ public class RedditRenderableComment implements RedditRenderableInboxItem, Reddi
 
 		final StringBuilder sb = new StringBuilder();
 
+		sb.append(StringEscapeUtils.unescapeHtml4(mComment.getRawComment().body_html));
+		sb.append('\n');sb.append('\n');
+
 		do {
 			try {
 				token = htmlReader.readNext();

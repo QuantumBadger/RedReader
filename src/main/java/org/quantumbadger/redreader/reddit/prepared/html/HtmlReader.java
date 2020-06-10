@@ -50,7 +50,10 @@ public class HtmlReader {
 
 			final char c = html.charAt(i);
 
-			if(isWhitespace(c)) {
+			if(c == '\n' || c == '\r') {
+				// Ignore
+
+			} else if(isWhitespace(c)) {
 				if(!lastCharWasWhitespace) {
 					result.append(" ");
 					lastCharWasWhitespace = true;

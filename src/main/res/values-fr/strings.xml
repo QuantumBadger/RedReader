@@ -105,7 +105,7 @@
     <string name="accounts_username">Nom d\'utilisateur</string>
     <string name="accounts_password">Mot de passe</string>
     <string name="accounts_login">Se connecter</string>
-    <string name="accounts_delete_sure">Êtes vous sûr·e de vouloir supprimer ce compte \?</string>
+    <string name="accounts_delete_sure">Êtes vous sûr de vouloir supprimer ce compte \?</string>
     <!-- Post Sorts -->
     <string name="sort_posts_hot">Populaire</string>
     <string name="sort_posts_new">Nouveau</string>

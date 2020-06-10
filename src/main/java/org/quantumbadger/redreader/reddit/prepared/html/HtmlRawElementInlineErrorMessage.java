@@ -2,36 +2,23 @@ package org.quantumbadger.redreader.reddit.prepared.html;
 
 import android.graphics.Color;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.text.style.BackgroundColorSpan;
+import android.text.style.CharacterStyle;
 import android.text.style.ForegroundColorSpan;
 
 import java.util.ArrayList;
 
-public class HtmlRawElementInlineErrorMessage extends HtmlRawElementText {
+public abstract class HtmlRawElementInlineErrorMessage extends HtmlRawElement {
 
-	@NonNull private final String mText;
+	private HtmlRawElementInlineErrorMessage() {}
 
-	public HtmlRawElementInlineErrorMessage(@NonNull final String text) {
-		mText = text;
-	}
+	public static HtmlRawElementStyledText create(@NonNull final String text) {
 
-	@Override
-	public final void writeTo(
-			@NonNull final SpannableStringBuilder ssb,
-			@NonNull final HtmlTextAttributes attributes,
-			@NonNull final AppCompatActivity activity) {
+		final ArrayList<CharacterStyle> spans = new ArrayList<>();
+		spans.add(new BackgroundColorSpan(Color.RED));
+		spans.add(new ForegroundColorSpan(Color.WHITE));
 
-		final int textStart = ssb.length();
-		ssb.append("  ");
-		ssb.append(mText);
-		ssb.append("  ");
-		final int textEnd = ssb.length();
-
-		ssb.setSpan(new BackgroundColorSpan(Color.RED), textStart, textEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-		ssb.setSpan(new ForegroundColorSpan(Color.WHITE), textStart, textEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+		return new HtmlRawElementStyledText(text, spans);
 	}
 
 	@NonNull
@@ -42,7 +29,7 @@ public class HtmlRawElementInlineErrorMessage extends HtmlRawElementText {
 		final ArrayList<HtmlRawElement> children = new ArrayList<>();
 
 		children.add(element);
-		children.add(new HtmlRawElementInlineErrorMessage(text));
+		children.add(HtmlRawElementInlineErrorMessage.create(text));
 
 		return new HtmlRawElementTagPassthrough(children);
 	}

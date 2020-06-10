@@ -1,6 +1,8 @@
 package org.quantumbadger.redreader.reddit.prepared.html;
 
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
+import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyTextElement;
 
 import java.util.ArrayList;
 
@@ -8,6 +10,15 @@ public abstract class HtmlRawElement {
 	// a, p, table/td/tr/thead/tbody/th, hr, strong, em, "code", "headings", "underline", "strikethrough", "quote", ul/li etc
 	// link buttons
 	// spoilers
+
+	public abstract void reduce(
+			@NonNull HtmlTextAttributes activeAttributes,
+			@NonNull AppCompatActivity activity,
+			@NonNull ArrayList<HtmlRawElement> destination);
+
+	public abstract void generate(
+			@NonNull AppCompatActivity activity,
+			@NonNull ArrayList<BodyTextElement> destination);
 
 	@NonNull
 	public static HtmlRawElement readFrom(@NonNull final HtmlReaderPeekable reader)
@@ -20,10 +31,10 @@ public abstract class HtmlRawElement {
 
 			if(startToken.text.equals("hr")) {
 				// TODO Horizontal rule
-				return new HtmlRawElementInlineErrorMessage("Error: Horizontal rule currently unsupported");
+				return HtmlRawElementInlineErrorMessage.create("Error: Horizontal rule currently unsupported");
 
 			} else {
-				return new HtmlRawElementInlineErrorMessage("Error: Unexpected tag <" + startToken.text + "/>");
+				return HtmlRawElementInlineErrorMessage.create("Error: Unexpected tag <" + startToken.text + "/>");
 			}
 
 		} else if(startToken.type == HtmlReader.TokenType.TAG_START) {
@@ -51,7 +62,7 @@ public abstract class HtmlRawElement {
 					result = new HtmlRawElementTagEmphasis(children);
 					break;
 				case "div":
-					result = new HtmlRawElementTagPassthrough(children);
+					result = new HtmlRawElementBlock(children);
 					break;
 				case "h1":
 					result = new HtmlRawElementTagH1(children);
@@ -69,11 +80,11 @@ public abstract class HtmlRawElement {
 					result = new HtmlRawElementTagStrong(children);
 					break;
 				case "p":
-					result = new HtmlRawElementTagPassthrough(children);
+					result = new HtmlRawElementBlock(children);
 					break;
 
 				default:
-					return new HtmlRawElementInlineErrorMessage(
+					return HtmlRawElementInlineErrorMessage.create(
 							"Error: Unexpected tag start <" + startToken.text + ">");
 			}
 
@@ -96,7 +107,7 @@ public abstract class HtmlRawElement {
 			throw new MalformedHtmlException("Unexpected EOF", reader.getHtml(), reader.getPos());
 
 		} else {
-			return new HtmlRawElementInlineErrorMessage(
+			return HtmlRawElementInlineErrorMessage.create(
 					"Error: Unexpected token type " + startToken.type);
 		}
 	}

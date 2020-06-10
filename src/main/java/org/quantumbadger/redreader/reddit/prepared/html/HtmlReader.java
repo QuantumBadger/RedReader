@@ -248,15 +248,17 @@ public class HtmlReader {
 		final HtmlRawElement rootElement
 				= HtmlRawElement.readFrom(new HtmlReaderPeekable(new HtmlReader(html)));
 
-		if(!(rootElement instanceof HtmlRawElementTag)){
-			throw new MalformedHtmlException("Expected root tag, got plain text", html, 0);
+		final ArrayList<HtmlRawElement> reduced = new ArrayList<>();
+
+		rootElement.reduce(new HtmlTextAttributes(), activity, reduced);
+
+		final ArrayList<BodyTextElement> generated = new ArrayList<>();
+
+		for(final HtmlRawElement element : reduced) {
+			element.generate(activity, generated);
 		}
 
-		final ArrayList<BodyTextElement> sections = new ArrayList<>();
-
-		((HtmlRawElementTag)rootElement).reduce(new HtmlTextAttributes(), activity, sections);
-
-		return new BodyTextElementVerticalSequence(sections);
+		return new BodyTextElementVerticalSequence(generated);
 	}
 
 	@NonNull

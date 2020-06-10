@@ -219,33 +219,13 @@ public class RedditRenderableComment implements RedditRenderableInboxItem, Reddi
 
 		final String unescapedHtml = StringEscapeUtils.unescapeHtml4(mComment.getRawComment().body_html);
 
-		final HtmlReader htmlReader = new HtmlReader(unescapedHtml);
-
-		HtmlReader.Token token;
-
-		final StringBuilder sb = new StringBuilder();
-
-		sb.append(unescapedHtml);
-		sb.append('\n');sb.append('\n');
-
-		do {
-			try {
-				token = htmlReader.readNext();
-				sb.append(token.toString()).append('\n');
-
-			} catch(MalformedHtmlException e) {
-				throw new RuntimeException(e);
-			}
-		} while(token.type != HtmlReader.TokenType.EOF);
-
 		final LinearLayout layout = new LinearLayout(activity);
 		layout.setOrientation(LinearLayout.VERTICAL);
 
 		final TextView tv = new TextView(activity);
-		tv.setText(sb.toString());
-		if(textColor != null) tv.setTextColor(textColor);
-		if(textSize != null) tv.setTextSize(textSize);
-
+		tv.setText(unescapedHtml, TextView.BufferType.SPANNABLE);
+		tv.setTextColor(Color.GRAY);
+		if(textSize != null) tv.setTextSize(textSize * 0.8f);
 		layout.addView(tv);
 
 		try {

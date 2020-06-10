@@ -28,8 +28,32 @@ public class BodyElementVerticalSequence extends BodyElement {
 		final LinearLayout result = new LinearLayout(activity);
 		result.setOrientation(LinearLayout.VERTICAL);
 
+		final float dpScale = activity.getResources().getDisplayMetrics().density;
+		final int paragraphSpacing = (int) (dpScale * 6);
+
+		@Nullable BlockType lastBlock = null;
+
 		for(final BodyElement element : mElements) {
-			result.addView(element.generateView(activity, textColor, textSize, showLinkButtons));
+
+			final View view = element.generateView(activity, textColor, textSize, showLinkButtons);
+			result.addView(view);
+
+			final LinearLayout.LayoutParams layoutParams
+					= (LinearLayout.LayoutParams)view.getLayoutParams();
+
+			if(lastBlock != null) {
+
+				if(element.getType() == BlockType.BULLET
+						&& lastBlock == BlockType.BULLET) {
+					// No spacing
+
+				} else {
+					layoutParams.topMargin = paragraphSpacing;
+				}
+
+			}
+
+			lastBlock = element.getType();
 		}
 
 		return result;

@@ -14,6 +14,7 @@ public abstract class HtmlRawElement {
 			throws MalformedHtmlException {
 
 		final HtmlReader.Token startToken = reader.peek();
+		reader.advance();
 
 		if(startToken.type == HtmlReader.TokenType.TAG_START_AND_END) {
 
@@ -29,7 +30,7 @@ public abstract class HtmlRawElement {
 
 			final ArrayList<HtmlRawElement> children = new ArrayList<>();
 
-			while(reader.advance().type != HtmlReader.TokenType.TAG_END) {
+			while(reader.peek().type != HtmlReader.TokenType.TAG_END) {
 				children.add(HtmlRawElement.readFrom(reader));
 			}
 
@@ -77,7 +78,7 @@ public abstract class HtmlRawElement {
 			}
 
 			if(!endToken.text.equalsIgnoreCase(startToken.text)) {
-				return HtmlRawElementInlineErrorMessage.prependError(
+				return HtmlRawElementInlineErrorMessage.appendError(
 						"Error: Mismatched end tag (start <"
 								+ startToken.text
 								+ ">, end </"

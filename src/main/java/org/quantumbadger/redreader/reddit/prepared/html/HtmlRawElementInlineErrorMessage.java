@@ -35,14 +35,14 @@ public class HtmlRawElementInlineErrorMessage extends HtmlRawElementText {
 	}
 
 	@NonNull
-	public static HtmlRawElementTagPassthrough prependError(
+	public static HtmlRawElementTagPassthrough appendError(
 			@NonNull final String text,
 			@NonNull final HtmlRawElement element) {
 
 		final ArrayList<HtmlRawElement> children = new ArrayList<>();
 
-		children.add(new HtmlRawElementInlineErrorMessage(text));
 		children.add(element);
+		children.add(new HtmlRawElementInlineErrorMessage(text));
 
 		return new HtmlRawElementTagPassthrough(children);
 	}

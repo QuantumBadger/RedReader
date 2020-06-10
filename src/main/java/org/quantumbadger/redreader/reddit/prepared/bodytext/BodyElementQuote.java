@@ -31,6 +31,7 @@ public class BodyElementQuote extends BodyElement {
 		final LinearLayout quoteLayout = new LinearLayout(activity);
 
 		final int paddingPx = General.dpToPixels(activity, 6);
+		final int paragraphSpacingPx = General.dpToPixels(activity, 6);
 		quoteLayout.setPadding(paddingPx, paddingPx, paddingPx, 0);
 
 		final int quoteBarWidth = General.dpToPixels(activity, 3);
@@ -50,8 +51,18 @@ public class BodyElementQuote extends BodyElement {
 			final LinearLayout subItems = new LinearLayout(activity);
 			subItems.setOrientation(LinearLayout.VERTICAL);
 
+			boolean first = true;
+
 			for(final BodyElement element : mElements) {
-				subItems.addView(element.generateView(activity, textColor, textSize, showLinkButtons));
+
+				final View view = element.generateView(activity, textColor, textSize, showLinkButtons);
+				subItems.addView(view);
+
+				if(!first) {
+					((LinearLayout.LayoutParams)view.getLayoutParams()).topMargin = paragraphSpacingPx;
+				}
+
+				first = false;
 			}
 
 			quoteLayout.addView(subItems);

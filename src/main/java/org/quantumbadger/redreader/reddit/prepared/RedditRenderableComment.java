@@ -21,6 +21,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.TextView;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.common.BetterSSB;
@@ -31,6 +33,8 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.reddit.api.RedditAPICommentAction;
+import org.quantumbadger.redreader.reddit.prepared.html.HtmlReader;
+import org.quantumbadger.redreader.reddit.prepared.html.MalformedHtmlException;
 import org.quantumbadger.redreader.reddit.things.RedditComment;
 import org.quantumbadger.redreader.reddit.things.RedditThingWithIdAndType;
 
@@ -212,7 +216,29 @@ public class RedditRenderableComment implements RedditRenderableInboxItem, Reddi
 			final Float textSize,
 			final boolean showLinkButtons) {
 
-		return mComment.getBody().buildView(activity, textColor, textSize, showLinkButtons);
+		final HtmlReader htmlReader = new HtmlReader(StringEscapeUtils.unescapeHtml4(mComment.getRawComment().body_html));
+
+		HtmlReader.Token token;
+
+		final StringBuilder sb = new StringBuilder();
+
+		do {
+			try {
+				token = htmlReader.readNext();
+				sb.append(token.toString()).append('\n');
+
+			} catch(MalformedHtmlException e) {
+				throw new RuntimeException(e);
+			}
+		} while(token.type != HtmlReader.TokenType.EOF);
+
+		final TextView tv = new TextView(activity);
+		tv.setText(sb.toString());
+		if(textColor != null) tv.setTextColor(textColor);
+		if(textSize != null) tv.setTextSize(textSize);
+
+
+		return tv;
 	}
 
 	@Override

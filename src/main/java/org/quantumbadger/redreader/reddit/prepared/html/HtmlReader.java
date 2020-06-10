@@ -2,12 +2,14 @@ package org.quantumbadger.redreader.reddit.prepared.html;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 public class HtmlReader {
 
 	public enum TokenType {
 		TAG_START,
 		TAG_END,
+		TAG_START_AND_END,
 		TEXT,
 		EOF
 	}
@@ -90,7 +92,7 @@ public class HtmlReader {
 		return result.toString();
 	}
 
-	private String readUntil(final char endChar) {
+	private String readAndUnescapeUntil(final char endChar) {
 
 		// TODO could optimise by using substr?
 
@@ -101,7 +103,17 @@ public class HtmlReader {
 			mPos++;
 		}
 
-		return result.toString();
+		return StringEscapeUtils.unescapeHtml4(result.toString());
+	}
+
+	private boolean tryAccept(final char c) {
+
+		if(mPos < mHtml.length() && mHtml.charAt(mPos) == c) {
+			mPos++;
+			return true;
+		}
+
+		return false;
 	}
 
 	private void accept(final char c) throws MalformedHtmlException {
@@ -159,10 +171,18 @@ public class HtmlReader {
 
 				while(mHtml.charAt(mPos) != '>') {
 
+					if(tryAccept('/')) {
+						skipWhitespace();
+						accept('>');
+						return new Token(TokenType.TAG_START_AND_END, tagName);
+					}
+
 					final String propertyName = readName();
+
+					// TODO might not have =, may be name only
 					accept('=');
 					accept('"');
-					final String value = readUntil('"');
+					final String value = readAndUnescapeUntil('"');
 					accept('"');
 					skipWhitespace();
 
@@ -181,7 +201,7 @@ public class HtmlReader {
 
 		} else {
 			// Raw text
-			return new Token(TokenType.TEXT, readUntil('<'));
+			return new Token(TokenType.TEXT, readAndUnescapeUntil('<'));
 		}
 	}
 }

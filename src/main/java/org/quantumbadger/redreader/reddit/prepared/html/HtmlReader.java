@@ -258,4 +258,13 @@ public class HtmlReader {
 
 		return new BodyTextElementVerticalSequence(sections);
 	}
+
+	@NonNull
+	public String getHtml() {
+		return mHtml;
+	}
+
+	public int getPos() {
+		return mPos;
+	}
 }

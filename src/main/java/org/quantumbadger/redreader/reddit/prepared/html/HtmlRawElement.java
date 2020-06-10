@@ -40,19 +40,40 @@ public abstract class HtmlRawElement {
 
 			switch(startToken.text.toLowerCase()) {
 				// TODO <a>, <span> (spoiler), <pre>, <table>/etc, <ul>/etc
-				case "code": result = new HtmlRawElementTagCode(children); break;
-				case "del": result = new HtmlRawElementTagDel(children); break;
-				case "em": result = new HtmlRawElementTagEmphasis(children); break;
-				case "div": result = new HtmlRawElementTagPassthrough(children); break;
-				case "h1": result = new HtmlRawElementTagH1(children); break;
-				case "h2": result = new HtmlRawElementTagH2(children); break;
-				case "h3": result = new HtmlRawElementTagH3(children); break;
-				case "h4": result = new HtmlRawElementTagH4(children); break;
-				case "strong": result = new HtmlRawElementTagStrong(children); break;
-				case "p": result = new HtmlRawElementTagPassthrough(children); break;
+				case "code":
+					result = new HtmlRawElementTagCode(children);
+					break;
+				case "del":
+					result = new HtmlRawElementTagDel(children);
+					break;
+				case "em":
+					result = new HtmlRawElementTagEmphasis(children);
+					break;
+				case "div":
+					result = new HtmlRawElementTagPassthrough(children);
+					break;
+				case "h1":
+					result = new HtmlRawElementTagH1(children);
+					break;
+				case "h2":
+					result = new HtmlRawElementTagH2(children);
+					break;
+				case "h3":
+					result = new HtmlRawElementTagH3(children);
+					break;
+				case "h4":
+					result = new HtmlRawElementTagH4(children);
+					break;
+				case "strong":
+					result = new HtmlRawElementTagStrong(children);
+					break;
+				case "p":
+					result = new HtmlRawElementTagPassthrough(children);
+					break;
 
-				default: return new HtmlRawElementInlineErrorMessage(
-						"Error: Unexpected tag start <" + startToken.text + ">");
+				default:
+					return new HtmlRawElementInlineErrorMessage(
+							"Error: Unexpected tag start <" + startToken.text + ">");
 			}
 
 			if(!endToken.text.equalsIgnoreCase(startToken.text)) {
@@ -66,6 +87,12 @@ public abstract class HtmlRawElement {
 			}
 
 			return result;
+
+		} else if(startToken.type == HtmlReader.TokenType.TEXT) {
+			return new HtmlRawElementPlainText(startToken.text);
+
+		} else if(startToken.type == HtmlReader.TokenType.EOF) {
+			throw new MalformedHtmlException("Unexpected EOF", reader.getHtml(), reader.getPos());
 
 		} else {
 			return new HtmlRawElementInlineErrorMessage(

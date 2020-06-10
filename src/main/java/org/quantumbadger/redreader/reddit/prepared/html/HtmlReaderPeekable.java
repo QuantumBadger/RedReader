@@ -21,4 +21,13 @@ public class HtmlReaderPeekable {
 		mNext = mHtmlReader.readNext();
 		return mNext;
 	}
+
+	@NonNull
+	public String getHtml() {
+		return mHtmlReader.getHtml();
+	}
+
+	public int getPos() {
+		return mHtmlReader.getPos();
+	}
 }

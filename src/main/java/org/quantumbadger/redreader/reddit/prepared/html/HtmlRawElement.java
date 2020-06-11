@@ -92,9 +92,21 @@ public abstract class HtmlRawElement {
 				case "sup":
 					result = new HtmlRawElementTagSuperscript(children);
 					break;
-				case "a":
-					result = new HtmlRawElementTagAnchor(children, Objects.requireNonNull(startToken.href));
+				case "a": {
+
+					final String href = Objects.requireNonNull(startToken.href);
+
+					if(href.startsWith("/spoiler")) {
+						// Old spoiler syntax
+						result = new HtmlRawElementSpoiler(new HtmlRawElementBlock(BlockType.BUTTON, children));
+
+					} else {
+						result = new HtmlRawElementTagAnchor(
+								children,
+								href);
+					}
 					break;
+				}
 				case "pre":
 					result = new HtmlRawElementBlock(BlockType.CODE_BLOCK, new HtmlRawElementTagCode(children));
 					break;

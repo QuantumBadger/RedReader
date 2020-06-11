@@ -1,5 +1,6 @@
 91/1.11
 Support for new spoiler syntax, and formatting/links inside spoilers
+Various improvements to markdown rendering
 
 90/1.10
 Added toolbar when viewing subreddits and comments

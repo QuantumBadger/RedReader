@@ -27,7 +27,6 @@ public class BodyElementTableRow extends BodyElement {
 		final TableRow result = new TableRow(activity);
 
 		for(final BodyElement element : mElements) {
-
 			final View view = element.generateView(activity, textColor, textSize, showLinkButtons);
 			result.addView(view);
 		}

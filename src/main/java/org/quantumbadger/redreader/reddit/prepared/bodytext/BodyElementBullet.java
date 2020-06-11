@@ -15,7 +15,7 @@ public class BodyElementBullet extends BodyElement {
 	@NonNull private final ArrayList<BodyElement> mElements;
 
 	public BodyElementBullet(@NonNull final ArrayList<BodyElement> elements) {
-		super(BlockType.BULLET);
+		super(BlockType.LIST_ELEMENT);
 		mElements = elements;
 	}
 

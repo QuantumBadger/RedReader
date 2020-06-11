@@ -42,7 +42,8 @@ public class BodyElementVerticalSequence extends BodyElement {
 
 			if(lastBlock != null) {
 
-				if(element.getType() == BlockType.BULLET) {
+				if(element.getType() == BlockType.LIST_ELEMENT
+						&& lastBlock == BlockType.LIST_ELEMENT) {
 					// No spacing
 
 				} else {

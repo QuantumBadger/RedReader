@@ -60,6 +60,7 @@ public class BodyElementQuote extends BodyElement {
 
 				if(!first) {
 					((LinearLayout.LayoutParams)view.getLayoutParams()).topMargin = paragraphSpacingPx;
+					view.setLayoutParams(view.getLayoutParams());
 				}
 
 				first = false;

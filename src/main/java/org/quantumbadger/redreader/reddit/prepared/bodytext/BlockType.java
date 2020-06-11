@@ -8,5 +8,6 @@ public enum BlockType {
 	TABLE,
 	CODE_BLOCK,
 	HORIZONTAL_RULE,
-	QUOTE
+	QUOTE,
+	BUTTON
 }

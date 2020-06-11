@@ -229,7 +229,7 @@ public class RedditRenderableComment implements RedditRenderableInboxItem, Reddi
 		layout.addView(tv);
 
 		try {
-			layout.addView(HtmlReader.parse(unescapedHtml, activity)
+			layout.addView(HtmlReader.parse(unescapedHtml, activity, textColor, textSize)
 					.generateView(activity, textColor, textSize, showLinkButtons));
 
 		} catch(final MalformedHtmlException e) {

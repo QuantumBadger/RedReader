@@ -21,19 +21,22 @@ public class HtmlReader {
 
 	public static class Token {
 
-		public static final Token EOF = new Token(TokenType.EOF, "", null);
+		public static final Token EOF = new Token(TokenType.EOF, "", null, null);
 
 		@NonNull public final TokenType type;
 		@NonNull public final String text;
 		@Nullable public final String href;
+		@Nullable public final String cssClass;
 
 		public Token(
 				@NonNull final TokenType type,
 				@NonNull final String text,
-				@Nullable final String href) {
+				@Nullable final String href,
+				@Nullable final String cssClass) {
 			this.type = type;
 			this.text = text;
 			this.href = href;
+			this.cssClass = cssClass;
 		}
 
 		@NonNull
@@ -207,6 +210,7 @@ public class HtmlReader {
 
 				final String tagName = readName();
 				@Nullable String href = null;
+				@Nullable String cssClass = null;
 
 				if(tagName.equalsIgnoreCase("pre")) {
 					mPreformattedTextPending = true;
@@ -219,7 +223,7 @@ public class HtmlReader {
 					if(tryAccept('/')) {
 						skipWhitespace();
 						accept('>');
-						return new Token(TokenType.TAG_START_AND_END, tagName, href);
+						return new Token(TokenType.TAG_START_AND_END, tagName, href, cssClass);
 					}
 
 					final String propertyName = readName();
@@ -232,13 +236,15 @@ public class HtmlReader {
 
 						if(propertyName.equalsIgnoreCase("href")) {
 							href = value;
+						} else if(propertyName.equalsIgnoreCase("class")) {
+							cssClass = value;
 						}
 					}
 				}
 
 				accept('>');
 
-				return new Token(type, tagName, href);
+				return new Token(type, tagName, href, cssClass);
 
 			} catch(final IndexOutOfBoundsException e) {
 				throw new MalformedHtmlException("Unexpected EOF", mHtml, mPos);
@@ -258,13 +264,14 @@ public class HtmlReader {
 					preformattedText = preformattedText.substring(0, preformattedText.length() - 1);
 				}
 
-				return new Token(TokenType.TEXT, preformattedText, null);
+				return new Token(TokenType.TEXT, preformattedText, null, null);
 			}
 
 			// Raw text
 			return new Token(
 					TokenType.TEXT,
 					normaliseWhitespace(readAndUnescapeUntil('<')),
+					null,
 					null);
 		}
 	}
@@ -272,7 +279,9 @@ public class HtmlReader {
 	// TODO put this elsewhere?
 	public static BodyElement parse(
 			@NonNull final String html,
-			@NonNull final AppCompatActivity activity) throws MalformedHtmlException {
+			@NonNull final AppCompatActivity activity,
+			@Nullable final Integer textColor,
+			@Nullable final Float textSize) throws MalformedHtmlException {
 
 		final HtmlRawElement rootElement
 				= HtmlRawElement.readFrom(new HtmlReaderPeekable(new HtmlReader(html)));
@@ -284,7 +293,7 @@ public class HtmlReader {
 		final ArrayList<BodyElement> generated = new ArrayList<>();
 
 		for(final HtmlRawElement element : reduced) {
-			element.generate(activity, generated);
+			element.generate(activity, textColor, textSize, generated);
 		}
 
 		return new BodyElementVerticalSequence(generated);

@@ -1,6 +1,7 @@
 package org.quantumbadger.redreader.reddit.prepared.html;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BlockType;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
@@ -9,7 +10,10 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public abstract class HtmlRawElement {
-	// TODO table/td/tr/thead/tbody/th, "quote", <ol> for numbered list, span for spoilers
+	// TODO use for inbox messages and self text
+	// TODO maybe remove the old markdown classes (and comment preview?!)
+
+	// TODO table/td/tr/thead/tbody/th, <ol> for numbered list, span for spoilers
 	// link buttons
 	// old style spoilers
 
@@ -20,6 +24,8 @@ public abstract class HtmlRawElement {
 
 	public abstract void generate(
 			@NonNull AppCompatActivity activity,
+			@Nullable Integer textColor,
+			@Nullable Float textSize,
 			@NonNull ArrayList<BodyElement> destination);
 
 	@NonNull
@@ -52,7 +58,7 @@ public abstract class HtmlRawElement {
 			final HtmlRawElement result;
 
 			switch(startToken.text.toLowerCase()) {
-				// TODO <span> (spoiler), <table>/etc, <ol> for numbered list, link buttons, blockquote
+				// TODO <span> (spoiler), <table>/etc, <ol> for numbered list, link buttons
 				case "code":
 					result = new HtmlRawElementTagCode(children);
 					break;
@@ -101,8 +107,18 @@ public abstract class HtmlRawElement {
 				case "blockquote":
 					result = new HtmlRawElementQuote(new HtmlRawElementBlock(BlockType.QUOTE, children));
 					break;
+				case "span":
+
+					if("md-spoiler-text".equalsIgnoreCase(startToken.cssClass)) {
+						result = new HtmlRawElementSpoiler(new HtmlRawElementBlock(BlockType.BUTTON, children));
+
+					} else {
+						result = new HtmlRawElementTagPassthrough(children);
+					}
+					break;
 
 				default:
+					// TODO ignore this and just pass through
 					return HtmlRawElementInlineErrorMessage.create(
 							"Error: Unexpected tag start <" + startToken.text + ">");
 			}

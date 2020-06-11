@@ -626,6 +626,8 @@ public final class General {
 		layoutParams.rightMargin = marginPx;
 		layoutParams.topMargin = marginPx;
 		layoutParams.bottomMargin = marginPx;
+
+		view.setLayoutParams(layoutParams);
 	}
 
 	public static void setLayoutMatchParent(final View view) {

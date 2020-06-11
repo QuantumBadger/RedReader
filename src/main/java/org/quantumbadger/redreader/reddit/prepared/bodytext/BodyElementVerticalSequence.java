@@ -17,7 +17,6 @@ public class BodyElementVerticalSequence extends BodyElement {
 		mElements = elements;
 	}
 
-
 	@Override
 	public View generateView(
 			@NonNull final AppCompatActivity activity,
@@ -52,6 +51,8 @@ public class BodyElementVerticalSequence extends BodyElement {
 				}
 
 			}
+
+			view.setLayoutParams(layoutParams);
 
 			lastBlock = element.getType();
 		}

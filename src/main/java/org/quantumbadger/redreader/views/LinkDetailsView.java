@@ -24,6 +24,8 @@ import android.graphics.Paint;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -37,7 +39,7 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 
 public class LinkDetailsView extends FrameLayout {
 
-	public LinkDetailsView(Context context, final String title, final String subtitle) {
+	public LinkDetailsView(Context context, @NonNull final String title, @Nullable final String subtitle) {
 
 		super(context);
 

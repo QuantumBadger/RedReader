@@ -1,3 +1,6 @@
+91/1.11
+Support for new spoiler syntax, and formatting/links inside spoilers
+
 90/1.10
 Added toolbar when viewing subreddits and comments
 Avoid showing old comment listings (by refreshing if the cached copy is too old)

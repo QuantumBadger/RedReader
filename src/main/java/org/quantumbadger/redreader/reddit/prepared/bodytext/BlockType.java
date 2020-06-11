@@ -7,6 +7,7 @@ public enum BlockType {
 	LIST_ELEMENT,
 	TABLE,
 	TABLE_ROW,
+	TABLE_CELL,
 	CODE_BLOCK,
 	HORIZONTAL_RULE,
 	QUOTE,

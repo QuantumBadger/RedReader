@@ -13,9 +13,8 @@ public abstract class HtmlRawElement {
 	// TODO use for inbox messages and self text
 	// TODO maybe remove the old markdown classes (and comment preview?!)
 
-	// TODO table/td/tr/thead/tbody/th
-	// link buttons
-	// old style spoilers
+	// TODO table borders and padding
+	// TODO link buttons
 
 	public abstract void reduce(
 			@NonNull HtmlTextAttributes activeAttributes,
@@ -58,7 +57,6 @@ public abstract class HtmlRawElement {
 			final HtmlRawElement result;
 
 			switch(startToken.text.toLowerCase()) {
-				// TODO <span> (spoiler), <table>/etc, <ol> for numbered list, link buttons
 				case "code":
 					result = new HtmlRawElementTagCode(children);
 					break;
@@ -87,9 +85,11 @@ public abstract class HtmlRawElement {
 					result = new HtmlRawElementTagStrong(children);
 					break;
 				case "p":
+					result = new HtmlRawElementBlock(BlockType.NORMAL_TEXT, children);
+					break;
 				case "th":
 				case "td":
-					result = new HtmlRawElementBlock(BlockType.NORMAL_TEXT, children);
+					result = new HtmlRawElementTableCell(new HtmlRawElementBlock(BlockType.TABLE_CELL, children));
 					break;
 				case "sup":
 					result = new HtmlRawElementTagSuperscript(children);

@@ -48,6 +48,7 @@ public class BodyElementQuote extends BodyElement {
 					.generateView(activity, textColor, textSize, showLinkButtons));
 
 		} else {
+			// TODO replace with BodyElementVerticalSequence
 			final LinearLayout subItems = new LinearLayout(activity);
 			subItems.setOrientation(LinearLayout.VERTICAL);
 

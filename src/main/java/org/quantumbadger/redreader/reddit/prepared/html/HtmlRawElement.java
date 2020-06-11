@@ -13,7 +13,6 @@ public abstract class HtmlRawElement {
 	// TODO use for inbox messages and self text
 	// TODO maybe remove the old markdown classes (and comment preview?!)
 
-	// TODO table borders and padding
 	// TODO link buttons
 
 	public abstract void reduce(
@@ -36,11 +35,15 @@ public abstract class HtmlRawElement {
 
 		if(startToken.type == HtmlReader.TokenType.TAG_START_AND_END) {
 
-			if(startToken.text.equals("hr")) {
-				return new HtmlRawElementTagHorizontalRule();
+			switch(startToken.text) {
+				case "hr":
+					return new HtmlRawElementTagHorizontalRule();
 
-			} else {
-				return HtmlRawElementInlineErrorMessage.create("Error: Unexpected tag <" + startToken.text + "/>");
+				case "br":
+					return new HtmlRawElementBreak();
+
+				default:
+					return HtmlRawElementInlineErrorMessage.create("Error: Unexpected tag <" + startToken.text + "/>");
 			}
 
 		} else if(startToken.type == HtmlReader.TokenType.TAG_START) {

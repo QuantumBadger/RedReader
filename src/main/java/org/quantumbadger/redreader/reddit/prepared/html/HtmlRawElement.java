@@ -13,7 +13,7 @@ public abstract class HtmlRawElement {
 	// TODO use for inbox messages and self text
 	// TODO maybe remove the old markdown classes (and comment preview?!)
 
-	// TODO table/td/tr/thead/tbody/th, <ol> for numbered list
+	// TODO table/td/tr/thead/tbody/th
 	// link buttons
 	// old style spoilers
 
@@ -87,6 +87,8 @@ public abstract class HtmlRawElement {
 					result = new HtmlRawElementTagStrong(children);
 					break;
 				case "p":
+				case "th":
+				case "td":
 					result = new HtmlRawElementBlock(BlockType.NORMAL_TEXT, children);
 					break;
 				case "sup":
@@ -143,6 +145,22 @@ public abstract class HtmlRawElement {
 					} else {
 						result = new HtmlRawElementTagPassthrough(children);
 					}
+					break;
+
+				case "thead":
+					result = new HtmlRawElementTagStrong(children);
+					break;
+
+				case "tbody":
+					result = new HtmlRawElementTagPassthrough(children);
+					break;
+
+				case "table":
+					result = new HtmlRawElementTable(children);
+					break;
+
+				case "tr":
+					result = new HtmlRawElementTableRow(children);
 					break;
 
 				default:

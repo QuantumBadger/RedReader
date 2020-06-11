@@ -6,6 +6,7 @@ public enum BlockType {
 	HEADER,
 	LIST_ELEMENT,
 	TABLE,
+	TABLE_ROW,
 	CODE_BLOCK,
 	HORIZONTAL_RULE,
 	QUOTE,

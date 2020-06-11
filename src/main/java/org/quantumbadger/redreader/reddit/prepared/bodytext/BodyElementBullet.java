@@ -29,7 +29,7 @@ public class BodyElementBullet extends BodyElement {
 
 		final LinearLayout bulletItem = new LinearLayout(activity);
 		final int paddingPx = General.dpToPixels(activity, 6);
-		bulletItem.setPadding(paddingPx, paddingPx, paddingPx, 0);
+		bulletItem.setPadding(paddingPx, 0, paddingPx, 0);
 
 		final TextView bullet = new TextView(activity);
 		bullet.setText("•   ");

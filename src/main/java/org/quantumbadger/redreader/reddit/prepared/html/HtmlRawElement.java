@@ -100,6 +100,19 @@ public abstract class HtmlRawElement {
 						// Old spoiler syntax
 						result = new HtmlRawElementSpoiler(new HtmlRawElementBlock(BlockType.BUTTON, children));
 
+					} else if(href.length() == 2
+							&& (href.charAt(0) == '#' || href.charAt(0) == '/')
+							&& startToken.title != null) {
+
+						// Another old spoiler syntax
+
+						children.add(new HtmlRawElementSpoiler(
+								new HtmlRawElementBlock(
+										BlockType.NORMAL_TEXT,
+										new HtmlRawElementPlainText(startToken.title))));
+
+						result = new HtmlRawElementTagPassthrough(children);
+
 					} else {
 						result = new HtmlRawElementTagAnchor(
 								children,

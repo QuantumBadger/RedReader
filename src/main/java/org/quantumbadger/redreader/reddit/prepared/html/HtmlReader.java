@@ -21,22 +21,25 @@ public class HtmlReader {
 
 	public static class Token {
 
-		public static final Token EOF = new Token(TokenType.EOF, "", null, null);
+		public static final Token EOF = new Token(TokenType.EOF, "", null, null, null);
 
 		@NonNull public final TokenType type;
 		@NonNull public final String text;
 		@Nullable public final String href;
 		@Nullable public final String cssClass;
+		@Nullable public final String title;
 
 		public Token(
 				@NonNull final TokenType type,
 				@NonNull final String text,
 				@Nullable final String href,
-				@Nullable final String cssClass) {
+				@Nullable final String cssClass,
+				@Nullable final String title) {
 			this.type = type;
 			this.text = text;
 			this.href = href;
 			this.cssClass = cssClass;
+			this.title = title;
 		}
 
 		@NonNull
@@ -211,6 +214,7 @@ public class HtmlReader {
 				final String tagName = readName();
 				@Nullable String href = null;
 				@Nullable String cssClass = null;
+				@Nullable String title = null;
 
 				if(tagName.equalsIgnoreCase("pre")) {
 					mPreformattedTextPending = true;
@@ -223,7 +227,7 @@ public class HtmlReader {
 					if(tryAccept('/')) {
 						skipWhitespace();
 						accept('>');
-						return new Token(TokenType.TAG_START_AND_END, tagName, href, cssClass);
+						return new Token(TokenType.TAG_START_AND_END, tagName, href, cssClass, title);
 					}
 
 					final String propertyName = readName();
@@ -238,13 +242,15 @@ public class HtmlReader {
 							href = value;
 						} else if(propertyName.equalsIgnoreCase("class")) {
 							cssClass = value;
+						} else if(propertyName.equalsIgnoreCase("title")) {
+							title = value;
 						}
 					}
 				}
 
 				accept('>');
 
-				return new Token(type, tagName, href, cssClass);
+				return new Token(type, tagName, href, cssClass, title);
 
 			} catch(final IndexOutOfBoundsException e) {
 				throw new MalformedHtmlException("Unexpected EOF", mHtml, mPos);
@@ -264,13 +270,14 @@ public class HtmlReader {
 					preformattedText = preformattedText.substring(0, preformattedText.length() - 1);
 				}
 
-				return new Token(TokenType.TEXT, preformattedText, null, null);
+				return new Token(TokenType.TEXT, preformattedText, null, null, null);
 			}
 
 			// Raw text
 			return new Token(
 					TokenType.TEXT,
 					normaliseWhitespace(readAndUnescapeUntil('<')),
+					null,
 					null,
 					null);
 		}

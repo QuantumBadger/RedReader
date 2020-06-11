@@ -126,6 +126,9 @@ public abstract class HtmlRawElement {
 				case "ul":
 					result = new HtmlRawElementBulletList(children);
 					break;
+				case "ol":
+					result = new HtmlRawElementNumberedList(children);
+					break;
 				case "li":
 					result = new HtmlRawElementBlock(BlockType.LIST_ELEMENT, children);
 					break;

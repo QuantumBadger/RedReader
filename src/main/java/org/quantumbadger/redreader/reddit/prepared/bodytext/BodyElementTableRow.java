@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TableRow;
 
 import java.util.ArrayList;
@@ -27,8 +28,16 @@ public class BodyElementTableRow extends BodyElement {
 		final TableRow result = new TableRow(activity);
 
 		for(final BodyElement element : mElements) {
+
 			final View view = element.generateView(activity, textColor, textSize, showLinkButtons);
 			result.addView(view);
+
+			final TableRow.LayoutParams layoutParams = (TableRow.LayoutParams)view.getLayoutParams();
+
+			layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT;
+			layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+			view.setLayoutParams(layoutParams);
 		}
 
 		return result;

@@ -19,7 +19,7 @@ public abstract class HtmlRawElement {
 
 	// TODO profile compared to markdown parser?
 
-	// TODO table column widths?
+	// TODO left/right swiping inside table?
 
 	public static class LinkButtonDetails {
 

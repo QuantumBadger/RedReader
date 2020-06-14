@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 
@@ -28,23 +29,25 @@ public class BodyElementTable extends BodyElement {
 			@Nullable final Float textSize,
 			final boolean showLinkButtons) {
 
-		final TableLayout result = new TableLayout(activity);
+		final TableLayout table = new TableLayout(activity);
 
 		for(final BodyElement element : mElements) {
 
 			final View view = element.generateView(activity, textColor, textSize, showLinkButtons);
-			result.addView(view);
+			table.addView(view);
 		}
 
-		result.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
-		result.setDividerDrawable(new ColorDrawable(Color.GRAY));
+		table.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
+		table.setDividerDrawable(new ColorDrawable(Color.GRAY));
 
-		result.setShrinkAllColumns(true);
-
-		result.setLayoutParams(new ViewGroup.LayoutParams(
+		table.setLayoutParams(new ViewGroup.LayoutParams(
 				ViewGroup.LayoutParams.WRAP_CONTENT,
 				ViewGroup.LayoutParams.WRAP_CONTENT));
 
-		return result;
+		final HorizontalScrollView scrollView = new HorizontalScrollView(activity);
+
+		scrollView.addView(table);
+
+		return scrollView;
 	}
 }

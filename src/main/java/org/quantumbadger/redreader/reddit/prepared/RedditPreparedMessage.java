@@ -63,7 +63,7 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 		final int rrCommentHeaderAuthorCol;
 
 		{
-			final TypedArray appearance = applicationContext.obtainStyledAttributes(new int[]{
+			final TypedArray appearance = activity.obtainStyledAttributes(new int[]{
 					R.attr.rrCommentHeaderBoldCol,
 					R.attr.rrCommentHeaderAuthorCol,
 			});

@@ -499,10 +499,13 @@ public class CommentListingFragment extends RRFragment
 			layoutManager.scrollToPositionWithOffset(0, 0);
 
 			if(post.src.getSelfText() != null) {
-				final ViewGroup selfText = post.src.getSelfText().buildView(
+				final View selfText = post.src.getSelfText().generateView(
 						getActivity(), attr.rrMainTextCol, 13f * mSelfTextFontScale, mShowLinkButtons);
 				selfText.setFocusable(false);
-				selfText.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
+
+				if(selfText instanceof ViewGroup) {
+					((ViewGroup)selfText).setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
+				}
 
 				final int paddingPx = General.dpToPixels(context, 10);
 				final FrameLayout paddingLayout = new FrameLayout(context);

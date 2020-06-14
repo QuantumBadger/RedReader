@@ -17,9 +17,11 @@
 
 package org.quantumbadger.redreader.reddit.prepared;
 
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.quantumbadger.redreader.reddit.prepared.markdown.MarkdownParagraphGroup;
-import org.quantumbadger.redreader.reddit.prepared.markdown.MarkdownParser;
+import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
+import org.quantumbadger.redreader.reddit.prepared.html.HtmlReader;
 import org.quantumbadger.redreader.reddit.things.RedditComment;
 import org.quantumbadger.redreader.reddit.things.RedditThingWithIdAndType;
 
@@ -27,15 +29,20 @@ public class RedditParsedComment implements RedditThingWithIdAndType {
 
 	private final RedditComment mSrc;
 
-	private final MarkdownParagraphGroup mBody;
+	@NonNull private final BodyElement mBody;
 
 	private final String mFlair;
 
-	public RedditParsedComment(final RedditComment comment) {
+	public RedditParsedComment(
+			final RedditComment comment,
+			final AppCompatActivity activity) {
 
 		mSrc = comment;
 
-		mBody = MarkdownParser.parse(StringEscapeUtils.unescapeHtml4(comment.body).toCharArray());
+		mBody = HtmlReader.parse(
+				StringEscapeUtils.unescapeHtml4(comment.body_html),
+				activity);
+
 		if(comment.author_flair_text != null) {
 			mFlair = StringEscapeUtils.unescapeHtml4(comment.author_flair_text);
 		} else {
@@ -43,7 +50,7 @@ public class RedditParsedComment implements RedditThingWithIdAndType {
 		}
 	}
 
-	public MarkdownParagraphGroup getBody() {
+	public BodyElement getBody() {
 		return mBody;
 	}
 

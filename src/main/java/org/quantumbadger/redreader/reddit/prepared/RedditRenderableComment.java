@@ -212,7 +212,7 @@ public class RedditRenderableComment implements RedditRenderableInboxItem, Reddi
 			final Float textSize,
 			final boolean showLinkButtons) {
 
-		return mComment.getBody().buildView(activity, textColor, textSize, showLinkButtons);
+		return mComment.getBody().generateView(activity, textColor, textSize, showLinkButtons);
 	}
 
 	@Override

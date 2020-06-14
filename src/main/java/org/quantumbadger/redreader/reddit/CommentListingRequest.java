@@ -262,7 +262,7 @@ public class CommentListingRequest {
 					final RedditThing postThing = postContainer.getObject(0, RedditThing.class);
 					final RedditPost post = postThing.asPost();
 
-					final RedditParsedPost parsedPost = new RedditParsedPost(post, mParsePostSelfText);
+					final RedditParsedPost parsedPost = new RedditParsedPost(mActivity, post, mParsePostSelfText);
 
 					final RedditPreparedPost preparedPost = new RedditPreparedPost(
 							context,
@@ -341,7 +341,7 @@ public class CommentListingRequest {
 			final RedditComment comment = thing.asComment();
 			final RedditCommentListItem item = new RedditCommentListItem(
 					new RedditRenderableComment(
-							new RedditParsedComment(comment),
+							new RedditParsedComment(comment, mActivity),
 							parentPostAuthor,
 							minimumCommentScore,
 							true),

@@ -626,12 +626,40 @@ public final class General {
 		layoutParams.rightMargin = marginPx;
 		layoutParams.topMargin = marginPx;
 		layoutParams.bottomMargin = marginPx;
+
+		view.setLayoutParams(layoutParams);
 	}
 
 	public static void setLayoutMatchParent(final View view) {
-		final ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-		layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
-		layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
+		setLayoutWidthHeight(
+				view,
+				ViewGroup.LayoutParams.MATCH_PARENT,
+				ViewGroup.LayoutParams.MATCH_PARENT);
+	}
+
+	public static void setLayoutMatchWidthWrapHeight(final View view) {
+		setLayoutWidthHeight(
+				view,
+				ViewGroup.LayoutParams.MATCH_PARENT,
+				ViewGroup.LayoutParams.WRAP_CONTENT);
+	}
+
+	public static void setLayoutWidthHeight(
+			final View view,
+			final int width,
+			final int height) {
+
+		ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+
+		if(layoutParams == null) {
+			layoutParams = new ViewGroup.LayoutParams(width, height);
+
+		} else {
+			layoutParams.width = width;
+			layoutParams.height = height;
+		}
+
+		view.setLayoutParams(layoutParams);
 	}
 
 	public static void recreateActivityNoAnimation(final AppCompatActivity activity) {

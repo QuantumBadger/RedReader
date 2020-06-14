@@ -118,7 +118,7 @@ public class WebViewFragment extends Fragment implements RedditPostView.PostSele
 
 		if (src_post != null) {
 
-			final RedditParsedPost parsedPost = new RedditParsedPost(src_post, false);
+			final RedditParsedPost parsedPost = new RedditParsedPost(mActivity, src_post, false);
 
 			post = new RedditPreparedPost(
 					mActivity,

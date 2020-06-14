@@ -10,16 +10,11 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public abstract class HtmlRawElement {
-	// TODO maybe remove the old markdown classes (and comment preview?!)
-	// TODO search for TODOs
 
-	// TODO hide link buttons for #emotes?
-
-	// TODO Look at "Make link text clickable" preference
-
-	// TODO profile compared to markdown parser?
-
-	// TODO left/right swiping inside table?
+	// TODO potential improvements:
+	//		- Hide line buttons for #emotes
+	//		- Profile performance
+	//		- Test left/right swiping interaction with table scrollview
 
 	public static class LinkButtonDetails {
 
@@ -216,9 +211,9 @@ public abstract class HtmlRawElement {
 					break;
 
 				default:
-					// TODO ignore this and just pass through
-					return HtmlRawElementInlineErrorMessage.create(
-							"Error: Unexpected tag start <" + startToken.text + ">");
+					return HtmlRawElementInlineErrorMessage.appendError(
+							"Error: Unexpected tag start <" + startToken.text + ">",
+							new HtmlRawElementBlock(BlockType.NORMAL_TEXT, children));
 			}
 
 			if(!endToken.text.equalsIgnoreCase(startToken.text)) {

@@ -42,15 +42,8 @@ public class BodyElementBullet extends BodyElement {
 					.generateView(activity, textColor, textSize, showLinkButtons));
 
 		} else {
-			final LinearLayout subItems = new LinearLayout(activity);
-			subItems.setOrientation(LinearLayout.VERTICAL);
-
-			for(final BodyElement element : mElements) {
-				subItems.addView(element.generateView(activity, textColor, textSize, showLinkButtons));
-			}
-
-			bulletItem.addView(subItems);
-			General.setLayoutMatchWidthWrapHeight(subItems);
+			bulletItem.addView(new BodyElementVerticalSequence(mElements)
+					.generateView(activity, textColor, textSize, showLinkButtons));
 		}
 
 		General.setLayoutMatchWidthWrapHeight(bulletItem);

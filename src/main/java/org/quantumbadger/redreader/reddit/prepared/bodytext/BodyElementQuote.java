@@ -48,27 +48,8 @@ public class BodyElementQuote extends BodyElement {
 					.generateView(activity, textColor, textSize, showLinkButtons));
 
 		} else {
-			// TODO replace with BodyElementVerticalSequence
-			final LinearLayout subItems = new LinearLayout(activity);
-			subItems.setOrientation(LinearLayout.VERTICAL);
-
-			boolean first = true;
-
-			for(final BodyElement element : mElements) {
-
-				final View view = element.generateView(activity, textColor, textSize, showLinkButtons);
-				subItems.addView(view);
-
-				if(!first) {
-					((LinearLayout.LayoutParams)view.getLayoutParams()).topMargin = paragraphSpacingPx;
-					view.setLayoutParams(view.getLayoutParams());
-				}
-
-				first = false;
-			}
-
-			quoteLayout.addView(subItems);
-			General.setLayoutMatchWidthWrapHeight(subItems);
+			quoteLayout.addView(new BodyElementVerticalSequence(mElements)
+					.generateView(activity, textColor, textSize, showLinkButtons));
 		}
 
 		General.setLayoutMatchWidthWrapHeight(quoteLayout);

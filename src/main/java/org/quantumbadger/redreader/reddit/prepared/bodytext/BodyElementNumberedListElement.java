@@ -46,16 +46,8 @@ public class BodyElementNumberedListElement extends BodyElement {
 					.generateView(activity, textColor, textSize, showLinkButtons));
 
 		} else {
-			// TODO use VerticalSequence
-			final LinearLayout subItems = new LinearLayout(activity);
-			subItems.setOrientation(LinearLayout.VERTICAL);
-
-			for(final BodyElement element : mElements) {
-				subItems.addView(element.generateView(activity, textColor, textSize, showLinkButtons));
-			}
-
-			outerLayout.addView(subItems);
-			General.setLayoutMatchWidthWrapHeight(subItems);
+			outerLayout.addView(new BodyElementVerticalSequence(mElements)
+					.generateView(activity, textColor, textSize, showLinkButtons));
 		}
 
 		General.setLayoutMatchWidthWrapHeight(outerLayout);

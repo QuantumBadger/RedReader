@@ -64,7 +64,6 @@ public abstract class BodyElementBaseButton extends BodyElement {
 				ViewGroup.LayoutParams.MATCH_PARENT,
 				ViewGroup.LayoutParams.WRAP_CONTENT);
 
-		// TODO gets partially overwritten by vertical sequence
 		layoutParams.setMargins(0, linkMarginPx, 0, linkMarginPx);
 		ldv.setLayoutParams(layoutParams);
 

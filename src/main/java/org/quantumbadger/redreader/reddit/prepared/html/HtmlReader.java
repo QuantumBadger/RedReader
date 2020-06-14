@@ -75,7 +75,6 @@ public class HtmlReader {
 
 			if(c == '\n' || c == '\r') {
 				// Ignore
-				// TODO removes linebreaks inside <pre>!
 
 			} else if(isWhitespace(c)) {
 				if(!lastCharWasWhitespace) {
@@ -115,8 +114,6 @@ public class HtmlReader {
 
 	private String readName() throws MalformedHtmlException {
 
-		// TODO could optimise by checking existing string
-
 		final StringBuilder result = new StringBuilder(16);
 
 		try {
@@ -137,8 +134,6 @@ public class HtmlReader {
 	}
 
 	private String readAndUnescapeUntil(final char endChar) {
-
-		// TODO could optimise by using substr?
 
 		final StringBuilder result = new StringBuilder(64);
 
@@ -317,11 +312,9 @@ public class HtmlReader {
 
 		} catch(final IndexOutOfBoundsException e) {
 			throw new MalformedHtmlException("Unexpected EOF", mHtml, mPos);
-			// TODO show error message per-comment, rather than failing whole comment list
 		}
 	}
 
-	// TODO put this elsewhere?
 	public static BodyElement parse(
 			@NonNull final String html,
 			@NonNull final AppCompatActivity activity) {

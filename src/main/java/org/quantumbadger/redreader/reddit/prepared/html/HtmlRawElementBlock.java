@@ -56,11 +56,7 @@ public class HtmlRawElementBlock extends HtmlRawElement {
 	}
 
 	@Override
-	public void generate(
-			@NonNull final AppCompatActivity activity,
-			@Nullable final Integer textColor,
-			@Nullable final Float textSize,
-			@NonNull final ArrayList<BodyElement> destination) {
+	public void generate(@NonNull final ArrayList<BodyElement> destination) {
 
 		@Nullable SpannableStringBuilder currentSsb = null;
 
@@ -81,7 +77,7 @@ public class HtmlRawElementBlock extends HtmlRawElement {
 					currentSsb = null;
 				}
 
-				child.generate(activity, textColor, textSize, destination);
+				child.generate(destination);
 			}
 		}
 

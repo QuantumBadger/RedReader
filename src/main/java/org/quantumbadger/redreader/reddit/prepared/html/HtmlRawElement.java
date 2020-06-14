@@ -1,7 +1,6 @@
 package org.quantumbadger.redreader.reddit.prepared.html;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BlockType;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
@@ -26,11 +25,7 @@ public abstract class HtmlRawElement {
 			@NonNull AppCompatActivity activity,
 			@NonNull ArrayList<HtmlRawElement> destination);
 
-	public abstract void generate(
-			@NonNull AppCompatActivity activity,
-			@Nullable Integer textColor,
-			@Nullable Float textSize,
-			@NonNull ArrayList<BodyElement> destination);
+	public abstract void generate(@NonNull ArrayList<BodyElement> destination);
 
 	@NonNull
 	public static HtmlRawElement readFrom(@NonNull final HtmlReaderPeekable reader)

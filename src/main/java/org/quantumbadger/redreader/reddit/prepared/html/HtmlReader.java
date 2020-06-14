@@ -286,9 +286,7 @@ public class HtmlReader {
 	// TODO put this elsewhere?
 	public static BodyElement parse(
 			@NonNull final String html,
-			@NonNull final AppCompatActivity activity,
-			@Nullable final Integer textColor,
-			@Nullable final Float textSize) throws MalformedHtmlException {
+			@NonNull final AppCompatActivity activity) throws MalformedHtmlException {
 
 		final HtmlRawElement rootElement
 				= HtmlRawElement.readFrom(new HtmlReaderPeekable(new HtmlReader(html)));
@@ -300,7 +298,7 @@ public class HtmlReader {
 		final ArrayList<BodyElement> generated = new ArrayList<>();
 
 		for(final HtmlRawElement element : reduced) {
-			element.generate(activity, textColor, textSize, generated);
+			element.generate(generated);
 		}
 
 		return new BodyElementVerticalSequence(generated);

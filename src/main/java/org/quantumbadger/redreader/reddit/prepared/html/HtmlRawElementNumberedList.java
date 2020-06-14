@@ -1,7 +1,6 @@
 package org.quantumbadger.redreader.reddit.prepared.html;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElementNumberedListElement;
@@ -40,18 +39,14 @@ public class HtmlRawElementNumberedList extends HtmlRawElement {
 	}
 
 	@Override
-	public void generate(
-			@NonNull final AppCompatActivity activity,
-			@Nullable final Integer textColor,
-			@Nullable final Float textSize,
-			@NonNull final ArrayList<BodyElement> destination) {
+	public void generate(@NonNull final ArrayList<BodyElement> destination) {
 
 		int number = 1;
 
 		for(final HtmlRawElement child : mChildren) {
 
 			final ArrayList<BodyElement> thisElement = new ArrayList<>();
-			child.generate(activity, textColor, textSize, thisElement);
+			child.generate(thisElement);
 
 			destination.add(new BodyElementNumberedListElement(number, thisElement));
 

@@ -25,10 +25,12 @@ public class HtmlRawElementTableCell extends HtmlRawElement {
 	}
 
 	@Override
-	public void generate(@NonNull final ArrayList<BodyElement> destination) {
+	public void generate(
+			@NonNull final AppCompatActivity activity,
+			@NonNull final ArrayList<BodyElement> destination) {
 
 		final ArrayList<BodyElement> elements = new ArrayList<>();
-		mChild.generate(elements);
+		mChild.generate(activity, elements);
 
 		destination.add(new BodyElementTableCell(elements));
 	}

@@ -341,7 +341,7 @@ public class CommentListingRequest {
 			final RedditComment comment = thing.asComment();
 			final RedditCommentListItem item = new RedditCommentListItem(
 					new RedditRenderableComment(
-							new RedditParsedComment(comment),
+							new RedditParsedComment(comment, mActivity),
 							parentPostAuthor,
 							minimumCommentScore,
 							true),

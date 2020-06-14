@@ -11,5 +11,6 @@ public enum BlockType {
 	CODE_BLOCK,
 	HORIZONTAL_RULE,
 	QUOTE,
-	BUTTON
+	BUTTON,
+	ERROR
 }

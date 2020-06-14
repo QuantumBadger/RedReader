@@ -21,9 +21,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.common.BetterSSB;
@@ -34,8 +31,6 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.reddit.api.RedditAPICommentAction;
-import org.quantumbadger.redreader.reddit.prepared.html.HtmlReader;
-import org.quantumbadger.redreader.reddit.prepared.html.MalformedHtmlException;
 import org.quantumbadger.redreader.reddit.things.RedditComment;
 import org.quantumbadger.redreader.reddit.things.RedditThingWithIdAndType;
 
@@ -217,27 +212,7 @@ public class RedditRenderableComment implements RedditRenderableInboxItem, Reddi
 			final Float textSize,
 			final boolean showLinkButtons) {
 
-		final String unescapedHtml = StringEscapeUtils.unescapeHtml4(mComment.getRawComment().body_html);
-
-		final LinearLayout layout = new LinearLayout(activity);
-		layout.setOrientation(LinearLayout.VERTICAL);
-
-		final TextView tv = new TextView(activity);
-		tv.setText(unescapedHtml, TextView.BufferType.SPANNABLE);
-		tv.setTextColor(Color.GRAY);
-		if(textSize != null) tv.setTextSize(textSize * 0.8f);
-		layout.addView(tv);
-
-		try {
-			layout.addView(HtmlReader.parse(unescapedHtml, activity)
-					.generateView(activity, textColor, textSize, showLinkButtons));
-
-		} catch(final MalformedHtmlException e) {
-			// TODO inline error
-			throw new RuntimeException(e);
-		}
-
-		return layout;
+		return mComment.getBody().generateView(activity, textColor, textSize, showLinkButtons);
 	}
 
 	@Override

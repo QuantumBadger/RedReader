@@ -16,9 +16,10 @@ public class BodyElementSpoilerButton extends BodyElementBaseButton {
 	@NonNull private final BodyElement mSpoilerText;
 
 	public BodyElementSpoilerButton(
+			@NonNull final AppCompatActivity activity,
 			@NonNull final BodyElement spoilerText) {
 
-		super("Spoiler", null); // TODO translate
+		super(activity.getApplicationContext().getString(R.string.spoiler), null);
 		mSpoilerText = spoilerText;
 	}
 

@@ -39,12 +39,14 @@ public class HtmlRawElementTableRow extends HtmlRawElement {
 	}
 
 	@Override
-	public void generate(@NonNull final ArrayList<BodyElement> destination) {
+	public void generate(
+			@NonNull final AppCompatActivity activity,
+			@NonNull final ArrayList<BodyElement> destination) {
 
 		final ArrayList<BodyElement> cols = new ArrayList<>(mChildren.size());
 
 		for(final HtmlRawElement child : mChildren) {
-			child.generate(cols);
+			child.generate(activity, cols);
 		}
 
 		destination.add(new BodyElementTableRow(cols));

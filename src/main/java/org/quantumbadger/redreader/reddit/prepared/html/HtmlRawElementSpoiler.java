@@ -12,9 +12,7 @@ public class HtmlRawElementSpoiler extends HtmlRawElement {
 
 	@NonNull private final HtmlRawElementBlock mChild;
 
-	public HtmlRawElementSpoiler(
-			@NonNull final HtmlRawElementBlock child) {
-
+	public HtmlRawElementSpoiler(@NonNull final HtmlRawElementBlock child) {
 		mChild = child;
 	}
 
@@ -28,11 +26,15 @@ public class HtmlRawElementSpoiler extends HtmlRawElement {
 	}
 
 	@Override
-	public void generate(@NonNull final ArrayList<BodyElement> destination) {
+	public void generate(
+			@NonNull final AppCompatActivity activity,
+			@NonNull final ArrayList<BodyElement> destination) {
 
 		final ArrayList<BodyElement> elements = new ArrayList<>();
-		mChild.generate(elements);
+		mChild.generate(activity, elements);
 
-		destination.add(new BodyElementSpoilerButton(new BodyElementVerticalSequence(elements)));
+		destination.add(new BodyElementSpoilerButton(
+				activity,
+				new BodyElementVerticalSequence(elements)));
 	}
 }

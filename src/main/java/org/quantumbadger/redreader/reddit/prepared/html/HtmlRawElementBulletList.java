@@ -39,12 +39,14 @@ public class HtmlRawElementBulletList extends HtmlRawElement {
 	}
 
 	@Override
-	public void generate(@NonNull final ArrayList<BodyElement> destination) {
+	public void generate(
+			@NonNull final AppCompatActivity activity,
+			@NonNull final ArrayList<BodyElement> destination) {
 
 		for(final HtmlRawElement child : mChildren) {
 
 			final ArrayList<BodyElement> thisBullet = new ArrayList<>();
-			child.generate(thisBullet);
+			child.generate(activity, thisBullet);
 
 			destination.add(new BodyElementBullet(thisBullet));
 		}

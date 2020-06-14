@@ -1197,4 +1197,10 @@
 	<string name="pin_successful">Pinned %s to main menu</string>
 	<string name="unpin_successful">Unpinned %s from main menu</string>
 
+	<!-- 2020-06-14 -->
+	<string name="spoiler">Spoiler</string>
+
+	<string name="error_title_malformed_html">Malformed HTML</string>
+	<string name="error_message_malformed_html">Failed to parse body text. Please report this to the app developer.</string>
+
 </resources>

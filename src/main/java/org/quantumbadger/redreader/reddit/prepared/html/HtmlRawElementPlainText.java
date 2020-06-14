@@ -89,7 +89,9 @@ public class HtmlRawElementPlainText extends HtmlRawElement {
 	}
 
 	@Override
-	public void generate(@NonNull final ArrayList<BodyElement> destination) {
+	public void generate(
+			@NonNull final AppCompatActivity activity,
+			@NonNull final ArrayList<BodyElement> destination) {
 
 		throw new RuntimeException("Attempt to call generate() on reducible element");
 	}

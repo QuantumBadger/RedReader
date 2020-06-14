@@ -39,14 +39,16 @@ public class HtmlRawElementNumberedList extends HtmlRawElement {
 	}
 
 	@Override
-	public void generate(@NonNull final ArrayList<BodyElement> destination) {
+	public void generate(
+			@NonNull final AppCompatActivity activity,
+			@NonNull final ArrayList<BodyElement> destination) {
 
 		int number = 1;
 
 		for(final HtmlRawElement child : mChildren) {
 
 			final ArrayList<BodyElement> thisElement = new ArrayList<>();
-			child.generate(thisElement);
+			child.generate(activity, thisElement);
 
 			destination.add(new BodyElementNumberedListElement(number, thisElement));
 

@@ -25,7 +25,9 @@ public abstract class HtmlRawElement {
 			@NonNull AppCompatActivity activity,
 			@NonNull ArrayList<HtmlRawElement> destination);
 
-	public abstract void generate(@NonNull ArrayList<BodyElement> destination);
+	public abstract void generate(
+			@NonNull final AppCompatActivity activity,
+			@NonNull ArrayList<BodyElement> destination);
 
 	@NonNull
 	public static HtmlRawElement readFrom(@NonNull final HtmlReaderPeekable reader)

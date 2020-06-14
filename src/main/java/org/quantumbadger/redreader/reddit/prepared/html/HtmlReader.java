@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.quantumbadger.redreader.reddit.prepared.bodytext.BlockType;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElementVerticalSequence;
 
@@ -288,8 +289,12 @@ public class HtmlReader {
 			@NonNull final String html,
 			@NonNull final AppCompatActivity activity) throws MalformedHtmlException {
 
-		final HtmlRawElement rootElement
+		HtmlRawElement rootElement
 				= HtmlRawElement.readFrom(new HtmlReaderPeekable(new HtmlReader(html)));
+
+		if(!(rootElement instanceof HtmlRawElementBlock)) {
+			rootElement = new HtmlRawElementBlock(BlockType.NORMAL_TEXT, rootElement);
+		}
 
 		final ArrayList<HtmlRawElement> reduced = new ArrayList<>();
 
@@ -298,7 +303,7 @@ public class HtmlReader {
 		final ArrayList<BodyElement> generated = new ArrayList<>();
 
 		for(final HtmlRawElement element : reduced) {
-			element.generate(generated);
+			element.generate(activity, generated);
 		}
 
 		return new BodyElementVerticalSequence(generated);

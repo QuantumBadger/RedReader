@@ -33,14 +33,26 @@ public class HtmlRawElementBlock extends HtmlRawElement {
 		mChildren.addAll(Arrays.asList(children));
 	}
 
+	@Override
+	public void getPlainText(@NonNull final StringBuilder stringBuilder) {
+		for(final HtmlRawElement element : mChildren) {
+			element.getPlainText(stringBuilder);
+		}
+	}
+
 	public HtmlRawElementBlock reduce(
 			@NonNull final HtmlTextAttributes activeAttributes,
 			@NonNull final AppCompatActivity activity) {
 
 		final ArrayList<HtmlRawElement> reduced = new ArrayList<>();
+		final ArrayList<LinkButtonDetails> linkButtons = new ArrayList<>();
 
 		for(final HtmlRawElement child : mChildren) {
-			child.reduce(activeAttributes, activity, reduced);
+			child.reduce(activeAttributes, activity, reduced, linkButtons);
+		}
+
+		for(final LinkButtonDetails details : linkButtons) {
+			reduced.add(new HtmlRawElementLinkButton(details));
 		}
 
 		return new HtmlRawElementBlock(mBlockType, reduced);
@@ -50,7 +62,8 @@ public class HtmlRawElementBlock extends HtmlRawElement {
 	public void reduce(
 			@NonNull final HtmlTextAttributes activeAttributes,
 			@NonNull final AppCompatActivity activity,
-			@NonNull final ArrayList<HtmlRawElement> destination) {
+			@NonNull final ArrayList<HtmlRawElement> destination,
+			@NonNull final ArrayList<LinkButtonDetails> linkButtons) {
 
 		destination.add(reduce(activeAttributes, activity));
 	}

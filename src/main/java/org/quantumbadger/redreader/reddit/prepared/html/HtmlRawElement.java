@@ -1,6 +1,7 @@
 package org.quantumbadger.redreader.reddit.prepared.html;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BlockType;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
@@ -12,14 +13,40 @@ public abstract class HtmlRawElement {
 	// TODO maybe remove the old markdown classes (and comment preview?!)
 	// TODO search for TODOs
 
-	// TODO link buttons
+	// TODO disable link buttons in tables?! Or at least try to fix the column widths
+	// TODO support for disabling link buttons (see TODO)
 
 	// TODO profile compared to markdown parser?
+
+	public static class LinkButtonDetails {
+
+		@Nullable public final String name;
+		@NonNull public final String url;
+
+
+		public LinkButtonDetails(
+				@Nullable final String name,
+				@NonNull final String url) {
+			this.name = name;
+			this.url = url;
+		}
+	}
+
+	@NonNull
+	public final String getPlainText() {
+		final StringBuilder sb = new StringBuilder();
+		getPlainText(sb);
+		return sb.toString();
+	}
+
+	public abstract void getPlainText(@NonNull final StringBuilder stringBuilder);
+
 
 	public abstract void reduce(
 			@NonNull HtmlTextAttributes activeAttributes,
 			@NonNull AppCompatActivity activity,
-			@NonNull ArrayList<HtmlRawElement> destination);
+			@NonNull ArrayList<HtmlRawElement> destination,
+			@NonNull ArrayList<LinkButtonDetails> linkButtons);
 
 	public abstract void generate(
 			@NonNull final AppCompatActivity activity,

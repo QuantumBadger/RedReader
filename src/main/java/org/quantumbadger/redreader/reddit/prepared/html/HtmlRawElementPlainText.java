@@ -25,10 +25,16 @@ public class HtmlRawElementPlainText extends HtmlRawElement {
 	}
 
 	@Override
+	public void getPlainText(@NonNull final StringBuilder stringBuilder) {
+		stringBuilder.append(mText);
+	}
+
+	@Override
 	public void reduce(
 			@NonNull final HtmlTextAttributes attributes,
 			@NonNull final AppCompatActivity activity,
-			@NonNull final ArrayList<HtmlRawElement> destination) {
+			@NonNull final ArrayList<HtmlRawElement> destination,
+			@NonNull final ArrayList<LinkButtonDetails> linkButtons) {
 
 		ArrayList<CharacterStyle> spans = null;
 

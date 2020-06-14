@@ -22,6 +22,11 @@ public class HtmlRawElementStyledText extends HtmlRawElement {
 		mSpans = spans;
 	}
 
+	@Override
+	public void getPlainText(@NonNull final StringBuilder stringBuilder) {
+		stringBuilder.append(mText);
+	}
+
 	public final void writeTo(@NonNull final SpannableStringBuilder ssb) {
 
 		final int textStart = ssb.length();
@@ -39,7 +44,8 @@ public class HtmlRawElementStyledText extends HtmlRawElement {
 	public void reduce(
 			@NonNull final HtmlTextAttributes activeAttributes,
 			@NonNull final AppCompatActivity activity,
-			@NonNull final ArrayList<HtmlRawElement> destination) {
+			@NonNull final ArrayList<HtmlRawElement> destination,
+			@NonNull final ArrayList<LinkButtonDetails> linkButtons) {
 
 		destination.add(this);
 	}

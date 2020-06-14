@@ -14,26 +14,40 @@ public abstract class HtmlRawElementTagAttributeChange extends HtmlRawElementTag
 		mChildren = children;
 	}
 
+	protected void onLinkButtons(@NonNull final ArrayList<LinkButtonDetails> linkButtons) {
+		// Add nothing by default
+	}
+
 	protected abstract void onStart(@NonNull HtmlTextAttributes activeAttributes);
 
 	protected abstract void onEnd(@NonNull HtmlTextAttributes activeAttributes);
 
 	@Override
+	public void getPlainText(@NonNull final StringBuilder stringBuilder) {
+		for(final HtmlRawElement element : mChildren) {
+			element.getPlainText(stringBuilder);
+		}
+	}
+
+	@Override
 	public final void reduce(
 			@NonNull final HtmlTextAttributes activeAttributes,
 			@NonNull final AppCompatActivity activity,
-			@NonNull final ArrayList<HtmlRawElement> destination) {
+			@NonNull final ArrayList<HtmlRawElement> destination,
+			@NonNull final ArrayList<LinkButtonDetails> linkButtons) {
 
 		onStart(activeAttributes);
 
 		try {
 			for(final HtmlRawElement child : mChildren) {
-				child.reduce(activeAttributes, activity, destination);
+				child.reduce(activeAttributes, activity, destination, linkButtons);
 			}
 
 		} finally {
 			onEnd(activeAttributes);
 		}
+
+		onLinkButtons(linkButtons);
 	}
 
 	@Override

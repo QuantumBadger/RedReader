@@ -336,15 +336,12 @@ public class HtmlReader {
 				rootElement = new HtmlRawElementBlock(BlockType.NORMAL_TEXT, rootElement);
 			}
 
-			final ArrayList<HtmlRawElement> reduced = new ArrayList<>();
-
-			rootElement.reduce(new HtmlTextAttributes(), activity, reduced);
+			final HtmlRawElementBlock reduced
+					= ((HtmlRawElementBlock)rootElement).reduce(new HtmlTextAttributes(), activity);
 
 			final ArrayList<BodyElement> generated = new ArrayList<>();
 
-			for(final HtmlRawElement element : reduced) {
-				element.generate(activity, generated);
-			}
+			reduced.generate(activity, generated);
 
 			return new BodyElementVerticalSequence(generated);
 

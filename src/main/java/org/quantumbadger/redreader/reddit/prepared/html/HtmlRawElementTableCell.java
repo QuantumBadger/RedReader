@@ -16,10 +16,16 @@ public class HtmlRawElementTableCell extends HtmlRawElement {
 	}
 
 	@Override
+	public void getPlainText(@NonNull final StringBuilder stringBuilder) {
+		mChild.getPlainText(stringBuilder);
+	}
+
+	@Override
 	public void reduce(
 			@NonNull final HtmlTextAttributes activeAttributes,
 			@NonNull final AppCompatActivity activity,
-			@NonNull final ArrayList<HtmlRawElement> destination) {
+			@NonNull final ArrayList<HtmlRawElement> destination,
+			@NonNull final ArrayList<LinkButtonDetails> linkButtons) {
 
 		destination.add(new HtmlRawElementTableCell(mChild.reduce(activeAttributes, activity)));
 	}

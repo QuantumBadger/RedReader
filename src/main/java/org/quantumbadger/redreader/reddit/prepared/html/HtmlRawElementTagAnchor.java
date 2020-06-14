@@ -15,10 +15,22 @@ public class HtmlRawElementTagAnchor extends HtmlRawElementTagAttributeChange {
 		mHref = href;
 	}
 
+	@Override
+	protected void onLinkButtons(@NonNull final ArrayList<LinkButtonDetails> linkButtons) {
+
+		final String text = getPlainText().trim();
+
+		linkButtons.add(new LinkButtonDetails(
+				text.isEmpty() ? null : text,
+				mHref));
+	}
+
+	@Override
 	protected void onStart(@NonNull HtmlTextAttributes activeAttributes) {
 		activeAttributes.href = mHref;
 	}
 
+	@Override
 	protected void onEnd(@NonNull HtmlTextAttributes activeAttributes) {
 		activeAttributes.href = null;
 	}

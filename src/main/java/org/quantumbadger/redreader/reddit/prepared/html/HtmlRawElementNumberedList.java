@@ -15,15 +15,22 @@ public class HtmlRawElementNumberedList extends HtmlRawElement {
 		mChildren = children;
 	}
 
+	@Override
+	public void getPlainText(@NonNull final StringBuilder stringBuilder) {
+		for(final HtmlRawElement element : mChildren) {
+			element.getPlainText(stringBuilder);
+		}
+	}
 
 	public HtmlRawElementNumberedList reduce(
 			@NonNull final HtmlTextAttributes activeAttributes,
-			@NonNull final AppCompatActivity activity) {
+			@NonNull final AppCompatActivity activity,
+			@NonNull final ArrayList<LinkButtonDetails> linkButtons) {
 
 		final ArrayList<HtmlRawElement> reduced = new ArrayList<>();
 
 		for(final HtmlRawElement child : mChildren) {
-			child.reduce(activeAttributes, activity, reduced);
+			child.reduce(activeAttributes, activity, reduced, linkButtons);
 		}
 
 		return new HtmlRawElementNumberedList(reduced);
@@ -33,9 +40,10 @@ public class HtmlRawElementNumberedList extends HtmlRawElement {
 	public void reduce(
 			@NonNull final HtmlTextAttributes activeAttributes,
 			@NonNull final AppCompatActivity activity,
-			@NonNull final ArrayList<HtmlRawElement> destination) {
+			@NonNull final ArrayList<HtmlRawElement> destination,
+			@NonNull final ArrayList<LinkButtonDetails> linkButtons) {
 
-		destination.add(reduce(activeAttributes, activity));
+		destination.add(reduce(activeAttributes, activity, linkButtons));
 	}
 
 	@Override

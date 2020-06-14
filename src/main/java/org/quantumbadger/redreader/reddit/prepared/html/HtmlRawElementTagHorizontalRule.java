@@ -10,10 +10,16 @@ import java.util.ArrayList;
 public class HtmlRawElementTagHorizontalRule extends HtmlRawElement {
 
 	@Override
+	public void getPlainText(@NonNull final StringBuilder stringBuilder) {
+		// Nothing to do
+	}
+
+	@Override
 	public void reduce(
 			@NonNull final HtmlTextAttributes activeAttributes,
 			@NonNull final AppCompatActivity activity,
-			@NonNull final ArrayList<HtmlRawElement> destination) {
+			@NonNull final ArrayList<HtmlRawElement> destination,
+			@NonNull final ArrayList<LinkButtonDetails> linkButtons) {
 
 		destination.add(this);
 	}

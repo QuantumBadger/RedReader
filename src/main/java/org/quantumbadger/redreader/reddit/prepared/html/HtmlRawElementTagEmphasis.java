@@ -10,10 +10,12 @@ public class HtmlRawElementTagEmphasis extends HtmlRawElementTagAttributeChange 
 		super(children);
 	}
 
-	protected void onStart(@NonNull HtmlTextAttributes activeAttributes) {
+	@Override
+    protected void onStart(@NonNull HtmlTextAttributes activeAttributes) {
 		activeAttributes.italic++;
 	}
 
+	@Override
 	protected void onEnd(@NonNull HtmlTextAttributes activeAttributes) {
 		activeAttributes.italic--;
 	}

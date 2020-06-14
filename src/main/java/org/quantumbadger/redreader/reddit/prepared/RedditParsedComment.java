@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.reddit.prepared;
 
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
@@ -28,7 +29,7 @@ public class RedditParsedComment implements RedditThingWithIdAndType {
 
 	private final RedditComment mSrc;
 
-	private BodyElement mBody;
+	@NonNull private final BodyElement mBody;
 
 	private final String mFlair;
 

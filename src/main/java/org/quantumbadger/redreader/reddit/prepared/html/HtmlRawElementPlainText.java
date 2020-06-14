@@ -10,6 +10,7 @@ import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
 import android.text.style.SuperscriptSpan;
 import android.text.style.TypefaceSpan;
+import android.text.style.UnderlineSpan;
 import android.view.View;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
@@ -47,6 +48,11 @@ public class HtmlRawElementPlainText extends HtmlRawElement {
 		if(attributes.italic > 0) {
 			if(spans == null) spans = new ArrayList<>();
 			spans.add(new StyleSpan(Typeface.ITALIC));
+		}
+
+		if(attributes.underline > 0) {
+			if(spans == null) spans = new ArrayList<>();
+			spans.add(new UnderlineSpan());
 		}
 
 		if(attributes.strikethrough > 0) {

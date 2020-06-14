@@ -128,6 +128,12 @@ public abstract class HtmlRawElement {
 				case "h4":
 					result = new HtmlRawElementBlock(BlockType.HEADER, new HtmlRawElementTagH4(children));
 					break;
+				case "h5":
+					result = new HtmlRawElementBlock(BlockType.HEADER, new HtmlRawElementTagH5(children));
+					break;
+				case "h6":
+					result = new HtmlRawElementBlock(BlockType.HEADER, new HtmlRawElementTagH6(children));
+					break;
 				case "strong":
 					result = new HtmlRawElementTagStrong(children);
 					break;

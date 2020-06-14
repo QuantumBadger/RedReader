@@ -15,6 +15,7 @@ public abstract class HtmlRawElement {
 
 	// TODO disable link buttons in tables?! Or at least try to fix the column widths
 	// TODO support for disabling link buttons (see TODO)
+	// TODO hide link buttons for #emotes?
 
 	// TODO profile compared to markdown parser?
 

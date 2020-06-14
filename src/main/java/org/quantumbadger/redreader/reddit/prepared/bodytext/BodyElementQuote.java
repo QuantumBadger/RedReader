@@ -68,7 +68,10 @@ public class BodyElementQuote extends BodyElement {
 			}
 
 			quoteLayout.addView(subItems);
+			General.setLayoutMatchWidthWrapHeight(subItems);
 		}
+
+		General.setLayoutMatchWidthWrapHeight(quoteLayout);
 
 		return quoteLayout;
 	}

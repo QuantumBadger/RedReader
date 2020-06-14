@@ -50,7 +50,10 @@ public class BodyElementBullet extends BodyElement {
 			}
 
 			bulletItem.addView(subItems);
+			General.setLayoutMatchWidthWrapHeight(subItems);
 		}
+
+		General.setLayoutMatchWidthWrapHeight(bulletItem);
 
 		return bulletItem;
 	}

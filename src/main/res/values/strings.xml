@@ -1206,4 +1206,10 @@
 	<string name="props_body_html">Body (HTML)</string>
 	<string name="props_self_html">Self text (HTML)</string>
 
+	<string name="pref_appearance_hide_headertoolbar_postlist_key" translatable="false">pref_appearance_hide_headertoolbar_postlist</string>
+	<string name="pref_appearance_hide_headertoolbar_postlist_title">Hide post list header toolbar</string>
+
+	<string name="pref_appearance_hide_headertoolbar_commentlist_key" translatable="false">pref_appearance_hide_headertoolbar_commentlist</string>
+	<string name="pref_appearance_hide_headertoolbar_commentlist_title">Hide comment list header toolbar</string>
+
 </resources>

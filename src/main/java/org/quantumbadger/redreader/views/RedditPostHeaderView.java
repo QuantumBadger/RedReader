@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.views;
 
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -46,6 +47,8 @@ public class RedditPostHeaderView extends LinearLayout {
 
 		super(activity);
 
+		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+
 		final float dpScale = activity.getResources().getDisplayMetrics().density;
 
 		setOrientation(LinearLayout.VERTICAL);
@@ -60,7 +63,8 @@ public class RedditPostHeaderView extends LinearLayout {
 
 		final Typeface tf = Typeface.createFromAsset(activity.getAssets(), "fonts/Roboto-Light.ttf");
 
-		final float titleFontScale = PrefsUtility.appearance_fontscale_post_header_titles(activity, PreferenceManager.getDefaultSharedPreferences(activity));
+		final float titleFontScale = PrefsUtility.appearance_fontscale_post_header_titles(activity,
+				sharedPreferences);
 
 		final TextView title = new TextView(activity);
 		title.setTextSize(19.0f * titleFontScale);
@@ -69,7 +73,8 @@ public class RedditPostHeaderView extends LinearLayout {
 		title.setTextColor(Color.WHITE);
 		greyHeader.addView(title);
 
-		final float subtitleFontScale = PrefsUtility.appearance_fontscale_post_header_subtitles(activity, PreferenceManager.getDefaultSharedPreferences(activity));
+		final float subtitleFontScale = PrefsUtility.appearance_fontscale_post_header_subtitles(activity,
+				sharedPreferences);
 
 		subtitle = new TextView(activity);
 		subtitle.setTextSize(13.0f * subtitleFontScale);
@@ -102,7 +107,8 @@ public class RedditPostHeaderView extends LinearLayout {
 
 		final RedditAccount currentUser = RedditAccountManager.getInstance(activity).getDefaultAccount();
 
-		if(!currentUser.isAnonymous()) {
+		if(!currentUser.isAnonymous()
+				&& !PrefsUtility.pref_appearance_hide_headertoolbar_commentlist(activity, sharedPreferences)) {
 
 			// A user is logged in
 

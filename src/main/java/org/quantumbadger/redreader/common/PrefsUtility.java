@@ -85,7 +85,9 @@ public final class PrefsUtility {
 				|| key.equals(context.getString(R.string.pref_behaviour_postcount_key))
 				|| key.equals(context.getString(R.string.pref_behaviour_comment_min_key))
 				|| key.equals(context.getString(R.string.pref_behaviour_pinned_subredditsort_key))
-				|| key.equals(context.getString(R.string.pref_behaviour_blocked_subredditsort_key));
+				|| key.equals(context.getString(R.string.pref_behaviour_blocked_subredditsort_key))
+				|| key.equals(context.getString(R.string.pref_appearance_hide_headertoolbar_commentlist_key))
+				|| key.equals(context.getString(R.string.pref_appearance_hide_headertoolbar_postlist_key));
 	}
 
 	public static boolean isRestartRequired(Context context, String key) {
@@ -361,6 +363,14 @@ public final class PrefsUtility {
 
 	public static boolean pref_appearance_bottom_toolbar(final Context context, final SharedPreferences sharedPreferences) {
 		return getBoolean(R.string.pref_appearance_bottom_toolbar_key, false, context, sharedPreferences);
+	}
+
+	public static boolean pref_appearance_hide_headertoolbar_postlist(final Context context, final SharedPreferences sharedPreferences) {
+		return getBoolean(R.string.pref_appearance_hide_headertoolbar_postlist_key, false, context, sharedPreferences);
+	}
+
+	public static boolean pref_appearance_hide_headertoolbar_commentlist(final Context context, final SharedPreferences sharedPreferences) {
+		return getBoolean(R.string.pref_appearance_hide_headertoolbar_commentlist_key, false, context, sharedPreferences);
 	}
 
 	public enum AppearancePostSubtitleItem {

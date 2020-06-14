@@ -12,7 +12,6 @@ import java.util.Objects;
 public abstract class HtmlRawElement {
 
 	// TODO potential improvements:
-	//		- Hide line buttons for #emotes
 	//		- Profile performance
 	//		- Test left/right swiping interaction with table scrollview
 
@@ -167,6 +166,14 @@ public abstract class HtmlRawElement {
 										new HtmlRawElementPlainText(startToken.title))));
 
 						result = new HtmlRawElementTagPassthrough(children);
+
+					} else if(href.startsWith("#")
+							&& href.length() > 2
+							&& (children.isEmpty()
+									|| new HtmlRawElementBlock(BlockType.NORMAL_TEXT, children)
+											.getPlainText().trim().isEmpty())) {
+
+						result = new HtmlRawElementPlainText("<emote: " + href + ">");
 
 					} else {
 						result = new HtmlRawElementTagAnchor(

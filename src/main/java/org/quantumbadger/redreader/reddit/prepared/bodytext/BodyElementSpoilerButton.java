@@ -19,7 +19,7 @@ public class BodyElementSpoilerButton extends BodyElementBaseButton {
 			@NonNull final AppCompatActivity activity,
 			@NonNull final BodyElement spoilerText) {
 
-		super(activity.getApplicationContext().getString(R.string.spoiler), null);
+		super(activity.getApplicationContext().getString(R.string.spoiler), null, false);
 		mSpoilerText = spoilerText;
 	}
 

@@ -4,21 +4,17 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.reddit.prepared.html.HtmlRawElement;
 
-public class BodyElementButton extends BodyElementBaseButton {
+public class BodyElementLinkButton extends BodyElementBaseButton {
 
-	@NonNull private final View.OnClickListener mOnClick;
-	@Nullable private final View.OnLongClickListener mOnLongClick;
+	@NonNull private final HtmlRawElement.LinkButtonDetails mDetails;
 
-	public BodyElementButton(
-			@NonNull final String text,
-			@Nullable final String subtitle,
-			@NonNull final View.OnClickListener onClick,
-			@Nullable final View.OnLongClickListener onLongClick) {
-
-		super(text, subtitle);
-		mOnClick = onClick;
-		mOnLongClick = onLongClick;
+	public BodyElementLinkButton(
+			@NonNull final HtmlRawElement.LinkButtonDetails details) {
+		super(details.getButtonTitle(), details.getButtonSubtitle(), true);
+		mDetails = details;
 	}
 
 	@NonNull
@@ -29,7 +25,7 @@ public class BodyElementButton extends BodyElementBaseButton {
 			@Nullable final Float textSize,
 			final boolean showLinkButtons) {
 
-		return mOnClick;
+		return (button) -> LinkHandler.onLinkClicked(activity, mDetails.url, false);
 	}
 
 	@Nullable
@@ -40,6 +36,9 @@ public class BodyElementButton extends BodyElementBaseButton {
 			@Nullable final Float textSize,
 			final boolean showLinkButtons) {
 
-		return mOnLongClick;
+		return (button) -> {
+			LinkHandler.onLinkLongClicked(activity, mDetails.url);
+			return true;
+		};
 	}
 }

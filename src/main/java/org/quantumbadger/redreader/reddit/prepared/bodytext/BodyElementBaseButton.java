@@ -13,6 +13,8 @@ public abstract class BodyElementBaseButton extends BodyElement {
 	@NonNull private final String mText;
 	@Nullable private final String mSubtitle;
 
+	private final boolean mIsLinkButton;
+
 	@NonNull
 	protected abstract View.OnClickListener generateOnClickListener(
 			@NonNull final AppCompatActivity activity,
@@ -29,11 +31,12 @@ public abstract class BodyElementBaseButton extends BodyElement {
 
 	public BodyElementBaseButton(
 			@NonNull final String text,
-			@Nullable final String subtitle) {
+			@Nullable final String subtitle, final boolean isLinkButton) {
 
 		super(BlockType.BUTTON);
 		mText = text;
 		mSubtitle = subtitle;
+		mIsLinkButton = isLinkButton;
 	}
 
 	@Override
@@ -42,6 +45,13 @@ public abstract class BodyElementBaseButton extends BodyElement {
 			@Nullable final Integer textColor,
 			@Nullable final Float textSize,
 			final boolean showLinkButtons) {
+
+		if(mIsLinkButton && !showLinkButtons) {
+			// Don't show
+			final View result = new View(activity);
+			result.setVisibility(View.GONE);
+			return result;
+		}
 
 		final LinkDetailsView ldv = new LinkDetailsView(
 				activity,

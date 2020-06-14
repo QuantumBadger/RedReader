@@ -25,8 +25,10 @@ public class BodyElementTableCell extends BodyElement {
 			@Nullable final Float textSize,
 			final boolean showLinkButtons) {
 
+		// Don't show link buttons inside tables
+
 		final View inner = new BodyElementVerticalSequence(mElements)
-				.generateView(activity, textColor, textSize, showLinkButtons);
+				.generateView(activity, textColor, textSize, false);
 
 		final FrameLayout padding = new FrameLayout(activity);
 		padding.addView(inner);

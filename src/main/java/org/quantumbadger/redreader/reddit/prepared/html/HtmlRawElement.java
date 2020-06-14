@@ -13,11 +13,13 @@ public abstract class HtmlRawElement {
 	// TODO maybe remove the old markdown classes (and comment preview?!)
 	// TODO search for TODOs
 
-	// TODO disable link buttons in tables?! Or at least try to fix the column widths
-	// TODO support for disabling link buttons (see TODO)
 	// TODO hide link buttons for #emotes?
 
+	// TODO Look at "Make link text clickable" preference
+
 	// TODO profile compared to markdown parser?
+
+	// TODO table column widths?
 
 	public static class LinkButtonDetails {
 
@@ -30,6 +32,26 @@ public abstract class HtmlRawElement {
 				@NonNull final String url) {
 			this.name = name;
 			this.url = url;
+		}
+
+		@NonNull
+		public final String getButtonTitle() {
+
+			if(name == null || name.isEmpty()) {
+				return url;
+			} else {
+				return name;
+			}
+		}
+
+		@Nullable
+		public final String getButtonSubtitle() {
+
+			if(name == null || name.isEmpty()) {
+				return null;
+			} else {
+				return url;
+			}
 		}
 	}
 

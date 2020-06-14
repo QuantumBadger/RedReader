@@ -31,7 +31,6 @@ public class BodyElementQuote extends BodyElement {
 		final LinearLayout quoteLayout = new LinearLayout(activity);
 
 		final int paddingPx = General.dpToPixels(activity, 6);
-		final int paragraphSpacingPx = General.dpToPixels(activity, 6);
 		quoteLayout.setPadding(paddingPx, paddingPx, paddingPx, 0);
 
 		final int quoteBarWidth = General.dpToPixels(activity, 3);

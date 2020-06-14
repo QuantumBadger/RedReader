@@ -250,7 +250,14 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		}
 
 		if(itemPref.contains(Action.EXTERNAL)) menu.add(new RPVMenuItem(activity, R.string.action_external, Action.EXTERNAL));
-		if(itemPref.contains(Action.SELFTEXT_LINKS) && post.src.getRawSelfText() != null && post.src.getRawSelfText().length() > 1) menu.add(new RPVMenuItem(activity, R.string.action_selftext_links, Action.SELFTEXT_LINKS));
+
+		if(itemPref.contains(Action.SELFTEXT_LINKS)
+				&& post.src.getRawSelfTextMarkdown() != null
+				&& post.src.getRawSelfTextMarkdown().length() > 1) {
+
+			menu.add(new RPVMenuItem(activity, R.string.action_selftext_links, Action.SELFTEXT_LINKS));
+		}
+
 		if(itemPref.contains(Action.SAVE_IMAGE) && post.mIsProbablyAnImage) menu.add(new RPVMenuItem(activity, R.string.action_save_image, Action.SAVE_IMAGE));
 		if(itemPref.contains(Action.GOTO_SUBREDDIT)) menu.add(new RPVMenuItem(activity, R.string.action_gotosubreddit, Action.GOTO_SUBREDDIT));
 		if (post.showSubreddit){
@@ -366,7 +373,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			case EDIT:
 				final Intent editIntent = new Intent(activity, CommentEditActivity.class);
 				editIntent.putExtra("commentIdAndType", post.src.getIdAndType());
-				editIntent.putExtra("commentText", StringEscapeUtils.unescapeHtml4(post.src.getRawSelfText()));
+				editIntent.putExtra("commentText", StringEscapeUtils.unescapeHtml4(post.src.getRawSelfTextMarkdown()));
 				editIntent.putExtra("isSelfPost", true);
 				activity.startActivity(editIntent);
 				break;
@@ -416,7 +423,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 			case SELFTEXT_LINKS: {
 
-				final HashSet<String> linksInComment = LinkHandler.computeAllLinks(StringEscapeUtils.unescapeHtml4(post.src.getRawSelfText()));
+				final HashSet<String> linksInComment = LinkHandler.computeAllLinks(StringEscapeUtils.unescapeHtml4(post.src.getRawSelfTextMarkdown()));
 
 				if(linksInComment.isEmpty()) {
 					General.quickToast(activity, R.string.error_toast_no_urls_in_self);
@@ -511,7 +518,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			case COPY_SELFTEXT:{
 				ClipboardManager clipboardManager = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
 				if(clipboardManager != null) {
-					ClipData data = ClipData.newPlainText(post.src.getAuthor(), post.src.getRawSelfText());
+					ClipData data = ClipData.newPlainText(post.src.getAuthor(), post.src.getRawSelfTextMarkdown());
 					clipboardManager.setPrimaryClip(data);
 
 					General.quickToast(activity.getApplicationContext(), R.string.post_text_copied_to_clipboard);

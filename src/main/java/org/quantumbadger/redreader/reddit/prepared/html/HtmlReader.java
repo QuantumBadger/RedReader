@@ -191,100 +191,133 @@ public class HtmlReader {
 	@NonNull
 	public Token readNext() throws MalformedHtmlException {
 
-		if(mPos >= mHtml.length()) {
-			// End of data
-			return Token.EOF;
-		}
+		try {
 
-		skipNewlines();
+			mainLoop:
+			while(true) {
 
-		if(mHtml.charAt(mPos) == '<') {
+				skipNewlines();
 
-			mPos++;
-			skipWhitespace();
+				if(mPos >= mHtml.length()) {
+					// End of data
+					return Token.EOF;
+				}
 
-			final TokenType type;
+				if(mHtml.charAt(mPos) == '<') {
 
-			try {
-
-				if(mHtml.charAt(mPos) == '/') {
-					type = TokenType.TAG_END;
 					mPos++;
 					skipWhitespace();
 
-				} else {
-					type = TokenType.TAG_START;
-				}
+					final TokenType type;
 
-				final String tagName = readName();
-				@Nullable String href = null;
-				@Nullable String cssClass = null;
-				@Nullable String title = null;
+					if(mHtml.charAt(mPos) == '!') {
 
-				if(tagName.equalsIgnoreCase("pre")) {
-					mPreformattedTextPending = true;
-				}
+						// Comment
+						mPos++;
+						accept('-');
+						accept('-');
 
-				skipWhitespace();
+						while(true) {
 
-				while(mHtml.charAt(mPos) != '>') {
+							if(mHtml.charAt(mPos) == '-'
+									&& mHtml.charAt(mPos + 1) == '-'
+									&& mHtml.charAt(mPos + 2) == '>') {
 
-					if(tryAccept('/')) {
-						skipWhitespace();
-						accept('>');
-						return new Token(TokenType.TAG_START_AND_END, tagName, href, cssClass, title);
+								mPos += 3;
+								continue mainLoop;
+
+							} else {
+								mPos++;
+							}
+						}
+
 					}
 
-					final String propertyName = readName();
-
-					if(tryAccept('=')) {
-						accept('"');
-						final String value = readAndUnescapeUntil('"');
-						accept('"');
+					if(mHtml.charAt(mPos) == '/') {
+						type = TokenType.TAG_END;
+						mPos++;
 						skipWhitespace();
 
-						if(propertyName.equalsIgnoreCase("href")) {
-							href = value;
-						} else if(propertyName.equalsIgnoreCase("class")) {
-							cssClass = value;
-						} else if(propertyName.equalsIgnoreCase("title")) {
-							title = value;
+					} else {
+						type = TokenType.TAG_START;
+					}
+
+					final String tagName = readName();
+					@Nullable String href = null;
+					@Nullable String cssClass = null;
+					@Nullable String title = null;
+
+					if(tagName.equalsIgnoreCase("pre")) {
+						mPreformattedTextPending = true;
+					}
+
+					skipWhitespace();
+
+					while(mHtml.charAt(mPos) != '>') {
+
+						if(tryAccept('/')) {
+							skipWhitespace();
+							accept('>');
+							return new Token(
+									TokenType.TAG_START_AND_END,
+									tagName,
+									href,
+									cssClass,
+									title);
+						}
+
+						final String propertyName = readName();
+
+						if(tryAccept('=')) {
+							accept('"');
+							final String value = readAndUnescapeUntil('"');
+							accept('"');
+							skipWhitespace();
+
+							if(propertyName.equalsIgnoreCase("href")) {
+								href = value;
+							} else if(propertyName.equalsIgnoreCase("class")) {
+								cssClass = value;
+							} else if(propertyName.equalsIgnoreCase("title")) {
+								title = value;
+							}
 						}
 					}
+
+					accept('>');
+
+					return new Token(type, tagName, href, cssClass, title);
+
+				} else {
+
+					if(mPreformattedTextPending) {
+
+						mPreformattedTextPending = false;
+
+						String preformattedText = readAndUnescapeUntil('<');
+
+						if(preformattedText.endsWith("\n")) {
+							preformattedText = preformattedText.substring(
+									0,
+									preformattedText.length() - 1);
+						}
+
+						return new Token(TokenType.TEXT, preformattedText, null, null, null);
+					}
+
+					// Raw text
+					return new Token(
+							TokenType.TEXT,
+							normaliseWhitespace(readAndUnescapeUntil('<')),
+							null,
+							null,
+							null);
 				}
-
-				accept('>');
-
-				return new Token(type, tagName, href, cssClass, title);
-
-			} catch(final IndexOutOfBoundsException e) {
-				throw new MalformedHtmlException("Unexpected EOF", mHtml, mPos);
-				// TODO show error message per-comment, rather than failing whole comment list
 			}
 
-
-		} else {
-
-			if(mPreformattedTextPending) {
-
-				mPreformattedTextPending = false;
-
-				String preformattedText = readAndUnescapeUntil('<');
-
-				if(preformattedText.endsWith("\n")) {
-					preformattedText = preformattedText.substring(0, preformattedText.length() - 1);
-				}
-
-				return new Token(TokenType.TEXT, preformattedText, null, null, null);
-			}
-
-			// Raw text
-			return new Token(
-					TokenType.TEXT,
-					normaliseWhitespace(readAndUnescapeUntil('<')),
-					null,
-					null,
-					null);
+		} catch(final IndexOutOfBoundsException e) {
+			throw new MalformedHtmlException("Unexpected EOF", mHtml, mPos);
+			// TODO show error message per-comment, rather than failing whole comment list
 		}
 	}
 

@@ -106,7 +106,7 @@ public class RedditParsedPost implements RedditThingWithIdAndType {
 		return mSrc.author;
 	}
 
-	public String getRawSelfText() {
+	public String getRawSelfTextMarkdown() {
 		return mSrc.selftext;
 	}
 

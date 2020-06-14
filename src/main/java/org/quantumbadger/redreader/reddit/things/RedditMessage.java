@@ -30,4 +30,8 @@ public class RedditMessage {
 	public String getUnescapedBodyMarkdown() {
 		return StringEscapeUtils.unescapeHtml4(body);
 	}
+
+	public String getUnescapedBodyHtml() {
+		return StringEscapeUtils.unescapeHtml4(body_html);
+	}
 }

@@ -9,11 +9,8 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public abstract class HtmlRawElement {
-	// TODO use for inbox messages and self text
 	// TODO maybe remove the old markdown classes (and comment preview?!)
-	// TODO remove HTML source from comment view
 	// TODO add HTML source to properties popup?
-	// TODO handle MalformedHtmlExceptions on a per-comment basis
 	// TODO search for TODOs
 
 	// TODO link buttons

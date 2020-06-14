@@ -1,11 +1,15 @@
 package org.quantumbadger.redreader.reddit.prepared.html;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BlockType;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
+import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElementRRError;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElementVerticalSequence;
 
 import java.util.ArrayList;
@@ -287,26 +291,44 @@ public class HtmlReader {
 	// TODO put this elsewhere?
 	public static BodyElement parse(
 			@NonNull final String html,
-			@NonNull final AppCompatActivity activity) throws MalformedHtmlException {
+			@NonNull final AppCompatActivity activity) {
 
-		HtmlRawElement rootElement
-				= HtmlRawElement.readFrom(new HtmlReaderPeekable(new HtmlReader(html)));
+		final Context applicationContext = activity.getApplicationContext();
 
-		if(!(rootElement instanceof HtmlRawElementBlock)) {
-			rootElement = new HtmlRawElementBlock(BlockType.NORMAL_TEXT, rootElement);
+		try {
+			HtmlRawElement rootElement
+					= HtmlRawElement.readFrom(new HtmlReaderPeekable(new HtmlReader(html)));
+
+			if(!(rootElement instanceof HtmlRawElementBlock)) {
+				rootElement = new HtmlRawElementBlock(BlockType.NORMAL_TEXT, rootElement);
+			}
+
+			final ArrayList<HtmlRawElement> reduced = new ArrayList<>();
+
+			rootElement.reduce(new HtmlTextAttributes(), activity, reduced);
+
+			final ArrayList<BodyElement> generated = new ArrayList<>();
+
+			for(final HtmlRawElement element : reduced) {
+				element.generate(activity, generated);
+			}
+
+			return new BodyElementVerticalSequence(generated);
+
+		} catch(final MalformedHtmlException e) {
+			return new BodyElementRRError(
+					new RRError(
+							applicationContext.getString(R.string.error_title_malformed_html),
+							applicationContext.getString(R.string.error_message_malformed_html),
+							e));
+
+		} catch(final Exception e) {
+			return new BodyElementRRError(
+					new RRError(
+							applicationContext.getString(R.string.error_parse_title),
+							applicationContext.getString(R.string.error_parse_message),
+							e));
 		}
-
-		final ArrayList<HtmlRawElement> reduced = new ArrayList<>();
-
-		rootElement.reduce(new HtmlTextAttributes(), activity, reduced);
-
-		final ArrayList<BodyElement> generated = new ArrayList<>();
-
-		for(final HtmlRawElement element : reduced) {
-			element.generate(activity, generated);
-		}
-
-		return new BodyElementVerticalSequence(generated);
 	}
 
 	@NonNull

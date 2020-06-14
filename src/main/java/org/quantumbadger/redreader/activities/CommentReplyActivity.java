@@ -34,7 +34,6 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -135,7 +134,7 @@ public class CommentReplyActivity extends BaseActivity {
 		}
 
 		if(intent != null && intent.hasExtra(PARENT_MARKDOWN_KEY)) {
-			TextView parentMarkdown = (TextView)layout.findViewById(R.id.comment_parent_text);
+			TextView parentMarkdown = layout.findViewById(R.id.comment_parent_text);
 			parentMarkdown.setText(intent.getStringExtra(PARENT_MARKDOWN_KEY));
 		}
 

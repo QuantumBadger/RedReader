@@ -17,15 +17,10 @@
 
 package org.quantumbadger.redreader.reddit.prepared;
 
-import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
-import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElementRRError;
 import org.quantumbadger.redreader.reddit.prepared.html.HtmlReader;
-import org.quantumbadger.redreader.reddit.prepared.html.MalformedHtmlException;
 import org.quantumbadger.redreader.reddit.things.RedditComment;
 import org.quantumbadger.redreader.reddit.things.RedditThingWithIdAndType;
 
@@ -43,21 +38,9 @@ public class RedditParsedComment implements RedditThingWithIdAndType {
 
 		mSrc = comment;
 
-		try {
-			mBody = HtmlReader.parse(
-					StringEscapeUtils.unescapeHtml4(comment.body_html),
-					activity);
-
-		} catch(final MalformedHtmlException e) {
-
-			final Context applicationContext = activity.getApplicationContext();
-
-			mBody = new BodyElementRRError(
-					new RRError(
-							applicationContext.getString(R.string.error_title_malformed_html),
-							applicationContext.getString(R.string.error_message_malformed_html),
-							e));
-		}
+		mBody = HtmlReader.parse(
+				StringEscapeUtils.unescapeHtml4(comment.body_html),
+				activity);
 
 		if(comment.author_flair_text != null) {
 			mFlair = StringEscapeUtils.unescapeHtml4(comment.author_flair_text);

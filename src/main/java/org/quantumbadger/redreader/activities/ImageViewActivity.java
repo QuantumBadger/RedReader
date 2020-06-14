@@ -269,7 +269,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 		if(mPost != null) {
 
-			final RedditParsedPost parsedPost = new RedditParsedPost(mPost, false);
+			final RedditParsedPost parsedPost = new RedditParsedPost(this, mPost, false);
 
 			post = new RedditPreparedPost(
 					this,

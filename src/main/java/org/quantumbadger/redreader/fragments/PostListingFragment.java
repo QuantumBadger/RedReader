@@ -718,7 +718,7 @@ public class PostListingFragment extends RRFragment
 
 						final int positionInList = mPostCount;
 
-						final RedditParsedPost parsedPost = new RedditParsedPost(post, false);
+						final RedditParsedPost parsedPost = new RedditParsedPost(activity, post, false);
 
 						final RedditPreparedPost preparedPost = new RedditPreparedPost(
 								activity,

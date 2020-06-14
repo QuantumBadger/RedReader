@@ -1,4 +1,5 @@
 91/1.11
+Support for table rendering
 Support for new spoiler syntax, and formatting/links inside spoilers
 Various improvements to markdown rendering
 

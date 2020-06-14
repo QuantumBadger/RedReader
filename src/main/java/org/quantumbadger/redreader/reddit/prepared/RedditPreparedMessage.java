@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableStringBuilder;
 import android.view.View;
@@ -33,8 +34,8 @@ import org.quantumbadger.redreader.common.BetterSSB;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
 import org.quantumbadger.redreader.common.RRTime;
-import org.quantumbadger.redreader.reddit.prepared.markdown.MarkdownParagraphGroup;
-import org.quantumbadger.redreader.reddit.prepared.markdown.MarkdownParser;
+import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
+import org.quantumbadger.redreader.reddit.prepared.html.HtmlReader;
 import org.quantumbadger.redreader.reddit.things.RedditMessage;
 
 import java.util.HashSet;
@@ -42,11 +43,16 @@ import java.util.HashSet;
 public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 
 	public SpannableStringBuilder header;
-	public final MarkdownParagraphGroup body;
+	public final BodyElement body;
 	public final String idAndType;
 	public final RedditMessage src;
 
-	public RedditPreparedMessage(final Context context, final RedditMessage message, final long timestamp) {
+	public RedditPreparedMessage(
+			@NonNull final AppCompatActivity activity,
+			@NonNull final RedditMessage message,
+			final long timestamp) {
+
+		final Context applicationContext = activity.getApplicationContext();
 
 		this.src = message;
 
@@ -57,7 +63,7 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 		final int rrCommentHeaderAuthorCol;
 
 		{
-			final TypedArray appearance = context.obtainStyledAttributes(new int[]{
+			final TypedArray appearance = applicationContext.obtainStyledAttributes(new int[]{
 					R.attr.rrCommentHeaderBoldCol,
 					R.attr.rrCommentHeaderAuthorCol,
 			});
@@ -68,20 +74,20 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 			appearance.recycle();
 		}
 
-		body = MarkdownParser.parse(message.getUnescapedBodyMarkdown().toCharArray());
+		body = HtmlReader.parse(message.getUnescapedBodyHtml(), activity);
 
 		idAndType = message.name;
 
 		final BetterSSB sb = new BetterSSB();
 
 		if(src.author == null) {
-			sb.append("[" + context.getString(R.string.general_unknown) + "]", BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, rrCommentHeaderAuthorCol, 0, 1f);
+			sb.append("[" + applicationContext.getString(R.string.general_unknown) + "]", BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, rrCommentHeaderAuthorCol, 0, 1f);
 		} else {
 			sb.append(src.author, BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, rrCommentHeaderAuthorCol, 0, 1f);
 		}
 
 		sb.append("   ", 0);
-		sb.append(RRTime.formatDurationFrom(context, src.created_utc * 1000L), BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, rrCommentHeaderBoldCol, 0, 1f);
+		sb.append(RRTime.formatDurationFrom(applicationContext, src.created_utc * 1000L), BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, rrCommentHeaderBoldCol, 0, 1f);
 
 		header = sb.get();
 	}
@@ -130,7 +136,7 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 		subjectText.setTypeface(null, Typeface.BOLD);
 
 		subjectLayout.addView(subjectText);
-		subjectLayout.addView(body.buildView(activity, textColor, textSize, showLinkButtons));
+		subjectLayout.addView(body.generateView(activity, textColor, textSize, showLinkButtons));
 
 		return subjectLayout;
 	}

@@ -35,7 +35,7 @@ public final class RedditPost implements Parcelable, RedditThingWithIdAndType {
 
 	public long created, created_utc;
 
-	public String selftext, permalink, link_flair_text, author_flair_text;
+	public String selftext, selftext_html, permalink, link_flair_text, author_flair_text;
 	public String thumbnail; // an image URL
 
 	public JsonBufferedObject media;
@@ -110,6 +110,7 @@ public final class RedditPost implements Parcelable, RedditThingWithIdAndType {
 		created = in.readLong();
 		created_utc = in.readLong();
 		selftext = in.readString();
+		selftext_html = in.readString();
 		permalink = in.readString();
 		link_flair_text = in.readString();
 		author_flair_text = in.readString();
@@ -172,6 +173,7 @@ public final class RedditPost implements Parcelable, RedditThingWithIdAndType {
 		parcel.writeLong(created);
 		parcel.writeLong(created_utc);
 		parcel.writeString(selftext);
+		parcel.writeString(selftext_html);
 		parcel.writeString(permalink);
 		parcel.writeString(link_flair_text);
 		parcel.writeString(author_flair_text);

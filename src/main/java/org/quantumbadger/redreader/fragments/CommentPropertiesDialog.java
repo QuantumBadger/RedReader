@@ -71,6 +71,14 @@ public final class CommentPropertiesDialog extends PropertiesDialog {
 
 		if(comment.body != null && comment.body.length() > 0) {
 			items.addView(propView(context, R.string.props_body_markdown, StringEscapeUtils.unescapeHtml4(comment.body), false));
+
+			if(comment.body_html != null) {
+				items.addView(propView(
+						context,
+						R.string.props_body_html,
+						StringEscapeUtils.unescapeHtml4(comment.body_html),
+						false));
+			}
 		}
 	}
 }

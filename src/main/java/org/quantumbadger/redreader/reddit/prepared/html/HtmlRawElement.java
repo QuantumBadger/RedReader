@@ -10,7 +10,6 @@ import java.util.Objects;
 
 public abstract class HtmlRawElement {
 	// TODO maybe remove the old markdown classes (and comment preview?!)
-	// TODO add HTML source to properties popup?
 	// TODO search for TODOs
 
 	// TODO link buttons

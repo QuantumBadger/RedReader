@@ -1203,4 +1203,7 @@
 	<string name="error_title_malformed_html">Malformed HTML</string>
 	<string name="error_message_malformed_html">Failed to parse body text. Please report this to the app developer.</string>
 
+	<string name="props_body_html">Body (HTML)</string>
+	<string name="props_self_html">Self text (HTML)</string>
+
 </resources>

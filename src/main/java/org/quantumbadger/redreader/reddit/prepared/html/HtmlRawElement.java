@@ -167,18 +167,12 @@ public abstract class HtmlRawElement {
 
 						result = new HtmlRawElementTagPassthrough(children);
 
-					} else if(href.startsWith("#")
-							&& href.length() > 2
-							&& (children.isEmpty()
-									|| new HtmlRawElementBlock(BlockType.NORMAL_TEXT, children)
-											.getPlainText().trim().isEmpty())) {
-
-						result = new HtmlRawElementPlainText("<emote: " + href + ">");
+					} else if(href.startsWith("#")) {
+						// Probably an emote: pass through the text, but don't make a link
+						result = new HtmlRawElementTagPassthrough(children);
 
 					} else {
-						result = new HtmlRawElementTagAnchor(
-								children,
-								href);
+						result = new HtmlRawElementTagAnchor(children, href);
 					}
 					break;
 				}

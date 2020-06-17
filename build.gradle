@@ -8,27 +8,27 @@ buildscript {
     }
 }
 
-apply plugin: 'com.android.application'
-apply plugin: 'pmd'
-
 repositories {
     jcenter()
 	google()
 }
 
+apply plugin: 'com.android.application'
+apply plugin: 'pmd'
+
 dependencies {
-    implementation 'com.fasterxml.jackson.core:jackson-core:2.10.0'
-    implementation 'org.apache.commons:commons-lang3:3.9'
-    implementation 'joda-time:joda-time:2.10.5'
+    implementation 'com.android.support:design:28.0.0'
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support:recyclerview-v7:28.0.0'
-    implementation 'com.android.support:design:28.0.0'
 	implementation 'com.android.support:support-media-compat:28.0.0'
+
+	implementation 'com.fasterxml.jackson.core:jackson-core:2.10.0'
+	implementation 'org.apache.commons:commons-lang3:3.9'
+	implementation 'joda-time:joda-time:2.10.5'
     implementation 'com.squareup.okhttp3:okhttp:3.12.8'
     implementation 'info.guardianproject.netcipher:netcipher:1.2.1'
 	implementation 'com.google.android.exoplayer:exoplayer-core:2.9.6'
 	implementation 'com.google.android.exoplayer:exoplayer-ui:2.9.6'
-
 
     testImplementation 'junit:junit:4.13'
 }
@@ -38,12 +38,13 @@ android {
     buildToolsVersion '29.0.2'
 
     defaultConfig {
-        vectorDrawables.generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi', 'xxxhdpi']
-
+        applicationId "org.quantumbadger.redreader"
 		minSdkVersion 14
 		targetSdkVersion 28
+		versionCode 90
+		versionName "1.10"
 
-		applicationId "org.quantumbadger.redreader"
+		vectorDrawables.generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi', 'xxxhdpi']
 	}
     // Flag to tell aapt to keep the attribute ids around
     aaptOptions {
@@ -57,12 +58,11 @@ android {
     }
 
     compileOptions {
-        compileOptions.encoding = "UTF-8"
-
+        encoding = "UTF-8"
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    
+
     lintOptions {
         checkReleaseBuilds false
         abortOnError false

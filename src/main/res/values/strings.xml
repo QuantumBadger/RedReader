@@ -115,10 +115,10 @@
     <!-- Menu Prefs -->
 
     <string name="pref_menus_post_context_items_key" translatable="false">pref_menus_post_context_items_2</string>
-    <string name="pref_menus_post_context_items_title">Pop-up menu items</string>
+    <string name="pref_menus_post_context_items_title">Long-press menu items</string>
 
     <string name="pref_menus_post_toolbar_items_key" translatable="false">pref_menus_post_toolbar_items</string>
-    <string name="pref_menus_post_toolbar_items_title">Sidebar items</string>
+    <string name="pref_menus_post_toolbar_items_title">Side-toolbar items</string>
 
     <!-- Options Menu -->
 
@@ -654,9 +654,9 @@
     <string name="pref_menus_optionsmenu_items_title">Three-dot menu items</string>
 
     <!-- 2015-07-05 -->
-    <string name="pref_behaviour_bezel_toolbar_header">Post Sidebar</string>
+    <string name="pref_behaviour_bezel_toolbar_header">Post Side-Toolbar</string>
     <string name="pref_behaviour_bezel_toolbar_swipezone_key" translatable="false">pref_behaviour_bezel_toolbar_swipezone</string>
-    <string name="pref_behaviour_bezel_toolbar_swipezone_title">Post sidebar swipe zone size</string>
+    <string name="pref_behaviour_bezel_toolbar_swipezone_title">Post side-toolbar swipe zone size</string>
 
     <string name="pref_behaviour_gifview_mode_title">GIF viewer</string>
     <string name="pref_behaviour_gifview_mode_key" translatable="false">pref_behaviour_gifview_mode</string>
@@ -890,7 +890,7 @@
 	<!-- 2016-09-04 -->
 	<string name="pref_appearance_image_viewer_header">Image Viewer</string>
 
-	<string name="pref_appearance_image_viewer_show_floating_toolbar_title">Show floating buttons over videos</string>
+	<string name="pref_appearance_image_viewer_show_floating_toolbar_title">Show floating buttons over images and videos</string>
 	<string name="pref_appearance_image_viewer_show_floating_toolbar_key" translatable="false">pref_appearance_image_viewer_show_floating_toolbar</string>
 
 	<string name="pref_appearance_link_text_clickable_title">Make link text clickable</string>
@@ -959,13 +959,13 @@
 
 	<!-- 2017-03-02 -->
 	<string name="pref_menus_link_context_items_key" translatable="false">pref_menus_link_context_items</string>
-	<string name="pref_menus_link_context_items_title">Link pop-up menu items</string>
+	<string name="pref_menus_link_context_items_title">Link long-press menu items</string>
 	<string name="lang_eo" translatable="false">Esperanto</string>
 	<string name="lang_pl" translatable="false">Polski</string>
 
 	<!-- 2017-03-07 -->
 	<string name="pref_menus_subreddit_context_items_key" translatable="false">pref_menus_subreddit_context_items</string>
-	<string name="pref_menus_subreddit_context_items_title">Subreddit pop-up menu items</string>
+	<string name="pref_menus_subreddit_context_items_title">Subreddit long-press menu items</string>
 	<string name="mainmenu_toast_not_subscribed">You are not subscribed to this subreddit yet!</string>
 	<string name="mainmenu_toast_subscribed">You are already subscribed to this subreddit!</string>
 	<string name="mainmenu_toast_not_pinned">This subreddit is not pinned to the main menu!</string>

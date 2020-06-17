@@ -35,7 +35,7 @@ import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import android.text.ClipboardManager;
+import android.content.ClipboardManager;
 import android.util.Log;
 import android.util.TypedValue;
 import org.quantumbadger.redreader.R;

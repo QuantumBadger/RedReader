@@ -232,7 +232,7 @@ public final class JsonValue {
 				break;
 
 			default:
-				throw new JsonParseException("Expecting an object, literal, or array", jp.getCurrentLocation());
+				throw new JsonParseException(jp, "Expecting an object, literal, or array", jp.getCurrentLocation());
 		}
 	}
 

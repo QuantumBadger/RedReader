@@ -30,7 +30,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
-import android.text.ClipboardManager;
+import android.content.ClipboardManager;
 import android.view.View;
 import android.widget.Toast;
 import org.quantumbadger.redreader.R;

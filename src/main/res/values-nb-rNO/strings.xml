@@ -177,9 +177,9 @@
     <string name="post_captcha_submit_button">Send inn</string>
     <string name="post_submit_done">Innlegg innsendt.</string>
     <string name="bug_title">En feil har inntruffet.</string>
-    <string name="bug_message">"RedReader har støtt på en feil.
+    <string name="bug_message">RedReader har støtt på en feil.
 \n
-\nØnsker du å sende en feilrapport? En e-post vil bli fylt inn for deg med kontrollerbar relevant informasjon,  som du kan sende."</string>
+\nØnsker du å sende en feilrapport\? En e-post vil bli fylt inn for deg med kontrollerbar relevant informasjon, som du kan sende.</string>
     <string name="bug_button_send">Send feilrapport per e-post</string>
     <string name="bug_button_ignore">Ikke send feilrapport</string>
     <string name="error_403_title">Ugyldig bruker</string>

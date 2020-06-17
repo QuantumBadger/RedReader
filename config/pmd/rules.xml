@@ -1,42 +1,42 @@
 <?xml version="1.0"?>
 <ruleset name="Custom ruleset"
-        xmlns="http://pmd.sf.net/ruleset/1.0.0"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0 http://pmd.sf.net/ruleset_xml_schema.xsd"
-        xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd">
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns="http://pmd.sf.net/ruleset/1.0.0"
+		xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd"
+		xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0 http://pmd.sf.net/ruleset_xml_schema.xsd">
 
-    <rule ref="rulesets/java/basic.xml">
-        <exclude name="CollapsibleIfStatements"/> <!--sometimes forces hard to read code-->
-        <exclude name="AvoidUsingHardCodedIP"/>
-        <exclude name="SimplifiedTernary"/>
-    </rule>
-    <rule ref="rulesets/java/imports.xml" />
-    <rule ref="rulesets/java/unusedcode.xml/UnusedLocalVariable"/>
-    <rule ref="rulesets/java/android.xml"/>
-    <rule ref="rulesets/java/clone.xml"/>
-    <rule ref="rulesets/java/finalizers.xml"/>
-    <rule ref="rulesets/java/migrating.xml"/>
-    <rule ref="rulesets/java/unnecessary.xml">
-        <exclude name="UselessParentheses"/> <!--Too nitpicky-->
-    </rule>
+	<rule ref="rulesets/java/basic.xml">
+		<exclude name="CollapsibleIfStatements" /> <!--sometimes forces hard to read code-->
+		<exclude name="AvoidUsingHardCodedIP" />
+		<exclude name="SimplifiedTernary" />
+	</rule>
+	<rule ref="rulesets/java/imports.xml" />
+	<rule ref="rulesets/java/unusedcode.xml/UnusedLocalVariable" />
+	<rule ref="rulesets/java/android.xml" />
+	<rule ref="rulesets/java/clone.xml" />
+	<rule ref="rulesets/java/finalizers.xml" />
+	<rule ref="rulesets/java/migrating.xml" />
+	<rule ref="rulesets/java/unnecessary.xml">
+		<exclude name="UselessParentheses" /> <!--Too nitpicky-->
+	</rule>
 
-    <rule ref="rulesets/java/optimizations.xml/AddEmptyString"/>
-    <rule ref="rulesets/java/optimizations.xml/UseArraysAsList"/>
-    <rule ref="rulesets/java/optimizations.xml/UnnecessaryWrapperObjectCreation"/>
+	<rule ref="rulesets/java/optimizations.xml/AddEmptyString" />
+	<rule ref="rulesets/java/optimizations.xml/UseArraysAsList" />
+	<rule ref="rulesets/java/optimizations.xml/UnnecessaryWrapperObjectCreation" />
 
-    <rule ref="rulesets/java/controversial.xml/UnnecessaryConstructor"/>
-    <rule ref="rulesets/java/controversial.xml/UnnecessaryParentheses"/>
+	<rule ref="rulesets/java/controversial.xml/UnnecessaryConstructor" />
+	<rule ref="rulesets/java/controversial.xml/UnnecessaryParentheses" />
 
-    <rule ref="rulesets/java/design.xml/FinalFieldCouldBeStatic"/>
-    <rule ref="rulesets/java/design.xml/CloseResource"/>
-    <rule ref="rulesets/java/design.xml/DefaultLabelNotLastInSwitchStmt"/>
-    <rule ref="rulesets/java/design.xml/UnnecessaryLocalBeforeReturn"/>
-    <rule ref="rulesets/java/design.xml/NonCaseLabelInSwitchStatement"/>
-    <rule ref="rulesets/java/design.xml/EqualsNull"/>
-    <rule ref="rulesets/java/design.xml/IdempotentOperations"/>
-    <rule ref="rulesets/java/design.xml/ImmutableField"/>
-    <rule ref="rulesets/java/design.xml/SingularField"/>
-    <rule ref="rulesets/java/design.xml/SimplifyBooleanExpressions"/>
-    <rule ref="rulesets/java/design.xml/LogicInversion"/>
+	<rule ref="rulesets/java/design.xml/FinalFieldCouldBeStatic" />
+	<rule ref="rulesets/java/design.xml/CloseResource" />
+	<rule ref="rulesets/java/design.xml/DefaultLabelNotLastInSwitchStmt" />
+	<rule ref="rulesets/java/design.xml/UnnecessaryLocalBeforeReturn" />
+	<rule ref="rulesets/java/design.xml/NonCaseLabelInSwitchStatement" />
+	<rule ref="rulesets/java/design.xml/EqualsNull" />
+	<rule ref="rulesets/java/design.xml/IdempotentOperations" />
+	<rule ref="rulesets/java/design.xml/ImmutableField" />
+	<rule ref="rulesets/java/design.xml/SingularField" />
+	<rule ref="rulesets/java/design.xml/SimplifyBooleanExpressions" />
+	<rule ref="rulesets/java/design.xml/LogicInversion" />
 
 </ruleset>

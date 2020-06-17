@@ -1,15 +1,15 @@
 buildscript {
-    repositories {
-        jcenter()
+	repositories {
+		jcenter()
 		google()
 	}
-    dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.3'
-    }
+	dependencies {
+		classpath 'com.android.tools.build:gradle:3.5.3'
+	}
 }
 
 repositories {
-    jcenter()
+	jcenter()
 	google()
 }
 
@@ -17,28 +17,28 @@ apply plugin: 'com.android.application'
 apply plugin: 'pmd'
 
 dependencies {
-    implementation 'com.android.support:design:28.0.0'
-    implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.android.support:recyclerview-v7:28.0.0'
+	implementation 'com.android.support:design:28.0.0'
+	implementation 'com.android.support:appcompat-v7:28.0.0'
+	implementation 'com.android.support:recyclerview-v7:28.0.0'
 	implementation 'com.android.support:support-media-compat:28.0.0'
 
 	implementation 'com.fasterxml.jackson.core:jackson-core:2.10.0'
 	implementation 'org.apache.commons:commons-lang3:3.9'
 	implementation 'joda-time:joda-time:2.10.5'
-    implementation 'com.squareup.okhttp3:okhttp:3.12.8'
-    implementation 'info.guardianproject.netcipher:netcipher:1.2.1'
+	implementation 'com.squareup.okhttp3:okhttp:3.12.8'
+	implementation 'info.guardianproject.netcipher:netcipher:1.2.1'
 	implementation 'com.google.android.exoplayer:exoplayer-core:2.9.6'
 	implementation 'com.google.android.exoplayer:exoplayer-ui:2.9.6'
 
-    testImplementation 'junit:junit:4.13'
+	testImplementation 'junit:junit:4.13'
 }
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion '29.0.2'
+	compileSdkVersion 28
+	buildToolsVersion '29.0.2'
 
-    defaultConfig {
-        applicationId "org.quantumbadger.redreader"
+	defaultConfig {
+		applicationId "org.quantumbadger.redreader"
 		minSdkVersion 14
 		targetSdkVersion 28
 		versionCode 90
@@ -46,52 +46,52 @@ android {
 
 		vectorDrawables.generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi', 'xxxhdpi']
 	}
-    // Flag to tell aapt to keep the attribute ids around
-    aaptOptions {
-        additionalParameters "--no-version-vectors"
-    }
+	// Flag to tell aapt to keep the attribute ids around
+	aaptOptions {
+		additionalParameters "--no-version-vectors"
+	}
 
-    buildTypes {
-        release {
-            minifyEnabled false
-        }
-    }
+	buildTypes {
+		release {
+			minifyEnabled false
+		}
+	}
 
-    compileOptions {
-        encoding = "UTF-8"
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
+	compileOptions {
+		encoding = "UTF-8"
+		sourceCompatibility JavaVersion.VERSION_1_8
+		targetCompatibility JavaVersion.VERSION_1_8
+	}
 
-    lintOptions {
-        checkReleaseBuilds false
-        abortOnError false
+	lintOptions {
+		checkReleaseBuilds false
+		abortOnError false
 
-        // Translations are crowd-sourced
-        disable 'MissingTranslation'
-    }
+		// Translations are crowd-sourced
+		disable 'MissingTranslation'
+	}
 
-    packagingOptions {
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/NOTICE.txt'
-    }
+	packagingOptions {
+		exclude 'META-INF/LICENSE.txt'
+		exclude 'META-INF/NOTICE.txt'
+	}
 
-    sourceSets {
-        main {
-            assets.srcDirs = ['assets']
-        }
-    }
+	sourceSets {
+		main {
+			assets.srcDirs = ['assets']
+		}
+	}
 }
 
 pmd {
-    toolVersion = '5.6.0'
-    consoleOutput = true
+	toolVersion = '5.6.0'
+	consoleOutput = true
 }
 
 task pmd(type: Pmd) {
-    dependsOn 'assembleDebug'
-    ruleSetFiles = files("${project.rootDir}/config/pmd/rules.xml")
-    ruleSets = [] // otherwise defaults clash with the list in rules.xml
-    source 'src/main/java/org/quantumbadger'
-    include '**/*.java'
+	dependsOn 'assembleDebug'
+	ruleSetFiles = files("${project.rootDir}/config/pmd/rules.xml")
+	ruleSets = [] // otherwise defaults clash with the list in rules.xml
+	source 'src/main/java/org/quantumbadger'
+	include '**/*.java'
 }

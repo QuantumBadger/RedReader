@@ -6,7 +6,7 @@ import android.graphics.Bitmap.Config;
 import java.io.InputStream;
 import java.util.Vector;
 
-// From https://code.google.com/p/android-gifview/source/browse/trunk/GifPlayer/src/jp/tomorrowkey/android/gifplayer/GifDecoder.java
+// From https://github.com/tomorrowkey/android-gifview/blob/master/src/jp/tomorrowkey/android/gifplayer/GifDecoder.java
 // This file under Apache License 2.0
 
 public class GifDecoder {

@@ -19,7 +19,7 @@ package org.quantumbadger.redreader.common;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.UiThread;
+import androidx.annotation.UiThread;
 
 public class UIThreadRepeatingTimer implements Runnable {
 

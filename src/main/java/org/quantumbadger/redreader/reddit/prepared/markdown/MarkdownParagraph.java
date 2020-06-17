@@ -19,7 +19,7 @@ package org.quantumbadger.redreader.reddit.prepared.markdown;
 
 import android.graphics.Typeface;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -247,7 +247,7 @@ public final class MarkdownParagraph {
 						caretStart = -1;
 					}
 					break;
-					
+
 				case '(':
 					if (caretStart >= 0){
 						parentOpenCount++;

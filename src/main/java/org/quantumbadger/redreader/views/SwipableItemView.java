@@ -18,7 +18,7 @@
 package org.quantumbadger.redreader.views;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.MotionEvent;
 import android.widget.FrameLayout;
 import org.quantumbadger.redreader.common.General;

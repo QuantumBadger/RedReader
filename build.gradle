@@ -17,10 +17,10 @@ apply plugin: 'com.android.application'
 apply plugin: 'pmd'
 
 dependencies {
-	implementation 'com.android.support:design:28.0.0'
-	implementation 'com.android.support:appcompat-v7:28.0.0'
-	implementation 'com.android.support:recyclerview-v7:28.0.0'
-	implementation 'com.android.support:support-media-compat:28.0.0'
+	implementation 'androidx.appcompat:appcompat:1.1.0'
+	implementation 'androidx.recyclerview:recyclerview:1.1.0'
+	implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
+	implementation 'com.google.android.material:material:1.1.0'
 
 	implementation 'com.fasterxml.jackson.core:jackson-core:2.11.0'
 	implementation 'org.apache.commons:commons-lang3:3.10'

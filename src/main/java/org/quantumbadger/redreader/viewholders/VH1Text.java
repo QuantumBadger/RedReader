@@ -17,7 +17,7 @@
 
 package org.quantumbadger.redreader.viewholders;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 import org.quantumbadger.redreader.R;

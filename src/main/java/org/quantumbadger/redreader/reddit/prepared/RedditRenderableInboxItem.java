@@ -17,7 +17,7 @@
 
 package org.quantumbadger.redreader.reddit.prepared;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 public interface RedditRenderableInboxItem extends RedditRenderableCommentListItem {
 	void handleInboxClick(AppCompatActivity activity);

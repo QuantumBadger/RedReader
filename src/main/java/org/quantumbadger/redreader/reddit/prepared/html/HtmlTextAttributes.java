@@ -1,6 +1,6 @@
 package org.quantumbadger.redreader.reddit.prepared.html;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 public class HtmlTextAttributes {
 

@@ -18,7 +18,7 @@
 package org.quantumbadger.redreader.adapters;
 
 import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.View;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.views.LoadingSpinnerView;

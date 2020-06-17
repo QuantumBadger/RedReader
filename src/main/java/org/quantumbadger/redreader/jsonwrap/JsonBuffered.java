@@ -17,7 +17,7 @@
 
 package org.quantumbadger.redreader.jsonwrap;
 
-import android.support.annotation.IntDef;
+import androidx.annotation.IntDef;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;

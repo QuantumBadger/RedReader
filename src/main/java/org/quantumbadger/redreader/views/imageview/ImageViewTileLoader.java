@@ -18,7 +18,7 @@
 package org.quantumbadger.redreader.views.imageview;
 
 import android.graphics.Bitmap;
-import android.support.annotation.UiThread;
+import androidx.annotation.UiThread;
 import android.util.Log;
 
 import org.quantumbadger.redreader.common.AndroidCommon;

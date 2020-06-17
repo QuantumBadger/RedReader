@@ -20,7 +20,7 @@ package org.quantumbadger.redreader.reddit.things;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 
 public final class RedditPost implements Parcelable, RedditThingWithIdAndType {

@@ -20,7 +20,7 @@ package org.quantumbadger.redreader.reddit.things;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;

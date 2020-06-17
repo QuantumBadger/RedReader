@@ -12,11 +12,11 @@
 			android:layout_weight="1"
 			android:id="@+id/rr_actionbar_reverse_content" />
 
-	<android.support.design.widget.AppBarLayout
+	<com.google.android.material.appbar.AppBarLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content">
 
-		<android.support.v7.widget.Toolbar
+		<androidx.appcompat.widget.Toolbar
 				android:id="@+id/rr_actionbar_reverse_toolbar"
 				android:layout_width="match_parent"
 				android:layout_height="?attr/actionBarSize"
@@ -25,6 +25,6 @@
 				app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
 				app:popupTheme="?rrActionBarPopupThemeStyle" />
 
-	</android.support.design.widget.AppBarLayout>
+	</com.google.android.material.appbar.AppBarLayout>
 
 </LinearLayout>

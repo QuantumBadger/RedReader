@@ -1,6 +1,6 @@
 package org.quantumbadger.redreader.reddit.prepared.html;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 

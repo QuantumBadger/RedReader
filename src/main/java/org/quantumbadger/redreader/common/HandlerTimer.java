@@ -18,7 +18,7 @@
 package org.quantumbadger.redreader.common;
 
 import android.os.Handler;
-import android.support.annotation.UiThread;
+import androidx.annotation.UiThread;
 import android.util.SparseBooleanArray;
 
 public class HandlerTimer {

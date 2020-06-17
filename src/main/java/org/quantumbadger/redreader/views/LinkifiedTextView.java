@@ -18,7 +18,7 @@
 package org.quantumbadger.redreader.views;
 
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.text.Layout;
 import android.text.Selection;
 import android.text.Spannable;

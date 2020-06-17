@@ -18,7 +18,7 @@
 package org.quantumbadger.redreader.adapters;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.reddit.RedditCommentListItem;
 

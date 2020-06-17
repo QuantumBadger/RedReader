@@ -17,7 +17,7 @@
 
 package org.quantumbadger.redreader.io;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
 
 import java.util.ArrayList;

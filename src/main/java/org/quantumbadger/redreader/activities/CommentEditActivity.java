@@ -20,7 +20,7 @@ package org.quantumbadger.redreader.activities;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;

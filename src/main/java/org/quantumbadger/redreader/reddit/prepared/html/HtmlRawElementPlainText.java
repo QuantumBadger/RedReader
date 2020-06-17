@@ -1,8 +1,8 @@
 package org.quantumbadger.redreader.reddit.prepared.html;
 
 import android.graphics.Typeface;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import android.text.style.CharacterStyle;
 import android.text.style.ClickableSpan;
 import android.text.style.RelativeSizeSpan;

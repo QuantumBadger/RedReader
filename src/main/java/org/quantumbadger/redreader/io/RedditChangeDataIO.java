@@ -18,7 +18,7 @@
 package org.quantumbadger.redreader.io;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 import org.quantumbadger.redreader.common.TriggerableThread;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;

@@ -17,7 +17,7 @@
 
 package org.quantumbadger.redreader.reddit.prepared.markdown;
 
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 
 import java.util.HashSet;
 

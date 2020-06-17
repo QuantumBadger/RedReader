@@ -21,7 +21,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.quantumbadger.redreader.common.ParcelHelper;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 

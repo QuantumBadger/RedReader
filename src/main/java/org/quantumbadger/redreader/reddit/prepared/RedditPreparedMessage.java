@@ -27,7 +27,7 @@ import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.CommentReplyActivity;
 import org.quantumbadger.redreader.common.BetterSSB;

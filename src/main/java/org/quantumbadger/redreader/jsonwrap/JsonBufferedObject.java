@@ -46,7 +46,7 @@ public final class JsonBufferedObject extends JsonBuffered implements Iterable<M
 		while((jt = jp.nextToken()) != JsonToken.END_OBJECT) {
 
 			if(jt != JsonToken.FIELD_NAME)
-				throw new JsonParseException("Expecting field name, got " + jt.name(),
+				throw new JsonParseException(jp, "Expecting field name, got " + jt.name(),
 						jp.getCurrentLocation());
 
 			final String fieldName = jp.getCurrentName();

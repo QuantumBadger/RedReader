@@ -21,7 +21,7 @@ import android.content.Context;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.widget.LinearLayout;
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.reddit.things.RedditPost;

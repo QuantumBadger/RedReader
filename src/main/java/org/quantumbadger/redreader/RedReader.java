@@ -54,11 +54,14 @@ public class RedReader extends Application {
 						dir = Environment.getDataDirectory();
 					}
 
-					final FileOutputStream fos = new FileOutputStream(new File(dir, "redreader_crash_log_" + UUID.randomUUID().toString() + ".txt"));
-					final PrintWriter pw = new PrintWriter(fos);
-					t.printStackTrace(pw);
-					pw.flush();
-					pw.close();
+					try(FileOutputStream fos = new FileOutputStream(
+							new File(dir, "redreader_crash_log_" + UUID.randomUUID().toString() + ".txt"))) {
+
+						try(PrintWriter pw = new PrintWriter(fos)) {
+							t.printStackTrace(pw);
+							pw.flush();
+						}
+					}
 
 				} catch(Throwable t1) {}
 

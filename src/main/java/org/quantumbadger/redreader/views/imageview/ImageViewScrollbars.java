@@ -18,7 +18,12 @@
 package org.quantumbadger.redreader.views.imageview;
 
 import org.quantumbadger.redreader.common.MutableFloatPoint2D;
-import org.quantumbadger.redreader.views.glview.displaylist.*;
+import org.quantumbadger.redreader.views.glview.displaylist.RRGLRenderable;
+import org.quantumbadger.redreader.views.glview.displaylist.RRGLRenderableBlend;
+import org.quantumbadger.redreader.views.glview.displaylist.RRGLRenderableColouredQuad;
+import org.quantumbadger.redreader.views.glview.displaylist.RRGLRenderableGroup;
+import org.quantumbadger.redreader.views.glview.displaylist.RRGLRenderableScale;
+import org.quantumbadger.redreader.views.glview.displaylist.RRGLRenderableTranslation;
 import org.quantumbadger.redreader.views.glview.program.RRGLContext;
 import org.quantumbadger.redreader.views.glview.program.RRGLMatrixStack;
 

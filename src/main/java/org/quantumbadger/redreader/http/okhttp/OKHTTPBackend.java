@@ -167,7 +167,10 @@ public class OKHTTPBackend extends HTTPBackend {
 				if(status == 200 || status == 202) {
 
 					final ResponseBody body = response.body();
+
+					@SuppressWarnings("PMD.CloseResource")
 					final InputStream bodyStream;
+
 					final Long bodyBytes;
 
 					if(body != null) {

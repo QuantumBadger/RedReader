@@ -24,6 +24,7 @@ import android.graphics.Movie;
 import android.graphics.Paint;
 import android.os.SystemClock;
 import android.view.View;
+import androidx.annotation.NonNull;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -36,12 +37,12 @@ public final class GIFView extends View {
 
 	private final Paint paint = new Paint();
 
-	public GIFView(Context context, InputStream is) {
+	// Accept as byte[] rather than stream due to Android bug workaround
+	public GIFView(Context context, @NonNull final byte[] data) {
 		super(context);
 
 		setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
-		final byte[] data = streamToBytes(is); // workaround for strange Android bug
 		mMovie = Movie.decodeByteArray(data, 0, data.length);
 
 		if(mMovie.duration() < 1) {
@@ -72,7 +73,7 @@ public final class GIFView extends View {
 		this.invalidate();
 	}
 
-	private static byte[] streamToBytes(final InputStream is) {
+	public static byte[] streamToBytes(final InputStream is) {
 
 		final ByteArrayOutputStream baos = new ByteArrayOutputStream(1024);
 		final byte[] buffer = new byte[1024];

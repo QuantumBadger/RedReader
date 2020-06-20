@@ -4,7 +4,7 @@ buildscript {
 		google()
 	}
 	dependencies {
-		classpath 'com.android.tools.build:gradle:4.0.0'
+		classpath 'com.android.tools.build:gradle:3.6.3'
 	}
 }
 
@@ -84,7 +84,7 @@ android {
 }
 
 pmd {
-	toolVersion = '5.8.1'
+	toolVersion = '6.24.0'
 	consoleOutput = true
 }
 

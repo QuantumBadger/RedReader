@@ -122,15 +122,17 @@ public final class General {
 
 	public static void copyFile(final File src, final File dst) throws IOException {
 
-		final FileInputStream fis = new FileInputStream(src);
-		final FileOutputStream fos = new FileOutputStream(dst);
-
-		copyFile(fis, fos);
+		try(FileInputStream fis = new FileInputStream(src)) {
+			try(FileOutputStream fos = new FileOutputStream(dst)) {
+				copyFile(fis, fos);
+			}
+		}
 	}
 
 	public static void copyFile(final InputStream fis, final File dst) throws IOException {
-		final FileOutputStream fos = new FileOutputStream(dst);
-		copyFile(fis, fos);
+		try(FileOutputStream fos = new FileOutputStream(dst)) {
+			copyFile(fis, fos);
+		}
 	}
 
 	public static void copyFile(final InputStream fis, final OutputStream fos) throws IOException {

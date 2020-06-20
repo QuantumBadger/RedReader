@@ -40,8 +40,7 @@ public class HtmlViewActivity extends BaseActivity {
 
 		final String html;
 
-		try {
-			final InputStream asset = context.getAssets().open(filename);
+		try(InputStream asset = context.getAssets().open(filename)) {
 
 			final ByteArrayOutputStream baos = new ByteArrayOutputStream(16384);
 

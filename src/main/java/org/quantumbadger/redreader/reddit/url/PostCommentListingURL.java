@@ -244,7 +244,7 @@ public class PostCommentListingURL extends CommentListingURL {
 
 		public final String key;
 
-		private Sort(final String key) {
+		Sort(final String key) {
 			this.key = key;
 		}
 

@@ -24,7 +24,12 @@ import org.quantumbadger.redreader.common.MutableFloatPoint2D;
 import org.quantumbadger.redreader.common.UIThreadRepeatingTimer;
 import org.quantumbadger.redreader.common.collections.Stack;
 import org.quantumbadger.redreader.views.glview.Refreshable;
-import org.quantumbadger.redreader.views.glview.displaylist.*;
+import org.quantumbadger.redreader.views.glview.displaylist.RRGLDisplayList;
+import org.quantumbadger.redreader.views.glview.displaylist.RRGLDisplayListRenderer;
+import org.quantumbadger.redreader.views.glview.displaylist.RRGLRenderableGroup;
+import org.quantumbadger.redreader.views.glview.displaylist.RRGLRenderableScale;
+import org.quantumbadger.redreader.views.glview.displaylist.RRGLRenderableTexturedQuad;
+import org.quantumbadger.redreader.views.glview.displaylist.RRGLRenderableTranslation;
 import org.quantumbadger.redreader.views.glview.program.RRGLContext;
 import org.quantumbadger.redreader.views.glview.program.RRGLTexture;
 

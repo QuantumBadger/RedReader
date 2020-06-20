@@ -361,8 +361,6 @@ public final class RedditChangeDataManager {
 
 		public static final ListenerNotifyOperator INSTANCE = new ListenerNotifyOperator();
 
-		private ListenerNotifyOperator() {}
-
 		@Override
 		public void operate(final Listener listener, final String arg) {
 			listener.onRedditDataChange(arg);

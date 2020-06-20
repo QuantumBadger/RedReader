@@ -96,8 +96,7 @@ public final class RedditVideosAPI {
 					final boolean fromCache,
 					final String mimetype) {
 
-				try {
-					final InputStream is = cacheFile.getInputStream();
+				try(InputStream is = cacheFile.getInputStream()) {
 
 					try {
 						final String mpd = General.readWholeStreamAsUTF8(is);

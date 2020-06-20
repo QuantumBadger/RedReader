@@ -145,9 +145,7 @@ public class ShareImageCallback implements BaseActivity.PermissionCallback {
 								dst
 						);
 
-						try {
-							final InputStream cacheFileInputStream = cacheFile.getInputStream();
-
+						try(InputStream cacheFileInputStream = cacheFile.getInputStream()) {
 							if(cacheFileInputStream == null) {
 								notifyFailure(CacheRequest.REQUEST_FAILURE_CACHE_MISS, null, null, "Could not find cached image");
 								return;

@@ -214,12 +214,10 @@ public class ImgurUploadActivity extends BaseActivity {
 					final Bitmap thumbnailBitmap = ThumbnailScaler.scaleNoCrop(rawBitmap, thumbnailSizePx);
 					rawBitmap.recycle();
 
-					final InputStream inputStream = getContentResolver().openInputStream(uri);
-
 					final ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 					final Base64OutputStream output = new Base64OutputStream(byteOutput, 0);
 
-					try {
+					try(InputStream inputStream = getContentResolver().openInputStream(uri)) {
 						General.copyStream(inputStream, output);
 						output.flush();
 

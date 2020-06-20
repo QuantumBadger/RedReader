@@ -361,19 +361,6 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 			return;
 		}
 
-		final InputStream cacheFileInputStream;
-		try {
-			cacheFileInputStream = cacheFile.getInputStream();
-		} catch(IOException e) {
-			revertToWeb();
-			return;
-		}
-
-		if(cacheFileInputStream == null) {
-			revertToWeb();
-			return;
-		}
-
 		if(mImageInfo != null
 				&& ((mImageInfo.title != null && mImageInfo.title.length() > 0)
 						|| (mImageInfo.caption != null && mImageInfo.caption.length() > 0))) {
@@ -557,8 +544,10 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 						if(mIsDestroyed) return;
 						mRequest = null;
 
-						try {
-							final GIFView gifView = new GIFView(ImageViewActivity.this, cacheFileInputStream);
+						try(InputStream cacheFileInputStream = cacheFile.getInputStream()) {
+
+							final byte[] data = GIFView.streamToBytes(cacheFileInputStream);
+							final GIFView gifView = new GIFView(ImageViewActivity.this, data);
 							setMainView(gifView);
 							gifView.setOnTouchListener(new BasicGestureHandler(ImageViewActivity.this));
 
@@ -574,6 +563,21 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 				});
 
 			} else {
+
+				@SuppressWarnings("PMD.CloseResource")
+				final InputStream cacheFileInputStream;
+				try {
+					cacheFileInputStream = cacheFile.getInputStream();
+
+				} catch(final IOException e) {
+					revertToWeb();
+					return;
+				}
+
+				if(cacheFileInputStream == null) {
+					revertToWeb();
+					return;
+				}
 
 				gifThread = new GifDecoderThread(cacheFileInputStream, new GifDecoderThread.OnGifLoadedListener() {
 
@@ -627,7 +631,13 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 			final ImageTileSource imageTileSource;
 			try {
-				try {
+				try(InputStream cacheFileInputStream = cacheFile.getInputStream()) {
+
+					if(cacheFileInputStream == null) {
+						revertToWeb();
+						return;
+					}
+
 					imageTileSource = new ImageTileSourceWholeBitmap(
 							BitmapFactory.decodeStream(cacheFileInputStream));
 

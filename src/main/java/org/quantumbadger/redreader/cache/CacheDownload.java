@@ -202,9 +202,18 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 					final JsonValue value;
 
 					try {
-						value = new JsonValue(bis);
-						mInitiator.notifyJsonParseStarted(value, RRTime.utcCurrentTimeMillis(), session, false);
-						value.buildInThisThread();
+						try {
+							value = new JsonValue(bis);
+							mInitiator.notifyJsonParseStarted(
+									value,
+									RRTime.utcCurrentTimeMillis(),
+									session,
+									false);
+							value.buildInThisThread();
+
+						} finally {
+							bis.close();
+						}
 
 					} catch (Throwable t) {
 						t.printStackTrace();

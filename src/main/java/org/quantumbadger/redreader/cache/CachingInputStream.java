@@ -49,8 +49,15 @@ final class CachingInputStream extends InputStream {
 	public void close() throws IOException {
 
 		if(stillRunning) {
-			in.close();
-			throw new RuntimeException("Closing CachingInputStream before the input stream has ended");
+
+			final byte[] skipBuffer = new byte[8192];
+
+			//noinspection StatementWithEmptyBody
+			while(read(skipBuffer) > 0);
+
+			if(stillRunning) {
+				throw new RuntimeException("Attempted to close CachingInputStream before the input stream has ended");
+			}
 		}
 	}
 

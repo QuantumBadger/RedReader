@@ -219,8 +219,11 @@ public final class CacheManager {
 			this.request = request;
 			location = getPreferredCacheLocation();
 			final File tmpFile = new File(location, UUID.randomUUID().toString() + tempExt);
+
+			@SuppressWarnings("PMD.CloseResource")
 			final FileOutputStream fos = new FileOutputStream(tmpFile);
 
+			@SuppressWarnings("PMD.CloseResource")
 			final OutputStream bufferedOs = new BufferedOutputStream(fos, 64 * 1024);
 
 			final NotifyOutputStream.Listener listener = new NotifyOutputStream.Listener() {
@@ -451,29 +454,28 @@ public final class CacheManager {
 
 					if(request.isJson) {
 
-						InputStream cacheFileInputStream = null;
-
 						try {
-							cacheFileInputStream = getCacheFileInputStream(entry.id);
+							try(InputStream cfis = getCacheFileInputStream(entry.id)) {
 
-							if(cacheFileInputStream == null) {
-								request.notifyFailure(CacheRequest.REQUEST_FAILURE_CACHE_MISS, null, null, "Couldn't retrieve cache file");
-								return;
+								if(cfis == null) {
+									request.notifyFailure(
+											CacheRequest.REQUEST_FAILURE_CACHE_MISS,
+											null,
+											null,
+											"Couldn't retrieve cache file");
+									return;
+								}
+
+								final JsonValue value = new JsonValue(cfis);
+								request.notifyJsonParseStarted(
+										value,
+										entry.timestamp,
+										entry.session,
+										true);
+								value.buildInThisThread();
 							}
-
-							final JsonValue value = new JsonValue(cacheFileInputStream);
-							request.notifyJsonParseStarted(value, entry.timestamp, entry.session, true);
-							value.buildInThisThread();
 
 						} catch(Throwable t) {
-
-							if(cacheFileInputStream != null) {
-								try {
-									cacheFileInputStream.close();
-								} catch(IOException e) {
-									// Ignore
-								}
-							}
 
 							dbManager.delete(entry.id);
 

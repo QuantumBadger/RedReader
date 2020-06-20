@@ -321,7 +321,7 @@ public class CommentListingRequest {
 			final Integer minimumCommentScore,
 			final String parentPostAuthor)
 
-			throws IOException, InterruptedException, IllegalAccessException, java.lang.InstantiationException,
+			throws IOException, InterruptedException, IllegalAccessException, InstantiationException,
 			NoSuchMethodException, InvocationTargetException {
 
 		final RedditThing thing = value.asObject(RedditThing.class);

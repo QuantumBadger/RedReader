@@ -26,20 +26,21 @@ import android.net.Uri;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
@@ -427,6 +428,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 						try {
 
 							Log.i(TAG, "Playing video using ExoPlayer");
+							getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
 							final RelativeLayout layout = new RelativeLayout(ImageViewActivity.this);
 							layout.setGravity(Gravity.CENTER);
@@ -543,6 +545,8 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 						if(mIsDestroyed) return;
 						mRequest = null;
+
+						getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
 						try(InputStream cacheFileInputStream = cacheFile.getInputStream()) {
 

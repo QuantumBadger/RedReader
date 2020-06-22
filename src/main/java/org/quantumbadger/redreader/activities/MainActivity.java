@@ -25,7 +25,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import androidx.annotation.Nullable;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -39,6 +38,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import androidx.annotation.Nullable;
 import org.apache.commons.lang3.StringUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -418,9 +418,14 @@ public class MainActivity extends RefreshableActivity
 					//Upgrading from 89/1.9.11 or lower, switch to ListPreference for
 					//appearance_thumbnails_show, cache_precache_images, cache_precache_comments
 
-					final String existingThumbnailsShowPreference = PrefsUtility.appearance_thumbnails_show_old(this, sharedPreferences).toString().toLowerCase();
-					final String existingPrecacheImagesPreference = PrefsUtility.cache_precache_images_old(this, sharedPreferences).toString().toLowerCase();
-					final String existingPrecacheCommentsPreference = PrefsUtility.cache_precache_comments_old(this, sharedPreferences).toString().toLowerCase();
+					final String existingThumbnailsShowPreference = General.asciiLowercase(
+							PrefsUtility.appearance_thumbnails_show_old(this, sharedPreferences).toString());
+
+					final String existingPrecacheImagesPreference = General.asciiLowercase(
+							PrefsUtility.cache_precache_images_old(this, sharedPreferences).toString());
+
+					final String existingPrecacheCommentsPreference = General.asciiLowercase(
+							PrefsUtility.cache_precache_comments_old(this, sharedPreferences).toString());
 
 					sharedPreferences.edit().putString(
 							getString(R.string.pref_appearance_thumbnails_show_list_key),

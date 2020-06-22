@@ -84,4 +84,5 @@
 	<rule name="ShortInstantiation" ref="category/java/performance.xml/ShortInstantiation"/>
 	<rule name="UnnecessaryWrapperObjectCreation" ref="category/java/performance.xml/UnnecessaryWrapperObjectCreation"/>
 	<rule name="UseArraysAsList" ref="category/java/performance.xml/UseArraysAsList"/>
+	<rule name="UseLocaleWithCaseConversions" ref="category/java/errorprone.xml/UseLocaleWithCaseConversions"/>
 </ruleset>

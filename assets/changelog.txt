@@ -5,6 +5,7 @@ Various improvements to markdown rendering
 Added preference to disable new header toolbars
 Keep screen on while playing videos
 Dependency updates (thanks to TacoTheDank)
+Crash fix for users with some non-English locales
 
 90/1.10
 Added toolbar when viewing subreddits and comments

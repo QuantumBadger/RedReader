@@ -22,8 +22,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
-import androidx.annotation.NonNull;
 import android.util.DisplayMetrics;
+import androidx.annotation.NonNull;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.OptionsMenuUtility;
 import org.quantumbadger.redreader.adapters.MainMenuListingManager;
@@ -234,7 +234,8 @@ public final class PrefsUtility {
 	}
 
 	public static AppearanceThumbnailsShow appearance_thumbnails_show(final Context context, final SharedPreferences sharedPreferences) {
-		return AppearanceThumbnailsShow.valueOf(getString(R.string.pref_appearance_thumbnails_show_list_key, "always", context, sharedPreferences).toUpperCase());
+		return AppearanceThumbnailsShow.valueOf(General.asciiUppercase(
+				getString(R.string.pref_appearance_thumbnails_show_list_key, "always", context, sharedPreferences)));
 	}
 
 	public static AppearanceThumbnailsShow appearance_thumbnails_show_old(final Context context, final SharedPreferences sharedPreferences) {
@@ -751,7 +752,8 @@ public final class PrefsUtility {
 	}
 
 	public static CachePrecacheImages cache_precache_images(final Context context, final SharedPreferences sharedPreferences) {
-		return CachePrecacheImages.valueOf(getString(R.string.pref_cache_precache_images_list_key, "wifionly", context, sharedPreferences).toUpperCase());
+		return CachePrecacheImages.valueOf(General.asciiUppercase(
+				getString(R.string.pref_cache_precache_images_list_key, "wifionly", context, sharedPreferences)));
 	}
 
 	public static CachePrecacheImages cache_precache_images_old(final Context context, final SharedPreferences sharedPreferences) {
@@ -776,7 +778,8 @@ public final class PrefsUtility {
 	}
 
 	public static CachePrecacheComments cache_precache_comments(final Context context, final SharedPreferences sharedPreferences) {
-		return CachePrecacheComments.valueOf(getString(R.string.pref_cache_precache_comments_list_key, "always", context, sharedPreferences).toUpperCase());
+		return CachePrecacheComments.valueOf(General.asciiUppercase(
+				getString(R.string.pref_cache_precache_comments_list_key, "always", context, sharedPreferences)));
 	}
 
 	public static CachePrecacheComments cache_precache_comments_old(final Context context, final SharedPreferences sharedPreferences) {

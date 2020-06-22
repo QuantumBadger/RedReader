@@ -22,15 +22,17 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDialogFragment;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDialogFragment;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
+
+import java.util.Locale;
 
 public abstract class PropertiesDialog extends AppCompatDialogFragment {
 
@@ -105,7 +107,7 @@ public abstract class PropertiesDialog extends AppCompatDialogFragment {
 		}
 
 		final TextView titleView = new TextView(context);
-		titleView.setText(title.toUpperCase());
+		titleView.setText(title.toUpperCase(Locale.getDefault()));
 		titleView.setTextColor(rrListHeaderTextCol);
 		titleView.setTextSize(12.0f);
 		titleView.setPadding(paddingPixels, paddingPixels, paddingPixels, 0);

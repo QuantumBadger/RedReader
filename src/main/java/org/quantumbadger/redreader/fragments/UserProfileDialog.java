@@ -109,6 +109,7 @@ public class UserProfileDialog extends PropertiesDialog {
 						commentKarma.setText(String.valueOf(user.comment_karma));
 
 						items.addView(propView(context, R.string.userprofile_created, RRTime.formatDateTime(user.created_utc * 1000, context), false));
+						items.getChildAt(items.getChildCount() - 1).setNextFocusUpId(R.id.layout_karma_link);
 
 						if(user.has_mail != null) {
 							items.addView(propView(context, R.string.userprofile_hasmail, user.has_mail ? R.string.general_true : R.string.general_false, false));

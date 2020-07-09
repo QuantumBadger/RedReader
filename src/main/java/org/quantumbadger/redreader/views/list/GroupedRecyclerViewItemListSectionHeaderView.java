@@ -18,8 +18,12 @@
 package org.quantumbadger.redreader.views.list;
 
 import androidx.annotation.NonNull;
+import androidx.core.view.AccessibilityDelegateCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import org.quantumbadger.redreader.R;
@@ -55,6 +59,26 @@ public class GroupedRecyclerViewItemListSectionHeaderView extends GroupedRecycle
 
 		final TextView view = (TextView)viewHolder.itemView;
 		view.setText(mText);
+
+		//Use less top padding for the Shortcuts heading (at the very top of the main menu)
+		final float TOP_PADDING = 10; //Measured in dps
+		if (mText.toString().equals(view.getContext().getString(R.string.mainmenu_header_shortcuts))) {
+			view.setPadding(
+					view.getPaddingLeft(),
+					(int) (TOP_PADDING * view.getContext().getResources().getDisplayMetrics().density),
+					view.getPaddingRight(),
+					view.getPaddingBottom()
+			);
+		}
+
+		//From https://stackoverflow.com/a/54082384
+		ViewCompat.setAccessibilityDelegate(view, new AccessibilityDelegateCompat() {
+			@Override
+			public void onInitializeAccessibilityNodeInfo(View host, AccessibilityNodeInfoCompat info) {
+				super.onInitializeAccessibilityNodeInfo(host, info);
+				info.setHeading(true);
+			}
+		});
 	}
 
 	@Override

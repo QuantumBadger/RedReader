@@ -155,6 +155,13 @@ public class MainMenuListingManager {
 			final EnumSet<MainMenuFragment.MainMenuShortcutItems> mainMenuShortcutItems
 					= PrefsUtility.pref_menus_mainmenu_shortcutitems(activity, sharedPreferences);
 
+			if (!mainMenuShortcutItems.isEmpty()) {
+				mAdapter.appendToGroup(
+						GROUP_MAIN_HEADER,
+						new GroupedRecyclerViewItemListSectionHeaderView(
+								activity.getString(R.string.mainmenu_header_shortcuts)));
+			}
+
 			if (mainMenuShortcutItems.contains(MainMenuFragment.MainMenuShortcutItems.FRONTPAGE)){
 				mAdapter.appendToGroup(GROUP_MAIN_ITEMS,
 						makeItem(R.string.mainmenu_frontpage, MainMenuFragment.MENU_MENU_ACTION_FRONTPAGE, null, true));

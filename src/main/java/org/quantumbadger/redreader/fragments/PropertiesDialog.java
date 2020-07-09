@@ -98,6 +98,7 @@ public abstract class PropertiesDialog extends AppCompatDialogFragment {
 
 		final LinearLayout prop = new LinearLayout(context);
 		prop.setOrientation(LinearLayout.VERTICAL);
+		prop.setFocusable(true);
 
 		if(!firstInList) {
 			final View divider = new View(context);
@@ -118,7 +119,6 @@ public abstract class PropertiesDialog extends AppCompatDialogFragment {
 		textView.setTextColor(rrCommentBodyCol);
 		textView.setTextSize(15.0f);
 		textView.setPadding(paddingPixels, 0, paddingPixels, paddingPixels);
-		textView.setTextIsSelectable(true);
 		prop.addView(textView);
 
 		return prop;

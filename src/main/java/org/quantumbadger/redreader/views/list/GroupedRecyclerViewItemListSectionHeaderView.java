@@ -60,17 +60,6 @@ public class GroupedRecyclerViewItemListSectionHeaderView extends GroupedRecycle
 		final TextView view = (TextView)viewHolder.itemView;
 		view.setText(mText);
 
-		//Use less top padding for the Shortcuts heading (at the very top of the main menu)
-		final float TOP_PADDING = 10; //Measured in dps
-		if (mText.toString().equals(view.getContext().getString(R.string.mainmenu_header_shortcuts))) {
-			view.setPadding(
-					view.getPaddingLeft(),
-					(int) (TOP_PADDING * view.getContext().getResources().getDisplayMetrics().density),
-					view.getPaddingRight(),
-					view.getPaddingBottom()
-			);
-		}
-
 		//From https://stackoverflow.com/a/54082384
 		ViewCompat.setAccessibilityDelegate(view, new AccessibilityDelegateCompat() {
 			@Override

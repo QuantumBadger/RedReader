@@ -21,6 +21,7 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -342,8 +343,14 @@ public class LinkHandler {
 				shareText(activity, null, uri);
 				break;
 			case COPY_URL:
-				ClipboardManager manager = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
-				manager.setText(uri);
+				ClipboardManager clipboardManager = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
+				if(clipboardManager != null) {
+					//Using newPlainText here instead of newRawUri because links from comments/self-text are often not valid URIs
+					ClipData data = ClipData.newPlainText(null, uri);
+					clipboardManager.setPrimaryClip(data);
+
+					General.quickToast(activity.getApplicationContext(), R.string.link_copied_to_clipboard);
+				}
 				break;
 
 			case EXTERNAL:

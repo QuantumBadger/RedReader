@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.adapters;
 
 import android.app.AlertDialog;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -675,8 +676,13 @@ public class MainMenuListingManager {
 			}
 
 			case COPY_URL: {
-				ClipboardManager manager = (ClipboardManager)activity.getSystemService(Context.CLIPBOARD_SERVICE);
-				manager.setText(url);
+				ClipboardManager clipboardManager = (ClipboardManager)activity.getSystemService(Context.CLIPBOARD_SERVICE);
+				if(clipboardManager != null) {
+					ClipData data = ClipData.newRawUri(null, Uri.parse(url));
+					clipboardManager.setPrimaryClip(data);
+
+					General.quickToast(activity.getApplicationContext(), R.string.subreddit_link_copied_to_clipboard);
+				}
 				break;
 			}
 

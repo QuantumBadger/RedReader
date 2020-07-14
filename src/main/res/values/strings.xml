@@ -1108,7 +1108,7 @@
 	<string name="notification_channel_name_reddit_messages">Incoming Reddit Messages</string>
 	
 	<!-- 2019-10-05 -->
-	<string name="post_text_copied_to_clipboard">Post copied to clipboard</string>
+	<string name="post_text_copied_to_clipboard">Post self-text copied to clipboard</string>
 	<string name="action_copy_selftext">Copy Self-Text</string>
 
 	<!-- 2020-01-11 -->
@@ -1218,5 +1218,12 @@
 
 	<!-- 2020-07-08 -->
 	<string name="mainmenu_header_shortcuts">Shortcuts</string>
+
+	<!-- 2020-07-11 -->
+	<string name="post_link_copied_to_clipboard">Post link copied to clipboard</string>
+	<string name="link_copied_to_clipboard">Link copied to clipboard</string>
+	<string name="comment_link_copied_to_clipboard">Comment link copied to clipboard</string>
+	<string name="comment_text_copied_to_clipboard">Comment text copied to clipboard</string>
+	<string name="subreddit_link_copied_to_clipboard">Subreddit link copied to clipboard</string>
 
 </resources>

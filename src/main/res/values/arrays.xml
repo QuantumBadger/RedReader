@@ -408,7 +408,7 @@
         <item>@string/action_share</item>
         <item>@string/action_share_comments</item>
         <item>@string/action_share_image</item>
-        <item>@string/action_copy</item>
+        <item>@string/action_copy_link</item>
 		<item>@string/action_copy_selftext</item>
         <item>@string/action_user_profile</item>
         <item>@string/action_properties</item>
@@ -480,7 +480,7 @@
         <item>@string/action_external</item>
         <item>@string/action_save_image</item>
         <item>@string/action_share</item>
-        <item>@string/action_copy</item>
+        <item>@string/action_copy_link</item>
         <item>@string/action_user_profile</item>
         <item>@string/action_properties</item>
     </string-array>

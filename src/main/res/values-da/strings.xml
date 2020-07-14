@@ -100,7 +100,6 @@
 
     <string name="pref_cache_precache_images_title">Precache billeder</string>
 
-    <!-- TODO use listpreference instead -->
     <string name="pref_cache_precache_images_wifionly_title">Kun på Wi-Fi</string>
 
     <!-- Menu Prefs -->

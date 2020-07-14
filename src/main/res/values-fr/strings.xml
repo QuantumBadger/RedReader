@@ -58,7 +58,6 @@
     <string name="pref_cache_maxage_image_title">Supprimer les images du cache après</string>
     <string name="pref_cache_precache_images_header">Precache images</string>
     <string name="pref_cache_precache_images_title">Mettre en cache les images</string>
-    <!-- TODO use listpreference instead -->
     <string name="pref_cache_precache_images_wifionly_title">Via Wifi seulement</string>
     <!-- Menu Prefs -->
     <string name="pref_menus_post_context_items_title">Éléments du menu des posts</string>

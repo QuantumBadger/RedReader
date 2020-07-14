@@ -59,7 +59,6 @@
     <string name="pref_cache_maxage_image_title">حذف الصور المخزنة مؤقتا بعد</string>
     <string name="pref_cache_precache_images_header">تحميل الصور إلى الخابية</string>
     <string name="pref_cache_precache_images_title">تحميل الصور إلى الخابية</string>
-    <!-- TODO use listpreference instead -->
     <string name="pref_cache_precache_images_wifionly_title">عند الاتصال بالواي فاي فقط</string>
     <!-- Menu Prefs -->
     <string name="pref_menus_post_context_items_title">محتويات قائمة المنشور</string>

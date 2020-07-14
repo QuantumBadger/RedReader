@@ -22,6 +22,7 @@ import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -33,12 +34,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
+import android.util.Log;
+import android.util.TypedValue;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import android.content.ClipboardManager;
-import android.util.Log;
-import android.util.TypedValue;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.AlbumListingActivity;
 import org.quantumbadger.redreader.activities.BaseActivity;
@@ -53,11 +53,11 @@ import org.quantumbadger.redreader.image.DeviantArtAPI;
 import org.quantumbadger.redreader.image.GetAlbumInfoListener;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
 import org.quantumbadger.redreader.image.GfycatAPI;
-import org.quantumbadger.redreader.image.RedgifsAPI;
 import org.quantumbadger.redreader.image.ImageInfo;
 import org.quantumbadger.redreader.image.ImgurAPI;
 import org.quantumbadger.redreader.image.ImgurAPIV3;
 import org.quantumbadger.redreader.image.RedditVideosAPI;
+import org.quantumbadger.redreader.image.RedgifsAPI;
 import org.quantumbadger.redreader.image.SaveImageCallback;
 import org.quantumbadger.redreader.image.ShareImageCallback;
 import org.quantumbadger.redreader.image.StreamableAPI;
@@ -458,7 +458,8 @@ public class LinkHandler {
 			redditVideosPattern = Pattern.compile(".*[^A-Za-z]v.redd.it/(\\w+).*"),
 			imgflipPattern = Pattern.compile(".*[^A-Za-z]imgflip\\.com/i/(\\w+).*"),
 			makeamemePattern = Pattern.compile(".*[^A-Za-z]makeameme\\.org/meme/([\\w\\-]+).*"),
-			deviantartPattern = Pattern.compile("https://www\\.deviantart\\.com/([\\w\\-]+)/art/([\\w\\-]+)");
+			deviantartPattern = Pattern.compile("https://www\\.deviantart\\.com/([\\w\\-]+)/art/([\\w\\-]+)"),
+			giphyPattern = Pattern.compile(".*[^A-Za-z]giphy\\.com/gifs/(\\w+).*");
 
 	public static boolean isProbablyAnImage(final String url) {
 
@@ -804,6 +805,18 @@ public class LinkHandler {
 					final String imageUrl = "https://media.makeameme.org/created/" + imgId + ".jpg";
 					return new ImageInfo(imageUrl, ImageInfo.MediaType.IMAGE, ImageInfo.HasAudio.NO_AUDIO);
 				}
+			}
+		}
+
+		{
+			final Matcher matchGiphy = giphyPattern.matcher(url);
+
+			if(matchGiphy.find()) {
+				return new ImageInfo("https://media.giphy.com/media/"
+								+ matchGiphy.group(1)
+								+ "/giphy.mp4",
+						ImageInfo.MediaType.VIDEO,
+						ImageInfo.HasAudio.NO_AUDIO);
 			}
 		}
 

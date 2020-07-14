@@ -322,8 +322,17 @@ public class HtmlReader {
 		final Context applicationContext = activity.getApplicationContext();
 
 		try {
-			HtmlRawElement rootElement
-					= HtmlRawElement.readFrom(new HtmlReaderPeekable(new HtmlReader(html)));
+			final HtmlReaderPeekable reader = new HtmlReaderPeekable(new HtmlReader(html));
+
+			HtmlRawElement rootElement;
+
+			if(reader.peek().type == TokenType.EOF) {
+				// Empty comment
+				rootElement = new HtmlRawElementPlainText("");
+
+			} else {
+				rootElement = HtmlRawElement.readFrom(reader);
+			}
 
 			if(!(rootElement instanceof HtmlRawElementBlock)) {
 				rootElement = new HtmlRawElementBlock(BlockType.NORMAL_TEXT, rootElement);

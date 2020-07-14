@@ -134,7 +134,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		GOTO_SUBREDDIT(R.string.action_gotosubreddit),
 		ACTION_MENU(R.string.action_actionmenu),
 		SAVE_IMAGE(R.string.action_save_image),
-		COPY(R.string.action_copy),
+		COPY(R.string.action_copy_link),
 		COPY_SELFTEXT(R.string.action_copy_selftext),
 		SELFTEXT_LINKS(R.string.action_selftext_links),
 		BACK(R.string.action_back),
@@ -307,8 +307,13 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		if(itemPref.contains(Action.SHARE)) menu.add(new RPVMenuItem(activity, R.string.action_share, Action.SHARE));
 		if(itemPref.contains(Action.SHARE_COMMENTS)) menu.add(new RPVMenuItem(activity, R.string.action_share_comments, Action.SHARE_COMMENTS));
 		if(itemPref.contains(Action.SHARE_IMAGE) && post.mIsProbablyAnImage) menu.add(new RPVMenuItem(activity, R.string.action_share_image, Action.SHARE_IMAGE));
-		if(itemPref.contains(Action.COPY)) menu.add(new RPVMenuItem(activity, R.string.action_copy, Action.COPY));
-		if(itemPref.contains(Action.COPY_SELFTEXT)) menu.add(new RPVMenuItem(activity, R.string.action_copy_selftext, Action.COPY_SELFTEXT));
+		if(itemPref.contains(Action.COPY)) menu.add(new RPVMenuItem(activity, R.string.action_copy_link, Action.COPY));
+		if(itemPref.contains(Action.COPY_SELFTEXT)
+				&& post.src.getRawSelfTextMarkdown() != null
+				&& post.src.getRawSelfTextMarkdown().length() > 1) {
+
+			menu.add(new RPVMenuItem(activity, R.string.action_copy_selftext, Action.COPY_SELFTEXT));
+		}
 		if(itemPref.contains(Action.USER_PROFILE)) menu.add(new RPVMenuItem(activity, R.string.action_user_profile, Action.USER_PROFILE));
 		if(itemPref.contains(Action.PROPERTIES)) menu.add(new RPVMenuItem(activity, R.string.action_properties, Action.PROPERTIES));
 
@@ -509,8 +514,10 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 				ClipboardManager clipboardManager = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
 				if(clipboardManager != null) {
-					ClipData data = ClipData.newPlainText(post.src.getAuthor(), post.src.getUrl());
+					ClipData data = ClipData.newRawUri(post.src.getAuthor(), Uri.parse(post.src.getUrl()));
 					clipboardManager.setPrimaryClip(data);
+
+					General.quickToast(activity.getApplicationContext(), R.string.post_link_copied_to_clipboard);
 				}
 				break;
 			}

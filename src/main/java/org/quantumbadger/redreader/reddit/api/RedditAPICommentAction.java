@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.reddit.api;
 
 import android.app.AlertDialog;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -313,16 +314,25 @@ public class RedditAPICommentAction {
 			}
 
 			case COPY_TEXT: {
-				ClipboardManager manager = (ClipboardManager)activity.getSystemService(Context.CLIPBOARD_SERVICE);
+				ClipboardManager clipboardManager = (ClipboardManager)activity.getSystemService(Context.CLIPBOARD_SERVICE);
 				// TODO this currently just dumps the markdown
-				manager.setText(StringEscapeUtils.unescapeHtml4(comment.body));
+				if(clipboardManager != null) {
+					ClipData data = ClipData.newPlainText(null, StringEscapeUtils.unescapeHtml4(comment.body));
+					clipboardManager.setPrimaryClip(data);
+
+					General.quickToast(activity.getApplicationContext(), R.string.comment_text_copied_to_clipboard);
+				}
 				break;
 			}
 
 			case COPY_URL: {
-				ClipboardManager manager = (ClipboardManager)activity.getSystemService(Context.CLIPBOARD_SERVICE);
-				// TODO this currently just dumps the markdown
-				manager.setText(comment.getContextUrl().context(null).generateNonJsonUri().toString());
+				ClipboardManager clipboardManager = (ClipboardManager)activity.getSystemService(Context.CLIPBOARD_SERVICE);
+				if(clipboardManager != null) {
+					ClipData data = ClipData.newRawUri(null, comment.getContextUrl().context(null).generateNonJsonUri());
+					clipboardManager.setPrimaryClip(data);
+
+					General.quickToast(activity.getApplicationContext(), R.string.comment_link_copied_to_clipboard);
+				}
 				break;
 			}
 

@@ -226,6 +226,10 @@ public abstract class HtmlRawElement {
 					result = new HtmlRawElementTableRow(children);
 					break;
 
+				case "img":
+					result = new HtmlRawElementPlainText("Image");
+					break;
+
 				default:
 					return HtmlRawElementInlineErrorMessage.appendError(
 							"Error: Unexpected tag start <" + startToken.text + ">",

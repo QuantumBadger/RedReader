@@ -63,7 +63,7 @@ public final class SettingsActivity
 	public boolean onOptionsItemSelected(final MenuItem item) {
 		switch(item.getItemId()) {
 			case android.R.id.home:
-				finish();
+				onBackPressed();
 				return true;
 			default:
 				return false;

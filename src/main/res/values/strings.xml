@@ -83,7 +83,7 @@
     <string name="pref_behaviour_fling_post_right_title">Fling right</string>
 
     <string name="pref_behaviour_actions_comment_tap_key" translatable="false">pref_behaviour_actions_comment_tap</string>
-    <string name="pref_behaviour_actions_comment_tap_title">Tap</string>
+    <string name="pref_behaviour_actions_comment_tap_title">Press</string>
 
     <string name="pref_behaviour_nsfw_key" translatable="false">pref_behaviour_nsfw</string>
     <string name="pref_behaviour_nsfw_title">Show NSFW content</string>
@@ -805,7 +805,7 @@
 	
 	<!-- 2016-07-02 -->
 	<string name="pref_behaviour_actions_comment_longclick_key" translatable="false">pref_behaviour_actions_comment_longclick</string>
-	<string name="pref_behaviour_actions_comment_longclick_title">Long tap</string>
+	<string name="pref_behaviour_actions_comment_longclick_title">Long press</string>
 
 	<string name="no_comments_yet">No comments yet.</string>
 
@@ -1000,7 +1000,7 @@
 
 	<!--2017-05-21-->
 	<string name="pref_behaviour_self_post_tap_actions_key" translatable="false">pref_behaviour_self_post_tap_actions</string>
-	<string name="pref_behaviour_self_post_tap_actions_title">Self-post tap</string>
+	<string name="pref_behaviour_self_post_tap_actions_title">Self-post press</string>
 
 	<!-- 2017-06-05 -->
 	<string name="lang_in" translatable="false">Bahasa Indonesia</string>

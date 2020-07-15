@@ -34,12 +34,12 @@
     <string name="pref_appearance_comments_header">Komentar</string>
     <string name="pref_appearance_other_header">Lainnya</string>
     <string name="pref_appearance_twopane_key" translatable="false">pref_appearance_twopane</string>
-    <string name="pref_appearance_twopane_title">Mode Tablet (dua panel)</string>
+    <string name="pref_appearance_twopane_title">Mode tablet (dua panel)</string>
     <string name="pref_appearance_theme_key" translatable="false">pref_appearance_theme</string>
     <string name="pref_appearance_theme_title">Tema</string>
     <string name="pref_appearance_solidblack_title">Hitam pekat di mode malam</string>
     <string name="pref_appearance_fontscale_posts_key" translatable="false">pref_appearance_fontscale_posts</string>
-    <string name="pref_appearance_fontscale_posts_title">Ukuran Fon Pos</string>
+    <string name="pref_appearance_fontscale_posts_title">Ukuran fon pos</string>
     <string name="pref_appearance_fontscale_comments_key" translatable="false">pref_appearance_fontscale_comments</string>
     <string name="pref_appearance_fontscale_comments_title">Ukuran Fon Komentar</string>
     <string name="pref_appearance_thumbnails_show_key" translatable="false">pref_appearance_thumbnails_show</string>
@@ -51,7 +51,7 @@
     <string name="pref_appearance_loading_detail_key" translatable="false">pref_appearance_loading_detail</string>
     <string name="pref_appearance_loading_detail_title">Tampilkan pesan pemuatan secara detail</string>
     <string name="pref_appearance_comment_header_items_key" translatable="false">pref_appearance_comment_header_items</string>
-    <string name="pref_appearance_comment_header_items_title">Tajuk Komentar</string>
+    <string name="pref_appearance_comment_header_items_title">Tajuk komentar entri</string>
     <!-- Behaviour Prefs -->
     <string name="pref_behaviour_notifications_key" translatable="false">pref_behaviour_notifications</string>
     <string name="pref_behaviour_notifications_title">Notifikasi</string>
@@ -59,11 +59,11 @@
     <string name="pref_behaviour_actions_comment_header">Tindakan Komentar</string>
     <string name="pref_behaviour_posts_header">Pos</string>
     <string name="pref_behaviour_fling_post_left_key" translatable="false">pref_behaviour_fling_post_left</string>
-    <string name="pref_behaviour_fling_post_left_title">Tindakan Geser ke Kiri pada Pos</string>
+    <string name="pref_behaviour_fling_post_left_title">Geser ke kiri</string>
     <string name="pref_behaviour_fling_post_right_key" translatable="false">pref_behaviour_fling_post_right</string>
-    <string name="pref_behaviour_fling_post_right_title">Tindakan Geser ke Kanan pada Pos</string>
+    <string name="pref_behaviour_fling_post_right_title">Geser ke kanan</string>
     <string name="pref_behaviour_actions_comment_tap_key" translatable="false">pref_behaviour_actions_comment_tap</string>
-    <string name="pref_behaviour_actions_comment_tap_title">Tindakan Ketuk pada Komentar</string>
+    <string name="pref_behaviour_actions_comment_tap_title">Tekan</string>
     <string name="pref_behaviour_nsfw_key" translatable="false">pref_behaviour_nsfw</string>
     <string name="pref_behaviour_nsfw_title">Tampilkan konten TAUSB</string>
     <!-- Cache Prefs -->
@@ -81,9 +81,9 @@
     <string name="pref_cache_precache_images_wifionly_title">Hanya pada Wi-Fi</string>
     <!-- Menu Prefs -->
     <string name="pref_menus_post_context_items_key" translatable="false">pref_menus_post_context_items_2</string>
-    <string name="pref_menus_post_context_items_title">Item Menu Konteks Pos</string>
+    <string name="pref_menus_post_context_items_title">Item menu tekan lama</string>
     <string name="pref_menus_post_toolbar_items_key" translatable="false">pref_menus_post_toolbar_items</string>
-    <string name="pref_menus_post_toolbar_items_title">Item Bilah Perkakas Pos</string>
+    <string name="pref_menus_post_toolbar_items_title">Item bilah samping</string>
     <!-- Options Menu -->
     <string name="options_accounts">Akun</string>
     <string name="options_accounts_long">Akun Reddit</string>
@@ -341,7 +341,7 @@
     <string name="search_subreddit_restrict">Batasi pencarian pada</string>
     <string name="title_changelog">Apa Yang Baru</string>
     <string name="pref_behaviour_commentsort_key" translatable="false">pref_behaviour_commentsort</string>
-    <string name="pref_behaviour_commentsort">Urutan Komentar Default</string>
+    <string name="pref_behaviour_commentsort">Komentar (default)</string>
     <!-- 2013-05-18 -->
     <string name="action_fling_disabled">Nonaktif</string>
     <string name="pref_about_version_key" translatable="false">pref_about_version</string>
@@ -369,10 +369,10 @@
     <!-- 2013-07-01 -->
     <string name="web_view_open_browser">Buka di Peramban</string>
     <!-- 2013-07-26 -->
-    <string name="pref_behaviour_useinternalbrowser_title">Gunakan Peramban Internal</string>
+    <string name="pref_behaviour_useinternalbrowser_title">Gunakan peramban internal</string>
     <string name="pref_behaviour_useinternalbrowser_key" translatable="false">pref_behaviour_useinternalbrowser</string>
     <!-- 2013-07-29 -->
-    <string name="pref_appearance_linkbuttons_title">Tampilkan Tombol Tautan</string>
+    <string name="pref_appearance_linkbuttons_title">Tampilkan tombol tautan</string>
     <string name="pref_appearance_linkbuttons_key" translatable="false">pref_appearance_linkbuttons</string>
     <!-- 2013-08-04 -->
     <string name="pref_appearance_indentlines_title">Tampilkan garis indentasi</string>
@@ -407,7 +407,7 @@
     <string name="options_sidebar">Tampilkan Bilah Sisi</string>
     <!-- 2014-04-13 -->
     <string name="pref_menus_mainmenu_useritems_key" translatable="false">pref_menus_mainmenu_useritems</string>
-    <string name="pref_menus_mainmenu_useritems_title">Item Menu Utama Pengguna</string>
+    <string name="pref_menus_mainmenu_useritems_title">Item pengguna</string>
     <string name="mainmenu_submitted">Pos Dikirim</string>
     <string name="mainmenu_downvoted">Pos Didownvote</string>
     <string name="mainmenu_modmail">Surat Mod</string>
@@ -462,7 +462,7 @@
     <!-- 2015-06-07 -->
     <string name="error_archived_vote">Pos telah diarsipkan dan tidak bisa lagi menerima vote.</string>
     <!-- 2015-06-20 -->
-    <string name="pref_behaviour_screenorientation_title">Orientasi Layar</string>
+    <string name="pref_behaviour_screenorientation_title">Orientasi layar</string>
     <string name="pref_behaviour_screenorientation_key" translatable="false">pref_behaviour_screenorientation</string>
     <string name="screen_orientation_auto">Otomatis</string>
     <string name="screen_orientation_portrait">Potret</string>
@@ -470,11 +470,11 @@
     <!-- 2015-06-28 -->
     <string name="options_close_all">Tutup Semua</string>
     <string name="pref_menus_optionsmenu_items_key" translatable="false">pref_menus_optionsmenu_items_3</string>
-    <string name="pref_menus_optionsmenu_items_title">Item Menu Opsi</string>
+    <string name="pref_menus_optionsmenu_items_title">Item menu tiga-titik</string>
     <!-- 2015-07-05 -->
-    <string name="pref_behaviour_bezel_toolbar_header">Bilah Perkakas Bezel</string>
+    <string name="pref_behaviour_bezel_toolbar_header">Bilah Samping Pos</string>
     <string name="pref_behaviour_bezel_toolbar_swipezone_key" translatable="false">pref_behaviour_bezel_toolbar_swipezone</string>
-    <string name="pref_behaviour_bezel_toolbar_swipezone_title">Ukuran zona geser bezel bilah alat</string>
+    <string name="pref_behaviour_bezel_toolbar_swipezone_title">Ukuran zona geser bilah samping pos</string>
     <string name="pref_behaviour_gifview_mode_title">Penampil GIF</string>
     <string name="pref_behaviour_gifview_mode_key" translatable="false">pref_behaviour_gifview_mode</string>
     <string name="pref_behaviour_gifview_mode_internal_movie">Penampil internal (Movie, Android 4.0+)</string>
@@ -488,7 +488,7 @@
     <string name="delete_confirm">Apakah anda yakin ingin menghapusnya?</string>
     <string name="delete_success">Berhasil dihapus. Item akan tetap terlihat sampai anda menyegarkan halaman.</string>
     <string name="pref_appearance_hide_username_main_menu_key" translatable="false">pref_appearance_hide_username_main_menu</string>
-    <string name="pref_appearance_hide_username_main_menu_title">Sembunyikan nama pengguna dari menu utama</string>
+    <string name="pref_appearance_hide_username_main_menu_title">Sembunyikan nama pengguna</string>
     <string name="mainmenu_useritems">Item Pengguna</string>
     <!-- 2015-09-13 -->
     <string name="selected_link_is_not_image">Link yang dipilih bukan merupakan gambar.</string>
@@ -498,7 +498,7 @@
     <string name="album_already_first_image">Sudah pada gambar pertama di dalam album.</string>
     <string name="album_already_last_image">Sudah pada gambar terakhir di dalam album.</string>
     <string name="upgrade_v190_login_message">RedReader telah diperbarui, dan sekarang menggunakan oAuth untuk otentikasi reddit. Jika anda telah masuk sebelum pembaruan, anda akan dikeluarkan.</string>
-    <string name="pref_behaviour_videoview_mode_title">Penampil Video</string>
+    <string name="pref_behaviour_videoview_mode_title">Penampil video</string>
     <string name="pref_behaviour_videoview_mode_key" translatable="false">pref_behaviour_videoview_mode</string>
     <string name="pref_behaviour_videoview_mode_internal_videoview">VideoView internal (direkomendasikan)</string>
     <string name="pref_behaviour_videoview_mode_external_app_vlc">Apl Eksternal: VLC</string>
@@ -509,7 +509,7 @@
     <!-- 2015-10-16 -->
     <string name="sort_comments_qa">Q&amp;A</string>
     <!-- 2015-10-31 -->
-    <string name="pref_behaviour_gallery_swipe_length_title">Jarak Geser Galeri</string>
+    <string name="pref_behaviour_gallery_swipe_length_title">Jarak geser galeri</string>
     <string name="pref_behaviour_gallery_swipe_length_key" translatable="false">pref_behaviour_gallery_swipe_length</string>
     <!-- 2015-11-19 -->
     <string name="pref_cache_precache_comments_header">Pracache Komentar</string>
@@ -538,7 +538,7 @@
     <!-- 2016-03-14-->
     <string name="pref_behaviour_comment_min_key" translatable="false">pref_behaviour_comment_min</string>
     <string name="pref_behaviour_comments_header">Komentar</string>
-    <string name="pref_behaviour_comment_min_title">Skor Minimum Komentar</string>
+    <string name="pref_behaviour_comment_min_title">Skor minimum komentar</string>
     <string name="pref_behaviour_comment_min_dialog_title">Sembunyikan komentar jika skor dibawah (hapus nilai untuk menampilkan semua)</string>
     <!-- 2016-03-20 -->
     <string name="lang_se" translatable="false">Svenska</string>
@@ -572,10 +572,10 @@
     <!-- 2016-06-24 -->
     <string name="save_image_permission_denied">Izin ditolak: tidak bisa menyimpan gambar.</string>
     <!-- 2016-06-25 -->
-    <string name="pref_behaviour_imageview_mode_title">Penampil Gambar</string>
+    <string name="pref_behaviour_imageview_mode_title">Penampil gambar</string>
     <string name="pref_behaviour_imageview_mode_key" translatable="false">pref_behaviour_imageview_mode</string>
     <string name="pref_behaviour_imageview_mode_internal_opengl">Penampil internal (OpenGL)</string>
-    <string name="pref_behaviour_albumview_mode_title">Penampil Album</string>
+    <string name="pref_behaviour_albumview_mode_title">Penampil album</string>
     <string name="pref_behaviour_albumview_mode_key" translatable="false">pref_behaviour_albumview_mode</string>
     <string name="pref_behaviour_albumview_mode_internal_list">Penampil internal (daftar)</string>
     <string name="error_tor_start_failed">Orbot gagal untuk dijalankan. Tor tidak akan bekerja dengan benar.</string>
@@ -583,7 +583,7 @@
     <string name="inbox_unread_only">Hanya Pesan Belum Dibaca</string>
     <!-- 2016-07-02 -->
     <string name="pref_behaviour_actions_comment_longclick_key" translatable="false">pref_behaviour_actions_comment_longclick</string>
-    <string name="pref_behaviour_actions_comment_longclick_title">Tindakan Sentuh Lama Komentar</string>
+    <string name="pref_behaviour_actions_comment_longclick_title">Tekan lama</string>
     <string name="no_comments_yet">Belum ada komentar.</string>
     <!-- 2016-07-09 -->
     <string name="pm_send_hint_recipient">Penerima</string>
@@ -599,9 +599,9 @@
     <string name="edit_comment_actionbar">Sunting Komentar</string>
     <!-- 2016-07-16 -->
     <string name="pref_behaviour_fling_comment_left_key" translatable="false">pref_behaviour_fling_comment_left</string>
-    <string name="pref_behaviour_fling_comment_left_title">Tindakan Geser ke Kiri pada Komentar</string>
+    <string name="pref_behaviour_fling_comment_left_title">Geser ke kiri</string>
     <string name="pref_behaviour_fling_comment_right_key" translatable="false">pref_behaviour_fling_comment_right</string>
-    <string name="pref_behaviour_fling_comment_right_title">Tindakan Geser ke Kanan pada Komentar</string>
+    <string name="pref_behaviour_fling_comment_right_title">Geser ke kanan</string>
     <!-- 2016-07-17 -->
     <string name="comment_header_search_thread_title">Anda sedang melihat hasil pencarian untuk komentar pos ini.</string>
     <string name="no_search_results">Tidak ada hasil pencarian yang ditemukan.</string>
@@ -609,7 +609,7 @@
     <string name="action_search_comments">Cari Komentar</string>
     <!-- 2016-07-29 -->
     <string name="pref_appearance_navbar_color_key" translatable="false">pref_appearance_navbar_color</string>
-    <string name="pref_appearance_navbar_color_title">Warna Bilah Navigasi</string>
+    <string name="pref_appearance_navbar_color_title">Warna bilah status dan navigasi</string>
     <string name="pref_appearance_navbar_color_option_black">Hitam</string>
     <string name="pref_appearance_navbar_color_option_primary">Utama (terang)</string>
     <string name="pref_appearance_navbar_color_option_primarydark">Utama (gelap)</string>
@@ -618,7 +618,7 @@
     <string name="action_copy_text">Salin Teks</string>
     <string name="action_copy_link">Salin Tautan</string>
     <string name="pref_behaviour_postsort_key" translatable="false">pref_behaviour_postsort</string>
-    <string name="pref_behaviour_postsort">Urutan Pos Default</string>
+    <string name="pref_behaviour_postsort">Pos (default)</string>
     <!-- 2016-08-06 -->
     <string name="mainmenu_custom_destination">Lokasi Khusus</string>
     <string name="mainmenu_custom_destination_subreddit">Subreddit</string>
@@ -635,19 +635,19 @@
     <string name="error_cache_dir_does_not_exist_message">Direktori cache tidak bisa diakses. Silakan pilih lokasi yang berbeda di pengaturan cache.</string>
     <!-- 2016-08-15 -->
     <string name="pref_behaviour_pinned_subredditsort_key" translatable="false">pref_behaviour_pinned_subreddit_sort</string>
-    <string name="pref_behaviour_pinned_subredditsort">Urutan Subreddit Favorit</string>
+    <string name="pref_behaviour_pinned_subredditsort">Subreddit favorit</string>
     <string name="sort_pinned_subreddit_name">Nama</string>
     <string name="sort_pinned_subreddit_date">Tanggal Ditambahkan</string>
     <!-- 2016-09-01 -->
     <string name="load_more_comments_failed_unknown_url_type">Tidak bisa memuat lebih banyak komentar. Tipe URL tidak diketahui.</string>
     <!-- 2016-09-04 -->
     <string name="pref_appearance_image_viewer_header">Penampil Gambar</string>
-    <string name="pref_appearance_image_viewer_show_floating_toolbar_title">Tampilkan bilah alat mengambang di atas gambar</string>
+    <string name="pref_appearance_image_viewer_show_floating_toolbar_title">Tampilkan tombol mengambang di atas gambar dan video</string>
     <string name="pref_appearance_image_viewer_show_floating_toolbar_key" translatable="false">pref_appearance_image_viewer_show_floating_toolbar</string>
     <string name="pref_appearance_link_text_clickable_title">Buat teks tautan bisa diklik</string>
     <string name="pref_appearance_link_text_clickable_key" translatable="false">pref_appearance_link_text_clickable</string>
     <!-- 2016-09-07 -->
-    <string name="pref_appearance_hide_android_status_title">Sembunyikan bilah status Android</string>
+    <string name="pref_appearance_hide_android_status_title">Sembunyikan bilah status</string>
     <string name="pref_appearance_hide_android_status_key" translatable="false">pref_appearance_hide_android_status</string>
     <!-- 2016-09-08 -->
     <string name="pref_behaviour_enable_swipe_refresh_title">Geser ke bawah untuk menyegarkan</string>
@@ -655,12 +655,12 @@
     <!-- 2016-09-10 -->
     <string name="mainmenu_header_subreddits_blocked">Subreddit Diblokir</string>
     <string name="pref_behaviour_blocked_subredditsort_key" translatable="false">pref_behaviour_blocked_subreddit_sort</string>
-    <string name="pref_behaviour_blocked_subredditsort">Urutan Subreddit Diblokir</string>
+    <string name="pref_behaviour_blocked_subredditsort">Subreddit diblokir</string>
     <string name="sort_blocked_subreddit_name">Nama</string>
     <string name="sort_blocked_subreddit_date">Tanggal Ditambahkan</string>
     <!-- 2016-09-21 -->
     <string name="pref_appearance_show_blocked_subreddits_main_menu_key" translatable="false">pref_appearance_show_blocked_subreddits_main_menu</string>
-    <string name="pref_appearance_show_blocked_subreddits_main_menu_title">Tampilkan subreddit yang diblokir di menu utama</string>
+    <string name="pref_appearance_show_blocked_subreddits_main_menu_title">Tampilkan subreddit yang diblokir</string>
     <!-- 2016-10-02 -->
     <string name="pref_cache_rerequest_postlist_age_key" translatable="false">pref_cache_rerequest_postlist_age</string>
     <string name="pref_cache_rerequest_postlist_age_title">Segarkan pos jika cache lebih lama dari</string>
@@ -692,12 +692,12 @@
     <string name="action_back">Kembali</string>
     <!-- 2017-03-02 -->
     <string name="pref_menus_link_context_items_key" translatable="false">pref_menus_link_context_items</string>
-    <string name="pref_menus_link_context_items_title">Item Menu Konteks Tautan</string>
+    <string name="pref_menus_link_context_items_title">Item menu tekan lama tautan</string>
     <string name="lang_eo" translatable="false">Esperanto</string>
     <string name="lang_pl" translatable="false">Polski</string>
     <!-- 2017-03-07 -->
     <string name="pref_menus_subreddit_context_items_key" translatable="false">pref_menus_subreddit_context_items</string>
-    <string name="pref_menus_subreddit_context_items_title">Item Menu Konteks Subreddit</string>
+    <string name="pref_menus_subreddit_context_items_title">Item menu tekan lama subreddit</string>
     <string name="mainmenu_toast_not_subscribed">Anda belum subscribe ke subreddit ini!</string>
     <string name="mainmenu_toast_subscribed">Anda sudah subscribe ke subreddit ini!</string>
     <string name="mainmenu_toast_not_pinned">Subreddit ini tidak dipin ke menu utama!</string>
@@ -719,14 +719,14 @@
     <!-- 2017-05-08 -->
     <string name="button_next_comment_parent">Induk Komentar Berikutnya</string>
     <string name="button_prev_comment_parent">Induk Komentar Sebelumnya</string>
-    <string name="pref_appearance_comments_show_floating_toolbar_title">Tampilkan bilah alat mengambang di atas komentar</string>
+    <string name="pref_appearance_comments_show_floating_toolbar_title">Tampilkan tombol navigasi di atas komentar</string>
     <string name="pref_appearance_comments_show_floating_toolbar_key" translatable="false">pref_appearance_comments_show_floating_toolbar</string>
     <!--2017-05-08-->
     <string name="download_link_title">Unduh Berkas</string>
     <string name="download_link_message">Ini adalah tautan unduhan. Apakah anda ingin memuatnya di peramban eksternal\?</string>
     <!--2017-05-21-->
     <string name="pref_behaviour_self_post_tap_actions_key" translatable="false">pref_behaviour_self_post_tap_actions</string>
-    <string name="pref_behaviour_self_post_tap_actions_title">Tindakan Ketuk pada Self-Post</string>
+    <string name="pref_behaviour_self_post_tap_actions_title">Tekan self-post</string>
     <string name="pref_menus_show_popular_main_menu_title">Tampilkan /r/popular di menu utama</string>
     <string name="pref_behaviour_video_playback_controls_title">Aktifkan kontrol pemutaran video</string>
     <string name="error_no_suitable_apps_available">Tidak tersedia apl yang cocok.</string>
@@ -754,19 +754,74 @@
     <string name="pref_behaviour_usecustomtabs_title">Gunakan Custom Tab</string>
     <string name="pref_behaviour_usecustomtabs_summary">Gunakan Custom Tab jika tersedia</string>
     <string name="pref_behaviour_hide_read_posts_title">Sembunyikan pos yang sudah dibaca</string>
-    <string name="pref_menus_mainmenu_shortcutitems_title">Pintasan Menu Utama</string>
-    <string name="pref_menus_show_multireddit_main_menu_title">Tampilkan Multireddit</string>
-    <string name="pref_menus_show_subscribed_subreddits_main_menu_title">Tampilkan Subreddit yang Disubscribe</string>
+    <string name="pref_menus_mainmenu_shortcutitems_title">Pintasan</string>
+    <string name="pref_menus_show_multireddit_main_menu_title">Tampilkan multireddit</string>
+    <string name="pref_menus_show_subscribed_subreddits_main_menu_title">Tampilkan langganan subreddit</string>
     <string name="mainmenu_random_nsfw">Subreddit TAUSB Acak</string>
-    <string name="pref_appearance_show_aspect_ratio_indicator_title">Tampilkan Indikator Rasio Aspek</string>
+    <string name="pref_appearance_show_aspect_ratio_indicator_title">Tampilkan indikator rasio aspek</string>
     <string name="pref_appearance_show_aspect_ratio_indicator_summary">Tampilkan indikator pemuatan media jika tersedia</string>
-    <string name="pref_appearance_bottom_toolbar_title">Tampilkan Bilah Alat di Bawah</string>
+    <string name="pref_appearance_bottom_toolbar_title">Tampilkan bilah alat di bawah</string>
     <string name="pref_behaviour_video_mute_default_title">Matikan suara video secara bawaan</string>
     <string name="prefs_category_images_video">Gambar/Video</string>
     <string name="notification_channel_name_reddit_messages">Pesan Masuk Reddit</string>
-    <string name="post_text_copied_to_clipboard">Pos disalin ke papan klip</string>
+    <string name="post_text_copied_to_clipboard">Pos self-text disalin ke papan klip</string>
     <string name="action_copy_selftext">Salin Self-Text</string>
     <string name="pref_behaviour_sharing_share_dialog_dialogtitle">Pilih apl untuk berbagi</string>
     <string name="pref_behaviour_sharing_share_dialog_title">Gunakan dialog berbagi bawaan</string>
     <string name="error_toast_no_share_app_installed">Tidak ada apl terpasang untuk berbagi pos ini.</string>
+    <string name="subreddit_link_copied_to_clipboard">Tautan subreddit disalin ke papan klip</string>
+    <string name="comment_text_copied_to_clipboard">Teks komentar disalin ke papan klip</string>
+    <string name="comment_link_copied_to_clipboard">Tautan komentar disalin ke papan klip</string>
+    <string name="link_copied_to_clipboard">Tautan disalin ke papan klip</string>
+    <string name="post_link_copied_to_clipboard">Tautan pos disalin ke papan klip</string>
+    <string name="pref_appearance_hide_headertoolbar_commentlist_title">Sembunyikan bilah tajuk daftar komentar</string>
+    <string name="pref_appearance_hide_headertoolbar_postlist_title">Sembunyikan bilah tajuk daftar pos</string>
+    <string name="props_self_html">Self text (HTML)</string>
+    <string name="props_body_html">Isi (HTML)</string>
+    <string name="error_message_malformed_html">Gagal mengurai teks isi. Silakan laporkan kepada pengembang aplikasi.</string>
+    <string name="error_title_malformed_html">HTML tidak valid</string>
+    <string name="spoiler">Spoiler</string>
+    <string name="pref_menus_posts_header">Pos</string>
+    <string name="pref_menus_mainmenu_header">Menu Utama</string>
+    <string name="unpin_successful">Buang pin %s dari menu utama</string>
+    <string name="pin_successful">Pin %s ke menu utama</string>
+    <string name="unsubscription_successful">Berhasil membatalkan langganan dari %s</string>
+    <string name="subscription_successful">Berhasil berlangganan ke %s</string>
+    <string name="bug_chooser_title">Kirim laporan bug</string>
+    <string name="error_toast_no_email_apps">Tidak ada aplikasi email yang dipasang!</string>
+    <string name="error_toast_failed_open_external_browser">Gagal membuka url \"%s\" di peramban eksternal</string>
+    <string name="upgrade_message">Diperbarui ke versi %s</string>
+    <string name="must_login_message">Anda harus masuk ke Reddit untuk bisa melakukan ini.</string>
+    <string name="pref_appearance_fontscale_bodytext_title">Teks isi</string>
+    <string name="pref_appearance_fontscale_linkbuttons_title">Tombol tautan</string>
+    <string name="pref_appearance_fontscale_use_global">Gunakan ukuran fon global</string>
+    <string name="pref_appearance_fontscale_global_title">Global</string>
+    <string name="pref_appearance_fontscale_header">Ukuran Fon</string>
+    <string name="prefs_category_fonts">Fon</string>
+    <string name="pref_network_tor_summary">Ketika menggunakan peramban ekstenal atau custom tabs, tautan tidak akan dibuka menggunakan Tor (kecuali peramban anda diatur untuk menggunakan Tor)</string>
+    <string name="search_results_subreddit_only">Cari di /r/%s</string>
+    <string name="search_results_query_only">Cari \"%s\"</string>
+    <string name="search_results_all">Cari \"%1$s\" di /r/%2$s</string>
+    <string name="search_results_short">Hasil Pencarian</string>
+    <string name="error_nsfw_subreddits_disabled_message">Konten TAUSB dinonaktifkan di dalam pengaturan.</string>
+    <string name="error_nsfw_subreddits_disabled_title">Blokir subreddit TAUSB</string>
+    <string name="list_yes_no_or_wifi_never">Tidak pernah</string>
+    <string name="list_yes_no_or_wifi_wifionly">Hanya Wi-Fi</string>
+    <string name="list_yes_no_or_wifi_always">Selalu</string>
+    <string name="pref_appearance_thumbnails_show_list_key">pref_appearance_thumbnails_show_list_key</string>
+    <string name="pref_cache_precache_comments_list_key">pref_cache_precache_comments_list_key</string>
+    <string name="pref_cache_precache_images_list_key">pref_cache_precache_images_list_key</string>
+    <string name="pref_appearance_post_header_subtitle_items_title">Entri subjudul pos yang dibuka</string>
+    <string name="pref_appearance_post_subtitle_items_use_different_settings_title">Gunakan pengaturan berbeda untuk pos yang dibuka</string>
+    <string name="pref_appearance_post_subtitle_items_domain">Domain</string>
+    <string name="pref_appearance_post_subtitle_items_subreddit">Subreddit</string>
+    <string name="pref_appearance_post_subtitle_items_nsfw">Tag TAUSB</string>
+    <string name="pref_appearance_post_subtitle_items_spoiler">Tag spoiler</string>
+    <string name="pref_appearance_post_subtitle_items_sticky">Tag sticky</string>
+    <string name="pref_appearance_post_subtitle_items_title">Entri subjudul pos</string>
+    <string name="pref_appearance_posts_header">Pos</string>
+    <string name="pref_appearance_fontscale_comment_headers_title">Tajuk kotak masuk/komentar</string>
+    <string name="pref_appearance_fontscale_post_header_subtitles_title">Subjudul pos yang dibuka</string>
+    <string name="pref_appearance_fontscale_post_subtitles_title">Subjudul pos</string>
+    <string name="pref_appearance_fontscale_post_header_titles_title">Judul pos yang dibuka</string>
 </resources>

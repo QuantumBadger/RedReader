@@ -18,7 +18,12 @@
 package org.quantumbadger.redreader.common;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.AccessibilityDelegateCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
+import android.os.Build;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import org.quantumbadger.redreader.R;
@@ -67,6 +72,16 @@ public class ChangelogManager {
 						.inflate(R.layout.list_sectionheader, items, false);
 					header.setText(curVersionName);
 					header.setTextColor(attr.colorAccent);
+
+					//From https://stackoverflow.com/a/54082384
+					ViewCompat.setAccessibilityDelegate(header, new AccessibilityDelegateCompat() {
+						@Override
+						public void onInitializeAccessibilityNodeInfo(View host, AccessibilityNodeInfoCompat info) {
+							super.onInitializeAccessibilityNodeInfo(host, info);
+							info.setHeading(true);
+						}
+					});
+
 					items.addView(header);
 
 				} else {
@@ -74,10 +89,14 @@ public class ChangelogManager {
 					final LinearLayout bulletItem = new LinearLayout(context);
 					final int paddingPx = General.dpToPixels(context, 6);
 					bulletItem.setPadding(paddingPx, paddingPx, paddingPx, 0);
+					bulletItem.setFocusable(true);
 
 					final TextView bullet = new TextView(context);
 					bullet.setText("•  ");
 					bulletItem.addView(bullet);
+					if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+						bullet.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+					}
 
 					final TextView text = new TextView(context);
 					text.setText(line);

@@ -224,6 +224,14 @@ public final class RedditPostView extends FlingableItemView implements RedditPre
 			}
 		});
 
+		thumbnailView = (ImageView) rootView.findViewById(R.id.reddit_post_thumbnail_view);
+		overlayIcon = (ImageView) rootView.findViewById(R.id.reddit_post_overlay_icon);
+
+		title = (TextView) rootView.findViewById(R.id.reddit_post_title);
+		subtitle = (TextView) rootView.findViewById(R.id.reddit_post_subtitle);
+		commentsButton = (LinearLayout) rootView.findViewById(R.id.reddit_post_comments_button);
+		commentsText = (TextView) commentsButton.findViewById(R.id.reddit_post_comments_text);
+
 		if(leftHandedMode) {
 			final ArrayList<View> outerViewElements = new ArrayList<View>(3);
 			for(int i = mOuterView.getChildCount() - 1; i >= 0; i--) {
@@ -234,15 +242,14 @@ public final class RedditPostView extends FlingableItemView implements RedditPre
 			for(int i = 0; i < outerViewElements.size(); i++) {
 				mOuterView.addView(outerViewElements.get(i));
 			}
+
+			mOuterView.setNextFocusLeftId(commentsButton.getId());
+			mOuterView.setNextFocusRightId(NO_ID);
+
+			commentsButton.setNextFocusForwardId(R.id.reddit_post_layout);
+			commentsButton.setNextFocusRightId(R.id.reddit_post_layout);
+			commentsButton.setNextFocusLeftId(NO_ID);
 		}
-
-		thumbnailView = (ImageView) rootView.findViewById(R.id.reddit_post_thumbnail_view);
-		overlayIcon = (ImageView) rootView.findViewById(R.id.reddit_post_overlay_icon);
-
-		title = (TextView) rootView.findViewById(R.id.reddit_post_title);
-		subtitle = (TextView) rootView.findViewById(R.id.reddit_post_subtitle);
-		commentsButton = (LinearLayout) rootView.findViewById(R.id.reddit_post_comments_button);
-		commentsText = (TextView)commentsButton.findViewById(R.id.reddit_post_comments_text);
 
 		commentsButton.setOnClickListener(new OnClickListener() {
 			@Override

@@ -38,7 +38,7 @@
     <string name="pref_appearance_thumbnails_nsfw_show_title">显示不雅缩略图</string>
     <string name="pref_appearance_thumbnails_wifionly_title">仅在使用Wi-Fi时显示缩略图</string>
     <string name="pref_appearance_loading_detail_title">显示详尽的加载信息</string>
-    <string name="pref_appearance_comment_header_items_title"></string>
+    <string name="pref_appearance_comment_header_items_title"/>
     <string name="pref_behaviour_notifications_title">通知</string>
     <string name="pref_behaviour_actions_post_header">帖子选项</string>
     <string name="pref_behaviour_actions_comment_header">评论选项</string>
@@ -623,4 +623,7 @@
     <string name="pref_appearance_fontscale_post_header_subtitles_title">已打开的帖子副标题</string>
     <string name="pref_appearance_fontscale_post_header_titles_title">已打开的帖子标题</string>
     <string name="pref_appearance_fontscale_post_subtitles_title">帖子副标题</string>
+    <string name="pref_appearance_fontscale_comment_headers_title">注释/收件箱标题</string>
+    <string name="pref_appearance_hide_headertoolbar_commentlist_title">隐藏评论列表头工具栏</string>
+    <string name="pref_appearance_hide_headertoolbar_postlist_title">隐藏帖子列表标题工具栏</string>
 </resources>

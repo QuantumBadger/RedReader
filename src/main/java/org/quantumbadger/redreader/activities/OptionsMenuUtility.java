@@ -37,13 +37,25 @@ import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.reddit.url.UserCommentListingURL;
 import org.quantumbadger.redreader.settings.SettingsActivity;
 
-import java.util.EnumSet;
-
 public final class OptionsMenuUtility {
 
-	public enum OptionsMenuItemsPref {
-		ACCOUNTS, THEME, CLOSE_ALL, PAST, SUBMIT_POST, SEARCH, REPLY, PIN, BLOCK
-	}
+	public static final int SORT = 0,
+			REFRESH = 1,
+			PAST = 2,
+			SUBMIT_POST = 3,
+			PIN = 4,
+			BLOCK = 5,
+			SUBSCRIBE = 6,
+			SIDEBAR = 7,
+			ACCOUNTS = 8,
+			THEME = 9,
+			SETTINGS = 10,
+			CLOSE_ALL = 11,
+			REPLY = 12,
+			SEARCH = 13;
+
+	public static final int DO_NOT_SHOW = -1;
+
 
 	private enum Option {
 		ACCOUNTS,
@@ -82,55 +94,57 @@ public final class OptionsMenuUtility {
 			final Boolean subredditBlocked) {
 
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
-		final EnumSet<OptionsMenuItemsPref> optionsMenuItemsPrefs = PrefsUtility.pref_menus_optionsmenu_items(activity, preferences);
+		final int[] optionsMenuItemsPrefs = PrefsUtility.pref_menus_optionsmenu_items(activity, preferences);
 
 		if(subredditsVisible && !postsVisible && !commentsVisible) {
-			add(activity, menu, Option.REFRESH_SUBREDDITS, false);
+			add(activity, menu, Option.REFRESH_SUBREDDITS, optionsMenuItemsPrefs[REFRESH], false);
 
 		} else if(!subredditsVisible && postsVisible && !commentsVisible) {
 			if(postsSortable) {
 
 				if (areSearchResults)
-					addAllSearchSorts(activity, menu, true);
+					addAllSearchSorts(activity, menu, optionsMenuItemsPrefs[SORT]);
 				else
-					addAllPostSorts(activity, menu, true, !isUserPostListing, isFrontPage);
+					addAllPostSorts(activity, menu, optionsMenuItemsPrefs[SORT], !isUserPostListing, isFrontPage);
 			}
-			add(activity, menu, Option.REFRESH_POSTS, false);
-			if(optionsMenuItemsPrefs.contains(OptionsMenuItemsPref.PAST)) add(activity, menu, Option.PAST_POSTS, false);
-			if(optionsMenuItemsPrefs.contains(OptionsMenuItemsPref.SUBMIT_POST)) add(activity, menu, Option.SUBMIT_POST, false);
-			if(optionsMenuItemsPrefs.contains(OptionsMenuItemsPref.SEARCH)) add(activity, menu, Option.SEARCH, false);
+			add(activity, menu, Option.REFRESH_POSTS, optionsMenuItemsPrefs[REFRESH], false);
+			add(activity, menu, Option.PAST_POSTS, optionsMenuItemsPrefs[PAST], false);
+			add(activity, menu, Option.SUBMIT_POST, optionsMenuItemsPrefs[SUBMIT_POST], false);
+			add(activity, menu, Option.SEARCH, optionsMenuItemsPrefs[SEARCH], false);
 
-			if(subredditPinned != null && optionsMenuItemsPrefs.contains(OptionsMenuItemsPref.PIN)) {
+			if(subredditPinned != null) {
 				if(subredditPinned) {
-					add(activity, menu, Option.UNPIN, false);
+					add(activity, menu, Option.UNPIN, optionsMenuItemsPrefs[PIN], false);
 				} else {
-					add(activity, menu, Option.PIN, false);
+					add(activity, menu, Option.PIN, optionsMenuItemsPrefs[PIN], false);
 				}
 			}
 
-			if (subredditBlocked != null && optionsMenuItemsPrefs.contains(OptionsMenuItemsPref.BLOCK)) {
+			if (subredditBlocked != null) {
 				if(subredditBlocked) {
-					add(activity, menu, Option.UNBLOCK, false);
+					add(activity, menu, Option.UNBLOCK, optionsMenuItemsPrefs[BLOCK], false);
 				} else {
-					add(activity, menu, Option.BLOCK, false);
+					add(activity, menu, Option.BLOCK, optionsMenuItemsPrefs[BLOCK], false);
 				}
 			}
 
 			if(subredditSubscriptionState != null) {
-				addSubscriptionItem(activity, menu, subredditSubscriptionState);
+				addSubscriptionItem(activity, menu, optionsMenuItemsPrefs[SUBSCRIBE], subredditSubscriptionState);
 			}
 
-			if(subredditHasSidebar) add(activity, menu, Option.SIDEBAR, false);
+			if(subredditHasSidebar) {
+				add(activity, menu, Option.SIDEBAR, optionsMenuItemsPrefs[SIDEBAR], false);
+			}
 
 		} else if(!subredditsVisible && !postsVisible && commentsVisible) {
-			if(commentsSortable && !isUserCommentListing)
-				addAllCommentSorts(activity, menu, true);
-			else if(commentsSortable && isUserCommentListing)
-				addAllUserCommentSorts(activity, menu, true);
-			add(activity, menu, Option.REFRESH_COMMENTS, false);
-			if(optionsMenuItemsPrefs.contains(OptionsMenuItemsPref.SEARCH)) add(activity, menu, Option.SEARCH, false);
+			if (commentsSortable && !isUserCommentListing)
+				addAllCommentSorts(activity, menu, optionsMenuItemsPrefs[SORT]);
+			else if (commentsSortable && isUserCommentListing)
+				addAllUserCommentSorts(activity, menu, optionsMenuItemsPrefs[SORT]);
+			add(activity, menu, Option.REFRESH_COMMENTS, optionsMenuItemsPrefs[REFRESH], false);
+			add(activity, menu, Option.SEARCH, optionsMenuItemsPrefs[SEARCH], false);
 			if(pastCommentsSupported) {
-				if(optionsMenuItemsPrefs.contains(OptionsMenuItemsPref.PAST)) add(activity, menu, Option.PAST_COMMENTS, false);
+				add(activity, menu, Option.PAST_COMMENTS, optionsMenuItemsPrefs[PAST], false);
 			}
 
 		} else {
@@ -139,85 +153,96 @@ public final class OptionsMenuUtility {
 
 				final SubMenu sortMenu = menu.addSubMenu(R.string.options_sort);
 				sortMenu.getItem().setIcon(R.drawable.ic_sort_dark);
-				sortMenu.getItem().setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+				sortMenu.getItem().setShowAsAction(optionsMenuItemsPrefs[SORT]);
 
 				if(postsSortable) {
 					if (areSearchResults)
-						addAllSearchSorts(activity, sortMenu, false);
+						addAllSearchSorts(activity, sortMenu, MenuItem.SHOW_AS_ACTION_NEVER);
 					else
-						addAllPostSorts(activity, sortMenu, false, !isUserPostListing, isFrontPage);
+						addAllPostSorts(activity, sortMenu, MenuItem.SHOW_AS_ACTION_NEVER, !isUserPostListing, isFrontPage);
 				}
-				if(commentsSortable) addAllCommentSorts(activity, sortMenu, false);
+				if(commentsSortable) addAllCommentSorts(activity, sortMenu, MenuItem.SHOW_AS_ACTION_NEVER);
 
-				if(optionsMenuItemsPrefs.contains(OptionsMenuItemsPref.PAST)) {
-					final SubMenu pastMenu = menu.addSubMenu(R.string.options_past);
-					add(activity, pastMenu, Option.PAST_POSTS, true);
-					if(pastCommentsSupported) {
-						add(activity, pastMenu, Option.PAST_COMMENTS, true);
-					}
+				final SubMenu pastMenu = menu.addSubMenu(R.string.options_past);
+				pastMenu.getItem().setIcon(R.drawable.ic_time_dark);
+				pastMenu.getItem().setShowAsAction(optionsMenuItemsPrefs[PAST]);
+
+				add(activity, pastMenu, Option.PAST_POSTS);
+				if(pastCommentsSupported) {
+					add(activity, pastMenu, Option.PAST_COMMENTS);
 				}
-				if(optionsMenuItemsPrefs.contains(OptionsMenuItemsPref.SEARCH)) add(activity, menu, Option.SEARCH_COMMENTS, false);
+
+				add(activity, menu, Option.SEARCH_COMMENTS, optionsMenuItemsPrefs[SEARCH], false);
 
 			} else if(postsVisible) {
 				if(postsSortable) {
 					if (areSearchResults)
-						addAllSearchSorts(activity, menu, true);
+						addAllSearchSorts(activity, menu, optionsMenuItemsPrefs[SORT]);
 					else
-						addAllPostSorts(activity, menu, true, !isUserPostListing, isFrontPage);
+						addAllPostSorts(activity, menu, optionsMenuItemsPrefs[SORT], !isUserPostListing, isFrontPage);
 				}
-				add(activity, menu, Option.PAST_POSTS, false);
+				add(activity, menu, Option.PAST_POSTS, optionsMenuItemsPrefs[PAST], false);
 			}
 
 			final SubMenu refreshMenu = menu.addSubMenu(R.string.options_refresh);
 			refreshMenu.getItem().setIcon(R.drawable.ic_refresh_dark);
-			refreshMenu.getItem().setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+			refreshMenu.getItem().setShowAsAction(optionsMenuItemsPrefs[REFRESH]);
 
-			if(subredditsVisible) add(activity, refreshMenu, Option.REFRESH_SUBREDDITS, true);
+			if(subredditsVisible) add(activity, refreshMenu, Option.REFRESH_SUBREDDITS);
 			if(postsVisible) {
-				add(activity, refreshMenu, Option.REFRESH_POSTS, true);
-				if(optionsMenuItemsPrefs.contains(OptionsMenuItemsPref.SUBMIT_POST)) add(activity, menu, Option.SUBMIT_POST, false);
-				if(optionsMenuItemsPrefs.contains(OptionsMenuItemsPref.SEARCH)) add(activity, menu, Option.SEARCH, false);
+				add(activity, refreshMenu, Option.REFRESH_POSTS);
+				add(activity, menu, Option.SUBMIT_POST, optionsMenuItemsPrefs[SUBMIT_POST], false);
+				add(activity, menu, Option.SEARCH, optionsMenuItemsPrefs[SEARCH], false);
 
-				if(subredditPinned != null && optionsMenuItemsPrefs.contains(OptionsMenuItemsPref.PIN)) {
+				if(subredditPinned != null) {
 					if(subredditPinned) {
-						add(activity, menu, Option.UNPIN, false);
+						add(activity, menu, Option.UNPIN, optionsMenuItemsPrefs[PIN], false);
 					} else {
-						add(activity, menu, Option.PIN, false);
+						add(activity, menu, Option.PIN, optionsMenuItemsPrefs[PIN], false);
 					}
 				}
 
 				if(subredditSubscriptionState != null) {
-					addSubscriptionItem(activity, menu, subredditSubscriptionState);
+					addSubscriptionItem(activity, menu, optionsMenuItemsPrefs[SUBSCRIBE], subredditSubscriptionState);
 				}
 
-				if(subredditHasSidebar) add(activity, menu, Option.SIDEBAR, false);
+				if(subredditHasSidebar) {
+					add(activity, menu, Option.SIDEBAR, optionsMenuItemsPrefs[SIDEBAR], false);
+				}
 			}
-			if(commentsVisible) add(activity, refreshMenu, Option.REFRESH_COMMENTS, true);
+			if(commentsVisible) add(activity, refreshMenu, Option.REFRESH_COMMENTS);
 		}
 
-		if(optionsMenuItemsPrefs.contains(OptionsMenuItemsPref.ACCOUNTS)) add(activity, menu, Option.ACCOUNTS, false);
-		if(optionsMenuItemsPrefs.contains(OptionsMenuItemsPref.THEME)) add(activity, menu, Option.THEMES, false);
-		add(activity, menu, Option.SETTINGS, false);
-		if(optionsMenuItemsPrefs.contains(OptionsMenuItemsPref.CLOSE_ALL)) add(activity, menu, Option.CLOSE_ALL, false);
+		add(activity, menu, Option.ACCOUNTS, optionsMenuItemsPrefs[ACCOUNTS], false);
+		add(activity, menu, Option.THEMES, optionsMenuItemsPrefs[THEME], false);
+
+		//Always show settings if the main menu is visible, to prevent user from being locked out of them
+		if(subredditsVisible && optionsMenuItemsPrefs[SETTINGS] == DO_NOT_SHOW) {
+			add(activity, menu, Option.SETTINGS, MenuItem.SHOW_AS_ACTION_NEVER,false);
+		} else {
+			add(activity, menu, Option.SETTINGS, optionsMenuItemsPrefs[SETTINGS],false);
+		}
+
+		add(activity, menu, Option.CLOSE_ALL, optionsMenuItemsPrefs[CLOSE_ALL], false);
 	}
 
-	private static void addSubscriptionItem(final BaseActivity activity, final Menu menu,
+	private static void addSubscriptionItem(final BaseActivity activity, final Menu menu, final int showAsAction,
 			final RedditSubredditSubscriptionManager.SubredditSubscriptionState subredditSubscriptionState) {
 
 		if(subredditSubscriptionState == null) return;
 
 		switch(subredditSubscriptionState) {
 			case NOT_SUBSCRIBED:
-				add(activity, menu, Option.SUBSCRIBE, false);
+				add(activity, menu, Option.SUBSCRIBE, showAsAction, false);
 				return;
 			case SUBSCRIBED:
-				add(activity, menu, Option.UNSUBSCRIBE, false);
+				add(activity, menu, Option.UNSUBSCRIBE, showAsAction, false);
 				return;
 			case SUBSCRIBING:
-				add(activity, menu, Option.SUBSCRIBING, false);
+				add(activity, menu, Option.SUBSCRIBING, showAsAction, false);
 				return;
 			case UNSUBSCRIBING:
-				add(activity, menu, Option.UNSUBSCRIBING, false);
+				add(activity, menu, Option.UNSUBSCRIBING, showAsAction, false);
 				return;
 			default:
 				throw new UnexpectedInternalStateException("Unknown subscription state");
@@ -225,42 +250,59 @@ public final class OptionsMenuUtility {
 
 	}
 
-	private static void add(final BaseActivity activity, final Menu menu, final Option option, final boolean longText) {
+	private static void add(final BaseActivity activity, final Menu menu, final Option option) {
+		add(activity, menu, option, MenuItem.SHOW_AS_ACTION_NEVER, true);
+	}
+
+	private static void add(final BaseActivity activity, final Menu menu, final Option option, final int showAsAction, final boolean longText) {
+
+		if(showAsAction == DO_NOT_SHOW) return;
 
 		switch(option) {
 
 			case ACCOUNTS:
-				menu.add(activity.getString(R.string.options_accounts)).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+				final MenuItem accounts = menu.add(activity.getString(R.string.options_accounts)).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 					public boolean onMenuItemClick(final MenuItem item) {
 						new AccountListDialog().show(activity.getSupportFragmentManager(), null);
 						return true;
 					}
 				});
+
+				accounts.setShowAsAction(showAsAction);
+				accounts.setIcon(R.drawable.ic_action_person_dark);
+
 				break;
 
 			case SETTINGS:
-				menu.add(activity.getString(R.string.options_settings)).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+				final MenuItem settings = menu.add(activity.getString(R.string.options_settings)).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 					public boolean onMenuItemClick(final MenuItem item) {
 						final Intent intent = new Intent(activity, SettingsActivity.class);
 						activity.startActivityForResult(intent, 1);
 						return true;
 					}
 				});
+
+				settings.setShowAsAction(showAsAction);
+				settings.setIcon(R.drawable.ic_settings_dark);
+
 				break;
 
 			case CLOSE_ALL:
 				if(!(activity instanceof MainActivity)) {
-					menu.add(activity.getString(R.string.options_close_all)).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+					final MenuItem closeAll = menu.add(activity.getString(R.string.options_close_all)).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 						public boolean onMenuItemClick(final MenuItem item) {
 							activity.closeAllExceptMain();
 							return true;
 						}
 					});
+
+					closeAll.setShowAsAction(showAsAction);
+					closeAll.setIcon(R.drawable.ic_action_cross_dark);
 				}
 				break;
 
 			case THEMES:
-				menu.add(activity.getString(R.string.options_theme)).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+				final MenuItem themes = menu.add(activity.getString(R.string.options_theme)).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 					public boolean onMenuItemClick(final MenuItem item) {
 
 						final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
@@ -295,6 +337,10 @@ public final class OptionsMenuUtility {
 						return true;
 					}
 				});
+
+				themes.setShowAsAction(showAsAction);
+				themes.setIcon(R.drawable.ic_themes_dark);
+
 				break;
 
 			case REFRESH_SUBREDDITS:
@@ -306,7 +352,7 @@ public final class OptionsMenuUtility {
 							}
 						});
 
-				refreshSubreddits.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+				refreshSubreddits.setShowAsAction(showAsAction);
 				if(!longText) refreshSubreddits.setIcon(R.drawable.ic_refresh_dark);
 
 				break;
@@ -320,13 +366,13 @@ public final class OptionsMenuUtility {
 							}
 						});
 
-				refreshPosts.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+				refreshPosts.setShowAsAction(showAsAction);
 				if(!longText) refreshPosts.setIcon(R.drawable.ic_refresh_dark);
 
 				break;
 
 			case SUBMIT_POST:
-				menu.add(activity.getString(R.string.options_submit_post))
+				final MenuItem submitPost = menu.add(activity.getString(R.string.options_submit_post))
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 							public boolean onMenuItemClick(final MenuItem item) {
 								((OptionsMenuPostsListener) activity).onSubmitPost();
@@ -334,10 +380,13 @@ public final class OptionsMenuUtility {
 							}
 						});
 
+				submitPost.setShowAsAction(showAsAction);
+				submitPost.setIcon(R.drawable.ic_action_send_dark);
+
 				break;
 
 			case SEARCH:
-				menu.add(Menu.NONE, Menu.NONE, 1, activity.getString(R.string.action_search))
+				final MenuItem search = menu.add(Menu.NONE, Menu.NONE, 1, activity.getString(R.string.action_search))
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 							public boolean onMenuItemClick(final MenuItem item) {
 								if (activity instanceof OptionsMenuPostsListener) {
@@ -352,10 +401,13 @@ public final class OptionsMenuUtility {
 							}
 						});
 
+				search.setShowAsAction(showAsAction);
+				search.setIcon(R.drawable.ic_search_dark);
+
 				break;
 
 			case SEARCH_COMMENTS:
-				menu.add(Menu.NONE, Menu.NONE, 1, activity.getString(R.string.action_search_comments))
+				final MenuItem searchComments = menu.add(Menu.NONE, Menu.NONE, 1, activity.getString(R.string.action_search_comments))
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 							@Override
 							public boolean onMenuItemClick(MenuItem item) {
@@ -366,6 +418,10 @@ public final class OptionsMenuUtility {
 								return false;
 							}
 						});
+
+				searchComments.setShowAsAction(showAsAction);
+				searchComments.setIcon(R.drawable.ic_search_dark);
+
 				break;
 
 			case REFRESH_COMMENTS:
@@ -377,103 +433,151 @@ public final class OptionsMenuUtility {
 							}
 						});
 
-				refreshComments.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+				refreshComments.setShowAsAction(showAsAction);
 				if(!longText) refreshComments.setIcon(R.drawable.ic_refresh_dark);
 
 				break;
 
 			case PAST_POSTS:
-				menu.add(activity.getString(longText ? R.string.options_past_posts : R.string.options_past))
+				final MenuItem pastPosts = menu.add(activity.getString(longText ? R.string.options_past_posts : R.string.options_past))
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 							public boolean onMenuItemClick(final MenuItem item) {
 								((OptionsMenuPostsListener)activity).onPastPosts();
 								return true;
 							}
 						});
+
+				if(showAsAction != MenuItem.SHOW_AS_ACTION_NEVER) {
+					pastPosts.setShowAsAction(showAsAction);
+					pastPosts.setIcon(R.drawable.ic_time_dark);
+				}
+
 				break;
 
 			case PAST_COMMENTS:
-				menu.add(activity.getString(longText ? R.string.options_past_comments : R.string.options_past))
+				final MenuItem pastComments = menu.add(activity.getString(longText ? R.string.options_past_comments : R.string.options_past))
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 							public boolean onMenuItemClick(final MenuItem item) {
 								((OptionsMenuCommentsListener) activity).onPastComments();
 								return true;
 							}
 						});
+
+				if(showAsAction != MenuItem.SHOW_AS_ACTION_NEVER) {
+					pastComments.setShowAsAction(showAsAction);
+					pastComments.setIcon(R.drawable.ic_time_dark);
+				}
+
 				break;
 
 			case SUBSCRIBE:
-				menu.add(activity.getString(R.string.options_subscribe))
+				final MenuItem subscribe = menu.add(activity.getString(R.string.options_subscribe))
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 							public boolean onMenuItemClick(final MenuItem item) {
 								((OptionsMenuPostsListener)activity).onSubscribe();
 								return true;
 							}
 						});
+
+				subscribe.setShowAsAction(showAsAction);
+				subscribe.setIcon(R.drawable.star_dark);
+
 				break;
 
 			case UNSUBSCRIBE:
-				menu.add(activity.getString(R.string.options_unsubscribe))
+				final MenuItem unsubscribe = menu.add(activity.getString(R.string.options_unsubscribe))
 					.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 						public boolean onMenuItemClick(final MenuItem item) {
 							((OptionsMenuPostsListener) activity).onUnsubscribe();
 							return true;
 						}
 					});
+
+				unsubscribe.setShowAsAction(showAsAction);
+				unsubscribe.setIcon(R.drawable.star_off_dark);
+
 				break;
 
 			case UNSUBSCRIBING:
-				menu.add(activity.getString(R.string.options_unsubscribing)).setEnabled(false);
+				final MenuItem unsubscribing = menu.add(activity.getString(R.string.options_unsubscribing)).setEnabled(false);
+
+				// TODO Somehow use a ButtonLoadingSpinnerView here or something?
+				unsubscribing.setShowAsAction(showAsAction);
+				unsubscribing.setIcon(R.drawable.ic_loading_dark);
+
 				break;
 
 			case SUBSCRIBING:
-				menu.add(activity.getString(R.string.options_subscribing)).setEnabled(false);
+				final MenuItem subscribing = menu.add(activity.getString(R.string.options_subscribing)).setEnabled(false);
+
+				// TODO Somehow use a ButtonLoadingSpinnerView here or something?
+				subscribing.setShowAsAction(showAsAction);
+				subscribing.setIcon(R.drawable.ic_loading_dark);
+
 				break;
 
 			case SIDEBAR:
-				menu.add(activity.getString(R.string.options_sidebar)).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+				final MenuItem sidebar = menu.add(activity.getString(R.string.options_sidebar)).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 					public boolean onMenuItemClick(final MenuItem item) {
 						((OptionsMenuPostsListener) activity).onSidebar();
 						return true;
 					}
 				});
+
+				sidebar.setShowAsAction(showAsAction);
+				sidebar.setIcon(R.drawable.ic_action_info_dark);
+
 				break;
 
 			case PIN:
-				menu.add(activity.getString(R.string.pin_subreddit)).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+				final MenuItem pin = menu.add(activity.getString(R.string.pin_subreddit)).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 					public boolean onMenuItemClick(final MenuItem item) {
 						((OptionsMenuPostsListener) activity).onPin();
 						return true;
 					}
 				});
+
+				pin.setShowAsAction(showAsAction);
+				pin.setIcon(R.drawable.pin_dark);
+
 				break;
 
 			case UNPIN:
-				menu.add(activity.getString(R.string.unpin_subreddit)).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+				final MenuItem unpin = menu.add(activity.getString(R.string.unpin_subreddit)).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 					public boolean onMenuItemClick(final MenuItem item) {
 						((OptionsMenuPostsListener)activity).onUnpin();
 						return true;
 					}
 				});
+
+				unpin.setShowAsAction(showAsAction);
+				unpin.setIcon(R.drawable.pin_off_dark);
+
 				break;
 
 			case BLOCK:
-				menu.add(activity.getString(R.string.block_subreddit)).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+				final MenuItem block = menu.add(activity.getString(R.string.block_subreddit)).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 					public boolean onMenuItemClick(final MenuItem item) {
 						((OptionsMenuPostsListener)activity).onBlock();
 						return true;
 					}
 				});
 
+				block.setShowAsAction(showAsAction);
+				block.setIcon(R.drawable.ic_block_dark);
+
 				break;
 
 			case UNBLOCK:
-				menu.add(activity.getString(R.string.unblock_subreddit)).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+				final MenuItem unblock = menu.add(activity.getString(R.string.unblock_subreddit)).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 					public boolean onMenuItemClick(final MenuItem item) {
 						((OptionsMenuPostsListener)activity).onUnblock();
 						return true;
 					}
 				});
+
+				unblock.setShowAsAction(showAsAction);
+				unblock.setIcon(R.drawable.ic_block_off_dark);
 
 				break;
 
@@ -485,15 +589,15 @@ public final class OptionsMenuUtility {
 	private static void addAllPostSorts(
 			final AppCompatActivity activity,
 			final Menu menu,
-			final boolean icon,
+			final int showAsAction,
 			final boolean includeRising,
 			final boolean includeBest) {
 
 		final SubMenu sortPosts = menu.addSubMenu(R.string.options_sort_posts);
 
-		if(icon) {
+		if(showAsAction != MenuItem.SHOW_AS_ACTION_NEVER) {
 			sortPosts.getItem().setIcon(R.drawable.ic_sort_dark);
-			sortPosts.getItem().setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+			sortPosts.getItem().setShowAsAction(showAsAction);
 		}
 
 		addSort(activity, sortPosts, R.string.sort_posts_hot, PostSort.HOT);
@@ -514,13 +618,13 @@ public final class OptionsMenuUtility {
 		addSort(activity, sortPostsTop, R.string.sort_posts_top_all, PostSort.TOP_ALL);
 	}
 
-	private static void addAllSearchSorts(final AppCompatActivity activity, final Menu menu, final boolean icon) {
+	private static void addAllSearchSorts(final AppCompatActivity activity, final Menu menu, final int showAsAction) {
 
 		final SubMenu sortPosts = menu.addSubMenu(R.string.options_sort_posts);
 
-		if(icon) {
+		if(showAsAction != MenuItem.SHOW_AS_ACTION_NEVER) {
 			sortPosts.getItem().setIcon(R.drawable.ic_sort_dark);
-			sortPosts.getItem().setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+			sortPosts.getItem().setShowAsAction(showAsAction);
 		}
 
 		addSort(activity, sortPosts, R.string.sort_posts_relevance, PostSort.RELEVANCE);
@@ -540,13 +644,13 @@ public final class OptionsMenuUtility {
 		});
 	}
 
-	private static void addAllCommentSorts(final AppCompatActivity activity, final Menu menu, final boolean icon) {
+	private static void addAllCommentSorts(final AppCompatActivity activity, final Menu menu, final int showAsAction) {
 
 		final SubMenu sortComments = menu.addSubMenu(R.string.options_sort_comments);
 
-		if(icon) {
+		if(showAsAction != MenuItem.SHOW_AS_ACTION_NEVER) {
 			sortComments.getItem().setIcon(R.drawable.ic_sort_dark);
-			sortComments.getItem().setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+			sortComments.getItem().setShowAsAction(showAsAction);
 		}
 
 		addSort(activity, sortComments, R.string.sort_comments_best, PostCommentListingURL.Sort.BEST);
@@ -568,13 +672,13 @@ public final class OptionsMenuUtility {
 		});
 	}
 
-	private static void addAllUserCommentSorts(final AppCompatActivity activity, final Menu menu, final boolean icon) {
+	private static void addAllUserCommentSorts(final AppCompatActivity activity, final Menu menu, final int showAsAction) {
 
 		final SubMenu sortComments = menu.addSubMenu(R.string.options_sort_comments);
 
-		if(icon) {
+		if(showAsAction != MenuItem.SHOW_AS_ACTION_NEVER) {
 			sortComments.getItem().setIcon(R.drawable.ic_sort_dark);
-			sortComments.getItem().setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+			sortComments.getItem().setShowAsAction(showAsAction);
 		}
 
 		addSort(activity, sortComments, R.string.sort_comments_hot, UserCommentListingURL.Sort.HOT);

@@ -442,6 +442,46 @@ public class MainActivity extends RefreshableActivity
 							existingPrecacheCommentsPreference
 					).apply();
 				}
+
+				if(lastVersion <= 91) {
+					//Upgrading from 91/1.11 or lower, switch to individual ListPreference's for
+					//pref_menus_optionsmenu_items
+
+					final Set<String> existingOptionsMenuItems = PrefsUtility.getStringSet(
+							R.string.pref_menus_optionsmenu_items_key,
+							R.array.pref_menus_optionsmenu_items_items_return,
+							this,
+							sharedPreferences
+					);
+
+					final String[] oldOptionsMenuItemsItemsReturn = getResources().getStringArray(R.array.pref_menus_optionsmenu_items_items_return);
+
+					final int[] optionsMenuItemsPrefStrings = new int[9];
+					optionsMenuItemsPrefStrings[0] = R.string.pref_menus_optionsmenu_items_accounts_key;
+					optionsMenuItemsPrefStrings[1] = R.string.pref_menus_optionsmenu_items_theme_key;
+					optionsMenuItemsPrefStrings[2] = R.string.pref_menus_optionsmenu_items_close_all_key;
+					optionsMenuItemsPrefStrings[3] = R.string.pref_menus_optionsmenu_items_past_key;
+					optionsMenuItemsPrefStrings[4] = R.string.pref_menus_optionsmenu_items_submit_post_key;
+					optionsMenuItemsPrefStrings[5] = R.string.pref_menus_optionsmenu_items_search_key;
+					optionsMenuItemsPrefStrings[6] = R.string.pref_menus_optionsmenu_items_reply_key;
+					optionsMenuItemsPrefStrings[7] = R.string.pref_menus_optionsmenu_items_pin_key;
+					optionsMenuItemsPrefStrings[8] = R.string.pref_menus_optionsmenu_items_block_key;
+
+					for(int i = 0; i < optionsMenuItemsPrefStrings.length; i++) {
+						final String showAsAction;
+						if(existingOptionsMenuItems.contains(oldOptionsMenuItemsItemsReturn[i])) {
+							showAsAction = "0"; // Show only in three-dot menu
+						} else {
+							showAsAction = "-1"; // Never show
+						}
+
+						sharedPreferences.edit().putString(
+								getString(optionsMenuItemsPrefStrings[i]),
+								showAsAction
+						).apply();
+					}
+
+				}
 			}
 
 		} else {

@@ -107,7 +107,21 @@ public final class SettingsFragment extends PreferenceFragment {
 				R.string.pref_cache_rerequest_postlist_age_key,
 				R.string.pref_appearance_thumbnails_show_list_key,
 				R.string.pref_cache_precache_images_list_key,
-				R.string.pref_cache_precache_comments_list_key
+				R.string.pref_cache_precache_comments_list_key,
+				R.string.pref_menus_optionsmenu_items_sort_key,
+				R.string.pref_menus_optionsmenu_items_refresh_key,
+				R.string.pref_menus_optionsmenu_items_past_key,
+				R.string.pref_menus_optionsmenu_items_submit_post_key,
+				R.string.pref_menus_optionsmenu_items_pin_key,
+				R.string.pref_menus_optionsmenu_items_block_key,
+				R.string.pref_menus_optionsmenu_items_subscribe_key,
+				R.string.pref_menus_optionsmenu_items_sidebar_key,
+				R.string.pref_menus_optionsmenu_items_accounts_key,
+				R.string.pref_menus_optionsmenu_items_theme_key,
+				R.string.pref_menus_optionsmenu_items_settings_key,
+				R.string.pref_menus_optionsmenu_items_close_all_key,
+				R.string.pref_menus_optionsmenu_items_reply_key,
+				R.string.pref_menus_optionsmenu_items_search_key
 		};
 
 		final int[] editTextPrefsToUpdate = {

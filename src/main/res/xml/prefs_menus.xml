@@ -36,13 +36,93 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-	<MultiSelectListPreference
-		android:dialogTitle="@string/pref_menus_optionsmenu_items_title"
-		android:key="@string/pref_menus_optionsmenu_items_key"
-		android:title="@string/pref_menus_optionsmenu_items_title"
-		android:entries="@array/pref_menus_optionsmenu_items_items"
-		android:entryValues="@array/pref_menus_optionsmenu_items_items_return"
-		android:defaultValue="@array/pref_menus_optionsmenu_items_items_default" />
+	<PreferenceScreen android:title="@string/pref_menus_optionsmenu_screen_title">
+
+		<ListPreference android:title="@string/options_sort"
+						android:key="@string/pref_menus_optionsmenu_items_sort_key"
+						android:entries="@array/pref_menus_optionsmenu_items_items_2"
+						android:entryValues="@array/pref_menus_optionsmenu_items_items_2_return"
+						android:defaultValue="2"/>
+
+		<ListPreference android:title="@string/options_refresh"
+						android:key="@string/pref_menus_optionsmenu_items_refresh_key"
+						android:entries="@array/pref_menus_optionsmenu_items_items_2"
+						android:entryValues="@array/pref_menus_optionsmenu_items_items_2_return"
+						android:defaultValue="2"/>
+
+		<ListPreference android:title="@string/options_past"
+						android:key="@string/pref_menus_optionsmenu_items_past_key"
+						android:entries="@array/pref_menus_optionsmenu_items_items_2"
+						android:entryValues="@array/pref_menus_optionsmenu_items_items_2_return"
+						android:defaultValue="0"/>
+
+		<ListPreference android:title="@string/options_submit_post"
+						android:key="@string/pref_menus_optionsmenu_items_submit_post_key"
+						android:entries="@array/pref_menus_optionsmenu_items_items_2"
+						android:entryValues="@array/pref_menus_optionsmenu_items_items_2_return"
+						android:defaultValue="0"/>
+
+		<ListPreference android:title="@string/pin_subreddit"
+						android:key="@string/pref_menus_optionsmenu_items_pin_key"
+						android:entries="@array/pref_menus_optionsmenu_items_items_2"
+						android:entryValues="@array/pref_menus_optionsmenu_items_items_2_return"
+						android:defaultValue="0"/>
+
+		<ListPreference android:title="@string/block_subreddit"
+						android:key="@string/pref_menus_optionsmenu_items_block_key"
+						android:entries="@array/pref_menus_optionsmenu_items_items_2"
+						android:entryValues="@array/pref_menus_optionsmenu_items_items_2_return"
+						android:defaultValue="0"/>
+
+		<ListPreference android:title="@string/options_subscribe"
+						android:key="@string/pref_menus_optionsmenu_items_subscribe_key"
+						android:entries="@array/pref_menus_optionsmenu_items_items_2"
+						android:entryValues="@array/pref_menus_optionsmenu_items_items_2_return"
+						android:defaultValue="0"/>
+
+		<ListPreference android:title="@string/options_sidebar"
+						android:key="@string/pref_menus_optionsmenu_items_sidebar_key"
+						android:entries="@array/pref_menus_optionsmenu_items_items_2"
+						android:entryValues="@array/pref_menus_optionsmenu_items_items_2_return"
+						android:defaultValue="0"/>
+
+		<ListPreference android:title="@string/options_accounts"
+						android:key="@string/pref_menus_optionsmenu_items_accounts_key"
+						android:entries="@array/pref_menus_optionsmenu_items_items_2"
+						android:entryValues="@array/pref_menus_optionsmenu_items_items_2_return"
+						android:defaultValue="1"/>
+
+		<ListPreference android:title="@string/options_theme"
+						android:key="@string/pref_menus_optionsmenu_items_theme_key"
+						android:entries="@array/pref_menus_optionsmenu_items_items_2"
+						android:entryValues="@array/pref_menus_optionsmenu_items_items_2_return"
+						android:defaultValue="0"/>
+
+		<ListPreference android:title="@string/options_settings"
+						android:key="@string/pref_menus_optionsmenu_items_settings_key"
+						android:entries="@array/pref_menus_optionsmenu_items_items_2"
+						android:entryValues="@array/pref_menus_optionsmenu_items_items_2_return"
+						android:defaultValue="0"/>
+
+		<ListPreference android:title="@string/options_close_all"
+						android:key="@string/pref_menus_optionsmenu_items_close_all_key"
+						android:entries="@array/pref_menus_optionsmenu_items_items_2"
+						android:entryValues="@array/pref_menus_optionsmenu_items_items_2_return"
+						android:defaultValue="-1"/>
+
+		<ListPreference android:title="@string/action_reply"
+						android:key="@string/pref_menus_optionsmenu_items_reply_key"
+						android:entries="@array/pref_menus_optionsmenu_items_items_2"
+						android:entryValues="@array/pref_menus_optionsmenu_items_items_2_return"
+						android:defaultValue="0"/>
+
+		<ListPreference android:title="@string/action_search"
+						android:key="@string/pref_menus_optionsmenu_items_search_key"
+						android:entries="@array/pref_menus_optionsmenu_items_items_2"
+						android:entryValues="@array/pref_menus_optionsmenu_items_items_2_return"
+						android:defaultValue="0"/>
+
+	</PreferenceScreen>
 
 	<MultiSelectListPreference
 		android:dialogTitle="@string/pref_menus_link_context_items_title"

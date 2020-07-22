@@ -640,12 +640,15 @@ public class CommentListingFragment extends RRFragment
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu) {
+		final int showAsAction = PrefsUtility.pref_menus_optionsmenu_items(getActivity(),
+				PreferenceManager.getDefaultSharedPreferences(getActivity()))[OptionsMenuUtility.REPLY];
+
 		if(mAllUrls != null && mAllUrls.size() > 0 && mAllUrls.get(0).pathType() == RedditURLParser.POST_COMMENT_LISTING_URL &&
-		PrefsUtility.pref_menus_optionsmenu_items(
-				getActivity(),
-				PreferenceManager.getDefaultSharedPreferences(getActivity()))
-				.contains(OptionsMenuUtility.OptionsMenuItemsPref.REPLY)) {
-			menu.add(R.string.action_reply);
+				showAsAction != OptionsMenuUtility.DO_NOT_SHOW) {
+			final MenuItem reply = menu.add(R.string.action_reply);
+
+			reply.setShowAsAction(showAsAction);
+			reply.setIcon(R.drawable.ic_action_reply_dark);
 		}
 	}
 

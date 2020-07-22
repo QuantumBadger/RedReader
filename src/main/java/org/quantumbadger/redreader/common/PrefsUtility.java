@@ -23,6 +23,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
+import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.OptionsMenuUtility;
@@ -87,7 +88,8 @@ public final class PrefsUtility {
 				|| key.equals(context.getString(R.string.pref_behaviour_pinned_subredditsort_key))
 				|| key.equals(context.getString(R.string.pref_behaviour_blocked_subredditsort_key))
 				|| key.equals(context.getString(R.string.pref_appearance_hide_headertoolbar_commentlist_key))
-				|| key.equals(context.getString(R.string.pref_appearance_hide_headertoolbar_postlist_key));
+				|| key.equals(context.getString(R.string.pref_appearance_hide_headertoolbar_postlist_key))
+				|| key.startsWith("pref_menus_optionsmenu_items");
 	}
 
 	public static boolean isRestartRequired(Context context, String key) {
@@ -865,14 +867,49 @@ public final class PrefsUtility {
 		return result;
 	}
 
-	public static EnumSet<OptionsMenuUtility.OptionsMenuItemsPref> pref_menus_optionsmenu_items(final Context context, final SharedPreferences sharedPreferences) {
+	private static class OptionsMenuItemInfo {
+		final int stringRes, default_value;
 
-		final Set<String> strings = getStringSet(R.string.pref_menus_optionsmenu_items_key, R.array.pref_menus_optionsmenu_items_items_default, context, sharedPreferences);
+		OptionsMenuItemInfo(int stringRes, int default_value) {
+			this.stringRes = stringRes;
+			this.default_value = default_value;
+		}
+	}
 
-		final EnumSet<OptionsMenuUtility.OptionsMenuItemsPref> result = EnumSet.noneOf(OptionsMenuUtility.OptionsMenuItemsPref.class);
-		for(String s : strings) result.add(OptionsMenuUtility.OptionsMenuItemsPref.valueOf(General.asciiUppercase(s)));
+	public static int[] pref_menus_optionsmenu_items(final Context context, final SharedPreferences sharedPreferences) {
 
-		return result;
+		final OptionsMenuItemInfo[] optionsMenuItemsInfo = new OptionsMenuItemInfo[14];
+
+		optionsMenuItemsInfo[0] = new OptionsMenuItemInfo(R.string.pref_menus_optionsmenu_items_sort_key, MenuItem.SHOW_AS_ACTION_ALWAYS);
+		optionsMenuItemsInfo[1] = new OptionsMenuItemInfo(R.string.pref_menus_optionsmenu_items_refresh_key, MenuItem.SHOW_AS_ACTION_ALWAYS);
+		optionsMenuItemsInfo[2] = new OptionsMenuItemInfo(R.string.pref_menus_optionsmenu_items_past_key, MenuItem.SHOW_AS_ACTION_NEVER);
+		optionsMenuItemsInfo[3] = new OptionsMenuItemInfo(R.string.pref_menus_optionsmenu_items_submit_post_key, MenuItem.SHOW_AS_ACTION_NEVER);
+		optionsMenuItemsInfo[4] = new OptionsMenuItemInfo(R.string.pref_menus_optionsmenu_items_pin_key, MenuItem.SHOW_AS_ACTION_NEVER);
+		optionsMenuItemsInfo[5] = new OptionsMenuItemInfo(R.string.pref_menus_optionsmenu_items_block_key, MenuItem.SHOW_AS_ACTION_NEVER);
+		optionsMenuItemsInfo[6] = new OptionsMenuItemInfo(R.string.pref_menus_optionsmenu_items_subscribe_key, MenuItem.SHOW_AS_ACTION_NEVER);
+		optionsMenuItemsInfo[7] = new OptionsMenuItemInfo(R.string.pref_menus_optionsmenu_items_sidebar_key, MenuItem.SHOW_AS_ACTION_NEVER);
+		optionsMenuItemsInfo[8] = new OptionsMenuItemInfo(R.string.pref_menus_optionsmenu_items_accounts_key, MenuItem.SHOW_AS_ACTION_IF_ROOM);
+		optionsMenuItemsInfo[9] = new OptionsMenuItemInfo(R.string.pref_menus_optionsmenu_items_theme_key, MenuItem.SHOW_AS_ACTION_NEVER);
+		optionsMenuItemsInfo[10] = new OptionsMenuItemInfo(R.string.pref_menus_optionsmenu_items_settings_key, MenuItem.SHOW_AS_ACTION_NEVER);
+		optionsMenuItemsInfo[11] = new OptionsMenuItemInfo(R.string.pref_menus_optionsmenu_items_close_all_key, OptionsMenuUtility.DO_NOT_SHOW);
+		optionsMenuItemsInfo[12] = new OptionsMenuItemInfo(R.string.pref_menus_optionsmenu_items_reply_key, MenuItem.SHOW_AS_ACTION_NEVER);
+		optionsMenuItemsInfo[13] = new OptionsMenuItemInfo(R.string.pref_menus_optionsmenu_items_search_key, MenuItem.SHOW_AS_ACTION_NEVER);
+
+
+		int[] optionsMenuItemsPrefs = new int[14];
+
+		for(int i = 0; i < optionsMenuItemsInfo.length; i ++) {
+			try {
+				optionsMenuItemsPrefs[i] = Integer.parseInt(getString(optionsMenuItemsInfo[i].stringRes,
+						Integer.toString(optionsMenuItemsInfo[i].default_value),
+						context,
+						sharedPreferences));
+			} catch(Throwable e) {
+				optionsMenuItemsPrefs[i] = optionsMenuItemsInfo[i].default_value;
+			}
+		}
+
+		return optionsMenuItemsPrefs;
 	}
 
 	///////////////////////////////

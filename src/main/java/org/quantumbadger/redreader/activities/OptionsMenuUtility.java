@@ -480,7 +480,7 @@ public final class OptionsMenuUtility {
 						});
 
 				subscribe.setShowAsAction(showAsAction);
-				subscribe.setIcon(R.drawable.star_dark);
+				subscribe.setIcon(R.drawable.star_off_dark);
 
 				break;
 
@@ -494,7 +494,7 @@ public final class OptionsMenuUtility {
 					});
 
 				unsubscribe.setShowAsAction(showAsAction);
-				unsubscribe.setIcon(R.drawable.star_off_dark);
+				unsubscribe.setIcon(R.drawable.star_dark);
 
 				break;
 
@@ -538,7 +538,7 @@ public final class OptionsMenuUtility {
 				});
 
 				pin.setShowAsAction(showAsAction);
-				pin.setIcon(R.drawable.pin_dark);
+				pin.setIcon(R.drawable.pin_off_dark);
 
 				break;
 
@@ -551,7 +551,7 @@ public final class OptionsMenuUtility {
 				});
 
 				unpin.setShowAsAction(showAsAction);
-				unpin.setIcon(R.drawable.pin_off_dark);
+				unpin.setIcon(R.drawable.pin_dark);
 
 				break;
 
@@ -564,7 +564,7 @@ public final class OptionsMenuUtility {
 				});
 
 				block.setShowAsAction(showAsAction);
-				block.setIcon(R.drawable.ic_block_dark);
+				block.setIcon(R.drawable.ic_block_off_dark);
 
 				break;
 
@@ -577,7 +577,7 @@ public final class OptionsMenuUtility {
 				});
 
 				unblock.setShowAsAction(showAsAction);
-				unblock.setIcon(R.drawable.ic_block_off_dark);
+				unblock.setIcon(R.drawable.ic_block_dark);
 
 				break;
 

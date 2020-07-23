@@ -17,6 +17,8 @@
 
 package org.quantumbadger.redreader.fragments;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -102,13 +104,37 @@ public class UserProfileDialog extends PropertiesDialog {
 						final LinearLayout karmaLayout = (LinearLayout) context.getLayoutInflater().inflate(R.layout.karma, null);
 						items.addView(karmaLayout);
 
+						final LinearLayout linkKarmaLayout = karmaLayout.findViewById(R.id.layout_karma_link);
+						final LinearLayout commentKarmaLayout = karmaLayout.findViewById(R.id.layout_karma_comment);
 						final TextView linkKarma = (TextView) karmaLayout.findViewById(R.id.layout_karma_text_link);
 						final TextView commentKarma = (TextView) karmaLayout.findViewById(R.id.layout_karma_text_comment);
 
 						linkKarma.setText(String.valueOf(user.link_karma));
 						commentKarma.setText(String.valueOf(user.comment_karma));
 
+						linkKarmaLayout.setOnLongClickListener(v -> {
+							ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+							if(clipboardManager != null) {
+								ClipData data = ClipData.newPlainText(context.getString(R.string.karma_link), linkKarma.getText());
+								clipboardManager.setPrimaryClip(data);
+
+								General.quickToast(context, R.string.copied_to_clipboard);
+							}
+							return true;
+						});
+						commentKarmaLayout.setOnLongClickListener(v -> {
+							ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+							if(clipboardManager != null) {
+								ClipData data = ClipData.newPlainText(context.getString(R.string.karma_comment), commentKarma.getText());
+								clipboardManager.setPrimaryClip(data);
+
+								General.quickToast(context, R.string.copied_to_clipboard);
+							}
+							return true;
+						});
+
 						items.addView(propView(context, R.string.userprofile_created, RRTime.formatDateTime(user.created_utc * 1000, context), false));
+						items.getChildAt(items.getChildCount() - 1).setNextFocusUpId(R.id.layout_karma_link);
 
 						if(user.has_mail != null) {
 							items.addView(propView(context, R.string.userprofile_hasmail, user.has_mail ? R.string.general_true : R.string.general_false, false));

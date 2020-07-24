@@ -269,7 +269,7 @@ public final class OptionsMenuUtility {
 				});
 
 				accounts.setShowAsAction(showAsAction);
-				accounts.setIcon(R.drawable.ic_action_person_dark);
+				accounts.setIcon(R.drawable.ic_accounts_dark);
 
 				break;
 

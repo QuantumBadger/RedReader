@@ -89,8 +89,7 @@ public final class PrefsUtility {
 				|| key.equals(context.getString(R.string.pref_behaviour_pinned_subredditsort_key))
 				|| key.equals(context.getString(R.string.pref_behaviour_blocked_subredditsort_key))
 				|| key.equals(context.getString(R.string.pref_appearance_hide_headertoolbar_commentlist_key))
-				|| key.equals(context.getString(R.string.pref_appearance_hide_headertoolbar_postlist_key))
-				|| key.startsWith("pref_menus_appbar");
+				|| key.equals(context.getString(R.string.pref_appearance_hide_headertoolbar_postlist_key));
 	}
 
 	public static boolean isRestartRequired(Context context, String key) {

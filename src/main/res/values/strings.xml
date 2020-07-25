@@ -1229,6 +1229,7 @@
 	<string name="pref_menus_appbar_items_if_room">Show button if room</string>
 	<string name="pref_menus_appbar_items_overflow_only">Only show in three-dot menu</string>
 	<string name="pref_menus_appbar_items_never">Do not show</string>
+	<string name="pref_menus_appbar_prefix" translatable="false">pref_menus_appbar</string>
 	<string name="pref_menus_appbar_sort_key" translatable="false">pref_menus_appbar_sort</string>
 	<string name="pref_menus_appbar_refresh_key" translatable="false">pref_menus_appbar_refresh</string>
 	<string name="pref_menus_appbar_past_key" translatable="false">pref_menus_appbar_past</string>

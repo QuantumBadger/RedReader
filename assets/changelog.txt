@@ -1,4 +1,5 @@
 92/1.12
+Reddit image gallery support
 Internal image viewer now supports Giphy
 Fixed malformed HTML error for unclosed tags and empty comments
 Subscribe/etc menu items now shown for /r/random (thanks to Cameron Merkel)

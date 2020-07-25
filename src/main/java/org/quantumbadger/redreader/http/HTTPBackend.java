@@ -18,6 +18,8 @@
 package org.quantumbadger.redreader.http;
 
 import android.content.Context;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.http.okhttp.OKHTTPBackend;
 
@@ -37,20 +39,34 @@ public abstract class HTTPBackend {
 
 	public static class RequestDetails {
 
-		private final URI mUrl;
-		private final List<PostField> mPostFields;
+		@NonNull private final URI mUrl;
+		@Nullable private final List<PostField> mPostFields;
 
-		public RequestDetails(final URI url, final List<PostField> postFields) {
+		public RequestDetails(
+				@NonNull final URI url,
+				@Nullable final List<PostField> postFields) {
 			mUrl = url;
 			mPostFields = postFields;
 		}
 
+		@NonNull
 		public URI getUrl() {
 			return mUrl;
 		}
 
+		@Nullable
 		public List<PostField> getPostFields() {
 			return mPostFields;
+		}
+
+		@NonNull
+		@Override
+		public String toString() {
+			return "RequestDetails("
+					+ mUrl.toString()
+					+ ", "
+					+ (mPostFields != null ? mPostFields.toString() : null)
+					+ ")";
 		}
 	}
 
@@ -86,6 +102,12 @@ public abstract class HTTPBackend {
 			}
 
 			return result.toString();
+		}
+
+		@NonNull
+		@Override
+		public String toString() {
+			return "PostField(name=" + name + ")";
 		}
 	}
 

@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.http.okhttp;
 
 import android.content.Context;
 import android.util.Log;
-
 import okhttp3.CacheControl;
 import okhttp3.Call;
 import okhttp3.ConnectionPool;
@@ -36,14 +35,15 @@ import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.TorCommon;
 import org.quantumbadger.redreader.http.HTTPBackend;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class OKHTTPBackend extends HTTPBackend {
@@ -135,6 +135,7 @@ public class OKHTTPBackend extends HTTPBackend {
 		builder.url(details.getUrl().toString());
 		builder.cacheControl(CacheControl.FORCE_NETWORK);
 
+		final AtomicBoolean cancelled = new AtomicBoolean(false);
 		final AtomicReference<Call> callRef = new AtomicReference<>();
 
 		return new Request() {
@@ -145,24 +146,22 @@ public class OKHTTPBackend extends HTTPBackend {
 				Log.d("OK", "calling: " + call.request().url());
 				callRef.set(call);
 
+				if(cancelled.get()) {
+					call.cancel();
+					return;
+				}
 
 				final Response response;
 
 				try {
 					response = call.execute();
-				} catch(IOException e) {
+				} catch(Exception e) {
 					listener.onError(CacheRequest.REQUEST_FAILURE_CONNECTION, e, null);
-					Log.d("OK", "request didn't even connect: " + e.getMessage());
-					return;
-				} catch (Throwable t) {
-					listener.onError(CacheRequest.REQUEST_FAILURE_CONNECTION, t, null);
-					Log.d("OK", "request didn't even connect: " + t.getMessage());
+					Log.i("OK", "request didn't even connect: " + e.getMessage());
 					return;
 				}
 
 				final int status = response.code();
-				Log.d("OK", "request got status: " + status);
-
 
 				if(status == 200 || status == 202) {
 
@@ -188,12 +187,22 @@ public class OKHTTPBackend extends HTTPBackend {
 					listener.onSuccess(contentType, bodyBytes, bodyStream);
 
 				} else {
+
+					Log.e("OK", String.format(
+							Locale.US,
+							"Got HTTP error %d for %s",
+							status,
+							details.toString()));
+
 					listener.onError(CacheRequest.REQUEST_FAILURE_REQUEST, null, status);
 				}
 			}
 
 			@Override
 			public void cancel() {
+
+				cancelled.set(true);
+
 				final Call call = callRef.getAndSet(null);
 				if(call != null) {
 					call.cancel();

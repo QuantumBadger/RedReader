@@ -34,8 +34,8 @@ import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.image.AlbumInfo;
 import org.quantumbadger.redreader.image.ImageInfo;
-import org.quantumbadger.redreader.image.ImgurAPI;
 import org.quantumbadger.redreader.viewholders.VH3TextIcon;
 
 import java.io.IOException;
@@ -44,9 +44,9 @@ import java.util.UUID;
 public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 
 	private final AppCompatActivity activity;
-	private final ImgurAPI.AlbumInfo albumInfo;
+	private final AlbumInfo albumInfo;
 
-	public AlbumAdapter(final AppCompatActivity activity, final ImgurAPI.AlbumInfo albumInfo) {
+	public AlbumAdapter(final AppCompatActivity activity, final AlbumInfo albumInfo) {
 		this.activity = activity;
 		this.albumInfo = albumInfo;
 	}

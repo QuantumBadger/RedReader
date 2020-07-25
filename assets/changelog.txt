@@ -1,8 +1,10 @@
 92/1.12
 Internal image viewer now supports Giphy
 Fixed malformed HTML error for unclosed tags and empty comments
+Subscribe/etc menu items now shown for /r/random (thanks to Cameron Merkel)
 Improvements to copying to the clipboard (thanks to Cameron Merkel)
 Up button in settings fixed (now goes back only one level)
+Accessibility improvements (thanks to Cameron Merkel)
 Translation updates (thanks to Allan Nordhøy, Artem, B0pol, Francisco Javier Meléndez Ruiz, Frans de Jonge, Gontzal Manuel Pujana Onaindia, Jeannette L, Jesper, JoC, Karol Kosek, marzzzello, mondstern, Piero Sangino, Riku Viitanen, Verdulo, Vladislav Glinsky, Xiang Xu, zeritti, and zmni!)
 
 91/1.11

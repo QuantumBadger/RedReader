@@ -19,6 +19,8 @@ package org.quantumbadger.redreader.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -98,6 +100,18 @@ public abstract class PropertiesDialog extends AppCompatDialogFragment {
 
 		final LinearLayout prop = new LinearLayout(context);
 		prop.setOrientation(LinearLayout.VERTICAL);
+		prop.setFocusable(true);
+
+		prop.setOnLongClickListener(v -> {
+			ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+			if(clipboardManager != null) {
+				ClipData data = ClipData.newPlainText(title, text);
+				clipboardManager.setPrimaryClip(data);
+
+				General.quickToast(context, R.string.copied_to_clipboard);
+			}
+			return true;
+		});
 
 		if(!firstInList) {
 			final View divider = new View(context);
@@ -118,7 +132,6 @@ public abstract class PropertiesDialog extends AppCompatDialogFragment {
 		textView.setTextColor(rrCommentBodyCol);
 		textView.setTextSize(15.0f);
 		textView.setPadding(paddingPixels, 0, paddingPixels, paddingPixels);
-		textView.setTextIsSelectable(true);
 		prop.addView(textView);
 
 		return prop;

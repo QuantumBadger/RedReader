@@ -1223,6 +1223,9 @@
 	<string name="comment_text_copied_to_clipboard">Comment text copied to clipboard</string>
 	<string name="subreddit_link_copied_to_clipboard">Subreddit link copied to clipboard</string>
 
+  <!-- 2020-07-16 -->
+	<string name="copied_to_clipboard">Copied to clipboard</string>
+
 	<!-- 2020-07-19 -->
 	<string name="pref_menus_appbar_screen_title">Action bar items</string>
 	<string name="pref_menus_appbar_items_always">Always show button</string>

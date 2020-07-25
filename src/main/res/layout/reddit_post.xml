@@ -39,7 +39,8 @@
 			android:background="?rrListItemBackgroundCol"
 			android:orientation="horizontal"
 			android:minHeight="64dp"
-			android:elevation="10dp">
+			android:elevation="10dp"
+			android:nextFocusRight="@id/reddit_post_comments_button">
 
 		<FrameLayout
 				android:layout_width="wrap_content"
@@ -104,7 +105,8 @@
 				android:layout_height="match_parent"
 				android:gravity="center"
 				android:background="?rrPostCommentsButtonBackCol"
-				android:orientation="vertical">
+				android:orientation="vertical"
+				android:nextFocusLeft="@id/reddit_post_layout">
 
 			<ImageView
 					android:layout_height="wrap_content"

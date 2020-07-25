@@ -163,7 +163,8 @@ public class PostListingController {
 	public final SubredditCanonicalId subredditCanonicalName() {
 
 		if(url.pathType() == RedditURLParser.SUBREDDIT_POST_LISTING_URL
-				&& url.asSubredditPostListURL().type == SubredditPostListURL.Type.SUBREDDIT) {
+				&& (url.asSubredditPostListURL().type == SubredditPostListURL.Type.SUBREDDIT
+				|| url.asSubredditPostListURL().type == SubredditPostListURL.Type.RANDOM)) {
 			try {
 				return new SubredditCanonicalId(url.asSubredditPostListURL().subreddit);
 			} catch(InvalidSubredditNameException e) {

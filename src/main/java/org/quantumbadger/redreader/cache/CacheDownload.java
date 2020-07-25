@@ -144,6 +144,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 					HTTPBackend.getBackend().recreateHttpBackend();
 					resetUserCredentialsOnNextRequest();
 				}
+
 				mInitiator.notifyFailure(failureType, exception, httpStatus, "");
 			}
 

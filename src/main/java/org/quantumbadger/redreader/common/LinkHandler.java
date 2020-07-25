@@ -698,7 +698,7 @@ public class LinkHandler {
 			final Matcher matchImgur = imgurAlbumPattern.matcher(url);
 
 			if(matchImgur.find()) {
-				final String albumId = matchImgur.group(1);
+				final String albumId = matchImgur.group(2);
 				if(albumId.length() > 2) {
 					getImgurAlbumInfo(context, url, albumId, priority, listId, listener);
 					return;

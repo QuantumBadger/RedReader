@@ -103,6 +103,12 @@ public abstract class HTTPBackend {
 
 			return result.toString();
 		}
+
+		@NonNull
+		@Override
+		public String toString() {
+			return "PostField(name=" + name + ")";
+		}
 	}
 
 	public interface Request {

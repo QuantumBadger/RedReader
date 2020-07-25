@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.image;
 
 import android.content.Context;
+import android.net.Uri;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -27,6 +28,7 @@ import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
+import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 
 import java.util.UUID;
 
@@ -40,10 +42,16 @@ public final class RedditGalleryAPI {
 			final int listId,
 			final GetAlbumInfoListener listener) {
 
-		final String apiUrl = "https://reddit.com/comments/" + albumId + ".json";
+		final Uri apiUrl = new PostCommentListingURL(
+				null,
+				albumId,
+				null,
+				null,
+				null,
+				null).generateJsonUri();
 
 		CacheManager.getInstance(context).makeRequest(new CacheRequest(
-				General.uriFromString(apiUrl),
+				General.uriFromString(apiUrl.toString()),
 				RedditAccountManager.getInstance(context).getDefaultAccount(),
 				null,
 				priority,

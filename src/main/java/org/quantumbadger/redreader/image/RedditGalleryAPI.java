@@ -50,7 +50,7 @@ public final class RedditGalleryAPI {
 				listId,
 				DownloadStrategyIfNotCached.INSTANCE,
 				Constants.FileType.IMAGE_INFO,
-				CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
+				CacheRequest.DOWNLOAD_QUEUE_REDDIT_API,
 				true,
 				false,
 				context) {

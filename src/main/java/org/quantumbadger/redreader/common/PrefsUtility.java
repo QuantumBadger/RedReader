@@ -45,6 +45,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 public final class PrefsUtility {
@@ -89,7 +90,7 @@ public final class PrefsUtility {
 				|| key.equals(context.getString(R.string.pref_behaviour_blocked_subredditsort_key))
 				|| key.equals(context.getString(R.string.pref_appearance_hide_headertoolbar_commentlist_key))
 				|| key.equals(context.getString(R.string.pref_appearance_hide_headertoolbar_postlist_key))
-				|| key.startsWith("pref_menus_optionsmenu_items");
+				|| key.startsWith("pref_menus_appbar");
 	}
 
 	public static boolean isRestartRequired(Context context, String key) {
@@ -867,49 +868,52 @@ public final class PrefsUtility {
 		return result;
 	}
 
-	private static class OptionsMenuItemInfo {
-		final int stringRes, default_value;
+	private static class AppbarItemInfo {
+		final Enum<OptionsMenuUtility.AppbarItemsPref> itemPref;
+		final int stringRes, defaultValue;
 
-		OptionsMenuItemInfo(int stringRes, int default_value) {
+		AppbarItemInfo(final Enum<OptionsMenuUtility.AppbarItemsPref> itemPref, final int stringRes, final int defaultValue) {
+			this.itemPref = itemPref;
 			this.stringRes = stringRes;
-			this.default_value = default_value;
+			this.defaultValue = defaultValue;
 		}
 	}
 
-	public static int[] pref_menus_optionsmenu_items(final Context context, final SharedPreferences sharedPreferences) {
+	public static Map<Enum<OptionsMenuUtility.AppbarItemsPref>, Integer> pref_menus_appbar_items(final Context context, final SharedPreferences sharedPreferences) {
 
-		final OptionsMenuItemInfo[] optionsMenuItemsInfo = new OptionsMenuItemInfo[14];
+		final AppbarItemInfo[] appbarItemsInfo = new AppbarItemInfo[] {
+			new AppbarItemInfo(OptionsMenuUtility.AppbarItemsPref.SORT, R.string.pref_menus_appbar_sort_key, MenuItem.SHOW_AS_ACTION_ALWAYS),
+			new AppbarItemInfo(OptionsMenuUtility.AppbarItemsPref.REFRESH, R.string.pref_menus_appbar_refresh_key, MenuItem.SHOW_AS_ACTION_ALWAYS),
+			new AppbarItemInfo(OptionsMenuUtility.AppbarItemsPref.PAST, R.string.pref_menus_appbar_past_key, MenuItem.SHOW_AS_ACTION_NEVER),
+			new AppbarItemInfo(OptionsMenuUtility.AppbarItemsPref.SUBMIT_POST, R.string.pref_menus_appbar_submit_post_key, MenuItem.SHOW_AS_ACTION_NEVER),
+			new AppbarItemInfo(OptionsMenuUtility.AppbarItemsPref.PIN, R.string.pref_menus_appbar_pin_key, MenuItem.SHOW_AS_ACTION_NEVER),
+			new AppbarItemInfo(OptionsMenuUtility.AppbarItemsPref.BLOCK, R.string.pref_menus_appbar_block_key, MenuItem.SHOW_AS_ACTION_NEVER),
+			new AppbarItemInfo(OptionsMenuUtility.AppbarItemsPref.SUBSCRIBE, R.string.pref_menus_appbar_subscribe_key, MenuItem.SHOW_AS_ACTION_NEVER),
+			new AppbarItemInfo(OptionsMenuUtility.AppbarItemsPref.SIDEBAR, R.string.pref_menus_appbar_sidebar_key, MenuItem.SHOW_AS_ACTION_NEVER),
+			new AppbarItemInfo(OptionsMenuUtility.AppbarItemsPref.ACCOUNTS, R.string.pref_menus_appbar_accounts_key, MenuItem.SHOW_AS_ACTION_IF_ROOM),
+			new AppbarItemInfo(OptionsMenuUtility.AppbarItemsPref.THEME, R.string.pref_menus_appbar_theme_key, MenuItem.SHOW_AS_ACTION_NEVER),
+			new AppbarItemInfo(OptionsMenuUtility.AppbarItemsPref.SETTINGS, R.string.pref_menus_appbar_settings_key, MenuItem.SHOW_AS_ACTION_NEVER),
+			new AppbarItemInfo(OptionsMenuUtility.AppbarItemsPref.CLOSE_ALL, R.string.pref_menus_appbar_close_all_key, OptionsMenuUtility.DO_NOT_SHOW),
+			new AppbarItemInfo(OptionsMenuUtility.AppbarItemsPref.REPLY, R.string.pref_menus_appbar_reply_key, MenuItem.SHOW_AS_ACTION_NEVER),
+			new AppbarItemInfo(OptionsMenuUtility.AppbarItemsPref.SEARCH, R.string.pref_menus_appbar_search_key, MenuItem.SHOW_AS_ACTION_NEVER)
+		};
 
-		optionsMenuItemsInfo[0] = new OptionsMenuItemInfo(R.string.pref_menus_optionsmenu_items_sort_key, MenuItem.SHOW_AS_ACTION_ALWAYS);
-		optionsMenuItemsInfo[1] = new OptionsMenuItemInfo(R.string.pref_menus_optionsmenu_items_refresh_key, MenuItem.SHOW_AS_ACTION_ALWAYS);
-		optionsMenuItemsInfo[2] = new OptionsMenuItemInfo(R.string.pref_menus_optionsmenu_items_past_key, MenuItem.SHOW_AS_ACTION_NEVER);
-		optionsMenuItemsInfo[3] = new OptionsMenuItemInfo(R.string.pref_menus_optionsmenu_items_submit_post_key, MenuItem.SHOW_AS_ACTION_NEVER);
-		optionsMenuItemsInfo[4] = new OptionsMenuItemInfo(R.string.pref_menus_optionsmenu_items_pin_key, MenuItem.SHOW_AS_ACTION_NEVER);
-		optionsMenuItemsInfo[5] = new OptionsMenuItemInfo(R.string.pref_menus_optionsmenu_items_block_key, MenuItem.SHOW_AS_ACTION_NEVER);
-		optionsMenuItemsInfo[6] = new OptionsMenuItemInfo(R.string.pref_menus_optionsmenu_items_subscribe_key, MenuItem.SHOW_AS_ACTION_NEVER);
-		optionsMenuItemsInfo[7] = new OptionsMenuItemInfo(R.string.pref_menus_optionsmenu_items_sidebar_key, MenuItem.SHOW_AS_ACTION_NEVER);
-		optionsMenuItemsInfo[8] = new OptionsMenuItemInfo(R.string.pref_menus_optionsmenu_items_accounts_key, MenuItem.SHOW_AS_ACTION_IF_ROOM);
-		optionsMenuItemsInfo[9] = new OptionsMenuItemInfo(R.string.pref_menus_optionsmenu_items_theme_key, MenuItem.SHOW_AS_ACTION_NEVER);
-		optionsMenuItemsInfo[10] = new OptionsMenuItemInfo(R.string.pref_menus_optionsmenu_items_settings_key, MenuItem.SHOW_AS_ACTION_NEVER);
-		optionsMenuItemsInfo[11] = new OptionsMenuItemInfo(R.string.pref_menus_optionsmenu_items_close_all_key, OptionsMenuUtility.DO_NOT_SHOW);
-		optionsMenuItemsInfo[12] = new OptionsMenuItemInfo(R.string.pref_menus_optionsmenu_items_reply_key, MenuItem.SHOW_AS_ACTION_NEVER);
-		optionsMenuItemsInfo[13] = new OptionsMenuItemInfo(R.string.pref_menus_optionsmenu_items_search_key, MenuItem.SHOW_AS_ACTION_NEVER);
 
+		Map<Enum<OptionsMenuUtility.AppbarItemsPref>, Integer> appbarItemsPrefs = new HashMap<>();
 
-		int[] optionsMenuItemsPrefs = new int[14];
-
-		for(int i = 0; i < optionsMenuItemsInfo.length; i ++) {
+		for(AppbarItemInfo item : appbarItemsInfo) {
 			try {
-				optionsMenuItemsPrefs[i] = Integer.parseInt(getString(optionsMenuItemsInfo[i].stringRes,
-						Integer.toString(optionsMenuItemsInfo[i].default_value),
+				appbarItemsPrefs.put(item.itemPref, Integer.parseInt(getString(item.stringRes,
+						Integer.toString(item.defaultValue),
 						context,
-						sharedPreferences));
+						sharedPreferences)));
 			} catch(Throwable e) {
-				optionsMenuItemsPrefs[i] = optionsMenuItemsInfo[i].default_value;
+				appbarItemsPrefs.put(item.itemPref, item.defaultValue);
 			}
 		}
 
-		return optionsMenuItemsPrefs;
+		appbarItemsPrefs = Collections.unmodifiableMap(appbarItemsPrefs);
+		return appbarItemsPrefs;
 	}
 
 	///////////////////////////////

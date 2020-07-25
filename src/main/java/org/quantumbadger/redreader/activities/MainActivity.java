@@ -445,7 +445,7 @@ public class MainActivity extends RefreshableActivity
 
 				if(lastVersion <= 91) {
 					//Upgrading from 91/1.11 or lower, switch to individual ListPreference's for
-					//pref_menus_optionsmenu_items
+					//pref_menus_appbar (formerly pref_menus_optionsmenu_items)
 
 					final Set<String> existingOptionsMenuItems = PrefsUtility.getStringSet(
 							R.string.pref_menus_optionsmenu_items_key,
@@ -454,29 +454,39 @@ public class MainActivity extends RefreshableActivity
 							sharedPreferences
 					);
 
-					final String[] oldOptionsMenuItemsItemsReturn = getResources().getStringArray(R.array.pref_menus_optionsmenu_items_items_return);
+					class AppbarItemStrings {
+						final int stringRes;
+						final String returnValue;
 
-					final int[] optionsMenuItemsPrefStrings = new int[9];
-					optionsMenuItemsPrefStrings[0] = R.string.pref_menus_optionsmenu_items_accounts_key;
-					optionsMenuItemsPrefStrings[1] = R.string.pref_menus_optionsmenu_items_theme_key;
-					optionsMenuItemsPrefStrings[2] = R.string.pref_menus_optionsmenu_items_close_all_key;
-					optionsMenuItemsPrefStrings[3] = R.string.pref_menus_optionsmenu_items_past_key;
-					optionsMenuItemsPrefStrings[4] = R.string.pref_menus_optionsmenu_items_submit_post_key;
-					optionsMenuItemsPrefStrings[5] = R.string.pref_menus_optionsmenu_items_search_key;
-					optionsMenuItemsPrefStrings[6] = R.string.pref_menus_optionsmenu_items_reply_key;
-					optionsMenuItemsPrefStrings[7] = R.string.pref_menus_optionsmenu_items_pin_key;
-					optionsMenuItemsPrefStrings[8] = R.string.pref_menus_optionsmenu_items_block_key;
+						AppbarItemStrings(final int stringRes, final String returnValue) {
+							this.stringRes = stringRes;
+							this.returnValue = returnValue;
+						}
+					}
 
-					for(int i = 0; i < optionsMenuItemsPrefStrings.length; i++) {
+					final AppbarItemStrings[] appbarItemsPrefStrings = new AppbarItemStrings[] {
+						new AppbarItemStrings(R.string.pref_menus_appbar_accounts_key, "accounts"),
+						new AppbarItemStrings(R.string.pref_menus_appbar_theme_key, "theme"),
+						new AppbarItemStrings(R.string.pref_menus_appbar_close_all_key, "close_all"),
+						new AppbarItemStrings(R.string.pref_menus_appbar_past_key, "past"),
+						new AppbarItemStrings(R.string.pref_menus_appbar_submit_post_key, "submit_post"),
+						new AppbarItemStrings(R.string.pref_menus_appbar_search_key, "search"),
+						new AppbarItemStrings(R.string.pref_menus_appbar_reply_key, "reply"),
+						new AppbarItemStrings(R.string.pref_menus_appbar_pin_key, "pin"),
+						new AppbarItemStrings(R.string.pref_menus_appbar_block_key, "block")
+					};
+
+					for(AppbarItemStrings item : appbarItemsPrefStrings) {
 						final String showAsAction;
-						if(existingOptionsMenuItems.contains(oldOptionsMenuItemsItemsReturn[i])) {
+
+						if(existingOptionsMenuItems.contains(item.returnValue)) {
 							showAsAction = "0"; // Show only in three-dot menu
 						} else {
 							showAsAction = "-1"; // Never show
 						}
 
 						sharedPreferences.edit().putString(
-								getString(optionsMenuItemsPrefStrings[i]),
+								getString(item.stringRes),
 								showAsAction
 						).apply();
 					}

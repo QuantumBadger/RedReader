@@ -37,22 +37,13 @@ import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.reddit.url.UserCommentListingURL;
 import org.quantumbadger.redreader.settings.SettingsActivity;
 
+import java.util.Map;
+
 public final class OptionsMenuUtility {
 
-	public static final int SORT = 0,
-			REFRESH = 1,
-			PAST = 2,
-			SUBMIT_POST = 3,
-			PIN = 4,
-			BLOCK = 5,
-			SUBSCRIBE = 6,
-			SIDEBAR = 7,
-			ACCOUNTS = 8,
-			THEME = 9,
-			SETTINGS = 10,
-			CLOSE_ALL = 11,
-			REPLY = 12,
-			SEARCH = 13;
+	public enum AppbarItemsPref {
+		SORT, REFRESH, PAST, SUBMIT_POST, PIN, BLOCK, SUBSCRIBE, SIDEBAR, ACCOUNTS, THEME, SETTINGS, CLOSE_ALL, REPLY, SEARCH
+	}
 
 	public static final int DO_NOT_SHOW = -1;
 
@@ -94,57 +85,57 @@ public final class OptionsMenuUtility {
 			final Boolean subredditBlocked) {
 
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
-		final int[] optionsMenuItemsPrefs = PrefsUtility.pref_menus_optionsmenu_items(activity, preferences);
+		final Map<Enum<AppbarItemsPref>, Integer> appbarItemsPrefs = PrefsUtility.pref_menus_appbar_items(activity, preferences);
 
 		if(subredditsVisible && !postsVisible && !commentsVisible) {
-			add(activity, menu, Option.REFRESH_SUBREDDITS, optionsMenuItemsPrefs[REFRESH], false);
+			add(activity, menu, Option.REFRESH_SUBREDDITS, appbarItemsPrefs.get(AppbarItemsPref.REFRESH), false);
 
 		} else if(!subredditsVisible && postsVisible && !commentsVisible) {
 			if(postsSortable) {
 
 				if (areSearchResults)
-					addAllSearchSorts(activity, menu, optionsMenuItemsPrefs[SORT]);
+					addAllSearchSorts(activity, menu, appbarItemsPrefs.get(AppbarItemsPref.SORT));
 				else
-					addAllPostSorts(activity, menu, optionsMenuItemsPrefs[SORT], !isUserPostListing, isFrontPage);
+					addAllPostSorts(activity, menu, appbarItemsPrefs.get(AppbarItemsPref.SORT), !isUserPostListing, isFrontPage);
 			}
-			add(activity, menu, Option.REFRESH_POSTS, optionsMenuItemsPrefs[REFRESH], false);
-			add(activity, menu, Option.PAST_POSTS, optionsMenuItemsPrefs[PAST], false);
-			add(activity, menu, Option.SUBMIT_POST, optionsMenuItemsPrefs[SUBMIT_POST], false);
-			add(activity, menu, Option.SEARCH, optionsMenuItemsPrefs[SEARCH], false);
+			add(activity, menu, Option.REFRESH_POSTS, appbarItemsPrefs.get(AppbarItemsPref.REFRESH), false);
+			add(activity, menu, Option.PAST_POSTS, appbarItemsPrefs.get(AppbarItemsPref.PAST), false);
+			add(activity, menu, Option.SUBMIT_POST, appbarItemsPrefs.get(AppbarItemsPref.SUBMIT_POST), false);
+			add(activity, menu, Option.SEARCH, appbarItemsPrefs.get(AppbarItemsPref.SEARCH), false);
 
 			if(subredditPinned != null) {
 				if(subredditPinned) {
-					add(activity, menu, Option.UNPIN, optionsMenuItemsPrefs[PIN], false);
+					add(activity, menu, Option.UNPIN, appbarItemsPrefs.get(AppbarItemsPref.PIN), false);
 				} else {
-					add(activity, menu, Option.PIN, optionsMenuItemsPrefs[PIN], false);
+					add(activity, menu, Option.PIN, appbarItemsPrefs.get(AppbarItemsPref.PIN), false);
 				}
 			}
 
 			if (subredditBlocked != null) {
 				if(subredditBlocked) {
-					add(activity, menu, Option.UNBLOCK, optionsMenuItemsPrefs[BLOCK], false);
+					add(activity, menu, Option.UNBLOCK, appbarItemsPrefs.get(AppbarItemsPref.BLOCK), false);
 				} else {
-					add(activity, menu, Option.BLOCK, optionsMenuItemsPrefs[BLOCK], false);
+					add(activity, menu, Option.BLOCK, appbarItemsPrefs.get(AppbarItemsPref.BLOCK), false);
 				}
 			}
 
 			if(subredditSubscriptionState != null) {
-				addSubscriptionItem(activity, menu, optionsMenuItemsPrefs[SUBSCRIBE], subredditSubscriptionState);
+				addSubscriptionItem(activity, menu, appbarItemsPrefs.get(AppbarItemsPref.SUBSCRIBE), subredditSubscriptionState);
 			}
 
 			if(subredditHasSidebar) {
-				add(activity, menu, Option.SIDEBAR, optionsMenuItemsPrefs[SIDEBAR], false);
+				add(activity, menu, Option.SIDEBAR, appbarItemsPrefs.get(AppbarItemsPref.SIDEBAR), false);
 			}
 
 		} else if(!subredditsVisible && !postsVisible && commentsVisible) {
 			if (commentsSortable && !isUserCommentListing)
-				addAllCommentSorts(activity, menu, optionsMenuItemsPrefs[SORT]);
+				addAllCommentSorts(activity, menu, appbarItemsPrefs.get(AppbarItemsPref.SORT));
 			else if (commentsSortable && isUserCommentListing)
-				addAllUserCommentSorts(activity, menu, optionsMenuItemsPrefs[SORT]);
-			add(activity, menu, Option.REFRESH_COMMENTS, optionsMenuItemsPrefs[REFRESH], false);
-			add(activity, menu, Option.SEARCH, optionsMenuItemsPrefs[SEARCH], false);
+				addAllUserCommentSorts(activity, menu, appbarItemsPrefs.get(AppbarItemsPref.SORT));
+			add(activity, menu, Option.REFRESH_COMMENTS, appbarItemsPrefs.get(AppbarItemsPref.REFRESH), false);
+			add(activity, menu, Option.SEARCH, appbarItemsPrefs.get(AppbarItemsPref.SEARCH), false);
 			if(pastCommentsSupported) {
-				add(activity, menu, Option.PAST_COMMENTS, optionsMenuItemsPrefs[PAST], false);
+				add(activity, menu, Option.PAST_COMMENTS, appbarItemsPrefs.get(AppbarItemsPref.PAST), false);
 			}
 
 		} else {
@@ -153,7 +144,7 @@ public final class OptionsMenuUtility {
 
 				final SubMenu sortMenu = menu.addSubMenu(R.string.options_sort);
 				sortMenu.getItem().setIcon(R.drawable.ic_sort_dark);
-				sortMenu.getItem().setShowAsAction(optionsMenuItemsPrefs[SORT]);
+				sortMenu.getItem().setShowAsAction(appbarItemsPrefs.get(AppbarItemsPref.SORT));
 
 				if(postsSortable) {
 					if (areSearchResults)
@@ -165,65 +156,65 @@ public final class OptionsMenuUtility {
 
 				final SubMenu pastMenu = menu.addSubMenu(R.string.options_past);
 				pastMenu.getItem().setIcon(R.drawable.ic_time_dark);
-				pastMenu.getItem().setShowAsAction(optionsMenuItemsPrefs[PAST]);
+				pastMenu.getItem().setShowAsAction(appbarItemsPrefs.get(AppbarItemsPref.PAST));
 
 				add(activity, pastMenu, Option.PAST_POSTS);
 				if(pastCommentsSupported) {
 					add(activity, pastMenu, Option.PAST_COMMENTS);
 				}
 
-				add(activity, menu, Option.SEARCH_COMMENTS, optionsMenuItemsPrefs[SEARCH], false);
+				add(activity, menu, Option.SEARCH_COMMENTS, appbarItemsPrefs.get(AppbarItemsPref.SEARCH), false);
 
 			} else if(postsVisible) {
 				if(postsSortable) {
 					if (areSearchResults)
-						addAllSearchSorts(activity, menu, optionsMenuItemsPrefs[SORT]);
+						addAllSearchSorts(activity, menu, appbarItemsPrefs.get(AppbarItemsPref.SORT));
 					else
-						addAllPostSorts(activity, menu, optionsMenuItemsPrefs[SORT], !isUserPostListing, isFrontPage);
+						addAllPostSorts(activity, menu, appbarItemsPrefs.get(AppbarItemsPref.SORT), !isUserPostListing, isFrontPage);
 				}
-				add(activity, menu, Option.PAST_POSTS, optionsMenuItemsPrefs[PAST], false);
+				add(activity, menu, Option.PAST_POSTS, appbarItemsPrefs.get(AppbarItemsPref.PAST), false);
 			}
 
 			final SubMenu refreshMenu = menu.addSubMenu(R.string.options_refresh);
 			refreshMenu.getItem().setIcon(R.drawable.ic_refresh_dark);
-			refreshMenu.getItem().setShowAsAction(optionsMenuItemsPrefs[REFRESH]);
+			refreshMenu.getItem().setShowAsAction(appbarItemsPrefs.get(AppbarItemsPref.REFRESH));
 
 			if(subredditsVisible) add(activity, refreshMenu, Option.REFRESH_SUBREDDITS);
 			if(postsVisible) {
 				add(activity, refreshMenu, Option.REFRESH_POSTS);
-				add(activity, menu, Option.SUBMIT_POST, optionsMenuItemsPrefs[SUBMIT_POST], false);
-				add(activity, menu, Option.SEARCH, optionsMenuItemsPrefs[SEARCH], false);
+				add(activity, menu, Option.SUBMIT_POST, appbarItemsPrefs.get(AppbarItemsPref.SUBMIT_POST), false);
+				add(activity, menu, Option.SEARCH, appbarItemsPrefs.get(AppbarItemsPref.SEARCH), false);
 
 				if(subredditPinned != null) {
 					if(subredditPinned) {
-						add(activity, menu, Option.UNPIN, optionsMenuItemsPrefs[PIN], false);
+						add(activity, menu, Option.UNPIN, appbarItemsPrefs.get(AppbarItemsPref.PIN), false);
 					} else {
-						add(activity, menu, Option.PIN, optionsMenuItemsPrefs[PIN], false);
+						add(activity, menu, Option.PIN, appbarItemsPrefs.get(AppbarItemsPref.PIN), false);
 					}
 				}
 
 				if(subredditSubscriptionState != null) {
-					addSubscriptionItem(activity, menu, optionsMenuItemsPrefs[SUBSCRIBE], subredditSubscriptionState);
+					addSubscriptionItem(activity, menu, appbarItemsPrefs.get(AppbarItemsPref.SUBSCRIBE), subredditSubscriptionState);
 				}
 
 				if(subredditHasSidebar) {
-					add(activity, menu, Option.SIDEBAR, optionsMenuItemsPrefs[SIDEBAR], false);
+					add(activity, menu, Option.SIDEBAR, appbarItemsPrefs.get(AppbarItemsPref.SIDEBAR), false);
 				}
 			}
 			if(commentsVisible) add(activity, refreshMenu, Option.REFRESH_COMMENTS);
 		}
 
-		add(activity, menu, Option.ACCOUNTS, optionsMenuItemsPrefs[ACCOUNTS], false);
-		add(activity, menu, Option.THEMES, optionsMenuItemsPrefs[THEME], false);
+		add(activity, menu, Option.ACCOUNTS, appbarItemsPrefs.get(AppbarItemsPref.ACCOUNTS), false);
+		add(activity, menu, Option.THEMES, appbarItemsPrefs.get(AppbarItemsPref.THEME), false);
 
 		//Always show settings if the main menu is visible, to prevent user from being locked out of them
-		if(subredditsVisible && optionsMenuItemsPrefs[SETTINGS] == DO_NOT_SHOW) {
+		if(subredditsVisible && appbarItemsPrefs.get(AppbarItemsPref.SETTINGS) == DO_NOT_SHOW) {
 			add(activity, menu, Option.SETTINGS, MenuItem.SHOW_AS_ACTION_NEVER,false);
 		} else {
-			add(activity, menu, Option.SETTINGS, optionsMenuItemsPrefs[SETTINGS],false);
+			add(activity, menu, Option.SETTINGS, appbarItemsPrefs.get(AppbarItemsPref.SETTINGS),false);
 		}
 
-		add(activity, menu, Option.CLOSE_ALL, optionsMenuItemsPrefs[CLOSE_ALL], false);
+		add(activity, menu, Option.CLOSE_ALL, appbarItemsPrefs.get(AppbarItemsPref.CLOSE_ALL), false);
 	}
 
 	private static void addSubscriptionItem(final BaseActivity activity, final Menu menu, final int showAsAction,

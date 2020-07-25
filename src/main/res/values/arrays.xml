@@ -913,15 +913,15 @@
 
 	<!-- 2020-07-19 -->
 
-	<string-array name="pref_menus_optionsmenu_items_items_2">
-		<item>@string/pref_menus_optionsmenu_items_items_2_always</item>
-		<item>@string/pref_menus_optionsmenu_items_items_2_if_room</item>
-		<item>@string/pref_menus_optionsmenu_items_items_2_overflow_only</item>
-		<item>@string/pref_menus_optionsmenu_items_items_2_never</item>
+	<string-array name="pref_menus_appbar_items">
+		<item>@string/pref_menus_appbar_items_always</item>
+		<item>@string/pref_menus_appbar_items_if_room</item>
+		<item>@string/pref_menus_appbar_items_overflow_only</item>
+		<item>@string/pref_menus_appbar_items_never</item>
 	</string-array>
 
 	<!-- Constants. Do not change. -->
-	<string-array name="pref_menus_optionsmenu_items_items_2_return">
+	<string-array name="pref_menus_appbar_items_return">
 		<item>2</item>
 		<item>1</item>
 		<item>0</item>

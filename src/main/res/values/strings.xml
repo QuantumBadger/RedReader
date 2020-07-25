@@ -1224,24 +1224,24 @@
 	<string name="subreddit_link_copied_to_clipboard">Subreddit link copied to clipboard</string>
 
 	<!-- 2020-07-19 -->
-	<string name="pref_menus_optionsmenu_screen_title">Action bar items</string>
-	<string name="pref_menus_optionsmenu_items_items_2_always">Always show button</string>
-	<string name="pref_menus_optionsmenu_items_items_2_if_room">Show button if room</string>
-	<string name="pref_menus_optionsmenu_items_items_2_overflow_only">Only show in three-dot menu</string>
-	<string name="pref_menus_optionsmenu_items_items_2_never">Do not show</string>
-	<string name="pref_menus_optionsmenu_items_sort_key" translatable="false">pref_menus_optionsmenu_items_sort</string>
-	<string name="pref_menus_optionsmenu_items_refresh_key" translatable="false">pref_menus_optionsmenu_items_refresh</string>
-	<string name="pref_menus_optionsmenu_items_past_key" translatable="false">pref_menus_optionsmenu_items_past</string>
-	<string name="pref_menus_optionsmenu_items_submit_post_key" translatable="false">pref_menus_optionsmenu_items_submit_post</string>
-	<string name="pref_menus_optionsmenu_items_pin_key" translatable="false">pref_menus_optionsmenu_items_pin</string>
-	<string name="pref_menus_optionsmenu_items_block_key" translatable="false">pref_menus_optionsmenu_items_block</string>
-	<string name="pref_menus_optionsmenu_items_subscribe_key" translatable="false">pref_menus_optionsmenu_items_subscribe</string>
-	<string name="pref_menus_optionsmenu_items_sidebar_key" translatable="false">pref_menus_optionsmenu_items_sidebar</string>
-	<string name="pref_menus_optionsmenu_items_accounts_key" translatable="false">pref_menus_optionsmenu_items_accounts</string>
-	<string name="pref_menus_optionsmenu_items_theme_key" translatable="false">pref_menus_optionsmenu_items_theme</string>
-	<string name="pref_menus_optionsmenu_items_settings_key" translatable="false">pref_menus_optionsmenu_items_settings</string>
-	<string name="pref_menus_optionsmenu_items_close_all_key" translatable="false">pref_menus_optionsmenu_items_close_all</string>
-	<string name="pref_menus_optionsmenu_items_reply_key" translatable="false">pref_menus_optionsmenu_items_reply</string>
-	<string name="pref_menus_optionsmenu_items_search_key" translatable="false">pref_menus_optionsmenu_items_search</string>
+	<string name="pref_menus_appbar_screen_title">Action bar items</string>
+	<string name="pref_menus_appbar_items_always">Always show button</string>
+	<string name="pref_menus_appbar_items_if_room">Show button if room</string>
+	<string name="pref_menus_appbar_items_overflow_only">Only show in three-dot menu</string>
+	<string name="pref_menus_appbar_items_never">Do not show</string>
+	<string name="pref_menus_appbar_sort_key" translatable="false">pref_menus_appbar_sort</string>
+	<string name="pref_menus_appbar_refresh_key" translatable="false">pref_menus_appbar_refresh</string>
+	<string name="pref_menus_appbar_past_key" translatable="false">pref_menus_appbar_past</string>
+	<string name="pref_menus_appbar_submit_post_key" translatable="false">pref_menus_appbar_submit_post</string>
+	<string name="pref_menus_appbar_pin_key" translatable="false">pref_menus_appbar_pin</string>
+	<string name="pref_menus_appbar_block_key" translatable="false">pref_menus_appbar_block</string>
+	<string name="pref_menus_appbar_subscribe_key" translatable="false">pref_menus_appbar_subscribe</string>
+	<string name="pref_menus_appbar_sidebar_key" translatable="false">pref_menus_appbar_sidebar</string>
+	<string name="pref_menus_appbar_accounts_key" translatable="false">pref_menus_appbar_accounts</string>
+	<string name="pref_menus_appbar_theme_key" translatable="false">pref_menus_appbar_theme</string>
+	<string name="pref_menus_appbar_settings_key" translatable="false">pref_menus_appbar_settings</string>
+	<string name="pref_menus_appbar_close_all_key" translatable="false">pref_menus_appbar_close_all</string>
+	<string name="pref_menus_appbar_reply_key" translatable="false">pref_menus_appbar_reply</string>
+	<string name="pref_menus_appbar_search_key" translatable="false">pref_menus_appbar_search</string>
 
 </resources>

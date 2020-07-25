@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.jsonwrap;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
-import org.json.JSONObject;
 import org.quantumbadger.redreader.common.Consumer;
 
 import java.io.IOException;

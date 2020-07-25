@@ -58,11 +58,11 @@ import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.fragments.ImageInfoDialog;
+import org.quantumbadger.redreader.image.AlbumInfo;
 import org.quantumbadger.redreader.image.GetAlbumInfoListener;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
 import org.quantumbadger.redreader.image.GifDecoderThread;
 import org.quantumbadger.redreader.image.ImageInfo;
-import org.quantumbadger.redreader.image.ImgurAPI;
 import org.quantumbadger.redreader.reddit.prepared.RedditParsedPost;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
@@ -114,7 +114,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 	private RedditPost mPost;
 
 	private ImageInfo mImageInfo;
-	private ImgurAPI.AlbumInfo mAlbumInfo;
+	private AlbumInfo mAlbumInfo;
 	private int mAlbumImageIndex;
 
 	private FrameLayout mLayout;
@@ -149,10 +149,10 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 
 		mPost = intent.getParcelableExtra("post");
 
-		if(intent.hasExtra("album")) {
-			LinkHandler.getImgurAlbumInfo(
+		if(intent.hasExtra("albumUrl")) {
+			LinkHandler.getAlbumInfo(
 					this,
-					intent.getStringExtra("album"),
+					intent.getStringExtra("albumUrl"),
 					Constants.Priority.IMAGE_VIEW,
 					0,
 					new GetAlbumInfoListener() {
@@ -168,13 +168,10 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 						}
 
 						@Override
-						public void onSuccess(final ImgurAPI.AlbumInfo info) {
-							AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-								@Override
-								public void run() {
-									mAlbumInfo = info;
-									mAlbumImageIndex = intent.getIntExtra("albumImageIndex", 0);
-								}
+						public void onSuccess(final AlbumInfo info) {
+							AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+								mAlbumInfo = info;
+								mAlbumImageIndex = intent.getIntExtra("albumImageIndex", 0);
 							});
 						}
 					}

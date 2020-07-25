@@ -34,6 +34,7 @@ public final class ImgurAPIV3 {
 
 	public static void getAlbumInfo(
 			final Context context,
+			final String albumUrl,
 			final String albumId,
 			final int priority,
 			final int listId,
@@ -84,7 +85,7 @@ public final class ImgurAPIV3 {
 
 				try {
 					final JsonBufferedObject outer = result.asObject().getObject("data");
-					listener.onSuccess(ImgurAPI.AlbumInfo.parseV3(albumId, outer));
+					listener.onSuccess(AlbumInfo.parseImgurV3(albumUrl, outer));
 
 				} catch(Throwable t) {
 					listener.onFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "Imgur data parse failed");

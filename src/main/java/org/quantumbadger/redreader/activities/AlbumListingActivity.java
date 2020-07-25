@@ -30,10 +30,10 @@ import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.image.AlbumInfo;
 import org.quantumbadger.redreader.image.GetAlbumInfoListener;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
 import org.quantumbadger.redreader.image.ImageInfo;
-import org.quantumbadger.redreader.image.ImgurAPI;
 import org.quantumbadger.redreader.views.ScrollbarRecyclerViewManager;
 
 import java.util.regex.Matcher;
@@ -50,7 +50,7 @@ public class AlbumListingActivity extends BaseActivity {
 
 		super.onCreate(savedInstanceState);
 
-		setTitle(R.string.imgur_album);
+		setTitle(R.string.image_gallery);
 
 		final Intent intent = getIntent();
 
@@ -61,18 +61,7 @@ public class AlbumListingActivity extends BaseActivity {
 			return;
 		}
 
-		final Matcher matchImgur = LinkHandler.imgurAlbumPattern.matcher(mUrl);
-		final String albumId;
-
-		if(matchImgur.find()) {
-			albumId = matchImgur.group(2);
-		} else {
-			Log.e("AlbumListingActivity", "URL match failed");
-			revertToWeb();
-			return;
-		}
-
-		Log.i("AlbumListingActivity", "Loading URL " + mUrl + ", album id " + albumId);
+		Log.i("AlbumListingActivity", "Loading URL " + mUrl);
 
 		final ProgressBar progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
 		progressBar.setIndeterminate(true);
@@ -81,7 +70,7 @@ public class AlbumListingActivity extends BaseActivity {
 		layout.setOrientation(LinearLayout.VERTICAL);
 		layout.addView(progressBar);
 
-		LinkHandler.getImgurAlbumInfo(this, albumId, Constants.Priority.IMAGE_VIEW, 0, new GetAlbumInfoListener() {
+		LinkHandler.getAlbumInfo(this, mUrl, Constants.Priority.IMAGE_VIEW, 0, new GetAlbumInfoListener() {
 
 			@Override
 			public void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
@@ -90,63 +79,70 @@ public class AlbumListingActivity extends BaseActivity {
 				if(status != null) Log.e("AlbumListingActivity", "status was: " + status.toString());
 				if(t != null) Log.e("AlbumListingActivity", "exception was: ", t);
 
-				// It might be a single image, not an album
-
 				if(status == null) {
 					revertToWeb();
 					return;
 				}
 
-				LinkHandler.getImgurImageInfo(AlbumListingActivity.this, albumId, Constants.Priority.IMAGE_VIEW, 0, false, new GetImageInfoListener() {
-					@Override
-					public void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
-						Log.e("AlbumListingActivity", "Image info request also failed: " + type);
-						revertToWeb();
-					}
+				// It might be a single image, not an album
 
-					@Override
-					public void onSuccess(final ImageInfo info) {
-						Log.i("AlbumListingActivity", "Link was actually an image.");
-						LinkHandler.onLinkClicked(AlbumListingActivity.this, info.urlOriginal);
-						finish();
-					}
+				final Matcher matchImgur = LinkHandler.imgurAlbumPattern.matcher(mUrl);
 
-					@Override
-					public void onNotAnImage() {
-						Log.i("AlbumListingActivity", "Not an image either");
-						revertToWeb();
-					}
-				});
+				if(matchImgur.find()) {
+					final String albumId = matchImgur.group(2);
+
+					LinkHandler.getImgurImageInfo(AlbumListingActivity.this, albumId, Constants.Priority.IMAGE_VIEW, 0, false, new GetImageInfoListener() {
+						@Override
+						public void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
+							Log.e("AlbumListingActivity", "Image info request also failed: " + type);
+							revertToWeb();
+						}
+
+						@Override
+						public void onSuccess(final ImageInfo info) {
+							Log.i("AlbumListingActivity", "Link was actually an image.");
+							LinkHandler.onLinkClicked(AlbumListingActivity.this, info.urlOriginal);
+							finish();
+						}
+
+						@Override
+						public void onNotAnImage() {
+							Log.i("AlbumListingActivity", "Not an image either");
+							revertToWeb();
+						}
+					});
+
+				} else {
+					Log.e("AlbumListingActivity", "Not an imgur album, not checking for single image");
+					revertToWeb();
+				}
 			}
 
 			@Override
-			public void onSuccess(final ImgurAPI.AlbumInfo info) {
+			public void onSuccess(final AlbumInfo info) {
 				Log.i("AlbumListingActivity", "Got album, " + info.images.size() + " image(s)");
 
-				AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-					@Override
-					public void run() {
+				AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 
-						if(info.title != null && !info.title.trim().isEmpty()) {
-							setTitle(getString(R.string.imgur_album) + ": " + info.title);
-						}
+					if(info.title != null && !info.title.trim().isEmpty()) {
+						setTitle(getString(R.string.image_gallery) + ": " + info.title);
+					}
 
-						layout.removeAllViews();
+					layout.removeAllViews();
 
-						if(info.images.size() == 1) {
-							LinkHandler.onLinkClicked(AlbumListingActivity.this, info.images.get(0).urlOriginal);
-							finish();
+					if(info.images.size() == 1) {
+						LinkHandler.onLinkClicked(AlbumListingActivity.this, info.images.get(0).urlOriginal);
+						finish();
 
-						} else {
-							final ScrollbarRecyclerViewManager recyclerViewManager
-									= new ScrollbarRecyclerViewManager(AlbumListingActivity.this, null, false);
+					} else {
+						final ScrollbarRecyclerViewManager recyclerViewManager
+								= new ScrollbarRecyclerViewManager(AlbumListingActivity.this, null, false);
 
-							layout.addView(recyclerViewManager.getOuterView());
+						layout.addView(recyclerViewManager.getOuterView());
 
-							recyclerViewManager.getRecyclerView().setAdapter(new AlbumAdapter(
-									AlbumListingActivity.this,
-									info));
-						}
+						recyclerViewManager.getRecyclerView().setAdapter(new AlbumAdapter(
+								AlbumListingActivity.this,
+								info));
 					}
 				});
 			}

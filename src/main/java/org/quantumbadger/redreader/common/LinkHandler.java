@@ -49,6 +49,7 @@ import org.quantumbadger.redreader.activities.WebViewActivity;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.fragments.ShareOrderDialog;
 import org.quantumbadger.redreader.fragments.UserProfileDialog;
+import org.quantumbadger.redreader.image.AlbumInfo;
 import org.quantumbadger.redreader.image.DeviantArtAPI;
 import org.quantumbadger.redreader.image.GetAlbumInfoListener;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
@@ -56,6 +57,7 @@ import org.quantumbadger.redreader.image.GfycatAPI;
 import org.quantumbadger.redreader.image.ImageInfo;
 import org.quantumbadger.redreader.image.ImgurAPI;
 import org.quantumbadger.redreader.image.ImgurAPIV3;
+import org.quantumbadger.redreader.image.RedditGalleryAPI;
 import org.quantumbadger.redreader.image.RedditVideosAPI;
 import org.quantumbadger.redreader.image.RedgifsAPI;
 import org.quantumbadger.redreader.image.SaveImageCallback;
@@ -114,7 +116,7 @@ public class LinkHandler {
 			String url,
 			final boolean forceNoImage,
 			final RedditPost post,
-			final ImgurAPI.AlbumInfo albumInfo,
+			final AlbumInfo albumInfo,
 			final int albumImageIndex) {
 		onLinkClicked(activity, url, forceNoImage, post, albumInfo, albumImageIndex, false);
 	}
@@ -124,7 +126,7 @@ public class LinkHandler {
 			String url,
 			final boolean forceNoImage,
 			final RedditPost post,
-			final ImgurAPI.AlbumInfo albumInfo,
+			final AlbumInfo albumInfo,
 			final int albumImageIndex,
 			final boolean fromExternalIntent) {
 
@@ -168,7 +170,7 @@ public class LinkHandler {
 			intent.putExtra("post", post);
 
 			if(albumInfo != null) {
-				intent.putExtra("album", albumInfo.id);
+				intent.putExtra("albumUrl", albumInfo.url);
 				intent.putExtra("albumImageIndex", albumImageIndex);
 			}
 
@@ -176,7 +178,8 @@ public class LinkHandler {
 			return;
 		}
 
-		if(!forceNoImage && imgurAlbumPattern.matcher(url).matches()) {
+		if(!forceNoImage && (imgurAlbumPattern.matcher(url).matches()
+				|| redditGalleryPattern.matcher(url).matches())) {
 
 			final PrefsUtility.AlbumViewMode albumViewMode
 					= PrefsUtility.pref_behaviour_albumview_mode(activity, sharedPreferences);
@@ -448,6 +451,7 @@ public class LinkHandler {
 
 	public static final Pattern imgurPattern = Pattern.compile(".*[^A-Za-z]imgur\\.com/(\\w+).*"),
 			imgurAlbumPattern = Pattern.compile(".*[^A-Za-z]imgur\\.com/(a|gallery)/(\\w+).*"),
+			redditGalleryPattern = Pattern.compile(".*[^A-Za-z]reddit\\.com/gallery/(\\w+).*"),
 			qkmePattern1 = Pattern.compile(".*[^A-Za-z]qkme\\.me/(\\w+).*"),
 			qkmePattern2 = Pattern.compile(".*[^A-Za-z]quickmeme\\.com/meme/(\\w+).*"),
 			lvmePattern = Pattern.compile(".*[^A-Za-z]livememe\\.com/(\\w+).*"),
@@ -641,13 +645,14 @@ public class LinkHandler {
 		public abstract void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage);
 
 		@Override
-		public void onSuccess(final ImgurAPI.AlbumInfo info) {
+		public void onSuccess(final AlbumInfo info) {
 			mListener.onSuccess(info);
 		}
 	}
 
 	public static void getImgurAlbumInfo(
 			final Context context,
+			final String albumUrl,
 			final String albumId,
 			final int priority,
 			final int listId,
@@ -655,19 +660,19 @@ public class LinkHandler {
 
 		Log.i("getImgurAlbumInfo", "Album " + albumId + ": trying API v3 with auth");
 
-		ImgurAPIV3.getAlbumInfo(context, albumId, priority, listId, true, new AlbumInfoRetryListener(listener) {
+		ImgurAPIV3.getAlbumInfo(context, albumUrl, albumId, priority, listId, true, new AlbumInfoRetryListener(listener) {
 			@Override
 			public void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
 
 				Log.i("getImgurAlbumInfo", "Album " + albumId + ": trying API v3 without auth");
 
-				ImgurAPIV3.getAlbumInfo(context, albumId, priority, listId, false, new AlbumInfoRetryListener(listener) {
+				ImgurAPIV3.getAlbumInfo(context, albumUrl, albumId, priority, listId, false, new AlbumInfoRetryListener(listener) {
 					@Override
 					public void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
 
 						Log.i("getImgurAlbumInfo", "Album " + albumId + ": trying API v2");
 
-						ImgurAPI.getAlbumInfo(context, albumId, priority, listId, new AlbumInfoRetryListener(listener) {
+						ImgurAPI.getAlbumInfo(context, albumUrl, albumId, priority, listId, new AlbumInfoRetryListener(listener) {
 							@Override
 							public void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
 
@@ -680,6 +685,44 @@ public class LinkHandler {
 				});
 			}
 		});
+	}
+
+	public static void getAlbumInfo(
+			final Context context,
+			final String url,
+			final int priority,
+			final int listId,
+			final GetAlbumInfoListener listener) {
+
+		{
+			final Matcher matchImgur = imgurAlbumPattern.matcher(url);
+
+			if(matchImgur.find()) {
+				final String albumId = matchImgur.group(1);
+				if(albumId.length() > 2) {
+					getImgurAlbumInfo(context, url, albumId, priority, listId, listener);
+					return;
+				}
+			}
+		}
+
+		{
+			final Matcher matchReddit = redditGalleryPattern.matcher(url);
+
+			if(matchReddit.find()) {
+				final String albumId = matchReddit.group(1);
+				if(albumId.length() > 2) {
+					RedditGalleryAPI.getAlbumInfo(context, url, albumId, priority, listId, listener);
+					return;
+				}
+			}
+		}
+
+		listener.onFailure(
+				CacheRequest.REQUEST_FAILURE_MALFORMED_URL,
+				null,
+				null,
+				"Cannot parse '" + url + "' as an album URL");
 	}
 
 	public static void getImageInfo(

@@ -1226,4 +1226,7 @@
 	<!-- 2020-07-16 -->
 	<string name="copied_to_clipboard">Copied to clipboard</string>
 
+	<!-- 2020-07-25 -->
+	<string name="image_gallery">Gallery</string>
+
 </resources>

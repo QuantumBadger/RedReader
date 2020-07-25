@@ -142,25 +142,29 @@ public final class OptionsMenuUtility {
 
 			if(postsVisible && commentsVisible) {
 
-				final SubMenu sortMenu = menu.addSubMenu(R.string.options_sort);
-				sortMenu.getItem().setIcon(R.drawable.ic_sort_dark);
-				sortMenu.getItem().setShowAsAction(appbarItemsPrefs.get(AppbarItemsPref.SORT));
+				if(appbarItemsPrefs.get(AppbarItemsPref.SORT) != DO_NOT_SHOW) {
+					final SubMenu sortMenu = menu.addSubMenu(R.string.options_sort);
+					sortMenu.getItem().setIcon(R.drawable.ic_sort_dark);
+					sortMenu.getItem().setShowAsAction(appbarItemsPrefs.get(AppbarItemsPref.SORT));
 
-				if(postsSortable) {
-					if (areSearchResults)
-						addAllSearchSorts(activity, sortMenu, MenuItem.SHOW_AS_ACTION_NEVER);
-					else
-						addAllPostSorts(activity, sortMenu, MenuItem.SHOW_AS_ACTION_NEVER, !isUserPostListing, isFrontPage);
+					if(postsSortable) {
+						if(areSearchResults)
+							addAllSearchSorts(activity, sortMenu, MenuItem.SHOW_AS_ACTION_NEVER);
+						else
+							addAllPostSorts(activity, sortMenu, MenuItem.SHOW_AS_ACTION_NEVER, !isUserPostListing, isFrontPage);
+					}
+					if(commentsSortable) addAllCommentSorts(activity, sortMenu, MenuItem.SHOW_AS_ACTION_NEVER);
 				}
-				if(commentsSortable) addAllCommentSorts(activity, sortMenu, MenuItem.SHOW_AS_ACTION_NEVER);
 
-				final SubMenu pastMenu = menu.addSubMenu(R.string.options_past);
-				pastMenu.getItem().setIcon(R.drawable.ic_time_dark);
-				pastMenu.getItem().setShowAsAction(appbarItemsPrefs.get(AppbarItemsPref.PAST));
+				if(appbarItemsPrefs.get(AppbarItemsPref.PAST) != DO_NOT_SHOW) {
+					final SubMenu pastMenu = menu.addSubMenu(R.string.options_past);
+					pastMenu.getItem().setIcon(R.drawable.ic_time_dark);
+					pastMenu.getItem().setShowAsAction(appbarItemsPrefs.get(AppbarItemsPref.PAST));
 
-				add(activity, pastMenu, Option.PAST_POSTS);
-				if(pastCommentsSupported) {
-					add(activity, pastMenu, Option.PAST_COMMENTS);
+					add(activity, pastMenu, Option.PAST_POSTS);
+					if(pastCommentsSupported) {
+						add(activity, pastMenu, Option.PAST_COMMENTS);
+					}
 				}
 
 				add(activity, menu, Option.SEARCH_COMMENTS, appbarItemsPrefs.get(AppbarItemsPref.SEARCH), false);
@@ -175,13 +179,17 @@ public final class OptionsMenuUtility {
 				add(activity, menu, Option.PAST_POSTS, appbarItemsPrefs.get(AppbarItemsPref.PAST), false);
 			}
 
-			final SubMenu refreshMenu = menu.addSubMenu(R.string.options_refresh);
-			refreshMenu.getItem().setIcon(R.drawable.ic_refresh_dark);
-			refreshMenu.getItem().setShowAsAction(appbarItemsPrefs.get(AppbarItemsPref.REFRESH));
+			if(appbarItemsPrefs.get(AppbarItemsPref.REFRESH) != DO_NOT_SHOW) {
+				final SubMenu refreshMenu = menu.addSubMenu(R.string.options_refresh);
+				refreshMenu.getItem().setIcon(R.drawable.ic_refresh_dark);
+				refreshMenu.getItem().setShowAsAction(appbarItemsPrefs.get(AppbarItemsPref.REFRESH));
 
-			if(subredditsVisible) add(activity, refreshMenu, Option.REFRESH_SUBREDDITS);
+				if(subredditsVisible) add(activity, refreshMenu, Option.REFRESH_SUBREDDITS);
+				if(postsVisible) add(activity, refreshMenu, Option.REFRESH_POSTS);
+				if(commentsVisible) add(activity, refreshMenu, Option.REFRESH_COMMENTS);
+			}
+
 			if(postsVisible) {
-				add(activity, refreshMenu, Option.REFRESH_POSTS);
 				add(activity, menu, Option.SUBMIT_POST, appbarItemsPrefs.get(AppbarItemsPref.SUBMIT_POST), false);
 				add(activity, menu, Option.SEARCH, appbarItemsPrefs.get(AppbarItemsPref.SEARCH), false);
 
@@ -201,7 +209,6 @@ public final class OptionsMenuUtility {
 					add(activity, menu, Option.SIDEBAR, appbarItemsPrefs.get(AppbarItemsPref.SIDEBAR), false);
 				}
 			}
-			if(commentsVisible) add(activity, refreshMenu, Option.REFRESH_COMMENTS);
 		}
 
 		add(activity, menu, Option.ACCOUNTS, appbarItemsPrefs.get(AppbarItemsPref.ACCOUNTS), false);
@@ -584,6 +591,8 @@ public final class OptionsMenuUtility {
 			final boolean includeRising,
 			final boolean includeBest) {
 
+		if(showAsAction == DO_NOT_SHOW) return;
+
 		final SubMenu sortPosts = menu.addSubMenu(R.string.options_sort_posts);
 
 		if(showAsAction != MenuItem.SHOW_AS_ACTION_NEVER) {
@@ -611,6 +620,8 @@ public final class OptionsMenuUtility {
 
 	private static void addAllSearchSorts(final AppCompatActivity activity, final Menu menu, final int showAsAction) {
 
+		if(showAsAction == DO_NOT_SHOW) return;
+
 		final SubMenu sortPosts = menu.addSubMenu(R.string.options_sort_posts);
 
 		if(showAsAction != MenuItem.SHOW_AS_ACTION_NEVER) {
@@ -636,6 +647,8 @@ public final class OptionsMenuUtility {
 	}
 
 	private static void addAllCommentSorts(final AppCompatActivity activity, final Menu menu, final int showAsAction) {
+
+		if(showAsAction == DO_NOT_SHOW) return;
 
 		final SubMenu sortComments = menu.addSubMenu(R.string.options_sort_comments);
 
@@ -664,6 +677,8 @@ public final class OptionsMenuUtility {
 	}
 
 	private static void addAllUserCommentSorts(final AppCompatActivity activity, final Menu menu, final int showAsAction) {
+
+		if(showAsAction == DO_NOT_SHOW) return;
 
 		final SubMenu sortComments = menu.addSubMenu(R.string.options_sort_comments);
 

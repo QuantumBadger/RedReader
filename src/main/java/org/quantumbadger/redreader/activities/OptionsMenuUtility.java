@@ -201,6 +201,14 @@ public final class OptionsMenuUtility {
 					}
 				}
 
+				if(subredditBlocked != null) {
+					if(subredditBlocked) {
+						add(activity, menu, Option.UNBLOCK, appbarItemsPrefs.get(AppbarItemsPref.BLOCK), false);
+					} else {
+						add(activity, menu, Option.BLOCK, appbarItemsPrefs.get(AppbarItemsPref.BLOCK), false);
+					}
+				}
+
 				if(subredditSubscriptionState != null) {
 					addSubscriptionItem(activity, menu, appbarItemsPrefs.get(AppbarItemsPref.SUBSCRIBE), subredditSubscriptionState);
 				}

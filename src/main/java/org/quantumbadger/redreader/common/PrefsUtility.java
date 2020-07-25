@@ -889,7 +889,7 @@ public final class PrefsUtility {
 			new AppbarItemInfo(OptionsMenuUtility.AppbarItemsPref.BLOCK, R.string.pref_menus_appbar_block_key, MenuItem.SHOW_AS_ACTION_NEVER),
 			new AppbarItemInfo(OptionsMenuUtility.AppbarItemsPref.SUBSCRIBE, R.string.pref_menus_appbar_subscribe_key, MenuItem.SHOW_AS_ACTION_NEVER),
 			new AppbarItemInfo(OptionsMenuUtility.AppbarItemsPref.SIDEBAR, R.string.pref_menus_appbar_sidebar_key, MenuItem.SHOW_AS_ACTION_NEVER),
-			new AppbarItemInfo(OptionsMenuUtility.AppbarItemsPref.ACCOUNTS, R.string.pref_menus_appbar_accounts_key, MenuItem.SHOW_AS_ACTION_IF_ROOM),
+			new AppbarItemInfo(OptionsMenuUtility.AppbarItemsPref.ACCOUNTS, R.string.pref_menus_appbar_accounts_key, MenuItem.SHOW_AS_ACTION_NEVER),
 			new AppbarItemInfo(OptionsMenuUtility.AppbarItemsPref.THEME, R.string.pref_menus_appbar_theme_key, MenuItem.SHOW_AS_ACTION_NEVER),
 			new AppbarItemInfo(OptionsMenuUtility.AppbarItemsPref.SETTINGS, R.string.pref_menus_appbar_settings_key, MenuItem.SHOW_AS_ACTION_NEVER),
 			new AppbarItemInfo(OptionsMenuUtility.AppbarItemsPref.CLOSE_ALL, R.string.pref_menus_appbar_close_all_key, OptionsMenuUtility.DO_NOT_SHOW),

@@ -892,7 +892,7 @@ public class MainActivity extends RefreshableActivity
 
 		if(postsVisible
 				&& !user.isAnonymous()
-				&& postListingController.isSubreddit()
+				&& (postListingController.isSubreddit() || postListingController.isRandomSubreddit())
 				&& subredditSubscriptionManager.areSubscriptionsReady()
 				&& postListingFragment != null
 				&& postListingFragment.getSubreddit() != null) {
@@ -905,7 +905,7 @@ public class MainActivity extends RefreshableActivity
 		}
 
 		if(postsVisible
-				&& postListingController.isSubreddit()
+				&& (postListingController.isSubreddit() || postListingController.isRandomSubreddit())
 				&& postListingFragment != null
 				&& postListingFragment.getSubreddit() != null) {
 

@@ -1247,5 +1247,6 @@
 	<string name="pref_menus_appbar_close_all_key" translatable="false">pref_menus_appbar_close_all</string>
 	<string name="pref_menus_appbar_reply_key" translatable="false">pref_menus_appbar_reply</string>
 	<string name="pref_menus_appbar_search_key" translatable="false">pref_menus_appbar_search</string>
+	<string name="action_search_posts">Search Posts</string>
 
 </resources>

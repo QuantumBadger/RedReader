@@ -167,8 +167,14 @@ public final class OptionsMenuUtility {
 					}
 				}
 
-				add(activity, menu, Option.SEARCH_COMMENTS, appbarItemsPrefs.get(AppbarItemsPref.SEARCH), false);
+				if(appbarItemsPrefs.get(AppbarItemsPref.SEARCH) != DO_NOT_SHOW) {
+					final SubMenu searchMenu = menu.addSubMenu(Menu.NONE, Menu.NONE, 1, R.string.action_search);
+					searchMenu.getItem().setIcon(R.drawable.ic_search_dark);
+					searchMenu.getItem().setShowAsAction(appbarItemsPrefs.get(AppbarItemsPref.SEARCH));
 
+					add(activity, searchMenu, Option.SEARCH);
+					add(activity, searchMenu, Option.SEARCH_COMMENTS);
+				}
 			} else if(postsVisible) {
 				if(postsSortable) {
 					if (areSearchResults)
@@ -176,6 +182,7 @@ public final class OptionsMenuUtility {
 					else
 						addAllPostSorts(activity, menu, appbarItemsPrefs.get(AppbarItemsPref.SORT), !isUserPostListing, isFrontPage);
 				}
+				add(activity, menu, Option.SEARCH, appbarItemsPrefs.get(AppbarItemsPref.SEARCH), false);
 				add(activity, menu, Option.PAST_POSTS, appbarItemsPrefs.get(AppbarItemsPref.PAST), false);
 			}
 
@@ -191,7 +198,6 @@ public final class OptionsMenuUtility {
 
 			if(postsVisible) {
 				add(activity, menu, Option.SUBMIT_POST, appbarItemsPrefs.get(AppbarItemsPref.SUBMIT_POST), false);
-				add(activity, menu, Option.SEARCH, appbarItemsPrefs.get(AppbarItemsPref.SEARCH), false);
 
 				if(subredditPinned != null) {
 					if(subredditPinned) {
@@ -392,7 +398,7 @@ public final class OptionsMenuUtility {
 				break;
 
 			case SEARCH:
-				final MenuItem search = menu.add(Menu.NONE, Menu.NONE, 1, activity.getString(R.string.action_search))
+				final MenuItem search = menu.add(Menu.NONE, Menu.NONE, 1, activity.getString(longText ? R.string.action_search_posts : R.string.action_search))
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 							public boolean onMenuItemClick(final MenuItem item) {
 								if (activity instanceof OptionsMenuPostsListener) {
@@ -408,7 +414,7 @@ public final class OptionsMenuUtility {
 						});
 
 				search.setShowAsAction(showAsAction);
-				search.setIcon(R.drawable.ic_search_dark);
+				if(!longText) search.setIcon(R.drawable.ic_search_dark);
 
 				break;
 
@@ -426,7 +432,7 @@ public final class OptionsMenuUtility {
 						});
 
 				searchComments.setShowAsAction(showAsAction);
-				searchComments.setIcon(R.drawable.ic_search_dark);
+				if(!longText) searchComments.setIcon(R.drawable.ic_search_dark);
 
 				break;
 

@@ -71,7 +71,9 @@ public class CommentListingRequest {
 	public CommentListingRequest(
 			final Context context,
 			final CommentListingFragment fragment,
-			final AppCompatActivity activity, final RedditURLParser.RedditURL commentListingURL, final boolean parsePostSelfText,
+			final AppCompatActivity activity,
+			final RedditURLParser.RedditURL commentListingURL,
+			final boolean parsePostSelfText,
 			final RedditURLParser.RedditURL url,
 			final RedditAccount user,
 			final UUID session,

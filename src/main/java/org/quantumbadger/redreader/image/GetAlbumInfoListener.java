@@ -27,5 +27,5 @@ public interface GetAlbumInfoListener {
 		final Integer status,
 		final String readableMessage);
 
-	void onSuccess(ImgurAPI.AlbumInfo info);
+	void onSuccess(AlbumInfo info);
 }

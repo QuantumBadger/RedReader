@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.jsonwrap;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
+import org.quantumbadger.redreader.common.Consumer;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -252,5 +253,12 @@ public final class JsonBufferedArray extends JsonBuffered implements Iterable<Js
 
 	public int getCurrentItemCount() {
 		return items;
+	}
+
+	public void forEachObject(final Consumer<JsonBufferedObject> consumer) {
+
+		for(final JsonValue value : contents) {
+			consumer.consume(value.asObject());
+		}
 	}
 }

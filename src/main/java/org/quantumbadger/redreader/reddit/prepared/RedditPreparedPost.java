@@ -221,6 +221,11 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 					menu.add(new RPVMenuItem(activity, R.string.action_downvote_remove, Action.UNVOTE));
 				}
 			}
+		}
+
+		if(itemPref.contains(Action.COMMENTS)) menu.add(new RPVMenuItem(activity, R.string.action_comments, Action.COMMENTS));
+
+		if(!RedditAccountManager.getInstance(activity).getDefaultAccount().isAnonymous()) {
 
 			if(itemPref.contains(Action.SAVE)) {
 				if(!post.isSaved()) {

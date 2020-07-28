@@ -442,6 +442,24 @@ public class MainActivity extends RefreshableActivity
 							existingPrecacheCommentsPreference
 					).apply();
 				}
+
+				if(lastVersion <= 91) {
+					//Upgrading from 91/1.11 or lower, add "View Comments" post context menu item
+
+					final Set<String> existingPostContextItems = PrefsUtility.getStringSet(
+							R.string.pref_menus_post_context_items_key,
+							R.array.pref_menus_post_context_items_return,
+							this,
+							sharedPreferences
+					);
+
+					existingPostContextItems.add("comments");
+
+					sharedPreferences.edit().putStringSet(
+							getString(R.string.pref_menus_post_context_items_key),
+							existingPostContextItems
+					).apply();
+				}
 			}
 
 		} else {

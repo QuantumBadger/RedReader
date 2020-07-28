@@ -65,6 +65,8 @@ public final class RedditPostView extends FlingableItemView implements RedditPre
 	private final PrefsUtility.PostFlingAction mLeftFlingPref, mRightFlingPref;
 	private ActionDescriptionPair mLeftFlingAction, mRightFlingAction;
 
+	private final boolean mCommentsButtonPref;
+
 	private final int
 			rrPostTitleReadCol,
 			rrPostTitleCol,
@@ -229,8 +231,16 @@ public final class RedditPostView extends FlingableItemView implements RedditPre
 
 		title = (TextView) rootView.findViewById(R.id.reddit_post_title);
 		subtitle = (TextView) rootView.findViewById(R.id.reddit_post_subtitle);
+
+		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+		mCommentsButtonPref = PrefsUtility.appearance_post_show_comments_button(context, sharedPreferences);
+
 		commentsButton = (LinearLayout) rootView.findViewById(R.id.reddit_post_comments_button);
 		commentsText = (TextView) commentsButton.findViewById(R.id.reddit_post_comments_text);
+
+		if(!mCommentsButtonPref) {
+			mOuterView.removeView(commentsButton);
+		}
 
 		if(leftHandedMode) {
 			final ArrayList<View> outerViewElements = new ArrayList<View>(3);
@@ -243,25 +253,28 @@ public final class RedditPostView extends FlingableItemView implements RedditPre
 				mOuterView.addView(outerViewElements.get(i));
 			}
 
-			mOuterView.setNextFocusLeftId(commentsButton.getId());
 			mOuterView.setNextFocusRightId(NO_ID);
+			if (mCommentsButtonPref) {
+				mOuterView.setNextFocusLeftId(commentsButton.getId());
 
-			commentsButton.setNextFocusForwardId(R.id.reddit_post_layout);
-			commentsButton.setNextFocusRightId(R.id.reddit_post_layout);
-			commentsButton.setNextFocusLeftId(NO_ID);
+				commentsButton.setNextFocusForwardId(R.id.reddit_post_layout);
+				commentsButton.setNextFocusRightId(R.id.reddit_post_layout);
+				commentsButton.setNextFocusLeftId(NO_ID);
+			}
 		}
 
-		commentsButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(final View v) {
-				fragmentParent.onPostCommentsSelected(post);
-			}
-		});
+		if(mCommentsButtonPref) {
+			commentsButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(final View v) {
+					fragmentParent.onPostCommentsSelected(post);
+				}
+			});
+		}
 
 		title.setTextSize(TypedValue.COMPLEX_UNIT_PX, title.getTextSize() * titleFontScale);
 		subtitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, subtitle.getTextSize() * subtitleFontScale);
 
-		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 		mLeftFlingPref = PrefsUtility.pref_behaviour_fling_post_left(context, sharedPreferences);
 		mRightFlingPref = PrefsUtility.pref_behaviour_fling_post_right(context, sharedPreferences);
 
@@ -294,7 +307,7 @@ public final class RedditPostView extends FlingableItemView implements RedditPre
 			thumbnailView.setImageBitmap(thumbnail);
 
 			title.setText(data.src.getTitle());
-			commentsText.setText(String.valueOf(data.src.getSrc().num_comments));
+			if(mCommentsButtonPref) commentsText.setText(String.valueOf(data.src.getSrc().num_comments));
 
 			if(data.hasThumbnail) {
 				thumbnailView.setVisibility(VISIBLE);
@@ -318,12 +331,12 @@ public final class RedditPostView extends FlingableItemView implements RedditPre
 
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			mOuterView.setBackgroundResource(R.drawable.rr_postlist_item_selector_main);
-			commentsButton.setBackgroundResource(R.drawable.rr_postlist_commentbutton_selector_main);
+			if(mCommentsButtonPref) commentsButton.setBackgroundResource(R.drawable.rr_postlist_commentbutton_selector_main);
 
 		} else {
 			// On KitKat and lower, we can't do easily themed highlighting
 			mOuterView.setBackgroundColor(rrListItemBackgroundCol);
-			commentsButton.setBackgroundColor(rrPostCommentsButtonBackCol);
+			if(mCommentsButtonPref) commentsButton.setBackgroundColor(rrPostCommentsButtonBackCol);
 		}
 
 		if(post.isRead()) {

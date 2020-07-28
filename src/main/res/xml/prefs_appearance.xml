@@ -88,6 +88,11 @@
 			android:defaultValue="@array/pref_appearance_post_subtitle_items_default" />
 
 		<CheckBoxPreference
+				android:title="@string/pref_appearance_post_show_comments_button_title"
+				android:key="@string/pref_appearance_post_show_comments_button_key"
+				android:defaultValue="true"/>
+
+		<CheckBoxPreference
 				android:title="@string/pref_appearance_hide_headertoolbar_postlist_title"
 				android:key="@string/pref_appearance_hide_headertoolbar_postlist_key"
 				android:defaultValue="false"/>

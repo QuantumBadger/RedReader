@@ -35,21 +35,21 @@
     <string name="pref_appearance_twopane_title">Tabulkomputila reĝimo (du fenestroj)</string>
     <string name="pref_appearance_theme_title">Etoso</string>
     <string name="pref_appearance_solidblack_title">Glata nigro en nokta reĝimo</string>
-    <string name="pref_appearance_fontscale_posts_title">Skali tiparon de afiŝoj</string>
+    <string name="pref_appearance_fontscale_posts_title">Titoloj de afiŝoj</string>
     <string name="pref_appearance_fontscale_comments_title">Skali tiparon de komentoj</string>
     <string name="pref_appearance_thumbnails_show_title">Montri miniaturojn</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">Montri maldecajn miniaturojn</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Miniaturoj nur per vifio</string>
     <string name="pref_appearance_loading_detail_title">Montri detalajn sciigojn pri ŝargado</string>
-    <string name="pref_appearance_comment_header_items_title">Koment-kapo</string>
+    <string name="pref_appearance_comment_header_items_title">Eroj de koment-kapo</string>
     <!-- Behaviour Prefs -->
     <string name="pref_behaviour_notifications_title">Sciigoj</string>
     <string name="pref_behaviour_actions_post_header">Agoj de afiŝoj</string>
     <string name="pref_behaviour_actions_comment_header">Agoj de komentoj</string>
     <string name="pref_behaviour_posts_header">Afiŝoj</string>
-    <string name="pref_behaviour_fling_post_left_title">Ago je fingrumi afiŝon maldekstren</string>
-    <string name="pref_behaviour_fling_post_right_title">Ago je fingrumi afiŝon dekstren</string>
-    <string name="pref_behaviour_actions_comment_tap_title">Ago je frapeti komenton</string>
+    <string name="pref_behaviour_fling_post_left_title">Fingrumi maldekstren</string>
+    <string name="pref_behaviour_fling_post_right_title">Fingrumi dekstren</string>
+    <string name="pref_behaviour_actions_comment_tap_title">Frapeti</string>
     <string name="pref_behaviour_nsfw_title">Montri maldecan (NTPL) enhavon</string>
     <!-- Cache Prefs -->
     <string name="pref_cache_pruning">Pritondado de kaŝmemoro</string>
@@ -60,8 +60,8 @@
     <string name="pref_cache_precache_images_title">Antaŭŝargi bildojn</string>
     <string name="pref_cache_precache_images_wifionly_title">Nur per vifio</string>
     <!-- Menu Prefs -->
-    <string name="pref_menus_post_context_items_title">Elementoj de afiŝa kuntekst-menuo</string>
-    <string name="pref_menus_post_toolbar_items_title">Elementoj de afiŝa ilobreto</string>
+    <string name="pref_menus_post_context_items_title">Frapetadi elementon de menuo</string>
+    <string name="pref_menus_post_toolbar_items_title">Elementoj de flanka ilarstrio</string>
     <!-- Options Menu -->
     <string name="options_accounts">Kontoj</string>
     <string name="options_accounts_long">Reddit-kontoj</string>
@@ -319,7 +319,7 @@
     <string name="action_search">Serĉi</string>
     <string name="search_subreddit_restrict">Limigi serĉadon al</string>
     <string name="title_changelog">Kio estas nova</string>
-    <string name="pref_behaviour_commentsort">Implicita ordigo de komentoj</string>
+    <string name="pref_behaviour_commentsort">Komentoj (implicita)</string>
     <!-- 2013-05-18 -->
     <string name="action_fling_disabled">Malaktiva</string>
     <string name="pref_about_version_title">Versio</string>
@@ -338,7 +338,7 @@
     <!-- 2013-07-26 -->
     <string name="pref_behaviour_useinternalbrowser_title">Uzi internan vidigilon</string>
     <!-- 2013-07-29 -->
-    <string name="pref_appearance_linkbuttons_title">Montri ligilajn butonoj</string>
+    <string name="pref_appearance_linkbuttons_title">Montri butonojn de ligiloj</string>
     <!-- 2013-08-04 -->
     <string name="pref_appearance_indentlines_title">Montri krommarĝenajn liniojn</string>
     <!-- 2014-03-14 -->
@@ -369,7 +369,7 @@
     <string name="options_unsubscribing">Malabonigado…</string>
     <string name="options_sidebar">Montri flankan breton</string>
     <!-- 2014-04-13 -->
-    <string name="pref_menus_mainmenu_useritems_title">Elementoj de ĉefmenuo de uzanto</string>
+    <string name="pref_menus_mainmenu_useritems_title">Elementoj de uzanto</string>
     <string name="mainmenu_submitted">Publikigitaj afiŝoj</string>
     <string name="mainmenu_downvoted">Kontraŭ-voĉdonitaj afiŝoj</string>
     <string name="mainmenu_modmail">Retletero al kontrolanto</string>
@@ -427,10 +427,10 @@
     <string name="screen_orientation_landscape">Horizontala</string>
     <!-- 2015-06-28 -->
     <string name="options_close_all">Fermi ĉiujn</string>
-    <string name="pref_menus_optionsmenu_items_title">Elementoj de agord-menuo</string>
+    <string name="pref_menus_optionsmenu_items_title">Elementoj de tripunkta menuo</string>
     <!-- 2015-07-05 -->
-    <string name="pref_behaviour_bezel_toolbar_header">Randa strio</string>
-    <string name="pref_behaviour_bezel_toolbar_swipezone_title">Larĝo de ŝovum-zono de randa strio</string>
+    <string name="pref_behaviour_bezel_toolbar_header">Randa ilarstrio</string>
+    <string name="pref_behaviour_bezel_toolbar_swipezone_title">Larĝo de ŝovum-zono de randa ilarstrio</string>
     <string name="pref_behaviour_gifview_mode_title">GIF-vidigilo</string>
     <string name="pref_behaviour_gifview_mode_internal_movie">Interna vidigilo (Movie, Android 4.0+)</string>
     <string name="pref_behaviour_gifview_mode_internal_legacy">Interna vidigilo (malnova)</string>
@@ -441,7 +441,7 @@
     <string name="action_delete">Forigi</string>
     <string name="delete_confirm">Ĉu vi certe volas forigi tiun ĉi?</string>
     <string name="delete_success">Sukcese forigis. La elemento estos plue videbla ĝis aktualigo.</string>
-    <string name="pref_appearance_hide_username_main_menu_title">Kaŝi uzantnomon en ĉefmenuo</string>
+    <string name="pref_appearance_hide_username_main_menu_title">Kaŝi uzantnomon</string>
     <string name="mainmenu_useritems">Elementoj de uzanto</string>
     <!-- 2015-09-13 -->
     <string name="selected_link_is_not_image">La elektita ligilo ne estas bildo.</string>
@@ -484,7 +484,7 @@
     <string name="unblock_done">Redditero malblokita. Estontaj vizitoj al /r/all ampleksos tiun ĉi redditeron.</string>
     <!-- 2016-03-14-->
     <string name="pref_behaviour_comments_header">Komentoj</string>
-    <string name="pref_behaviour_comment_min_title">Minimuma komenta poentaro</string>
+    <string name="pref_behaviour_comment_min_title">Minimuma poentaro de komento</string>
     <string name="pref_behaviour_comment_min_dialog_title">Maletendi komenton, kies poentaro malsuperas (forviŝu por montri ĉiujn)</string>
     <!-- 2016-04-02 -->
     <string name="open_with">Malfermi per</string>
@@ -523,7 +523,7 @@
     <!-- 2016-06-30 -->
     <string name="inbox_unread_only">Nur nelegitaj mesaĝoj</string>
     <!-- 2016-07-02 -->
-    <string name="pref_behaviour_actions_comment_longclick_title">Ago je frapetadi komenton</string>
+    <string name="pref_behaviour_actions_comment_longclick_title">Frapetadi</string>
     <string name="no_comments_yet">Ankoraŭ senkomente.</string>
     <!-- 2016-07-09 -->
     <string name="pm_send_hint_recipient">Ricevonto</string>
@@ -538,15 +538,15 @@
     <string name="submit_comment_actionbar">Publikigi komenton</string>
     <string name="edit_comment_actionbar">Redakti komenton</string>
     <!-- 2016-07-16 -->
-    <string name="pref_behaviour_fling_comment_left_title">Ago je fingrumi komenton maldekstren</string>
-    <string name="pref_behaviour_fling_comment_right_title">Ago je fingrumi komenton dekstren</string>
+    <string name="pref_behaviour_fling_comment_left_title">Fingrumi maldekstren</string>
+    <string name="pref_behaviour_fling_comment_right_title">Fingrumi dekstren</string>
     <!-- 2016-07-17 -->
     <string name="comment_header_search_thread_title">Vi nuntempe vidas serĉ-rezultojn por koment-fadeno.</string>
     <string name="no_search_results">Neniu frazo trovita.</string>
     <!-- 2016-07-24 -->
     <string name="action_search_comments">Serĉi komentojn</string>
     <!-- 2016-07-29 -->
-    <string name="pref_appearance_navbar_color_title">Koloro de naviga breto</string>
+    <string name="pref_appearance_navbar_color_title">Koloro de naviga kaj stata ilarstrioj</string>
     <string name="pref_appearance_navbar_color_option_black">Nigra</string>
     <string name="pref_appearance_navbar_color_option_primary">Ĉefa (hela)</string>
     <string name="pref_appearance_navbar_color_option_primarydark">Ĉefa (malhela)</string>
@@ -554,7 +554,7 @@
     <!-- 2016-08-03 -->
     <string name="action_copy_text">Kopii tekston</string>
     <string name="action_copy_link">Kopii ligilon</string>
-    <string name="pref_behaviour_postsort">Implicita ordigo de afiŝoj</string>
+    <string name="pref_behaviour_postsort">Afiŝoj (implicite)</string>
     <!-- 2016-08-06 -->
     <string name="mainmenu_custom_destination">Propra loko</string>
     <string name="mainmenu_custom_destination_subreddit">Redditero</string>
@@ -568,26 +568,26 @@
     <string name="error_cache_dir_does_not_exist_title">Kaŝmemora dosierujo mankas</string>
     <string name="error_cache_dir_does_not_exist_message">La kaŝmemora dosierujo ne povas esti atingita. Bonvolu elekti alian lokon en agordoj de kaŝmemoro.</string>
     <!-- 2016-08-15 -->
-    <string name="pref_behaviour_pinned_subredditsort">Ordigo de alpinglitaj redditeroj</string>
+    <string name="pref_behaviour_pinned_subredditsort">Alpinglitaj redditeroj</string>
     <string name="sort_pinned_subreddit_name">Laŭ nomo</string>
     <string name="sort_pinned_subreddit_date">Laŭ dato de aldono</string>
     <!-- 2016-09-01 -->
     <string name="load_more_comments_failed_unknown_url_type">Ne povas ŝargi pliajn komentojn: nekonata URL-tipo.</string>
     <!-- 2016-09-04 -->
     <string name="pref_appearance_image_viewer_header">Bild-vidigilo</string>
-    <string name="pref_appearance_image_viewer_show_floating_toolbar_title">Montri glitan ilobreton sur bildo</string>
+    <string name="pref_appearance_image_viewer_show_floating_toolbar_title">Montri glitajn butonojn sur bildoj kaj filmoj</string>
     <string name="pref_appearance_link_text_clickable_title">Fari ligilan tekston klakebla</string>
     <!-- 2016-09-07 -->
-    <string name="pref_appearance_hide_android_status_title">Kaŝi androidan ilobreton</string>
+    <string name="pref_appearance_hide_android_status_title">Kaŝi statan strion</string>
     <!-- 2016-09-08 -->
     <string name="pref_behaviour_enable_swipe_refresh_title">Ŝovumu malsupren por aktualigi</string>
     <!-- 2016-09-10 -->
     <string name="mainmenu_header_subreddits_blocked">Blokitaj redditeroj</string>
-    <string name="pref_behaviour_blocked_subredditsort">Ordigo de blokitaj redditeroj</string>
+    <string name="pref_behaviour_blocked_subredditsort">Blokitaj redditeroj</string>
     <string name="sort_blocked_subreddit_name">Laŭ nomo</string>
     <string name="sort_blocked_subreddit_date">Laŭ dato de bloko</string>
     <!-- 2016-09-21 -->
-    <string name="pref_appearance_show_blocked_subreddits_main_menu_title">Montri blokitajn redditerojn en ĉefmenuo</string>
+    <string name="pref_appearance_show_blocked_subreddits_main_menu_title">Montri blokitajn redditerojn</string>
     <!-- 2016-10-02 -->
     <string name="pref_cache_rerequest_postlist_age_title">Aktualigi afiŝojn se kaŝmemoro pli malnova ol</string>
     <string name="time_2hr">2 horoj</string>
@@ -612,7 +612,7 @@
     <!-- 2017-02-23 -->
     <string name="action_back">Reen</string>
     <!-- 2017-03-02 -->
-    <string name="pref_menus_link_context_items_title">Elementoj de ligila kuntekst-menuo</string>
+    <string name="pref_menus_link_context_items_title">Elementoj de la menuo frapetadi ligilon</string>
     <!-- 2017-03-07 -->
     <string name="pref_menus_subreddit_context_items_title">Elementoj de redditera kuntekst-menuo</string>
     <string name="mainmenu_toast_not_subscribed">Vi ankoraŭ ne abonas tiun ĉi redditeron!</string>

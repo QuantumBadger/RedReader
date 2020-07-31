@@ -426,10 +426,10 @@
     <string name="screen_orientation_landscape">Horizontal</string>
     <!-- 2015-06-28 -->
     <string name="options_close_all">Cerrar todos</string>
-    <string name="pref_menus_optionsmenu_items_title">Opciones de los elementos del menú</string>
+    <string name="pref_menus_optionsmenu_items_title">Opciones del menú</string>
     <!-- 2015-07-05 -->
-    <string name="pref_behaviour_bezel_toolbar_header">Marco de la barra de herramientas</string>
-    <string name="pref_behaviour_bezel_toolbar_swipezone_title">Tamaño del marco de la zona de la barra de herramientas de desplazamiento</string>
+    <string name="pref_behaviour_bezel_toolbar_header">Barra lateral de publicaciones</string>
+    <string name="pref_behaviour_bezel_toolbar_swipezone_title">Tamaño de zona deslizable para abrir barra lateral de publicaciones</string>
     <string name="pref_behaviour_gifview_mode_title">Visor de GIF</string>
     <string name="pref_behaviour_gifview_mode_internal_movie">Visor interno (Movie, Android 4.0+)</string>
     <string name="pref_behaviour_gifview_mode_internal_legacy">Visor interno (Legacy)</string>
@@ -440,7 +440,7 @@
     <string name="action_delete">Eliminar</string>
     <string name="delete_confirm">¿Estás seguro de que quieres eliminarlo?</string>
     <string name="delete_success">Eliminado exitosamente. El elemento seguirá visible hasta que actualices.</string>
-    <string name="pref_appearance_hide_username_main_menu_title">Esconder el nombre de usuario en el menú principal</string>
+    <string name="pref_appearance_hide_username_main_menu_title">Esconder nombre de usuario</string>
     <string name="mainmenu_useritems">Elementos del usuario</string>
     <!-- 2015-09-13 -->
     <string name="selected_link_is_not_image">El enlace seleccionado no es una imagen.</string>
@@ -450,7 +450,7 @@
     <string name="album_already_first_image">Ya es la primera imagen del álbum.</string>
     <string name="album_already_last_image">Ya es la última imagen del álbum.</string>
     <string name="upgrade_v190_login_message">RedReader se ha actualizado y ahora utiliza oAuth para la identificación en Reddit. Si no te habías identificado antes de actualizar, ahora estás desconectado.</string>
-    <string name="pref_behaviour_videoview_mode_title">Visor de vídeo</string>
+    <string name="pref_behaviour_videoview_mode_title">Visor de video</string>
     <string name="pref_behaviour_videoview_mode_internal_videoview">Visor de vídeo interno (recommendado)</string>
     <string name="pref_behaviour_videoview_mode_external_app_vlc">Aplicación externa: VLC</string>
     <string name="videoview_mode_app_vlc_launch_failed">Error al lanzar VLC. Por favor, actualiza VLC o cambia tu configuración del visor de vídeo.</string>
@@ -460,7 +460,7 @@
     <!-- 2015-10-16 -->
     <string name="sort_comments_qa">Q&amp;A</string>
     <!-- 2015-10-31 -->
-    <string name="pref_behaviour_gallery_swipe_length_title">Duración del cambio en la galería</string>
+    <string name="pref_behaviour_gallery_swipe_length_title">Largo de deslizamiento en galería</string>
     <!-- 2015-11-19 -->
     <string name="pref_cache_precache_comments_header">Precargar comentarios</string>
     <string name="pref_cache_precache_comments_title">Cargar comentarios en caché</string>
@@ -483,7 +483,7 @@
     <string name="unblock_done">Subreddit desbloqueado. Las próximas visitas a /r/all incluirán este subreddit.</string>
     <!-- 2016-03-14-->
     <string name="pref_behaviour_comments_header">Comentarios</string>
-    <string name="pref_behaviour_comment_min_title">Votos mínimos de comentarios</string>
+    <string name="pref_behaviour_comment_min_title">Puntaje mínimo de comentarios</string>
     <string name="pref_behaviour_comment_min_dialog_title">Oculta los comentarios si sus votos son menores (en blanco muestra todos)</string>
     <!-- 2016-04-02 -->
     <string name="open_with">Abrir con</string>
@@ -522,7 +522,7 @@
     <!-- 2016-06-30 -->
     <string name="inbox_unread_only">Sólo mensajes sin leer</string>
     <!-- 2016-07-02 -->
-    <string name="pref_behaviour_actions_comment_longclick_title">Acción al dejar pulsado un comentario</string>
+    <string name="pref_behaviour_actions_comment_longclick_title">Pulsación larga</string>
     <string name="no_comments_yet">Aún sin comentarios.</string>
     <!-- 2016-07-09 -->
     <string name="pm_send_hint_recipient">Receptor</string>
@@ -537,15 +537,15 @@
     <string name="submit_comment_actionbar">Enviar Comentario</string>
     <string name="edit_comment_actionbar">Editar Comentario</string>
     <!-- 2016-07-16 -->
-    <string name="pref_behaviour_fling_comment_left_title">Acción al desplazar comentario a la izquierda</string>
-    <string name="pref_behaviour_fling_comment_right_title">Acción al desplazar comentario a la derecha</string>
+    <string name="pref_behaviour_fling_comment_left_title">Desplazar a la izquierda</string>
+    <string name="pref_behaviour_fling_comment_right_title">Desplazar a la derecha</string>
     <!-- 2016-07-17 -->
     <string name="comment_header_search_thread_title">Estás viendo los resultados de búsqueda para un hilo de comentarios.</string>
     <string name="no_search_results">No hay resultados de búsqueda.</string>
     <!-- 2016-07-24 -->
     <string name="action_search_comments">Buscar comentarios</string>
     <!-- 2016-07-29 -->
-    <string name="pref_appearance_navbar_color_title">Color de la barra de navegación</string>
+    <string name="pref_appearance_navbar_color_title">Color de barras de navegación y estado</string>
     <string name="pref_appearance_navbar_color_option_black">Negro</string>
     <string name="pref_appearance_navbar_color_option_primary">Primario (claro)</string>
     <string name="pref_appearance_navbar_color_option_primarydark">Primario (oscuro)</string>
@@ -553,7 +553,7 @@
     <!-- 2016-08-03 -->
     <string name="action_copy_text">Copiar texto</string>
     <string name="action_copy_link">Copiar enlace</string>
-    <string name="pref_behaviour_postsort">Orden de publicaciones por defecto</string>
+    <string name="pref_behaviour_postsort">Publicaciones (por defecto)</string>
     <!-- 2016-08-06 -->
     <string name="mainmenu_custom_destination">Ubicación personalizada</string>
     <string name="mainmenu_custom_destination_subreddit">Subreddit</string>
@@ -567,26 +567,26 @@
     <string name="error_cache_dir_does_not_exist_title">El directorio de caché no existe</string>
     <string name="error_cache_dir_does_not_exist_message">No se pudo acceder al directorio de caché. Por favor elige una ubicación diferente en los ajustes de caché.</string>
     <!-- 2016-08-15 -->
-    <string name="pref_behaviour_pinned_subredditsort">Orden de subreddits fijos</string>
+    <string name="pref_behaviour_pinned_subredditsort">Subreddits fijados</string>
     <string name="sort_pinned_subreddit_name">Por nombre</string>
     <string name="sort_pinned_subreddit_date">Por fecha de adición</string>
     <!-- 2016-09-01 -->
     <string name="load_more_comments_failed_unknown_url_type">No se pueden cargar más comentarios: tipo de URL desconocido.</string>
     <!-- 2016-09-04 -->
     <string name="pref_appearance_image_viewer_header">Visor de imágenes</string>
-    <string name="pref_appearance_image_viewer_show_floating_toolbar_title">Mostrar barra flotante sobre la imagen</string>
+    <string name="pref_appearance_image_viewer_show_floating_toolbar_title">Mostrar botones flotantes sobre imagen y video</string>
     <string name="pref_appearance_link_text_clickable_title">Permitir clic sobre el texto de enlaces</string>
     <!-- 2016-09-07 -->
-    <string name="pref_appearance_hide_android_status_title">Ocultar la barra de estado de Android</string>
+    <string name="pref_appearance_hide_android_status_title">Ocultar la barra de estado</string>
     <!-- 2016-09-08 -->
     <string name="pref_behaviour_enable_swipe_refresh_title">Deslizar hacia abajo para actualizar</string>
     <!-- 2016-09-10 -->
     <string name="mainmenu_header_subreddits_blocked">Subreddits bloqueados</string>
-    <string name="pref_behaviour_blocked_subredditsort">Orden de subreddits bloqueados</string>
+    <string name="pref_behaviour_blocked_subredditsort">Subreddits bloqueados</string>
     <string name="sort_blocked_subreddit_name">Por nombre</string>
     <string name="sort_blocked_subreddit_date">Por fecha de adición</string>
     <!-- 2016-09-21 -->
-    <string name="pref_appearance_show_blocked_subreddits_main_menu_title">Mostrar subreddits bloqueados en el menú principal</string>
+    <string name="pref_appearance_show_blocked_subreddits_main_menu_title">Mostrar subreddits bloqueados</string>
     <!-- 2016-10-02 -->
     <string name="pref_cache_rerequest_postlist_age_title">Actualizar publicaciones si la cache tiene más de</string>
     <string name="time_2hr">2 horas</string>
@@ -611,7 +611,7 @@
     <!-- 2017-02-23 -->
     <string name="action_back">Volver</string>
     <!-- 2017-03-07 -->
-    <string name="pref_menus_subreddit_context_items_title">Elementos de Menú Contextual del Subreddit</string>
+    <string name="pref_menus_subreddit_context_items_title">Elementos de menú contextual del subreddit</string>
     <string name="mainmenu_toast_not_subscribed">¡Aún no te has suscrito a este subreddit!</string>
     <string name="mainmenu_toast_subscribed">¡Ya estás suscrito a este subreddit!</string>
     <string name="mainmenu_toast_not_pinned">¡Este subreddit no ha sido fijado al menú principal!</string>
@@ -632,7 +632,7 @@
     <!-- 2017-05-08 -->
     <string name="button_next_comment_parent">Comentario padre siguiente</string>
     <string name="button_prev_comment_parent">Comentario padre anterior</string>
-    <string name="pref_appearance_comments_show_floating_toolbar_title">Mostrar barra flotante sobre los comentarios</string>
+    <string name="pref_appearance_comments_show_floating_toolbar_title">Mostrar botones de navegación sobre los comentarios</string>
     <!--2017-05-08-->
     <string name="download_link_title">Descargar archivo</string>
     <string name="download_link_message">Esto es un enlace de descarga. ¿Deseas abrir esto en un navegador externo?</string>

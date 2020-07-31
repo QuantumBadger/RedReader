@@ -35,21 +35,21 @@
     <string name="pref_appearance_twopane_title">Modo tableta (dos paneles)</string>
     <string name="pref_appearance_theme_title">Tema</string>
     <string name="pref_appearance_solidblack_title">Negro sólido en modo noche</string>
-    <string name="pref_appearance_fontscale_posts_title">Tamaño en publicaciones</string>
+    <string name="pref_appearance_fontscale_posts_title">Títulos de publicaciones</string>
     <string name="pref_appearance_fontscale_comments_title">Tamaño en comentarios</string>
     <string name="pref_appearance_thumbnails_show_title">Mostrar miniaturas</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">Mostrar miniaturas NSFW</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Miniaturas sólo con Wi-Fi</string>
     <string name="pref_appearance_loading_detail_title">Mensajes de carga detallados</string>
-    <string name="pref_appearance_comment_header_items_title">Cabecera de los comentarios</string>
+    <string name="pref_appearance_comment_header_items_title">Cabecera de comentarios</string>
     <!-- Behaviour Prefs -->
     <string name="pref_behaviour_notifications_title">Notificaciones</string>
     <string name="pref_behaviour_actions_post_header">Acciones sobre las publicaciones</string>
     <string name="pref_behaviour_actions_comment_header">Acciones sobre comentarios</string>
     <string name="pref_behaviour_posts_header">Publicaciones</string>
-    <string name="pref_behaviour_fling_post_left_title">Deslizar hacia la izquierda</string>
-    <string name="pref_behaviour_fling_post_right_title">Deslizar hacia la derecha</string>
-    <string name="pref_behaviour_actions_comment_tap_title">Toque sobre un comentario</string>
+    <string name="pref_behaviour_fling_post_left_title">Deslizar a la izquierda</string>
+    <string name="pref_behaviour_fling_post_right_title">Deslizar a la derecha</string>
+    <string name="pref_behaviour_actions_comment_tap_title">Acción al presionar</string>
     <string name="pref_behaviour_nsfw_title">Mostrar contenido NSFW</string>
     <!-- Cache Prefs -->
     <string name="pref_cache_pruning">Limpieza de caché</string>
@@ -60,8 +60,8 @@
     <string name="pref_cache_precache_images_title">Guardar previamente imágenes en la caché</string>
     <string name="pref_cache_precache_images_wifionly_title">Sólo con Wi-Fi</string>
     <!-- Menu Prefs -->
-    <string name="pref_menus_post_context_items_title">Menú de las publicaciones</string>
-    <string name="pref_menus_post_toolbar_items_title">Barra lateral de las publicaciones</string>
+    <string name="pref_menus_post_context_items_title">Pulsación larga en ítems del menú</string>
+    <string name="pref_menus_post_toolbar_items_title">Ítems de la barra lateral</string>
     <!-- Options Menu -->
     <string name="options_accounts">Cuentas</string>
     <string name="options_accounts_long">Cuentas de Reddit</string>
@@ -320,7 +320,7 @@
     <string name="action_search">Buscar</string>
     <string name="search_subreddit_restrict">Restringir búsqueda a</string>
     <string name="title_changelog">Novedades</string>
-    <string name="pref_behaviour_commentsort">Orden de comentarios por defecto</string>
+    <string name="pref_behaviour_commentsort">Comentarios (por defecto)</string>
     <!-- 2013-05-18 -->
     <string name="action_fling_disabled">Desactivado</string>
     <string name="pref_about_version_title">Versión</string>
@@ -370,7 +370,7 @@
     <string name="options_unsubscribing">Cancelando la subscripción…</string>
     <string name="options_sidebar">Ver barra lateral</string>
     <!-- 2014-04-13 -->
-    <string name="pref_menus_mainmenu_useritems_title">Usuario en menú principal</string>
+    <string name="pref_menus_mainmenu_useritems_title">Ítems de usuario</string>
     <string name="mainmenu_submitted">Publicaciones enviadas</string>
     <string name="mainmenu_downvoted">Publicaciones votadas negativamente</string>
     <string name="mainmenu_modmail">Mensajes de moderadores</string>

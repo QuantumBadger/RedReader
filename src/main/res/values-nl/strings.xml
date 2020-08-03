@@ -35,7 +35,7 @@
     <string name="pref_appearance_twopane_title">Tabletmodus (twee panelen)</string>
     <string name="pref_appearance_theme_title">Thema</string>
     <string name="pref_appearance_solidblack_title">Effen zwart in nachtmodus</string>
-    <string name="pref_appearance_fontscale_posts_title">Tekengrootte posts</string>
+    <string name="pref_appearance_fontscale_posts_title">Post titels</string>
     <string name="pref_appearance_fontscale_comments_title">Tekengrootte reacties</string>
     <string name="pref_appearance_thumbnails_show_title">Thumbnails weergeven</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">NSFW-thumbnails weergeven</string>
@@ -47,9 +47,9 @@
     <string name="pref_behaviour_actions_post_header">Post-acties</string>
     <string name="pref_behaviour_actions_comment_header">Reactie-acties</string>
     <string name="pref_behaviour_posts_header">Posts</string>
-    <string name="pref_behaviour_fling_post_left_title">Actie bij links vegen post</string>
-    <string name="pref_behaviour_fling_post_right_title">Actie bij rechts vegen post</string>
-    <string name="pref_behaviour_actions_comment_tap_title">Tik-actie reacties</string>
+    <string name="pref_behaviour_fling_post_left_title">Links vegen</string>
+    <string name="pref_behaviour_fling_post_right_title">Rechts vegen</string>
+    <string name="pref_behaviour_actions_comment_tap_title">Druk-actie</string>
     <string name="pref_behaviour_nsfw_title">NSFW-inhoud weergeven</string>
     <!-- Cache Prefs -->
     <string name="pref_cache_pruning">Cache opruiming</string>
@@ -61,8 +61,8 @@
     <string name="pref_cache_precache_images_title">Afbeeldingen precachen</string>
     <string name="pref_cache_precache_images_wifionly_title">Alleen via wifi</string>
     <!-- Menu Prefs -->
-    <string name="pref_menus_post_context_items_title">Onderdelen postcontextmenu</string>
-    <string name="pref_menus_post_toolbar_items_title">Onderdelen postwerkbalk</string>
+    <string name="pref_menus_post_context_items_title">Lang-drukken menu lijst</string>
+    <string name="pref_menus_post_toolbar_items_title">Onderdelen zijwerkbalk</string>
     <!-- Options Menu -->
     <string name="options_accounts">Accounts</string>
     <string name="options_accounts_long">Reddit-accounts</string>
@@ -321,7 +321,7 @@
     <string name="action_search">Zoeken</string>
     <string name="search_subreddit_restrict">Zoekopdracht beperken tot</string>
     <string name="title_changelog">Wat is er nieuw</string>
-    <string name="pref_behaviour_commentsort">Standaardsortering reacties</string>
+    <string name="pref_behaviour_commentsort">Reacties (standaard)</string>
     <!-- 2013-05-18 -->
     <string name="action_fling_disabled">Uitgeschakeld</string>
     <string name="pref_about_version_title">Versie</string>
@@ -371,7 +371,7 @@
     <string name="options_unsubscribing">Uitschrijven…</string>
     <string name="options_sidebar">Zijbalk weergeven</string>
     <!-- 2014-04-13 -->
-    <string name="pref_menus_mainmenu_useritems_title">Onderdelen hoofdmenu</string>
+    <string name="pref_menus_mainmenu_useritems_title">Gebruikersonderdelen</string>
     <string name="mainmenu_submitted">Geplaatste posts</string>
     <string name="mainmenu_downvoted">Gedownvote posts</string>
     <string name="mainmenu_modmail">Mod Mail</string>

@@ -1249,4 +1249,7 @@
 	<string name="pref_menus_appbar_search_key" translatable="false">pref_menus_appbar_search</string>
 	<string name="action_search_posts">Search Posts</string>
 
+	<!-- 2020-07-25 -->
+	<string name="image_gallery">Gallery</string>
+
 </resources>

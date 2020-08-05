@@ -281,8 +281,8 @@
     <string name="subtitle_points">分</string>
     <string name="subtitle_by">发表自</string>
     <plurals name="subtitle_replies">
-        <item quantity="one">...(%d个回复)</item>
-        <item quantity="other"/>
+        <item quantity="one">(%d 条回复)</item>
+        <item quantity="other"></item>
     </plurals>
     <string name="general_unknown">不明</string>
     <string name="action_search">搜索</string>

@@ -39,13 +39,13 @@ import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Set;
 
 public final class PrefsUtility {
@@ -868,17 +868,17 @@ public final class PrefsUtility {
 	}
 
 	private static class AppbarItemInfo {
-		final Enum<OptionsMenuUtility.AppbarItemsPref> itemPref;
+		final OptionsMenuUtility.AppbarItemsPref itemPref;
 		final int stringRes, defaultValue;
 
-		AppbarItemInfo(final Enum<OptionsMenuUtility.AppbarItemsPref> itemPref, final int stringRes, final int defaultValue) {
+		AppbarItemInfo(final OptionsMenuUtility.AppbarItemsPref itemPref, final int stringRes, final int defaultValue) {
 			this.itemPref = itemPref;
 			this.stringRes = stringRes;
 			this.defaultValue = defaultValue;
 		}
 	}
 
-	public static Map<Enum<OptionsMenuUtility.AppbarItemsPref>, Integer> pref_menus_appbar_items(final Context context, final SharedPreferences sharedPreferences) {
+	public static EnumMap<OptionsMenuUtility.AppbarItemsPref, Integer> pref_menus_appbar_items(final Context context, final SharedPreferences sharedPreferences) {
 
 		final AppbarItemInfo[] appbarItemsInfo = new AppbarItemInfo[] {
 			new AppbarItemInfo(OptionsMenuUtility.AppbarItemsPref.SORT, R.string.pref_menus_appbar_sort_key, MenuItem.SHOW_AS_ACTION_ALWAYS),
@@ -898,7 +898,7 @@ public final class PrefsUtility {
 		};
 
 
-		Map<Enum<OptionsMenuUtility.AppbarItemsPref>, Integer> appbarItemsPrefs = new HashMap<>();
+		EnumMap<OptionsMenuUtility.AppbarItemsPref, Integer> appbarItemsPrefs = new EnumMap<>(OptionsMenuUtility.AppbarItemsPref.class);
 
 		for(AppbarItemInfo item : appbarItemsInfo) {
 			try {
@@ -911,7 +911,6 @@ public final class PrefsUtility {
 			}
 		}
 
-		appbarItemsPrefs = Collections.unmodifiableMap(appbarItemsPrefs);
 		return appbarItemsPrefs;
 	}
 

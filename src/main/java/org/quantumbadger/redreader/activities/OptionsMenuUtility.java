@@ -41,6 +41,7 @@ import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.reddit.url.UserCommentListingURL;
 import org.quantumbadger.redreader.settings.SettingsActivity;
 
+import java.util.EnumMap;
 import java.util.Map;
 
 public final class OptionsMenuUtility {
@@ -89,7 +90,7 @@ public final class OptionsMenuUtility {
 			final Boolean subredditBlocked) {
 
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
-		final Map<AppbarItemsPref, Integer> appbarItemsPrefs = PrefsUtility.pref_menus_appbar_items(activity, preferences);
+		final EnumMap<AppbarItemsPref, Integer> appbarItemsPrefs = PrefsUtility.pref_menus_appbar_items(activity, preferences);
 
 		if(subredditsVisible && !postsVisible && !commentsVisible) {
 			add(activity, menu, Option.REFRESH_SUBREDDITS, getOrThrow(appbarItemsPrefs, AppbarItemsPref.REFRESH), false);
@@ -241,8 +242,7 @@ public final class OptionsMenuUtility {
 
 		add(activity, menu, Option.CLOSE_ALL, getOrThrow(appbarItemsPrefs, AppbarItemsPref.CLOSE_ALL), false);
 
-		//Will be called from CommentListingFragment (after potentially adding the Reply button) if comments are shown
-		if(!commentsVisible) pruneMenu(activity, menu, appbarItemsPrefs, !subredditsVisible);
+		pruneMenu(activity, menu, appbarItemsPrefs, !subredditsVisible);
 	}
 
 	public static void pruneMenu(final Activity activity, final Menu menu, final Map<AppbarItemsPref, Integer> appbarItemsPrefs, final boolean backButtonShown) {
@@ -325,7 +325,7 @@ public final class OptionsMenuUtility {
 
 		switch(option) {
 
-			case ACCOUNTS:
+			case ACCOUNTS: {
 				final MenuItem accounts = menu.add(Menu.NONE, AppbarItemsPref.ACCOUNTS.ordinal(), Menu.NONE, R.string.options_accounts).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 					public boolean onMenuItemClick(final MenuItem item) {
 						new AccountListDialog().show(activity.getSupportFragmentManager(), null);
@@ -337,8 +337,8 @@ public final class OptionsMenuUtility {
 				accounts.setIcon(R.drawable.ic_accounts_dark);
 
 				break;
-
-			case SETTINGS:
+			}
+			case SETTINGS: {
 				final MenuItem settings = menu.add(Menu.NONE, AppbarItemsPref.SETTINGS.ordinal(), Menu.NONE, R.string.options_settings).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 					public boolean onMenuItemClick(final MenuItem item) {
 						final Intent intent = new Intent(activity, SettingsActivity.class);
@@ -351,8 +351,8 @@ public final class OptionsMenuUtility {
 				settings.setIcon(R.drawable.ic_settings_dark);
 
 				break;
-
-			case CLOSE_ALL:
+			}
+			case CLOSE_ALL: {
 				if(!(activity instanceof MainActivity)) {
 					final MenuItem closeAll = menu.add(Menu.NONE, AppbarItemsPref.CLOSE_ALL.ordinal(), Menu.NONE, R.string.options_close_all).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 						public boolean onMenuItemClick(final MenuItem item) {
@@ -365,8 +365,8 @@ public final class OptionsMenuUtility {
 					closeAll.setIcon(R.drawable.ic_action_cross_dark);
 				}
 				break;
-
-			case THEMES:
+			}
+			case THEMES: {
 				final MenuItem themes = menu.add(Menu.NONE, AppbarItemsPref.THEME.ordinal(), Menu.NONE, R.string.options_theme).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 					public boolean onMenuItemClick(final MenuItem item) {
 
@@ -407,8 +407,8 @@ public final class OptionsMenuUtility {
 				themes.setIcon(R.drawable.ic_themes_dark);
 
 				break;
-
-			case REFRESH_SUBREDDITS:
+			}
+			case REFRESH_SUBREDDITS: {
 				final MenuItem refreshSubreddits = menu.add(Menu.NONE, AppbarItemsPref.REFRESH.ordinal(), Menu.NONE, R.string.options_refresh_subreddits)
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 							public boolean onMenuItemClick(final MenuItem item) {
@@ -421,8 +421,8 @@ public final class OptionsMenuUtility {
 				if(!longText) refreshSubreddits.setIcon(R.drawable.ic_refresh_dark);
 
 				break;
-
-			case REFRESH_POSTS:
+			}
+			case REFRESH_POSTS: {
 				final MenuItem refreshPosts = menu.add(Menu.NONE, AppbarItemsPref.REFRESH.ordinal(), Menu.NONE, R.string.options_refresh_posts)
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 							public boolean onMenuItemClick(final MenuItem item) {
@@ -435,8 +435,8 @@ public final class OptionsMenuUtility {
 				if(!longText) refreshPosts.setIcon(R.drawable.ic_refresh_dark);
 
 				break;
-
-			case SUBMIT_POST:
+			}
+			case SUBMIT_POST: {
 				final MenuItem submitPost = menu.add(Menu.NONE, AppbarItemsPref.SUBMIT_POST.ordinal(), Menu.NONE, R.string.options_submit_post)
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 							public boolean onMenuItemClick(final MenuItem item) {
@@ -449,8 +449,8 @@ public final class OptionsMenuUtility {
 				submitPost.setIcon(R.drawable.ic_action_send_dark);
 
 				break;
-
-			case SEARCH:
+			}
+			case SEARCH: {
 				final MenuItem search = menu.add(Menu.NONE, AppbarItemsPref.SEARCH.ordinal(), 1, activity.getString(longText ? R.string.action_search_posts : R.string.action_search))
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 							public boolean onMenuItemClick(final MenuItem item) {
@@ -470,8 +470,8 @@ public final class OptionsMenuUtility {
 				if(!longText) search.setIcon(R.drawable.ic_search_dark);
 
 				break;
-
-			case SEARCH_COMMENTS:
+			}
+			case SEARCH_COMMENTS: {
 				final MenuItem searchComments = menu.add(Menu.NONE, AppbarItemsPref.SEARCH.ordinal(), 1, activity.getString(R.string.action_search_comments))
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 							@Override
@@ -488,8 +488,8 @@ public final class OptionsMenuUtility {
 				if(!longText) searchComments.setIcon(R.drawable.ic_search_dark);
 
 				break;
-
-			case REFRESH_COMMENTS:
+			}
+			case REFRESH_COMMENTS: {
 				final MenuItem refreshComments = menu.add(Menu.NONE, AppbarItemsPref.REFRESH.ordinal(), Menu.NONE, R.string.options_refresh_comments)
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 							public boolean onMenuItemClick(final MenuItem item) {
@@ -502,8 +502,8 @@ public final class OptionsMenuUtility {
 				if(!longText) refreshComments.setIcon(R.drawable.ic_refresh_dark);
 
 				break;
-
-			case PAST_POSTS:
+			}
+			case PAST_POSTS: {
 				final MenuItem pastPosts = menu.add(Menu.NONE, AppbarItemsPref.PAST.ordinal(), Menu.NONE, longText ? R.string.options_past_posts : R.string.options_past)
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 							public boolean onMenuItemClick(final MenuItem item) {
@@ -518,8 +518,8 @@ public final class OptionsMenuUtility {
 				}
 
 				break;
-
-			case PAST_COMMENTS:
+			}
+			case PAST_COMMENTS: {
 				final MenuItem pastComments = menu.add(Menu.NONE, AppbarItemsPref.PAST.ordinal(), Menu.NONE, longText ? R.string.options_past_comments : R.string.options_past)
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 							public boolean onMenuItemClick(final MenuItem item) {
@@ -534,8 +534,8 @@ public final class OptionsMenuUtility {
 				}
 
 				break;
-
-			case SUBSCRIBE:
+			}
+			case SUBSCRIBE: {
 				final MenuItem subscribe = menu.add(Menu.NONE, AppbarItemsPref.SUBSCRIBE.ordinal(), Menu.NONE, R.string.options_subscribe)
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 							public boolean onMenuItemClick(final MenuItem item) {
@@ -548,8 +548,8 @@ public final class OptionsMenuUtility {
 				subscribe.setIcon(R.drawable.star_off_dark);
 
 				break;
-
-			case UNSUBSCRIBE:
+			}
+			case UNSUBSCRIBE: {
 				final MenuItem unsubscribe = menu.add(Menu.NONE, AppbarItemsPref.SUBSCRIBE.ordinal(), Menu.NONE, R.string.options_unsubscribe)
 					.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 						public boolean onMenuItemClick(final MenuItem item) {
@@ -562,8 +562,8 @@ public final class OptionsMenuUtility {
 				unsubscribe.setIcon(R.drawable.star_dark);
 
 				break;
-
-			case UNSUBSCRIBING:
+			}
+			case UNSUBSCRIBING: {
 				final MenuItem unsubscribing = menu.add(Menu.NONE, AppbarItemsPref.SUBSCRIBE.ordinal(), Menu.NONE, R.string.options_unsubscribing).setEnabled(false);
 
 				// TODO Somehow use a ButtonLoadingSpinnerView here or something?
@@ -571,8 +571,8 @@ public final class OptionsMenuUtility {
 				unsubscribing.setIcon(R.drawable.ic_loading_dark);
 
 				break;
-
-			case SUBSCRIBING:
+			}
+			case SUBSCRIBING: {
 				final MenuItem subscribing = menu.add(Menu.NONE, AppbarItemsPref.SUBSCRIBE.ordinal(), Menu.NONE, R.string.options_subscribing).setEnabled(false);
 
 				// TODO Somehow use a ButtonLoadingSpinnerView here or something?
@@ -580,8 +580,8 @@ public final class OptionsMenuUtility {
 				subscribing.setIcon(R.drawable.ic_loading_dark);
 
 				break;
-
-			case SIDEBAR:
+			}
+			case SIDEBAR: {
 				final MenuItem sidebar = menu.add(Menu.NONE, AppbarItemsPref.SIDEBAR.ordinal(), Menu.NONE, R.string.options_sidebar).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 					public boolean onMenuItemClick(final MenuItem item) {
 						((OptionsMenuPostsListener) activity).onSidebar();
@@ -593,8 +593,8 @@ public final class OptionsMenuUtility {
 				sidebar.setIcon(R.drawable.ic_action_info_dark);
 
 				break;
-
-			case PIN:
+			}
+			case PIN: {
 				final MenuItem pin = menu.add(Menu.NONE, AppbarItemsPref.PIN.ordinal(), Menu.NONE, R.string.pin_subreddit).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 					public boolean onMenuItemClick(final MenuItem item) {
 						((OptionsMenuPostsListener) activity).onPin();
@@ -606,8 +606,8 @@ public final class OptionsMenuUtility {
 				pin.setIcon(R.drawable.pin_off_dark);
 
 				break;
-
-			case UNPIN:
+			}
+			case UNPIN: {
 				final MenuItem unpin = menu.add(Menu.NONE, AppbarItemsPref.PIN.ordinal(), Menu.NONE, R.string.unpin_subreddit).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 					public boolean onMenuItemClick(final MenuItem item) {
 						((OptionsMenuPostsListener)activity).onUnpin();
@@ -619,8 +619,8 @@ public final class OptionsMenuUtility {
 				unpin.setIcon(R.drawable.pin_dark);
 
 				break;
-
-			case BLOCK:
+			}
+			case BLOCK: {
 				final MenuItem block = menu.add(Menu.NONE, AppbarItemsPref.BLOCK.ordinal(), Menu.NONE, R.string.block_subreddit).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 					public boolean onMenuItemClick(final MenuItem item) {
 						((OptionsMenuPostsListener)activity).onBlock();
@@ -632,8 +632,8 @@ public final class OptionsMenuUtility {
 				block.setIcon(R.drawable.ic_block_off_dark);
 
 				break;
-
-			case UNBLOCK:
+			}
+			case UNBLOCK: {
 				final MenuItem unblock = menu.add(Menu.NONE, AppbarItemsPref.BLOCK.ordinal(), Menu.NONE, R.string.unblock_subreddit).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 					public boolean onMenuItemClick(final MenuItem item) {
 						((OptionsMenuPostsListener)activity).onUnblock();
@@ -645,7 +645,7 @@ public final class OptionsMenuUtility {
 				unblock.setIcon(R.drawable.ic_block_dark);
 
 				break;
-
+			}
 			default:
 				BugReportActivity.handleGlobalError(activity, "Unknown menu option added");
 		}

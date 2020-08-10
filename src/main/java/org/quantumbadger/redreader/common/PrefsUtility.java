@@ -906,7 +906,7 @@ public final class PrefsUtility {
 						Integer.toString(item.defaultValue),
 						context,
 						sharedPreferences)));
-			} catch(Throwable e) {
+			} catch(final NumberFormatException | NullPointerException e) {
 				appbarItemsPrefs.put(item.itemPref, item.defaultValue);
 			}
 		}

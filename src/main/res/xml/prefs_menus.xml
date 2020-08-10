@@ -68,14 +68,14 @@
 						android:entryValues="@array/pref_menus_appbar_items_return"
 						android:defaultValue="0"/>
 
-		<ListPreference android:title="@string/block_subreddit"
-						android:key="@string/pref_menus_appbar_block_key"
+		<ListPreference android:title="@string/options_subscribe"
+						android:key="@string/pref_menus_appbar_subscribe_key"
 						android:entries="@array/pref_menus_appbar_items"
 						android:entryValues="@array/pref_menus_appbar_items_return"
 						android:defaultValue="0"/>
 
-		<ListPreference android:title="@string/options_subscribe"
-						android:key="@string/pref_menus_appbar_subscribe_key"
+		<ListPreference android:title="@string/block_subreddit"
+						android:key="@string/pref_menus_appbar_block_key"
 						android:entries="@array/pref_menus_appbar_items"
 						android:entryValues="@array/pref_menus_appbar_items_return"
 						android:defaultValue="0"/>

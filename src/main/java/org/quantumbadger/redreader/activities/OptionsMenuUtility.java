@@ -47,7 +47,7 @@ import java.util.Map;
 public final class OptionsMenuUtility {
 
 	public enum AppbarItemsPref {
-		SORT, REFRESH, PAST, SUBMIT_POST, PIN, BLOCK, SUBSCRIBE, SIDEBAR, ACCOUNTS, THEME, SETTINGS, CLOSE_ALL, REPLY, SEARCH
+		SORT, REFRESH, PAST, SUBMIT_POST, PIN, SUBSCRIBE, BLOCK, SIDEBAR, ACCOUNTS, THEME, SETTINGS, CLOSE_ALL, REPLY, SEARCH
 	}
 
 	public static final int DO_NOT_SHOW = -1;
@@ -116,16 +116,16 @@ public final class OptionsMenuUtility {
 				}
 			}
 
-			if (subredditBlocked != null) {
+			if(subredditSubscriptionState != null) {
+				addSubscriptionItem(activity, menu, getOrThrow(appbarItemsPrefs, AppbarItemsPref.SUBSCRIBE), subredditSubscriptionState);
+			}
+
+			if(subredditBlocked != null) {
 				if(subredditBlocked) {
 					add(activity, menu, Option.UNBLOCK, getOrThrow(appbarItemsPrefs, AppbarItemsPref.BLOCK), false);
 				} else {
 					add(activity, menu, Option.BLOCK, getOrThrow(appbarItemsPrefs, AppbarItemsPref.BLOCK), false);
 				}
-			}
-
-			if(subredditSubscriptionState != null) {
-				addSubscriptionItem(activity, menu, getOrThrow(appbarItemsPrefs, AppbarItemsPref.SUBSCRIBE), subredditSubscriptionState);
 			}
 
 			if(subredditHasSidebar) {
@@ -146,7 +146,6 @@ public final class OptionsMenuUtility {
 		} else {
 
 			if(postsVisible && commentsVisible) {
-
 				if(getOrThrow(appbarItemsPrefs, AppbarItemsPref.SORT) != DO_NOT_SHOW) {
 					final SubMenu sortMenu = menu.addSubMenu(Menu.NONE, AppbarItemsPref.SORT.ordinal(), Menu.NONE, R.string.options_sort);
 					sortMenu.getItem().setIcon(R.drawable.ic_sort_dark);
@@ -160,7 +159,26 @@ public final class OptionsMenuUtility {
 					}
 					if(commentsSortable) addAllCommentSorts(activity, sortMenu, MenuItem.SHOW_AS_ACTION_NEVER);
 				}
+			} else if(postsVisible) {
+				if(postsSortable) {
+					if (areSearchResults)
+						addAllSearchSorts(activity, menu, getOrThrow(appbarItemsPrefs, AppbarItemsPref.SORT));
+					else
+						addAllPostSorts(activity, menu, getOrThrow(appbarItemsPrefs, AppbarItemsPref.SORT), !isUserPostListing, isFrontPage);
+				}
+			}
 
+			if(getOrThrow(appbarItemsPrefs, AppbarItemsPref.REFRESH) != DO_NOT_SHOW) {
+				final SubMenu refreshMenu = menu.addSubMenu(Menu.NONE, AppbarItemsPref.REFRESH.ordinal(), Menu.NONE, R.string.options_refresh);
+				refreshMenu.getItem().setIcon(R.drawable.ic_refresh_dark);
+				refreshMenu.getItem().setShowAsAction(handleShowAsActionIfRoom(getOrThrow(appbarItemsPrefs, AppbarItemsPref.REFRESH)));
+
+				if(subredditsVisible) add(activity, refreshMenu, Option.REFRESH_SUBREDDITS);
+				if(postsVisible) add(activity, refreshMenu, Option.REFRESH_POSTS);
+				if(commentsVisible) add(activity, refreshMenu, Option.REFRESH_COMMENTS);
+			}
+
+			if(postsVisible && commentsVisible) {
 				if(getOrThrow(appbarItemsPrefs, AppbarItemsPref.PAST) != DO_NOT_SHOW) {
 					final SubMenu pastMenu = menu.addSubMenu(Menu.NONE, AppbarItemsPref.PAST.ordinal(), Menu.NONE, R.string.options_past);
 					pastMenu.getItem().setIcon(R.drawable.ic_time_dark);
@@ -181,24 +199,8 @@ public final class OptionsMenuUtility {
 					add(activity, searchMenu, Option.SEARCH_COMMENTS);
 				}
 			} else if(postsVisible) {
-				if(postsSortable) {
-					if (areSearchResults)
-						addAllSearchSorts(activity, menu, getOrThrow(appbarItemsPrefs, AppbarItemsPref.SORT));
-					else
-						addAllPostSorts(activity, menu, getOrThrow(appbarItemsPrefs, AppbarItemsPref.SORT), !isUserPostListing, isFrontPage);
-				}
 				add(activity, menu, Option.SEARCH, getOrThrow(appbarItemsPrefs, AppbarItemsPref.SEARCH), false);
 				add(activity, menu, Option.PAST_POSTS, getOrThrow(appbarItemsPrefs, AppbarItemsPref.PAST), false);
-			}
-
-			if(getOrThrow(appbarItemsPrefs, AppbarItemsPref.REFRESH) != DO_NOT_SHOW) {
-				final SubMenu refreshMenu = menu.addSubMenu(Menu.NONE, AppbarItemsPref.REFRESH.ordinal(), Menu.NONE, R.string.options_refresh);
-				refreshMenu.getItem().setIcon(R.drawable.ic_refresh_dark);
-				refreshMenu.getItem().setShowAsAction(handleShowAsActionIfRoom(getOrThrow(appbarItemsPrefs, AppbarItemsPref.REFRESH)));
-
-				if(subredditsVisible) add(activity, refreshMenu, Option.REFRESH_SUBREDDITS);
-				if(postsVisible) add(activity, refreshMenu, Option.REFRESH_POSTS);
-				if(commentsVisible) add(activity, refreshMenu, Option.REFRESH_COMMENTS);
 			}
 
 			if(postsVisible) {
@@ -212,16 +214,16 @@ public final class OptionsMenuUtility {
 					}
 				}
 
+				if(subredditSubscriptionState != null) {
+					addSubscriptionItem(activity, menu, getOrThrow(appbarItemsPrefs, AppbarItemsPref.SUBSCRIBE), subredditSubscriptionState);
+				}
+
 				if(subredditBlocked != null) {
 					if(subredditBlocked) {
 						add(activity, menu, Option.UNBLOCK, getOrThrow(appbarItemsPrefs, AppbarItemsPref.BLOCK), false);
 					} else {
 						add(activity, menu, Option.BLOCK, getOrThrow(appbarItemsPrefs, AppbarItemsPref.BLOCK), false);
 					}
-				}
-
-				if(subredditSubscriptionState != null) {
-					addSubscriptionItem(activity, menu, getOrThrow(appbarItemsPrefs, AppbarItemsPref.SUBSCRIBE), subredditSubscriptionState);
 				}
 
 				if(subredditHasSidebar) {

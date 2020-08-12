@@ -1,2 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="pref_appearance_twopane_title">Tablet modu (iki pencere)</string>
+    <string name="pref_appearance_other_header">Diğer</string>
+    <string name="pref_appearance_comments_header">Yorumlar</string>
+    <string name="pref_appearance_thumbnails_header">Önizleme görseli</string>
+    <string name="pref_appearance_theme_header">Tema</string>
+    <string name="prefs_category_menus">Menüler</string>
+    <string name="prefs_category_cache">Önbellek</string>
+    <string name="prefs_category_behaviour">Davranış</string>
+    <string name="prefs_category_appearance">Görünüş</string>
+    <string name="firstrun_login_button_later">Anonim ol</string>
+    <string name="firstrun_login_button_now">Şimdi oturum aç</string>
+    <string name="firstrun_login_message">Şu an oturum açtın. Menüden Hesapları seçerek hesabına girebilirsin.</string>
+    <string name="firstrun_login_title">Oturum Aç</string>
+</resources>

@@ -911,4 +911,83 @@
 		<item>8.0</item>
 	</string-array>
 
+	<!-- 2020-08-17 -->
+
+	<string-array name="pref_behaviour_user_postsort_array">
+		<item>@string/sort_posts_hot</item>
+		<item>@string/sort_posts_new</item>
+		<item>@string/sort_posts_controversial</item>
+		<item>@string/sort_posts_top_hour</item>
+		<item>@string/sort_posts_top_today</item>
+		<item>@string/sort_posts_top_week</item>
+		<item>@string/sort_posts_top_month</item>
+		<item>@string/sort_posts_top_year</item>
+		<item>@string/sort_posts_top_all</item>
+	</string-array>
+
+	<!-- Constants. Do not change. -->
+	<string-array name="pref_behaviour_user_postsort_array_return">
+		<item>hot</item>
+		<item>new</item>
+		<item>controversial</item>
+		<item>top_hour</item>
+		<item>top_day</item>
+		<item>top_week</item>
+		<item>top_month</item>
+		<item>top_year</item>
+		<item>top_all</item>
+	</string-array>
+
+	<string-array name="pref_behaviour_multi_postsort_array">
+		<item>@string/sort_posts_hot</item>
+		<item>@string/sort_posts_new</item>
+		<item>@string/sort_posts_rising</item>
+		<item>@string/sort_posts_controversial</item>
+		<item>@string/sort_posts_top_hour</item>
+		<item>@string/sort_posts_top_today</item>
+		<item>@string/sort_posts_top_week</item>
+		<item>@string/sort_posts_top_month</item>
+		<item>@string/sort_posts_top_year</item>
+		<item>@string/sort_posts_top_all</item>
+	</string-array>
+
+	<!-- Constants. Do not change. -->
+	<string-array name="pref_behaviour_multi_postsort_array_return">
+		<item>hot</item>
+		<item>new</item>
+		<item>rising</item>
+		<item>controversial</item>
+		<item>top_hour</item>
+		<item>top_day</item>
+		<item>top_week</item>
+		<item>top_month</item>
+		<item>top_year</item>
+		<item>top_all</item>
+	</string-array>
+
+	<string-array name="pref_behaviour_user_commentsort_array">
+		<item>@string/sort_comments_hot</item>
+		<item>@string/sort_comments_new</item>
+		<item>@string/sort_comments_controversial</item>
+		<item>@string/sort_comments_top_hour</item>
+		<item>@string/sort_comments_top_today</item>
+		<item>@string/sort_comments_top_week</item>
+		<item>@string/sort_comments_top_month</item>
+		<item>@string/sort_comments_top_year</item>
+		<item>@string/sort_comments_top_all</item>
+	</string-array>
+
+	<!-- Constants. Do not change. -->
+	<string-array name="pref_behaviour_user_commentsort_array_return">
+		<item>hot</item>
+		<item>new</item>
+		<item>controversial</item>
+		<item>top_hour</item>
+		<item>top_day</item>
+		<item>top_week</item>
+		<item>top_month</item>
+		<item>top_year</item>
+		<item>top_all</item>
+	</string-array>
+
 </resources>

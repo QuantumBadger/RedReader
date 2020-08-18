@@ -460,7 +460,7 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 											revertToWeb();
 										}
 									},
-									128);
+									112);
 
 							layout.addView(mVideoPlayerWrapper);
 							setMainView(layout);

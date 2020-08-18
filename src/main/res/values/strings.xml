@@ -1229,4 +1229,8 @@
 	<!-- 2020-07-25 -->
 	<string name="image_gallery">Gallery</string>
 
+	<!-- 2020-08-18 -->
+	<string name="pref_behaviour_video_zoom_default_key" translatable="false">pref_behaviour_video_zoom_default</string>
+	<string name="pref_behaviour_video_zoom_default_title">Zoom into videos by default</string>
+
 </resources>

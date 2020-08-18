@@ -223,7 +223,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			}
 		}
 
-		if(itemPref.contains(Action.COMMENTS)) menu.add(new RPVMenuItem(activity, R.string.action_comments, Action.COMMENTS));
+		if(itemPref.contains(Action.COMMENTS)) menu.add(new RPVMenuItem(String.format(activity.getText(R.string.action_comments_with_count).toString(), post.src.getSrc().num_comments), Action.COMMENTS));
 
 		if(!RedditAccountManager.getInstance(activity).getDefaultAccount().isAnonymous()) {
 
@@ -1192,6 +1192,11 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 	private static class RPVMenuItem {
 		public final String title;
 		public final Action action;
+
+		private RPVMenuItem(String title, Action action) {
+			this.title = title;
+			this.action = action;
+		}
 
 		private RPVMenuItem(Context context, int titleRes, Action action) {
 			this.title = context.getString(titleRes);

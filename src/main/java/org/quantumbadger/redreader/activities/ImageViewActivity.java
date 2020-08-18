@@ -504,7 +504,7 @@ public class ImageViewActivity extends BaseActivity
 											revertToWeb();
 										}
 									},
-									128);
+									112);
 
 							layout.addView(mVideoPlayerWrapper);
 							setMainView(layout);

@@ -37,6 +37,7 @@ import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.DefaultTimeBar;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.ui.TimeBar;
@@ -89,6 +90,12 @@ public class ExoPlayerWrapperView extends FrameLayout {
 
 		mVideoPlayer.setPlayWhenReady(true);
 		videoPlayerView.setUseController(false);
+
+		if(PrefsUtility.pref_behaviour_video_zoom_default(context, PreferenceManager.getDefaultSharedPreferences(context))) {
+			videoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_ZOOM);
+		} else {
+			videoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
+		}
 
 		if(PrefsUtility.pref_behaviour_video_playback_controls(
 				context,
@@ -186,6 +193,33 @@ public class ExoPlayerWrapperView extends FrameLayout {
 							updateProgress();
 						}
 					}), buttons);
+
+			{
+				final AtomicReference<ImageButton> zoomButton = new AtomicReference<>();
+
+				zoomButton.set(createButton(
+						context,
+						mControlView,
+						R.drawable.ic_zoom_in_dark,
+						new OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								if (videoPlayerView.getResizeMode() == AspectRatioFrameLayout.RESIZE_MODE_FIT) {
+									videoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_ZOOM);
+									zoomButton.get().setImageResource(R.drawable.ic_zoom_out_dark);
+								} else {
+									videoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
+									zoomButton.get().setImageResource(R.drawable.ic_zoom_in_dark);
+								}
+							}
+						}));
+
+				if(videoPlayerView.getResizeMode() == AspectRatioFrameLayout.RESIZE_MODE_ZOOM) {
+					zoomButton.get().setImageResource(R.drawable.ic_zoom_out_dark);
+				}
+
+				addButton(zoomButton.get(), buttons);
+			}
 
 			mTimeBarView = new DefaultTimeBar(context, null);
 			controlBar.addView(mTimeBarView);

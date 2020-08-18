@@ -793,6 +793,10 @@ public final class PrefsUtility {
 				sharedPreferences);
 	}
 
+	public static boolean pref_behaviour_video_zoom_default(final Context context, final SharedPreferences sharedPreferences) {
+		return getBoolean(R.string.pref_behaviour_video_zoom_default_key, false, context, sharedPreferences);
+	}
+
 	public static int pref_behaviour_bezel_toolbar_swipezone_dp(
 			final Context context,
 			final SharedPreferences sharedPreferences) {

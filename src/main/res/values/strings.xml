@@ -115,7 +115,7 @@
     <!-- Menu Prefs -->
 
     <string name="pref_menus_post_context_items_key" translatable="false">pref_menus_post_context_items_2</string>
-    <string name="pref_menus_post_context_items_title">Long-press menu items</string>
+    <string name="pref_menus_post_context_items_title">Action menu items</string>
 
     <string name="pref_menus_post_toolbar_items_key" translatable="false">pref_menus_post_toolbar_items</string>
     <string name="pref_menus_post_toolbar_items_title">Side-toolbar items</string>
@@ -959,13 +959,13 @@
 
 	<!-- 2017-03-02 -->
 	<string name="pref_menus_link_context_items_key" translatable="false">pref_menus_link_context_items</string>
-	<string name="pref_menus_link_context_items_title">Link long-press menu items</string>
+	<string name="pref_menus_link_context_items_title">Link action menu items</string>
 	<string name="lang_eo" translatable="false">Esperanto</string>
 	<string name="lang_pl" translatable="false">Polski</string>
 
 	<!-- 2017-03-07 -->
 	<string name="pref_menus_subreddit_context_items_key" translatable="false">pref_menus_subreddit_context_items</string>
-	<string name="pref_menus_subreddit_context_items_title">Subreddit long-press menu items</string>
+	<string name="pref_menus_subreddit_context_items_title">Subreddit action menu items</string>
 	<string name="mainmenu_toast_not_subscribed">You are not subscribed to this subreddit yet!</string>
 	<string name="mainmenu_toast_subscribed">You are already subscribed to this subreddit!</string>
 	<string name="mainmenu_toast_not_pinned">This subreddit is not pinned to the main menu!</string>

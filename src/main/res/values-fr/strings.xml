@@ -146,7 +146,7 @@
     <string name="action_actionmenu_short">Actions</string>
     <string name="action_actionmenu">Menu des actions</string>
     <string name="action_comment_links">Lien en commentaire</string>
-    <string name="action_selftext_links">Liens dans le texte à soi-même</string>
+    <string name="action_selftext_links">Liens dans le texte</string>
     <string name="action_share">Partager</string>
     <string name="action_share_comments">Partager les commentaires</string>
     <string name="action_copy">Copier</string>

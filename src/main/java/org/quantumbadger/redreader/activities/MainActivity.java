@@ -443,8 +443,8 @@ public class MainActivity extends RefreshableActivity
 					).apply();
 				}
 
-				if(lastVersion <= 91) {
-					//Upgrading from 91/1.11 or lower, add "View Comments" post context menu item
+				if(lastVersion <= 92) {
+					//Upgrading from 92/1.12 or lower, add "View Comments" post context menu item
 
 					final Set<String> existingPostContextItems = PrefsUtility.getStringSet(
 							R.string.pref_menus_post_context_items_key,

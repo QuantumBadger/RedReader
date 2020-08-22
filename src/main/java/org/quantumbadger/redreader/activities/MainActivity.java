@@ -443,8 +443,8 @@ public class MainActivity extends RefreshableActivity
 					).apply();
 				}
 
-				if(lastVersion <= 91) {
-					//Upgrading from 91/1.11 or lower, switch to individual ListPreference's for
+				if(lastVersion <= 92) {
+					//Upgrading from 92/1.12 or lower, switch to individual ListPreference's for
 					//pref_menus_appbar (formerly pref_menus_optionsmenu_items)
 
 					final Set<String> existingOptionsMenuItems = PrefsUtility.getStringSet(

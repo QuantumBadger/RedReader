@@ -28,6 +28,8 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.fragments.ErrorPropertiesDialog;
 
+import java.util.Locale;
+
 public final class ErrorView extends StatusListItemView {
 
 	public ErrorView(final AppCompatActivity activity, final RRError error) {
@@ -49,7 +51,8 @@ public final class ErrorView extends StatusListItemView {
 
 		final Button detailsButton = new Button(activity);
 		detailsButton.setTextColor(Color.WHITE);
-		detailsButton.setText(activity.getApplicationContext().getString(R.string.button_error_details).toUpperCase());
+		detailsButton.setText(
+				activity.getApplicationContext().getString(R.string.button_error_details).toUpperCase(Locale.getDefault()));
 		detailsButton.setBackgroundColor(Color.rgb(0xF8, 0x17, 0x17));
 
 		detailsButton.setOnClickListener(v -> ErrorPropertiesDialog.newInstance(error)

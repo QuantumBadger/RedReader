@@ -156,7 +156,7 @@ public class BugReportActivity extends BaseActivity {
 		send.setText(R.string.bug_button_send);
 
 		send.setOnClickListener(v -> {
-			sendBugReport(BugReportActivity.this, BugReportActivity.getErrors());
+			sendBugReport(this, getErrors());
 			finish();
 		});
 

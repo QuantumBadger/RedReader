@@ -65,14 +65,15 @@ public final class PostPropertiesDialog extends PropertiesDialog {
 		items.addView(propView(context, R.string.props_num_comments, String.valueOf(post.num_comments), false));
 
 		if(post.selftext != null && post.selftext.length() > 0) {
-			items.addView(propView(context, R.string.props_self_markdown, StringEscapeUtils.unescapeHtml4(post.selftext), false));
+			items.addView(propView(context, R.string.props_self_markdown, StringEscapeUtils.unescapeHtml4(post.selftext), false, true));
 
 			if(post.selftext_html != null) {
 				items.addView(propView(
 						context,
 						R.string.props_self_html,
 						StringEscapeUtils.unescapeHtml4(post.selftext_html),
-						false));
+						false,
+						true));
 			}
 		}
 	}

@@ -93,16 +93,23 @@ public abstract class PropertiesDialog extends AppCompatDialogFragment {
 		return propView(context, context.getString(titleRes), text, firstInList);
 	}
 
-	// TODO xml?
 	protected final LinearLayout propView(final Context context, final String title, final CharSequence text, final boolean firstInList) {
+		return propView(context, title, text, firstInList, false);
+	}
+
+	protected final LinearLayout propView(final Context context, final int titleRes, final CharSequence text, final boolean firstInList, final boolean isFullySelectable) {
+		return propView(context, context.getString(titleRes), text, firstInList, isFullySelectable);
+	}
+
+	// TODO xml?
+	protected final LinearLayout propView(final Context context, final String title, final CharSequence text, final boolean firstInList, final boolean isFullySelectable) {
 
 		final int paddingPixels = General.dpToPixels(context, 12);
 
 		final LinearLayout prop = new LinearLayout(context);
 		prop.setOrientation(LinearLayout.VERTICAL);
-		prop.setFocusable(true);
 
-		prop.setOnLongClickListener(v -> {
+		View.OnLongClickListener copyListener = v -> {
 			ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
 			if(clipboardManager != null) {
 				ClipData data = ClipData.newPlainText(title, text);
@@ -111,7 +118,12 @@ public abstract class PropertiesDialog extends AppCompatDialogFragment {
 				General.quickToast(context, R.string.copied_to_clipboard);
 			}
 			return true;
-		});
+		};
+
+		if(!isFullySelectable || !prop.isInTouchMode()) {
+			prop.setFocusable(true);
+			prop.setOnLongClickListener(copyListener);
+		}
 
 		if(!firstInList) {
 			final View divider = new View(context);
@@ -132,6 +144,16 @@ public abstract class PropertiesDialog extends AppCompatDialogFragment {
 		textView.setTextColor(rrCommentBodyCol);
 		textView.setTextSize(15.0f);
 		textView.setPadding(paddingPixels, 0, paddingPixels, paddingPixels);
+		if(isFullySelectable && textView.isInTouchMode()) { textView.setTextIsSelectable(true); }
+
+		if(isFullySelectable) {
+			prop.getViewTreeObserver().addOnTouchModeChangeListener(isInTouchMode -> {
+				prop.setFocusable(!isInTouchMode);
+				prop.setOnLongClickListener(!isInTouchMode ? copyListener : null);
+				textView.setTextIsSelectable(isInTouchMode);
+			});
+		}
+
 		prop.addView(textView);
 
 		return prop;

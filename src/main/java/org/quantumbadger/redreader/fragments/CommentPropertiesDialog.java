@@ -70,14 +70,15 @@ public final class CommentPropertiesDialog extends PropertiesDialog {
 		items.addView(propView(context, R.string.props_subreddit, comment.subreddit, false));
 
 		if(comment.body != null && comment.body.length() > 0) {
-			items.addView(propView(context, R.string.props_body_markdown, StringEscapeUtils.unescapeHtml4(comment.body), false));
+			items.addView(propView(context, R.string.props_body_markdown, StringEscapeUtils.unescapeHtml4(comment.body), false, true));
 
 			if(comment.body_html != null) {
 				items.addView(propView(
 						context,
 						R.string.props_body_html,
 						StringEscapeUtils.unescapeHtml4(comment.body_html),
-						false));
+						false,
+						true));
 			}
 		}
 	}

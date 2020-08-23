@@ -80,7 +80,13 @@ public abstract class PropertiesDialog extends AppCompatDialogFragment {
 
 		builder.setNeutralButton(R.string.dialog_close, null);
 
+		interceptBuilder(builder);
+
 		return builder.create();
+	}
+
+	protected void interceptBuilder(@NonNull final AlertDialog.Builder builder) {
+		// Do nothing by default
 	}
 
 	protected final LinearLayout propView(final Context context, final int titleRes, final int textRes, final boolean firstInList) {

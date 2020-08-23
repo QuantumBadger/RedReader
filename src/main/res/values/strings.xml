@@ -1236,5 +1236,6 @@
 	<string name="image_gallery_no_data_present_message">No image gallery was found at the specified link. It may have been deleted.</string>
 
 	<string name="button_error_details">Details</string>
+	<string name="button_error_send_report">Report</string>
 
 </resources>

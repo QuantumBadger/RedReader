@@ -45,7 +45,7 @@ public final class ErrorView extends StatusListItemView {
 
 		messageView.setTextColor(Color.WHITE);
 		messageView.setTextSize(14.0f);
-		messageView.setPadding(0, 0, 0, (int) (4 * dpScale));
+		messageView.setPadding(0, 0, 0, (int) (15 * dpScale));
 
 		final Button detailsButton = new Button(activity);
 		detailsButton.setTextColor(Color.WHITE);

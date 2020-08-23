@@ -1,3 +1,6 @@
+93/1.13
+Restored old behaviour when selecting text in properties dialog
+
 92/1.12
 Reddit image gallery support
 Internal image viewer now supports Giphy

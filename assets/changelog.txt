@@ -1,5 +1,6 @@
 93/1.13
 Restored old behaviour when selecting text in properties dialog
+Fixed redirect loop when visiting deleted Reddit galleries
 
 92/1.12
 Reddit image gallery support

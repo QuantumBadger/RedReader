@@ -131,11 +131,18 @@ public class AlbumInfo {
     	return StringEscapeUtils.unescapeHtml4(bestUrl);
 	}
 
+	@Nullable
 	public static AlbumInfo parseRedditGallery(final String url, final JsonBufferedObject object)
 			throws IOException, InterruptedException {
 
 		final JsonBufferedObject mediaMetadataList = object.getObject("media_metadata");
-		final JsonBufferedArray galleryItems = object.getObject("gallery_data").getArray("items");
+		final JsonBufferedObject galleryData = object.getObject("gallery_data");
+
+		if(mediaMetadataList == null || galleryData == null) {
+			return null;
+		}
+
+		final JsonBufferedArray galleryItems = galleryData.getArray("items");
 
 		final ArrayList<ImageInfo> images = new ArrayList<>();
 

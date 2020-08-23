@@ -1229,4 +1229,10 @@
 	<!-- 2020-07-25 -->
 	<string name="image_gallery">Gallery</string>
 
+	<!-- 2020-08-23 -->
+	<string name="image_gallery_removed_title">Gallery removed</string>
+	<string name="image_gallery_removed_message">This gallery has been removed and is no longer accessible.</string>
+	<string name="image_gallery_no_data_present_title">Gallery not found</string>
+	<string name="image_gallery_no_data_present_message">No image gallery was found at the specified link. It may have been deleted.</string>
+
 </resources>

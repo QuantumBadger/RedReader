@@ -83,7 +83,10 @@ public class AlbumListingActivity extends BaseActivity {
 
 					layout.addView(new ErrorView(AlbumListingActivity.this, new RRError(
 							getApplicationContext().getString(R.string.image_gallery_removed_title),
-							getApplicationContext().getString(R.string.image_gallery_removed_message))));
+							getApplicationContext().getString(R.string.image_gallery_removed_message),
+							null,
+							null,
+							mUrl)));
 				});
 			}
 
@@ -95,7 +98,10 @@ public class AlbumListingActivity extends BaseActivity {
 
 					layout.addView(new ErrorView(AlbumListingActivity.this, new RRError(
 							getApplicationContext().getString(R.string.image_gallery_no_data_present_title),
-							getApplicationContext().getString(R.string.image_gallery_no_data_present_message))));
+							getApplicationContext().getString(R.string.image_gallery_no_data_present_message),
+							null,
+							null,
+							mUrl)));
 				});
 			}
 

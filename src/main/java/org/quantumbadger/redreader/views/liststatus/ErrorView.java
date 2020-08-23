@@ -18,10 +18,13 @@
 package org.quantumbadger.redreader.views.liststatus;
 
 import android.graphics.Color;
-import androidx.appcompat.app.AppCompatActivity;
-import android.view.View;
+import android.view.Gravity;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.fragments.ErrorPropertiesDialog;
 
@@ -34,30 +37,37 @@ public final class ErrorView extends StatusListItemView {
 		final TextView textView = new TextView(activity);
 		textView.setText(error.title);
 		textView.setTextColor(Color.WHITE);
-		textView.setTextSize(15.0f);
-		textView.setPadding((int) (15 * dpScale), (int) (10 * dpScale), (int) (10 * dpScale), (int) (4 * dpScale));
+		textView.setTextSize(18.0f);
+		textView.setPadding(0, 0, 0, (int) (4 * dpScale));
 
 		final TextView messageView = new TextView(activity);
 		messageView.setText(error.message);
 
 		messageView.setTextColor(Color.WHITE);
-		messageView.setTextSize(12.0f);
-		messageView.setPadding((int) (15 * dpScale), 0, (int) (10 * dpScale), (int) (10 * dpScale));
+		messageView.setTextSize(14.0f);
+		messageView.setPadding(0, 0, 0, (int) (4 * dpScale));
+
+		final Button detailsButton = new Button(activity);
+		detailsButton.setTextColor(Color.WHITE);
+		detailsButton.setText(activity.getApplicationContext().getString(R.string.button_error_details).toUpperCase());
+		detailsButton.setBackgroundColor(Color.rgb(0xF8, 0x17, 0x17));
+
+		detailsButton.setOnClickListener(v -> ErrorPropertiesDialog.newInstance(error)
+				.show(activity.getSupportFragmentManager(), null));
 
 		final LinearLayout layout = new LinearLayout(activity);
 		layout.setOrientation(LinearLayout.VERTICAL);
 		layout.addView(textView);
 		layout.addView(messageView);
+		layout.addView(detailsButton);
+
+		layout.setPadding((int) (15 * dpScale), (int) (15 * dpScale), (int) (15 * dpScale), (int) (15 * dpScale));
+		detailsButton.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+		((LinearLayout.LayoutParams)detailsButton.getLayoutParams()).gravity = Gravity.RIGHT;
 
 		setContents(layout);
 
 		setBackgroundColor(Color.rgb(0xCC, 0x00, 0x00));
-
-		setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				ErrorPropertiesDialog.newInstance(error).show(activity.getSupportFragmentManager(), null);
-			}
-		});
 	}
 }

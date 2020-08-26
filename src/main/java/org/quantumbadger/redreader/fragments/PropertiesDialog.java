@@ -19,10 +19,9 @@ package org.quantumbadger.redreader.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -82,7 +81,13 @@ public abstract class PropertiesDialog extends AppCompatDialogFragment {
 
 		builder.setNeutralButton(R.string.dialog_close, null);
 
+		interceptBuilder(builder);
+
 		return builder.create();
+	}
+
+	protected void interceptBuilder(@NonNull final AlertDialog.Builder builder) {
+		// Do nothing by default
 	}
 
 	protected final LinearLayout propView(final Context context, final int titleRes, final int textRes, final boolean firstInList) {
@@ -100,18 +105,6 @@ public abstract class PropertiesDialog extends AppCompatDialogFragment {
 
 		final LinearLayout prop = new LinearLayout(context);
 		prop.setOrientation(LinearLayout.VERTICAL);
-		prop.setFocusable(true);
-
-		prop.setOnLongClickListener(v -> {
-			ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-			if(clipboardManager != null) {
-				ClipData data = ClipData.newPlainText(title, text);
-				clipboardManager.setPrimaryClip(data);
-
-				General.quickToast(context, R.string.copied_to_clipboard);
-			}
-			return true;
-		});
 
 		if(!firstInList) {
 			final View divider = new View(context);
@@ -132,7 +125,14 @@ public abstract class PropertiesDialog extends AppCompatDialogFragment {
 		textView.setTextColor(rrCommentBodyCol);
 		textView.setTextSize(15.0f);
 		textView.setPadding(paddingPixels, 0, paddingPixels, paddingPixels);
+		textView.setTextIsSelectable(true);
 		prop.addView(textView);
+
+		prop.setContentDescription(title + "\n" + text);
+
+		if(Build.VERSION.SDK_INT >= 16) {
+			textView.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+		}
 
 		return prop;
 	}

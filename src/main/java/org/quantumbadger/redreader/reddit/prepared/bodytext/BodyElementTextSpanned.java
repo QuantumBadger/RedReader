@@ -1,11 +1,10 @@
 package org.quantumbadger.redreader.reddit.prepared.bodytext;
 
+import android.text.Spanned;
+import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import android.text.Spanned;
-import android.view.View;
-import android.widget.TextView;
 import org.quantumbadger.redreader.views.LinkifiedTextView;
 
 public class BodyElementTextSpanned extends BodyElement {
@@ -31,7 +30,7 @@ public class BodyElementTextSpanned extends BodyElement {
 		if(textColor != null) tv.setTextColor(textColor);
 		if(textSize != null) tv.setTextSize(textSize);
 
-		tv.setText(mSpanned, TextView.BufferType.SPANNABLE);
+		tv.setText(mSpanned, LinkifiedTextView.BufferType.SPANNABLE);
 
 		return tv;
 	}

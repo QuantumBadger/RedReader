@@ -77,6 +77,7 @@ import org.quantumbadger.redreader.views.liststatus.ErrorView;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.UUID;
 
 public class CommentListingFragment extends RRFragment
@@ -640,12 +641,19 @@ public class CommentListingFragment extends RRFragment
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu) {
+
+		final Map<OptionsMenuUtility.AppbarItemsPref, Integer> appbarItemsPrefs =
+				PrefsUtility.pref_menus_appbar_items(getActivity(), PreferenceManager.getDefaultSharedPreferences(getActivity()));
+		final int replyShowAsAction = OptionsMenuUtility.getOrThrow(appbarItemsPrefs, OptionsMenuUtility.AppbarItemsPref.REPLY);
+
 		if(mAllUrls != null && mAllUrls.size() > 0 && mAllUrls.get(0).pathType() == RedditURLParser.POST_COMMENT_LISTING_URL &&
-		PrefsUtility.pref_menus_optionsmenu_items(
-				getActivity(),
-				PreferenceManager.getDefaultSharedPreferences(getActivity()))
-				.contains(OptionsMenuUtility.OptionsMenuItemsPref.REPLY)) {
-			menu.add(R.string.action_reply);
+				replyShowAsAction != OptionsMenuUtility.DO_NOT_SHOW) {
+			final MenuItem reply = menu.add(Menu.NONE, OptionsMenuUtility.AppbarItemsPref.REPLY.ordinal(), Menu.NONE, R.string.action_reply);
+
+			reply.setShowAsAction(OptionsMenuUtility.handleShowAsActionIfRoom(replyShowAsAction));
+			reply.setIcon(R.drawable.ic_action_reply_dark);
+
+			OptionsMenuUtility.pruneMenu(getActivity(), menu, appbarItemsPrefs, true);
 		}
 	}
 

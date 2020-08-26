@@ -1,0 +1,12 @@
+An unofficial, open-source client for Reddit.
+
+	* Free and open-source Software - no ads/tracking
+	* Lightweight and fast
+	* Swipe posts left and right to perform customizable actions, such as upvote/downvote, or save/hide
+	* Advanced cache management - automatically stores past versions of posts and comments
+	* Support for multiple accounts
+	* Two-column tablet mode (can be used on your phone, if it’s big enough)
+	* Image and comment precaching (optional: always, never, or Wi-Fi only)
+	* Built-in image viewer, and GIF/video player
+	* Multiple themes, including night mode, and ultra black for AMOLED displays
+	* Support for Android 4.0+

@@ -18,7 +18,9 @@
 package org.quantumbadger.redreader.activities;
 
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import androidx.annotation.NonNull;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -80,6 +82,12 @@ public abstract class RefreshableActivity extends BaseActivity {
 
 			refreshOnResume.clear();
 		}
+	}
+
+	@Override
+	public void onConfigurationChanged(@NonNull Configuration newConfig) {
+		invalidateOptionsMenu();
+		super.onConfigurationChanged(newConfig);
 	}
 
 	protected void doRefreshNow(RefreshableFragment which, boolean force) {

@@ -170,6 +170,8 @@ public class ImgurUploadActivity extends BaseActivity {
 	@Override
 	protected void onActivityResult(final int requestCode, final int result, final Intent data) {
 
+		super.onActivityResult(requestCode, result, data);
+
 		if(data == null || data.getData() == null) {
 			return;
 		}

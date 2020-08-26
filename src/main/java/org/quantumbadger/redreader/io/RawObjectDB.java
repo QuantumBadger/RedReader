@@ -120,7 +120,7 @@ public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelpe
 
 		query.append(')');
 
-		Log.i("RawObjectDB query string", query.toString());
+		Log.i("RawObjectDB", "Query string: " + query.toString());
 
 		db.execSQL(query.toString());
 	}

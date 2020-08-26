@@ -645,7 +645,17 @@ public class LinkHandler {
 		public abstract void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage);
 
 		@Override
-		public void onSuccess(final AlbumInfo info) {
+		public void onGalleryRemoved() {
+			mListener.onGalleryRemoved();
+		}
+
+		@Override
+		public void onGalleryDataNotPresent() {
+			mListener.onGalleryDataNotPresent();
+		}
+
+		@Override
+		public void onSuccess(@NonNull final AlbumInfo info) {
 			mListener.onSuccess(info);
 		}
 	}

@@ -36,7 +36,7 @@
                  android:hardwareAccelerated="true"
                  android:allowBackup="true"
 				 android:usesCleartextTraffic="true">
-		<meta-data android:name="android.max_aspect" android:value="2.1" />
+		<meta-data android:name="android.max_aspect" android:value="3" />
 
 		<meta-data android:name="com.lge.support.SPLIT_WINDOW" android:value="true" />
 
@@ -70,6 +70,9 @@
                 <data android:scheme="https" android:host="redd.it" />
             </intent-filter>
         </activity>
+
+		<activity android:name=".activities.RefreshableActivity"
+				  android:configChanges="orientation|screenSize"/>
 
         <activity android:name=".activities.PostListingActivity"
 				  android:configChanges="orientation|screenSize|keyboardHidden" />

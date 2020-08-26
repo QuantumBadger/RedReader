@@ -168,7 +168,17 @@ public class ImageViewActivity extends BaseActivity implements RedditPostView.Po
 						}
 
 						@Override
-						public void onSuccess(final AlbumInfo info) {
+						public void onGalleryRemoved() {
+							// Do nothing
+						}
+
+						@Override
+						public void onGalleryDataNotPresent() {
+							// Do nothing
+						}
+
+						@Override
+						public void onSuccess(@NonNull final AlbumInfo info) {
 							AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 								mAlbumInfo = info;
 								mAlbumImageIndex = intent.getIntExtra("albumImageIndex", 0);

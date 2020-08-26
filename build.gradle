@@ -15,6 +15,7 @@ repositories {
 
 apply plugin: 'com.android.application'
 apply plugin: 'pmd'
+apply plugin: 'checkstyle'
 
 dependencies {
 	implementation 'androidx.appcompat:appcompat:1.2.0'
@@ -99,4 +100,19 @@ task pmd(type: Pmd) {
 	ruleSets = [] // otherwise defaults clash with the list in rules.xml
 	source 'src/main/java/org/quantumbadger'
 	include '**/*.java'
+}
+
+checkstyle {
+	configFile rootProject.file("${project.rootDir}/config/checkstyle/checkstyle.xml")
+	ignoreFailures false
+	showViolations true
+	toolVersion = "8.35"
+}
+
+task Checkstyle(type: Checkstyle) {
+	source 'src/main/java/org/quantumbadger'
+	ignoreFailures false
+	showViolations true
+	include '**/*.java'
+	classpath = files()
 }

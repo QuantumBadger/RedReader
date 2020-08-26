@@ -83,7 +83,9 @@ public class PostSubmitActivity extends BaseActivity {
 
 		setTitle(R.string.submit_post_actionbar);
 
-		final LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.post_submit, null);
+		final LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(
+				R.layout.post_submit,
+				null);
 
 		typeSpinner = (Spinner)layout.findViewById(R.id.post_submit_type);
 		usernameSpinner = (Spinner)layout.findViewById(R.id.post_submit_username);

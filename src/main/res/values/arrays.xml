@@ -913,4 +913,31 @@
 		<item>8.0</item>
 	</string-array>
 
+	<!-- 2020-08-26 -->
+
+	<!-- Constants. Do not change. -->
+	<string-array name="pref_menus_post_context_items_default">
+		<item>upvote</item>
+		<item>downvote</item>
+		<item>save</item>
+		<item>hide</item>
+		<item>delete</item>
+		<item>report</item>
+		<item>external</item>
+		<item>selftext_links</item>
+		<item>save_image</item>
+		<item>goto_subreddit</item>
+		<item>pin</item>
+		<item>subscribe</item>
+		<item>block</item>
+		<item>share</item>
+		<item>share_comments</item>
+		<item>share_image</item>
+		<item>copy</item>
+		<item>copy_selftext</item>>
+		<item>user_profile</item>
+		<item>properties</item>
+		<item>edit</item>
+	</string-array>
+
 </resources>

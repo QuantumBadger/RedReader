@@ -36,7 +36,8 @@ public class BezelSwipeOverlay extends View {
 
 	@IntDef({LEFT, RIGHT})
 	@Retention(RetentionPolicy.SOURCE)
-	public @interface SwipeEdge {}
+	public @interface SwipeEdge {
+	}
 
 	private final BezelSwipeListener listener;
 
@@ -46,8 +47,10 @@ public class BezelSwipeOverlay extends View {
 		super(context);
 		this.listener = listener;
 
-		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-		final int swipeZoneDp = PrefsUtility.pref_behaviour_bezel_toolbar_swipezone_dp(context, prefs);
+		final SharedPreferences prefs =
+				PreferenceManager.getDefaultSharedPreferences(context);
+		final int swipeZoneDp =
+				PrefsUtility.pref_behaviour_bezel_toolbar_swipezone_dp(context, prefs);
 
 		mSwipeZonePixels = General.dpToPixels(getContext(), swipeZoneDp);
 	}

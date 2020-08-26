@@ -30,7 +30,8 @@ public final class Constants {
 
 	public static String version(Context context) {
 		try {
-			return context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
+			return context.getPackageManager()
+					.getPackageInfo(context.getPackageName(), 0).versionName;
 		} catch(PackageManager.NameNotFoundException e) {
 			throw new RuntimeException(e); // Internal error
 		}
@@ -126,8 +127,10 @@ public final class Constants {
 				PATH_REPORT = "/api/report",
 				PATH_DELETE = "/api/del",
 				PATH_SUBSCRIBE = "/api/subscribe",
-				PATH_SUBREDDITS_MINE_SUBSCRIBER = "/subreddits/mine/subscriber.json?limit=100",
-				PATH_SUBREDDITS_MINE_MODERATOR = "/subreddits/mine/moderator.json?limit=100",
+				PATH_SUBREDDITS_MINE_SUBSCRIBER
+						= "/subreddits/mine/subscriber.json?limit=100",
+				PATH_SUBREDDITS_MINE_MODERATOR
+						= "/subreddits/mine/moderator.json?limit=100",
 				PATH_SUBREDDITS_POPULAR = "/subreddits/popular.json",
 				PATH_MULTIREDDITS_MINE = "/api/multi/mine.json",
 				PATH_COMMENTS = "/comments/",
@@ -146,7 +149,7 @@ public final class Constants {
 		}
 
 		public static URI getUri(final String path) {
-			return General.uriFromString(getScheme() + "://" +  getDomain() + path);
+			return General.uriFromString(getScheme() + "://" + getDomain() + path);
 		}
 
 		public static URI getNonAPIUri(final String path) {
@@ -154,23 +157,28 @@ public final class Constants {
 		}
 
 		public static boolean isApiErrorUser(final String str) {
-			return ".error.USER_REQUIRED".equals(str) || "please login to do that".equals(str);
+			return ".error.USER_REQUIRED".equals(str) || "please login to do that".equals(
+					str);
 		}
 
 		public static boolean isApiErrorCaptcha(final String str) {
-			return ".error.BAD_CAPTCHA.field-captcha".equals(str) || "care to try these again?".equals(str);
+			return ".error.BAD_CAPTCHA.field-captcha".equals(str)
+					|| "care to try these again?".equals(str);
 		}
 
 		public static boolean isApiErrorNotAllowed(final String str) {
-			return ".error.SUBREDDIT_NOTALLOWED.field-sr".equals(str) || "you aren't allowed to post there.".equals(str);
+			return ".error.SUBREDDIT_NOTALLOWED.field-sr".equals(str)
+					|| "you aren't allowed to post there.".equals(str);
 		}
 
 		public static boolean isApiErrorSubredditRequired(final String str) {
-			return ".error.SUBREDDIT_REQUIRED.field-sr".equals(str) || "you must specify a subreddit".equals(str);
+			return ".error.SUBREDDIT_REQUIRED.field-sr".equals(str)
+					|| "you must specify a subreddit".equals(str);
 		}
 
 		public static boolean isApiErrorURLRequired(final String str) {
-			return ".error.NO_URL.field-url".equals(str) || "a url is required".equals(str);
+			return ".error.NO_URL.field-url".equals(str)
+					|| "a url is required".equals(str);
 		}
 
 		public static boolean isApiTooFast(final String str) {
@@ -180,12 +188,13 @@ public final class Constants {
 
 		public static boolean isApiTooLong(final String str) {
 			return "TOO_LONG".equals(str)
-				|| (str != null && str.contains("this is too long"));
+					|| (str != null && str.contains("this is too long"));
 		}
 
 		public static boolean isApiAlreadySubmitted(final String str) {
 			return ".error.ALREADY_SUB.field-url".equals(str)
-					|| (str != null && str.contains("that link has already been submitted"));
+					|| (str != null
+					&& str.contains("that link has already been submitted"));
 		}
 
 		public static boolean isApiError(final String str) {
@@ -195,7 +204,8 @@ public final class Constants {
 
 	public static String ua(final Context context) {
 		final String canonicalName = RedReader.class.getCanonicalName();
-		return canonicalName.substring(0, canonicalName.lastIndexOf('.')) + "/" + version(context);
+		return canonicalName.substring(0, canonicalName.lastIndexOf('.')) + "/" + version(
+				context);
 	}
 
 	public static final class Priority {

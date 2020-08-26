@@ -47,7 +47,7 @@ public class RRThemeAttributes {
 
 	public RRThemeAttributes(final Context context) {
 
-		final TypedArray appearance = context.obtainStyledAttributes(new int[]{
+		final TypedArray appearance = context.obtainStyledAttributes(new int[] {
 				R.attr.rrCommentHeaderBoldCol,
 				R.attr.rrCommentHeaderAuthorCol,
 				R.attr.rrPostSubtitleUpvoteCol,
@@ -77,12 +77,17 @@ public class RRThemeAttributes {
 
 		appearance.recycle();
 
-		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(
+				context);
 
-		mCommentHeaderItems = PrefsUtility.appearance_comment_header_items(context, prefs);
+		mCommentHeaderItems = PrefsUtility.appearance_comment_header_items(
+				context,
+				prefs);
 
 		rrCommentFontScale = PrefsUtility.appearance_fontscale_bodytext(context, prefs);
-		rrCommentHeaderFontScale = PrefsUtility.appearance_fontscale_comment_headers(context, prefs);
+		rrCommentHeaderFontScale = PrefsUtility.appearance_fontscale_comment_headers(
+				context,
+				prefs);
 	}
 
 	public boolean shouldShow(final PrefsUtility.AppearanceCommentHeaderItem type) {

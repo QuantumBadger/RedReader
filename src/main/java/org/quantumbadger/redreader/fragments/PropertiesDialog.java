@@ -43,6 +43,7 @@ public abstract class PropertiesDialog extends AppCompatDialogFragment {
 	private volatile boolean alreadyCreated = false;
 
 	protected abstract String getTitle(Context context);
+
 	protected abstract void prepare(AppCompatActivity context, LinearLayout items);
 
 	@NonNull
@@ -90,16 +91,32 @@ public abstract class PropertiesDialog extends AppCompatDialogFragment {
 		// Do nothing by default
 	}
 
-	protected final LinearLayout propView(final Context context, final int titleRes, final int textRes, final boolean firstInList) {
-		return propView(context, context.getString(titleRes), getString(textRes), firstInList);
+	protected final LinearLayout propView(
+			final Context context,
+			final int titleRes,
+			final int textRes,
+			final boolean firstInList) {
+		return propView(
+				context,
+				context.getString(titleRes),
+				getString(textRes),
+				firstInList);
 	}
 
-	protected final LinearLayout propView(final Context context, final int titleRes, final CharSequence text, final boolean firstInList) {
+	protected final LinearLayout propView(
+			final Context context,
+			final int titleRes,
+			final CharSequence text,
+			final boolean firstInList) {
 		return propView(context, context.getString(titleRes), text, firstInList);
 	}
 
 	// TODO xml?
-	protected final LinearLayout propView(final Context context, final String title, final CharSequence text, final boolean firstInList) {
+	protected final LinearLayout propView(
+			final Context context,
+			final String title,
+			final CharSequence text,
+			final boolean firstInList) {
 
 		final int paddingPixels = General.dpToPixels(context, 12);
 

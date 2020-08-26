@@ -61,31 +61,55 @@ public final class ImgurAPI {
 			}
 
 			@Override
-			protected void onDownloadNecessary() {}
+			protected void onDownloadNecessary() {
+			}
 
 			@Override
-			protected void onDownloadStarted() {}
+			protected void onDownloadStarted() {
+			}
 
 			@Override
-			protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
+			protected void onFailure(
+					final @CacheRequest.RequestFailureType int type,
+					final Throwable t,
+					final Integer status,
+					final String readableMessage) {
 				listener.onFailure(type, t, status, readableMessage);
 			}
 
 			@Override
-			protected void onProgress(final boolean authorizationInProgress, final long bytesRead, final long totalBytes) {}
+			protected void onProgress(
+					final boolean authorizationInProgress,
+					final long bytesRead,
+					final long totalBytes) {
+			}
 
 			@Override
-			protected void onSuccess(final CacheManager.ReadableCacheFile cacheFile, final long timestamp, final UUID session, final boolean fromCache, final String mimetype) {}
+			protected void onSuccess(
+					final CacheManager.ReadableCacheFile cacheFile,
+					final long timestamp,
+					final UUID session,
+					final boolean fromCache,
+					final String mimetype) {
+			}
 
 			@Override
-			public void onJsonParseStarted(final JsonValue result, final long timestamp, final UUID session, final boolean fromCache) {
+			public void onJsonParseStarted(
+					final JsonValue result,
+					final long timestamp,
+					final UUID session,
+					final boolean fromCache) {
 
 				try {
 					final JsonBufferedObject outer = result.asObject().getObject("album");
 					listener.onSuccess(AlbumInfo.parseImgur(albumUrl, outer));
 
 				} catch(Throwable t) {
-					listener.onFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "Imgur data parse failed");
+					listener.onFailure(
+							CacheRequest.REQUEST_FAILURE_PARSE,
+							t,
+							null,
+							"Imgur data parse failed");
 				}
 			}
 		});
@@ -119,31 +143,55 @@ public final class ImgurAPI {
 			}
 
 			@Override
-			protected void onDownloadNecessary() {}
+			protected void onDownloadNecessary() {
+			}
 
 			@Override
-			protected void onDownloadStarted() {}
+			protected void onDownloadStarted() {
+			}
 
 			@Override
-			protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
+			protected void onFailure(
+					final @CacheRequest.RequestFailureType int type,
+					final Throwable t,
+					final Integer status,
+					final String readableMessage) {
 				listener.onFailure(type, t, status, readableMessage);
 			}
 
 			@Override
-			protected void onProgress(final boolean authorizationInProgress, final long bytesRead, final long totalBytes) {}
+			protected void onProgress(
+					final boolean authorizationInProgress,
+					final long bytesRead,
+					final long totalBytes) {
+			}
 
 			@Override
-			protected void onSuccess(final CacheManager.ReadableCacheFile cacheFile, final long timestamp, final UUID session, final boolean fromCache, final String mimetype) {}
+			protected void onSuccess(
+					final CacheManager.ReadableCacheFile cacheFile,
+					final long timestamp,
+					final UUID session,
+					final boolean fromCache,
+					final String mimetype) {
+			}
 
 			@Override
-			public void onJsonParseStarted(final JsonValue result, final long timestamp, final UUID session, final boolean fromCache) {
+			public void onJsonParseStarted(
+					final JsonValue result,
+					final long timestamp,
+					final UUID session,
+					final boolean fromCache) {
 
 				try {
 					final JsonBufferedObject outer = result.asObject().getObject("image");
 					listener.onSuccess(ImageInfo.parseImgur(outer));
 
 				} catch(Throwable t) {
-					listener.onFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "Imgur data parse failed");
+					listener.onFailure(
+							CacheRequest.REQUEST_FAILURE_PARSE,
+							t,
+							null,
+							"Imgur data parse failed");
 				}
 			}
 		});

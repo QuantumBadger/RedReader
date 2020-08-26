@@ -49,7 +49,9 @@ public class ParcelHelper {
 		return ImageInfo.HasAudio.valueOf(in.readString());
 	}
 
-	public static void writeNullableEnum(final Parcel parcel, @Nullable final Enum value) {
+	public static void writeNullableEnum(
+			final Parcel parcel,
+			@Nullable final Enum value) {
 
 		if(value == null) {
 			writeBoolean(parcel, false);

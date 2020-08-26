@@ -93,7 +93,9 @@ public class GroupedRecyclerViewAdapter extends RecyclerView.Adapter {
 	private Item getItemInternal(final int desiredPosition) {
 
 		if(desiredPosition < 0) {
-			throw new RuntimeException("Item desiredPosition " + desiredPosition + " is too low");
+			throw new RuntimeException("Item desiredPosition "
+					+ desiredPosition
+					+ " is too low");
 		}
 
 		int currentPosition = 0;
@@ -102,7 +104,9 @@ public class GroupedRecyclerViewAdapter extends RecyclerView.Adapter {
 
 			final ArrayList<Item> group = mItems[groupId];
 
-			for(int positionInGroup = 0; positionInGroup < group.size(); positionInGroup++) {
+			for(int positionInGroup = 0;
+				positionInGroup < group.size();
+				positionInGroup++) {
 
 				final Item item = group.get(positionInGroup);
 
@@ -117,13 +121,18 @@ public class GroupedRecyclerViewAdapter extends RecyclerView.Adapter {
 			}
 		}
 
-		throw new RuntimeException("Item desiredPosition " + desiredPosition + " is too high");
+		throw new RuntimeException("Item desiredPosition "
+				+ desiredPosition
+				+ " is too high");
 	}
 
 	@Override
-	public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup viewGroup, final int viewType) {
+	public RecyclerView.ViewHolder onCreateViewHolder(
+			final ViewGroup viewGroup,
+			final int viewType) {
 
-		final RecyclerView.ViewHolder viewHolder = mViewTypeItemMap.get(viewType).onCreateViewHolder(viewGroup);
+		final RecyclerView.ViewHolder viewHolder = mViewTypeItemMap.get(viewType)
+				.onCreateViewHolder(viewGroup);
 
 		final RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(
 				ViewGroup.LayoutParams.MATCH_PARENT,
@@ -135,7 +144,9 @@ public class GroupedRecyclerViewAdapter extends RecyclerView.Adapter {
 	}
 
 	@Override
-	public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder, final int position) {
+	public void onBindViewHolder(
+			final RecyclerView.ViewHolder viewHolder,
+			final int position) {
 		getItemInternal(position).onBindViewHolder(viewHolder);
 	}
 
@@ -264,7 +275,9 @@ public class GroupedRecyclerViewAdapter extends RecyclerView.Adapter {
 
 			final ArrayList<Item> group = mItems[groupId];
 
-			for(int positionInGroup = 0; positionInGroup < group.size(); positionInGroup++) {
+			for(int positionInGroup = 0;
+				positionInGroup < group.size();
+				positionInGroup++) {
 
 				final Item item = group.get(positionInGroup);
 

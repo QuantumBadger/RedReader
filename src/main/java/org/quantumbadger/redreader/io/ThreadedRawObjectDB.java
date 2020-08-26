@@ -49,7 +49,9 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 	private final RawObjectDB<K, V> db;
 	private final CacheDataSource<K, V, F> alternateSource;
 
-	public ThreadedRawObjectDB(RawObjectDB<K, V> db, CacheDataSource<K, V, F> alternateSource) {
+	public ThreadedRawObjectDB(
+			RawObjectDB<K, V> db,
+			CacheDataSource<K, V, F> alternateSource) {
 		this.db = db;
 		this.alternateSource = alternateSource;
 	}
@@ -76,15 +78,17 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 		}
 	}
 
-	public void performRequest(K key, TimestampBound timestampBound,
-							   RequestResponseHandler<V, F> handler) {
+	public void performRequest(
+			K key, TimestampBound timestampBound,
+			RequestResponseHandler<V, F> handler) {
 
 		toRead.offer(new SingleReadOperation(timestampBound, handler, key));
 		readThread.trigger();
 	}
 
-	public void performRequest(Collection<K> keys, TimestampBound timestampBound,
-							   RequestResponseHandler<HashMap<K, V>, F> handler) {
+	public void performRequest(
+			Collection<K> keys, TimestampBound timestampBound,
+			RequestResponseHandler<HashMap<K, V>, F> handler) {
 
 		toRead.offer(new BulkReadOperation(timestampBound, handler, keys));
 		readThread.trigger();
@@ -115,8 +119,10 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 		public final Collection<K> keys;
 		public final RequestResponseHandler<HashMap<K, V>, F> responseHandler;
 
-		private BulkReadOperation(TimestampBound timestampBound,
-								  RequestResponseHandler<HashMap<K, V>, F> responseHandler, Collection<K> keys) {
+		private BulkReadOperation(
+				TimestampBound timestampBound,
+				RequestResponseHandler<HashMap<K, V>, F> responseHandler,
+				Collection<K> keys) {
 			super(timestampBound);
 			this.responseHandler = responseHandler;
 			this.keys = keys;
@@ -135,10 +141,13 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 				while(iter.hasNext()) {
 					final K key = iter.next();
 					final V writeCacheResult = toWrite.get(key);
-					if(writeCacheResult != null && timestampBound.verifyTimestamp(writeCacheResult.getTimestamp())) {
+					if(writeCacheResult != null && timestampBound.verifyTimestamp(
+							writeCacheResult.getTimestamp())) {
 						iter.remove();
 						existingResult.put(key, writeCacheResult);
-						oldestTimestamp = Math.min(oldestTimestamp, writeCacheResult.getTimestamp());
+						oldestTimestamp = Math.min(
+								oldestTimestamp,
+								writeCacheResult.getTimestamp());
 					}
 				}
 			}
@@ -153,7 +162,8 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 			while(iter.hasNext()) {
 				final K key = iter.next();
 				final V dbResult = db.getById(key); // TODO this is pretty inefficient
-				if(dbResult != null && timestampBound.verifyTimestamp(dbResult.getTimestamp())) {
+				if(dbResult != null
+						&& timestampBound.verifyTimestamp(dbResult.getTimestamp())) {
 					iter.remove();
 					existingResult.put(key, dbResult);
 					oldestTimestamp = Math.min(oldestTimestamp, dbResult.getTimestamp());
@@ -167,17 +177,24 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 
 			final long outerOldestTimestamp = oldestTimestamp;
 
-			alternateSource.performRequest(keys, timestampBound, new RequestResponseHandler<HashMap<K, V>, F>() {
-				public void onRequestFailed(F failureReason) {
-					responseHandler.onRequestFailed(failureReason);
-				}
+			alternateSource.performRequest(
+					keys,
+					timestampBound,
+					new RequestResponseHandler<HashMap<K, V>, F>() {
+						public void onRequestFailed(F failureReason) {
+							responseHandler.onRequestFailed(failureReason);
+						}
 
-				public void onRequestSuccess(HashMap<K, V> result, long timeCached) {
-					performWrite(result.values());
-					existingResult.putAll(result);
-					responseHandler.onRequestSuccess(existingResult, Math.min(timeCached, outerOldestTimestamp));
-				}
-			});
+						public void onRequestSuccess(
+								HashMap<K, V> result,
+								long timeCached) {
+							performWrite(result.values());
+							existingResult.putAll(result);
+							responseHandler.onRequestSuccess(
+									existingResult,
+									Math.min(timeCached, outerOldestTimestamp));
+						}
+					});
 		}
 	}
 
@@ -186,7 +203,10 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 		public final K key;
 		public final RequestResponseHandler<V, F> responseHandler;
 
-		private SingleReadOperation(TimestampBound timestampBound, RequestResponseHandler<V, F> responseHandler, K key) {
+		private SingleReadOperation(
+				TimestampBound timestampBound,
+				RequestResponseHandler<V, F> responseHandler,
+				K key) {
 			super(timestampBound);
 			this.responseHandler = responseHandler;
 			this.key = key;
@@ -197,28 +217,35 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 
 			synchronized(toWrite) {
 				final V writeCacheResult = toWrite.get(key);
-				if(writeCacheResult != null && timestampBound.verifyTimestamp(writeCacheResult.getTimestamp())) {
-					responseHandler.onRequestSuccess(writeCacheResult, writeCacheResult.getTimestamp());
+				if(writeCacheResult != null && timestampBound.verifyTimestamp(
+						writeCacheResult.getTimestamp())) {
+					responseHandler.onRequestSuccess(
+							writeCacheResult,
+							writeCacheResult.getTimestamp());
 					return;
 				}
 			}
 
 			final V dbResult = db.getById(key);
-			if(dbResult != null && timestampBound.verifyTimestamp(dbResult.getTimestamp())) {
+			if(dbResult != null
+					&& timestampBound.verifyTimestamp(dbResult.getTimestamp())) {
 				responseHandler.onRequestSuccess(dbResult, dbResult.getTimestamp());
 				return;
 			}
 
-			alternateSource.performRequest(key, timestampBound, new RequestResponseHandler<V, F>() {
-				public void onRequestFailed(F failureReason) {
-					responseHandler.onRequestFailed(failureReason);
-				}
+			alternateSource.performRequest(
+					key,
+					timestampBound,
+					new RequestResponseHandler<V, F>() {
+						public void onRequestFailed(F failureReason) {
+							responseHandler.onRequestFailed(failureReason);
+						}
 
-				public void onRequestSuccess(V result, long timeCached) {
-					performWrite(result);
-					responseHandler.onRequestSuccess(result, timeCached);
-				}
-			});
+						public void onRequestSuccess(V result, long timeCached) {
+							performWrite(result);
+							responseHandler.onRequestSuccess(result, timeCached);
+						}
+					});
 		}
 	}
 

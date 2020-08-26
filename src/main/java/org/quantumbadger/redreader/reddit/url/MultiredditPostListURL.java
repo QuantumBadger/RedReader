@@ -35,7 +35,8 @@ public class MultiredditPostListURL extends PostListingURL {
 			@NonNull final String name) {
 
 		Uri.Builder builder = new Uri.Builder();
-		builder.scheme(Constants.Reddit.getScheme()).authority(Constants.Reddit.getDomain());
+		builder.scheme(Constants.Reddit.getScheme())
+				.authority(Constants.Reddit.getDomain());
 
 		builder.encodedPath("/me/m/");
 		builder.appendPath(name);
@@ -48,7 +49,8 @@ public class MultiredditPostListURL extends PostListingURL {
 			@NonNull final String name) {
 
 		Uri.Builder builder = new Uri.Builder();
-		builder.scheme(Constants.Reddit.getScheme()).authority(Constants.Reddit.getDomain());
+		builder.scheme(Constants.Reddit.getScheme())
+				.authority(Constants.Reddit.getDomain());
 
 		builder.encodedPath("/user/");
 		builder.appendPath(username);
@@ -101,7 +103,8 @@ public class MultiredditPostListURL extends PostListingURL {
 	public Uri generateJsonUri() {
 
 		Uri.Builder builder = new Uri.Builder();
-		builder.scheme(Constants.Reddit.getScheme()).authority(Constants.Reddit.getDomain());
+		builder.scheme(Constants.Reddit.getScheme())
+				.authority(Constants.Reddit.getDomain());
 
 		if(username != null) {
 			builder.encodedPath("/user/");
@@ -135,7 +138,8 @@ public class MultiredditPostListURL extends PostListingURL {
 	}
 
 	@Override
-	public @RedditURLParser.PathType int pathType() {
+	public @RedditURLParser.PathType
+	int pathType() {
 		return RedditURLParser.MULTIREDDIT_POST_LISTING_URL;
 	}
 
@@ -155,7 +159,8 @@ public class MultiredditPostListURL extends PostListingURL {
 			} else if(parameterKey.equalsIgnoreCase("limit")) {
 				try {
 					limit = Integer.parseInt(uri.getQueryParameter(parameterKey));
-				} catch(Throwable ignored) {}
+				} catch(Throwable ignored) {
+				}
 
 			}
 		}
@@ -164,10 +169,12 @@ public class MultiredditPostListURL extends PostListingURL {
 		{
 			final List<String> pathSegmentsList = uri.getPathSegments();
 
-			final ArrayList<String> pathSegmentsFiltered = new ArrayList<>(pathSegmentsList.size());
+			final ArrayList<String> pathSegmentsFiltered = new ArrayList<>(
+					pathSegmentsList.size());
 			for(String segment : pathSegmentsList) {
 
-				while(General.asciiLowercase(segment).endsWith(".json") || General.asciiLowercase(segment).endsWith(".xml")) {
+				while(General.asciiLowercase(segment).endsWith(".json")
+						|| General.asciiLowercase(segment).endsWith(".xml")) {
 					segment = segment.substring(0, segment.lastIndexOf('.'));
 				}
 
@@ -176,12 +183,15 @@ public class MultiredditPostListURL extends PostListingURL {
 				}
 			}
 
-			pathSegments = pathSegmentsFiltered.toArray(new String[pathSegmentsFiltered.size()]);
+			pathSegments
+					= pathSegmentsFiltered.toArray(new String[pathSegmentsFiltered.size()]);
 		}
 
 		final PostSort order;
 		if(pathSegments.length > 0) {
-			order = PostSort.parse(pathSegments[pathSegments.length - 1], uri.getQueryParameter("t"));
+			order = PostSort.parse(
+					pathSegments[pathSegments.length - 1],
+					uri.getQueryParameter("t"));
 		} else {
 			order = null;
 		}

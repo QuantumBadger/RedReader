@@ -111,15 +111,17 @@ public final class InboxListingActivity extends BaseActivity {
 		@Override
 		public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup) {
 
-			final RedditInboxItemView view = new RedditInboxItemView(InboxListingActivity.this, mTheme);
+			final RedditInboxItemView view
+					= new RedditInboxItemView(InboxListingActivity.this, mTheme);
 
 			final RecyclerView.LayoutParams layoutParams
 					= new RecyclerView.LayoutParams(
-							ViewGroup.LayoutParams.MATCH_PARENT,
-							ViewGroup.LayoutParams.WRAP_CONTENT);
+					ViewGroup.LayoutParams.MATCH_PARENT,
+					ViewGroup.LayoutParams.WRAP_CONTENT);
 			view.setLayoutParams(layoutParams);
 
-			return new RecyclerView.ViewHolder(view) {};
+			return new RecyclerView.ViewHolder(view) {
+			};
 		}
 
 		@Override
@@ -150,7 +152,8 @@ public final class InboxListingActivity extends BaseActivity {
 		mChangeDataManager = RedditChangeDataManager.getInstance(
 				RedditAccountManager.getInstance(this).getDefaultAccount());
 
-		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		final SharedPreferences sharedPreferences
+				= PreferenceManager.getDefaultSharedPreferences(this);
 		final String title;
 
 		isModmail = getIntent() != null && getIntent().getBooleanExtra("modmail", false);
@@ -167,7 +170,11 @@ public final class InboxListingActivity extends BaseActivity {
 		final LinearLayout outer = new LinearLayout(this);
 		outer.setOrientation(LinearLayout.VERTICAL);
 
-		loadingView = new LoadingView(this, getString(R.string.download_waiting), true, true);
+		loadingView = new LoadingView(
+				this,
+				getString(R.string.download_waiting),
+				true,
+				true);
 
 		notifications = new LinearLayout(this);
 		notifications.setOrientation(LinearLayout.VERTICAL);
@@ -193,7 +200,8 @@ public final class InboxListingActivity extends BaseActivity {
 
 	private void makeFirstRequest(final Context context) {
 
-		final RedditAccount user = RedditAccountManager.getInstance(context).getDefaultAccount();
+		final RedditAccount user = RedditAccountManager.getInstance(context)
+				.getDefaultAccount();
 		final CacheManager cm = CacheManager.getInstance(context);
 
 		final URI url;
@@ -201,7 +209,7 @@ public final class InboxListingActivity extends BaseActivity {
 		if(!isModmail) {
 			if(mOnlyShowUnread) {
 				url = Constants.Reddit.getUri("/message/unread.json?mark=true&limit=100");
-			}else{
+			} else {
 				url = Constants.Reddit.getUri("/message/inbox.json?mark=true&limit=100");
 			}
 		} else {
@@ -214,10 +222,12 @@ public final class InboxListingActivity extends BaseActivity {
 				CacheRequest.DOWNLOAD_QUEUE_REDDIT_API, true, true, context) {
 
 			@Override
-			protected void onDownloadNecessary() {}
+			protected void onDownloadNecessary() {
+			}
 
 			@Override
-			protected void onDownloadStarted() {}
+			protected void onDownloadStarted() {
+			}
 
 			@Override
 			protected void onCallbackException(final Throwable t) {
@@ -226,34 +236,60 @@ public final class InboxListingActivity extends BaseActivity {
 			}
 
 			@Override
-			protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
+			protected void onFailure(
+					final @CacheRequest.RequestFailureType int type,
+					final Throwable t,
+					final Integer status,
+					final String readableMessage) {
 
 				request = null;
 
 				if(loadingView != null) loadingView.setDone(R.string.download_failed);
 
-				final RRError error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
+				final RRError error = General.getGeneralErrorForFailure(
+						context,
+						type,
+						t,
+						status,
+						url.toString());
 				AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
 					@Override
 					public void run() {
-						notifications.addView(new ErrorView(InboxListingActivity.this, error));
+						notifications.addView(new ErrorView(
+								InboxListingActivity.this,
+								error));
 					}
 				});
 
 				if(t != null) t.printStackTrace();
 			}
 
-			@Override protected void onProgress(final boolean authorizationInProgress, final long bytesRead, final long totalBytes) {}
+			@Override
+			protected void onProgress(
+					final boolean authorizationInProgress,
+					final long bytesRead,
+					final long totalBytes) {
+			}
 
 			@Override
-			protected void onSuccess(final CacheManager.ReadableCacheFile cacheFile, final long timestamp, final UUID session, final boolean fromCache, final String mimetype) {
+			protected void onSuccess(
+					final CacheManager.ReadableCacheFile cacheFile,
+					final long timestamp,
+					final UUID session,
+					final boolean fromCache,
+					final String mimetype) {
 				request = null;
 			}
 
 			@Override
-			public void onJsonParseStarted(final JsonValue value, final long timestamp, final UUID session, final boolean fromCache) {
+			public void onJsonParseStarted(
+					final JsonValue value,
+					final long timestamp,
+					final UUID session,
+					final boolean fromCache) {
 
-				if(loadingView != null) loadingView.setIndeterminate(R.string.download_downloading);
+				if(loadingView != null)
+					loadingView.setIndeterminate(R.string.download_downloading);
 
 				// TODO pref (currently 10 mins)
 				// TODO xml
@@ -262,10 +298,16 @@ public final class InboxListingActivity extends BaseActivity {
 						@Override
 						public void run() {
 							final TextView cacheNotif = new TextView(context);
-							cacheNotif.setText(context.getString(R.string.listing_cached, RRTime.formatDateTime(timestamp, context)));
+							cacheNotif.setText(context.getString(
+									R.string.listing_cached,
+									RRTime.formatDateTime(timestamp, context)));
 							final int paddingPx = General.dpToPixels(context, 6);
 							final int sidePaddingPx = General.dpToPixels(context, 10);
-							cacheNotif.setPadding(sidePaddingPx, paddingPx, sidePaddingPx, paddingPx);
+							cacheNotif.setPadding(
+									sidePaddingPx,
+									paddingPx,
+									sidePaddingPx,
+									paddingPx);
 							cacheNotif.setTextSize(13f);
 							notifications.addView(cacheNotif);
 							adapter.notifyDataSetChanged();
@@ -290,13 +332,14 @@ public final class InboxListingActivity extends BaseActivity {
 							case COMMENT:
 								final RedditComment comment = thing.asComment();
 
-								final RedditParsedComment parsedComment = new RedditParsedComment(
+								final RedditParsedComment parsedComment
+										= new RedditParsedComment(
 										comment,
 										InboxListingActivity.this);
 
 								final RedditRenderableComment renderableComment
 										= new RedditRenderableComment(
-												parsedComment,
+										parsedComment,
 										null,
 										-100000,
 										false);
@@ -310,19 +353,37 @@ public final class InboxListingActivity extends BaseActivity {
 								break;
 
 							case MESSAGE:
-								final RedditPreparedMessage message = new RedditPreparedMessage(
-										InboxListingActivity.this, thing.asMessage(), timestamp);
-								itemHandler.sendMessage(General.handlerMessage(0, new InboxItem(listPosition, message)));
+								final RedditPreparedMessage message
+										= new RedditPreparedMessage(
+										InboxListingActivity.this,
+										thing.asMessage(),
+										timestamp);
+								itemHandler.sendMessage(General.handlerMessage(
+										0,
+										new InboxItem(listPosition, message)));
 								listPosition++;
 
-								if(message.src.replies != null && message.src.replies.getType() == JsonValue.TYPE_OBJECT) {
+								if(message.src.replies != null
+										&& message.src.replies.getType()
+										== JsonValue.TYPE_OBJECT) {
 
-									final JsonBufferedArray replies = message.src.replies.asObject().getObject("data").getArray("children");
+									final JsonBufferedArray replies
+											= message.src.replies.asObject()
+											.getObject("data")
+											.getArray("children");
 
 									for(JsonValue childMsgValue : replies) {
-										final RedditMessage childMsgRaw = childMsgValue.asObject(RedditThing.class).asMessage();
-										final RedditPreparedMessage childMsg = new RedditPreparedMessage(InboxListingActivity.this, childMsgRaw, timestamp);
-										itemHandler.sendMessage(General.handlerMessage(0, new InboxItem(listPosition, childMsg)));
+										final RedditMessage childMsgRaw
+												= childMsgValue.asObject(RedditThing.class)
+												.asMessage();
+										final RedditPreparedMessage childMsg
+												= new RedditPreparedMessage(
+												InboxListingActivity.this,
+												childMsgRaw,
+												timestamp);
+										itemHandler.sendMessage(General.handlerMessage(
+												0,
+												new InboxItem(listPosition, childMsg)));
 										listPosition++;
 									}
 								}
@@ -334,8 +395,12 @@ public final class InboxListingActivity extends BaseActivity {
 						}
 					}
 
-				} catch (Throwable t) {
-					notifyFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "Parse failure");
+				} catch(Throwable t) {
+					notifyFailure(
+							CacheRequest.REQUEST_FAILURE_PARSE,
+							t,
+							null,
+							"Parse failure");
 					return;
 				}
 
@@ -356,7 +421,7 @@ public final class InboxListingActivity extends BaseActivity {
 		menu.add(0, OPTIONS_MENU_MARK_ALL_AS_READ, 0, R.string.mark_all_as_read);
 		menu.add(0, OPTIONS_MENU_SHOW_UNREAD_ONLY, 1, R.string.inbox_unread_only);
 		menu.getItem(1).setCheckable(true);
-		if(mOnlyShowUnread){
+		if(mOnlyShowUnread) {
 			menu.getItem(1).setChecked(true);
 		}
 		return super.onCreateOptionsMenu(menu);
@@ -371,22 +436,37 @@ public final class InboxListingActivity extends BaseActivity {
 						new APIResponseHandler.ActionResponseHandler(this) {
 							@Override
 							protected void onSuccess(@Nullable final String redirectUrl) {
-								General.quickToast(context, R.string.mark_all_as_read_success);
+								General.quickToast(
+										context,
+										R.string.mark_all_as_read_success);
 							}
 
 							@Override
 							protected void onCallbackException(final Throwable t) {
-								BugReportActivity.addGlobalError(new RRError("Mark all as Read failed", "Callback exception", t));
+								BugReportActivity.addGlobalError(new RRError(
+										"Mark all as Read failed",
+										"Callback exception",
+										t));
 							}
 
 							@Override
-							protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
-								final RRError error = General.getGeneralErrorForFailure(context, type, t, status,
+							protected void onFailure(
+									final @CacheRequest.RequestFailureType int type,
+									final Throwable t,
+									final Integer status,
+									final String readableMessage) {
+								final RRError error = General.getGeneralErrorForFailure(
+										context,
+										type,
+										t,
+										status,
 										"Reddit API action: Mark all as Read");
 								AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
 									@Override
 									public void run() {
-										General.showResultDialog(InboxListingActivity.this, error);
+										General.showResultDialog(
+												InboxListingActivity.this,
+												error);
 									}
 								});
 							}
@@ -394,11 +474,15 @@ public final class InboxListingActivity extends BaseActivity {
 							@Override
 							protected void onFailure(final APIFailureType type) {
 
-								final RRError error = General.getGeneralErrorForFailure(context, type);
+								final RRError error = General.getGeneralErrorForFailure(
+										context,
+										type);
 								AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
 									@Override
 									public void run() {
-										General.showResultDialog(InboxListingActivity.this, error);
+										General.showResultDialog(
+												InboxListingActivity.this,
+												error);
 									}
 								});
 							}

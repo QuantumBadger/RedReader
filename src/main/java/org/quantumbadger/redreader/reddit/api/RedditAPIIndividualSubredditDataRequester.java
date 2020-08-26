@@ -41,22 +41,26 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class RedditAPIIndividualSubredditDataRequester implements CacheDataSource<SubredditCanonicalId, RedditSubreddit, SubredditRequestFailure> {
+public class RedditAPIIndividualSubredditDataRequester implements
+		CacheDataSource<SubredditCanonicalId, RedditSubreddit, SubredditRequestFailure> {
 
 	private static final String TAG = "IndividualSRDataReq";
 
 	private final Context context;
 	private final RedditAccount user;
 
-	public RedditAPIIndividualSubredditDataRequester(Context context, RedditAccount user) {
+	public RedditAPIIndividualSubredditDataRequester(
+			Context context,
+			RedditAccount user) {
 		this.context = context;
 		this.user = user;
 	}
 
 	@Override
-	public void performRequest(final SubredditCanonicalId subredditCanonicalId,
-							   final TimestampBound timestampBound,
-							   final RequestResponseHandler<RedditSubreddit, SubredditRequestFailure> handler) {
+	public void performRequest(
+			final SubredditCanonicalId subredditCanonicalId,
+			final TimestampBound timestampBound,
+			final RequestResponseHandler<RedditSubreddit, SubredditRequestFailure> handler) {
 
 		final CacheRequest aboutSubredditCacheRequest = new CacheRequest(
 				Constants.Reddit.getUri(subredditCanonicalId.toString() + "/about.json"),
@@ -74,24 +78,58 @@ public class RedditAPIIndividualSubredditDataRequester implements CacheDataSourc
 
 			@Override
 			protected void onCallbackException(Throwable t) {
-				handler.onRequestFailed(new SubredditRequestFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "Parse error", url));
-			}
-
-			@Override protected void onDownloadNecessary() {}
-			@Override protected void onDownloadStarted() {}
-			@Override protected void onProgress(final boolean authorizationInProgress, long bytesRead, long totalBytes) {}
-
-			@Override
-			protected void onFailure(@CacheRequest.RequestFailureType int type, Throwable t, Integer status, String readableMessage) {
-				handler.onRequestFailed(new SubredditRequestFailure(type, t, status, readableMessage, url));
+				handler.onRequestFailed(new SubredditRequestFailure(
+						CacheRequest.REQUEST_FAILURE_PARSE,
+						t,
+						null,
+						"Parse error",
+						url));
 			}
 
 			@Override
-			protected void onSuccess(CacheManager.ReadableCacheFile cacheFile, long timestamp, UUID session,
-									 boolean fromCache, String mimetype) {}
+			protected void onDownloadNecessary() {
+			}
 
 			@Override
-			public void onJsonParseStarted(JsonValue result, long timestamp, UUID session, boolean fromCache) {
+			protected void onDownloadStarted() {
+			}
+
+			@Override
+			protected void onProgress(
+					final boolean authorizationInProgress,
+					long bytesRead,
+					long totalBytes) {
+			}
+
+			@Override
+			protected void onFailure(
+					@CacheRequest.RequestFailureType int type,
+					Throwable t,
+					Integer status,
+					String readableMessage) {
+				handler.onRequestFailed(new SubredditRequestFailure(
+						type,
+						t,
+						status,
+						readableMessage,
+						url));
+			}
+
+			@Override
+			protected void onSuccess(
+					CacheManager.ReadableCacheFile cacheFile,
+					long timestamp,
+					UUID session,
+					boolean fromCache,
+					String mimetype) {
+			}
+
+			@Override
+			public void onJsonParseStarted(
+					JsonValue result,
+					long timestamp,
+					UUID session,
+					boolean fromCache) {
 
 				try {
 					final RedditThing subredditThing = result.asObject(RedditThing.class);
@@ -102,7 +140,12 @@ public class RedditAPIIndividualSubredditDataRequester implements CacheDataSourc
 					RedditSubredditHistory.addSubreddit(user, subredditCanonicalId);
 
 				} catch(Exception e) {
-					handler.onRequestFailed(new SubredditRequestFailure(CacheRequest.REQUEST_FAILURE_PARSE, e, null, "Parse error", url));
+					handler.onRequestFailed(new SubredditRequestFailure(
+							CacheRequest.REQUEST_FAILURE_PARSE,
+							e,
+							null,
+							"Parse error",
+							url));
 				}
 			}
 		};
@@ -111,18 +154,23 @@ public class RedditAPIIndividualSubredditDataRequester implements CacheDataSourc
 	}
 
 	@Override
-	public void performRequest(final Collection<SubredditCanonicalId> subredditCanonicalIds,
-							   final TimestampBound timestampBound,
-							   final RequestResponseHandler<HashMap<SubredditCanonicalId, RedditSubreddit>, SubredditRequestFailure> handler) {
+	public void performRequest(
+			final Collection<SubredditCanonicalId> subredditCanonicalIds,
+			final TimestampBound timestampBound,
+			final RequestResponseHandler<
+					HashMap<SubredditCanonicalId, RedditSubreddit>,
+					SubredditRequestFailure> handler) {
 
 		// TODO if there's a bulk API to do this, that would be good... :)
 
 		final HashMap<SubredditCanonicalId, RedditSubreddit> result = new HashMap<>();
 		final AtomicBoolean stillOkay = new AtomicBoolean(true);
-		final AtomicInteger requestsToGo = new AtomicInteger(subredditCanonicalIds.size());
+		final AtomicInteger requestsToGo
+				= new AtomicInteger(subredditCanonicalIds.size());
 		final AtomicLong oldestResult = new AtomicLong(Long.MAX_VALUE);
 
-		final RequestResponseHandler <RedditSubreddit, SubredditRequestFailure> innerHandler
+		final RequestResponseHandler<RedditSubreddit, SubredditRequestFailure>
+				innerHandler
 				= new RequestResponseHandler<RedditSubreddit, SubredditRequestFailure>() {
 			@Override
 			public void onRequestFailed(SubredditRequestFailure failureReason) {
@@ -139,16 +187,14 @@ public class RedditAPIIndividualSubredditDataRequester implements CacheDataSourc
 				synchronized(result) {
 					if(stillOkay.get()) {
 
-						try
-						{
-							final SubredditCanonicalId canonicalId = innerResult.getCanonicalId();
+						try {
+							final SubredditCanonicalId canonicalId
+									= innerResult.getCanonicalId();
 
 							result.put(canonicalId, innerResult);
 							oldestResult.set(Math.min(oldestResult.get(), timeCached));
 							RedditSubredditHistory.addSubreddit(user, canonicalId);
-						}
-						catch(final InvalidSubredditNameException e)
-						{
+						} catch(final InvalidSubredditNameException e) {
 							Log.e(TAG, "Invalid subreddit name " + innerResult.name, e);
 						}
 

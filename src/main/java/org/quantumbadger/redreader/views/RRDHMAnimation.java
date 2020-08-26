@@ -29,9 +29,13 @@ public abstract class RRDHMAnimation extends RRAnimation {
 	protected boolean handleFrame(final long nanosSinceAnimationStart) {
 
 		final long microsSinceAnimationStart = nanosSinceAnimationStart / 1000;
-		final long stepLengthMicros = (long)(mDHM.getParams().stepLengthSeconds * 1000.0 * 1000.0);
+		final long stepLengthMicros = (long)(mDHM.getParams().stepLengthSeconds
+				* 1000.0
+				* 1000.0);
 
-		final int desiredStepNumber = (int)((microsSinceAnimationStart + (stepLengthMicros / 2)) / stepLengthMicros);
+		final int desiredStepNumber = (int)((microsSinceAnimationStart + (stepLengthMicros
+				/ 2))
+				/ stepLengthMicros);
 
 		while(mDHM.getCurrentStep() < desiredStepNumber) {
 

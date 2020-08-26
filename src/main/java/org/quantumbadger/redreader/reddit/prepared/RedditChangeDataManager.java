@@ -80,7 +80,8 @@ public final class RedditChangeDataManager {
 		return result;
 	}
 
-	public static void writeAllUsers(final ExtendedDataOutputStream dos) throws IOException {
+	public static void writeAllUsers(final ExtendedDataOutputStream dos) throws
+			IOException {
 
 		Log.i(TAG, "Taking snapshot...");
 
@@ -88,7 +89,8 @@ public final class RedditChangeDataManager {
 
 		Log.i(TAG, "Writing to stream...");
 
-		final Set<Map.Entry<RedditAccount, HashMap<String, Entry>>> userDataSet = data.entrySet();
+		final Set<Map.Entry<RedditAccount, HashMap<String, Entry>>> userDataSet =
+				data.entrySet();
 
 		dos.writeInt(userDataSet.size());
 
@@ -106,7 +108,13 @@ public final class RedditChangeDataManager {
 				entry.getValue().writeTo(dos);
 			}
 
-			Log.i(TAG, String.format(Locale.US, "Wrote %d entries for user '%s'", entrySet.size(), username));
+			Log.i(
+					TAG,
+					String.format(
+							Locale.US,
+							"Wrote %d entries for user '%s'",
+							entrySet.size(),
+							username));
 		}
 
 		Log.i(TAG, "All entries written to stream.");
@@ -127,7 +135,13 @@ public final class RedditChangeDataManager {
 			final String username = dis.readUTF();
 			final int entryCount = dis.readInt();
 
-			Log.i(TAG, String.format(Locale.US, "Reading %d entries for user '%s'", entryCount, username));
+			Log.i(
+					TAG,
+					String.format(
+							Locale.US,
+							"Reading %d entries for user '%s'",
+							entryCount,
+							username));
 
 			final HashMap<String, Entry> entries = new HashMap<>(entryCount);
 
@@ -139,14 +153,25 @@ public final class RedditChangeDataManager {
 
 			Log.i(TAG, "Getting account...");
 
-			final RedditAccount account = RedditAccountManager.getInstance(context).getAccount(username);
+			final RedditAccount account =
+					RedditAccountManager.getInstance(context).getAccount(username);
 
 			if(account == null) {
-				Log.i(TAG, String.format(Locale.US, "Skipping user '%s' as the account no longer exists", username));
+				Log.i(
+						TAG,
+						String.format(
+								Locale.US,
+								"Skipping user '%s' as the account no longer exists",
+								username));
 
 			} else {
 				getInstance(account).insertAll(entries);
-				Log.i(TAG, String.format(Locale.US, "Finished inserting entries for user '%s'", username));
+				Log.i(
+						TAG,
+						String.format(
+								Locale.US,
+								"Finished inserting entries for user '%s'",
+								username));
 			}
 		}
 
@@ -184,7 +209,8 @@ public final class RedditChangeDataManager {
 		private final boolean mIsDownvoted;
 		private final boolean mIsRead;
 		private final boolean mIsSaved;
-		private final Boolean mIsHidden; // For posts, this means "hidden". For comments, this means "collapsed".
+		private final Boolean mIsHidden;
+		// For posts, this means "hidden". For comments, this means "collapsed".
 
 		static final Entry CLEAR_ENTRY = new Entry();
 
@@ -232,7 +258,11 @@ public final class RedditChangeDataManager {
 		}
 
 		boolean isClear() {
-			return !mIsUpvoted && !mIsDownvoted && !mIsRead && !mIsSaved && mIsHidden == null;
+			return !mIsUpvoted
+					&& !mIsDownvoted
+					&& !mIsRead
+					&& !mIsSaved
+					&& mIsHidden == null;
 		}
 
 		public boolean isUpvoted() {
@@ -359,7 +389,8 @@ public final class RedditChangeDataManager {
 	private static final class ListenerNotifyOperator
 			implements WeakReferenceListManager.ArgOperator<Listener, String> {
 
-		public static final ListenerNotifyOperator INSTANCE = new ListenerNotifyOperator();
+		public static final ListenerNotifyOperator INSTANCE =
+				new ListenerNotifyOperator();
 
 		@Override
 		public void operate(final Listener listener, final String arg) {
@@ -370,7 +401,8 @@ public final class RedditChangeDataManager {
 	private final HashMap<String, Entry> mEntries = new HashMap<>();
 	private final Object mLock = new Object();
 
-	private final WeakReferenceListHashMapManager<String, Listener> mListeners = new WeakReferenceListHashMapManager<>();
+	private final WeakReferenceListHashMapManager<String, Listener> mListeners =
+			new WeakReferenceListHashMapManager<>();
 
 	public void addListener(
 			final RedditThingWithIdAndType thing,
@@ -468,7 +500,9 @@ public final class RedditChangeDataManager {
 		}
 	}
 
-	public void markDownvoted(final long timestamp, final RedditThingWithIdAndType thing) {
+	public void markDownvoted(
+			final long timestamp,
+			final RedditThingWithIdAndType thing) {
 
 		synchronized(mLock) {
 			final Entry existingEntry = get(thing);
@@ -486,7 +520,10 @@ public final class RedditChangeDataManager {
 		}
 	}
 
-	public void markSaved(final long timestamp, final RedditThingWithIdAndType thing, final boolean saved) {
+	public void markSaved(
+			final long timestamp,
+			final RedditThingWithIdAndType thing,
+			final boolean saved) {
 
 		synchronized(mLock) {
 			final Entry existingEntry = get(thing);
@@ -495,7 +532,10 @@ public final class RedditChangeDataManager {
 		}
 	}
 
-	public void markHidden(final long timestamp, final RedditThingWithIdAndType thing, final Boolean hidden) {
+	public void markHidden(
+			final long timestamp,
+			final RedditThingWithIdAndType thing,
+			final Boolean hidden) {
 
 		synchronized(mLock) {
 			final Entry existingEntry = get(thing);
@@ -556,7 +596,8 @@ public final class RedditChangeDataManager {
 				context, PreferenceManager.getDefaultSharedPreferences(context));
 
 		synchronized(mLock) {
-			final Iterator<Map.Entry<String, Entry>> iterator = mEntries.entrySet().iterator();
+			final Iterator<Map.Entry<String, Entry>> iterator =
+					mEntries.entrySet().iterator();
 			final SortedMap<Long, String> byTimestamp = new TreeMap<Long, String>();
 
 			while(iterator.hasNext()) {
@@ -578,7 +619,8 @@ public final class RedditChangeDataManager {
 
 			// Limit total number of entries to limit our memory usage. This is meant as a
 			// safeguard, as the time-based pruning above should have removed enough already.
-			final Iterator<Map.Entry<Long, String>> iter2 = byTimestamp.entrySet().iterator();
+			final Iterator<Map.Entry<Long, String>> iter2 =
+					byTimestamp.entrySet().iterator();
 			while(iter2.hasNext()) {
 				if(mEntries.size() <= MAX_ENTRY_COUNT) {
 					break;

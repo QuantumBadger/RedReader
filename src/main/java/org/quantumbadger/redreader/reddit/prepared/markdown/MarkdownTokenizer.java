@@ -117,7 +117,9 @@ public final class MarkdownTokenizer {
 		return tmp1;
 	}
 
-	private static void linkify(final IntArrayLengthPair input, final IntArrayLengthPair output) {
+	private static void linkify(
+			final IntArrayLengthPair input,
+			final IntArrayLengthPair output) {
 
 		if(input.data.length > output.data.length * 3) throw new RuntimeException();
 		output.clear();
@@ -155,13 +157,15 @@ public final class MarkdownTokenizer {
 
 					if(inBrackets == 0 && lastCharOk) {
 
-						final int linkStartType = getLinkStartType(input.data, i, input.pos);
+						final int linkStartType =
+								getLinkStartType(input.data, i, input.pos);
 						if(linkStartType >= 0) {
 
 							// Greedily read to space, or <>, or etc
 
 							final int linkStartPos = i;
-							final int linkPrefixEndPos = linkPrefixes[linkStartType].length + linkStartPos;
+							final int linkPrefixEndPos =
+									linkPrefixes[linkStartType].length + linkStartPos;
 							int linkEndPos = linkPrefixEndPos;
 
 							boolean hasOpeningParen = false;
@@ -213,7 +217,8 @@ public final class MarkdownTokenizer {
 
 							if(linkEndPos - linkPrefixEndPos >= 2) {
 
-								final int[] reverted = revert(input.data, linkStartPos, linkEndPos);
+								final int[] reverted =
+										revert(input.data, linkStartPos, linkEndPos);
 
 								output.data[output.pos++] = TOKEN_BRACKET_SQUARE_OPEN;
 								output.append(reverted);
@@ -245,11 +250,14 @@ public final class MarkdownTokenizer {
 
 					if(inBrackets == 0 && lastCharOk) {
 
-						final int linkStartType = getRedditLinkStartType(input.data, i, input.pos);
+						final int linkStartType =
+								getRedditLinkStartType(input.data, i, input.pos);
 						if(linkStartType >= 0) {
 
 							final int linkStartPos = i;
-							final int linkPrefixEndPos = linkPrefixes_reddit[linkStartType].length + linkStartPos;
+							final int linkPrefixEndPos =
+									linkPrefixes_reddit[linkStartType].length
+											+ linkStartPos;
 							int linkEndPos = linkPrefixEndPos;
 
 							while(linkEndPos < input.pos) {
@@ -275,7 +283,8 @@ public final class MarkdownTokenizer {
 
 							if(linkEndPos - linkPrefixEndPos > 2) {
 
-								final int[] reverted = revert(input.data, linkStartPos, linkEndPos);
+								final int[] reverted =
+										revert(input.data, linkStartPos, linkEndPos);
 
 								output.data[output.pos++] = TOKEN_BRACKET_SQUARE_OPEN;
 								output.append(reverted);
@@ -311,7 +320,9 @@ public final class MarkdownTokenizer {
 		}
 	}
 
-	public static void clean(final IntArrayLengthPair input, final IntArrayLengthPair output) {
+	public static void clean(
+			final IntArrayLengthPair input,
+			final IntArrayLengthPair output) {
 
 		// TODO use single byte array, flags
 		final boolean[] toRevert = new boolean[input.pos];
@@ -339,7 +350,7 @@ public final class MarkdownTokenizer {
 						if(beforeASpace) {
 							toRevert[i] = true;
 						} else {
-							openingUnderscore =  i;
+							openingUnderscore = i;
 						}
 
 					} else {
@@ -389,7 +400,7 @@ public final class MarkdownTokenizer {
 						if(beforeASpace) {
 							toRevert[i] = true;
 						} else {
-							openingAsterisk =  i;
+							openingAsterisk = i;
 						}
 
 					} else {
@@ -464,7 +475,8 @@ public final class MarkdownTokenizer {
 				case TOKEN_GRAVE:
 
 					final int openingGrave = i;
-					final int closingGrave = indexOf(input.data, TOKEN_GRAVE, i + 1, input.pos);
+					final int closingGrave =
+							indexOf(input.data, TOKEN_GRAVE, i + 1, input.pos);
 
 					if(closingGrave < 0) {
 						toRevert[i] = true;
@@ -493,10 +505,17 @@ public final class MarkdownTokenizer {
 
 						if(closingSquareBracket > i) {
 
-							final int parenOpenPos = indexOf(input.data, TOKEN_PAREN_OPEN, closingSquareBracket + 1, input.pos);
+							final int parenOpenPos = indexOf(
+									input.data,
+									TOKEN_PAREN_OPEN,
+									closingSquareBracket + 1,
+									input.pos);
 
 							if(parenOpenPos > closingSquareBracket
-									&& isSpaces(input.data, closingSquareBracket + 1, parenOpenPos)) {
+									&& isSpaces(
+									input.data,
+									closingSquareBracket + 1,
+									parenOpenPos)) {
 
 								lastBracketSquareOpen = i;
 
@@ -504,7 +523,8 @@ public final class MarkdownTokenizer {
 									if(input.data[j] == TOKEN_BRACKET_SQUARE_OPEN) {
 										input.data[j] = '[';
 
-									} else if(input.data[j] == TOKEN_BRACKET_SQUARE_CLOSE) {
+									} else if(input.data[j]
+											== TOKEN_BRACKET_SQUARE_CLOSE) {
 										input.data[j] = ']';
 									}
 								}
@@ -539,38 +559,54 @@ public final class MarkdownTokenizer {
 
 						if(parenOpenPos >= 0) {
 
-							if(isSpaces(input.data, lastBracketSquareClose + 1, parenOpenPos)) {
+							if(isSpaces(
+									input.data,
+									lastBracketSquareClose + 1,
+									parenOpenPos)) {
 
-								final int parenClosePos = findParenClosePos(input, parenOpenPos + 1);
+								final int parenClosePos =
+										findParenClosePos(input, parenOpenPos + 1);
 
 								if(parenClosePos >= 0) {
 
 									linkParseSuccess = true;
 
-									for(int j = lastBracketSquareOpen + 1; j < lastBracketSquareClose; j++) {
+									for(int j = lastBracketSquareOpen + 1;
+										j < lastBracketSquareClose;
+										j++) {
 										if(input.data[j] == TOKEN_BRACKET_SQUARE_OPEN
-											|| input.data[j] == TOKEN_BRACKET_SQUARE_CLOSE) {
+												|| input.data[j]
+												== TOKEN_BRACKET_SQUARE_CLOSE) {
 											toRevert[j] = true;
 										}
 									}
 
-									for(int j = lastBracketSquareClose + 1; j < parenOpenPos; j++) {
+									for(int j = lastBracketSquareClose + 1;
+										j < parenOpenPos;
+										j++) {
 										toDelete[j] = true;
 									}
 
-									for(int j = parenOpenPos + 1; j < parenClosePos; j++) {
+									for(int j = parenOpenPos + 1;
+										j < parenClosePos;
+										j++) {
 										if(input.data[j] < 0) {
 											toRevert[j] = true;
-										} else if(input.data[j] == ' ' && input.data[j-1] == ' ') {
+										} else if(input.data[j] == ' '
+												&& input.data[j - 1] == ' ') {
 											toDelete[j] = true;
 										}
 									}
 
-									for(int j = parenOpenPos + 1; input.data[j] == ' '; j++) {
+									for(int j = parenOpenPos + 1;
+										input.data[j] == ' ';
+										j++) {
 										toDelete[j] = true;
 									}
 
-									for(int j = parenClosePos - 1; input.data[j] == ' '; j--) {
+									for(int j = parenClosePos - 1;
+										input.data[j] == ' ';
+										j--) {
 										toDelete[j] = true;
 									}
 
@@ -597,17 +633,24 @@ public final class MarkdownTokenizer {
 				case TOKEN_UNICODE_OPEN:
 
 					final int openingUnicode = i;
-					final int closingUnicode = indexOf(input.data, TOKEN_UNICODE_CLOSE, i + 1,
-							Math.min(input.pos, i + 20));
+					final int closingUnicode =
+							indexOf(input.data, TOKEN_UNICODE_CLOSE, i + 1,
+									Math.min(input.pos, i + 20));
 
 					if(closingUnicode < 0) {
 						toRevert[i] = true;
 
 					} else if(input.data[i + 1] == '#') {
 
-						if(input.data[i + 2] == 'x' && isHexDigits(input.data, openingUnicode + 3, closingUnicode)) {
+						if(input.data[i + 2] == 'x' && isHexDigits(
+								input.data,
+								openingUnicode + 3,
+								closingUnicode)) {
 
-							final int codePoint = getHex(input.data, openingUnicode + 3, closingUnicode);
+							final int codePoint = getHex(
+									input.data,
+									openingUnicode + 3,
+									closingUnicode);
 
 							if(unicodeWhitespace.contains(codePoint)) {
 								input.data[openingUnicode] = ' ';
@@ -621,9 +664,15 @@ public final class MarkdownTokenizer {
 
 							i = closingUnicode;
 
-						} else if(isDigits(input.data, openingUnicode + 2, closingUnicode)) {
+						} else if(isDigits(
+								input.data,
+								openingUnicode + 2,
+								closingUnicode)) {
 
-							final int codePoint = getDecimal(input.data, openingUnicode + 2, closingUnicode);
+							final int codePoint = getDecimal(
+									input.data,
+									openingUnicode + 2,
+									closingUnicode);
 
 							if(unicodeWhitespace.contains(codePoint)) {
 								input.data[openingUnicode] = ' ';
@@ -647,18 +696,22 @@ public final class MarkdownTokenizer {
 
 						try {
 
-							final String name = new String(input.data, openingUnicode + 1, closingUnicode - openingUnicode - 1);
+							final String name = new String(
+									input.data,
+									openingUnicode + 1,
+									closingUnicode - openingUnicode - 1);
 
-							final String result = StringEscapeUtils.unescapeHtml4("&" + name + ";");
+							final String result =
+									StringEscapeUtils.unescapeHtml4("&" + name + ";");
 
 							if(result.length() == 1) {
-								codePoint = (int) result.charAt(0);
+								codePoint = (int)result.charAt(0);
 
 							} else if(name.equalsIgnoreCase("apos")) {
-								codePoint = (int) '\'';
+								codePoint = (int)'\'';
 
 							} else if(name.equalsIgnoreCase("nsub")) {
-								codePoint = (int) '⊄';
+								codePoint = (int)'⊄';
 							}
 
 						} catch(Throwable ignore) {
@@ -751,7 +804,10 @@ public final class MarkdownTokenizer {
 		return -1;
 	}
 
-	private static int indexOfIgnoreEscaped(final IntArrayLengthPair haystack, int needle, int startPos) {
+	private static int indexOfIgnoreEscaped(
+			final IntArrayLengthPair haystack,
+			int needle,
+			int startPos) {
 		for(int i = startPos; i < haystack.pos; i++) {
 			if(haystack.data[i] == '\\') i++;
 			else if(haystack.data[i] == needle) return i;
@@ -759,7 +815,9 @@ public final class MarkdownTokenizer {
 		return -1;
 	}
 
-	public static void naiveTokenize(final IntArrayLengthPair input, final IntArrayLengthPair output) {
+	public static void naiveTokenize(
+			final IntArrayLengthPair input,
+			final IntArrayLengthPair output) {
 
 		output.clear();
 
@@ -786,9 +844,9 @@ public final class MarkdownTokenizer {
 						i++;
 						output.data[output.pos++] = TOKEN_UNDERSCORE_DOUBLE;
 					} else {
-						if ((i < input.pos -1 && input.data[i+1] == ' ')
-								|| (i > 0 && input.data[i-1] == ' ')
-								|| (i == 0)	|| (i == input.pos - 1)) {
+						if((i < input.pos - 1 && input.data[i + 1] == ' ')
+								|| (i > 0 && input.data[i - 1] == ' ')
+								|| (i == 0) || (i == input.pos - 1)) {
 							output.data[output.pos++] = TOKEN_UNDERSCORE;
 						} else {
 							output.data[output.pos++] = c;
@@ -857,12 +915,20 @@ public final class MarkdownTokenizer {
 		}
 	}
 
-	private static int indexOf(final int[] haystack, final int needle, final int startInclusive, final int endExclusive) {
-		for(int i = startInclusive; i < endExclusive; i++) if(haystack[i] == needle) return i;
+	private static int indexOf(
+			final int[] haystack,
+			final int needle,
+			final int startInclusive,
+			final int endExclusive) {
+		for(int i = startInclusive; i < endExclusive; i++)
+			if(haystack[i] == needle) return i;
 		return -1;
 	}
 
-	private static int reverseIndexOf(final int[] haystack, final int needle, final int startInclusive) {
+	private static int reverseIndexOf(
+			final int[] haystack,
+			final int needle,
+			final int startInclusive) {
 		for(int i = startInclusive; i >= 0; i--) if(haystack[i] == needle) return i;
 		return -1;
 	}
@@ -895,25 +961,40 @@ public final class MarkdownTokenizer {
 		return -1;
 	}
 
-	private static boolean isSpaces(final int[] haystack, final int startInclusive, final int endExclusive) {
-		for(int i = startInclusive; i < endExclusive; i++) if(haystack[i] != ' ') return false;
+	private static boolean isSpaces(
+			final int[] haystack,
+			final int startInclusive,
+			final int endExclusive) {
+		for(int i = startInclusive; i < endExclusive; i++)
+			if(haystack[i] != ' ') return false;
 		return true;
 	}
 
-	private static boolean isDigits(final int[] haystack, final int startInclusive, final int endExclusive) {
-		for(int i = startInclusive; i < endExclusive; i++) if(haystack[i] < '0' || haystack[i] > '9') return false;
+	private static boolean isDigits(
+			final int[] haystack,
+			final int startInclusive,
+			final int endExclusive) {
+		for(int i = startInclusive; i < endExclusive; i++)
+			if(haystack[i] < '0' || haystack[i] > '9') return false;
 		return true;
 	}
 
-	private static boolean isHexDigits(final int[] haystack, final int startInclusive, final int endExclusive) {
+	private static boolean isHexDigits(
+			final int[] haystack,
+			final int startInclusive,
+			final int endExclusive) {
 		for(int i = startInclusive; i < endExclusive; i++) {
 			final int c = haystack[i];
-			if((c < '0' || c > '9') && (c < 'a' || c > 'f') && (c < 'A' || c > 'F')) return false;
+			if((c < '0' || c > '9') && (c < 'a' || c > 'f') && (c < 'A' || c > 'F'))
+				return false;
 		}
 		return true;
 	}
 
-	private static int getDecimal(final int[] chars, final int startInclusive, final int endExclusive) {
+	private static int getDecimal(
+			final int[] chars,
+			final int startInclusive,
+			final int endExclusive) {
 		int result = 0;
 		for(int i = startInclusive; i < endExclusive; i++) {
 			result *= 10;
@@ -928,7 +1009,10 @@ public final class MarkdownTokenizer {
 		return 10 + ch - 'A';
 	}
 
-	private static int getHex(final int[] chars, final int startInclusive, final int endExclusive) {
+	private static int getHex(
+			final int[] chars,
+			final int startInclusive,
+			final int endExclusive) {
 		int result = 0;
 		for(int i = startInclusive; i < endExclusive; i++) {
 			result *= 16;
@@ -937,25 +1021,41 @@ public final class MarkdownTokenizer {
 		return result;
 	}
 
-	private static boolean equals(final int[] haystack, final char[] needle, int startInclusive) {
-		for(int i = 0; i < needle.length; i++) if(haystack[startInclusive + i] != needle[i]) return false;
+	private static boolean equals(
+			final int[] haystack,
+			final char[] needle,
+			int startInclusive) {
+		for(int i = 0; i < needle.length; i++)
+			if(haystack[startInclusive + i] != needle[i]) return false;
 		return true;
 	}
 
-	private static int getLinkStartType(final int[] haystack, final int startInclusive, final int endExclusive) {
+	private static int getLinkStartType(
+			final int[] haystack,
+			final int startInclusive,
+			final int endExclusive) {
 		final int maxLen = endExclusive - startInclusive;
 		for(int type = 0; type < linkPrefixes.length; type++) {
-			if(linkPrefixes[type].length <= maxLen && equals(haystack, linkPrefixes[type], startInclusive)) {
+			if(linkPrefixes[type].length <= maxLen && equals(
+					haystack,
+					linkPrefixes[type],
+					startInclusive)) {
 				return type;
 			}
 		}
 		return -1;
 	}
 
-	private static int getRedditLinkStartType(final int[] haystack, final int startInclusive, final int endExclusive) {
+	private static int getRedditLinkStartType(
+			final int[] haystack,
+			final int startInclusive,
+			final int endExclusive) {
 		final int maxLen = endExclusive - startInclusive;
 		for(int type = 0; type < linkPrefixes_reddit.length; type++) {
-			if(linkPrefixes_reddit[type].length <= maxLen && equals(haystack, linkPrefixes_reddit[type], startInclusive)) {
+			if(linkPrefixes_reddit[type].length <= maxLen && equals(
+					haystack,
+					linkPrefixes_reddit[type],
+					startInclusive)) {
 				return type;
 			}
 		}
@@ -963,7 +1063,10 @@ public final class MarkdownTokenizer {
 	}
 
 	// TODO avoid generating new array
-	private static int[] revert(final int[] tokens, final int startInclusive, final int endExclusive) {
+	private static int[] revert(
+			final int[] tokens,
+			final int startInclusive,
+			final int endExclusive) {
 
 		int outputLen = 0;
 

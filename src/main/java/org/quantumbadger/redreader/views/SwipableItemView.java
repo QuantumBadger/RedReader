@@ -1,16 +1,16 @@
 /*******************************************************************************
  * This file is part of RedReader.
- * <p>
+ *
  * RedReader is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * <p>
+ *
  * RedReader is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * <p>
+ *
  * You should have received a copy of the GNU General Public License
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
@@ -44,10 +44,16 @@ public abstract class SwipableItemView extends FrameLayout {
 		super(context);
 	}
 
-	protected abstract void onSwipeFingerDown(int x, int y, final float xOffsetPixels, boolean wasOldSwipeInterrupted);
+	protected abstract void onSwipeFingerDown(
+			int x,
+			int y,
+			final float xOffsetPixels,
+			boolean wasOldSwipeInterrupted);
+
 	protected abstract void onSwipeDeltaChanged(float dx);
 
 	protected abstract boolean allowSwipingLeft();
+
 	protected abstract boolean allowSwipingRight();
 
 	public void setSwipingEnabled(final boolean swipingEnabled) {
@@ -70,7 +76,8 @@ public abstract class SwipableItemView extends FrameLayout {
 
 		final float overallPos = mOverallSwipeDelta + mCurrentSwipeDelta;
 
-		if((overallPos > 0 && !allowSwipingRight()) || (overallPos < 0 && !allowSwipingLeft())) {
+		if((overallPos > 0 && !allowSwipingRight()) || (overallPos < 0
+				&& !allowSwipingLeft())) {
 			mOverallSwipeDelta = -mCurrentSwipeDelta;
 		}
 
@@ -79,7 +86,9 @@ public abstract class SwipableItemView extends FrameLayout {
 
 	private void onFingerDown(int x, int y) {
 
-		final boolean wasOldSwipeInterrupted = (mCurrentSwipeAnimation != null) || (mOverallSwipeDelta != 0);
+		final boolean wasOldSwipeInterrupted = (mCurrentSwipeAnimation != null) || (
+				mOverallSwipeDelta
+						!= 0);
 
 		cancelSwipeAnimation();
 		mSwipeHistory.clear();
@@ -97,7 +106,8 @@ public abstract class SwipableItemView extends FrameLayout {
 	private void onSwipeEnd() {
 
 		if(mSwipeHistory.size() >= 2) {
-			mVelocity = (mSwipeHistory.getMostRecent() - mSwipeHistory.getAtTimeAgoMs(100)) * 10;
+			mVelocity = (mSwipeHistory.getMostRecent()
+					- mSwipeHistory.getAtTimeAgoMs(100)) * 10;
 		} else {
 			mVelocity = 0;
 		}
@@ -119,7 +129,8 @@ public abstract class SwipableItemView extends FrameLayout {
 	}
 
 	private void animateSwipeToRestPosition() {
-		final LiveDHM.Params params = new LiveDHM.Params(); // TODO account for screen dpi!
+		final LiveDHM.Params params
+				= new LiveDHM.Params(); // TODO account for screen dpi!
 		params.startPosition = mOverallSwipeDelta;
 		params.startVelocity = mVelocity;
 		startSwipeAnimation(new SwipeAnimation(params));
@@ -192,7 +203,7 @@ public abstract class SwipableItemView extends FrameLayout {
 		final int pointerId = ev.getPointerId(ev.getActionIndex());
 
 		if(action == MotionEvent.ACTION_DOWN
-			   || action == MotionEvent.ACTION_POINTER_DOWN) {
+				|| action == MotionEvent.ACTION_POINTER_DOWN) {
 
 			if(mSwipeStart != null) {
 				// We can receive duplicate DOWN events because we're visited in both
@@ -229,9 +240,9 @@ public abstract class SwipableItemView extends FrameLayout {
 			}
 
 		} else if(action == MotionEvent.ACTION_CANCEL
-					  || action == MotionEvent.ACTION_UP
-					  || action == MotionEvent.ACTION_POINTER_UP
-					  || action == MotionEvent.ACTION_OUTSIDE) {
+				|| action == MotionEvent.ACTION_UP
+				|| action == MotionEvent.ACTION_POINTER_UP
+				|| action == MotionEvent.ACTION_OUTSIDE) {
 
 			if(pointerId != mSwipeStartPointerId) {
 				return false;
@@ -274,9 +285,9 @@ public abstract class SwipableItemView extends FrameLayout {
 			onFingerSwipeMove();
 
 		} else if(action == MotionEvent.ACTION_CANCEL
-					  || action == MotionEvent.ACTION_UP
-					  || action == MotionEvent.ACTION_POINTER_UP
-					  || action == MotionEvent.ACTION_OUTSIDE) {
+				|| action == MotionEvent.ACTION_UP
+				|| action == MotionEvent.ACTION_POINTER_UP
+				|| action == MotionEvent.ACTION_OUTSIDE) {
 
 			mSwipeStart = null;
 			mSwipeInProgress = false;

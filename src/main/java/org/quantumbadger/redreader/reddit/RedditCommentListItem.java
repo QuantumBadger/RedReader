@@ -149,7 +149,8 @@ public class RedditCommentListItem extends GroupedRecyclerViewAdapter.Item {
 	public boolean isHidden(final RedditChangeDataManager changeDataManager) {
 
 		if(mParent != null) {
-			return mParent.isCollapsed(changeDataManager) || mParent.isHidden(changeDataManager);
+			return mParent.isCollapsed(changeDataManager) || mParent.isHidden(
+					changeDataManager);
 		}
 
 		return false;
@@ -191,7 +192,8 @@ public class RedditCommentListItem extends GroupedRecyclerViewAdapter.Item {
 			throw new RuntimeException("Unknown item type");
 		}
 
-		return new RecyclerView.ViewHolder(view) {};
+		return new RecyclerView.ViewHolder(view) {
+		};
 	}
 
 	@Override

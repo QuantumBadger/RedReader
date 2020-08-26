@@ -59,7 +59,8 @@ public class RedditAccount {
 
 	@Override
 	public boolean equals(final Object o) {
-		return o instanceof RedditAccount && username.equalsIgnoreCase(((RedditAccount) o).username);
+		return o instanceof RedditAccount
+				&& username.equalsIgnoreCase(((RedditAccount)o).username);
 	}
 
 	@Override

@@ -30,8 +30,7 @@ import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 
 /**
- * Draws the left margin for comments based on the
- * RedditPreparedComment#indentation number
+ * Draws the left margin for comments based on the RedditPreparedComment#indentation number
  *
  * @author Gabriel Castro &lt;dev@GabrielCastro.ca&gt;
  */
@@ -53,7 +52,10 @@ class IndentView extends View {
 		this(context, attrs, 0);
 	}
 
-	public IndentView(final Context context, @Nullable final AttributeSet attrs, final int defStyleAttr) {
+	public IndentView(
+			final Context context,
+			@Nullable final AttributeSet attrs,
+			final int defStyleAttr) {
 
 		super(context, attrs, defStyleAttr);
 
@@ -65,7 +67,7 @@ class IndentView extends View {
 		final int rrIndentLineCol;
 
 		{
-			final TypedArray attr = context.obtainStyledAttributes(new int[]{
+			final TypedArray attr = context.obtainStyledAttributes(new int[] {
 					R.attr.rrIndentBackgroundCol,
 					R.attr.rrIndentLineCol
 			});
@@ -80,7 +82,9 @@ class IndentView extends View {
 		mPaint.setColor(rrIndentLineCol);
 		mPaint.setStrokeWidth(mPixelsPerLine);
 
-		mPrefDrawLines = PrefsUtility.pref_appearance_indentlines(context, PreferenceManager.getDefaultSharedPreferences(context));
+		mPrefDrawLines = PrefsUtility.pref_appearance_indentlines(
+				context,
+				PreferenceManager.getDefaultSharedPreferences(context));
 	}
 
 	@Override
@@ -95,9 +99,9 @@ class IndentView extends View {
 			float x;
 			// i keeps track of indentation, and
 			// l is to populate the float[] with line co-ordinates
-			for (int i = 0, l = 0; i < mIndent; ++l) {
+			for(int i = 0, l = 0; i < mIndent; ++l) {
 				x = (mPixelsPerIndent * ++i) - mHalfALine;
-				lines[l]   = x;      // start-x
+				lines[l] = x;      // start-x
 				lines[++l] = 0;      // start-y
 				lines[++l] = x;      // stop-x
 				lines[++l] = height; // stop-y
@@ -112,6 +116,7 @@ class IndentView extends View {
 
 	/**
 	 * Sets the indentation for the View
+	 *
 	 * @param indent comment indentation number
 	 */
 	public void setIndentation(int indent) {

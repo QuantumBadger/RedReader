@@ -33,7 +33,7 @@ public class LoadingSpinnerView extends RelativeLayout {
 
 		super(context);
 
-		final TypedArray typedArray = context.obtainStyledAttributes(new int[]{
+		final TypedArray typedArray = context.obtainStyledAttributes(new int[] {
 				R.attr.rrLoadingRingForegroundCol,
 				R.attr.rrLoadingRingBackgroundCol
 		});

@@ -44,6 +44,7 @@ import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.MainMenuFragment;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
+import org.quantumbadger.redreader.reddit.api.SubredditSubscriptionState;
 import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
 import org.quantumbadger.redreader.reddit.url.MultiredditPostListURL;
 import org.quantumbadger.redreader.reddit.url.PostListingURL;
@@ -63,20 +64,21 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class MainMenuListingManager {
 
 	private static final int
-			GROUP_MAIN_HEADER 				= 0,
-			GROUP_MAIN_ITEMS 				= 1,
-			GROUP_USER_HEADER 				= 2,
-			GROUP_USER_ITEMS 				= 3,
-			GROUP_PINNED_SUBREDDITS_HEADER 	= 4,
-			GROUP_PINNED_SUBREDDITS_ITEMS 	= 5,
-			GROUP_BLOCKED_SUBREDDITS_HEADER	= 6,
-			GROUP_BLOCKED_SUBREDDITS_ITEMS  = 7,
-			GROUP_MULTIREDDITS_HEADER 		= 8,
-			GROUP_MULTIREDDITS_ITEMS 		= 9,
-			GROUP_SUBREDDITS_HEADER 		= 10,
-			GROUP_SUBREDDITS_ITEMS 			= 11;
+			GROUP_MAIN_HEADER = 0,
+			GROUP_MAIN_ITEMS = 1,
+			GROUP_USER_HEADER = 2,
+			GROUP_USER_ITEMS = 3,
+			GROUP_PINNED_SUBREDDITS_HEADER = 4,
+			GROUP_PINNED_SUBREDDITS_ITEMS = 5,
+			GROUP_BLOCKED_SUBREDDITS_HEADER = 6,
+			GROUP_BLOCKED_SUBREDDITS_ITEMS = 7,
+			GROUP_MULTIREDDITS_HEADER = 8,
+			GROUP_MULTIREDDITS_ITEMS = 9,
+			GROUP_SUBREDDITS_HEADER = 10,
+			GROUP_SUBREDDITS_ITEMS = 11;
 
-	@NonNull private final GroupedRecyclerViewAdapter mAdapter = new GroupedRecyclerViewAdapter(12);
+	@NonNull private final GroupedRecyclerViewAdapter mAdapter
+			= new GroupedRecyclerViewAdapter(12);
 	@NonNull private final Context mContext;
 	@NonNull private final AppCompatActivity mActivity;
 
@@ -105,7 +107,7 @@ public class MainMenuListingManager {
 
 		public final int descriptionResId;
 
-		SubredditAction(final int descriptionResId){
+		SubredditAction(final int descriptionResId) {
 			this.descriptionResId = descriptionResId;
 		}
 	}
@@ -130,7 +132,7 @@ public class MainMenuListingManager {
 		final Drawable rrIconDownvote;
 
 		{
-			final TypedArray attr = activity.obtainStyledAttributes(new int[]{
+			final TypedArray attr = activity.obtainStyledAttributes(new int[] {
 					R.attr.rrIconPerson,
 					R.attr.rrIconEnvOpen,
 					R.attr.rrIconSend,
@@ -143,55 +145,95 @@ public class MainMenuListingManager {
 			rrIconPerson = ContextCompat.getDrawable(activity, attr.getResourceId(0, 0));
 			rrIconEnvOpen = ContextCompat.getDrawable(activity, attr.getResourceId(1, 0));
 			rrIconSend = ContextCompat.getDrawable(activity, attr.getResourceId(2, 0));
-			rrIconStarFilled = ContextCompat.getDrawable(activity, attr.getResourceId(3, 0));
+			rrIconStarFilled = ContextCompat.getDrawable(
+					activity,
+					attr.getResourceId(3, 0));
 			rrIconCross = ContextCompat.getDrawable(activity, attr.getResourceId(4, 0));
 			rrIconUpvote = ContextCompat.getDrawable(activity, attr.getResourceId(5, 0));
-			rrIconDownvote = ContextCompat.getDrawable(activity, attr.getResourceId(6, 0));
+			rrIconDownvote = ContextCompat.getDrawable(
+					activity,
+					attr.getResourceId(6, 0));
 
 			attr.recycle();
 		}
 
 		{
-			final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+			final SharedPreferences sharedPreferences
+					= PreferenceManager.getDefaultSharedPreferences(activity);
 			final EnumSet<MainMenuFragment.MainMenuShortcutItems> mainMenuShortcutItems
-					= PrefsUtility.pref_menus_mainmenu_shortcutitems(activity, sharedPreferences);
+					= PrefsUtility.pref_menus_mainmenu_shortcutitems(
+					activity,
+					sharedPreferences);
 
-			if (mainMenuShortcutItems.contains(MainMenuFragment.MainMenuShortcutItems.FRONTPAGE)){
-				mAdapter.appendToGroup(GROUP_MAIN_ITEMS,
-						makeItem(R.string.mainmenu_frontpage, MainMenuFragment.MENU_MENU_ACTION_FRONTPAGE, null, true));
+			if(mainMenuShortcutItems.contains(MainMenuFragment.MainMenuShortcutItems.FRONTPAGE)) {
+				mAdapter.appendToGroup(
+						GROUP_MAIN_ITEMS,
+						makeItem(
+								R.string.mainmenu_frontpage,
+								MainMenuFragment.MENU_MENU_ACTION_FRONTPAGE,
+								null,
+								true));
 			}
 
-			if (mainMenuShortcutItems.contains(MainMenuFragment.MainMenuShortcutItems.POPULAR)){
-				mAdapter.appendToGroup(GROUP_MAIN_ITEMS,
-						makeItem(R.string.mainmenu_popular, MainMenuFragment.MENU_MENU_ACTION_POPULAR, null, false));
+			if(mainMenuShortcutItems.contains(MainMenuFragment.MainMenuShortcutItems.POPULAR)) {
+				mAdapter.appendToGroup(
+						GROUP_MAIN_ITEMS,
+						makeItem(
+								R.string.mainmenu_popular,
+								MainMenuFragment.MENU_MENU_ACTION_POPULAR,
+								null,
+								false));
 			}
 
-			if (mainMenuShortcutItems.contains(MainMenuFragment.MainMenuShortcutItems.ALL)){
-				mAdapter.appendToGroup(GROUP_MAIN_ITEMS,
-						makeItem(R.string.mainmenu_all, MainMenuFragment.MENU_MENU_ACTION_ALL, null, false));
+			if(mainMenuShortcutItems.contains(MainMenuFragment.MainMenuShortcutItems.ALL)) {
+				mAdapter.appendToGroup(
+						GROUP_MAIN_ITEMS,
+						makeItem(
+								R.string.mainmenu_all,
+								MainMenuFragment.MENU_MENU_ACTION_ALL,
+								null,
+								false));
 			}
 
-			if (mainMenuShortcutItems.contains(MainMenuFragment.MainMenuShortcutItems.CUSTOM)){
-				mAdapter.appendToGroup(GROUP_MAIN_ITEMS,
-						makeItem(R.string.mainmenu_custom_destination, MainMenuFragment.MENU_MENU_ACTION_CUSTOM, null, false));
+			if(mainMenuShortcutItems.contains(MainMenuFragment.MainMenuShortcutItems.CUSTOM)) {
+				mAdapter.appendToGroup(
+						GROUP_MAIN_ITEMS,
+						makeItem(
+								R.string.mainmenu_custom_destination,
+								MainMenuFragment.MENU_MENU_ACTION_CUSTOM,
+								null,
+								false));
 			}
 
-			if (mainMenuShortcutItems.contains(MainMenuFragment.MainMenuShortcutItems.RANDOM)){
-				mAdapter.appendToGroup(GROUP_MAIN_ITEMS,
-						makeItem(R.string.mainmenu_random, MainMenuFragment.MENU_MENU_ACTION_RANDOM, null, false));
+			if(mainMenuShortcutItems.contains(MainMenuFragment.MainMenuShortcutItems.RANDOM)) {
+				mAdapter.appendToGroup(
+						GROUP_MAIN_ITEMS,
+						makeItem(
+								R.string.mainmenu_random,
+								MainMenuFragment.MENU_MENU_ACTION_RANDOM,
+								null,
+								false));
 			}
 
-			if (mainMenuShortcutItems.contains(MainMenuFragment.MainMenuShortcutItems.RANDOM_NSFW)){
-				mAdapter.appendToGroup(GROUP_MAIN_ITEMS,
-						makeItem(R.string.mainmenu_random_nsfw, MainMenuFragment.MENU_MENU_ACTION_RANDOM_NSFW, null, false));
+			if(mainMenuShortcutItems.contains(MainMenuFragment.MainMenuShortcutItems.RANDOM_NSFW)) {
+				mAdapter.appendToGroup(
+						GROUP_MAIN_ITEMS,
+						makeItem(
+								R.string.mainmenu_random_nsfw,
+								MainMenuFragment.MENU_MENU_ACTION_RANDOM_NSFW,
+								null,
+								false));
 			}
 		}
 
 		if(!user.isAnonymous()) {
 
-			final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+			final SharedPreferences sharedPreferences
+					= PreferenceManager.getDefaultSharedPreferences(activity);
 			final EnumSet<MainMenuFragment.MainMenuUserItems> mainMenuUserItems
-					= PrefsUtility.pref_menus_mainmenu_useritems(activity, sharedPreferences);
+					= PrefsUtility.pref_menus_mainmenu_useritems(
+					activity,
+					sharedPreferences);
 
 			if(!mainMenuUserItems.isEmpty()) {
 				if(PrefsUtility.pref_appearance_hide_username_main_menu(
@@ -214,50 +256,74 @@ public class MainMenuListingManager {
 				if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.PROFILE))
 					mAdapter.appendToGroup(
 							GROUP_USER_ITEMS,
-							makeItem(R.string.mainmenu_profile, MainMenuFragment.MENU_MENU_ACTION_PROFILE,
-									rrIconPerson, isFirst.getAndSet(false)));
+							makeItem(
+									R.string.mainmenu_profile,
+									MainMenuFragment.MENU_MENU_ACTION_PROFILE,
+									rrIconPerson,
+									isFirst.getAndSet(false)));
 
 				if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.INBOX))
 					mAdapter.appendToGroup(
 							GROUP_USER_ITEMS,
-							makeItem(R.string.mainmenu_inbox, MainMenuFragment.MENU_MENU_ACTION_INBOX,
-									rrIconEnvOpen, isFirst.getAndSet(false)));
+							makeItem(
+									R.string.mainmenu_inbox,
+									MainMenuFragment.MENU_MENU_ACTION_INBOX,
+									rrIconEnvOpen,
+									isFirst.getAndSet(false)));
 
 				if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.SUBMITTED))
 					mAdapter.appendToGroup(
 							GROUP_USER_ITEMS,
-							makeItem(R.string.mainmenu_submitted, MainMenuFragment.MENU_MENU_ACTION_SUBMITTED,
-									rrIconSend, isFirst.getAndSet(false)));
+							makeItem(
+									R.string.mainmenu_submitted,
+									MainMenuFragment.MENU_MENU_ACTION_SUBMITTED,
+									rrIconSend,
+									isFirst.getAndSet(false)));
 
 				if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.SAVED))
 					mAdapter.appendToGroup(
 							GROUP_USER_ITEMS,
-							makeItem(R.string.mainmenu_saved, MainMenuFragment.MENU_MENU_ACTION_SAVED,
-									rrIconStarFilled, isFirst.getAndSet(false)));
+							makeItem(
+									R.string.mainmenu_saved,
+									MainMenuFragment.MENU_MENU_ACTION_SAVED,
+									rrIconStarFilled,
+									isFirst.getAndSet(false)));
 
 				if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.HIDDEN))
 					mAdapter.appendToGroup(
 							GROUP_USER_ITEMS,
-							makeItem(R.string.mainmenu_hidden, MainMenuFragment.MENU_MENU_ACTION_HIDDEN,
-									rrIconCross, isFirst.getAndSet(false)));
+							makeItem(
+									R.string.mainmenu_hidden,
+									MainMenuFragment.MENU_MENU_ACTION_HIDDEN,
+									rrIconCross,
+									isFirst.getAndSet(false)));
 
 				if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.UPVOTED))
 					mAdapter.appendToGroup(
 							GROUP_USER_ITEMS,
-							makeItem(R.string.mainmenu_upvoted, MainMenuFragment.MENU_MENU_ACTION_UPVOTED,
-									rrIconUpvote, isFirst.getAndSet(false)));
+							makeItem(
+									R.string.mainmenu_upvoted,
+									MainMenuFragment.MENU_MENU_ACTION_UPVOTED,
+									rrIconUpvote,
+									isFirst.getAndSet(false)));
 
 				if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.DOWNVOTED))
 					mAdapter.appendToGroup(
 							GROUP_USER_ITEMS,
-							makeItem(R.string.mainmenu_downvoted, MainMenuFragment.MENU_MENU_ACTION_DOWNVOTED,
-									rrIconDownvote, isFirst.getAndSet(false)));
+							makeItem(
+									R.string.mainmenu_downvoted,
+									MainMenuFragment.MENU_MENU_ACTION_DOWNVOTED,
+									rrIconDownvote,
+									isFirst.getAndSet(false)));
 
 				if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.MODMAIL))
 					mAdapter.appendToGroup(
 							GROUP_USER_ITEMS,
-							makeItem(R.string.mainmenu_modmail, MainMenuFragment.MENU_MENU_ACTION_MODMAIL,
-									rrIconEnvOpen, isFirst.getAndSet(false)));
+							makeItem(
+									R.string.mainmenu_modmail,
+									MainMenuFragment.MENU_MENU_ACTION_MODMAIL,
+									rrIconEnvOpen,
+									isFirst.getAndSet(false)));
 			}
 		}
 
@@ -271,23 +337,29 @@ public class MainMenuListingManager {
 		}
 
 		if(!user.isAnonymous()) {
-			if (PrefsUtility.pref_show_multireddit_main_menu(
+			if(PrefsUtility.pref_show_multireddit_main_menu(
 					activity,
 					PreferenceManager.getDefaultSharedPreferences(activity))) {
 
 				showMultiredditsHeader(activity);
 
-				final LoadingSpinnerView multiredditsLoadingSpinnerView = new LoadingSpinnerView(activity);
+				final LoadingSpinnerView multiredditsLoadingSpinnerView
+						= new LoadingSpinnerView(activity);
 				final int paddingPx = General.dpToPixels(activity, 30);
-				multiredditsLoadingSpinnerView.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
+				multiredditsLoadingSpinnerView.setPadding(
+						paddingPx,
+						paddingPx,
+						paddingPx,
+						paddingPx);
 
 				final GroupedRecyclerViewItemFrameLayout multiredditsLoadingItem
-						= new GroupedRecyclerViewItemFrameLayout(multiredditsLoadingSpinnerView);
+						= new GroupedRecyclerViewItemFrameLayout(
+						multiredditsLoadingSpinnerView);
 				mAdapter.appendToGroup(GROUP_MULTIREDDITS_ITEMS, multiredditsLoadingItem);
 			}
 		}
 
-		if (PrefsUtility.pref_show_subscribed_subreddits_main_menu(
+		if(PrefsUtility.pref_show_subscribed_subreddits_main_menu(
 				activity,
 				PreferenceManager.getDefaultSharedPreferences(activity))) {
 
@@ -297,12 +369,18 @@ public class MainMenuListingManager {
 							activity.getString(R.string.mainmenu_header_subreddits_subscribed)));
 
 			{
-				final LoadingSpinnerView subredditsLoadingSpinnerView = new LoadingSpinnerView(activity);
+				final LoadingSpinnerView subredditsLoadingSpinnerView
+						= new LoadingSpinnerView(activity);
 				final int paddingPx = General.dpToPixels(activity, 30);
-				subredditsLoadingSpinnerView.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
+				subredditsLoadingSpinnerView.setPadding(
+						paddingPx,
+						paddingPx,
+						paddingPx,
+						paddingPx);
 
 				final GroupedRecyclerViewItemFrameLayout subredditsLoadingItem
-						= new GroupedRecyclerViewItemFrameLayout(subredditsLoadingSpinnerView);
+						= new GroupedRecyclerViewItemFrameLayout(
+						subredditsLoadingSpinnerView);
 				mAdapter.appendToGroup(GROUP_SUBREDDITS_ITEMS, subredditsLoadingItem);
 			}
 		}
@@ -319,12 +397,12 @@ public class MainMenuListingManager {
 		mAdapter.removeAllFromGroup(GROUP_PINNED_SUBREDDITS_ITEMS);
 		mAdapter.removeAllFromGroup(GROUP_PINNED_SUBREDDITS_HEADER);
 
-		if (!pinnedSubreddits.isEmpty()) {
+		if(!pinnedSubreddits.isEmpty()) {
 
 			final PrefsUtility.PinnedSubredditSort pinnedSubredditsSort
 					= PrefsUtility.pref_behaviour_pinned_subredditsort(
-							mActivity,
-							sharedPreferences);
+					mActivity,
+					sharedPreferences);
 
 			mAdapter.appendToGroup(
 					GROUP_PINNED_SUBREDDITS_HEADER,
@@ -337,8 +415,10 @@ public class MainMenuListingManager {
 
 			boolean isFirst = true;
 
-			for (final SubredditCanonicalId sr : pinnedSubreddits) {
-				mAdapter.appendToGroup(GROUP_PINNED_SUBREDDITS_ITEMS, makeSubredditItem(sr, isFirst, true));
+			for(final SubredditCanonicalId sr : pinnedSubreddits) {
+				mAdapter.appendToGroup(
+						GROUP_PINNED_SUBREDDITS_ITEMS,
+						makeSubredditItem(sr, isFirst, true));
 				isFirst = false;
 			}
 		}
@@ -355,10 +435,12 @@ public class MainMenuListingManager {
 		mAdapter.removeAllFromGroup(GROUP_BLOCKED_SUBREDDITS_ITEMS);
 		mAdapter.removeAllFromGroup(GROUP_BLOCKED_SUBREDDITS_HEADER);
 
-		if (!blockedSubreddits.isEmpty()) {
+		if(!blockedSubreddits.isEmpty()) {
 
 			final PrefsUtility.BlockedSubredditSort blockedSubredditsSort
-					= PrefsUtility.pref_behaviour_blocked_subredditsort(mActivity, sharedPreferences);
+					= PrefsUtility.pref_behaviour_blocked_subredditsort(
+					mActivity,
+					sharedPreferences);
 
 			mAdapter.appendToGroup(
 					GROUP_BLOCKED_SUBREDDITS_HEADER,
@@ -370,8 +452,10 @@ public class MainMenuListingManager {
 			}
 
 			boolean isFirst = true;
-			for (final SubredditCanonicalId sr : blockedSubreddits) {
-				mAdapter.appendToGroup(GROUP_BLOCKED_SUBREDDITS_ITEMS, makeSubredditItem(sr, isFirst, true));
+			for(final SubredditCanonicalId sr : blockedSubreddits) {
+				mAdapter.appendToGroup(
+						GROUP_BLOCKED_SUBREDDITS_ITEMS,
+						makeSubredditItem(sr, isFirst, true));
 				isFirst = false;
 			}
 		}
@@ -405,7 +489,9 @@ public class MainMenuListingManager {
 			public void run() {
 
 				mAdapter.removeAllFromGroup(GROUP_MULTIREDDITS_ITEMS);
-				mAdapter.appendToGroup(GROUP_MULTIREDDITS_ITEMS, new GroupedRecyclerViewItemFrameLayout(errorView));
+				mAdapter.appendToGroup(
+						GROUP_MULTIREDDITS_ITEMS,
+						new GroupedRecyclerViewItemFrameLayout(errorView));
 			}
 		});
 	}
@@ -417,14 +503,17 @@ public class MainMenuListingManager {
 			public void run() {
 
 				mAdapter.removeAllFromGroup(GROUP_SUBREDDITS_ITEMS);
-				mAdapter.appendToGroup(GROUP_SUBREDDITS_ITEMS, new GroupedRecyclerViewItemFrameLayout(errorView));
+				mAdapter.appendToGroup(
+						GROUP_SUBREDDITS_ITEMS,
+						new GroupedRecyclerViewItemFrameLayout(errorView));
 			}
 		});
 	}
 
 	public void setSubreddits(final Collection<SubredditCanonicalId> subscriptions) {
 
-		final ArrayList<SubredditCanonicalId> subscriptionsSorted = new ArrayList<>(subscriptions);
+		final ArrayList<SubredditCanonicalId> subscriptionsSorted = new ArrayList<>(
+				subscriptions);
 		Collections.sort(subscriptionsSorted);
 
 		AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
@@ -439,7 +528,7 @@ public class MainMenuListingManager {
 
 				if(!PrefsUtility.pref_show_subscribed_subreddits_main_menu(
 						mActivity,
-						PreferenceManager.getDefaultSharedPreferences(mActivity))){
+						PreferenceManager.getDefaultSharedPreferences(mActivity))) {
 					mAdapter.removeAllFromGroup(GROUP_SUBREDDITS_HEADER);
 					mAdapter.removeAllFromGroup(GROUP_SUBREDDITS_ITEMS);
 					return;
@@ -501,7 +590,8 @@ public class MainMenuListingManager {
 
 					for(final String multireddit : subscriptionsSorted) {
 
-						final GroupedRecyclerViewItemListItemView item = makeMultiredditItem(multireddit, isFirst);
+						final GroupedRecyclerViewItemListItemView item
+								= makeMultiredditItem(multireddit, isFirst);
 						mAdapter.appendToGroup(GROUP_MULTIREDDITS_ITEMS, item);
 
 						isFirst = false;
@@ -533,7 +623,12 @@ public class MainMenuListingManager {
 			}
 		};
 
-		return new GroupedRecyclerViewItemListItemView(icon, name, hideDivider, clickListener, null);
+		return new GroupedRecyclerViewItemListItemView(
+				icon,
+				name,
+				hideDivider,
+				clickListener,
+				null);
 	}
 
 	private GroupedRecyclerViewItemListItemView makeSubredditItem(
@@ -546,7 +641,8 @@ public class MainMenuListingManager {
 			public void onClick(final View view) {
 
 				if(subreddit.toString().startsWith("/r/")) {
-					mListener.onSelected((PostListingURL) SubredditPostListURL.getSubreddit(subreddit));
+					mListener.onSelected((PostListingURL)SubredditPostListURL.getSubreddit(
+							subreddit));
 
 				} else {
 					LinkHandler.onLinkClicked(mActivity, subreddit.toString());
@@ -554,71 +650,108 @@ public class MainMenuListingManager {
 			}
 		};
 
-		final View.OnLongClickListener longClickListener = new View.OnLongClickListener() {
+		final View.OnLongClickListener longClickListener
+				= new View.OnLongClickListener() {
 			@Override
 			public boolean onLongClick(final View view) {
 
-				final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(
+				final SharedPreferences sharedPreferences
+						= PreferenceManager.getDefaultSharedPreferences(
 						mActivity);
 
-				final EnumSet<SubredditAction> itemPref = PrefsUtility.pref_menus_subreddit_context_items(mActivity,
+				final EnumSet<SubredditAction> itemPref
+						= PrefsUtility.pref_menus_subreddit_context_items(
+						mActivity,
 						sharedPreferences);
 
-				if (itemPref.isEmpty()) {
+				if(itemPref.isEmpty()) {
 					return true;
 				}
 				final ArrayList<SubredditMenuItem> menu = new ArrayList<>();
-				if (itemPref.contains(SubredditAction.COPY_URL)){
-					menu.add(new SubredditMenuItem(mActivity, R.string.action_copy_link, SubredditAction.COPY_URL));
+				if(itemPref.contains(SubredditAction.COPY_URL)) {
+					menu.add(new SubredditMenuItem(
+							mActivity,
+							R.string.action_copy_link,
+							SubredditAction.COPY_URL));
 				}
-				if (itemPref.contains(SubredditAction.EXTERNAL)) {
-					menu.add(new SubredditMenuItem(mActivity, R.string.action_external, SubredditAction.EXTERNAL));
+				if(itemPref.contains(SubredditAction.EXTERNAL)) {
+					menu.add(new SubredditMenuItem(
+							mActivity,
+							R.string.action_external,
+							SubredditAction.EXTERNAL));
 				}
-				if (itemPref.contains(SubredditAction.SHARE)){
-					menu.add(new SubredditMenuItem(mActivity, R.string.action_share, SubredditAction.SHARE));
+				if(itemPref.contains(SubredditAction.SHARE)) {
+					menu.add(new SubredditMenuItem(
+							mActivity,
+							R.string.action_share,
+							SubredditAction.SHARE));
 				}
 
-				if (itemPref.contains(SubredditAction.BLOCK)) {
+				if(itemPref.contains(SubredditAction.BLOCK)) {
 
 					final boolean isBlocked = PrefsUtility.pref_blocked_subreddits_check(
 							mActivity,
 							sharedPreferences,
 							subreddit);
 
-					if (isBlocked){
-						menu.add(new SubredditMenuItem(mActivity, R.string.unblock_subreddit, SubredditAction.UNBLOCK));
+					if(isBlocked) {
+						menu.add(new SubredditMenuItem(
+								mActivity,
+								R.string.unblock_subreddit,
+								SubredditAction.UNBLOCK));
 					} else {
-						menu.add(new SubredditMenuItem(mActivity, R.string.block_subreddit, SubredditAction.BLOCK));
+						menu.add(new SubredditMenuItem(
+								mActivity,
+								R.string.block_subreddit,
+								SubredditAction.BLOCK));
 					}
 				}
 
-				if (itemPref.contains(SubredditAction.PIN)) {
+				if(itemPref.contains(SubredditAction.PIN)) {
 
 					final boolean isPinned = PrefsUtility.pref_pinned_subreddits_check(
 							mActivity,
 							sharedPreferences,
 							subreddit);
 
-					if (isPinned){
-						menu.add(new SubredditMenuItem(mActivity, R.string.unpin_subreddit,SubredditAction.UNPIN));
+					if(isPinned) {
+						menu.add(new SubredditMenuItem(
+								mActivity,
+								R.string.unpin_subreddit,
+								SubredditAction.UNPIN));
 					} else {
-						menu.add(new SubredditMenuItem(mActivity, R.string.pin_subreddit, SubredditAction.PIN));
+						menu.add(new SubredditMenuItem(
+								mActivity,
+								R.string.pin_subreddit,
+								SubredditAction.PIN));
 					}
 				}
 
-				if (!RedditAccountManager.getInstance(mActivity).getDefaultAccount().isAnonymous()) {
+				if(!RedditAccountManager.getInstance(mActivity)
+						.getDefaultAccount()
+						.isAnonymous()) {
 
 					if(itemPref.contains(SubredditAction.SUBSCRIBE)) {
 
-						final RedditSubredditSubscriptionManager subscriptionManager = RedditSubredditSubscriptionManager
-								.getSingleton(mActivity, RedditAccountManager.getInstance(mActivity).getDefaultAccount());
+						final RedditSubredditSubscriptionManager subscriptionManager
+								= RedditSubredditSubscriptionManager
+								.getSingleton(
+										mActivity,
+										RedditAccountManager.getInstance(mActivity)
+												.getDefaultAccount());
 
 						if(subscriptionManager.areSubscriptionsReady()) {
 							if(subscriptionManager.getSubscriptionState(subreddit)
-									== RedditSubredditSubscriptionManager.SubredditSubscriptionState.SUBSCRIBED) {
-								menu.add(new SubredditMenuItem(mActivity, R.string.options_unsubscribe, SubredditAction.UNSUBSCRIBE));
+									== SubredditSubscriptionState.SUBSCRIBED) {
+								menu.add(new SubredditMenuItem(
+										mActivity,
+										R.string.options_unsubscribe,
+										SubredditAction.UNSUBSCRIBE));
 							} else {
-								menu.add(new SubredditMenuItem(mActivity, R.string.options_subscribe, SubredditAction.SUBSCRIBE));
+								menu.add(new SubredditMenuItem(
+										mActivity,
+										R.string.options_subscribe,
+										SubredditAction.SUBSCRIBE));
 							}
 						}
 					}
@@ -626,7 +759,7 @@ public class MainMenuListingManager {
 
 				final String[] menuText = new String[menu.size()];
 
-				for (int i = 0; i < menuText.length; i++) {
+				for(int i = 0; i < menuText.length; i++) {
 					menuText[i] = menu.get(i).title;
 				}
 
@@ -635,7 +768,10 @@ public class MainMenuListingManager {
 				builder.setItems(menuText, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						onSubredditActionMenuItemSelected(subreddit, mActivity, menu.get(which).action);
+						onSubredditActionMenuItemSelected(
+								subreddit,
+								mActivity,
+								menu.get(which).action);
 					}
 				});
 
@@ -664,24 +800,32 @@ public class MainMenuListingManager {
 			final AppCompatActivity activity,
 			final SubredditAction action) {
 
-		final String url = Constants.Reddit.getNonAPIUri(subredditCanonicalId.toString()).toString();
+		final String url = Constants.Reddit.getNonAPIUri(subredditCanonicalId.toString())
+				.toString();
 
 		RedditSubredditSubscriptionManager subMan = RedditSubredditSubscriptionManager
-				.getSingleton(activity, RedditAccountManager.getInstance(activity).getDefaultAccount());
+				.getSingleton(
+						activity,
+						RedditAccountManager.getInstance(
+								activity)
+								.getDefaultAccount());
 
-		switch (action) {
+		switch(action) {
 			case SHARE: {
 				LinkHandler.shareText(activity, subredditCanonicalId.toString(), url);
 				break;
 			}
 
 			case COPY_URL: {
-				ClipboardManager clipboardManager = (ClipboardManager)activity.getSystemService(Context.CLIPBOARD_SERVICE);
+				ClipboardManager clipboardManager
+						= (ClipboardManager)activity.getSystemService(Context.CLIPBOARD_SERVICE);
 				if(clipboardManager != null) {
 					ClipData data = ClipData.newRawUri(null, Uri.parse(url));
 					clipboardManager.setPrimaryClip(data);
 
-					General.quickToast(activity.getApplicationContext(), R.string.subreddit_link_copied_to_clipboard);
+					General.quickToast(
+							activity.getApplicationContext(),
+							R.string.subreddit_link_copied_to_clipboard);
 				}
 				break;
 			}
@@ -723,25 +867,39 @@ public class MainMenuListingManager {
 
 			case SUBSCRIBE:
 
-				if (subMan.getSubscriptionState(subredditCanonicalId) == RedditSubredditSubscriptionManager.SubredditSubscriptionState.NOT_SUBSCRIBED){
+				if(subMan.getSubscriptionState(subredditCanonicalId)
+						== SubredditSubscriptionState.NOT_SUBSCRIBED) {
 					subMan.subscribe(subredditCanonicalId, activity);
 					setPinnedSubreddits();
 					setBlockedSubreddits();
-					Toast.makeText(mActivity, R.string.options_subscribing, Toast.LENGTH_SHORT).show();
+					Toast.makeText(
+							mActivity,
+							R.string.options_subscribing,
+							Toast.LENGTH_SHORT).show();
 				} else {
-					Toast.makeText(mActivity, R.string.mainmenu_toast_subscribed, Toast.LENGTH_SHORT).show();
+					Toast.makeText(
+							mActivity,
+							R.string.mainmenu_toast_subscribed,
+							Toast.LENGTH_SHORT).show();
 				}
 				break;
 
 			case UNSUBSCRIBE:
 
-				if (subMan.getSubscriptionState(subredditCanonicalId) == RedditSubredditSubscriptionManager.SubredditSubscriptionState.SUBSCRIBED){
+				if(subMan.getSubscriptionState(subredditCanonicalId)
+						== SubredditSubscriptionState.SUBSCRIBED) {
 					subMan.unsubscribe(subredditCanonicalId, activity);
 					setPinnedSubreddits();
 					setBlockedSubreddits();
-					Toast.makeText(mActivity, R.string.options_unsubscribing , Toast.LENGTH_SHORT).show();
+					Toast.makeText(
+							mActivity,
+							R.string.options_unsubscribing,
+							Toast.LENGTH_SHORT).show();
 				} else {
-					Toast.makeText(mActivity, R.string.mainmenu_toast_not_subscribed, Toast.LENGTH_SHORT).show();
+					Toast.makeText(
+							mActivity,
+							R.string.mainmenu_toast_not_subscribed,
+							Toast.LENGTH_SHORT).show();
 				}
 				break;
 		}
@@ -754,11 +912,17 @@ public class MainMenuListingManager {
 		final View.OnClickListener clickListener = new View.OnClickListener() {
 			@Override
 			public void onClick(final View view) {
-				mListener.onSelected((PostListingURL)MultiredditPostListURL.getMultireddit(name));
+				mListener.onSelected((PostListingURL)MultiredditPostListURL.getMultireddit(
+						name));
 			}
 		};
 
-		return new GroupedRecyclerViewItemListItemView(null, name, hideDivider, clickListener, null);
+		return new GroupedRecyclerViewItemListItemView(
+				null,
+				name,
+				hideDivider,
+				clickListener,
+				null);
 	}
 
 	private static class SubredditMenuItem {

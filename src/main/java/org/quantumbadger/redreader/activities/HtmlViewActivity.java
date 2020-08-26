@@ -83,7 +83,9 @@ public class HtmlViewActivity extends BaseActivity {
 
 		setBaseActivityContentView(View.inflate(this, R.layout.main_single, null));
 
-		getSupportFragmentManager().beginTransaction().add(R.id.main_single_frame, webView).commit();
+		getSupportFragmentManager().beginTransaction()
+				.add(R.id.main_single_frame, webView)
+				.commit();
 	}
 
 	@Override

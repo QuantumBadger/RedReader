@@ -20,5 +20,6 @@ package org.quantumbadger.redreader.reddit.url;
 public abstract class CommentListingURL extends RedditURLParser.RedditURL {
 
 	public abstract CommentListingURL after(String after);
+
 	public abstract CommentListingURL limit(Integer limit);
 }

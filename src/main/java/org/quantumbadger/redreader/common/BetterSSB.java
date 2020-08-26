@@ -57,46 +57,89 @@ public class BetterSSB {
 		append(str, flags, 0, 0, 1f, url);
 	}
 
-	public void append(String str, int flags, int foregroundCol, int backgroundCol, float scale) {
-		append(str, flags,  foregroundCol, backgroundCol, scale, null);
+	public void append(
+			String str,
+			int flags,
+			int foregroundCol,
+			int backgroundCol,
+			float scale) {
+		append(str, flags, foregroundCol, backgroundCol, scale, null);
 	}
 
-	public void append(String str, int flags, int foregroundCol, int backgroundCol, float scale, String url) {
+	public void append(
+			String str,
+			int flags,
+			int foregroundCol,
+			int backgroundCol,
+			float scale,
+			String url) {
 
 		final int strStart = sb.length();
 		sb.append(str);
 		final int strEnd = sb.length();
 
 		if((flags & BOLD) != 0) {
-			sb.setSpan(new StyleSpan(Typeface.BOLD), strStart, strEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+			sb.setSpan(
+					new StyleSpan(Typeface.BOLD),
+					strStart,
+					strEnd,
+					Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 		}
 
 		if((flags & ITALIC) != 0) {
-			sb.setSpan(new StyleSpan(Typeface.ITALIC), strStart, strEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+			sb.setSpan(
+					new StyleSpan(Typeface.ITALIC),
+					strStart,
+					strEnd,
+					Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 		}
 
 		if((flags & UNDERLINE) != 0) {
-			sb.setSpan(new UnderlineSpan(), strStart, strEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+			sb.setSpan(
+					new UnderlineSpan(),
+					strStart,
+					strEnd,
+					Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 		}
 
 		if((flags & STRIKETHROUGH) != 0) {
-			sb.setSpan(new StrikethroughSpan(), strStart, strEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+			sb.setSpan(
+					new StrikethroughSpan(),
+					strStart,
+					strEnd,
+					Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 		}
 
 		if((flags & FOREGROUND_COLOR) != 0) {
-			sb.setSpan(new ForegroundColorSpan(foregroundCol), strStart, strEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+			sb.setSpan(
+					new ForegroundColorSpan(foregroundCol),
+					strStart,
+					strEnd,
+					Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 		}
 
 		if((flags & BACKGROUND_COLOR) != 0) {
-			sb.setSpan(new BackgroundColorSpan(backgroundCol), strStart, strEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+			sb.setSpan(
+					new BackgroundColorSpan(backgroundCol),
+					strStart,
+					strEnd,
+					Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 		}
 
 		if((flags & SIZE) != 0) {
-			sb.setSpan(new RelativeSizeSpan(scale), strStart, strEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+			sb.setSpan(
+					new RelativeSizeSpan(scale),
+					strStart,
+					strEnd,
+					Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 		}
 
 		if(url != null) {
-			sb.setSpan(new URLSpan(url), strStart, strEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+			sb.setSpan(
+					new URLSpan(url),
+					strStart,
+					strEnd,
+					Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 		}
 	}
 
@@ -109,9 +152,14 @@ public class BetterSSB {
 
 			int index = -1;
 
-			while(index < asText.length() && (index = asText.indexOf(link, index + 1)) >= 0) {
+			while(index < asText.length()
+					&& (index = asText.indexOf(link, index + 1)) >= 0) {
 				if(sb.getSpans(index, index + link.length(), URLSpan.class).length < 1) {
-					sb.setSpan(new URLSpan(link), index, index + link.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+					sb.setSpan(
+							new URLSpan(link),
+							index,
+							index + link.length(),
+							Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 				}
 			}
 		}

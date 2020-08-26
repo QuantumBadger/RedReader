@@ -39,7 +39,10 @@ public class ShareOrderAdapter extends BaseAdapter {
 	private final PackageManager packageManager;
 	private final AppCompatDialogFragment fragment;
 
-	public ShareOrderAdapter(Context context, List<ResolveInfo> appList, AppCompatDialogFragment fragment) {
+	public ShareOrderAdapter(
+			Context context,
+			List<ResolveInfo> appList,
+			AppCompatDialogFragment fragment) {
 		this.context = context;
 		this.appList = appList;
 		this.packageManager = context.getPackageManager();
@@ -63,7 +66,7 @@ public class ShareOrderAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		LayoutInflater inflater = (LayoutInflater) context
+		LayoutInflater inflater = (LayoutInflater)context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View rowView = null;
 		if(inflater != null) {
@@ -75,10 +78,10 @@ public class ShareOrderAdapter extends BaseAdapter {
 			View divider = rowView.findViewById(R.id.list_item_share_dialog_divider);
 			divider.setVisibility(View.INVISIBLE);
 
-			rowView.setOnClickListener(new View.OnClickListener(){
+			rowView.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					((ShareOrderCallbackListener) fragment).onSelectedIntent(position);
+					((ShareOrderCallbackListener)fragment).onSelectedIntent(position);
 					fragment.dismiss();
 				}
 			});

@@ -83,13 +83,18 @@ public class RedditChangeDataIO {
 
 				final File dataFileTmpLocation = getDataFileWriteTmpLocation();
 
-				Log.i(TAG, String.format(Locale.US, "Writing tmp data file at '%s'", dataFileTmpLocation.getAbsolutePath()));
+				Log.i(
+						TAG,
+						String.format(
+								Locale.US,
+								"Writing tmp data file at '%s'",
+								dataFileTmpLocation.getAbsolutePath()));
 
 				final ExtendedDataOutputStream dos
 						= new ExtendedDataOutputStream(
-								new BufferedOutputStream(
-										new FileOutputStream(dataFileTmpLocation),
-										64 * 1024));
+						new BufferedOutputStream(
+								new FileOutputStream(dataFileTmpLocation),
+								64 * 1024));
 
 				dos.writeInt(DB_VERSION);
 
@@ -112,7 +117,13 @@ public class RedditChangeDataIO {
 				final long bytes = dataFileLocation.length();
 				final long duration = System.currentTimeMillis() - startTime;
 
-				Log.i(TAG, String.format(Locale.US, "%d bytes written in %d ms", bytes, duration));
+				Log.i(
+						TAG,
+						String.format(
+								Locale.US,
+								"%d bytes written in %d ms",
+								bytes,
+								duration));
 
 			} catch(final IOException e) {
 				Log.e(TAG, "Write failed!", e);
@@ -120,7 +131,8 @@ public class RedditChangeDataIO {
 		}
 	}
 
-	private final TriggerableThread mWriteThread = new TriggerableThread(new WriteRunnable(), 5000);
+	private final TriggerableThread mWriteThread
+			= new TriggerableThread(new WriteRunnable(), 5000);
 
 	private RedditChangeDataIO(final Context context) {
 		mContext = context;
@@ -157,7 +169,12 @@ public class RedditChangeDataIO {
 		try {
 			final File dataFileLocation = getDataFileLocation();
 
-			Log.i(TAG, String.format(Locale.US, "Data file at '%s'", dataFileLocation.getAbsolutePath()));
+			Log.i(
+					TAG,
+					String.format(
+							Locale.US,
+							"Data file at '%s'",
+							dataFileLocation.getAbsolutePath()));
 
 			if(!dataFileLocation.exists()) {
 				Log.i(TAG, "Data file does not exist. Aborting read.");
@@ -166,16 +183,22 @@ public class RedditChangeDataIO {
 
 			final ExtendedDataInputStream dis
 					= new ExtendedDataInputStream(
-							new BufferedInputStream(
-									new FileInputStream(dataFileLocation),
-									64 * 1024));
+					new BufferedInputStream(
+							new FileInputStream(dataFileLocation),
+							64 * 1024));
 
 			try {
 
 				final int version = dis.readInt();
 
 				if(DB_VERSION != version) {
-					Log.i(TAG, String.format(Locale.US, "Wanted version %d, got %d. Aborting read.", DB_VERSION, version));
+					Log.i(
+							TAG,
+							String.format(
+									Locale.US,
+									"Wanted version %d, got %d. Aborting read.",
+									DB_VERSION,
+									version));
 					return;
 				}
 

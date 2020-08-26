@@ -30,7 +30,9 @@ public class ImageViewTileLoaderThread {
 
 	public ImageViewTileLoaderThread() {
 
-		final int threadCount = Math.max(1, Runtime.getRuntime().availableProcessors() - 1);
+		final int threadCount = Math.max(
+				1,
+				Runtime.getRuntime().availableProcessors() - 1);
 
 		Log.i("IViewTileLoaderThread", "Using thread count: " + threadCount);
 

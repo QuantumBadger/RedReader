@@ -43,11 +43,13 @@ public final class RedditOAuth {
 
 	private static final String REDIRECT_URI = "http://rr_oauth_redir";
 	private static final String CLIENT_ID = "m_zCW1Dixs9WLA";
-	private static final String ALL_SCOPES
-			= "identity,edit,flair,history,modconfig,modflair,modlog,modposts,modwiki,mysubreddits,privatemessages,"
-					+ "read,report,save,submit,subscribe,vote,wikiedit,wikiread";
+	private static final String ALL_SCOPES = "identity,edit,flair,history,"
+			+ "modconfig,modflair,modlog,modposts,modwiki,mysubreddits,"
+			+ "privatemessages,read,report,save,submit,subscribe,vote,"
+			+ "wikiedit,wikiread";
 
-	private static final String ACCESS_TOKEN_URL = "https://www.reddit.com/api/v1/access_token";
+	private static final String ACCESS_TOKEN_URL =
+			"https://www.reddit.com/api/v1/access_token";
 
 	public static class Token {
 
@@ -108,14 +110,18 @@ public final class RedditOAuth {
 		public final RefreshToken refreshToken;
 		public final AccessToken accessToken;
 
-		public FetchRefreshTokenResult(final FetchRefreshTokenResultStatus status, final RRError error) {
+		public FetchRefreshTokenResult(
+				final FetchRefreshTokenResultStatus status,
+				final RRError error) {
 			this.status = status;
 			this.error = error;
 			this.refreshToken = null;
 			this.accessToken = null;
 		}
 
-		public FetchRefreshTokenResult(final RefreshToken refreshToken, final AccessToken accessToken) {
+		public FetchRefreshTokenResult(
+				final RefreshToken refreshToken,
+				final AccessToken accessToken) {
 			this.status = FetchRefreshTokenResultStatus.SUCCESS;
 			this.error = null;
 			this.refreshToken = refreshToken;
@@ -130,7 +136,9 @@ public final class RedditOAuth {
 
 		public final String username;
 
-		public FetchUserInfoResult(final FetchUserInfoResultStatus status, final RRError error) {
+		public FetchUserInfoResult(
+				final FetchUserInfoResultStatus status,
+				final RRError error) {
 			this.status = status;
 			this.error = error;
 			this.username = null;
@@ -145,7 +153,8 @@ public final class RedditOAuth {
 
 	public static Uri getPromptUri() {
 
-		final Uri.Builder uri = Uri.parse("https://www.reddit.com/api/v1/authorize.compact").buildUpon();
+		final Uri.Builder uri =
+				Uri.parse("https://www.reddit.com/api/v1/authorize.compact").buildUpon();
 
 		uri.appendQueryParameter("response_type", "code");
 		uri.appendQueryParameter("duration", "permanent");
@@ -245,7 +254,9 @@ public final class RedditOAuth {
 		}
 	}
 
-	private static FetchRefreshTokenResult fetchRefreshTokenSynchronous(final Context context, final Uri redirectUri) {
+	private static FetchRefreshTokenResult fetchRefreshTokenSynchronous(
+			final Context context,
+			final Uri redirectUri) {
 
 		final String error = redirectUri.getQueryParameter("error");
 
@@ -255,8 +266,10 @@ public final class RedditOAuth {
 				return new FetchRefreshTokenResult(
 						FetchRefreshTokenResultStatus.USER_REFUSED_PERMISSION,
 						new RRError(
-								context.getString(R.string.error_title_login_user_denied_permission),
-								context.getString(R.string.error_message_login_user_denied_permission)
+								context.getString(
+										R.string.error_title_login_user_denied_permission),
+								context.getString(
+										R.string.error_message_login_user_denied_permission)
 						)
 				);
 
@@ -264,7 +277,9 @@ public final class RedditOAuth {
 				return new FetchRefreshTokenResult(
 						FetchRefreshTokenResultStatus.INVALID_REQUEST,
 						new RRError(
-								context.getString(R.string.error_title_login_unknown_reddit_error, error),
+								context.getString(
+										R.string.error_title_login_unknown_reddit_error,
+										error),
 								context.getString(R.string.error_unknown_message)
 						));
 			}
@@ -296,29 +311,48 @@ public final class RedditOAuth {
 							General.uriFromString(uri),
 							postFields));
 
-			request.addHeader("Authorization", "Basic " + Base64.encodeToString((CLIENT_ID + ":").getBytes(), Base64.URL_SAFE | Base64.NO_WRAP));
+			request.addHeader(
+					"Authorization",
+					"Basic " + Base64.encodeToString(
+							(CLIENT_ID + ":").getBytes(),
+							Base64.URL_SAFE | Base64.NO_WRAP));
 
-			final AtomicReference<FetchRefreshTokenResult> result = new AtomicReference<>();
+			final AtomicReference<FetchRefreshTokenResult> result =
+					new AtomicReference<>();
 
 			request.executeInThisThread(new HTTPBackend.Listener() {
 
 				@Override
-				public void onError(final @CacheRequest.RequestFailureType int failureType, final Throwable exception, final Integer httpStatus) {
-					result.set(handleRefreshTokenError(exception, httpStatus, context, uri));
+				public void onError(
+						final @CacheRequest.RequestFailureType int failureType,
+						final Throwable exception,
+						final Integer httpStatus) {
+					result.set(handleRefreshTokenError(
+							exception,
+							httpStatus,
+							context,
+							uri));
 				}
 
 				@Override
-				public void onSuccess(final String mimetype, final Long bodyBytes, final InputStream body) {
+				public void onSuccess(
+						final String mimetype,
+						final Long bodyBytes,
+						final InputStream body) {
 
 					try {
 						final JsonValue jsonValue = new JsonValue(body);
 						jsonValue.buildInThisThread();
 						final JsonBufferedObject responseObject = jsonValue.asObject();
 
-						final RefreshToken refreshToken = new RefreshToken(responseObject.getString("refresh_token"));
-						final AccessToken accessToken = new AccessToken(responseObject.getString("access_token"));
+						final RefreshToken refreshToken =
+								new RefreshToken(responseObject.getString("refresh_token"));
+						final AccessToken accessToken =
+								new AccessToken(responseObject.getString("access_token"));
 
-						result.set(new FetchRefreshTokenResult(refreshToken, accessToken));
+						result.set(new FetchRefreshTokenResult(
+								refreshToken,
+								accessToken));
 
 					} catch(IOException e) {
 
@@ -355,13 +389,16 @@ public final class RedditOAuth {
 		}
 	}
 
-	private static FetchUserInfoResult fetchUserInfoSynchronous(final Context context, final AccessToken accessToken) {
+	private static FetchUserInfoResult fetchUserInfoSynchronous(
+			final Context context,
+			final AccessToken accessToken) {
 
 		final URI uri = Constants.Reddit.getUri(Constants.Reddit.PATH_ME);
 
 		try {
 			final HTTPBackend.Request request
-					= HTTPBackend.getBackend().prepareRequest(context, new HTTPBackend.RequestDetails(uri, null));
+					= HTTPBackend.getBackend()
+					.prepareRequest(context, new HTTPBackend.RequestDetails(uri, null));
 
 			request.addHeader("Authorization", "bearer " + accessToken.token);
 
@@ -370,7 +407,10 @@ public final class RedditOAuth {
 			request.executeInThisThread(new HTTPBackend.Listener() {
 
 				@Override
-				public void onError(final @CacheRequest.RequestFailureType int failureType, final Throwable exception, final Integer httpStatus) {
+				public void onError(
+						final @CacheRequest.RequestFailureType int failureType,
+						final Throwable exception,
+						final Integer httpStatus) {
 
 					if(httpStatus != null && httpStatus != 200) {
 						result.set(new FetchUserInfoResult(
@@ -399,7 +439,10 @@ public final class RedditOAuth {
 				}
 
 				@Override
-				public void onSuccess(final String mimetype, final Long bodyBytes, final InputStream body) {
+				public void onSuccess(
+						final String mimetype,
+						final Long bodyBytes,
+						final InputStream body) {
 
 					try {
 
@@ -469,12 +512,18 @@ public final class RedditOAuth {
 
 		static LoginError fromFetchRefreshTokenStatus(FetchRefreshTokenResultStatus status) {
 			switch(status) {
-				case SUCCESS:					return SUCCESS;
-				case USER_REFUSED_PERMISSION:	return USER_REFUSED_PERMISSION;
-				case INVALID_REQUEST:			return UNKNOWN_ERROR;
-				case INVALID_RESPONSE:			return UNKNOWN_ERROR;
-				case CONNECTION_ERROR:			return CONNECTION_ERROR;
-				case UNKNOWN_ERROR:				return UNKNOWN_ERROR;
+				case SUCCESS:
+					return SUCCESS;
+				case USER_REFUSED_PERMISSION:
+					return USER_REFUSED_PERMISSION;
+				case INVALID_REQUEST:
+					return UNKNOWN_ERROR;
+				case INVALID_RESPONSE:
+					return UNKNOWN_ERROR;
+				case CONNECTION_ERROR:
+					return CONNECTION_ERROR;
+				case UNKNOWN_ERROR:
+					return UNKNOWN_ERROR;
 			}
 
 			return UNKNOWN_ERROR;
@@ -482,10 +531,14 @@ public final class RedditOAuth {
 
 		static LoginError fromFetchUserInfoStatus(FetchUserInfoResultStatus status) {
 			switch(status) {
-				case SUCCESS:					return SUCCESS;
-				case INVALID_RESPONSE:			return UNKNOWN_ERROR;
-				case CONNECTION_ERROR:			return CONNECTION_ERROR;
-				case UNKNOWN_ERROR:				return UNKNOWN_ERROR;
+				case SUCCESS:
+					return SUCCESS;
+				case INVALID_RESPONSE:
+					return UNKNOWN_ERROR;
+				case CONNECTION_ERROR:
+					return CONNECTION_ERROR;
+				case UNKNOWN_ERROR:
+					return UNKNOWN_ERROR;
 			}
 
 			return UNKNOWN_ERROR;
@@ -511,17 +564,21 @@ public final class RedditOAuth {
 					final FetchRefreshTokenResult fetchRefreshTokenResult
 							= fetchRefreshTokenSynchronous(context, redirectUri);
 
-					if(fetchRefreshTokenResult.status != FetchRefreshTokenResultStatus.SUCCESS) {
+					if(fetchRefreshTokenResult.status
+							!= FetchRefreshTokenResultStatus.SUCCESS) {
 
 						listener.onLoginFailure(
-								LoginError.fromFetchRefreshTokenStatus(fetchRefreshTokenResult.status),
+								LoginError.fromFetchRefreshTokenStatus(
+										fetchRefreshTokenResult.status),
 								fetchRefreshTokenResult.error);
 
 						return;
 					}
 
 					final FetchUserInfoResult fetchUserInfoResult
-							= fetchUserInfoSynchronous(context, fetchRefreshTokenResult.accessToken);
+							= fetchUserInfoSynchronous(
+							context,
+							fetchRefreshTokenResult.accessToken);
 
 					if(fetchUserInfoResult.status != FetchUserInfoResultStatus.SUCCESS) {
 						listener.onLoginFailure(
@@ -538,7 +595,8 @@ public final class RedditOAuth {
 
 					account.setAccessToken(fetchRefreshTokenResult.accessToken);
 
-					final RedditAccountManager accountManager = RedditAccountManager.getInstance(context);
+					final RedditAccountManager accountManager =
+							RedditAccountManager.getInstance(context);
 					accountManager.addAccount(account);
 					accountManager.setDefaultAccount(account);
 
@@ -573,7 +631,9 @@ public final class RedditOAuth {
 
 		public final AccessToken accessToken;
 
-		public FetchAccessTokenResult(final FetchAccessTokenResultStatus status, final RRError error) {
+		public FetchAccessTokenResult(
+				final FetchAccessTokenResultStatus status,
+				final RRError error) {
 			this.status = status;
 			this.error = error;
 			this.accessToken = null;
@@ -586,7 +646,9 @@ public final class RedditOAuth {
 		}
 	}
 
-	public static FetchAccessTokenResult fetchAccessTokenSynchronous(final Context context, final RefreshToken refreshToken) {
+	public static FetchAccessTokenResult fetchAccessTokenSynchronous(
+			final Context context,
+			final RefreshToken refreshToken) {
 
 		final String uri = ACCESS_TOKEN_URL;
 
@@ -595,35 +657,56 @@ public final class RedditOAuth {
 		postFields.add(new HTTPBackend.PostField("refresh_token", refreshToken.token));
 
 		try {
-			final HTTPBackend.Request request = HTTPBackend.getBackend().prepareRequest(context, new HTTPBackend.RequestDetails(
-					General.uriFromString(uri),
-					postFields));
+			final HTTPBackend.Request request = HTTPBackend.getBackend()
+					.prepareRequest(
+							context,
+							new HTTPBackend.RequestDetails(
+									General.uriFromString(uri),
+									postFields));
 
-			request.addHeader("Authorization", "Basic " + Base64.encodeToString((CLIENT_ID + ":").getBytes(), Base64.URL_SAFE | Base64.NO_WRAP));
+			request.addHeader(
+					"Authorization",
+					"Basic " + Base64.encodeToString(
+							(CLIENT_ID + ":").getBytes(),
+							Base64.URL_SAFE | Base64.NO_WRAP));
 
-			final AtomicReference<FetchAccessTokenResult> result = new AtomicReference<>();
+			final AtomicReference<FetchAccessTokenResult> result =
+					new AtomicReference<>();
 
 			request.executeInThisThread(new HTTPBackend.Listener() {
 				@Override
-				public void onError(final @CacheRequest.RequestFailureType int failureType, final Throwable exception, final Integer httpStatus) {
-					result.set(handleAccessTokenError(exception, httpStatus, context, uri));
+				public void onError(
+						final @CacheRequest.RequestFailureType int failureType,
+						final Throwable exception,
+						final Integer httpStatus) {
+					result.set(handleAccessTokenError(
+							exception,
+							httpStatus,
+							context,
+							uri));
 				}
 
 				@Override
-				public void onSuccess(final String mimetype, final Long bodyBytes, final InputStream body) {
+				public void onSuccess(
+						final String mimetype,
+						final Long bodyBytes,
+						final InputStream body) {
 
 					try {
 						final JsonValue jsonValue = new JsonValue(body);
 						jsonValue.buildInThisThread();
 						final JsonBufferedObject responseObject = jsonValue.asObject();
 
-						final String accessTokenString = responseObject.getString("access_token");
+						final String accessTokenString =
+								responseObject.getString("access_token");
 
 						if(accessTokenString == null) {
-							throw new RuntimeException("Null access token: " + responseObject.getString("error"));
+							throw new RuntimeException("Null access token: "
+									+ responseObject.getString("error"));
 						}
 
-						final AccessToken accessToken = new AccessToken(accessTokenString);
+						final AccessToken accessToken =
+								new AccessToken(accessTokenString);
 
 						result.set(new FetchAccessTokenResult(accessToken));
 
@@ -661,44 +744,70 @@ public final class RedditOAuth {
 		}
 	}
 
-	public static FetchAccessTokenResult fetchAnonymousAccessTokenSynchronous(final Context context) {
+	public static FetchAccessTokenResult fetchAnonymousAccessTokenSynchronous(
+			final Context context) {
 
 		final String uri = ACCESS_TOKEN_URL;
 
 		final ArrayList<HTTPBackend.PostField> postFields = new ArrayList<>(2);
-		postFields.add(new HTTPBackend.PostField("grant_type", "https://oauth.reddit.com/grants/installed_client"));
-		postFields.add(new HTTPBackend.PostField("device_id", "DO_NOT_TRACK_THIS_DEVICE"));
+		postFields.add(new HTTPBackend.PostField(
+				"grant_type",
+				"https://oauth.reddit.com/grants/installed_client"));
+		postFields.add(new HTTPBackend.PostField(
+				"device_id",
+				"DO_NOT_TRACK_THIS_DEVICE"));
 
 		try {
-			final HTTPBackend.Request request = HTTPBackend.getBackend().prepareRequest(context, new HTTPBackend.RequestDetails(
-					General.uriFromString(uri),
-					postFields));
+			final HTTPBackend.Request request = HTTPBackend.getBackend()
+					.prepareRequest(
+							context,
+							new HTTPBackend.RequestDetails(
+									General.uriFromString(uri),
+									postFields));
 
-			request.addHeader("Authorization", "Basic " + Base64.encodeToString((CLIENT_ID + ":").getBytes(), Base64.URL_SAFE | Base64.NO_WRAP));
+			request.addHeader(
+					"Authorization",
+					"Basic " + Base64.encodeToString(
+							(CLIENT_ID + ":").getBytes(),
+							Base64.URL_SAFE | Base64.NO_WRAP));
 
-			final AtomicReference<FetchAccessTokenResult> result = new AtomicReference<>();
+			final AtomicReference<FetchAccessTokenResult> result =
+					new AtomicReference<>();
 
 			request.executeInThisThread(new HTTPBackend.Listener() {
 				@Override
-				public void onError(final @CacheRequest.RequestFailureType int failureType, final Throwable exception, final Integer httpStatus) {
-					result.set(handleAccessTokenError(exception, httpStatus, context, uri));
+				public void onError(
+						final @CacheRequest.RequestFailureType int failureType,
+						final Throwable exception,
+						final Integer httpStatus) {
+					result.set(handleAccessTokenError(
+							exception,
+							httpStatus,
+							context,
+							uri));
 				}
 
 				@Override
-				public void onSuccess(final String mimetype, final Long bodyBytes, final InputStream body) {
+				public void onSuccess(
+						final String mimetype,
+						final Long bodyBytes,
+						final InputStream body) {
 
 					try {
 						final JsonValue jsonValue = new JsonValue(body);
 						jsonValue.buildInThisThread();
 						final JsonBufferedObject responseObject = jsonValue.asObject();
 
-						final String accessTokenString = responseObject.getString("access_token");
+						final String accessTokenString =
+								responseObject.getString("access_token");
 
 						if(accessTokenString == null) {
-							throw new RuntimeException("Null access token: " + responseObject.getString("error"));
+							throw new RuntimeException("Null access token: "
+									+ responseObject.getString("error"));
 						}
 
-						final AccessToken accessToken = new AccessToken(accessTokenString);
+						final AccessToken accessToken =
+								new AccessToken(accessTokenString);
 
 						result.set(new FetchAccessTokenResult(accessToken));
 

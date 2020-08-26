@@ -29,7 +29,8 @@ public abstract class Stream<Type> {
 		return new MapStream<>(this, operator);
 	}
 
-	public final <Output> Stream<Output> mapRethrowExceptions(final MapStreamRethrowExceptions.Operator<Type, Output> operator) {
+	public final <Output> Stream<Output> mapRethrowExceptions(
+			final MapStreamRethrowExceptions.Operator<Type, Output> operator) {
 		return new MapStreamRethrowExceptions<>(this, operator);
 	}
 

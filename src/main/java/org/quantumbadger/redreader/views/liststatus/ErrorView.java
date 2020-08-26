@@ -40,23 +40,26 @@ public final class ErrorView extends StatusListItemView {
 		textView.setText(error.title);
 		textView.setTextColor(Color.WHITE);
 		textView.setTextSize(18.0f);
-		textView.setPadding(0, 0, 0, (int) (4 * dpScale));
+		textView.setPadding(0, 0, 0, (int)(4 * dpScale));
 
 		final TextView messageView = new TextView(activity);
 		messageView.setText(error.message);
 
 		messageView.setTextColor(Color.WHITE);
 		messageView.setTextSize(14.0f);
-		messageView.setPadding(0, 0, 0, (int) (15 * dpScale));
+		messageView.setPadding(0, 0, 0, (int)(15 * dpScale));
 
 		final Button detailsButton = new Button(activity);
 		detailsButton.setTextColor(Color.WHITE);
-		detailsButton.setText(
-				activity.getApplicationContext().getString(R.string.button_error_details).toUpperCase(Locale.getDefault()));
+		detailsButton.setText(activity.getApplicationContext()
+				.getString(R.string.button_error_details)
+				.toUpperCase(Locale.getDefault()));
 		detailsButton.setBackgroundColor(Color.rgb(0xF8, 0x17, 0x17));
 
 		detailsButton.setOnClickListener(v -> ErrorPropertiesDialog.newInstance(error)
-				.show(activity.getSupportFragmentManager(), null));
+				.show(
+						activity.getSupportFragmentManager(),
+						null));
 
 		final LinearLayout layout = new LinearLayout(activity);
 		layout.setOrientation(LinearLayout.VERTICAL);
@@ -64,10 +67,15 @@ public final class ErrorView extends StatusListItemView {
 		layout.addView(messageView);
 		layout.addView(detailsButton);
 
-		layout.setPadding((int) (15 * dpScale), (int) (15 * dpScale), (int) (15 * dpScale), (int) (15 * dpScale));
+		layout.setPadding(
+				(int)(15 * dpScale),
+				(int)(15 * dpScale),
+				(int)(15 * dpScale),
+				(int)(15 * dpScale));
 		detailsButton.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
 
-		((LinearLayout.LayoutParams)detailsButton.getLayoutParams()).gravity = Gravity.RIGHT;
+		((LinearLayout.LayoutParams)detailsButton.getLayoutParams()).gravity
+				= Gravity.RIGHT;
 
 		setContents(layout);
 

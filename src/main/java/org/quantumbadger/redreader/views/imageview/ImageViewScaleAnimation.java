@@ -26,11 +26,17 @@ public class ImageViewScaleAnimation {
 	private final CoordinateHelper mCoordinateHelper;
 	private final MutableFloatPoint2D mScreenCoord = new MutableFloatPoint2D();
 
-	public ImageViewScaleAnimation(float targetScale, CoordinateHelper coordinateHelper, int stepCount, MutableFloatPoint2D screenCoord) {
+	public ImageViewScaleAnimation(
+			float targetScale,
+			CoordinateHelper coordinateHelper,
+			int stepCount,
+			MutableFloatPoint2D screenCoord) {
 
 		mTargetScale = targetScale;
 		mCoordinateHelper = coordinateHelper;
-		mStepSize = (float)Math.pow((targetScale / coordinateHelper.getScale()), (1.0 / (double)stepCount));
+		mStepSize = (float)Math.pow(
+				(targetScale / coordinateHelper.getScale()),
+				(1.0 / (double)stepCount));
 		mScreenCoord.set(screenCoord);
 	}
 

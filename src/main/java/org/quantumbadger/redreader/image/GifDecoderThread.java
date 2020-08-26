@@ -66,7 +66,8 @@ public class GifDecoderThread extends Thread {
 
 		try {
 			is.close();
-		} catch(Throwable t) {}
+		} catch(Throwable t) {
+		}
 	}
 
 	@Override
@@ -100,7 +101,9 @@ public class GifDecoderThread extends Thread {
 
 			while(playing) {
 
-				while(decoder.getFrameCount() <= frame + 1 && !loaded.get() && !failed.get()) {
+				while(decoder.getFrameCount() <= frame + 1
+						&& !loaded.get()
+						&& !failed.get()) {
 					try {
 						sleep(100);
 					} catch(InterruptedException e) {

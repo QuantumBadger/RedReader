@@ -143,13 +143,16 @@ public class PostListingFragment extends RRFragment
 		mPostListingManager = new PostListingManager(parent);
 
 		if(savedInstanceState != null) {
-			mPreviousFirstVisibleItemPosition = savedInstanceState.getInt(SAVEDSTATE_FIRST_VISIBLE_POS);
+			mPreviousFirstVisibleItemPosition = savedInstanceState.getInt(
+					SAVEDSTATE_FIRST_VISIBLE_POS);
 		}
 
 		try {
-			mPostListingURL = (PostListingURL) RedditURLParser.parseProbablePostListing(url);
+			mPostListingURL
+					= (PostListingURL)RedditURLParser.parseProbablePostListing(url);
 		} catch(ClassCastException e) {
-			Toast.makeText(getActivity(), "Invalid post listing URL.", Toast.LENGTH_LONG).show();
+			Toast.makeText(getActivity(), "Invalid post listing URL.", Toast.LENGTH_LONG)
+					.show();
 			// TODO proper error handling -- show error view
 			throw new RuntimeException("Invalid post listing URL");
 		}
@@ -162,7 +165,11 @@ public class PostListingFragment extends RRFragment
 		// TODO output failed URL
 		if(mPostListingURL == null) {
 			mPostListingManager.addFooterError(
-					new ErrorView(getActivity(), new RRError("Invalid post listing URL", "Could not navigate to that URL.")));
+					new ErrorView(
+							getActivity(),
+							new RRError(
+									"Invalid post listing URL",
+									"Could not navigate to that URL.")));
 			// TODO proper error handling
 			throw new RuntimeException("Invalid post listing URL");
 		}
@@ -193,7 +200,9 @@ public class PostListingFragment extends RRFragment
 				= new ScrollbarRecyclerViewManager(context, null, false);
 
 		if(parent instanceof OptionsMenuUtility.OptionsMenuPostsListener
-				&& PrefsUtility.pref_behaviour_enable_swipe_refresh(context, mSharedPreferences)) {
+				&& PrefsUtility.pref_behaviour_enable_swipe_refresh(
+				context,
+				mSharedPreferences)) {
 
 			recyclerViewManager.enablePullToRefresh(new SwipeRefreshLayout.OnRefreshListener() {
 				@Override
@@ -204,7 +213,7 @@ public class PostListingFragment extends RRFragment
 		}
 
 		mRecyclerView = recyclerViewManager.getRecyclerView();
-		mPostListingManager.setLayoutManager((LinearLayoutManager) mRecyclerView.getLayoutManager());
+		mPostListingManager.setLayoutManager((LinearLayoutManager)mRecyclerView.getLayoutManager());
 
 		mRecyclerView.setAdapter(mPostListingManager.getAdapter());
 
@@ -212,7 +221,10 @@ public class PostListingFragment extends RRFragment
 
 		mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 			@Override
-			public void onScrolled(final RecyclerView recyclerView, final int dx, final int dy) {
+			public void onScrolled(
+					final RecyclerView recyclerView,
+					final int dx,
+					final int dy) {
 				onLoadMoreItemsCheck();
 			}
 		});
@@ -230,10 +242,16 @@ public class PostListingFragment extends RRFragment
 		if(forceDownload) {
 			downloadStrategy = DownloadStrategyAlways.INSTANCE;
 
-		} else if(session == null && savedInstanceState == null && General.isNetworkConnected(context)) {
+		} else if(session == null
+				&& savedInstanceState == null
+				&& General.isNetworkConnected(context)) {
 
-			final long maxAgeMs = PrefsUtility.pref_cache_rerequest_postlist_age_ms(context, mSharedPreferences);
-			downloadStrategy = new DownloadStrategyIfTimestampOutsideBounds(TimestampBound.notOlderThan(maxAgeMs));
+			final long maxAgeMs = PrefsUtility.pref_cache_rerequest_postlist_age_ms(
+					context,
+					mSharedPreferences);
+			downloadStrategy = new DownloadStrategyIfTimestampOutsideBounds(TimestampBound
+					.notOlderThan(
+							maxAgeMs));
 
 		} else {
 			downloadStrategy = DownloadStrategyIfNotCached.INSTANCE;
@@ -251,13 +269,18 @@ public class PostListingFragment extends RRFragment
 		switch(mPostListingURL.pathType()) {
 
 			case RedditURLParser.SEARCH_POST_LISTING_URL:
-				setHeader(new SearchListingHeader(getActivity(), (SearchPostListURL) mPostListingURL));
+				setHeader(new SearchListingHeader(
+						getActivity(),
+						(SearchPostListURL)mPostListingURL));
 				CacheManager.getInstance(context).makeRequest(mRequest);
 				break;
 
 			case RedditURLParser.USER_POST_LISTING_URL:
 			case RedditURLParser.MULTIREDDIT_POST_LISTING_URL:
-				setHeader(mPostListingURL.humanReadableName(getActivity(), true), mPostListingURL.humanReadableUrl(), null);
+				setHeader(
+						mPostListingURL.humanReadableName(getActivity(), true),
+						mPostListingURL.humanReadableUrl(),
+						null);
 				CacheManager.getInstance(context).makeRequest(mRequest);
 				break;
 
@@ -273,7 +296,10 @@ public class PostListingFragment extends RRFragment
 					case SUBREDDIT_COMBINATION:
 					case ALL_SUBTRACTION:
 					case POPULAR:
-						setHeader(mPostListingURL.humanReadableName(getActivity(), true), mPostListingURL.humanReadableUrl(), null);
+						setHeader(
+								mPostListingURL.humanReadableName(getActivity(), true),
+								mPostListingURL.humanReadableUrl(),
+								null);
 						CacheManager.getInstance(context).makeRequest(mRequest);
 						break;
 
@@ -282,36 +308,45 @@ public class PostListingFragment extends RRFragment
 
 						// Request the subreddit data
 
-						final RequestResponseHandler<RedditSubreddit, SubredditRequestFailure> subredditHandler
-								= new RequestResponseHandler<RedditSubreddit, SubredditRequestFailure>() {
+						final RequestResponseHandler<RedditSubreddit, SubredditRequestFailure>
+								subredditHandler = new RequestResponseHandler<
+										RedditSubreddit,
+										SubredditRequestFailure>() {
 							@Override
 							public void onRequestFailed(SubredditRequestFailure failureReason) {
 								// Ignore
-								AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-									@Override
-									public void run() {
-										CacheManager.getInstance(context).makeRequest(mRequest);
-									}
-								});
+								AndroidCommon.UI_THREAD_HANDLER.post(() ->
+										CacheManager.getInstance(context).makeRequest(mRequest));
 							}
 
 							@Override
-							public void onRequestSuccess(final RedditSubreddit result, final long timeCached) {
-								AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-									@Override
-									public void run() {
-										mSubreddit = result;
+							public void onRequestSuccess(
+									final RedditSubreddit result,
+									final long timeCached) {
+								AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+									mSubreddit = result;
 
-										if(mSubreddit.over18 && ! PrefsUtility.pref_behaviour_nsfw(context, mSharedPreferences)) {
-											mPostListingManager.setLoadingVisible(false);
-											mPostListingManager.addFooterError(
-													new ErrorView(getActivity(), new RRError(
-															context.getString(R.string.error_nsfw_subreddits_disabled_title),
-															context.getString(R.string.error_nsfw_subreddits_disabled_message))));
-										} else {
-											onSubredditReceived();
-											CacheManager.getInstance(context).makeRequest(mRequest);
-										}
+									if(mSubreddit.over18
+											&& !PrefsUtility.pref_behaviour_nsfw(
+											context,
+											mSharedPreferences)) {
+										mPostListingManager.setLoadingVisible(false);
+
+										final int title
+												= R.string.error_nsfw_subreddits_disabled_title;
+
+										final int message
+												= R.string.error_nsfw_subreddits_disabled_message;
+
+										mPostListingManager.addFooterError(new ErrorView(
+												getActivity(),
+												new RRError(
+														context.getString(title),
+														context.getString(message))));
+									} else {
+										onSubredditReceived();
+										CacheManager.getInstance(context)
+												.makeRequest(mRequest);
 									}
 								});
 							}
@@ -319,8 +354,16 @@ public class PostListingFragment extends RRFragment
 
 						try {
 							RedditSubredditManager
-									.getInstance(getActivity(), RedditAccountManager.getInstance(getActivity()).getDefaultAccount())
-									.getSubreddit(new SubredditCanonicalId(subredditPostListURL.subreddit), TimestampBound.NONE, subredditHandler, null);
+									.getInstance(
+											getActivity(),
+											RedditAccountManager.getInstance(getActivity())
+													.getDefaultAccount())
+									.getSubreddit(
+											new SubredditCanonicalId(
+													subredditPostListURL.subreddit),
+											TimestampBound.NONE,
+											subredditHandler,
+											null);
 						} catch(InvalidSubredditNameException e) {
 							throw new RuntimeException(e);
 						}
@@ -342,8 +385,11 @@ public class PostListingFragment extends RRFragment
 
 		final Bundle bundle = new Bundle();
 
-		final LinearLayoutManager layoutManager = (LinearLayoutManager)mRecyclerView.getLayoutManager();
-		bundle.putInt(SAVEDSTATE_FIRST_VISIBLE_POS, layoutManager.findFirstVisibleItemPosition());
+		final LinearLayoutManager layoutManager
+				= (LinearLayoutManager)mRecyclerView.getLayoutManager();
+		bundle.putInt(
+				SAVEDSTATE_FIRST_VISIBLE_POS,
+				layoutManager.findFirstVisibleItemPosition());
 
 		return bundle;
 	}
@@ -360,28 +406,34 @@ public class PostListingFragment extends RRFragment
 
 	private void onSubredditReceived() {
 
-		if (mPostListingURL.pathType() == RedditURLParser.SUBREDDIT_POST_LISTING_URL
-				&& mPostListingURL.asSubredditPostListURL().type == SubredditPostListURL.Type.RANDOM) {
+		if(mPostListingURL.pathType() == RedditURLParser.SUBREDDIT_POST_LISTING_URL
+				&& mPostListingURL.asSubredditPostListURL().type
+				== SubredditPostListURL.Type.RANDOM) {
 			try {
-				mPostListingURL = mPostListingURL.asSubredditPostListURL().changeSubreddit(RedditSubreddit.stripRPrefix(mSubreddit.url));
+				mPostListingURL = mPostListingURL.asSubredditPostListURL()
+						.changeSubreddit(RedditSubreddit.stripRPrefix(mSubreddit.url));
 				mRequest = new PostListingRequest(
 						mPostListingURL.generateJsonUri(),
-						RedditAccountManager.getInstance(getContext()).getDefaultAccount(),
+						RedditAccountManager.getInstance(getContext())
+								.getDefaultAccount(),
 						mSession,
 						mRequest.downloadStrategy,
 						true);
-			} catch (InvalidSubredditNameException e) {
+			} catch(InvalidSubredditNameException e) {
 				throw new RuntimeException(e);
 			}
 		}
 		final String subtitle;
 
-		if(mPostListingURL.getOrder() == null || mPostListingURL.getOrder() == PostSort.HOT) {
+		if(mPostListingURL.getOrder() == null
+				|| mPostListingURL.getOrder() == PostSort.HOT) {
 			if(mSubreddit.subscribers == null) {
 				subtitle = getString(R.string.header_subscriber_count_unknown);
 			} else {
-				subtitle = getContext().getString(R.string.header_subscriber_count,
-					NumberFormat.getNumberInstance(Locale.getDefault()).format(mSubreddit.subscribers));
+				subtitle = getContext().getString(
+						R.string.header_subscriber_count,
+						NumberFormat.getNumberInstance(Locale.getDefault())
+								.format(mSubreddit.subscribers));
 			}
 
 		} else {
@@ -391,7 +443,10 @@ public class PostListingFragment extends RRFragment
 		getActivity().runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				setHeader(StringEscapeUtils.unescapeHtml4(mSubreddit.title), subtitle, mSubreddit);
+				setHeader(
+						StringEscapeUtils.unescapeHtml4(mSubreddit.title),
+						subtitle,
+						mSubreddit);
 				getActivity().invalidateOptionsMenu();
 			}
 		});
@@ -404,13 +459,13 @@ public class PostListingFragment extends RRFragment
 			@Nullable final RedditSubreddit subreddit) {
 
 		final PostListingHeader postListingHeader = new PostListingHeader(
-        		getActivity(),
+				getActivity(),
 				title,
 				subtitle,
 				mPostListingURL,
 				subreddit);
 
-        setHeader(postListingHeader);
+		setHeader(postListingHeader);
 	}
 
 	private void setHeader(final View view) {
@@ -452,12 +507,15 @@ public class PostListingFragment extends RRFragment
 
 		if(mReadyToDownloadMore && mAfter != null && !mAfter.equals(mLastAfter)) {
 
-			final LinearLayoutManager layoutManager = (LinearLayoutManager)mRecyclerView.getLayoutManager();
+			final LinearLayoutManager layoutManager
+					= (LinearLayoutManager)mRecyclerView.getLayoutManager();
 
-			if((layoutManager.getItemCount() - layoutManager.findLastVisibleItemPosition() < 20
+			if((layoutManager.getItemCount() - layoutManager.findLastVisibleItemPosition()
+					< 20
 					&& (mPostCountLimit <= 0 || mPostRefreshCount.get() > 0)
 					|| (mPreviousFirstVisibleItemPosition != null
-							&& layoutManager.getItemCount() <= mPreviousFirstVisibleItemPosition))) {
+					&& layoutManager.getItemCount()
+					<= mPreviousFirstVisibleItemPosition))) {
 
 				mLastAfter = mAfter;
 				mReadyToDownloadMore = false;
@@ -465,7 +523,8 @@ public class PostListingFragment extends RRFragment
 				final Uri newUri = mPostListingURL.after(mAfter).generateJsonUri();
 
 				// TODO customise (currently 3 hrs)
-				final DownloadStrategy strategy = (RRTime.since(mTimestamp) < 3 * 60 * 60 * 1000)
+				final DownloadStrategy strategy = (RRTime.since(mTimestamp)
+						< 3 * 60 * 60 * 1000)
 						? DownloadStrategyIfNotCached.INSTANCE
 						: DownloadStrategyNever.INSTANCE;
 
@@ -475,7 +534,13 @@ public class PostListingFragment extends RRFragment
 					limit = mPostRefreshCount.get();
 				}
 
-				mRequest = new PostListingRequest(newUri, RedditAccountManager.getInstance(getActivity()).getDefaultAccount(), mSession, strategy, false);
+				mRequest = new PostListingRequest(
+						newUri,
+						RedditAccountManager.getInstance(getActivity())
+								.getDefaultAccount(),
+						mSession,
+						strategy,
+						false);
 				mPostListingManager.setLoadingVisible(true);
 				CacheManager.getInstance(getActivity()).makeRequest(mRequest);
 
@@ -483,7 +548,8 @@ public class PostListingFragment extends RRFragment
 
 				if(mLoadMoreView == null) {
 
-					mLoadMoreView = (TextView)LayoutInflater.from(getContext()).inflate(R.layout.load_more_posts, null);
+					mLoadMoreView = (TextView)LayoutInflater.from(getContext())
+							.inflate(R.layout.load_more_posts, null);
 					mLoadMoreView.setOnClickListener(new View.OnClickListener() {
 						@Override
 						public void onClick(View view) {
@@ -502,12 +568,19 @@ public class PostListingFragment extends RRFragment
 
 	public void onSubscribe() {
 
-		if(mPostListingURL.pathType() != RedditURLParser.SUBREDDIT_POST_LISTING_URL) return;
+		if(mPostListingURL.pathType() != RedditURLParser.SUBREDDIT_POST_LISTING_URL)
+			return;
 
 		try {
 			RedditSubredditSubscriptionManager
-					.getSingleton(getActivity(), RedditAccountManager.getInstance(getActivity()).getDefaultAccount())
-					.subscribe(new SubredditCanonicalId(mPostListingURL.asSubredditPostListURL().subreddit), getActivity());
+					.getSingleton(
+							getActivity(),
+							RedditAccountManager.getInstance(getActivity())
+									.getDefaultAccount())
+					.subscribe(
+							new SubredditCanonicalId(
+									mPostListingURL.asSubredditPostListURL().subreddit),
+							getActivity());
 		} catch(InvalidSubredditNameException e) {
 			throw new RuntimeException(e);
 		}
@@ -519,7 +592,10 @@ public class PostListingFragment extends RRFragment
 
 		try {
 			RedditSubredditSubscriptionManager
-					.getSingleton(getActivity(), RedditAccountManager.getInstance(getActivity()).getDefaultAccount())
+					.getSingleton(
+							getActivity(),
+							RedditAccountManager.getInstance(getActivity())
+									.getDefaultAccount())
 					.unsubscribe(mSubreddit.getCanonicalId(), getActivity());
 		} catch(InvalidSubredditNameException e) {
 			throw new RuntimeException(e);
@@ -531,7 +607,9 @@ public class PostListingFragment extends RRFragment
 	}
 
 	private static Uri setUriDownloadCount(final Uri input, final int count) {
-		return input.buildUpon().appendQueryParameter("limit", String.valueOf(count)).build();
+		return input.buildUpon()
+				.appendQueryParameter("limit", String.valueOf(count))
+				.build();
 	}
 
 	public void onPostsAdded() {
@@ -540,10 +618,13 @@ public class PostListingFragment extends RRFragment
 			return;
 		}
 
-		final LinearLayoutManager layoutManager = (LinearLayoutManager)mRecyclerView.getLayoutManager();
+		final LinearLayoutManager layoutManager
+				= (LinearLayoutManager)mRecyclerView.getLayoutManager();
 
 		if(layoutManager.getItemCount() > mPreviousFirstVisibleItemPosition) {
-			layoutManager.scrollToPositionWithOffset(mPreviousFirstVisibleItemPosition, 0);
+			layoutManager.scrollToPositionWithOffset(
+					mPreviousFirstVisibleItemPosition,
+					0);
 			mPreviousFirstVisibleItemPosition = null;
 
 		} else {
@@ -555,15 +636,34 @@ public class PostListingFragment extends RRFragment
 
 		private final boolean firstDownload;
 
-		protected PostListingRequest(Uri url, RedditAccount user, UUID requestSession, DownloadStrategy downloadStrategy, boolean firstDownload) {
-			super(General.uriFromString(url.toString()), user, requestSession, Constants.Priority.API_POST_LIST, 0, downloadStrategy, Constants.FileType.POST_LIST, DOWNLOAD_QUEUE_REDDIT_API, true, false, getActivity());
+		protected PostListingRequest(
+				Uri url,
+				RedditAccount user,
+				UUID requestSession,
+				DownloadStrategy downloadStrategy,
+				boolean firstDownload) {
+			super(
+					General.uriFromString(url.toString()),
+					user,
+					requestSession,
+					Constants.Priority.API_POST_LIST,
+					0,
+					downloadStrategy,
+					Constants.FileType.POST_LIST,
+					DOWNLOAD_QUEUE_REDDIT_API,
+					true,
+					false,
+					getActivity());
 			this.firstDownload = firstDownload;
 		}
-		@Override
-		protected void onDownloadNecessary() {}
 
 		@Override
-		protected void onDownloadStarted() {}
+		protected void onDownloadNecessary() {
+		}
+
+		@Override
+		protected void onDownloadStarted() {
+		}
 
 		@Override
 		protected void onCallbackException(final Throwable t) {
@@ -571,39 +671,63 @@ public class PostListingFragment extends RRFragment
 		}
 
 		@Override
-		protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
+		protected void onFailure(
+				final @CacheRequest.RequestFailureType int type,
+				final Throwable t,
+				final Integer status,
+				final String readableMessage) {
 
-			AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-				@Override
-				public void run() {
+			AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 
-					mPostListingManager.setLoadingVisible(false);
+				mPostListingManager.setLoadingVisible(false);
 
-					final RRError error;
+				final RRError error;
 
-					if(type == CacheRequest.REQUEST_FAILURE_CACHE_MISS) {
-						error = new RRError(
-								context.getString(R.string.error_postlist_cache_title),
-								context.getString(R.string.error_postlist_cache_message),
-								t,
-								status,
-								url.toString());
+				if(type == CacheRequest.REQUEST_FAILURE_CACHE_MISS) {
+					error = new RRError(
+							context.getString(R.string.error_postlist_cache_title),
+							context.getString(R.string.error_postlist_cache_message),
+							t,
+							status,
+							url.toString());
 
-					} else {
-						error = General.getGeneralErrorForFailure(context, type, t, status, url.toString());
-					}
-
-					mPostListingManager.addFooterError(new ErrorView(getActivity(), error));
+				} else {
+					error = General.getGeneralErrorForFailure(
+							context,
+							type,
+							t,
+							status,
+							url.toString());
 				}
+
+				mPostListingManager.addFooterError(new ErrorView(
+						getActivity(),
+						error));
 			});
 		}
 
-		@Override protected void onProgress(final boolean authorizationInProgress, final long bytesRead, final long totalBytes) {}
-
-		@Override protected void onSuccess(final CacheManager.ReadableCacheFile cacheFile, final long timestamp, final UUID session, final boolean fromCache, final String mimetype) {}
+		@Override
+		protected void onProgress(
+				final boolean authorizationInProgress,
+				final long bytesRead,
+				final long totalBytes) {
+		}
 
 		@Override
-		public void onJsonParseStarted(final JsonValue value, final long timestamp, final UUID session, final boolean fromCache) {
+		protected void onSuccess(
+				final CacheManager.ReadableCacheFile cacheFile,
+				final long timestamp,
+				final UUID session,
+				final boolean fromCache,
+				final String mimetype) {
+		}
+
+		@Override
+		public void onJsonParseStarted(
+				final JsonValue value,
+				final long timestamp,
+				final UUID session,
+				final boolean fromCache) {
 
 			final AppCompatActivity activity = getActivity();
 
@@ -613,8 +737,12 @@ public class PostListingFragment extends RRFragment
 					@Override
 					public void run() {
 
-						final TextView cacheNotif = (TextView)LayoutInflater.from(getActivity())
-								.inflate(R.layout.cached_header, null, false);
+						final TextView cacheNotif = (TextView)LayoutInflater.from(
+								getActivity())
+								.inflate(
+										R.layout.cached_header,
+										null,
+										false);
 
 						cacheNotif.setText(getActivity().getString(
 								R.string.listing_cached,
@@ -626,7 +754,10 @@ public class PostListingFragment extends RRFragment
 			} // TODO resuming a copy
 
 			if(firstDownload) {
-				((SessionChangeListener)activity).onSessionChanged(session, SessionChangeListener.SessionChangeType.POSTS, timestamp);
+				((SessionChangeListener)activity).onSessionChanged(
+						session,
+						SessionChangeListener.SessionChangeType.POSTS,
+						timestamp);
 				PostListingFragment.this.mSession = session;
 				PostListingFragment.this.mTimestamp = timestamp;
 			}
@@ -639,51 +770,86 @@ public class PostListingFragment extends RRFragment
 				final JsonBufferedObject listing = thing.getObject("data");
 				final JsonBufferedArray posts = listing.getArray("children");
 
-				final boolean isNsfwAllowed = PrefsUtility.pref_behaviour_nsfw(activity, mSharedPreferences);
-				final boolean hideReadPosts = PrefsUtility.pref_behaviour_hide_read_posts(activity, mSharedPreferences);
+				final boolean isNsfwAllowed = PrefsUtility.pref_behaviour_nsfw(
+						activity,
+						mSharedPreferences);
+				final boolean hideReadPosts = PrefsUtility.pref_behaviour_hide_read_posts(
+						activity,
+						mSharedPreferences);
 				final boolean isConnectionWifi = General.isConnectionWifi(activity);
 
-				final PrefsUtility.AppearanceThumbnailsShow thumbnailsPref = PrefsUtility.appearance_thumbnails_show(
+				final PrefsUtility.AppearanceThumbnailsShow thumbnailsPref
+						= PrefsUtility.appearance_thumbnails_show(
 						activity, mSharedPreferences);
-				final boolean downloadThumbnails = thumbnailsPref == PrefsUtility.AppearanceThumbnailsShow.ALWAYS
-						|| (thumbnailsPref == PrefsUtility.AppearanceThumbnailsShow.WIFIONLY && isConnectionWifi);
+				final boolean downloadThumbnails = thumbnailsPref
+						== PrefsUtility.AppearanceThumbnailsShow.ALWAYS
+						|| (thumbnailsPref
+						== PrefsUtility.AppearanceThumbnailsShow.WIFIONLY
+						&& isConnectionWifi);
 
-				final boolean showNsfwThumbnails = PrefsUtility.appearance_thumbnails_nsfw_show(activity, mSharedPreferences);
+				final boolean showNsfwThumbnails
+						= PrefsUtility.appearance_thumbnails_nsfw_show(
+						activity,
+						mSharedPreferences);
 
 				final PrefsUtility.CachePrecacheImages imagePrecachePref
-						= PrefsUtility.cache_precache_images(activity, mSharedPreferences);
+						= PrefsUtility.cache_precache_images(
+						activity,
+						mSharedPreferences);
 
 				final PrefsUtility.CachePrecacheComments commentPrecachePref
-						= PrefsUtility.cache_precache_comments(activity, mSharedPreferences);
+						= PrefsUtility.cache_precache_comments(
+						activity,
+						mSharedPreferences);
 
-				final boolean precacheImages = (imagePrecachePref == PrefsUtility.CachePrecacheImages.ALWAYS
-						|| (imagePrecachePref == PrefsUtility.CachePrecacheImages.WIFIONLY && isConnectionWifi))
+				final boolean precacheImages = (imagePrecachePref
+						== PrefsUtility.CachePrecacheImages.ALWAYS
+						|| (imagePrecachePref
+						== PrefsUtility.CachePrecacheImages.WIFIONLY
+						&& isConnectionWifi))
 						&& !General.isCacheDiskFull(activity);
 
-				final boolean precacheComments = (commentPrecachePref == PrefsUtility.CachePrecacheComments.ALWAYS
-						|| (commentPrecachePref == PrefsUtility.CachePrecacheComments.WIFIONLY && isConnectionWifi));
+				final boolean precacheComments = (commentPrecachePref
+						== PrefsUtility.CachePrecacheComments.ALWAYS
+						|| (commentPrecachePref
+						== PrefsUtility.CachePrecacheComments.WIFIONLY
+						&& isConnectionWifi));
 
 				final PrefsUtility.ImageViewMode imageViewMode
-						= PrefsUtility.pref_behaviour_imageview_mode(activity, mSharedPreferences);
+						= PrefsUtility.pref_behaviour_imageview_mode(
+						activity,
+						mSharedPreferences);
 
 				final PrefsUtility.GifViewMode gifViewMode
-						= PrefsUtility.pref_behaviour_gifview_mode(activity, mSharedPreferences);
+						= PrefsUtility.pref_behaviour_gifview_mode(
+						activity,
+						mSharedPreferences);
 
 				final PrefsUtility.VideoViewMode videoViewMode
-						= PrefsUtility.pref_behaviour_videoview_mode(activity, mSharedPreferences);
+						= PrefsUtility.pref_behaviour_videoview_mode(
+						activity,
+						mSharedPreferences);
 
 				final boolean leftHandedMode
-						= PrefsUtility.pref_appearance_left_handed(activity, mSharedPreferences);
+						= PrefsUtility.pref_appearance_left_handed(
+						activity,
+						mSharedPreferences);
 
 				final boolean subredditFilteringEnabled =
-						mPostListingURL.pathType() == RedditURLParser.SUBREDDIT_POST_LISTING_URL
-						&& (mPostListingURL.asSubredditPostListURL().type == SubredditPostListURL.Type.ALL
-								|| mPostListingURL.asSubredditPostListURL().type == SubredditPostListURL.Type.ALL_SUBTRACTION
-								|| mPostListingURL.asSubredditPostListURL().type == SubredditPostListURL.Type.POPULAR);
+						mPostListingURL.pathType()
+								== RedditURLParser.SUBREDDIT_POST_LISTING_URL
+								&& (mPostListingURL.asSubredditPostListURL().type
+								== SubredditPostListURL.Type.ALL
+								|| mPostListingURL.asSubredditPostListURL().type
+								== SubredditPostListURL.Type.ALL_SUBTRACTION
+								|| mPostListingURL.asSubredditPostListURL().type
+								== SubredditPostListURL.Type.POPULAR);
 
 				// Grab this so we don't have to pull from the prefs every post
 				final HashSet<SubredditCanonicalId> blockedSubreddits
-						= new HashSet<>(PrefsUtility.pref_blocked_subreddits(activity, mSharedPreferences));
+						= new HashSet<>(PrefsUtility.pref_blocked_subreddits(
+						activity,
+						mSharedPreferences));
 
 				Log.i(TAG, "Precaching images: " + (precacheImages ? "ON" : "OFF"));
 				Log.i(TAG, "Precaching comments: " + (precacheComments ? "ON" : "OFF"));
@@ -692,14 +858,17 @@ public class PostListingFragment extends RRFragment
 
 				final boolean showSubredditName
 						= !(mPostListingURL != null
-						&& mPostListingURL.pathType() == RedditURLParser.SUBREDDIT_POST_LISTING_URL
-						&& mPostListingURL.asSubredditPostListURL().type == SubredditPostListURL.Type.SUBREDDIT);
+						&& mPostListingURL.pathType()
+						== RedditURLParser.SUBREDDIT_POST_LISTING_URL
+						&& mPostListingURL.asSubredditPostListURL().type
+						== SubredditPostListURL.Type.SUBREDDIT);
 
 				final ArrayList<RedditPostListItem> downloadedPosts = new ArrayList<>(25);
 
 				for(final JsonValue postThingValue : posts) {
 
-					final RedditThing postThing = postThingValue.asObject(RedditThing.class);
+					final RedditThing postThing
+							= postThingValue.asObject(RedditThing.class);
 
 					if(!postThing.getKind().equals(RedditThing.Kind.POST)) continue;
 
@@ -708,17 +877,23 @@ public class PostListingFragment extends RRFragment
 					mAfter = post.name;
 
 					final boolean isPostBlocked = subredditFilteringEnabled
-							&& blockedSubreddits.contains(new SubredditCanonicalId(post.subreddit));
+							&& blockedSubreddits.contains(new SubredditCanonicalId(
+							post.subreddit));
 
 					if(!isPostBlocked
 							&& (!post.over_18 || isNsfwAllowed)
 							&& mPostIds.add(post.getIdAlone())) {
 
-						final boolean downloadThisThumbnail = downloadThumbnails && (!post.over_18 || showNsfwThumbnails);
+						final boolean downloadThisThumbnail = downloadThumbnails
+								&& (!post.over_18
+								|| showNsfwThumbnails);
 
 						final int positionInList = mPostCount;
 
-						final RedditParsedPost parsedPost = new RedditParsedPost(activity, post, false);
+						final RedditParsedPost parsedPost = new RedditParsedPost(
+								activity,
+								post,
+								false);
 
 						final RedditPreparedPost preparedPost = new RedditPreparedPost(
 								activity,
@@ -729,106 +904,163 @@ public class PostListingFragment extends RRFragment
 								showSubredditName,
 								downloadThisThumbnail);
 
-						// Skip adding this post (go to next iteration) if it has been clicked on AND user preference
+						// Skip adding this post (go to next iteration) if it
+						// has been clicked on AND user preference
 						// "hideReadPosts" is true
 						if(hideReadPosts && preparedPost.isRead()) continue;
 
 						if(precacheComments) {
 
-							final CommentListingController controller = new CommentListingController(
+							final CommentListingController controller
+									= new CommentListingController(
 									PostCommentListingURL.forPostId(preparedPost.src.getIdAlone()),
 									activity);
 
-							CacheManager.getInstance(activity).makeRequest(new CacheRequest(
-									General.uriFromString(controller.getUri().toString()),
-									RedditAccountManager.getInstance(activity).getDefaultAccount(),
-									null,
-									Constants.Priority.COMMENT_PRECACHE,
-									positionInList,
-									new DownloadStrategyIfTimestampOutsideBounds(
-											TimestampBound.notOlderThan(RRTime.minsToMs(15))),
-									Constants.FileType.COMMENT_LIST,
-									DOWNLOAD_QUEUE_REDDIT_API,
-									false, // Don't parse the JSON
-									false,
-									activity) {
+							CacheManager.getInstance(activity)
+									.makeRequest(new CacheRequest(
+											General.uriFromString(controller.getUri()
+													.toString()),
+											RedditAccountManager.getInstance(activity)
+													.getDefaultAccount(),
+											null,
+											Constants.Priority.COMMENT_PRECACHE,
+											positionInList,
+											new DownloadStrategyIfTimestampOutsideBounds(
+													TimestampBound.notOlderThan(RRTime.minsToMs(
+															15))),
+											Constants.FileType.COMMENT_LIST,
+											DOWNLOAD_QUEUE_REDDIT_API,
+											false, // Don't parse the JSON
+											false,
+											activity) {
 
-								@Override
-								protected void onCallbackException(final Throwable t) {}
+										@Override
+										protected void onCallbackException(final Throwable t) {
+										}
 
-								@Override
-								protected void onDownloadNecessary() {}
+										@Override
+										protected void onDownloadNecessary() {
+										}
 
-								@Override
-								protected void onDownloadStarted() {}
+										@Override
+										protected void onDownloadStarted() {
+										}
 
-								@Override
-								protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
-									Log.e(TAG, "Failed to precache " + url.toString() + "(RequestFailureType code: " + type + ")");
-								}
+										@Override
+										protected void onFailure(
+												final @CacheRequest.RequestFailureType int type,
+												final Throwable t,
+												final Integer status,
+												final String readableMessage) {
+											Log.e(
+													TAG,
+													"Failed to precache "
+															+ url.toString()
+															+ "(RequestFailureType code: "
+															+ type
+															+ ")");
+										}
 
-								@Override
-								protected void onProgress(final boolean authorizationInProgress, final long bytesRead, final long totalBytes) {}
+										@Override
+										protected void onProgress(
+												final boolean authorizationInProgress,
+												final long bytesRead,
+												final long totalBytes) {
+										}
 
-								@Override
-								protected void onSuccess(final CacheManager.ReadableCacheFile cacheFile, final long timestamp, final UUID session, final boolean fromCache, final String mimetype) {
-									Log.i(TAG, "Successfully precached " + url.toString());
-								}
-							});
+										@Override
+										protected void onSuccess(
+												final CacheManager.ReadableCacheFile cacheFile,
+												final long timestamp,
+												final UUID session,
+												final boolean fromCache,
+												final String mimetype) {
+											Log.i(
+													TAG,
+													"Successfully precached "
+															+ url.toString());
+										}
+									});
 						}
 
-						LinkHandler.getImageInfo(activity, parsedPost.getUrl(), Constants.Priority.IMAGE_PRECACHE, positionInList, new GetImageInfoListener() {
+						LinkHandler.getImageInfo(
+								activity,
+								parsedPost.getUrl(),
+								Constants.Priority.IMAGE_PRECACHE,
+								positionInList,
+								new GetImageInfoListener() {
 
-							@Override public void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {}
-							@Override public void onNotAnImage() {}
+									@Override
+									public void onFailure(
+											final @CacheRequest.RequestFailureType int type,
+											final Throwable t,
+											final Integer status,
+											final String readableMessage) {
+									}
 
-							@Override
-							public void onSuccess(final ImageInfo info) {
+									@Override
+									public void onNotAnImage() {
+									}
 
-								if(!precacheImages) return;
+									@Override
+									public void onSuccess(final ImageInfo info) {
 
-								// Don't precache huge images
-								if(info.size != null && info.size > 15 * 1024 * 1024) {
-									Log.i(TAG, String.format(
-											"Not precaching '%s': too big (%d kB)", post.getUrl(), info.size / 1024));
-									return;
-								}
+										if(!precacheImages) return;
 
-								// Don't precache gifs if they're opened externally
-								if(ImageInfo.MediaType.GIF.equals(info.mediaType)
-										&& !gifViewMode.downloadInApp) {
+										// Don't precache huge images
+										if(info.size != null
+												&& info.size > 15 * 1024 * 1024) {
+											Log.i(TAG, String.format(
+													"Not precaching '%s': too big (%d kB)",
+													post.getUrl(),
+													info.size / 1024));
+											return;
+										}
 
-									Log.i(TAG, String.format(
-											"Not precaching '%s': GIFs are opened externally", post.getUrl()));
-									return;
-								}
+										// Don't precache gifs if they're opened externally
+										if(ImageInfo.MediaType.GIF.equals(info.mediaType)
+												&& !gifViewMode.downloadInApp) {
 
-								// Don't precache images if they're opened externally
-								if(ImageInfo.MediaType.IMAGE.equals(info.mediaType)
-										&& !imageViewMode.downloadInApp) {
+											Log.i(TAG, String.format(
+													"Not precaching '%s': GIFs opened externally",
+													post.getUrl()));
+											return;
+										}
 
-									Log.i(TAG, String.format(
-											"Not precaching '%s': images are opened externally", post.getUrl()));
-									return;
-								}
+										// Don't precache images if they're opened externally
+										if(ImageInfo.MediaType.IMAGE.equals(info.mediaType)
+												&& !imageViewMode.downloadInApp) {
+
+											Log.i(TAG, String.format(
+													"Not precaching '%s': images opened externally",
+													post.getUrl()));
+											return;
+										}
 
 
-								// Don't precache videos if they're opened externally
-								if(ImageInfo.MediaType.VIDEO.equals(info.mediaType)
-										&& !videoViewMode.downloadInApp) {
+										// Don't precache videos if they're opened externally
+										if(ImageInfo.MediaType.VIDEO.equals(info.mediaType)
+												&& !videoViewMode.downloadInApp) {
 
-									Log.i(TAG, String.format(
-											"Not precaching '%s': videos are opened externally", post.getUrl()));
-									return;
-								}
+											Log.i(TAG, String.format(
+													"Not precaching '%s': videos opened externally",
+													post.getUrl()));
+											return;
+										}
 
-								precacheImage(activity, info.urlOriginal, positionInList);
+										precacheImage(
+												activity,
+												info.urlOriginal,
+												positionInList);
 
-								if(info.urlAudioStream != null) {
-									precacheImage(activity, info.urlAudioStream, positionInList);
-								}
-							}
-						});
+										if(info.urlAudioStream != null) {
+											precacheImage(
+													activity,
+													info.urlAudioStream,
+													positionInList);
+										}
+									}
+								});
 
 						downloadedPosts.add(new RedditPostListItem(
 								preparedPost,
@@ -855,8 +1087,12 @@ public class PostListingFragment extends RRFragment
 					}
 				});
 
-			} catch (Throwable t) {
-				notifyFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "Parse failure");
+			} catch(Throwable t) {
+				notifyFailure(
+						CacheRequest.REQUEST_FAILURE_PARSE,
+						t,
+						null,
+						"Parse failure");
 			}
 		}
 	}
@@ -899,7 +1135,11 @@ public class PostListingFragment extends RRFragment
 			}
 
 			@Override
-			protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
+			protected void onFailure(
+					final @CacheRequest.RequestFailureType int type,
+					final Throwable t,
+					final Integer status,
+					final String readableMessage) {
 
 				Log.e(TAG, String.format(
 						Locale.US,
@@ -911,11 +1151,19 @@ public class PostListingFragment extends RRFragment
 			}
 
 			@Override
-			protected void onProgress(final boolean authorizationInProgress, final long bytesRead, final long totalBytes) {
+			protected void onProgress(
+					final boolean authorizationInProgress,
+					final long bytesRead,
+					final long totalBytes) {
 			}
 
 			@Override
-			protected void onSuccess(final CacheManager.ReadableCacheFile cacheFile, final long timestamp, final UUID session, final boolean fromCache, final String mimetype) {
+			protected void onSuccess(
+					final CacheManager.ReadableCacheFile cacheFile,
+					final long timestamp,
+					final UUID session,
+					final boolean fromCache,
+					final String mimetype) {
 				Log.i(TAG, "Successfully precached " + url);
 			}
 		});

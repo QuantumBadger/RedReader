@@ -23,7 +23,8 @@ public class DownloadStrategyAlways implements DownloadStrategy {
 
 	public static final DownloadStrategyAlways INSTANCE = new DownloadStrategyAlways();
 
-	private DownloadStrategyAlways() {}
+	private DownloadStrategyAlways() {
+	}
 
 	@Override
 	public boolean shouldDownloadWithoutCheckingCache() {

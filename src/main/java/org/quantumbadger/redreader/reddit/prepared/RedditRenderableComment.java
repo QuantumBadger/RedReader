@@ -36,7 +36,8 @@ import org.quantumbadger.redreader.reddit.things.RedditThingWithIdAndType;
 
 import java.net.URI;
 
-public class RedditRenderableComment implements RedditRenderableInboxItem, RedditThingWithIdAndType {
+public class RedditRenderableComment
+		implements RedditRenderableInboxItem, RedditThingWithIdAndType {
 
 	private final RedditParsedComment mComment;
 	private final String mParentPostAuthor;
@@ -121,7 +122,9 @@ public class RedditRenderableComment implements RedditRenderableInboxItem, Reddi
 
 				sb.append(
 						" " + rawComment.author + " ",
-						BetterSSB.BACKGROUND_COLOR | BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD,
+						BetterSSB.BACKGROUND_COLOR
+								| BetterSSB.FOREGROUND_COLOR
+								| BetterSSB.BOLD,
 						Color.WHITE,
 						backgroundColour,
 						1f);
@@ -158,15 +161,26 @@ public class RedditRenderableComment implements RedditRenderableInboxItem, Reddi
 			sb.append("   ", 0);
 		}
 
-		if(theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.SCORE) && mShowScore) {
+		if(theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.SCORE)
+				&& mShowScore) {
 
 			if(!Boolean.TRUE.equals(rawComment.score_hidden)) {
-				sb.append(String.valueOf(score), BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, pointsCol, 0, 1f);
+				sb.append(
+						String.valueOf(score),
+						BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD,
+						pointsCol,
+						0,
+						1f);
 			} else {
-				sb.append("??", BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, pointsCol, 0, 1f);
+				sb.append(
+						"??",
+						BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD,
+						pointsCol,
+						0,
+						1f);
 			}
 
-			sb.append(" " + context.getString(R.string.subtitle_points) +  " ", 0);
+			sb.append(" " + context.getString(R.string.subtitle_points) + " ", 0);
 		}
 
 		if(theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.GOLD)) {
@@ -175,7 +189,8 @@ public class RedditRenderableComment implements RedditRenderableInboxItem, Reddi
 
 				sb.append(" ", 0);
 
-				sb.append(" "
+				sb.append(
+						" "
 								+ context.getString(R.string.gold)
 								+ BetterSSB.NBSP + "x"
 								+ rawComment.gilded
@@ -198,7 +213,12 @@ public class RedditRenderableComment implements RedditRenderableInboxItem, Reddi
 					1f);
 
 			if(rawComment.edited != null && rawComment.edited instanceof Long) {
-				sb.append("*", BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD, theme.rrCommentHeaderBoldCol, 0, 1f);
+				sb.append(
+						"*",
+						BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD,
+						theme.rrCommentHeaderBoldCol,
+						0,
+						1f);
 			}
 		}
 
@@ -212,12 +232,14 @@ public class RedditRenderableComment implements RedditRenderableInboxItem, Reddi
 			final Float textSize,
 			final boolean showLinkButtons) {
 
-		return mComment.getBody().generateView(activity, textColor, textSize, showLinkButtons);
+		return mComment.getBody()
+				.generateView(activity, textColor, textSize, showLinkButtons);
 	}
 
 	@Override
 	public void handleInboxClick(final AppCompatActivity activity) {
-		final URI commentContext = Constants.Reddit.getUri(mComment.getRawComment().context);
+		final URI commentContext
+				= Constants.Reddit.getUri(mComment.getRawComment().context);
 		LinkHandler.onLinkClicked(activity, commentContext.toString());
 	}
 
@@ -226,7 +248,7 @@ public class RedditRenderableComment implements RedditRenderableInboxItem, Reddi
 
 		final RedditChangeDataManager changeDataManager
 				= RedditChangeDataManager.getInstance(
-						RedditAccountManager.getInstance(activity).getDefaultAccount());
+				RedditAccountManager.getInstance(activity).getDefaultAccount());
 
 		RedditAPICommentAction.showActionMenu(
 				activity,
@@ -234,7 +256,8 @@ public class RedditRenderableComment implements RedditRenderableInboxItem, Reddi
 				this,
 				null,
 				changeDataManager,
-				// TODO instead of assuming that it isn't an archived post, somehow find out if it actually is
+				// TODO instead of assuming that it isn't an archived post,
+				//  somehow find out if it actually is
 				false);
 	}
 

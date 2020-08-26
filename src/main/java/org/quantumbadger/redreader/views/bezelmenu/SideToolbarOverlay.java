@@ -48,7 +48,10 @@ public class SideToolbarOverlay extends FrameLayout {
 		removeAllViews();
 		addView(contents);
 
-		((LayoutParams)contents.getLayoutParams()).gravity = (pos == SideToolbarPosition.LEFT ? Gravity.LEFT : Gravity.RIGHT);
+		((LayoutParams)contents.getLayoutParams()).gravity = (pos
+				== SideToolbarPosition.LEFT
+				? Gravity.LEFT
+				: Gravity.RIGHT);
 		contents.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
 		contents.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
 

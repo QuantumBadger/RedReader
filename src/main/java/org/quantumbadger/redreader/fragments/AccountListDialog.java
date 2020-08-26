@@ -44,7 +44,7 @@ import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class AccountListDialog extends AppCompatDialogFragment
-	implements RedditAccountChangeListener {
+		implements RedditAccountChangeListener {
 
 	private AppCompatActivity mActivity;
 
@@ -54,8 +54,11 @@ public class AccountListDialog extends AppCompatDialogFragment
 	private RecyclerView rv;
 
 	@Override
-	public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-		if (requestCode == 123 && requestCode == resultCode && data.hasExtra("url")) {
+	public void onActivityResult(
+			final int requestCode,
+			final int resultCode,
+			final Intent data) {
+		if(requestCode == 123 && requestCode == resultCode && data.hasExtra("url")) {
 			final ProgressDialog progressDialog = new ProgressDialog(getActivity());
 			progressDialog.setTitle(R.string.accounts_loggingin);
 			progressDialog.setMessage(getString(R.string.accounts_loggingin_msg));
@@ -75,8 +78,11 @@ public class AccountListDialog extends AppCompatDialogFragment
 
 			progressDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
 				@Override
-				public boolean onKey(final DialogInterface dialogInterface, final int keyCode, final KeyEvent keyEvent) {
-					if (keyCode == KeyEvent.KEYCODE_BACK) {
+				public boolean onKey(
+						final DialogInterface dialogInterface,
+						final int keyCode,
+						final KeyEvent keyEvent) {
+					if(keyCode == KeyEvent.KEYCODE_BACK) {
 						cancelled.set(true);
 						General.safeDismissDialog(progressDialog);
 					}
@@ -87,46 +93,49 @@ public class AccountListDialog extends AppCompatDialogFragment
 			progressDialog.show();
 
 			RedditOAuth.loginAsynchronous(
-				mActivity.getApplicationContext(),
-				Uri.parse(data.getStringExtra("url")),
+					mActivity.getApplicationContext(),
+					Uri.parse(data.getStringExtra("url")),
 
-				new RedditOAuth.LoginListener() {
-					@Override
-					public void onLoginSuccess(final RedditAccount account) {
-						AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-							@Override
-							public void run() {
+					new RedditOAuth.LoginListener() {
+						@Override
+						public void onLoginSuccess(final RedditAccount account) {
+							AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 								General.safeDismissDialog(progressDialog);
-								if (cancelled.get()) return;
+								if(cancelled.get()) return;
 
-								final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(mActivity);
-								alertBuilder.setNeutralButton(R.string.dialog_close, new DialogInterface.OnClickListener() {
-									@Override
-									public void onClick(DialogInterface dialog, int which) {
-									}
-								});
+								final AlertDialog.Builder alertBuilder
+										= new AlertDialog.Builder(mActivity);
+								alertBuilder.setNeutralButton(
+										R.string.dialog_close,
+										(dialog, which) -> {});
 
 								final Context context = mActivity.getApplicationContext();
-								alertBuilder.setTitle(context.getString(R.string.general_success));
-								alertBuilder.setMessage(context.getString(R.string.message_nowloggedin));
+
+								alertBuilder.setTitle(
+										context.getString(R.string.general_success));
+
+								alertBuilder.setMessage(
+										context.getString(R.string.message_nowloggedin));
 
 								final AlertDialog alertDialog = alertBuilder.create();
 								alertDialog.show();
-							}
-						});
-					}
+							});
+						}
 
-					@Override
-					public void onLoginFailure(final RedditOAuth.LoginError error, final RRError details) {
-						AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-							@Override
-							public void run() {
-								General.safeDismissDialog(progressDialog);
-								if (!cancelled.get()) General.showResultDialog(mActivity, details);
-							}
-						});
-					}
-				});
+						@Override
+						public void onLoginFailure(
+								final RedditOAuth.LoginError error,
+								final RRError details) {
+							AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
+								@Override
+								public void run() {
+									General.safeDismissDialog(progressDialog);
+									if(!cancelled.get())
+										General.showResultDialog(mActivity, details);
+								}
+							});
+						}
+					});
 		}
 	}
 
@@ -135,10 +144,10 @@ public class AccountListDialog extends AppCompatDialogFragment
 	public Dialog onCreateDialog(final Bundle savedInstanceState) {
 		super.onCreateDialog(savedInstanceState);
 
-		if (alreadyCreated) return getDialog();
+		if(alreadyCreated) return getDialog();
 		alreadyCreated = true;
 
-		mActivity = (AppCompatActivity) getActivity();
+		mActivity = (AppCompatActivity)getActivity();
 
 		final AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
 		builder.setTitle(mActivity.getString(R.string.options_accounts_long));

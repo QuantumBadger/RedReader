@@ -37,7 +37,8 @@ import org.quantumbadger.redreader.common.General;
 import java.net.URI;
 import java.util.UUID;
 
-public class SessionListDialog extends AppCompatDialogFragment implements RedditAccountChangeListener {
+public class SessionListDialog extends AppCompatDialogFragment
+		implements RedditAccountChangeListener {
 
 	private URI url;
 	private UUID current;
@@ -48,13 +49,16 @@ public class SessionListDialog extends AppCompatDialogFragment implements Reddit
 	// Workaround for HoloEverywhere bug?
 	private volatile boolean alreadyCreated = false;
 
-	public static SessionListDialog newInstance(final Uri url, final UUID current, final SessionChangeListener.SessionChangeType type) {
+	public static SessionListDialog newInstance(
+			final Uri url,
+			final UUID current,
+			final SessionChangeListener.SessionChangeType type) {
 
 		final SessionListDialog dialog = new SessionListDialog();
 
 		final Bundle args = new Bundle(3);
 		args.putString("url", url.toString());
-		if (current != null) args.putString("current", current.toString());
+		if(current != null) args.putString("current", current.toString());
 		args.putString("type", type.name());
 		dialog.setArguments(args);
 
@@ -68,13 +72,14 @@ public class SessionListDialog extends AppCompatDialogFragment implements Reddit
 
 		url = General.uriFromString(getArguments().getString("url"));
 
-		if (getArguments().containsKey("current")) {
+		if(getArguments().containsKey("current")) {
 			current = UUID.fromString(getArguments().getString("current"));
 		} else {
 			current = null;
 		}
 
-		type = SessionChangeListener.SessionChangeType.valueOf(getArguments().getString("type"));
+		type = SessionChangeListener.SessionChangeType.valueOf(getArguments().getString(
+				"type"));
 	}
 
 	@NonNull
@@ -82,7 +87,7 @@ public class SessionListDialog extends AppCompatDialogFragment implements Reddit
 	public Dialog onCreateDialog(final Bundle savedInstanceState) {
 		super.onCreateDialog(savedInstanceState);
 
-		if (alreadyCreated) return getDialog();
+		if(alreadyCreated) return getDialog();
 		alreadyCreated = true;
 
 		final Context context = getContext();

@@ -40,7 +40,8 @@ public class RedReader extends Application {
 
 		Log.i("RedReader", "Application created.");
 
-		final Thread.UncaughtExceptionHandler androidHandler = Thread.getDefaultUncaughtExceptionHandler();
+		final Thread.UncaughtExceptionHandler androidHandler
+				= Thread.getDefaultUncaughtExceptionHandler();
 
 		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
 			public void uncaughtException(Thread thread, Throwable t) {
@@ -55,7 +56,11 @@ public class RedReader extends Application {
 					}
 
 					try(FileOutputStream fos = new FileOutputStream(
-							new File(dir, "redreader_crash_log_" + UUID.randomUUID().toString() + ".txt"))) {
+							new File(
+									dir,
+									"redreader_crash_log_"
+											+ UUID.randomUUID().toString()
+											+ ".txt"))) {
 
 						try(PrintWriter pw = new PrintWriter(fos)) {
 							t.printStackTrace(pw);
@@ -63,7 +68,8 @@ public class RedReader extends Application {
 						}
 					}
 
-				} catch(Throwable t1) {}
+				} catch(Throwable t1) {
+				}
 
 				androidHandler.uncaughtException(thread, t);
 			}
@@ -85,7 +91,8 @@ public class RedReader extends Application {
 		new Thread() {
 			@Override
 			public void run() {
-				RedditChangeDataIO.getInstance(RedReader.this).runInitialReadInThisThread();
+				RedditChangeDataIO.getInstance(RedReader.this)
+						.runInitialReadInThisThread();
 				RedditChangeDataManager.pruneAllUsers(RedReader.this);
 			}
 		}.start();

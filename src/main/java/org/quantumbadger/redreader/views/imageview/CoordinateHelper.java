@@ -40,21 +40,29 @@ public class CoordinateHelper {
 		result.set(mPositionOffset);
 	}
 
-	public void convertScreenToScene(final MutableFloatPoint2D screenPos, final MutableFloatPoint2D output) {
+	public void convertScreenToScene(
+			final MutableFloatPoint2D screenPos,
+			final MutableFloatPoint2D output) {
 		output.x = (screenPos.x - mPositionOffset.x) / mScale;
 		output.y = (screenPos.y - mPositionOffset.y) / mScale;
 	}
 
-	public void convertSceneToScreen(final MutableFloatPoint2D scenePos, final MutableFloatPoint2D output) {
+	public void convertSceneToScreen(
+			final MutableFloatPoint2D scenePos,
+			final MutableFloatPoint2D output) {
 		output.x = scenePos.x * mScale + mPositionOffset.x;
 		output.y = scenePos.y * mScale + mPositionOffset.y;
 	}
 
-	public void scaleAboutScreenPoint(final MutableFloatPoint2D screenPos, final float scaleFactor) {
+	public void scaleAboutScreenPoint(
+			final MutableFloatPoint2D screenPos,
+			final float scaleFactor) {
 		setScaleAboutScreenPoint(screenPos, mScale * scaleFactor);
 	}
 
-	public void setScaleAboutScreenPoint(final MutableFloatPoint2D screenPos, final float scale) {
+	public void setScaleAboutScreenPoint(
+			final MutableFloatPoint2D screenPos,
+			final float scale) {
 
 		final MutableFloatPoint2D oldScenePos = new MutableFloatPoint2D();
 		convertScreenToScene(screenPos, oldScenePos);
@@ -67,7 +75,9 @@ public class CoordinateHelper {
 		translateScreen(newScreenPos, screenPos);
 	}
 
-	public void translateScreen(final MutableFloatPoint2D oldScreenPos, final MutableFloatPoint2D newScreenPos) {
+	public void translateScreen(
+			final MutableFloatPoint2D oldScreenPos,
+			final MutableFloatPoint2D newScreenPos) {
 		mPositionOffset.add(newScreenPos);
 		mPositionOffset.sub(oldScreenPos);
 	}

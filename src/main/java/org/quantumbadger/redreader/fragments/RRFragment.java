@@ -54,12 +54,18 @@ public abstract class RRFragment {
 		mParent.startActivity(intent);
 	}
 
-	protected final void startActivityForResult(final Intent intent, final int requestCode) {
+	protected final void startActivityForResult(
+			final Intent intent,
+			final int requestCode) {
 		mParent.startActivityForResult(intent, requestCode);
 	}
 
-	public void onCreateOptionsMenu(Menu menu) {}
-	public boolean onOptionsItemSelected(MenuItem item) {return false;}
+	public void onCreateOptionsMenu(Menu menu) {
+	}
+
+	public boolean onOptionsItemSelected(MenuItem item) {
+		return false;
+	}
 
 	public abstract View getView();
 

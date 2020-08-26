@@ -82,8 +82,10 @@ public abstract class HTTPBackend {
 
 		public String encode() {
 			try {
-				return URLEncoder.encode(name, "UTF-8") + "=" + URLEncoder.encode(value, "UTF-8");
-			} catch (UnsupportedEncodingException e) {
+				return URLEncoder.encode(name, "UTF-8") + "=" + URLEncoder.encode(
+						value,
+						"UTF-8");
+			} catch(UnsupportedEncodingException e) {
 				throw new RuntimeException(e);
 			}
 		}
@@ -92,9 +94,9 @@ public abstract class HTTPBackend {
 
 			final StringBuilder result = new StringBuilder();
 
-			for (final PostField field : fields) {
+			for(final PostField field : fields) {
 
-				if (result.length() > 0) {
+				if(result.length() > 0) {
 					result.append('&');
 				}
 
@@ -120,7 +122,10 @@ public abstract class HTTPBackend {
 	}
 
 	public interface Listener {
-		void onError(@CacheRequest.RequestFailureType int failureType, Throwable exception, Integer httpStatus);
+		void onError(
+				@CacheRequest.RequestFailureType int failureType,
+				Throwable exception,
+				Integer httpStatus);
 
 		void onSuccess(String mimetype, Long bodyBytes, InputStream body);
 	}

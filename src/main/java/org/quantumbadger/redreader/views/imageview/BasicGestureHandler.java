@@ -20,7 +20,8 @@ package org.quantumbadger.redreader.views.imageview;
 import android.view.MotionEvent;
 import android.view.View;
 
-public class BasicGestureHandler implements View.OnTouchListener, FingerTracker.FingerListener {
+public class BasicGestureHandler
+		implements View.OnTouchListener, FingerTracker.FingerListener {
 
 	public BasicGestureHandler(final Listener listener) {
 		mListener = listener;

@@ -42,20 +42,23 @@ public final class SearchListingHeader extends FrameLayout {
 	EditText mSubreddit;
 	Button mSearchButton;
 
-	public SearchListingHeader(final Activity parentActivity, final SearchPostListURL url) {
+	public SearchListingHeader(
+			final Activity parentActivity,
+			final SearchPostListURL url) {
 		super(parentActivity);
 		mUrl = url;
 
-		LayoutInflater layoutInflater = (LayoutInflater) parentActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater layoutInflater = (LayoutInflater)parentActivity.getSystemService(
+				Context.LAYOUT_INFLATER_SERVICE);
 		layoutInflater.inflate(R.layout.search_listing_header, this, true);
 
-		mQuery = (EditText) findViewById(R.id.search_listing_header_query_editText);
+		mQuery = (EditText)findViewById(R.id.search_listing_header_query_editText);
 		mQuery.setText(url.query);
 		mQuery.setImeOptions(EditorInfo.IME_ACTION_NEXT);
 
-		mSubreddit = (EditText) findViewById(R.id.search_listing_header_sub_editText);
+		mSubreddit = (EditText)findViewById(R.id.search_listing_header_sub_editText);
 		// null and "all" are isomorphic; but SearchPostListURL takes null
-        if (url.subreddit == null) {
+		if(url.subreddit == null) {
 			mSubreddit.setText("all");
 		} else {
 			mSubreddit.setText(url.subreddit);
@@ -68,10 +71,10 @@ public final class SearchListingHeader extends FrameLayout {
 				return true;
 			}
 		};
-        mSubreddit.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
+		mSubreddit.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
 		mSubreddit.setOnEditorActionListener(onEnter);
 
-		mSearchButton = (Button) findViewById(R.id.search_listing_header_search);
+		mSearchButton = (Button)findViewById(R.id.search_listing_header_search);
 		mSearchButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -80,12 +83,17 @@ public final class SearchListingHeader extends FrameLayout {
 		});
 	}
 
-	private static void performSearch(final Activity parentActivity, final EditText mSubreddit, final EditText mQuery) {
+	private static void performSearch(
+			final Activity parentActivity,
+			final EditText mSubreddit,
+			final EditText mQuery) {
 		String subreddit = mSubreddit.getText().toString().trim();
-		if (StringUtils.isEmpty(subreddit)) {
+		if(StringUtils.isEmpty(subreddit)) {
 			subreddit = null;
 		}
-		SearchPostListURL url = SearchPostListURL.build(subreddit, mQuery.getText().toString().trim());
+		SearchPostListURL url = SearchPostListURL.build(
+				subreddit,
+				mQuery.getText().toString().trim());
 
 		final Intent intent = new Intent(parentActivity, PostListingActivity.class);
 		intent.setData(url.generateJsonUri());

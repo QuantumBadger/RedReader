@@ -59,7 +59,8 @@ public class RedditPostListItem extends GroupedRecyclerViewAdapter.Item {
 				mActivity,
 				mLeftHandedMode);
 
-		return new RecyclerView.ViewHolder(view) {};
+		return new RecyclerView.ViewHolder(view) {
+		};
 	}
 
 	@Override

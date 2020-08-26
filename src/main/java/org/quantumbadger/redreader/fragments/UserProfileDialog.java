@@ -77,167 +77,252 @@ public class UserProfileDialog extends PropertiesDialog {
 	@Override
 	public final void prepare(final AppCompatActivity context, final LinearLayout items) {
 
-		final LoadingView loadingView = new LoadingView(context, R.string.download_waiting, true, true);
+		final LoadingView loadingView = new LoadingView(
+				context,
+				R.string.download_waiting,
+				true,
+				true);
 		items.addView(loadingView);
 
 		username = getArguments().getString("user");
 		final CacheManager cm = CacheManager.getInstance(context);
 
-		RedditAPI.getUser(cm, username, new APIResponseHandler.UserResponseHandler(context) {
-			@Override
-			protected void onDownloadStarted() {
-				if(!active) return;
-				loadingView.setIndeterminate(R.string.download_connecting);
-			}
-
-			@Override
-			protected void onSuccess(final RedditUser user, long timestamp) {
-
-				AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
+		RedditAPI.getUser(
+				cm,
+				username,
+				new APIResponseHandler.UserResponseHandler(context) {
 					@Override
-					public void run() {
-
+					protected void onDownloadStarted() {
 						if(!active) return;
+						loadingView.setIndeterminate(R.string.download_connecting);
+					}
 
-						loadingView.setDone(R.string.download_done);
+					@Override
+					protected void onSuccess(final RedditUser user, long timestamp) {
 
-						final LinearLayout karmaLayout = (LinearLayout) context.getLayoutInflater().inflate(R.layout.karma, null);
-						items.addView(karmaLayout);
+						AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 
-						final LinearLayout linkKarmaLayout = karmaLayout.findViewById(R.id.layout_karma_link);
-						final LinearLayout commentKarmaLayout = karmaLayout.findViewById(R.id.layout_karma_comment);
-						final TextView linkKarma = (TextView) karmaLayout.findViewById(R.id.layout_karma_text_link);
-						final TextView commentKarma = (TextView) karmaLayout.findViewById(R.id.layout_karma_text_comment);
+							if(!active) return;
 
-						linkKarma.setText(String.valueOf(user.link_karma));
-						commentKarma.setText(String.valueOf(user.comment_karma));
+							loadingView.setDone(R.string.download_done);
 
-						linkKarmaLayout.setOnLongClickListener(v -> {
-							ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-							if(clipboardManager != null) {
-								ClipData data = ClipData.newPlainText(context.getString(R.string.karma_link), linkKarma.getText());
-								clipboardManager.setPrimaryClip(data);
+							final LinearLayout karmaLayout
+									= (LinearLayout)context.getLayoutInflater()
+									.inflate(R.layout.karma, null);
+							items.addView(karmaLayout);
 
-								General.quickToast(context, R.string.copied_to_clipboard);
+							final LinearLayout linkKarmaLayout
+									= karmaLayout.findViewById(R.id.layout_karma_link);
+							final LinearLayout commentKarmaLayout
+									= karmaLayout.findViewById(R.id.layout_karma_comment);
+							final TextView linkKarma
+									= karmaLayout.findViewById(R.id.layout_karma_text_link);
+							final TextView commentKarma
+									= karmaLayout.findViewById(R.id.layout_karma_text_comment);
+
+							linkKarma.setText(String.valueOf(user.link_karma));
+							commentKarma.setText(String.valueOf(user.comment_karma));
+
+							linkKarmaLayout.setOnLongClickListener(v -> {
+								ClipboardManager clipboardManager
+										= (ClipboardManager)context.getSystemService(
+										Context.CLIPBOARD_SERVICE);
+								if(clipboardManager != null) {
+									ClipData data = ClipData.newPlainText(
+											context.getString(R.string.karma_link),
+											linkKarma.getText());
+									clipboardManager.setPrimaryClip(data);
+
+									General.quickToast(
+											context,
+											R.string.copied_to_clipboard);
+								}
+								return true;
+							});
+							commentKarmaLayout.setOnLongClickListener(v -> {
+								ClipboardManager clipboardManager
+										= (ClipboardManager)context.getSystemService(
+										Context.CLIPBOARD_SERVICE);
+								if(clipboardManager != null) {
+									ClipData data = ClipData.newPlainText(
+											context.getString(R.string.karma_comment),
+											commentKarma.getText());
+									clipboardManager.setPrimaryClip(data);
+
+									General.quickToast(
+											context,
+											R.string.copied_to_clipboard);
+								}
+								return true;
+							});
+
+							items.addView(propView(
+									context,
+									R.string.userprofile_created,
+									RRTime.formatDateTime(
+											user.created_utc * 1000,
+											context),
+									false));
+							items.getChildAt(items.getChildCount() - 1)
+									.setNextFocusUpId(R.id.layout_karma_link);
+
+							if(user.has_mail != null) {
+								items.addView(propView(
+										context,
+										R.string.userprofile_hasmail,
+										user.has_mail
+												? R.string.general_true
+												: R.string.general_false,
+										false));
 							}
-							return true;
-						});
-						commentKarmaLayout.setOnLongClickListener(v -> {
-							ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-							if(clipboardManager != null) {
-								ClipData data = ClipData.newPlainText(context.getString(R.string.karma_comment), commentKarma.getText());
-								clipboardManager.setPrimaryClip(data);
 
-								General.quickToast(context, R.string.copied_to_clipboard);
+							if(user.has_mod_mail != null) {
+								items.addView(propView(
+										context,
+										R.string.userprofile_hasmodmail,
+										user.has_mod_mail
+												? R.string.general_true
+												: R.string.general_false,
+										false));
 							}
-							return true;
-						});
 
-						items.addView(propView(context, R.string.userprofile_created, RRTime.formatDateTime(user.created_utc * 1000, context), false));
-						items.getChildAt(items.getChildCount() - 1).setNextFocusUpId(R.id.layout_karma_link);
-
-						if(user.has_mail != null) {
-							items.addView(propView(context, R.string.userprofile_hasmail, user.has_mail ? R.string.general_true : R.string.general_false, false));
-						}
-
-						if(user.has_mod_mail != null) {
-							items.addView(propView(context, R.string.userprofile_hasmodmail, user.has_mod_mail ? R.string.general_true : R.string.general_false, false));
-						}
-
-						if(user.is_friend) {
-							items.addView(propView(context, R.string.userprofile_isfriend, R.string.general_true, false));
-						}
-
-						if(user.is_gold) {
-							items.addView(propView(context, R.string.userprofile_isgold, R.string.general_true, false));
-						}
-
-						if(user.is_mod) {
-							items.addView(propView(context, R.string.userprofile_moderator, R.string.general_true, false));
-						}
-
-						final Button commentsButton = new Button(context);
-						commentsButton.setText(R.string.userprofile_viewcomments);
-						commentsButton.setOnClickListener(new View.OnClickListener() {
-							@Override
-							public void onClick(View v) {
-								LinkHandler.onLinkClicked(context, Constants.Reddit.getUri("/user/" + username + "/comments.json").toString(), false);
+							if(user.is_friend) {
+								items.addView(propView(
+										context,
+										R.string.userprofile_isfriend,
+										R.string.general_true,
+										false));
 							}
-						});
-						items.addView(commentsButton);
-						// TODO use margin? or framelayout? scale padding dp
-						// TODO change button color
-						commentsButton.setPadding(20, 20, 20, 20);
 
-						final Button postsButton = new Button(context);
-						postsButton.setText(R.string.userprofile_viewposts);
-						postsButton.setOnClickListener(new View.OnClickListener() {
-							@Override
-							public void onClick(View v) {
-								LinkHandler.onLinkClicked(context, UserPostListingURL.getSubmitted(username).generateJsonUri().toString(), false);
+							if(user.is_gold) {
+								items.addView(propView(
+										context,
+										R.string.userprofile_isgold,
+										R.string.general_true,
+										false));
 							}
-						});
-						items.addView(postsButton);
-						// TODO use margin? or framelayout? scale padding dp
-						postsButton.setPadding(20, 20, 20, 20);
 
-						if(!RedditAccountManager.getInstance(context).getDefaultAccount().isAnonymous()) {
-							final Button pmButton = new Button(context);
-							pmButton.setText(R.string.userprofile_pm);
-							pmButton.setOnClickListener(new View.OnClickListener() {
+							if(user.is_mod) {
+								items.addView(propView(
+										context,
+										R.string.userprofile_moderator,
+										R.string.general_true,
+										false));
+							}
+
+							final Button commentsButton = new Button(context);
+							commentsButton.setText(R.string.userprofile_viewcomments);
+							commentsButton.setOnClickListener(new View.OnClickListener() {
 								@Override
 								public void onClick(View v) {
-									final Intent intent = new Intent(context, PMSendActivity.class);
-									intent.putExtra(PMSendActivity.EXTRA_RECIPIENT, username);
-									startActivity(intent);
+									LinkHandler.onLinkClicked(
+											context,
+											Constants.Reddit.getUri("/user/"
+													+ username
+													+ "/comments.json")
+													.toString(),
+											false);
 								}
 							});
-							items.addView(pmButton);
-							pmButton.setPadding(20, 20, 20, 20);
-						}
+							items.addView(commentsButton);
+							// TODO use margin? or framelayout? scale padding dp
+							// TODO change button color
+							commentsButton.setPadding(20, 20, 20, 20);
+
+							final Button postsButton = new Button(context);
+							postsButton.setText(R.string.userprofile_viewposts);
+							postsButton.setOnClickListener(new View.OnClickListener() {
+								@Override
+								public void onClick(View v) {
+									LinkHandler.onLinkClicked(
+											context,
+											UserPostListingURL.getSubmitted(username)
+													.generateJsonUri()
+													.toString(),
+											false);
+								}
+							});
+							items.addView(postsButton);
+							// TODO use margin? or framelayout? scale padding dp
+							postsButton.setPadding(20, 20, 20, 20);
+
+							if(!RedditAccountManager.getInstance(context)
+									.getDefaultAccount()
+									.isAnonymous()) {
+								final Button pmButton = new Button(context);
+								pmButton.setText(R.string.userprofile_pm);
+								pmButton.setOnClickListener(new View.OnClickListener() {
+									@Override
+									public void onClick(View v) {
+										final Intent intent = new Intent(
+												context,
+												PMSendActivity.class);
+										intent.putExtra(
+												PMSendActivity.EXTRA_RECIPIENT,
+												username);
+										startActivity(intent);
+									}
+								});
+								items.addView(pmButton);
+								pmButton.setPadding(20, 20, 20, 20);
+							}
+						});
 					}
-				});
-			}
 
-			@Override
-			protected void onCallbackException(Throwable t) {
-				BugReportActivity.handleGlobalError(context, t);
-			}
-
-			@Override
-			protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
-
-				AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
 					@Override
-					public void run() {
-
-						if(!active) return;
-
-						loadingView.setDone(R.string.download_failed);
-
-						final RRError error = General.getGeneralErrorForFailure(context, type, t, status, null);
-						items.addView(new ErrorView(context, error));
+					protected void onCallbackException(Throwable t) {
+						BugReportActivity.handleGlobalError(context, t);
 					}
-				});
-			}
 
-			@Override
-			protected void onFailure(final APIFailureType type) {
-
-				AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
 					@Override
-					public void run() {
+					protected void onFailure(
+							final @CacheRequest.RequestFailureType int type,
+							final Throwable t,
+							final Integer status,
+							final String readableMessage) {
 
-						if(!active) return;
+						AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
+							@Override
+							public void run() {
 
-						loadingView.setDone(R.string.download_failed);
+								if(!active) return;
 
-						final RRError error = General.getGeneralErrorForFailure(context, type);
-						items.addView(new ErrorView(context, error));
+								loadingView.setDone(R.string.download_failed);
+
+								final RRError error = General.getGeneralErrorForFailure(
+										context,
+										type,
+										t,
+										status,
+										null);
+								items.addView(new ErrorView(context, error));
+							}
+						});
 					}
-				});
-			}
 
-		}, RedditAccountManager.getInstance(context).getDefaultAccount(), DownloadStrategyAlways.INSTANCE, true, context);
+					@Override
+					protected void onFailure(final APIFailureType type) {
+
+						AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
+							@Override
+							public void run() {
+
+								if(!active) return;
+
+								loadingView.setDone(R.string.download_failed);
+
+								final RRError error = General.getGeneralErrorForFailure(
+										context,
+										type);
+								items.addView(new ErrorView(context, error));
+							}
+						});
+					}
+
+				},
+				RedditAccountManager.getInstance(context).getDefaultAccount(),
+				DownloadStrategyAlways.INSTANCE,
+				true,
+				context);
 	}
 }

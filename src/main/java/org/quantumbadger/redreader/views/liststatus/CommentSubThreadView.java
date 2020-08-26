@@ -54,13 +54,21 @@ public final class CommentSubThreadView extends StatusListItemView {
 		textView.setText(messageRes);
 		textView.setTextColor(rrCommentSpecificThreadHeaderTextCol);
 		textView.setTextSize(15.0f);
-		textView.setPadding((int) (15 * dpScale), (int) (10 * dpScale), (int) (10 * dpScale), (int) (4 * dpScale));
+		textView.setPadding(
+				(int)(15 * dpScale),
+				(int)(10 * dpScale),
+				(int)(10 * dpScale),
+				(int)(4 * dpScale));
 
 		final TextView messageView = new TextView(activity);
 		messageView.setText(R.string.comment_header_specific_thread_message);
 		messageView.setTextColor(rrCommentSpecificThreadHeaderTextCol);
 		messageView.setTextSize(12.0f);
-		messageView.setPadding((int) (15 * dpScale), 0, (int) (10 * dpScale), (int) (10 * dpScale));
+		messageView.setPadding(
+				(int)(15 * dpScale),
+				0,
+				(int)(10 * dpScale),
+				(int)(10 * dpScale));
 
 		final LinearLayout layout = new LinearLayout(activity);
 		layout.setOrientation(LinearLayout.VERTICAL);

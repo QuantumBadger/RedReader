@@ -35,12 +35,19 @@ public class DialogUtils {
 		void onSearch(@Nullable String query);
 	}
 
-	public static void showSearchDialog (Context context, final OnSearchListener listener) {
+	public static void showSearchDialog(
+			Context context,
+			final OnSearchListener listener) {
 		showSearchDialog(context, R.string.action_search, listener);
 	}
-	public static void showSearchDialog (Context context, int titleRes, final OnSearchListener listener) {
+
+	public static void showSearchDialog(
+			Context context,
+			int titleRes,
+			final OnSearchListener listener) {
 		final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
-		final EditText editText = (EditText) LayoutInflater.from(context).inflate(R.layout.dialog_editbox, null);
+		final EditText editText = (EditText)LayoutInflater.from(context)
+				.inflate(R.layout.dialog_editbox, null);
 
 		TextView.OnEditorActionListener onEnter = new TextView.OnEditorActionListener() {
 			@Override
@@ -55,23 +62,28 @@ public class DialogUtils {
 		alertBuilder.setView(editText);
 		alertBuilder.setTitle(titleRes);
 
-		alertBuilder.setPositiveButton(R.string.action_search, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				performSearch(editText, listener);
-			}
-		});
+		alertBuilder.setPositiveButton(
+				R.string.action_search,
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						performSearch(editText, listener);
+					}
+				});
 
 		alertBuilder.setNegativeButton(R.string.dialog_cancel, null);
 
 		final AlertDialog alertDialog = alertBuilder.create();
-		alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		alertDialog.getWindow()
+				.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 		alertDialog.show();
 	}
 
-	private static void performSearch(final EditText editText, final OnSearchListener listener) {
+	private static void performSearch(
+			final EditText editText,
+			final OnSearchListener listener) {
 		final String query = General.asciiLowercase(editText.getText().toString()).trim();
-		if (StringUtils.isEmpty(query)) {
+		if(StringUtils.isEmpty(query)) {
 			listener.onSearch(null);
 		} else {
 			listener.onSearch(query);

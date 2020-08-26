@@ -47,7 +47,9 @@ public class CommentListingController {
 		mSession = session;
 	}
 
-	public CommentListingController(RedditURLParser.RedditURL url, final Context context) {
+	public CommentListingController(
+			RedditURLParser.RedditURL url,
+			final Context context) {
 
 		if(url.pathType() == RedditURLParser.POST_COMMENT_LISTING_URL) {
 			if(url.asPostCommentListURL().order == null) {
@@ -67,11 +69,15 @@ public class CommentListingController {
 	}
 
 	private PostCommentListingURL.Sort defaultOrder(final Context context) {
-		return PrefsUtility.pref_behaviour_commentsort(context, PreferenceManager.getDefaultSharedPreferences(context));
+		return PrefsUtility.pref_behaviour_commentsort(
+				context,
+				PreferenceManager.getDefaultSharedPreferences(context));
 	}
 
 	private UserCommentListingURL.Sort defaultUserOrder(final Context context) {
-		return PrefsUtility.pref_behaviour_user_commentsort(context, PreferenceManager.getDefaultSharedPreferences(context));
+		return PrefsUtility.pref_behaviour_user_commentsort(
+				context,
+				PreferenceManager.getDefaultSharedPreferences(context));
 	}
 
 	public void setSort(final PostCommentListingURL.Sort s) {
@@ -111,7 +117,10 @@ public class CommentListingController {
 		return mUrl;
 	}
 
-	public CommentListingFragment get(final AppCompatActivity parent, final boolean force, final Bundle savedInstanceState) {
+	public CommentListingFragment get(
+			final AppCompatActivity parent,
+			final boolean force,
+			final Bundle savedInstanceState) {
 		if(force) mSession = null;
 		return new CommentListingFragment(
 				parent,

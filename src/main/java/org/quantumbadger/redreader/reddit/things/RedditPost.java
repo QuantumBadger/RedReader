@@ -41,7 +41,8 @@ public final class RedditPost implements Parcelable, RedditThingWithIdAndType {
 	public JsonBufferedObject media;
 	@Nullable public String rr_internal_dash_url;
 
-	public RedditPost() {}
+	public RedditPost() {
+	}
 
 	@Nullable
 	public String getDashUrl() {
@@ -51,7 +52,8 @@ public final class RedditPost implements Parcelable, RedditThingWithIdAndType {
 
 		} else if(media != null) {
 			try {
-				rr_internal_dash_url = media.getObject("reddit_video").getString("fallback_url");
+				rr_internal_dash_url = media.getObject("reddit_video")
+						.getString("fallback_url");
 
 			} catch(final Exception e) {
 				rr_internal_dash_url = null;
@@ -102,9 +104,15 @@ public final class RedditPost implements Parcelable, RedditThingWithIdAndType {
 		}
 
 		switch(in.readInt()) {
-			case -1: likes = false; break;
-			case 0: likes = null; break;
-			case 1: likes = true; break;
+			case -1:
+				likes = false;
+				break;
+			case 0:
+				likes = null;
+				break;
+			case 1:
+				likes = true;
+				break;
 		}
 
 		created = in.readLong();
@@ -189,7 +197,8 @@ public final class RedditPost implements Parcelable, RedditThingWithIdAndType {
 		parcel.writeString(rr_internal_dash_url);
 	}
 
-	public static final Parcelable.Creator<RedditPost> CREATOR = new Parcelable.Creator<RedditPost>() {
+	public static final Parcelable.Creator<RedditPost> CREATOR
+			= new Parcelable.Creator<RedditPost>() {
 		public RedditPost createFromParcel(final Parcel in) {
 			return new RedditPost(in);
 		}

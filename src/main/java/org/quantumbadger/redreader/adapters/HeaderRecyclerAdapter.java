@@ -23,7 +23,8 @@ import android.view.ViewGroup;
 /**
  * Created by veyndan on 18/04/2016.
  */
-public abstract class HeaderRecyclerAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
+public abstract class HeaderRecyclerAdapter<VH extends RecyclerView.ViewHolder>
+		extends RecyclerView.Adapter<VH> {
 
 	private static final int TYPE_HEADER = 0;
 	private static final int TYPE_CONTENT = 1;
@@ -32,7 +33,7 @@ public abstract class HeaderRecyclerAdapter<VH extends RecyclerView.ViewHolder> 
 
 	@Override
 	public VH onCreateViewHolder(ViewGroup parent, int viewType) {
-		switch (viewType) {
+		switch(viewType) {
 			case TYPE_HEADER:
 				return onCreateHeaderItemViewHolder(parent);
 			case TYPE_CONTENT:
@@ -48,7 +49,7 @@ public abstract class HeaderRecyclerAdapter<VH extends RecyclerView.ViewHolder> 
 
 	@Override
 	public void onBindViewHolder(VH holder, int position) {
-		if (position == 0) {
+		if(position == 0) {
 			onBindHeaderItemViewHolder(holder, position);
 		} else {
 			onBindContentItemViewHolder(holder, position - HEADER_SIZE);

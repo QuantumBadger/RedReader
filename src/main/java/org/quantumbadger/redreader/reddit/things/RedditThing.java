@@ -30,9 +30,9 @@ public final class RedditThing {
 	public enum Kind {
 		POST, USER, COMMENT, MESSAGE, SUBREDDIT, MORE_COMMENTS, LISTING
 	}
-	
+
 	private static final Map<String, Kind> kinds;
-	
+
 	static {
 		kinds = new HashMap<>();
 		kinds.put("t1", Kind.COMMENT);
@@ -43,35 +43,71 @@ public final class RedditThing {
 		kinds.put("more", Kind.MORE_COMMENTS);
 		kinds.put("Listing", Kind.LISTING);
 	}
-	
+
 	public String kind;
 	public JsonBufferedObject data;
-	
+
 	public Kind getKind() {
 		return kinds.get(kind);
 	}
 
-	public RedditMoreComments asMoreComments() throws InstantiationException, IllegalAccessException, InterruptedException, IOException, NoSuchMethodException, InvocationTargetException {
+	public RedditMoreComments asMoreComments() throws
+			InstantiationException,
+			IllegalAccessException,
+			InterruptedException,
+			IOException,
+			NoSuchMethodException,
+			InvocationTargetException {
 		return data.asObject(RedditMoreComments.class);
 	}
 
-	public RedditComment asComment() throws InstantiationException, IllegalAccessException, InterruptedException, IOException, NoSuchMethodException, InvocationTargetException {
+	public RedditComment asComment() throws
+			InstantiationException,
+			IllegalAccessException,
+			InterruptedException,
+			IOException,
+			NoSuchMethodException,
+			InvocationTargetException {
 		return data.asObject(RedditComment.class);
 	}
-	
-	public RedditPost asPost() throws InstantiationException, IllegalAccessException, InterruptedException, IOException, NoSuchMethodException, InvocationTargetException {
+
+	public RedditPost asPost() throws
+			InstantiationException,
+			IllegalAccessException,
+			InterruptedException,
+			IOException,
+			NoSuchMethodException,
+			InvocationTargetException {
 		return data.asObject(RedditPost.class);
 	}
 
-	public RedditSubreddit asSubreddit() throws InstantiationException, IllegalAccessException, InterruptedException, IOException, NoSuchMethodException, InvocationTargetException {
+	public RedditSubreddit asSubreddit() throws
+			InstantiationException,
+			IllegalAccessException,
+			InterruptedException,
+			IOException,
+			NoSuchMethodException,
+			InvocationTargetException {
 		return data.asObject(RedditSubreddit.class);
 	}
 
-	public RedditUser asUser() throws InstantiationException, IllegalAccessException, InterruptedException, IOException, NoSuchMethodException, InvocationTargetException {
+	public RedditUser asUser() throws
+			InstantiationException,
+			IllegalAccessException,
+			InterruptedException,
+			IOException,
+			NoSuchMethodException,
+			InvocationTargetException {
 		return data.asObject(RedditUser.class);
 	}
 
-	public RedditMessage asMessage() throws IllegalAccessException, InterruptedException, InstantiationException, InvocationTargetException, NoSuchMethodException, IOException {
+	public RedditMessage asMessage() throws
+			IllegalAccessException,
+			InterruptedException,
+			InstantiationException,
+			InvocationTargetException,
+			NoSuchMethodException,
+			IOException {
 		return data.asObject(RedditMessage.class);
 	}
 }

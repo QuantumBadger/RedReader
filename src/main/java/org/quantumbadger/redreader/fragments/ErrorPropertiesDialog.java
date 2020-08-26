@@ -82,19 +82,39 @@ public final class ErrorPropertiesDialog extends PropertiesDialog {
 
 		mContext = context;
 
-		items.addView(propView(context, R.string.props_title, getArguments().getString("title"), true));
-		items.addView(propView(context, "Message", getArguments().getString("message"), false));
+		items.addView(propView(
+				context,
+				R.string.props_title,
+				getArguments().getString("title"),
+				true));
+		items.addView(propView(
+				context,
+				"Message",
+				getArguments().getString("message"),
+				false));
 
 		if(getArguments().containsKey("httpStatus")) {
-			items.addView(propView(context, "HTTP status", getArguments().getString("httpStatus"), false));
+			items.addView(propView(
+					context,
+					"HTTP status",
+					getArguments().getString("httpStatus"),
+					false));
 		}
 
 		if(getArguments().containsKey("url")) {
-			items.addView(propView(context, "URL", getArguments().getString("url"), false));
+			items.addView(propView(
+					context,
+					"URL",
+					getArguments().getString("url"),
+					false));
 		}
 
 		if(getArguments().containsKey("t")) {
-			items.addView(propView(context, "Exception", getArguments().getString("t"), false));
+			items.addView(propView(
+					context,
+					"Exception",
+					getArguments().getString("t"),
+					false));
 		}
 	}
 }

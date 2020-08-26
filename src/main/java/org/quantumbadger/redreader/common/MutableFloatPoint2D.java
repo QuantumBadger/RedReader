@@ -73,6 +73,6 @@ public class MutableFloatPoint2D {
 	}
 
 	public float distanceSquared() {
-		return x*x + y*y;
+		return x * x + y * y;
 	}
 }

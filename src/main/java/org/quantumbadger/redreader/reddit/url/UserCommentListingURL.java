@@ -63,10 +63,12 @@ public class UserCommentListingURL extends CommentListingURL {
 		{
 			final List<String> pathSegmentsList = uri.getPathSegments();
 
-			final ArrayList<String> pathSegmentsFiltered = new ArrayList<>(pathSegmentsList.size());
+			final ArrayList<String> pathSegmentsFiltered = new ArrayList<>(
+					pathSegmentsList.size());
 			for(String segment : pathSegmentsList) {
 
-				while(General.asciiLowercase(segment).endsWith(".json") || General.asciiLowercase(segment).endsWith(".xml")) {
+				while(General.asciiLowercase(segment).endsWith(".json")
+						|| General.asciiLowercase(segment).endsWith(".xml")) {
 					segment = segment.substring(0, segment.lastIndexOf('.'));
 				}
 
@@ -75,7 +77,8 @@ public class UserCommentListingURL extends CommentListingURL {
 				}
 			}
 
-			pathSegments = pathSegmentsFiltered.toArray(new String[pathSegmentsFiltered.size()]);
+			pathSegments
+					= pathSegmentsFiltered.toArray(new String[pathSegmentsFiltered.size()]);
 		}
 
 		final Sort order;
@@ -89,7 +92,8 @@ public class UserCommentListingURL extends CommentListingURL {
 			return null;
 		}
 
-		if(!pathSegments[0].equalsIgnoreCase("user") && !pathSegments[0].equalsIgnoreCase("u")) {
+		if(!pathSegments[0].equalsIgnoreCase("user") && !pathSegments[0].equalsIgnoreCase(
+				"u")) {
 			return null;
 		}
 
@@ -112,7 +116,8 @@ public class UserCommentListingURL extends CommentListingURL {
 			} else if(parameterKey.equalsIgnoreCase("limit")) {
 				try {
 					limit = Integer.parseInt(uri.getQueryParameter(parameterKey));
-				} catch(Throwable ignored) {}
+				} catch(Throwable ignored) {
+				}
 			}
 		}
 
@@ -123,7 +128,8 @@ public class UserCommentListingURL extends CommentListingURL {
 	public Uri generateJsonUri() {
 
 		Uri.Builder builder = new Uri.Builder();
-		builder.scheme(Constants.Reddit.getScheme()).authority(Constants.Reddit.getDomain());
+		builder.scheme(Constants.Reddit.getScheme())
+				.authority(Constants.Reddit.getDomain());
 
 		builder.appendEncodedPath("user");
 		builder.appendPath(user);
@@ -147,7 +153,8 @@ public class UserCommentListingURL extends CommentListingURL {
 	}
 
 	@Override
-	public @RedditURLParser.PathType int pathType() {
+	public @RedditURLParser.PathType
+	int pathType() {
 		return RedditURLParser.USER_COMMENT_LISTING_URL;
 	}
 
@@ -164,7 +171,16 @@ public class UserCommentListingURL extends CommentListingURL {
 	}
 
 	public enum Sort {
-		NEW, HOT, CONTROVERSIAL, TOP, TOP_HOUR, TOP_DAY, TOP_WEEK, TOP_MONTH, TOP_YEAR, TOP_ALL;
+		NEW,
+		HOT,
+		CONTROVERSIAL,
+		TOP,
+		TOP_HOUR,
+		TOP_DAY,
+		TOP_WEEK,
+		TOP_MONTH,
+		TOP_YEAR,
+		TOP_ALL;
 
 		@Nullable
 		public static Sort parse(@Nullable String sort, @Nullable String t) {
@@ -187,14 +203,14 @@ public class UserCommentListingURL extends CommentListingURL {
 
 			} else if(sort.equals("top")) {
 
-				if(t == null)				return TOP_ALL;
-				else if(t.equals("all"))	return TOP_ALL;
-				else if(t.equals("hour"))	return TOP_HOUR;
-				else if(t.equals("day"))	return TOP_DAY;
-				else if(t.equals("week"))	return TOP_WEEK;
-				else if(t.equals("month"))	return TOP_MONTH;
-				else if(t.equals("year"))	return TOP_YEAR;
-				else						return TOP_ALL;
+				if(t == null) return TOP_ALL;
+				else if(t.equals("all")) return TOP_ALL;
+				else if(t.equals("hour")) return TOP_HOUR;
+				else if(t.equals("day")) return TOP_DAY;
+				else if(t.equals("week")) return TOP_WEEK;
+				else if(t.equals("month")) return TOP_MONTH;
+				else if(t.equals("year")) return TOP_YEAR;
+				else return TOP_ALL;
 
 			} else {
 				return null;
@@ -217,7 +233,9 @@ public class UserCommentListingURL extends CommentListingURL {
 				case TOP_YEAR:
 				case TOP_ALL:
 					final String parts[] = name().split("_");
-					builder.appendQueryParameter("sort", General.asciiLowercase(parts[0]));
+					builder.appendQueryParameter(
+							"sort",
+							General.asciiLowercase(parts[0]));
 					builder.appendQueryParameter("t", General.asciiLowercase(parts[1]));
 					break;
 			}

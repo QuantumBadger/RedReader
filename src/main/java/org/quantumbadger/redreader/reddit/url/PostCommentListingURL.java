@@ -97,7 +97,8 @@ public class PostCommentListingURL extends CommentListingURL {
 	public Uri generateJsonUri() {
 
 		final Uri.Builder builder = new Uri.Builder();
-		builder.scheme(Constants.Reddit.getScheme()).authority(Constants.Reddit.getDomain());
+		builder.scheme(Constants.Reddit.getScheme())
+				.authority(Constants.Reddit.getDomain());
 
 		internalGenerateCommon(builder);
 
@@ -109,7 +110,8 @@ public class PostCommentListingURL extends CommentListingURL {
 	public Uri generateNonJsonUri() {
 
 		final Uri.Builder builder = new Uri.Builder();
-		builder.scheme(Constants.Reddit.getScheme()).authority(Constants.Reddit.getHumanReadableDomain());
+		builder.scheme(Constants.Reddit.getScheme())
+				.authority(Constants.Reddit.getHumanReadableDomain());
 		internalGenerateCommon(builder);
 		return builder.build();
 	}
@@ -148,21 +150,30 @@ public class PostCommentListingURL extends CommentListingURL {
 		{
 			final List<String> pathSegmentsList = uri.getPathSegments();
 
-			final ArrayList<String> pathSegmentsFiltered = new ArrayList<>(pathSegmentsList.size());
+			final ArrayList<String> pathSegmentsFiltered = new ArrayList<>(
+					pathSegmentsList.size());
 			for(String segment : pathSegmentsList) {
 
-				while(General.asciiLowercase(segment).endsWith(".json") || General.asciiLowercase(segment).endsWith(".xml")) {
+				while(General.asciiLowercase(segment).endsWith(".json")
+						|| General.asciiLowercase(segment).endsWith(".xml")) {
 					segment = segment.substring(0, segment.lastIndexOf('.'));
 				}
 
 				pathSegmentsFiltered.add(segment);
 			}
 
-			pathSegments = pathSegmentsFiltered.toArray(new String[pathSegmentsFiltered.size()]);
+			pathSegments
+					= pathSegmentsFiltered.toArray(new String[pathSegmentsFiltered.size()]);
 		}
 
 		if(pathSegments.length == 1 && uri.getHost().equals("redd.it")) {
-			return new PostCommentListingURL(null, pathSegments[0], null, null, null, null);
+			return new PostCommentListingURL(
+					null,
+					pathSegments[0],
+					null,
+					null,
+					null,
+					null);
 		}
 
 		if(pathSegments.length < 2) {
@@ -206,7 +217,8 @@ public class PostCommentListingURL extends CommentListingURL {
 			} else if(parameterKey.equalsIgnoreCase("limit")) {
 				try {
 					limit = Integer.parseInt(uri.getQueryParameter(parameterKey));
-				} catch(Throwable ignored) {}
+				} catch(Throwable ignored) {
+				}
 
 			} else if(parameterKey.equalsIgnoreCase("context")) {
 				try {
@@ -223,7 +235,8 @@ public class PostCommentListingURL extends CommentListingURL {
 	}
 
 	@Override
-	public @RedditURLParser.PathType int pathType() {
+	public @RedditURLParser.PathType
+	int pathType() {
 		return RedditURLParser.POST_COMMENT_LISTING_URL;
 	}
 

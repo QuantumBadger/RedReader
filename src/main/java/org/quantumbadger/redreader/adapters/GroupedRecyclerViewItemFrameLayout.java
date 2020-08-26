@@ -43,7 +43,8 @@ final class GroupedRecyclerViewItemFrameLayout extends GroupedRecyclerViewAdapte
 		viewGroup.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
 
 		final FrameLayout frameLayout = new FrameLayout(viewGroup.getContext());
-		return new RecyclerView.ViewHolder(frameLayout) {};
+		return new RecyclerView.ViewHolder(frameLayout) {
+		};
 	}
 
 	@Override

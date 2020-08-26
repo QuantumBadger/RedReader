@@ -55,7 +55,8 @@ public class GroupedRecyclerViewItemListItemView extends GroupedRecyclerViewAdap
 
 	@Override
 	public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup viewGroup) {
-		return new RecyclerView.ViewHolder(new ListItemView(viewGroup.getContext())) {};
+		return new RecyclerView.ViewHolder(new ListItemView(viewGroup.getContext())) {
+		};
 	}
 
 	@Override

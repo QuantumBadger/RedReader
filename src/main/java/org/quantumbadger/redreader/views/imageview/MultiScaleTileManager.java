@@ -44,10 +44,18 @@ public class MultiScaleTileManager {
 			final int y,
 			final ImageViewTileLoader.Listener listener) {
 
-		mTileLoaders = new ImageViewTileLoader[sampleSizeToScaleIndex(MAX_SAMPLE_SIZE) + 1];
+		mTileLoaders =
+				new ImageViewTileLoader[sampleSizeToScaleIndex(MAX_SAMPLE_SIZE) + 1];
 
 		for(int s = 0; s < mTileLoaders.length; s++) {
-			mTileLoaders[s] = new ImageViewTileLoader(imageTileSource, thread, x, y, scaleIndexToSampleSize(s), listener, mLock);
+			mTileLoaders[s] = new ImageViewTileLoader(
+					imageTileSource,
+					thread,
+					x,
+					y,
+					scaleIndexToSampleSize(s),
+					listener,
+					mLock);
 		}
 	}
 

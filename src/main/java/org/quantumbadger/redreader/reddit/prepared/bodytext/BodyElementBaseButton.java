@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * This file is part of RedReader.
+ *
+ * RedReader is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * RedReader is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 package org.quantumbadger.redreader.reddit.prepared.bodytext;
 
 import androidx.annotation.NonNull;
@@ -60,7 +77,8 @@ public abstract class BodyElementBaseButton extends BodyElement {
 
 		final int linkMarginPx = General.dpToPixels(activity, 8);
 
-		final ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(
+		final ViewGroup.MarginLayoutParams layoutParams
+				= new ViewGroup.MarginLayoutParams(
 				ViewGroup.LayoutParams.MATCH_PARENT,
 				ViewGroup.LayoutParams.WRAP_CONTENT);
 
@@ -71,7 +89,11 @@ public abstract class BodyElementBaseButton extends BodyElement {
 				generateOnClickListener(activity, textColor, textSize, showLinkButtons));
 
 		final View.OnLongClickListener longClickListener
-				= generateOnLongClickListener(activity, textColor, textSize, showLinkButtons);
+				= generateOnLongClickListener(
+				activity,
+				textColor,
+				textSize,
+				showLinkButtons);
 
 		if(longClickListener != null) {
 			ldv.setOnLongClickListener(longClickListener);

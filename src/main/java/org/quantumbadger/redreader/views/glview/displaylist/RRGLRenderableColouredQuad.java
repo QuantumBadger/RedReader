@@ -41,7 +41,9 @@ public class RRGLRenderableColouredQuad extends RRGLRenderable {
 	};
 
 	static {
-		mVertexBuffer = ByteBuffer.allocateDirect(vertexData.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
+		mVertexBuffer = ByteBuffer.allocateDirect(vertexData.length * 4)
+				.order(ByteOrder.nativeOrder())
+				.asFloatBuffer();
 		mVertexBuffer.put(vertexData).position(0);
 	}
 

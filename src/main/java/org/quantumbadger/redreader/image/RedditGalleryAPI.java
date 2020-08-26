@@ -69,18 +69,28 @@ public final class RedditGalleryAPI {
 			}
 
 			@Override
-			protected void onDownloadNecessary() {}
+			protected void onDownloadNecessary() {
+			}
 
 			@Override
-			protected void onDownloadStarted() {}
+			protected void onDownloadStarted() {
+			}
 
 			@Override
-			protected void onFailure(final @RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
+			protected void onFailure(
+					final @RequestFailureType int type,
+					final Throwable t,
+					final Integer status,
+					final String readableMessage) {
 				listener.onFailure(type, t, status, readableMessage);
 			}
 
 			@Override
-			protected void onProgress(final boolean authorizationInProgress, final long bytesRead, final long totalBytes) {}
+			protected void onProgress(
+					final boolean authorizationInProgress,
+					final long bytesRead,
+					final long totalBytes) {
+			}
 
 			@Override
 			public void onJsonParseStarted(
@@ -90,8 +100,8 @@ public final class RedditGalleryAPI {
 					final boolean fromCache) {
 
 				try {
-					@SuppressWarnings("ConstantConditions")
-					final JsonBufferedObject redditPostData = result.asArray()
+					@SuppressWarnings("ConstantConditions") final JsonBufferedObject
+							redditPostData = result.asArray()
 							.getObject(0)
 							.getObject("data")
 							.getArray("children")

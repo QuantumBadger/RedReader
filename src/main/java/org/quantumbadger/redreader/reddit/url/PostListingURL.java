@@ -22,6 +22,7 @@ import org.quantumbadger.redreader.reddit.PostSort;
 public abstract class PostListingURL extends RedditURLParser.RedditURL {
 
 	public abstract PostListingURL after(String after);
+
 	public abstract PostListingURL limit(Integer limit);
 
 	public PostSort getOrder() {

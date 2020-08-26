@@ -48,26 +48,30 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.UUID;
 
-public class RedditAPIIndividualSubredditListRequester
-		implements CacheDataSource<RedditSubredditManager.SubredditListType, WritableHashSet, SubredditRequestFailure> {
+public class RedditAPIIndividualSubredditListRequester implements CacheDataSource<
+		RedditSubredditManager.SubredditListType, WritableHashSet, SubredditRequestFailure> {
 
 	private final Context context;
 	private final RedditAccount user;
 
-	public RedditAPIIndividualSubredditListRequester(Context context, RedditAccount user) {
+	public RedditAPIIndividualSubredditListRequester(
+			Context context,
+			RedditAccount user) {
 		this.context = context;
 		this.user = user;
 	}
 
-	public void performRequest(final RedditSubredditManager.SubredditListType type,
-							   final TimestampBound timestampBound,
-							   final RequestResponseHandler<WritableHashSet, SubredditRequestFailure> handler) {
+	public void performRequest(
+			final RedditSubredditManager.SubredditListType type,
+			final TimestampBound timestampBound,
+			final RequestResponseHandler<WritableHashSet, SubredditRequestFailure> handler) {
 
 		if(type == RedditSubredditManager.SubredditListType.DEFAULTS) {
 
 			final long now = System.currentTimeMillis();
 
-			final HashSet<String> data = new HashSet<>(Constants.Reddit.DEFAULT_SUBREDDITS.size() + 1);
+			final HashSet<String> data =
+					new HashSet<>(Constants.Reddit.DEFAULT_SUBREDDITS.size() + 1);
 
 			for(final SubredditCanonicalId id : Constants.Reddit.DEFAULT_SUBREDDITS) {
 				data.add(id.toString());
@@ -82,32 +86,48 @@ public class RedditAPIIndividualSubredditListRequester
 		}
 
 		if(type == RedditSubredditManager.SubredditListType.MOST_POPULAR) {
-			doSubredditListRequest(RedditSubredditManager.SubredditListType.MOST_POPULAR, handler, null);
+			doSubredditListRequest(
+					RedditSubredditManager.SubredditListType.MOST_POPULAR,
+					handler,
+					null);
 
 		} else if(user.isAnonymous()) {
 			switch(type) {
 
 				case SUBSCRIBED:
-					performRequest(RedditSubredditManager.SubredditListType.DEFAULTS, timestampBound, handler);
+					performRequest(
+							RedditSubredditManager.SubredditListType.DEFAULTS,
+							timestampBound,
+							handler);
 					return;
 
 				case MODERATED: {
 					final long curTime = System.currentTimeMillis();
-					handler.onRequestSuccess(new WritableHashSet(
-							new HashSet<String>(), curTime, RedditSubredditManager.SubredditListType.MODERATED.name()), curTime);
+					handler.onRequestSuccess(
+							new WritableHashSet(
+									new HashSet<String>(),
+									curTime,
+									RedditSubredditManager.SubredditListType.MODERATED.name()),
+							curTime);
 					return;
 				}
 
 				case MULTIREDDITS: {
 					final long curTime = System.currentTimeMillis();
-					handler.onRequestSuccess(new WritableHashSet(
-							new HashSet<String>(), curTime, RedditSubredditManager.SubredditListType.MULTIREDDITS.name()),
+					handler.onRequestSuccess(
+							new WritableHashSet(
+									new HashSet<String>(),
+									curTime,
+									RedditSubredditManager.SubredditListType.MULTIREDDITS.name()),
 							curTime);
 					return;
 				}
 
 				default:
-					throw new RuntimeException("Internal error: unknown subreddit list type '" + type.name() + "'");
+					throw new RuntimeException(
+							"Internal error: unknown subreddit list type '"
+									+ type.name()
+									+ "'");
 			}
 
 		} else {
@@ -115,18 +135,21 @@ public class RedditAPIIndividualSubredditListRequester
 		}
 	}
 
-	private void doSubredditListRequest(final RedditSubredditManager.SubredditListType type,
-										final RequestResponseHandler<WritableHashSet, SubredditRequestFailure> handler,
-										final String after) {
+	private void doSubredditListRequest(
+			final RedditSubredditManager.SubredditListType type,
+			final RequestResponseHandler<WritableHashSet, SubredditRequestFailure> handler,
+			final String after) {
 
 		URI uri;
 
 		switch(type) {
 			case SUBSCRIBED:
-				uri = Constants.Reddit.getUri(Constants.Reddit.PATH_SUBREDDITS_MINE_SUBSCRIBER);
+				uri =
+						Constants.Reddit.getUri(Constants.Reddit.PATH_SUBREDDITS_MINE_SUBSCRIBER);
 				break;
 			case MODERATED:
-				uri = Constants.Reddit.getUri(Constants.Reddit.PATH_SUBREDDITS_MINE_MODERATOR);
+				uri =
+						Constants.Reddit.getUri(Constants.Reddit.PATH_SUBREDDITS_MINE_MODERATOR);
 				break;
 			case MOST_POPULAR:
 				uri = Constants.Reddit.getUri(Constants.Reddit.PATH_SUBREDDITS_POPULAR);
@@ -158,44 +181,88 @@ public class RedditAPIIndividualSubredditListRequester
 
 			@Override
 			protected void onCallbackException(Throwable t) {
-				handler.onRequestFailed(new SubredditRequestFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "Internal error", url));
-			}
-
-			@Override protected void onDownloadNecessary() {}
-			@Override protected void onDownloadStarted() {}
-			@Override protected void onProgress(final boolean authorizationInProgress, long bytesRead, long totalBytes) {}
-
-			@Override
-			protected void onFailure(@CacheRequest.RequestFailureType int type, Throwable t, Integer status, String readableMessage) {
-				handler.onRequestFailed(new SubredditRequestFailure(type, t, status, readableMessage, url.toString()));
+				handler.onRequestFailed(new SubredditRequestFailure(
+						CacheRequest.REQUEST_FAILURE_PARSE,
+						t,
+						null,
+						"Internal error",
+						url));
 			}
 
 			@Override
-			protected void onSuccess(CacheManager.ReadableCacheFile cacheFile, long timestamp, UUID session,
-									 boolean fromCache, String mimetype) {}
+			protected void onDownloadNecessary() {
+			}
 
 			@Override
-			public void onJsonParseStarted(JsonValue result, long timestamp, UUID session, boolean fromCache) {
+			protected void onDownloadStarted() {
+			}
+
+			@Override
+			protected void onProgress(
+					final boolean authorizationInProgress,
+					long bytesRead,
+					long totalBytes) {
+			}
+
+			@Override
+			protected void onFailure(
+					@CacheRequest.RequestFailureType int type,
+					Throwable t,
+					Integer status,
+					String readableMessage) {
+				handler.onRequestFailed(new SubredditRequestFailure(
+						type,
+						t,
+						status,
+						readableMessage,
+						url.toString()));
+			}
+
+			@Override
+			protected void onSuccess(
+					CacheManager.ReadableCacheFile cacheFile,
+					long timestamp,
+					UUID session,
+					boolean fromCache,
+					String mimetype) {
+			}
+
+			@Override
+			public void onJsonParseStarted(
+					JsonValue result,
+					long timestamp,
+					UUID session,
+					boolean fromCache) {
 
 				try {
 
 					final HashSet<String> output = new HashSet<>();
 					final ArrayList<RedditSubreddit> toWrite = new ArrayList<>();
 
-					final JsonBufferedObject redditListing = result.asObject().getObject("data");
+					final JsonBufferedObject redditListing =
+							result.asObject().getObject("data");
 
-					final JsonBufferedArray subreddits = redditListing.getArray("children");
+					final JsonBufferedArray subreddits =
+							redditListing.getArray("children");
 
 					final @JsonBuffered.Status int joinStatus = subreddits.join();
 					if(joinStatus == JsonBuffered.STATUS_FAILED) {
-						handler.onRequestFailed(new SubredditRequestFailure(CacheRequest.REQUEST_FAILURE_PARSE, null, null, "Unknown parse error", url.toString()));
+						handler.onRequestFailed(new SubredditRequestFailure(
+								CacheRequest.REQUEST_FAILURE_PARSE,
+								null,
+								null,
+								"Unknown parse error",
+								url.toString()));
 						return;
 					}
 
 					if(type == RedditSubredditManager.SubredditListType.SUBSCRIBED
 							&& subreddits.getCurrentItemCount() == 0
 							&& after == null) {
-						performRequest(RedditSubredditManager.SubredditListType.DEFAULTS, TimestampBound.ANY, handler);
+						performRequest(
+								RedditSubredditManager.SubredditListType.DEFAULTS,
+								TimestampBound.ANY,
+								handler);
 						return;
 					}
 
@@ -209,40 +276,73 @@ public class RedditAPIIndividualSubredditListRequester
 							output.add(subreddit.getCanonicalId().toString());
 							toWrite.add(subreddit);
 						} catch(final InvalidSubredditNameException e) {
-							Log.e("SubredditListRequester", "Ignoring invalid subreddit", e);
+							Log.e(
+									"SubredditListRequester",
+									"Ignoring invalid subreddit",
+									e);
 						}
 
 					}
 
-					RedditSubredditManager.getInstance(context, user).offerRawSubredditData(toWrite, timestamp);
+					RedditSubredditManager.getInstance(context, user)
+							.offerRawSubredditData(toWrite, timestamp);
 					final String receivedAfter = redditListing.getString("after");
-					if(receivedAfter != null && type != RedditSubredditManager.SubredditListType.MOST_POPULAR) {
+					if(receivedAfter != null
+							&& type
+							!= RedditSubredditManager.SubredditListType.MOST_POPULAR) {
 
-						doSubredditListRequest(type, new RequestResponseHandler<WritableHashSet, SubredditRequestFailure>() {
-							public void onRequestFailed(SubredditRequestFailure failureReason) {
-								handler.onRequestFailed(failureReason);
-							}
+						doSubredditListRequest(
+								type,
+								new RequestResponseHandler<
+										WritableHashSet,
+										SubredditRequestFailure>() {
+									@Override
+									public void onRequestFailed(
+											final SubredditRequestFailure failureReason) {
+										handler.onRequestFailed(failureReason);
+									}
 
-							public void onRequestSuccess(WritableHashSet result, long timeCached) {
-								output.addAll(result.toHashset());
-								handler.onRequestSuccess(new WritableHashSet(output, timeCached, type.name()), timeCached);
+									@Override
+									public void onRequestSuccess(
+											WritableHashSet result,
+											long timeCached) {
+										output.addAll(result.toHashset());
+										handler.onRequestSuccess(new WritableHashSet(
+												output,
+												timeCached,
+												type.name()), timeCached);
 
-								if(after == null) {
-									Log.i("SubredditListRequester", "Got " + output.size() + " subreddits in multiple requests");
-								}
-							}
-						}, receivedAfter);
+										if(after == null) {
+											Log.i(
+													"SubredditListRequester",
+													"Got "
+															+ output.size()
+															+ " subreddits in multiple requests");
+										}
+									}
+								},
+								receivedAfter);
 
 					} else {
-						handler.onRequestSuccess(new WritableHashSet(output, timestamp, type.name()), timestamp);
+						handler.onRequestSuccess(new WritableHashSet(
+								output,
+								timestamp,
+								type.name()), timestamp);
 
 						if(after == null) {
-							Log.i("SubredditListRequester", "Got " + output.size() + " subreddits in 1 request");
+							Log.i(
+									"SubredditListRequester",
+									"Got " + output.size() + " subreddits in 1 request");
 						}
 					}
 
 				} catch(Exception e) {
-					handler.onRequestFailed(new SubredditRequestFailure(CacheRequest.REQUEST_FAILURE_PARSE, e, null, "Parse error", url.toString()));
+					handler.onRequestFailed(new SubredditRequestFailure(
+							CacheRequest.REQUEST_FAILURE_PARSE,
+							e,
+							null,
+							"Parse error",
+							url.toString()));
 				}
 			}
 		};
@@ -250,9 +350,12 @@ public class RedditAPIIndividualSubredditListRequester
 		CacheManager.getInstance(context).makeRequest(aboutSubredditCacheRequest);
 	}
 
-	public void performRequest(Collection<RedditSubredditManager.SubredditListType> keys, TimestampBound timestampBound,
-							   RequestResponseHandler<HashMap<RedditSubredditManager.SubredditListType, WritableHashSet>,
-									   SubredditRequestFailure> handler) {
+	public void performRequest(
+			Collection<RedditSubredditManager.SubredditListType> keys,
+			TimestampBound timestampBound,
+			RequestResponseHandler<
+					HashMap<RedditSubredditManager.SubredditListType, WritableHashSet>,
+					SubredditRequestFailure> handler) {
 		// TODO batch API? or just make lots of requests and build up a hash map?
 		throw new UnsupportedOperationException();
 	}

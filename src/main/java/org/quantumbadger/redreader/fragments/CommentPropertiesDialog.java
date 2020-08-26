@@ -54,23 +54,51 @@ public final class CommentPropertiesDialog extends PropertiesDialog {
 		items.addView(propView(context, R.string.props_author, comment.author, false));
 
 		if(comment.author_flair_text != null && comment.author_flair_text.length() > 0) {
-			items.addView(propView(context, R.string.props_author_flair, comment.author_flair_text, false));
+			items.addView(propView(
+					context,
+					R.string.props_author_flair,
+					comment.author_flair_text,
+					false));
 		}
 
-		items.addView(propView(context, R.string.props_created, RRTime.formatDateTime(comment.created_utc * 1000, context), false));
+		items.addView(propView(
+				context,
+				R.string.props_created,
+				RRTime.formatDateTime(comment.created_utc * 1000, context),
+				false));
 
 		if(comment.edited instanceof Long) {
-			items.addView(propView(context, R.string.props_edited, RRTime.formatDateTime((Long) comment.edited * 1000, context), false));
+			items.addView(propView(
+					context,
+					R.string.props_edited,
+					RRTime.formatDateTime((Long)comment.edited * 1000, context),
+					false));
 		} else {
-			items.addView(propView(context, R.string.props_edited, R.string.props_never, false));
+			items.addView(propView(
+					context,
+					R.string.props_edited,
+					R.string.props_never,
+					false));
 		}
 
-		items.addView(propView(context, R.string.props_score, String.valueOf(comment.ups - comment.downs), false));
+		items.addView(propView(
+				context,
+				R.string.props_score,
+				String.valueOf(comment.ups - comment.downs),
+				false));
 
-		items.addView(propView(context, R.string.props_subreddit, comment.subreddit, false));
+		items.addView(propView(
+				context,
+				R.string.props_subreddit,
+				comment.subreddit,
+				false));
 
 		if(comment.body != null && comment.body.length() > 0) {
-			items.addView(propView(context, R.string.props_body_markdown, StringEscapeUtils.unescapeHtml4(comment.body), false));
+			items.addView(propView(
+					context,
+					R.string.props_body_markdown,
+					StringEscapeUtils.unescapeHtml4(comment.body),
+					false));
 
 			if(comment.body_html != null) {
 				items.addView(propView(

@@ -35,13 +35,13 @@ import java.net.URL;
 
 
 /**
- * Contains a literal, object, or array value, and is responsible for parsing
- * the incoming JSON stream.
+ * Contains a literal, object, or array value, and is responsible for parsing the incoming JSON
+ * stream.
  *
  * <p>
  * <b>To parse a JSON stream, call the JsonValue constructor with a JsonParser
- * as the argument, then call the "build" method (with the same JsonParser as an
- * argument) in another thread.</b>
+ * as the argument, then call the "build" method (with the same JsonParser as an argument) in
+ * another thread.</b>
  * </p>
  */
 public final class JsonValue {
@@ -54,10 +54,12 @@ public final class JsonValue {
 	public static final int TYPE_FLOAT = 5;
 	public static final int TYPE_INTEGER = 6;
 
-	@IntDef({TYPE_OBJECT, TYPE_ARRAY, TYPE_NULL, TYPE_BOOLEAN, TYPE_STRING, TYPE_FLOAT,
-		TYPE_INTEGER})
+	@IntDef({
+			TYPE_OBJECT, TYPE_ARRAY, TYPE_NULL, TYPE_BOOLEAN, TYPE_STRING, TYPE_FLOAT,
+			TYPE_INTEGER})
 	@Retention(RetentionPolicy.SOURCE)
-	public @interface Type {}
+	public @interface Type {
+	}
 
 	private final @Type int type;
 	private final Object value;
@@ -65,15 +67,13 @@ public final class JsonValue {
 	private JsonParser jp = null;
 
 	/**
-	 * Begins parsing a JSON stream into a tree structure. The JsonValue object
-	 * created contains the value at the root of the tree.
+	 * Begins parsing a JSON stream into a tree structure. The JsonValue object created contains the
+	 * value at the root of the tree.
+	 * <p>
+	 * This constructor will block until the first JSON token is received. To continue building the
+	 * tree, the "build" method (inherited from JsonBuffered) must be called in another thread.
 	 *
-	 * This constructor will block until the first JSON token is received. To
-	 * continue building the tree, the "build" method (inherited from
-	 * JsonBuffered) must be called in another thread.
-	 *
-	 * @param jp
-	 *			The incoming JSON stream
+	 * @param jp The incoming JSON stream
 	 * @throws java.io.IOException
 	 */
 	public JsonValue(final JsonParser jp) throws IOException {
@@ -81,15 +81,13 @@ public final class JsonValue {
 	}
 
 	/**
-	 * Begins parsing a JSON stream into a tree structure. The JsonValue object
-	 * created contains the value at the root of the tree.
+	 * Begins parsing a JSON stream into a tree structure. The JsonValue object created contains the
+	 * value at the root of the tree.
+	 * <p>
+	 * This constructor will block until the first JSON token is received. To continue building the
+	 * tree, the "build" method (inherited from JsonBuffered) must be called in another thread.
 	 *
-	 * This constructor will block until the first JSON token is received. To
-	 * continue building the tree, the "build" method (inherited from
-	 * JsonBuffered) must be called in another thread.
-	 *
-	 * @param source
-	 *			The source of incoming JSON data.
+	 * @param source The source of incoming JSON data.
 	 * @throws java.io.IOException
 	 */
 	public JsonValue(final InputStream source) throws IOException {
@@ -97,15 +95,13 @@ public final class JsonValue {
 	}
 
 	/**
-	 * Begins parsing a JSON stream into a tree structure. The JsonValue object
-	 * created contains the value at the root of the tree.
+	 * Begins parsing a JSON stream into a tree structure. The JsonValue object created contains the
+	 * value at the root of the tree.
+	 * <p>
+	 * This constructor will block until the first JSON token is received. To continue building the
+	 * tree, the "build" method (inherited from JsonBuffered) must be called in another thread.
 	 *
-	 * This constructor will block until the first JSON token is received. To
-	 * continue building the tree, the "build" method (inherited from
-	 * JsonBuffered) must be called in another thread.
-	 *
-	 * @param source
-	 *			The source of incoming JSON data.
+	 * @param source The source of incoming JSON data.
 	 * @throws java.io.IOException
 	 */
 	public JsonValue(final URL source) throws IOException {
@@ -113,15 +109,13 @@ public final class JsonValue {
 	}
 
 	/**
-	 * Begins parsing a JSON stream into a tree structure. The JsonValue object
-	 * created contains the value at the root of the tree.
+	 * Begins parsing a JSON stream into a tree structure. The JsonValue object created contains the
+	 * value at the root of the tree.
+	 * <p>
+	 * This constructor will block until the first JSON token is received. To continue building the
+	 * tree, the "build" method (inherited from JsonBuffered) must be called in another thread.
 	 *
-	 * This constructor will block until the first JSON token is received. To
-	 * continue building the tree, the "build" method (inherited from
-	 * JsonBuffered) must be called in another thread.
-	 *
-	 * @param source
-	 *			The source of incoming JSON data.
+	 * @param source The source of incoming JSON data.
 	 * @throws java.io.IOException
 	 */
 	public JsonValue(final byte[] source) throws IOException {
@@ -129,15 +123,13 @@ public final class JsonValue {
 	}
 
 	/**
-	 * Begins parsing a JSON stream into a tree structure. The JsonValue object
-	 * created contains the value at the root of the tree.
+	 * Begins parsing a JSON stream into a tree structure. The JsonValue object created contains the
+	 * value at the root of the tree.
+	 * <p>
+	 * This constructor will block until the first JSON token is received. To continue building the
+	 * tree, the "build" method (inherited from JsonBuffered) must be called in another thread.
 	 *
-	 * This constructor will block until the first JSON token is received. To
-	 * continue building the tree, the "build" method (inherited from
-	 * JsonBuffered) must be called in another thread.
-	 *
-	 * @param source
-	 *			The source of incoming JSON data.
+	 * @param source The source of incoming JSON data.
 	 * @throws java.io.IOException
 	 */
 	public JsonValue(final String source) throws IOException {
@@ -145,15 +137,13 @@ public final class JsonValue {
 	}
 
 	/**
-	 * Begins parsing a JSON stream into a tree structure. The JsonValue object
-	 * created contains the value at the root of the tree.
+	 * Begins parsing a JSON stream into a tree structure. The JsonValue object created contains the
+	 * value at the root of the tree.
+	 * <p>
+	 * This constructor will block until the first JSON token is received. To continue building the
+	 * tree, the "build" method (inherited from JsonBuffered) must be called in another thread.
 	 *
-	 * This constructor will block until the first JSON token is received. To
-	 * continue building the tree, the "build" method (inherited from
-	 * JsonBuffered) must be called in another thread.
-	 *
-	 * @param source
-	 *			The source of incoming JSON data.
+	 * @param source The source of incoming JSON data.
 	 * @throws java.io.IOException
 	 */
 	public JsonValue(final File source) throws IOException {
@@ -161,15 +151,13 @@ public final class JsonValue {
 	}
 
 	/**
-	 * Begins parsing a JSON stream into a tree structure. The JsonValue object
-	 * created contains the value at the root of the tree.
+	 * Begins parsing a JSON stream into a tree structure. The JsonValue object created contains the
+	 * value at the root of the tree.
+	 * <p>
+	 * This constructor will block until the first JSON token is received. To continue building the
+	 * tree, the "build" method (inherited from JsonBuffered) must be called in another thread.
 	 *
-	 * This constructor will block until the first JSON token is received. To
-	 * continue building the tree, the "build" method (inherited from
-	 * JsonBuffered) must be called in another thread.
-	 *
-	 * @param source
-	 *			The source of incoming JSON data.
+	 * @param source The source of incoming JSON data.
 	 * @throws java.io.IOException
 	 */
 	public JsonValue(final Reader source) throws IOException {
@@ -177,7 +165,8 @@ public final class JsonValue {
 	}
 
 	// The main constructor
-	protected JsonValue(final JsonParser jp, final JsonToken firstToken) throws IOException {
+	protected JsonValue(final JsonParser jp, final JsonToken firstToken) throws
+			IOException {
 
 		switch(firstToken) {
 
@@ -232,16 +221,18 @@ public final class JsonValue {
 				break;
 
 			default:
-				throw new JsonParseException(jp, "Expecting an object, literal, or array", jp.getCurrentLocation());
+				throw new JsonParseException(
+						jp,
+						"Expecting an object, literal, or array",
+						jp.getCurrentLocation());
 		}
 	}
 
 	/**
 	 * Continues the process of parsing the specified JSON stream.
-	 *
-	 * This method will block until the stream is fully parsed, but it is
-	 * possible to make use of this value and its descendants in other threads
-	 * while this is occurring.
+	 * <p>
+	 * This method will block until the stream is fully parsed, but it is possible to make use of
+	 * this value and its descendants in other threads while this is occurring.
 	 *
 	 * @throws java.io.IOException
 	 */
@@ -257,7 +248,8 @@ public final class JsonValue {
 	/**
 	 * @return The type of value this JsonValue contains.
 	 */
-	public @Type int getType() {
+	public @Type
+	int getType() {
 		return type;
 	}
 
@@ -269,9 +261,8 @@ public final class JsonValue {
 	}
 
 	/**
-	 * @return If this JsonValue contains a JSON object, then this method
-	 *		 returns that object. The type of value this JsonValue contains
-	 *		 can be checked with the getType() method.
+	 * @return If this JsonValue contains a JSON object, then this method returns that object. The
+	 * type of value this JsonValue contains can be checked with the getType() method.
 	 */
 	public JsonBufferedObject asObject() {
 
@@ -283,7 +274,13 @@ public final class JsonValue {
 		}
 	}
 
-	public <E> E asObject(final Class<E> clazz) throws InstantiationException, IllegalAccessException, InterruptedException, IOException, NoSuchMethodException, InvocationTargetException {
+	public <E> E asObject(final Class<E> clazz) throws
+			InstantiationException,
+			IllegalAccessException,
+			InterruptedException,
+			IOException,
+			NoSuchMethodException,
+			InvocationTargetException {
 
 		switch(type) {
 			case TYPE_NULL:
@@ -294,9 +291,8 @@ public final class JsonValue {
 	}
 
 	/**
-	 * @return If this JsonValue contains a JSON array, then this method returns
-	 *		 that array. The type of value this JsonValue contains can be
-	 *		 checked with the getType() method.
+	 * @return If this JsonValue contains a JSON array, then this method returns that array. The
+	 * type of value this JsonValue contains can be checked with the getType() method.
 	 */
 	public JsonBufferedArray asArray() {
 
@@ -309,9 +305,8 @@ public final class JsonValue {
 	}
 
 	/**
-	 * @return If this JsonValue contains a boolean, then this method returns
-	 *		 that boolean. The type of value this JsonValue contains can be
-	 *		 checked with the getType() method.
+	 * @return If this JsonValue contains a boolean, then this method returns that boolean. The type
+	 * of value this JsonValue contains can be checked with the getType() method.
 	 */
 	public Boolean asBoolean() {
 
@@ -324,9 +319,8 @@ public final class JsonValue {
 	}
 
 	/**
-	 * @return If this JsonValue contains a string, then this method returns
-	 *		 that string. The type of value this JsonValue contains can be
-	 *		 checked with the getType() method.
+	 * @return If this JsonValue contains a string, then this method returns that string. The type
+	 * of value this JsonValue contains can be checked with the getType() method.
 	 */
 	public String asString() {
 
@@ -345,9 +339,8 @@ public final class JsonValue {
 	}
 
 	/**
-	 * @return If this JsonValue contains a double, then this method returns
-	 *		 that double. The type of value this JsonValue contains can be
-	 *		 checked with the getType() method.
+	 * @return If this JsonValue contains a double, then this method returns that double. The type
+	 * of value this JsonValue contains can be checked with the getType() method.
 	 */
 	public Double asDouble() {
 		switch(type) {
@@ -363,9 +356,8 @@ public final class JsonValue {
 	}
 
 	/**
-	 * @return If this JsonValue contains an integer, then this method returns
-	 *		 that integer. The type of value this JsonValue contains can be
-	 *		 checked with the getType() method.
+	 * @return If this JsonValue contains an integer, then this method returns that integer. The
+	 * type of value this JsonValue contains can be checked with the getType() method.
 	 */
 	public Long asLong() {
 		switch(type) {
@@ -388,26 +380,42 @@ public final class JsonValue {
 		try {
 			prettyPrint(0, sb);
 
-		} catch (InterruptedException e) {
+		} catch(InterruptedException e) {
 			e.printStackTrace();
 
-		} catch (IOException e) {
+		} catch(IOException e) {
 			e.printStackTrace();
 		}
 
 		return sb.toString();
 	}
 
-	protected void prettyPrint(final int indent, final StringBuilder sb) throws InterruptedException, IOException {
+	protected void prettyPrint(final int indent, final StringBuilder sb) throws
+			InterruptedException,
+			IOException {
 
 		switch(type) {
-			case TYPE_BOOLEAN:	sb.append(asBoolean()); break;
-			case TYPE_FLOAT:		sb.append(asDouble()); break;
-			case TYPE_INTEGER:	sb.append(asLong()); break;
-			case TYPE_NULL:		sb.append("null"); break;
-			case TYPE_STRING:	sb.append("\"").append(asString().replace("\\", "\\\\").replace("\"", "\\\"")).append("\""); break;
+			case TYPE_BOOLEAN:
+				sb.append(asBoolean());
+				break;
+			case TYPE_FLOAT:
+				sb.append(asDouble());
+				break;
+			case TYPE_INTEGER:
+				sb.append(asLong());
+				break;
+			case TYPE_NULL:
+				sb.append("null");
+				break;
+			case TYPE_STRING:
+				sb.append("\"")
+						.append(asString().replace("\\", "\\\\").replace("\"", "\\\""))
+						.append("\"");
+				break;
 			case TYPE_ARRAY:
-			case TYPE_OBJECT:	((JsonBuffered)value).prettyPrint(indent, sb); break;
+			case TYPE_OBJECT:
+				((JsonBuffered)value).prettyPrint(indent, sb);
+				break;
 		}
 	}
 

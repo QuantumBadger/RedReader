@@ -97,20 +97,22 @@ public class CommentReplyActivity extends BaseActivity {
 			setTitle(R.string.submit_comment_actionbar);
 		}
 
-		final LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.comment_reply, null);
+		final LinearLayout layout
+				= (LinearLayout)getLayoutInflater().inflate(R.layout.comment_reply, null);
 
 		usernameSpinner = (Spinner)layout.findViewById(R.id.comment_reply_username);
 		inboxReplies = (CheckBox)layout.findViewById(R.id.comment_reply_inbox);
 		textEdit = (EditText)layout.findViewById(R.id.comment_reply_text);
 
-		if (mParentType == ParentType.COMMENT_OR_POST){
+		if(mParentType == ParentType.COMMENT_OR_POST) {
 			inboxReplies.setVisibility(View.VISIBLE);
 		}
 
 		if(intent != null && intent.hasExtra(PARENT_ID_AND_TYPE_KEY)) {
 			parentIdAndType = intent.getStringExtra(PARENT_ID_AND_TYPE_KEY);
 
-		} else if(savedInstanceState != null && savedInstanceState.containsKey(PARENT_ID_AND_TYPE_KEY)) {
+		} else if(savedInstanceState != null && savedInstanceState.containsKey(
+				PARENT_ID_AND_TYPE_KEY)) {
 			parentIdAndType = savedInstanceState.getString(PARENT_ID_AND_TYPE_KEY);
 
 		} else {
@@ -119,7 +121,8 @@ public class CommentReplyActivity extends BaseActivity {
 
 		final String existingCommentText;
 
-		if(savedInstanceState != null && savedInstanceState.containsKey(COMMENT_TEXT_KEY)) {
+		if(savedInstanceState != null
+				&& savedInstanceState.containsKey(COMMENT_TEXT_KEY)) {
 			existingCommentText = savedInstanceState.getString(COMMENT_TEXT_KEY);
 
 		} else if(lastText != null && parentIdAndType.equals(lastParentIdAndType)) {
@@ -138,7 +141,8 @@ public class CommentReplyActivity extends BaseActivity {
 			parentMarkdown.setText(intent.getStringExtra(PARENT_MARKDOWN_KEY));
 		}
 
-		final ArrayList<RedditAccount> accounts = RedditAccountManager.getInstance(this).getAccounts();
+		final ArrayList<RedditAccount> accounts = RedditAccountManager.getInstance(this)
+				.getAccounts();
 		final ArrayList<String> usernames = new ArrayList<>();
 
 		for(RedditAccount account : accounts) {
@@ -152,7 +156,10 @@ public class CommentReplyActivity extends BaseActivity {
 			finish();
 		}
 
-		usernameSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, usernames));
+		usernameSpinner.setAdapter(new ArrayAdapter<>(
+				this,
+				android.R.layout.simple_list_item_1,
+				usernames));
 
 		final ScrollView sv = new ScrollView(this);
 		sv.addView(layout);
@@ -192,16 +199,23 @@ public class CommentReplyActivity extends BaseActivity {
 
 			progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
 				public void onCancel(final DialogInterface dialogInterface) {
-					General.quickToast(CommentReplyActivity.this, getString(R.string.comment_reply_oncancel));
+					General.quickToast(
+							CommentReplyActivity.this,
+							getString(R.string.comment_reply_oncancel));
 					General.safeDismissDialog(progressDialog);
 				}
 			});
 
 			progressDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
-				public boolean onKey(final DialogInterface dialogInterface, final int keyCode, final KeyEvent keyEvent) {
+				public boolean onKey(
+						final DialogInterface dialogInterface,
+						final int keyCode,
+						final KeyEvent keyEvent) {
 
 					if(keyCode == KeyEvent.KEYCODE_BACK) {
-						General.quickToast(CommentReplyActivity.this, getString(R.string.comment_reply_oncancel));
+						General.quickToast(
+								CommentReplyActivity.this,
+								getString(R.string.comment_reply_oncancel));
 						General.safeDismissDialog(progressDialog);
 					}
 
@@ -209,7 +223,8 @@ public class CommentReplyActivity extends BaseActivity {
 				}
 			});
 
-			final APIResponseHandler.ActionResponseHandler handler = new APIResponseHandler.ActionResponseHandler(this) {
+			final APIResponseHandler.ActionResponseHandler handler
+					= new APIResponseHandler.ActionResponseHandler(this) {
 				@Override
 				protected void onSuccess(@Nullable final String redirectUrl) {
 					AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
@@ -218,9 +233,13 @@ public class CommentReplyActivity extends BaseActivity {
 							General.safeDismissDialog(progressDialog);
 
 							if(mParentType == ParentType.MESSAGE) {
-								General.quickToast(CommentReplyActivity.this, getString(R.string.pm_reply_done));
+								General.quickToast(
+										CommentReplyActivity.this,
+										getString(R.string.pm_reply_done));
 							} else {
-								General.quickToast(CommentReplyActivity.this, getString(R.string.comment_reply_done_norefresh));
+								General.quickToast(
+										CommentReplyActivity.this,
+										getString(R.string.comment_reply_done_norefresh));
 							}
 
 							mDraftReset = true;
@@ -228,7 +247,9 @@ public class CommentReplyActivity extends BaseActivity {
 							lastParentIdAndType = null;
 
 							if(redirectUrl != null) {
-								LinkHandler.onLinkClicked(CommentReplyActivity.this, redirectUrl);
+								LinkHandler.onLinkClicked(
+										CommentReplyActivity.this,
+										redirectUrl);
 							}
 
 							finish();
@@ -242,9 +263,18 @@ public class CommentReplyActivity extends BaseActivity {
 				}
 
 				@Override
-				protected void onFailure(@CacheRequest.RequestFailureType int type, Throwable t, Integer status, String readableMessage) {
+				protected void onFailure(
+						@CacheRequest.RequestFailureType int type,
+						Throwable t,
+						Integer status,
+						String readableMessage) {
 
-					final RRError error = General.getGeneralErrorForFailure(context, type, t, status, null);
+					final RRError error = General.getGeneralErrorForFailure(
+							context,
+							type,
+							t,
+							status,
+							null);
 
 					AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
 						@Override
@@ -258,7 +288,9 @@ public class CommentReplyActivity extends BaseActivity {
 				@Override
 				protected void onFailure(final APIFailureType type) {
 
-					final RRError error = General.getGeneralErrorForFailure(context, type);
+					final RRError error = General.getGeneralErrorForFailure(
+							context,
+							type);
 
 					AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
 						@Override
@@ -270,7 +302,8 @@ public class CommentReplyActivity extends BaseActivity {
 				}
 			};
 
-			final APIResponseHandler.ActionResponseHandler inboxHandler = new APIResponseHandler.ActionResponseHandler(this) {
+			final APIResponseHandler.ActionResponseHandler inboxHandler
+					= new APIResponseHandler.ActionResponseHandler(this) {
 				@Override
 				protected void onSuccess(@Nullable final String redirectUrl) {
 					// Do nothing (result expected)
@@ -282,38 +315,60 @@ public class CommentReplyActivity extends BaseActivity {
 				}
 
 				@Override
-				protected void onFailure(@CacheRequest.RequestFailureType int type, Throwable t, Integer status, String readableMessage) {
-					Toast.makeText(context, getString(R.string.disable_replies_to_infobox_failed), Toast.LENGTH_SHORT).show();
+				protected void onFailure(
+						@CacheRequest.RequestFailureType int type,
+						Throwable t,
+						Integer status,
+						String readableMessage) {
+					Toast.makeText(
+							context,
+							getString(R.string.disable_replies_to_infobox_failed),
+							Toast.LENGTH_SHORT).show();
 				}
 
 				@Override
 				protected void onFailure(final APIFailureType type) {
-					Toast.makeText(context, getString(R.string.disable_replies_to_infobox_failed), Toast.LENGTH_SHORT).show();
+					Toast.makeText(
+							context,
+							getString(R.string.disable_replies_to_infobox_failed),
+							Toast.LENGTH_SHORT).show();
 				}
 			};
 
 			final CacheManager cm = CacheManager.getInstance(this);
 
-			final ArrayList<RedditAccount> accounts = RedditAccountManager.getInstance(this).getAccounts();
+			final ArrayList<RedditAccount> accounts = RedditAccountManager.getInstance(
+					this).getAccounts();
 			RedditAccount selectedAccount = null;
 
 			for(RedditAccount account : accounts) {
-				if(!account.isAnonymous() && account.username.equalsIgnoreCase((String)usernameSpinner.getSelectedItem())) {
+				if(!account.isAnonymous()
+						&& account.username.equalsIgnoreCase(
+						(String)usernameSpinner.getSelectedItem())) {
 					selectedAccount = account;
 					break;
 				}
 			}
-			if (mParentType == ParentType.COMMENT_OR_POST) {
+			if(mParentType == ParentType.COMMENT_OR_POST) {
 				sendRepliesToInbox = inboxReplies.isChecked();
 			} else {
 				sendRepliesToInbox = true;
 			}
-			RedditAPI.comment(cm, handler, inboxHandler, selectedAccount, parentIdAndType, textEdit.getText().toString(), sendRepliesToInbox, this);
+			RedditAPI.comment(
+					cm,
+					handler,
+					inboxHandler,
+					selectedAccount,
+					parentIdAndType,
+					textEdit.getText().toString(),
+					sendRepliesToInbox,
+					this);
 
 			progressDialog.show();
 
 		} else if(item.getTitle().equals(getString(R.string.comment_reply_preview))) {
-			MarkdownPreviewDialog.newInstance(textEdit.getText().toString()).show(getSupportFragmentManager(), "MarkdownPreviewDialog");
+			MarkdownPreviewDialog.newInstance(textEdit.getText().toString())
+					.show(getSupportFragmentManager(), "MarkdownPreviewDialog");
 		}
 
 		return true;

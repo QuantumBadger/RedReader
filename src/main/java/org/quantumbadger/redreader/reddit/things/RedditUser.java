@@ -35,7 +35,8 @@ public class RedditUser implements Parcelable {
 		return 0;
 	}
 
-	public RedditUser() {}
+	public RedditUser() {
+	}
 
 	// one of the many reasons why the Android API is awful
 	private RedditUser(final Parcel in) {
@@ -102,7 +103,8 @@ public class RedditUser implements Parcelable {
 		parcel.writeString(name);
 	}
 
-	public static final Parcelable.Creator<RedditUser> CREATOR = new Parcelable.Creator<RedditUser>() {
+	public static final Parcelable.Creator<RedditUser> CREATOR
+			= new Parcelable.Creator<RedditUser>() {
 		public RedditUser createFromParcel(final Parcel in) {
 			return new RedditUser(in);
 		}

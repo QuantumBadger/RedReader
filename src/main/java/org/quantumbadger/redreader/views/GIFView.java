@@ -58,11 +58,14 @@ public final class GIFView extends View {
 		super.onDraw(canvas);
 		long now = SystemClock.uptimeMillis();
 
-		final float scale = Math.min((float)getWidth() / mMovie.width(), (float)getHeight() / mMovie.height());
+		final float scale = Math.min(
+				(float)getWidth() / mMovie.width(),
+				(float)getHeight() / mMovie.height());
 
 		canvas.scale(scale, scale);
-		canvas.translate(((float)getWidth() / scale - (float)mMovie.width())/2f,
-				((float)getHeight() / scale - (float)mMovie.height())/2f);
+		canvas.translate(
+				((float)getWidth() / scale - (float)mMovie.width()) / 2f,
+				((float)getHeight() / scale - (float)mMovie.height()) / 2f);
 
 
 		if(movieStart == 0) movieStart = (int)now;
@@ -81,10 +84,10 @@ public final class GIFView extends View {
 		int len;
 
 		try {
-			while ((len = is.read(buffer)) >= 0) {
+			while((len = is.read(buffer)) >= 0) {
 				baos.write(buffer, 0, len);
 			}
-		} catch (IOException e) {
+		} catch(IOException e) {
 			throw new RuntimeException(e);
 		}
 

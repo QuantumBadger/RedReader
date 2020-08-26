@@ -75,18 +75,28 @@ public final class RedditVideosAPI {
 			}
 
 			@Override
-			protected void onDownloadNecessary() {}
+			protected void onDownloadNecessary() {
+			}
 
 			@Override
-			protected void onDownloadStarted() {}
+			protected void onDownloadStarted() {
+			}
 
 			@Override
-			protected void onFailure(final @RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
+			protected void onFailure(
+					final @RequestFailureType int type,
+					final Throwable t,
+					final Integer status,
+					final String readableMessage) {
 				listener.onFailure(type, t, status, readableMessage);
 			}
 
 			@Override
-			protected void onProgress(final boolean authorizationInProgress, final long bytesRead, final long totalBytes) {}
+			protected void onProgress(
+					final boolean authorizationInProgress,
+					final long bytesRead,
+					final long totalBytes) {
+			}
 
 			@Override
 			protected void onSuccess(
@@ -114,7 +124,11 @@ public final class RedditVideosAPI {
 						for(final String format : PREFERRED_VIDEO_FORMATS) {
 
 							if(mpd.contains(format + ".mp4")) {
-								videoUrl = "https://v.redd.it/" + imageId + "/" + format + ".mp4";
+								videoUrl = "https://v.redd.it/"
+										+ imageId
+										+ "/"
+										+ format
+										+ ".mp4";
 								break;
 							}
 
@@ -132,9 +146,16 @@ public final class RedditVideosAPI {
 						final ImageInfo result;
 
 						if(audioUrl != null) {
-							result = new ImageInfo(videoUrl, audioUrl, ImageInfo.MediaType.VIDEO, ImageInfo.HasAudio.HAS_AUDIO);
+							result = new ImageInfo(
+									videoUrl,
+									audioUrl,
+									ImageInfo.MediaType.VIDEO,
+									ImageInfo.HasAudio.HAS_AUDIO);
 						} else {
-							result = new ImageInfo(videoUrl, ImageInfo.MediaType.VIDEO, ImageInfo.HasAudio.NO_AUDIO);
+							result = new ImageInfo(
+									videoUrl,
+									ImageInfo.MediaType.VIDEO,
+									ImageInfo.HasAudio.NO_AUDIO);
 						}
 
 						Log.i("RedditVideosAPI", String.format(
@@ -152,7 +173,11 @@ public final class RedditVideosAPI {
 					}
 
 				} catch(final IOException e) {
-					listener.onFailure(REQUEST_FAILURE_STORAGE, e, null, "Failed to read mpd");
+					listener.onFailure(
+							REQUEST_FAILURE_STORAGE,
+							e,
+							null,
+							"Failed to read mpd");
 				}
 			}
 		});

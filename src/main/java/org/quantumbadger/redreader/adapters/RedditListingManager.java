@@ -69,30 +69,40 @@ public abstract class RedditListingManager {
 
 	public void addFooterError(final ErrorView view) {
 		General.checkThisIsUIThread();
-		mAdapter.appendToGroup(GROUP_FOOTER_ERRORS, new GroupedRecyclerViewItemFrameLayout(view));
+		mAdapter.appendToGroup(
+				GROUP_FOOTER_ERRORS,
+				new GroupedRecyclerViewItemFrameLayout(view));
 	}
 
 	public void addPostHeader(final RedditPostHeaderView view) {
 		General.checkThisIsUIThread();
-		mAdapter.appendToGroup(GROUP_HEADER, new GroupedRecyclerViewItemFrameLayout(view));
+		mAdapter.appendToGroup(
+				GROUP_HEADER,
+				new GroupedRecyclerViewItemFrameLayout(view));
 		doWorkaround();
 	}
 
 	public void addPostListingHeader(final View view) {
 		General.checkThisIsUIThread();
-		mAdapter.appendToGroup(GROUP_HEADER, new GroupedRecyclerViewItemFrameLayout(view));
+		mAdapter.appendToGroup(
+				GROUP_HEADER,
+				new GroupedRecyclerViewItemFrameLayout(view));
 		doWorkaround();
 	}
 
 	public void addPostSelfText(final View view) {
 		General.checkThisIsUIThread();
-		mAdapter.appendToGroup(GROUP_POST_SELFTEXT, new GroupedRecyclerViewItemFrameLayout(view));
+		mAdapter.appendToGroup(
+				GROUP_POST_SELFTEXT,
+				new GroupedRecyclerViewItemFrameLayout(view));
 		doWorkaround();
 	}
 
 	public void addNotification(final View view) {
 		General.checkThisIsUIThread();
-		mAdapter.appendToGroup(GROUP_NOTIFICATIONS, new GroupedRecyclerViewItemFrameLayout(view));
+		mAdapter.appendToGroup(
+				GROUP_NOTIFICATIONS,
+				new GroupedRecyclerViewItemFrameLayout(view));
 		doWorkaround();
 	}
 
@@ -110,7 +120,9 @@ public abstract class RedditListingManager {
 
 	public void addLoadMoreButton(final View view) {
 		General.checkThisIsUIThread();
-		mAdapter.appendToGroup(GROUP_LOAD_MORE_BUTTON, new GroupedRecyclerViewItemFrameLayout(view));
+		mAdapter.appendToGroup(
+				GROUP_LOAD_MORE_BUTTON,
+				new GroupedRecyclerViewItemFrameLayout(view));
 		doWorkaround();
 	}
 

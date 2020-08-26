@@ -32,13 +32,27 @@ public class RRGLMatrixStack {
 
 	public int pushAndTranslate(float offsetX, float offsetY) {
 		mTopMatrixPos += 16;
-		Matrix.translateM(mMatrices, mTopMatrixPos, mMatrices, mTopMatrixPos - 16, offsetX, offsetY, 0);
+		Matrix.translateM(
+				mMatrices,
+				mTopMatrixPos,
+				mMatrices,
+				mTopMatrixPos - 16,
+				offsetX,
+				offsetY,
+				0);
 		return mTopMatrixPos - 16;
 	}
 
 	public int pushAndScale(float factorX, float factorY) {
 		mTopMatrixPos += 16;
-		Matrix.scaleM(mMatrices, mTopMatrixPos, mMatrices, mTopMatrixPos - 16, factorX, factorY, 0);
+		Matrix.scaleM(
+				mMatrices,
+				mTopMatrixPos,
+				mMatrices,
+				mTopMatrixPos - 16,
+				factorX,
+				factorY,
+				0);
 		return mTopMatrixPos - 16;
 	}
 
@@ -71,10 +85,12 @@ public class RRGLMatrixStack {
 				case 5:
 				case 10:
 				case 15:
-					if(mMatrices[i] != 1) throw new RuntimeException("Root matrix is not identity!");
+					if(mMatrices[i] != 1)
+						throw new RuntimeException("Root matrix is not identity!");
 					break;
 				default:
-					if(mMatrices[i] != 0) throw new RuntimeException("Root matrix is not identity!");
+					if(mMatrices[i] != 0)
+						throw new RuntimeException("Root matrix is not identity!");
 					break;
 			}
 		}

@@ -88,13 +88,28 @@ final class CacheDbManager extends SQLiteOpenHelper {
 	}
 
 	@Override
-	public void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion) {
-		throw new RuntimeException("Attempt to upgrade database in first version of the app!");
+	public void onUpgrade(
+			final SQLiteDatabase db,
+			final int oldVersion,
+			final int newVersion) {
+		throw new RuntimeException(
+				"Attempt to upgrade database in first version of the app!");
 	}
 
-	synchronized LinkedList<CacheEntry> select(final URI url, final String user, final UUID session) {
+	synchronized LinkedList<CacheEntry> select(
+			final URI url,
+			final String user,
+			final UUID session) {
 
-		final String[] fields = {FIELD_ID, FIELD_URL, FIELD_USER, FIELD_SESSION, FIELD_TIMESTAMP, FIELD_STATUS, FIELD_TYPE, FIELD_MIMETYPE};
+		final String[] fields = {
+				FIELD_ID,
+				FIELD_URL,
+				FIELD_USER,
+				FIELD_SESSION,
+				FIELD_TIMESTAMP,
+				FIELD_STATUS,
+				FIELD_TYPE,
+				FIELD_MIMETYPE};
 
 		final SQLiteDatabase db = this.getReadableDatabase();
 
@@ -102,20 +117,40 @@ final class CacheDbManager extends SQLiteOpenHelper {
 		final String[] queryParams;
 
 		if(session == null) {
-			queryString = String.format(Locale.US, "%s=%d AND %s=? AND %s=?", FIELD_STATUS, STATUS_DONE, FIELD_URL, FIELD_USER);
+			queryString = String.format(
+					Locale.US,
+					"%s=%d AND %s=? AND %s=?",
+					FIELD_STATUS,
+					STATUS_DONE,
+					FIELD_URL,
+					FIELD_USER);
 			queryParams = new String[] {url.toString(), user};
 
 		} else {
-			queryString = String.format(Locale.US, "%s=%d AND %s=? AND %s=? AND %s=?", FIELD_STATUS, STATUS_DONE, FIELD_URL, FIELD_USER, FIELD_SESSION);
+			queryString = String.format(
+					Locale.US,
+					"%s=%d AND %s=? AND %s=? AND %s=?",
+					FIELD_STATUS,
+					STATUS_DONE,
+					FIELD_URL,
+					FIELD_USER,
+					FIELD_SESSION);
 			queryParams = new String[] {url.toString(), user, session.toString()};
 		}
 
-		final Cursor cursor = db.query(TABLE, fields, queryString, queryParams, null, null, FIELD_TIMESTAMP + " DESC");
+		final Cursor cursor = db.query(
+				TABLE,
+				fields,
+				queryString,
+				queryParams,
+				null,
+				null,
+				FIELD_TIMESTAMP + " DESC");
 
 		final LinkedList<CacheEntry> result = new LinkedList<>();
 
 		// TODO can this even happen?
-		if (cursor == null) {
+		if(cursor == null) {
 			BugReportActivity.handleGlobalError(context, "Cursor was null after query");
 			return null;
 		}
@@ -129,7 +164,10 @@ final class CacheDbManager extends SQLiteOpenHelper {
 		return result;
 	}
 
-	synchronized long newEntry(final CacheRequest request, final UUID session, final String mimetype) throws IOException {
+	synchronized long newEntry(
+			final CacheRequest request,
+			final UUID session,
+			final String mimetype) throws IOException {
 
 		if(session == null) {
 			throw new RuntimeException("No session to write");
@@ -170,16 +208,30 @@ final class CacheDbManager extends SQLiteOpenHelper {
 
 	protected synchronized int deleteAllBeforeTimestamp(final long timestamp) {
 		final SQLiteDatabase db = this.getWritableDatabase();
-		return db.delete(TABLE, FIELD_TIMESTAMP + "<?", new String[] {String.valueOf(timestamp)});
+		return db.delete(
+				TABLE,
+				FIELD_TIMESTAMP + "<?",
+				new String[] {String.valueOf(timestamp)});
 	}
 
-	public synchronized ArrayList<Long> getFilesToPrune(HashSet<Long> currentFiles, final HashMap<Integer, Long> maxAge, final long defaultMaxAge) {
+	public synchronized ArrayList<Long> getFilesToPrune(
+			HashSet<Long> currentFiles,
+			final HashMap<Integer, Long> maxAge,
+			final long defaultMaxAge) {
 
 		final SQLiteDatabase db = this.getWritableDatabase();
 
 		final long currentTime = RRTime.utcCurrentTimeMillis();
 
-		final Cursor cursor = db.query(TABLE, new String[] {FIELD_ID, FIELD_TIMESTAMP, FIELD_TYPE}, null, null, null, null, null, null);
+		final Cursor cursor = db.query(
+				TABLE,
+				new String[] {FIELD_ID, FIELD_TIMESTAMP, FIELD_TYPE},
+				null,
+				null,
+				null,
+				null,
+				null,
+				null);
 
 		final HashSet<Long> currentEntries = new HashSet<>();
 		final ArrayList<Long> entriesToDelete = new ArrayList<>();
@@ -202,12 +254,10 @@ final class CacheDbManager extends SQLiteOpenHelper {
 
 			if(!currentFiles.contains(id)) {
 				entriesToDelete.add(id);
-				//Log.i("RR DEBUG cache", "DELETED ENTRY " + id + "(type " + type + ") since it had no matching file");
 
 			} else if(timestamp < pruneIfBeforeMs) {
 				entriesToDelete.add(id);
 				filesToDelete.add(id);
-				//Log.i("RR DEBUG cache", "DELETED ENTRY " + id + "(type " + type + ") since was too old");
 
 			} else {
 				currentEntries.add(id);
@@ -217,13 +267,16 @@ final class CacheDbManager extends SQLiteOpenHelper {
 		for(final long id : currentFiles) {
 			if(!currentEntries.contains(id)) {
 				filesToDelete.add(id);
-				//Log.i("RR DEBUG cache", "DELETED FILE " + id + " since it had no matching entry");
 			}
 		}
 
 		if(!entriesToDelete.isEmpty()) {
 
-			final StringBuilder query = new StringBuilder(String.format(Locale.US, "DELETE FROM %s WHERE %s IN (", TABLE, FIELD_ID));
+			final StringBuilder query = new StringBuilder(String.format(
+					Locale.US,
+					"DELETE FROM %s WHERE %s IN (",
+					TABLE,
+					FIELD_ID));
 
 			query.append(entriesToDelete.remove(entriesToDelete.size() - 1));
 

@@ -53,7 +53,8 @@ public class SubredditPostListURL extends PostListingURL {
 		return new SubredditPostListURL(Type.ALL, null, null, null, null, null);
 	}
 
-	public static RedditURLParser.RedditURL getSubreddit(String subreddit) throws InvalidSubredditNameException {
+	public static RedditURLParser.RedditURL getSubreddit(String subreddit) throws
+			InvalidSubredditNameException {
 		return getSubreddit(new SubredditCanonicalId(subreddit));
 	}
 
@@ -112,7 +113,8 @@ public class SubredditPostListURL extends PostListingURL {
 	public Uri generateJsonUri() {
 
 		Uri.Builder builder = new Uri.Builder();
-		builder.scheme(Constants.Reddit.getScheme()).authority(Constants.Reddit.getDomain());
+		builder.scheme(Constants.Reddit.getScheme())
+				.authority(Constants.Reddit.getDomain());
 
 		switch(type) {
 
@@ -159,7 +161,8 @@ public class SubredditPostListURL extends PostListingURL {
 	}
 
 	@Override
-	public @RedditURLParser.PathType int pathType() {
+	public @RedditURLParser.PathType
+	int pathType() {
 		return RedditURLParser.SUBREDDIT_POST_LISTING_URL;
 	}
 
@@ -179,7 +182,8 @@ public class SubredditPostListURL extends PostListingURL {
 			} else if(parameterKey.equalsIgnoreCase("limit")) {
 				try {
 					limit = Integer.parseInt(uri.getQueryParameter(parameterKey));
-				} catch(Throwable ignored) {}
+				} catch(Throwable ignored) {
+				}
 
 			}
 		}
@@ -188,10 +192,12 @@ public class SubredditPostListURL extends PostListingURL {
 		{
 			final List<String> pathSegmentsList = uri.getPathSegments();
 
-			final ArrayList<String> pathSegmentsFiltered = new ArrayList<>(pathSegmentsList.size());
+			final ArrayList<String> pathSegmentsFiltered =
+					new ArrayList<>(pathSegmentsList.size());
 			for(String segment : pathSegmentsList) {
 
-				while(General.asciiLowercase(segment).endsWith(".json") || General.asciiLowercase(segment).endsWith(".xml")) {
+				while(General.asciiLowercase(segment).endsWith(".json")
+						|| General.asciiLowercase(segment).endsWith(".xml")) {
 					segment = segment.substring(0, segment.lastIndexOf('.'));
 				}
 
@@ -200,23 +206,38 @@ public class SubredditPostListURL extends PostListingURL {
 				}
 			}
 
-			pathSegments = pathSegmentsFiltered.toArray(new String[pathSegmentsFiltered.size()]);
+			pathSegments =
+					pathSegmentsFiltered.toArray(new String[pathSegmentsFiltered.size()]);
 		}
 
 		final PostSort order;
 		if(pathSegments.length > 0) {
-			order = PostSort.parse(pathSegments[pathSegments.length - 1], uri.getQueryParameter("t"));
+			order = PostSort.parse(
+					pathSegments[pathSegments.length - 1],
+					uri.getQueryParameter("t"));
 		} else {
 			order = null;
 		}
 
 		switch(pathSegments.length) {
 			case 0:
-				return new SubredditPostListURL(Type.FRONTPAGE, null, null, limit, before, after);
+				return new SubredditPostListURL(
+						Type.FRONTPAGE,
+						null,
+						null,
+						limit,
+						before,
+						after);
 
 			case 1: {
 				if(order != null) {
-					return new SubredditPostListURL(Type.FRONTPAGE, null, order, limit, before, after);
+					return new SubredditPostListURL(
+							Type.FRONTPAGE,
+							null,
+							order,
+							limit,
+							before,
+							after);
 				} else {
 					return null;
 				}
@@ -232,10 +253,22 @@ public class SubredditPostListURL extends PostListingURL {
 				if(subreddit.equals("all")) {
 
 					if(pathSegments.length == 2) {
-						return new SubredditPostListURL(Type.ALL, null, null, limit, before, after);
+						return new SubredditPostListURL(
+								Type.ALL,
+								null,
+								null,
+								limit,
+								before,
+								after);
 
 					} else if(order != null) {
-						return new SubredditPostListURL(Type.ALL, null, order, limit, before, after);
+						return new SubredditPostListURL(
+								Type.ALL,
+								null,
+								order,
+								limit,
+								before,
+								after);
 
 					} else {
 						return null;
@@ -243,19 +276,43 @@ public class SubredditPostListURL extends PostListingURL {
 
 				} else if(subreddit.equals("popular")) {
 
-					return new SubredditPostListURL(Type.POPULAR, null, order, limit, before, after);
+					return new SubredditPostListURL(
+							Type.POPULAR,
+							null,
+							order,
+							limit,
+							before,
+							after);
 
 				} else if(subreddit.equals("random") || subreddit.equals("randnsfw")) {
 
-					return new SubredditPostListURL(Type.RANDOM, subreddit, order, limit, before, after);
+					return new SubredditPostListURL(
+							Type.RANDOM,
+							subreddit,
+							order,
+							limit,
+							before,
+							after);
 
 				} else if(subreddit.matches("all(\\-[\\w\\.]+)+")) {
 
 					if(pathSegments.length == 2) {
-						return new SubredditPostListURL(Type.ALL_SUBTRACTION, subreddit, null, limit, before, after);
+						return new SubredditPostListURL(
+								Type.ALL_SUBTRACTION,
+								subreddit,
+								null,
+								limit,
+								before,
+								after);
 
 					} else if(order != null) {
-						return new SubredditPostListURL(Type.ALL_SUBTRACTION, subreddit, order, limit, before, after);
+						return new SubredditPostListURL(
+								Type.ALL_SUBTRACTION,
+								subreddit,
+								order,
+								limit,
+								before,
+								after);
 
 					} else {
 						return null;
@@ -264,10 +321,22 @@ public class SubredditPostListURL extends PostListingURL {
 				} else if(subreddit.matches("\\w+(\\+[\\w\\.]+)+")) {
 
 					if(pathSegments.length == 2) {
-						return new SubredditPostListURL(Type.SUBREDDIT_COMBINATION, subreddit, null, limit, before, after);
+						return new SubredditPostListURL(
+								Type.SUBREDDIT_COMBINATION,
+								subreddit,
+								null,
+								limit,
+								before,
+								after);
 
 					} else if(order != null) {
-						return new SubredditPostListURL(Type.SUBREDDIT_COMBINATION, subreddit, order, limit, before, after);
+						return new SubredditPostListURL(
+								Type.SUBREDDIT_COMBINATION,
+								subreddit,
+								order,
+								limit,
+								before,
+								after);
 
 					} else {
 						return null;
@@ -276,10 +345,22 @@ public class SubredditPostListURL extends PostListingURL {
 				} else if(subreddit.matches("[\\w\\.]+")) {
 
 					if(pathSegments.length == 2) {
-						return new SubredditPostListURL(Type.SUBREDDIT, subreddit, null, limit, before, after);
+						return new SubredditPostListURL(
+								Type.SUBREDDIT,
+								subreddit,
+								null,
+								limit,
+								before,
+								after);
 
 					} else if(order != null) {
-						return new SubredditPostListURL(Type.SUBREDDIT, subreddit, order, limit, before, after);
+						return new SubredditPostListURL(
+								Type.SUBREDDIT,
+								subreddit,
+								order,
+								limit,
+								before,
+								after);
 
 					} else {
 						return null;
@@ -333,7 +414,9 @@ public class SubredditPostListURL extends PostListingURL {
 				return context.getString(R.string.mainmenu_popular);
 
 			case RANDOM:
-				return context.getString("randnsfw".equals(subreddit) ? R.string.mainmenu_random_nsfw : R.string.mainmenu_random);
+				return context.getString("randnsfw".equals(subreddit)
+						? R.string.mainmenu_random_nsfw
+						: R.string.mainmenu_random);
 
 			case SUBREDDIT:
 				try {

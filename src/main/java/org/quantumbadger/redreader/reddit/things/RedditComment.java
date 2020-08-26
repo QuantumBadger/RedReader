@@ -50,7 +50,8 @@ public final class RedditComment implements Parcelable, RedditThingWithIdAndType
 
 	public String distinguished;
 
-	public RedditComment() {}
+	public RedditComment() {
+	}
 
 	// one of the many reasons why the Android API is awful
 	private RedditComment(final Parcel in) {
@@ -64,9 +65,15 @@ public final class RedditComment implements Parcelable, RedditThingWithIdAndType
 
 		archived = in.readInt() == 1;
 		switch(in.readInt()) {
-			case -1: likes = false; break;
-			case 0: likes = null; break;
-			case 1: likes = true; break;
+			case -1:
+				likes = false;
+				break;
+			case 0:
+				likes = null;
+				break;
+			case 1:
+				likes = true;
+				break;
 		}
 
 		replies = null;
@@ -170,12 +177,12 @@ public final class RedditComment implements Parcelable, RedditThingWithIdAndType
 
 		} else {
 			return new PostCommentListingURL(
-				null,
-				link_id,
-				getIdAlone(),
-				3,
-				null,
-				null);
+					null,
+					link_id,
+					getIdAlone(),
+					3,
+					null,
+					null);
 		}
 	}
 
@@ -183,7 +190,8 @@ public final class RedditComment implements Parcelable, RedditThingWithIdAndType
 		return 0;
 	}
 
-	public static final Parcelable.Creator<RedditComment> CREATOR = new Parcelable.Creator<RedditComment>() {
+	public static final Parcelable.Creator<RedditComment> CREATOR
+			= new Parcelable.Creator<RedditComment>() {
 		public RedditComment createFromParcel(final Parcel in) {
 			return new RedditComment(in);
 		}

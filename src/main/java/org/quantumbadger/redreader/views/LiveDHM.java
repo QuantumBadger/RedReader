@@ -50,7 +50,8 @@ public class LiveDHM {
 	}
 
 	public void calculateStep() {
-		mVelocity -= mParams.stepLengthSeconds * ((mPosition - mParams.endPosition) * mParams.accelerationCoefficient);
+		mVelocity -= mParams.stepLengthSeconds * ((mPosition - mParams.endPosition)
+				* mParams.accelerationCoefficient);
 		mVelocity *= mParams.velocityDamping;
 		mPosition += mVelocity * mParams.stepLengthSeconds;
 		mStep++;

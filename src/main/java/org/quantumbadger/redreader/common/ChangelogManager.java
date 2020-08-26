@@ -34,7 +34,10 @@ import java.io.InputStreamReader;
 
 public class ChangelogManager {
 
-	public static void generateViews(AppCompatActivity context, LinearLayout items, boolean showAll) {
+	public static void generateViews(
+			AppCompatActivity context,
+			LinearLayout items,
+			boolean showAll) {
 
 		final RRThemeAttributes attr = new RRThemeAttributes(context);
 
@@ -68,19 +71,26 @@ public class ChangelogManager {
 					final String[] lineSplit = line.split("/");
 					curVersionName = lineSplit[1];
 
-					final TextView header = (TextView) LayoutInflater.from(context)
-						.inflate(R.layout.list_sectionheader, items, false);
+					final TextView header = (TextView)LayoutInflater.from(context)
+							.inflate(
+									R.layout.list_sectionheader,
+									items,
+									false);
 					header.setText(curVersionName);
 					header.setTextColor(attr.colorAccent);
 
 					//From https://stackoverflow.com/a/54082384
-					ViewCompat.setAccessibilityDelegate(header, new AccessibilityDelegateCompat() {
-						@Override
-						public void onInitializeAccessibilityNodeInfo(View host, AccessibilityNodeInfoCompat info) {
-							super.onInitializeAccessibilityNodeInfo(host, info);
-							info.setHeading(true);
-						}
-					});
+					ViewCompat.setAccessibilityDelegate(
+							header,
+							new AccessibilityDelegateCompat() {
+								@Override
+								public void onInitializeAccessibilityNodeInfo(
+										View host,
+										AccessibilityNodeInfoCompat info) {
+									super.onInitializeAccessibilityNodeInfo(host, info);
+									info.setHeading(true);
+								}
+							});
 
 					items.addView(header);
 

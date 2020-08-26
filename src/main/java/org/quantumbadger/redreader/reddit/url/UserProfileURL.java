@@ -39,10 +39,12 @@ public class UserProfileURL extends RedditURLParser.RedditURL {
 		{
 			final List<String> pathSegmentsList = uri.getPathSegments();
 
-			final ArrayList<String> pathSegmentsFiltered = new ArrayList<>(pathSegmentsList.size());
+			final ArrayList<String> pathSegmentsFiltered = new ArrayList<>(
+					pathSegmentsList.size());
 			for(String segment : pathSegmentsList) {
 
-				while(General.asciiLowercase(segment).endsWith(".json") || General.asciiLowercase(segment).endsWith(".xml")) {
+				while(General.asciiLowercase(segment).endsWith(".json")
+						|| General.asciiLowercase(segment).endsWith(".xml")) {
 					segment = segment.substring(0, segment.lastIndexOf('.'));
 				}
 
@@ -51,14 +53,16 @@ public class UserProfileURL extends RedditURLParser.RedditURL {
 				}
 			}
 
-			pathSegments = pathSegmentsFiltered.toArray(new String[pathSegmentsFiltered.size()]);
+			pathSegments
+					= pathSegmentsFiltered.toArray(new String[pathSegmentsFiltered.size()]);
 		}
 
 		if(pathSegments.length != 2) {
 			return null;
 		}
 
-		if(!pathSegments[0].equalsIgnoreCase("user") && !pathSegments[0].equalsIgnoreCase("u")) {
+		if(!pathSegments[0].equalsIgnoreCase("user") && !pathSegments[0].equalsIgnoreCase(
+				"u")) {
 			return null;
 		}
 
@@ -72,7 +76,8 @@ public class UserProfileURL extends RedditURLParser.RedditURL {
 	public Uri generateJsonUri() {
 
 		Uri.Builder builder = new Uri.Builder();
-		builder.scheme(Constants.Reddit.getScheme()).authority(Constants.Reddit.getDomain());
+		builder.scheme(Constants.Reddit.getScheme())
+				.authority(Constants.Reddit.getDomain());
 
 		builder.appendEncodedPath("user");
 		builder.appendPath(username);
@@ -83,7 +88,8 @@ public class UserProfileURL extends RedditURLParser.RedditURL {
 	}
 
 	@Override
-	public @RedditURLParser.PathType int pathType() {
+	public @RedditURLParser.PathType
+	int pathType() {
 		return RedditURLParser.USER_PROFILE_URL;
 	}
 

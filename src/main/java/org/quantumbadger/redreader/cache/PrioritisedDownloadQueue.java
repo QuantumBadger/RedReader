@@ -27,7 +27,8 @@ class PrioritisedDownloadQueue {
 
 	private final HashSet<CacheDownload> redditDownloadsQueued = new HashSet<>();
 
-	private final PrioritisedCachedThreadPool mDownloadThreadPool = new PrioritisedCachedThreadPool(5, "Download");
+	private final PrioritisedCachedThreadPool mDownloadThreadPool
+			= new PrioritisedCachedThreadPool(5, "Download");
 
 	public PrioritisedDownloadQueue(final Context context) {
 		new RedditQueueProcessor().start();
@@ -53,7 +54,11 @@ class PrioritisedDownloadQueue {
 	private synchronized CacheDownload getNextRedditInQueue() {
 
 		while(redditDownloadsQueued.isEmpty()) {
-			try { wait(); } catch (InterruptedException e) { throw new RuntimeException(e); }
+			try {
+				wait();
+			} catch(InterruptedException e) {
+				throw new RuntimeException(e);
+			}
 		}
 
 		CacheDownload next = null;
@@ -82,12 +87,15 @@ class PrioritisedDownloadQueue {
 
 				synchronized(this) {
 					final CacheDownload download = getNextRedditInQueue();
-					new CacheDownloadThread(download, true, "Cache Download Thread: Reddit");
+					new CacheDownloadThread(
+							download,
+							true,
+							"Cache Download Thread: Reddit");
 				}
 
 				try {
 					sleep(1200); // Delay imposed by reddit API restrictions.
-				} catch (InterruptedException e) {
+				} catch(InterruptedException e) {
 					throw new RuntimeException(e);
 				}
 			}

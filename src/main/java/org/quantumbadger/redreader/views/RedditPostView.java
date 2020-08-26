@@ -43,7 +43,8 @@ import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 
 import java.util.ArrayList;
 
-public final class RedditPostView extends FlingableItemView implements RedditPreparedPost.ThumbnailLoadedCallback {
+public final class RedditPostView extends FlingableItemView
+		implements RedditPreparedPost.ThumbnailLoadedCallback {
 
 	private final float dpScale;
 
@@ -116,19 +117,27 @@ public final class RedditPostView extends FlingableItemView implements RedditPre
 
 	@Override
 	protected void onFlungLeft() {
-		RedditPreparedPost.onActionMenuItemSelected(post, mActivity, mLeftFlingAction.action);
+		RedditPreparedPost.onActionMenuItemSelected(
+				post,
+				mActivity,
+				mLeftFlingAction.action);
 	}
 
 	@Override
 	protected void onFlungRight() {
-		RedditPreparedPost.onActionMenuItemSelected(post, mActivity, mRightFlingAction.action);
+		RedditPreparedPost.onActionMenuItemSelected(
+				post,
+				mActivity,
+				mRightFlingAction.action);
 	}
 
 	private final class ActionDescriptionPair {
 		public final RedditPreparedPost.Action action;
 		public final int descriptionRes;
 
-		private ActionDescriptionPair(RedditPreparedPost.Action action, int descriptionRes) {
+		private ActionDescriptionPair(
+				RedditPreparedPost.Action action,
+				int descriptionRes) {
 			this.action = action;
 			this.descriptionRes = descriptionRes;
 		}
@@ -140,46 +149,72 @@ public final class RedditPostView extends FlingableItemView implements RedditPre
 
 			case UPVOTE:
 				if(post.isUpvoted()) {
-					return new ActionDescriptionPair(RedditPreparedPost.Action.UNVOTE, R.string.action_vote_remove);
+					return new ActionDescriptionPair(
+							RedditPreparedPost.Action.UNVOTE,
+							R.string.action_vote_remove);
 				} else {
-					return new ActionDescriptionPair(RedditPreparedPost.Action.UPVOTE, R.string.action_upvote);
+					return new ActionDescriptionPair(
+							RedditPreparedPost.Action.UPVOTE,
+							R.string.action_upvote);
 				}
 
 			case DOWNVOTE:
 				if(post.isDownvoted()) {
-					return new ActionDescriptionPair(RedditPreparedPost.Action.UNVOTE, R.string.action_vote_remove);
+					return new ActionDescriptionPair(
+							RedditPreparedPost.Action.UNVOTE,
+							R.string.action_vote_remove);
 				} else {
-					return new ActionDescriptionPair(RedditPreparedPost.Action.DOWNVOTE, R.string.action_downvote);
+					return new ActionDescriptionPair(
+							RedditPreparedPost.Action.DOWNVOTE,
+							R.string.action_downvote);
 				}
 
 			case SAVE:
 				if(post.isSaved()) {
-					return new ActionDescriptionPair(RedditPreparedPost.Action.UNSAVE, R.string.action_unsave);
+					return new ActionDescriptionPair(
+							RedditPreparedPost.Action.UNSAVE,
+							R.string.action_unsave);
 				} else {
-					return new ActionDescriptionPair(RedditPreparedPost.Action.SAVE, R.string.action_save);
+					return new ActionDescriptionPair(
+							RedditPreparedPost.Action.SAVE,
+							R.string.action_save);
 				}
 
 			case HIDE:
 				if(post.isHidden()) {
-					return new ActionDescriptionPair(RedditPreparedPost.Action.UNHIDE, R.string.action_unhide);
+					return new ActionDescriptionPair(
+							RedditPreparedPost.Action.UNHIDE,
+							R.string.action_unhide);
 				} else {
-					return new ActionDescriptionPair(RedditPreparedPost.Action.HIDE, R.string.action_hide);
+					return new ActionDescriptionPair(
+							RedditPreparedPost.Action.HIDE,
+							R.string.action_hide);
 				}
 
 			case COMMENTS:
-				return new ActionDescriptionPair(RedditPreparedPost.Action.COMMENTS, R.string.action_comments_short);
+				return new ActionDescriptionPair(
+						RedditPreparedPost.Action.COMMENTS,
+						R.string.action_comments_short);
 
 			case LINK:
-				return new ActionDescriptionPair(RedditPreparedPost.Action.LINK, R.string.action_link_short);
+				return new ActionDescriptionPair(
+						RedditPreparedPost.Action.LINK,
+						R.string.action_link_short);
 
 			case BROWSER:
-				return new ActionDescriptionPair(RedditPreparedPost.Action.EXTERNAL, R.string.action_external_short);
+				return new ActionDescriptionPair(
+						RedditPreparedPost.Action.EXTERNAL,
+						R.string.action_external_short);
 
 			case ACTION_MENU:
-				return new ActionDescriptionPair(RedditPreparedPost.Action.ACTION_MENU, R.string.action_actionmenu_short);
+				return new ActionDescriptionPair(
+						RedditPreparedPost.Action.ACTION_MENU,
+						R.string.action_actionmenu_short);
 
 			case BACK:
-				return new ActionDescriptionPair(RedditPreparedPost.Action.BACK, R.string.action_back);
+				return new ActionDescriptionPair(
+						RedditPreparedPost.Action.BACK,
+						R.string.action_back);
 		}
 
 		return null;
@@ -204,10 +239,15 @@ public final class RedditPostView extends FlingableItemView implements RedditPre
 
 		dpScale = context.getResources().getDisplayMetrics().density; // TODO xml?
 
-		final float titleFontScale = PrefsUtility.appearance_fontscale_posts(context, PreferenceManager.getDefaultSharedPreferences(context));
-		final float subtitleFontScale = PrefsUtility.appearance_fontscale_post_subtitles(context, PreferenceManager.getDefaultSharedPreferences(context));
+		final float titleFontScale = PrefsUtility.appearance_fontscale_posts(
+				context,
+				PreferenceManager.getDefaultSharedPreferences(context));
+		final float subtitleFontScale = PrefsUtility.appearance_fontscale_post_subtitles(
+				context,
+				PreferenceManager.getDefaultSharedPreferences(context));
 
-		final View rootView = LayoutInflater.from(context).inflate(R.layout.reddit_post, this, true);
+		final View rootView =
+				LayoutInflater.from(context).inflate(R.layout.reddit_post, this, true);
 
 		mOuterView = (LinearLayout)rootView.findViewById(R.id.reddit_post_layout);
 
@@ -226,17 +266,22 @@ public final class RedditPostView extends FlingableItemView implements RedditPre
 			}
 		});
 
-		thumbnailView = (ImageView) rootView.findViewById(R.id.reddit_post_thumbnail_view);
-		overlayIcon = (ImageView) rootView.findViewById(R.id.reddit_post_overlay_icon);
+		thumbnailView = (ImageView)rootView.findViewById(R.id.reddit_post_thumbnail_view);
+		overlayIcon = (ImageView)rootView.findViewById(R.id.reddit_post_overlay_icon);
 
-		title = (TextView) rootView.findViewById(R.id.reddit_post_title);
-		subtitle = (TextView) rootView.findViewById(R.id.reddit_post_subtitle);
-
-		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-		mCommentsButtonPref = PrefsUtility.appearance_post_show_comments_button(context, sharedPreferences);
-
-		commentsButton = (LinearLayout) rootView.findViewById(R.id.reddit_post_comments_button);
-		commentsText = (TextView) commentsButton.findViewById(R.id.reddit_post_comments_text);
+		title = (TextView)rootView.findViewById(R.id.reddit_post_title);
+		subtitle = (TextView)rootView.findViewById(R.id.reddit_post_subtitle);
+		
+		final SharedPreferences sharedPreferences =
+				PreferenceManager.getDefaultSharedPreferences(context);
+				
+		mCommentsButtonPref =
+				PrefsUtility.appearance_post_show_comments_button(context, sharedPreferences);
+				
+		commentsButton =
+				(LinearLayout)rootView.findViewById(R.id.reddit_post_comments_button);
+		commentsText =
+				(TextView)commentsButton.findViewById(R.id.reddit_post_comments_text);
 
 		if(!mCommentsButtonPref) {
 			mOuterView.removeView(commentsButton);
@@ -272,14 +317,20 @@ public final class RedditPostView extends FlingableItemView implements RedditPre
 			});
 		}
 
-		title.setTextSize(TypedValue.COMPLEX_UNIT_PX, title.getTextSize() * titleFontScale);
-		subtitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, subtitle.getTextSize() * subtitleFontScale);
+		title.setTextSize(
+				TypedValue.COMPLEX_UNIT_PX,
+				title.getTextSize() * titleFontScale);
+		subtitle.setTextSize(
+				TypedValue.COMPLEX_UNIT_PX,
+				subtitle.getTextSize() * subtitleFontScale);
 
-		mLeftFlingPref = PrefsUtility.pref_behaviour_fling_post_left(context, sharedPreferences);
-		mRightFlingPref = PrefsUtility.pref_behaviour_fling_post_right(context, sharedPreferences);
+		mLeftFlingPref =
+				PrefsUtility.pref_behaviour_fling_post_left(context, sharedPreferences);
+		mRightFlingPref =
+				PrefsUtility.pref_behaviour_fling_post_right(context, sharedPreferences);
 
 		{
-			final TypedArray attr = context.obtainStyledAttributes(new int[]{
+			final TypedArray attr = context.obtainStyledAttributes(new int[] {
 					R.attr.rrPostTitleCol,
 					R.attr.rrPostTitleReadCol,
 					R.attr.rrListItemBackgroundCol,
@@ -311,8 +362,10 @@ public final class RedditPostView extends FlingableItemView implements RedditPre
 
 			if(data.hasThumbnail) {
 				thumbnailView.setVisibility(VISIBLE);
-				thumbnailView.setMinimumWidth((int)(64.0f * dpScale)); // TODO remove constant, customise
-				thumbnailView.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+				thumbnailView.setMinimumWidth((int)(64.0f
+						* dpScale)); // TODO remove constant, customise
+				thumbnailView.getLayoutParams().height =
+						ViewGroup.LayoutParams.MATCH_PARENT;
 			} else {
 				thumbnailView.setMinimumWidth(0);
 				thumbnailView.setVisibility(GONE);
@@ -330,8 +383,14 @@ public final class RedditPostView extends FlingableItemView implements RedditPre
 	public void updateAppearance() {
 
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			mOuterView.setBackgroundResource(R.drawable.rr_postlist_item_selector_main);
-			if(mCommentsButtonPref) commentsButton.setBackgroundResource(R.drawable.rr_postlist_commentbutton_selector_main);
+
+			mOuterView.setBackgroundResource(
+					R.drawable.rr_postlist_item_selector_main);
+
+			if(mCommentsButtonPref) {
+				commentsButton.setBackgroundResource(
+						R.drawable.rr_postlist_commentbutton_selector_main);
+			}
 
 		} else {
 			// On KitKat and lower, we can't do easily themed highlighting
@@ -372,7 +431,9 @@ public final class RedditPostView extends FlingableItemView implements RedditPre
 		}
 	}
 
-	public void betterThumbnailAvailable(final Bitmap thumbnail, final int callbackUsageId) {
+	public void betterThumbnailAvailable(
+			final Bitmap thumbnail,
+			final int callbackUsageId) {
 		final Message msg = Message.obtain();
 		msg.obj = thumbnail;
 		msg.what = callbackUsageId;

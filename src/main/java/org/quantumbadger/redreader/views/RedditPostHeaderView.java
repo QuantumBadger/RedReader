@@ -43,11 +43,14 @@ public class RedditPostHeaderView extends LinearLayout {
 	@Nullable private final Runnable mChangeListenerAddTask;
 	@Nullable private final Runnable mChangeListenerRemoveTask;
 
-	public RedditPostHeaderView(final AppCompatActivity activity, final RedditPreparedPost post) {
+	public RedditPostHeaderView(
+			final AppCompatActivity activity,
+			final RedditPreparedPost post) {
 
 		super(activity);
 
-		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+		final SharedPreferences sharedPreferences =
+				PreferenceManager.getDefaultSharedPreferences(activity);
 
 		final float dpScale = activity.getResources().getDisplayMetrics().density;
 
@@ -61,9 +64,11 @@ public class RedditPostHeaderView extends LinearLayout {
 
 		greyHeader.setPadding(sidesPadding, topPadding, sidesPadding, topPadding);
 
-		final Typeface tf = Typeface.createFromAsset(activity.getAssets(), "fonts/Roboto-Light.ttf");
+		final Typeface tf =
+				Typeface.createFromAsset(activity.getAssets(), "fonts/Roboto-Light.ttf");
 
-		final float titleFontScale = PrefsUtility.appearance_fontscale_post_header_titles(activity,
+		final float titleFontScale = PrefsUtility.appearance_fontscale_post_header_titles(
+				activity,
 				sharedPreferences);
 
 		final TextView title = new TextView(activity);
@@ -73,8 +78,10 @@ public class RedditPostHeaderView extends LinearLayout {
 		title.setTextColor(Color.WHITE);
 		greyHeader.addView(title);
 
-		final float subtitleFontScale = PrefsUtility.appearance_fontscale_post_header_subtitles(activity,
-				sharedPreferences);
+		final float subtitleFontScale =
+				PrefsUtility.appearance_fontscale_post_header_subtitles(
+						activity,
+						sharedPreferences);
 
 		subtitle = new TextView(activity);
 		subtitle.setTextSize(13.0f * subtitleFontScale);
@@ -84,7 +91,7 @@ public class RedditPostHeaderView extends LinearLayout {
 		greyHeader.addView(subtitle);
 
 		{
-			final TypedArray appearance = activity.obtainStyledAttributes(new int[]{
+			final TypedArray appearance = activity.obtainStyledAttributes(new int[] {
 					R.attr.rrPostListHeaderBackgroundCol});
 
 			greyHeader.setBackgroundColor(appearance.getColor(0, General.COLOR_INVALID));
@@ -94,7 +101,11 @@ public class RedditPostHeaderView extends LinearLayout {
 
 		greyHeader.setOnClickListener(v -> {
 			if(!post.isSelf()) {
-				LinkHandler.onLinkClicked(activity, post.src.getUrl(), false, post.src.getSrc());
+				LinkHandler.onLinkClicked(
+						activity,
+						post.src.getUrl(),
+						false,
+						post.src.getSrc());
 			}
 		});
 
@@ -105,32 +116,58 @@ public class RedditPostHeaderView extends LinearLayout {
 
 		addView(greyHeader);
 
-		final RedditAccount currentUser = RedditAccountManager.getInstance(activity).getDefaultAccount();
+		final RedditAccount currentUser =
+				RedditAccountManager.getInstance(activity).getDefaultAccount();
 
 		if(!currentUser.isAnonymous()
-				&& !PrefsUtility.pref_appearance_hide_headertoolbar_commentlist(activity, sharedPreferences)) {
+				&& !PrefsUtility.pref_appearance_hide_headertoolbar_commentlist(
+				activity,
+				sharedPreferences)) {
 
 			// A user is logged in
 
-			final LinearLayout buttons = (LinearLayout)inflate(activity, R.layout.post_header_toolbar, this);
+			final LinearLayout buttons =
+					(LinearLayout)inflate(activity, R.layout.post_header_toolbar, this);
 
-			final ImageButton buttonAddUpvote = buttons.findViewById(R.id.post_toolbar_botton_add_upvote);
-			final ImageButton buttonRemoveUpvote = buttons.findViewById(R.id.post_toolbar_botton_remove_upvote);
-			final ImageButton buttonAddDownvote = buttons.findViewById(R.id.post_toolbar_botton_add_downvote);
-			final ImageButton buttonRemoveDownvote = buttons.findViewById(R.id.post_toolbar_botton_remove_downvote);
-			final ImageButton buttonReply = buttons.findViewById(R.id.post_toolbar_botton_reply);
-			final ImageButton buttonShare = buttons.findViewById(R.id.post_toolbar_botton_share);
-			final ImageButton buttonMore = buttons.findViewById(R.id.post_toolbar_botton_more);
+			final ImageButton buttonAddUpvote =
+					buttons.findViewById(R.id.post_toolbar_botton_add_upvote);
+			final ImageButton buttonRemoveUpvote =
+					buttons.findViewById(R.id.post_toolbar_botton_remove_upvote);
+			final ImageButton buttonAddDownvote =
+					buttons.findViewById(R.id.post_toolbar_botton_add_downvote);
+			final ImageButton buttonRemoveDownvote =
+					buttons.findViewById(R.id.post_toolbar_botton_remove_downvote);
+			final ImageButton buttonReply =
+					buttons.findViewById(R.id.post_toolbar_botton_reply);
+			final ImageButton buttonShare =
+					buttons.findViewById(R.id.post_toolbar_botton_share);
+			final ImageButton buttonMore =
+					buttons.findViewById(R.id.post_toolbar_botton_more);
 
-			buttonAddUpvote.setOnClickListener(v -> post.performAction(activity, RedditPreparedPost.Action.UPVOTE));
-			buttonRemoveUpvote.setOnClickListener(v -> post.performAction(activity, RedditPreparedPost.Action.UNVOTE));
-			buttonAddDownvote.setOnClickListener(v -> post.performAction(activity, RedditPreparedPost.Action.DOWNVOTE));
-			buttonRemoveDownvote.setOnClickListener(v -> post.performAction(activity, RedditPreparedPost.Action.UNVOTE));
-			buttonReply.setOnClickListener(v -> post.performAction(activity, RedditPreparedPost.Action.REPLY));
-			buttonShare.setOnClickListener(v -> post.performAction(activity, RedditPreparedPost.Action.SHARE));
-			buttonMore.setOnClickListener(v -> post.performAction(activity, RedditPreparedPost.Action.ACTION_MENU));
+			buttonAddUpvote.setOnClickListener(v -> post.performAction(
+					activity,
+					RedditPreparedPost.Action.UPVOTE));
+			buttonRemoveUpvote.setOnClickListener(v -> post.performAction(
+					activity,
+					RedditPreparedPost.Action.UNVOTE));
+			buttonAddDownvote.setOnClickListener(v -> post.performAction(
+					activity,
+					RedditPreparedPost.Action.DOWNVOTE));
+			buttonRemoveDownvote.setOnClickListener(v -> post.performAction(
+					activity,
+					RedditPreparedPost.Action.UNVOTE));
+			buttonReply.setOnClickListener(v -> post.performAction(
+					activity,
+					RedditPreparedPost.Action.REPLY));
+			buttonShare.setOnClickListener(v -> post.performAction(
+					activity,
+					RedditPreparedPost.Action.SHARE));
+			buttonMore.setOnClickListener(v -> post.performAction(
+					activity,
+					RedditPreparedPost.Action.ACTION_MENU));
 
-			final RedditChangeDataManager changeDataManager = RedditChangeDataManager.getInstance(currentUser);
+			final RedditChangeDataManager changeDataManager =
+					RedditChangeDataManager.getInstance(currentUser);
 
 			final RedditChangeDataManager.Listener changeListener = thingIdAndType -> {
 

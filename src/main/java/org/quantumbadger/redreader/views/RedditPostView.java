@@ -271,13 +271,13 @@ public final class RedditPostView extends FlingableItemView
 
 		title = (TextView)rootView.findViewById(R.id.reddit_post_title);
 		subtitle = (TextView)rootView.findViewById(R.id.reddit_post_subtitle);
-		
+
 		final SharedPreferences sharedPreferences =
 				PreferenceManager.getDefaultSharedPreferences(context);
-				
+
 		mCommentsButtonPref =
 				PrefsUtility.appearance_post_show_comments_button(context, sharedPreferences);
-				
+
 		commentsButton =
 				(LinearLayout)rootView.findViewById(R.id.reddit_post_comments_button);
 		commentsText =
@@ -358,7 +358,9 @@ public final class RedditPostView extends FlingableItemView
 			thumbnailView.setImageBitmap(thumbnail);
 
 			title.setText(data.src.getTitle());
-			if(mCommentsButtonPref) commentsText.setText(String.valueOf(data.src.getSrc().num_comments));
+			if(mCommentsButtonPref) {
+				commentsText.setText(String.valueOf(data.src.getSrc().num_comments));
+			}
 
 			if(data.hasThumbnail) {
 				thumbnailView.setVisibility(VISIBLE);
@@ -395,7 +397,9 @@ public final class RedditPostView extends FlingableItemView
 		} else {
 			// On KitKat and lower, we can't do easily themed highlighting
 			mOuterView.setBackgroundColor(rrListItemBackgroundCol);
-			if(mCommentsButtonPref) commentsButton.setBackgroundColor(rrPostCommentsButtonBackCol);
+			if(mCommentsButtonPref) {
+				commentsButton.setBackgroundColor(rrPostCommentsButtonBackCol);
+			}
 		}
 
 		if(post.isRead()) {

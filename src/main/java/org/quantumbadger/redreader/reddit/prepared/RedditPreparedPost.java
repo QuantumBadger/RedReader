@@ -240,7 +240,15 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			}
 		}
 
-		if(itemPref.contains(Action.COMMENTS)) menu.add(new RPVMenuItem(String.format(activity.getText(R.string.action_comments_with_count).toString(), post.src.getSrc().num_comments), Action.COMMENTS));
+		if(itemPref.contains(Action.COMMENTS)) {
+			menu.add(
+					new RPVMenuItem(
+							String.format(
+									activity.getText(R.string.action_comments_with_count)
+											.toString(),
+									post.src.getSrc().num_comments),
+							Action.COMMENTS));
+		}
 
 		if(!RedditAccountManager.getInstance(activity).getDefaultAccount().isAnonymous()) {
 

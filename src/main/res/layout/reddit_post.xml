@@ -19,7 +19,7 @@
 
 <LinearLayout
 		xmlns:android="http://schemas.android.com/apk/res/android"
-		android:layout_width="match_parent"
+		xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:orientation="vertical"
 		android:baselineAligned="false">
@@ -95,7 +95,8 @@
 					android:paddingRight="5dp"
 					android:paddingTop="1dp"
 					android:paddingBottom="5dp"
-					android:textSize="11sp"/>
+					android:textSize="11sp"
+					tools:ignore="SmallSp"/>
 
 		</LinearLayout>
 
@@ -125,7 +126,8 @@
 					android:layout_width="fill_parent"
 					android:gravity="center"
 					android:textSize="11sp"
-					android:textColor="?rrPostCommentsButtonTextCol"/>
+					android:textColor="?rrPostCommentsButtonTextCol"
+					tools:ignore="SmallSp"/>
 
 		</LinearLayout>
 

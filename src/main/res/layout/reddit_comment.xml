@@ -58,7 +58,8 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:textSize="11sp"
-					android:textColor="?rrCommentHeaderCol"/>
+					android:textColor="?rrCommentHeaderCol"
+					tools:ignore="SmallSp"/>
 
 			<FrameLayout
 					android:id="@+id/view_reddit_comment_bodyholder"

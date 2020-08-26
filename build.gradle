@@ -66,10 +66,15 @@ android {
 
 	lintOptions {
 		checkReleaseBuilds false
-		abortOnError false
+		abortOnError true
 
 		// Translations are crowd-sourced
 		disable 'MissingTranslation'
+		disable 'MissingQuantity'
+
+		// Temporarily disabled
+		disable 'ExtraTranslation'
+		disable 'ImpliedQuantity'
 	}
 
 	packagingOptions {

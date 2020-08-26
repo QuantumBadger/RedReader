@@ -35,6 +35,7 @@ import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException;
 import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
+import org.quantumbadger.redreader.reddit.url.UserCommentListingURL;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -634,8 +635,20 @@ public final class PrefsUtility {
 		return PostSort.valueOf(General.asciiUppercase(getString(R.string.pref_behaviour_postsort_key, "hot", context, sharedPreferences)));
 	}
 
+	public static PostSort pref_behaviour_user_postsort(final Context context, final SharedPreferences sharedPreferences) {
+		return PostSort.valueOf(General.asciiUppercase(getString(R.string.pref_behaviour_user_postsort_key, "new", context, sharedPreferences)));
+	}
+
+	public static PostSort pref_behaviour_multi_postsort(final Context context, final SharedPreferences sharedPreferences) {
+		return PostSort.valueOf(General.asciiUppercase(getString(R.string.pref_behaviour_multi_postsort_key, "hot", context, sharedPreferences)));
+	}
+
 	public static PostCommentListingURL.Sort pref_behaviour_commentsort(final Context context, final SharedPreferences sharedPreferences) {
 		return PostCommentListingURL.Sort.valueOf(General.asciiUppercase(getString(R.string.pref_behaviour_commentsort_key, "best", context, sharedPreferences)));
+	}
+
+	public static UserCommentListingURL.Sort pref_behaviour_user_commentsort(final Context context, final SharedPreferences sharedPreferences) {
+		return UserCommentListingURL.Sort.valueOf(General.asciiUppercase(getString(R.string.pref_behaviour_user_commentsort_key, "new", context, sharedPreferences)));
 	}
 
 	public enum PinnedSubredditSort {

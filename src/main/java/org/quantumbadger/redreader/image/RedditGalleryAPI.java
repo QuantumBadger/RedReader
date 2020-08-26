@@ -98,7 +98,20 @@ public final class RedditGalleryAPI {
 							.getObject(0)
 							.getObject("data");
 
-					listener.onSuccess(AlbumInfo.parseRedditGallery(albumUrl, redditPostData));
+					final AlbumInfo album
+							= AlbumInfo.parseRedditGallery(albumUrl, redditPostData);
+
+					if(album == null) {
+
+						if(redditPostData.getString("removed_by_category") != null) {
+							listener.onGalleryRemoved();
+						} else {
+							listener.onGalleryDataNotPresent();
+						}
+
+					} else {
+						listener.onSuccess(album);
+					}
 
 				} catch(final Exception e) {
 					listener.onFailure(

@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import androidx.annotation.NonNull;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.adapters.AlbumAdapter;
 import org.quantumbadger.redreader.cache.CacheRequest;
@@ -30,11 +31,13 @@ import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.image.AlbumInfo;
 import org.quantumbadger.redreader.image.GetAlbumInfoListener;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
 import org.quantumbadger.redreader.image.ImageInfo;
 import org.quantumbadger.redreader.views.ScrollbarRecyclerViewManager;
+import org.quantumbadger.redreader.views.liststatus.ErrorView;
 
 import java.util.regex.Matcher;
 
@@ -71,6 +74,36 @@ public class AlbumListingActivity extends BaseActivity {
 		layout.addView(progressBar);
 
 		LinkHandler.getAlbumInfo(this, mUrl, Constants.Priority.IMAGE_VIEW, 0, new GetAlbumInfoListener() {
+
+			@Override
+			public void onGalleryRemoved() {
+
+				AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+					layout.removeAllViews();
+
+					layout.addView(new ErrorView(AlbumListingActivity.this, new RRError(
+							getApplicationContext().getString(R.string.image_gallery_removed_title),
+							getApplicationContext().getString(R.string.image_gallery_removed_message),
+							null,
+							null,
+							mUrl)));
+				});
+			}
+
+			@Override
+			public void onGalleryDataNotPresent() {
+
+				AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+					layout.removeAllViews();
+
+					layout.addView(new ErrorView(AlbumListingActivity.this, new RRError(
+							getApplicationContext().getString(R.string.image_gallery_no_data_present_title),
+							getApplicationContext().getString(R.string.image_gallery_no_data_present_message),
+							null,
+							null,
+							mUrl)));
+				});
+			}
 
 			@Override
 			public void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
@@ -119,7 +152,7 @@ public class AlbumListingActivity extends BaseActivity {
 			}
 
 			@Override
-			public void onSuccess(final AlbumInfo info) {
+			public void onSuccess(@NonNull final AlbumInfo info) {
 				Log.i("AlbumListingActivity", "Got album, " + info.images.size() + " image(s)");
 
 				AndroidCommon.UI_THREAD_HANDLER.post(() -> {

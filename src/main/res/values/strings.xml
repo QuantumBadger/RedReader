@@ -115,7 +115,7 @@
     <!-- Menu Prefs -->
 
     <string name="pref_menus_post_context_items_key" translatable="false">pref_menus_post_context_items_2</string>
-    <string name="pref_menus_post_context_items_title">Long-press menu items</string>
+    <string name="pref_menus_post_context_items_title">Action menu items</string>
 
     <string name="pref_menus_post_toolbar_items_key" translatable="false">pref_menus_post_toolbar_items</string>
     <string name="pref_menus_post_toolbar_items_title">Side-toolbar items</string>
@@ -959,13 +959,13 @@
 
 	<!-- 2017-03-02 -->
 	<string name="pref_menus_link_context_items_key" translatable="false">pref_menus_link_context_items</string>
-	<string name="pref_menus_link_context_items_title">Link long-press menu items</string>
+	<string name="pref_menus_link_context_items_title">Link action menu items</string>
 	<string name="lang_eo" translatable="false">Esperanto</string>
 	<string name="lang_pl" translatable="false">Polski</string>
 
 	<!-- 2017-03-07 -->
 	<string name="pref_menus_subreddit_context_items_key" translatable="false">pref_menus_subreddit_context_items</string>
-	<string name="pref_menus_subreddit_context_items_title">Subreddit long-press menu items</string>
+	<string name="pref_menus_subreddit_context_items_title">Subreddit action menu items</string>
 	<string name="mainmenu_toast_not_subscribed">You are not subscribed to this subreddit yet!</string>
 	<string name="mainmenu_toast_subscribed">You are already subscribed to this subreddit!</string>
 	<string name="mainmenu_toast_not_pinned">This subreddit is not pinned to the main menu!</string>
@@ -1251,5 +1251,28 @@
 
 	<!-- 2020-07-25 -->
 	<string name="image_gallery">Gallery</string>
+
+	<!-- 2020-08-17 -->
+	<string name="pref_behaviour_user_postsort_key" translatable="false">pref_behaviour_user_postsort</string>
+	<string name="pref_behaviour_user_postsort_title">User posts (default)</string>
+	<string name="pref_behaviour_multi_postsort_key" translatable="false">pref_behaviour_multi_postsort</string>
+	<string name="pref_behaviour_multi_postsort_title">Multireddit posts (default)</string>
+	<string name="pref_behaviour_user_commentsort_key" translatable="false">pref_behaviour_user_commentsort</string>
+	<string name="pref_behaviour_user_commentsort_title">User comments (default)</string>
+	<string name="sort_comments_top_hour">Top: This Hour</string>
+	<string name="sort_comments_top_today">Top: Today</string>
+	<string name="sort_comments_top_week">Top: This Week</string>
+	<string name="sort_comments_top_month">Top: This Month</string>
+	<string name="sort_comments_top_year">Top: This Year</string>
+	<string name="sort_comments_top_all">Top: All Time</string>
+
+	<!-- 2020-08-23 -->
+	<string name="image_gallery_removed_title">Gallery removed</string>
+	<string name="image_gallery_removed_message">This gallery has been removed and is no longer accessible.</string>
+	<string name="image_gallery_no_data_present_title">Gallery not found</string>
+	<string name="image_gallery_no_data_present_message">No image gallery was found at the specified link. It may have been deleted.</string>
+
+	<string name="button_error_details">Details</string>
+	<string name="button_error_send_report">Report</string>
 
 </resources>

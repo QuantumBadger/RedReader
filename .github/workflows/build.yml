@@ -4,33 +4,42 @@ on: [push, pull_request]
 
 jobs:
 
-  pmd:
-    name: PMD
-    runs-on: ubuntu-latest
-    
-    steps:
-    - uses: actions/checkout@v2
+    pmd:
+        name: PMD
+        runs-on: ubuntu-latest
 
-    - name: Run PMD
-      run: ./gradlew pmd
+        steps:
+            -   uses: actions/checkout@v2
 
-  lint:
-    name: Android Lint
-    runs-on: ubuntu-latest
-    
-    steps:
-    - uses: actions/checkout@v2
+            -   name: Run PMD
+                run: ./gradlew pmd
 
-    - name: Run Android Lint
-      run: ./gradlew lint
+    lint:
+        name: Android Lint
+        runs-on: ubuntu-latest
 
+        steps:
+            -   uses: actions/checkout@v2
 
-  build:
-    name: Release build
-    runs-on: ubuntu-latest
+            -   name: Run Android Lint
+                run: ./gradlew lint
 
-    steps:
-    - uses: actions/checkout@v2
+    checkstyle:
+        name: Code style
+        runs-on: ubuntu-latest
 
-    - name: Run release build
-      run: ./gradlew packageRelease
+        steps:
+            -   uses: actions/checkout@v2
+
+            -   name: Run checkstyle
+                run: ./gradlew checkstyle
+
+    build:
+        name: Release build
+        runs-on: ubuntu-latest
+
+        steps:
+            -   uses: actions/checkout@v2
+
+            -   name: Run release build
+                run: ./gradlew packageRelease

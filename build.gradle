@@ -106,6 +106,7 @@ checkstyle {
 	configFile rootProject.file("${project.rootDir}/config/checkstyle/checkstyle.xml")
 	ignoreFailures false
 	showViolations true
+	maxWarnings 3542
 	toolVersion = "8.35"
 }
 

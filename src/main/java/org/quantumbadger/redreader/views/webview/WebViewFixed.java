@@ -41,13 +41,17 @@ import java.util.Map;
  * @author Andrew
  *
  *
- * This class serves as a WebView to be used in conjunction with a VideoEnabledWebChromeClient.
+ * This class serves as a WebView to be used in conjunction with a
+ * VideoEnabledWebChromeClient.
  * It makes possible:
- * - To detect the HTML5 video ended event so that the VideoEnabledWebChromeClient can exit full-screen.
+ * - To detect the HTML5 video ended event so that the
+ *    VideoEnabledWebChromeClient can exit full-screen.
  *
  * Important notes:
- * - Javascript is enabled by default and must not be disabled with getSettings().setJavaScriptEnabled(false).
- * - setWebChromeClient() must be called before any loadData(), loadDataWithBaseURL() or loadUrl() method.
+ * - Javascript is enabled by default and must not be disabled with
+ * getSettings().setJavaScriptEnabled(false).
+ * - setWebChromeClient() must be called before any loadData(),
+ * loadDataWithBaseURL() or loadUrl() method.
  *
  * For more information, see https://github.com/cprcrack/VideoEnabledWebView
  * @author Cristian Perez (http://cpr.name)
@@ -62,10 +66,12 @@ public class WebViewFixed extends WebView {
 
 	public class JavascriptInterface
 	{
+		// Must match Javascript interface method of VideoEnabledWebChromeClient
 		@android.webkit.JavascriptInterface @SuppressWarnings("unused")
-		public void notifyVideoEnd() // Must match Javascript interface method of VideoEnabledWebChromeClient
+		public void notifyVideoEnd()
 		{
-			// This code is not executed in the UI thread, so we must force that to happen
+			// This code is not executed in the UI thread, so we must force that
+			// to happen
 			new Handler(Looper.getMainLooper()).post(new Runnable()
 			{
 				@Override
@@ -108,7 +114,8 @@ public class WebViewFixed extends WebView {
 	@SuppressWarnings("unused")
 	public boolean isVideoFullscreen()
 	{
-		return videoEnabledWebChromeClient != null && videoEnabledWebChromeClient.isVideoFullscreen();
+		return videoEnabledWebChromeClient != null
+				&& videoEnabledWebChromeClient.isVideoFullscreen();
 	}
 
 	/**
@@ -135,7 +142,12 @@ public class WebViewFixed extends WebView {
 	}
 
 	@Override
-	public void loadDataWithBaseURL(String baseUrl, String data, String mimeType, String encoding, String historyUrl)
+	public void loadDataWithBaseURL(
+			final String baseUrl,
+			final String data,
+			final String mimeType,
+			final String encoding,
+			final String historyUrl)
 	{
 		addJavascriptInterface();
 		super.loadDataWithBaseURL(baseUrl, data, mimeType, encoding, historyUrl);
@@ -168,13 +180,15 @@ public class WebViewFixed extends WebView {
 		super.loadUrl(url, additionalHttpHeaders);
 	}
 
+	@SuppressLint("AddJavascriptInterface")
 	private void addJavascriptInterface()
 	{
 		if (!addedJavascriptInterface)
 		{
-			// Add javascript interface to be called when the video ends (must be done before page load)
-			//noinspection all
-			addJavascriptInterface(new JavascriptInterface(), "_VideoEnabledWebView"); // Must match Javascript interface name of VideoEnabledWebChromeClient
+			// Add javascript interface to be called when the video ends
+			// (must be done before page load)
+			// Must match Javascript interface name of VideoEnabledWebChromeClient
+			addJavascriptInterface(new JavascriptInterface(), "_VideoEnabledWebView");
 
 			addedJavascriptInterface = true;
 		}
@@ -193,7 +207,12 @@ public class WebViewFixed extends WebView {
 		if(TorCommon.isTorEnabled()) {
 			try {
 				clearBrowser();
-				boolean result = WebkitProxy.setProxy(RedReader.class.getCanonicalName(), context.getApplicationContext(), this, "127.0.0.1", 8118);
+				boolean result = WebkitProxy.setProxy(
+						RedReader.class.getCanonicalName(),
+						context.getApplicationContext(),
+						this,
+						"127.0.0.1",
+						8118);
 				if(!result) {
 					BugReportActivity.handleGlobalError(context, getResources().getString(R.string.error_tor_setting_failed));
 				}

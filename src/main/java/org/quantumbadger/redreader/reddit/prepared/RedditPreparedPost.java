@@ -31,14 +31,14 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.preference.PreferenceManager;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import org.apache.commons.text.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -243,13 +243,11 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		}
 
 		if(itemPref.contains(Action.COMMENTS)) {
-			menu.add(
-					new RPVMenuItem(
-							String.format(
-									activity.getText(R.string.action_comments_with_count)
-											.toString(),
-									post.src.getSrc().num_comments),
-							Action.COMMENTS));
+			menu.add(new RPVMenuItem(
+					String.format(
+							activity.getText(R.string.action_comments_with_count).toString(),
+							post.src.getSrc().num_comments),
+					Action.COMMENTS));
 		}
 
 		if(!RedditAccountManager.getInstance(activity).getDefaultAccount().isAnonymous()) {

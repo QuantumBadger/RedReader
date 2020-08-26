@@ -1,5 +1,6 @@
 93/1.13
 Ability to customise action bar buttons (thanks to Cameron Merkel)
+Preferences to hide comments button, and add post context menu item to view comments (thanks to Cameron Merkel)
 Restored old behaviour when selecting text in properties dialog
 Fixed redirect loop when visiting deleted Reddit galleries
 Added ability to send reports from the error details dialog

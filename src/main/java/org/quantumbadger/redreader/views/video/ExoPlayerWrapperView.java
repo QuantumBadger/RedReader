@@ -113,7 +113,7 @@ public class ExoPlayerWrapperView extends FrameLayout {
 
 			{
 				final RelativeLayout.LayoutParams controlBarLayoutParams
-						= (RelativeLayout.LayoutParams)controlBar.getLayoutParams();
+						= (RelativeLayout.LayoutParams) controlBar.getLayoutParams();
 				controlBarLayoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT;
 				controlBarLayoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
 				controlBarLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
@@ -128,7 +128,7 @@ public class ExoPlayerWrapperView extends FrameLayout {
 
 			{
 				final LinearLayout.LayoutParams buttonsLayoutParams
-						= (LinearLayout.LayoutParams)buttons.getLayoutParams();
+						= (LinearLayout.LayoutParams) buttons.getLayoutParams();
 				buttonsLayoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
 				buttonsLayoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
 			}
@@ -228,7 +228,7 @@ public class ExoPlayerWrapperView extends FrameLayout {
 
 			{
 				final LinearLayout.LayoutParams seekBarLayoutParams
-						= (LinearLayout.LayoutParams)mTimeBarView.getLayoutParams();
+						= (LinearLayout.LayoutParams) mTimeBarView.getLayoutParams();
 
 				final int marginPx = General.dpToPixels(context, 8);
 

@@ -1,0 +1,14 @@
+name: Build
+
+on: [push, pull_request]
+
+jobs:
+
+  pmd:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Run PMD
+      run: ./gradlew pmd

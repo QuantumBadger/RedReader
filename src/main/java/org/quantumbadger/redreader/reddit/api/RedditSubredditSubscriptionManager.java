@@ -145,13 +145,15 @@ public class RedditSubredditSubscriptionManager {
 			return null;
 		}
 
-		if(pendingSubscriptions.contains(id))
+		if(pendingSubscriptions.contains(id)) {
 			return SubredditSubscriptionState.SUBSCRIBING;
-		else if(pendingUnsubscriptions.contains(id))
+		} else if(pendingUnsubscriptions.contains(id)) {
 			return SubredditSubscriptionState.UNSUBSCRIBING;
-		else if(subscriptions.toHashset().contains(id.toString()))
+		} else if(subscriptions.toHashset().contains(id.toString())) {
 			return SubredditSubscriptionState.SUBSCRIBED;
-		else return SubredditSubscriptionState.NOT_SUBSCRIBED;
+		} else {
+			return SubredditSubscriptionState.NOT_SUBSCRIBED;
+		}
 	}
 
 	private synchronized void onSubscriptionAttempt(final SubredditCanonicalId id) {
@@ -264,7 +266,9 @@ public class RedditSubredditSubscriptionManager {
 					// TODO handle failed requests properly -- retry? then notify listeners
 					@Override
 					public void onRequestFailed(SubredditRequestFailure failureReason) {
-						if(handler != null) handler.onRequestFailed(failureReason);
+						if(handler != null) {
+							handler.onRequestFailed(failureReason);
+						}
 					}
 
 					@Override
@@ -285,8 +289,9 @@ public class RedditSubredditSubscriptionManager {
 						}
 
 						onNewSubscriptionListReceived(newSubscriptions, timeCached);
-						if(handler != null)
+						if(handler != null) {
 							handler.onRequestSuccess(newSubscriptions, timeCached);
+						}
 					}
 				}
 		);
@@ -384,7 +389,9 @@ public class RedditSubredditSubscriptionManager {
 			}
 
 			onSubscriptionChangeAttemptFailed(canonicalName);
-			if(t != null) t.printStackTrace();
+			if(t != null) {
+				t.printStackTrace();
+			}
 
 			final RRError error =
 					General.getGeneralErrorForFailure(context, type, t, status, null);
@@ -432,8 +439,8 @@ public class RedditSubredditSubscriptionManager {
 
 	private class SubredditSubscriptionStateChangeNotifier
 			implements WeakReferenceListManager.ArgOperator<
-					SubredditSubscriptionStateChangeListener,
-					SubredditSubscriptionChangeType> {
+			SubredditSubscriptionStateChangeListener,
+			SubredditSubscriptionChangeType> {
 
 		@Override
 		public void operate(

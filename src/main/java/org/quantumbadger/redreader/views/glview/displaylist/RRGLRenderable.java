@@ -37,7 +37,9 @@ public abstract class RRGLRenderable {
 	}
 
 	public final void startRender(final RRGLMatrixStack stack, final long time) {
-		if(mVisible) renderInternal(stack, time);
+		if(mVisible) {
+			renderInternal(stack, time);
+		}
 	}
 
 	public void onAdded() {

@@ -34,7 +34,9 @@ public class RedditAccount {
 			final RedditOAuth.RefreshToken refreshToken,
 			final long priority) {
 
-		if(username == null) throw new RuntimeException("Null user in RedditAccount");
+		if(username == null) {
+			throw new RuntimeException("Null user in RedditAccount");
+		}
 
 		this.username = username.trim();
 		this.refreshToken = refreshToken;

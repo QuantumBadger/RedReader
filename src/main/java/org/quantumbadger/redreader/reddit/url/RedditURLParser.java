@@ -54,25 +54,35 @@ public class RedditURLParser {
 
 	private static boolean isRedditUri(Uri uri) {
 
-		if(uri == null || uri.getHost() == null) return false;
+		if(uri == null || uri.getHost() == null) {
+			return false;
+		}
 		final String[] hostSegments = General.asciiLowercase(uri.getHost()).split("\\.");
-		if(hostSegments.length < 2) return false;
+		if(hostSegments.length < 2) {
+			return false;
+		}
 		if(hostSegments[hostSegments.length - 1].equals("com") && hostSegments[
 				hostSegments.length
 						- 2].equals(
-				"reddit"))
+				"reddit")) {
 			return true;
+		}
 		if(hostSegments[hostSegments.length - 1].equals("it")
-				&& hostSegments[hostSegments.length - 2].equals("redd"))
+				&& hostSegments[hostSegments.length - 2].equals("redd")) {
 			return true;
+		}
 
 		return false;
 	}
 
 	public static RedditURL parse(Uri uri) {
 
-		if(uri == null) return null;
-		if(!isRedditUri(uri)) return null;
+		if(uri == null) {
+			return null;
+		}
+		if(!isRedditUri(uri)) {
+			return null;
+		}
 
 		{
 			final SubredditPostListURL subredditPostListURL = SubredditPostListURL.parse(
@@ -133,7 +143,9 @@ public class RedditURLParser {
 	public static RedditURL parseProbableCommentListing(Uri uri) {
 
 		RedditURL matchURL = parse(uri);
-		if(matchURL != null) return matchURL;
+		if(matchURL != null) {
+			return matchURL;
+		}
 
 		return new UnknownCommentListURL(uri);
 	}
@@ -141,7 +153,9 @@ public class RedditURLParser {
 	public static RedditURL parseProbablePostListing(Uri uri) {
 
 		RedditURL matchURL = parse(uri);
-		if(matchURL != null) return matchURL;
+		if(matchURL != null) {
+			return matchURL;
+		}
 
 		return new UnknownPostListURL(uri);
 	}

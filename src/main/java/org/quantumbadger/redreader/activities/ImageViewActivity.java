@@ -419,7 +419,9 @@ public class ImageViewActivity extends BaseActivity
 				@Override
 				public void run() {
 
-					if(mIsDestroyed) return;
+					if(mIsDestroyed) {
+						return;
+					}
 					mRequest = null;
 
 					final PrefsUtility.VideoViewMode videoViewMode
@@ -595,7 +597,9 @@ public class ImageViewActivity extends BaseActivity
 					@Override
 					public void run() {
 
-						if(mIsDestroyed) return;
+						if(mIsDestroyed) {
+							return;
+						}
 						mRequest = null;
 
 						getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -652,7 +656,9 @@ public class ImageViewActivity extends BaseActivity
 									@Override
 									public void run() {
 
-										if(mIsDestroyed) return;
+										if(mIsDestroyed) {
+											return;
+										}
 										mRequest = null;
 
 										imageView = new ImageView(ImageViewActivity.this);
@@ -730,7 +736,9 @@ public class ImageViewActivity extends BaseActivity
 				@Override
 				public void run() {
 
-					if(mIsDestroyed) return;
+					if(mIsDestroyed) {
+						return;
+					}
 					mRequest = null;
 					mImageViewDisplayerManager = new ImageViewDisplayListManager(
 							imageTileSource,
@@ -765,7 +773,9 @@ public class ImageViewActivity extends BaseActivity
 
 	@Override
 	public void onBackPressed() {
-		if(General.onBackPressed()) super.onBackPressed();
+		if(General.onBackPressed()) {
+			super.onBackPressed();
+		}
 	}
 
 	private void revertToWeb() {
@@ -815,7 +825,9 @@ public class ImageViewActivity extends BaseActivity
 	@Override
 	public void onPause() {
 
-		if(mIsPaused) throw new RuntimeException();
+		if(mIsPaused) {
+			throw new RuntimeException();
+		}
 
 		mIsPaused = true;
 
@@ -828,7 +840,9 @@ public class ImageViewActivity extends BaseActivity
 	@Override
 	public void onResume() {
 
-		if(!mIsPaused) throw new RuntimeException();
+		if(!mIsPaused) {
+			throw new RuntimeException();
+		}
 
 		mIsPaused = false;
 
@@ -874,7 +888,9 @@ public class ImageViewActivity extends BaseActivity
 	@Override
 	public void onHorizontalSwipe(final float pixels) {
 
-		if(mSwipeCancelled) return;
+		if(mSwipeCancelled) {
+			return;
+		}
 
 		if(mSwipeOverlay != null && mAlbumInfo != null) {
 			mSwipeOverlay.onSwipeUpdate(pixels, mGallerySwipeLengthPx);

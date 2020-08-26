@@ -310,8 +310,8 @@ public class PostListingFragment extends RRFragment
 
 						final RequestResponseHandler<RedditSubreddit, SubredditRequestFailure>
 								subredditHandler = new RequestResponseHandler<
-										RedditSubreddit,
-										SubredditRequestFailure>() {
+								RedditSubreddit,
+								SubredditRequestFailure>() {
 							@Override
 							public void onRequestFailed(SubredditRequestFailure failureReason) {
 								// Ignore
@@ -395,7 +395,9 @@ public class PostListingFragment extends RRFragment
 	}
 
 	public void cancel() {
-		if(mRequest != null) mRequest.cancel();
+		if(mRequest != null) {
+			mRequest.cancel();
+		}
 	}
 
 	public synchronized void restackRefreshCount() {
@@ -568,8 +570,9 @@ public class PostListingFragment extends RRFragment
 
 	public void onSubscribe() {
 
-		if(mPostListingURL.pathType() != RedditURLParser.SUBREDDIT_POST_LISTING_URL)
+		if(mPostListingURL.pathType() != RedditURLParser.SUBREDDIT_POST_LISTING_URL) {
 			return;
+		}
 
 		try {
 			RedditSubredditSubscriptionManager
@@ -588,7 +591,9 @@ public class PostListingFragment extends RRFragment
 
 	public void onUnsubscribe() {
 
-		if(mSubreddit == null) return;
+		if(mSubreddit == null) {
+			return;
+		}
 
 		try {
 			RedditSubredditSubscriptionManager
@@ -870,7 +875,9 @@ public class PostListingFragment extends RRFragment
 					final RedditThing postThing
 							= postThingValue.asObject(RedditThing.class);
 
-					if(!postThing.getKind().equals(RedditThing.Kind.POST)) continue;
+					if(!postThing.getKind().equals(RedditThing.Kind.POST)) {
+						continue;
+					}
 
 					final RedditPost post = postThing.asPost();
 
@@ -907,7 +914,9 @@ public class PostListingFragment extends RRFragment
 						// Skip adding this post (go to next iteration) if it
 						// has been clicked on AND user preference
 						// "hideReadPosts" is true
-						if(hideReadPosts && preparedPost.isRead()) continue;
+						if(hideReadPosts && preparedPost.isRead()) {
+							continue;
+						}
 
 						if(precacheComments) {
 
@@ -1005,7 +1014,9 @@ public class PostListingFragment extends RRFragment
 									@Override
 									public void onSuccess(final ImageInfo info) {
 
-										if(!precacheImages) return;
+										if(!precacheImages) {
+											return;
+										}
 
 										// Don't precache huge images
 										if(info.size != null

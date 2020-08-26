@@ -85,7 +85,9 @@ public final class MarkdownParagraph {
 		links = new ArrayList<>();
 		spanned = internalGenerateSpanned();
 
-		if(tokens == null && raw != null) raw.replaceUnicodeSpaces();
+		if(tokens == null && raw != null) {
+			raw.replaceUnicodeSpaces();
+		}
 	}
 
 	private Spanned internalGenerateSpanned() {
@@ -368,22 +370,30 @@ public final class MarkdownParagraph {
 			final int needle,
 			final int startPos) {
 		for(int i = startPos; i < haystack.length; i++) {
-			if(haystack[i] == needle) return i;
+			if(haystack[i] == needle) {
+				return i;
+			}
 		}
 		return -1;
 	}
 
 	public boolean isEmpty() {
 
-		if(type == MarkdownParser.MarkdownParagraphType.HLINE) return false;
-		if(type == MarkdownParser.MarkdownParagraphType.EMPTY) return true;
+		if(type == MarkdownParser.MarkdownParagraphType.HLINE) {
+			return false;
+		}
+		if(type == MarkdownParser.MarkdownParagraphType.EMPTY) {
+			return true;
+		}
 
 		if(tokens == null) {
 			return raw.countSpacesAtStart() == raw.length;
 
 		} else {
 			for(final int token : tokens) {
-				if(!MarkdownTokenizer.isUnicodeWhitespace(token)) return false;
+				if(!MarkdownTokenizer.isUnicodeWhitespace(token)) {
+					return false;
+				}
 			}
 			return true;
 		}

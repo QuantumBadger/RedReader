@@ -79,12 +79,16 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 		}
 
 		if(imageInfo.width != null && imageInfo.height != null) {
-			if(!subtitle.isEmpty()) subtitle += ", ";
+			if(!subtitle.isEmpty()) {
+				subtitle += ", ";
+			}
 			subtitle += imageInfo.width + "x" + imageInfo.height;
 		}
 
 		if(imageInfo.size != null) {
-			if(!subtitle.isEmpty()) subtitle += ", ";
+			if(!subtitle.isEmpty()) {
+				subtitle += ", ";
+			}
 
 			long size = imageInfo.size;
 			if(size < 512 * 1024) {

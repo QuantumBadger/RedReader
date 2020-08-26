@@ -141,8 +141,12 @@ public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>,
 		accounts_active = parcel.readInt();
 		subscribers = parcel.readInt();
 
-		if(accounts_active < 0) accounts_active = null;
-		if(subscribers < 0) subscribers = null;
+		if(accounts_active < 0) {
+			accounts_active = null;
+		}
+		if(subscribers < 0) {
+			subscribers = null;
+		}
 
 		over18 = parcel.readInt() == 1;
 	}

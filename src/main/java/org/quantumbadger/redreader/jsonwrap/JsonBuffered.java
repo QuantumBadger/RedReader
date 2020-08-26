@@ -106,14 +106,13 @@ public abstract class JsonBuffered {
 
 		final Throwable t = getFailReason();
 
-		if(t instanceof JsonParseException)
+		if(t instanceof JsonParseException) {
 			throw (JsonParseException)t;
-
-		else if(t instanceof IOException)
+		} else if(t instanceof IOException) {
 			throw (IOException)t;
-
-		else
+		} else {
 			throw new RuntimeException(t);
+		}
 	}
 
 	protected final void build(final JsonParser jp) throws IOException {

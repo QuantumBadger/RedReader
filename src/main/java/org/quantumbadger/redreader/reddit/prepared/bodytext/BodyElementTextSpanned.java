@@ -44,8 +44,12 @@ public class BodyElementTextSpanned extends BodyElement {
 
 		final LinkifiedTextView tv = new LinkifiedTextView(activity);
 
-		if(textColor != null) tv.setTextColor(textColor);
-		if(textSize != null) tv.setTextSize(textSize);
+		if(textColor != null) {
+			tv.setTextColor(textColor);
+		}
+		if(textSize != null) {
+			tv.setTextSize(textSize);
+		}
 
 		tv.setText(mSpanned, LinkifiedTextView.BufferType.SPANNABLE);
 

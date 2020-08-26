@@ -184,7 +184,9 @@ public class ImageInfo implements Parcelable {
 		for(final String type : preferredTypes) {
 			fileObj = files.getObject(type);
 			selectedType = type;
-			if(fileObj != null) break;
+			if(fileObj != null) {
+				break;
+			}
 		}
 
 		if(fileObj == null) {
@@ -243,8 +245,9 @@ public class ImageInfo implements Parcelable {
 
 		if(links != null) {
 			urlOriginal = links.getString("original");
-			if(urlOriginal != null && isAnimated)
+			if(urlOriginal != null && isAnimated) {
 				urlOriginal = urlOriginal.replace(".gif", ".mp4");
+			}
 
 			urlBigSquare = links.getString("big_square");
 		}

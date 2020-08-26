@@ -148,19 +148,21 @@ public class RedditAPICommentAction {
 					R.string.action_report,
 					RedditCommentAction.REPORT));
 
-			if(!isArchived)
+			if(!isArchived) {
 				menu.add(new RCVMenuItem(
 						activity,
 						R.string.action_reply,
 						RedditCommentAction.REPLY));
+			}
 
 			if(user.username.equalsIgnoreCase(comment.getParsedComment()
 					.getRawComment().author)) {
-				if(!isArchived)
+				if(!isArchived) {
 					menu.add(new RCVMenuItem(
 							activity,
 							R.string.action_edit,
 							RedditCommentAction.EDIT));
+				}
 				menu.add(new RCVMenuItem(
 						activity,
 						R.string.action_delete,
@@ -541,7 +543,9 @@ public class RedditAPICommentAction {
 							final Integer status,
 							final String readableMessage) {
 						revertOnFailure();
-						if(t != null) t.printStackTrace();
+						if(t != null) {
+							t.printStackTrace();
+						}
 
 						final RRError error = General.getGeneralErrorForFailure(
 								context,

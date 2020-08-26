@@ -109,11 +109,11 @@ public final class PrefsUtility {
 				|| key.equals(context.getString(R.string.pref_behaviour_comment_min_key))
 				|| key.equals(context.getString(R.string.pref_behaviour_pinned_subredditsort_key))
 				|| key.equals(context.getString(
-						R.string.pref_behaviour_blocked_subredditsort_key))
+				R.string.pref_behaviour_blocked_subredditsort_key))
 				|| key.equals(context.getString(
-						R.string.pref_appearance_hide_headertoolbar_commentlist_key))
+				R.string.pref_appearance_hide_headertoolbar_commentlist_key))
 				|| key.equals(context.getString(
-						R.string.pref_appearance_hide_headertoolbar_postlist_key));
+				R.string.pref_appearance_hide_headertoolbar_postlist_key));
 	}
 
 	public static boolean isRestartRequired(Context context, String key) {
@@ -651,8 +651,9 @@ public final class PrefsUtility {
 
 		final EnumSet<AppearancePostSubtitleItem> result = EnumSet.noneOf(
 				AppearancePostSubtitleItem.class);
-		for(String s : strings)
+		for(String s : strings) {
 			result.add(AppearancePostSubtitleItem.valueOf(General.asciiUppercase(s)));
+		}
 
 		return result;
 	}
@@ -679,8 +680,9 @@ public final class PrefsUtility {
 
 		final EnumSet<AppearancePostSubtitleItem> result = EnumSet.noneOf(
 				AppearancePostSubtitleItem.class);
-		for(String s : strings)
+		for(String s : strings) {
 			result.add(AppearancePostSubtitleItem.valueOf(General.asciiUppercase(s)));
+		}
 
 		return result;
 	}
@@ -703,7 +705,9 @@ public final class PrefsUtility {
 				AppearanceCommentHeaderItem.class);
 		for(String s : strings) {
 
-			if(s.equalsIgnoreCase("ups_downs")) continue;
+			if(s.equalsIgnoreCase("ups_downs")) {
+				continue;
+			}
 
 			try {
 				result.add(AppearanceCommentHeaderItem.valueOf(General.asciiUppercase(s)));
@@ -1433,8 +1437,9 @@ public final class PrefsUtility {
 
 		final EnumSet<RedditPreparedPost.Action> result = EnumSet.noneOf(
 				RedditPreparedPost.Action.class);
-		for(String s : strings)
+		for(String s : strings) {
 			result.add(RedditPreparedPost.Action.valueOf(General.asciiUppercase(s)));
+		}
 
 		return result;
 	}
@@ -1451,8 +1456,9 @@ public final class PrefsUtility {
 
 		final EnumSet<RedditPreparedPost.Action> result = EnumSet.noneOf(
 				RedditPreparedPost.Action.class);
-		for(String s : strings)
+		for(String s : strings) {
 			result.add(RedditPreparedPost.Action.valueOf(General.asciiUppercase(s)));
+		}
 
 		return result;
 	}
@@ -1469,8 +1475,9 @@ public final class PrefsUtility {
 
 		final EnumSet<LinkHandler.LinkAction> result
 				= EnumSet.noneOf(LinkHandler.LinkAction.class);
-		for(String s : strings)
+		for(String s : strings) {
 			result.add(LinkHandler.LinkAction.valueOf(General.asciiUppercase(s)));
+		}
 
 		return result;
 	}
@@ -1488,9 +1495,10 @@ public final class PrefsUtility {
 
 		final EnumSet<MainMenuListingManager.SubredditAction> result = EnumSet.noneOf(
 				MainMenuListingManager.SubredditAction.class);
-		for(String s : strings)
+		for(String s : strings) {
 			result.add(MainMenuListingManager.SubredditAction.valueOf(General.asciiUppercase(
 					s)));
+		}
 
 		return result;
 	}
@@ -1507,8 +1515,9 @@ public final class PrefsUtility {
 
 		final EnumSet<MainMenuFragment.MainMenuUserItems> result = EnumSet.noneOf(
 				MainMenuFragment.MainMenuUserItems.class);
-		for(String s : strings)
+		for(String s : strings) {
 			result.add(MainMenuFragment.MainMenuUserItems.valueOf(General.asciiUppercase(s)));
+		}
 
 		return result;
 	}
@@ -1525,9 +1534,10 @@ public final class PrefsUtility {
 
 		final EnumSet<MainMenuFragment.MainMenuShortcutItems> result = EnumSet.noneOf(
 				MainMenuFragment.MainMenuShortcutItems.class);
-		for(String s : strings)
+		for(String s : strings) {
 			result.add(MainMenuFragment.MainMenuShortcutItems.valueOf(General.asciiUppercase(
 					s)));
+		}
 
 		return result;
 	}

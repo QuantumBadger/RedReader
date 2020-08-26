@@ -105,13 +105,18 @@ public class BugReportActivity extends BaseActivity {
 
 		for(final RRError error : errors) {
 			sb.append("\r\n-------------------------------\r\n");
-			if(error.title != null)
+			if(error.title != null) {
 				sb.append("Title: ").append(error.title).append("\r\n");
-			if(error.message != null)
+			}
+			if(error.message != null) {
 				sb.append("Message: ").append(error.message).append("\r\n");
-			if(error.httpStatus != null)
+			}
+			if(error.httpStatus != null) {
 				sb.append("HTTP Status: ").append(error.httpStatus).append("\r\n");
-			if(error.url != null) sb.append("URL: ").append(error.url).append("\r\n");
+			}
+			if(error.url != null) {
+				sb.append("URL: ").append(error.url).append("\r\n");
+			}
 			appendException(sb, error.t, 25);
 		}
 

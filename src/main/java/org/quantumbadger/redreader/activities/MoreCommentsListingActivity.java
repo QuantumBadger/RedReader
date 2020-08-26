@@ -204,6 +204,8 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 
 	@Override
 	public void onBackPressed() {
-		if(General.onBackPressed()) super.onBackPressed();
+		if(General.onBackPressed()) {
+			super.onBackPressed();
+		}
 	}
 }

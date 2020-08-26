@@ -128,8 +128,9 @@ public final class PermanentCache<K, V extends WritableObject<K>, F>
 					public void onRequestSuccess(V result, long timeCached) {
 						synchronized(PermanentCache.this) {
 							put(result, false);
-							if(updatedVersionListener != null)
+							if(updatedVersionListener != null) {
 								cached.get(key).listeners.add(updatedVersionListener);
+							}
 							handler.onRequestSuccess(result, timeCached);
 						}
 					}
@@ -158,7 +159,9 @@ public final class PermanentCache<K, V extends WritableObject<K>, F>
 			cached.put(value.getKey(), new CacheEntry(value));
 		}
 
-		if(writeDown) cacheDataSource.performWrite(value);
+		if(writeDown) {
+			cacheDataSource.performWrite(value);
+		}
 	}
 
 	private synchronized void put(final Collection<V> values, boolean writeDown) {
@@ -174,7 +177,9 @@ public final class PermanentCache<K, V extends WritableObject<K>, F>
 			}
 		}
 
-		if(writeDown) cacheDataSource.performWrite(values);
+		if(writeDown) {
+			cacheDataSource.performWrite(values);
+		}
 	}
 
 	private final class CacheEntry {

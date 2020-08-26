@@ -123,18 +123,19 @@ public final class OptionsMenuUtility {
 		} else if(!subredditsVisible && postsVisible && !commentsVisible) {
 			if(postsSortable) {
 
-				if(areSearchResults)
+				if(areSearchResults) {
 					addAllSearchSorts(
 							activity,
 							menu,
 							getOrThrow(appbarItemsPrefs, AppbarItemsPref.SORT));
-				else
+				} else {
 					addAllPostSorts(
 							activity,
 							menu,
 							getOrThrow(appbarItemsPrefs, AppbarItemsPref.SORT),
 							!isUserPostListing,
 							isFrontPage);
+				}
 			}
 			add(
 					activity,
@@ -215,16 +216,17 @@ public final class OptionsMenuUtility {
 			}
 
 		} else if(!subredditsVisible && !postsVisible && commentsVisible) {
-			if(commentsSortable && !isUserCommentListing)
+			if(commentsSortable && !isUserCommentListing) {
 				addAllCommentSorts(
 						activity,
 						menu,
 						getOrThrow(appbarItemsPrefs, AppbarItemsPref.SORT));
-			else if(commentsSortable && isUserCommentListing)
+			} else if(commentsSortable && isUserCommentListing) {
 				addAllUserCommentSorts(
 						activity,
 						menu,
 						getOrThrow(appbarItemsPrefs, AppbarItemsPref.SORT));
+			}
 			add(
 					activity,
 					menu,
@@ -262,38 +264,42 @@ public final class OptionsMenuUtility {
 									AppbarItemsPref.SORT)));
 
 					if(postsSortable) {
-						if(areSearchResults)
+						if(areSearchResults) {
 							addAllSearchSorts(
 									activity,
 									sortMenu,
 									MenuItem.SHOW_AS_ACTION_NEVER);
-						else
+						} else {
 							addAllPostSorts(
 									activity,
 									sortMenu,
 									MenuItem.SHOW_AS_ACTION_NEVER,
 									!isUserPostListing,
 									isFrontPage);
+						}
 					}
-					if(commentsSortable) addAllCommentSorts(
-							activity,
-							sortMenu,
-							MenuItem.SHOW_AS_ACTION_NEVER);
+					if(commentsSortable) {
+						addAllCommentSorts(
+								activity,
+								sortMenu,
+								MenuItem.SHOW_AS_ACTION_NEVER);
+					}
 				}
 			} else if(postsVisible) {
 				if(postsSortable) {
-					if(areSearchResults)
+					if(areSearchResults) {
 						addAllSearchSorts(
 								activity,
 								menu,
 								getOrThrow(appbarItemsPrefs, AppbarItemsPref.SORT));
-					else
+					} else {
 						addAllPostSorts(
 								activity,
 								menu,
 								getOrThrow(appbarItemsPrefs, AppbarItemsPref.SORT),
 								!isUserPostListing,
 								isFrontPage);
+					}
 				}
 			}
 
@@ -309,10 +315,15 @@ public final class OptionsMenuUtility {
 								appbarItemsPrefs,
 								AppbarItemsPref.REFRESH)));
 
-				if(subredditsVisible)
+				if(subredditsVisible) {
 					add(activity, refreshMenu, Option.REFRESH_SUBREDDITS);
-				if(postsVisible) add(activity, refreshMenu, Option.REFRESH_POSTS);
-				if(commentsVisible) add(activity, refreshMenu, Option.REFRESH_COMMENTS);
+				}
+				if(postsVisible) {
+					add(activity, refreshMenu, Option.REFRESH_POSTS);
+				}
+				if(commentsVisible) {
+					add(activity, refreshMenu, Option.REFRESH_COMMENTS);
+				}
 			}
 
 			if(postsVisible && commentsVisible) {
@@ -491,18 +502,21 @@ public final class OptionsMenuUtility {
 		for(int i = 0; i < menu.size(); i++) {
 			for(Map.Entry<AppbarItemsPref, Integer> pair : appbarItemsPrefs.entrySet()) {
 				if(pair.getKey().ordinal() == menu.getItem(i).getItemId()) {
-					if(pair.getValue() == MenuItem.SHOW_AS_ACTION_ALWAYS)
+					if(pair.getValue() == MenuItem.SHOW_AS_ACTION_ALWAYS) {
 						buttonSlotsRemaining--;
-					else if(pair.getValue() == MenuItem.SHOW_AS_ACTION_NEVER)
+					} else if(pair.getValue() == MenuItem.SHOW_AS_ACTION_NEVER) {
 						overflowButtonRequired = true;
-					else optionalButtonsRequested++;
+					} else {
+						optionalButtonsRequested++;
+					}
 				}
 			}
 		}
 
 		//Reserve space for the overflow button if needed
-		if(overflowButtonRequired || optionalButtonsRequested > buttonSlotsRemaining)
+		if(overflowButtonRequired || optionalButtonsRequested > buttonSlotsRemaining) {
 			buttonSlotsRemaining--;
+		}
 
 		//Move optional buttons to the overflow menu if there's not enough space, end to start
 		if(optionalButtonsRequested > buttonSlotsRemaining) {
@@ -516,7 +530,9 @@ public final class OptionsMenuUtility {
 						break;
 					}
 				}
-				if(optionalButtonsRequested <= buttonSlotsRemaining) break;
+				if(optionalButtonsRequested <= buttonSlotsRemaining) {
+					break;
+				}
 			}
 		}
 	}
@@ -525,7 +541,9 @@ public final class OptionsMenuUtility {
 			final BaseActivity activity, final Menu menu, final int showAsAction,
 			final SubredditSubscriptionState subredditSubscriptionState) {
 
-		if(subredditSubscriptionState == null) return;
+		if(subredditSubscriptionState == null) {
+			return;
+		}
 
 		switch(subredditSubscriptionState) {
 			case NOT_SUBSCRIBED:
@@ -560,8 +578,11 @@ public final class OptionsMenuUtility {
 			int showAsAction,
 			final boolean longText) {
 
-		if(showAsAction == DO_NOT_SHOW) return;
-		else showAsAction = handleShowAsActionIfRoom(showAsAction);
+		if(showAsAction == DO_NOT_SHOW) {
+			return;
+		} else {
+			showAsAction = handleShowAsActionIfRoom(showAsAction);
+		}
 
 		switch(option) {
 
@@ -710,7 +731,9 @@ public final class OptionsMenuUtility {
 						});
 
 				refreshSubreddits.setShowAsAction(showAsAction);
-				if(!longText) refreshSubreddits.setIcon(R.drawable.ic_refresh_dark);
+				if(!longText) {
+					refreshSubreddits.setIcon(R.drawable.ic_refresh_dark);
+				}
 
 				break;
 			}
@@ -728,7 +751,9 @@ public final class OptionsMenuUtility {
 						});
 
 				refreshPosts.setShowAsAction(showAsAction);
-				if(!longText) refreshPosts.setIcon(R.drawable.ic_refresh_dark);
+				if(!longText) {
+					refreshPosts.setIcon(R.drawable.ic_refresh_dark);
+				}
 
 				break;
 			}
@@ -773,7 +798,9 @@ public final class OptionsMenuUtility {
 						});
 
 				search.setShowAsAction(showAsAction);
-				if(!longText) search.setIcon(R.drawable.ic_search_dark);
+				if(!longText) {
+					search.setIcon(R.drawable.ic_search_dark);
+				}
 
 				break;
 			}
@@ -796,7 +823,9 @@ public final class OptionsMenuUtility {
 						});
 
 				searchComments.setShowAsAction(showAsAction);
-				if(!longText) searchComments.setIcon(R.drawable.ic_search_dark);
+				if(!longText) {
+					searchComments.setIcon(R.drawable.ic_search_dark);
+				}
 
 				break;
 			}
@@ -815,7 +844,9 @@ public final class OptionsMenuUtility {
 						});
 
 				refreshComments.setShowAsAction(showAsAction);
-				if(!longText) refreshComments.setIcon(R.drawable.ic_refresh_dark);
+				if(!longText) {
+					refreshComments.setIcon(R.drawable.ic_refresh_dark);
+				}
 
 				break;
 			}
@@ -1026,7 +1057,9 @@ public final class OptionsMenuUtility {
 			final boolean includeRising,
 			final boolean includeBest) {
 
-		if(showAsAction == DO_NOT_SHOW) return;
+		if(showAsAction == DO_NOT_SHOW) {
+			return;
+		}
 
 		final SubMenu sortPosts = menu.addSubMenu(
 				Menu.NONE,
@@ -1041,15 +1074,17 @@ public final class OptionsMenuUtility {
 
 		addSort(activity, sortPosts, R.string.sort_posts_hot, PostSort.HOT);
 		addSort(activity, sortPosts, R.string.sort_posts_new, PostSort.NEW);
-		if(includeRising)
+		if(includeRising) {
 			addSort(activity, sortPosts, R.string.sort_posts_rising, PostSort.RISING);
+		}
 		addSort(
 				activity,
 				sortPosts,
 				R.string.sort_posts_controversial,
 				PostSort.CONTROVERSIAL);
-		if(includeBest)
+		if(includeBest) {
 			addSort(activity, sortPosts, R.string.sort_posts_best, PostSort.BEST);
+		}
 
 		final SubMenu sortPostsTop = sortPosts.addSubMenu(R.string.sort_posts_top);
 
@@ -1070,7 +1105,9 @@ public final class OptionsMenuUtility {
 			final Menu menu,
 			final int showAsAction) {
 
-		if(showAsAction == DO_NOT_SHOW) return;
+		if(showAsAction == DO_NOT_SHOW) {
+			return;
+		}
 
 		final SubMenu sortPosts = menu.addSubMenu(
 				Menu.NONE,
@@ -1110,7 +1147,9 @@ public final class OptionsMenuUtility {
 			final Menu menu,
 			final int showAsAction) {
 
-		if(showAsAction == DO_NOT_SHOW) return;
+		if(showAsAction == DO_NOT_SHOW) {
+			return;
+		}
 
 		final SubMenu sortComments = menu.addSubMenu(
 				Menu.NONE,
@@ -1181,7 +1220,9 @@ public final class OptionsMenuUtility {
 			final Menu menu,
 			final int showAsAction) {
 
-		if(showAsAction == DO_NOT_SHOW) return;
+		if(showAsAction == DO_NOT_SHOW) {
+			return;
+		}
 
 		final SubMenu sortComments = menu.addSubMenu(
 				Menu.NONE,
@@ -1264,8 +1305,9 @@ public final class OptionsMenuUtility {
 
 	public static int handleShowAsActionIfRoom(final int showAsAction) {
 
-		if(showAsAction == MenuItem.SHOW_AS_ACTION_IF_ROOM)
+		if(showAsAction == MenuItem.SHOW_AS_ACTION_IF_ROOM) {
 			return MenuItem.SHOW_AS_ACTION_ALWAYS;
+		}
 
 		return showAsAction;
 	}

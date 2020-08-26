@@ -60,8 +60,9 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 	private static RedditAccountManager singleton;
 
 	public static synchronized RedditAccountManager getInstance(final Context context) {
-		if(singleton == null)
+		if(singleton == null) {
 			singleton = new RedditAccountManager(context.getApplicationContext());
+		}
 		return singleton;
 	}
 
@@ -131,8 +132,11 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 			final SQLiteDatabase inDb) {
 
 		final SQLiteDatabase db;
-		if(inDb == null) db = getWritableDatabase();
-		else db = inDb;
+		if(inDb == null) {
+			db = getWritableDatabase();
+		} else {
+			db = inDb;
+		}
 
 		final ContentValues row = new ContentValues();
 
@@ -151,7 +155,9 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 		reloadAccounts(db);
 		updateNotifier.updateAllListeners();
 
-		if(inDb == null) db.close();
+		if(inDb == null) {
+			db.close();
+		}
 	}
 
 	public synchronized ArrayList<RedditAccount> getAccounts() {

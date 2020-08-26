@@ -123,7 +123,9 @@ public class RedditMultiredditSubscriptionManager {
 					// TODO handle failed requests properly -- retry? then notify listeners
 					@Override
 					public void onRequestFailed(SubredditRequestFailure failureReason) {
-						if(handler != null) handler.onRequestFailed(failureReason);
+						if(handler != null) {
+							handler.onRequestFailed(failureReason);
+						}
 					}
 
 					@Override
@@ -132,8 +134,9 @@ public class RedditMultiredditSubscriptionManager {
 							long timeCached) {
 						final HashSet<String> newSubscriptions = result.toHashset();
 						onNewSubscriptionListReceived(newSubscriptions, timeCached);
-						if(handler != null)
+						if(handler != null) {
 							handler.onRequestSuccess(newSubscriptions, timeCached);
+						}
 					}
 				}
 		);

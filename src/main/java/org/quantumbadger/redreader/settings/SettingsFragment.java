@@ -136,10 +136,14 @@ public final class SettingsFragment extends PreferenceFragment {
 			final ListPreference listPreference =
 					(ListPreference)findPreference(getString(pref));
 
-			if(listPreference == null) continue;
+			if(listPreference == null) {
+				continue;
+			}
 
 			final int index = listPreference.findIndexOfValue(listPreference.getValue());
-			if(index < 0) continue;
+			if(index < 0) {
+				continue;
+			}
 
 			listPreference.setSummary(listPreference.getEntries()[index]);
 
@@ -155,7 +159,9 @@ public final class SettingsFragment extends PreferenceFragment {
 			final EditTextPreference editTextPreference =
 					(EditTextPreference)findPreference(getString(pref));
 
-			if(editTextPreference == null) continue;
+			if(editTextPreference == null) {
+				continue;
+			}
 
 			editTextPreference.setSummary(editTextPreference.getText());
 
@@ -261,10 +267,11 @@ public final class SettingsFragment extends PreferenceFragment {
 				final int index = thumbnailPref.findIndexOfValue((String)newValue);
 				thumbnailPref.setSummary(thumbnailPref.getEntries()[index]);
 
-				if(newValue.equals("never"))
+				if(newValue.equals("never")) {
 					thumbnailNsfwPref.setEnabled(false);
-				else
+				} else {
 					thumbnailNsfwPref.setEnabled(true);
+				}
 
 				return true;
 			});

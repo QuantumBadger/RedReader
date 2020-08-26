@@ -85,12 +85,14 @@ public class RRGLMatrixStack {
 				case 5:
 				case 10:
 				case 15:
-					if(mMatrices[i] != 1)
+					if(mMatrices[i] != 1) {
 						throw new RuntimeException("Root matrix is not identity!");
+					}
 					break;
 				default:
-					if(mMatrices[i] != 0)
+					if(mMatrices[i] != 0) {
 						throw new RuntimeException("Root matrix is not identity!");
+					}
 					break;
 			}
 		}

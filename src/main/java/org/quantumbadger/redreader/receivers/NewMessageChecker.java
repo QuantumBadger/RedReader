@@ -70,7 +70,9 @@ public class NewMessageChecker extends BroadcastReceiver {
 		boolean notificationsEnabled = PrefsUtility.pref_behaviour_notifications(
 				context,
 				PreferenceManager.getDefaultSharedPreferences(context));
-		if(!notificationsEnabled) return;
+		if(!notificationsEnabled) {
+			return;
+		}
 
 		final RedditAccount user = RedditAccountManager.getInstance(context)
 				.getDefaultAccount();

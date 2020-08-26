@@ -43,7 +43,9 @@ public final class ThumbnailScaler {
 				newWidth,
 				Math.round((float)h * scaleFactor));
 
-		if(result != scaled) scaled.recycle();
+		if(result != scaled) {
+			scaled.recycle();
+		}
 
 		return result;
 	}

@@ -158,7 +158,9 @@ public class PostListingController {
 			final AppCompatActivity parent,
 			final boolean force,
 			final Bundle savedInstanceState) {
-		if(force) session = null;
+		if(force) {
+			session = null;
+		}
 		return new PostListingFragment(
 				parent,
 				savedInstanceState,

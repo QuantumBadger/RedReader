@@ -46,9 +46,10 @@ public final class JsonBufferedObject extends JsonBuffered
 
 		while((jt = jp.nextToken()) != JsonToken.END_OBJECT) {
 
-			if(jt != JsonToken.FIELD_NAME)
+			if(jt != JsonToken.FIELD_NAME) {
 				throw new JsonParseException(jp, "Expecting field name, got " + jt.name(),
 						jp.getCurrentLocation());
+			}
 
 			final String fieldName = jp.getCurrentName();
 			final JsonValue value = new JsonValue(jp);
@@ -202,9 +203,13 @@ public final class JsonBufferedObject extends JsonBuffered
 				propertyKeySet.toArray(new String[propertyKeySet.size()]);
 
 		for(int prop = 0; prop < fieldNames.length; prop++) {
-			if(prop != 0) sb.append(',');
+			if(prop != 0) {
+				sb.append(',');
+			}
 			sb.append('\n');
-			for(int i = 0; i < indent + 1; i++) sb.append("   ");
+			for(int i = 0; i < indent + 1; i++) {
+				sb.append("   ");
+			}
 			sb.append("\"")
 					.append(fieldNames[prop].replace("\\", "\\\\").replace("\"", "\\\""))
 					.append("\": ");
@@ -212,7 +217,9 @@ public final class JsonBufferedObject extends JsonBuffered
 		}
 
 		sb.append('\n');
-		for(int i = 0; i < indent; i++) sb.append("   ");
+		for(int i = 0; i < indent; i++) {
+			sb.append("   ");
+		}
 		sb.append('}');
 	}
 

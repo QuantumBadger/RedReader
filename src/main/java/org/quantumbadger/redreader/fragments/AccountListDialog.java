@@ -101,13 +101,16 @@ public class AccountListDialog extends AppCompatDialogFragment
 						public void onLoginSuccess(final RedditAccount account) {
 							AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 								General.safeDismissDialog(progressDialog);
-								if(cancelled.get()) return;
+								if(cancelled.get()) {
+									return;
+								}
 
 								final AlertDialog.Builder alertBuilder
 										= new AlertDialog.Builder(mActivity);
 								alertBuilder.setNeutralButton(
 										R.string.dialog_close,
-										(dialog, which) -> {});
+										(dialog, which) -> {
+										});
 
 								final Context context = mActivity.getApplicationContext();
 
@@ -130,8 +133,9 @@ public class AccountListDialog extends AppCompatDialogFragment
 								@Override
 								public void run() {
 									General.safeDismissDialog(progressDialog);
-									if(!cancelled.get())
+									if(!cancelled.get()) {
 										General.showResultDialog(mActivity, details);
+									}
 								}
 							});
 						}
@@ -144,7 +148,9 @@ public class AccountListDialog extends AppCompatDialogFragment
 	public Dialog onCreateDialog(final Bundle savedInstanceState) {
 		super.onCreateDialog(savedInstanceState);
 
-		if(alreadyCreated) return getDialog();
+		if(alreadyCreated) {
+			return getDialog();
+		}
 		alreadyCreated = true;
 
 		mActivity = (AppCompatActivity)getActivity();

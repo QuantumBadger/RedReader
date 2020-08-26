@@ -58,32 +58,44 @@ public class HtmlRawElementPlainText extends HtmlRawElement {
 
 		if(attributes.bold > 0) {
 			//noinspection ConstantConditions
-			if(spans == null) spans = new ArrayList<>();
+			if(spans == null) {
+				spans = new ArrayList<>();
+			}
 			spans.add(new StyleSpan(Typeface.BOLD));
 		}
 
 		if(attributes.italic > 0) {
-			if(spans == null) spans = new ArrayList<>();
+			if(spans == null) {
+				spans = new ArrayList<>();
+			}
 			spans.add(new StyleSpan(Typeface.ITALIC));
 		}
 
 		if(attributes.underline > 0) {
-			if(spans == null) spans = new ArrayList<>();
+			if(spans == null) {
+				spans = new ArrayList<>();
+			}
 			spans.add(new UnderlineSpan());
 		}
 
 		if(attributes.strikethrough > 0) {
-			if(spans == null) spans = new ArrayList<>();
+			if(spans == null) {
+				spans = new ArrayList<>();
+			}
 			spans.add(new StrikethroughSpan());
 		}
 
 		if(attributes.monospace > 0) {
-			if(spans == null) spans = new ArrayList<>();
+			if(spans == null) {
+				spans = new ArrayList<>();
+			}
 			spans.add(new TypefaceSpan("monospace"));
 		}
 
 		if(attributes.superscript > 0) {
-			if(spans == null) spans = new ArrayList<>();
+			if(spans == null) {
+				spans = new ArrayList<>();
+			}
 
 			for(int i = 0; i < attributes.superscript; i++) {
 				spans.add(new SuperscriptSpan());
@@ -92,17 +104,23 @@ public class HtmlRawElementPlainText extends HtmlRawElement {
 		}
 
 		if(attributes.extraLarge > 0) {
-			if(spans == null) spans = new ArrayList<>();
+			if(spans == null) {
+				spans = new ArrayList<>();
+			}
 			spans.add(new RelativeSizeSpan(1.6f));
 
 		} else if(attributes.large > 0) {
-			if(spans == null) spans = new ArrayList<>();
+			if(spans == null) {
+				spans = new ArrayList<>();
+			}
 			spans.add(new RelativeSizeSpan(1.3f));
 		}
 
 		if(attributes.href != null) {
 
-			if(spans == null) spans = new ArrayList<>();
+			if(spans == null) {
+				spans = new ArrayList<>();
+			}
 
 			final String url = attributes.href;
 

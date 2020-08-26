@@ -68,7 +68,9 @@ public final class GIFView extends View {
 				((float)getHeight() / scale - (float)mMovie.height()) / 2f);
 
 
-		if(movieStart == 0) movieStart = (int)now;
+		if(movieStart == 0) {
+			movieStart = (int)now;
+		}
 
 		mMovie.setTime((int)((now - movieStart) % mMovie.duration()));
 		mMovie.draw(canvas, 0, 0, paint);

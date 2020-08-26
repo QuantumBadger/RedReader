@@ -27,11 +27,15 @@ public class RRGLRenderableGroup extends RRGLRenderable {
 
 	public final void add(RRGLRenderable child) {
 		mChildren.add(child);
-		if(isAdded()) child.onAdded();
+		if(isAdded()) {
+			child.onAdded();
+		}
 	}
 
 	public final void remove(RRGLRenderable child) {
-		if(isAdded()) child.onRemoved();
+		if(isAdded()) {
+			child.onRemoved();
+		}
 		mChildren.remove(child);
 	}
 
@@ -61,7 +65,9 @@ public class RRGLRenderableGroup extends RRGLRenderable {
 		super.onRemoved();
 
 		if(!isAdded()) {
-			for(RRGLRenderable entity : mChildren) entity.onRemoved();
+			for(RRGLRenderable entity : mChildren) {
+				entity.onRemoved();
+			}
 		}
 	}
 
@@ -69,7 +75,9 @@ public class RRGLRenderableGroup extends RRGLRenderable {
 	public boolean isAnimating() {
 		for(int i = 0; i < mChildren.size(); i++) {
 			RRGLRenderable entity = mChildren.get(i);
-			if(entity.isAnimating()) return true;
+			if(entity.isAnimating()) {
+				return true;
+			}
 		}
 		return false;
 	}

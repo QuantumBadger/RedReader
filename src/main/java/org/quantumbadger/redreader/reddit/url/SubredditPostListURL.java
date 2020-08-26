@@ -246,7 +246,9 @@ public class SubredditPostListURL extends PostListingURL {
 			case 2:
 			case 3: {
 
-				if(!pathSegments[0].equals("r")) return null;
+				if(!pathSegments[0].equals("r")) {
+					return null;
+				}
 
 				final String subreddit = General.asciiLowercase(pathSegments[1]);
 

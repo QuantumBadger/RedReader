@@ -121,7 +121,9 @@ public final class MarkdownTokenizer {
 			final IntArrayLengthPair input,
 			final IntArrayLengthPair output) {
 
-		if(input.data.length > output.data.length * 3) throw new RuntimeException();
+		if(input.data.length > output.data.length * 3) {
+			throw new RuntimeException();
+		}
 		output.clear();
 
 		int inBrackets = 0;
@@ -483,7 +485,9 @@ public final class MarkdownTokenizer {
 					} else {
 
 						for(int j = openingGrave + 1; j < closingGrave; j++) {
-							if(input.data[j] < 0) toRevert[j] = true;
+							if(input.data[j] < 0) {
+								toRevert[j] = true;
+							}
 						}
 
 						i = closingGrave;
@@ -757,12 +761,24 @@ public final class MarkdownTokenizer {
 			}
 		}
 
-		if(openingUnderscore >= 0) toRevert[openingUnderscore] = true;
-		if(openingUnderscoreDouble >= 0) toRevert[openingUnderscoreDouble] = true;
-		if(openingAsterisk >= 0) toRevert[openingAsterisk] = true;
-		if(openingAsteriskDouble >= 0) toRevert[openingAsteriskDouble] = true;
-		if(openingTildeDouble >= 0) toRevert[openingTildeDouble] = true;
-		if(lastBracketSquareOpen >= 0) toRevert[lastBracketSquareOpen] = true;
+		if(openingUnderscore >= 0) {
+			toRevert[openingUnderscore] = true;
+		}
+		if(openingUnderscoreDouble >= 0) {
+			toRevert[openingUnderscoreDouble] = true;
+		}
+		if(openingAsterisk >= 0) {
+			toRevert[openingAsterisk] = true;
+		}
+		if(openingAsteriskDouble >= 0) {
+			toRevert[openingAsteriskDouble] = true;
+		}
+		if(openingTildeDouble >= 0) {
+			toRevert[openingTildeDouble] = true;
+		}
+		if(lastBracketSquareOpen >= 0) {
+			toRevert[lastBracketSquareOpen] = true;
+		}
 
 		for(int j = input.pos - 1; j >= 0 && input.data[j] == ' '; j--) {
 			toDelete[j] = true;
@@ -772,7 +788,9 @@ public final class MarkdownTokenizer {
 
 		for(int i = 0; i < input.pos; i++) {
 
-			if(toDelete[i]) continue;
+			if(toDelete[i]) {
+				continue;
+			}
 
 			if(toRevert[i]) {
 
@@ -796,7 +814,9 @@ public final class MarkdownTokenizer {
 
 				case '"':
 					i = indexOfIgnoreEscaped(tokens, '"', i + 1);
-					if(i < 0) return -1;
+					if(i < 0) {
+						return -1;
+					}
 					break;
 			}
 		}
@@ -809,8 +829,11 @@ public final class MarkdownTokenizer {
 			int needle,
 			int startPos) {
 		for(int i = startPos; i < haystack.pos; i++) {
-			if(haystack.data[i] == '\\') i++;
-			else if(haystack.data[i] == needle) return i;
+			if(haystack.data[i] == '\\') {
+				i++;
+			} else if(haystack.data[i] == needle) {
+				return i;
+			}
 		}
 		return -1;
 	}
@@ -860,7 +883,9 @@ public final class MarkdownTokenizer {
 						i++;
 						output.data[output.pos++] = TOKEN_TILDE_DOUBLE;
 
-					} else output.data[output.pos++] = '~';
+					} else {
+						output.data[output.pos++] = '~';
+					}
 
 					break;
 
@@ -897,8 +922,11 @@ public final class MarkdownTokenizer {
 					break;
 
 				case '\\':
-					if(i < input.pos - 1) output.data[output.pos++] = input.data[++i];
-					else output.data[output.pos++] = '\\';
+					if(i < input.pos - 1) {
+						output.data[output.pos++] = input.data[++i];
+					} else {
+						output.data[output.pos++] = '\\';
+					}
 					break;
 
 				case '\t':
@@ -920,8 +948,11 @@ public final class MarkdownTokenizer {
 			final int needle,
 			final int startInclusive,
 			final int endExclusive) {
-		for(int i = startInclusive; i < endExclusive; i++)
-			if(haystack[i] == needle) return i;
+		for(int i = startInclusive; i < endExclusive; i++) {
+			if(haystack[i] == needle) {
+				return i;
+			}
+		}
 		return -1;
 	}
 
@@ -929,7 +960,11 @@ public final class MarkdownTokenizer {
 			final int[] haystack,
 			final int needle,
 			final int startInclusive) {
-		for(int i = startInclusive; i >= 0; i--) if(haystack[i] == needle) return i;
+		for(int i = startInclusive; i >= 0; i--) {
+			if(haystack[i] == needle) {
+				return i;
+			}
+		}
 		return -1;
 	}
 
@@ -965,8 +1000,11 @@ public final class MarkdownTokenizer {
 			final int[] haystack,
 			final int startInclusive,
 			final int endExclusive) {
-		for(int i = startInclusive; i < endExclusive; i++)
-			if(haystack[i] != ' ') return false;
+		for(int i = startInclusive; i < endExclusive; i++) {
+			if(haystack[i] != ' ') {
+				return false;
+			}
+		}
 		return true;
 	}
 
@@ -974,8 +1012,11 @@ public final class MarkdownTokenizer {
 			final int[] haystack,
 			final int startInclusive,
 			final int endExclusive) {
-		for(int i = startInclusive; i < endExclusive; i++)
-			if(haystack[i] < '0' || haystack[i] > '9') return false;
+		for(int i = startInclusive; i < endExclusive; i++) {
+			if(haystack[i] < '0' || haystack[i] > '9') {
+				return false;
+			}
+		}
 		return true;
 	}
 
@@ -985,8 +1026,9 @@ public final class MarkdownTokenizer {
 			final int endExclusive) {
 		for(int i = startInclusive; i < endExclusive; i++) {
 			final int c = haystack[i];
-			if((c < '0' || c > '9') && (c < 'a' || c > 'f') && (c < 'A' || c > 'F'))
+			if((c < '0' || c > '9') && (c < 'a' || c > 'f') && (c < 'A' || c > 'F')) {
 				return false;
+			}
 		}
 		return true;
 	}
@@ -1004,8 +1046,12 @@ public final class MarkdownTokenizer {
 	}
 
 	private static int fromHex(int ch) {
-		if(ch >= '0' && ch <= '9') return ch - '0';
-		if(ch >= 'a' && ch <= 'f') return 10 + ch - 'a';
+		if(ch >= '0' && ch <= '9') {
+			return ch - '0';
+		}
+		if(ch >= 'a' && ch <= 'f') {
+			return 10 + ch - 'a';
+		}
 		return 10 + ch - 'A';
 	}
 
@@ -1025,8 +1071,11 @@ public final class MarkdownTokenizer {
 			final int[] haystack,
 			final char[] needle,
 			int startInclusive) {
-		for(int i = 0; i < needle.length; i++)
-			if(haystack[startInclusive + i] != needle[i]) return false;
+		for(int i = 0; i < needle.length; i++) {
+			if(haystack[startInclusive + i] != needle[i]) {
+				return false;
+			}
+		}
 		return true;
 	}
 

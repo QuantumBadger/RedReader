@@ -69,8 +69,9 @@ public final class CacheManager {
 	private static CacheManager singleton;
 
 	public static synchronized CacheManager getInstance(final Context context) {
-		if(singleton == null)
+		if(singleton == null) {
 			singleton = new CacheManager(context.getApplicationContext());
+		}
 		return singleton;
 	}
 
@@ -92,10 +93,14 @@ public final class CacheManager {
 
 	private Long isCacheFile(final String file) {
 
-		if(!file.endsWith(ext)) return null;
+		if(!file.endsWith(ext)) {
+			return null;
+		}
 
 		final String[] fileSplit = file.split("\\.");
-		if(fileSplit.length != 2) return null;
+		if(fileSplit.length != 2) {
+			return null;
+		}
 
 		try {
 			return Long.parseLong(fileSplit[0]);
@@ -107,7 +112,9 @@ public final class CacheManager {
 	private void getCacheFileList(final File dir, final HashSet<Long> currentFiles) {
 
 		final String[] list = dir.list();
-		if(list == null) return;
+		if(list == null) {
+			return;
+		}
 
 		for(final String file : list) {
 
@@ -122,7 +129,9 @@ public final class CacheManager {
 	private static void pruneTemp(final File dir) {
 
 		final String[] list = dir.list();
-		if(list == null) return;
+		if(list == null) {
+			return;
+		}
 
 		for(final String file : list) {
 
@@ -189,7 +198,9 @@ public final class CacheManager {
 
 			for(final long id : filesToDelete) {
 				final File file = getExistingCacheFile(id);
-				if(file != null) file.delete();
+				if(file != null) {
+					file.delete();
+				}
 			}
 
 		} catch(Throwable t) {
@@ -324,8 +335,9 @@ public final class CacheManager {
 		List<File> dirs = getCacheDirs(context);
 		for(File dir : dirs) {
 			final File f = new File(dir, id + ext);
-			if(f.exists())
+			if(f.exists()) {
 				return f;
+			}
 		}
 		return null;
 	}

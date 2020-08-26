@@ -181,8 +181,9 @@ public final class General {
 	public static String addUnits(final long input) {
 		int i = 0;
 		long result = input;
-		while(i <= 3 && result >= 1024)
+		while(i <= 3 && result >= 1024) {
 			result = input / (long)Math.pow(1024, ++i);
+		}
 
 		switch(i) {
 			case 1:
@@ -572,7 +573,9 @@ public final class General {
 		digest.update(plaintext, 0, plaintext.length);
 		final byte[] hash = digest.digest();
 		final StringBuilder result = new StringBuilder(hash.length * 2);
-		for(byte b : hash) result.append(String.format(Locale.US, "%02X", b));
+		for(byte b : hash) {
+			result.append(String.format(Locale.US, "%02X", b));
+		}
 		return result.toString();
 	}
 
@@ -748,7 +751,9 @@ public final class General {
 
 	public static void safeDismissDialog(final Dialog dialog) {
 		try {
-			if(dialog.isShowing()) dialog.dismiss();
+			if(dialog.isShowing()) {
+				dialog.dismiss();
+			}
 		} catch(final Exception e) {
 			Log.e("safeDismissDialog", "Caught exception while dismissing dialog", e);
 		}

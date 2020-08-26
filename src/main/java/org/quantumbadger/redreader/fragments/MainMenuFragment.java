@@ -112,8 +112,8 @@ public class MainMenuFragment extends RRFragment implements
 
 		if(parent instanceof OptionsMenuUtility.OptionsMenuSubredditsListener
 				&& PrefsUtility.pref_behaviour_enable_swipe_refresh(
-						context,
-						PreferenceManager.getDefaultSharedPreferences(context))) {
+				context,
+				PreferenceManager.getDefaultSharedPreferences(context))) {
 
 			recyclerViewManager.enablePullToRefresh(
 					((OptionsMenuUtility.OptionsMenuSubredditsListener)parent)
@@ -148,35 +148,35 @@ public class MainMenuFragment extends RRFragment implements
 			multiredditSubscriptionManager.triggerUpdate(
 					new RequestResponseHandler<HashSet<String>, SubredditRequestFailure>() {
 
-				@Override
-				public void onRequestFailed(SubredditRequestFailure failureReason) {
-					onMultiredditError(failureReason.asError(context));
-				}
+						@Override
+						public void onRequestFailed(SubredditRequestFailure failureReason) {
+							onMultiredditError(failureReason.asError(context));
+						}
 
-				@Override
-				public void onRequestSuccess(HashSet<String> result, long timeCached) {
-					multiredditSubscriptionManager.addListener(MainMenuFragment.this);
-					onMultiredditSubscriptionsChanged(result);
-				}
-			}, TimestampBound.NONE);
+						@Override
+						public void onRequestSuccess(HashSet<String> result, long timeCached) {
+							multiredditSubscriptionManager.addListener(MainMenuFragment.this);
+							onMultiredditSubscriptionsChanged(result);
+						}
+					}, TimestampBound.NONE);
 
 			subredditSubscriptionManager.triggerUpdate(
 					new RequestResponseHandler<
 							HashSet<SubredditCanonicalId>,
 							SubredditRequestFailure>() {
-				@Override
-				public void onRequestFailed(SubredditRequestFailure failureReason) {
-					onSubredditError(failureReason.asError(context));
-				}
+						@Override
+						public void onRequestFailed(SubredditRequestFailure failureReason) {
+							onSubredditError(failureReason.asError(context));
+						}
 
-				@Override
-				public void onRequestSuccess(
-						HashSet<SubredditCanonicalId> result,
-						long timeCached) {
-					subredditSubscriptionManager.addListener(MainMenuFragment.this);
-					onSubredditSubscriptionsChanged(result);
-				}
-			}, TimestampBound.NONE);
+						@Override
+						public void onRequestSuccess(
+								HashSet<SubredditCanonicalId> result,
+								long timeCached) {
+							subredditSubscriptionManager.addListener(MainMenuFragment.this);
+							onSubredditSubscriptionsChanged(result);
+						}
+					}, TimestampBound.NONE);
 
 		} else {
 

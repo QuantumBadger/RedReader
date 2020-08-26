@@ -108,10 +108,11 @@ public final class RedditAPI {
 		postFields.add(new PostField("sr", subreddit));
 		postFields.add(new PostField("title", title));
 
-		if(is_self)
+		if(is_self) {
 			postFields.add(new PostField("text", body));
-		else
+		} else {
 			postFields.add(new PostField("url", body));
+		}
 
 
 		cm.makeRequest(new APIPostRequest(
@@ -924,32 +925,41 @@ public final class RedditAPI {
 
 				final String responseAsString = response.asString();
 
-				if(Constants.Reddit.isApiErrorUser(responseAsString))
+				if(Constants.Reddit.isApiErrorUser(responseAsString)) {
 					return APIResponseHandler.APIFailureType.INVALID_USER;
+				}
 
-				if(Constants.Reddit.isApiErrorCaptcha(responseAsString))
+				if(Constants.Reddit.isApiErrorCaptcha(responseAsString)) {
 					return APIResponseHandler.APIFailureType.BAD_CAPTCHA;
+				}
 
-				if(Constants.Reddit.isApiErrorNotAllowed(responseAsString))
+				if(Constants.Reddit.isApiErrorNotAllowed(responseAsString)) {
 					return APIResponseHandler.APIFailureType.NOTALLOWED;
+				}
 
-				if(Constants.Reddit.isApiErrorSubredditRequired(responseAsString))
+				if(Constants.Reddit.isApiErrorSubredditRequired(responseAsString)) {
 					return APIResponseHandler.APIFailureType.SUBREDDIT_REQUIRED;
+				}
 
-				if(Constants.Reddit.isApiErrorURLRequired(responseAsString))
+				if(Constants.Reddit.isApiErrorURLRequired(responseAsString)) {
 					return APIResponseHandler.APIFailureType.URL_REQUIRED;
+				}
 
-				if(Constants.Reddit.isApiTooFast(responseAsString))
+				if(Constants.Reddit.isApiTooFast(responseAsString)) {
 					return APIResponseHandler.APIFailureType.TOO_FAST;
+				}
 
-				if(Constants.Reddit.isApiTooLong(responseAsString))
+				if(Constants.Reddit.isApiTooLong(responseAsString)) {
 					return APIResponseHandler.APIFailureType.TOO_LONG;
+				}
 
-				if(Constants.Reddit.isApiAlreadySubmitted(responseAsString))
+				if(Constants.Reddit.isApiAlreadySubmitted(responseAsString)) {
 					return APIResponseHandler.APIFailureType.ALREADY_SUBMITTED;
+				}
 
-				if(Constants.Reddit.isApiError(responseAsString))
+				if(Constants.Reddit.isApiError(responseAsString)) {
 					unknownError = true;
+				}
 
 				break;
 
@@ -1051,8 +1061,9 @@ public final class RedditAPI {
 				final UUID session,
 				final boolean fromCache,
 				final String mimetype) {
-			if(!cache)
+			if(!cache) {
 				throw new RuntimeException("onSuccess called for uncached request");
+			}
 		}
 
 		@Override

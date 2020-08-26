@@ -82,8 +82,9 @@ public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelpe
 		this.fields = fields.toArray(new Field[fields.size()]);
 
 		fieldNames = new String[this.fields.length + 2];
-		for(int i = 0; i < this.fields.length; i++)
+		for(int i = 0; i < this.fields.length; i++) {
 			fieldNames[i] = this.fields[i].getName();
+		}
 		fieldNames[this.fields.length] = FIELD_ID;
 		fieldNames[this.fields.length + 1] = FIELD_TIMESTAMP;
 	}
@@ -154,7 +155,9 @@ public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelpe
 			try {
 
 				final LinkedList<E> result = new LinkedList<>();
-				while(cursor.moveToNext()) result.add(readFromCursor(cursor));
+				while(cursor.moveToNext()) {
+					result.add(readFromCursor(cursor));
+				}
 				return result;
 
 			} catch(InstantiationException e) {
@@ -176,8 +179,11 @@ public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelpe
 
 	public synchronized E getById(final K id) {
 		final ArrayList<E> queryResult = getByField(FIELD_ID, id.toString());
-		if(queryResult.size() != 1) return null;
-		else return queryResult.get(0);
+		if(queryResult.size() != 1) {
+			return null;
+		} else {
+			return queryResult.get(0);
+		}
 	}
 
 	public synchronized ArrayList<E> getByField(final String field, final String value) {
@@ -197,7 +203,9 @@ public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelpe
 
 			try {
 				final ArrayList<E> result = new ArrayList<>(cursor.getCount());
-				while(cursor.moveToNext()) result.add(readFromCursor(cursor));
+				while(cursor.moveToNext()) {
+					result.add(readFromCursor(cursor));
+				}
 				return result;
 
 			} catch(InstantiationException e) {
@@ -290,7 +298,9 @@ public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelpe
 					null,
 					toContentValues(object, values));
 
-			if(result < 0) throw new RuntimeException("Database write failed");
+			if(result < 0) {
+				throw new RuntimeException("Database write failed");
+			}
 
 		} catch(IllegalAccessException e) {
 			throw new RuntimeException(e);
@@ -313,7 +323,9 @@ public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelpe
 						TABLE_NAME,
 						null,
 						toContentValues(object, values));
-				if(result < 0) throw new RuntimeException("Bulk database write failed");
+				if(result < 0) {
+					throw new RuntimeException("Bulk database write failed");
+				}
 			}
 
 		} catch(IllegalAccessException e) {

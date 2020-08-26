@@ -54,7 +54,9 @@ public class BodyElementNumberedListElement extends BodyElement {
 
 		final TextView number = new TextView(activity);
 		number.setText(mListIndex + ".  ");
-		if(textSize != null) number.setTextSize(textSize);
+		if(textSize != null) {
+			number.setTextSize(textSize);
+		}
 
 		outerLayout.addView(number);
 

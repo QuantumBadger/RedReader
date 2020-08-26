@@ -66,8 +66,9 @@ public final class JsonBufferedArray extends JsonBuffered implements Iterable<Js
 	 */
 	public JsonValue get(final int id) throws InterruptedException, IOException {
 
-		if(id < 0)
+		if(id < 0) {
 			throw new ArrayIndexOutOfBoundsException(id);
+		}
 
 		synchronized(this) {
 
@@ -238,14 +239,20 @@ public final class JsonBufferedArray extends JsonBuffered implements Iterable<Js
 		sb.append('[');
 
 		for(int item = 0; item < contents.size(); item++) {
-			if(item != 0) sb.append(',');
+			if(item != 0) {
+				sb.append(',');
+			}
 			sb.append('\n');
-			for(int i = 0; i < indent + 1; i++) sb.append("   ");
+			for(int i = 0; i < indent + 1; i++) {
+				sb.append("   ");
+			}
 			contents.get(item).prettyPrint(indent + 1, sb);
 		}
 
 		sb.append('\n');
-		for(int i = 0; i < indent; i++) sb.append("   ");
+		for(int i = 0; i < indent; i++) {
+			sb.append("   ");
+		}
 		sb.append(']');
 	}
 

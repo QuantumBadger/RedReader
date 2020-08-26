@@ -230,7 +230,9 @@ public final class RedditPostView extends FlingableItemView
 		thumbnailHandler = new Handler(Looper.getMainLooper()) {
 			@Override
 			public void handleMessage(final Message msg) {
-				if(usageId != msg.what) return;
+				if(usageId != msg.what) {
+					return;
+				}
 				thumbnailView.setImageBitmap((Bitmap)msg.obj);
 			}
 		};
@@ -357,7 +359,9 @@ public final class RedditPostView extends FlingableItemView
 			}
 		}
 
-		if(post != null) post.unbind(this);
+		if(post != null) {
+			post.unbind(this);
+		}
 		data.bind(this);
 
 		this.post = data;

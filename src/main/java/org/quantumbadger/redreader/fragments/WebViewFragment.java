@@ -79,7 +79,9 @@ public class WebViewFragment extends Fragment
 
 		final Bundle bundle = new Bundle(1);
 		bundle.putString("url", url);
-		if(post != null) bundle.putParcelable("post", post);
+		if(post != null) {
+			bundle.putParcelable("post", post);
+		}
 		f.setArguments(bundle);
 
 		return f;
@@ -275,7 +277,9 @@ public class WebViewFragment extends Fragment
 					final WebView view,
 					final String url) {
 
-				if(url == null) return false;
+				if(url == null) {
+					return false;
+				}
 
 				if(url.startsWith("data:")) {
 					// Prevent imgur bug where we're directed to some random data URI
@@ -355,9 +359,13 @@ public class WebViewFragment extends Fragment
 							@Override
 							public void run() {
 
-								if(currentUrl == null || url == null) return;
+								if(currentUrl == null || url == null) {
+									return;
+								}
 
-								if(!url.equals(view.getUrl())) return;
+								if(!url.equals(view.getUrl())) {
+									return;
+								}
 
 								if(goingBack && url.equals(currentUrl)) {
 

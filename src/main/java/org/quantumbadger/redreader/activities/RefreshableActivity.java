@@ -112,13 +112,13 @@ public abstract class RefreshableActivity extends BaseActivity {
 			final RefreshableFragment which,
 			final boolean force) {
 		runOnUiThread(() -> {
-			if(!paused) {
-				doRefreshNow(which, force);
-			} else {
-				// TODO this doesn't remember "force" //  (but it doesn't really matter...)
-				refreshOnResume.add(which);
-			}
-		}
+					if(!paused) {
+						doRefreshNow(which, force);
+					} else {
+						// TODO this doesn't remember "force" //  (but it doesn't really matter...)
+						refreshOnResume.add(which);
+					}
+				}
 		);
 	}
 }

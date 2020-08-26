@@ -27,7 +27,9 @@ final class CacheDownloadThread extends Thread {
 
 		super(name);
 		this.singleDownload = singleDownload;
-		if(start) start();
+		if(start) {
+			start();
+		}
 	}
 
 	@Override

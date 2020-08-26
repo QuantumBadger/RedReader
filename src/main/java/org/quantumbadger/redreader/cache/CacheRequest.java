@@ -106,7 +106,9 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 
 	// Called by CacheDownload
 	synchronized boolean setDownload(final CacheDownload download) {
-		if(cancelled) return false;
+		if(cancelled) {
+			return false;
+		}
 		this.download = download;
 		return true;
 	}
@@ -169,22 +171,27 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 
 		this.context = context;
 
-		if(user == null)
+		if(user == null) {
 			throw new NullPointerException(
 					"User was null - set to empty string for anonymous");
+		}
 
-		if(!downloadStrategy.shouldDownloadWithoutCheckingCache() && postFields != null)
+		if(!downloadStrategy.shouldDownloadWithoutCheckingCache() && postFields != null) {
 			throw new IllegalArgumentException(
 					"Should not perform cache lookup for POST requests");
+		}
 
-		if(!isJson && postFields != null)
+		if(!isJson && postFields != null) {
 			throw new IllegalArgumentException("POST requests must be for JSON values");
+		}
 
-		if(cache && postFields != null)
+		if(cache && postFields != null) {
 			throw new IllegalArgumentException("Cannot cache a POST request");
+		}
 
-		if(!cache && !isJson)
+		if(!cache && !isJson) {
 			throw new IllegalArgumentException("Must cache non-JSON requests");
+		}
 
 		this.url = url;
 		this.user = user;

@@ -75,9 +75,11 @@ public class OKHTTPBackend extends HTTPBackend {
 
 			@Override
 			public List<Cookie> loadForRequest(HttpUrl url) {
-				if(url.toString().contains("search"))
+				if(url.toString().contains("search")) {
 					return list;
-				else return Collections.emptyList();
+				} else {
+					return Collections.emptyList();
+				}
 			}
 		};
 

@@ -111,7 +111,9 @@ public class ShareOrderDialog extends AppCompatDialogFragment
 				prioritizedApps[prioritizedAppNames.indexOf(currentAppName)] = currentApp;
 				iterator.remove();
 				// Exit early if all apps matched
-				if(++count >= prioritizedAppNames.size()) break;
+				if(++count >= prioritizedAppNames.size()) {
+					break;
+				}
 			}
 		}
 

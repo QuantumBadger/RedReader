@@ -121,7 +121,9 @@ public class CommentListingController {
 			final AppCompatActivity parent,
 			final boolean force,
 			final Bundle savedInstanceState) {
-		if(force) mSession = null;
+		if(force) {
+			mSession = null;
+		}
 		return new CommentListingFragment(
 				parent,
 				savedInstanceState,

@@ -133,10 +133,14 @@ public class RedditInboxItemView extends LinearLayout {
 	}
 
 	public void handleInboxClick(AppCompatActivity activity) {
-		if(currentItem != null) currentItem.handleInboxClick(activity);
+		if(currentItem != null) {
+			currentItem.handleInboxClick(activity);
+		}
 	}
 
 	public void handleInboxLongClick(AppCompatActivity activity) {
-		if(currentItem != null) currentItem.handleInboxLongClick(activity);
+		if(currentItem != null) {
+			currentItem.handleInboxLongClick(activity);
+		}
 	}
 }

@@ -31,7 +31,9 @@ public class ParcelHelper {
 	public static String readNullableString(final Parcel in) {
 
 		final boolean isNull = readBoolean(in);
-		if(isNull) return null;
+		if(isNull) {
+			return null;
+		}
 
 		return in.readString();
 	}
@@ -40,7 +42,9 @@ public class ParcelHelper {
 	public static ImageInfo.MediaType readNullableImageInfoMediaType(final Parcel in) {
 
 		final boolean isNull = readBoolean(in);
-		if(isNull) return null;
+		if(isNull) {
+			return null;
+		}
 
 		return ImageInfo.MediaType.valueOf(in.readString());
 	}
@@ -68,7 +72,9 @@ public class ParcelHelper {
 	public static Integer readNullableInt(final Parcel in) {
 
 		final boolean isNull = readBoolean(in);
-		if(isNull) return null;
+		if(isNull) {
+			return null;
+		}
 
 		return in.readInt();
 	}
@@ -76,7 +82,9 @@ public class ParcelHelper {
 	public static Long readNullableLong(final Parcel in) {
 
 		final boolean isNull = readBoolean(in);
-		if(isNull) return null;
+		if(isNull) {
+			return null;
+		}
 
 		return in.readLong();
 	}
@@ -84,7 +92,9 @@ public class ParcelHelper {
 	public static Boolean readNullableBoolean(final Parcel in) {
 
 		final boolean isNull = readBoolean(in);
-		if(isNull) return null;
+		if(isNull) {
+			return null;
+		}
 
 		return readBoolean(in);
 	}

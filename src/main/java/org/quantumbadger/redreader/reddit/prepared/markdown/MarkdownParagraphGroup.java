@@ -59,8 +59,12 @@ public final class MarkdownParagraphGroup {
 			final TextView tv = new LinkifiedTextView(activity);
 			tv.setText(paragraph.spanned, TextView.BufferType.SPANNABLE);
 
-			if(textColor != null) tv.setTextColor(textColor);
-			if(textSize != null) tv.setTextSize(textSize);
+			if(textColor != null) {
+				tv.setTextColor(textColor);
+			}
+			if(textSize != null) {
+				tv.setTextSize(textSize);
+			}
 
 			switch(paragraph.type) {
 
@@ -71,7 +75,9 @@ public final class MarkdownParagraphGroup {
 
 					final TextView bullet = new TextView(activity);
 					bullet.setText("•   ");
-					if(textSize != null) bullet.setTextSize(textSize);
+					if(textSize != null) {
+						bullet.setTextSize(textSize);
+					}
 
 					bulletItem.addView(bullet);
 					bulletItem.addView(tv);
@@ -91,7 +97,9 @@ public final class MarkdownParagraphGroup {
 
 					final TextView number = new TextView(activity);
 					number.setText(paragraph.number + ".   ");
-					if(textSize != null) number.setTextSize(textSize);
+					if(textSize != null) {
+						number.setTextSize(textSize);
+					}
 
 					numberedItem.addView(number);
 					numberedItem.addView(tv);

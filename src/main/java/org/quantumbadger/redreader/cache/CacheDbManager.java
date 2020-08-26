@@ -187,7 +187,9 @@ final class CacheDbManager extends SQLiteOpenHelper {
 
 		final long result = db.insert(TABLE, null, row);
 
-		if(result < 0) throw new IOException("DB insert failed");
+		if(result < 0) {
+			throw new IOException("DB insert failed");
+		}
 
 		return result;
 	}
@@ -282,7 +284,9 @@ final class CacheDbManager extends SQLiteOpenHelper {
 
 			for(final long id : entriesToDelete) {
 				query.append(",").append(id);
-				if(query.length() > 512 * 1024) break;
+				if(query.length() > 512 * 1024) {
+					break;
+				}
 			}
 
 			query.append(')');

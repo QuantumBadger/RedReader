@@ -72,8 +72,9 @@ public class WebViewActivity extends BaseActivity
 	@Override
 	public void onBackPressed() {
 
-		if(General.onBackPressed() && !webView.onBackButtonPressed())
+		if(General.onBackPressed() && !webView.onBackButtonPressed()) {
 			super.onBackPressed();
+		}
 	}
 
 	public void onPostSelected(final RedditPreparedPost post) {

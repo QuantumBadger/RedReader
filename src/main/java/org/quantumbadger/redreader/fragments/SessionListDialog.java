@@ -58,7 +58,9 @@ public class SessionListDialog extends AppCompatDialogFragment
 
 		final Bundle args = new Bundle(3);
 		args.putString("url", url.toString());
-		if(current != null) args.putString("current", current.toString());
+		if(current != null) {
+			args.putString("current", current.toString());
+		}
 		args.putString("type", type.name());
 		dialog.setArguments(args);
 
@@ -87,7 +89,9 @@ public class SessionListDialog extends AppCompatDialogFragment
 	public Dialog onCreateDialog(final Bundle savedInstanceState) {
 		super.onCreateDialog(savedInstanceState);
 
-		if(alreadyCreated) return getDialog();
+		if(alreadyCreated) {
+			return getDialog();
+		}
 		alreadyCreated = true;
 
 		final Context context = getContext();

@@ -61,8 +61,12 @@ public class SearchPostListURL extends PostListingURL {
 
 	public static SearchPostListURL build(String subreddit, String query) {
 		if(subreddit != null) {
-			while(subreddit.startsWith("/")) subreddit = subreddit.substring(1);
-			while(subreddit.startsWith("r/")) subreddit = subreddit.substring(2);
+			while(subreddit.startsWith("/")) {
+				subreddit = subreddit.substring(1);
+			}
+			while(subreddit.startsWith("r/")) {
+				subreddit = subreddit.substring(2);
+			}
 		}
 		return new SearchPostListURL(subreddit, query, null, null, null);
 	}
@@ -198,8 +202,12 @@ public class SearchPostListURL extends PostListingURL {
 					pathSegmentsFiltered.toArray(new String[pathSegmentsFiltered.size()]);
 		}
 
-		if(pathSegments.length != 1 && pathSegments.length != 3) return null;
-		if(!pathSegments[pathSegments.length - 1].equalsIgnoreCase("search")) return null;
+		if(pathSegments.length != 1 && pathSegments.length != 3) {
+			return null;
+		}
+		if(!pathSegments[pathSegments.length - 1].equalsIgnoreCase("search")) {
+			return null;
+		}
 
 		switch(pathSegments.length) {
 
@@ -209,7 +217,9 @@ public class SearchPostListURL extends PostListingURL {
 
 			case 3: {
 
-				if(!pathSegments[0].equals("r")) return null;
+				if(!pathSegments[0].equals("r")) {
+					return null;
+				}
 
 				final String subreddit = pathSegments[1];
 				return new SearchPostListURL(
@@ -229,19 +239,24 @@ public class SearchPostListURL extends PostListingURL {
 	@Override
 	public String humanReadableName(Context context, boolean shorter) {
 
-		if(shorter) return context.getString(R.string.search_results_short);
+		if(shorter) {
+			return context.getString(R.string.search_results_short);
+		}
 
-		if(query != null && subreddit != null)
+		if(query != null && subreddit != null) {
 			return String.format(
 					context.getString(R.string.search_results_all),
 					query,
 					subreddit);
-		else if(query != null) return String.format(
-				context.getString(R.string.search_results_query_only),
-				query);
-		else if(subreddit != null) return String.format(
-				context.getString(R.string.search_results_subreddit_only),
-				subreddit);
+		} else if(query != null) {
+			return String.format(
+					context.getString(R.string.search_results_query_only),
+					query);
+		} else if(subreddit != null) {
+			return String.format(
+					context.getString(R.string.search_results_subreddit_only),
+					subreddit);
+		}
 
 		return context.getString(R.string.action_search);
 	}

@@ -45,7 +45,9 @@ final class CachingInputStream extends InputStream {
 	}
 
 	private void notifyOnBytesRead() {
-		if(listener != null) listener.onBytesRead(bytesRead);
+		if(listener != null) {
+			listener.onBytesRead(bytesRead);
+		}
 	}
 
 	@Override
@@ -56,7 +58,9 @@ final class CachingInputStream extends InputStream {
 			final byte[] skipBuffer = new byte[8192];
 
 			//noinspection StatementWithEmptyBody
-			while(read(skipBuffer) > 0) ;
+			while(read(skipBuffer) > 0) {
+				;
+			}
 
 			if(stillRunning) {
 				throw new RuntimeException(

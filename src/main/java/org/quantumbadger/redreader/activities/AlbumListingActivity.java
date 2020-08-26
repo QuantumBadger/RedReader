@@ -131,10 +131,14 @@ public class AlbumListingActivity extends BaseActivity {
 								"AlbumListingActivity",
 								"getAlbumInfo call failed: " + type);
 
-						if(status != null) Log.e(
-								"AlbumListingActivity",
-								"status was: " + status.toString());
-						if(t != null) Log.e("AlbumListingActivity", "exception was: ", t);
+						if(status != null) {
+							Log.e(
+									"AlbumListingActivity",
+									"status was: " + status.toString());
+						}
+						if(t != null) {
+							Log.e("AlbumListingActivity", "exception was: ", t);
+						}
 
 						if(status == null) {
 							revertToWeb();
@@ -242,7 +246,9 @@ public class AlbumListingActivity extends BaseActivity {
 
 	@Override
 	public void onBackPressed() {
-		if(General.onBackPressed()) super.onBackPressed();
+		if(General.onBackPressed()) {
+			super.onBackPressed();
+		}
 	}
 
 	private void revertToWeb() {

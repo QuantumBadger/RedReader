@@ -195,7 +195,9 @@ public final class InboxListingActivity extends BaseActivity {
 	}
 
 	public void cancel() {
-		if(request != null) request.cancel();
+		if(request != null) {
+			request.cancel();
+		}
 	}
 
 	private void makeFirstRequest(final Context context) {
@@ -244,7 +246,9 @@ public final class InboxListingActivity extends BaseActivity {
 
 				request = null;
 
-				if(loadingView != null) loadingView.setDone(R.string.download_failed);
+				if(loadingView != null) {
+					loadingView.setDone(R.string.download_failed);
+				}
 
 				final RRError error = General.getGeneralErrorForFailure(
 						context,
@@ -261,7 +265,9 @@ public final class InboxListingActivity extends BaseActivity {
 					}
 				});
 
-				if(t != null) t.printStackTrace();
+				if(t != null) {
+					t.printStackTrace();
+				}
 			}
 
 			@Override
@@ -288,8 +294,9 @@ public final class InboxListingActivity extends BaseActivity {
 					final UUID session,
 					final boolean fromCache) {
 
-				if(loadingView != null)
+				if(loadingView != null) {
 					loadingView.setIndeterminate(R.string.download_downloading);
+				}
 
 				// TODO pref (currently 10 mins)
 				// TODO xml
@@ -404,7 +411,9 @@ public final class InboxListingActivity extends BaseActivity {
 					return;
 				}
 
-				if(loadingView != null) loadingView.setDone(R.string.download_done);
+				if(loadingView != null) {
+					loadingView.setDone(R.string.download_done);
+				}
 			}
 		};
 
@@ -413,7 +422,9 @@ public final class InboxListingActivity extends BaseActivity {
 
 	@Override
 	public void onBackPressed() {
-		if(General.onBackPressed()) super.onBackPressed();
+		if(General.onBackPressed()) {
+			super.onBackPressed();
+		}
 	}
 
 	@Override

@@ -111,7 +111,9 @@ public final class MarkdownParser {
 
 			final MarkdownParagraph paragraph = line.tokenize(lastParagraph);
 
-			if(!paragraph.isEmpty()) outputParagraphs.add(paragraph);
+			if(!paragraph.isEmpty()) {
+				outputParagraphs.add(paragraph);
+			}
 		}
 
 		return new MarkdownParagraphGroup(outputParagraphs.toArray(

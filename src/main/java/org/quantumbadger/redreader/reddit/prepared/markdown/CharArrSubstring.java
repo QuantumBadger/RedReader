@@ -64,21 +64,27 @@ public final class CharArrSubstring {
 
 	private static int indexOfLinebreak(final char[] raw, int startPos) {
 		for(int i = startPos; i < raw.length; i++) {
-			if(raw[i] == '\n') return i;
+			if(raw[i] == '\n') {
+				return i;
+			}
 		}
 		return -1;
 	}
 
 	public int countSpacesAtStart() {
 		for(int i = 0; i < length; i++) {
-			if(arr[start + i] != ' ') return i;
+			if(arr[start + i] != ' ') {
+				return i;
+			}
 		}
 		return length;
 	}
 
 	public int countSpacesAtEnd() {
 		for(int i = 0; i < length; i++) {
-			if(arr[start + length - 1 - i] != ' ') return i;
+			if(arr[start + length - 1 - i] != ' ') {
+				return i;
+			}
 		}
 		return length;
 	}
@@ -89,7 +95,9 @@ public final class CharArrSubstring {
 
 	public int countPrefixLengthIgnoringSpaces(final char c) {
 		for(int i = 0; i < length; i++) {
-			if(arr[start + i] != ' ' && arr[start + i] != c) return i;
+			if(arr[start + i] != ' ' && arr[start + i] != c) {
+				return i;
+			}
 		}
 		return length;
 	}
@@ -97,8 +105,11 @@ public final class CharArrSubstring {
 	public int countPrefixLevelIgnoringSpaces(final char c) {
 		int level = 0;
 		for(int i = 0; i < length; i++) {
-			if(arr[start + i] != ' ' && arr[start + i] != c) return level;
-			else if(arr[start + i] == c) level++; // TODO tidy up
+			if(arr[start + i] != ' ' && arr[start + i] != c) {
+				return level;
+			} else if(arr[start + i] == c) {
+				level++; // TODO tidy up
+			}
 		}
 		return length;
 	}
@@ -118,8 +129,9 @@ public final class CharArrSubstring {
 	public CharArrSubstring readInteger(final int start) {
 		for(int i = start; i < length; i++) {
 			final char c = arr[this.start + i];
-			if(c < '0' || c > '9')
+			if(c < '0' || c > '9') {
 				return new CharArrSubstring(arr, this.start + start, i - start);
+			}
 		}
 		return new CharArrSubstring(arr, this.start + start, length - start);
 	}
@@ -140,10 +152,14 @@ public final class CharArrSubstring {
 
 	public boolean equalAt(int position, String needle) {
 
-		if(length < position + needle.length()) return false;
+		if(length < position + needle.length()) {
+			return false;
+		}
 
 		for(int i = 0; i < needle.length(); i++) {
-			if(needle.charAt(i) != arr[start + position + i]) return false;
+			if(needle.charAt(i) != arr[start + position + i]) {
+				return false;
+			}
 		}
 
 		return true;

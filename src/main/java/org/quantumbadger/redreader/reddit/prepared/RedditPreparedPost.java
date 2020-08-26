@@ -200,7 +200,9 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		final EnumSet<Action> itemPref
 				= PrefsUtility.pref_menus_post_context_items(activity, sharedPreferences);
 
-		if(itemPref.isEmpty()) return;
+		if(itemPref.isEmpty()) {
+			return;
+		}
 
 		final RedditAccount user =
 				RedditAccountManager.getInstance(activity).getDefaultAccount();
@@ -281,16 +283,20 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 						Action.DELETE));
 			}
 
-			if(itemPref.contains(Action.REPORT)) menu.add(new RPVMenuItem(
-					activity,
-					R.string.action_report,
-					Action.REPORT));
+			if(itemPref.contains(Action.REPORT)) {
+				menu.add(new RPVMenuItem(
+						activity,
+						R.string.action_report,
+						Action.REPORT));
+			}
 		}
 
-		if(itemPref.contains(Action.EXTERNAL)) menu.add(new RPVMenuItem(
-				activity,
-				R.string.action_external,
-				Action.EXTERNAL));
+		if(itemPref.contains(Action.EXTERNAL)) {
+			menu.add(new RPVMenuItem(
+					activity,
+					R.string.action_external,
+					Action.EXTERNAL));
+		}
 
 		if(itemPref.contains(Action.SELFTEXT_LINKS)
 				&& post.src.getRawSelfTextMarkdown() != null
@@ -302,15 +308,18 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 					Action.SELFTEXT_LINKS));
 		}
 
-		if(itemPref.contains(Action.SAVE_IMAGE) && post.mIsProbablyAnImage)
+		if(itemPref.contains(Action.SAVE_IMAGE) && post.mIsProbablyAnImage) {
 			menu.add(new RPVMenuItem(
 					activity,
 					R.string.action_save_image,
 					Action.SAVE_IMAGE));
-		if(itemPref.contains(Action.GOTO_SUBREDDIT)) menu.add(new RPVMenuItem(
-				activity,
-				R.string.action_gotosubreddit,
-				Action.GOTO_SUBREDDIT));
+		}
+		if(itemPref.contains(Action.GOTO_SUBREDDIT)) {
+			menu.add(new RPVMenuItem(
+					activity,
+					R.string.action_gotosubreddit,
+					Action.GOTO_SUBREDDIT));
+		}
 		if(post.showSubreddit) {
 			try {
 
@@ -387,19 +396,24 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			}
 		}
 
-		if(itemPref.contains(Action.SHARE))
+		if(itemPref.contains(Action.SHARE)) {
 			menu.add(new RPVMenuItem(activity, R.string.action_share, Action.SHARE));
-		if(itemPref.contains(Action.SHARE_COMMENTS)) menu.add(new RPVMenuItem(
-				activity,
-				R.string.action_share_comments,
-				Action.SHARE_COMMENTS));
-		if(itemPref.contains(Action.SHARE_IMAGE) && post.mIsProbablyAnImage)
+		}
+		if(itemPref.contains(Action.SHARE_COMMENTS)) {
+			menu.add(new RPVMenuItem(
+					activity,
+					R.string.action_share_comments,
+					Action.SHARE_COMMENTS));
+		}
+		if(itemPref.contains(Action.SHARE_IMAGE) && post.mIsProbablyAnImage) {
 			menu.add(new RPVMenuItem(
 					activity,
 					R.string.action_share_image,
 					Action.SHARE_IMAGE));
-		if(itemPref.contains(Action.COPY))
+		}
+		if(itemPref.contains(Action.COPY)) {
 			menu.add(new RPVMenuItem(activity, R.string.action_copy_link, Action.COPY));
+		}
 		if(itemPref.contains(Action.COPY_SELFTEXT)
 				&& post.src.getRawSelfTextMarkdown() != null
 				&& post.src.getRawSelfTextMarkdown().length() > 1) {
@@ -409,14 +423,18 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 					R.string.action_copy_selftext,
 					Action.COPY_SELFTEXT));
 		}
-		if(itemPref.contains(Action.USER_PROFILE)) menu.add(new RPVMenuItem(
-				activity,
-				R.string.action_user_profile,
-				Action.USER_PROFILE));
-		if(itemPref.contains(Action.PROPERTIES)) menu.add(new RPVMenuItem(
-				activity,
-				R.string.action_properties,
-				Action.PROPERTIES));
+		if(itemPref.contains(Action.USER_PROFILE)) {
+			menu.add(new RPVMenuItem(
+					activity,
+					R.string.action_user_profile,
+					Action.USER_PROFILE));
+		}
+		if(itemPref.contains(Action.PROPERTIES)) {
+			menu.add(new RPVMenuItem(
+					activity,
+					R.string.action_properties,
+					Action.PROPERTIES));
+		}
 
 
 		final String[] menuText = new String[menu.size()];
@@ -733,13 +751,17 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				break;
 
 			case COMMENTS_SWITCH:
-				if(!(activity instanceof MainActivity)) activity.finish();
+				if(!(activity instanceof MainActivity)) {
+					activity.finish();
+				}
 				((RedditPostView.PostSelectionListener)activity).onPostCommentsSelected(
 						post);
 				break;
 
 			case LINK_SWITCH:
-				if(!(activity instanceof MainActivity)) activity.finish();
+				if(!(activity instanceof MainActivity)) {
+					activity.finish();
+				}
 				((RedditPostView.PostSelectionListener)activity).onPostSelected(post);
 				break;
 
@@ -1029,8 +1051,9 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.GOLD)) {
 			if(src.getGoldAmount() > 0) {
-				if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.SCORE))
+				if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.SCORE)) {
 					postListDescSb.append(" ", 0);
+				}
 				postListDescSb.append(
 						" "
 								+ context.getString(R.string.gold)
@@ -1182,7 +1205,9 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 						int factor = 1;
 
 						while(width / (factor + 1) > widthPixels
-								&& height / (factor + 1) > widthPixels) factor *= 2;
+								&& height / (factor + 1) > widthPixels) {
+							factor *= 2;
+						}
 
 						BitmapFactory.Options scaledOptions = new BitmapFactory.Options();
 						scaledOptions.inSampleSize = factor;
@@ -1193,15 +1218,20 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 										null,
 										scaledOptions);
 
-						if(data == null) return;
+						if(data == null) {
+							return;
+						}
 						thumbnailCache = ThumbnailScaler.scale(data, widthPixels);
-						if(thumbnailCache != data) data.recycle();
+						if(thumbnailCache != data) {
+							data.recycle();
+						}
 					}
 
-					if(thumbnailCallback != null)
+					if(thumbnailCallback != null) {
 						thumbnailCallback.betterThumbnailAvailable(
 								thumbnailCache,
 								usageId);
+					}
 
 				} catch(OutOfMemoryError e) {
 					// TODO handle this better - disable caching of images
@@ -1359,7 +1389,9 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 							final Integer status,
 							final String readableMessage) {
 						revertOnFailure();
-						if(t != null) t.printStackTrace();
+						if(t != null) {
+							t.printStackTrace();
+						}
 
 						final RRError error = General.getGeneralErrorForFailure(
 								context,
@@ -1588,7 +1620,9 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 		for(final Action action : possibleItems) {
 
-			if(action == Action.SAVE_IMAGE && !mIsProbablyAnImage) continue;
+			if(action == Action.SAVE_IMAGE && !mIsProbablyAnImage) {
+				continue;
+			}
 
 			if(itemsPref.contains(action)) {
 

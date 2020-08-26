@@ -67,7 +67,9 @@ public final class WeakReferenceListManager<E> {
 		final Iterator<WeakReference<E>> iterator = data.iterator();
 
 		while(iterator.hasNext()) {
-			if(iterator.next().get() == object) iterator.remove();
+			if(iterator.next().get() == object) {
+				iterator.remove();
+			}
 		}
 	}
 

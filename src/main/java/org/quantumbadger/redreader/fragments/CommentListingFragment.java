@@ -320,7 +320,9 @@ public class CommentListingFragment extends RRFragment
 					@Override
 					public boolean onSwipe(@BezelSwipeOverlay.SwipeEdge int edge) {
 
-						if(mPost == null) return false;
+						if(mPost == null) {
+							return false;
+						}
 
 						toolbarOverlay.setContents(mPost.generateToolbar(
 								getActivity(),

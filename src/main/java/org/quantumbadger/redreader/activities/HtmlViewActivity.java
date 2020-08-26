@@ -91,7 +91,8 @@ public class HtmlViewActivity extends BaseActivity {
 	@Override
 	public void onBackPressed() {
 
-		if(General.onBackPressed() && !webView.onBackButtonPressed())
+		if(General.onBackPressed() && !webView.onBackButtonPressed()) {
 			super.onBackPressed();
+		}
 	}
 }

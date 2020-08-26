@@ -62,8 +62,12 @@ public class RedditRenderableComment
 
 		int score = rawComment.ups - rawComment.downs;
 
-		if(Boolean.TRUE.equals(rawComment.likes)) score--;
-		if(Boolean.FALSE.equals(rawComment.likes)) score++;
+		if(Boolean.TRUE.equals(rawComment.likes)) {
+			score--;
+		}
+		if(Boolean.FALSE.equals(rawComment.likes)) {
+			score++;
+		}
 
 		if(changeDataManager.isUpvoted(mComment)) {
 			score++;

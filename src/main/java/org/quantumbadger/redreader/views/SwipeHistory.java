@@ -66,7 +66,9 @@ public final class SwipeHistory {
 	}
 
 	private int getNthMostRecentIndex(int n) {
-		if(n >= len || n < 0) throw new ArrayIndexOutOfBoundsException(n);
+		if(n >= len || n < 0) {
+			throw new ArrayIndexOutOfBoundsException(n);
+		}
 		return (start + len - n - 1) % positions.length;
 	}
 

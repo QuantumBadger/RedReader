@@ -253,7 +253,7 @@ public class MainMenuListingManager {
 
 				final AtomicBoolean isFirst = new AtomicBoolean(true);
 
-				if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.PROFILE))
+				if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.PROFILE)) {
 					mAdapter.appendToGroup(
 							GROUP_USER_ITEMS,
 							makeItem(
@@ -261,8 +261,9 @@ public class MainMenuListingManager {
 									MainMenuFragment.MENU_MENU_ACTION_PROFILE,
 									rrIconPerson,
 									isFirst.getAndSet(false)));
+				}
 
-				if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.INBOX))
+				if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.INBOX)) {
 					mAdapter.appendToGroup(
 							GROUP_USER_ITEMS,
 							makeItem(
@@ -270,8 +271,9 @@ public class MainMenuListingManager {
 									MainMenuFragment.MENU_MENU_ACTION_INBOX,
 									rrIconEnvOpen,
 									isFirst.getAndSet(false)));
+				}
 
-				if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.SUBMITTED))
+				if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.SUBMITTED)) {
 					mAdapter.appendToGroup(
 							GROUP_USER_ITEMS,
 							makeItem(
@@ -279,8 +281,9 @@ public class MainMenuListingManager {
 									MainMenuFragment.MENU_MENU_ACTION_SUBMITTED,
 									rrIconSend,
 									isFirst.getAndSet(false)));
+				}
 
-				if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.SAVED))
+				if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.SAVED)) {
 					mAdapter.appendToGroup(
 							GROUP_USER_ITEMS,
 							makeItem(
@@ -288,8 +291,9 @@ public class MainMenuListingManager {
 									MainMenuFragment.MENU_MENU_ACTION_SAVED,
 									rrIconStarFilled,
 									isFirst.getAndSet(false)));
+				}
 
-				if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.HIDDEN))
+				if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.HIDDEN)) {
 					mAdapter.appendToGroup(
 							GROUP_USER_ITEMS,
 							makeItem(
@@ -297,8 +301,9 @@ public class MainMenuListingManager {
 									MainMenuFragment.MENU_MENU_ACTION_HIDDEN,
 									rrIconCross,
 									isFirst.getAndSet(false)));
+				}
 
-				if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.UPVOTED))
+				if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.UPVOTED)) {
 					mAdapter.appendToGroup(
 							GROUP_USER_ITEMS,
 							makeItem(
@@ -306,8 +311,9 @@ public class MainMenuListingManager {
 									MainMenuFragment.MENU_MENU_ACTION_UPVOTED,
 									rrIconUpvote,
 									isFirst.getAndSet(false)));
+				}
 
-				if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.DOWNVOTED))
+				if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.DOWNVOTED)) {
 					mAdapter.appendToGroup(
 							GROUP_USER_ITEMS,
 							makeItem(
@@ -315,8 +321,9 @@ public class MainMenuListingManager {
 									MainMenuFragment.MENU_MENU_ACTION_DOWNVOTED,
 									rrIconDownvote,
 									isFirst.getAndSet(false)));
+				}
 
-				if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.MODMAIL))
+				if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.MODMAIL)) {
 					mAdapter.appendToGroup(
 							GROUP_USER_ITEMS,
 							makeItem(
@@ -324,6 +331,7 @@ public class MainMenuListingManager {
 									MainMenuFragment.MENU_MENU_ACTION_MODMAIL,
 									rrIconEnvOpen,
 									isFirst.getAndSet(false)));
+				}
 			}
 		}
 

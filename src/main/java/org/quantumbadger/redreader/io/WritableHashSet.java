@@ -77,7 +77,9 @@ public class WritableHashSet implements WritableObject<String>, Iterable<String>
 	}
 
 	public synchronized HashSet<String> toHashset() {
-		if(hashSet != null) return hashSet;
+		if(hashSet != null) {
+			return hashSet;
+		}
 		return (hashSet = new HashSet<>(escapedStringToList(serialised)));
 	}
 
@@ -91,7 +93,9 @@ public class WritableHashSet implements WritableObject<String>, Iterable<String>
 
 	public static String listToEscapedString(final Collection<String> list) {
 
-		if(list.size() == 0) return "";
+		if(list.size() == 0) {
+			return "";
+		}
 
 		final StringBuilder sb = new StringBuilder();
 
@@ -122,7 +126,9 @@ public class WritableHashSet implements WritableObject<String>, Iterable<String>
 	public static ArrayList<String> escapedStringToList(String str) {
 
 		// Workaround to improve parsing of lists saved by older versions of the app
-		if(str.length() > 0 && !str.endsWith(";")) str += ";";
+		if(str.length() > 0 && !str.endsWith(";")) {
+			str += ";";
+		}
 
 		final ArrayList<String> result = new ArrayList<>();
 
@@ -140,7 +146,9 @@ public class WritableHashSet implements WritableObject<String>, Iterable<String>
 					sb.setLength(0);
 
 				} else if(c == '\\') {
-					if(isEscaped) sb.append('\\');
+					if(isEscaped) {
+						sb.append('\\');
+					}
 
 				} else {
 					sb.append(c);

@@ -150,8 +150,9 @@ public class MainActivity extends RefreshableActivity
 		doRefresh(RefreshableFragment.MAIN_RELAYOUT, false, null);
 
 		if(savedInstanceState == null) {
-			if(PrefsUtility.pref_behaviour_skiptofrontpage(this, sharedPreferences))
+			if(PrefsUtility.pref_behaviour_skiptofrontpage(this, sharedPreferences)) {
 				onSelected(SubredditPostListURL.getFrontPage());
+			}
 		}
 
 		setTitle(R.string.app_name);
@@ -323,13 +324,17 @@ public class MainActivity extends RefreshableActivity
 					if(PrefsUtility.pref_show_popular_main_menu(
 							this,
 							sharedPreferences
-					)) existingShortcutPreferences.add("popular");
+					)) {
+						existingShortcutPreferences.add("popular");
+					}
 
 
 					if(PrefsUtility.pref_show_random_main_menu(
 							this,
 							sharedPreferences
-					)) existingShortcutPreferences.add("random");
+					)) {
+						existingShortcutPreferences.add("random");
+					}
 
 					sharedPreferences.edit().putStringSet(
 							getString(R.string.pref_menus_mainmenu_shortcutitems_key),
@@ -875,8 +880,12 @@ public class MainActivity extends RefreshableActivity
 			postListingView = null;
 			commentListingView = null;
 
-			if(mLeftPane != null) mLeftPane.removeAllViews();
-			if(mRightPane != null) mRightPane.removeAllViews();
+			if(mLeftPane != null) {
+				mLeftPane.removeAllViews();
+			}
+			if(mRightPane != null) {
+				mRightPane.removeAllViews();
+			}
 
 			twoPane = General.isTablet(this, sharedPreferences);
 
@@ -916,7 +925,9 @@ public class MainActivity extends RefreshableActivity
 
 			if(postListingController != null && (which == RefreshableFragment.ALL
 					|| which == RefreshableFragment.POSTS)) {
-				if(force && postListingFragment != null) postListingFragment.cancel();
+				if(force && postListingFragment != null) {
+					postListingFragment.cancel();
+				}
 				postListingFragment = postListingController.get(this, force, null);
 				postListingView = postListingFragment.getView();
 				postContainer.removeAllViews();
@@ -948,7 +959,9 @@ public class MainActivity extends RefreshableActivity
 	@Override
 	public void onBackPressed() {
 
-		if(!General.onBackPressed()) return;
+		if(!General.onBackPressed()) {
+			return;
+		}
 
 		if(!twoPane || isMenuShown) {
 			super.onBackPressed();
@@ -1197,12 +1210,16 @@ public class MainActivity extends RefreshableActivity
 
 	@Override
 	public void onSubscribe() {
-		if(postListingFragment != null) postListingFragment.onSubscribe();
+		if(postListingFragment != null) {
+			postListingFragment.onSubscribe();
+		}
 	}
 
 	@Override
 	public void onUnsubscribe() {
-		if(postListingFragment != null) postListingFragment.onUnsubscribe();
+		if(postListingFragment != null) {
+			postListingFragment.onUnsubscribe();
+		}
 	}
 
 	@Override
@@ -1213,7 +1230,9 @@ public class MainActivity extends RefreshableActivity
 	@Override
 	public void onPin() {
 
-		if(postListingFragment == null) return;
+		if(postListingFragment == null) {
+			return;
+		}
 
 		try {
 			PrefsUtility.pref_pinned_subreddits_add(
@@ -1231,7 +1250,9 @@ public class MainActivity extends RefreshableActivity
 	@Override
 	public void onUnpin() {
 
-		if(postListingFragment == null) return;
+		if(postListingFragment == null) {
+			return;
+		}
 
 		try {
 			PrefsUtility.pref_pinned_subreddits_remove(
@@ -1248,7 +1269,9 @@ public class MainActivity extends RefreshableActivity
 
 	@Override
 	public void onBlock() {
-		if(postListingFragment == null) return;
+		if(postListingFragment == null) {
+			return;
+		}
 
 		try {
 			PrefsUtility.pref_blocked_subreddits_add(
@@ -1265,7 +1288,9 @@ public class MainActivity extends RefreshableActivity
 
 	@Override
 	public void onUnblock() {
-		if(postListingFragment == null) return;
+		if(postListingFragment == null) {
+			return;
+		}
 
 		try {
 			PrefsUtility.pref_blocked_subreddits_remove(
@@ -1331,12 +1356,14 @@ public class MainActivity extends RefreshableActivity
 
 		switch(type) {
 			case POSTS:
-				if(postListingController != null)
+				if(postListingController != null) {
 					postListingController.setSession(session);
+				}
 				break;
 			case COMMENTS:
-				if(commentListingController != null)
+				if(commentListingController != null) {
 					commentListingController.setSession(session);
+				}
 				break;
 		}
 	}

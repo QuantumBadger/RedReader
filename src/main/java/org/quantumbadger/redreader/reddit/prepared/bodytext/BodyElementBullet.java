@@ -50,7 +50,9 @@ public class BodyElementBullet extends BodyElement {
 
 		final TextView bullet = new TextView(activity);
 		bullet.setText("•   ");
-		if(textSize != null) bullet.setTextSize(textSize);
+		if(textSize != null) {
+			bullet.setTextSize(textSize);
+		}
 
 		bulletItem.addView(bullet);
 

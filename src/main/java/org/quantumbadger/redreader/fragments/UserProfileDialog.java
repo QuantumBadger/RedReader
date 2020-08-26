@@ -93,7 +93,9 @@ public class UserProfileDialog extends PropertiesDialog {
 				new APIResponseHandler.UserResponseHandler(context) {
 					@Override
 					protected void onDownloadStarted() {
-						if(!active) return;
+						if(!active) {
+							return;
+						}
 						loadingView.setIndeterminate(R.string.download_connecting);
 					}
 
@@ -102,7 +104,9 @@ public class UserProfileDialog extends PropertiesDialog {
 
 						AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 
-							if(!active) return;
+							if(!active) {
+								return;
+							}
 
 							loadingView.setDone(R.string.download_done);
 
@@ -285,7 +289,9 @@ public class UserProfileDialog extends PropertiesDialog {
 							@Override
 							public void run() {
 
-								if(!active) return;
+								if(!active) {
+									return;
+								}
 
 								loadingView.setDone(R.string.download_failed);
 
@@ -307,7 +313,9 @@ public class UserProfileDialog extends PropertiesDialog {
 							@Override
 							public void run() {
 
-								if(!active) return;
+								if(!active) {
+									return;
+								}
 
 								loadingView.setDone(R.string.download_failed);
 

@@ -376,10 +376,15 @@ public class PostSubmitActivity extends BaseActivity {
 				final RedditAccount selectedAccount = RedditAccountManager.getInstance(
 						this).getAccount((String)usernameSpinner.getSelectedItem());
 
-				while(subreddit.startsWith("/")) subreddit = subreddit.substring(1);
-				while(subreddit.startsWith("r/")) subreddit = subreddit.substring(2);
-				while(subreddit.endsWith("/"))
+				while(subreddit.startsWith("/")) {
+					subreddit = subreddit.substring(1);
+				}
+				while(subreddit.startsWith("r/")) {
+					subreddit = subreddit.substring(2);
+				}
+				while(subreddit.endsWith("/")) {
 					subreddit = subreddit.substring(0, subreddit.length() - 1);
+				}
 
 				final boolean sendRepliesToInbox = sendRepliesToInboxCheckbox.isChecked();
 				final boolean markAsNsfw = markAsNsfwCheckbox.isChecked();
@@ -427,7 +432,9 @@ public class PostSubmitActivity extends BaseActivity {
 
 	@Override
 	public void onBackPressed() {
-		if(General.onBackPressed()) super.onBackPressed();
+		if(General.onBackPressed()) {
+			super.onBackPressed();
+		}
 	}
 
 	@Override

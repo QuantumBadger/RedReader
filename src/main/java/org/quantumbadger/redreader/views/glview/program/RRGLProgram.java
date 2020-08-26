@@ -48,10 +48,14 @@ public abstract class RRGLProgram {
 
 		switch(type) {
 			case GLES20.GL_FRAGMENT_SHADER:
-				if(mFragmentShaderHandle != null) throw new RuntimeException();
+				if(mFragmentShaderHandle != null) {
+					throw new RuntimeException();
+				}
 				break;
 			case GLES20.GL_VERTEX_SHADER:
-				if(mVertexShaderHandle != null) throw new RuntimeException();
+				if(mVertexShaderHandle != null) {
+					throw new RuntimeException();
+				}
 				break;
 			default:
 				throw new RuntimeException("Unknown shader type.");
@@ -93,8 +97,9 @@ public abstract class RRGLProgram {
 
 	private void link() {
 
-		if(mFragmentShaderHandle == null || mVertexShaderHandle == null)
+		if(mFragmentShaderHandle == null || mVertexShaderHandle == null) {
 			throw new RuntimeException();
+		}
 
 		GLES20.glLinkProgram(mHandle);
 

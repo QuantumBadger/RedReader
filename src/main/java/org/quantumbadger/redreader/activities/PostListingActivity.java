@@ -277,7 +277,9 @@ public class PostListingActivity extends RefreshableActivity
 			final RefreshableFragment which,
 			final boolean force,
 			final Bundle savedInstanceState) {
-		if(fragment != null) fragment.cancel();
+		if(fragment != null) {
+			fragment.cancel();
+		}
 		fragment = controller.get(this, force, savedInstanceState);
 
 		final View view = fragment.getView();
@@ -334,7 +336,9 @@ public class PostListingActivity extends RefreshableActivity
 		DialogUtils.showSearchDialog(activity, new DialogUtils.OnSearchListener() {
 			@Override
 			public void onSearch(@Nullable String query) {
-				if(query == null) return;
+				if(query == null) {
+					return;
+				}
 
 				final SearchPostListURL url;
 
@@ -381,7 +385,9 @@ public class PostListingActivity extends RefreshableActivity
 	@Override
 	public void onPin() {
 
-		if(fragment == null) return;
+		if(fragment == null) {
+			return;
+		}
 
 		try {
 			PrefsUtility.pref_pinned_subreddits_add(
@@ -399,7 +405,9 @@ public class PostListingActivity extends RefreshableActivity
 	@Override
 	public void onUnpin() {
 
-		if(fragment == null) return;
+		if(fragment == null) {
+			return;
+		}
 
 		try {
 			PrefsUtility.pref_pinned_subreddits_remove(
@@ -416,7 +424,9 @@ public class PostListingActivity extends RefreshableActivity
 
 	@Override
 	public void onBlock() {
-		if(fragment == null) return;
+		if(fragment == null) {
+			return;
+		}
 
 		try {
 			PrefsUtility.pref_blocked_subreddits_add(
@@ -433,7 +443,9 @@ public class PostListingActivity extends RefreshableActivity
 
 	@Override
 	public void onUnblock() {
-		if(fragment == null) return;
+		if(fragment == null) {
+			return;
+		}
 
 		try {
 			PrefsUtility.pref_blocked_subreddits_remove(
@@ -463,7 +475,9 @@ public class PostListingActivity extends RefreshableActivity
 
 	@Override
 	public void onBackPressed() {
-		if(General.onBackPressed()) super.onBackPressed();
+		if(General.onBackPressed()) {
+			super.onBackPressed();
+		}
 	}
 
 	@Override

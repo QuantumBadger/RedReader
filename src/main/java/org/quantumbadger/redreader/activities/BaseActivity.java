@@ -304,12 +304,13 @@ public abstract class BaseActivity extends AppCompatActivity
 				= PrefsUtility.pref_behaviour_screen_orientation(
 				this,
 				mSharedPreferences);
-		if(orientation == PrefsUtility.ScreenOrientation.AUTO)
+		if(orientation == PrefsUtility.ScreenOrientation.AUTO) {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-		else if(orientation == PrefsUtility.ScreenOrientation.PORTRAIT)
+		} else if(orientation == PrefsUtility.ScreenOrientation.PORTRAIT) {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		else if(orientation == PrefsUtility.ScreenOrientation.LANDSCAPE)
+		} else if(orientation == PrefsUtility.ScreenOrientation.LANDSCAPE) {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+		}
 	}
 
 

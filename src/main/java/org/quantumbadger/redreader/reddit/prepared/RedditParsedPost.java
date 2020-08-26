@@ -131,8 +131,12 @@ public class RedditParsedPost implements RedditThingWithIdAndType {
 
 		int score = mSrc.score;
 
-		if(Boolean.TRUE.equals(mSrc.likes)) score--;
-		if(Boolean.FALSE.equals(mSrc.likes)) score++;
+		if(Boolean.TRUE.equals(mSrc.likes)) {
+			score--;
+		}
+		if(Boolean.FALSE.equals(mSrc.likes)) {
+			score++;
+		}
 
 		return score;
 	}

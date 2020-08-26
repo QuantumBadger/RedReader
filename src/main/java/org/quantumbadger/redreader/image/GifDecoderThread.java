@@ -50,7 +50,9 @@ public class GifDecoderThread extends Thread {
 	private final Handler handler = new Handler(Looper.getMainLooper()) {
 		@Override
 		public void handleMessage(Message msg) {
-			if(playing && view != null) view.setImageBitmap((Bitmap)msg.obj);
+			if(playing && view != null) {
+				view.setImageBitmap((Bitmap)msg.obj);
+			}
 		}
 	};
 
@@ -93,7 +95,9 @@ public class GifDecoderThread extends Thread {
 
 		try {
 
-			if(!playing) return;
+			if(!playing) {
+				return;
+			}
 
 			listener.onGifLoaded();
 

@@ -76,14 +76,23 @@ public enum PostSort {
 
 		} else if(sort.equals("top")) {
 
-			if(t == null) return TOP_ALL;
-			else if(t.equals("all")) return TOP_ALL;
-			else if(t.equals("hour")) return TOP_HOUR;
-			else if(t.equals("day")) return TOP_DAY;
-			else if(t.equals("week")) return TOP_WEEK;
-			else if(t.equals("month")) return TOP_MONTH;
-			else if(t.equals("year")) return TOP_YEAR;
-			else return TOP_ALL;
+			if(t == null) {
+				return TOP_ALL;
+			} else if(t.equals("all")) {
+				return TOP_ALL;
+			} else if(t.equals("hour")) {
+				return TOP_HOUR;
+			} else if(t.equals("day")) {
+				return TOP_DAY;
+			} else if(t.equals("week")) {
+				return TOP_WEEK;
+			} else if(t.equals("month")) {
+				return TOP_MONTH;
+			} else if(t.equals("year")) {
+				return TOP_YEAR;
+			} else {
+				return TOP_ALL;
+			}
 
 		} else {
 			return null;

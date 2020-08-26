@@ -34,7 +34,9 @@ public class StatusListItemView extends FrameLayout {
 	}
 
 	public void setContents(final View contents) {
-		if(this.contents != null) removeView(this.contents);
+		if(this.contents != null) {
+			removeView(this.contents);
+		}
 		this.contents = contents;
 		addView(contents);
 

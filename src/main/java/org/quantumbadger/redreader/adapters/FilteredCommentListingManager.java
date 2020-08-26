@@ -59,7 +59,9 @@ public class FilteredCommentListingManager extends RedditListingManager {
 		} else {
 			searchComments = new ArrayList<>();
 			for(RedditCommentListItem comment : comments) {
-				if(!comment.isComment()) continue;
+				if(!comment.isComment()) {
+					continue;
+				}
 				String commentStr = comment.asComment()
 						.getParsedComment()
 						.getRawComment().body;

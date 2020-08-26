@@ -39,6 +39,7 @@ import org.quantumbadger.redreader.image.ImageInfo;
 import org.quantumbadger.redreader.viewholders.VH3TextIcon;
 
 import java.io.IOException;
+import java.util.Locale;
 import java.util.UUID;
 
 public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
@@ -87,9 +88,9 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 
 			long size = imageInfo.size;
 			if(size < 512 * 1024) {
-				subtitle += String.format("%.1f kB", (float)size / 1024);
+				subtitle += String.format(Locale.US, "%.1f kB", (float)size / 1024);
 			} else {
-				subtitle += String.format("%.1f MB", (float)size / (1024 * 1024));
+				subtitle += String.format(Locale.US, "%.1f MB", (float)size / (1024 * 1024));
 			}
 		}
 

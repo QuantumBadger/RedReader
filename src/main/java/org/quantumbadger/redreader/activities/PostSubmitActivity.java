@@ -351,6 +351,8 @@ public class PostSubmitActivity extends BaseActivity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
 
+		super.onActivityResult(requestCode, resultCode, data);
+
 		if(requestCode == REQUEST_UPLOAD) {
 
 			if(data != null && data.getData() != null) {

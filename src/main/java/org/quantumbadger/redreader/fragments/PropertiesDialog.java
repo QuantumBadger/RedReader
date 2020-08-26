@@ -21,6 +21,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -128,7 +129,10 @@ public abstract class PropertiesDialog extends AppCompatDialogFragment {
 		prop.addView(textView);
 
 		prop.setContentDescription(title + "\n" + text);
-		textView.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+
+		if(Build.VERSION.SDK_INT >= 16) {
+			textView.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+		}
 
 		return prop;
 	}

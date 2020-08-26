@@ -394,6 +394,7 @@
     <string-array name="pref_menus_post_context_items">
         <item>@string/action_upvote</item>
         <item>@string/action_downvote</item>
+		<item>@string/action_comments</item>
         <item>@string/action_save</item>
         <item>@string/action_hide</item>
         <item>@string/action_delete</item>
@@ -419,6 +420,7 @@
     <string-array name="pref_menus_post_context_items_return">
         <item>upvote</item>
         <item>downvote</item>
+		<item>comments</item>
         <item>save</item>
         <item>hide</item>
         <item>delete</item>
@@ -1005,6 +1007,33 @@
 		<item>top_month</item>
 		<item>top_year</item>
 		<item>top_all</item>
+	</string-array>
+    
+  <!-- 2020-08-26 -->
+
+	<!-- Constants. Do not change. -->
+	<string-array name="pref_menus_post_context_items_default">
+		<item>upvote</item>
+		<item>downvote</item>
+		<item>save</item>
+		<item>hide</item>
+		<item>delete</item>
+		<item>report</item>
+		<item>external</item>
+		<item>selftext_links</item>
+		<item>save_image</item>
+		<item>goto_subreddit</item>
+		<item>pin</item>
+		<item>subscribe</item>
+		<item>block</item>
+		<item>share</item>
+		<item>share_comments</item>
+		<item>share_image</item>
+		<item>copy</item>
+		<item>copy_selftext</item>>
+		<item>user_profile</item>
+		<item>properties</item>
+		<item>edit</item>
 	</string-array>
 
 </resources>

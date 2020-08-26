@@ -687,6 +687,16 @@ public final class PrefsUtility {
 		return result;
 	}
 
+	public static boolean appearance_post_show_comments_button(
+			final Context context,
+			final SharedPreferences sharedPreferences) {
+		return getBoolean(
+				R.string.pref_appearance_post_show_comments_button_key,
+				true,
+				context,
+				sharedPreferences);
+	}
+
 	public enum AppearanceCommentHeaderItem {
 		AUTHOR, FLAIR, SCORE, AGE, GOLD
 	}

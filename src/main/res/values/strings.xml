@@ -1252,6 +1252,11 @@
 	<!-- 2020-07-25 -->
 	<string name="image_gallery">Gallery</string>
 
+	<!-- 2020-07-28 -->
+	<string name="pref_appearance_post_show_comments_button_title">Show comments button</string>
+	<string name="pref_appearance_post_show_comments_button_key" translatable="false">pref_appearance_show_comments_button</string>
+	<string name="action_comments_with_count">View Comments (%d)</string>
+
 	<!-- 2020-08-17 -->
 	<string name="pref_behaviour_user_postsort_key" translatable="false">pref_behaviour_user_postsort</string>
 	<string name="pref_behaviour_user_postsort_title">User posts (default)</string>

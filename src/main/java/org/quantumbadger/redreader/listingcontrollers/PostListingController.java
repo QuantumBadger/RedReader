@@ -53,7 +53,7 @@ public class PostListingController {
 		if(url.pathType() == RedditURLParser.SUBREDDIT_POST_LISTING_URL) {
 			if(url.asSubredditPostListURL().order == null) {
 
-				PostSort order = defaultOrder(context);
+				PostSort order = defaultSubredditOrder(context);
 
 				if(order == PostSort.BEST
 						&& url.asSubredditPostListURL().type != SubredditPostListURL.Type.FRONTPAGE) {
@@ -65,7 +65,11 @@ public class PostListingController {
 			}
 		} else if(url.pathType() == RedditURLParser.USER_POST_LISTING_URL) {
 			if(url.asUserPostListURL().order == null) {
-				url = url.asUserPostListURL().sort(PostSort.NEW);
+				url = url.asUserPostListURL().sort(defaultUserOrder(context));
+			}
+		} else if(url.pathType() == RedditURLParser.MULTIREDDIT_POST_LISTING_URL) {
+			if(url.asMultiredditPostListURL().order == null) {
+				url = url.asMultiredditPostListURL().sort(defaultMultiredditOrder(context));
 			}
 		}
 
@@ -104,8 +108,16 @@ public class PostListingController {
 		}
 	}
 
-	private PostSort defaultOrder(final Context context) {
+	private PostSort defaultSubredditOrder(final Context context) {
 		return PrefsUtility.pref_behaviour_postsort(context, PreferenceManager.getDefaultSharedPreferences(context));
+	}
+
+	private PostSort defaultUserOrder(final Context context) {
+		return PrefsUtility.pref_behaviour_user_postsort(context, PreferenceManager.getDefaultSharedPreferences(context));
+	}
+
+	private PostSort defaultMultiredditOrder(final Context context) {
+		return PrefsUtility.pref_behaviour_multi_postsort(context, PreferenceManager.getDefaultSharedPreferences(context));
 	}
 
 	public final PostSort getSort() {

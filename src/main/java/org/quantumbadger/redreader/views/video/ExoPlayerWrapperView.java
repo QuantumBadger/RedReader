@@ -207,9 +207,7 @@ public class ExoPlayerWrapperView extends FrameLayout {
 				}
 
 				@Override
-				public void onScrubStop(TimeBar timeBar, long position, boolean canceled) {
-
-				}
+				public void onScrubStop(TimeBar timeBar, long position, boolean canceled) { mVideoPlayer.seekTo(position); }
 			});
 
 			final Runnable updateProgressRunnable = new Runnable() {

@@ -35,10 +35,26 @@ public interface WritableObject<K> {
 	}
 
 	K getKey();
+
 	long getTimestamp();
 
-	@Retention(RetentionPolicy.RUNTIME) @Target(ElementType.FIELD) @interface WritableObjectVersion {}
-	@Retention(RetentionPolicy.RUNTIME) @Target(ElementType.FIELD) @interface WritableObjectKey {}
-	@Retention(RetentionPolicy.RUNTIME) @Target(ElementType.FIELD) @interface WritableObjectTimestamp {}
-	@Retention(RetentionPolicy.RUNTIME) @Target(ElementType.FIELD) @interface WritableField {}
+	@Retention(RetentionPolicy.RUNTIME)
+	@Target(ElementType.FIELD)
+	@interface WritableObjectVersion {
+	}
+
+	@Retention(RetentionPolicy.RUNTIME)
+	@Target(ElementType.FIELD)
+	@interface WritableObjectKey {
+	}
+
+	@Retention(RetentionPolicy.RUNTIME)
+	@Target(ElementType.FIELD)
+	@interface WritableObjectTimestamp {
+	}
+
+	@Retention(RetentionPolicy.RUNTIME)
+	@Target(ElementType.FIELD)
+	@interface WritableField {
+	}
 }

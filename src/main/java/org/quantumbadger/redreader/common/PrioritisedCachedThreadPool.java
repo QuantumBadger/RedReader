@@ -56,7 +56,9 @@ public class PrioritisedCachedThreadPool {
 		}
 
 		public abstract int getPrimaryPriority();
+
 		public abstract int getSecondaryPriority();
+
 		public abstract void run();
 	}
 
@@ -91,7 +93,8 @@ public class PrioritisedCachedThreadPool {
 
 					int taskIndex = -1;
 					for(int i = 0; i < mTasks.size(); i++) {
-						if(taskToRun == null || mTasks.get(i).isHigherPriorityThan(taskToRun)) {
+						if(taskToRun == null || mTasks.get(i)
+								.isHigherPriorityThan(taskToRun)) {
 							taskToRun = mTasks.get(i);
 							taskIndex = i;
 						}

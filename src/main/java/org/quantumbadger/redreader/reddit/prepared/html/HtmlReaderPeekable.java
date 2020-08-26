@@ -8,7 +8,8 @@ public class HtmlReaderPeekable {
 
 	@NonNull private HtmlReader.Token mNext;
 
-	public HtmlReaderPeekable(@NonNull final HtmlReader htmlReader) throws MalformedHtmlException {
+	public HtmlReaderPeekable(@NonNull final HtmlReader htmlReader) throws
+			MalformedHtmlException {
 		mHtmlReader = htmlReader;
 		mNext = mHtmlReader.readNext();
 	}

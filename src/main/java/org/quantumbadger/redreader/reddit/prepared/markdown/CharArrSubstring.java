@@ -55,7 +55,8 @@ public final class CharArrSubstring {
 	public CharArrSubstring rejoin(final CharArrSubstring toAppend) {
 
 		if(toAppend.start - 1 != start + length) {
-			throw new RuntimeException("Internal error: attempt to join non-consecutive substrings");
+			throw new RuntimeException(
+					"Internal error: attempt to join non-consecutive substrings");
 		}
 
 		return new CharArrSubstring(arr, start, length + 1 + toAppend.length);
@@ -117,7 +118,8 @@ public final class CharArrSubstring {
 	public CharArrSubstring readInteger(final int start) {
 		for(int i = start; i < length; i++) {
 			final char c = arr[this.start + i];
-			if(c < '0' || c > '9') return new CharArrSubstring(arr, this.start + start, i - start);
+			if(c < '0' || c > '9')
+				return new CharArrSubstring(arr, this.start + start, i - start);
 		}
 		return new CharArrSubstring(arr, this.start + start, length - start);
 	}

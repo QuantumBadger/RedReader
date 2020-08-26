@@ -44,7 +44,13 @@ public class RRGLProgramTexture extends RRGLProgramVertices {
 	}
 
 	public void activateUVBuffer(FloatBuffer uvBuffer) {
-		GLES20.glVertexAttribPointer(mUVDataHandle, 2, GLES20.GL_FLOAT, false, 0, uvBuffer);
+		GLES20.glVertexAttribPointer(
+				mUVDataHandle,
+				2,
+				GLES20.GL_FLOAT,
+				false,
+				0,
+				uvBuffer);
 	}
 
 	@Override

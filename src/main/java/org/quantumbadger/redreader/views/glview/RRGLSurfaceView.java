@@ -28,7 +28,9 @@ public class RRGLSurfaceView extends GLSurfaceView {
 	private final FingerTracker mFingerTracker;
 	private final RRGLDisplayListRenderer.DisplayListManager mDisplayListManager;
 
-	public RRGLSurfaceView(Context context, RRGLDisplayListRenderer.DisplayListManager displayListManager) {
+	public RRGLSurfaceView(
+			Context context,
+			RRGLDisplayListRenderer.DisplayListManager displayListManager) {
 		super(context);
 
 		setEGLContextClientVersion(2);

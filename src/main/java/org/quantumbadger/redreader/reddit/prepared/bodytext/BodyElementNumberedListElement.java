@@ -43,11 +43,19 @@ public class BodyElementNumberedListElement extends BodyElement {
 
 		if(mElements.size() == 1) {
 			outerLayout.addView(mElements.get(0)
-					.generateView(activity, textColor, textSize, showLinkButtons));
+					.generateView(
+							activity,
+							textColor,
+							textSize,
+							showLinkButtons));
 
 		} else {
 			outerLayout.addView(new BodyElementVerticalSequence(mElements)
-					.generateView(activity, textColor, textSize, showLinkButtons));
+					.generateView(
+							activity,
+							textColor,
+							textSize,
+							showLinkButtons));
 		}
 
 		General.setLayoutMatchWidthWrapHeight(outerLayout);

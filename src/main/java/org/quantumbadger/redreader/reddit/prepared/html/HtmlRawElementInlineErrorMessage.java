@@ -10,7 +10,8 @@ import java.util.ArrayList;
 
 public abstract class HtmlRawElementInlineErrorMessage extends HtmlRawElement {
 
-	private HtmlRawElementInlineErrorMessage() {}
+	private HtmlRawElementInlineErrorMessage() {
+	}
 
 	public static HtmlRawElementStyledText create(@NonNull final String text) {
 

@@ -83,7 +83,7 @@ public class PostSubmitActivity extends BaseActivity {
 
 		setTitle(R.string.submit_post_actionbar);
 
-		final LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(
+		final LinearLayout layout = (LinearLayout)getLayoutInflater().inflate(
 				R.layout.post_submit,
 				null);
 
@@ -92,9 +92,11 @@ public class PostSubmitActivity extends BaseActivity {
 		subredditEdit = (EditText)layout.findViewById(R.id.post_submit_subreddit);
 		titleEdit = (EditText)layout.findViewById(R.id.post_submit_title);
 		textEdit = (EditText)layout.findViewById(R.id.post_submit_body);
-		sendRepliesToInboxCheckbox = (CheckBox)layout.findViewById(R.id.post_submit_send_replies_to_inbox);
-		markAsNsfwCheckbox = (CheckBox) layout.findViewById(R.id.post_submit_mark_nsfw);
-		markAsSpoilerCheckbox = (CheckBox) layout.findViewById(R.id.post_submit_mark_spoiler);
+		sendRepliesToInboxCheckbox
+				= (CheckBox)layout.findViewById(R.id.post_submit_send_replies_to_inbox);
+		markAsNsfwCheckbox = (CheckBox)layout.findViewById(R.id.post_submit_mark_nsfw);
+		markAsSpoilerCheckbox
+				= (CheckBox)layout.findViewById(R.id.post_submit_mark_spoiler);
 
 		final Intent intent = getIntent();
 		if(intent != null) {
@@ -103,23 +105,27 @@ public class PostSubmitActivity extends BaseActivity {
 
 				final String subreddit = intent.getStringExtra("subreddit");
 
-				if(subreddit != null && subreddit.length() > 0 && !subreddit.matches("/?(r/)?all/?") && subreddit.matches("/?(r/)?\\w+/?")) {
+				if(subreddit != null && subreddit.length() > 0 && !subreddit.matches(
+						"/?(r/)?all/?") && subreddit.matches("/?(r/)?\\w+/?")) {
 					subredditEdit.setText(subreddit);
 				}
 
-			} else if(Intent.ACTION_SEND.equalsIgnoreCase(intent.getAction()) && intent.hasExtra(Intent.EXTRA_TEXT)){
+			} else if(Intent.ACTION_SEND.equalsIgnoreCase(intent.getAction())
+					&& intent.hasExtra(Intent.EXTRA_TEXT)) {
 				final String url = intent.getStringExtra(Intent.EXTRA_TEXT);
 				textEdit.setText(url);
 			}
 
-		} else if(savedInstanceState != null && savedInstanceState.containsKey("post_title")) {
+		} else if(savedInstanceState != null && savedInstanceState.containsKey(
+				"post_title")) {
 			titleEdit.setText(savedInstanceState.getString("post_title"));
 			textEdit.setText(savedInstanceState.getString("post_body"));
 			subredditEdit.setText(savedInstanceState.getString("subreddit"));
 			typeSpinner.setSelection(savedInstanceState.getInt("post_type"));
 		}
 
-		final ArrayList<RedditAccount> accounts = RedditAccountManager.getInstance(this).getAccounts();
+		final ArrayList<RedditAccount> accounts = RedditAccountManager.getInstance(this)
+				.getAccounts();
 		final ArrayList<String> usernames = new ArrayList<>();
 
 		for(RedditAccount account : accounts) {
@@ -133,11 +139,17 @@ public class PostSubmitActivity extends BaseActivity {
 			finish();
 		}
 
-		usernameSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, usernames));
-		typeSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, postTypes));
+		usernameSpinner.setAdapter(new ArrayAdapter<>(
+				this,
+				android.R.layout.simple_list_item_1,
+				usernames));
+		typeSpinner.setAdapter(new ArrayAdapter<>(
+				this,
+				android.R.layout.simple_list_item_1,
+				postTypes));
 
 		// Fetch information from draft if a draft exists
-		if ((lastTitle != null || lastText != null)
+		if((lastTitle != null || lastText != null)
 				&& subredditEdit.getText().toString().equals(lastSubreddit)) {
 			typeSpinner.setSelection(lastType);
 			titleEdit.setText(lastTitle);
@@ -151,7 +163,11 @@ public class PostSubmitActivity extends BaseActivity {
 		setHint();
 
 		typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+			public void onItemSelected(
+					AdapterView<?> parent,
+					View view,
+					int position,
+					long id) {
 				setHint();
 			}
 
@@ -170,11 +186,14 @@ public class PostSubmitActivity extends BaseActivity {
 
 		if(selected.equals("Link") || selected.equals("Upload to Imgur")) {
 			textEdit.setHint(getString(R.string.submit_post_url_hint));
-			textEdit.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_URI);
+			textEdit.setInputType(InputType.TYPE_CLASS_TEXT
+					| InputType.TYPE_TEXT_VARIATION_URI);
 			textEdit.setSingleLine(true);
 		} else if(selected.equals("Self")) {
 			textEdit.setHint(getString(R.string.submit_post_self_text_hint));
-			textEdit.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+			textEdit.setInputType(InputType.TYPE_CLASS_TEXT
+					| InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE
+					| InputType.TYPE_TEXT_FLAG_MULTI_LINE);
 			textEdit.setSingleLine(false);
 		} else {
 			throw new RuntimeException("Unknown selection " + selected.toString());
@@ -230,14 +249,21 @@ public class PostSubmitActivity extends BaseActivity {
 			final String postTitle = titleEdit.getText().toString();
 			final String text = textEdit.getText().toString();
 
-			if (subreddit.isEmpty()) {
-				Toast.makeText(this, R.string.submit_post_specify_subreddit, Toast.LENGTH_SHORT).show();
+			if(subreddit.isEmpty()) {
+				Toast.makeText(
+						this,
+						R.string.submit_post_specify_subreddit,
+						Toast.LENGTH_SHORT).show();
 				subredditEdit.requestFocus();
-			} else if (postTitle.isEmpty()) {
-				Toast.makeText(this, R.string.submit_post_title_empty, Toast.LENGTH_SHORT).show();
+			} else if(postTitle.isEmpty()) {
+				Toast.makeText(this, R.string.submit_post_title_empty, Toast.LENGTH_SHORT)
+						.show();
 				titleEdit.requestFocus();
-			}  else if (getString(R.string.submit_post_url_hint).equals(textEdit.getHint().toString()) && text.isEmpty()) {
-				Toast.makeText(this, R.string.submit_post_url_empty, Toast.LENGTH_SHORT).show();
+			} else if(getString(R.string.submit_post_url_hint).equals(textEdit.getHint()
+					.toString())
+					&& text.isEmpty()) {
+				Toast.makeText(this, R.string.submit_post_url_empty, Toast.LENGTH_SHORT)
+						.show();
 				textEdit.requestFocus();
 			} else {
 				final ProgressDialog progressDialog = new ProgressDialog(this);
@@ -249,16 +275,23 @@ public class PostSubmitActivity extends BaseActivity {
 
 				progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
 					public void onCancel(final DialogInterface dialogInterface) {
-						General.quickToast(PostSubmitActivity.this, getString(R.string.comment_reply_oncancel));
+						General.quickToast(
+								PostSubmitActivity.this,
+								getString(R.string.comment_reply_oncancel));
 						General.safeDismissDialog(progressDialog);
 					}
 				});
 
 				progressDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
-					public boolean onKey(final DialogInterface dialogInterface, final int keyCode, final KeyEvent keyEvent) {
+					public boolean onKey(
+							final DialogInterface dialogInterface,
+							final int keyCode,
+							final KeyEvent keyEvent) {
 
 						if(keyCode == KeyEvent.KEYCODE_BACK) {
-							General.quickToast(PostSubmitActivity.this, getString(R.string.comment_reply_oncancel));
+							General.quickToast(
+									PostSubmitActivity.this,
+									getString(R.string.comment_reply_oncancel));
 							General.safeDismissDialog(progressDialog);
 						}
 
@@ -268,19 +301,24 @@ public class PostSubmitActivity extends BaseActivity {
 
 				final CacheManager cm = CacheManager.getInstance(this);
 
-				final APIResponseHandler.ActionResponseHandler handler = new APIResponseHandler.ActionResponseHandler(this) {
+				final APIResponseHandler.ActionResponseHandler handler
+						= new APIResponseHandler.ActionResponseHandler(this) {
 					@Override
 					protected void onSuccess(@Nullable final String redirectUrl) {
 						AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
 							@Override
 							public void run() {
 								General.safeDismissDialog(progressDialog);
-								General.quickToast(PostSubmitActivity.this, getString(R.string.post_submit_done));
+								General.quickToast(
+										PostSubmitActivity.this,
+										getString(R.string.post_submit_done));
 
 								resetDraft();
 
 								if(redirectUrl != null) {
-									LinkHandler.onLinkClicked(PostSubmitActivity.this, redirectUrl);
+									LinkHandler.onLinkClicked(
+											PostSubmitActivity.this,
+											redirectUrl);
 								}
 
 								finish();
@@ -294,9 +332,18 @@ public class PostSubmitActivity extends BaseActivity {
 					}
 
 					@Override
-					protected void onFailure(@CacheRequest.RequestFailureType int type, Throwable t, Integer status, String readableMessage) {
+					protected void onFailure(
+							@CacheRequest.RequestFailureType int type,
+							Throwable t,
+							Integer status,
+							String readableMessage) {
 
-						final RRError error = General.getGeneralErrorForFailure(context, type, t, status, null);
+						final RRError error = General.getGeneralErrorForFailure(
+								context,
+								type,
+								t,
+								status,
+								null);
 
 						AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
 							@Override
@@ -310,7 +357,9 @@ public class PostSubmitActivity extends BaseActivity {
 					@Override
 					protected void onFailure(final APIFailureType type) {
 
-						final RRError error = General.getGeneralErrorForFailure(context, type);
+						final RRError error = General.getGeneralErrorForFailure(
+								context,
+								type);
 
 						AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
 							@Override
@@ -324,25 +373,38 @@ public class PostSubmitActivity extends BaseActivity {
 
 				final boolean is_self = typeSpinner.getSelectedItem().equals("Self");
 
-				final RedditAccount selectedAccount = RedditAccountManager.getInstance(this).getAccount((String)usernameSpinner.getSelectedItem());
+				final RedditAccount selectedAccount = RedditAccountManager.getInstance(
+						this).getAccount((String)usernameSpinner.getSelectedItem());
 
 				while(subreddit.startsWith("/")) subreddit = subreddit.substring(1);
 				while(subreddit.startsWith("r/")) subreddit = subreddit.substring(2);
-				while(subreddit.endsWith("/")) subreddit = subreddit.substring(0, subreddit.length() - 1);
+				while(subreddit.endsWith("/"))
+					subreddit = subreddit.substring(0, subreddit.length() - 1);
 
 				final boolean sendRepliesToInbox = sendRepliesToInboxCheckbox.isChecked();
 				final boolean markAsNsfw = markAsNsfwCheckbox.isChecked();
 				final boolean markAsSpoiler = markAsSpoilerCheckbox.isChecked();
 
-				RedditAPI.submit(cm, handler, selectedAccount, is_self, subreddit, postTitle, text,
-						sendRepliesToInbox, markAsNsfw, markAsSpoiler, this);
+				RedditAPI.submit(
+						cm,
+						handler,
+						selectedAccount,
+						is_self,
+						subreddit,
+						postTitle,
+						text,
+						sendRepliesToInbox,
+						markAsNsfw,
+						markAsSpoiler,
+						this);
 
 				progressDialog.show();
 			}
 			return true;
 
 		} else if(item.getTitle().equals(getString(R.string.comment_reply_preview))) {
-			MarkdownPreviewDialog.newInstance(textEdit.getText().toString()).show(getSupportFragmentManager(), null);
+			MarkdownPreviewDialog.newInstance(textEdit.getText().toString())
+					.show(getSupportFragmentManager(), null);
 			return true;
 
 		} else {
@@ -369,7 +431,7 @@ public class PostSubmitActivity extends BaseActivity {
 	}
 
 	@Override
-	protected void onDestroy(){
+	protected void onDestroy() {
 		super.onDestroy();
 
 		// Store information for draft

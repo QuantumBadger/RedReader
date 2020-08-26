@@ -48,9 +48,9 @@ import android.view.ViewGroup;
 /**
  * A {@link android.preference.PreferenceActivity} which implements and proxies the necessary calls
  * to be used with AppCompat.
- *
- * This technique can be used with an {@link android.app.Activity} class, not just
- * {@link android.preference.PreferenceActivity}.
+ * <p>
+ * This technique can be used with an {@link android.app.Activity} class, not just {@link
+ * android.preference.PreferenceActivity}.
  */
 public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
 
@@ -137,7 +137,7 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
 	}
 
 	private AppCompatDelegate getDelegate() {
-		if (mDelegate == null) {
+		if(mDelegate == null) {
 			mDelegate = AppCompatDelegate.create(this, null);
 		}
 		return mDelegate;

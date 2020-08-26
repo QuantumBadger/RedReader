@@ -62,7 +62,8 @@ public final class MarkdownParser {
 					case TEXT:
 
 						if(i < 1) {
-							throw new RuntimeException("Internal error: invalid paragrapher state");
+							throw new RuntimeException(
+									"Internal error: invalid paragrapher state");
 						}
 
 						switch(lines[i - 1].type) {
@@ -99,14 +100,21 @@ public final class MarkdownParser {
 			mergedLines.add(currentLine);
 		}
 
-		final ArrayList<MarkdownParagraph> outputParagraphs = new ArrayList<>(mergedLines.size());
+		final ArrayList<MarkdownParagraph> outputParagraphs =
+				new ArrayList<>(mergedLines.size());
 
 		for(final MarkdownLine line : mergedLines) {
-			final MarkdownParagraph lastParagraph = outputParagraphs.isEmpty() ? null : outputParagraphs.get(outputParagraphs.size() - 1);
+
+			final MarkdownParagraph lastParagraph = outputParagraphs.isEmpty()
+					? null
+					: outputParagraphs.get(outputParagraphs.size() - 1);
+
 			final MarkdownParagraph paragraph = line.tokenize(lastParagraph);
+
 			if(!paragraph.isEmpty()) outputParagraphs.add(paragraph);
 		}
 
-		return new MarkdownParagraphGroup(outputParagraphs.toArray(new MarkdownParagraph[outputParagraphs.size()]));
+		return new MarkdownParagraphGroup(outputParagraphs.toArray(
+				new MarkdownParagraph[outputParagraphs.size()]));
 	}
 }

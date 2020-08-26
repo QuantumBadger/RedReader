@@ -23,7 +23,8 @@ import androidx.annotation.NonNull;
 import android.view.Choreographer;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-public class RRChoreographerModern extends RRChoreographer implements Choreographer.FrameCallback {
+public class RRChoreographerModern extends RRChoreographer
+		implements Choreographer.FrameCallback {
 
 	static final RRChoreographerModern INSTANCE = new RRChoreographerModern();
 
@@ -33,7 +34,8 @@ public class RRChoreographerModern extends RRChoreographer implements Choreograp
 	private int mCallbackCount = 0;
 	private boolean mPosted = false;
 
-	private RRChoreographerModern() {}
+	private RRChoreographerModern() {
+	}
 
 	@Override
 	public void postFrameCallback(@NonNull final Callback callback) {

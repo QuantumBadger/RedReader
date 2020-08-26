@@ -14,7 +14,8 @@ import java.util.HashSet;
 // Keeps an in-memory list of all known subreddits per account
 public class RedditSubredditHistory {
 
-	private static final HashMap<RedditAccount, HashSet<SubredditCanonicalId>> SUBREDDITS = new HashMap<>();
+	private static final HashMap<RedditAccount, HashSet<SubredditCanonicalId>> SUBREDDITS
+			= new HashMap<>();
 
 	private static HashSet<SubredditCanonicalId> getForAccount(final RedditAccount account) {
 
@@ -45,7 +46,8 @@ public class RedditSubredditHistory {
 	public static synchronized ArrayList<SubredditCanonicalId> getSubredditsSorted(
 			final RedditAccount account) {
 
-		final ArrayList<SubredditCanonicalId> result = new ArrayList<>(getForAccount(account));
+		final ArrayList<SubredditCanonicalId> result = new ArrayList<>(getForAccount(
+				account));
 		Collections.sort(result);
 		return result;
 	}

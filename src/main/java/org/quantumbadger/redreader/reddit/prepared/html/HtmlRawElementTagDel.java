@@ -11,7 +11,7 @@ public class HtmlRawElementTagDel extends HtmlRawElementTagAttributeChange {
 	}
 
 	@Override
-    protected void onStart(@NonNull HtmlTextAttributes activeAttributes) {
+	protected void onStart(@NonNull HtmlTextAttributes activeAttributes) {
 		activeAttributes.strikethrough++;
 	}
 

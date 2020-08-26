@@ -32,7 +32,12 @@ public class RRError {
 		this(title, message, t, null, null);
 	}
 
-	public RRError(String title, String message, Throwable t, Integer httpStatus, String url) {
+	public RRError(
+			String title,
+			String message,
+			Throwable t,
+			Integer httpStatus,
+			String url) {
 
 		this.title = title;
 		this.message = message;

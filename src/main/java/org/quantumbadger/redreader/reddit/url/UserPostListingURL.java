@@ -55,7 +55,13 @@ public class UserPostListingURL extends PostListingURL {
 	public final Integer limit;
 	public final String before, after;
 
-	UserPostListingURL(Type type, String user, PostSort order, Integer limit, String before, String after) {
+	UserPostListingURL(
+			Type type,
+			String user,
+			PostSort order,
+			Integer limit,
+			String before,
+			String after) {
 		this.type = type;
 		this.user = user;
 		this.order = order == PostSort.RISING ? PostSort.NEW : order;
@@ -103,7 +109,8 @@ public class UserPostListingURL extends PostListingURL {
 			} else if(parameterKey.equalsIgnoreCase("limit")) {
 				try {
 					limit = Integer.parseInt(uri.getQueryParameter(parameterKey));
-				} catch(Throwable ignored) {}
+				} catch(Throwable ignored) {
+				}
 			}
 		}
 
@@ -111,10 +118,12 @@ public class UserPostListingURL extends PostListingURL {
 		{
 			final List<String> pathSegmentsList = uri.getPathSegments();
 
-			final ArrayList<String> pathSegmentsFiltered = new ArrayList<>(pathSegmentsList.size());
+			final ArrayList<String> pathSegmentsFiltered = new ArrayList<>(
+					pathSegmentsList.size());
 			for(String segment : pathSegmentsList) {
 
-				while(General.asciiLowercase(segment).endsWith(".json") || General.asciiLowercase(segment).endsWith(".xml")) {
+				while(General.asciiLowercase(segment).endsWith(".json")
+						|| General.asciiLowercase(segment).endsWith(".xml")) {
 					segment = segment.substring(0, segment.lastIndexOf('.'));
 				}
 
@@ -123,12 +132,15 @@ public class UserPostListingURL extends PostListingURL {
 				}
 			}
 
-			pathSegments = pathSegmentsFiltered.toArray(new String[pathSegmentsFiltered.size()]);
+			pathSegments
+					= pathSegmentsFiltered.toArray(new String[pathSegmentsFiltered.size()]);
 		}
 
 		final PostSort order;
 		if(pathSegments.length > 0) {
-			order = PostSort.parse(uri.getQueryParameter("sort"), uri.getQueryParameter("t"));
+			order = PostSort.parse(
+					uri.getQueryParameter("sort"),
+					uri.getQueryParameter("t"));
 		} else {
 			order = null;
 		}
@@ -137,7 +149,8 @@ public class UserPostListingURL extends PostListingURL {
 			return null;
 		}
 
-		if(!pathSegments[0].equalsIgnoreCase("user") && !pathSegments[0].equalsIgnoreCase("u")) {
+		if(!pathSegments[0].equalsIgnoreCase("user") && !pathSegments[0].equalsIgnoreCase(
+				"u")) {
 			return null;
 		}
 
@@ -159,7 +172,8 @@ public class UserPostListingURL extends PostListingURL {
 	public Uri generateJsonUri() {
 
 		Uri.Builder builder = new Uri.Builder();
-		builder.scheme(Constants.Reddit.getScheme()).authority(Constants.Reddit.getDomain());
+		builder.scheme(Constants.Reddit.getScheme())
+				.authority(Constants.Reddit.getDomain());
 
 		builder.appendEncodedPath("user");
 		builder.appendPath(user);
@@ -187,7 +201,8 @@ public class UserPostListingURL extends PostListingURL {
 	}
 
 	@Override
-	public @RedditURLParser.PathType int pathType() {
+	public @RedditURLParser.PathType
+	int pathType() {
 		return RedditURLParser.USER_POST_LISTING_URL;
 	}
 

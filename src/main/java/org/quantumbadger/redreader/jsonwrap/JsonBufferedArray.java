@@ -55,12 +55,10 @@ public final class JsonBufferedArray extends JsonBuffered implements Iterable<Js
 	}
 
 	/**
-	 * This method will block until either: the array item is received, the
-	 * array fails to parse, or the array is fully received and the index
-	 * parameter is too large.
+	 * This method will block until either: the array item is received, the array fails to parse, or
+	 * the array is fully received and the index parameter is too large.
 	 *
-	 * @param id
-	 *			The index into the array
+	 * @param id The index into the array
 	 * @return The value at position id in the array
 	 * @throws InterruptedException
 	 * @throws java.io.IOException
@@ -90,12 +88,10 @@ public final class JsonBufferedArray extends JsonBuffered implements Iterable<Js
 	}
 
 	/**
-	 * This method will block until either: the array item is received, the
-	 * array fails to parse, or the array is fully received and the index
-	 * parameter is too large.
+	 * This method will block until either: the array item is received, the array fails to parse, or
+	 * the array is fully received and the index parameter is too large.
 	 *
-	 * @param id
-	 *			The index into the array
+	 * @param id The index into the array
 	 * @return The value at position id in the array
 	 * @throws InterruptedException
 	 * @throws java.io.IOException
@@ -106,12 +102,10 @@ public final class JsonBufferedArray extends JsonBuffered implements Iterable<Js
 	}
 
 	/**
-	 * This method will block until either: the array item is received, the
-	 * array fails to parse, or the array is fully received and the index
-	 * parameter is too large.
+	 * This method will block until either: the array item is received, the array fails to parse, or
+	 * the array is fully received and the index parameter is too large.
 	 *
-	 * @param id
-	 *			The index into the array
+	 * @param id The index into the array
 	 * @return The value at position id in the array
 	 * @throws InterruptedException
 	 * @throws java.io.IOException
@@ -122,12 +116,10 @@ public final class JsonBufferedArray extends JsonBuffered implements Iterable<Js
 	}
 
 	/**
-	 * This method will block until either: the array item is received, the
-	 * array fails to parse, or the array is fully received and the index
-	 * parameter is too large.
+	 * This method will block until either: the array item is received, the array fails to parse, or
+	 * the array is fully received and the index parameter is too large.
 	 *
-	 * @param id
-	 *			The index into the array
+	 * @param id The index into the array
 	 * @return The value at position id in the array
 	 * @throws InterruptedException
 	 * @throws java.io.IOException
@@ -138,12 +130,10 @@ public final class JsonBufferedArray extends JsonBuffered implements Iterable<Js
 	}
 
 	/**
-	 * This method will block until either: the array item is received, the
-	 * array fails to parse, or the array is fully received and the index
-	 * parameter is too large.
+	 * This method will block until either: the array item is received, the array fails to parse, or
+	 * the array is fully received and the index parameter is too large.
 	 *
-	 * @param id
-	 *			The index into the array
+	 * @param id The index into the array
 	 * @return The value at position id in the array
 	 * @throws InterruptedException
 	 * @throws java.io.IOException
@@ -154,38 +144,44 @@ public final class JsonBufferedArray extends JsonBuffered implements Iterable<Js
 	}
 
 	/**
-	 * This method will block until either: the array item is received, the
-	 * array fails to parse, or the array is fully received and the index
-	 * parameter is too large.
+	 * This method will block until either: the array item is received, the array fails to parse, or
+	 * the array is fully received and the index parameter is too large.
 	 *
-	 * @param id
-	 *			The index into the array
+	 * @param id The index into the array
 	 * @return The value at position id in the array
 	 * @throws InterruptedException
 	 * @throws java.io.IOException
 	 * @throws ArrayIndexOutOfBoundsException
 	 */
-	public JsonBufferedObject getObject(final int id) throws InterruptedException, IOException {
+	public JsonBufferedObject getObject(final int id) throws
+			InterruptedException,
+			IOException {
 		return get(id).asObject();
 	}
 
-	public <E> E getObject(final int id, final Class<E> clazz) throws InterruptedException, IOException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+	public <E> E getObject(final int id, final Class<E> clazz) throws
+			InterruptedException,
+			IOException,
+			InstantiationException,
+			IllegalAccessException,
+			NoSuchMethodException,
+			InvocationTargetException {
 		return get(id).asObject(clazz);
 	}
 
 	/**
-	 * This method will block until either: the array item is received, the
-	 * array fails to parse, or the array is fully received and the index
-	 * parameter is too large.
+	 * This method will block until either: the array item is received, the array fails to parse, or
+	 * the array is fully received and the index parameter is too large.
 	 *
-	 * @param id
-	 *			The index into the array
+	 * @param id The index into the array
 	 * @return The value at position id in the array
 	 * @throws InterruptedException
 	 * @throws java.io.IOException
 	 * @throws ArrayIndexOutOfBoundsException
 	 */
-	public JsonBufferedArray getArray(final int id) throws InterruptedException, IOException {
+	public JsonBufferedArray getArray(final int id) throws
+			InterruptedException,
+			IOException {
 		return get(id).asArray();
 	}
 
@@ -204,7 +200,7 @@ public final class JsonBufferedArray extends JsonBuffered implements Iterable<Js
 				while(getStatus() == STATUS_LOADING && items <= currentId) {
 					try {
 						JsonBufferedArray.this.wait();
-					} catch (final InterruptedException e) {
+					} catch(final InterruptedException e) {
 						throw new RuntimeException(e);
 					}
 				}
@@ -212,7 +208,7 @@ public final class JsonBufferedArray extends JsonBuffered implements Iterable<Js
 				if(getStatus() == STATUS_FAILED) {
 					try {
 						throwFailReasonException();
-					} catch (final IOException e) {
+					} catch(final IOException e) {
 						throw new RuntimeException(e);
 					}
 				}
@@ -231,7 +227,9 @@ public final class JsonBufferedArray extends JsonBuffered implements Iterable<Js
 	}
 
 	@Override
-	protected void prettyPrint(final int indent, final StringBuilder sb) throws InterruptedException, IOException {
+	protected void prettyPrint(final int indent, final StringBuilder sb) throws
+			InterruptedException,
+			IOException {
 
 		if(join() != STATUS_LOADED) {
 			throwFailReasonException();

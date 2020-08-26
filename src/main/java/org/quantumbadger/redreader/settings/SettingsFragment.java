@@ -60,9 +60,9 @@ public final class SettingsFragment extends PreferenceFragment {
 
 		try {
 			resource = R.xml.class.getDeclaredField("prefs_" + panel).getInt(null);
-		} catch (IllegalAccessException e) {
+		} catch(IllegalAccessException e) {
 			throw new RuntimeException(e);
-		} catch (NoSuchFieldException e) {
+		} catch(NoSuchFieldException e) {
 			throw new RuntimeException(e);
 		}
 
@@ -133,7 +133,8 @@ public final class SettingsFragment extends PreferenceFragment {
 
 		for(int pref : listPrefsToUpdate) {
 
-			final ListPreference listPreference = (ListPreference)findPreference(getString(pref));
+			final ListPreference listPreference =
+					(ListPreference)findPreference(getString(pref));
 
 			if(listPreference == null) continue;
 
@@ -142,47 +143,47 @@ public final class SettingsFragment extends PreferenceFragment {
 
 			listPreference.setSummary(listPreference.getEntries()[index]);
 
-			listPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-				public boolean onPreferenceChange(Preference preference, Object newValue) {
-					final int index = listPreference.findIndexOfValue((String)newValue);
-					listPreference.setSummary(listPreference.getEntries()[index]);
-					return true;
-				}
+			listPreference.setOnPreferenceChangeListener((preference, newValue) -> {
+				final int index1 = listPreference.findIndexOfValue((String)newValue);
+				listPreference.setSummary(listPreference.getEntries()[index1]);
+				return true;
 			});
 		}
 
 		for(final int pref : editTextPrefsToUpdate) {
 
-			final EditTextPreference editTextPreference = (EditTextPreference)findPreference(getString(pref));
+			final EditTextPreference editTextPreference =
+					(EditTextPreference)findPreference(getString(pref));
 
 			if(editTextPreference == null) continue;
 
 			editTextPreference.setSummary(editTextPreference.getText());
 
-			editTextPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-
-				@Override
-				public boolean onPreferenceChange(Preference preference, Object newValue) {
-					if(newValue != null) {
-						editTextPreference.setSummary(newValue.toString());
-					} else {
-						editTextPreference.setSummary("(null)");
-					}
-					return true;
+			editTextPreference.setOnPreferenceChangeListener((preference, newValue) -> {
+				if(newValue != null) {
+					editTextPreference.setSummary(newValue.toString());
+				} else {
+					editTextPreference.setSummary("(null)");
 				}
+				return true;
 			});
 		}
 
 
-		final Preference versionPref = findPreference(getString(R.string.pref_about_version_key));
-		final Preference changelogPref = findPreference(getString(R.string.pref_about_changelog_key));
-		final Preference torPref = findPreference(getString(R.string.pref_network_tor_key));
-		final Preference licensePref = findPreference(getString(R.string.pref_about_license_key));
+		final Preference versionPref =
+				findPreference(getString(R.string.pref_about_version_key));
+		final Preference changelogPref =
+				findPreference(getString(R.string.pref_about_changelog_key));
+		final Preference torPref =
+				findPreference(getString(R.string.pref_network_tor_key));
+		final Preference licensePref =
+				findPreference(getString(R.string.pref_about_license_key));
 
 		final PackageInfo pInfo;
 
 		try {
-			pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+			pInfo = context.getPackageManager()
+					.getPackageInfo(context.getPackageName(), 0);
 		} catch(PackageManager.NameNotFoundException e) {
 			throw new RuntimeException(e);
 		}
@@ -192,47 +193,43 @@ public final class SettingsFragment extends PreferenceFragment {
 		}
 
 		if(changelogPref != null) {
-			changelogPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-				public boolean onPreferenceClick(Preference preference) {
-					final Intent intent = new Intent(context, ChangelogActivity.class);
-					context.startActivity(intent);
-					return true;
-				}
+			changelogPref.setOnPreferenceClickListener(preference -> {
+				final Intent intent = new Intent(context, ChangelogActivity.class);
+				context.startActivity(intent);
+				return true;
 			});
 		}
 
 		if(licensePref != null) {
-			licensePref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-				public boolean onPreferenceClick(Preference preference) {
-					HtmlViewActivity.showAsset(context, "license.html");
-					return true;
-				}
+			licensePref.setOnPreferenceClickListener(preference -> {
+				HtmlViewActivity.showAsset(context, "license.html");
+				return true;
 			});
 		}
 
 		if(torPref != null) {
-			torPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-				@Override
-				public boolean onPreferenceChange(Preference preference, final Object newValue) {
+			torPref.setOnPreferenceChangeListener((preference, newValue) -> {
 
-					// Run this after the preference has actually changed
-					AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-						@Override
-						public void run() {
-							TorCommon.updateTorStatus(context);
-							if(TorCommon.isTorEnabled() != Boolean.TRUE.equals(newValue)) {
-								throw new RuntimeException("Tor not correctly enabled after preference change");
-							}
+				// Run this after the preference has actually changed
+				AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
+					@Override
+					public void run() {
+						TorCommon.updateTorStatus(context);
+						if(TorCommon.isTorEnabled()
+								!= Boolean.TRUE.equals(newValue)) {
+							throw new RuntimeException(
+									"Tor not correctly enabled after preference change");
 						}
-					});
+					}
+				});
 
-					return true;
-				}
+				return true;
 			});
 		}
 
 		if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-			final Preference pref = findPreference(getString(R.string.pref_appearance_navbar_color_key));
+			final Preference pref =
+					findPreference(getString(R.string.pref_appearance_navbar_color_key));
 
 			if(pref != null) {
 				pref.setEnabled(false);
@@ -240,45 +237,44 @@ public final class SettingsFragment extends PreferenceFragment {
 			}
 		}
 
-		Preference cacheLocationPref = findPreference(getString(R.string.pref_cache_location_key));
-		if (cacheLocationPref != null) {
-			cacheLocationPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-				@Override
-				public boolean onPreferenceClick(Preference preference) {
-					showChooseStorageLocationDialog();
-					return true;
-				}
+		Preference cacheLocationPref =
+				findPreference(getString(R.string.pref_cache_location_key));
+		if(cacheLocationPref != null) {
+			cacheLocationPref.setOnPreferenceClickListener(preference -> {
+				showChooseStorageLocationDialog();
+				return true;
 			});
-			updateStorageLocationText(PrefsUtility.pref_cache_location(context,
+			updateStorageLocationText(PrefsUtility.pref_cache_location(
+					context,
 					PreferenceManager.getDefaultSharedPreferences(context)));
 		}
 
 		//This disables the "Show NSFW thumbnails" setting when Show thumbnails is set to Never
 		//Based off https://stackoverflow.com/a/4137963
-		final ListPreference thumbnailPref = (ListPreference)findPreference(getString(R.string.pref_appearance_thumbnails_show_list_key));
-		final Preference thumbnailNsfwPref = findPreference(getString(R.string.pref_appearance_thumbnails_nsfw_show_key));
+		final ListPreference thumbnailPref = (ListPreference)findPreference(
+				getString(R.string.pref_appearance_thumbnails_show_list_key));
+		final Preference thumbnailNsfwPref =
+				findPreference(getString(R.string.pref_appearance_thumbnails_nsfw_show_key));
 
 		if(thumbnailPref != null) {
-			thumbnailPref.setOnPreferenceChangeListener( new Preference.OnPreferenceChangeListener() {
-				@Override
-				public boolean onPreferenceChange(Preference preference, Object newValue) {
-					final int index = thumbnailPref.findIndexOfValue((String)newValue);
-					thumbnailPref.setSummary(thumbnailPref.getEntries()[index]);
+			thumbnailPref.setOnPreferenceChangeListener((preference, newValue) -> {
+				final int index = thumbnailPref.findIndexOfValue((String)newValue);
+				thumbnailPref.setSummary(thumbnailPref.getEntries()[index]);
 
-					if(newValue.equals("never"))
-						thumbnailNsfwPref.setEnabled(false);
-					else
-						thumbnailNsfwPref.setEnabled(true);
+				if(newValue.equals("never"))
+					thumbnailNsfwPref.setEnabled(false);
+				else
+					thumbnailNsfwPref.setEnabled(true);
 
-					return true;
-				}
+				return true;
 			});
 		}
 	}
 
 	private void showChooseStorageLocationDialog() {
 		final Context context = getActivity();
-		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		final SharedPreferences prefs =
+				PreferenceManager.getDefaultSharedPreferences(context);
 		String currentStorage = PrefsUtility.pref_cache_location(context, prefs);
 
 		List<File> checkPaths = CacheManager.getCacheDirs(context);
@@ -288,26 +284,26 @@ public final class SettingsFragment extends PreferenceFragment {
 		List<CharSequence> choices = new ArrayList<>(checkPaths.size());
 		int selectedIndex = 0;
 
-		for (int i = 0; i < checkPaths.size(); i++) {
+		for(int i = 0; i < checkPaths.size(); i++) {
 			File dir = checkPaths.get(i);
-			if (dir == null || !dir.exists() || !dir.canRead() || !dir.canWrite()) {
+			if(dir == null || !dir.exists() || !dir.canRead() || !dir.canWrite()) {
 				continue;
 			}
 			folders.add(dir);
-			if (currentStorage.equals(dir.getAbsolutePath())) {
+			if(currentStorage.equals(dir.getAbsolutePath())) {
 				selectedIndex = i;
 			}
 
 			String path = dir.getAbsolutePath();
 			long bytes = General.getFreeSpaceAvailable(path);
 			String freeSpace = General.addUnits(bytes);
-			if (!path.endsWith("/")) {
+			if(!path.endsWith("/")) {
 				path += "/";
 			}
 			String appCachePostfix = BuildConfig.APPLICATION_ID + "/cache/";
-			if (path.endsWith("Android/data/" + appCachePostfix)) {
+			if(path.endsWith("Android/data/" + appCachePostfix)) {
 				path = path.substring(0, path.length() - appCachePostfix.length() - 14);
-			} else if (path.endsWith(appCachePostfix)) {
+			} else if(path.endsWith(appCachePostfix)) {
 				path = path.substring(0, path.length() - appCachePostfix.length() - 1);
 			}
 			choices.add(Html.fromHtml("<small>" + path +
@@ -325,12 +321,14 @@ public final class SettingsFragment extends PreferenceFragment {
 								updateStorageLocationText(path);
 							}
 						})
-				.setNegativeButton(R.string.dialog_close, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int i) {
-						dialog.dismiss();
-					}
-				})
+				.setNegativeButton(
+						R.string.dialog_close,
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int i) {
+								dialog.dismiss();
+							}
+						})
 				.create()
 				.show();
 	}

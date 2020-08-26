@@ -42,33 +42,37 @@ public class FilteredCommentListingManager extends RedditListingManager {
 	}
 
 	public void addComments(final Collection<RedditCommentListItem> comments) {
-		final Collection<GroupedRecyclerViewAdapter.Item> filteredComments = filter(comments);
+		final Collection<GroupedRecyclerViewAdapter.Item> filteredComments = filter(
+				comments);
 		addItems(filteredComments);
 		mCommentCount += filteredComments.size();
 	}
 
-	private Collection<GroupedRecyclerViewAdapter.Item> filter(Collection<RedditCommentListItem> comments) {
+	private Collection<GroupedRecyclerViewAdapter.Item> filter(
+			final Collection<RedditCommentListItem> comments) {
 
 		final Collection<RedditCommentListItem> searchComments;
 
-		if (mSearchString == null) {
+		if(mSearchString == null) {
 			searchComments = comments;
 
 		} else {
-		 	searchComments = new ArrayList<>();
-			for (RedditCommentListItem comment : comments) {
-				if (!comment.isComment()) continue;
-				String commentStr = comment.asComment().getParsedComment().getRawComment().body;
-				if (commentStr != null) {
+			searchComments = new ArrayList<>();
+			for(RedditCommentListItem comment : comments) {
+				if(!comment.isComment()) continue;
+				String commentStr = comment.asComment()
+						.getParsedComment()
+						.getRawComment().body;
+				if(commentStr != null) {
 					commentStr = General.asciiLowercase(commentStr);
-					if (commentStr.contains(mSearchString)) {
+					if(commentStr.contains(mSearchString)) {
 						searchComments.add(comment);
 					}
 				}
 			}
 		}
 
-		return Collections.<GroupedRecyclerViewAdapter.Item>unmodifiableCollection(searchComments);
+		return Collections.unmodifiableCollection(searchComments);
 	}
 
 	public boolean isSearchListing() {

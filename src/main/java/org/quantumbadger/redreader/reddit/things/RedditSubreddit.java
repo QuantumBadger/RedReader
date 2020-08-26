@@ -33,13 +33,17 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>, WritableObject<SubredditCanonicalId> {
+public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>,
+		WritableObject<SubredditCanonicalId> {
 
 	public SubredditCanonicalId getKey() {
 		try {
 			return getCanonicalId();
 		} catch(InvalidSubredditNameException e) {
-			throw new UnexpectedInternalStateException(String.format(Locale.US, "Cannot save subreddit '%s'", url));
+			throw new UnexpectedInternalStateException(String.format(
+					Locale.US,
+					"Cannot save subreddit '%s'",
+					url));
 		}
 	}
 
@@ -58,8 +62,10 @@ public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>,
 
 	@WritableObjectTimestamp public long downloadTime;
 
-	private static final Pattern NAME_PATTERN = Pattern.compile("(/)?(r/)?([\\w\\+\\-\\.:]+)/?");
-	private static final Pattern USER_PATTERN = Pattern.compile("(/)?(u/|user/)([\\w\\+\\-\\.:]+)/?");
+	private static final Pattern NAME_PATTERN = Pattern.compile(
+			"(/)?(r/)?([\\w\\+\\-\\.:]+)/?");
+	private static final Pattern USER_PATTERN = Pattern.compile(
+			"(/)?(u/|user/)([\\w\\+\\-\\.:]+)/?");
 
 	public RedditSubreddit(CreationData creationData) {
 		this();
@@ -110,7 +116,8 @@ public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>,
 		out.writeInt(over18 ? 1 : 0);
 	}
 
-	public RedditSubreddit() {}
+	public RedditSubreddit() {
+	}
 
 	public RedditSubreddit(String url, String title, final boolean isSortable) {
 		this.url = url;
@@ -140,7 +147,8 @@ public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>,
 		over18 = parcel.readInt() == 1;
 	}
 
-	public static final Parcelable.Creator<RedditSubreddit> CREATOR = new Parcelable.Creator<RedditSubreddit>() {
+	public static final Parcelable.Creator<RedditSubreddit> CREATOR
+			= new Parcelable.Creator<RedditSubreddit>() {
 		public RedditSubreddit createFromParcel(final Parcel in) {
 			return new RedditSubreddit(in);
 		}
@@ -151,7 +159,8 @@ public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>,
 	};
 
 	public int compareTo(final RedditSubreddit another) {
-		return General.asciiLowercase(display_name).compareTo(General.asciiLowercase(another.display_name));
+		return General.asciiLowercase(display_name)
+				.compareTo(General.asciiLowercase(another.display_name));
 	}
 
 	public String getSidebarHtml(boolean nightMode) {
@@ -162,7 +171,8 @@ public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>,
 		result.append("<html>");
 
 		result.append("<head>");
-		result.append("<meta name=\"viewport\" content=\"width=device-width, user-scalable=yes\">");
+		result.append(
+				"<meta name=\"viewport\" content=\"width=device-width, user-scalable=yes\">");
 
 		if(nightMode) {
 			result.append("<style>");

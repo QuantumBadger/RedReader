@@ -57,7 +57,9 @@ public class BugReportActivity extends BaseActivity {
 		handleGlobalError(context, new RRError(null, null, t));
 	}
 
-	public static synchronized void handleGlobalError(final Context context, final RRError error) {
+	public static synchronized void handleGlobalError(
+			final Context context,
+			final RRError error) {
 
 		addGlobalError(error);
 
@@ -91,7 +93,9 @@ public class BugReportActivity extends BaseActivity {
 
 		StringBuilder sb = new StringBuilder(1024);
 
-		sb.append("Error report -- RedReader v").append(Constants.version(context)).append("\r\n\r\n");
+		sb.append("Error report -- RedReader v")
+				.append(Constants.version(context))
+				.append("\r\n\r\n");
 
 		sb.append("Manufacturer: ").append(Build.MANUFACTURER).append("\r\n");
 		sb.append("Model: ").append(Build.MODEL).append("\r\n");
@@ -101,15 +105,26 @@ public class BugReportActivity extends BaseActivity {
 
 		for(final RRError error : errors) {
 			sb.append("\r\n-------------------------------\r\n");
-			if(error.title != null) sb.append("Title: ").append(error.title).append("\r\n");
-			if(error.message != null) sb.append("Message: ").append(error.message).append("\r\n");
-			if(error.httpStatus != null) sb.append("HTTP Status: ").append(error.httpStatus).append("\r\n");
+			if(error.title != null)
+				sb.append("Title: ").append(error.title).append("\r\n");
+			if(error.message != null)
+				sb.append("Message: ").append(error.message).append("\r\n");
+			if(error.httpStatus != null)
+				sb.append("HTTP Status: ").append(error.httpStatus).append("\r\n");
 			if(error.url != null) sb.append("URL: ").append(error.url).append("\r\n");
 			appendException(sb, error.t, 25);
 		}
 
 		final Intent intent = new Intent(Intent.ACTION_SENDTO);
-		intent.putExtra(Intent.EXTRA_EMAIL, new String[] {"bug" + "reports" + (char)64 + "redreader" + '.' + "org"}); // no spam, thanks
+		intent.putExtra(
+				Intent.EXTRA_EMAIL,
+				new String[] {
+						"bug"
+								+ "reports"
+								+ (char)64
+								+ "redreader"
+								+ '.'
+								+ "org"}); // no spam, thanks
 		intent.putExtra(Intent.EXTRA_SUBJECT, "Bug Report");
 		intent.putExtra(Intent.EXTRA_TEXT, sb.toString());
 
@@ -122,9 +137,10 @@ public class BugReportActivity extends BaseActivity {
 		try {
 			context.startActivity(Intent.createChooser(
 					intent,
-					context.getApplicationContext().getString(R.string.bug_chooser_title)));
+					context.getApplicationContext()
+							.getString(R.string.bug_chooser_title)));
 
-		} catch (android.content.ActivityNotFoundException ex) {
+		} catch(android.content.ActivityNotFoundException ex) {
 			General.quickToast(context, R.string.error_toast_no_email_apps);
 		}
 	}

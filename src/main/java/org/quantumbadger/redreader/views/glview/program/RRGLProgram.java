@@ -28,7 +28,9 @@ public abstract class RRGLProgram {
 	private Integer mFragmentShaderHandle = null;
 	private Integer mVertexShaderHandle = null;
 
-	public RRGLProgram(final String vertexShaderSource, final String fragmentShaderSource) {
+	public RRGLProgram(
+			final String vertexShaderSource,
+			final String fragmentShaderSource) {
 
 		mHandle = GLES20.glCreateProgram();
 
@@ -45,9 +47,14 @@ public abstract class RRGLProgram {
 	private void compileAndAttachShader(final int type, final String source) {
 
 		switch(type) {
-			case GLES20.GL_FRAGMENT_SHADER: if(mFragmentShaderHandle != null) throw new RuntimeException(); break;
-			case GLES20.GL_VERTEX_SHADER:   if(mVertexShaderHandle != null) throw new RuntimeException(); break;
-			default: throw new RuntimeException("Unknown shader type.");
+			case GLES20.GL_FRAGMENT_SHADER:
+				if(mFragmentShaderHandle != null) throw new RuntimeException();
+				break;
+			case GLES20.GL_VERTEX_SHADER:
+				if(mVertexShaderHandle != null) throw new RuntimeException();
+				break;
+			default:
+				throw new RuntimeException("Unknown shader type.");
 		}
 
 		final int shaderHandle = GLES20.glCreateShader(type);
@@ -64,21 +71,30 @@ public abstract class RRGLProgram {
 		if(compileStatus[0] == 0) {
 			final String log = GLES20.glGetShaderInfoLog(mHandle);
 			GLES20.glDeleteShader(shaderHandle);
-			throw new RuntimeException(String.format(Locale.US, "Shader compile error: \"%s\".", log));
+			throw new RuntimeException(String.format(
+					Locale.US,
+					"Shader compile error: \"%s\".",
+					log));
 		}
 
 		GLES20.glAttachShader(mHandle, shaderHandle);
 
 		switch(type) {
-			case GLES20.GL_FRAGMENT_SHADER: mFragmentShaderHandle = shaderHandle; break;
-			case GLES20.GL_VERTEX_SHADER:   mVertexShaderHandle = shaderHandle; break;
-			default: throw new RuntimeException("Unknown shader type.");
+			case GLES20.GL_FRAGMENT_SHADER:
+				mFragmentShaderHandle = shaderHandle;
+				break;
+			case GLES20.GL_VERTEX_SHADER:
+				mVertexShaderHandle = shaderHandle;
+				break;
+			default:
+				throw new RuntimeException("Unknown shader type.");
 		}
 	}
 
 	private void link() {
 
-		if(mFragmentShaderHandle == null || mVertexShaderHandle == null) throw new RuntimeException();
+		if(mFragmentShaderHandle == null || mVertexShaderHandle == null)
+			throw new RuntimeException();
 
 		GLES20.glLinkProgram(mHandle);
 
@@ -88,7 +104,10 @@ public abstract class RRGLProgram {
 		if(linkStatus[0] == 0) {
 			final String log = GLES20.glGetProgramInfoLog(mHandle);
 			GLES20.glDeleteProgram(mHandle);
-			throw new RuntimeException(String.format(Locale.US, "Linker error: \"%s\".", log));
+			throw new RuntimeException(String.format(
+					Locale.US,
+					"Linker error: \"%s\".",
+					log));
 		}
 
 		GLES20.glDetachShader(mHandle, mFragmentShaderHandle);
@@ -114,5 +133,6 @@ public abstract class RRGLProgram {
 	}
 
 	public abstract void onActivated();
+
 	public abstract void onDeactivated();
 }

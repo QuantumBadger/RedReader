@@ -38,24 +38,20 @@ import java.util.Map;
 /**
  * Fixes the onWindowFocusChanged bug, by catching NullPointerException.
  * https://groups.google.com/d/topic/android-developers/ktbwY2gtLKQ/discussion
+ *
  * @author Andrew
- *
- *
- * This class serves as a WebView to be used in conjunction with a
- * VideoEnabledWebChromeClient.
- * It makes possible:
- * - To detect the HTML5 video ended event so that the
- *    VideoEnabledWebChromeClient can exit full-screen.
- *
- * Important notes:
- * - Javascript is enabled by default and must not be disabled with
- * getSettings().setJavaScriptEnabled(false).
- * - setWebChromeClient() must be called before any loadData(),
- * loadDataWithBaseURL() or loadUrl() method.
- *
+ * <p>
+ * <p>
+ * This class serves as a WebView to be used in conjunction with a VideoEnabledWebChromeClient. It
+ * makes possible: - To detect the HTML5 video ended event so that the VideoEnabledWebChromeClient
+ * can exit full-screen.
+ * <p>
+ * Important notes: - Javascript is enabled by default and must not be disabled with
+ * getSettings().setJavaScriptEnabled(false). - setWebChromeClient() must be called before any
+ * loadData(), loadDataWithBaseURL() or loadUrl() method.
+ * <p>
  * For more information, see https://github.com/cprcrack/VideoEnabledWebView
  * @author Cristian Perez (http://cpr.name)
- *
  */
 
 // Taken from reddit-is-fun:
@@ -64,21 +60,17 @@ import java.util.Map;
 // https://github.com/cprcrack/VideoEnabledWebView/blob/master/app/src/main/java/name/cpr/VideoEnabledWebView.java
 public class WebViewFixed extends WebView {
 
-	public class JavascriptInterface
-	{
+	public class JavascriptInterface {
 		// Must match Javascript interface method of VideoEnabledWebChromeClient
-		@android.webkit.JavascriptInterface @SuppressWarnings("unused")
-		public void notifyVideoEnd()
-		{
+		@android.webkit.JavascriptInterface
+		@SuppressWarnings("unused")
+		public void notifyVideoEnd() {
 			// This code is not executed in the UI thread, so we must force that
 			// to happen
-			new Handler(Looper.getMainLooper()).post(new Runnable()
-			{
+			new Handler(Looper.getMainLooper()).post(new Runnable() {
 				@Override
-				public void run()
-				{
-					if (videoEnabledWebChromeClient != null)
-					{
+				public void run() {
+					if(videoEnabledWebChromeClient != null) {
 						videoEnabledWebChromeClient.onHideCustomView();
 					}
 				}
@@ -95,7 +87,10 @@ public class WebViewFixed extends WebView {
 		setTor(context);
 	}
 
-	public WebViewFixed(final Context context, final AttributeSet attrs, final int defStyle) {
+	public WebViewFixed(
+			final Context context,
+			final AttributeSet attrs,
+			final int defStyle) {
 		super(context, attrs, defStyle);
 		addedJavascriptInterface = false;
 		setTor(context);
@@ -109,11 +104,11 @@ public class WebViewFixed extends WebView {
 
 	/**
 	 * Indicates if the video is being displayed using a custom view (typically full-screen)
+	 *
 	 * @return true it the video is being displayed using a custom view (typically full-screen)
 	 */
 	@SuppressWarnings("unused")
-	public boolean isVideoFullscreen()
-	{
+	public boolean isVideoFullscreen() {
 		return videoEnabledWebChromeClient != null
 				&& videoEnabledWebChromeClient.isVideoFullscreen();
 	}
@@ -121,22 +116,20 @@ public class WebViewFixed extends WebView {
 	/**
 	 * Pass only a VideoEnabledWebChromeClient instance.
 	 */
-	@Override @SuppressLint("SetJavaScriptEnabled")
-	public void setWebChromeClient(WebChromeClient client)
-	{
+	@Override
+	@SuppressLint("SetJavaScriptEnabled")
+	public void setWebChromeClient(WebChromeClient client) {
 		getSettings().setJavaScriptEnabled(true);
 
-		if (client instanceof VideoEnabledWebChromeClient)
-		{
-			this.videoEnabledWebChromeClient = (VideoEnabledWebChromeClient) client;
+		if(client instanceof VideoEnabledWebChromeClient) {
+			this.videoEnabledWebChromeClient = (VideoEnabledWebChromeClient)client;
 		}
 
 		super.setWebChromeClient(client);
 	}
 
 	@Override
-	public void loadData(String data, String mimeType, String encoding)
-	{
+	public void loadData(String data, String mimeType, String encoding) {
 		addJavascriptInterface();
 		super.loadData(data, mimeType, encoding);
 	}
@@ -147,8 +140,7 @@ public class WebViewFixed extends WebView {
 			final String data,
 			final String mimeType,
 			final String encoding,
-			final String historyUrl)
-	{
+			final String historyUrl) {
 		addJavascriptInterface();
 		super.loadDataWithBaseURL(baseUrl, data, mimeType, encoding, historyUrl);
 	}
@@ -167,24 +159,20 @@ public class WebViewFixed extends WebView {
 	}
 
 	@Override
-	public void loadUrl(String url)
-	{
+	public void loadUrl(String url) {
 		addJavascriptInterface();
 		super.loadUrl(url);
 	}
 
 	@Override
-	public void loadUrl(String url, Map<String, String> additionalHttpHeaders)
-	{
+	public void loadUrl(String url, Map<String, String> additionalHttpHeaders) {
 		addJavascriptInterface();
 		super.loadUrl(url, additionalHttpHeaders);
 	}
 
 	@SuppressLint("AddJavascriptInterface")
-	private void addJavascriptInterface()
-	{
-		if (!addedJavascriptInterface)
-		{
+	private void addJavascriptInterface() {
+		if(!addedJavascriptInterface) {
 			// Add javascript interface to be called when the video ends
 			// (must be done before page load)
 			// Must match Javascript interface name of VideoEnabledWebChromeClient
@@ -198,7 +186,7 @@ public class WebViewFixed extends WebView {
 	public void onWindowFocusChanged(final boolean hasWindowFocus) {
 		try {
 			super.onWindowFocusChanged(hasWindowFocus);
-		} catch (NullPointerException ex) {
+		} catch(NullPointerException ex) {
 			Log.e("WebView", "WebView.onWindowFocusChanged", ex);
 		}
 	}
@@ -214,9 +202,11 @@ public class WebViewFixed extends WebView {
 						"127.0.0.1",
 						8118);
 				if(!result) {
-					BugReportActivity.handleGlobalError(context, getResources().getString(R.string.error_tor_setting_failed));
+					BugReportActivity.handleGlobalError(
+							context,
+							getResources().getString(R.string.error_tor_setting_failed));
 				}
-			} catch (Exception e) {
+			} catch(Exception e) {
 				e.printStackTrace();
 			}
 		}

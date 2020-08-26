@@ -33,7 +33,11 @@ public class BodyElementTable extends BodyElement {
 
 		for(final BodyElement element : mElements) {
 
-			final View view = element.generateView(activity, textColor, textSize, showLinkButtons);
+			final View view = element.generateView(
+					activity,
+					textColor,
+					textSize,
+					showLinkButtons);
 			table.addView(view);
 		}
 

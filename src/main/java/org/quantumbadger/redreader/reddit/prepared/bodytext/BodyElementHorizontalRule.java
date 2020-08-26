@@ -28,8 +28,8 @@ public class BodyElementHorizontalRule extends BodyElement {
 
 		final ViewGroup.MarginLayoutParams layoutParams
 				= new ViewGroup.MarginLayoutParams(
-						ViewGroup.LayoutParams.MATCH_PARENT,
-						thicknessPx);
+				ViewGroup.LayoutParams.MATCH_PARENT,
+				thicknessPx);
 
 		layoutParams.leftMargin = paddingPx;
 		layoutParams.rightMargin = paddingPx;

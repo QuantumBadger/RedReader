@@ -55,6 +55,7 @@ public class HtmlRawElementStyledText extends HtmlRawElement {
 			@NonNull final AppCompatActivity activity,
 			@NonNull final ArrayList<BodyElement> destination) {
 
-		throw new RuntimeException("Attempt to call generate() on styled text: should be inside a block");
+		throw new RuntimeException(
+				"Attempt to call generate() on styled text: should be inside a block");
 	}
 }

@@ -23,12 +23,25 @@ public final class ThumbnailScaler {
 
 	private static final float maxHeightWidthRatio = 3.0f;
 
-	private static Bitmap scaleAndCrop(final Bitmap src, final int w, final int h, final int newWidth) {
+	private static Bitmap scaleAndCrop(
+			final Bitmap src,
+			final int w,
+			final int h,
+			final int newWidth) {
 
 		final float scaleFactor = (float)newWidth / (float)w;
-		final Bitmap scaled = Bitmap.createScaledBitmap(src, Math.round(scaleFactor * src.getWidth()), Math.round(scaleFactor * src.getHeight()), true);
+		final Bitmap scaled = Bitmap.createScaledBitmap(
+				src,
+				Math.round(scaleFactor * src.getWidth()),
+				Math.round(scaleFactor * src.getHeight()),
+				true);
 
-		final Bitmap result = Bitmap.createBitmap(scaled, 0, 0, newWidth, Math.round((float)h * scaleFactor));
+		final Bitmap result = Bitmap.createBitmap(
+				scaled,
+				0,
+				0,
+				newWidth,
+				Math.round((float)h * scaleFactor));
 
 		if(result != scaled) scaled.recycle();
 
@@ -42,7 +55,11 @@ public final class ThumbnailScaler {
 		if(heightWidthRatio >= 1.0f && heightWidthRatio <= maxHeightWidthRatio) {
 
 			// Use as-is.
-			return Bitmap.createScaledBitmap(image, width, Math.round(heightWidthRatio * width), true);
+			return Bitmap.createScaledBitmap(
+					image,
+					width,
+					Math.round(heightWidthRatio * width),
+					true);
 
 		} else if(heightWidthRatio < 1.0f) {
 
@@ -52,7 +69,11 @@ public final class ThumbnailScaler {
 		} else {
 
 			// Tall image.
-			return scaleAndCrop(image, image.getWidth(), Math.round(image.getWidth() * maxHeightWidthRatio), width);
+			return scaleAndCrop(
+					image,
+					image.getWidth(),
+					Math.round(image.getWidth() * maxHeightWidthRatio),
+					width);
 		}
 	}
 
@@ -62,6 +83,10 @@ public final class ThumbnailScaler {
 
 		final float scale = (float)desiredSquareSizePx / (float)currentSquareSizePx;
 
-		return Bitmap.createScaledBitmap(image, Math.round(scale * image.getWidth()), Math.round(scale * image.getHeight()), true);
+		return Bitmap.createScaledBitmap(
+				image,
+				Math.round(scale * image.getWidth()),
+				Math.round(scale * image.getHeight()),
+				true);
 	}
 }

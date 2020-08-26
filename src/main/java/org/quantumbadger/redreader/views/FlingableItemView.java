@@ -58,7 +58,7 @@ public abstract class FlingableItemView extends SwipableItemView {
 		final int rrListBackgroundCol;
 
 		{
-			final TypedArray attr = context.obtainStyledAttributes(new int[]{
+			final TypedArray attr = context.obtainStyledAttributes(new int[] {
 					R.attr.rrIconFfLeft,
 					R.attr.rrIconFfRight,
 					R.attr.rrIconTick,
@@ -73,18 +73,30 @@ public abstract class FlingableItemView extends SwipableItemView {
 			attr.recycle();
 		}
 
-		mFlingHintOuter = (FrameLayout)LayoutInflater.from(context).inflate(R.layout.fling_hint, null, false);
+		mFlingHintOuter = (FrameLayout)LayoutInflater.from(context)
+				.inflate(R.layout.fling_hint, null, false);
 
 		addView(mFlingHintOuter);
-		final ViewGroup.LayoutParams flingHintLayoutParams = mFlingHintOuter.getLayoutParams();
+		final ViewGroup.LayoutParams flingHintLayoutParams
+				= mFlingHintOuter.getLayoutParams();
 		flingHintLayoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
 		flingHintLayoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
 
-		mFlingHintLeft = (TextView)mFlingHintOuter.findViewById(R.id.reddit_post_fling_text_left);
-		mFlingHintRight = (TextView)mFlingHintOuter.findViewById(R.id.reddit_post_fling_text_right);
+		mFlingHintLeft
+				= (TextView)mFlingHintOuter.findViewById(R.id.reddit_post_fling_text_left);
+		mFlingHintRight
+				= (TextView)mFlingHintOuter.findViewById(R.id.reddit_post_fling_text_right);
 
-		mFlingHintLeft.setCompoundDrawablesWithIntrinsicBounds(null, rrIconFfLeft, null, null);
-		mFlingHintRight.setCompoundDrawablesWithIntrinsicBounds(null, rrIconFfRight, null, null);
+		mFlingHintLeft.setCompoundDrawablesWithIntrinsicBounds(
+				null,
+				rrIconFfLeft,
+				null,
+				null);
+		mFlingHintRight.setCompoundDrawablesWithIntrinsicBounds(
+				null,
+				rrIconFfRight,
+				null,
+				null);
 
 		setBackgroundColor(rrListBackgroundCol);
 	}
@@ -96,13 +108,18 @@ public abstract class FlingableItemView extends SwipableItemView {
 
 	protected abstract void onSetItemFlingPosition(final float position);
 
-	@NonNull protected abstract String getFlingLeftText();
-	@NonNull protected abstract String getFlingRightText();
+	@NonNull
+	protected abstract String getFlingLeftText();
+
+	@NonNull
+	protected abstract String getFlingRightText();
 
 	protected abstract boolean allowFlingingLeft();
+
 	protected abstract boolean allowFlingingRight();
 
 	protected abstract void onFlungLeft();
+
 	protected abstract void onFlungRight();
 
 	@Override
@@ -140,15 +157,27 @@ public abstract class FlingableItemView extends SwipableItemView {
 	}
 
 	@Override
-	protected void onSwipeFingerDown(final int x, final int y, final float xOffsetPixels, final boolean wasOldSwipeInterrupted) {
+	protected void onSwipeFingerDown(
+			final int x,
+			final int y,
+			final float xOffsetPixels,
+			final boolean wasOldSwipeInterrupted) {
 
 		if(mOffsetBeginAllowed > Math.abs(xOffsetPixels)) {
 
 			mFlingHintLeft.setText(getFlingLeftText());
 			mFlingHintRight.setText(getFlingRightText());
 
-			mFlingHintLeft.setCompoundDrawablesWithIntrinsicBounds(null, rrIconFfLeft, null, null);
-			mFlingHintRight.setCompoundDrawablesWithIntrinsicBounds(null, rrIconFfRight, null, null);
+			mFlingHintLeft.setCompoundDrawablesWithIntrinsicBounds(
+					null,
+					rrIconFfLeft,
+					null,
+					null);
+			mFlingHintRight.setCompoundDrawablesWithIntrinsicBounds(
+					null,
+					rrIconFfRight,
+					null,
+					null);
 
 			mSwipeReady = true;
 		}
@@ -205,11 +234,19 @@ public abstract class FlingableItemView extends SwipableItemView {
 
 			if(xOffsetPixels > 0) {
 				onFlungRight();
-				mFlingHintRight.setCompoundDrawablesWithIntrinsicBounds(null, rrIconTick, null, null);
+				mFlingHintRight.setCompoundDrawablesWithIntrinsicBounds(
+						null,
+						rrIconTick,
+						null,
+						null);
 
 			} else {
 				onFlungLeft();
-				mFlingHintLeft.setCompoundDrawablesWithIntrinsicBounds(null, rrIconTick, null, null);
+				mFlingHintLeft.setCompoundDrawablesWithIntrinsicBounds(
+						null,
+						rrIconTick,
+						null,
+						null);
 			}
 
 			mSwipeReady = false;

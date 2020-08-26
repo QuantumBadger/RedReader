@@ -59,7 +59,8 @@ public class WritableHashSet implements WritableObject<String>, Iterable<String>
 
 	@Override
 	public String toString() {
-		throw new UnexpectedInternalStateException("Using toString() is the wrong way to serialise a WritableHashSet");
+		throw new UnexpectedInternalStateException(
+				"Using toString() is the wrong way to serialise a WritableHashSet");
 	}
 
 	public String serializeWithMetadata() {

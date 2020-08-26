@@ -41,7 +41,10 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 	private static final AtomicBoolean resetUserCredentials = new AtomicBoolean(false);
 	private final HTTPBackend.Request mRequest;
 
-	public CacheDownload(final CacheRequest initiator, final CacheManager manager, final PrioritisedDownloadQueue queue) {
+	public CacheDownload(
+			final CacheRequest initiator,
+			final CacheManager manager,
+			final PrioritisedDownloadQueue queue) {
 
 		this.mInitiator = initiator;
 
@@ -71,7 +74,11 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 			public void run() {
 				if(mRequest != null) {
 					mRequest.cancel();
-					mInitiator.notifyFailure(CacheRequest.REQUEST_FAILURE_CANCELLED, null, null, "Cancelled");
+					mInitiator.notifyFailure(
+							CacheRequest.REQUEST_FAILURE_CANCELLED,
+							null,
+							null,
+							"Cancelled");
 				}
 			}
 		}.start();
@@ -103,7 +110,8 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 				mInitiator.user.setAccessToken(null);
 			}
 
-			RedditOAuth.AccessToken accessToken = mInitiator.user.getMostRecentAccessToken();
+			RedditOAuth.AccessToken accessToken
+					= mInitiator.user.getMostRecentAccessToken();
 
 			if(accessToken == null || accessToken.isExpired()) {
 
@@ -112,14 +120,21 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 				final RedditOAuth.FetchAccessTokenResult result;
 
 				if(mInitiator.user.isAnonymous()) {
-					result = RedditOAuth.fetchAnonymousAccessTokenSynchronous(mInitiator.context);
+					result
+							= RedditOAuth.fetchAnonymousAccessTokenSynchronous(mInitiator.context);
 
 				} else {
-					result = RedditOAuth.fetchAccessTokenSynchronous(mInitiator.context, mInitiator.user.refreshToken);
+					result = RedditOAuth.fetchAccessTokenSynchronous(
+							mInitiator.context,
+							mInitiator.user.refreshToken);
 				}
 
 				if(result.status != RedditOAuth.FetchAccessTokenResultStatus.SUCCESS) {
-					mInitiator.notifyFailure(CacheRequest.REQUEST_FAILURE_REQUEST, result.error.t, result.error.httpStatus, result.error.title + ": " + result.error.message);
+					mInitiator.notifyFailure(
+							CacheRequest.REQUEST_FAILURE_REQUEST,
+							result.error.t,
+							result.error.httpStatus,
+							result.error.title + ": " + result.error.message);
 					return;
 				}
 
@@ -139,8 +154,12 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 
 		request.executeInThisThread(new HTTPBackend.Listener() {
 			@Override
-			public void onError(final @CacheRequest.RequestFailureType int failureType, final Throwable exception, final Integer httpStatus) {
-				if(mInitiator.queueType == CacheRequest.DOWNLOAD_QUEUE_REDDIT_API && TorCommon.isTorEnabled()) {
+			public void onError(
+					final @CacheRequest.RequestFailureType int failureType,
+					final Throwable exception,
+					final Integer httpStatus) {
+				if(mInitiator.queueType == CacheRequest.DOWNLOAD_QUEUE_REDDIT_API
+						&& TorCommon.isTorEnabled()) {
 					HTTPBackend.getBackend().recreateHttpBackend();
 					resetUserCredentialsOnNextRequest();
 				}
@@ -149,15 +168,21 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 			}
 
 			@Override
-			public void onSuccess(final String mimetype, final Long bodyBytes, final InputStream is) {
+			public void onSuccess(
+					final String mimetype,
+					final Long bodyBytes,
+					final InputStream is) {
 
 				final NotifyOutputStream cacheOs;
 				final CacheManager.WritableCacheFile cacheFile;
 				if(mInitiator.cache) {
 					try {
-						cacheFile = manager.openNewCacheFile(mInitiator, session, mimetype);
+						cacheFile = manager.openNewCacheFile(
+								mInitiator,
+								session,
+								mimetype);
 						cacheOs = cacheFile.getOutputStream();
-					} catch (IOException e) {
+					} catch(IOException e) {
 
 						e.printStackTrace();
 
@@ -166,7 +191,8 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 						if(manager.getPreferredCacheLocation().exists()) {
 							failureType = CacheRequest.REQUEST_FAILURE_STORAGE;
 						} else {
-							failureType = CacheRequest.REQUEST_FAILURE_CACHE_DIR_DOES_NOT_EXIST;
+							failureType
+									= CacheRequest.REQUEST_FAILURE_CACHE_DIR_DOES_NOT_EXIST;
 						}
 
 						mInitiator.notifyFailure(
@@ -188,13 +214,19 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 
 					if(mInitiator.cache) {
 
-						bis = new BufferedInputStream(new CachingInputStream(is, cacheOs, new CachingInputStream.BytesReadListener() {
-							public void onBytesRead(final long total) {
-								if(bodyBytes != null) {
-									mInitiator.notifyProgress(false, total, bodyBytes);
-								}
-							}
-						}), 64 * 1024);
+						bis = new BufferedInputStream(new CachingInputStream(
+								is,
+								cacheOs,
+								new CachingInputStream.BytesReadListener() {
+									public void onBytesRead(final long total) {
+										if(bodyBytes != null) {
+											mInitiator.notifyProgress(
+													false,
+													total,
+													bodyBytes);
+										}
+									}
+								}), 64 * 1024);
 
 					} else {
 						bis = new BufferedInputStream(is, 64 * 1024);
@@ -216,20 +248,37 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 							bis.close();
 						}
 
-					} catch (Throwable t) {
+					} catch(Throwable t) {
 						t.printStackTrace();
-						mInitiator.notifyFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "Error parsing the JSON stream");
+						mInitiator.notifyFailure(
+								CacheRequest.REQUEST_FAILURE_PARSE,
+								t,
+								null,
+								"Error parsing the JSON stream");
 						return;
 					}
 
 					if(mInitiator.cache && cacheFile != null) {
 						try {
-							mInitiator.notifySuccess(cacheFile.getReadableCacheFile(), RRTime.utcCurrentTimeMillis(), session, false, mimetype);
+							mInitiator.notifySuccess(
+									cacheFile.getReadableCacheFile(),
+									RRTime.utcCurrentTimeMillis(),
+									session,
+									false,
+									mimetype);
 						} catch(IOException e) {
 							if(e.getMessage().contains("ENOSPC")) {
-								mInitiator.notifyFailure(CacheRequest.REQUEST_FAILURE_DISK_SPACE, e, null, "Out of disk space");
+								mInitiator.notifyFailure(
+										CacheRequest.REQUEST_FAILURE_DISK_SPACE,
+										e,
+										null,
+										"Out of disk space");
 							} else {
-								mInitiator.notifyFailure(CacheRequest.REQUEST_FAILURE_STORAGE, e, null, "Cache file not found");
+								mInitiator.notifyFailure(
+										CacheRequest.REQUEST_FAILURE_STORAGE,
+										e,
+										null,
+										"Cache file not found");
 							}
 						}
 					}
@@ -237,7 +286,9 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 				} else {
 
 					if(!mInitiator.cache) {
-						BugReportActivity.handleGlobalError(mInitiator.context, "Cache disabled for non-JSON request");
+						BugReportActivity.handleGlobalError(
+								mInitiator.context,
+								"Cache disabled for non-JSON request");
 						return;
 					}
 
@@ -250,7 +301,10 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 							totalBytesRead += bytesRead;
 							cacheOs.write(buf, 0, bytesRead);
 							if(bodyBytes != null) {
-								mInitiator.notifyProgress(false, totalBytesRead, bodyBytes);
+								mInitiator.notifyProgress(
+										false,
+										totalBytesRead,
+										bodyBytes);
 							}
 						}
 
@@ -258,28 +312,53 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 						cacheOs.close();
 
 						try {
-							mInitiator.notifySuccess(cacheFile.getReadableCacheFile(), RRTime.utcCurrentTimeMillis(), session, false, mimetype);
+							mInitiator.notifySuccess(
+									cacheFile.getReadableCacheFile(),
+									RRTime.utcCurrentTimeMillis(),
+									session,
+									false,
+									mimetype);
 						} catch(IOException e) {
 							if(e.getMessage().contains("ENOSPC")) {
-								mInitiator.notifyFailure(CacheRequest.REQUEST_FAILURE_DISK_SPACE, e, null, "Out of disk space");
+								mInitiator.notifyFailure(
+										CacheRequest.REQUEST_FAILURE_DISK_SPACE,
+										e,
+										null,
+										"Out of disk space");
 							} else {
-								mInitiator.notifyFailure(CacheRequest.REQUEST_FAILURE_STORAGE, e, null, "Cache file not found");
+								mInitiator.notifyFailure(
+										CacheRequest.REQUEST_FAILURE_STORAGE,
+										e,
+										null,
+										"Cache file not found");
 							}
 						}
 
 					} catch(IOException e) {
 
 						if(e.getMessage() != null && e.getMessage().contains("ENOSPC")) {
-							mInitiator.notifyFailure(CacheRequest.REQUEST_FAILURE_STORAGE, e, null, "Out of disk space");
+							mInitiator.notifyFailure(
+									CacheRequest.REQUEST_FAILURE_STORAGE,
+									e,
+									null,
+									"Out of disk space");
 
 						} else {
 							e.printStackTrace();
-							mInitiator.notifyFailure(CacheRequest.REQUEST_FAILURE_CONNECTION, e, null, "The connection was interrupted");
+							mInitiator.notifyFailure(
+									CacheRequest.REQUEST_FAILURE_CONNECTION,
+									e,
+									null,
+									"The connection was interrupted");
 						}
 
 					} catch(Throwable t) {
 						t.printStackTrace();
-						mInitiator.notifyFailure(CacheRequest.REQUEST_FAILURE_CONNECTION, t, null, "The connection was interrupted");
+						mInitiator.notifyFailure(
+								CacheRequest.REQUEST_FAILURE_CONNECTION,
+								t,
+								null,
+								"The connection was interrupted");
 					}
 				}
 			}

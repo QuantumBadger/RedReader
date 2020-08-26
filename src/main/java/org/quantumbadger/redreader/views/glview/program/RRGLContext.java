@@ -85,7 +85,11 @@ public final class RRGLContext {
 		mProgramCurrent.activateVertexBuffer(vertexBuffer);
 	}
 
-	public void activateColour(final float r, final float g, final float b, final float a) {
+	public void activateColour(
+			final float r,
+			final float g,
+			final float b,
+			final float a) {
 		mProgramColour.activateColour(r, g, b, a);
 	}
 

@@ -21,9 +21,11 @@ import org.quantumbadger.redreader.cache.CacheEntry;
 
 public class DownloadStrategyIfNotCached implements DownloadStrategy {
 
-	public static final DownloadStrategyIfNotCached INSTANCE = new DownloadStrategyIfNotCached();
+	public static final DownloadStrategyIfNotCached INSTANCE
+			= new DownloadStrategyIfNotCached();
 
-	private DownloadStrategyIfNotCached() {}
+	private DownloadStrategyIfNotCached() {
+	}
 
 	@Override
 	public boolean shouldDownloadWithoutCheckingCache() {

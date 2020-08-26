@@ -75,7 +75,7 @@ public class OKHTTPBackend extends HTTPBackend {
 
 			@Override
 			public List<Cookie> loadForRequest(HttpUrl url) {
-				if (url.toString().contains("search"))
+				if(url.toString().contains("search"))
 					return list;
 				else return Collections.emptyList();
 			}
@@ -84,7 +84,9 @@ public class OKHTTPBackend extends HTTPBackend {
 		builder.cookieJar(cookieJar);
 
 		if(TorCommon.isTorEnabled()) {
-			Proxy tor = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("127.0.0.1", 8118));
+			Proxy tor = new Proxy(
+					Proxy.Type.HTTP,
+					new InetSocketAddress("127.0.0.1", 8118));
 			//SOCKS appears to be broken for now, Relevant: https://github.com/square/okhttp/issues/2315
 			builder.proxy(tor);
 		}
@@ -167,8 +169,7 @@ public class OKHTTPBackend extends HTTPBackend {
 
 					final ResponseBody body = response.body();
 
-					@SuppressWarnings("PMD.CloseResource")
-					final InputStream bodyStream;
+					@SuppressWarnings("PMD.CloseResource") final InputStream bodyStream;
 
 					final Long bodyBytes;
 

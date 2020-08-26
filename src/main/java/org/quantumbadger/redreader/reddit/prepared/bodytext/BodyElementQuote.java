@@ -40,15 +40,24 @@ public class BodyElementQuote extends BodyElement {
 		quoteIndent.setBackgroundColor(Color.rgb(128, 128, 128));
 		quoteIndent.getLayoutParams().width = quoteBarWidth;
 		quoteIndent.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
-		((ViewGroup.MarginLayoutParams)quoteIndent.getLayoutParams()).rightMargin = quoteBarWidth;
+		((ViewGroup.MarginLayoutParams)quoteIndent.getLayoutParams()).rightMargin
+				= quoteBarWidth;
 
 		if(mElements.size() == 1) {
 			quoteLayout.addView(mElements.get(0)
-					.generateView(activity, textColor, textSize, showLinkButtons));
+					.generateView(
+							activity,
+							textColor,
+							textSize,
+							showLinkButtons));
 
 		} else {
 			quoteLayout.addView(new BodyElementVerticalSequence(mElements)
-					.generateView(activity, textColor, textSize, showLinkButtons));
+					.generateView(
+							activity,
+							textColor,
+							textSize,
+							showLinkButtons));
 		}
 
 		General.setLayoutMatchWidthWrapHeight(quoteLayout);

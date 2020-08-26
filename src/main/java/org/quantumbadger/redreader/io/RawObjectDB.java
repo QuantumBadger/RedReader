@@ -59,7 +59,10 @@ public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelpe
 		throw new UnexpectedInternalStateException("Writable object has no DB version");
 	}
 
-	public RawObjectDB(final Context context, final String dbFilename, final Class<E> clazz) {
+	public RawObjectDB(
+			final Context context,
+			final String dbFilename,
+			final Class<E> clazz) {
 
 		super(context.getApplicationContext(), dbFilename, null, getDbVersion(clazz));
 		this.clazz = clazz;
@@ -79,7 +82,8 @@ public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelpe
 		this.fields = fields.toArray(new Field[fields.size()]);
 
 		fieldNames = new String[this.fields.length + 2];
-		for(int i = 0; i < this.fields.length; i++) fieldNames[i] = this.fields[i].getName();
+		for(int i = 0; i < this.fields.length; i++)
+			fieldNames[i] = this.fields[i].getName();
 		fieldNames[this.fields.length] = FIELD_ID;
 		fieldNames[this.fields.length + 1] = FIELD_TIMESTAMP;
 	}
@@ -126,8 +130,10 @@ public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelpe
 	}
 
 	@Override
-	public void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion) {
-		// TODO detect version from static field/WritableObject method, delete all data, start again
+	public void onUpgrade(
+			final SQLiteDatabase db,
+			final int oldVersion,
+			final int newVersion) {
 	}
 
 	public synchronized Collection<E> getAll() {
@@ -136,7 +142,14 @@ public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelpe
 
 		try {
 
-			final Cursor cursor = db.query(TABLE_NAME, fieldNames, null, null, null, null, null);
+			final Cursor cursor = db.query(
+					TABLE_NAME,
+					fieldNames,
+					null,
+					null,
+					null,
+					null,
+					null);
 
 			try {
 
@@ -153,8 +166,12 @@ public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelpe
 			} catch(InvocationTargetException e) {
 				throw new RuntimeException(e);
 
-			} finally { cursor.close(); }
-		} finally { db.close(); }
+			} finally {
+				cursor.close();
+			}
+		} finally {
+			db.close();
+		}
 	}
 
 	public synchronized E getById(final K id) {
@@ -169,8 +186,14 @@ public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelpe
 
 		try {
 
-			final Cursor cursor = db.query(TABLE_NAME, fieldNames, String.format(Locale.US, "%s=?", field),
-					new String[] {value}, null, null, null);
+			final Cursor cursor = db.query(
+					TABLE_NAME,
+					fieldNames,
+					String.format(Locale.US, "%s=?", field),
+					new String[] {value},
+					null,
+					null,
+					null);
 
 			try {
 				final ArrayList<E> result = new ArrayList<>(cursor.getCount());
@@ -186,16 +209,24 @@ public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelpe
 			} catch(InvocationTargetException e) {
 				throw new RuntimeException(e);
 
-			} finally { cursor.close(); }
-		} finally { db.close(); }
+			} finally {
+				cursor.close();
+			}
+		} finally {
+			db.close();
+		}
 	}
 
 	private E readFromCursor(final Cursor cursor)
-			throws IllegalAccessException, InstantiationException, InvocationTargetException {
+			throws
+			IllegalAccessException,
+			InstantiationException,
+			InvocationTargetException {
 
 		final E obj;
 		try {
-			final Constructor<E> constructor = clazz.getConstructor(WritableObject.CreationData.class);
+			final Constructor<E> constructor
+					= clazz.getConstructor(WritableObject.CreationData.class);
 			final String id = cursor.getString(fields.length);
 			final long timestamp = cursor.getLong(fields.length + 1);
 			obj = constructor.newInstance(new WritableObject.CreationData(id, timestamp));
@@ -231,11 +262,17 @@ public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelpe
 				field.setBoolean(obj, cursor.getInt(i) != 0);
 
 			} else if(fieldType == WritableHashSet.class) {
-				field.set(obj, cursor.isNull(i) ? null : WritableHashSet.unserializeWithMetadata(cursor.getString(i)));
+				field.set(
+						obj,
+						cursor.isNull(i)
+								? null
+								: WritableHashSet.unserializeWithMetadata(cursor.getString(
+										i)));
 
 			} else {
-				throw new UnexpectedInternalStateException("Invalid readFromCursor field type "
-						+ fieldType.getClass().getCanonicalName());
+				throw new UnexpectedInternalStateException(
+						"Invalid readFromCursor field type "
+								+ fieldType.getClass().getCanonicalName());
 			}
 		}
 
@@ -248,14 +285,19 @@ public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelpe
 
 		try {
 			final ContentValues values = new ContentValues(fields.length + 1);
-			final long result = db.insertOrThrow(TABLE_NAME, null, toContentValues(object, values));
+			final long result = db.insertOrThrow(
+					TABLE_NAME,
+					null,
+					toContentValues(object, values));
 
 			if(result < 0) throw new RuntimeException("Database write failed");
 
 		} catch(IllegalAccessException e) {
 			throw new RuntimeException(e);
 
-		} finally { db.close(); }
+		} finally {
+			db.close();
+		}
 	}
 
 	public synchronized void putAll(final Collection<E> objects) {
@@ -267,17 +309,23 @@ public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelpe
 			final ContentValues values = new ContentValues(fields.length + 1);
 
 			for(final E object : objects) {
-				final long result = db.insertOrThrow(TABLE_NAME, null, toContentValues(object, values));
+				final long result = db.insertOrThrow(
+						TABLE_NAME,
+						null,
+						toContentValues(object, values));
 				if(result < 0) throw new RuntimeException("Bulk database write failed");
 			}
 
 		} catch(IllegalAccessException e) {
 			throw new RuntimeException(e);
 
-		} finally { db.close(); }
+		} finally {
+			db.close();
+		}
 	}
 
-	private ContentValues toContentValues(final E obj, final ContentValues result) throws IllegalAccessException {
+	private ContentValues toContentValues(final E obj, final ContentValues result) throws
+			IllegalAccessException {
 
 		result.put(FIELD_ID, obj.getKey().toString());
 		result.put(FIELD_TIMESTAMP, obj.getTimestamp());
@@ -288,29 +336,31 @@ public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelpe
 			final Class<?> fieldType = field.getType();
 
 			if(fieldType == String.class) {
-				result.put(fieldNames[i], (String) field.get(obj));
+				result.put(fieldNames[i], (String)field.get(obj));
 
 			} else if(fieldType == Integer.class) {
-				result.put(fieldNames[i], (Integer) field.get(obj));
+				result.put(fieldNames[i], (Integer)field.get(obj));
 
 			} else if(fieldType == Integer.TYPE) {
 				result.put(fieldNames[i], field.getInt(obj));
 
 			} else if(fieldType == Long.class) {
-				result.put(fieldNames[i], (Long) field.get(obj));
+				result.put(fieldNames[i], (Long)field.get(obj));
 
-			} else if (fieldType == Long.TYPE) {
+			} else if(fieldType == Long.TYPE) {
 				result.put(fieldNames[i], field.getLong(obj));
 
 			} else if(fieldType == Boolean.class) {
-				final Boolean val = (Boolean) field.get(obj);
+				final Boolean val = (Boolean)field.get(obj);
 				result.put(fieldNames[i], val == null ? null : (val ? 1 : 0));
 
 			} else if(fieldType == Boolean.TYPE) {
 				result.put(fieldNames[i], field.getBoolean(obj) ? 1 : 0);
 
 			} else if(fieldType == WritableHashSet.class) {
-				result.put(fieldNames[i], ((WritableHashSet)field.get(obj)).serializeWithMetadata());
+				result.put(
+						fieldNames[i],
+						((WritableHashSet)field.get(obj)).serializeWithMetadata());
 
 			} else {
 				throw new UnexpectedInternalStateException();

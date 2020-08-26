@@ -11,7 +11,7 @@ public class HtmlRawElementTagH2 extends HtmlRawElementTagAttributeChange {
 	}
 
 	@Override
-    protected void onStart(@NonNull HtmlTextAttributes activeAttributes) {
+	protected void onStart(@NonNull HtmlTextAttributes activeAttributes) {
 		activeAttributes.extraLarge++;
 	}
 

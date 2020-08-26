@@ -54,6 +54,7 @@ public abstract class APIResponseHandler {
 			Throwable t,
 			Integer status,
 			String readableMessage);
+
 	protected abstract void onFailure(APIFailureType type);
 
 	public final void notifyFailure(
@@ -136,7 +137,9 @@ public abstract class APIResponseHandler {
 			super(context);
 		}
 
-		public final void notifySuccess(final List<RedditSubreddit> result, final long timestamp) {
+		public final void notifySuccess(
+				final List<RedditSubreddit> result,
+				final long timestamp) {
 			try {
 				onSuccess(result, timestamp);
 			} catch(Throwable t1) {
@@ -176,7 +179,9 @@ public abstract class APIResponseHandler {
 		}
 
 		protected abstract void onDownloadNecessary();
+
 		protected abstract void onDownloadStarted();
+
 		protected abstract void onSuccess(List<RedditSubreddit> result, long timestamp);
 	}
 

@@ -33,9 +33,16 @@ import javax.microedition.khronos.opengles.GL10;
 public class RRGLDisplayListRenderer implements GLSurfaceView.Renderer, Refreshable {
 
 	public interface DisplayListManager extends FingerTracker.FingerListener {
-		void onGLSceneCreate(RRGLDisplayList scene, RRGLContext context, Refreshable refreshable);
+		void onGLSceneCreate(
+				RRGLDisplayList scene,
+				RRGLContext context,
+				Refreshable refreshable);
 
-		void onGLSceneResolutionChange(RRGLDisplayList scene, RRGLContext context, int width, int height);
+		void onGLSceneResolutionChange(
+				RRGLDisplayList scene,
+				RRGLContext context,
+				int width,
+				int height);
 
 		boolean onGLSceneUpdate(RRGLDisplayList scene, RRGLContext context);
 
@@ -53,7 +60,9 @@ public class RRGLDisplayListRenderer implements GLSurfaceView.Renderer, Refresha
 	private final DisplayListManager mDisplayListManager;
 	private final RRGLSurfaceView mSurfaceView;
 
-	public RRGLDisplayListRenderer(DisplayListManager displayListManager, RRGLSurfaceView surfaceView) {
+	public RRGLDisplayListRenderer(
+			DisplayListManager displayListManager,
+			RRGLSurfaceView surfaceView) {
 		mDisplayListManager = displayListManager;
 		mSurfaceView = surfaceView;
 	}

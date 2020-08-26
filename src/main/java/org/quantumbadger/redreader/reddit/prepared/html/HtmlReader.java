@@ -123,7 +123,10 @@ public class HtmlReader {
 			}
 
 		} catch(final IndexOutOfBoundsException e) {
-			throw new MalformedHtmlException("Reached EOF while reading name", mHtml, mPos);
+			throw new MalformedHtmlException(
+					"Reached EOF while reading name",
+					mHtml,
+					mPos);
 		}
 
 		if(result.length() == 0) {
@@ -297,7 +300,12 @@ public class HtmlReader {
 									preformattedText.length() - 1);
 						}
 
-						return new Token(TokenType.TEXT, preformattedText, null, null, null);
+						return new Token(
+								TokenType.TEXT,
+								preformattedText,
+								null,
+								null,
+								null);
 					}
 
 					// Raw text
@@ -322,7 +330,8 @@ public class HtmlReader {
 		final Context applicationContext = activity.getApplicationContext();
 
 		try {
-			final HtmlReaderPeekable reader = new HtmlReaderPeekable(new HtmlReader(html));
+			final HtmlReaderPeekable reader
+					= new HtmlReaderPeekable(new HtmlReader(html));
 
 			HtmlRawElement rootElement;
 
@@ -339,7 +348,9 @@ public class HtmlReader {
 			}
 
 			final HtmlRawElementBlock reduced
-					= ((HtmlRawElementBlock)rootElement).reduce(new HtmlTextAttributes(), activity);
+					= ((HtmlRawElementBlock)rootElement).reduce(
+					new HtmlTextAttributes(),
+					activity);
 
 			final ArrayList<BodyElement> generated = new ArrayList<>();
 

@@ -27,7 +27,9 @@ public class HtmlRawElementTableCell extends HtmlRawElement {
 			@NonNull final ArrayList<HtmlRawElement> destination,
 			@NonNull final ArrayList<LinkButtonDetails> linkButtons) {
 
-		destination.add(new HtmlRawElementTableCell(mChild.reduce(activeAttributes, activity)));
+		destination.add(new HtmlRawElementTableCell(mChild.reduce(
+				activeAttributes,
+				activity)));
 	}
 
 	@Override

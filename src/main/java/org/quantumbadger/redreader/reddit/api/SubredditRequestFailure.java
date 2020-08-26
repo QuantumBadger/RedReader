@@ -33,8 +33,9 @@ public class SubredditRequestFailure {
 	public final String readableMessage;
 	public final String url;
 
-	public SubredditRequestFailure(@CacheRequest.RequestFailureType int requestFailureType, Throwable t,
-								   Integer statusLine, String readableMessage, String url) {
+	public SubredditRequestFailure(
+			@CacheRequest.RequestFailureType int requestFailureType, Throwable t,
+			Integer statusLine, String readableMessage, String url) {
 		this.requestFailureType = requestFailureType;
 		this.t = t;
 		this.statusLine = statusLine;
@@ -42,13 +43,24 @@ public class SubredditRequestFailure {
 		this.url = url;
 	}
 
-	public SubredditRequestFailure(@CacheRequest.RequestFailureType int requestFailureType, Throwable t,
-								   Integer statusLine, String readableMessage, URI url) {
-		this(requestFailureType, t, statusLine, readableMessage, url != null ? url.toString() : null);
+	public SubredditRequestFailure(
+			@CacheRequest.RequestFailureType int requestFailureType, Throwable t,
+			Integer statusLine, String readableMessage, URI url) {
+		this(
+				requestFailureType,
+				t,
+				statusLine,
+				readableMessage,
+				url != null ? url.toString() : null);
 	}
 
 	@SuppressLint("WrongConstant")
 	public RRError asError(Context context) {
-		return General.getGeneralErrorForFailure(context, requestFailureType, t, statusLine, url);
+		return General.getGeneralErrorForFailure(
+				context,
+				requestFailureType,
+				t,
+				statusLine,
+				url);
 	}
 }

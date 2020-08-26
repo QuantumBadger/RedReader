@@ -55,7 +55,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 	@Override
 	public VH3TextIcon onCreateViewHolder(ViewGroup parent, int viewType) {
 		View v = LayoutInflater.from(parent.getContext())
-			.inflate(R.layout.list_item_3_text_icon, parent, false);
+				.inflate(R.layout.list_item_3_text_icon, parent, false);
 		return new VH3TextIcon(v);
 	}
 
@@ -90,7 +90,10 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 			if(size < 512 * 1024) {
 				subtitle += String.format(Locale.US, "%.1f kB", (float)size / 1024);
 			} else {
-				subtitle += String.format(Locale.US, "%.1f MB", (float)size / (1024 * 1024));
+				subtitle += String.format(
+						Locale.US,
+						"%.1f MB",
+						(float)size / (1024 * 1024));
 			}
 		}
 
@@ -99,7 +102,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 
 		vh.text2.setText(subtitle);
 
-		if (imageInfo.caption != null && imageInfo.caption.length() > 0) {
+		if(imageInfo.caption != null && imageInfo.caption.length() > 0) {
 			vh.text3.setText(imageInfo.caption);
 			vh.text3.setVisibility(View.VISIBLE);
 		} else {
@@ -110,12 +113,16 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 
 		final boolean isConnectionWifi = General.isConnectionWifi(activity);
 
-		final PrefsUtility.AppearanceThumbnailsShow thumbnailsPref = PrefsUtility.appearance_thumbnails_show(
-			activity,
-			PreferenceManager.getDefaultSharedPreferences(activity));
+		final PrefsUtility.AppearanceThumbnailsShow thumbnailsPref
+				= PrefsUtility.appearance_thumbnails_show(
+				activity,
+				PreferenceManager.getDefaultSharedPreferences(activity));
 
-		final boolean downloadThumbnails = thumbnailsPref == PrefsUtility.AppearanceThumbnailsShow.ALWAYS
-			|| (thumbnailsPref == PrefsUtility.AppearanceThumbnailsShow.WIFIONLY && isConnectionWifi);
+		final boolean downloadThumbnails = thumbnailsPref
+				== PrefsUtility.AppearanceThumbnailsShow.ALWAYS
+				|| (thumbnailsPref
+				== PrefsUtility.AppearanceThumbnailsShow.WIFIONLY
+				&& isConnectionWifi);
 
 		if(!downloadThumbnails || imageInfo.urlBigSquare == null) {
 			vh.icon.setVisibility(View.GONE);
@@ -142,21 +149,36 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 				}
 
 				@Override
-				protected void onDownloadNecessary() {}
+				protected void onDownloadNecessary() {
+				}
 
 				@Override
-				protected void onDownloadStarted() {}
+				protected void onDownloadStarted() {
+				}
 
 				@Override
-				protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
+				protected void onFailure(
+						final @CacheRequest.RequestFailureType int type,
+						final Throwable t,
+						final Integer status,
+						final String readableMessage) {
 					Log.e("AlbumAdapter", "Failed to fetch thumbnail " + url.toString());
 				}
 
 				@Override
-				protected void onProgress(final boolean authorizationInProgress, final long bytesRead, final long totalBytes) {}
+				protected void onProgress(
+						final boolean authorizationInProgress,
+						final long bytesRead,
+						final long totalBytes) {
+				}
 
 				@Override
-				protected void onSuccess(final CacheManager.ReadableCacheFile cacheFile, final long timestamp, final UUID session, final boolean fromCache, final String mimetype) {
+				protected void onSuccess(
+						final CacheManager.ReadableCacheFile cacheFile,
+						final long timestamp,
+						final UUID session,
+						final boolean fromCache,
+						final String mimetype) {
 					// TODO post message rather than runnable
 					AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
 						@Override
@@ -178,7 +200,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 			@Override
 			public void onClick(View v) {
 				LinkHandler.onLinkClicked(activity, imageInfo.urlOriginal, false, null,
-					albumInfo, vh.getAdapterPosition());
+						albumInfo, vh.getAdapterPosition());
 			}
 		});
 		vh.itemView.setOnLongClickListener(new View.OnLongClickListener() {

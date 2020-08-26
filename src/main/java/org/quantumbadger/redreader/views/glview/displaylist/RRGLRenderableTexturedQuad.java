@@ -49,10 +49,14 @@ public class RRGLRenderableTexturedQuad extends RRGLRenderable {
 	};
 
 	static {
-		mVertexBuffer = ByteBuffer.allocateDirect(vertexData.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
+		mVertexBuffer = ByteBuffer.allocateDirect(vertexData.length * 4)
+				.order(ByteOrder.nativeOrder())
+				.asFloatBuffer();
 		mVertexBuffer.put(vertexData).position(0);
 
-		mUVBuffer = ByteBuffer.allocateDirect(uvData.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
+		mUVBuffer = ByteBuffer.allocateDirect(uvData.length * 4)
+				.order(ByteOrder.nativeOrder())
+				.asFloatBuffer();
 		mUVBuffer.put(uvData).position(0);
 	}
 

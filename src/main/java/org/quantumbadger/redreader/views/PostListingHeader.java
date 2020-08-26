@@ -40,6 +40,7 @@ import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
+import org.quantumbadger.redreader.reddit.api.SubredditSubscriptionState;
 import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
@@ -47,14 +48,16 @@ import org.quantumbadger.redreader.reddit.url.PostListingURL;
 
 
 public final class PostListingHeader extends LinearLayout
-		implements RedditSubredditSubscriptionManager.SubredditSubscriptionStateChangeListener,
+		implements
+		RedditSubredditSubscriptionManager.SubredditSubscriptionStateChangeListener,
 		SharedPreferences.OnSharedPreferenceChangeListener {
 
 	@NonNull private final Context mContext;
 
 	// Field can't be local because the listener gets put in a weak map, and we want to stop it
 	// being garbage collected.
-	@Nullable private RedditSubredditSubscriptionManager.ListenerContext mSubscriptionListenerContext;
+	@Nullable private RedditSubredditSubscriptionManager.ListenerContext
+			mSubscriptionListenerContext;
 
 	@Nullable private final Runnable mRunnableOnAttach;
 	@Nullable private final Runnable mRunnableOnDetach;
@@ -83,7 +86,7 @@ public final class PostListingHeader extends LinearLayout
 		greyHeader.setOrientation(LinearLayout.VERTICAL);
 
 		{
-			final TypedArray appearance = activity.obtainStyledAttributes(new int[]{
+			final TypedArray appearance = activity.obtainStyledAttributes(new int[] {
 					R.attr.rrPostListHeaderBackgroundCol});
 
 			greyHeader.setBackgroundColor(appearance.getColor(0, General.COLOR_INVALID));
@@ -96,7 +99,8 @@ public final class PostListingHeader extends LinearLayout
 
 		greyHeader.setPadding(sidesPadding, topPadding, sidesPadding, topPadding);
 
-		final Typeface tf = Typeface.createFromAsset(activity.getAssets(), "fonts/Roboto-Light.ttf");
+		final Typeface tf =
+				Typeface.createFromAsset(activity.getAssets(), "fonts/Roboto-Light.ttf");
 
 		final TextView title = new TextView(activity);
 		title.setText(titleText);
@@ -113,31 +117,44 @@ public final class PostListingHeader extends LinearLayout
 
 		addView(greyHeader);
 
-		final RedditAccount currentUser = RedditAccountManager.getInstance(activity).getDefaultAccount();
+		final RedditAccount currentUser =
+				RedditAccountManager.getInstance(activity).getDefaultAccount();
 
 		if(subreddit != null
-				&& !PrefsUtility.pref_appearance_hide_headertoolbar_postlist(activity, sharedPreferences)) {
+				&& !PrefsUtility.pref_appearance_hide_headertoolbar_postlist(
+				activity,
+				sharedPreferences)) {
 
 			final LinearLayout buttons = (LinearLayout)inflate(
 					activity,
 					R.layout.subreddit_header_toolbar,
 					this);
 
-			final ImageButton buttonSubscribe = buttons.findViewById(R.id.subreddit_toolbar_button_subscribe);
-			final ImageButton buttonUnsubscribe = buttons.findViewById(R.id.subreddit_toolbar_button_unsubscribe);
-			final FrameLayout buttonSubscribeLoading = buttons.findViewById(R.id.subreddit_toolbar_button_subscribe_loading);
+			final ImageButton buttonSubscribe =
+					buttons.findViewById(R.id.subreddit_toolbar_button_subscribe);
+			final ImageButton buttonUnsubscribe =
+					buttons.findViewById(R.id.subreddit_toolbar_button_unsubscribe);
+			final FrameLayout buttonSubscribeLoading =
+					buttons.findViewById(R.id.subreddit_toolbar_button_subscribe_loading);
 
-			final ImageButton buttonPin = buttons.findViewById(R.id.subreddit_toolbar_button_pin);
-			final ImageButton buttonUnpin = buttons.findViewById(R.id.subreddit_toolbar_button_unpin);
+			final ImageButton buttonPin =
+					buttons.findViewById(R.id.subreddit_toolbar_button_pin);
+			final ImageButton buttonUnpin =
+					buttons.findViewById(R.id.subreddit_toolbar_button_unpin);
 
-			final ImageButton buttonSubmit = buttons.findViewById(R.id.subreddit_toolbar_button_submit);
-			final ImageButton buttonShare = buttons.findViewById(R.id.subreddit_toolbar_button_share);
-			final ImageButton buttonInfo = buttons.findViewById(R.id.subreddit_toolbar_button_info);
+			final ImageButton buttonSubmit =
+					buttons.findViewById(R.id.subreddit_toolbar_button_submit);
+			final ImageButton buttonShare =
+					buttons.findViewById(R.id.subreddit_toolbar_button_share);
+			final ImageButton buttonInfo =
+					buttons.findViewById(R.id.subreddit_toolbar_button_info);
 
 			buttonSubscribeLoading.addView(new ButtonLoadingSpinnerView(activity));
 
 			final RedditSubredditSubscriptionManager subscriptionManager
-					= RedditSubredditSubscriptionManager.getSingleton(activity, currentUser);
+					= RedditSubredditSubscriptionManager.getSingleton(
+					activity,
+					currentUser);
 
 			final SubredditCanonicalId subredditCanonicalId;
 
@@ -150,18 +167,19 @@ public final class PostListingHeader extends LinearLayout
 
 			mRunnableOnSubscriptionsChange = () -> {
 
-				final RedditSubredditSubscriptionManager.SubredditSubscriptionState subscriptionState
-						= subscriptionManager.getSubscriptionState(subredditCanonicalId);
+				final SubredditSubscriptionState
+						subscriptionState = subscriptionManager.getSubscriptionState(
+						subredditCanonicalId);
 
-				if(subscriptionState
-						== RedditSubredditSubscriptionManager.SubredditSubscriptionState.SUBSCRIBED) {
+				if(subscriptionState == SubredditSubscriptionState
+						.SUBSCRIBED) {
 
 					buttonSubscribe.setVisibility(GONE);
 					buttonUnsubscribe.setVisibility(VISIBLE);
 					buttonSubscribeLoading.setVisibility(GONE);
 
-				} else if(subscriptionState
-						== RedditSubredditSubscriptionManager.SubredditSubscriptionState.NOT_SUBSCRIBED) {
+				} else if(subscriptionState == SubredditSubscriptionState
+						.NOT_SUBSCRIBED) {
 
 					buttonSubscribe.setVisibility(VISIBLE);
 					buttonUnsubscribe.setVisibility(GONE);
@@ -231,9 +249,9 @@ public final class PostListingHeader extends LinearLayout
 						activity));
 
 				buttonSubmit.setOnClickListener(v -> {
-							final Intent intent = new Intent(activity, PostSubmitActivity.class);
-							intent.putExtra("subreddit", subredditCanonicalId.toString());
-							activity.startActivity(intent);
+					final Intent intent = new Intent(activity, PostSubmitActivity.class);
+					intent.putExtra("subreddit", subredditCanonicalId.toString());
+					activity.startActivity(intent);
 				});
 			}
 
@@ -248,7 +266,10 @@ public final class PostListingHeader extends LinearLayout
 					subredditCanonicalId));
 
 			buttonShare.setOnClickListener(v -> {
-				LinkHandler.shareText(activity, subredditCanonicalId.toString(), url.browserUrl());
+				LinkHandler.shareText(
+						activity,
+						subredditCanonicalId.toString(),
+						url.browserUrl());
 			});
 
 			buttonInfo.setOnClickListener(v -> subreddit.showSidebarActivity(activity));

@@ -8,7 +8,8 @@ public class SubredditCanonicalId implements Comparable<SubredditCanonicalId> {
 
 	@NonNull private final String mId;
 
-	public SubredditCanonicalId(@NonNull final String name) throws InvalidSubredditNameException {
+	public SubredditCanonicalId(@NonNull final String name) throws
+			InvalidSubredditNameException {
 
 		final String userSr = RedditSubreddit.stripUserPrefix(name);
 

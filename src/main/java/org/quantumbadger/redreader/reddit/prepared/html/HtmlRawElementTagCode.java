@@ -11,7 +11,7 @@ public class HtmlRawElementTagCode extends HtmlRawElementTagAttributeChange {
 	}
 
 	@Override
-    protected void onStart(@NonNull HtmlTextAttributes activeAttributes) {
+	protected void onStart(@NonNull HtmlTextAttributes activeAttributes) {
 		activeAttributes.monospace++;
 	}
 

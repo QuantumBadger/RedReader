@@ -49,16 +49,26 @@ public class SessionListAdapter extends HeaderRecyclerAdapter<RecyclerView.ViewH
 	private final ArrayList<CacheEntry> sessions;
 	private final Drawable rrIconRefresh;
 
-	public SessionListAdapter(final Context context, final URI url, final UUID current, SessionChangeListener.SessionChangeType type, final AppCompatDialogFragment fragment) {
+	public SessionListAdapter(
+			final Context context,
+			final URI url,
+			final UUID current,
+			SessionChangeListener.SessionChangeType type,
+			final AppCompatDialogFragment fragment) {
 		this.context = context;
 		this.current = current;
 		this.type = type;
 		this.fragment = fragment;
 
 		sessions = new ArrayList<>(
-			CacheManager.getInstance(context).getSessions(url, RedditAccountManager.getInstance(context).getDefaultAccount()));
+				CacheManager.getInstance(context)
+						.getSessions(
+								url,
+								RedditAccountManager.getInstance(context)
+										.getDefaultAccount()));
 
-		final TypedArray attr = context.obtainStyledAttributes(new int[]{R.attr.rrIconRefresh,});
+		final TypedArray attr
+				= context.obtainStyledAttributes(new int[] {R.attr.rrIconRefresh,});
 		rrIconRefresh = ContextCompat.getDrawable(context, attr.getResourceId(0, 0));
 		attr.recycle();
 	}
@@ -66,49 +76,59 @@ public class SessionListAdapter extends HeaderRecyclerAdapter<RecyclerView.ViewH
 	@Override
 	protected RecyclerView.ViewHolder onCreateHeaderItemViewHolder(ViewGroup parent) {
 		View v = LayoutInflater.from(parent.getContext())
-			.inflate(R.layout.list_item_1_text, parent, false);
+				.inflate(R.layout.list_item_1_text, parent, false);
 		return new VH1Text(v);
 	}
 
 	@Override
 	protected RecyclerView.ViewHolder onCreateContentItemViewHolder(ViewGroup parent) {
 		View v = LayoutInflater.from(parent.getContext())
-			.inflate(R.layout.list_item_1_text, parent, false);
+				.inflate(R.layout.list_item_1_text, parent, false);
 		return new VH1Text(v);
 	}
 
 	@Override
-	protected void onBindHeaderItemViewHolder(RecyclerView.ViewHolder holder, final int position) {
-		final VH1Text vh = (VH1Text) holder;
+	protected void onBindHeaderItemViewHolder(
+			RecyclerView.ViewHolder holder,
+			final int position) {
+		final VH1Text vh = (VH1Text)holder;
 		vh.text.setText(context.getString(R.string.options_refresh));
 		vh.text.setCompoundDrawablesWithIntrinsicBounds(rrIconRefresh, null, null, null);
 		vh.itemView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				((SessionChangeListener) context).onSessionRefreshSelected(type);
+				((SessionChangeListener)context).onSessionRefreshSelected(type);
 				fragment.dismiss();
 			}
 		});
 	}
 
 	@Override
-	protected void onBindContentItemViewHolder(RecyclerView.ViewHolder holder, final int position) {
-		final VH1Text vh = (VH1Text) holder;
+	protected void onBindContentItemViewHolder(
+			RecyclerView.ViewHolder holder,
+			final int position) {
+		final VH1Text vh = (VH1Text)holder;
 		final CacheEntry session = sessions.get(position);
 		final BetterSSB name = new BetterSSB();
 
-		if (RRTime.utcCurrentTimeMillis() - session.timestamp < 1000 * 120) {
+		if(RRTime.utcCurrentTimeMillis() - session.timestamp < 1000 * 120) {
 			name.append(RRTime.formatDurationFrom(context, session.timestamp), 0);
 		} else {
 			name.append(RRTime.formatDateTime(session.timestamp, context), 0);
 		}
 
-		if (session.session.equals(current)) {
-			final TypedArray attr = context.obtainStyledAttributes(new int[]{R.attr.rrListSubtitleCol});
+		if(session.session.equals(current)) {
+			final TypedArray attr
+					= context.obtainStyledAttributes(new int[] {R.attr.rrListSubtitleCol});
 			final int col = attr.getColor(0, 0);
 			attr.recycle();
 
-			name.append("  (" + context.getString(R.string.session_active) + ")", BetterSSB.FOREGROUND_COLOR | BetterSSB.SIZE, col, 0, 0.8f);
+			name.append(
+					"  (" + context.getString(R.string.session_active) + ")",
+					BetterSSB.FOREGROUND_COLOR | BetterSSB.SIZE,
+					col,
+					0,
+					0.8f);
 		}
 
 		vh.text.setText(name.get());
@@ -117,7 +137,7 @@ public class SessionListAdapter extends HeaderRecyclerAdapter<RecyclerView.ViewH
 			@Override
 			public void onClick(View v) {
 				final CacheEntry ce = sessions.get(position);
-				((SessionChangeListener) context).onSessionSelected(ce.session, type);
+				((SessionChangeListener)context).onSessionSelected(ce.session, type);
 				fragment.dismiss();
 			}
 		});

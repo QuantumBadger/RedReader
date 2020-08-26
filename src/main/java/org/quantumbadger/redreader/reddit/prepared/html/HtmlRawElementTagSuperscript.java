@@ -11,7 +11,7 @@ public class HtmlRawElementTagSuperscript extends HtmlRawElementTagAttributeChan
 	}
 
 	@Override
-    protected void onStart(@NonNull HtmlTextAttributes activeAttributes) {
+	protected void onStart(@NonNull HtmlTextAttributes activeAttributes) {
 		activeAttributes.superscript++;
 	}
 

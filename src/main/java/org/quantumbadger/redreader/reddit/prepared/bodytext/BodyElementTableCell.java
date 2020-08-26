@@ -35,7 +35,11 @@ public class BodyElementTableCell extends BodyElement {
 
 		final int verticalPaddingPx = General.dpToPixels(activity, 2);
 		final int horizontalPaddingPx = General.dpToPixels(activity, 5);
-		padding.setPadding(horizontalPaddingPx, verticalPaddingPx, horizontalPaddingPx, verticalPaddingPx);
+		padding.setPadding(
+				horizontalPaddingPx,
+				verticalPaddingPx,
+				horizontalPaddingPx,
+				verticalPaddingPx);
 
 		return padding;
 	}

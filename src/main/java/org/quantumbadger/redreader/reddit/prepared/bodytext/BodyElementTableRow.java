@@ -29,10 +29,15 @@ public class BodyElementTableRow extends BodyElement {
 
 		for(final BodyElement element : mElements) {
 
-			final View view = element.generateView(activity, textColor, textSize, showLinkButtons);
+			final View view = element.generateView(
+					activity,
+					textColor,
+					textSize,
+					showLinkButtons);
 			result.addView(view);
 
-			final TableRow.LayoutParams layoutParams = (TableRow.LayoutParams)view.getLayoutParams();
+			final TableRow.LayoutParams layoutParams
+					= (TableRow.LayoutParams)view.getLayoutParams();
 
 			layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT;
 			layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;

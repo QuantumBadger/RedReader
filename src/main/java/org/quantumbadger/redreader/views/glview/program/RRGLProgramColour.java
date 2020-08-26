@@ -34,7 +34,11 @@ public class RRGLProgramColour extends RRGLProgramVertices {
 		mColorHandle = getUniformHandle("u_Color");
 	}
 
-	public void activateColour(final float r, final float g, final float b, final float a) {
+	public void activateColour(
+			final float r,
+			final float g,
+			final float b,
+			final float a) {
 		GLES20.glUniform4f(mColorHandle, r, g, b, a);
 	}
 

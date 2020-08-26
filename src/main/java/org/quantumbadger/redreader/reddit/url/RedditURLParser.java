@@ -38,20 +38,32 @@ public class RedditURLParser {
 	public static final int POST_COMMENT_LISTING_URL = 7;
 	public static final int MULTIREDDIT_POST_LISTING_URL = 8;
 
-	@IntDef({SUBREDDIT_POST_LISTING_URL, USER_POST_LISTING_URL, SEARCH_POST_LISTING_URL,
-		UNKNOWN_POST_LISTING_URL, USER_PROFILE_URL, USER_COMMENT_LISTING_URL,
-		UNKNOWN_COMMENT_LISTING_URL, POST_COMMENT_LISTING_URL, MULTIREDDIT_POST_LISTING_URL})
+	@IntDef({
+			SUBREDDIT_POST_LISTING_URL,
+			USER_POST_LISTING_URL,
+			SEARCH_POST_LISTING_URL,
+			UNKNOWN_POST_LISTING_URL,
+			USER_PROFILE_URL,
+			USER_COMMENT_LISTING_URL,
+			UNKNOWN_COMMENT_LISTING_URL,
+			POST_COMMENT_LISTING_URL,
+			MULTIREDDIT_POST_LISTING_URL})
 	@Retention(RetentionPolicy.SOURCE)
-	public @interface PathType {}
+	public @interface PathType {
+	}
 
 	private static boolean isRedditUri(Uri uri) {
 
-		if (uri == null || uri.getHost() == null) return false;
+		if(uri == null || uri.getHost() == null) return false;
 		final String[] hostSegments = General.asciiLowercase(uri.getHost()).split("\\.");
-		if (hostSegments.length < 2) return false;
-		if (hostSegments[hostSegments.length - 1].equals("com") && hostSegments[hostSegments.length - 2].equals("reddit"))
+		if(hostSegments.length < 2) return false;
+		if(hostSegments[hostSegments.length - 1].equals("com") && hostSegments[
+				hostSegments.length
+						- 2].equals(
+				"reddit"))
 			return true;
-		if (hostSegments[hostSegments.length - 1].equals("it") && hostSegments[hostSegments.length - 2].equals("redd"))
+		if(hostSegments[hostSegments.length - 1].equals("it")
+				&& hostSegments[hostSegments.length - 2].equals("redd"))
 			return true;
 
 		return false;
@@ -59,54 +71,58 @@ public class RedditURLParser {
 
 	public static RedditURL parse(Uri uri) {
 
-		if (uri == null) return null;
-		if (!isRedditUri(uri)) return null;
+		if(uri == null) return null;
+		if(!isRedditUri(uri)) return null;
 
 		{
-			final SubredditPostListURL subredditPostListURL = SubredditPostListURL.parse(uri);
-			if (subredditPostListURL != null) {
+			final SubredditPostListURL subredditPostListURL = SubredditPostListURL.parse(
+					uri);
+			if(subredditPostListURL != null) {
 				return subredditPostListURL;
 			}
 		}
 
 		{
-			final MultiredditPostListURL multiredditPostListURL = MultiredditPostListURL.parse(uri);
-			if (multiredditPostListURL != null) {
+			final MultiredditPostListURL multiredditPostListURL
+					= MultiredditPostListURL.parse(uri);
+			if(multiredditPostListURL != null) {
 				return multiredditPostListURL;
 			}
 		}
 
 		{
 			final SearchPostListURL searchPostListURL = SearchPostListURL.parse(uri);
-			if (searchPostListURL != null) {
+			if(searchPostListURL != null) {
 				return searchPostListURL;
 			}
 		}
 
 		{
 			final UserPostListingURL userPostListURL = UserPostListingURL.parse(uri);
-			if (userPostListURL != null) {
+			if(userPostListURL != null) {
 				return userPostListURL;
 			}
 		}
 
 		{
-			final UserCommentListingURL userCommentListURL = UserCommentListingURL.parse(uri);
-			if (userCommentListURL != null) {
+			final UserCommentListingURL userCommentListURL = UserCommentListingURL.parse(
+					uri);
+			if(userCommentListURL != null) {
 				return userCommentListURL;
 			}
 		}
 
 		{
-			final PostCommentListingURL commentListingURL = PostCommentListingURL.parse(uri);
-			if (commentListingURL != null) {
+			final PostCommentListingURL commentListingURL = PostCommentListingURL.parse(
+					uri);
+			if(commentListingURL != null) {
 				return commentListingURL;
 			}
 		}
 
 		{
 			final UserProfileURL userProfileURL = UserProfileURL.parse(uri);
-			if (userProfileURL != null) {
+			if(userProfileURL != null) {
 				return userProfileURL;
 			}
 		}
@@ -117,7 +133,7 @@ public class RedditURLParser {
 	public static RedditURL parseProbableCommentListing(Uri uri) {
 
 		RedditURL matchURL = parse(uri);
-		if (matchURL != null) return matchURL;
+		if(matchURL != null) return matchURL;
 
 		return new UnknownCommentListURL(uri);
 	}
@@ -125,7 +141,7 @@ public class RedditURLParser {
 	public static RedditURL parseProbablePostListing(Uri uri) {
 
 		RedditURL matchURL = parse(uri);
-		if (matchURL != null) return matchURL;
+		if(matchURL != null) return matchURL;
 
 		return new UnknownPostListURL(uri);
 	}
@@ -133,34 +149,35 @@ public class RedditURLParser {
 	public static abstract class RedditURL {
 		public abstract Uri generateJsonUri();
 
-		public abstract @PathType int pathType();
+		public abstract @PathType
+		int pathType();
 
 		public final SubredditPostListURL asSubredditPostListURL() {
-			return (SubredditPostListURL) this;
+			return (SubredditPostListURL)this;
 		}
 
 		public final MultiredditPostListURL asMultiredditPostListURL() {
-			return (MultiredditPostListURL) this;
+			return (MultiredditPostListURL)this;
 		}
 
 		public final SearchPostListURL asSearchPostListURL() {
-			return (SearchPostListURL) this;
+			return (SearchPostListURL)this;
 		}
 
 		public final UserPostListingURL asUserPostListURL() {
-			return (UserPostListingURL) this;
+			return (UserPostListingURL)this;
 		}
 
 		public UserProfileURL asUserProfileURL() {
-			return (UserProfileURL) this;
+			return (UserProfileURL)this;
 		}
 
 		public PostCommentListingURL asPostCommentListURL() {
-			return (PostCommentListingURL) this;
+			return (PostCommentListingURL)this;
 		}
 
 		public UserCommentListingURL asUserCommentListURL() {
-			return (UserCommentListingURL) this;
+			return (UserCommentListingURL)this;
 		}
 
 		public String humanReadableName(Context context, boolean shorter) {
@@ -177,8 +194,8 @@ public class RedditURLParser {
 
 			final StringBuilder builder = new StringBuilder();
 
-			for (String pathElement : src.getPathSegments()) {
-				if (!pathElement.equals(".json")) {
+			for(String pathElement : src.getPathSegments()) {
+				if(!pathElement.equals(".json")) {
 					builder.append("/");
 					builder.append(pathElement);
 				}

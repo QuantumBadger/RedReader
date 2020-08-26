@@ -95,7 +95,9 @@ public final class General {
 	public static Typeface getMonoTypeface(Context context) {
 
 		if(monoTypeface == null) {
-			monoTypeface = Typeface.createFromAsset(context.getAssets(), "fonts/VeraMono.ttf");
+			monoTypeface = Typeface.createFromAsset(
+					context.getAssets(),
+					"fonts/VeraMono.ttf");
 		}
 
 		return monoTypeface;
@@ -129,13 +131,15 @@ public final class General {
 		}
 	}
 
-	public static void copyFile(final InputStream fis, final File dst) throws IOException {
+	public static void copyFile(final InputStream fis, final File dst) throws
+			IOException {
 		try(FileOutputStream fos = new FileOutputStream(dst)) {
 			copyFile(fis, fos);
 		}
 	}
 
-	public static void copyFile(final InputStream fis, final OutputStream fos) throws IOException {
+	public static void copyFile(final InputStream fis, final OutputStream fos) throws
+			IOException {
 
 		final byte[] buf = new byte[32 * 1024];
 
@@ -149,7 +153,8 @@ public final class General {
 	}
 
 	public static boolean isCacheDiskFull(final Context context) {
-		final long space = getFreeSpaceAvailable(PrefsUtility.pref_cache_location(context,
+		final long space = getFreeSpaceAvailable(PrefsUtility.pref_cache_location(
+				context,
 				PreferenceManager.getDefaultSharedPreferences(context)));
 		return space < 128 * 1024 * 1024;
 	}
@@ -160,7 +165,7 @@ public final class General {
 		StatFs stat = new StatFs(path);
 		long availableBlocks;
 		long blockSize;
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
 			availableBlocks = stat.getAvailableBlocksLong();
 			blockSize = stat.getBlockSizeLong();
 		} else {
@@ -170,20 +175,24 @@ public final class General {
 		return availableBlocks * blockSize;
 	}
 
-	/** Takes a size in bytes and converts it into a human-readable
-	 * String with units.
+	/**
+	 * Takes a size in bytes and converts it into a human-readable String with units.
 	 */
 	public static String addUnits(final long input) {
 		int i = 0;
 		long result = input;
-		while (i <= 3 && result >= 1024)
-			result = input / (long) Math.pow(1024, ++i);
+		while(i <= 3 && result >= 1024)
+			result = input / (long)Math.pow(1024, ++i);
 
-		switch (i) {
-		case 1: return result + " KiB";
-		case 2: return result + " MiB";
-		case 3: return result + " GiB";
-		default: return result + " B";
+		switch(i) {
+			case 1:
+				return result + " KiB";
+			case 2:
+				return result + " MiB";
+			case 3:
+				return result + " GiB";
+			default:
+				return result + " B";
 		}
 	}
 
@@ -195,11 +204,17 @@ public final class General {
 	}
 
 	public static int dpToPixels(final Context context, final float dp) {
-		return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics()));
+		return Math.round(TypedValue.applyDimension(
+				TypedValue.COMPLEX_UNIT_DIP,
+				dp,
+				context.getResources().getDisplayMetrics()));
 	}
 
 	public static int spToPixels(final Context context, final float sp) {
-		return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, context.getResources().getDisplayMetrics()));
+		return Math.round(TypedValue.applyDimension(
+				TypedValue.COMPLEX_UNIT_SP,
+				sp,
+				context.getResources().getDisplayMetrics()));
 	}
 
 	public static void quickToast(final Context context, final int textRes) {
@@ -215,7 +230,10 @@ public final class General {
 		});
 	}
 
-	public static void quickToast(final Context context, final String text, final int duration) {
+	public static void quickToast(
+			final Context context,
+			final String text,
+			final int duration) {
 		AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
 			@Override
 			public void run() {
@@ -224,9 +242,13 @@ public final class General {
 		});
 	}
 
-	public static boolean isTablet(final Context context, final SharedPreferences sharedPreferences) {
+	public static boolean isTablet(
+			final Context context,
+			final SharedPreferences sharedPreferences) {
 
-		final PrefsUtility.AppearanceTwopane pref = PrefsUtility.appearance_twopane(context, sharedPreferences);
+		final PrefsUtility.AppearanceTwopane pref = PrefsUtility.appearance_twopane(
+				context,
+				sharedPreferences);
 
 		switch(pref) {
 			case AUTO:
@@ -238,28 +260,38 @@ public final class General {
 			case FORCE:
 				return true;
 			default:
-				BugReportActivity.handleGlobalError(context, "Unknown AppearanceTwopane value " + pref.name());
+				BugReportActivity.handleGlobalError(
+						context,
+						"Unknown AppearanceTwopane value " + pref.name());
 				return false;
 		}
 	}
 
-	public static boolean isConnectionWifi(final Context context){
-		final ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+	public static boolean isConnectionWifi(final Context context) {
+		final ConnectivityManager cm = (ConnectivityManager)context.getSystemService(
+				Context.CONNECTIVITY_SERVICE);
 		final NetworkInfo info = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-		return info != null && info.getDetailedState() == NetworkInfo.DetailedState.CONNECTED;
+		return info != null
+				&& info.getDetailedState() == NetworkInfo.DetailedState.CONNECTED;
 	}
 
 	public static boolean isNetworkConnected(final Context context) {
-		final ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		final ConnectivityManager cm = (ConnectivityManager)context.getSystemService(
+				Context.CONNECTIVITY_SERVICE);
 		final NetworkInfo activeNetworkInfo = cm.getActiveNetworkInfo();
 		return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 	}
 
-	public static RRError getGeneralErrorForFailure(Context context, @CacheRequest.RequestFailureType int type, Throwable t, Integer status, String url) {
+	public static RRError getGeneralErrorForFailure(
+			Context context,
+			@CacheRequest.RequestFailureType int type,
+			Throwable t,
+			Integer status,
+			String url) {
 
 		final int title, message;
 
-		switch (type) {
+		switch(type) {
 			case CacheRequest.REQUEST_FAILURE_CANCELLED:
 				title = R.string.error_cancelled_title;
 				message = R.string.error_cancelled_message;
@@ -296,16 +328,16 @@ public final class General {
 			case CacheRequest.REQUEST_FAILURE_REQUEST:
 
 				if(status != null) {
-					switch (status) {
+					switch(status) {
 						case 400:
 						case 401:
 						case 403: {
 							final URI uri = General.uriFromString(url);
 							final boolean isRedditRequest
 									= uri != null
-											&& uri.getHost() != null
-											&& ("reddit.com".equalsIgnoreCase(uri.getHost())
-													|| uri.getHost().endsWith(".reddit.com"));
+									&& uri.getHost() != null
+									&& ("reddit.com".equalsIgnoreCase(uri.getHost())
+									|| uri.getHost().endsWith(".reddit.com"));
 
 							if(isRedditRequest) {
 								title = R.string.error_403_title;
@@ -359,10 +391,17 @@ public final class General {
 				break;
 		}
 
-		return new RRError(context.getString(title), context.getString(message), t, status, url);
+		return new RRError(
+				context.getString(title),
+				context.getString(message),
+				t,
+				status,
+				url);
 	}
 
-	public static RRError getGeneralErrorForFailure(Context context, final APIResponseHandler.APIFailureType type) {
+	public static RRError getGeneralErrorForFailure(
+			Context context,
+			final APIResponseHandler.APIFailureType type) {
 
 		final int title, message;
 
@@ -418,30 +457,42 @@ public final class General {
 	}
 
 	// TODO add button to show more detail
-	public static void showResultDialog(final AppCompatActivity context, final RRError error) {
+	public static void showResultDialog(
+			final AppCompatActivity context,
+			final RRError error) {
 		AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
 			@Override
 			public void run() {
 				try {
-					final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
+					final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(
+							context);
 					alertBuilder.setNeutralButton(R.string.dialog_close, null);
-					alertBuilder.setNegativeButton(R.string.button_moredetail, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							ErrorPropertiesDialog.newInstance(error).show(context.getSupportFragmentManager(), "ErrorPropertiesDialog");
-						}
-					});
+					alertBuilder.setNegativeButton(
+							R.string.button_moredetail,
+							new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									ErrorPropertiesDialog.newInstance(error)
+											.show(
+													context.getSupportFragmentManager(),
+													"ErrorPropertiesDialog");
+								}
+							});
 					alertBuilder.setTitle(error.title);
 					alertBuilder.setMessage(error.message);
 					alertBuilder.create().show();
 				} catch(final WindowManager.BadTokenException e) {
-					Log.e("General", "Tried to show result dialog after activity closed", e);
+					Log.e(
+							"General",
+							"Tried to show result dialog after activity closed",
+							e);
 				}
 			}
 		});
 	}
 
-	private static final Pattern urlPattern = Pattern.compile("^(https?)://([^/]+)/+([^\\?#]+)((?:\\?[^#]+)?)((?:#.+)?)$");
+	private static final Pattern urlPattern = Pattern.compile(
+			"^(https?)://([^/]+)/+([^\\?#]+)((?:\\?[^#]+)?)((?:#.+)?)$");
 
 	public static String filenameFromString(String url) {
 		final URI uri = uriFromString(url);
@@ -473,16 +524,27 @@ public final class General {
 
 					final String scheme = urlMatcher.group(1);
 					final String authority = urlMatcher.group(2);
-					final String path = urlMatcher.group(3).length() == 0 ? null : "/" + urlMatcher.group(3);
-					final String query = urlMatcher.group(4).length() == 0 ? null : urlMatcher.group(4);
-					final String fragment = urlMatcher.group(5).length() == 0 ? null : urlMatcher.group(5);
+					final String path = urlMatcher.group(3).length() == 0
+							? null
+							: "/" + urlMatcher.group(3);
+					final String query = urlMatcher.group(4).length() == 0
+							? null
+							: urlMatcher.group(4);
+					final String fragment = urlMatcher.group(5).length() == 0
+							? null
+							: urlMatcher.group(5);
 
 					try {
 						return new URI(scheme, authority, path, query, fragment);
 					} catch(Throwable t3) {
 
 						if(path != null && path.contains(" ")) {
-							return new URI(scheme, authority, path.replace(" ", "%20"), query, fragment);
+							return new URI(
+									scheme,
+									authority,
+									path.replace(" ", "%20"),
+									query,
+									fragment);
 						} else {
 							return null;
 						}
@@ -534,7 +596,7 @@ public final class General {
 			int end = (next == -1) ? query.length() : next;
 
 			int separator = query.indexOf('=', pos);
-			if (separator > end || separator == -1) {
+			if(separator > end || separator == -1) {
 				separator = end;
 			}
 
@@ -597,7 +659,8 @@ public final class General {
 		return new String(chars);
 	}
 
-	public static void copyStream(final InputStream in, final OutputStream out) throws IOException {
+	public static void copyStream(final InputStream in, final OutputStream out) throws
+			IOException {
 
 		int bytesRead;
 		final byte[] buffer = new byte[64 * 1024];
@@ -618,9 +681,13 @@ public final class General {
 		return new String(readWholeStream(in), CHARSET_UTF8);
 	}
 
-	public static void setAllMarginsDp(final Context context, final View view, final int marginDp) {
+	public static void setAllMarginsDp(
+			final Context context,
+			final View view,
+			final int marginDp) {
 
-		final ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams)view.getLayoutParams();
+		final ViewGroup.MarginLayoutParams layoutParams
+				= (ViewGroup.MarginLayoutParams)view.getLayoutParams();
 
 		final int marginPx = dpToPixels(context, marginDp);
 
@@ -720,7 +787,8 @@ public final class General {
 		new AlertDialog.Builder(activity)
 				.setTitle(R.string.firstrun_login_title)
 				.setMessage(R.string.must_login_message)
-				.setPositiveButton(R.string.firstrun_login_button_now,
+				.setPositiveButton(
+						R.string.firstrun_login_button_now,
 						(dialog, which) -> new AccountListDialog().show(
 								activity.getSupportFragmentManager(),
 								null))

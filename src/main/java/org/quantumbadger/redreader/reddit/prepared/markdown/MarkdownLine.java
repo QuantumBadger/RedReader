@@ -24,8 +24,14 @@ public final class MarkdownLine {
 	public final int spacesAtStart, spacesAtEnd;
 	public final int prefixLength, level, number;
 
-	MarkdownLine(CharArrSubstring src, MarkdownParser.MarkdownParagraphType type, int spacesAtStart, int spacesAtEnd,
-				 int prefixLength, int level, int number) {
+	MarkdownLine(
+			CharArrSubstring src,
+			MarkdownParser.MarkdownParagraphType type,
+			int spacesAtStart,
+			int spacesAtEnd,
+			int prefixLength,
+			int level,
+			int number) {
 		this.src = src;
 		this.type = type;
 		this.spacesAtStart = spacesAtStart;
@@ -42,11 +48,25 @@ public final class MarkdownLine {
 
 		if(spacesAtStart == src.length) {
 			// New paragraph
-			return new MarkdownLine(null, MarkdownParser.MarkdownParagraphType.EMPTY, 0, 0, 0, 0, 0);
+			return new MarkdownLine(
+					null,
+					MarkdownParser.MarkdownParagraphType.EMPTY,
+					0,
+					0,
+					0,
+					0,
+					0);
 		}
 
 		if(spacesAtStart >= 4) {
-			return new MarkdownLine(src, MarkdownParser.MarkdownParagraphType.CODE, spacesAtStart, spacesAtEnd, 4, 0, 0);
+			return new MarkdownLine(
+					src,
+					MarkdownParser.MarkdownParagraphType.CODE,
+					spacesAtStart,
+					spacesAtEnd,
+					4,
+					0,
+					0);
 		}
 
 		final char firstNonSpaceChar = src.charAt(spacesAtStart);
@@ -57,24 +77,53 @@ public final class MarkdownLine {
 				final int level = src.countPrefixLevelIgnoringSpaces('>');
 				final int prefixLen = src.countPrefixLengthIgnoringSpaces('>');
 
-				return new MarkdownLine(src, MarkdownParser.MarkdownParagraphType.QUOTE, spacesAtStart, spacesAtEnd, prefixLen, level, 0);
+				return new MarkdownLine(
+						src,
+						MarkdownParser.MarkdownParagraphType.QUOTE,
+						spacesAtStart,
+						spacesAtEnd,
+						prefixLen,
+						level,
+						0);
 			}
 
 			case '-':
-			case '*':
-			{
+			case '*': {
 
-				if(src.length > spacesAtStart + 1 && src.charAt(spacesAtStart + 1) == ' ') {
+				if(src.length > spacesAtStart + 1
+						&& src.charAt(spacesAtStart + 1) == ' ') {
 
-					return new MarkdownLine(src, MarkdownParser.MarkdownParagraphType.BULLET, spacesAtStart, spacesAtEnd,
-							spacesAtStart + 2, spacesAtStart == 0 ? 0 : 1, 0);
+					return new MarkdownLine(
+							src,
+							MarkdownParser.MarkdownParagraphType.BULLET,
+							spacesAtStart,
+							spacesAtEnd,
+							spacesAtStart + 2,
+							spacesAtStart == 0 ? 0 : 1,
+							0);
 
-				} else if(src.length >= 3 && src.isRepeatingChar('*', spacesAtStart, src.length - spacesAtEnd)) {
-					return new MarkdownLine(src, MarkdownParser.MarkdownParagraphType.HLINE, 0, 0, 0, 0, 0);
+				} else if(src.length >= 3 && src.isRepeatingChar(
+						'*',
+						spacesAtStart,
+						src.length - spacesAtEnd)) {
+					return new MarkdownLine(
+							src,
+							MarkdownParser.MarkdownParagraphType.HLINE,
+							0,
+							0,
+							0,
+							0,
+							0);
 
 				} else {
-					return new MarkdownLine(src, MarkdownParser.MarkdownParagraphType.TEXT, spacesAtStart, spacesAtEnd,
-							spacesAtStart, 0, 0);
+					return new MarkdownLine(
+							src,
+							MarkdownParser.MarkdownParagraphType.TEXT,
+							spacesAtStart,
+							spacesAtEnd,
+							spacesAtStart,
+							0,
+							0);
 				}
 			}
 
@@ -87,50 +136,94 @@ public final class MarkdownLine {
 			case '6':
 			case '7':
 			case '8':
-			case '9':
-			{
+			case '9': {
 				final CharArrSubstring num = src.readInteger(spacesAtStart);
 
 				if(src.length > spacesAtStart + num.length + 2
 						&& src.charAt(spacesAtStart + num.length) == '.'
 						&& src.charAt(spacesAtStart + num.length + 1) == ' ') {
 
-					return new MarkdownLine(src, MarkdownParser.MarkdownParagraphType.NUMBERED, spacesAtStart, spacesAtEnd,
-							spacesAtStart + num.length + 2, spacesAtStart == 0 ? 0 : 1, Integer.parseInt(num.toString()));
+					return new MarkdownLine(
+							src,
+							MarkdownParser.MarkdownParagraphType.NUMBERED,
+							spacesAtStart,
+							spacesAtEnd,
+							spacesAtStart + num.length + 2,
+							spacesAtStart == 0 ? 0 : 1,
+							Integer.parseInt(num.toString()));
 
 				} else {
-					return new MarkdownLine(src, MarkdownParser.MarkdownParagraphType.TEXT, spacesAtStart, spacesAtEnd,
-							spacesAtStart, 0, 0);
+					return new MarkdownLine(
+							src,
+							MarkdownParser.MarkdownParagraphType.TEXT,
+							spacesAtStart,
+							spacesAtEnd,
+							spacesAtStart,
+							0,
+							0);
 				}
 			}
 
 			case '#':
 				// TODO prefix and suffix length
-				return new MarkdownLine(src, MarkdownParser.MarkdownParagraphType.HEADER, spacesAtStart, spacesAtEnd,
-						src.countPrefixLengthIgnoringSpaces('#'), 0, 0);
+				return new MarkdownLine(
+						src,
+						MarkdownParser.MarkdownParagraphType.HEADER,
+						spacesAtStart,
+						spacesAtEnd,
+						src.countPrefixLengthIgnoringSpaces('#'),
+						0,
+						0);
 
 			default:
-				return new MarkdownLine(src, MarkdownParser.MarkdownParagraphType.TEXT, spacesAtStart, spacesAtEnd,
-						spacesAtStart, 0, 0);
+				return new MarkdownLine(
+						src,
+						MarkdownParser.MarkdownParagraphType.TEXT,
+						spacesAtStart,
+						spacesAtEnd,
+						spacesAtStart,
+						0,
+						0);
 		}
 	}
 
 	public MarkdownLine rejoin(MarkdownLine toAppend) {
 		src.arr[src.start + src.length] = ' ';
-		return new MarkdownLine(src.rejoin(toAppend.src), type, spacesAtStart, toAppend.spacesAtEnd, prefixLength, level, number);
+		return new MarkdownLine(
+				src.rejoin(toAppend.src),
+				type,
+				spacesAtStart,
+				toAppend.spacesAtEnd,
+				prefixLength,
+				level,
+				number);
 	}
 
 	public MarkdownParagraph tokenize(final MarkdownParagraph parent) {
 
-		final CharArrSubstring cleanedSrc = prefixLength == 0 ? src : src.substring(prefixLength);
+		final CharArrSubstring cleanedSrc =
+				prefixLength == 0 ? src : src.substring(prefixLength);
 
-		if(type != MarkdownParser.MarkdownParagraphType.CODE && type != MarkdownParser.MarkdownParagraphType.HLINE) {
+		if(type != MarkdownParser.MarkdownParagraphType.CODE
+				&& type != MarkdownParser.MarkdownParagraphType.HLINE) {
 
 			if(isPlainText()) {
-				return new MarkdownParagraph(cleanedSrc, parent, type, null, level, number);
+				return new MarkdownParagraph(
+						cleanedSrc,
+						parent,
+						type,
+						null,
+						level,
+						number);
 			} else {
 				final IntArrayLengthPair tokens = MarkdownTokenizer.tokenize(cleanedSrc);
-				return new MarkdownParagraph(cleanedSrc, parent, type, tokens.substringAsArray(0), level, number);
+				return new MarkdownParagraph(
+						cleanedSrc,
+						parent,
+						type,
+						tokens.substringAsArray(0),
+						level,
+						number);
 			}
 
 		} else {

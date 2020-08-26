@@ -32,7 +32,13 @@ public abstract class RRGLProgramVertices extends RRGLProgram {
 	}
 
 	public final void activateVertexBuffer(final FloatBuffer vertexBuffer) {
-		GLES20.glVertexAttribPointer(mVertexBufferHandle, 3, GLES20.GL_FLOAT, false, 0, vertexBuffer);
+		GLES20.glVertexAttribPointer(
+				mVertexBufferHandle,
+				3,
+				GLES20.GL_FLOAT,
+				false,
+				0,
+				vertexBuffer);
 	}
 
 	public final void drawTriangleStrip(int vertices) {

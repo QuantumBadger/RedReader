@@ -38,14 +38,17 @@ public final class MarkdownParagraphGroup {
 		this.paragraphs = paragraphs;
 	}
 
-	public ViewGroup buildView(final AppCompatActivity activity, final Integer textColor, final Float textSize,
-							   final boolean showLinkButtons) {
+	public ViewGroup buildView(
+			final AppCompatActivity activity,
+			final Integer textColor,
+			final Float textSize,
+			final boolean showLinkButtons) {
 
 		final float dpScale = activity.getResources().getDisplayMetrics().density;
 
-		final int paragraphSpacing = (int) (dpScale * 6);
-		final int codeLineSpacing = (int) (dpScale * 3);
-		final int quoteBarWidth = (int) (dpScale * 3);
+		final int paragraphSpacing = (int)(dpScale * 6);
+		final int codeLineSpacing = (int)(dpScale * 3);
+		final int quoteBarWidth = (int)(dpScale * 3);
 		final int maxQuoteLevel = 5;
 
 		final LinearLayout layout = new LinearLayout(activity);
@@ -76,7 +79,7 @@ public final class MarkdownParagraphGroup {
 					layout.addView(bulletItem);
 
 					((ViewGroup.MarginLayoutParams)bulletItem.getLayoutParams()).leftMargin
-							= (int) (dpScale * (paragraph.level == 0 ? 12 : 24));
+							= (int)(dpScale * (paragraph.level == 0 ? 12 : 24));
 
 					break;
 				}
@@ -96,32 +99,43 @@ public final class MarkdownParagraphGroup {
 					layout.addView(numberedItem);
 
 					((ViewGroup.MarginLayoutParams)numberedItem.getLayoutParams()).leftMargin
-							= (int) (dpScale * (paragraph.level == 0 ? 12 : 24));
+							= (int)(dpScale * (paragraph.level == 0 ? 12 : 24));
 
 					break;
 				}
 
 				case CODE:
 					tv.setTypeface(General.getMonoTypeface(activity));
-					tv.setText(paragraph.raw.arr, paragraph.raw.start, paragraph.raw.length);
+					tv.setText(
+							paragraph.raw.arr,
+							paragraph.raw.start,
+							paragraph.raw.length);
 					layout.addView(tv);
 
 					if(paragraph.parent != null) {
-						((ViewGroup.MarginLayoutParams) tv.getLayoutParams()).topMargin
-								= paragraph.parent.type == MarkdownParser.MarkdownParagraphType.CODE
+						((ViewGroup.MarginLayoutParams)tv.getLayoutParams()).topMargin
+								= paragraph.parent.type
+								== MarkdownParser.MarkdownParagraphType.CODE
 								? codeLineSpacing : paragraphSpacing;
 					}
 
-					((ViewGroup.MarginLayoutParams) tv.getLayoutParams()).leftMargin = (int) (dpScale * 6);
+					((ViewGroup.MarginLayoutParams)tv.getLayoutParams()).leftMargin =
+							(int)(dpScale * 6);
 					break;
 
 				case HEADER:
-					final SpannableString underlinedText = new SpannableString(paragraph.spanned);
-					underlinedText.setSpan(new UnderlineSpan(), 0, underlinedText.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+					final SpannableString underlinedText =
+							new SpannableString(paragraph.spanned);
+					underlinedText.setSpan(
+							new UnderlineSpan(),
+							0,
+							underlinedText.length(),
+							Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 					tv.setText(underlinedText);
 					layout.addView(tv);
 					if(paragraph.parent != null) {
-						((ViewGroup.MarginLayoutParams) tv.getLayoutParams()).topMargin = paragraphSpacing;
+						((ViewGroup.MarginLayoutParams)tv.getLayoutParams()).topMargin =
+								paragraphSpacing;
 					}
 					break;
 
@@ -129,10 +143,15 @@ public final class MarkdownParagraphGroup {
 
 					final View hLine = new View(activity);
 					layout.addView(hLine);
-					final ViewGroup.MarginLayoutParams hLineParams = (ViewGroup.MarginLayoutParams) hLine.getLayoutParams();
+					final ViewGroup.MarginLayoutParams hLineParams =
+							(ViewGroup.MarginLayoutParams)hLine.getLayoutParams();
 					hLineParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
-					hLineParams.height = (int) dpScale;
-					hLineParams.setMargins((int)(dpScale * 15), paragraphSpacing, (int)(dpScale * 15), 0);
+					hLineParams.height = (int)dpScale;
+					hLineParams.setMargins(
+							(int)(dpScale * 15),
+							paragraphSpacing,
+							(int)(dpScale * 15),
+							0);
 					hLine.setBackgroundColor(Color.rgb(128, 128, 128));
 					break;
 				}
@@ -141,23 +160,33 @@ public final class MarkdownParagraphGroup {
 
 					final LinearLayout quoteLayout = new LinearLayout(activity);
 
-					for(int lvl = 0; lvl < Math.min(maxQuoteLevel, paragraph.level); lvl++) {
+					for(int lvl = 0;
+						lvl < Math.min(maxQuoteLevel, paragraph.level);
+						lvl++) {
 						final View quoteIndent = new View(activity);
 						quoteLayout.addView(quoteIndent);
 						quoteIndent.setBackgroundColor(Color.rgb(128, 128, 128));
 						quoteIndent.getLayoutParams().width = quoteBarWidth;
-						quoteIndent.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
-						((ViewGroup.MarginLayoutParams)quoteIndent.getLayoutParams()).rightMargin = quoteBarWidth;
+						quoteIndent.getLayoutParams().height =
+								ViewGroup.LayoutParams.MATCH_PARENT;
+						((ViewGroup.MarginLayoutParams)quoteIndent.getLayoutParams()).rightMargin
+								=
+								quoteBarWidth;
 					}
 
 					quoteLayout.addView(tv);
 					layout.addView(quoteLayout);
 
 					if(paragraph.parent != null) {
-						if(paragraph.parent.type == MarkdownParser.MarkdownParagraphType.QUOTE) {
-							((ViewGroup.MarginLayoutParams)tv.getLayoutParams()).topMargin = paragraphSpacing;
+						if(paragraph.parent.type
+								== MarkdownParser.MarkdownParagraphType.QUOTE) {
+							((ViewGroup.MarginLayoutParams)tv.getLayoutParams()).topMargin
+									=
+									paragraphSpacing;
 						} else {
-							((ViewGroup.MarginLayoutParams)quoteLayout.getLayoutParams()).topMargin = paragraphSpacing;
+							((ViewGroup.MarginLayoutParams)quoteLayout.getLayoutParams()).topMargin
+									=
+									paragraphSpacing;
 						}
 					}
 
@@ -168,23 +197,30 @@ public final class MarkdownParagraphGroup {
 
 					layout.addView(tv);
 					if(paragraph.parent != null) {
-						((ViewGroup.MarginLayoutParams) tv.getLayoutParams()).topMargin = paragraphSpacing;
+						((ViewGroup.MarginLayoutParams)tv.getLayoutParams()).topMargin =
+								paragraphSpacing;
 					}
 
 					break;
 
 				case EMPTY:
-					throw new RuntimeException("Internal error: empty paragraph when building view");
+					throw new RuntimeException(
+							"Internal error: empty paragraph when building view");
 			}
 
 			if(showLinkButtons) {
 				for(final MarkdownParagraph.Link link : paragraph.links) {
 
-					final LinkDetailsView ldv = new LinkDetailsView(activity, link.title, link.subtitle);
+					final LinkDetailsView ldv =
+							new LinkDetailsView(activity, link.title, link.subtitle);
 					layout.addView(ldv);
 
 					final int linkMarginPx = Math.round(dpScale * 8);
-					((LinearLayout.LayoutParams) ldv.getLayoutParams()).setMargins(0, linkMarginPx, 0, linkMarginPx);
+					((LinearLayout.LayoutParams)ldv.getLayoutParams()).setMargins(
+							0,
+							linkMarginPx,
+							0,
+							linkMarginPx);
 					ldv.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
 
 					ldv.setOnClickListener(new View.OnClickListener() {
@@ -193,9 +229,9 @@ public final class MarkdownParagraphGroup {
 							link.onClicked(activity);
 						}
 					});
-					ldv.setOnLongClickListener(new View.OnLongClickListener(){
+					ldv.setOnLongClickListener(new View.OnLongClickListener() {
 						@Override
-						public boolean onLongClick(View v){
+						public boolean onLongClick(View v) {
 							link.onLongClicked(activity);
 							return true;
 						}

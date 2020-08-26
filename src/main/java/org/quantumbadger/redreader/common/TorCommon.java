@@ -40,19 +40,23 @@ public class TorCommon {
 		AlertDialog.Builder notInstalled = new AlertDialog.Builder(context);
 
 		notInstalled.setMessage(R.string.error_tor_not_installed);
-		notInstalled.setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int id) {
-				context.startActivity(OrbotHelper.getOrbotInstallIntent(context));
-				dialog.dismiss();
-			}
-		});
-		notInstalled.setNegativeButton(R.string.dialog_no, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int id) {
-				dialog.cancel();
-			}
-		});
+		notInstalled.setPositiveButton(
+				R.string.dialog_yes,
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						context.startActivity(OrbotHelper.getOrbotInstallIntent(context));
+						dialog.dismiss();
+					}
+				});
+		notInstalled.setNegativeButton(
+				R.string.dialog_no,
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.cancel();
+					}
+				});
 		AlertDialog notInstalledAlert = notInstalled.create();
 		notInstalledAlert.show();
 	}
@@ -61,7 +65,8 @@ public class TorCommon {
 
 		General.checkThisIsUIThread();
 
-		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+		final SharedPreferences sharedPreferences
+				= PreferenceManager.getDefaultSharedPreferences(context);
 
 		final boolean torEnabled = PrefsUtility.network_tor(context, sharedPreferences);
 		final boolean torChanged = (torEnabled != isTorEnabled());

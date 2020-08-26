@@ -87,7 +87,8 @@ public abstract class HtmlRawElement {
 					return new HtmlRawElementBreak();
 
 				default:
-					return HtmlRawElementInlineErrorMessage.create("Error: Unexpected tag <" + startToken.text + "/>");
+					return HtmlRawElementInlineErrorMessage.create(
+							"Error: Unexpected tag <" + startToken.text + "/>");
 			}
 
 		} else if(startToken.type == HtmlReader.TokenType.TAG_START) {
@@ -122,25 +123,39 @@ public abstract class HtmlRawElement {
 					result = new HtmlRawElementTagEmphasis(children);
 					break;
 				case "div":
-					result = new HtmlRawElementBlock(BlockType.VERTICAL_SEQUENCE, children);
+					result = new HtmlRawElementBlock(
+							BlockType.VERTICAL_SEQUENCE,
+							children);
 					break;
 				case "h1":
-					result = new HtmlRawElementBlock(BlockType.HEADER, new HtmlRawElementTagH1(children));
+					result = new HtmlRawElementBlock(
+							BlockType.HEADER,
+							new HtmlRawElementTagH1(children));
 					break;
 				case "h2":
-					result = new HtmlRawElementBlock(BlockType.HEADER, new HtmlRawElementTagH2(children));
+					result = new HtmlRawElementBlock(
+							BlockType.HEADER,
+							new HtmlRawElementTagH2(children));
 					break;
 				case "h3":
-					result = new HtmlRawElementBlock(BlockType.HEADER, new HtmlRawElementTagH3(children));
+					result = new HtmlRawElementBlock(
+							BlockType.HEADER,
+							new HtmlRawElementTagH3(children));
 					break;
 				case "h4":
-					result = new HtmlRawElementBlock(BlockType.HEADER, new HtmlRawElementTagH4(children));
+					result = new HtmlRawElementBlock(
+							BlockType.HEADER,
+							new HtmlRawElementTagH4(children));
 					break;
 				case "h5":
-					result = new HtmlRawElementBlock(BlockType.HEADER, new HtmlRawElementTagH5(children));
+					result = new HtmlRawElementBlock(
+							BlockType.HEADER,
+							new HtmlRawElementTagH5(children));
 					break;
 				case "h6":
-					result = new HtmlRawElementBlock(BlockType.HEADER, new HtmlRawElementTagH6(children));
+					result = new HtmlRawElementBlock(
+							BlockType.HEADER,
+							new HtmlRawElementTagH6(children));
 					break;
 				case "strong":
 					result = new HtmlRawElementTagStrong(children);
@@ -150,7 +165,9 @@ public abstract class HtmlRawElement {
 					break;
 				case "th":
 				case "td":
-					result = new HtmlRawElementTableCell(new HtmlRawElementBlock(BlockType.TABLE_CELL, children));
+					result = new HtmlRawElementTableCell(new HtmlRawElementBlock(
+							BlockType.TABLE_CELL,
+							children));
 					break;
 				case "sup":
 					result = new HtmlRawElementTagSuperscript(children);
@@ -161,7 +178,9 @@ public abstract class HtmlRawElement {
 
 					if(href.startsWith("/spoiler")) {
 						// Old spoiler syntax
-						result = new HtmlRawElementSpoiler(new HtmlRawElementBlock(BlockType.BUTTON, children));
+						result = new HtmlRawElementSpoiler(new HtmlRawElementBlock(
+								BlockType.BUTTON,
+								children));
 
 					} else if(href.length() == 2
 							&& (href.charAt(0) == '#' || href.charAt(0) == '/')
@@ -186,7 +205,9 @@ public abstract class HtmlRawElement {
 					break;
 				}
 				case "pre":
-					result = new HtmlRawElementBlock(BlockType.CODE_BLOCK, new HtmlRawElementTagCode(children));
+					result = new HtmlRawElementBlock(
+							BlockType.CODE_BLOCK,
+							new HtmlRawElementTagCode(children));
 					break;
 				case "ul":
 					result = new HtmlRawElementBulletList(children);
@@ -198,12 +219,16 @@ public abstract class HtmlRawElement {
 					result = new HtmlRawElementBlock(BlockType.LIST_ELEMENT, children);
 					break;
 				case "blockquote":
-					result = new HtmlRawElementQuote(new HtmlRawElementBlock(BlockType.QUOTE, children));
+					result = new HtmlRawElementQuote(new HtmlRawElementBlock(
+							BlockType.QUOTE,
+							children));
 					break;
 				case "span":
 
 					if("md-spoiler-text".equalsIgnoreCase(startToken.cssClass)) {
-						result = new HtmlRawElementSpoiler(new HtmlRawElementBlock(BlockType.BUTTON, children));
+						result = new HtmlRawElementSpoiler(new HtmlRawElementBlock(
+								BlockType.BUTTON,
+								children));
 
 					} else {
 						result = new HtmlRawElementTagPassthrough(children);
@@ -242,7 +267,10 @@ public abstract class HtmlRawElement {
 			return new HtmlRawElementPlainText(startToken.text);
 
 		} else if(startToken.type == HtmlReader.TokenType.EOF) {
-			throw new MalformedHtmlException("Unexpected EOF", reader.getHtml(), reader.getPos());
+			throw new MalformedHtmlException(
+					"Unexpected EOF",
+					reader.getHtml(),
+					reader.getPos());
 
 		} else {
 			return HtmlRawElementInlineErrorMessage.create(

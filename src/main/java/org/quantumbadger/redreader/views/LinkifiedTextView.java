@@ -59,10 +59,10 @@ public class LinkifiedTextView extends AppCompatTextView {
 
 		int action = event.getAction();
 
-		if (action == MotionEvent.ACTION_UP ||
+		if(action == MotionEvent.ACTION_UP ||
 				action == MotionEvent.ACTION_DOWN) {
-			int x = (int) event.getX();
-			int y = (int) event.getY();
+			int x = (int)event.getX();
+			int y = (int)event.getY();
 
 			x -= getTotalPaddingLeft();
 			y -= getTotalPaddingTop();
@@ -76,10 +76,10 @@ public class LinkifiedTextView extends AppCompatTextView {
 
 			final ClickableSpan[] links = buffer.getSpans(off, off, ClickableSpan.class);
 
-			if (links.length != 0) {
-				if (action == MotionEvent.ACTION_UP) {
+			if(links.length != 0) {
+				if(action == MotionEvent.ACTION_UP) {
 					links[0].onClick(this);
-				} else if (action == MotionEvent.ACTION_DOWN) {
+				} else if(action == MotionEvent.ACTION_DOWN) {
 					Selection.setSelection(
 							buffer,
 							buffer.getSpanStart(links[0]),

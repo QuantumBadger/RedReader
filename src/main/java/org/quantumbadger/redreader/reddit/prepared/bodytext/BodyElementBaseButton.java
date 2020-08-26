@@ -60,7 +60,8 @@ public abstract class BodyElementBaseButton extends BodyElement {
 
 		final int linkMarginPx = General.dpToPixels(activity, 8);
 
-		final ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(
+		final ViewGroup.MarginLayoutParams layoutParams
+				= new ViewGroup.MarginLayoutParams(
 				ViewGroup.LayoutParams.MATCH_PARENT,
 				ViewGroup.LayoutParams.WRAP_CONTENT);
 
@@ -71,7 +72,11 @@ public abstract class BodyElementBaseButton extends BodyElement {
 				generateOnClickListener(activity, textColor, textSize, showLinkButtons));
 
 		final View.OnLongClickListener longClickListener
-				= generateOnLongClickListener(activity, textColor, textSize, showLinkButtons);
+				= generateOnLongClickListener(
+				activity,
+				textColor,
+				textSize,
+				showLinkButtons);
 
 		if(longClickListener != null) {
 			ldv.setOnLongClickListener(longClickListener);

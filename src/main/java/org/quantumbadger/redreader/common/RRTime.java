@@ -49,7 +49,7 @@ public class RRTime {
 		final DateTime dateTime = new DateTime(utc_ms);
 		final DateTime localDateTime = dateTime.withZone(DateTimeZone.getDefault());
 
-		if (DateFormat.is24HourFormat(context)) {
+		if(DateFormat.is24HourFormat(context)) {
 			return dtFormatter24hr.print(localDateTime);
 		} else {
 			return dtFormatter12hr.print(localDateTime);
@@ -67,19 +67,52 @@ public class RRTime {
 		Period period = new Duration(startTime, endTime).toPeriodTo(localDateTime);
 
 		PeriodFormatter periodFormatter = new PeriodFormatterBuilder()
-				.appendYears().appendSuffix(space).appendSuffix(context.getString(R.string.time_year), context.getString(R.string.time_years)).appendSeparator(separator)
-				.appendMonths().appendSuffix(space).appendSuffix(context.getString(R.string.time_month), context.getString(R.string.time_months)).appendSeparator(separator)
-				.appendDays().appendSuffix(space).appendSuffix(context.getString(R.string.time_day), context.getString(R.string.time_days)).appendSeparator(separator)
-				.appendHours().appendSuffix(space).appendSuffix(context.getString(R.string.time_hour), context.getString(R.string.time_hours)).appendSeparator(separator)
-				.appendMinutes().appendSuffix(space).appendSuffix(context.getString(R.string.time_min), context.getString(R.string.time_mins)).appendSeparator(separator)
-				.appendSeconds().appendSuffix(space).appendSuffix(context.getString(R.string.time_sec), context.getString(R.string.time_secs)).appendSeparator(separator)
-				.appendMillis().appendSuffix(space).appendSuffix(context.getString(R.string.time_ms))
+				.appendYears()
+				.appendSuffix(space)
+				.appendSuffix(
+						context.getString(R.string.time_year),
+						context.getString(R.string.time_years))
+				.appendSeparator(separator)
+				.appendMonths()
+				.appendSuffix(space)
+				.appendSuffix(
+						context.getString(R.string.time_month),
+						context.getString(R.string.time_months))
+				.appendSeparator(separator)
+				.appendDays()
+				.appendSuffix(space)
+				.appendSuffix(
+						context.getString(R.string.time_day),
+						context.getString(R.string.time_days))
+				.appendSeparator(separator)
+				.appendHours()
+				.appendSuffix(space)
+				.appendSuffix(
+						context.getString(R.string.time_hour),
+						context.getString(R.string.time_hours))
+				.appendSeparator(separator)
+				.appendMinutes()
+				.appendSuffix(space)
+				.appendSuffix(
+						context.getString(R.string.time_min),
+						context.getString(R.string.time_mins))
+				.appendSeparator(separator)
+				.appendSeconds()
+				.appendSuffix(space)
+				.appendSuffix(
+						context.getString(R.string.time_sec),
+						context.getString(R.string.time_secs))
+				.appendSeparator(separator)
+				.appendMillis()
+				.appendSuffix(space)
+				.appendSuffix(context.getString(R.string.time_ms))
 				.toFormatter();
 
-		String duration = periodFormatter.print(period.normalizedStandard(PeriodType.yearMonthDayTime()));
+		String duration
+				= periodFormatter.print(period.normalizedStandard(PeriodType.yearMonthDayTime()));
 
 		List<String> parts = Arrays.asList(duration.split(comma));
-		if (parts.size() >= 2) {
+		if(parts.size() >= 2) {
 			duration = parts.get(0) + comma + parts.get(1);
 		}
 

@@ -78,7 +78,8 @@ public class WeakReferenceListHashMapManager<K, V> {
 
 	public synchronized void clean() {
 
-		final Iterator<Map.Entry<K, WeakReferenceListManager<V>>> iterator = mData.entrySet().iterator();
+		final Iterator<Map.Entry<K, WeakReferenceListManager<V>>> iterator
+				= mData.entrySet().iterator();
 
 		while(iterator.hasNext()) {
 

@@ -29,13 +29,17 @@ public class BodyElementVerticalSequence extends BodyElement {
 		result.setOrientation(LinearLayout.VERTICAL);
 
 		final float dpScale = activity.getResources().getDisplayMetrics().density;
-		final int paragraphSpacing = (int) (dpScale * 6);
+		final int paragraphSpacing = (int)(dpScale * 6);
 
 		@Nullable BlockType lastBlock = null;
 
 		for(final BodyElement element : mElements) {
 
-			final View view = element.generateView(activity, textColor, textSize, showLinkButtons);
+			final View view = element.generateView(
+					activity,
+					textColor,
+					textSize,
+					showLinkButtons);
 			result.addView(view);
 
 			final LinearLayout.LayoutParams layoutParams

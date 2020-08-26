@@ -29,7 +29,8 @@ import android.widget.TextView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.adapters.GroupedRecyclerViewAdapter;
 
-public class GroupedRecyclerViewItemListSectionHeaderView extends GroupedRecyclerViewAdapter.Item {
+public class GroupedRecyclerViewItemListSectionHeaderView
+		extends GroupedRecyclerViewAdapter.Item {
 
 	@NonNull private final CharSequence mText;
 
@@ -51,7 +52,8 @@ public class GroupedRecyclerViewItemListSectionHeaderView extends GroupedRecycle
 				LayoutInflater.from(viewGroup.getContext()).inflate(
 						R.layout.list_sectionheader,
 						viewGroup,
-						false)) {};
+						false)) {
+		};
 	}
 
 	@Override
@@ -63,7 +65,9 @@ public class GroupedRecyclerViewItemListSectionHeaderView extends GroupedRecycle
 		//From https://stackoverflow.com/a/54082384
 		ViewCompat.setAccessibilityDelegate(view, new AccessibilityDelegateCompat() {
 			@Override
-			public void onInitializeAccessibilityNodeInfo(View host, AccessibilityNodeInfoCompat info) {
+			public void onInitializeAccessibilityNodeInfo(
+					View host,
+					AccessibilityNodeInfoCompat info) {
 				super.onInitializeAccessibilityNodeInfo(host, info);
 				info.setHeading(true);
 			}

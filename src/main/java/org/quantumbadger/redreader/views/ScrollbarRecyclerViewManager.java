@@ -43,8 +43,10 @@ public class ScrollbarRecyclerViewManager {
 			final ViewGroup root,
 			final boolean attachToRoot) {
 
-		mOuter = LayoutInflater.from(context).inflate(R.layout.scrollbar_recyclerview, root, attachToRoot);
-		mSwipeRefreshLayout = mOuter.findViewById(R.id.scrollbar_recyclerview_refreshlayout);
+		mOuter = LayoutInflater.from(context)
+				.inflate(R.layout.scrollbar_recyclerview, root, attachToRoot);
+		mSwipeRefreshLayout
+				= mOuter.findViewById(R.id.scrollbar_recyclerview_refreshlayout);
 		mRecyclerView = mOuter.findViewById(R.id.scrollbar_recyclerview_recyclerview);
 		mScrollbar = mOuter.findViewById(R.id.scrollbar_recyclerview_scrollbar);
 		mScrollbarFrame = mOuter.findViewById(R.id.scrollbar_recyclerview_scrollbarframe);
@@ -60,7 +62,8 @@ public class ScrollbarRecyclerViewManager {
 
 			private void updateScroll() {
 
-				final int firstVisible = linearLayoutManager.findFirstVisibleItemPosition();
+				final int firstVisible
+						= linearLayoutManager.findFirstVisibleItemPosition();
 				final int lastVisible = linearLayoutManager.findLastVisibleItemPosition();
 				final int itemsVisible = lastVisible - firstVisible + 1;
 				final int totalCount = linearLayoutManager.getItemCount();
@@ -68,7 +71,9 @@ public class ScrollbarRecyclerViewManager {
 				final boolean scrollUnnecessary = (itemsVisible == totalCount);
 
 				if(scrollUnnecessary != mScrollUnnecessary) {
-					mScrollbar.setVisibility(scrollUnnecessary ? View.INVISIBLE : View.VISIBLE);
+					mScrollbar.setVisibility(scrollUnnecessary
+							? View.INVISIBLE
+							: View.VISIBLE);
 				}
 
 				mScrollUnnecessary = scrollUnnecessary;
@@ -77,9 +82,11 @@ public class ScrollbarRecyclerViewManager {
 					final int recyclerViewHeight = mRecyclerView.getMeasuredHeight();
 					final int scrollBarHeight = mScrollbar.getMeasuredHeight();
 
-					final double topPadding = ((double) firstVisible / (double) (totalCount - itemsVisible)) * (recyclerViewHeight - scrollBarHeight);
+					final double topPadding = ((double)firstVisible / (double)(totalCount
+							- itemsVisible))
+							* (recyclerViewHeight - scrollBarHeight);
 
-					mScrollbarFrame.setPadding(0, (int) Math.round(topPadding), 0, 0);
+					mScrollbarFrame.setPadding(0, (int)Math.round(topPadding), 0, 0);
 				}
 			}
 

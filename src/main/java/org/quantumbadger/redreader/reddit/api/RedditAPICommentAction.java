@@ -98,58 +98,117 @@ public class RedditAPICommentAction {
 			final RedditChangeDataManager changeDataManager,
 			final boolean isArchived) {
 
-		final RedditAccount user = RedditAccountManager.getInstance(activity).getDefaultAccount();
+		final RedditAccount user =
+				RedditAccountManager.getInstance(activity).getDefaultAccount();
 
 		final ArrayList<RCVMenuItem> menu = new ArrayList<>();
 
 		if(!user.isAnonymous()) {
 
-			if (!isArchived) {
-				if (!changeDataManager.isUpvoted(comment)) {
-					menu.add(new RCVMenuItem(activity, R.string.action_upvote, RedditCommentAction.UPVOTE));
+			if(!isArchived) {
+				if(!changeDataManager.isUpvoted(comment)) {
+					menu.add(new RCVMenuItem(
+							activity,
+							R.string.action_upvote,
+							RedditCommentAction.UPVOTE));
 				} else {
-					menu.add(new RCVMenuItem(activity, R.string.action_upvote_remove, RedditCommentAction.UNVOTE));
+					menu.add(new RCVMenuItem(
+							activity,
+							R.string.action_upvote_remove,
+							RedditCommentAction.UNVOTE));
 				}
 
-				if (!changeDataManager.isDownvoted(comment)) {
-					menu.add(new RCVMenuItem(activity, R.string.action_downvote, RedditCommentAction.DOWNVOTE));
+				if(!changeDataManager.isDownvoted(comment)) {
+					menu.add(new RCVMenuItem(
+							activity,
+							R.string.action_downvote,
+							RedditCommentAction.DOWNVOTE));
 				} else {
-					menu.add(new RCVMenuItem(activity, R.string.action_downvote_remove, RedditCommentAction.UNVOTE));
+					menu.add(new RCVMenuItem(
+							activity,
+							R.string.action_downvote_remove,
+							RedditCommentAction.UNVOTE));
 				}
 			}
 
 			if(changeDataManager.isSaved(comment)) {
-				menu.add(new RCVMenuItem(activity, R.string.action_unsave, RedditCommentAction.UNSAVE));
+				menu.add(new RCVMenuItem(
+						activity,
+						R.string.action_unsave,
+						RedditCommentAction.UNSAVE));
 			} else {
-				menu.add(new RCVMenuItem(activity, R.string.action_save, RedditCommentAction.SAVE));
+				menu.add(new RCVMenuItem(
+						activity,
+						R.string.action_save,
+						RedditCommentAction.SAVE));
 			}
 
-			menu.add(new RCVMenuItem(activity, R.string.action_report, RedditCommentAction.REPORT));
+			menu.add(new RCVMenuItem(
+					activity,
+					R.string.action_report,
+					RedditCommentAction.REPORT));
 
-			if (!isArchived)
-				menu.add(new RCVMenuItem(activity, R.string.action_reply, RedditCommentAction.REPLY));
+			if(!isArchived)
+				menu.add(new RCVMenuItem(
+						activity,
+						R.string.action_reply,
+						RedditCommentAction.REPLY));
 
-			if(user.username.equalsIgnoreCase(comment.getParsedComment().getRawComment().author)) {
-				if (!isArchived)
-					menu.add(new RCVMenuItem(activity, R.string.action_edit, RedditCommentAction.EDIT));
-				menu.add(new RCVMenuItem(activity, R.string.action_delete, RedditCommentAction.DELETE));
+			if(user.username.equalsIgnoreCase(comment.getParsedComment()
+					.getRawComment().author)) {
+				if(!isArchived)
+					menu.add(new RCVMenuItem(
+							activity,
+							R.string.action_edit,
+							RedditCommentAction.EDIT));
+				menu.add(new RCVMenuItem(
+						activity,
+						R.string.action_delete,
+						RedditCommentAction.DELETE));
 			}
 		}
 
-		menu.add(new RCVMenuItem(activity, R.string.action_comment_context, RedditCommentAction.CONTEXT));
-		menu.add(new RCVMenuItem(activity, R.string.action_comment_go_to, RedditCommentAction.GO_TO_COMMENT));
+		menu.add(new RCVMenuItem(
+				activity,
+				R.string.action_comment_context,
+				RedditCommentAction.CONTEXT));
+		menu.add(new RCVMenuItem(
+				activity,
+				R.string.action_comment_go_to,
+				RedditCommentAction.GO_TO_COMMENT));
 
-		menu.add(new RCVMenuItem(activity, R.string.action_comment_links, RedditCommentAction.COMMENT_LINKS));
+		menu.add(new RCVMenuItem(
+				activity,
+				R.string.action_comment_links,
+				RedditCommentAction.COMMENT_LINKS));
 
 		if(commentListingFragment != null) {
-			menu.add(new RCVMenuItem(activity, R.string.action_collapse, RedditCommentAction.COLLAPSE));
+			menu.add(new RCVMenuItem(
+					activity,
+					R.string.action_collapse,
+					RedditCommentAction.COLLAPSE));
 		}
 
-		menu.add(new RCVMenuItem(activity, R.string.action_share, RedditCommentAction.SHARE));
-		menu.add(new RCVMenuItem(activity, R.string.action_copy_text, RedditCommentAction.COPY_TEXT));
-		menu.add(new RCVMenuItem(activity, R.string.action_copy_link, RedditCommentAction.COPY_URL));
-		menu.add(new RCVMenuItem(activity, R.string.action_user_profile, RedditCommentAction.USER_PROFILE));
-		menu.add(new RCVMenuItem(activity, R.string.action_properties, RedditCommentAction.PROPERTIES));
+		menu.add(new RCVMenuItem(
+				activity,
+				R.string.action_share,
+				RedditCommentAction.SHARE));
+		menu.add(new RCVMenuItem(
+				activity,
+				R.string.action_copy_text,
+				RedditCommentAction.COPY_TEXT));
+		menu.add(new RCVMenuItem(
+				activity,
+				R.string.action_copy_link,
+				RedditCommentAction.COPY_URL));
+		menu.add(new RCVMenuItem(
+				activity,
+				R.string.action_user_profile,
+				RedditCommentAction.USER_PROFILE));
+		menu.add(new RCVMenuItem(
+				activity,
+				R.string.action_properties,
+				RedditCommentAction.PROPERTIES));
 
 		final String[] menuText = new String[menu.size()];
 
@@ -185,7 +244,8 @@ public class RedditAPICommentAction {
 			final RedditCommentAction action,
 			final RedditChangeDataManager changeDataManager) {
 
-		final RedditComment comment = renderableComment.getParsedComment().getRawComment();
+		final RedditComment comment =
+				renderableComment.getParsedComment().getRawComment();
 
 		switch(action) {
 
@@ -214,11 +274,18 @@ public class RedditAPICommentAction {
 				new AlertDialog.Builder(activity)
 						.setTitle(R.string.action_report)
 						.setMessage(R.string.action_report_sure)
-						.setPositiveButton(R.string.action_report,
+						.setPositiveButton(
+								R.string.action_report,
 								new DialogInterface.OnClickListener() {
 									@Override
-									public void onClick(final DialogInterface dialog, final int which) {
-										action(activity, comment, RedditAPI.ACTION_REPORT, changeDataManager);
+									public void onClick(
+											final DialogInterface dialog,
+											final int which) {
+										action(
+												activity,
+												comment,
+												RedditAPI.ACTION_REPORT,
+												changeDataManager);
 									}
 								})
 						.setNegativeButton(R.string.dialog_cancel, null)
@@ -228,8 +295,12 @@ public class RedditAPICommentAction {
 
 			case REPLY: {
 				final Intent intent = new Intent(activity, CommentReplyActivity.class);
-				intent.putExtra(CommentReplyActivity.PARENT_ID_AND_TYPE_KEY, comment.getIdAndType());
-				intent.putExtra(CommentReplyActivity.PARENT_MARKDOWN_KEY, StringEscapeUtils.unescapeHtml4(comment.body));
+				intent.putExtra(
+						CommentReplyActivity.PARENT_ID_AND_TYPE_KEY,
+						comment.getIdAndType());
+				intent.putExtra(
+						CommentReplyActivity.PARENT_MARKDOWN_KEY,
+						StringEscapeUtils.unescapeHtml4(comment.body));
 				activity.startActivity(intent);
 				break;
 			}
@@ -237,7 +308,9 @@ public class RedditAPICommentAction {
 			case EDIT: {
 				final Intent intent = new Intent(activity, CommentEditActivity.class);
 				intent.putExtra("commentIdAndType", comment.getIdAndType());
-				intent.putExtra("commentText", StringEscapeUtils.unescapeHtml4(comment.body));
+				intent.putExtra(
+						"commentText",
+						StringEscapeUtils.unescapeHtml4(comment.body));
 				activity.startActivity(intent);
 				break;
 			}
@@ -246,11 +319,18 @@ public class RedditAPICommentAction {
 				new AlertDialog.Builder(activity)
 						.setTitle(R.string.accounts_delete)
 						.setMessage(R.string.delete_confirm)
-						.setPositiveButton(R.string.action_delete,
+						.setPositiveButton(
+								R.string.action_delete,
 								new DialogInterface.OnClickListener() {
 									@Override
-									public void onClick(final DialogInterface dialog, final int which) {
-										action(activity, comment, RedditAPI.ACTION_DELETE, changeDataManager);
+									public void onClick(
+											final DialogInterface dialog,
+											final int which) {
+										action(
+												activity,
+												comment,
+												RedditAPI.ACTION_DELETE,
+												changeDataManager);
 									}
 								})
 						.setNegativeButton(R.string.dialog_cancel, null)
@@ -266,7 +346,8 @@ public class RedditAPICommentAction {
 
 				} else {
 
-					final String[] linksArr = linksInComment.toArray(new String[linksInComment.size()]);
+					final String[] linksArr =
+							linksInComment.toArray(new String[linksInComment.size()]);
 
 					final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 					builder.setItems(linksArr, new DialogInterface.OnClickListener() {
@@ -294,9 +375,10 @@ public class RedditAPICommentAction {
 						activity,
 						PreferenceManager.getDefaultSharedPreferences(activity))) {
 					subject = String.format(
-									Locale.US,
-									activity.getText(R.string.share_comment_by_on_reddit).toString(),
-									comment.author);
+							Locale.US,
+							activity.getText(R.string.share_comment_by_on_reddit)
+									.toString(),
+							comment.author);
 				}
 
 				// TODO this currently just dumps the markdown (only if sharing text is enabled)
@@ -314,24 +396,34 @@ public class RedditAPICommentAction {
 			}
 
 			case COPY_TEXT: {
-				ClipboardManager clipboardManager = (ClipboardManager)activity.getSystemService(Context.CLIPBOARD_SERVICE);
+				ClipboardManager clipboardManager =
+						(ClipboardManager)activity.getSystemService(Context.CLIPBOARD_SERVICE);
 				// TODO this currently just dumps the markdown
 				if(clipboardManager != null) {
-					ClipData data = ClipData.newPlainText(null, StringEscapeUtils.unescapeHtml4(comment.body));
+					ClipData data = ClipData.newPlainText(
+							null,
+							StringEscapeUtils.unescapeHtml4(comment.body));
 					clipboardManager.setPrimaryClip(data);
 
-					General.quickToast(activity.getApplicationContext(), R.string.comment_text_copied_to_clipboard);
+					General.quickToast(
+							activity.getApplicationContext(),
+							R.string.comment_text_copied_to_clipboard);
 				}
 				break;
 			}
 
 			case COPY_URL: {
-				ClipboardManager clipboardManager = (ClipboardManager)activity.getSystemService(Context.CLIPBOARD_SERVICE);
+				ClipboardManager clipboardManager =
+						(ClipboardManager)activity.getSystemService(Context.CLIPBOARD_SERVICE);
 				if(clipboardManager != null) {
-					ClipData data = ClipData.newRawUri(null, comment.getContextUrl().context(null).generateNonJsonUri());
+					ClipData data = ClipData.newRawUri(
+							null,
+							comment.getContextUrl().context(null).generateNonJsonUri());
 					clipboardManager.setPrimaryClip(data);
 
-					General.quickToast(activity.getApplicationContext(), R.string.comment_link_copied_to_clipboard);
+					General.quickToast(
+							activity.getApplicationContext(),
+							R.string.comment_link_copied_to_clipboard);
 				}
 				break;
 			}
@@ -342,15 +434,20 @@ public class RedditAPICommentAction {
 			}
 
 			case USER_PROFILE:
-				LinkHandler.onLinkClicked(activity, new UserProfileURL(comment.author).toString());
+				LinkHandler.onLinkClicked(
+						activity,
+						new UserProfileURL(comment.author).toString());
 				break;
 
 			case PROPERTIES:
-				CommentPropertiesDialog.newInstance(comment).show(activity.getSupportFragmentManager(), null);
+				CommentPropertiesDialog.newInstance(comment)
+						.show(activity.getSupportFragmentManager(), null);
 				break;
 
 			case GO_TO_COMMENT: {
-				LinkHandler.onLinkClicked(activity, comment.getContextUrl().context(null).toString());
+				LinkHandler.onLinkClicked(
+						activity,
+						comment.getContextUrl().context(null).toString());
 				break;
 			}
 
@@ -380,7 +477,8 @@ public class RedditAPICommentAction {
 			final @RedditAPI.RedditAction int action,
 			final RedditChangeDataManager changeDataManager) {
 
-		final RedditAccount user = RedditAccountManager.getInstance(activity).getDefaultAccount();
+		final RedditAccount user =
+				RedditAccountManager.getInstance(activity).getDefaultAccount();
 
 		if(user.isAnonymous()) {
 			General.showMustBeLoggedInDialog(activity);
@@ -393,7 +491,9 @@ public class RedditAPICommentAction {
 		switch(action) {
 			case RedditAPI.ACTION_DOWNVOTE:
 				if(!comment.isArchived()) {
-					changeDataManager.markDownvoted(RRTime.utcCurrentTimeMillis(), comment);
+					changeDataManager.markDownvoted(
+							RRTime.utcCurrentTimeMillis(),
+							comment);
 				}
 				break;
 			case RedditAPI.ACTION_UNVOTE:
@@ -406,15 +506,22 @@ public class RedditAPICommentAction {
 					changeDataManager.markUpvoted(RRTime.utcCurrentTimeMillis(), comment);
 				}
 				break;
-			case RedditAPI.ACTION_SAVE: changeDataManager.markSaved(RRTime.utcCurrentTimeMillis(), comment, true); break;
-			case RedditAPI.ACTION_UNSAVE: changeDataManager.markSaved(RRTime.utcCurrentTimeMillis(), comment, false); break;
+			case RedditAPI.ACTION_SAVE:
+				changeDataManager.markSaved(RRTime.utcCurrentTimeMillis(), comment, true);
+				break;
+			case RedditAPI.ACTION_UNSAVE:
+				changeDataManager.markSaved(
+						RRTime.utcCurrentTimeMillis(),
+						comment,
+						false);
+				break;
 		}
 
 		boolean vote = (action == RedditAPI.ACTION_DOWNVOTE
 				| action == RedditAPI.ACTION_UPVOTE
 				| action == RedditAPI.ACTION_UNVOTE);
 
-		if(comment.isArchived() && vote){
+		if(comment.isArchived() && vote) {
 			Toast.makeText(activity, R.string.error_archived_vote, Toast.LENGTH_SHORT)
 					.show();
 			return;
@@ -428,11 +535,20 @@ public class RedditAPICommentAction {
 					}
 
 					@Override
-					protected void onFailure(final @CacheRequest.RequestFailureType int type, final Throwable t, final Integer status, final String readableMessage) {
+					protected void onFailure(
+							final @CacheRequest.RequestFailureType int type,
+							final Throwable t,
+							final Integer status,
+							final String readableMessage) {
 						revertOnFailure();
 						if(t != null) t.printStackTrace();
 
-						final RRError error = General.getGeneralErrorForFailure(context, type, t, status, null);
+						final RRError error = General.getGeneralErrorForFailure(
+								context,
+								type,
+								t,
+								status,
+								null);
 						AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
 							@Override
 							public void run() {
@@ -445,7 +561,8 @@ public class RedditAPICommentAction {
 					protected void onFailure(final APIFailureType type) {
 						revertOnFailure();
 
-						final RRError error = General.getGeneralErrorForFailure(context, type);
+						final RRError error =
+								General.getGeneralErrorForFailure(context, type);
 						AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
 							@Override
 							public void run() {
@@ -468,17 +585,29 @@ public class RedditAPICommentAction {
 							case RedditAPI.ACTION_UNVOTE:
 							case RedditAPI.ACTION_UPVOTE:
 								if(wasUpvoted) {
-									changeDataManager.markUpvoted(RRTime.utcCurrentTimeMillis(), comment);
+									changeDataManager.markUpvoted(
+											RRTime.utcCurrentTimeMillis(),
+											comment);
 								} else if(wasDownvoted) {
-									changeDataManager.markDownvoted(RRTime.utcCurrentTimeMillis(), comment);
+									changeDataManager.markDownvoted(
+											RRTime.utcCurrentTimeMillis(),
+											comment);
 								} else {
-									changeDataManager.markUnvoted(RRTime.utcCurrentTimeMillis(), comment);
+									changeDataManager.markUnvoted(
+											RRTime.utcCurrentTimeMillis(),
+											comment);
 								}
 							case RedditAPI.ACTION_SAVE:
-								changeDataManager.markSaved(RRTime.utcCurrentTimeMillis(), comment, false);
+								changeDataManager.markSaved(
+										RRTime.utcCurrentTimeMillis(),
+										comment,
+										false);
 								break;
 							case RedditAPI.ACTION_UNSAVE:
-								changeDataManager.markSaved(RRTime.utcCurrentTimeMillis(), comment, true);
+								changeDataManager.markSaved(
+										RRTime.utcCurrentTimeMillis(),
+										comment,
+										true);
 								break;
 						}
 					}

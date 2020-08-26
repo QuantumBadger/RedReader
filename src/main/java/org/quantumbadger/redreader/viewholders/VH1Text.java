@@ -32,6 +32,6 @@ public class VH1Text extends RecyclerView.ViewHolder {
 	public VH1Text(View itemView) {
 		super(itemView);
 
-		text = (TextView) itemView.findViewById(R.id.recycler_item_text);
+		text = (TextView)itemView.findViewById(R.id.recycler_item_text);
 	}
 }

@@ -39,8 +39,8 @@ public class BoundsHelper {
 		mCoordinateHelper = coordinateHelper;
 
 		mMinScale = Math.min(
-				(float) mResolutionX / (float) mImageResolutionX,
-				(float) mResolutionY / (float) mImageResolutionY
+				(float)mResolutionX / (float)mImageResolutionX,
+				(float)mResolutionY / (float)mImageResolutionY
 		);
 	}
 

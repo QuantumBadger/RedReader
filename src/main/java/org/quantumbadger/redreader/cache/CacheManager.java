@@ -57,17 +57,20 @@ public final class CacheManager {
 	private static final AtomicBoolean isAlreadyInitialized = new AtomicBoolean(false);
 	private final CacheDbManager dbManager;
 
-	private final PriorityBlockingQueue<CacheRequest> requests = new PriorityBlockingQueue<>();
+	private final PriorityBlockingQueue<CacheRequest> requests
+			= new PriorityBlockingQueue<>();
 
 	private final PrioritisedDownloadQueue downloadQueue;
-	private final PrioritisedCachedThreadPool mDiskCacheThreadPool = new PrioritisedCachedThreadPool(2, "Disk Cache");
+	private final PrioritisedCachedThreadPool mDiskCacheThreadPool
+			= new PrioritisedCachedThreadPool(2, "Disk Cache");
 
 	private final Context context;
 
 	private static CacheManager singleton;
 
 	public static synchronized CacheManager getInstance(final Context context) {
-		if(singleton == null) singleton = new CacheManager(context.getApplicationContext());
+		if(singleton == null)
+			singleton = new CacheManager(context.getApplicationContext());
 		return singleton;
 	}
 
@@ -135,7 +138,7 @@ public final class CacheManager {
 
 		dirs.add(context.getCacheDir());
 
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 			for(final File dir : context.getExternalCacheDirs()) {
 				if(dir != null) {
 					dirs.add(dir);
@@ -144,7 +147,7 @@ public final class CacheManager {
 
 		} else {
 			final File extDir = context.getExternalCacheDir();
-			if (extDir != null) {
+			if(extDir != null) {
 				dirs.add(extDir);
 			}
 		}
@@ -155,7 +158,7 @@ public final class CacheManager {
 
 	public void pruneTemp() {
 		List<File> dirs = getCacheDirs(context);
-		for (File dir : dirs) {
+		for(File dir : dirs) {
 			pruneTemp(dir);
 		}
 	}
@@ -167,14 +170,20 @@ public final class CacheManager {
 			final HashSet<Long> currentFiles = new HashSet<>(128);
 
 			List<File> dirs = getCacheDirs(context);
-			for (File dir : dirs) {
+			for(File dir : dirs) {
 				getCacheFileList(dir, currentFiles);
 			}
 
-			final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-			final HashMap<Integer, Long> maxAge = PrefsUtility.pref_cache_maxage(context, prefs);
+			final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(
+					context);
+			final HashMap<Integer, Long> maxAge = PrefsUtility.pref_cache_maxage(
+					context,
+					prefs);
 
-			final ArrayList<Long> filesToDelete = dbManager.getFilesToPrune(currentFiles, maxAge, 72);
+			final ArrayList<Long> filesToDelete = dbManager.getFilesToPrune(
+					currentFiles,
+					maxAge,
+					72);
 
 			Log.i("CacheManager", "Pruning " + filesToDelete.size() + " files");
 
@@ -203,7 +212,9 @@ public final class CacheManager {
 
 	public File getPreferredCacheLocation() {
 		return new File(
-				PrefsUtility.pref_cache_location(context, PreferenceManager.getDefaultSharedPreferences(context)));
+				PrefsUtility.pref_cache_location(
+						context,
+						PreferenceManager.getDefaultSharedPreferences(context)));
 	}
 
 	public class WritableCacheFile {
@@ -214,19 +225,25 @@ public final class CacheManager {
 		private final CacheRequest request;
 		private final File location;
 
-		private WritableCacheFile(final CacheRequest request, final UUID session, final String mimetype) throws IOException {
+		private WritableCacheFile(
+				final CacheRequest request,
+				final UUID session,
+				final String mimetype) throws IOException {
 
 			this.request = request;
 			location = getPreferredCacheLocation();
-			final File tmpFile = new File(location, UUID.randomUUID().toString() + tempExt);
+			final File tmpFile = new File(
+					location,
+					UUID.randomUUID().toString() + tempExt);
 
-			@SuppressWarnings("PMD.CloseResource")
-			final FileOutputStream fos = new FileOutputStream(tmpFile);
+			@SuppressWarnings("PMD.CloseResource") final FileOutputStream fos
+					= new FileOutputStream(tmpFile);
 
-			@SuppressWarnings("PMD.CloseResource")
-			final OutputStream bufferedOs = new BufferedOutputStream(fos, 64 * 1024);
+			@SuppressWarnings("PMD.CloseResource") final OutputStream bufferedOs
+					= new BufferedOutputStream(fos, 64 * 1024);
 
-			final NotifyOutputStream.Listener listener = new NotifyOutputStream.Listener() {
+			final NotifyOutputStream.Listener listener
+					= new NotifyOutputStream.Listener() {
 				public void onClose() throws IOException {
 
 					cacheFileId = dbManager.newEntry(request, session, mimetype);
@@ -252,7 +269,9 @@ public final class CacheManager {
 			if(readableCacheFile == null) {
 
 				if(!request.isJson) {
-					BugReportActivity.handleGlobalError(context, "Attempt to read cache file before closing");
+					BugReportActivity.handleGlobalError(
+							context,
+							"Attempt to read cache file before closing");
 				}
 
 				try {
@@ -294,15 +313,18 @@ public final class CacheManager {
 		}
 	}
 
-	public WritableCacheFile openNewCacheFile(final CacheRequest request, final UUID session, final String mimetype) throws IOException {
+	public WritableCacheFile openNewCacheFile(
+			final CacheRequest request,
+			final UUID session,
+			final String mimetype) throws IOException {
 		return new WritableCacheFile(request, session, mimetype);
 	}
 
 	private File getExistingCacheFile(final long id) {
 		List<File> dirs = getCacheDirs(context);
-		for (File dir : dirs) {
+		for(File dir : dirs) {
 			final File f = new File(dir, id + ext);
-			if (f.exists())
+			if(f.exists())
 				return f;
 		}
 		return null;
@@ -348,7 +370,7 @@ public final class CacheManager {
 					handleRequest(request);
 				}
 
-			} catch (InterruptedException e) {
+			} catch(InterruptedException e) {
 				throw new RuntimeException(e);
 			}
 		}
@@ -369,7 +391,10 @@ public final class CacheManager {
 
 			} else {
 
-				final LinkedList<CacheEntry> result = dbManager.select(request.url, request.user.username, request.requestSession);
+				final LinkedList<CacheEntry> result = dbManager.select(
+						request.url,
+						request.user.username,
+						request.requestSession);
 
 				if(result.isEmpty()) {
 
@@ -416,11 +441,17 @@ public final class CacheManager {
 			try {
 				downloadQueue.add(request, CacheManager.this);
 			} catch(final Exception e) {
-				request.notifyFailure(CacheRequest.REQUEST_FAILURE_MALFORMED_URL, e, null, e.toString());
+				request.notifyFailure(
+						CacheRequest.REQUEST_FAILURE_MALFORMED_URL,
+						e,
+						null,
+						e.toString());
 			}
 		}
 
-		private void handleCacheEntryFound(final CacheEntry entry, final CacheRequest request) {
+		private void handleCacheEntryFound(
+				final CacheEntry entry,
+				final CacheRequest request) {
 
 			final File cacheFile = getExistingCacheFile(entry.id);
 
@@ -430,7 +461,9 @@ public final class CacheManager {
 						CacheRequest.REQUEST_FAILURE_STORAGE,
 						null,
 						null,
-						"A cache entry was found in the database, but the actual data couldn't be found. Press refresh to download the content again.");
+						"A cache entry was found in the database, but"
+								+ " the actual data couldn't be found. Press refresh to"
+								+ " download the content again.");
 
 				dbManager.delete(entry.id);
 
@@ -484,13 +517,22 @@ public final class CacheManager {
 								existingCacheFile.delete();
 							}
 
-							request.notifyFailure(CacheRequest.REQUEST_FAILURE_PARSE, t, null, "Error parsing the JSON stream");
+							request.notifyFailure(
+									CacheRequest.REQUEST_FAILURE_PARSE,
+									t,
+									null,
+									"Error parsing the JSON stream");
 
 							return;
 						}
 					}
 
-					request.notifySuccess(new ReadableCacheFile(entry.id), entry.timestamp, entry.session, true, entry.mimetype);
+					request.notifySuccess(
+							new ReadableCacheFile(entry.id),
+							entry.timestamp,
+							entry.session,
+							true,
+							entry.mimetype);
 				}
 			});
 		}

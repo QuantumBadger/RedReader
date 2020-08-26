@@ -29,7 +29,9 @@ public class HtmlRawElementQuote extends HtmlRawElement {
 			@NonNull final ArrayList<HtmlRawElement> destination,
 			@NonNull final ArrayList<LinkButtonDetails> linkButtons) {
 
-		destination.add(new HtmlRawElementQuote(mChild.reduce(activeAttributes, activity)));
+		destination.add(new HtmlRawElementQuote(mChild.reduce(
+				activeAttributes,
+				activity)));
 	}
 
 	@Override

@@ -28,7 +28,9 @@ public class HtmlRawElementSpoiler extends HtmlRawElement {
 			@NonNull final ArrayList<HtmlRawElement> destination,
 			@NonNull final ArrayList<LinkButtonDetails> linkButtons) {
 
-		destination.add(new HtmlRawElementSpoiler(mChild.reduce(activeAttributes, activity)));
+		destination.add(new HtmlRawElementSpoiler(mChild.reduce(
+				activeAttributes,
+				activity)));
 	}
 
 	@Override

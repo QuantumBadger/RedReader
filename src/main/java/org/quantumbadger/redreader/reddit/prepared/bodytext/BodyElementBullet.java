@@ -39,11 +39,19 @@ public class BodyElementBullet extends BodyElement {
 
 		if(mElements.size() == 1) {
 			bulletItem.addView(mElements.get(0)
-					.generateView(activity, textColor, textSize, showLinkButtons));
+					.generateView(
+							activity,
+							textColor,
+							textSize,
+							showLinkButtons));
 
 		} else {
 			bulletItem.addView(new BodyElementVerticalSequence(mElements)
-					.generateView(activity, textColor, textSize, showLinkButtons));
+					.generateView(
+							activity,
+							textColor,
+							textSize,
+							showLinkButtons));
 		}
 
 		General.setLayoutMatchWidthWrapHeight(bulletItem);

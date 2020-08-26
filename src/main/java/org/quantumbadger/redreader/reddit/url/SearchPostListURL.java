@@ -35,7 +35,13 @@ public class SearchPostListURL extends PostListingURL {
 	public final Integer limit;
 	public final String before, after;
 
-	SearchPostListURL(String subreddit, String query, PostSort order, Integer limit, String before, String after) {
+	SearchPostListURL(
+			String subreddit,
+			String query,
+			PostSort order,
+			Integer limit,
+			String before,
+			String after) {
 		this.subreddit = subreddit;
 		this.query = query;
 		this.order = order;
@@ -44,7 +50,12 @@ public class SearchPostListURL extends PostListingURL {
 		this.after = after;
 	}
 
-	SearchPostListURL(String subreddit, String query, Integer limit, String before, String after) {
+	SearchPostListURL(
+			String subreddit,
+			String query,
+			Integer limit,
+			String before,
+			String after) {
 		this(subreddit, query, PostSort.RELEVANCE, limit, before, after);
 	}
 
@@ -74,7 +85,8 @@ public class SearchPostListURL extends PostListingURL {
 	public Uri generateJsonUri() {
 
 		Uri.Builder builder = new Uri.Builder();
-		builder.scheme(Constants.Reddit.getScheme()).authority(Constants.Reddit.getDomain());
+		builder.scheme(Constants.Reddit.getScheme())
+				.authority(Constants.Reddit.getDomain());
 
 		if(subreddit != null) {
 			builder.encodedPath("/r/");
@@ -97,7 +109,9 @@ public class SearchPostListURL extends PostListingURL {
 				case HOT:
 				case TOP:
 				case COMMENTS:
-					builder.appendQueryParameter("sort", General.asciiLowercase(order.name()));
+					builder.appendQueryParameter(
+							"sort",
+							General.asciiLowercase(order.name()));
 					break;
 			}
 		}
@@ -124,7 +138,8 @@ public class SearchPostListURL extends PostListingURL {
 	}
 
 	@Override
-	public @RedditURLParser.PathType int pathType() {
+	public @RedditURLParser.PathType
+	int pathType() {
 		return RedditURLParser.SEARCH_POST_LISTING_URL;
 	}
 
@@ -147,7 +162,8 @@ public class SearchPostListURL extends PostListingURL {
 			} else if(parameterKey.equalsIgnoreCase("limit")) {
 				try {
 					limit = Integer.parseInt(uri.getQueryParameter(parameterKey));
-				} catch(Throwable ignored) {}
+				} catch(Throwable ignored) {
+				}
 
 			} else if(parameterKey.equalsIgnoreCase("sort")) {
 				order = PostSort.valueOfOrNull(uri.getQueryParameter(parameterKey));
@@ -164,10 +180,12 @@ public class SearchPostListURL extends PostListingURL {
 		{
 			final List<String> pathSegmentsList = uri.getPathSegments();
 
-			final ArrayList<String> pathSegmentsFiltered = new ArrayList<>(pathSegmentsList.size());
+			final ArrayList<String> pathSegmentsFiltered =
+					new ArrayList<>(pathSegmentsList.size());
 			for(String segment : pathSegmentsList) {
 
-				while(General.asciiLowercase(segment).endsWith(".json") || General.asciiLowercase(segment).endsWith(".xml")) {
+				while(General.asciiLowercase(segment).endsWith(".json")
+						|| General.asciiLowercase(segment).endsWith(".xml")) {
 					segment = segment.substring(0, segment.lastIndexOf('.'));
 				}
 
@@ -176,7 +194,8 @@ public class SearchPostListURL extends PostListingURL {
 				}
 			}
 
-			pathSegments = pathSegmentsFiltered.toArray(new String[pathSegmentsFiltered.size()]);
+			pathSegments =
+					pathSegmentsFiltered.toArray(new String[pathSegmentsFiltered.size()]);
 		}
 
 		if(pathSegments.length != 1 && pathSegments.length != 3) return null;
@@ -193,7 +212,13 @@ public class SearchPostListURL extends PostListingURL {
 				if(!pathSegments[0].equals("r")) return null;
 
 				final String subreddit = pathSegments[1];
-				return new SearchPostListURL(restrict_sr ? subreddit : null, query, order, limit, before, after);
+				return new SearchPostListURL(
+						restrict_sr ? subreddit : null,
+						query,
+						order,
+						limit,
+						before,
+						after);
 			}
 
 			default:
@@ -206,9 +231,17 @@ public class SearchPostListURL extends PostListingURL {
 
 		if(shorter) return context.getString(R.string.search_results_short);
 
-		if(query != null && subreddit != null) return String.format(context.getString(R.string.search_results_all), query, subreddit);
-		else if(query != null) return String.format(context.getString(R.string.search_results_query_only), query);
-		else if(subreddit != null) return String.format(context.getString(R.string.search_results_subreddit_only), subreddit);
+		if(query != null && subreddit != null)
+			return String.format(
+					context.getString(R.string.search_results_all),
+					query,
+					subreddit);
+		else if(query != null) return String.format(
+				context.getString(R.string.search_results_query_only),
+				query);
+		else if(subreddit != null) return String.format(
+				context.getString(R.string.search_results_subreddit_only),
+				subreddit);
 
 		return context.getString(R.string.action_search);
 	}

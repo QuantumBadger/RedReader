@@ -76,7 +76,8 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 			final Intent intent = getIntent();
 			mSearchString = intent.getStringExtra(EXTRA_SEARCH_STRING);
 
-			final ArrayList<String> commentIds = intent.getStringArrayListExtra("commentIds");
+			final ArrayList<String> commentIds = intent.getStringArrayListExtra(
+					"commentIds");
 			final String postId = intent.getStringExtra("postId");
 
 			for(final String commentId : commentIds) {
@@ -128,7 +129,10 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 	}
 
 	@Override
-	protected void doRefresh(final RefreshableFragment which, final boolean force, final Bundle savedInstanceState) {
+	protected void doRefresh(
+			final RefreshableFragment which,
+			final boolean force,
+			final Bundle savedInstanceState) {
 
 		mFragment = new CommentListingFragment(
 				this,
@@ -152,13 +156,16 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 	}
 
 	@Override
-	public void onPastComments() {}
+	public void onPastComments() {
+	}
 
 	@Override
-	public void onSortSelected(final PostCommentListingURL.Sort order) {}
+	public void onSortSelected(final PostCommentListingURL.Sort order) {
+	}
 
 	@Override
-	public void onSortSelected(final UserCommentListingURL.Sort order) {}
+	public void onSortSelected(final UserCommentListingURL.Sort order) {
+	}
 
 	@Override
 	public void onSearchComments() {
@@ -189,7 +196,10 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 	}
 
 	public void onPostCommentsSelected(final RedditPreparedPost post) {
-		LinkHandler.onLinkClicked(this, PostCommentListingURL.forPostId(post.src.getIdAlone()).toString(), false);
+		LinkHandler.onLinkClicked(
+				this,
+				PostCommentListingURL.forPostId(post.src.getIdAlone()).toString(),
+				false);
 	}
 
 	@Override

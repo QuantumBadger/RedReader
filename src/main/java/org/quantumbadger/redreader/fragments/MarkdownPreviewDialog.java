@@ -49,7 +49,8 @@ public class MarkdownPreviewDialog extends PropertiesDialog {
 	protected void prepare(AppCompatActivity context, LinearLayout items) {
 
 		final MarkdownParagraphGroup parsedGen
-				= MarkdownParser.parse(getArguments().getString("markdown").toCharArray());
+				= MarkdownParser.parse(getArguments().getString("markdown")
+				.toCharArray());
 
 		final ViewGroup parsed = parsedGen.buildView(context, null, 14f, false);
 

@@ -32,7 +32,8 @@ import java.util.HashSet;
 
 public class RedditMultiredditSubscriptionManager {
 
-	private final MultiredditListChangeNotifier notifier = new MultiredditListChangeNotifier();
+	private final MultiredditListChangeNotifier notifier
+			= new MultiredditListChangeNotifier();
 	private final WeakReferenceListManager<MultiredditListChangeListener> listeners
 			= new WeakReferenceListManager<>();
 
@@ -51,10 +52,14 @@ public class RedditMultiredditSubscriptionManager {
 			@NonNull final RedditAccount account) {
 
 		if(db == null) {
-			db = new RawObjectDB<>(context, "rr_multireddit_subscriptions.db", WritableHashSet.class);
+			db = new RawObjectDB<>(
+					context,
+					"rr_multireddit_subscriptions.db",
+					WritableHashSet.class);
 		}
 
-		if(singleton == null || !account.equals(RedditMultiredditSubscriptionManager.singletonAccount)) {
+		if(singleton == null
+				|| !account.equals(RedditMultiredditSubscriptionManager.singletonAccount)) {
 			singleton = new RedditMultiredditSubscriptionManager(account, context);
 			RedditMultiredditSubscriptionManager.singletonAccount = account;
 		}
@@ -80,9 +85,14 @@ public class RedditMultiredditSubscriptionManager {
 		return mMultireddits != null;
 	}
 
-	private synchronized void onNewSubscriptionListReceived(HashSet<String> newSubscriptions, long timestamp) {
+	private synchronized void onNewSubscriptionListReceived(
+			HashSet<String> newSubscriptions,
+			long timestamp) {
 
-		mMultireddits = new WritableHashSet(newSubscriptions, timestamp, mUser.getCanonicalUsername());
+		mMultireddits = new WritableHashSet(
+				newSubscriptions,
+				timestamp,
+				mUser.getCanonicalUsername());
 
 		listeners.map(notifier);
 
@@ -95,10 +105,13 @@ public class RedditMultiredditSubscriptionManager {
 	}
 
 	public void triggerUpdate(
-			@Nullable final RequestResponseHandler<HashSet<String>, SubredditRequestFailure> handler,
+			@Nullable final RequestResponseHandler<
+					HashSet<String>,
+					SubredditRequestFailure> handler,
 			@NonNull final TimestampBound timestampBound) {
 
-		if(mMultireddits != null && timestampBound.verifyTimestamp(mMultireddits.getTimestamp())) {
+		if(mMultireddits != null
+				&& timestampBound.verifyTimestamp(mMultireddits.getTimestamp())) {
 			return;
 		}
 
@@ -114,10 +127,13 @@ public class RedditMultiredditSubscriptionManager {
 					}
 
 					@Override
-					public void onRequestSuccess(WritableHashSet result, long timeCached) {
+					public void onRequestSuccess(
+							WritableHashSet result,
+							long timeCached) {
 						final HashSet<String> newSubscriptions = result.toHashset();
 						onNewSubscriptionListReceived(newSubscriptions, timeCached);
-						if(handler != null) handler.onRequestSuccess(newSubscriptions, timeCached);
+						if(handler != null)
+							handler.onRequestSuccess(newSubscriptions, timeCached);
 					}
 				}
 		);
@@ -128,14 +144,16 @@ public class RedditMultiredditSubscriptionManager {
 	}
 
 	public interface MultiredditListChangeListener {
-		void onMultiredditListUpdated(RedditMultiredditSubscriptionManager multiredditSubscriptionManager);
+		void onMultiredditListUpdated(
+				RedditMultiredditSubscriptionManager multiredditSubscriptionManager);
 	}
 
 	private class MultiredditListChangeNotifier
 			implements WeakReferenceListManager.Operator<MultiredditListChangeListener> {
 
 		public void operate(MultiredditListChangeListener listener) {
-			listener.onMultiredditListUpdated(RedditMultiredditSubscriptionManager.this);
+			listener.onMultiredditListUpdated(
+					RedditMultiredditSubscriptionManager.this);
 		}
 	}
 }

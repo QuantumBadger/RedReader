@@ -12,74 +12,76 @@ import java.util.ArrayList;
 
 public class AlbumInfo {
 
-    @NonNull public final String url;
-    @Nullable public final String title;
-    @Nullable public final String description;
+	@NonNull public final String url;
+	@Nullable public final String title;
+	@Nullable public final String description;
 
-    @NonNull public final ArrayList<ImageInfo> images;
+	@NonNull public final ArrayList<ImageInfo> images;
 
-    public AlbumInfo(
-    		@NonNull final String url,
+	public AlbumInfo(
+			@NonNull final String url,
 			@Nullable final String title,
 			@Nullable final String description,
 			@NonNull final ArrayList<ImageInfo> images) {
-        this.url = url;
-        this.title = title;
-        this.description = description;
-        this.images = new ArrayList<>(images);
-    }
+		this.url = url;
+		this.title = title;
+		this.description = description;
+		this.images = new ArrayList<>(images);
+	}
 
-    public static AlbumInfo parseImgur(
-    		final String url,
+	public static AlbumInfo parseImgur(
+			final String url,
 			final JsonBufferedObject object) throws IOException, InterruptedException {
 
-        String title = object.getString("title");
-        String description = object.getString("description");
+		String title = object.getString("title");
+		String description = object.getString("description");
 
-        if(title != null) {
-            title = StringEscapeUtils.unescapeHtml4(title);
-        }
+		if(title != null) {
+			title = StringEscapeUtils.unescapeHtml4(title);
+		}
 
-        if(description != null) {
-            description = StringEscapeUtils.unescapeHtml4(description);
-        }
+		if(description != null) {
+			description = StringEscapeUtils.unescapeHtml4(description);
+		}
 
-        final JsonBufferedArray imagesJson = object.getArray("images");
-        final ArrayList<ImageInfo> images = new ArrayList<>();
+		final JsonBufferedArray imagesJson = object.getArray("images");
+		final ArrayList<ImageInfo> images = new ArrayList<>();
 
-        for(final JsonValue imageJson : imagesJson) {
-            images.add(ImageInfo.parseImgur(imageJson.asObject()));
-        }
+		for(final JsonValue imageJson : imagesJson) {
+			images.add(ImageInfo.parseImgur(imageJson.asObject()));
+		}
 
-        return new AlbumInfo(url, title, description, images);
-    }
+		return new AlbumInfo(url, title, description, images);
+	}
 
-    public static AlbumInfo parseImgurV3(final String url, final JsonBufferedObject object)
-            throws IOException, InterruptedException {
+	public static AlbumInfo parseImgurV3(
+			final String url,
+			final JsonBufferedObject object)
+			throws IOException, InterruptedException {
 
-        String title = object.getString("title");
-        String description = object.getString("description");
+		String title = object.getString("title");
+		String description = object.getString("description");
 
-        if(title != null) {
-            title = StringEscapeUtils.unescapeHtml4(title);
-        }
+		if(title != null) {
+			title = StringEscapeUtils.unescapeHtml4(title);
+		}
 
-        if(description != null) {
-            description = StringEscapeUtils.unescapeHtml4(description);
-        }
+		if(description != null) {
+			description = StringEscapeUtils.unescapeHtml4(description);
+		}
 
-        final JsonBufferedArray imagesJson = object.getArray("images");
-        final ArrayList<ImageInfo> images = new ArrayList<>();
+		final JsonBufferedArray imagesJson = object.getArray("images");
+		final ArrayList<ImageInfo> images = new ArrayList<>();
 
-        for(final JsonValue imageJson : imagesJson) {
-            images.add(ImageInfo.parseImgurV3(imageJson.asObject()));
-        }
+		for(final JsonValue imageJson : imagesJson) {
+			images.add(ImageInfo.parseImgurV3(imageJson.asObject()));
+		}
 
-        return new AlbumInfo(url, title, description, images);
-    }
+		return new AlbumInfo(url, title, description, images);
+	}
 
-    @NonNull
-    private static ImageInfo.MediaType stringToMediaType(@Nullable final String mediaTypeString) {
+	@NonNull
+	private static ImageInfo.MediaType stringToMediaType(@Nullable final String mediaTypeString) {
 
 		if(mediaTypeString == null) {
 			return ImageInfo.MediaType.IMAGE;
@@ -105,12 +107,12 @@ public class AlbumInfo {
 	private static String getThumbnail(final JsonBufferedArray images)
 			throws IOException, InterruptedException {
 
-    	final int minThumbSize = 200;
+		final int minThumbSize = 200;
 
-    	Integer bestSizeMinAxis = null;
-    	String bestUrl = null;
+		Integer bestSizeMinAxis = null;
+		String bestUrl = null;
 
-    	for(final JsonValue value : images) {
+		for(final JsonValue value : images) {
 
 			final JsonBufferedObject image = value.asObject();
 
@@ -128,11 +130,13 @@ public class AlbumInfo {
 			}
 		}
 
-    	return StringEscapeUtils.unescapeHtml4(bestUrl);
+		return StringEscapeUtils.unescapeHtml4(bestUrl);
 	}
 
 	@Nullable
-	public static AlbumInfo parseRedditGallery(final String url, final JsonBufferedObject object)
+	public static AlbumInfo parseRedditGallery(
+			final String url,
+			final JsonBufferedObject object)
 			throws IOException, InterruptedException {
 
 		final JsonBufferedObject mediaMetadataList = object.getObject("media_metadata");
@@ -150,7 +154,8 @@ public class AlbumInfo {
 
 			final JsonBufferedObject item = itemValue.asObject();
 
-			final String mediaId = StringEscapeUtils.unescapeHtml4(item.getString("media_id"));
+			final String mediaId = StringEscapeUtils.unescapeHtml4(item.getString(
+					"media_id"));
 
 			@Nullable final String caption
 					= StringEscapeUtils.unescapeHtml4(item.getString("caption"));
@@ -160,14 +165,16 @@ public class AlbumInfo {
 			@Nullable final String outboundUrl
 					= StringEscapeUtils.unescapeHtml4(item.getString("outbound_url"));
 
-			final JsonBufferedObject mediaMetadataEntry = mediaMetadataList.getObject(mediaId);
+			final JsonBufferedObject mediaMetadataEntry = mediaMetadataList.getObject(
+					mediaId);
 
 			@Nullable final String mimetype
 					= StringEscapeUtils.unescapeHtml4(mediaMetadataEntry.getString("m"));
 
 			final JsonBufferedObject standardImage = mediaMetadataEntry.getObject("s");
 
-			final ImageInfo.MediaType mediaType = stringToMediaType(mediaMetadataEntry.getString("e"));
+			final ImageInfo.MediaType mediaType
+					= stringToMediaType(mediaMetadataEntry.getString("e"));
 
 			images.add(new ImageInfo(
 					StringEscapeUtils.unescapeHtml4(standardImage.getString("u")),

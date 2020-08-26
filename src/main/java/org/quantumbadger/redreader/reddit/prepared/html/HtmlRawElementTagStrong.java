@@ -11,7 +11,7 @@ public class HtmlRawElementTagStrong extends HtmlRawElementTagAttributeChange {
 	}
 
 	@Override
-    protected void onStart(@NonNull HtmlTextAttributes activeAttributes) {
+	protected void onStart(@NonNull HtmlTextAttributes activeAttributes) {
 		activeAttributes.bold++;
 	}
 

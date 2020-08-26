@@ -12,3 +12,12 @@ jobs:
 
     - name: Run PMD
       run: ./gradlew pmd
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Run release build
+      run: ./gradlew packageRelease

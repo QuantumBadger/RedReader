@@ -1223,8 +1223,31 @@
 	<string name="comment_text_copied_to_clipboard">Comment text copied to clipboard</string>
 	<string name="subreddit_link_copied_to_clipboard">Subreddit link copied to clipboard</string>
 
-	<!-- 2020-07-16 -->
+  <!-- 2020-07-16 -->
 	<string name="copied_to_clipboard">Copied to clipboard</string>
+
+	<!-- 2020-07-19 -->
+	<string name="pref_menus_appbar_screen_title">Action bar items</string>
+	<string name="pref_menus_appbar_items_always">Always show button</string>
+	<string name="pref_menus_appbar_items_if_room">Show button if room</string>
+	<string name="pref_menus_appbar_items_overflow_only">Only show in three-dot menu</string>
+	<string name="pref_menus_appbar_items_never">Do not show</string>
+	<string name="pref_menus_appbar_prefix" translatable="false">pref_menus_appbar</string>
+	<string name="pref_menus_appbar_sort_key" translatable="false">pref_menus_appbar_sort</string>
+	<string name="pref_menus_appbar_refresh_key" translatable="false">pref_menus_appbar_refresh</string>
+	<string name="pref_menus_appbar_past_key" translatable="false">pref_menus_appbar_past</string>
+	<string name="pref_menus_appbar_submit_post_key" translatable="false">pref_menus_appbar_submit_post</string>
+	<string name="pref_menus_appbar_pin_key" translatable="false">pref_menus_appbar_pin</string>
+	<string name="pref_menus_appbar_block_key" translatable="false">pref_menus_appbar_block</string>
+	<string name="pref_menus_appbar_subscribe_key" translatable="false">pref_menus_appbar_subscribe</string>
+	<string name="pref_menus_appbar_sidebar_key" translatable="false">pref_menus_appbar_sidebar</string>
+	<string name="pref_menus_appbar_accounts_key" translatable="false">pref_menus_appbar_accounts</string>
+	<string name="pref_menus_appbar_theme_key" translatable="false">pref_menus_appbar_theme</string>
+	<string name="pref_menus_appbar_settings_key" translatable="false">pref_menus_appbar_settings</string>
+	<string name="pref_menus_appbar_close_all_key" translatable="false">pref_menus_appbar_close_all</string>
+	<string name="pref_menus_appbar_reply_key" translatable="false">pref_menus_appbar_reply</string>
+	<string name="pref_menus_appbar_search_key" translatable="false">pref_menus_appbar_search</string>
+	<string name="action_search_posts">Search Posts</string>
 
 	<!-- 2020-07-25 -->
 	<string name="image_gallery">Gallery</string>

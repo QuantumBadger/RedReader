@@ -911,6 +911,23 @@
 		<item>8.0</item>
 	</string-array>
 
+	<!-- 2020-07-19 -->
+
+	<string-array name="pref_menus_appbar_items">
+		<item>@string/pref_menus_appbar_items_always</item>
+		<item>@string/pref_menus_appbar_items_if_room</item>
+		<item>@string/pref_menus_appbar_items_overflow_only</item>
+		<item>@string/pref_menus_appbar_items_never</item>
+	</string-array>
+
+	<!-- Constants. Do not change. -->
+	<string-array name="pref_menus_appbar_items_return">
+		<item>2</item>
+		<item>1</item>
+		<item>0</item>
+		<item>-1</item>
+	</string-array>
+
 	<!-- 2020-08-17 -->
 
 	<string-array name="pref_behaviour_user_postsort_array">

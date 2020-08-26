@@ -442,6 +442,56 @@ public class MainActivity extends RefreshableActivity
 							existingPrecacheCommentsPreference
 					).apply();
 				}
+
+				if(lastVersion <= 92) {
+					//Upgrading from 92/1.12 or lower, switch to individual ListPreference's for
+					//pref_menus_appbar (formerly pref_menus_optionsmenu_items)
+
+					final Set<String> existingOptionsMenuItems = PrefsUtility.getStringSet(
+							R.string.pref_menus_optionsmenu_items_key,
+							R.array.pref_menus_optionsmenu_items_items_return,
+							this,
+							sharedPreferences
+					);
+
+					class AppbarItemStrings {
+						final int stringRes;
+						final String returnValue;
+
+						AppbarItemStrings(final int stringRes, final String returnValue) {
+							this.stringRes = stringRes;
+							this.returnValue = returnValue;
+						}
+					}
+
+					final AppbarItemStrings[] appbarItemsPrefStrings = new AppbarItemStrings[] {
+						new AppbarItemStrings(R.string.pref_menus_appbar_accounts_key, "accounts"),
+						new AppbarItemStrings(R.string.pref_menus_appbar_theme_key, "theme"),
+						new AppbarItemStrings(R.string.pref_menus_appbar_close_all_key, "close_all"),
+						new AppbarItemStrings(R.string.pref_menus_appbar_past_key, "past"),
+						new AppbarItemStrings(R.string.pref_menus_appbar_submit_post_key, "submit_post"),
+						new AppbarItemStrings(R.string.pref_menus_appbar_search_key, "search"),
+						new AppbarItemStrings(R.string.pref_menus_appbar_reply_key, "reply"),
+						new AppbarItemStrings(R.string.pref_menus_appbar_pin_key, "pin"),
+						new AppbarItemStrings(R.string.pref_menus_appbar_block_key, "block")
+					};
+
+					for(AppbarItemStrings item : appbarItemsPrefStrings) {
+						final String showAsAction;
+
+						if(existingOptionsMenuItems.contains(item.returnValue)) {
+							showAsAction = "0"; // Show only in three-dot menu
+						} else {
+							showAsAction = "-1"; // Never show
+						}
+
+						sharedPreferences.edit().putString(
+								getString(item.stringRes),
+								showAsAction
+						).apply();
+					}
+
+				}
 			}
 
 		} else {

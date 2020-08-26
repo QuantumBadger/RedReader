@@ -23,6 +23,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
+import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.OptionsMenuUtility;
@@ -39,6 +40,7 @@ import org.quantumbadger.redreader.reddit.url.UserCommentListingURL;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -878,14 +880,51 @@ public final class PrefsUtility {
 		return result;
 	}
 
-	public static EnumSet<OptionsMenuUtility.OptionsMenuItemsPref> pref_menus_optionsmenu_items(final Context context, final SharedPreferences sharedPreferences) {
+	private static class AppbarItemInfo {
+		final OptionsMenuUtility.AppbarItemsPref itemPref;
+		final int stringRes, defaultValue;
 
-		final Set<String> strings = getStringSet(R.string.pref_menus_optionsmenu_items_key, R.array.pref_menus_optionsmenu_items_items_default, context, sharedPreferences);
+		AppbarItemInfo(final OptionsMenuUtility.AppbarItemsPref itemPref, final int stringRes, final int defaultValue) {
+			this.itemPref = itemPref;
+			this.stringRes = stringRes;
+			this.defaultValue = defaultValue;
+		}
+	}
 
-		final EnumSet<OptionsMenuUtility.OptionsMenuItemsPref> result = EnumSet.noneOf(OptionsMenuUtility.OptionsMenuItemsPref.class);
-		for(String s : strings) result.add(OptionsMenuUtility.OptionsMenuItemsPref.valueOf(General.asciiUppercase(s)));
+	public static EnumMap<OptionsMenuUtility.AppbarItemsPref, Integer> pref_menus_appbar_items(final Context context, final SharedPreferences sharedPreferences) {
 
-		return result;
+		final AppbarItemInfo[] appbarItemsInfo = new AppbarItemInfo[] {
+			new AppbarItemInfo(OptionsMenuUtility.AppbarItemsPref.SORT, R.string.pref_menus_appbar_sort_key, MenuItem.SHOW_AS_ACTION_ALWAYS),
+			new AppbarItemInfo(OptionsMenuUtility.AppbarItemsPref.REFRESH, R.string.pref_menus_appbar_refresh_key, MenuItem.SHOW_AS_ACTION_ALWAYS),
+			new AppbarItemInfo(OptionsMenuUtility.AppbarItemsPref.PAST, R.string.pref_menus_appbar_past_key, MenuItem.SHOW_AS_ACTION_NEVER),
+			new AppbarItemInfo(OptionsMenuUtility.AppbarItemsPref.SUBMIT_POST, R.string.pref_menus_appbar_submit_post_key, MenuItem.SHOW_AS_ACTION_NEVER),
+			new AppbarItemInfo(OptionsMenuUtility.AppbarItemsPref.PIN, R.string.pref_menus_appbar_pin_key, MenuItem.SHOW_AS_ACTION_NEVER),
+			new AppbarItemInfo(OptionsMenuUtility.AppbarItemsPref.SUBSCRIBE, R.string.pref_menus_appbar_subscribe_key, MenuItem.SHOW_AS_ACTION_NEVER),
+			new AppbarItemInfo(OptionsMenuUtility.AppbarItemsPref.BLOCK, R.string.pref_menus_appbar_block_key, MenuItem.SHOW_AS_ACTION_NEVER),
+			new AppbarItemInfo(OptionsMenuUtility.AppbarItemsPref.SIDEBAR, R.string.pref_menus_appbar_sidebar_key, MenuItem.SHOW_AS_ACTION_NEVER),
+			new AppbarItemInfo(OptionsMenuUtility.AppbarItemsPref.ACCOUNTS, R.string.pref_menus_appbar_accounts_key, MenuItem.SHOW_AS_ACTION_NEVER),
+			new AppbarItemInfo(OptionsMenuUtility.AppbarItemsPref.THEME, R.string.pref_menus_appbar_theme_key, MenuItem.SHOW_AS_ACTION_NEVER),
+			new AppbarItemInfo(OptionsMenuUtility.AppbarItemsPref.SETTINGS, R.string.pref_menus_appbar_settings_key, MenuItem.SHOW_AS_ACTION_NEVER),
+			new AppbarItemInfo(OptionsMenuUtility.AppbarItemsPref.CLOSE_ALL, R.string.pref_menus_appbar_close_all_key, OptionsMenuUtility.DO_NOT_SHOW),
+			new AppbarItemInfo(OptionsMenuUtility.AppbarItemsPref.REPLY, R.string.pref_menus_appbar_reply_key, MenuItem.SHOW_AS_ACTION_NEVER),
+			new AppbarItemInfo(OptionsMenuUtility.AppbarItemsPref.SEARCH, R.string.pref_menus_appbar_search_key, MenuItem.SHOW_AS_ACTION_NEVER)
+		};
+
+
+		EnumMap<OptionsMenuUtility.AppbarItemsPref, Integer> appbarItemsPrefs = new EnumMap<>(OptionsMenuUtility.AppbarItemsPref.class);
+
+		for(AppbarItemInfo item : appbarItemsInfo) {
+			try {
+				appbarItemsPrefs.put(item.itemPref, Integer.parseInt(getString(item.stringRes,
+						Integer.toString(item.defaultValue),
+						context,
+						sharedPreferences)));
+			} catch(final NumberFormatException | NullPointerException e) {
+				appbarItemsPrefs.put(item.itemPref, item.defaultValue);
+			}
+		}
+
+		return appbarItemsPrefs;
 	}
 
 	///////////////////////////////

@@ -71,6 +71,9 @@
             </intent-filter>
         </activity>
 
+		<activity android:name=".activities.RefreshableActivity"
+				  android:configChanges="orientation|screenSize"/>
+
         <activity android:name=".activities.PostListingActivity"
 				  android:configChanges="orientation|screenSize|keyboardHidden" />
 

@@ -36,7 +36,7 @@
                  android:hardwareAccelerated="true"
                  android:allowBackup="true"
 				 android:usesCleartextTraffic="true">
-		<meta-data android:name="android.max_aspect" android:value="2.1" />
+		<meta-data android:name="android.max_aspect" android:value="3" />
 
 		<meta-data android:name="com.lge.support.SPLIT_WINDOW" android:value="true" />
 

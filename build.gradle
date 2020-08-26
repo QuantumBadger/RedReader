@@ -4,7 +4,7 @@ buildscript {
 		google()
 	}
 	dependencies {
-		classpath 'com.android.tools.build:gradle:3.6.3'
+		classpath 'com.android.tools.build:gradle:4.0.1'
 	}
 }
 
@@ -17,14 +17,14 @@ apply plugin: 'com.android.application'
 apply plugin: 'pmd'
 
 dependencies {
-	implementation 'androidx.appcompat:appcompat:1.1.0'
+	implementation 'androidx.appcompat:appcompat:1.2.0'
 	implementation 'androidx.recyclerview:recyclerview:1.1.0'
-	implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
-	implementation 'com.google.android.material:material:1.1.0'
+	implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+	implementation 'com.google.android.material:material:1.2.0'
 
-	implementation 'com.fasterxml.jackson.core:jackson-core:2.11.0'
-	implementation 'org.apache.commons:commons-lang3:3.10'
-	implementation 'org.apache.commons:commons-text:1.8'
+	implementation 'com.fasterxml.jackson.core:jackson-core:2.11.2'
+	implementation 'org.apache.commons:commons-lang3:3.11'
+	implementation 'org.apache.commons:commons-text:1.9'
 	implementation 'joda-time:joda-time:2.10.6'
 	implementation 'com.squareup.okhttp3:okhttp:3.12.12'
 	implementation 'info.guardianproject.netcipher:netcipher:1.2.1'
@@ -35,15 +35,15 @@ dependencies {
 }
 
 android {
-	compileSdkVersion 28
+	compileSdkVersion 29
 	buildToolsVersion "29.0.3"
 
 	defaultConfig {
 		applicationId "org.quantumbadger.redreader"
 		minSdkVersion 14
-		targetSdkVersion 28
-		versionCode 91
-		versionName "1.11"
+		targetSdkVersion 29
+		versionCode 92
+		versionName "1.12"
 
 		vectorDrawables.generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi', 'xxxhdpi']
 	}

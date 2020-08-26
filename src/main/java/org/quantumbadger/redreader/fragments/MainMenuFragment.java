@@ -24,13 +24,16 @@ import android.os.Bundle;
 import androidx.annotation.IntDef;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
+import android.preference.PreferenceManager;
 import android.view.View;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
+import org.quantumbadger.redreader.activities.OptionsMenuUtility;
 import org.quantumbadger.redreader.adapters.MainMenuListingManager;
 import org.quantumbadger.redreader.adapters.MainMenuSelectionListener;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
@@ -93,6 +96,11 @@ public class MainMenuFragment extends RRFragment implements
 
 		mOuter = recyclerViewManager.getOuterView();
 		final RecyclerView recyclerView = recyclerViewManager.getRecyclerView();
+
+		if(parent instanceof OptionsMenuUtility.OptionsMenuSubredditsListener
+				&& PrefsUtility.pref_behaviour_enable_swipe_refresh(context, PreferenceManager.getDefaultSharedPreferences(context))) {
+			recyclerViewManager.enablePullToRefresh(((OptionsMenuUtility.OptionsMenuSubredditsListener) parent)::onRefreshSubreddits);
+		}
 
 		mManager = new MainMenuListingManager(getActivity(), this, user);
 

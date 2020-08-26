@@ -17,19 +17,28 @@
 
 package org.quantumbadger.redreader.fragments;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.widget.LinearLayout;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.common.RRError;
 
 public final class ErrorPropertiesDialog extends PropertiesDialog {
 
+	private AppCompatActivity mContext;
+	@NonNull private final RRError mError;
+
+	public ErrorPropertiesDialog(@NonNull final RRError error) {
+		mError = error;
+	}
+
 	public static ErrorPropertiesDialog newInstance(final RRError error) {
 
-		final ErrorPropertiesDialog dialog = new ErrorPropertiesDialog();
+		final ErrorPropertiesDialog dialog = new ErrorPropertiesDialog(error);
 
 		final Bundle args = new Bundle();
 
@@ -56,12 +65,22 @@ public final class ErrorPropertiesDialog extends PropertiesDialog {
 	}
 
 	@Override
+	protected void interceptBuilder(@NonNull final AlertDialog.Builder builder) {
+
+		builder.setPositiveButton(
+				R.string.button_error_send_report,
+				(dialog, which) -> BugReportActivity.sendBugReport(mContext, mError));
+	}
+
+	@Override
 	protected String getTitle(Context context) {
 		return context.getString(R.string.props_error_title);
 	}
 
 	@Override
 	protected void prepare(AppCompatActivity context, LinearLayout items) {
+
+		mContext = context;
 
 		items.addView(propView(context, R.string.props_title, getArguments().getString("title"), true));
 		items.addView(propView(context, "Message", getArguments().getString("message"), false));

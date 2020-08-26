@@ -13,7 +13,9 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
- *
+ ******************************************************************************/
+
+/*******************************************************************************
  * It originally was written by Cristian Perez (http://cpr.name),
  * see https://github.com/cprcrack/VideoEnabledWebView for more details.
  ******************************************************************************/

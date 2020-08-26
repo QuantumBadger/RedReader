@@ -3,6 +3,7 @@ Restored old behaviour when selecting text in properties dialog
 Fixed redirect loop when visiting deleted Reddit galleries
 Added ability to send reports from the error details dialog
 Improved responsiveness of video seek bar (thanks to Cameron Merkel)
+Enable swipe-to-refresh in the main menu (thanks to Cameron Merkel)
 
 92/1.12
 Reddit image gallery support

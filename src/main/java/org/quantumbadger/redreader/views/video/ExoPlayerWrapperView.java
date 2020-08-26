@@ -206,11 +206,14 @@ public class ExoPlayerWrapperView extends FrameLayout {
 						new OnClickListener() {
 							@Override
 							public void onClick(View v) {
-								if (videoPlayerView.getResizeMode() == AspectRatioFrameLayout.RESIZE_MODE_FIT) {
-									videoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_ZOOM);
+								if (videoPlayerView.getResizeMode() ==
+										AspectRatioFrameLayout.RESIZE_MODE_FIT) {
+									videoPlayerView.setResizeMode(
+											AspectRatioFrameLayout.RESIZE_MODE_ZOOM);
 									zoomButton.get().setImageResource(R.drawable.ic_zoom_out_dark);
 								} else {
-									videoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
+									videoPlayerView.setResizeMode(
+											AspectRatioFrameLayout.RESIZE_MODE_FIT);
 									zoomButton.get().setImageResource(R.drawable.ic_zoom_in_dark);
 								}
 							}

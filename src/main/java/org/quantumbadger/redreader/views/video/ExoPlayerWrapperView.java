@@ -384,4 +384,8 @@ public class ExoPlayerWrapperView extends FrameLayout {
 	public void setMuted(final boolean mute) {
 		mVideoPlayer.setVolume(mute ? 0 : 1);
 	}
+
+	public int isControlViewVisible() {
+		return mControlView != null ? mControlView.getVisibility() : GONE;
+	}
 }

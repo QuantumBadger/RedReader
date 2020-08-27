@@ -47,6 +47,9 @@
 		<module name="AvoidStaticImport"/>
 		<module name="IllegalImport"/>
 
+		<module name="ArrayTypeStyle"/>
+		<module name="CommentsIndentation"/>
+
 	</module>
 
 </module>

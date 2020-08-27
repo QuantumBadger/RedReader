@@ -241,7 +241,7 @@ public class UserCommentListingURL extends CommentListingURL {
 				case TOP_MONTH:
 				case TOP_YEAR:
 				case TOP_ALL:
-					final String parts[] = name().split("_");
+					final String[] parts = name().split("_");
 					builder.appendQueryParameter(
 							"sort",
 							General.asciiLowercase(parts[0]));

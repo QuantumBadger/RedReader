@@ -114,7 +114,7 @@ public enum PostSort {
 			case TOP_MONTH:
 			case TOP_YEAR:
 			case TOP_ALL:
-				final String parts[] = name().split("_");
+				final String[] parts = name().split("_");
 				builder.appendQueryParameter("sort", General.asciiLowercase(parts[0]));
 				builder.appendQueryParameter("t", General.asciiLowercase(parts[1]));
 				break;

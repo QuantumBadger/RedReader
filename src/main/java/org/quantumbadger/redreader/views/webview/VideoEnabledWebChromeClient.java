@@ -287,8 +287,8 @@ public class VideoEnabledWebChromeClient extends WebChromeClient implements
 	}
 
 	@Override
-	public View getVideoLoadingProgressView() // Video will start loading
-	{
+	public View getVideoLoadingProgressView() { // Video will start loading
+
 		if(loadingView != null) {
 			loadingView.setVisibility(View.VISIBLE);
 			return loadingView;

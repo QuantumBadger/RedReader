@@ -504,7 +504,7 @@ public class ImageViewActivity extends BaseActivity
 											revertToWeb();
 										}
 									},
-									128);
+									0);
 
 							layout.addView(mVideoPlayerWrapper);
 							setMainView(layout);
@@ -879,6 +879,12 @@ public class ImageViewActivity extends BaseActivity
 				&& mVideoPlayerWrapper != null) {
 
 			mVideoPlayerWrapper.handleTap();
+
+			if(mVideoPlayerWrapper.isControlViewVisible() == View.VISIBLE) {
+				mFloatingToolbar.setVisibility(View.GONE);
+			} else {
+				mFloatingToolbar.setVisibility(View.VISIBLE);
+			}
 
 		} else {
 			finish();

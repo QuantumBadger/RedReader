@@ -1271,6 +1271,10 @@
 	<string name="sort_comments_top_year">Top: This Year</string>
 	<string name="sort_comments_top_all">Top: All Time</string>
 
+	<!-- 2020-08-18 -->
+	<string name="pref_behaviour_video_zoom_default_key" translatable="false">pref_behaviour_video_zoom_default</string>
+	<string name="pref_behaviour_video_zoom_default_title">Zoom into videos by default</string>
+
 	<!-- 2020-08-23 -->
 	<string name="image_gallery_removed_title">Gallery removed</string>
 	<string name="image_gallery_removed_message">This gallery has been removed and is no longer accessible.</string>

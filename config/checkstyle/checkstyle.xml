@@ -43,6 +43,10 @@
 		<module name="LeftCurly"/>
 		<module name="RightCurly"/>
 
+		<module name="AvoidStarImport"/>
+		<module name="AvoidStaticImport"/>
+		<module name="IllegalImport"/>
+
 	</module>
 
 </module>

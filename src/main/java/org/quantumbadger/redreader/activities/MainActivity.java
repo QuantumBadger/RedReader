@@ -180,7 +180,7 @@ public class MainActivity extends RefreshableActivity
 					.setPositiveButton(
 							R.string.firstrun_login_button_now,
 							(dialog, which) -> new AccountListDialog().show(
-									MainActivity.this.getSupportFragmentManager(),
+									this.getSupportFragmentManager(),
 									null))
 					.setNegativeButton(R.string.firstrun_login_button_later, null)
 					.show();
@@ -205,7 +205,7 @@ public class MainActivity extends RefreshableActivity
 						.setPositiveButton(
 								R.string.firstrun_login_button_now,
 								(dialog, which) -> new AccountListDialog().show(
-										MainActivity.this.getSupportFragmentManager(),
+										this.getSupportFragmentManager(),
 										null))
 						.setNegativeButton(R.string.firstrun_login_button_later, null)
 						.show();

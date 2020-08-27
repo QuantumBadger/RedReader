@@ -38,7 +38,7 @@
     <string name="pref_appearance_thumbnails_nsfw_show_title">显示不雅缩略图</string>
     <string name="pref_appearance_thumbnails_wifionly_title">仅在使用Wi-Fi时显示缩略图</string>
     <string name="pref_appearance_loading_detail_title">显示详尽的加载信息</string>
-    <string name="pref_appearance_comment_header_items_title"/>
+    <string name="pref_appearance_comment_header_items_title">评论标题项</string>
     <string name="pref_behaviour_notifications_title">通知</string>
     <string name="pref_behaviour_actions_post_header">帖子选项</string>
     <string name="pref_behaviour_actions_comment_header">评论选项</string>
@@ -54,7 +54,7 @@
     <string name="pref_cache_precache_images_header">预先缓存图片</string>
     <string name="pref_cache_precache_images_title">预先缓存图片</string>
     <string name="pref_cache_precache_images_wifionly_title">仅在使用Wi-Fi时预先缓存</string>
-    <string name="pref_menus_post_context_items_title">长按菜单项</string>
+    <string name="pref_menus_post_context_items_title">操作菜单项</string>
     <string name="pref_menus_post_toolbar_items_title">侧工具栏项</string>
     <string name="options_accounts">帐号</string>
     <string name="options_accounts_long">Reddit帐号</string>
@@ -282,7 +282,7 @@
     <string name="subtitle_by">发表自</string>
     <plurals name="subtitle_replies">
         <item quantity="one">(%d 条回复)</item>
-        <item quantity="other"></item>
+        <item quantity="other"/>
     </plurals>
     <string name="general_unknown">不明</string>
     <string name="action_search">搜索</string>
@@ -536,8 +536,8 @@
     <string name="error_403_title_nonreddit">访问遭拒</string>
     <string name="error_403_message_nonreddit">服务器拒绝了访问请求。</string>
     <string name="mainmenu_popular">热门版块</string>
-    <string name="pref_menus_link_context_items_title">链接长按菜单项</string>
-    <string name="pref_menus_subreddit_context_items_title">子版块长按菜单项</string>
+    <string name="pref_menus_link_context_items_title"></string>
+    <string name="pref_menus_subreddit_context_items_title">子版块操作菜单项</string>
     <string name="action_block_subreddit">屏蔽版块</string>
     <string name="action_unblock_subreddit">不再屏蔽版块</string>
     <string name="pref_appearance_comments_show_floating_toolbar_title">在评论上方显示导航按钮</string>
@@ -623,7 +623,31 @@
     <string name="pref_appearance_fontscale_post_header_subtitles_title">已打开的帖子副标题</string>
     <string name="pref_appearance_fontscale_post_header_titles_title">已打开的帖子标题</string>
     <string name="pref_appearance_fontscale_post_subtitles_title">帖子副标题</string>
-    <string name="pref_appearance_fontscale_comment_headers_title">注释/收件箱标题</string>
+    <string name="pref_appearance_fontscale_comment_headers_title">注释/收件箱页眉</string>
     <string name="pref_appearance_hide_headertoolbar_commentlist_title">隐藏评论列表头工具栏</string>
-    <string name="pref_appearance_hide_headertoolbar_postlist_title">隐藏帖子列表标题工具栏</string>
+    <string name="pref_appearance_hide_headertoolbar_postlist_title">隐藏帖子列表页眉工具栏</string>
+    <string name="button_error_send_report">报告</string>
+    <string name="button_error_details">详情</string>
+    <string name="image_gallery_no_data_present_message">在指定的链接上找不到图库。它可能已被删除。</string>
+    <string name="image_gallery_no_data_present_title">未找到图库</string>
+    <string name="image_gallery_removed_message">此图库已被移除，不再可访问。</string>
+    <string name="image_gallery_removed_title">图库已被移除</string>
+    <string name="sort_comments_top_all">顶端：所有时间</string>
+    <string name="sort_comments_top_year">顶端：今年</string>
+    <string name="sort_comments_top_month">顶端：本月</string>
+    <string name="sort_comments_top_week">顶端：本周</string>
+    <string name="sort_comments_top_today">顶端：今日</string>
+    <string name="sort_comments_top_hour">顶端：本小时</string>
+    <string name="pref_behaviour_user_commentsort_title">用户评论 (默认)</string>
+    <string name="pref_behaviour_multi_postsort_title">多个Reddit帖子排序（默认）</string>
+    <string name="pref_behaviour_user_postsort_title">用户帖子 (默认)</string>
+    <string name="action_comments_with_count">查看评论 (%d)</string>
+    <string name="pref_appearance_post_show_comments_button_title">显示评论按钮</string>
+    <string name="image_gallery">图库</string>
+    <string name="action_search_posts">搜索帖子</string>
+    <string name="pref_menus_appbar_items_never">不显示</string>
+    <string name="pref_menus_appbar_items_overflow_only">仅显示在“三点”菜单中</string>
+    <string name="pref_menus_appbar_items_always">始终显示按钮</string>
+    <string name="pref_menus_appbar_screen_title">操作栏项目</string>
+    <string name="copied_to_clipboard">已复制到剪贴板</string>
 </resources>

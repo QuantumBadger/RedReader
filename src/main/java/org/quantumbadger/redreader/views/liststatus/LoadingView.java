@@ -42,15 +42,8 @@ public final class LoadingView extends StatusListItemView {
 				textView.setText(((String)msg.obj).toUpperCase(Locale.getDefault()));
 			}
 
-			if(msg.what == LOADING_INDETERMINATE) {
-				// TODO
-
-			} else if(msg.what == LOADING_DONE) {
-				// TODO
+			if(msg.what == LOADING_DONE) {
 				hideNoAnim();
-
-			} else {
-				// TODO progress is msg.what
 			}
 		}
 	};

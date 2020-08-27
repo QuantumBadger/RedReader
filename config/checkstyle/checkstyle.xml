@@ -33,6 +33,8 @@
 					  value="LITERAL_DO, LITERAL_ELSE, LITERAL_FOR, LITERAL_IF, LITERAL_WHILE"/>
 		</module>
 
+		<module name="EmptyBlock"/>
+
 	</module>
 
 </module>

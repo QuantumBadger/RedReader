@@ -64,11 +64,8 @@ public class BodyElementVerticalSequence extends BodyElement {
 
 			if(lastBlock != null) {
 
-				if(element.getType() == BlockType.LIST_ELEMENT
-						&& lastBlock == BlockType.LIST_ELEMENT) {
-					// No spacing
-
-				} else {
+				if(!(element.getType() == BlockType.LIST_ELEMENT
+						&& lastBlock == BlockType.LIST_ELEMENT)) {
 					layoutParams.topMargin = paragraphSpacing;
 				}
 

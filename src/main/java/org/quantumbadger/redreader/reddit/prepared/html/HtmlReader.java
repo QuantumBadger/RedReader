@@ -90,18 +90,17 @@ public class HtmlReader {
 
 			final char c = html.charAt(i);
 
-			if(c == '\n' || c == '\r') {
-				// Ignore
+			if(c != '\n' && c != '\r') {
+				if(isWhitespace(c)) {
+					if(!lastCharWasWhitespace) {
+						result.append(" ");
+						lastCharWasWhitespace = true;
+					}
 
-			} else if(isWhitespace(c)) {
-				if(!lastCharWasWhitespace) {
-					result.append(" ");
-					lastCharWasWhitespace = true;
+				} else {
+					lastCharWasWhitespace = false;
+					result.append(c);
 				}
-
-			} else {
-				lastCharWasWhitespace = false;
-				result.append(c);
 			}
 		}
 

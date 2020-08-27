@@ -44,10 +44,10 @@ public class RedReader extends Application {
 				= Thread.getDefaultUncaughtExceptionHandler();
 
 		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-			public void uncaughtException(Thread thread, Throwable t) {
+			public void uncaughtException(final Thread thread, final Throwable t) {
 
 				try {
-					t.printStackTrace();
+					Log.e("RedReader", "Uncaught exception", t);
 
 					File dir = Environment.getExternalStorageDirectory();
 
@@ -69,6 +69,7 @@ public class RedReader extends Application {
 					}
 
 				} catch(Throwable t1) {
+					Log.e("RedReader", "Exception while writing crash log", t1);
 				}
 
 				androidHandler.uncaughtException(thread, t);

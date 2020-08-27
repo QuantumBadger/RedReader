@@ -35,6 +35,10 @@
 
 		<module name="EmptyBlock"/>
 
+		<module name="EmptyCatchBlock">
+			<property name="exceptionVariableName" value="expected|ignore"/>
+		</module>
+
 	</module>
 
 </module>

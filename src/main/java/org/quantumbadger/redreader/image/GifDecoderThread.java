@@ -21,6 +21,7 @@ import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 import android.widget.ImageView;
 
 import java.io.InputStream;
@@ -69,6 +70,7 @@ public class GifDecoderThread extends Thread {
 		try {
 			is.close();
 		} catch(Throwable t) {
+			Log.e("GifDecoderThread", "Exception while stopping", t);
 		}
 	}
 

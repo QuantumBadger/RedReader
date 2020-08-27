@@ -1280,4 +1280,8 @@
 	<string name="button_error_details">Details</string>
 	<string name="button_error_send_report">Report</string>
 
+	<!-- 2020-08-27 -->
+	<string name="image_gallery_no_image_present_title">Image not found</string>
+	<string name="image_gallery_no_image_present_message">The specified image could not be found. It may have been deleted.</string>
+
 </resources>

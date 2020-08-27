@@ -32,7 +32,7 @@ public final class ErrorPropertiesDialog extends PropertiesDialog {
 	private AppCompatActivity mContext;
 	@NonNull private final RRError mError;
 
-	public ErrorPropertiesDialog(@NonNull final RRError error) {
+	private ErrorPropertiesDialog(@NonNull final RRError error) {
 		mError = error;
 	}
 

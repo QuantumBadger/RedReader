@@ -17,27 +17,32 @@
 
 package org.quantumbadger.redreader.common;
 
+import androidx.annotation.Nullable;
+
 public class RRError {
 
-	public final String title, message;
-	public final Throwable t;
-	public final Integer httpStatus;
-	public final String url;
+	@Nullable public final String title, message;
+	@Nullable public final Throwable t;
+	@Nullable public final Integer httpStatus;
+	@Nullable public final String url;
 
-	public RRError(String title, String message) {
+	public RRError(@Nullable final String title, @Nullable final String message) {
 		this(title, message, null, null, null);
 	}
 
-	public RRError(String title, String message, Throwable t) {
+	public RRError(
+			@Nullable final String title,
+			@Nullable final String message,
+			@Nullable final Throwable t) {
 		this(title, message, t, null, null);
 	}
 
 	public RRError(
-			String title,
-			String message,
-			Throwable t,
-			Integer httpStatus,
-			String url) {
+			@Nullable final String title,
+			@Nullable final String message,
+			@Nullable final Throwable t,
+			@Nullable final Integer httpStatus,
+			@Nullable final String url) {
 
 		this.title = title;
 		this.message = message;

@@ -34,6 +34,7 @@ import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.image.AlbumInfo;
 import org.quantumbadger.redreader.image.ImageInfo;
 import org.quantumbadger.redreader.viewholders.VH3TextIcon;
@@ -196,13 +197,25 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 			});
 		}
 
-		vh.itemView.setOnClickListener(v -> LinkHandler.onLinkClicked(
-				activity,
-				imageInfo.urlOriginal,
-				false,
-				null,
-				albumInfo,
-				vh.getAdapterPosition()));
+		if(imageInfo.urlOriginal != null) {
+			vh.itemView.setOnClickListener(v -> LinkHandler.onLinkClicked(
+					activity,
+					imageInfo.urlOriginal,
+					false,
+					null,
+					albumInfo,
+					vh.getAdapterPosition()));
+
+		} else {
+			vh.itemView.setOnClickListener(v -> General.showResultDialog(
+					activity,
+					new RRError(
+							activity.getString(R.string.image_gallery_no_image_present_title),
+							activity.getString(R.string.image_gallery_no_image_present_message),
+							new RuntimeException(),
+							null,
+							albumInfo.url)));
+		}
 
 		vh.itemView.setOnLongClickListener(v -> {
 			LinkHandler.onLinkLongClicked(activity, imageInfo.urlOriginal, false);

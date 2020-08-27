@@ -526,9 +526,7 @@
     <string name="download_link_title">Скачать файл</string>
     <string name="download_link_message">Это ссылка для скачивания. Вы хотите загрузить ее во внешнем браузере?</string>
     <string name="pref_behaviour_self_post_tap_actions_title">Действие по касанию текста публикации</string>
-    <string name="pref_menus_show_popular_main_menu_key"/>
     <string name="pref_menus_show_popular_main_menu_title">Показывать /r/popular в главном меню</string>
-    <string name="pref_behaviour_video_playback_controls_key"/>
     <string name="pref_behaviour_video_playback_controls_title">Включить элементы управления воспроизведением видео</string>
     <string name="error_no_suitable_apps_available">Нет подходящих приложений.</string>
     <string name="subtitle_by">от</string>

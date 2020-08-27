@@ -684,7 +684,6 @@
     <string name="pref_behaviour_sharing_share_dialog_dialogtitle">Elektu aplikaĵon por diskonigi</string>
     <string name="pref_behaviour_sharing_share_dialog_title">Uzi internan fenestron de diskonigo</string>
     <string name="error_toast_no_share_app_installed">Neniu taŭga aplikaĵo instalita por diskonigi tion ĉi.</string>
-    <string name="pref_cache_precache_comments_list_key">pref_cache_precache_comments_list_key</string>
     <string name="subreddit_link_copied_to_clipboard">Kopiis ligilon de redditero al tondujo</string>
     <string name="comment_text_copied_to_clipboard">Kopiis tekston de komento al tondujo</string>
     <string name="comment_link_copied_to_clipboard">Kopiis ligilon de komento al tondujo</string>
@@ -700,8 +699,6 @@
     <string name="pref_menus_posts_header">Afiŝoj</string>
     <string name="pref_menus_mainmenu_header">Ĉefmenuo</string>
     <string name="unpin_successful">Depinglis %s el la ĉefmenuo</string>
-    <string name="pref_appearance_thumbnails_show_list_key">pref_appearance_thumbnails_show_list_key</string>
-    <string name="pref_cache_precache_images_list_key">pref_cache_precache_images_list_key</string>
     <string name="pin_successful">Alpinglis %s al la ĉefmenuo</string>
     <string name="unsubscription_successful">Sukcese malabonis %s</string>
     <string name="subscription_successful">Sukcese abonis %s</string>

@@ -730,9 +730,6 @@
     <string name="list_yes_no_or_wifi_never">Jamais</string>
     <string name="list_yes_no_or_wifi_wifionly">En Wi-Fi uniquement</string>
     <string name="list_yes_no_or_wifi_always">Toujours</string>
-    <string name="pref_appearance_thumbnails_show_list_key">pref_appearance_thumbnails_show_list_key</string>
-    <string name="pref_cache_precache_comments_list_key">pref_cache_precache_comments_list_key</string>
-    <string name="pref_cache_precache_images_list_key">pref_cache_precache_images_list_key</string>
     <string name="pref_appearance_post_subtitle_items_use_different_settings_title">Utiliser des paramètres différents pour les posts ouverts</string>
     <string name="pref_appearance_post_subtitle_items_domain">Domaine</string>
     <string name="pref_appearance_post_subtitle_items_subreddit">Subreddit</string>

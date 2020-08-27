@@ -532,9 +532,7 @@
     <string name="download_link_title">Last ned fil</string>
     <string name="download_link_message">Dette er en nedlastet lenke. Ønsker du å laste den i en ekstern nettleser?</string>
     <string name="pref_behaviour_self_post_tap_actions_title">Handling for egeninnlegg</string>
-    <string name="pref_menus_show_popular_main_menu_key">pref_menus_show_popular_main_menu</string>
     <string name="pref_menus_show_popular_main_menu_title">Vis /r/populær i hovedmeny</string>
-    <string name="pref_behaviour_video_playback_controls_key">pref_behaviour_video_playback_controls</string>
     <string name="pref_behaviour_video_playback_controls_title">Skru på videoavspillingskontroller</string>
     <string name="error_no_suitable_apps_available">Ingen egnede programmer tilgjengelig.</string>
     <string name="pref_behaviour_comment_share_text_title">Inkluder tekst ved deling av kommentar</string>

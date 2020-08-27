@@ -725,9 +725,6 @@
     <string name="list_yes_no_or_wifi_never">Tidak pernah</string>
     <string name="list_yes_no_or_wifi_wifionly">Hanya pada Wi-Fi</string>
     <string name="list_yes_no_or_wifi_always">Selalu</string>
-    <string name="pref_appearance_thumbnails_show_list_key"></string>
-    <string name="pref_cache_precache_comments_list_key"></string>
-    <string name="pref_cache_precache_images_list_key"></string>
     <string name="pref_appearance_post_header_subtitle_items_title">Entri subjudul pos yang dibuka</string>
     <string name="pref_appearance_post_subtitle_items_use_different_settings_title">Gunakan pengaturan berbeda untuk pos yang dibuka</string>
     <string name="pref_appearance_post_subtitle_items_domain">Domain</string>

@@ -169,10 +169,12 @@ public final class RedditVideosAPI {
 
 
 					} finally {
-						General.closeSafely(is);
+						if(is != null) {
+							General.closeSafely(is);
+						}
 					}
 
-				} catch(final IOException e) {
+				} catch(final IOException | NullPointerException e) {
 					listener.onFailure(
 							REQUEST_FAILURE_STORAGE,
 							e,

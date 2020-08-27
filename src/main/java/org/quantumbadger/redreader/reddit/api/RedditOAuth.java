@@ -354,7 +354,7 @@ public final class RedditOAuth {
 								refreshToken,
 								accessToken));
 
-					} catch(IOException e) {
+					} catch(final IOException e) {
 
 						result.set(new FetchRefreshTokenResult(
 								FetchRefreshTokenResultStatus.CONNECTION_ERROR,
@@ -367,7 +367,7 @@ public final class RedditOAuth {
 								)
 						));
 
-					} catch(Throwable t) {
+					} catch(final Throwable t) {
 						throw new RuntimeException(t);
 					}
 				}
@@ -375,7 +375,7 @@ public final class RedditOAuth {
 
 			return result.get();
 
-		} catch(Throwable t) {
+		} catch(final Throwable t) {
 			return new FetchRefreshTokenResult(
 					FetchRefreshTokenResultStatus.UNKNOWN_ERROR,
 					new RRError(
@@ -470,7 +470,7 @@ public final class RedditOAuth {
 
 						result.set(new FetchUserInfoResult(username));
 
-					} catch(IOException e) {
+					} catch(final IOException e) {
 						result.set(new FetchUserInfoResult(
 								FetchUserInfoResultStatus.CONNECTION_ERROR,
 								new RRError(
@@ -482,7 +482,7 @@ public final class RedditOAuth {
 								)
 						));
 
-					} catch(Throwable t) {
+					} catch(final Throwable t) {
 						throw new RuntimeException(t);
 					}
 				}
@@ -490,7 +490,7 @@ public final class RedditOAuth {
 
 			return result.get();
 
-		} catch(Throwable t) {
+		} catch(final Throwable t) {
 			return new FetchUserInfoResult(
 					FetchUserInfoResultStatus.UNKNOWN_ERROR,
 					new RRError(
@@ -510,7 +510,7 @@ public final class RedditOAuth {
 		CONNECTION_ERROR,
 		UNKNOWN_ERROR;
 
-		static LoginError fromFetchRefreshTokenStatus(FetchRefreshTokenResultStatus status) {
+		static LoginError fromFetchRefreshTokenStatus(final FetchRefreshTokenResultStatus status) {
 			switch(status) {
 				case SUCCESS:
 					return SUCCESS;
@@ -529,7 +529,7 @@ public final class RedditOAuth {
 			return UNKNOWN_ERROR;
 		}
 
-		static LoginError fromFetchUserInfoStatus(FetchUserInfoResultStatus status) {
+		static LoginError fromFetchUserInfoStatus(final FetchUserInfoResultStatus status) {
 			switch(status) {
 				case SUCCESS:
 					return SUCCESS;
@@ -602,7 +602,7 @@ public final class RedditOAuth {
 
 					listener.onLoginSuccess(account);
 
-				} catch(Throwable t) {
+				} catch(final Throwable t) {
 					listener.onLoginFailure(
 							LoginError.UNKNOWN_ERROR,
 							new RRError(
@@ -710,7 +710,7 @@ public final class RedditOAuth {
 
 						result.set(new FetchAccessTokenResult(accessToken));
 
-					} catch(IOException e) {
+					} catch(final IOException e) {
 						result.set(new FetchAccessTokenResult(
 								FetchAccessTokenResultStatus.CONNECTION_ERROR,
 								new RRError(
@@ -722,7 +722,7 @@ public final class RedditOAuth {
 								)
 						));
 
-					} catch(Throwable t) {
+					} catch(final Throwable t) {
 						throw new RuntimeException(t);
 					}
 				}
@@ -730,7 +730,7 @@ public final class RedditOAuth {
 
 			return result.get();
 
-		} catch(Throwable t) {
+		} catch(final Throwable t) {
 			return new FetchAccessTokenResult(
 					FetchAccessTokenResultStatus.UNKNOWN_ERROR,
 					new RRError(
@@ -811,7 +811,7 @@ public final class RedditOAuth {
 
 						result.set(new FetchAccessTokenResult(accessToken));
 
-					} catch(IOException e) {
+					} catch(final IOException e) {
 						result.set(new FetchAccessTokenResult(
 								FetchAccessTokenResultStatus.CONNECTION_ERROR,
 								new RRError(
@@ -823,7 +823,7 @@ public final class RedditOAuth {
 								)
 						));
 
-					} catch(Throwable t) {
+					} catch(final Throwable t) {
 						throw new RuntimeException(t);
 					}
 				}
@@ -831,7 +831,7 @@ public final class RedditOAuth {
 
 			return result.get();
 
-		} catch(Throwable t) {
+		} catch(final Throwable t) {
 			return new FetchAccessTokenResult(
 					FetchAccessTokenResultStatus.UNKNOWN_ERROR,
 					new RRError(

@@ -49,12 +49,12 @@ public class ImageViewTileLoader {
 	private final Object mLock;
 
 	public ImageViewTileLoader(
-			ImageTileSource source,
-			ImageViewTileLoaderThread thread,
-			int x,
-			int y,
-			int sampleSize,
-			Listener listener,
+			final ImageTileSource source,
+			final ImageViewTileLoaderThread thread,
+			final int x,
+			final int y,
+			final int sampleSize,
+			final Listener listener,
 			final Object lock) {
 
 		mSource = source;
@@ -106,11 +106,11 @@ public class ImageViewTileLoader {
 		try {
 			tile = mSource.getTile(mSampleSize, mX, mY);
 
-		} catch(OutOfMemoryError e) {
+		} catch(final OutOfMemoryError e) {
 			AndroidCommon.UI_THREAD_HANDLER.post(new NotifyOOMRunnable());
 			return;
 
-		} catch(Throwable t) {
+		} catch(final Throwable t) {
 			Log.e("ImageViewTileLoader", "Exception in getTile()", t);
 			AndroidCommon.UI_THREAD_HANDLER.post(new NotifyErrorRunnable(t));
 			return;
@@ -161,7 +161,7 @@ public class ImageViewTileLoader {
 
 		private final Throwable mError;
 
-		private NotifyErrorRunnable(Throwable mError) {
+		private NotifyErrorRunnable(final Throwable mError) {
 			this.mError = mError;
 		}
 

@@ -47,7 +47,7 @@ public class RRGLRenderableColouredQuad extends RRGLRenderable {
 		mVertexBuffer.put(vertexData).position(0);
 	}
 
-	public RRGLRenderableColouredQuad(RRGLContext glContext) {
+	public RRGLRenderableColouredQuad(final RRGLContext glContext) {
 		mGLContext = glContext;
 	}
 
@@ -59,12 +59,12 @@ public class RRGLRenderableColouredQuad extends RRGLRenderable {
 	}
 
 	@Override
-	public void setOverallAlpha(float alpha) {
+	public void setOverallAlpha(final float alpha) {
 		mOverallAlpha = alpha;
 	}
 
 	@Override
-	protected void renderInternal(RRGLMatrixStack matrixStack, final long time) {
+	protected void renderInternal(final RRGLMatrixStack matrixStack, final long time) {
 
 		mGLContext.activateProgramColour();
 

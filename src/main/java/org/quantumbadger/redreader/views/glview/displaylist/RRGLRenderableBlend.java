@@ -22,18 +22,18 @@ import org.quantumbadger.redreader.views.glview.program.RRGLMatrixStack;
 
 public class RRGLRenderableBlend extends RRGLRenderableRenderHooks {
 
-	public RRGLRenderableBlend(RRGLRenderable entity) {
+	public RRGLRenderableBlend(final RRGLRenderable entity) {
 		super(entity);
 	}
 
 	@Override
-	protected void preRender(RRGLMatrixStack stack, long time) {
+	protected void preRender(final RRGLMatrixStack stack, final long time) {
 		GLES20.glEnable(GLES20.GL_BLEND);
 		GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 	}
 
 	@Override
-	protected void postRender(RRGLMatrixStack stack, long time) {
+	protected void postRender(final RRGLMatrixStack stack, final long time) {
 		GLES20.glDisable(GLES20.GL_BLEND);
 	}
 }

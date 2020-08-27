@@ -123,10 +123,10 @@ public final class RedditAPI {
 
 			@Override
 			public void onJsonParseStarted(
-					JsonValue result,
-					long timestamp,
-					UUID session,
-					boolean fromCache) {
+					final JsonValue result,
+					final long timestamp,
+					final UUID session,
+					final boolean fromCache) {
 
 				System.out.println(result.toString());
 
@@ -139,7 +139,7 @@ public final class RedditAPI {
 						return;
 					}
 
-				} catch(Throwable t) {
+				} catch(final Throwable t) {
 					notifyFailure(
 							CacheRequest.REQUEST_FAILURE_PARSE,
 							t,
@@ -151,16 +151,16 @@ public final class RedditAPI {
 			}
 
 			@Override
-			protected void onCallbackException(Throwable t) {
+			protected void onCallbackException(final Throwable t) {
 				BugReportActivity.handleGlobalError(context, t);
 			}
 
 			@Override
 			protected void onFailure(
-					@CacheRequest.RequestFailureType int type,
-					Throwable t,
-					Integer status,
-					String readableMessage) {
+					@CacheRequest.RequestFailureType final int type,
+					final Throwable t,
+					final Integer status,
+					final String readableMessage) {
 				responseHandler.notifyFailure(type, t, status, readableMessage);
 			}
 		});
@@ -189,10 +189,10 @@ public final class RedditAPI {
 
 			@Override
 			public void onJsonParseStarted(
-					JsonValue result,
-					long timestamp,
-					UUID session,
-					boolean fromCache) {
+					final JsonValue result,
+					final long timestamp,
+					final UUID session,
+					final boolean fromCache) {
 
 				System.out.println(result.toString());
 
@@ -205,7 +205,7 @@ public final class RedditAPI {
 						return;
 					}
 
-				} catch(Throwable t) {
+				} catch(final Throwable t) {
 					notifyFailure(
 							CacheRequest.REQUEST_FAILURE_PARSE,
 							t,
@@ -217,16 +217,16 @@ public final class RedditAPI {
 			}
 
 			@Override
-			protected void onCallbackException(Throwable t) {
+			protected void onCallbackException(final Throwable t) {
 				BugReportActivity.handleGlobalError(context, t);
 			}
 
 			@Override
 			protected void onFailure(
-					@CacheRequest.RequestFailureType int type,
-					Throwable t,
-					Integer status,
-					String readableMessage) {
+					@CacheRequest.RequestFailureType final int type,
+					final Throwable t,
+					final Integer status,
+					final String readableMessage) {
 				responseHandler.notifyFailure(type, t, status, readableMessage);
 			}
 		});
@@ -254,10 +254,10 @@ public final class RedditAPI {
 
 			@Override
 			public void onJsonParseStarted(
-					JsonValue result,
-					long timestamp,
-					UUID session,
-					boolean fromCache) {
+					final JsonValue result,
+					final long timestamp,
+					final UUID session,
+					final boolean fromCache) {
 
 				System.out.println(result.toString());
 
@@ -270,7 +270,7 @@ public final class RedditAPI {
 					}
 					// sending replies to inbox is the default behaviour
 					if(!sendRepliesToInbox) {
-						String commentFullname = findThingIdFromCommentResponse(result);
+						final String commentFullname = findThingIdFromCommentResponse(result);
 						if(commentFullname != null && commentFullname.length() > 0) {
 							sendReplies(
 									cm,
@@ -282,7 +282,7 @@ public final class RedditAPI {
 						}
 					}
 
-				} catch(Throwable t) {
+				} catch(final Throwable t) {
 					notifyFailure(
 							CacheRequest.REQUEST_FAILURE_PARSE,
 							t,
@@ -300,16 +300,16 @@ public final class RedditAPI {
 			}
 
 			@Override
-			protected void onCallbackException(Throwable t) {
+			protected void onCallbackException(final Throwable t) {
 				BugReportActivity.handleGlobalError(context, t);
 			}
 
 			@Override
 			protected void onFailure(
-					@CacheRequest.RequestFailureType int type,
-					Throwable t,
-					Integer status,
-					String readableMessage) {
+					@CacheRequest.RequestFailureType final int type,
+					final Throwable t,
+					final Integer status,
+					final String readableMessage) {
 				responseHandler.notifyFailure(type, t, status, readableMessage);
 			}
 		});
@@ -331,10 +331,10 @@ public final class RedditAPI {
 
 			@Override
 			public void onJsonParseStarted(
-					JsonValue result,
-					long timestamp,
-					UUID session,
-					boolean fromCache) {
+					final JsonValue result,
+					final long timestamp,
+					final UUID session,
+					final boolean fromCache) {
 
 				try {
 					final APIResponseHandler.APIFailureType failureType =
@@ -345,7 +345,7 @@ public final class RedditAPI {
 						return;
 					}
 
-				} catch(Throwable t) {
+				} catch(final Throwable t) {
 					notifyFailure(
 							CacheRequest.REQUEST_FAILURE_PARSE,
 							t,
@@ -357,16 +357,16 @@ public final class RedditAPI {
 			}
 
 			@Override
-			protected void onCallbackException(Throwable t) {
+			protected void onCallbackException(final Throwable t) {
 				BugReportActivity.handleGlobalError(context, t);
 			}
 
 			@Override
 			protected void onFailure(
-					@CacheRequest.RequestFailureType int type,
-					Throwable t,
-					Integer status,
-					String readableMessage) {
+					@CacheRequest.RequestFailureType final int type,
+					final Throwable t,
+					final Integer status,
+					final String readableMessage) {
 				responseHandler.notifyFailure(type, t, status, readableMessage);
 			}
 		});
@@ -392,10 +392,10 @@ public final class RedditAPI {
 
 			@Override
 			public void onJsonParseStarted(
-					JsonValue result,
-					long timestamp,
-					UUID session,
-					boolean fromCache) {
+					final JsonValue result,
+					final long timestamp,
+					final UUID session,
+					final boolean fromCache) {
 
 				try {
 					final APIResponseHandler.APIFailureType failureType =
@@ -406,7 +406,7 @@ public final class RedditAPI {
 						return;
 					}
 
-				} catch(Throwable t) {
+				} catch(final Throwable t) {
 					notifyFailure(
 							CacheRequest.REQUEST_FAILURE_PARSE,
 							t,
@@ -418,16 +418,16 @@ public final class RedditAPI {
 			}
 
 			@Override
-			protected void onCallbackException(Throwable t) {
+			protected void onCallbackException(final Throwable t) {
 				BugReportActivity.handleGlobalError(context, t);
 			}
 
 			@Override
 			protected void onFailure(
-					@CacheRequest.RequestFailureType int type,
-					Throwable t,
-					Integer status,
-					String readableMessage) {
+					@CacheRequest.RequestFailureType final int type,
+					final Throwable t,
+					final Integer status,
+					final String readableMessage) {
 				responseHandler.notifyFailure(type, t, status, readableMessage);
 			}
 		});
@@ -478,7 +478,7 @@ public final class RedditAPI {
 						return;
 					}
 
-				} catch(Throwable t) {
+				} catch(final Throwable t) {
 					notifyFailure(
 							CacheRequest.REQUEST_FAILURE_PARSE,
 							t,
@@ -539,7 +539,7 @@ public final class RedditAPI {
 				new RequestResponseHandler<RedditSubreddit, SubredditRequestFailure>() {
 
 					@Override
-					public void onRequestFailed(SubredditRequestFailure failureReason) {
+					public void onRequestFailed(final SubredditRequestFailure failureReason) {
 						responseHandler.notifyFailure(
 								failureReason.requestFailureType,
 								failureReason.t,
@@ -549,8 +549,8 @@ public final class RedditAPI {
 
 					@Override
 					public void onRequestSuccess(
-							RedditSubreddit subreddit,
-							long timeCached) {
+							final RedditSubreddit subreddit,
+							final long timeCached) {
 
 						final LinkedList<HTTPBackend.PostField> postFields = new LinkedList<>();
 
@@ -598,7 +598,7 @@ public final class RedditAPI {
 										return;
 									}
 
-								} catch(Throwable t) {
+								} catch(final Throwable t) {
 									notifyFailure(
 											CacheRequest.REQUEST_FAILURE_PARSE,
 											t,
@@ -689,7 +689,7 @@ public final class RedditAPI {
 					final RedditUser userResult = userThing.asUser();
 					responseHandler.notifySuccess(userResult, timestamp);
 
-				} catch(Throwable t) {
+				} catch(final Throwable t) {
 					// TODO look for error
 					notifyFailure(
 							CacheRequest.REQUEST_FAILURE_PARSE,
@@ -720,10 +720,10 @@ public final class RedditAPI {
 
 			@Override
 			public void onJsonParseStarted(
-					JsonValue result,
-					long timestamp,
-					UUID session,
-					boolean fromCache) {
+					final JsonValue result,
+					final long timestamp,
+					final UUID session,
+					final boolean fromCache) {
 
 				try {
 					final APIResponseHandler.APIFailureType failureType =
@@ -733,7 +733,7 @@ public final class RedditAPI {
 						responseHandler.notifyFailure(failureType);
 						return;
 					}
-				} catch(Throwable t) {
+				} catch(final Throwable t) {
 					notifyFailure(
 							CacheRequest.REQUEST_FAILURE_PARSE,
 							t,
@@ -745,16 +745,16 @@ public final class RedditAPI {
 			}
 
 			@Override
-			protected void onCallbackException(Throwable t) {
+			protected void onCallbackException(final Throwable t) {
 				BugReportActivity.handleGlobalError(context, t);
 			}
 
 			@Override
 			protected void onFailure(
-					@CacheRequest.RequestFailureType int type,
-					Throwable t,
-					Integer status,
-					String readableMessage) {
+					@CacheRequest.RequestFailureType final int type,
+					final Throwable t,
+					final Integer status,
+					final String readableMessage) {
 				responseHandler.notifyFailure(type, t, status, readableMessage);
 			}
 		});
@@ -899,7 +899,7 @@ public final class RedditAPI {
 						}
 					}
 
-				} catch(Exception e) {
+				} catch(final Exception e) {
 					// Do nothing
 				}
 

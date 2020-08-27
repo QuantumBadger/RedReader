@@ -23,12 +23,12 @@ public final class SwipeHistory {
 	private final long[] timestamps;
 	private int start = 0, len = 0;
 
-	public SwipeHistory(int len) {
+	public SwipeHistory(final int len) {
 		positions = new float[len];
 		timestamps = new long[len];
 	}
 
-	public void add(float position, long timestamp) {
+	public void add(final float position, final long timestamp) {
 
 		if(len >= positions.length) {
 			positions[start] = position;
@@ -46,7 +46,7 @@ public final class SwipeHistory {
 		return positions[getNthMostRecentIndex(0)];
 	}
 
-	public float getAtTimeAgoMs(long timeAgo) {
+	public float getAtTimeAgoMs(final long timeAgo) {
 
 		final long timestamp = timestamps[getNthMostRecentIndex(0)] - timeAgo;
 		float result = getMostRecent();
@@ -65,7 +65,7 @@ public final class SwipeHistory {
 		return result;
 	}
 
-	private int getNthMostRecentIndex(int n) {
+	private int getNthMostRecentIndex(final int n) {
 		if(n >= len || n < 0) {
 			throw new ArrayIndexOutOfBoundsException(n);
 		}

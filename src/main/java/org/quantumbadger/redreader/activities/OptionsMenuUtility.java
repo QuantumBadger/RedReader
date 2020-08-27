@@ -500,7 +500,7 @@ public final class OptionsMenuUtility {
 		boolean overflowButtonRequired = false;
 
 		for(int i = 0; i < menu.size(); i++) {
-			for(Map.Entry<AppbarItemsPref, Integer> pair : appbarItemsPrefs.entrySet()) {
+			for(final Map.Entry<AppbarItemsPref, Integer> pair : appbarItemsPrefs.entrySet()) {
 				if(pair.getKey().ordinal() == menu.getItem(i).getItemId()) {
 					if(pair.getValue() == MenuItem.SHOW_AS_ACTION_ALWAYS) {
 						buttonSlotsRemaining--;
@@ -521,7 +521,7 @@ public final class OptionsMenuUtility {
 		//Move optional buttons to the overflow menu if there's not enough space, end to start
 		if(optionalButtonsRequested > buttonSlotsRemaining) {
 			for(int i = menu.size() - 1; i >= 0; i--) {
-				for(Map.Entry<AppbarItemsPref, Integer> pair : appbarItemsPrefs.entrySet()) {
+				for(final Map.Entry<AppbarItemsPref, Integer> pair : appbarItemsPrefs.entrySet()) {
 					if(pair.getKey().ordinal() == menu.getItem(i).getItemId()
 							&& pair.getValue() == MenuItem.SHOW_AS_ACTION_IF_ROOM) {
 
@@ -812,7 +812,7 @@ public final class OptionsMenuUtility {
 						activity.getString(R.string.action_search_comments))
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 							@Override
-							public boolean onMenuItemClick(MenuItem item) {
+							public boolean onMenuItemClick(final MenuItem item) {
 								if(activity instanceof OptionsMenuCommentsListener) {
 									((OptionsMenuCommentsListener)activity)
 											.onSearchComments();
@@ -1296,7 +1296,7 @@ public final class OptionsMenuUtility {
 		menu.add(activity.getString(name))
 				.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 					@Override
-					public boolean onMenuItemClick(MenuItem menuItem) {
+					public boolean onMenuItemClick(final MenuItem menuItem) {
 						((OptionsMenuCommentsListener)activity).onSortSelected(order);
 						return true;
 					}

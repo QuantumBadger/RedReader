@@ -91,7 +91,7 @@ public final class General {
 
 	private static Typeface monoTypeface;
 
-	public static Typeface getMonoTypeface(Context context) {
+	public static Typeface getMonoTypeface(final Context context) {
 
 		if(monoTypeface == null) {
 			monoTypeface = Typeface.createFromAsset(
@@ -102,7 +102,7 @@ public final class General {
 		return monoTypeface;
 	}
 
-	public static Message handlerMessage(int what, Object obj) {
+	public static Message handlerMessage(final int what, final Object obj) {
 		final Message msg = Message.obtain();
 		msg.what = what;
 		msg.obj = obj;
@@ -160,10 +160,10 @@ public final class General {
 
 	/// Get the number of free bytes that are available on the external storage.
 	@SuppressWarnings("deprecation")
-	public static long getFreeSpaceAvailable(String path) {
-		StatFs stat = new StatFs(path);
-		long availableBlocks;
-		long blockSize;
+	public static long getFreeSpaceAvailable(final String path) {
+		final StatFs stat = new StatFs(path);
+		final long availableBlocks;
+		final long blockSize;
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
 			availableBlocks = stat.getAvailableBlocksLong();
 			blockSize = stat.getBlockSizeLong();
@@ -283,11 +283,11 @@ public final class General {
 	}
 
 	public static RRError getGeneralErrorForFailure(
-			Context context,
-			@CacheRequest.RequestFailureType int type,
-			Throwable t,
-			Integer status,
-			String url) {
+			final Context context,
+			@CacheRequest.RequestFailureType final int type,
+			final Throwable t,
+			final Integer status,
+			final String url) {
 
 		final int title, message;
 
@@ -400,7 +400,7 @@ public final class General {
 	}
 
 	public static RRError getGeneralErrorForFailure(
-			Context context,
+			final Context context,
 			final APIResponseHandler.APIFailureType type) {
 
 		final int title, message;
@@ -485,10 +485,10 @@ public final class General {
 	private static final Pattern urlPattern = Pattern.compile(
 			"^(https?)://([^/]+)/+([^\\?#]+)((?:\\?[^#]+)?)((?:#.+)?)$");
 
-	public static String filenameFromString(String url) {
+	public static String filenameFromString(final String url) {
 		final URI uri = uriFromString(url);
 		String filename = uri.getPath().replace(File.separator, "");
-		String[] parts = filename.substring(1).split("\\.", 2);
+		final String[] parts = filename.substring(1).split("\\.", 2);
 		if(parts.length < 2) {
 			if("v.redd.it".equals(uri.getHost())) {
 				filename += ".mp4";
@@ -499,12 +499,12 @@ public final class General {
 		return filename;
 	}
 
-	public static URI uriFromString(String url) {
+	public static URI uriFromString(final String url) {
 
 		try {
 			return new URI(url);
 
-		} catch(Throwable t1) {
+		} catch(final Throwable t1) {
 			try {
 
 				Log.i("RR DEBUG uri", "Beginning aggressive parse of '" + url + "'");
@@ -527,7 +527,7 @@ public final class General {
 
 					try {
 						return new URI(scheme, authority, path, query, fragment);
-					} catch(Throwable t3) {
+					} catch(final Throwable t3) {
 
 						if(path != null && path.contains(" ")) {
 							return new URI(
@@ -545,7 +545,7 @@ public final class General {
 					return null;
 				}
 
-			} catch(Throwable t2) {
+			} catch(final Throwable t2) {
 				return null;
 			}
 		}
@@ -556,14 +556,14 @@ public final class General {
 		final MessageDigest digest;
 		try {
 			digest = MessageDigest.getInstance("SHA-1");
-		} catch(Exception e) {
+		} catch(final Exception e) {
 			throw new RuntimeException(e);
 		}
 
 		digest.update(plaintext, 0, plaintext.length);
 		final byte[] hash = digest.digest();
 		final StringBuilder result = new StringBuilder(hash.length * 2);
-		for(byte b : hash) {
+		for(final byte b : hash) {
 			result.append(String.format(Locale.US, "%02X", b));
 		}
 		return result.toString();
@@ -585,15 +585,15 @@ public final class General {
 		final Set<String> names = new LinkedHashSet<>();
 		int pos = 0;
 		while(pos < query.length()) {
-			int next = query.indexOf('&', pos);
-			int end = (next == -1) ? query.length() : next;
+			final int next = query.indexOf('&', pos);
+			final int end = (next == -1) ? query.length() : next;
 
 			int separator = query.indexOf('=', pos);
 			if(separator > end || separator == -1) {
 				separator = end;
 			}
 
-			String name = query.substring(pos, separator);
+			final String name = query.substring(pos, separator);
 			names.add(Uri.decode(name));
 
 			// Move start to end of name.
@@ -603,7 +603,7 @@ public final class General {
 		return Collections.unmodifiableSet(names);
 	}
 
-	public static int divideCeil(int num, int divisor) {
+	public static int divideCeil(final int num, final int divisor) {
 		return (num + divisor - 1) / divisor;
 	}
 
@@ -617,7 +617,7 @@ public final class General {
 		return Looper.getMainLooper().getThread() == Thread.currentThread();
 	}
 
-	public static <E> ArrayList<E> listOfOne(E obj) {
+	public static <E> ArrayList<E> listOfOne(final E obj) {
 		final ArrayList<E> result = new ArrayList<>(1);
 		result.add(obj);
 		return result;

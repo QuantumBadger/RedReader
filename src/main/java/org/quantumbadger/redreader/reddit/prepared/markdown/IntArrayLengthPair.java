@@ -21,7 +21,7 @@ public final class IntArrayLengthPair {
 	public final int[] data;
 	public int pos = 0;
 
-	public IntArrayLengthPair(int capacity) {
+	public IntArrayLengthPair(final int capacity) {
 		this.data = new int[capacity];
 	}
 
@@ -43,7 +43,7 @@ public final class IntArrayLengthPair {
 		pos += arr.length;
 	}
 
-	public int[] substringAsArray(int start) {
+	public int[] substringAsArray(final int start) {
 		final int[] result = new int[pos - start];
 		System.arraycopy(data, start, result, 0, result.length);
 		return result;

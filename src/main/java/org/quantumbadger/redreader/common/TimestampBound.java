@@ -23,13 +23,13 @@ public abstract class TimestampBound {
 
 	public static final TimestampBound ANY = new TimestampBound() {
 		@Override
-		public boolean verifyTimestamp(long timestamp) {
+		public boolean verifyTimestamp(final long timestamp) {
 			return true;
 		}
 	};
 	public static final TimestampBound NONE = new TimestampBound() {
 		@Override
-		public boolean verifyTimestamp(long timestamp) {
+		public boolean verifyTimestamp(final long timestamp) {
 			return false;
 		}
 	};
@@ -38,17 +38,17 @@ public abstract class TimestampBound {
 
 		private final long minTimestamp;
 
-		public MoreRecentThanBound(long minTimestamp) {
+		public MoreRecentThanBound(final long minTimestamp) {
 			this.minTimestamp = minTimestamp;
 		}
 
 		@Override
-		public boolean verifyTimestamp(long timestamp) {
+		public boolean verifyTimestamp(final long timestamp) {
 			return timestamp >= minTimestamp;
 		}
 	}
 
-	public static MoreRecentThanBound notOlderThan(long ageMs) {
+	public static MoreRecentThanBound notOlderThan(final long ageMs) {
 		return new MoreRecentThanBound(System.currentTimeMillis() - ageMs);
 	}
 }

@@ -233,13 +233,13 @@ public final class MarkdownParagraphGroup {
 
 					ldv.setOnClickListener(new View.OnClickListener() {
 						@Override
-						public void onClick(View v) {
+						public void onClick(final View v) {
 							link.onClicked(activity);
 						}
 					});
 					ldv.setOnLongClickListener(new View.OnLongClickListener() {
 						@Override
-						public boolean onLongClick(View v) {
+						public boolean onLongClick(final View v) {
 							link.onLongClicked(activity);
 							return true;
 						}

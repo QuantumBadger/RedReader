@@ -20,13 +20,12 @@ package org.quantumbadger.redreader.common;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import androidx.annotation.Nullable;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+import androidx.annotation.Nullable;
 import org.apache.commons.lang3.StringUtils;
 import org.quantumbadger.redreader.R;
 
@@ -36,25 +35,22 @@ public class DialogUtils {
 	}
 
 	public static void showSearchDialog(
-			Context context,
+			final Context context,
 			final OnSearchListener listener) {
 		showSearchDialog(context, R.string.action_search, listener);
 	}
 
 	public static void showSearchDialog(
-			Context context,
-			int titleRes,
+			final Context context,
+			final int titleRes,
 			final OnSearchListener listener) {
 		final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
 		final EditText editText = (EditText)LayoutInflater.from(context)
 				.inflate(R.layout.dialog_editbox, null);
 
-		TextView.OnEditorActionListener onEnter = new TextView.OnEditorActionListener() {
-			@Override
-			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-				performSearch(editText, listener);
-				return true;
-			}
+		final TextView.OnEditorActionListener onEnter = (v, actionId, event) -> {
+			performSearch(editText, listener);
+			return true;
 		};
 		editText.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
 		editText.setOnEditorActionListener(onEnter);
@@ -66,7 +62,7 @@ public class DialogUtils {
 				R.string.action_search,
 				new DialogInterface.OnClickListener() {
 					@Override
-					public void onClick(DialogInterface dialog, int which) {
+					public void onClick(final DialogInterface dialog, final int which) {
 						performSearch(editText, listener);
 					}
 				});

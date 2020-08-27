@@ -105,7 +105,7 @@ public abstract class BaseActivity extends AppCompatActivity
 		return result;
 	}
 
-	protected void configBackButton(boolean isVisible, View.OnClickListener listener) {
+	protected void configBackButton(final boolean isVisible, final View.OnClickListener listener) {
 		if(isVisible) {
 			mActionbarBackIconView.setVisibility(View.VISIBLE);
 			mActionbarTitleOuterView.setOnClickListener(listener);
@@ -117,7 +117,7 @@ public abstract class BaseActivity extends AppCompatActivity
 	}
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(final Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 
@@ -212,7 +212,7 @@ public abstract class BaseActivity extends AppCompatActivity
 		}
 	}
 
-	public void setBaseActivityContentView(@LayoutRes int layoutResID) {
+	public void setBaseActivityContentView(@LayoutRes final int layoutResID) {
 		if(mContentView != null) {
 			mContentView.removeAllViews();
 			getLayoutInflater().inflate(layoutResID, mContentView, true);
@@ -300,7 +300,7 @@ public abstract class BaseActivity extends AppCompatActivity
 	}
 
 	private void setOrientationFromPrefs() {
-		PrefsUtility.ScreenOrientation orientation
+		final PrefsUtility.ScreenOrientation orientation
 				= PrefsUtility.pref_behaviour_screen_orientation(
 				this,
 				mSharedPreferences);

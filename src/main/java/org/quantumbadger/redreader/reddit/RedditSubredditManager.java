@@ -37,8 +37,8 @@ import java.util.HashMap;
 public class RedditSubredditManager {
 
 	public void offerRawSubredditData(
-			Collection<RedditSubreddit> toWrite,
-			long timestamp) {
+			final Collection<RedditSubreddit> toWrite,
+			final long timestamp) {
 		subredditCache.performWrite(toWrite);
 	}
 
@@ -65,8 +65,8 @@ public class RedditSubredditManager {
 			subredditCache;
 
 	public static synchronized RedditSubredditManager getInstance(
-			Context context,
-			RedditAccount user) {
+			final Context context,
+			final RedditAccount user) {
 
 		if(singleton == null || !user.equals(singletonUser)) {
 			singletonUser = user;
@@ -76,7 +76,7 @@ public class RedditSubredditManager {
 		return singleton;
 	}
 
-	private RedditSubredditManager(Context context, RedditAccount user) {
+	private RedditSubredditManager(final Context context, final RedditAccount user) {
 
 		// Subreddit cache
 
@@ -95,15 +95,16 @@ public class RedditSubredditManager {
 		subredditCache = new WeakCache<>(subredditDbWrapper);
 	}
 
-	private static String getDbFilename(String type, RedditAccount user) {
+	private static String getDbFilename(final String type, final RedditAccount user) {
 		return General.sha1(user.username.getBytes()) + "_" + type + "_subreddits.db";
 	}
 
 	public void getSubreddit(
-			SubredditCanonicalId subredditCanonicalId,
-			TimestampBound timestampBound,
-			RequestResponseHandler<RedditSubreddit, SubredditRequestFailure> handler,
-			UpdatedVersionListener<SubredditCanonicalId, RedditSubreddit> updatedVersionListener) {
+			final SubredditCanonicalId subredditCanonicalId,
+			final TimestampBound timestampBound,
+			final RequestResponseHandler<RedditSubreddit, SubredditRequestFailure> handler,
+			final UpdatedVersionListener<
+					SubredditCanonicalId, RedditSubreddit> updatedVersionListener) {
 
 		subredditCache.performRequest(
 				subredditCanonicalId,
@@ -113,9 +114,9 @@ public class RedditSubredditManager {
 	}
 
 	public void getSubreddits(
-			Collection<SubredditCanonicalId> ids,
-			TimestampBound timestampBound,
-			RequestResponseHandler<
+			final Collection<SubredditCanonicalId> ids,
+			final TimestampBound timestampBound,
+			final RequestResponseHandler<
 					HashMap<SubredditCanonicalId, RedditSubreddit>,
 					SubredditRequestFailure> handler) {
 

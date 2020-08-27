@@ -332,7 +332,7 @@ public final class JsonBufferedObject extends JsonBuffered
 				}
 			}
 
-		} catch(IllegalAccessException e) {
+		} catch(final IllegalAccessException e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -340,7 +340,7 @@ public final class JsonBufferedObject extends JsonBuffered
 	public Iterator<Map.Entry<String, JsonValue>> iterator() {
 		try {
 			join();
-		} catch(InterruptedException e) {
+		} catch(final InterruptedException e) {
 			throw new RuntimeException(e);
 		}
 		return properties.entrySet().iterator();

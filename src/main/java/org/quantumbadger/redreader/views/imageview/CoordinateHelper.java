@@ -36,7 +36,7 @@ public class CoordinateHelper {
 		return mPositionOffset;
 	}
 
-	public void getPositionOffset(MutableFloatPoint2D result) {
+	public void getPositionOffset(final MutableFloatPoint2D result) {
 		result.set(mPositionOffset);
 	}
 

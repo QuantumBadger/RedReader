@@ -34,7 +34,7 @@ public class FingerTracker {
 	private final Finger[] mFingers = new Finger[10];
 	private final FingerListener mListener;
 
-	public FingerTracker(FingerListener mListener) {
+	public FingerTracker(final FingerListener mListener) {
 
 		this.mListener = mListener;
 
@@ -43,7 +43,7 @@ public class FingerTracker {
 		}
 	}
 
-	public void onTouchEvent(MotionEvent event) {
+	public void onTouchEvent(final MotionEvent event) {
 
 		switch(event.getActionMasked()) {
 
@@ -62,7 +62,7 @@ public class FingerTracker {
 
 			case MotionEvent.ACTION_MOVE:
 
-				for(Finger finger : mFingers) {
+				for(final Finger finger : mFingers) {
 					if(finger.mActive) {
 						finger.onMove(event);
 					}

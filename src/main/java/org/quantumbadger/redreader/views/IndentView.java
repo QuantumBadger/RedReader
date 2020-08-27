@@ -44,7 +44,7 @@ class IndentView extends View {
 
 	private final boolean mPrefDrawLines;
 
-	public IndentView(Context context) {
+	public IndentView(final Context context) {
 		this(context, null);
 	}
 
@@ -60,7 +60,7 @@ class IndentView extends View {
 		super(context, attrs, defStyleAttr);
 
 		mPixelsPerIndent = General.dpToPixels(context, 10.0f);
-		int mPixelsPerLine = General.dpToPixels(context, 2);
+		final int mPixelsPerLine = General.dpToPixels(context, 2);
 		mHalfALine = mPixelsPerLine / 2;
 
 		final int rrIndentBackgroundCol;
@@ -119,7 +119,7 @@ class IndentView extends View {
 	 *
 	 * @param indent comment indentation number
 	 */
-	public void setIndentation(int indent) {
+	public void setIndentation(final int indent) {
 		this.getLayoutParams().width = (mPixelsPerIndent * indent);
 		this.mIndent = indent;
 		this.invalidate();

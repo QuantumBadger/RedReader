@@ -66,8 +66,8 @@ public class GroupedRecyclerViewItemListSectionHeaderView
 		ViewCompat.setAccessibilityDelegate(view, new AccessibilityDelegateCompat() {
 			@Override
 			public void onInitializeAccessibilityNodeInfo(
-					View host,
-					AccessibilityNodeInfoCompat info) {
+					final View host,
+					final AccessibilityNodeInfoCompat info) {
 				super.onInitializeAccessibilityNodeInfo(host, info);
 				info.setHeading(true);
 			}

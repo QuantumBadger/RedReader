@@ -25,12 +25,12 @@ public class RRGLMatrixStack {
 	private final float[] mMatrices = new float[16 * 128];
 	private final RRGLContext mGLContext;
 
-	public RRGLMatrixStack(RRGLContext glContext) {
+	public RRGLMatrixStack(final RRGLContext glContext) {
 		mGLContext = glContext;
 		setIdentity();
 	}
 
-	public int pushAndTranslate(float offsetX, float offsetY) {
+	public int pushAndTranslate(final float offsetX, final float offsetY) {
 		mTopMatrixPos += 16;
 		Matrix.translateM(
 				mMatrices,
@@ -43,7 +43,7 @@ public class RRGLMatrixStack {
 		return mTopMatrixPos - 16;
 	}
 
-	public int pushAndScale(float factorX, float factorY) {
+	public int pushAndScale(final float factorX, final float factorY) {
 		mTopMatrixPos += 16;
 		Matrix.scaleM(
 				mMatrices,
@@ -65,7 +65,7 @@ public class RRGLMatrixStack {
 		Matrix.setIdentityM(mMatrices, mTopMatrixPos);
 	}
 
-	public void scale(float factorX, float factorY, float factorZ) {
+	public void scale(final float factorX, final float factorY, final float factorZ) {
 		Matrix.scaleM(mMatrices, mTopMatrixPos, factorX, factorY, factorZ);
 	}
 

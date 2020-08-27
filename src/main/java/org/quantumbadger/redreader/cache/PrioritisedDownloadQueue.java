@@ -56,7 +56,7 @@ class PrioritisedDownloadQueue {
 		while(redditDownloadsQueued.isEmpty()) {
 			try {
 				wait();
-			} catch(InterruptedException e) {
+			} catch(final InterruptedException e) {
 				throw new RuntimeException(e);
 			}
 		}
@@ -95,7 +95,7 @@ class PrioritisedDownloadQueue {
 
 				try {
 					sleep(1200); // Delay imposed by reddit API restrictions.
-				} catch(InterruptedException e) {
+				} catch(final InterruptedException e) {
 					throw new RuntimeException(e);
 				}
 			}

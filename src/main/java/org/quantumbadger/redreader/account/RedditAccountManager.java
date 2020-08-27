@@ -180,7 +180,7 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 		final ArrayList<RedditAccount> accounts = getAccounts();
 		RedditAccount selectedAccount = null;
 
-		for(RedditAccount account : accounts) {
+		for(final RedditAccount account : accounts) {
 			if(!account.isAnonymous() && account.username.equalsIgnoreCase(username)) {
 				selectedAccount = account;
 				break;
@@ -280,7 +280,7 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 		updateNotifier.addListener(listener);
 	}
 
-	public void deleteAccount(RedditAccount account) {
+	public void deleteAccount(final RedditAccount account) {
 
 		final SQLiteDatabase db = getWritableDatabase();
 		db.delete(TABLE, FIELD_USERNAME + "=?", new String[] {account.username});

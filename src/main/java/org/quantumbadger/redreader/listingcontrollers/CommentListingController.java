@@ -43,7 +43,7 @@ public class CommentListingController {
 		return mSession;
 	}
 
-	public void setSession(UUID session) {
+	public void setSession(final UUID session) {
 		mSession = session;
 	}
 
@@ -101,7 +101,7 @@ public class CommentListingController {
 		return null;
 	}
 
-	public void setSearchString(String searchString) {
+	public void setSearchString(final String searchString) {
 		mSearchString = searchString;
 	}
 

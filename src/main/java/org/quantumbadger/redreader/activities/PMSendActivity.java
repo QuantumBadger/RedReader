@@ -64,7 +64,7 @@ public class PMSendActivity extends BaseActivity {
 	private static String lastText, lastRecipient, lastSubject;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(final Bundle savedInstanceState) {
 
 		PrefsUtility.applyTheme(this);
 
@@ -125,7 +125,7 @@ public class PMSendActivity extends BaseActivity {
 				.getAccounts();
 		final ArrayList<String> usernames = new ArrayList<>();
 
-		for(RedditAccount account : accounts) {
+		for(final RedditAccount account : accounts) {
 			if(!account.isAnonymous()) {
 				usernames.add(account.username);
 			}
@@ -147,7 +147,7 @@ public class PMSendActivity extends BaseActivity {
 	}
 
 	@Override
-	protected void onSaveInstanceState(Bundle outState) {
+	protected void onSaveInstanceState(final Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putString(SAVED_STATE_RECIPIENT, recipientEdit.getText().toString());
 		outState.putString(SAVED_STATE_SUBJECT, subjectEdit.getText().toString());
@@ -155,7 +155,7 @@ public class PMSendActivity extends BaseActivity {
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(final Menu menu) {
 
 		final MenuItem send = menu.add(R.string.comment_reply_send);
 		send.setIcon(R.drawable.ic_action_send_dark);
@@ -167,7 +167,7 @@ public class PMSendActivity extends BaseActivity {
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
+	public boolean onOptionsItemSelected(final MenuItem item) {
 
 		if(item.getTitle().equals(getString(R.string.comment_reply_send))) {
 
@@ -229,16 +229,16 @@ public class PMSendActivity extends BaseActivity {
 				}
 
 				@Override
-				protected void onCallbackException(Throwable t) {
+				protected void onCallbackException(final Throwable t) {
 					BugReportActivity.handleGlobalError(PMSendActivity.this, t);
 				}
 
 				@Override
 				protected void onFailure(
-						@CacheRequest.RequestFailureType int type,
-						Throwable t,
-						Integer status,
-						String readableMessage) {
+						@CacheRequest.RequestFailureType final int type,
+						final Throwable t,
+						final Integer status,
+						final String readableMessage) {
 
 					final RRError error = General.getGeneralErrorForFailure(
 							context,
@@ -279,7 +279,7 @@ public class PMSendActivity extends BaseActivity {
 					this).getAccounts();
 			RedditAccount selectedAccount = null;
 
-			for(RedditAccount account : accounts) {
+			for(final RedditAccount account : accounts) {
 				if(!account.isAnonymous()
 						&& account.username.equalsIgnoreCase(
 						(String)usernameSpinner.getSelectedItem())) {

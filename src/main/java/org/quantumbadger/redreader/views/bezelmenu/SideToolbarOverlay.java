@@ -32,18 +32,18 @@ public class SideToolbarOverlay extends FrameLayout {
 		LEFT, RIGHT
 	}
 
-	public SideToolbarOverlay(Context context) {
+	public SideToolbarOverlay(final Context context) {
 		super(context);
 	}
 
-	public void setContents(View contents) {
+	public void setContents(final View contents) {
 		this.contents = contents;
 		if(shownPosition != null) {
 			show(shownPosition);
 		}
 	}
 
-	public void show(SideToolbarPosition pos) {
+	public void show(final SideToolbarPosition pos) {
 
 		removeAllViews();
 		addView(contents);

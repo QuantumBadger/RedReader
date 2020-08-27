@@ -76,7 +76,7 @@ public class HorizontalSwipeProgressOverlay extends RelativeLayout {
 		}
 	}
 
-	public void onSwipeUpdate(float px, float maxPx) {
+	public void onSwipeUpdate(final float px, final float maxPx) {
 
 		mProgress.setProgress(-(px / maxPx));
 

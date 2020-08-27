@@ -39,7 +39,7 @@ public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>,
 	public SubredditCanonicalId getKey() {
 		try {
 			return getCanonicalId();
-		} catch(InvalidSubredditNameException e) {
+		} catch(final InvalidSubredditNameException e) {
 			throw new UnexpectedInternalStateException(String.format(
 					Locale.US,
 					"Cannot save subreddit '%s'",
@@ -67,12 +67,12 @@ public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>,
 	private static final Pattern USER_PATTERN = Pattern.compile(
 			"(/)?(u/|user/)([\\w\\+\\-\\.:]+)/?");
 
-	public RedditSubreddit(CreationData creationData) {
+	public RedditSubreddit(final CreationData creationData) {
 		this();
 		downloadTime = creationData.timestamp;
 	}
 
-	public static String stripRPrefix(String name) throws InvalidSubredditNameException {
+	public static String stripRPrefix(final String name) throws InvalidSubredditNameException {
 		final Matcher matcher = NAME_PATTERN.matcher(name);
 		if(matcher.matches()) {
 			return matcher.group(3);
@@ -81,7 +81,7 @@ public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>,
 		}
 	}
 
-	public static String stripUserPrefix(String name) {
+	public static String stripUserPrefix(final String name) {
 		final Matcher matcher = USER_PATTERN.matcher(name);
 		if(matcher.matches()) {
 			return matcher.group(3);
@@ -119,7 +119,7 @@ public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>,
 	public RedditSubreddit() {
 	}
 
-	public RedditSubreddit(String url, String title, final boolean isSortable) {
+	public RedditSubreddit(final String url, final String title, final boolean isSortable) {
 		this.url = url;
 		this.title = title;
 	}
@@ -167,7 +167,7 @@ public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>,
 				.compareTo(General.asciiLowercase(another.display_name));
 	}
 
-	public String getSidebarHtml(boolean nightMode) {
+	public String getSidebarHtml(final boolean nightMode) {
 		final String unescaped = StringEscapeUtils.unescapeHtml4(description_html);
 
 		final StringBuilder result = new StringBuilder(unescaped.length() + 512);

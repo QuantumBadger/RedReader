@@ -64,9 +64,9 @@ public class RRTime {
 		final long endTime = utcCurrentTimeMillis();
 		final DateTime dateTime = new DateTime(endTime);
 		final DateTime localDateTime = dateTime.withZone(DateTimeZone.getDefault());
-		Period period = new Duration(startTime, endTime).toPeriodTo(localDateTime);
+		final Period period = new Duration(startTime, endTime).toPeriodTo(localDateTime);
 
-		PeriodFormatter periodFormatter = new PeriodFormatterBuilder()
+		final PeriodFormatter periodFormatter = new PeriodFormatterBuilder()
 				.appendYears()
 				.appendSuffix(space)
 				.appendSuffix(
@@ -111,7 +111,7 @@ public class RRTime {
 		String duration
 				= periodFormatter.print(period.normalizedStandard(PeriodType.yearMonthDayTime()));
 
-		List<String> parts = Arrays.asList(duration.split(comma));
+		final List<String> parts = Arrays.asList(duration.split(comma));
 		if(parts.size() >= 2) {
 			duration = parts.get(0) + comma + parts.get(1);
 		}
@@ -119,19 +119,19 @@ public class RRTime {
 		return String.format(context.getString(R.string.time_ago), duration);
 	}
 
-	public static long since(long timestamp) {
+	public static long since(final long timestamp) {
 		return utcCurrentTimeMillis() - timestamp;
 	}
 
-	public static long secsToMs(long secs) {
+	public static long secsToMs(final long secs) {
 		return secs * 1000;
 	}
 
-	public static long minsToMs(long mins) {
+	public static long minsToMs(final long mins) {
 		return secsToMs(mins * 60);
 	}
 
-	public static long hoursToMs(long hours) {
+	public static long hoursToMs(final long hours) {
 		return minsToMs(hours * 60);
 	}
 }

@@ -25,7 +25,7 @@ public class UniqueSynchronizedQueue<E> {
 	private final HashSet<E> set = new HashSet<>();
 	private final LinkedList<E> queue = new LinkedList<>();
 
-	public synchronized void enqueue(E object) {
+	public synchronized void enqueue(final E object) {
 		if(set.add(object)) {
 			queue.addLast(object);
 		}

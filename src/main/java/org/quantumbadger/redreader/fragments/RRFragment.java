@@ -60,10 +60,10 @@ public abstract class RRFragment {
 		mParent.startActivityForResult(intent, requestCode);
 	}
 
-	public void onCreateOptionsMenu(Menu menu) {
+	public void onCreateOptionsMenu(final Menu menu) {
 	}
 
-	public boolean onOptionsItemSelected(MenuItem item) {
+	public boolean onOptionsItemSelected(final MenuItem item) {
 		return false;
 	}
 

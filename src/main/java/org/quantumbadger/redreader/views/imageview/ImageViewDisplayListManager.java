@@ -133,9 +133,9 @@ public class ImageViewDisplayListManager implements
 
 	@Override
 	public synchronized void onGLSceneCreate(
-			RRGLDisplayList scene,
-			RRGLContext glContext,
-			Refreshable refreshable) {
+			final RRGLDisplayList scene,
+			final RRGLContext glContext,
+			final Refreshable refreshable) {
 
 		mTileVisibility = new boolean[mHTileCount][mVTileCount];
 		mTileLoaded = new boolean[mHTileCount][mVTileCount];
@@ -195,10 +195,10 @@ public class ImageViewDisplayListManager implements
 
 	@Override
 	public synchronized void onGLSceneResolutionChange(
-			RRGLDisplayList scene,
-			RRGLContext context,
-			int width,
-			int height) {
+			final RRGLDisplayList scene,
+			final RRGLContext context,
+			final int width,
+			final int height) {
 
 		mResolutionX = width;
 		mResolutionY = height;
@@ -220,8 +220,8 @@ public class ImageViewDisplayListManager implements
 
 	@Override
 	public synchronized boolean onGLSceneUpdate(
-			RRGLDisplayList scene,
-			RRGLContext context) {
+			final RRGLDisplayList scene,
+			final RRGLContext context) {
 
 		if(mScaleAnimation != null) {
 			if(!mScaleAnimation.onStep()) {
@@ -305,7 +305,7 @@ public class ImageViewDisplayListManager implements
 								mTileLoaded[x][y] = true;
 								tile.recycle();
 
-							} catch(Exception e) {
+							} catch(final Exception e) {
 								Log.e(
 										"ImageViewDisplayListMan",
 										"Exception when creating texture",
@@ -339,7 +339,7 @@ public class ImageViewDisplayListManager implements
 	}
 
 	@Override
-	public synchronized void onFingerDown(FingerTracker.Finger finger) {
+	public synchronized void onFingerDown(final FingerTracker.Finger finger) {
 
 		if(mScrollbars == null) {
 			return;
@@ -475,7 +475,7 @@ public class ImageViewDisplayListManager implements
 	}
 
 	@Override
-	public synchronized void onFingerUp(FingerTracker.Finger finger) {
+	public synchronized void onFingerUp(final FingerTracker.Finger finger) {
 
 		if(mScrollbars == null) {
 			return;
@@ -558,7 +558,7 @@ public class ImageViewDisplayListManager implements
 		}
 	}
 
-	private void onDoubleTap(MutableFloatPoint2D position) {
+	private void onDoubleTap(final MutableFloatPoint2D position) {
 
 		final float minScale = mBoundsHelper.getMinScale();
 		final float currentScale = mCoordinateHelper.getScale();
@@ -584,7 +584,7 @@ public class ImageViewDisplayListManager implements
 	}
 
 	@Override
-	public void onUIThreadRepeatingTimer(UIThreadRepeatingTimer timer) {
+	public void onUIThreadRepeatingTimer(final UIThreadRepeatingTimer timer) {
 
 		if(mCurrentTouchState == TouchState.DOUBLE_TAP_WAIT_NO_FINGERS_DOWN) {
 
@@ -613,7 +613,7 @@ public class ImageViewDisplayListManager implements
 	}
 
 	@Override
-	public void onTileLoaded(int x, int y, int sampleSize) {
+	public void onTileLoaded(final int x, final int y, final int sampleSize) {
 		mRefreshable.refresh();
 	}
 
@@ -623,7 +623,7 @@ public class ImageViewDisplayListManager implements
 	}
 
 	@Override
-	public void onTileLoaderException(Throwable t) {
+	public void onTileLoaderException(final Throwable t) {
 		mListener.onImageViewDLMException(t);
 	}
 

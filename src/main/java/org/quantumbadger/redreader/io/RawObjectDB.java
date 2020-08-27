@@ -45,13 +45,13 @@ public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelpe
 			FIELD_ID = "RawObjectDB_id",
 			FIELD_TIMESTAMP = "RawObjectDB_timestamp";
 
-	private static <E> int getDbVersion(Class<E> clazz) {
+	private static <E> int getDbVersion(final Class<E> clazz) {
 		for(final Field field : clazz.getDeclaredFields()) {
 			if(field.isAnnotationPresent(WritableObject.WritableObjectVersion.class)) {
 				field.setAccessible(true);
 				try {
 					return field.getInt(null);
-				} catch(IllegalAccessException e) {
+				} catch(final IllegalAccessException e) {
 					throw new RuntimeException(e);
 				}
 			}
@@ -89,7 +89,7 @@ public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelpe
 		fieldNames[this.fields.length + 1] = FIELD_TIMESTAMP;
 	}
 
-	private String getFieldTypeString(Class<?> fieldType) {
+	private String getFieldTypeString(final Class<?> fieldType) {
 
 		if(fieldType == Integer.class
 				|| fieldType == Long.class
@@ -160,13 +160,13 @@ public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelpe
 				}
 				return result;
 
-			} catch(InstantiationException e) {
+			} catch(final InstantiationException e) {
 				throw new RuntimeException(e);
 
-			} catch(IllegalAccessException e) {
+			} catch(final IllegalAccessException e) {
 				throw new RuntimeException(e);
 
-			} catch(InvocationTargetException e) {
+			} catch(final InvocationTargetException e) {
 				throw new RuntimeException(e);
 
 			} finally {
@@ -208,13 +208,13 @@ public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelpe
 				}
 				return result;
 
-			} catch(InstantiationException e) {
+			} catch(final InstantiationException e) {
 				throw new RuntimeException(e);
 
-			} catch(IllegalAccessException e) {
+			} catch(final IllegalAccessException e) {
 				throw new RuntimeException(e);
 
-			} catch(InvocationTargetException e) {
+			} catch(final InvocationTargetException e) {
 				throw new RuntimeException(e);
 
 			} finally {
@@ -239,7 +239,7 @@ public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelpe
 			final long timestamp = cursor.getLong(fields.length + 1);
 			obj = constructor.newInstance(new WritableObject.CreationData(id, timestamp));
 
-		} catch(NoSuchMethodException e) {
+		} catch(final NoSuchMethodException e) {
 			throw new RuntimeException(e);
 		}
 
@@ -287,7 +287,7 @@ public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelpe
 		return obj;
 	}
 
-	public synchronized void put(E object) {
+	public synchronized void put(final E object) {
 
 		final SQLiteDatabase db = getWritableDatabase();
 
@@ -302,7 +302,7 @@ public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelpe
 				throw new RuntimeException("Database write failed");
 			}
 
-		} catch(IllegalAccessException e) {
+		} catch(final IllegalAccessException e) {
 			throw new RuntimeException(e);
 
 		} finally {
@@ -328,7 +328,7 @@ public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelpe
 				}
 			}
 
-		} catch(IllegalAccessException e) {
+		} catch(final IllegalAccessException e) {
 			throw new RuntimeException(e);
 
 		} finally {

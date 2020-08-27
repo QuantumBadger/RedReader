@@ -91,12 +91,12 @@ public class ScrollbarRecyclerViewManager {
 			}
 
 			@Override
-			public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+			public void onScrolled(final RecyclerView recyclerView, final int dx, final int dy) {
 				updateScroll();
 			}
 
 			@Override
-			public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+			public void onScrollStateChanged(final RecyclerView recyclerView, final int newState) {
 
 				switch(newState) {
 					case RecyclerView.SCROLL_STATE_IDLE:

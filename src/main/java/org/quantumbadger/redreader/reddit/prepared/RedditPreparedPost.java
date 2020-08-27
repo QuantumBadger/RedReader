@@ -402,7 +402,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 					}
 				}
 
-			} catch(InvalidSubredditNameException ex) {
+			} catch(final InvalidSubredditNameException ex) {
 				throw new RuntimeException(ex);
 			}
 		}
@@ -458,7 +458,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 		builder.setItems(menuText, new DialogInterface.OnClickListener() {
 			@Override
-			public void onClick(DialogInterface dialog, int which) {
+			public void onClick(final DialogInterface dialog, final int which) {
 				onActionMenuItemSelected(post, activity, menu.get(which).action);
 			}
 		});
@@ -561,7 +561,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 			case EXTERNAL: {
 				final Intent intent = new Intent(Intent.ACTION_VIEW);
-				String url = (activity instanceof WebViewActivity)
+				final String url = (activity instanceof WebViewActivity)
 						? ((WebViewActivity)activity).getCurrentUrl()
 						: post.src.getUrl();
 				intent.setData(Uri.parse(url));
@@ -586,7 +586,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 					final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 					builder.setItems(linksArr, new DialogInterface.OnClickListener() {
 						@Override
-						public void onClick(DialogInterface dialog, int which) {
+						public void onClick(final DialogInterface dialog, final int which) {
 							LinkHandler.onLinkClicked(
 									activity,
 									linksArr[which],
@@ -684,10 +684,10 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 			case COPY: {
 
-				ClipboardManager clipboardManager =
+				final ClipboardManager clipboardManager =
 						(ClipboardManager)activity.getSystemService(Context.CLIPBOARD_SERVICE);
 				if(clipboardManager != null) {
-					ClipData data = ClipData.newRawUri(
+					final ClipData data = ClipData.newRawUri(
 							post.src.getAuthor(),
 							Uri.parse(post.src.getUrl()));
 					clipboardManager.setPrimaryClip(data);
@@ -700,10 +700,10 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			}
 
 			case COPY_SELFTEXT: {
-				ClipboardManager clipboardManager =
+				final ClipboardManager clipboardManager =
 						(ClipboardManager)activity.getSystemService(Context.CLIPBOARD_SERVICE);
 				if(clipboardManager != null) {
-					ClipData data = ClipData.newPlainText(
+					final ClipData data = ClipData.newPlainText(
 							post.src.getAuthor(),
 							post.src.getRawSelfTextMarkdown());
 					clipboardManager.setPrimaryClip(data);
@@ -723,7 +723,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 							.generateJsonUri());
 					activity.startActivityForResult(intent, 1);
 
-				} catch(InvalidSubredditNameException e) {
+				} catch(final InvalidSubredditNameException e) {
 					Toast.makeText(
 							activity,
 							R.string.invalid_subreddit_name,
@@ -803,7 +803,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 							PreferenceManager.getDefaultSharedPreferences(activity),
 							new SubredditCanonicalId(post.src.getSubreddit()));
 
-				} catch(InvalidSubredditNameException e) {
+				} catch(final InvalidSubredditNameException e) {
 					throw new RuntimeException(e);
 				}
 
@@ -817,7 +817,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 							PreferenceManager.getDefaultSharedPreferences(activity),
 							new SubredditCanonicalId(post.src.getSubreddit()));
 
-				} catch(InvalidSubredditNameException e) {
+				} catch(final InvalidSubredditNameException e) {
 					throw new RuntimeException(e);
 				}
 
@@ -831,7 +831,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 							PreferenceManager.getDefaultSharedPreferences(activity),
 							new SubredditCanonicalId(post.src.getSubreddit()));
 
-				} catch(InvalidSubredditNameException e) {
+				} catch(final InvalidSubredditNameException e) {
 					throw new RuntimeException(e);
 				}
 
@@ -845,7 +845,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 							PreferenceManager.getDefaultSharedPreferences(activity),
 							new SubredditCanonicalId(post.src.getSubreddit()));
 
-				} catch(InvalidSubredditNameException e) {
+				} catch(final InvalidSubredditNameException e) {
 					throw new RuntimeException(e);
 				}
 
@@ -856,7 +856,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				try {
 					final SubredditCanonicalId subredditCanonicalId =
 							new SubredditCanonicalId(post.src.getSubreddit());
-					RedditSubredditSubscriptionManager subMan =
+					final RedditSubredditSubscriptionManager subMan =
 							RedditSubredditSubscriptionManager
 									.getSingleton(
 											activity,
@@ -876,7 +876,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 								R.string.mainmenu_toast_subscribed,
 								Toast.LENGTH_SHORT).show();
 					}
-				} catch(InvalidSubredditNameException e) {
+				} catch(final InvalidSubredditNameException e) {
 					throw new RuntimeException(e);
 				}
 				break;
@@ -886,7 +886,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				try {
 					final SubredditCanonicalId subredditCanonicalId =
 							new SubredditCanonicalId(post.src.getSubreddit());
-					RedditSubredditSubscriptionManager subMan =
+					final RedditSubredditSubscriptionManager subMan =
 							RedditSubredditSubscriptionManager
 									.getSingleton(
 											activity,
@@ -905,7 +905,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 								R.string.mainmenu_toast_not_subscribed,
 								Toast.LENGTH_SHORT).show();
 					}
-				} catch(InvalidSubredditNameException e) {
+				} catch(final InvalidSubredditNameException e) {
 					throw new RuntimeException(e);
 				}
 				break;
@@ -925,12 +925,12 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		return score;
 	}
 
-	private SpannableStringBuilder rebuildSubtitle(Context context) {
+	private SpannableStringBuilder rebuildSubtitle(final Context context) {
 		return rebuildSubtitle(context, false);
 	}
 
 	public SpannableStringBuilder rebuildSubtitle(
-			Context context,
+			final Context context,
 			final boolean headerMode) {
 
 		// TODO preference for the X days, X hours thing
@@ -1203,7 +1203,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 					synchronized(singleImageDecodeLock) {
 
-						BitmapFactory.Options justDecodeBounds =
+						final BitmapFactory.Options justDecodeBounds =
 								new BitmapFactory.Options();
 						justDecodeBounds.inJustDecodeBounds = true;
 						BitmapFactory.decodeStream(
@@ -1220,7 +1220,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 							factor *= 2;
 						}
 
-						BitmapFactory.Options scaledOptions = new BitmapFactory.Options();
+						final BitmapFactory.Options scaledOptions = new BitmapFactory.Options();
 						scaledOptions.inSampleSize = factor;
 
 						final Bitmap data =
@@ -1244,11 +1244,11 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 								usageId);
 					}
 
-				} catch(OutOfMemoryError e) {
+				} catch(final OutOfMemoryError e) {
 					// TODO handle this better - disable caching of images
 					Log.e("RedditPreparedPost", "Out of memory trying to download image");
 					e.printStackTrace();
-				} catch(Throwable t) {
+				} catch(final Throwable t) {
 					// Just ignore it.
 				}
 			}
@@ -1272,12 +1272,12 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		return mChangeDataManager.isRead(src);
 	}
 
-	public void bind(RedditPostView boundView) {
+	public void bind(final RedditPostView boundView) {
 		mBoundView = boundView;
 		mChangeDataManager.addListener(src, this);
 	}
 
-	public void unbind(RedditPostView boundView) {
+	public void unbind(final RedditPostView boundView) {
 		if(mBoundView == boundView) {
 			mBoundView = null;
 			mChangeDataManager.removeListener(src, this);
@@ -1376,7 +1376,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				throw new RuntimeException("Unknown post action");
 		}
 
-		boolean vote = (action == RedditAPI.ACTION_DOWNVOTE
+		final boolean vote = (action == RedditAPI.ACTION_DOWNVOTE
 				| action == RedditAPI.ACTION_UPVOTE
 				| action == RedditAPI.ACTION_UNVOTE);
 
@@ -1555,12 +1555,12 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		public final String title;
 		public final Action action;
 
-		private RPVMenuItem(String title, Action action) {
+		private RPVMenuItem(final String title, final Action action) {
 			this.title = title;
 			this.action = action;
 		}
 
-		private RPVMenuItem(Context context, int titleRes, Action action) {
+		private RPVMenuItem(final Context context, final int titleRes, final Action action) {
 			this.title = context.getString(titleRes);
 			this.action = action;
 		}
@@ -1568,7 +1568,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 	public VerticalToolbar generateToolbar(
 			final AppCompatActivity activity,
-			boolean isComments,
+			final boolean isComments,
 			final SideToolbarOverlay overlay) {
 
 		final VerticalToolbar toolbar = new VerticalToolbar(activity);
@@ -1666,7 +1666,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 				ib.setOnClickListener(new View.OnClickListener() {
 					@Override
-					public void onClick(View v) {
+					public void onClick(final View v) {
 
 						final Action actionToTake;
 

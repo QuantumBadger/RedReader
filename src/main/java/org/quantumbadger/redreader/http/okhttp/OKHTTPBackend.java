@@ -57,7 +57,7 @@ public class OKHTTPBackend extends HTTPBackend {
 		// here we set the over18 cookie and return it whenever the url contains search
 		// this is necessary to get the reddit API to return NSFW search results
 		final List<Cookie> list = new ArrayList<>();
-		Cookie.Builder cookieBuilder = new Cookie.Builder();
+		final Cookie.Builder cookieBuilder = new Cookie.Builder();
 
 		cookieBuilder.domain("reddit.com");
 		cookieBuilder.name("over18");
@@ -69,12 +69,12 @@ public class OKHTTPBackend extends HTTPBackend {
 
 		final CookieJar cookieJar = new CookieJar() {
 			@Override
-			public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
+			public void saveFromResponse(final HttpUrl url, final List<Cookie> cookies) {
 				//LOL we do not care
 			}
 
 			@Override
-			public List<Cookie> loadForRequest(HttpUrl url) {
+			public List<Cookie> loadForRequest(final HttpUrl url) {
 				if(url.toString().contains("search")) {
 					return list;
 				} else {
@@ -86,7 +86,7 @@ public class OKHTTPBackend extends HTTPBackend {
 		builder.cookieJar(cookieJar);
 
 		if(TorCommon.isTorEnabled()) {
-			Proxy tor = new Proxy(
+			final Proxy tor = new Proxy(
 					Proxy.Type.HTTP,
 					new InetSocketAddress("127.0.0.1", 8118));
 			//SOCKS appears to be broken for now, Relevant: https://github.com/square/okhttp/issues/2315
@@ -159,7 +159,7 @@ public class OKHTTPBackend extends HTTPBackend {
 
 				try {
 					response = call.execute();
-				} catch(Exception e) {
+				} catch(final Exception e) {
 					listener.onError(CacheRequest.REQUEST_FAILURE_CONNECTION, e, null);
 					Log.i("OK", "request didn't even connect: " + e.getMessage());
 					return;

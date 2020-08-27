@@ -131,7 +131,7 @@ public class ImageViewActivity extends BaseActivity
 	}
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(final Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 
@@ -337,7 +337,7 @@ public class ImageViewActivity extends BaseActivity
 					this,
 					new BezelSwipeOverlay.BezelSwipeListener() {
 						@Override
-						public boolean onSwipe(@BezelSwipeOverlay.SwipeEdge int edge) {
+						public boolean onSwipe(@BezelSwipeOverlay.SwipeEdge final int edge) {
 
 							toolbarOverlay.setContents(post.generateToolbar(
 									ImageViewActivity.this,
@@ -378,7 +378,7 @@ public class ImageViewActivity extends BaseActivity
 		setBaseActivityContentView(outerFrame);
 	}
 
-	private void setMainView(View v) {
+	private void setMainView(final View v) {
 
 		mLayout.removeAllViews();
 		mLayout.addView(v);
@@ -440,13 +440,13 @@ public class ImageViewActivity extends BaseActivity
 					} else if(videoViewMode
 							== PrefsUtility.VideoViewMode.EXTERNAL_APP_VLC) {
 
-						Intent intent = new Intent(Intent.ACTION_VIEW);
+						final Intent intent = new Intent(Intent.ACTION_VIEW);
 						intent.setClassName(
 								"org.videolan.vlc",
 								"org.videolan.vlc.gui.video.VideoPlayerActivity");
 						try {
 							intent.setDataAndType(cacheFile.getUri(), mimetype);
-						} catch(IOException e) {
+						} catch(final IOException e) {
 							revertToWeb();
 							return;
 						}
@@ -559,13 +559,13 @@ public class ImageViewActivity extends BaseActivity
 										}));
 							}
 
-						} catch(OutOfMemoryError e) {
+						} catch(final OutOfMemoryError e) {
 							General.quickToast(
 									ImageViewActivity.this,
 									R.string.imageview_oom);
 							revertToWeb();
 
-						} catch(Throwable e) {
+						} catch(final Throwable e) {
 							General.quickToast(
 									ImageViewActivity.this,
 									R.string.imageview_invalid_video);
@@ -615,13 +615,13 @@ public class ImageViewActivity extends BaseActivity
 							gifView.setOnTouchListener(new BasicGestureHandler(
 									ImageViewActivity.this));
 
-						} catch(OutOfMemoryError e) {
+						} catch(final OutOfMemoryError e) {
 							General.quickToast(
 									ImageViewActivity.this,
 									R.string.imageview_oom);
 							revertToWeb();
 
-						} catch(Throwable e) {
+						} catch(final Throwable e) {
 							General.quickToast(
 									ImageViewActivity.this,
 									R.string.imageview_invalid_gif);
@@ -719,14 +719,14 @@ public class ImageViewActivity extends BaseActivity
 					imageTileSource = new ImageTileSourceWholeBitmap(
 							BitmapFactory.decodeStream(cacheFileInputStream));
 
-				} catch(Throwable t) {
+				} catch(final Throwable t) {
 					Log.e(TAG, "Exception when creating ImageTileSource", t);
 					General.quickToast(this, R.string.imageview_decode_failed);
 					revertToWeb();
 					return;
 				}
 
-			} catch(OutOfMemoryError e) {
+			} catch(final OutOfMemoryError e) {
 				General.quickToast(this, R.string.imageview_oom);
 				revertToWeb();
 				return;
@@ -971,7 +971,7 @@ public class ImageViewActivity extends BaseActivity
 	}
 
 	@Override
-	public void onImageViewDLMException(Throwable t) {
+	public void onImageViewDLMException(final Throwable t) {
 		if(!mHaveReverted) {
 			General.quickToast(this, R.string.imageview_decode_failed);
 			revertToWeb();
@@ -979,7 +979,7 @@ public class ImageViewActivity extends BaseActivity
 	}
 
 	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
+	public void onConfigurationChanged(final Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		if(mImageViewDisplayerManager != null) {
 			mImageViewDisplayerManager.resetTouchState();
@@ -988,7 +988,7 @@ public class ImageViewActivity extends BaseActivity
 
 	private void openImage(
 			final DonutProgress progressBar,
-			URI uri,
+			final URI uri,
 			@Nullable final URI audioUri) {
 
 		if(mImageInfo.mediaType != null) {
@@ -1051,7 +1051,7 @@ public class ImageViewActivity extends BaseActivity
 	}
 
 
-	private void manageAspectRatioIndicator(DonutProgress progressBar) {
+	private void manageAspectRatioIndicator(final DonutProgress progressBar) {
 		findAspectRatio:
 		if(PrefsUtility.pref_appearance_show_aspect_ratio_indicator(
 				this,
@@ -1107,7 +1107,7 @@ public class ImageViewActivity extends BaseActivity
 					private boolean mProgressTextSet = false;
 
 					@Override
-					protected void onCallbackException(Throwable t) {
+					protected void onCallbackException(final Throwable t) {
 						BugReportActivity.handleGlobalError(
 								context.getApplicationContext(),
 								new RRError(null, null, t));
@@ -1132,8 +1132,8 @@ public class ImageViewActivity extends BaseActivity
 					@Override
 					protected void onFailure(
 							final @RequestFailureType int type,
-							Throwable t,
-							Integer status,
+							final Throwable t,
+							final Integer status,
 							final String readableMessage) {
 
 						synchronized(resultLock) {
@@ -1193,9 +1193,9 @@ public class ImageViewActivity extends BaseActivity
 					@Override
 					protected void onSuccess(
 							final CacheManager.ReadableCacheFile cacheFile,
-							long timestamp,
-							UUID session,
-							boolean fromCache,
+							final long timestamp,
+							final UUID session,
+							final boolean fromCache,
 							final String mimetype) {
 
 						synchronized(resultLock) {
@@ -1227,7 +1227,7 @@ public class ImageViewActivity extends BaseActivity
 							this) {
 
 						@Override
-						protected void onCallbackException(Throwable t) {
+						protected void onCallbackException(final Throwable t) {
 							BugReportActivity.handleGlobalError(
 									context.getApplicationContext(),
 									new RRError(null, null, t));
@@ -1244,8 +1244,8 @@ public class ImageViewActivity extends BaseActivity
 						@Override
 						protected void onFailure(
 								final @RequestFailureType int type,
-								Throwable t,
-								Integer status,
+								final Throwable t,
+								final Integer status,
 								final String readableMessage) {
 
 							synchronized(resultLock) {
@@ -1290,9 +1290,9 @@ public class ImageViewActivity extends BaseActivity
 						@Override
 						protected void onSuccess(
 								final CacheManager.ReadableCacheFile cacheFile,
-								long timestamp,
-								UUID session,
-								boolean fromCache,
+								final long timestamp,
+								final UUID session,
+								final boolean fromCache,
 								final String mimetype) {
 
 							synchronized(resultLock) {

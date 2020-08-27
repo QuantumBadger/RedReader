@@ -103,7 +103,7 @@ public final class StreamableAPI {
 					final JsonBufferedObject outer = result.asObject();
 					listener.onSuccess(ImageInfo.parseStreamable(outer));
 
-				} catch(Throwable t) {
+				} catch(final Throwable t) {
 					listener.onFailure(
 							CacheRequest.REQUEST_FAILURE_PARSE,
 							t,

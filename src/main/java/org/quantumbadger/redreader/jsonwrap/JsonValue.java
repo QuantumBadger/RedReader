@@ -380,10 +380,10 @@ public final class JsonValue {
 		try {
 			prettyPrint(0, sb);
 
-		} catch(InterruptedException e) {
+		} catch(final InterruptedException e) {
 			e.printStackTrace();
 
-		} catch(IOException e) {
+		} catch(final IOException e) {
 			e.printStackTrace();
 		}
 

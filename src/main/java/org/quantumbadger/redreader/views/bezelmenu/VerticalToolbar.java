@@ -30,7 +30,7 @@ public class VerticalToolbar extends FrameLayout {
 
 	private final LinearLayout buttons;
 
-	public VerticalToolbar(Context context) {
+	public VerticalToolbar(final Context context) {
 
 		super(context);
 
@@ -50,7 +50,7 @@ public class VerticalToolbar extends FrameLayout {
 		addView(sv);
 	}
 
-	public void addItem(View v) {
+	public void addItem(final View v) {
 		buttons.addView(v);
 	}
 }

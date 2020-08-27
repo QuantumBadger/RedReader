@@ -56,7 +56,7 @@ public abstract class RRGLRenderableRenderHooks extends RRGLRenderable {
 	protected abstract void postRender(RRGLMatrixStack stack, final long time);
 
 	@Override
-	public void setOverallAlpha(float alpha) {
+	public void setOverallAlpha(final float alpha) {
 		mEntity.setOverallAlpha(alpha);
 	}
 }

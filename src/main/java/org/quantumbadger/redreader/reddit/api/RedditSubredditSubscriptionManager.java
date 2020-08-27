@@ -114,7 +114,7 @@ public class RedditSubredditSubscriptionManager {
 		return singleton;
 	}
 
-	private RedditSubredditSubscriptionManager(RedditAccount user, Context context) {
+	private RedditSubredditSubscriptionManager(final RedditAccount user, final Context context) {
 
 		this.user = user;
 		this.context = context;
@@ -265,7 +265,7 @@ public class RedditSubredditSubscriptionManager {
 
 					// TODO handle failed requests properly -- retry? then notify listeners
 					@Override
-					public void onRequestFailed(SubredditRequestFailure failureReason) {
+					public void onRequestFailed(final SubredditRequestFailure failureReason) {
 						if(handler != null) {
 							handler.onRequestFailed(failureReason);
 						}
@@ -273,8 +273,8 @@ public class RedditSubredditSubscriptionManager {
 
 					@Override
 					public void onRequestSuccess(
-							WritableHashSet result,
-							long timeCached) {
+							final WritableHashSet result,
+							final long timeCached) {
 						final HashSet<String> newSubscriptionStrings = result.toHashset();
 
 						final HashSet<SubredditCanonicalId> newSubscriptions =
@@ -283,7 +283,7 @@ public class RedditSubredditSubscriptionManager {
 						for(final String id : newSubscriptionStrings) {
 							try {
 								newSubscriptions.add(new SubredditCanonicalId(id));
-							} catch(InvalidSubredditNameException e) {
+							} catch(final InvalidSubredditNameException e) {
 								Log.e(TAG, "Ignoring invalid subreddit name " + id, e);
 							}
 						}
@@ -342,8 +342,8 @@ public class RedditSubredditSubscriptionManager {
 		private final SubredditCanonicalId canonicalName;
 
 		protected SubredditActionResponseHandler(
-				AppCompatActivity activity,
-				@RedditAPI.RedditSubredditAction int action,
+				final AppCompatActivity activity,
+				@RedditAPI.RedditSubredditAction final int action,
 				final SubredditCanonicalId canonicalName) {
 			super(activity);
 			this.activity = activity;
@@ -365,16 +365,16 @@ public class RedditSubredditSubscriptionManager {
 		}
 
 		@Override
-		protected void onCallbackException(Throwable t) {
+		protected void onCallbackException(final Throwable t) {
 			BugReportActivity.handleGlobalError(context, t);
 		}
 
 		@Override
 		protected void onFailure(
-				@CacheRequest.RequestFailureType int type,
-				Throwable t,
-				Integer status,
-				String readableMessage) {
+				@CacheRequest.RequestFailureType final int type,
+				final Throwable t,
+				final Integer status,
+				final String readableMessage) {
 
 			if(status != null && status == 404) {
 				// Weirdly, reddit returns a 404 if we were already subscribed/unsubscribed to
@@ -404,7 +404,7 @@ public class RedditSubredditSubscriptionManager {
 		}
 
 		@Override
-		protected void onFailure(APIFailureType type) {
+		protected void onFailure(final APIFailureType type) {
 			onSubscriptionChangeAttemptFailed(canonicalName);
 			final RRError error = General.getGeneralErrorForFailure(context, type);
 			AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
@@ -444,8 +444,8 @@ public class RedditSubredditSubscriptionManager {
 
 		@Override
 		public void operate(
-				SubredditSubscriptionStateChangeListener listener,
-				SubredditSubscriptionChangeType changeType) {
+				final SubredditSubscriptionStateChangeListener listener,
+				final SubredditSubscriptionChangeType changeType) {
 
 			switch(changeType) {
 				case LIST_UPDATED:

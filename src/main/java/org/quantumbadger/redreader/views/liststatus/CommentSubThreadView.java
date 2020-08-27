@@ -34,7 +34,7 @@ public final class CommentSubThreadView extends StatusListItemView {
 	public CommentSubThreadView(
 			final AppCompatActivity activity,
 			final PostCommentListingURL url,
-			int messageRes) {
+			final int messageRes) {
 
 		super(activity);
 

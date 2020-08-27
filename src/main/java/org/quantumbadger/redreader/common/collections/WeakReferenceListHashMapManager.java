@@ -46,7 +46,7 @@ public class WeakReferenceListHashMapManager<K, V> {
 
 	public synchronized void remove(final K key, final V value) {
 
-		WeakReferenceListManager<V> list = mData.get(key);
+		final WeakReferenceListManager<V> list = mData.get(key);
 
 		if(list != null) {
 			list.remove(value);
@@ -57,7 +57,7 @@ public class WeakReferenceListHashMapManager<K, V> {
 			final K key,
 			final WeakReferenceListManager.Operator<V> operator) {
 
-		WeakReferenceListManager<V> list = mData.get(key);
+		final WeakReferenceListManager<V> list = mData.get(key);
 
 		if(list != null) {
 			list.map(operator);
@@ -69,7 +69,7 @@ public class WeakReferenceListHashMapManager<K, V> {
 			final WeakReferenceListManager.ArgOperator<V, A> operator,
 			final A arg) {
 
-		WeakReferenceListManager<V> list = mData.get(key);
+		final WeakReferenceListManager<V> list = mData.get(key);
 
 		if(list != null) {
 			list.map(operator, arg);

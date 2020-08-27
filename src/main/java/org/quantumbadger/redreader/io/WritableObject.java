@@ -28,7 +28,7 @@ public interface WritableObject<K> {
 		public final String key;
 		public final long timestamp;
 
-		public CreationData(String key, long timestamp) {
+		public CreationData(final String key, final long timestamp) {
 			this.key = key;
 			this.timestamp = timestamp;
 		}

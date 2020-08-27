@@ -33,14 +33,14 @@ public final class PermanentCache<K, V extends WritableObject<K>, F>
 	private final UpdatedVersionListenerNotifier<K, V> updatedVersionListenerNotifier
 			= new UpdatedVersionListenerNotifier<>();
 
-	public PermanentCache(CacheDataSource<K, V, F> cacheDataSource) {
+	public PermanentCache(final CacheDataSource<K, V, F> cacheDataSource) {
 		this.cacheDataSource = cacheDataSource;
 	}
 
 	public void performRequest(
-			K key,
-			TimestampBound timestampBound,
-			RequestResponseHandler<V, F> handler) {
+			final K key,
+			final TimestampBound timestampBound,
+			final RequestResponseHandler<V, F> handler) {
 		performRequest(key, timestampBound, handler, null);
 	}
 
@@ -74,13 +74,13 @@ public final class PermanentCache<K, V extends WritableObject<K>, F>
 					keysRemaining,
 					timestampBound,
 					new RequestResponseHandler<HashMap<K, V>, F>() {
-						public void onRequestFailed(F failureReason) {
+						public void onRequestFailed(final F failureReason) {
 							handler.onRequestFailed(failureReason);
 						}
 
 						public void onRequestSuccess(
-								HashMap<K, V> result,
-								long timeCached) {
+								final HashMap<K, V> result,
+								final long timeCached) {
 							cacheResult.putAll(result);
 							handler.onRequestSuccess(
 									cacheResult,
@@ -93,11 +93,11 @@ public final class PermanentCache<K, V extends WritableObject<K>, F>
 		}
 	}
 
-	public synchronized void performWrite(V value) {
+	public synchronized void performWrite(final V value) {
 		put(value, true);
 	}
 
-	public void performWrite(Collection<V> values) {
+	public void performWrite(final Collection<V> values) {
 		put(values, true);
 	}
 
@@ -121,11 +121,11 @@ public final class PermanentCache<K, V extends WritableObject<K>, F>
 				timestampBound,
 				new RequestResponseHandler<V, F>() {
 
-					public void onRequestFailed(F failureReason) {
+					public void onRequestFailed(final F failureReason) {
 						handler.onRequestFailed(failureReason);
 					}
 
-					public void onRequestSuccess(V result, long timeCached) {
+					public void onRequestSuccess(final V result, final long timeCached) {
 						synchronized(PermanentCache.this) {
 							put(result, false);
 							if(updatedVersionListener != null) {
@@ -140,16 +140,16 @@ public final class PermanentCache<K, V extends WritableObject<K>, F>
 	public synchronized void forceUpdate(final K key) {
 		cacheDataSource.performRequest(key, null, new RequestResponseHandler<V, F>() {
 
-			public void onRequestFailed(F failureReason) {
+			public void onRequestFailed(final F failureReason) {
 			}
 
-			public void onRequestSuccess(V result, long timeCached) {
+			public void onRequestSuccess(final V result, final long timeCached) {
 				put(result, false);
 			}
 		});
 	}
 
-	private synchronized void put(final V value, boolean writeDown) {
+	private synchronized void put(final V value, final boolean writeDown) {
 		final CacheEntry oldEntry = cached.get(value.getKey());
 
 		if(oldEntry != null) {
@@ -164,7 +164,7 @@ public final class PermanentCache<K, V extends WritableObject<K>, F>
 		}
 	}
 
-	private synchronized void put(final Collection<V> values, boolean writeDown) {
+	private synchronized void put(final Collection<V> values, final boolean writeDown) {
 
 		for(final V value : values) {
 			final CacheEntry oldEntry = cached.get(value.getKey());
@@ -187,13 +187,13 @@ public final class PermanentCache<K, V extends WritableObject<K>, F>
 		public final WeakReferenceListManager<UpdatedVersionListener<K, V>> listeners;
 
 		private CacheEntry(
-				V data,
-				WeakReferenceListManager<UpdatedVersionListener<K, V>> listeners) {
+				final V data,
+				final WeakReferenceListManager<UpdatedVersionListener<K, V>> listeners) {
 			this.data = data;
 			this.listeners = listeners;
 		}
 
-		private CacheEntry(V data) {
+		private CacheEntry(final V data) {
 			this(data, new WeakReferenceListManager<UpdatedVersionListener<K, V>>());
 		}
 	}

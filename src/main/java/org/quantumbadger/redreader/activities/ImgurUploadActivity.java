@@ -70,7 +70,7 @@ public class ImgurUploadActivity extends BaseActivity {
 	private View mLoadingOverlay;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(final Bundle savedInstanceState) {
 
 		PrefsUtility.applyTheme(this);
 
@@ -236,7 +236,7 @@ public class ImgurUploadActivity extends BaseActivity {
 						General.copyStream(inputStream, output);
 						output.flush();
 
-					} catch(IOException e) {
+					} catch(final IOException e) {
 						throw new RuntimeException(e);
 					}
 
@@ -258,7 +258,7 @@ public class ImgurUploadActivity extends BaseActivity {
 						}
 					});
 
-				} catch(Exception e) {
+				} catch(final Exception e) {
 					General.showResultDialog(
 							ImgurUploadActivity.this,
 							new RRError(

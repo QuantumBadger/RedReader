@@ -60,12 +60,12 @@ public class RRGLRenderableTexturedQuad extends RRGLRenderable {
 		mUVBuffer.put(uvData).position(0);
 	}
 
-	public RRGLRenderableTexturedQuad(RRGLContext glContext, RRGLTexture texture) {
+	public RRGLRenderableTexturedQuad(final RRGLContext glContext, final RRGLTexture texture) {
 		mGLContext = glContext;
 		mTexture = texture;
 	}
 
-	public void setTexture(RRGLTexture newTexture) {
+	public void setTexture(final RRGLTexture newTexture) {
 
 		if(isAdded()) {
 			mTexture.releaseReference();
@@ -91,7 +91,7 @@ public class RRGLRenderableTexturedQuad extends RRGLRenderable {
 	}
 
 	@Override
-	protected void renderInternal(RRGLMatrixStack matrixStack, final long time) {
+	protected void renderInternal(final RRGLMatrixStack matrixStack, final long time) {
 
 		mGLContext.activateProgramTexture();
 

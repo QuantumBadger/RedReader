@@ -39,20 +39,20 @@ public class WritableHashSet implements WritableObject<String>, Iterable<String>
 	@WritableObjectTimestamp
 	private final long timestamp;
 
-	public WritableHashSet(HashSet<String> data, long timestamp, String key) {
+	public WritableHashSet(final HashSet<String> data, final long timestamp, final String key) {
 		this.hashSet = data;
 		this.timestamp = timestamp;
 		this.key = key;
 		serialised = listToEscapedString(hashSet);
 	}
 
-	private WritableHashSet(String serializedData, long timestamp, String key) {
+	private WritableHashSet(final String serializedData, final long timestamp, final String key) {
 		this.timestamp = timestamp;
 		this.key = key;
 		serialised = serializedData;
 	}
 
-	public WritableHashSet(CreationData creationData) {
+	public WritableHashSet(final CreationData creationData) {
 		this.timestamp = creationData.timestamp;
 		this.key = creationData.key;
 	}
@@ -71,7 +71,7 @@ public class WritableHashSet implements WritableObject<String>, Iterable<String>
 		return listToEscapedString(result);
 	}
 
-	public static WritableHashSet unserializeWithMetadata(String raw) {
+	public static WritableHashSet unserializeWithMetadata(final String raw) {
 		final ArrayList<String> data = escapedStringToList(raw);
 		return new WritableHashSet(data.get(0), Long.valueOf(data.get(1)), data.get(2));
 	}

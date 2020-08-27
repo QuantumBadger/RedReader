@@ -28,12 +28,12 @@ public class HtmlRawElementTagSuperscript extends HtmlRawElementTagAttributeChan
 	}
 
 	@Override
-	protected void onStart(@NonNull HtmlTextAttributes activeAttributes) {
+	protected void onStart(@NonNull final HtmlTextAttributes activeAttributes) {
 		activeAttributes.superscript++;
 	}
 
 	@Override
-	protected void onEnd(@NonNull HtmlTextAttributes activeAttributes) {
+	protected void onEnd(@NonNull final HtmlTextAttributes activeAttributes) {
 		activeAttributes.superscript--;
 	}
 }

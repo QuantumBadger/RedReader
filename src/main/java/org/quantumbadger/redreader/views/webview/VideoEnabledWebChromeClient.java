@@ -88,8 +88,8 @@ public class VideoEnabledWebChromeClient extends WebChromeClient implements
 	 */
 	@SuppressWarnings("unused")
 	public VideoEnabledWebChromeClient(
-			View activityNonVideoView,
-			ViewGroup activityVideoView) {
+			final View activityNonVideoView,
+			final ViewGroup activityVideoView) {
 		this.activityNonVideoView = activityNonVideoView;
 		this.activityVideoView = activityVideoView;
 		this.loadingView = null;
@@ -110,9 +110,9 @@ public class VideoEnabledWebChromeClient extends WebChromeClient implements
 	 */
 	@SuppressWarnings("unused")
 	public VideoEnabledWebChromeClient(
-			View activityNonVideoView,
-			ViewGroup activityVideoView,
-			View loadingView) {
+			final View activityNonVideoView,
+			final ViewGroup activityVideoView,
+			final View loadingView) {
 		this.activityNonVideoView = activityNonVideoView;
 		this.activityVideoView = activityVideoView;
 		this.loadingView = loadingView;
@@ -138,10 +138,10 @@ public class VideoEnabledWebChromeClient extends WebChromeClient implements
 	 */
 	@SuppressWarnings("unused")
 	public VideoEnabledWebChromeClient(
-			View activityNonVideoView,
-			ViewGroup activityVideoView,
-			View loadingView,
-			WebViewFixed webView) {
+			final View activityNonVideoView,
+			final ViewGroup activityVideoView,
+			final View loadingView,
+			final WebViewFixed webView) {
 		this.activityNonVideoView = activityNonVideoView;
 		this.activityVideoView = activityVideoView;
 		this.loadingView = loadingView;
@@ -165,16 +165,16 @@ public class VideoEnabledWebChromeClient extends WebChromeClient implements
 	 * @param callback A VideoEnabledWebChromeClient.ToggledFullscreenCallback callback
 	 */
 	@SuppressWarnings("unused")
-	public void setOnToggledFullscreen(ToggledFullscreenCallback callback) {
+	public void setOnToggledFullscreen(final ToggledFullscreenCallback callback) {
 		this.toggledFullscreenCallback = callback;
 	}
 
 	@Override
-	public void onShowCustomView(View view, CustomViewCallback callback) {
+	public void onShowCustomView(final View view, final CustomViewCallback callback) {
 		if(view instanceof FrameLayout) {
 			// A video wants to be shown
-			FrameLayout frameLayout = (FrameLayout)view;
-			View focusedChild = frameLayout.getFocusedChild();
+			final FrameLayout frameLayout = (FrameLayout)view;
+			final View focusedChild = frameLayout.getFocusedChild();
 
 			// Save video related variables
 			this.isVideoFullscreen = true;
@@ -192,7 +192,7 @@ public class VideoEnabledWebChromeClient extends WebChromeClient implements
 
 			if(focusedChild instanceof android.widget.VideoView) {
 				// android.widget.VideoView (typically API level <11)
-				android.widget.VideoView videoView
+				final android.widget.VideoView videoView
 						= (android.widget.VideoView)focusedChild;
 
 				// Handle all the required events
@@ -248,9 +248,9 @@ public class VideoEnabledWebChromeClient extends WebChromeClient implements
 	@Override
 	@SuppressWarnings("deprecation")
 	public void onShowCustomView(
-			View view,
-			int requestedOrientation,
-			CustomViewCallback callback) {
+			final View view,
+			final int requestedOrientation,
+			final CustomViewCallback callback) {
 		onShowCustomView(view, callback);
 	}
 
@@ -300,7 +300,7 @@ public class VideoEnabledWebChromeClient extends WebChromeClient implements
 	// Video will start playing, only called in the case of android.widget.VideoView
 	// (typically API level <11)
 	@Override
-	public void onPrepared(MediaPlayer mp) {
+	public void onPrepared(final MediaPlayer mp) {
 		if(loadingView != null) {
 			loadingView.setVisibility(View.GONE);
 		}
@@ -309,14 +309,14 @@ public class VideoEnabledWebChromeClient extends WebChromeClient implements
 	// Video finished playing, only called in the case of android.widget.VideoView
 	// (typically API level <11)
 	@Override
-	public void onCompletion(MediaPlayer mp) {
+	public void onCompletion(final MediaPlayer mp) {
 		onHideCustomView();
 	}
 
 	// Error while playing video, only called in the case of android.widget.VideoView
 	// (typically API level <11)
 	@Override
-	public boolean onError(MediaPlayer mp, int what, int extra) {
+	public boolean onError(final MediaPlayer mp, final int what, final int extra) {
 		return false; // By returning false, onCompletion() will be called
 	}
 

@@ -84,7 +84,11 @@ public class RedditAPICommentAction {
 		public final String title;
 		public final RedditCommentAction action;
 
-		private RCVMenuItem(Context context, int titleRes, RedditCommentAction action) {
+		private RCVMenuItem(
+				final Context context,
+				final int titleRes,
+				final RedditCommentAction action) {
+
 			this.title = context.getString(titleRes);
 			this.action = action;
 		}
@@ -222,7 +226,7 @@ public class RedditAPICommentAction {
 
 		builder.setItems(menuText, new DialogInterface.OnClickListener() {
 			@Override
-			public void onClick(DialogInterface dialog, int which) {
+			public void onClick(final DialogInterface dialog, final int which) {
 				onActionMenuItemSelected(
 						comment,
 						commentView,
@@ -354,7 +358,7 @@ public class RedditAPICommentAction {
 					final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 					builder.setItems(linksArr, new DialogInterface.OnClickListener() {
 						@Override
-						public void onClick(DialogInterface dialog, int which) {
+						public void onClick(final DialogInterface dialog, final int which) {
 							LinkHandler.onLinkClicked(activity, linksArr[which], false);
 							dialog.dismiss();
 						}
@@ -398,11 +402,11 @@ public class RedditAPICommentAction {
 			}
 
 			case COPY_TEXT: {
-				ClipboardManager clipboardManager =
+				final ClipboardManager clipboardManager =
 						(ClipboardManager)activity.getSystemService(Context.CLIPBOARD_SERVICE);
 				// TODO this currently just dumps the markdown
 				if(clipboardManager != null) {
-					ClipData data = ClipData.newPlainText(
+					final ClipData data = ClipData.newPlainText(
 							null,
 							StringEscapeUtils.unescapeHtml4(comment.body));
 					clipboardManager.setPrimaryClip(data);
@@ -415,10 +419,10 @@ public class RedditAPICommentAction {
 			}
 
 			case COPY_URL: {
-				ClipboardManager clipboardManager =
+				final ClipboardManager clipboardManager =
 						(ClipboardManager)activity.getSystemService(Context.CLIPBOARD_SERVICE);
 				if(clipboardManager != null) {
-					ClipData data = ClipData.newRawUri(
+					final ClipData data = ClipData.newRawUri(
 							null,
 							comment.getContextUrl().context(null).generateNonJsonUri());
 					clipboardManager.setPrimaryClip(data);
@@ -519,7 +523,7 @@ public class RedditAPICommentAction {
 				break;
 		}
 
-		boolean vote = (action == RedditAPI.ACTION_DOWNVOTE
+		final boolean vote = (action == RedditAPI.ACTION_DOWNVOTE
 				| action == RedditAPI.ACTION_UPVOTE
 				| action == RedditAPI.ACTION_UNVOTE);
 

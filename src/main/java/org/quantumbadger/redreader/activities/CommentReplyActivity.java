@@ -77,7 +77,7 @@ public class CommentReplyActivity extends BaseActivity {
 	private static final String COMMENT_TEXT_KEY = "comment_text";
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(final Bundle savedInstanceState) {
 
 		PrefsUtility.applyTheme(this);
 
@@ -137,7 +137,7 @@ public class CommentReplyActivity extends BaseActivity {
 		}
 
 		if(intent != null && intent.hasExtra(PARENT_MARKDOWN_KEY)) {
-			TextView parentMarkdown = layout.findViewById(R.id.comment_parent_text);
+			final TextView parentMarkdown = layout.findViewById(R.id.comment_parent_text);
 			parentMarkdown.setText(intent.getStringExtra(PARENT_MARKDOWN_KEY));
 		}
 
@@ -145,7 +145,7 @@ public class CommentReplyActivity extends BaseActivity {
 				.getAccounts();
 		final ArrayList<String> usernames = new ArrayList<>();
 
-		for(RedditAccount account : accounts) {
+		for(final RedditAccount account : accounts) {
 			if(!account.isAnonymous()) {
 				usernames.add(account.username);
 			}
@@ -167,14 +167,14 @@ public class CommentReplyActivity extends BaseActivity {
 	}
 
 	@Override
-	protected void onSaveInstanceState(Bundle outState) {
+	protected void onSaveInstanceState(final Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putString(COMMENT_TEXT_KEY, textEdit.getText().toString());
 		outState.putString(PARENT_ID_AND_TYPE_KEY, parentIdAndType);
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(final Menu menu) {
 
 		final MenuItem send = menu.add(R.string.comment_reply_send);
 		send.setIcon(R.drawable.ic_action_send_dark);
@@ -186,7 +186,7 @@ public class CommentReplyActivity extends BaseActivity {
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
+	public boolean onOptionsItemSelected(final MenuItem item) {
 
 		if(item.getTitle().equals(getString(R.string.comment_reply_send))) {
 
@@ -258,16 +258,16 @@ public class CommentReplyActivity extends BaseActivity {
 				}
 
 				@Override
-				protected void onCallbackException(Throwable t) {
+				protected void onCallbackException(final Throwable t) {
 					BugReportActivity.handleGlobalError(CommentReplyActivity.this, t);
 				}
 
 				@Override
 				protected void onFailure(
-						@CacheRequest.RequestFailureType int type,
-						Throwable t,
-						Integer status,
-						String readableMessage) {
+						@CacheRequest.RequestFailureType final int type,
+						final Throwable t,
+						final Integer status,
+						final String readableMessage) {
 
 					final RRError error = General.getGeneralErrorForFailure(
 							context,
@@ -310,16 +310,16 @@ public class CommentReplyActivity extends BaseActivity {
 				}
 
 				@Override
-				protected void onCallbackException(Throwable t) {
+				protected void onCallbackException(final Throwable t) {
 					BugReportActivity.handleGlobalError(CommentReplyActivity.this, t);
 				}
 
 				@Override
 				protected void onFailure(
-						@CacheRequest.RequestFailureType int type,
-						Throwable t,
-						Integer status,
-						String readableMessage) {
+						@CacheRequest.RequestFailureType final int type,
+						final Throwable t,
+						final Integer status,
+						final String readableMessage) {
 					Toast.makeText(
 							context,
 							getString(R.string.disable_replies_to_infobox_failed),
@@ -341,7 +341,7 @@ public class CommentReplyActivity extends BaseActivity {
 					this).getAccounts();
 			RedditAccount selectedAccount = null;
 
-			for(RedditAccount account : accounts) {
+			for(final RedditAccount account : accounts) {
 				if(!account.isAnonymous()
 						&& account.username.equalsIgnoreCase(
 						(String)usernameSpinner.getSelectedItem())) {

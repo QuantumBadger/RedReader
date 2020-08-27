@@ -40,7 +40,7 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 public class LinkDetailsView extends FrameLayout {
 
 	public LinkDetailsView(
-			Context context,
+			final Context context,
 			@NonNull final String title,
 			@Nullable final String subtitle) {
 

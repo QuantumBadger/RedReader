@@ -25,7 +25,7 @@ public class TriggerableThread {
 	private InternalTriggerableThread thread;
 	private boolean allowRetrigger = false, shouldRetrigger = false;
 
-	public TriggerableThread(Runnable task, long initialDelay) {
+	public TriggerableThread(final Runnable task, final long initialDelay) {
 		this.task = task;
 		this.initialDelay = initialDelay;
 	}
@@ -63,7 +63,7 @@ public class TriggerableThread {
 			do {
 				try {
 					Thread.sleep(initialDelay);
-				} catch(InterruptedException e) {
+				} catch(final InterruptedException e) {
 					throw new UnexpectedInternalStateException();
 				}
 

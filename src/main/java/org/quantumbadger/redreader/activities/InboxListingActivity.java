@@ -98,7 +98,7 @@ public final class InboxListingActivity extends BaseActivity {
 		private final int mListPosition;
 		private final RedditRenderableInboxItem mItem;
 
-		private InboxItem(int listPosition, RedditRenderableInboxItem item) {
+		private InboxItem(final int listPosition, final RedditRenderableInboxItem item) {
 			this.mListPosition = listPosition;
 			this.mItem = item;
 		}
@@ -109,7 +109,7 @@ public final class InboxListingActivity extends BaseActivity {
 		}
 
 		@Override
-		public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup) {
+		public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup viewGroup) {
 
 			final RedditInboxItemView view
 					= new RedditInboxItemView(InboxListingActivity.this, mTheme);
@@ -125,7 +125,7 @@ public final class InboxListingActivity extends BaseActivity {
 		}
 
 		@Override
-		public void onBindViewHolder(RecyclerView.ViewHolder viewHolder) {
+		public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder) {
 			((RedditInboxItemView)viewHolder.itemView).reset(
 					InboxListingActivity.this,
 					mChangeDataManager,
@@ -143,7 +143,7 @@ public final class InboxListingActivity extends BaseActivity {
 	// TODO load more on scroll to bottom?
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(final Bundle savedInstanceState) {
 
 		PrefsUtility.applyTheme(this);
 		super.onCreate(savedInstanceState);
@@ -331,7 +331,7 @@ public final class InboxListingActivity extends BaseActivity {
 
 					int listPosition = 0;
 
-					for(JsonValue child : children) {
+					for(final JsonValue child : children) {
 
 						final RedditThing thing = child.asObject(RedditThing.class);
 
@@ -379,7 +379,7 @@ public final class InboxListingActivity extends BaseActivity {
 											.getObject("data")
 											.getArray("children");
 
-									for(JsonValue childMsgValue : replies) {
+									for(final JsonValue childMsgValue : replies) {
 										final RedditMessage childMsgRaw
 												= childMsgValue.asObject(RedditThing.class)
 												.asMessage();
@@ -402,7 +402,7 @@ public final class InboxListingActivity extends BaseActivity {
 						}
 					}
 
-				} catch(Throwable t) {
+				} catch(final Throwable t) {
 					notifyFailure(
 							CacheRequest.REQUEST_FAILURE_PARSE,
 							t,

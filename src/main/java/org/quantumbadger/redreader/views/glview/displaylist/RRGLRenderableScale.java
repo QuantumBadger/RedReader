@@ -28,7 +28,7 @@ public class RRGLRenderableScale extends RRGLRenderableRenderHooks {
 		super(entity);
 	}
 
-	public void setScale(float x, float y) {
+	public void setScale(final float x, final float y) {
 		mScaleX = x;
 		mScaleY = y;
 	}

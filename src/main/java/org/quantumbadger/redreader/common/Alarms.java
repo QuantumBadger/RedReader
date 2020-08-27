@@ -45,7 +45,7 @@ public class Alarms {
 		private final Class alarmClass;
 		private final boolean startOnBoot;
 
-		Alarm(long interval, Class alarmClass, boolean startOnBoot) {
+		Alarm(final long interval, final Class alarmClass, final boolean startOnBoot) {
 			this.interval = interval;
 			this.alarmClass = alarmClass;
 			this.startOnBoot = startOnBoot;
@@ -71,16 +71,16 @@ public class Alarms {
 	 * @param context
 	 */
 
-	public static void startAlarm(Alarm alarm, Context context) {
+	public static void startAlarm(final Alarm alarm, final Context context) {
 		if(!alarmMap.containsKey(alarm)) {
-			Intent alarmIntent = new Intent(context, alarm.alarmClass());
-			PendingIntent pendingIntent = PendingIntent.getBroadcast(
+			final Intent alarmIntent = new Intent(context, alarm.alarmClass());
+			final PendingIntent pendingIntent = PendingIntent.getBroadcast(
 					context,
 					0,
 					alarmIntent,
 					0);
 
-			AlarmManager alarmManager
+			final AlarmManager alarmManager
 					= (AlarmManager)(context.getSystemService(Context.ALARM_SERVICE));
 			alarmManager.setInexactRepeating(
 					AlarmManager.RTC,
@@ -99,7 +99,7 @@ public class Alarms {
 	 * @param alarm alarm to stop
 	 */
 
-	public static void stopAlarm(Alarm alarm) {
+	public static void stopAlarm(final Alarm alarm) {
 		if(alarmMap.containsKey(alarm)) {
 			alarmMap.get(alarm).cancel(intentMap.get(alarm));
 			alarmMap.remove(alarm);
@@ -113,8 +113,8 @@ public class Alarms {
 	 * @param context
 	 */
 
-	public static void onBoot(Context context) {
-		for(Alarm alarm : Alarm.values()) {
+	public static void onBoot(final Context context) {
+		for(final Alarm alarm : Alarm.values()) {
 			if(alarm.startOnBoot()) {
 				startAlarm(alarm, context);
 			}

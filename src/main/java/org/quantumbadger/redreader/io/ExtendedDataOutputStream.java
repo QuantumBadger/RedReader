@@ -25,7 +25,7 @@ import java.io.OutputStream;
 
 public class ExtendedDataOutputStream extends DataOutputStream {
 
-	public ExtendedDataOutputStream(OutputStream out) {
+	public ExtendedDataOutputStream(final OutputStream out) {
 		super(out);
 	}
 

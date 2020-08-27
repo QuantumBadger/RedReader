@@ -61,14 +61,14 @@ public class RRGLDisplayListRenderer implements GLSurfaceView.Renderer, Refresha
 	private final RRGLSurfaceView mSurfaceView;
 
 	public RRGLDisplayListRenderer(
-			DisplayListManager displayListManager,
-			RRGLSurfaceView surfaceView) {
+			final DisplayListManager displayListManager,
+			final RRGLSurfaceView surfaceView) {
 		mDisplayListManager = displayListManager;
 		mSurfaceView = surfaceView;
 	}
 
 	@Override
-	public void onSurfaceCreated(GL10 ignore, EGLConfig config) {
+	public void onSurfaceCreated(final GL10 ignore, final EGLConfig config) {
 
 		mGLContext = new RRGLContext(mSurfaceView.getContext());
 		mMatrixStack = new RRGLMatrixStack(mGLContext);
@@ -80,7 +80,7 @@ public class RRGLDisplayListRenderer implements GLSurfaceView.Renderer, Refresha
 	}
 
 	@Override
-	public void onSurfaceChanged(GL10 ignore, int width, int height) {
+	public void onSurfaceChanged(final GL10 ignore, final int width, final int height) {
 
 		mGLContext.setViewport(width, height);
 
@@ -98,7 +98,7 @@ public class RRGLDisplayListRenderer implements GLSurfaceView.Renderer, Refresha
 	private long startTime = -1;
 
 	@Override
-	public void onDrawFrame(GL10 ignore) {
+	public void onDrawFrame(final GL10 ignore) {
 
 		final long time = System.currentTimeMillis();
 

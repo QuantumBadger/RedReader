@@ -55,8 +55,8 @@ public class RedditAPIIndividualSubredditListRequester implements CacheDataSourc
 	private final RedditAccount user;
 
 	public RedditAPIIndividualSubredditListRequester(
-			Context context,
-			RedditAccount user) {
+			final Context context,
+			final RedditAccount user) {
 		this.context = context;
 		this.user = user;
 	}
@@ -180,7 +180,7 @@ public class RedditAPIIndividualSubredditListRequester implements CacheDataSourc
 		) {
 
 			@Override
-			protected void onCallbackException(Throwable t) {
+			protected void onCallbackException(final Throwable t) {
 				handler.onRequestFailed(new SubredditRequestFailure(
 						CacheRequest.REQUEST_FAILURE_PARSE,
 						t,
@@ -200,16 +200,16 @@ public class RedditAPIIndividualSubredditListRequester implements CacheDataSourc
 			@Override
 			protected void onProgress(
 					final boolean authorizationInProgress,
-					long bytesRead,
-					long totalBytes) {
+					final long bytesRead,
+					final long totalBytes) {
 			}
 
 			@Override
 			protected void onFailure(
-					@CacheRequest.RequestFailureType int type,
-					Throwable t,
-					Integer status,
-					String readableMessage) {
+					@CacheRequest.RequestFailureType final int type,
+					final Throwable t,
+					final Integer status,
+					final String readableMessage) {
 				handler.onRequestFailed(new SubredditRequestFailure(
 						type,
 						t,
@@ -220,19 +220,19 @@ public class RedditAPIIndividualSubredditListRequester implements CacheDataSourc
 
 			@Override
 			protected void onSuccess(
-					CacheManager.ReadableCacheFile cacheFile,
-					long timestamp,
-					UUID session,
-					boolean fromCache,
-					String mimetype) {
+					final CacheManager.ReadableCacheFile cacheFile,
+					final long timestamp,
+					final UUID session,
+					final boolean fromCache,
+					final String mimetype) {
 			}
 
 			@Override
 			public void onJsonParseStarted(
-					JsonValue result,
-					long timestamp,
-					UUID session,
-					boolean fromCache) {
+					final JsonValue result,
+					final long timestamp,
+					final UUID session,
+					final boolean fromCache) {
 
 				try {
 
@@ -304,8 +304,8 @@ public class RedditAPIIndividualSubredditListRequester implements CacheDataSourc
 
 									@Override
 									public void onRequestSuccess(
-											WritableHashSet result,
-											long timeCached) {
+											final WritableHashSet result,
+											final long timeCached) {
 										output.addAll(result.toHashset());
 										handler.onRequestSuccess(new WritableHashSet(
 												output,
@@ -336,7 +336,7 @@ public class RedditAPIIndividualSubredditListRequester implements CacheDataSourc
 						}
 					}
 
-				} catch(Exception e) {
+				} catch(final Exception e) {
 					handler.onRequestFailed(new SubredditRequestFailure(
 							CacheRequest.REQUEST_FAILURE_PARSE,
 							e,
@@ -351,20 +351,20 @@ public class RedditAPIIndividualSubredditListRequester implements CacheDataSourc
 	}
 
 	public void performRequest(
-			Collection<RedditSubredditManager.SubredditListType> keys,
-			TimestampBound timestampBound,
-			RequestResponseHandler<
+			final Collection<RedditSubredditManager.SubredditListType> keys,
+			final TimestampBound timestampBound,
+			final RequestResponseHandler<
 					HashMap<RedditSubredditManager.SubredditListType, WritableHashSet>,
 					SubredditRequestFailure> handler) {
 		// TODO batch API? or just make lots of requests and build up a hash map?
 		throw new UnsupportedOperationException();
 	}
 
-	public void performWrite(WritableHashSet value) {
+	public void performWrite(final WritableHashSet value) {
 		throw new UnsupportedOperationException();
 	}
 
-	public void performWrite(Collection<WritableHashSet> values) {
+	public void performWrite(final Collection<WritableHashSet> values) {
 		throw new UnsupportedOperationException();
 	}
 }

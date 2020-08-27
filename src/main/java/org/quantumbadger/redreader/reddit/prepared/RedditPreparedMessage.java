@@ -128,7 +128,7 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 		activity.startActivity(intent);
 	}
 
-	public void handleInboxClick(AppCompatActivity activity) {
+	public void handleInboxClick(final AppCompatActivity activity) {
 		openReplyActivity(activity);
 	}
 

@@ -50,7 +50,7 @@ public class RedditAPIMultiredditListRequester implements CacheDataSource<
 	private final Context context;
 	private final RedditAccount user;
 
-	public RedditAPIMultiredditListRequester(Context context, RedditAccount user) {
+	public RedditAPIMultiredditListRequester(final Context context, final RedditAccount user) {
 		this.context = context;
 		this.user = user;
 	}
@@ -97,7 +97,7 @@ public class RedditAPIMultiredditListRequester implements CacheDataSource<
 		) {
 
 			@Override
-			protected void onCallbackException(Throwable t) {
+			protected void onCallbackException(final Throwable t) {
 				handler.onRequestFailed(new SubredditRequestFailure(
 						CacheRequest.REQUEST_FAILURE_PARSE,
 						t,
@@ -117,16 +117,16 @@ public class RedditAPIMultiredditListRequester implements CacheDataSource<
 			@Override
 			protected void onProgress(
 					final boolean authorizationInProgress,
-					long bytesRead,
-					long totalBytes) {
+					final long bytesRead,
+					final long totalBytes) {
 			}
 
 			@Override
 			protected void onFailure(
-					@RequestFailureType int type,
-					Throwable t,
-					Integer status,
-					String readableMessage) {
+					@RequestFailureType final int type,
+					final Throwable t,
+					final Integer status,
+					final String readableMessage) {
 				handler.onRequestFailed(new SubredditRequestFailure(
 						type,
 						t,
@@ -137,19 +137,19 @@ public class RedditAPIMultiredditListRequester implements CacheDataSource<
 
 			@Override
 			protected void onSuccess(
-					CacheManager.ReadableCacheFile cacheFile,
-					long timestamp,
-					UUID session,
-					boolean fromCache,
-					String mimetype) {
+					final CacheManager.ReadableCacheFile cacheFile,
+					final long timestamp,
+					final UUID session,
+					final boolean fromCache,
+					final String mimetype) {
 			}
 
 			@Override
 			public void onJsonParseStarted(
-					JsonValue result,
-					long timestamp,
-					UUID session,
-					boolean fromCache) {
+					final JsonValue result,
+					final long timestamp,
+					final UUID session,
+					final boolean fromCache) {
 
 				try {
 					final HashSet<String> output = new HashSet<>();
@@ -168,7 +168,7 @@ public class RedditAPIMultiredditListRequester implements CacheDataSource<
 							timestamp,
 							user.getCanonicalUsername()), timestamp);
 
-				} catch(Exception e) {
+				} catch(final Exception e) {
 					handler.onRequestFailed(
 							new SubredditRequestFailure(
 									CacheRequest.REQUEST_FAILURE_PARSE,
@@ -185,17 +185,17 @@ public class RedditAPIMultiredditListRequester implements CacheDataSource<
 
 	@Override
 	public void performRequest(
-			Collection<Key> keys, TimestampBound timestampBound,
-			RequestResponseHandler<HashMap<Key, WritableHashSet>,
+			final Collection<Key> keys, final TimestampBound timestampBound,
+			final RequestResponseHandler<HashMap<Key, WritableHashSet>,
 					SubredditRequestFailure> handler) {
 		throw new UnsupportedOperationException();
 	}
 
-	public void performWrite(WritableHashSet value) {
+	public void performWrite(final WritableHashSet value) {
 		throw new UnsupportedOperationException();
 	}
 
-	public void performWrite(Collection<WritableHashSet> values) {
+	public void performWrite(final Collection<WritableHashSet> values) {
 		throw new UnsupportedOperationException();
 	}
 }

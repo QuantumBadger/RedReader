@@ -107,7 +107,7 @@ public final class ImgurAPIV3 {
 					final JsonBufferedObject outer = result.asObject().getObject("data");
 					listener.onSuccess(AlbumInfo.parseImgurV3(albumUrl, outer));
 
-				} catch(Throwable t) {
+				} catch(final Throwable t) {
 					listener.onFailure(
 							CacheRequest.REQUEST_FAILURE_PARSE,
 							t,
@@ -192,7 +192,7 @@ public final class ImgurAPIV3 {
 					final JsonBufferedObject outer = result.asObject().getObject("data");
 					listener.onSuccess(ImageInfo.parseImgurV3(outer));
 
-				} catch(Throwable t) {
+				} catch(final Throwable t) {
 					listener.onFailure(
 							CacheRequest.REQUEST_FAILURE_PARSE,
 							t,

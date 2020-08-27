@@ -32,7 +32,7 @@ public abstract class HeaderRecyclerAdapter<VH extends RecyclerView.ViewHolder>
 	protected static final int HEADER_SIZE = 1;
 
 	@Override
-	public VH onCreateViewHolder(ViewGroup parent, int viewType) {
+	public VH onCreateViewHolder(final ViewGroup parent, final int viewType) {
 		switch(viewType) {
 			case TYPE_HEADER:
 				return onCreateHeaderItemViewHolder(parent);
@@ -48,7 +48,7 @@ public abstract class HeaderRecyclerAdapter<VH extends RecyclerView.ViewHolder>
 	protected abstract VH onCreateContentItemViewHolder(ViewGroup parent);
 
 	@Override
-	public void onBindViewHolder(VH holder, int position) {
+	public void onBindViewHolder(final VH holder, final int position) {
 		if(position == 0) {
 			onBindHeaderItemViewHolder(holder, position);
 		} else {
@@ -66,7 +66,7 @@ public abstract class HeaderRecyclerAdapter<VH extends RecyclerView.ViewHolder>
 	}
 
 	@Override
-	public int getItemViewType(int position) {
+	public int getItemViewType(final int position) {
 		return position == 0 ? TYPE_HEADER : TYPE_CONTENT;
 	}
 

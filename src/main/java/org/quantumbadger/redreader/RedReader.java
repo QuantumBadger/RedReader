@@ -68,7 +68,7 @@ public class RedReader extends Application {
 						}
 					}
 
-				} catch(Throwable t1) {
+				} catch(final Throwable t1) {
 					Log.e("RedReader", "Exception while writing crash log", t1);
 				}
 

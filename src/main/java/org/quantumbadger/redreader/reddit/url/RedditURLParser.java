@@ -52,7 +52,7 @@ public class RedditURLParser {
 	public @interface PathType {
 	}
 
-	private static boolean isRedditUri(Uri uri) {
+	private static boolean isRedditUri(final Uri uri) {
 
 		if(uri == null || uri.getHost() == null) {
 			return false;
@@ -75,7 +75,7 @@ public class RedditURLParser {
 		return false;
 	}
 
-	public static RedditURL parse(Uri uri) {
+	public static RedditURL parse(final Uri uri) {
 
 		if(uri == null) {
 			return null;
@@ -140,9 +140,9 @@ public class RedditURLParser {
 		return null;
 	}
 
-	public static RedditURL parseProbableCommentListing(Uri uri) {
+	public static RedditURL parseProbableCommentListing(final Uri uri) {
 
-		RedditURL matchURL = parse(uri);
+		final RedditURL matchURL = parse(uri);
 		if(matchURL != null) {
 			return matchURL;
 		}
@@ -150,9 +150,9 @@ public class RedditURLParser {
 		return new UnknownCommentListURL(uri);
 	}
 
-	public static RedditURL parseProbablePostListing(Uri uri) {
+	public static RedditURL parseProbablePostListing(final Uri uri) {
 
-		RedditURL matchURL = parse(uri);
+		final RedditURL matchURL = parse(uri);
 		if(matchURL != null) {
 			return matchURL;
 		}
@@ -194,7 +194,7 @@ public class RedditURLParser {
 			return (UserCommentListingURL)this;
 		}
 
-		public String humanReadableName(Context context, boolean shorter) {
+		public String humanReadableName(final Context context, final boolean shorter) {
 			return humanReadablePath();
 		}
 
@@ -208,7 +208,7 @@ public class RedditURLParser {
 
 			final StringBuilder builder = new StringBuilder();
 
-			for(String pathElement : src.getPathSegments()) {
+			for(final String pathElement : src.getPathSegments()) {
 				if(!pathElement.equals(".json")) {
 					builder.append("/");
 					builder.append(pathElement);

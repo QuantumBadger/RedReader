@@ -60,7 +60,7 @@ public abstract class RRGLRenderable {
 		return false;
 	}
 
-	public void setOverallAlpha(float alpha) {
+	public void setOverallAlpha(final float alpha) {
 		throw new UnsupportedOperationException();
 	}
 }

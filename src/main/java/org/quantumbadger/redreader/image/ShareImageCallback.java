@@ -100,7 +100,7 @@ public class ShareImageCallback implements BaseActivity.PermissionCallback {
 								activity) {
 
 							@Override
-							protected void onCallbackException(Throwable t) {
+							protected void onCallbackException(final Throwable t) {
 								BugReportActivity.handleGlobalError(context, t);
 							}
 
@@ -117,10 +117,10 @@ public class ShareImageCallback implements BaseActivity.PermissionCallback {
 
 							@Override
 							protected void onFailure(
-									@CacheRequest.RequestFailureType int type,
-									Throwable t,
-									Integer status,
-									String readableMessage) {
+									@CacheRequest.RequestFailureType final int type,
+									final Throwable t,
+									final Integer status,
+									final String readableMessage) {
 
 								final RRError error = General.getGeneralErrorForFailure(
 										context,
@@ -133,20 +133,20 @@ public class ShareImageCallback implements BaseActivity.PermissionCallback {
 
 							@Override
 							protected void onProgress(
-									boolean authorizationInProgress,
-									long bytesRead,
-									long totalBytes) {
+									final boolean authorizationInProgress,
+									final long bytesRead,
+									final long totalBytes) {
 							}
 
 							@Override
 							protected void onSuccess(
-									CacheManager.ReadableCacheFile cacheFile,
-									long timestamp,
-									UUID session,
-									boolean fromCache,
-									String mimetype) {
+									final CacheManager.ReadableCacheFile cacheFile,
+									final long timestamp,
+									final UUID session,
+									final boolean fromCache,
+									final String mimetype) {
 
-								String filename
+								final String filename
 										= General.filenameFromString(info.urlOriginal);
 								File dst
 										= new File(Environment.getExternalStoragePublicDirectory(
@@ -164,7 +164,7 @@ public class ShareImageCallback implements BaseActivity.PermissionCallback {
 									}
 								}
 
-								Uri sharedImage = FileProvider.getUriForFile(
+								final Uri sharedImage = FileProvider.getUriForFile(
 										context,
 										"org.quantumbadger.redreader.provider",
 										dst
@@ -182,7 +182,7 @@ public class ShareImageCallback implements BaseActivity.PermissionCallback {
 
 									General.copyFile(cacheFileInputStream, dst);
 
-									Intent shareIntent = new Intent();
+									final Intent shareIntent = new Intent();
 									shareIntent.setAction(Intent.ACTION_SEND);
 									shareIntent.putExtra(
 											Intent.EXTRA_STREAM,
@@ -203,7 +203,7 @@ public class ShareImageCallback implements BaseActivity.PermissionCallback {
 												activity.getString(R.string.action_share)));
 									}
 
-								} catch(IOException e) {
+								} catch(final IOException e) {
 									notifyFailure(
 											CacheRequest.REQUEST_FAILURE_STORAGE,
 											e,

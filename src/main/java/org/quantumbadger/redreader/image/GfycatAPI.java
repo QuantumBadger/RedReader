@@ -104,7 +104,7 @@ public final class GfycatAPI {
 							.getObject("gfyItem");
 					listener.onSuccess(ImageInfo.parseGfycat(outer));
 
-				} catch(Throwable t) {
+				} catch(final Throwable t) {
 					listener.onFailure(
 							CacheRequest.REQUEST_FAILURE_PARSE,
 							t,

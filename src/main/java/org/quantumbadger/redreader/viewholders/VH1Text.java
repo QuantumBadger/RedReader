@@ -29,7 +29,7 @@ public class VH1Text extends RecyclerView.ViewHolder {
 
 	public final TextView text;
 
-	public VH1Text(View itemView) {
+	public VH1Text(final View itemView) {
 		super(itemView);
 
 		text = (TextView)itemView.findViewById(R.id.recycler_item_text);

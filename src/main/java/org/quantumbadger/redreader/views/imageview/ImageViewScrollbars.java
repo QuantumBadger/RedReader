@@ -67,10 +67,10 @@ public class ImageViewScrollbars extends RRGLRenderable {
 	private boolean mIsVisible = true;
 
 	public ImageViewScrollbars(
-			RRGLContext glContext,
-			CoordinateHelper coordinateHelper,
-			int imageResX,
-			int imageResY) {
+			final RRGLContext glContext,
+			final CoordinateHelper coordinateHelper,
+			final int imageResX,
+			final int imageResY) {
 
 		mCoordinateHelper = coordinateHelper;
 		mImageResX = imageResX;
@@ -221,7 +221,7 @@ public class ImageViewScrollbars extends RRGLRenderable {
 		}
 	}
 
-	public synchronized void setResolution(int x, int y) {
+	public synchronized void setResolution(final int x, final int y) {
 		mResX = x;
 		mResY = y;
 	}
@@ -250,7 +250,7 @@ public class ImageViewScrollbars extends RRGLRenderable {
 	}
 
 	@Override
-	protected synchronized void renderInternal(RRGLMatrixStack stack, long time) {
+	protected synchronized void renderInternal(final RRGLMatrixStack stack, final long time) {
 
 		if(mIsVisible && time > mShowUntil) {
 			mCurrentAlpha -= ALPHA_STEP;

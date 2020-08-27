@@ -60,9 +60,9 @@ public final class SettingsFragment extends PreferenceFragment {
 
 		try {
 			resource = R.xml.class.getDeclaredField("prefs_" + panel).getInt(null);
-		} catch(IllegalAccessException e) {
+		} catch(final IllegalAccessException e) {
 			throw new RuntimeException(e);
-		} catch(NoSuchFieldException e) {
+		} catch(final NoSuchFieldException e) {
 			throw new RuntimeException(e);
 		}
 
@@ -131,7 +131,7 @@ public final class SettingsFragment extends PreferenceFragment {
 				R.string.pref_behaviour_comment_min_key
 		};
 
-		for(int pref : listPrefsToUpdate) {
+		for(final int pref : listPrefsToUpdate) {
 
 			final ListPreference listPreference =
 					(ListPreference)findPreference(getString(pref));
@@ -190,7 +190,7 @@ public final class SettingsFragment extends PreferenceFragment {
 		try {
 			pInfo = context.getPackageManager()
 					.getPackageInfo(context.getPackageName(), 0);
-		} catch(PackageManager.NameNotFoundException e) {
+		} catch(final PackageManager.NameNotFoundException e) {
 			throw new RuntimeException(e);
 		}
 
@@ -243,7 +243,7 @@ public final class SettingsFragment extends PreferenceFragment {
 			}
 		}
 
-		Preference cacheLocationPref =
+		final Preference cacheLocationPref =
 				findPreference(getString(R.string.pref_cache_location_key));
 		if(cacheLocationPref != null) {
 			cacheLocationPref.setOnPreferenceClickListener(preference -> {
@@ -282,17 +282,17 @@ public final class SettingsFragment extends PreferenceFragment {
 		final Context context = getActivity();
 		final SharedPreferences prefs =
 				PreferenceManager.getDefaultSharedPreferences(context);
-		String currentStorage = PrefsUtility.pref_cache_location(context, prefs);
+		final String currentStorage = PrefsUtility.pref_cache_location(context, prefs);
 
-		List<File> checkPaths = CacheManager.getCacheDirs(context);
+		final List<File> checkPaths = CacheManager.getCacheDirs(context);
 
 		final List<File> folders = new ArrayList<>(checkPaths.size());
 
-		List<CharSequence> choices = new ArrayList<>(checkPaths.size());
+		final List<CharSequence> choices = new ArrayList<>(checkPaths.size());
 		int selectedIndex = 0;
 
 		for(int i = 0; i < checkPaths.size(); i++) {
-			File dir = checkPaths.get(i);
+			final File dir = checkPaths.get(i);
 			if(dir == null || !dir.exists() || !dir.canRead() || !dir.canWrite()) {
 				continue;
 			}
@@ -302,12 +302,12 @@ public final class SettingsFragment extends PreferenceFragment {
 			}
 
 			String path = dir.getAbsolutePath();
-			long bytes = General.getFreeSpaceAvailable(path);
-			String freeSpace = General.addUnits(bytes);
+			final long bytes = General.getFreeSpaceAvailable(path);
+			final String freeSpace = General.addUnits(bytes);
 			if(!path.endsWith("/")) {
 				path += "/";
 			}
-			String appCachePostfix = BuildConfig.APPLICATION_ID + "/cache/";
+			final String appCachePostfix = BuildConfig.APPLICATION_ID + "/cache/";
 			if(path.endsWith("Android/data/" + appCachePostfix)) {
 				path = path.substring(0, path.length() - appCachePostfix.length() - 14);
 			} else if(path.endsWith(appCachePostfix)) {
@@ -321,9 +321,9 @@ public final class SettingsFragment extends PreferenceFragment {
 				.setSingleChoiceItems(choices.toArray(new CharSequence[choices.size()]),
 						selectedIndex, new DialogInterface.OnClickListener() {
 							@Override
-							public void onClick(DialogInterface dialog, int i) {
+							public void onClick(final DialogInterface dialog, final int i) {
 								dialog.dismiss();
-								String path = folders.get(i).getAbsolutePath();
+								final String path = folders.get(i).getAbsolutePath();
 								PrefsUtility.pref_cache_location(context, prefs, path);
 								updateStorageLocationText(path);
 							}
@@ -332,7 +332,7 @@ public final class SettingsFragment extends PreferenceFragment {
 						R.string.dialog_close,
 						new DialogInterface.OnClickListener() {
 							@Override
-							public void onClick(DialogInterface dialog, int i) {
+							public void onClick(final DialogInterface dialog, final int i) {
 								dialog.dismiss();
 							}
 						})
@@ -340,7 +340,7 @@ public final class SettingsFragment extends PreferenceFragment {
 				.show();
 	}
 
-	private void updateStorageLocationText(String path) {
+	private void updateStorageLocationText(final String path) {
 		findPreference(getString(R.string.pref_cache_location_key)).setSummary(path);
 	}
 }

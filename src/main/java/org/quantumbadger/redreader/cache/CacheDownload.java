@@ -93,7 +93,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 		try {
 			performDownload(mRequest);
 
-		} catch(Throwable t) {
+		} catch(final Throwable t) {
 			BugReportActivity.handleGlobalError(mInitiator.context, t);
 		}
 	}
@@ -182,7 +182,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 								session,
 								mimetype);
 						cacheOs = cacheFile.getOutputStream();
-					} catch(IOException e) {
+					} catch(final IOException e) {
 
 						e.printStackTrace();
 
@@ -248,7 +248,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 							bis.close();
 						}
 
-					} catch(Throwable t) {
+					} catch(final Throwable t) {
 						t.printStackTrace();
 						mInitiator.notifyFailure(
 								CacheRequest.REQUEST_FAILURE_PARSE,
@@ -266,7 +266,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 									session,
 									false,
 									mimetype);
-						} catch(IOException e) {
+						} catch(final IOException e) {
 							if(e.getMessage().contains("ENOSPC")) {
 								mInitiator.notifyFailure(
 										CacheRequest.REQUEST_FAILURE_DISK_SPACE,
@@ -318,7 +318,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 									session,
 									false,
 									mimetype);
-						} catch(IOException e) {
+						} catch(final IOException e) {
 							if(e.getMessage().contains("ENOSPC")) {
 								mInitiator.notifyFailure(
 										CacheRequest.REQUEST_FAILURE_DISK_SPACE,
@@ -334,7 +334,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 							}
 						}
 
-					} catch(IOException e) {
+					} catch(final IOException e) {
 
 						if(e.getMessage() != null && e.getMessage().contains("ENOSPC")) {
 							mInitiator.notifyFailure(
@@ -352,7 +352,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 									"The connection was interrupted");
 						}
 
-					} catch(Throwable t) {
+					} catch(final Throwable t) {
 						t.printStackTrace();
 						mInitiator.notifyFailure(
 								CacheRequest.REQUEST_FAILURE_CONNECTION,

@@ -93,7 +93,7 @@ public final class MarkdownTokenizer {
 		unicodeWhitespace.add(0x3000);
 	}
 
-	public static boolean isUnicodeWhitespace(int codepoint) {
+	public static boolean isUnicodeWhitespace(final int codepoint) {
 		return unicodeWhitespace.contains(codepoint);
 	}
 
@@ -718,7 +718,7 @@ public final class MarkdownTokenizer {
 								codePoint = (int)'⊄';
 							}
 
-						} catch(Throwable ignore) {
+						} catch(final Throwable ignore) {
 							// Ignore this
 						}
 
@@ -803,7 +803,7 @@ public final class MarkdownTokenizer {
 		}
 	}
 
-	private static int findParenClosePos(final IntArrayLengthPair tokens, int startPos) {
+	private static int findParenClosePos(final IntArrayLengthPair tokens, final int startPos) {
 
 		for(int i = startPos; i < tokens.pos; i++) {
 
@@ -826,8 +826,8 @@ public final class MarkdownTokenizer {
 
 	private static int indexOfIgnoreEscaped(
 			final IntArrayLengthPair haystack,
-			int needle,
-			int startPos) {
+			final int needle,
+			final int startPos) {
 		for(int i = startPos; i < haystack.pos; i++) {
 			if(haystack.data[i] == '\\') {
 				i++;
@@ -1045,7 +1045,7 @@ public final class MarkdownTokenizer {
 		return result;
 	}
 
-	private static int fromHex(int ch) {
+	private static int fromHex(final int ch) {
 		if(ch >= '0' && ch <= '9') {
 			return ch - '0';
 		}
@@ -1070,7 +1070,7 @@ public final class MarkdownTokenizer {
 	private static boolean equals(
 			final int[] haystack,
 			final char[] needle,
-			int startInclusive) {
+			final int startInclusive) {
 		for(int i = 0; i < needle.length; i++) {
 			if(haystack[startInclusive + i] != needle[i]) {
 				return false;

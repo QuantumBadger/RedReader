@@ -79,7 +79,7 @@ public class ExoPlayerWrapperView extends FrameLayout {
 
 		mVideoPlayer = ExoPlayerFactory.newSimpleInstance(context, trackSelector);
 
-		PlayerView videoPlayerView = new PlayerView(context);
+		final PlayerView videoPlayerView = new PlayerView(context);
 
 		addView(videoPlayerView);
 
@@ -139,7 +139,7 @@ public class ExoPlayerWrapperView extends FrameLayout {
 					R.drawable.exo_controls_previous,
 					new OnClickListener() {
 						@Override
-						public void onClick(View view) {
+						public void onClick(final View view) {
 							mVideoPlayer.seekTo(0);
 							updateProgress();
 						}
@@ -151,7 +151,7 @@ public class ExoPlayerWrapperView extends FrameLayout {
 					R.drawable.exo_controls_rewind,
 					new OnClickListener() {
 						@Override
-						public void onClick(View view) {
+						public void onClick(final View view) {
 							mVideoPlayer.seekTo(mVideoPlayer.getCurrentPosition() - 3000);
 							updateProgress();
 						}
@@ -166,7 +166,7 @@ public class ExoPlayerWrapperView extends FrameLayout {
 						R.drawable.exo_controls_pause,
 						new OnClickListener() {
 							@Override
-							public void onClick(View view) {
+							public void onClick(final View view) {
 								mVideoPlayer.setPlayWhenReady(!mVideoPlayer.getPlayWhenReady());
 
 								if(mVideoPlayer.getPlayWhenReady()) {
@@ -190,7 +190,7 @@ public class ExoPlayerWrapperView extends FrameLayout {
 					R.drawable.exo_controls_fastforward,
 					new OnClickListener() {
 						@Override
-						public void onClick(View view) {
+						public void onClick(final View view) {
 							mVideoPlayer.seekTo(mVideoPlayer.getCurrentPosition() + 3000);
 							updateProgress();
 						}
@@ -205,7 +205,7 @@ public class ExoPlayerWrapperView extends FrameLayout {
 						R.drawable.ic_zoom_in_dark,
 						new OnClickListener() {
 							@Override
-							public void onClick(View v) {
+							public void onClick(final View v) {
 								if (videoPlayerView.getResizeMode()
 										== AspectRatioFrameLayout.RESIZE_MODE_FIT) {
 									videoPlayerView.setResizeMode(
@@ -240,20 +240,20 @@ public class ExoPlayerWrapperView extends FrameLayout {
 
 			mTimeBarView.addListener(new TimeBar.OnScrubListener() {
 				@Override
-				public void onScrubStart(TimeBar timeBar, long position) {
+				public void onScrubStart(final TimeBar timeBar, final long position) {
 
 				}
 
 				@Override
-				public void onScrubMove(TimeBar timeBar, long position) {
+				public void onScrubMove(final TimeBar timeBar, final long position) {
 					mVideoPlayer.seekTo(position);
 				}
 
 				@Override
 				public void onScrubStop(
-						TimeBar timeBar,
-						long position,
-						boolean canceled) {
+						final TimeBar timeBar,
+						final long position,
+						final boolean canceled) {
 					mVideoPlayer.seekTo(position);
 				}
 			});

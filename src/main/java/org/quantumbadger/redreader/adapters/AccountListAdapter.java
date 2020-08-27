@@ -59,29 +59,29 @@ public class AccountListAdapter extends HeaderRecyclerAdapter<RecyclerView.ViewH
 	}
 
 	@Override
-	protected RecyclerView.ViewHolder onCreateHeaderItemViewHolder(ViewGroup parent) {
-		View v = LayoutInflater.from(parent.getContext())
+	protected RecyclerView.ViewHolder onCreateHeaderItemViewHolder(final ViewGroup parent) {
+		final View v = LayoutInflater.from(parent.getContext())
 				.inflate(R.layout.list_item_1_text, parent, false);
 		return new VH1Text(v);
 	}
 
 	@Override
-	protected RecyclerView.ViewHolder onCreateContentItemViewHolder(ViewGroup parent) {
-		View v = LayoutInflater.from(parent.getContext())
+	protected RecyclerView.ViewHolder onCreateContentItemViewHolder(final ViewGroup parent) {
+		final View v = LayoutInflater.from(parent.getContext())
 				.inflate(R.layout.list_item_1_text, parent, false);
 		return new VH1Text(v);
 	}
 
 	@Override
 	protected void onBindHeaderItemViewHolder(
-			RecyclerView.ViewHolder holder,
-			int position) {
+			final RecyclerView.ViewHolder holder,
+			final int position) {
 		final VH1Text vh = (VH1Text)holder;
 		vh.text.setText(context.getString(R.string.accounts_add));
 		vh.text.setCompoundDrawablesWithIntrinsicBounds(rrIconAdd, null, null, null);
 		holder.itemView.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick(View v) {
+			public void onClick(final View v) {
 				final Intent loginIntent = new Intent(context, OAuthLoginActivity.class);
 				fragment.startActivityForResult(loginIntent, 123);
 			}
@@ -90,7 +90,7 @@ public class AccountListAdapter extends HeaderRecyclerAdapter<RecyclerView.ViewH
 
 	@Override
 	protected void onBindContentItemViewHolder(
-			RecyclerView.ViewHolder holder,
+			final RecyclerView.ViewHolder holder,
 			final int position) {
 		final VH1Text vh = (VH1Text)holder;
 		final RedditAccount account = accounts.get(position);
@@ -121,7 +121,7 @@ public class AccountListAdapter extends HeaderRecyclerAdapter<RecyclerView.ViewH
 
 		vh.itemView.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick(View v) {
+			public void onClick(final View v) {
 				final RedditAccount account = accounts.get(position);
 				final String[] items = account.isAnonymous()
 						? new String[] {context.getString(R.string.accounts_setactive)}
@@ -134,7 +134,7 @@ public class AccountListAdapter extends HeaderRecyclerAdapter<RecyclerView.ViewH
 
 				builder.setItems(items, new DialogInterface.OnClickListener() {
 					@Override
-					public void onClick(DialogInterface dialog, int which) {
+					public void onClick(final DialogInterface dialog, final int which) {
 						final String selected = items[which];
 
 						if(selected.equals(context.getString(R.string.accounts_setactive))) {

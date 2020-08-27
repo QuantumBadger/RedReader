@@ -177,11 +177,11 @@ public class PostListingActivity extends RefreshableActivity
 			SubredditPostListURL url = SubredditPostListURL.parse(controller.getUri());
 			if(url != null && url.type == SubredditPostListURL.Type.RANDOM) {
 				try {
-					String newSubreddit
+					final String newSubreddit
 							= RedditSubreddit.stripRPrefix(fragment.getSubreddit().url);
 					url = url.changeSubreddit(newSubreddit);
 					controller = new PostListingController(url, this);
-				} catch(InvalidSubredditNameException e) {
+				} catch(final InvalidSubredditNameException e) {
 					throw new RuntimeException(e);
 				}
 			}
@@ -223,7 +223,7 @@ public class PostListingActivity extends RefreshableActivity
 						PreferenceManager.getDefaultSharedPreferences(this),
 						fragment.getSubreddit().getCanonicalId());
 
-			} catch(InvalidSubredditNameException e) {
+			} catch(final InvalidSubredditNameException e) {
 				subredditPinState = null;
 				subredditBlockedState = null;
 			}
@@ -335,7 +335,7 @@ public class PostListingActivity extends RefreshableActivity
 
 		DialogUtils.showSearchDialog(activity, new DialogUtils.OnSearchListener() {
 			@Override
-			public void onSearch(@Nullable String query) {
+			public void onSearch(@Nullable final String query) {
 				if(query == null) {
 					return;
 				}
@@ -395,7 +395,7 @@ public class PostListingActivity extends RefreshableActivity
 					PreferenceManager.getDefaultSharedPreferences(this),
 					fragment.getSubreddit().getCanonicalId());
 
-		} catch(InvalidSubredditNameException e) {
+		} catch(final InvalidSubredditNameException e) {
 			throw new RuntimeException(e);
 		}
 
@@ -415,7 +415,7 @@ public class PostListingActivity extends RefreshableActivity
 					PreferenceManager.getDefaultSharedPreferences(this),
 					fragment.getSubreddit().getCanonicalId());
 
-		} catch(InvalidSubredditNameException e) {
+		} catch(final InvalidSubredditNameException e) {
 			throw new RuntimeException(e);
 		}
 
@@ -434,7 +434,7 @@ public class PostListingActivity extends RefreshableActivity
 					PreferenceManager.getDefaultSharedPreferences(this),
 					fragment.getSubreddit().getCanonicalId());
 
-		} catch(InvalidSubredditNameException e) {
+		} catch(final InvalidSubredditNameException e) {
 			throw new RuntimeException(e);
 		}
 
@@ -453,23 +453,26 @@ public class PostListingActivity extends RefreshableActivity
 					PreferenceManager.getDefaultSharedPreferences(this),
 					fragment.getSubreddit().getCanonicalId());
 
-		} catch(InvalidSubredditNameException e) {
+		} catch(final InvalidSubredditNameException e) {
 			throw new RuntimeException(e);
 		}
 
 		invalidateOptionsMenu();
 	}
 
-	public void onSessionSelected(UUID session, SessionChangeType type) {
+	public void onSessionSelected(final UUID session, final SessionChangeType type) {
 		controller.setSession(session);
 		requestRefresh(RefreshableFragment.POSTS, false);
 	}
 
-	public void onSessionRefreshSelected(SessionChangeType type) {
+	public void onSessionRefreshSelected(final SessionChangeType type) {
 		onRefreshPosts();
 	}
 
-	public void onSessionChanged(UUID session, SessionChangeType type, long timestamp) {
+	public void onSessionChanged(
+			final UUID session,
+			final SessionChangeType type,
+			final long timestamp) {
 		controller.setSession(session);
 	}
 

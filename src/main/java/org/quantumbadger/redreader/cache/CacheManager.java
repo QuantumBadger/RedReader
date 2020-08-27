@@ -104,7 +104,7 @@ public final class CacheManager {
 
 		try {
 			return Long.parseLong(fileSplit[0]);
-		} catch(Exception e) {
+		} catch(final Exception e) {
 			return null;
 		}
 	}
@@ -141,7 +141,7 @@ public final class CacheManager {
 		}
 	}
 
-	public static List<File> getCacheDirs(Context context) {
+	public static List<File> getCacheDirs(final Context context) {
 
 		final ArrayList<File> dirs = new ArrayList<>();
 
@@ -166,8 +166,8 @@ public final class CacheManager {
 	}
 
 	public void pruneTemp() {
-		List<File> dirs = getCacheDirs(context);
-		for(File dir : dirs) {
+		final List<File> dirs = getCacheDirs(context);
+		for(final File dir : dirs) {
 			pruneTemp(dir);
 		}
 	}
@@ -178,8 +178,8 @@ public final class CacheManager {
 
 			final HashSet<Long> currentFiles = new HashSet<>(128);
 
-			List<File> dirs = getCacheDirs(context);
-			for(File dir : dirs) {
+			final List<File> dirs = getCacheDirs(context);
+			for(final File dir : dirs) {
 				getCacheFileList(dir, currentFiles);
 			}
 
@@ -203,7 +203,7 @@ public final class CacheManager {
 				}
 			}
 
-		} catch(Throwable t) {
+		} catch(final Throwable t) {
 			BugReportActivity.handleGlobalError(context, t);
 		}
 
@@ -217,7 +217,7 @@ public final class CacheManager {
 		requests.put(request);
 	}
 
-	public LinkedList<CacheEntry> getSessions(URI url, RedditAccount user) {
+	public LinkedList<CacheEntry> getSessions(final URI url, final RedditAccount user) {
 		return dbManager.select(url, user.username, null);
 	}
 
@@ -288,7 +288,7 @@ public final class CacheManager {
 				try {
 					os.flush();
 					os.close();
-				} catch(IOException e) {
+				} catch(final IOException e) {
 					Log.e("getReadableCacheFile", "Error closing " + cacheFileId);
 					throw e;
 				}
@@ -332,8 +332,8 @@ public final class CacheManager {
 	}
 
 	private File getExistingCacheFile(final long id) {
-		List<File> dirs = getCacheDirs(context);
-		for(File dir : dirs) {
+		final List<File> dirs = getCacheDirs(context);
+		for(final File dir : dirs) {
 			final File f = new File(dir, id + ext);
 			if(f.exists()) {
 				return f;
@@ -382,7 +382,7 @@ public final class CacheManager {
 					handleRequest(request);
 				}
 
-			} catch(InterruptedException e) {
+			} catch(final InterruptedException e) {
 				throw new RuntimeException(e);
 			}
 		}
@@ -520,7 +520,7 @@ public final class CacheManager {
 								value.buildInThisThread();
 							}
 
-						} catch(Throwable t) {
+						} catch(final Throwable t) {
 
 							dbManager.delete(entry.id);
 

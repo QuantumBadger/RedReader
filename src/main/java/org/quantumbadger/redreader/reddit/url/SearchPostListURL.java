@@ -36,12 +36,12 @@ public class SearchPostListURL extends PostListingURL {
 	public final String before, after;
 
 	SearchPostListURL(
-			String subreddit,
-			String query,
-			PostSort order,
-			Integer limit,
-			String before,
-			String after) {
+			final String subreddit,
+			final String query,
+			final PostSort order,
+			final Integer limit,
+			final String before,
+			final String after) {
 		this.subreddit = subreddit;
 		this.query = query;
 		this.order = order;
@@ -51,15 +51,15 @@ public class SearchPostListURL extends PostListingURL {
 	}
 
 	SearchPostListURL(
-			String subreddit,
-			String query,
-			Integer limit,
-			String before,
-			String after) {
+			final String subreddit,
+			final String query,
+			final Integer limit,
+			final String before,
+			final String after) {
 		this(subreddit, query, PostSort.RELEVANCE, limit, before, after);
 	}
 
-	public static SearchPostListURL build(String subreddit, String query) {
+	public static SearchPostListURL build(String subreddit, final String query) {
 		if(subreddit != null) {
 			while(subreddit.startsWith("/")) {
 				subreddit = subreddit.substring(1);
@@ -72,23 +72,23 @@ public class SearchPostListURL extends PostListingURL {
 	}
 
 	@Override
-	public PostListingURL after(String after) {
+	public PostListingURL after(final String after) {
 		return new SearchPostListURL(subreddit, query, order, limit, before, after);
 	}
 
 	@Override
-	public PostListingURL limit(Integer limit) {
+	public PostListingURL limit(final Integer limit) {
 		return new SearchPostListURL(subreddit, query, order, limit, before, after);
 	}
 
-	public SearchPostListURL sort(PostSort newOrder) {
+	public SearchPostListURL sort(final PostSort newOrder) {
 		return new SearchPostListURL(subreddit, query, newOrder, limit, before, after);
 	}
 
 	@Override
 	public Uri generateJsonUri() {
 
-		Uri.Builder builder = new Uri.Builder();
+		final Uri.Builder builder = new Uri.Builder();
 		builder.scheme(Constants.Reddit.getScheme())
 				.authority(Constants.Reddit.getDomain());
 
@@ -166,7 +166,7 @@ public class SearchPostListURL extends PostListingURL {
 			} else if(parameterKey.equalsIgnoreCase("limit")) {
 				try {
 					limit = Integer.parseInt(uri.getQueryParameter(parameterKey));
-				} catch(Throwable ignored) {
+				} catch(final Throwable ignored) {
 				}
 
 			} else if(parameterKey.equalsIgnoreCase("sort")) {
@@ -237,7 +237,7 @@ public class SearchPostListURL extends PostListingURL {
 	}
 
 	@Override
-	public String humanReadableName(Context context, boolean shorter) {
+	public String humanReadableName(final Context context, final boolean shorter) {
 
 		if(shorter) {
 			return context.getString(R.string.search_results_short);

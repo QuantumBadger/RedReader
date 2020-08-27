@@ -171,8 +171,8 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 	public void onSearchComments() {
 		DialogUtils.showSearchDialog(this, new DialogUtils.OnSearchListener() {
 			@Override
-			public void onSearch(@Nullable String query) {
-				Intent searchIntent = getIntent();
+			public void onSearch(@Nullable final String query) {
+				final Intent searchIntent = getIntent();
 				searchIntent.putExtra(EXTRA_SEARCH_STRING, query);
 				startActivity(searchIntent);
 			}

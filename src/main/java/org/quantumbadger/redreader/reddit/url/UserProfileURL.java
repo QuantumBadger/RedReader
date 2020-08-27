@@ -29,11 +29,11 @@ public class UserProfileURL extends RedditURLParser.RedditURL {
 
 	public final String username;
 
-	public UserProfileURL(String username) {
+	public UserProfileURL(final String username) {
 		this.username = username;
 	}
 
-	public static UserProfileURL parse(Uri uri) {
+	public static UserProfileURL parse(final Uri uri) {
 
 		final String[] pathSegments;
 		{
@@ -75,7 +75,7 @@ public class UserProfileURL extends RedditURLParser.RedditURL {
 	@Override
 	public Uri generateJsonUri() {
 
-		Uri.Builder builder = new Uri.Builder();
+		final Uri.Builder builder = new Uri.Builder();
 		builder.scheme(Constants.Reddit.getScheme())
 				.authority(Constants.Reddit.getDomain());
 
@@ -94,7 +94,7 @@ public class UserProfileURL extends RedditURLParser.RedditURL {
 	}
 
 	@Override
-	public String humanReadableName(Context context, boolean shorter) {
+	public String humanReadableName(final Context context, final boolean shorter) {
 		return username;
 	}
 }

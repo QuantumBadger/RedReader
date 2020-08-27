@@ -158,11 +158,11 @@ public class WebViewFragment extends Fragment
 		final FrameLayout fullscreenViewFrame
 				= (FrameLayout)outer.findViewById(R.id.web_view_fragment_fullscreen_frame);
 
-		VideoEnabledWebChromeClient chromeClient = new VideoEnabledWebChromeClient(
+		final VideoEnabledWebChromeClient chromeClient = new VideoEnabledWebChromeClient(
 				loadingViewFrame,
 				fullscreenViewFrame) {
 			@Override
-			public void onProgressChanged(WebView view, final int newProgress) {
+			public void onProgressChanged(final WebView view, final int newProgress) {
 
 				super.onProgressChanged(view, newProgress);
 
@@ -182,7 +182,7 @@ public class WebViewFragment extends Fragment
 			// Your code to handle the full-screen change, for example showing
 			// and hiding the title bar. Example:
 			if(fullscreen) {
-				WindowManager.LayoutParams attrs = getActivity().getWindow()
+				final WindowManager.LayoutParams attrs = getActivity().getWindow()
 						.getAttributes();
 				attrs.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
 				attrs.flags |= WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
@@ -195,7 +195,7 @@ public class WebViewFragment extends Fragment
 							.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
 				}
 			} else {
-				WindowManager.LayoutParams attrs = getActivity().getWindow()
+				final WindowManager.LayoutParams attrs = getActivity().getWindow()
 						.getAttributes();
 				//only re-enable status bar if there is no contradicting preference set
 				if(!PrefsUtility.pref_appearance_hide_android_status(
@@ -221,10 +221,10 @@ public class WebViewFragment extends Fragment
 			@Override
 			public void onDownloadStart(
 					final String url,
-					String userAgent,
-					String contentDisposition,
-					String mimetype,
-					long contentLength) {
+					final String userAgent,
+					final String contentDisposition,
+					final String mimetype,
+					final long contentLength) {
 				{
 					new AlertDialog.Builder(mActivity)
 							.setTitle(R.string.download_link_title)
@@ -232,7 +232,7 @@ public class WebViewFragment extends Fragment
 							.setPositiveButton(
 									android.R.string.yes,
 									(dialog, which) -> {
-										Intent i = new Intent(Intent.ACTION_VIEW);
+										final Intent i = new Intent(Intent.ACTION_VIEW);
 										i.setData(Uri.parse(url));
 										getContext().startActivity(i);
 										mActivity.onBackPressed(); //get back from internal browser
@@ -334,7 +334,7 @@ public class WebViewFragment extends Fragment
 			}
 
 			@Override
-			public void onPageStarted(WebView view, String url, Bitmap favicon) {
+			public void onPageStarted(final WebView view, final String url, final Bitmap favicon) {
 				super.onPageStarted(view, url, favicon);
 
 				if(mUrl != null && url != null) {
@@ -395,9 +395,9 @@ public class WebViewFragment extends Fragment
 
 			@Override
 			public void doUpdateVisitedHistory(
-					WebView view,
-					String url,
-					boolean isReload) {
+					final WebView view,
+					final String url,
+					final boolean isReload) {
 				super.doUpdateVisitedHistory(view, url, isReload);
 			}
 		});
@@ -413,7 +413,7 @@ public class WebViewFragment extends Fragment
 					mActivity,
 					new BezelSwipeOverlay.BezelSwipeListener() {
 						@Override
-						public boolean onSwipe(@BezelSwipeOverlay.SwipeEdge int edge) {
+						public boolean onSwipe(@BezelSwipeOverlay.SwipeEdge final int edge) {
 
 							toolbarOverlay.setContents(post.generateToolbar(
 									mActivity,

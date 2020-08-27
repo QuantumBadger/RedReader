@@ -104,7 +104,7 @@ public final class DeviantArtAPI {
 					final JsonBufferedObject outer = result.asObject();
 					listener.onSuccess(ImageInfo.parseDeviantArt(outer));
 
-				} catch(Throwable t) {
+				} catch(final Throwable t) {
 					listener.onFailure(
 							CacheRequest.REQUEST_FAILURE_PARSE,
 							t,

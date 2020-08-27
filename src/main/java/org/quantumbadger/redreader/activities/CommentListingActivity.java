@@ -217,16 +217,20 @@ public class CommentListingActivity extends RefreshableActivity
 		return super.onOptionsItemSelected(item);
 	}
 
-	public void onSessionRefreshSelected(SessionChangeType type) {
+	public void onSessionRefreshSelected(final SessionChangeType type) {
 		onRefreshComments();
 	}
 
-	public void onSessionSelected(UUID session, SessionChangeType type) {
+	public void onSessionSelected(final UUID session, final SessionChangeType type) {
 		controller.setSession(session);
 		requestRefresh(RefreshableFragment.COMMENTS, false);
 	}
 
-	public void onSessionChanged(UUID session, SessionChangeType type, long timestamp) {
+	public void onSessionChanged(
+			final UUID session,
+			final SessionChangeType type,
+			final long timestamp) {
+
 		Log.i(
 				TAG,
 				type.name() + " session changed to " + (session != null

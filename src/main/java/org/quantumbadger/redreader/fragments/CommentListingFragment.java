@@ -318,7 +318,7 @@ public class CommentListingFragment extends RRFragment
 				context,
 				new BezelSwipeOverlay.BezelSwipeListener() {
 					@Override
-					public boolean onSwipe(@BezelSwipeOverlay.SwipeEdge int edge) {
+					public boolean onSwipe(@BezelSwipeOverlay.SwipeEdge final int edge) {
 
 						if(mPost == null) {
 							return false;
@@ -563,14 +563,14 @@ public class CommentListingFragment extends RRFragment
 				paddingLayout.addView(collapsedView);
 				paddingLayout.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
 
-				PrefsUtility.SelfpostAction actionOnClick
+				final PrefsUtility.SelfpostAction actionOnClick
 						= PrefsUtility.pref_behaviour_self_post_tap_actions(
 						context,
 						PreferenceManager.getDefaultSharedPreferences(context));
 				if(actionOnClick == PrefsUtility.SelfpostAction.COLLAPSE) {
 					paddingLayout.setOnClickListener(new View.OnClickListener() {
 						@Override
-						public void onClick(View v) {
+						public void onClick(final View v) {
 							if(selfText.getVisibility() == View.GONE) {
 								selfText.setVisibility(View.VISIBLE);
 								collapsedView.setVisibility(View.GONE);
@@ -585,7 +585,7 @@ public class CommentListingFragment extends RRFragment
 
 				paddingLayout.setOnLongClickListener(new View.OnLongClickListener() {
 					@Override
-					public boolean onLongClick(View v) {
+					public boolean onLongClick(final View v) {
 						RedditPreparedPost.showActionMenu(getActivity(), mPost);
 						return true;
 					}
@@ -703,7 +703,7 @@ public class CommentListingFragment extends RRFragment
 	}
 
 	@Override
-	public void onCreateOptionsMenu(Menu menu) {
+	public void onCreateOptionsMenu(final Menu menu) {
 
 		final Map<OptionsMenuUtility.AppbarItemsPref, Integer> appbarItemsPrefs =
 				PrefsUtility.pref_menus_appbar_items(
@@ -733,7 +733,7 @@ public class CommentListingFragment extends RRFragment
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
+	public boolean onOptionsItemSelected(final MenuItem item) {
 
 		if(item.getTitle() != null
 				&& item.getTitle()

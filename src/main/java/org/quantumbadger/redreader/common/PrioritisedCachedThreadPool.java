@@ -30,12 +30,12 @@ public class PrioritisedCachedThreadPool {
 
 	private int mRunningThreads, mIdleThreads;
 
-	public PrioritisedCachedThreadPool(int threads, String threadName) {
+	public PrioritisedCachedThreadPool(final int threads, final String threadName) {
 		mMaxThreads = threads;
 		mThreadName = threadName;
 	}
 
-	public void add(Task task) {
+	public void add(final Task task) {
 
 		synchronized(mTasks) {
 			mTasks.add(task);
@@ -50,7 +50,7 @@ public class PrioritisedCachedThreadPool {
 
 	public static abstract class Task {
 
-		public boolean isHigherPriorityThan(Task o) {
+		public boolean isHigherPriorityThan(final Task o) {
 			return getPrimaryPriority() < o.getPrimaryPriority()
 					|| getSecondaryPriority() < o.getSecondaryPriority();
 		}
@@ -79,7 +79,7 @@ public class PrioritisedCachedThreadPool {
 
 						try {
 							mTasks.wait(30000);
-						} catch(InterruptedException e) {
+						} catch(final InterruptedException e) {
 							throw new RuntimeException(e);
 						} finally {
 							mIdleThreads--;

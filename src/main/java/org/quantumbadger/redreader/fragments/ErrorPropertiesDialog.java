@@ -73,12 +73,12 @@ public final class ErrorPropertiesDialog extends PropertiesDialog {
 	}
 
 	@Override
-	protected String getTitle(Context context) {
+	protected String getTitle(final Context context) {
 		return context.getString(R.string.props_error_title);
 	}
 
 	@Override
-	protected void prepare(AppCompatActivity context, LinearLayout items) {
+	protected void prepare(final AppCompatActivity context, final LinearLayout items) {
 
 		mContext = context;
 

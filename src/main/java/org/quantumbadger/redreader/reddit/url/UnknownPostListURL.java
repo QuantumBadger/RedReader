@@ -23,19 +23,19 @@ public class UnknownPostListURL extends PostListingURL {
 
 	private final Uri uri;
 
-	UnknownPostListURL(Uri uri) {
+	UnknownPostListURL(final Uri uri) {
 		this.uri = uri;
 	}
 
 	@Override
-	public PostListingURL after(String after) {
+	public PostListingURL after(final String after) {
 		return new UnknownPostListURL(uri.buildUpon()
 				.appendQueryParameter("after", after)
 				.build());
 	}
 
 	@Override
-	public PostListingURL limit(Integer limit) {
+	public PostListingURL limit(final Integer limit) {
 		return new UnknownPostListURL(uri.buildUpon()
 				.appendQueryParameter(
 						"limit",

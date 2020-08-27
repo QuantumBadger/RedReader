@@ -34,7 +34,7 @@ public class MultiredditPostListURL extends PostListingURL {
 	public static RedditURLParser.RedditURL getMultireddit(
 			@NonNull final String name) {
 
-		Uri.Builder builder = new Uri.Builder();
+		final Uri.Builder builder = new Uri.Builder();
 		builder.scheme(Constants.Reddit.getScheme())
 				.authority(Constants.Reddit.getDomain());
 
@@ -48,7 +48,7 @@ public class MultiredditPostListURL extends PostListingURL {
 			@NonNull final String username,
 			@NonNull final String name) {
 
-		Uri.Builder builder = new Uri.Builder();
+		final Uri.Builder builder = new Uri.Builder();
 		builder.scheme(Constants.Reddit.getScheme())
 				.authority(Constants.Reddit.getDomain());
 
@@ -83,15 +83,15 @@ public class MultiredditPostListURL extends PostListingURL {
 		this.after = after;
 	}
 
-	public MultiredditPostListURL after(String newAfter) {
+	public MultiredditPostListURL after(final String newAfter) {
 		return new MultiredditPostListURL(username, name, order, limit, before, newAfter);
 	}
 
-	public MultiredditPostListURL limit(Integer newLimit) {
+	public MultiredditPostListURL limit(final Integer newLimit) {
 		return new MultiredditPostListURL(username, name, order, newLimit, before, after);
 	}
 
-	public MultiredditPostListURL sort(PostSort newOrder) {
+	public MultiredditPostListURL sort(final PostSort newOrder) {
 		return new MultiredditPostListURL(username, name, newOrder, limit, before, after);
 	}
 
@@ -102,7 +102,7 @@ public class MultiredditPostListURL extends PostListingURL {
 	@Override
 	public Uri generateJsonUri() {
 
-		Uri.Builder builder = new Uri.Builder();
+		final Uri.Builder builder = new Uri.Builder();
 		builder.scheme(Constants.Reddit.getScheme())
 				.authority(Constants.Reddit.getDomain());
 
@@ -159,7 +159,7 @@ public class MultiredditPostListURL extends PostListingURL {
 			} else if(parameterKey.equalsIgnoreCase("limit")) {
 				try {
 					limit = Integer.parseInt(uri.getQueryParameter(parameterKey));
-				} catch(Throwable ignored) {
+				} catch(final Throwable ignored) {
 				}
 
 			}
@@ -236,7 +236,7 @@ public class MultiredditPostListURL extends PostListingURL {
 	@Override
 	public String humanReadablePath() {
 
-		String path = super.humanReadablePath();
+		final String path = super.humanReadablePath();
 
 		if(order == null) {
 			return path;
@@ -257,7 +257,7 @@ public class MultiredditPostListURL extends PostListingURL {
 	}
 
 	@Override
-	public String humanReadableName(Context context, boolean shorter) {
+	public String humanReadableName(final Context context, final boolean shorter) {
 
 		if(username == null) {
 			return name;

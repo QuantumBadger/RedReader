@@ -70,7 +70,7 @@ public class UserProfileDialog extends PropertiesDialog {
 	}
 
 	@Override
-	protected String getTitle(Context context) {
+	protected String getTitle(final Context context) {
 		return username;
 	}
 
@@ -100,7 +100,7 @@ public class UserProfileDialog extends PropertiesDialog {
 					}
 
 					@Override
-					protected void onSuccess(final RedditUser user, long timestamp) {
+					protected void onSuccess(final RedditUser user, final long timestamp) {
 
 						AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 
@@ -128,11 +128,11 @@ public class UserProfileDialog extends PropertiesDialog {
 							commentKarma.setText(String.valueOf(user.comment_karma));
 
 							linkKarmaLayout.setOnLongClickListener(v -> {
-								ClipboardManager clipboardManager
+								final ClipboardManager clipboardManager
 										= (ClipboardManager)context.getSystemService(
 										Context.CLIPBOARD_SERVICE);
 								if(clipboardManager != null) {
-									ClipData data = ClipData.newPlainText(
+									final ClipData data = ClipData.newPlainText(
 											context.getString(R.string.karma_link),
 											linkKarma.getText());
 									clipboardManager.setPrimaryClip(data);
@@ -144,11 +144,11 @@ public class UserProfileDialog extends PropertiesDialog {
 								return true;
 							});
 							commentKarmaLayout.setOnLongClickListener(v -> {
-								ClipboardManager clipboardManager
+								final ClipboardManager clipboardManager
 										= (ClipboardManager)context.getSystemService(
 										Context.CLIPBOARD_SERVICE);
 								if(clipboardManager != null) {
-									ClipData data = ClipData.newPlainText(
+									final ClipData data = ClipData.newPlainText(
 											context.getString(R.string.karma_comment),
 											commentKarma.getText());
 									clipboardManager.setPrimaryClip(data);
@@ -218,7 +218,7 @@ public class UserProfileDialog extends PropertiesDialog {
 							commentsButton.setText(R.string.userprofile_viewcomments);
 							commentsButton.setOnClickListener(new View.OnClickListener() {
 								@Override
-								public void onClick(View v) {
+								public void onClick(final View v) {
 									LinkHandler.onLinkClicked(
 											context,
 											Constants.Reddit.getUri("/user/"
@@ -237,7 +237,7 @@ public class UserProfileDialog extends PropertiesDialog {
 							postsButton.setText(R.string.userprofile_viewposts);
 							postsButton.setOnClickListener(new View.OnClickListener() {
 								@Override
-								public void onClick(View v) {
+								public void onClick(final View v) {
 									LinkHandler.onLinkClicked(
 											context,
 											UserPostListingURL.getSubmitted(username)
@@ -257,7 +257,7 @@ public class UserProfileDialog extends PropertiesDialog {
 								pmButton.setText(R.string.userprofile_pm);
 								pmButton.setOnClickListener(new View.OnClickListener() {
 									@Override
-									public void onClick(View v) {
+									public void onClick(final View v) {
 										final Intent intent = new Intent(
 												context,
 												PMSendActivity.class);
@@ -274,7 +274,7 @@ public class UserProfileDialog extends PropertiesDialog {
 					}
 
 					@Override
-					protected void onCallbackException(Throwable t) {
+					protected void onCallbackException(final Throwable t) {
 						BugReportActivity.handleGlobalError(context, t);
 					}
 

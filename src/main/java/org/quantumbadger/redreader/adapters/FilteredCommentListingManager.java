@@ -58,7 +58,7 @@ public class FilteredCommentListingManager extends RedditListingManager {
 
 		} else {
 			searchComments = new ArrayList<>();
-			for(RedditCommentListItem comment : comments) {
+			for(final RedditCommentListItem comment : comments) {
 				if(!comment.isComment()) {
 					continue;
 				}

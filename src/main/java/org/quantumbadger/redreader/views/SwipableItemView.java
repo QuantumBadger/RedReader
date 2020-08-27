@@ -84,7 +84,7 @@ public abstract class SwipableItemView extends FrameLayout {
 		onSwipeDeltaChanged(mOverallSwipeDelta + mCurrentSwipeDelta);
 	}
 
-	private void onFingerDown(int x, int y) {
+	private void onFingerDown(final int x, final int y) {
 
 		final boolean wasOldSwipeInterrupted = (mCurrentSwipeAnimation != null) || (
 				mOverallSwipeDelta
@@ -257,7 +257,7 @@ public abstract class SwipableItemView extends FrameLayout {
 	}
 
 	@Override
-	public boolean onTouchEvent(MotionEvent ev) {
+	public boolean onTouchEvent(final MotionEvent ev) {
 
 		if(!mSwipeInProgress) {
 

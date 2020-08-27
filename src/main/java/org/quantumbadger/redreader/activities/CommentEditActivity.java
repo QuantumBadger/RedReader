@@ -47,7 +47,7 @@ public class CommentEditActivity extends BaseActivity {
 	private boolean isSelfPost = false;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(final Bundle savedInstanceState) {
 
 		PrefsUtility.applyTheme(this);
 
@@ -78,14 +78,14 @@ public class CommentEditActivity extends BaseActivity {
 	}
 
 	@Override
-	protected void onSaveInstanceState(Bundle outState) {
+	protected void onSaveInstanceState(final Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putString("commentText", textEdit.getText().toString());
 		outState.putString("commentIdAndType", commentIdAndType);
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(final Menu menu) {
 
 		final MenuItem send = menu.add(R.string.comment_edit_save);
 		send.setIcon(R.drawable.ic_action_save_dark);
@@ -97,7 +97,7 @@ public class CommentEditActivity extends BaseActivity {
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
+	public boolean onOptionsItemSelected(final MenuItem item) {
 
 		if(item.getTitle().equals(getString(R.string.comment_edit_save))) {
 
@@ -160,16 +160,16 @@ public class CommentEditActivity extends BaseActivity {
 				}
 
 				@Override
-				protected void onCallbackException(Throwable t) {
+				protected void onCallbackException(final Throwable t) {
 					BugReportActivity.handleGlobalError(CommentEditActivity.this, t);
 				}
 
 				@Override
 				protected void onFailure(
-						@CacheRequest.RequestFailureType int type,
-						Throwable t,
-						Integer status,
-						String readableMessage) {
+						@CacheRequest.RequestFailureType final int type,
+						final Throwable t,
+						final Integer status,
+						final String readableMessage) {
 
 					final RRError error = General.getGeneralErrorForFailure(
 							context,

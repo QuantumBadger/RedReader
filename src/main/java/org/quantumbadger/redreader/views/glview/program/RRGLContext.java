@@ -35,13 +35,13 @@ public final class RRGLContext {
 
 	private final Context mContext;
 
-	public RRGLContext(Context context) {
+	public RRGLContext(final Context context) {
 		mProgramTexture = new RRGLProgramTexture();
 		mProgramColour = new RRGLProgramColour();
 		mContext = context;
 	}
 
-	public int dpToPixels(float dp) {
+	public int dpToPixels(final float dp) {
 		return General.dpToPixels(mContext, dp);
 	}
 
@@ -81,7 +81,7 @@ public final class RRGLContext {
 		mProgramTexture.activateTextureByHandle(textureHandle);
 	}
 
-	public void activateVertexBuffer(FloatBuffer vertexBuffer) {
+	public void activateVertexBuffer(final FloatBuffer vertexBuffer) {
 		mProgramCurrent.activateVertexBuffer(vertexBuffer);
 	}
 
@@ -93,19 +93,19 @@ public final class RRGLContext {
 		mProgramColour.activateColour(r, g, b, a);
 	}
 
-	public void activateUVBuffer(FloatBuffer uvBuffer) {
+	public void activateUVBuffer(final FloatBuffer uvBuffer) {
 		mProgramTexture.activateUVBuffer(uvBuffer);
 	}
 
-	public void drawTriangleStrip(int vertices) {
+	public void drawTriangleStrip(final int vertices) {
 		mProgramCurrent.drawTriangleStrip(vertices);
 	}
 
-	public void activateMatrix(float[] buf, int offset) {
+	public void activateMatrix(final float[] buf, final int offset) {
 		mProgramCurrent.activateMatrix(buf, offset);
 	}
 
-	public void activatePixelMatrix(float[] buf, int offset) {
+	public void activatePixelMatrix(final float[] buf, final int offset) {
 
 		mPixelMatrix = buf;
 		mPixelMatrixOffset = offset;
@@ -115,7 +115,7 @@ public final class RRGLContext {
 		}
 	}
 
-	public void setClearColor(float r, float g, float b, float a) {
+	public void setClearColor(final float r, final float g, final float b, final float a) {
 		GLES20.glClearColor(r, g, b, a);
 	}
 
@@ -123,7 +123,7 @@ public final class RRGLContext {
 		GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
 	}
 
-	public void setViewport(int width, int height) {
+	public void setViewport(final int width, final int height) {
 		GLES20.glViewport(0, 0, width, height);
 	}
 }

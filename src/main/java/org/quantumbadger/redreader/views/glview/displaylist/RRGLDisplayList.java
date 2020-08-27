@@ -22,7 +22,7 @@ import org.quantumbadger.redreader.views.glview.program.RRGLMatrixStack;
 public final class RRGLDisplayList extends RRGLRenderableGroup {
 
 	@Override
-	protected void renderInternal(RRGLMatrixStack matrixStack, final long time) {
+	protected void renderInternal(final RRGLMatrixStack matrixStack, final long time) {
 		super.renderInternal(matrixStack, time);
 	}
 

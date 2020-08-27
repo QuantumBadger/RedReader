@@ -775,7 +775,7 @@ public class MainMenuListingManager {
 
 				builder.setItems(menuText, new DialogInterface.OnClickListener() {
 					@Override
-					public void onClick(DialogInterface dialog, int which) {
+					public void onClick(final DialogInterface dialog, final int which) {
 						onSubredditActionMenuItemSelected(
 								subreddit,
 								mActivity,
@@ -811,7 +811,7 @@ public class MainMenuListingManager {
 		final String url = Constants.Reddit.getNonAPIUri(subredditCanonicalId.toString())
 				.toString();
 
-		RedditSubredditSubscriptionManager subMan = RedditSubredditSubscriptionManager
+		final RedditSubredditSubscriptionManager subMan = RedditSubredditSubscriptionManager
 				.getSingleton(
 						activity,
 						RedditAccountManager.getInstance(
@@ -825,10 +825,10 @@ public class MainMenuListingManager {
 			}
 
 			case COPY_URL: {
-				ClipboardManager clipboardManager
+				final ClipboardManager clipboardManager
 						= (ClipboardManager)activity.getSystemService(Context.CLIPBOARD_SERVICE);
 				if(clipboardManager != null) {
-					ClipData data = ClipData.newRawUri(null, Uri.parse(url));
+					final ClipData data = ClipData.newRawUri(null, Uri.parse(url));
 					clipboardManager.setPrimaryClip(data);
 
 					General.quickToast(
@@ -937,7 +937,10 @@ public class MainMenuListingManager {
 		public final String title;
 		public final SubredditAction action;
 
-		private SubredditMenuItem(Context context, int titleRes, SubredditAction action) {
+		private SubredditMenuItem(
+				final Context context,
+				final int titleRes,
+				final SubredditAction action) {
 			this.title = context.getString(titleRes);
 			this.action = action;
 		}

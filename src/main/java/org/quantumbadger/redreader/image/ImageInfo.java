@@ -347,7 +347,7 @@ public class ImageInfo implements Parcelable {
 		String type = null;
 		Long width = null;
 		Long height = null;
-		Long size = (long)0;
+		final Long size = (long)0;
 
 		if(object != null) {
 			urlOriginal = object.getString("url");

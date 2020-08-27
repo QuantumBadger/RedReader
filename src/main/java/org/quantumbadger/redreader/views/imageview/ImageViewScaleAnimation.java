@@ -27,10 +27,10 @@ public class ImageViewScaleAnimation {
 	private final MutableFloatPoint2D mScreenCoord = new MutableFloatPoint2D();
 
 	public ImageViewScaleAnimation(
-			float targetScale,
-			CoordinateHelper coordinateHelper,
-			int stepCount,
-			MutableFloatPoint2D screenCoord) {
+			final float targetScale,
+			final CoordinateHelper coordinateHelper,
+			final int stepCount,
+			final MutableFloatPoint2D screenCoord) {
 
 		mTargetScale = targetScale;
 		mCoordinateHelper = coordinateHelper;

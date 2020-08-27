@@ -23,19 +23,19 @@ public class UnknownCommentListURL extends CommentListingURL {
 
 	private final Uri uri;
 
-	UnknownCommentListURL(Uri uri) {
+	UnknownCommentListURL(final Uri uri) {
 		this.uri = uri;
 	}
 
 	@Override
-	public CommentListingURL after(String after) {
+	public CommentListingURL after(final String after) {
 		return new UnknownCommentListURL(uri.buildUpon()
 				.appendQueryParameter("after", after)
 				.build());
 	}
 
 	@Override
-	public CommentListingURL limit(Integer limit) {
+	public CommentListingURL limit(final Integer limit) {
 		return new UnknownCommentListURL(uri.buildUpon()
 				.appendQueryParameter(
 						"limit",

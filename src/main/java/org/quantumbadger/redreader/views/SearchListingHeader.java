@@ -20,7 +20,6 @@ package org.quantumbadger.redreader.views;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -28,7 +27,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-
 import org.apache.commons.lang3.StringUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.PostListingActivity;
@@ -48,7 +46,7 @@ public final class SearchListingHeader extends FrameLayout {
 		super(parentActivity);
 		mUrl = url;
 
-		LayoutInflater layoutInflater = (LayoutInflater)parentActivity.getSystemService(
+		final LayoutInflater layoutInflater = (LayoutInflater)parentActivity.getSystemService(
 				Context.LAYOUT_INFLATER_SERVICE);
 		layoutInflater.inflate(R.layout.search_listing_header, this, true);
 
@@ -64,12 +62,9 @@ public final class SearchListingHeader extends FrameLayout {
 			mSubreddit.setText(url.subreddit);
 		}
 
-		TextView.OnEditorActionListener onEnter = new TextView.OnEditorActionListener() {
-			@Override
-			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-				performSearch(parentActivity, mSubreddit, mQuery);
-				return true;
-			}
+		final TextView.OnEditorActionListener onEnter = (v, actionId, event) -> {
+			performSearch(parentActivity, mSubreddit, mQuery);
+			return true;
 		};
 		mSubreddit.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
 		mSubreddit.setOnEditorActionListener(onEnter);
@@ -77,7 +72,7 @@ public final class SearchListingHeader extends FrameLayout {
 		mSearchButton = (Button)findViewById(R.id.search_listing_header_search);
 		mSearchButton.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick(View v) {
+			public void onClick(final View v) {
 				performSearch(parentActivity, mSubreddit, mQuery);
 			}
 		});
@@ -91,7 +86,7 @@ public final class SearchListingHeader extends FrameLayout {
 		if(StringUtils.isEmpty(subreddit)) {
 			subreddit = null;
 		}
-		SearchPostListURL url = SearchPostListURL.build(
+		final SearchPostListURL url = SearchPostListURL.build(
 				subreddit,
 				mQuery.getText().toString().trim());
 

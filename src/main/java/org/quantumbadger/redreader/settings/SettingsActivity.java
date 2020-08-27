@@ -71,7 +71,7 @@ public final class SettingsActivity
 	}
 
 	private void setOrientationFromPrefs() {
-		PrefsUtility.ScreenOrientation orientation
+		final PrefsUtility.ScreenOrientation orientation
 				= PrefsUtility.pref_behaviour_screen_orientation(this, sharedPreferences);
 		if(orientation == PrefsUtility.ScreenOrientation.AUTO) {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);

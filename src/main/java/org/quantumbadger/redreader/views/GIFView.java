@@ -38,7 +38,7 @@ public final class GIFView extends View {
 	private final Paint paint = new Paint();
 
 	// Accept as byte[] rather than stream due to Android bug workaround
-	public GIFView(Context context, @NonNull final byte[] data) {
+	public GIFView(final Context context, @NonNull final byte[] data) {
 		super(context);
 
 		setLayerType(View.LAYER_TYPE_SOFTWARE, null);
@@ -56,7 +56,7 @@ public final class GIFView extends View {
 	protected void onDraw(final Canvas canvas) {
 		canvas.drawColor(Color.TRANSPARENT);
 		super.onDraw(canvas);
-		long now = SystemClock.uptimeMillis();
+		final long now = SystemClock.uptimeMillis();
 
 		final float scale = Math.min(
 				(float)getWidth() / mMovie.width(),
@@ -89,7 +89,7 @@ public final class GIFView extends View {
 			while((len = is.read(buffer)) >= 0) {
 				baos.write(buffer, 0, len);
 			}
-		} catch(IOException e) {
+		} catch(final IOException e) {
 			throw new RuntimeException(e);
 		}
 

@@ -53,7 +53,7 @@ public class SessionListAdapter extends HeaderRecyclerAdapter<RecyclerView.ViewH
 			final Context context,
 			final URI url,
 			final UUID current,
-			SessionChangeListener.SessionChangeType type,
+			final SessionChangeListener.SessionChangeType type,
 			final AppCompatDialogFragment fragment) {
 		this.context = context;
 		this.current = current;
@@ -74,29 +74,29 @@ public class SessionListAdapter extends HeaderRecyclerAdapter<RecyclerView.ViewH
 	}
 
 	@Override
-	protected RecyclerView.ViewHolder onCreateHeaderItemViewHolder(ViewGroup parent) {
-		View v = LayoutInflater.from(parent.getContext())
+	protected RecyclerView.ViewHolder onCreateHeaderItemViewHolder(final ViewGroup parent) {
+		final View v = LayoutInflater.from(parent.getContext())
 				.inflate(R.layout.list_item_1_text, parent, false);
 		return new VH1Text(v);
 	}
 
 	@Override
-	protected RecyclerView.ViewHolder onCreateContentItemViewHolder(ViewGroup parent) {
-		View v = LayoutInflater.from(parent.getContext())
+	protected RecyclerView.ViewHolder onCreateContentItemViewHolder(final ViewGroup parent) {
+		final View v = LayoutInflater.from(parent.getContext())
 				.inflate(R.layout.list_item_1_text, parent, false);
 		return new VH1Text(v);
 	}
 
 	@Override
 	protected void onBindHeaderItemViewHolder(
-			RecyclerView.ViewHolder holder,
+			final RecyclerView.ViewHolder holder,
 			final int position) {
 		final VH1Text vh = (VH1Text)holder;
 		vh.text.setText(context.getString(R.string.options_refresh));
 		vh.text.setCompoundDrawablesWithIntrinsicBounds(rrIconRefresh, null, null, null);
 		vh.itemView.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick(View v) {
+			public void onClick(final View v) {
 				((SessionChangeListener)context).onSessionRefreshSelected(type);
 				fragment.dismiss();
 			}
@@ -105,7 +105,7 @@ public class SessionListAdapter extends HeaderRecyclerAdapter<RecyclerView.ViewH
 
 	@Override
 	protected void onBindContentItemViewHolder(
-			RecyclerView.ViewHolder holder,
+			final RecyclerView.ViewHolder holder,
 			final int position) {
 		final VH1Text vh = (VH1Text)holder;
 		final CacheEntry session = sessions.get(position);
@@ -135,7 +135,7 @@ public class SessionListAdapter extends HeaderRecyclerAdapter<RecyclerView.ViewH
 
 		vh.itemView.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick(View v) {
+			public void onClick(final View v) {
 				final CacheEntry ce = sessions.get(position);
 				((SessionChangeListener)context).onSessionSelected(ce.session, type);
 				fragment.dismiss();

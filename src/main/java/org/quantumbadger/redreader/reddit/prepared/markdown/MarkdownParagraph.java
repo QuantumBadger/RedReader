@@ -53,28 +53,28 @@ public final class MarkdownParagraph {
 		final String subtitle;
 		private final String url;
 
-		public Link(String title, String subtitle, String url) {
+		public Link(final String title, final String subtitle, final String url) {
 			this.title = title;
 			this.subtitle = subtitle;
 			this.url = url;
 		}
 
-		public void onClicked(AppCompatActivity activity) {
+		public void onClicked(final AppCompatActivity activity) {
 			LinkHandler.onLinkClicked(activity, url, false);
 		}
 
-		public void onLongClicked(AppCompatActivity activity) {
+		public void onLongClicked(final AppCompatActivity activity) {
 			LinkHandler.onLinkLongClicked(activity, url);
 		}
 	}
 
 	public MarkdownParagraph(
-			CharArrSubstring raw,
-			MarkdownParagraph parent,
-			MarkdownParser.MarkdownParagraphType type,
-			int[] tokens,
-			int level,
-			int number) {
+			final CharArrSubstring raw,
+			final MarkdownParagraph parent,
+			final MarkdownParser.MarkdownParagraphType type,
+			final int[] tokens,
+			final int level,
+			final int number) {
 		this.raw = raw;
 		this.parent = parent;
 		this.type = type;

@@ -23,7 +23,7 @@ public class UnexpectedInternalStateException extends RuntimeException {
 		super("The application's internal state is invalid");
 	}
 
-	public UnexpectedInternalStateException(String message) {
+	public UnexpectedInternalStateException(final String message) {
 		super(message);
 	}
 }

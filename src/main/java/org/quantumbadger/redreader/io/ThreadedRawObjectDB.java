@@ -50,8 +50,8 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 	private final CacheDataSource<K, V, F> alternateSource;
 
 	public ThreadedRawObjectDB(
-			RawObjectDB<K, V> db,
-			CacheDataSource<K, V, F> alternateSource) {
+			final RawObjectDB<K, V> db,
+			final CacheDataSource<K, V, F> alternateSource) {
 		this.db = db;
 		this.alternateSource = alternateSource;
 	}
@@ -79,22 +79,22 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 	}
 
 	public void performRequest(
-			K key, TimestampBound timestampBound,
-			RequestResponseHandler<V, F> handler) {
+			final K key, final TimestampBound timestampBound,
+			final RequestResponseHandler<V, F> handler) {
 
 		toRead.offer(new SingleReadOperation(timestampBound, handler, key));
 		readThread.trigger();
 	}
 
 	public void performRequest(
-			Collection<K> keys, TimestampBound timestampBound,
-			RequestResponseHandler<HashMap<K, V>, F> handler) {
+			final Collection<K> keys, final TimestampBound timestampBound,
+			final RequestResponseHandler<HashMap<K, V>, F> handler) {
 
 		toRead.offer(new BulkReadOperation(timestampBound, handler, keys));
 		readThread.trigger();
 	}
 
-	public void performWrite(V value) {
+	public void performWrite(final V value) {
 
 		synchronized(toWrite) {
 			toWrite.put(value.getKey(), value);
@@ -103,10 +103,10 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 		writeThread.trigger();
 	}
 
-	public void performWrite(Collection<V> values) {
+	public void performWrite(final Collection<V> values) {
 
 		synchronized(toWrite) {
-			for(V value : values) {
+			for(final V value : values) {
 				toWrite.put(value.getKey(), value);
 			}
 		}
@@ -120,9 +120,9 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 		public final RequestResponseHandler<HashMap<K, V>, F> responseHandler;
 
 		private BulkReadOperation(
-				TimestampBound timestampBound,
-				RequestResponseHandler<HashMap<K, V>, F> responseHandler,
-				Collection<K> keys) {
+				final TimestampBound timestampBound,
+				final RequestResponseHandler<HashMap<K, V>, F> responseHandler,
+				final Collection<K> keys) {
 			super(timestampBound);
 			this.responseHandler = responseHandler;
 			this.keys = keys;
@@ -181,13 +181,13 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 					keys,
 					timestampBound,
 					new RequestResponseHandler<HashMap<K, V>, F>() {
-						public void onRequestFailed(F failureReason) {
+						public void onRequestFailed(final F failureReason) {
 							responseHandler.onRequestFailed(failureReason);
 						}
 
 						public void onRequestSuccess(
-								HashMap<K, V> result,
-								long timeCached) {
+								final HashMap<K, V> result,
+								final long timeCached) {
 							performWrite(result.values());
 							existingResult.putAll(result);
 							responseHandler.onRequestSuccess(
@@ -204,9 +204,9 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 		public final RequestResponseHandler<V, F> responseHandler;
 
 		private SingleReadOperation(
-				TimestampBound timestampBound,
-				RequestResponseHandler<V, F> responseHandler,
-				K key) {
+				final TimestampBound timestampBound,
+				final RequestResponseHandler<V, F> responseHandler,
+				final K key) {
 			super(timestampBound);
 			this.responseHandler = responseHandler;
 			this.key = key;
@@ -237,11 +237,11 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 					key,
 					timestampBound,
 					new RequestResponseHandler<V, F>() {
-						public void onRequestFailed(F failureReason) {
+						public void onRequestFailed(final F failureReason) {
 							responseHandler.onRequestFailed(failureReason);
 						}
 
-						public void onRequestSuccess(V result, long timeCached) {
+						public void onRequestSuccess(final V result, final long timeCached) {
 							performWrite(result);
 							responseHandler.onRequestSuccess(result, timeCached);
 						}
@@ -253,7 +253,7 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 
 		public final TimestampBound timestampBound;
 
-		private ReadOperation(TimestampBound timestampBound) {
+		private ReadOperation(final TimestampBound timestampBound) {
 			this.timestampBound = timestampBound;
 		}
 

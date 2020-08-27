@@ -25,13 +25,13 @@ public final class MarkdownLine {
 	public final int prefixLength, level, number;
 
 	MarkdownLine(
-			CharArrSubstring src,
-			MarkdownParser.MarkdownParagraphType type,
-			int spacesAtStart,
-			int spacesAtEnd,
-			int prefixLength,
-			int level,
-			int number) {
+			final CharArrSubstring src,
+			final MarkdownParser.MarkdownParagraphType type,
+			final int spacesAtStart,
+			final int spacesAtEnd,
+			final int prefixLength,
+			final int level,
+			final int number) {
 		this.src = src;
 		this.type = type;
 		this.spacesAtStart = spacesAtStart;
@@ -187,7 +187,7 @@ public final class MarkdownLine {
 		}
 	}
 
-	public MarkdownLine rejoin(MarkdownLine toAppend) {
+	public MarkdownLine rejoin(final MarkdownLine toAppend) {
 		src.arr[src.start + src.length] = ' ';
 		return new MarkdownLine(
 				src.rejoin(toAppend.src),

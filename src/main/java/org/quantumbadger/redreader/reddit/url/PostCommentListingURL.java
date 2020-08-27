@@ -38,7 +38,7 @@ public class PostCommentListingURL extends CommentListingURL {
 
 	public final Sort order;
 
-	public static PostCommentListingURL forPostId(String postId) {
+	public static PostCommentListingURL forPostId(final String postId) {
 		return new PostCommentListingURL(null, postId, null, null, null, null);
 	}
 
@@ -67,20 +67,20 @@ public class PostCommentListingURL extends CommentListingURL {
 	}
 
 	@Override
-	public PostCommentListingURL after(String after) {
+	public PostCommentListingURL after(final String after) {
 		return new PostCommentListingURL(after, postId, commentId, context, limit, order);
 	}
 
 	@Override
-	public PostCommentListingURL limit(Integer limit) {
+	public PostCommentListingURL limit(final Integer limit) {
 		return new PostCommentListingURL(after, postId, commentId, context, limit, order);
 	}
 
-	public PostCommentListingURL context(Integer context) {
+	public PostCommentListingURL context(final Integer context) {
 		return new PostCommentListingURL(after, postId, commentId, context, limit, order);
 	}
 
-	public PostCommentListingURL order(Sort order) {
+	public PostCommentListingURL order(final Sort order) {
 		return new PostCommentListingURL(after, postId, commentId, context, limit, order);
 	}
 
@@ -217,13 +217,13 @@ public class PostCommentListingURL extends CommentListingURL {
 			} else if(parameterKey.equalsIgnoreCase("limit")) {
 				try {
 					limit = Integer.parseInt(uri.getQueryParameter(parameterKey));
-				} catch(Throwable ignored) {
+				} catch(final Throwable ignored) {
 				}
 
 			} else if(parameterKey.equalsIgnoreCase("context")) {
 				try {
 					context = Integer.parseInt(uri.getQueryParameter(parameterKey));
-				} catch(Throwable ignored) {
+				} catch(final Throwable ignored) {
 				}
 
 			} else if(parameterKey.equalsIgnoreCase("sort")) {
@@ -271,7 +271,7 @@ public class PostCommentListingURL extends CommentListingURL {
 
 			try {
 				return Sort.valueOf(name);
-			} catch(IllegalArgumentException e) {
+			} catch(final IllegalArgumentException e) {
 				return null;
 			}
 		}

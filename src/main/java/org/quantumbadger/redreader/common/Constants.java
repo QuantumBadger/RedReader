@@ -28,26 +28,26 @@ import java.util.ArrayList;
 
 public final class Constants {
 
-	public static String version(Context context) {
+	public static String version(final Context context) {
 		try {
 			return context.getPackageManager()
 					.getPackageInfo(context.getPackageName(), 0).versionName;
-		} catch(PackageManager.NameNotFoundException e) {
+		} catch(final PackageManager.NameNotFoundException e) {
 			throw new RuntimeException(e); // Internal error
 		}
 	}
 
 	public static final class Mime {
 
-		public static boolean isImage(String mimetype) {
+		public static boolean isImage(final String mimetype) {
 			return General.asciiLowercase(mimetype).startsWith("image/");
 		}
 
-		public static boolean isImageGif(String mimetype) {
+		public static boolean isImageGif(final String mimetype) {
 			return mimetype.equalsIgnoreCase("image/gif");
 		}
 
-		public static boolean isVideo(String mimetype) {
+		public static boolean isVideo(final String mimetype) {
 			return mimetype.startsWith("video/");
 		}
 	}

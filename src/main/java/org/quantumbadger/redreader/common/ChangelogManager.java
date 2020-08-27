@@ -35,9 +35,9 @@ import java.io.InputStreamReader;
 public class ChangelogManager {
 
 	public static void generateViews(
-			AppCompatActivity context,
-			LinearLayout items,
-			boolean showAll) {
+			final AppCompatActivity context,
+			final LinearLayout items,
+			final boolean showAll) {
 
 		final RRThemeAttributes attr = new RRThemeAttributes(context);
 
@@ -85,8 +85,8 @@ public class ChangelogManager {
 							new AccessibilityDelegateCompat() {
 								@Override
 								public void onInitializeAccessibilityNodeInfo(
-										View host,
-										AccessibilityNodeInfoCompat info) {
+										final View host,
+										final AccessibilityNodeInfoCompat info) {
 									super.onInitializeAccessibilityNodeInfo(host, info);
 									info.setHeading(true);
 								}
@@ -117,7 +117,7 @@ public class ChangelogManager {
 
 			}
 
-		} catch(IOException e) {
+		} catch(final IOException e) {
 			throw new RuntimeException(e);
 		}
 	}

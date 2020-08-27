@@ -75,7 +75,7 @@ public class PostSubmitActivity extends BaseActivity {
 	private static boolean lastInbox;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(final Bundle savedInstanceState) {
 
 		PrefsUtility.applyTheme(this);
 
@@ -128,7 +128,7 @@ public class PostSubmitActivity extends BaseActivity {
 				.getAccounts();
 		final ArrayList<String> usernames = new ArrayList<>();
 
-		for(RedditAccount account : accounts) {
+		for(final RedditAccount account : accounts) {
 			if(!account.isAnonymous()) {
 				usernames.add(account.username);
 			}
@@ -164,14 +164,14 @@ public class PostSubmitActivity extends BaseActivity {
 
 		typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			public void onItemSelected(
-					AdapterView<?> parent,
-					View view,
-					int position,
-					long id) {
+					final AdapterView<?> parent,
+					final View view,
+					final int position,
+					final long id) {
 				setHint();
 			}
 
-			public void onNothingSelected(AdapterView<?> parent) {
+			public void onNothingSelected(final AdapterView<?> parent) {
 			}
 		});
 
@@ -209,7 +209,7 @@ public class PostSubmitActivity extends BaseActivity {
 	}
 
 	@Override
-	protected void onSaveInstanceState(Bundle outState) {
+	protected void onSaveInstanceState(final Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putString("post_title", titleEdit.getText().toString());
 		outState.putString("post_body", textEdit.getText().toString());
@@ -218,7 +218,7 @@ public class PostSubmitActivity extends BaseActivity {
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(final Menu menu) {
 
 		final MenuItem send = menu.add(R.string.comment_reply_send);
 		send.setIcon(R.drawable.ic_action_send_dark);
@@ -327,16 +327,16 @@ public class PostSubmitActivity extends BaseActivity {
 					}
 
 					@Override
-					protected void onCallbackException(Throwable t) {
+					protected void onCallbackException(final Throwable t) {
 						BugReportActivity.handleGlobalError(PostSubmitActivity.this, t);
 					}
 
 					@Override
 					protected void onFailure(
-							@CacheRequest.RequestFailureType int type,
-							Throwable t,
-							Integer status,
-							String readableMessage) {
+							@CacheRequest.RequestFailureType final int type,
+							final Throwable t,
+							final Integer status,
+							final String readableMessage) {
 
 						final RRError error = General.getGeneralErrorForFailure(
 								context,
@@ -418,7 +418,10 @@ public class PostSubmitActivity extends BaseActivity {
 	}
 
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
+	protected void onActivityResult(
+			final int requestCode,
+			final int resultCode,
+			final Intent data) {
 
 		super.onActivityResult(requestCode, resultCode, data);
 

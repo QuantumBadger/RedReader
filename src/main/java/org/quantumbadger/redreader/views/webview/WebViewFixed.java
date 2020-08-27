@@ -118,7 +118,7 @@ public class WebViewFixed extends WebView {
 	 */
 	@Override
 	@SuppressLint("SetJavaScriptEnabled")
-	public void setWebChromeClient(WebChromeClient client) {
+	public void setWebChromeClient(final WebChromeClient client) {
 		getSettings().setJavaScriptEnabled(true);
 
 		if(client instanceof VideoEnabledWebChromeClient) {
@@ -129,7 +129,7 @@ public class WebViewFixed extends WebView {
 	}
 
 	@Override
-	public void loadData(String data, String mimeType, String encoding) {
+	public void loadData(final String data, final String mimeType, final String encoding) {
 		addJavascriptInterface();
 		super.loadData(data, mimeType, encoding);
 	}
@@ -159,13 +159,13 @@ public class WebViewFixed extends WebView {
 	}
 
 	@Override
-	public void loadUrl(String url) {
+	public void loadUrl(final String url) {
 		addJavascriptInterface();
 		super.loadUrl(url);
 	}
 
 	@Override
-	public void loadUrl(String url, Map<String, String> additionalHttpHeaders) {
+	public void loadUrl(final String url, final Map<String, String> additionalHttpHeaders) {
 		addJavascriptInterface();
 		super.loadUrl(url, additionalHttpHeaders);
 	}
@@ -186,7 +186,7 @@ public class WebViewFixed extends WebView {
 	public void onWindowFocusChanged(final boolean hasWindowFocus) {
 		try {
 			super.onWindowFocusChanged(hasWindowFocus);
-		} catch(NullPointerException ex) {
+		} catch(final NullPointerException ex) {
 			Log.e("WebView", "WebView.onWindowFocusChanged", ex);
 		}
 	}
@@ -195,7 +195,7 @@ public class WebViewFixed extends WebView {
 		if(TorCommon.isTorEnabled()) {
 			try {
 				clearBrowser();
-				boolean result = WebkitProxy.setProxy(
+				final boolean result = WebkitProxy.setProxy(
 						RedReader.class.getCanonicalName(),
 						context.getApplicationContext(),
 						this,
@@ -206,7 +206,7 @@ public class WebViewFixed extends WebView {
 							context,
 							getResources().getString(R.string.error_tor_setting_failed));
 				}
-			} catch(Exception e) {
+			} catch(final Exception e) {
 				e.printStackTrace();
 			}
 		}

@@ -127,7 +127,7 @@ public class OAuthLoginActivity extends BaseActivity {
 
 		if(TorCommon.isTorEnabled()) {
 			try {
-				boolean result = WebkitProxy.setProxy(
+				final boolean result = WebkitProxy.setProxy(
 						RedReader.class.getCanonicalName(),
 						getApplicationContext(),
 						mWebView,
@@ -138,7 +138,7 @@ public class OAuthLoginActivity extends BaseActivity {
 							this,
 							getResources().getString(R.string.error_tor_setting_failed));
 				}
-			} catch(Exception e) {
+			} catch(final Exception e) {
 				e.printStackTrace();
 			}
 		}

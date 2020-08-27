@@ -342,7 +342,7 @@ public class CommentListingRequest {
 
 				notifyListener(Event.EVENT_ALL_ITEMS_DOWNLOADED, items);
 
-			} catch(Throwable t) {
+			} catch(final Throwable t) {
 				notifyFailure(
 						CacheRequest.REQUEST_FAILURE_PARSE,
 						t,
@@ -413,11 +413,11 @@ public class CommentListingRequest {
 		}
 	}
 
-	private void notifyListener(Event eventType) {
+	private void notifyListener(final Event eventType) {
 		notifyListener(eventType, null);
 	}
 
-	private void notifyListener(Event eventType, Object object) {
+	private void notifyListener(final Event eventType, final Object object) {
 		final Message message = Message.obtain();
 		message.what = eventType.ordinal();
 		message.obj = object;

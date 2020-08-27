@@ -162,7 +162,7 @@ public class MainActivity extends RefreshableActivity
 		final PackageInfo pInfo;
 		try {
 			pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-		} catch(PackageManager.NameNotFoundException e) {
+		} catch(final PackageManager.NameNotFoundException e) {
 			throw new RuntimeException(e);
 		}
 
@@ -528,7 +528,7 @@ public class MainActivity extends RefreshableActivity
 									"block")
 					};
 
-					for(AppbarItemStrings item : appbarItemsPrefStrings) {
+					for(final AppbarItemStrings item : appbarItemsPrefStrings) {
 						final String showAsAction;
 
 						if(existingOptionsMenuItems.contains(item.returnValue)) {
@@ -554,7 +554,7 @@ public class MainActivity extends RefreshableActivity
 
 		recreateSubscriptionListener();
 
-		Boolean startInbox = getIntent().getBooleanExtra("isNewMessage", false);
+		final Boolean startInbox = getIntent().getBooleanExtra("isNewMessage", false);
 		if(startInbox) {
 			startActivity(new Intent(this, InboxListingActivity.class));
 		}
@@ -670,9 +670,9 @@ public class MainActivity extends RefreshableActivity
 				editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 					@Override
 					public boolean onEditorAction(
-							TextView v,
-							int actionId,
-							KeyEvent event) {
+							final TextView v,
+							final int actionId,
+							final KeyEvent event) {
 						boolean handled = false;
 						if(actionId == EditorInfo.IME_ACTION_GO) {
 							openCustomLocation(
@@ -718,7 +718,7 @@ public class MainActivity extends RefreshableActivity
 						R.string.dialog_go,
 						new DialogInterface.OnClickListener() {
 							@Override
-							public void onClick(DialogInterface dialog, int which) {
+							public void onClick(final DialogInterface dialog, final int which) {
 								openCustomLocation(
 										typeReturnValues,
 										destinationType,
@@ -750,9 +750,9 @@ public class MainActivity extends RefreshableActivity
 	}
 
 	private void openCustomLocation(
-			String[] typeReturnValues,
-			Spinner destinationType,
-			AutoCompleteTextView editText) {
+			final String[] typeReturnValues,
+			final Spinner destinationType,
+			final AutoCompleteTextView editText) {
 
 		final String typeName
 				= typeReturnValues[destinationType.getSelectedItemPosition()];
@@ -777,7 +777,7 @@ public class MainActivity extends RefreshableActivity
 					} else {
 						onSelected(redditURL.asSubredditPostListURL());
 					}
-				} catch(InvalidSubredditNameException e) {
+				} catch(final InvalidSubredditNameException e) {
 					General.quickToast(this, R.string.mainmenu_custom_invalid_name);
 				}
 				break;
@@ -810,14 +810,14 @@ public class MainActivity extends RefreshableActivity
 			}
 
 			case "search": {
-				String query = editText.getText().toString().trim();
+				final String query = editText.getText().toString().trim();
 
 				if(StringUtils.isEmpty(query)) {
 					General.quickToast(this, R.string.mainmenu_custom_empty_search_query);
 					break;
 				}
 
-				SearchPostListURL url = SearchPostListURL.build(null, query);
+				final SearchPostListURL url = SearchPostListURL.build(null, query);
 
 				final Intent intent = new Intent(this, PostListingActivity.class);
 				intent.setData(url.generateJsonUri());
@@ -1082,7 +1082,7 @@ public class MainActivity extends RefreshableActivity
 						sharedPreferences,
 						postListingFragment.getSubreddit().getCanonicalId());
 
-			} catch(InvalidSubredditNameException e) {
+			} catch(final InvalidSubredditNameException e) {
 				subredditPinState = null;
 				subredditBlockedState = null;
 			}
@@ -1150,8 +1150,8 @@ public class MainActivity extends RefreshableActivity
 				R.string.action_search_comments,
 				new DialogUtils.OnSearchListener() {
 					@Override
-					public void onSearch(@Nullable String query) {
-						Intent searchIntent = new Intent(
+					public void onSearch(@Nullable final String query) {
+						final Intent searchIntent = new Intent(
 								MainActivity.this,
 								CommentListingActivity.class);
 						searchIntent.setData(commentListingController.getUri());
@@ -1227,7 +1227,7 @@ public class MainActivity extends RefreshableActivity
 					sharedPreferences,
 					postListingFragment.getSubreddit().getCanonicalId());
 
-		} catch(InvalidSubredditNameException e) {
+		} catch(final InvalidSubredditNameException e) {
 			throw new RuntimeException(e);
 		}
 
@@ -1247,7 +1247,7 @@ public class MainActivity extends RefreshableActivity
 					sharedPreferences,
 					postListingFragment.getSubreddit().getCanonicalId());
 
-		} catch(InvalidSubredditNameException e) {
+		} catch(final InvalidSubredditNameException e) {
 			throw new RuntimeException(e);
 		}
 
@@ -1266,7 +1266,7 @@ public class MainActivity extends RefreshableActivity
 					sharedPreferences,
 					postListingFragment.getSubreddit().getCanonicalId());
 
-		} catch(InvalidSubredditNameException e) {
+		} catch(final InvalidSubredditNameException e) {
 			throw new RuntimeException(e);
 		}
 
@@ -1285,7 +1285,7 @@ public class MainActivity extends RefreshableActivity
 					sharedPreferences,
 					postListingFragment.getSubreddit().getCanonicalId());
 
-		} catch(InvalidSubredditNameException e) {
+		} catch(final InvalidSubredditNameException e) {
 			throw new RuntimeException(e);
 		}
 
@@ -1314,7 +1314,7 @@ public class MainActivity extends RefreshableActivity
 		}
 	}
 
-	public void onSessionSelected(UUID session, SessionChangeType type) {
+	public void onSessionSelected(final UUID session, final SessionChangeType type) {
 
 		switch(type) {
 			case POSTS:
@@ -1328,7 +1328,7 @@ public class MainActivity extends RefreshableActivity
 		}
 	}
 
-	public void onSessionRefreshSelected(SessionChangeType type) {
+	public void onSessionRefreshSelected(final SessionChangeType type) {
 		switch(type) {
 			case POSTS:
 				onRefreshPosts();
@@ -1339,7 +1339,10 @@ public class MainActivity extends RefreshableActivity
 		}
 	}
 
-	public void onSessionChanged(UUID session, SessionChangeType type, long timestamp) {
+	public void onSessionChanged(
+			final UUID session,
+			final SessionChangeType type,
+			final long timestamp) {
 
 		switch(type) {
 			case POSTS:
@@ -1382,7 +1385,7 @@ public class MainActivity extends RefreshableActivity
 		});
 	}
 
-	private void showBackButton(boolean isVisible) {
+	private void showBackButton(final boolean isVisible) {
 		configBackButton(isVisible, new View.OnClickListener() {
 			@Override
 			public void onClick(final View v) {

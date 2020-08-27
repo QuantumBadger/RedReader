@@ -43,12 +43,12 @@ public class HtmlRawElementTagAnchor extends HtmlRawElementTagAttributeChange {
 	}
 
 	@Override
-	protected void onStart(@NonNull HtmlTextAttributes activeAttributes) {
+	protected void onStart(@NonNull final HtmlTextAttributes activeAttributes) {
 		activeAttributes.href = mHref;
 	}
 
 	@Override
-	protected void onEnd(@NonNull HtmlTextAttributes activeAttributes) {
+	protected void onEnd(@NonNull final HtmlTextAttributes activeAttributes) {
 		activeAttributes.href = null;
 	}
 }

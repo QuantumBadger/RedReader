@@ -36,7 +36,11 @@ public class UserCommentListingURL extends CommentListingURL {
 	public final Integer limit;
 	public final String after;
 
-	UserCommentListingURL(String user, Sort order, Integer limit, String after) {
+	UserCommentListingURL(
+			final String user,
+			final Sort order,
+			final Integer limit,
+			final String after) {
 		this.user = user;
 		this.order = order;
 		this.limit = limit;
@@ -44,20 +48,20 @@ public class UserCommentListingURL extends CommentListingURL {
 	}
 
 	@Override
-	public UserCommentListingURL after(String newAfter) {
+	public UserCommentListingURL after(final String newAfter) {
 		return new UserCommentListingURL(user, order, limit, newAfter);
 	}
 
 	@Override
-	public UserCommentListingURL limit(Integer newLimit) {
+	public UserCommentListingURL limit(final Integer newLimit) {
 		return new UserCommentListingURL(user, order, newLimit, after);
 	}
 
-	public UserCommentListingURL order(Sort newOrder) {
+	public UserCommentListingURL order(final Sort newOrder) {
 		return new UserCommentListingURL(user, newOrder, limit, after);
 	}
 
-	public static UserCommentListingURL parse(Uri uri) {
+	public static UserCommentListingURL parse(final Uri uri) {
 
 		final String[] pathSegments;
 		{
@@ -116,7 +120,7 @@ public class UserCommentListingURL extends CommentListingURL {
 			} else if(parameterKey.equalsIgnoreCase("limit")) {
 				try {
 					limit = Integer.parseInt(uri.getQueryParameter(parameterKey));
-				} catch(Throwable ignored) {
+				} catch(final Throwable ignored) {
 				}
 			}
 		}
@@ -127,7 +131,7 @@ public class UserCommentListingURL extends CommentListingURL {
 	@Override
 	public Uri generateJsonUri() {
 
-		Uri.Builder builder = new Uri.Builder();
+		final Uri.Builder builder = new Uri.Builder();
 		builder.scheme(Constants.Reddit.getScheme())
 				.authority(Constants.Reddit.getDomain());
 
@@ -159,7 +163,7 @@ public class UserCommentListingURL extends CommentListingURL {
 	}
 
 	@Override
-	public String humanReadableName(Context context, boolean shorter) {
+	public String humanReadableName(final Context context, final boolean shorter) {
 
 		final String name = context.getString(R.string.user_comments);
 

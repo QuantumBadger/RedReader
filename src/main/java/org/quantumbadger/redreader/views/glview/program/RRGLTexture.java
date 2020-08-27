@@ -27,7 +27,7 @@ public class RRGLTexture {
 	private final RRGLContext mGLContext;
 	private int mRefCount = 1;
 
-	public RRGLTexture(RRGLContext glContext, Bitmap bitmap, final boolean smooth) {
+	public RRGLTexture(final RRGLContext glContext, final Bitmap bitmap, final boolean smooth) {
 		mTextureHandle = loadTexture(bitmap, smooth);
 		mGLContext = glContext;
 	}

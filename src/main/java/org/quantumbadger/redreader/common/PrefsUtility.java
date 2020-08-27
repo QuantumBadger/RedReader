@@ -51,7 +51,7 @@ import java.util.Set;
 
 public final class PrefsUtility {
 
-	private static <E> Set<E> setFromArray(E[] data) {
+	private static <E> Set<E> setFromArray(final E[] data) {
 		final HashSet<E> result = new HashSet<>(data.length);
 		Collections.addAll(result, data);
 		return result;
@@ -116,7 +116,7 @@ public final class PrefsUtility {
 				R.string.pref_appearance_hide_headertoolbar_postlist_key));
 	}
 
-	public static boolean isRestartRequired(Context context, String key) {
+	public static boolean isRestartRequired(final Context context, final String key) {
 		return context.getString(R.string.pref_appearance_theme_key).equals(key)
 				|| context.getString(R.string.pref_appearance_navbar_color_key)
 				.equals(key)
@@ -651,7 +651,7 @@ public final class PrefsUtility {
 
 		final EnumSet<AppearancePostSubtitleItem> result = EnumSet.noneOf(
 				AppearancePostSubtitleItem.class);
-		for(String s : strings) {
+		for(final String s : strings) {
 			result.add(AppearancePostSubtitleItem.valueOf(General.asciiUppercase(s)));
 		}
 
@@ -680,7 +680,7 @@ public final class PrefsUtility {
 
 		final EnumSet<AppearancePostSubtitleItem> result = EnumSet.noneOf(
 				AppearancePostSubtitleItem.class);
-		for(String s : strings) {
+		for(final String s : strings) {
 			result.add(AppearancePostSubtitleItem.valueOf(General.asciiUppercase(s)));
 		}
 
@@ -713,7 +713,7 @@ public final class PrefsUtility {
 
 		final EnumSet<AppearanceCommentHeaderItem> result = EnumSet.noneOf(
 				AppearanceCommentHeaderItem.class);
-		for(String s : strings) {
+		for(final String s : strings) {
 
 			if(s.equalsIgnoreCase("ups_downs")) {
 				continue;
@@ -721,7 +721,7 @@ public final class PrefsUtility {
 
 			try {
 				result.add(AppearanceCommentHeaderItem.valueOf(General.asciiUppercase(s)));
-			} catch(IllegalArgumentException e) {
+			} catch(final IllegalArgumentException e) {
 				// Ignore -- this option no longer exists
 			}
 		}
@@ -821,7 +821,7 @@ public final class PrefsUtility {
 					"10",
 					context,
 					sharedPreferences));
-		} catch(Throwable e) {
+		} catch(final Throwable e) {
 			return 10;
 		}
 	}
@@ -835,7 +835,7 @@ public final class PrefsUtility {
 					"150",
 					context,
 					sharedPreferences));
-		} catch(Throwable e) {
+		} catch(final Throwable e) {
 			return 150;
 		}
 	}
@@ -843,7 +843,7 @@ public final class PrefsUtility {
 	public static Integer pref_behaviour_comment_min(
 			final Context context,
 			final SharedPreferences sharedPreferences) {
-		Integer defaultValue = -4;
+		final Integer defaultValue = -4;
 
 		final String value = getString(
 				R.string.pref_behaviour_comment_min_key,
@@ -857,7 +857,7 @@ public final class PrefsUtility {
 
 		try {
 			return Integer.parseInt(value);
-		} catch(Throwable e) {
+		} catch(final Throwable e) {
 			return defaultValue;
 		}
 	}
@@ -1096,7 +1096,7 @@ public final class PrefsUtility {
 	public static void pref_behaviour_sharing_dialog_data_set(
 			final Context context,
 			final SharedPreferences sharedPreferences,
-			String appNames) {
+			final String appNames) {
 		sharedPreferences.edit()
 				.putString(
 						context.getString(R.string.pref_behaviour_sharing_share_dialog_data),
@@ -1261,7 +1261,7 @@ public final class PrefsUtility {
 	}
 
 	public static void pref_cache_location(
-			Context context,
+			final Context context,
 			final SharedPreferences sharedPreferences, final String path) {
 		sharedPreferences.edit()
 				.putString(context.getString(R.string.pref_cache_location_key), path)
@@ -1281,7 +1281,7 @@ public final class PrefsUtility {
 
 			return General.hoursToMs(hours);
 
-		} catch(Throwable e) {
+		} catch(final Throwable e) {
 			return 1;
 		}
 	}
@@ -1456,7 +1456,7 @@ public final class PrefsUtility {
 
 		final EnumSet<RedditPreparedPost.Action> result = EnumSet.noneOf(
 				RedditPreparedPost.Action.class);
-		for(String s : strings) {
+		for(final String s : strings) {
 			result.add(RedditPreparedPost.Action.valueOf(General.asciiUppercase(s)));
 		}
 
@@ -1475,7 +1475,7 @@ public final class PrefsUtility {
 
 		final EnumSet<RedditPreparedPost.Action> result = EnumSet.noneOf(
 				RedditPreparedPost.Action.class);
-		for(String s : strings) {
+		for(final String s : strings) {
 			result.add(RedditPreparedPost.Action.valueOf(General.asciiUppercase(s)));
 		}
 
@@ -1494,7 +1494,7 @@ public final class PrefsUtility {
 
 		final EnumSet<LinkHandler.LinkAction> result
 				= EnumSet.noneOf(LinkHandler.LinkAction.class);
-		for(String s : strings) {
+		for(final String s : strings) {
 			result.add(LinkHandler.LinkAction.valueOf(General.asciiUppercase(s)));
 		}
 
@@ -1514,7 +1514,7 @@ public final class PrefsUtility {
 
 		final EnumSet<MainMenuListingManager.SubredditAction> result = EnumSet.noneOf(
 				MainMenuListingManager.SubredditAction.class);
-		for(String s : strings) {
+		for(final String s : strings) {
 			result.add(MainMenuListingManager.SubredditAction.valueOf(General.asciiUppercase(
 					s)));
 		}
@@ -1534,7 +1534,7 @@ public final class PrefsUtility {
 
 		final EnumSet<MainMenuFragment.MainMenuUserItems> result = EnumSet.noneOf(
 				MainMenuFragment.MainMenuUserItems.class);
-		for(String s : strings) {
+		for(final String s : strings) {
 			result.add(MainMenuFragment.MainMenuUserItems.valueOf(General.asciiUppercase(s)));
 		}
 
@@ -1553,7 +1553,7 @@ public final class PrefsUtility {
 
 		final EnumSet<MainMenuFragment.MainMenuShortcutItems> result = EnumSet.noneOf(
 				MainMenuFragment.MainMenuShortcutItems.class);
-		for(String s : strings) {
+		for(final String s : strings) {
 			result.add(MainMenuFragment.MainMenuShortcutItems.valueOf(General.asciiUppercase(
 					s)));
 		}
@@ -1639,10 +1639,10 @@ public final class PrefsUtility {
 		};
 
 
-		EnumMap<OptionsMenuUtility.AppbarItemsPref, Integer> appbarItemsPrefs
+		final EnumMap<OptionsMenuUtility.AppbarItemsPref, Integer> appbarItemsPrefs
 				= new EnumMap<>(OptionsMenuUtility.AppbarItemsPref.class);
 
-		for(AppbarItemInfo item : appbarItemsInfo) {
+		for(final AppbarItemInfo item : appbarItemsInfo) {
 			try {
 				appbarItemsPrefs.put(item.itemPref, Integer.parseInt(getString(
 						item.stringRes,

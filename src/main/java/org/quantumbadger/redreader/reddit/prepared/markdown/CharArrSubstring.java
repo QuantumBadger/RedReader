@@ -24,7 +24,7 @@ public final class CharArrSubstring {
 	protected final int start;
 	public final int length;
 
-	CharArrSubstring(char[] arr, int start, int length) {
+	CharArrSubstring(final char[] arr, final int start, final int length) {
 		this.arr = arr;
 		this.start = start;
 		this.length = length;
@@ -62,7 +62,7 @@ public final class CharArrSubstring {
 		return new CharArrSubstring(arr, start, length + 1 + toAppend.length);
 	}
 
-	private static int indexOfLinebreak(final char[] raw, int startPos) {
+	private static int indexOfLinebreak(final char[] raw, final int startPos) {
 		for(int i = startPos; i < raw.length; i++) {
 			if(raw[i] == '\n') {
 				return i;
@@ -89,7 +89,7 @@ public final class CharArrSubstring {
 		return length;
 	}
 
-	public char charAt(int index) {
+	public char charAt(final int index) {
 		return arr[start + index];
 	}
 
@@ -114,15 +114,15 @@ public final class CharArrSubstring {
 		return length;
 	}
 
-	public CharArrSubstring left(int chars) {
+	public CharArrSubstring left(final int chars) {
 		return new CharArrSubstring(arr, start, chars);
 	}
 
-	public CharArrSubstring substring(int start) {
+	public CharArrSubstring substring(final int start) {
 		return new CharArrSubstring(arr, this.start + start, length - start);
 	}
 
-	public CharArrSubstring substring(int start, int len) {
+	public CharArrSubstring substring(final int start, final int len) {
 		return new CharArrSubstring(arr, this.start + start, len);
 	}
 
@@ -150,7 +150,7 @@ public final class CharArrSubstring {
 		return true;
 	}
 
-	public boolean equalAt(int position, String needle) {
+	public boolean equalAt(final int position, final String needle) {
 
 		if(length < position + needle.length()) {
 			return false;

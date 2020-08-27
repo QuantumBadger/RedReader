@@ -59,15 +59,15 @@ public class NewMessageChecker extends BroadcastReceiver {
 	private static final String PREFS_SAVED_MESSAGE_TIMESTAMP = "LastMessageTimestamp";
 
 
-	public void onReceive(Context context, Intent intent) {
+	public void onReceive(final Context context, final Intent intent) {
 		checkForNewMessages(context);
 	}
 
-	public static void checkForNewMessages(Context context) {
+	public static void checkForNewMessages(final Context context) {
 
 		Log.i("RedReader", "Checking for new messages.");
 
-		boolean notificationsEnabled = PrefsUtility.pref_behaviour_notifications(
+		final boolean notificationsEnabled = PrefsUtility.pref_behaviour_notifications(
 				context,
 				PreferenceManager.getDefaultSharedPreferences(context));
 		if(!notificationsEnabled) {
@@ -226,7 +226,7 @@ public class NewMessageChecker extends BroadcastReceiver {
 						Log.e(TAG, "All messages have been previously seen.");
 					}
 
-				} catch(Throwable t) {
+				} catch(final Throwable t) {
 					notifyFailure(
 							CacheRequest.REQUEST_FAILURE_PARSE,
 							t,

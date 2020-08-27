@@ -34,7 +34,7 @@ public class UIThreadRepeatingTimer implements Runnable {
 
 	private boolean mShouldTimerRun = false;
 
-	public UIThreadRepeatingTimer(long mIntervalMs, Listener mListener) {
+	public UIThreadRepeatingTimer(final long mIntervalMs, final Listener mListener) {
 		this.mIntervalMs = mIntervalMs;
 		this.mListener = mListener;
 	}

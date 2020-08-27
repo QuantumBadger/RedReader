@@ -95,7 +95,7 @@ public class SaveImageCallback implements BaseActivity.PermissionCallback {
 								activity) {
 
 							@Override
-							protected void onCallbackException(Throwable t) {
+							protected void onCallbackException(final Throwable t) {
 								BugReportActivity.handleGlobalError(context, t);
 							}
 
@@ -112,10 +112,10 @@ public class SaveImageCallback implements BaseActivity.PermissionCallback {
 
 							@Override
 							protected void onFailure(
-									@CacheRequest.RequestFailureType int type,
-									Throwable t,
-									Integer status,
-									String readableMessage) {
+									@CacheRequest.RequestFailureType final int type,
+									final Throwable t,
+									final Integer status,
+									final String readableMessage) {
 
 								final RRError error = General.getGeneralErrorForFailure(
 										context,
@@ -128,20 +128,20 @@ public class SaveImageCallback implements BaseActivity.PermissionCallback {
 
 							@Override
 							protected void onProgress(
-									boolean authorizationInProgress,
-									long bytesRead,
-									long totalBytes) {
+									final boolean authorizationInProgress,
+									final long bytesRead,
+									final long totalBytes) {
 							}
 
 							@Override
 							protected void onSuccess(
-									CacheManager.ReadableCacheFile cacheFile,
-									long timestamp,
-									UUID session,
-									boolean fromCache,
-									String mimetype) {
+									final CacheManager.ReadableCacheFile cacheFile,
+									final long timestamp,
+									final UUID session,
+									final boolean fromCache,
+									final String mimetype) {
 
-								String filename
+								final String filename
 										= General.filenameFromString(info.urlOriginal);
 								File dst
 										= new File(Environment.getExternalStoragePublicDirectory(
@@ -171,7 +171,7 @@ public class SaveImageCallback implements BaseActivity.PermissionCallback {
 
 									General.copyFile(cacheFileInputStream, dst);
 
-								} catch(IOException e) {
+								} catch(final IOException e) {
 									notifyFailure(
 											CacheRequest.REQUEST_FAILURE_STORAGE,
 											e,

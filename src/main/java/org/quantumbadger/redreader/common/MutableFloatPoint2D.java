@@ -33,12 +33,12 @@ public class MutableFloatPoint2D {
 		y = event.getY(pointerIndex);
 	}
 
-	public void set(MutableFloatPoint2D other) {
+	public void set(final MutableFloatPoint2D other) {
 		x = other.x;
 		y = other.y;
 	}
 
-	public void set(float x, float y) {
+	public void set(final float x, final float y) {
 		this.x = x;
 		this.y = y;
 	}
@@ -61,7 +61,7 @@ public class MutableFloatPoint2D {
 		sub(rhs, this);
 	}
 
-	public void scale(double factor) {
+	public void scale(final double factor) {
 		x *= factor;
 		y *= factor;
 	}

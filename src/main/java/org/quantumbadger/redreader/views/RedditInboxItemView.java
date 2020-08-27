@@ -95,14 +95,14 @@ public class RedditInboxItemView extends LinearLayout {
 
 		setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) {
+			public void onClick(final View v) {
 				handleInboxClick(mActivity);
 			}
 		});
 
 		setOnLongClickListener(new OnLongClickListener() {
 			@Override
-			public boolean onLongClick(View v) {
+			public boolean onLongClick(final View v) {
 				handleInboxLongClick(mActivity);
 				return true;
 			}
@@ -132,13 +132,13 @@ public class RedditInboxItemView extends LinearLayout {
 		body.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
 	}
 
-	public void handleInboxClick(AppCompatActivity activity) {
+	public void handleInboxClick(final AppCompatActivity activity) {
 		if(currentItem != null) {
 			currentItem.handleInboxClick(activity);
 		}
 	}
 
-	public void handleInboxLongClick(AppCompatActivity activity) {
+	public void handleInboxLongClick(final AppCompatActivity activity) {
 		if(currentItem != null) {
 			currentItem.handleInboxLongClick(activity);
 		}

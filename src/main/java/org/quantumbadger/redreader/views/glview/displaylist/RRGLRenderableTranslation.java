@@ -30,7 +30,7 @@ public class RRGLRenderableTranslation extends RRGLRenderableRenderHooks {
 
 	}
 
-	public void setPosition(float x, float y) {
+	public void setPosition(final float x, final float y) {
 		mPositionX = x;
 		mPositionY = y;
 	}
@@ -45,7 +45,7 @@ public class RRGLRenderableTranslation extends RRGLRenderableRenderHooks {
 		stack.pop();
 	}
 
-	public void setPosition(MutableFloatPoint2D mPositionOffset) {
+	public void setPosition(final MutableFloatPoint2D mPositionOffset) {
 		mPositionX = mPositionOffset.x;
 		mPositionY = mPositionOffset.y;
 	}

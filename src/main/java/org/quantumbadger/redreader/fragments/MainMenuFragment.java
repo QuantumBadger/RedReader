@@ -104,7 +104,7 @@ public class MainMenuFragment extends RRFragment implements
 		final RedditAccount user = RedditAccountManager.getInstance(context)
 				.getDefaultAccount();
 
-		ScrollbarRecyclerViewManager recyclerViewManager
+		final ScrollbarRecyclerViewManager recyclerViewManager
 				= new ScrollbarRecyclerViewManager(parent, null, false);
 
 		mOuter = recyclerViewManager.getOuterView();
@@ -149,12 +149,15 @@ public class MainMenuFragment extends RRFragment implements
 					new RequestResponseHandler<HashSet<String>, SubredditRequestFailure>() {
 
 						@Override
-						public void onRequestFailed(SubredditRequestFailure failureReason) {
+						public void onRequestFailed(final SubredditRequestFailure failureReason) {
 							onMultiredditError(failureReason.asError(context));
 						}
 
 						@Override
-						public void onRequestSuccess(HashSet<String> result, long timeCached) {
+						public void onRequestSuccess(
+								final HashSet<String> result,
+								final long timeCached) {
+
 							multiredditSubscriptionManager.addListener(MainMenuFragment.this);
 							onMultiredditSubscriptionsChanged(result);
 						}
@@ -165,14 +168,14 @@ public class MainMenuFragment extends RRFragment implements
 							HashSet<SubredditCanonicalId>,
 							SubredditRequestFailure>() {
 						@Override
-						public void onRequestFailed(SubredditRequestFailure failureReason) {
+						public void onRequestFailed(final SubredditRequestFailure failureReason) {
 							onSubredditError(failureReason.asError(context));
 						}
 
 						@Override
 						public void onRequestSuccess(
-								HashSet<SubredditCanonicalId> result,
-								long timeCached) {
+								final HashSet<SubredditCanonicalId> result,
+								final long timeCached) {
 							subredditSubscriptionManager.addListener(MainMenuFragment.this);
 							onSubredditSubscriptionsChanged(result);
 						}

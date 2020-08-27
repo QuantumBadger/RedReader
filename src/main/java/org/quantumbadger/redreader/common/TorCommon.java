@@ -37,14 +37,14 @@ public class TorCommon {
 
 		General.checkThisIsUIThread();
 
-		AlertDialog.Builder notInstalled = new AlertDialog.Builder(context);
+		final AlertDialog.Builder notInstalled = new AlertDialog.Builder(context);
 
 		notInstalled.setMessage(R.string.error_tor_not_installed);
 		notInstalled.setPositiveButton(
 				R.string.dialog_yes,
 				new DialogInterface.OnClickListener() {
 					@Override
-					public void onClick(DialogInterface dialog, int id) {
+					public void onClick(final DialogInterface dialog, final int id) {
 						context.startActivity(OrbotHelper.getOrbotInstallIntent(context));
 						dialog.dismiss();
 					}
@@ -53,11 +53,11 @@ public class TorCommon {
 				R.string.dialog_no,
 				new DialogInterface.OnClickListener() {
 					@Override
-					public void onClick(DialogInterface dialog, int id) {
+					public void onClick(final DialogInterface dialog, final int id) {
 						dialog.cancel();
 					}
 				});
-		AlertDialog notInstalledAlert = notInstalled.create();
+		final AlertDialog notInstalledAlert = notInstalled.create();
 		notInstalledAlert.show();
 	}
 
@@ -107,7 +107,7 @@ public class TorCommon {
 				final AlertDialog.Builder builder = new AlertDialog.Builder(context);
 				builder.setMessage(R.string.error_tor_start_failed);
 
-				AlertDialog dialog = builder.create();
+				final AlertDialog dialog = builder.create();
 				dialog.show();
 			}
 		}

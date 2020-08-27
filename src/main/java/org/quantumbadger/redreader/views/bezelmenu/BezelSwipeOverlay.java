@@ -43,7 +43,7 @@ public class BezelSwipeOverlay extends View {
 
 	private final int mSwipeZonePixels;
 
-	public BezelSwipeOverlay(Context context, BezelSwipeListener listener) {
+	public BezelSwipeOverlay(final Context context, final BezelSwipeListener listener) {
 		super(context);
 		this.listener = listener;
 
@@ -56,7 +56,7 @@ public class BezelSwipeOverlay extends View {
 	}
 
 	@Override
-	public boolean onTouchEvent(MotionEvent event) {
+	public boolean onTouchEvent(final MotionEvent event) {
 
 		final int action = event.getAction() & MotionEvent.ACTION_MASK;
 

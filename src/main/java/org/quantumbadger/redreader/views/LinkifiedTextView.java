@@ -57,7 +57,7 @@ public class LinkifiedTextView extends AppCompatTextView {
 
 		final Spannable buffer = (Spannable)text;
 
-		int action = event.getAction();
+		final int action = event.getAction();
 
 		if(action == MotionEvent.ACTION_UP ||
 				action == MotionEvent.ACTION_DOWN) {

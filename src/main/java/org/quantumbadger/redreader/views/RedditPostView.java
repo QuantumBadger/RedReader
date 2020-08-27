@@ -136,14 +136,14 @@ public final class RedditPostView extends FlingableItemView
 		public final int descriptionRes;
 
 		private ActionDescriptionPair(
-				RedditPreparedPost.Action action,
-				int descriptionRes) {
+				final RedditPreparedPost.Action action,
+				final int descriptionRes) {
 			this.action = action;
 			this.descriptionRes = descriptionRes;
 		}
 	}
 
-	private ActionDescriptionPair chooseFlingAction(PrefsUtility.PostFlingAction pref) {
+	private ActionDescriptionPair chooseFlingAction(final PrefsUtility.PostFlingAction pref) {
 
 		switch(pref) {
 

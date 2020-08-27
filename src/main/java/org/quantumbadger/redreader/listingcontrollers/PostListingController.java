@@ -40,7 +40,7 @@ public class PostListingController {
 	private UUID session = null;
 	private PostListingURL url;
 
-	public void setSession(UUID session) {
+	public void setSession(final UUID session) {
 		this.session = session;
 	}
 
@@ -201,14 +201,14 @@ public class PostListingController {
 				== SubredditPostListURL.Type.RANDOM)) {
 			try {
 				return new SubredditCanonicalId(url.asSubredditPostListURL().subreddit);
-			} catch(InvalidSubredditNameException e) {
+			} catch(final InvalidSubredditNameException e) {
 				throw new RuntimeException(e);
 			}
 		} else if(url.pathType() == RedditURLParser.SEARCH_POST_LISTING_URL
 				&& url.asSearchPostListURL().subreddit != null) {
 			try {
 				return new SubredditCanonicalId(url.asSearchPostListURL().subreddit);
-			} catch(InvalidSubredditNameException e) {
+			} catch(final InvalidSubredditNameException e) {
 				throw new RuntimeException(e);
 			}
 		}

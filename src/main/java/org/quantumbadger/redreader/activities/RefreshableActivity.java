@@ -88,12 +88,12 @@ public abstract class RefreshableActivity extends BaseActivity {
 	}
 
 	@Override
-	public void onConfigurationChanged(@NonNull Configuration newConfig) {
+	public void onConfigurationChanged(@NonNull final Configuration newConfig) {
 		invalidateOptionsMenu();
 		super.onConfigurationChanged(newConfig);
 	}
 
-	protected void doRefreshNow(RefreshableFragment which, boolean force) {
+	protected void doRefreshNow(final RefreshableFragment which, final boolean force) {
 
 		if(which == RefreshableFragment.RESTART) {
 			General.recreateActivityNoAnimation(this);

@@ -86,8 +86,8 @@ public class RedditMultiredditSubscriptionManager {
 	}
 
 	private synchronized void onNewSubscriptionListReceived(
-			HashSet<String> newSubscriptions,
-			long timestamp) {
+			final HashSet<String> newSubscriptions,
+			final long timestamp) {
 
 		mMultireddits = new WritableHashSet(
 				newSubscriptions,
@@ -122,7 +122,7 @@ public class RedditMultiredditSubscriptionManager {
 
 					// TODO handle failed requests properly -- retry? then notify listeners
 					@Override
-					public void onRequestFailed(SubredditRequestFailure failureReason) {
+					public void onRequestFailed(final SubredditRequestFailure failureReason) {
 						if(handler != null) {
 							handler.onRequestFailed(failureReason);
 						}
@@ -130,8 +130,8 @@ public class RedditMultiredditSubscriptionManager {
 
 					@Override
 					public void onRequestSuccess(
-							WritableHashSet result,
-							long timeCached) {
+							final WritableHashSet result,
+							final long timeCached) {
 						final HashSet<String> newSubscriptions = result.toHashset();
 						onNewSubscriptionListReceived(newSubscriptions, timeCached);
 						if(handler != null) {
@@ -154,7 +154,7 @@ public class RedditMultiredditSubscriptionManager {
 	private class MultiredditListChangeNotifier
 			implements WeakReferenceListManager.Operator<MultiredditListChangeListener> {
 
-		public void operate(MultiredditListChangeListener listener) {
+		public void operate(final MultiredditListChangeListener listener) {
 			listener.onMultiredditListUpdated(
 					RedditMultiredditSubscriptionManager.this);
 		}

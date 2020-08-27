@@ -54,8 +54,8 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 	}
 
 	@Override
-	public VH3TextIcon onCreateViewHolder(ViewGroup parent, int viewType) {
-		View v = LayoutInflater.from(parent.getContext())
+	public VH3TextIcon onCreateViewHolder(final ViewGroup parent, final int viewType) {
+		final View v = LayoutInflater.from(parent.getContext())
 				.inflate(R.layout.list_item_3_text_icon, parent, false);
 		return new VH3TextIcon(v);
 	}
@@ -91,7 +91,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 				subtitle += ", ";
 			}
 
-			long size = imageInfo.size;
+			final long size = imageInfo.size;
 			if(size < 512 * 1024) {
 				subtitle += String.format(Locale.US, "%.1f kB", (float)size / 1024);
 			} else {
@@ -189,7 +189,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 							if(vh.bindingId == bindingId) {
 								vh.icon.setImageURI(cacheFile.getUri());
 							}
-						} catch(IOException e) {
+						} catch(final IOException e) {
 							throw new RuntimeException(e);
 						}
 					});

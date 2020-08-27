@@ -53,12 +53,12 @@ public class SubredditPostListURL extends PostListingURL {
 		return new SubredditPostListURL(Type.ALL, null, null, null, null, null);
 	}
 
-	public static RedditURLParser.RedditURL getSubreddit(String subreddit) throws
+	public static RedditURLParser.RedditURL getSubreddit(final String subreddit) throws
 			InvalidSubredditNameException {
 		return getSubreddit(new SubredditCanonicalId(subreddit));
 	}
 
-	public static RedditURLParser.RedditURL getSubreddit(SubredditCanonicalId subreddit) {
+	public static RedditURLParser.RedditURL getSubreddit(final SubredditCanonicalId subreddit) {
 
 		return RedditURLParser.parse(new Uri.Builder()
 				.scheme(Constants.Reddit.getScheme())
@@ -78,12 +78,12 @@ public class SubredditPostListURL extends PostListingURL {
 	@Nullable public final String before, after;
 
 	private SubredditPostListURL(
-			Type type,
-			String subreddit,
-			@Nullable PostSort order,
-			@Nullable Integer limit,
-			@Nullable String before,
-			@Nullable String after) {
+			final Type type,
+			final String subreddit,
+			@Nullable final PostSort order,
+			@Nullable final Integer limit,
+			@Nullable final String before,
+			@Nullable final String after) {
 
 		this.type = type;
 		this.subreddit = subreddit;
@@ -93,15 +93,15 @@ public class SubredditPostListURL extends PostListingURL {
 		this.after = after;
 	}
 
-	public SubredditPostListURL after(String newAfter) {
+	public SubredditPostListURL after(final String newAfter) {
 		return new SubredditPostListURL(type, subreddit, order, limit, before, newAfter);
 	}
 
-	public SubredditPostListURL limit(Integer newLimit) {
+	public SubredditPostListURL limit(final Integer newLimit) {
 		return new SubredditPostListURL(type, subreddit, order, newLimit, before, after);
 	}
 
-	public SubredditPostListURL sort(PostSort newOrder) {
+	public SubredditPostListURL sort(final PostSort newOrder) {
 		return new SubredditPostListURL(type, subreddit, newOrder, limit, before, after);
 	}
 
@@ -112,7 +112,7 @@ public class SubredditPostListURL extends PostListingURL {
 	@Override
 	public Uri generateJsonUri() {
 
-		Uri.Builder builder = new Uri.Builder();
+		final Uri.Builder builder = new Uri.Builder();
 		builder.scheme(Constants.Reddit.getScheme())
 				.authority(Constants.Reddit.getDomain());
 
@@ -182,7 +182,7 @@ public class SubredditPostListURL extends PostListingURL {
 			} else if(parameterKey.equalsIgnoreCase("limit")) {
 				try {
 					limit = Integer.parseInt(uri.getQueryParameter(parameterKey));
-				} catch(Throwable ignored) {
+				} catch(final Throwable ignored) {
 				}
 
 			}
@@ -381,7 +381,7 @@ public class SubredditPostListURL extends PostListingURL {
 	@Override
 	public String humanReadablePath() {
 
-		String path = super.humanReadablePath();
+		final String path = super.humanReadablePath();
 
 		if(order == null) {
 			return path;
@@ -402,7 +402,7 @@ public class SubredditPostListURL extends PostListingURL {
 	}
 
 	@Override
-	public String humanReadableName(Context context, boolean shorter) {
+	public String humanReadableName(final Context context, final boolean shorter) {
 
 		switch(type) {
 
@@ -423,7 +423,7 @@ public class SubredditPostListURL extends PostListingURL {
 			case SUBREDDIT:
 				try {
 					return new SubredditCanonicalId(subreddit).toString();
-				} catch(InvalidSubredditNameException e) {
+				} catch(final InvalidSubredditNameException e) {
 					return subreddit;
 				}
 
@@ -436,7 +436,7 @@ public class SubredditPostListURL extends PostListingURL {
 		}
 	}
 
-	public SubredditPostListURL changeSubreddit(String newSubreddit) {
+	public SubredditPostListURL changeSubreddit(final String newSubreddit) {
 		return new SubredditPostListURL(type, newSubreddit, order, limit, before, after);
 	}
 }

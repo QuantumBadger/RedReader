@@ -85,7 +85,7 @@ public abstract class HTTPBackend {
 				return URLEncoder.encode(name, "UTF-8") + "=" + URLEncoder.encode(
 						value,
 						"UTF-8");
-			} catch(UnsupportedEncodingException e) {
+			} catch(final UnsupportedEncodingException e) {
 				throw new RuntimeException(e);
 			}
 		}

@@ -22,7 +22,7 @@ public class MutableFloatRectangle2D {
 	public final MutableFloatPoint2D mTopLeft = new MutableFloatPoint2D();
 	public final MutableFloatPoint2D mBottomRight = new MutableFloatPoint2D();
 
-	public boolean intersect(MutableFloatRectangle2D other) {
+	public boolean intersect(final MutableFloatRectangle2D other) {
 
 		return !(mTopLeft.x > other.mBottomRight.x
 				|| mTopLeft.y > other.mBottomRight.y

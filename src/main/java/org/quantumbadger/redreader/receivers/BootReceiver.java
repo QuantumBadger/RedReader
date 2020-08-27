@@ -25,7 +25,7 @@ import org.quantumbadger.redreader.common.Alarms;
 public class BootReceiver extends BroadcastReceiver {
 
 	@Override
-	public void onReceive(Context context, Intent intent) {
+	public void onReceive(final Context context, final Intent intent) {
 		Alarms.onBoot(context);
 	}
 }

@@ -150,7 +150,7 @@ public class PostListingFragment extends RRFragment
 		try {
 			mPostListingURL
 					= (PostListingURL)RedditURLParser.parseProbablePostListing(url);
-		} catch(ClassCastException e) {
+		} catch(final ClassCastException e) {
 			Toast.makeText(getActivity(), "Invalid post listing URL.", Toast.LENGTH_LONG)
 					.show();
 			// TODO proper error handling -- show error view
@@ -286,7 +286,7 @@ public class PostListingFragment extends RRFragment
 
 			case RedditURLParser.SUBREDDIT_POST_LISTING_URL:
 
-				SubredditPostListURL subredditPostListURL
+				final SubredditPostListURL subredditPostListURL
 						= (SubredditPostListURL)mPostListingURL;
 
 				switch(subredditPostListURL.type) {
@@ -313,7 +313,8 @@ public class PostListingFragment extends RRFragment
 								RedditSubreddit,
 								SubredditRequestFailure>() {
 							@Override
-							public void onRequestFailed(SubredditRequestFailure failureReason) {
+							public void onRequestFailed(
+									final SubredditRequestFailure failureReason) {
 								// Ignore
 								AndroidCommon.UI_THREAD_HANDLER.post(() ->
 										CacheManager.getInstance(context).makeRequest(mRequest));
@@ -364,7 +365,7 @@ public class PostListingFragment extends RRFragment
 											TimestampBound.NONE,
 											subredditHandler,
 											null);
-						} catch(InvalidSubredditNameException e) {
+						} catch(final InvalidSubredditNameException e) {
 							throw new RuntimeException(e);
 						}
 						break;
@@ -421,7 +422,7 @@ public class PostListingFragment extends RRFragment
 						mSession,
 						mRequest.downloadStrategy,
 						true);
-			} catch(InvalidSubredditNameException e) {
+			} catch(final InvalidSubredditNameException e) {
 				throw new RuntimeException(e);
 			}
 		}
@@ -554,7 +555,7 @@ public class PostListingFragment extends RRFragment
 							.inflate(R.layout.load_more_posts, null);
 					mLoadMoreView.setOnClickListener(new View.OnClickListener() {
 						@Override
-						public void onClick(View view) {
+						public void onClick(final View view) {
 							mPostListingManager.removeLoadMoreButton();
 							mLoadMoreView = null;
 							restackRefreshCount();
@@ -584,7 +585,7 @@ public class PostListingFragment extends RRFragment
 							new SubredditCanonicalId(
 									mPostListingURL.asSubredditPostListURL().subreddit),
 							getActivity());
-		} catch(InvalidSubredditNameException e) {
+		} catch(final InvalidSubredditNameException e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -602,7 +603,7 @@ public class PostListingFragment extends RRFragment
 							RedditAccountManager.getInstance(getActivity())
 									.getDefaultAccount())
 					.unsubscribe(mSubreddit.getCanonicalId(), getActivity());
-		} catch(InvalidSubredditNameException e) {
+		} catch(final InvalidSubredditNameException e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -642,11 +643,11 @@ public class PostListingFragment extends RRFragment
 		private final boolean firstDownload;
 
 		protected PostListingRequest(
-				Uri url,
-				RedditAccount user,
-				UUID requestSession,
-				DownloadStrategy downloadStrategy,
-				boolean firstDownload) {
+				final Uri url,
+				final RedditAccount user,
+				final UUID requestSession,
+				final DownloadStrategy downloadStrategy,
+				final boolean firstDownload) {
 			super(
 					General.uriFromString(url.toString()),
 					user,
@@ -1098,7 +1099,7 @@ public class PostListingFragment extends RRFragment
 					}
 				});
 
-			} catch(Throwable t) {
+			} catch(final Throwable t) {
 				notifyFailure(
 						CacheRequest.REQUEST_FAILURE_PARSE,
 						t,

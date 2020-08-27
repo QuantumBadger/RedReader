@@ -43,7 +43,7 @@ public class RRGLProgramTexture extends RRGLProgramVertices {
 		GLES20.glUniform1i(mTextureUniformHandle, 0);
 	}
 
-	public void activateUVBuffer(FloatBuffer uvBuffer) {
+	public void activateUVBuffer(final FloatBuffer uvBuffer) {
 		GLES20.glVertexAttribPointer(
 				mUVDataHandle,
 				2,

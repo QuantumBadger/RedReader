@@ -55,7 +55,7 @@ public class RedditAccount {
 		return accessToken;
 	}
 
-	public synchronized void setAccessToken(RedditOAuth.AccessToken token) {
+	public synchronized void setAccessToken(final RedditOAuth.AccessToken token) {
 		accessToken = token;
 	}
 

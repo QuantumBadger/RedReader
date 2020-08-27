@@ -79,8 +79,8 @@ public class RedditCommentView extends FlingableItemView
 		public final int descriptionRes;
 
 		private ActionDescriptionPair(
-				RedditAPICommentAction.RedditCommentAction action,
-				int descriptionRes) {
+				final RedditAPICommentAction.RedditCommentAction action,
+				final int descriptionRes) {
 			this.action = action;
 			this.descriptionRes = descriptionRes;
 		}

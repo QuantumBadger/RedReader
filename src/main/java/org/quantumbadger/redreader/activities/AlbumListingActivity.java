@@ -47,7 +47,7 @@ public class AlbumListingActivity extends BaseActivity {
 	private boolean mHaveReverted = false;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(final Bundle savedInstanceState) {
 
 		PrefsUtility.applyTheme(this);
 

@@ -40,15 +40,15 @@ public class BugReportActivity extends BaseActivity {
 
 	private static final LinkedList<RRError> errors = new LinkedList<>();
 
-	public static synchronized void addGlobalError(RRError error) {
+	public static synchronized void addGlobalError(final RRError error) {
 		errors.add(error);
 	}
 
-	public static synchronized void handleGlobalError(Context context, String text) {
+	public static synchronized void handleGlobalError(final Context context, final String text) {
 		handleGlobalError(context, new RRError(text, null, new RuntimeException()));
 	}
 
-	public static synchronized void handleGlobalError(Context context, Throwable t) {
+	public static synchronized void handleGlobalError(final Context context, final Throwable t) {
 
 		if(t != null) {
 			Log.e("BugReportActivity", "Handling exception", t);
@@ -91,7 +91,7 @@ public class BugReportActivity extends BaseActivity {
 			@NonNull final Context context,
 			@NonNull final Iterable<RRError> errors) {
 
-		StringBuilder sb = new StringBuilder(1024);
+		final StringBuilder sb = new StringBuilder(1024);
 
 		sb.append("Error report -- RedReader v")
 				.append(Constants.version(context))
@@ -145,13 +145,13 @@ public class BugReportActivity extends BaseActivity {
 					context.getApplicationContext()
 							.getString(R.string.bug_chooser_title)));
 
-		} catch(android.content.ActivityNotFoundException ex) {
+		} catch(final android.content.ActivityNotFoundException ex) {
 			General.quickToast(context, R.string.error_toast_no_email_apps);
 		}
 	}
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(final Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 
@@ -195,14 +195,18 @@ public class BugReportActivity extends BaseActivity {
 		setBaseActivityContentView(sv);
 	}
 
-	public static void appendException(StringBuilder sb, Throwable t, int recurseLimit) {
+	public static void appendException(
+			final StringBuilder sb,
+			final Throwable t,
+			final int recurseLimit) {
+
 		if(t != null) {
 
 			sb.append("Exception: ");
 			sb.append(t.getClass().getCanonicalName()).append("\r\n");
 			sb.append(t.getMessage()).append("\r\n");
 
-			for(StackTraceElement elem : t.getStackTrace()) {
+			for(final StackTraceElement elem : t.getStackTrace()) {
 				sb.append("  ").append(elem.toString()).append("\r\n");
 			}
 

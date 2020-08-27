@@ -50,8 +50,8 @@ public class RedditAPIIndividualSubredditDataRequester implements
 	private final RedditAccount user;
 
 	public RedditAPIIndividualSubredditDataRequester(
-			Context context,
-			RedditAccount user) {
+			final Context context,
+			final RedditAccount user) {
 		this.context = context;
 		this.user = user;
 	}
@@ -77,7 +77,7 @@ public class RedditAPIIndividualSubredditDataRequester implements
 		) {
 
 			@Override
-			protected void onCallbackException(Throwable t) {
+			protected void onCallbackException(final Throwable t) {
 				handler.onRequestFailed(new SubredditRequestFailure(
 						CacheRequest.REQUEST_FAILURE_PARSE,
 						t,
@@ -97,16 +97,16 @@ public class RedditAPIIndividualSubredditDataRequester implements
 			@Override
 			protected void onProgress(
 					final boolean authorizationInProgress,
-					long bytesRead,
-					long totalBytes) {
+					final long bytesRead,
+					final long totalBytes) {
 			}
 
 			@Override
 			protected void onFailure(
-					@CacheRequest.RequestFailureType int type,
-					Throwable t,
-					Integer status,
-					String readableMessage) {
+					@CacheRequest.RequestFailureType final int type,
+					final Throwable t,
+					final Integer status,
+					final String readableMessage) {
 				handler.onRequestFailed(new SubredditRequestFailure(
 						type,
 						t,
@@ -117,19 +117,19 @@ public class RedditAPIIndividualSubredditDataRequester implements
 
 			@Override
 			protected void onSuccess(
-					CacheManager.ReadableCacheFile cacheFile,
-					long timestamp,
-					UUID session,
-					boolean fromCache,
-					String mimetype) {
+					final CacheManager.ReadableCacheFile cacheFile,
+					final long timestamp,
+					final UUID session,
+					final boolean fromCache,
+					final String mimetype) {
 			}
 
 			@Override
 			public void onJsonParseStarted(
-					JsonValue result,
-					long timestamp,
-					UUID session,
-					boolean fromCache) {
+					final JsonValue result,
+					final long timestamp,
+					final UUID session,
+					final boolean fromCache) {
 
 				try {
 					final RedditThing subredditThing = result.asObject(RedditThing.class);
@@ -139,7 +139,7 @@ public class RedditAPIIndividualSubredditDataRequester implements
 
 					RedditSubredditHistory.addSubreddit(user, subredditCanonicalId);
 
-				} catch(Exception e) {
+				} catch(final Exception e) {
 					handler.onRequestFailed(new SubredditRequestFailure(
 							CacheRequest.REQUEST_FAILURE_PARSE,
 							e,
@@ -173,7 +173,7 @@ public class RedditAPIIndividualSubredditDataRequester implements
 				innerHandler
 				= new RequestResponseHandler<RedditSubreddit, SubredditRequestFailure>() {
 			@Override
-			public void onRequestFailed(SubredditRequestFailure failureReason) {
+			public void onRequestFailed(final SubredditRequestFailure failureReason) {
 				synchronized(result) {
 					if(stillOkay.get()) {
 						stillOkay.set(false);
@@ -183,7 +183,7 @@ public class RedditAPIIndividualSubredditDataRequester implements
 			}
 
 			@Override
-			public void onRequestSuccess(RedditSubreddit innerResult, long timeCached) {
+			public void onRequestSuccess(final RedditSubreddit innerResult, final long timeCached) {
 				synchronized(result) {
 					if(stillOkay.get()) {
 
@@ -211,11 +211,11 @@ public class RedditAPIIndividualSubredditDataRequester implements
 		}
 	}
 
-	public void performWrite(RedditSubreddit value) {
+	public void performWrite(final RedditSubreddit value) {
 		throw new UnsupportedOperationException();
 	}
 
-	public void performWrite(Collection<RedditSubreddit> values) {
+	public void performWrite(final Collection<RedditSubreddit> values) {
 		throw new UnsupportedOperationException();
 	}
 }

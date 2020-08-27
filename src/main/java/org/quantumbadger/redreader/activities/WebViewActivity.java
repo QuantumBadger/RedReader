@@ -53,7 +53,7 @@ public class WebViewActivity extends BaseActivity
 
 		final Intent intent = getIntent();
 
-		String url = intent.getStringExtra("url");
+		final String url = intent.getStringExtra("url");
 		mPost = intent.getParcelableExtra("post");
 
 		if(url == null) {
@@ -103,7 +103,7 @@ public class WebViewActivity extends BaseActivity
 						startActivity(intent);
 						finish(); //to clear from backstack
 
-					} catch(Exception e) {
+					} catch(final Exception e) {
 						Toast.makeText(
 								this,
 								"Error: could not launch browser.",
@@ -158,7 +158,7 @@ public class WebViewActivity extends BaseActivity
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(final Menu menu) {
 		menu.add(0, VIEW_IN_BROWSER, 0, R.string.web_view_open_browser);
 		menu.add(0, CLEAR_CACHE, 1, R.string.web_view_clear_cache);
 		menu.add(0, USE_HTTPS, 2, R.string.webview_use_https);

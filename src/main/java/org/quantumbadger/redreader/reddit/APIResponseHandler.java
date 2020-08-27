@@ -43,7 +43,7 @@ public abstract class APIResponseHandler {
 		ALREADY_SUBMITTED
 	}
 
-	private APIResponseHandler(AppCompatActivity context) {
+	private APIResponseHandler(final AppCompatActivity context) {
 		this.context = context;
 	}
 
@@ -64,10 +64,10 @@ public abstract class APIResponseHandler {
 			final String readableMessage) {
 		try {
 			onFailure(type, t, status, readableMessage);
-		} catch(Throwable t1) {
+		} catch(final Throwable t1) {
 			try {
 				onCallbackException(t1);
-			} catch(Throwable t2) {
+			} catch(final Throwable t2) {
 				BugReportActivity.addGlobalError(new RRError(null, null, t1));
 				BugReportActivity.handleGlobalError(context, t2);
 			}
@@ -77,10 +77,10 @@ public abstract class APIResponseHandler {
 	public final void notifyFailure(final APIFailureType type) {
 		try {
 			onFailure(type);
-		} catch(Throwable t1) {
+		} catch(final Throwable t1) {
 			try {
 				onCallbackException(t1);
-			} catch(Throwable t2) {
+			} catch(final Throwable t2) {
 				BugReportActivity.addGlobalError(new RRError(null, null, t1));
 				BugReportActivity.handleGlobalError(context, t2);
 			}
@@ -89,17 +89,17 @@ public abstract class APIResponseHandler {
 
 	public static abstract class ActionResponseHandler extends APIResponseHandler {
 
-		protected ActionResponseHandler(AppCompatActivity context) {
+		protected ActionResponseHandler(final AppCompatActivity context) {
 			super(context);
 		}
 
 		public final void notifySuccess(@Nullable final String redirectUrl) {
 			try {
 				onSuccess(redirectUrl);
-			} catch(Throwable t1) {
+			} catch(final Throwable t1) {
 				try {
 					onCallbackException(t1);
-				} catch(Throwable t2) {
+				} catch(final Throwable t2) {
 					BugReportActivity.addGlobalError(new RRError(null, null, t1));
 					BugReportActivity.handleGlobalError(context, t2);
 				}
@@ -111,17 +111,17 @@ public abstract class APIResponseHandler {
 
 	public static abstract class NewCaptchaResponseHandler extends APIResponseHandler {
 
-		protected NewCaptchaResponseHandler(AppCompatActivity context) {
+		protected NewCaptchaResponseHandler(final AppCompatActivity context) {
 			super(context);
 		}
 
 		public final void notifySuccess(final String captchaId) {
 			try {
 				onSuccess(captchaId);
-			} catch(Throwable t1) {
+			} catch(final Throwable t1) {
 				try {
 					onCallbackException(t1);
-				} catch(Throwable t2) {
+				} catch(final Throwable t2) {
 					BugReportActivity.addGlobalError(new RRError(null, null, t1));
 					BugReportActivity.handleGlobalError(context, t2);
 				}
@@ -133,7 +133,7 @@ public abstract class APIResponseHandler {
 
 	public static abstract class SubredditResponseHandler extends APIResponseHandler {
 
-		protected SubredditResponseHandler(AppCompatActivity context) {
+		protected SubredditResponseHandler(final AppCompatActivity context) {
 			super(context);
 		}
 
@@ -142,10 +142,10 @@ public abstract class APIResponseHandler {
 				final long timestamp) {
 			try {
 				onSuccess(result, timestamp);
-			} catch(Throwable t1) {
+			} catch(final Throwable t1) {
 				try {
 					onCallbackException(t1);
-				} catch(Throwable t2) {
+				} catch(final Throwable t2) {
 					BugReportActivity.addGlobalError(new RRError(null, null, t1));
 					BugReportActivity.handleGlobalError(context, t2);
 				}
@@ -155,10 +155,10 @@ public abstract class APIResponseHandler {
 		public final void notifyDownloadNecessary() {
 			try {
 				onDownloadNecessary();
-			} catch(Throwable t1) {
+			} catch(final Throwable t1) {
 				try {
 					onCallbackException(t1);
-				} catch(Throwable t2) {
+				} catch(final Throwable t2) {
 					BugReportActivity.addGlobalError(new RRError(null, null, t1));
 					BugReportActivity.handleGlobalError(context, t2);
 				}
@@ -168,10 +168,10 @@ public abstract class APIResponseHandler {
 		public final void notifyDownloadStarted() {
 			try {
 				onDownloadStarted();
-			} catch(Throwable t1) {
+			} catch(final Throwable t1) {
 				try {
 					onCallbackException(t1);
-				} catch(Throwable t2) {
+				} catch(final Throwable t2) {
 					BugReportActivity.addGlobalError(new RRError(null, null, t1));
 					BugReportActivity.handleGlobalError(context, t2);
 				}
@@ -187,17 +187,17 @@ public abstract class APIResponseHandler {
 
 	public static abstract class UserResponseHandler extends APIResponseHandler {
 
-		protected UserResponseHandler(AppCompatActivity context) {
+		protected UserResponseHandler(final AppCompatActivity context) {
 			super(context);
 		}
 
 		public final void notifySuccess(final RedditUser result, final long timestamp) {
 			try {
 				onSuccess(result, timestamp);
-			} catch(Throwable t1) {
+			} catch(final Throwable t1) {
 				try {
 					onCallbackException(t1);
-				} catch(Throwable t2) {
+				} catch(final Throwable t2) {
 					BugReportActivity.addGlobalError(new RRError(null, null, t1));
 					BugReportActivity.handleGlobalError(context, t2);
 				}
@@ -207,10 +207,10 @@ public abstract class APIResponseHandler {
 		public final void notifyDownloadStarted() {
 			try {
 				onDownloadStarted();
-			} catch(Throwable t1) {
+			} catch(final Throwable t1) {
 				try {
 					onCallbackException(t1);
-				} catch(Throwable t2) {
+				} catch(final Throwable t2) {
 					BugReportActivity.addGlobalError(new RRError(null, null, t1));
 					BugReportActivity.handleGlobalError(context, t2);
 				}

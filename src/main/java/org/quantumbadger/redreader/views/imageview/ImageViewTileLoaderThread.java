@@ -41,7 +41,7 @@ public class ImageViewTileLoaderThread {
 				new InternalRunnable());
 	}
 
-	public void enqueue(ImageViewTileLoader tile) {
+	public void enqueue(final ImageViewTileLoader tile) {
 
 		synchronized(mQueue) {
 			mQueue.addLast(tile);

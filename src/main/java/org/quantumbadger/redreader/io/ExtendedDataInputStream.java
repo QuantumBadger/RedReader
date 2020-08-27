@@ -25,7 +25,7 @@ import java.io.InputStream;
 
 public class ExtendedDataInputStream extends DataInputStream {
 
-	public ExtendedDataInputStream(InputStream in) {
+	public ExtendedDataInputStream(final InputStream in) {
 		super(in);
 	}
 

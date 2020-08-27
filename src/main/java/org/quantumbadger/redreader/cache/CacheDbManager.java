@@ -217,7 +217,7 @@ final class CacheDbManager extends SQLiteOpenHelper {
 	}
 
 	public synchronized ArrayList<Long> getFilesToPrune(
-			HashSet<Long> currentFiles,
+			final HashSet<Long> currentFiles,
 			final HashMap<Integer, Long> maxAge,
 			final long defaultMaxAge) {
 

@@ -98,20 +98,20 @@ public class LinkHandler {
 		}
 	}
 
-	public static void onLinkClicked(AppCompatActivity activity, String url) {
+	public static void onLinkClicked(final AppCompatActivity activity, final String url) {
 		onLinkClicked(activity, url, false);
 	}
 
 	public static void onLinkClicked(
-			AppCompatActivity activity,
-			String url,
-			boolean forceNoImage) {
+			final AppCompatActivity activity,
+			final String url,
+			final boolean forceNoImage) {
 		onLinkClicked(activity, url, forceNoImage, null);
 	}
 
 	public static void onLinkClicked(
 			final AppCompatActivity activity,
-			String url,
+			final String url,
 			final boolean forceNoImage,
 			final RedditPost post) {
 
@@ -120,7 +120,7 @@ public class LinkHandler {
 
 	public static void onLinkClicked(
 			final AppCompatActivity activity,
-			String url,
+			final String url,
 			final boolean forceNoImage,
 			final RedditPost post,
 			final AlbumInfo albumInfo,
@@ -159,7 +159,7 @@ public class LinkHandler {
 								activity);
 						builder.setTitle(rrUri.getQueryParameter("title"));
 						builder.setMessage(rrUri.getQueryParameter("message"));
-						AlertDialog alert = builder.create();
+						final AlertDialog alert = builder.create();
 						alert.show();
 					}
 				});
@@ -304,7 +304,7 @@ public class LinkHandler {
 
 	}
 
-	public static void onLinkLongClicked(AppCompatActivity activity, String uri) {
+	public static void onLinkLongClicked(final AppCompatActivity activity, final String uri) {
 		onLinkLongClicked(activity, uri, false);
 	}
 
@@ -368,7 +368,7 @@ public class LinkHandler {
 
 		builder.setItems(menuText, new DialogInterface.OnClickListener() {
 			@Override
-			public void onClick(DialogInterface dialog, int which) {
+			public void onClick(final DialogInterface dialog, final int which) {
 				onActionMenuItemSelected(uri, activity, menu.get(which).action);
 			}
 		});
@@ -381,20 +381,20 @@ public class LinkHandler {
 	}
 
 	public static void onActionMenuItemSelected(
-			String uri,
-			AppCompatActivity activity,
-			LinkAction action) {
+			final String uri,
+			final AppCompatActivity activity,
+			final LinkAction action) {
 		switch(action) {
 			case SHARE:
 				shareText(activity, null, uri);
 				break;
 			case COPY_URL:
-				ClipboardManager clipboardManager
+				final ClipboardManager clipboardManager
 						= (ClipboardManager)activity.getSystemService(Context.CLIPBOARD_SERVICE);
 				if(clipboardManager != null) {
 					// Using newPlainText here instead of newRawUri because links from
 					// comments/self-text are often not valid URIs
-					ClipData data = ClipData.newPlainText(null, uri);
+					final ClipData data = ClipData.newPlainText(null, uri);
 					clipboardManager.setPrimaryClip(data);
 
 					General.quickToast(
@@ -428,8 +428,8 @@ public class LinkHandler {
 	}
 
 	public static boolean openWebBrowser(
-			AppCompatActivity activity,
-			Uri uri,
+			final AppCompatActivity activity,
+			final Uri uri,
 			final boolean fromExternalIntent) {
 
 		if(!fromExternalIntent) {
@@ -439,7 +439,7 @@ public class LinkHandler {
 				activity.startActivity(intent);
 				return true;
 
-			} catch(Exception e) {
+			} catch(final Exception e) {
 				General.quickToast(
 						activity,
 						String.format(
@@ -511,18 +511,18 @@ public class LinkHandler {
 			@Nullable final RedditPost post) {
 
 		try {
-			Intent intent = new Intent();
+			final Intent intent = new Intent();
 			intent.setAction(Intent.ACTION_VIEW);
 			intent.setData(uri);
 			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-			Bundle bundle = new Bundle();
+			final Bundle bundle = new Bundle();
 			bundle.putBinder("android.support.customtabs.extra.SESSION", null);
 			intent.putExtras(bundle);
 
 			intent.putExtra("android.support.customtabs.extra.SHARE_MENU_ITEM", true);
 
-			TypedValue typedValue = new TypedValue();
+			final TypedValue typedValue = new TypedValue();
 			activity.getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
 
 			intent.putExtra(
@@ -1246,7 +1246,7 @@ public class LinkHandler {
 		public final String title;
 		public final LinkAction action;
 
-		private LinkMenuItem(Context context, int titleRes, LinkAction action) {
+		private LinkMenuItem(final Context context, final int titleRes, final LinkAction action) {
 			this.title = context.getString(titleRes);
 			this.action = action;
 		}

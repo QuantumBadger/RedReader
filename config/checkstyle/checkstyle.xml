@@ -41,6 +41,7 @@
 		</module>
 
 		<module name="LeftCurly"/>
+		<module name="RightCurly"/>
 
 	</module>
 

@@ -1056,14 +1056,16 @@ public class ImageViewActivity extends BaseActivity
 		if(PrefsUtility.pref_appearance_show_aspect_ratio_indicator(
 				this,
 				PreferenceManager.getDefaultSharedPreferences(this))) {
+
+			// TODO Get width and height of loading media when not available from API
+
 			if(mImageInfo.width != null
 					&& mImageInfo.height != null
 					&& mImageInfo.width > 0
 					&& mImageInfo.height > 0) {
 				progressBar.setLoadingImageAspectRatio((float)mImageInfo.width
 						/ mImageInfo.height);
-			} //TODO Get width and height of loading media when not available from API
-			else {
+			} else {
 				break findAspectRatio;
 			}
 

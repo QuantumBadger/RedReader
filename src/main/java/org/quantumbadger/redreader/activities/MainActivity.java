@@ -179,16 +179,9 @@ public class MainActivity extends RefreshableActivity
 					.setMessage(R.string.firstrun_login_message)
 					.setPositiveButton(
 							R.string.firstrun_login_button_now,
-							new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(
-										final DialogInterface dialog,
-										final int which) {
-									new AccountListDialog().show(
-											MainActivity.this.getSupportFragmentManager(),
-											null);
-								}
-							})
+							(dialog, which) -> new AccountListDialog().show(
+									MainActivity.this.getSupportFragmentManager(),
+									null))
 					.setNegativeButton(R.string.firstrun_login_button_later, null)
 					.show();
 
@@ -211,16 +204,9 @@ public class MainActivity extends RefreshableActivity
 						.setMessage(R.string.upgrade_v190_login_message)
 						.setPositiveButton(
 								R.string.firstrun_login_button_now,
-								new DialogInterface.OnClickListener() {
-									@Override
-									public void onClick(
-											final DialogInterface dialog,
-											final int which) {
-										new AccountListDialog().show(
-												MainActivity.this.getSupportFragmentManager(),
-												null);
-									}
-								})
+								(dialog, which) -> new AccountListDialog().show(
+										MainActivity.this.getSupportFragmentManager(),
+										null))
 						.setNegativeButton(R.string.firstrun_login_button_later, null)
 						.show();
 			}
@@ -489,16 +475,17 @@ public class MainActivity extends RefreshableActivity
 				}
 
 				if(lastVersion <= 92) {
-					//Upgrading from 92/1.12 or lower, switch to individual ListPreference's for
-					//pref_menus_appbar (formerly pref_menus_optionsmenu_items)
+					// Upgrading from 92/1.12 or lower
+
+					// Switch to individual ListPreference's for
+					// pref_menus_appbar (formerly pref_menus_optionsmenu_items)
 
 					final Set<String> existingOptionsMenuItems
 							= PrefsUtility.getStringSet(
 							R.string.pref_menus_optionsmenu_items_key,
 							R.array.pref_menus_optionsmenu_items_items_return,
 							this,
-							sharedPreferences
-					);
+							sharedPreferences);
 
 					class AppbarItemStrings {
 						final int stringRes;

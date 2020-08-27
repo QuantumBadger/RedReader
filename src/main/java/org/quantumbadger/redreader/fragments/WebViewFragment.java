@@ -317,12 +317,12 @@ public class WebViewFragment extends Fragment
 						} else if(PrefsUtility.pref_behaviour_usecustomtabs(
 								getActivity(),
 								PreferenceManager.getDefaultSharedPreferences(getActivity()))
-								&&
-								Build.VERSION.SDK_INT
+								&& Build.VERSION.SDK_INT
 										>= Build.VERSION_CODES.JELLY_BEAN_MR2) {
 							LinkHandler.openCustomTab(
 									(AppCompatActivity)getActivity(),
-									Uri.parse(url));
+									Uri.parse(url),
+									null);
 						} else {
 							webView.loadUrl(url);
 							currentUrl = url;

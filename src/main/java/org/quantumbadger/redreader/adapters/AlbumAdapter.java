@@ -18,12 +18,12 @@
 package org.quantumbadger.redreader.adapters;
 
 import android.preference.PreferenceManager;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -183,36 +183,30 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 						final UUID session,
 						final boolean fromCache,
 						final String mimetype) {
-					// TODO post message rather than runnable
-					AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-						@Override
-						public void run() {
-							try {
-								if(vh.bindingId == bindingId) {
-									vh.icon.setImageURI(cacheFile.getUri());
-								}
-							} catch(IOException e) {
-								throw new RuntimeException(e);
+					AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+						try {
+							if(vh.bindingId == bindingId) {
+								vh.icon.setImageURI(cacheFile.getUri());
 							}
+						} catch(IOException e) {
+							throw new RuntimeException(e);
 						}
 					});
 				}
 			});
 		}
 
-		vh.itemView.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				LinkHandler.onLinkClicked(activity, imageInfo.urlOriginal, false, null,
-						albumInfo, vh.getAdapterPosition());
-			}
-		});
-		vh.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-			@Override
-			public boolean onLongClick(View v) {
-				LinkHandler.onLinkLongClicked(activity, imageInfo.urlOriginal, false);
-				return true;
-			}
+		vh.itemView.setOnClickListener(v -> LinkHandler.onLinkClicked(
+				activity,
+				imageInfo.urlOriginal,
+				false,
+				null,
+				albumInfo,
+				vh.getAdapterPosition()));
+
+		vh.itemView.setOnLongClickListener(v -> {
+			LinkHandler.onLinkLongClicked(activity, imageInfo.urlOriginal, false);
+			return true;
 		});
 
 	}

@@ -215,17 +215,12 @@ public class LinkHandler {
 				}
 
 				case INTERNAL_BROWSER: {
-					if(PrefsUtility.pref_behaviour_usecustomtabs(
-							activity,
-							sharedPreferences) &&
-							Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-						openCustomTab(activity, Uri.parse(url));
+					if(PrefsUtility.pref_behaviour_usecustomtabs(activity, sharedPreferences)
+							&& Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+						openCustomTab(activity, Uri.parse(url), post);
+
 					} else {
-						final Intent intent = new Intent();
-						intent.setClass(activity, WebViewActivity.class);
-						intent.putExtra("url", url);
-						intent.putExtra("post", post);
-						activity.startActivity(intent);
+						openInternalBrowser(activity, url, post);
 					}
 					return;
 				}
@@ -292,10 +287,8 @@ public class LinkHandler {
 			final String youtuBeUrl = "http://youtube.com/watch?v="
 					+ youtuDotBeMatcher.group(1)
 					+ (youtuDotBeMatcher.group(2).length() > 0
-					? "&"
-					+ youtuDotBeMatcher.group(2)
-					.substring(1)
-					: "");
+							? "&" + youtuDotBeMatcher.group(2) .substring(1)
+							: "");
 			if(openWebBrowser(activity, Uri.parse(youtuBeUrl), fromExternalIntent)) {
 				return;
 			}
@@ -303,13 +296,10 @@ public class LinkHandler {
 
 		if(PrefsUtility.pref_behaviour_usecustomtabs(activity, sharedPreferences)
 				&& Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-			openCustomTab(activity, Uri.parse(url));
+			openCustomTab(activity, Uri.parse(url), post);
+
 		} else {
-			final Intent intent = new Intent();
-			intent.setClass(activity, WebViewActivity.class);
-			intent.putExtra("url", url);
-			intent.putExtra("post", post);
-			activity.startActivity(intent);
+			openInternalBrowser(activity, url, post);
 		}
 
 	}
@@ -502,29 +492,51 @@ public class LinkHandler {
 		return false;
 	}
 
-	@TargetApi(18)
-	public static void openCustomTab(AppCompatActivity activity, Uri uri) {
-		Intent intent = new Intent();
-		intent.setAction(Intent.ACTION_VIEW);
-		intent.setData(uri);
-		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	public static void openInternalBrowser(
+			final AppCompatActivity activity,
+			final String url,
+			@Nullable final RedditPost post) {
 
-		Bundle bundle = new Bundle();
-		bundle.putBinder("android.support.customtabs.extra.SESSION", null);
-		intent.putExtras(bundle);
-
-		intent.putExtra("android.support.customtabs.extra.SHARE_MENU_ITEM", true);
-
-		TypedValue typedValue = new TypedValue();
-		activity.getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
-
-		intent.putExtra(
-				"android.support.customtabs.extra.TOOLBAR_COLOR",
-				typedValue.data);
-
-		intent.putExtra("android.support.customtabs.extra.ENABLE_URLBAR_HIDING", true);
-
+		final Intent intent = new Intent();
+		intent.setClass(activity, WebViewActivity.class);
+		intent.putExtra("url", url);
+		intent.putExtra("post", post);
 		activity.startActivity(intent);
+	}
+
+	@TargetApi(18)
+	public static void openCustomTab(
+			final AppCompatActivity activity,
+			final Uri uri,
+			@Nullable final RedditPost post) {
+
+		try {
+			Intent intent = new Intent();
+			intent.setAction(Intent.ACTION_VIEW);
+			intent.setData(uri);
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+			Bundle bundle = new Bundle();
+			bundle.putBinder("android.support.customtabs.extra.SESSION", null);
+			intent.putExtras(bundle);
+
+			intent.putExtra("android.support.customtabs.extra.SHARE_MENU_ITEM", true);
+
+			TypedValue typedValue = new TypedValue();
+			activity.getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+
+			intent.putExtra(
+					"android.support.customtabs.extra.TOOLBAR_COLOR",
+					typedValue.data);
+
+			intent.putExtra("android.support.customtabs.extra.ENABLE_URLBAR_HIDING", true);
+
+			activity.startActivity(intent);
+
+		} catch(final ActivityNotFoundException e) {
+			// No suitable web browser installed. Use internal browser.
+			openInternalBrowser(activity, uri.toString(), post);
+		}
 	}
 
 	public static final Pattern imgurPattern = Pattern.compile(

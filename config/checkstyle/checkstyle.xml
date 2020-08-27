@@ -20,6 +20,8 @@
 		<property name="fileExtensions" value="java"/>
 	</module>
 
+	<module name="UniqueProperties"/>
+
 	<module name="TreeWalker">
 
 		<module name="RegexpSinglelineJava">
@@ -49,6 +51,8 @@
 
 		<module name="ArrayTypeStyle"/>
 		<module name="CommentsIndentation"/>
+		<module name="OuterTypeFilename"/>
+		<module name="UpperEll"/>
 
 	</module>
 

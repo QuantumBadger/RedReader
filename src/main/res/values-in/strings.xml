@@ -60,7 +60,7 @@
     <string name="pref_cache_precache_images_title">Pracache Gambar</string>
     <string name="pref_cache_precache_images_wifionly_title">Hanya pada Wi-Fi</string>
     <!-- Menu Prefs -->
-    <string name="pref_menus_post_context_items_title">Item menu tekan lama</string>
+    <string name="pref_menus_post_context_items_title">Item menu tindakan</string>
     <string name="pref_menus_post_toolbar_items_title">Item bilah samping</string>
     <!-- Options Menu -->
     <string name="options_accounts">Akun</string>
@@ -615,9 +615,9 @@
     <!-- 2017-02-23 -->
     <string name="action_back">Kembali</string>
     <!-- 2017-03-02 -->
-    <string name="pref_menus_link_context_items_title">Item menu tekan lama tautan</string>
+    <string name="pref_menus_link_context_items_title">Item menu tindakan tautan</string>
     <!-- 2017-03-07 -->
-    <string name="pref_menus_subreddit_context_items_title">Item menu tekan lama subreddit</string>
+    <string name="pref_menus_subreddit_context_items_title">Item menu tindakan subreddit</string>
     <string name="mainmenu_toast_not_subscribed">Anda belum berlangganan ke subreddit ini!</string>
     <string name="mainmenu_toast_subscribed">Anda sudah berlangganan ke subreddit ini!</string>
     <string name="mainmenu_toast_not_pinned">Subreddit ini tidak dipin ke menu utama!</string>
@@ -738,4 +738,29 @@
     <string name="pref_appearance_fontscale_post_header_subtitles_title">Subjudul pos yang dibuka</string>
     <string name="pref_appearance_fontscale_post_subtitles_title">Subjudul pos</string>
     <string name="pref_appearance_fontscale_post_header_titles_title">Judul pos yang dibuka</string>
+    <string name="pref_behaviour_user_commentsort_title">Komentar pengguna (bawaan)</string>
+    <string name="pref_behaviour_multi_postsort_title">Pos multireddit (bawaan)</string>
+    <string name="pref_behaviour_user_postsort_title">Pos pengguna (bawaan)</string>
+    <string name="sort_comments_top_hour">Teratas: Sejam Ini</string>
+    <string name="pref_menus_appbar_items_overflow_only">Hanya tampilkan di menu titik-tiga</string>
+    <string name="pref_menus_appbar_items_if_room">Tampilkan tombol jika room</string>
+    <string name="button_error_send_report">Laporkan</string>
+    <string name="button_error_details">Detail</string>
+    <string name="image_gallery_no_data_present_message">Tidak ada tautan galeri yang ditemukan. Mungkin telah dihapus.</string>
+    <string name="image_gallery_no_data_present_title">Galeri tidak ditemukan</string>
+    <string name="image_gallery_removed_message">Galeri ini telah dihapus dan tidak bisa diakses lagi.</string>
+    <string name="image_gallery_removed_title">Galeri dihapus</string>
+    <string name="sort_comments_top_all">Teratas: Sepanjang Waktu</string>
+    <string name="sort_comments_top_year">Teratas: Setahun Ini</string>
+    <string name="sort_comments_top_month">Teratas: Bulan Ini</string>
+    <string name="sort_comments_top_week">Teratas: Minggu Ini</string>
+    <string name="sort_comments_top_today">Teratas: Hari Ini</string>
+    <string name="action_comments_with_count">Lihat Komentar (%d)</string>
+    <string name="pref_appearance_post_show_comments_button_title">Tampilkan tombol komentar</string>
+    <string name="image_gallery">Galeri</string>
+    <string name="action_search_posts">Cari Pos</string>
+    <string name="pref_menus_appbar_items_never">Jangan tampilkan</string>
+    <string name="pref_menus_appbar_items_always">Selalu tampilkan tombol</string>
+    <string name="pref_menus_appbar_screen_title">Item bilah tindakan</string>
+    <string name="copied_to_clipboard">Disalin ke papan klip</string>
 </resources>

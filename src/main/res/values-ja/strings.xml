@@ -14,8 +14,7 @@
   ~
   ~ You should have received a copy of the GNU General Public License
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
-  -->
-<resources>
+  --><resources>
     <string name="firstrun_login_title">ログイン</string>
     <string name="firstrun_login_message">現在ログインしていません。メニューからアカウント項目を選択すればアカウントリストを見られます。</string>
     <string name="prefs_category_menus">メニュー</string>
@@ -29,4 +28,14 @@
     <string name="options_settings">設定</string>
     <string name="options_sort">並べ替え</string>
     <string name="pref_cache_precache_images_wifionly_title">Wi-Fiのみで</string>
+    <string name="error_unknown_api_message">サーバーは不明な理由でリクエストを受け付けませんでした。もう一度お試しください。</string>
+    <string name="error_redditdown_message">Redditは現在、高負荷がかかっています。もう一度お試しください。</string>
+    <string name="bug_button_ignore">バグレポートを送信しない</string>
+    <string name="bug_button_send">メールでバグレポートを送信</string>
+    <string name="bug_message">RedReaderでエラーが発生しました。
+\n
+\n開発者にバグレポートを送信しますか\? その場合は、関連するすべての情報が記載されたメールが送信されます。送信前に内容を確認できます。</string>
+    <string name="accounts_delete_sure">本当にこのアカウントを削除しますか\?</string>
+    <string name="options_refresh_subreddits">Subreddits更新</string>
+    <string name="options_refresh">更新</string>
 </resources>

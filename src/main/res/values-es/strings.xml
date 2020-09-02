@@ -688,4 +688,15 @@
     <string name="pref_appearance_fontscale_post_header_subtitles_title">Subtítulos de publicaciones abiertas</string>
     <string name="pref_appearance_fontscale_post_header_titles_title">Títulos de publicaciones abiertas</string>
     <string name="pref_appearance_fontscale_post_subtitles_title">Subtítulos de publicación</string>
+    <string name="search_results_short">Resultados de la búsqueda</string>
+    <string name="error_nsfw_subreddits_disabled_message">El contenido NSFW está actualmente deshabilitado en la configuración.</string>
+    <string name="error_nsfw_subreddits_disabled_title">Subreddit NSFW bloqueado</string>
+    <string name="list_yes_no_or_wifi_never">Nunca</string>
+    <string name="list_yes_no_or_wifi_always">Siempre</string>
+    <string name="pref_appearance_post_subtitle_items_use_different_settings_title">Use diferentes configuraciones para las publicaciones abiertas</string>
+    <string name="pref_appearance_post_subtitle_items_domain">Dominio</string>
+    <string name="pref_appearance_post_subtitle_items_subreddit">Subreddit</string>
+    <string name="pref_appearance_post_subtitle_items_nsfw">Etiqueta NSFW</string>
+    <string name="pref_appearance_post_subtitle_items_spoiler">Etiqueta de spoiler</string>
+    <string name="pref_appearance_post_subtitle_items_sticky">Etiqueta adhesiva</string>
 </resources>

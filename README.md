@@ -1,7 +1,7 @@
-RedReader (for Android)
-=======================
+RedReader
+=========
 
-An unofficial, open source client for reddit.
+An unofficial, open source Android client for reddit.
 
 ![CI](https://github.com/QuantumBadger/RedReader/workflows/CI/badge.svg?branch=master)
 [![Translation status](https://hosted.weblate.org/widgets/redreader/-/svg-badge.svg)](https://hosted.weblate.org/engage/redreader/?utm_source=widget)
@@ -54,9 +54,9 @@ https://hosted.weblate.org/projects/redreader/strings/
 Building
 --------
 
-RedReader is built using Gradle. Several dependencies are required (and
-listed in build.gradle), but these are handled automatically if you use
-Gradle.
+RedReader is built using Gradle. On Linux, simply run:
+
+    ./gradlew installDebug
 
 
 License

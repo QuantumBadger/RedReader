@@ -9,7 +9,7 @@ Added ability to send reports from the error details dialog
 Improved responsiveness of video seek bar (thanks to Cameron Merkel)
 Enable swipe-to-refresh in the main menu (thanks to Cameron Merkel)
 Add default sort preference for multireddits and user posts/comments (thanks to Cameron Merkel)
-Translation updates (thanks to Bopol, Eric, Fırat Altay, Gerry, JoC, Matthias Paulmier, Verdulo, zeritti, and zmni)
+Translation updates (thanks to Allan Nordhøy, Bopol, Emerson Castaneda, Eric, Fırat Altay, Gerry, JoC, Matthias Paulmier, Meiru, Verdulo, zeritti, and zmni)
 
 92/1.12
 Reddit image gallery support

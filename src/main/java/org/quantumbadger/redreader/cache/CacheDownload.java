@@ -126,7 +126,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 				} else {
 					result = RedditOAuth.fetchAccessTokenSynchronous(
 							mInitiator.context,
-							mInitiator.user.refreshToken);
+							mInitiator.user);
 				}
 
 				if(result.status != RedditOAuth.FetchAccessTokenResultStatus.SUCCESS) {

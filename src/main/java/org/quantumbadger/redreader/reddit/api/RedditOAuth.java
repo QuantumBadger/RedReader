@@ -21,7 +21,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.SystemClock;
 import android.util.Base64;
-
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -41,8 +40,12 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public final class RedditOAuth {
 
-	private static final String REDIRECT_URI = "http://rr_oauth_redir";
-	private static final String CLIENT_ID = "m_zCW1Dixs9WLA";
+	private static final String REDIRECT_URI_OLD = "http://rr_oauth_redir";
+	private static final String CLIENT_ID_OLD = "m_zCW1Dixs9WLA";
+
+	private static final String REDIRECT_URI_NEW = "redreader://rr_oauth_redir";
+	private static final String CLIENT_ID_NEW = "EvLqme1n5YC93w";
+
 	private static final String ALL_SCOPES = "identity,edit,flair,history,"
 			+ "modconfig,modflair,modlog,modposts,modwiki,mysubreddits,"
 			+ "privatemessages,read,report,save,submit,subscribe,vote,"
@@ -159,8 +162,8 @@ public final class RedditOAuth {
 		uri.appendQueryParameter("response_type", "code");
 		uri.appendQueryParameter("duration", "permanent");
 		uri.appendQueryParameter("state", "Texas");
-		uri.appendQueryParameter("redirect_uri", REDIRECT_URI);
-		uri.appendQueryParameter("client_id", CLIENT_ID);
+		uri.appendQueryParameter("redirect_uri", REDIRECT_URI_NEW);
+		uri.appendQueryParameter("client_id", CLIENT_ID_NEW);
 		uri.appendQueryParameter("scope", ALL_SCOPES);
 
 		return uri.build();
@@ -302,7 +305,7 @@ public final class RedditOAuth {
 		final ArrayList<HTTPBackend.PostField> postFields = new ArrayList<>(3);
 		postFields.add(new HTTPBackend.PostField("grant_type", "authorization_code"));
 		postFields.add(new HTTPBackend.PostField("code", code));
-		postFields.add(new HTTPBackend.PostField("redirect_uri", REDIRECT_URI));
+		postFields.add(new HTTPBackend.PostField("redirect_uri", REDIRECT_URI_NEW));
 
 		try {
 			final HTTPBackend.Request request = HTTPBackend.getBackend().prepareRequest(
@@ -314,7 +317,7 @@ public final class RedditOAuth {
 			request.addHeader(
 					"Authorization",
 					"Basic " + Base64.encodeToString(
-							(CLIENT_ID + ":").getBytes(),
+							(CLIENT_ID_NEW + ":").getBytes(),
 							Base64.URL_SAFE | Base64.NO_WRAP));
 
 			final AtomicReference<FetchRefreshTokenResult> result =
@@ -591,6 +594,7 @@ public final class RedditOAuth {
 					final RedditAccount account = new RedditAccount(
 							fetchUserInfoResult.username,
 							fetchRefreshTokenResult.refreshToken,
+							true,
 							0);
 
 					account.setAccessToken(fetchRefreshTokenResult.accessToken);
@@ -648,13 +652,13 @@ public final class RedditOAuth {
 
 	public static FetchAccessTokenResult fetchAccessTokenSynchronous(
 			final Context context,
-			final RefreshToken refreshToken) {
+			final RedditAccount user) {
 
 		final String uri = ACCESS_TOKEN_URL;
 
 		final ArrayList<HTTPBackend.PostField> postFields = new ArrayList<>(2);
 		postFields.add(new HTTPBackend.PostField("grant_type", "refresh_token"));
-		postFields.add(new HTTPBackend.PostField("refresh_token", refreshToken.token));
+		postFields.add(new HTTPBackend.PostField("refresh_token", user.refreshToken.token));
 
 		try {
 			final HTTPBackend.Request request = HTTPBackend.getBackend()
@@ -667,7 +671,8 @@ public final class RedditOAuth {
 			request.addHeader(
 					"Authorization",
 					"Basic " + Base64.encodeToString(
-							(CLIENT_ID + ":").getBytes(),
+							((user.usesNewClientId ? CLIENT_ID_NEW : CLIENT_ID_OLD) + ":")
+									.getBytes(),
 							Base64.URL_SAFE | Base64.NO_WRAP));
 
 			final AtomicReference<FetchAccessTokenResult> result =
@@ -768,7 +773,7 @@ public final class RedditOAuth {
 			request.addHeader(
 					"Authorization",
 					"Basic " + Base64.encodeToString(
-							(CLIENT_ID + ":").getBytes(),
+							(CLIENT_ID_NEW + ":").getBytes(),
 							Base64.URL_SAFE | Base64.NO_WRAP));
 
 			final AtomicReference<FetchAccessTokenResult> result =

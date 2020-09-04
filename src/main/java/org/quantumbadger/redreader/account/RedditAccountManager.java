@@ -37,7 +37,11 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 	private List<RedditAccount> accountsCache = null;
 	private RedditAccount defaultAccountCache = null;
 
-	private static final RedditAccount ANON = new RedditAccount("", null, 10);
+	private static final RedditAccount ANON = new RedditAccount(
+			"",
+			null,
+			true,
+			10);
 
 	private final Context context;
 
@@ -53,9 +57,10 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 			TABLE = "accounts_oauth2",
 			FIELD_USERNAME = "username",
 			FIELD_REFRESH_TOKEN = "refresh_token",
-			FIELD_PRIORITY = "priority";
+			FIELD_PRIORITY = "priority",
+			FIELD_USES_NEW_CLIENT_ID = "uses_new_client_id";
 
-	private static final int ACCOUNTS_DB_VERSION = 2;
+	private static final int ACCOUNTS_DB_VERSION = 3;
 
 	private static RedditAccountManager singleton;
 
@@ -90,11 +95,13 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 				"CREATE TABLE %s (" +
 						"%s TEXT NOT NULL PRIMARY KEY ON CONFLICT REPLACE," +
 						"%s TEXT," +
-						"%s INTEGER)",
+						"%s INTEGER," +
+						"%s BOOLEAN NOT NULL)",
 				TABLE,
 				FIELD_USERNAME,
 				FIELD_REFRESH_TOKEN,
-				FIELD_PRIORITY);
+				FIELD_PRIORITY,
+				FIELD_USES_NEW_CLIENT_ID);
 
 		db.execSQL(queryString);
 
@@ -107,7 +114,7 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 			final int oldVersion,
 			final int newVersion) {
 
-		if(oldVersion == 1 && newVersion == 2) {
+		if(oldVersion < 2) {
 
 			db.execSQL(String.format(
 					Locale.US,
@@ -115,11 +122,15 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 					TABLE,
 					FIELD_USERNAME));
 
-		} else {
-			throw new RuntimeException("Invalid accounts DB update: "
-					+ oldVersion
-					+ " to "
-					+ newVersion);
+		}
+
+		if(oldVersion < 3) {
+
+			db.execSQL(String.format(
+					Locale.US,
+					"ALTER TABLE %s ADD COLUMN %s BOOLEAN NOT NULL DEFAULT 0",
+					TABLE,
+					FIELD_USES_NEW_CLIENT_ID));
 		}
 	}
 
@@ -149,6 +160,7 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 		}
 
 		row.put(FIELD_PRIORITY, account.priority);
+		row.put(FIELD_USES_NEW_CLIENT_ID, account.usesNewClientId);
 
 		db.insert(TABLE, null, row);
 
@@ -227,7 +239,8 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 		final String[] fields = new String[] {
 				FIELD_USERNAME,
 				FIELD_REFRESH_TOKEN,
-				FIELD_PRIORITY};
+				FIELD_PRIORITY,
+				FIELD_USES_NEW_CLIENT_ID};
 
 		final Cursor cursor = db.query(
 				TABLE,
@@ -256,11 +269,14 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 				}
 
 				final long priority = cursor.getLong(2);
+				final boolean usesNewClientId = cursor.getInt(3) != 0;
 
 				final RedditAccount account = new RedditAccount(
 						username,
 						refreshToken,
+						usesNewClientId,
 						priority);
+
 				accountsCache.add(account);
 
 				if(defaultAccountCache == null

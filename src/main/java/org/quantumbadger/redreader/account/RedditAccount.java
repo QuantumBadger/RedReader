@@ -24,6 +24,7 @@ public class RedditAccount {
 
 	public final String username;
 	public final RedditOAuth.RefreshToken refreshToken;
+	public final boolean usesNewClientId;
 
 	private RedditOAuth.AccessToken accessToken;
 
@@ -32,6 +33,7 @@ public class RedditAccount {
 	public RedditAccount(
 			final String username,
 			final RedditOAuth.RefreshToken refreshToken,
+			final boolean usesNewClientId,
 			final long priority) {
 
 		if(username == null) {
@@ -40,6 +42,7 @@ public class RedditAccount {
 
 		this.username = username.trim();
 		this.refreshToken = refreshToken;
+		this.usesNewClientId = usesNewClientId;
 		this.priority = priority;
 	}
 

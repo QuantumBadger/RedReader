@@ -166,7 +166,8 @@ public class OAuthLoginActivity extends BaseActivity {
 					final WebView view,
 					final String url) {
 
-				if(url.startsWith("http://rr_oauth_redir")) { // TODO constant
+				if(url.startsWith("http://rr_oauth_redir")
+						|| url.startsWith("redreader://rr_oauth_redir")) { // TODO constant
 
 					final Intent intent = new Intent();
 					intent.putExtra("url", url);

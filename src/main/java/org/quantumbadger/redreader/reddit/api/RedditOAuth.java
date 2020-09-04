@@ -21,6 +21,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
 import android.os.SystemClock;
 import android.util.Base64;
 import android.view.KeyEvent;
@@ -917,7 +918,10 @@ public final class RedditOAuth {
 									(dialog, which) -> onDone.run());
 
 							alertBuilder.setOnCancelListener(dialog -> onDone.run());
-							alertBuilder.setOnDismissListener(dialog -> onDone.run());
+
+							if(Build.VERSION.SDK_INT >= 17) {
+								alertBuilder.setOnDismissListener(dialog -> onDone.run());
+							}
 
 							final Context context = activity.getApplicationContext();
 
@@ -944,15 +948,21 @@ public final class RedditOAuth {
 
 							General.safeDismissDialog(progressDialog);
 
-							new AlertDialog.Builder(activity)
-									.setNeutralButton(
-											R.string.dialog_close,
-											(dialog, which) -> onDone.run())
-									.setOnCancelListener(dialog -> onDone.run())
-									.setOnDismissListener(dialog -> onDone.run())
-									.setTitle(details.title)
-									.setMessage(details.message)
-									.show();
+							final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+
+							builder.setNeutralButton(
+									R.string.dialog_close,
+									(dialog, which) -> onDone.run());
+
+							builder.setOnCancelListener(dialog -> onDone.run());
+
+							if(Build.VERSION.SDK_INT >= 17) {
+								builder.setOnDismissListener(dialog -> onDone.run());
+							}
+
+							builder.setTitle(details.title);
+							builder.setMessage(details.message);
+							builder.show();
 						});
 					}
 				});

@@ -124,7 +124,7 @@ public class AccountListAdapter extends HeaderRecyclerAdapter<RecyclerView.ViewH
 									= (browserCheckbox.isChecked() && internalRecommended)
 									|| (!browserCheckbox.isChecked() && !internalRecommended);
 
-							AccountListAdapter.this.launchLogin(useInternal);
+							launchLogin(useInternal);
 						})
 				.setNegativeButton(
 						R.string.dialog_close,

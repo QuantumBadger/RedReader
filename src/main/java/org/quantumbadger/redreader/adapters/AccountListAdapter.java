@@ -41,6 +41,7 @@ import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 import org.quantumbadger.redreader.viewholders.VH1Text;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class AccountListAdapter extends HeaderRecyclerAdapter<RecyclerView.ViewHolder> {
 
@@ -97,16 +98,17 @@ public class AccountListAdapter extends HeaderRecyclerAdapter<RecyclerView.ViewH
 		((ViewGroup.MarginLayoutParams)useInternalBrowser.getLayoutParams())
 				.setMargins(margin, margin, margin, margin);
 
-		useInternalBrowser.setText("Use internal browser instead"); // TODO string
+		useInternalBrowser.setText(R.string.login_browser_popup_use_internal_browser);
 
-		// TODO strings
 		new AlertDialog.Builder(context)
-				.setMessage("To login, you will now be taken to Reddit in an external browser."
-						+ "\n\nWhen the login is complete, you should be redirected back to "
-						+ "RedReader.")
+				.setMessage(String.format(
+						Locale.US,
+						"%s\n\n%s",
+						context.getString(R.string.login_browser_popup_line_1),
+						context.getString(R.string.login_browser_popup_line_2)))
 				.setCancelable(true)
 				.setPositiveButton(
-						"Continue",
+						R.string.dialog_continue,
 						(dialog, which) -> launchLogin(useInternalBrowser.isChecked()))
 				.setNegativeButton(
 						R.string.dialog_close,

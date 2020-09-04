@@ -22,6 +22,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,25 +92,40 @@ public class AccountListAdapter extends HeaderRecyclerAdapter<RecyclerView.ViewH
 
 		final FrameLayout dialogView = new FrameLayout(context);
 
-		final CheckBox useInternalBrowser = new CheckBox(context);
-		dialogView.addView(useInternalBrowser);
+		final CheckBox browserCheckbox = new CheckBox(context);
+		browserCheckbox.setChecked(true);
+		dialogView.addView(browserCheckbox);
+
+		final boolean internalRecommended
+				= (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M);
 
 		final int margin = General.dpToPixels(context, 24);
-		((ViewGroup.MarginLayoutParams)useInternalBrowser.getLayoutParams())
+		((ViewGroup.MarginLayoutParams)browserCheckbox.getLayoutParams())
 				.setMargins(margin, margin, margin, margin);
 
-		useInternalBrowser.setText(R.string.login_browser_popup_use_internal_browser);
+		if(internalRecommended) {
+			browserCheckbox.setText(R.string.reddit_login_browser_popup_use_internal_browser);
+		} else {
+			browserCheckbox.setText(R.string.reddit_login_browser_popup_use_external_browser);
+		}
 
 		new AlertDialog.Builder(context)
 				.setMessage(String.format(
 						Locale.US,
 						"%s\n\n%s",
-						context.getString(R.string.login_browser_popup_line_1),
-						context.getString(R.string.login_browser_popup_line_2)))
+						context.getString(R.string.reddit_login_browser_popup_line_1),
+						context.getString(R.string.reddit_login_browser_popup_line_2)))
 				.setCancelable(true)
 				.setPositiveButton(
 						R.string.dialog_continue,
-						(dialog, which) -> launchLogin(useInternalBrowser.isChecked()))
+						(dialog, which) -> {
+
+							final boolean useInternal
+									= (browserCheckbox.isChecked() && internalRecommended)
+									|| (!browserCheckbox.isChecked() && !internalRecommended);
+
+							AccountListAdapter.this.launchLogin(useInternal);
+						})
 				.setNegativeButton(
 						R.string.dialog_close,
 						(dialog, which) -> {})

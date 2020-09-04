@@ -1289,10 +1289,11 @@
 	<string name="image_gallery_no_image_present_message">The specified image could not be found. It may have been deleted.</string>
 
 	<!-- 2020-09-04 -->
-	<string name="login_browser_popup_line_1">To login, you will now be taken to Reddit in an external browser.</string>
-	<string name="login_browser_popup_line_2">When the login is complete, you should be redirected back to RedReader. If the login fails, you can try the internal browser.</string>
+	<string name="reddit_login_browser_popup_line_1">To login, you will now be taken to Reddit in a web browser.</string>
+	<string name="reddit_login_browser_popup_line_2">When the login is complete, you should be redirected back to RedReader. If the login fails, you can try a different browser using the checkbox below.</string>
 
-	<string name="login_browser_popup_use_internal_browser">Use internal browser instead</string>
+	<string name="reddit_login_browser_popup_use_internal_browser">Use internal browser (recommended)</string>
+	<string name="reddit_login_browser_popup_use_external_browser">Use external browser (recommended)</string>
 
 	<string name="dialog_continue">Continue</string>
 

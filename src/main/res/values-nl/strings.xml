@@ -27,16 +27,13 @@
     <string name="prefs_category_menus">Menu\'s</string>
     <!-- Appearance Prefs -->
     <string name="pref_appearance_theme_header">Thema</string>
-    <string name="pref_appearance_font_header">Lettertype</string>
     <string name="pref_appearance_thumbnails_header">Thumbnails</string>
-    <string name="pref_appearance_tabletmode_header">Tabletmodus</string>
     <string name="pref_appearance_comments_header">Reacties</string>
     <string name="pref_appearance_other_header">Overige</string>
     <string name="pref_appearance_twopane_title">Tabletmodus (twee panelen)</string>
     <string name="pref_appearance_theme_title">Thema</string>
     <string name="pref_appearance_solidblack_title">Effen zwart in nachtmodus</string>
     <string name="pref_appearance_fontscale_posts_title">Post titels</string>
-    <string name="pref_appearance_fontscale_comments_title">Tekengrootte reacties</string>
     <string name="pref_appearance_thumbnails_show_title">Thumbnails weergeven</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">NSFW-thumbnails weergeven</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Thumbnails alleen downloaden over wifi</string>
@@ -440,7 +437,6 @@
     <string name="pref_behaviour_view_mode_internal_browser">Interne browser</string>
     <string name="pref_behaviour_view_mode_external_browser">Externe browser</string>
     <!-- 2015-08-15 -->
-    <string name="pref_appearance_fontscale_inbox_title">Lettergrootte Postvak IN</string>
     <string name="action_delete">Verwijderen</string>
     <string name="delete_confirm">Weet je zeker dat je dit verwijderen wilt?</string>
     <string name="delete_success">Verwijderen gelukt. Het zal zichtbaar blijven tot je ververst.</string>

@@ -24,8 +24,6 @@
     <string name="prefs_category_cache">Katxe</string>
     <string name="prefs_category_menus">Menuak</string>
     <string name="pref_appearance_theme_header">Itxura</string>
-    <string name="pref_appearance_tabletmode_header">Tableta modua</string>
-    <string name="pref_appearance_font_header">Letra-tipoa</string>
     <string name="pref_appearance_comments_header">Iruzkinak</string>
     <string name="pref_appearance_other_header">Bestelakoak</string>
     <string name="pref_appearance_twopane_title">Tableta modua (bi panel)</string>
@@ -34,7 +32,6 @@
     <string name="pref_appearance_thumbnails_header">Miniaturak</string>
     <string name="pref_appearance_thumbnails_show_title">Erakutsi miniaturak</string>
     <string name="pref_appearance_fontscale_posts_title">Argitalpenen letra-tamaina</string>
-    <string name="pref_appearance_fontscale_comments_title">Iruzkinen letra-tamaina</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">Erakutsi NSFW miniaturak</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Miniaturak Wi-Fiarekin soilik</string>
     <string name="pref_behaviour_notifications_title">Jakinarazpenak</string>
@@ -495,7 +492,6 @@
     <string name="screen_orientation_landscape">Horizontala</string>
     <string name="pref_behaviour_bezel_toolbar_header">Alaka tresna-barra</string>
     <string name="pref_behaviour_bezel_toolbar_swipezone_title">Alaka tresna-barraren lerraketa eskualdearen tamaina</string>
-    <string name="pref_appearance_fontscale_inbox_title">Sarrera-ontziaren letra tamaina</string>
     <string name="delete_success">Ezabatua. Objektua ikusgarria izango da birkargatu arte.</string>
     <string name="pref_behaviour_videoview_mode_external_app_vlc">Kanpoko app: VLC</string>
     <string name="error_url_required_message">URL bat adierazi behar duzu.</string>

@@ -27,16 +27,13 @@
     <string name="prefs_category_menus">Menús</string>
     <!-- Appearance Prefs -->
     <string name="pref_appearance_theme_header">Tema</string>
-    <string name="pref_appearance_font_header">Fuente</string>
     <string name="pref_appearance_thumbnails_header">Miniaturas de imágenes</string>
-    <string name="pref_appearance_tabletmode_header">Modo tableta</string>
     <string name="pref_appearance_comments_header">Comentarios</string>
     <string name="pref_appearance_other_header">Otros</string>
     <string name="pref_appearance_twopane_title">Modo tableta (dos paneles)</string>
     <string name="pref_appearance_theme_title">Tema</string>
     <string name="pref_appearance_solidblack_title">Negro sólido en modo noche</string>
     <string name="pref_appearance_fontscale_posts_title">Títulos de publicaciones</string>
-    <string name="pref_appearance_fontscale_comments_title">Tamaño en comentarios</string>
     <string name="pref_appearance_thumbnails_show_title">Mostrar miniaturas</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">Mostrar miniaturas NSFW</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Miniaturas sólo con Wi-Fi</string>
@@ -436,7 +433,6 @@
     <string name="pref_behaviour_view_mode_internal_browser">Navegador interno</string>
     <string name="pref_behaviour_view_mode_external_browser">Navegador externo</string>
     <!-- 2015-08-15 -->
-    <string name="pref_appearance_fontscale_inbox_title">Escala de la fuente de la bandeja de entrada</string>
     <string name="action_delete">Eliminar</string>
     <string name="delete_confirm">¿Estás seguro de que quieres eliminarlo?</string>
     <string name="delete_success">Eliminado exitosamente. El elemento seguirá visible hasta que actualices.</string>

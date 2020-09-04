@@ -27,16 +27,13 @@
     <string name="prefs_category_menus">Menu</string>
     <!-- Appearance Prefs -->
     <string name="pref_appearance_theme_header">Tema</string>
-    <string name="pref_appearance_font_header">Fon</string>
     <string name="pref_appearance_thumbnails_header">Thumbnail</string>
-    <string name="pref_appearance_tabletmode_header">Mode Tablet</string>
     <string name="pref_appearance_comments_header">Komentar</string>
     <string name="pref_appearance_other_header">Lainnya</string>
     <string name="pref_appearance_twopane_title">Mode tablet (dua panel)</string>
     <string name="pref_appearance_theme_title">Tema</string>
     <string name="pref_appearance_solidblack_title">Hitam pekat di mode malam</string>
     <string name="pref_appearance_fontscale_posts_title">Judul pos</string>
-    <string name="pref_appearance_fontscale_comments_title">Ukuran Fon Komentar</string>
     <string name="pref_appearance_thumbnails_show_title">Tampilkan thumbnail</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">Tampilkan thumbnail TAUSB</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Thumbnail hanya pada Wi-Fi</string>
@@ -437,7 +434,6 @@
     <string name="pref_behaviour_view_mode_internal_browser">Peramban internal</string>
     <string name="pref_behaviour_view_mode_external_browser">Peramban eksternal</string>
     <!-- 2015-08-15 -->
-    <string name="pref_appearance_fontscale_inbox_title">Ukuran Fon Kotak Masuk</string>
     <string name="action_delete">Hapus</string>
     <string name="delete_confirm">Apakah anda yakin ingin menghapusnya?</string>
     <string name="delete_success">Berhasil dihapus. Item akan tetap terlihat sampai anda menyegarkan halaman.</string>

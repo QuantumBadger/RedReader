@@ -159,11 +159,8 @@
     <string name="pref_appearance_comment_header_items_score">Pontuação</string>
     <string name="pref_appearance_comment_header_items_title">Cabeçalho dos Comentários</string>
     <string name="pref_appearance_comments_header">Comentários</string>
-    <string name="pref_appearance_font_header">Fonte</string>
-    <string name="pref_appearance_fontscale_comments_title">Tamanho da fonte nos comentários</string>
     <string name="pref_appearance_hide_android_status_title">Esconder barra de status do Android</string>
     <string name="pref_appearance_fontscale_posts_title">Tamanho da fonte nos posts</string>
-    <string name="pref_appearance_fontscale_inbox_title">Tamanho da fonte na caixa de entrada</string>
     <string name="pref_appearance_image_viewer_header">Visualizador de Imagens</string>
     <string name="time_1day">1 dia</string>
     <string name="time_1hr">1 hora</string>
@@ -393,7 +390,6 @@
     <string name="pref_appearance_thumbnails_header">Miniaturas</string>
     <string name="pref_appearance_theme_title">Tema</string>
     <string name="pref_appearance_theme_header">Tema</string>
-    <string name="pref_appearance_tabletmode_header">Modo Tablet</string>
     <string name="pref_appearance_solidblack_title">Preto sólido no modo noturno</string>
     <string name="pref_appearance_show_blocked_subreddits_main_menu_title">Mostrar subreddits bloqueados no menu principal</string>
     <string name="pref_appearance_scale_normal">Normal</string>

@@ -27,16 +27,13 @@
     <string name="prefs_category_menus">Menuoj</string>
     <!-- Appearance Prefs -->
     <string name="pref_appearance_theme_header">Etoso</string>
-    <string name="pref_appearance_font_header">Tiparo</string>
     <string name="pref_appearance_thumbnails_header">Miniaturoj</string>
-    <string name="pref_appearance_tabletmode_header">Tabulkomputila reĝimo</string>
     <string name="pref_appearance_comments_header">Komentoj</string>
     <string name="pref_appearance_other_header">Aliaj</string>
     <string name="pref_appearance_twopane_title">Tabulkomputila reĝimo (du fenestroj)</string>
     <string name="pref_appearance_theme_title">Etoso</string>
     <string name="pref_appearance_solidblack_title">Glata nigro en nokta reĝimo</string>
     <string name="pref_appearance_fontscale_posts_title">Titoloj de afiŝoj</string>
-    <string name="pref_appearance_fontscale_comments_title">Skali tiparon de komentoj</string>
     <string name="pref_appearance_thumbnails_show_title">Montri miniaturojn</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">Montri maldecajn miniaturojn</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Miniaturoj nur per vifio</string>
@@ -437,7 +434,6 @@
     <string name="pref_behaviour_view_mode_internal_browser">Interna vidigilo</string>
     <string name="pref_behaviour_view_mode_external_browser">Ekstera vidigilo</string>
     <!-- 2015-08-15 -->
-    <string name="pref_appearance_fontscale_inbox_title">Skali tiparon de privataj mesaĝoj</string>
     <string name="action_delete">Forigi</string>
     <string name="delete_confirm">Ĉu vi certe volas forigi tiun ĉi?</string>
     <string name="delete_success">Sukcese forigis. La elemento estos plue videbla ĝis aktualigo.</string>
@@ -644,7 +640,6 @@
     <string name="pref_behaviour_video_playback_controls_title">Aktivigi filmet-ludadajn stirilojn</string>
     <string name="error_no_suitable_apps_available">Neniu taŭga disponebla aplikaĵo.</string>
     <string name="pref_appearance_comments_show_floating_toolbar_title">Montri navigajn butonojn sur komentoj</string>
-    <string name="pref_behaviour_comment_share_text_title">Inkluzivi tekston je kunhavigi komenton</string>
     <string name="disable_replies_to_infobox_failed">Malsukcesis malaktivigi respondon al mesaĝujo</string>
     <string name="mainmenu_random">Hazarda redditero</string>
     <string name="pref_menus_show_random_main_menu_title">Montri /r/random en la ĉefmenuo</string>

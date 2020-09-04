@@ -154,7 +154,6 @@
     <string name="pref_appearance_locale_header">Localizzazione</string>
     <string name="pref_appearance_langforce_title">Lingua</string>
     <string name="pref_appearance_linkbuttons_title">Mostra pulsanti dei link</string>
-    <string name="pref_appearance_font_header">Carattere</string>
     <string name="pref_appearance_comments_header">Commenti</string>
     <string name="pref_appearance_comment_header_items_score">Punteggio</string>
     <string name="pref_appearance_comment_header_items_gold">Reddit Gold</string>
@@ -245,7 +244,6 @@
     <string name="options_unsubscribing">Disiscrizione in corso…</string>
     <string name="pref_appearance_comment_header_items_upsdowns">Votati positivamente/negativamente</string>
     <string name="pref_appearance_scale_normal">Normale</string>
-    <string name="pref_appearance_tabletmode_header">Modalità tablet</string>
     <string name="pref_appearance_theme_header">Tema</string>
     <string name="pref_appearance_thumbnails_header">Miniature</string>
     <string name="action_upvote">Upvote</string>
@@ -285,7 +283,6 @@
     <string name="imageview_decode_failed">Errore nella decodifica dell\'immagine. Tentativo con il browser interno.</string>
     <string name="imageview_invalid_gif">GIF non valida. Tentativo con il browser interno.</string>
     <string name="imageview_oom">Memoria insufficiente. Tentativo con il browser interno.</string>
-    <string name="pref_appearance_fontscale_comments_title">Dimensione carattere dei commenti</string>
     <string name="pref_appearance_fontscale_posts_title">Dimensione carattere dei post</string>
     <string name="pref_appearance_indentlines_title">Mostra linee indentate</string>
     <string name="pref_appearance_solidblack_title">Nero solido in modalità notturna</string>
@@ -375,7 +372,6 @@
     <string name="pref_behaviour_gifview_mode_internal_legacy">Visualizzatore interno (Legacy)</string>
     <string name="pref_behaviour_view_mode_internal_browser">Browser interno</string>
     <string name="pref_behaviour_view_mode_external_browser">Browser esterno</string>
-    <string name="pref_appearance_fontscale_inbox_title">Dimensione Caratteri Posta in arrivo</string>
     <string name="action_delete">Elimina</string>
     <string name="delete_confirm">Sei sicuro di volerlo eliminare?</string>
     <string name="delete_success">Eliminato con successo. L\'oggetto sarà ancora visibile finché non riaggiorni.</string>

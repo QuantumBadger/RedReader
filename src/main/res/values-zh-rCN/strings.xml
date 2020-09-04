@@ -24,16 +24,13 @@
     <string name="prefs_category_cache">缓存</string>
     <string name="prefs_category_menus">菜单</string>
     <string name="pref_appearance_theme_header">主题</string>
-    <string name="pref_appearance_font_header">字体</string>
     <string name="pref_appearance_thumbnails_header">缩略图</string>
-    <string name="pref_appearance_tabletmode_header">平板电脑模式</string>
     <string name="pref_appearance_comments_header">评论</string>
     <string name="pref_appearance_other_header">其他</string>
     <string name="pref_appearance_twopane_title">平板电脑模式（双面板）</string>
     <string name="pref_appearance_theme_title">主题</string>
     <string name="pref_appearance_solidblack_title">夜间模式下使用黑色</string>
     <string name="pref_appearance_fontscale_posts_title">帖子标题</string>
-    <string name="pref_appearance_fontscale_comments_title">评论字体大小</string>
     <string name="pref_appearance_thumbnails_show_title">显示缩略图</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">显示不雅缩略图</string>
     <string name="pref_appearance_thumbnails_wifionly_title">仅在使用Wi-Fi时显示缩略图</string>
@@ -309,7 +306,6 @@
     <string name="post_edit_done">您已经修改帖子，更改将在您刷新后显示。</string>
     <string name="collapsed_self_post">已收起的原创文章</string>
     <string name="pref_behaviour_self_post_tap_actions_title">轻触无外链帖子选项</string>
-    <string name="pref_appearance_fontscale_inbox_title">邮箱字体大小</string>
     <string name="pref_appearance_navbar_color_title">导航栏和状态栏颜色</string>
     <string name="pref_appearance_navbar_color_option_black">黑色</string>
     <string name="pref_appearance_navbar_color_option_primary">主色（光）</string>

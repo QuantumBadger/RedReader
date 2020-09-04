@@ -27,16 +27,13 @@
     <string name="prefs_category_menus">Nabídky</string>
     <!-- Appearance Prefs -->
     <string name="pref_appearance_theme_header">Motiv</string>
-    <string name="pref_appearance_font_header">Písmo</string>
     <string name="pref_appearance_thumbnails_header">Náhledy</string>
-    <string name="pref_appearance_tabletmode_header">Režim tabletu</string>
     <string name="pref_appearance_comments_header">Komentáře</string>
     <string name="pref_appearance_other_header">Ostatní</string>
     <string name="pref_appearance_twopane_title">Režim tabletu (dva panely)</string>
     <string name="pref_appearance_theme_title">Motiv</string>
     <string name="pref_appearance_solidblack_title">Černá v nočním režimu</string>
     <string name="pref_appearance_fontscale_posts_title">Titulky příspěvků</string>
-    <string name="pref_appearance_fontscale_comments_title">Měřítko fontu u komentářů</string>
     <string name="pref_appearance_thumbnails_show_title">Zobrazit náhledy</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">Zobrazit NSFW náhledy</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Náhledy pouze u Wi-Fi připojení</string>
@@ -438,7 +435,6 @@
     <string name="pref_behaviour_view_mode_internal_browser">Interní prohlížeč</string>
     <string name="pref_behaviour_view_mode_external_browser">Externí prohlížeč</string>
     <!-- 2015-08-15 -->
-    <string name="pref_appearance_fontscale_inbox_title">Velikost písma ve schránce</string>
     <string name="action_delete">Smazat</string>
     <string name="delete_confirm">Opravdu chcete toto smazat\?</string>
     <string name="delete_success">Úspěšně smazáno. Položka zůstane viditelná do nového načtení.</string>

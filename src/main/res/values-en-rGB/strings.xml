@@ -24,9 +24,7 @@
     <string name="prefs_category_cache">Cache</string>
     <string name="prefs_category_menus">Menus</string>
     <string name="pref_appearance_theme_header">Theme</string>
-    <string name="pref_appearance_font_header">Font</string>
     <string name="pref_appearance_thumbnails_header">Thumbnails</string>
-    <string name="pref_appearance_tabletmode_header">Tablet Mode</string>
     <string name="pref_appearance_comments_header">Comments</string>
     <string name="pref_appearance_other_header">Other</string>
     <string name="pref_appearance_twopane_title">Tablet Mode (two pane)</string>

@@ -28,16 +28,13 @@
     <string name="prefs_category_menus">القوائم</string>
     <!-- Appearance Prefs -->
     <string name="pref_appearance_theme_header">الشكل</string>
-    <string name="pref_appearance_font_header">الخط</string>
     <string name="pref_appearance_thumbnails_header">الصور المصغرة</string>
-    <string name="pref_appearance_tabletmode_header">النمط اللوحي</string>
     <string name="pref_appearance_comments_header">التعليقات</string>
     <string name="pref_appearance_other_header">أخرى</string>
     <string name="pref_appearance_twopane_title">النمط اللوحي (عمودين)</string>
     <string name="pref_appearance_theme_title">الشكل</string>
     <string name="pref_appearance_solidblack_title">أسود بالكامل في النمط الليلي</string>
     <string name="pref_appearance_fontscale_posts_title">حجم خط المنشورات</string>
-    <string name="pref_appearance_fontscale_comments_title">حجم خط التعليقات</string>
     <string name="pref_appearance_thumbnails_show_title">إظهار الصور المصغرة</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">إظهار للمنشورات الغير لائقة</string>
     <string name="pref_appearance_thumbnails_wifionly_title">عرض الصور المصغرة عند الاتصال عبر الواي فاي فقط</string>
@@ -426,7 +423,6 @@
     <string name="pref_behaviour_gifview_mode_internal_legacy">العارض الداخلي (قديم)</string>
     <string name="pref_behaviour_view_mode_internal_browser">المتصفح الداخلي</string>
     <string name="pref_behaviour_view_mode_external_browser">المتصفح الخارجي</string>
-    <string name="pref_appearance_fontscale_inbox_title">حجم خط الرسائل الواردة</string>
     <string name="action_delete">حذف</string>
     <string name="delete_confirm">تأكد على الحذف؟</string>
     <string name="delete_success">تم الحذف بنجاح. سيظل العنصر مرئيًا حتى تقوم بالتحديث.</string>

@@ -24,16 +24,13 @@
     <string name="prefs_category_cache">Välimuisti</string>
     <string name="prefs_category_menus">Valikot</string>
     <string name="pref_appearance_theme_header">Teema</string>
-    <string name="pref_appearance_font_header">Fontti</string>
     <string name="pref_appearance_thumbnails_header">Esikatselukuvat</string>
-    <string name="pref_appearance_tabletmode_header">Tabletti-tila</string>
     <string name="pref_appearance_comments_header">Kommentit</string>
     <string name="pref_appearance_other_header">Muut</string>
     <string name="pref_appearance_twopane_title">Kahden paneelin tabletti-tila</string>
     <string name="pref_appearance_theme_title">Teema</string>
     <string name="pref_appearance_solidblack_title">Tasaisen musta yötila</string>
     <string name="pref_appearance_fontscale_posts_title">Julkaisujen fonttien skaalaus</string>
-    <string name="pref_appearance_fontscale_comments_title">Kommenttien fontin skaalaus</string>
     <string name="pref_appearance_thumbnails_show_title">Näytä esikatselukuvat</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">Näytä sopimattomat esikatselukuvat</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Esikatselukuvat vain Wi-Fi:n kautta</string>

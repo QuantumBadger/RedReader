@@ -27,16 +27,13 @@
     <string name="prefs_category_menus">Menu</string>
     <!-- Appearance Prefs -->
     <string name="pref_appearance_theme_header">Skórka</string>
-    <string name="pref_appearance_font_header">Krój pisma</string>
     <string name="pref_appearance_thumbnails_header">Miniatury</string>
-    <string name="pref_appearance_tabletmode_header">Tryb tabletu</string>
     <string name="pref_appearance_comments_header">Komentarze</string>
     <string name="pref_appearance_other_header">Inne</string>
     <string name="pref_appearance_twopane_title">Tryb tabletu (dwa panele)</string>
     <string name="pref_appearance_theme_title">Skórka</string>
     <string name="pref_appearance_solidblack_title">Gładki czarny w trybie nocnym</string>
     <string name="pref_appearance_fontscale_posts_title">Skaluj czcionkę postów</string>
-    <string name="pref_appearance_fontscale_comments_title">Skaluj czcionkę komentarzy</string>
     <string name="pref_appearance_thumbnails_show_title">Pokazuj miniatury</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">Pokazuj nieprzyzwoite miniatury</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Miniatury tylko przez Wi-Fi</string>
@@ -438,7 +435,6 @@
     <string name="pref_behaviour_view_mode_internal_browser">Wewnętrzna przeglądarka</string>
     <string name="pref_behaviour_view_mode_external_browser">Zewnętrzna przeglądarka</string>
     <!-- 2015-08-15 -->
-    <string name="pref_appearance_fontscale_inbox_title">Skaluj czcionkę skrzynki odbiorczej</string>
     <string name="action_delete">Usuń</string>
     <string name="delete_confirm">Czy na pewno chcesz to usunąć?</string>
     <string name="delete_success">Pomyślnie usunięto. Element będzie dalej widoczny do czasu aż odświeżysz.</string>
@@ -645,7 +641,6 @@
     <string name="pref_behaviour_video_playback_controls_title">Włącz kontrolki odtwarzania wideo</string>
     <string name="error_no_suitable_apps_available">Brak odpowiedniej aplikacji.</string>
     <string name="pref_appearance_comments_show_floating_toolbar_title">Pokaż pływający pasek nad komentarzami</string>
-    <string name="pref_behaviour_comment_share_text_title">Zawrzyj tekst podczas udostępniania komentarza</string>
     <string name="disable_replies_to_infobox_failed">Nie udało się wyłączyć odpowiedzi do skrzynki odbiorczej</string>
     <string name="mainmenu_random">Losowy subreddit</string>
     <string name="pref_menus_show_random_main_menu_title">Pokaż /r/random w menu głównym</string>

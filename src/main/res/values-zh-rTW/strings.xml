@@ -27,9 +27,7 @@
     <string name="prefs_category_menus">選單</string>
 
     <string name="pref_appearance_theme_header">主題</string>
-    <string name="pref_appearance_font_header">字體</string>
     <string name="pref_appearance_thumbnails_header">縮圖</string>
-    <string name="pref_appearance_tabletmode_header">平板電腦模式</string>
     <string name="pref_appearance_comments_header">評論</string>
     <string name="pref_appearance_other_header">其他</string>
 
@@ -41,7 +39,6 @@
 
     <string name="pref_appearance_fontscale_posts_title">帖子字體大小</string>
 
-    <string name="pref_appearance_fontscale_comments_title">評論字體大小</string>
 
     <string name="pref_appearance_thumbnails_show_title">顯示縮圖</string>
 
@@ -508,7 +505,6 @@
 	<string name="pref_behaviour_view_mode_internal_browser">內部瀏覽器</string>
     <string name="pref_behaviour_view_mode_external_browser">外部瀏覽器</string>
 
-    <string name="pref_appearance_fontscale_inbox_title">郵箱字體大小</string>
 
     <string name="action_delete">刪除</string>
     <string name="delete_confirm">您確定要删除嗎？</string>

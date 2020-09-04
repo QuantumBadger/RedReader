@@ -23,15 +23,12 @@
     <string name="prefs_category_behaviour">Oppførsel</string>
     <string name="prefs_category_menus">Menyer</string>
     <string name="pref_appearance_theme_header">Drakt</string>
-    <string name="pref_appearance_font_header">Skrift</string>
     <string name="pref_appearance_thumbnails_header">Miniatyrbilder</string>
-    <string name="pref_appearance_tabletmode_header">Brettmodus</string>
     <string name="pref_appearance_comments_header">Kommentarer</string>
     <string name="pref_appearance_other_header">Annet</string>
     <string name="pref_appearance_theme_title">Drakt</string>
     <string name="pref_appearance_solidblack_title">Helsvart i nattmodus</string>
     <string name="pref_appearance_fontscale_posts_title">Skriftstørrelse for innlegg</string>
-    <string name="pref_appearance_fontscale_comments_title">Skriftstørrelse for kommentarer</string>
     <string name="pref_appearance_thumbnails_show_title">Vis miniatyrbilder</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Miniatyrbilder kun på Wi-Fi</string>
     <string name="pref_appearance_loading_detail_title">Vis detaljerte innlastingsmeldinger</string>
@@ -378,7 +375,6 @@
     <string name="pref_behaviour_gifview_mode_internal_legacy">Intern viser (foreldet)</string>
     <string name="pref_behaviour_view_mode_internal_browser">Intern nettleser</string>
     <string name="pref_behaviour_view_mode_external_browser">Ekstern nettleser</string>
-    <string name="pref_appearance_fontscale_inbox_title">Skriftstørrelse for innboks</string>
     <string name="action_delete">Slett</string>
     <string name="delete_confirm">Er du sikker på at du vil slette dette?</string>
     <string name="delete_success">Slettet. Elementet vil vises til du gjenoppfrisker.</string>
@@ -535,7 +531,6 @@
     <string name="pref_menus_show_popular_main_menu_title">Vis /r/populær i hovedmeny</string>
     <string name="pref_behaviour_video_playback_controls_title">Skru på videoavspillingskontroller</string>
     <string name="error_no_suitable_apps_available">Ingen egnede programmer tilgjengelig.</string>
-    <string name="pref_behaviour_comment_share_text_title">Inkluder tekst ved deling av kommentar</string>
     <string name="disable_replies_to_infobox_failed">Klarte ikke å slå av svarfunksjon for innboks</string>
     <string name="mainmenu_random">Tilfeldig subreddit</string>
     <string name="pref_menus_show_random_main_menu_title">Vis /r/random i hovedmenyen</string>

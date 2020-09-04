@@ -24,15 +24,12 @@
     <string name="prefs_category_cache">Кеш</string>
     <string name="prefs_category_menus">Меню</string>
     <string name="pref_appearance_theme_header">Оформлення</string>
-    <string name="pref_appearance_font_header">Шрифт</string>
     <string name="pref_appearance_thumbnails_header">Мініатюри</string>
-    <string name="pref_appearance_tabletmode_header">Режим планшета</string>
     <string name="pref_appearance_comments_header">Коментарі</string>
     <string name="pref_appearance_other_header">Інше</string>
     <string name="pref_appearance_twopane_title">Режим планшета (дві панелі)</string>
     <string name="pref_appearance_theme_title">Тема</string>
     <string name="pref_appearance_fontscale_posts_title">Розмір шрифту в публікаціях</string>
-    <string name="pref_appearance_fontscale_comments_title">Розмір шрифту в коментарях</string>
     <string name="pref_appearance_thumbnails_show_title">Показувати мініатюри</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">Показувати NSFW мініатюри</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Мініатюри лише при Wi-Fi</string>
@@ -375,7 +372,6 @@
     <string name="pref_behaviour_gifview_mode_internal_legacy">Вбудований переглядач (застарілий)</string>
     <string name="pref_behaviour_view_mode_internal_browser">Вбудований браузер</string>
     <string name="pref_behaviour_view_mode_external_browser">Зовнішній браузер</string>
-    <string name="pref_appearance_fontscale_inbox_title">Розмір шрифту у вхідних повідомленнях</string>
     <string name="action_delete">Видалити</string>
     <string name="delete_confirm">Ви дійсно бажаєте це видалити?</string>
     <string name="delete_success">Успішно видалено. Елемент буде видимим, доки ви не оновите.</string>

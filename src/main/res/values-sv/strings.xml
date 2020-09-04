@@ -27,16 +27,13 @@
     <string name="prefs_category_menus">Menyer</string>
     <!-- Appearance Prefs -->
     <string name="pref_appearance_theme_header">Tema</string>
-    <string name="pref_appearance_font_header">Typsnitt</string>
     <string name="pref_appearance_thumbnails_header">Miniatyrbilder</string>
-    <string name="pref_appearance_tabletmode_header">Tablettläge</string>
     <string name="pref_appearance_comments_header">Kommentarer</string>
     <string name="pref_appearance_other_header">Övrigt</string>
     <string name="pref_appearance_twopane_title">Tablettläge (två paneler)</string>
     <string name="pref_appearance_theme_title">Tema</string>
     <string name="pref_appearance_solidblack_title">Solid svart i nattläge</string>
     <string name="pref_appearance_fontscale_posts_title">Skalning av typsnittsstorlek för poster</string>
-    <string name="pref_appearance_fontscale_comments_title">Skalning av typsnittsstorlek för kommentarer</string>
     <string name="pref_appearance_thumbnails_show_title">Visa miniatyrbilder</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">Visa NSFW-miniatyrbilder</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Miniatyrbilder endast över Wi-Fi</string>
@@ -439,7 +436,6 @@
     <string name="pref_behaviour_view_mode_internal_browser">Intern webbläsare</string>
     <string name="pref_behaviour_view_mode_external_browser">Extern webbläsare</string>
     <!-- 2015-08-15 -->
-    <string name="pref_appearance_fontscale_inbox_title">Typsnittsskalning för inkorg</string>
     <string name="action_delete">Radera</string>
     <string name="delete_confirm">Är du säker på att du vill radera detta?</string>
     <string name="delete_success">Framgångsrikt raderat. Elementet kommer att vara synligt till du laddar om.</string>

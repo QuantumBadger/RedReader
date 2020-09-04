@@ -24,16 +24,13 @@
     <string name="prefs_category_cache">Кэш</string>
     <string name="prefs_category_menus">Меню</string>
     <string name="pref_appearance_theme_header">Оформление</string>
-    <string name="pref_appearance_font_header">Шрифт</string>
     <string name="pref_appearance_thumbnails_header">Миниатюры</string>
-    <string name="pref_appearance_tabletmode_header">Режим планшета</string>
     <string name="pref_appearance_comments_header">Комментарии</string>
     <string name="pref_appearance_other_header">Прочее</string>
     <string name="pref_appearance_twopane_title">Режим планшета (две панели)</string>
     <string name="pref_appearance_theme_title">Тема</string>
     <string name="pref_appearance_solidblack_title">Сплошной чёрный в ночном режиме</string>
     <string name="pref_appearance_fontscale_posts_title">Размер шрифта в публикациях</string>
-    <string name="pref_appearance_fontscale_comments_title">Размер шрифта в комментариях</string>
     <string name="pref_appearance_thumbnails_show_title">Показывать миниатюры</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">Показывать NSFW миниатюры</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Миниатюры только для Wi-Fi</string>
@@ -374,7 +371,6 @@
     <string name="pref_behaviour_gifview_mode_internal_legacy">Встроенный просмотрщик (устаревший)</string>
     <string name="pref_behaviour_view_mode_internal_browser">Встроенный браузер</string>
     <string name="pref_behaviour_view_mode_external_browser">Внешний браузер</string>
-    <string name="pref_appearance_fontscale_inbox_title">Размер шрифта во входящих сообщениях</string>
     <string name="action_delete">Удалить</string>
     <string name="delete_confirm">Вы действительно хотите удалить это?</string>
     <string name="delete_success">Успешно удалено. Элемент будет по-прежнему отображаться пока вы не обновите.</string>

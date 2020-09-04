@@ -27,9 +27,7 @@
     <string name="prefs_category_menus">Meniu</string>
 
     <string name="pref_appearance_theme_header">Tema</string>
-    <string name="pref_appearance_font_header">Šriftas</string>
     <string name="pref_appearance_thumbnails_header">Miniatiūros</string>
-    <string name="pref_appearance_tabletmode_header">Planšetės režimas</string>
     <string name="pref_appearance_comments_header">Komentarai</string>
     <string name="pref_appearance_other_header">Kita</string>
 
@@ -41,7 +39,6 @@
 
     <string name="pref_appearance_fontscale_posts_title">Įrašų šrifto mastelis</string>
 
-    <string name="pref_appearance_fontscale_comments_title">Komentarų šrifto mastelis</string>
 
     <string name="pref_appearance_thumbnails_show_title">Rodyti miniatiūras</string>
 

@@ -34,9 +34,7 @@
     <!-- Appearance Prefs -->
 
     <string name="pref_appearance_theme_header">Téma</string>
-    <string name="pref_appearance_font_header">Betűtípus</string>
     <string name="pref_appearance_thumbnails_header">Előnézet</string>
-    <string name="pref_appearance_tabletmode_header">Tablet Mód</string>
     <string name="pref_appearance_comments_header">Hozzászólások</string>
     <string name="pref_appearance_other_header">Továbbiak</string>
 
@@ -48,7 +46,6 @@
 
     <string name="pref_appearance_fontscale_posts_title">Poszt betűtípus méretszorzó</string>
 
-    <string name="pref_appearance_fontscale_comments_title">Hozzászólás betűtípus méretszorzó</string>
 
     <string name="pref_appearance_thumbnails_show_title">Előnézetek mutatása</string>
 
@@ -613,7 +610,6 @@
     <string name="pref_behaviour_view_mode_external_browser">Külső böngésző</string>
 
     <!-- 2015-08-15 -->
-    <string name="pref_appearance_fontscale_inbox_title">Postaláda betűtípus méretszorzó</string>
 
     <string name="action_delete">Törlés</string>
     <string name="delete_confirm">Biztosan törölni szeretnéd?</string>

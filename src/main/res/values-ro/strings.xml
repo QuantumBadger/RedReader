@@ -34,9 +34,7 @@
     <!-- Appearance Prefs -->
 
     <string name="pref_appearance_theme_header">Design</string>
-    <string name="pref_appearance_font_header">Fonturi</string>
     <string name="pref_appearance_thumbnails_header">Thumbnail-uri</string>
-    <string name="pref_appearance_tabletmode_header">Modul pentru Tabletă</string>
     <string name="pref_appearance_comments_header">Comentariile</string>
     <string name="pref_appearance_other_header">Altele</string>
 
@@ -48,7 +46,6 @@
 
     <string name="pref_appearance_fontscale_posts_title">Mărimea fonturilor postărilor</string>
 
-    <string name="pref_appearance_fontscale_comments_title">Mărimea fonturilor comentariilor</string>
 
     <string name="pref_appearance_thumbnails_show_title">Arată thumbnail-urile</string>
 
@@ -614,7 +611,6 @@
     <string name="pref_behaviour_view_mode_external_browser">Browser Extern</string>
 
     <!-- 2015-08-15 -->
-    <string name="pref_appearance_fontscale_inbox_title">Mărimea Fontului din Inbox</string>
 
     <string name="action_delete">Șterge</string>
     <string name="delete_confirm">Sunteți sigur că doriți ștergerea?</string>

@@ -44,9 +44,7 @@
     <!-- Appearance Prefs -->
 
     <string name="pref_appearance_theme_header">Tema</string>
-    <string name="pref_appearance_font_header">Skrifttype</string>
     <string name="pref_appearance_thumbnails_header">Miniaturebilleder</string>
-    <string name="pref_appearance_tabletmode_header">Tablet Tilstand</string>
     <string name="pref_appearance_comments_header">Kommentarer</string>
     <string name="pref_appearance_other_header">Andet</string>
 
@@ -58,7 +56,6 @@
 
     <string name="pref_appearance_fontscale_posts_title">Indlæg Skrifttypestørrelse</string>
 
-    <string name="pref_appearance_fontscale_comments_title">Kommentar Skrifttypestørrelse</string>
 
     <string name="pref_appearance_thumbnails_show_title">Vis thumbnails</string>
 
@@ -533,7 +530,6 @@
     <string name="pref_behaviour_gifview_mode_internal_legacy">Intern afspiller (Forældet)</string>
     <string name="pref_behaviour_view_mode_internal_browser">Intern browser</string>
     <string name="pref_behaviour_view_mode_external_browser">Ekstern browser</string>
-    <string name="pref_appearance_fontscale_inbox_title">Inbox Skriftstørrelse</string>
     <string name="action_delete">Slet</string>
     <string name="delete_confirm">Er du sikker på at du vil fjerne dette\?</string>
     <string name="delete_success">Succesfuldt slettet. Elementet vil forblive synligt indtil du genindlæser.</string>

@@ -27,16 +27,13 @@
     <string name="prefs_category_menus">Menus</string>
     <!-- Appearance Prefs -->
     <string name="pref_appearance_theme_header">Thème</string>
-    <string name="pref_appearance_font_header">Police</string>
     <string name="pref_appearance_thumbnails_header">Miniatures</string>
-    <string name="pref_appearance_tabletmode_header">Mode tablette</string>
     <string name="pref_appearance_comments_header">Commentaires</string>
     <string name="pref_appearance_other_header">Autre</string>
     <string name="pref_appearance_twopane_title">Mode tablette (deux panneaux)</string>
     <string name="pref_appearance_theme_title">Thème</string>
     <string name="pref_appearance_solidblack_title">Thème sombre en mode nuit</string>
     <string name="pref_appearance_fontscale_posts_title">Titres des posts</string>
-    <string name="pref_appearance_fontscale_comments_title">Taille de police des commentaires</string>
     <string name="pref_appearance_thumbnails_show_title">Afficher les miniatures</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">Afficher les miniatures NSFW</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Afficher les miniatures en WiFi seulement</string>
@@ -405,7 +402,6 @@
     <!-- 2015-07-05 -->
     <string name="pref_behaviour_bezel_toolbar_header">Barre d\'outils latérale</string>
     <!-- 2015-08-15 -->
-    <string name="pref_appearance_fontscale_inbox_title">Échelle des polices de la boîte de réception</string>
     <string name="action_delete">Supprimer</string>
     <string name="delete_confirm">Êtes-vous sûr de vouloir supprimer ceci \?</string>
     <string name="delete_success">Suppression effectuée. L\'élément restera visible jusqu\'à ce que vous actualisiez.</string>

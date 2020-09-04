@@ -17,14 +17,19 @@
 
 package org.quantumbadger.redreader.reddit.api;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.SystemClock;
 import android.util.Base64;
+import android.view.KeyEvent;
+import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.RRError;
@@ -36,6 +41,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 public final class RedditOAuth {
@@ -848,5 +854,93 @@ public final class RedditOAuth {
 					)
 			);
 		}
+	}
+
+	public static void completeLogin(
+			final AppCompatActivity activity,
+			final Uri uri,
+			final Runnable onDone) {
+
+		final ProgressDialog progressDialog = new ProgressDialog(activity);
+		progressDialog.setTitle(R.string.accounts_loggingin);
+		progressDialog.setMessage(activity.getApplicationContext().getString(
+				R.string.accounts_loggingin_msg));
+		progressDialog.setIndeterminate(true);
+		progressDialog.setCancelable(true);
+		progressDialog.setCanceledOnTouchOutside(false);
+
+		final AtomicBoolean cancelled = new AtomicBoolean(false);
+
+		progressDialog.setOnCancelListener(dialogInterface -> {
+
+			if(!cancelled.getAndSet(true)) {
+				General.safeDismissDialog(progressDialog);
+				onDone.run();
+			}
+		});
+
+		progressDialog.setOnKeyListener((dialogInterface, keyCode, keyEvent) -> {
+
+			if(keyCode == KeyEvent.KEYCODE_BACK) {
+				if(!cancelled.getAndSet(true)) {
+					General.safeDismissDialog(progressDialog);
+					onDone.run();
+				}
+			}
+
+			return true;
+		});
+
+		progressDialog.show();
+
+		RedditOAuth.loginAsynchronous(
+				activity.getApplicationContext(),
+				uri,
+
+				new RedditOAuth.LoginListener() {
+					@Override
+					public void onLoginSuccess(final RedditAccount account) {
+						AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+
+							General.safeDismissDialog(progressDialog);
+
+							if(cancelled.get()) {
+								return;
+							}
+
+							final AlertDialog.Builder alertBuilder
+									= new AlertDialog.Builder(activity);
+							alertBuilder.setNeutralButton(
+									R.string.dialog_close,
+									(dialog, which) -> onDone.run());
+
+							final Context context = activity.getApplicationContext();
+
+							alertBuilder.setTitle(
+									context.getString(R.string.general_success));
+
+							alertBuilder.setMessage(
+									context.getString(R.string.message_nowloggedin));
+
+							final AlertDialog alertDialog = alertBuilder.create();
+							alertDialog.show();
+						});
+					}
+
+					@Override
+					public void onLoginFailure(
+							final RedditOAuth.LoginError error,
+							final RRError details) {
+
+						AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+
+							General.safeDismissDialog(progressDialog);
+
+							if(!cancelled.get()) {
+								General.showResultDialog(activity, details);
+							}
+						});
+					}
+				});
 	}
 }

@@ -17,23 +17,27 @@
 
 package org.quantumbadger.redreader.adapters;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import androidx.fragment.app.Fragment;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.FrameLayout;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.OAuthLoginActivity;
 import org.quantumbadger.redreader.common.BetterSSB;
+import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 import org.quantumbadger.redreader.viewholders.VH1Text;
 
 import java.util.ArrayList;
@@ -79,13 +83,49 @@ public class AccountListAdapter extends HeaderRecyclerAdapter<RecyclerView.ViewH
 		final VH1Text vh = (VH1Text)holder;
 		vh.text.setText(context.getString(R.string.accounts_add));
 		vh.text.setCompoundDrawablesWithIntrinsicBounds(rrIconAdd, null, null, null);
-		holder.itemView.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(final View v) {
-				final Intent loginIntent = new Intent(context, OAuthLoginActivity.class);
-				fragment.startActivityForResult(loginIntent, 123);
-			}
-		});
+		holder.itemView.setOnClickListener(v -> showLoginWarningDialog());
+	}
+
+	private void showLoginWarningDialog() {
+
+		final FrameLayout dialogView = new FrameLayout(context);
+
+		final CheckBox useInternalBrowser = new CheckBox(context);
+		dialogView.addView(useInternalBrowser);
+
+		final int margin = General.dpToPixels(context, 24);
+		((ViewGroup.MarginLayoutParams)useInternalBrowser.getLayoutParams())
+				.setMargins(margin, margin, margin, margin);
+
+		useInternalBrowser.setText("Use internal browser instead"); // TODO string
+
+		// TODO strings
+		new AlertDialog.Builder(context)
+				.setMessage("To login, you will now be taken to Reddit in an external browser."
+						+ "\n\nWhen the login is complete, you should be redirected back to "
+						+ "RedReader.")
+				.setCancelable(true)
+				.setPositiveButton(
+						"Continue",
+						(dialog, which) -> launchLogin(useInternalBrowser.isChecked()))
+				.setNegativeButton(
+						R.string.dialog_close,
+						(dialog, which) -> {})
+				.setView(dialogView)
+				.show();
+	}
+
+	private void launchLogin(final boolean useInternalBrowser) {
+
+		if(useInternalBrowser) {
+			final Intent loginIntent = new Intent(context, OAuthLoginActivity.class);
+			fragment.startActivityForResult(loginIntent, 123);
+
+		} else {
+			final Intent intent = new Intent(Intent.ACTION_VIEW);
+			intent.setData(RedditOAuth.getPromptUri());
+			fragment.startActivity(intent);
+		}
 	}
 
 	@Override
@@ -151,8 +191,7 @@ public class AccountListAdapter extends HeaderRecyclerAdapter<RecyclerView.ViewH
 												public void onClick(
 														final DialogInterface dialog,
 														final int which) {
-													RedditAccountManager.getInstance(
-															context)
+													RedditAccountManager.getInstance(context)
 															.deleteAccount(account);
 												}
 											})

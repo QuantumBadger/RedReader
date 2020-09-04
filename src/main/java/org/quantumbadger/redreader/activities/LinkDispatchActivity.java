@@ -20,9 +20,10 @@ package org.quantumbadger.redreader.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
+import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 
 public class LinkDispatchActivity extends AppCompatActivity {
 
@@ -48,7 +49,15 @@ public class LinkDispatchActivity extends AppCompatActivity {
 			return;
 		}
 
-		LinkHandler.onLinkClicked(this, data.toString(), false, null, null, 0, true);
-		finish();
+		if(data.getScheme().equalsIgnoreCase("redreader")) {
+			RedditOAuth.completeLogin(this, data, () -> {
+				new Intent(this, MainActivity.class);
+				finish();
+			});
+
+		} else {
+			LinkHandler.onLinkClicked(this, data.toString(), false, null, null, 0, true);
+			finish();
+		}
 	}
 }

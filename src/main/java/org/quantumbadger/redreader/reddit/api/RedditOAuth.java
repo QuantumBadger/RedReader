@@ -33,6 +33,7 @@ import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.RunnableOnce;
 import org.quantumbadger.redreader.http.HTTPBackend;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
@@ -859,7 +860,7 @@ public final class RedditOAuth {
 	public static void completeLogin(
 			final AppCompatActivity activity,
 			final Uri uri,
-			final Runnable onDone) {
+			final RunnableOnce onDone) {
 
 		final ProgressDialog progressDialog = new ProgressDialog(activity);
 		progressDialog.setTitle(R.string.accounts_loggingin);
@@ -902,17 +903,21 @@ public final class RedditOAuth {
 					public void onLoginSuccess(final RedditAccount account) {
 						AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 
-							General.safeDismissDialog(progressDialog);
-
 							if(cancelled.get()) {
 								return;
 							}
 
+							General.safeDismissDialog(progressDialog);
+
 							final AlertDialog.Builder alertBuilder
 									= new AlertDialog.Builder(activity);
+
 							alertBuilder.setNeutralButton(
 									R.string.dialog_close,
 									(dialog, which) -> onDone.run());
+
+							alertBuilder.setOnCancelListener(dialog -> onDone.run());
+							alertBuilder.setOnDismissListener(dialog -> onDone.run());
 
 							final Context context = activity.getApplicationContext();
 
@@ -922,8 +927,7 @@ public final class RedditOAuth {
 							alertBuilder.setMessage(
 									context.getString(R.string.message_nowloggedin));
 
-							final AlertDialog alertDialog = alertBuilder.create();
-							alertDialog.show();
+							alertBuilder.show();
 						});
 					}
 
@@ -934,11 +938,21 @@ public final class RedditOAuth {
 
 						AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 
+							if(cancelled.get()) {
+								return;
+							}
+
 							General.safeDismissDialog(progressDialog);
 
-							if(!cancelled.get()) {
-								General.showResultDialog(activity, details);
-							}
+							new AlertDialog.Builder(activity)
+									.setNeutralButton(
+											R.string.dialog_close,
+											(dialog, which) -> onDone.run())
+									.setOnCancelListener(dialog -> onDone.run())
+									.setOnDismissListener(dialog -> onDone.run())
+									.setTitle(details.title)
+									.setMessage(details.message)
+									.show();
 						});
 					}
 				});

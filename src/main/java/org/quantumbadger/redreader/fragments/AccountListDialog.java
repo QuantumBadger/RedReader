@@ -32,6 +32,7 @@ import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.adapters.AccountListAdapter;
 import org.quantumbadger.redreader.common.AndroidCommon;
+import org.quantumbadger.redreader.common.RunnableOnce;
 import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 
 public class AccountListDialog extends AppCompatDialogFragment
@@ -51,7 +52,7 @@ public class AccountListDialog extends AppCompatDialogFragment
 			final Intent data) {
 		if(requestCode == 123 && requestCode == resultCode && data.hasExtra("url")) {
 			final Uri uri = Uri.parse(data.getStringExtra("url"));
-			RedditOAuth.completeLogin(mActivity, uri, () -> {});
+			RedditOAuth.completeLogin(mActivity, uri, RunnableOnce.DO_NOTHING);
 		}
 	}
 
@@ -87,6 +88,6 @@ public class AccountListDialog extends AppCompatDialogFragment
 	@Override
 	public void onRedditAccountChanged() {
 		AndroidCommon.UI_THREAD_HANDLER.post(() -> rv.setAdapter(
-				new AccountListAdapter(mActivity, AccountListDialog.this)));
+				new AccountListAdapter(mActivity, this)));
 	}
 }

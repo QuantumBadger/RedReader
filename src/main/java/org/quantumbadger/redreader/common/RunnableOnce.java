@@ -15,43 +15,29 @@
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.common.collections;
+package org.quantumbadger.redreader.common;
 
-import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
 
-import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-public class Stack<E> {
+public class RunnableOnce implements Runnable {
 
-	private final ArrayList<E> mData;
+	public static final RunnableOnce DO_NOTHING = new RunnableOnce(() -> {});
 
-	public Stack(final int initialCapacity) {
-		mData = new ArrayList<>(initialCapacity);
+	private final AtomicBoolean mAlreadyRun = new AtomicBoolean(false);
+
+	@NonNull private final Runnable mRunnable;
+
+	public RunnableOnce(@NonNull final Runnable runnable) {
+		mRunnable = runnable;
 	}
 
-	public void push(final E obj) {
-		mData.add(obj);
-	}
+	@Override
+	public final void run() {
 
-	public E pop() {
-		return mData.remove(mData.size() - 1);
-	}
-
-	public boolean isEmpty() {
-		return mData.isEmpty();
-	}
-
-	public boolean remove(final E obj) {
-		return mData.remove(obj);
-	}
-
-	@Nullable
-	public E peek() {
-
-		if(isEmpty()) {
-			return null;
+		if(!mAlreadyRun.getAndSet(true)) {
+			mRunnable.run();
 		}
-
-		return mData.get(mData.size() - 1);
 	}
 }

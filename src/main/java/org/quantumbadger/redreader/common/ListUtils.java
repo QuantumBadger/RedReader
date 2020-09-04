@@ -15,43 +15,22 @@
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.common.collections;
+package org.quantumbadger.redreader.common;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class Stack<E> {
-
-	private final ArrayList<E> mData;
-
-	public Stack(final int initialCapacity) {
-		mData = new ArrayList<>(initialCapacity);
-	}
-
-	public void push(final E obj) {
-		mData.add(obj);
-	}
-
-	public E pop() {
-		return mData.remove(mData.size() - 1);
-	}
-
-	public boolean isEmpty() {
-		return mData.isEmpty();
-	}
-
-	public boolean remove(final E obj) {
-		return mData.remove(obj);
-	}
+public class ListUtils {
 
 	@Nullable
-	public E peek() {
+	public static <E> E getLast(@NonNull final List<E> list) {
 
-		if(isEmpty()) {
+		if(list.isEmpty()) {
 			return null;
 		}
 
-		return mData.get(mData.size() - 1);
+		return list.get(list.size() - 1);
 	}
 }

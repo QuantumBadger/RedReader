@@ -124,6 +124,8 @@ public class AccountListAdapter extends HeaderRecyclerAdapter<RecyclerView.ViewH
 		} else {
 			final Intent intent = new Intent(Intent.ACTION_VIEW);
 			intent.setData(RedditOAuth.getPromptUri());
+			intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			fragment.startActivity(intent);
 		}
 	}

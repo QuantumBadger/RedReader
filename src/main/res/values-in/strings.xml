@@ -759,4 +759,13 @@
     <string name="pref_menus_appbar_items_always">Selalu tampilkan tombol</string>
     <string name="pref_menus_appbar_screen_title">Item bilah tindakan</string>
     <string name="copied_to_clipboard">Disalin ke papan klip</string>
+    <string name="pref_behaviour_video_zoom_default_title">Perbesar video secara bawaan</string>
+    <string name="title_attribution">Atribusi</string>
+    <string name="dialog_continue">Lanjutkan</string>
+    <string name="reddit_login_browser_popup_use_external_browser">Gunakan peramban eksternal (direkomendasikan)</string>
+    <string name="reddit_login_browser_popup_use_internal_browser">Gunakan peramban internal (direkomendasikan)</string>
+    <string name="reddit_login_browser_popup_line_2">Ketika anda berhasil masuk, anda akan dialihkan kembali ke RedReader. Jika gagal, anda bisa mencoba peramban yang berbeda dengan mencentang pilihan dibawah.</string>
+    <string name="reddit_login_browser_popup_line_1">Untuk masuk, anda akan dialihkan ke Reddit di peramban web.</string>
+    <string name="image_gallery_no_image_present_message">Gambar tidak bisa ditemukan. Mungkin sudah dihapus.</string>
+    <string name="image_gallery_no_image_present_title">Gambar tidak ditemukan</string>
 </resources>

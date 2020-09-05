@@ -532,7 +532,7 @@
     <string name="error_403_title_nonreddit">访问遭拒</string>
     <string name="error_403_message_nonreddit">服务器拒绝了访问请求。</string>
     <string name="mainmenu_popular">热门版块</string>
-    <string name="pref_menus_link_context_items_title"></string>
+    <string name="pref_menus_link_context_items_title">Link 操作菜单项</string>
     <string name="pref_menus_subreddit_context_items_title">子版块操作菜单项</string>
     <string name="action_block_subreddit">屏蔽版块</string>
     <string name="action_unblock_subreddit">不再屏蔽版块</string>
@@ -646,4 +646,12 @@
     <string name="pref_menus_appbar_items_always">始终显示按钮</string>
     <string name="pref_menus_appbar_screen_title">操作栏项目</string>
     <string name="copied_to_clipboard">已复制到剪贴板</string>
+    <string name="dialog_continue">继续</string>
+    <string name="reddit_login_browser_popup_use_external_browser">使用外部浏览器(推荐)</string>
+    <string name="reddit_login_browser_popup_use_internal_browser">使用内部浏览器(推荐)</string>
+    <string name="reddit_login_browser_popup_line_2">登录完成后，您应该被重定向回到RedReader。如果登录失败，您可以使用下面的复选框尝试使用其他浏览器。</string>
+    <string name="reddit_login_browser_popup_line_1">要登录，你现在会被带到网络浏览器的Reddit页面。</string>
+    <string name="image_gallery_no_image_present_message">找不到指定的图像。它可能已被删除。</string>
+    <string name="image_gallery_no_image_present_title">未找到图像</string>
+    <string name="pref_behaviour_video_zoom_default_title">默认放大视频</string>
 </resources>

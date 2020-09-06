@@ -593,4 +593,16 @@
     <string name="list_yes_no_or_wifi_wifionly">Kun på Wi-Fi</string>
     <string name="list_yes_no_or_wifi_always">Alltid</string>
     <string name="pref_appearance_post_subtitle_items_domain">Domene</string>
+    <string name="dialog_continue">Fortsett</string>
+    <string name="image_gallery_no_image_present_message">Kunne ikke finne angitt bilde. Det kan ha blitt slettet.</string>
+    <string name="image_gallery_no_image_present_title">Fant ikke bilde</string>
+    <string name="image_gallery_no_data_present_message">Fant ikke noe bildegalleri på angitt lenke. Det kan ha blitt slettet.</string>
+    <string name="action_comments_with_count">Vis kommentarer (%d)</string>
+    <string name="image_gallery">Galleri</string>
+    <string name="pref_menus_appbar_items_never">Ikke vis</string>
+    <string name="copied_to_clipboard">Kopiert til utklippstavle</string>
+    <string name="subreddit_link_copied_to_clipboard">Subredditlenke kopiert til utklippstavle</string>
+    <string name="comment_text_copied_to_clipboard">Kommentartekst kopiert til utklippstavle</string>
+    <string name="comment_link_copied_to_clipboard">Kommentarlenke kopiert til utklippstavle</string>
+    <string name="link_copied_to_clipboard">Lenke kopiert til utklippstavle</string>
 </resources>

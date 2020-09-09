@@ -79,7 +79,7 @@ jobs:
                 api-level: [19, 21, 23, 29]
                 target: [default, google_apis]
         steps:
-                uses: actions/checkout@v2
+            -   uses: actions/checkout@v2
 
             -   name: Run UI tests
                 uses: reactivecircus/android-emulator-runner@v2

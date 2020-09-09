@@ -57,5 +57,15 @@ jobs:
             -   name: Upload artifact to GitHub
                 uses: actions/upload-artifact@v2
                 with:
-                    name: debug-apk
+                    name: RedReader-debug.apk
                     path: build/outputs/apk/debug/RedReader-debug.apk
+
+    unitTest:
+        name: Unit tests
+        runs-on: ubuntu-latest
+
+        steps:
+            -   uses: actions/checkout@v2
+
+            -   name: Run unit tests
+                run: ./gradlew test

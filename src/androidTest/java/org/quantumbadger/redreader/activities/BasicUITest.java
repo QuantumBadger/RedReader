@@ -52,15 +52,8 @@ public class BasicUITest {
 
 	@Test
 	public void basicUITest() {
-		onView(allOf(
-				withId(android.R.id.button1),
-				withText("Log in now")))
-				.perform(click());
 
-		onView(allOf(
-				withId(android.R.id.button3),
-				withText("Close")))
-				.perform(click());
+		UITestUtils.handleFirstRunDialog();
 
 		onView(allOf(
 				withContentDescription("More options"),

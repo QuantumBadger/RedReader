@@ -1,0 +1,36 @@
+name: Tests
+
+on: [push, pull_request]
+
+jobs:
+
+    unitTest:
+        name: Unit tests
+        runs-on: ubuntu-latest
+
+        steps:
+            -   uses: actions/checkout@v2
+
+            -   name: Run unit tests
+                run: ./gradlew test
+
+    uiTest:
+        name: UI tests
+        runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                api-level: [16, 19, 21, 29]
+                target: [default, google_apis]
+        steps:
+            -   uses: actions/checkout@v2
+
+            -   name: Run UI tests
+                uses: reactivecircus/android-emulator-runner@v2
+                with:
+                    api-level: ${{ matrix.api-level }}
+                    target: ${{ matrix.target }}
+                    arch: x86
+                    profile: Nexus 6
+                    disable-animations: true
+                    script: ./gradlew connectedAndroidTest

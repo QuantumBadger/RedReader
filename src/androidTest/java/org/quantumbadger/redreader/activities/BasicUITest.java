@@ -36,15 +36,12 @@ import org.quantumbadger.redreader.R;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
@@ -57,29 +54,16 @@ public class BasicUITest {
 	public void basicUITest() {
 		onView(allOf(
 				withId(android.R.id.button1),
-				withText("Log in now"),
-				childAtPosition(
-						childAtPosition(withClassName(is("android.widget.ScrollView")), 0),
-						3)))
-				.perform(scrollTo(), click());
+				withText("Log in now")))
+				.perform(click());
 
 		onView(allOf(
 				withId(android.R.id.button3),
-				withText("Close"),
-				childAtPosition(
-						childAtPosition(
-								withClassName(is("android.widget.ScrollView")),
-								0),
-						0)))
-				.perform(scrollTo(), click());
+				withText("Close")))
+				.perform(click());
 
 		onView(allOf(
 				withContentDescription("More options"),
-				childAtPosition(
-						childAtPosition(
-								withId(R.id.rr_actionbar_toolbar),
-								1),
-						1),
 				isDisplayed()))
 				.perform(click());
 

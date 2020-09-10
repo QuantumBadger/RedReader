@@ -4,8 +4,12 @@ container:
     memory: 10G
 
 check_android_task:
+    name: UI Tests
     create_device_script:
-        echo no | avdmanager create avd --force
+        - sdkmanager --update
+        - sdkmanager "system-images;android-29;default;x86_64"
+        -  yes | sdkmanager --licenses
+        - echo no | avdmanager create avd --force
             -n test
             -k "system-images;android-29;default;x86_64"
             --device "Nexus 6"

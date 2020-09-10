@@ -16,8 +16,10 @@ yes | sdkmanager --licenses
 
 echo no | avdmanager create avd --force -n test -k "$EMUPLAT" --device "Nexus 4"
 
-if [ -f "/home/user/.android/avd/test.avd/config.ini" ]; then
-	echo "vm.heapSize=64" >> /home/user/.android/avd/test.avd/config.ini
+AVD_CONFIG_PATH=~/.android/avd/test.avd/config.ini
+
+if [ -f $AVD_CONFIG_PATH ]; then
+	echo "vm.heapSize=64" >> $AVD_CONFIG_PATH
 else 
     echo "Cannot find emulator config file"
 	exit 1

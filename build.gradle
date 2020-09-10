@@ -100,6 +100,10 @@ android {
 			assets.srcDirs = ['assets']
 		}
 	}
+
+	testOptions {
+		animationsDisabled = true
+	}
 }
 
 pmd {

@@ -21,11 +21,13 @@ import org.quantumbadger.redreader.R;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
+import static androidx.test.espresso.action.ViewActions.typeTextIntoFocusedView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isFocused;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withChild;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -54,15 +56,15 @@ public class UITestReadSelfPost {
 		final ViewInteraction customSubredditTextBox
 				= onView(allOf(withId(R.id.dialog_mainmenu_custom_value), isDisplayed()));
 
-		customSubredditTextBox.perform(
-				click(),
-				replaceText("redreader_public_test"),
-				closeSoftKeyboard());
+		customSubredditTextBox.perform(click());
 
-		onView(allOf(withId(android.R.id.button1), withText("Go"))).perform(click());
+		onView(allOf(
+				withId(R.id.dialog_mainmenu_custom_value),
+				isDisplayed(),
+				isFocused())).perform(typeTextIntoFocusedView("redreader_public_test"));
 
-		// Network activity
-		UITestUtils.sleepSeconds(5);
+		onView(allOf(withId(android.R.id.button1), withText("Go")))
+				.perform(click());
 
 		final ViewInteraction selfTextPost = onView(allOf(
 				withId(R.id.reddit_post_layout),

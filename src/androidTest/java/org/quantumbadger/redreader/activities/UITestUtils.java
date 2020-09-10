@@ -1,12 +1,21 @@
 package org.quantumbadger.redreader.activities;
 
+import android.view.View;
+
 import androidx.test.espresso.NoMatchingViewException;
+import androidx.test.espresso.UiController;
+import androidx.test.espresso.ViewAction;
+
+import org.hamcrest.Matcher;
+import org.hamcrest.core.IsAnything;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.anything;
 
 public class UITestUtils {
 
@@ -31,11 +40,22 @@ public class UITestUtils {
 				.perform(click());
 	}
 
-	public static void sleepSeconds(final long seconds) {
-		try {
-			Thread.sleep(seconds * 1000);
-		} catch(final InterruptedException e) {
-			throw new RuntimeException(e);
-		}
+	public static ViewAction waitForSeconds(final long seconds) {
+		return new ViewAction() {
+			@Override
+			public Matcher<View> getConstraints() {
+				return new IsAnything<>();
+			}
+
+			@Override
+			public String getDescription() {
+				return "Wait for " + seconds + " seconds.";
+			}
+
+			@Override
+			public void perform(UiController uiController, final View view) {
+				uiController.loopMainThreadForAtLeast(seconds * 1000);
+			}
+		};
 	}
 }

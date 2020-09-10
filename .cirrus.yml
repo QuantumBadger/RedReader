@@ -6,12 +6,9 @@ container:
 check_android_task:
     name: UI Tests
     create_device_script:
-        - sdkmanager --update
-        - sdkmanager "system-images;android-29;default;x86_64"
-        -  yes | sdkmanager --licenses
         - echo no | avdmanager create avd --force
             -n test
-            -k "system-images;android-29;default;x86_64"
+            -k "system-images;android-29;default;armeabi-v7a"
             --device "Nexus 6"
     start_emulator_background_script:
         $ANDROID_HOME/emulator/emulator

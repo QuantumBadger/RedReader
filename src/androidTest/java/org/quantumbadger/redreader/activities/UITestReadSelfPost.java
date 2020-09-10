@@ -61,6 +61,9 @@ public class UITestReadSelfPost {
 
 		onView(allOf(withId(android.R.id.button1), withText("Go"))).perform(click());
 
+		// Network activity
+		UITestUtils.sleepSeconds(5);
+
 		final ViewInteraction selfTextPost = onView(allOf(
 				withId(R.id.reddit_post_layout),
 				withChild(allOf(

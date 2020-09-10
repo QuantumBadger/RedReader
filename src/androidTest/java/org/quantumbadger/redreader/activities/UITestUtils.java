@@ -30,4 +30,12 @@ public class UITestUtils {
 				withText("Close")))
 				.perform(click());
 	}
+
+	public static void sleepSeconds(final long seconds) {
+		try {
+			Thread.sleep(seconds * 1000);
+		} catch(final InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+	}
 }

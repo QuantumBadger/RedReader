@@ -400,7 +400,7 @@
     <!-- 2015-06-28 -->
     <string name="options_close_all">Tout fermer</string>
     <!-- 2015-07-05 -->
-    <string name="pref_behaviour_bezel_toolbar_header">Barre d\'outils latérale</string>
+    <string name="pref_behaviour_bezel_toolbar_header">Barre d\'outils latérale de post</string>
     <!-- 2015-08-15 -->
     <string name="action_delete">Supprimer</string>
     <string name="delete_confirm">Êtes-vous sûr de vouloir supprimer ceci \?</string>

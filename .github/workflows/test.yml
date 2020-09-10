@@ -13,25 +13,3 @@ jobs:
 
             -   name: Run unit tests
                 run: ./gradlew test
-
-    uiTest:
-        name: UI tests
-        runs-on: macos-latest
-
-        strategy:
-            fail-fast: false
-            matrix:
-                api-level: [16, 19, 21, 29]
-                target: [default, google_apis]
-        steps:
-            -   uses: actions/checkout@v2
-
-            -   name: Run UI tests
-                uses: reactivecircus/android-emulator-runner@v2
-                with:
-                    api-level: ${{ matrix.api-level }}
-                    target: ${{ matrix.target }}
-                    arch: x86
-                    profile: Nexus 6
-                    disable-animations: true
-                    script: ./config/scripts/retry.sh ./gradlew connectedAndroidTest

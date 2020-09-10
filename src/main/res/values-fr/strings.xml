@@ -105,22 +105,22 @@
     <!-- Post Sorts -->
     <string name="sort_posts_hot">Populaire</string>
     <string name="sort_posts_new">Nouveau</string>
-    <string name="sort_posts_rising">En hausse</string>
+    <string name="sort_posts_rising">En progression</string>
     <string name="sort_posts_controversial">Controversé</string>
-    <string name="sort_posts_top">Top</string>
-    <string name="sort_posts_top_hour">Top : cette heure-ci</string>
-    <string name="sort_posts_top_today">Top : aujourd\'hui</string>
-    <string name="sort_posts_top_week">Top : cette semaine</string>
-    <string name="sort_posts_top_month">Top : ce mois-ci</string>
-    <string name="sort_posts_top_year">Top : cette année</string>
-    <string name="sort_posts_top_all">Top : depuis toujours</string>
+    <string name="sort_posts_top">Le meilleur</string>
+    <string name="sort_posts_top_hour">Le meilleur : la dernière heure</string>
+    <string name="sort_posts_top_today">Le meilleur : dernières 24 heures</string>
+    <string name="sort_posts_top_week">Le meilleur : la semaine passée</string>
+    <string name="sort_posts_top_month">Le meilleur : le mois précédent</string>
+    <string name="sort_posts_top_year">Le meilleur : l\'année passée</string>
+    <string name="sort_posts_top_all">Le meilleur : depuis le début</string>
     <!-- Comment Sorts -->
     <string name="sort_comments_best">Apprécié</string>
     <string name="sort_comments_hot">Populaire</string>
     <string name="sort_comments_new">Nouveau</string>
-    <string name="sort_comments_old">Vieux</string>
+    <string name="sort_comments_old">Ancien</string>
     <string name="sort_comments_controversial">Controversé</string>
-    <string name="sort_comments_top">Top</string>
+    <string name="sort_comments_top">Le meilleur</string>
     <!-- Dialog Buttons -->
     <string name="dialog_close">Fermer</string>
     <string name="dialog_cancel">Annuler</string>
@@ -566,15 +566,15 @@
     <string name="disable_replies_to_infobox_failed">La désactivation des réponses dans la boîte de réception a échoué</string>
     <!-- Weblate 2020-01-25 -->
     <string name="time_hours">heures</string>
-    <string name="pref_menus_subreddit_context_items_title">Éléments du menu subreddit</string>
+    <string name="pref_menus_subreddit_context_items_title">Éléments du menu d’action subreddit</string>
     <string name="videoview_mode_app_vlc_launch_failed">Le lancement de VLC a échoué. Veuillez mettre à jour VLC ou changer de lecteur de vidéos.</string>
     <string name="pref_behaviour_sharing_header">Partage</string>
-    <string name="sort_comments_qa">FAQ</string>
+    <string name="sort_comments_qa">Questions et réponses</string>
     <string name="pref_behaviour_gifview_mode_internal_movie">Lecteur interne (Film, Android 4.0+)</string>
     <string name="time_3hr">3 heures</string>
     <string name="sort_pinned_subreddit_name">Par nom</string>
     <string name="unblock_done">Le subreddit a été débloqué. Aux prochaines visites, /r/all va inclure ce subreddit.</string>
-    <string name="pref_menus_optionsmenu_items_title">Éléments du menu d\'options</string>
+    <string name="pref_menus_optionsmenu_items_title">Éléments du menu à trois points</string>
     <string name="time_year">année</string>
     <string name="pref_behaviour_videoview_mode_title">Lecteur de vidéos</string>
     <string name="time_2hr">2 heures</string>
@@ -605,7 +605,7 @@
     <string name="screen_orientation_auto">Automatique</string>
     <string name="pref_menus_mainmenu_useritems_title">Éléments utilisateur</string>
     <string name="time_month">mois</string>
-    <string name="pref_behaviour_bezel_toolbar_swipezone_title">Taille zone de balayage barre d\'outils latérale</string>
+    <string name="pref_behaviour_bezel_toolbar_swipezone_title">Taille de la zone de balayage de la barre d’outils latérale</string>
     <string name="time_min">min</string>
     <string name="pref_behaviour_fling_comment_right_title">Glisser vers la droite</string>
     <string name="web_view_clear_cache_success_toast">Vider le cache, l\'historique, les cookies et les données de formulaire.</string>
@@ -737,4 +737,22 @@
     <string name="pref_appearance_fontscale_post_header_subtitles_title">Sous-titres des posts ouverts</string>
     <string name="pref_appearance_fontscale_post_header_titles_title">Titres des posts ouverts</string>
     <string name="pref_appearance_fontscale_post_subtitles_title">Sous-titres du post</string>
+    <string name="copied_to_clipboard">Copié dans le presse-papiers</string>
+    <string name="pref_appearance_post_header_subtitle_items_title">Entrées de sous-titres de posts ouverts</string>
+    <string name="pref_menus_appbar_items_overflow_only">Afficher seulement dans le menu à trois points</string>
+    <string name="pref_menus_appbar_items_if_room">Afficher le bouton s\'il y a de place</string>
+    <string name="pref_menus_appbar_items_always">Toujours afficher le bouton</string>
+    <string name="pref_menus_appbar_screen_title">Éléments de la barre d\'action</string>
+    <string name="error_message_malformed_html">Échec de l\'analyse du corps du texte. Veuillez le signaler au développeur de l\'application.</string>
+    <string name="sort_comments_top_all">Le meilleur : depuis le début</string>
+    <string name="sort_comments_top_year">Le meilleur : l\'année passée</string>
+    <string name="sort_comments_top_month">Le meilleur : le mois précédent</string>
+    <string name="sort_comments_top_week">Le meilleur : la semaine passée</string>
+    <string name="sort_comments_top_today">Le meilleur : dernières 24 heures</string>
+    <string name="sort_comments_top_hour">Le meilleur : la dernière heure</string>
+    <string name="action_comments_with_count">Voir les commentaires (%d)</string>
+    <string name="pref_appearance_post_show_comments_button_title">Afficher le bouton des commentaires</string>
+    <string name="image_gallery">Galerie</string>
+    <string name="action_search_posts">Rechercher des posts</string>
+    <string name="pref_menus_appbar_items_never">Ne pas afficher</string>
 </resources>

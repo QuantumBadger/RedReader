@@ -8,7 +8,7 @@ ui_tests_api16_task:
     name: UI Tests (Android 4.1.2)
     run_tests_script:
         - sudo chown cirrus:cirrus /dev/kvm
-        - ./config/scripts/retry.sh ./config/scripts/run_emulator_tests.sh "system-images;android-16;default;x86"
+        - ./config/scripts/run_emulator_tests_with_retry.sh "system-images;android-16;default;x86"
     always:
         results_artifacts:
             path: "build/outputs/androidTest-results/connected/*.xml"
@@ -19,7 +19,7 @@ ui_tests_api29_task:
     name: UI Tests (Android 10)
     run_tests_script:
         - sudo chown cirrus:cirrus /dev/kvm
-        - ./config/scripts/retry.sh ./config/scripts/run_emulator_tests.sh "system-images;android-29;google_apis;x86_64"
+        - ./config/scripts/run_emulator_tests_with_retry.sh "system-images;android-29;google_apis;x86_64"
     always:
         results_artifacts:
             path: "build/outputs/androidTest-results/connected/*.xml"

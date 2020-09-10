@@ -71,6 +71,7 @@ public class PostListingActivity extends RefreshableActivity
 	private final AtomicReference<RedditSubredditSubscriptionManager.ListenerContext>
 			mSubredditSubscriptionListenerContext = new AtomicReference<>(null);
 
+	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 
 		PrefsUtility.applyTheme(this);

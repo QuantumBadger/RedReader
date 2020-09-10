@@ -321,8 +321,15 @@ public final class JsonBufferedObject extends JsonBuffered
 						case JsonValue.TYPE_FLOAT:
 							result = val.asDouble();
 							break;
+						case JsonValue.TYPE_NULL:
+							result = null;
+							break;
+
+						case JsonValue.TYPE_OBJECT:
+						case JsonValue.TYPE_ARRAY:
 						default:
 							result = val;
+							break;
 					}
 
 					objectField.set(o, result);

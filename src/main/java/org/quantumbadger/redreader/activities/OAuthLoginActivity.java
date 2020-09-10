@@ -117,6 +117,7 @@ public class OAuthLoginActivity extends BaseActivity {
 		cookieManager.removeAllCookie();
 	}
 
+	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 
 		PrefsUtility.applyTheme(this);

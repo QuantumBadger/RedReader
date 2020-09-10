@@ -81,14 +81,15 @@ android {
 		disable 'MissingQuantity'
 
 		// Temporarily disabled
-		disable 'ExtraTranslation'
 		disable 'ImpliedQuantity'
+		disable 'InflateParams'
 
 		// Too many false positives
 		disable 'UnusedResources'
 
 		// Not an issue
 		disable 'ViewConstructor'
+		disable 'GradleDependency'
 	}
 
 	packagingOptions {

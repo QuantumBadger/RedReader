@@ -45,6 +45,7 @@ public class WebViewActivity extends BaseActivity
 
 	private RedditPost mPost;
 
+	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 
 		PrefsUtility.applyTheme(this);

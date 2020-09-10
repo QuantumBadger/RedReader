@@ -36,7 +36,8 @@
 			android:layout_height="wrap_content"
 			android:orientation="horizontal"
 			android:background="?rrListItemBackgroundCol"
-			android:elevation="10dp">
+			android:elevation="10dp"
+			tools:ignore="UnusedAttribute">
 
 		<org.quantumbadger.redreader.views.IndentView
 				android:id="@+id/view_reddit_comment_indentview"

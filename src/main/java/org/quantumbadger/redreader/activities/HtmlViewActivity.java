@@ -63,6 +63,7 @@ public class HtmlViewActivity extends BaseActivity {
 		context.startActivity(intent);
 	}
 
+	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 
 		PrefsUtility.applyTheme(this);

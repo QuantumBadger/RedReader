@@ -55,6 +55,7 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 
 	private String mSearchString = null;
 
+	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 
 		PrefsUtility.applyTheme(this);

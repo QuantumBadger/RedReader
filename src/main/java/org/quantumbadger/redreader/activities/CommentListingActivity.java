@@ -60,6 +60,7 @@ public class CommentListingActivity extends RefreshableActivity
 
 	private CommentListingFragment mFragment;
 
+	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 
 		PrefsUtility.applyTheme(this);

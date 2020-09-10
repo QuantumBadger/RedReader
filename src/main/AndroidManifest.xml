@@ -17,7 +17,8 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="org.quantumbadger.redreader"
+		xmlns:tools="http://schemas.android.com/tools"
+		package="org.quantumbadger.redreader"
           android:installLocation="auto">
 
     <uses-feature android:glEsVersion="0x00020000" android:required="true" />
@@ -35,7 +36,8 @@
                  android:largeHeap="true"
                  android:hardwareAccelerated="true"
                  android:allowBackup="true"
-				 android:usesCleartextTraffic="true">
+				 android:usesCleartextTraffic="true"
+				 tools:ignore="UnusedAttribute">
 		<meta-data android:name="android.max_aspect" android:value="3" />
 
 		<meta-data android:name="com.lge.support.SPLIT_WINDOW" android:value="true" />

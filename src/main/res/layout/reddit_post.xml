@@ -40,7 +40,8 @@
 			android:orientation="horizontal"
 			android:minHeight="64dp"
 			android:elevation="10dp"
-			android:nextFocusRight="@id/reddit_post_comments_button">
+			android:nextFocusRight="@id/reddit_post_comments_button"
+			tools:ignore="UnusedAttribute">
 
 		<FrameLayout
 				android:layout_width="wrap_content"

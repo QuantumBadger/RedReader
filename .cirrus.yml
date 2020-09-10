@@ -1,0 +1,37 @@
+container:
+    image: cirrusci/android-sdk:29
+    cpu: 6
+    memory: 10G
+
+check_android_task:
+    create_device_script:
+        echo no | avdmanager create avd --force
+            -n test
+            -k "system-images;android-29;default;x86"
+            --device "Nexus 6"
+    start_emulator_background_script:
+        $ANDROID_HOME/emulator/emulator
+            -avd test
+            -no-audio
+            -no-window
+            -gpu swiftshader_indirect
+            -no-snapshot
+            -no-boot-anim
+    wait_for_emulator_script:
+        - adb wait-for-device
+        - sleep 10
+        - adb shell input keyevent 82
+    check_script:
+        - adb shell settings put global window_animation_scale 0.0
+        - adb shell settings put global transition_animation_scale 0.0
+        - adb shell settings put global animator_duration_scale 0.0
+        - ./config/scripts/retry.sh ./gradlew check connectedCheck
+
+task:
+    name: Android Lint
+    lint_script: ./gradlew lintDebug
+    always:
+        android-lint_artifacts:
+            path: "**/reports/lint-results-debug.xml"
+            type: text/xml
+            format: android-lint

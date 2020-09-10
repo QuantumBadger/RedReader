@@ -39,7 +39,7 @@ android_unit_tests_task:
     name: Unit tests
     unit_test_script: ./gradlew test
     always:
-        unit_test_artifacts:
+        results_artifacts:
             path: "build/test-results/test*/*.xml"
             type: text/xml
             format: junit

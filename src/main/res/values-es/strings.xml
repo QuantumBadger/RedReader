@@ -695,4 +695,11 @@
     <string name="pref_appearance_post_subtitle_items_nsfw">Etiqueta NSFW</string>
     <string name="pref_appearance_post_subtitle_items_spoiler">Etiqueta de spoiler</string>
     <string name="pref_appearance_post_subtitle_items_sticky">Etiqueta adhesiva</string>
+    <string name="must_login_message">Debe iniciar sesión en una cuenta de Reddit para hacer esto.</string>
+    <string name="pref_appearance_fontscale_bodytext_title">Cuerpo de texto</string>
+    <string name="pref_appearance_fontscale_global_title">Global</string>
+    <string name="prefs_category_fonts">Fuente</string>
+    <string name="pref_network_tor_summary">Al usar un navegador externo o pestañas personalizadas, los enlaces no se abrirán usando Tor (a menos que su navegador esté configurado para usar Tor)</string>
+    <string name="search_results_query_only">Buscar \"%s\"</string>
+    <string name="list_yes_no_or_wifi_wifionly">Solo con conexión Wi-Fi</string>
 </resources>

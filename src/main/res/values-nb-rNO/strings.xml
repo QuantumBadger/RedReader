@@ -605,4 +605,8 @@
     <string name="comment_text_copied_to_clipboard">Kommentartekst kopiert til utklippstavle</string>
     <string name="comment_link_copied_to_clipboard">Kommentarlenke kopiert til utklippstavle</string>
     <string name="link_copied_to_clipboard">Lenke kopiert til utklippstavle</string>
+    <string name="reddit_login_browser_popup_use_external_browser">Bruk ekstern nettleser (anbefales)</string>
+    <string name="reddit_login_browser_popup_use_internal_browser">Bruk intern nettleser (anbefales)</string>
+    <string name="reddit_login_browser_popup_line_2">Når innloggingen er utført, burde du bli videresendt tilbake til RedReader. Hvis det ikke fungerer kan du bruke en annen nettleser nedenfor.</string>
+    <string name="reddit_login_browser_popup_line_1">Du vil nå bli sendt til Reddit i en nettleser for innlogging.</string>
 </resources>

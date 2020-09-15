@@ -1299,4 +1299,8 @@
 
 	<string name="title_attribution">Attribution</string>
 
+	<!-- 2020-09-15 -->
+
+	<string name="link_does_not_exist">This link does not exist. It may have been deleted.</string>
+
 </resources>

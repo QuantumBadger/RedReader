@@ -1,6 +1,7 @@
 94/1.14
 Fixed crash when opening video controls
 Fixed ANR caused by legacy GIF decoding
+Fixed crash when swiping to a deleted image in an album
 
 93/1.13
 Ability to customise action bar buttons (thanks to Cameron Merkel)

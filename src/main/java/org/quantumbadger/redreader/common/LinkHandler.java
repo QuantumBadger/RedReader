@@ -144,6 +144,11 @@ public class LinkHandler {
 			final int albumImageIndex,
 			final boolean fromExternalIntent) {
 
+		if(url == null) {
+			General.quickToast(activity, R.string.link_does_not_exist);
+			return;
+		}
+
 		final SharedPreferences sharedPreferences
 				= PreferenceManager.getDefaultSharedPreferences(activity);
 

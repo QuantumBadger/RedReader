@@ -880,10 +880,12 @@ public class ImageViewActivity extends BaseActivity
 
 			mVideoPlayerWrapper.handleTap();
 
-			if(mVideoPlayerWrapper.isControlViewVisible() == View.VISIBLE) {
-				mFloatingToolbar.setVisibility(View.GONE);
-			} else {
-				mFloatingToolbar.setVisibility(View.VISIBLE);
+			if(mFloatingToolbar != null) {
+				if(mVideoPlayerWrapper.isControlViewVisible() == View.VISIBLE) {
+					mFloatingToolbar.setVisibility(View.GONE);
+				} else {
+					mFloatingToolbar.setVisibility(View.VISIBLE);
+				}
 			}
 
 		} else {

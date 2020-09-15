@@ -790,14 +790,11 @@ public class ImageViewActivity extends BaseActivity
 
 		Log.i(TAG, "Using internal browser");
 
-		final Runnable r = new Runnable() {
-			@Override
-			public void run() {
-				if(!mHaveReverted) {
-					mHaveReverted = true;
-					LinkHandler.onLinkClicked(ImageViewActivity.this, mUrl, true);
-					finish();
-				}
+		final Runnable r = () -> {
+			if(!mHaveReverted) {
+				mHaveReverted = true;
+				LinkHandler.onLinkClicked(this, mUrl, true);
+				finish();
 			}
 		};
 
@@ -812,15 +809,9 @@ public class ImageViewActivity extends BaseActivity
 
 		Log.i(TAG, "Using external browser");
 
-		final Runnable r = new Runnable() {
-			@Override
-			public void run() {
-				LinkHandler.openWebBrowser(
-						ImageViewActivity.this,
-						Uri.parse(mUrl),
-						false);
-				finish();
-			}
+		final Runnable r = () -> {
+			LinkHandler.openWebBrowser(this, Uri.parse(mUrl), false);
+			finish();
 		};
 
 		if(General.isThisUIThread()) {
@@ -1125,13 +1116,10 @@ public class ImageViewActivity extends BaseActivity
 
 					@Override
 					protected void onDownloadNecessary() {
-						AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-							@Override
-							public void run() {
-								progressBar.setVisibility(View.VISIBLE);
-								progressBar.setIndeterminate(true);
-								manageAspectRatioIndicator(progressBar);
-							}
+						AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+							progressBar.setVisibility(View.VISIBLE);
+							progressBar.setIndeterminate(true);
+							manageAspectRatioIndicator(progressBar);
 						});
 					}
 
@@ -1150,6 +1138,14 @@ public class ImageViewActivity extends BaseActivity
 
 							if(!failed.getAndSet(true)) {
 
+								if(type == REQUEST_FAILURE_CONNECTION
+										&& url.getHost().contains("redgifs")) {
+
+									// Redgifs have lots of server issues
+									revertToWeb();
+									return;
+								}
+
 								final RRError error = General.getGeneralErrorForFailure(
 										context,
 										type,
@@ -1157,21 +1153,17 @@ public class ImageViewActivity extends BaseActivity
 										status,
 										url.toString());
 
-								AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-									@Override
-									public void run() {
-										// TODO handle properly
-										mRequest = null;
-										final LinearLayout layout = new LinearLayout(
-												context);
-										final ErrorView errorView = new ErrorView(
-												ImageViewActivity.this,
-												error);
-										layout.addView(errorView);
-										errorView.getLayoutParams().width
-												= ViewGroup.LayoutParams.MATCH_PARENT;
-										setMainView(layout);
-									}
+								AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+									mRequest = null;
+									final LinearLayout layout = new LinearLayout(
+											context);
+									final ErrorView errorView = new ErrorView(
+											ImageViewActivity.this,
+											error);
+									layout.addView(errorView);
+									errorView.getLayoutParams().width
+											= ViewGroup.LayoutParams.MATCH_PARENT;
+									setMainView(layout);
 								});
 							}
 						}
@@ -1182,20 +1174,17 @@ public class ImageViewActivity extends BaseActivity
 							final boolean authorizationInProgress,
 							final long bytesRead,
 							final long totalBytes) {
-						AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-							@Override
-							public void run() {
-								progressBar.setVisibility(View.VISIBLE);
-								progressBar.setIndeterminate(authorizationInProgress);
-								progressBar.setProgress(((float)((1000 * bytesRead)
-										/ totalBytes)) / 1000);
-								manageAspectRatioIndicator(progressBar);
+						AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+							progressBar.setVisibility(View.VISIBLE);
+							progressBar.setIndeterminate(authorizationInProgress);
+							progressBar.setProgress(((float)((1000 * bytesRead)
+									/ totalBytes)) / 1000);
+							manageAspectRatioIndicator(progressBar);
 
-								if(!mProgressTextSet) {
-									mProgressText.setText(General.bytesToMegabytes(
-											totalBytes));
-									mProgressTextSet = true;
-								}
+							if(!mProgressTextSet) {
+								mProgressText.setText(General.bytesToMegabytes(
+										totalBytes));
+								mProgressTextSet = true;
 							}
 						});
 					}

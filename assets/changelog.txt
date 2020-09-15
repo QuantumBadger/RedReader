@@ -1,3 +1,7 @@
+94/1.14
+Fixed crash when opening video controls
+Fixed ANR caused by legacy GIF decoding
+
 93/1.13
 Ability to customise action bar buttons (thanks to Cameron Merkel)
 Preferences to hide comments button, and add post context menu item to view comments (thanks to Cameron Merkel)

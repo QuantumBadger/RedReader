@@ -22,6 +22,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Movie;
 import android.net.Uri;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
@@ -593,47 +594,52 @@ public class ImageViewActivity extends BaseActivity
 
 			if(gifViewMode == PrefsUtility.GifViewMode.INTERNAL_MOVIE) {
 
-				AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-					@Override
-					public void run() {
+				final byte[] data;
 
-						if(mIsDestroyed) {
-							return;
-						}
-						mRequest = null;
+				try(InputStream cacheFileInputStream = cacheFile.getInputStream()) {
 
-						getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+					data = GIFView.streamToBytes(cacheFileInputStream);
 
-						try(InputStream cacheFileInputStream = cacheFile.getInputStream()) {
+				} catch(final IOException e) {
+					Log.e(TAG, "Failed to read GIF data", e);
+					revertToWeb();
+					return;
+				}
 
-							final byte[] data
-									= GIFView.streamToBytes(cacheFileInputStream);
-							final GIFView gifView = new GIFView(
-									ImageViewActivity.this,
-									data);
-							setMainView(gifView);
-							gifView.setOnTouchListener(new BasicGestureHandler(
-									ImageViewActivity.this));
+				final Movie movie;
 
-						} catch(final OutOfMemoryError e) {
-							General.quickToast(
-									ImageViewActivity.this,
-									R.string.imageview_oom);
-							revertToWeb();
+				try {
+					movie = GIFView.prepareMovie(data);
 
-						} catch(final Throwable e) {
-							General.quickToast(
-									ImageViewActivity.this,
-									R.string.imageview_invalid_gif);
-							revertToWeb();
-						}
+				} catch(final OutOfMemoryError e) {
+					General.quickToast(this, R.string.imageview_oom);
+					revertToWeb();
+					return;
+
+				} catch(final Throwable e) {
+					General.quickToast(this, R.string.imageview_invalid_gif);
+					revertToWeb();
+					return;
+				}
+
+				AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+
+					if(mIsDestroyed) {
+						return;
 					}
+					mRequest = null;
+
+					getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+					final GIFView gifView = new GIFView(this, movie);
+
+					setMainView(gifView);
+					gifView.setOnTouchListener(new BasicGestureHandler(this));
 				});
 
 			} else {
 
-				@SuppressWarnings("PMD.CloseResource") final InputStream
-						cacheFileInputStream;
+				@SuppressWarnings("PMD.CloseResource") final InputStream cacheFileInputStream;
 				try {
 					cacheFileInputStream = cacheFile.getInputStream();
 
@@ -651,27 +657,26 @@ public class ImageViewActivity extends BaseActivity
 						cacheFileInputStream,
 						new GifDecoderThread.OnGifLoadedListener() {
 
+							@Override
 							public void onGifLoaded() {
-								AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-									@Override
-									public void run() {
+								AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 
-										if(mIsDestroyed) {
-											return;
-										}
-										mRequest = null;
-
-										imageView = new ImageView(ImageViewActivity.this);
-										imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-										setMainView(imageView);
-										gifThread.setView(imageView);
-
-										imageView.setOnTouchListener(new BasicGestureHandler(
-												ImageViewActivity.this));
+									if(mIsDestroyed) {
+										return;
 									}
+									mRequest = null;
+
+									imageView = new ImageView(ImageViewActivity.this);
+									imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+									setMainView(imageView);
+									gifThread.setView(imageView);
+
+									imageView.setOnTouchListener(new BasicGestureHandler(
+											ImageViewActivity.this));
 								});
 							}
 
+							@Override
 							public void onOutOfMemory() {
 								General.quickToast(
 										ImageViewActivity.this,
@@ -679,6 +684,7 @@ public class ImageViewActivity extends BaseActivity
 								revertToWeb();
 							}
 
+							@Override
 							public void onGifInvalid() {
 								General.quickToast(
 										ImageViewActivity.this,
@@ -758,10 +764,12 @@ public class ImageViewActivity extends BaseActivity
 		}
 	}
 
+	@Override
 	public void onPostSelected(final RedditPreparedPost post) {
 		LinkHandler.onLinkClicked(this, post.src.getUrl(), false, post.src.getSrc());
 	}
 
+	@Override
 	public void onPostCommentsSelected(final RedditPreparedPost post) {
 		LinkHandler.onLinkClicked(
 				this,

@@ -35,7 +35,8 @@
 			  android:scrollHorizontally="true"
 			  android:scrollbars="none"
 			  android:inputType="textNoSuggestions"
-			  android:hint="@string/pm_send_hint_recipient"/>
+			  android:hint="@string/pm_send_hint_recipient"
+			  android:importantForAutofill="no"/>
 
 	<EditText android:id="@+id/pm_send_subject"
 			  android:layout_width="match_parent"
@@ -46,16 +47,18 @@
 			  android:scrollbars="none"
 			  android:inputType="textNoSuggestions"
 			  android:maxLength="100"
-			  android:hint="@string/pm_send_hint_subject"/>
+			  android:hint="@string/pm_send_hint_subject"
+			  android:importantForAutofill="no"/>
 
     <EditText android:id="@+id/pm_send_text"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_margin="10dp"
-              android:singleLine="false"
-              android:scrollHorizontally="false"
-              android:scrollbars="none"
-              android:inputType="textCapSentences|textMultiLine"
-	 		  android:hint="@string/pm_send_hint_message_text"/>
+			  android:layout_width="match_parent"
+			  android:layout_height="wrap_content"
+			  android:layout_margin="10dp"
+			  android:singleLine="false"
+			  android:scrollHorizontally="false"
+			  android:scrollbars="none"
+			  android:inputType="textCapSentences|textMultiLine"
+			  android:hint="@string/pm_send_hint_message_text"
+			  android:importantForAutofill="no"/>
 
 </LinearLayout>

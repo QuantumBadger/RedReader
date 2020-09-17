@@ -45,7 +45,8 @@
 			android:inputType="textCapSentences|textMultiLine"
 			android:scrollHorizontally="false"
 			android:scrollbars="none"
-			android:singleLine="false" />
+			android:singleLine="false"
+			android:importantForAutofill="no"/>
 
 	<TextView
 			android:id="@+id/comment_parent_text"

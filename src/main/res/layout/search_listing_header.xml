@@ -19,7 +19,8 @@
 				android:layout_weight="1"
 				android:hint="@string/search_listing_header_query"
 				android:maxLines="1"
-				android:inputType="text"/>
+				android:inputType="text"
+				android:importantForAutofill="no"/>
 
 	</com.google.android.material.textfield.TextInputLayout>
 
@@ -35,7 +36,8 @@
 				android:layout_weight="1"
 				android:hint="@string/search_listing_header_sub"
 				android:maxLines="1"
-				android:inputType="textNoSuggestions"/>
+				android:inputType="textNoSuggestions"
+				android:importantForAutofill="no"/>
 
 	</com.google.android.material.textfield.TextInputLayout>
 

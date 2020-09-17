@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import org.quantumbadger.redreader.R;
@@ -53,6 +54,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 		this.albumInfo = albumInfo;
 	}
 
+	@NonNull
 	@Override
 	public VH3TextIcon onCreateViewHolder(final ViewGroup parent, final int viewType) {
 		final View v = LayoutInflater.from(parent.getContext())

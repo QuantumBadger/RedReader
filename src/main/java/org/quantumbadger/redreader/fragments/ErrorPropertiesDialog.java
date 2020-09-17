@@ -27,6 +27,8 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.common.RRError;
 
+import java.net.UnknownHostException;
+
 public final class ErrorPropertiesDialog extends PropertiesDialog {
 
 	private AppCompatActivity mContext;
@@ -67,9 +69,12 @@ public final class ErrorPropertiesDialog extends PropertiesDialog {
 	@Override
 	protected void interceptBuilder(@NonNull final AlertDialog.Builder builder) {
 
-		builder.setPositiveButton(
-				R.string.button_error_send_report,
-				(dialog, which) -> BugReportActivity.sendBugReport(mContext, mError));
+		if(!(mError.t instanceof UnknownHostException)) {
+
+			builder.setPositiveButton(
+					R.string.button_error_send_report,
+					(dialog, which) -> BugReportActivity.sendBugReport(mContext, mError));
+		}
 	}
 
 	@Override

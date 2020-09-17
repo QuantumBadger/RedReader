@@ -22,17 +22,15 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.preference.PreferenceManager;
-import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
+import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 
 /**
  * Draws the left margin for comments based on the RedditPreparedComment#indentation number
- *
- * @author Gabriel Castro &lt;dev@GabrielCastro.ca&gt;
  */
 class IndentView extends View {
 
@@ -40,9 +38,11 @@ class IndentView extends View {
 	private int mIndent;
 
 	private final int mPixelsPerIndent;
-	private final float mHalfALine;
+	private final int mHalfALine;
 
 	private final boolean mPrefDrawLines;
+
+	private float[] mLineBuffer;
 
 	public IndentView(final Context context) {
 		this(context, null);
@@ -95,18 +95,16 @@ class IndentView extends View {
 		final int height = getMeasuredHeight();
 
 		if(mPrefDrawLines) {
-			final float[] lines = new float[mIndent * 4];
-			float x;
 			// i keeps track of indentation, and
 			// l is to populate the float[] with line co-ordinates
 			for(int i = 0, l = 0; i < mIndent; ++l) {
-				x = (mPixelsPerIndent * ++i) - mHalfALine;
-				lines[l] = x;      // start-x
-				lines[++l] = 0;      // start-y
-				lines[++l] = x;      // stop-x
-				lines[++l] = height; // stop-y
+				final float x = (mPixelsPerIndent * ++i) - mHalfALine;
+				mLineBuffer[l] = x;      // start-x
+				mLineBuffer[++l] = 0;      // start-y
+				mLineBuffer[++l] = x;      // stop-x
+				mLineBuffer[++l] = height; // stop-y
 			}
-			canvas.drawLines(lines, mPaint);
+			canvas.drawLines(mLineBuffer, mPaint);
 
 		} else {
 			final float rightLine = getWidth() - mHalfALine;
@@ -120,9 +118,14 @@ class IndentView extends View {
 	 * @param indent comment indentation number
 	 */
 	public void setIndentation(final int indent) {
-		this.getLayoutParams().width = (mPixelsPerIndent * indent);
-		this.mIndent = indent;
-		this.invalidate();
-		this.requestLayout();
+		getLayoutParams().width = (mPixelsPerIndent * indent);
+		mIndent = indent;
+
+		if(mPrefDrawLines) {
+			mLineBuffer = new float[mIndent * 4];
+		}
+
+		invalidate();
+		requestLayout();
 	}
 }

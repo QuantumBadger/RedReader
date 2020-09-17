@@ -675,7 +675,7 @@
     <string name="pref_appearance_show_aspect_ratio_indicator_summary">Tampilkan indikator pemuatan media jika tersedia</string>
     <string name="pref_appearance_bottom_toolbar_title">Tampilkan bilah alat di bawah</string>
     <string name="pref_behaviour_video_mute_default_title">Matikan suara video secara bawaan</string>
-    <string name="prefs_category_images_video">Media</string>
+    <string name="prefs_category_images_video">Gambar/Video</string>
     <string name="notification_channel_name_reddit_messages">Pesan Masuk Reddit</string>
     <string name="post_text_copied_to_clipboard">Pos teks self disalin ke papan klip</string>
     <string name="action_copy_selftext">Salin Teks Self</string>

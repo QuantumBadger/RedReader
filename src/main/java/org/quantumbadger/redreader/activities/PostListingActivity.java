@@ -19,13 +19,14 @@ package org.quantumbadger.redreader.activities;
 
 
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.View;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
@@ -78,8 +79,16 @@ public class PostListingActivity extends RefreshableActivity
 
 		super.onCreate(savedInstanceState);
 
-		getWindow().setBackgroundDrawable(new ColorDrawable(obtainStyledAttributes(new int[] {
-				R.attr.rrListBackgroundCol}).getColor(0, 0)));
+		final TypedArray typedArray
+				= obtainStyledAttributes(new int[] {R.attr.rrListBackgroundCol});
+
+		try {
+			getWindow().setBackgroundDrawable(
+					new ColorDrawable(typedArray.getColor(0, 0)));
+
+		} finally {
+			typedArray.recycle();
+		}
 
 		RedditAccountManager.getInstance(this).addUpdateListener(this);
 

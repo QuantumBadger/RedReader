@@ -24,10 +24,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabaseCorruptException;
 import android.os.Build;
 import android.preference.PreferenceManager;
-import androidx.core.app.NotificationCompat;
 import android.util.Log;
+import androidx.core.app.NotificationCompat;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -59,6 +60,7 @@ public class NewMessageChecker extends BroadcastReceiver {
 	private static final String PREFS_SAVED_MESSAGE_TIMESTAMP = "LastMessageTimestamp";
 
 
+	@Override
 	public void onReceive(final Context context, final Intent intent) {
 		checkForNewMessages(context);
 	}
@@ -74,8 +76,16 @@ public class NewMessageChecker extends BroadcastReceiver {
 			return;
 		}
 
-		final RedditAccount user = RedditAccountManager.getInstance(context)
-				.getDefaultAccount();
+		final RedditAccount user;
+
+		try {
+			user = RedditAccountManager.getInstance(context).getDefaultAccount();
+
+		} catch(final SQLiteDatabaseCorruptException e) {
+			// Avoid background crash
+			Log.e(TAG, "Accounts database corrupt", e);
+			return;
+		}
 
 		if(user.isAnonymous()) {
 			return;

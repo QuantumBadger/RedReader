@@ -18,13 +18,16 @@
   -->
 
 <LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="wrap_content"
-	android:background="?rrPostToolbarCol"
-	android:orientation="horizontal"
-	android:visibility="visible"
-	android:paddingLeft="6dp">
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:tools="http://schemas.android.com/tools"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="?rrPostToolbarCol"
+		android:orientation="horizontal"
+		android:visibility="visible"
+		android:paddingLeft="6dp"
+		android:paddingRight="6dp"
+		tools:ignore="Overdraw">
 
 	<ImageButton
 			android:id="@+id/subreddit_toolbar_button_subscribe"
@@ -33,7 +36,7 @@
 			android:padding="12dp"
 			android:background="?rrThemedButtonSelector"
 			android:contentDescription="@string/action_subscribe_subreddit"
-			android:src="?rrIconStarFilledOff" />
+			android:src="?rrIconStarFilledOff"/>
 
 	<ImageButton
 			android:id="@+id/subreddit_toolbar_button_unsubscribe"
@@ -43,7 +46,7 @@
 			android:padding="12dp"
 			android:background="?rrThemedButtonSelector"
 			android:contentDescription="@string/action_unsubscribe_subreddit"
-			android:src="?rrIconStarFilled" />
+			android:src="?rrIconStarFilled"/>
 
 	<FrameLayout
 			android:id="@+id/subreddit_toolbar_button_subscribe_loading"
@@ -59,7 +62,7 @@
 			android:padding="12dp"
 			android:background="?rrThemedButtonSelector"
 			android:contentDescription="@string/pin_subreddit"
-			android:src="?rrIconPinOff" />
+			android:src="?rrIconPinOff"/>
 
 	<ImageButton
 			android:id="@+id/subreddit_toolbar_button_unpin"
@@ -69,7 +72,7 @@
 			android:padding="12dp"
 			android:background="?rrThemedButtonSelector"
 			android:contentDescription="@string/unpin_subreddit"
-			android:src="?rrIconPin" />
+			android:src="?rrIconPin"/>
 
 	<ImageButton
 			android:id="@+id/subreddit_toolbar_button_submit"
@@ -78,7 +81,7 @@
 			android:padding="12dp"
 			android:background="?rrThemedButtonSelector"
 			android:contentDescription="@string/options_submit_post"
-			android:src="?rrIconReply" />
+			android:src="?rrIconReply"/>
 
 	<ImageButton
 			android:id="@+id/subreddit_toolbar_button_share"
@@ -87,7 +90,7 @@
 			android:padding="12dp"
 			android:background="?rrThemedButtonSelector"
 			android:contentDescription="@string/action_share"
-			android:src="?rrIconShare" />
+			android:src="?rrIconShare"/>
 
 	<ImageButton
 			android:id="@+id/subreddit_toolbar_button_info"
@@ -96,6 +99,6 @@
 			android:padding="12dp"
 			android:background="?rrThemedButtonSelector"
 			android:contentDescription="@string/options_sidebar"
-			android:src="?rrIconInfo" />
+			android:src="?rrIconInfo"/>
 
 </LinearLayout>

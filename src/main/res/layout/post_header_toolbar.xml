@@ -18,13 +18,16 @@
   -->
 
 <LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="wrap_content"
-	android:background="?rrPostToolbarCol"
-	android:orientation="horizontal"
-	android:visibility="visible"
-	android:paddingLeft="6dp">
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:tools="http://schemas.android.com/tools"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="?rrPostToolbarCol"
+		android:orientation="horizontal"
+		android:visibility="visible"
+		android:paddingLeft="6dp"
+		android:paddingRight="6dp"
+		tools:ignore="Overdraw">
 
 	<ImageButton
 			android:id="@+id/post_toolbar_botton_add_upvote"
@@ -33,7 +36,7 @@
 			android:padding="12dp"
 			android:background="?rrThemedButtonSelector"
 			android:contentDescription="@string/action_upvote"
-			android:src="?rrIconArrowUpBold" />
+			android:src="?rrIconArrowUpBold"/>
 
 	<ImageButton
 			android:id="@+id/post_toolbar_botton_remove_upvote"
@@ -43,7 +46,7 @@
 			android:padding="12dp"
 			android:background="?rrThemedButtonSelector"
 			android:contentDescription="@string/action_upvote_remove"
-			android:src="@drawable/arrow_up_bold_orangered" />
+			android:src="@drawable/arrow_up_bold_orangered"/>
 
 	<ImageButton
 			android:id="@+id/post_toolbar_botton_add_downvote"
@@ -52,7 +55,7 @@
 			android:padding="12dp"
 			android:background="?rrThemedButtonSelector"
 			android:contentDescription="@string/action_downvote"
-			android:src="?rrIconArrowDownBold" />
+			android:src="?rrIconArrowDownBold"/>
 
 	<ImageButton
 			android:id="@+id/post_toolbar_botton_remove_downvote"
@@ -62,7 +65,7 @@
 			android:padding="12dp"
 			android:background="?rrThemedButtonSelector"
 			android:contentDescription="@string/action_downvote_remove"
-			android:src="@drawable/arrow_down_bold_periwinkle" />
+			android:src="@drawable/arrow_down_bold_periwinkle"/>
 
 	<ImageButton
 			android:id="@+id/post_toolbar_botton_reply"
@@ -71,7 +74,7 @@
 			android:padding="12dp"
 			android:background="?rrThemedButtonSelector"
 			android:contentDescription="@string/action_reply"
-			android:src="?rrIconReply" />
+			android:src="?rrIconReply"/>
 
 	<ImageButton
 			android:id="@+id/post_toolbar_botton_share"
@@ -80,7 +83,7 @@
 			android:padding="12dp"
 			android:background="?rrThemedButtonSelector"
 			android:contentDescription="@string/action_share"
-			android:src="?rrIconShare" />
+			android:src="?rrIconShare"/>
 
 	<ImageButton
 			android:id="@+id/post_toolbar_botton_more"
@@ -88,6 +91,6 @@
 			android:layout_height="wrap_content"
 			android:padding="12dp"
 			android:background="?rrThemedButtonSelector"
-			android:src="?rrIconOverflow" />
+			android:src="?rrIconOverflow"/>
 
 </LinearLayout>

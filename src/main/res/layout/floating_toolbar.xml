@@ -28,4 +28,4 @@
 		android:elevation="2dp"
 		android:orientation="horizontal"
 		android:visibility="gone"
-		tools:ignore="UnusedAttribute" />
+		tools:ignore="UnusedAttribute,Overdraw" />

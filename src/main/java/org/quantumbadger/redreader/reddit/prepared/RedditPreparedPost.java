@@ -728,6 +728,11 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 							activity,
 							R.string.invalid_subreddit_name,
 							Toast.LENGTH_LONG).show();
+
+				} catch(final Exception e) {
+					throw new RuntimeException(
+							"Got exception for subreddit: " + post.src.getSubreddit(),
+							e);
 				}
 
 				break;
@@ -745,8 +750,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				break;
 
 			case COMMENTS:
-				((RedditPostView.PostSelectionListener)activity).onPostCommentsSelected(
-						post);
+				((RedditPostView.PostSelectionListener)activity).onPostCommentsSelected(post);
 
 				new Thread() {
 					@Override

@@ -43,7 +43,7 @@ public class RedReader extends Application {
 				android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
 
 				cm.pruneTemp();
-				cm.pruneCache(); // Hope for the best :)
+				cm.pruneCache();
 			}
 		}.start();
 

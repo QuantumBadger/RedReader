@@ -71,10 +71,6 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 		return singleton;
 	}
 
-	public static synchronized RedditAccountManager getInstanceOrNull() {
-		return singleton;
-	}
-
 	public static RedditAccount getAnon() {
 		return ANON;
 	}

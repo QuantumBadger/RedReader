@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.reddit.api;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,7 +38,7 @@ public class RedditMultiredditSubscriptionManager {
 	private final WeakReferenceListManager<MultiredditListChangeListener> listeners
 			= new WeakReferenceListManager<>();
 
-	private static RedditMultiredditSubscriptionManager singleton;
+	@SuppressLint("StaticFieldLeak") private static RedditMultiredditSubscriptionManager singleton;
 	private static RedditAccount singletonAccount;
 
 	@NonNull private final RedditAccount mUser;
@@ -53,14 +54,18 @@ public class RedditMultiredditSubscriptionManager {
 
 		if(db == null) {
 			db = new RawObjectDB<>(
-					context,
+					context.getApplicationContext(),
 					"rr_multireddit_subscriptions.db",
 					WritableHashSet.class);
 		}
 
 		if(singleton == null
 				|| !account.equals(RedditMultiredditSubscriptionManager.singletonAccount)) {
-			singleton = new RedditMultiredditSubscriptionManager(account, context);
+
+			singleton = new RedditMultiredditSubscriptionManager(
+					account,
+					context.getApplicationContext());
+
 			RedditMultiredditSubscriptionManager.singletonAccount = account;
 		}
 

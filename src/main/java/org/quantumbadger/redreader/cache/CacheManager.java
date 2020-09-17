@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.cache;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -66,7 +67,7 @@ public final class CacheManager {
 
 	private final Context context;
 
-	private static CacheManager singleton;
+	@SuppressLint("StaticFieldLeak") private static CacheManager singleton;
 
 	public static synchronized CacheManager getInstance(final Context context) {
 		if(singleton == null) {

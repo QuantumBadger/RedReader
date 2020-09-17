@@ -17,11 +17,12 @@
 
 package org.quantumbadger.redreader.reddit.api;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import android.util.Log;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
@@ -74,7 +75,7 @@ public class RedditSubredditSubscriptionManager {
 			listeners
 			= new WeakReferenceListManager<>();
 
-	private static RedditSubredditSubscriptionManager singleton;
+	@SuppressLint("StaticFieldLeak") private static RedditSubredditSubscriptionManager singleton;
 	private static RedditAccount singletonAccount;
 
 	private final RedditAccount user;

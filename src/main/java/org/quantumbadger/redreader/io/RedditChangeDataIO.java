@@ -17,9 +17,10 @@
 
 package org.quantumbadger.redreader.io;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import androidx.annotation.NonNull;
 import android.util.Log;
+import androidx.annotation.NonNull;
 import org.quantumbadger.redreader.common.TriggerableThread;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 
@@ -40,14 +41,14 @@ public class RedditChangeDataIO {
 	private static final String DB_FILENAME = "rr_change_data.dat";
 	private static final String DB_WRITETMP_FILENAME = "rr_change_data_tmp.dat";
 
-	private static RedditChangeDataIO INSTANCE;
+	@SuppressLint("StaticFieldLeak") private static RedditChangeDataIO INSTANCE;
 	private static boolean STATIC_UPDATE_PENDING = false;
 
 	@NonNull
 	public static synchronized RedditChangeDataIO getInstance(final Context context) {
 
 		if(INSTANCE == null) {
-			INSTANCE = new RedditChangeDataIO(context);
+			INSTANCE = new RedditChangeDataIO(context.getApplicationContext());
 
 			if(STATIC_UPDATE_PENDING) {
 				INSTANCE.notifyUpdate();

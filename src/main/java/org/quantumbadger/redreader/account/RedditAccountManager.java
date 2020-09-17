@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.account;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -62,7 +63,7 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 
 	private static final int ACCOUNTS_DB_VERSION = 3;
 
-	private static RedditAccountManager singleton;
+	@SuppressLint("StaticFieldLeak") private static RedditAccountManager singleton;
 
 	public static synchronized RedditAccountManager getInstance(final Context context) {
 		if(singleton == null) {

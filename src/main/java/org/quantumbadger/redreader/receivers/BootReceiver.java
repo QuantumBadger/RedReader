@@ -20,12 +20,21 @@ package org.quantumbadger.redreader.receivers;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import org.quantumbadger.redreader.common.Alarms;
 
 public class BootReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(final Context context, final Intent intent) {
+
+		if(intent == null || !Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
+			Log.e(
+					"BootReceiver",
+					"Got invalid intent: " + (intent == null ? "null" : intent.getAction()));
+			return;
+		}
+
 		Alarms.onBoot(context);
 	}
 }

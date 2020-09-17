@@ -18,18 +18,12 @@
 package org.quantumbadger.redreader;
 
 import android.app.Application;
-import android.os.Environment;
 import android.util.Log;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.common.Alarms;
 import org.quantumbadger.redreader.io.RedditChangeDataIO;
 import org.quantumbadger.redreader.receivers.NewMessageChecker;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
-import java.util.UUID;
 
 public class RedReader extends Application {
 
@@ -39,42 +33,6 @@ public class RedReader extends Application {
 		super.onCreate();
 
 		Log.i("RedReader", "Application created.");
-
-		final Thread.UncaughtExceptionHandler androidHandler
-				= Thread.getDefaultUncaughtExceptionHandler();
-
-		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-			public void uncaughtException(final Thread thread, final Throwable t) {
-
-				try {
-					Log.e("RedReader", "Uncaught exception", t);
-
-					File dir = Environment.getExternalStorageDirectory();
-
-					if(dir == null) {
-						dir = Environment.getDataDirectory();
-					}
-
-					try(FileOutputStream fos = new FileOutputStream(
-							new File(
-									dir,
-									"redreader_crash_log_"
-											+ UUID.randomUUID().toString()
-											+ ".txt"))) {
-
-						try(PrintWriter pw = new PrintWriter(fos)) {
-							t.printStackTrace(pw);
-							pw.flush();
-						}
-					}
-
-				} catch(final Throwable t1) {
-					Log.e("RedReader", "Exception while writing crash log", t1);
-				}
-
-				androidHandler.uncaughtException(thread, t);
-			}
-		});
 
 		final CacheManager cm = CacheManager.getInstance(this);
 

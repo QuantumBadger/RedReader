@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.webkit.CookieManager;
@@ -117,6 +118,7 @@ public class OAuthLoginActivity extends BaseActivity {
 		cookieManager.removeAllCookie();
 	}
 
+	@SuppressLint("SetJavaScriptEnabled")
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 

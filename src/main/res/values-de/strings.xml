@@ -481,7 +481,7 @@
     <string name="pref_behaviour_enable_swipe_refresh_title">Nach unten wischen um zu aktualisieren</string>
     <string name="pref_behaviour_fling_comment_left_title">Aktion für das Nach-links-Wischen von Kommentaren</string>
     <string name="pref_behaviour_fling_comment_right_title">Aktion für das Nach-rechts-Wischen von Kommentaren</string>
-    <string name="pref_behaviour_gallery_swipe_length_title">Wischlänge in Gallerie</string>
+    <string name="pref_behaviour_gallery_swipe_length_title">Wischlänge in Galerie</string>
     <string name="pref_behaviour_gifview_mode_internal_legacy">Interner Betrachter (veraltet)</string>
     <string name="pref_behaviour_gifview_mode_internal_movie">Interner Betrachter (Movie, Android 4.0+)</string>
     <string name="pref_behaviour_gifview_mode_title">GIF-Betrachter</string>

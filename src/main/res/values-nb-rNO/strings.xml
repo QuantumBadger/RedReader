@@ -14,7 +14,7 @@
   ~
   ~ You should have received a copy of the GNU General Public License
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
-  --><resources>
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="firstrun_login_title">Logg inn</string>
     <string name="firstrun_login_message">Du er for tiden ikke innlogget. Du har tilgang til kontolisten ved å velge \"Kontoer\" fra menyen.</string>
     <string name="firstrun_login_button_now">Logg inn nå</string>
@@ -555,7 +555,9 @@
     <string name="pref_menus_show_subscribed_subreddits_main_menu_title">Vis abonnerte underreddit-er</string>
     <string name="mainmenu_random_nsfw">Tilfeldig NSFW-underreddit</string>
     <string name="pref_appearance_show_aspect_ratio_indicator_title">Vis indikator for sideforhold</string>
-    <string name="pref_appearance_show_aspect_ratio_indicator_summary">Vis innlasting av media visuelt når tilgjengelig</string>
+    <string
+			name="pref_appearance_show_aspect_ratio_indicator_summary"
+			tools:ignore="Typos">Vis innlasting av media visuelt når tilgjengelig</string>
     <string name="pref_appearance_bottom_toolbar_title">Vis verktøyslinje på bunnen</string>
     <string name="pref_behaviour_video_mute_default_title">Forstum videoer som forvalg</string>
     <string name="prefs_category_images_video">Bilder/video</string>

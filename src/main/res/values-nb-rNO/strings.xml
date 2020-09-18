@@ -282,10 +282,6 @@
     <string name="subtitle_points">poeng</string>
     <string name="subtitle_by">av</string>
     <string name="subtitle_to">til</string>
-    <plurals name="subtitle_replies">
-        <item quantity="one">…</item>
-        <item quantity="other">(%d svar)</item>
-    </plurals>
     <string name="general_unknown">ukjent</string>
     <string name="action_search">Søk</string>
     <string name="search_subreddit_restrict">Begrens søk til</string>
@@ -345,7 +341,6 @@
     <string name="user_comments">Kommentarer</string>
     <string name="comment_header_specific_thread_title">Du viser nå en spesifikk kommentartråd.</string>
     <string name="comment_header_specific_thread_message">Klikk her for å vise alle kommentarene på innlegget.</string>
-    <string name="more_comments_button_text">Last inn flere kommentarer</string>
     <string name="action_comment_context">Bindeleddsinformasjon</string>
     <string name="action_comment_go_to">Gå til kommentar</string>
     <string name="webview_https_already">Nåværende side bruker allerede HTTPS.</string>
@@ -609,4 +604,7 @@
     <string name="reddit_login_browser_popup_use_internal_browser">Bruk intern nettleser (anbefales)</string>
     <string name="reddit_login_browser_popup_line_2">Når innloggingen er utført, burde du bli videresendt tilbake til RedReader. Hvis det ikke fungerer kan du bruke en annen nettleser nedenfor.</string>
     <string name="reddit_login_browser_popup_line_1">Du vil nå bli sendt til Reddit i en nettleser for innlogging.</string>
+	<plurals name="load_more_comments_button_reply_count">
+		<item quantity="other">Last inn flere kommentarer (%d svar)</item>
+	</plurals>
 </resources>

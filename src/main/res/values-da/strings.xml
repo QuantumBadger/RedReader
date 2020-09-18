@@ -435,11 +435,6 @@
     <string name="subtitle_points">ptk</string>
     <string name="subtitle_by">af</string>
     <string name="subtitle_to">til</string>
-	<plurals name="subtitle_replies"> 
-		<item quantity="zero">…</item> 
-		<item quantity="one">" (%d svar)"</item> 
-		<item quantity="other">" (%d svar)"</item> 
-	</plurals>
 
     <string name="general_unknown">ukendt</string>
 
@@ -502,7 +497,6 @@
     <string name="imageview_decode_failed">Dekodning af billede fejlede. Prøver intern browser.</string>
     <string name="user_comments">Kommentarer</string>
     <string name="comment_header_specific_thread_message">"Klik her for at se alle kommentarer i dette oplsag. "</string>
-    <string name="more_comments_button_text">Indlæs flere kommentarer</string>
     <string name="action_comment_context">Kontekst</string>
     <string name="action_comment_go_to">Gå til Kommentár</string>
     <string name="webview_https_already">Den nuværende addresse bruger allerede HTTPS.</string>
@@ -652,4 +646,8 @@
     <string name="search_listing_header_sub">Begræns til Subreddit</string>
     <string name="pref_behaviour_sharing_header">Deler</string>
     <string name="pref_behaviour_sharing_include_desc_title">"Inkludér title/beskrivelse når deles "</string>
+	<plurals name="load_more_comments_button_reply_count">
+		<item quantity="one">"Indlæs flere kommentarer (%d svar)"</item>
+		<item quantity="other">"Indlæs flere kommentarer (%d svar)"</item>
+	</plurals>
 </resources>

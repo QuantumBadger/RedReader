@@ -309,11 +309,6 @@
     <string name="subtitle_points">ptn</string>
     <string name="subtitle_by">door</string>
     <string name="subtitle_to">tot</string>
-    <plurals name="subtitle_replies">
-        <item quantity="zero">…</item>
-        <item quantity="one">" (%d reactie)"</item>
-        <item quantity="other">" (%d reacties)"</item>
-    </plurals>
     <string name="general_unknown">onbekend</string>
     <string name="action_search">Zoeken</string>
     <string name="search_subreddit_restrict">Zoekopdracht beperken tot</string>
@@ -395,7 +390,6 @@
     <string name="comment_header_specific_thread_title">Je bekijkt een specifieke reactie-thread.</string>
     <string name="comment_header_specific_thread_message">Klik hier om alle reacties op deze post te bekijken.</string>
     <!-- 2014-12-18 -->
-    <string name="more_comments_button_text">Meer reacties laden</string>
     <string name="action_comment_context">Context</string>
     <string name="action_comment_go_to">Ga naar reactie</string>
     <!-- 2015-01-03 -->
@@ -676,4 +670,8 @@
     <string name="post_submit_mark_spoiler">Markeren als spoiler</string>
     <string name="pref_appearance_left_handed_title">Linkshandige modus</string>
     <string name="title_license">Licentie</string>
+	<plurals name="load_more_comments_button_reply_count">
+		<item quantity="one">"Meer reacties laden (%d reactie)"</item>
+		<item quantity="other">"Meer reacties laden (%d reacties)"</item>
+	</plurals>
 </resources>

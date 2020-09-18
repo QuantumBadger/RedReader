@@ -310,11 +310,6 @@
     <string name="subtitle_points">pts</string>
     <string name="subtitle_by">par</string>
     <string name="subtitle_to">dans</string>
-    <plurals name="subtitle_replies">
-        <item quantity="zero">…</item>
-        <item quantity="one">" (%d réponse)"</item>
-        <item quantity="other">" (%d réponses)"</item>
-    </plurals>
     <string name="general_unknown">inconnu</string>
     <string name="action_search">Recherche</string>
     <string name="search_subreddit_restrict">Restreindre la recherche à</string>
@@ -376,7 +371,6 @@
     <string name="comment_header_specific_thread_title">Vous visualisez actuellement un fil de commentaires spécifique.</string>
     <string name="comment_header_specific_thread_message">Appuyez ici pour voir tous les commentaires de ce post.</string>
     <!-- 2014-12-18 -->
-    <string name="more_comments_button_text">Charger plus de commentaires</string>
     <string name="action_comment_context">Contexte</string>
     <string name="action_comment_go_to">Aller au commentaire</string>
     <!-- 2015-01-03 -->
@@ -755,4 +749,8 @@
     <string name="image_gallery">Galerie</string>
     <string name="action_search_posts">Rechercher des posts</string>
     <string name="pref_menus_appbar_items_never">Ne pas afficher</string>
+	<plurals name="load_more_comments_button_reply_count">
+		<item quantity="one">"Charger plus de commentaires (%d réponse)"</item>
+		<item quantity="other">"Charger plus de commentaires (%d réponses)"</item>
+	</plurals>
 </resources>

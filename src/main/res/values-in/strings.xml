@@ -308,9 +308,6 @@
     <string name="subtitle_points">pnt</string>
     <string name="subtitle_by">oleh</string>
     <string name="subtitle_to">ke</string>
-    <plurals name="subtitle_replies">
-        <item quantity="other">(%d balasan)</item>
-    </plurals>
     <string name="general_unknown">tidak diketahui</string>
     <string name="action_search">Cari</string>
     <string name="search_subreddit_restrict">Batasi pencarian ke</string>
@@ -392,7 +389,6 @@
     <string name="comment_header_specific_thread_title">Saat ini anda melihat balasan komentar yang spesifik.</string>
     <string name="comment_header_specific_thread_message">Klik di sini untuk menampilkan semua komentar untuk pos ini.</string>
     <!-- 2014-12-18 -->
-    <string name="more_comments_button_text">Tampilkan lebih banyak komentar</string>
     <string name="action_comment_context">Konteks</string>
     <string name="action_comment_go_to">Kunjungi Komentar</string>
     <!-- 2015-01-03 -->
@@ -769,4 +765,7 @@
     <string name="image_gallery_no_image_present_message">Gambar tidak bisa ditemukan. Mungkin sudah dihapus.</string>
     <string name="image_gallery_no_image_present_title">Gambar tidak ditemukan</string>
     <string name="link_does_not_exist">Tautan ini tidak tersedia. Mungkin telah dihapus.</string>
+	<plurals name="load_more_comments_button_reply_count">
+		<item quantity="other">Tampilkan lebih banyak komentar (%d balasan)</item>
+	</plurals>
 </resources>

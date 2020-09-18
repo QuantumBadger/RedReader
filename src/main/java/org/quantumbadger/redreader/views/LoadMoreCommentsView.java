@@ -111,33 +111,30 @@ public class LoadMoreCommentsView extends LinearLayout {
 		mTitleView.setTextSize(13f);
 		textLayout.addView(mTitleView);
 
-		setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(final View v) {
+		setOnClickListener(v -> {
 
-				if(mCommentListingURL.pathType()
-						== RedditURLParser.POST_COMMENT_LISTING_URL) {
+			if(mCommentListingURL.pathType()
+					== RedditURLParser.POST_COMMENT_LISTING_URL) {
 
-					final PostCommentListingURL listingUrl =
-							mCommentListingURL.asPostCommentListURL();
+				final PostCommentListingURL listingUrl =
+						mCommentListingURL.asPostCommentListURL();
 
-					final ArrayList<String> commentIds = new ArrayList<>(16);
-					for(final PostCommentListingURL url : mItem.asLoadMore()
-							.getMoreUrls(mCommentListingURL)) {
-						commentIds.add(url.commentId);
-					}
-
-					final Intent intent =
-							new Intent(context, MoreCommentsListingActivity.class);
-					intent.putExtra("postId", listingUrl.postId);
-					intent.putStringArrayListExtra("commentIds", commentIds);
-					context.startActivity(intent);
-
-				} else {
-					General.quickToast(
-							context,
-							R.string.load_more_comments_failed_unknown_url_type);
+				final ArrayList<String> commentIds = new ArrayList<>(16);
+				for(final PostCommentListingURL url : mItem.asLoadMore()
+						.getMoreUrls(mCommentListingURL)) {
+					commentIds.add(url.commentId);
 				}
+
+				final Intent intent =
+						new Intent(context, MoreCommentsListingActivity.class);
+				intent.putExtra("postId", listingUrl.postId);
+				intent.putStringArrayListExtra("commentIds", commentIds);
+				context.startActivity(intent);
+
+			} else {
+				General.quickToast(
+						context,
+						R.string.load_more_comments_failed_unknown_url_type);
 			}
 		});
 	}
@@ -146,16 +143,13 @@ public class LoadMoreCommentsView extends LinearLayout {
 
 		mItem = item;
 
-		final StringBuilder title =
-				new StringBuilder(getContext().getString(R.string.more_comments_button_text));
 		final int count = item.asLoadMore().getCount();
 
-		title.append(getResources().getQuantityString(
-				R.plurals.subtitle_replies,
+		mTitleView.setText(getResources().getQuantityString(
+				R.plurals.load_more_comments_button_reply_count,
 				count,
 				count));
 
-		mTitleView.setText(title);
 		mIndentView.setIndentation(item.getIndent());
 	}
 

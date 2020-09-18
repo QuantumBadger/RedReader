@@ -425,10 +425,9 @@
     <string name="subtitle_points">puncte</string>
     <string name="subtitle_by">de</string>
     <string name="subtitle_to">spre</string>
-	<plurals name="subtitle_replies">
-		<item quantity="zero">…</item>
-		<item quantity="one">" (%d răspuns)"</item>
-		<item quantity="other">" (%d răspunsuri)"</item>
+	<plurals name="load_more_comments_button_reply_count">
+		<item quantity="one">"Încarcă mai multe comentarii (%d răspuns)"</item>
+		<item quantity="other">"Încarcă mai multe comentarii (%d răspunsuri)"</item>
 	</plurals>
 
     <string name="general_unknown">necunoscut</string>
@@ -555,7 +554,6 @@
     <string name="comment_header_specific_thread_message">Apăsați aici pentru a vedea toate comentariile.</string>
 
     <!-- 2014-12-18 -->
-    <string name="more_comments_button_text">Încarcă mai multe comentarii</string>
     <string name="action_comment_context">Context</string>
     <string name="action_comment_go_to">Mergeți la comentariu</string>
 

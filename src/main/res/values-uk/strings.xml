@@ -339,7 +339,6 @@
     <string name="user_comments">Коментарі</string>
     <string name="comment_header_specific_thread_title">Ви переглядаєте окрему гілку коментарів.</string>
     <string name="comment_header_specific_thread_message">Натистніть тут для перегляду всіх коментарів до цієї публікації.</string>
-    <string name="more_comments_button_text">Завантажити ще коментарі</string>
     <string name="action_comment_context">Контекст</string>
     <string name="action_comment_go_to">Перейти до коментаря</string>
     <string name="webview_https_already">Поточний URL вже використовує HTTPS.</string>
@@ -540,11 +539,10 @@
     <string name="pref_behaviour_sharing_include_desc_title">Додавати заголовок/опис при поширенні</string>
     <string name="share_comments_for">Коментарі до %s</string>
     <string name="share_comment_by_on_reddit">Коментар від %s на Reddit</string>
-    <plurals name="subtitle_replies">
-        <item quantity="one">…</item>
-        <item quantity="few">(%d відповіді)</item>
-        <item quantity="many">(%d відповідей)</item>
-        <item quantity="other">(%d відповідей)</item>
+    <plurals name="load_more_comments_button_reply_count">
+        <item quantity="few">Завантажити ще коментарі (%d відповіді)</item>
+        <item quantity="many">Завантажити ще коментарі (%d відповідей)</item>
+        <item quantity="other">Завантажити ще коментарі (%d відповідей)</item>
     </plurals>
     <string name="error_toast_no_share_app_installed">Немає встановлених додатків придатних для поширення.</string>
     <string name="pref_behaviour_sharing_share_dialog_dialogtitle">Оберіть додаток для поширення</string>

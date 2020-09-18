@@ -425,11 +425,6 @@
     <string name="subtitle_points">p</string>
     <string name="subtitle_by">általa:</string>
     <string name="subtitle_to">neki:</string>
-	<plurals name="subtitle_replies">
-		<item quantity="zero">…</item>
-		<item quantity="one">" (%d válasz)"</item>
-		<item quantity="other">" (%d válasz)"</item>
-	</plurals>
 
     <string name="general_unknown">ismeretlen</string>
 
@@ -555,7 +550,6 @@
     <string name="comment_header_specific_thread_message">Érints ide, hogy a poszt összes hozzászólását lásd.</string>
 
     <!-- 2014-12-18 -->
-    <string name="more_comments_button_text">További hozzászólások betöltése</string>
     <string name="action_comment_context">Kontextus</string>
     <string name="action_comment_go_to">Hozzászóláshoz ugrás</string>
 
@@ -871,4 +865,8 @@
 	<string name="download_link_message">Ez egy letöltés linkje. A külső böngészőben akarod ezt betölteni\?</string>
 
 	<string name="pref_menus_show_popular_main_menu_title">/r/popular megjelenítése a főmenüben</string>
-	</resources>
+	<plurals name="load_more_comments_button_reply_count">
+		<item quantity="one">"További hozzászólások betöltése (%d válasz)"</item>
+		<item quantity="other">"További hozzászólások betöltése (%d válasz)"</item>
+	</plurals>
+</resources>

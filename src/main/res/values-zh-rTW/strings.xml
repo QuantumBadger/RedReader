@@ -372,9 +372,6 @@
     <string name="subtitle_points">分</string>
     <string name="subtitle_by">發表自</string>
     <string name="subtitle_to">至</string>
-	<plurals name="subtitle_replies">
-	<item quantity="other">（%d個回覆）</item>
-</plurals>
 
     <string name="general_unknown">不明</string>
 
@@ -461,7 +458,6 @@
     <string name="comment_header_specific_thread_title">您正在瀏覽一則評論和其回覆。</string>
     <string name="comment_header_specific_thread_message">按此檢視本帖的所有評論。</string>
 
-    <string name="more_comments_button_text">載入更多評論</string>
     <string name="action_comment_context">前言後語</string>
     <string name="action_comment_go_to">前往評論</string>
 

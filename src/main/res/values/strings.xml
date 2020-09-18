@@ -450,11 +450,6 @@
     <string name="subtitle_points">pts</string>
     <string name="subtitle_by">by</string>
     <string name="subtitle_to">to</string>
-	<plurals name="subtitle_replies">
-		<item quantity="zero">…</item>
-		<item quantity="one">" (%d reply)"</item>
-		<item quantity="other">" (%d replies)"</item>
-	</plurals>
 
     <string name="general_unknown">unknown</string>
 
@@ -602,7 +597,6 @@
     <string name="comment_header_specific_thread_message">Click here to view all comments for this post.</string>
 
     <!-- 2014-12-18 -->
-    <string name="more_comments_button_text">Load more comments</string>
     <string name="action_comment_context">Context</string>
     <string name="action_comment_go_to">Go to Comment</string>
 
@@ -1300,7 +1294,12 @@
 	<string name="title_attribution">Attribution</string>
 
 	<!-- 2020-09-15 -->
-
 	<string name="link_does_not_exist">This link does not exist. It may have been deleted.</string>
+
+	<!-- 2020-09-18 -->
+	<plurals name="load_more_comments_button_reply_count">
+		<item quantity="one">"Load more comments (%d reply)"</item>
+		<item quantity="other">"Load more comments (%d replies)"</item>
+	</plurals>
 
 </resources>

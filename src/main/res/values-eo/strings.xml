@@ -308,10 +308,6 @@
     <string name="subtitle_points">poentoj</string>
     <string name="subtitle_by">de</string>
     <string name="subtitle_to">al</string>
-    <plurals name="subtitle_replies">
-        <item quantity="one">…</item>
-        <item quantity="other">(%d respondoj)</item>
-    </plurals>
     <string name="general_unknown">nekonata</string>
     <string name="action_search">Serĉi</string>
     <string name="search_subreddit_restrict">Limigi serĉadon al</string>
@@ -393,7 +389,6 @@
     <string name="comment_header_specific_thread_title">Vi nuntempe legas la specifan koment-fadenon.</string>
     <string name="comment_header_specific_thread_message">Frapetu por montri ĉiujn komentojn de tiu ĉi afiŝo.</string>
     <!-- 2014-12-18 -->
-    <string name="more_comments_button_text">Montri pliajn komentojn</string>
     <string name="action_comment_context">Kunteksto</string>
     <string name="action_comment_go_to">Iri al komento</string>
     <!-- 2015-01-03 -->
@@ -731,4 +726,7 @@
     <string name="pref_appearance_posts_header">Afiŝoj</string>
     <string name="pref_appearance_fontscale_comment_headers_title">Kapoj de komentoj/mesaĝoj</string>
     <string name="pref_appearance_fontscale_post_header_titles_title">Titoloj de malfermitaj afiŝoj</string>
+	<plurals name="load_more_comments_button_reply_count">
+		<item quantity="other">Montri pliajn komentojn (%d respondoj)</item>
+	</plurals>
 </resources>

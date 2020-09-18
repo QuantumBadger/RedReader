@@ -279,11 +279,10 @@
     <string name="error_toast_parent_post_not_downloaded">Родительская публикация еще не загружена.</string>
     <string name="download_subreddits">Загружаем сабреддиты…</string>
     <string name="subtitle_points">очки</string>
-    <plurals name="subtitle_replies">
-        <item quantity="one">…</item>
-        <item quantity="few">(%d ответа)</item>
-        <item quantity="many">(%d ответов)</item>
-        <item quantity="other">(%d ответов)</item>
+    <plurals name="load_more_comments_button_reply_count">
+        <item quantity="few">Загрузить еще комментарии (%d ответа)</item>
+        <item quantity="many">Загрузить еще комментарии (%d ответов)</item>
+        <item quantity="other">Загрузить еще комментарии (%d ответов)</item>
     </plurals>
     <string name="general_unknown">неизвестен</string>
     <string name="action_search">Поиск</string>
@@ -343,7 +342,6 @@
     <string name="user_comments">Комментарии</string>
     <string name="comment_header_specific_thread_title">Сейчас вы просматриваете отдельную ветвь комментариев.</string>
     <string name="comment_header_specific_thread_message">Нажмите здесь, чтобы посмотреть все комментарии к этой публикации.</string>
-    <string name="more_comments_button_text">Загрузить еще комментарии</string>
     <string name="action_comment_context">Контекст</string>
     <string name="action_comment_go_to">Перейти к комментарию</string>
     <string name="webview_https_already">Текущий URL уже использует HTTPS.</string>

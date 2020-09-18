@@ -434,7 +434,6 @@
     <string name="no_search_results">Sem resultados para a busca.</string>
     <string name="no_file_selected">Nenhum ficheiro selecionado</string>
     <string name="no_comments_yet">Sem comentários.</string>
-    <string name="more_comments_button_text">Carregar mais comentários</string>
     <string name="message_nowloggedin">Agora você está logado.</string>
     <string name="message_cannotlogin">Não foi possível entrar.</string>
     <string name="mark_all_as_read_success">Todas as mensagens marcadas como lidas.</string>
@@ -531,9 +530,8 @@
     <string name="search_listing_header_query">Pesquisa</string>
     <string name="pref_behaviour_sharing_include_desc_title">"Incluir título/descrição ao compartilhar "</string>
     <string name="pref_cache_maxage_entry_title">Limpar cache de flags (já lido, votado, etc)</string>
-    <plurals name="subtitle_replies">
-        <item quantity="one">…</item>
-        <item quantity="other">(%d respostas)</item>
+    <plurals name="load_more_comments_button_reply_count">
+        <item quantity="other">Carregar mais comentários (%d respostas)</item>
     </plurals>
     <string name="collapsed_self_post">Auto-post colapsado</string>
     <string name="pref_appearance_comments_show_floating_toolbar_title">Mostrar barra de ferramentas flutuante sobre comentários</string>

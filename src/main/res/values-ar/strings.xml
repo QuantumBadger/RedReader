@@ -310,14 +310,6 @@
     <string name="subtitle_points">نقاط</string>
     <string name="subtitle_by">بوساطة</string>
     <string name="subtitle_to">لـ</string>
-    <plurals name="subtitle_replies">
-        <item quantity="zero">…</item>
-        <item quantity="one">.(رد واحد)</item>
-        <item quantity="two">.(ردان)</item>
-        <item quantity="few">.(%d رد)</item>
-        <item quantity="many">.(%d رد)</item>
-        <item quantity="other">.(%d رد)</item>
-    </plurals>
     <string name="general_unknown">مجهول</string>
     <string name="action_search">بحث</string>
     <string name="search_subreddit_restrict">حصر البحث في</string>
@@ -393,7 +385,6 @@
     <string name="user_comments">التعليقات</string>
     <string name="comment_header_specific_thread_title">يعرض حاليا سلسلة تعليقات محدد.</string>
     <string name="comment_header_specific_thread_message">انقر هنا لعرض جميع التعليقات لهذا المنشور.</string>
-    <string name="more_comments_button_text">تحميل المزيد من التعليقات</string>
     <string name="action_comment_context">السياق</string>
     <string name="action_comment_go_to">الذهاب إلى التعليق</string>
     <string name="webview_https_already">الرابط الحالي يستخدم البروتوكول اﻵمن بالفعل.</string>

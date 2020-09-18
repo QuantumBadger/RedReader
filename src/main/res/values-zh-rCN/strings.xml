@@ -277,10 +277,6 @@
     <string name="download_subreddits">正在下载版块……</string>
     <string name="subtitle_points">分</string>
     <string name="subtitle_by">发表自</string>
-    <plurals name="subtitle_replies">
-        <item quantity="one">(%d 条回复)</item>
-        <item quantity="other"/>
-    </plurals>
     <string name="general_unknown">不明</string>
     <string name="action_search">搜索</string>
     <string name="search_subreddit_restrict">限制搜索至</string>
@@ -357,7 +353,6 @@
     <string name="imageview_decode_failed">无法为图片解码，将使用内部浏览器显示图片。</string>
     <string name="user_comments">评论</string>
     <string name="comment_header_specific_thread_message">按此检视本帖的所有评论。</string>
-    <string name="more_comments_button_text">加载更多评论</string>
     <string name="action_comment_context">前言后语</string>
     <string name="action_comment_go_to">前往评论</string>
     <string name="webview_https_already">本网址已经使用HTTPS。</string>

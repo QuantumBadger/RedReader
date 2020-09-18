@@ -307,11 +307,6 @@
     <string name="subtitle_points">bodů</string>
     <string name="subtitle_by">od</string>
     <string name="subtitle_to">pro</string>
-    <plurals name="subtitle_replies">
-        <item quantity="one">…</item>
-        <item quantity="few">(%d odpovědi)</item>
-        <item quantity="other">(%d odpovědí)</item>
-    </plurals>
     <string name="general_unknown">neznámé</string>
     <string name="action_search">Hledat</string>
     <string name="search_subreddit_restrict">Omezit hledání na</string>
@@ -393,7 +388,6 @@
     <string name="comment_header_specific_thread_title">Právě prohlížíte vlákno vybraného komentáře.</string>
     <string name="comment_header_specific_thread_message">Pro prohlédnutí všech komentářů tohoto postu stiskněte zde.</string>
     <!-- 2014-12-18 -->
-    <string name="more_comments_button_text">Načti více komentářů</string>
     <string name="action_comment_context">Kontext</string>
     <string name="action_comment_go_to">Přejdi na komentáře</string>
     <!-- 2015-01-03 -->
@@ -750,4 +744,8 @@
     <string name="pref_appearance_fontscale_post_header_subtitles_title">Podtitulky otevřeného příspěvku</string>
     <string name="pref_appearance_fontscale_post_header_titles_title">Titulky otevřeného příspěvku</string>
     <string name="pref_appearance_fontscale_post_subtitles_title">Podtitulky příspěvku</string>
+	<plurals name="load_more_comments_button_reply_count">
+		<item quantity="few">Načti více komentářů (%d odpovědi)</item>
+		<item quantity="other">Načti více komentářů (%d odpovědí)</item>
+	</plurals>
 </resources>

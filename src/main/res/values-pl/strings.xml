@@ -308,11 +308,6 @@
     <string name="subtitle_points">pkt.</string>
     <string name="subtitle_by">przez</string>
     <string name="subtitle_to">do</string>
-    <plurals name="subtitle_replies">
-        <item quantity="zero">…</item>
-        <item quantity="one">" (%d odpowiedź)"</item>
-        <item quantity="other">" (%d odpowiedzi)"</item>
-    </plurals>
     <string name="general_unknown">nieznany</string>
     <string name="action_search">Wyszukaj</string>
     <string name="search_subreddit_restrict">Zawęź wyszukiwanie do</string>
@@ -394,7 +389,6 @@
     <string name="comment_header_specific_thread_title">Obecnie czytasz pewien wątek komentarzy.</string>
     <string name="comment_header_specific_thread_message">Stuknij tutaj, aby wyświetlić wszystkie komentarze dla tego postu.</string>
     <!-- 2014-12-18 -->
-    <string name="more_comments_button_text">Załaduj więcej komentarzy</string>
     <string name="action_comment_context">Kontekst</string>
     <string name="action_comment_go_to">Przejdź do komentarza</string>
     <!-- 2015-01-03 -->
@@ -668,4 +662,8 @@
     <string name="post_text_copied_to_clipboard">Post skopiowany do schowka</string>
     <string name="pref_behaviour_sharing_share_dialog_dialogtitle">Wybierz aplikację do udostępnienia</string>
     <string name="error_toast_no_share_app_installed">Nie zainstalowano odpowiedniej aplikacji do udostępniania tego.</string>
+	<plurals name="load_more_comments_button_reply_count">
+		<item quantity="one">"Załaduj więcej komentarzy (%d odpowiedź)"</item>
+		<item quantity="other">"Załaduj więcej komentarzy (%d odpowiedzi)"</item>
+	</plurals>
 </resources>

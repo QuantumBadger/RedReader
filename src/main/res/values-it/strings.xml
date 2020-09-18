@@ -107,10 +107,6 @@
     <string name="pref_behaviour_sort_header">Ordinamento</string>
     <string name="pref_behaviour_posts_header">Post</string>
     <string name="subtitle_points">punti</string>
-    <plurals name="subtitle_replies">
-        <item quantity="one">…</item>
-        <item quantity="other">(%d risp)</item>
-    </plurals>
     <string name="subtitle_to">a</string>
     <string name="theme_name_blue">Blu</string>
     <string name="theme_name_gray">Grigio</string>
@@ -176,7 +172,6 @@
     <string name="options_settings">Impostazioni</string>
     <string name="options_accounts">Account</string>
     <string name="notification_message_multiple">Nuovi messaggi su reddit</string>
-    <string name="more_comments_button_text">Carica altri commenti</string>
     <string name="mainmenu_profile">Il mio profilo</string>
     <string name="mainmenu_modmail">Messaggi moderatori</string>
     <string name="mainmenu_inbox">Posta in arrivo</string>
@@ -570,4 +565,7 @@
     <string name="pref_behaviour_sharing_share_dialog_dialogtitle">Selezionare un app per condividere</string>
     <string name="pref_behaviour_sharing_share_dialog_title">Usare la finestra integrata per condividere</string>
     <string name="error_toast_no_share_app_installed">Non ci sono applicazioni adatte per condividere questo.</string>
+	<plurals name="load_more_comments_button_reply_count">
+		<item quantity="other">Carica altri commenti (%d risp)</item>
+	</plurals>
 </resources>

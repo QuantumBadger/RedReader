@@ -308,10 +308,9 @@
     <string name="subtitle_points">p</string>
     <string name="subtitle_by">av</string>
     <string name="subtitle_to">till</string>
-    <plurals name="subtitle_replies">
-        <item quantity="zero">…</item>
-        <item quantity="one">" (%d svara)"</item>
-        <item quantity="other">" (%d svar)"</item>
+    <plurals name="load_more_comments_button_reply_count">
+        <item quantity="one">"Ladda fler kommentarer (%d svara)"</item>
+        <item quantity="other">"Ladda fler kommentarer (%d svar)"</item>
     </plurals>
     <string name="general_unknown">okänd</string>
     <string name="action_search">Sök</string>
@@ -394,7 +393,6 @@
     <string name="comment_header_specific_thread_title">Du visar för närvarande en specifik kommentarstråd.</string>
     <string name="comment_header_specific_thread_message">Klicka här för att visa alla kommentarer på detta inlägg.</string>
     <!-- 2014-12-18 -->
-    <string name="more_comments_button_text">Ladda fler kommentarer</string>
     <string name="action_comment_context">Kontext</string>
     <string name="action_comment_go_to">Gå till kommentar</string>
     <!-- 2014-12-19 -->

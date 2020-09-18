@@ -768,4 +768,5 @@
     <string name="reddit_login_browser_popup_line_1">Untuk masuk, anda akan dialihkan ke Reddit di peramban web.</string>
     <string name="image_gallery_no_image_present_message">Gambar tidak bisa ditemukan. Mungkin sudah dihapus.</string>
     <string name="image_gallery_no_image_present_title">Gambar tidak ditemukan</string>
+    <string name="link_does_not_exist">Tautan ini tidak tersedia. Mungkin telah dihapus.</string>
 </resources>

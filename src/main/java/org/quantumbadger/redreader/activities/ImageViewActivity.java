@@ -445,9 +445,7 @@ public class ImageViewActivity extends BaseActivity
 					try {
 						startActivity(intent);
 					} catch(final Throwable t) {
-						General.quickToast(
-								ImageViewActivity.this,
-								R.string.videoview_mode_app_vlc_launch_failed);
+						General.quickToast(this, R.string.videoview_mode_app_vlc_launch_failed);
 						Log.e(TAG, "VLC failed to launch", t);
 					}
 					finish();

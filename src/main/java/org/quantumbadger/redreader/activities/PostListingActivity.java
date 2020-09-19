@@ -276,6 +276,7 @@ public class PostListingActivity extends RefreshableActivity
 		}
 	}
 
+	@Override
 	public void onRedditAccountChanged() {
 		recreateSubscriptionListener();
 		postInvalidateOptionsMenu();
@@ -297,10 +298,12 @@ public class PostListingActivity extends RefreshableActivity
 		General.setLayoutMatchParent(view);
 	}
 
+	@Override
 	public void onPostSelected(final RedditPreparedPost post) {
 		LinkHandler.onLinkClicked(this, post.src.getUrl(), false, post.src.getSrc());
 	}
 
+	@Override
 	public void onPostCommentsSelected(final RedditPreparedPost post) {
 		LinkHandler.onLinkClicked(
 				this,
@@ -308,11 +311,13 @@ public class PostListingActivity extends RefreshableActivity
 				false);
 	}
 
+	@Override
 	public void onRefreshPosts() {
 		controller.setSession(null);
 		requestRefresh(RefreshableFragment.POSTS, true);
 	}
 
+	@Override
 	public void onPastPosts() {
 		final SessionListDialog sessionListDialog = SessionListDialog.newInstance(
 				controller.getUri(),
@@ -321,6 +326,7 @@ public class PostListingActivity extends RefreshableActivity
 		sessionListDialog.show(getSupportFragmentManager(), "SessionListDialog");
 	}
 
+	@Override
 	public void onSubmitPost() {
 		final Intent intent = new Intent(this, PostSubmitActivity.class);
 		if(controller.isSubreddit()) {
@@ -329,6 +335,7 @@ public class PostListingActivity extends RefreshableActivity
 		startActivity(intent);
 	}
 
+	@Override
 	public void onSortSelected(final PostSort order) {
 		controller.setSort(order);
 		requestRefresh(RefreshableFragment.POSTS, false);
@@ -470,15 +477,18 @@ public class PostListingActivity extends RefreshableActivity
 		invalidateOptionsMenu();
 	}
 
+	@Override
 	public void onSessionSelected(final UUID session, final SessionChangeType type) {
 		controller.setSession(session);
 		requestRefresh(RefreshableFragment.POSTS, false);
 	}
 
+	@Override
 	public void onSessionRefreshSelected(final SessionChangeType type) {
 		onRefreshPosts();
 	}
 
+	@Override
 	public void onSessionChanged(
 			final UUID session,
 			final SessionChangeType type,

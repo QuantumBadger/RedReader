@@ -827,6 +827,7 @@ public class MainActivity extends RefreshableActivity
 		}
 	}
 
+	@Override
 	public void onSelected(final PostListingURL url) {
 
 		if(url == null) {
@@ -845,6 +846,7 @@ public class MainActivity extends RefreshableActivity
 		}
 	}
 
+	@Override
 	public void onRedditAccountChanged() {
 		recreateSubscriptionListener();
 		postInvalidateOptionsMenu();
@@ -976,6 +978,7 @@ public class MainActivity extends RefreshableActivity
 		invalidateOptionsMenu();
 	}
 
+	@Override
 	public void onPostCommentsSelected(final RedditPreparedPost post) {
 
 		if(twoPane) {
@@ -1017,6 +1020,7 @@ public class MainActivity extends RefreshableActivity
 		}
 	}
 
+	@Override
 	public void onPostSelected(final RedditPreparedPost post) {
 		if(post.isSelf()) {
 			onPostCommentsSelected(post);
@@ -1120,11 +1124,13 @@ public class MainActivity extends RefreshableActivity
 		return true;
 	}
 
+	@Override
 	public void onRefreshComments() {
 		commentListingController.setSession(null);
 		requestRefresh(RefreshableFragment.COMMENTS, true);
 	}
 
+	@Override
 	public void onPastComments() {
 		final SessionListDialog sessionListDialog = SessionListDialog.newInstance(
 				commentListingController.getUri(),
@@ -1133,11 +1139,13 @@ public class MainActivity extends RefreshableActivity
 		sessionListDialog.show(getSupportFragmentManager(), null);
 	}
 
+	@Override
 	public void onSortSelected(final PostCommentListingURL.Sort order) {
 		commentListingController.setSort(order);
 		requestRefresh(RefreshableFragment.COMMENTS, false);
 	}
 
+	@Override
 	public void onSortSelected(final UserCommentListingURL.Sort order) {
 		commentListingController.setSort(order);
 		requestRefresh(RefreshableFragment.COMMENTS, false);
@@ -1163,11 +1171,13 @@ public class MainActivity extends RefreshableActivity
 				});
 	}
 
+	@Override
 	public void onRefreshPosts() {
 		postListingController.setSession(null);
 		requestRefresh(RefreshableFragment.POSTS, true);
 	}
 
+	@Override
 	public void onPastPosts() {
 		final SessionListDialog sessionListDialog = SessionListDialog.newInstance(
 				postListingController.getUri(),
@@ -1176,6 +1186,7 @@ public class MainActivity extends RefreshableActivity
 		sessionListDialog.show(getSupportFragmentManager(), null);
 	}
 
+	@Override
 	public void onSubmitPost() {
 		final Intent intent = new Intent(this, PostSubmitActivity.class);
 		if(postListingController.isSubreddit()) {
@@ -1186,11 +1197,13 @@ public class MainActivity extends RefreshableActivity
 		startActivity(intent);
 	}
 
+	@Override
 	public void onSortSelected(final PostSort order) {
 		postListingController.setSort(order);
 		requestRefresh(RefreshableFragment.POSTS, false);
 	}
 
+	@Override
 	public void onSearchPosts() {
 		PostListingActivity.onSearchPosts(postListingController, this);
 	}
@@ -1292,6 +1305,7 @@ public class MainActivity extends RefreshableActivity
 		invalidateOptionsMenu();
 	}
 
+	@Override
 	public void onRefreshSubreddits() {
 		requestRefresh(RefreshableFragment.MAIN, true);
 	}
@@ -1314,6 +1328,7 @@ public class MainActivity extends RefreshableActivity
 		}
 	}
 
+	@Override
 	public void onSessionSelected(final UUID session, final SessionChangeType type) {
 
 		switch(type) {
@@ -1328,6 +1343,7 @@ public class MainActivity extends RefreshableActivity
 		}
 	}
 
+	@Override
 	public void onSessionRefreshSelected(final SessionChangeType type) {
 		switch(type) {
 			case POSTS:
@@ -1339,6 +1355,7 @@ public class MainActivity extends RefreshableActivity
 		}
 	}
 
+	@Override
 	public void onSessionChanged(
 			final UUID session,
 			final SessionChangeType type,

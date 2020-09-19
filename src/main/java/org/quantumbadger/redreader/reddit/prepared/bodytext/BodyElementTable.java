@@ -19,14 +19,14 @@ package org.quantumbadger.redreader.reddit.prepared.bodytext;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import org.quantumbadger.redreader.activities.BaseActivity;
 
 import java.util.ArrayList;
 
@@ -41,7 +41,7 @@ public class BodyElementTable extends BodyElement {
 
 	@Override
 	public View generateView(
-			@NonNull final AppCompatActivity activity,
+			@NonNull final BaseActivity activity,
 			@Nullable final Integer textColor,
 			@Nullable final Float textSize,
 			final boolean showLinkButtons) {

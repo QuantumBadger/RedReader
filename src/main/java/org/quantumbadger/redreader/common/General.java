@@ -28,12 +28,9 @@ import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Looper;
 import android.os.Message;
-import android.os.StatFs;
 import android.os.SystemClock;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -52,8 +49,6 @@ import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -107,71 +102,6 @@ public final class General {
 		msg.what = what;
 		msg.obj = obj;
 		return msg;
-	}
-
-	public static void moveFile(final File src, final File dst) throws IOException {
-
-		if(!src.renameTo(dst)) {
-
-			copyFile(src, dst);
-
-			if(!src.delete()) {
-				src.deleteOnExit();
-			}
-		}
-	}
-
-	public static void copyFile(final File src, final File dst) throws IOException {
-
-		try(FileInputStream fis = new FileInputStream(src)) {
-			try(FileOutputStream fos = new FileOutputStream(dst)) {
-				copyFile(fis, fos);
-			}
-		}
-	}
-
-	public static void copyFile(final InputStream fis, final File dst) throws
-			IOException {
-		try(FileOutputStream fos = new FileOutputStream(dst)) {
-			copyFile(fis, fos);
-		}
-	}
-
-	public static void copyFile(final InputStream fis, final OutputStream fos) throws
-			IOException {
-
-		final byte[] buf = new byte[32 * 1024];
-
-		int bytesRead;
-		while((bytesRead = fis.read(buf)) > 0) {
-			fos.write(buf, 0, bytesRead);
-		}
-
-		fis.close();
-		fos.close();
-	}
-
-	public static boolean isCacheDiskFull(final Context context) {
-		final long space = getFreeSpaceAvailable(PrefsUtility.pref_cache_location(
-				context,
-				PreferenceManager.getDefaultSharedPreferences(context)));
-		return space < 128 * 1024 * 1024;
-	}
-
-	/// Get the number of free bytes that are available on the external storage.
-	@SuppressWarnings("deprecation")
-	public static long getFreeSpaceAvailable(final String path) {
-		final StatFs stat = new StatFs(path);
-		final long availableBlocks;
-		final long blockSize;
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-			availableBlocks = stat.getAvailableBlocksLong();
-			blockSize = stat.getBlockSizeLong();
-		} else {
-			availableBlocks = stat.getAvailableBlocks();
-			blockSize = stat.getBlockSize();
-		}
-		return availableBlocks * blockSize;
 	}
 
 	/**

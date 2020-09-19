@@ -28,9 +28,9 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.common.General;
 
 import java.util.Locale;
@@ -44,7 +44,9 @@ public abstract class PropertiesDialog extends AppCompatDialogFragment {
 
 	protected abstract String getTitle(Context context);
 
-	protected abstract void prepare(AppCompatActivity context, LinearLayout items);
+	protected abstract void prepare(
+			@NonNull BaseActivity context,
+			@NonNull LinearLayout items);
 
 	@NonNull
 	@Override
@@ -56,9 +58,9 @@ public abstract class PropertiesDialog extends AppCompatDialogFragment {
 		}
 		alreadyCreated = true;
 
-		final AppCompatActivity context = (AppCompatActivity)getActivity();
+		final BaseActivity activity = (BaseActivity)getActivity();
 
-		final TypedArray attr = context.obtainStyledAttributes(new int[] {
+		final TypedArray attr = activity.obtainStyledAttributes(new int[] {
 				R.attr.rrListHeaderTextCol,
 				R.attr.rrListDividerCol,
 				R.attr.rrMainTextCol
@@ -70,15 +72,15 @@ public abstract class PropertiesDialog extends AppCompatDialogFragment {
 
 		attr.recycle();
 
-		final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
-		final LinearLayout items = new LinearLayout(context);
+		final LinearLayout items = new LinearLayout(activity);
 		items.setOrientation(LinearLayout.VERTICAL);
 
-		prepare(context, items);
-		builder.setTitle(getTitle(context));
+		prepare(activity, items);
+		builder.setTitle(getTitle(activity));
 
-		final ScrollView sv = new ScrollView(context);
+		final ScrollView sv = new ScrollView(activity);
 		sv.addView(items);
 		builder.setView(sv);
 

@@ -17,16 +17,17 @@
 
 package org.quantumbadger.redreader.adapters;
 
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
+import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached;
@@ -40,16 +41,15 @@ import org.quantumbadger.redreader.image.AlbumInfo;
 import org.quantumbadger.redreader.image.ImageInfo;
 import org.quantumbadger.redreader.viewholders.VH3TextIcon;
 
-import java.io.IOException;
 import java.util.Locale;
 import java.util.UUID;
 
 public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 
-	private final AppCompatActivity activity;
+	private final BaseActivity activity;
 	private final AlbumInfo albumInfo;
 
-	public AlbumAdapter(final AppCompatActivity activity, final AlbumInfo albumInfo) {
+	public AlbumAdapter(final BaseActivity activity, final AlbumInfo albumInfo) {
 		this.activity = activity;
 		this.albumInfo = albumInfo;
 	}
@@ -186,13 +186,12 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 						final UUID session,
 						final boolean fromCache,
 						final String mimetype) {
+
+					final Uri uri = cacheFile.getUri();
+
 					AndroidCommon.UI_THREAD_HANDLER.post(() -> {
-						try {
-							if(vh.bindingId == bindingId) {
-								vh.icon.setImageURI(cacheFile.getUri());
-							}
-						} catch(final IOException e) {
-							throw new RuntimeException(e);
+						if(vh.bindingId == bindingId) {
+							vh.icon.setImageURI(uri);
 						}
 					});
 				}

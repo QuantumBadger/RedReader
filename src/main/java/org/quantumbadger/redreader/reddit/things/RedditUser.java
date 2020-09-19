@@ -31,6 +31,7 @@ public class RedditUser implements Parcelable {
 
 	public String id, modhash, name;
 
+	@Override
 	public int describeContents() {
 		return 0;
 	}
@@ -73,6 +74,7 @@ public class RedditUser implements Parcelable {
 		name = in.readString();
 	}
 
+	@Override
 	public void writeToParcel(final Parcel parcel, final int flags) {
 
 		parcel.writeInt(comment_karma);
@@ -105,10 +107,12 @@ public class RedditUser implements Parcelable {
 
 	public static final Parcelable.Creator<RedditUser> CREATOR
 			= new Parcelable.Creator<RedditUser>() {
+		@Override
 		public RedditUser createFromParcel(final Parcel in) {
 			return new RedditUser(in);
 		}
 
+		@Override
 		public RedditUser[] newArray(final int size) {
 			return new RedditUser[size];
 		}

@@ -60,6 +60,7 @@ public final class GIFView extends View {
 		paint.setFilterBitmap(true);
 	}
 
+	@Override
 	protected void onDraw(final Canvas canvas) {
 		canvas.drawColor(Color.TRANSPARENT);
 		super.onDraw(canvas);

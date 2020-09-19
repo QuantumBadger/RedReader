@@ -198,6 +198,7 @@ public class CommentReplyActivity extends BaseActivity {
 			progressDialog.setCanceledOnTouchOutside(false);
 
 			progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+				@Override
 				public void onCancel(final DialogInterface dialogInterface) {
 					General.quickToast(
 							CommentReplyActivity.this,
@@ -207,6 +208,7 @@ public class CommentReplyActivity extends BaseActivity {
 			});
 
 			progressDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+				@Override
 				public boolean onKey(
 						final DialogInterface dialogInterface,
 						final int keyCode,

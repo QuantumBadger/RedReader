@@ -32,6 +32,7 @@ import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached;
 import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.FileUtils;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -180,7 +181,7 @@ public class ShareImageCallback implements BaseActivity.PermissionCallback {
 										return;
 									}
 
-									General.copyFile(cacheFileInputStream, dst);
+									FileUtils.copyFile(cacheFileInputStream, dst);
 
 									final Intent shareIntent = new Intent();
 									shareIntent.setAction(Intent.ACTION_SEND);

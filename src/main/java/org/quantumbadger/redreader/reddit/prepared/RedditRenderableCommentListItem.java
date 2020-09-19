@@ -18,8 +18,8 @@
 package org.quantumbadger.redreader.reddit.prepared;
 
 import android.content.Context;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
+import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
 
 public interface RedditRenderableCommentListItem {
@@ -30,7 +30,7 @@ public interface RedditRenderableCommentListItem {
 			final Context context);
 
 	View getBody(
-			final AppCompatActivity activity,
+			final BaseActivity activity,
 			final Integer textColor,
 			final Float textSize,
 			final boolean showLinkButtons);

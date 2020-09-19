@@ -38,6 +38,7 @@ import org.quantumbadger.redreader.activities.ChangelogActivity;
 import org.quantumbadger.redreader.activities.HtmlViewActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.common.AndroidCommon;
+import org.quantumbadger.redreader.common.FileUtils;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.TorCommon;
@@ -302,7 +303,7 @@ public final class SettingsFragment extends PreferenceFragment {
 			}
 
 			String path = dir.getAbsolutePath();
-			final long bytes = General.getFreeSpaceAvailable(path);
+			final long bytes = FileUtils.getFreeSpaceAvailable(path);
 			final String freeSpace = General.addUnits(bytes);
 			if(!path.endsWith("/")) {
 				path += "/";

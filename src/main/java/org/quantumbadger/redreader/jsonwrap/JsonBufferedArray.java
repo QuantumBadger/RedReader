@@ -186,6 +186,7 @@ public final class JsonBufferedArray extends JsonBuffered implements Iterable<Js
 		return get(id).asArray();
 	}
 
+	@Override
 	public Iterator<JsonValue> iterator() {
 		return new JsonBufferedArrayIterator();
 	}
@@ -194,6 +195,7 @@ public final class JsonBufferedArray extends JsonBuffered implements Iterable<Js
 
 		private int currentId = 0;
 
+		@Override
 		public boolean hasNext() {
 
 			synchronized(JsonBufferedArray.this) {
@@ -218,10 +220,12 @@ public final class JsonBufferedArray extends JsonBuffered implements Iterable<Js
 			}
 		}
 
+		@Override
 		public JsonValue next() {
 			return contents.get(currentId++);
 		}
 
+		@Override
 		public void remove() {
 			throw new UnsupportedOperationException();
 		}

@@ -37,6 +37,7 @@ public final class PermanentCache<K, V extends WritableObject<K>, F>
 		this.cacheDataSource = cacheDataSource;
 	}
 
+	@Override
 	public void performRequest(
 			final K key,
 			final TimestampBound timestampBound,
@@ -44,6 +45,7 @@ public final class PermanentCache<K, V extends WritableObject<K>, F>
 		performRequest(key, timestampBound, handler, null);
 	}
 
+	@Override
 	public synchronized void performRequest(
 			final Collection<K> keys, final TimestampBound timestampBound,
 			final RequestResponseHandler<HashMap<K, V>, F> handler) {
@@ -74,10 +76,12 @@ public final class PermanentCache<K, V extends WritableObject<K>, F>
 					keysRemaining,
 					timestampBound,
 					new RequestResponseHandler<HashMap<K, V>, F>() {
+						@Override
 						public void onRequestFailed(final F failureReason) {
 							handler.onRequestFailed(failureReason);
 						}
 
+						@Override
 						public void onRequestSuccess(
 								final HashMap<K, V> result,
 								final long timeCached) {
@@ -93,10 +97,12 @@ public final class PermanentCache<K, V extends WritableObject<K>, F>
 		}
 	}
 
+	@Override
 	public synchronized void performWrite(final V value) {
 		put(value, true);
 	}
 
+	@Override
 	public void performWrite(final Collection<V> values) {
 		put(values, true);
 	}
@@ -121,10 +127,12 @@ public final class PermanentCache<K, V extends WritableObject<K>, F>
 				timestampBound,
 				new RequestResponseHandler<V, F>() {
 
+					@Override
 					public void onRequestFailed(final F failureReason) {
 						handler.onRequestFailed(failureReason);
 					}
 
+					@Override
 					public void onRequestSuccess(final V result, final long timeCached) {
 						synchronized(PermanentCache.this) {
 							put(result, false);
@@ -140,9 +148,11 @@ public final class PermanentCache<K, V extends WritableObject<K>, F>
 	public synchronized void forceUpdate(final K key) {
 		cacheDataSource.performRequest(key, null, new RequestResponseHandler<V, F>() {
 
+			@Override
 			public void onRequestFailed(final F failureReason) {
 			}
 
+			@Override
 			public void onRequestSuccess(final V result, final long timeCached) {
 				put(result, false);
 			}

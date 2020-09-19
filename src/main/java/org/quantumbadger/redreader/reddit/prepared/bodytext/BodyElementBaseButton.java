@@ -17,11 +17,11 @@
 
 package org.quantumbadger.redreader.reddit.prepared.bodytext;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.views.LinkDetailsView;
 
@@ -34,14 +34,14 @@ public abstract class BodyElementBaseButton extends BodyElement {
 
 	@NonNull
 	protected abstract View.OnClickListener generateOnClickListener(
-			@NonNull final AppCompatActivity activity,
+			@NonNull final BaseActivity activity,
 			@Nullable final Integer textColor,
 			@Nullable final Float textSize,
 			final boolean showLinkButtons);
 
 	@Nullable
 	protected abstract View.OnLongClickListener generateOnLongClickListener(
-			@NonNull final AppCompatActivity activity,
+			@NonNull final BaseActivity activity,
 			@Nullable final Integer textColor,
 			@Nullable final Float textSize,
 			final boolean showLinkButtons);
@@ -58,7 +58,7 @@ public abstract class BodyElementBaseButton extends BodyElement {
 
 	@Override
 	public final View generateView(
-			@NonNull final AppCompatActivity activity,
+			@NonNull final BaseActivity activity,
 			@Nullable final Integer textColor,
 			@Nullable final Float textSize,
 			final boolean showLinkButtons) {

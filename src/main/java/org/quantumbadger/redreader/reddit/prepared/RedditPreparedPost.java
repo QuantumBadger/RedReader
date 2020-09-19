@@ -56,6 +56,7 @@ import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotC
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.BetterSSB;
 import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.FileUtils;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -63,7 +64,6 @@ import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.fragments.PostPropertiesDialog;
 import org.quantumbadger.redreader.fragments.ShareOrderDialog;
-import org.quantumbadger.redreader.image.SaveImageCallback;
 import org.quantumbadger.redreader.image.ShareImageCallback;
 import org.quantumbadger.redreader.image.ThumbnailScaler;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
@@ -190,12 +190,11 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 	}
 
 	public static void showActionMenu(
-			final AppCompatActivity activity,
+			final BaseActivity activity,
 			final RedditPreparedPost post) {
 
 		final SharedPreferences sharedPreferences =
-				PreferenceManager.getDefaultSharedPreferences(
-						activity);
+				PreferenceManager.getDefaultSharedPreferences(activity);
 
 		final EnumSet<Action> itemPref
 				= PrefsUtility.pref_menus_post_context_items(activity, sharedPreferences);
@@ -456,12 +455,9 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 		final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
-		builder.setItems(menuText, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(final DialogInterface dialog, final int which) {
-				onActionMenuItemSelected(post, activity, menu.get(which).action);
-			}
-		});
+		builder.setItems(menuText,
+				(dialog, which)
+						-> onActionMenuItemSelected(post, activity, menu.get(which).action));
 
 		//builder.setNeutralButton(R.string.dialog_cancel, null);
 
@@ -470,13 +466,13 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		alert.show();
 	}
 
-	public void performAction(final AppCompatActivity activity, final Action action) {
+	public void performAction(final BaseActivity activity, final Action action) {
 		onActionMenuItemSelected(this, activity, action);
 	}
 
 	public static void onActionMenuItemSelected(
 			final RedditPreparedPost post,
-			final AppCompatActivity activity,
+			final BaseActivity activity,
 			final Action action) {
 
 		switch(action) {
@@ -606,10 +602,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			}
 
 			case SAVE_IMAGE: {
-
-				((BaseActivity)activity).requestPermissionWithCallback(
-						Manifest.permission.WRITE_EXTERNAL_STORAGE,
-						new SaveImageCallback(activity, post.src.getUrl()));
+				FileUtils.saveImageAtUri(activity, post.src.getUrl());
 				break;
 			}
 
@@ -675,7 +668,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 			case SHARE_IMAGE: {
 
-				((BaseActivity)activity).requestPermissionWithCallback(
+				activity.requestPermissionWithCallback(
 						Manifest.permission.WRITE_EXTERNAL_STORAGE,
 						new ShareImageCallback(activity, post.src.getUrl()));
 
@@ -1571,7 +1564,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 	}
 
 	public VerticalToolbar generateToolbar(
-			final AppCompatActivity activity,
+			final BaseActivity activity,
 			final boolean isComments,
 			final SideToolbarOverlay overlay) {
 
@@ -1668,42 +1661,37 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 					// TODO highlight on click
 				}
 
-				ib.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(final View v) {
+				ib.setOnClickListener(v -> {
 
-						final Action actionToTake;
+					final Action actionToTake;
 
-						switch(action) {
-							case UPVOTE:
-								actionToTake =
-										isUpvoted() ? Action.UNVOTE : Action.UPVOTE;
-								break;
+					switch(action) {
+						case UPVOTE:
+							actionToTake = isUpvoted() ? Action.UNVOTE : Action.UPVOTE;
+							break;
 
-							case DOWNVOTE:
-								actionToTake =
-										isDownvoted() ? Action.UNVOTE : Action.DOWNVOTE;
-								break;
+						case DOWNVOTE:
+							actionToTake = isDownvoted() ? Action.UNVOTE : Action.DOWNVOTE;
+							break;
 
-							case SAVE:
-								actionToTake = isSaved() ? Action.UNSAVE : Action.SAVE;
-								break;
+						case SAVE:
+							actionToTake = isSaved() ? Action.UNSAVE : Action.SAVE;
+							break;
 
-							case HIDE:
-								actionToTake = isHidden() ? Action.UNHIDE : Action.HIDE;
-								break;
+						case HIDE:
+							actionToTake = isHidden() ? Action.UNHIDE : Action.HIDE;
+							break;
 
-							default:
-								actionToTake = action;
-								break;
-						}
-
-						onActionMenuItemSelected(
-								RedditPreparedPost.this,
-								activity,
-								actionToTake);
-						overlay.hide();
+						default:
+							actionToTake = action;
+							break;
 					}
+
+					onActionMenuItemSelected(
+							this,
+							activity,
+							actionToTake);
+					overlay.hide();
 				});
 
 				Action accessibilityAction = action;

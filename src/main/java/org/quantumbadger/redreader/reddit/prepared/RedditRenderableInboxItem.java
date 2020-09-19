@@ -17,10 +17,10 @@
 
 package org.quantumbadger.redreader.reddit.prepared;
 
-import androidx.appcompat.app.AppCompatActivity;
+import org.quantumbadger.redreader.activities.BaseActivity;
 
 public interface RedditRenderableInboxItem extends RedditRenderableCommentListItem {
-	void handleInboxClick(AppCompatActivity activity);
+	void handleInboxClick(BaseActivity activity);
 
-	void handleInboxLongClick(AppCompatActivity activity);
+	void handleInboxLongClick(BaseActivity activity);
 }

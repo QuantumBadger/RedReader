@@ -593,6 +593,7 @@ public final class OptionsMenuUtility {
 						Menu.NONE,
 						R.string.options_accounts)
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+							@Override
 							public boolean onMenuItemClick(final MenuItem item) {
 								new AccountListDialog().show(
 										activity.getSupportFragmentManager(),
@@ -613,6 +614,7 @@ public final class OptionsMenuUtility {
 						Menu.NONE,
 						R.string.options_settings)
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+							@Override
 							public boolean onMenuItemClick(final MenuItem item) {
 								final Intent intent = new Intent(
 										activity,
@@ -637,6 +639,7 @@ public final class OptionsMenuUtility {
 							Menu.NONE,
 							R.string.options_close_all)
 							.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+								@Override
 								public boolean onMenuItemClick(final MenuItem item) {
 									activity.closeAllExceptMain();
 									return true;
@@ -655,6 +658,7 @@ public final class OptionsMenuUtility {
 						Menu.NONE,
 						R.string.options_theme)
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+							@Override
 							public boolean onMenuItemClick(final MenuItem item) {
 
 								final SharedPreferences prefs
@@ -723,6 +727,7 @@ public final class OptionsMenuUtility {
 						Menu.NONE,
 						R.string.options_refresh_subreddits)
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+							@Override
 							public boolean onMenuItemClick(final MenuItem item) {
 								((OptionsMenuSubredditsListener)activity)
 										.onRefreshSubreddits();
@@ -744,6 +749,7 @@ public final class OptionsMenuUtility {
 						Menu.NONE,
 						R.string.options_refresh_posts)
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+							@Override
 							public boolean onMenuItemClick(final MenuItem item) {
 								((OptionsMenuPostsListener)activity).onRefreshPosts();
 								return true;
@@ -764,6 +770,7 @@ public final class OptionsMenuUtility {
 						Menu.NONE,
 						R.string.options_submit_post)
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+							@Override
 							public boolean onMenuItemClick(final MenuItem item) {
 								((OptionsMenuPostsListener)activity).onSubmitPost();
 								return true;
@@ -784,6 +791,7 @@ public final class OptionsMenuUtility {
 								? R.string.action_search_posts
 								: R.string.action_search))
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+							@Override
 							public boolean onMenuItemClick(final MenuItem item) {
 								if(activity instanceof OptionsMenuPostsListener) {
 									((OptionsMenuPostsListener)activity).onSearchPosts();
@@ -836,6 +844,7 @@ public final class OptionsMenuUtility {
 						Menu.NONE,
 						R.string.options_refresh_comments)
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+							@Override
 							public boolean onMenuItemClick(final MenuItem item) {
 								((OptionsMenuCommentsListener)activity)
 										.onRefreshComments();
@@ -857,6 +866,7 @@ public final class OptionsMenuUtility {
 						Menu.NONE,
 						longText ? R.string.options_past_posts : R.string.options_past)
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+							@Override
 							public boolean onMenuItemClick(final MenuItem item) {
 								((OptionsMenuPostsListener)activity).onPastPosts();
 								return true;
@@ -877,6 +887,7 @@ public final class OptionsMenuUtility {
 						Menu.NONE,
 						longText ? R.string.options_past_comments : R.string.options_past)
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+							@Override
 							public boolean onMenuItemClick(final MenuItem item) {
 								((OptionsMenuCommentsListener)activity)
 										.onPastComments();
@@ -898,6 +909,7 @@ public final class OptionsMenuUtility {
 						Menu.NONE,
 						R.string.options_subscribe)
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+							@Override
 							public boolean onMenuItemClick(final MenuItem item) {
 								((OptionsMenuPostsListener)activity).onSubscribe();
 								return true;
@@ -916,6 +928,7 @@ public final class OptionsMenuUtility {
 						Menu.NONE,
 						R.string.options_unsubscribe)
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+							@Override
 							public boolean onMenuItemClick(final MenuItem item) {
 								((OptionsMenuPostsListener)activity).onUnsubscribe();
 								return true;
@@ -960,6 +973,7 @@ public final class OptionsMenuUtility {
 						Menu.NONE,
 						R.string.options_sidebar)
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+							@Override
 							public boolean onMenuItemClick(final MenuItem item) {
 								((OptionsMenuPostsListener)activity).onSidebar();
 								return true;
@@ -978,6 +992,7 @@ public final class OptionsMenuUtility {
 						Menu.NONE,
 						R.string.pin_subreddit)
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+							@Override
 							public boolean onMenuItemClick(final MenuItem item) {
 								((OptionsMenuPostsListener)activity).onPin();
 								return true;
@@ -996,6 +1011,7 @@ public final class OptionsMenuUtility {
 						Menu.NONE,
 						R.string.unpin_subreddit)
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+							@Override
 							public boolean onMenuItemClick(final MenuItem item) {
 								((OptionsMenuPostsListener)activity).onUnpin();
 								return true;
@@ -1014,6 +1030,7 @@ public final class OptionsMenuUtility {
 						Menu.NONE,
 						R.string.block_subreddit)
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+							@Override
 							public boolean onMenuItemClick(final MenuItem item) {
 								((OptionsMenuPostsListener)activity).onBlock();
 								return true;
@@ -1032,6 +1049,7 @@ public final class OptionsMenuUtility {
 						Menu.NONE,
 						R.string.unblock_subreddit)
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+							@Override
 							public boolean onMenuItemClick(final MenuItem item) {
 								((OptionsMenuPostsListener)activity).onUnblock();
 								return true;
@@ -1135,6 +1153,7 @@ public final class OptionsMenuUtility {
 
 		menu.add(activity.getString(name))
 				.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+					@Override
 					public boolean onMenuItemClick(final MenuItem item) {
 						((OptionsMenuPostsListener)activity).onSortSelected(order);
 						return true;
@@ -1208,6 +1227,7 @@ public final class OptionsMenuUtility {
 
 		menu.add(activity.getString(name))
 				.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+					@Override
 					public boolean onMenuItemClick(final MenuItem item) {
 						((OptionsMenuCommentsListener)activity).onSortSelected(order);
 						return true;

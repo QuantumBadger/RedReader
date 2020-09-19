@@ -41,6 +41,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.General;
@@ -63,7 +64,7 @@ import java.util.TimerTask;
 public class WebViewFragment extends Fragment
 		implements RedditPostView.PostSelectionListener {
 
-	private AppCompatActivity mActivity;
+	private BaseActivity mActivity;
 
 	private String mUrl, html;
 	private volatile String currentUrl;
@@ -114,7 +115,7 @@ public class WebViewFragment extends Fragment
 			final ViewGroup container,
 			final Bundle savedInstanceState) {
 
-		mActivity = (AppCompatActivity)getActivity();
+		mActivity = (BaseActivity)getActivity();
 
 		CookieSyncManager.createInstance(mActivity);
 
@@ -143,9 +144,9 @@ public class WebViewFragment extends Fragment
 			post = null;
 		}
 
-		webView = (WebViewFixed)outer.findViewById(R.id.web_view_fragment_webviewfixed);
+		webView = outer.findViewById(R.id.web_view_fragment_webviewfixed);
 		final FrameLayout loadingViewFrame
-				= (FrameLayout)outer.findViewById(R.id.web_view_fragment_loadingview_frame);
+				= outer.findViewById(R.id.web_view_fragment_loadingview_frame);
 
 		progressView = new ProgressBar(
 				mActivity,
@@ -158,7 +159,7 @@ public class WebViewFragment extends Fragment
 				General.dpToPixels(mActivity, 10),
 				0);
 		final FrameLayout fullscreenViewFrame
-				= (FrameLayout)outer.findViewById(R.id.web_view_fragment_fullscreen_frame);
+				= outer.findViewById(R.id.web_view_fragment_fullscreen_frame);
 
 		final VideoEnabledWebChromeClient chromeClient = new VideoEnabledWebChromeClient(
 				loadingViewFrame,
@@ -184,20 +185,20 @@ public class WebViewFragment extends Fragment
 			// Your code to handle the full-screen change, for example showing
 			// and hiding the title bar. Example:
 			if(fullscreen) {
-				final WindowManager.LayoutParams attrs = getActivity().getWindow()
+				final WindowManager.LayoutParams attrs = mActivity.getWindow()
 						.getAttributes();
 				attrs.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
 				attrs.flags |= WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
-				getActivity().getWindow().setAttributes(attrs);
-				((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+				mActivity.getWindow().setAttributes(attrs);
+				mActivity.getSupportActionBar().hide();
 				if(Build.VERSION.SDK_INT >= 14) {
 					//noinspection all
-					getActivity().getWindow()
+					mActivity.getWindow()
 							.getDecorView()
 							.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
 				}
 			} else {
-				final WindowManager.LayoutParams attrs = getActivity().getWindow()
+				final WindowManager.LayoutParams attrs = mActivity.getWindow()
 						.getAttributes();
 				//only re-enable status bar if there is no contradicting preference set
 				if(!PrefsUtility.pref_appearance_hide_android_status(
@@ -206,11 +207,11 @@ public class WebViewFragment extends Fragment
 					attrs.flags &= ~WindowManager.LayoutParams.FLAG_FULLSCREEN;
 				}
 				attrs.flags &= ~WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
-				getActivity().getWindow().setAttributes(attrs);
-				((AppCompatActivity)getActivity()).getSupportActionBar().show();
+				mActivity.getWindow().setAttributes(attrs);
+				mActivity.getSupportActionBar().show();
 				if(Build.VERSION.SDK_INT >= 14) {
 					//noinspection all
-					getActivity().getWindow()
+					mActivity.getWindow()
 							.getDecorView()
 							.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
 				}
@@ -310,19 +311,19 @@ public class WebViewFragment extends Fragment
 						LinkHandler.onLinkClicked(mActivity, url, false);
 					} else {
 						if(!PrefsUtility.pref_behaviour_useinternalbrowser(
-								getActivity(),
-								PreferenceManager.getDefaultSharedPreferences(getActivity()))) {
+								mActivity,
+								PreferenceManager.getDefaultSharedPreferences(mActivity))) {
 							LinkHandler.openWebBrowser(
-									(AppCompatActivity)getActivity(),
+									mActivity,
 									Uri.parse(url),
 									true);
 						} else if(PrefsUtility.pref_behaviour_usecustomtabs(
-								getActivity(),
-								PreferenceManager.getDefaultSharedPreferences(getActivity()))
+								mActivity,
+								PreferenceManager.getDefaultSharedPreferences(mActivity))
 								&& Build.VERSION.SDK_INT
 										>= Build.VERSION_CODES.JELLY_BEAN_MR2) {
 							LinkHandler.openCustomTab(
-									(AppCompatActivity)getActivity(),
+									mActivity,
 									Uri.parse(url),
 									null);
 						} else {
@@ -485,10 +486,12 @@ public class WebViewFragment extends Fragment
 		return false;
 	}
 
+	@Override
 	public void onPostSelected(final RedditPreparedPost post) {
 		((RedditPostView.PostSelectionListener)mActivity).onPostSelected(post);
 	}
 
+	@Override
 	public void onPostCommentsSelected(final RedditPreparedPost post) {
 		((RedditPostView.PostSelectionListener)mActivity).onPostCommentsSelected(post);
 	}

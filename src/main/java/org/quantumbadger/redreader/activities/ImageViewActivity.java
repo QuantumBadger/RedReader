@@ -392,7 +392,7 @@ public class ImageViewActivity extends BaseActivity
 	}
 
 	private void onImageLoaded(
-			final CacheManager.ReadableCacheFile cacheFile,
+			@NonNull final CacheManager.ReadableCacheFile cacheFile,
 			@Nullable final CacheManager.ReadableCacheFile audioCacheFile,
 			final String mimetype) {
 
@@ -416,162 +416,132 @@ public class ImageViewActivity extends BaseActivity
 
 		if(Constants.Mime.isVideo(mimetype)) {
 
-			AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-				@Override
-				public void run() {
+			AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 
-					if(mIsDestroyed) {
-						return;
+				if(mIsDestroyed) {
+					return;
+				}
+				mRequest = null;
+
+				final PrefsUtility.VideoViewMode videoViewMode
+						= PrefsUtility.pref_behaviour_videoview_mode(
+						this,
+						PreferenceManager.getDefaultSharedPreferences(this));
+
+				if(videoViewMode == PrefsUtility.VideoViewMode.INTERNAL_BROWSER) {
+					revertToWeb();
+
+				} else if(videoViewMode == PrefsUtility.VideoViewMode.EXTERNAL_BROWSER) {
+					openInExternalBrowser();
+
+				} else if(videoViewMode == PrefsUtility.VideoViewMode.EXTERNAL_APP_VLC) {
+
+					final Intent intent = new Intent(Intent.ACTION_VIEW);
+					intent.setClassName(
+							"org.videolan.vlc",
+							"org.videolan.vlc.gui.video.VideoPlayerActivity");
+					intent.setDataAndType(cacheFile.getUri(), mimetype);
+
+					try {
+						startActivity(intent);
+					} catch(final Throwable t) {
+						General.quickToast(this, R.string.videoview_mode_app_vlc_launch_failed);
+						Log.e(TAG, "VLC failed to launch", t);
 					}
-					mRequest = null;
+					finish();
 
-					final PrefsUtility.VideoViewMode videoViewMode
-							= PrefsUtility.pref_behaviour_videoview_mode(
-							ImageViewActivity.this,
-							PreferenceManager.getDefaultSharedPreferences(
-									ImageViewActivity.this));
+				} else {
 
-					if(videoViewMode == PrefsUtility.VideoViewMode.INTERNAL_BROWSER) {
+					try {
+
+						Log.i(TAG, "Playing video using ExoPlayer");
+						getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+						final RelativeLayout layout = new RelativeLayout(this);
+						layout.setGravity(Gravity.CENTER);
+
+						final DefaultDataSourceFactory dataSourceFactory
+								= new DefaultDataSourceFactory(
+										this,
+										Constants.ua(this),
+										null);
+
+						final MediaSource mediaSource;
+
+						final MediaSource videoMediaSource
+								= new ExtractorMediaSource.Factory(dataSourceFactory)
+								.createMediaSource(cacheFile.getUri());
+
+						if(audioCacheFile == null) {
+							mediaSource = videoMediaSource;
+
+						} else {
+							mediaSource = new MergingMediaSource(
+									videoMediaSource,
+									new ExtractorMediaSource.Factory(dataSourceFactory)
+											.createMediaSource(audioCacheFile.getUri()));
+						}
+
+						mVideoPlayerWrapper = new ExoPlayerWrapperView(
+								this,
+								mediaSource,
+								this::revertToWeb,
+								0);
+
+						layout.addView(mVideoPlayerWrapper);
+						setMainView(layout);
+
+						layout.getLayoutParams().width
+								= ViewGroup.LayoutParams.MATCH_PARENT;
+						layout.getLayoutParams().height
+								= ViewGroup.LayoutParams.MATCH_PARENT;
+						mVideoPlayerWrapper.setLayoutParams(new RelativeLayout.LayoutParams(
+								ViewGroup.LayoutParams.MATCH_PARENT,
+								ViewGroup.LayoutParams.MATCH_PARENT));
+
+						final BasicGestureHandler gestureHandler
+								= new BasicGestureHandler(this);
+						mVideoPlayerWrapper.setOnTouchListener(gestureHandler);
+						layout.setOnTouchListener(gestureHandler);
+
+						final boolean muteByDefault
+								= PrefsUtility.pref_behaviour_video_mute_default(
+								this,
+								PreferenceManager.getDefaultSharedPreferences(this));
+
+						mVideoPlayerWrapper.setMuted(muteByDefault);
+
+						final int iconMuted = R.drawable.ic_volume_off_white_24dp;
+						final int iconUnmuted = R.drawable.ic_volume_up_white_24dp;
+
+						if(mImageInfo != null
+								&& mImageInfo.hasAudio
+								!= ImageInfo.HasAudio.NO_AUDIO) {
+
+							final AtomicReference<ImageButton> muteButton
+									= new AtomicReference<>();
+							muteButton.set(addFloatingToolbarButton(
+									muteByDefault ? iconMuted : iconUnmuted,
+									view -> {
+										final ImageButton button = muteButton.get();
+
+										if(mVideoPlayerWrapper.isMuted()) {
+											mVideoPlayerWrapper.setMuted(false);
+											button.setImageResource(iconUnmuted);
+										} else {
+											mVideoPlayerWrapper.setMuted(true);
+											button.setImageResource(iconMuted);
+										}
+									}));
+						}
+
+					} catch(final OutOfMemoryError e) {
+						General.quickToast(this, R.string.imageview_oom);
 						revertToWeb();
 
-					} else if(videoViewMode
-							== PrefsUtility.VideoViewMode.EXTERNAL_BROWSER) {
-						openInExternalBrowser();
-
-					} else if(videoViewMode
-							== PrefsUtility.VideoViewMode.EXTERNAL_APP_VLC) {
-
-						final Intent intent = new Intent(Intent.ACTION_VIEW);
-						intent.setClassName(
-								"org.videolan.vlc",
-								"org.videolan.vlc.gui.video.VideoPlayerActivity");
-						try {
-							intent.setDataAndType(cacheFile.getUri(), mimetype);
-						} catch(final IOException e) {
-							revertToWeb();
-							return;
-						}
-
-						try {
-							startActivity(intent);
-						} catch(final Throwable t) {
-							General.quickToast(
-									ImageViewActivity.this,
-									R.string.videoview_mode_app_vlc_launch_failed);
-							Log.e(TAG, "VLC failed to launch", t);
-						}
-						finish();
-
-					} else {
-
-						try {
-
-							Log.i(TAG, "Playing video using ExoPlayer");
-							getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
-							final RelativeLayout layout = new RelativeLayout(
-									ImageViewActivity.this);
-							layout.setGravity(Gravity.CENTER);
-
-							final DefaultDataSourceFactory dataSourceFactory
-									= new DefaultDataSourceFactory(
-									ImageViewActivity.this,
-									Constants.ua(ImageViewActivity.this),
-									null);
-
-							final MediaSource mediaSource;
-
-							final MediaSource videoMediaSource
-									= new ExtractorMediaSource.Factory(dataSourceFactory)
-									.createMediaSource(cacheFile.getUri());
-
-							if(audioCacheFile == null) {
-								mediaSource = videoMediaSource;
-
-							} else {
-								mediaSource = new MergingMediaSource(
-										videoMediaSource,
-										new ExtractorMediaSource.Factory(dataSourceFactory)
-												.createMediaSource(audioCacheFile.getUri()));
-							}
-
-							mVideoPlayerWrapper = new ExoPlayerWrapperView(
-									ImageViewActivity.this,
-									mediaSource,
-									new ExoPlayerWrapperView.Listener() {
-
-										@Override
-										public void onError() {
-											revertToWeb();
-										}
-									},
-									0);
-
-							layout.addView(mVideoPlayerWrapper);
-							setMainView(layout);
-
-							layout.getLayoutParams().width
-									= ViewGroup.LayoutParams.MATCH_PARENT;
-							layout.getLayoutParams().height
-									= ViewGroup.LayoutParams.MATCH_PARENT;
-							mVideoPlayerWrapper.setLayoutParams(new RelativeLayout.LayoutParams(
-									ViewGroup.LayoutParams.MATCH_PARENT,
-									ViewGroup.LayoutParams.MATCH_PARENT));
-
-							final BasicGestureHandler gestureHandler
-									= new BasicGestureHandler(ImageViewActivity.this);
-							mVideoPlayerWrapper.setOnTouchListener(gestureHandler);
-							layout.setOnTouchListener(gestureHandler);
-
-							final boolean muteByDefault
-									= PrefsUtility.pref_behaviour_video_mute_default(
-									ImageViewActivity.this,
-									PreferenceManager.getDefaultSharedPreferences(
-											ImageViewActivity.this));
-
-							mVideoPlayerWrapper.setMuted(muteByDefault);
-
-							final int iconMuted = R.drawable.ic_volume_off_white_24dp;
-							final int iconUnmuted = R.drawable.ic_volume_up_white_24dp;
-
-							if(mImageInfo != null
-									&& mImageInfo.hasAudio
-									!= ImageInfo.HasAudio.NO_AUDIO) {
-
-								final AtomicReference<ImageButton> muteButton
-										= new AtomicReference<>();
-								muteButton.set(addFloatingToolbarButton(
-										muteByDefault ? iconMuted : iconUnmuted,
-										new View.OnClickListener() {
-
-											@Override
-											public void onClick(final View view) {
-												final ImageButton button
-														= muteButton.get();
-
-												if(mVideoPlayerWrapper.isMuted()) {
-													mVideoPlayerWrapper.setMuted(false);
-													button.setImageResource(iconUnmuted);
-												} else {
-													mVideoPlayerWrapper.setMuted(true);
-													button.setImageResource(iconMuted);
-												}
-											}
-										}));
-							}
-
-						} catch(final OutOfMemoryError e) {
-							General.quickToast(
-									ImageViewActivity.this,
-									R.string.imageview_oom);
-							revertToWeb();
-
-						} catch(final Throwable e) {
-							General.quickToast(
-									ImageViewActivity.this,
-									R.string.imageview_invalid_video);
-							revertToWeb();
-						}
+					} catch(final Throwable e) {
+						General.quickToast(this, R.string.imageview_invalid_video);
+						revertToWeb();
 					}
 				}
 			});

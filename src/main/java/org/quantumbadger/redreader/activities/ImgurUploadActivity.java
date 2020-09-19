@@ -57,8 +57,6 @@ import java.util.UUID;
 
 public class ImgurUploadActivity extends BaseActivity {
 
-	private static final int REQUEST_CODE = 1;
-
 	private TextView mTextView;
 
 	private ImageView mThumbnailView;
@@ -103,25 +101,28 @@ public class ImgurUploadActivity extends BaseActivity {
 		layout.addView(mThumbnailView);
 		General.setAllMarginsDp(this, mThumbnailView, 20);
 
-		browseButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(final View v) {
-				final Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-				intent.setType("image/*");
-				startActivityForResult(intent, REQUEST_CODE);
-			}
+		browseButton.setOnClickListener(v -> {
+			final Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+			intent.setType("image/*");
+			startActivityForResultWithCallback(intent, (resultCode, data) -> {
+
+				if(data == null || data.getData() == null) {
+					return;
+				}
+
+				if(resultCode != RESULT_OK) {
+					return;
+				}
+
+				onImageSelected(data.getData());
+			});
 		});
 
-		mUploadButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(final View v) {
-				if(mBase64Data != null) {
-					uploadImage();
-				} else {
-					General.quickToast(
-							ImgurUploadActivity.this,
-							R.string.no_file_selected);
-				}
+		mUploadButton.setOnClickListener(v -> {
+			if(mBase64Data != null) {
+				uploadImage();
+			} else {
+				General.quickToast(this, R.string.no_file_selected);
 			}
 		});
 
@@ -166,30 +167,6 @@ public class ImgurUploadActivity extends BaseActivity {
 				mBase64Data != null
 						? View.VISIBLE
 						: View.GONE);
-
-	}
-
-	@Override
-	protected void onActivityResult(
-			final int requestCode,
-			final int result,
-			final Intent data) {
-
-		super.onActivityResult(requestCode, result, data);
-
-		if(data == null || data.getData() == null) {
-			return;
-		}
-
-		if(requestCode != REQUEST_CODE) {
-			return;
-		}
-
-		if(result != RESULT_OK) {
-			return;
-		}
-
-		onImageSelected(data.getData());
 	}
 
 	private void onImageSelected(final Uri uri) {

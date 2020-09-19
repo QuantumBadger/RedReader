@@ -22,14 +22,14 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
+import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -44,7 +44,7 @@ public class RedditPostHeaderView extends LinearLayout {
 	@Nullable private final Runnable mChangeListenerRemoveTask;
 
 	public RedditPostHeaderView(
-			final AppCompatActivity activity,
+			final BaseActivity activity,
 			final RedditPreparedPost post) {
 
 		super(activity);

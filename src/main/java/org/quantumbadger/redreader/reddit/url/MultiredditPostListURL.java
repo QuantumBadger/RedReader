@@ -83,10 +83,12 @@ public class MultiredditPostListURL extends PostListingURL {
 		this.after = after;
 	}
 
+	@Override
 	public MultiredditPostListURL after(final String newAfter) {
 		return new MultiredditPostListURL(username, name, order, limit, before, newAfter);
 	}
 
+	@Override
 	public MultiredditPostListURL limit(final Integer newLimit) {
 		return new MultiredditPostListURL(username, name, order, newLimit, before, after);
 	}
@@ -95,6 +97,7 @@ public class MultiredditPostListURL extends PostListingURL {
 		return new MultiredditPostListURL(username, name, newOrder, limit, before, after);
 	}
 
+	@Override
 	public PostSort getOrder() {
 		return order;
 	}

@@ -19,12 +19,12 @@ package org.quantumbadger.redreader.views;
 
 import android.graphics.Color;
 import android.preference.PreferenceManager;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
@@ -43,10 +43,10 @@ public class RedditInboxItemView extends LinearLayout {
 
 	private RedditRenderableInboxItem currentItem = null;
 
-	private final AppCompatActivity mActivity;
+	private final BaseActivity mActivity;
 
 	public RedditInboxItemView(
-			final AppCompatActivity activity,
+			final BaseActivity activity,
 			final RRThemeAttributes theme) {
 
 		super(activity);
@@ -93,24 +93,16 @@ public class RedditInboxItemView extends LinearLayout {
 				activity,
 				PreferenceManager.getDefaultSharedPreferences(activity));
 
-		setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(final View v) {
-				handleInboxClick(mActivity);
-			}
-		});
+		setOnClickListener(v -> handleInboxClick(mActivity));
 
-		setOnLongClickListener(new OnLongClickListener() {
-			@Override
-			public boolean onLongClick(final View v) {
-				handleInboxLongClick(mActivity);
-				return true;
-			}
+		setOnLongClickListener(v -> {
+			handleInboxLongClick(mActivity);
+			return true;
 		});
 	}
 
 	public void reset(
-			final AppCompatActivity context,
+			final BaseActivity context,
 			final RedditChangeDataManager changeDataManager,
 			final RRThemeAttributes theme,
 			final RedditRenderableInboxItem item,
@@ -132,13 +124,13 @@ public class RedditInboxItemView extends LinearLayout {
 		body.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
 	}
 
-	public void handleInboxClick(final AppCompatActivity activity) {
+	public void handleInboxClick(final BaseActivity activity) {
 		if(currentItem != null) {
 			currentItem.handleInboxClick(activity);
 		}
 	}
 
-	public void handleInboxLongClick(final AppCompatActivity activity) {
+	public void handleInboxLongClick(final BaseActivity activity) {
 		if(currentItem != null) {
 			currentItem.handleInboxLongClick(activity);
 		}

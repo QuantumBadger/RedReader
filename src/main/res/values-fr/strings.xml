@@ -749,8 +749,8 @@
     <string name="image_gallery">Galerie</string>
     <string name="action_search_posts">Rechercher des posts</string>
     <string name="pref_menus_appbar_items_never">Ne pas afficher</string>
-	<plurals name="load_more_comments_button_reply_count">
-		<item quantity="one">"Charger plus de commentaires (%d réponse)"</item>
-		<item quantity="other">"Charger plus de commentaires (%d réponses)"</item>
-	</plurals>
+    <plurals name="load_more_comments_button_reply_count">
+        <item quantity="one">"Charger plus de commentaires (%d réponse)"</item>
+        <item quantity="other">"Charger plus de commentaires (%d réponses)"</item>
+    </plurals>
 </resources>

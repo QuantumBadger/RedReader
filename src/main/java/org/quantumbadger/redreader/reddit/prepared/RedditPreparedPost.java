@@ -56,6 +56,7 @@ import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotC
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.BetterSSB;
 import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.FileUtils;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -63,7 +64,6 @@ import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.fragments.PostPropertiesDialog;
 import org.quantumbadger.redreader.fragments.ShareOrderDialog;
-import org.quantumbadger.redreader.image.LegacySaveImageCallback;
 import org.quantumbadger.redreader.image.ShareImageCallback;
 import org.quantumbadger.redreader.image.ThumbnailScaler;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
@@ -194,8 +194,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			final RedditPreparedPost post) {
 
 		final SharedPreferences sharedPreferences =
-				PreferenceManager.getDefaultSharedPreferences(
-						activity);
+				PreferenceManager.getDefaultSharedPreferences(activity);
 
 		final EnumSet<Action> itemPref
 				= PrefsUtility.pref_menus_post_context_items(activity, sharedPreferences);
@@ -603,10 +602,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			}
 
 			case SAVE_IMAGE: {
-
-				activity.requestPermissionWithCallback(
-						Manifest.permission.WRITE_EXTERNAL_STORAGE,
-						new LegacySaveImageCallback(activity, post.src.getUrl()));
+				FileUtils.saveImageAtUri(activity, post.src.getUrl());
 				break;
 			}
 

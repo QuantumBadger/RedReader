@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.adapters;
 
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -40,7 +41,6 @@ import org.quantumbadger.redreader.image.AlbumInfo;
 import org.quantumbadger.redreader.image.ImageInfo;
 import org.quantumbadger.redreader.viewholders.VH3TextIcon;
 
-import java.io.IOException;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -186,13 +186,12 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 						final UUID session,
 						final boolean fromCache,
 						final String mimetype) {
+
+					final Uri uri = cacheFile.getUri();
+
 					AndroidCommon.UI_THREAD_HANDLER.post(() -> {
-						try {
-							if(vh.bindingId == bindingId) {
-								vh.icon.setImageURI(cacheFile.getUri());
-							}
-						} catch(final IOException e) {
-							throw new RuntimeException(e);
+						if(vh.bindingId == bindingId) {
+							vh.icon.setImageURI(uri);
 						}
 					});
 				}

@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.common;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.StatFs;
 import android.preference.PreferenceManager;
@@ -41,6 +42,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.UUID;
 
 public class FileUtils {
@@ -109,9 +111,49 @@ public class FileUtils {
 						.putExtra(Intent.EXTRA_TITLE, filename)
 						.addCategory(Intent.CATEGORY_OPENABLE);
 
-				activity.startActivityForResult(
+				activity.startActivityForResultWithCallback(
 						intent,
-						42);
+						(resultCode, data) -> {
+
+							if(data == null || data.getData() == null) {
+								return;
+							}
+
+							new Thread(() -> {
+
+								try(InputStream inputStream = cacheFile.getInputStream()) {
+
+									try(OutputStream outputStream = activity.getContentResolver()
+											.openOutputStream(data.getData())) {
+
+										General.copyStream(inputStream, outputStream);
+										outputStream.flush();
+
+										General.quickToast(
+												activity,
+												R.string.action_save_image_success_no_path);
+
+									} catch(final IOException e) {
+										showUnexpectedStorageErrorDialog(
+												activity,
+												e,
+												data.getData().toString());
+									}
+
+								} catch(final IOException e) {
+
+									final Uri cacheFileUri = cacheFile.getUri();
+
+									showUnexpectedStorageErrorDialog(
+											activity,
+											e,
+											cacheFileUri != null
+													? cacheFileUri.toString()
+													: "null");
+								}
+
+							}).start();
+						});
 			});
 
 		} else {
@@ -119,6 +161,19 @@ public class FileUtils {
 					Manifest.permission.WRITE_EXTERNAL_STORAGE,
 					new LegacySaveImageCallback(activity, uri));
 		}
+	}
+
+	private static void showUnexpectedStorageErrorDialog(
+			@NonNull final BaseActivity activity,
+			@NonNull final Throwable throwable,
+			@NonNull final String uri) {
+
+		General.showResultDialog(activity, new RRError(
+				activity.getString(R.string.error_unexpected_storage_title),
+				activity.getString(R.string.error_unexpected_storage_message),
+				throwable,
+				null,
+				uri));
 	}
 
 	public interface DownloadImageToSaveSuccessCallback {

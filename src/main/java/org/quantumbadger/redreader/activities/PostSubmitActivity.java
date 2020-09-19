@@ -21,7 +21,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
 import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -35,6 +34,8 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -61,9 +62,6 @@ public class PostSubmitActivity extends BaseActivity {
 
 	private static final String[] postTypes = {"Link", "Self", "Upload to Imgur"};
 
-	private static final int
-			REQUEST_UPLOAD = 1;
-
 	private boolean mDraftReset = false;
 
 	private static int lastType;
@@ -87,16 +85,14 @@ public class PostSubmitActivity extends BaseActivity {
 				R.layout.post_submit,
 				null);
 
-		typeSpinner = (Spinner)layout.findViewById(R.id.post_submit_type);
-		usernameSpinner = (Spinner)layout.findViewById(R.id.post_submit_username);
-		subredditEdit = (EditText)layout.findViewById(R.id.post_submit_subreddit);
-		titleEdit = (EditText)layout.findViewById(R.id.post_submit_title);
-		textEdit = (EditText)layout.findViewById(R.id.post_submit_body);
-		sendRepliesToInboxCheckbox
-				= (CheckBox)layout.findViewById(R.id.post_submit_send_replies_to_inbox);
-		markAsNsfwCheckbox = (CheckBox)layout.findViewById(R.id.post_submit_mark_nsfw);
-		markAsSpoilerCheckbox
-				= (CheckBox)layout.findViewById(R.id.post_submit_mark_spoiler);
+		typeSpinner = layout.findViewById(R.id.post_submit_type);
+		usernameSpinner = layout.findViewById(R.id.post_submit_username);
+		subredditEdit = layout.findViewById(R.id.post_submit_subreddit);
+		titleEdit = layout.findViewById(R.id.post_submit_title);
+		textEdit = layout.findViewById(R.id.post_submit_body);
+		sendRepliesToInboxCheckbox = layout.findViewById(R.id.post_submit_send_replies_to_inbox);
+		markAsNsfwCheckbox = layout.findViewById(R.id.post_submit_mark_nsfw);
+		markAsSpoilerCheckbox = layout.findViewById(R.id.post_submit_mark_spoiler);
 
 		final Intent intent = getIntent();
 		if(intent != null) {
@@ -116,16 +112,16 @@ public class PostSubmitActivity extends BaseActivity {
 				textEdit.setText(url);
 			}
 
-		} else if(savedInstanceState != null && savedInstanceState.containsKey(
-				"post_title")) {
+		} else if(savedInstanceState != null && savedInstanceState.containsKey("post_title")) {
 			titleEdit.setText(savedInstanceState.getString("post_title"));
 			textEdit.setText(savedInstanceState.getString("post_body"));
 			subredditEdit.setText(savedInstanceState.getString("subreddit"));
 			typeSpinner.setSelection(savedInstanceState.getInt("post_type"));
 		}
 
-		final ArrayList<RedditAccount> accounts = RedditAccountManager.getInstance(this)
-				.getAccounts();
+		final ArrayList<RedditAccount> accounts
+				= RedditAccountManager.getInstance(this).getAccounts();
+
 		final ArrayList<String> usernames = new ArrayList<>();
 
 		for(final RedditAccount account : accounts) {
@@ -206,12 +202,17 @@ public class PostSubmitActivity extends BaseActivity {
 			typeSpinner.setSelection(0); // Link
 
 			final Intent intent = new Intent(this, ImgurUploadActivity.class);
-			startActivityForResult(intent, REQUEST_UPLOAD);
+
+			startActivityForResultWithCallback(intent, (resultCode, data) -> {
+				if(data != null && data.getData() != null) {
+					textEdit.setText(data.getData().toString());
+				}
+			});
 		}
 	}
 
 	@Override
-	protected void onSaveInstanceState(final Bundle outState) {
+	protected void onSaveInstanceState(@NonNull final Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putString("post_title", titleEdit.getText().toString());
 		outState.putString("post_body", textEdit.getText().toString());
@@ -418,22 +419,6 @@ public class PostSubmitActivity extends BaseActivity {
 
 		} else {
 			return super.onOptionsItemSelected(item);
-		}
-	}
-
-	@Override
-	protected void onActivityResult(
-			final int requestCode,
-			final int resultCode,
-			final Intent data) {
-
-		super.onActivityResult(requestCode, resultCode, data);
-
-		if(requestCode == REQUEST_UPLOAD) {
-
-			if(data != null && data.getData() != null) {
-				textEdit.setText(data.getData().toString());
-			}
 		}
 	}
 

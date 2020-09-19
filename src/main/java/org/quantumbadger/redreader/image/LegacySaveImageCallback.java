@@ -67,19 +67,6 @@ public class LegacySaveImageCallback implements BaseActivity.PermissionCallback 
 					}
 
 					try(InputStream cacheFileInputStream = cacheFile.getInputStream()) {
-						if(cacheFileInputStream == null) {
-
-							General.showResultDialog(
-									activity,
-									General.getGeneralErrorForFailure(
-											activity,
-											CacheRequest.REQUEST_FAILURE_CACHE_MISS,
-											new RuntimeException("Could not find cached image"),
-											null,
-											uri));
-							return;
-						}
-
 						FileUtils.copyFile(cacheFileInputStream, dst);
 
 					} catch(final IOException e) {

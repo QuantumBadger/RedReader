@@ -59,7 +59,6 @@ import org.quantumbadger.redreader.image.ImgurAPIV3;
 import org.quantumbadger.redreader.image.RedditGalleryAPI;
 import org.quantumbadger.redreader.image.RedditVideosAPI;
 import org.quantumbadger.redreader.image.RedgifsAPI;
-import org.quantumbadger.redreader.image.LegacySaveImageCallback;
 import org.quantumbadger.redreader.image.ShareImageCallback;
 import org.quantumbadger.redreader.image.StreamableAPI;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
@@ -420,9 +419,7 @@ public class LinkHandler {
 						new ShareImageCallback(activity, uri));
 				break;
 			case SAVE_IMAGE:
-				activity.requestPermissionWithCallback(
-						Manifest.permission.WRITE_EXTERNAL_STORAGE,
-						new LegacySaveImageCallback(activity, uri));
+				FileUtils.saveImageAtUri(activity, uri);
 				break;
 		}
 	}

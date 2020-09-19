@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.activities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -29,13 +30,12 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -52,7 +52,11 @@ public abstract class BaseActivity extends AppCompatActivity
 	private static boolean closingAll = false;
 
 	private final AtomicInteger mRequestIdGenerator = new AtomicInteger(10000);
+
 	private final HashMap<Integer, PermissionCallback> mPermissionRequestCallbacks
+			= new HashMap<>();
+
+	private final HashMap<Integer, ActivityResultCallback> mActivityResultCallbacks
 			= new HashMap<>();
 
 	private TextView mActionbarTitleTextView;
@@ -87,6 +91,10 @@ public abstract class BaseActivity extends AppCompatActivity
 		void onPermissionGranted();
 
 		void onPermissionDenied();
+	}
+
+	public interface ActivityResultCallback {
+		void onActivityResult(int resultCode, @Nullable Intent data);
 	}
 
 	public void closeAllExceptMain() {
@@ -142,17 +150,15 @@ public abstract class BaseActivity extends AppCompatActivity
 
 			if(!PrefsUtility.pref_appearance_bottom_toolbar(this, mSharedPreferences)) {
 				outerView = getLayoutInflater().inflate(R.layout.rr_actionbar, null);
-				toolbar = (Toolbar)outerView.findViewById(R.id.rr_actionbar_toolbar);
+				toolbar = outerView.findViewById(R.id.rr_actionbar_toolbar);
 				mContentView
-						= (FrameLayout)outerView.findViewById(R.id.rr_actionbar_content);
+						= outerView.findViewById(R.id.rr_actionbar_content);
 			} else {
 				outerView = getLayoutInflater().inflate(
 						R.layout.rr_actionbar_reverse,
 						null);
-				toolbar
-						= (Toolbar)outerView.findViewById(R.id.rr_actionbar_reverse_toolbar);
-				mContentView
-						= (FrameLayout)outerView.findViewById(R.id.rr_actionbar_reverse_content);
+				toolbar = outerView.findViewById(R.id.rr_actionbar_reverse_toolbar);
+				mContentView = outerView.findViewById(R.id.rr_actionbar_reverse_content);
 			}
 
 			super.setContentView(outerView);
@@ -163,11 +169,8 @@ public abstract class BaseActivity extends AppCompatActivity
 			getSupportActionBarOrThrow().setDisplayShowTitleEnabled(false);
 			toolbar.setContentInsetsAbsolute(0, 0);
 
-			mActionbarTitleTextView
-					= (TextView)toolbar.findViewById(R.id.actionbar_title_text);
-
-			mActionbarBackIconView
-					= (ImageView)toolbar.findViewById(R.id.actionbar_title_back_image);
+			mActionbarTitleTextView = toolbar.findViewById(R.id.actionbar_title_text);
+			mActionbarBackIconView = toolbar.findViewById(R.id.actionbar_title_back_image);
 			mActionbarTitleOuterView = toolbar.findViewById(R.id.actionbar_title_outer);
 
 			if(getTitle() != null) {
@@ -252,7 +255,7 @@ public abstract class BaseActivity extends AppCompatActivity
 		}
 	}
 
-	public void requestPermissionWithCallback(
+	public final void requestPermissionWithCallback(
 			@NonNull final String permission,
 			@NonNull final PermissionCallback callback) {
 
@@ -275,7 +278,7 @@ public abstract class BaseActivity extends AppCompatActivity
 	}
 
 	@Override
-	public void onRequestPermissionsResult(
+	public final void onRequestPermissionsResult(
 			final int requestCode,
 			@NonNull final String[] permissions,
 			@NonNull final int[] grantResults) {
@@ -283,17 +286,47 @@ public abstract class BaseActivity extends AppCompatActivity
 		final PermissionCallback callback
 				= mPermissionRequestCallbacks.remove(requestCode);
 
-		if(callback != null) {
-			if(permissions.length != 1) {
-				throw new RuntimeException("Unexpected permission result");
-			}
-
-			if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-				callback.onPermissionGranted();
-			} else {
-				callback.onPermissionDenied();
-			}
+		if(callback == null) {
+			throw new RuntimeException("No permission callback exists for code " + requestCode);
 		}
+
+		if(permissions.length != 1) {
+			throw new RuntimeException("Unexpected permission result");
+		}
+
+		if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+			callback.onPermissionGranted();
+		} else {
+			callback.onPermissionDenied();
+		}
+	}
+
+	public final void startActivityForResultWithCallback(
+			@NonNull final Intent intent,
+			@NonNull final ActivityResultCallback callback) {
+
+		final int requestCode = mRequestIdGenerator.incrementAndGet();
+		mActivityResultCallbacks.put(requestCode, callback);
+		startActivityForResult(intent, requestCode);
+	}
+
+	@Override
+	protected final void onActivityResult(
+			final int requestCode,
+			final int resultCode,
+			@Nullable final Intent data) {
+
+		super.onActivityResult(requestCode, resultCode, data);
+
+		final ActivityResultCallback callback
+				= mActivityResultCallbacks.remove(requestCode);
+
+		if(callback == null) {
+			throw new RuntimeException(
+					"No activity result callback exists for code " + requestCode);
+		}
+
+		callback.onActivityResult(resultCode, data);
 	}
 
 	private void setOrientationFromPrefs() {

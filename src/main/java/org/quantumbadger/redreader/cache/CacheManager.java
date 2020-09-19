@@ -24,6 +24,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.common.FileUtils;
@@ -35,6 +37,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -254,20 +257,16 @@ public final class CacheManager {
 			@SuppressWarnings("PMD.CloseResource") final OutputStream bufferedOs
 					= new BufferedOutputStream(fos, 64 * 1024);
 
-			final NotifyOutputStream.Listener listener
-					= new NotifyOutputStream.Listener() {
-				@Override
-				public void onClose() throws IOException {
+			final NotifyOutputStream.Listener listener= () -> {
 
-					cacheFileId = dbManager.newEntry(request, session, mimetype);
+				cacheFileId = dbManager.newEntry(request, session, mimetype);
 
-					final File dstFile = new File(location, cacheFileId + ext);
-					FileUtils.moveFile(tmpFile, dstFile);
+				final File dstFile = new File(location, cacheFileId + ext);
+				FileUtils.moveFile(tmpFile, dstFile);
 
-					dbManager.setEntryDone(cacheFileId);
+				dbManager.setEntryDone(cacheFileId);
 
-					readableCacheFile = new ReadableCacheFile(cacheFileId);
-				}
+				readableCacheFile = new ReadableCacheFile(cacheFileId);
 			};
 
 			this.os = new NotifyOutputStream(bufferedOs, listener);
@@ -303,29 +302,41 @@ public final class CacheManager {
 	public class ReadableCacheFile {
 
 		private final long id;
+		@Nullable private Uri mCachedUri;
 
 		private ReadableCacheFile(final long id) {
 			this.id = id;
 		}
 
+		@NonNull
 		public InputStream getInputStream() throws IOException {
-			return getCacheFileInputStream(id);
+
+			final InputStream result = getCacheFileInputStream(id);
+
+			if(result == null) {
+				throw new FileNotFoundException("Stream was null for id " + id);
+			}
+
+			return result;
 		}
 
-		public Uri getUri() throws IOException {
-			return getCacheFileUri(id);
+		@Nullable
+		public Uri getUri() {
+
+			if(mCachedUri == null) {
+				mCachedUri = getCacheFileUri(id);
+			}
+
+			return mCachedUri;
 		}
 
 		@Override
 		public String toString() {
 			return String.format(Locale.US, "[ReadableCacheFile : id %d]", id);
 		}
-
-		public long getSize() {
-			return getExistingCacheFile(id).length();
-		}
 	}
 
+	@NonNull
 	public WritableCacheFile openNewCacheFile(
 			final CacheRequest request,
 			final UUID session,
@@ -333,6 +344,7 @@ public final class CacheManager {
 		return new WritableCacheFile(request, session, mimetype);
 	}
 
+	@Nullable
 	private File getExistingCacheFile(final long id) {
 		final List<File> dirs = getCacheDirs(context);
 		for(final File dir : dirs) {
@@ -344,6 +356,7 @@ public final class CacheManager {
 		return null;
 	}
 
+	@Nullable
 	private InputStream getCacheFileInputStream(final long id) throws IOException {
 
 		final File cacheFile = getExistingCacheFile(id);
@@ -355,7 +368,8 @@ public final class CacheManager {
 		return new BufferedInputStream(new FileInputStream(cacheFile), 8 * 1024);
 	}
 
-	private Uri getCacheFileUri(final long id) throws IOException {
+	@Nullable
+	private Uri getCacheFileUri(final long id) {
 
 		final File cacheFile = getExistingCacheFile(id);
 

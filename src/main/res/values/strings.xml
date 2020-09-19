@@ -1302,4 +1302,7 @@
 		<item quantity="other">"Load more comments (%d replies)"</item>
 	</plurals>
 
+	<!-- 2020-09-19 -->
+	<string name="action_save_image_success_no_path">Image saved successfully</string>
+
 </resources>

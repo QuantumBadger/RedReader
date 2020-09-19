@@ -264,6 +264,8 @@ public final class CacheManager {
 				final File dstFile = new File(location, cacheFileId + ext);
 				FileUtils.moveFile(tmpFile, dstFile);
 
+				Log.i("RRDEBUG", "Completed cache file: " + dstFile.getAbsolutePath());
+
 				dbManager.setEntryDone(cacheFileId);
 
 				readableCacheFile = new ReadableCacheFile(cacheFileId);
@@ -328,6 +330,11 @@ public final class CacheManager {
 			}
 
 			return mCachedUri;
+		}
+
+		@Nullable
+		public File getFile() {
+			return getExistingCacheFile(id);
 		}
 
 		@Override

@@ -56,7 +56,7 @@
     <string name="pref_cache_precache_images_title">Přednačítat obrázky</string>
     <string name="pref_cache_precache_images_wifionly_title">Pouze na Wi-Fi</string>
     <!-- Menu Prefs -->
-    <string name="pref_menus_post_context_items_title">Položky nabídky dlouhého stisknutí</string>
+    <string name="pref_menus_post_context_items_title">Položky nabídky akcí</string>
     <string name="pref_menus_post_toolbar_items_title">Položky postranního panelu</string>
     <!-- Options Menu -->
     <string name="options_accounts">Účty</string>
@@ -515,7 +515,7 @@
     <!-- 2016-06-30 -->
     <string name="inbox_unread_only">Pouze nepřečtené zprávy</string>
     <!-- 2016-07-02 -->
-    <string name="pref_behaviour_actions_comment_longclick_title">"Dlouhý  stisk"</string>
+    <string name="pref_behaviour_actions_comment_longclick_title">Dlouhý stisk</string>
     <string name="no_comments_yet">Zatím žádný komentář.</string>
     <!-- 2016-07-09 -->
     <string name="pm_send_hint_recipient">Příjemce</string>
@@ -605,9 +605,9 @@
     <!-- 2017-02-23 -->
     <string name="action_back">Zpět</string>
     <!-- 2017-03-02 -->
-    <string name="pref_menus_link_context_items_title">Položky nabídky dlouhého stisku na odkaz</string>
+    <string name="pref_menus_link_context_items_title">Položky nabídky akcí s odkazy</string>
     <!-- 2017-03-07 -->
-    <string name="pref_menus_subreddit_context_items_title">Položky nabídky dlouhého stisku na subreddit</string>
+    <string name="pref_menus_subreddit_context_items_title">Položky nabídky akcí se subreddity</string>
     <string name="mainmenu_toast_not_subscribed">Zatím tento subreddit neodebíráte!</string>
     <string name="mainmenu_toast_subscribed">Tento subreddit již odebíráte!</string>
     <string name="mainmenu_toast_not_pinned">Tento subreddit není připíchnut k hlavnímu menu!</string>
@@ -744,8 +744,43 @@
     <string name="pref_appearance_fontscale_post_header_subtitles_title">Podtitulky otevřeného příspěvku</string>
     <string name="pref_appearance_fontscale_post_header_titles_title">Titulky otevřeného příspěvku</string>
     <string name="pref_appearance_fontscale_post_subtitles_title">Podtitulky příspěvku</string>
-	<plurals name="load_more_comments_button_reply_count">
-		<item quantity="few">Načti více komentářů (%d odpovědi)</item>
-		<item quantity="other">Načti více komentářů (%d odpovědí)</item>
-	</plurals>
+    <plurals name="load_more_comments_button_reply_count">
+        <item quantity="one">Načíst více komentářů (%d odpověď)</item>
+        <item quantity="few">Načíst více komentářů (%d odpovědi)</item>
+        <item quantity="other">Načíst více komentářů (%d odpovědí)</item>
+    </plurals>
+    <string name="copied_to_clipboard">Zkopírováno do schránky</string>
+    <string name="pref_menus_appbar_screen_title">Položky lišty akcí</string>
+    <string name="pref_menus_appbar_items_always">Vždy ukázat tlačítko</string>
+    <string name="pref_menus_appbar_items_if_room">Ukázat tlačítko pokud je místo</string>
+    <string name="pref_menus_appbar_items_overflow_only">Ukázat je v třípuntíkové nabídce</string>
+    <string name="pref_menus_appbar_items_never">Neukázat</string>
+    <string name="action_search_posts">Hledat v příspěvcích</string>
+    <string name="image_gallery">Galerie</string>
+    <string name="pref_appearance_post_show_comments_button_title">Ukázat tlačítko komentářů</string>
+    <string name="action_comments_with_count">Náhled komentáře (%d)</string>
+    <string name="pref_behaviour_user_postsort_title">Uživatelské příspěvky (výchozí)</string>
+    <string name="pref_behaviour_multi_postsort_title">Příspěvky multiredditů (výchozí)</string>
+    <string name="pref_behaviour_user_commentsort_title">Uživatelské komentáře (výchozí)</string>
+    <string name="sort_comments_top_hour">Top: Tato hodina</string>
+    <string name="sort_comments_top_today">Top: Dnes</string>
+    <string name="sort_comments_top_week">Top: Tento týden</string>
+    <string name="sort_comments_top_month">Top: Tento měsíc</string>
+    <string name="sort_comments_top_year">Top: Tento rok</string>
+    <string name="sort_comments_top_all">Top: Všechny</string>
+    <string name="pref_behaviour_video_zoom_default_title">Zaostřit do videí jako výchozí</string>
+    <string name="image_gallery_removed_title">Galerie odstraněna</string>
+    <string name="image_gallery_removed_message">Tato galerie byla odstraněn a není již přístupná.</string>
+    <string name="image_gallery_no_data_present_title">Galerie nenalezena</string>
+    <string name="image_gallery_no_data_present_message">Žádná galerie obrázků nebyla v zadaném odkazu nalezena. Možná byla odstraněna.</string>
+    <string name="button_error_details">Podrobnosti</string>
+    <string name="button_error_send_report">Hlášení</string>
+    <string name="image_gallery_no_image_present_title">Obrázek nenalezen</string>
+    <string name="image_gallery_no_image_present_message">Zadaný obrázek nebyl nalezen. Možná byl odstraněn.</string>
+    <string name="reddit_login_browser_popup_line_1">Za účelem přihlášení budete nyní v prohlížeči přesměrováni na Reddit.</string>
+    <string name="reddit_login_browser_popup_line_2">Po dokončení přihlášení byste měli být převedeni zpět do RedReader. Pokud se nepodaří přihlásit, můžete použít jiný prohlížeč pomocí checkboxu níže.</string>
+    <string name="reddit_login_browser_popup_use_internal_browser">Použít interní prohlížeč (doporučeno)</string>
+    <string name="reddit_login_browser_popup_use_external_browser">Použít externí prohlížeč (doporučeno)</string>
+    <string name="dialog_continue">Pokračovat</string>
+    <string name="link_does_not_exist">Tento odkaz neexistuje. Možná byl smazán.</string>
 </resources>

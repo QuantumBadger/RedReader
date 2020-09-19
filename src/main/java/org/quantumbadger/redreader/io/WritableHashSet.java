@@ -83,10 +83,12 @@ public class WritableHashSet implements WritableObject<String>, Iterable<String>
 		return (hashSet = new HashSet<>(escapedStringToList(serialised)));
 	}
 
+	@Override
 	public String getKey() {
 		return key;
 	}
 
+	@Override
 	public long getTimestamp() {
 		return timestamp;
 	}

@@ -155,6 +155,7 @@ public class CommentListingActivity extends RefreshableActivity
 		return true;
 	}
 
+	@Override
 	public void onRedditAccountChanged() {
 		requestRefresh(RefreshableFragment.ALL, false);
 	}
@@ -174,11 +175,13 @@ public class CommentListingActivity extends RefreshableActivity
 		invalidateOptionsMenu();
 	}
 
+	@Override
 	public void onRefreshComments() {
 		controller.setSession(null);
 		requestRefresh(RefreshableFragment.COMMENTS, true);
 	}
 
+	@Override
 	public void onPastComments() {
 		final SessionListDialog sessionListDialog = SessionListDialog.newInstance(
 				controller.getUri(),
@@ -187,11 +190,13 @@ public class CommentListingActivity extends RefreshableActivity
 		sessionListDialog.show(getSupportFragmentManager(), null);
 	}
 
+	@Override
 	public void onSortSelected(final PostCommentListingURL.Sort order) {
 		controller.setSort(order);
 		requestRefresh(RefreshableFragment.COMMENTS, false);
 	}
 
+	@Override
 	public void onSortSelected(final UserCommentListingURL.Sort order) {
 		controller.setSort(order);
 		requestRefresh(RefreshableFragment.COMMENTS, false);
@@ -218,15 +223,18 @@ public class CommentListingActivity extends RefreshableActivity
 		return super.onOptionsItemSelected(item);
 	}
 
+	@Override
 	public void onSessionRefreshSelected(final SessionChangeType type) {
 		onRefreshComments();
 	}
 
+	@Override
 	public void onSessionSelected(final UUID session, final SessionChangeType type) {
 		controller.setSession(session);
 		requestRefresh(RefreshableFragment.COMMENTS, false);
 	}
 
+	@Override
 	public void onSessionChanged(
 			final UUID session,
 			final SessionChangeType type,
@@ -240,10 +248,12 @@ public class CommentListingActivity extends RefreshableActivity
 		controller.setSession(session);
 	}
 
+	@Override
 	public void onPostSelected(final RedditPreparedPost post) {
 		LinkHandler.onLinkClicked(this, post.src.getUrl(), false, post.src.getSrc());
 	}
 
+	@Override
 	public void onPostCommentsSelected(final RedditPreparedPost post) {
 		LinkHandler.onLinkClicked(
 				this,

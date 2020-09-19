@@ -63,6 +63,7 @@ public class SideToolbarOverlay extends FrameLayout {
 		removeAllViews();
 	}
 
+	@Override
 	public boolean isShown() {
 		return shownPosition != null;
 	}

@@ -344,6 +344,7 @@ public final class JsonBufferedObject extends JsonBuffered
 		}
 	}
 
+	@Override
 	public Iterator<Map.Entry<String, JsonValue>> iterator() {
 		try {
 			join();

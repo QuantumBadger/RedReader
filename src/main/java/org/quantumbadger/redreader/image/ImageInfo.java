@@ -406,10 +406,12 @@ public class ImageInfo implements Parcelable {
 
 	public static final Parcelable.Creator<ImageInfo> CREATOR
 			= new Parcelable.Creator<ImageInfo>() {
+		@Override
 		public ImageInfo createFromParcel(final Parcel in) {
 			return new ImageInfo(in);
 		}
 
+		@Override
 		public ImageInfo[] newArray(final int size) {
 			return new ImageInfo[size];
 		}

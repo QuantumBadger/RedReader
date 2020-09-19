@@ -211,10 +211,12 @@ public class RedditAPIIndividualSubredditDataRequester implements
 		}
 	}
 
+	@Override
 	public void performWrite(final RedditSubreddit value) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public void performWrite(final Collection<RedditSubreddit> values) {
 		throw new UnsupportedOperationException();
 	}

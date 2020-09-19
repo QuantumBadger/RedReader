@@ -336,6 +336,7 @@ public class CommentListingFragment extends RRFragment
 						return true;
 					}
 
+					@Override
 					public boolean onTap() {
 
 						if(toolbarOverlay.isShown()) {
@@ -761,10 +762,12 @@ public class CommentListingFragment extends RRFragment
 		}
 	}
 
+	@Override
 	public void onPostSelected(final RedditPreparedPost post) {
 		((RedditPostView.PostSelectionListener)getActivity()).onPostSelected(post);
 	}
 
+	@Override
 	public void onPostCommentsSelected(final RedditPreparedPost post) {
 		((RedditPostView.PostSelectionListener)getActivity()).onPostCommentsSelected(post);
 	}

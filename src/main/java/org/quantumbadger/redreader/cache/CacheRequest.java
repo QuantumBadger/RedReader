@@ -222,6 +222,7 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 		}
 	}
 
+	@Override
 	public int compareTo(final CacheRequest another) {
 		return isHigherPriorityThan(another)
 				? -1

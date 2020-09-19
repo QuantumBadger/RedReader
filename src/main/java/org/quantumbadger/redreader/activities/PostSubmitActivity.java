@@ -163,6 +163,7 @@ public class PostSubmitActivity extends BaseActivity {
 		setHint();
 
 		typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			@Override
 			public void onItemSelected(
 					final AdapterView<?> parent,
 					final View view,
@@ -171,6 +172,7 @@ public class PostSubmitActivity extends BaseActivity {
 				setHint();
 			}
 
+			@Override
 			public void onNothingSelected(final AdapterView<?> parent) {
 			}
 		});
@@ -274,6 +276,7 @@ public class PostSubmitActivity extends BaseActivity {
 				progressDialog.setCanceledOnTouchOutside(false);
 
 				progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+					@Override
 					public void onCancel(final DialogInterface dialogInterface) {
 						General.quickToast(
 								PostSubmitActivity.this,
@@ -283,6 +286,7 @@ public class PostSubmitActivity extends BaseActivity {
 				});
 
 				progressDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+					@Override
 					public boolean onKey(
 							final DialogInterface dialogInterface,
 							final int keyCode,

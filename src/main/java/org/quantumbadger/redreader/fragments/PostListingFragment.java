@@ -483,6 +483,7 @@ public class PostListingFragment extends RRFragment
 	}
 
 
+	@Override
 	public void onPostSelected(final RedditPreparedPost post) {
 		((RedditPostView.PostSelectionListener)getActivity()).onPostSelected(post);
 
@@ -494,6 +495,7 @@ public class PostListingFragment extends RRFragment
 		}.start();
 	}
 
+	@Override
 	public void onPostCommentsSelected(final RedditPreparedPost post) {
 
 		((RedditPostView.PostSelectionListener)getActivity()).onPostCommentsSelected(post);

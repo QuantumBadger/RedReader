@@ -93,10 +93,12 @@ public class SubredditPostListURL extends PostListingURL {
 		this.after = after;
 	}
 
+	@Override
 	public SubredditPostListURL after(final String newAfter) {
 		return new SubredditPostListURL(type, subreddit, order, limit, before, newAfter);
 	}
 
+	@Override
 	public SubredditPostListURL limit(final Integer newLimit) {
 		return new SubredditPostListURL(type, subreddit, order, newLimit, before, after);
 	}
@@ -105,6 +107,7 @@ public class SubredditPostListURL extends PostListingURL {
 		return new SubredditPostListURL(type, subreddit, newOrder, limit, before, after);
 	}
 
+	@Override
 	public PostSort getOrder() {
 		return order;
 	}

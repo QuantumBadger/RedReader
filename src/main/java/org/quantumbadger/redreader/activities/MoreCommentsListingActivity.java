@@ -125,6 +125,7 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 		return true;
 	}
 
+	@Override
 	public void onRedditAccountChanged() {
 		requestRefresh(RefreshableFragment.ALL, false);
 	}
@@ -152,6 +153,7 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 		setTitle("More Comments");
 	}
 
+	@Override
 	public void onRefreshComments() {
 		requestRefresh(RefreshableFragment.COMMENTS, true);
 	}
@@ -192,10 +194,12 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 		return super.onOptionsItemSelected(item);
 	}
 
+	@Override
 	public void onPostSelected(final RedditPreparedPost post) {
 		LinkHandler.onLinkClicked(this, post.src.getUrl(), false, post.src.getSrc());
 	}
 
+	@Override
 	public void onPostCommentsSelected(final RedditPreparedPost post) {
 		LinkHandler.onLinkClicked(
 				this,

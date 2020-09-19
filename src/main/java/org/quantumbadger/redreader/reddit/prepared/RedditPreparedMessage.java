@@ -32,14 +32,11 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.CommentReplyActivity;
 import org.quantumbadger.redreader.common.BetterSSB;
-import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
 import org.quantumbadger.redreader.reddit.prepared.html.HtmlReader;
 import org.quantumbadger.redreader.reddit.things.RedditMessage;
-
-import java.util.HashSet;
 
 public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 

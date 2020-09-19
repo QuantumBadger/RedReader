@@ -22,6 +22,7 @@ import org.quantumbadger.redreader.common.collections.WeakReferenceListManager;
 public class UpdatedVersionListenerNotifier<K, V extends WritableObject<K>>
 		implements WeakReferenceListManager.ArgOperator<UpdatedVersionListener<K, V>, V> {
 
+	@Override
 	public void operate(final UpdatedVersionListener<K, V> listener, final V data) {
 		listener.onUpdatedVersion(data);
 	}

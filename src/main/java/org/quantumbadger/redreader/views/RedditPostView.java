@@ -26,9 +26,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
-import androidx.annotation.NonNull;
-import androidx.annotation.UiThread;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +33,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.annotation.UiThread;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -132,7 +131,7 @@ public final class RedditPostView extends FlingableItemView
 				mRightFlingAction.action);
 	}
 
-	private final class ActionDescriptionPair {
+	private static final class ActionDescriptionPair {
 		public final RedditPreparedPost.Action action;
 		public final int descriptionRes;
 
@@ -232,7 +231,7 @@ public final class RedditPostView extends FlingableItemView
 
 		thumbnailHandler = new Handler(Looper.getMainLooper()) {
 			@Override
-			public void handleMessage(final Message msg) {
+			public void handleMessage(@NonNull final Message msg) {
 				if(usageId != msg.what) {
 					return;
 				}
@@ -283,7 +282,7 @@ public final class RedditPostView extends FlingableItemView
 		}
 
 		if(leftHandedMode) {
-			final ArrayList<View> outerViewElements = new ArrayList<View>(3);
+			final ArrayList<View> outerViewElements = new ArrayList<>(3);
 			for(int i = mOuterView.getChildCount() - 1; i >= 0; i--) {
 				outerViewElements.add(mOuterView.getChildAt(i));
 				mOuterView.removeViewAt(i);
@@ -304,12 +303,7 @@ public final class RedditPostView extends FlingableItemView
 		}
 
 		if(mCommentsButtonPref) {
-			commentsButton.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(final View v) {
-					fragmentParent.onPostCommentsSelected(post);
-				}
-			});
+			commentsButton.setOnClickListener(v -> fragmentParent.onPostCommentsSelected(post));
 		}
 
 		title.setTextSize(
@@ -432,6 +426,7 @@ public final class RedditPostView extends FlingableItemView
 		}
 	}
 
+	@Override
 	public void betterThumbnailAvailable(
 			final Bitmap thumbnail,
 			final int callbackUsageId) {

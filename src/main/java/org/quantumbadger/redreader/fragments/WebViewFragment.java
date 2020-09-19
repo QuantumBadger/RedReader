@@ -486,10 +486,12 @@ public class WebViewFragment extends Fragment
 		return false;
 	}
 
+	@Override
 	public void onPostSelected(final RedditPreparedPost post) {
 		((RedditPostView.PostSelectionListener)mActivity).onPostSelected(post);
 	}
 
+	@Override
 	public void onPostCommentsSelected(final RedditPreparedPost post) {
 		((RedditPostView.PostSelectionListener)mActivity).onPostCommentsSelected(post);
 	}

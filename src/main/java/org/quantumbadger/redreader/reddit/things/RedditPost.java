@@ -139,10 +139,12 @@ public final class RedditPost implements Parcelable, RedditThingWithIdAndType {
 		rr_internal_dash_url = in.readString();
 	}
 
+	@Override
 	public int describeContents() {
 		return 0;
 	}
 
+	@Override
 	public void writeToParcel(final Parcel parcel, final int flags) {
 
 		parcel.writeString(id);
@@ -199,10 +201,12 @@ public final class RedditPost implements Parcelable, RedditThingWithIdAndType {
 
 	public static final Parcelable.Creator<RedditPost> CREATOR
 			= new Parcelable.Creator<RedditPost>() {
+		@Override
 		public RedditPost createFromParcel(final Parcel in) {
 			return new RedditPost(in);
 		}
 
+		@Override
 		public RedditPost[] newArray(final int size) {
 			return new RedditPost[size];
 		}

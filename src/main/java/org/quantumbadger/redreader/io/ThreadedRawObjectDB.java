@@ -78,6 +78,7 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 		}
 	}
 
+	@Override
 	public void performRequest(
 			final K key, final TimestampBound timestampBound,
 			final RequestResponseHandler<V, F> handler) {
@@ -86,6 +87,7 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 		readThread.trigger();
 	}
 
+	@Override
 	public void performRequest(
 			final Collection<K> keys, final TimestampBound timestampBound,
 			final RequestResponseHandler<HashMap<K, V>, F> handler) {
@@ -94,6 +96,7 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 		readThread.trigger();
 	}
 
+	@Override
 	public void performWrite(final V value) {
 
 		synchronized(toWrite) {
@@ -103,6 +106,7 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 		writeThread.trigger();
 	}
 
+	@Override
 	public void performWrite(final Collection<V> values) {
 
 		synchronized(toWrite) {
@@ -181,10 +185,12 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 					keys,
 					timestampBound,
 					new RequestResponseHandler<HashMap<K, V>, F>() {
+						@Override
 						public void onRequestFailed(final F failureReason) {
 							responseHandler.onRequestFailed(failureReason);
 						}
 
+						@Override
 						public void onRequestSuccess(
 								final HashMap<K, V> result,
 								final long timeCached) {
@@ -237,10 +243,12 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 					key,
 					timestampBound,
 					new RequestResponseHandler<V, F>() {
+						@Override
 						public void onRequestFailed(final F failureReason) {
 							responseHandler.onRequestFailed(failureReason);
 						}
 
+						@Override
 						public void onRequestSuccess(final V result, final long timeCached) {
 							performWrite(result);
 							responseHandler.onRequestSuccess(result, timeCached);

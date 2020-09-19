@@ -78,10 +78,12 @@ public class WebViewActivity extends BaseActivity
 		}
 	}
 
+	@Override
 	public void onPostSelected(final RedditPreparedPost post) {
 		LinkHandler.onLinkClicked(this, post.src.getUrl(), false, post.src.getSrc());
 	}
 
+	@Override
 	public void onPostCommentsSelected(final RedditPreparedPost post) {
 		LinkHandler.onLinkClicked(
 				this,

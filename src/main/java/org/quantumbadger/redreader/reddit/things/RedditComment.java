@@ -104,6 +104,7 @@ public final class RedditComment implements Parcelable, RedditThingWithIdAndType
 		distinguished = in.readString();
 	}
 
+	@Override
 	public void writeToParcel(final Parcel parcel, final int flags) {
 
 		parcel.writeString(body);
@@ -186,16 +187,19 @@ public final class RedditComment implements Parcelable, RedditThingWithIdAndType
 		}
 	}
 
+	@Override
 	public int describeContents() {
 		return 0;
 	}
 
 	public static final Parcelable.Creator<RedditComment> CREATOR
 			= new Parcelable.Creator<RedditComment>() {
+		@Override
 		public RedditComment createFromParcel(final Parcel in) {
 			return new RedditComment(in);
 		}
 
+		@Override
 		public RedditComment[] newArray(final int size) {
 			return new RedditComment[size];
 		}

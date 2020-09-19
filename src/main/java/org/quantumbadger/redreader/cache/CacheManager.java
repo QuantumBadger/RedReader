@@ -256,6 +256,7 @@ public final class CacheManager {
 
 			final NotifyOutputStream.Listener listener
 					= new NotifyOutputStream.Listener() {
+				@Override
 				public void onClose() throws IOException {
 
 					cacheFileId = dbManager.newEntry(request, session, mimetype);

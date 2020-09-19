@@ -36,6 +36,7 @@ import java.util.regex.Pattern;
 public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>,
 		WritableObject<SubredditCanonicalId> {
 
+	@Override
 	public SubredditCanonicalId getKey() {
 		try {
 			return getCanonicalId();
@@ -47,6 +48,7 @@ public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>,
 		}
 	}
 
+	@Override
 	public long getTimestamp() {
 		return downloadTime;
 	}
@@ -94,10 +96,12 @@ public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>,
 		return new SubredditCanonicalId(url);
 	}
 
+	@Override
 	public int describeContents() {
 		return 0;
 	}
 
+	@Override
 	public void writeToParcel(final Parcel out, final int flags) {
 		out.writeString(header_img);
 		out.writeString(header_title);
@@ -153,15 +157,18 @@ public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>,
 
 	public static final Parcelable.Creator<RedditSubreddit> CREATOR
 			= new Parcelable.Creator<RedditSubreddit>() {
+		@Override
 		public RedditSubreddit createFromParcel(final Parcel in) {
 			return new RedditSubreddit(in);
 		}
 
+		@Override
 		public RedditSubreddit[] newArray(final int size) {
 			return new RedditSubreddit[size];
 		}
 	};
 
+	@Override
 	public int compareTo(final RedditSubreddit another) {
 		return General.asciiLowercase(display_name)
 				.compareTo(General.asciiLowercase(another.display_name));

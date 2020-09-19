@@ -159,6 +159,7 @@ public class RedditMultiredditSubscriptionManager {
 	private class MultiredditListChangeNotifier
 			implements WeakReferenceListManager.Operator<MultiredditListChangeListener> {
 
+		@Override
 		public void operate(final MultiredditListChangeListener listener) {
 			listener.onMultiredditListUpdated(
 					RedditMultiredditSubscriptionManager.this);

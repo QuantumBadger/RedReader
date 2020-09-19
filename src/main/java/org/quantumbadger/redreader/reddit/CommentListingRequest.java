@@ -23,7 +23,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import androidx.annotation.UiThread;
-import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.SessionChangeListener;

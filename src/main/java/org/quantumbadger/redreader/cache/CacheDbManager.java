@@ -23,7 +23,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import org.quantumbadger.redreader.activities.BugReportActivity;
+import androidx.annotation.NonNull;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.RRTime;
 
 import java.io.IOException;
@@ -31,14 +32,16 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
 final class CacheDbManager extends SQLiteOpenHelper {
 
 	private static final String CACHE_DB_FILENAME = "cache.db",
-			TABLE = "web",
+			TABLE = "web";
+
+	public static final String
 			FIELD_URL = "url",
 			FIELD_ID = "id",
 			FIELD_TIMESTAMP = "timestamp",
@@ -52,11 +55,8 @@ final class CacheDbManager extends SQLiteOpenHelper {
 
 	private static final int CACHE_DB_VERSION = 1;
 
-	private final Context context;
-
 	CacheDbManager(final Context context) {
 		super(context, CACHE_DB_FILENAME, null, CACHE_DB_VERSION);
-		this.context = context;
 	}
 
 	@Override
@@ -96,22 +96,35 @@ final class CacheDbManager extends SQLiteOpenHelper {
 				"Attempt to upgrade database in first version of the app!");
 	}
 
-	synchronized LinkedList<CacheEntry> select(
+	synchronized Optional<CacheEntry> selectById(final long id) {
+
+		final SQLiteDatabase db = getReadableDatabase();
+
+		try(Cursor cursor = db.query(
+				TABLE,
+				CacheEntry.DB_FIELDS,
+				String.format(Locale.US, "%s=?", FIELD_ID),
+				new String[] {String.valueOf(id)},
+				null,
+				null,
+				FIELD_TIMESTAMP + " DESC")) {
+
+			final List<CacheEntry> entries = readEntriesFromCursor(cursor);
+
+			if(entries.isEmpty()) {
+				return Optional.empty();
+			} else {
+				return Optional.of(entries.get(0));
+			}
+		}
+	}
+
+	synchronized List<CacheEntry> select(
 			final URI url,
 			final String user,
 			final UUID session) {
 
-		final String[] fields = {
-				FIELD_ID,
-				FIELD_URL,
-				FIELD_USER,
-				FIELD_SESSION,
-				FIELD_TIMESTAMP,
-				FIELD_STATUS,
-				FIELD_TYPE,
-				FIELD_MIMETYPE};
-
-		final SQLiteDatabase db = this.getReadableDatabase();
+		final SQLiteDatabase db = getReadableDatabase();
 
 		final String queryString;
 		final String[] queryParams;
@@ -138,28 +151,27 @@ final class CacheDbManager extends SQLiteOpenHelper {
 			queryParams = new String[] {url.toString(), user, session.toString()};
 		}
 
-		final Cursor cursor = db.query(
+		try(Cursor cursor = db.query(
 				TABLE,
-				fields,
+				CacheEntry.DB_FIELDS,
 				queryString,
 				queryParams,
 				null,
 				null,
-				FIELD_TIMESTAMP + " DESC");
+				FIELD_TIMESTAMP + " DESC")) {
 
-		final LinkedList<CacheEntry> result = new LinkedList<>();
-
-		// TODO can this even happen?
-		if(cursor == null) {
-			BugReportActivity.handleGlobalError(context, "Cursor was null after query");
-			return null;
+			return readEntriesFromCursor(cursor);
 		}
+	}
+
+	@NonNull
+	private List<CacheEntry> readEntriesFromCursor(@NonNull final Cursor cursor) {
+
+		final ArrayList<CacheEntry> result = new ArrayList<>();
 
 		while(cursor.moveToNext()) {
 			result.add(new CacheEntry(cursor));
 		}
-
-		cursor.close();
 
 		return result;
 	}
@@ -206,14 +218,6 @@ final class CacheDbManager extends SQLiteOpenHelper {
 	synchronized int delete(final long id) {
 		final SQLiteDatabase db = this.getWritableDatabase();
 		return db.delete(TABLE, FIELD_ID + "=?", new String[] {String.valueOf(id)});
-	}
-
-	protected synchronized int deleteAllBeforeTimestamp(final long timestamp) {
-		final SQLiteDatabase db = this.getWritableDatabase();
-		return db.delete(
-				TABLE,
-				FIELD_TIMESTAMP + "<?",
-				new String[] {String.valueOf(timestamp)});
 	}
 
 	public synchronized ArrayList<Long> getFilesToPrune(

@@ -17,7 +17,6 @@
 
 package org.quantumbadger.redreader.common;
 
-import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
@@ -59,7 +58,6 @@ import org.quantumbadger.redreader.image.ImgurAPIV3;
 import org.quantumbadger.redreader.image.RedditGalleryAPI;
 import org.quantumbadger.redreader.image.RedditVideosAPI;
 import org.quantumbadger.redreader.image.RedgifsAPI;
-import org.quantumbadger.redreader.image.ShareImageCallback;
 import org.quantumbadger.redreader.image.StreamableAPI;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
@@ -414,9 +412,7 @@ public class LinkHandler {
 				}
 				break;
 			case SHARE_IMAGE:
-				activity.requestPermissionWithCallback(
-						Manifest.permission.WRITE_EXTERNAL_STORAGE,
-						new ShareImageCallback(activity, uri));
+				FileUtils.shareImageAtUri(activity, uri);
 				break;
 			case SAVE_IMAGE:
 				FileUtils.saveImageAtUri(activity, uri);
@@ -1037,7 +1033,7 @@ public class LinkHandler {
 
 	private static ImageInfo getImageUrlPatternMatch(final String url) {
 
-		final String urlLower = General.asciiLowercase(url);
+		final String urlLower = StringUtils.asciiLowercase(url);
 
 		{
 			final Matcher matchRedditUploads = reddituploadsPattern.matcher(url);

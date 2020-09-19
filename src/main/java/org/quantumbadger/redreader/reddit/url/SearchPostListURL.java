@@ -22,6 +22,7 @@ import android.net.Uri;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.reddit.PostSort;
 
 import java.util.ArrayList;
@@ -115,7 +116,7 @@ public class SearchPostListURL extends PostListingURL {
 				case COMMENTS:
 					builder.appendQueryParameter(
 							"sort",
-							General.asciiLowercase(order.name()));
+							StringUtils.asciiLowercase(order.name()));
 					break;
 			}
 		}
@@ -188,8 +189,8 @@ public class SearchPostListURL extends PostListingURL {
 					new ArrayList<>(pathSegmentsList.size());
 			for(String segment : pathSegmentsList) {
 
-				while(General.asciiLowercase(segment).endsWith(".json")
-						|| General.asciiLowercase(segment).endsWith(".xml")) {
+				while(StringUtils.asciiLowercase(segment).endsWith(".json")
+						|| StringUtils.asciiLowercase(segment).endsWith(".xml")) {
 					segment = segment.substring(0, segment.lastIndexOf('.'));
 				}
 

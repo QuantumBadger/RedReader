@@ -26,14 +26,15 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDialogFragment;
-import android.widget.ListView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.adapters.ShareOrderAdapter;
 import org.quantumbadger.redreader.adapters.ShareOrderCallbackListener;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.StringUtils;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -152,6 +153,6 @@ public class ShareOrderDialog extends AppCompatDialogFragment
 		PrefsUtility.pref_behaviour_sharing_dialog_data_set(
 				context,
 				PreferenceManager.getDefaultSharedPreferences(context),
-				General.join(priorityAppList, ";"));
+				StringUtils.join(priorityAppList, ";"));
 	}
 }

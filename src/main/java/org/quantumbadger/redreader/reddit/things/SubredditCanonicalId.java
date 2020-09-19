@@ -19,7 +19,7 @@ package org.quantumbadger.redreader.reddit.things;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.StringUtils;
 
 public class SubredditCanonicalId implements Comparable<SubredditCanonicalId> {
 
@@ -31,9 +31,9 @@ public class SubredditCanonicalId implements Comparable<SubredditCanonicalId> {
 		final String userSr = RedditSubreddit.stripUserPrefix(name);
 
 		if(userSr != null) {
-			mId = "/user/" + General.asciiLowercase(userSr);
+			mId = "/user/" + StringUtils.asciiLowercase(userSr);
 		} else {
-			mId = "/r/" + General.asciiLowercase(RedditSubreddit.stripRPrefix(name));
+			mId = "/r/" + StringUtils.asciiLowercase(RedditSubreddit.stripRPrefix(name));
 		}
 	}
 

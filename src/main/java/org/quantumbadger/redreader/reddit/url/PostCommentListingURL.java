@@ -22,6 +22,7 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -154,8 +155,8 @@ public class PostCommentListingURL extends CommentListingURL {
 					pathSegmentsList.size());
 			for(String segment : pathSegmentsList) {
 
-				while(General.asciiLowercase(segment).endsWith(".json")
-						|| General.asciiLowercase(segment).endsWith(".xml")) {
+				while(StringUtils.asciiLowercase(segment).endsWith(".json")
+						|| StringUtils.asciiLowercase(segment).endsWith(".xml")) {
 					segment = segment.substring(0, segment.lastIndexOf('.'));
 				}
 
@@ -263,7 +264,7 @@ public class PostCommentListingURL extends CommentListingURL {
 
 		public static Sort lookup(String name) {
 
-			name = General.asciiUppercase(name);
+			name = StringUtils.asciiUppercase(name);
 
 			if(name.equals("CONFIDENCE")) {
 				return BEST; // oh, reddit...

@@ -17,7 +17,6 @@
 
 package org.quantumbadger.redreader.reddit.prepared;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -64,7 +63,6 @@ import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.fragments.PostPropertiesDialog;
 import org.quantumbadger.redreader.fragments.ShareOrderDialog;
-import org.quantumbadger.redreader.image.ShareImageCallback;
 import org.quantumbadger.redreader.image.ThumbnailScaler;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
@@ -667,11 +665,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			}
 
 			case SHARE_IMAGE: {
-
-				activity.requestPermissionWithCallback(
-						Manifest.permission.WRITE_EXTERNAL_STORAGE,
-						new ShareImageCallback(activity, post.src.getUrl()));
-
+				FileUtils.shareImageAtUri(activity, post.src.getUrl());
 				break;
 			}
 

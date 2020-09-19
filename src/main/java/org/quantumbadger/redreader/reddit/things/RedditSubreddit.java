@@ -24,8 +24,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import org.apache.commons.text.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.HtmlViewActivity;
-import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
 import org.quantumbadger.redreader.io.WritableObject;
 
@@ -170,8 +170,8 @@ public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>,
 
 	@Override
 	public int compareTo(final RedditSubreddit another) {
-		return General.asciiLowercase(display_name)
-				.compareTo(General.asciiLowercase(another.display_name));
+		return StringUtils.asciiLowercase(display_name)
+				.compareTo(StringUtils.asciiLowercase(another.display_name));
 	}
 
 	public String getSidebarHtml(final boolean nightMode) {

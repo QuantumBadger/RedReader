@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.common;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -37,7 +38,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Toast;
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BugReportActivity;
@@ -56,7 +57,6 @@ import java.net.URI;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Locale;
@@ -66,6 +66,7 @@ import java.util.regex.Pattern;
 
 public final class General {
 
+	@SuppressWarnings("CharsetObjectCanBeUsed")
 	public static final Charset CHARSET_UTF8 = Charset.forName("UTF-8");
 
 	public static final String LTR_OVERRIDE_MARK = "\u202D";
@@ -151,25 +152,18 @@ public final class General {
 		quickToast(context, context.getString(textRes));
 	}
 
+	@SuppressLint("ShowToast")
 	public static void quickToast(final Context context, final String text) {
-		AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-			@Override
-			public void run() {
-				Toast.makeText(context, text, Toast.LENGTH_LONG).show();
-			}
-		});
+		AndroidCommon.UI_THREAD_HANDLER.post(
+				Toast.makeText(context, text, Toast.LENGTH_LONG)::show);
 	}
 
+	@SuppressLint("ShowToast")
 	public static void quickToast(
 			final Context context,
 			final String text,
 			final int duration) {
-		AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-			@Override
-			public void run() {
-				Toast.makeText(context, text, duration).show();
-			}
-		});
+		AndroidCommon.UI_THREAD_HANDLER.post(Toast.makeText(context, text, duration)::show);
 	}
 
 	public static boolean isTablet(
@@ -338,6 +332,7 @@ public final class General {
 		switch(type) {
 
 			case INVALID_USER:
+			case NOTALLOWED:
 				title = R.string.error_403_title;
 				message = R.string.error_403_message;
 				break;
@@ -345,11 +340,6 @@ public final class General {
 			case BAD_CAPTCHA:
 				title = R.string.error_bad_captcha_title;
 				message = R.string.error_bad_captcha_message;
-				break;
-
-			case NOTALLOWED:
-				title = R.string.error_403_title;
-				message = R.string.error_403_message;
 				break;
 
 			case SUBREDDIT_REQUIRED:
@@ -429,6 +419,7 @@ public final class General {
 		return filename;
 	}
 
+	@Nullable
 	public static URI uriFromString(final String url) {
 
 		try {
@@ -436,8 +427,6 @@ public final class General {
 
 		} catch(final Throwable t1) {
 			try {
-
-				Log.i("RR DEBUG uri", "Beginning aggressive parse of '" + url + "'");
 
 				final Matcher urlMatcher = urlPattern.matcher(url);
 
@@ -553,35 +542,6 @@ public final class General {
 		return result;
 	}
 
-	public static String asciiUppercase(final String input) {
-
-		final char[] chars = input.toCharArray();
-
-		for(int i = 0; i < chars.length; i++) {
-			if(chars[i] >= 'a' && chars[i] <= 'z') {
-				chars[i] -= 'a';
-				chars[i] += 'A';
-			}
-		}
-
-		return new String(chars);
-	}
-
-	@NonNull
-	public static String asciiLowercase(@NonNull final String input) {
-
-		final char[] chars = input.toCharArray();
-
-		for(int i = 0; i < chars.length; i++) {
-			if(chars[i] >= 'A' && chars[i] <= 'Z') {
-				chars[i] -= 'A';
-				chars[i] += 'a';
-			}
-		}
-
-		return new String(chars);
-	}
-
 	public static void copyStream(final InputStream in, final OutputStream out) throws
 			IOException {
 
@@ -686,25 +646,6 @@ public final class General {
 		} catch(final IOException e) {
 			Log.e("closeSafely", "Failed to close resource", e);
 		}
-	}
-
-	public static String join(final Collection<?> elements, final String separator) {
-
-		final StringBuilder result = new StringBuilder();
-
-		boolean first = true;
-
-		for(final Object element : elements) {
-
-			if(!first) {
-				result.append(separator);
-			}
-
-			result.append(element.toString());
-			first = false;
-		}
-
-		return result.toString();
 	}
 
 	public static void showMustBeLoggedInDialog(final AppCompatActivity activity) {

@@ -20,7 +20,7 @@ package org.quantumbadger.redreader.reddit;
 import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.StringUtils;
 
 public enum PostSort {
 	HOT,
@@ -43,7 +43,7 @@ public enum PostSort {
 	public static PostSort valueOfOrNull(@NonNull final String string) {
 
 		try {
-			return valueOf(General.asciiUppercase(string));
+			return valueOf(StringUtils.asciiUppercase(string));
 		} catch(final IllegalArgumentException e) {
 			return null;
 		}
@@ -56,8 +56,8 @@ public enum PostSort {
 			return null;
 		}
 
-		sort = General.asciiLowercase(sort);
-		t = t != null ? General.asciiLowercase(t) : null;
+		sort = StringUtils.asciiLowercase(sort);
+		t = t != null ? StringUtils.asciiLowercase(t) : null;
 
 		if(sort.equals("hot")) {
 			return HOT;
@@ -105,7 +105,7 @@ public enum PostSort {
 			case HOT:
 			case NEW:
 			case CONTROVERSIAL:
-				builder.appendQueryParameter("sort", General.asciiLowercase(name()));
+				builder.appendQueryParameter("sort", StringUtils.asciiLowercase(name()));
 				break;
 
 			case TOP_HOUR:
@@ -115,8 +115,8 @@ public enum PostSort {
 			case TOP_YEAR:
 			case TOP_ALL:
 				final String[] parts = name().split("_");
-				builder.appendQueryParameter("sort", General.asciiLowercase(parts[0]));
-				builder.appendQueryParameter("t", General.asciiLowercase(parts[1]));
+				builder.appendQueryParameter("sort", StringUtils.asciiLowercase(parts[0]));
+				builder.appendQueryParameter("t", StringUtils.asciiLowercase(parts[1]));
 				break;
 		}
 	}
@@ -129,7 +129,7 @@ public enum PostSort {
 			case RISING:
 			case CONTROVERSIAL:
 			case BEST:
-				builder.appendEncodedPath(General.asciiLowercase(name()));
+				builder.appendEncodedPath(StringUtils.asciiLowercase(name()));
 				break;
 
 			case TOP_HOUR:
@@ -141,7 +141,7 @@ public enum PostSort {
 				builder.appendEncodedPath("top");
 				builder.appendQueryParameter(
 						"t",
-						General.asciiLowercase(name().split("_")[1]));
+						StringUtils.asciiLowercase(name().split("_")[1]));
 				break;
 		}
 	}

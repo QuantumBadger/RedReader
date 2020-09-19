@@ -287,7 +287,7 @@ public abstract class BaseActivity extends AppCompatActivity
 				= mPermissionRequestCallbacks.remove(requestCode);
 
 		if(callback == null) {
-			throw new RuntimeException("No permission callback exists for code " + requestCode);
+			return;
 		}
 
 		if(permissions.length != 1) {
@@ -322,8 +322,7 @@ public abstract class BaseActivity extends AppCompatActivity
 				= mActivityResultCallbacks.remove(requestCode);
 
 		if(callback == null) {
-			throw new RuntimeException(
-					"No activity result callback exists for code " + requestCode);
+			return;
 		}
 
 		callback.onActivityResult(resultCode, data);

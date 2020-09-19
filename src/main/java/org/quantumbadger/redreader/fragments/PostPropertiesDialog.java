@@ -19,10 +19,12 @@ package org.quantumbadger.redreader.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.widget.LinearLayout;
 import org.apache.commons.text.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 
@@ -45,7 +47,9 @@ public final class PostPropertiesDialog extends PropertiesDialog {
 	}
 
 	@Override
-	protected void prepare(final AppCompatActivity context, final LinearLayout items) {
+	protected void prepare(
+			@NonNull final BaseActivity context,
+			@NonNull final LinearLayout items) {
 
 		final RedditPost post = getArguments().getParcelable("post");
 

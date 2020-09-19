@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ScrollView;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.common.General;
 
 public class BodyElementSpoilerButton extends BodyElementBaseButton {
@@ -43,7 +44,7 @@ public class BodyElementSpoilerButton extends BodyElementBaseButton {
 	@NonNull
 	@Override
 	protected View.OnClickListener generateOnClickListener(
-			@NonNull final AppCompatActivity activity,
+			@NonNull final BaseActivity activity,
 			@Nullable final Integer textColor,
 			@Nullable final Float textSize,
 			final boolean showLinkButtons) {
@@ -81,7 +82,7 @@ public class BodyElementSpoilerButton extends BodyElementBaseButton {
 	@Nullable
 	@Override
 	protected View.OnLongClickListener generateOnLongClickListener(
-			@NonNull final AppCompatActivity activity,
+			@NonNull final BaseActivity activity,
 			@Nullable final Integer textColor,
 			@Nullable final Float textSize,
 			final boolean showLinkButtons) {

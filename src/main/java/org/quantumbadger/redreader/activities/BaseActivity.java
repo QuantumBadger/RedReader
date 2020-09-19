@@ -51,7 +51,7 @@ public abstract class BaseActivity extends AppCompatActivity
 
 	private static boolean closingAll = false;
 
-	private final AtomicInteger mPermissionRequestIdGenerator = new AtomicInteger();
+	private final AtomicInteger mRequestIdGenerator = new AtomicInteger(10000);
 	private final HashMap<Integer, PermissionCallback> mPermissionRequestCallbacks
 			= new HashMap<>();
 
@@ -264,7 +264,7 @@ public abstract class BaseActivity extends AppCompatActivity
 				callback.onPermissionGranted();
 
 			} else {
-				final int requestCode = mPermissionRequestIdGenerator.incrementAndGet();
+				final int requestCode = mRequestIdGenerator.incrementAndGet();
 				mPermissionRequestCallbacks.put(requestCode, callback);
 				requestPermissions(new String[] {permission}, requestCode);
 			}

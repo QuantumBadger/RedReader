@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.views.LinkDetailsView;
 import org.quantumbadger.redreader.views.LinkifiedTextView;
@@ -39,7 +40,7 @@ public final class MarkdownParagraphGroup {
 	}
 
 	public ViewGroup buildView(
-			final AppCompatActivity activity,
+			final BaseActivity activity,
 			final Integer textColor,
 			final Float textSize,
 			final boolean showLinkButtons) {
@@ -231,18 +232,11 @@ public final class MarkdownParagraphGroup {
 							linkMarginPx);
 					ldv.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
 
-					ldv.setOnClickListener(new View.OnClickListener() {
-						@Override
-						public void onClick(final View v) {
-							link.onClicked(activity);
-						}
-					});
-					ldv.setOnLongClickListener(new View.OnLongClickListener() {
-						@Override
-						public boolean onLongClick(final View v) {
-							link.onLongClicked(activity);
-							return true;
-						}
+					ldv.setOnClickListener(v -> link.onClicked(activity));
+
+					ldv.setOnLongClickListener(v -> {
+						link.onLongClicked(activity);
+						return true;
 					});
 				}
 			}

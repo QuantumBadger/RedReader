@@ -30,6 +30,7 @@ import android.text.style.StyleSpan;
 import android.text.style.SuperscriptSpan;
 import android.text.style.TypefaceSpan;
 import android.view.View;
+import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.views.LinkifiedTextView;
 
@@ -59,11 +60,11 @@ public final class MarkdownParagraph {
 			this.url = url;
 		}
 
-		public void onClicked(final AppCompatActivity activity) {
+		public void onClicked(final BaseActivity activity) {
 			LinkHandler.onLinkClicked(activity, url, false);
 		}
 
-		public void onLongClicked(final AppCompatActivity activity) {
+		public void onLongClicked(final BaseActivity activity) {
 			LinkHandler.onLinkLongClicked(activity, url);
 		}
 	}

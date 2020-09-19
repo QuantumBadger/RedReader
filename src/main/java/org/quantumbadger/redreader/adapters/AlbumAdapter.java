@@ -27,6 +27,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
+import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached;
@@ -46,10 +47,10 @@ import java.util.UUID;
 
 public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 
-	private final AppCompatActivity activity;
+	private final BaseActivity activity;
 	private final AlbumInfo albumInfo;
 
-	public AlbumAdapter(final AppCompatActivity activity, final AlbumInfo albumInfo) {
+	public AlbumAdapter(final BaseActivity activity, final AlbumInfo albumInfo) {
 		this.activity = activity;
 		this.albumInfo = albumInfo;
 	}

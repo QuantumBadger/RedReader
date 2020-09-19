@@ -39,6 +39,7 @@ import org.apache.commons.text.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
+import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.activities.OptionsMenuUtility;
 import org.quantumbadger.redreader.activities.SessionChangeListener;
@@ -52,6 +53,7 @@ import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfTime
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyNever;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.FileUtils;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -735,27 +737,23 @@ public class PostListingFragment extends RRFragment
 				final UUID session,
 				final boolean fromCache) {
 
-			final AppCompatActivity activity = getActivity();
+			final BaseActivity activity = (BaseActivity)getActivity();
 
 			// One hour (matches default refresh value)
 			if(firstDownload && fromCache && RRTime.since(timestamp) > 60 * 60 * 1000) {
-				AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-					@Override
-					public void run() {
+				AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 
-						final TextView cacheNotif = (TextView)LayoutInflater.from(
-								getActivity())
-								.inflate(
-										R.layout.cached_header,
-										null,
-										false);
+					final TextView cacheNotif
+							= (TextView)LayoutInflater.from(activity).inflate(
+									R.layout.cached_header,
+									null,
+									false);
 
-						cacheNotif.setText(getActivity().getString(
-								R.string.listing_cached,
-								RRTime.formatDateTime(timestamp, getActivity())));
+					cacheNotif.setText(getActivity().getString(
+							R.string.listing_cached,
+							RRTime.formatDateTime(timestamp, getActivity())));
 
-						mPostListingManager.addNotification(cacheNotif);
-					}
+					mPostListingManager.addNotification(cacheNotif);
 				});
 			} // TODO resuming a copy
 
@@ -808,66 +806,61 @@ public class PostListingFragment extends RRFragment
 						activity,
 						mSharedPreferences);
 
-				final boolean precacheImages = (imagePrecachePref
-						== PrefsUtility.CachePrecacheImages.ALWAYS
-						|| (imagePrecachePref
-						== PrefsUtility.CachePrecacheImages.WIFIONLY
-						&& isConnectionWifi))
-						&& !General.isCacheDiskFull(activity);
+				final boolean precacheImages
+						= (imagePrecachePref == PrefsUtility.CachePrecacheImages.ALWAYS
+								|| (imagePrecachePref == PrefsUtility.CachePrecacheImages.WIFIONLY
+								&& isConnectionWifi))
+						&& !FileUtils.isCacheDiskFull(activity);
 
-				final boolean precacheComments = (commentPrecachePref
-						== PrefsUtility.CachePrecacheComments.ALWAYS
-						|| (commentPrecachePref
-						== PrefsUtility.CachePrecacheComments.WIFIONLY
+				final boolean precacheComments
+						= (commentPrecachePref == PrefsUtility.CachePrecacheComments.ALWAYS
+								|| (commentPrecachePref
+										== PrefsUtility.CachePrecacheComments.WIFIONLY
 						&& isConnectionWifi));
 
 				final PrefsUtility.ImageViewMode imageViewMode
 						= PrefsUtility.pref_behaviour_imageview_mode(
-						activity,
-						mSharedPreferences);
+								activity,
+								mSharedPreferences);
 
 				final PrefsUtility.GifViewMode gifViewMode
 						= PrefsUtility.pref_behaviour_gifview_mode(
-						activity,
-						mSharedPreferences);
+								activity,
+								mSharedPreferences);
 
 				final PrefsUtility.VideoViewMode videoViewMode
 						= PrefsUtility.pref_behaviour_videoview_mode(
-						activity,
-						mSharedPreferences);
+								activity,
+								mSharedPreferences);
 
-				final boolean leftHandedMode
-						= PrefsUtility.pref_appearance_left_handed(
+				final boolean leftHandedMode = PrefsUtility.pref_appearance_left_handed(
 						activity,
 						mSharedPreferences);
 
 				final boolean subredditFilteringEnabled =
-						mPostListingURL.pathType()
-								== RedditURLParser.SUBREDDIT_POST_LISTING_URL
+						mPostListingURL.pathType() == RedditURLParser.SUBREDDIT_POST_LISTING_URL
 								&& (mPostListingURL.asSubredditPostListURL().type
-								== SubredditPostListURL.Type.ALL
+										== SubredditPostListURL.Type.ALL
 								|| mPostListingURL.asSubredditPostListURL().type
-								== SubredditPostListURL.Type.ALL_SUBTRACTION
+										== SubredditPostListURL.Type.ALL_SUBTRACTION
 								|| mPostListingURL.asSubredditPostListURL().type
-								== SubredditPostListURL.Type.POPULAR);
+										== SubredditPostListURL.Type.POPULAR);
 
 				// Grab this so we don't have to pull from the prefs every post
 				final HashSet<SubredditCanonicalId> blockedSubreddits
 						= new HashSet<>(PrefsUtility.pref_blocked_subreddits(
-						activity,
-						mSharedPreferences));
+								activity,
+								mSharedPreferences));
 
 				Log.i(TAG, "Precaching images: " + (precacheImages ? "ON" : "OFF"));
 				Log.i(TAG, "Precaching comments: " + (precacheComments ? "ON" : "OFF"));
 
 				final CacheManager cm = CacheManager.getInstance(activity);
 
-				final boolean showSubredditName
-						= !(mPostListingURL != null
-						&& mPostListingURL.pathType()
-						== RedditURLParser.SUBREDDIT_POST_LISTING_URL
+				final boolean showSubredditName = !(mPostListingURL != null
+						&& mPostListingURL.pathType() == RedditURLParser.SUBREDDIT_POST_LISTING_URL
 						&& mPostListingURL.asSubredditPostListURL().type
-						== SubredditPostListURL.Type.SUBREDDIT);
+								== SubredditPostListURL.Type.SUBREDDIT);
 
 				final ArrayList<RedditPostListItem> downloadedPosts = new ArrayList<>(25);
 
@@ -885,16 +878,14 @@ public class PostListingFragment extends RRFragment
 					mAfter = post.name;
 
 					final boolean isPostBlocked = subredditFilteringEnabled
-							&& blockedSubreddits.contains(new SubredditCanonicalId(
-							post.subreddit));
+							&& blockedSubreddits.contains(new SubredditCanonicalId(post.subreddit));
 
 					if(!isPostBlocked
 							&& (!post.over_18 || isNsfwAllowed)
 							&& mPostIds.add(post.getIdAlone())) {
 
-						final boolean downloadThisThumbnail = downloadThumbnails
-								&& (!post.over_18
-								|| showNsfwThumbnails);
+						final boolean downloadThisThumbnail
+								= downloadThumbnails && (!post.over_18 || showNsfwThumbnails);
 
 						final int positionInList = mPostCount;
 
@@ -1085,18 +1076,15 @@ public class PostListingFragment extends RRFragment
 					}
 				}
 
-				AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-					@Override
-					public void run() {
+				AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 
-						mPostListingManager.addPosts(downloadedPosts);
-						mPostListingManager.setLoadingVisible(false);
-						onPostsAdded();
+					mPostListingManager.addPosts(downloadedPosts);
+					mPostListingManager.setLoadingVisible(false);
+					onPostsAdded();
 
-						mRequest = null;
-						mReadyToDownloadMore = true;
-						onLoadMoreItemsCheck();
-					}
+					mRequest = null;
+					mReadyToDownloadMore = true;
+					onLoadMoreItemsCheck();
 				});
 
 			} catch(final Throwable t) {

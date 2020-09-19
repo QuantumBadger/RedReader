@@ -24,7 +24,6 @@ import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ResolveInfo;
@@ -60,7 +59,7 @@ import org.quantumbadger.redreader.image.ImgurAPIV3;
 import org.quantumbadger.redreader.image.RedditGalleryAPI;
 import org.quantumbadger.redreader.image.RedditVideosAPI;
 import org.quantumbadger.redreader.image.RedgifsAPI;
-import org.quantumbadger.redreader.image.SaveImageCallback;
+import org.quantumbadger.redreader.image.LegacySaveImageCallback;
 import org.quantumbadger.redreader.image.ShareImageCallback;
 import org.quantumbadger.redreader.image.StreamableAPI;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
@@ -309,12 +308,12 @@ public class LinkHandler {
 
 	}
 
-	public static void onLinkLongClicked(final AppCompatActivity activity, final String uri) {
+	public static void onLinkLongClicked(final BaseActivity activity, final String uri) {
 		onLinkLongClicked(activity, uri, false);
 	}
 
 	public static void onLinkLongClicked(
-			final AppCompatActivity activity,
+			final BaseActivity activity,
 			final String uri,
 			final boolean forceNoImage) {
 		if(uri == null) {
@@ -371,12 +370,8 @@ public class LinkHandler {
 
 		final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
-		builder.setItems(menuText, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(final DialogInterface dialog, final int which) {
-				onActionMenuItemSelected(uri, activity, menu.get(which).action);
-			}
-		});
+		builder.setItems(menuText,
+				(dialog, which) -> onActionMenuItemSelected(uri, activity, menu.get(which).action));
 
 		//builder.setNeutralButton(R.string.dialog_cancel, null);
 
@@ -387,7 +382,7 @@ public class LinkHandler {
 
 	public static void onActionMenuItemSelected(
 			final String uri,
-			final AppCompatActivity activity,
+			final BaseActivity activity,
 			final LinkAction action) {
 		switch(action) {
 			case SHARE:
@@ -420,14 +415,14 @@ public class LinkHandler {
 				}
 				break;
 			case SHARE_IMAGE:
-				((BaseActivity)activity).requestPermissionWithCallback(
+				activity.requestPermissionWithCallback(
 						Manifest.permission.WRITE_EXTERNAL_STORAGE,
 						new ShareImageCallback(activity, uri));
 				break;
 			case SAVE_IMAGE:
-				((BaseActivity)activity).requestPermissionWithCallback(
+				activity.requestPermissionWithCallback(
 						Manifest.permission.WRITE_EXTERNAL_STORAGE,
-						new SaveImageCallback(activity, uri));
+						new LegacySaveImageCallback(activity, uri));
 				break;
 		}
 	}

@@ -22,6 +22,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -29,6 +30,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
+import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.activities.PMSendActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -75,7 +77,9 @@ public class UserProfileDialog extends PropertiesDialog {
 	}
 
 	@Override
-	public final void prepare(final AppCompatActivity context, final LinearLayout items) {
+	protected void prepare(
+			@NonNull final BaseActivity context,
+			@NonNull final LinearLayout items) {
 
 		final LoadingView loadingView = new LoadingView(
 				context,

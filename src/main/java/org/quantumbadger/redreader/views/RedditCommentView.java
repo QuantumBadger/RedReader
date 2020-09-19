@@ -19,9 +19,6 @@ package org.quantumbadger.redreader.views;
 
 import android.content.Context;
 import android.preference.PreferenceManager;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,8 +26,11 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
+import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
@@ -47,7 +47,7 @@ public class RedditCommentView extends FlingableItemView
 
 	private RedditCommentListItem mComment;
 
-	private final AppCompatActivity mActivity;
+	private final BaseActivity mActivity;
 	private final RedditChangeDataManager mChangeDataManager;
 	private final RRThemeAttributes mTheme;
 
@@ -266,7 +266,7 @@ public class RedditCommentView extends FlingableItemView
 	}
 
 	public RedditCommentView(
-			final AppCompatActivity context,
+			final BaseActivity context,
 			final RRThemeAttributes themeAttributes,
 			final CommentListener listener,
 			final CommentListingFragment fragment) {
@@ -329,13 +329,13 @@ public class RedditCommentView extends FlingableItemView
 	}
 
 	public void reset(
-			final AppCompatActivity activity,
+			final BaseActivity activity,
 			final RedditCommentListItem comment) {
 		reset(activity, comment, false);
 	}
 
 	public void reset(
-			final AppCompatActivity activity,
+			final BaseActivity activity,
 			final RedditCommentListItem comment,
 			final boolean updateOnly) {
 

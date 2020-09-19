@@ -26,7 +26,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
-import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.FileUtils;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.PrioritisedCachedThreadPool;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
@@ -261,7 +261,7 @@ public final class CacheManager {
 					cacheFileId = dbManager.newEntry(request, session, mimetype);
 
 					final File dstFile = new File(location, cacheFileId + ext);
-					General.moveFile(tmpFile, dstFile);
+					FileUtils.moveFile(tmpFile, dstFile);
 
 					dbManager.setEntryDone(cacheFileId);
 

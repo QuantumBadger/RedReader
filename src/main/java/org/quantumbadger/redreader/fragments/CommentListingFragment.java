@@ -44,6 +44,7 @@ import android.widget.TextView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
+import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.activities.CommentReplyActivity;
 import org.quantumbadger.redreader.activities.OptionsMenuUtility;
@@ -325,7 +326,7 @@ public class CommentListingFragment extends RRFragment
 						}
 
 						toolbarOverlay.setContents(mPost.generateToolbar(
-								getActivity(),
+								(BaseActivity)getActivity(),
 								true,
 								toolbarOverlay));
 						toolbarOverlay.show(edge == BezelSwipeOverlay.LEFT
@@ -414,7 +415,7 @@ public class CommentListingFragment extends RRFragment
 			new CommentListingRequest(
 					context,
 					this,
-					getActivity(),
+					(BaseActivity)getActivity(),
 					mUrlsToDownload.getFirst(),
 					mAllUrls.size() == 1,
 					mUrlsToDownload.getFirst(),
@@ -520,17 +521,17 @@ public class CommentListingFragment extends RRFragment
 	@Override
 	public void onCommentListingRequestPostDownloaded(final RedditPreparedPost post) {
 
-		final Context context = getActivity();
+		final BaseActivity activity = (BaseActivity)getActivity();
 
 		if(mPost == null) {
 
-			final RRThemeAttributes attr = new RRThemeAttributes(context);
+			final RRThemeAttributes attr = new RRThemeAttributes(activity);
 
 			mPost = post;
 			isArchived = post.isArchived;
 
 			final RedditPostHeaderView postHeader = new RedditPostHeaderView(
-					getActivity(),
+					activity,
 					this.mPost);
 
 			mCommentListingManager.addPostHeader(postHeader);
@@ -541,7 +542,7 @@ public class CommentListingFragment extends RRFragment
 
 			if(post.src.getSelfText() != null) {
 				final View selfText = post.src.getSelfText().generateView(
-						getActivity(),
+						activity,
 						attr.rrMainTextCol,
 						13f * mSelfTextFontScale,
 						mShowLinkButtons);
@@ -552,11 +553,11 @@ public class CommentListingFragment extends RRFragment
 							ViewGroup.FOCUS_BLOCK_DESCENDANTS);
 				}
 
-				final int paddingPx = General.dpToPixels(context, 10);
-				final FrameLayout paddingLayout = new FrameLayout(context);
-				final TextView collapsedView = new TextView(context);
+				final int paddingPx = General.dpToPixels(activity, 10);
+				final FrameLayout paddingLayout = new FrameLayout(activity);
+				final TextView collapsedView = new TextView(activity);
 				collapsedView.setText("[ + ]  "
-						+ getActivity().getString(R.string.collapsed_self_post));
+						+ activity.getString(R.string.collapsed_self_post));
 				collapsedView.setVisibility(View.GONE);
 				collapsedView.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
 				paddingLayout.addView(selfText);
@@ -565,8 +566,8 @@ public class CommentListingFragment extends RRFragment
 
 				final PrefsUtility.SelfpostAction actionOnClick
 						= PrefsUtility.pref_behaviour_self_post_tap_actions(
-						context,
-						PreferenceManager.getDefaultSharedPreferences(context));
+								activity,
+								PreferenceManager.getDefaultSharedPreferences(activity));
 				if(actionOnClick == PrefsUtility.SelfpostAction.COLLAPSE) {
 					paddingLayout.setOnClickListener(new View.OnClickListener() {
 						@Override
@@ -583,12 +584,9 @@ public class CommentListingFragment extends RRFragment
 					});
 				}
 
-				paddingLayout.setOnLongClickListener(new View.OnLongClickListener() {
-					@Override
-					public boolean onLongClick(final View v) {
-						RedditPreparedPost.showActionMenu(getActivity(), mPost);
-						return true;
-					}
+				paddingLayout.setOnLongClickListener(v -> {
+					RedditPreparedPost.showActionMenu(activity, mPost);
+					return true;
 				});
 				// TODO mListHeaderNotifications.setBackgroundColor(Color.argb(35, 128, 128, 128));
 
@@ -596,28 +594,27 @@ public class CommentListingFragment extends RRFragment
 			}
 
 			if(!General.isTablet(
-					context,
-					PreferenceManager.getDefaultSharedPreferences(context))) {
-				getActivity().setTitle(post.src.getTitle());
+					activity,
+					PreferenceManager.getDefaultSharedPreferences(activity))) {
+				activity.setTitle(post.src.getTitle());
 			}
 
 			if(mCommentListingManager.isSearchListing()) {
 				final CommentSubThreadView searchCommentThreadView
 						= new CommentSubThreadView(
-						getActivity(),
+						activity,
 						mAllUrls.get(0).asPostCommentListURL(),
 						R.string.comment_header_search_thread_title
 				);
 
 				mCommentListingManager.addNotification(searchCommentThreadView);
 			} else if(!mAllUrls.isEmpty()
-					&& mAllUrls.get(0).pathType()
-					== RedditURLParser.POST_COMMENT_LISTING_URL
+					&& mAllUrls.get(0).pathType() == RedditURLParser.POST_COMMENT_LISTING_URL
 					&& mAllUrls.get(0).asPostCommentListURL().commentId != null) {
 
 				final CommentSubThreadView specificCommentThreadView
 						= new CommentSubThreadView(
-						getActivity(),
+						activity,
 						mAllUrls.get(0).asPostCommentListURL(),
 						R.string.comment_header_specific_thread_title);
 
@@ -628,14 +625,13 @@ public class CommentListingFragment extends RRFragment
 			if(mCachedTimestamp != null
 					&& RRTime.since(mCachedTimestamp) > 30 * 60 * 1000) {
 
-				final TextView cacheNotif = (TextView)LayoutInflater.from(getActivity())
-						.inflate(
-								R.layout.cached_header,
-								null,
-								false);
-				cacheNotif.setText(getActivity().getString(
+				final TextView cacheNotif = (TextView)LayoutInflater.from(activity).inflate(
+						R.layout.cached_header,
+						null,
+						false);
+				cacheNotif.setText(activity.getString(
 						R.string.listing_cached,
-						RRTime.formatDateTime(mCachedTimestamp, getActivity())));
+						RRTime.formatDateTime(mCachedTimestamp, activity)));
 				mCommentListingManager.addNotification(cacheNotif);
 			}
 		}

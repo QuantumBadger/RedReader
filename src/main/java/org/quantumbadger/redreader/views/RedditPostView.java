@@ -37,6 +37,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
@@ -61,7 +62,7 @@ public final class RedditPostView extends FlingableItemView
 
 	private final Handler thumbnailHandler;
 
-	private final AppCompatActivity mActivity;
+	private final BaseActivity mActivity;
 
 	private final PrefsUtility.PostFlingAction mLeftFlingPref, mRightFlingPref;
 	private ActionDescriptionPair mLeftFlingAction, mRightFlingAction;
@@ -223,7 +224,7 @@ public final class RedditPostView extends FlingableItemView
 	public RedditPostView(
 			final Context context,
 			final PostListingFragment fragmentParent,
-			final AppCompatActivity activity,
+			final BaseActivity activity,
 			final boolean leftHandedMode) {
 
 		super(context);
@@ -251,28 +252,20 @@ public final class RedditPostView extends FlingableItemView
 		final View rootView =
 				LayoutInflater.from(context).inflate(R.layout.reddit_post, this, true);
 
-		mOuterView = (LinearLayout)rootView.findViewById(R.id.reddit_post_layout);
+		mOuterView = rootView.findViewById(R.id.reddit_post_layout);
 
-		mOuterView.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(final View v) {
-				fragmentParent.onPostSelected(post);
-			}
+		mOuterView.setOnClickListener(v -> fragmentParent.onPostSelected(post));
+
+		mOuterView.setOnLongClickListener(v -> {
+			RedditPreparedPost.showActionMenu(mActivity, post);
+			return true;
 		});
 
-		mOuterView.setOnLongClickListener(new OnLongClickListener() {
-			@Override
-			public boolean onLongClick(final View v) {
-				RedditPreparedPost.showActionMenu(mActivity, post);
-				return true;
-			}
-		});
+		thumbnailView = rootView.findViewById(R.id.reddit_post_thumbnail_view);
+		overlayIcon = rootView.findViewById(R.id.reddit_post_overlay_icon);
 
-		thumbnailView = (ImageView)rootView.findViewById(R.id.reddit_post_thumbnail_view);
-		overlayIcon = (ImageView)rootView.findViewById(R.id.reddit_post_overlay_icon);
-
-		title = (TextView)rootView.findViewById(R.id.reddit_post_title);
-		subtitle = (TextView)rootView.findViewById(R.id.reddit_post_subtitle);
+		title = rootView.findViewById(R.id.reddit_post_title);
+		subtitle = rootView.findViewById(R.id.reddit_post_subtitle);
 
 		final SharedPreferences sharedPreferences =
 				PreferenceManager.getDefaultSharedPreferences(context);
@@ -281,9 +274,9 @@ public final class RedditPostView extends FlingableItemView
 				PrefsUtility.appearance_post_show_comments_button(context, sharedPreferences);
 
 		commentsButton =
-				(LinearLayout)rootView.findViewById(R.id.reddit_post_comments_button);
+				rootView.findViewById(R.id.reddit_post_comments_button);
 		commentsText =
-				(TextView)commentsButton.findViewById(R.id.reddit_post_comments_text);
+				commentsButton.findViewById(R.id.reddit_post_comments_text);
 
 		if(!mCommentsButtonPref) {
 			mOuterView.removeView(commentsButton);

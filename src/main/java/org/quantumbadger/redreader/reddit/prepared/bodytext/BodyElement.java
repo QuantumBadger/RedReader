@@ -17,10 +17,10 @@
 
 package org.quantumbadger.redreader.reddit.prepared.bodytext;
 
+import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import android.view.View;
+import org.quantumbadger.redreader.activities.BaseActivity;
 
 public abstract class BodyElement {
 
@@ -36,7 +36,7 @@ public abstract class BodyElement {
 	}
 
 	public abstract View generateView(
-			@NonNull AppCompatActivity activity,
+			@NonNull BaseActivity activity,
 			@Nullable Integer textColor,
 			@Nullable Float textSize,
 			boolean showLinkButtons);

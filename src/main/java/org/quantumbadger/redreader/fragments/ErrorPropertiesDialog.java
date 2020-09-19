@@ -24,6 +24,7 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.common.RRError;
 
@@ -83,7 +84,9 @@ public final class ErrorPropertiesDialog extends PropertiesDialog {
 	}
 
 	@Override
-	protected void prepare(final AppCompatActivity context, final LinearLayout items) {
+	protected void prepare(
+			@NonNull final BaseActivity context,
+			@NonNull final LinearLayout items) {
 
 		mContext = context;
 

@@ -23,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
+import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.common.BetterSSB;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
@@ -231,7 +232,7 @@ public class RedditRenderableComment
 
 	@Override
 	public View getBody(
-			final AppCompatActivity activity,
+			final BaseActivity activity,
 			final Integer textColor,
 			final Float textSize,
 			final boolean showLinkButtons) {
@@ -241,14 +242,14 @@ public class RedditRenderableComment
 	}
 
 	@Override
-	public void handleInboxClick(final AppCompatActivity activity) {
+	public void handleInboxClick(final BaseActivity activity) {
 		final URI commentContext
 				= Constants.Reddit.getUri(mComment.getRawComment().context);
 		LinkHandler.onLinkClicked(activity, commentContext.toString());
 	}
 
 	@Override
-	public void handleInboxLongClick(final AppCompatActivity activity) {
+	public void handleInboxLongClick(final BaseActivity activity) {
 
 		final RedditChangeDataManager changeDataManager
 				= RedditChangeDataManager.getInstance(

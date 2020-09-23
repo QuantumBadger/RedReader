@@ -658,62 +658,50 @@ public final class OptionsMenuUtility {
 						AppbarItemsPref.THEME.ordinal(),
 						Menu.NONE,
 						R.string.options_theme)
-						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-							@Override
-							public boolean onMenuItemClick(final MenuItem item) {
+						.setOnMenuItemClickListener(item -> {
 
-								final SharedPreferences prefs
-										= PreferenceManager.getDefaultSharedPreferences(
-										activity);
-								final PrefsUtility.AppearanceTheme
-										currentTheme
-										= PrefsUtility.appearance_theme(
-										activity,
-										prefs);
+							final SharedPreferences prefs
+									= PreferenceManager.getDefaultSharedPreferences(activity);
+							final PrefsUtility.AppearanceTheme currentTheme
+									= PrefsUtility.appearance_theme(activity, prefs);
 
-								final String[] themeNames
-										= activity.getResources()
-										.getStringArray(R.array.pref_appearance_theme);
-								final String[] themeValues
-										= activity.getResources()
-										.getStringArray(R.array.pref_appearance_theme_return);
+							final String[] themeNames = activity.getResources()
+									.getStringArray(R.array.pref_appearance_theme);
 
-								int selectedPos = -1;
-								for(int i = 0;
-									i < themeValues.length;
-									i++) {
-									if(PrefsUtility.AppearanceTheme.valueOf(
-											StringUtils.asciiUppercase(
-													themeValues[i]))
-											.equals(currentTheme)) {
-										selectedPos = i;
-										break;
-									}
+							final String[] themeValues = activity.getResources()
+									.getStringArray(R.array.pref_appearance_theme_return);
+
+							int selectedPos = -1;
+							for(int i = 0; i < themeValues.length; i++) {
+								if(PrefsUtility.AppearanceTheme.valueOf(
+										StringUtils.asciiUppercase(themeValues[i]))
+										.equals(currentTheme)) {
+									selectedPos = i;
+									break;
 								}
-
-								final AlertDialog.Builder dialog
-										= new AlertDialog.Builder(activity);
-								dialog.setTitle(R.string.pref_appearance_theme_title);
-
-								dialog.setSingleChoiceItems(
-										themeNames,
-										selectedPos,
-										(dialog1, item1) -> {
-											final SharedPreferences.Editor
-													editor
-													= prefs.edit();
-											editor.putString(
-													activity.getString(
-															R.string.pref_appearance_theme_key),
-													themeValues[item1]);
-											editor.apply();
-											dialog1.dismiss();
-										});
-
-								final AlertDialog alert = dialog.create();
-								alert.show();
-								return true;
 							}
+
+							final AlertDialog.Builder dialog
+									= new AlertDialog.Builder(activity);
+							dialog.setTitle(R.string.pref_appearance_theme_title);
+
+							dialog.setSingleChoiceItems(
+									themeNames,
+									selectedPos,
+									(dialog1, item1) -> {
+										final SharedPreferences.Editor editor
+												= prefs.edit();
+										editor.putString(
+												activity.getString(
+														R.string.pref_appearance_theme_key),
+												themeValues[item1]);
+										editor.apply();
+										dialog1.dismiss();
+									});
+
+							final AlertDialog alert = dialog.create();
+							alert.show();
+							return true;
 						});
 
 				themes.setShowAsAction(showAsAction);

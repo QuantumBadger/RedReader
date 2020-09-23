@@ -25,6 +25,7 @@ import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
+import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.util.Log;
 import androidx.annotation.NonNull;
@@ -208,6 +209,10 @@ public class CacheContentProvider extends ContentProvider {
 			} else if(OpenableColumns.SIZE.equals(col)) {
 				cols.add(OpenableColumns.SIZE);
 				values.add(file.get().length());
+
+			} else if(MediaStore.MediaColumns.MIME_TYPE.equals(col)) {
+				cols.add(MediaStore.MediaColumns.MIME_TYPE);
+				values.add(mimetype.get());
 			}
 		}
 

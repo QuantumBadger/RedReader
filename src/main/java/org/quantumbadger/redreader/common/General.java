@@ -17,7 +17,6 @@
 
 package org.quantumbadger.redreader.common;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -152,18 +151,17 @@ public final class General {
 		quickToast(context, context.getString(textRes));
 	}
 
-	@SuppressLint("ShowToast")
 	public static void quickToast(final Context context, final String text) {
 		AndroidCommon.UI_THREAD_HANDLER.post(
-				Toast.makeText(context, text, Toast.LENGTH_LONG)::show);
+				() -> Toast.makeText(context, text, Toast.LENGTH_LONG).show());
 	}
 
-	@SuppressLint("ShowToast")
 	public static void quickToast(
 			final Context context,
 			final String text,
 			final int duration) {
-		AndroidCommon.UI_THREAD_HANDLER.post(Toast.makeText(context, text, duration)::show);
+		AndroidCommon.UI_THREAD_HANDLER.post(
+				() -> Toast.makeText(context, text, duration).show());
 	}
 
 	public static boolean isTablet(

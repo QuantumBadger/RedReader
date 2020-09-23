@@ -441,19 +441,19 @@ public class MainActivity extends RefreshableActivity
 					//appearance_thumbnails_show, cache_precache_images, cache_precache_comments
 
 					final String existingThumbnailsShowPreference
-							= General.asciiLowercase(
+							= org.quantumbadger.redreader.common.StringUtils.asciiLowercase(
 							PrefsUtility.appearance_thumbnails_show_old(
 									this,
 									sharedPreferences).toString());
 
 					final String existingPrecacheImagesPreference
-							= General.asciiLowercase(
+							= org.quantumbadger.redreader.common.StringUtils.asciiLowercase(
 							PrefsUtility.cache_precache_images_old(
 									this,
 									sharedPreferences).toString());
 
 					final String existingPrecacheCommentsPreference
-							= General.asciiLowercase(
+							= org.quantumbadger.redreader.common.StringUtils.asciiLowercase(
 							PrefsUtility.cache_precache_comments_old(
 									this,
 									sharedPreferences).toString());

@@ -19,14 +19,12 @@ package org.quantumbadger.redreader.common;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
-import org.apache.commons.lang3.StringUtils;
 import org.quantumbadger.redreader.R;
 
 public class DialogUtils {
@@ -60,12 +58,7 @@ public class DialogUtils {
 
 		alertBuilder.setPositiveButton(
 				R.string.action_search,
-				new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(final DialogInterface dialog, final int which) {
-						performSearch(editText, listener);
-					}
-				});
+				(dialog, which) -> performSearch(editText, listener));
 
 		alertBuilder.setNegativeButton(R.string.dialog_cancel, null);
 
@@ -78,7 +71,7 @@ public class DialogUtils {
 	private static void performSearch(
 			final EditText editText,
 			final OnSearchListener listener) {
-		final String query = General.asciiLowercase(editText.getText().toString()).trim();
+		final String query = StringUtils.asciiLowercase(editText.getText().toString()).trim();
 		if(StringUtils.isEmpty(query)) {
 			listener.onSearch(null);
 		} else {

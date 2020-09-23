@@ -18,7 +18,7 @@
 package org.quantumbadger.redreader.test.general;
 
 import org.junit.Test;
-import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.StringUtils;
 
 import java.util.Locale;
 
@@ -32,12 +32,12 @@ public class GeneralTest {
 		for(char c = 0; c < 128; c++) {
 			{
 				final String str = "This is a test" + new String(new char[]{c});
-				assertEquals(str.toUpperCase(Locale.ENGLISH), General.asciiUppercase(str));
+				assertEquals(str.toUpperCase(Locale.ENGLISH), StringUtils.asciiUppercase(str));
 			}
 
 			{
 				String str = "" + c + c + c + c + c + "A" + c + "A";
-				assertEquals(str.toUpperCase(Locale.ENGLISH), General.asciiUppercase(str));
+				assertEquals(str.toUpperCase(Locale.ENGLISH), StringUtils.asciiUppercase(str));
 			}
 		}
 	}

@@ -37,7 +37,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Toast;
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BugReportActivity;
@@ -56,7 +56,6 @@ import java.net.URI;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Locale;
@@ -429,6 +428,7 @@ public final class General {
 		return filename;
 	}
 
+	@Nullable
 	public static URI uriFromString(final String url) {
 
 		try {
@@ -553,35 +553,6 @@ public final class General {
 		return result;
 	}
 
-	public static String asciiUppercase(final String input) {
-
-		final char[] chars = input.toCharArray();
-
-		for(int i = 0; i < chars.length; i++) {
-			if(chars[i] >= 'a' && chars[i] <= 'z') {
-				chars[i] -= 'a';
-				chars[i] += 'A';
-			}
-		}
-
-		return new String(chars);
-	}
-
-	@NonNull
-	public static String asciiLowercase(@NonNull final String input) {
-
-		final char[] chars = input.toCharArray();
-
-		for(int i = 0; i < chars.length; i++) {
-			if(chars[i] >= 'A' && chars[i] <= 'Z') {
-				chars[i] -= 'A';
-				chars[i] += 'a';
-			}
-		}
-
-		return new String(chars);
-	}
-
 	public static void copyStream(final InputStream in, final OutputStream out) throws
 			IOException {
 
@@ -686,25 +657,6 @@ public final class General {
 		} catch(final IOException e) {
 			Log.e("closeSafely", "Failed to close resource", e);
 		}
-	}
-
-	public static String join(final Collection<?> elements, final String separator) {
-
-		final StringBuilder result = new StringBuilder();
-
-		boolean first = true;
-
-		for(final Object element : elements) {
-
-			if(!first) {
-				result.append(separator);
-			}
-
-			result.append(element.toString());
-			first = false;
-		}
-
-		return result.toString();
 	}
 
 	public static void showMustBeLoggedInDialog(final AppCompatActivity activity) {

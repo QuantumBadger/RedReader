@@ -20,7 +20,7 @@ package org.quantumbadger.redreader.reddit.prepared.html;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BlockType;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
 
@@ -129,7 +129,7 @@ public abstract class HtmlRawElement {
 
 			final HtmlRawElement result;
 
-			switch(General.asciiLowercase(startToken.text)) {
+			switch(StringUtils.asciiLowercase(startToken.text)) {
 				case "code":
 					result = new HtmlRawElementTagCode(children);
 					break;

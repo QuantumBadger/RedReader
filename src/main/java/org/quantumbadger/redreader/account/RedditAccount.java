@@ -17,7 +17,7 @@
 
 package org.quantumbadger.redreader.account;
 
-import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 
 public class RedditAccount {
@@ -51,7 +51,7 @@ public class RedditAccount {
 	}
 
 	public String getCanonicalUsername() {
-		return General.asciiLowercase(username.trim());
+		return StringUtils.asciiLowercase(username.trim());
 	}
 
 	public synchronized RedditOAuth.AccessToken getMostRecentAccessToken() {

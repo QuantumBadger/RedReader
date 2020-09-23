@@ -22,6 +22,7 @@ import android.net.Uri;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.reddit.PostSort;
 
 import java.util.ArrayList;
@@ -122,8 +123,8 @@ public class UserPostListingURL extends PostListingURL {
 					pathSegmentsList.size());
 			for(String segment : pathSegmentsList) {
 
-				while(General.asciiLowercase(segment).endsWith(".json")
-						|| General.asciiLowercase(segment).endsWith(".xml")) {
+				while(StringUtils.asciiLowercase(segment).endsWith(".json")
+						|| StringUtils.asciiLowercase(segment).endsWith(".xml")) {
 					segment = segment.substring(0, segment.lastIndexOf('.'));
 				}
 
@@ -156,7 +157,7 @@ public class UserPostListingURL extends PostListingURL {
 
 		// TODO validate username with regex
 		final String username = pathSegments[1];
-		final String typeName = General.asciiUppercase(pathSegments[2]);
+		final String typeName = StringUtils.asciiUppercase(pathSegments[2]);
 		final Type type;
 
 		try {
@@ -177,7 +178,7 @@ public class UserPostListingURL extends PostListingURL {
 
 		builder.appendEncodedPath("user");
 		builder.appendPath(user);
-		builder.appendEncodedPath(General.asciiLowercase(type.name()));
+		builder.appendEncodedPath(StringUtils.asciiLowercase(type.name()));
 
 		if(order != null) {
 			order.addToUserPostListingUri(builder);
@@ -222,10 +223,10 @@ public class UserPostListingURL extends PostListingURL {
 			case TOP_MONTH:
 			case TOP_YEAR:
 			case TOP_ALL:
-				return path + "?t=" + General.asciiLowercase(order.name().split("_")[1]);
+				return path + "?t=" + StringUtils.asciiLowercase(order.name().split("_")[1]);
 
 			default:
-				return path + "?sort=" + General.asciiLowercase(order.name());
+				return path + "?sort=" + StringUtils.asciiLowercase(order.name());
 		}
 	}
 

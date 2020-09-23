@@ -21,10 +21,10 @@ import android.content.Context;
 import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,8 +71,8 @@ public class UserCommentListingURL extends CommentListingURL {
 					pathSegmentsList.size());
 			for(String segment : pathSegmentsList) {
 
-				while(General.asciiLowercase(segment).endsWith(".json")
-						|| General.asciiLowercase(segment).endsWith(".xml")) {
+				while(StringUtils.asciiLowercase(segment).endsWith(".json")
+						|| StringUtils.asciiLowercase(segment).endsWith(".xml")) {
 					segment = segment.substring(0, segment.lastIndexOf('.'));
 				}
 
@@ -193,8 +193,8 @@ public class UserCommentListingURL extends CommentListingURL {
 				return null;
 			}
 
-			sort = General.asciiLowercase(sort);
-			t = t != null ? General.asciiLowercase(t) : null;
+			sort = StringUtils.asciiLowercase(sort);
+			t = t != null ? StringUtils.asciiLowercase(t) : null;
 
 			if(sort.equals("hot")) {
 				return HOT;
@@ -236,7 +236,7 @@ public class UserCommentListingURL extends CommentListingURL {
 				case HOT:
 				case NEW:
 				case CONTROVERSIAL:
-					builder.appendQueryParameter("sort", General.asciiLowercase(name()));
+					builder.appendQueryParameter("sort", StringUtils.asciiLowercase(name()));
 					break;
 
 				case TOP_HOUR:
@@ -248,8 +248,8 @@ public class UserCommentListingURL extends CommentListingURL {
 					final String[] parts = name().split("_");
 					builder.appendQueryParameter(
 							"sort",
-							General.asciiLowercase(parts[0]));
-					builder.appendQueryParameter("t", General.asciiLowercase(parts[1]));
+							StringUtils.asciiLowercase(parts[0]));
+					builder.appendQueryParameter("t", StringUtils.asciiLowercase(parts[1]));
 					break;
 			}
 		}

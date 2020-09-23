@@ -195,15 +195,10 @@
         <meta-data android:name="com.sec.android.multiwindow.MINIMUM_SIZE_H" android:resource="@dimen/app_minimumsize_h" />
 
 		<provider
-				android:name="androidx.core.content.FileProvider"
-				android:authorities="org.quantumbadger.redreader.provider"
+				android:name="org.quantumbadger.redreader.cache.CacheContentProvider"
+				android:authorities="org.quantumbadger.redreader.cacheprovider"
 				android:exported="false"
-				android:grantUriPermissions="true">
-			<meta-data
-					android:name="android.support.FILE_PROVIDER_PATHS"
-					android:resource="@xml/file_paths">
-			</meta-data>
-		</provider>
+				android:grantUriPermissions="true" />
     </application>
 
 </manifest>

@@ -43,9 +43,118 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.UUID;
 
 public class FileUtils {
+
+	private static final HashMap<String, String> MIMETYPE_TO_EXTENSION = new HashMap<>();
+
+	static {
+		MIMETYPE_TO_EXTENSION.put("audio/3gpp2", "3g2");
+		MIMETYPE_TO_EXTENSION.put("video/3gpp2", "3g2");
+		MIMETYPE_TO_EXTENSION.put("audio/3gpp", "3gp");
+		MIMETYPE_TO_EXTENSION.put("video/3gpp", "3gp");
+		MIMETYPE_TO_EXTENSION.put("application/x-7z-compressed", "7z");
+		MIMETYPE_TO_EXTENSION.put("audio/aac", "aac");
+		MIMETYPE_TO_EXTENSION.put("application/x-abiword", "abw");
+		MIMETYPE_TO_EXTENSION.put("application/x-freearc", "arc");
+		MIMETYPE_TO_EXTENSION.put("video/x-msvideo", "avi");
+		MIMETYPE_TO_EXTENSION.put("application/vnd.amazon.ebook", "azw");
+		MIMETYPE_TO_EXTENSION.put("application/octet-stream", "bin");
+		MIMETYPE_TO_EXTENSION.put("image/bmp", "bmp");
+		MIMETYPE_TO_EXTENSION.put("application/x-bzip2", "bz2");
+		MIMETYPE_TO_EXTENSION.put("application/x-bzip", "bz");
+		MIMETYPE_TO_EXTENSION.put("application/x-csh", "csh");
+		MIMETYPE_TO_EXTENSION.put("text/css", "css");
+		MIMETYPE_TO_EXTENSION.put("text/csv", "csv");
+		MIMETYPE_TO_EXTENSION.put("application/msword", "doc");
+		MIMETYPE_TO_EXTENSION.put(
+				"application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+				"docx");
+		MIMETYPE_TO_EXTENSION.put("application/vnd.ms-fontobject", "eot");
+		MIMETYPE_TO_EXTENSION.put("application/epub+zip", "epub");
+		MIMETYPE_TO_EXTENSION.put("image/gif", "gif");
+		MIMETYPE_TO_EXTENSION.put("application/gzip", "gz");
+		MIMETYPE_TO_EXTENSION.put("video/h263", "h263");
+		MIMETYPE_TO_EXTENSION.put("video/h264", "h264");
+		MIMETYPE_TO_EXTENSION.put("video/h265", "h265");
+		MIMETYPE_TO_EXTENSION.put("image/heic ", "heic");
+		MIMETYPE_TO_EXTENSION.put("image/heic-sequence ", "heic");
+		MIMETYPE_TO_EXTENSION.put("image/heif ", "heif");
+		MIMETYPE_TO_EXTENSION.put("image/heif-sequence", "heif");
+		MIMETYPE_TO_EXTENSION.put("text/html", "html");
+		MIMETYPE_TO_EXTENSION.put("image/vnd.microsoft.icon", "ico");
+		MIMETYPE_TO_EXTENSION.put("text/calendar", "ics");
+		MIMETYPE_TO_EXTENSION.put("application/java-archive", "jar");
+		MIMETYPE_TO_EXTENSION.put("image/jpeg", "jpg");
+		MIMETYPE_TO_EXTENSION.put("application/json", "json");
+		MIMETYPE_TO_EXTENSION.put("application/ld+json", "jsonld");
+		MIMETYPE_TO_EXTENSION.put("text/javascript", "js");
+		MIMETYPE_TO_EXTENSION.put("audio/midi audio/x-midi", "mid");
+		MIMETYPE_TO_EXTENSION.put("audio/mpeg", "mp3");
+		MIMETYPE_TO_EXTENSION.put("video/mp4", "mp4");
+		MIMETYPE_TO_EXTENSION.put("application/dash+xml", "mpd");
+		MIMETYPE_TO_EXTENSION.put("video/mpeg", "mpeg");
+		MIMETYPE_TO_EXTENSION.put("application/vnd.apple.installer+xml", "mpkg");
+		MIMETYPE_TO_EXTENSION.put("video/mpv", "mpv");
+		MIMETYPE_TO_EXTENSION.put("application/vnd.oasis.opendocument.presentation", "odp");
+		MIMETYPE_TO_EXTENSION.put("application/vnd.oasis.opendocument.spreadsheet", "ods");
+		MIMETYPE_TO_EXTENSION.put("application/vnd.oasis.opendocument.text", "odt");
+		MIMETYPE_TO_EXTENSION.put("audio/ogg", "oga");
+		MIMETYPE_TO_EXTENSION.put("video/ogg", "ogv");
+		MIMETYPE_TO_EXTENSION.put("application/ogg", "ogx");
+		MIMETYPE_TO_EXTENSION.put("audio/opus", "opus");
+		MIMETYPE_TO_EXTENSION.put("font/otf", "otf");
+		MIMETYPE_TO_EXTENSION.put("application/pdf", "pdf");
+		MIMETYPE_TO_EXTENSION.put("application/x-httpd-php", "php");
+		MIMETYPE_TO_EXTENSION.put("image/png", "png");
+		MIMETYPE_TO_EXTENSION.put("application/vnd.ms-powerpoint", "ppt");
+		MIMETYPE_TO_EXTENSION.put(
+				"application/vnd.openxmlformats-officedocument.presentationml.presentation",
+				"pptx");
+		MIMETYPE_TO_EXTENSION.put("application/vnd.rar", "rar");
+		MIMETYPE_TO_EXTENSION.put("application/rtf", "rtf");
+		MIMETYPE_TO_EXTENSION.put("application/x-sh", "sh");
+		MIMETYPE_TO_EXTENSION.put("image/svg+xml", "svg");
+		MIMETYPE_TO_EXTENSION.put("application/x-shockwave-flash", "swf");
+		MIMETYPE_TO_EXTENSION.put("application/x-tar", "tar");
+		MIMETYPE_TO_EXTENSION.put("image/tiff", "tiff");
+		MIMETYPE_TO_EXTENSION.put("video/mp2t", "ts");
+		MIMETYPE_TO_EXTENSION.put("font/ttf", "ttf");
+		MIMETYPE_TO_EXTENSION.put("text/plain", "txt");
+		MIMETYPE_TO_EXTENSION.put("application/vnd.visio", "vsd");
+		MIMETYPE_TO_EXTENSION.put("audio/wav", "wav");
+		MIMETYPE_TO_EXTENSION.put("audio/webm", "weba");
+		MIMETYPE_TO_EXTENSION.put("video/webm", "webm");
+		MIMETYPE_TO_EXTENSION.put("image/webp", "webp");
+		MIMETYPE_TO_EXTENSION.put("font/woff2", "woff2");
+		MIMETYPE_TO_EXTENSION.put("font/woff", "woff");
+		MIMETYPE_TO_EXTENSION.put("application/xhtml+xml", "xhtml");
+		MIMETYPE_TO_EXTENSION.put("application/vnd.ms-excel", "xls");
+		MIMETYPE_TO_EXTENSION.put(
+				"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+				"xlsx");
+		MIMETYPE_TO_EXTENSION.put("application/xml", "xml");
+		MIMETYPE_TO_EXTENSION.put("text/xml", "xml");
+		MIMETYPE_TO_EXTENSION.put("application/vnd.mozilla.xul+xml", "xul");
+		MIMETYPE_TO_EXTENSION.put("application/zip", "zip");
+	}
+
+	@NonNull
+	public static Optional<String> getExtensionForMimetype(@NonNull final String mimetype) {
+
+		final String splitType;
+
+		if(mimetype.contains(";")) {
+			splitType = mimetype.split(";")[0];
+		} else {
+			splitType = mimetype;
+		}
+
+		return Optional.ofNullable(MIMETYPE_TO_EXTENSION.get(
+				StringUtils.asciiLowercase(splitType)));
+	}
 
 	public static void moveFile(final File src, final File dst) throws IOException {
 

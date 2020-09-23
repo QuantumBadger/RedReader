@@ -29,6 +29,7 @@ import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.common.FileUtils;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.PrioritisedCachedThreadPool;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
@@ -46,7 +47,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
@@ -221,7 +221,7 @@ public final class CacheManager {
 		requests.put(request);
 	}
 
-	public LinkedList<CacheEntry> getSessions(final URI url, final RedditAccount user) {
+	public List<CacheEntry> getSessions(final URI url, final RedditAccount user) {
 		return dbManager.select(url, user.username, null);
 	}
 
@@ -230,6 +230,11 @@ public final class CacheManager {
 				PrefsUtility.pref_cache_location(
 						context,
 						PreferenceManager.getDefaultSharedPreferences(context)));
+	}
+
+	@NonNull
+	public ReadableCacheFile getExistingCacheFileById(final long cacheId) {
+		return new ReadableCacheFile(cacheId);
 	}
 
 	public class WritableCacheFile {
@@ -263,8 +268,6 @@ public final class CacheManager {
 
 				final File dstFile = new File(location, cacheFileId + ext);
 				FileUtils.moveFile(tmpFile, dstFile);
-
-				Log.i("RRDEBUG", "Completed cache file: " + dstFile.getAbsolutePath());
 
 				dbManager.setEntryDone(cacheFileId);
 
@@ -310,6 +313,10 @@ public final class CacheManager {
 			this.id = id;
 		}
 
+		public long getId() {
+			return id;
+		}
+
 		@NonNull
 		public InputStream getInputStream() throws IOException {
 
@@ -335,6 +342,19 @@ public final class CacheManager {
 		@Nullable
 		public File getFile() {
 			return getExistingCacheFile(id);
+		}
+
+		@NonNull
+		public Optional<String> lookupMimetype() {
+
+			final Optional<CacheEntry> result = dbManager.selectById(id);
+
+			if(result.isPresent()) {
+				return Optional.of(result.get().mimetype);
+
+			} else {
+				return Optional.empty();
+			}
 		}
 
 		@Override
@@ -426,7 +446,7 @@ public final class CacheManager {
 
 			} else {
 
-				final LinkedList<CacheEntry> result = dbManager.select(
+				final List<CacheEntry> result = dbManager.select(
 						request.url,
 						request.user.username,
 						request.requestSession);
@@ -457,7 +477,7 @@ public final class CacheManager {
 			}
 		}
 
-		private CacheEntry mostRecentFromList(final LinkedList<CacheEntry> list) {
+		private CacheEntry mostRecentFromList(final List<CacheEntry> list) {
 
 			CacheEntry entry = null;
 

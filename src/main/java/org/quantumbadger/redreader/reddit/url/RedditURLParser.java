@@ -21,7 +21,7 @@ import android.content.Context;
 import android.net.Uri;
 import androidx.annotation.IntDef;
 import org.quantumbadger.redreader.common.Constants;
-import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.StringUtils;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -57,7 +57,7 @@ public class RedditURLParser {
 		if(uri == null || uri.getHost() == null) {
 			return false;
 		}
-		final String[] hostSegments = General.asciiLowercase(uri.getHost()).split("\\.");
+		final String[] hostSegments = StringUtils.asciiLowercase(uri.getHost()).split("\\.");
 		if(hostSegments.length < 2) {
 			return false;
 		}

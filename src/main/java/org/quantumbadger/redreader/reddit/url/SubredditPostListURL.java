@@ -24,6 +24,7 @@ import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.reddit.PostSort;
 import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException;
 import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
@@ -199,8 +200,8 @@ public class SubredditPostListURL extends PostListingURL {
 					new ArrayList<>(pathSegmentsList.size());
 			for(String segment : pathSegmentsList) {
 
-				while(General.asciiLowercase(segment).endsWith(".json")
-						|| General.asciiLowercase(segment).endsWith(".xml")) {
+				while(StringUtils.asciiLowercase(segment).endsWith(".json")
+						|| StringUtils.asciiLowercase(segment).endsWith(".xml")) {
 					segment = segment.substring(0, segment.lastIndexOf('.'));
 				}
 
@@ -253,7 +254,7 @@ public class SubredditPostListURL extends PostListingURL {
 					return null;
 				}
 
-				final String subreddit = General.asciiLowercase(pathSegments[1]);
+				final String subreddit = StringUtils.asciiLowercase(pathSegments[1]);
 
 				if(subreddit.equals("all")) {
 
@@ -397,7 +398,7 @@ public class SubredditPostListURL extends PostListingURL {
 			case TOP_MONTH:
 			case TOP_YEAR:
 			case TOP_ALL:
-				return path + "?t=" + General.asciiLowercase(order.name().split("_")[1]);
+				return path + "?t=" + StringUtils.asciiLowercase(order.name().split("_")[1]);
 
 			default:
 				return path;

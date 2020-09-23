@@ -152,7 +152,7 @@ public final class PrefsUtility {
 	public static AppearanceTwopane appearance_twopane(
 			final Context context,
 			final SharedPreferences sharedPreferences) {
-		return AppearanceTwopane.valueOf(General.asciiUppercase(getString(
+		return AppearanceTwopane.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_appearance_twopane_key,
 				"auto",
 				context,
@@ -177,7 +177,7 @@ public final class PrefsUtility {
 	public static AppearanceTheme appearance_theme(
 			final Context context,
 			final SharedPreferences sharedPreferences) {
-		return AppearanceTheme.valueOf(General.asciiUppercase(getString(
+		return AppearanceTheme.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_appearance_theme_key,
 				"red",
 				context,
@@ -191,7 +191,7 @@ public final class PrefsUtility {
 	public static AppearanceNavbarColour appearance_navbar_colour(
 			final Context context,
 			final SharedPreferences sharedPreferences) {
-		return AppearanceNavbarColour.valueOf(General.asciiUppercase(getString(
+		return AppearanceNavbarColour.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_appearance_navbar_color_key,
 				"black",
 				context,
@@ -297,7 +297,7 @@ public final class PrefsUtility {
 	public static AppearanceThumbnailsShow appearance_thumbnails_show(
 			final Context context,
 			final SharedPreferences sharedPreferences) {
-		return AppearanceThumbnailsShow.valueOf(General.asciiUppercase(
+		return AppearanceThumbnailsShow.valueOf(StringUtils.asciiUppercase(
 				getString(
 						R.string.pref_appearance_thumbnails_show_list_key,
 						"always",
@@ -652,7 +652,7 @@ public final class PrefsUtility {
 		final EnumSet<AppearancePostSubtitleItem> result = EnumSet.noneOf(
 				AppearancePostSubtitleItem.class);
 		for(final String s : strings) {
-			result.add(AppearancePostSubtitleItem.valueOf(General.asciiUppercase(s)));
+			result.add(AppearancePostSubtitleItem.valueOf(StringUtils.asciiUppercase(s)));
 		}
 
 		return result;
@@ -681,7 +681,7 @@ public final class PrefsUtility {
 		final EnumSet<AppearancePostSubtitleItem> result = EnumSet.noneOf(
 				AppearancePostSubtitleItem.class);
 		for(final String s : strings) {
-			result.add(AppearancePostSubtitleItem.valueOf(General.asciiUppercase(s)));
+			result.add(AppearancePostSubtitleItem.valueOf(StringUtils.asciiUppercase(s)));
 		}
 
 		return result;
@@ -720,7 +720,7 @@ public final class PrefsUtility {
 			}
 
 			try {
-				result.add(AppearanceCommentHeaderItem.valueOf(General.asciiUppercase(s)));
+				result.add(AppearanceCommentHeaderItem.valueOf(StringUtils.asciiUppercase(s)));
 			} catch(final IllegalArgumentException e) {
 				// Ignore -- this option no longer exists
 			}
@@ -879,7 +879,7 @@ public final class PrefsUtility {
 	public static ImageViewMode pref_behaviour_imageview_mode(
 			final Context context,
 			final SharedPreferences sharedPreferences) {
-		return ImageViewMode.valueOf(General.asciiUppercase(getString(
+		return ImageViewMode.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_imageview_mode_key,
 				"internal_opengl",
 				context,
@@ -897,7 +897,7 @@ public final class PrefsUtility {
 	public static AlbumViewMode pref_behaviour_albumview_mode(
 			final Context context,
 			final SharedPreferences sharedPreferences) {
-		return AlbumViewMode.valueOf(General.asciiUppercase(getString(
+		return AlbumViewMode.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_albumview_mode_key,
 				"internal_list",
 				context,
@@ -922,7 +922,7 @@ public final class PrefsUtility {
 	public static GifViewMode pref_behaviour_gifview_mode(
 			final Context context,
 			final SharedPreferences sharedPreferences) {
-		return GifViewMode.valueOf(General.asciiUppercase(getString(
+		return GifViewMode.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_gifview_mode_key,
 				"internal_movie",
 				context,
@@ -947,7 +947,7 @@ public final class PrefsUtility {
 	public static VideoViewMode pref_behaviour_videoview_mode(
 			final Context context,
 			final SharedPreferences sharedPreferences) {
-		return VideoViewMode.valueOf(General.asciiUppercase(getString(
+		return VideoViewMode.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_videoview_mode_key,
 				"internal_videoview",
 				context,
@@ -963,7 +963,7 @@ public final class PrefsUtility {
 	public static PostFlingAction pref_behaviour_fling_post_left(
 			final Context context,
 			final SharedPreferences sharedPreferences) {
-		return PostFlingAction.valueOf(General.asciiUppercase(getString(
+		return PostFlingAction.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_fling_post_left_key,
 				"downvote",
 				context,
@@ -973,7 +973,7 @@ public final class PrefsUtility {
 	public static PostFlingAction pref_behaviour_fling_post_right(
 			final Context context,
 			final SharedPreferences sharedPreferences) {
-		return PostFlingAction.valueOf(General.asciiUppercase(getString(
+		return PostFlingAction.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_fling_post_right_key,
 				"upvote",
 				context,
@@ -987,7 +987,7 @@ public final class PrefsUtility {
 	public static SelfpostAction pref_behaviour_self_post_tap_actions(
 			final Context context,
 			final SharedPreferences sharedPreferences) {
-		return SelfpostAction.valueOf(General.asciiUppercase(getString(
+		return SelfpostAction.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_self_post_tap_actions_key,
 				"collapse",
 				context,
@@ -1012,7 +1012,7 @@ public final class PrefsUtility {
 	public static CommentFlingAction pref_behaviour_fling_comment_left(
 			final Context context,
 			final SharedPreferences sharedPreferences) {
-		return CommentFlingAction.valueOf(General.asciiUppercase(getString(
+		return CommentFlingAction.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_fling_comment_left_key,
 				"downvote",
 				context,
@@ -1022,7 +1022,7 @@ public final class PrefsUtility {
 	public static CommentFlingAction pref_behaviour_fling_comment_right(
 			final Context context,
 			final SharedPreferences sharedPreferences) {
-		return CommentFlingAction.valueOf(General.asciiUppercase(getString(
+		return CommentFlingAction.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_fling_comment_right_key,
 				"upvote",
 				context,
@@ -1036,7 +1036,7 @@ public final class PrefsUtility {
 	public static CommentAction pref_behaviour_actions_comment_tap(
 			final Context context,
 			final SharedPreferences sharedPreferences) {
-		return CommentAction.valueOf(General.asciiUppercase(getString(
+		return CommentAction.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_actions_comment_tap_key,
 				"collapse",
 				context,
@@ -1046,7 +1046,7 @@ public final class PrefsUtility {
 	public static CommentAction pref_behaviour_actions_comment_longclick(
 			final Context context,
 			final SharedPreferences sharedPreferences) {
-		return CommentAction.valueOf(General.asciiUppercase(getString(
+		return CommentAction.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_actions_comment_longclick_key,
 				"action_menu",
 				context,
@@ -1107,7 +1107,7 @@ public final class PrefsUtility {
 	public static PostSort pref_behaviour_postsort(
 			final Context context,
 			final SharedPreferences sharedPreferences) {
-		return PostSort.valueOf(General.asciiUppercase(getString(
+		return PostSort.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_postsort_key,
 				"hot",
 				context,
@@ -1117,7 +1117,7 @@ public final class PrefsUtility {
 	public static PostSort pref_behaviour_user_postsort(
 			final Context context,
 			final SharedPreferences sharedPreferences) {
-		return PostSort.valueOf(General.asciiUppercase(getString(
+		return PostSort.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_user_postsort_key,
 				"new",
 				context,
@@ -1127,7 +1127,7 @@ public final class PrefsUtility {
 	public static PostSort pref_behaviour_multi_postsort(
 			final Context context,
 			final SharedPreferences sharedPreferences) {
-		return PostSort.valueOf(General.asciiUppercase(getString(
+		return PostSort.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_multi_postsort_key,
 				"hot",
 				context,
@@ -1137,7 +1137,7 @@ public final class PrefsUtility {
 	public static PostCommentListingURL.Sort pref_behaviour_commentsort(
 			final Context context,
 			final SharedPreferences sharedPreferences) {
-		return PostCommentListingURL.Sort.valueOf(General.asciiUppercase(getString(
+		return PostCommentListingURL.Sort.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_commentsort_key,
 				"best",
 				context,
@@ -1147,7 +1147,7 @@ public final class PrefsUtility {
 	public static UserCommentListingURL.Sort pref_behaviour_user_commentsort(
 			final Context context,
 			final SharedPreferences sharedPreferences) {
-		return UserCommentListingURL.Sort.valueOf(General.asciiUppercase(getString(
+		return UserCommentListingURL.Sort.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_user_commentsort_key,
 				"new",
 				context,
@@ -1161,7 +1161,7 @@ public final class PrefsUtility {
 	public static PinnedSubredditSort pref_behaviour_pinned_subredditsort(
 			final Context context,
 			final SharedPreferences sharedPreferences) {
-		return PinnedSubredditSort.valueOf(General.asciiUppercase(getString(
+		return PinnedSubredditSort.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_pinned_subredditsort_key,
 				"name",
 				context,
@@ -1175,7 +1175,7 @@ public final class PrefsUtility {
 	public static BlockedSubredditSort pref_behaviour_blocked_subredditsort(
 			final Context context,
 			final SharedPreferences sharedPreferences) {
-		return BlockedSubredditSort.valueOf(General.asciiUppercase(getString(
+		return BlockedSubredditSort.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_blocked_subredditsort_key,
 				"name",
 				context,
@@ -1235,7 +1235,7 @@ public final class PrefsUtility {
 	public static ScreenOrientation pref_behaviour_screen_orientation(
 			final Context context,
 			final SharedPreferences sharedPreferences) {
-		return ScreenOrientation.valueOf(General.asciiUppercase(getString(
+		return ScreenOrientation.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_screenorientation_key,
 				ScreenOrientation.AUTO.name(),
 				context,
@@ -1355,7 +1355,7 @@ public final class PrefsUtility {
 	public static CachePrecacheImages cache_precache_images(
 			final Context context,
 			final SharedPreferences sharedPreferences) {
-		return CachePrecacheImages.valueOf(General.asciiUppercase(
+		return CachePrecacheImages.valueOf(StringUtils.asciiUppercase(
 				getString(
 						R.string.pref_cache_precache_images_list_key,
 						"wifionly",
@@ -1397,7 +1397,7 @@ public final class PrefsUtility {
 	public static CachePrecacheComments cache_precache_comments(
 			final Context context,
 			final SharedPreferences sharedPreferences) {
-		return CachePrecacheComments.valueOf(General.asciiUppercase(
+		return CachePrecacheComments.valueOf(StringUtils.asciiUppercase(
 				getString(
 						R.string.pref_cache_precache_comments_list_key,
 						"always",
@@ -1457,7 +1457,7 @@ public final class PrefsUtility {
 		final EnumSet<RedditPreparedPost.Action> result = EnumSet.noneOf(
 				RedditPreparedPost.Action.class);
 		for(final String s : strings) {
-			result.add(RedditPreparedPost.Action.valueOf(General.asciiUppercase(s)));
+			result.add(RedditPreparedPost.Action.valueOf(StringUtils.asciiUppercase(s)));
 		}
 
 		return result;
@@ -1476,7 +1476,7 @@ public final class PrefsUtility {
 		final EnumSet<RedditPreparedPost.Action> result = EnumSet.noneOf(
 				RedditPreparedPost.Action.class);
 		for(final String s : strings) {
-			result.add(RedditPreparedPost.Action.valueOf(General.asciiUppercase(s)));
+			result.add(RedditPreparedPost.Action.valueOf(StringUtils.asciiUppercase(s)));
 		}
 
 		return result;
@@ -1495,7 +1495,7 @@ public final class PrefsUtility {
 		final EnumSet<LinkHandler.LinkAction> result
 				= EnumSet.noneOf(LinkHandler.LinkAction.class);
 		for(final String s : strings) {
-			result.add(LinkHandler.LinkAction.valueOf(General.asciiUppercase(s)));
+			result.add(LinkHandler.LinkAction.valueOf(StringUtils.asciiUppercase(s)));
 		}
 
 		return result;
@@ -1515,7 +1515,7 @@ public final class PrefsUtility {
 		final EnumSet<MainMenuListingManager.SubredditAction> result = EnumSet.noneOf(
 				MainMenuListingManager.SubredditAction.class);
 		for(final String s : strings) {
-			result.add(MainMenuListingManager.SubredditAction.valueOf(General.asciiUppercase(
+			result.add(MainMenuListingManager.SubredditAction.valueOf(StringUtils.asciiUppercase(
 					s)));
 		}
 
@@ -1535,7 +1535,7 @@ public final class PrefsUtility {
 		final EnumSet<MainMenuFragment.MainMenuUserItems> result = EnumSet.noneOf(
 				MainMenuFragment.MainMenuUserItems.class);
 		for(final String s : strings) {
-			result.add(MainMenuFragment.MainMenuUserItems.valueOf(General.asciiUppercase(s)));
+			result.add(MainMenuFragment.MainMenuUserItems.valueOf(StringUtils.asciiUppercase(s)));
 		}
 
 		return result;
@@ -1554,7 +1554,7 @@ public final class PrefsUtility {
 		final EnumSet<MainMenuFragment.MainMenuShortcutItems> result = EnumSet.noneOf(
 				MainMenuFragment.MainMenuShortcutItems.class);
 		for(final String s : strings) {
-			result.add(MainMenuFragment.MainMenuShortcutItems.valueOf(General.asciiUppercase(
+			result.add(MainMenuFragment.MainMenuShortcutItems.valueOf(StringUtils.asciiUppercase(
 					s)));
 		}
 

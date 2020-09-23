@@ -1037,7 +1037,7 @@ public class LinkHandler {
 
 	private static ImageInfo getImageUrlPatternMatch(final String url) {
 
-		final String urlLower = General.asciiLowercase(url);
+		final String urlLower = StringUtils.asciiLowercase(url);
 
 		{
 			final Matcher matchRedditUploads = reddituploadsPattern.matcher(url);

@@ -1,5 +1,6 @@
 94/1.14
-Allow saving images to custom location (only on Android 5.0+)
+Allows saving images to custom location (only on Android 5.0+)
+Uses newer image sharing APIs to avoid permissions issues
 Fixed crash when opening video controls
 Fixed ANR caused by legacy GIF decoding
 Fixed crash when swiping to a deleted image in an album

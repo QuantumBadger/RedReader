@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.common;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -65,6 +66,7 @@ import java.util.regex.Pattern;
 
 public final class General {
 
+	@SuppressWarnings("CharsetObjectCanBeUsed")
 	public static final Charset CHARSET_UTF8 = Charset.forName("UTF-8");
 
 	public static final String LTR_OVERRIDE_MARK = "\u202D";
@@ -150,25 +152,18 @@ public final class General {
 		quickToast(context, context.getString(textRes));
 	}
 
+	@SuppressLint("ShowToast")
 	public static void quickToast(final Context context, final String text) {
-		AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-			@Override
-			public void run() {
-				Toast.makeText(context, text, Toast.LENGTH_LONG).show();
-			}
-		});
+		AndroidCommon.UI_THREAD_HANDLER.post(
+				Toast.makeText(context, text, Toast.LENGTH_LONG)::show);
 	}
 
+	@SuppressLint("ShowToast")
 	public static void quickToast(
 			final Context context,
 			final String text,
 			final int duration) {
-		AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-			@Override
-			public void run() {
-				Toast.makeText(context, text, duration).show();
-			}
-		});
+		AndroidCommon.UI_THREAD_HANDLER.post(Toast.makeText(context, text, duration)::show);
 	}
 
 	public static boolean isTablet(
@@ -337,6 +332,7 @@ public final class General {
 		switch(type) {
 
 			case INVALID_USER:
+			case NOTALLOWED:
 				title = R.string.error_403_title;
 				message = R.string.error_403_message;
 				break;
@@ -344,11 +340,6 @@ public final class General {
 			case BAD_CAPTCHA:
 				title = R.string.error_bad_captcha_title;
 				message = R.string.error_bad_captcha_message;
-				break;
-
-			case NOTALLOWED:
-				title = R.string.error_403_title;
-				message = R.string.error_403_message;
 				break;
 
 			case SUBREDDIT_REQUIRED:
@@ -436,8 +427,6 @@ public final class General {
 
 		} catch(final Throwable t1) {
 			try {
-
-				Log.i("RR DEBUG uri", "Beginning aggressive parse of '" + url + "'");
 
 				final Matcher urlMatcher = urlPattern.matcher(url);
 

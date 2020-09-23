@@ -20,19 +20,24 @@ package org.quantumbadger.redreader.common;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.StatFs;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import androidx.annotation.NonNull;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.BugReportActivity;
+import org.quantumbadger.redreader.cache.CacheContentProvider;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached;
+import org.quantumbadger.redreader.fragments.ShareOrderDialog;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
 import org.quantumbadger.redreader.image.ImageInfo;
 import org.quantumbadger.redreader.image.LegacySaveImageCallback;
@@ -47,6 +52,8 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class FileUtils {
+
+	private static final String TAG = "FileUtils";
 
 	private static final HashMap<String, String> MIMETYPE_TO_EXTENSION = new HashMap<>();
 
@@ -203,6 +210,62 @@ public class FileUtils {
 			blockSize = stat.getBlockSize();
 		}
 		return availableBlocks * blockSize;
+	}
+
+	public static void shareImageAtUri(
+			@NonNull final BaseActivity activity,
+			@NonNull final String uri) {
+
+		downloadImageToSave(activity, uri, (info, cacheFile, mimetype) -> {
+
+			final Uri externalUri = CacheContentProvider.getUriForFile(
+					cacheFile.getId(),
+					mimetype,
+					getExtensionFromPath(info.urlOriginal).orElse("jpg"));
+
+			Log.i(TAG, "Sharing image with external uri: " + externalUri);
+
+			final Intent shareIntent = new Intent()
+					.setAction(Intent.ACTION_SEND)
+					.putExtra(Intent.EXTRA_STREAM, externalUri)
+					.setType(mimetype)
+					.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+			if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+
+				// Due to bugs in the API before Android Lollipop, we have to
+				// grant permission for every single app on the system to read
+				// this file!
+
+				for(final ResolveInfo resolveInfo
+						: activity.getPackageManager().queryIntentActivities(
+								shareIntent,
+								PackageManager.MATCH_DEFAULT_ONLY)) {
+
+					Log.i(TAG, "Legacy OS: granting permission to "
+							+ resolveInfo.activityInfo.packageName
+							+ " to read "
+							+ externalUri);
+
+					activity.grantUriPermission(
+							resolveInfo.activityInfo.packageName,
+							externalUri,
+							Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+				}
+			}
+
+			if(PrefsUtility.pref_behaviour_sharing_dialog(
+					activity,
+					PreferenceManager.getDefaultSharedPreferences(activity))) {
+				ShareOrderDialog.newInstance(shareIntent)
+						.show(activity.getSupportFragmentManager(), null);
+
+			} else {
+				activity.startActivity(Intent.createChooser(
+						shareIntent,
+						activity.getString(R.string.action_share)));
+			}
+		});
 	}
 
 	public static void saveImageAtUri(
@@ -397,5 +460,27 @@ public class FileUtils {
 						General.quickToast(activity, R.string.selected_link_is_not_image);
 					}
 				});
+	}
+
+	@NonNull
+	public static Optional<String> getExtensionFromPath(@NonNull final String path) {
+
+		final String[] pathSegments = path.split("/");
+
+		if(pathSegments.length == 0) {
+			return Optional.empty();
+		}
+
+		final String[] dotSegments = pathSegments[pathSegments.length - 1].split("\\.");
+
+		if(dotSegments.length < 2) {
+			return Optional.empty();
+		}
+
+		if(dotSegments.length == 2 && dotSegments[0].isEmpty()) {
+			return Optional.empty();
+		}
+
+		return Optional.of(dotSegments[dotSegments.length - 1]);
 	}
 }

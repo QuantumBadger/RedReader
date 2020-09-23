@@ -91,6 +91,18 @@ public class CacheContentProvider extends ContentProvider {
 		}
 	}
 
+	public static Uri getUriForFile(
+			final long cacheId,
+			@NonNull final String mimetype,
+			@NonNull final String defaultExtension) {
+
+		return new Uri.Builder()
+				.scheme("content")
+				.authority("org.quantumbadger.redreader.cacheprovider")
+				.encodedPath(generateFilename(cacheId, mimetype, defaultExtension))
+				.build();
+	}
+
 	@NonNull
 	private Optional<CacheManager.ReadableCacheFile> getReadableCacheFile(@NonNull final Uri uri) {
 
@@ -115,7 +127,7 @@ public class CacheContentProvider extends ContentProvider {
 			return Optional.empty();
 		}
 
-		return Optional.ofNullable(readableCacheFile.get().getFile());
+		return readableCacheFile.get().getFile();
 	}
 
 	@Nullable
@@ -167,9 +179,9 @@ public class CacheContentProvider extends ContentProvider {
 			return new MatrixCursor(COLUMNS, 0);
 		}
 
-		final File file = readableCacheFile.get().getFile();
+		final Optional<File> file = readableCacheFile.get().getFile();
 
-		if(file == null) {
+		if(!file.isPresent()) {
 			Log.e(TAG, "Couldn't get underlying file: " + uri);
 			return new MatrixCursor(COLUMNS, 0);
 		}
@@ -195,7 +207,7 @@ public class CacheContentProvider extends ContentProvider {
 
 			} else if(OpenableColumns.SIZE.equals(col)) {
 				cols.add(OpenableColumns.SIZE);
-				values.add(file.length());
+				values.add(file.get().length());
 			}
 		}
 

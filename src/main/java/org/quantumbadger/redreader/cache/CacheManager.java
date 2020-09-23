@@ -339,9 +339,9 @@ public final class CacheManager {
 			return mCachedUri;
 		}
 
-		@Nullable
-		public File getFile() {
-			return getExistingCacheFile(id);
+		@NonNull
+		public Optional<File> getFile() {
+			return Optional.ofNullable(getExistingCacheFile(id));
 		}
 
 		@NonNull

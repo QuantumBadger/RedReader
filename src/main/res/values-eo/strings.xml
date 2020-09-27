@@ -57,8 +57,8 @@
     <string name="pref_cache_precache_images_title">Antaŭŝargi bildojn</string>
     <string name="pref_cache_precache_images_wifionly_title">Nur per vifio</string>
     <!-- Menu Prefs -->
-    <string name="pref_menus_post_context_items_title">Frapetadi elementon de menuo</string>
-    <string name="pref_menus_post_toolbar_items_title">Elementoj de flanka ilarstrio</string>
+    <string name="pref_menus_post_context_items_title">Elementoj de la ag-menuo</string>
+    <string name="pref_menus_post_toolbar_items_title">Elementoj de la flanka ilarstrio</string>
     <!-- Options Menu -->
     <string name="options_accounts">Kontoj</string>
     <string name="options_accounts_long">Reddit-kontoj</string>
@@ -312,7 +312,7 @@
     <string name="action_search">Serĉi</string>
     <string name="search_subreddit_restrict">Limigi serĉadon al</string>
     <string name="title_changelog">Kio estas nova</string>
-    <string name="pref_behaviour_commentsort">Komentoj (implicita)</string>
+    <string name="pref_behaviour_commentsort">Komentoj (implicite)</string>
     <!-- 2013-05-18 -->
     <string name="action_fling_disabled">Malaktiva</string>
     <string name="pref_about_version_title">Versio</string>
@@ -360,13 +360,13 @@
     <string name="options_unsubscribe">Malaboni</string>
     <string name="options_subscribing">Ekabonigado…</string>
     <string name="options_unsubscribing">Malabonigado…</string>
-    <string name="options_sidebar">Montri flankan breton</string>
+    <string name="options_sidebar">Montri flankan strion</string>
     <!-- 2014-04-13 -->
     <string name="pref_menus_mainmenu_useritems_title">Elementoj de uzanto</string>
     <string name="mainmenu_submitted">Publikigitaj afiŝoj</string>
     <string name="mainmenu_downvoted">Kontraŭ-voĉdonitaj afiŝoj</string>
     <string name="mainmenu_modmail">Retletero al kontrolanto</string>
-    <string name="sidebar_activity_title">Flanka breto</string>
+    <string name="sidebar_activity_title">Flanka strio</string>
     <!-- 2014-04-20 -->
     <string name="header_subscriber_count">%s abonantoj</string>
     <string name="header_subscriber_count_unknown">Nekonata nombro da abonantoj</string>
@@ -603,9 +603,9 @@
     <!-- 2017-02-23 -->
     <string name="action_back">Reen</string>
     <!-- 2017-03-02 -->
-    <string name="pref_menus_link_context_items_title">Elementoj de la menuo frapetadi ligilon</string>
+    <string name="pref_menus_link_context_items_title">Elementoj de la ag-menuo de ligilo</string>
     <!-- 2017-03-07 -->
-    <string name="pref_menus_subreddit_context_items_title">Elementoj de la menuo frapetadi redditeron</string>
+    <string name="pref_menus_subreddit_context_items_title">Elementoj de la ag-menuo de redditero</string>
     <string name="mainmenu_toast_not_subscribed">Vi ankoraŭ ne abonas tiun ĉi redditeron!</string>
     <string name="mainmenu_toast_subscribed">Vi jam abonas tiun ĉi redditero!</string>
     <string name="mainmenu_toast_not_pinned">Tiu ĉi redditero ne estas alpinglita al la ĉefmenuo!</string>
@@ -726,7 +726,43 @@
     <string name="pref_appearance_posts_header">Afiŝoj</string>
     <string name="pref_appearance_fontscale_comment_headers_title">Kapoj de komentoj/mesaĝoj</string>
     <string name="pref_appearance_fontscale_post_header_titles_title">Titoloj de malfermitaj afiŝoj</string>
-	<plurals name="load_more_comments_button_reply_count">
-		<item quantity="other">Montri pliajn komentojn (%d respondoj)</item>
-	</plurals>
+    <plurals name="load_more_comments_button_reply_count">
+        <item quantity="one">Montri pliajn komentojn (%d respondo)</item>
+        <item quantity="other">Montri pliajn komentojn (%d respondoj)</item>
+    </plurals>
+    <string name="link_does_not_exist">Tiu ĉi ligilo ne ekzistas. Ĝi povas esti forigita.</string>
+    <string name="title_attribution">Atribuo</string>
+    <string name="dialog_continue">Pluigi</string>
+    <string name="reddit_login_browser_popup_use_external_browser">Uzi eksteran foliumilon (konsilinda)</string>
+    <string name="reddit_login_browser_popup_use_internal_browser">Uzi internan foliumilon (konsilinda)</string>
+    <string name="reddit_login_browser_popup_line_2">Kiam vi estos ensalutinta, vi revenos al RedReader. Se ensalutado fiaskos, vi povos provi alian ret‑foliumilon uzante la suban menuon.</string>
+    <string name="reddit_login_browser_popup_line_1">Por ensaluti, paĝo de Reddit estos malfermita per ret‑foliumilo.</string>
+    <string name="image_gallery_no_image_present_message">Ne povas trovi la difinitan bildon. Ĝi povas esti forigita.</string>
+    <string name="image_gallery_no_image_present_title">Bildo ne trovita</string>
+    <string name="button_error_send_report">Raporti</string>
+    <string name="button_error_details">Detaloj</string>
+    <string name="image_gallery_no_data_present_message">Neniu galerio de bildoj estas trovita ĉe la difinita ligilo. Ĝi povas esti forigita.</string>
+    <string name="image_gallery_no_data_present_title">Galerio ne trovita</string>
+    <string name="image_gallery_removed_message">Tiu ĉi galerio estas forigita kaj ne estas alirebla plu.</string>
+    <string name="image_gallery_removed_title">Forigita galerio</string>
+    <string name="pref_behaviour_video_zoom_default_title">Implicite pligrandigi al filmetoj</string>
+    <string name="sort_comments_top_all">Popularaj: ĉiam</string>
+    <string name="sort_comments_top_year">Popularaj: lasta jaro</string>
+    <string name="sort_comments_top_month">Popularaj: lasta monato</string>
+    <string name="sort_comments_top_week">Popularaj: lasta semajno</string>
+    <string name="sort_comments_top_today">Popularaj: lasta tago</string>
+    <string name="sort_comments_top_hour">Popularaj: lasta horo</string>
+    <string name="pref_behaviour_user_commentsort_title">Komentoj de uzantoj (implicite)</string>
+    <string name="pref_behaviour_multi_postsort_title">Afiŝoj de plurredditeroj (implicite)</string>
+    <string name="pref_behaviour_user_postsort_title">Afiŝoj de uzantoj (implicite)</string>
+    <string name="action_comments_with_count">Montri komentojn (%d)</string>
+    <string name="pref_appearance_post_show_comments_button_title">Montri butonon de komentoj</string>
+    <string name="image_gallery">Galerio</string>
+    <string name="action_search_posts">Serĉi afiŝojn</string>
+    <string name="pref_menus_appbar_items_never">Ne montri</string>
+    <string name="pref_menus_appbar_items_overflow_only">Montri nur en tripunkta menuo</string>
+    <string name="pref_menus_appbar_items_if_room">Montri butonon kiam spaco disponebla</string>
+    <string name="pref_menus_appbar_items_always">Ĉiam montri butonon</string>
+    <string name="pref_menus_appbar_screen_title">Elementoj de la strio agoj</string>
+    <string name="copied_to_clipboard">Kopiita al tondujo</string>
 </resources>

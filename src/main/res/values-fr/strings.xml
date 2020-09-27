@@ -737,7 +737,7 @@
     <string name="pref_menus_appbar_items_if_room">Afficher le bouton s\'il y a de place</string>
     <string name="pref_menus_appbar_items_always">Toujours afficher le bouton</string>
     <string name="pref_menus_appbar_screen_title">Éléments de la barre d\'action</string>
-    <string name="error_message_malformed_html">Erreur lors de l\'analyse du texte. Veuillez notifier le développeur de l\'application.</string>
+    <string name="error_message_malformed_html">Erreur lors de l\'analyse du texte. Veuillez le signaler au développeur de l\'application.</string>
     <string name="sort_comments_top_all">Le meilleur : depuis le début</string>
     <string name="sort_comments_top_year">Le meilleur : l\'année passée</string>
     <string name="sort_comments_top_month">Le meilleur : le mois précédent</string>

@@ -604,7 +604,7 @@
     <string name="pref_behaviour_fling_comment_right_title">Glisser vers la droite</string>
     <string name="web_view_clear_cache_success_toast">Vider le cache, l\'historique, les cookies et les données de formulaire.</string>
     <string name="pref_menus_show_popular_main_menu_title">Afficher /r/popular dans le menu principal</string>
-    <string name="pref_menus_link_context_items_title">Éléments du menu des liens</string>
+    <string name="pref_menus_link_context_items_title">Éléments du menu d\'action des liens</string>
     <string name="submit_post_self_text_hint">Text à soi-même</string>
     <string name="time_ms">ms</string>
     <string name="unblock_subreddit">Débloquer le subreddit</string>
@@ -659,7 +659,7 @@
     <string name="pref_cache_precache_comments_wifionly_title">En Wi-Fi seulement</string>
     <string name="pref_behaviour_gallery_swipe_length_title">Longueur du balayage de la galerie</string>
     <string name="title_license">Licence</string>
-    <string name="pref_appearance_left_handed_title">Le mode gaucher</string>
+    <string name="pref_appearance_left_handed_title">Mode gaucher</string>
     <string name="pref_behaviour_self_post_tap_actions_title">Action au toucher pour le post à soi-même</string>
     <string name="post_submit_mark_nsfw">Marquer comme NSFW</string>
     <string name="post_submit_mark_spoiler">Marquer comme divulgâchis</string>
@@ -753,4 +753,27 @@
         <item quantity="one">"Charger plus de commentaires (%d réponse)"</item>
         <item quantity="other">"Charger plus de commentaires (%d réponses)"</item>
     </plurals>
+    <string name="title_attribution">Attribution</string>
+    <string name="dialog_continue">Continuer</string>
+    <string name="reddit_login_browser_popup_use_external_browser">Utiliser le navigateur externe (recommandé)</string>
+    <string name="reddit_login_browser_popup_use_internal_browser">Utiliser le navigateur interne (recommandé)</string>
+    <string name="reddit_login_browser_popup_line_2">Lorsque la connexion est terminée, vous devez être redirigé vers RedReader. Si la connexion échoue, vous pouvez essayer un autre navigateur en utilisant la case à cocher ci-dessous.</string>
+    <string name="reddit_login_browser_popup_line_1">Pour vous connecter, vous serez dirigé vers Reddit dans un navigateur web.</string>
+    <string name="image_gallery_no_image_present_message">L\'image spécifiée n\'a pas pu être trouvée. Elle a peut-être été supprimée.</string>
+    <string name="image_gallery_no_image_present_title">Image introuvable</string>
+    <string name="button_error_send_report">Signaler</string>
+    <string name="button_error_details">Détails</string>
+    <string name="image_gallery_no_data_present_message">Aucune galerie d\'images n\'a été trouvée sur le lien spécifié. Elle a peut-être été supprimée.</string>
+    <string name="image_gallery_no_data_present_title">Galerie introuvable</string>
+    <string name="image_gallery_removed_message">Cette galerie a été supprimée et n\'est plus accessible.</string>
+    <string name="image_gallery_removed_title">Galerie supprimée</string>
+    <string name="pref_behaviour_video_zoom_default_title">Zoomer sur les vidéos par défaut</string>
+    <string name="pref_behaviour_user_commentsort_title">Commentaires de l’utilisateur (par défaut)</string>
+    <string name="pref_behaviour_multi_postsort_title">Posts multi-reddits (par défaut)</string>
+    <string name="pref_behaviour_user_postsort_title">Publications de l\'utilisateur (par défaut)</string>
+    <string name="pref_appearance_hide_headertoolbar_commentlist_title">Masquer la barre d\'outils de l\'en-tête de la liste des commentaires</string>
+    <string name="pref_appearance_hide_headertoolbar_postlist_title">Cacher la barre d\'outils de l\'en-tête de la liste des posts</string>
+    <string name="pref_appearance_fontscale_linkbuttons_title">Boutons de lien</string>
+    <string name="pref_appearance_post_subtitle_items_title">Éléments du sous-titre de post</string>
+    <string name="link_does_not_exist">Ce lien n\'existe pas. Il a pu être supprimé.</string>
 </resources>

@@ -14,8 +14,7 @@
   ~
   ~ You should have received a copy of the GNU General Public License
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
-  -->
-<resources>
+  --><resources>
     <string name="accounts_anon">Anônimo</string>
     <string name="accounts_password">Senha</string>
     <string name="accounts_active">Ativo</string>
@@ -522,7 +521,7 @@
     <string name="download_link_message">Este é um link de download. Você deseja carregá-lo em um browser externo\?</string>
     <string name="pref_menus_show_popular_main_menu_title">Mostrar /r/popular no menu principal</string>
     <string name="pref_behaviour_video_playback_controls_title">Ativar controles de reprodução de vídeo</string>
-    <string name="error_no_suitable_apps_available">Nenhum aplicativo adequado disponível.</string>
+    <string name="error_no_suitable_apps_available">Nenhuma app adequada disponível.</string>
     <string name="pref_behaviour_sharing_share_text_title">Incluir texto ao compartilhar comentário</string>
     <string name="disable_replies_to_infobox_failed">A desativação de respostas à caixa de entrada falhou</string>
     <string name="pref_menus_show_random_main_menu_title">Mostrar /r/random no menu principal</string>
@@ -541,5 +540,4 @@
     <string name="pref_behaviour_sharing_header">Compartilhar</string>
     <string name="share_comments_for">Comentários para %s</string>
     <string name="share_comment_by_on_reddit">Comentário por %s no Reddit</string>
-
 </resources>

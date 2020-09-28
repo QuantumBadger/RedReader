@@ -662,8 +662,18 @@
     <string name="post_text_copied_to_clipboard">Post skopiowany do schowka</string>
     <string name="pref_behaviour_sharing_share_dialog_dialogtitle">Wybierz aplikację do udostępnienia</string>
     <string name="error_toast_no_share_app_installed">Nie zainstalowano odpowiedniej aplikacji do udostępniania tego.</string>
-	<plurals name="load_more_comments_button_reply_count">
-		<item quantity="one">"Załaduj więcej komentarzy (%d odpowiedź)"</item>
-		<item quantity="other">"Załaduj więcej komentarzy (%d odpowiedzi)"</item>
-	</plurals>
+    <plurals name="load_more_comments_button_reply_count">
+        <item quantity="one">"Załaduj więcej komentarzy (%d odpowiedź)"</item>
+        <item quantity="other">"Załaduj więcej komentarzy (%d odpowiedzi)"</item>
+    </plurals>
+    <string name="pref_appearance_fontscale_comment_headers_title">Nagłówki komentarzy/skrzynki odbiorczej</string>
+    <string name="pref_appearance_fontscale_post_subtitles_title">Publikuj napisy</string>
+    <string name="pref_behaviour_sharing_share_dialog_title">Użyj wbudowanego okna udostępniania</string>
+    <string name="notification_channel_name_reddit_messages">Przychodzące wiadomości na Reddicie</string>
+    <string name="pref_appearance_bottom_toolbar_title">Pokaż pasek narzędzi na dole</string>
+    <string name="pref_appearance_show_aspect_ratio_indicator_title">Pokaż wskaźnik proporcji obrazu</string>
+    <string name="pref_menus_show_subscribed_subreddits_main_menu_title">Pokaż subskrybowane subreddity</string>
+    <string name="pref_menus_show_multireddit_main_menu_title">Pokaż multireddity</string>
+    <string name="error_already_submitted_message">Ten post został już wstawiony na ten subreddit.</string>
+    <string name="pref_appearance_left_handed_title">Tryb leworęczny</string>
 </resources>

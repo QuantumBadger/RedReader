@@ -54,6 +54,8 @@ public final class CommentPropertiesDialog extends PropertiesDialog {
 
 		items.addView(propView(context, "ID", comment.name, true));
 
+		items.addView(propView(context, R.string.props_post_id, comment.link_id, false));
+
 		items.addView(propView(context, R.string.props_author, comment.author, false));
 
 		if(comment.author_flair_text != null && comment.author_flair_text.length() > 0) {

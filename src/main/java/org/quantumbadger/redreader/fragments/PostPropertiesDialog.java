@@ -68,6 +68,7 @@ public final class PostPropertiesDialog extends PropertiesDialog {
 				R.string.props_created,
 				RRTime.formatDateTime(post.created_utc * 1000, context),
 				false));
+		items.addView(propView(context, R.string.props_post_id, post.id, false));
 
 		if(post.edited instanceof Long) {
 			items.addView(propView(

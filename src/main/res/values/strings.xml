@@ -1305,4 +1305,7 @@
 	<!-- 2020-09-19 -->
 	<string name="action_save_image_success_no_path">Image saved successfully</string>
 
+	<!-- 2020-09-30 -->
+	<string name="props_post_id">Post ID</string>
+
 </resources>

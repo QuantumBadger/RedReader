@@ -676,4 +676,27 @@
     <string name="pref_menus_show_multireddit_main_menu_title">Pokaż multireddity</string>
     <string name="error_already_submitted_message">Ten post został już wstawiony na ten subreddit.</string>
     <string name="pref_appearance_left_handed_title">Tryb leworęczny</string>
+    <string name="pref_behaviour_video_zoom_default_title">Domyślnie powiększaj filmy</string>
+    <string name="sort_comments_top_all">Najbardziej punktowane: zawsze</string>
+    <string name="sort_comments_top_year">Najbardziej punktowane: ostatni rok</string>
+    <string name="sort_comments_top_month">Najbardziej punktowane: ostatni miesiąc</string>
+    <string name="sort_comments_top_week">Najbardziej punktowane: ostatni tydzień</string>
+    <string name="sort_comments_top_today">Najbardziej punktowane: ostatnie 24 godziny</string>
+    <string name="sort_comments_top_hour">Najbardziej punktowane: ostatnia godzina</string>
+    <string name="pref_behaviour_user_commentsort_title">Komentarze użytkowników (domyślnie)</string>
+    <string name="pref_behaviour_multi_postsort_title">Posty multireddit (domyślnie)</string>
+    <string name="pref_behaviour_user_postsort_title">Posty użytkownika (domyślne)</string>
+    <string name="action_comments_with_count">Wyświetl komentarze (%d)</string>
+    <string name="pref_appearance_post_show_comments_button_title">Pokaż przycisk komentarzy</string>
+    <string name="image_gallery">Galeria</string>
+    <string name="action_search_posts">Szukaj postów</string>
+    <string name="pref_menus_appbar_items_never">Nie pokazuj</string>
+    <string name="pref_menus_appbar_items_if_room">Pokaż przycisk, jeśli jest miejsce</string>
+    <string name="pref_menus_appbar_items_always">Zawsze pokazuj przycisk</string>
+    <string name="copied_to_clipboard">Skopiowano do schowka</string>
+    <string name="subreddit_link_copied_to_clipboard">Link do subreddita został skopiowany do schowka</string>
+    <string name="comment_text_copied_to_clipboard">Tekst komentarza został skopiowany do schowka</string>
+    <string name="comment_link_copied_to_clipboard">Link do komentarza został skopiowany do schowka</string>
+    <string name="link_copied_to_clipboard">Link został skopiowany do schowka</string>
+    <string name="post_link_copied_to_clipboard">Link do wpisu został skopiowany do schowka</string>
 </resources>

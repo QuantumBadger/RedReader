@@ -72,7 +72,7 @@ public class PostListingActivity extends RefreshableActivity
 
 	private final AtomicReference<RedditSubredditSubscriptionManager.ListenerContext>
 			mSubredditSubscriptionListenerContext = new AtomicReference<>(null);
-	
+
 	private static long lastBackPress = -1;
 
 	@Override
@@ -501,7 +501,11 @@ public class PostListingActivity extends RefreshableActivity
 
 	@Override
 	public void onBackPressed() {
-		if(lastBackPress < SystemClock.uptimeMillis() - 2000) {
+
+		if(PrefsUtility.pref_behaviour_back_again(this,
+			PreferenceManager.getDefaultSharedPreferences(this)) &&
+			(lastBackPress < SystemClock.uptimeMillis() - 2000)) {
+
 			lastBackPress = SystemClock.uptimeMillis();
 			General.quickToast(this, R.string.press_back_again);
 			return;

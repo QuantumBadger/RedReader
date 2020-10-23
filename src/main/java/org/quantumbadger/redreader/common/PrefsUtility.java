@@ -826,6 +826,15 @@ public final class PrefsUtility {
 		}
 	}
 
+	public static boolean pref_behaviour_back_again(
+			final Context context,
+			final SharedPreferences sharedPreferences) {
+			return getBoolean(R.string.pref_behaviour_back_again_key,
+					false,
+					context,
+					sharedPreferences);
+	}
+
 	public static int pref_behaviour_gallery_swipe_length_dp(
 			final Context context,
 			final SharedPreferences sharedPreferences) {

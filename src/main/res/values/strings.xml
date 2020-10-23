@@ -1304,5 +1304,6 @@
 
 	<!-- 2020-09-19 -->
 	<string name="action_save_image_success_no_path">Image saved successfully</string>
+	<string name="press_back_again">Press back again</string>
 
 </resources>

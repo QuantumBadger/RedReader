@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.View;
@@ -71,6 +72,8 @@ public class PostListingActivity extends RefreshableActivity
 
 	private final AtomicReference<RedditSubredditSubscriptionManager.ListenerContext>
 			mSubredditSubscriptionListenerContext = new AtomicReference<>(null);
+	
+	private static long lastBackPress = -1;
 
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
@@ -498,9 +501,12 @@ public class PostListingActivity extends RefreshableActivity
 
 	@Override
 	public void onBackPressed() {
-		if(General.onBackPressed()) {
-			super.onBackPressed();
+		if(lastBackPress < SystemClock.uptimeMillis() - 2000) {
+			lastBackPress = SystemClock.uptimeMillis();
+			General.quickToast(this, R.string.press_back_again);
+			return;
 		}
+		super.onBackPressed();
 	}
 
 	@Override

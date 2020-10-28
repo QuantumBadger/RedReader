@@ -124,6 +124,10 @@
 
 	</PreferenceScreen>
 
+	<CheckBoxPreference android:title="@string/pref_menus_quick_account_switcher_title"
+						android:key="@string/pref_menus_quick_account_switcher_key"
+						android:defaultValue="false"/>
+
 	<MultiSelectListPreference
 		android:dialogTitle="@string/pref_menus_link_context_items_title"
 		android:key="@string/pref_menus_link_context_items_key"

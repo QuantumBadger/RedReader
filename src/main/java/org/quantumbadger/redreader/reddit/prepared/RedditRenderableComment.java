@@ -234,7 +234,6 @@ public class RedditRenderableComment
 								commentTime,
 								R.string.time_after_reply,
 								commentAgeUnits);
-						android.util.Log.i("lol","" + parentCommentCreated * 1000L);
 						break;
 					}
 					//Top-level comment (or unable to get the parent comment's creation time)

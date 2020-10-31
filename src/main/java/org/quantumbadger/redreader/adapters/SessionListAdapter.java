@@ -112,7 +112,13 @@ public class SessionListAdapter extends HeaderRecyclerAdapter<RecyclerView.ViewH
 		final BetterSSB name = new BetterSSB();
 
 		if(RRTime.utcCurrentTimeMillis() - session.timestamp < 1000 * 120) {
-			name.append(RRTime.formatDurationFrom(context, session.timestamp), 0);
+			name.append(
+					RRTime.formatDurationFrom(
+							context,
+							session.timestamp,
+							R.string.time_ago,
+							2),
+					0);
 		} else {
 			name.append(RRTime.formatDateTime(session.timestamp, context), 0);
 		}

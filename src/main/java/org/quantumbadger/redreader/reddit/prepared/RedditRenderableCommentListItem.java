@@ -27,7 +27,9 @@ public interface RedditRenderableCommentListItem {
 	CharSequence getHeader(
 			final RRThemeAttributes theme,
 			final RedditChangeDataManager changeDataManager,
-			final Context context);
+			final Context context,
+			final long postCreated,
+			final long parentCommentCreated);
 
 	View getBody(
 			final BaseActivity activity,

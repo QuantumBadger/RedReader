@@ -1305,4 +1305,19 @@
 	<!-- 2020-09-19 -->
 	<string name="action_save_image_success_no_path">Image saved successfully</string>
 
+	<!-- 2020-10-31 -->
+	<string name="time_after">after %s</string>
+	<string name="time_after_reply">replying %s later</string>
+	<string name="pref_appearance_post_age_units_key" translatable="false">pref_appearance_post_age_units</string>
+	<string name="pref_appearance_post_age_units_title">Post maximum age units</string>
+	<string name="pref_appearance_post_header_age_units_key" translatable="false">pref_appearance_post_header_age_units</string>
+	<string name="pref_appearance_post_header_age_units_title">Opened post maximum age units</string>
+	<string name="pref_appearance_comment_age_units_key" translatable="false">pref_appearance_comment_age_units</string>
+	<string name="pref_appearance_comment_age_units_title">Comment maximum age units</string>
+	<string name="pref_appearance_comment_age_mode_key" translatable="false">pref_appearance_comment_age_mode</string>
+	<string name="pref_appearance_comment_age_mode_title">Comment age mode</string>
+	<string name="pref_appearance_comment_age_mode_absolute">Absolute</string>
+	<string name="pref_appearance_comment_age_mode_relative_post">Relative to post</string>
+	<string name="pref_appearance_comment_age_mode_relative_parent">Relative to parent comment</string>
+
 </resources>

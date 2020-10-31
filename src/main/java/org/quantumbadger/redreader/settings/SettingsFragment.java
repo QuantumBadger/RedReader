@@ -125,7 +125,11 @@ public final class SettingsFragment extends PreferenceFragment {
 				R.string.pref_menus_appbar_settings_key,
 				R.string.pref_menus_appbar_close_all_key,
 				R.string.pref_menus_appbar_reply_key,
-				R.string.pref_menus_appbar_search_key
+				R.string.pref_menus_appbar_search_key,
+				R.string.pref_appearance_post_age_units_key,
+				R.string.pref_appearance_post_header_age_units_key,
+				R.string.pref_appearance_comment_age_units_key,
+				R.string.pref_appearance_comment_age_mode_key
 		};
 
 		final int[] editTextPrefsToUpdate = {

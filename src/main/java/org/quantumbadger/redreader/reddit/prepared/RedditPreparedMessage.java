@@ -54,7 +54,6 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 
 		this.src = message;
 
-		// TODO custom time
 		// TODO respect RRTheme
 
 		final int rrCommentHeaderBoldCol;
@@ -96,7 +95,11 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 
 		sb.append("   ", 0);
 		sb.append(
-				RRTime.formatDurationFrom(applicationContext, src.created_utc * 1000L),
+				RRTime.formatDurationFrom(
+						applicationContext,
+						src.created_utc * 1000L,
+						R.string.time_ago,
+						2),
 				BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD,
 				rrCommentHeaderBoldCol,
 				0,
@@ -136,7 +139,9 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 	public CharSequence getHeader(
 			final RRThemeAttributes theme,
 			final RedditChangeDataManager changeDataManager,
-			final Context context) {
+			final Context context,
+			final long postCreated,
+			final long parentCommentCreated) {
 		return header;
 	}
 

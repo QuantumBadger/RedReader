@@ -1036,4 +1036,29 @@
 		<item>edit</item>
 	</string-array>
 
+	<!-- 2020-10-31 -->
+
+	<string-array name="pref_appearance_age_units_items">
+		<item>1</item>
+		<item>2</item>
+		<item>3</item>
+		<item>4</item>
+		<item>5</item>
+		<item>6</item>
+		<item>7</item>
+	</string-array>
+
+	<string-array name="pref_appearance_comment_age_mode_items">
+		<item>@string/pref_appearance_comment_age_mode_absolute</item>
+		<item>@string/pref_appearance_comment_age_mode_relative_post</item>
+		<item>@string/pref_appearance_comment_age_mode_relative_parent</item>
+	</string-array>
+
+	<!-- Constants. Do not change. -->
+	<string-array name="pref_appearance_comment_age_mode_return">
+		<item>absolute</item>
+		<item>relative_post</item>
+		<item>relative_parent</item>
+	</string-array>
+
 </resources>

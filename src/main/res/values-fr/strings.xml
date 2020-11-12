@@ -194,7 +194,7 @@
     <string name="bug_title">Une erreur s\'est produite.</string>
     <string name="bug_message">RedReader a rencontré une erreur.
 \n
-\nSouhaitez vous soumettre un rapport de bug aux développeurs \? Si oui, un courriel sera rempli avec les informations importantes et vous pourrez le contrôler avant de l\'envoyer.</string>
+\nVoulez-vous envoyer un rapport d\'erreur aux développeurs \? Si oui, un courriel sera rempli avec les informations importantes et vous pourrez le contrôler avant de l\'envoyer.</string>
     <string name="bug_button_send">Envoyer un rapport d\'erreur par courriel</string>
     <string name="bug_button_ignore">Ne pas envoyer de rapport de bug</string>
     <!-- General errors -->
@@ -700,8 +700,8 @@
     <string name="pin_successful">%s épinglé au menu principal</string>
     <string name="unsubscription_successful">Désabonnement de %s réussi</string>
     <string name="subscription_successful">Abonnement à %s réussi</string>
-    <string name="bug_chooser_title">Courriel du rapport de bug</string>
-    <string name="error_toast_no_email_apps">Aucune appli de courriel installée !</string>
+    <string name="bug_chooser_title">Courriel du rapport d\'erreur</string>
+    <string name="error_toast_no_email_apps">Aucune appli de messagerie installée !</string>
     <string name="error_toast_failed_open_external_browser">Échec de l\'ouverture de l\'URL « %s » dans le navigateur externe</string>
     <string name="upgrade_message">Mis à jour vers la version %s</string>
     <string name="must_login_message">Vous avez besoin de vous connecter à votre compte Reddit pour effectuer cette action.</string>

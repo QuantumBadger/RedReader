@@ -368,7 +368,7 @@
     <string name="pref_menus_mainmenu_useritems_title">Benutzer-Einträge</string>
     <string name="mainmenu_submitted">Eingereichte Posts</string>
     <string name="mainmenu_downvoted">Abgewertete Posts</string>
-    <string name="mainmenu_modmail">Mod Nachrichten</string>
+    <string name="mainmenu_modmail">Mod-Nachrichten</string>
     <string name="sidebar_activity_title">Seitenleiste</string>
     <!-- 2014-04-20 -->
     <string name="header_subscriber_count">%s Abonnenten</string>
@@ -611,8 +611,18 @@
     <string name="pref_appearance_show_aspect_ratio_indicator_title">Aspect Ratio-Indikator anzeigen</string>
     <string name="action_copy_selftext">Selbsttext kopieren</string>
     <string name="pref_appearance_fontscale_post_subtitles_title">Post-Untertiteln</string>
-	<plurals name="load_more_comments_button_reply_count">
-		<item quantity="one">"Weitere Kommentare laden (%d Antworten)"</item>
-		<item quantity="other">"Weitere Kommentare laden (%d Antworten)"</item>
-	</plurals>
+    <plurals name="load_more_comments_button_reply_count">
+        <item quantity="one">"Weitere Kommentare laden (%d Antworten)"</item>
+        <item quantity="other">"Weitere Kommentare laden (%d Antworten)"</item>
+    </plurals>
+    <string name="pref_menus_appbar_items_never">Nicht anzeigen</string>
+    <string name="pref_menus_appbar_items_if_room">Schaltfläche anzeigen, wenn Raum</string>
+    <string name="pref_menus_appbar_items_always">Schaltfläche immer anzeigen</string>
+    <string name="link_copied_to_clipboard">Link in Zwischenablage kopiert</string>
+    <string name="pref_menus_posts_header">Posts</string>
+    <string name="pref_menus_mainmenu_header">Hauptmenü</string>
+    <string name="error_toast_failed_open_external_browser">Fehler beim Öffnen der URL „%s“ in einem externen Browser</string>
+    <string name="upgrade_message">Aktualisiert zur Version %s</string>
+    <string name="must_login_message">Du musst dazu in einem Reddit-Konto angemeldet sein.</string>
+    <string name="error_toast_no_email_apps">Kein E-Mail-Programm installiert!</string>
 </resources>

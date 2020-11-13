@@ -1307,7 +1307,7 @@
 
 	<!-- 2020-10-28 -->
 	<string name="pref_menus_quick_account_switcher_key" translatable="false">pref_menus_quick_account_switcher</string>
-	<string name="pref_menus_quick_account_switcher_title">Use quick account switcher</string>
+	<string name="pref_menus_quick_account_switcher_title">Use quick account switching</string>
 	<string name="options_account_manager">Account Manager</string>
 
 </resources>

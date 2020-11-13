@@ -185,10 +185,8 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 	@Override
 	public boolean onOptionsItemSelected(final MenuItem item) {
 
-		if(mFragment != null) {
-			if(mFragment.onOptionsItemSelected(item)) {
+		if(mFragment != null && mFragment.onOptionsItemSelected(item)) {
 				return true;
-			}
 		}
 
 		return super.onOptionsItemSelected(item);

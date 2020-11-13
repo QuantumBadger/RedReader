@@ -147,10 +147,9 @@ public class MainActivity extends RefreshableActivity
 
 		doRefresh(RefreshableFragment.MAIN_RELAYOUT, false, null);
 
-		if(savedInstanceState == null) {
-			if(PrefsUtility.pref_behaviour_skiptofrontpage(this, sharedPreferences)) {
+		if(savedInstanceState == null
+				&& (PrefsUtility.pref_behaviour_skiptofrontpage(this, sharedPreferences))) {
 				onSelected(SubredditPostListURL.getFrontPage());
-			}
 		}
 
 		setTitle(R.string.app_name);

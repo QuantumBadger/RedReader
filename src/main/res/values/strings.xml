@@ -1305,4 +1305,9 @@
 	<!-- 2020-09-19 -->
 	<string name="action_save_image_success_no_path">Image saved successfully</string>
 
+	<!-- 2020-10-20 -->
+	<string name="pref_behaviour_imagevideo_tap_close_key" translatable="false">pref_behaviour_imagevideo_tap_close</string>
+	<string name="pref_behaviour_imagevideo_tap_close_title">Close images/videos on tap</string>
+	<string name="pref_behaviour_imagevideo_tap_close_summary">Does not affect videos if playback controls are enabled</string>
+
 </resources>

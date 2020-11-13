@@ -857,7 +857,10 @@ public class ImageViewActivity extends BaseActivity
 				}
 			}
 
-		} else {
+		} else if(PrefsUtility.pref_behaviour_imagevideo_tap_close(
+				this,
+				PreferenceManager.getDefaultSharedPreferences(this))) {
+
 			finish();
 		}
 	}

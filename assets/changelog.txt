@@ -1,5 +1,6 @@
 95/1.15
 Preference to disable tap-to-close on images/videos (thanks to Cameron Merkel)
+Preference to require tapping back twice to exit post list (thanks to windsurfer)
 
 94/1.14
 Allows saving images to custom location (only on Android 5.0+)

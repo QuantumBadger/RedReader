@@ -72,9 +72,16 @@ public final class General {
 
 	public static final int COLOR_INVALID = Color.MAGENTA;
 
+	private static long lastBackPress = -1;
 
 	public static boolean onBackPressed() {
-		return true;
+
+		if(lastBackPress < SystemClock.uptimeMillis() - 300) {
+			lastBackPress = SystemClock.uptimeMillis();
+			return true;
+		}
+
+		return false;
 	}
 
 	private static Typeface monoTypeface;

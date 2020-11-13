@@ -26,6 +26,7 @@ import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.R;
@@ -73,7 +74,7 @@ public class PostListingActivity extends RefreshableActivity
 	private final AtomicReference<RedditSubredditSubscriptionManager.ListenerContext>
 			mSubredditSubscriptionListenerContext = new AtomicReference<>(null);
 
-	private static long lastBackPress = -1;
+	private long mDoubleTapBack_lastTapMs = -1;
 
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
@@ -502,15 +503,17 @@ public class PostListingActivity extends RefreshableActivity
 	@Override
 	public void onBackPressed() {
 
-		if(PrefsUtility.pref_behaviour_back_again(this,
-			PreferenceManager.getDefaultSharedPreferences(this)) &&
-			(lastBackPress < SystemClock.uptimeMillis() - 2000)) {
+		if(PrefsUtility.pref_behaviour_back_again(
+				this,
+				PreferenceManager.getDefaultSharedPreferences(this))
+						&& (mDoubleTapBack_lastTapMs < SystemClock.uptimeMillis() - 5000)) {
 
-			lastBackPress = SystemClock.uptimeMillis();
-			General.quickToast(this, R.string.press_back_again);
-			return;
+			mDoubleTapBack_lastTapMs = SystemClock.uptimeMillis();
+			Toast.makeText(this, R.string.press_back_again, Toast.LENGTH_SHORT).show();
+
+		} else if(General.onBackPressed()) {
+			super.onBackPressed();
 		}
-		super.onBackPressed();
 	}
 
 	@Override

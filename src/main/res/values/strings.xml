@@ -1305,12 +1305,15 @@
 	<!-- 2020-09-19 -->
 	<string name="action_save_image_success_no_path">Image saved successfully</string>
 
-	<string name="press_back_again">Press back again</string>
-	<string name="pref_behaviour_back_again_key" translatable="false">pref_behaviour_back_again</string>
-
 	<!-- 2020-10-20 -->
 	<string name="pref_behaviour_imagevideo_tap_close_key" translatable="false">pref_behaviour_imagevideo_tap_close</string>
 	<string name="pref_behaviour_imagevideo_tap_close_title">Close images/videos on tap</string>
 	<string name="pref_behaviour_imagevideo_tap_close_summary">Does not affect videos if playback controls are enabled</string>
+
+	<!-- 2020-11-13 -->
+	<string name="press_back_again">Press back again</string>
+	<string name="pref_behaviour_postlist_back_again_key" translatable="false">pref_behaviour_back_again</string>
+	<string name="pref_behaviour_postlist_back_again">Press back twice to exit post list</string>
+	<string name="pref_behaviour_back_button_title">Back Button</string>
 
 </resources>

@@ -21,6 +21,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import androidx.annotation.NonNull;
@@ -270,8 +271,7 @@ public final class PrefsUtility {
 
 		for(final Resources res : new Resources[] {
 				activity.getResources(),
-				activity.getApplication().getResources()
-		}) {
+				activity.getApplication().getResources()}) {
 
 			final DisplayMetrics dm = res.getDisplayMetrics();
 			final android.content.res.Configuration conf = res.getConfiguration();
@@ -280,18 +280,31 @@ public final class PrefsUtility {
 
 				if(lang.contains("-r")) {
 					final String[] split = lang.split("-r");
-					conf.setLocale(new Locale(split[0], split[1]));
+					setLocaleOnConfiguration(conf, new Locale(split[0], split[1]));
 
 				} else {
-					conf.setLocale(new Locale(lang));
+					setLocaleOnConfiguration(conf, new Locale(lang));
 				}
 
 			} else {
-				conf.setLocale(mDefaultLocale.get());
+				setLocaleOnConfiguration(conf, mDefaultLocale.get());
 			}
 
 			res.updateConfiguration(conf, dm);
 		}
+	}
+
+	private static void setLocaleOnConfiguration(
+			@NonNull final android.content.res.Configuration conf,
+			@NonNull final Locale locale) {
+
+		if(Build.VERSION.SDK_INT >= 17) {
+			conf.setLocale(locale);
+		} else {
+			//noinspection deprecation
+			conf.locale = locale;
+		}
+
 	}
 
 	public enum AppearanceThumbnailsShow {

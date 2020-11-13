@@ -674,7 +674,8 @@ public class MainActivity extends RefreshableActivity
 							final int actionId,
 							final KeyEvent event) {
 						boolean handled = false;
-						if(actionId == EditorInfo.IME_ACTION_GO) {
+						if(actionId == EditorInfo.IME_ACTION_GO ||
+							event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
 							openCustomLocation(
 									typeReturnValues,
 									destinationType,

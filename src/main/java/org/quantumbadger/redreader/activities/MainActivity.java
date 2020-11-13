@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.activities;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -37,7 +36,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 import androidx.annotation.Nullable;
 import org.apache.commons.lang3.StringUtils;
 import org.quantumbadger.redreader.R;
@@ -667,23 +665,17 @@ public class MainActivity extends RefreshableActivity
 								.collect(new ArrayList<>()));
 
 				editText.setAdapter(autocompleteAdapter);
-				editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-					@Override
-					public boolean onEditorAction(
-							final TextView v,
-							final int actionId,
-							final KeyEvent event) {
-						boolean handled = false;
-						if(actionId == EditorInfo.IME_ACTION_GO ||
-							event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-							openCustomLocation(
-									typeReturnValues,
-									destinationType,
-									editText);
-							handled = true;
-						}
-						return handled;
+				editText.setOnEditorActionListener((v, actionId, event) -> {
+					boolean handled = false;
+					if(actionId == EditorInfo.IME_ACTION_GO
+							|| event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+						openCustomLocation(
+								typeReturnValues,
+								destinationType,
+								editText);
+						handled = true;
 					}
+					return handled;
 				});
 
 				alertBuilder.setView(root);
@@ -717,15 +709,10 @@ public class MainActivity extends RefreshableActivity
 
 				alertBuilder.setPositiveButton(
 						R.string.dialog_go,
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(final DialogInterface dialog, final int which) {
-								openCustomLocation(
-										typeReturnValues,
-										destinationType,
-										editText);
-							}
-						});
+						(dialog, which) -> openCustomLocation(
+								typeReturnValues,
+								destinationType,
+								editText));
 
 				alertBuilder.setNegativeButton(R.string.dialog_cancel, null);
 

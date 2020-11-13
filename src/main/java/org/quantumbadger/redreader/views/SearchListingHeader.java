@@ -21,7 +21,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
@@ -70,12 +69,7 @@ public final class SearchListingHeader extends FrameLayout {
 		mSubreddit.setOnEditorActionListener(onEnter);
 
 		mSearchButton = (Button)findViewById(R.id.search_listing_header_search);
-		mSearchButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(final View v) {
-				performSearch(parentActivity, mSubreddit, mQuery);
-			}
-		});
+		mSearchButton.setOnClickListener(v -> performSearch(parentActivity, mSubreddit, mQuery));
 	}
 
 	private static void performSearch(

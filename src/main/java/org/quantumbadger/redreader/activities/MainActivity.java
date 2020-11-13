@@ -36,7 +36,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
-import androidx.annotation.Nullable;
 import org.apache.commons.lang3.StringUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -1143,18 +1142,15 @@ public class MainActivity extends RefreshableActivity
 		DialogUtils.showSearchDialog(
 				this,
 				R.string.action_search_comments,
-				new DialogUtils.OnSearchListener() {
-					@Override
-					public void onSearch(@Nullable final String query) {
-						final Intent searchIntent = new Intent(
-								MainActivity.this,
-								CommentListingActivity.class);
-						searchIntent.setData(commentListingController.getUri());
-						searchIntent.putExtra(
-								CommentListingActivity.EXTRA_SEARCH_STRING,
-								query);
-						startActivity(searchIntent);
-					}
+				query -> {
+					final Intent searchIntent = new Intent(
+							MainActivity.this,
+							CommentListingActivity.class);
+					searchIntent.setData(commentListingController.getUri());
+					searchIntent.putExtra(
+							CommentListingActivity.EXTRA_SEARCH_STRING,
+							query);
+					startActivity(searchIntent);
 				});
 	}
 
@@ -1381,20 +1377,10 @@ public class MainActivity extends RefreshableActivity
 	}
 
 	private void postInvalidateOptionsMenu() {
-		runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				invalidateOptionsMenu();
-			}
-		});
+		runOnUiThread(this::invalidateOptionsMenu);
 	}
 
 	private void showBackButton(final boolean isVisible) {
-		configBackButton(isVisible, new View.OnClickListener() {
-			@Override
-			public void onClick(final View v) {
-				onBackPressed();
-			}
-		});
+		configBackButton(isVisible, v -> onBackPressed());
 	}
 }

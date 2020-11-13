@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.common;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import info.guardianproject.netcipher.proxy.OrbotHelper;
@@ -42,21 +41,13 @@ public class TorCommon {
 		notInstalled.setMessage(R.string.error_tor_not_installed);
 		notInstalled.setPositiveButton(
 				R.string.dialog_yes,
-				new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(final DialogInterface dialog, final int id) {
-						context.startActivity(OrbotHelper.getOrbotInstallIntent(context));
-						dialog.dismiss();
-					}
+				(dialog, id) -> {
+					context.startActivity(OrbotHelper.getOrbotInstallIntent(context));
+					dialog.dismiss();
 				});
 		notInstalled.setNegativeButton(
 				R.string.dialog_no,
-				new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(final DialogInterface dialog, final int id) {
-						dialog.cancel();
-					}
-				});
+				(dialog, id) -> dialog.cancel());
 		final AlertDialog notInstalledAlert = notInstalled.create();
 		notInstalledAlert.show();
 	}

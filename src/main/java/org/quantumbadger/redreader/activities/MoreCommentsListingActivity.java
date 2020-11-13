@@ -23,7 +23,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
-import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -172,13 +171,10 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 
 	@Override
 	public void onSearchComments() {
-		DialogUtils.showSearchDialog(this, new DialogUtils.OnSearchListener() {
-			@Override
-			public void onSearch(@Nullable final String query) {
-				final Intent searchIntent = getIntent();
-				searchIntent.putExtra(EXTRA_SEARCH_STRING, query);
-				startActivity(searchIntent);
-			}
+		DialogUtils.showSearchDialog(this, query -> {
+			final Intent searchIntent = getIntent();
+			searchIntent.putExtra(EXTRA_SEARCH_STRING, query);
+			startActivity(searchIntent);
 		});
 	}
 

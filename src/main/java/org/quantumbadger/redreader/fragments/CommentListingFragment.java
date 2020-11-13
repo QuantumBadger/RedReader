@@ -24,11 +24,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import androidx.annotation.Nullable;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,6 +36,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -167,12 +166,8 @@ public class CommentListingFragment extends RRFragment
 		if(parent instanceof OptionsMenuUtility.OptionsMenuCommentsListener
 				&& PrefsUtility.pref_behaviour_enable_swipe_refresh(context, prefs)) {
 
-			recyclerViewManager.enablePullToRefresh(new SwipeRefreshLayout.OnRefreshListener() {
-				@Override
-				public void onRefresh() {
-					((OptionsMenuUtility.OptionsMenuCommentsListener)parent).onRefreshComments();
-				}
-			});
+			recyclerViewManager.enablePullToRefresh(
+					((OptionsMenuUtility.OptionsMenuCommentsListener)parent)::onRefreshComments);
 		}
 
 		mRecyclerView = recyclerViewManager.getRecyclerView();
@@ -278,37 +273,31 @@ public class CommentListingFragment extends RRFragment
 				nextButton.setContentDescription(getString(R.string.button_next_comment_parent));
 				mFloatingToolbar.addView(nextButton);
 
-				nextButton.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(final View view) {
+				nextButton.setOnClickListener(view -> {
 
-						final LinearLayoutManager layoutManager
-								= (LinearLayoutManager)mRecyclerView.getLayoutManager();
+					final LinearLayoutManager layoutManager
+							= (LinearLayoutManager)mRecyclerView.getLayoutManager();
 
-						for(int pos = layoutManager.findFirstVisibleItemPosition() + 1;
-							pos < layoutManager.getItemCount();
-							pos++) {
+					for(int pos = layoutManager.findFirstVisibleItemPosition() + 1;
+						pos < layoutManager.getItemCount();
+						pos++) {
 
-							final GroupedRecyclerViewAdapter.Item item
-									= mCommentListingManager.getItemAtPosition(pos);
+						final GroupedRecyclerViewAdapter.Item item
+								= mCommentListingManager.getItemAtPosition(pos);
 
-							if(item instanceof RedditCommentListItem
-									&& ((RedditCommentListItem)item).isComment()
-									&& ((RedditCommentListItem)item).getIndent() == 0) {
+						if(item instanceof RedditCommentListItem
+								&& ((RedditCommentListItem)item).isComment()
+								&& ((RedditCommentListItem)item).getIndent() == 0) {
 
-								layoutManager.scrollToPositionWithOffset(pos, 0);
-								break;
-							}
+							layoutManager.scrollToPositionWithOffset(pos, 0);
+							break;
 						}
 					}
 				});
 
-				nextButton.setOnLongClickListener(new View.OnLongClickListener() {
-					@Override
-					public boolean onLongClick(final View view) {
-						General.quickToast(context, R.string.button_next_comment_parent);
-						return true;
-					}
+				nextButton.setOnLongClickListener(view -> {
+					General.quickToast(context, R.string.button_next_comment_parent);
+					return true;
 				});
 			}
 		}
@@ -570,17 +559,14 @@ public class CommentListingFragment extends RRFragment
 								activity,
 								PreferenceManager.getDefaultSharedPreferences(activity));
 				if(actionOnClick == PrefsUtility.SelfpostAction.COLLAPSE) {
-					paddingLayout.setOnClickListener(new View.OnClickListener() {
-						@Override
-						public void onClick(final View v) {
-							if(selfText.getVisibility() == View.GONE) {
-								selfText.setVisibility(View.VISIBLE);
-								collapsedView.setVisibility(View.GONE);
-							} else {
-								selfText.setVisibility(View.GONE);
-								collapsedView.setVisibility(View.VISIBLE);
-								layoutManager.scrollToPositionWithOffset(0, 0);
-							}
+					paddingLayout.setOnClickListener(v -> {
+						if(selfText.getVisibility() == View.GONE) {
+							selfText.setVisibility(View.VISIBLE);
+							collapsedView.setVisibility(View.GONE);
+						} else {
+							selfText.setVisibility(View.GONE);
+							collapsedView.setVisibility(View.VISIBLE);
+							layoutManager.scrollToPositionWithOffset(0, 0);
 						}
 					});
 				}

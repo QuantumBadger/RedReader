@@ -139,11 +139,8 @@ public class ImgurUploadActivity extends BaseActivity {
 			layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
 			layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
 
-			mLoadingOverlay.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(final View v) {
-					// Do nothing
-				}
+			mLoadingOverlay.setOnClickListener(v -> {
+				// Do nothing
 			});
 
 			mLoadingOverlay.setVisibility(View.GONE);
@@ -219,20 +216,17 @@ public class ImgurUploadActivity extends BaseActivity {
 
 					final String base64String = new String(byteOutput.toByteArray());
 
-					AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-						@Override
-						public void run() {
-							mBase64Data = base64String;
-							mUploadButton.setEnabled(true);
-							mThumbnailView.setImageBitmap(thumbnailBitmap);
-							mTextView.setText(getString(
-									R.string.image_selected_summary,
-									rawBitmap.getWidth(),
-									rawBitmap.getHeight(),
-									statSize / 1024 + "kB"));
-							hideLoadingOverlay();
-							updateUploadButtonVisibility();
-						}
+					AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+						mBase64Data = base64String;
+						mUploadButton.setEnabled(true);
+						mThumbnailView.setImageBitmap(thumbnailBitmap);
+						mTextView.setText(getString(
+								R.string.image_selected_summary,
+								rawBitmap.getWidth(),
+								rawBitmap.getHeight(),
+								statSize / 1024 + "kB"));
+						hideLoadingOverlay();
+						updateUploadButtonVisibility();
 					});
 
 				} catch(final Exception e) {
@@ -243,16 +237,13 @@ public class ImgurUploadActivity extends BaseActivity {
 									getString(R.string.error_file_open_failed_message),
 									e));
 
-					AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-						@Override
-						public void run() {
-							mBase64Data = null;
-							mUploadButton.setEnabled(false);
-							mThumbnailView.setImageBitmap(null);
-							mTextView.setText(R.string.no_file_selected);
-							hideLoadingOverlay();
-							updateUploadButtonVisibility();
-						}
+					AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+						mBase64Data = null;
+						mUploadButton.setEnabled(false);
+						mThumbnailView.setImageBitmap(null);
+						mTextView.setText(R.string.no_file_selected);
+						hideLoadingOverlay();
+						updateUploadButtonVisibility();
 					});
 				}
 			}
@@ -310,12 +301,7 @@ public class ImgurUploadActivity extends BaseActivity {
 								httpStatus,
 								url.toString()));
 
-				AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-					@Override
-					public void run() {
-						hideLoadingOverlay();
-					}
-				});
+				AndroidCommon.UI_THREAD_HANDLER.post(ImgurUploadActivity.this::hideLoadingOverlay);
 			}
 
 			@Override
@@ -363,15 +349,12 @@ public class ImgurUploadActivity extends BaseActivity {
 					return;
 				}
 
-				AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-					@Override
-					public void run() {
+				AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 
-						final Intent resultIntent = new Intent();
-						resultIntent.setData(imageUri);
-						setResult(0, resultIntent);
-						finish();
-					}
+					final Intent resultIntent = new Intent();
+					resultIntent.setData(imageUri);
+					setResult(0, resultIntent);
+					finish();
 				});
 			}
 

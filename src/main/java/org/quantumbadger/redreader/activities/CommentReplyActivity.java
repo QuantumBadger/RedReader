@@ -18,10 +18,8 @@
 package org.quantumbadger.redreader.activities;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,6 +32,7 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -197,65 +196,53 @@ public class CommentReplyActivity extends BaseActivity {
 			progressDialog.setCancelable(true);
 			progressDialog.setCanceledOnTouchOutside(false);
 
-			progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-				@Override
-				public void onCancel(final DialogInterface dialogInterface) {
+			progressDialog.setOnCancelListener(dialogInterface -> {
+				General.quickToast(
+						CommentReplyActivity.this,
+						getString(R.string.comment_reply_oncancel));
+				General.safeDismissDialog(progressDialog);
+			});
+
+			progressDialog.setOnKeyListener((dialogInterface, keyCode, keyEvent) -> {
+
+				if(keyCode == KeyEvent.KEYCODE_BACK) {
 					General.quickToast(
 							CommentReplyActivity.this,
 							getString(R.string.comment_reply_oncancel));
 					General.safeDismissDialog(progressDialog);
 				}
-			});
 
-			progressDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
-				@Override
-				public boolean onKey(
-						final DialogInterface dialogInterface,
-						final int keyCode,
-						final KeyEvent keyEvent) {
-
-					if(keyCode == KeyEvent.KEYCODE_BACK) {
-						General.quickToast(
-								CommentReplyActivity.this,
-								getString(R.string.comment_reply_oncancel));
-						General.safeDismissDialog(progressDialog);
-					}
-
-					return true;
-				}
+				return true;
 			});
 
 			final APIResponseHandler.ActionResponseHandler handler
 					= new APIResponseHandler.ActionResponseHandler(this) {
 				@Override
 				protected void onSuccess(@Nullable final String redirectUrl) {
-					AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-						@Override
-						public void run() {
-							General.safeDismissDialog(progressDialog);
+					AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+						General.safeDismissDialog(progressDialog);
 
-							if(mParentType == ParentType.MESSAGE) {
-								General.quickToast(
-										CommentReplyActivity.this,
-										getString(R.string.pm_reply_done));
-							} else {
-								General.quickToast(
-										CommentReplyActivity.this,
-										getString(R.string.comment_reply_done_norefresh));
-							}
-
-							mDraftReset = true;
-							lastText = null;
-							lastParentIdAndType = null;
-
-							if(redirectUrl != null) {
-								LinkHandler.onLinkClicked(
-										CommentReplyActivity.this,
-										redirectUrl);
-							}
-
-							finish();
+						if(mParentType == ParentType.MESSAGE) {
+							General.quickToast(
+									CommentReplyActivity.this,
+									getString(R.string.pm_reply_done));
+						} else {
+							General.quickToast(
+									CommentReplyActivity.this,
+									getString(R.string.comment_reply_done_norefresh));
 						}
+
+						mDraftReset = true;
+						lastText = null;
+						lastParentIdAndType = null;
+
+						if(redirectUrl != null) {
+							LinkHandler.onLinkClicked(
+									CommentReplyActivity.this,
+									redirectUrl);
+						}
+
+						finish();
 					});
 				}
 
@@ -278,13 +265,8 @@ public class CommentReplyActivity extends BaseActivity {
 							status,
 							null);
 
-					AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-						@Override
-						public void run() {
-							General.showResultDialog(CommentReplyActivity.this, error);
-							General.safeDismissDialog(progressDialog);
-						}
-					});
+					General.showResultDialog(CommentReplyActivity.this, error);
+					General.safeDismissDialog(progressDialog);
 				}
 
 				@Override
@@ -294,13 +276,8 @@ public class CommentReplyActivity extends BaseActivity {
 							context,
 							type);
 
-					AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-						@Override
-						public void run() {
-							General.showResultDialog(CommentReplyActivity.this, error);
-							General.safeDismissDialog(progressDialog);
-						}
-					});
+					General.showResultDialog(CommentReplyActivity.this, error);
+					General.safeDismissDialog(progressDialog);
 				}
 			};
 

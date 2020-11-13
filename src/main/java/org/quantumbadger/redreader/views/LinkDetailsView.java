@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.views;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -24,21 +25,21 @@ import android.graphics.Paint;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
 import android.preference.PreferenceManager;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.view.Gravity;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 
 public class LinkDetailsView extends FrameLayout {
 
+	@SuppressLint("ClickableViewAccessibility")
 	public LinkDetailsView(
 			final Context context,
 			@NonNull final String title,
@@ -105,26 +106,23 @@ public class LinkDetailsView extends FrameLayout {
 		//noinspection deprecation
 		setBackgroundDrawable(border);
 
-		setOnTouchListener(new OnTouchListener() {
-			@Override
-			public boolean onTouch(final View v, final MotionEvent event) {
+		setOnTouchListener((v, event) -> {
 
-				switch(event.getActionMasked()) {
+			switch(event.getActionMasked()) {
 
-					case MotionEvent.ACTION_DOWN:
-						layout.setBackgroundColor(Color.argb(50, 128, 128, 128));
-						invalidate();
-						break;
+				case MotionEvent.ACTION_DOWN:
+					layout.setBackgroundColor(Color.argb(50, 128, 128, 128));
+					invalidate();
+					break;
 
-					case MotionEvent.ACTION_UP:
-					case MotionEvent.ACTION_CANCEL:
-						layout.setBackgroundColor(Color.TRANSPARENT);
-						invalidate();
-						break;
-				}
-
-				return false;
+				case MotionEvent.ACTION_UP:
+				case MotionEvent.ACTION_CANCEL:
+					layout.setBackgroundColor(Color.TRANSPARENT);
+					invalidate();
+					break;
 			}
+
+			return false;
 		});
 	}
 }

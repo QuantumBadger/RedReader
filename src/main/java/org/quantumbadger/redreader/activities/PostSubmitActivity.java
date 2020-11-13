@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.activities;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
@@ -276,32 +275,23 @@ public class PostSubmitActivity extends BaseActivity {
 				progressDialog.setCancelable(true);
 				progressDialog.setCanceledOnTouchOutside(false);
 
-				progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-					@Override
-					public void onCancel(final DialogInterface dialogInterface) {
+				progressDialog.setOnCancelListener(dialogInterface -> {
+					General.quickToast(
+							PostSubmitActivity.this,
+							getString(R.string.comment_reply_oncancel));
+					General.safeDismissDialog(progressDialog);
+				});
+
+				progressDialog.setOnKeyListener((dialogInterface, keyCode, keyEvent) -> {
+
+					if(keyCode == KeyEvent.KEYCODE_BACK) {
 						General.quickToast(
 								PostSubmitActivity.this,
 								getString(R.string.comment_reply_oncancel));
 						General.safeDismissDialog(progressDialog);
 					}
-				});
 
-				progressDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
-					@Override
-					public boolean onKey(
-							final DialogInterface dialogInterface,
-							final int keyCode,
-							final KeyEvent keyEvent) {
-
-						if(keyCode == KeyEvent.KEYCODE_BACK) {
-							General.quickToast(
-									PostSubmitActivity.this,
-									getString(R.string.comment_reply_oncancel));
-							General.safeDismissDialog(progressDialog);
-						}
-
-						return true;
-					}
+					return true;
 				});
 
 				final CacheManager cm = CacheManager.getInstance(this);
@@ -310,24 +300,21 @@ public class PostSubmitActivity extends BaseActivity {
 						= new APIResponseHandler.ActionResponseHandler(this) {
 					@Override
 					protected void onSuccess(@Nullable final String redirectUrl) {
-						AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-							@Override
-							public void run() {
-								General.safeDismissDialog(progressDialog);
-								General.quickToast(
+						AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+							General.safeDismissDialog(progressDialog);
+							General.quickToast(
+									PostSubmitActivity.this,
+									getString(R.string.post_submit_done));
+
+							resetDraft();
+
+							if(redirectUrl != null) {
+								LinkHandler.onLinkClicked(
 										PostSubmitActivity.this,
-										getString(R.string.post_submit_done));
-
-								resetDraft();
-
-								if(redirectUrl != null) {
-									LinkHandler.onLinkClicked(
-											PostSubmitActivity.this,
-											redirectUrl);
-								}
-
-								finish();
+										redirectUrl);
 							}
+
+							finish();
 						});
 					}
 
@@ -350,13 +337,8 @@ public class PostSubmitActivity extends BaseActivity {
 								status,
 								null);
 
-						AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-							@Override
-							public void run() {
-								General.showResultDialog(PostSubmitActivity.this, error);
-								General.safeDismissDialog(progressDialog);
-							}
-						});
+						General.showResultDialog(PostSubmitActivity.this, error);
+						General.safeDismissDialog(progressDialog);
 					}
 
 					@Override
@@ -366,13 +348,8 @@ public class PostSubmitActivity extends BaseActivity {
 								context,
 								type);
 
-						AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-							@Override
-							public void run() {
-								General.showResultDialog(PostSubmitActivity.this, error);
-								General.safeDismissDialog(progressDialog);
-							}
-						});
+						General.showResultDialog(PostSubmitActivity.this, error);
+						General.safeDismissDialog(progressDialog);
 					}
 				};
 

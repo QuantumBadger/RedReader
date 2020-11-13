@@ -20,17 +20,16 @@ package org.quantumbadger.redreader.views.video;
 import android.content.Context;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
-import androidx.annotation.DrawableRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.Player;
@@ -137,24 +136,18 @@ public class ExoPlayerWrapperView extends FrameLayout {
 					context,
 					mControlView,
 					R.drawable.exo_controls_previous,
-					new OnClickListener() {
-						@Override
-						public void onClick(final View view) {
-							mVideoPlayer.seekTo(0);
-							updateProgress();
-						}
+					view -> {
+						mVideoPlayer.seekTo(0);
+						updateProgress();
 					}), buttons);
 
 			addButton(createButton(
 					context,
 					mControlView,
 					R.drawable.exo_controls_rewind,
-					new OnClickListener() {
-						@Override
-						public void onClick(final View view) {
-							mVideoPlayer.seekTo(mVideoPlayer.getCurrentPosition() - 3000);
-							updateProgress();
-						}
+					view -> {
+						mVideoPlayer.seekTo(mVideoPlayer.getCurrentPosition() - 3000);
+						updateProgress();
 					}), buttons);
 
 			{
@@ -164,21 +157,18 @@ public class ExoPlayerWrapperView extends FrameLayout {
 						context,
 						mControlView,
 						R.drawable.exo_controls_pause,
-						new OnClickListener() {
-							@Override
-							public void onClick(final View view) {
-								mVideoPlayer.setPlayWhenReady(!mVideoPlayer.getPlayWhenReady());
+						view -> {
+							mVideoPlayer.setPlayWhenReady(!mVideoPlayer.getPlayWhenReady());
 
-								if(mVideoPlayer.getPlayWhenReady()) {
-									playButton.get()
-											.setImageResource(R.drawable.exo_controls_pause);
-								} else {
-									playButton.get()
-											.setImageResource(R.drawable.exo_controls_play);
-								}
-
-								updateProgress();
+							if(mVideoPlayer.getPlayWhenReady()) {
+								playButton.get()
+										.setImageResource(R.drawable.exo_controls_pause);
+							} else {
+								playButton.get()
+										.setImageResource(R.drawable.exo_controls_play);
 							}
+
+							updateProgress();
 						}));
 
 				addButton(playButton.get(), buttons);
@@ -188,12 +178,9 @@ public class ExoPlayerWrapperView extends FrameLayout {
 					context,
 					mControlView,
 					R.drawable.exo_controls_fastforward,
-					new OnClickListener() {
-						@Override
-						public void onClick(final View view) {
-							mVideoPlayer.seekTo(mVideoPlayer.getCurrentPosition() + 3000);
-							updateProgress();
-						}
+					view -> {
+						mVideoPlayer.seekTo(mVideoPlayer.getCurrentPosition() + 3000);
+						updateProgress();
 					}), buttons);
 
 			{
@@ -203,19 +190,16 @@ public class ExoPlayerWrapperView extends FrameLayout {
 						context,
 						mControlView,
 						R.drawable.ic_zoom_in_dark,
-						new OnClickListener() {
-							@Override
-							public void onClick(final View v) {
-								if (videoPlayerView.getResizeMode()
-										== AspectRatioFrameLayout.RESIZE_MODE_FIT) {
-									videoPlayerView.setResizeMode(
-											AspectRatioFrameLayout.RESIZE_MODE_ZOOM);
-									zoomButton.get().setImageResource(R.drawable.ic_zoom_out_dark);
-								} else {
-									videoPlayerView.setResizeMode(
-											AspectRatioFrameLayout.RESIZE_MODE_FIT);
-									zoomButton.get().setImageResource(R.drawable.ic_zoom_in_dark);
-								}
+						v -> {
+							if (videoPlayerView.getResizeMode()
+									== AspectRatioFrameLayout.RESIZE_MODE_FIT) {
+								videoPlayerView.setResizeMode(
+										AspectRatioFrameLayout.RESIZE_MODE_ZOOM);
+								zoomButton.get().setImageResource(R.drawable.ic_zoom_out_dark);
+							} else {
+								videoPlayerView.setResizeMode(
+										AspectRatioFrameLayout.RESIZE_MODE_FIT);
+								zoomButton.get().setImageResource(R.drawable.ic_zoom_in_dark);
 							}
 						}));
 

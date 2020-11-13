@@ -21,7 +21,6 @@ import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
@@ -33,7 +32,6 @@ import android.preference.PreferenceManager;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
@@ -519,14 +517,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 						.setMessage(R.string.delete_confirm)
 						.setPositiveButton(
 								R.string.action_delete,
-								new DialogInterface.OnClickListener() {
-									@Override
-									public void onClick(
-											final DialogInterface dialog,
-											final int which) {
-										post.action(activity, RedditAPI.ACTION_DELETE);
-									}
-								})
+								(dialog, which) -> post.action(activity, RedditAPI.ACTION_DELETE))
 						.setNegativeButton(R.string.dialog_cancel, null)
 						.show();
 				break;
@@ -538,15 +529,10 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 						.setMessage(R.string.action_report_sure)
 						.setPositiveButton(
 								R.string.action_report,
-								new DialogInterface.OnClickListener() {
-									@Override
-									public void onClick(
-											final DialogInterface dialog,
-											final int which) {
-										post.action(activity, RedditAPI.ACTION_REPORT);
-										// TODO update the view to show the result
-										// TODO don't forget, this also hides
-									}
+								(dialog, which) -> {
+									post.action(activity, RedditAPI.ACTION_REPORT);
+									// TODO update the view to show the result
+									// TODO don't forget, this also hides
 								})
 						.setNegativeButton(R.string.dialog_cancel, null)
 						.show();
@@ -578,16 +564,13 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 							linksInComment.toArray(new String[linksInComment.size()]);
 
 					final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-					builder.setItems(linksArr, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(final DialogInterface dialog, final int which) {
-							LinkHandler.onLinkClicked(
-									activity,
-									linksArr[which],
-									false,
-									post.src.getSrc());
-							dialog.dismiss();
-						}
+					builder.setItems(linksArr, (dialog, which) -> {
+						LinkHandler.onLinkClicked(
+								activity,
+								linksArr[which],
+								false,
+								post.src.getSrc());
+						dialog.dismiss();
 					});
 
 					final AlertDialog alert = builder.create();
@@ -1309,12 +1292,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 		if(user.isAnonymous()) {
 
-			AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-				@Override
-				public void run() {
-					General.showMustBeLoggedInDialog(activity);
-				}
-			});
+			AndroidCommon.UI_THREAD_HANDLER.post(() -> General.showMustBeLoggedInDialog(activity));
 
 			return;
 		}
@@ -1404,12 +1382,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 										+ action
 										+ " "
 										+ src.getIdAndType());
-						AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-							@Override
-							public void run() {
-								General.showResultDialog(activity, error);
-							}
-						});
+						General.showResultDialog(activity, error);
 					}
 
 					@Override
@@ -1418,12 +1391,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 						final RRError error =
 								General.getGeneralErrorForFailure(context, type);
-						AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-							@Override
-							public void run() {
-								General.showResultDialog(activity, error);
-							}
-						});
+						General.showResultDialog(activity, error);
 					}
 
 					@Override
@@ -1707,12 +1675,9 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 				ib.setContentDescription(activity.getString(textRes));
 
-				ib.setOnLongClickListener(new View.OnLongClickListener() {
-					@Override
-					public boolean onLongClick(final View view) {
-						General.quickToast(activity, textRes);
-						return true;
-					}
+				ib.setOnLongClickListener(view -> {
+					General.quickToast(activity, textRes);
+					return true;
 				});
 
 				toolbar.addItem(ib);

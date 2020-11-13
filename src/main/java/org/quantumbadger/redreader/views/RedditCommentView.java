@@ -307,19 +307,11 @@ public class RedditCommentView extends FlingableItemView
 				context,
 				PreferenceManager.getDefaultSharedPreferences(context));
 
-		setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(final View view) {
-				mListener.onCommentClicked(RedditCommentView.this);
-			}
-		});
+		setOnClickListener(view -> mListener.onCommentClicked(RedditCommentView.this));
 
-		setOnLongClickListener(new OnLongClickListener() {
-			@Override
-			public boolean onLongClick(final View v) {
-				mListener.onCommentLongClicked(RedditCommentView.this);
-				return true;
-			}
+		setOnLongClickListener(v -> {
+			mListener.onCommentLongClicked(RedditCommentView.this);
+			return true;
 		});
 	}
 

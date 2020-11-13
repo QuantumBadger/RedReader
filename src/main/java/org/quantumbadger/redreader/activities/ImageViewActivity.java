@@ -708,27 +708,24 @@ public class ImageViewActivity extends BaseActivity
 				return;
 			}
 
-			AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-				@Override
-				public void run() {
+			AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 
-					if(mIsDestroyed) {
-						return;
-					}
-					mRequest = null;
-					mImageViewDisplayerManager = new ImageViewDisplayListManager(
-							imageTileSource,
-							ImageViewActivity.this);
-					surfaceView = new RRGLSurfaceView(
-							ImageViewActivity.this,
-							mImageViewDisplayerManager);
-					setMainView(surfaceView);
+				if(mIsDestroyed) {
+					return;
+				}
+				mRequest = null;
+				mImageViewDisplayerManager = new ImageViewDisplayListManager(
+						imageTileSource,
+						ImageViewActivity.this);
+				surfaceView = new RRGLSurfaceView(
+						ImageViewActivity.this,
+						mImageViewDisplayerManager);
+				setMainView(surfaceView);
 
-					if(mIsPaused) {
-						surfaceView.onPause();
-					} else {
-						surfaceView.onResume();
-					}
+				if(mIsPaused) {
+					surfaceView.onPause();
+				} else {
+					surfaceView.onResume();
 				}
 			});
 		}
@@ -1232,21 +1229,18 @@ public class ImageViewActivity extends BaseActivity
 											status,
 											url.toString());
 
-									AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-										@Override
-										public void run() {
-											// TODO handle properly
-											mRequest = null;
-											final LinearLayout layout = new LinearLayout(
-													context);
-											final ErrorView errorView = new ErrorView(
-													ImageViewActivity.this,
-													error);
-											layout.addView(errorView);
-											errorView.getLayoutParams().width
-													= ViewGroup.LayoutParams.MATCH_PARENT;
-											setMainView(layout);
-										}
+									AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+										// TODO handle properly
+										mRequest = null;
+										final LinearLayout layout = new LinearLayout(
+												context);
+										final ErrorView errorView = new ErrorView(
+												ImageViewActivity.this,
+												error);
+										layout.addView(errorView);
+										errorView.getLayoutParams().width
+												= ViewGroup.LayoutParams.MATCH_PARENT;
+										setMainView(layout);
 									});
 								}
 							}

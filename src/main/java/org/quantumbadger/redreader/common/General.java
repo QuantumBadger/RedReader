@@ -152,7 +152,7 @@ public final class General {
 	}
 
 	public static void quickToast(final Context context, final String text) {
-		AndroidCommon.UI_THREAD_HANDLER.post(
+		AndroidCommon.runOnUiThread(
 				() -> Toast.makeText(context, text, Toast.LENGTH_LONG).show());
 	}
 
@@ -160,7 +160,7 @@ public final class General {
 			final Context context,
 			final String text,
 			final int duration) {
-		AndroidCommon.UI_THREAD_HANDLER.post(
+		AndroidCommon.runOnUiThread(
 				() -> Toast.makeText(context, text, duration).show());
 	}
 
@@ -377,7 +377,7 @@ public final class General {
 	public static void showResultDialog(
 			final AppCompatActivity context,
 			final RRError error) {
-		AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+		AndroidCommon.runOnUiThread(() -> {
 			try {
 				final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(
 						context);
@@ -628,13 +628,15 @@ public final class General {
 	}
 
 	public static void safeDismissDialog(final Dialog dialog) {
-		try {
-			if(dialog.isShowing()) {
-				dialog.dismiss();
+		AndroidCommon.runOnUiThread(() -> {
+			try {
+				if(dialog.isShowing()) {
+					dialog.dismiss();
+				}
+			} catch(final Exception e) {
+				Log.e("safeDismissDialog", "Caught exception while dismissing dialog", e);
 			}
-		} catch(final Exception e) {
-			Log.e("safeDismissDialog", "Caught exception while dismissing dialog", e);
-		}
+		});
 	}
 
 	public static void closeSafely(final Closeable closeable) {

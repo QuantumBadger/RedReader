@@ -27,7 +27,6 @@ import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -354,27 +353,25 @@ public class PostListingActivity extends RefreshableActivity
 			final PostListingController controller,
 			final AppCompatActivity activity) {
 
-		DialogUtils.showSearchDialog(activity, new DialogUtils.OnSearchListener() {
-			@Override
-			public void onSearch(@Nullable final String query) {
-				if(query == null) {
-					return;
-				}
-
-				final SearchPostListURL url;
-
-				if(controller != null && (controller.isSubreddit()
-						|| controller.isSubredditSearchResults())) {
-					url = SearchPostListURL.build(controller.subredditCanonicalName()
-							.toString(), query);
-				} else {
-					url = SearchPostListURL.build(null, query);
-				}
-
-				final Intent intent = new Intent(activity, PostListingActivity.class);
-				intent.setData(url.generateJsonUri());
-				activity.startActivity(intent);
+		DialogUtils.showSearchDialog(activity, query -> {
+			if(query == null) {
+				return;
 			}
+
+			final SearchPostListURL url;
+
+			if(controller != null && (controller.isSubreddit()
+					|| controller.isSubredditSearchResults())) {
+				url = SearchPostListURL.build(
+						controller.subredditCanonicalName().toString(),
+						query);
+			} else {
+				url = SearchPostListURL.build(null, query);
+			}
+
+			final Intent intent = new Intent(activity, PostListingActivity.class);
+			intent.setData(url.generateJsonUri());
+			activity.startActivity(intent);
 		});
 	}
 

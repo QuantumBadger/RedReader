@@ -153,16 +153,13 @@ public class LinkHandler {
 			final Uri rrUri = Uri.parse(url);
 
 			if(rrUri.getAuthority().equals("msg")) {
-				new Handler().post(new Runnable() {
-					@Override
-					public void run() {
-						final AlertDialog.Builder builder = new AlertDialog.Builder(
-								activity);
-						builder.setTitle(rrUri.getQueryParameter("title"));
-						builder.setMessage(rrUri.getQueryParameter("message"));
-						final AlertDialog alert = builder.create();
-						alert.show();
-					}
+				new Handler().post(() -> {
+					final AlertDialog.Builder builder = new AlertDialog.Builder(
+							activity);
+					builder.setTitle(rrUri.getQueryParameter("title"));
+					builder.setMessage(rrUri.getQueryParameter("message"));
+					final AlertDialog alert = builder.create();
+					alert.show();
 				});
 
 				return;

@@ -20,14 +20,13 @@ package org.quantumbadger.redreader.adapters;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import androidx.appcompat.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import androidx.appcompat.app.AppCompatDialogFragment;
 import org.quantumbadger.redreader.R;
 
 import java.util.List;
@@ -78,12 +77,9 @@ public class ShareOrderAdapter extends BaseAdapter {
 			final View divider = rowView.findViewById(R.id.list_item_share_dialog_divider);
 			divider.setVisibility(View.INVISIBLE);
 
-			rowView.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(final View v) {
-					((ShareOrderCallbackListener)fragment).onSelectedIntent(position);
-					fragment.dismiss();
-				}
+			rowView.setOnClickListener(v -> {
+				((ShareOrderCallbackListener)fragment).onSelectedIntent(position);
+				fragment.dismiss();
 			});
 		}
 

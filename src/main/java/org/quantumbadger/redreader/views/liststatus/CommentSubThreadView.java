@@ -18,11 +18,9 @@
 package org.quantumbadger.redreader.views.liststatus;
 
 import android.content.res.TypedArray;
-import androidx.appcompat.app.AppCompatActivity;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
+import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
@@ -80,12 +78,9 @@ public final class CommentSubThreadView extends StatusListItemView {
 
 		setBackgroundColor(rrCommentSpecificThreadHeaderBackCol);
 
-		setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(final View v) {
-				final PostCommentListingURL allComments = mUrl.commentId(null);
-				LinkHandler.onLinkClicked(activity, allComments.toString());
-			}
+		setOnClickListener(v -> {
+			final PostCommentListingURL allComments = mUrl.commentId(null);
+			LinkHandler.onLinkClicked(activity, allComments.toString());
 		});
 	}
 

@@ -22,7 +22,6 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.preference.PreferenceManager;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -355,7 +354,7 @@ public class RedditAPICommentAction {
 
 				if(PrefsUtility.pref_behaviour_sharing_include_desc(
 						activity,
-						PreferenceManager.getDefaultSharedPreferences(activity))) {
+						General.getSharedPrefs(activity))) {
 					subject = String.format(
 							Locale.US,
 							activity.getText(R.string.share_comment_by_on_reddit)
@@ -366,7 +365,7 @@ public class RedditAPICommentAction {
 				// TODO this currently just dumps the markdown (only if sharing text is enabled)
 				if(PrefsUtility.pref_behaviour_sharing_share_text(
 						activity,
-						PreferenceManager.getDefaultSharedPreferences(activity))) {
+						General.getSharedPrefs(activity))) {
 					body = StringEscapeUtils.unescapeHtml4(comment.body)
 							+ "\r\n\r\n";
 				}

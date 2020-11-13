@@ -24,7 +24,6 @@ import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -131,7 +130,7 @@ public abstract class BaseActivity extends AppCompatActivity
 
 		super.onCreate(savedInstanceState);
 
-		mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		mSharedPreferences = General.getSharedPrefs(this);
 
 		if(PrefsUtility.pref_appearance_hide_android_status(this, mSharedPreferences)) {
 			getWindow().setFlags(

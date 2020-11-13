@@ -23,7 +23,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -141,7 +140,7 @@ public class MainActivity extends RefreshableActivity
 			return;
 		}
 
-		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		sharedPreferences = General.getSharedPrefs(this);
 		twoPane = General.isTablet(this, sharedPreferences);
 
 		doRefresh(RefreshableFragment.MAIN_RELAYOUT, false, null);

@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.adapters;
 
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -123,7 +122,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 		final PrefsUtility.AppearanceThumbnailsShow thumbnailsPref
 				= PrefsUtility.appearance_thumbnails_show(
 				activity,
-				PreferenceManager.getDefaultSharedPreferences(activity));
+				General.getSharedPrefs(activity));
 
 		final boolean downloadThumbnails = thumbnailsPref
 				== PrefsUtility.AppearanceThumbnailsShow.ALWAYS

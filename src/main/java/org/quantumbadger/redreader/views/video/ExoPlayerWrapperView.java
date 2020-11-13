@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.views.video;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -92,7 +91,7 @@ public class ExoPlayerWrapperView extends FrameLayout {
 
 		if(PrefsUtility.pref_behaviour_video_zoom_default(
 				context,
-				PreferenceManager.getDefaultSharedPreferences(context))) {
+				General.getSharedPrefs(context))) {
 			videoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_ZOOM);
 		} else {
 			videoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
@@ -100,7 +99,7 @@ public class ExoPlayerWrapperView extends FrameLayout {
 
 		if(PrefsUtility.pref_behaviour_video_playback_controls(
 				context,
-				PreferenceManager.getDefaultSharedPreferences(context))) {
+				General.getSharedPrefs(context))) {
 
 			mControlView = new RelativeLayout(context);
 			addView(mControlView);

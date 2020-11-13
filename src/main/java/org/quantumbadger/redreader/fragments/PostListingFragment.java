@@ -22,7 +22,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -161,7 +160,7 @@ public class PostListingFragment extends RRFragment
 		mSession = session;
 
 		final Context context = getContext();
-		mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+		mSharedPreferences = General.getSharedPrefs(context);
 
 		// TODO output failed URL
 		if(mPostListingURL == null) {

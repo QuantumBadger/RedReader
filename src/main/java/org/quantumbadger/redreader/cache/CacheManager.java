@@ -22,13 +22,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.common.FileUtils;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.PrioritisedCachedThreadPool;
@@ -187,11 +187,8 @@ public final class CacheManager {
 				getCacheFileList(dir, currentFiles);
 			}
 
-			final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(
-					context);
-			final HashMap<Integer, Long> maxAge = PrefsUtility.pref_cache_maxage(
-					context,
-					prefs);
+			final SharedPreferences prefs = General.getSharedPrefs(context);
+			final HashMap<Integer, Long> maxAge = PrefsUtility.pref_cache_maxage(context, prefs);
 
 			final ArrayList<Long> filesToDelete = dbManager.getFilesToPrune(
 					currentFiles,
@@ -229,7 +226,7 @@ public final class CacheManager {
 		return new File(
 				PrefsUtility.pref_cache_location(
 						context,
-						PreferenceManager.getDefaultSharedPreferences(context)));
+						General.getSharedPrefs(context)));
 	}
 
 	@NonNull

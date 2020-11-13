@@ -37,6 +37,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.R;
@@ -60,6 +61,7 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Locale;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -71,6 +73,8 @@ public final class General {
 	public static final String LTR_OVERRIDE_MARK = "\u202D";
 
 	public static final int COLOR_INVALID = Color.MAGENTA;
+
+	private static final AtomicReference<SharedPreferences> mPrefs = new AtomicReference<>();
 
 	private static long lastBackPress = -1;
 
@@ -95,6 +99,22 @@ public final class General {
 		}
 
 		return monoTypeface;
+	}
+
+	@NonNull
+	public static SharedPreferences getSharedPrefs(@NonNull final Context context) {
+
+		SharedPreferences prefs = mPrefs.get();
+
+		if(prefs == null) {
+			prefs = context.getSharedPreferences(
+					context.getPackageName() + "_preferences",
+					Context.MODE_PRIVATE);
+
+			mPrefs.set(prefs);
+		}
+
+		return prefs;
 	}
 
 	public static Message handlerMessage(final int what, final Object obj) {

@@ -26,7 +26,6 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -158,7 +157,7 @@ public class MainMenuListingManager {
 
 		{
 			final SharedPreferences sharedPreferences
-					= PreferenceManager.getDefaultSharedPreferences(activity);
+					= General.getSharedPrefs(activity);
 			final EnumSet<MainMenuFragment.MainMenuShortcutItems> mainMenuShortcutItems
 					= PrefsUtility.pref_menus_mainmenu_shortcutitems(
 					activity,
@@ -228,7 +227,7 @@ public class MainMenuListingManager {
 		if(!user.isAnonymous()) {
 
 			final SharedPreferences sharedPreferences
-					= PreferenceManager.getDefaultSharedPreferences(activity);
+					= General.getSharedPrefs(activity);
 			final EnumSet<MainMenuFragment.MainMenuUserItems> mainMenuUserItems
 					= PrefsUtility.pref_menus_mainmenu_useritems(
 					activity,
@@ -237,7 +236,7 @@ public class MainMenuListingManager {
 			if(!mainMenuUserItems.isEmpty()) {
 				if(PrefsUtility.pref_appearance_hide_username_main_menu(
 						activity,
-						PreferenceManager.getDefaultSharedPreferences(activity))) {
+						General.getSharedPrefs(activity))) {
 
 					mAdapter.appendToGroup(
 							GROUP_USER_HEADER,
@@ -338,7 +337,7 @@ public class MainMenuListingManager {
 
 		if(PrefsUtility.pref_appearance_show_blocked_subreddits_main_menu(
 				activity,
-				PreferenceManager.getDefaultSharedPreferences(activity))) {
+				General.getSharedPrefs(activity))) {
 
 			setBlockedSubreddits();
 		}
@@ -346,7 +345,7 @@ public class MainMenuListingManager {
 		if(!user.isAnonymous()) {
 			if(PrefsUtility.pref_show_multireddit_main_menu(
 					activity,
-					PreferenceManager.getDefaultSharedPreferences(activity))) {
+					General.getSharedPrefs(activity))) {
 
 				showMultiredditsHeader(activity);
 
@@ -368,7 +367,7 @@ public class MainMenuListingManager {
 
 		if(PrefsUtility.pref_show_subscribed_subreddits_main_menu(
 				activity,
-				PreferenceManager.getDefaultSharedPreferences(activity))) {
+				General.getSharedPrefs(activity))) {
 
 			mAdapter.appendToGroup(
 					GROUP_SUBREDDITS_HEADER,
@@ -396,7 +395,7 @@ public class MainMenuListingManager {
 	private void setPinnedSubreddits() {
 
 		final SharedPreferences sharedPreferences
-				= PreferenceManager.getDefaultSharedPreferences(mActivity);
+				= General.getSharedPrefs(mActivity);
 
 		final List<SubredditCanonicalId> pinnedSubreddits
 				= PrefsUtility.pref_pinned_subreddits(mActivity, sharedPreferences);
@@ -434,7 +433,7 @@ public class MainMenuListingManager {
 	private void setBlockedSubreddits() {
 
 		final SharedPreferences sharedPreferences
-				= PreferenceManager.getDefaultSharedPreferences(mActivity);
+				= General.getSharedPrefs(mActivity);
 
 		final List<SubredditCanonicalId> blockedSubreddits
 				= PrefsUtility.pref_blocked_subreddits(mActivity, sharedPreferences);
@@ -527,7 +526,7 @@ public class MainMenuListingManager {
 
 			if(!PrefsUtility.pref_show_subscribed_subreddits_main_menu(
 					mActivity,
-					PreferenceManager.getDefaultSharedPreferences(mActivity))) {
+					General.getSharedPrefs(mActivity))) {
 				mAdapter.removeAllFromGroup(GROUP_SUBREDDITS_HEADER);
 				mAdapter.removeAllFromGroup(GROUP_SUBREDDITS_ITEMS);
 				return;
@@ -565,7 +564,7 @@ public class MainMenuListingManager {
 
 			if(!PrefsUtility.pref_show_multireddit_main_menu(
 					mActivity,
-					PreferenceManager.getDefaultSharedPreferences(mActivity))) {
+					General.getSharedPrefs(mActivity))) {
 				mAdapter.removeAllFromGroup(GROUP_MULTIREDDITS_HEADER);
 				mAdapter.removeAllFromGroup(GROUP_MULTIREDDITS_ITEMS);
 				return;
@@ -640,7 +639,7 @@ public class MainMenuListingManager {
 		final View.OnLongClickListener longClickListener = view -> {
 
 			final SharedPreferences sharedPreferences
-					= PreferenceManager.getDefaultSharedPreferences(
+					= General.getSharedPrefs(
 					mActivity);
 
 			final EnumSet<SubredditAction> itemPref
@@ -818,28 +817,28 @@ public class MainMenuListingManager {
 			case PIN:
 				PrefsUtility.pref_pinned_subreddits_add(
 						mActivity,
-						PreferenceManager.getDefaultSharedPreferences(mActivity),
+						General.getSharedPrefs(mActivity),
 						subredditCanonicalId);
 				break;
 
 			case UNPIN:
 				PrefsUtility.pref_pinned_subreddits_remove(
 						mActivity,
-						PreferenceManager.getDefaultSharedPreferences(mActivity),
+						General.getSharedPrefs(mActivity),
 						subredditCanonicalId);
 				break;
 
 			case BLOCK:
 				PrefsUtility.pref_blocked_subreddits_add(
 						mActivity,
-						PreferenceManager.getDefaultSharedPreferences(mActivity),
+						General.getSharedPrefs(mActivity),
 						subredditCanonicalId);
 				break;
 
 			case UNBLOCK:
 				PrefsUtility.pref_blocked_subreddits_remove(
 						mActivity,
-						PreferenceManager.getDefaultSharedPreferences(mActivity),
+						General.getSharedPrefs(mActivity),
 						subredditCanonicalId);
 				break;
 

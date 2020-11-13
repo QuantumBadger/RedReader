@@ -25,7 +25,6 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDialogFragment;
@@ -99,7 +98,7 @@ public class ShareOrderDialog extends AppCompatDialogFragment
 		final List<String> prioritizedAppNames
 				= Arrays.asList(PrefsUtility.pref_behaviour_sharing_dialog_data_get(
 				context,
-				PreferenceManager.getDefaultSharedPreferences(context)).split(";"));
+				General.getSharedPrefs(context)).split(";"));
 		final ResolveInfo[] prioritizedApps = new ResolveInfo[prioritizedAppNames.size()];
 
 		// get the ResolveInfos for the available prioritized Apps and save them in order
@@ -143,7 +142,7 @@ public class ShareOrderDialog extends AppCompatDialogFragment
 		final LinkedList<String> priorityAppList =
 				new LinkedList<>(Arrays.asList(PrefsUtility.pref_behaviour_sharing_dialog_data_get(
 						context,
-						PreferenceManager.getDefaultSharedPreferences(context)).split(";")));
+						General.getSharedPrefs(context)).split(";")));
 		priorityAppList.remove(selectedApplication.name);
 		priorityAppList.add(0, selectedApplication.name);
 		if(priorityAppList.size() > amountOfPrioritizedApps) {
@@ -152,7 +151,7 @@ public class ShareOrderDialog extends AppCompatDialogFragment
 
 		PrefsUtility.pref_behaviour_sharing_dialog_data_set(
 				context,
-				PreferenceManager.getDefaultSharedPreferences(context),
+				General.getSharedPrefs(context),
 				StringUtils.join(priorityAppList, ";"));
 	}
 }

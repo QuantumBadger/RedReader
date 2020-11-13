@@ -24,7 +24,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
-import android.preference.PreferenceManager;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.widget.FrameLayout;
@@ -79,7 +78,7 @@ public class LinkDetailsView extends FrameLayout {
 
 		final float linkFontScale = PrefsUtility.appearance_fontscale_linkbuttons(
 				context,
-				PreferenceManager.getDefaultSharedPreferences(context));
+				General.getSharedPrefs(context));
 
 		{
 			final TextView titleView = new TextView(context);

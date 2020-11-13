@@ -23,14 +23,13 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.preference.PreferenceManager;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -76,7 +75,7 @@ public final class PostListingHeader extends LinearLayout
 		mContext = activity.getApplicationContext();
 
 		final SharedPreferences sharedPreferences
-				= PreferenceManager.getDefaultSharedPreferences(activity);
+				= General.getSharedPrefs(activity);
 
 		final float dpScale = activity.getResources().getDisplayMetrics().density;
 

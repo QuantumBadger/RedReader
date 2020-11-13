@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.views;
 
 import android.content.Context;
-import android.preference.PreferenceManager;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -186,7 +185,7 @@ public class RedditCommentView extends FlingableItemView
 		final PrefsUtility.CommentFlingAction pref =
 				PrefsUtility.pref_behaviour_fling_comment_left(
 						context,
-						PreferenceManager.getDefaultSharedPreferences(context));
+						General.getSharedPrefs(context));
 
 		mLeftFlingAction = chooseFlingAction(pref);
 
@@ -206,7 +205,7 @@ public class RedditCommentView extends FlingableItemView
 		final PrefsUtility.CommentFlingAction pref =
 				PrefsUtility.pref_behaviour_fling_comment_right(
 						context,
-						PreferenceManager.getDefaultSharedPreferences(context));
+						General.getSharedPrefs(context));
 
 		mRightFlingAction = chooseFlingAction(pref);
 
@@ -294,10 +293,10 @@ public class RedditCommentView extends FlingableItemView
 
 		mBodyFontScale = PrefsUtility.appearance_fontscale_bodytext(
 				context,
-				PreferenceManager.getDefaultSharedPreferences(context));
+				General.getSharedPrefs(context));
 		final float mHeaderFontScale = PrefsUtility.appearance_fontscale_comment_headers(
 				context,
-				PreferenceManager.getDefaultSharedPreferences(context));
+				General.getSharedPrefs(context));
 
 		mHeader.setTextSize(
 				TypedValue.COMPLEX_UNIT_PX,
@@ -305,7 +304,7 @@ public class RedditCommentView extends FlingableItemView
 
 		mShowLinkButtons = PrefsUtility.pref_appearance_linkbuttons(
 				context,
-				PreferenceManager.getDefaultSharedPreferences(context));
+				General.getSharedPrefs(context));
 
 		setOnClickListener(view -> mListener.onCommentClicked(this));
 

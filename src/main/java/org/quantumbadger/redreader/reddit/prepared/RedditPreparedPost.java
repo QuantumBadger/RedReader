@@ -28,7 +28,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -190,7 +189,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			final RedditPreparedPost post) {
 
 		final SharedPreferences sharedPreferences =
-				PreferenceManager.getDefaultSharedPreferences(activity);
+				General.getSharedPrefs(activity);
 
 		final EnumSet<Action> itemPref
 				= PrefsUtility.pref_menus_post_context_items(activity, sharedPreferences);
@@ -592,7 +591,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				final String subject
 						= PrefsUtility.pref_behaviour_sharing_dialog(
 						activity,
-						PreferenceManager.getDefaultSharedPreferences(activity))
+						General.getSharedPrefs(activity))
 						? post.src.getTitle()
 						: null;
 
@@ -609,13 +608,13 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				final boolean shareAsPermalink =
 						PrefsUtility.pref_behaviour_share_permalink(
 								activity,
-								PreferenceManager.getDefaultSharedPreferences(activity));
+								General.getSharedPrefs(activity));
 
 				final Intent mailer = new Intent(Intent.ACTION_SEND);
 				mailer.setType("text/plain");
 				if(PrefsUtility.pref_behaviour_sharing_include_desc(
 						activity,
-						PreferenceManager.getDefaultSharedPreferences(activity))) {
+						General.getSharedPrefs(activity))) {
 					mailer.putExtra(
 							Intent.EXTRA_SUBJECT,
 							String.format(activity.getText(R.string.share_comments_for)
@@ -636,7 +635,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				}
 				if(PrefsUtility.pref_behaviour_sharing_dialog(
 						activity,
-						PreferenceManager.getDefaultSharedPreferences(activity))) {
+						General.getSharedPrefs(activity))) {
 					ShareOrderDialog.newInstance(mailer)
 							.show(activity.getSupportFragmentManager(), null);
 				} else {
@@ -774,7 +773,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				try {
 					PrefsUtility.pref_pinned_subreddits_add(
 							activity,
-							PreferenceManager.getDefaultSharedPreferences(activity),
+							General.getSharedPrefs(activity),
 							new SubredditCanonicalId(post.src.getSubreddit()));
 
 				} catch(final InvalidSubredditNameException e) {
@@ -788,7 +787,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				try {
 					PrefsUtility.pref_pinned_subreddits_remove(
 							activity,
-							PreferenceManager.getDefaultSharedPreferences(activity),
+							General.getSharedPrefs(activity),
 							new SubredditCanonicalId(post.src.getSubreddit()));
 
 				} catch(final InvalidSubredditNameException e) {
@@ -802,7 +801,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				try {
 					PrefsUtility.pref_blocked_subreddits_add(
 							activity,
-							PreferenceManager.getDefaultSharedPreferences(activity),
+							General.getSharedPrefs(activity),
 							new SubredditCanonicalId(post.src.getSubreddit()));
 
 				} catch(final InvalidSubredditNameException e) {
@@ -816,7 +815,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				try {
 					PrefsUtility.pref_blocked_subreddits_remove(
 							activity,
-							PreferenceManager.getDefaultSharedPreferences(activity),
+							General.getSharedPrefs(activity),
 							new SubredditCanonicalId(post.src.getSubreddit()));
 
 				} catch(final InvalidSubredditNameException e) {
@@ -913,14 +912,14 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		if(headerMode
 				&& PrefsUtility.appearance_post_subtitle_items_use_different_settings(
 				context,
-				PreferenceManager.getDefaultSharedPreferences(context))) {
+				General.getSharedPrefs(context))) {
 			mPostSubtitleItems = PrefsUtility.appearance_post_header_subtitle_items(
 					context,
-					PreferenceManager.getDefaultSharedPreferences(context));
+					General.getSharedPrefs(context));
 		} else {
 			mPostSubtitleItems = PrefsUtility.appearance_post_subtitle_items(
 					context,
-					PreferenceManager.getDefaultSharedPreferences(context));
+					General.getSharedPrefs(context));
 		}
 
 		final TypedArray appearance = context.obtainStyledAttributes(new int[] {
@@ -1533,7 +1532,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		final VerticalToolbar toolbar = new VerticalToolbar(activity);
 		final EnumSet<Action> itemsPref = PrefsUtility.pref_menus_post_toolbar_items(
 				activity,
-				PreferenceManager.getDefaultSharedPreferences(activity));
+				General.getSharedPrefs(activity));
 
 		final Action[] possibleItems = {
 				Action.ACTION_MENU,

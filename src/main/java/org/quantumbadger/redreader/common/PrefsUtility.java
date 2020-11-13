@@ -21,7 +21,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import androidx.annotation.NonNull;
@@ -164,7 +163,7 @@ public final class PrefsUtility {
 
 		final AppearanceTheme theme = appearance_theme(
 				context,
-				PreferenceManager.getDefaultSharedPreferences(context));
+				General.getSharedPrefs(context));
 
 		return theme == AppearanceTheme.NIGHT
 				|| theme == AppearanceTheme.NIGHT_LOWCONTRAST
@@ -197,8 +196,7 @@ public final class PrefsUtility {
 
 	public static void applyTheme(@NonNull final Activity activity) {
 
-		final SharedPreferences prefs
-				= PreferenceManager.getDefaultSharedPreferences(activity);
+		final SharedPreferences prefs = General.getSharedPrefs(activity);
 
 		final AppearanceTheme theme = appearance_theme(activity, prefs);
 
@@ -245,7 +243,7 @@ public final class PrefsUtility {
 
 	public static void applySettingsTheme(@NonNull final Activity activity) {
 
-		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(
+		final SharedPreferences prefs = General.getSharedPrefs(
 				activity);
 		activity.setTheme(R.style.RR_Settings);
 		applyLanguage(activity, prefs);

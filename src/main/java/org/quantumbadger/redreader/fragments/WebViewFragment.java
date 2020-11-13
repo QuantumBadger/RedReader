@@ -23,7 +23,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -199,7 +198,7 @@ public class WebViewFragment extends Fragment
 				//only re-enable status bar if there is no contradicting preference set
 				if(!PrefsUtility.pref_appearance_hide_android_status(
 						getContext(),
-						PreferenceManager.getDefaultSharedPreferences(getContext()))) {
+						General.getSharedPrefs(getContext()))) {
 					attrs.flags &= ~WindowManager.LayoutParams.FLAG_FULLSCREEN;
 				}
 				attrs.flags &= ~WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
@@ -297,14 +296,14 @@ public class WebViewFragment extends Fragment
 					} else {
 						if(!PrefsUtility.pref_behaviour_useinternalbrowser(
 								mActivity,
-								PreferenceManager.getDefaultSharedPreferences(mActivity))) {
+								General.getSharedPrefs(mActivity))) {
 							LinkHandler.openWebBrowser(
 									mActivity,
 									Uri.parse(url),
 									true);
 						} else if(PrefsUtility.pref_behaviour_usecustomtabs(
 								mActivity,
-								PreferenceManager.getDefaultSharedPreferences(mActivity))
+								General.getSharedPrefs(mActivity))
 								&& Build.VERSION.SDK_INT
 										>= Build.VERSION_CODES.JELLY_BEAN_MR2) {
 							LinkHandler.openCustomTab(

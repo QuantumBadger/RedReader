@@ -153,7 +153,7 @@ public final class InboxListingActivity extends BaseActivity {
 				RedditAccountManager.getInstance(this).getDefaultAccount());
 
 		final SharedPreferences sharedPreferences
-				= PreferenceManager.getDefaultSharedPreferences(this);
+				= General.getSharedPrefs(this);
 		final String title;
 
 		isModmail = getIntent() != null && getIntent().getBooleanExtra("modmail", false);

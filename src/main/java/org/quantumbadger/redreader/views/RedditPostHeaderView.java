@@ -21,7 +21,6 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.preference.PreferenceManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -50,7 +49,7 @@ public class RedditPostHeaderView extends LinearLayout {
 		super(activity);
 
 		final SharedPreferences sharedPreferences =
-				PreferenceManager.getDefaultSharedPreferences(activity);
+				General.getSharedPrefs(activity);
 
 		final float dpScale = activity.getResources().getDisplayMetrics().density;
 

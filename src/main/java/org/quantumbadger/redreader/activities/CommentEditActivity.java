@@ -108,18 +108,14 @@ public class CommentEditActivity extends BaseActivity {
 			progressDialog.setCanceledOnTouchOutside(false);
 
 			progressDialog.setOnCancelListener(dialogInterface -> {
-				General.quickToast(
-						CommentEditActivity.this,
-						R.string.comment_reply_oncancel);
+				General.quickToast(this, R.string.comment_reply_oncancel);
 				General.safeDismissDialog(progressDialog);
 			});
 
 			progressDialog.setOnKeyListener((dialogInterface, keyCode, keyEvent) -> {
 
 				if(keyCode == KeyEvent.KEYCODE_BACK) {
-					General.quickToast(
-							CommentEditActivity.this,
-							R.string.comment_reply_oncancel);
+					General.quickToast(this, R.string.comment_reply_oncancel);
 					General.safeDismissDialog(progressDialog);
 				}
 

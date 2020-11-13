@@ -1143,9 +1143,8 @@ public class MainActivity extends RefreshableActivity
 				this,
 				R.string.action_search_comments,
 				query -> {
-					final Intent searchIntent = new Intent(
-							MainActivity.this,
-							CommentListingActivity.class);
+					final Intent searchIntent
+							= new Intent(this, CommentListingActivity.class);
 					searchIntent.setData(commentListingController.getUri());
 					searchIntent.putExtra(
 							CommentListingActivity.EXTRA_SEARCH_STRING,

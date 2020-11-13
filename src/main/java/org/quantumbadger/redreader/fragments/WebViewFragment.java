@@ -216,24 +216,25 @@ public class WebViewFragment extends Fragment
 		});
 
 		/*handle download links show an alert box to load this outside the internal browser*/
-		webView.setDownloadListener((url, userAgent, contentDisposition, mimetype, contentLength) -> new AlertDialog.Builder(mActivity)
-				.setTitle(R.string.download_link_title)
-				.setMessage(R.string.download_link_message)
-				.setPositiveButton(
-						android.R.string.yes,
-						(dialog, which) -> {
-							final Intent i = new Intent(Intent.ACTION_VIEW);
-							i.setData(Uri.parse(url));
-							getContext().startActivity(i);
-							mActivity.onBackPressed(); //get back from internal browser
-						})
-				.setNegativeButton(
-						android.R.string.no,
-						(dialog, which) -> {
-							mActivity.onBackPressed(); //get back from internal browser
-						})
-				.setIcon(android.R.drawable.ic_dialog_alert)
-				.show());
+		webView.setDownloadListener((url, userAgent, contentDisposition, mimetype, contentLength)
+				-> new AlertDialog.Builder(mActivity)
+						.setTitle(R.string.download_link_title)
+						.setMessage(R.string.download_link_message)
+						.setPositiveButton(
+								android.R.string.yes,
+								(dialog, which) -> {
+									final Intent i = new Intent(Intent.ACTION_VIEW);
+									i.setData(Uri.parse(url));
+									getContext().startActivity(i);
+									mActivity.onBackPressed(); //get back from internal browser
+								})
+						.setNegativeButton(
+								android.R.string.no,
+								(dialog, which) -> {
+									mActivity.onBackPressed(); //get back from internal browser
+								})
+						.setIcon(android.R.drawable.ic_dialog_alert)
+						.show());
 		/*handle download links end*/
 
 

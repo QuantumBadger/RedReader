@@ -714,12 +714,9 @@ public class ImageViewActivity extends BaseActivity
 					return;
 				}
 				mRequest = null;
-				mImageViewDisplayerManager = new ImageViewDisplayListManager(
-						imageTileSource,
-						ImageViewActivity.this);
-				surfaceView = new RRGLSurfaceView(
-						ImageViewActivity.this,
-						mImageViewDisplayerManager);
+				mImageViewDisplayerManager
+						= new ImageViewDisplayListManager(imageTileSource, this);
+				surfaceView = new RRGLSurfaceView(this, mImageViewDisplayerManager);
 				setMainView(surfaceView);
 
 				if(mIsPaused) {

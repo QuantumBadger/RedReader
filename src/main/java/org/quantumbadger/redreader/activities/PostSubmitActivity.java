@@ -276,18 +276,14 @@ public class PostSubmitActivity extends BaseActivity {
 				progressDialog.setCanceledOnTouchOutside(false);
 
 				progressDialog.setOnCancelListener(dialogInterface -> {
-					General.quickToast(
-							PostSubmitActivity.this,
-							getString(R.string.comment_reply_oncancel));
+					General.quickToast(this, getString(R.string.comment_reply_oncancel));
 					General.safeDismissDialog(progressDialog);
 				});
 
 				progressDialog.setOnKeyListener((dialogInterface, keyCode, keyEvent) -> {
 
 					if(keyCode == KeyEvent.KEYCODE_BACK) {
-						General.quickToast(
-								PostSubmitActivity.this,
-								getString(R.string.comment_reply_oncancel));
+						General.quickToast(this, getString(R.string.comment_reply_oncancel));
 						General.safeDismissDialog(progressDialog);
 					}
 

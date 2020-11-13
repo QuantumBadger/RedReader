@@ -256,7 +256,7 @@ public class AlbumListingActivity extends BaseActivity {
 		final Runnable r = () -> {
 			if(!mHaveReverted) {
 				mHaveReverted = true;
-				LinkHandler.onLinkClicked(AlbumListingActivity.this, mUrl, true);
+				LinkHandler.onLinkClicked(this, mUrl, true);
 				finish();
 			}
 		};

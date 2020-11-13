@@ -1288,11 +1288,33 @@ public final class PrefsUtility {
 
 	// pref_cache_maxage
 
+	public static HashMap<Integer, Long> createFileTypeToLongMap() {
+		return createFileTypeToLongMap(0, 0, 0);
+	}
+
+	public static HashMap<Integer, Long> createFileTypeToLongMap(
+			final long listings,
+			final long thumbnails,
+			final long images) {
+		final HashMap<Integer, Long> maxAgeMap = new HashMap<>(10);
+
+		maxAgeMap.put(Constants.FileType.POST_LIST, listings);
+		maxAgeMap.put(Constants.FileType.COMMENT_LIST, listings);
+		maxAgeMap.put(Constants.FileType.SUBREDDIT_LIST, listings);
+		maxAgeMap.put(Constants.FileType.SUBREDDIT_ABOUT, listings);
+		maxAgeMap.put(Constants.FileType.USER_ABOUT, listings);
+		maxAgeMap.put(Constants.FileType.INBOX_LIST, listings);
+		maxAgeMap.put(Constants.FileType.THUMBNAIL, thumbnails);
+		maxAgeMap.put(Constants.FileType.IMAGE, images);
+		maxAgeMap.put(Constants.FileType.IMAGE_INFO, images);
+		maxAgeMap.put(Constants.FileType.CAPTCHA, images);
+
+		return maxAgeMap;
+	}
+
 	public static HashMap<Integer, Long> pref_cache_maxage(
 			final Context context,
 			final SharedPreferences sharedPreferences) {
-
-		final HashMap<Integer, Long> result = new HashMap<>();
 
 		final long maxAgeListing = 1000L
 				* 60L
@@ -1319,18 +1341,7 @@ public final class PrefsUtility {
 				context,
 				sharedPreferences));
 
-		result.put(Constants.FileType.POST_LIST, maxAgeListing);
-		result.put(Constants.FileType.COMMENT_LIST, maxAgeListing);
-		result.put(Constants.FileType.SUBREDDIT_LIST, maxAgeListing);
-		result.put(Constants.FileType.SUBREDDIT_ABOUT, maxAgeListing);
-		result.put(Constants.FileType.USER_ABOUT, maxAgeListing);
-		result.put(Constants.FileType.INBOX_LIST, maxAgeListing);
-		result.put(Constants.FileType.THUMBNAIL, maxAgeThumb);
-		result.put(Constants.FileType.IMAGE, maxAgeImage);
-		result.put(Constants.FileType.IMAGE_INFO, maxAgeImage);
-		result.put(Constants.FileType.CAPTCHA, maxAgeImage);
-
-		return result;
+		return createFileTypeToLongMap(maxAgeListing, maxAgeThumb, maxAgeImage);
 	}
 
 	public static Long pref_cache_maxage_entry(

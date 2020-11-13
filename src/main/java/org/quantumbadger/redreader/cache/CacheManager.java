@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.cache;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
@@ -49,6 +48,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -177,6 +177,31 @@ public final class CacheManager {
 	}
 
 	public synchronized void pruneCache() {
+		pruneCache(PrefsUtility.pref_cache_maxage(
+				context,
+				PreferenceManager.getDefaultSharedPreferences(context)));
+	}
+
+	public synchronized void pruneCache(
+			final Boolean clearListings,
+			final Boolean clearThumbnails,
+			final Boolean clearImages) {
+		if(!clearListings && !clearThumbnails && !clearImages) {
+			return;
+		}
+
+		/*Use a maximum age of 0 to clear everything* in that category.
+		Otherwise, use Long.MAX_VALUE as the maximum age to ensure that nothing is deleted.
+
+		*May not clear everything if system time shenanigans have occurred.*/
+		pruneCache(PrefsUtility.createFileTypeToLongMap(
+				clearListings ? 0 : Long.MAX_VALUE,
+				clearThumbnails ? 0 : Long.MAX_VALUE,
+				clearImages ? 0 : Long.MAX_VALUE
+		));
+	}
+
+	public synchronized void pruneCache(final HashMap<Integer, Long> maxAge) {
 
 		try {
 
@@ -186,12 +211,6 @@ public final class CacheManager {
 			for(final File dir : dirs) {
 				getCacheFileList(dir, currentFiles);
 			}
-
-			final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(
-					context);
-			final HashMap<Integer, Long> maxAge = PrefsUtility.pref_cache_maxage(
-					context,
-					prefs);
 
 			final ArrayList<Long> filesToDelete = dbManager.getFilesToPrune(
 					currentFiles,
@@ -215,6 +234,38 @@ public final class CacheManager {
 
 	public synchronized void emptyTheWholeCache() {
 		dbManager.emptyTheWholeCache();
+	}
+
+	public synchronized HashMap<Integer, Long> getCacheDataUsages() {
+		final HashMap<Integer, Long> dataUsagePerType = PrefsUtility.createFileTypeToLongMap();
+
+		try {
+			final HashSet<Long> currentFiles = new HashSet<>(128);
+
+			final List<File> dirs = getCacheDirs(context);
+			for(final File dir : dirs) {
+				getCacheFileList(dir, currentFiles);
+			}
+
+			final HashMap<Long, Integer> filesToCheckWithTypes = dbManager.getFilesToSize();
+
+			for(HashMap.Entry<Long, Integer> fileEntry : filesToCheckWithTypes.entrySet()) {
+				final long id = fileEntry.getKey();
+				final int type = fileEntry.getValue();
+
+				final File file = getExistingCacheFile(id);
+				if(file != null && dataUsagePerType.containsKey(type)) {
+					dataUsagePerType.put(
+							type,
+							Objects.requireNonNull(dataUsagePerType.get(type)) + file.length());
+				}
+			}
+
+		} catch(final Throwable t) {
+			BugReportActivity.handleGlobalError(context, t);
+		}
+
+		return dataUsagePerType;
 	}
 
 	public void makeRequest(final CacheRequest request) {

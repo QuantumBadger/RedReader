@@ -54,6 +54,10 @@
 
     <PreferenceCategory android:title="@string/pref_cache_pruning">
 
+	<Preference
+		android:title="@string/pref_cache_clear_title"
+		android:key="@string/pref_cache_clear_key"/>
+
     <ListPreference android:title="@string/pref_cache_maxage_listing_title"
                     android:key="@string/pref_cache_maxage_listing_key"
                     android:entries="@array/pref_cache_maxage"

@@ -38,14 +38,19 @@ import org.quantumbadger.redreader.activities.ChangelogActivity;
 import org.quantumbadger.redreader.activities.HtmlViewActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.common.AndroidCommon;
+import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.FileUtils;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.TorCommon;
+import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public final class SettingsFragment extends PreferenceFragment {
 
@@ -277,6 +282,16 @@ public final class SettingsFragment extends PreferenceFragment {
 				return true;
 			});
 		}
+
+		final Preference cacheClearPref =
+				findPreference(getString(R.string.pref_cache_clear_key));
+
+		if(cacheClearPref != null) {
+			cacheClearPref.setOnPreferenceClickListener(preference -> {
+				showCacheClearDialog();
+				return true;
+			});
+		}
 	}
 
 	private void showChooseStorageLocationDialog() {
@@ -343,5 +358,94 @@ public final class SettingsFragment extends PreferenceFragment {
 
 	private void updateStorageLocationText(final String path) {
 		findPreference(getString(R.string.pref_cache_location_key)).setSummary(path);
+	}
+
+	private enum CacheType {
+		LISTINGS(
+				R.string.cache_clear_dialog_listings,
+				new int[] {
+						Constants.FileType.POST_LIST,
+						Constants.FileType.COMMENT_LIST,
+						Constants.FileType.SUBREDDIT_LIST,
+						Constants.FileType.SUBREDDIT_ABOUT,
+						Constants.FileType.USER_ABOUT,
+						Constants.FileType.INBOX_LIST}),
+		THUMBNAILS(
+				R.string.cache_clear_dialog_thumbnails,
+				new int[] {Constants.FileType.THUMBNAIL}),
+		IMAGES(
+				R.string.cache_clear_dialog_images,
+				new int[] {
+						Constants.FileType.IMAGE,
+						Constants.FileType.IMAGE_INFO,
+						Constants.FileType.CAPTCHA}),
+		FLAGS(
+				R.string.cache_clear_dialog_flags,
+				new int[] {});
+
+		final int stringRes;
+		final int[] fileTypes;
+
+		CacheType(final int stringRes, final int[] fileTypes) {
+			this.stringRes = stringRes;
+			this.fileTypes = fileTypes;
+		}
+	}
+
+	private void showCacheClearDialog() {
+		final Context context = getActivity();
+		final CacheManager cacheManager = CacheManager.getInstance(context);
+
+		final HashMap<Integer, Long> fileTypeDataUsages = cacheManager.getCacheDataUsages();
+		final EnumMap<CacheType, Boolean> cachesToClear = new EnumMap<>(CacheType.class);
+		final String[] cacheItemStrings = new String[CacheType.values().length];
+
+		for(CacheType cacheType : CacheType.values()) {
+			if(cacheType.fileTypes.length == 0) {
+				//If the cacheType has no files managed by CacheManager,
+				//just set its display string to its stringRes.
+				cacheItemStrings[cacheType.ordinal()] = getString(cacheType.stringRes);
+			} else {
+				//Otherwise, add up the data usage from each fileType the cacheType encompasses
+				//and format it into its display string.
+				long cacheTypeDataUsage = 0;
+
+				for(HashMap.Entry<Integer, Long> fileTypeDataUsage
+						: fileTypeDataUsages.entrySet()) {
+
+					for(int fileType : cacheType.fileTypes) {
+						if(fileType == fileTypeDataUsage.getKey()) {
+							cacheTypeDataUsage += fileTypeDataUsage.getValue();
+						}
+					}
+				}
+
+				cacheItemStrings[cacheType.ordinal()] = String.format(
+						getString(cacheType.stringRes),
+						General.addUnits(cacheTypeDataUsage));
+			}
+
+			//Make sure cachesToClear is initialized for all pairs
+			cachesToClear.put(cacheType, false);
+		}
+
+		new AlertDialog.Builder(context)
+				.setTitle(R.string.pref_cache_clear_title)
+				.setMultiChoiceItems(cacheItemStrings, null,
+						(dialog, which, isChecked) ->
+								cachesToClear.put(CacheType.values()[which], isChecked))
+				.setPositiveButton(R.string.dialog_clear, (dialog, id) -> {
+					cacheManager.pruneCache(
+							cachesToClear.get(CacheType.LISTINGS),
+							cachesToClear.get(CacheType.THUMBNAILS),
+							cachesToClear.get(CacheType.IMAGES));
+
+					if(Objects.requireNonNull(cachesToClear.get(CacheType.FLAGS))) {
+						RedditChangeDataManager.pruneAllUsers();
+					}
+				})
+				.setNegativeButton(R.string.dialog_cancel, null)
+				.show();
+
 	}
 }

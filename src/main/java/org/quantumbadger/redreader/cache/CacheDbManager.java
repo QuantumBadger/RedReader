@@ -307,4 +307,31 @@ final class CacheDbManager extends SQLiteOpenHelper {
 		final SQLiteDatabase db = this.getWritableDatabase();
 		db.execSQL(String.format(Locale.US, "DELETE FROM %s", TABLE));
 	}
+
+	public synchronized HashMap<Long, Integer> getFilesToSize() {
+		final SQLiteDatabase db = this.getWritableDatabase();
+
+		final Cursor cursor = db.query(
+				TABLE,
+				new String[] {FIELD_ID, FIELD_TYPE},
+				null,
+				null,
+				null,
+				null,
+				null,
+				null);
+
+		final HashMap<Long, Integer> filesToCheck = new HashMap<>(32);
+
+		while(cursor.moveToNext()) {
+			final long id = cursor.getLong(0);
+			final int type = cursor.getInt(1);
+
+			filesToCheck.put(id, type);
+		}
+
+		cursor.close();
+
+		return filesToCheck;
+	}
 }

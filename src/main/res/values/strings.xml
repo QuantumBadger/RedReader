@@ -1305,4 +1305,13 @@
 	<!-- 2020-09-19 -->
 	<string name="action_save_image_success_no_path">Image saved successfully</string>
 
+	<!-- 2020-11-08 -->
+	<string name="pref_cache_clear_key" translatable="false">pref_cache_clear</string>
+	<string name="pref_cache_clear_title">Clear cache</string>
+	<string name="dialog_clear">Clear</string>
+	<string name="cache_clear_dialog_listings">Listings (%s)</string>
+	<string name="cache_clear_dialog_thumbnails">Thumbnails (%s)</string>
+	<string name="cache_clear_dialog_images">Images (%s)</string>
+	<string name="cache_clear_dialog_flags">Flags</string>
+
 </resources>

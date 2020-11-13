@@ -149,7 +149,7 @@ public class MainActivity extends RefreshableActivity
 
 		if(savedInstanceState == null
 				&& (PrefsUtility.pref_behaviour_skiptofrontpage(this, sharedPreferences))) {
-				onSelected(SubredditPostListURL.getFrontPage());
+			onSelected(SubredditPostListURL.getFrontPage());
 		}
 
 		setTitle(R.string.app_name);

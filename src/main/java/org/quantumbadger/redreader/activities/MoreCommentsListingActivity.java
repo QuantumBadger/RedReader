@@ -19,11 +19,11 @@ package org.quantumbadger.redreader.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -186,7 +186,7 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 	public boolean onOptionsItemSelected(final MenuItem item) {
 
 		if(mFragment != null && mFragment.onOptionsItemSelected(item)) {
-				return true;
+			return true;
 		}
 
 		return super.onOptionsItemSelected(item);

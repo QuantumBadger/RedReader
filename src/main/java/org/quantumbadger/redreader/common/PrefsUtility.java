@@ -47,8 +47,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 
 public final class PrefsUtility {
+
+	@NonNull private static final AtomicReference<Locale> mDefaultLocale = new AtomicReference<>();
 
 	private static <E> Set<E> setFromArray(final E[] data) {
 		final HashSet<E> result = new HashSet<>(data.length);
@@ -253,6 +256,12 @@ public final class PrefsUtility {
 			final Activity activity,
 			final SharedPreferences prefs) {
 
+		synchronized(mDefaultLocale) {
+			if(mDefaultLocale.get() == null) {
+				mDefaultLocale.set(Locale.getDefault());
+			}
+		}
+
 		final String lang = getString(
 				R.string.pref_appearance_langforce_key,
 				"auto",
@@ -271,14 +280,14 @@ public final class PrefsUtility {
 
 				if(lang.contains("-r")) {
 					final String[] split = lang.split("-r");
-					conf.locale = new Locale(split[0], split[1]);
+					conf.setLocale(new Locale(split[0], split[1]));
 
 				} else {
-					conf.locale = new Locale(lang);
+					conf.setLocale(new Locale(lang));
 				}
 
 			} else {
-				conf.locale = Locale.getDefault();
+				conf.setLocale(mDefaultLocale.get());
 			}
 
 			res.updateConfiguration(conf, dm);

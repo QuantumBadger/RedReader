@@ -1,3 +1,6 @@
+95/1.15
+Preference to disable tap-to-close on images/videos (thanks to Cameron Merkel)
+
 94/1.14
 Allows saving images to custom location (only on Android 5.0+)
 Uses newer image sharing APIs to avoid permissions issues

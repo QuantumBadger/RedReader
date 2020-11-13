@@ -197,8 +197,8 @@ public final class PrefsUtility {
 
 	public static void applyTheme(@NonNull final Activity activity) {
 
-		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(
-				activity);
+		final SharedPreferences prefs
+				= PreferenceManager.getDefaultSharedPreferences(activity);
 
 		final AppearanceTheme theme = appearance_theme(activity, prefs);
 
@@ -336,7 +336,7 @@ public final class PrefsUtility {
 	public static float appearance_fontscale_global(
 			final Context context,
 			final SharedPreferences sharedPreferences) {
-		return Float.valueOf(getString(
+		return Float.parseFloat(getString(
 				R.string.pref_appearance_fontscale_global_key,
 				"1",
 				context,
@@ -353,7 +353,7 @@ public final class PrefsUtility {
 				sharedPreferences).equals("-1")) {
 			return appearance_fontscale_global(context, sharedPreferences);
 		}
-		return Float.valueOf(getString(
+		return Float.parseFloat(getString(
 				R.string.pref_appearance_fontscale_bodytext_key,
 				"-1",
 				context,
@@ -370,7 +370,7 @@ public final class PrefsUtility {
 				sharedPreferences).equals("-1")) {
 			return appearance_fontscale_global(context, sharedPreferences);
 		}
-		return Float.valueOf(getString(
+		return Float.parseFloat(getString(
 				R.string.pref_appearance_fontscale_comment_headers_key,
 				"-1",
 				context,
@@ -387,7 +387,7 @@ public final class PrefsUtility {
 				sharedPreferences).equals("-1")) {
 			return appearance_fontscale_global(context, sharedPreferences);
 		}
-		return Float.valueOf(getString(
+		return Float.parseFloat(getString(
 				R.string.pref_appearance_fontscale_linkbuttons_key,
 				"-1",
 				context,
@@ -404,7 +404,7 @@ public final class PrefsUtility {
 				sharedPreferences).equals("-1")) {
 			return appearance_fontscale_global(context, sharedPreferences);
 		}
-		return Float.valueOf(getString(
+		return Float.parseFloat(getString(
 				R.string.pref_appearance_fontscale_posts_key,
 				"-1",
 				context,
@@ -421,7 +421,7 @@ public final class PrefsUtility {
 				sharedPreferences).equals("-1")) {
 			return appearance_fontscale_global(context, sharedPreferences);
 		}
-		return Float.valueOf(getString(
+		return Float.parseFloat(getString(
 				R.string.pref_appearance_fontscale_post_subtitles_key,
 				"-1",
 				context,
@@ -438,7 +438,7 @@ public final class PrefsUtility {
 				sharedPreferences).equals("-1")) {
 			return appearance_fontscale_global(context, sharedPreferences);
 		}
-		return Float.valueOf(getString(
+		return Float.parseFloat(getString(
 				R.string.pref_appearance_fontscale_post_header_titles_key,
 				"-1",
 				context,
@@ -455,7 +455,7 @@ public final class PrefsUtility {
 				sharedPreferences).equals("-1")) {
 			return appearance_fontscale_global(context, sharedPreferences);
 		}
-		return Float.valueOf(getString(
+		return Float.parseFloat(getString(
 				R.string.pref_appearance_fontscale_post_header_subtitles_key,
 				"-1",
 				context,
@@ -1322,7 +1322,7 @@ public final class PrefsUtility {
 		final long maxAgeListing = 1000L
 				* 60L
 				* 60L
-				* Long.valueOf(getString(
+				* Long.parseLong(getString(
 				R.string.pref_cache_maxage_listing_key,
 				"168",
 				context,
@@ -1330,7 +1330,7 @@ public final class PrefsUtility {
 		final long maxAgeThumb = 1000L
 				* 60L
 				* 60L
-				* Long.valueOf(getString(
+				* Long.parseLong(getString(
 				R.string.pref_cache_maxage_thumb_key,
 				"168",
 				context,
@@ -1338,7 +1338,7 @@ public final class PrefsUtility {
 		final long maxAgeImage = 1000L
 				* 60L
 				* 60L
-				* Long.valueOf(getString(
+				* Long.parseLong(getString(
 				R.string.pref_cache_maxage_image_key,
 				"72",
 				context,
@@ -1364,7 +1364,7 @@ public final class PrefsUtility {
 		return 1000L
 				* 60L
 				* 60L
-				* Long.valueOf(getString(
+				* Long.parseLong(getString(
 				R.string.pref_cache_maxage_entry_key,
 				"168",
 				context,

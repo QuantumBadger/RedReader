@@ -145,21 +145,23 @@ public abstract class BaseActivity extends AppCompatActivity
 		closeIfNecessary();
 
 		if(baseActivityIsToolbarActionBarEnabled()) {
-			final View outerView;
-			final Toolbar toolbar;
 
-			if(!PrefsUtility.pref_appearance_bottom_toolbar(this, mSharedPreferences)) {
-				outerView = getLayoutInflater().inflate(R.layout.rr_actionbar, null);
-				toolbar = outerView.findViewById(R.id.rr_actionbar_toolbar);
-				mContentView
-						= outerView.findViewById(R.id.rr_actionbar_content);
-			} else {
+			final View outerView;
+
+			if(PrefsUtility.pref_appearance_hide_toolbar_on_scroll(this, mSharedPreferences)) {
 				outerView = getLayoutInflater().inflate(
-						R.layout.rr_actionbar_reverse,
+						R.layout.rr_actionbar_hide_on_scroll,
 						null);
-				toolbar = outerView.findViewById(R.id.rr_actionbar_reverse_toolbar);
-				mContentView = outerView.findViewById(R.id.rr_actionbar_reverse_content);
+
+			} else if(PrefsUtility.pref_appearance_bottom_toolbar(this, mSharedPreferences)) {
+				outerView = getLayoutInflater().inflate(R.layout.rr_actionbar_reverse, null);
+
+			} else {
+				outerView = getLayoutInflater().inflate(R.layout.rr_actionbar, null);
 			}
+
+			final Toolbar toolbar = outerView.findViewById(R.id.rr_actionbar_toolbar);
+			mContentView = outerView.findViewById(R.id.rr_actionbar_content);
 
 			super.setContentView(outerView);
 			setSupportActionBar(toolbar);

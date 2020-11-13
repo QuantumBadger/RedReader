@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		xmlns:app="http://schemas.android.com/apk/res-auto"
 		android:orientation="vertical"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent">
-
-	<FrameLayout
-			android:layout_width="match_parent"
-			android:layout_height="0dp"
-			android:layout_weight="1"
-			android:id="@+id/rr_actionbar_content" />
 
 	<com.google.android.material.appbar.AppBarLayout
 			android:layout_width="match_parent"
@@ -23,8 +17,15 @@
 				android:background="?attr/colorPrimary"
 				app:titleTextAppearance="@style/RR.Toolbar.TitleText"
 				app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-				app:popupTheme="?rrActionBarPopupThemeStyle" />
+				app:popupTheme="?rrActionBarPopupThemeStyle"
+				app:layout_scrollFlags="scroll|enterAlways" />
 
 	</com.google.android.material.appbar.AppBarLayout>
 
-</LinearLayout>
+	<FrameLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:id="@+id/rr_actionbar_content"
+			app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

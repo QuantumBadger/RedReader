@@ -1316,4 +1316,10 @@
 	<string name="pref_behaviour_postlist_back_again">Press back twice to exit post list</string>
 	<string name="pref_behaviour_back_button_title">Back Button</string>
 
+	<!-- 2020-11-13 -->
+	<string name="pref_appearance_hide_toolbar_on_scroll_key" translatable="false">pref_appearance_hide_toolbar_on_scroll_key</string>
+	<string name="pref_appearance_hide_toolbar_on_scroll_title">Hide toolbar on scroll</string>
+	<string name="pref_appearance_toolbar_header">Toolbar</string>
+
+
 </resources>

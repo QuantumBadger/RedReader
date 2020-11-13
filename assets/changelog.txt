@@ -1,6 +1,7 @@
 95/1.15
-Preference to disable tap-to-close on images/videos (thanks to Cameron Merkel)
-Preference to require tapping back twice to exit post list (thanks to windsurfer)
+Added preference to hide toolbar when scrolling
+Added preference to disable tap-to-close on images/videos (thanks to Cameron Merkel)
+Added preference to require tapping back twice to exit post list (thanks to windsurfer)
 Handle physical enter key in custom location dialog (thanks to windsurfer)
 
 94/1.14

@@ -118,25 +118,22 @@ public final class PrefsUtility {
 
 	public static boolean isRestartRequired(final Context context, final String key) {
 		return context.getString(R.string.pref_appearance_theme_key).equals(key)
-				|| context.getString(R.string.pref_appearance_navbar_color_key)
-				.equals(key)
+				|| context.getString(R.string.pref_appearance_navbar_color_key).equals(key)
 				|| context.getString(R.string.pref_appearance_langforce_key).equals(key)
 				|| context.getString(R.string.pref_behaviour_bezel_toolbar_swipezone_key)
-				.equals(key)
+						.equals(key)
 				|| context.getString(R.string.pref_appearance_hide_username_main_menu_key)
-				.equals(key)
-				|| context.getString(R.string.pref_appearance_hide_android_status_key)
-				.equals(key)
+						.equals(key)
+				|| context.getString(R.string.pref_appearance_hide_android_status_key).equals(key)
 				|| context.getString(R.string.pref_appearance_comments_show_floating_toolbar_key)
-				.equals(key)
-				|| context.getString(R.string.pref_behaviour_enable_swipe_refresh_key)
-				.equals(key)
-				|| context.getString(R.string.pref_menus_show_multireddit_main_menu_key)
-				.equals(key)
+						.equals(key)
+				|| context.getString(R.string.pref_behaviour_enable_swipe_refresh_key).equals(key)
+				|| context.getString(R.string.pref_menus_show_multireddit_main_menu_key).equals(key)
 				|| context.getString(R.string.pref_menus_show_subscribed_subreddits_main_menu_key)
-				.equals(key)
-				|| context.getString(R.string.pref_appearance_bottom_toolbar_key)
-				.equals(key);
+						.equals(key)
+				|| context.getString(R.string.pref_appearance_bottom_toolbar_key).equals(key)
+				|| context.getString(R.string.pref_appearance_hide_toolbar_on_scroll_key)
+						.equals(key);
 	}
 
 	///////////////////////////////
@@ -610,6 +607,16 @@ public final class PrefsUtility {
 			final SharedPreferences sharedPreferences) {
 		return getBoolean(
 				R.string.pref_appearance_bottom_toolbar_key,
+				false,
+				context,
+				sharedPreferences);
+	}
+
+	public static boolean pref_appearance_hide_toolbar_on_scroll(
+			final Context context,
+			final SharedPreferences sharedPreferences) {
+		return getBoolean(
+				R.string.pref_appearance_hide_toolbar_on_scroll_key,
 				false,
 				context,
 				sharedPreferences);

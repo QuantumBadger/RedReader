@@ -95,8 +95,7 @@ public final class PrefsUtility {
 	}
 
 	public static boolean isReLayoutRequired(final Context context, final String key) {
-		return context.getString(R.string.pref_appearance_twopane_key).equals(key)
-				|| context.getString(R.string.pref_appearance_theme_key).equals(key)
+		return context.getString(R.string.pref_appearance_theme_key).equals(key)
 				|| context.getString(R.string.pref_menus_mainmenu_useritems_key)
 				.equals(key)
 				|| context.getString(R.string.pref_menus_mainmenu_shortcutitems_key)
@@ -120,7 +119,8 @@ public final class PrefsUtility {
 	}
 
 	public static boolean isRestartRequired(final Context context, final String key) {
-		return context.getString(R.string.pref_appearance_theme_key).equals(key)
+		return context.getString(R.string.pref_appearance_twopane_key).equals(key)
+				|| context.getString(R.string.pref_appearance_theme_key).equals(key)
 				|| context.getString(R.string.pref_appearance_navbar_color_key).equals(key)
 				|| context.getString(R.string.pref_appearance_langforce_key).equals(key)
 				|| context.getString(R.string.pref_behaviour_bezel_toolbar_swipezone_key)

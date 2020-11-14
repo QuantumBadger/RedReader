@@ -132,7 +132,7 @@ public class PostListingActivity extends RefreshableActivity
 
 			setTitle(url.humanReadableName(this, false));
 
-			setBaseActivityContentView(R.layout.main_single);
+			setBaseActivityListing(R.layout.main_single);
 			doRefresh(RefreshableFragment.POSTS, false, fragmentSavedInstanceState);
 
 		} else {
@@ -296,7 +296,7 @@ public class PostListingActivity extends RefreshableActivity
 		fragment = controller.get(this, force, savedInstanceState);
 
 		final View view = fragment.getView();
-		setBaseActivityContentView(view);
+		setBaseActivityListing(view);
 		General.setLayoutMatchParent(view);
 	}
 

@@ -1328,4 +1328,6 @@
 	<string name="pref_behaviour_save_location_prompt_every_time">Ask every time</string>
 	<string name="pref_behaviour_save_location_system_default">Use system default</string>
 
+	<string name="pref_appearance_not_possible_in_tablet_mode">Not possible in tablet mode</string>
+
 </resources>

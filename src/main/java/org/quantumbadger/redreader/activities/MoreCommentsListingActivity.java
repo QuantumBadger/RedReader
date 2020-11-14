@@ -66,7 +66,7 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 		// TODO load from savedInstanceState
 
 		final View layout = getLayoutInflater().inflate(R.layout.main_single, null);
-		setBaseActivityContentView(layout);
+		setBaseActivityListing(layout);
 		mPane = (FrameLayout)layout.findViewById(R.id.main_single_frame);
 
 		RedditAccountManager.getInstance(this).addUpdateListener(this);

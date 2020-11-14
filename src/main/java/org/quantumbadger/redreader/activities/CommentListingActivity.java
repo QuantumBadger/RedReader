@@ -168,7 +168,7 @@ public class CommentListingActivity extends RefreshableActivity
 		mFragment = controller.get(this, force, savedInstanceState);
 
 		final View view = mFragment.getView();
-		setBaseActivityContentView(view);
+		setBaseActivityListing(view);
 		General.setLayoutMatchParent(view);
 
 		setTitle(controller.getCommentListingUrl().humanReadableName(this, false));

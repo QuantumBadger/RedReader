@@ -146,7 +146,7 @@ public class ImgurUploadActivity extends BaseActivity {
 			mLoadingOverlay.setVisibility(View.GONE);
 		}
 
-		setBaseActivityContentView(outerLayout);
+		setBaseActivityListing(outerLayout);
 
 		General.setAllMarginsDp(this, layout, 20);
 	}

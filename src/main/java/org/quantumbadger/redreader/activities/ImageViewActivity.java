@@ -376,7 +376,7 @@ public class ImageViewActivity extends BaseActivity
 
 		}
 
-		setBaseActivityContentView(outerFrame);
+		setBaseActivityListing(outerFrame);
 	}
 
 	private void setMainView(final View v) {
@@ -618,11 +618,6 @@ public class ImageViewActivity extends BaseActivity
 					return;
 				}
 
-				if(cacheFileInputStream == null) {
-					revertToWeb();
-					return;
-				}
-
 				gifThread = new GifDecoderThread(
 						cacheFileInputStream,
 						new GifDecoderThread.OnGifLoadedListener() {
@@ -686,11 +681,6 @@ public class ImageViewActivity extends BaseActivity
 			final ImageTileSource imageTileSource;
 			try {
 				try(InputStream cacheFileInputStream = cacheFile.getInputStream()) {
-
-					if(cacheFileInputStream == null) {
-						revertToWeb();
-						return;
-					}
 
 					imageTileSource = new ImageTileSourceWholeBitmap(
 							BitmapFactory.decodeStream(cacheFileInputStream));

@@ -73,7 +73,7 @@ public class CommentEditActivity extends BaseActivity {
 
 		final ScrollView sv = new ScrollView(this);
 		sv.addView(textEdit);
-		setBaseActivityContentView(sv);
+		setBaseActivityListing(sv);
 	}
 
 	@Override

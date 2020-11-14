@@ -9,8 +9,19 @@
 	<FrameLayout
 			android:layout_width="match_parent"
 			android:layout_height="0dp"
-			android:layout_weight="1"
-			android:id="@+id/rr_actionbar_content" />
+			android:layout_weight="1">
+
+		<FrameLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:id="@+id/rr_actionbar_content_listing" />
+
+		<FrameLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:id="@+id/rr_actionbar_content_overlay" />
+
+	</FrameLayout>
 
 	<com.google.android.material.appbar.AppBarLayout
 			android:layout_width="match_parent"

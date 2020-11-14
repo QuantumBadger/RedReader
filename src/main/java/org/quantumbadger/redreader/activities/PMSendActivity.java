@@ -142,7 +142,7 @@ public class PMSendActivity extends BaseActivity {
 
 		final ScrollView sv = new ScrollView(this);
 		sv.addView(layout);
-		setBaseActivityContentView(sv);
+		setBaseActivityListing(sv);
 	}
 
 	@Override

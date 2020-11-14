@@ -122,6 +122,11 @@ public class MainActivity extends RefreshableActivity
 	}
 
 	@Override
+	protected boolean baseActivityAllowToolbarHideOnScroll() {
+		return !General.isTablet(this, General.getSharedPrefs(this));
+	}
+
+	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 
 		PrefsUtility.applyTheme(this);
@@ -877,7 +882,7 @@ public class MainActivity extends RefreshableActivity
 				mSinglePane = (FrameLayout)layout.findViewById(R.id.main_single_frame);
 			}
 
-			setBaseActivityContentView(layout);
+			setBaseActivityListing(layout);
 
 			invalidateOptionsMenu();
 			requestRefresh(RefreshableFragment.ALL, false);

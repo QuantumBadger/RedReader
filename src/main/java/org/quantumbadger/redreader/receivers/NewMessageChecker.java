@@ -27,18 +27,21 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabaseCorruptException;
 import android.os.Build;
 import android.util.Log;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.activities.InboxListingActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.cache.CacheRequestJSONParser;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
@@ -99,152 +102,122 @@ public class NewMessageChecker extends BroadcastReceiver {
 				url,
 				user,
 				null,
-				Constants.Priority.API_INBOX_LIST,
-				0,
+				new Priority(Constants.Priority.API_INBOX_LIST),
 				DownloadStrategyAlways.INSTANCE,
 				Constants.FileType.INBOX_LIST,
 				CacheRequest.DOWNLOAD_QUEUE_REDDIT_API,
-				true,
-				true,
-				context) {
+				context,
+				new CacheRequestJSONParser(context, new CacheRequestJSONParser.Listener() {
+					@Override
+					public void onJsonParsed(
+							@NonNull final JsonValue value,
+							final long timestamp,
+							@NonNull final UUID session,
+							final boolean fromCache) {
 
-			@Override
-			protected void onDownloadNecessary() {
-			}
+						try {
 
-			@Override
-			protected void onDownloadStarted() {
-			}
+							final JsonBufferedObject root = value.asObject();
+							final JsonBufferedObject data = root.getObject("data");
+							final JsonBufferedArray children = data.getArray("children");
 
-			@Override
-			protected void onCallbackException(final Throwable t) {
-				BugReportActivity.handleGlobalError(context, t);
-			}
+							children.join();
+							final int messageCount = children.getCurrentItemCount();
 
-			@Override
-			protected void onFailure(
-					final @CacheRequest.RequestFailureType int type,
-					final Throwable t,
-					final Integer status,
-					final String readableMessage) {
-				Log.e(TAG, "Request failed", t);
-			}
+							Log.e(TAG, "Got response. Message count = " + messageCount);
 
-			@Override
-			protected void onProgress(
-					final boolean authorizationInProgress,
-					final long bytesRead,
-					final long totalBytes) {
-			}
+							if(messageCount < 1) {
+								return;
+							}
 
-			@Override
-			protected void onSuccess(
-					final CacheManager.ReadableCacheFile cacheFile,
-					final long timestamp,
-					final UUID session,
-					final boolean fromCache,
-					final String mimetype) {
-			}
+							final RedditThing thing = children.get(0).asObject(RedditThing.class);
 
-			@Override
-			public void onJsonParseStarted(
-					final JsonValue value,
-					final long timestamp,
-					final UUID session,
-					final boolean fromCache) {
+							String title;
+							final String text
+									= context.getString(R.string.notification_message_action);
 
-				try {
+							final String messageID;
+							final long messageTimestamp;
 
-					final JsonBufferedObject root = value.asObject();
-					final JsonBufferedObject data = root.getObject("data");
-					final JsonBufferedArray children = data.getArray("children");
+							switch(thing.getKind()) {
+								case COMMENT: {
+									final RedditComment comment = thing.asComment();
+									title = context.getString(
+											R.string.notification_comment,
+											comment.author);
+									messageID = comment.name;
+									messageTimestamp = comment.created_utc;
+									break;
+								}
 
-					children.join();
-					final int messageCount = children.getCurrentItemCount();
+								case MESSAGE: {
+									final RedditMessage message = thing.asMessage();
+									title = context.getString(
+											R.string.notification_message,
+											message.author);
+									messageID = message.name;
+									messageTimestamp = message.created_utc;
+									break;
+								}
 
-					Log.e(TAG, "Got response. Message count = " + messageCount);
+								default: {
+									throw new RuntimeException("Unknown item in list.");
+								}
+							}
 
-					if(messageCount < 1) {
-						return;
+							// Check if the previously saved message is the same as the one we
+							// just received
+
+							final SharedPreferences prefs
+									= General.getSharedPrefs(context);
+							final String oldMessageId = prefs.getString(
+									PREFS_SAVED_MESSAGE_ID,
+									"");
+							final long oldMessageTimestamp = prefs.getLong(
+									PREFS_SAVED_MESSAGE_TIMESTAMP,
+									0);
+
+							if(oldMessageId == null || (!messageID.equals(oldMessageId)
+									&& oldMessageTimestamp
+									<= messageTimestamp)) {
+
+								Log.e(TAG, "New messages detected. Showing notification.");
+
+								prefs.edit()
+										.putString(PREFS_SAVED_MESSAGE_ID, messageID)
+										.putLong(PREFS_SAVED_MESSAGE_TIMESTAMP, messageTimestamp)
+										.apply();
+
+								if(messageCount > 1) {
+									title = context.getString(
+											R.string.notification_message_multiple);
+								}
+
+								createNotification(title, text, context);
+
+							} else {
+								Log.e(TAG, "All messages have been previously seen.");
+							}
+
+						} catch(final Throwable t) {
+							onFailure(
+									CacheRequest.REQUEST_FAILURE_PARSE,
+									t,
+									null,
+									"Parse failure");
+						}
 					}
 
-					final RedditThing thing = children.get(0).asObject(RedditThing.class);
+					@Override
+					public void onFailure(
+							final int type,
+							@Nullable final Throwable t,
+							@Nullable final Integer httpStatus,
+							@Nullable final String readableMessage) {
 
-					String title;
-					final String text
-							= context.getString(R.string.notification_message_action);
-
-					final String messageID;
-					final long messageTimestamp;
-
-					switch(thing.getKind()) {
-						case COMMENT: {
-							final RedditComment comment = thing.asComment();
-							title = context.getString(
-									R.string.notification_comment,
-									comment.author);
-							messageID = comment.name;
-							messageTimestamp = comment.created_utc;
-							break;
-						}
-
-						case MESSAGE: {
-							final RedditMessage message = thing.asMessage();
-							title = context.getString(
-									R.string.notification_message,
-									message.author);
-							messageID = message.name;
-							messageTimestamp = message.created_utc;
-							break;
-						}
-
-						default: {
-							throw new RuntimeException("Unknown item in list.");
-						}
+						Log.e(TAG, "Request failed", t);
 					}
-
-					// Check if the previously saved message is the same as the one we just received
-
-					final SharedPreferences prefs
-							= General.getSharedPrefs(context);
-					final String oldMessageId = prefs.getString(
-							PREFS_SAVED_MESSAGE_ID,
-							"");
-					final long oldMessageTimestamp = prefs.getLong(
-							PREFS_SAVED_MESSAGE_TIMESTAMP,
-							0);
-
-					if(oldMessageId == null || (!messageID.equals(oldMessageId)
-							&& oldMessageTimestamp
-							<= messageTimestamp)) {
-
-						Log.e(TAG, "New messages detected. Showing notification.");
-
-						prefs.edit()
-								.putString(PREFS_SAVED_MESSAGE_ID, messageID)
-								.putLong(PREFS_SAVED_MESSAGE_TIMESTAMP, messageTimestamp)
-								.apply();
-
-						if(messageCount > 1) {
-							title
-									= context.getString(R.string.notification_message_multiple);
-						}
-
-						createNotification(title, text, context);
-
-					} else {
-						Log.e(TAG, "All messages have been previously seen.");
-					}
-
-				} catch(final Throwable t) {
-					notifyFailure(
-							CacheRequest.REQUEST_FAILURE_PARSE,
-							t,
-							null,
-							"Parse failure");
-				}
-			}
-		};
+				}));
 
 		cm.makeRequest(request);
 	}
@@ -297,8 +270,7 @@ public class NewMessageChecker extends BroadcastReceiver {
 				.setContentTitle(title)
 				.setContentText(text)
 				.setAutoCancel(true)
-				.setChannelId(
-						NOTIFICATION_CHANNEL_ID);
+				.setChannelId(NOTIFICATION_CHANNEL_ID);
 
 		final Intent intent = new Intent(context, InboxListingActivity.class);
 		notification.setContentIntent(PendingIntent.getActivity(context, 0, intent, 0));

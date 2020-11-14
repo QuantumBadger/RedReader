@@ -31,6 +31,7 @@ import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.image.AlbumInfo;
 import org.quantumbadger.redreader.image.GetAlbumInfoListener;
@@ -79,8 +80,7 @@ public class AlbumListingActivity extends BaseActivity {
 		LinkHandler.getAlbumInfo(
 				this,
 				mUrl,
-				Constants.Priority.IMAGE_VIEW,
-				0,
+				new Priority(Constants.Priority.IMAGE_VIEW),
 				new GetAlbumInfoListener() {
 
 					@Override
@@ -98,7 +98,7 @@ public class AlbumListingActivity extends BaseActivity {
 													R.string.image_gallery_removed_message),
 											null,
 											null,
-											mUrl)));
+											mUrl, null)));
 						});
 					}
 
@@ -117,7 +117,7 @@ public class AlbumListingActivity extends BaseActivity {
 													R.string.image_gallery_no_data_present_message),
 											null,
 											null,
-											mUrl)));
+											mUrl, null)));
 						});
 					}
 
@@ -156,8 +156,7 @@ public class AlbumListingActivity extends BaseActivity {
 							LinkHandler.getImgurImageInfo(
 									AlbumListingActivity.this,
 									albumId,
-									Constants.Priority.IMAGE_VIEW,
-									0,
+									new Priority(Constants.Priority.IMAGE_VIEW),
 									false,
 									new GetImageInfoListener() {
 										@Override

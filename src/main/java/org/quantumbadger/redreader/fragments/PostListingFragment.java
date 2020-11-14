@@ -38,12 +38,13 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BaseActivity;
-import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.activities.OptionsMenuUtility;
 import org.quantumbadger.redreader.activities.SessionChangeListener;
 import org.quantumbadger.redreader.adapters.PostListingManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.cache.CacheRequestCallbacks;
+import org.quantumbadger.redreader.cache.CacheRequestJSONParser;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategy;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached;
@@ -55,6 +56,7 @@ import org.quantumbadger.redreader.common.FileUtils;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.common.TimestampBound;
@@ -253,7 +255,7 @@ public class PostListingFragment extends RRFragment
 			downloadStrategy = DownloadStrategyIfNotCached.INSTANCE;
 		}
 
-		mRequest = new PostListingRequest(
+		mRequest = createPostListingRequest(
 				mPostListingURL.generateJsonUri(),
 				RedditAccountManager.getInstance(context).getDefaultAccount(),
 				session,
@@ -411,7 +413,7 @@ public class PostListingFragment extends RRFragment
 			try {
 				mPostListingURL = mPostListingURL.asSubredditPostListURL()
 						.changeSubreddit(RedditSubreddit.stripRPrefix(mSubreddit.url));
-				mRequest = new PostListingRequest(
+				mRequest = createPostListingRequest(
 						mPostListingURL.generateJsonUri(),
 						RedditAccountManager.getInstance(getContext())
 								.getDefaultAccount(),
@@ -527,7 +529,7 @@ public class PostListingFragment extends RRFragment
 					limit = mPostRefreshCount.get();
 				}
 
-				mRequest = new PostListingRequest(
+				mRequest = createPostListingRequest(
 						newUri,
 						RedditAccountManager.getInstance(getActivity())
 								.getDefaultAccount(),
@@ -625,460 +627,451 @@ public class PostListingFragment extends RRFragment
 		}
 	}
 
-	private class PostListingRequest extends CacheRequest {
-
-		private final boolean firstDownload;
-
-		protected PostListingRequest(
+	@NonNull
+	private CacheRequest createPostListingRequest(
 				final Uri url,
 				final RedditAccount user,
 				final UUID requestSession,
 				final DownloadStrategy downloadStrategy,
 				final boolean firstDownload) {
-			super(
-					General.uriFromString(url.toString()),
-					user,
-					requestSession,
-					Constants.Priority.API_POST_LIST,
-					0,
-					downloadStrategy,
-					Constants.FileType.POST_LIST,
-					DOWNLOAD_QUEUE_REDDIT_API,
-					true,
-					false,
-					getActivity());
-			this.firstDownload = firstDownload;
-		}
 
-		@Override
-		protected void onDownloadNecessary() {
-		}
+		final AppCompatActivity activity = getActivity();
 
-		@Override
-		protected void onDownloadStarted() {
-		}
+		return new CacheRequest(
+				General.uriFromString(url.toString()),
+				user,
+				requestSession,
+				new Priority(Constants.Priority.API_POST_LIST),
+				downloadStrategy,
+				Constants.FileType.POST_LIST,
+				CacheRequest.DOWNLOAD_QUEUE_REDDIT_API,
+				activity,
+				new CacheRequestJSONParser(activity, new CacheRequestJSONParser.Listener() {
 
-		@Override
-		protected void onCallbackException(final Throwable t) {
-			BugReportActivity.handleGlobalError(context, t);
-		}
+					@Override
+					public void onJsonParsed(
+							@NonNull final JsonValue value,
+							final long timestamp,
+							@NonNull final UUID session,
+							final boolean fromCache) {
 
-		@Override
-		protected void onFailure(
-				final @CacheRequest.RequestFailureType int type,
-				final Throwable t,
-				final Integer status,
-				final String readableMessage) {
+						final BaseActivity activity = (BaseActivity)getActivity();
 
-			AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+						// One hour (matches default refresh value)
+						if(firstDownload && fromCache && RRTime.since(timestamp) > 60 * 60 * 1000) {
+							AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 
-				mPostListingManager.setLoadingVisible(false);
+								final TextView cacheNotif
+										= (TextView)LayoutInflater.from(activity).inflate(
+										R.layout.cached_header,
+										null,
+										false);
 
-				final RRError error;
+								cacheNotif.setText(getActivity().getString(
+										R.string.listing_cached,
+										RRTime.formatDateTime(timestamp, getActivity())));
 
-				if(type == CacheRequest.REQUEST_FAILURE_CACHE_MISS) {
-					error = new RRError(
-							context.getString(R.string.error_postlist_cache_title),
-							context.getString(R.string.error_postlist_cache_message),
-							t,
-							status,
-							url.toString());
+								mPostListingManager.addNotification(cacheNotif);
+							});
+						} // TODO resuming a copy
 
-				} else {
-					error = General.getGeneralErrorForFailure(
-							context,
-							type,
-							t,
-							status,
-							url.toString());
-				}
-
-				mPostListingManager.addFooterError(new ErrorView(
-						getActivity(),
-						error));
-			});
-		}
-
-		@Override
-		protected void onProgress(
-				final boolean authorizationInProgress,
-				final long bytesRead,
-				final long totalBytes) {
-		}
-
-		@Override
-		protected void onSuccess(
-				final CacheManager.ReadableCacheFile cacheFile,
-				final long timestamp,
-				final UUID session,
-				final boolean fromCache,
-				final String mimetype) {
-		}
-
-		@Override
-		public void onJsonParseStarted(
-				final JsonValue value,
-				final long timestamp,
-				final UUID session,
-				final boolean fromCache) {
-
-			final BaseActivity activity = (BaseActivity)getActivity();
-
-			// One hour (matches default refresh value)
-			if(firstDownload && fromCache && RRTime.since(timestamp) > 60 * 60 * 1000) {
-				AndroidCommon.UI_THREAD_HANDLER.post(() -> {
-
-					final TextView cacheNotif
-							= (TextView)LayoutInflater.from(activity).inflate(
-									R.layout.cached_header,
-									null,
-									false);
-
-					cacheNotif.setText(getActivity().getString(
-							R.string.listing_cached,
-							RRTime.formatDateTime(timestamp, getActivity())));
-
-					mPostListingManager.addNotification(cacheNotif);
-				});
-			} // TODO resuming a copy
-
-			if(firstDownload) {
-				((SessionChangeListener)activity).onSessionChanged(
-						session,
-						SessionChangeListener.SessionChangeType.POSTS,
-						timestamp);
-				PostListingFragment.this.mSession = session;
-				PostListingFragment.this.mTimestamp = timestamp;
-			}
-
-			// TODO {"error": 403} is received for unauthorized subreddits
-
-			try {
-
-				final JsonBufferedObject thing = value.asObject();
-				final JsonBufferedObject listing = thing.getObject("data");
-				final JsonBufferedArray posts = listing.getArray("children");
-
-				final boolean isNsfwAllowed = PrefsUtility.pref_behaviour_nsfw(
-						activity,
-						mSharedPreferences);
-				final boolean hideReadPosts = PrefsUtility.pref_behaviour_hide_read_posts(
-						activity,
-						mSharedPreferences);
-				final boolean isConnectionWifi = General.isConnectionWifi(activity);
-
-				final PrefsUtility.AppearanceThumbnailsShow thumbnailsPref
-						= PrefsUtility.appearance_thumbnails_show(
-						activity, mSharedPreferences);
-				final boolean downloadThumbnails = thumbnailsPref
-						== PrefsUtility.AppearanceThumbnailsShow.ALWAYS
-						|| (thumbnailsPref
-						== PrefsUtility.AppearanceThumbnailsShow.WIFIONLY
-						&& isConnectionWifi);
-
-				final boolean showNsfwThumbnails
-						= PrefsUtility.appearance_thumbnails_nsfw_show(
-						activity,
-						mSharedPreferences);
-
-				final PrefsUtility.CachePrecacheImages imagePrecachePref
-						= PrefsUtility.cache_precache_images(
-						activity,
-						mSharedPreferences);
-
-				final PrefsUtility.CachePrecacheComments commentPrecachePref
-						= PrefsUtility.cache_precache_comments(
-						activity,
-						mSharedPreferences);
-
-				final boolean precacheImages
-						= (imagePrecachePref == PrefsUtility.CachePrecacheImages.ALWAYS
-								|| (imagePrecachePref == PrefsUtility.CachePrecacheImages.WIFIONLY
-								&& isConnectionWifi))
-						&& !FileUtils.isCacheDiskFull(activity);
-
-				final boolean precacheComments
-						= (commentPrecachePref == PrefsUtility.CachePrecacheComments.ALWAYS
-								|| (commentPrecachePref
-										== PrefsUtility.CachePrecacheComments.WIFIONLY
-						&& isConnectionWifi));
-
-				final PrefsUtility.ImageViewMode imageViewMode
-						= PrefsUtility.pref_behaviour_imageview_mode(
-								activity,
-								mSharedPreferences);
-
-				final PrefsUtility.GifViewMode gifViewMode
-						= PrefsUtility.pref_behaviour_gifview_mode(
-								activity,
-								mSharedPreferences);
-
-				final PrefsUtility.VideoViewMode videoViewMode
-						= PrefsUtility.pref_behaviour_videoview_mode(
-								activity,
-								mSharedPreferences);
-
-				final boolean leftHandedMode = PrefsUtility.pref_appearance_left_handed(
-						activity,
-						mSharedPreferences);
-
-				final boolean subredditFilteringEnabled =
-						mPostListingURL.pathType() == RedditURLParser.SUBREDDIT_POST_LISTING_URL
-								&& (mPostListingURL.asSubredditPostListURL().type
-										== SubredditPostListURL.Type.ALL
-								|| mPostListingURL.asSubredditPostListURL().type
-										== SubredditPostListURL.Type.ALL_SUBTRACTION
-								|| mPostListingURL.asSubredditPostListURL().type
-										== SubredditPostListURL.Type.POPULAR);
-
-				// Grab this so we don't have to pull from the prefs every post
-				final HashSet<SubredditCanonicalId> blockedSubreddits
-						= new HashSet<>(PrefsUtility.pref_blocked_subreddits(
-								activity,
-								mSharedPreferences));
-
-				Log.i(TAG, "Precaching images: " + (precacheImages ? "ON" : "OFF"));
-				Log.i(TAG, "Precaching comments: " + (precacheComments ? "ON" : "OFF"));
-
-				final CacheManager cm = CacheManager.getInstance(activity);
-
-				final boolean showSubredditName = !(mPostListingURL != null
-						&& mPostListingURL.pathType() == RedditURLParser.SUBREDDIT_POST_LISTING_URL
-						&& mPostListingURL.asSubredditPostListURL().type
-								== SubredditPostListURL.Type.SUBREDDIT);
-
-				final ArrayList<RedditPostListItem> downloadedPosts = new ArrayList<>(25);
-
-				for(final JsonValue postThingValue : posts) {
-
-					final RedditThing postThing
-							= postThingValue.asObject(RedditThing.class);
-
-					if(!postThing.getKind().equals(RedditThing.Kind.POST)) {
-						continue;
-					}
-
-					final RedditPost post = postThing.asPost();
-
-					mAfter = post.name;
-
-					final boolean isPostBlocked = subredditFilteringEnabled
-							&& blockedSubreddits.contains(new SubredditCanonicalId(post.subreddit));
-
-					if(!isPostBlocked
-							&& (!post.over_18 || isNsfwAllowed)
-							&& mPostIds.add(post.getIdAlone())) {
-
-						final boolean downloadThisThumbnail
-								= downloadThumbnails && (!post.over_18 || showNsfwThumbnails);
-
-						final int positionInList = mPostCount;
-
-						final RedditParsedPost parsedPost = new RedditParsedPost(
-								activity,
-								post,
-								false);
-
-						final RedditPreparedPost preparedPost = new RedditPreparedPost(
-								activity,
-								cm,
-								positionInList,
-								parsedPost,
-								timestamp,
-								showSubredditName,
-								downloadThisThumbnail);
-
-						// Skip adding this post (go to next iteration) if it
-						// has been clicked on AND user preference
-						// "hideReadPosts" is true
-						if(hideReadPosts && preparedPost.isRead()) {
-							continue;
+						if(firstDownload) {
+							((SessionChangeListener)activity).onSessionChanged(
+									session,
+									SessionChangeListener.SessionChangeType.POSTS,
+									timestamp);
+							PostListingFragment.this.mSession = session;
+							PostListingFragment.this.mTimestamp = timestamp;
 						}
 
-						if(precacheComments) {
+						// TODO {"error": 403} is received for unauthorized subreddits
 
-							final CommentListingController controller
-									= new CommentListingController(
-									PostCommentListingURL.forPostId(preparedPost.src.getIdAlone()),
-									activity);
+						try {
 
-							CacheManager.getInstance(activity)
-									.makeRequest(new CacheRequest(
-											General.uriFromString(controller.getUri()
-													.toString()),
-											RedditAccountManager.getInstance(activity)
-													.getDefaultAccount(),
-											null,
-											Constants.Priority.COMMENT_PRECACHE,
+							final JsonBufferedObject thing = value.asObject();
+							final JsonBufferedObject listing = thing.getObject("data");
+							final JsonBufferedArray posts = listing.getArray("children");
+
+							final boolean isNsfwAllowed = PrefsUtility.pref_behaviour_nsfw(
+									activity,
+									mSharedPreferences);
+							final boolean hideReadPosts
+									= PrefsUtility.pref_behaviour_hide_read_posts(
+											activity,
+											mSharedPreferences);
+							final boolean isConnectionWifi = General.isConnectionWifi(activity);
+
+							final PrefsUtility.AppearanceThumbnailsShow thumbnailsPref
+									= PrefsUtility.appearance_thumbnails_show(
+									activity, mSharedPreferences);
+							final boolean downloadThumbnails = thumbnailsPref
+									== PrefsUtility.AppearanceThumbnailsShow.ALWAYS
+									|| (thumbnailsPref
+									== PrefsUtility.AppearanceThumbnailsShow.WIFIONLY
+									&& isConnectionWifi);
+
+							final boolean showNsfwThumbnails
+									= PrefsUtility.appearance_thumbnails_nsfw_show(
+									activity,
+									mSharedPreferences);
+
+							final PrefsUtility.CachePrecacheImages imagePrecachePref
+									= PrefsUtility.cache_precache_images(
+									activity,
+									mSharedPreferences);
+
+							final PrefsUtility.CachePrecacheComments commentPrecachePref
+									= PrefsUtility.cache_precache_comments(
+									activity,
+									mSharedPreferences);
+
+							final boolean precacheImages
+									= (imagePrecachePref == PrefsUtility.CachePrecacheImages.ALWAYS
+									|| (imagePrecachePref
+											== PrefsUtility.CachePrecacheImages.WIFIONLY
+											&& isConnectionWifi))
+									&& !FileUtils.isCacheDiskFull(activity);
+
+							final boolean precacheComments
+									= (commentPrecachePref
+													== PrefsUtility.CachePrecacheComments.ALWAYS
+											|| (commentPrecachePref
+													== PrefsUtility.CachePrecacheComments.WIFIONLY
+															&& isConnectionWifi));
+
+							final PrefsUtility.ImageViewMode imageViewMode
+									= PrefsUtility.pref_behaviour_imageview_mode(
+									activity,
+									mSharedPreferences);
+
+							final PrefsUtility.GifViewMode gifViewMode
+									= PrefsUtility.pref_behaviour_gifview_mode(
+									activity,
+									mSharedPreferences);
+
+							final PrefsUtility.VideoViewMode videoViewMode
+									= PrefsUtility.pref_behaviour_videoview_mode(
+									activity,
+									mSharedPreferences);
+
+							final boolean leftHandedMode = PrefsUtility.pref_appearance_left_handed(
+									activity,
+									mSharedPreferences);
+
+							final boolean subredditFilteringEnabled =
+									mPostListingURL.pathType()
+													== RedditURLParser.SUBREDDIT_POST_LISTING_URL
+											&& (mPostListingURL.asSubredditPostListURL().type
+													== SubredditPostListURL.Type.ALL
+											|| mPostListingURL.asSubredditPostListURL().type
+													== SubredditPostListURL.Type.ALL_SUBTRACTION
+											|| mPostListingURL.asSubredditPostListURL().type
+													== SubredditPostListURL.Type.POPULAR);
+
+							// Grab this so we don't have to pull from the prefs every post
+							final HashSet<SubredditCanonicalId> blockedSubreddits
+									= new HashSet<>(PrefsUtility.pref_blocked_subreddits(
+									activity,
+									mSharedPreferences));
+
+							Log.i(TAG, "Precaching images: "
+									+ (precacheImages ? "ON" : "OFF"));
+
+							Log.i(TAG, "Precaching comments: "
+									+ (precacheComments ? "ON" : "OFF"));
+
+							final CacheManager cm = CacheManager.getInstance(activity);
+
+							final boolean showSubredditName = !(mPostListingURL != null
+									&& mPostListingURL.pathType()
+											== RedditURLParser.SUBREDDIT_POST_LISTING_URL
+									&& mPostListingURL.asSubredditPostListURL().type
+									== SubredditPostListURL.Type.SUBREDDIT);
+
+							final ArrayList<RedditPostListItem> downloadedPosts
+									= new ArrayList<>(25);
+
+							for(final JsonValue postThingValue : posts) {
+
+								final RedditThing postThing
+										= postThingValue.asObject(RedditThing.class);
+
+								if(!postThing.getKind().equals(RedditThing.Kind.POST)) {
+									continue;
+								}
+
+								final RedditPost post = postThing.asPost();
+
+								mAfter = post.name;
+
+								final boolean isPostBlocked = subredditFilteringEnabled
+										&& blockedSubreddits.contains(
+												new SubredditCanonicalId(post.subreddit));
+
+								if(!isPostBlocked
+										&& (!post.over_18 || isNsfwAllowed)
+										&& mPostIds.add(post.getIdAlone())) {
+
+									final boolean downloadThisThumbnail = downloadThumbnails
+											&& (!post.over_18 || showNsfwThumbnails);
+
+									final int positionInList = mPostCount;
+
+									final RedditParsedPost parsedPost = new RedditParsedPost(
+											activity,
+											post,
+											false);
+
+									final RedditPreparedPost preparedPost = new RedditPreparedPost(
+											activity,
+											cm,
 											positionInList,
-											new DownloadStrategyIfTimestampOutsideBounds(
-													TimestampBound.notOlderThan(RRTime.minsToMs(
-															15))),
-											Constants.FileType.COMMENT_LIST,
-											DOWNLOAD_QUEUE_REDDIT_API,
-											false, // Don't parse the JSON
-											false,
-											activity) {
+											parsedPost,
+											timestamp,
+											showSubredditName,
+											downloadThisThumbnail);
 
-										@Override
-										protected void onCallbackException(final Throwable t) {
-										}
+									// Skip adding this post (go to next iteration) if it
+									// has been clicked on AND user preference
+									// "hideReadPosts" is true
+									if(hideReadPosts && preparedPost.isRead()) {
+										continue;
+									}
 
-										@Override
-										protected void onDownloadNecessary() {
-										}
+									if(precacheComments) {
+										precacheComments(activity, preparedPost, positionInList);
+									}
 
-										@Override
-										protected void onDownloadStarted() {
-										}
+									LinkHandler.getImageInfo(
+											activity,
+											parsedPost.getUrl(),
+											new Priority(
+													Constants.Priority.IMAGE_PRECACHE,
+													positionInList),
+											new GetImageInfoListener() {
 
-										@Override
-										protected void onFailure(
-												final @CacheRequest.RequestFailureType int type,
-												final Throwable t,
-												final Integer status,
-												final String readableMessage) {
-											Log.e(
-													TAG,
-													"Failed to precache "
-															+ url.toString()
-															+ "(RequestFailureType code: "
-															+ type
-															+ ")");
-										}
+												@Override
+												public void onFailure(
+														final @CacheRequest.RequestFailureType
+																int type,
+														final Throwable t,
+														final Integer status,
+														final String readableMessage) {
+												}
 
-										@Override
-										protected void onProgress(
-												final boolean authorizationInProgress,
-												final long bytesRead,
-												final long totalBytes) {
-										}
+												@Override
+												public void onNotAnImage() {
+												}
 
-										@Override
-										protected void onSuccess(
-												final CacheManager.ReadableCacheFile cacheFile,
-												final long timestamp,
-												final UUID session,
-												final boolean fromCache,
-												final String mimetype) {
-											Log.i(
-													TAG,
-													"Successfully precached "
-															+ url.toString());
-										}
-									});
+												@Override
+												public void onSuccess(final ImageInfo info) {
+
+													if(!precacheImages) {
+														return;
+													}
+
+													precacheImage(
+															activity,
+															info,
+															positionInList,
+															gifViewMode,
+															imageViewMode,
+															videoViewMode);
+
+												}
+											});
+
+									downloadedPosts.add(new RedditPostListItem(
+											preparedPost,
+											PostListingFragment.this,
+											activity,
+											leftHandedMode));
+
+									mPostCount++;
+									mPostRefreshCount.decrementAndGet();
+								}
+							}
+
+							AndroidCommon.runOnUiThread(() -> {
+
+								mPostListingManager.addPosts(downloadedPosts);
+								mPostListingManager.setLoadingVisible(false);
+								onPostsAdded();
+
+								mRequest = null;
+								mReadyToDownloadMore = true;
+								onLoadMoreItemsCheck();
+							});
+
+						} catch(final Throwable t) {
+							onFailure(
+									CacheRequest.REQUEST_FAILURE_PARSE,
+									t,
+									null,
+									"Parse failure");
 						}
-
-						LinkHandler.getImageInfo(
-								activity,
-								parsedPost.getUrl(),
-								Constants.Priority.IMAGE_PRECACHE,
-								positionInList,
-								new GetImageInfoListener() {
-
-									@Override
-									public void onFailure(
-											final @CacheRequest.RequestFailureType int type,
-											final Throwable t,
-											final Integer status,
-											final String readableMessage) {
-									}
-
-									@Override
-									public void onNotAnImage() {
-									}
-
-									@Override
-									public void onSuccess(final ImageInfo info) {
-
-										if(!precacheImages) {
-											return;
-										}
-
-										// Don't precache huge images
-										if(info.size != null
-												&& info.size > 15 * 1024 * 1024) {
-											Log.i(TAG, String.format(
-													"Not precaching '%s': too big (%d kB)",
-													post.getUrl(),
-													info.size / 1024));
-											return;
-										}
-
-										// Don't precache gifs if they're opened externally
-										if(ImageInfo.MediaType.GIF.equals(info.mediaType)
-												&& !gifViewMode.downloadInApp) {
-
-											Log.i(TAG, String.format(
-													"Not precaching '%s': GIFs opened externally",
-													post.getUrl()));
-											return;
-										}
-
-										// Don't precache images if they're opened externally
-										if(ImageInfo.MediaType.IMAGE.equals(info.mediaType)
-												&& !imageViewMode.downloadInApp) {
-
-											Log.i(TAG, String.format(
-													"Not precaching '%s': images opened externally",
-													post.getUrl()));
-											return;
-										}
-
-
-										// Don't precache videos if they're opened externally
-										if(ImageInfo.MediaType.VIDEO.equals(info.mediaType)
-												&& !videoViewMode.downloadInApp) {
-
-											Log.i(TAG, String.format(
-													"Not precaching '%s': videos opened externally",
-													post.getUrl()));
-											return;
-										}
-
-										precacheImage(
-												activity,
-												info.urlOriginal,
-												positionInList);
-
-										if(info.urlAudioStream != null) {
-											precacheImage(
-													activity,
-													info.urlAudioStream,
-													positionInList);
-										}
-									}
-								});
-
-						downloadedPosts.add(new RedditPostListItem(
-								preparedPost,
-								PostListingFragment.this,
-								activity,
-								leftHandedMode));
-
-						mPostCount++;
-						mPostRefreshCount.decrementAndGet();
 					}
-				}
 
-				AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+					@Override
+					public void onFailure(
+							final int type,
+							@Nullable final Throwable t,
+							@Nullable final Integer httpStatus,
+							@Nullable final String readableMessage) {
 
-					mPostListingManager.addPosts(downloadedPosts);
-					mPostListingManager.setLoadingVisible(false);
-					onPostsAdded();
+						AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 
-					mRequest = null;
-					mReadyToDownloadMore = true;
-					onLoadMoreItemsCheck();
-				});
+							mPostListingManager.setLoadingVisible(false);
 
-			} catch(final Throwable t) {
-				notifyFailure(
-						CacheRequest.REQUEST_FAILURE_PARSE,
-						t,
+							final RRError error;
+
+							if(type == CacheRequest.REQUEST_FAILURE_CACHE_MISS) {
+								error = new RRError(
+										activity.getString(R.string.error_postlist_cache_title),
+										activity.getString(R.string.error_postlist_cache_message),
+										t,
+										httpStatus,
+										url.toString(), null);
+
+							} else {
+								error = General.getGeneralErrorForFailure(
+										activity,
+										type,
+										t,
+										httpStatus,
+										url.toString());
+							}
+
+							mPostListingManager.addFooterError(new ErrorView(
+									activity,
+									error));
+						});
+					}
+				}));
+	}
+
+	private void precacheComments(
+			final Activity activity,
+			@NonNull final RedditPreparedPost preparedPost,
+			final int positionInList) {
+
+		final CommentListingController controller = new CommentListingController(
+				PostCommentListingURL.forPostId(preparedPost.src.getIdAlone()),
+				activity);
+
+		final URI url = General.uriFromString(controller.getUri().toString());
+
+		if(url == null) {
+			Log.i(TAG, String.format("Not precaching '%s': failed to parse URL", url));
+			return;
+		}
+
+		CacheManager.getInstance(activity)
+				.makeRequest(new CacheRequest(
+						url,
+						RedditAccountManager.getInstance(activity).getDefaultAccount(),
 						null,
-						"Parse failure");
-			}
+						new Priority(
+								Constants.Priority.COMMENT_PRECACHE,
+							positionInList),
+						new DownloadStrategyIfTimestampOutsideBounds(
+								TimestampBound.notOlderThan(RRTime.minsToMs(15))),
+						Constants.FileType.COMMENT_LIST,
+						CacheRequest.DOWNLOAD_QUEUE_REDDIT_API,
+						// Don't parse the JSON
+						activity,
+						new CacheRequestCallbacks() {
+							@Override
+							public void onFailure(
+									final int type,
+									@Nullable final Throwable t,
+									@Nullable final Integer httpStatus,
+									@Nullable final String readableMessage) {
+
+								Log.e(
+										TAG,
+										"Failed to precache "
+												+ url.toString()
+												+ "(RequestFailureType code: "
+												+ type
+												+ ")");
+							}
+
+							@Override
+							public void onSuccess(
+									@NonNull final CacheManager.ReadableCacheFile cacheFile,
+									final long timestamp,
+									@NonNull final UUID session,
+									final boolean fromCache,
+									@Nullable final String mimetype) {
+
+								Log.i(
+										TAG,
+										"Successfully precached "
+												+ url.toString());
+							}
+						}));
+	}
+
+	private void precacheImage(
+			@NonNull final Activity activity,
+			@NonNull final ImageInfo info,
+			final int positionInList,
+			@NonNull final PrefsUtility.GifViewMode gifViewMode,
+			@NonNull final PrefsUtility.ImageViewMode imageViewMode,
+			@NonNull final PrefsUtility.VideoViewMode videoViewMode) {
+
+		// Don't precache huge images
+		if(info.size != null
+				&& info.size > 15 * 1024 * 1024) {
+			Log.i(TAG, String.format(
+					"Not precaching '%s': too big (%d kB)",
+					info.urlOriginal,
+					info.size / 1024));
+			return;
+		}
+
+		// Don't precache gifs if they're opened externally
+		if(ImageInfo.MediaType.GIF.equals(info.mediaType)
+				&& !gifViewMode.downloadInApp) {
+
+			Log.i(TAG, String.format(
+					"Not precaching '%s': GIFs opened externally",
+					info.urlOriginal));
+			return;
+		}
+
+		// Don't precache images if they're opened externally
+		if(ImageInfo.MediaType.IMAGE.equals(info.mediaType)
+				&& !imageViewMode.downloadInApp) {
+
+			Log.i(TAG, String.format(
+					"Not precaching '%s': images opened externally",
+					info.urlOriginal));
+			return;
+		}
+
+
+		// Don't precache videos if they're opened externally
+		if(ImageInfo.MediaType.VIDEO.equals(info.mediaType)
+				&& !videoViewMode.downloadInApp) {
+
+			Log.i(TAG, String.format(
+					"Not precaching '%s': videos opened externally",
+					info.urlOriginal));
+			return;
+		}
+
+		precacheImage(
+				activity,
+				info.urlOriginal,
+				positionInList);
+
+		if(info.urlAudioStream != null) {
+			precacheImage(
+					activity,
+					info.urlAudioStream,
+					positionInList);
 		}
 	}
 
@@ -1089,8 +1082,7 @@ public class PostListingFragment extends RRFragment
 
 		final URI uri = General.uriFromString(url);
 		if(uri == null) {
-			Log.i(TAG, String.format(
-					"Not precaching '%s': failed to parse URL", url));
+			Log.i(TAG, String.format("Not precaching '%s': failed to parse URL", url));
 			return;
 		}
 
@@ -1098,59 +1090,41 @@ public class PostListingFragment extends RRFragment
 				uri,
 				RedditAccountManager.getAnon(),
 				null,
-				Constants.Priority.IMAGE_PRECACHE,
-				positionInList,
+				new Priority(
+						Constants.Priority.IMAGE_PRECACHE,
+						positionInList),
 				DownloadStrategyIfNotCached.INSTANCE,
 				Constants.FileType.IMAGE,
 				CacheRequest.DOWNLOAD_QUEUE_IMAGE_PRECACHE,
-				false,
-				false,
-				activity
-		) {
-			@Override
-			protected void onCallbackException(final Throwable t) {
-			}
+				activity,
+				new CacheRequestCallbacks() {
+					@Override
+					public void onFailure(
+							final int type,
+							@Nullable final Throwable t,
+							@Nullable final Integer httpStatus,
+							@Nullable final String readableMessage) {
 
-			@Override
-			protected void onDownloadNecessary() {
-			}
+						Log.e(TAG, String.format(
+								Locale.US,
+								"Failed to precache %s (RequestFailureType %d,"
+										+ " status %s, readable '%s')",
+								url,
+								type,
+								httpStatus == null ? "NULL" : httpStatus.toString(),
+								readableMessage == null ? "NULL" : readableMessage));
+					}
 
-			@Override
-			protected void onDownloadStarted() {
-			}
+					@Override
+					public void onSuccess(
+							@NonNull final CacheManager.ReadableCacheFile cacheFile,
+							final long timestamp,
+							@NonNull final UUID session,
+							final boolean fromCache,
+							@Nullable final String mimetype) {
 
-			@Override
-			protected void onFailure(
-					final @CacheRequest.RequestFailureType int type,
-					final Throwable t,
-					final Integer status,
-					final String readableMessage) {
-
-				Log.e(TAG, String.format(
-						Locale.US,
-						"Failed to precache %s (RequestFailureType %d, status %s, readable '%s')",
-						url,
-						type,
-						status == null ? "NULL" : status.toString(),
-						readableMessage == null ? "NULL" : readableMessage));
-			}
-
-			@Override
-			protected void onProgress(
-					final boolean authorizationInProgress,
-					final long bytesRead,
-					final long totalBytes) {
-			}
-
-			@Override
-			protected void onSuccess(
-					final CacheManager.ReadableCacheFile cacheFile,
-					final long timestamp,
-					final UUID session,
-					final boolean fromCache,
-					final String mimetype) {
-				Log.i(TAG, "Successfully precached " + url);
-			}
-		});
+						Log.i(TAG, "Successfully precached " + url);
+					}
+				}));
 	}
 }

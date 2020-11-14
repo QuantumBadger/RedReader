@@ -24,6 +24,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import androidx.annotation.NonNull;
+import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.RRTime;
 
@@ -177,7 +178,9 @@ final class CacheDbManager extends SQLiteOpenHelper {
 	}
 
 	synchronized long newEntry(
-			final CacheRequest request,
+			@NonNull final URI url,
+			@NonNull final RedditAccount user,
+			final int fileType,
 			final UUID session,
 			final String mimetype) throws IOException {
 
@@ -189,10 +192,10 @@ final class CacheDbManager extends SQLiteOpenHelper {
 
 		final ContentValues row = new ContentValues();
 
-		row.put(FIELD_URL, request.url.toString());
-		row.put(FIELD_USER, request.user.username);
+		row.put(FIELD_URL, url.toString());
+		row.put(FIELD_USER, user.username);
 		row.put(FIELD_SESSION, session.toString());
-		row.put(FIELD_TYPE, request.fileType);
+		row.put(FIELD_TYPE, fileType);
 		row.put(FIELD_STATUS, STATUS_MOVING);
 		row.put(FIELD_TIMESTAMP, RRTime.utcCurrentTimeMillis());
 		row.put(FIELD_MIMETYPE, mimetype);

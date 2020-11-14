@@ -18,13 +18,16 @@
 package org.quantumbadger.redreader.image;
 
 import android.content.Context;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.cache.CacheRequestJSONParser;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
@@ -36,8 +39,7 @@ public final class ImgurAPIV3 {
 			final Context context,
 			final String albumUrl,
 			final String albumId,
-			final int priority,
-			final int listId,
+			@NonNull final Priority priority,
 			final boolean withAuth,
 			final GetAlbumInfoListener listener) {
 
@@ -48,81 +50,49 @@ public final class ImgurAPIV3 {
 				RedditAccountManager.getAnon(),
 				null,
 				priority,
-				listId,
 				DownloadStrategyIfNotCached.INSTANCE,
 				Constants.FileType.IMAGE_INFO,
 				withAuth
 						? CacheRequest.DOWNLOAD_QUEUE_IMGUR_API
 						: CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
-				true,
-				false,
-				context
-		) {
-			@Override
-			protected void onCallbackException(final Throwable t) {
-				BugReportActivity.handleGlobalError(context, t);
-			}
+				context,
+				new CacheRequestJSONParser(context, new CacheRequestJSONParser.Listener() {
+					@Override
+					public void onJsonParsed(
+							@NonNull final JsonValue result,
+							final long timestamp,
+							@NonNull final UUID session,
+							final boolean fromCache) {
 
-			@Override
-			protected void onDownloadNecessary() {
-			}
+						try {
+							final JsonBufferedObject outer = result.asObject().getObject("data");
+							listener.onSuccess(AlbumInfo.parseImgurV3(albumUrl, outer));
 
-			@Override
-			protected void onDownloadStarted() {
-			}
+						} catch(final Throwable t) {
+							listener.onFailure(
+									CacheRequest.REQUEST_FAILURE_PARSE,
+									t,
+									null,
+									"Imgur data parse failed");
+						}
+					}
 
-			@Override
-			protected void onFailure(
-					final @CacheRequest.RequestFailureType int type,
-					final Throwable t,
-					final Integer status,
-					final String readableMessage) {
-				listener.onFailure(type, t, status, readableMessage);
-			}
+					@Override
+					public void onFailure(
+							final int type,
+							@Nullable final Throwable t,
+							@Nullable final Integer httpStatus,
+							@Nullable final String readableMessage) {
 
-			@Override
-			protected void onProgress(
-					final boolean authorizationInProgress,
-					final long bytesRead,
-					final long totalBytes) {
-			}
-
-			@Override
-			protected void onSuccess(
-					final CacheManager.ReadableCacheFile cacheFile,
-					final long timestamp,
-					final UUID session,
-					final boolean fromCache,
-					final String mimetype) {
-			}
-
-			@Override
-			public void onJsonParseStarted(
-					final JsonValue result,
-					final long timestamp,
-					final UUID session,
-					final boolean fromCache) {
-
-				try {
-					final JsonBufferedObject outer = result.asObject().getObject("data");
-					listener.onSuccess(AlbumInfo.parseImgurV3(albumUrl, outer));
-
-				} catch(final Throwable t) {
-					listener.onFailure(
-							CacheRequest.REQUEST_FAILURE_PARSE,
-							t,
-							null,
-							"Imgur data parse failed");
-				}
-			}
-		});
+						listener.onFailure(type, t, httpStatus, readableMessage);
+					}
+				})));
 	}
 
 	public static void getImageInfo(
 			final Context context,
 			final String imageId,
-			final int priority,
-			final int listId,
+			@NonNull final Priority priority,
 			final boolean withAuth,
 			final GetImageInfoListener listener) {
 
@@ -133,73 +103,42 @@ public final class ImgurAPIV3 {
 				RedditAccountManager.getAnon(),
 				null,
 				priority,
-				listId,
 				DownloadStrategyIfNotCached.INSTANCE,
 				Constants.FileType.IMAGE_INFO,
 				withAuth
 						? CacheRequest.DOWNLOAD_QUEUE_IMGUR_API
 						: CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
-				true,
-				false,
-				context
-		) {
-			@Override
-			protected void onCallbackException(final Throwable t) {
-				BugReportActivity.handleGlobalError(context, t);
-			}
+				context,
+				new CacheRequestJSONParser(context, new CacheRequestJSONParser.Listener() {
+					@Override
+					public void onJsonParsed(
+							@NonNull final JsonValue result,
+							final long timestamp,
+							@NonNull final UUID session,
+							final boolean fromCache) {
 
-			@Override
-			protected void onDownloadNecessary() {
-			}
+						try {
+							final JsonBufferedObject outer = result.asObject().getObject("data");
+							listener.onSuccess(ImageInfo.parseImgurV3(outer));
 
-			@Override
-			protected void onDownloadStarted() {
-			}
+						} catch(final Throwable t) {
+							listener.onFailure(
+									CacheRequest.REQUEST_FAILURE_PARSE,
+									t,
+									null,
+									"Imgur data parse failed");
+						}
+					}
 
-			@Override
-			protected void onFailure(
-					final @CacheRequest.RequestFailureType int type,
-					final Throwable t,
-					final Integer status,
-					final String readableMessage) {
-				listener.onFailure(type, t, status, readableMessage);
-			}
+					@Override
+					public void onFailure(
+							final int type,
+							@Nullable final Throwable t,
+							@Nullable final Integer httpStatus,
+							@Nullable final String readableMessage) {
 
-			@Override
-			protected void onProgress(
-					final boolean authorizationInProgress,
-					final long bytesRead,
-					final long totalBytes) {
-			}
-
-			@Override
-			protected void onSuccess(
-					final CacheManager.ReadableCacheFile cacheFile,
-					final long timestamp,
-					final UUID session,
-					final boolean fromCache,
-					final String mimetype) {
-			}
-
-			@Override
-			public void onJsonParseStarted(
-					final JsonValue result,
-					final long timestamp,
-					final UUID session,
-					final boolean fromCache) {
-
-				try {
-					final JsonBufferedObject outer = result.asObject().getObject("data");
-					listener.onSuccess(ImageInfo.parseImgurV3(outer));
-
-				} catch(final Throwable t) {
-					listener.onFailure(
-							CacheRequest.REQUEST_FAILURE_PARSE,
-							t,
-							null,
-							"Imgur data parse failed");
-				}
-			}
-		});
+						listener.onFailure(type, t, httpStatus, readableMessage);
+					}
+				})));
 	}
 }

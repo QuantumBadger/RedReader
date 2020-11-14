@@ -21,16 +21,20 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.SessionChangeListener;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.cache.CacheRequestJSONParser;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategy;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
@@ -48,6 +52,7 @@ import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -92,16 +97,13 @@ public class CommentListingRequest {
 
 		mCacheManager = CacheManager.getInstance(context);
 
-		mCacheManager.makeRequest(new CommentListingCacheRequest());
+		mCacheManager.makeRequest(createCommentListingCacheRequest());
 	}
 
 	private enum Event {
 		EVENT_DOWNLOAD_NECESSARY,
-		EVENT_DOWNLOAD_STARTED,
-		EVENT_EXCEPTION,
 		EVENT_FAILURE,
 		EVENT_CACHED_COPY,
-		EVENT_AUTHORIZING,
 		EVENT_PARSE_START,
 		EVENT_POST_DOWNLOADED,
 		EVENT_ALL_ITEMS_DOWNLOADED
@@ -114,13 +116,7 @@ public class CommentListingRequest {
 
 		void onCommentListingRequestDownloadNecessary();
 
-		void onCommentListingRequestDownloadStarted();
-
-		void onCommentListingRequestException(Throwable t);
-
 		void onCommentListingRequestFailure(RRError error);
-
-		void onCommentListingRequestAuthorizing();
 
 		void onCommentListingRequestCachedCopy(long timestamp);
 
@@ -142,24 +138,12 @@ public class CommentListingRequest {
 					mListener.onCommentListingRequestDownloadNecessary();
 					break;
 
-				case EVENT_DOWNLOAD_STARTED:
-					mListener.onCommentListingRequestDownloadStarted();
-					break;
-
-				case EVENT_EXCEPTION:
-					mListener.onCommentListingRequestException((Throwable)msg.obj);
-					break;
-
 				case EVENT_FAILURE:
 					mListener.onCommentListingRequestFailure((RRError)msg.obj);
 					break;
 
 				case EVENT_CACHED_COPY:
 					mListener.onCommentListingRequestCachedCopy((Long)msg.obj);
-					break;
-
-				case EVENT_AUTHORIZING:
-					mListener.onCommentListingRequestAuthorizing();
 					break;
 
 				case EVENT_PARSE_START:
@@ -181,174 +165,148 @@ public class CommentListingRequest {
 		}
 	};
 
-	private class CommentListingCacheRequest extends CacheRequest {
+	@NonNull
+	private CacheRequest createCommentListingCacheRequest() {
 
-		protected CommentListingCacheRequest() {
+		final URI url = General.uriFromString(mUrl.generateJsonUri().toString());
 
-			super(
-					General.uriFromString(mUrl.generateJsonUri().toString()),
-					mUser,
-					mSession,
-					Constants.Priority.API_COMMENT_LIST,
-					0,
-					mDownloadStrategy,
-					Constants.FileType.COMMENT_LIST,
-					DOWNLOAD_QUEUE_REDDIT_API,
-					true,
-					false,
-					mContext);
-		}
+		return new CacheRequest(
+				url,
+				mUser,
+				mSession,
+				new Priority(Constants.Priority.API_COMMENT_LIST),
+				mDownloadStrategy,
+				Constants.FileType.COMMENT_LIST,
+				CacheRequest.DOWNLOAD_QUEUE_REDDIT_API,
+				mContext,
+				new CacheRequestJSONParser(mContext, new CacheRequestJSONParser.Listener() {
+					@Override
+					public void onJsonParsed(
+							@NonNull final JsonValue value,
+							final long timestamp,
+							@NonNull final UUID session,
+							final boolean fromCache) {
 
-		@Override
-		protected void onCallbackException(final Throwable t) {
-			notifyListener(Event.EVENT_EXCEPTION, t);
-		}
+						String parentPostAuthor = null;
 
-		@Override
-		protected void onDownloadNecessary() {
-			notifyListener(Event.EVENT_DOWNLOAD_NECESSARY);
-		}
+						if(mActivity instanceof SessionChangeListener) {
+							((SessionChangeListener)mActivity).onSessionChanged(
+									session,
+									SessionChangeListener.SessionChangeType.COMMENTS,
+									timestamp);
+						}
 
-		@Override
-		protected void onDownloadStarted() {
-			notifyListener(Event.EVENT_DOWNLOAD_STARTED);
-		}
+						final Integer minimumCommentScore = PrefsUtility.pref_behaviour_comment_min(
+								mContext,
+								General.getSharedPrefs(mContext));
 
-		@Override
-		protected void onFailure(
-				final @CacheRequest.RequestFailureType int type,
-				final Throwable t,
-				final Integer status,
-				final String readableMessage) {
-			final RRError error = General.getGeneralErrorForFailure(
-					context,
-					type,
-					t,
-					status,
-					url.toString());
-			notifyListener(Event.EVENT_FAILURE, error);
-		}
+						if(fromCache) {
+							notifyListener(Event.EVENT_CACHED_COPY, timestamp);
+						}
 
-		@Override
-		protected void onProgress(
-				final boolean authorizationInProgress,
-				final long bytesRead,
-				final long totalBytes) {
-			if(authorizationInProgress) {
-				notifyListener(Event.EVENT_AUTHORIZING);
-			}
-		}
+						notifyListener(Event.EVENT_PARSE_START);
 
-		@Override
-		protected void onSuccess(
-				final CacheManager.ReadableCacheFile cacheFile,
-				final long timestamp,
-				final UUID session,
-				final boolean fromCache,
-				final String mimetype) {
-		}
+						try {
+							// Download main post
+							if(value.getType() == JsonValue.TYPE_ARRAY) {
 
-		@Override
-		public void onJsonParseStarted(
-				final JsonValue value,
-				final long timestamp,
-				final UUID session,
-				final boolean fromCache) {
+								// lol, reddit api
+								final JsonBufferedArray root = value.asArray();
+								final JsonBufferedObject thing = root.get(0).asObject();
+								final JsonBufferedObject listing = thing.getObject("data");
+								final JsonBufferedArray postContainer
+										= listing.getArray("children");
+								final RedditThing postThing =
+										postContainer.getObject(0, RedditThing.class);
+								final RedditPost post = postThing.asPost();
 
-			String parentPostAuthor = null;
+								final RedditParsedPost parsedPost =
+										new RedditParsedPost(mActivity, post, mParsePostSelfText);
 
-			if(mActivity instanceof SessionChangeListener) {
-				((SessionChangeListener)mActivity).onSessionChanged(
-						session,
-						SessionChangeListener.SessionChangeType.COMMENTS,
-						timestamp);
-			}
+								final RedditPreparedPost preparedPost = new RedditPreparedPost(
+										mContext,
+										mCacheManager,
+										0,
+										parsedPost,
+										timestamp,
+										true,
+										false);
 
-			final Integer minimumCommentScore = PrefsUtility.pref_behaviour_comment_min(
-					mContext,
-					General.getSharedPrefs(context));
+								notifyListener(Event.EVENT_POST_DOWNLOADED, preparedPost);
 
-			if(fromCache) {
-				notifyListener(Event.EVENT_CACHED_COPY, timestamp);
-			}
+								parentPostAuthor = parsedPost.getAuthor();
+							}
 
-			notifyListener(Event.EVENT_PARSE_START);
+							// Download comments
 
-			try {
-				// Download main post
-				if(value.getType() == JsonValue.TYPE_ARRAY) {
+							final JsonBufferedObject thing;
 
-					// lol, reddit api
-					final JsonBufferedArray root = value.asArray();
-					final JsonBufferedObject thing = root.get(0).asObject();
-					final JsonBufferedObject listing = thing.getObject("data");
-					final JsonBufferedArray postContainer = listing.getArray("children");
-					final RedditThing postThing =
-							postContainer.getObject(0, RedditThing.class);
-					final RedditPost post = postThing.asPost();
+							if(value.getType() == JsonValue.TYPE_ARRAY) {
+								thing = value.asArray().get(1).asObject();
+							} else {
+								thing = value.asObject();
+							}
 
-					final RedditParsedPost parsedPost =
-							new RedditParsedPost(mActivity, post, mParsePostSelfText);
+							final JsonBufferedObject listing = thing.getObject("data");
+							final JsonBufferedArray topLevelComments
+									= listing.getArray("children");
 
-					final RedditPreparedPost preparedPost = new RedditPreparedPost(
-							context,
-							mCacheManager,
-							0,
-							parsedPost,
-							timestamp,
-							true,
-							false);
+							final ArrayList<RedditCommentListItem> items
+									= new ArrayList<>(200);
 
-					notifyListener(Event.EVENT_POST_DOWNLOADED, preparedPost);
+							for(final JsonValue commentThingValue : topLevelComments) {
+								buildCommentTree(
+										commentThingValue,
+										null,
+										items,
+										minimumCommentScore,
+										parentPostAuthor);
+							}
 
-					parentPostAuthor = parsedPost.getAuthor();
-				}
+							final RedditChangeDataManager changeDataManager
+									= RedditChangeDataManager.getInstance(mUser);
 
-				// Download comments
+							for(final RedditCommentListItem item : items) {
+								if(item.isComment()) {
+									changeDataManager.update(
+											timestamp,
+											item.asComment().getParsedComment().getRawComment());
+								}
+							}
 
-				final JsonBufferedObject thing;
+							notifyListener(Event.EVENT_ALL_ITEMS_DOWNLOADED, items);
 
-				if(value.getType() == JsonValue.TYPE_ARRAY) {
-					thing = value.asArray().get(1).asObject();
-				} else {
-					thing = value.asObject();
-				}
-
-				final JsonBufferedObject listing = thing.getObject("data");
-				final JsonBufferedArray topLevelComments = listing.getArray("children");
-
-				final ArrayList<RedditCommentListItem> items = new ArrayList<>(200);
-
-				for(final JsonValue commentThingValue : topLevelComments) {
-					buildCommentTree(
-							commentThingValue,
-							null,
-							items,
-							minimumCommentScore,
-							parentPostAuthor);
-				}
-
-				final RedditChangeDataManager changeDataManager
-						= RedditChangeDataManager.getInstance(mUser);
-
-				for(final RedditCommentListItem item : items) {
-					if(item.isComment()) {
-						changeDataManager.update(
-								timestamp,
-								item.asComment().getParsedComment().getRawComment());
+						} catch(final Throwable t) {
+							onFailure(
+									CacheRequest.REQUEST_FAILURE_PARSE,
+									t,
+									null,
+									"Parse failure");
+						}
 					}
-				}
 
-				notifyListener(Event.EVENT_ALL_ITEMS_DOWNLOADED, items);
+					@Override
+					public void onFailure(
+							final int type,
+							@Nullable final Throwable t,
+							@Nullable final Integer httpStatus,
+							@Nullable final String readableMessage) {
 
-			} catch(final Throwable t) {
-				notifyFailure(
-						CacheRequest.REQUEST_FAILURE_PARSE,
-						t,
-						null,
-						"Parse failure");
-			}
-		}
+						final RRError error = General.getGeneralErrorForFailure(
+								mContext,
+								type,
+								t,
+								httpStatus,
+								url.toString());
+
+						notifyListener(Event.EVENT_FAILURE, error);
+					}
+
+					@Override
+					public void onDownloadNecessary() {
+						notifyListener(Event.EVENT_DOWNLOAD_NECESSARY);
+					}
+				}));
 	}
 
 	private void buildCommentTree(

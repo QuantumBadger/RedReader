@@ -19,13 +19,16 @@ package org.quantumbadger.redreader.image;
 
 import android.content.Context;
 import android.net.Uri;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.cache.CacheRequestJSONParser;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
@@ -38,8 +41,7 @@ public final class RedditGalleryAPI {
 			final Context context,
 			final String albumUrl,
 			final String albumId,
-			final int priority,
-			final int listId,
+			@NonNull final Priority priority,
 			final GetAlbumInfoListener listener) {
 
 		final Uri apiUrl = new PostCommentListingURL(
@@ -55,93 +57,60 @@ public final class RedditGalleryAPI {
 				RedditAccountManager.getInstance(context).getDefaultAccount(),
 				null,
 				priority,
-				listId,
 				DownloadStrategyIfNotCached.INSTANCE,
 				Constants.FileType.IMAGE_INFO,
 				CacheRequest.DOWNLOAD_QUEUE_REDDIT_API,
-				true,
-				false,
-				context) {
+				context,
+				new CacheRequestJSONParser(context, new CacheRequestJSONParser.Listener() {
+					@Override
+					public void onJsonParsed(
+							@NonNull final JsonValue result,
+							final long timestamp,
+							@NonNull final UUID session,
+							final boolean fromCache) {
 
-			@Override
-			protected void onCallbackException(final Throwable t) {
-				BugReportActivity.handleGlobalError(context, t);
-			}
+						try {
+							@SuppressWarnings("ConstantConditions") final JsonBufferedObject
+									redditPostData = result.asArray()
+									.getObject(0)
+									.getObject("data")
+									.getArray("children")
+									.getObject(0)
+									.getObject("data");
 
-			@Override
-			protected void onDownloadNecessary() {
-			}
+							final AlbumInfo album
+									= AlbumInfo.parseRedditGallery(albumUrl, redditPostData);
 
-			@Override
-			protected void onDownloadStarted() {
-			}
+							if(album == null) {
 
-			@Override
-			protected void onFailure(
-					final @RequestFailureType int type,
-					final Throwable t,
-					final Integer status,
-					final String readableMessage) {
-				listener.onFailure(type, t, status, readableMessage);
-			}
+								if(redditPostData.getString("removed_by_category") != null) {
+									listener.onGalleryRemoved();
+								} else {
+									listener.onGalleryDataNotPresent();
+								}
 
-			@Override
-			protected void onProgress(
-					final boolean authorizationInProgress,
-					final long bytesRead,
-					final long totalBytes) {
-			}
+							} else {
+								listener.onSuccess(album);
+							}
 
-			@Override
-			public void onJsonParseStarted(
-					final JsonValue result,
-					final long timestamp,
-					final UUID session,
-					final boolean fromCache) {
-
-				try {
-					@SuppressWarnings("ConstantConditions") final JsonBufferedObject
-							redditPostData = result.asArray()
-							.getObject(0)
-							.getObject("data")
-							.getArray("children")
-							.getObject(0)
-							.getObject("data");
-
-					final AlbumInfo album
-							= AlbumInfo.parseRedditGallery(albumUrl, redditPostData);
-
-					if(album == null) {
-
-						if(redditPostData.getString("removed_by_category") != null) {
-							listener.onGalleryRemoved();
-						} else {
-							listener.onGalleryDataNotPresent();
+						} catch(final Exception e) {
+							listener.onFailure(
+									CacheRequest.REQUEST_FAILURE_PARSE,
+									e,
+									null,
+									"Reddit gallery data parse failed");
 						}
-
-					} else {
-						listener.onSuccess(album);
 					}
 
-				} catch(final Exception e) {
-					listener.onFailure(
-							CacheRequest.REQUEST_FAILURE_PARSE,
-							e,
-							null,
-							"Reddit gallery data parse failed");
-				}
-			}
+					@Override
+					public void onFailure(
+							final int type,
+							@Nullable final Throwable t,
+							@Nullable final Integer httpStatus,
+							@Nullable final String readableMessage) {
 
-			@Override
-			protected void onSuccess(
-					final CacheManager.ReadableCacheFile cacheFile,
-					final long timestamp,
-					final UUID session,
-					final boolean fromCache,
-					final String mimetype) {
-
-				// Nothing to do here
-			}
-		});
+						listener.onFailure(type, t, httpStatus, readableMessage);
+					}
+				})));
 	}
 }

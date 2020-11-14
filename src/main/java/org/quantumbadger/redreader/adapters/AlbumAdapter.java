@@ -23,18 +23,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.cache.CacheRequestCallbacks;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.image.AlbumInfo;
 import org.quantumbadger.redreader.image.ImageInfo;
@@ -124,11 +127,10 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 				activity,
 				General.getSharedPrefs(activity));
 
-		final boolean downloadThumbnails = thumbnailsPref
-				== PrefsUtility.AppearanceThumbnailsShow.ALWAYS
-				|| (thumbnailsPref
-				== PrefsUtility.AppearanceThumbnailsShow.WIFIONLY
-				&& isConnectionWifi);
+		final boolean downloadThumbnails
+				= thumbnailsPref == PrefsUtility.AppearanceThumbnailsShow.ALWAYS
+				|| (thumbnailsPref == PrefsUtility.AppearanceThumbnailsShow.WIFIONLY
+						&& isConnectionWifi);
 
 		if(!downloadThumbnails || imageInfo.urlBigSquare == null) {
 			vh.icon.setVisibility(View.GONE);
@@ -140,61 +142,42 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 					General.uriFromString(imageInfo.urlBigSquare),
 					RedditAccountManager.getAnon(),
 					null,
-					Constants.Priority.THUMBNAIL,
-					position,
+					new Priority(Constants.Priority.THUMBNAIL, position),
 					DownloadStrategyIfNotCached.INSTANCE,
 					Constants.FileType.THUMBNAIL,
 					CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
-					false,
-					false,
-					activity
-			) {
-				@Override
-				protected void onCallbackException(final Throwable t) {
-					Log.e("AlbumAdapter", "Error in album thumbnail fetch callback", t);
-				}
+					activity,
+					new CacheRequestCallbacks() {
+						@Override
+						public void onFailure(
+								final int type,
+								@Nullable final Throwable t,
+								@Nullable final Integer httpStatus,
+								@Nullable final String readableMessage) {
 
-				@Override
-				protected void onDownloadNecessary() {
-				}
-
-				@Override
-				protected void onDownloadStarted() {
-				}
-
-				@Override
-				protected void onFailure(
-						final @CacheRequest.RequestFailureType int type,
-						final Throwable t,
-						final Integer status,
-						final String readableMessage) {
-					Log.e("AlbumAdapter", "Failed to fetch thumbnail " + url.toString());
-				}
-
-				@Override
-				protected void onProgress(
-						final boolean authorizationInProgress,
-						final long bytesRead,
-						final long totalBytes) {
-				}
-
-				@Override
-				protected void onSuccess(
-						final CacheManager.ReadableCacheFile cacheFile,
-						final long timestamp,
-						final UUID session,
-						final boolean fromCache,
-						final String mimetype) {
-
-					final Uri uri = cacheFile.getUri();
-
-					AndroidCommon.UI_THREAD_HANDLER.post(() -> {
-						if(vh.bindingId == bindingId) {
-							vh.icon.setImageURI(uri);
+							Log.e(
+									"AlbumAdapter",
+									"Failed to fetch thumbnail " + imageInfo.urlBigSquare,
+									t);
 						}
-					});
-				}
-			});
+
+						@Override
+						public void onSuccess(
+								@NonNull final CacheManager.ReadableCacheFile cacheFile,
+								final long timestamp,
+								@NonNull final UUID session,
+								final boolean fromCache,
+								@Nullable final String mimetype) {
+
+							final Uri uri = cacheFile.getUri();
+
+							AndroidCommon.runOnUiThread(() -> {
+								if(vh.bindingId == bindingId) {
+									vh.icon.setImageURI(uri);
+								}
+							});
+						}
+					}));
 		}
 
 		if(imageInfo.urlOriginal != null) {
@@ -214,7 +197,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 							activity.getString(R.string.image_gallery_no_image_present_message),
 							new RuntimeException(),
 							null,
-							albumInfo.url)));
+							albumInfo.url, null)));
 		}
 
 		vh.itemView.setOnLongClickListener(v -> {

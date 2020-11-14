@@ -17,21 +17,26 @@
 
 package org.quantumbadger.redreader.cache;
 
+import android.util.Log;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.common.PrioritisedCachedThreadPool;
+import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.common.TorCommon;
 import org.quantumbadger.redreader.http.HTTPBackend;
-import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
+
+	private static final String TAG = "CacheDownload";
 
 	private final CacheRequest mInitiator;
 	private final CacheManager manager;
@@ -43,8 +48,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 
 	public CacheDownload(
 			final CacheRequest initiator,
-			final CacheManager manager,
-			final PrioritisedDownloadQueue queue) {
+			final CacheManager manager) {
 
 		this.mInitiator = initiator;
 
@@ -120,8 +124,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 				final RedditOAuth.FetchAccessTokenResult result;
 
 				if(mInitiator.user.isAnonymous()) {
-					result
-							= RedditOAuth.fetchAnonymousAccessTokenSynchronous(mInitiator.context);
+					result = RedditOAuth.fetchAnonymousAccessTokenSynchronous(mInitiator.context);
 
 				} else {
 					result = RedditOAuth.fetchAccessTokenSynchronous(
@@ -173,18 +176,19 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 					final Long bodyBytes,
 					final InputStream is) {
 
-				final NotifyOutputStream cacheOs;
-				final CacheManager.WritableCacheFile cacheFile;
+				final ArrayList<CacheDataStreamChunkConsumer> consumers = new ArrayList<>();
+				@Nullable CacheManager.WritableCacheFile writableCacheFile = null;
+
 				if(mInitiator.cache) {
 					try {
-						cacheFile = manager.openNewCacheFile(
-								mInitiator,
-								session,
-								mimetype);
-						cacheOs = cacheFile.getOutputStream();
+						writableCacheFile
+								= manager.openNewCacheFile(mInitiator, session, mimetype);
+
+						consumers.add(writableCacheFile);
+
 					} catch(final IOException e) {
 
-						e.printStackTrace();
+						Log.e(TAG, "Exception opening cache file for write", e);
 
 						final int failureType;
 
@@ -203,174 +207,86 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 
 						return;
 					}
-				} else {
-					cacheOs = null;
-					cacheFile = null;
 				}
 
-				if(mInitiator.isJson) {
+				{
+					final CacheDataStreamChunkConsumer consumer
+							= mInitiator.notifyDataStreamAvailable();
 
-					final InputStream bis;
+					if(consumer != null) {
+						consumers.add(consumer);
+					}
+				}
 
-					if(mInitiator.cache) {
+				try {
+					final byte[] buf = new byte[128 * 1024];
 
-						bis = new BufferedInputStream(new CachingInputStream(
-								is,
-								cacheOs,
-								total -> {
-									if(bodyBytes != null) {
-										mInitiator.notifyProgress(
-												false,
-												total,
-												bodyBytes);
-									}
-								}), 64 * 1024);
+					int bytesRead;
+					long totalBytesRead = 0;
+
+					while((bytesRead = is.read(buf)) > 0) {
+
+						totalBytesRead += bytesRead;
+
+						for(int i = 0; i < consumers.size(); i++) {
+							consumers.get(i).onDataStreamChunk(buf, 0, bytesRead);
+						}
+
+						if(bodyBytes != null) {
+							mInitiator.notifyProgress(
+									false,
+									totalBytesRead,
+									bodyBytes);
+						}
+					}
+
+					for(int i = 0; i < consumers.size(); i++) {
+						consumers.get(i).onDataStreamSuccess();
+					}
+
+					mInitiator.notifySuccess(
+							writableCacheFile == null
+									? null
+									: writableCacheFile.getReadableCacheFile(),
+							RRTime.utcCurrentTimeMillis(),
+							session,
+							false,
+							mimetype);
+
+				} catch(final IOException e) {
+
+					if(e.getMessage() != null && e.getMessage().contains("ENOSPC")) {
+						mInitiator.notifyFailure(
+								CacheRequest.REQUEST_FAILURE_STORAGE,
+								e,
+								null,
+								"Out of disk space");
 
 					} else {
-						bis = new BufferedInputStream(is, 64 * 1024);
-					}
-
-					final JsonValue value;
-
-					try {
-						try {
-							value = new JsonValue(bis);
-							mInitiator.notifyJsonParseStarted(
-									value,
-									RRTime.utcCurrentTimeMillis(),
-									session,
-									false);
-							value.buildInThisThread();
-
-						} finally {
-							bis.close();
-						}
-
-					} catch(final Throwable t) {
-						t.printStackTrace();
-						mInitiator.notifyFailure(
-								CacheRequest.REQUEST_FAILURE_PARSE,
-								t,
-								null,
-								"Error parsing the JSON stream");
-						return;
-					}
-
-					if(mInitiator.cache && cacheFile != null) {
-						try {
-							mInitiator.notifySuccess(
-									cacheFile.getReadableCacheFile(),
-									RRTime.utcCurrentTimeMillis(),
-									session,
-									false,
-									mimetype);
-						} catch(final IOException e) {
-							if(e.getMessage().contains("ENOSPC")) {
-								mInitiator.notifyFailure(
-										CacheRequest.REQUEST_FAILURE_DISK_SPACE,
-										e,
-										null,
-										"Out of disk space");
-							} else {
-								mInitiator.notifyFailure(
-										CacheRequest.REQUEST_FAILURE_STORAGE,
-										e,
-										null,
-										"Cache file not found");
-							}
-						}
-					}
-
-				} else {
-
-					if(!mInitiator.cache) {
-						BugReportActivity.handleGlobalError(
-								mInitiator.context,
-								"Cache disabled for non-JSON request");
-						return;
-					}
-
-					try {
-						final byte[] buf = new byte[64 * 1024];
-
-						int bytesRead;
-						long totalBytesRead = 0;
-						while((bytesRead = is.read(buf)) > 0) {
-							totalBytesRead += bytesRead;
-							cacheOs.write(buf, 0, bytesRead);
-							if(bodyBytes != null) {
-								mInitiator.notifyProgress(
-										false,
-										totalBytesRead,
-										bodyBytes);
-							}
-						}
-
-						cacheOs.flush();
-						cacheOs.close();
-
-						try {
-							mInitiator.notifySuccess(
-									cacheFile.getReadableCacheFile(),
-									RRTime.utcCurrentTimeMillis(),
-									session,
-									false,
-									mimetype);
-						} catch(final IOException e) {
-							if(e.getMessage().contains("ENOSPC")) {
-								mInitiator.notifyFailure(
-										CacheRequest.REQUEST_FAILURE_DISK_SPACE,
-										e,
-										null,
-										"Out of disk space");
-							} else {
-								mInitiator.notifyFailure(
-										CacheRequest.REQUEST_FAILURE_STORAGE,
-										e,
-										null,
-										"Cache file not found");
-							}
-						}
-
-					} catch(final IOException e) {
-
-						if(e.getMessage() != null && e.getMessage().contains("ENOSPC")) {
-							mInitiator.notifyFailure(
-									CacheRequest.REQUEST_FAILURE_STORAGE,
-									e,
-									null,
-									"Out of disk space");
-
-						} else {
-							e.printStackTrace();
-							mInitiator.notifyFailure(
-									CacheRequest.REQUEST_FAILURE_CONNECTION,
-									e,
-									null,
-									"The connection was interrupted");
-						}
-
-					} catch(final Throwable t) {
-						t.printStackTrace();
+						e.printStackTrace();
 						mInitiator.notifyFailure(
 								CacheRequest.REQUEST_FAILURE_CONNECTION,
-								t,
+								e,
 								null,
 								"The connection was interrupted");
 					}
+
+				} catch(final Throwable t) {
+					t.printStackTrace();
+					mInitiator.notifyFailure(
+							CacheRequest.REQUEST_FAILURE_CONNECTION,
+							t,
+							null,
+							"The connection was interrupted");
 				}
 			}
 		});
 	}
 
+	@NonNull
 	@Override
-	public int getPrimaryPriority() {
+	public Priority getPriority() {
 		return mInitiator.priority;
-	}
-
-	@Override
-	public int getSecondaryPriority() {
-		return mInitiator.listId;
 	}
 
 	@Override

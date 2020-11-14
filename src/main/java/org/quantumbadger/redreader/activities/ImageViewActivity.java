@@ -50,12 +50,14 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.cache.CacheRequestCallbacks;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.fragments.ImageInfoDialog;
 import org.quantumbadger.redreader.image.AlbumInfo;
@@ -159,8 +161,7 @@ public class ImageViewActivity extends BaseActivity
 			LinkHandler.getAlbumInfo(
 					this,
 					intent.getStringExtra("albumUrl"),
-					Constants.Priority.IMAGE_VIEW,
-					0,
+					new Priority(Constants.Priority.IMAGE_VIEW),
 					new GetAlbumInfoListener() {
 
 						@Override
@@ -243,8 +244,7 @@ public class ImageViewActivity extends BaseActivity
 		LinkHandler.getImageInfo(
 				this,
 				mUrl,
-				Constants.Priority.IMAGE_VIEW,
-				0,
+				new Priority(Constants.Priority.IMAGE_VIEW),
 				new GetImageInfoListener() {
 
 					@Override
@@ -575,7 +575,7 @@ public class ImageViewActivity extends BaseActivity
 					return;
 				}
 
-				final Movie movie;
+				@SuppressWarnings("deprecation") final Movie movie;
 
 				try {
 					movie = GIFView.prepareMovie(data);
@@ -936,7 +936,7 @@ public class ImageViewActivity extends BaseActivity
 	}
 
 	@Override
-	public void onConfigurationChanged(final Configuration newConfig) {
+	public void onConfigurationChanged(@NonNull final Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		if(mImageViewDisplayerManager != null) {
 			mImageViewDisplayerManager.resetTouchState();
@@ -1052,119 +1052,106 @@ public class ImageViewActivity extends BaseActivity
 						uri,
 						RedditAccountManager.getAnon(),
 						null,
-						Constants.Priority.IMAGE_VIEW,
-						0,
+						new Priority(Constants.Priority.IMAGE_VIEW),
 						DownloadStrategyIfNotCached.INSTANCE,
 						Constants.FileType.IMAGE,
 						CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
-						false,
-						false,
-						this) {
+						this,
+						new CacheRequestCallbacks() {
 
-					private boolean mProgressTextSet = false;
+							private boolean mProgressTextSet = false;
 
-					@Override
-					protected void onCallbackException(final Throwable t) {
-						BugReportActivity.handleGlobalError(
-								context.getApplicationContext(),
-								new RRError(null, null, t));
-					}
+							@Override
+							public void onFailure(
+									final int type,
+									@Nullable final Throwable t,
+									@Nullable final Integer httpStatus,
+									@Nullable final String readableMessage) {
 
-					@Override
-					protected void onDownloadNecessary() {
-						AndroidCommon.UI_THREAD_HANDLER.post(() -> {
-							progressBar.setVisibility(View.VISIBLE);
-							progressBar.setIndeterminate(true);
-							manageAspectRatioIndicator(progressBar);
-						});
-					}
+								synchronized(resultLock) {
 
-					@Override
-					protected void onDownloadStarted() {
-					}
+									if(!failed.getAndSet(true)) {
 
-					@Override
-					protected void onFailure(
-							final @RequestFailureType int type,
-							final Throwable t,
-							final Integer status,
-							final String readableMessage) {
+										if(type == CacheRequest.REQUEST_FAILURE_CONNECTION
+												&& uri.getHost().contains("redgifs")) {
 
-						synchronized(resultLock) {
+											// Redgifs have lots of server issues
+											revertToWeb();
+											return;
+										}
 
-							if(!failed.getAndSet(true)) {
+										final RRError error = General.getGeneralErrorForFailure(
+												ImageViewActivity.this,
+												type,
+												t,
+												httpStatus,
+												uri.toString());
 
-								if(type == REQUEST_FAILURE_CONNECTION
-										&& url.getHost().contains("redgifs")) {
-
-									// Redgifs have lots of server issues
-									revertToWeb();
-									return;
+										AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+											mRequest = null;
+											final LinearLayout layout
+													= new LinearLayout(ImageViewActivity.this);
+											final ErrorView errorView = new ErrorView(
+													ImageViewActivity.this,
+													error);
+											layout.addView(errorView);
+											errorView.getLayoutParams().width
+													= ViewGroup.LayoutParams.MATCH_PARENT;
+											setMainView(layout);
+										});
+									}
 								}
+							}
 
-								final RRError error = General.getGeneralErrorForFailure(
-										context,
-										type,
-										t,
-										status,
-										url.toString());
-
-								AndroidCommon.UI_THREAD_HANDLER.post(() -> {
-									mRequest = null;
-									final LinearLayout layout = new LinearLayout(
-											context);
-									final ErrorView errorView = new ErrorView(
-											ImageViewActivity.this,
-											error);
-									layout.addView(errorView);
-									errorView.getLayoutParams().width
-											= ViewGroup.LayoutParams.MATCH_PARENT;
-									setMainView(layout);
+							@Override
+							public void onDownloadNecessary() {
+								AndroidCommon.runOnUiThread(() -> {
+									progressBar.setVisibility(View.VISIBLE);
+									progressBar.setIndeterminate(true);
+									manageAspectRatioIndicator(progressBar);
 								});
 							}
-						}
-					}
 
-					@Override
-					protected void onProgress(
-							final boolean authorizationInProgress,
-							final long bytesRead,
-							final long totalBytes) {
-						AndroidCommon.UI_THREAD_HANDLER.post(() -> {
-							progressBar.setVisibility(View.VISIBLE);
-							progressBar.setIndeterminate(authorizationInProgress);
-							progressBar.setProgress(((float)((1000 * bytesRead)
-									/ totalBytes)) / 1000);
-							manageAspectRatioIndicator(progressBar);
+							@Override
+							public void onProgress(
+									final boolean authorizationInProgress,
+									final long bytesRead,
+									final long totalBytes) {
 
-							if(!mProgressTextSet) {
-								mProgressText.setText(General.bytesToMegabytes(
-										totalBytes));
-								mProgressTextSet = true;
+								AndroidCommon.runOnUiThread(() -> {
+									progressBar.setVisibility(View.VISIBLE);
+									progressBar.setIndeterminate(authorizationInProgress);
+									progressBar.setProgress(
+											((float)((1000 * bytesRead) / totalBytes)) / 1000);
+									manageAspectRatioIndicator(progressBar);
+
+									if(!mProgressTextSet) {
+										mProgressText.setText(General.bytesToMegabytes(totalBytes));
+										mProgressTextSet = true;
+									}
+								});
 							}
-						});
-					}
 
-					@Override
-					protected void onSuccess(
-							final CacheManager.ReadableCacheFile cacheFile,
-							final long timestamp,
-							final UUID session,
-							final boolean fromCache,
-							final String mimetype) {
+							@Override
+							public void onSuccess(
+									@NonNull final CacheManager.ReadableCacheFile cacheFile,
+									final long timestamp,
+									@NonNull final UUID session,
+									final boolean fromCache,
+									@Nullable final String mimetype) {
 
-						synchronized(resultLock) {
+								synchronized(resultLock) {
 
-							if(audio.get() != null || audioUri == null) {
-								onImageLoaded(cacheFile, audio.get(), mimetype);
+									if(audio.get() != null || audioUri == null) {
+										onImageLoaded(cacheFile, audio.get(), mimetype);
 
-							} else {
-								video.set(cacheFile);
-								videoMimetype.set(mimetype);
+									} else {
+										video.set(cacheFile);
+										videoMimetype.set(mimetype);
+									}
+								}
 							}
-						}
-					}
-				});
+						}));
 
 		if(audioUri != null) {
 			CacheManager.getInstance(this).makeRequest(
@@ -1172,93 +1159,68 @@ public class ImageViewActivity extends BaseActivity
 							audioUri,
 							RedditAccountManager.getAnon(),
 							null,
-							Constants.Priority.IMAGE_VIEW,
-							0,
+							new Priority(Constants.Priority.IMAGE_VIEW),
 							DownloadStrategyIfNotCached.INSTANCE,
 							Constants.FileType.IMAGE,
 							CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
-							false,
-							false,
-							this) {
+							this,
+							new CacheRequestCallbacks() {
+								@Override
+								public void onFailure(
+										final int type,
+										@Nullable final Throwable t,
+										@Nullable final Integer httpStatus,
+										@Nullable final String readableMessage) {
 
-						@Override
-						protected void onCallbackException(final Throwable t) {
-							BugReportActivity.handleGlobalError(
-									context.getApplicationContext(),
-									new RRError(null, null, t));
-						}
+									synchronized(resultLock) {
 
-						@Override
-						protected void onDownloadNecessary() {
-						}
+										if(!failed.getAndSet(true)) {
 
-						@Override
-						protected void onDownloadStarted() {
-						}
-
-						@Override
-						protected void onFailure(
-								final @RequestFailureType int type,
-								final Throwable t,
-								final Integer status,
-								final String readableMessage) {
-
-							synchronized(resultLock) {
-
-								if(!failed.getAndSet(true)) {
-
-									final RRError error
-											= General.getGeneralErrorForFailure(
-													context,
+											final RRError error
+													= General.getGeneralErrorForFailure(
+													ImageViewActivity.this,
 													type,
 													t,
-													status,
-													url.toString());
+													httpStatus,
+													audioUri.toString());
 
-									AndroidCommon.UI_THREAD_HANDLER.post(() -> {
-										// TODO handle properly
-										mRequest = null;
-										final LinearLayout layout = new LinearLayout(
-												context);
-										final ErrorView errorView = new ErrorView(
-												ImageViewActivity.this,
-												error);
-										layout.addView(errorView);
-										errorView.getLayoutParams().width
-												= ViewGroup.LayoutParams.MATCH_PARENT;
-										setMainView(layout);
-									});
+											AndroidCommon.runOnUiThread(() -> {
+												// TODO handle properly
+												mRequest = null;
+												final LinearLayout layout
+														= new LinearLayout(ImageViewActivity.this);
+												final ErrorView errorView = new ErrorView(
+														ImageViewActivity.this,
+														error);
+												layout.addView(errorView);
+												errorView.getLayoutParams().width
+														= ViewGroup.LayoutParams.MATCH_PARENT;
+												setMainView(layout);
+											});
+										}
+									}
 								}
-							}
-						}
 
-						@Override
-						protected void onProgress(
-								final boolean authorizationInProgress,
-								final long bytesRead,
-								final long totalBytes) {
-						}
+								@Override
+								public void onSuccess(
+										@NonNull final CacheManager.ReadableCacheFile cacheFile,
+										final long timestamp,
+										@NonNull final UUID session,
+										final boolean fromCache,
+										@Nullable final String mimetype) {
 
-						@Override
-						protected void onSuccess(
-								final CacheManager.ReadableCacheFile cacheFile,
-								final long timestamp,
-								final UUID session,
-								final boolean fromCache,
-								final String mimetype) {
-
-							synchronized(resultLock) {
-								if(video.get() != null) {
-									onImageLoaded(
-											video.get(),
-											cacheFile,
-											videoMimetype.get());
-								} else {
-									audio.set(cacheFile);
+									synchronized(resultLock) {
+										if(video.get() != null) {
+											onImageLoaded(
+													video.get(),
+													cacheFile,
+													videoMimetype.get());
+										} else {
+											audio.set(cacheFile);
+										}
+									}
 								}
-							}
-						}
-					});
+							}));
 		}
 	}
 

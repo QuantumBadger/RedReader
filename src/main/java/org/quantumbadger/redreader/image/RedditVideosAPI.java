@@ -19,16 +19,18 @@ package org.quantumbadger.redreader.image;
 
 import android.content.Context;
 import android.util.Log;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.cache.CacheRequestJSONParser;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.Priority;
+import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -50,8 +52,7 @@ public final class RedditVideosAPI {
 	public static void getImageInfo(
 			final Context context,
 			final String imageId,
-			final int priority,
-			final int listId,
+			@NonNull final Priority priority,
 			final GetImageInfoListener listener) {
 
 		final String apiUrl = "https://v.redd.it/" + imageId + "/DASHPlaylist.mpd";
@@ -61,127 +62,96 @@ public final class RedditVideosAPI {
 				RedditAccountManager.getAnon(),
 				null,
 				priority,
-				listId,
 				DownloadStrategyIfNotCached.INSTANCE,
 				Constants.FileType.IMAGE_INFO,
 				CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
-				false,
-				false,
-				context
-		) {
-			@Override
-			protected void onCallbackException(final Throwable t) {
-				BugReportActivity.handleGlobalError(context, t);
-			}
+				context,
+				new CacheRequestJSONParser(context, new CacheRequestJSONParser.Listener() {
+					@Override
+					public void onJsonParsed(
+							@NonNull final JsonValue value,
+							final long timestamp,
+							@NonNull final UUID session,
+							final boolean fromCache) {
 
-			@Override
-			protected void onDownloadNecessary() {
-			}
+						try {
 
-			@Override
-			protected void onDownloadStarted() {
-			}
+							final String mpd = value.toString();
 
-			@Override
-			protected void onFailure(
-					final @RequestFailureType int type,
-					final Throwable t,
-					final Integer status,
-					final String readableMessage) {
-				listener.onFailure(type, t, status, readableMessage);
-			}
+							String videoUrl = null;
+							String audioUrl = null;
 
-			@Override
-			protected void onProgress(
-					final boolean authorizationInProgress,
-					final long bytesRead,
-					final long totalBytes) {
-			}
+							if(mpd.contains("DASH_audio.mp4")) {
+								audioUrl = "https://v.redd.it/" + imageId + "/DASH_audio.mp4";
 
-			@Override
-			protected void onSuccess(
-					final CacheManager.ReadableCacheFile cacheFile,
-					final long timestamp,
-					final UUID session,
-					final boolean fromCache,
-					final String mimetype) {
-
-				try(InputStream is = cacheFile.getInputStream()) {
-
-					try {
-						final String mpd = General.readWholeStreamAsUTF8(is);
-
-						String videoUrl = null;
-						String audioUrl = null;
-
-						if(mpd.contains("DASH_audio.mp4")) {
-							audioUrl = "https://v.redd.it/" + imageId + "/DASH_audio.mp4";
-
-						} else if(mpd.contains("audio")) {
-							audioUrl = "https://v.redd.it/" + imageId + "/audio";
-						}
-
-						for(final String format : PREFERRED_VIDEO_FORMATS) {
-
-							if(mpd.contains(format + ".mp4")) {
-								videoUrl = "https://v.redd.it/"
-										+ imageId
-										+ "/"
-										+ format
-										+ ".mp4";
-								break;
+							} else if(mpd.contains("audio")) {
+								audioUrl = "https://v.redd.it/" + imageId + "/audio";
 							}
 
-							if(mpd.contains(format)) {
-								videoUrl = "https://v.redd.it/" + imageId + "/" + format;
-								break;
+							for(final String format : PREFERRED_VIDEO_FORMATS) {
+
+								if(mpd.contains(format + ".mp4")) {
+									videoUrl = "https://v.redd.it/"
+											+ imageId
+											+ "/"
+											+ format
+											+ ".mp4";
+									break;
+								}
+
+								if(mpd.contains(format)) {
+									videoUrl = "https://v.redd.it/" + imageId + "/" + format;
+									break;
+								}
 							}
-						}
 
-						if(videoUrl == null) {
-							// Fallback
-							videoUrl = "https://v.redd.it/" + imageId + "/DASH_480.mp4";
-						}
+							if(videoUrl == null) {
+								// Fallback
+								videoUrl = "https://v.redd.it/" + imageId + "/DASH_480.mp4";
+							}
 
-						final ImageInfo result;
+							final ImageInfo result;
 
-						if(audioUrl != null) {
-							result = new ImageInfo(
+							if(audioUrl != null) {
+								result = new ImageInfo(
+										videoUrl,
+										audioUrl,
+										ImageInfo.MediaType.VIDEO,
+										ImageInfo.HasAudio.HAS_AUDIO);
+							} else {
+								result = new ImageInfo(
+										videoUrl,
+										ImageInfo.MediaType.VIDEO,
+										ImageInfo.HasAudio.NO_AUDIO);
+							}
+
+							Log.i("RedditVideosAPI", String.format(
+									Locale.US,
+									"For '%s', got video stream '%s' and audio stream '%s'",
+									apiUrl,
 									videoUrl,
-									audioUrl,
-									ImageInfo.MediaType.VIDEO,
-									ImageInfo.HasAudio.HAS_AUDIO);
-						} else {
-							result = new ImageInfo(
-									videoUrl,
-									ImageInfo.MediaType.VIDEO,
-									ImageInfo.HasAudio.NO_AUDIO);
-						}
+									audioUrl == null ? "null" : audioUrl));
 
-						Log.i("RedditVideosAPI", String.format(
-								Locale.US,
-								"For '%s', got video stream '%s' and audio stream '%s'",
-								apiUrl,
-								videoUrl,
-								audioUrl == null ? "null" : audioUrl));
+							listener.onSuccess(result);
 
-						listener.onSuccess(result);
-
-
-					} finally {
-						if(is != null) {
-							General.closeSafely(is);
+						} catch(final Exception e) {
+							listener.onFailure(
+									CacheRequest.REQUEST_FAILURE_STORAGE,
+									e,
+									null,
+									"Failed to read mpd");
 						}
 					}
 
-				} catch(final IOException | NullPointerException e) {
-					listener.onFailure(
-							REQUEST_FAILURE_STORAGE,
-							e,
-							null,
-							"Failed to read mpd");
-				}
-			}
-		});
+					@Override
+					public void onFailure(
+							final int type,
+							@Nullable final Throwable t,
+							@Nullable final Integer httpStatus,
+							@Nullable final String readableMessage) {
+
+						listener.onFailure(type, t, httpStatus, readableMessage);
+					}
+				})));
 	}
 }

@@ -348,7 +348,7 @@ public final class General {
 				context.getString(message),
 				t,
 				status,
-				url);
+				url, null);
 	}
 
 	public static RRError getGeneralErrorForFailure(

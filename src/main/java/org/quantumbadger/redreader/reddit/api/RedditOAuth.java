@@ -191,8 +191,8 @@ public final class RedditOAuth {
 							context.getString(R.string.message_cannotlogin),
 							null,
 							httpStatus,
-							uri
-					)
+							uri,
+							null)
 			);
 
 		} else if(exception != null && exception instanceof IOException) {
@@ -203,8 +203,8 @@ public final class RedditOAuth {
 							context.getString(R.string.error_connection_message),
 							exception,
 							null,
-							uri
-					)
+							uri,
+							null)
 			);
 
 		} else {
@@ -215,8 +215,8 @@ public final class RedditOAuth {
 							context.getString(R.string.error_unknown_message),
 							exception,
 							null,
-							uri
-					)
+							uri,
+							null)
 			);
 		}
 	}
@@ -235,8 +235,8 @@ public final class RedditOAuth {
 							context.getString(R.string.message_cannotlogin),
 							null,
 							httpStatus,
-							uri
-					)
+							uri,
+							null)
 			);
 
 		} else if(exception != null && exception instanceof IOException) {
@@ -247,8 +247,8 @@ public final class RedditOAuth {
 							context.getString(R.string.error_connection_message),
 							exception,
 							null,
-							uri
-					)
+							uri,
+							null)
 			);
 
 		} else {
@@ -259,8 +259,8 @@ public final class RedditOAuth {
 							context.getString(R.string.error_unknown_message),
 							exception,
 							null,
-							uri
-					)
+							uri,
+							null)
 			);
 		}
 	}
@@ -374,8 +374,8 @@ public final class RedditOAuth {
 										context.getString(R.string.error_connection_message),
 										e,
 										null,
-										uri
-								)
+										uri,
+										null)
 						));
 
 					} catch(final Throwable t) {
@@ -394,8 +394,8 @@ public final class RedditOAuth {
 							context.getString(R.string.error_unknown_message),
 							t,
 							null,
-							uri
-					)
+							uri,
+							null)
 			);
 		}
 	}
@@ -431,8 +431,8 @@ public final class RedditOAuth {
 										context.getString(R.string.error_unknown_message),
 										null,
 										httpStatus,
-										uri.toString()
-								)
+										uri.toString(),
+										null)
 						));
 
 					} else {
@@ -443,8 +443,8 @@ public final class RedditOAuth {
 										context.getString(R.string.error_unknown_message),
 										exception,
 										null,
-										uri.toString()
-								)
+										uri.toString(),
+										null)
 						));
 					}
 				}
@@ -472,8 +472,8 @@ public final class RedditOAuth {
 											context.getString(R.string.error_unknown_message),
 											null,
 											null,
-											uri.toString()
-									)
+											uri.toString(),
+											null)
 							));
 
 							return;
@@ -489,8 +489,8 @@ public final class RedditOAuth {
 										context.getString(R.string.error_connection_message),
 										e,
 										null,
-										uri.toString()
-								)
+										uri.toString(),
+										null)
 						));
 
 					} catch(final Throwable t) {
@@ -509,8 +509,8 @@ public final class RedditOAuth {
 							context.getString(R.string.error_unknown_message),
 							t,
 							null,
-							uri.toString()
-					)
+							uri.toString(),
+							null)
 			);
 		}
 	}
@@ -731,8 +731,8 @@ public final class RedditOAuth {
 										context.getString(R.string.error_connection_message),
 										e,
 										null,
-										uri
-								)
+										uri,
+										null)
 						));
 
 					} catch(final Throwable t) {
@@ -751,8 +751,8 @@ public final class RedditOAuth {
 							context.getString(R.string.error_unknown_message),
 							t,
 							null,
-							uri
-					)
+							uri,
+							null)
 			);
 		}
 	}
@@ -832,8 +832,8 @@ public final class RedditOAuth {
 										context.getString(R.string.error_connection_message),
 										e,
 										null,
-										uri
-								)
+										uri,
+										null)
 						));
 
 					} catch(final Throwable t) {
@@ -852,8 +852,8 @@ public final class RedditOAuth {
 							context.getString(R.string.message_cannotlogin),
 							t,
 							null,
-							uri
-					)
+							uri,
+							null)
 			);
 		}
 	}

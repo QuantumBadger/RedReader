@@ -685,8 +685,7 @@ public class LinkHandler {
 	public static void getImgurImageInfo(
 			final Context context,
 			final String imgId,
-			final int priority,
-			final int listId,
+			@NonNull final Priority priority,
 			final boolean returnUrlOnFailure,
 			final GetImageInfoListener listener) {
 
@@ -696,7 +695,6 @@ public class LinkHandler {
 				context,
 				imgId,
 				priority,
-				listId,
 				true,
 				new ImageInfoRetryListener(listener) {
 					@Override
@@ -714,7 +712,6 @@ public class LinkHandler {
 								context,
 								imgId,
 								priority,
-								listId,
 								false,
 								new ImageInfoRetryListener(listener) {
 									@Override
@@ -732,7 +729,6 @@ public class LinkHandler {
 												context,
 												imgId,
 												priority,
-												listId,
 												new ImageInfoRetryListener(listener) {
 													@Override
 													public void onFailure(
@@ -805,8 +801,7 @@ public class LinkHandler {
 			final Context context,
 			final String albumUrl,
 			final String albumId,
-			final int priority,
-			final int listId,
+			@NonNull final Priority priority,
 			final GetAlbumInfoListener listener) {
 
 		Log.i("getImgurAlbumInfo", "Album " + albumId + ": trying API v3 with auth");
@@ -816,7 +811,6 @@ public class LinkHandler {
 				albumUrl,
 				albumId,
 				priority,
-				listId,
 				true,
 				new AlbumInfoRetryListener(listener) {
 					@Override
@@ -835,7 +829,6 @@ public class LinkHandler {
 								albumUrl,
 								albumId,
 								priority,
-								listId,
 								false,
 								new AlbumInfoRetryListener(listener) {
 									@Override
@@ -854,7 +847,6 @@ public class LinkHandler {
 												albumUrl,
 												albumId,
 												priority,
-												listId,
 												new AlbumInfoRetryListener(listener) {
 													@Override
 													public void onFailure(
@@ -884,8 +876,7 @@ public class LinkHandler {
 	public static void getAlbumInfo(
 			final Context context,
 			final String url,
-			final int priority,
-			final int listId,
+			@NonNull final Priority priority,
 			final GetAlbumInfoListener listener) {
 
 		{
@@ -894,7 +885,7 @@ public class LinkHandler {
 			if(matchImgur.find()) {
 				final String albumId = matchImgur.group(2);
 				if(albumId.length() > 2) {
-					getImgurAlbumInfo(context, url, albumId, priority, listId, listener);
+					getImgurAlbumInfo(context, url, albumId, priority, listener);
 					return;
 				}
 			}
@@ -911,7 +902,6 @@ public class LinkHandler {
 							url,
 							albumId,
 							priority,
-							listId,
 							listener);
 					return;
 				}
@@ -928,8 +918,7 @@ public class LinkHandler {
 	public static void getImageInfo(
 			final Context context,
 			final String url,
-			final int priority,
-			final int listId,
+			@NonNull final Priority priority,
 			final GetImageInfoListener listener) {
 
 		{
@@ -938,7 +927,7 @@ public class LinkHandler {
 			if(matchImgur.find()) {
 				final String imgId = matchImgur.group(1);
 				if(imgId.length() > 2 && !imgId.startsWith("gallery")) {
-					getImgurImageInfo(context, imgId, priority, listId, true, listener);
+					getImgurImageInfo(context, imgId, priority, true, listener);
 					return;
 				}
 			}
@@ -950,7 +939,7 @@ public class LinkHandler {
 			if(matchGfycat.find()) {
 				final String imgId = matchGfycat.group(1);
 				if(imgId.length() > 5) {
-					GfycatAPI.getImageInfo(context, imgId, priority, listId, listener);
+					GfycatAPI.getImageInfo(context, imgId, priority, listener);
 					return;
 				}
 			}
@@ -962,7 +951,7 @@ public class LinkHandler {
 			if(matchRedgifs.find()) {
 				final String imgId = matchRedgifs.group(1);
 				if(imgId.length() > 5) {
-					RedgifsAPI.getImageInfo(context, imgId, priority, listId, listener);
+					RedgifsAPI.getImageInfo(context, imgId, priority, listener);
 					return;
 				}
 			}
@@ -978,7 +967,6 @@ public class LinkHandler {
 							context,
 							imgId,
 							priority,
-							listId,
 							listener);
 					return;
 				}
@@ -994,7 +982,6 @@ public class LinkHandler {
 							context,
 							imgId,
 							priority,
-							listId,
 							listener);
 					return;
 				}
@@ -1011,7 +998,6 @@ public class LinkHandler {
 							context,
 							imgId,
 							priority,
-							listId,
 							listener);
 					return;
 				}

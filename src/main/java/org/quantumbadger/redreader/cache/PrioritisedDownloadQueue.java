@@ -36,7 +36,7 @@ class PrioritisedDownloadQueue {
 
 	public synchronized void add(final CacheRequest request, final CacheManager manager) {
 
-		final CacheDownload download = new CacheDownload(request, manager, this);
+		final CacheDownload download = new CacheDownload(request, manager);
 
 		if(request.queueType == CacheRequest.DOWNLOAD_QUEUE_REDDIT_API) {
 			redditDownloadsQueued.add(download);
@@ -64,7 +64,7 @@ class PrioritisedDownloadQueue {
 		CacheDownload next = null;
 
 		for(final CacheDownload entry : redditDownloadsQueued) {
-			if(next == null || entry.isHigherPriorityThan(next)) {
+			if(next == null || entry.getPriority().isHigherPriorityThan(next.getPriority())) {
 				next = entry;
 			}
 		}

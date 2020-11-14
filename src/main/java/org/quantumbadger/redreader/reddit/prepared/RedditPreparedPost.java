@@ -33,6 +33,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.ImageButton;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import org.apache.commons.text.StringEscapeUtils;
@@ -48,6 +49,7 @@ import org.quantumbadger.redreader.activities.PostListingActivity;
 import org.quantumbadger.redreader.activities.WebViewActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.cache.CacheRequestCallbacks;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.BetterSSB;
@@ -56,6 +58,7 @@ import org.quantumbadger.redreader.common.FileUtils;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.fragments.PostPropertiesDialog;
@@ -1133,106 +1136,84 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				uri,
 				anon,
 				null,
-				priority,
-				listId,
+				new Priority(priority, listId),
 				DownloadStrategyIfNotCached.INSTANCE,
 				fileType,
 				CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
-				false,
-				false,
-				context) {
+				context,
+				new CacheRequestCallbacks() {
+					@Override
+					public void onFailure(
+							final int type,
+							@Nullable final Throwable t,
+							@Nullable final Integer httpStatus,
+							@Nullable final String readableMessage) {
 
-			@Override
-			protected void onDownloadNecessary() {
-			}
+						// Ignore
+					}
 
-			@Override
-			protected void onDownloadStarted() {
-			}
+					@Override
+					public void onSuccess(
+							@NonNull final CacheManager.ReadableCacheFile cacheFile,
+							final long timestamp,
+							@NonNull final UUID session,
+							final boolean fromCache,
+							@Nullable final String mimetype) {
 
-			@Override
-			protected void onCallbackException(final Throwable t) {
-				// TODO handle -- internal error
-				throw new RuntimeException(t);
-			}
+						try {
 
-			@Override
-			protected void onFailure(
-					final @CacheRequest.RequestFailureType int type,
-					final Throwable t,
-					final Integer status,
-					final String readableMessage) {
-			}
+							synchronized(singleImageDecodeLock) {
 
-			@Override
-			protected void onProgress(
-					final boolean authorizationInProgress,
-					final long bytesRead,
-					final long totalBytes) {
-			}
-
-			@Override
-			protected void onSuccess(
-					final CacheManager.ReadableCacheFile cacheFile,
-					final long timestamp,
-					final UUID session,
-					final boolean fromCache,
-					final String mimetype) {
-
-				try {
-
-					synchronized(singleImageDecodeLock) {
-
-						final BitmapFactory.Options justDecodeBounds =
-								new BitmapFactory.Options();
-						justDecodeBounds.inJustDecodeBounds = true;
-						BitmapFactory.decodeStream(
-								cacheFile.getInputStream(),
-								null,
-								justDecodeBounds);
-						final int width = justDecodeBounds.outWidth;
-						final int height = justDecodeBounds.outHeight;
-
-						int factor = 1;
-
-						while(width / (factor + 1) > widthPixels
-								&& height / (factor + 1) > widthPixels) {
-							factor *= 2;
-						}
-
-						final BitmapFactory.Options scaledOptions = new BitmapFactory.Options();
-						scaledOptions.inSampleSize = factor;
-
-						final Bitmap data =
+								final BitmapFactory.Options justDecodeBounds =
+										new BitmapFactory.Options();
+								justDecodeBounds.inJustDecodeBounds = true;
 								BitmapFactory.decodeStream(
 										cacheFile.getInputStream(),
 										null,
-										scaledOptions);
+										justDecodeBounds);
+								final int width = justDecodeBounds.outWidth;
+								final int height = justDecodeBounds.outHeight;
 
-						if(data == null) {
-							return;
-						}
-						thumbnailCache = ThumbnailScaler.scale(data, widthPixels);
-						if(thumbnailCache != data) {
-							data.recycle();
+								int factor = 1;
+
+								while(width / (factor + 1) > widthPixels
+										&& height / (factor + 1) > widthPixels) {
+									factor *= 2;
+								}
+
+								final BitmapFactory.Options scaledOptions
+										= new BitmapFactory.Options();
+								scaledOptions.inSampleSize = factor;
+
+								final Bitmap data =
+										BitmapFactory.decodeStream(
+												cacheFile.getInputStream(),
+												null,
+												scaledOptions);
+
+								if(data == null) {
+									return;
+								}
+								thumbnailCache = ThumbnailScaler.scale(data, widthPixels);
+								if(thumbnailCache != data) {
+									data.recycle();
+								}
+							}
+
+							if(thumbnailCallback != null) {
+								thumbnailCallback.betterThumbnailAvailable(
+										thumbnailCache,
+										usageId);
+							}
+
+						} catch(final Throwable t) {
+							Log.e(
+									"RedditPreparedPost",
+									"Exception while downloading thumbnail",
+									t);
 						}
 					}
-
-					if(thumbnailCallback != null) {
-						thumbnailCallback.betterThumbnailAvailable(
-								thumbnailCache,
-								usageId);
-					}
-
-				} catch(final OutOfMemoryError e) {
-					// TODO handle this better - disable caching of images
-					Log.e("RedditPreparedPost", "Out of memory trying to download image");
-					e.printStackTrace();
-				} catch(final Throwable t) {
-					// Just ignore it.
-				}
-			}
-		});
+				}));
 	}
 
 	// These operations are ordered so as to avoid race conditions

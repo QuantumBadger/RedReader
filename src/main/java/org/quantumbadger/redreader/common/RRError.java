@@ -25,16 +25,17 @@ public class RRError {
 	@Nullable public final Throwable t;
 	@Nullable public final Integer httpStatus;
 	@Nullable public final String url;
+	@Nullable public final String debuggingContext;
 
 	public RRError(@Nullable final String title, @Nullable final String message) {
-		this(title, message, null, null, null);
+		this(title, message, null, null, null, null);
 	}
 
 	public RRError(
 			@Nullable final String title,
 			@Nullable final String message,
 			@Nullable final Throwable t) {
-		this(title, message, t, null, null);
+		this(title, message, t, null, null, null);
 	}
 
 	public RRError(
@@ -42,12 +43,14 @@ public class RRError {
 			@Nullable final String message,
 			@Nullable final Throwable t,
 			@Nullable final Integer httpStatus,
-			@Nullable final String url) {
+			@Nullable final String url,
+			@Nullable final String debuggingContext) {
 
 		this.title = title;
 		this.message = message;
 		this.t = t;
 		this.httpStatus = httpStatus;
 		this.url = url;
+		this.debuggingContext = debuggingContext;
 	}
 }

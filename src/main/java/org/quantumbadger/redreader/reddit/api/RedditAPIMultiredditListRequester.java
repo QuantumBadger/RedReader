@@ -18,11 +18,15 @@
 package org.quantumbadger.redreader.reddit.api;
 
 import android.content.Context;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.cache.CacheRequestJSONParser;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways;
 import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.io.CacheDataSource;
@@ -86,99 +90,62 @@ public class RedditAPIMultiredditListRequester implements CacheDataSource<
 				uri,
 				user,
 				null,
-				Constants.Priority.API_SUBREDDIT_LIST,
-				0,
+				new Priority(Constants.Priority.API_SUBREDDIT_LIST),
 				DownloadStrategyAlways.INSTANCE,
 				Constants.FileType.MULTIREDDIT_LIST,
 				CacheRequest.DOWNLOAD_QUEUE_REDDIT_API,
-				true,
-				false,
-				context
-		) {
+				context,
+				new CacheRequestJSONParser(context, new CacheRequestJSONParser.Listener() {
+					@Override
+					public void onJsonParsed(
+							@NonNull final JsonValue result,
+							final long timestamp,
+							@NonNull final UUID session,
+							final boolean fromCache) {
 
-			@Override
-			protected void onCallbackException(final Throwable t) {
-				handler.onRequestFailed(new SubredditRequestFailure(
-						CacheRequest.REQUEST_FAILURE_PARSE,
-						t,
-						null,
-						"Internal error",
-						url));
-			}
+						try {
+							final HashSet<String> output = new HashSet<>();
 
-			@Override
-			protected void onDownloadNecessary() {
-			}
+							final JsonBufferedArray multiredditList = result.asArray();
 
-			@Override
-			protected void onDownloadStarted() {
-			}
+							for(final JsonValue multireddit : multiredditList) {
+								final String name = multireddit.asObject()
+										.getObject("data")
+										.getString("name");
+								output.add(name);
+							}
 
-			@Override
-			protected void onProgress(
-					final boolean authorizationInProgress,
-					final long bytesRead,
-					final long totalBytes) {
-			}
+							handler.onRequestSuccess(new WritableHashSet(
+									output,
+									timestamp,
+									user.getCanonicalUsername()), timestamp);
 
-			@Override
-			protected void onFailure(
-					@RequestFailureType final int type,
-					final Throwable t,
-					final Integer status,
-					final String readableMessage) {
-				handler.onRequestFailed(new SubredditRequestFailure(
-						type,
-						t,
-						status,
-						readableMessage,
-						url.toString()));
-			}
-
-			@Override
-			protected void onSuccess(
-					final CacheManager.ReadableCacheFile cacheFile,
-					final long timestamp,
-					final UUID session,
-					final boolean fromCache,
-					final String mimetype) {
-			}
-
-			@Override
-			public void onJsonParseStarted(
-					final JsonValue result,
-					final long timestamp,
-					final UUID session,
-					final boolean fromCache) {
-
-				try {
-					final HashSet<String> output = new HashSet<>();
-
-					final JsonBufferedArray multiredditList = result.asArray();
-
-					for(final JsonValue multireddit : multiredditList) {
-						final String name = multireddit.asObject()
-								.getObject("data")
-								.getString("name");
-						output.add(name);
+						} catch(final Exception e) {
+							handler.onRequestFailed(
+									new SubredditRequestFailure(
+											CacheRequest.REQUEST_FAILURE_PARSE,
+											e,
+											null,
+											"Parse error",
+											uri.toString()));
+						}
 					}
 
-					handler.onRequestSuccess(new WritableHashSet(
-							output,
-							timestamp,
-							user.getCanonicalUsername()), timestamp);
+					@Override
+					public void onFailure(
+							final int type,
+							@Nullable final Throwable t,
+							@Nullable final Integer httpStatus,
+							@Nullable final String readableMessage) {
 
-				} catch(final Exception e) {
-					handler.onRequestFailed(
-							new SubredditRequestFailure(
-									CacheRequest.REQUEST_FAILURE_PARSE,
-									e,
-									null,
-									"Parse error",
-									url.toString()));
-				}
-			}
-		};
+						handler.onRequestFailed(new SubredditRequestFailure(
+								type,
+								t,
+								httpStatus,
+								readableMessage,
+								uri.toString()));
+					}
+				}));
 
 		CacheManager.getInstance(context).makeRequest(request);
 	}

@@ -40,6 +40,7 @@ import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheContentProvider;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.cache.CacheRequestCallbacks;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached;
 import org.quantumbadger.redreader.fragments.ShareOrderDialog;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
@@ -485,7 +486,7 @@ public class FileUtils {
 				activity.getString(R.string.error_unexpected_storage_message),
 				throwable,
 				null,
-				uri));
+				uri, null));
 	}
 
 	public interface DownloadImageToSaveSuccessCallback {
@@ -503,8 +504,7 @@ public class FileUtils {
 		LinkHandler.getImageInfo(
 				activity,
 				uri,
-				Constants.Priority.IMAGE_VIEW,
-				0,
+				new Priority(Constants.Priority.IMAGE_VIEW),
 				new GetImageInfoListener() {
 
 					@Override
@@ -529,66 +529,48 @@ public class FileUtils {
 								General.uriFromString(info.urlOriginal),
 								RedditAccountManager.getAnon(),
 								null,
-								Constants.Priority.IMAGE_VIEW,
-								0,
+								new Priority(Constants.Priority.IMAGE_VIEW),
 								DownloadStrategyIfNotCached.INSTANCE,
 								Constants.FileType.IMAGE,
 								CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
-								false,
-								false,
-								activity) {
+								activity,
+								new CacheRequestCallbacks() {
+									@Override
+									public void onDownloadNecessary() {
+										General.quickToast(
+												activity,
+												R.string.download_downloading,
+												Toast.LENGTH_SHORT);
+									}
 
-							@Override
-							protected void onCallbackException(final Throwable t) {
-								BugReportActivity.handleGlobalError(context, t);
-							}
+									@Override
+									public void onFailure(
+											@CacheRequest.RequestFailureType final int type,
+											final Throwable t,
+											final Integer status,
+											final String readableMessage) {
 
-							@Override
-							protected void onDownloadNecessary() {
-								General.quickToast(
-										context,
-										R.string.download_downloading,
-										Toast.LENGTH_SHORT);
-							}
+										General.showResultDialog(
+												activity,
+												General.getGeneralErrorForFailure(
+														activity,
+														type,
+														t,
+														status,
+														info.urlOriginal));
+									}
 
-							@Override
-							protected void onDownloadStarted() {}
+									@Override
+									public void onSuccess(
+											@NonNull final CacheManager.ReadableCacheFile cacheFile,
+											final long timestamp,
+											@NonNull final UUID session,
+											final boolean fromCache,
+											final String mimetype) {
 
-							@Override
-							protected void onFailure(
-									@CacheRequest.RequestFailureType final int type,
-									final Throwable t,
-									final Integer status,
-									final String readableMessage) {
-
-								General.showResultDialog(
-										activity,
-										General.getGeneralErrorForFailure(
-												context,
-												type,
-												t,
-												status,
-												url.toString()));
-							}
-
-							@Override
-							protected void onProgress(
-									final boolean authorizationInProgress,
-									final long bytesRead,
-									final long totalBytes) {
-							}
-
-							@Override
-							protected void onSuccess(
-									final CacheManager.ReadableCacheFile cacheFile,
-									final long timestamp,
-									final UUID session,
-									final boolean fromCache,
-									final String mimetype) {
-
-								callback.onSuccess(info, cacheFile, mimetype);
-							}
-						});
+										callback.onSuccess(info, cacheFile, mimetype);
+									}
+								}));
 
 					}
 

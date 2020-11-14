@@ -43,7 +43,6 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BaseActivity;
-import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.activities.CommentReplyActivity;
 import org.quantumbadger.redreader.activities.OptionsMenuUtility;
 import org.quantumbadger.redreader.adapters.FilteredCommentListingManager;
@@ -487,15 +486,6 @@ public class CommentListingFragment extends RRFragment
 	}
 
 	@Override
-	public void onCommentListingRequestDownloadStarted() {
-	}
-
-	@Override
-	public void onCommentListingRequestException(final Throwable t) {
-		BugReportActivity.handleGlobalError(getActivity(), t);
-	}
-
-	@Override
 	public void onCommentListingRequestFailure(final RRError error) {
 		mCommentListingManager.setLoadingVisible(false);
 		mCommentListingManager.addFooterError(new ErrorView(getActivity(), error));
@@ -508,12 +498,6 @@ public class CommentListingFragment extends RRFragment
 
 	@Override
 	public void onCommentListingRequestParseStart() {
-		mCommentListingManager.setLoadingVisible(true);
-	}
-
-
-	@Override
-	public void onCommentListingRequestAuthorizing() {
 		mCommentListingManager.setLoadingVisible(true);
 	}
 

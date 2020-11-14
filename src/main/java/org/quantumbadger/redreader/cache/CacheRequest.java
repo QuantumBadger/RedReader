@@ -18,16 +18,16 @@
 package org.quantumbadger.redreader.cache;
 
 import android.content.Context;
+import android.util.Log;
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
-import android.util.Log;
+import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategy;
-import org.quantumbadger.redreader.common.PrioritisedCachedThreadPool;
+import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.http.HTTPBackend;
-import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -35,7 +35,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
-public abstract class CacheRequest implements Comparable<CacheRequest> {
+public final class CacheRequest implements Comparable<CacheRequest> {
 
 	public static final int DOWNLOAD_QUEUE_REDDIT_API = 0;
 	public static final int DOWNLOAD_QUEUE_IMGUR_API = 1;
@@ -79,22 +79,17 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 	public @interface RequestFailureType {
 	}
 
-	private static final PrioritisedCachedThreadPool JSON_NOTIFY_THREADS
-			= new PrioritisedCachedThreadPool(2, "JSON notify");
-
 	public final URI url;
 	public final RedditAccount user;
 	public final UUID requestSession;
 
-	public final int priority;
-	public final int listId;
+	@NonNull public final Priority priority;
 
 	@NonNull public final DownloadStrategy downloadStrategy;
 
 	public final int fileType;
 
 	public final @DownloadQueueType int queueType;
-	public final boolean isJson;
 	public final List<HTTPBackend.PostField> postFields;
 
 	public final boolean cache;
@@ -103,6 +98,8 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 	private boolean cancelled;
 
 	public final Context context;
+
+	private final CacheRequestCallbacks mCallbacks;
 
 	// Called by CacheDownload
 	synchronized boolean setDownload(final CacheDownload download) {
@@ -124,52 +121,45 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 		}
 	}
 
-	protected CacheRequest(
+	public CacheRequest(
 			final URI url,
 			final RedditAccount user,
 			final UUID requestSession,
-			final int priority,
-			final int listId,
+			@NonNull final Priority priority,
 			@NonNull final DownloadStrategy downloadStrategy,
 			final int fileType,
 			final @DownloadQueueType int queueType,
-			final boolean isJson,
-			final boolean cancelExisting,
-			final Context context) {
+			final Context context,
+			final CacheRequestCallbacks callbacks) {
 
 		this(
 				url,
 				user,
 				requestSession,
 				priority,
-				listId,
 				downloadStrategy,
 				fileType,
 				queueType,
-				isJson,
 				null,
-				true,
-				cancelExisting,
-				context);
+				context,
+				callbacks);
 	}
 
 	// TODO remove this huge constructor, make mutable
-	protected CacheRequest(
+	public CacheRequest(
 			final URI url,
 			final RedditAccount user,
 			final UUID requestSession,
-			final int priority,
-			final int listId,
+			@NonNull final Priority priority,
 			@NonNull final DownloadStrategy downloadStrategy,
 			final int fileType,
 			final @DownloadQueueType int queueType,
-			final boolean isJson,
 			final List<HTTPBackend.PostField> postFields,
-			final boolean cache,
-			final boolean cancelExisting,
-			final Context context) {
+			final Context context,
+			final CacheRequestCallbacks callbacks) {
 
 		this.context = context;
+		mCallbacks = callbacks;
 
 		if(user == null) {
 			throw new NullPointerException(
@@ -181,29 +171,15 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 					"Should not perform cache lookup for POST requests");
 		}
 
-		if(!isJson && postFields != null) {
-			throw new IllegalArgumentException("POST requests must be for JSON values");
-		}
-
-		if(cache && postFields != null) {
-			throw new IllegalArgumentException("Cannot cache a POST request");
-		}
-
-		if(!cache && !isJson) {
-			throw new IllegalArgumentException("Must cache non-JSON requests");
-		}
-
 		this.url = url;
 		this.user = user;
 		this.requestSession = requestSession;
 		this.priority = priority;
-		this.listId = listId;
 		this.downloadStrategy = downloadStrategy;
 		this.fileType = fileType;
 		this.queueType = queueType;
-		this.isJson = isJson;
 		this.postFields = postFields;
-		this.cache = cache;
+		this.cache = (postFields == null);
 
 		if(url == null) {
 			notifyFailure(REQUEST_FAILURE_MALFORMED_URL, null, null, "Malformed URL");
@@ -213,164 +189,66 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 
 	// Queue helpers
 
-	public final boolean isHigherPriorityThan(final CacheRequest another) {
-
-		if(priority != another.priority) {
-			return priority < another.priority;
-		} else {
-			return listId < another.listId;
-		}
-	}
-
 	@Override
 	public int compareTo(final CacheRequest another) {
-		return isHigherPriorityThan(another)
+		return priority.isHigherPriorityThan(another.priority)
 				? -1
-				: (another.isHigherPriorityThan(this) ? 1 : 0);
+				: (another.priority.isHigherPriorityThan(priority) ? 1 : 0);
 	}
 
 	// Callbacks
 
-	protected abstract void onCallbackException(Throwable t);
-
-	protected abstract void onDownloadNecessary();
-
-	protected abstract void onDownloadStarted();
-
-	protected abstract void onFailure(
-			@RequestFailureType int type,
-			Throwable t,
-			Integer httpStatus,
-			String readableMessage);
-
-	protected abstract void onProgress(
-			boolean authorizationInProgress,
-			long bytesRead,
-			long totalBytes);
-
-	protected abstract void onSuccess(
-			CacheManager.ReadableCacheFile cacheFile,
-			long timestamp,
-			UUID session,
-			boolean fromCache,
-			String mimetype);
-
-	public void onJsonParseStarted(
-			final JsonValue result,
-			final long timestamp,
-			final UUID session,
-			final boolean fromCache) {
-		throw new RuntimeException("CacheRequest method has not been overridden");
+	private void onCallbackException(@NonNull final Throwable t) {
+		Log.e("CacheRequest", "Exception thrown from callback", t);
+		BugReportActivity.handleGlobalError(context, t);
 	}
 
-	public final void notifyFailure(
+	@Nullable
+	public CacheDataStreamChunkConsumer notifyDataStreamAvailable() {
+		return mCallbacks.onDataStreamAvailable();
+	}
+
+	public void notifyFailure(
 			final @RequestFailureType int type,
 			final Throwable t,
 			final Integer httpStatus,
 			final String readableMessage) {
+
 		try {
-			onFailure(type, t, httpStatus, readableMessage);
+			mCallbacks.onFailure(type, t, httpStatus, readableMessage);
+
 		} catch(final Throwable t1) {
-
-			Log.e("CacheRequest", "Exception thrown by onFailure", t1);
-
-			try {
-				onCallbackException(t1);
-			} catch(final Throwable t2) {
-				Log.e("CacheRequest", "Exception thrown by onCallbackException", t2);
-				BugReportActivity.addGlobalError(new RRError(null, null, t1));
-				BugReportActivity.handleGlobalError(context, t2);
-			}
+			onCallbackException(t1);
 		}
 	}
 
-	public final void notifyProgress(
+	public void notifyProgress(
 			final boolean authorizationInProgress,
 			final long bytesRead,
 			final long totalBytes) {
 		try {
-			onProgress(authorizationInProgress, bytesRead, totalBytes);
-		} catch(final Throwable t1) {
-
-			Log.e("CacheRequest", "Exception thrown by onProgress", t1);
-
-			try {
-				onCallbackException(t1);
-			} catch(final Throwable t2) {
-				Log.e("CacheRequest", "Exception thrown by onCallbackException", t2);
-				BugReportActivity.addGlobalError(new RRError(null, null, t1));
-				BugReportActivity.handleGlobalError(context, t2);
-			}
+			mCallbacks.onProgress(authorizationInProgress, bytesRead, totalBytes);
+		} catch(final Throwable t) {
+			onCallbackException(t);
 		}
 	}
 
-	public final void notifySuccess(
+	public void notifySuccess(
 			final CacheManager.ReadableCacheFile cacheFile,
 			final long timestamp,
 			final UUID session,
 			final boolean fromCache,
 			final String mimetype) {
 		try {
-			onSuccess(cacheFile, timestamp, session, fromCache, mimetype);
-		} catch(final Throwable t1) {
-
-			Log.e("CacheRequest", "Exception thrown by onSuccess", t1);
-
-			try {
-				onCallbackException(t1);
-			} catch(final Throwable t2) {
-				Log.e("CacheRequest", "Exception thrown by onCallbackException", t2);
-				BugReportActivity.addGlobalError(new RRError(null, null, t1));
-				BugReportActivity.handleGlobalError(context, t2);
-			}
+			mCallbacks.onSuccess(cacheFile, timestamp, session, fromCache, mimetype);
+		} catch(final Throwable t) {
+			onCallbackException(t);
 		}
 	}
 
-	public final void notifyJsonParseStarted(
-			final JsonValue result,
-			final long timestamp,
-			final UUID session,
-			final boolean fromCache) {
-
-		JSON_NOTIFY_THREADS.add(new PrioritisedCachedThreadPool.Task() {
-
-			@Override
-			public int getPrimaryPriority() {
-				return priority;
-			}
-
-			@Override
-			public int getSecondaryPriority() {
-				return listId;
-			}
-
-			@Override
-			public void run() {
-
-				try {
-					onJsonParseStarted(result, timestamp, session, fromCache);
-				} catch(final Throwable t1) {
-
-					Log.e("CacheRequest", "Exception thrown by onJsonParseStarted", t1);
-
-					try {
-						onCallbackException(t1);
-					} catch(final Throwable t2) {
-						Log.e(
-								"CacheRequest",
-								"Exception thrown by onCallbackException",
-								t2);
-						BugReportActivity.addGlobalError(new RRError(null, null, t1));
-						BugReportActivity.handleGlobalError(context, t2);
-					}
-				}
-			}
-		});
-	}
-
-	public final void notifyDownloadNecessary() {
+	public void notifyDownloadNecessary() {
 		try {
-			onDownloadNecessary();
+			mCallbacks.onDownloadNecessary();
 		} catch(final Throwable t1) {
 
 			Log.e("CacheRequest", "Exception thrown by onDownloadNecessary", t1);
@@ -385,9 +263,9 @@ public abstract class CacheRequest implements Comparable<CacheRequest> {
 		}
 	}
 
-	public final void notifyDownloadStarted() {
+	public void notifyDownloadStarted() {
 		try {
-			onDownloadStarted();
+			mCallbacks.onDownloadStarted();
 		} catch(final Throwable t1) {
 
 			Log.e("CacheRequest", "Exception thrown by onDownloadStarted", t1);

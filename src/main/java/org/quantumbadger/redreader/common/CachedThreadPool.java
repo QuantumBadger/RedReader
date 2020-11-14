@@ -17,13 +17,11 @@
 
 package org.quantumbadger.redreader.common;
 
-import androidx.annotation.NonNull;
+import java.util.ArrayDeque;
 
-import java.util.ArrayList;
+public class CachedThreadPool {
 
-public class PrioritisedCachedThreadPool {
-
-	private final ArrayList<Task> mTasks = new ArrayList<>(16);
+	private final ArrayDeque<Runnable> mTasks = new ArrayDeque<>(16);
 	private final Executor mExecutor = new Executor();
 
 	private final int mMaxThreads;
@@ -32,15 +30,15 @@ public class PrioritisedCachedThreadPool {
 
 	private int mRunningThreads, mIdleThreads;
 
-	public PrioritisedCachedThreadPool(final int threads, final String threadName) {
+	public CachedThreadPool(final int threads, final String threadName) {
 		mMaxThreads = threads;
 		mThreadName = threadName;
 	}
 
-	public void add(final Task task) {
+	public void add(final Runnable task) {
 
 		synchronized(mTasks) {
-			mTasks.add(task);
+			mTasks.addLast(task);
 			mTasks.notifyAll();
 
 			if(mIdleThreads < 1 && mRunningThreads < mMaxThreads) {
@@ -50,14 +48,6 @@ public class PrioritisedCachedThreadPool {
 		}
 	}
 
-	public static abstract class Task {
-
-		// TODO rename to "Priority" and move to common
-		@NonNull public abstract Priority getPriority();
-
-		public abstract void run();
-	}
-
 	private final class Executor implements Runnable {
 
 		@Override
@@ -65,7 +55,7 @@ public class PrioritisedCachedThreadPool {
 
 			while(true) {
 
-				Task taskToRun = null;
+				final Runnable taskToRun;
 
 				synchronized(mTasks) {
 
@@ -87,19 +77,9 @@ public class PrioritisedCachedThreadPool {
 						}
 					}
 
-					int taskIndex = -1;
-					for(int i = 0; i < mTasks.size(); i++) {
-						if(taskToRun == null || mTasks.get(i).getPriority()
-								.isHigherPriorityThan(taskToRun.getPriority())) {
-							taskToRun = mTasks.get(i);
-							taskIndex = i;
-						}
-					}
-
-					mTasks.remove(taskIndex);
+					taskToRun = mTasks.removeFirst();
 				}
 
-				assert taskToRun != null;
 				taskToRun.run();
 			}
 		}

@@ -32,7 +32,7 @@ import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.PrioritisedCachedThreadPool;
-import org.quantumbadger.redreader.jsonwrap.JsonValue;
+import org.quantumbadger.redreader.common.Priority;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -49,12 +49,14 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-// TODO consider moving to service
 public final class CacheManager {
+
+	private static final String TAG = "CacheManager";
 
 	private static final String ext = ".rr_cache_data", tempExt = ".rr_cache_data_tmp";
 
@@ -234,70 +236,80 @@ public final class CacheManager {
 		return new ReadableCacheFile(cacheId);
 	}
 
-	public class WritableCacheFile {
+	public class WritableCacheFile implements CacheDataStreamChunkConsumer {
 
-		private final NotifyOutputStream os;
-		private long cacheFileId = -1;
+		private final OutputStream mOutStream;
 		private ReadableCacheFile readableCacheFile = null;
-		private final CacheRequest request;
+		private final CacheRequest mRequest;
 		private final File location;
+
+		@NonNull private final UUID mSession;
+		@Nullable private final String mMimetype;
+
+		@NonNull private final File mTmpFile;
 
 		private WritableCacheFile(
 				final CacheRequest request,
-				final UUID session,
-				final String mimetype) throws IOException {
+				@NonNull final UUID session,
+				@Nullable final String mimetype) throws IOException {
 
-			this.request = request;
+			mRequest = request;
+			mSession = session;
+			mMimetype = mimetype;
+
 			location = getPreferredCacheLocation();
-			final File tmpFile = new File(
-					location,
-					UUID.randomUUID().toString() + tempExt);
+			mTmpFile = new File(location, UUID.randomUUID().toString() + tempExt);
 
-			@SuppressWarnings("PMD.CloseResource") final FileOutputStream fos
-					= new FileOutputStream(tmpFile);
-
-			@SuppressWarnings("PMD.CloseResource") final OutputStream bufferedOs
-					= new BufferedOutputStream(fos, 64 * 1024);
-
-			final NotifyOutputStream.Listener listener= () -> {
-
-				cacheFileId = dbManager.newEntry(request, session, mimetype);
-
-				final File dstFile = new File(location, cacheFileId + ext);
-				FileUtils.moveFile(tmpFile, dstFile);
-
-				dbManager.setEntryDone(cacheFileId);
-
-				readableCacheFile = new ReadableCacheFile(cacheFileId);
-			};
-
-			this.os = new NotifyOutputStream(bufferedOs, listener);
+			mOutStream = new BufferedOutputStream(new FileOutputStream(mTmpFile), 64 * 1024);
 		}
 
-		public NotifyOutputStream getOutputStream() {
-			return os;
+		@NonNull
+		public ReadableCacheFile getReadableCacheFile() {
+			return Objects.requireNonNull(readableCacheFile);
 		}
 
-		public ReadableCacheFile getReadableCacheFile() throws IOException {
+		@Override
+		public void onDataStreamChunk(
+				@NonNull final byte[] dataReused,
+				final int offset,
+				final int length) throws IOException {
 
-			if(readableCacheFile == null) {
+			mOutStream.write(dataReused, offset, length);
+		}
 
-				if(!request.isJson) {
-					BugReportActivity.handleGlobalError(
-							context,
-							"Attempt to read cache file before closing");
+		@Override
+		public void onDataStreamSuccess() throws IOException {
+
+			final long cacheFileId = dbManager.newEntry(
+					mRequest.url,
+					mRequest.user,
+					mRequest.fileType,
+					mSession,
+					mMimetype);
+
+			mOutStream.flush();
+			mOutStream.close();
+
+			final File dstFile = new File(location, cacheFileId + ext);
+			FileUtils.moveFile(mTmpFile, dstFile);
+
+			dbManager.setEntryDone(cacheFileId);
+
+			readableCacheFile = new ReadableCacheFile(cacheFileId);
+		}
+
+		@Override
+		public void onDataStreamCancel() {
+
+			try {
+				mOutStream.close();
+				if(!mTmpFile.delete()) {
+					Log.e(TAG, "Failed to delete temp cache file " + mTmpFile.delete());
 				}
 
-				try {
-					os.flush();
-					os.close();
-				} catch(final IOException e) {
-					Log.e("getReadableCacheFile", "Error closing " + cacheFileId);
-					throw e;
-				}
+			} catch(final Exception e) {
+				Log.e(TAG, "Exception during cancel", e);
 			}
-
-			return readableCacheFile;
 		}
 	}
 
@@ -413,8 +425,6 @@ public final class CacheManager {
 		@Override
 		public void run() {
 
-			android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
-
 			try {
 
 				CacheRequest request;
@@ -524,20 +534,19 @@ public final class CacheManager {
 
 			mDiskCacheThreadPool.add(new PrioritisedCachedThreadPool.Task() {
 
+				@NonNull
 				@Override
-				public int getPrimaryPriority() {
+				public Priority getPriority() {
 					return request.priority;
-				}
-
-				@Override
-				public int getSecondaryPriority() {
-					return request.listId;
 				}
 
 				@Override
 				public void run() {
 
-					if(request.isJson) {
+					final CacheDataStreamChunkConsumer consumer
+							= request.notifyDataStreamAvailable();
+
+					if(consumer != null) {
 
 						try {
 							try(InputStream cfis = getCacheFileInputStream(entry.id)) {
@@ -551,16 +560,16 @@ public final class CacheManager {
 									return;
 								}
 
-								final JsonValue value = new JsonValue(cfis);
-								request.notifyJsonParseStarted(
-										value,
-										entry.timestamp,
-										entry.session,
-										true);
-								value.buildInThisThread();
+								final byte[] buf = new byte[128 * 1024];
+								int bytesRead;
+								while((bytesRead = cfis.read(buf)) > 0) {
+									consumer.onDataStreamChunk(buf, 0, bytesRead);
+								}
 							}
 
-						} catch(final Throwable t) {
+							consumer.onDataStreamSuccess();
+
+						} catch(final Exception e) {
 
 							dbManager.delete(entry.id);
 
@@ -571,11 +580,9 @@ public final class CacheManager {
 
 							request.notifyFailure(
 									CacheRequest.REQUEST_FAILURE_PARSE,
-									t,
+									e,
 									null,
-									"Error parsing the JSON stream");
-
-							return;
+									"Error parsing the stream");
 						}
 					}
 

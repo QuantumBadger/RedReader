@@ -34,11 +34,12 @@ import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.RRError;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class BugReportActivity extends BaseActivity {
 
-	private static final LinkedList<RRError> errors = new LinkedList<>();
+	private static final ArrayList<RRError> errors = new ArrayList<>();
 
 	public static synchronized void addGlobalError(final RRError error) {
 		errors.add(error);
@@ -113,6 +114,9 @@ public class BugReportActivity extends BaseActivity {
 			}
 			if(error.url != null) {
 				sb.append("URL: ").append(error.url).append("\r\n");
+			}
+			if(error.debuggingContext != null) {
+				sb.append("Debugging context: ").append(error.debuggingContext).append("\r\n");
 			}
 			appendException(sb, error.t, 25);
 		}

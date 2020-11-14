@@ -19,11 +19,15 @@ package org.quantumbadger.redreader.reddit.api;
 
 import android.content.Context;
 import android.util.Log;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.cache.CacheRequestJSONParser;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways;
 import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.io.CacheDataSource;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
@@ -34,6 +38,7 @@ import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.things.RedditThing;
 import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
 
+import java.net.URI;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.UUID;
@@ -62,93 +67,58 @@ public class RedditAPIIndividualSubredditDataRequester implements
 			final TimestampBound timestampBound,
 			final RequestResponseHandler<RedditSubreddit, SubredditRequestFailure> handler) {
 
+		final URI url = Constants.Reddit.getUri(subredditCanonicalId.toString() + "/about.json");
+
 		final CacheRequest aboutSubredditCacheRequest = new CacheRequest(
-				Constants.Reddit.getUri(subredditCanonicalId.toString() + "/about.json"),
+				url,
 				user,
 				null,
-				Constants.Priority.API_SUBREDDIT_INVIDIVUAL,
-				0,
+				new Priority(Constants.Priority.API_SUBREDDIT_INVIDIVUAL),
 				DownloadStrategyAlways.INSTANCE,
 				Constants.FileType.SUBREDDIT_ABOUT,
 				CacheRequest.DOWNLOAD_QUEUE_REDDIT_API,
-				true,
-				false,
-				context
-		) {
+				context,
+				new CacheRequestJSONParser(context, new CacheRequestJSONParser.Listener() {
+					@Override
+					public void onJsonParsed(
+							@NonNull final JsonValue result,
+							final long timestamp,
+							@NonNull final UUID session,
+							final boolean fromCache) {
 
-			@Override
-			protected void onCallbackException(final Throwable t) {
-				handler.onRequestFailed(new SubredditRequestFailure(
-						CacheRequest.REQUEST_FAILURE_PARSE,
-						t,
-						null,
-						"Parse error",
-						url));
-			}
+						try {
+							final RedditThing subredditThing = result.asObject(RedditThing.class);
+							final RedditSubreddit subreddit = subredditThing.asSubreddit();
+							subreddit.downloadTime = timestamp;
+							handler.onRequestSuccess(subreddit, timestamp);
 
-			@Override
-			protected void onDownloadNecessary() {
-			}
+							RedditSubredditHistory.addSubreddit(user, subredditCanonicalId);
 
-			@Override
-			protected void onDownloadStarted() {
-			}
+						} catch(final Exception e) {
+							handler.onRequestFailed(new SubredditRequestFailure(
+									CacheRequest.REQUEST_FAILURE_PARSE,
+									e,
+									null,
+									"Parse error",
+									url));
+						}
+					}
 
-			@Override
-			protected void onProgress(
-					final boolean authorizationInProgress,
-					final long bytesRead,
-					final long totalBytes) {
-			}
+					@Override
+					public void onFailure(
+							final int type,
+							@Nullable final Throwable t,
+							@Nullable final Integer httpStatus,
+							@Nullable final String readableMessage) {
 
-			@Override
-			protected void onFailure(
-					@CacheRequest.RequestFailureType final int type,
-					final Throwable t,
-					final Integer status,
-					final String readableMessage) {
-				handler.onRequestFailed(new SubredditRequestFailure(
-						type,
-						t,
-						status,
-						readableMessage,
-						url));
-			}
-
-			@Override
-			protected void onSuccess(
-					final CacheManager.ReadableCacheFile cacheFile,
-					final long timestamp,
-					final UUID session,
-					final boolean fromCache,
-					final String mimetype) {
-			}
-
-			@Override
-			public void onJsonParseStarted(
-					final JsonValue result,
-					final long timestamp,
-					final UUID session,
-					final boolean fromCache) {
-
-				try {
-					final RedditThing subredditThing = result.asObject(RedditThing.class);
-					final RedditSubreddit subreddit = subredditThing.asSubreddit();
-					subreddit.downloadTime = timestamp;
-					handler.onRequestSuccess(subreddit, timestamp);
-
-					RedditSubredditHistory.addSubreddit(user, subredditCanonicalId);
-
-				} catch(final Exception e) {
-					handler.onRequestFailed(new SubredditRequestFailure(
-							CacheRequest.REQUEST_FAILURE_PARSE,
-							e,
-							null,
-							"Parse error",
-							url));
-				}
-			}
-		};
+						handler.onRequestFailed(new SubredditRequestFailure(
+								type,
+								t,
+								httpStatus,
+								readableMessage,
+								url));
+					}
+				}));
 
 		CacheManager.getInstance(context).makeRequest(aboutSubredditCacheRequest);
 	}

@@ -33,15 +33,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.cache.CacheRequestJSONParser;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.http.HTTPBackend;
 import org.quantumbadger.redreader.image.ThumbnailScaler;
@@ -261,119 +265,79 @@ public class ImgurUploadActivity extends BaseActivity {
 				General.uriFromString("https://api.imgur.com/3/image"),
 				RedditAccountManager.getInstance(this).getDefaultAccount(),
 				null,
-				Constants.Priority.API_ACTION,
-				0,
+				new Priority(Constants.Priority.API_ACTION),
 				DownloadStrategyAlways.INSTANCE,
 				Constants.FileType.NOCACHE,
 				CacheRequest.DOWNLOAD_QUEUE_IMGUR_API,
-				true,
 				postFields,
-				false,
-				false,
-				this) {
+				this,
+				new CacheRequestJSONParser(this, new CacheRequestJSONParser.Listener() {
+					@Override
+					public void onJsonParsed(
+							@NonNull final JsonValue result,
+							final long timestamp,
+							@NonNull final UUID session, final boolean fromCache) {
 
-			@Override
-			protected void onCallbackException(final Throwable t) {
-				BugReportActivity.handleGlobalError(ImgurUploadActivity.this, t);
-			}
+						final Uri imageUri;
 
-			@Override
-			protected void onDownloadNecessary() {
-			}
+						try {
+							final JsonBufferedObject root = result.asObject();
 
-			@Override
-			protected void onDownloadStarted() {
-			}
+							if(root == null) {
+								throw new RuntimeException("Response root object is null");
+							}
 
-			@Override
-			protected void onFailure(
-					final @CacheRequest.RequestFailureType int type,
-					final Throwable t,
-					final Integer httpStatus,
-					final String readableMessage) {
+							final Boolean success = root.getBoolean("success");
 
-				General.showResultDialog(
-						ImgurUploadActivity.this,
-						General.getGeneralErrorForFailure(
+							if(!Boolean.TRUE.equals(success)) {
+								onFailure(
+										CacheRequest.REQUEST_FAILURE_UPLOAD_FAIL_IMGUR,
+										null,
+										null,
+										null);
+								return;
+							}
+
+							final String id = root.getObject("data").getString("id");
+							imageUri = Uri.parse("https://imgur.com/" + id);
+
+						} catch(final Throwable t) {
+							onFailure(
+									CacheRequest.REQUEST_FAILURE_PARSE_IMGUR,
+									t,
+									null,
+									t.toString());
+							return;
+						}
+
+						AndroidCommon.runOnUiThread(() -> {
+
+							final Intent resultIntent = new Intent();
+							resultIntent.setData(imageUri);
+							setResult(0, resultIntent);
+							finish();
+						});
+					}
+
+					@Override
+					public void onFailure(
+							final int type,
+							@Nullable final Throwable t,
+							@Nullable final Integer httpStatus,
+							@Nullable final String readableMessage) {
+
+						General.showResultDialog(
 								ImgurUploadActivity.this,
-								type,
-								t,
-								httpStatus,
-								url.toString()));
+								General.getGeneralErrorForFailure(
+										ImgurUploadActivity.this,
+										type,
+										t,
+										httpStatus,
+										"https://api.imgur.com/3/image"));
 
-				AndroidCommon.UI_THREAD_HANDLER.post(ImgurUploadActivity.this::hideLoadingOverlay);
-			}
-
-			@Override
-			public void onJsonParseStarted(
-					final JsonValue result,
-					final long timestamp,
-					final UUID session,
-					final boolean fromCache) {
-
-				try {
-					result.join();
-				} catch(final InterruptedException e) {
-					throw new RuntimeException(e);
-				}
-
-				final Uri imageUri;
-
-				try {
-					final JsonBufferedObject root = result.asObject();
-
-					if(root == null) {
-						throw new RuntimeException("Response root object is null");
+						AndroidCommon.runOnUiThread(ImgurUploadActivity.this::hideLoadingOverlay);
 					}
-
-					final Boolean success = root.getBoolean("success");
-
-					if(!Boolean.TRUE.equals(success)) {
-						onFailure(
-								CacheRequest.REQUEST_FAILURE_UPLOAD_FAIL_IMGUR,
-								null,
-								null,
-								null);
-						return;
-					}
-
-					final String id = root.getObject("data").getString("id");
-					imageUri = Uri.parse("https://imgur.com/" + id);
-
-				} catch(final Throwable t) {
-					onFailure(
-							CacheRequest.REQUEST_FAILURE_PARSE_IMGUR,
-							t,
-							null,
-							t.toString());
-					return;
-				}
-
-				AndroidCommon.UI_THREAD_HANDLER.post(() -> {
-
-					final Intent resultIntent = new Intent();
-					resultIntent.setData(imageUri);
-					setResult(0, resultIntent);
-					finish();
-				});
-			}
-
-			@Override
-			protected void onProgress(
-					final boolean authorizationInProgress,
-					final long bytesRead,
-					final long totalBytes) {
-			}
-
-			@Override
-			protected void onSuccess(
-					final CacheManager.ReadableCacheFile cacheFile,
-					final long timestamp,
-					final UUID session,
-					final boolean fromCache,
-					final String mimetype) {
-			}
-		});
+				})));
 	}
 
 	@Override

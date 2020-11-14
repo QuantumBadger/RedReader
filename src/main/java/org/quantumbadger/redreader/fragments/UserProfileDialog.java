@@ -313,7 +313,6 @@ public class UserProfileDialog extends PropertiesDialog {
 				},
 				RedditAccountManager.getInstance(context).getDefaultAccount(),
 				DownloadStrategyAlways.INSTANCE,
-				true,
 				context);
 	}
 }

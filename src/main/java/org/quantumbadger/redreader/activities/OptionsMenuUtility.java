@@ -23,7 +23,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Point;
-import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
@@ -113,7 +112,7 @@ public final class OptionsMenuUtility {
 			final Boolean subredditBlocked) {
 
 		final SharedPreferences preferences
-				= PreferenceManager.getDefaultSharedPreferences(activity);
+				= General.getSharedPrefs(activity);
 		final EnumMap<AppbarItemsPref, Integer> appbarItemsPrefs
 				= PrefsUtility.pref_menus_appbar_items(activity, preferences);
 
@@ -669,7 +668,7 @@ public final class OptionsMenuUtility {
 						.setOnMenuItemClickListener(item -> {
 
 							final SharedPreferences prefs
-									= PreferenceManager.getDefaultSharedPreferences(activity);
+									= General.getSharedPrefs(activity);
 							final PrefsUtility.AppearanceTheme currentTheme
 									= PrefsUtility.appearance_theme(activity, prefs);
 

@@ -18,10 +18,8 @@
 package org.quantumbadger.redreader.activities;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,6 +28,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
+import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -178,55 +177,39 @@ public class PMSendActivity extends BaseActivity {
 			progressDialog.setCancelable(true);
 			progressDialog.setCanceledOnTouchOutside(false);
 
-			progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-				@Override
-				public void onCancel(final DialogInterface dialogInterface) {
-					General.quickToast(
-							PMSendActivity.this,
-							getString(R.string.comment_reply_oncancel));
-					General.safeDismissDialog(progressDialog);
-				}
+			progressDialog.setOnCancelListener(dialogInterface -> {
+				General.quickToast(this, getString(R.string.comment_reply_oncancel));
+				General.safeDismissDialog(progressDialog);
 			});
 
-			progressDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
-				@Override
-				public boolean onKey(
-						final DialogInterface dialogInterface,
-						final int keyCode,
-						final KeyEvent keyEvent) {
+			progressDialog.setOnKeyListener((dialogInterface, keyCode, keyEvent) -> {
 
-					if(keyCode == KeyEvent.KEYCODE_BACK) {
-						General.quickToast(
-								PMSendActivity.this,
-								getString(R.string.comment_reply_oncancel));
-						General.safeDismissDialog(progressDialog);
-					}
-
-					return true;
+				if(keyCode == KeyEvent.KEYCODE_BACK) {
+					General.quickToast(this, getString(R.string.comment_reply_oncancel));
+					General.safeDismissDialog(progressDialog);
 				}
+
+				return true;
 			});
 
 			final APIResponseHandler.ActionResponseHandler handler
 					= new APIResponseHandler.ActionResponseHandler(this) {
 				@Override
 				protected void onSuccess(@Nullable final String redirectUrl) {
-					AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-						@Override
-						public void run() {
+					AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 
-							General.safeDismissDialog(progressDialog);
+						General.safeDismissDialog(progressDialog);
 
-							mSendSuccess = true;
+						mSendSuccess = true;
 
-							lastText = null;
-							lastRecipient = null;
-							lastSubject = null;
+						lastText = null;
+						lastRecipient = null;
+						lastSubject = null;
 
-							General.quickToast(
-									PMSendActivity.this,
-									getString(R.string.pm_send_done));
-							finish();
-						}
+						General.quickToast(
+								PMSendActivity.this,
+								getString(R.string.pm_send_done));
+						finish();
 					});
 				}
 
@@ -249,13 +232,8 @@ public class PMSendActivity extends BaseActivity {
 							status,
 							null);
 
-					AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-						@Override
-						public void run() {
-							General.showResultDialog(PMSendActivity.this, error);
-							General.safeDismissDialog(progressDialog);
-						}
-					});
+					General.showResultDialog(PMSendActivity.this, error);
+					General.safeDismissDialog(progressDialog);
 				}
 
 				@Override
@@ -265,13 +243,8 @@ public class PMSendActivity extends BaseActivity {
 							context,
 							type);
 
-					AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-						@Override
-						public void run() {
-							General.showResultDialog(PMSendActivity.this, error);
-							General.safeDismissDialog(progressDialog);
-						}
-					});
+					General.showResultDialog(PMSendActivity.this, error);
+					General.safeDismissDialog(progressDialog);
 				}
 			};
 

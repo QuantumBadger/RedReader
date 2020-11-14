@@ -21,7 +21,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.preference.PreferenceManager;
 import androidx.annotation.UiThread;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BaseActivity;
@@ -267,7 +266,7 @@ public class CommentListingRequest {
 
 			final Integer minimumCommentScore = PrefsUtility.pref_behaviour_comment_min(
 					mContext,
-					PreferenceManager.getDefaultSharedPreferences(context));
+					General.getSharedPrefs(context));
 
 			if(fromCache) {
 				notifyListener(Event.EVENT_CACHED_COPY, timestamp);

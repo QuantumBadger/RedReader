@@ -22,7 +22,6 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -219,18 +218,13 @@ public class UserProfileDialog extends PropertiesDialog {
 
 							final Button commentsButton = new Button(context);
 							commentsButton.setText(R.string.userprofile_viewcomments);
-							commentsButton.setOnClickListener(new View.OnClickListener() {
-								@Override
-								public void onClick(final View v) {
-									LinkHandler.onLinkClicked(
-											context,
-											Constants.Reddit.getUri("/user/"
-													+ username
-													+ "/comments.json")
-													.toString(),
-											false);
-								}
-							});
+							commentsButton.setOnClickListener(v -> LinkHandler.onLinkClicked(
+									context,
+									Constants.Reddit.getUri("/user/"
+											+ username
+											+ "/comments.json")
+											.toString(),
+									false));
 							items.addView(commentsButton);
 							// TODO use margin? or framelayout? scale padding dp
 							// TODO change button color
@@ -238,17 +232,12 @@ public class UserProfileDialog extends PropertiesDialog {
 
 							final Button postsButton = new Button(context);
 							postsButton.setText(R.string.userprofile_viewposts);
-							postsButton.setOnClickListener(new View.OnClickListener() {
-								@Override
-								public void onClick(final View v) {
-									LinkHandler.onLinkClicked(
-											context,
-											UserPostListingURL.getSubmitted(username)
-													.generateJsonUri()
-													.toString(),
-											false);
-								}
-							});
+							postsButton.setOnClickListener(v -> LinkHandler.onLinkClicked(
+									context,
+									UserPostListingURL.getSubmitted(username)
+											.generateJsonUri()
+											.toString(),
+									false));
 							items.addView(postsButton);
 							// TODO use margin? or framelayout? scale padding dp
 							postsButton.setPadding(20, 20, 20, 20);
@@ -258,17 +247,14 @@ public class UserProfileDialog extends PropertiesDialog {
 									.isAnonymous()) {
 								final Button pmButton = new Button(context);
 								pmButton.setText(R.string.userprofile_pm);
-								pmButton.setOnClickListener(new View.OnClickListener() {
-									@Override
-									public void onClick(final View v) {
-										final Intent intent = new Intent(
-												context,
-												PMSendActivity.class);
-										intent.putExtra(
-												PMSendActivity.EXTRA_RECIPIENT,
-												username);
-										startActivity(intent);
-									}
+								pmButton.setOnClickListener(v -> {
+									final Intent intent = new Intent(
+											context,
+											PMSendActivity.class);
+									intent.putExtra(
+											PMSendActivity.EXTRA_RECIPIENT,
+											username);
+									startActivity(intent);
 								});
 								items.addView(pmButton);
 								pmButton.setPadding(20, 20, 20, 20);
@@ -288,45 +274,39 @@ public class UserProfileDialog extends PropertiesDialog {
 							final Integer status,
 							final String readableMessage) {
 
-						AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-							@Override
-							public void run() {
+						AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 
-								if(!active) {
-									return;
-								}
-
-								loadingView.setDone(R.string.download_failed);
-
-								final RRError error = General.getGeneralErrorForFailure(
-										context,
-										type,
-										t,
-										status,
-										null);
-								items.addView(new ErrorView(context, error));
+							if(!active) {
+								return;
 							}
+
+							loadingView.setDone(R.string.download_failed);
+
+							final RRError error = General.getGeneralErrorForFailure(
+									context,
+									type,
+									t,
+									status,
+									null);
+							items.addView(new ErrorView(context, error));
 						});
 					}
 
 					@Override
 					protected void onFailure(final APIFailureType type) {
 
-						AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-							@Override
-							public void run() {
+						AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 
-								if(!active) {
-									return;
-								}
-
-								loadingView.setDone(R.string.download_failed);
-
-								final RRError error = General.getGeneralErrorForFailure(
-										context,
-										type);
-								items.addView(new ErrorView(context, error));
+							if(!active) {
+								return;
 							}
+
+							loadingView.setDone(R.string.download_failed);
+
+							final RRError error = General.getGeneralErrorForFailure(
+									context,
+									type);
+							items.addView(new ErrorView(context, error));
 						});
 					}
 

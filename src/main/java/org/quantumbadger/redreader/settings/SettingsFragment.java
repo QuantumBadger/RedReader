@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.settings;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -30,7 +29,6 @@ import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 import android.text.Html;
 import org.quantumbadger.redreader.BuildConfig;
 import org.quantumbadger.redreader.R;
@@ -218,15 +216,12 @@ public final class SettingsFragment extends PreferenceFragment {
 			torPref.setOnPreferenceChangeListener((preference, newValue) -> {
 
 				// Run this after the preference has actually changed
-				AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-					@Override
-					public void run() {
-						TorCommon.updateTorStatus(context);
-						if(TorCommon.isTorEnabled()
-								!= Boolean.TRUE.equals(newValue)) {
-							throw new RuntimeException(
-									"Tor not correctly enabled after preference change");
-						}
+				AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+					TorCommon.updateTorStatus(context);
+					if(TorCommon.isTorEnabled()
+							!= Boolean.TRUE.equals(newValue)) {
+						throw new RuntimeException(
+								"Tor not correctly enabled after preference change");
 					}
 				});
 
@@ -253,7 +248,7 @@ public final class SettingsFragment extends PreferenceFragment {
 			});
 			updateStorageLocationText(PrefsUtility.pref_cache_location(
 					context,
-					PreferenceManager.getDefaultSharedPreferences(context)));
+					General.getSharedPrefs(context)));
 		}
 
 		//This disables the "Show NSFW thumbnails" setting when Show thumbnails is set to Never
@@ -282,7 +277,7 @@ public final class SettingsFragment extends PreferenceFragment {
 	private void showChooseStorageLocationDialog() {
 		final Context context = getActivity();
 		final SharedPreferences prefs =
-				PreferenceManager.getDefaultSharedPreferences(context);
+				General.getSharedPrefs(context);
 		final String currentStorage = PrefsUtility.pref_cache_location(context, prefs);
 
 		final List<File> checkPaths = CacheManager.getCacheDirs(context);
@@ -319,24 +314,18 @@ public final class SettingsFragment extends PreferenceFragment {
 		}
 		new AlertDialog.Builder(context)
 				.setTitle(R.string.pref_cache_location_title)
-				.setSingleChoiceItems(choices.toArray(new CharSequence[choices.size()]),
-						selectedIndex, new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(final DialogInterface dialog, final int i) {
-								dialog.dismiss();
-								final String path = folders.get(i).getAbsolutePath();
-								PrefsUtility.pref_cache_location(context, prefs, path);
-								updateStorageLocationText(path);
-							}
+				.setSingleChoiceItems(
+						choices.toArray(new CharSequence[choices.size()]),
+						selectedIndex,
+						(dialog, i) -> {
+							dialog.dismiss();
+							final String path = folders.get(i).getAbsolutePath();
+							PrefsUtility.pref_cache_location(context, prefs, path);
+							updateStorageLocationText(path);
 						})
 				.setNegativeButton(
 						R.string.dialog_close,
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(final DialogInterface dialog, final int i) {
-								dialog.dismiss();
-							}
-						})
+						(dialog, i) -> dialog.dismiss())
 				.create()
 				.show();
 	}

@@ -18,8 +18,8 @@
 package org.quantumbadger.redreader.common;
 
 import android.os.Handler;
-import androidx.annotation.UiThread;
 import android.util.SparseBooleanArray;
+import androidx.annotation.UiThread;
 
 public class HandlerTimer {
 
@@ -51,18 +51,15 @@ public class HandlerTimer {
 		final int id = getNextId();
 		mTimers.put(id, true);
 
-		mHandler.postDelayed(new Runnable() {
-			@Override
-			public void run() {
+		mHandler.postDelayed(() -> {
 
-				if(!mTimers.get(id, false)) {
-					return;
-				}
-
-				mTimers.delete(id);
-
-				runnable.run();
+			if(!mTimers.get(id, false)) {
+				return;
 			}
+
+			mTimers.delete(id);
+
+			runnable.run();
 		}, delayMs);
 
 		return id;

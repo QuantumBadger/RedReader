@@ -23,14 +23,12 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
-import android.webkit.DownloadListener;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -169,14 +167,11 @@ public class WebViewFragment extends Fragment
 
 				super.onProgressChanged(view, newProgress);
 
-				AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-					@Override
-					public void run() {
-						progressView.setProgress(newProgress);
-						progressView.setVisibility(newProgress == 100
-								? View.GONE
-								: View.VISIBLE);
-					}
+				AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+					progressView.setProgress(newProgress);
+					progressView.setVisibility(newProgress == 100
+							? View.GONE
+							: View.VISIBLE);
 				});
 			}
 		};
@@ -203,7 +198,7 @@ public class WebViewFragment extends Fragment
 				//only re-enable status bar if there is no contradicting preference set
 				if(!PrefsUtility.pref_appearance_hide_android_status(
 						getContext(),
-						PreferenceManager.getDefaultSharedPreferences(getContext()))) {
+						General.getSharedPrefs(getContext()))) {
 					attrs.flags &= ~WindowManager.LayoutParams.FLAG_FULLSCREEN;
 				}
 				attrs.flags &= ~WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
@@ -220,36 +215,25 @@ public class WebViewFragment extends Fragment
 		});
 
 		/*handle download links show an alert box to load this outside the internal browser*/
-		webView.setDownloadListener(new DownloadListener() {
-			@Override
-			public void onDownloadStart(
-					final String url,
-					final String userAgent,
-					final String contentDisposition,
-					final String mimetype,
-					final long contentLength) {
-				{
-					new AlertDialog.Builder(mActivity)
-							.setTitle(R.string.download_link_title)
-							.setMessage(R.string.download_link_message)
-							.setPositiveButton(
-									android.R.string.yes,
-									(dialog, which) -> {
-										final Intent i = new Intent(Intent.ACTION_VIEW);
-										i.setData(Uri.parse(url));
-										getContext().startActivity(i);
-										mActivity.onBackPressed(); //get back from internal browser
-									})
-							.setNegativeButton(
-									android.R.string.no,
-									(dialog, which) -> {
-										mActivity.onBackPressed(); //get back from internal browser
-									})
-							.setIcon(android.R.drawable.ic_dialog_alert)
-							.show();
-				}
-			}
-		});
+		webView.setDownloadListener((url, userAgent, contentDisposition, mimetype, contentLength)
+				-> new AlertDialog.Builder(mActivity)
+						.setTitle(R.string.download_link_title)
+						.setMessage(R.string.download_link_message)
+						.setPositiveButton(
+								android.R.string.yes,
+								(dialog, which) -> {
+									final Intent i = new Intent(Intent.ACTION_VIEW);
+									i.setData(Uri.parse(url));
+									getContext().startActivity(i);
+									mActivity.onBackPressed(); //get back from internal browser
+								})
+						.setNegativeButton(
+								android.R.string.no,
+								(dialog, which) -> {
+									mActivity.onBackPressed(); //get back from internal browser
+								})
+						.setIcon(android.R.drawable.ic_dialog_alert)
+						.show());
 		/*handle download links end*/
 
 
@@ -312,14 +296,14 @@ public class WebViewFragment extends Fragment
 					} else {
 						if(!PrefsUtility.pref_behaviour_useinternalbrowser(
 								mActivity,
-								PreferenceManager.getDefaultSharedPreferences(mActivity))) {
+								General.getSharedPrefs(mActivity))) {
 							LinkHandler.openWebBrowser(
 									mActivity,
 									Uri.parse(url),
 									true);
 						} else if(PrefsUtility.pref_behaviour_usecustomtabs(
 								mActivity,
-								PreferenceManager.getDefaultSharedPreferences(mActivity))
+								General.getSharedPrefs(mActivity))
 								&& Build.VERSION.SDK_INT
 										>= Build.VERSION_CODES.JELLY_BEAN_MR2) {
 							LinkHandler.openCustomTab(
@@ -358,38 +342,35 @@ public class WebViewFragment extends Fragment
 					@Override
 					public void run() {
 
-						AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-							@Override
-							public void run() {
+						AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 
-								if(currentUrl == null || url == null) {
-									return;
-								}
+							if(currentUrl == null || url == null) {
+								return;
+							}
 
-								if(!url.equals(view.getUrl())) {
-									return;
-								}
+							if(!url.equals(view.getUrl())) {
+								return;
+							}
 
-								if(goingBack && url.equals(currentUrl)) {
+							if(goingBack && url.equals(currentUrl)) {
 
-									General.quickToast(
-											mActivity,
-											String.format(
-													Locale.US,
-													"Handling redirect loop (level %d)",
-													-lastBackDepthAttempt));
+								General.quickToast(
+										mActivity,
+										String.format(
+												Locale.US,
+												"Handling redirect loop (level %d)",
+												-lastBackDepthAttempt));
 
-									lastBackDepthAttempt--;
+								lastBackDepthAttempt--;
 
-									if(webView.canGoBackOrForward(lastBackDepthAttempt)) {
-										webView.goBackOrForward(lastBackDepthAttempt);
-									} else {
-										mActivity.finish();
-									}
-
+								if(webView.canGoBackOrForward(lastBackDepthAttempt)) {
+									webView.goBackOrForward(lastBackDepthAttempt);
 								} else {
-									goingBack = false;
+									mActivity.finish();
 								}
+
+							} else {
+								goingBack = false;
 							}
 						});
 					}

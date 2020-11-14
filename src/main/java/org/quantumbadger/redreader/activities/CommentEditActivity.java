@@ -18,14 +18,13 @@
 package org.quantumbadger.redreader.activities;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ScrollView;
+import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -108,56 +107,40 @@ public class CommentEditActivity extends BaseActivity {
 			progressDialog.setCancelable(true);
 			progressDialog.setCanceledOnTouchOutside(false);
 
-			progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-				@Override
-				public void onCancel(final DialogInterface dialogInterface) {
-					General.quickToast(
-							CommentEditActivity.this,
-							R.string.comment_reply_oncancel);
-					General.safeDismissDialog(progressDialog);
-				}
+			progressDialog.setOnCancelListener(dialogInterface -> {
+				General.quickToast(this, R.string.comment_reply_oncancel);
+				General.safeDismissDialog(progressDialog);
 			});
 
-			progressDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
-				@Override
-				public boolean onKey(
-						final DialogInterface dialogInterface,
-						final int keyCode,
-						final KeyEvent keyEvent) {
+			progressDialog.setOnKeyListener((dialogInterface, keyCode, keyEvent) -> {
 
-					if(keyCode == KeyEvent.KEYCODE_BACK) {
-						General.quickToast(
-								CommentEditActivity.this,
-								R.string.comment_reply_oncancel);
-						General.safeDismissDialog(progressDialog);
-					}
-
-					return true;
+				if(keyCode == KeyEvent.KEYCODE_BACK) {
+					General.quickToast(this, R.string.comment_reply_oncancel);
+					General.safeDismissDialog(progressDialog);
 				}
+
+				return true;
 			});
 
 			final APIResponseHandler.ActionResponseHandler handler
 					= new APIResponseHandler.ActionResponseHandler(this) {
 				@Override
 				protected void onSuccess(@Nullable final String redirectUrl) {
-					AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-						@Override
-						public void run() {
+					AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 
-							General.safeDismissDialog(progressDialog);
+						General.safeDismissDialog(progressDialog);
 
-							if(isSelfPost) {
-								General.quickToast(
-										CommentEditActivity.this,
-										R.string.post_edit_done);
-							} else {
-								General.quickToast(
-										CommentEditActivity.this,
-										R.string.comment_edit_done);
-							}
-
-							finish();
+						if(isSelfPost) {
+							General.quickToast(
+									CommentEditActivity.this,
+									R.string.post_edit_done);
+						} else {
+							General.quickToast(
+									CommentEditActivity.this,
+									R.string.comment_edit_done);
 						}
+
+						finish();
 					});
 				}
 
@@ -180,13 +163,8 @@ public class CommentEditActivity extends BaseActivity {
 							status,
 							null);
 
-					AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-						@Override
-						public void run() {
-							General.showResultDialog(CommentEditActivity.this, error);
-							General.safeDismissDialog(progressDialog);
-						}
-					});
+					General.showResultDialog(CommentEditActivity.this, error);
+					General.safeDismissDialog(progressDialog);
 				}
 
 				@Override
@@ -196,13 +174,8 @@ public class CommentEditActivity extends BaseActivity {
 							context,
 							type);
 
-					AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-						@Override
-						public void run() {
-							General.showResultDialog(CommentEditActivity.this, error);
-							General.safeDismissDialog(progressDialog);
-						}
-					});
+					General.showResultDialog(CommentEditActivity.this, error);
+					General.safeDismissDialog(progressDialog);
 				}
 			};
 

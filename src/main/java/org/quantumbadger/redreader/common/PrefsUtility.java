@@ -21,7 +21,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.preference.PreferenceManager;
+import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import androidx.annotation.NonNull;
@@ -48,8 +48,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 
 public final class PrefsUtility {
+
+	@NonNull private static final AtomicReference<Locale> mDefaultLocale = new AtomicReference<>();
 
 	private static <E> Set<E> setFromArray(final E[] data) {
 		final HashSet<E> result = new HashSet<>(data.length);
@@ -118,25 +121,22 @@ public final class PrefsUtility {
 
 	public static boolean isRestartRequired(final Context context, final String key) {
 		return context.getString(R.string.pref_appearance_theme_key).equals(key)
-				|| context.getString(R.string.pref_appearance_navbar_color_key)
-				.equals(key)
+				|| context.getString(R.string.pref_appearance_navbar_color_key).equals(key)
 				|| context.getString(R.string.pref_appearance_langforce_key).equals(key)
 				|| context.getString(R.string.pref_behaviour_bezel_toolbar_swipezone_key)
-				.equals(key)
+						.equals(key)
 				|| context.getString(R.string.pref_appearance_hide_username_main_menu_key)
-				.equals(key)
-				|| context.getString(R.string.pref_appearance_hide_android_status_key)
-				.equals(key)
+						.equals(key)
+				|| context.getString(R.string.pref_appearance_hide_android_status_key).equals(key)
 				|| context.getString(R.string.pref_appearance_comments_show_floating_toolbar_key)
-				.equals(key)
-				|| context.getString(R.string.pref_behaviour_enable_swipe_refresh_key)
-				.equals(key)
-				|| context.getString(R.string.pref_menus_show_multireddit_main_menu_key)
-				.equals(key)
+						.equals(key)
+				|| context.getString(R.string.pref_behaviour_enable_swipe_refresh_key).equals(key)
+				|| context.getString(R.string.pref_menus_show_multireddit_main_menu_key).equals(key)
 				|| context.getString(R.string.pref_menus_show_subscribed_subreddits_main_menu_key)
-				.equals(key)
-				|| context.getString(R.string.pref_appearance_bottom_toolbar_key)
-				.equals(key);
+						.equals(key)
+				|| context.getString(R.string.pref_appearance_bottom_toolbar_key).equals(key)
+				|| context.getString(R.string.pref_appearance_hide_toolbar_on_scroll_key)
+						.equals(key);
 	}
 
 	///////////////////////////////
@@ -167,7 +167,7 @@ public final class PrefsUtility {
 
 		final AppearanceTheme theme = appearance_theme(
 				context,
-				PreferenceManager.getDefaultSharedPreferences(context));
+				General.getSharedPrefs(context));
 
 		return theme == AppearanceTheme.NIGHT
 				|| theme == AppearanceTheme.NIGHT_LOWCONTRAST
@@ -200,8 +200,7 @@ public final class PrefsUtility {
 
 	public static void applyTheme(@NonNull final Activity activity) {
 
-		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(
-				activity);
+		final SharedPreferences prefs = General.getSharedPrefs(activity);
 
 		final AppearanceTheme theme = appearance_theme(activity, prefs);
 
@@ -248,7 +247,7 @@ public final class PrefsUtility {
 
 	public static void applySettingsTheme(@NonNull final Activity activity) {
 
-		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(
+		final SharedPreferences prefs = General.getSharedPrefs(
 				activity);
 		activity.setTheme(R.style.RR_Settings);
 		applyLanguage(activity, prefs);
@@ -258,6 +257,12 @@ public final class PrefsUtility {
 			final Activity activity,
 			final SharedPreferences prefs) {
 
+		synchronized(mDefaultLocale) {
+			if(mDefaultLocale.get() == null) {
+				mDefaultLocale.set(Locale.getDefault());
+			}
+		}
+
 		final String lang = getString(
 				R.string.pref_appearance_langforce_key,
 				"auto",
@@ -266,8 +271,7 @@ public final class PrefsUtility {
 
 		for(final Resources res : new Resources[] {
 				activity.getResources(),
-				activity.getApplication().getResources()
-		}) {
+				activity.getApplication().getResources()}) {
 
 			final DisplayMetrics dm = res.getDisplayMetrics();
 			final android.content.res.Configuration conf = res.getConfiguration();
@@ -276,18 +280,31 @@ public final class PrefsUtility {
 
 				if(lang.contains("-r")) {
 					final String[] split = lang.split("-r");
-					conf.locale = new Locale(split[0], split[1]);
+					setLocaleOnConfiguration(conf, new Locale(split[0], split[1]));
 
 				} else {
-					conf.locale = new Locale(lang);
+					setLocaleOnConfiguration(conf, new Locale(lang));
 				}
 
 			} else {
-				conf.locale = Locale.getDefault();
+				setLocaleOnConfiguration(conf, mDefaultLocale.get());
 			}
 
 			res.updateConfiguration(conf, dm);
 		}
+	}
+
+	private static void setLocaleOnConfiguration(
+			@NonNull final android.content.res.Configuration conf,
+			@NonNull final Locale locale) {
+
+		if(Build.VERSION.SDK_INT >= 17) {
+			conf.setLocale(locale);
+		} else {
+			//noinspection deprecation
+			conf.locale = locale;
+		}
+
 	}
 
 	public enum AppearanceThumbnailsShow {
@@ -339,7 +356,7 @@ public final class PrefsUtility {
 	public static float appearance_fontscale_global(
 			final Context context,
 			final SharedPreferences sharedPreferences) {
-		return Float.valueOf(getString(
+		return Float.parseFloat(getString(
 				R.string.pref_appearance_fontscale_global_key,
 				"1",
 				context,
@@ -356,7 +373,7 @@ public final class PrefsUtility {
 				sharedPreferences).equals("-1")) {
 			return appearance_fontscale_global(context, sharedPreferences);
 		}
-		return Float.valueOf(getString(
+		return Float.parseFloat(getString(
 				R.string.pref_appearance_fontscale_bodytext_key,
 				"-1",
 				context,
@@ -373,7 +390,7 @@ public final class PrefsUtility {
 				sharedPreferences).equals("-1")) {
 			return appearance_fontscale_global(context, sharedPreferences);
 		}
-		return Float.valueOf(getString(
+		return Float.parseFloat(getString(
 				R.string.pref_appearance_fontscale_comment_headers_key,
 				"-1",
 				context,
@@ -390,7 +407,7 @@ public final class PrefsUtility {
 				sharedPreferences).equals("-1")) {
 			return appearance_fontscale_global(context, sharedPreferences);
 		}
-		return Float.valueOf(getString(
+		return Float.parseFloat(getString(
 				R.string.pref_appearance_fontscale_linkbuttons_key,
 				"-1",
 				context,
@@ -407,7 +424,7 @@ public final class PrefsUtility {
 				sharedPreferences).equals("-1")) {
 			return appearance_fontscale_global(context, sharedPreferences);
 		}
-		return Float.valueOf(getString(
+		return Float.parseFloat(getString(
 				R.string.pref_appearance_fontscale_posts_key,
 				"-1",
 				context,
@@ -424,7 +441,7 @@ public final class PrefsUtility {
 				sharedPreferences).equals("-1")) {
 			return appearance_fontscale_global(context, sharedPreferences);
 		}
-		return Float.valueOf(getString(
+		return Float.parseFloat(getString(
 				R.string.pref_appearance_fontscale_post_subtitles_key,
 				"-1",
 				context,
@@ -441,7 +458,7 @@ public final class PrefsUtility {
 				sharedPreferences).equals("-1")) {
 			return appearance_fontscale_global(context, sharedPreferences);
 		}
-		return Float.valueOf(getString(
+		return Float.parseFloat(getString(
 				R.string.pref_appearance_fontscale_post_header_titles_key,
 				"-1",
 				context,
@@ -458,7 +475,7 @@ public final class PrefsUtility {
 				sharedPreferences).equals("-1")) {
 			return appearance_fontscale_global(context, sharedPreferences);
 		}
-		return Float.valueOf(getString(
+		return Float.parseFloat(getString(
 				R.string.pref_appearance_fontscale_post_header_subtitles_key,
 				"-1",
 				context,
@@ -610,6 +627,16 @@ public final class PrefsUtility {
 			final SharedPreferences sharedPreferences) {
 		return getBoolean(
 				R.string.pref_appearance_bottom_toolbar_key,
+				false,
+				context,
+				sharedPreferences);
+	}
+
+	public static boolean pref_appearance_hide_toolbar_on_scroll(
+			final Context context,
+			final SharedPreferences sharedPreferences) {
+		return getBoolean(
+				R.string.pref_appearance_hide_toolbar_on_scroll_key,
 				false,
 				context,
 				sharedPreferences);
@@ -812,6 +839,15 @@ public final class PrefsUtility {
 				sharedPreferences);
 	}
 
+	public static boolean pref_behaviour_imagevideo_tap_close(
+			final Context context,
+			final SharedPreferences sharedPreferences) {
+		return getBoolean(R.string.pref_behaviour_imagevideo_tap_close_key,
+				true,
+				context,
+				sharedPreferences);
+	}
+
 	public static int pref_behaviour_bezel_toolbar_swipezone_dp(
 			final Context context,
 			final SharedPreferences sharedPreferences) {
@@ -824,6 +860,15 @@ public final class PrefsUtility {
 		} catch(final Throwable e) {
 			return 10;
 		}
+	}
+
+	public static boolean pref_behaviour_back_again(
+			final Context context,
+			final SharedPreferences sharedPreferences) {
+		return getBoolean(R.string.pref_behaviour_postlist_back_again_key,
+				false,
+				context,
+				sharedPreferences);
 	}
 
 	public static int pref_behaviour_gallery_swipe_length_dp(
@@ -1297,7 +1342,7 @@ public final class PrefsUtility {
 		final long maxAgeListing = 1000L
 				* 60L
 				* 60L
-				* Long.valueOf(getString(
+				* Long.parseLong(getString(
 				R.string.pref_cache_maxage_listing_key,
 				"168",
 				context,
@@ -1305,7 +1350,7 @@ public final class PrefsUtility {
 		final long maxAgeThumb = 1000L
 				* 60L
 				* 60L
-				* Long.valueOf(getString(
+				* Long.parseLong(getString(
 				R.string.pref_cache_maxage_thumb_key,
 				"168",
 				context,
@@ -1313,7 +1358,7 @@ public final class PrefsUtility {
 		final long maxAgeImage = 1000L
 				* 60L
 				* 60L
-				* Long.valueOf(getString(
+				* Long.parseLong(getString(
 				R.string.pref_cache_maxage_image_key,
 				"72",
 				context,
@@ -1339,7 +1384,7 @@ public final class PrefsUtility {
 		return 1000L
 				* 60L
 				* 60L
-				* Long.valueOf(getString(
+				* Long.parseLong(getString(
 				R.string.pref_cache_maxage_entry_key,
 				"168",
 				context,

@@ -20,7 +20,6 @@ package org.quantumbadger.redreader.listingcontrollers;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -71,13 +70,13 @@ public class CommentListingController {
 	private PostCommentListingURL.Sort defaultOrder(final Context context) {
 		return PrefsUtility.pref_behaviour_commentsort(
 				context,
-				PreferenceManager.getDefaultSharedPreferences(context));
+				General.getSharedPrefs(context));
 	}
 
 	private UserCommentListingURL.Sort defaultUserOrder(final Context context) {
 		return PrefsUtility.pref_behaviour_user_commentsort(
 				context,
-				PreferenceManager.getDefaultSharedPreferences(context));
+				General.getSharedPrefs(context));
 	}
 
 	public void setSort(final PostCommentListingURL.Sort s) {

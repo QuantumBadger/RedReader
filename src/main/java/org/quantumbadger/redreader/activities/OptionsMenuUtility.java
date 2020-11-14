@@ -1338,7 +1338,7 @@ public final class OptionsMenuUtility {
 
 		if(PrefsUtility.pref_menus_quick_account_switcher(
 				activity,
-				PreferenceManager.getDefaultSharedPreferences(activity))) {
+				General.getSharedPrefs(activity))) {
 
 			//Quick account switcher is on, create its SubMenu and add it to the main menu
 			final int ACCOUNTS_GROUP = 1;

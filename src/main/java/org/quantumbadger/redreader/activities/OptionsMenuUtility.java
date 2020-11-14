@@ -609,7 +609,9 @@ public final class OptionsMenuUtility {
 						});
 
 				accounts.setShowAsAction(showAsAction);
-				if(!longText) {
+				if(longText) {
+					accounts.setIcon(R.drawable.ic_settings_light);
+				} else {
 					accounts.setIcon(R.drawable.ic_accounts_dark);
 				}
 

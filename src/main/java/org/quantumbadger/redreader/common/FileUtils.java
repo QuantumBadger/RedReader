@@ -34,7 +34,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.BugReportActivity;
@@ -501,9 +500,6 @@ public class FileUtils {
 			@NonNull final String uri,
 			@NonNull final DownloadImageToSaveSuccessCallback callback) {
 
-		final RedditAccount account
-				= RedditAccountManager.getInstance(activity).getDefaultAccount();
-
 		LinkHandler.getImageInfo(
 				activity,
 				uri,
@@ -531,7 +527,7 @@ public class FileUtils {
 
 						CacheManager.getInstance(activity).makeRequest(new CacheRequest(
 								General.uriFromString(info.urlOriginal),
-								account,
+								RedditAccountManager.getAnon(),
 								null,
 								Constants.Priority.IMAGE_VIEW,
 								0,

@@ -47,7 +47,6 @@ import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.MergingMediaSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
@@ -1048,12 +1047,10 @@ public class ImageViewActivity extends BaseActivity
 				= new AtomicReference<>();
 		final AtomicReference<String> videoMimetype = new AtomicReference<>();
 
-		final RedditAccount account = RedditAccountManager.getInstance(this).getDefaultAccount();
-
 		CacheManager.getInstance(this).makeRequest(
 				mRequest = new CacheRequest(
 						uri,
-						account,
+						RedditAccountManager.getAnon(),
 						null,
 						Constants.Priority.IMAGE_VIEW,
 						0,
@@ -1173,7 +1170,7 @@ public class ImageViewActivity extends BaseActivity
 			CacheManager.getInstance(this).makeRequest(
 					mRequest = new CacheRequest(
 							audioUri,
-							account,
+							RedditAccountManager.getAnon(),
 							null,
 							Constants.Priority.IMAGE_VIEW,
 							0,

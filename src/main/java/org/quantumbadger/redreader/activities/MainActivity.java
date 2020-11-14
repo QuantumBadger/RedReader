@@ -104,8 +104,6 @@ public class MainActivity extends RefreshableActivity
 	private View postListingView;
 	private View commentListingView;
 
-	private FrameLayout mSinglePane;
-
 	private FrameLayout mLeftPane;
 	private FrameLayout mRightPane;
 
@@ -868,21 +866,16 @@ public class MainActivity extends RefreshableActivity
 
 			twoPane = General.isTablet(this, sharedPreferences);
 
-			final View layout;
-
 			if(twoPane) {
-				layout = getLayoutInflater().inflate(R.layout.main_double, null);
-				mLeftPane = (FrameLayout)layout.findViewById(R.id.main_left_frame);
-				mRightPane = (FrameLayout)layout.findViewById(R.id.main_right_frame);
-				mSinglePane = null;
+				final View layout = getLayoutInflater().inflate(R.layout.main_double, null);
+				mLeftPane = layout.findViewById(R.id.main_left_frame);
+				mRightPane = layout.findViewById(R.id.main_right_frame);
+				setBaseActivityListing(layout);
+
 			} else {
-				layout = getLayoutInflater().inflate(R.layout.main_single, null);
 				mLeftPane = null;
 				mRightPane = null;
-				mSinglePane = (FrameLayout)layout.findViewById(R.id.main_single_frame);
 			}
-
-			setBaseActivityListing(layout);
 
 			invalidateOptionsMenu();
 			requestRefresh(RefreshableFragment.ALL, false);
@@ -897,7 +890,7 @@ public class MainActivity extends RefreshableActivity
 			if(isMenuShown && (which == RefreshableFragment.ALL
 					|| which == RefreshableFragment.MAIN)) {
 				mainMenuFragment = new MainMenuFragment(this, null, force);
-				mainMenuView = mainMenuFragment.getView();
+				mainMenuView = mainMenuFragment.createCombinedListingAndOverlayView();
 				mLeftPane.removeAllViews();
 				mLeftPane.addView(mainMenuView);
 			}
@@ -908,7 +901,7 @@ public class MainActivity extends RefreshableActivity
 					postListingFragment.cancel();
 				}
 				postListingFragment = postListingController.get(this, force, null);
-				postListingView = postListingFragment.getView();
+				postListingView = postListingFragment.createCombinedListingAndOverlayView();
 				postContainer.removeAllViews();
 				postContainer.addView(postListingView);
 			}
@@ -917,7 +910,7 @@ public class MainActivity extends RefreshableActivity
 					|| which
 					== RefreshableFragment.COMMENTS)) {
 				commentListingFragment = commentListingController.get(this, force, null);
-				commentListingView = commentListingFragment.getView();
+				commentListingView = commentListingFragment.createCombinedListingAndOverlayView();
 				mRightPane.removeAllViews();
 				mRightPane.addView(commentListingView);
 			}
@@ -926,9 +919,7 @@ public class MainActivity extends RefreshableActivity
 
 			if(which == RefreshableFragment.ALL || which == RefreshableFragment.MAIN) {
 				mainMenuFragment = new MainMenuFragment(this, null, force);
-				mainMenuView = mainMenuFragment.getView();
-				mSinglePane.removeAllViews();
-				mSinglePane.addView(mainMenuView);
+				mainMenuFragment.setBaseActivityContent(this);
 			}
 		}
 
@@ -953,7 +944,7 @@ public class MainActivity extends RefreshableActivity
 				this,
 				null,
 				false); // TODO preserve position
-		mainMenuView = mainMenuFragment.getView();
+		mainMenuView = mainMenuFragment.createCombinedListingAndOverlayView();
 
 		commentListingFragment = null;
 		commentListingView = null;
@@ -983,7 +974,7 @@ public class MainActivity extends RefreshableActivity
 			if(isMenuShown) {
 
 				commentListingFragment = commentListingController.get(this, false, null);
-				commentListingView = commentListingFragment.getView();
+				commentListingView = commentListingFragment.createCombinedListingAndOverlayView();
 
 				mLeftPane.removeAllViews();
 				mRightPane.removeAllViews();

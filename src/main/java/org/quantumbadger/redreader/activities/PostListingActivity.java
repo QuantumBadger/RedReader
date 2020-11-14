@@ -24,7 +24,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.Menu;
-import android.view.View;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.R;
@@ -290,14 +289,13 @@ public class PostListingActivity extends RefreshableActivity
 			final RefreshableFragment which,
 			final boolean force,
 			final Bundle savedInstanceState) {
+
 		if(fragment != null) {
 			fragment.cancel();
 		}
-		fragment = controller.get(this, force, savedInstanceState);
 
-		final View view = fragment.getView();
-		setBaseActivityListing(view);
-		General.setLayoutMatchParent(view);
+		fragment = controller.get(this, force, savedInstanceState);
+		fragment.setBaseActivityContent(this);
 	}
 
 	@Override

@@ -256,12 +256,9 @@ public abstract class BaseActivity extends AppCompatActivity
 		getLayoutInflater().inflate(layoutRes, mContentListing, true);
 	}
 
-	public void addBaseActivityOverlay(@NonNull final View view) {
+	public void setBaseActivityOverlay(@NonNull final View view) {
+		mContentOverlay.removeAllViews();
 		mContentOverlay.addView(view);
-	}
-
-	public void removeBaseActivityOverlay(@NonNull final View view) {
-		mContentOverlay.removeView(view);
 	}
 
 	@Override

@@ -23,7 +23,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -165,22 +164,9 @@ public class CommentListingActivity extends RefreshableActivity
 			final RefreshableFragment which,
 			final boolean force,
 			final Bundle savedInstanceState) {
+
 		mFragment = controller.get(this, force, savedInstanceState);
-
-		{
-			final View view = mFragment.getView();
-			setBaseActivityListing(view);
-			General.setLayoutMatchParent(view);
-		}
-
-		{
-			final View overlayView = mFragment.getOverlayView();
-
-			if(overlayView != null) {
-				addBaseActivityOverlay(overlayView);
-				General.setLayoutMatchParent(overlayView);
-			}
-		}
+		mFragment.setBaseActivityContent(this);
 
 		setTitle(controller.getCommentListingUrl().humanReadableName(this, false));
 		invalidateOptionsMenu();

@@ -379,7 +379,7 @@ public class CommentListingFragment extends RRFragment
 	}
 
 	@Override
-	public View getView() {
+	public View getListingView() {
 		return mListingView;
 	}
 

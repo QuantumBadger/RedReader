@@ -1039,13 +1039,15 @@
 	<!-- 2020-10-31 -->
 
 	<string-array name="pref_appearance_age_units_items">
+		<item>@string/pref_appearance_age_units_1</item>
+		<item>@string/pref_appearance_age_units_2</item>
+		<item>@string/pref_appearance_age_units_3</item>
+	</string-array>
+
+	<string-array name="pref_appearance_age_units_return">
 		<item>1</item>
 		<item>2</item>
 		<item>3</item>
-		<item>4</item>
-		<item>5</item>
-		<item>6</item>
-		<item>7</item>
 	</string-array>
 
 	<string-array name="pref_appearance_comment_age_mode_items">

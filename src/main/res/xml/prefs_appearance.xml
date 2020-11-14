@@ -87,7 +87,7 @@
 		<ListPreference android:title="@string/pref_appearance_post_age_units_title"
 						android:key="@string/pref_appearance_post_age_units_key"
 						android:entries="@array/pref_appearance_age_units_items"
-						android:entryValues="@array/pref_appearance_age_units_items"
+						android:entryValues="@array/pref_appearance_age_units_return"
 						android:defaultValue="2"/>
 
 		<CheckBoxPreference android:title="@string/pref_appearance_post_subtitle_items_use_different_settings_title"
@@ -107,7 +107,7 @@
 						android:key="@string/pref_appearance_post_header_age_units_key"
 						android:dependency="@string/pref_appearance_post_subtitle_items_use_different_settings_key"
 						android:entries="@array/pref_appearance_age_units_items"
-						android:entryValues="@array/pref_appearance_age_units_items"
+						android:entryValues="@array/pref_appearance_age_units_return"
 						android:defaultValue="2"/>
 
 		<CheckBoxPreference
@@ -139,7 +139,7 @@
 		<ListPreference android:title="@string/pref_appearance_comment_age_units_title"
 						android:key="@string/pref_appearance_comment_age_units_key"
 						android:entries="@array/pref_appearance_age_units_items"
-						android:entryValues="@array/pref_appearance_age_units_items"
+						android:entryValues="@array/pref_appearance_age_units_return"
 						android:defaultValue="2"/>
 
 		<ListPreference android:title="@string/pref_appearance_comment_age_mode_title"

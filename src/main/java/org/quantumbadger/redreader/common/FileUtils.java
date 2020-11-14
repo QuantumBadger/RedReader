@@ -25,7 +25,6 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.StatFs;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import org.quantumbadger.redreader.R;
@@ -192,7 +191,7 @@ public class FileUtils {
 	public static boolean isCacheDiskFull(final Context context) {
 		final long space = getFreeSpaceAvailable(PrefsUtility.pref_cache_location(
 				context,
-				PreferenceManager.getDefaultSharedPreferences(context)));
+				General.getSharedPrefs(context)));
 		return space < 128 * 1024 * 1024;
 	}
 
@@ -256,7 +255,7 @@ public class FileUtils {
 
 			if(PrefsUtility.pref_behaviour_sharing_dialog(
 					activity,
-					PreferenceManager.getDefaultSharedPreferences(activity))) {
+					General.getSharedPrefs(activity))) {
 				ShareOrderDialog.newInstance(shareIntent)
 						.show(activity.getSupportFragmentManager(), null);
 

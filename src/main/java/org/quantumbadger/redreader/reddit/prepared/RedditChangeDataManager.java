@@ -18,11 +18,11 @@
 package org.quantumbadger.redreader.reddit.prepared;
 
 import android.content.Context;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.common.AndroidCommon;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.collections.WeakReferenceListHashMapManager;
 import org.quantumbadger.redreader.common.collections.WeakReferenceListManager;
@@ -593,7 +593,8 @@ public final class RedditChangeDataManager {
 
 		final long now = System.currentTimeMillis();
 		final long timestampBoundary = now - PrefsUtility.pref_cache_maxage_entry(
-				context, PreferenceManager.getDefaultSharedPreferences(context));
+				context,
+				General.getSharedPrefs(context));
 
 		synchronized(mLock) {
 			final Iterator<Map.Entry<String, Entry>> iterator =

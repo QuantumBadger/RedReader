@@ -19,7 +19,17 @@ package org.quantumbadger.redreader.common;
 
 import android.os.Handler;
 import android.os.Looper;
+import androidx.annotation.NonNull;
 
 public class AndroidCommon {
 	public static final Handler UI_THREAD_HANDLER = new Handler(Looper.getMainLooper());
+
+	public static void runOnUiThread(@NonNull final Runnable runnable) {
+
+		if(General.isThisUIThread()) {
+			runnable.run();
+		} else {
+			UI_THREAD_HANDLER.post(runnable);
+		}
+	}
 }

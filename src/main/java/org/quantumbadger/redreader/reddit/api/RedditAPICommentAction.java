@@ -19,14 +19,12 @@ package org.quantumbadger.redreader.reddit.api;
 
 import android.app.AlertDialog;
 import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.preference.PreferenceManager;
+import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import android.content.ClipboardManager;
-import android.widget.Toast;
 import org.apache.commons.text.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -35,7 +33,6 @@ import org.quantumbadger.redreader.activities.CommentEditActivity;
 import org.quantumbadger.redreader.activities.CommentReplyActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -224,18 +221,13 @@ public class RedditAPICommentAction {
 
 		final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
-		builder.setItems(menuText, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(final DialogInterface dialog, final int which) {
-				onActionMenuItemSelected(
-						comment,
-						commentView,
-						activity,
-						commentListingFragment,
-						menu.get(which).action,
-						changeDataManager);
-			}
-		});
+		builder.setItems(menuText, (dialog, which) -> onActionMenuItemSelected(
+				comment,
+				commentView,
+				activity,
+				commentListingFragment,
+				menu.get(which).action,
+				changeDataManager));
 
 		final AlertDialog alert = builder.create();
 		alert.setCanceledOnTouchOutside(true);
@@ -282,18 +274,11 @@ public class RedditAPICommentAction {
 						.setMessage(R.string.action_report_sure)
 						.setPositiveButton(
 								R.string.action_report,
-								new DialogInterface.OnClickListener() {
-									@Override
-									public void onClick(
-											final DialogInterface dialog,
-											final int which) {
-										action(
-												activity,
-												comment,
-												RedditAPI.ACTION_REPORT,
-												changeDataManager);
-									}
-								})
+								(dialog, which) -> action(
+										activity,
+										comment,
+										RedditAPI.ACTION_REPORT,
+										changeDataManager))
 						.setNegativeButton(R.string.dialog_cancel, null)
 						.show();
 
@@ -327,18 +312,11 @@ public class RedditAPICommentAction {
 						.setMessage(R.string.delete_confirm)
 						.setPositiveButton(
 								R.string.action_delete,
-								new DialogInterface.OnClickListener() {
-									@Override
-									public void onClick(
-											final DialogInterface dialog,
-											final int which) {
-										action(
-												activity,
-												comment,
-												RedditAPI.ACTION_DELETE,
-												changeDataManager);
-									}
-								})
+								(dialog, which) -> action(
+										activity,
+										comment,
+										RedditAPI.ACTION_DELETE,
+										changeDataManager))
 						.setNegativeButton(R.string.dialog_cancel, null)
 						.show();
 				break;
@@ -356,12 +334,9 @@ public class RedditAPICommentAction {
 							linksInComment.toArray(new String[linksInComment.size()]);
 
 					final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-					builder.setItems(linksArr, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(final DialogInterface dialog, final int which) {
-							LinkHandler.onLinkClicked(activity, linksArr[which], false);
-							dialog.dismiss();
-						}
+					builder.setItems(linksArr, (dialog, which) -> {
+						LinkHandler.onLinkClicked(activity, linksArr[which], false);
+						dialog.dismiss();
 					});
 
 					final AlertDialog alert = builder.create();
@@ -379,7 +354,7 @@ public class RedditAPICommentAction {
 
 				if(PrefsUtility.pref_behaviour_sharing_include_desc(
 						activity,
-						PreferenceManager.getDefaultSharedPreferences(activity))) {
+						General.getSharedPrefs(activity))) {
 					subject = String.format(
 							Locale.US,
 							activity.getText(R.string.share_comment_by_on_reddit)
@@ -390,7 +365,7 @@ public class RedditAPICommentAction {
 				// TODO this currently just dumps the markdown (only if sharing text is enabled)
 				if(PrefsUtility.pref_behaviour_sharing_share_text(
 						activity,
-						PreferenceManager.getDefaultSharedPreferences(activity))) {
+						General.getSharedPrefs(activity))) {
 					body = StringEscapeUtils.unescapeHtml4(comment.body)
 							+ "\r\n\r\n";
 				}
@@ -557,26 +532,15 @@ public class RedditAPICommentAction {
 								t,
 								status,
 								null);
-						AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-							@Override
-							public void run() {
-								General.showResultDialog(activity, error);
-							}
-						});
+						General.showResultDialog(activity, error);
 					}
 
 					@Override
 					protected void onFailure(final APIFailureType type) {
 						revertOnFailure();
 
-						final RRError error =
-								General.getGeneralErrorForFailure(context, type);
-						AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-							@Override
-							public void run() {
-								General.showResultDialog(activity, error);
-							}
-						});
+						final RRError error = General.getGeneralErrorForFailure(context, type);
+						General.showResultDialog(activity, error);
 					}
 
 					@Override

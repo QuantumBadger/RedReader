@@ -31,7 +31,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.TypedValue;
 import androidx.annotation.NonNull;
@@ -146,23 +145,20 @@ public class LinkHandler {
 		}
 
 		final SharedPreferences sharedPreferences
-				= PreferenceManager.getDefaultSharedPreferences(activity);
+				= General.getSharedPrefs(activity);
 
 		if(url.startsWith("rr://")) {
 
 			final Uri rrUri = Uri.parse(url);
 
 			if(rrUri.getAuthority().equals("msg")) {
-				new Handler().post(new Runnable() {
-					@Override
-					public void run() {
-						final AlertDialog.Builder builder = new AlertDialog.Builder(
-								activity);
-						builder.setTitle(rrUri.getQueryParameter("title"));
-						builder.setMessage(rrUri.getQueryParameter("message"));
-						final AlertDialog alert = builder.create();
-						alert.show();
-					}
+				new Handler().post(() -> {
+					final AlertDialog.Builder builder = new AlertDialog.Builder(
+							activity);
+					builder.setTitle(rrUri.getQueryParameter("title"));
+					builder.setMessage(rrUri.getQueryParameter("message"));
+					final AlertDialog alert = builder.create();
+					alert.show();
 				});
 
 				return;
@@ -320,7 +316,7 @@ public class LinkHandler {
 		final EnumSet<LinkHandler.LinkAction> itemPref
 				= PrefsUtility.pref_menus_link_context_items(
 				activity,
-				PreferenceManager.getDefaultSharedPreferences(activity));
+				General.getSharedPrefs(activity));
 
 		if(itemPref.isEmpty()) {
 			return;
@@ -1260,7 +1256,7 @@ public class LinkHandler {
 
 		if(PrefsUtility.pref_behaviour_sharing_dialog(
 				activity,
-				PreferenceManager.getDefaultSharedPreferences(activity))) {
+				General.getSharedPrefs(activity))) {
 			ShareOrderDialog.newInstance(mailer).show(
 					activity.getSupportFragmentManager(),
 					null);

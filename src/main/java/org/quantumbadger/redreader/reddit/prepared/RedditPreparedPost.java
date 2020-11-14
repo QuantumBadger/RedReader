@@ -21,7 +21,6 @@ import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
@@ -29,11 +28,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
@@ -192,7 +189,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			final RedditPreparedPost post) {
 
 		final SharedPreferences sharedPreferences =
-				PreferenceManager.getDefaultSharedPreferences(activity);
+				General.getSharedPrefs(activity);
 
 		final EnumSet<Action> itemPref
 				= PrefsUtility.pref_menus_post_context_items(activity, sharedPreferences);
@@ -519,14 +516,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 						.setMessage(R.string.delete_confirm)
 						.setPositiveButton(
 								R.string.action_delete,
-								new DialogInterface.OnClickListener() {
-									@Override
-									public void onClick(
-											final DialogInterface dialog,
-											final int which) {
-										post.action(activity, RedditAPI.ACTION_DELETE);
-									}
-								})
+								(dialog, which) -> post.action(activity, RedditAPI.ACTION_DELETE))
 						.setNegativeButton(R.string.dialog_cancel, null)
 						.show();
 				break;
@@ -538,15 +528,10 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 						.setMessage(R.string.action_report_sure)
 						.setPositiveButton(
 								R.string.action_report,
-								new DialogInterface.OnClickListener() {
-									@Override
-									public void onClick(
-											final DialogInterface dialog,
-											final int which) {
-										post.action(activity, RedditAPI.ACTION_REPORT);
-										// TODO update the view to show the result
-										// TODO don't forget, this also hides
-									}
+								(dialog, which) -> {
+									post.action(activity, RedditAPI.ACTION_REPORT);
+									// TODO update the view to show the result
+									// TODO don't forget, this also hides
 								})
 						.setNegativeButton(R.string.dialog_cancel, null)
 						.show();
@@ -578,16 +563,13 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 							linksInComment.toArray(new String[linksInComment.size()]);
 
 					final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-					builder.setItems(linksArr, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(final DialogInterface dialog, final int which) {
-							LinkHandler.onLinkClicked(
-									activity,
-									linksArr[which],
-									false,
-									post.src.getSrc());
-							dialog.dismiss();
-						}
+					builder.setItems(linksArr, (dialog, which) -> {
+						LinkHandler.onLinkClicked(
+								activity,
+								linksArr[which],
+								false,
+								post.src.getSrc());
+						dialog.dismiss();
 					});
 
 					final AlertDialog alert = builder.create();
@@ -609,7 +591,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				final String subject
 						= PrefsUtility.pref_behaviour_sharing_dialog(
 						activity,
-						PreferenceManager.getDefaultSharedPreferences(activity))
+						General.getSharedPrefs(activity))
 						? post.src.getTitle()
 						: null;
 
@@ -626,13 +608,13 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				final boolean shareAsPermalink =
 						PrefsUtility.pref_behaviour_share_permalink(
 								activity,
-								PreferenceManager.getDefaultSharedPreferences(activity));
+								General.getSharedPrefs(activity));
 
 				final Intent mailer = new Intent(Intent.ACTION_SEND);
 				mailer.setType("text/plain");
 				if(PrefsUtility.pref_behaviour_sharing_include_desc(
 						activity,
-						PreferenceManager.getDefaultSharedPreferences(activity))) {
+						General.getSharedPrefs(activity))) {
 					mailer.putExtra(
 							Intent.EXTRA_SUBJECT,
 							String.format(activity.getText(R.string.share_comments_for)
@@ -653,7 +635,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				}
 				if(PrefsUtility.pref_behaviour_sharing_dialog(
 						activity,
-						PreferenceManager.getDefaultSharedPreferences(activity))) {
+						General.getSharedPrefs(activity))) {
 					ShareOrderDialog.newInstance(mailer)
 							.show(activity.getSupportFragmentManager(), null);
 				} else {
@@ -791,7 +773,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				try {
 					PrefsUtility.pref_pinned_subreddits_add(
 							activity,
-							PreferenceManager.getDefaultSharedPreferences(activity),
+							General.getSharedPrefs(activity),
 							new SubredditCanonicalId(post.src.getSubreddit()));
 
 				} catch(final InvalidSubredditNameException e) {
@@ -805,7 +787,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				try {
 					PrefsUtility.pref_pinned_subreddits_remove(
 							activity,
-							PreferenceManager.getDefaultSharedPreferences(activity),
+							General.getSharedPrefs(activity),
 							new SubredditCanonicalId(post.src.getSubreddit()));
 
 				} catch(final InvalidSubredditNameException e) {
@@ -819,7 +801,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				try {
 					PrefsUtility.pref_blocked_subreddits_add(
 							activity,
-							PreferenceManager.getDefaultSharedPreferences(activity),
+							General.getSharedPrefs(activity),
 							new SubredditCanonicalId(post.src.getSubreddit()));
 
 				} catch(final InvalidSubredditNameException e) {
@@ -833,7 +815,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				try {
 					PrefsUtility.pref_blocked_subreddits_remove(
 							activity,
-							PreferenceManager.getDefaultSharedPreferences(activity),
+							General.getSharedPrefs(activity),
 							new SubredditCanonicalId(post.src.getSubreddit()));
 
 				} catch(final InvalidSubredditNameException e) {
@@ -929,7 +911,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		if(headerMode
 				&& PrefsUtility.appearance_post_subtitle_items_use_different_settings(
 				context,
-				PreferenceManager.getDefaultSharedPreferences(context))) {
+				General.getSharedPrefs(context))) {
 			mPostSubtitleItems = PrefsUtility.appearance_post_header_subtitle_items(
 					context,
 					PreferenceManager.getDefaultSharedPreferences(context));
@@ -1316,12 +1298,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 		if(user.isAnonymous()) {
 
-			AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-				@Override
-				public void run() {
-					General.showMustBeLoggedInDialog(activity);
-				}
-			});
+			AndroidCommon.UI_THREAD_HANDLER.post(() -> General.showMustBeLoggedInDialog(activity));
 
 			return;
 		}
@@ -1411,12 +1388,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 										+ action
 										+ " "
 										+ src.getIdAndType());
-						AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-							@Override
-							public void run() {
-								General.showResultDialog(activity, error);
-							}
-						});
+						General.showResultDialog(activity, error);
 					}
 
 					@Override
@@ -1425,12 +1397,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 						final RRError error =
 								General.getGeneralErrorForFailure(context, type);
-						AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-							@Override
-							public void run() {
-								General.showResultDialog(activity, error);
-							}
-						});
+						General.showResultDialog(activity, error);
 					}
 
 					@Override
@@ -1572,7 +1539,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		final VerticalToolbar toolbar = new VerticalToolbar(activity);
 		final EnumSet<Action> itemsPref = PrefsUtility.pref_menus_post_toolbar_items(
 				activity,
-				PreferenceManager.getDefaultSharedPreferences(activity));
+				General.getSharedPrefs(activity));
 
 		final Action[] possibleItems = {
 				Action.ACTION_MENU,
@@ -1714,12 +1681,9 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 				ib.setContentDescription(activity.getString(textRes));
 
-				ib.setOnLongClickListener(new View.OnLongClickListener() {
-					@Override
-					public boolean onLongClick(final View view) {
-						General.quickToast(activity, textRes);
-						return true;
-					}
+				ib.setOnLongClickListener(view -> {
+					General.quickToast(activity, textRes);
+					return true;
 				});
 
 				toolbar.addItem(ib);

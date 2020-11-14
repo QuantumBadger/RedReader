@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -172,23 +171,18 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 
 	@Override
 	public void onSearchComments() {
-		DialogUtils.showSearchDialog(this, new DialogUtils.OnSearchListener() {
-			@Override
-			public void onSearch(@Nullable final String query) {
-				final Intent searchIntent = getIntent();
-				searchIntent.putExtra(EXTRA_SEARCH_STRING, query);
-				startActivity(searchIntent);
-			}
+		DialogUtils.showSearchDialog(this, query -> {
+			final Intent searchIntent = getIntent();
+			searchIntent.putExtra(EXTRA_SEARCH_STRING, query);
+			startActivity(searchIntent);
 		});
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(final MenuItem item) {
 
-		if(mFragment != null) {
-			if(mFragment.onOptionsItemSelected(item)) {
-				return true;
-			}
+		if(mFragment != null && mFragment.onOptionsItemSelected(item)) {
+			return true;
 		}
 
 		return super.onOptionsItemSelected(item);

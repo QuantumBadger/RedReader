@@ -1,3 +1,9 @@
+95/1.15
+Added preference to hide toolbar when scrolling
+Added preference to disable tap-to-close on images/videos (thanks to Cameron Merkel)
+Added preference to require tapping back twice to exit post list (thanks to windsurfer)
+Handle physical enter key in custom location dialog (thanks to windsurfer)
+
 94/1.14
 Allows saving images to custom location (only on Android 5.0+)
 Uses newer image sharing APIs to avoid permissions issues

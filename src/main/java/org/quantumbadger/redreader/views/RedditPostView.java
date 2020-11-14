@@ -25,7 +25,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.preference.PreferenceManager;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +36,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.UiThread;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BaseActivity;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
@@ -243,10 +243,10 @@ public final class RedditPostView extends FlingableItemView
 
 		final float titleFontScale = PrefsUtility.appearance_fontscale_posts(
 				context,
-				PreferenceManager.getDefaultSharedPreferences(context));
+				General.getSharedPrefs(context));
 		final float subtitleFontScale = PrefsUtility.appearance_fontscale_post_subtitles(
 				context,
-				PreferenceManager.getDefaultSharedPreferences(context));
+				General.getSharedPrefs(context));
 
 		final View rootView =
 				LayoutInflater.from(context).inflate(R.layout.reddit_post, this, true);
@@ -267,7 +267,7 @@ public final class RedditPostView extends FlingableItemView
 		subtitle = rootView.findViewById(R.id.reddit_post_subtitle);
 
 		final SharedPreferences sharedPreferences =
-				PreferenceManager.getDefaultSharedPreferences(context);
+				General.getSharedPrefs(context);
 
 		mCommentsButtonPref =
 				PrefsUtility.appearance_post_show_comments_button(context, sharedPreferences);

@@ -115,11 +115,6 @@ public class SessionListDialog extends AppCompatDialogFragment
 
 	@Override
 	public void onRedditAccountChanged() {
-		AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-			@Override
-			public void run() {
-				rv.getAdapter().notifyDataSetChanged();
-			}
-		});
+		AndroidCommon.UI_THREAD_HANDLER.post(() -> rv.getAdapter().notifyDataSetChanged());
 	}
 }

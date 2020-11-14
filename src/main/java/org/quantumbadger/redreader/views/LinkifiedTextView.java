@@ -17,7 +17,6 @@
 
 package org.quantumbadger.redreader.views;
 
-import android.preference.PreferenceManager;
 import android.text.Layout;
 import android.text.Selection;
 import android.text.Spannable;
@@ -25,6 +24,7 @@ import android.text.style.ClickableSpan;
 import android.view.MotionEvent;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 
 public class LinkifiedTextView extends AppCompatTextView {
@@ -50,7 +50,7 @@ public class LinkifiedTextView extends AppCompatTextView {
 
 		if(!PrefsUtility.pref_appearance_link_text_clickable(
 				mActivity,
-				PreferenceManager.getDefaultSharedPreferences(mActivity))) {
+				General.getSharedPrefs(mActivity))) {
 
 			return false;
 		}

@@ -22,19 +22,17 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import org.apache.commons.text.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -162,7 +160,7 @@ public class PostListingFragment extends RRFragment
 		mSession = session;
 
 		final Context context = getContext();
-		mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+		mSharedPreferences = General.getSharedPrefs(context);
 
 		// TODO output failed URL
 		if(mPostListingURL == null) {
@@ -206,12 +204,8 @@ public class PostListingFragment extends RRFragment
 				context,
 				mSharedPreferences)) {
 
-			recyclerViewManager.enablePullToRefresh(new SwipeRefreshLayout.OnRefreshListener() {
-				@Override
-				public void onRefresh() {
-					((OptionsMenuUtility.OptionsMenuPostsListener)parent).onRefreshPosts();
-				}
-			});
+			recyclerViewManager.enablePullToRefresh(
+					((OptionsMenuUtility.OptionsMenuPostsListener)parent)::onRefreshPosts);
 		}
 
 		mRecyclerView = recyclerViewManager.getRecyclerView();
@@ -445,15 +439,12 @@ public class PostListingFragment extends RRFragment
 			subtitle = mPostListingURL.humanReadableUrl();
 		}
 
-		getActivity().runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				setHeader(
-						StringEscapeUtils.unescapeHtml4(mSubreddit.title),
-						subtitle,
-						mSubreddit);
-				getActivity().invalidateOptionsMenu();
-			}
+		getActivity().runOnUiThread(() -> {
+			setHeader(
+					StringEscapeUtils.unescapeHtml4(mSubreddit.title),
+					subtitle,
+					mSubreddit);
+			getActivity().invalidateOptionsMenu();
 		});
 
 	}
@@ -474,12 +465,7 @@ public class PostListingFragment extends RRFragment
 	}
 
 	private void setHeader(final View view) {
-		getActivity().runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				mPostListingManager.addPostListingHeader(view);
-			}
-		});
+		getActivity().runOnUiThread(() -> mPostListingManager.addPostListingHeader(view));
 	}
 
 
@@ -557,14 +543,11 @@ public class PostListingFragment extends RRFragment
 
 					mLoadMoreView = (TextView)LayoutInflater.from(getContext())
 							.inflate(R.layout.load_more_posts, null);
-					mLoadMoreView.setOnClickListener(new View.OnClickListener() {
-						@Override
-						public void onClick(final View view) {
-							mPostListingManager.removeLoadMoreButton();
-							mLoadMoreView = null;
-							restackRefreshCount();
-							onLoadMoreItemsCheck();
-						}
+					mLoadMoreView.setOnClickListener(view -> {
+						mPostListingManager.removeLoadMoreButton();
+						mLoadMoreView = null;
+						restackRefreshCount();
+						onLoadMoreItemsCheck();
 					});
 
 					mPostListingManager.addLoadMoreButton(mLoadMoreView);

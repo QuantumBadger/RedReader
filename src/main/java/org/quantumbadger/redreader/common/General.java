@@ -37,6 +37,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.R;
@@ -60,6 +61,7 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Locale;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -71,6 +73,8 @@ public final class General {
 	public static final String LTR_OVERRIDE_MARK = "\u202D";
 
 	public static final int COLOR_INVALID = Color.MAGENTA;
+
+	private static final AtomicReference<SharedPreferences> mPrefs = new AtomicReference<>();
 
 	private static long lastBackPress = -1;
 
@@ -95,6 +99,22 @@ public final class General {
 		}
 
 		return monoTypeface;
+	}
+
+	@NonNull
+	public static SharedPreferences getSharedPrefs(@NonNull final Context context) {
+
+		SharedPreferences prefs = mPrefs.get();
+
+		if(prefs == null) {
+			prefs = context.getSharedPreferences(
+					context.getPackageName() + "_preferences",
+					Context.MODE_PRIVATE);
+
+			mPrefs.set(prefs);
+		}
+
+		return prefs;
 	}
 
 	public static Message handlerMessage(final int what, final Object obj) {
@@ -152,7 +172,7 @@ public final class General {
 	}
 
 	public static void quickToast(final Context context, final String text) {
-		AndroidCommon.UI_THREAD_HANDLER.post(
+		AndroidCommon.runOnUiThread(
 				() -> Toast.makeText(context, text, Toast.LENGTH_LONG).show());
 	}
 
@@ -160,7 +180,7 @@ public final class General {
 			final Context context,
 			final String text,
 			final int duration) {
-		AndroidCommon.UI_THREAD_HANDLER.post(
+		AndroidCommon.runOnUiThread(
 				() -> Toast.makeText(context, text, duration).show());
 	}
 
@@ -377,7 +397,7 @@ public final class General {
 	public static void showResultDialog(
 			final AppCompatActivity context,
 			final RRError error) {
-		AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+		AndroidCommon.runOnUiThread(() -> {
 			try {
 				final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(
 						context);
@@ -628,13 +648,15 @@ public final class General {
 	}
 
 	public static void safeDismissDialog(final Dialog dialog) {
-		try {
-			if(dialog.isShowing()) {
-				dialog.dismiss();
+		AndroidCommon.runOnUiThread(() -> {
+			try {
+				if(dialog.isShowing()) {
+					dialog.dismiss();
+				}
+			} catch(final Exception e) {
+				Log.e("safeDismissDialog", "Caught exception while dismissing dialog", e);
 			}
-		} catch(final Exception e) {
-			Log.e("safeDismissDialog", "Caught exception while dismissing dialog", e);
-		}
+		});
 	}
 
 	public static void closeSafely(final Closeable closeable) {

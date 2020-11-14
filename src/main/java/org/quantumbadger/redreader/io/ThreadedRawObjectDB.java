@@ -29,18 +29,11 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 		implements CacheDataSource<K, V, F> {
 
-	private final TriggerableThread writeThread = new TriggerableThread(new Runnable() {
-		@Override
-		public void run() {
-			doWrite();
-		}
-	}, 1500);
-	private final TriggerableThread readThread = new TriggerableThread(new Runnable() {
-		@Override
-		public void run() {
-			doRead();
-		}
-	}, 0);
+	private final TriggerableThread writeThread
+			= new TriggerableThread(this::doWrite, 1500);
+
+	private final TriggerableThread readThread
+			= new TriggerableThread(this::doRead, 0);
 
 	private final HashMap<K, V> toWrite = new HashMap<>();
 	private final LinkedBlockingQueue<ReadOperation> toRead = new LinkedBlockingQueue<>();

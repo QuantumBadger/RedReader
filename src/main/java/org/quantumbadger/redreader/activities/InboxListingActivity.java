@@ -24,13 +24,13 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -153,7 +153,7 @@ public final class InboxListingActivity extends BaseActivity {
 				RedditAccountManager.getInstance(this).getDefaultAccount());
 
 		final SharedPreferences sharedPreferences
-				= PreferenceManager.getDefaultSharedPreferences(this);
+				= General.getSharedPrefs(this);
 		final String title;
 
 		isModmail = getIntent() != null && getIntent().getBooleanExtra("modmail", false);
@@ -256,14 +256,9 @@ public final class InboxListingActivity extends BaseActivity {
 						t,
 						status,
 						url.toString());
-				AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-					@Override
-					public void run() {
-						notifications.addView(new ErrorView(
-								InboxListingActivity.this,
-								error));
-					}
-				});
+				AndroidCommon.UI_THREAD_HANDLER.post(() -> notifications.addView(new ErrorView(
+						InboxListingActivity.this,
+						error)));
 
 				if(t != null) {
 					t.printStackTrace();
@@ -301,24 +296,21 @@ public final class InboxListingActivity extends BaseActivity {
 				// TODO pref (currently 10 mins)
 				// TODO xml
 				if(fromCache && RRTime.since(timestamp) > 10 * 60 * 1000) {
-					AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-						@Override
-						public void run() {
-							final TextView cacheNotif = new TextView(context);
-							cacheNotif.setText(context.getString(
-									R.string.listing_cached,
-									RRTime.formatDateTime(timestamp, context)));
-							final int paddingPx = General.dpToPixels(context, 6);
-							final int sidePaddingPx = General.dpToPixels(context, 10);
-							cacheNotif.setPadding(
-									sidePaddingPx,
-									paddingPx,
-									sidePaddingPx,
-									paddingPx);
-							cacheNotif.setTextSize(13f);
-							notifications.addView(cacheNotif);
-							adapter.notifyDataSetChanged();
-						}
+					AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+						final TextView cacheNotif = new TextView(context);
+						cacheNotif.setText(context.getString(
+								R.string.listing_cached,
+								RRTime.formatDateTime(timestamp, context)));
+						final int paddingPx = General.dpToPixels(context, 6);
+						final int sidePaddingPx = General.dpToPixels(context, 10);
+						cacheNotif.setPadding(
+								sidePaddingPx,
+								paddingPx,
+								sidePaddingPx,
+								paddingPx);
+						cacheNotif.setTextSize(13f);
+						notifications.addView(cacheNotif);
+						adapter.notifyDataSetChanged();
 					});
 				}
 
@@ -472,14 +464,9 @@ public final class InboxListingActivity extends BaseActivity {
 										t,
 										status,
 										"Reddit API action: Mark all as Read");
-								AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-									@Override
-									public void run() {
-										General.showResultDialog(
-												InboxListingActivity.this,
-												error);
-									}
-								});
+								General.showResultDialog(
+										InboxListingActivity.this,
+										error);
 							}
 
 							@Override
@@ -488,14 +475,7 @@ public final class InboxListingActivity extends BaseActivity {
 								final RRError error = General.getGeneralErrorForFailure(
 										context,
 										type);
-								AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-									@Override
-									public void run() {
-										General.showResultDialog(
-												InboxListingActivity.this,
-												error);
-									}
-								});
+								General.showResultDialog(InboxListingActivity.this, error);
 							}
 						},
 						RedditAccountManager.getInstance(this).getDefaultAccount(),

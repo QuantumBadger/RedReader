@@ -217,15 +217,12 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 						bis = new BufferedInputStream(new CachingInputStream(
 								is,
 								cacheOs,
-								new CachingInputStream.BytesReadListener() {
-									@Override
-									public void onBytesRead(final long total) {
-										if(bodyBytes != null) {
-											mInitiator.notifyProgress(
-													false,
-													total,
-													bodyBytes);
-										}
+								total -> {
+									if(bodyBytes != null) {
+										mInitiator.notifyProgress(
+												false,
+												total,
+												bodyBytes);
 									}
 								}), 64 * 1024);
 

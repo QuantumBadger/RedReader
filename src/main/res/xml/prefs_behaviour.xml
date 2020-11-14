@@ -203,4 +203,14 @@
 	</PreferenceCategory>
 
 
+	<PreferenceCategory android:title="@string/pref_behaviour_back_button_title">
+
+		<CheckBoxPreference android:title="@string/pref_behaviour_postlist_back_again"
+				android:key="@string/pref_behaviour_postlist_back_again_key"
+				android:defaultValue="false"/>
+
+	</PreferenceCategory>
+
+
+
 </PreferenceScreen>

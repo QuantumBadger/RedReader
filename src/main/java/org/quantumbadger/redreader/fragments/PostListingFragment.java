@@ -1096,7 +1096,7 @@ public class PostListingFragment extends RRFragment
 
 		CacheManager.getInstance(activity).makeRequest(new CacheRequest(
 				uri,
-				RedditAccountManager.getAnon(),
+				RedditAccountManager.getInstance(activity).getDefaultAccount(),
 				null,
 				Constants.Priority.IMAGE_PRECACHE,
 				positionInList,

@@ -168,7 +168,7 @@ public final class General {
 	}
 
 	public static void quickToast(final Context context, final int textRes) {
-		quickToast(context, context.getString(textRes));
+		quickToast(context, context.getApplicationContext().getString(textRes));
 	}
 
 	public static void quickToast(final Context context, final String text) {
@@ -182,6 +182,16 @@ public final class General {
 			final int duration) {
 		AndroidCommon.runOnUiThread(
 				() -> Toast.makeText(context, text, duration).show());
+	}
+
+	public static void quickToast(
+			final Context context,
+			final int textRes,
+			final int duration) {
+		AndroidCommon.runOnUiThread(() -> Toast.makeText(
+				context,
+				context.getApplicationContext().getString(textRes),
+				duration).show());
 	}
 
 	public static boolean isTablet(

@@ -1321,5 +1321,11 @@
 	<string name="pref_appearance_hide_toolbar_on_scroll_title">Hide toolbar on scroll</string>
 	<string name="pref_appearance_toolbar_header">Toolbar</string>
 
+	<!-- 2020-11-14 -->
+	<string name="pref_behaviour_save_location_key" translatable="false">pref_behaviour_save_location_key</string>
+	<string name="pref_behaviour_save_location_title">Save destination</string>
+
+	<string name="pref_behaviour_save_location_prompt_every_time">Ask every time</string>
+	<string name="pref_behaviour_save_location_system_default">Use system default</string>
 
 </resources>

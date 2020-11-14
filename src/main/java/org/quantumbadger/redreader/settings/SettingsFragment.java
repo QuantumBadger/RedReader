@@ -45,6 +45,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("deprecation")
 public final class SettingsFragment extends PreferenceFragment {
 
 	@Override
@@ -106,6 +107,7 @@ public final class SettingsFragment extends PreferenceFragment {
 				R.string.pref_behaviour_gallery_swipe_length_key,
 				R.string.pref_behaviour_pinned_subredditsort_key,
 				R.string.pref_behaviour_blocked_subredditsort_key,
+				R.string.pref_behaviour_save_location_key,
 				R.string.pref_cache_rerequest_postlist_age_key,
 				R.string.pref_appearance_thumbnails_show_list_key,
 				R.string.pref_cache_precache_images_list_key,
@@ -230,12 +232,17 @@ public final class SettingsFragment extends PreferenceFragment {
 		}
 
 		if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-			final Preference pref =
-					findPreference(getString(R.string.pref_appearance_navbar_color_key));
 
-			if(pref != null) {
-				pref.setEnabled(false);
-				pref.setSummary(R.string.pref_not_supported_before_lollipop);
+			for(final int key : new int[] {
+					R.string.pref_appearance_navbar_color_key,
+					R.string.pref_behaviour_save_location_key}) {
+
+				final Preference pref = findPreference(getString(key));
+
+				if(pref != null) {
+					pref.setEnabled(false);
+					pref.setSummary(R.string.pref_not_supported_before_lollipop);
+				}
 			}
 		}
 

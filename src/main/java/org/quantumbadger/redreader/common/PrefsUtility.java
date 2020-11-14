@@ -1282,7 +1282,21 @@ public final class PrefsUtility {
 			final SharedPreferences sharedPreferences) {
 		return ScreenOrientation.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_screenorientation_key,
-				ScreenOrientation.AUTO.name(),
+				StringUtils.asciiLowercase(ScreenOrientation.AUTO.name()),
+				context,
+				sharedPreferences)));
+	}
+
+	public enum SaveLocation {
+		PROMPT_EVERY_TIME, SYSTEM_DEFAULT
+	}
+
+	public static SaveLocation pref_behaviour_save_location(
+			final Context context,
+			final SharedPreferences sharedPreferences) {
+		return SaveLocation.valueOf(StringUtils.asciiUppercase(getString(
+				R.string.pref_behaviour_save_location_key,
+				StringUtils.asciiLowercase(SaveLocation.PROMPT_EVERY_TIME.name()),
 				context,
 				sharedPreferences)));
 	}

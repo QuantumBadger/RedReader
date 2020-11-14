@@ -914,17 +914,17 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				General.getSharedPrefs(context))) {
 			mPostSubtitleItems = PrefsUtility.appearance_post_header_subtitle_items(
 					context,
-					PreferenceManager.getDefaultSharedPreferences(context));
+					General.getSharedPrefs(context));
 			mPostAgeUnits = PrefsUtility.appearance_post_header_age_units(
 					context,
-					PreferenceManager.getDefaultSharedPreferences(context));
+					General.getSharedPrefs(context));
 		} else {
 			mPostSubtitleItems = PrefsUtility.appearance_post_subtitle_items(
 					context,
-					PreferenceManager.getDefaultSharedPreferences(context));
+					General.getSharedPrefs(context));
 			mPostAgeUnits = PrefsUtility.appearance_post_age_units(
 					context,
-					PreferenceManager.getDefaultSharedPreferences(context));
+					General.getSharedPrefs(context));
 		}
 
 		final TypedArray appearance = context.obtainStyledAttributes(new int[] {

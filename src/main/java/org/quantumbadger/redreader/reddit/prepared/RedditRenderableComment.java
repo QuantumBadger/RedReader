@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.reddit.prepared;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.preference.PreferenceManager;
 import android.view.View;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -91,10 +90,10 @@ public class RedditRenderableComment
 
 		final int commentAgeUnits = PrefsUtility.appearance_comment_age_units(
 				context,
-				PreferenceManager.getDefaultSharedPreferences(context));
+				General.getSharedPrefs(context));
 		final PrefsUtility.CommentAgeMode commentAgeMode = PrefsUtility.appearance_comment_age_mode(
 				context,
-				PreferenceManager.getDefaultSharedPreferences(context));
+				General.getSharedPrefs(context));
 
 		final BetterSSB sb = new BetterSSB();
 

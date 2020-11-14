@@ -533,4 +533,9 @@ public class PostListingActivity extends RefreshableActivity
 	private void postInvalidateOptionsMenu() {
 		runOnUiThread(this::invalidateOptionsMenu);
 	}
+
+	@Override
+	protected boolean baseActivityAllowToolbarHideOnScroll() {
+		return true;
+	}
 }

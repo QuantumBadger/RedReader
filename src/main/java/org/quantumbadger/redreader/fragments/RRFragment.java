@@ -20,11 +20,12 @@ package org.quantumbadger.redreader.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 public abstract class RRFragment {
 
@@ -68,6 +69,12 @@ public abstract class RRFragment {
 	}
 
 	public abstract View getView();
+
+	@Nullable
+	public View getOverlayView() {
+		// Null by default
+		return null;
+	}
 
 	public abstract Bundle onSaveInstanceState();
 }

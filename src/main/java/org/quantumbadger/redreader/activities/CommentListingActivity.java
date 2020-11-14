@@ -167,9 +167,20 @@ public class CommentListingActivity extends RefreshableActivity
 			final Bundle savedInstanceState) {
 		mFragment = controller.get(this, force, savedInstanceState);
 
-		final View view = mFragment.getView();
-		setBaseActivityListing(view);
-		General.setLayoutMatchParent(view);
+		{
+			final View view = mFragment.getView();
+			setBaseActivityListing(view);
+			General.setLayoutMatchParent(view);
+		}
+
+		{
+			final View overlayView = mFragment.getOverlayView();
+
+			if(overlayView != null) {
+				addBaseActivityOverlay(overlayView);
+				General.setLayoutMatchParent(overlayView);
+			}
+		}
 
 		setTitle(controller.getCommentListingUrl().humanReadableName(this, false));
 		invalidateOptionsMenu();
@@ -266,5 +277,10 @@ public class CommentListingActivity extends RefreshableActivity
 		if(General.onBackPressed()) {
 			super.onBackPressed();
 		}
+	}
+
+	@Override
+	protected boolean baseActivityAllowToolbarHideOnScroll() {
+		return true;
 	}
 }

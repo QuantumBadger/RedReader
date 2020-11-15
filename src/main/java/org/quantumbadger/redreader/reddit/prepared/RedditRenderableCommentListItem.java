@@ -28,6 +28,7 @@ public interface RedditRenderableCommentListItem {
 			final RRThemeAttributes theme,
 			final RedditChangeDataManager changeDataManager,
 			final Context context,
+			final int commentAgeUnits,
 			final long postCreated,
 			final long parentCommentCreated);
 

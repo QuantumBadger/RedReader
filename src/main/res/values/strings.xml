@@ -1319,6 +1319,9 @@
 	<string name="pref_appearance_post_header_age_units_title">Opened post age precision</string>
 	<string name="pref_appearance_comment_age_units_key" translatable="false">pref_appearance_comment_age_units</string>
 	<string name="pref_appearance_comment_age_units_title">Comment age precision</string>
+	<string name="pref_appearance_inbox_header">Inbox</string>
+	<string name="pref_appearance_inbox_age_units_key" translatable="false">pref_appearance_inbox_age_units</string>
+	<string name="pref_appearance_inbox_age_units_title">Inbox entry age precision</string>
 	<string name="pref_appearance_age_units_1">One unit (\"x hours\")</string>
 	<string name="pref_appearance_age_units_2">Two units (\"x hours, x mins\")</string>
 	<string name="pref_appearance_age_units_3">Three units (\"x hours, x mins, x secs\")</string>

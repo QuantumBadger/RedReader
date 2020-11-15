@@ -115,6 +115,7 @@ public class RedditInboxItemView extends LinearLayout {
 				theme,
 				changeDataManager,
 				context,
+				PrefsUtility.appearance_inbox_age_units(context, General.getSharedPrefs(context)),
 				RedditRenderableComment.NO_TIMESTAMP,
 				RedditRenderableComment.NO_TIMESTAMP));
 

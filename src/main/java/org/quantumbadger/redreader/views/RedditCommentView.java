@@ -373,6 +373,9 @@ public class RedditCommentView extends FlingableItemView
 				mTheme,
 				mChangeDataManager,
 				activity,
+				PrefsUtility.appearance_comment_age_units(
+						activity,
+						General.getSharedPrefs(activity)),
 				(mFragment != null && mFragment.getPost() != null)
 					? mFragment.getPost().src.getCreatedTimeSecsUTC()
 					: RedditRenderableComment.NO_TIMESTAMP,

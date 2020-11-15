@@ -85,12 +85,10 @@ public class RedditRenderableComment
 			final RRThemeAttributes theme,
 			final RedditChangeDataManager changeDataManager,
 			final Context context,
+			final int commentAgeUnits,
 			final long postCreated,
 			final long parentCommentCreated) {
 
-		final int commentAgeUnits = PrefsUtility.appearance_comment_age_units(
-				context,
-				General.getSharedPrefs(context));
 		final PrefsUtility.CommentAgeMode commentAgeMode = PrefsUtility.appearance_comment_age_mode(
 				context,
 				General.getSharedPrefs(context));

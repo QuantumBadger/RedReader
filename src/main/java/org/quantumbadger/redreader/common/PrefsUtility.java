@@ -812,6 +812,20 @@ public final class PrefsUtility {
 				sharedPreferences)));
 	}
 
+	public static int appearance_inbox_age_units(
+			final Context context,
+			final SharedPreferences sharedPreferences) {
+		try {
+			return Integer.parseInt(getString(
+					R.string.pref_appearance_inbox_age_units_key,
+					"2",
+					context,
+					sharedPreferences));
+		} catch(final Throwable e) {
+			return 2;
+		}
+	}
+
 	///////////////////////////////
 	// pref_behaviour
 	///////////////////////////////

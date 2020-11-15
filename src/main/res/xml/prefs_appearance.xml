@@ -167,4 +167,14 @@
 
     </PreferenceCategory>
 
+	<PreferenceCategory android:title="@string/pref_appearance_inbox_header">
+
+		<ListPreference android:title="@string/pref_appearance_inbox_age_units_title"
+						android:key="@string/pref_appearance_inbox_age_units_key"
+						android:entries="@array/pref_appearance_age_units_items"
+						android:entryValues="@array/pref_appearance_age_units_return"
+						android:defaultValue="2"/>
+
+	</PreferenceCategory>
+
 </PreferenceScreen>

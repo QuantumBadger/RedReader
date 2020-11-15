@@ -98,7 +98,8 @@ public class AlbumListingActivity extends BaseActivity {
 													R.string.image_gallery_removed_message),
 											null,
 											null,
-											mUrl, null)));
+											mUrl,
+											null)));
 						});
 					}
 
@@ -117,7 +118,8 @@ public class AlbumListingActivity extends BaseActivity {
 													R.string.image_gallery_no_data_present_message),
 											null,
 											null,
-											mUrl, null)));
+											mUrl,
+											null)));
 						});
 					}
 
@@ -147,8 +149,7 @@ public class AlbumListingActivity extends BaseActivity {
 
 						// It might be a single image, not an album
 
-						final Matcher matchImgur = LinkHandler.imgurAlbumPattern.matcher(
-								mUrl);
+						final Matcher matchImgur = LinkHandler.imgurAlbumPattern.matcher(mUrl);
 
 						if(matchImgur.find()) {
 							final String albumId = matchImgur.group(2);

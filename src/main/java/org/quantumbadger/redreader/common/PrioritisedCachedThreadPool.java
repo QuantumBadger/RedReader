@@ -52,7 +52,6 @@ public class PrioritisedCachedThreadPool {
 
 	public static abstract class Task {
 
-		// TODO rename to "Priority" and move to common
 		@NonNull public abstract Priority getPriority();
 
 		public abstract void run();

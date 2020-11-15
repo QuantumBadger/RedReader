@@ -47,6 +47,12 @@
 						android:key="@string/pref_behaviour_enable_swipe_refresh_key"
 						android:defaultValue="true"/>
 
+	<ListPreference android:title="@string/pref_behaviour_save_location_title"
+					android:key="@string/pref_behaviour_save_location_key"
+					android:entries="@array/pref_behaviour_save_location_options"
+					android:entryValues="@array/pref_behaviour_save_location_options_return"
+					android:defaultValue="prompt_every_time" />
+
     <PreferenceCategory android:title="@string/pref_behaviour_sort_header">
 
 		<ListPreference android:title="@string/pref_behaviour_postsort"
@@ -201,6 +207,16 @@
 				android:defaultValue="10"/>
 
 	</PreferenceCategory>
+
+
+	<PreferenceCategory android:title="@string/pref_behaviour_back_button_title">
+
+		<CheckBoxPreference android:title="@string/pref_behaviour_postlist_back_again"
+				android:key="@string/pref_behaviour_postlist_back_again_key"
+				android:defaultValue="false"/>
+
+	</PreferenceCategory>
+
 
 
 </PreferenceScreen>

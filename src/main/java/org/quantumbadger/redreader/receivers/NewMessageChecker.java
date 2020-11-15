@@ -26,7 +26,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabaseCorruptException;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import androidx.core.app.NotificationCompat;
 import org.quantumbadger.redreader.R;
@@ -38,6 +37,7 @@ import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways;
 import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
@@ -71,7 +71,7 @@ public class NewMessageChecker extends BroadcastReceiver {
 
 		final boolean notificationsEnabled = PrefsUtility.pref_behaviour_notifications(
 				context,
-				PreferenceManager.getDefaultSharedPreferences(context));
+				General.getSharedPrefs(context));
 		if(!notificationsEnabled) {
 			return;
 		}
@@ -206,7 +206,7 @@ public class NewMessageChecker extends BroadcastReceiver {
 					// Check if the previously saved message is the same as the one we just received
 
 					final SharedPreferences prefs
-							= PreferenceManager.getDefaultSharedPreferences(context);
+							= General.getSharedPrefs(context);
 					final String oldMessageId = prefs.getString(
 							PREFS_SAVED_MESSAGE_ID,
 							"");

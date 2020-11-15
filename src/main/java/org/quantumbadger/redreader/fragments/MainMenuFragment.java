@@ -21,11 +21,10 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.View;
 import androidx.annotation.IntDef;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
-import android.preference.PreferenceManager;
-import android.view.View;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -113,7 +112,7 @@ public class MainMenuFragment extends RRFragment implements
 		if(parent instanceof OptionsMenuUtility.OptionsMenuSubredditsListener
 				&& PrefsUtility.pref_behaviour_enable_swipe_refresh(
 				context,
-				PreferenceManager.getDefaultSharedPreferences(context))) {
+				General.getSharedPrefs(context))) {
 
 			recyclerViewManager.enablePullToRefresh(
 					((OptionsMenuUtility.OptionsMenuSubredditsListener)parent)
@@ -212,7 +211,7 @@ public class MainMenuFragment extends RRFragment implements
 	}
 
 	@Override
-	public View getView() {
+	public View getListingView() {
 		return mOuter;
 	}
 

@@ -20,11 +20,15 @@ package org.quantumbadger.redreader.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import org.quantumbadger.redreader.activities.BaseActivity;
+import org.quantumbadger.redreader.common.General;
 
 public abstract class RRFragment {
 
@@ -67,7 +71,54 @@ public abstract class RRFragment {
 		return false;
 	}
 
-	public abstract View getView();
+	public abstract View getListingView();
+
+	@Nullable
+	public View getOverlayView() {
+		// Null by default
+		return null;
+	}
+
+	@NonNull
+	public final View createCombinedListingAndOverlayView() {
+
+		final FrameLayout outer = new FrameLayout(mParent);
+
+		{
+			final View view = getListingView();
+			outer.addView(view);
+			General.setLayoutMatchParent(view);
+		}
+
+		{
+			final View overlayView = getOverlayView();
+
+			if(overlayView != null) {
+				outer.addView(overlayView);
+				General.setLayoutMatchParent(overlayView);
+			}
+		}
+
+		return outer;
+	}
+
+	public final void setBaseActivityContent(@NonNull final BaseActivity baseActivity) {
+
+		{
+			final View view = getListingView();
+			baseActivity.setBaseActivityListing(view);
+			General.setLayoutMatchParent(view);
+		}
+
+		{
+			final View overlayView = getOverlayView();
+
+			if(overlayView != null) {
+				baseActivity.setBaseActivityOverlay(overlayView);
+				General.setLayoutMatchParent(overlayView);
+			}
+		}
+	}
 
 	public abstract Bundle onSaveInstanceState();
 }

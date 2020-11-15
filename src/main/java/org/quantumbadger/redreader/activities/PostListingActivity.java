@@ -22,10 +22,9 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.os.SystemClock;
 import android.view.Menu;
-import android.view.View;
-import androidx.annotation.Nullable;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -71,6 +70,8 @@ public class PostListingActivity extends RefreshableActivity
 
 	private final AtomicReference<RedditSubredditSubscriptionManager.ListenerContext>
 			mSubredditSubscriptionListenerContext = new AtomicReference<>(null);
+
+	private long mDoubleTapBack_lastTapMs = -1;
 
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
@@ -130,7 +131,7 @@ public class PostListingActivity extends RefreshableActivity
 
 			setTitle(url.humanReadableName(this, false));
 
-			setBaseActivityContentView(R.layout.main_single);
+			setBaseActivityListing(R.layout.main_single);
 			doRefresh(RefreshableFragment.POSTS, false, fragmentSavedInstanceState);
 
 		} else {
@@ -225,12 +226,12 @@ public class PostListingActivity extends RefreshableActivity
 			try {
 				subredditPinState = PrefsUtility.pref_pinned_subreddits_check(
 						this,
-						PreferenceManager.getDefaultSharedPreferences(this),
+						General.getSharedPrefs(this),
 						fragment.getSubreddit().getCanonicalId());
 
 				subredditBlockedState = PrefsUtility.pref_blocked_subreddits_check(
 						this,
-						PreferenceManager.getDefaultSharedPreferences(this),
+						General.getSharedPrefs(this),
 						fragment.getSubreddit().getCanonicalId());
 
 			} catch(final InvalidSubredditNameException e) {
@@ -288,14 +289,13 @@ public class PostListingActivity extends RefreshableActivity
 			final RefreshableFragment which,
 			final boolean force,
 			final Bundle savedInstanceState) {
+
 		if(fragment != null) {
 			fragment.cancel();
 		}
-		fragment = controller.get(this, force, savedInstanceState);
 
-		final View view = fragment.getView();
-		setBaseActivityContentView(view);
-		General.setLayoutMatchParent(view);
+		fragment = controller.get(this, force, savedInstanceState);
+		fragment.setBaseActivityContent(this);
 	}
 
 	@Override
@@ -350,27 +350,25 @@ public class PostListingActivity extends RefreshableActivity
 			final PostListingController controller,
 			final AppCompatActivity activity) {
 
-		DialogUtils.showSearchDialog(activity, new DialogUtils.OnSearchListener() {
-			@Override
-			public void onSearch(@Nullable final String query) {
-				if(query == null) {
-					return;
-				}
-
-				final SearchPostListURL url;
-
-				if(controller != null && (controller.isSubreddit()
-						|| controller.isSubredditSearchResults())) {
-					url = SearchPostListURL.build(controller.subredditCanonicalName()
-							.toString(), query);
-				} else {
-					url = SearchPostListURL.build(null, query);
-				}
-
-				final Intent intent = new Intent(activity, PostListingActivity.class);
-				intent.setData(url.generateJsonUri());
-				activity.startActivity(intent);
+		DialogUtils.showSearchDialog(activity, query -> {
+			if(query == null) {
+				return;
 			}
+
+			final SearchPostListURL url;
+
+			if(controller != null && (controller.isSubreddit()
+					|| controller.isSubredditSearchResults())) {
+				url = SearchPostListURL.build(
+						controller.subredditCanonicalName().toString(),
+						query);
+			} else {
+				url = SearchPostListURL.build(null, query);
+			}
+
+			final Intent intent = new Intent(activity, PostListingActivity.class);
+			intent.setData(url.generateJsonUri());
+			activity.startActivity(intent);
 		});
 	}
 
@@ -409,7 +407,7 @@ public class PostListingActivity extends RefreshableActivity
 		try {
 			PrefsUtility.pref_pinned_subreddits_add(
 					this,
-					PreferenceManager.getDefaultSharedPreferences(this),
+					General.getSharedPrefs(this),
 					fragment.getSubreddit().getCanonicalId());
 
 		} catch(final InvalidSubredditNameException e) {
@@ -429,7 +427,7 @@ public class PostListingActivity extends RefreshableActivity
 		try {
 			PrefsUtility.pref_pinned_subreddits_remove(
 					this,
-					PreferenceManager.getDefaultSharedPreferences(this),
+					General.getSharedPrefs(this),
 					fragment.getSubreddit().getCanonicalId());
 
 		} catch(final InvalidSubredditNameException e) {
@@ -448,7 +446,7 @@ public class PostListingActivity extends RefreshableActivity
 		try {
 			PrefsUtility.pref_blocked_subreddits_add(
 					this,
-					PreferenceManager.getDefaultSharedPreferences(this),
+					General.getSharedPrefs(this),
 					fragment.getSubreddit().getCanonicalId());
 
 		} catch(final InvalidSubredditNameException e) {
@@ -467,7 +465,7 @@ public class PostListingActivity extends RefreshableActivity
 		try {
 			PrefsUtility.pref_blocked_subreddits_remove(
 					this,
-					PreferenceManager.getDefaultSharedPreferences(this),
+					General.getSharedPrefs(this),
 					fragment.getSubreddit().getCanonicalId());
 
 		} catch(final InvalidSubredditNameException e) {
@@ -498,7 +496,16 @@ public class PostListingActivity extends RefreshableActivity
 
 	@Override
 	public void onBackPressed() {
-		if(General.onBackPressed()) {
+
+		if(PrefsUtility.pref_behaviour_back_again(
+				this,
+				General.getSharedPrefs(this))
+						&& (mDoubleTapBack_lastTapMs < SystemClock.uptimeMillis() - 5000)) {
+
+			mDoubleTapBack_lastTapMs = SystemClock.uptimeMillis();
+			Toast.makeText(this, R.string.press_back_again, Toast.LENGTH_SHORT).show();
+
+		} else if(General.onBackPressed()) {
 			super.onBackPressed();
 		}
 	}
@@ -523,5 +530,10 @@ public class PostListingActivity extends RefreshableActivity
 
 	private void postInvalidateOptionsMenu() {
 		runOnUiThread(this::invalidateOptionsMenu);
+	}
+
+	@Override
+	protected boolean baseActivityAllowToolbarHideOnScroll() {
+		return true;
 	}
 }

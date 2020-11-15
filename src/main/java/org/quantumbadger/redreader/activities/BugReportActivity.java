@@ -63,13 +63,10 @@ public class BugReportActivity extends BaseActivity {
 
 		addGlobalError(error);
 
-		AndroidCommon.UI_THREAD_HANDLER.post(new Runnable() {
-			@Override
-			public void run() {
-				final Intent intent = new Intent(context, BugReportActivity.class);
-				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				context.startActivity(intent);
-			}
+		AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+			final Intent intent = new Intent(context, BugReportActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			context.startActivity(intent);
 		});
 
 	}
@@ -192,7 +189,7 @@ public class BugReportActivity extends BaseActivity {
 		final ScrollView sv = new ScrollView(this);
 		sv.addView(layout);
 
-		setBaseActivityContentView(sv);
+		setBaseActivityListing(sv);
 	}
 
 	public static void appendException(

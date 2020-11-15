@@ -20,8 +20,6 @@ package org.quantumbadger.redreader.views.webview;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.webkit.CookieManager;
@@ -31,6 +29,7 @@ import info.guardianproject.netcipher.web.WebkitProxy;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.RedReader;
 import org.quantumbadger.redreader.activities.BugReportActivity;
+import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.TorCommon;
 
 import java.util.Map;
@@ -67,12 +66,9 @@ public class WebViewFixed extends WebView {
 		public void notifyVideoEnd() {
 			// This code is not executed in the UI thread, so we must force that
 			// to happen
-			new Handler(Looper.getMainLooper()).post(new Runnable() {
-				@Override
-				public void run() {
-					if(videoEnabledWebChromeClient != null) {
-						videoEnabledWebChromeClient.onHideCustomView();
-					}
+			AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+				if(videoEnabledWebChromeClient != null) {
+					videoEnabledWebChromeClient.onHideCustomView();
 				}
 			});
 		}

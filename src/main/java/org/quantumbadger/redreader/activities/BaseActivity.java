@@ -24,13 +24,11 @@ import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -60,7 +58,9 @@ public abstract class BaseActivity extends AppCompatActivity
 			= new HashMap<>();
 
 	private TextView mActionbarTitleTextView;
-	private FrameLayout mContentView;
+
+	private FrameLayout mContentListing;
+	private FrameLayout mContentOverlay;
 
 	private ImageView mActionbarBackIconView;
 	private View mActionbarTitleOuterView;
@@ -126,12 +126,17 @@ public abstract class BaseActivity extends AppCompatActivity
 		}
 	}
 
+	protected boolean baseActivityAllowToolbarHideOnScroll() {
+		// Disallow by default
+		return false;
+	}
+
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 
-		mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		mSharedPreferences = General.getSharedPrefs(this);
 
 		if(PrefsUtility.pref_appearance_hide_android_status(this, mSharedPreferences)) {
 			getWindow().setFlags(
@@ -145,21 +150,40 @@ public abstract class BaseActivity extends AppCompatActivity
 		closeIfNecessary();
 
 		if(baseActivityIsToolbarActionBarEnabled()) {
-			final View outerView;
-			final Toolbar toolbar;
 
-			if(!PrefsUtility.pref_appearance_bottom_toolbar(this, mSharedPreferences)) {
-				outerView = getLayoutInflater().inflate(R.layout.rr_actionbar, null);
-				toolbar = outerView.findViewById(R.id.rr_actionbar_toolbar);
-				mContentView
-						= outerView.findViewById(R.id.rr_actionbar_content);
+			final View outerView;
+
+			final boolean isTablet = General.isTablet(this, mSharedPreferences);
+
+			final boolean prefBottomToolbar
+					= PrefsUtility.pref_appearance_bottom_toolbar(this, mSharedPreferences);
+
+			final boolean prefHideOnScroll = PrefsUtility.pref_appearance_hide_toolbar_on_scroll(
+					this,
+					mSharedPreferences);
+
+			final int layoutRes;
+
+			if(prefHideOnScroll && !isTablet) {
+
+				if(baseActivityAllowToolbarHideOnScroll()) {
+					layoutRes = R.layout.rr_actionbar_hide_on_scroll;
+				} else {
+					layoutRes = R.layout.rr_actionbar;
+				}
+
+			} else if(prefBottomToolbar) {
+				layoutRes = R.layout.rr_actionbar_reverse;
+
 			} else {
-				outerView = getLayoutInflater().inflate(
-						R.layout.rr_actionbar_reverse,
-						null);
-				toolbar = outerView.findViewById(R.id.rr_actionbar_reverse_toolbar);
-				mContentView = outerView.findViewById(R.id.rr_actionbar_reverse_content);
+				layoutRes = R.layout.rr_actionbar;
 			}
+
+			outerView = getLayoutInflater().inflate(layoutRes, null);
+
+			final Toolbar toolbar = outerView.findViewById(R.id.rr_actionbar_toolbar);
+			mContentListing = outerView.findViewById(R.id.rr_actionbar_content_listing);
+			mContentOverlay = outerView.findViewById(R.id.rr_actionbar_content_overlay);
 
 			super.setContentView(outerView);
 			setSupportActionBar(toolbar);
@@ -209,25 +233,32 @@ public abstract class BaseActivity extends AppCompatActivity
 					getWindow().setNavigationBarColor(colour);
 				}
 			}
+
+		} else {
+			mContentListing = new FrameLayout(this);
+			mContentOverlay = new FrameLayout(this);
+
+			final FrameLayout outer = new FrameLayout(this);
+			outer.addView(mContentListing);
+			outer.addView(mContentOverlay);
+
+			super.setContentView(outer);
 		}
 	}
 
-	public void setBaseActivityContentView(@LayoutRes final int layoutResID) {
-		if(mContentView != null) {
-			mContentView.removeAllViews();
-			getLayoutInflater().inflate(layoutResID, mContentView, true);
-		} else {
-			super.setContentView(layoutResID);
-		}
+	public void setBaseActivityListing(@NonNull final View view) {
+		mContentListing.removeAllViews();
+		mContentListing.addView(view);
 	}
 
-	public void setBaseActivityContentView(@NonNull final View view) {
-		if(mContentView != null) {
-			mContentView.removeAllViews();
-			mContentView.addView(view);
-		} else {
-			super.setContentView(view);
-		}
+	public void setBaseActivityListing(final int layoutRes) {
+		mContentListing.removeAllViews();
+		getLayoutInflater().inflate(layoutRes, mContentListing, true);
+	}
+
+	public void setBaseActivityOverlay(@NonNull final View view) {
+		mContentOverlay.removeAllViews();
+		mContentOverlay.addView(view);
 	}
 
 	@Override

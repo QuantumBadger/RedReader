@@ -23,12 +23,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import androidx.annotation.Nullable;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,6 +35,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -101,7 +99,8 @@ public class CommentListingFragment extends RRFragment
 
 	private final RecyclerView mRecyclerView;
 
-	private final FrameLayout mOuterFrame;
+	private final View mListingView;
+	private final FrameLayout mOverlayFrame;
 	private final @Nullable LinearLayout mFloatingToolbar;
 
 	private final float mSelfTextFontScale;
@@ -152,14 +151,14 @@ public class CommentListingFragment extends RRFragment
 
 		final Context context = getActivity();
 
-		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(
+		final SharedPreferences prefs = General.getSharedPrefs(
 				context);
 
 		mSelfTextFontScale = PrefsUtility.appearance_fontscale_bodytext(context, prefs);
 
 		mShowLinkButtons = PrefsUtility.pref_appearance_linkbuttons(context, prefs);
 
-		mOuterFrame = new FrameLayout(context);
+		mOverlayFrame = new FrameLayout(context);
 
 		final ScrollbarRecyclerViewManager recyclerViewManager
 				= new ScrollbarRecyclerViewManager(context, null, false);
@@ -167,12 +166,8 @@ public class CommentListingFragment extends RRFragment
 		if(parent instanceof OptionsMenuUtility.OptionsMenuCommentsListener
 				&& PrefsUtility.pref_behaviour_enable_swipe_refresh(context, prefs)) {
 
-			recyclerViewManager.enablePullToRefresh(new SwipeRefreshLayout.OnRefreshListener() {
-				@Override
-				public void onRefresh() {
-					((OptionsMenuUtility.OptionsMenuCommentsListener)parent).onRefreshComments();
-				}
-			});
+			recyclerViewManager.enablePullToRefresh(
+					((OptionsMenuUtility.OptionsMenuCommentsListener)parent)::onRefreshComments);
 		}
 
 		mRecyclerView = recyclerViewManager.getRecyclerView();
@@ -180,7 +175,7 @@ public class CommentListingFragment extends RRFragment
 				(LinearLayoutManager)mRecyclerView.getLayoutManager());
 
 		mRecyclerView.setAdapter(mCommentListingManager.getAdapter());
-		mOuterFrame.addView(recyclerViewManager.getOuterView());
+		mListingView = recyclerViewManager.getOuterView();
 
 		mRecyclerView.setItemAnimator(null);
 
@@ -198,17 +193,16 @@ public class CommentListingFragment extends RRFragment
 			mFloatingToolbar = null;
 
 		} else {
-			mFloatingToolbar = (LinearLayout)LayoutInflater.from(context)
-					.inflate(
-							R.layout.floating_toolbar,
-							mOuterFrame,
-							false);
+			mFloatingToolbar = (LinearLayout)LayoutInflater.from(context).inflate(
+					R.layout.floating_toolbar,
+					mOverlayFrame,
+					false);
 
 			// We need a container so that setVisible() doesn't mess with the Z-order
 			final FrameLayout floatingToolbarContainer = new FrameLayout(context);
 
 			floatingToolbarContainer.addView(mFloatingToolbar);
-			mOuterFrame.addView(floatingToolbarContainer);
+			mOverlayFrame.addView(floatingToolbarContainer);
 
 			if(PrefsUtility.isNightMode(context)) {
 				mFloatingToolbar.setBackgroundColor(Color.argb(0xCC, 0x33, 0x33, 0x33));
@@ -278,37 +272,31 @@ public class CommentListingFragment extends RRFragment
 				nextButton.setContentDescription(getString(R.string.button_next_comment_parent));
 				mFloatingToolbar.addView(nextButton);
 
-				nextButton.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(final View view) {
+				nextButton.setOnClickListener(view -> {
 
-						final LinearLayoutManager layoutManager
-								= (LinearLayoutManager)mRecyclerView.getLayoutManager();
+					final LinearLayoutManager layoutManager
+							= (LinearLayoutManager)mRecyclerView.getLayoutManager();
 
-						for(int pos = layoutManager.findFirstVisibleItemPosition() + 1;
-							pos < layoutManager.getItemCount();
-							pos++) {
+					for(int pos = layoutManager.findFirstVisibleItemPosition() + 1;
+						pos < layoutManager.getItemCount();
+						pos++) {
 
-							final GroupedRecyclerViewAdapter.Item item
-									= mCommentListingManager.getItemAtPosition(pos);
+						final GroupedRecyclerViewAdapter.Item item
+								= mCommentListingManager.getItemAtPosition(pos);
 
-							if(item instanceof RedditCommentListItem
-									&& ((RedditCommentListItem)item).isComment()
-									&& ((RedditCommentListItem)item).getIndent() == 0) {
+						if(item instanceof RedditCommentListItem
+								&& ((RedditCommentListItem)item).isComment()
+								&& ((RedditCommentListItem)item).getIndent() == 0) {
 
-								layoutManager.scrollToPositionWithOffset(pos, 0);
-								break;
-							}
+							layoutManager.scrollToPositionWithOffset(pos, 0);
+							break;
 						}
 					}
 				});
 
-				nextButton.setOnLongClickListener(new View.OnLongClickListener() {
-					@Override
-					public boolean onLongClick(final View view) {
-						General.quickToast(context, R.string.button_next_comment_parent);
-						return true;
-					}
+				nextButton.setOnLongClickListener(view -> {
+					General.quickToast(context, R.string.button_next_comment_parent);
+					return true;
 				});
 			}
 		}
@@ -348,8 +336,8 @@ public class CommentListingFragment extends RRFragment
 					}
 				});
 
-		mOuterFrame.addView(bezelOverlay);
-		mOuterFrame.addView(toolbarOverlay);
+		mOverlayFrame.addView(bezelOverlay);
+		mOverlayFrame.addView(toolbarOverlay);
 
 		bezelOverlay.getLayoutParams().width
 				= android.widget.FrameLayout.LayoutParams.MATCH_PARENT;
@@ -391,8 +379,14 @@ public class CommentListingFragment extends RRFragment
 	}
 
 	@Override
-	public View getView() {
-		return mOuterFrame;
+	public View getListingView() {
+		return mListingView;
+	}
+
+	@Nullable
+	@Override
+	public View getOverlayView() {
+		return mOverlayFrame;
 	}
 
 	@Override
@@ -432,7 +426,7 @@ public class CommentListingFragment extends RRFragment
 	public void onCommentClicked(final RedditCommentView view) {
 		switch(PrefsUtility.pref_behaviour_actions_comment_tap(
 				getActivity(),
-				PreferenceManager.getDefaultSharedPreferences(getActivity()))) {
+				General.getSharedPrefs(getActivity()))) {
 
 			case COLLAPSE:
 				handleCommentVisibilityToggle(view);
@@ -458,7 +452,7 @@ public class CommentListingFragment extends RRFragment
 	public void onCommentLongClicked(final RedditCommentView view) {
 		switch(PrefsUtility.pref_behaviour_actions_comment_longclick(
 				getActivity(),
-				PreferenceManager.getDefaultSharedPreferences(getActivity()))) {
+				General.getSharedPrefs(getActivity()))) {
 
 			case ACTION_MENU: {
 				final RedditCommentListItem item = view.getComment();
@@ -568,19 +562,16 @@ public class CommentListingFragment extends RRFragment
 				final PrefsUtility.SelfpostAction actionOnClick
 						= PrefsUtility.pref_behaviour_self_post_tap_actions(
 								activity,
-								PreferenceManager.getDefaultSharedPreferences(activity));
+								General.getSharedPrefs(activity));
 				if(actionOnClick == PrefsUtility.SelfpostAction.COLLAPSE) {
-					paddingLayout.setOnClickListener(new View.OnClickListener() {
-						@Override
-						public void onClick(final View v) {
-							if(selfText.getVisibility() == View.GONE) {
-								selfText.setVisibility(View.VISIBLE);
-								collapsedView.setVisibility(View.GONE);
-							} else {
-								selfText.setVisibility(View.GONE);
-								collapsedView.setVisibility(View.VISIBLE);
-								layoutManager.scrollToPositionWithOffset(0, 0);
-							}
+					paddingLayout.setOnClickListener(v -> {
+						if(selfText.getVisibility() == View.GONE) {
+							selfText.setVisibility(View.VISIBLE);
+							collapsedView.setVisibility(View.GONE);
+						} else {
+							selfText.setVisibility(View.GONE);
+							collapsedView.setVisibility(View.VISIBLE);
+							layoutManager.scrollToPositionWithOffset(0, 0);
 						}
 					});
 				}
@@ -596,7 +587,7 @@ public class CommentListingFragment extends RRFragment
 
 			if(!General.isTablet(
 					activity,
-					PreferenceManager.getDefaultSharedPreferences(activity))) {
+					General.getSharedPrefs(activity))) {
 				activity.setTitle(post.src.getTitle());
 			}
 
@@ -705,7 +696,7 @@ public class CommentListingFragment extends RRFragment
 		final Map<OptionsMenuUtility.AppbarItemsPref, Integer> appbarItemsPrefs =
 				PrefsUtility.pref_menus_appbar_items(
 						getActivity(),
-						PreferenceManager.getDefaultSharedPreferences(getActivity()));
+						General.getSharedPrefs(getActivity()));
 		final int replyShowAsAction = OptionsMenuUtility.getOrThrow(
 				appbarItemsPrefs,
 				OptionsMenuUtility.AppbarItemsPref.REPLY);

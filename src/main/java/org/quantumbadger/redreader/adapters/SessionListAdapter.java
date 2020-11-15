@@ -20,12 +20,12 @@ package org.quantumbadger.redreader.adapters;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import androidx.core.content.ContextCompat;
-import androidx.appcompat.app.AppCompatDialogFragment;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.SessionChangeListener;
@@ -94,12 +94,9 @@ public class SessionListAdapter extends HeaderRecyclerAdapter<RecyclerView.ViewH
 		final VH1Text vh = (VH1Text)holder;
 		vh.text.setText(context.getString(R.string.options_refresh));
 		vh.text.setCompoundDrawablesWithIntrinsicBounds(rrIconRefresh, null, null, null);
-		vh.itemView.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(final View v) {
-				((SessionChangeListener)context).onSessionRefreshSelected(type);
-				fragment.dismiss();
-			}
+		vh.itemView.setOnClickListener(v -> {
+			((SessionChangeListener)context).onSessionRefreshSelected(type);
+			fragment.dismiss();
 		});
 	}
 
@@ -133,13 +130,10 @@ public class SessionListAdapter extends HeaderRecyclerAdapter<RecyclerView.ViewH
 
 		vh.text.setText(name.get());
 
-		vh.itemView.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(final View v) {
-				final CacheEntry ce = sessions.get(position);
-				((SessionChangeListener)context).onSessionSelected(ce.session, type);
-				fragment.dismiss();
-			}
+		vh.itemView.setOnClickListener(v -> {
+			final CacheEntry ce = sessions.get(position);
+			((SessionChangeListener)context).onSessionSelected(ce.session, type);
+			fragment.dismiss();
 		});
 	}
 

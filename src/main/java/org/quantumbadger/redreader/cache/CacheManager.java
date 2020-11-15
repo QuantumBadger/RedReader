@@ -21,13 +21,13 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.common.FileUtils;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.PrioritisedCachedThreadPool;
@@ -280,7 +280,7 @@ public final class CacheManager {
 		return new File(
 				PrefsUtility.pref_cache_location(
 						context,
-						PreferenceManager.getDefaultSharedPreferences(context)));
+						General.getSharedPrefs(context)));
 	}
 
 	@NonNull

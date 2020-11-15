@@ -92,6 +92,16 @@ public final class Optional<E> {
 		return mValue;
 	}
 
+	@NonNull
+	public <R> Optional<R> map(@NonNull final FunctionOneArgWithReturn<E, R> function) {
+
+		if(mValue == null) {
+			return Optional.empty();
+		} else {
+			return Optional.of(function.apply(mValue));
+		}
+	}
+
 	@Override
 	public int hashCode() {
 

@@ -18,9 +18,8 @@
 package org.quantumbadger.redreader.views.imageview;
 
 import android.graphics.Bitmap;
-import androidx.annotation.UiThread;
 import android.util.Log;
-
+import androidx.annotation.UiThread;
 import org.quantumbadger.redreader.common.AndroidCommon;
 
 public class ImageViewTileLoader {
@@ -65,12 +64,7 @@ public class ImageViewTileLoader {
 		mListener = listener;
 		mLock = lock;
 
-		mNotifyRunnable = new Runnable() {
-			@Override
-			public void run() {
-				mListener.onTileLoaded(mX, mY, mSampleSize);
-			}
-		};
+		mNotifyRunnable = () -> mListener.onTileLoaded(mX, mY, mSampleSize);
 	}
 
 	// Caller must synchronize on mLock

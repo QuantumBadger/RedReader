@@ -31,6 +31,11 @@
 						android:key="@string/pref_behaviour_video_zoom_default_key"
 						android:defaultValue="false"/>
 
+	<CheckBoxPreference android:title="@string/pref_behaviour_imagevideo_tap_close_title"
+						android:key="@string/pref_behaviour_imagevideo_tap_close_key"
+						android:summary="@string/pref_behaviour_imagevideo_tap_close_summary"
+						android:defaultValue="true"/>
+
 	<ListPreference android:title="@string/pref_behaviour_imageview_mode_title"
 					android:key="@string/pref_behaviour_imageview_mode_key"
 					android:entries="@array/pref_behaviour_imageview_mode_array"

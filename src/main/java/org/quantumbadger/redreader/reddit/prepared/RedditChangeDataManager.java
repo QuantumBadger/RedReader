@@ -18,11 +18,11 @@
 package org.quantumbadger.redreader.reddit.prepared;
 
 import android.content.Context;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.common.AndroidCommon;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.collections.WeakReferenceListHashMapManager;
 import org.quantumbadger.redreader.common.collections.WeakReferenceListManager;

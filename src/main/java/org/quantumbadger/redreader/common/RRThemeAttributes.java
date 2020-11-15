@@ -20,7 +20,6 @@ package org.quantumbadger.redreader.common;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
-import android.preference.PreferenceManager;
 import org.quantumbadger.redreader.R;
 
 import java.util.EnumSet;
@@ -77,7 +76,7 @@ public class RRThemeAttributes {
 
 		appearance.recycle();
 
-		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(
+		final SharedPreferences prefs = General.getSharedPrefs(
 				context);
 
 		mCommentHeaderItems = PrefsUtility.appearance_comment_header_items(

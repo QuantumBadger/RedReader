@@ -18,13 +18,11 @@
 package org.quantumbadger.redreader.activities;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -37,8 +35,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
-import androidx.annotation.Nullable;
 import org.apache.commons.lang3.StringUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -108,8 +104,6 @@ public class MainActivity extends RefreshableActivity
 	private View postListingView;
 	private View commentListingView;
 
-	private FrameLayout mSinglePane;
-
 	private FrameLayout mLeftPane;
 	private FrameLayout mRightPane;
 
@@ -123,6 +117,11 @@ public class MainActivity extends RefreshableActivity
 	@Override
 	protected boolean baseActivityIsActionBarBackEnabled() {
 		return false;
+	}
+
+	@Override
+	protected boolean baseActivityAllowToolbarHideOnScroll() {
+		return !General.isTablet(this, General.getSharedPrefs(this));
 	}
 
 	@Override
@@ -144,15 +143,14 @@ public class MainActivity extends RefreshableActivity
 			return;
 		}
 
-		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		sharedPreferences = General.getSharedPrefs(this);
 		twoPane = General.isTablet(this, sharedPreferences);
 
 		doRefresh(RefreshableFragment.MAIN_RELAYOUT, false, null);
 
-		if(savedInstanceState == null) {
-			if(PrefsUtility.pref_behaviour_skiptofrontpage(this, sharedPreferences)) {
-				onSelected(SubredditPostListURL.getFrontPage());
-			}
+		if(savedInstanceState == null
+				&& (PrefsUtility.pref_behaviour_skiptofrontpage(this, sharedPreferences))) {
+			onSelected(SubredditPostListURL.getFrontPage());
 		}
 
 		setTitle(R.string.app_name);
@@ -667,22 +665,17 @@ public class MainActivity extends RefreshableActivity
 								.collect(new ArrayList<>()));
 
 				editText.setAdapter(autocompleteAdapter);
-				editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-					@Override
-					public boolean onEditorAction(
-							final TextView v,
-							final int actionId,
-							final KeyEvent event) {
-						boolean handled = false;
-						if(actionId == EditorInfo.IME_ACTION_GO) {
-							openCustomLocation(
-									typeReturnValues,
-									destinationType,
-									editText);
-							handled = true;
-						}
-						return handled;
+				editText.setOnEditorActionListener((v, actionId, event) -> {
+					boolean handled = false;
+					if(actionId == EditorInfo.IME_ACTION_GO
+							|| event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+						openCustomLocation(
+								typeReturnValues,
+								destinationType,
+								editText);
+						handled = true;
 					}
+					return handled;
 				});
 
 				alertBuilder.setView(root);
@@ -716,15 +709,10 @@ public class MainActivity extends RefreshableActivity
 
 				alertBuilder.setPositiveButton(
 						R.string.dialog_go,
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(final DialogInterface dialog, final int which) {
-								openCustomLocation(
-										typeReturnValues,
-										destinationType,
-										editText);
-							}
-						});
+						(dialog, which) -> openCustomLocation(
+								typeReturnValues,
+								destinationType,
+								editText));
 
 				alertBuilder.setNegativeButton(R.string.dialog_cancel, null);
 
@@ -878,21 +866,16 @@ public class MainActivity extends RefreshableActivity
 
 			twoPane = General.isTablet(this, sharedPreferences);
 
-			final View layout;
-
 			if(twoPane) {
-				layout = getLayoutInflater().inflate(R.layout.main_double, null);
-				mLeftPane = (FrameLayout)layout.findViewById(R.id.main_left_frame);
-				mRightPane = (FrameLayout)layout.findViewById(R.id.main_right_frame);
-				mSinglePane = null;
+				final View layout = getLayoutInflater().inflate(R.layout.main_double, null);
+				mLeftPane = layout.findViewById(R.id.main_left_frame);
+				mRightPane = layout.findViewById(R.id.main_right_frame);
+				setBaseActivityListing(layout);
+
 			} else {
-				layout = getLayoutInflater().inflate(R.layout.main_single, null);
 				mLeftPane = null;
 				mRightPane = null;
-				mSinglePane = (FrameLayout)layout.findViewById(R.id.main_single_frame);
 			}
-
-			setBaseActivityContentView(layout);
 
 			invalidateOptionsMenu();
 			requestRefresh(RefreshableFragment.ALL, false);
@@ -907,7 +890,7 @@ public class MainActivity extends RefreshableActivity
 			if(isMenuShown && (which == RefreshableFragment.ALL
 					|| which == RefreshableFragment.MAIN)) {
 				mainMenuFragment = new MainMenuFragment(this, null, force);
-				mainMenuView = mainMenuFragment.getView();
+				mainMenuView = mainMenuFragment.createCombinedListingAndOverlayView();
 				mLeftPane.removeAllViews();
 				mLeftPane.addView(mainMenuView);
 			}
@@ -918,7 +901,7 @@ public class MainActivity extends RefreshableActivity
 					postListingFragment.cancel();
 				}
 				postListingFragment = postListingController.get(this, force, null);
-				postListingView = postListingFragment.getView();
+				postListingView = postListingFragment.createCombinedListingAndOverlayView();
 				postContainer.removeAllViews();
 				postContainer.addView(postListingView);
 			}
@@ -927,7 +910,7 @@ public class MainActivity extends RefreshableActivity
 					|| which
 					== RefreshableFragment.COMMENTS)) {
 				commentListingFragment = commentListingController.get(this, force, null);
-				commentListingView = commentListingFragment.getView();
+				commentListingView = commentListingFragment.createCombinedListingAndOverlayView();
 				mRightPane.removeAllViews();
 				mRightPane.addView(commentListingView);
 			}
@@ -936,9 +919,7 @@ public class MainActivity extends RefreshableActivity
 
 			if(which == RefreshableFragment.ALL || which == RefreshableFragment.MAIN) {
 				mainMenuFragment = new MainMenuFragment(this, null, force);
-				mainMenuView = mainMenuFragment.getView();
-				mSinglePane.removeAllViews();
-				mSinglePane.addView(mainMenuView);
+				mainMenuFragment.setBaseActivityContent(this);
 			}
 		}
 
@@ -963,7 +944,7 @@ public class MainActivity extends RefreshableActivity
 				this,
 				null,
 				false); // TODO preserve position
-		mainMenuView = mainMenuFragment.getView();
+		mainMenuView = mainMenuFragment.createCombinedListingAndOverlayView();
 
 		commentListingFragment = null;
 		commentListingView = null;
@@ -993,7 +974,7 @@ public class MainActivity extends RefreshableActivity
 			if(isMenuShown) {
 
 				commentListingFragment = commentListingController.get(this, false, null);
-				commentListingView = commentListingFragment.getView();
+				commentListingView = commentListingFragment.createCombinedListingAndOverlayView();
 
 				mLeftPane.removeAllViews();
 				mRightPane.removeAllViews();
@@ -1156,18 +1137,14 @@ public class MainActivity extends RefreshableActivity
 		DialogUtils.showSearchDialog(
 				this,
 				R.string.action_search_comments,
-				new DialogUtils.OnSearchListener() {
-					@Override
-					public void onSearch(@Nullable final String query) {
-						final Intent searchIntent = new Intent(
-								MainActivity.this,
-								CommentListingActivity.class);
-						searchIntent.setData(commentListingController.getUri());
-						searchIntent.putExtra(
-								CommentListingActivity.EXTRA_SEARCH_STRING,
-								query);
-						startActivity(searchIntent);
-					}
+				query -> {
+					final Intent searchIntent
+							= new Intent(this, CommentListingActivity.class);
+					searchIntent.setData(commentListingController.getUri());
+					searchIntent.putExtra(
+							CommentListingActivity.EXTRA_SEARCH_STRING,
+							query);
+					startActivity(searchIntent);
 				});
 	}
 
@@ -1394,20 +1371,10 @@ public class MainActivity extends RefreshableActivity
 	}
 
 	private void postInvalidateOptionsMenu() {
-		runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				invalidateOptionsMenu();
-			}
-		});
+		runOnUiThread(this::invalidateOptionsMenu);
 	}
 
 	private void showBackButton(final boolean isVisible) {
-		configBackButton(isVisible, new View.OnClickListener() {
-			@Override
-			public void onClick(final View v) {
-				onBackPressed();
-			}
-		});
+		configBackButton(isVisible, v -> onBackPressed());
 	}
 }

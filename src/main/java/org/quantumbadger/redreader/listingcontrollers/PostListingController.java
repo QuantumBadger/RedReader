@@ -20,8 +20,8 @@ package org.quantumbadger.redreader.listingcontrollers;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import androidx.appcompat.app.AppCompatActivity;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
 import org.quantumbadger.redreader.reddit.PostSort;
@@ -114,19 +114,19 @@ public class PostListingController {
 	private PostSort defaultSubredditOrder(final Context context) {
 		return PrefsUtility.pref_behaviour_postsort(
 				context,
-				PreferenceManager.getDefaultSharedPreferences(context));
+				General.getSharedPrefs(context));
 	}
 
 	private PostSort defaultUserOrder(final Context context) {
 		return PrefsUtility.pref_behaviour_user_postsort(
 				context,
-				PreferenceManager.getDefaultSharedPreferences(context));
+				General.getSharedPrefs(context));
 	}
 
 	private PostSort defaultMultiredditOrder(final Context context) {
 		return PrefsUtility.pref_behaviour_multi_postsort(
 				context,
-				PreferenceManager.getDefaultSharedPreferences(context));
+				General.getSharedPrefs(context));
 	}
 
 	public final PostSort getSort() {

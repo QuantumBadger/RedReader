@@ -19,11 +19,9 @@ package org.quantumbadger.redreader.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -51,9 +49,12 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 
 	private CommentListingFragment mFragment;
 
-	private FrameLayout mPane;
-
 	private String mSearchString = null;
+
+	@Override
+	protected boolean baseActivityAllowToolbarHideOnScroll() {
+		return true;
+	}
 
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
@@ -67,8 +68,7 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 		// TODO load from savedInstanceState
 
 		final View layout = getLayoutInflater().inflate(R.layout.main_single, null);
-		setBaseActivityContentView(layout);
-		mPane = (FrameLayout)layout.findViewById(R.id.main_single_frame);
+		setBaseActivityListing(layout);
 
 		RedditAccountManager.getInstance(this).addUpdateListener(this);
 
@@ -144,11 +144,7 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 				mSearchString,
 				force);
 
-		mPane.removeAllViews();
-
-		final View view = mFragment.getView();
-		mPane.addView(view);
-		General.setLayoutMatchParent(view);
+		mFragment.setBaseActivityContent(this);
 
 		setTitle("More Comments");
 	}
@@ -172,23 +168,18 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 
 	@Override
 	public void onSearchComments() {
-		DialogUtils.showSearchDialog(this, new DialogUtils.OnSearchListener() {
-			@Override
-			public void onSearch(@Nullable final String query) {
-				final Intent searchIntent = getIntent();
-				searchIntent.putExtra(EXTRA_SEARCH_STRING, query);
-				startActivity(searchIntent);
-			}
+		DialogUtils.showSearchDialog(this, query -> {
+			final Intent searchIntent = getIntent();
+			searchIntent.putExtra(EXTRA_SEARCH_STRING, query);
+			startActivity(searchIntent);
 		});
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(final MenuItem item) {
 
-		if(mFragment != null) {
-			if(mFragment.onOptionsItemSelected(item)) {
-				return true;
-			}
+		if(mFragment != null && mFragment.onOptionsItemSelected(item)) {
+			return true;
 		}
 
 		return super.onOptionsItemSelected(item);

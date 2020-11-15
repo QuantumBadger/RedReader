@@ -906,9 +906,8 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			final Context context,
 			final boolean headerMode) {
 
-		// TODO preference for the X days, X hours thing
-
 		final EnumSet<PrefsUtility.AppearancePostSubtitleItem> mPostSubtitleItems;
+		final int mPostAgeUnits;
 		if(headerMode
 				&& PrefsUtility.appearance_post_subtitle_items_use_different_settings(
 				context,
@@ -916,8 +915,14 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			mPostSubtitleItems = PrefsUtility.appearance_post_header_subtitle_items(
 					context,
 					General.getSharedPrefs(context));
+			mPostAgeUnits = PrefsUtility.appearance_post_header_age_units(
+					context,
+					General.getSharedPrefs(context));
 		} else {
 			mPostSubtitleItems = PrefsUtility.appearance_post_subtitle_items(
+					context,
+					General.getSharedPrefs(context));
+			mPostAgeUnits = PrefsUtility.appearance_post_age_units(
 					context,
 					General.getSharedPrefs(context));
 		}
@@ -1057,7 +1062,9 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			postListDescSb.append(
 					RRTime.formatDurationFrom(
 							context,
-							src.getCreatedTimeSecsUTC() * 1000),
+							src.getCreatedTimeSecsUTC() * 1000,
+							R.string.time_ago,
+							mPostAgeUnits),
 					BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR,
 					boldCol,
 					0,

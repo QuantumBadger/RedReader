@@ -372,7 +372,17 @@ public class RedditCommentView extends FlingableItemView
 		final CharSequence headerText = renderableComment.getHeader(
 				mTheme,
 				mChangeDataManager,
-				activity);
+				activity,
+				PrefsUtility.appearance_comment_age_units(
+						activity,
+						General.getSharedPrefs(activity)),
+				(mFragment != null && mFragment.getPost() != null)
+					? mFragment.getPost().src.getCreatedTimeSecsUTC()
+					: RedditRenderableComment.NO_TIMESTAMP,
+				mComment.getParent() != null
+						? mComment.getParent()
+							.asComment().getParsedComment().getRawComment().created_utc
+						: RedditRenderableComment.NO_TIMESTAMP);
 
 		if(mComment.isCollapsed(mChangeDataManager)) {
 			setFlingingEnabled(false);

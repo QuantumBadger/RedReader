@@ -389,6 +389,10 @@ public class CommentListingFragment extends RRFragment
 		return mOverlayFrame;
 	}
 
+	public RedditPreparedPost getPost() {
+		return mPost;
+	}
+
 	@Override
 	public Bundle onSaveInstanceState() {
 

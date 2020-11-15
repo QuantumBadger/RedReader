@@ -28,6 +28,7 @@ import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
+import org.quantumbadger.redreader.reddit.prepared.RedditRenderableComment;
 import org.quantumbadger.redreader.reddit.prepared.RedditRenderableInboxItem;
 
 public class RedditInboxItemView extends LinearLayout {
@@ -110,7 +111,13 @@ public class RedditInboxItemView extends LinearLayout {
 		currentItem = item;
 
 		mDivider.setVisibility(showDividerAtTop ? VISIBLE : GONE);
-		mHeader.setText(item.getHeader(theme, changeDataManager, context));
+		mHeader.setText(item.getHeader(
+				theme,
+				changeDataManager,
+				context,
+				PrefsUtility.appearance_inbox_age_units(context, General.getSharedPrefs(context)),
+				RedditRenderableComment.NO_TIMESTAMP,
+				RedditRenderableComment.NO_TIMESTAMP));
 
 		final View body = item.getBody(
 				context,

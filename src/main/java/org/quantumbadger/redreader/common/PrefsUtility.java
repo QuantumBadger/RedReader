@@ -685,6 +685,20 @@ public final class PrefsUtility {
 		return result;
 	}
 
+	public static int appearance_post_age_units(
+			final Context context,
+			final SharedPreferences sharedPreferences) {
+		try {
+			return Integer.parseInt(getString(
+					R.string.pref_appearance_post_age_units_key,
+					"2",
+					context,
+					sharedPreferences));
+		} catch(final Throwable e) {
+			return 2;
+		}
+	}
+
 	public static boolean appearance_post_subtitle_items_use_different_settings(
 			final Context context,
 			final SharedPreferences sharedPreferences) {
@@ -712,6 +726,20 @@ public final class PrefsUtility {
 		}
 
 		return result;
+	}
+
+	public static int appearance_post_header_age_units(
+			final Context context,
+			final SharedPreferences sharedPreferences) {
+		try {
+			return Integer.parseInt(getString(
+					R.string.pref_appearance_post_header_age_units_key,
+					"2",
+					context,
+					sharedPreferences));
+		} catch(final Throwable e) {
+			return 2;
+		}
 	}
 
 	public static boolean appearance_post_show_comments_button(
@@ -754,6 +782,48 @@ public final class PrefsUtility {
 		}
 
 		return result;
+	}
+
+	public static int appearance_comment_age_units(
+			final Context context,
+			final SharedPreferences sharedPreferences) {
+		try {
+			return Integer.parseInt(getString(
+					R.string.pref_appearance_comment_age_units_key,
+					"2",
+					context,
+					sharedPreferences));
+		} catch(final Throwable e) {
+			return 2;
+		}
+	}
+
+	public enum CommentAgeMode {
+		ABSOLUTE, RELATIVE_POST, RELATIVE_PARENT
+	}
+
+	public static CommentAgeMode appearance_comment_age_mode(
+			final Context context,
+			final SharedPreferences sharedPreferences) {
+		return CommentAgeMode.valueOf(StringUtils.asciiUppercase(getString(
+				R.string.pref_appearance_comment_age_mode_key,
+				"absolute",
+				context,
+				sharedPreferences)));
+	}
+
+	public static int appearance_inbox_age_units(
+			final Context context,
+			final SharedPreferences sharedPreferences) {
+		try {
+			return Integer.parseInt(getString(
+					R.string.pref_appearance_inbox_age_units_key,
+					"2",
+					context,
+					sharedPreferences));
+		} catch(final Throwable e) {
+			return 2;
+		}
 	}
 
 	///////////////////////////////

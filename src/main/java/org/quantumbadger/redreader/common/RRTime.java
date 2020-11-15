@@ -56,12 +56,30 @@ public class RRTime {
 		}
 	}
 
-	public static String formatDurationFrom(final Context context, final long startTime) {
+	public static String formatDurationFrom(
+			final Context context,
+			final long startTime,
+			final int timeStringRes,
+			final int unitsToDisplay) {
+		return formatDurationFrom(
+				context,
+				startTime,
+				utcCurrentTimeMillis(),
+				timeStringRes,
+				unitsToDisplay);
+	}
+
+	public static String formatDurationFrom(
+			final Context context,
+			final long startTime,
+			final long endTime,
+			final int timeStringRes,
+			final int unitsToDisplay) {
+
 		final String space = " ";
 		final String comma = ",";
 		final String separator = comma + space;
 
-		final long endTime = utcCurrentTimeMillis();
 		final DateTime dateTime = new DateTime(endTime);
 		final DateTime localDateTime = dateTime.withZone(DateTimeZone.getDefault());
 		final Period period = new Duration(startTime, endTime).toPeriodTo(localDateTime);
@@ -108,15 +126,20 @@ public class RRTime {
 				.appendSuffix(context.getString(R.string.time_ms))
 				.toFormatter();
 
-		String duration
-				= periodFormatter.print(period.normalizedStandard(PeriodType.yearMonthDayTime()));
+		StringBuilder duration
+				= new StringBuilder(periodFormatter.print(
+						period.normalizedStandard(PeriodType.yearMonthDayTime())));
 
-		final List<String> parts = Arrays.asList(duration.split(comma));
-		if(parts.size() >= 2) {
-			duration = parts.get(0) + comma + parts.get(1);
+		final List<String> parts = Arrays.asList(duration.toString().split(comma));
+		if(parts.size() >= unitsToDisplay) {
+			duration = new StringBuilder(parts.get(0));
+
+			for(int i = 1; i < unitsToDisplay; i ++) {
+				duration.append(comma).append(parts.get(i));
+			}
 		}
 
-		return String.format(context.getString(R.string.time_ago), duration);
+		return String.format(context.getString(timeStringRes), duration.toString());
 	}
 
 	public static long since(final long timestamp) {

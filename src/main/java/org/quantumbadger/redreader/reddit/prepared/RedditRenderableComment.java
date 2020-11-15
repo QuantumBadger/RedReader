@@ -44,6 +44,8 @@ public class RedditRenderableComment
 	private final Integer mMinimumCommentScore;
 	private final boolean mShowScore;
 
+	public final static int NO_TIMESTAMP = -1;
+
 	public RedditRenderableComment(
 			final RedditParsedComment comment,
 			final String parentPostAuthor,
@@ -82,7 +84,14 @@ public class RedditRenderableComment
 	public CharSequence getHeader(
 			final RRThemeAttributes theme,
 			final RedditChangeDataManager changeDataManager,
-			final Context context) {
+			final Context context,
+			final int commentAgeUnits,
+			final long postCreated,
+			final long parentCommentCreated) {
+
+		final PrefsUtility.CommentAgeMode commentAgeMode = PrefsUtility.appearance_comment_age_mode(
+				context,
+				General.getSharedPrefs(context));
 
 		final BetterSSB sb = new BetterSSB();
 
@@ -209,8 +218,46 @@ public class RedditRenderableComment
 		}
 
 		if(theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.AGE)) {
+			final long commentTime = rawComment.created_utc * 1000L;
+			final String formattedAge;
+
+			//In addition to enforcing the user's prefs, the lower mode cases also act as fallbacks
+			switch(commentAgeMode) {
+				case RELATIVE_PARENT:
+					if(parentCommentCreated != NO_TIMESTAMP) {
+						formattedAge = RRTime.formatDurationFrom(
+								context,
+								parentCommentCreated * 1000L,
+								commentTime,
+								R.string.time_after_reply,
+								commentAgeUnits);
+						break;
+					}
+					//Top-level comment (or unable to get the parent comment's creation time)
+				case RELATIVE_POST:
+					if(postCreated != NO_TIMESTAMP) {
+						formattedAge = RRTime.formatDurationFrom(
+								context,
+								postCreated * 1000L,
+								commentTime,
+								R.string.time_after,
+								commentAgeUnits);
+						break;
+					}
+					//Unable to get post creation date, resorting to absolute age
+				case ABSOLUTE:
+					formattedAge = RRTime.formatDurationFrom(
+							context,
+							commentTime,
+							R.string.time_ago,
+							commentAgeUnits);
+					break;
+				default:
+					throw new IllegalStateException("Unexpected value: " + commentAgeMode);
+			}
+
 			sb.append(
-					RRTime.formatDurationFrom(context, rawComment.created_utc * 1000L),
+					formattedAge,
 					BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD,
 					theme.rrCommentHeaderBoldCol,
 					0,

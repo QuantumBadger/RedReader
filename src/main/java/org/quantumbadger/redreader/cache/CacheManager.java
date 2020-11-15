@@ -179,7 +179,7 @@ public final class CacheManager {
 	public synchronized void pruneCache() {
 		pruneCache(PrefsUtility.pref_cache_maxage(
 				context,
-				PreferenceManager.getDefaultSharedPreferences(context)));
+				General.getSharedPrefs(context)));
 	}
 
 	public synchronized void pruneCache(

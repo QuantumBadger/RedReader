@@ -22,15 +22,16 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.account.RedditAccountManager;
+import org.quantumbadger.redreader.cache.CacheDataStreamChunkConsumer;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.cache.CacheRequestJSONParser;
+import org.quantumbadger.redreader.cache.CacheRequestCallbacks;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.Priority;
-import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -66,17 +67,53 @@ public final class RedditVideosAPI {
 				Constants.FileType.IMAGE_INFO,
 				CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
 				context,
-				new CacheRequestJSONParser(context, new CacheRequestJSONParser.Listener() {
+				new CacheRequestCallbacks() {
+
+					@NonNull private final ByteArrayOutputStream mBuffer
+							= new ByteArrayOutputStream(32 * 1024);
+
 					@Override
-					public void onJsonParsed(
-							@NonNull final JsonValue value,
+					public CacheDataStreamChunkConsumer onDataStreamAvailable() {
+						return new CacheDataStreamChunkConsumer() {
+							@Override
+							public void onDataStreamChunk(
+									@NonNull final byte[] dataReused,
+									final int offset,
+									final int length) {
+								mBuffer.write(dataReused, offset, length);
+							}
+
+							@Override
+							public void onDataStreamSuccess() {}
+
+							@Override
+							public void onDataStreamCancel() {}
+						};
+					}
+
+					@Override
+					public void onFailure(
+							final int type,
+							@Nullable final Throwable t,
+							@Nullable final Integer httpStatus,
+							@Nullable final String readableMessage) {
+
+						listener.onFailure(type, t, httpStatus, readableMessage);
+					}
+
+					@Override
+					public void onSuccess(
+							@NonNull final CacheManager.ReadableCacheFile cacheFile,
 							final long timestamp,
 							@NonNull final UUID session,
-							final boolean fromCache) {
+							final boolean fromCache,
+							@Nullable final String mimetype) {
 
 						try {
 
-							final String mpd = value.toString();
+							final String mpd = new String(
+									mBuffer.toByteArray(),
+									General.CHARSET_UTF8);
 
 							String videoUrl = null;
 							String audioUrl = null;
@@ -142,16 +179,6 @@ public final class RedditVideosAPI {
 									"Failed to read mpd");
 						}
 					}
-
-					@Override
-					public void onFailure(
-							final int type,
-							@Nullable final Throwable t,
-							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage) {
-
-						listener.onFailure(type, t, httpStatus, readableMessage);
-					}
-				})));
+				}));
 	}
 }

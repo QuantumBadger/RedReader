@@ -1721,7 +1721,7 @@ public final class PrefsUtility {
 			final SharedPreferences sharedPreferences) {
 		return getBoolean(
 				R.string.pref_menus_quick_account_switcher_key,
-				false,
+				true,
 				context,
 				sharedPreferences);
 	}

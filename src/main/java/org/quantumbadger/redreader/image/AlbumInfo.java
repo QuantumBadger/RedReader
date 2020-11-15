@@ -153,8 +153,7 @@ public class AlbumInfo {
 	@Nullable
 	public static AlbumInfo parseRedditGallery(
 			final String url,
-			final JsonBufferedObject object)
-			throws IOException, InterruptedException {
+			final JsonBufferedObject object) throws IOException, InterruptedException {
 
 		final JsonBufferedObject mediaMetadataList = object.getObject("media_metadata");
 		final JsonBufferedObject galleryData = object.getObject("gallery_data");
@@ -171,8 +170,7 @@ public class AlbumInfo {
 
 			final JsonBufferedObject item = itemValue.asObject();
 
-			final String mediaId = StringEscapeUtils.unescapeHtml4(item.getString(
-					"media_id"));
+			final String mediaId = StringEscapeUtils.unescapeHtml4(item.getString("media_id"));
 
 			@Nullable final String caption
 					= StringEscapeUtils.unescapeHtml4(item.getString("caption"));
@@ -182,8 +180,7 @@ public class AlbumInfo {
 			@Nullable final String outboundUrl
 					= StringEscapeUtils.unescapeHtml4(item.getString("outbound_url"));
 
-			final JsonBufferedObject mediaMetadataEntry = mediaMetadataList.getObject(
-					mediaId);
+			final JsonBufferedObject mediaMetadataEntry = mediaMetadataList.getObject(mediaId);
 
 			@Nullable final String mimetype
 					= StringEscapeUtils.unescapeHtml4(mediaMetadataEntry.getString("m"));
@@ -193,8 +190,18 @@ public class AlbumInfo {
 			final ImageInfo.MediaType mediaType
 					= stringToMediaType(mediaMetadataEntry.getString("e"));
 
+			String urlEscaped = standardImage.getString("u");
+
+			if(urlEscaped == null) {
+				urlEscaped = standardImage.getString("mp4");
+
+				if(urlEscaped == null) {
+					urlEscaped = standardImage.getString("gif");
+				}
+			}
+
 			images.add(new ImageInfo(
-					StringEscapeUtils.unescapeHtml4(standardImage.getString("u")),
+					StringEscapeUtils.unescapeHtml4(urlEscaped),
 					getThumbnail(mediaMetadataEntry.getArray("p")),
 					caption,
 					null,

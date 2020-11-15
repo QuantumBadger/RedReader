@@ -1716,6 +1716,16 @@ public final class PrefsUtility {
 		return appbarItemsPrefs;
 	}
 
+	public static boolean pref_menus_quick_account_switcher(
+			final Context context,
+			final SharedPreferences sharedPreferences) {
+		return getBoolean(
+				R.string.pref_menus_quick_account_switcher_key,
+				false,
+				context,
+				sharedPreferences);
+	}
+
 	///////////////////////////////
 	// pref_pinned_subreddits
 	///////////////////////////////

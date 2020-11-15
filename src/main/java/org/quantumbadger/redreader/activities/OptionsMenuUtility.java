@@ -29,6 +29,8 @@ import android.view.SubMenu;
 import android.view.WindowManager;
 import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.account.RedditAccount;
+import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.StringUtils;
@@ -40,6 +42,8 @@ import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.reddit.url.UserCommentListingURL;
 import org.quantumbadger.redreader.settings.SettingsActivity;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -438,12 +442,10 @@ public final class OptionsMenuUtility {
 			}
 		}
 
-		add(
+		addAccounts(
 				activity,
 				menu,
-				Option.ACCOUNTS,
-				getOrThrow(appbarItemsPrefs, AppbarItemsPref.ACCOUNTS),
-				false);
+				getOrThrow(appbarItemsPrefs, AppbarItemsPref.ACCOUNTS));
 		add(
 				activity,
 				menu,
@@ -590,8 +592,12 @@ public final class OptionsMenuUtility {
 				final MenuItem accounts = menu.add(
 						Menu.NONE,
 						AppbarItemsPref.ACCOUNTS.ordinal(),
-						Menu.NONE,
-						R.string.options_accounts)
+						longText
+							? QuickAccountsSort.MANAGER
+							: Menu.NONE,
+						activity.getString(longText
+								? R.string.options_account_manager
+								: R.string.options_accounts))
 						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 							@Override
 							public boolean onMenuItemClick(final MenuItem item) {
@@ -603,7 +609,11 @@ public final class OptionsMenuUtility {
 						});
 
 				accounts.setShowAsAction(showAsAction);
-				accounts.setIcon(R.drawable.ic_accounts_dark);
+				if(longText) {
+					accounts.setIcon(R.drawable.ic_settings_light);
+				} else {
+					accounts.setIcon(R.drawable.ic_accounts_dark);
+				}
 
 				break;
 			}
@@ -1309,6 +1319,81 @@ public final class OptionsMenuUtility {
 						return true;
 					}
 				});
+	}
+
+	private static class QuickAccountsSort {
+		//Constants for sorting the quick accounts submenu properly
+		//Real accounts first, then Anonymous, then the account dialog
+		static final int ACCOUNT = 2,
+				ANONYMOUS = 3,
+				MANAGER = 4;
+	}
+
+	private static void addAccounts(
+			final BaseActivity activity,
+			final Menu menu,
+			final int showAsAction) {
+
+		if(showAsAction == DO_NOT_SHOW) {
+			return;
+		}
+
+		if(PrefsUtility.pref_menus_quick_account_switcher(
+				activity,
+				General.getSharedPrefs(activity))) {
+
+			//Quick account switcher is on, create its SubMenu and add it to the main menu
+			final int ACCOUNTS_GROUP = 1;
+
+			final SubMenu accountsMenu = menu.addSubMenu(
+					Menu.NONE,
+					AppbarItemsPref.ACCOUNTS.ordinal(),
+					Menu.NONE,
+					R.string.options_accounts);
+			accountsMenu.getItem().setShowAsAction(handleShowAsActionIfRoom(showAsAction));
+			accountsMenu.getItem().setIcon(R.drawable.ic_accounts_dark);
+
+			//Get the list of accounts and sort them so they don't move around
+			final RedditAccountManager accountManager = RedditAccountManager.getInstance(activity);
+			final ArrayList<RedditAccount> accountsList = accountManager.getAccounts();
+
+			Collections.sort(accountsList, (o1, o2) -> o1.username.compareTo(o2.username));
+
+			//Add a MenuItem for each account, always putting Anonymous after the real accounts
+			//Each account gets a radio button to show which one is active
+			for(final RedditAccount account : accountsList) {
+				final MenuItem accountsMenuItem = accountsMenu.add(
+						ACCOUNTS_GROUP,
+						Menu.NONE,
+						account.isAnonymous()
+								? QuickAccountsSort.ANONYMOUS
+								: QuickAccountsSort.ACCOUNT,
+						account.isAnonymous()
+								? activity.getString(R.string.accounts_anon)
+								: account.username)
+						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+							@Override
+							public boolean onMenuItemClick(final MenuItem item) {
+								accountManager.setDefaultAccount(account);
+								return true;
+							}
+						});
+
+				if(account.equals(accountManager.getDefaultAccount())) {
+					accountsMenuItem.setChecked(true);
+				}
+			}
+
+			accountsMenu.setGroupCheckable(ACCOUNTS_GROUP,true, true);
+
+			//Add a MenuItem for the full account dialog, so it's still accessible for changes
+			add(activity, accountsMenu, Option.ACCOUNTS);
+
+		} else {
+
+			//Quick account switcher is off, just make the button go straight to the dialog
+			add(activity, menu, Option.ACCOUNTS, showAsAction, false);
+		}
 	}
 
 	public static int handleShowAsActionIfRoom(final int showAsAction) {

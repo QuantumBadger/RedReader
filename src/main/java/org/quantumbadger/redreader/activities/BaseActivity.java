@@ -35,6 +35,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.cache.CacheActivityTracker;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.TorCommon;
@@ -259,6 +260,10 @@ public abstract class BaseActivity extends AppCompatActivity
 	public void setBaseActivityOverlay(@NonNull final View view) {
 		mContentOverlay.removeAllViews();
 		mContentOverlay.addView(view);
+
+		final View cacheWidget = CacheActivityTracker.getWidget(this);
+		mContentOverlay.addView(cacheWidget);
+		General.setLayoutMatchWidthWrapHeight(cacheWidget);
 	}
 
 	@Override

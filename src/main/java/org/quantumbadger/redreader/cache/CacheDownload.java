@@ -94,11 +94,19 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 			return;
 		}
 
+		final CacheActivityTracker.ActiveRequest trackerDetails
+				= new CacheActivityTracker.ActiveRequest(mInitiator.url.toString());
+
+		CacheActivityTracker.registerRequest(trackerDetails);
+
 		try {
-			performDownload(mRequest);
+			performDownload(mRequest, trackerDetails);
 
 		} catch(final Throwable t) {
 			BugReportActivity.handleGlobalError(mInitiator.context, t);
+
+		} finally {
+			CacheActivityTracker.unregisterRequest(trackerDetails);
 		}
 	}
 
@@ -106,7 +114,9 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 		resetUserCredentials.set(true);
 	}
 
-	private void performDownload(final HTTPBackend.Request request) {
+	private void performDownload(
+			final HTTPBackend.Request request,
+			final CacheActivityTracker.ActiveRequest trackerDetails) {
 
 		if(mInitiator.queueType == CacheRequest.DOWNLOAD_QUEUE_REDDIT_API) {
 
@@ -237,6 +247,9 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 									false,
 									totalBytesRead,
 									bodyBytes);
+
+							trackerDetails.progressPercent.set(
+									(int)((100 * totalBytesRead) / bodyBytes));
 						}
 					}
 

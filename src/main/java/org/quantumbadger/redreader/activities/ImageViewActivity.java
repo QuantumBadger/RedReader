@@ -375,7 +375,7 @@ public class ImageViewActivity extends BaseActivity
 
 		}
 
-		setBaseActivityContentView(outerFrame);
+		setBaseActivityListing(outerFrame);
 	}
 
 	private void setMainView(final View v) {
@@ -617,11 +617,6 @@ public class ImageViewActivity extends BaseActivity
 					return;
 				}
 
-				if(cacheFileInputStream == null) {
-					revertToWeb();
-					return;
-				}
-
 				gifThread = new GifDecoderThread(
 						cacheFileInputStream,
 						new GifDecoderThread.OnGifLoadedListener() {
@@ -685,11 +680,6 @@ public class ImageViewActivity extends BaseActivity
 			final ImageTileSource imageTileSource;
 			try {
 				try(InputStream cacheFileInputStream = cacheFile.getInputStream()) {
-
-					if(cacheFileInputStream == null) {
-						revertToWeb();
-						return;
-					}
 
 					imageTileSource = new ImageTileSourceWholeBitmap(
 							BitmapFactory.decodeStream(cacheFileInputStream));
@@ -1219,11 +1209,11 @@ public class ImageViewActivity extends BaseActivity
 
 									final RRError error
 											= General.getGeneralErrorForFailure(
-											context,
-											type,
-											t,
-											status,
-											url.toString());
+													context,
+													type,
+													t,
+													status,
+													url.toString());
 
 									AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 										// TODO handle properly

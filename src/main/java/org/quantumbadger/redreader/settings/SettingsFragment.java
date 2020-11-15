@@ -25,6 +25,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -32,6 +33,7 @@ import android.preference.PreferenceFragment;
 import android.text.Html;
 import org.quantumbadger.redreader.BuildConfig;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.activities.ChangelogActivity;
 import org.quantumbadger.redreader.activities.HtmlViewActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -45,6 +47,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("deprecation")
 public final class SettingsFragment extends PreferenceFragment {
 
 	@Override
@@ -106,6 +109,7 @@ public final class SettingsFragment extends PreferenceFragment {
 				R.string.pref_behaviour_gallery_swipe_length_key,
 				R.string.pref_behaviour_pinned_subredditsort_key,
 				R.string.pref_behaviour_blocked_subredditsort_key,
+				R.string.pref_behaviour_save_location_key,
 				R.string.pref_cache_rerequest_postlist_age_key,
 				R.string.pref_appearance_thumbnails_show_list_key,
 				R.string.pref_cache_precache_images_list_key,
@@ -144,16 +148,18 @@ public final class SettingsFragment extends PreferenceFragment {
 				continue;
 			}
 
-			final int index = listPreference.findIndexOfValue(listPreference.getValue());
-			if(index < 0) {
-				continue;
+			{
+				final int index = listPreference.findIndexOfValue(listPreference.getValue());
+				if(index < 0) {
+					continue;
+				}
+
+				listPreference.setSummary(listPreference.getEntries()[index]);
 			}
 
-			listPreference.setSummary(listPreference.getEntries()[index]);
-
 			listPreference.setOnPreferenceChangeListener((preference, newValue) -> {
-				final int index1 = listPreference.findIndexOfValue((String)newValue);
-				listPreference.setSummary(listPreference.getEntries()[index1]);
+				final int index = listPreference.findIndexOfValue((String)newValue);
+				listPreference.setSummary(listPreference.getEntries()[index]);
 				return true;
 			});
 		}
@@ -235,12 +241,17 @@ public final class SettingsFragment extends PreferenceFragment {
 		}
 
 		if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-			final Preference pref =
-					findPreference(getString(R.string.pref_appearance_navbar_color_key));
 
-			if(pref != null) {
-				pref.setEnabled(false);
-				pref.setSummary(R.string.pref_not_supported_before_lollipop);
+			for(final int key : new int[] {
+					R.string.pref_appearance_navbar_color_key,
+					R.string.pref_behaviour_save_location_key}) {
+
+				final Preference pref = findPreference(getString(key));
+
+				if(pref != null) {
+					pref.setEnabled(false);
+					pref.setSummary(R.string.pref_not_supported_before_lollipop);
+				}
 			}
 		}
 
@@ -276,6 +287,66 @@ public final class SettingsFragment extends PreferenceFragment {
 
 				return true;
 			});
+		}
+
+		{
+			final CheckBoxPreference hideOnScrollPref = (CheckBoxPreference)
+					findPreference(getString(R.string.pref_appearance_hide_toolbar_on_scroll_key));
+
+			final Preference toolbarAtBottomPref = findPreference(getString(
+					R.string.pref_appearance_bottom_toolbar_key));
+
+			final Preference twoPanePref = findPreference(getString(
+					R.string.pref_appearance_twopane_key));
+
+			if(hideOnScrollPref != null
+					|| twoPanePref != null
+					|| toolbarAtBottomPref != null) {
+
+				if(!(hideOnScrollPref != null
+						&& twoPanePref != null
+						&& toolbarAtBottomPref != null)) {
+
+					BugReportActivity.handleGlobalError(context, new RuntimeException(
+							"Not all preferences present"));
+					return;
+				}
+
+				final Runnable update = () -> {
+
+					if(General.isTablet(context, General.getSharedPrefs(context))) {
+						hideOnScrollPref.setEnabled(false);
+						hideOnScrollPref.setSummary(
+								R.string.pref_appearance_not_possible_in_tablet_mode);
+						toolbarAtBottomPref.setEnabled(true);
+
+					} else {
+						hideOnScrollPref.setEnabled(true);
+						hideOnScrollPref.setSummary(null);
+						toolbarAtBottomPref.setEnabled(!hideOnScrollPref.isChecked());
+					}
+				};
+
+				update.run();
+
+				for(final Preference pref : new Preference[] {twoPanePref, hideOnScrollPref}) {
+
+					final Preference.OnPreferenceChangeListener existingListener
+							= pref.getOnPreferenceChangeListener();
+
+					pref.setOnPreferenceChangeListener((preference, newValue) -> {
+
+						// Post this after the preference has been updated
+						AndroidCommon.UI_THREAD_HANDLER.post(update);
+
+						if(existingListener != null) {
+							return existingListener.onPreferenceChange(preference, newValue);
+						} else {
+							return true;
+						}
+					});
+				}
+			}
 		}
 	}
 

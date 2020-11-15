@@ -22,7 +22,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -50,9 +49,12 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 
 	private CommentListingFragment mFragment;
 
-	private FrameLayout mPane;
-
 	private String mSearchString = null;
+
+	@Override
+	protected boolean baseActivityAllowToolbarHideOnScroll() {
+		return true;
+	}
 
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
@@ -66,8 +68,7 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 		// TODO load from savedInstanceState
 
 		final View layout = getLayoutInflater().inflate(R.layout.main_single, null);
-		setBaseActivityContentView(layout);
-		mPane = (FrameLayout)layout.findViewById(R.id.main_single_frame);
+		setBaseActivityListing(layout);
 
 		RedditAccountManager.getInstance(this).addUpdateListener(this);
 
@@ -143,11 +144,7 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 				mSearchString,
 				force);
 
-		mPane.removeAllViews();
-
-		final View view = mFragment.getView();
-		mPane.addView(view);
-		General.setLayoutMatchParent(view);
+		mFragment.setBaseActivityContent(this);
 
 		setTitle("More Comments");
 	}

@@ -373,7 +373,7 @@ public class PostListingFragment extends RRFragment
 	}
 
 	@Override
-	public View getView() {
+	public View getListingView() {
 		return mOuter;
 	}
 

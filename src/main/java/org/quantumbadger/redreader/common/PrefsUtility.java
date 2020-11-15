@@ -95,8 +95,7 @@ public final class PrefsUtility {
 	}
 
 	public static boolean isReLayoutRequired(final Context context, final String key) {
-		return context.getString(R.string.pref_appearance_twopane_key).equals(key)
-				|| context.getString(R.string.pref_appearance_theme_key).equals(key)
+		return context.getString(R.string.pref_appearance_theme_key).equals(key)
 				|| context.getString(R.string.pref_menus_mainmenu_useritems_key)
 				.equals(key)
 				|| context.getString(R.string.pref_menus_mainmenu_shortcutitems_key)
@@ -120,7 +119,8 @@ public final class PrefsUtility {
 	}
 
 	public static boolean isRestartRequired(final Context context, final String key) {
-		return context.getString(R.string.pref_appearance_theme_key).equals(key)
+		return context.getString(R.string.pref_appearance_twopane_key).equals(key)
+				|| context.getString(R.string.pref_appearance_theme_key).equals(key)
 				|| context.getString(R.string.pref_appearance_navbar_color_key).equals(key)
 				|| context.getString(R.string.pref_appearance_langforce_key).equals(key)
 				|| context.getString(R.string.pref_behaviour_bezel_toolbar_swipezone_key)
@@ -1352,7 +1352,21 @@ public final class PrefsUtility {
 			final SharedPreferences sharedPreferences) {
 		return ScreenOrientation.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_screenorientation_key,
-				ScreenOrientation.AUTO.name(),
+				StringUtils.asciiLowercase(ScreenOrientation.AUTO.name()),
+				context,
+				sharedPreferences)));
+	}
+
+	public enum SaveLocation {
+		PROMPT_EVERY_TIME, SYSTEM_DEFAULT
+	}
+
+	public static SaveLocation pref_behaviour_save_location(
+			final Context context,
+			final SharedPreferences sharedPreferences) {
+		return SaveLocation.valueOf(StringUtils.asciiUppercase(getString(
+				R.string.pref_behaviour_save_location_key,
+				StringUtils.asciiLowercase(SaveLocation.PROMPT_EVERY_TIME.name()),
 				context,
 				sharedPreferences)));
 	}

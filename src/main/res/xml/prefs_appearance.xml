@@ -53,13 +53,11 @@
 
 		<CheckBoxPreference android:title="@string/pref_appearance_hide_toolbar_on_scroll_title"
 							android:key="@string/pref_appearance_hide_toolbar_on_scroll_key"
-							android:defaultValue="false"
-							android:disableDependentsState="true"/>
+							android:defaultValue="false"/>
 
 		<CheckBoxPreference android:title="@string/pref_appearance_bottom_toolbar_title"
 							android:key="@string/pref_appearance_bottom_toolbar_key"
-							android:defaultValue="false"
-							android:dependency="@string/pref_appearance_hide_toolbar_on_scroll_key"/>
+							android:defaultValue="false"/>
 
     </PreferenceCategory>
 

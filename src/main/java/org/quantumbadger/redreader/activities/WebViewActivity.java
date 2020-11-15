@@ -63,7 +63,7 @@ public class WebViewActivity extends BaseActivity
 
 		webView = WebViewFragment.newInstance(url, mPost);
 
-		setBaseActivityContentView(View.inflate(this, R.layout.main_single, null));
+		setBaseActivityListing(View.inflate(this, R.layout.main_single, null));
 
 		getSupportFragmentManager().beginTransaction()
 				.add(R.id.main_single_frame, webView)

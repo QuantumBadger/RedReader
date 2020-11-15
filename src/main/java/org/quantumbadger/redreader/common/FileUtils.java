@@ -18,6 +18,9 @@
 package org.quantumbadger.redreader.common;
 
 import android.Manifest;
+import android.annotation.TargetApi;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -25,10 +28,12 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.StatFs;
+import android.provider.MediaStore;
 import android.util.Log;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.BugReportActivity;
@@ -267,67 +272,203 @@ public class FileUtils {
 		});
 	}
 
+	private interface FileDataSource {
+		void writeTo(@NonNull OutputStream outputStream) throws IOException;
+	}
+
+	private static class CacheFileDataSource implements FileDataSource {
+
+		@NonNull private final CacheManager.ReadableCacheFile mCacheFile;
+
+		private CacheFileDataSource(
+				@NonNull final CacheManager.ReadableCacheFile cacheFile) {
+
+			mCacheFile = cacheFile;
+		}
+
+		@Override
+		public void writeTo(@NonNull final OutputStream outputStream) throws IOException {
+
+			try(InputStream inputStream = mCacheFile.getInputStream()) {
+				General.copyStream(inputStream, outputStream);
+				outputStream.flush();
+			}
+		}
+	}
+
+	@TargetApi(Build.VERSION_CODES.Q)
+	private static void mediaStoreDownloadsInsertFile(
+			@NonNull final BaseActivity activity,
+			@NonNull final String name,
+			@Nullable final String mimetype,
+			final long fileSize,
+			@NonNull final FileDataSource source,
+			@NonNull final Runnable onSuccess) {
+
+		final Uri downloads = MediaStore.Downloads.getContentUri(MediaStore.VOLUME_EXTERNAL);
+
+		Log.i(TAG, "Got downloads URI: " + downloads.toString());
+
+		final ContentValues fileMetadata = new ContentValues();
+		fileMetadata.put(MediaStore.Downloads.DISPLAY_NAME, name);
+		fileMetadata.put(MediaStore.Downloads.SIZE, fileSize);
+
+		if(mimetype != null) {
+			fileMetadata.put(MediaStore.Downloads.MIME_TYPE, mimetype);
+		}
+
+		fileMetadata.put(MediaStore.Downloads.IS_PENDING, true);
+
+		final ContentResolver resolver = activity.getContentResolver();
+
+		final Uri fileUri = resolver.insert(downloads, fileMetadata);
+
+		Log.i(TAG, "Got file URI: " + fileUri.toString());
+
+		new Thread(() -> {
+
+			try(OutputStream os = resolver.openOutputStream(fileUri)) {
+				source.writeTo(os);
+				os.flush();
+
+			} catch(final IOException e) {
+
+				showUnexpectedStorageErrorDialog(
+						activity,
+						e,
+						fileUri.toString());
+
+				resolver.delete(fileUri, null, null);
+
+				return;
+			}
+
+			fileMetadata.put(MediaStore.Downloads.IS_PENDING, false);
+			resolver.update(fileUri, fileMetadata, null, null);
+
+			onSuccess.run();
+
+		}).start();
+	}
+
+	private static void createSAFDocumentWithIntent(
+			@NonNull final BaseActivity activity,
+			@NonNull final String filename,
+			@Nullable final String mimetype,
+			@NonNull final FileDataSource source,
+			@NonNull final Runnable onSuccess) {
+
+		final Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT)
+				.setType(mimetype)
+				.putExtra(Intent.EXTRA_TITLE, filename)
+				.addCategory(Intent.CATEGORY_OPENABLE);
+
+		activity.startActivityForResultWithCallback(
+				intent,
+				(resultCode, data) -> {
+
+					if(data == null || data.getData() == null) {
+						return;
+					}
+
+					new Thread(() -> {
+
+						try(OutputStream outputStream = activity.getContentResolver()
+								.openOutputStream(data.getData())) {
+
+							source.writeTo(outputStream);
+
+							onSuccess.run();
+
+						} catch(final IOException e) {
+							showUnexpectedStorageErrorDialog(
+									activity,
+									e,
+									data.getData().toString());
+						}
+
+					}).start();
+				});
+	}
+
 	public static void saveImageAtUri(
 			@NonNull final BaseActivity activity,
 			@NonNull final String uri) {
 
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
-			downloadImageToSave(activity, uri, (info, cacheFile, mimetype) -> {
+			final PrefsUtility.SaveLocation saveLocation
+					= PrefsUtility.pref_behaviour_save_location(
+							activity,
+							General.getSharedPrefs(activity));
 
-				final String filename = General.filenameFromString(info.urlOriginal);
+			switch(saveLocation) {
 
-				final Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT)
-						.setType(mimetype)
-						.putExtra(Intent.EXTRA_TITLE, filename)
-						.addCategory(Intent.CATEGORY_OPENABLE);
+				case PROMPT_EVERY_TIME: {
 
-				activity.startActivityForResultWithCallback(
-						intent,
-						(resultCode, data) -> {
+					Log.i(TAG, "Android version Lollipop or higher, showing SAF prompt");
 
-							if(data == null || data.getData() == null) {
-								return;
-							}
+					downloadImageToSave(activity, uri, (info, cacheFile, mimetype) -> {
 
-							new Thread(() -> {
+						final String filename = General.filenameFromString(info.urlOriginal);
 
-								try(InputStream inputStream = cacheFile.getInputStream()) {
+						createSAFDocumentWithIntent(
+								activity,
+								filename,
+								mimetype,
+								new CacheFileDataSource(cacheFile),
+								() -> General.quickToast(
+										activity,
+										R.string.action_save_image_success_no_path));
+					});
 
-									try(OutputStream outputStream = activity.getContentResolver()
-											.openOutputStream(data.getData())) {
+					break;
+				}
 
-										General.copyStream(inputStream, outputStream);
-										outputStream.flush();
+				case SYSTEM_DEFAULT: {
 
-										General.quickToast(
-												activity,
-												R.string.action_save_image_success_no_path);
+					Log.i(TAG, "Android version Lollipop or higher, saving to Downloads");
 
-									} catch(final IOException e) {
-										showUnexpectedStorageErrorDialog(
-												activity,
-												e,
-												data.getData().toString());
-									}
+					if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
 
-								} catch(final IOException e) {
+						Log.i(TAG, "Android version Q or higher, saving with MediaStore");
 
-									final Uri cacheFileUri = cacheFile.getUri();
+						downloadImageToSave(activity, uri, (info, cacheFile, mimetype) -> {
 
-									showUnexpectedStorageErrorDialog(
+							final String filename = General.filenameFromString(info.urlOriginal);
+
+							mediaStoreDownloadsInsertFile(
+									activity,
+									filename,
+									mimetype,
+									cacheFile.getFile().map(File::length).orElse(0L),
+									new CacheFileDataSource(cacheFile),
+									() -> General.quickToast(
 											activity,
-											e,
-											cacheFileUri != null
-													? cacheFileUri.toString()
-													: "null");
-								}
-
-							}).start();
+											R.string.action_save_image_success_no_path));
 						});
-			});
+
+					} else {
+						Log.i(TAG, "Android version below Q, saving with legacy method");
+
+						activity.requestPermissionWithCallback(
+								Manifest.permission.WRITE_EXTERNAL_STORAGE,
+								new LegacySaveImageCallback(activity, uri));
+					}
+
+					break;
+				}
+
+				default: {
+					BugReportActivity.handleGlobalError(activity, new RuntimeException(
+							"Missing handler for preference value " + saveLocation));
+				}
+			}
 
 		} else {
+
+			Log.i(TAG, "Android version before Lollipop, using legacy save method");
+
 			activity.requestPermissionWithCallback(
 					Manifest.permission.WRITE_EXTERNAL_STORAGE,
 					new LegacySaveImageCallback(activity, uri));
@@ -359,9 +500,6 @@ public class FileUtils {
 			@NonNull final String uri,
 			@NonNull final DownloadImageToSaveSuccessCallback callback) {
 
-		final RedditAccount account
-				= RedditAccountManager.getInstance(activity).getDefaultAccount();
-
 		LinkHandler.getImageInfo(
 				activity,
 				uri,
@@ -389,7 +527,7 @@ public class FileUtils {
 
 						CacheManager.getInstance(activity).makeRequest(new CacheRequest(
 								General.uriFromString(info.urlOriginal),
-								account,
+								RedditAccountManager.getAnon(),
 								null,
 								Constants.Priority.IMAGE_VIEW,
 								0,
@@ -409,12 +547,12 @@ public class FileUtils {
 							protected void onDownloadNecessary() {
 								General.quickToast(
 										context,
-										R.string.download_downloading);
+										R.string.download_downloading,
+										Toast.LENGTH_SHORT);
 							}
 
 							@Override
-							protected void onDownloadStarted() {
-							}
+							protected void onDownloadStarted() {}
 
 							@Override
 							protected void onFailure(

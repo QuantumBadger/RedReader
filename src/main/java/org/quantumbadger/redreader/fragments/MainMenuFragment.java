@@ -211,7 +211,7 @@ public class MainMenuFragment extends RRFragment implements
 	}
 
 	@Override
-	public View getView() {
+	public View getListingView() {
 		return mOuter;
 	}
 

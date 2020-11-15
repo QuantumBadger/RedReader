@@ -201,7 +201,7 @@ public class OAuthLoginActivity extends BaseActivity {
 			}
 		});
 
-		setBaseActivityContentView(mWebView);
+		setBaseActivityListing(mWebView);
 	}
 
 	@Override

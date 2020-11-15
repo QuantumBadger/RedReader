@@ -99,7 +99,8 @@ public class CommentListingFragment extends RRFragment
 
 	private final RecyclerView mRecyclerView;
 
-	private final FrameLayout mOuterFrame;
+	private final View mListingView;
+	private final FrameLayout mOverlayFrame;
 	private final @Nullable LinearLayout mFloatingToolbar;
 
 	private final float mSelfTextFontScale;
@@ -157,7 +158,7 @@ public class CommentListingFragment extends RRFragment
 
 		mShowLinkButtons = PrefsUtility.pref_appearance_linkbuttons(context, prefs);
 
-		mOuterFrame = new FrameLayout(context);
+		mOverlayFrame = new FrameLayout(context);
 
 		final ScrollbarRecyclerViewManager recyclerViewManager
 				= new ScrollbarRecyclerViewManager(context, null, false);
@@ -174,7 +175,7 @@ public class CommentListingFragment extends RRFragment
 				(LinearLayoutManager)mRecyclerView.getLayoutManager());
 
 		mRecyclerView.setAdapter(mCommentListingManager.getAdapter());
-		mOuterFrame.addView(recyclerViewManager.getOuterView());
+		mListingView = recyclerViewManager.getOuterView();
 
 		mRecyclerView.setItemAnimator(null);
 
@@ -192,17 +193,16 @@ public class CommentListingFragment extends RRFragment
 			mFloatingToolbar = null;
 
 		} else {
-			mFloatingToolbar = (LinearLayout)LayoutInflater.from(context)
-					.inflate(
-							R.layout.floating_toolbar,
-							mOuterFrame,
-							false);
+			mFloatingToolbar = (LinearLayout)LayoutInflater.from(context).inflate(
+					R.layout.floating_toolbar,
+					mOverlayFrame,
+					false);
 
 			// We need a container so that setVisible() doesn't mess with the Z-order
 			final FrameLayout floatingToolbarContainer = new FrameLayout(context);
 
 			floatingToolbarContainer.addView(mFloatingToolbar);
-			mOuterFrame.addView(floatingToolbarContainer);
+			mOverlayFrame.addView(floatingToolbarContainer);
 
 			if(PrefsUtility.isNightMode(context)) {
 				mFloatingToolbar.setBackgroundColor(Color.argb(0xCC, 0x33, 0x33, 0x33));
@@ -336,8 +336,8 @@ public class CommentListingFragment extends RRFragment
 					}
 				});
 
-		mOuterFrame.addView(bezelOverlay);
-		mOuterFrame.addView(toolbarOverlay);
+		mOverlayFrame.addView(bezelOverlay);
+		mOverlayFrame.addView(toolbarOverlay);
 
 		bezelOverlay.getLayoutParams().width
 				= android.widget.FrameLayout.LayoutParams.MATCH_PARENT;
@@ -379,8 +379,14 @@ public class CommentListingFragment extends RRFragment
 	}
 
 	@Override
-	public View getView() {
-		return mOuterFrame;
+	public View getListingView() {
+		return mListingView;
+	}
+
+	@Nullable
+	@Override
+	public View getOverlayView() {
+		return mOverlayFrame;
 	}
 
 	public RedditPreparedPost getPost() {

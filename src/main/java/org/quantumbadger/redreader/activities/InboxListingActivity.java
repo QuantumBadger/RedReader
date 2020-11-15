@@ -191,7 +191,7 @@ public final class InboxListingActivity extends BaseActivity {
 
 		makeFirstRequest(this);
 
-		setBaseActivityContentView(outer);
+		setBaseActivityListing(outer);
 	}
 
 	public void cancel() {

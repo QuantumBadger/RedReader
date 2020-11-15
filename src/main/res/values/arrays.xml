@@ -1061,6 +1061,19 @@
 		<item>absolute</item>
 		<item>relative_post</item>
 		<item>relative_parent</item>
+  </string-array>
+
+	<!-- 2020-11-14 -->
+
+	<string-array name="pref_behaviour_save_location_options">
+		<item>@string/pref_behaviour_save_location_prompt_every_time</item>
+		<item>@string/pref_behaviour_save_location_system_default</item>
+	</string-array>
+
+	<!-- Constants. Do not change. -->
+	<string-array name="pref_behaviour_save_location_options_return">
+		<item>prompt_every_time</item>
+		<item>system_default</item>
 	</string-array>
 
 </resources>

@@ -50,7 +50,7 @@ public class ChangelogActivity extends BaseActivity {
 
 		final ScrollView sv = new ScrollView(this);
 		sv.addView(items);
-		setBaseActivityContentView(sv);
+		setBaseActivityListing(sv);
 	}
 
 	@Override

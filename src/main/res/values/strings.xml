@@ -1314,9 +1314,14 @@
 	<string name="pref_cache_clear_key" translatable="false">pref_cache_clear</string>
 	<string name="pref_cache_clear_title">Clear cache</string>
 	<string name="dialog_clear">Clear</string>
-	<string name="cache_clear_dialog_listings">Listings (%s)</string>
-	<string name="cache_clear_dialog_thumbnails">Thumbnails (%s)</string>
-	<string name="cache_clear_dialog_images">Images (%s)</string>
+	<string name="cache_clear_dialog_loading">Loading data usages</string>
+	<string name="cache_clear_dialog_loaded">Loaded data usages</string>
+	<string name="cache_clear_dialog_listings">Listings</string>
+	<string name="cache_clear_dialog_listings_data">Listings (%s)</string>
+	<string name="cache_clear_dialog_thumbnails">Thumbnails</string>
+	<string name="cache_clear_dialog_thumbnails_data">Thumbnails (%s)</string>
+	<string name="cache_clear_dialog_images">Images</string>
+	<string name="cache_clear_dialog_images_data">Images (%s)</string>
 	<string name="cache_clear_dialog_flags">Flags</string>
 
 	<!-- 2020-11-13 -->

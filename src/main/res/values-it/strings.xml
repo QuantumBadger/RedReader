@@ -292,8 +292,8 @@
     <string name="pref_behaviour_actions_comment_tap_title">Azione al click su un commento</string>
     <string name="pref_behaviour_actions_post_header">Azioni sui post</string>
     <string name="pref_behaviour_commentsort">Ordine predefinito per i commenti</string>
-    <string name="pref_behaviour_fling_post_left_title">Slide verso sinistra su un post</string>
-    <string name="pref_behaviour_fling_post_right_title">Slide verso destra su un post</string>
+    <string name="pref_behaviour_fling_post_left_title">Slide verso sinistra</string>
+    <string name="pref_behaviour_fling_post_right_title">Slide verso destra</string>
     <string name="pref_behaviour_postcount_items_all">Tutti</string>
     <string name="pref_behaviour_postcount_title">Limita il numero di post</string>
     <string name="pref_behaviour_useinternalbrowser_title">Utilizza il browser interno</string>
@@ -565,7 +565,7 @@
     <string name="pref_behaviour_sharing_share_dialog_dialogtitle">Selezionare un app per condividere</string>
     <string name="pref_behaviour_sharing_share_dialog_title">Usare la finestra integrata per condividere</string>
     <string name="error_toast_no_share_app_installed">Non ci sono applicazioni adatte per condividere questo.</string>
-	<plurals name="load_more_comments_button_reply_count">
-		<item quantity="other">Carica altri commenti (%d risp)</item>
-	</plurals>
+    <plurals name="load_more_comments_button_reply_count">
+        <item quantity="other">Carica altri commenti (%d risp)</item>
+    </plurals>
 </resources>

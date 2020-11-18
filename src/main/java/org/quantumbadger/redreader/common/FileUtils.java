@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.common;
 
 import android.Manifest;
-import android.annotation.TargetApi;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -33,6 +32,7 @@ import android.util.Log;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BaseActivity;
@@ -297,7 +297,7 @@ public class FileUtils {
 		}
 	}
 
-	@TargetApi(Build.VERSION_CODES.Q)
+	@RequiresApi(Build.VERSION_CODES.Q)
 	private static void mediaStoreDownloadsInsertFile(
 			@NonNull final BaseActivity activity,
 			@NonNull final String name,
@@ -352,6 +352,7 @@ public class FileUtils {
 		}).start();
 	}
 
+	@RequiresApi(19)
 	private static void createSAFDocumentWithIntent(
 			@NonNull final BaseActivity activity,
 			@NonNull final String filename,

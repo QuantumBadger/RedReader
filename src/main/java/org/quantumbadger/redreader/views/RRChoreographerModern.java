@@ -17,12 +17,12 @@
 
 package org.quantumbadger.redreader.views;
 
-import android.annotation.TargetApi;
 import android.os.Build;
-import androidx.annotation.NonNull;
 import android.view.Choreographer;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
-@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+@RequiresApi(Build.VERSION_CODES.JELLY_BEAN)
 public class RRChoreographerModern extends RRChoreographer
 		implements Choreographer.FrameCallback {
 

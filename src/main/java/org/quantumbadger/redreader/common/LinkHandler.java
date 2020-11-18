@@ -17,7 +17,6 @@
 
 package org.quantumbadger.redreader.common;
 
-import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ClipData;
@@ -35,6 +34,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.AlbumListingActivity;
@@ -493,7 +493,7 @@ public class LinkHandler {
 		activity.startActivity(intent);
 	}
 
-	@TargetApi(18)
+	@RequiresApi(18)
 	public static void openCustomTab(
 			final AppCompatActivity activity,
 			final Uri uri,

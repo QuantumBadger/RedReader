@@ -610,7 +610,11 @@ public final class OptionsMenuUtility {
 
 				accounts.setShowAsAction(showAsAction);
 				if(longText) {
-					accounts.setIcon(R.drawable.ic_settings_light);
+					if(PrefsUtility.isNightMode(activity)) {
+						accounts.setIcon(R.drawable.ic_settings_dark);
+					} else {
+						accounts.setIcon(R.drawable.ic_settings_light);
+					}
 				} else {
 					accounts.setIcon(R.drawable.ic_accounts_dark);
 				}

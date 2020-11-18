@@ -36,7 +36,7 @@ public class GeneralTest {
 			}
 
 			{
-				String str = "" + c + c + c + c + c + "A" + c + "A";
+				final String str = "" + c + c + c + c + c + "A" + c + "A";
 				assertEquals(str.toUpperCase(Locale.ENGLISH), StringUtils.asciiUppercase(str));
 			}
 		}

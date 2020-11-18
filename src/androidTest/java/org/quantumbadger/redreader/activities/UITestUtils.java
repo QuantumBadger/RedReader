@@ -1,21 +1,17 @@
 package org.quantumbadger.redreader.activities;
 
 import android.view.View;
-
 import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
-
 import org.hamcrest.Matcher;
 import org.hamcrest.core.IsAnything;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.anything;
 
 public class UITestUtils {
 
@@ -53,7 +49,7 @@ public class UITestUtils {
 			}
 
 			@Override
-			public void perform(UiController uiController, final View view) {
+			public void perform(final UiController uiController, final View view) {
 				uiController.loopMainThreadForAtLeast(seconds * 1000);
 			}
 		};

@@ -472,7 +472,7 @@ public final class SettingsFragment extends PreferenceFragment {
 		final EnumMap<CacheType, Boolean> cachesToClear = new EnumMap<>(CacheType.class);
 		final String[] cacheItemStrings = new String[CacheType.values().length];
 
-		for(CacheType cacheType : CacheType.values()) {
+		for(final CacheType cacheType : CacheType.values()) {
 			cachesToClear.put(cacheType, false);
 			cacheItemStrings[cacheType.ordinal()] = getString(cacheType.plainStringRes);
 		}
@@ -514,17 +514,17 @@ public final class SettingsFragment extends PreferenceFragment {
 			public void run() {
 				final HashMap<Integer, Long> fileTypeDataUsages = cacheManager.getCacheDataUsages();
 
-				for(CacheType cacheType : CacheType.values()) {
+				for(final CacheType cacheType : CacheType.values()) {
 					if(cacheType.fileTypes.length >= 1) {
 						/*If the CacheType has files managed by the CacheManager,
 						add up the data usage from each fileType the cacheType encompasses
 						and format it into its data-usage string.*/
 						long cacheTypeDataUsage = 0;
 
-						for(HashMap.Entry<Integer, Long> fileTypeDataUsage
+						for(final HashMap.Entry<Integer, Long> fileTypeDataUsage
 								: fileTypeDataUsages.entrySet()) {
 
-							for(int fileType : cacheType.fileTypes) {
+							for(final int fileType : cacheType.fileTypes) {
 								if(fileType == fileTypeDataUsage.getKey()) {
 									cacheTypeDataUsage += fileTypeDataUsage.getValue();
 								}

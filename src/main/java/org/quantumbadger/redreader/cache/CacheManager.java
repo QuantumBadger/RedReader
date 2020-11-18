@@ -184,9 +184,10 @@ public final class CacheManager {
 	}
 
 	public synchronized void pruneCache(
-			final Boolean clearListings,
-			final Boolean clearThumbnails,
-			final Boolean clearImages) {
+			final boolean clearListings,
+			final boolean clearThumbnails,
+			final boolean clearImages) {
+
 		if(!clearListings && !clearThumbnails && !clearImages) {
 			return;
 		}
@@ -250,7 +251,7 @@ public final class CacheManager {
 
 			final HashMap<Long, Integer> filesToCheckWithTypes = dbManager.getFilesToSize();
 
-			for(HashMap.Entry<Long, Integer> fileEntry : filesToCheckWithTypes.entrySet()) {
+			for(final HashMap.Entry<Long, Integer> fileEntry : filesToCheckWithTypes.entrySet()) {
 				final long id = fileEntry.getKey();
 				final int type = fileEntry.getValue();
 

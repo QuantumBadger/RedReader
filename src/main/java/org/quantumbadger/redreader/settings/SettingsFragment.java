@@ -25,7 +25,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
@@ -34,7 +33,6 @@ import android.preference.PreferenceFragment;
 import android.text.Html;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import org.quantumbadger.redreader.BuildConfig;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BugReportActivity;
@@ -410,7 +408,7 @@ public final class SettingsFragment extends PreferenceFragment {
 		new AlertDialog.Builder(context)
 				.setTitle(R.string.pref_cache_location_title)
 				.setSingleChoiceItems(
-						choices.toArray(new CharSequence[choices.size()]),
+						choices.toArray(new CharSequence[0]),
 						selectedIndex,
 						(dialog, i) -> {
 							dialog.dismiss();
@@ -511,8 +509,6 @@ public final class SettingsFragment extends PreferenceFragment {
 		cacheDialog.getListView().addHeaderView(progressBar, null, false);
 		cacheDialog.show();
 
-		final Handler handler = new Handler();
-
 		new Thread() {
 			@Override
 			public void run() {
@@ -536,7 +532,7 @@ public final class SettingsFragment extends PreferenceFragment {
 						}
 
 						final long finalCacheTypeDataUsage = cacheTypeDataUsage;
-						handler.post(() -> {
+						AndroidCommon.runOnUiThread(() -> {
 							final TextView cacheItemView = (TextView)cacheDialog.getListView()
 									.getChildAt(cacheType.ordinal() + 1);
 
@@ -547,7 +543,7 @@ public final class SettingsFragment extends PreferenceFragment {
 					}
 				}
 
-				handler.post(() -> {
+				AndroidCommon.runOnUiThread(() -> {
 					//It might look better to just make this invisible once it's done, but that
 					//causes strange issues when using directional navigation with TalkBack.
 					progressBar.setIndeterminate(false);

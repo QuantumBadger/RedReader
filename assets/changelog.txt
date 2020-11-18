@@ -6,6 +6,7 @@ Added quick account switching menu, with preference to disable (thanks to Camero
 Ability to customize post/comment timestamp format (thanks to Cameron Merkel)
 Preference to require tapping back twice to exit post list (thanks to windsurfer)
 Handle physical enter key in custom location dialog (thanks to windsurfer)
+Ability to clear cache and view cache size (thanks to Cameron Merkel)
 Fixed support for videos/GIFs in reddit galleries
 Fixed issue where saved images/videos would be re-downloaded
 

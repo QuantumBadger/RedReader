@@ -268,7 +268,7 @@ public class RedditCommentView extends FlingableItemView
 			final BaseActivity context,
 			final RRThemeAttributes themeAttributes,
 			final CommentListener listener,
-			final CommentListingFragment fragment) {
+			@Nullable final CommentListingFragment fragment) {
 
 		super(context);
 
@@ -283,13 +283,10 @@ public class RedditCommentView extends FlingableItemView
 		final View rootView =
 				LayoutInflater.from(context).inflate(R.layout.reddit_comment, this, true);
 
-		mIndentView =
-				(IndentView)rootView.findViewById(R.id.view_reddit_comment_indentview);
-		mHeader = (TextView)rootView.findViewById(R.id.view_reddit_comment_header);
-		mBodyHolder =
-				(FrameLayout)rootView.findViewById(R.id.view_reddit_comment_bodyholder);
-		mIndentedContent =
-				(LinearLayout)rootView.findViewById(R.id.view_reddit_comment_indented_content);
+		mIndentView = rootView.findViewById(R.id.view_reddit_comment_indentview);
+		mHeader = rootView.findViewById(R.id.view_reddit_comment_header);
+		mBodyHolder = rootView.findViewById(R.id.view_reddit_comment_bodyholder);
+		mIndentedContent = rootView.findViewById(R.id.view_reddit_comment_indented_content);
 
 		mBodyFontScale = PrefsUtility.appearance_fontscale_bodytext(
 				context,
@@ -386,6 +383,7 @@ public class RedditCommentView extends FlingableItemView
 
 		if(mComment.isCollapsed(mChangeDataManager)) {
 			setFlingingEnabled(false);
+			//noinspection SetTextI18n
 			mHeader.setText("[ + ]  "
 					+ headerText); // Note that this removes formatting (which is fine)
 			mBodyHolder.setVisibility(GONE);

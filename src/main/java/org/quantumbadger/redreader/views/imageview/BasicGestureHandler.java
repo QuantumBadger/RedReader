@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.views.imageview;
 
+import android.annotation.SuppressLint;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -42,6 +43,7 @@ public class BasicGestureHandler
 	private FingerTracker.Finger mFirstFinger;
 	private int mCurrentFingerCount;
 
+	@SuppressLint("ClickableViewAccessibility")
 	@Override
 	public boolean onTouch(final View v, final MotionEvent event) {
 		mFingerTracker.onTouchEvent(event);

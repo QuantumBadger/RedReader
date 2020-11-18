@@ -107,7 +107,6 @@ public class LoadMoreCommentsView extends LinearLayout {
 				marginPx);
 
 		mTitleView = new TextView(context);
-		mTitleView.setText("Error: text not set");
 		mTitleView.setTextSize(13f);
 		textLayout.addView(mTitleView);
 

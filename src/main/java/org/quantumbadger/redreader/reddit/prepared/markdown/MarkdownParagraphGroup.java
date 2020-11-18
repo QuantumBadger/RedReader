@@ -96,6 +96,7 @@ public final class MarkdownParagraphGroup {
 					numberedItem.setPadding(paddingPx, paddingPx, paddingPx, 0);
 
 					final TextView number = new TextView(activity);
+					//noinspection SetTextI18n
 					number.setText(paragraph.number + ".   ");
 					if(textSize != null) {
 						number.setTextSize(textSize);

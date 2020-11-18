@@ -53,6 +53,7 @@ public class BodyElementNumberedListElement extends BodyElement {
 		outerLayout.setPadding(paddingPx, 0, paddingPx, 0);
 
 		final TextView number = new TextView(activity);
+		//noinspection SetTextI18n
 		number.setText(mListIndex + ".  ");
 		if(textSize != null) {
 			number.setTextSize(textSize);

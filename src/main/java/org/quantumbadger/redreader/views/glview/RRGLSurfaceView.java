@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.views.glview;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
@@ -42,6 +43,7 @@ public class RRGLSurfaceView extends GLSurfaceView {
 		mDisplayListManager = displayListManager;
 	}
 
+	@SuppressLint("ClickableViewAccessibility")
 	@Override
 	public boolean onTouchEvent(final MotionEvent event) {
 		mFingerTracker.onTouchEvent(event);

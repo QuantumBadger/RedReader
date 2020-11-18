@@ -575,7 +575,7 @@ public final class CacheManager {
 
 				request.notifyFailure(
 						CacheRequest.REQUEST_FAILURE_STORAGE,
-						null,
+						new RuntimeException(),
 						null,
 						"A cache entry was found in the database, but"
 								+ " the actual data couldn't be found. Press refresh to"

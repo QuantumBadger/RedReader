@@ -487,7 +487,8 @@ public class FileUtils {
 				activity.getString(R.string.error_unexpected_storage_message),
 				throwable,
 				null,
-				uri, null));
+				uri,
+				null));
 	}
 
 	public interface DownloadImageToSaveSuccessCallback {

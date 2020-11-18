@@ -48,6 +48,8 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class OKHTTPBackend extends HTTPBackend {
 
+	private static final String TAG = "OKHTTPBackend";
+
 	private final OkHttpClient mClient;
 	private static HTTPBackend httpBackend;
 
@@ -149,7 +151,7 @@ public class OKHTTPBackend extends HTTPBackend {
 			public void executeInThisThread(final Listener listener) {
 
 				final Call call = mClient.newCall(builder.build());
-				Log.d("OK", "calling: " + call.request().url());
+				Log.d(TAG, "calling: " + call.request().url());
 				callRef.set(call);
 
 				if(cancelled.get()) {
@@ -163,7 +165,7 @@ public class OKHTTPBackend extends HTTPBackend {
 					response = call.execute();
 				} catch(final Exception e) {
 					listener.onError(CacheRequest.REQUEST_FAILURE_CONNECTION, e, null);
-					Log.i("OK", "request didn't even connect: " + e.getMessage());
+					Log.i(TAG, "request didn't even connect: " + e.getMessage());
 					return;
 				}
 
@@ -193,7 +195,7 @@ public class OKHTTPBackend extends HTTPBackend {
 
 				} else {
 
-					Log.e("OK", String.format(
+					Log.e(TAG, String.format(
 							Locale.US,
 							"Got HTTP error %d for %s",
 							status,

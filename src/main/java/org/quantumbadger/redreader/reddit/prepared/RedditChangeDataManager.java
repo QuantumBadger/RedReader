@@ -178,7 +178,16 @@ public final class RedditChangeDataManager {
 		Log.i(TAG, "All entries read from stream.");
 	}
 
+	public static void pruneAllUsers() {
+		pruneAllUsers(0);
+	}
+
 	public static void pruneAllUsers(final Context context) {
+		pruneAllUsers(PrefsUtility.pref_cache_maxage_entry(
+				context, General.getSharedPrefs(context)));
+	}
+
+	public static void pruneAllUsers(final long maxAge) {
 
 		Log.i(TAG, "Pruning for all users...");
 
@@ -191,7 +200,7 @@ public final class RedditChangeDataManager {
 		for(final RedditAccount user : users) {
 
 			final RedditChangeDataManager managerForUser = getInstance(user);
-			managerForUser.prune(context);
+			managerForUser.prune(maxAge);
 		}
 
 		Log.i(TAG, "Pruning complete.");
@@ -589,12 +598,10 @@ public final class RedditChangeDataManager {
 		}
 	}
 
-	private void prune(final Context context) {
+	private void prune(final long maxAge) {
 
 		final long now = System.currentTimeMillis();
-		final long timestampBoundary = now - PrefsUtility.pref_cache_maxage_entry(
-				context,
-				General.getSharedPrefs(context));
+		final long timestampBoundary = now - maxAge;
 
 		synchronized(mLock) {
 			final Iterator<Map.Entry<String, Entry>> iterator =

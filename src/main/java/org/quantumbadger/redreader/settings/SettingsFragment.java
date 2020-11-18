@@ -25,12 +25,16 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.text.Html;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
 import org.quantumbadger.redreader.BuildConfig;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BugReportActivity;
@@ -38,14 +42,19 @@ import org.quantumbadger.redreader.activities.ChangelogActivity;
 import org.quantumbadger.redreader.activities.HtmlViewActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.common.AndroidCommon;
+import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.FileUtils;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.TorCommon;
+import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 @SuppressWarnings("deprecation")
 public final class SettingsFragment extends PreferenceFragment {
@@ -348,6 +357,16 @@ public final class SettingsFragment extends PreferenceFragment {
 				}
 			}
 		}
+
+		final Preference cacheClearPref =
+				findPreference(getString(R.string.pref_cache_clear_key));
+
+		if(cacheClearPref != null) {
+			cacheClearPref.setOnPreferenceClickListener(preference -> {
+				showCacheClearDialog();
+				return true;
+			});
+		}
 	}
 
 	private void showChooseStorageLocationDialog() {
@@ -408,5 +427,136 @@ public final class SettingsFragment extends PreferenceFragment {
 
 	private void updateStorageLocationText(final String path) {
 		findPreference(getString(R.string.pref_cache_location_key)).setSummary(path);
+	}
+
+	private enum CacheType {
+		LISTINGS(
+				R.string.cache_clear_dialog_listings,
+				R.string.cache_clear_dialog_listings_data,
+				new int[] {
+						Constants.FileType.POST_LIST,
+						Constants.FileType.COMMENT_LIST,
+						Constants.FileType.SUBREDDIT_LIST,
+						Constants.FileType.SUBREDDIT_ABOUT,
+						Constants.FileType.USER_ABOUT,
+						Constants.FileType.INBOX_LIST}),
+		THUMBNAILS(
+				R.string.cache_clear_dialog_thumbnails,
+				R.string.cache_clear_dialog_thumbnails_data,
+				new int[] {Constants.FileType.THUMBNAIL}),
+		IMAGES(
+				R.string.cache_clear_dialog_images,
+				R.string.cache_clear_dialog_images_data,
+				new int[] {
+						Constants.FileType.IMAGE,
+						Constants.FileType.IMAGE_INFO,
+						Constants.FileType.CAPTCHA}),
+		FLAGS(
+				R.string.cache_clear_dialog_flags,
+				R.string.cache_clear_dialog_flags,
+				new int[] {});
+
+		final int plainStringRes;
+		final int dataUsageStringRes;
+		final int[] fileTypes;
+
+		CacheType(final int plainStringRes, final int dataUsageStringRes, final int[] fileTypes) {
+			this.plainStringRes = plainStringRes;
+			this.dataUsageStringRes = dataUsageStringRes;
+			this.fileTypes = fileTypes;
+		}
+	}
+
+	private void showCacheClearDialog() {
+		final Context context = getActivity();
+		final CacheManager cacheManager = CacheManager.getInstance(context);
+
+		final EnumMap<CacheType, Boolean> cachesToClear = new EnumMap<>(CacheType.class);
+		final String[] cacheItemStrings = new String[CacheType.values().length];
+
+		for(CacheType cacheType : CacheType.values()) {
+			cachesToClear.put(cacheType, false);
+			cacheItemStrings[cacheType.ordinal()] = getString(cacheType.plainStringRes);
+		}
+
+		final AlertDialog cacheDialog = new AlertDialog.Builder(context)
+				.setTitle(R.string.pref_cache_clear_title)
+				.setMultiChoiceItems(cacheItemStrings, null,
+						(dialog, which, isChecked) ->
+								//Subtract 1, since progressBar gets put at position 0.
+								cachesToClear.put(CacheType.values()[which - 1], isChecked))
+				.setPositiveButton(R.string.dialog_clear, (dialog, id) -> new Thread() {
+					@Override
+					public void run() {
+						cacheManager.pruneCache(
+								cachesToClear.get(CacheType.LISTINGS),
+								cachesToClear.get(CacheType.THUMBNAILS),
+								cachesToClear.get(CacheType.IMAGES));
+
+						if(Objects.requireNonNull(cachesToClear.get(CacheType.FLAGS))) {
+							RedditChangeDataManager.pruneAllUsers();
+						}
+					}
+				}.start())
+				.setNegativeButton(R.string.dialog_cancel, null)
+				.create();
+
+		final ProgressBar progressBar = new ProgressBar(
+				context,
+				null,
+				android.R.attr.progressBarStyleHorizontal);
+		progressBar.setIndeterminate(true);
+		progressBar.setContentDescription(getString(R.string.cache_clear_dialog_loading));
+
+		cacheDialog.getListView().addHeaderView(progressBar, null, false);
+		cacheDialog.show();
+
+		final Handler handler = new Handler();
+
+		new Thread() {
+			@Override
+			public void run() {
+				final HashMap<Integer, Long> fileTypeDataUsages = cacheManager.getCacheDataUsages();
+
+				for(CacheType cacheType : CacheType.values()) {
+					if(cacheType.fileTypes.length >= 1) {
+						/*If the CacheType has files managed by the CacheManager,
+						add up the data usage from each fileType the cacheType encompasses
+						and format it into its data-usage string.*/
+						long cacheTypeDataUsage = 0;
+
+						for(HashMap.Entry<Integer, Long> fileTypeDataUsage
+								: fileTypeDataUsages.entrySet()) {
+
+							for(int fileType : cacheType.fileTypes) {
+								if(fileType == fileTypeDataUsage.getKey()) {
+									cacheTypeDataUsage += fileTypeDataUsage.getValue();
+								}
+							}
+						}
+
+						final long finalCacheTypeDataUsage = cacheTypeDataUsage;
+						handler.post(() -> {
+							final TextView cacheItemView = (TextView)cacheDialog.getListView()
+									.getChildAt(cacheType.ordinal() + 1);
+
+							cacheItemView.setText(String.format(
+									getString(cacheType.dataUsageStringRes),
+									General.addUnits(finalCacheTypeDataUsage)));
+						});
+					}
+				}
+
+				handler.post(() -> {
+					//It might look better to just make this invisible once it's done, but that
+					//causes strange issues when using directional navigation with TalkBack.
+					progressBar.setIndeterminate(false);
+					progressBar.setProgress(progressBar.getMax());
+					progressBar.setContentDescription(
+							getString(R.string.cache_clear_dialog_loaded));
+				});
+			}
+		}.start();
+
 	}
 }

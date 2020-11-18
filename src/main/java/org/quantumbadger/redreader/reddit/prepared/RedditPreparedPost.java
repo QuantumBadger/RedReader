@@ -47,6 +47,7 @@ import org.quantumbadger.redreader.activities.CommentReplyActivity;
 import org.quantumbadger.redreader.activities.MainActivity;
 import org.quantumbadger.redreader.activities.PostListingActivity;
 import org.quantumbadger.redreader.activities.WebViewActivity;
+import org.quantumbadger.redreader.cache.CacheDataStreamChunkConsumer;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.CacheRequestCallbacks;
@@ -76,6 +77,7 @@ import org.quantumbadger.redreader.views.RedditPostView;
 import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
 import org.quantumbadger.redreader.views.bezelmenu.VerticalToolbar;
 
+import java.io.ByteArrayOutputStream;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -96,8 +98,6 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 	// TODO make it possible to turn off in-memory caching when out of memory
 	private volatile Bitmap thumbnailCache = null;
-
-	private static final Object singleImageDecodeLock = new Object();
 
 	private ThumbnailLoadedCallback thumbnailCallback;
 	private int usageId = -1;
@@ -1142,6 +1142,31 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
 				context,
 				new CacheRequestCallbacks() {
+
+					private final ByteArrayOutputStream mBuffer
+							= new ByteArrayOutputStream(64 * 1024);
+
+					@NonNull
+					@Override
+					public CacheDataStreamChunkConsumer onDataStreamAvailable() {
+						return new CacheDataStreamChunkConsumer() {
+							@Override
+							public void onDataStreamChunk(
+									@NonNull final byte[] dataReused,
+									final int offset,
+									final int length) {
+
+								mBuffer.write(dataReused, offset, length);
+							}
+
+							@Override
+							public void onDataStreamSuccess() {}
+
+							@Override
+							public void onDataStreamCancel() {}
+						};
+					}
+
 					@Override
 					public void onFailure(
 							final int type,
@@ -1162,42 +1187,43 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 						try {
 
-							synchronized(singleImageDecodeLock) {
+							final byte[] bytes = mBuffer.toByteArray();
 
-								final BitmapFactory.Options justDecodeBounds =
-										new BitmapFactory.Options();
-								justDecodeBounds.inJustDecodeBounds = true;
-								BitmapFactory.decodeStream(
-										cacheFile.getInputStream(),
-										null,
-										justDecodeBounds);
-								final int width = justDecodeBounds.outWidth;
-								final int height = justDecodeBounds.outHeight;
+							final BitmapFactory.Options justDecodeBounds
+									= new BitmapFactory.Options();
+							justDecodeBounds.inJustDecodeBounds = true;
+							BitmapFactory.decodeByteArray(
+									bytes,
+									0,
+									bytes.length,
+									justDecodeBounds);
+							final int width = justDecodeBounds.outWidth;
+							final int height = justDecodeBounds.outHeight;
 
-								int factor = 1;
+							int factor = 1;
 
-								while(width / (factor + 1) > widthPixels
-										&& height / (factor + 1) > widthPixels) {
-									factor *= 2;
-								}
+							while(width / (factor + 1) > widthPixels
+									&& height / (factor + 1) > widthPixels) {
+								factor *= 2;
+							}
 
-								final BitmapFactory.Options scaledOptions
-										= new BitmapFactory.Options();
-								scaledOptions.inSampleSize = factor;
+							final BitmapFactory.Options scaledOptions
+									= new BitmapFactory.Options();
+							scaledOptions.inSampleSize = factor;
 
-								final Bitmap data =
-										BitmapFactory.decodeStream(
-												cacheFile.getInputStream(),
-												null,
-												scaledOptions);
+							final Bitmap data =
+									BitmapFactory.decodeByteArray(
+											bytes,
+											0,
+											bytes.length,
+											scaledOptions);
 
-								if(data == null) {
-									return;
-								}
-								thumbnailCache = ThumbnailScaler.scale(data, widthPixels);
-								if(thumbnailCache != data) {
-									data.recycle();
-								}
+							if(data == null) {
+								return;
+							}
+							thumbnailCache = ThumbnailScaler.scale(data, widthPixels);
+							if(thumbnailCache != data) {
+								data.recycle();
 							}
 
 							if(thumbnailCallback != null) {

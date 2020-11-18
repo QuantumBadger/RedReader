@@ -18,9 +18,6 @@
 package org.quantumbadger.redreader.reddit;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
@@ -31,6 +28,7 @@ import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.CacheRequestJSONParser;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategy;
+import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -100,17 +98,6 @@ public class CommentListingRequest {
 		mCacheManager.makeRequest(createCommentListingCacheRequest());
 	}
 
-	private enum Event {
-		EVENT_DOWNLOAD_NECESSARY,
-		EVENT_FAILURE,
-		EVENT_CACHED_COPY,
-		EVENT_PARSE_START,
-		EVENT_POST_DOWNLOADED,
-		EVENT_ALL_ITEMS_DOWNLOADED
-	}
-
-	private static final Event[] EVENT_TYPES = Event.values();
-
 	@UiThread
 	public interface Listener {
 
@@ -126,44 +113,6 @@ public class CommentListingRequest {
 
 		void onCommentListingRequestAllItemsDownloaded(ArrayList<RedditCommentListItem> items);
 	}
-
-	private final Handler mEventHandler = new Handler(Looper.getMainLooper()) {
-
-		@Override
-		public void handleMessage(final Message msg) {
-
-			switch(EVENT_TYPES[msg.what]) {
-
-				case EVENT_DOWNLOAD_NECESSARY:
-					mListener.onCommentListingRequestDownloadNecessary();
-					break;
-
-				case EVENT_FAILURE:
-					mListener.onCommentListingRequestFailure((RRError)msg.obj);
-					break;
-
-				case EVENT_CACHED_COPY:
-					mListener.onCommentListingRequestCachedCopy((Long)msg.obj);
-					break;
-
-				case EVENT_PARSE_START:
-					mListener.onCommentListingRequestParseStart();
-					break;
-
-				case EVENT_POST_DOWNLOADED:
-					mListener.onCommentListingRequestPostDownloaded((RedditPreparedPost)msg.obj);
-					break;
-
-				case EVENT_ALL_ITEMS_DOWNLOADED:
-					mListener.onCommentListingRequestAllItemsDownloaded(
-							(ArrayList<RedditCommentListItem>)msg.obj);
-					break;
-
-				default:
-					throw new RuntimeException("Unknown event type");
-			}
-		}
-	};
 
 	@NonNull
 	private CacheRequest createCommentListingCacheRequest() {
@@ -201,10 +150,11 @@ public class CommentListingRequest {
 								General.getSharedPrefs(mContext));
 
 						if(fromCache) {
-							notifyListener(Event.EVENT_CACHED_COPY, timestamp);
+							AndroidCommon.runOnUiThread(()
+									-> mListener.onCommentListingRequestCachedCopy(timestamp));
 						}
 
-						notifyListener(Event.EVENT_PARSE_START);
+						AndroidCommon.runOnUiThread(mListener::onCommentListingRequestParseStart);
 
 						try {
 							// Download main post
@@ -232,7 +182,9 @@ public class CommentListingRequest {
 										true,
 										false);
 
-								notifyListener(Event.EVENT_POST_DOWNLOADED, preparedPost);
+								AndroidCommon.runOnUiThread(()
+										-> mListener.onCommentListingRequestPostDownloaded(
+												preparedPost));
 
 								parentPostAuthor = parsedPost.getAuthor();
 							}
@@ -274,7 +226,8 @@ public class CommentListingRequest {
 								}
 							}
 
-							notifyListener(Event.EVENT_ALL_ITEMS_DOWNLOADED, items);
+							AndroidCommon.runOnUiThread(()
+									-> mListener.onCommentListingRequestAllItemsDownloaded(items));
 
 						} catch(final Throwable t) {
 							onFailure(
@@ -299,12 +252,14 @@ public class CommentListingRequest {
 								httpStatus,
 								url.toString());
 
-						notifyListener(Event.EVENT_FAILURE, error);
+						AndroidCommon.runOnUiThread(()
+								-> mListener.onCommentListingRequestFailure(error));
 					}
 
 					@Override
 					public void onDownloadNecessary() {
-						notifyListener(Event.EVENT_DOWNLOAD_NECESSARY);
+						AndroidCommon.runOnUiThread(
+								mListener::onCommentListingRequestDownloadNecessary);
 					}
 				}));
 	}
@@ -368,16 +323,5 @@ public class CommentListingRequest {
 				}
 			}
 		}
-	}
-
-	private void notifyListener(final Event eventType) {
-		notifyListener(eventType, null);
-	}
-
-	private void notifyListener(final Event eventType, final Object object) {
-		final Message message = Message.obtain();
-		message.what = eventType.ordinal();
-		message.obj = object;
-		mEventHandler.sendMessage(message);
 	}
 }

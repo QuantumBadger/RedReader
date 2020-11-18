@@ -1369,4 +1369,6 @@
 	<string name="cache_clear_dialog_images_data">Images (%s)</string>
 	<string name="cache_clear_dialog_flags">Flags</string>
 
+	<string name="three_dots_menu">More options</string>
+
 </resources>

@@ -35,7 +35,6 @@ import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
 import org.quantumbadger.redreader.io.CacheDataSource;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
 import org.quantumbadger.redreader.io.WritableHashSet;
-import org.quantumbadger.redreader.jsonwrap.JsonBuffered;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
@@ -204,19 +203,8 @@ public class RedditAPIIndividualSubredditListRequester implements CacheDataSourc
 							final JsonBufferedArray subreddits =
 									redditListing.getArray("children");
 
-							final @JsonBuffered.Status int joinStatus = subreddits.join();
-							if(joinStatus == JsonBuffered.STATUS_FAILED) {
-								handler.onRequestFailed(new SubredditRequestFailure(
-										CacheRequest.REQUEST_FAILURE_PARSE,
-										null,
-										null,
-										"Unknown parse error",
-										uri.toString()));
-								return;
-							}
-
 							if(type == RedditSubredditManager.SubredditListType.SUBSCRIBED
-									&& subreddits.getCurrentItemCount() == 0
+									&& subreddits.size() == 0
 									&& after == null) {
 								performRequest(
 										RedditSubredditManager.SubredditListType.DEFAULTS,

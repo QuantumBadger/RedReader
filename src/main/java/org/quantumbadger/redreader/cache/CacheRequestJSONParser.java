@@ -113,7 +113,6 @@ public final class CacheRequestJSONParser
 
 				try {
 					jsonValue = new JsonValue(mBuffer.toByteArray());
-					jsonValue.buildInThisThread();
 
 				} catch(final IOException e) {
 					mListener.onFailure(

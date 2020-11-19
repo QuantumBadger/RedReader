@@ -139,8 +139,7 @@ public class ImageInfo implements Parcelable {
 		this.hasAudio = hasAudio;
 	}
 
-	public static ImageInfo parseGfycat(final JsonBufferedObject object)
-			throws IOException, InterruptedException {
+	public static ImageInfo parseGfycat(final JsonBufferedObject object) {
 
 		final Long width = object.getLong("width");
 		final Long height = object.getLong("height");
@@ -167,7 +166,7 @@ public class ImageInfo implements Parcelable {
 	}
 
 	public static ImageInfo parseStreamable(final JsonBufferedObject object)
-			throws IOException, InterruptedException {
+			throws IOException {
 
 		JsonBufferedObject fileObj = null;
 		final JsonBufferedObject files = object.getObject("files");
@@ -217,8 +216,7 @@ public class ImageInfo implements Parcelable {
 				HasAudio.MAYBE_AUDIO);
 	}
 
-	public static ImageInfo parseImgur(final JsonBufferedObject object)
-			throws IOException, InterruptedException {
+	public static ImageInfo parseImgur(final JsonBufferedObject object) {
 
 		final JsonBufferedObject image = object.getObject("image");
 		final JsonBufferedObject links = object.getObject("links");
@@ -274,8 +272,7 @@ public class ImageInfo implements Parcelable {
 				isAnimated ? HasAudio.MAYBE_AUDIO : HasAudio.NO_AUDIO);
 	}
 
-	public static ImageInfo parseImgurV3(final JsonBufferedObject object)
-			throws IOException, InterruptedException {
+	public static ImageInfo parseImgurV3(final JsonBufferedObject object) {
 
 		String id = null;
 		String urlOriginal = null;
@@ -337,8 +334,7 @@ public class ImageInfo implements Parcelable {
 				HasAudio.fromBoolean(hasSound));
 	}
 
-	public static ImageInfo parseDeviantArt(final JsonBufferedObject object)
-			throws IOException, InterruptedException {
+	public static ImageInfo parseDeviantArt(final JsonBufferedObject object) {
 
 		String urlOriginal = null;
 		String thumbnailUrl = null;

@@ -49,8 +49,6 @@ import java.util.ArrayList;
 public final class RedditPostView extends FlingableItemView
 		implements RedditPreparedPost.ThumbnailLoadedCallback {
 
-	private final float dpScale;
-
 	private RedditPreparedPost post = null;
 	private final TextView title, subtitle, titleAlternate;
 
@@ -81,6 +79,8 @@ public final class RedditPostView extends FlingableItemView
 			rrPostTitleCol,
 			rrListItemBackgroundCol,
 			rrPostCommentsButtonBackCol;
+
+	private final int mThumbnailSizePrefPixels;
 
 	@Override
 	protected void onSetItemFlingPosition(final float position) {
@@ -247,7 +247,7 @@ public final class RedditPostView extends FlingableItemView
 			}
 		};
 
-		dpScale = context.getResources().getDisplayMetrics().density; // TODO xml?
+		final float dpScale = context.getResources().getDisplayMetrics().density; // TODO xml?
 
 		final float titleFontScale = PrefsUtility.appearance_fontscale_posts(
 				context,
@@ -349,6 +349,10 @@ public final class RedditPostView extends FlingableItemView
 			rrPostCommentsButtonBackCol = attr.getColor(3, 0);
 			attr.recycle();
 		}
+
+		mThumbnailSizePrefPixels = (int)(dpScale * PrefsUtility.pref_images_thumbnail_size_dp(
+				context,
+				sharedPreferences));
 	}
 
 	@UiThread
@@ -382,13 +386,16 @@ public final class RedditPostView extends FlingableItemView
 
 			if(data.hasThumbnail) {
 				thumbnailView.setVisibility(VISIBLE);
-				thumbnailView.setMinimumWidth((int)(64.0f
-						* dpScale)); // TODO remove constant, customise
+				thumbnailView.setMinimumWidth(mThumbnailSizePrefPixels);
 				thumbnailView.getLayoutParams().height =
 						ViewGroup.LayoutParams.MATCH_PARENT;
+
+				mOuterView.setMinimumHeight(mThumbnailSizePrefPixels);
+
 			} else {
 				thumbnailView.setMinimumWidth(0);
 				thumbnailView.setVisibility(GONE);
+				mOuterView.setMinimumHeight(General.dpToPixels(mActivity, 64));
 			}
 		}
 

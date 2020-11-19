@@ -121,8 +121,7 @@ public class NewMessageChecker extends BroadcastReceiver {
 							final JsonBufferedObject data = root.getObject("data");
 							final JsonBufferedArray children = data.getArray("children");
 
-							children.join();
-							final int messageCount = children.getCurrentItemCount();
+							final int messageCount = children.size();
 
 							Log.e(TAG, "Got response. Message count = " + messageCount);
 

@@ -353,7 +353,6 @@ public final class RedditOAuth {
 
 					try {
 						final JsonValue jsonValue = new JsonValue(body);
-						jsonValue.buildInThisThread();
 						final JsonBufferedObject responseObject = jsonValue.asObject();
 
 						final RefreshToken refreshToken =
@@ -458,7 +457,6 @@ public final class RedditOAuth {
 					try {
 
 						final JsonValue jsonValue = new JsonValue(body);
-						jsonValue.buildInThisThread();
 						final JsonBufferedObject responseObject = jsonValue.asObject();
 
 						final String username = responseObject.getString("name");
@@ -707,7 +705,6 @@ public final class RedditOAuth {
 
 					try {
 						final JsonValue jsonValue = new JsonValue(body);
-						jsonValue.buildInThisThread();
 						final JsonBufferedObject responseObject = jsonValue.asObject();
 
 						final String accessTokenString =
@@ -808,7 +805,6 @@ public final class RedditOAuth {
 
 					try {
 						final JsonValue jsonValue = new JsonValue(body);
-						jsonValue.buildInThisThread();
 						final JsonBufferedObject responseObject = jsonValue.asObject();
 
 						final String accessTokenString =

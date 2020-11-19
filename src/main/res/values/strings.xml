@@ -1374,5 +1374,7 @@
 	<!-- 2020-11-19 -->
 	<string name="pref_appearance_post_show_inline_image_title" translatable="false">Show inline images</string>
     <string name="pref_appearance_post_show_inline_image_key" translatable="false">pref_appearance_post_show_inline_image</string>
+	<string name="pref_images_thumbnail_size_key" translatable="false">pref_images_thumbnail_size_key</string>
+	<string name="pref_images_thumbnail_size_title">Thumbnail size</string>
 
 </resources>

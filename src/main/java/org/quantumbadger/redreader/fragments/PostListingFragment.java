@@ -703,7 +703,9 @@ public class PostListingFragment extends RRFragment
 
 							final PrefsUtility.AppearanceThumbnailsShow thumbnailsPref
 									= PrefsUtility.appearance_thumbnails_show(
-									activity, mSharedPreferences);
+											activity,
+											mSharedPreferences);
+
 							final boolean downloadThumbnails = thumbnailsPref
 									== PrefsUtility.AppearanceThumbnailsShow.ALWAYS
 									|| (thumbnailsPref

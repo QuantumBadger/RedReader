@@ -48,7 +48,6 @@ import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.things.RedditThing;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.util.ArrayList;
@@ -269,15 +268,11 @@ public class CommentListingRequest {
 			final RedditCommentListItem parent,
 			final ArrayList<RedditCommentListItem> output,
 			final Integer minimumCommentScore,
-			final String parentPostAuthor)
-
-			throws
-			IOException,
-			InterruptedException,
-			IllegalAccessException,
-			InstantiationException,
-			NoSuchMethodException,
-			InvocationTargetException {
+			final String parentPostAuthor) throws
+					IllegalAccessException,
+					InstantiationException,
+					NoSuchMethodException,
+					InvocationTargetException {
 
 		final RedditThing thing = value.asObject(RedditThing.class);
 

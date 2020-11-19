@@ -79,6 +79,27 @@ public final class ThumbnailScaler {
 		}
 	}
 
+
+	public static Bitmap scaleToFit(final Bitmap image, final int width, final int height) {
+
+		float xScale = ((float)width) / (float)image.getWidth();
+		float yScale = ((float)height) / (float)image.getHeight();
+		float smallerScale = (xScale <= yScale) ? xScale : yScale;
+
+
+		Bitmap scaled = Bitmap.createScaledBitmap(
+				image,
+				Math.round(smallerScale * image.getWidth()),
+				Math.round(smallerScale * image.getHeight()),
+				true);
+
+		if(image != scaled) {
+			image.recycle();
+		}
+
+		return scaled;
+	}
+
 	public static Bitmap scaleNoCrop(final Bitmap image, final int desiredSquareSizePx) {
 
 		final int currentSquareSizePx = Math.max(image.getWidth(), image.getHeight());

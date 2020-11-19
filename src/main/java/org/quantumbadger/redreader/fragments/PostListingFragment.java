@@ -1009,6 +1009,7 @@ public class PostListingFragment extends RRFragment
 										TAG,
 										"Successfully precached "
 												+ url.toString());
+								preparedPost.notifyCached();
 							}
 						}));
 	}

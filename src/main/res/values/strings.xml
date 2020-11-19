@@ -1371,4 +1371,8 @@
 
 	<string name="three_dots_menu">More options</string>
 
+	<!-- 2020-11-19 -->
+	<string name="pref_appearance_post_show_inline_image_title" translatable="false">Show inline images</string>
+    <string name="pref_appearance_post_show_inline_image_key" translatable="false">pref_appearance_post_show_inline_image</string>
+
 </resources>

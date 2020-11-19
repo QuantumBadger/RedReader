@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
@@ -36,9 +37,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.UiThread;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BaseActivity;
+import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
+import org.quantumbadger.redreader.image.ImageRenderer;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 
 import java.util.ArrayList;
@@ -49,11 +52,12 @@ public final class RedditPostView extends FlingableItemView
 	private final float dpScale;
 
 	private RedditPreparedPost post = null;
-	private final TextView title, subtitle;
+	private final TextView title, subtitle, titleAlternate;
 
-	private final ImageView thumbnailView, overlayIcon;
+	private final ImageView thumbnailView, overlayIcon, inlineImageView;
 
 	private final LinearLayout mOuterView;
+	private final LinearLayout mPostWrapper;
 	private final LinearLayout commentsButton;
 	private final TextView commentsText;
 
@@ -67,6 +71,10 @@ public final class RedditPostView extends FlingableItemView
 	private ActionDescriptionPair mLeftFlingAction, mRightFlingAction;
 
 	private final boolean mCommentsButtonPref;
+	private final boolean mInlineImagesPref;
+
+	// used for inline image rendering
+	private ImageRenderer imageRenderer;
 
 	private final int
 			rrPostTitleReadCol,
@@ -253,24 +261,30 @@ public final class RedditPostView extends FlingableItemView
 
 		mOuterView = rootView.findViewById(R.id.reddit_post_layout);
 
-		mOuterView.setOnClickListener(v -> fragmentParent.onPostSelected(post));
+		mPostWrapper = rootView.findViewById(R.id.reddit_post_wrapper);
 
-		mOuterView.setOnLongClickListener(v -> {
+		mPostWrapper.setOnClickListener(v -> fragmentParent.onPostSelected(post));
+
+		mPostWrapper.setOnLongClickListener(v -> {
 			RedditPreparedPost.showActionMenu(mActivity, post);
 			return true;
 		});
 
 		thumbnailView = rootView.findViewById(R.id.reddit_post_thumbnail_view);
 		overlayIcon = rootView.findViewById(R.id.reddit_post_overlay_icon);
+		inlineImageView = rootView.findViewById(R.id.reddit_inline_image_view);
 
 		title = rootView.findViewById(R.id.reddit_post_title);
 		subtitle = rootView.findViewById(R.id.reddit_post_subtitle);
+		titleAlternate = rootView.findViewById(R.id.reddit_post_title_alternate);
 
 		final SharedPreferences sharedPreferences =
 				General.getSharedPrefs(context);
 
 		mCommentsButtonPref =
 				PrefsUtility.appearance_post_show_comments_button(context, sharedPreferences);
+		mInlineImagesPref =
+				PrefsUtility.appearance_post_show_inline_image(context, sharedPreferences);
 
 		commentsButton =
 				rootView.findViewById(R.id.reddit_post_comments_button);
@@ -307,6 +321,9 @@ public final class RedditPostView extends FlingableItemView
 		}
 
 		title.setTextSize(
+				TypedValue.COMPLEX_UNIT_PX,
+				title.getTextSize() * titleFontScale);
+		titleAlternate.setTextSize(
 				TypedValue.COMPLEX_UNIT_PX,
 				title.getTextSize() * titleFontScale);
 		subtitle.setTextSize(
@@ -347,8 +364,20 @@ public final class RedditPostView extends FlingableItemView
 			thumbnailView.setImageBitmap(thumbnail);
 
 			title.setText(data.src.getTitle());
+			titleAlternate.setText(data.src.getTitle());
 			if(mCommentsButtonPref) {
 				commentsText.setText(String.valueOf(data.src.getSrc().num_comments));
+			}
+
+			// reset to normal layout
+			title.setVisibility(VISIBLE);
+			titleAlternate.setVisibility(GONE);
+			inlineImageView.setVisibility(GONE);
+			inlineImageView.setImageResource(android.R.color.transparent);
+
+			if (imageRenderer!=null){
+				imageRenderer.stop();
+				imageRenderer = null;
 			}
 
 			if(data.hasThumbnail) {
@@ -395,8 +424,10 @@ public final class RedditPostView extends FlingableItemView
 
 		if(post.isRead()) {
 			title.setTextColor(rrPostTitleReadCol);
+			titleAlternate.setTextColor(rrPostTitleReadCol);
 		} else {
 			title.setTextColor(rrPostTitleCol);
+			titleAlternate.setTextColor(rrPostTitleCol);
 		}
 
 		subtitle.setText(post.postListDescription);
@@ -419,11 +450,39 @@ public final class RedditPostView extends FlingableItemView
 			overlayVisible = false;
 		}
 
+		if (mInlineImagesPref && imageRenderer == null){
+
+			// we save the image height so that scrolling up isn't so janky
+			if (post.lastImageHeight > 0){
+				inlineImageView.setMinimumHeight(post.lastImageHeight);
+			}
+
+			Uri fileUri = CacheManager.getURIFromCache(post.src.getUrl(), mActivity);
+
+			if (fileUri != null) {
+
+				imageRenderer = new ImageRenderer(fileUri, inlineImageView, post, mActivity);
+
+				thumbnailView.setVisibility(GONE);
+				inlineImageView.setVisibility(VISIBLE);
+				title.setVisibility(GONE);
+				titleAlternate.setVisibility(VISIBLE);
+
+			}
+		}
+
 		if(overlayVisible) {
 			overlayIcon.setVisibility(VISIBLE);
 		} else {
 			overlayIcon.setVisibility(GONE);
 		}
+	}
+
+
+	public void updateAppearanceOnUI(){
+		mActivity.runOnUiThread(()->{
+			updateAppearance();
+		});
 	}
 
 	@Override

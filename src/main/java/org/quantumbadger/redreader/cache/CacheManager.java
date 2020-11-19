@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.cache;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
@@ -70,6 +71,11 @@ public final class CacheManager {
 			= new PrioritisedCachedThreadPool(2, "Disk Cache");
 
 	private final Context context;
+	private static final RedditAccount ANON = new RedditAccount(
+			"",
+			null,
+			true,
+			10);
 
 	@SuppressLint("StaticFieldLeak") private static CacheManager singleton;
 
@@ -168,6 +174,46 @@ public final class CacheManager {
 
 
 		return dirs;
+	}
+
+
+	/**
+	 * Returns a local URI if the specified URL exists in the cache
+	 * @param url		The original URL used to download an item in the cache
+	 * @param activity	An activity, needed to get an instance of the CacheManager
+	 * @return			The resultant local URI path to the file, null if it doesn't exist
+	 */
+	@Nullable
+	public static Uri getURIFromCache(String url, Activity activity){
+
+		if(url == null) {
+			return null;
+		}
+		final URI uri = General.uriFromString(url);
+
+		if(uri == null) {
+			return null;
+		}
+
+		CacheManager cacheMgr = CacheManager.getInstance(activity);
+
+		// images are always fetched as ANON
+		final List<CacheEntry> result = cacheMgr.getSessions(uri, ANON);
+
+		if(!result.isEmpty()) {
+
+			CacheEntry entry = null;
+
+			for(final CacheEntry e : result) {
+				if(entry == null || entry.timestamp < e.timestamp) {
+					entry = e;
+				}
+			}
+			CacheManager.ReadableCacheFile cacheFile = cacheMgr.getExistingCacheFileById(entry.id);
+			return cacheFile.getUri();
+		}
+
+		return null;
 	}
 
 	public void pruneTemp() {

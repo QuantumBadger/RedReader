@@ -104,11 +104,15 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 	public long lastChange;
 
+	public int lastImageHeight;
+
 	private final boolean showSubreddit;
 
 	private RedditPostView mBoundView = null;
 
-	public enum Action {
+	private final boolean mInlineImagesPref;
+
+    public enum Action {
 		UPVOTE(R.string.action_upvote),
 		UNVOTE(R.string.action_vote_remove),
 		DOWNVOTE(R.string.action_downvote),
@@ -167,6 +171,11 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		final RedditAccount user =
 				RedditAccountManager.getInstance(context).getDefaultAccount();
 		mChangeDataManager = RedditChangeDataManager.getInstance(user);
+
+		mInlineImagesPref =
+				PrefsUtility.appearance_post_show_inline_image(context,
+						General.getSharedPrefs(context));
+		lastImageHeight = 0;
 
 		isArchived = post.isArchived();
 
@@ -1280,6 +1289,15 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			if(context != null) {
 				postListDescription = rebuildSubtitle(mBoundView.getContext());
 				mBoundView.updateAppearance();
+			}
+		}
+	}
+
+	public void notifyCached() {
+		if (mBoundView != null && mInlineImagesPref) {
+			final Context context = mBoundView.getContext();
+			if (context != null) {
+				mBoundView.updateAppearanceOnUI();
 			}
 		}
 	}

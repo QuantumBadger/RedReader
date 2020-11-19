@@ -752,6 +752,16 @@ public final class PrefsUtility {
 				sharedPreferences);
 	}
 
+	public static boolean appearance_post_show_inline_image(
+			final Context context,
+			final SharedPreferences sharedPreferences) {
+		return getBoolean(
+				R.string.pref_appearance_post_show_inline_image_key,
+				false,
+				context,
+				sharedPreferences);
+	}
+
 	public enum AppearanceCommentHeaderItem {
 		AUTHOR, FLAIR, SCORE, AGE, GOLD
 	}

@@ -1079,13 +1079,17 @@
 	<!-- 2020-11-19 -->
 
 	<string-array name="pref_images_thumbnail_size_items">
-		<item>24 dp</item>
-		<item>32 dp</item>
-		<item>48 dp</item>
-		<item>64 dp</item>
-		<item>96 dp</item>
-		<item>128 dp</item>
-		<item>160 dp</item>
+		<item>0.4x</item>
+		<item>0.5x</item>
+		<item>0.75x</item>
+		<item>1.0x</item>
+		<item>1.1x</item>
+		<item>1.25x</item>
+		<item>1.5x</item>
+		<item>2.0x</item>
+		<item>2.5x</item>
+		<item>3.0x</item>
+		<item>4.0x</item>
 	</string-array>
 
 	<string-array name="pref_images_thumbnail_size_return">
@@ -1093,9 +1097,13 @@
 		<item>32</item>
 		<item>48</item>
 		<item>64</item>
+		<item>70</item>
+		<item>80</item>
 		<item>96</item>
 		<item>128</item>
 		<item>160</item>
+		<item>192</item>
+		<item>256</item>
 	</string-array>
 
 </resources>

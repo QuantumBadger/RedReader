@@ -365,8 +365,8 @@ public final class RedditPostView extends FlingableItemView
 
 			} else {
 				thumbnailView.setMinimumWidth(0);
-				thumbnailView.setMinimumHeight(0);
 				thumbnailView.setVisibility(GONE);
+				mOuterView.setMinimumHeight(General.dpToPixels(mActivity, 64));
 			}
 		}
 

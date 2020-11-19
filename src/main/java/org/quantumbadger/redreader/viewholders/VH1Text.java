@@ -17,9 +17,9 @@
 
 package org.quantumbadger.redreader.viewholders;
 
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
+import androidx.recyclerview.widget.RecyclerView;
 import org.quantumbadger.redreader.R;
 
 /**
@@ -32,6 +32,6 @@ public class VH1Text extends RecyclerView.ViewHolder {
 	public VH1Text(final View itemView) {
 		super(itemView);
 
-		text = (TextView)itemView.findViewById(R.id.recycler_item_text);
+		text = itemView.findViewById(R.id.recycler_item_text);
 	}
 }

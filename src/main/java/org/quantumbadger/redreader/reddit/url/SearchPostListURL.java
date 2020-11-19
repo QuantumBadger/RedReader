@@ -200,7 +200,7 @@ public class SearchPostListURL extends PostListingURL {
 			}
 
 			pathSegments =
-					pathSegmentsFiltered.toArray(new String[pathSegmentsFiltered.size()]);
+					pathSegmentsFiltered.toArray(new String[0]);
 		}
 
 		if(pathSegments.length != 1 && pathSegments.length != 3) {

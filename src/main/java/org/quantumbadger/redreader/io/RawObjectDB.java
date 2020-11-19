@@ -79,7 +79,7 @@ public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelpe
 			}
 		}
 
-		this.fields = fields.toArray(new Field[fields.size()]);
+		this.fields = fields.toArray(new Field[0]);
 
 		fieldNames = new String[this.fields.length + 2];
 		for(int i = 0; i < this.fields.length; i++) {

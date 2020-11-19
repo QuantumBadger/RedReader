@@ -82,7 +82,7 @@ public class UserCommentListingURL extends CommentListingURL {
 			}
 
 			pathSegments
-					= pathSegmentsFiltered.toArray(new String[pathSegmentsFiltered.size()]);
+					= pathSegmentsFiltered.toArray(new String[0]);
 		}
 
 		final Sort order;

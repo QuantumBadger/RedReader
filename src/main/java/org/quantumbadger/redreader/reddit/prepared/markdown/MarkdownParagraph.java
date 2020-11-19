@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.reddit.prepared.markdown;
 
 import android.graphics.Typeface;
 import android.net.Uri;
-import androidx.appcompat.app.AppCompatActivity;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -30,6 +29,7 @@ import android.text.style.StyleSpan;
 import android.text.style.SuperscriptSpan;
 import android.text.style.TypefaceSpan;
 import android.view.View;
+import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.views.LinkifiedTextView;
@@ -49,7 +49,7 @@ public final class MarkdownParagraph {
 	final Spanned spanned;
 	final List<Link> links;
 
-	public class Link {
+	public static class Link {
 		final String title;
 		final String subtitle;
 		private final String url;

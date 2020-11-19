@@ -39,7 +39,7 @@ public class UnknownPostListURL extends PostListingURL {
 		return new UnknownPostListURL(uri.buildUpon()
 				.appendQueryParameter(
 						"limit",
-						String.valueOf("limit"))
+						String.valueOf(limit))
 				.build());
 	}
 

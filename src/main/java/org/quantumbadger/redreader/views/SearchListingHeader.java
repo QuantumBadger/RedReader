@@ -34,10 +34,10 @@ import org.quantumbadger.redreader.reddit.url.SearchPostListURL;
 
 public final class SearchListingHeader extends FrameLayout {
 
-	SearchPostListURL mUrl;
-	EditText mQuery;
-	EditText mSubreddit;
-	Button mSearchButton;
+	final SearchPostListURL mUrl;
+	final EditText mQuery;
+	final EditText mSubreddit;
+	final Button mSearchButton;
 
 	public SearchListingHeader(
 			final Activity parentActivity,
@@ -49,11 +49,11 @@ public final class SearchListingHeader extends FrameLayout {
 				Context.LAYOUT_INFLATER_SERVICE);
 		layoutInflater.inflate(R.layout.search_listing_header, this, true);
 
-		mQuery = (EditText)findViewById(R.id.search_listing_header_query_editText);
+		mQuery = findViewById(R.id.search_listing_header_query_editText);
 		mQuery.setText(url.query);
 		mQuery.setImeOptions(EditorInfo.IME_ACTION_NEXT);
 
-		mSubreddit = (EditText)findViewById(R.id.search_listing_header_sub_editText);
+		mSubreddit = findViewById(R.id.search_listing_header_sub_editText);
 		// null and "all" are isomorphic; but SearchPostListURL takes null
 		if(url.subreddit == null) {
 			mSubreddit.setText("all");
@@ -68,7 +68,7 @@ public final class SearchListingHeader extends FrameLayout {
 		mSubreddit.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
 		mSubreddit.setOnEditorActionListener(onEnter);
 
-		mSearchButton = (Button)findViewById(R.id.search_listing_header_search);
+		mSearchButton = findViewById(R.id.search_listing_header_search);
 		mSearchButton.setOnClickListener(v -> performSearch(parentActivity, mSubreddit, mQuery));
 	}
 

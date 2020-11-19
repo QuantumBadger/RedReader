@@ -598,14 +598,11 @@ public final class OptionsMenuUtility {
 						activity.getString(longText
 								? R.string.options_account_manager
 								: R.string.options_accounts))
-						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-							@Override
-							public boolean onMenuItemClick(final MenuItem item) {
-								new AccountListDialog().show(
-										activity.getSupportFragmentManager(),
-										null);
-								return true;
-							}
+						.setOnMenuItemClickListener(item -> {
+							new AccountListDialog().show(
+									activity.getSupportFragmentManager(),
+									null);
+							return true;
 						});
 
 				accounts.setShowAsAction(showAsAction);
@@ -627,17 +624,14 @@ public final class OptionsMenuUtility {
 						AppbarItemsPref.SETTINGS.ordinal(),
 						Menu.NONE,
 						R.string.options_settings)
-						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-							@Override
-							public boolean onMenuItemClick(final MenuItem item) {
-								final Intent intent = new Intent(
-										activity,
-										SettingsActivity.class);
-								activity.startActivityForResult(
-										intent,
-										1);
-								return true;
-							}
+						.setOnMenuItemClickListener(item -> {
+							final Intent intent = new Intent(
+									activity,
+									SettingsActivity.class);
+							activity.startActivityForResult(
+									intent,
+									1);
+							return true;
 						});
 
 				settings.setShowAsAction(showAsAction);
@@ -652,12 +646,9 @@ public final class OptionsMenuUtility {
 							AppbarItemsPref.CLOSE_ALL.ordinal(),
 							Menu.NONE,
 							R.string.options_close_all)
-							.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-								@Override
-								public boolean onMenuItemClick(final MenuItem item) {
-									activity.closeAllExceptMain();
-									return true;
-								}
+							.setOnMenuItemClickListener(item -> {
+								activity.closeAllExceptMain();
+								return true;
 							});
 
 					closeAll.setShowAsAction(showAsAction);
@@ -728,13 +719,10 @@ public final class OptionsMenuUtility {
 						AppbarItemsPref.REFRESH.ordinal(),
 						Menu.NONE,
 						R.string.options_refresh_subreddits)
-						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-							@Override
-							public boolean onMenuItemClick(final MenuItem item) {
-								((OptionsMenuSubredditsListener)activity)
-										.onRefreshSubreddits();
-								return true;
-							}
+						.setOnMenuItemClickListener(item -> {
+							((OptionsMenuSubredditsListener)activity)
+									.onRefreshSubreddits();
+							return true;
 						});
 
 				refreshSubreddits.setShowAsAction(showAsAction);
@@ -750,12 +738,9 @@ public final class OptionsMenuUtility {
 						AppbarItemsPref.REFRESH.ordinal(),
 						Menu.NONE,
 						R.string.options_refresh_posts)
-						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-							@Override
-							public boolean onMenuItemClick(final MenuItem item) {
-								((OptionsMenuPostsListener)activity).onRefreshPosts();
-								return true;
-							}
+						.setOnMenuItemClickListener(item -> {
+							((OptionsMenuPostsListener)activity).onRefreshPosts();
+							return true;
 						});
 
 				refreshPosts.setShowAsAction(showAsAction);
@@ -771,12 +756,9 @@ public final class OptionsMenuUtility {
 						AppbarItemsPref.SUBMIT_POST.ordinal(),
 						Menu.NONE,
 						R.string.options_submit_post)
-						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-							@Override
-							public boolean onMenuItemClick(final MenuItem item) {
-								((OptionsMenuPostsListener)activity).onSubmitPost();
-								return true;
-							}
+						.setOnMenuItemClickListener(item -> {
+							((OptionsMenuPostsListener)activity).onSubmitPost();
+							return true;
 						});
 
 				submitPost.setShowAsAction(showAsAction);
@@ -792,18 +774,15 @@ public final class OptionsMenuUtility {
 						activity.getString(longText
 								? R.string.action_search_posts
 								: R.string.action_search))
-						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-							@Override
-							public boolean onMenuItemClick(final MenuItem item) {
-								if(activity instanceof OptionsMenuPostsListener) {
-									((OptionsMenuPostsListener)activity).onSearchPosts();
-									return true;
-								} else if(activity instanceof OptionsMenuCommentsListener) {
-									((OptionsMenuCommentsListener)activity).onSearchComments();
-									return true;
-								} else {
-									return false;
-								}
+						.setOnMenuItemClickListener(item -> {
+							if(activity instanceof OptionsMenuPostsListener) {
+								((OptionsMenuPostsListener)activity).onSearchPosts();
+								return true;
+							} else if(activity instanceof OptionsMenuCommentsListener) {
+								((OptionsMenuCommentsListener)activity).onSearchComments();
+								return true;
+							} else {
+								return false;
 							}
 						});
 
@@ -820,16 +799,13 @@ public final class OptionsMenuUtility {
 						AppbarItemsPref.SEARCH.ordinal(),
 						1,
 						activity.getString(R.string.action_search_comments))
-						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-							@Override
-							public boolean onMenuItemClick(final MenuItem item) {
-								if(activity instanceof OptionsMenuCommentsListener) {
-									((OptionsMenuCommentsListener)activity)
-											.onSearchComments();
-									return true;
-								}
-								return false;
+						.setOnMenuItemClickListener(item -> {
+							if(activity instanceof OptionsMenuCommentsListener) {
+								((OptionsMenuCommentsListener)activity)
+										.onSearchComments();
+								return true;
 							}
+							return false;
 						});
 
 				searchComments.setShowAsAction(showAsAction);
@@ -845,13 +821,10 @@ public final class OptionsMenuUtility {
 						AppbarItemsPref.REFRESH.ordinal(),
 						Menu.NONE,
 						R.string.options_refresh_comments)
-						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-							@Override
-							public boolean onMenuItemClick(final MenuItem item) {
-								((OptionsMenuCommentsListener)activity)
-										.onRefreshComments();
-								return true;
-							}
+						.setOnMenuItemClickListener(item -> {
+							((OptionsMenuCommentsListener)activity)
+									.onRefreshComments();
+							return true;
 						});
 
 				refreshComments.setShowAsAction(showAsAction);
@@ -867,12 +840,9 @@ public final class OptionsMenuUtility {
 						AppbarItemsPref.PAST.ordinal(),
 						Menu.NONE,
 						longText ? R.string.options_past_posts : R.string.options_past)
-						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-							@Override
-							public boolean onMenuItemClick(final MenuItem item) {
-								((OptionsMenuPostsListener)activity).onPastPosts();
-								return true;
-							}
+						.setOnMenuItemClickListener(item -> {
+							((OptionsMenuPostsListener)activity).onPastPosts();
+							return true;
 						});
 
 				if(showAsAction != MenuItem.SHOW_AS_ACTION_NEVER) {
@@ -888,13 +858,10 @@ public final class OptionsMenuUtility {
 						AppbarItemsPref.PAST.ordinal(),
 						Menu.NONE,
 						longText ? R.string.options_past_comments : R.string.options_past)
-						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-							@Override
-							public boolean onMenuItemClick(final MenuItem item) {
-								((OptionsMenuCommentsListener)activity)
-										.onPastComments();
-								return true;
-							}
+						.setOnMenuItemClickListener(item -> {
+							((OptionsMenuCommentsListener)activity)
+									.onPastComments();
+							return true;
 						});
 
 				if(showAsAction != MenuItem.SHOW_AS_ACTION_NEVER) {
@@ -910,12 +877,9 @@ public final class OptionsMenuUtility {
 						AppbarItemsPref.SUBSCRIBE.ordinal(),
 						Menu.NONE,
 						R.string.options_subscribe)
-						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-							@Override
-							public boolean onMenuItemClick(final MenuItem item) {
-								((OptionsMenuPostsListener)activity).onSubscribe();
-								return true;
-							}
+						.setOnMenuItemClickListener(item -> {
+							((OptionsMenuPostsListener)activity).onSubscribe();
+							return true;
 						});
 
 				subscribe.setShowAsAction(showAsAction);
@@ -929,12 +893,9 @@ public final class OptionsMenuUtility {
 						AppbarItemsPref.SUBSCRIBE.ordinal(),
 						Menu.NONE,
 						R.string.options_unsubscribe)
-						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-							@Override
-							public boolean onMenuItemClick(final MenuItem item) {
-								((OptionsMenuPostsListener)activity).onUnsubscribe();
-								return true;
-							}
+						.setOnMenuItemClickListener(item -> {
+							((OptionsMenuPostsListener)activity).onUnsubscribe();
+							return true;
 						});
 
 				unsubscribe.setShowAsAction(showAsAction);
@@ -974,12 +935,9 @@ public final class OptionsMenuUtility {
 						AppbarItemsPref.SIDEBAR.ordinal(),
 						Menu.NONE,
 						R.string.options_sidebar)
-						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-							@Override
-							public boolean onMenuItemClick(final MenuItem item) {
-								((OptionsMenuPostsListener)activity).onSidebar();
-								return true;
-							}
+						.setOnMenuItemClickListener(item -> {
+							((OptionsMenuPostsListener)activity).onSidebar();
+							return true;
 						});
 
 				sidebar.setShowAsAction(showAsAction);
@@ -993,12 +951,9 @@ public final class OptionsMenuUtility {
 						AppbarItemsPref.PIN.ordinal(),
 						Menu.NONE,
 						R.string.pin_subreddit)
-						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-							@Override
-							public boolean onMenuItemClick(final MenuItem item) {
-								((OptionsMenuPostsListener)activity).onPin();
-								return true;
-							}
+						.setOnMenuItemClickListener(item -> {
+							((OptionsMenuPostsListener)activity).onPin();
+							return true;
 						});
 
 				pin.setShowAsAction(showAsAction);
@@ -1012,12 +967,9 @@ public final class OptionsMenuUtility {
 						AppbarItemsPref.PIN.ordinal(),
 						Menu.NONE,
 						R.string.unpin_subreddit)
-						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-							@Override
-							public boolean onMenuItemClick(final MenuItem item) {
-								((OptionsMenuPostsListener)activity).onUnpin();
-								return true;
-							}
+						.setOnMenuItemClickListener(item -> {
+							((OptionsMenuPostsListener)activity).onUnpin();
+							return true;
 						});
 
 				unpin.setShowAsAction(showAsAction);
@@ -1031,12 +983,9 @@ public final class OptionsMenuUtility {
 						AppbarItemsPref.BLOCK.ordinal(),
 						Menu.NONE,
 						R.string.block_subreddit)
-						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-							@Override
-							public boolean onMenuItemClick(final MenuItem item) {
-								((OptionsMenuPostsListener)activity).onBlock();
-								return true;
-							}
+						.setOnMenuItemClickListener(item -> {
+							((OptionsMenuPostsListener)activity).onBlock();
+							return true;
 						});
 
 				block.setShowAsAction(showAsAction);
@@ -1050,12 +999,9 @@ public final class OptionsMenuUtility {
 						AppbarItemsPref.BLOCK.ordinal(),
 						Menu.NONE,
 						R.string.unblock_subreddit)
-						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-							@Override
-							public boolean onMenuItemClick(final MenuItem item) {
-								((OptionsMenuPostsListener)activity).onUnblock();
-								return true;
-							}
+						.setOnMenuItemClickListener(item -> {
+							((OptionsMenuPostsListener)activity).onUnblock();
+							return true;
 						});
 
 				unblock.setShowAsAction(showAsAction);
@@ -1154,12 +1100,9 @@ public final class OptionsMenuUtility {
 			final PostSort order) {
 
 		menu.add(activity.getString(name))
-				.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-					@Override
-					public boolean onMenuItemClick(final MenuItem item) {
-						((OptionsMenuPostsListener)activity).onSortSelected(order);
-						return true;
-					}
+				.setOnMenuItemClickListener(item -> {
+					((OptionsMenuPostsListener)activity).onSortSelected(order);
+					return true;
 				});
 	}
 
@@ -1228,12 +1171,9 @@ public final class OptionsMenuUtility {
 			final PostCommentListingURL.Sort order) {
 
 		menu.add(activity.getString(name))
-				.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-					@Override
-					public boolean onMenuItemClick(final MenuItem item) {
-						((OptionsMenuCommentsListener)activity).onSortSelected(order);
-						return true;
-					}
+				.setOnMenuItemClickListener(item -> {
+					((OptionsMenuCommentsListener)activity).onSortSelected(order);
+					return true;
 				});
 	}
 
@@ -1316,12 +1256,9 @@ public final class OptionsMenuUtility {
 			final UserCommentListingURL.Sort order) {
 
 		menu.add(activity.getString(name))
-				.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-					@Override
-					public boolean onMenuItemClick(final MenuItem menuItem) {
-						((OptionsMenuCommentsListener)activity).onSortSelected(order);
-						return true;
-					}
+				.setOnMenuItemClickListener(menuItem -> {
+					((OptionsMenuCommentsListener)activity).onSortSelected(order);
+					return true;
 				});
 	}
 
@@ -1375,12 +1312,9 @@ public final class OptionsMenuUtility {
 						account.isAnonymous()
 								? activity.getString(R.string.accounts_anon)
 								: account.username)
-						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-							@Override
-							public boolean onMenuItemClick(final MenuItem item) {
-								accountManager.setDefaultAccount(account);
-								return true;
-							}
+						.setOnMenuItemClickListener(item -> {
+							accountManager.setDefaultAccount(account);
+							return true;
 						});
 
 				if(account.equals(accountManager.getDefaultAccount())) {

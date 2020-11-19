@@ -54,7 +54,7 @@ public class UserProfileURL extends RedditURLParser.RedditURL {
 			}
 
 			pathSegments
-					= pathSegmentsFiltered.toArray(new String[pathSegmentsFiltered.size()]);
+					= pathSegmentsFiltered.toArray(new String[0]);
 		}
 
 		if(pathSegments.length != 2) {

@@ -67,6 +67,7 @@ public class RedditURLParser {
 				"reddit")) {
 			return true;
 		}
+		//noinspection RedundantIfStatement
 		if(hostSegments[hostSegments.length - 1].equals("it")
 				&& hostSegments[hostSegments.length - 2].equals("redd")) {
 			return true;

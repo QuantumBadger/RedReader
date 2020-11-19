@@ -200,9 +200,8 @@ public class RedditPostHeaderView extends LinearLayout {
 				changeListener.onRedditDataChange(post.src.getIdAndType());
 			};
 
-			mChangeListenerRemoveTask = () -> {
-				changeDataManager.removeListener(post.src, changeListener);
-			};
+			mChangeListenerRemoveTask
+					= () -> changeDataManager.removeListener(post.src, changeListener);
 
 		} else {
 			mChangeListenerAddTask = null;

@@ -164,7 +164,7 @@ public class PostCommentListingURL extends CommentListingURL {
 			}
 
 			pathSegments
-					= pathSegmentsFiltered.toArray(new String[pathSegmentsFiltered.size()]);
+					= pathSegmentsFiltered.toArray(new String[0]);
 		}
 
 		if(pathSegments.length == 1 && uri.getHost().equals("redd.it")) {

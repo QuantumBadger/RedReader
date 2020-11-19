@@ -102,7 +102,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 	private ThumbnailLoadedCallback thumbnailCallback;
 	private int usageId = -1;
 
-	public long lastChange = Long.MIN_VALUE;
+	public long lastChange;
 
 	private final boolean showSubreddit;
 
@@ -563,7 +563,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				} else {
 
 					final String[] linksArr =
-							linksInComment.toArray(new String[linksInComment.size()]);
+							linksInComment.toArray(new String[0]);
 
 					final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 					builder.setItems(linksArr, (dialog, which) -> {

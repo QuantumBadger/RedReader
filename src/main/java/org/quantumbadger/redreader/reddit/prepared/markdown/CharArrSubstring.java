@@ -49,7 +49,7 @@ public final class CharArrSubstring {
 
 		result.add(new CharArrSubstring(src, curPos, src.length - curPos));
 
-		return result.toArray(new CharArrSubstring[result.size()]);
+		return result.toArray(new CharArrSubstring[0]);
 	}
 
 	public CharArrSubstring rejoin(final CharArrSubstring toAppend) {

@@ -552,7 +552,7 @@ public class MainActivity extends RefreshableActivity
 
 		recreateSubscriptionListener();
 
-		final Boolean startInbox = getIntent().getBooleanExtra("isNewMessage", false);
+		final boolean startInbox = getIntent().getBooleanExtra("isNewMessage", false);
 		if(startInbox) {
 			startActivity(new Intent(this, InboxListingActivity.class));
 		}

@@ -32,7 +32,7 @@ public class PostListingManager extends RedditListingManager {
 	}
 
 	public void addPosts(final Collection<RedditPostListItem> posts) {
-		addItems(Collections.<GroupedRecyclerViewAdapter.Item>unmodifiableCollection(posts));
+		addItems(Collections.unmodifiableCollection(posts));
 		mPostCount += posts.size();
 	}
 

@@ -264,12 +264,10 @@ public final class PostListingHeader extends LinearLayout
 					sharedPreferences,
 					subredditCanonicalId));
 
-			buttonShare.setOnClickListener(v -> {
-				LinkHandler.shareText(
-						activity,
-						subredditCanonicalId.toString(),
-						url.browserUrl());
-			});
+			buttonShare.setOnClickListener(v -> LinkHandler.shareText(
+					activity,
+					subredditCanonicalId.toString(),
+					url.browserUrl()));
 
 			buttonInfo.setOnClickListener(v -> subreddit.showSidebarActivity(activity));
 

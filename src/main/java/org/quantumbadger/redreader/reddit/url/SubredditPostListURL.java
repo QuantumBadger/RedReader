@@ -211,7 +211,7 @@ public class SubredditPostListURL extends PostListingURL {
 			}
 
 			pathSegments =
-					pathSegmentsFiltered.toArray(new String[pathSegmentsFiltered.size()]);
+					pathSegmentsFiltered.toArray(new String[0]);
 		}
 
 		final PostSort order;

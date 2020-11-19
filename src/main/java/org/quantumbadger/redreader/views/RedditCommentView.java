@@ -73,7 +73,7 @@ public class RedditCommentView extends FlingableItemView
 		mIndentedContent.setTranslationX(position);
 	}
 
-	private final class ActionDescriptionPair {
+	private static final class ActionDescriptionPair {
 		public final RedditAPICommentAction.RedditCommentAction action;
 		public final int descriptionRes;
 

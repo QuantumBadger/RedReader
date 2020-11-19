@@ -635,8 +635,7 @@ public class LinkHandler {
 			final Matcher matchDeviantart = deviantartPattern.matcher(url);
 
 			if(matchDeviantart.find()) {
-				final String imgId = url;
-				if(imgId.length() > 40) {
+				if(url.length() > 40) {
 					return true;
 				}
 			}
@@ -976,11 +975,10 @@ public class LinkHandler {
 			final Matcher matchDeviantart = deviantartPattern.matcher(url);
 
 			if(matchDeviantart.find()) {
-				final String imgId = url;
-				if(imgId.length() > 40) {
+				if(url.length() > 40) {
 					DeviantArtAPI.getImageInfo(
 							context,
-							imgId,
+							url,
 							priority,
 							listener);
 					return;

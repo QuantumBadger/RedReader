@@ -59,8 +59,6 @@ public class CommentReplyActivity extends BaseActivity {
 	private EditText textEdit;
 	private CheckBox inboxReplies;
 
-	private boolean sendRepliesToInbox = true;
-
 	private String parentIdAndType = null;
 
 	private ParentType mParentType;
@@ -86,7 +84,7 @@ public class CommentReplyActivity extends BaseActivity {
 
 		if(intent != null
 				&& intent.hasExtra(PARENT_TYPE)
-				&& intent.getStringExtra(PARENT_TYPE).equals(PARENT_TYPE_MESSAGE)) {
+				&& PARENT_TYPE_MESSAGE.equals(intent.getStringExtra(PARENT_TYPE))) {
 
 			mParentType = ParentType.MESSAGE;
 			setTitle(R.string.submit_pmreply_actionbar);
@@ -99,9 +97,9 @@ public class CommentReplyActivity extends BaseActivity {
 		final LinearLayout layout
 				= (LinearLayout)getLayoutInflater().inflate(R.layout.comment_reply, null);
 
-		usernameSpinner = (Spinner)layout.findViewById(R.id.comment_reply_username);
-		inboxReplies = (CheckBox)layout.findViewById(R.id.comment_reply_inbox);
-		textEdit = (EditText)layout.findViewById(R.id.comment_reply_text);
+		usernameSpinner = layout.findViewById(R.id.comment_reply_username);
+		inboxReplies = layout.findViewById(R.id.comment_reply_inbox);
+		textEdit = layout.findViewById(R.id.comment_reply_text);
 
 		if(mParentType == ParentType.COMMENT_OR_POST) {
 			inboxReplies.setVisibility(View.VISIBLE);
@@ -324,6 +322,7 @@ public class CommentReplyActivity extends BaseActivity {
 					break;
 				}
 			}
+			boolean sendRepliesToInbox = true;
 			if(mParentType == ParentType.COMMENT_OR_POST) {
 				sendRepliesToInbox = inboxReplies.isChecked();
 			} else {

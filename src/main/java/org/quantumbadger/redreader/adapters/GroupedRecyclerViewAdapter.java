@@ -17,8 +17,8 @@
 
 package org.quantumbadger.redreader.adapters;
 
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.ViewGroup;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -192,7 +192,6 @@ public class GroupedRecyclerViewAdapter extends RecyclerView.Adapter {
 
 		int count = 0;
 
-		//noinspection ForLoopReplaceableByForEach
 		for(int i = 0; i < mItems.length; i++) {
 			count += getGroupUnhiddenCount(i);
 		}

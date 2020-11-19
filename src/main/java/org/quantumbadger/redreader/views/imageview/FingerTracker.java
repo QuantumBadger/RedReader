@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.views.imageview;
 
 import android.view.MotionEvent;
-
 import org.quantumbadger.redreader.common.MutableFloatPoint2D;
 
 public class FingerTracker {
@@ -89,7 +88,7 @@ public class FingerTracker {
 		}
 	}
 
-	public class Finger {
+	public static class Finger {
 
 		boolean mActive = false;
 

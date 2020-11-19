@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.common;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import org.quantumbadger.redreader.receivers.NewMessageChecker;
@@ -28,8 +29,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Alarms {
-	private static Map<Alarm, AlarmManager> alarmMap = new HashMap<>();
-	private static Map<Alarm, PendingIntent> intentMap = new HashMap<>();
+	private static final Map<Alarm, AlarmManager> alarmMap = new HashMap<>();
+	private static final Map<Alarm, PendingIntent> intentMap = new HashMap<>();
 
 	/*
 		An enum to represent an alarm that may be created.
@@ -42,10 +43,13 @@ public class Alarms {
 		CACHE_PRUNER(AlarmManager.INTERVAL_HOUR, RegularCachePruner.class, true);
 
 		private final long interval;
-		private final Class alarmClass;
+		private final Class<? extends BroadcastReceiver> alarmClass;
 		private final boolean startOnBoot;
 
-		Alarm(final long interval, final Class alarmClass, final boolean startOnBoot) {
+		Alarm(
+				final long interval,
+				final Class<? extends BroadcastReceiver> alarmClass,
+				final boolean startOnBoot) {
 			this.interval = interval;
 			this.alarmClass = alarmClass;
 			this.startOnBoot = startOnBoot;
@@ -55,7 +59,7 @@ public class Alarms {
 			return interval;
 		}
 
-		private Class alarmClass() {
+		private Class<? extends BroadcastReceiver> alarmClass() {
 			return alarmClass;
 		}
 

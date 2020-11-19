@@ -4,12 +4,10 @@ package org.quantumbadger.redreader.activities;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
-
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
-
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -21,13 +19,11 @@ import org.quantumbadger.redreader.R;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.typeTextIntoFocusedView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isFocused;
-import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withChild;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -81,7 +77,7 @@ public class UITestReadSelfPost {
 				allOf(withText("This is the self text"),
 						childAtPosition(
 								childAtPosition(
-										IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class),
+										IsInstanceOf.instanceOf(android.widget.FrameLayout.class),
 										0),
 								0),
 						isDisplayed()));
@@ -91,7 +87,7 @@ public class UITestReadSelfPost {
 				allOf(withId(R.id.empty_view_text), withText("No comments yet."),
 						childAtPosition(
 								childAtPosition(
-										IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class),
+										IsInstanceOf.instanceOf(android.widget.FrameLayout.class),
 										0),
 								0),
 						isDisplayed()));
@@ -101,7 +97,7 @@ public class UITestReadSelfPost {
 				allOf(withContentDescription("Previous Parent Comment"),
 						childAtPosition(
 								childAtPosition(
-										IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class),
+										IsInstanceOf.instanceOf(android.widget.FrameLayout.class),
 										0),
 								0),
 						isDisplayed()));
@@ -111,7 +107,7 @@ public class UITestReadSelfPost {
 				allOf(withContentDescription("Next Parent Comment"),
 						childAtPosition(
 								childAtPosition(
-										IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class),
+										IsInstanceOf.instanceOf(android.widget.FrameLayout.class),
 										0),
 								1),
 						isDisplayed()));

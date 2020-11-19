@@ -23,7 +23,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
@@ -467,8 +466,7 @@ public final class InboxListingActivity extends BaseActivity {
 				item.setChecked(enabled);
 				mOnlyShowUnread = enabled;
 
-				PreferenceManager
-						.getDefaultSharedPreferences(this)
+				General.getSharedPrefs(this)
 						.edit()
 						.putBoolean(PREF_ONLY_UNREAD, enabled)
 						.apply();

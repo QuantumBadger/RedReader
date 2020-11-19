@@ -263,7 +263,7 @@ public class RedditRenderableComment
 					0,
 					1f);
 
-			if(rawComment.edited != null && rawComment.edited instanceof Long) {
+			if(rawComment.edited instanceof Long) {
 				sb.append(
 						"*",
 						BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD,

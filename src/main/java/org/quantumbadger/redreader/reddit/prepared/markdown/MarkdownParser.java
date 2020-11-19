@@ -117,6 +117,6 @@ public final class MarkdownParser {
 		}
 
 		return new MarkdownParagraphGroup(outputParagraphs.toArray(
-				new MarkdownParagraph[outputParagraphs.size()]));
+				new MarkdownParagraph[0]));
 	}
 }

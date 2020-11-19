@@ -30,7 +30,7 @@ public class HorizontalSwipeProgressOverlay extends RelativeLayout {
 
 	private final ImageView mIcon;
 	private final DonutProgress mProgress;
-	private int mCurrentIconResource = 0;
+	private int mCurrentIconResource;
 
 	public HorizontalSwipeProgressOverlay(final Context context) {
 		super(context);

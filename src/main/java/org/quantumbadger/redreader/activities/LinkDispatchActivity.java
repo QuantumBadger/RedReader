@@ -67,24 +67,7 @@ public class LinkDispatchActivity extends AppCompatActivity {
 		}
 
 		if(data.getScheme().equalsIgnoreCase("redreader")) {
-			RedditOAuth.completeLogin(this, data, new RunnableOnce(() -> {
-
-				/*
-				if(Build.VERSION.SDK_INT >= 21) {
-
-					final ActivityManager activityManager = (ActivityManager)getSystemService(
-							Context.ACTIVITY_SERVICE);
-
-					final ActivityManager.AppTask topTask
-							= ListUtils.getLast(activityManager.getAppTasks());
-
-					if(topTask != null) {
-						topTask.moveToFront();
-					}
-				}*/
-
-				finish();
-			}));
+			RedditOAuth.completeLogin(this, data, new RunnableOnce(this::finish));
 
 		} else {
 			LinkHandler.onLinkClicked(this, data.toString(), false, null, null, 0, true);

@@ -195,7 +195,7 @@ public final class RedditOAuth {
 							null)
 			);
 
-		} else if(exception != null && exception instanceof IOException) {
+		} else if(exception instanceof IOException) {
 			return new FetchRefreshTokenResult(
 					FetchRefreshTokenResultStatus.CONNECTION_ERROR,
 					new RRError(
@@ -239,7 +239,7 @@ public final class RedditOAuth {
 							null)
 			);
 
-		} else if(exception != null && exception instanceof IOException) {
+		} else if(exception instanceof IOException) {
 			return new FetchAccessTokenResult(
 					FetchAccessTokenResultStatus.CONNECTION_ERROR,
 					new RRError(

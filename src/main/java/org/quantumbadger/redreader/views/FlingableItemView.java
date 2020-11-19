@@ -20,12 +20,12 @@ package org.quantumbadger.redreader.views;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import androidx.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 
@@ -83,9 +83,9 @@ public abstract class FlingableItemView extends SwipableItemView {
 		flingHintLayoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
 
 		mFlingHintLeft
-				= (TextView)mFlingHintOuter.findViewById(R.id.reddit_post_fling_text_left);
+				= mFlingHintOuter.findViewById(R.id.reddit_post_fling_text_left);
 		mFlingHintRight
-				= (TextView)mFlingHintOuter.findViewById(R.id.reddit_post_fling_text_right);
+				= mFlingHintOuter.findViewById(R.id.reddit_post_fling_text_right);
 
 		mFlingHintLeft.setCompoundDrawablesWithIntrinsicBounds(
 				null,

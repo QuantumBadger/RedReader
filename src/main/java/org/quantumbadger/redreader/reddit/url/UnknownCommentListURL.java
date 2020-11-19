@@ -39,7 +39,7 @@ public class UnknownCommentListURL extends CommentListingURL {
 		return new UnknownCommentListURL(uri.buildUpon()
 				.appendQueryParameter(
 						"limit",
-						String.valueOf("limit"))
+						String.valueOf(limit))
 				.build());
 	}
 

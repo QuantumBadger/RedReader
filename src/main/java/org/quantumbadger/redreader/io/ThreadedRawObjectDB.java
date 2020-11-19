@@ -250,7 +250,7 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 		}
 	}
 
-	private abstract class ReadOperation {
+	private abstract static class ReadOperation {
 
 		public final TimestampBound timestampBound;
 

@@ -286,11 +286,7 @@ public final class SettingsFragment extends PreferenceFragment {
 				final int index = thumbnailPref.findIndexOfValue((String)newValue);
 				thumbnailPref.setSummary(thumbnailPref.getEntries()[index]);
 
-				if(newValue.equals("never")) {
-					thumbnailNsfwPref.setEnabled(false);
-				} else {
-					thumbnailNsfwPref.setEnabled(true);
-				}
+				thumbnailNsfwPref.setEnabled(!newValue.equals("never"));
 
 				return true;
 			});

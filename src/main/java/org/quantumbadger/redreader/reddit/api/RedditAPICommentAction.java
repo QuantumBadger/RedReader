@@ -331,7 +331,7 @@ public class RedditAPICommentAction {
 				} else {
 
 					final String[] linksArr =
-							linksInComment.toArray(new String[linksInComment.size()]);
+							linksInComment.toArray(new String[0]);
 
 					final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 					builder.setItems(linksArr, (dialog, which) -> {

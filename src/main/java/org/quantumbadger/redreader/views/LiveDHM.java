@@ -26,14 +26,14 @@ public class LiveDHM {
 
 		public float startVelocity = 0;
 
-		public float accelerationCoefficient = 30;
-		public float velocityDamping = 0.87f;
+		public static final float accelerationCoefficient = 30;
+		public static final float velocityDamping = 0.87f;
 
-		public float stepLengthSeconds = 1f / 60f;
+		public static final float stepLengthSeconds = 1f / 60f;
 
-		public float thresholdPositionDifference = 0.49f;
-		public float thresholdVelocity = 15;
-		public int thresholdMaxSteps = 1000;
+		public static final float thresholdPositionDifference = 0.49f;
+		public static final float thresholdVelocity = 15;
+		public static final int thresholdMaxSteps = 1000;
 	}
 
 	private final Params mParams;
@@ -83,6 +83,7 @@ public class LiveDHM {
 			return false;
 		}
 
+		//noinspection RedundantIfStatement
 		if(Math.abs(mVelocity) > mParams.thresholdVelocity) {
 			return false;
 		}

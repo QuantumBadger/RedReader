@@ -42,7 +42,7 @@ import org.quantumbadger.redreader.reddit.things.RedditMessage;
 
 public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 
-	public SpannableStringBuilder header;
+	public final SpannableStringBuilder header;
 	public final BodyElement body;
 	public final String idAndType;
 	public final RedditMessage src;

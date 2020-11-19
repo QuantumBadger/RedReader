@@ -200,7 +200,7 @@ public final class JsonBufferedObject extends JsonBuffered
 
 		final Set<String> propertyKeySet = properties.keySet();
 		final String[] fieldNames =
-				propertyKeySet.toArray(new String[propertyKeySet.size()]);
+				propertyKeySet.toArray(new String[0]);
 
 		for(int prop = 0; prop < fieldNames.length; prop++) {
 			if(prop != 0) {

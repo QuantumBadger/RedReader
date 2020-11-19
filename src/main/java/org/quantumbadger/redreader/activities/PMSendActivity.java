@@ -74,10 +74,10 @@ public class PMSendActivity extends BaseActivity {
 		final LinearLayout layout
 				= (LinearLayout)getLayoutInflater().inflate(R.layout.pm_send, null);
 
-		usernameSpinner = (Spinner)layout.findViewById(R.id.pm_send_username);
-		recipientEdit = (EditText)layout.findViewById(R.id.pm_send_recipient);
-		subjectEdit = (EditText)layout.findViewById(R.id.pm_send_subject);
-		textEdit = (EditText)layout.findViewById(R.id.pm_send_text);
+		usernameSpinner = layout.findViewById(R.id.pm_send_username);
+		recipientEdit = layout.findViewById(R.id.pm_send_recipient);
+		subjectEdit = layout.findViewById(R.id.pm_send_subject);
+		textEdit = layout.findViewById(R.id.pm_send_text);
 
 		final String initialRecipient;
 		final String initialSubject;

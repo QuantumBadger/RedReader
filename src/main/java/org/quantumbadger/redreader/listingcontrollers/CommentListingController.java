@@ -126,7 +126,7 @@ public class CommentListingController {
 		return new CommentListingFragment(
 				parent,
 				savedInstanceState,
-				General.listOfOne((RedditURLParser.RedditURL)mUrl),
+				General.listOfOne(mUrl),
 				mSession,
 				mSearchString,
 				force);

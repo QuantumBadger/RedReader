@@ -31,17 +31,26 @@ import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.UUID;
 
 public final class DeviantArtAPI {
 
 	public static void getImageInfo(
 			final Context context,
-			final String imageId,
+			final String url,
 			@NonNull final Priority priority,
 			final GetImageInfoListener listener) {
 
-		final String apiUrl = "https://backend.deviantart.com/oembed?url=" + imageId;
+		final String apiUrl;
+		try {
+			apiUrl = "https://backend.deviantart.com/oembed?url="
+					+ URLEncoder.encode(url, "UTF-8");
+
+		} catch(final UnsupportedEncodingException e) {
+			throw new RuntimeException(e);
+		}
 
 		CacheManager.getInstance(context).makeRequest(new CacheRequest(
 				General.uriFromString(apiUrl),

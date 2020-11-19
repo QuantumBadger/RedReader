@@ -1371,4 +1371,8 @@
 
 	<string name="three_dots_menu">More options</string>
 
+	<!-- 2020-11-19 -->
+	<string name="pref_images_thumbnail_size_key" translatable="false">pref_images_thumbnail_size_key</string>
+	<string name="pref_images_thumbnail_size_title">Thumbnail size</string>
+
 </resources>

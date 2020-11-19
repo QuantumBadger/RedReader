@@ -174,8 +174,11 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 		hasThumbnail = showThumbnails && hasThumbnail(post);
 
-		// TODO parameterise
-		final int thumbnailWidth = General.dpToPixels(context, 64);
+		final int thumbnailWidth = General.dpToPixels(
+				context,
+				PrefsUtility.pref_images_thumbnail_size_dp(
+						context,
+						General.getSharedPrefs(context)));
 
 		if(hasThumbnail && hasThumbnail(post)) {
 			downloadThumbnail(context, thumbnailWidth, cm, listId);
@@ -1120,11 +1123,20 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 	private void downloadThumbnail(
 			final Context context,
-			final int widthPixels,
+			final int sizePixels,
 			final CacheManager cm,
 			final int listId) {
 
-		final String uriStr = src.getThumbnailUrl();
+		final String previewUrl = src.getPreviewUrl(sizePixels, sizePixels);
+
+		final String uriStr;
+
+		if(previewUrl != null) {
+			uriStr = previewUrl;
+		} else {
+			uriStr = src.getThumbnailUrl();
+		}
+
 		final URI uri = General.uriFromString(uriStr);
 
 		final int priority = Constants.Priority.THUMBNAIL;
@@ -1202,8 +1214,8 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 							int factor = 1;
 
-							while(width / (factor + 1) > widthPixels
-									&& height / (factor + 1) > widthPixels) {
+							while(width / (factor + 1) > sizePixels
+									&& height / (factor + 1) > sizePixels) {
 								factor *= 2;
 							}
 
@@ -1221,7 +1233,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 							if(data == null) {
 								return;
 							}
-							thumbnailCache = ThumbnailScaler.scale(data, widthPixels);
+							thumbnailCache = ThumbnailScaler.scale(data, sizePixels);
 							if(thumbnailCache != data) {
 								data.recycle();
 							}

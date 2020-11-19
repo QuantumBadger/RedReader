@@ -18,8 +18,11 @@
 package org.quantumbadger.redreader.reddit.prepared;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import org.apache.commons.text.StringEscapeUtils;
+import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
+import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
 import org.quantumbadger.redreader.reddit.prepared.html.HtmlReader;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
@@ -99,8 +102,82 @@ public class RedditParsedPost implements RedditThingWithIdAndType {
 		return mSrc;
 	}
 
+	@Nullable
 	public String getThumbnailUrl() {
-		return mSrc.thumbnail;
+		return StringEscapeUtils.unescapeHtml4(mSrc.thumbnail);
+	}
+
+	public boolean isPreviewEnabled() {
+		return mSrc.preview != null && Boolean.TRUE.equals(mSrc.preview.getBoolean("enabled"));
+	}
+
+	@Nullable
+	public String getPreviewUrl(final int minWidth, final int minHeight) {
+
+		if(mSrc.preview == null) {
+			return null;
+		}
+
+		final JsonBufferedArray images = mSrc.preview.getArray("images");
+
+		if(images == null || images.size() < 1) {
+			return null;
+		}
+
+		final JsonBufferedObject firstImage = images.getObject(0);
+
+		if(firstImage == null) {
+			return null;
+		}
+
+		final JsonBufferedArray resolutions = firstImage.getArray("resolutions");
+
+		if(resolutions == null || resolutions.size() < 1) {
+			return null;
+		}
+
+		int bestWidth = 0;
+		int bestHeight = 0;
+		String bestUrl = null;
+
+		for(int i = 0; i < resolutions.size(); i++) {
+
+			final JsonBufferedObject resolution = resolutions.getObject(i);
+
+			if(resolution == null) {
+				continue;
+			}
+
+			final Long width = resolution.getLong("width");
+			final Long height = resolution.getLong("height");
+			final String url = resolution.getString("url");
+
+			if(width == null || height == null || url == null) {
+				continue;
+			}
+
+			boolean use = false;
+
+			if(bestUrl == null) {
+				use = true;
+
+			} else if((bestWidth < minWidth || bestHeight < minHeight)
+					&& (width > bestWidth || height > bestHeight)) {
+				use = true;
+
+			} else if(width < bestWidth && height < bestHeight
+					&& width >= minWidth && height >= minHeight) {
+				use = true;
+			}
+
+			if(use) {
+				bestWidth = width.intValue();
+				bestHeight = height.intValue();
+				bestUrl = url;
+			}
+		}
+
+		return StringEscapeUtils.unescapeHtml4(bestUrl);
 	}
 
 	public boolean isArchived() {

@@ -626,10 +626,7 @@ public final class RedditAPI {
 							response.asObject().getObject("json").getArray("errors");
 
 					if(errors != null) {
-
-						errors.join();
-
-						if(errors.getCurrentItemCount() > 0) {
+						if(errors.size() > 0) {
 							unknownError = true;
 						}
 					}

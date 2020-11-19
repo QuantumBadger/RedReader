@@ -111,11 +111,13 @@ public final class PrefsUtility {
 				|| key.equals(context.getString(R.string.pref_behaviour_comment_min_key))
 				|| key.equals(context.getString(R.string.pref_behaviour_pinned_subredditsort_key))
 				|| key.equals(context.getString(
-				R.string.pref_behaviour_blocked_subredditsort_key))
+						R.string.pref_behaviour_blocked_subredditsort_key))
 				|| key.equals(context.getString(
-				R.string.pref_appearance_hide_headertoolbar_commentlist_key))
+						R.string.pref_appearance_hide_headertoolbar_commentlist_key))
 				|| key.equals(context.getString(
-				R.string.pref_appearance_hide_headertoolbar_postlist_key));
+						R.string.pref_appearance_hide_headertoolbar_postlist_key))
+				|| key.equals(context.getString(
+						R.string.pref_images_thumbnail_size_key));
 	}
 
 	public static boolean isRestartRequired(final Context context, final String key) {
@@ -823,6 +825,20 @@ public final class PrefsUtility {
 					sharedPreferences));
 		} catch(final Throwable e) {
 			return 2;
+		}
+	}
+
+	public static int pref_images_thumbnail_size_dp(
+			final Context context,
+			final SharedPreferences sharedPreferences) {
+		try {
+			return Integer.parseInt(getString(
+					R.string.pref_images_thumbnail_size_key,
+					"64",
+					context,
+					sharedPreferences));
+		} catch(final Throwable e) {
+			return 64;
 		}
 	}
 

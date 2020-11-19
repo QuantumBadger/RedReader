@@ -1,4 +1,5 @@
 95/1.15
+Preference to change thumbnail size
 Preference to always save images/videos to the system default location without prompting
 Preference to hide toolbar when scrolling
 Preference to disable tap-to-close on images/videos (thanks to Cameron Merkel)

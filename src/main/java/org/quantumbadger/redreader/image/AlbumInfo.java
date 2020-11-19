@@ -24,7 +24,6 @@ import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class AlbumInfo {
@@ -48,7 +47,7 @@ public class AlbumInfo {
 
 	public static AlbumInfo parseImgur(
 			final String url,
-			final JsonBufferedObject object) throws IOException, InterruptedException {
+			final JsonBufferedObject object) {
 
 		String title = object.getString("title");
 		String description = object.getString("description");
@@ -73,8 +72,7 @@ public class AlbumInfo {
 
 	public static AlbumInfo parseImgurV3(
 			final String url,
-			final JsonBufferedObject object)
-			throws IOException, InterruptedException {
+			final JsonBufferedObject object) {
 
 		String title = object.getString("title");
 		String description = object.getString("description");
@@ -121,8 +119,7 @@ public class AlbumInfo {
 	}
 
 	@Nullable
-	private static String getThumbnail(final JsonBufferedArray images)
-			throws IOException, InterruptedException {
+	private static String getThumbnail(final JsonBufferedArray images) {
 
 		final int minThumbSize = 200;
 
@@ -153,7 +150,7 @@ public class AlbumInfo {
 	@Nullable
 	public static AlbumInfo parseRedditGallery(
 			final String url,
-			final JsonBufferedObject object) throws IOException, InterruptedException {
+			final JsonBufferedObject object) {
 
 		final JsonBufferedObject mediaMetadataList = object.getObject("media_metadata");
 		final JsonBufferedObject galleryData = object.getObject("gallery_data");

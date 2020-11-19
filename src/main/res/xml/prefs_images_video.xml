@@ -87,6 +87,12 @@
 							android:key="@string/pref_appearance_thumbnails_nsfw_show_key"
 							android:defaultValue="false"/>
 
+		<ListPreference android:title="@string/pref_images_thumbnail_size_title"
+						android:key="@string/pref_images_thumbnail_size_key"
+						android:entries="@array/pref_images_thumbnail_size_items"
+						android:entryValues="@array/pref_images_thumbnail_size_return"
+						android:defaultValue="64" />
+
 	</PreferenceCategory>
 
 </PreferenceScreen>

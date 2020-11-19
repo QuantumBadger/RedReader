@@ -1076,4 +1076,26 @@
 		<item>system_default</item>
 	</string-array>
 
+	<!-- 2020-11-19 -->
+
+	<string-array name="pref_images_thumbnail_size_items">
+		<item>24 dp</item>
+		<item>32 dp</item>
+		<item>48 dp</item>
+		<item>64 dp</item>
+		<item>96 dp</item>
+		<item>128 dp</item>
+		<item>160 dp</item>
+	</string-array>
+
+	<string-array name="pref_images_thumbnail_size_return">
+		<item>24</item>
+		<item>32</item>
+		<item>48</item>
+		<item>64</item>
+		<item>96</item>
+		<item>128</item>
+		<item>160</item>
+	</string-array>
+
 </resources>

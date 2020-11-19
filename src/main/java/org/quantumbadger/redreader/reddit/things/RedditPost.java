@@ -41,6 +41,8 @@ public final class RedditPost implements Parcelable, RedditThingWithIdAndType {
 	public JsonBufferedObject media;
 	@Nullable public String rr_internal_dash_url;
 
+	@Nullable public JsonBufferedObject preview;
+
 	public RedditPost() {
 	}
 

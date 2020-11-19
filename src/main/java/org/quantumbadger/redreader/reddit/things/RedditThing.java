@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.reddit.things;
 
 import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
 
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
@@ -54,8 +53,6 @@ public final class RedditThing {
 	public RedditMoreComments asMoreComments() throws
 			InstantiationException,
 			IllegalAccessException,
-			InterruptedException,
-			IOException,
 			NoSuchMethodException,
 			InvocationTargetException {
 		return data.asObject(RedditMoreComments.class);
@@ -64,8 +61,6 @@ public final class RedditThing {
 	public RedditComment asComment() throws
 			InstantiationException,
 			IllegalAccessException,
-			InterruptedException,
-			IOException,
 			NoSuchMethodException,
 			InvocationTargetException {
 		return data.asObject(RedditComment.class);
@@ -74,8 +69,6 @@ public final class RedditThing {
 	public RedditPost asPost() throws
 			InstantiationException,
 			IllegalAccessException,
-			InterruptedException,
-			IOException,
 			NoSuchMethodException,
 			InvocationTargetException {
 		return data.asObject(RedditPost.class);
@@ -84,8 +77,6 @@ public final class RedditThing {
 	public RedditSubreddit asSubreddit() throws
 			InstantiationException,
 			IllegalAccessException,
-			InterruptedException,
-			IOException,
 			NoSuchMethodException,
 			InvocationTargetException {
 		return data.asObject(RedditSubreddit.class);
@@ -94,8 +85,6 @@ public final class RedditThing {
 	public RedditUser asUser() throws
 			InstantiationException,
 			IllegalAccessException,
-			InterruptedException,
-			IOException,
 			NoSuchMethodException,
 			InvocationTargetException {
 		return data.asObject(RedditUser.class);
@@ -103,11 +92,9 @@ public final class RedditThing {
 
 	public RedditMessage asMessage() throws
 			IllegalAccessException,
-			InterruptedException,
 			InstantiationException,
 			InvocationTargetException,
-			NoSuchMethodException,
-			IOException {
+			NoSuchMethodException {
 		return data.asObject(RedditMessage.class);
 	}
 }

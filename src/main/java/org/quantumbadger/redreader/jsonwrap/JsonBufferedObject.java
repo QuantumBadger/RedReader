@@ -17,6 +17,8 @@
 
 package org.quantumbadger.redreader.jsonwrap;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
@@ -31,16 +33,12 @@ import java.util.Map;
 import java.util.Set;
 
 
-/**
- * A JSON object, which may be partially or fully received.
- */
 public final class JsonBufferedObject extends JsonBuffered
 		implements Iterable<Map.Entry<String, JsonValue>> {
 
 	private final HashMap<String, JsonValue> properties = new HashMap<>();
 
-	@Override
-	protected void buildBuffered(final JsonParser jp) throws IOException {
+	public JsonBufferedObject(final JsonParser jp) throws IOException {
 
 		JsonToken jt;
 
@@ -54,147 +52,105 @@ public final class JsonBufferedObject extends JsonBuffered
 			final String fieldName = jp.getCurrentName();
 			final JsonValue value = new JsonValue(jp);
 
-			synchronized(this) {
-				properties.put(fieldName, value);
-				notifyAll();
-			}
-
-			value.buildInThisThread();
+			properties.put(fieldName, value);
 		}
 	}
 
-	/**
-	 * This method will block until either: the specified field is received, the object fails to
-	 * parse, or the object is fully received and there is no such field.
-	 *
-	 * @param name The name of the field
-	 * @return The value contained in the specified field
-	 * @throws InterruptedException
-	 * @throws java.io.IOException
-	 */
-	public JsonValue get(final String name) throws InterruptedException, IOException {
+	@Nullable
+	public JsonValue get(final String name) {
+		return properties.get(name);
+	}
 
-		synchronized(this) {
+	@Nullable
+	public String getString(@NonNull final String id) {
 
-			while(getStatus() == STATUS_LOADING && !properties.containsKey(name)) {
-				wait();
-			}
+		final JsonValue value = get(id);
 
-			if(getStatus() != STATUS_FAILED || properties.containsKey(name)) {
-				return properties.get(name);
-			}
-
-			if(getStatus() == STATUS_FAILED) {
-				throwFailReasonException();
-			}
-
+		if(value == null) {
 			return null;
 		}
+
+		return value.asString();
 	}
 
-	/**
-	 * This method will block until either: the specified field is received, the object fails to
-	 * parse, or the object is fully received and there is no such field.
-	 *
-	 * @param name The name of the field
-	 * @return The value contained in the specified field
-	 * @throws InterruptedException
-	 * @throws java.io.IOException
-	 */
-	public String getString(final String name) throws InterruptedException, IOException {
-		final JsonValue jsonValue = get(name);
-		return jsonValue == null ? null : jsonValue.asString();
+	@Nullable
+	public Long getLong(@NonNull final String id) {
+
+		final JsonValue value = get(id);
+
+		if(value == null) {
+			return null;
+		}
+
+		return value.asLong();
 	}
 
-	/**
-	 * This method will block until either: the specified field is received, the object fails to
-	 * parse, or the object is fully received and there is no such field.
-	 *
-	 * @param name The name of the field
-	 * @return The value contained in the specified field
-	 * @throws InterruptedException
-	 * @throws java.io.IOException
-	 */
-	public Long getLong(final String name) throws InterruptedException, IOException {
-		return get(name).asLong();
+	@Nullable
+	public Double getDouble(@NonNull final String id) {
+
+		final JsonValue value = get(id);
+
+		if(value == null) {
+			return null;
+		}
+
+		return value.asDouble();
 	}
 
-	/**
-	 * This method will block until either: the specified field is received, the object fails to
-	 * parse, or the object is fully received and there is no such field.
-	 *
-	 * @param name The name of the field
-	 * @return The value contained in the specified field
-	 * @throws InterruptedException
-	 * @throws java.io.IOException
-	 */
-	public Double getDouble(final String name) throws InterruptedException, IOException {
-		return get(name).asDouble();
+	@Nullable
+	public Boolean getBoolean(@NonNull final String id) {
+
+		final JsonValue value = get(id);
+
+		if(value == null) {
+			return null;
+		}
+
+		return value.asBoolean();
 	}
 
-	/**
-	 * This method will block until either: the specified field is received, the object fails to
-	 * parse, or the object is fully received and there is no such field.
-	 *
-	 * @param name The name of the field
-	 * @return The value contained in the specified field
-	 * @throws InterruptedException
-	 * @throws java.io.IOException
-	 */
-	public Boolean getBoolean(final String name) throws
-			InterruptedException,
-			IOException {
-		return get(name).asBoolean();
+	@Nullable
+	public JsonBufferedObject getObject(@NonNull final String id) {
+
+		final JsonValue value = get(id);
+
+		if(value == null) {
+			return null;
+		}
+
+		return value.asObject();
 	}
 
-	/**
-	 * This method will block until either: the specified field is received, the object fails to
-	 * parse, or the object is fully received and there is no such field.
-	 *
-	 * @param name The name of the field
-	 * @return The value contained in the specified field
-	 * @throws InterruptedException
-	 * @throws java.io.IOException
-	 */
-	public JsonBufferedObject getObject(final String name) throws
-			InterruptedException,
-			IOException {
-		return get(name).asObject();
-	}
-
-	public <E> E getObject(final String name, final Class<E> clazz) throws
-			InterruptedException,
-			IOException,
+	@Nullable
+	public <E> E getObject(@NonNull final String id, final Class<E> clazz) throws
 			InstantiationException,
 			IllegalAccessException,
 			NoSuchMethodException,
 			InvocationTargetException {
-		return get(name).asObject(clazz);
+
+		final JsonValue value = get(id);
+
+		if(value == null) {
+			return null;
+		}
+
+		return value.asObject(clazz);
 	}
 
-	/**
-	 * This method will block until either: the specified field is received, the object fails to
-	 * parse, or the object is fully received and there is no such field.
-	 *
-	 * @param name The name of the field
-	 * @return The value contained in the specified field
-	 * @throws InterruptedException
-	 * @throws java.io.IOException
-	 */
-	public JsonBufferedArray getArray(final String name) throws
-			InterruptedException,
-			IOException {
-		return get(name).asArray();
+	@Nullable
+	public JsonBufferedArray getArray(@NonNull final String id) {
+
+		final JsonValue value = get(id);
+
+		if(value == null) {
+			return null;
+		}
+
+		return value.asArray();
 	}
 
 	@Override
-	protected void prettyPrint(final int indent, final StringBuilder sb) throws
-			InterruptedException,
-			IOException {
-
-		if(join() != STATUS_LOADED) {
-			throwFailReasonException();
-		}
+	protected void prettyPrint(final int indent, final StringBuilder sb) {
 
 		sb.append('{');
 
@@ -226,8 +182,6 @@ public final class JsonBufferedObject extends JsonBuffered
 	public <E> E asObject(final Class<E> clazz) throws
 			InstantiationException,
 			IllegalAccessException,
-			InterruptedException,
-			IOException,
 			NoSuchMethodException,
 			InvocationTargetException {
 		final E obj = clazz.getConstructor().newInstance();
@@ -236,16 +190,10 @@ public final class JsonBufferedObject extends JsonBuffered
 	}
 
 	public void populateObject(final Object o) throws
-			InterruptedException,
-			IOException,
 			IllegalArgumentException,
 			InstantiationException,
 			NoSuchMethodException,
 			InvocationTargetException {
-
-		if(join() != STATUS_LOADED) {
-			throwFailReasonException();
-		}
 
 		final Field[] objectFields = o.getClass().getFields();
 
@@ -346,11 +294,6 @@ public final class JsonBufferedObject extends JsonBuffered
 
 	@Override
 	public Iterator<Map.Entry<String, JsonValue>> iterator() {
-		try {
-			join();
-		} catch(final InterruptedException e) {
-			throw new RuntimeException(e);
-		}
 		return properties.entrySet().iterator();
 	}
 }

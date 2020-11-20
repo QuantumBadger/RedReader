@@ -137,6 +137,8 @@ public class ImageViewActivity extends BaseActivity
 
 		super.onCreate(savedInstanceState);
 
+		setTitle(R.string.accessibility_image_viewer_title);
+
 		final SharedPreferences sharedPreferences
 				= General.getSharedPrefs(this);
 
@@ -310,7 +312,32 @@ public class ImageViewActivity extends BaseActivity
 			post = null;
 		}
 
+		final View hiddenAccessibilityLayout = LayoutInflater.from(this)
+				.inflate(R.layout.image_view_hidden_accessibility_layout, null);
+		{
+			final View commentsButton = hiddenAccessibilityLayout.findViewById(
+					R.id.image_view_hidden_accessibility_view_comments);
+
+			final View backButton = hiddenAccessibilityLayout.findViewById(
+					R.id.image_view_hidden_accessibility_go_back);
+
+			if(post != null) {
+				commentsButton.setOnClickListener(v -> RedditPreparedPost.onActionMenuItemSelected(
+						post,
+						this,
+						RedditPreparedPost.Action.COMMENTS_SWITCH));
+			} else {
+				commentsButton.setContentDescription(null);
+				commentsButton.setClickable(false);
+				commentsButton.setFocusable(false);
+				commentsButton.setVisibility(View.GONE);
+			}
+
+			backButton.setOnClickListener(v -> finish());
+		}
+
 		final FrameLayout outerFrame = new FrameLayout(this);
+		outerFrame.addView(hiddenAccessibilityLayout);
 		outerFrame.addView(mLayout);
 		mLayout.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
 		mLayout.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;

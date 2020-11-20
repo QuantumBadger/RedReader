@@ -1375,4 +1375,9 @@
 	<string name="pref_images_thumbnail_size_key" translatable="false">pref_images_thumbnail_size_key</string>
 	<string name="pref_images_thumbnail_size_title">Thumbnail size</string>
 
+	<!-- 2020-11-20 -->
+	<string name="accessibility_image_viewer_title">Viewing image</string>
+	<string name="accessibility_image_viewer_view_comments">View comments</string>
+	<string name="accessibility_image_viewer_go_back">Go back</string>
+
 </resources>

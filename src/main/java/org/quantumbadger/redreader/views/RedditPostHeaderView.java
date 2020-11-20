@@ -85,6 +85,7 @@ public class RedditPostHeaderView extends LinearLayout {
 		subtitle = new TextView(activity);
 		subtitle.setTextSize(13.0f * subtitleFontScale);
 		subtitle.setText(post.rebuildSubtitle(activity, true));
+		subtitle.setContentDescription(post.buildAccessibilitySubtitle(activity, true));
 
 		subtitle.setTextColor(Color.rgb(200, 200, 200));
 		greyHeader.addView(subtitle);
@@ -171,6 +172,8 @@ public class RedditPostHeaderView extends LinearLayout {
 			final RedditChangeDataManager.Listener changeListener = thingIdAndType -> {
 
 				subtitle.setText(post.rebuildSubtitle(activity, true));
+				subtitle.setContentDescription(
+						post.buildAccessibilitySubtitle(activity, true));
 
 				final boolean isUpvoted = changeDataManager.isUpvoted(post.src);
 				final boolean isDownvoted = changeDataManager.isDownvoted(post.src);

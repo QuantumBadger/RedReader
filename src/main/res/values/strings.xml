@@ -1380,4 +1380,20 @@
 	<string name="accessibility_image_viewer_view_comments">View comments</string>
 	<string name="accessibility_image_viewer_go_back">Go back</string>
 
+	<string name="accessibility_subtitle_spoiler_withperiod">Contains spoilers.</string>
+	<string name="accessibility_subtitle_sticky_withperiod">Sticky.</string>
+	<string name="accessibility_subtitle_nsfw_withperiod">Not safe for work.</string>
+	<string name="accessibility_subtitle_flair_withperiod">Flair: %s.</string>
+	<string name="accessibility_subtitle_points_withperiod">Score: %d.</string>
+	<string name="accessibility_subtitle_gold_withperiod">Awarded gold: %d.</string>
+	<string name="accessibility_subtitle_age_withperiod">Age: %s.</string>
+	<string name="accessibility_subtitle_author_withperiod">Author: %s.</string>
+	<string name="accessibility_subtitle_subreddit_withperiod">Sub-reddit: %s.</string>
+	<string name="accessibility_subtitle_domain_withperiod">Domain: %s.</string>
+	<string name="accessibility_subtitle_selfpost_withperiod">Text post.</string>
+
+	<string name="accessibility_subtitle_domain_i_redd_it">Reddit images</string>
+	<string name="accessibility_subtitle_domain_v_redd_it">Reddit videos</string>
+	<string name="accessibility_subtitle_domain_imgur" translatable="false">imager</string>
+
 </resources>

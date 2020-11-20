@@ -406,7 +406,8 @@ public final class RedditPostView extends FlingableItemView
 			title.setTextColor(rrPostTitleCol);
 		}
 
-		subtitle.setText(post.postListDescription);
+		subtitle.setText(post.mPostListDescription);
+		subtitle.setContentDescription(post.buildAccessibilitySubtitle(mActivity, true));
 
 		boolean overlayVisible = true;
 

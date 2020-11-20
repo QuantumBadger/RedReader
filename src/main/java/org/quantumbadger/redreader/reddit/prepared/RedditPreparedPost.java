@@ -83,6 +83,7 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.UUID;
 
 public final class RedditPreparedPost implements RedditChangeDataManager.Listener {
@@ -90,7 +91,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 	public final RedditParsedPost src;
 	private final RedditChangeDataManager mChangeDataManager;
 
-	public SpannableStringBuilder postListDescription;
+	public SpannableStringBuilder mPostListDescription;
 
 	public final boolean isArchived;
 	public final boolean hasThumbnail;
@@ -187,7 +188,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		lastChange = timestamp;
 		mChangeDataManager.update(timestamp, post.getSrc());
 
-		postListDescription = rebuildSubtitle(context);
+		mPostListDescription = rebuildSubtitle(context);
 	}
 
 	public static void showActionMenu(
@@ -1109,6 +1110,170 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		return postListDescSb.get();
 	}
 
+	public String buildAccessibilitySubtitle(
+			final Context context,
+			final boolean headerMode) {
+
+		final EnumSet<PrefsUtility.AppearancePostSubtitleItem> mPostSubtitleItems;
+		final int mPostAgeUnits;
+		if(headerMode
+				&& PrefsUtility.appearance_post_subtitle_items_use_different_settings(
+						context,
+						General.getSharedPrefs(context))) {
+			mPostSubtitleItems = PrefsUtility.appearance_post_header_subtitle_items(
+					context,
+					General.getSharedPrefs(context));
+			mPostAgeUnits = PrefsUtility.appearance_post_header_age_units(
+					context,
+					General.getSharedPrefs(context));
+		} else {
+			mPostSubtitleItems = PrefsUtility.appearance_post_subtitle_items(
+					context,
+					General.getSharedPrefs(context));
+			mPostAgeUnits = PrefsUtility.appearance_post_age_units(
+					context,
+					General.getSharedPrefs(context));
+		}
+
+		final StringBuilder accessibilitySubtitle = new StringBuilder();
+
+		final int score = computeScore();
+
+		final String separator = " \n";
+
+		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.SPOILER)) {
+			if(src.isSpoiler()) {
+				accessibilitySubtitle
+						.append(context.getString(
+								R.string.accessibility_subtitle_spoiler_withperiod))
+						.append(separator);
+			}
+		}
+
+		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.STICKY)) {
+			if(src.isStickied()) {
+				accessibilitySubtitle
+						.append(context.getString(
+								R.string.accessibility_subtitle_sticky_withperiod))
+						.append(separator);
+			}
+		}
+
+		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.NSFW)) {
+			if(src.isNsfw()) {
+				accessibilitySubtitle
+						.append(context.getString(
+								R.string.accessibility_subtitle_nsfw_withperiod))
+						.append(separator);
+			}
+		}
+
+		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.FLAIR)) {
+			if(src.getFlairText() != null) {
+				accessibilitySubtitle
+						.append(context.getString(
+								R.string.accessibility_subtitle_flair_withperiod,
+								src.getFlairText()
+										+ General.LTR_OVERRIDE_MARK))
+						.append(separator);
+			}
+		}
+
+		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.SCORE)) {
+			accessibilitySubtitle
+					.append(context.getString(
+							R.string.accessibility_subtitle_points_withperiod,
+							score))
+					.append(separator);
+		}
+
+		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.GOLD)) {
+			if(src.getGoldAmount() > 0) {
+				accessibilitySubtitle
+						.append(context.getString(
+								R.string.accessibility_subtitle_gold_withperiod,
+								src.getGoldAmount()))
+						.append(separator);
+			}
+		}
+
+		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.AGE)) {
+			accessibilitySubtitle
+					.append(context.getString(
+							R.string.accessibility_subtitle_age_withperiod,
+							RRTime.formatDurationFrom(
+									context,
+									src.getCreatedTimeSecsUTC() * 1000,
+									R.string.time_ago,
+									mPostAgeUnits)))
+					.append(separator);
+		}
+
+		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.AUTHOR)) {
+
+			accessibilitySubtitle
+					.append(context.getString(
+							R.string.accessibility_subtitle_author_withperiod,
+							src.getAuthor()))
+					.append(separator);
+		}
+
+		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.SUBREDDIT)) {
+			if(showSubreddit) {
+				accessibilitySubtitle
+						.append(context.getString(
+								R.string.accessibility_subtitle_subreddit_withperiod,
+								src.getSubreddit()))
+						.append(separator);
+			}
+		}
+
+		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.DOMAIN)) {
+
+			final String domain = src.getDomain().toLowerCase(Locale.US);
+
+			if(src.isSelfPost()) {
+				accessibilitySubtitle
+						.append(context.getString(
+								R.string.accessibility_subtitle_selfpost_withperiod))
+						.append(separator);
+
+			} else {
+
+				final String domainText;
+
+				switch(domain) {
+					case "i.redd.it":
+						domainText = context.getString(
+								R.string.accessibility_subtitle_domain_i_redd_it);
+						break;
+
+					case "v.redd.it":
+						domainText = context.getString(
+								R.string.accessibility_subtitle_domain_v_redd_it);
+						break;
+
+					case "imgur.com":
+					case "i.imgur.com":
+						domainText = context.getString(
+								R.string.accessibility_subtitle_domain_imgur);
+						break;
+
+					default:
+						domainText = domain;
+				}
+
+				accessibilitySubtitle
+						.append(context.getString(
+								R.string.accessibility_subtitle_domain_withperiod,
+								domainText))
+						.append(separator);
+			}
+		}
+
+		return accessibilitySubtitle.toString();
+	}
+
 	// lol, reddit api
 	private static boolean hasThumbnail(final RedditParsedPost post) {
 
@@ -1290,7 +1455,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			final Context context = mBoundView.getContext();
 
 			if(context != null) {
-				postListDescription = rebuildSubtitle(mBoundView.getContext());
+				mPostListDescription = rebuildSubtitle(mBoundView.getContext());
 				mBoundView.updateAppearance();
 			}
 		}

@@ -32,6 +32,15 @@ public interface RedditRenderableCommentListItem {
 			final long postCreated,
 			final long parentCommentCreated);
 
+	String getAccessibilityHeader(
+			final RRThemeAttributes theme,
+			final RedditChangeDataManager changeDataManager,
+			final Context context,
+			final int commentAgeUnits,
+			final long postCreated,
+			final long parentCommentCreated,
+			final boolean collapsed);
+
 	View getBody(
 			final BaseActivity activity,
 			final Integer textColor,

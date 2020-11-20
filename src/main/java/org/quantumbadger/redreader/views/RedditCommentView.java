@@ -366,22 +366,40 @@ public class RedditCommentView extends FlingableItemView
 
 		final RedditRenderableComment renderableComment = mComment.asComment();
 
+		final int ageUnits = PrefsUtility.appearance_comment_age_units(
+				activity,
+				General.getSharedPrefs(activity));
+
+		final long postTimestamp = (mFragment != null && mFragment.getPost() != null)
+				? mFragment.getPost().src.getCreatedTimeSecsUTC()
+				: RedditRenderableComment.NO_TIMESTAMP;
+
+		final long parentCommentTimestamp = mComment.getParent() != null
+				? mComment.getParent().asComment().getParsedComment().getRawComment().created_utc
+				: RedditRenderableComment.NO_TIMESTAMP;
+
+		final boolean isCollapsed = mComment.isCollapsed(mChangeDataManager);
+
 		final CharSequence headerText = renderableComment.getHeader(
 				mTheme,
 				mChangeDataManager,
 				activity,
-				PrefsUtility.appearance_comment_age_units(
-						activity,
-						General.getSharedPrefs(activity)),
-				(mFragment != null && mFragment.getPost() != null)
-					? mFragment.getPost().src.getCreatedTimeSecsUTC()
-					: RedditRenderableComment.NO_TIMESTAMP,
-				mComment.getParent() != null
-						? mComment.getParent()
-							.asComment().getParsedComment().getRawComment().created_utc
-						: RedditRenderableComment.NO_TIMESTAMP);
+				ageUnits,
+				postTimestamp,
+				parentCommentTimestamp);
 
-		if(mComment.isCollapsed(mChangeDataManager)) {
+		final String accessibilityHeader = renderableComment.getAccessibilityHeader(
+				mTheme,
+				mChangeDataManager,
+				activity,
+				ageUnits,
+				postTimestamp,
+				parentCommentTimestamp,
+				isCollapsed);
+
+		mHeader.setContentDescription(accessibilityHeader);
+
+		if(isCollapsed) {
 			setFlingingEnabled(false);
 			//noinspection SetTextI18n
 			mHeader.setText("[ + ]  "

@@ -151,6 +151,42 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 	}
 
 	@Override
+	public String getAccessibilityHeader(
+			final RRThemeAttributes theme,
+			final RedditChangeDataManager changeDataManager,
+			final Context context,
+			final int commentAgeUnits,
+			final long postCreated,
+			final long parentCommentCreated,
+			final boolean collapsed) {
+
+		final StringBuilder accessibilityHeader = new StringBuilder();
+		final String separator = " \n";
+
+		if(src.author != null) {
+			accessibilityHeader
+					.append(context.getString(
+							R.string.accessibility_subtitle_author_withperiod,
+							src.author))
+					.append(separator);
+		}
+
+		accessibilityHeader
+				.append(context.getString(
+						R.string.accessibility_subtitle_age_withperiod,
+						RRTime.formatDurationFrom(
+								context,
+								src.created_utc * 1000L,
+								R.string.time_ago,
+								PrefsUtility.appearance_inbox_age_units(
+										context,
+										General.getSharedPrefs(context)))))
+				.append(separator);
+
+		return accessibilityHeader.toString();
+	}
+
+	@Override
 	public View getBody(
 			final BaseActivity activity,
 			final Integer textColor,

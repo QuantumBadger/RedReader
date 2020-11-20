@@ -119,6 +119,15 @@ public class RedditInboxItemView extends LinearLayout {
 				RedditRenderableComment.NO_TIMESTAMP,
 				RedditRenderableComment.NO_TIMESTAMP));
 
+		mHeader.setContentDescription(item.getAccessibilityHeader(
+				theme,
+				changeDataManager,
+				context,
+				PrefsUtility.appearance_inbox_age_units(context, General.getSharedPrefs(context)),
+				RedditRenderableComment.NO_TIMESTAMP,
+				RedditRenderableComment.NO_TIMESTAMP,
+				false));
+
 		final View body = item.getBody(
 				context,
 				mTheme.rrCommentBodyCol,

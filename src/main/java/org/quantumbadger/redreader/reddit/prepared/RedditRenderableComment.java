@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.reddit.prepared;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
+import androidx.annotation.NonNull;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BaseActivity;
@@ -219,42 +220,13 @@ public class RedditRenderableComment
 
 		if(theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.AGE)) {
 			final long commentTime = rawComment.created_utc * 1000L;
-			final String formattedAge;
-
-			//In addition to enforcing the user's prefs, the lower mode cases also act as fallbacks
-			switch(commentAgeMode) {
-				case RELATIVE_PARENT:
-					if(parentCommentCreated != NO_TIMESTAMP) {
-						formattedAge = RRTime.formatDurationFrom(
-								context,
-								parentCommentCreated * 1000L,
-								commentTime,
-								R.string.time_after_reply,
-								commentAgeUnits);
-						break;
-					}
-					//Top-level comment (or unable to get the parent comment's creation time)
-				case RELATIVE_POST:
-					if(postCreated != NO_TIMESTAMP) {
-						formattedAge = RRTime.formatDurationFrom(
-								context,
-								postCreated * 1000L,
-								commentTime,
-								R.string.time_after,
-								commentAgeUnits);
-						break;
-					}
-					//Unable to get post creation date, resorting to absolute age
-				case ABSOLUTE:
-					formattedAge = RRTime.formatDurationFrom(
-							context,
-							commentTime,
-							R.string.time_ago,
-							commentAgeUnits);
-					break;
-				default:
-					throw new IllegalStateException("Unexpected value: " + commentAgeMode);
-			}
+			final String formattedAge = formatAge(
+					context,
+					commentAgeMode,
+					commentAgeUnits,
+					commentTime,
+					postCreated,
+					parentCommentCreated);
 
 			sb.append(
 					formattedAge,
@@ -274,6 +246,149 @@ public class RedditRenderableComment
 		}
 
 		return sb.get();
+	}
+
+	@Override
+	public String getAccessibilityHeader(
+			final RRThemeAttributes theme,
+			final RedditChangeDataManager changeDataManager,
+			final Context context,
+			final int commentAgeUnits,
+			final long postCreated,
+			final long parentCommentCreated,
+			final boolean collapsed) {
+
+		final PrefsUtility.CommentAgeMode commentAgeMode = PrefsUtility.appearance_comment_age_mode(
+				context,
+				General.getSharedPrefs(context));
+
+		final StringBuilder accessibilityHeader = new StringBuilder();
+
+		final RedditComment rawComment = mComment.getRawComment();
+
+		final String separator = " \n";
+
+		if(collapsed) {
+			accessibilityHeader
+					.append(context.getString(R.string.accessibility_subtitle_comment_collapsed))
+					.append(separator);
+		}
+
+		if(theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.AUTHOR)) {
+			accessibilityHeader
+					.append(context.getString(
+							R.string.accessibility_subtitle_author_withperiod,
+							rawComment.author))
+					.append(separator);
+		}
+
+		final String flair = mComment.getFlair();
+
+		if(theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.FLAIR)
+				&& flair != null
+				&& flair.length() > 0) {
+
+			accessibilityHeader
+					.append(context.getString(
+							R.string.accessibility_subtitle_flair_withperiod,
+							flair + General.LTR_OVERRIDE_MARK))
+					.append(separator);
+		}
+
+		if(theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.SCORE) && mShowScore) {
+
+			if(Boolean.TRUE.equals(rawComment.score_hidden)) {
+				accessibilityHeader
+						.append(context.getString(
+								R.string.accessibility_subtitle_points_unknown_withperiod))
+						.append(separator);
+
+			} else {
+				accessibilityHeader
+						.append(context.getString(
+								R.string.accessibility_subtitle_points_withperiod,
+								computeScore(changeDataManager)))
+						.append(separator);
+			}
+		}
+
+		if(theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.GOLD)) {
+
+			if(rawComment.gilded > 0) {
+				accessibilityHeader
+						.append(context.getString(
+								R.string.accessibility_subtitle_gold_withperiod,
+								rawComment.gilded))
+						.append(separator);
+			}
+		}
+
+		if(theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.AGE)) {
+			final long commentTime = rawComment.created_utc * 1000L;
+			final String formattedAge = formatAge(
+					context,
+					commentAgeMode,
+					commentAgeUnits,
+					commentTime,
+					postCreated,
+					parentCommentCreated);
+
+			accessibilityHeader
+					.append(context.getString(
+							R.string.accessibility_subtitle_age_withperiod,
+							formattedAge))
+					.append(separator);
+
+			if(rawComment.edited instanceof Long) {
+				accessibilityHeader
+						.append(context.getString(
+								R.string.accessibility_subtitle_edited_since_being_posted))
+						.append(separator);
+			}
+		}
+
+		return accessibilityHeader.toString();
+	}
+
+	@NonNull
+	private String formatAge(
+			@NonNull final Context context,
+			@NonNull final PrefsUtility.CommentAgeMode commentAgeMode,
+			@NonNull final int commentAgeUnits,
+			final long commentTime,
+			final long postCreated,
+			final long parentCommentCreated) {
+		//In addition to enforcing the user's prefs, the lower mode cases also act as fallbacks
+		switch(commentAgeMode) {
+			case RELATIVE_PARENT:
+				if(parentCommentCreated != NO_TIMESTAMP) {
+					return RRTime.formatDurationFrom(
+							context,
+							parentCommentCreated * 1000L,
+							commentTime,
+							R.string.time_after_reply,
+							commentAgeUnits);
+				}
+			//Top-level comment (or unable to get the parent comment's creation time)
+			case RELATIVE_POST:
+				if(postCreated != NO_TIMESTAMP) {
+					return RRTime.formatDurationFrom(
+							context,
+							postCreated * 1000L,
+							commentTime,
+							R.string.time_after,
+							commentAgeUnits);
+				}
+			//Unable to get post creation date, resorting to absolute age
+			case ABSOLUTE:
+				return RRTime.formatDurationFrom(
+						context,
+						commentTime,
+						R.string.time_ago,
+						commentAgeUnits);
+			default:
+				throw new IllegalStateException("Unexpected value: " + commentAgeMode);
+		}
 	}
 
 	@Override

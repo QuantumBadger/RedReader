@@ -1391,6 +1391,9 @@
 	<string name="accessibility_subtitle_subreddit_withperiod">Sub-reddit: %s.</string>
 	<string name="accessibility_subtitle_domain_withperiod">Domain: %s.</string>
 	<string name="accessibility_subtitle_selfpost_withperiod">Text post.</string>
+	<string name="accessibility_subtitle_points_unknown_withperiod">Score hidden.</string>
+	<string name="accessibility_subtitle_edited_since_being_posted">Text edited since being posted.</string>
+	<string name="accessibility_subtitle_comment_collapsed">Comment text hidden.</string>
 
 	<string name="accessibility_subtitle_domain_i_redd_it">Reddit images</string>
 	<string name="accessibility_subtitle_domain_v_redd_it">Reddit videos</string>

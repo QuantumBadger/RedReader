@@ -116,13 +116,36 @@ public abstract class BaseActivity extends AppCompatActivity
 	}
 
 	protected void configBackButton(final boolean isVisible, final View.OnClickListener listener) {
+
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+
+			mActionbarBackIconView.setImportantForAccessibility(
+					View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
+
+			mActionbarTitleTextView.setImportantForAccessibility(
+					View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
+		}
+
 		if(isVisible) {
 			mActionbarBackIconView.setVisibility(View.VISIBLE);
 			mActionbarTitleOuterView.setOnClickListener(listener);
 			mActionbarTitleOuterView.setClickable(true);
+
+			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+				mActionbarTitleOuterView.setContentDescription(getString(R.string.action_back));
+				mActionbarTitleOuterView.setImportantForAccessibility(
+						View.IMPORTANT_FOR_ACCESSIBILITY_YES);
+			}
+
 		} else {
 			mActionbarBackIconView.setVisibility(View.GONE);
 			mActionbarTitleOuterView.setClickable(false);
+
+			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+				mActionbarTitleOuterView.setContentDescription(null);
+				mActionbarTitleOuterView.setImportantForAccessibility(
+						View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
+			}
 		}
 	}
 

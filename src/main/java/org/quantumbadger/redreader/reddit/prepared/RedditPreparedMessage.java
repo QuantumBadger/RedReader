@@ -36,6 +36,7 @@ import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
 import org.quantumbadger.redreader.common.RRTime;
+import org.quantumbadger.redreader.common.ScreenreaderPronunciation;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
 import org.quantumbadger.redreader.reddit.prepared.html.HtmlReader;
 import org.quantumbadger.redreader.reddit.things.RedditMessage;
@@ -167,7 +168,9 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 			accessibilityHeader
 					.append(context.getString(
 							R.string.accessibility_subtitle_author_withperiod,
-							src.author))
+							ScreenreaderPronunciation.getPronunciation(
+									context,
+									src.author)))
 					.append(separator);
 		}
 

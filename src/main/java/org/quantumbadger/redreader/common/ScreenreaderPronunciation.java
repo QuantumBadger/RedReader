@@ -1,0 +1,118 @@
+package org.quantumbadger.redreader.common;
+
+import android.content.Context;
+import androidx.annotation.NonNull;
+import org.quantumbadger.redreader.R;
+
+import java.util.Locale;
+
+public class ScreenreaderPronunciation {
+
+	@NonNull
+	public static String getPronunciation(
+			@NonNull final Context context,
+			@NonNull final String text) {
+
+		final String textLowercase = text.toLowerCase(Locale.US);
+
+		switch(textLowercase) {
+			case "i.redd.it":
+				return context.getString(
+						R.string.accessibility_subtitle_domain_i_redd_it);
+
+			case "v.redd.it":
+				return context.getString(
+						R.string.accessibility_subtitle_domain_v_redd_it);
+
+			case "imgur.com":
+			case "i.imgur.com":
+				return "imager dot com";
+
+			case "gfycat.com":
+				return "giffy cat dot com";
+		}
+
+		return pronounceSubreddit(textLowercase);
+	}
+
+	@NonNull
+	private static String pronounceSubreddit(@NonNull final String nameLowercase) {
+
+		if(nameLowercase.startsWith("/r/") || nameLowercase.startsWith("/u/")) {
+			return nameLowercase.charAt(1)
+					+ " slash "
+					+ pronounceSubredditStripped(nameLowercase.substring(3));
+
+		} else if(nameLowercase.startsWith("r/") || nameLowercase.startsWith("u/")) {
+			return nameLowercase.charAt(0)
+					+ " slash "
+					+ pronounceSubredditStripped(nameLowercase.substring(2));
+
+		} else {
+			return pronounceSubredditStripped(nameLowercase);
+		}
+	}
+
+	@SuppressWarnings("SpellCheckingInspection")
+	@NonNull
+	private static String pronounceSubredditStripped(@NonNull final String nameLowercase) {
+
+		switch(nameLowercase) {
+			case "iama":
+				return "i am a";
+
+			case "askreddit":
+				return "ask reddit";
+
+			case "redreader":
+				return "red reader";
+
+			case "quantumbadger":
+				return "quantum badger";
+
+			case "automoderator":
+				return "auto moderator";
+
+			case "whatcouldgowrong":
+				return "what could go wrong";
+
+			case "mildlyinteresting":
+				return "mildly interesting";
+
+			case "lifeprotips":
+				return "life pro tips";
+
+			case "listentothis":
+				return "listen to this";
+
+			case "nosleep":
+				return "no sleep";
+
+			case "nottheonion":
+				return "not the onion";
+
+			case "personalfinance":
+				return "personal finance";
+
+			case "tifu":
+				return "t i f u";
+
+			case "todayilearned":
+				return "today i learned";
+
+			case "twoxchromosomes":
+				return "two x chromosomes";
+
+			case "writingprompts":
+				return "writing prompts";
+
+			case "dataisbeautiful":
+				return "data is beautiful";
+
+			case "explainlikeimfive":
+				return "explain like I'm five";
+		}
+
+		return nameLowercase;
+	}
+}

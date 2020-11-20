@@ -62,6 +62,7 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRTime;
+import org.quantumbadger.redreader.common.ScreenreaderPronunciation;
 import org.quantumbadger.redreader.fragments.PostPropertiesDialog;
 import org.quantumbadger.redreader.fragments.ShareOrderDialog;
 import org.quantumbadger.redreader.image.ThumbnailScaler;
@@ -1214,7 +1215,9 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			accessibilitySubtitle
 					.append(context.getString(
 							R.string.accessibility_subtitle_author_withperiod,
-							src.getAuthor()))
+							ScreenreaderPronunciation.getPronunciation(
+									context,
+									src.getAuthor())))
 					.append(separator);
 		}
 
@@ -1223,7 +1226,9 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				accessibilitySubtitle
 						.append(context.getString(
 								R.string.accessibility_subtitle_subreddit_withperiod,
-								src.getSubreddit()))
+								ScreenreaderPronunciation.getPronunciation(
+										context,
+										src.getSubreddit())))
 						.append(separator);
 			}
 		}
@@ -1239,34 +1244,10 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 						.append(separator);
 
 			} else {
-
-				final String domainText;
-
-				switch(domain) {
-					case "i.redd.it":
-						domainText = context.getString(
-								R.string.accessibility_subtitle_domain_i_redd_it);
-						break;
-
-					case "v.redd.it":
-						domainText = context.getString(
-								R.string.accessibility_subtitle_domain_v_redd_it);
-						break;
-
-					case "imgur.com":
-					case "i.imgur.com":
-						domainText = context.getString(
-								R.string.accessibility_subtitle_domain_imgur);
-						break;
-
-					default:
-						domainText = domain;
-				}
-
 				accessibilitySubtitle
 						.append(context.getString(
 								R.string.accessibility_subtitle_domain_withperiod,
-								domainText))
+								ScreenreaderPronunciation.getPronunciation(context, domain)))
 						.append(separator);
 			}
 		}

@@ -19,13 +19,13 @@ package org.quantumbadger.redreader.views.list;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.R;
 
 // TODO just make this a linear layout
@@ -53,6 +53,7 @@ public class ListItemView extends FrameLayout {
 	public void reset(
 			@Nullable final Drawable icon,
 			@NonNull final CharSequence text,
+			@Nullable final String contentDescription,
 			final boolean hideDivider) {
 
 		if(hideDivider) {
@@ -62,6 +63,7 @@ public class ListItemView extends FrameLayout {
 		}
 
 		textView.setText(text);
+		textView.setContentDescription(contentDescription);
 
 		if(icon != null) {
 			imageView.setImageDrawable(icon);

@@ -18,17 +18,18 @@
 package org.quantumbadger.redreader.views.list;
 
 import android.graphics.drawable.Drawable;
+import android.view.View;
+import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
-import android.view.View;
-import android.view.ViewGroup;
 import org.quantumbadger.redreader.adapters.GroupedRecyclerViewAdapter;
 
 public class GroupedRecyclerViewItemListItemView extends GroupedRecyclerViewAdapter.Item {
 
 	@Nullable private final Drawable mIcon;
 	@NonNull private final CharSequence mText;
+	@Nullable private final String mContentDescription;
 	private final boolean mHideDivider;
 
 	@Nullable private final View.OnClickListener mClickListener;
@@ -37,12 +38,14 @@ public class GroupedRecyclerViewItemListItemView extends GroupedRecyclerViewAdap
 	public GroupedRecyclerViewItemListItemView(
 			@Nullable final Drawable icon,
 			@NonNull final CharSequence text,
+			@Nullable final String contentDescription,
 			final boolean hideDivider,
 			@Nullable final View.OnClickListener clickListener,
 			@Nullable final View.OnLongClickListener longClickListener) {
 
 		mIcon = icon;
 		mText = text;
+		mContentDescription = contentDescription;
 		mHideDivider = hideDivider;
 		mClickListener = clickListener;
 		mLongClickListener = longClickListener;
@@ -64,7 +67,7 @@ public class GroupedRecyclerViewItemListItemView extends GroupedRecyclerViewAdap
 
 		final ListItemView view = (ListItemView)viewHolder.itemView;
 
-		view.reset(mIcon, mText, mHideDivider);
+		view.reset(mIcon, mText, mContentDescription, mHideDivider);
 		view.setOnClickListener(mClickListener);
 		view.setOnLongClickListener(mLongClickListener);
 

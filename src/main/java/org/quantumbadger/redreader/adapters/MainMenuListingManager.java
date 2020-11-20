@@ -40,6 +40,7 @@ import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.ScreenreaderPronunciation;
 import org.quantumbadger.redreader.fragments.MainMenuFragment;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.api.SubredditSubscriptionState;
@@ -615,6 +616,7 @@ public class MainMenuListingManager {
 		return new GroupedRecyclerViewItemListItemView(
 				icon,
 				name,
+				null,
 				hideDivider,
 				clickListener,
 				null);
@@ -767,6 +769,7 @@ public class MainMenuListingManager {
 		return new GroupedRecyclerViewItemListItemView(
 				null,
 				displayName,
+				ScreenreaderPronunciation.getPronunciation(mContext, displayName),
 				hideDivider,
 				clickListener,
 				longClickListener);
@@ -892,6 +895,7 @@ public class MainMenuListingManager {
 		return new GroupedRecyclerViewItemListItemView(
 				null,
 				name,
+				ScreenreaderPronunciation.getPronunciation(mContext, name),
 				hideDivider,
 				clickListener,
 				null);

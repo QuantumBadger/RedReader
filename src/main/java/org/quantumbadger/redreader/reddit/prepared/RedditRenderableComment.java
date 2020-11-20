@@ -31,6 +31,7 @@ import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
 import org.quantumbadger.redreader.common.RRTime;
+import org.quantumbadger.redreader.common.ScreenreaderPronunciation;
 import org.quantumbadger.redreader.reddit.api.RedditAPICommentAction;
 import org.quantumbadger.redreader.reddit.things.RedditComment;
 import org.quantumbadger.redreader.reddit.things.RedditThingWithIdAndType;
@@ -278,7 +279,9 @@ public class RedditRenderableComment
 			accessibilityHeader
 					.append(context.getString(
 							R.string.accessibility_subtitle_author_withperiod,
-							rawComment.author))
+							ScreenreaderPronunciation.getPronunciation(
+									context,
+									rawComment.author)))
 					.append(separator);
 		}
 

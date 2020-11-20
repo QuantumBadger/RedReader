@@ -566,6 +566,7 @@
     <string name="pref_appearance_show_aspect_ratio_indicator_summary">Erakutsi multimedia kargatzeko ikusmena eskuragarri dagoenean</string>
     <string name="pref_behaviour_sharing_share_dialog_title">Erabili partekatutako elkarrizketa-koadroa</string>
     <plurals name="load_more_comments_button_reply_count">
+        <item quantity="one">Kargatu iruzkin gehiago (erantzun %d)</item>
         <item quantity="other">Kargatu iruzkin gehiago (%d erantzun)</item>
     </plurals>
     <string name="link_does_not_exist">Esteka hau ez da existitzen. Baliteke ezabatu izana.</string>

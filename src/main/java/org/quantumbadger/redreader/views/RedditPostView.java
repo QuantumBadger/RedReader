@@ -46,7 +46,7 @@ import java.util.ArrayList;
 public final class RedditPostView extends FlingableItemView
 		implements RedditPreparedPost.ThumbnailLoadedCallback {
 
-	private RedditPreparedPost post = null;
+	private RedditPreparedPost mPost = null;
 	private final TextView title, subtitle;
 
 	private final ImageView thumbnailView, overlayIcon;
@@ -118,7 +118,7 @@ public final class RedditPostView extends FlingableItemView
 	@Override
 	protected void onFlungLeft() {
 		RedditPreparedPost.onActionMenuItemSelected(
-				post,
+				mPost,
 				mActivity,
 				mLeftFlingAction.action);
 	}
@@ -126,7 +126,7 @@ public final class RedditPostView extends FlingableItemView
 	@Override
 	protected void onFlungRight() {
 		RedditPreparedPost.onActionMenuItemSelected(
-				post,
+				mPost,
 				mActivity,
 				mRightFlingAction.action);
 	}
@@ -148,7 +148,7 @@ public final class RedditPostView extends FlingableItemView
 		switch(pref) {
 
 			case UPVOTE:
-				if(post.isUpvoted()) {
+				if(mPost.isUpvoted()) {
 					return new ActionDescriptionPair(
 							RedditPreparedPost.Action.UNVOTE,
 							R.string.action_vote_remove);
@@ -159,7 +159,7 @@ public final class RedditPostView extends FlingableItemView
 				}
 
 			case DOWNVOTE:
-				if(post.isDownvoted()) {
+				if(mPost.isDownvoted()) {
 					return new ActionDescriptionPair(
 							RedditPreparedPost.Action.UNVOTE,
 							R.string.action_vote_remove);
@@ -170,7 +170,7 @@ public final class RedditPostView extends FlingableItemView
 				}
 
 			case SAVE:
-				if(post.isSaved()) {
+				if(mPost.isSaved()) {
 					return new ActionDescriptionPair(
 							RedditPreparedPost.Action.UNSAVE,
 							R.string.action_unsave);
@@ -181,7 +181,7 @@ public final class RedditPostView extends FlingableItemView
 				}
 
 			case HIDE:
-				if(post.isHidden()) {
+				if(mPost.isHidden()) {
 					return new ActionDescriptionPair(
 							RedditPreparedPost.Action.UNHIDE,
 							R.string.action_unhide);
@@ -253,10 +253,10 @@ public final class RedditPostView extends FlingableItemView
 
 		mOuterView = rootView.findViewById(R.id.reddit_post_layout);
 
-		mOuterView.setOnClickListener(v -> fragmentParent.onPostSelected(post));
+		mOuterView.setOnClickListener(v -> fragmentParent.onPostSelected(mPost));
 
 		mOuterView.setOnLongClickListener(v -> {
-			RedditPreparedPost.showActionMenu(mActivity, post);
+			RedditPreparedPost.showActionMenu(mActivity, mPost);
 			return true;
 		});
 
@@ -303,7 +303,7 @@ public final class RedditPostView extends FlingableItemView
 		}
 
 		if(mCommentsButtonPref) {
-			commentsButton.setOnClickListener(v -> fragmentParent.onPostCommentsSelected(post));
+			commentsButton.setOnClickListener(v -> fragmentParent.onPostCommentsSelected(mPost));
 		}
 
 		title.setTextSize(
@@ -339,23 +339,23 @@ public final class RedditPostView extends FlingableItemView
 	}
 
 	@UiThread
-	public void reset(final RedditPreparedPost data) {
+	public void reset(@NonNull final RedditPreparedPost newPost) {
 
-		if(data != post) {
+		if(newPost != mPost) {
 
 			usageId++;
 
 			resetSwipeState();
 
-			final Bitmap thumbnail = data.getThumbnail(this, usageId);
+			final Bitmap thumbnail = newPost.getThumbnail(this, usageId);
 			thumbnailView.setImageBitmap(thumbnail);
 
-			title.setText(data.src.getTitle());
+			title.setText(newPost.src.getTitle());
 			if(mCommentsButtonPref) {
-				commentsText.setText(String.valueOf(data.src.getSrc().num_comments));
+				commentsText.setText(String.valueOf(newPost.src.getSrc().num_comments));
 			}
 
-			if(data.hasThumbnail) {
+			if(newPost.hasThumbnail) {
 				thumbnailView.setVisibility(VISIBLE);
 				thumbnailView.setMinimumWidth(mThumbnailSizePrefPixels);
 				thumbnailView.getLayoutParams().height =
@@ -370,12 +370,13 @@ public final class RedditPostView extends FlingableItemView
 			}
 		}
 
-		if(post != null) {
-			post.unbind(this);
+		if(mPost != null) {
+			mPost.unbind(this);
 		}
-		data.bind(this);
 
-		this.post = data;
+		newPost.bind(this);
+
+		this.mPost = newPost;
 
 		updateAppearance();
 	}
@@ -400,27 +401,27 @@ public final class RedditPostView extends FlingableItemView
 			}
 		}
 
-		if(post.isRead()) {
+		if(mPost.isRead()) {
 			title.setTextColor(rrPostTitleReadCol);
 		} else {
 			title.setTextColor(rrPostTitleCol);
 		}
 
-		subtitle.setText(post.mPostListDescription);
-		subtitle.setContentDescription(post.buildAccessibilitySubtitle(mActivity, true));
+		subtitle.setText(mPost.buildSubtitle(mActivity, false));
+		subtitle.setContentDescription(mPost.buildAccessibilitySubtitle(mActivity, false));
 
 		boolean overlayVisible = true;
 
-		if(post.isSaved()) {
+		if(mPost.isSaved()) {
 			overlayIcon.setImageResource(R.drawable.star_dark);
 
-		} else if(post.isHidden()) {
+		} else if(mPost.isHidden()) {
 			overlayIcon.setImageResource(R.drawable.ic_action_cross_dark);
 
-		} else if(post.isUpvoted()) {
+		} else if(mPost.isUpvoted()) {
 			overlayIcon.setImageResource(R.drawable.arrow_up_bold_orangered);
 
-		} else if(post.isDownvoted()) {
+		} else if(mPost.isDownvoted()) {
 			overlayIcon.setImageResource(R.drawable.arrow_down_bold_periwinkle);
 
 		} else {

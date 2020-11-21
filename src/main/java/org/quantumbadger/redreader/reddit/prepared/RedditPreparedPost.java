@@ -95,8 +95,6 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 	public final RedditParsedPost src;
 	private final RedditChangeDataManager mChangeDataManager;
 
-	public SpannableStringBuilder mPostListDescription;
-
 	public final boolean isArchived;
 	public final boolean hasThumbnail;
 	public final boolean mIsProbablyAnImage;
@@ -191,8 +189,6 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 		lastChange = timestamp;
 		mChangeDataManager.update(timestamp, post.getSrc());
-
-		mPostListDescription = rebuildSubtitle(context);
 	}
 
 	public static void showActionMenu(
@@ -909,11 +905,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		return score;
 	}
 
-	private SpannableStringBuilder rebuildSubtitle(final Context context) {
-		return rebuildSubtitle(context, false);
-	}
-
-	public SpannableStringBuilder rebuildSubtitle(
+	public SpannableStringBuilder buildSubtitle(
 			final Context context,
 			final boolean headerMode) {
 
@@ -1369,7 +1361,6 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			final Context context = mBoundView.getContext();
 
 			if(context != null) {
-				mPostListDescription = rebuildSubtitle(mBoundView.getContext());
 				mBoundView.updateAppearance();
 			}
 		}

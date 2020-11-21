@@ -1,7 +1,7 @@
 RedReader
 =========
 
-An unofficial, open source Android client for reddit.
+Unofficial Android client for Reddit.
 
 ![CI](https://github.com/QuantumBadger/RedReader/workflows/CI/badge.svg?branch=master)
 [![Translation status](https://hosted.weblate.org/widgets/redreader/-/svg-badge.svg)](https://hosted.weblate.org/engage/redreader/?utm_source=widget)
@@ -13,13 +13,13 @@ An unofficial, open source Android client for reddit.
 Features
 --------
 
-* Free and open-source Software - no ads/tracking
+* Copylefted libre software, licensed GPLv3+. Use, inspect, change and share at will; with all.
 * Lightweight and fast
 * Swipe posts left and right to perform customizable actions, such as upvote/downvote, or save/hide
-* Advanced cache management - automatically stores past versions of posts and comments
+* Advanced cache management—automatically stores past versions of posts and comments
 * Support for multiple accounts
-* Two-column tablet mode (can be used on your phone, if it’s big enough)
-* Image and comment precaching (optional: always, never, or Wi-Fi only)
+* Two-column tablet mode (can be used on your phone if it’s big enough)
+* Image and comment precaching (optional: always, never, or only on Wi-Fi)
 * Built-in image viewer, and GIF/video player
 * Multiple themes, including night mode, and ultra black for AMOLED displays
 * Support for Android 4.0+
@@ -28,13 +28,13 @@ Features
 Downloading
 -----------
 
-RedReader is available for free on the Google Play store:
-
-https://play.google.com/store/apps/details?id=org.quantumbadger.redreader
-
-RedReader can also be found for free on F-Droid:
+RedReader is gratis on F-Droid:
 
 https://f-droid.org/app/org.quantumbadger.redreader
+
+If you can't avoid it, RedReader is also on the Google Play store:
+
+https://play.google.com/store/apps/details?id=org.quantumbadger.redreader
 
 The Google Play APKs are also available here:
 
@@ -54,7 +54,7 @@ https://hosted.weblate.org/projects/redreader/strings/
 Building
 --------
 
-RedReader is built using Gradle. On Linux, simply run:
+RedReader is built using Gradle. On Linux, run:
 
     ./gradlew installDebug
 
@@ -62,7 +62,7 @@ RedReader is built using Gradle. On Linux, simply run:
 License
 -------
 
-RedReader is licensed under the GPL, version 3. A copy of the license is
+RedReader is licensed under the GPL version 3 or any later version. A copy of the license is
 included in [LICENSE.txt](LICENSE.txt).
 
 

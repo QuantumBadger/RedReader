@@ -1398,4 +1398,6 @@
 	<string name="accessibility_subtitle_domain_i_redd_it">Reddit images</string>
 	<string name="accessibility_subtitle_domain_v_redd_it">Reddit videos</string>
 
+	<string name="pref_appearance_navbar_color_option_white">White</string>
+
 </resources>

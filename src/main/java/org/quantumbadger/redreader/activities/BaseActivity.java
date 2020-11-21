@@ -22,6 +22,7 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -236,8 +237,13 @@ public abstract class BaseActivity extends AppCompatActivity
 						this,
 						mSharedPreferences);
 
-				if(navbarColour != PrefsUtility.AppearanceNavbarColour.BLACK) {
+				if(navbarColour == PrefsUtility.AppearanceNavbarColour.BLACK) {
+					getWindow().setNavigationBarColor(Color.BLACK);
 
+				} else if(navbarColour == PrefsUtility.AppearanceNavbarColour.WHITE) {
+					getWindow().setNavigationBarColor(Color.WHITE);
+
+				} else {
 					final int colour;
 					{
 						final TypedArray appearance = obtainStyledAttributes(new int[] {

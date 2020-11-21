@@ -184,6 +184,7 @@
 
     <string-array name="pref_appearance_navbar_color_options">
         <item>@string/pref_appearance_navbar_color_option_black</item>
+		<item>@string/pref_appearance_navbar_color_option_white</item>
         <item>@string/pref_appearance_navbar_color_option_primary</item>
         <item>@string/pref_appearance_navbar_color_option_primarydark</item>
     </string-array>
@@ -191,6 +192,7 @@
     <!-- Constants. Do not change. -->
     <string-array name="pref_appearance_navbar_color_options_return">
         <item>black</item>
+		<item>white</item>
         <item>primary</item>
         <item>primarydark</item>
     </string-array>

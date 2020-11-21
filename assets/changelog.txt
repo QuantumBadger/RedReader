@@ -10,6 +10,7 @@ Handle physical enter key in custom location dialog (thanks to windsurfer)
 Ability to clear cache and view cache size (thanks to Cameron Merkel)
 Fixed support for videos/GIFs in reddit galleries
 Fixed issue where saved images/videos would be re-downloaded
+Made navigation bar black, added preference to make it white
 Accessibility improvements
 Performance improvements
 

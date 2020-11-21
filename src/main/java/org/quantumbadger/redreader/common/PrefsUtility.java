@@ -187,7 +187,7 @@ public final class PrefsUtility {
 	}
 
 	public enum AppearanceNavbarColour {
-		BLACK, PRIMARY, PRIMARYDARK
+		BLACK, WHITE, PRIMARY, PRIMARYDARK
 	}
 
 	public static AppearanceNavbarColour appearance_navbar_colour(

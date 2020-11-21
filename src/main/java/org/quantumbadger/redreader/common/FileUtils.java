@@ -563,7 +563,7 @@ public class FileUtils {
 									}
 
 									@Override
-									public void onSuccess(
+									public void onCacheFileWritten(
 											@NonNull final CacheManager.ReadableCacheFile cacheFile,
 											final long timestamp,
 											@NonNull final UUID session,

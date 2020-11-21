@@ -570,8 +570,7 @@ public final class General {
 		return result;
 	}
 
-	public static void copyStream(final InputStream in, final OutputStream out) throws
-			IOException {
+	public static void copyStream(final InputStream in, final OutputStream out) throws IOException {
 
 		int bytesRead;
 		final byte[] buffer = new byte[64 * 1024];

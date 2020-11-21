@@ -26,17 +26,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
+import org.quantumbadger.redreader.common.Factory;
 import org.quantumbadger.redreader.common.FileUtils;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.PrioritisedCachedThreadPool;
 import org.quantumbadger.redreader.common.Priority;
+import org.quantumbadger.redreader.common.datastream.SeekableFileInputStream;
+import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -290,7 +290,7 @@ public final class CacheManager {
 		return new ReadableCacheFile(cacheId);
 	}
 
-	public class WritableCacheFile implements CacheDataStreamChunkConsumer {
+	public class WritableCacheFile {
 
 		private final OutputStream mOutStream;
 		private ReadableCacheFile readableCacheFile = null;
@@ -314,7 +314,7 @@ public final class CacheManager {
 			location = getPreferredCacheLocation();
 			mTmpFile = new File(location, UUID.randomUUID().toString() + tempExt);
 
-			mOutStream = new BufferedOutputStream(new FileOutputStream(mTmpFile), 64 * 1024);
+			mOutStream = new FileOutputStream(mTmpFile);
 		}
 
 		@NonNull
@@ -322,8 +322,7 @@ public final class CacheManager {
 			return Objects.requireNonNull(readableCacheFile);
 		}
 
-		@Override
-		public void onDataStreamChunk(
+		public void writeChunk(
 				@NonNull final byte[] dataReused,
 				final int offset,
 				final int length) throws IOException {
@@ -331,8 +330,7 @@ public final class CacheManager {
 			mOutStream.write(dataReused, offset, length);
 		}
 
-		@Override
-		public void onDataStreamSuccess() throws IOException {
+		public void onWriteFinished() throws IOException {
 
 			final long cacheFileId = dbManager.newEntry(
 					mRequest.url,
@@ -352,8 +350,7 @@ public final class CacheManager {
 			readableCacheFile = new ReadableCacheFile(cacheFileId);
 		}
 
-		@Override
-		public void onDataStreamCancel() {
+		public void onWriteCancelled() {
 
 			try {
 				mOutStream.close();
@@ -447,7 +444,7 @@ public final class CacheManager {
 	}
 
 	@Nullable
-	private InputStream getCacheFileInputStream(final long id) throws IOException {
+	private SeekableFileInputStream getCacheFileInputStream(final long id) throws IOException {
 
 		final File cacheFile = getExistingCacheFile(id);
 
@@ -455,7 +452,7 @@ public final class CacheManager {
 			return null;
 		}
 
-		return new BufferedInputStream(new FileInputStream(cacheFile), 8 * 1024);
+		return new SeekableFileInputStream(cacheFile);
 	}
 
 	@Nullable
@@ -597,50 +594,33 @@ public final class CacheManager {
 				@Override
 				public void run() {
 
-					final CacheDataStreamChunkConsumer consumer
-							= request.notifyDataStreamAvailable();
+					final Factory<SeekableInputStream, IOException> streamFactory = () -> {
+						final SeekableFileInputStream stream
+								= getCacheFileInputStream(entry.id);
 
-					if(consumer != null) {
-
-						try {
-							try(InputStream cfis = getCacheFileInputStream(entry.id)) {
-
-								if(cfis == null) {
-									request.notifyFailure(
-											CacheRequest.REQUEST_FAILURE_CACHE_MISS,
-											null,
-											null,
-											"Couldn't retrieve cache file");
-									return;
-								}
-
-								final byte[] buf = new byte[128 * 1024];
-								int bytesRead;
-								while((bytesRead = cfis.read(buf)) > 0) {
-									consumer.onDataStreamChunk(buf, 0, bytesRead);
-								}
-							}
-
-							consumer.onDataStreamSuccess();
-
-						} catch(final Exception e) {
-
+						if(stream == null) {
 							dbManager.delete(entry.id);
-
-							final File existingCacheFile = getExistingCacheFile(entry.id);
-							if(existingCacheFile != null) {
-								existingCacheFile.delete();
-							}
-
-							request.notifyFailure(
-									CacheRequest.REQUEST_FAILURE_PARSE,
-									e,
-									null,
-									"Error parsing the stream");
+							throw new IOException("Failed to open file");
 						}
-					}
 
-					request.notifySuccess(
+						return stream;
+					};
+
+					request.notifyDataStreamAvailable(
+							streamFactory,
+							entry.timestamp,
+							entry.session,
+							true,
+							entry.mimetype);
+
+					request.notifyDataStreamComplete(
+							streamFactory,
+							entry.timestamp,
+							entry.session,
+							true,
+							entry.mimetype);
+
+					request.notifyCacheFileWritten(
 							new ReadableCacheFile(entry.id),
 							entry.timestamp,
 							entry.session,

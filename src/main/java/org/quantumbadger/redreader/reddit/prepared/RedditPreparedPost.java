@@ -47,7 +47,6 @@ import org.quantumbadger.redreader.activities.CommentReplyActivity;
 import org.quantumbadger.redreader.activities.MainActivity;
 import org.quantumbadger.redreader.activities.PostListingActivity;
 import org.quantumbadger.redreader.activities.WebViewActivity;
-import org.quantumbadger.redreader.cache.CacheDataStreamChunkConsumer;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.CacheRequestCallbacks;
@@ -55,6 +54,7 @@ import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotC
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.BetterSSB;
 import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.Factory;
 import org.quantumbadger.redreader.common.FileUtils;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
@@ -63,6 +63,7 @@ import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.common.ScreenreaderPronunciation;
+import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.fragments.PostPropertiesDialog;
 import org.quantumbadger.redreader.fragments.ShareOrderDialog;
 import org.quantumbadger.redreader.image.ThumbnailScaler;
@@ -78,7 +79,7 @@ import org.quantumbadger.redreader.views.RedditPostView;
 import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
 import org.quantumbadger.redreader.views.bezelmenu.VerticalToolbar;
 
-import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -88,6 +89,8 @@ import java.util.Locale;
 import java.util.UUID;
 
 public final class RedditPreparedPost implements RedditChangeDataManager.Listener {
+
+	private static final String TAG = "RedditPreparedPost";
 
 	public final RedditParsedPost src;
 	private final RedditChangeDataManager mChangeDataManager;
@@ -1301,28 +1304,15 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				context,
 				new CacheRequestCallbacks() {
 
-					private final ByteArrayOutputStream mBuffer
-							= new ByteArrayOutputStream(64 * 1024);
-
-					@NonNull
 					@Override
-					public CacheDataStreamChunkConsumer onDataStreamAvailable() {
-						return new CacheDataStreamChunkConsumer() {
-							@Override
-							public void onDataStreamChunk(
-									@NonNull final byte[] dataReused,
-									final int offset,
-									final int length) {
+					public void onDataStreamComplete(
+							@NonNull final Factory<SeekableInputStream, IOException> factory,
+							final long timestamp,
+							@NonNull final UUID session,
+							final boolean fromCache,
+							@Nullable final String mimetype) {
 
-								mBuffer.write(dataReused, offset, length);
-							}
-
-							@Override
-							public void onDataStreamSuccess() {}
-
-							@Override
-							public void onDataStreamCancel() {}
-						};
+						onThumbnailStreamAvailable(factory, sizePixels);
 					}
 
 					@Override
@@ -1332,70 +1322,13 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 							@Nullable final Integer httpStatus,
 							@Nullable final String readableMessage) {
 
-						// Ignore
-					}
-
-					@Override
-					public void onSuccess(
-							@NonNull final CacheManager.ReadableCacheFile cacheFile,
-							final long timestamp,
-							@NonNull final UUID session,
-							final boolean fromCache,
-							@Nullable final String mimetype) {
-
-						try {
-
-							final byte[] bytes = mBuffer.toByteArray();
-
-							final BitmapFactory.Options justDecodeBounds
-									= new BitmapFactory.Options();
-							justDecodeBounds.inJustDecodeBounds = true;
-							BitmapFactory.decodeByteArray(
-									bytes,
-									0,
-									bytes.length,
-									justDecodeBounds);
-							final int width = justDecodeBounds.outWidth;
-							final int height = justDecodeBounds.outHeight;
-
-							int factor = 1;
-
-							while(width / (factor + 1) > sizePixels
-									&& height / (factor + 1) > sizePixels) {
-								factor *= 2;
-							}
-
-							final BitmapFactory.Options scaledOptions
-									= new BitmapFactory.Options();
-							scaledOptions.inSampleSize = factor;
-
-							final Bitmap data =
-									BitmapFactory.decodeByteArray(
-											bytes,
-											0,
-											bytes.length,
-											scaledOptions);
-
-							if(data == null) {
-								return;
-							}
-							thumbnailCache = ThumbnailScaler.scale(data, sizePixels);
-							if(thumbnailCache != data) {
-								data.recycle();
-							}
-
-							if(thumbnailCallback != null) {
-								thumbnailCallback.betterThumbnailAvailable(
-										thumbnailCache,
-										usageId);
-							}
-
-						} catch(final Throwable t) {
-							Log.e(
-									"RedditPreparedPost",
-									"Exception while downloading thumbnail",
-									t);
-						}
+						Log.e(
+								TAG,
+								"Failed to download thumbnail "
+										+ uriStr
+										+ " with status "
+										+ httpStatus,
+								t);
 					}
 				}));
 	}
@@ -1856,5 +1789,59 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		}
 
 		return toolbar;
+	}
+
+	private void onThumbnailStreamAvailable(
+			final Factory<SeekableInputStream, IOException> factory,
+			final int desiredSizePixels) {
+
+		try {
+
+			final SeekableInputStream seekableInputStream = factory.create();
+
+			final BitmapFactory.Options justDecodeBounds = new BitmapFactory.Options();
+			justDecodeBounds.inJustDecodeBounds = true;
+			BitmapFactory.decodeStream(seekableInputStream, null, justDecodeBounds);
+			final int width = justDecodeBounds.outWidth;
+			final int height = justDecodeBounds.outHeight;
+
+			int factor = 1;
+
+			while(width / (factor + 1) > desiredSizePixels
+					&& height / (factor + 1) > desiredSizePixels) {
+				factor *= 2;
+			}
+
+			final BitmapFactory.Options scaledOptions = new BitmapFactory.Options();
+			scaledOptions.inSampleSize = factor;
+
+			seekableInputStream.seek(0);
+			seekableInputStream.mark(0);
+
+			final Bitmap data = BitmapFactory.decodeStream(
+					seekableInputStream,
+					null,
+					scaledOptions);
+
+			if(data == null) {
+				return;
+			}
+			thumbnailCache = ThumbnailScaler.scale(data, desiredSizePixels);
+			if(thumbnailCache != data) {
+				data.recycle();
+			}
+
+			if(thumbnailCallback != null) {
+				thumbnailCallback.betterThumbnailAvailable(
+						thumbnailCache,
+						usageId);
+			}
+
+		} catch(final Throwable t) {
+			Log.e(
+					TAG,
+					"Exception while downloading thumbnail",
+					t);
+		}
 	}
 }

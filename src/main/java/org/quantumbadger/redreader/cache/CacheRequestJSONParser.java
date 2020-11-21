@@ -22,14 +22,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.common.CachedThreadPool;
+import org.quantumbadger.redreader.common.Factory;
+import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-public final class CacheRequestJSONParser
-		implements CacheRequestCallbacks, CacheDataStreamChunkConsumer {
+public final class CacheRequestJSONParser implements CacheRequestCallbacks {
 
 	private static final CachedThreadPool mThreadPool
 			= new CachedThreadPool(5, "JSONParser");
@@ -55,7 +56,8 @@ public final class CacheRequestJSONParser
 
 	@NonNull private final Context mContext;
 	@NonNull private final Listener mListener;
-	private final ByteArrayOutputStream mBuffer = new ByteArrayOutputStream(64 * 1024);
+
+	private final AtomicBoolean mNotifiedFailure = new AtomicBoolean(false);
 
 	public CacheRequestJSONParser(
 			@NonNull final Context context,
@@ -64,44 +66,9 @@ public final class CacheRequestJSONParser
 		mListener = listener;
 	}
 
-	@NonNull
 	@Override
-	public CacheDataStreamChunkConsumer onDataStreamAvailable() {
-		return this;
-	}
-
-	@Override
-	public void onFailure(
-			final int type,
-			@Nullable final Throwable t,
-			@Nullable final Integer httpStatus,
-			@Nullable final String readableMessage) {
-
-		mListener.onFailure(type, t, httpStatus, readableMessage);
-	}
-
-	@Override
-	public void onDataStreamChunk(
-			@NonNull final byte[] dataReused,
-			final int offset,
-			final int length) {
-
-		mBuffer.write(dataReused, offset, length);
-	}
-
-	@Override
-	public void onDataStreamSuccess() {
-		// Nothing to do
-	}
-
-	@Override
-	public void onDataStreamCancel() {
-		// Nothing to do
-	}
-
-	@Override
-	public void onSuccess(
-			@NonNull final CacheManager.ReadableCacheFile cacheFile,
+	public void onDataStreamAvailable(
+			@NonNull final Factory<SeekableInputStream, IOException> streamFactory,
 			final long timestamp,
 			@NonNull final UUID session,
 			final boolean fromCache,
@@ -112,14 +79,16 @@ public final class CacheRequestJSONParser
 				final JsonValue jsonValue;
 
 				try {
-					jsonValue = new JsonValue(mBuffer.toByteArray());
+					jsonValue = new JsonValue(streamFactory.create());
 
 				} catch(final IOException e) {
-					mListener.onFailure(
-							CacheRequest.REQUEST_FAILURE_PARSE,
-							e,
-							null,
-							"Exception during JSON parse");
+					if(!mNotifiedFailure.getAndSet(true)) {
+						mListener.onFailure(
+								CacheRequest.REQUEST_FAILURE_PARSE,
+								e,
+								null,
+								"Exception during JSON parse");
+					}
 					return;
 				}
 
@@ -132,11 +101,25 @@ public final class CacheRequestJSONParser
 			});
 
 		} catch(final Exception e) {
-			onFailure(
-					CacheRequest.REQUEST_FAILURE_STORAGE,
-					e,
-					null,
-					"Exception in CacheRequestJSONCallbacks");
+			if(!mNotifiedFailure.getAndSet(true)) {
+				onFailure(
+						CacheRequest.REQUEST_FAILURE_STORAGE,
+						e,
+						null,
+						"Exception in CacheRequestJSONCallbacks");
+			}
+		}
+	}
+
+	@Override
+	public void onFailure(
+			final int type,
+			@Nullable final Throwable t,
+			@Nullable final Integer httpStatus,
+			@Nullable final String readableMessage) {
+
+		if(!mNotifiedFailure.getAndSet(true)) {
+			mListener.onFailure(type, t, httpStatus, readableMessage);
 		}
 	}
 }

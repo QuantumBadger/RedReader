@@ -1160,7 +1160,7 @@ public class ImageViewActivity extends BaseActivity
 							}
 
 							@Override
-							public void onSuccess(
+							public void onCacheFileWritten(
 									@NonNull final CacheManager.ReadableCacheFile cacheFile,
 									final long timestamp,
 									@NonNull final UUID session,
@@ -1229,7 +1229,7 @@ public class ImageViewActivity extends BaseActivity
 								}
 
 								@Override
-								public void onSuccess(
+								public void onCacheFileWritten(
 										@NonNull final CacheManager.ReadableCacheFile cacheFile,
 										final long timestamp,
 										@NonNull final UUID session,

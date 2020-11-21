@@ -19,7 +19,10 @@ package org.quantumbadger.redreader.cache;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import org.quantumbadger.redreader.common.Factory;
+import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 
+import java.io.IOException;
 import java.util.UUID;
 
 public interface CacheRequestCallbacks {
@@ -28,9 +31,19 @@ public interface CacheRequestCallbacks {
 
 	default void onDownloadStarted() {}
 
-	default @Nullable CacheDataStreamChunkConsumer onDataStreamAvailable() {
-		return null;
-	}
+	default void onDataStreamAvailable(
+			@NonNull final Factory<SeekableInputStream, IOException> streamFactory,
+			final long timestamp,
+			@NonNull final UUID session,
+			final boolean fromCache,
+			@Nullable final String mimetype) {}
+
+	default void onDataStreamComplete(
+			@NonNull final Factory<SeekableInputStream, IOException> streamFactory,
+			final long timestamp,
+			@NonNull final UUID session,
+			final boolean fromCache,
+			@Nullable final String mimetype) {}
 
 	default void onProgress(
 			final boolean authorizationInProgress,
@@ -43,10 +56,10 @@ public interface CacheRequestCallbacks {
 			@Nullable Integer httpStatus,
 			@Nullable String readableMessage);
 
-	void onSuccess(
-			@NonNull CacheManager.ReadableCacheFile cacheFile,
-			long timestamp,
-			@NonNull UUID session,
-			boolean fromCache,
-			@Nullable String mimetype);
+	default void onCacheFileWritten(
+			@NonNull final CacheManager.ReadableCacheFile cacheFile,
+			final long timestamp,
+			@NonNull final UUID session,
+			final boolean fromCache,
+			@Nullable final String mimetype) {}
 }

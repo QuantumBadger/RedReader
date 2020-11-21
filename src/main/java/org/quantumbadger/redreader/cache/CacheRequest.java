@@ -25,10 +25,13 @@ import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategy;
+import org.quantumbadger.redreader.common.Factory;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.http.HTTPBackend;
 
+import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.net.URI;
@@ -203,9 +206,24 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 		BugReportActivity.handleGlobalError(context, t);
 	}
 
-	@Nullable
-	public CacheDataStreamChunkConsumer notifyDataStreamAvailable() {
-		return mCallbacks.onDataStreamAvailable();
+	public void notifyDataStreamAvailable(
+			@NonNull final Factory<SeekableInputStream, IOException> streamFactory,
+			final long timestamp,
+			@NonNull final UUID session,
+			final boolean fromCache,
+			@Nullable final String mimetype) {
+
+		mCallbacks.onDataStreamAvailable(streamFactory, timestamp, session, fromCache, mimetype);
+	}
+
+	public void notifyDataStreamComplete(
+			@NonNull final Factory<SeekableInputStream, IOException> streamFactory,
+			final long timestamp,
+			@NonNull final UUID session,
+			final boolean fromCache,
+			@Nullable final String mimetype) {
+
+		mCallbacks.onDataStreamComplete(streamFactory, timestamp, session, fromCache, mimetype);
 	}
 
 	public void notifyFailure(
@@ -233,14 +251,14 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 		}
 	}
 
-	public void notifySuccess(
+	public void notifyCacheFileWritten(
 			final CacheManager.ReadableCacheFile cacheFile,
 			final long timestamp,
 			final UUID session,
 			final boolean fromCache,
 			final String mimetype) {
 		try {
-			mCallbacks.onSuccess(cacheFile, timestamp, session, fromCache, mimetype);
+			mCallbacks.onCacheFileWritten(cacheFile, timestamp, session, fromCache, mimetype);
 		} catch(final Throwable t) {
 			onCallbackException(t);
 		}

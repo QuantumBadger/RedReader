@@ -15,17 +15,31 @@
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.cache;
-
-import androidx.annotation.NonNull;
+package org.quantumbadger.redreader.common.datastream;
 
 import java.io.IOException;
+import java.io.InputStream;
 
-public interface CacheDataStreamChunkConsumer {
+public abstract class SeekableInputStream extends InputStream {
 
-	void onDataStreamChunk(@NonNull byte[] dataReused, int offset, int length) throws IOException;
+	private int mMark;
 
-	void onDataStreamSuccess() throws IOException;
+	public abstract int getPosition();
 
-	void onDataStreamCancel();
+	public abstract void seek(int position) throws IOException;
+
+	@Override
+	public final void mark(final int readlimit) {
+		mMark = getPosition();
+	}
+
+	@Override
+	public final void reset() throws IOException {
+		seek(mMark);
+	}
+
+	@Override
+	public final boolean markSupported() {
+		return true;
+	}
 }

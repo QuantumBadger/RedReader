@@ -25,12 +25,13 @@ import org.quantumbadger.redreader.common.PrioritisedCachedThreadPool;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.common.TorCommon;
+import org.quantumbadger.redreader.common.datastream.MemoryDataStream;
+import org.quantumbadger.redreader.common.datastream.MemoryDataStreamInputStream;
 import org.quantumbadger.redreader.http.HTTPBackend;
 import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -176,15 +177,70 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 					final Long bodyBytes,
 					final InputStream is) {
 
-				final ArrayList<CacheDataStreamChunkConsumer> consumers = new ArrayList<>();
+				final MemoryDataStream stream = new MemoryDataStream(64 * 1024);
+
+				mInitiator.notifyDataStreamAvailable(
+						stream::getInputStream,
+						RRTime.utcCurrentTimeMillis(),
+						session,
+						false,
+						mimetype);
+
+				// Download the file into memory
+
+				try {
+
+					final byte[] buf = new byte[64 * 1024];
+
+					int bytesRead;
+					long totalBytesRead = 0;
+
+					while((bytesRead = is.read(buf)) > 0) {
+
+						totalBytesRead += bytesRead;
+
+						stream.writeBytes(buf, 0, bytesRead);
+
+						if(bodyBytes != null) {
+							mInitiator.notifyProgress(
+									false,
+									totalBytesRead,
+									bodyBytes);
+						}
+					}
+
+					stream.setComplete();
+
+					mInitiator.notifyDataStreamComplete(
+							stream::getInputStream,
+							RRTime.utcCurrentTimeMillis(),
+							session,
+							false,
+							mimetype);
+
+				} catch(final Throwable t) {
+
+					stream.setFailed(t instanceof IOException
+							? (IOException)t
+							: new IOException("Got exception during download", t));
+
+					mInitiator.notifyFailure(
+							CacheRequest.REQUEST_FAILURE_CONNECTION,
+							t,
+							null,
+							"The connection was interrupted");
+
+					return;
+				}
+
+				// Save it to the cache
+
 				@Nullable CacheManager.WritableCacheFile writableCacheFile = null;
 
 				if(mInitiator.cache) {
 					try {
 						writableCacheFile
 								= manager.openNewCacheFile(mInitiator, session, mimetype);
-
-						consumers.add(writableCacheFile);
 
 					} catch(final IOException e) {
 
@@ -207,78 +263,47 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 
 						return;
 					}
-				}
 
-				{
-					final CacheDataStreamChunkConsumer consumer
-							= mInitiator.notifyDataStreamAvailable();
+					final MemoryDataStreamInputStream inputStream = stream.getInputStream();
 
-					if(consumer != null) {
-						consumers.add(consumer);
-					}
-				}
-
-				try {
-					final byte[] buf = new byte[128 * 1024];
-
+					final byte[] buf = new byte[64 * 1024];
 					int bytesRead;
-					long totalBytesRead = 0;
 
-					while((bytesRead = is.read(buf)) > 0) {
-
-						totalBytesRead += bytesRead;
-
-						for(int i = 0; i < consumers.size(); i++) {
-							consumers.get(i).onDataStreamChunk(buf, 0, bytesRead);
+					try {
+						while((bytesRead = inputStream.read(buf)) > 0) {
+							writableCacheFile.writeChunk(buf, 0, bytesRead);
 						}
 
-						if(bodyBytes != null) {
-							mInitiator.notifyProgress(
-									false,
-									totalBytesRead,
-									bodyBytes);
+						writableCacheFile.onWriteFinished();
+
+					} catch(final IOException e) {
+
+						writableCacheFile.onWriteCancelled();
+
+						if(e.getMessage() != null && e.getMessage().contains("ENOSPC")) {
+							mInitiator.notifyFailure(
+									CacheRequest.REQUEST_FAILURE_STORAGE,
+									e,
+									null,
+									"Out of disk space");
+						} else {
+							mInitiator.notifyFailure(
+									CacheRequest.REQUEST_FAILURE_STORAGE,
+									e,
+									null,
+									"Failed to write to cache");
 						}
 					}
-
-					for(int i = 0; i < consumers.size(); i++) {
-						consumers.get(i).onDataStreamSuccess();
-					}
-
-					mInitiator.notifySuccess(
-							writableCacheFile == null
-									? null
-									: writableCacheFile.getReadableCacheFile(),
-							RRTime.utcCurrentTimeMillis(),
-							session,
-							false,
-							mimetype);
-
-				} catch(final IOException e) {
-
-					if(e.getMessage() != null && e.getMessage().contains("ENOSPC")) {
-						mInitiator.notifyFailure(
-								CacheRequest.REQUEST_FAILURE_STORAGE,
-								e,
-								null,
-								"Out of disk space");
-
-					} else {
-						e.printStackTrace();
-						mInitiator.notifyFailure(
-								CacheRequest.REQUEST_FAILURE_CONNECTION,
-								e,
-								null,
-								"The connection was interrupted");
-					}
-
-				} catch(final Throwable t) {
-					t.printStackTrace();
-					mInitiator.notifyFailure(
-							CacheRequest.REQUEST_FAILURE_CONNECTION,
-							t,
-							null,
-							"The connection was interrupted");
 				}
+
+				mInitiator.notifyCacheFileWritten(
+						writableCacheFile == null
+								? null
+								: writableCacheFile.getReadableCacheFile(),
+						RRTime.utcCurrentTimeMillis(),
+						session,
+						false,
+						mimetype);
 			}
 		});
 	}

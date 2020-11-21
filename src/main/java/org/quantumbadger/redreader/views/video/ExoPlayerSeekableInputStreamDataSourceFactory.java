@@ -15,36 +15,30 @@
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.common.datastream;
+package org.quantumbadger.redreader.views.video;
 
 import androidx.annotation.NonNull;
+import com.google.android.exoplayer2.upstream.DataSource;
+import org.quantumbadger.redreader.common.GenericFactory;
+import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 
 import java.io.IOException;
-import java.io.InputStream;
 
-public abstract class SeekableInputStream extends InputStream {
+public class ExoPlayerSeekableInputStreamDataSourceFactory implements DataSource.Factory {
 
-	private int mMark;
+	private final boolean mIsNetwork;
+	@NonNull private final GenericFactory<SeekableInputStream, IOException> mStreamFactory;
 
-	public abstract long getPosition();
+	public ExoPlayerSeekableInputStreamDataSourceFactory(
+			final boolean isNetwork,
+			@NonNull final GenericFactory<SeekableInputStream, IOException> streamFactory) {
 
-	public abstract void seek(long position) throws IOException;
-
-	@Override
-	public final void mark(final int readlimit) {
-		mMark = (int)getPosition();
+		mIsNetwork = isNetwork;
+		mStreamFactory = streamFactory;
 	}
 
 	@Override
-	public final void reset() throws IOException {
-		seek(mMark);
+	public DataSource createDataSource() {
+		return new ExoPlayerSeekableInputStreamDataSource(mIsNetwork, mStreamFactory);
 	}
-
-	@Override
-	public final boolean markSupported() {
-		return true;
-	}
-
-	public abstract void readRemainingAsBytes(
-			@NonNull ByteArrayCallback callback) throws IOException;
 }

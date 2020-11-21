@@ -54,9 +54,9 @@ import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotC
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.BetterSSB;
 import org.quantumbadger.redreader.common.Constants;
-import org.quantumbadger.redreader.common.Factory;
 import org.quantumbadger.redreader.common.FileUtils;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
@@ -67,6 +67,7 @@ import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.fragments.PostPropertiesDialog;
 import org.quantumbadger.redreader.fragments.ShareOrderDialog;
 import org.quantumbadger.redreader.image.ThumbnailScaler;
+import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
@@ -98,6 +99,9 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 	public final boolean isArchived;
 	public final boolean hasThumbnail;
 	public final boolean mIsProbablyAnImage;
+
+	private final int mListId;
+	private final boolean mShowInlinePreviews;
 
 	// TODO make it possible to turn off in-memory caching when out of memory
 	private volatile Bitmap thumbnailCache = null;
@@ -162,13 +166,16 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			final RedditParsedPost post,
 			final long timestamp,
 			final boolean showSubreddit,
-			final boolean showThumbnails) {
+			final boolean showThumbnails,
+			final boolean allowHighResThumbnails,
+			final boolean showInlinePreviews) {
 
 		this.src = post;
 		this.showSubreddit = showSubreddit;
+		mListId = listId;
+		mShowInlinePreviews = showInlinePreviews;
 
-		final RedditAccount user =
-				RedditAccountManager.getInstance(context).getDefaultAccount();
+		final RedditAccount user = RedditAccountManager.getInstance(context).getDefaultAccount();
 		mChangeDataManager = RedditChangeDataManager.getInstance(user);
 
 		isArchived = post.isArchived();
@@ -179,16 +186,45 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 		final int thumbnailWidth = General.dpToPixels(
 				context,
-				PrefsUtility.pref_images_thumbnail_size_dp(
+				PrefsUtility.images_thumbnail_size_dp(
 						context,
 						General.getSharedPrefs(context)));
 
-		if(hasThumbnail && hasThumbnail(post)) {
-			downloadThumbnail(context, thumbnailWidth, cm, listId);
+		if(hasThumbnail && hasThumbnail(post) && !shouldShowInlinePreview()) {
+			downloadThumbnail(context, allowHighResThumbnails, thumbnailWidth, cm, listId);
 		}
 
 		lastChange = timestamp;
 		mChangeDataManager.update(timestamp, post.getSrc());
+	}
+
+	public int getListId() {
+		return mListId;
+	}
+
+	public boolean shouldShowInlinePreview() {
+		return mShowInlinePreviews && (src.isPreviewEnabled()
+				|| "gfycat.com".equals(src.getDomain())
+				|| "i.imgur.com".equals(src.getDomain())
+				|| "streamable.com".equals(src.getDomain())
+				|| "i.redd.it".equals(src.getDomain())
+				|| "v.redd.it".equals(src.getDomain()));
+	}
+
+	public boolean isVideoPreview() {
+
+		final JsonObject preview = src.getSrc().preview;
+
+		if(preview == null) {
+			return false;
+		}
+
+		return Boolean.TRUE.equals(src.getSrc().is_video)
+				|| preview.getAtPath("images", 0, "variants", "mp4") != null
+				|| preview.getObject("reddit_video_preview") != null
+				|| "v.redd.it".equals(src.getDomain())
+				|| "streamable.com".equals(src.getDomain())
+				|| "gfycat.com".equals(src.getDomain());
 	}
 
 	public static void showActionMenu(
@@ -1264,16 +1300,19 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 	private void downloadThumbnail(
 			final Context context,
+			final boolean allowHighRes,
 			final int sizePixels,
 			final CacheManager cm,
 			final int listId) {
 
-		final String previewUrl = src.getPreviewUrl(sizePixels, sizePixels);
+		final RedditParsedPost.ImagePreviewDetails preview = allowHighRes
+				? src.getPreview(sizePixels, sizePixels)
+				: null;
 
 		final String uriStr;
 
-		if(previewUrl != null) {
-			uriStr = previewUrl;
+		if(preview != null) {
+			uriStr = preview.url;
 		} else {
 			uriStr = src.getThumbnailUrl();
 		}
@@ -1298,7 +1337,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 					@Override
 					public void onDataStreamComplete(
-							@NonNull final Factory<SeekableInputStream, IOException> factory,
+							@NonNull final GenericFactory<SeekableInputStream, IOException> factory,
 							final long timestamp,
 							@NonNull final UUID session,
 							final boolean fromCache,
@@ -1783,12 +1822,10 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 	}
 
 	private void onThumbnailStreamAvailable(
-			final Factory<SeekableInputStream, IOException> factory,
+			final GenericFactory<SeekableInputStream, IOException> factory,
 			final int desiredSizePixels) {
 
-		try {
-
-			final SeekableInputStream seekableInputStream = factory.create();
+		try(SeekableInputStream seekableInputStream = factory.create()) {
 
 			final BitmapFactory.Options justDecodeBounds = new BitmapFactory.Options();
 			justDecodeBounds.inJustDecodeBounds = true;

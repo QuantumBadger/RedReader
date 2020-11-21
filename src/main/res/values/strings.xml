@@ -1400,4 +1400,27 @@
 
 	<string name="pref_appearance_navbar_color_option_white">White</string>
 
+	<!-- 2020-11-26 -->
+	<string name="pref_images_high_res_thumbnails_key" translatable="false">pref_images_high_res_thumbnails_key</string>
+	<string name="pref_images_high_res_thumbnails_title">High resolution thumbnails</string>
+
+	<string name="pref_header_inline_image_previews">Inline image previews</string>
+
+	<string name="pref_images_inline_image_previews_title">Inline image previews</string>
+	<string name="pref_images_inline_image_previews_key" translatable="false">pref_images_inline_image_previews_key</string>
+
+	<string name="pref_images_inline_image_previews_nsfw_title">Show NSFW previews</string>
+	<string name="pref_images_inline_image_previews_nsfw_key" translatable="false">pref_images_inline_image_previews_nsfw_key</string>
+
+	<string name="pref_header_image_viewer">Image viewer</string>
+
+	<string name="error_inline_preview_failed_title">Download error</string>
+	<string name="error_inline_preview_failed_message">Could not download image preview.</string>
+
+	<string name="inline_preview_prompt_title">Image previews</string>
+	<string name="inline_preview_prompt_message">Continue showing inline image previews like the one above? You can change this at any time in the settings.</string>
+
+	<string name="inline_preview_prompt_turn_off">Turn off</string>
+	<string name="inline_preview_prompt_keep_showing">Keep showing</string>
+
 </resources>

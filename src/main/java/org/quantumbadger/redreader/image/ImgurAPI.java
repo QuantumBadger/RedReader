@@ -28,7 +28,7 @@ import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotC
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.Priority;
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
+import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
 import java.util.UUID;
@@ -65,7 +65,7 @@ public final class ImgurAPI {
 							final boolean fromCache) {
 
 						try {
-							final JsonBufferedObject outer = result.asObject().getObject("album");
+							final JsonObject outer = result.asObject().getObject("album");
 							listener.onSuccess(AlbumInfo.parseImgur(albumUrl, outer));
 
 						} catch(final Throwable t) {
@@ -115,7 +115,7 @@ public final class ImgurAPI {
 							final boolean fromCache) {
 
 						try {
-							final JsonBufferedObject outer = result.asObject().getObject("image");
+							final JsonObject outer = result.asObject().getObject("image");
 							listener.onSuccess(ImageInfo.parseImgur(outer));
 
 						} catch(final Throwable t) {

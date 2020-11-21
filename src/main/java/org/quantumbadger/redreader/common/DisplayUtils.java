@@ -15,36 +15,25 @@
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.common.datastream;
+package org.quantumbadger.redreader.common;
 
+import android.graphics.Rect;
 import androidx.annotation.NonNull;
+import org.quantumbadger.redreader.activities.BaseActivity;
 
-import java.io.IOException;
-import java.io.InputStream;
+public final class DisplayUtils {
 
-public abstract class SeekableInputStream extends InputStream {
+	private static final Rect sWindowVisibleDisplayFrame = new Rect();
 
-	private int mMark;
+	private DisplayUtils() {}
 
-	public abstract long getPosition();
+	@NonNull
+	public static Rect getWindowVisibleDisplayFrame(
+			@NonNull final BaseActivity activity) {
 
-	public abstract void seek(long position) throws IOException;
+		activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(
+				sWindowVisibleDisplayFrame);
 
-	@Override
-	public final void mark(final int readlimit) {
-		mMark = (int)getPosition();
+		return sWindowVisibleDisplayFrame;
 	}
-
-	@Override
-	public final void reset() throws IOException {
-		seek(mMark);
-	}
-
-	@Override
-	public final boolean markSupported() {
-		return true;
-	}
-
-	public abstract void readRemainingAsBytes(
-			@NonNull ByteArrayCallback callback) throws IOException;
 }

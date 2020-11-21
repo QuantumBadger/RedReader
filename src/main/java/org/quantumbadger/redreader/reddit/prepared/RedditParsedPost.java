@@ -21,8 +21,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import org.apache.commons.text.StringEscapeUtils;
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
+import org.quantumbadger.redreader.jsonwrap.JsonArray;
+import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
 import org.quantumbadger.redreader.reddit.prepared.html.HtmlReader;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
@@ -107,30 +107,60 @@ public class RedditParsedPost implements RedditThingWithIdAndType {
 		return StringEscapeUtils.unescapeHtml4(mSrc.thumbnail);
 	}
 
+	public static class ImagePreviewDetails {
+
+		@NonNull public final String url;
+		public final int width;
+		public final int height;
+
+		public ImagePreviewDetails(@NonNull final String url, final int width, final int height) {
+			this.url = url;
+			this.width = width;
+			this.height = height;
+		}
+	}
+
 	public boolean isPreviewEnabled() {
 		return mSrc.preview != null && Boolean.TRUE.equals(mSrc.preview.getBoolean("enabled"));
 	}
 
 	@Nullable
-	public String getPreviewUrl(final int minWidth, final int minHeight) {
+	public ImagePreviewDetails getPreview(final int minWidth, final int minHeight) {
 
 		if(mSrc.preview == null) {
 			return null;
 		}
 
-		final JsonBufferedArray images = mSrc.preview.getArray("images");
+		return getPreviewInternal(
+				mSrc.preview.getObjectAtPath("images", 0),
+				minWidth,
+				minHeight);
+	}
 
-		if(images == null || images.size() < 1) {
+	@Nullable
+	public ImagePreviewDetails getPreviewMP4(final int minWidth, final int minHeight) {
+
+		if(mSrc.preview == null) {
 			return null;
 		}
 
-		final JsonBufferedObject firstImage = images.getObject(0);
+		return getPreviewInternal(
+				mSrc.preview.getObjectAtPath("images", 0, "variants", "mp4"),
+				minWidth,
+				minHeight);
+	}
 
-		if(firstImage == null) {
+	@Nullable
+	private ImagePreviewDetails getPreviewInternal(
+			@Nullable final JsonObject root,
+			final int minWidth,
+			final int minHeight) {
+
+		if(root == null) {
 			return null;
 		}
 
-		final JsonBufferedArray resolutions = firstImage.getArray("resolutions");
+		final JsonArray resolutions = root.getArray("resolutions");
 
 		if(resolutions == null || resolutions.size() < 1) {
 			return null;
@@ -140,9 +170,15 @@ public class RedditParsedPost implements RedditThingWithIdAndType {
 		int bestHeight = 0;
 		String bestUrl = null;
 
-		for(int i = 0; i < resolutions.size(); i++) {
+		for(int i = -1; i < resolutions.size(); i++) {
 
-			final JsonBufferedObject resolution = resolutions.getObject(i);
+			final JsonObject resolution;
+			if(i == -1) {
+				resolution = root.getObject("source");
+
+			} else {
+				resolution = resolutions.getObject(i);
+			}
 
 			if(resolution == null) {
 				continue;
@@ -177,7 +213,14 @@ public class RedditParsedPost implements RedditThingWithIdAndType {
 			}
 		}
 
-		return StringEscapeUtils.unescapeHtml4(bestUrl);
+		if(bestUrl == null) {
+			return null;
+		}
+
+		return new ImagePreviewDetails(
+				StringEscapeUtils.unescapeHtml4(bestUrl),
+				bestWidth,
+				bestHeight);
 	}
 
 	public boolean isArchived() {

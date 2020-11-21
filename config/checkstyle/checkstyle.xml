@@ -30,6 +30,13 @@
 			<property name="ignoreComments" value="true"/>
 		</module>
 
+		<module name="RegexpSinglelineJava">
+			<property name="format" value="FIXME"/>
+			<property name="message" value="FIXME present in code"/>
+			<property name="ignoreComments" value="false"/>
+			<property name="ignoreCase" value="true"/>
+		</module>
+
 		<module name="NeedBraces">
 			<property
 					name="tokens"

@@ -1,4 +1,6 @@
 95/1.15
+Inline image previews (and preference to disable)
+Stream videos rather than waiting until download complete
 Preference to change thumbnail size
 Preference to always save images/videos to the system default location without prompting
 Preference to hide toolbar when scrolling
@@ -9,6 +11,7 @@ Preference to require tapping back twice to exit post list (thanks to windsurfer
 Handle physical enter key in custom location dialog (thanks to windsurfer)
 Ability to clear cache and view cache size (thanks to Cameron Merkel)
 Fixed support for videos/GIFs in reddit galleries
+Use video instead of GIF for i.redd.it posts
 Fixed issue where saved images/videos would be re-downloaded
 Made navigation bar black, added preference to make it white
 Accessibility improvements

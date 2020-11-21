@@ -19,32 +19,10 @@ package org.quantumbadger.redreader.common.datastream;
 
 import androidx.annotation.NonNull;
 
-import java.io.IOException;
-import java.io.InputStream;
+public interface ByteArrayCallback {
 
-public abstract class SeekableInputStream extends InputStream {
-
-	private int mMark;
-
-	public abstract long getPosition();
-
-	public abstract void seek(long position) throws IOException;
-
-	@Override
-	public final void mark(final int readlimit) {
-		mMark = (int)getPosition();
-	}
-
-	@Override
-	public final void reset() throws IOException {
-		seek(mMark);
-	}
-
-	@Override
-	public final boolean markSupported() {
-		return true;
-	}
-
-	public abstract void readRemainingAsBytes(
-			@NonNull ByteArrayCallback callback) throws IOException;
+	void onByteArray(
+			@NonNull byte[] buf,
+			int offset,
+			int length);
 }

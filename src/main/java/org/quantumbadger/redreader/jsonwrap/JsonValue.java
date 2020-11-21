@@ -17,149 +17,81 @@
 
 package org.quantumbadger.redreader.jsonwrap;
 
-import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonToken;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.InvocationTargetException;
 
 
-/**
- * Contains a literal, object, or array value, and is responsible for parsing the incoming JSON
- * stream.
- *
- * <p>
- * <b>To parse a JSON stream, call the JsonValue constructor with a JsonParser
- * as the argument, then call the "build" method (with the same JsonParser as an argument) in
- * another thread.</b>
- * </p>
- */
-public final class JsonValue {
+public abstract class JsonValue {
 
-	public static final int TYPE_OBJECT = 0;
-	public static final int TYPE_ARRAY = 1;
-	public static final int TYPE_NULL = 2;
-	public static final int TYPE_BOOLEAN = 3;
-	public static final int TYPE_STRING = 4;
-	public static final int TYPE_FLOAT = 5;
-	public static final int TYPE_INTEGER = 6;
-
-	@IntDef({
-			TYPE_OBJECT, TYPE_ARRAY, TYPE_NULL, TYPE_BOOLEAN, TYPE_STRING, TYPE_FLOAT,
-			TYPE_INTEGER})
-	@Retention(RetentionPolicy.SOURCE)
-	public @interface Type {
+	@NonNull
+	public static JsonValue parse(final InputStream source) throws IOException {
+		return parse(new JsonFactory().createParser(source));
 	}
 
-	private final @Type int type;
-	private final Object value;
+	@NonNull
+	public static JsonValue parse(final JsonParser parser) throws IOException {
 
-	public JsonValue(final JsonParser jp) throws IOException {
-		this(jp, jp.nextToken());
-	}
+		if(parser.currentToken() == null) {
+			parser.nextToken();
+		}
 
-	public JsonValue(final InputStream source) throws IOException {
-		this(new JsonFactory().createParser(source));
-	}
-
-	public JsonValue(final byte[] source) throws IOException {
-		this(new JsonFactory().createParser(source));
-	}
-
-	protected JsonValue(final JsonParser parser, final JsonToken firstToken) throws IOException {
-
-		switch(firstToken) {
+		switch(parser.currentToken()) {
 
 			case START_OBJECT:
-				type = TYPE_OBJECT;
-				value = new JsonBufferedObject(parser);
-				break;
+				return new JsonObject(parser);
 
 			case START_ARRAY:
-				type = TYPE_ARRAY;
-				value = new JsonBufferedArray(parser);
-				break;
+				return new JsonArray(parser);
 
 			case VALUE_FALSE:
-				type = TYPE_BOOLEAN;
-				value = false;
-				break;
+				parser.nextToken();
+				return JsonBoolean.FALSE;
 
 			case VALUE_TRUE:
-				type = TYPE_BOOLEAN;
-				value = true;
-				break;
+				parser.nextToken();
+				return JsonBoolean.TRUE;
 
 			case VALUE_NULL:
-				type = TYPE_NULL;
-				value = null;
-				break;
+				parser.nextToken();
+				return JsonNull.INSTANCE;
 
-			case VALUE_STRING:
-				type = TYPE_STRING;
-				value = parser.getValueAsString();
-				break;
+			case VALUE_STRING: {
+				final JsonString result = new JsonString(parser.getValueAsString());
+				parser.nextToken();
+				return result;
+			}
 
-			case VALUE_NUMBER_FLOAT:
+			case VALUE_NUMBER_FLOAT: {
+				final JsonDouble result = new JsonDouble(parser.getValueAsDouble());
+				parser.nextToken();
+				return result;
+			}
 
-				//noinspection FloatingPointEquality,UnnecessaryExplicitNumericCast
-				if(parser.getValueAsDouble() == (double)parser.getValueAsLong()) {
-					type = TYPE_INTEGER;
-					value = parser.getValueAsLong();
-				} else {
-					type = TYPE_FLOAT;
-					value = parser.getValueAsDouble();
-				}
-
-				break;
-
-			case VALUE_NUMBER_INT:
-				type = TYPE_INTEGER;
-				value = parser.getValueAsLong();
-				break;
+			case VALUE_NUMBER_INT: {
+				final JsonLong result = new JsonLong(parser.getValueAsLong());
+				parser.nextToken();
+				return result;
+			}
 
 			default:
 				throw new JsonParseException(
 						parser,
-						"Expecting an object, literal, or array",
+						"Expecting an object, literal, or array, got: " + parser.currentToken(),
 						parser.getCurrentLocation());
 		}
 	}
 
-	/**
-	 * @return The type of value this JsonValue contains.
-	 */
-	public @Type
-	int getType() {
-		return type;
-	}
-
-	/**
-	 * @return True if the type of this value is NULL.
-	 */
-	public boolean isNull() {
-		return type == TYPE_NULL;
-	}
-
-	/**
-	 * @return If this JsonValue contains a JSON object, then this method returns that object. The
-	 * type of value this JsonValue contains can be checked with the getType() method.
-	 */
 	@Nullable
-	public JsonBufferedObject asObject() {
-
-		if(value instanceof JsonBufferedObject) {
-			return (JsonBufferedObject)value;
-		} else {
-			return null;
-		}
+	public JsonObject asObject() {
+		// Default implementation
+		return null;
 	}
 
 	@Nullable
@@ -169,99 +101,38 @@ public final class JsonValue {
 			NoSuchMethodException,
 			InvocationTargetException {
 
-		if(value instanceof JsonBufferedObject) {
-			return ((JsonBufferedObject)value).asObject(clazz);
-		} else {
-			return null;
-		}
+		// Default implementation
+		return null;
 	}
 
-	/**
-	 * @return If this JsonValue contains a JSON array, then this method returns that array. The
-	 * type of value this JsonValue contains can be checked with the getType() method.
-	 */
 	@Nullable
-	public JsonBufferedArray asArray() {
-
-		if(value instanceof JsonBufferedArray) {
-			return (JsonBufferedArray)value;
-		} else {
-			return null;
-		}
+	public JsonArray asArray() {
+		// Default implementation
+		return null;
 	}
 
-	/**
-	 * @return If this JsonValue contains a boolean, then this method returns that boolean. The type
-	 * of value this JsonValue contains can be checked with the getType() method.
-	 */
 	@Nullable
 	public Boolean asBoolean() {
-
-		if(value instanceof Boolean) {
-			return (Boolean)value;
-		} else {
-			return null;
-		}
+		// Default implementation
+		return null;
 	}
 
-	/**
-	 * @return If this JsonValue contains a string, then this method returns that string. The type
-	 * of value this JsonValue contains can be checked with the getType() method.
-	 */
 	@Nullable
 	public String asString() {
-
-		if(value instanceof String) {
-			return (String)value;
-
-		} else if(value != null) {
-			return value.toString();
-
-		} else {
-			return null;
-		}
+		// Default implementation
+		return null;
 	}
 
-	/**
-	 * @return If this JsonValue contains a double, then this method returns that double. The type
-	 * of value this JsonValue contains can be checked with the getType() method.
-	 */
 	@Nullable
 	public Double asDouble() {
-
-		if(value instanceof Double) {
-			return (Double)value;
-
-		} else if(value instanceof String) {
-			return Double.parseDouble((String)value);
-
-		} else if(value instanceof Long) {
-			return ((Long)value).doubleValue();
-
-		} else {
-			return null;
-		}
+		// Default implementation
+		return null;
 	}
 
-	/**
-	 * @return If this JsonValue contains an integer, then this method returns that integer. The
-	 * type of value this JsonValue contains can be checked with the getType() method.
-	 */
 	@Nullable
 	public Long asLong() {
-
-		if(value instanceof Long) {
-			return (Long)value;
-
-		} else if(value instanceof String) {
-			return Long.parseLong((String)value);
-
-		} else if(value instanceof Double) {
-			return ((Double)value).longValue();
-
-		} else {
-			return null;
-		}
+		// Default implementation
+		return null;
 	}
 
 	@Override
@@ -271,30 +142,46 @@ public final class JsonValue {
 		return sb.toString();
 	}
 
-	protected void prettyPrint(final int indent, final StringBuilder sb) {
+	protected abstract void prettyPrint(int indent, StringBuilder sb);
 
-		switch(type) {
-			case TYPE_BOOLEAN:
-				sb.append(asBoolean());
-				break;
-			case TYPE_FLOAT:
-				sb.append(asDouble());
-				break;
-			case TYPE_INTEGER:
-				sb.append(asLong());
-				break;
-			case TYPE_NULL:
-				sb.append("null");
-				break;
-			case TYPE_STRING:
-				sb.append("\"")
-						.append(asString().replace("\\", "\\\\").replace("\"", "\\\""))
-						.append("\"");
-				break;
-			case TYPE_ARRAY:
-			case TYPE_OBJECT:
-				((JsonBuffered)value).prettyPrint(indent, sb);
-				break;
+	@Nullable
+	public final JsonValue getAtPath(final Object... keys) {
+		return getAtPathInternal(0, keys);
+	}
+
+	@Nullable
+	public final JsonObject getObjectAtPath(final Object... keys) {
+
+		final JsonValue result = getAtPath(keys);
+
+		if(result == null) {
+			return null;
 		}
+
+		return result.asObject();
+	}
+
+	@Nullable
+	public final String getStringAtPath(final Object... keys) {
+
+		final JsonValue result = getAtPath(keys);
+
+		if(result == null) {
+			return null;
+		}
+
+		return result.asString();
+	}
+
+	@Nullable
+	protected JsonValue getAtPathInternal(final int offset, final Object... keys) {
+
+		// Default implementation
+
+		if(offset == keys.length) {
+			return this;
+		}
+
+		return null;
 	}
 }

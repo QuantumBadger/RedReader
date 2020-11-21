@@ -15,36 +15,27 @@
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.common.datastream;
+package org.quantumbadger.redreader.common;
 
-import androidx.annotation.NonNull;
+public enum NeverAlwaysOrWifiOnly {
+	NEVER {
+		@Override
+		public boolean isEnabled(final boolean wifiActive) {
+			return false;
+		}
+	},
+	WIFIONLY {
+		@Override
+		public boolean isEnabled(final boolean wifiActive) {
+			return wifiActive;
+		}
+	},
+	ALWAYS {
+		@Override
+		public boolean isEnabled(final boolean wifiActive) {
+			return true;
+		}
+	};
 
-import java.io.IOException;
-import java.io.InputStream;
-
-public abstract class SeekableInputStream extends InputStream {
-
-	private int mMark;
-
-	public abstract long getPosition();
-
-	public abstract void seek(long position) throws IOException;
-
-	@Override
-	public final void mark(final int readlimit) {
-		mMark = (int)getPosition();
-	}
-
-	@Override
-	public final void reset() throws IOException {
-		seek(mMark);
-	}
-
-	@Override
-	public final boolean markSupported() {
-		return true;
-	}
-
-	public abstract void readRemainingAsBytes(
-			@NonNull ByteArrayCallback callback) throws IOException;
+	public abstract boolean isEnabled(final boolean wifiActive);
 }

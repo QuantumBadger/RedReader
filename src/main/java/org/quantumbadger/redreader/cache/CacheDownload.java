@@ -21,6 +21,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.activities.BugReportActivity;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrioritisedCachedThreadPool;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRTime;
@@ -177,6 +178,11 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 					final Long bodyBytes,
 					final InputStream is) {
 
+				if(mCancelled) {
+					Log.i(TAG, "Request cancelled at start of onSuccess()");
+					return;
+				}
+
 				final MemoryDataStream stream = new MemoryDataStream(64 * 1024);
 
 				mInitiator.notifyDataStreamAvailable(
@@ -207,6 +213,12 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 									totalBytesRead,
 									bodyBytes);
 						}
+
+						if(mCancelled) {
+							Log.i(TAG, "Request cancelled during read loop");
+							stream.setFailed(new IOException("Download cancelled"));
+							return;
+						}
 					}
 
 					stream.setComplete();
@@ -231,6 +243,9 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 							"The connection was interrupted");
 
 					return;
+
+				} finally {
+					General.closeSafely(is);
 				}
 
 				// Save it to the cache

@@ -15,36 +15,18 @@
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.common.datastream;
+package org.quantumbadger.redreader.jsonwrap;
 
 import androidx.annotation.NonNull;
 
-import java.io.IOException;
-import java.io.InputStream;
+public class JsonNull extends JsonValue {
 
-public abstract class SeekableInputStream extends InputStream {
+	@NonNull public static final JsonNull INSTANCE = new JsonNull();
 
-	private int mMark;
-
-	public abstract long getPosition();
-
-	public abstract void seek(long position) throws IOException;
+	private JsonNull() {}
 
 	@Override
-	public final void mark(final int readlimit) {
-		mMark = (int)getPosition();
+	protected void prettyPrint(final int indent, final StringBuilder sb) {
+		sb.append("null");
 	}
-
-	@Override
-	public final void reset() throws IOException {
-		seek(mMark);
-	}
-
-	@Override
-	public final boolean markSupported() {
-		return true;
-	}
-
-	public abstract void readRemainingAsBytes(
-			@NonNull ByteArrayCallback callback) throws IOException;
 }

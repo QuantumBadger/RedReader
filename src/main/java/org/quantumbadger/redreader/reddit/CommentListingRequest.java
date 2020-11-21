@@ -35,8 +35,8 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
+import org.quantumbadger.redreader.jsonwrap.JsonArray;
+import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditParsedComment;
@@ -157,13 +157,13 @@ public class CommentListingRequest {
 
 						try {
 							// Download main post
-							if(value.getType() == JsonValue.TYPE_ARRAY) {
+							if(value.asArray() != null) {
 
 								// lol, reddit api
-								final JsonBufferedArray root = value.asArray();
-								final JsonBufferedObject thing = root.get(0).asObject();
-								final JsonBufferedObject listing = thing.getObject("data");
-								final JsonBufferedArray postContainer
+								final JsonArray root = value.asArray();
+								final JsonObject thing = root.get(0).asObject();
+								final JsonObject listing = thing.getObject("data");
+								final JsonArray postContainer
 										= listing.getArray("children");
 								final RedditThing postThing =
 										postContainer.getObject(0, RedditThing.class);
@@ -179,6 +179,8 @@ public class CommentListingRequest {
 										parsedPost,
 										timestamp,
 										true,
+										false,
+										false,
 										false);
 
 								AndroidCommon.runOnUiThread(()
@@ -190,16 +192,16 @@ public class CommentListingRequest {
 
 							// Download comments
 
-							final JsonBufferedObject thing;
+							final JsonObject thing;
 
-							if(value.getType() == JsonValue.TYPE_ARRAY) {
+							if(value.asArray() != null) {
 								thing = value.asArray().get(1).asObject();
 							} else {
 								thing = value.asObject();
 							}
 
-							final JsonBufferedObject listing = thing.getObject("data");
-							final JsonBufferedArray topLevelComments
+							final JsonObject listing = thing.getObject("data");
+							final JsonArray topLevelComments
 									= listing.getArray("children");
 
 							final ArrayList<RedditCommentListItem> items
@@ -302,10 +304,10 @@ public class CommentListingRequest {
 
 			output.add(item);
 
-			if(comment.replies.getType() == JsonValue.TYPE_OBJECT) {
+			if(comment.replies.asObject() != null) {
 
-				final JsonBufferedObject replies = comment.replies.asObject();
-				final JsonBufferedArray children =
+				final JsonObject replies = comment.replies.asObject();
+				final JsonArray children =
 						replies.getObject("data").getArray("children");
 
 				for(final JsonValue v : children) {

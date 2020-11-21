@@ -178,6 +178,7 @@ public class LinkHandler {
 		}
 
 		if(!forceNoImage && isProbablyAnImage(url)) {
+
 			final Intent intent = new Intent(activity, ImageViewActivity.class);
 			intent.setData(Uri.parse(url));
 			intent.putExtra("post", post);
@@ -1104,10 +1105,16 @@ public class LinkHandler {
 		}
 
 		if(urlLower.endsWith(".gif")) {
-			return new ImageInfo(
-					url,
-					ImageInfo.MediaType.GIF,
-					ImageInfo.HasAudio.MAYBE_AUDIO);
+
+			final ImageInfo.HasAudio audio;
+
+			if(urlLower.contains(".redd.it")) { // preview.redd.it or i.redd.it
+				audio = ImageInfo.HasAudio.NO_AUDIO;
+			} else {
+				audio = ImageInfo.HasAudio.MAYBE_AUDIO;
+			}
+
+			return new ImageInfo(url, ImageInfo.MediaType.GIF, audio);
 		}
 
 
@@ -1134,10 +1141,16 @@ public class LinkHandler {
 			}
 
 			if(urlBeforeQ.endsWith(".gif")) {
-				return new ImageInfo(
-						url,
-						ImageInfo.MediaType.GIF,
-						ImageInfo.HasAudio.MAYBE_AUDIO);
+
+				final ImageInfo.HasAudio audio;
+
+				if(urlLower.contains(".redd.it")) { // preview.redd.it or i.redd.it
+					audio = ImageInfo.HasAudio.NO_AUDIO;
+				} else {
+					audio = ImageInfo.HasAudio.MAYBE_AUDIO;
+				}
+
+				return new ImageInfo(url, ImageInfo.MediaType.GIF, audio);
 			}
 		}
 

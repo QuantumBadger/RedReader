@@ -116,8 +116,11 @@ public final class PrefsUtility {
 						R.string.pref_appearance_hide_headertoolbar_commentlist_key))
 				|| key.equals(context.getString(
 						R.string.pref_appearance_hide_headertoolbar_postlist_key))
+				|| key.equals(context.getString(R.string.pref_images_thumbnail_size_key))
+				|| key.equals(context.getString(R.string.pref_images_inline_image_previews_key))
 				|| key.equals(context.getString(
-						R.string.pref_images_thumbnail_size_key));
+						R.string.pref_images_inline_image_previews_nsfw_key))
+				|| key.equals(context.getString(R.string.pref_images_high_res_thumbnails_key));
 	}
 
 	public static boolean isRestartRequired(final Context context, final String key) {
@@ -309,14 +312,10 @@ public final class PrefsUtility {
 
 	}
 
-	public enum AppearanceThumbnailsShow {
-		NEVER, WIFIONLY, ALWAYS
-	}
-
-	public static AppearanceThumbnailsShow appearance_thumbnails_show(
+	public static NeverAlwaysOrWifiOnly appearance_thumbnails_show(
 			final Context context,
 			final SharedPreferences sharedPreferences) {
-		return AppearanceThumbnailsShow.valueOf(StringUtils.asciiUppercase(
+		return NeverAlwaysOrWifiOnly.valueOf(StringUtils.asciiUppercase(
 				getString(
 						R.string.pref_appearance_thumbnails_show_list_key,
 						"always",
@@ -324,7 +323,7 @@ public final class PrefsUtility {
 						sharedPreferences)));
 	}
 
-	public static AppearanceThumbnailsShow appearance_thumbnails_show_old(
+	public static NeverAlwaysOrWifiOnly appearance_thumbnails_show_old(
 			final Context context,
 			final SharedPreferences sharedPreferences) {
 
@@ -333,15 +332,15 @@ public final class PrefsUtility {
 				true,
 				context,
 				sharedPreferences)) {
-			return AppearanceThumbnailsShow.NEVER;
+			return NeverAlwaysOrWifiOnly.NEVER;
 		} else if(getBoolean(
 				R.string.pref_appearance_thumbnails_wifionly_key,
 				false,
 				context,
 				sharedPreferences)) {
-			return AppearanceThumbnailsShow.WIFIONLY;
+			return NeverAlwaysOrWifiOnly.WIFIONLY;
 		} else {
-			return AppearanceThumbnailsShow.ALWAYS;
+			return NeverAlwaysOrWifiOnly.ALWAYS;
 		}
 	}
 
@@ -828,7 +827,7 @@ public final class PrefsUtility {
 		}
 	}
 
-	public static int pref_images_thumbnail_size_dp(
+	public static int images_thumbnail_size_dp(
 			final Context context,
 			final SharedPreferences sharedPreferences) {
 		try {
@@ -840,6 +839,38 @@ public final class PrefsUtility {
 		} catch(final Throwable e) {
 			return 64;
 		}
+	}
+
+	public static NeverAlwaysOrWifiOnly images_inline_image_previews(
+			final Context context,
+			final SharedPreferences sharedPreferences) {
+		return NeverAlwaysOrWifiOnly.valueOf(StringUtils.asciiUppercase(
+				getString(
+						R.string.pref_images_inline_image_previews_key,
+						"always",
+						context,
+						sharedPreferences)));
+	}
+
+	public static boolean images_inline_image_previews_nsfw(
+			final Context context,
+			final SharedPreferences sharedPreferences) {
+		return getBoolean(
+				R.string.pref_images_inline_image_previews_nsfw_key,
+				false,
+				context,
+				sharedPreferences);
+	}
+
+	public static NeverAlwaysOrWifiOnly images_high_res_thumbnails(
+			final Context context,
+			final SharedPreferences sharedPreferences) {
+		return NeverAlwaysOrWifiOnly.valueOf(StringUtils.asciiUppercase(
+				getString(
+						R.string.pref_images_high_res_thumbnails_key,
+						"wifionly",
+						context,
+						sharedPreferences)));
 	}
 
 	///////////////////////////////
@@ -1453,6 +1484,7 @@ public final class PrefsUtility {
 		maxAgeMap.put(Constants.FileType.IMAGE, images);
 		maxAgeMap.put(Constants.FileType.IMAGE_INFO, images);
 		maxAgeMap.put(Constants.FileType.CAPTCHA, images);
+		maxAgeMap.put(Constants.FileType.INLINE_IMAGE_PREVIEW, images);
 
 		return maxAgeMap;
 	}
@@ -1504,14 +1536,10 @@ public final class PrefsUtility {
 
 	// pref_cache_precache_images
 
-	public enum CachePrecacheImages {
-		NEVER, WIFIONLY, ALWAYS
-	}
-
-	public static CachePrecacheImages cache_precache_images(
+	public static NeverAlwaysOrWifiOnly cache_precache_images(
 			final Context context,
 			final SharedPreferences sharedPreferences) {
-		return CachePrecacheImages.valueOf(StringUtils.asciiUppercase(
+		return NeverAlwaysOrWifiOnly.valueOf(StringUtils.asciiUppercase(
 				getString(
 						R.string.pref_cache_precache_images_list_key,
 						"wifionly",
@@ -1519,12 +1547,12 @@ public final class PrefsUtility {
 						sharedPreferences)));
 	}
 
-	public static CachePrecacheImages cache_precache_images_old(
+	public static NeverAlwaysOrWifiOnly cache_precache_images_old(
 			final Context context,
 			final SharedPreferences sharedPreferences) {
 
 		if(network_tor(context, sharedPreferences)) {
-			return CachePrecacheImages.NEVER;
+			return NeverAlwaysOrWifiOnly.NEVER;
 		}
 
 		if(!getBoolean(
@@ -1532,28 +1560,24 @@ public final class PrefsUtility {
 				true,
 				context,
 				sharedPreferences)) {
-			return CachePrecacheImages.NEVER;
+			return NeverAlwaysOrWifiOnly.NEVER;
 		} else if(getBoolean(
 				R.string.pref_cache_precache_images_wifionly_key,
 				true,
 				context,
 				sharedPreferences)) {
-			return CachePrecacheImages.WIFIONLY;
+			return NeverAlwaysOrWifiOnly.WIFIONLY;
 		} else {
-			return CachePrecacheImages.ALWAYS;
+			return NeverAlwaysOrWifiOnly.ALWAYS;
 		}
 	}
 
 	// pref_cache_precache_comments
 
-	public enum CachePrecacheComments {
-		NEVER, WIFIONLY, ALWAYS
-	}
-
-	public static CachePrecacheComments cache_precache_comments(
+	public static NeverAlwaysOrWifiOnly cache_precache_comments(
 			final Context context,
 			final SharedPreferences sharedPreferences) {
-		return CachePrecacheComments.valueOf(StringUtils.asciiUppercase(
+		return NeverAlwaysOrWifiOnly.valueOf(StringUtils.asciiUppercase(
 				getString(
 						R.string.pref_cache_precache_comments_list_key,
 						"always",
@@ -1561,7 +1585,7 @@ public final class PrefsUtility {
 						sharedPreferences)));
 	}
 
-	public static CachePrecacheComments cache_precache_comments_old(
+	public static NeverAlwaysOrWifiOnly cache_precache_comments_old(
 			final Context context,
 			final SharedPreferences sharedPreferences) {
 
@@ -1570,15 +1594,15 @@ public final class PrefsUtility {
 				true,
 				context,
 				sharedPreferences)) {
-			return CachePrecacheComments.NEVER;
+			return NeverAlwaysOrWifiOnly.NEVER;
 		} else if(getBoolean(
 				R.string.pref_cache_precache_comments_wifionly_key,
 				false,
 				context,
 				sharedPreferences)) {
-			return CachePrecacheComments.WIFIONLY;
+			return NeverAlwaysOrWifiOnly.WIFIONLY;
 		} else {
-			return CachePrecacheComments.ALWAYS;
+			return NeverAlwaysOrWifiOnly.ALWAYS;
 		}
 	}
 

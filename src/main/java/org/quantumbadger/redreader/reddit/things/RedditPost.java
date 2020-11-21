@@ -21,12 +21,13 @@ package org.quantumbadger.redreader.reddit.things;
 import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.annotation.Nullable;
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
+import org.quantumbadger.redreader.jsonwrap.JsonObject;
 
 public final class RedditPost implements Parcelable, RedditThingWithIdAndType {
 
 	public String id, name;
-	public String title, url, author, domain, subreddit, subreddit_id;
+	public String url;
+	public String title, author, domain, subreddit, subreddit_id;
 	public int num_comments, score, ups, downs, gilded;
 	public boolean archived, over_18, hidden, saved, is_self, clicked, stickied;
 	public Object edited;
@@ -38,10 +39,11 @@ public final class RedditPost implements Parcelable, RedditThingWithIdAndType {
 	public String selftext, selftext_html, permalink, link_flair_text, author_flair_text;
 	public String thumbnail; // an image URL
 
-	public JsonBufferedObject media;
+	public JsonObject media;
 	@Nullable public String rr_internal_dash_url;
 
-	@Nullable public JsonBufferedObject preview;
+	@Nullable public JsonObject preview;
+	@Nullable public Boolean is_video;
 
 	public RedditPost() {
 	}
@@ -70,6 +72,16 @@ public final class RedditPost implements Parcelable, RedditThingWithIdAndType {
 
 		if(getDashUrl() != null) {
 			return rr_internal_dash_url;
+		}
+
+		if(preview != null && url != null && url.contains(".gif")) {
+
+			final String mp4Url
+					= preview.getStringAtPath("images", 0, "variants", "mp4", "source", "url");
+
+			if(mp4Url != null) {
+				url = mp4Url;
+			}
 		}
 
 		return url;
@@ -152,7 +164,7 @@ public final class RedditPost implements Parcelable, RedditThingWithIdAndType {
 		parcel.writeString(id);
 		parcel.writeString(name);
 		parcel.writeString(title);
-		parcel.writeString(url);
+		parcel.writeString(getUrl());
 		parcel.writeString(author);
 		parcel.writeString(domain);
 		parcel.writeString(subreddit);

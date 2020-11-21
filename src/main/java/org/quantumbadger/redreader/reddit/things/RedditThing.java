@@ -17,7 +17,7 @@
 
 package org.quantumbadger.redreader.reddit.things;
 
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
+import org.quantumbadger.redreader.jsonwrap.JsonObject;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -44,7 +44,7 @@ public final class RedditThing {
 	}
 
 	public String kind;
-	public JsonBufferedObject data;
+	public JsonObject data;
 
 	public Kind getKind() {
 		return kinds.get(kind);

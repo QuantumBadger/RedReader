@@ -136,6 +136,8 @@ public class WebViewFragment extends Fragment
 					parsedPost,
 					-1,
 					false,
+					false,
+					false,
 					false);
 
 		} else {

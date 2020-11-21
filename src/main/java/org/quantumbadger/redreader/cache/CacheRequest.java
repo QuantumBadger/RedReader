@@ -25,7 +25,7 @@ import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategy;
-import org.quantumbadger.redreader.common.Factory;
+import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
@@ -97,7 +97,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 
 	public final boolean cache;
 
-	private CacheDownload download;
+	@Nullable private CacheDownload download;
 	private boolean cancelled;
 
 	public final Context context;
@@ -207,7 +207,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 	}
 
 	public void notifyDataStreamAvailable(
-			@NonNull final Factory<SeekableInputStream, IOException> streamFactory,
+			@NonNull final GenericFactory<SeekableInputStream, IOException> streamFactory,
 			final long timestamp,
 			@NonNull final UUID session,
 			final boolean fromCache,
@@ -217,7 +217,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 	}
 
 	public void notifyDataStreamComplete(
-			@NonNull final Factory<SeekableInputStream, IOException> streamFactory,
+			@NonNull final GenericFactory<SeekableInputStream, IOException> streamFactory,
 			final long timestamp,
 			@NonNull final UUID session,
 			final boolean fromCache,

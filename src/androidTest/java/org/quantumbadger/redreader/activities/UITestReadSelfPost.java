@@ -63,7 +63,7 @@ public class UITestReadSelfPost {
 				.perform(click());
 
 		final ViewInteraction selfTextPost = onView(allOf(
-				withId(R.id.reddit_post_layout),
+				withId(R.id.reddit_post_layout_outer),
 				withChild(allOf(
 						withId(R.id.reddit_post_textLayout),
 						withChild(allOf(

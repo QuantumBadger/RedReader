@@ -15,10 +15,38 @@
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.common;
+package org.quantumbadger.redreader.jsonwrap;
 
 import androidx.annotation.NonNull;
 
-public interface Factory<E, T extends Throwable> {
-	@NonNull E create() throws T;
+public class JsonDouble extends JsonValue {
+
+	private final double mValue;
+
+	protected JsonDouble(final double value) {
+		mValue = value;
+	}
+
+	@Override
+	protected void prettyPrint(final int indent, final StringBuilder sb) {
+		sb.append(mValue);
+	}
+
+	@NonNull
+	@Override
+	public String asString() {
+		return String.valueOf(mValue);
+	}
+
+	@NonNull
+	@Override
+	public Double asDouble() {
+		return mValue;
+	}
+
+	@NonNull
+	@Override
+	public Long asLong() {
+		return Math.round(mValue);
+	}
 }

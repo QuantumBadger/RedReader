@@ -388,16 +388,14 @@ public class RedditCommentView extends FlingableItemView
 				postTimestamp,
 				parentCommentTimestamp);
 
-		final String accessibilityHeader = renderableComment.getAccessibilityHeader(
+		mHeader.setContentDescription(renderableComment.getAccessibilityHeader(
 				mTheme,
 				mChangeDataManager,
 				activity,
 				ageUnits,
 				postTimestamp,
 				parentCommentTimestamp,
-				isCollapsed);
-
-		mHeader.setContentDescription(accessibilityHeader);
+				isCollapsed));
 
 		if(isCollapsed) {
 			setFlingingEnabled(false);

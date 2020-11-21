@@ -22,6 +22,7 @@ dependencies {
 	implementation 'androidx.recyclerview:recyclerview:1.1.0'
 	implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 	implementation 'com.google.android.material:material:1.2.0'
+	implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
 
 	implementation 'com.fasterxml.jackson.core:jackson-core:2.11.3'
 	implementation 'org.apache.commons:commons-lang3:3.11'

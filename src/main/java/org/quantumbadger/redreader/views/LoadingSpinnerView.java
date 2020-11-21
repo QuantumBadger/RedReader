@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.views;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import org.quantumbadger.redreader.R;
@@ -28,6 +29,17 @@ import org.quantumbadger.redreader.common.General;
 public class LoadingSpinnerView extends RelativeLayout {
 
 	final DonutProgress mProgressView;
+
+	public LoadingSpinnerView(
+			final Context context,
+			final AttributeSet attributeSet,
+			final int defStyle) {
+		this(context);
+	}
+
+	public LoadingSpinnerView(final Context context, final AttributeSet attributeSet) {
+		this(context);
+	}
 
 	public LoadingSpinnerView(final Context context) {
 

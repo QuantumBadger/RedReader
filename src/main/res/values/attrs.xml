@@ -52,6 +52,7 @@
     <attr name="rrFlairTextCol" format="color" />
     <attr name="rrGoldBackCol" format="color" />
     <attr name="rrGoldTextCol" format="color" />
+	<attr name="rrPostInlinePreviewDivider" format="color" />
 
     <attr name="rrCommentBodyCol" format="color" />
     <attr name="rrCommentHeaderCol" format="color" />

@@ -65,6 +65,7 @@
         <item name="rrPostCommentsButtonHighlightCol">#777777</item>
         <item name="rrPostCommentsButtonTextCol">#BBBBBB</item>
         <item name="rrPostThumbnailBackground">#000000</item>
+		<item name="rrPostInlinePreviewDivider">#222222</item>
         <item name="rrPostFlingTextCol">#FFFFFF</item>
         <item name="rrFlairBackCol">#333333</item>
         <item name="rrFlairTextCol">#AAAAAA</item>
@@ -161,6 +162,7 @@
 		<item name="rrPostCommentsButtonHighlightCol">#777777</item>
 		<item name="rrPostCommentsButtonTextCol">#BBBBBB</item>
 		<item name="rrPostThumbnailBackground">#000000</item>
+		<item name="rrPostInlinePreviewDivider">#333333</item>
 		<item name="rrPostFlingTextCol">#BBBBBB</item>
 		<item name="rrFlairBackCol">#333333</item>
 		<item name="rrFlairTextCol">#AAAAAA</item>
@@ -225,6 +227,7 @@
 		<item name="rrPostCommentsButtonHighlightCol">#777777</item>
 		<item name="rrPostCommentsButtonTextCol">#BBBBBB</item>
 		<item name="rrPostThumbnailBackground">#000000</item>
+		<item name="rrPostInlinePreviewDivider">#000000</item>
 		<item name="rrPostFlingTextCol">#FFFFFF</item>
 		<item name="rrFlairBackCol">#222222</item>
 		<item name="rrFlairTextCol">#AAAAAA</item>
@@ -315,7 +318,8 @@
         <item name="rrPostCommentsButtonBackCol">#EEEEEE</item>
         <item name="rrPostCommentsButtonHighlightCol">#CCCCCC</item>
         <item name="rrPostCommentsButtonTextCol">#666666</item>
-        <item name="rrPostThumbnailBackground">#DDDDDD</item>
+        <item name="rrPostThumbnailBackground">#EEEEEE</item>
+		<item name="rrPostInlinePreviewDivider">#CCCCCC</item>
         <item name="rrPostFlingTextCol">?colorPrimary</item>
         <item name="rrFlairBackCol">#DDDDDD</item>
         <item name="rrFlairTextCol">#444444</item>

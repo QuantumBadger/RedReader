@@ -220,9 +220,12 @@ public final class General {
 	}
 
 	public static boolean isConnectionWifi(final Context context) {
-		final ConnectivityManager cm = (ConnectivityManager)context.getSystemService(
-				Context.CONNECTIVITY_SERVICE);
+
+		final ConnectivityManager cm
+				= (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
 		final NetworkInfo info = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
 		return info != null
 				&& info.getDetailedState() == NetworkInfo.DetailedState.CONNECTED;
 	}
@@ -689,5 +692,12 @@ public final class General {
 								null))
 				.setNegativeButton(R.string.firstrun_login_button_later, null)
 				.show();
+	}
+
+	public static void startNewThread(
+			@NonNull final String name,
+			@NonNull final Runnable runnable) {
+
+		new Thread(runnable, name).start();
 	}
 }

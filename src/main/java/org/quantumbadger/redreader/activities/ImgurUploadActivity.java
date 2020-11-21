@@ -49,7 +49,7 @@ import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.http.HTTPBackend;
 import org.quantumbadger.redreader.image.ThumbnailScaler;
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
+import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.views.LoadingSpinnerView;
 
@@ -281,7 +281,7 @@ public class ImgurUploadActivity extends BaseActivity {
 						final Uri imageUri;
 
 						try {
-							final JsonBufferedObject root = result.asObject();
+							final JsonObject root = result.asObject();
 
 							if(root == null) {
 								throw new RuntimeException("Response root object is null");

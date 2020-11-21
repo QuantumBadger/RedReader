@@ -28,7 +28,7 @@ import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotC
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.Priority;
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
+import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
 import java.util.UUID;
@@ -61,7 +61,7 @@ public final class RedgifsAPI {
 							final boolean fromCache) {
 
 						try {
-							final JsonBufferedObject outer = result.asObject().getObject("gfyItem");
+							final JsonObject outer = result.asObject().getObject("gfyItem");
 							listener.onSuccess(ImageInfo.parseGfycat(outer));
 
 						} catch(final Throwable t) {

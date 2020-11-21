@@ -19,7 +19,7 @@ package org.quantumbadger.redreader.cache;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import org.quantumbadger.redreader.common.Factory;
+import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 
 import java.io.IOException;
@@ -32,14 +32,14 @@ public interface CacheRequestCallbacks {
 	default void onDownloadStarted() {}
 
 	default void onDataStreamAvailable(
-			@NonNull final Factory<SeekableInputStream, IOException> streamFactory,
+			@NonNull final GenericFactory<SeekableInputStream, IOException> streamFactory,
 			final long timestamp,
 			@NonNull final UUID session,
 			final boolean fromCache,
 			@Nullable final String mimetype) {}
 
 	default void onDataStreamComplete(
-			@NonNull final Factory<SeekableInputStream, IOException> streamFactory,
+			@NonNull final GenericFactory<SeekableInputStream, IOException> streamFactory,
 			final long timestamp,
 			@NonNull final UUID session,
 			final boolean fromCache,

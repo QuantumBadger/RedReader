@@ -555,9 +555,7 @@
     <string name="pref_menus_show_subscribed_subreddits_main_menu_title">Vis abonnerte underreddit-er</string>
     <string name="mainmenu_random_nsfw">Tilfeldig NSFW-underreddit</string>
     <string name="pref_appearance_show_aspect_ratio_indicator_title">Vis indikator for sideforhold</string>
-    <string
-			name="pref_appearance_show_aspect_ratio_indicator_summary"
-			tools:ignore="Typos">Vis innlasting av media visuelt når tilgjengelig</string>
+    <string name="pref_appearance_show_aspect_ratio_indicator_summary" tools:ignore="Typos">Vis innlasting av media visuelt når tilgjengelig</string>
     <string name="pref_appearance_bottom_toolbar_title">Vis verktøyslinje på bunnen</string>
     <string name="pref_behaviour_video_mute_default_title">Forstum videoer som forvalg</string>
     <string name="prefs_category_images_video">Bilder/video</string>
@@ -606,7 +604,10 @@
     <string name="reddit_login_browser_popup_use_internal_browser">Bruk intern nettleser (anbefales)</string>
     <string name="reddit_login_browser_popup_line_2">Når innloggingen er utført, burde du bli videresendt tilbake til RedReader. Hvis det ikke fungerer kan du bruke en annen nettleser nedenfor.</string>
     <string name="reddit_login_browser_popup_line_1">Du vil nå bli sendt til Reddit i en nettleser for innlogging.</string>
-	<plurals name="load_more_comments_button_reply_count">
-		<item quantity="other">Last inn flere kommentarer (%d svar)</item>
-	</plurals>
+    <plurals name="load_more_comments_button_reply_count">
+        <item quantity="other">Last inn flere kommentarer (%d svar)</item>
+    </plurals>
+    <string name="error_toast_failed_open_external_browser">Klarte ikke å åpne nettadresen «%s» i en ekstern nettleser</string>
+    <string name="upgrade_message">Oppdatert til versjon %s</string>
+    <string name="pref_appearance_post_subtitle_items_subreddit">Underreddit</string>
 </resources>

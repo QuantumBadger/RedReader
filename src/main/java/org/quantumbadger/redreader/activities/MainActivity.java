@@ -955,7 +955,7 @@ public class MainActivity extends RefreshableActivity
 		mLeftPane.addView(mainMenuView);
 		mRightPane.addView(postListingView);
 
-		showBackButton(false);
+//		showBackButton(false);
 		invalidateOptionsMenu();
 	}
 
@@ -969,7 +969,7 @@ public class MainActivity extends RefreshableActivity
 					PostCommentListingURL.forPostId(post.src
 							.getIdAlone()),
 					this);
-			showBackButton(true);
+//			showBackButton(true);
 
 			if(isMenuShown) {
 
@@ -1374,7 +1374,7 @@ public class MainActivity extends RefreshableActivity
 		runOnUiThread(this::invalidateOptionsMenu);
 	}
 
-	private void showBackButton(final boolean isVisible) {
-		configBackButton(isVisible, v -> onBackPressed());
-	}
+//	private void showBackButton(final boolean isVisible) {
+//		configBackButton(isVisible, v -> onBackPressed());
+//	}
 }

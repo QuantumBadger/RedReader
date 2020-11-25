@@ -136,21 +136,8 @@
 		<activity android:name=".activities.ChangelogActivity"
 				  android:configChanges="orientation|screenSize|keyboardHidden" />
 
-		<activity android:name=".activities.ImgurUploadActivity"
-				  android:configChanges="orientation|screenSize|keyboardHidden" />
-
 		<activity android:name=".activities.MoreCommentsListingActivity"
 				  android:configChanges="orientation|screenSize|keyboardHidden" />
-
-        <activity android:name=".activities.WebViewActivity"
-                  android:configChanges="orientation|screenSize|keyboardHidden"
-                  android:theme="@style/RR.Dark"/>
-
-        <activity android:name=".activities.HtmlViewActivity"
-                  android:configChanges="orientation|screenSize|keyboardHidden"/>
-
-        <activity android:name=".activities.OAuthLoginActivity"
-                  android:configChanges="orientation|screenSize|keyboardHidden"/>
 
         <activity android:name=".activities.AlbumListingActivity"
                   android:configChanges="orientation|screenSize|keyboardHidden"/>
@@ -158,24 +145,6 @@
         <activity android:name=".activities.ImageViewActivity"
                   android:configChanges="orientation|screenSize|keyboardHidden"
                   android:theme="@style/RR.Dark"/>
-
-        <activity android:name=".activities.CommentReplyActivity"
-                  android:configChanges="orientation|screenSize|keyboardHidden"/>
-
-        <activity android:name=".activities.CommentEditActivity"
-                  android:configChanges="orientation|screenSize|keyboardHidden"/>
-
-		<activity android:name=".activities.PMSendActivity"
-				  android:configChanges="orientation|screenSize|keyboardHidden"/>
-
-        <activity android:name=".activities.PostSubmitActivity"
-                  android:configChanges="orientation|screenSize|keyboardHidden">
-            <intent-filter>
-                <action android:name="android.intent.action.SEND" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="text/plain" />
-            </intent-filter>
-        </activity>
 
         <activity android:name=".activities.BugReportActivity"
                   android:configChanges="orientation|screenSize|keyboardHidden"

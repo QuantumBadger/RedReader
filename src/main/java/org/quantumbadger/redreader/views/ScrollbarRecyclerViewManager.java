@@ -22,6 +22,9 @@ import androidx.annotation.NonNull;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.wear.widget.WearableLinearLayoutManager;
+import androidx.wear.widget.WearableRecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +35,7 @@ public class ScrollbarRecyclerViewManager {
 
 	private final View mOuter;
 	private final SwipeRefreshLayout mSwipeRefreshLayout;
-	private final RecyclerView mRecyclerView;
+	private final WearableRecyclerView mRecyclerView;
 	private final FrameLayout mScrollbarFrame;
 	private final View mScrollbar;
 
@@ -41,7 +44,8 @@ public class ScrollbarRecyclerViewManager {
 	public ScrollbarRecyclerViewManager(
 			final Context context,
 			final ViewGroup root,
-			final boolean attachToRoot) {
+			final boolean attachToRoot,
+			final boolean round) {
 
 		mOuter = LayoutInflater.from(context)
 				.inflate(R.layout.scrollbar_recyclerview, root, attachToRoot);
@@ -53,65 +57,86 @@ public class ScrollbarRecyclerViewManager {
 
 		mSwipeRefreshLayout.setEnabled(false);
 
-		final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-		mRecyclerView.setLayoutManager(linearLayoutManager);
+		if (round) {
+					mRecyclerView.setLayoutManager(
+				new WearableLinearLayoutManager(context));
+//					final CustomScrollingLayoutCallback customScrollingLayoutCallback = new CustomScrollingLayoutCallback();
+//					mRecyclerView.setLayoutManager(new WearableLinearLayoutManager(context, customScrollingLayoutCallback));
+		} else {
+			final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+			mRecyclerView.setLayoutManager(linearLayoutManager);
+		}
+
 		mRecyclerView.setHasFixedSize(true);
-		linearLayoutManager.setSmoothScrollbarEnabled(false);
+		mRecyclerView.requestFocus();
+//		linearLayoutManager.setSmoothScrollbarEnabled(false);
 
-		mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+		// To align the edge children (first and last) with the center of the screen
+		mRecyclerView.setEdgeItemsCenteringEnabled(false);
 
-			private void updateScroll() {
 
-				final int firstVisible
-						= linearLayoutManager.findFirstVisibleItemPosition();
-				final int lastVisible = linearLayoutManager.findLastVisibleItemPosition();
-				final int itemsVisible = lastVisible - firstVisible + 1;
-				final int totalCount = linearLayoutManager.getItemCount();
 
-				final boolean scrollUnnecessary = (itemsVisible == totalCount);
+//		mRecyclerView.setCircularScrollingGestureEnabled(true);1
 
-				if(scrollUnnecessary != mScrollUnnecessary) {
-					mScrollbar.setVisibility(scrollUnnecessary
-							? View.INVISIBLE
-							: View.VISIBLE);
-				}
+//		WearableLinearLayoutManager layoutManager = new WearableLinearLayoutManager(context);
+//
+//
 
-				mScrollUnnecessary = scrollUnnecessary;
 
-				if(!scrollUnnecessary) {
-					final int recyclerViewHeight = mRecyclerView.getMeasuredHeight();
-					final int scrollBarHeight = mScrollbar.getMeasuredHeight();
-
-					final double topPadding = ((double)firstVisible / (double)(totalCount
-							- itemsVisible))
-							* (recyclerViewHeight - scrollBarHeight);
-
-					mScrollbarFrame.setPadding(0, (int)Math.round(topPadding), 0, 0);
-				}
-			}
-
-			@Override
-			public void onScrolled(final RecyclerView recyclerView, final int dx, final int dy) {
-				updateScroll();
-			}
-
-			@Override
-			public void onScrollStateChanged(final RecyclerView recyclerView, final int newState) {
-
-				switch(newState) {
-					case RecyclerView.SCROLL_STATE_IDLE:
-						hideScrollbar();
-						break;
-					case RecyclerView.SCROLL_STATE_DRAGGING:
-						showScrollbar();
-						break;
-					case RecyclerView.SCROLL_STATE_SETTLING:
-						break;
-				}
-
-				updateScroll();
-			}
-		});
+//		mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//
+//			private void updateScroll() {
+//
+//				final int firstVisible
+//						= linearLayoutManager.findFirstVisibleItemPosition();
+//				final int lastVisible = linearLayoutManager.findLastVisibleItemPosition();
+//				final int itemsVisible = lastVisible - firstVisible + 1;
+//				final int totalCount = linearLayoutManager.getItemCount();
+//
+//				final boolean scrollUnnecessary = (itemsVisible == totalCount);
+//
+//				if(scrollUnnecessary != mScrollUnnecessary) {
+//					mScrollbar.setVisibility(scrollUnnecessary
+//							? View.INVISIBLE
+//							: View.VISIBLE);
+//				}
+//
+//				mScrollUnnecessary = scrollUnnecessary;
+//
+//				if(!scrollUnnecessary) {
+//					final int recyclerViewHeight = mRecyclerView.getMeasuredHeight();
+//					final int scrollBarHeight = mScrollbar.getMeasuredHeight();
+//
+//					final double topPadding = ((double)firstVisible / (double)(totalCount
+//							- itemsVisible))
+//							* (recyclerViewHeight - scrollBarHeight);
+//
+//					mScrollbarFrame.setPadding(0, (int)Math.round(topPadding), 0, 0);
+//				}
+//			}
+//
+//			@Override
+//			public void onScrolled(final RecyclerView recyclerView, final int dx, final int dy) {
+//				updateScroll();
+//			}
+//
+//			@Override
+//			public void onScrollStateChanged(final RecyclerView recyclerView, final int newState) {
+//
+//				switch(newState) {
+//					case RecyclerView.SCROLL_STATE_IDLE:
+//						hideScrollbar();
+//						break;
+//					case RecyclerView.SCROLL_STATE_DRAGGING:
+//						showScrollbar();
+//						break;
+//					case RecyclerView.SCROLL_STATE_SETTLING:
+//						break;
+//				}
+//
+//				updateScroll();
+//			}
+//		});
 	}
 
 	public void enablePullToRefresh(@NonNull final SwipeRefreshLayout.OnRefreshListener listener) {

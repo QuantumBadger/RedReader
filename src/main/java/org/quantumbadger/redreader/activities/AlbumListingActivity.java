@@ -228,7 +228,7 @@ public class AlbumListingActivity extends BaseActivity {
 										= new ScrollbarRecyclerViewManager(
 										AlbumListingActivity.this,
 										null,
-										false);
+										false, false);
 
 								layout.addView(recyclerViewManager.getOuterView());
 

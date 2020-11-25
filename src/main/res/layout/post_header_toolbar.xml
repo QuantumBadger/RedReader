@@ -36,7 +36,7 @@
 			android:padding="12dp"
 			android:background="?rrThemedButtonSelector"
 			android:contentDescription="@string/action_upvote"
-			android:src="?rrIconArrowUpBold"/>
+			android:src="?rrIconArrowDownBold"/>
 
 	<ImageButton
 			android:id="@+id/post_toolbar_botton_remove_upvote"

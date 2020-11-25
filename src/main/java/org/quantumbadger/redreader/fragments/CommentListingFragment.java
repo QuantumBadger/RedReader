@@ -160,7 +160,7 @@ public class CommentListingFragment extends RRFragment
 		mOverlayFrame = new FrameLayout(context);
 
 		final ScrollbarRecyclerViewManager recyclerViewManager
-				= new ScrollbarRecyclerViewManager(context, null, false);
+				= new ScrollbarRecyclerViewManager(context, null, false, false);
 
 		if(parent instanceof OptionsMenuUtility.OptionsMenuCommentsListener
 				&& PrefsUtility.pref_behaviour_enable_swipe_refresh(context, prefs)) {

@@ -4,7 +4,7 @@ buildscript {
 		google()
 	}
 	dependencies {
-		classpath 'com.android.tools.build:gradle:4.0.1'
+		classpath 'com.android.tools.build:gradle:4.1.1'
 	}
 }
 
@@ -44,13 +44,13 @@ dependencies {
 }
 
 android {
-	compileSdkVersion 29
-	buildToolsVersion "29.0.3"
+	compileSdkVersion 30
+//	buildToolsVersion "29.0.3"
 
 	defaultConfig {
 		applicationId "org.quantumbadger.redreader"
-		minSdkVersion 14
-		targetSdkVersion 29
+		minSdkVersion 23
+		targetSdkVersion 30
 		versionCode 94
 		versionName "1.14"
 

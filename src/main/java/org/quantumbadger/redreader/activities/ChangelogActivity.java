@@ -39,9 +39,9 @@ public class ChangelogActivity extends BaseActivity {
 
 		super.onCreate(savedInstanceState);
 
-		getSupportActionBarOrThrow().setTitle(R.string.title_changelog);
-		getSupportActionBarOrThrow().setHomeButtonEnabled(true);
-		getSupportActionBarOrThrow().setDisplayHomeAsUpEnabled(true);
+//		getSupportActionBarOrThrow().setTitle(R.string.title_changelog);
+//		getSupportActionBarOrThrow().setHomeButtonEnabled(true);
+//		getSupportActionBarOrThrow().setDisplayHomeAsUpEnabled(true);
 
 		final LinearLayout items = new LinearLayout(this);
 		items.setOrientation(LinearLayout.VERTICAL);

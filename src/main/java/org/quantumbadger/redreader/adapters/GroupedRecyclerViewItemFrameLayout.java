@@ -17,10 +17,11 @@
 
 package org.quantumbadger.redreader.adapters;
 
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import androidx.recyclerview.widget.RecyclerView;
+import org.quantumbadger.redreader.common.General;
 
 final class GroupedRecyclerViewItemFrameLayout extends GroupedRecyclerViewAdapter.Item {
 
@@ -40,11 +41,11 @@ final class GroupedRecyclerViewItemFrameLayout extends GroupedRecyclerViewAdapte
 
 	@Override
 	public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup viewGroup) {
-		viewGroup.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+
+		General.setLayoutMatchWidthWrapHeight(viewGroup);
 
 		final FrameLayout frameLayout = new FrameLayout(viewGroup.getContext());
-		return new RecyclerView.ViewHolder(frameLayout) {
-		};
+		return new RecyclerView.ViewHolder(frameLayout) {};
 	}
 
 	@Override
@@ -60,7 +61,7 @@ final class GroupedRecyclerViewItemFrameLayout extends GroupedRecyclerViewAdapte
 		mParent = view;
 
 		view.addView(mChildView);
-		mChildView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+		General.setLayoutMatchWidthWrapHeight(mChildView);
 	}
 
 	@Override

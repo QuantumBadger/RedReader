@@ -55,8 +55,7 @@ public class LoadMoreCommentsView extends LinearLayout {
 		final View divider = new View(context);
 		addView(divider);
 
-		divider.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-		divider.getLayoutParams().height = 1;
+		General.setLayoutWidthHeight(divider, ViewGroup.LayoutParams.MATCH_PARENT, 1);
 
 		final LinearLayout layout = new LinearLayout(context);
 		layout.setOrientation(HORIZONTAL);
@@ -68,6 +67,7 @@ public class LoadMoreCommentsView extends LinearLayout {
 		mIndentView = new IndentView(context);
 		layout.addView(mIndentView);
 		mIndentView.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+		mIndentView.setLayoutParams(mIndentView.getLayoutParams());
 
 		final ImageView icon;
 

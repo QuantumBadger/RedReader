@@ -834,8 +834,6 @@ public class ImageViewActivity extends BaseActivity
 				this,
 				General.getSharedPrefs(this))) {
 
-			// TODO Get width and height of loading media when not available from API
-
 			if(mImageInfo.width != null
 					&& mImageInfo.height != null
 					&& mImageInfo.width > 0
@@ -1006,7 +1004,6 @@ public class ImageViewActivity extends BaseActivity
 											audioUri.toString());
 
 									AndroidCommon.runOnUiThread(() -> {
-										// TODO handle properly
 										final LinearLayout layout
 												= new LinearLayout(ImageViewActivity.this);
 										final ErrorView errorView = new ErrorView(

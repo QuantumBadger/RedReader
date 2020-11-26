@@ -123,13 +123,7 @@ public class ExoPlayerWrapperView extends FrameLayout {
 			final LinearLayout buttons = new LinearLayout(context);
 			controlBar.addView(buttons);
 			buttons.setOrientation(LinearLayout.HORIZONTAL);
-
-			{
-				final LinearLayout.LayoutParams buttonsLayoutParams
-						= (LinearLayout.LayoutParams)buttons.getLayoutParams();
-				buttonsLayoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
-				buttonsLayoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-			}
+			General.setLayoutMatchWidthWrapHeight(buttons);
 
 			addButton(createButton(
 					context,

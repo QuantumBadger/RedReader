@@ -118,8 +118,8 @@ public final class InboxListingActivity extends BaseActivity {
 
 			final RecyclerView.LayoutParams layoutParams
 					= new RecyclerView.LayoutParams(
-					ViewGroup.LayoutParams.MATCH_PARENT,
-					ViewGroup.LayoutParams.WRAP_CONTENT);
+							ViewGroup.LayoutParams.MATCH_PARENT,
+							ViewGroup.LayoutParams.WRAP_CONTENT);
 			view.setLayoutParams(layoutParams);
 
 			return new RecyclerView.ViewHolder(view) {

@@ -21,7 +21,6 @@ import android.content.Context;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -360,7 +359,8 @@ public class RedditCommentView extends FlingableItemView
 				mShowLinkButtons && !hideLinkButtons);
 
 		mBodyHolder.addView(commentBody);
-		commentBody.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+		General.setLayoutMatchWidthWrapHeight(commentBody);
+
 		((MarginLayoutParams)commentBody.getLayoutParams()).topMargin =
 				General.dpToPixels(activity, 1);
 

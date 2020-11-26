@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.views.bezelmenu;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
@@ -43,17 +44,20 @@ public class SideToolbarOverlay extends FrameLayout {
 		}
 	}
 
+	@SuppressLint("RtlHardcoded")
 	public void show(final SideToolbarPosition pos) {
 
 		removeAllViews();
 		addView(contents);
 
-		((LayoutParams)contents.getLayoutParams()).gravity = (pos
-				== SideToolbarPosition.LEFT
-				? Gravity.LEFT
-				: Gravity.RIGHT);
-		contents.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
-		contents.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+		final ViewGroup.LayoutParams layoutParams = contents.getLayoutParams();
+
+		((LayoutParams)layoutParams).gravity
+				= (pos == SideToolbarPosition.LEFT ? Gravity.LEFT : Gravity.RIGHT);
+		layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT;
+		layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
+
+		contents.setLayoutParams(layoutParams);
 
 		shownPosition = pos;
 	}

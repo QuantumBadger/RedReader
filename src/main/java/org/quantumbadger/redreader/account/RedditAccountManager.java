@@ -251,7 +251,6 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 		accountsCache = new LinkedList<>();
 		defaultAccountCache = null;
 
-		// TODO handle null? can this even happen?
 		if(cursor != null) {
 
 			while(cursor.moveToNext()) {

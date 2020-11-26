@@ -79,8 +79,8 @@ public abstract class BodyElementBaseButton extends BodyElement {
 
 		final ViewGroup.MarginLayoutParams layoutParams
 				= new ViewGroup.MarginLayoutParams(
-				ViewGroup.LayoutParams.MATCH_PARENT,
-				ViewGroup.LayoutParams.WRAP_CONTENT);
+						ViewGroup.LayoutParams.MATCH_PARENT,
+						ViewGroup.LayoutParams.WRAP_CONTENT);
 
 		layoutParams.setMargins(0, linkMarginPx, 0, linkMarginPx);
 		ldv.setLayoutParams(layoutParams);

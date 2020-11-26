@@ -26,7 +26,6 @@ import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.util.Base64OutputStream;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -139,9 +138,7 @@ public class ImgurUploadActivity extends BaseActivity {
 			outerLayout.addView(mLoadingOverlay);
 			mLoadingOverlay.setBackgroundColor(Color.argb(220, 50, 50, 50));
 
-			final ViewGroup.LayoutParams layoutParams = mLoadingOverlay.getLayoutParams();
-			layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
-			layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
+			General.setLayoutMatchParent(mLoadingOverlay);
 
 			mLoadingOverlay.setOnClickListener(v -> {
 				// Do nothing

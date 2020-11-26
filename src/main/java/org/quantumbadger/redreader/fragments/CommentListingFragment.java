@@ -178,16 +178,6 @@ public class CommentListingFragment extends RRFragment
 
 		mRecyclerView.setItemAnimator(null);
 
-		/* TODO
-		{
-			final RecyclerView.ItemAnimator itemAnimator = mRecyclerView.getItemAnimator();
-			itemAnimator.setRemoveDuration(80);
-			itemAnimator.setChangeDuration(80);
-			itemAnimator.setAddDuration(80);
-			itemAnimator.setMoveDuration(80);
-		}
-		*/
-
 		if(!PrefsUtility.pref_appearance_comments_show_floating_toolbar(context, prefs)) {
 			mFloatingToolbar = null;
 
@@ -338,15 +328,8 @@ public class CommentListingFragment extends RRFragment
 		mOverlayFrame.addView(bezelOverlay);
 		mOverlayFrame.addView(toolbarOverlay);
 
-		bezelOverlay.getLayoutParams().width
-				= android.widget.FrameLayout.LayoutParams.MATCH_PARENT;
-		bezelOverlay.getLayoutParams().height
-				= android.widget.FrameLayout.LayoutParams.MATCH_PARENT;
-
-		toolbarOverlay.getLayoutParams().width
-				= android.widget.FrameLayout.LayoutParams.MATCH_PARENT;
-		toolbarOverlay.getLayoutParams().height
-				= android.widget.FrameLayout.LayoutParams.MATCH_PARENT;
+		General.setLayoutMatchParent(bezelOverlay);
+		General.setLayoutMatchParent(toolbarOverlay);
 
 		makeNextRequest(context);
 	}
@@ -569,7 +552,6 @@ public class CommentListingFragment extends RRFragment
 					RedditPreparedPost.showActionMenu(activity, mPost);
 					return true;
 				});
-				// TODO mListHeaderNotifications.setBackgroundColor(Color.argb(35, 128, 128, 128));
 
 				mCommentListingManager.addPostSelfText(paddingLayout);
 			}

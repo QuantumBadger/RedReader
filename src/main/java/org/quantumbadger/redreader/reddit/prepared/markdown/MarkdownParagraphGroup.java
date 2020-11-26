@@ -161,6 +161,7 @@ public final class MarkdownParagraphGroup {
 							paragraphSpacing,
 							(int)(dpScale * 15),
 							0);
+					hLine.setLayoutParams(hLineParams);
 					hLine.setBackgroundColor(Color.rgb(128, 128, 128));
 					break;
 				}
@@ -179,8 +180,8 @@ public final class MarkdownParagraphGroup {
 						quoteIndent.getLayoutParams().height =
 								ViewGroup.LayoutParams.MATCH_PARENT;
 						((ViewGroup.MarginLayoutParams)quoteIndent.getLayoutParams()).rightMargin
-								=
-								quoteBarWidth;
+								= quoteBarWidth;
+						quoteIndent.setLayoutParams(quoteIndent.getLayoutParams());
 					}
 
 					quoteLayout.addView(tv);
@@ -230,7 +231,8 @@ public final class MarkdownParagraphGroup {
 							linkMarginPx,
 							0,
 							linkMarginPx);
-					ldv.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+
+					General.setLayoutMatchWidthWrapHeight(ldv);
 
 					ldv.setOnClickListener(v -> link.onClicked(activity));
 

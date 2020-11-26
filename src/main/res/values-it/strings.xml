@@ -577,4 +577,14 @@
     <string name="pref_appearance_fontscale_post_header_subtitles_title">Sottotitoli post aperti</string>
     <string name="pref_appearance_fontscale_post_header_titles_title">Titoli post aperti</string>
     <string name="pref_appearance_fontscale_post_subtitles_title">Sottotitoli post</string>
+    <string name="search_results_short">Risultati di ricerca</string>
+    <string name="error_nsfw_subreddits_disabled_message">Contenuto NSFW attualmente bloccato nelle impostazioni.</string>
+    <string name="error_nsfw_subreddits_disabled_title">Subreddit NSFW Bloccato</string>
+    <string name="list_yes_no_or_wifi_never">Mai</string>
+    <string name="list_yes_no_or_wifi_wifionly">Solo su Wi-Fi</string>
+    <string name="list_yes_no_or_wifi_always">Sempre</string>
+    <string name="pref_appearance_post_header_subtitle_items_title">Sottotitoli sui post aperti</string>
+    <string name="pref_appearance_post_subtitle_items_use_different_settings_title">Usa impostazioni diverse per i post aperti</string>
+    <string name="pref_appearance_post_subtitle_items_domain">Dominio</string>
+    <string name="pref_appearance_post_subtitle_items_sticky">Tag in evidenza</string>
 </resources>

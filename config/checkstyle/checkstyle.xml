@@ -37,6 +37,13 @@
 			<property name="ignoreCase" value="true"/>
 		</module>
 
+		<module name="RegexpSinglelineJava">
+			<property name="format" value="RRDEBUG"/>
+			<property name="message" value="RRDEBUG present in code"/>
+			<property name="ignoreComments" value="false"/>
+			<property name="ignoreCase" value="true"/>
+		</module>
+
 		<module name="NeedBraces">
 			<property
 					name="tokens"

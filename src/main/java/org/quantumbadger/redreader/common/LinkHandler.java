@@ -451,7 +451,6 @@ public class LinkHandler {
 					.queryIntentActivities(baseIntent, 0)) {
 
 				final String packageName = info.activityInfo.packageName;
-				Log.i("RRDEBUG", "Considering " + packageName);
 
 				if(packageName != null && !packageName.startsWith(
 						"org.quantumbadger.redreader")) {

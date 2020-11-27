@@ -48,7 +48,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:gravity="center_vertical"
-
+				android:layoutDirection="ltr"
 				android:orientation="horizontal"
 				android:minHeight="64dp"
 				android:nextFocusRight="@id/reddit_post_comments_button"

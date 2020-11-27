@@ -303,6 +303,8 @@ public final class PrefsUtility {
 			@NonNull final android.content.res.Configuration conf,
 			@NonNull final Locale locale) {
 
+		Locale.setDefault(locale);
+
 		if(Build.VERSION.SDK_INT >= 17) {
 			conf.setLocale(locale);
 		} else {

@@ -35,12 +35,15 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.text.TextUtilsCompat;
+import androidx.core.view.ViewCompat;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.TorCommon;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class BaseActivity extends AppCompatActivity
@@ -136,6 +139,12 @@ public abstract class BaseActivity extends AppCompatActivity
 				mActionbarTitleOuterView.setContentDescription(getString(R.string.action_back));
 				mActionbarTitleOuterView.setImportantForAccessibility(
 						View.IMPORTANT_FOR_ACCESSIBILITY_YES);
+			}
+
+			if(TextUtilsCompat.getLayoutDirectionFromLocale(Locale.getDefault())
+					== ViewCompat.LAYOUT_DIRECTION_RTL) {
+
+				mActionbarBackIconView.setImageResource(R.drawable.ic_action_forward_dark);
 			}
 
 		} else {

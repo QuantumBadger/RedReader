@@ -41,6 +41,7 @@
 				   android:layout_height="32dp"
 				   android:layout_width="32dp"
 				   android:layout_marginRight="16dp"
+				   android:layout_marginEnd="16dp"
 				   android:scaleType="fitCenter"
 				   tools:ignore="ContentDescription"/>
 

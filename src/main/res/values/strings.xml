@@ -1430,4 +1430,7 @@
 	<string name="imageview_image_info_failed">Could not download image metadata. Trying web browser.</string>
 	<string name="imageview_download_failed">Download was interrupted. Trying web browser.</string>
 
+	<string name="pref_videos_download_before_playing_title">Fully download videos before starting playback</string>
+	<string name="pref_videos_download_before_playing_key" translatable="false">pref_videos_download_before_playing_key</string>
+
 </resources>

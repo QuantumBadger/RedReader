@@ -958,6 +958,15 @@ public final class PrefsUtility {
 				sharedPreferences);
 	}
 
+	public static boolean pref_videos_download_before_playing(
+			final Context context,
+			final SharedPreferences sharedPreferences) {
+		return getBoolean(R.string.pref_videos_download_before_playing_key,
+				false,
+				context,
+				sharedPreferences);
+	}
+
 	public static boolean pref_behaviour_imagevideo_tap_close(
 			final Context context,
 			final SharedPreferences sharedPreferences) {

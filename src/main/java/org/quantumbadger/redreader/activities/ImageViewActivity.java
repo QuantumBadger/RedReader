@@ -440,16 +440,24 @@ public class ImageViewActivity extends BaseActivity
 
 			Log.i(TAG, "Image stream ready");
 
-			if(mimetype == null || (!Constants.Mime.isImage(mimetype)
-					&& !Constants.Mime.isVideo(mimetype))) {
+			final SharedPreferences sharedPrefs = General.getSharedPrefs(this);
+
+			if(mimetype == null) {
 				revertToWeb();
 				return;
 			}
 
-			if(mImageInfo != null
-					&& ((mImageInfo.title != null && mImageInfo.title.length() > 0)
-					|| (mImageInfo.caption != null
-					&& mImageInfo.caption.length() > 0))) {
+			final boolean isImage = Constants.Mime.isImage(mimetype);
+			final boolean isVideo = Constants.Mime.isVideo(mimetype);
+			final boolean isGif = Constants.Mime.isImageGif(mimetype);
+
+			if(!isImage && !isVideo) {
+				revertToWeb();
+				return;
+			}
+
+			if(mImageInfo != null && ((mImageInfo.title != null && mImageInfo.title.length() > 0)
+					|| (mImageInfo.caption != null && mImageInfo.caption.length() > 0))) {
 
 				AndroidCommon.UI_THREAD_HANDLER.post(() -> addFloatingToolbarButton(
 						R.drawable.ic_action_info_dark,
@@ -458,7 +466,28 @@ public class ImageViewActivity extends BaseActivity
 								null)));
 			}
 
-			if(Constants.Mime.isVideo(mimetype)) {
+			final boolean fullyDownloadBeforePlaying
+					= PrefsUtility.pref_videos_download_before_playing(
+							this,
+							sharedPrefs);
+
+			if(isNetwork && fullyDownloadBeforePlaying && (isVideo || isGif)) {
+
+				Log.i(TAG, "Fully downloading before starting playback");
+
+				try {
+					videoStream.create().readRemainingAsBytes((buf, offset, length)
+							-> Log.i(TAG, "Video fully downloaded, starting playback"));
+
+				} catch(final IOException e) {
+					Log.e(TAG, "Got exception while fully buffering", e);
+					General.quickToast(this, R.string.imageview_download_failed);
+					revertToWeb();
+					return;
+				}
+			}
+
+			if(isVideo) {
 
 				AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 
@@ -468,8 +497,8 @@ public class ImageViewActivity extends BaseActivity
 
 					final PrefsUtility.VideoViewMode videoViewMode
 							= PrefsUtility.pref_behaviour_videoview_mode(
-							this,
-							General.getSharedPrefs(this));
+									this,
+									sharedPrefs);
 
 					if(videoViewMode == PrefsUtility.VideoViewMode.INTERNAL_BROWSER) {
 						revertToWeb();
@@ -486,12 +515,12 @@ public class ImageViewActivity extends BaseActivity
 					}
 				});
 
-			} else if(Constants.Mime.isImageGif(mimetype)) {
+			} else if(isGif) {
 
 				final PrefsUtility.GifViewMode gifViewMode
 						= PrefsUtility.pref_behaviour_gifview_mode(
 						this,
-						General.getSharedPrefs(this));
+						sharedPrefs);
 
 				if(gifViewMode == PrefsUtility.GifViewMode.INTERNAL_BROWSER) {
 					revertToWeb();
@@ -514,7 +543,7 @@ public class ImageViewActivity extends BaseActivity
 				final PrefsUtility.ImageViewMode imageViewMode
 						= PrefsUtility.pref_behaviour_imageview_mode(
 						this,
-						General.getSharedPrefs(this));
+						sharedPrefs);
 
 				if(imageViewMode == PrefsUtility.ImageViewMode.INTERNAL_BROWSER) {
 					revertToWeb();

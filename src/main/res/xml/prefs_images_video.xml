@@ -52,6 +52,10 @@
 							android:summary="@string/pref_behaviour_imagevideo_tap_close_summary"
 							android:defaultValue="true"/>
 
+		<CheckBoxPreference android:title="@string/pref_videos_download_before_playing_title"
+							android:key="@string/pref_videos_download_before_playing_key"
+							android:defaultValue="false"/>
+
 		<ListPreference android:title="@string/pref_behaviour_imageview_mode_title"
 						android:key="@string/pref_behaviour_imageview_mode_key"
 						android:entries="@array/pref_behaviour_imageview_mode_array"

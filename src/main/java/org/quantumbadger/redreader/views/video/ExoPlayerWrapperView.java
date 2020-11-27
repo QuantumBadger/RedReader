@@ -82,6 +82,7 @@ public class ExoPlayerWrapperView extends FrameLayout {
 		addView(videoPlayerView);
 
 		videoPlayerView.setPlayer(mVideoPlayer);
+		videoPlayerView.setShowBuffering(PlayerView.SHOW_BUFFERING_ALWAYS);
 		videoPlayerView.requestFocus();
 
 		mVideoPlayer.prepare(mediaSource);

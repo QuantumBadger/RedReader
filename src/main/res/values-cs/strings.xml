@@ -232,8 +232,6 @@
     <string name="time_ago">Před %s</string>
     <!-- User Profile -->
     <string name="userprofile_created">Vytvořeno</string>
-    <string name="userprofile_hasmail">Má poštu</string>
-    <string name="userprofile_hasmodmail">Má poštu od moderátora</string>
     <string name="userprofile_isfriend">Je přítel</string>
     <string name="userprofile_isgold">Reddit Zlato</string>
     <string name="userprofile_moderator">Je moderátor</string>

@@ -233,8 +233,6 @@
     <string name="time_ago">hace %s</string>
     <!-- User Profile -->
     <string name="userprofile_created">Creado</string>
-    <string name="userprofile_hasmail">Tiene correo</string>
-    <string name="userprofile_hasmodmail">Tiene mensajes de moderadores</string>
     <string name="userprofile_isfriend">Es amigo</string>
     <string name="userprofile_isgold">Reddit Gold</string>
     <string name="userprofile_moderator">Es moderador</string>

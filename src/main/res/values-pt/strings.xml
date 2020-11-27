@@ -230,8 +230,6 @@
     <string name="userprofile_moderator">É moderador</string>
     <string name="userprofile_isgold">Reddit Gold</string>
     <string name="userprofile_isfriend">É Amigo</string>
-    <string name="userprofile_hasmodmail">Tem email de moderador</string>
-    <string name="userprofile_hasmail">Tem Email</string>
     <string name="upload_to_imgur">Enviar para Imgur</string>
     <string name="upgrade_v190_login_message">RedReader atualizou, e agora usa oAuth para a autenticação com o reddit. Se você tiver feito login em uma conta antes da atualização, você será desconectado.</string>
     <string name="unpin_subreddit">Desafixar do menu principal</string>

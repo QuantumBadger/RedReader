@@ -233,8 +233,6 @@
     <string name="time_ago">%s temu</string>
     <!-- User Profile -->
     <string name="userprofile_created">Dołączył</string>
-    <string name="userprofile_hasmail">el-poczta</string>
-    <string name="userprofile_hasmodmail">el-poczta moderatora</string>
     <string name="userprofile_isfriend">Przyjaciel</string>
     <string name="userprofile_isgold">Reddit Gold</string>
     <string name="userprofile_moderator">Moderator</string>

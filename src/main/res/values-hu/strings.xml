@@ -326,8 +326,6 @@
     <!-- User Profile -->
 
     <string name="userprofile_created">Létrehozott</string>
-    <string name="userprofile_hasmail">Üzenete van</string>
-    <string name="userprofile_hasmodmail">Moderátori üzenete van</string>
     <string name="userprofile_isfriend">Barát</string>
     <string name="userprofile_isgold">Reddit Arany</string>
     <string name="userprofile_moderator">Moderátor</string>

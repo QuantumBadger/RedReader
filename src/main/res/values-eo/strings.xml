@@ -233,8 +233,6 @@
     <string name="time_ago">antaŭ %s</string>
     <!-- User Profile -->
     <string name="userprofile_created">Kreita je</string>
-    <string name="userprofile_hasmail">Havas retpoŝton</string>
-    <string name="userprofile_hasmodmail">Havas retpoŝton de kontrolanto</string>
     <string name="userprofile_isfriend">Estas amiko</string>
     <string name="userprofile_isgold">Reddit Gold</string>
     <string name="userprofile_moderator">Estas kontrolanto</string>

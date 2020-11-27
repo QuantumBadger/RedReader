@@ -326,8 +326,6 @@
     <!-- User Profile -->
 
     <string name="userprofile_created">Creat</string>
-    <string name="userprofile_hasmail">Aveți Mail</string>
-    <string name="userprofile_hasmodmail">Aveți Mail de Moderator</string>
     <string name="userprofile_isfriend">Este Prieten</string>
     <string name="userprofile_isgold">Reddit Gold</string>
     <string name="userprofile_moderator">Este Moderator</string>

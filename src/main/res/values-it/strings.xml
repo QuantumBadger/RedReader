@@ -263,8 +263,6 @@
     <string name="sort_posts_top_today">Più votati di oggi</string>
     <string name="sort_posts_top_week">Più votati di questa settimana</string>
     <string name="sort_posts_top_year">Più votati di quest\'anno</string>
-    <string name="userprofile_hasmail">Ha posta</string>
-    <string name="userprofile_hasmodmail">Ha posta moderatore</string>
     <string name="web_view_clear_cache_success_toast">Cache, cronologia, cookie e dati dei moduli puliti.</string>
     <string name="webview_https_already">L\'URL attuale utilizza già HTTPS.</string>
     <string name="webview_https_unknownprotocol">Protocollo sconosciuto, atteso \'http://\'</string>

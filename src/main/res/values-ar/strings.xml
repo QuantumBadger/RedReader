@@ -234,8 +234,6 @@
     <string name="time_ago">%s مضت</string>
     <!-- User Profile -->
     <string name="userprofile_created">تم إنشاءه</string>
-    <string name="userprofile_hasmail">لديه بريد إلكتروني</string>
-    <string name="userprofile_hasmodmail">لديه بريد إلكتروني كمشرف</string>
     <string name="userprofile_isfriend">صديق</string>
     <string name="userprofile_isgold">ريديت ذهبي</string>
     <string name="userprofile_moderator">مشرف</string>

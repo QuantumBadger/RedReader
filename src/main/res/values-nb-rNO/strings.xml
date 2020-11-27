@@ -212,8 +212,6 @@
     <string name="session_active">Aktiv</string>
     <string name="time_ago">For %s</string>
     <string name="userprofile_created">Opprettet</string>
-    <string name="userprofile_hasmail">Har e-postadresse</string>
-    <string name="userprofile_hasmodmail">Har moderator-e-postadresse</string>
     <string name="userprofile_isfriend">Er venn</string>
     <string name="userprofile_isgold">Reddit gull</string>
     <string name="userprofile_moderator">Er moderator</string>

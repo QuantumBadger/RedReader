@@ -212,7 +212,6 @@
     <string name="session_active">Активна</string>
     <string name="time_ago">%s назад</string>
     <string name="userprofile_created">Создан</string>
-    <string name="userprofile_hasmail">Есть почта</string>
     <string name="userprofile_isfriend">В друзьях</string>
     <string name="userprofile_isgold">Reddit Золото</string>
     <string name="userprofile_moderator">Модератор</string>
@@ -526,7 +525,6 @@
     <string name="subtitle_by">от</string>
     <string name="subtitle_to">в</string>
     <string name="pref_cache_maxage_entry_title">Удалять кешированные отметки (прочитано, отдан голос и т.д.) после</string>
-    <string name="userprofile_hasmodmail">Есть непрочитанные сообщения модератору</string>
     <string name="mainmenu_modmail">Почта модератора</string>
     <string name="pref_behaviour_bezel_toolbar_header">Панель-безель</string>
     <string name="pref_behaviour_bezel_toolbar_swipezone_title">Ширина зоны вытаскивания панели-безеля</string>

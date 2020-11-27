@@ -235,8 +235,6 @@
     <string name="time_ago">Il y a %s</string>
     <!-- User Profile -->
     <string name="userprofile_created">Créé le</string>
-    <string name="userprofile_hasmail">A du courrier</string>
-    <string name="userprofile_hasmodmail">A un courriel de modérateur</string>
     <string name="userprofile_isfriend">Ami</string>
     <string name="userprofile_isgold">Membre Gold</string>
     <string name="userprofile_moderator">Modérateur</string>

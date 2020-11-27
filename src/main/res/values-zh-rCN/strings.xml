@@ -209,8 +209,6 @@
     <string name="session_active">使用中</string>
     <string name="time_ago">%s前</string>
     <string name="userprofile_created">创建时间</string>
-    <string name="userprofile_hasmail">有未读邮件</string>
-    <string name="userprofile_hasmodmail">有未读管理员邮件</string>
     <string name="userprofile_isfriend">好友</string>
     <string name="userprofile_isgold">Reddit黄金</string>
     <string name="userprofile_moderator">管理员</string>

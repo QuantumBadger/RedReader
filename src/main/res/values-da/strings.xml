@@ -336,8 +336,6 @@
     <!-- User Profile -->
 
     <string name="userprofile_created">Oprettet</string>
-    <string name="userprofile_hasmail">Har Mail</string>
-    <string name="userprofile_hasmodmail">Har Mod Mail</string>
     <string name="userprofile_isfriend">Er Ven</string>
     <string name="userprofile_isgold">Reddit Guld</string>
     <string name="userprofile_moderator">Er Moderator</string>

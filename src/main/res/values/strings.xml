@@ -351,8 +351,6 @@
     <!-- User Profile -->
 
     <string name="userprofile_created">Created</string>
-    <string name="userprofile_hasmail">Has Mail</string>
-    <string name="userprofile_hasmodmail">Has Mod Mail</string>
     <string name="userprofile_isfriend">Is Friend</string>
     <string name="userprofile_isgold">Reddit Gold</string>
     <string name="userprofile_moderator">Is Moderator</string>

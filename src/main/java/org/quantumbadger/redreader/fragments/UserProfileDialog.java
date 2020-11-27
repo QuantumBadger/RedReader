@@ -172,26 +172,6 @@ public class UserProfileDialog extends PropertiesDialog {
 							items.getChildAt(items.getChildCount() - 1)
 									.setNextFocusUpId(R.id.layout_karma_link);
 
-							if(user.has_mail != null) {
-								items.addView(propView(
-										context,
-										R.string.userprofile_hasmail,
-										user.has_mail
-												? R.string.general_true
-												: R.string.general_false,
-										false));
-							}
-
-							if(user.has_mod_mail != null) {
-								items.addView(propView(
-										context,
-										R.string.userprofile_hasmodmail,
-										user.has_mod_mail
-												? R.string.general_true
-												: R.string.general_false,
-										false));
-							}
-
 							if(user.is_friend) {
 								items.addView(propView(
 										context,

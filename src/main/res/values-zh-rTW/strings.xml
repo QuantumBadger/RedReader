@@ -283,8 +283,6 @@
     <string name="time_ago">%s前</string>
 
     <string name="userprofile_created">建立時間</string>
-    <string name="userprofile_hasmail">有未讀郵件</string>
-    <string name="userprofile_hasmodmail">有未讀管理員郵件</string>
     <string name="userprofile_isfriend">好友</string>
     <string name="userprofile_isgold">Reddit黃金</string>
     <string name="userprofile_moderator">管理員</string>

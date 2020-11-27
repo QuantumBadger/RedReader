@@ -37,6 +37,7 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BaseActivity;
+import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.activities.OptionsMenuUtility;
 import org.quantumbadger.redreader.activities.SessionChangeListener;
 import org.quantumbadger.redreader.adapters.PostListingManager;
@@ -370,6 +371,17 @@ public class PostListingFragment extends RRFragment
 				}
 
 				break;
+
+			case RedditURLParser.POST_COMMENT_LISTING_URL:
+			case RedditURLParser.UNKNOWN_COMMENT_LISTING_URL:
+			case RedditURLParser.UNKNOWN_POST_LISTING_URL:
+			case RedditURLParser.USER_COMMENT_LISTING_URL:
+			case RedditURLParser.USER_PROFILE_URL:
+				BugReportActivity.handleGlobalError(getActivity(), new RuntimeException(
+						"Unknown url type "
+								+ mPostListingURL.pathType()
+								+ ": "
+								+ mPostListingURL.toString()));
 		}
 	}
 

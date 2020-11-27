@@ -710,7 +710,7 @@ public final class RedditPostView extends FlingableItemView
 
 			sharedPrefs.edit()
 					.putBoolean(PROMPT_PREF_KEY, true)
-					.commit();
+					.apply();
 		});
 
 		turnOff.setOnClickListener(v -> {
@@ -722,7 +722,7 @@ public final class RedditPostView extends FlingableItemView
 			sharedPrefs.edit()
 					.putBoolean(PROMPT_PREF_KEY, true)
 					.putString(prefPreview, "never")
-					.commit();
+					.apply();
 		});
 	}
 }

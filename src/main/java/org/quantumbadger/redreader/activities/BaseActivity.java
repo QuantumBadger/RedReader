@@ -118,7 +118,7 @@ public abstract class BaseActivity extends AppCompatActivity
 
 	protected void configBackButton(final boolean isVisible, final View.OnClickListener listener) {
 
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+		if(Build.VERSION.SDK_INT >= 19) {
 
 			mActionbarBackIconView.setImportantForAccessibility(
 					View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
@@ -142,8 +142,9 @@ public abstract class BaseActivity extends AppCompatActivity
 			mActionbarBackIconView.setVisibility(View.GONE);
 			mActionbarTitleOuterView.setClickable(false);
 
-			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-				mActionbarTitleOuterView.setContentDescription(null);
+			mActionbarTitleOuterView.setContentDescription(null);
+
+			if(Build.VERSION.SDK_INT >= 19) {
 				mActionbarTitleOuterView.setImportantForAccessibility(
 						View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
 			}

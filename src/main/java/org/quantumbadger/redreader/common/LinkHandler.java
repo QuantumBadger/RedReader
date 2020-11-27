@@ -238,6 +238,7 @@ public class LinkHandler {
 				case RedditURLParser.SUBREDDIT_POST_LISTING_URL:
 				case RedditURLParser.MULTIREDDIT_POST_LISTING_URL:
 				case RedditURLParser.USER_POST_LISTING_URL:
+				case RedditURLParser.SEARCH_POST_LISTING_URL:
 				case RedditURLParser.UNKNOWN_POST_LISTING_URL: {
 					final Intent intent = new Intent(activity, PostListingActivity.class);
 					intent.setData(redditURL.generateJsonUri());
@@ -246,7 +247,8 @@ public class LinkHandler {
 				}
 
 				case RedditURLParser.POST_COMMENT_LISTING_URL:
-				case RedditURLParser.USER_COMMENT_LISTING_URL: {
+				case RedditURLParser.USER_COMMENT_LISTING_URL:
+				case RedditURLParser.UNKNOWN_COMMENT_LISTING_URL:{
 					final Intent intent = new Intent(
 							activity,
 							CommentListingActivity.class);

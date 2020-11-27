@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.views;
 
+import android.annotation.SuppressLint;
 import android.text.Layout;
 import android.text.Selection;
 import android.text.Spannable;
@@ -40,6 +41,7 @@ public class LinkifiedTextView extends AppCompatTextView {
 		return mActivity;
 	}
 
+	@SuppressLint("ClickableViewAccessibility")
 	@Override
 	public boolean onTouchEvent(final MotionEvent event) {
 		final CharSequence text = getText();

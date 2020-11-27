@@ -1423,4 +1423,7 @@
 	<string name="inline_preview_prompt_turn_off">Turn off</string>
 	<string name="inline_preview_prompt_keep_showing">Keep showing</string>
 
+	<!-- 2020-11-27 -->
+	<string name="edittext_hint_comment_body_text">Comment text</string>
+
 </resources>

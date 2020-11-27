@@ -91,6 +91,10 @@ android {
 		// Not an issue
 		disable 'ViewConstructor'
 		disable 'GradleDependency'
+
+		// "Obsolete custom lint check" caused by Android annotations library
+		disable 'UnsafeExperimentalUsageError',
+				'UnsafeExperimentalUsageWarning'
 	}
 
 	packagingOptions {

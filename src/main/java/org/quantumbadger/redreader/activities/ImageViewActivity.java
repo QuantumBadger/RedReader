@@ -1144,7 +1144,11 @@ public class ImageViewActivity extends BaseActivity
 
 			final BasicGestureHandler gestureHandler
 					= new BasicGestureHandler(this);
+
+			//noinspection ClickableViewAccessibility
 			mVideoPlayerWrapper.setOnTouchListener(gestureHandler);
+
+			//noinspection ClickableViewAccessibility
 			layout.setOnTouchListener(gestureHandler);
 
 			final boolean muteByDefault
@@ -1228,6 +1232,8 @@ public class ImageViewActivity extends BaseActivity
 					final GIFView gifView = new GIFView(this, movie);
 
 					setMainView(gifView);
+
+					//noinspection ClickableViewAccessibility
 					gifView.setOnTouchListener(new BasicGestureHandler(this));
 				});
 
@@ -1272,6 +1278,7 @@ public class ImageViewActivity extends BaseActivity
 							setMainView(imageView);
 							gifThread.setView(imageView);
 
+							//noinspection ClickableViewAccessibility
 							imageView.setOnTouchListener(new BasicGestureHandler(
 									ImageViewActivity.this));
 						});

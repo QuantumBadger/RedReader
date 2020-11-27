@@ -18,9 +18,10 @@
   -->
 
 <RelativeLayout
-		android:id="@+id/actionbar_title_outer"
+		xmlns:tools="http://schemas.android.com/tools" android:id="@+id/actionbar_title_outer"
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		android:clickable="true"
+		android:focusable="true"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:paddingLeft="8dp"
@@ -36,7 +37,8 @@
 			android:src="@drawable/ic_action_back_dark"
 			android:layout_width="24dp"
 			android:layout_height="24dp"
-			android:scaleType="fitCenter"/>
+			android:scaleType="fitCenter"
+			tools:ignore="ContentDescription"/>
 
 	<TextView
 			android:id="@+id/actionbar_title_text"

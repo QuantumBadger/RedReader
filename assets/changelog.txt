@@ -17,6 +17,7 @@ Made navigation bar black, added preference to make it white
 Improved right-to-left layout support
 Accessibility improvements
 Performance improvements
+Translation updates (thanks to Allan Nordhøy, Atrate, Bopol, Eric, Gontzal Manuel Pujana Onaindia, J. Lavoie, Karthik Nallasivan, lucanomax, Matthias Paulmier, ssantos, Verdulo, zeritti, zmni)
 
 94/1.14
 Allows saving images to custom location (only on Android 5.0+)

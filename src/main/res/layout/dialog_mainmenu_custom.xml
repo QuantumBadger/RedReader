@@ -19,6 +19,7 @@
 
 <LinearLayout
 		xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:tools="http://schemas.android.com/tools"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:orientation="vertical">
@@ -42,7 +43,8 @@
 			android:layout_marginTop="16dp"
 			android:inputType="textNoSuggestions"
 			android:imeOptions="actionGo"
-			android:completionThreshold="1">
+			android:completionThreshold="1"
+			tools:ignore="LabelFor">
 
 		<requestFocus/>
 	</AutoCompleteTextView>

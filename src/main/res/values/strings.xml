@@ -265,8 +265,8 @@
 
     <!-- Image View -->
 
-    <string name="imageview_oom">Out of memory. Trying internal browser.</string>
-    <string name="imageview_invalid_gif">Invalid GIF. Trying internal browser.</string>
+    <string name="imageview_oom">Out of memory. Trying web browser.</string>
+    <string name="imageview_invalid_gif">Invalid GIF. Trying web browser.</string>
 
     <!-- Comment Reply/Edit, Post Submit -->
 
@@ -587,7 +587,7 @@
     <string name="karma_comment">Comment Karma</string>
 
     <!-- 2014-12-02 -->
-    <string name="imageview_decode_failed">Failed to decode image. Trying internal browser.</string>
+    <string name="imageview_decode_failed">Failed to decode image. Trying web browser.</string>
 
     <!-- 2014-12-06 -->
     <string name="user_comments">Comments</string>
@@ -623,7 +623,7 @@
     <string name="error_title_login_unknown_reddit_error">Unknown reddit error: %s</string>
 
     <!-- 2015-05-23 -->
-    <string name="imageview_invalid_video">Invalid video. Trying internal browser.</string>
+    <string name="imageview_invalid_video">Invalid video. Trying web browser.</string>
     <string name="download_authorizing">Authenticating…</string>
 
     <!-- 2015-05-29 -->
@@ -1428,5 +1428,8 @@
 	<string name="edittext_hint_comment_body_text">Comment text</string>
 
 	<string name="album_image_default_text">Image %d</string>
+
+	<string name="imageview_image_info_failed">Could not download image metadata. Trying web browser.</string>
+	<string name="imageview_download_failed">Download was interrupted. Trying web browser.</string>
 
 </resources>

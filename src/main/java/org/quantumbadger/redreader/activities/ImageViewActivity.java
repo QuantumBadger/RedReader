@@ -261,6 +261,11 @@ public class ImageViewActivity extends BaseActivity
 							final Throwable t,
 							final Integer status,
 							final String readableMessage) {
+
+						General.quickToast(
+								ImageViewActivity.this,
+								R.string.imageview_image_info_failed);
+
 						revertToWeb();
 					}
 
@@ -279,6 +284,11 @@ public class ImageViewActivity extends BaseActivity
 						final URI audioUri;
 
 						if(uri == null) {
+
+							General.quickToast(
+									ImageViewActivity.this,
+									R.string.imageview_image_info_failed);
+
 							revertToWeb();
 							return;
 						}
@@ -543,7 +553,7 @@ public class ImageViewActivity extends BaseActivity
 
 	private void revertToWeb() {
 
-		Log.i(TAG, "Using internal browser");
+		Log.i(TAG, "Using internal browser", new RuntimeException());
 
 		final Runnable r = () -> {
 
@@ -1241,6 +1251,7 @@ public class ImageViewActivity extends BaseActivity
 
 		} catch(final IOException e) {
 			Log.e(TAG, "Failed to read GIF data", e);
+			General.quickToast(this, R.string.imageview_download_failed);
 			revertToWeb();
 		}
 	}
@@ -1256,6 +1267,7 @@ public class ImageViewActivity extends BaseActivity
 			is = streamFactory.create();
 
 		} catch(final IOException e) {
+			General.quickToast(this, R.string.imageview_download_failed);
 			revertToWeb();
 			return;
 		}

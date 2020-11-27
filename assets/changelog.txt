@@ -12,6 +12,7 @@ Handle physical enter key in custom location dialog (thanks to windsurfer)
 Ability to clear cache and view cache size (thanks to Cameron Merkel)
 Fixed support for videos/GIFs in reddit galleries
 Use video instead of GIF for i.redd.it posts
+Added time display in video viewer control bar
 Fixed issue where saved images/videos would be re-downloaded
 Made navigation bar black, added preference to make it white
 Improved right-to-left layout support

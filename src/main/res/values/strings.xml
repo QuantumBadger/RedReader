@@ -23,7 +23,7 @@
     <!-- First Run Dialog -->
 
     <string name="firstrun_login_title">Log in</string>
-    <string name="firstrun_login_message">You are not logged in. Access the account list by selecting \"Accounts\" from the menu.</string>
+    <string name="firstrun_login_message">You are not logged in. The account list can always be found under \"Accounts\" from the menu.</string>
     <string name="firstrun_login_button_now">Log in now</string>
     <string name="firstrun_login_button_later">Be anonymous</string>
 
@@ -251,7 +251,7 @@
     <string name="action_report_sure">Are you sure you want to report this?</string>
 
     <string name="action_save_image">Save Image</string>
-    <string name="action_save_image_success">Saved to '\Pictures\' folder as</string>
+    <string name="action_save_image_success">Saved to \'Pictures\' folder as</string>
 
     <!-- Download Messages -->
 
@@ -1022,7 +1022,7 @@
 	<!-- 2018-01-16 -->
 	<string name="lang_fi" translatable="false">Suomi</string>
 	<string name="lang_my" translatable="false">မြန်မာဘာသာ</string>
-	<string name="lang_nb_rNO" translatable="false">Norwegian Bokmål</string>
+	<string name="lang_nb_rNO" translatable="false">Norsk bokmål</string>
 	<string name="lang_ru" translatable="false">ру́сский язы́к</string>
 	<string name="lang_uk" translatable="false">українська мова</string>
 	<string name="lang_zh_rCN" translatable="false">汉语</string>
@@ -1284,7 +1284,7 @@
 
 	<!-- 2020-09-04 -->
 	<string name="reddit_login_browser_popup_line_1">To log in, you will now be taken to Reddit in a web-browser.</string>
-	<string name="reddit_login_browser_popup_line_2">After logging in, you should be redirected back to RedReader. Try a different browser if you can\'t log in by using the checkbox below.</string>
+	<string name="reddit_login_browser_popup_line_2">After logging in, you should be redirected back to RedReader. Try a different web-browser if you can\'t log in by using the checkbox below.</string>
 
 	<string name="reddit_login_browser_popup_use_internal_browser">Use internal browser (recommended)</string>
 	<string name="reddit_login_browser_popup_use_external_browser">Use external browser (recommended)</string>

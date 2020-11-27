@@ -171,8 +171,8 @@
     <string name="download_done">Farita.</string>
     <string name="download_failed">Fiaskis.</string>
     <!-- Image View -->
-    <string name="imageview_oom">Memormanko, provas internan vidigilon.</string>
-    <string name="imageview_invalid_gif">Malĝusta GIF, provas internan vidigilon.</string>
+    <string name="imageview_oom">Memormanko. Provos retfoliumilon.</string>
+    <string name="imageview_invalid_gif">Malĝusta GIF. Provos retfoliumilon.</string>
     <!-- Comment Reply/Edit, Post Submit -->
     <string name="comment_reply_send">Sendi</string>
     <string name="comment_edit_save">Konservi</string>
@@ -377,7 +377,7 @@
     <string name="karma_link">Ligila karmo</string>
     <string name="karma_comment">Komenta karmo</string>
     <!-- 2014-12-02 -->
-    <string name="imageview_decode_failed">Fiaskis malkodi bildon. Provos internan vidigilon.</string>
+    <string name="imageview_decode_failed">Fiaskis malkodi bildon. Provos retfoliumilon.</string>
     <!-- 2014-12-06 -->
     <string name="user_comments">Komentoj</string>
     <!-- 2014-12-07 -->
@@ -401,7 +401,7 @@
     <string name="error_message_login_user_denied_permission">Permeso por aliri la konton estis rifuzita. Bonvolu reprovi.</string>
     <string name="error_title_login_unknown_reddit_error">Nekonata reddita eraro: %s</string>
     <!-- 2015-05-23 -->
-    <string name="imageview_invalid_video">Malĝusta filmeto. Provos internan spektilon.</string>
+    <string name="imageview_invalid_video">Malĝusta filmeto. Provos retfoliumilon.</string>
     <string name="download_authorizing">Aŭtentigado…</string>
     <!-- 2015-05-29 -->
     <string name="pref_behaviour_skiptofrontpage_title">Transsalti al ĉefpaĝo</string>
@@ -821,4 +821,19 @@
     <string name="pref_behaviour_imagevideo_tap_close_summary">Ne efikas sur filmetoj, se la ludadaj stiriloj estas aktivaj</string>
     <string name="pref_behaviour_imagevideo_tap_close_title">Fermi bildojn/filmetojn je frapeto</string>
     <string name="action_save_image_success_no_path">Sukcese konservis bildon</string>
+    <string name="imageview_download_failed">Elŝuto estis interrompita. Provos retfoliumilon.</string>
+    <string name="imageview_image_info_failed">Ne povas elŝuti metadatumojn de bildo. Provos retfoliumilon.</string>
+    <string name="album_image_default_text">Bildo %d</string>
+    <string name="edittext_hint_comment_body_text">Teksto de komento</string>
+    <string name="inline_preview_prompt_keep_showing">Plue vidigi</string>
+    <string name="inline_preview_prompt_turn_off">Ne vidigi</string>
+    <string name="inline_preview_prompt_message">Ĉu pluigi vidigi antaŭmontrojn de entekstaj bildojn, kiel la supra\? Vi povos ŝanĝi tion ĉi en agordoj.</string>
+    <string name="inline_preview_prompt_title">Antaŭmontroj de bildoj</string>
+    <string name="error_inline_preview_failed_message">Ne povas elŝuti antaŭmontron de bildo.</string>
+    <string name="error_inline_preview_failed_title">Eraro dum elŝuto</string>
+    <string name="pref_header_image_viewer">Bild-vidigilo</string>
+    <string name="pref_images_inline_image_previews_nsfw_title">Antaŭmontri maldecajn bildojn</string>
+    <string name="pref_images_inline_image_previews_title">Antaŭmontri entekstajn bildojn</string>
+    <string name="pref_header_inline_image_previews">Antaŭmontro de entekstaj bildoj</string>
+    <string name="pref_images_high_res_thumbnails_title">Altkvalitaj miniaturoj</string>
 </resources>

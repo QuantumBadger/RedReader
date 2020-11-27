@@ -1279,9 +1279,13 @@ public final class OptionsMenuUtility {
 			return;
 		}
 
+		final RedditAccountManager accountManager = RedditAccountManager.getInstance(activity);
+		final ArrayList<RedditAccount> accountsList = accountManager.getAccounts();
+
 		if(PrefsUtility.pref_menus_quick_account_switcher(
 				activity,
-				General.getSharedPrefs(activity))) {
+				General.getSharedPrefs(activity))
+						&& accountsList.size() > 1) {
 
 			//Quick account switcher is on, create its SubMenu and add it to the main menu
 			final int ACCOUNTS_GROUP = 1;
@@ -1294,10 +1298,7 @@ public final class OptionsMenuUtility {
 			accountsMenu.getItem().setShowAsAction(handleShowAsActionIfRoom(showAsAction));
 			accountsMenu.getItem().setIcon(R.drawable.ic_accounts_dark);
 
-			//Get the list of accounts and sort them so they don't move around
-			final RedditAccountManager accountManager = RedditAccountManager.getInstance(activity);
-			final ArrayList<RedditAccount> accountsList = accountManager.getAccounts();
-
+			// Sort the accounts so they don't move around
 			Collections.sort(accountsList, (o1, o2) -> o1.username.compareTo(o2.username));
 
 			//Add a MenuItem for each account, always putting Anonymous after the real accounts

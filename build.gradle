@@ -18,6 +18,7 @@ apply plugin: 'pmd'
 apply plugin: 'checkstyle'
 
 dependencies {
+	implementation "androidx.annotation:annotation:1.1.0"
 	implementation 'androidx.appcompat:appcompat:1.2.0'
 	implementation 'androidx.recyclerview:recyclerview:1.1.0'
 	implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
@@ -92,9 +93,8 @@ android {
 		disable 'ViewConstructor'
 		disable 'GradleDependency'
 
-		// "Obsolete custom lint check" caused by Android annotations library
-		disable 'UnsafeExperimentalUsageError',
-				'UnsafeExperimentalUsageWarning'
+		// Caused by 3rd party dependencies/jetification
+		disable 'ObsoleteLintCustomCheck'
 	}
 
 	packagingOptions {

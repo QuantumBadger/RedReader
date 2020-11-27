@@ -73,7 +73,9 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 		final ImageInfo imageInfo = albumInfo.images.get(position);
 
 		if(imageInfo.title == null || imageInfo.title.trim().isEmpty()) {
-			vh.text.setText("Image " + (position + 1));
+			vh.text.setText(activity.getString(
+					R.string.album_image_default_text,
+					position + 1));
 		} else {
 			//noinspection SetTextI18n
 			vh.text.setText((position + 1) + ". " + imageInfo.title.trim());

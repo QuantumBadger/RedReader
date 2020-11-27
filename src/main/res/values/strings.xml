@@ -1424,6 +1424,9 @@
 	<string name="inline_preview_prompt_keep_showing">Keep showing</string>
 
 	<!-- 2020-11-27 -->
+
 	<string name="edittext_hint_comment_body_text">Comment text</string>
+
+	<string name="album_image_default_text">Image %d</string>
 
 </resources>

@@ -1433,4 +1433,11 @@
 	<string name="pref_videos_download_before_playing_title">Fully download videos before starting playback</string>
 	<string name="pref_videos_download_before_playing_key" translatable="false">pref_videos_download_before_playing_key</string>
 
+	<!-- 2020-11-28 -->
+	<string name="prefs_category_accessibility">Accessibility</string>
+
+	<string name="pref_accessibility_separate_body_text_lines_title">Separate body text lines</string>
+	<string name="pref_accessibility_separate_body_text_lines_summary">In comment and self post body text, make each line individually focusable, rather than reading the whole comment at once</string>
+	<string name="pref_accessibility_separate_body_text_lines_key" translatable="false">pref_accessibility_separate_body_text_lines_key</string>
+
 </resources>

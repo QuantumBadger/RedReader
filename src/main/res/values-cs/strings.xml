@@ -170,8 +170,8 @@
     <string name="download_done">Hotovo.</string>
     <string name="download_failed">Stahování selhalo.</string>
     <!-- Image View -->
-    <string name="imageview_oom">Nedostatek paměti. Zkouším vlastní prohlížeč.</string>
-    <string name="imageview_invalid_gif">Neplatný GIF. Zkouším vlastní prohlížeč.</string>
+    <string name="imageview_oom">Nedostatek paměti. Zkouším prohlížeč.</string>
+    <string name="imageview_invalid_gif">Neplatný GIF. Zkouším prohlížeč.</string>
     <!-- Comment Reply/Edit, Post Submit -->
     <string name="comment_reply_send">Odeslat</string>
     <string name="comment_edit_save">Uložit</string>
@@ -376,7 +376,7 @@
     <string name="karma_link">Karma link</string>
     <string name="karma_comment">Karma komentáře</string>
     <!-- 2014-12-02 -->
-    <string name="imageview_decode_failed">Dekódování obrázku se nezdařilo. Zkusím s interním prohlížečem.</string>
+    <string name="imageview_decode_failed">Dekódovat obrázek se nezdařilo. Zkusím s prohlížečem.</string>
     <!-- 2014-12-06 -->
     <string name="user_comments">Komentáře</string>
     <!-- 2014-12-07 -->
@@ -401,7 +401,7 @@
     <string name="error_message_login_user_denied_permission">Přístupu k účtu byl zamítnut. Prosím, zkuste znovu.</string>
     <string name="error_title_login_unknown_reddit_error">Neznámá chyba redditu: %s</string>
     <!-- 2015-05-23 -->
-    <string name="imageview_invalid_video">Neplatné video. Zkouším interní prohlížeč.</string>
+    <string name="imageview_invalid_video">Neplatné video. Zkouším prohlížeč.</string>
     <string name="download_authorizing">Ověřuji…</string>
     <!-- 2015-05-29 -->
     <string name="pref_behaviour_skiptofrontpage_title">Přeskoč na první stránku</string>
@@ -839,4 +839,19 @@
     <string name="pref_behaviour_imagevideo_tap_close_summary">Nemá účinek na videa, je-li ovládání playbacku zapnuto</string>
     <string name="pref_behaviour_imagevideo_tap_close_title">Zavřít obrázky/videa klepnutím</string>
     <string name="action_save_image_success_no_path">Obrázek úspěšně uložen</string>
+    <string name="imageview_download_failed">Stahování bylo přerušeno. Zkouším prohlížečem.</string>
+    <string name="imageview_image_info_failed">Stáhnout metadata obrázku se nezdařilo. Zkouším s prohlížečem.</string>
+    <string name="album_image_default_text">Obrázek %d</string>
+    <string name="edittext_hint_comment_body_text">Text komentáře</string>
+    <string name="inline_preview_prompt_keep_showing">Ukazuj tak dál</string>
+    <string name="inline_preview_prompt_turn_off">Vypnout</string>
+    <string name="inline_preview_prompt_message">Mám pokračovat s náhledy inline obrázků jako je ten výše\? Můžete kdykoli změnit v nastavení.</string>
+    <string name="inline_preview_prompt_title">Náhledy obrázků</string>
+    <string name="error_inline_preview_failed_message">Stáhnout náhled obrázku se nezdařilo.</string>
+    <string name="error_inline_preview_failed_title">Chyba při stahování</string>
+    <string name="pref_header_image_viewer">Prohlížeč obrázků</string>
+    <string name="pref_images_inline_image_previews_nsfw_title">Ukázat náhledy NSFW</string>
+    <string name="pref_images_inline_image_previews_title">Náhledy inline obrázků</string>
+    <string name="pref_header_inline_image_previews">Náhledy inline obrázků</string>
+    <string name="pref_images_high_res_thumbnails_title">Miniatury vysokého rozlišení</string>
 </resources>

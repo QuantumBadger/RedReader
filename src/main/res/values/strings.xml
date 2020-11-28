@@ -158,7 +158,7 @@
 
     <!-- General Listing -->
 
-    <string name="listing_cached">Viewing cached copy from %s</string>
+    <string name="listing_cached">(Viewing cached copy from %s.)</string>
 
     <!-- Accounts Dialog -->
 
@@ -286,10 +286,10 @@
 
     <!-- Bug Reporting -->
 
-    <string name="bug_title">An error has occurred.</string>
-    <string name="bug_message">Would you like to send a bug report to the developer? If so, an e-mail with all the relevant info will be filled in for you, and you can inspect it all before sending.</string>
-    <string name="bug_button_send">Send bug report by e-mail</string>
-    <string name="bug_button_ignore">Don\'t send bug report</string>
+    <string name="bug_title">Reportable error</string>
+    <string name="bug_message">Inspect the prefilled e-mail before sending it to the developer.</string>
+    <string name="bug_button_send">Send</string>
+    <string name="bug_button_ignore">Cancel</string>
 
     <!-- General errors -->
 
@@ -335,7 +335,7 @@
     <!-- Post list specific errors -->
 
     <string name="error_postlist_cache_title">End of Cached Data</string>
-    <string name="error_postlist_cache_message">You are viewing a past version of this content, and no more posts from this session are in the cache. Press refresh to download the latest posts, or select a different past version from the menu.</string>
+    <string name="error_postlist_cache_message">You are viewing a past version of this content, and no more posts from this session are in the cache. Press the refresh icon to download the latest posts, or select a different past version from the menu.</string>
 
     <string name="error_postlist_redditdown_title">Reddit is Down</string>
     <string name="error_postlist_redditdown_message">Reddit is under heavy load at the moment. Press \'Refresh\' to download the latest posts, or select a different past version from the menu.</string>
@@ -351,8 +351,8 @@
     <!-- User Profile -->
 
     <string name="userprofile_created">Created</string>
-    <string name="userprofile_hasmail">Has Mail</string>
-    <string name="userprofile_hasmodmail">Has Mod Mail</string>
+    <string name="userprofile_hasmail">Has Reddit Mail</string>
+    <string name="userprofile_hasmodmail">Has Reddit Modmail</string>
     <string name="userprofile_isfriend">Is Friend</string>
     <string name="userprofile_isgold">Reddit Gold</string>
     <string name="userprofile_moderator">Is Moderator</string>
@@ -374,8 +374,8 @@
     <string name="props_subreddit">Subreddit</string>
     <string name="props_url">URL</string>
     <string name="props_num_comments">Number of Comments</string>
-    <string name="props_body_markdown">Body (Raw Markdown)</string>
-    <string name="props_self_markdown">Self-text (Raw Markdown)</string>
+    <string name="props_body_markdown">Body (raw Markdown)</string>
+    <string name="props_self_markdown">Self-post text (raw Markdown)</string>
 
     <string name="props_never">Never</string>
     <string name="props_up">Up</string>
@@ -442,7 +442,7 @@
     <string name="message_cannotlogin">Could not log in.</string>
 
     <string name="error_toast_no_urls_in_comment">No URLs found in this comment.</string>
-    <string name="error_toast_no_urls_in_self">No URLs found in this self-text.</string>
+    <string name="error_toast_no_urls_in_self">No URLs found in this self-post text.</string>
     <string name="error_toast_parent_post_not_downloaded">Parent post not yet downloaded.</string>
 
     <string name="download_subreddits">Downloading subreddits…</string>
@@ -560,7 +560,7 @@
 
     <string name="mainmenu_submitted">Submitted Posts</string>
     <string name="mainmenu_downvoted">Downvoted Posts</string>
-    <string name="mainmenu_modmail">Mod Mail</string>
+    <string name="mainmenu_modmail">Reddit Modmail</string>
 
     <string name="sidebar_activity_title">Sidebar</string>
 
@@ -664,7 +664,7 @@
     <!-- 2015-08-15 -->
     <string name="action_delete">Delete</string>
     <string name="delete_confirm">Are you sure you want to delete this?</string>
-    <string name="delete_success">Deleted. The item will still be visible until you refresh.</string>
+    <string name="delete_success">Item deleted. (It will still be visible until you refresh.)</string>
 
     <string name="pref_appearance_hide_username_main_menu_key" translatable="false">pref_appearance_hide_username_main_menu</string>
     <string name="pref_appearance_hide_username_main_menu_title">Hide username</string>
@@ -764,7 +764,7 @@
     <string name="button_browse">Browse…</string>
 
     <string name="error_file_too_big_title">File too big</string>
-    <string name="error_file_too_big_message">Ensure the file size (%1$s) is smaller than the upload limit (%2$s).</string>
+    <string name="error_file_too_big_message">The %1$s file size has to be smaller than the upload limit of %2$s.</string>
 
     <string name="error_file_open_failed_title">Could not open file</string>
     <string name="error_file_open_failed_message">An error occurred while trying to open the file.</string>
@@ -775,7 +775,7 @@
 	<string name="submit_post_specify_subreddit">Specify subreddit</string>
 	<string name="submit_post_title_empty">Add a title first</string>
 	<string name="submit_post_url_empty">Add a URL first</string>
-	<string name="submit_post_self_text_hint">Self-text</string>
+	<string name="submit_post_self_text_hint">Self-post text</string>
 	<string name="submit_post_url_hint">URL</string>
 
 	<!-- 2016-06-24 -->
@@ -828,7 +828,7 @@
 	<string name="pref_behaviour_fling_comment_right_title">Fling right</string>
 
 	<!-- 2016-07-17 -->
-	<string name="comment_header_search_thread_title">Viewing search results from a comment thread.</string>
+	<string name="comment_header_search_thread_title">(Viewing search results from a comment thread.)</string>
 	<string name="no_search_results">No search results found.</string>
 
 	<!-- 2016-07-24 -->
@@ -870,7 +870,7 @@
 	<string name="pref_cache_location_title">Cache storage location</string>
 
 	<string name="error_cache_dir_does_not_exist_title">Cache directory missing</string>
-	<string name="error_cache_dir_does_not_exist_message">Could not access cache directory. Please choose a different location in the cache settings.</string>
+	<string name="error_cache_dir_does_not_exist_message">Could not access the cache directory. Please choose a different location in the cache settings.</string>
 
 	<!-- 2016-08-15 -->
 	<string name="pref_behaviour_pinned_subredditsort_key" translatable="false">pref_behaviour_pinned_subreddit_sort</string>
@@ -979,7 +979,7 @@
 	<string name="action_unsubscribe_subreddit">Unsubscribe from Subreddit</string>
 
 	<!-- 2017-04-14 -->
-	<string name="collapsed_self_post">Self-post collapsed</string>
+	<string name="collapsed_self_post">Self post collapsed</string>
 
 	<!-- 2017-05-08 -->
 	<string name="button_next_comment_parent">Next Parent Comment</string>
@@ -1064,8 +1064,8 @@
 
 	<!-- 2018-07-08 -->
 	<string name="pref_behaviour_usecustomtabs_key" translatable="false">pref_behaviour_usecustomtabs_key</string>
-	<string name="pref_behaviour_usecustomtabs_title">Use Custom Tabs</string>
-	<string name="pref_behaviour_usecustomtabs_summary">Use Custom Tabs when available</string>
+	<string name="pref_behaviour_usecustomtabs_title">Use Android Custom Tabs</string>
+	<string name="pref_behaviour_usecustomtabs_summary">Use tabs that do more, when available</string>
 
 	<!-- 2018-09-11 -->
 	<string name="pref_behaviour_hide_read_posts_key" translatable="false">pref_behaviour_hide_read_posts</string>
@@ -1162,7 +1162,7 @@
 	<string name="search_results_subreddit_only">Search on /r/%s</string>
 
 	<!-- 2020-02-17 -->
-	<string name="pref_network_tor_summary">When using an external browser or custom tabs, links will not be opened using Tor (unless your web-browser is configured to use Tor)</string>
+	<string name="pref_network_tor_summary">When using an external browser or custom tabs, links will not be opened using Tor (unless your web browser is configured to use Tor)</string>
 
 	<!-- 2020-03-05 -->
 	<string name="prefs_category_fonts">Font</string>
@@ -1181,9 +1181,9 @@
 
 	<!-- 2020-02-20 -->
 	<string name="upgrade_message">Updated to version %s</string>
-	<string name="error_toast_failed_open_external_browser">Could not open the URL "%s" in any web-browser</string>
-	<string name="error_toast_no_email_apps">No e-mail apps installed.</string>
-	<string name="bug_chooser_title">E-mail bug report</string>
+	<string name="error_toast_failed_open_external_browser">Could not open the URL "%s" in any web browser or player.</string>
+	<string name="error_toast_no_email_apps">No email apps installed.</string>
+	<string name="bug_chooser_title">Email bug report</string>
 
 	<!-- 2020-06-08 -->
 	<string name="subscription_successful">Subscribed to %s</string>
@@ -1267,11 +1267,11 @@
 
 	<!-- 2020-08-18 -->
 	<string name="pref_behaviour_video_zoom_default_key" translatable="false">pref_behaviour_video_zoom_default</string>
-	<string name="pref_behaviour_video_zoom_default_title">Zoom in on videos by default</string>
+	<string name="pref_behaviour_video_zoom_default_title">Crop videos to fill screen</string>
 
 	<!-- 2020-08-23 -->
 	<string name="image_gallery_removed_title">Gallery removed</string>
-	<string name="image_gallery_removed_message">This removed gallery is no longer accessible.</string>
+	<string name="image_gallery_removed_message">This gallery no longer exists because it has been removed.</string>
 	<string name="image_gallery_no_data_present_title">Gallery not found</string>
 	<string name="image_gallery_no_data_present_message">No image gallery at the specified link. It may have been deleted.</string>
 
@@ -1283,8 +1283,8 @@
 	<string name="image_gallery_no_image_present_message">The specified image could not be found. It may have been deleted.</string>
 
 	<!-- 2020-09-04 -->
-	<string name="reddit_login_browser_popup_line_1">To log in, you will now be taken to Reddit in a web-browser.</string>
-	<string name="reddit_login_browser_popup_line_2">After logging in, you should be redirected back to RedReader. Try a different web-browser if you can\'t log in by using the checkbox below.</string>
+	<string name="reddit_login_browser_popup_line_1">To log in, you will now be taken to Reddit in a web browser.</string>
+	<string name="reddit_login_browser_popup_line_2">After logging in, you should be redirected back to RedReader. Try a different web browser if you can\'t log in by using the checkbox below.</string>
 
 	<string name="reddit_login_browser_popup_use_internal_browser">Use internal browser (recommended)</string>
 	<string name="reddit_login_browser_popup_use_external_browser">Use external browser (recommended)</string>
@@ -1308,12 +1308,12 @@
 	<!-- 2020-10-20 -->
 	<string name="pref_behaviour_imagevideo_tap_close_key" translatable="false">pref_behaviour_imagevideo_tap_close</string>
 	<string name="pref_behaviour_imagevideo_tap_close_title">Close images/videos on tap</string>
-	<string name="pref_behaviour_imagevideo_tap_close_summary">Does not affect videos if playback controls are on</string>
+	<string name="pref_behaviour_imagevideo_tap_close_summary">Does nothing when using playback controls</string>
 
 	<!-- 2020-11-13 -->
 	<string name="press_back_again">Press back again</string>
 	<string name="pref_behaviour_postlist_back_again_key" translatable="false">pref_behaviour_back_again</string>
-	<string name="pref_behaviour_postlist_back_again">Press \'Back\' twice to exit the post list</string>
+	<string name="pref_behaviour_postlist_back_again">Press back twice to exit the post list</string>
 	<string name="pref_behaviour_back_button_title">Back Button</string>
 
 	<!-- 2020-11-13 -->
@@ -1376,7 +1376,7 @@
 	<string name="pref_images_thumbnail_size_title">Thumbnail size</string>
 
 	<!-- 2020-11-20 -->
-	<string name="accessibility_image_viewer_title">Viewing image</string>
+	<string name="accessibility_image_viewer_title">(Viewing image.)</string>
 	<string name="accessibility_image_viewer_view_comments">View comments</string>
 	<string name="accessibility_image_viewer_go_back">Go back</string>
 

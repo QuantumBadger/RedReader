@@ -153,9 +153,9 @@
     <string name="download_loading">加载中……</string>
     <string name="download_done">完成。</string>
     <string name="download_failed">失败。</string>
-    <string name="imageview_oom">内存不足，将使用内部浏览器。</string>
-    <string name="imageview_invalid_gif">GIF图无效，将使用内部浏览器显示图片。</string>
-    <string name="comment_reply_send">发布</string>
+    <string name="imageview_oom">内存不足。正尝试网络浏览器。</string>
+    <string name="imageview_invalid_gif">无效GIF图。正尝试网络浏览器。</string>
+    <string name="comment_reply_send">发送</string>
     <string name="comment_edit_save">保存</string>
     <string name="comment_reply_preview">预览</string>
     <string name="comment_reply_submitting_title">发表中……</string>
@@ -345,7 +345,7 @@
     <string name="pref_appearance_comment_header_items_gold">Reddit黄金</string>
     <string name="karma_link">链接Karma</string>
     <string name="karma_comment">评论Karma</string>
-    <string name="imageview_decode_failed">无法为图片解码，将使用内部浏览器显示图片。</string>
+    <string name="imageview_decode_failed">图片解码失败。正尝试用网络浏览器。</string>
     <string name="user_comments">评论</string>
     <string name="comment_header_specific_thread_message">按此检视本帖的所有评论。</string>
     <string name="action_comment_context">前言后语</string>
@@ -360,7 +360,7 @@
     <string name="error_title_login_user_denied_permission">被拒绝</string>
     <string name="error_message_login_user_denied_permission">Reddit不认为您有权使用该帐号，请再试。</string>
     <string name="error_title_login_unknown_reddit_error">不知的Reddit错误：%s</string>
-    <string name="imageview_invalid_video">视频无效，将使用内部浏览器播放。</string>
+    <string name="imageview_invalid_video">无效视频。正尝试网络浏览器播放。</string>
     <string name="download_authorizing">验证中……</string>
     <string name="pref_behaviour_skiptofrontpage_title">跳至主页</string>
     <string name="error_archived_vote">本页已被封存，您不可投票。</string>
@@ -708,4 +708,19 @@
     <string name="pref_behaviour_imagevideo_tap_close_title">点按关闭图片/视频</string>
     <string name="action_save_image_success_no_path">成功保存图片</string>
     <string name="title_attribution">致谢</string>
+    <string name="imageview_download_failed">下载被打断。正尝试网络浏览器。</string>
+    <string name="imageview_image_info_failed">无法下载图片元数据。正尝试网络浏览器。</string>
+    <string name="album_image_default_text">图片 %d</string>
+    <string name="edittext_hint_comment_body_text">评论文本</string>
+    <string name="inline_preview_prompt_keep_showing">继续显示</string>
+    <string name="inline_preview_prompt_turn_off">关闭</string>
+    <string name="inline_preview_prompt_message">继续像上面那样显示内联图像预览吗？ 您可以随时在设置中更改此设置。</string>
+    <string name="inline_preview_prompt_title">图片预览</string>
+    <string name="error_inline_preview_failed_message">无法下载图片预览。</string>
+    <string name="error_inline_preview_failed_title">下载错误</string>
+    <string name="pref_header_image_viewer">图片查看器</string>
+    <string name="pref_images_inline_image_previews_nsfw_title">显示不适合上班时间浏览内容（NSFW）的预览</string>
+    <string name="pref_images_inline_image_previews_title">内联图片预览</string>
+    <string name="pref_header_inline_image_previews">内联图片预览</string>
+    <string name="pref_images_high_res_thumbnails_title">高分辨率缩略图</string>
 </resources>

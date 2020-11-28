@@ -8,10 +8,10 @@ within a couple of weeks of submitting (apologies if it takes longer!)
 
 Please submit pull requests for:
 
-* ✅ **New features**
-* ✅ **Bug fixes**
-* ✅ **Significant performance improvements**
-* ✅ **New unit tests**
+* :heavy_check_mark: **New features**
+* :heavy_check_mark: **Bug fixes**
+* :heavy_check_mark: **Significant performance improvements**
+* :heavy_check_mark: **New unit tests**
 
 Pull requests for the following things may be rejected:
 

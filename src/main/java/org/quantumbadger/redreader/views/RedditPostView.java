@@ -340,7 +340,7 @@ public final class RedditPostView extends FlingableItemView
 		mCommentsText = mCommentsButton.findViewById(R.id.reddit_post_comments_text);
 
 		if(!mCommentsButtonPref) {
-			mOuterView.removeView(mCommentsButton);
+			mInnerView.removeView(mCommentsButton);
 		}
 
 		if(leftHandedMode) {

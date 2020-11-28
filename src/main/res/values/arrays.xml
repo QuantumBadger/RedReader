@@ -538,6 +538,7 @@
         <item>@string/pref_appearance_comment_header_items_score</item>
         <item>@string/pref_appearance_comment_header_items_age</item>
         <item>@string/pref_appearance_comment_header_items_gold</item>
+		<item>@string/pref_appearance_post_subtitle_items_subreddit</item>
     </string-array>
 
     <!-- Constants. Do not change. -->
@@ -547,6 +548,7 @@
         <item>score</item>
         <item>age</item>
         <item>gold</item>
+		<item>subreddit</item>
     </string-array>
 
     <!-- Constants. Do not change. -->
@@ -556,6 +558,7 @@
         <item>score</item>
         <item>age</item>
         <item>gold</item>
+		<item>subreddit</item>
     </string-array>
 
     <!-- Constants. Do not change. -->

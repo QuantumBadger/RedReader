@@ -756,7 +756,7 @@ public final class PrefsUtility {
 	}
 
 	public enum AppearanceCommentHeaderItem {
-		AUTHOR, FLAIR, SCORE, AGE, GOLD
+		AUTHOR, FLAIR, SCORE, AGE, GOLD, SUBREDDIT
 	}
 
 	public static EnumSet<AppearanceCommentHeaderItem> appearance_comment_header_items(

@@ -291,12 +291,16 @@ public class CommentListingRequest {
 		} else if(thing.getKind() == RedditThing.Kind.COMMENT) {
 
 			final RedditComment comment = thing.asComment();
+			final boolean showSubredditName = !(mCommentListingURL != null
+					&& mCommentListingURL.pathType() == RedditURLParser.POST_COMMENT_LISTING_URL);
+
 			final RedditCommentListItem item = new RedditCommentListItem(
 					new RedditRenderableComment(
 							new RedditParsedComment(comment, mActivity),
 							parentPostAuthor,
 							minimumCommentScore,
-							true),
+							true,
+							showSubredditName),
 					parent,
 					mFragment,
 					mActivity,

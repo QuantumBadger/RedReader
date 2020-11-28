@@ -542,6 +542,26 @@ public class MainActivity extends RefreshableActivity
 					}
 
 				}
+
+				if(lastVersion <= 94) {
+					//Upgrading from 94/1.14 or lower
+					//Show/speak comments' subreddits (when needed) by default
+
+					final Set<String> existingCommentHeaderItems
+							= PrefsUtility.getStringSet(
+							R.string.pref_appearance_comment_header_items_key,
+							R.array.pref_appearance_comment_header_items_default,
+							this,
+							sharedPreferences
+					);
+
+					existingCommentHeaderItems.add("subreddit");
+
+					sharedPreferences.edit().putStringSet(
+							getString(R.string.pref_appearance_comment_header_items_key),
+							existingCommentHeaderItems
+					).apply();
+				}
 			}
 
 		} else {

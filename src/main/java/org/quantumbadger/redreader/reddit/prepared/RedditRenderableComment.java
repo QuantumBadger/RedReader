@@ -45,6 +45,7 @@ public class RedditRenderableComment
 	private final String mParentPostAuthor;
 	private final Integer mMinimumCommentScore;
 	private final boolean mShowScore;
+	private final boolean mShowSubreddit;
 
 	public final static int NO_TIMESTAMP = -1;
 
@@ -52,12 +53,14 @@ public class RedditRenderableComment
 			final RedditParsedComment comment,
 			final String parentPostAuthor,
 			final Integer minimumCommentScore,
-			final boolean showScore) {
+			final boolean showScore,
+			final boolean showSubreddit) {
 
 		mComment = comment;
 		mParentPostAuthor = parentPostAuthor;
 		mMinimumCommentScore = minimumCommentScore;
 		mShowScore = showScore;
+		mShowSubreddit = showSubreddit;
 	}
 
 	private int computeScore(final RedditChangeDataManager changeDataManager) {
@@ -244,6 +247,20 @@ public class RedditRenderableComment
 						0,
 						1f);
 			}
+
+			sb.append(" ", 0);
+		}
+
+		if(theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.SUBREDDIT)
+				&& mShowSubreddit) {
+			sb.append(context.getString(R.string.subtitle_to) + " ", 0);
+
+			sb.append(
+					mComment.getRawComment().subreddit,
+					BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR,
+					theme.rrCommentHeaderBoldCol,
+					0,
+					1f);
 		}
 
 		return sb.get();
@@ -348,6 +365,18 @@ public class RedditRenderableComment
 								R.string.accessibility_subtitle_edited_since_being_posted))
 						.append(separator);
 			}
+		}
+
+		if(theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.SUBREDDIT)
+				&& mShowSubreddit) {
+
+			accessibilityHeader
+					.append(context.getString(
+							R.string.accessibility_subtitle_subreddit_withperiod,
+							ScreenreaderPronunciation.getPronunciation(
+									context,
+									mComment.getRawComment().subreddit)))
+					.append(separator);
 		}
 
 		return accessibilityHeader.toString();

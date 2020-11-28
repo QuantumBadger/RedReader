@@ -1307,7 +1307,7 @@
 
 	<!-- 2020-10-20 -->
 	<string name="pref_behaviour_imagevideo_tap_close_key" translatable="false">pref_behaviour_imagevideo_tap_close</string>
-	<string name="pref_behaviour_imagevideo_tap_close_title">Close images/videos on tap</string>
+	<string name="pref_behaviour_imagevideo_tap_close_title">Tap to close images/videos</string>
 	<string name="pref_behaviour_imagevideo_tap_close_summary">Does nothing when using playback controls</string>
 
 	<!-- 2020-11-13 -->

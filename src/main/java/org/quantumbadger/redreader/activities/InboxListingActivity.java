@@ -290,7 +290,8 @@ public final class InboxListingActivity extends BaseActivity {
 												parsedComment,
 												null,
 												-100000,
-												false);
+												false,
+												true);
 
 										itemHandler.sendMessage(General.handlerMessage(
 												0,

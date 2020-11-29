@@ -41,7 +41,7 @@ public final class FeatureFlagHandler {
 
 	private enum FeatureFlag {
 
-		EXAMPLE_FEATURE("exampleFeature");
+		COMMENT_HEADER_SUBREDDIT_FEATURE("commentHeaderSubredditFeature");
 
 		@NonNull private final String id;
 
@@ -64,10 +64,25 @@ public final class FeatureFlagHandler {
 
 		final SharedPreferences sharedPrefs = General.getSharedPrefs(context);
 
-		if(getAndSetFeatureFlag(sharedPrefs, FeatureFlag.EXAMPLE_FEATURE)
+		if(getAndSetFeatureFlag(sharedPrefs, FeatureFlag.COMMENT_HEADER_SUBREDDIT_FEATURE)
 				== FeatureFlagStatus.UPGRADE_NEEDED) {
 
-			Log.i(TAG, "Example feature needs upgrading");
+			Log.i(TAG, "Upgrading, show comment subreddit in header by default");
+
+			final Set<String> existingCommentHeaderItems
+					= PrefsUtility.getStringSet(
+					R.string.pref_appearance_comment_header_items_key,
+					R.array.pref_appearance_comment_header_items_default,
+					context,
+					sharedPrefs
+			);
+
+			existingCommentHeaderItems.add("subreddit");
+
+			sharedPrefs.edit().putStringSet(
+					context.getString(R.string.pref_appearance_comment_header_items_key),
+					existingCommentHeaderItems
+			).apply();
 		}
 	}
 

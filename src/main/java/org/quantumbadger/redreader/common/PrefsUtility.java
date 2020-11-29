@@ -120,7 +120,9 @@ public final class PrefsUtility {
 				|| key.equals(context.getString(R.string.pref_images_inline_image_previews_key))
 				|| key.equals(context.getString(
 						R.string.pref_images_inline_image_previews_nsfw_key))
-				|| key.equals(context.getString(R.string.pref_images_high_res_thumbnails_key));
+				|| key.equals(context.getString(R.string.pref_images_high_res_thumbnails_key))
+				|| key.equals(context.getString(
+						R.string.pref_accessibility_separate_body_text_lines_key));
 	}
 
 	public static boolean isRestartRequired(final Context context, final String key) {
@@ -2026,5 +2028,15 @@ public final class PrefsUtility {
 		}
 
 		return result;
+	}
+
+	public static boolean pref_accessibility_separate_body_text_lines(
+			final Context context,
+			final SharedPreferences sharedPreferences) {
+		return getBoolean(
+				R.string.pref_accessibility_separate_body_text_lines_key,
+				false,
+				context,
+				sharedPreferences);
 	}
 }

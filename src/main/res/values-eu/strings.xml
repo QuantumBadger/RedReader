@@ -25,10 +25,8 @@
     <string name="prefs_category_menus">Menuak</string>
     <string name="pref_appearance_theme_header">Itxura</string>
     <string name="pref_appearance_comments_header">Iruzkinak</string>
-    <string name="pref_appearance_other_header">Bestelakoak</string>
     <string name="pref_appearance_twopane_title">Tableta modua (bi panel)</string>
     <string name="pref_appearance_theme_title">Itxura</string>
-    <string name="pref_appearance_solidblack_title">Mate beltza gau moduan</string>
     <string name="pref_appearance_thumbnails_header">Miniaturak</string>
     <string name="pref_appearance_thumbnails_show_title">Erakutsi miniaturak</string>
     <string name="pref_appearance_fontscale_posts_title">Argitalpen izenburuak</string>
@@ -84,7 +82,6 @@
     <string name="action_save">Gorde</string>
     <string name="action_hide">Ezkutatu</string>
     <string name="action_share">Partekatu</string>
-    <string name="pref_appearance_loading_detail_title">Erakutsi karga-mezu zehatzak</string>
     <string name="options_submit_post">Argitaratu</string>
     <string name="mainmenu_upvoted">Aldez botatutako argitalpenak</string>
     <string name="pref_behaviour_posts_header">Argitalpenak</string>

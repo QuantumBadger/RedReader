@@ -26,15 +26,12 @@
     <string name="pref_appearance_theme_header">主题</string>
     <string name="pref_appearance_thumbnails_header">缩略图</string>
     <string name="pref_appearance_comments_header">评论</string>
-    <string name="pref_appearance_other_header">其他</string>
     <string name="pref_appearance_twopane_title">平板电脑模式（双面板）</string>
     <string name="pref_appearance_theme_title">主题</string>
-    <string name="pref_appearance_solidblack_title">夜间模式下使用黑色</string>
     <string name="pref_appearance_fontscale_posts_title">帖子标题</string>
     <string name="pref_appearance_thumbnails_show_title">显示缩略图</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">显示不雅缩略图</string>
     <string name="pref_appearance_thumbnails_wifionly_title">仅在使用Wi-Fi时显示缩略图</string>
-    <string name="pref_appearance_loading_detail_title">显示详尽的加载信息</string>
     <string name="pref_appearance_comment_header_items_title">评论标题项</string>
     <string name="pref_behaviour_notifications_title">通知</string>
     <string name="pref_behaviour_actions_post_header">帖子选项</string>

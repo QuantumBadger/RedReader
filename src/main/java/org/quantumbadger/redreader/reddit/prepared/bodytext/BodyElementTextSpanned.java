@@ -22,6 +22,8 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.activities.BaseActivity;
+import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.views.LinkifiedTextView;
 
 public class BodyElementTextSpanned extends BodyElement {
@@ -52,6 +54,13 @@ public class BodyElementTextSpanned extends BodyElement {
 		}
 
 		tv.setText(mSpanned, LinkifiedTextView.BufferType.SPANNABLE);
+
+		if(PrefsUtility.pref_accessibility_separate_body_text_lines(
+				activity,
+				General.getSharedPrefs(activity))) {
+
+			tv.setFocusable(true);
+		}
 
 		return tv;
 	}

@@ -29,15 +29,12 @@
     <string name="pref_appearance_theme_header">Etoso</string>
     <string name="pref_appearance_thumbnails_header">Miniaturoj</string>
     <string name="pref_appearance_comments_header">Komentoj</string>
-    <string name="pref_appearance_other_header">Aliaj</string>
     <string name="pref_appearance_twopane_title">Tabulkomputila reĝimo (du fenestroj)</string>
     <string name="pref_appearance_theme_title">Etoso</string>
-    <string name="pref_appearance_solidblack_title">Glata nigro en nokta reĝimo</string>
     <string name="pref_appearance_fontscale_posts_title">Titoloj de afiŝoj</string>
     <string name="pref_appearance_thumbnails_show_title">Montri miniaturojn</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">Montri maldecajn miniaturojn</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Miniaturoj nur per vifio</string>
-    <string name="pref_appearance_loading_detail_title">Montri detalajn sciigojn pri ŝargado</string>
     <string name="pref_appearance_comment_header_items_title">Eroj de koment-kapo</string>
     <!-- Behaviour Prefs -->
     <string name="pref_behaviour_notifications_title">Sciigoj</string>

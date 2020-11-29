@@ -30,15 +30,12 @@
     <string name="pref_appearance_theme_header">الشكل</string>
     <string name="pref_appearance_thumbnails_header">الصور المصغرة</string>
     <string name="pref_appearance_comments_header">التعليقات</string>
-    <string name="pref_appearance_other_header">أخرى</string>
     <string name="pref_appearance_twopane_title">النمط اللوحي (عمودين)</string>
     <string name="pref_appearance_theme_title">الشكل</string>
-    <string name="pref_appearance_solidblack_title">أسود بالكامل في النمط الليلي</string>
     <string name="pref_appearance_fontscale_posts_title">حجم خط المنشورات</string>
     <string name="pref_appearance_thumbnails_show_title">إظهار الصور المصغرة</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">إظهار للمنشورات الغير لائقة</string>
     <string name="pref_appearance_thumbnails_wifionly_title">عرض الصور المصغرة عند الاتصال عبر الواي فاي فقط</string>
-    <string name="pref_appearance_loading_detail_title">إظهار رسائل التحميل المفصّلة</string>
     <string name="pref_appearance_comment_header_items_title">أعلى التعليق</string>
     <!-- Behaviour Prefs -->
     <string name="pref_behaviour_notifications_title">الإخطارات</string>

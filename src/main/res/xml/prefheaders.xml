@@ -60,6 +60,12 @@
         <extra android:name="panel" android:value="menus" />
     </header>
 
+	<header
+			android:fragment="org.quantumbadger.redreader.settings.SettingsFragment"
+			android:title="@string/prefs_category_accessibility">
+		<extra android:name="panel" android:value="accessibility" />
+	</header>
+
     <header
             android:fragment="org.quantumbadger.redreader.settings.SettingsFragment"
             android:title="@string/prefs_category_about">

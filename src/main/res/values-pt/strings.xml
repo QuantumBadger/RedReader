@@ -387,16 +387,13 @@
     <string name="pref_appearance_thumbnails_header">Miniaturas</string>
     <string name="pref_appearance_theme_title">Tema</string>
     <string name="pref_appearance_theme_header">Tema</string>
-    <string name="pref_appearance_solidblack_title">Preto sólido no modo noturno</string>
     <string name="pref_appearance_show_blocked_subreddits_main_menu_title">Mostrar subreddits bloqueados no menu principal</string>
     <string name="pref_appearance_scale_normal">Normal</string>
-    <string name="pref_appearance_other_header">Outros</string>
     <string name="pref_appearance_navbar_color_title">Cor da Barra de Navegação</string>
     <string name="pref_appearance_navbar_color_option_primarydark">Primária (Noturno)</string>
     <string name="pref_appearance_navbar_color_option_primary">Primária (Claro)</string>
     <string name="pref_appearance_navbar_color_option_black">Preto</string>
     <string name="pref_appearance_locale_header">Local</string>
-    <string name="pref_appearance_loading_detail_title">Mostrar as mensagens detalhadas sobre carregamento</string>
     <string name="pref_appearance_linkbuttons_title">Mostrar Botões de Link</string>
     <string name="pref_appearance_link_text_clickable_title">Texto do Link Clicável</string>
     <string name="pref_appearance_langforce_title">Idioma</string>

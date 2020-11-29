@@ -29,13 +29,11 @@
     <string name="pref_appearance_theme_header">Tema</string>
     <string name="pref_appearance_thumbnails_header">Miniatiūros</string>
     <string name="pref_appearance_comments_header">Komentarai</string>
-    <string name="pref_appearance_other_header">Kita</string>
 
     <string name="pref_appearance_twopane_title">Planšetės režimas (dvieilis)</string>
 
     <string name="pref_appearance_theme_title">Tema</string>
 
-    <string name="pref_appearance_solidblack_title">Juoda nakties režimo metu</string>
 
     <string name="pref_appearance_fontscale_posts_title">Įrašų šrifto mastelis</string>
 
@@ -46,7 +44,6 @@
 
     <string name="pref_appearance_thumbnails_wifionly_title">Miniatiūros tik prisijungus prie Wi-Fi</string>
 
-    <string name="pref_appearance_loading_detail_title">Rodyti išsamius krovimo pranešimus</string>
 
     <string name="pref_appearance_comment_header_items_title">Komentaro antraštė</string>
 

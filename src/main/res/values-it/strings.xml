@@ -251,8 +251,6 @@
     <string name="bug_title">Si è verificato un errore.</string>
     <string name="comment_edit_done">Commento modificato. Le modifiche appariranno dopo un refresh.</string>
     <string name="comment_reply_preview">Anteprima</string>
-    <string name="pref_appearance_loading_detail_title">Mostra messaggi di caricamento dettagliati</string>
-    <string name="pref_appearance_other_header">Altre</string>
     <string name="pref_behaviour_nsfw_title">Mostra il contenuto NSFW</string>
     <string name="pref_cache_precache_images_wifionly_title">Solo in Wi-Fi</string>
     <string name="pref_cache_pruning">Pulizia della cache</string>
@@ -278,7 +276,6 @@
     <string name="imageview_oom">Memoria insufficiente. Tentativo con il browser interno.</string>
     <string name="pref_appearance_fontscale_posts_title">Dimensione carattere dei post</string>
     <string name="pref_appearance_indentlines_title">Mostra linee indentate</string>
-    <string name="pref_appearance_solidblack_title">Nero solido in modalità notturna</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">Mostra miniature NSFW</string>
     <string name="pref_appearance_thumbnails_show_title">Mostra miniature</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Miniature solo con Wi-Fi</string>

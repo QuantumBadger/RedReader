@@ -29,15 +29,12 @@
     <string name="pref_appearance_theme_header">Motiv</string>
     <string name="pref_appearance_thumbnails_header">Náhledy</string>
     <string name="pref_appearance_comments_header">Komentáře</string>
-    <string name="pref_appearance_other_header">Ostatní</string>
     <string name="pref_appearance_twopane_title">Režim tabletu (dva panely)</string>
     <string name="pref_appearance_theme_title">Motiv</string>
-    <string name="pref_appearance_solidblack_title">Černá v nočním režimu</string>
     <string name="pref_appearance_fontscale_posts_title">Titulky příspěvků</string>
     <string name="pref_appearance_thumbnails_show_title">Zobrazit náhledy</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">Zobrazit NSFW náhledy</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Náhledy pouze u Wi-Fi připojení</string>
-    <string name="pref_appearance_loading_detail_title">Ukázat detailní zprávy při načítání</string>
     <string name="pref_appearance_comment_header_items_title">Hlavičky komentářů</string>
     <!-- Behaviour Prefs -->
     <string name="pref_behaviour_actions_post_header">Akce příspěvku</string>

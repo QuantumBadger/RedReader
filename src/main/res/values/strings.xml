@@ -39,15 +39,12 @@
     <string name="pref_appearance_theme_header">Theme</string>
     <string name="pref_appearance_thumbnails_header">Thumbnails</string>
     <string name="pref_appearance_comments_header">Comments</string>
-    <string name="pref_appearance_other_header">Other</string>
 
     <string name="pref_appearance_twopane_key" translatable="false">pref_appearance_twopane</string>
     <string name="pref_appearance_twopane_title">Tablet mode (two pane)</string>
 
     <string name="pref_appearance_theme_key" translatable="false">pref_appearance_theme</string>
     <string name="pref_appearance_theme_title">Theme</string>
-
-    <string name="pref_appearance_solidblack_title">Solid black in night mode</string>
 
     <string name="pref_appearance_fontscale_posts_key" translatable="false">pref_appearance_fontscale_posts</string>
     <string name="pref_appearance_fontscale_posts_title">Post titles</string>
@@ -60,9 +57,6 @@
 
     <string name="pref_appearance_thumbnails_wifionly_key" translatable="false">pref_appearance_thumbnails_wifionly</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Thumbnails on Wi-Fi only</string>
-
-    <string name="pref_appearance_loading_detail_key" translatable="false">pref_appearance_loading_detail</string>
-    <string name="pref_appearance_loading_detail_title">Show detailed loading messages</string>
 
     <string name="pref_appearance_comment_header_items_key" translatable="false">pref_appearance_comment_header_items</string>
     <string name="pref_appearance_comment_header_items_title">Comment header entries</string>
@@ -1357,8 +1351,8 @@
 	<string name="pref_cache_clear_key" translatable="false">pref_cache_clear</string>
 	<string name="pref_cache_clear_title">Clear cache</string>
 	<string name="dialog_clear">Clear</string>
-	<string name="cache_clear_dialog_loading">Loading data usages</string>
-	<string name="cache_clear_dialog_loaded">Loaded data usages</string>
+	<string name="cache_clear_dialog_loading">Loading data usage sizes</string>
+	<string name="cache_clear_dialog_loaded">Loaded data usage sizes</string>
 	<string name="cache_clear_dialog_listings">Listings</string>
 	<string name="cache_clear_dialog_listings_data">Listings (%s)</string>
 	<string name="cache_clear_dialog_thumbnails">Thumbnails</string>

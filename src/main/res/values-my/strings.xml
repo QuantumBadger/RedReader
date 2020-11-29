@@ -27,7 +27,6 @@
     <string name="pref_appearance_theme_header">သင်းမ်ပုံစံ</string>
     <string name="pref_appearance_thumbnails_header">ပုံစံငယ်</string>
     <string name="pref_appearance_comments_header">ကွန်းမန့်များ</string>
-    <string name="pref_appearance_other_header">အခြား</string>
 
     <string name="pref_appearance_twopane_title">ဇယား ပုံစံ</string>
 

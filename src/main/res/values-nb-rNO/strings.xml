@@ -25,13 +25,10 @@
     <string name="pref_appearance_theme_header">Drakt</string>
     <string name="pref_appearance_thumbnails_header">Miniatyrbilder</string>
     <string name="pref_appearance_comments_header">Kommentarer</string>
-    <string name="pref_appearance_other_header">Annet</string>
     <string name="pref_appearance_theme_title">Drakt</string>
-    <string name="pref_appearance_solidblack_title">Helsvart i nattmodus</string>
     <string name="pref_appearance_fontscale_posts_title">Skriftstørrelse for innlegg</string>
     <string name="pref_appearance_thumbnails_show_title">Vis miniatyrbilder</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Miniatyrbilder kun på Wi-Fi</string>
-    <string name="pref_appearance_loading_detail_title">Vis detaljerte innlastingsmeldinger</string>
     <string name="pref_appearance_comment_header_items_title">Kommentarhode</string>
     <string name="pref_behaviour_notifications_title">Merknader</string>
     <string name="pref_behaviour_actions_post_header">Innleggshandlinger</string>

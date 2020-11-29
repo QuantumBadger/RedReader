@@ -29,15 +29,12 @@
     <string name="pref_appearance_theme_header">Tema</string>
     <string name="pref_appearance_thumbnails_header">Miniaturas de imágenes</string>
     <string name="pref_appearance_comments_header">Comentarios</string>
-    <string name="pref_appearance_other_header">Otros</string>
     <string name="pref_appearance_twopane_title">Modo tableta (dos paneles)</string>
     <string name="pref_appearance_theme_title">Tema</string>
-    <string name="pref_appearance_solidblack_title">Negro sólido en modo noche</string>
     <string name="pref_appearance_fontscale_posts_title">Títulos de publicaciones</string>
     <string name="pref_appearance_thumbnails_show_title">Mostrar miniaturas</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">Mostrar miniaturas NSFW</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Miniaturas sólo con Wi-Fi</string>
-    <string name="pref_appearance_loading_detail_title">Mensajes de carga detallados</string>
     <string name="pref_appearance_comment_header_items_title">Cabecera de comentarios</string>
     <!-- Behaviour Prefs -->
     <string name="pref_behaviour_notifications_title">Notificaciones</string>

@@ -20,7 +20,6 @@
     <string name="prefs_category_menus">メニュー</string>
     <string name="pref_appearance_theme_header">テーマ</string>
     <string name="pref_appearance_comments_header">コメント</string>
-    <string name="pref_appearance_other_header">その他</string>
     <string name="pref_appearance_theme_title">テーマ</string>
     <string name="pref_behaviour_notifications_title">通知</string>
     <string name="options_accounts">アカウント</string>

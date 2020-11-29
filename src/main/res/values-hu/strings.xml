@@ -36,13 +36,11 @@
     <string name="pref_appearance_theme_header">Téma</string>
     <string name="pref_appearance_thumbnails_header">Előnézet</string>
     <string name="pref_appearance_comments_header">Hozzászólások</string>
-    <string name="pref_appearance_other_header">Továbbiak</string>
 
     <string name="pref_appearance_twopane_title">Tablet Mód (két sík)</string>
 
     <string name="pref_appearance_theme_title">Téma</string>
 
-    <string name="pref_appearance_solidblack_title">Tömör fekete éjszakai módban</string>
 
     <string name="pref_appearance_fontscale_posts_title">Poszt betűtípus méretszorzó</string>
 
@@ -53,7 +51,6 @@
 
     <string name="pref_appearance_thumbnails_wifionly_title">Előnézetek csak Wi-Fi-n</string>
 
-    <string name="pref_appearance_loading_detail_title">Részletes betöltőüzenetek mutatása</string>
 
     <string name="pref_appearance_comment_header_items_title">Hozzászólás fejléc</string>
 

@@ -29,15 +29,12 @@
     <string name="pref_appearance_theme_header">Skórka</string>
     <string name="pref_appearance_thumbnails_header">Miniatury</string>
     <string name="pref_appearance_comments_header">Komentarze</string>
-    <string name="pref_appearance_other_header">Inne</string>
     <string name="pref_appearance_twopane_title">Tryb tabletu (dwa panele)</string>
     <string name="pref_appearance_theme_title">Skórka</string>
-    <string name="pref_appearance_solidblack_title">Gładki czarny w trybie nocnym</string>
     <string name="pref_appearance_fontscale_posts_title">Skaluj czcionkę postów</string>
     <string name="pref_appearance_thumbnails_show_title">Pokazuj miniatury</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">Pokazuj nieprzyzwoite miniatury</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Miniatury tylko przez Wi-Fi</string>
-    <string name="pref_appearance_loading_detail_title">Pokazuj szczegółowe informacje ładowania</string>
     <string name="pref_appearance_comment_header_items_title">Nagłówek komentarza</string>
     <!-- Behaviour Prefs -->
     <string name="pref_behaviour_notifications_title">Powiadomienia</string>

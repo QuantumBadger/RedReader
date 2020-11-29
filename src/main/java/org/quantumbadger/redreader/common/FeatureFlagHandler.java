@@ -69,20 +69,19 @@ public final class FeatureFlagHandler {
 
 			Log.i(TAG, "Upgrading, show comment subreddit in header by default");
 
-			final Set<String> existingCommentHeaderItems
-					= PrefsUtility.getStringSet(
+			final Set<String> existingCommentHeaderItems = PrefsUtility.getStringSet(
 					R.string.pref_appearance_comment_header_items_key,
 					R.array.pref_appearance_comment_header_items_default,
 					context,
-					sharedPrefs
-			);
+					sharedPrefs);
 
 			existingCommentHeaderItems.add("subreddit");
 
-			sharedPrefs.edit().putStringSet(
-					context.getString(R.string.pref_appearance_comment_header_items_key),
-					existingCommentHeaderItems
-			).apply();
+			sharedPrefs.edit()
+					.putStringSet(
+							context.getString(R.string.pref_appearance_comment_header_items_key),
+							existingCommentHeaderItems)
+					.apply();
 		}
 	}
 

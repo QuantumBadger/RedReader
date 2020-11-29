@@ -1,3 +1,7 @@
+/Alpha 2020-11-29
+Alpha changelog is now more granular
+Show subreddit of comments in user profile/inbox (thanks to Cameron Merkel)
+
 95/1.15
 Inline image previews (and preference to disable)
 Stream videos rather than waiting until download complete
@@ -10,7 +14,6 @@ Ability to customize post/comment timestamp format (thanks to Cameron Merkel)
 Preference to require tapping back twice to exit post list (thanks to windsurfer)
 Handle physical enter key in custom location dialog (thanks to windsurfer)
 Ability to clear cache and view cache size (thanks to Cameron Merkel)
-Show subreddit of comments in user profile/inbox (thanks to Cameron Merkel)
 Fixed support for videos/GIFs in reddit galleries
 Use video instead of GIF for i.redd.it posts
 Added time display in video viewer control bar

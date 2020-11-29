@@ -47,7 +47,7 @@
     <string name="pref_cache_maxage_image_title">仅保留缓存图片</string>
     <string name="pref_cache_precache_images_header">预先缓存图片</string>
     <string name="pref_cache_precache_images_title">预先缓存图片</string>
-    <string name="pref_cache_precache_images_wifionly_title">仅在使用Wi-Fi时预先缓存</string>
+    <string name="pref_cache_precache_images_wifionly_title">仅在使用Wi-Fi时</string>
     <string name="pref_menus_post_context_items_title">操作菜单项</string>
     <string name="pref_menus_post_toolbar_items_title">侧工具栏项</string>
     <string name="options_accounts">帐号</string>
@@ -165,7 +165,7 @@
     <string name="comment_edit_done">您已经修改评论，更改将在您刷新后显示。</string>
     <string name="post_submit_title_hint">标题</string>
     <string name="post_submit_subreddit_hint">版块</string>
-    <string name="post_captcha_title">Captcha</string>
+    <string name="post_captcha_title">CAPTCHA</string>
     <string name="post_captcha_submit_button">提交</string>
     <string name="post_submit_done">已发帖。</string>
     <string name="bug_title">应用出现了问题。</string>
@@ -230,7 +230,7 @@
     <string name="props_down">踩</string>
     <string name="notification_comment">%s回复了您的发文</string>
     <string name="notification_message">%s给您发了一则信息</string>
-    <string name="notification_message_multiple">您有未读的Reddit信息</string>
+    <string name="notification_message_multiple">Reddit 上的新消息</string>
     <string name="notification_message_action">轻触查看</string>
     <string name="general_true">是</string>
     <string name="general_false">否</string>
@@ -262,7 +262,7 @@
     <string name="error_invalid_password_title">密码错误</string>
     <string name="error_invalid_password_message">用户名或密码有误。</string>
     <string name="error_ratelimit_title">您已经试过太多次无效登录。</string>
-    <string name="error_ratelimit_message">Reddit因为收到过多无效的登录，已经封禁此IP地址。Reddit表示：</string>
+    <string name="error_ratelimit_message">由于这个IP的无效登录尝试太多而被阻止。Reddit 说:</string>
     <string name="general_success">成功</string>
     <string name="message_nowloggedin">您已经登录。</string>
     <string name="message_cannotlogin">未能登录。</string>
@@ -285,7 +285,7 @@
     <string name="pref_appearance_langforce_title">语言</string>
     <string name="lang_auto">自动选择</string>
     <string name="prefs_category_network">网络连接</string>
-    <string name="pref_network_https_title">启用HTTPS</string>
+    <string name="pref_network_https_title">使用 HTTPS</string>
     <string name="web_view_open_browser">使用浏览器查看</string>
     <string name="pref_behaviour_useinternalbrowser_title">使用内部浏览器</string>
     <string name="pref_appearance_linkbuttons_title">显示链接按钮</string>
@@ -295,8 +295,8 @@
     <string name="pref_behaviour_postsort">帖子(默认)</string>
     <string name="edit_post_actionbar">编辑帖子</string>
     <string name="post_edit_done">您已经修改帖子，更改将在您刷新后显示。</string>
-    <string name="collapsed_self_post">已收起的原创文章</string>
-    <string name="pref_behaviour_self_post_tap_actions_title">轻触无外链帖子选项</string>
+    <string name="collapsed_self_post">Self post 已收起</string>
+    <string name="pref_behaviour_self_post_tap_actions_title">轻触 Self post 后的操作</string>
     <string name="pref_appearance_navbar_color_title">导航栏和状态栏颜色</string>
     <string name="pref_appearance_navbar_color_option_black">黑色</string>
     <string name="pref_appearance_navbar_color_option_primary">主色（光）</string>
@@ -337,7 +337,7 @@
     <string name="mainmenu_modmail">管理员信息</string>
     <string name="sidebar_activity_title">侧栏</string>
     <string name="header_subscriber_count">%s个订阅者</string>
-    <string name="header_subscriber_count_unknown">不知有多少订阅者</string>
+    <string name="header_subscriber_count_unknown">未知的订阅者数目</string>
     <string name="invalid_subreddit_name">版块名称无效</string>
     <string name="web_view_clear_cache">清除缓存</string>
     <string name="web_view_clear_cache_success_toast">已清除缓存、历史、cookies和表格数据。</string>
@@ -345,7 +345,7 @@
     <string name="pref_appearance_comment_header_items_gold">Reddit黄金</string>
     <string name="karma_link">链接Karma</string>
     <string name="karma_comment">评论Karma</string>
-    <string name="imageview_decode_failed">图片解码失败。正尝试用网络浏览器。</string>
+    <string name="imageview_decode_failed">无法解码图片。正尝试网络浏览器。</string>
     <string name="user_comments">评论</string>
     <string name="comment_header_specific_thread_message">按此检视本帖的所有评论。</string>
     <string name="action_comment_context">前言后语</string>
@@ -359,7 +359,7 @@
     <string name="mark_all_as_read_success">所有信息已标示为已读。</string>
     <string name="error_title_login_user_denied_permission">被拒绝</string>
     <string name="error_message_login_user_denied_permission">Reddit不认为您有权使用该帐号，请再试。</string>
-    <string name="error_title_login_unknown_reddit_error">不知的Reddit错误：%s</string>
+    <string name="error_title_login_unknown_reddit_error">未知的 Reddit 错误：%s</string>
     <string name="imageview_invalid_video">无效视频。正尝试网络浏览器播放。</string>
     <string name="download_authorizing">验证中……</string>
     <string name="pref_behaviour_skiptofrontpage_title">跳至主页</string>
@@ -387,14 +387,14 @@
     <string name="pref_behaviour_videoview_mode_title">视频查看器</string>
     <string name="pref_behaviour_videoview_mode_internal_videoview">内部VideoView（建议使用）</string>
     <string name="pref_behaviour_videoview_mode_external_app_vlc">外部应用：VLC</string>
-    <string name="videoview_mode_app_vlc_launch_failed">无法启用VLC。请更新VLC或更改您选择的播放器。</string>
+    <string name="videoview_mode_app_vlc_launch_failed">无法启用 VLC。请升级 VLC 或更改您的视频查看器选项。</string>
     <string name="error_url_required_title">需要网址</string>
     <string name="error_url_required_message">请提供一个网址。</string>
     <string name="sort_comments_qa">问答</string>
     <string name="pref_behaviour_gallery_swipe_length_title">相册滑动长度</string>
     <string name="pref_cache_precache_comments_header">预先缓存评论</string>
     <string name="pref_cache_precache_comments_title">预先缓存评论</string>
-    <string name="pref_cache_precache_comments_wifionly_title">仅在Wi-Fi上预先缓存</string>
+    <string name="pref_cache_precache_comments_wifionly_title">仅在 Wi-Fi 连接时</string>
     <string name="mainmenu_header_subreddits_subscribed">已订阅的版块</string>
     <string name="mainmenu_header_subreddits_pinned">钉在主菜单的版块</string>
     <string name="pin_subreddit">钉在主菜单</string>
@@ -436,7 +436,7 @@
     <string name="pref_behaviour_imageview_mode_internal_opengl">内部查看器（OpenGL）</string>
     <string name="pref_behaviour_albumview_mode_title">相册查看器</string>
     <string name="pref_behaviour_albumview_mode_internal_list">内部查看器（列表）</string>
-    <string name="error_tor_start_failed">Orbot无法启动，Tor将不能正常运作。</string>
+    <string name="error_tor_start_failed">无法启动 Orbot。Tor将不能正常运作。</string>
     <string name="no_comments_yet">暂无评论。</string>
     <string name="pm_send_hint_recipient">收件人</string>
     <string name="pm_send_hint_subject">标题</string>
@@ -498,7 +498,7 @@
     <string name="comment_header_specific_thread_title">您正在浏览一则评论和其回复。</string>
     <string name="pref_behaviour_bezel_toolbar_header">帖子侧边工具栏</string>
     <string name="pref_behaviour_bezel_toolbar_swipezone_title">帖子侧边工具栏滑动区域大小</string>
-    <string name="upgrade_v190_login_message">RedReader已更新，并使用oAuth进行Reddit验证。如果您在更新前登录了您的帐号，您已经被登出。</string>
+    <string name="upgrade_v190_login_message">RedReader 已升级，并使用 OAuth 进行 Reddit 验证。如果您在升级前登录了您的帐号，您已经被登出。</string>
     <string name="open_with">开启的应用</string>
     <string name="save_image_permission_denied">权限被拒：无法存储图片。</string>
     <string name="inbox_unread_only">仅显示未读的信息</string>
@@ -511,7 +511,7 @@
     <string name="mainmenu_header_multireddits">Multireddit</string>
     <string name="pref_behaviour_share_permalink_title">分享永久链接</string>
     <string name="error_cache_dir_does_not_exist_title">缓存路径无效</string>
-    <string name="error_cache_dir_does_not_exist_message">无法使用缓存路径，请在缓存设置中另选存储位置。</string>
+    <string name="error_cache_dir_does_not_exist_message">无法访问缓存目录。请在缓存设置中选择不同的位置。</string>
     <string name="pref_behaviour_pinned_subredditsort">固定子版块</string>
     <string name="pref_appearance_image_viewer_show_floating_toolbar_title">在图片和视频上方显示浮动按钮</string>
     <string name="pref_appearance_link_text_clickable_title">按下链接文字后开启链接</string>
@@ -529,7 +529,7 @@
     <string name="pref_appearance_comments_show_floating_toolbar_title">在评论上方显示导航按钮</string>
     <string name="download_link_message">这是一个下载链接。您要用外部浏览器开启链接吗？</string>
     <string name="pref_behaviour_sharing_share_text_title">分享评论时同时分享文字</string>
-    <string name="disable_replies_to_infobox_failed">无法停止发送回复至邮箱</string>
+    <string name="disable_replies_to_infobox_failed">无法关闭进入收件箱的回复</string>
     <string name="mainmenu_custom_empty_search_query">请输入要搜索的内容。</string>
     <string name="search_listing_header_query">搜索内容</string>
     <string name="pref_behaviour_sharing_header">分享</string>
@@ -542,8 +542,8 @@
     <string name="error_already_submitted_message">该帖子已被提交到此subreddit.</string>
     <string name="comment_reply_done_norefresh">回复已发送.</string>
     <string name="sort_posts_best">最佳</string>
-    <string name="pref_behaviour_usecustomtabs_title">使用自定义标签</string>
-    <string name="pref_behaviour_usecustomtabs_summary">使用可用的自定义标签</string>
+    <string name="pref_behaviour_usecustomtabs_title">使用 Android 自定义标签</string>
+    <string name="pref_behaviour_usecustomtabs_summary">可以的话，使用 Android 自定义标签页</string>
     <string name="pref_behaviour_hide_read_posts_title">隐藏已读帖子</string>
     <string name="pref_menus_mainmenu_shortcutitems_title">快捷方式</string>
     <string name="pref_menus_show_multireddit_main_menu_title">显示多个Reddit子版块</string>
@@ -560,22 +560,22 @@
     <string name="pref_behaviour_sharing_share_dialog_dialogtitle">挑选用于分享的应用</string>
     <string name="pref_behaviour_sharing_share_dialog_title">使用内置分享对话框</string>
     <string name="error_toast_no_share_app_installed">未安装合适的应用程序来共享此内容.</string>
-    <string name="props_self_html">Self text (HTML)</string>
+    <string name="props_self_html">Self text (HTML格式)</string>
     <string name="subreddit_link_copied_to_clipboard">已复制子版块链接到剪贴板</string>
     <string name="comment_text_copied_to_clipboard">已复制评论文本到剪贴板</string>
     <string name="comment_link_copied_to_clipboard">已复制评论链接到剪贴板</string>
     <string name="link_copied_to_clipboard">链接已被复制到剪贴板</string>
     <string name="post_link_copied_to_clipboard">已复制帖子链接到剪贴板</string>
     <string name="props_body_html">正文 （HTML）</string>
-    <string name="error_message_malformed_html">能解析正文文本。请将此报告给应用程序开发者。</string>
+    <string name="error_message_malformed_html">无法解析正文文本。请将此报告给应用程序开发者。</string>
     <string name="error_title_malformed_html">畸形的HTML</string>
     <string name="spoiler">剧透</string>
     <string name="pref_menus_posts_header">帖子</string>
     <string name="pref_menus_mainmenu_header">主菜单</string>
     <string name="unpin_successful">已从主菜单取消固定%s</string>
     <string name="pin_successful">已将 %s固定到主菜单</string>
-    <string name="unsubscription_successful">取消订阅 %s成功</string>
-    <string name="subscription_successful">成功订阅 %s</string>
+    <string name="unsubscription_successful">取消了对 %s 的订阅</string>
+    <string name="subscription_successful">订阅了 %s</string>
     <string name="bug_chooser_title">用电子邮件发送错误报告</string>
     <string name="error_toast_no_email_apps">没有安装电邮应用！</string>
     <string name="error_toast_failed_open_external_browser">未能在在外部浏览器中打开url \"%s\"</string>
@@ -592,7 +592,7 @@
     <string name="search_results_query_only">搜索\"%s\"</string>
     <string name="search_results_all">在/r/%2$s中搜索\"%1$s\"</string>
     <string name="search_results_short">搜索结果</string>
-    <string name="error_nsfw_subreddits_disabled_message">当前在设置中禁用了NSFW内容.</string>
+    <string name="error_nsfw_subreddits_disabled_message">当前在设置中禁用了 NSFW 内容。</string>
     <string name="error_nsfw_subreddits_disabled_title">已屏蔽的NSFW子版块</string>
     <string name="list_yes_no_or_wifi_never">从不</string>
     <string name="list_yes_no_or_wifi_wifionly">仅连接到Wi-Fi时</string>
@@ -640,10 +640,10 @@
     <string name="reddit_login_browser_popup_use_external_browser">使用外部浏览器(推荐)</string>
     <string name="reddit_login_browser_popup_use_internal_browser">使用内部浏览器(推荐)</string>
     <string name="reddit_login_browser_popup_line_2">登录完成后，您应该被重定向回到RedReader。如果登录失败，您可以使用下面的复选框尝试使用其他浏览器。</string>
-    <string name="reddit_login_browser_popup_line_1">要登录，你现在会被带到网络浏览器的Reddit页面。</string>
+    <string name="reddit_login_browser_popup_line_1">要登录，你现在会被带到网络浏览器的 Reddit 页面。</string>
     <string name="image_gallery_no_image_present_message">找不到指定的图像。它可能已被删除。</string>
     <string name="image_gallery_no_image_present_title">未找到图像</string>
-    <string name="pref_behaviour_video_zoom_default_title">默认放大视频</string>
+    <string name="pref_behaviour_video_zoom_default_title">裁剪视频以填充屏幕</string>
     <string name="link_does_not_exist">该链接不存在。 它可能已被删除。</string>
     <plurals name="load_more_comments_button_reply_count">
         <item quantity="other">加载更多评论 (%d 条回复)</item>
@@ -705,7 +705,7 @@
     <string name="pref_behaviour_postlist_back_again">按两次返回退出帖子列表</string>
     <string name="press_back_again">再按一次返回</string>
     <string name="pref_behaviour_imagevideo_tap_close_summary">如果启用了回放控制，则不影响视频</string>
-    <string name="pref_behaviour_imagevideo_tap_close_title">点按关闭图片/视频</string>
+    <string name="pref_behaviour_imagevideo_tap_close_title">轻触关闭图片/视频</string>
     <string name="action_save_image_success_no_path">成功保存图片</string>
     <string name="title_attribution">致谢</string>
     <string name="imageview_download_failed">下载被打断。正尝试网络浏览器。</string>
@@ -723,4 +723,9 @@
     <string name="pref_images_inline_image_previews_title">内联图片预览</string>
     <string name="pref_header_inline_image_previews">内联图片预览</string>
     <string name="pref_images_high_res_thumbnails_title">高分辨率缩略图</string>
+    <string name="pref_menus_appbar_items_if_room">在有空间的情况下，在操作栏中显示按钮</string>
+    <string name="pref_accessibility_separate_body_text_lines_summary">在评论和self post正文中，使用户可以聚焦到每一行文本上，而不是一下子阅读整个评论</string>
+    <string name="pref_accessibility_separate_body_text_lines_title">分隔正文文本行</string>
+    <string name="prefs_category_accessibility">无障碍设置</string>
+    <string name="pref_videos_download_before_playing_title">开始回放前完整下载要播放的视频</string>
 </resources>

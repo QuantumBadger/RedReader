@@ -6,35 +6,35 @@
 		android:layout_width="match_parent"
 		android:layout_height="match_parent">
 
-	<com.google.android.material.appbar.AppBarLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
+<!--	<com.google.android.material.appbar.AppBarLayout-->
+<!--			android:layout_width="match_parent"-->
+<!--			android:layout_height="wrap_content">-->
 
-		<androidx.appcompat.widget.Toolbar
-				android:id="@+id/rr_actionbar_toolbar"
-				android:layout_width="match_parent"
-				android:layout_height="?attr/actionBarSize"
-				android:background="?attr/colorPrimary"
-				app:titleTextAppearance="@style/RR.Toolbar.TitleText"
-				app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-				app:popupTheme="?rrActionBarPopupThemeStyle" />
+<!--		<androidx.appcompat.widget.Toolbar-->
+<!--				android:id="@+id/rr_actionbar_toolbar"-->
+<!--				android:layout_width="match_parent"-->
+<!--				android:layout_height="?attr/actionBarSize"-->
+<!--				android:background="@color/blue_a400"-->
+<!--				app:titleTextAppearance="@style/RR.Toolbar.TitleText"-->
+<!--				app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"-->
+<!--				app:popupTheme="?rrActionBarPopupThemeStyle" />-->
 
-	</com.google.android.material.appbar.AppBarLayout>
+<!--	</com.google.android.material.appbar.AppBarLayout>-->
 
-	<FrameLayout
-			android:layout_width="match_parent"
-			android:layout_height="match_parent">
+<!--	<FrameLayout-->
+<!--			android:layout_width="match_parent"-->
+<!--			android:layout_height="match_parent">-->
 
-		<FrameLayout
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:id="@+id/rr_actionbar_content_listing" />
+<!--		<FrameLayout-->
+<!--				android:layout_width="match_parent"-->
+<!--				android:layout_height="match_parent"-->
+<!--				android:id="@+id/rr_actionbar_content_listing" />-->
 
-		<FrameLayout
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:id="@+id/rr_actionbar_content_overlay" />
+<!--		<FrameLayout-->
+<!--				android:layout_width="match_parent"-->
+<!--				android:layout_height="match_parent"-->
+<!--				android:id="@+id/rr_actionbar_content_overlay" />-->
 
-	</FrameLayout>
+<!--	</FrameLayout>-->
 
 </LinearLayout>

@@ -4,7 +4,7 @@ buildscript {
 		google()
 	}
 	dependencies {
-		classpath 'com.android.tools.build:gradle:4.0.1'
+		classpath 'com.android.tools.build:gradle:4.1.1'
 	}
 }
 
@@ -34,6 +34,10 @@ dependencies {
 	implementation 'com.google.android.exoplayer:exoplayer-core:2.9.6'
 	implementation 'com.google.android.exoplayer:exoplayer-ui:2.9.6'
 
+	implementation 'androidx.wear:wear:1.1.0'
+	implementation 'com.google.android.support:wearable:2.8.1'
+	compileOnly 'com.google.android.wearable:wearable:2.8.1'
+
 	testImplementation 'junit:junit:4.13'
 
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
@@ -42,13 +46,13 @@ dependencies {
 }
 
 android {
-	compileSdkVersion 29
-	buildToolsVersion "29.0.3"
+	compileSdkVersion 30
+//	buildToolsVersion "29.0.3"
 
 	defaultConfig {
 		applicationId "org.quantumbadger.redreader"
-		minSdkVersion 14
-		targetSdkVersion 29
+		minSdkVersion 23
+		targetSdkVersion 30
 		versionCode 95
 		versionName "1.15"
 

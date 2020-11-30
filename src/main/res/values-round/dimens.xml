@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-	<dimen name="header_start_padding">16dp</dimen>
-	<dimen name="header_end_padding">16dp</dimen>
+	<dimen name="header_start_padding">36dp</dimen>
+	<dimen name="header_end_padding">22dp</dimen>
 	<dimen name="list_start_padding">10dp</dimen>
 	<dimen name="list_end_padding">10dp</dimen>
 

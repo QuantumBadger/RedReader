@@ -104,7 +104,7 @@ public class MainMenuFragment extends RRFragment implements
 				.getDefaultAccount();
 
 		final ScrollbarRecyclerViewManager recyclerViewManager
-				= new ScrollbarRecyclerViewManager(parent, null, false);
+				= new ScrollbarRecyclerViewManager(parent, null, false, true);
 
 		mOuter = recyclerViewManager.getOuterView();
 		final RecyclerView recyclerView = recyclerViewManager.getRecyclerView();

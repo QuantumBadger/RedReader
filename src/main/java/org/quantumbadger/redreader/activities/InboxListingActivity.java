@@ -183,7 +183,7 @@ public final class InboxListingActivity extends BaseActivity {
 		notifications.addView(loadingView);
 
 		final ScrollbarRecyclerViewManager recyclerViewManager
-				= new ScrollbarRecyclerViewManager(this, null, false);
+				= new ScrollbarRecyclerViewManager(this, null, false, false);
 
 		adapter = new GroupedRecyclerViewAdapter(1);
 		recyclerViewManager.getRecyclerView().setAdapter(adapter);

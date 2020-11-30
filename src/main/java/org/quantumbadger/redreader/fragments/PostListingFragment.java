@@ -199,7 +199,7 @@ public class PostListingFragment extends RRFragment
 		}
 
 		final ScrollbarRecyclerViewManager recyclerViewManager
-				= new ScrollbarRecyclerViewManager(context, null, false);
+				= new ScrollbarRecyclerViewManager(context, null, false, false);
 
 		if(parent instanceof OptionsMenuUtility.OptionsMenuPostsListener
 				&& PrefsUtility.pref_behaviour_enable_swipe_refresh(

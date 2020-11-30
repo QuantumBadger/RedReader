@@ -106,59 +106,59 @@ public abstract class BaseActivity extends AppCompatActivity
 		closeIfNecessary();
 	}
 
-	// Avoids IDE warnings about null pointers
-	@NonNull
-	public final ActionBar getSupportActionBarOrThrow() {
+// 	// Avoids IDE warnings about null pointers
+// 	@NonNull
+// 	public final ActionBar getSupportActionBarOrThrow() {
 
-		final ActionBar result = getSupportActionBar();
+// 		final ActionBar result = getSupportActionBar();
 
-		if(result == null) {
-			throw new RuntimeException("Action bar is null");
-		}
+// 		if(result == null) {
+// 			throw new RuntimeException("Action bar is null");
+// 		}
 
-		return result;
-	}
+// 		return result;
+// 	}
 
-	protected void configBackButton(final boolean isVisible, final View.OnClickListener listener) {
+// 	protected void configBackButton(final boolean isVisible, final View.OnClickListener listener) {
 
-		if(Build.VERSION.SDK_INT >= 19) {
+// 		if(Build.VERSION.SDK_INT >= 19) {
 
-			mActionbarBackIconView.setImportantForAccessibility(
-					View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
+// 			mActionbarBackIconView.setImportantForAccessibility(
+// 					View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
 
-			mActionbarTitleTextView.setImportantForAccessibility(
-					View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
-		}
+// 			mActionbarTitleTextView.setImportantForAccessibility(
+// 					View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
+// 		}
 
-		if(isVisible) {
-			mActionbarBackIconView.setVisibility(View.VISIBLE);
-			mActionbarTitleOuterView.setOnClickListener(listener);
-			mActionbarTitleOuterView.setClickable(true);
+// 		if(isVisible) {
+// 			mActionbarBackIconView.setVisibility(View.VISIBLE);
+// 			mActionbarTitleOuterView.setOnClickListener(listener);
+// 			mActionbarTitleOuterView.setClickable(true);
 
-			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-				mActionbarTitleOuterView.setContentDescription(getString(R.string.action_back));
-				mActionbarTitleOuterView.setImportantForAccessibility(
-						View.IMPORTANT_FOR_ACCESSIBILITY_YES);
-			}
+// 			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+// 				mActionbarTitleOuterView.setContentDescription(getString(R.string.action_back));
+// 				mActionbarTitleOuterView.setImportantForAccessibility(
+// 						View.IMPORTANT_FOR_ACCESSIBILITY_YES);
+// 			}
 
-			if(TextUtilsCompat.getLayoutDirectionFromLocale(Locale.getDefault())
-					== ViewCompat.LAYOUT_DIRECTION_RTL) {
+// 			if(TextUtilsCompat.getLayoutDirectionFromLocale(Locale.getDefault())
+// 					== ViewCompat.LAYOUT_DIRECTION_RTL) {
 
-				mActionbarBackIconView.setImageResource(R.drawable.ic_action_forward_dark);
-			}
+// 				mActionbarBackIconView.setImageResource(R.drawable.ic_action_forward_dark);
+// 			}
 
-		} else {
-			mActionbarBackIconView.setVisibility(View.GONE);
-			mActionbarTitleOuterView.setClickable(false);
+// 		} else {
+// 			mActionbarBackIconView.setVisibility(View.GONE);
+// 			mActionbarTitleOuterView.setClickable(false);
 
-			mActionbarTitleOuterView.setContentDescription(null);
+// 			mActionbarTitleOuterView.setContentDescription(null);
 
-			if(Build.VERSION.SDK_INT >= 19) {
-				mActionbarTitleOuterView.setImportantForAccessibility(
-						View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
-			}
-		}
-	}
+// 			if(Build.VERSION.SDK_INT >= 19) {
+// 				mActionbarTitleOuterView.setImportantForAccessibility(
+// 						View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
+// 			}
+// 		}
+// 	}
 
 	protected boolean baseActivityAllowToolbarHideOnScroll() {
 		// Disallow by default
@@ -183,97 +183,107 @@ public abstract class BaseActivity extends AppCompatActivity
 		setOrientationFromPrefs();
 		closeIfNecessary();
 
-		if(baseActivityIsToolbarActionBarEnabled()) {
+//		if(baseActivityIsToolbarActionBarEnabled()) {
+//
+//			final View outerView;
+//
+//			final boolean isTablet = General.isTablet(this, mSharedPreferences);
+//
+//			final boolean prefBottomToolbar
+//					= PrefsUtility.pref_appearance_bottom_toolbar(this, mSharedPreferences);
+//
+//			final boolean prefHideOnScroll = PrefsUtility.pref_appearance_hide_toolbar_on_scroll(
+//					this,
+//					mSharedPreferences);
+//
+//			final int layoutRes;
+//
+//			if(prefHideOnScroll && !isTablet) {
+//
+//				if(baseActivityAllowToolbarHideOnScroll()) {
+//					layoutRes = R.layout.rr_actionbar_hide_on_scroll;
+//				} else {
+//					layoutRes = R.layout.rr_actionbar;
+//				}
+//
+//			} else if(prefBottomToolbar) {
+//				layoutRes = R.layout.rr_actionbar_reverse;
+//
+//			} else {
+//				layoutRes = R.layout.rr_actionbar;
+//			}
+//
+//			outerView = getLayoutInflater().inflate(layoutRes, null);
+//
+//			final Toolbar toolbar = outerView.findViewById(R.id.rr_actionbar_toolbar);
+//			mContentListing = outerView.findViewById(R.id.rr_actionbar_content_listing);
+//			mContentOverlay = outerView.findViewById(R.id.rr_actionbar_content_overlay);
+//
+//			super.setContentView(outerView);
+//			setSupportActionBar(toolbar);
+//
+////			getSupportActionBarOrThrow().setCustomView(R.layout.actionbar_title);
+////			getSupportActionBarOrThrow().setDisplayShowCustomEnabled(true);
+////			getSupportActionBarOrThrow().setDisplayShowTitleEnabled(false);
+////			toolbar.setContentInsetsAbsolute(0, 0);
+//
+////			mActionbarTitleTextView = toolbar.findViewById(R.id.actionbar_title_text);
+////			mActionbarBackIconView = toolbar.findViewById(R.id.actionbar_title_back_image);
+////			mActionbarTitleOuterView = toolbar.findViewById(R.id.actionbar_title_outer);
+////
+////			if(getTitle() != null) {
+////				// Update custom action bar text
+////				setTitle(getTitle());
+////			}
+//
+//			configBackButton(
+//					baseActivityIsActionBarBackEnabled(),
+//					v -> finish());
+//
+//			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//
+//				final PrefsUtility.AppearanceNavbarColour navbarColour
+//						= PrefsUtility.appearance_navbar_colour(
+//						this,
+//						mSharedPreferences);
+//
+//				if(navbarColour == PrefsUtility.AppearanceNavbarColour.BLACK) {
+//					getWindow().setNavigationBarColor(Color.BLACK);
+//
+//				} else if(navbarColour == PrefsUtility.AppearanceNavbarColour.WHITE) {
+//					getWindow().setNavigationBarColor(Color.WHITE);
+//
+//				} else {
+//					final int colour;
+//					{
+//						final TypedArray appearance = obtainStyledAttributes(new int[] {
+//								R.attr.colorPrimary,
+//								R.attr.colorPrimaryDark});
+//
+//						if(navbarColour == PrefsUtility.AppearanceNavbarColour.PRIMARY) {
+//							colour = appearance.getColor(0, General.COLOR_INVALID);
+//						} else {
+//							colour = appearance.getColor(1, General.COLOR_INVALID);
+//						}
+//
+//						appearance.recycle();
+//					}
+//
+//					getWindow().setNavigationBarColor(colour);
+//				}
+//			}
+//
+//		} else {
+//			mContentListing = new FrameLayout(this);
+//			mContentOverlay = new FrameLayout(this);
+//
+//			final FrameLayout outer = new FrameLayout(this);
+//			outer.addView(mContentListing);
+//			outer.addView(mContentOverlay);
+//
+//			super.setContentView(outer);
+//		}
 
-			final View outerView;
-
-			final boolean isTablet = General.isTablet(this, mSharedPreferences);
-
-			final boolean prefBottomToolbar
-					= PrefsUtility.pref_appearance_bottom_toolbar(this, mSharedPreferences);
-
-			final boolean prefHideOnScroll = PrefsUtility.pref_appearance_hide_toolbar_on_scroll(
-					this,
-					mSharedPreferences);
-
-			final int layoutRes;
-
-			if(prefHideOnScroll && !isTablet) {
-
-				if(baseActivityAllowToolbarHideOnScroll()) {
-					layoutRes = R.layout.rr_actionbar_hide_on_scroll;
-				} else {
-					layoutRes = R.layout.rr_actionbar;
-				}
-
-			} else if(prefBottomToolbar) {
-				layoutRes = R.layout.rr_actionbar_reverse;
-
-			} else {
-				layoutRes = R.layout.rr_actionbar;
-			}
-
-			outerView = getLayoutInflater().inflate(layoutRes, null);
-
-			final Toolbar toolbar = outerView.findViewById(R.id.rr_actionbar_toolbar);
-			mContentListing = outerView.findViewById(R.id.rr_actionbar_content_listing);
-			mContentOverlay = outerView.findViewById(R.id.rr_actionbar_content_overlay);
-
-			super.setContentView(outerView);
-			setSupportActionBar(toolbar);
-
-			getSupportActionBarOrThrow().setCustomView(R.layout.actionbar_title);
-			getSupportActionBarOrThrow().setDisplayShowCustomEnabled(true);
-			getSupportActionBarOrThrow().setDisplayShowTitleEnabled(false);
-			toolbar.setContentInsetsAbsolute(0, 0);
-
-			mActionbarTitleTextView = toolbar.findViewById(R.id.actionbar_title_text);
-			mActionbarBackIconView = toolbar.findViewById(R.id.actionbar_title_back_image);
-			mActionbarTitleOuterView = toolbar.findViewById(R.id.actionbar_title_outer);
-
-			if(getTitle() != null) {
-				// Update custom action bar text
-				setTitle(getTitle());
-			}
-
-			configBackButton(
-					baseActivityIsActionBarBackEnabled(),
-					v -> finish());
-
-			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
-				final PrefsUtility.AppearanceNavbarColour navbarColour
-						= PrefsUtility.appearance_navbar_colour(
-						this,
-						mSharedPreferences);
-
-				if(navbarColour == PrefsUtility.AppearanceNavbarColour.BLACK) {
-					getWindow().setNavigationBarColor(Color.BLACK);
-
-				} else if(navbarColour == PrefsUtility.AppearanceNavbarColour.WHITE) {
-					getWindow().setNavigationBarColor(Color.WHITE);
-
-				} else {
-					final int colour;
-					{
-						final TypedArray appearance = obtainStyledAttributes(new int[] {
-								R.attr.colorPrimary,
-								R.attr.colorPrimaryDark});
-
-						if(navbarColour == PrefsUtility.AppearanceNavbarColour.PRIMARY) {
-							colour = appearance.getColor(0, General.COLOR_INVALID);
-						} else {
-							colour = appearance.getColor(1, General.COLOR_INVALID);
-						}
-
-						appearance.recycle();
-					}
-
-					getWindow().setNavigationBarColor(colour);
-				}
-			}
-
-		} else {
 			mContentListing = new FrameLayout(this);
 			mContentOverlay = new FrameLayout(this);
 
@@ -282,7 +292,6 @@ public abstract class BaseActivity extends AppCompatActivity
 			outer.addView(mContentOverlay);
 
 			super.setContentView(outer);
-		}
 	}
 
 	public void setBaseActivityListing(@NonNull final View view) {

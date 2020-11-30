@@ -26,7 +26,6 @@ import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.util.Base64OutputStream;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -49,7 +48,7 @@ import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.http.HTTPBackend;
 import org.quantumbadger.redreader.image.ThumbnailScaler;
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
+import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.views.LoadingSpinnerView;
 
@@ -139,9 +138,7 @@ public class ImgurUploadActivity extends BaseActivity {
 			outerLayout.addView(mLoadingOverlay);
 			mLoadingOverlay.setBackgroundColor(Color.argb(220, 50, 50, 50));
 
-			final ViewGroup.LayoutParams layoutParams = mLoadingOverlay.getLayoutParams();
-			layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
-			layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
+			General.setLayoutMatchParent(mLoadingOverlay);
 
 			mLoadingOverlay.setOnClickListener(v -> {
 				// Do nothing
@@ -281,7 +278,7 @@ public class ImgurUploadActivity extends BaseActivity {
 						final Uri imageUri;
 
 						try {
-							final JsonBufferedObject root = result.asObject();
+							final JsonObject root = result.asObject();
 
 							if(root == null) {
 								throw new RuntimeException("Response root object is null");

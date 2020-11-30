@@ -136,6 +136,8 @@ public class WebViewFragment extends Fragment
 					parsedPost,
 					-1,
 					false,
+					false,
+					false,
 					false);
 
 		} else {
@@ -425,15 +427,8 @@ public class WebViewFragment extends Fragment
 			outerFrame.addView(bezelOverlay);
 			outerFrame.addView(toolbarOverlay);
 
-			bezelOverlay.getLayoutParams().width
-					= android.widget.FrameLayout.LayoutParams.MATCH_PARENT;
-			bezelOverlay.getLayoutParams().height
-					= android.widget.FrameLayout.LayoutParams.MATCH_PARENT;
-
-			toolbarOverlay.getLayoutParams().width
-					= android.widget.FrameLayout.LayoutParams.MATCH_PARENT;
-			toolbarOverlay.getLayoutParams().height
-					= android.widget.FrameLayout.LayoutParams.MATCH_PARENT;
+			General.setLayoutMatchParent(bezelOverlay);
+			General.setLayoutMatchParent(toolbarOverlay);
 		}
 
 		return outerFrame;

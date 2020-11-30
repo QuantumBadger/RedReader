@@ -218,6 +218,7 @@ public final class Constants {
 				API_POST_LIST = -200,
 				API_COMMENT_LIST = -300,
 				THUMBNAIL = 100,
+				INLINE_IMAGE_PREVIEW = 100,
 				IMAGE_PRECACHE = 500,
 				COMMENT_PRECACHE = 500,
 				IMAGE_VIEW = -400,
@@ -237,6 +238,7 @@ public final class Constants {
 				THUMBNAIL = 200,
 				IMAGE = 201,
 				CAPTCHA = 202,
+				INLINE_IMAGE_PREVIEW = 203,
 				IMAGE_INFO = 300;
 	}
 }

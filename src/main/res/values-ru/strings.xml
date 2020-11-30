@@ -26,15 +26,12 @@
     <string name="pref_appearance_theme_header">Оформление</string>
     <string name="pref_appearance_thumbnails_header">Миниатюры</string>
     <string name="pref_appearance_comments_header">Комментарии</string>
-    <string name="pref_appearance_other_header">Прочее</string>
     <string name="pref_appearance_twopane_title">Режим планшета (две панели)</string>
     <string name="pref_appearance_theme_title">Тема</string>
-    <string name="pref_appearance_solidblack_title">Сплошной чёрный в ночном режиме</string>
     <string name="pref_appearance_fontscale_posts_title">Размер шрифта в публикациях</string>
     <string name="pref_appearance_thumbnails_show_title">Показывать миниатюры</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">Показывать NSFW миниатюры</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Миниатюры только для Wi-Fi</string>
-    <string name="pref_appearance_loading_detail_title">Отображать подробную информацию о загрузке</string>
     <string name="pref_appearance_comment_header_items_title">Заголовок комментария</string>
     <string name="pref_behaviour_notifications_title">Уведомления</string>
     <string name="pref_behaviour_actions_post_header">Действия публикации</string>
@@ -212,7 +209,6 @@
     <string name="session_active">Активна</string>
     <string name="time_ago">%s назад</string>
     <string name="userprofile_created">Создан</string>
-    <string name="userprofile_hasmail">Есть почта</string>
     <string name="userprofile_isfriend">В друзьях</string>
     <string name="userprofile_isgold">Reddit Золото</string>
     <string name="userprofile_moderator">Модератор</string>
@@ -526,7 +522,6 @@
     <string name="subtitle_by">от</string>
     <string name="subtitle_to">в</string>
     <string name="pref_cache_maxage_entry_title">Удалять кешированные отметки (прочитано, отдан голос и т.д.) после</string>
-    <string name="userprofile_hasmodmail">Есть непрочитанные сообщения модератору</string>
     <string name="mainmenu_modmail">Почта модератора</string>
     <string name="pref_behaviour_bezel_toolbar_header">Панель-безель</string>
     <string name="pref_behaviour_bezel_toolbar_swipezone_title">Ширина зоны вытаскивания панели-безеля</string>

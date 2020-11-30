@@ -22,11 +22,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.common.CachedThreadPool;
-import org.quantumbadger.redreader.common.Factory;
+import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -68,7 +69,7 @@ public final class CacheRequestJSONParser implements CacheRequestCallbacks {
 
 	@Override
 	public void onDataStreamAvailable(
-			@NonNull final Factory<SeekableInputStream, IOException> streamFactory,
+			@NonNull final GenericFactory<SeekableInputStream, IOException> streamFactory,
 			final long timestamp,
 			@NonNull final UUID session,
 			final boolean fromCache,
@@ -78,8 +79,8 @@ public final class CacheRequestJSONParser implements CacheRequestCallbacks {
 			mThreadPool.add(() -> {
 				final JsonValue jsonValue;
 
-				try {
-					jsonValue = new JsonValue(streamFactory.create());
+				try(InputStream is = streamFactory.create()) {
+					jsonValue = JsonValue.parse(is);
 
 				} catch(final IOException e) {
 					if(!mNotifiedFailure.getAndSet(true)) {

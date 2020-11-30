@@ -15,16 +15,10 @@
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.jsonwrap;
+package org.quantumbadger.redreader.common;
 
-public abstract class JsonBuffered {
+import androidx.annotation.NonNull;
 
-	@Override
-	public String toString() {
-		final StringBuilder sb = new StringBuilder();
-		prettyPrint(0, sb);
-		return sb.toString();
-	}
-
-	protected abstract void prettyPrint(int indent, StringBuilder sb);
+public interface GenericFactory<E, T extends Throwable> {
+	@NonNull E create() throws T;
 }

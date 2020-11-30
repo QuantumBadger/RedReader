@@ -36,13 +36,11 @@
     <string name="pref_appearance_theme_header">Design</string>
     <string name="pref_appearance_thumbnails_header">Thumbnail-uri</string>
     <string name="pref_appearance_comments_header">Comentariile</string>
-    <string name="pref_appearance_other_header">Altele</string>
 
     <string name="pref_appearance_twopane_title">Modul Tabletă (despărțit în două)</string>
 
     <string name="pref_appearance_theme_title">Design</string>
 
-    <string name="pref_appearance_solidblack_title">Negru complet în Modul de Noapte</string>
 
     <string name="pref_appearance_fontscale_posts_title">Mărimea fonturilor postărilor</string>
 
@@ -53,7 +51,6 @@
 
     <string name="pref_appearance_thumbnails_wifionly_title">Thumbnail-urile doar prin Wi-Fi</string>
 
-    <string name="pref_appearance_loading_detail_title">Arată detaliat mesajele care se Încarcă</string>
 
     <string name="pref_appearance_comment_header_items_title">Header-ul Comentariilor</string>
 
@@ -326,8 +323,6 @@
     <!-- User Profile -->
 
     <string name="userprofile_created">Creat</string>
-    <string name="userprofile_hasmail">Aveți Mail</string>
-    <string name="userprofile_hasmodmail">Aveți Mail de Moderator</string>
     <string name="userprofile_isfriend">Este Prieten</string>
     <string name="userprofile_isgold">Reddit Gold</string>
     <string name="userprofile_moderator">Este Moderator</string>

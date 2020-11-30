@@ -72,10 +72,16 @@ public final class ErrorView extends StatusListItemView {
 				(int)(15 * dpScale),
 				(int)(15 * dpScale),
 				(int)(15 * dpScale));
-		detailsButton.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
 
-		((LinearLayout.LayoutParams)detailsButton.getLayoutParams()).gravity
-				= Gravity.RIGHT;
+		final LinearLayout.LayoutParams layoutParams
+				= (LinearLayout.LayoutParams)detailsButton.getLayoutParams();
+
+		layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+		//noinspection RtlHardcoded
+		layoutParams.gravity = Gravity.RIGHT;
+
+		detailsButton.setLayoutParams(layoutParams);
 
 		setContents(layout);
 

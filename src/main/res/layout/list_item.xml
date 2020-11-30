@@ -18,7 +18,8 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
+			  xmlns:tools="http://schemas.android.com/tools"
+			  android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               android:orientation="vertical">
 
@@ -37,10 +38,12 @@
                   android:paddingRight="16dp">
 
         <ImageView android:id="@+id/list_item_icon"
-                   android:layout_height="wrap_content"
-                   android:layout_width="wrap_content"
-                   android:layout_marginRight="16dp"
-                   android:scaleType="fitCenter"/>
+				   android:layout_height="wrap_content"
+				   android:layout_width="wrap_content"
+				   android:layout_marginRight="16dp"
+				   android:layout_marginEnd="16dp"
+				   android:scaleType="fitCenter"
+				   tools:ignore="ContentDescription"/>
 
         <TextView android:id="@+id/list_item_text"
                   android:layout_width="fill_parent"

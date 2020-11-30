@@ -28,7 +28,7 @@ import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotC
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.Priority;
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
+import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
 import java.io.UnsupportedEncodingException;
@@ -69,7 +69,7 @@ public final class DeviantArtAPI {
 							@NonNull final UUID session, final boolean fromCache) {
 
 						try {
-							final JsonBufferedObject outer = result.asObject();
+							final JsonObject outer = result.asObject();
 							listener.onSuccess(ImageInfo.parseDeviantArt(outer));
 
 						} catch(final Throwable t) {

@@ -29,15 +29,12 @@
     <string name="pref_appearance_theme_header">Etoso</string>
     <string name="pref_appearance_thumbnails_header">Miniaturoj</string>
     <string name="pref_appearance_comments_header">Komentoj</string>
-    <string name="pref_appearance_other_header">Aliaj</string>
     <string name="pref_appearance_twopane_title">Tabulkomputila reĝimo (du fenestroj)</string>
     <string name="pref_appearance_theme_title">Etoso</string>
-    <string name="pref_appearance_solidblack_title">Glata nigro en nokta reĝimo</string>
     <string name="pref_appearance_fontscale_posts_title">Titoloj de afiŝoj</string>
     <string name="pref_appearance_thumbnails_show_title">Montri miniaturojn</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">Montri maldecajn miniaturojn</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Miniaturoj nur per vifio</string>
-    <string name="pref_appearance_loading_detail_title">Montri detalajn sciigojn pri ŝargado</string>
     <string name="pref_appearance_comment_header_items_title">Eroj de koment-kapo</string>
     <!-- Behaviour Prefs -->
     <string name="pref_behaviour_notifications_title">Sciigoj</string>
@@ -57,8 +54,8 @@
     <string name="pref_cache_precache_images_title">Antaŭŝargi bildojn</string>
     <string name="pref_cache_precache_images_wifionly_title">Nur per vifio</string>
     <!-- Menu Prefs -->
-    <string name="pref_menus_post_context_items_title">Frapetadi elementon de menuo</string>
-    <string name="pref_menus_post_toolbar_items_title">Elementoj de flanka ilarstrio</string>
+    <string name="pref_menus_post_context_items_title">Elementoj de la ag-menuo</string>
+    <string name="pref_menus_post_toolbar_items_title">Elementoj de la flanka ilarstrio</string>
     <!-- Options Menu -->
     <string name="options_accounts">Kontoj</string>
     <string name="options_accounts_long">Reddit-kontoj</string>
@@ -174,8 +171,8 @@
     <string name="download_done">Farita.</string>
     <string name="download_failed">Fiaskis.</string>
     <!-- Image View -->
-    <string name="imageview_oom">Memormanko, provas internan vidigilon.</string>
-    <string name="imageview_invalid_gif">Malĝusta GIF, provas internan vidigilon.</string>
+    <string name="imageview_oom">Memormanko. Provos retfoliumilon.</string>
+    <string name="imageview_invalid_gif">Malĝusta GIF. Provos retfoliumilon.</string>
     <!-- Comment Reply/Edit, Post Submit -->
     <string name="comment_reply_send">Sendi</string>
     <string name="comment_edit_save">Konservi</string>
@@ -233,8 +230,6 @@
     <string name="time_ago">antaŭ %s</string>
     <!-- User Profile -->
     <string name="userprofile_created">Kreita je</string>
-    <string name="userprofile_hasmail">Havas retpoŝton</string>
-    <string name="userprofile_hasmodmail">Havas retpoŝton de kontrolanto</string>
     <string name="userprofile_isfriend">Estas amiko</string>
     <string name="userprofile_isgold">Reddit Gold</string>
     <string name="userprofile_moderator">Estas kontrolanto</string>
@@ -303,7 +298,7 @@
     <string name="message_cannotlogin">Ne povas ensaluti.</string>
     <string name="error_toast_no_urls_in_comment">Neniu ligilo trovita en tiu ĉi komento.</string>
     <string name="error_toast_no_urls_in_self">Neniu ligilo trovita en tiu ĉi memafiŝo.</string>
-    <string name="error_toast_parent_post_not_downloaded">Superafiŝo ne estas ankoraŭ elŝutita.</string>
+    <string name="error_toast_parent_post_not_downloaded">Supera afiŝo ne estas ankoraŭ elŝutita.</string>
     <string name="download_subreddits">Elŝutado de redditeroj…</string>
     <string name="subtitle_points">poentoj</string>
     <string name="subtitle_by">de</string>
@@ -312,7 +307,7 @@
     <string name="action_search">Serĉi</string>
     <string name="search_subreddit_restrict">Limigi serĉadon al</string>
     <string name="title_changelog">Kio estas nova</string>
-    <string name="pref_behaviour_commentsort">Komentoj (implicita)</string>
+    <string name="pref_behaviour_commentsort">Komentoj (implicite)</string>
     <!-- 2013-05-18 -->
     <string name="action_fling_disabled">Malaktiva</string>
     <string name="pref_about_version_title">Versio</string>
@@ -360,13 +355,13 @@
     <string name="options_unsubscribe">Malaboni</string>
     <string name="options_subscribing">Ekabonigado…</string>
     <string name="options_unsubscribing">Malabonigado…</string>
-    <string name="options_sidebar">Montri flankan breton</string>
+    <string name="options_sidebar">Montri flankan strion</string>
     <!-- 2014-04-13 -->
     <string name="pref_menus_mainmenu_useritems_title">Elementoj de uzanto</string>
     <string name="mainmenu_submitted">Publikigitaj afiŝoj</string>
     <string name="mainmenu_downvoted">Kontraŭ-voĉdonitaj afiŝoj</string>
     <string name="mainmenu_modmail">Retletero al kontrolanto</string>
-    <string name="sidebar_activity_title">Flanka breto</string>
+    <string name="sidebar_activity_title">Flanka strio</string>
     <!-- 2014-04-20 -->
     <string name="header_subscriber_count">%s abonantoj</string>
     <string name="header_subscriber_count_unknown">Nekonata nombro da abonantoj</string>
@@ -382,7 +377,7 @@
     <string name="karma_link">Ligila karmo</string>
     <string name="karma_comment">Komenta karmo</string>
     <!-- 2014-12-02 -->
-    <string name="imageview_decode_failed">Fiaskis malkodi bildon. Provos internan vidigilon.</string>
+    <string name="imageview_decode_failed">Fiaskis malkodi bildon. Provos retfoliumilon.</string>
     <!-- 2014-12-06 -->
     <string name="user_comments">Komentoj</string>
     <!-- 2014-12-07 -->
@@ -406,7 +401,7 @@
     <string name="error_message_login_user_denied_permission">Permeso por aliri la konton estis rifuzita. Bonvolu reprovi.</string>
     <string name="error_title_login_unknown_reddit_error">Nekonata reddita eraro: %s</string>
     <!-- 2015-05-23 -->
-    <string name="imageview_invalid_video">Malĝusta filmeto. Provos internan spektilon.</string>
+    <string name="imageview_invalid_video">Malĝusta filmeto. Provos retfoliumilon.</string>
     <string name="download_authorizing">Aŭtentigado…</string>
     <!-- 2015-05-29 -->
     <string name="pref_behaviour_skiptofrontpage_title">Transsalti al ĉefpaĝo</string>
@@ -603,9 +598,9 @@
     <!-- 2017-02-23 -->
     <string name="action_back">Reen</string>
     <!-- 2017-03-02 -->
-    <string name="pref_menus_link_context_items_title">Elementoj de la menuo frapetadi ligilon</string>
+    <string name="pref_menus_link_context_items_title">Elementoj de la ag-menuo de ligilo</string>
     <!-- 2017-03-07 -->
-    <string name="pref_menus_subreddit_context_items_title">Elementoj de la menuo frapetadi redditeron</string>
+    <string name="pref_menus_subreddit_context_items_title">Elementoj de la ag-menuo de redditero</string>
     <string name="mainmenu_toast_not_subscribed">Vi ankoraŭ ne abonas tiun ĉi redditeron!</string>
     <string name="mainmenu_toast_subscribed">Vi jam abonas tiun ĉi redditero!</string>
     <string name="mainmenu_toast_not_pinned">Tiu ĉi redditero ne estas alpinglita al la ĉefmenuo!</string>
@@ -703,7 +698,7 @@
     <string name="pref_appearance_fontscale_global_title">Ĝenerala</string>
     <string name="pref_appearance_fontscale_header">Grando de tiparo</string>
     <string name="prefs_category_fonts">Tiparo</string>
-    <string name="pref_network_tor_summary">Dum uzi eksteran ret‑foliumilon aŭ proprajn langetojn, ligilon ne estos malfermataj uzante Tor-reton (escepte se via ret‑foliumilo estos agordita por uzi Tor)</string>
+    <string name="pref_network_tor_summary">Dum uzi eksteran ret‑foliumilon aŭ proprajn langetojn, ligiloj ne estos malfermataj uzante Tor-reton (escepte se via ret‑foliumilo estos agordita por uzi Tor)</string>
     <string name="search_results_subreddit_only">Serĉado ĉe /r/%s</string>
     <string name="search_results_query_only">Serĉado de “%s”</string>
     <string name="search_results_all">Serĉado de “%1$s” ĉe /r/%2$s</string>
@@ -726,7 +721,119 @@
     <string name="pref_appearance_posts_header">Afiŝoj</string>
     <string name="pref_appearance_fontscale_comment_headers_title">Kapoj de komentoj/mesaĝoj</string>
     <string name="pref_appearance_fontscale_post_header_titles_title">Titoloj de malfermitaj afiŝoj</string>
-	<plurals name="load_more_comments_button_reply_count">
-		<item quantity="other">Montri pliajn komentojn (%d respondoj)</item>
-	</plurals>
+    <plurals name="load_more_comments_button_reply_count">
+        <item quantity="one">Montri pliajn komentojn (%d respondo)</item>
+        <item quantity="other">Montri pliajn komentojn (%d respondoj)</item>
+    </plurals>
+    <string name="link_does_not_exist">Tiu ĉi ligilo ne ekzistas. Ĝi povas esti forigita.</string>
+    <string name="title_attribution">Atribuo</string>
+    <string name="dialog_continue">Pluigi</string>
+    <string name="reddit_login_browser_popup_use_external_browser">Uzi eksteran foliumilon (konsilinda)</string>
+    <string name="reddit_login_browser_popup_use_internal_browser">Uzi internan foliumilon (konsilinda)</string>
+    <string name="reddit_login_browser_popup_line_2">Kiam vi estos ensalutinta, vi revenos al RedReader. Se ensalutado fiaskos, vi povos provi alian ret‑foliumilon uzante la suban menuon.</string>
+    <string name="reddit_login_browser_popup_line_1">Por ensaluti, paĝo de Reddit estos malfermita per ret‑foliumilo.</string>
+    <string name="image_gallery_no_image_present_message">Ne povas trovi la difinitan bildon. Ĝi povas esti forigita.</string>
+    <string name="image_gallery_no_image_present_title">Bildo ne trovita</string>
+    <string name="button_error_send_report">Raporti</string>
+    <string name="button_error_details">Detaloj</string>
+    <string name="image_gallery_no_data_present_message">Neniu galerio de bildoj estas trovita ĉe la difinita ligilo. Ĝi povas esti forigita.</string>
+    <string name="image_gallery_no_data_present_title">Galerio ne trovita</string>
+    <string name="image_gallery_removed_message">Tiu ĉi galerio estas forigita kaj ne estas alirebla plu.</string>
+    <string name="image_gallery_removed_title">Forigita galerio</string>
+    <string name="pref_behaviour_video_zoom_default_title">Implicite pligrandigi al filmetoj</string>
+    <string name="sort_comments_top_all">Popularaj: ĉiam</string>
+    <string name="sort_comments_top_year">Popularaj: lasta jaro</string>
+    <string name="sort_comments_top_month">Popularaj: lasta monato</string>
+    <string name="sort_comments_top_week">Popularaj: lasta semajno</string>
+    <string name="sort_comments_top_today">Popularaj: lasta tago</string>
+    <string name="sort_comments_top_hour">Popularaj: lasta horo</string>
+    <string name="pref_behaviour_user_commentsort_title">Komentoj de uzantoj (implicite)</string>
+    <string name="pref_behaviour_multi_postsort_title">Afiŝoj de plurredditeroj (implicite)</string>
+    <string name="pref_behaviour_user_postsort_title">Afiŝoj de uzantoj (implicite)</string>
+    <string name="action_comments_with_count">Montri komentojn (%d)</string>
+    <string name="pref_appearance_post_show_comments_button_title">Montri butonon de komentoj</string>
+    <string name="image_gallery">Galerio</string>
+    <string name="action_search_posts">Serĉi afiŝojn</string>
+    <string name="pref_menus_appbar_items_never">Ne montri</string>
+    <string name="pref_menus_appbar_items_overflow_only">Montri nur en tripunkta menuo</string>
+    <string name="pref_menus_appbar_items_if_room">Montri butonon kiam spaco disponebla</string>
+    <string name="pref_menus_appbar_items_always">Ĉiam montri butonon</string>
+    <string name="pref_menus_appbar_screen_title">Elementoj de la strio agoj</string>
+    <string name="copied_to_clipboard">Kopiita al tondujo</string>
+    <string name="pref_appearance_navbar_color_option_white">Blanka</string>
+    <string name="accessibility_subtitle_domain_v_redd_it">Filmetoj Reddit</string>
+    <string name="accessibility_subtitle_domain_i_redd_it">Bildoj Reddit</string>
+    <string name="accessibility_subtitle_comment_collapsed">Teksto de komento kaŝita.</string>
+    <string name="accessibility_subtitle_edited_since_being_posted">Teksto redaktita post esti afiŝita.</string>
+    <string name="accessibility_subtitle_points_unknown_withperiod">Poentaro kaŝita.</string>
+    <string name="accessibility_subtitle_selfpost_withperiod">Teksta afŝo.</string>
+    <string name="accessibility_subtitle_domain_withperiod">Nomregno: %s.</string>
+    <string name="accessibility_subtitle_subreddit_withperiod">Redditero: %s.</string>
+    <string name="accessibility_subtitle_author_withperiod">Aŭtoro: %s.</string>
+    <string name="accessibility_subtitle_age_withperiod">Aĝo: %s.</string>
+    <string name="accessibility_subtitle_gold_withperiod">“Ora” premio: %d.</string>
+    <string name="accessibility_subtitle_points_withperiod">Poentaro: %d.</string>
+    <string name="accessibility_subtitle_flair_withperiod">Etikedo: %s.</string>
+    <string name="accessibility_subtitle_nsfw_withperiod">Maldeca.</string>
+    <string name="accessibility_subtitle_sticky_withperiod">Alpinglita.</string>
+    <string name="accessibility_subtitle_spoiler_withperiod">Enhavas malkaŝaĵojn.</string>
+    <string name="accessibility_image_viewer_go_back">Iri reen</string>
+    <string name="accessibility_image_viewer_view_comments">Montri komentojn</string>
+    <string name="accessibility_image_viewer_title">Montrado de bildo</string>
+    <string name="pref_images_thumbnail_size_title">Grando de miniaturo</string>
+    <string name="three_dots_menu">Pliaj agordoj</string>
+    <string name="cache_clear_dialog_flags">Indikoj</string>
+    <string name="cache_clear_dialog_images_data">Bildoj (%s)</string>
+    <string name="cache_clear_dialog_images">Bildoj</string>
+    <string name="cache_clear_dialog_thumbnails_data">Miniaturoj (%s)</string>
+    <string name="cache_clear_dialog_thumbnails">Miniaturoj</string>
+    <string name="cache_clear_dialog_listings_data">Listoj (%s)</string>
+    <string name="cache_clear_dialog_listings">Listoj</string>
+    <string name="cache_clear_dialog_loaded">Uzado de datumoj ŝargita</string>
+    <string name="cache_clear_dialog_loading">Ŝargado de uzado de datumoj</string>
+    <string name="dialog_clear">Forviŝi</string>
+    <string name="pref_cache_clear_title">Forviŝi kaŝmemoron</string>
+    <string name="pref_appearance_comment_age_mode_relative_parent">Rilata al supera komento (respondis post X minutoj)</string>
+    <string name="pref_appearance_comment_age_mode_relative_post">Rilata al afiŝo (post X minutoj)</string>
+    <string name="pref_appearance_comment_age_mode_absolute">Tempo antaŭ komenti (antaŭ X minutoj)</string>
+    <string name="pref_appearance_comment_age_mode_title">Tempo de komento</string>
+    <string name="pref_appearance_age_units_3">Tri tempunuoj (X horoj, Y minutoj, Z sekundoj)</string>
+    <string name="pref_appearance_age_units_2">Du tempunuoj (X horoj, Y minutoj)</string>
+    <string name="pref_appearance_age_units_1">Unu tempunuo (X horoj)</string>
+    <string name="pref_appearance_inbox_age_units_title">Temp-precizo de privata mesaĝo</string>
+    <string name="pref_appearance_inbox_header">Mesaĝujo</string>
+    <string name="pref_appearance_comment_age_units_title">Temp-precizo de komento</string>
+    <string name="pref_appearance_post_header_age_units_title">Temp-precizo de malfermita afiŝo</string>
+    <string name="pref_appearance_post_age_units_title">Temp-precizo de afiŝo</string>
+    <string name="time_after_reply">respondis post %s</string>
+    <string name="time_after">post %s</string>
+    <string name="options_account_manager">Administri…</string>
+    <string name="pref_menus_quick_account_switcher_title">Rapide baskuli inter kontoj</string>
+    <string name="pref_appearance_not_possible_in_tablet_mode">Neebla en tabulkomputila reĝimo</string>
+    <string name="pref_behaviour_save_location_system_default">Uzi sisteman implicitan</string>
+    <string name="pref_behaviour_save_location_prompt_every_time">Ĉiam demandi</string>
+    <string name="pref_behaviour_save_location_title">Konservi lokon</string>
+    <string name="pref_appearance_toolbar_header">Ilarstrio</string>
+    <string name="pref_appearance_hide_toolbar_on_scroll_title">Kaŝi ilarstrion sum rulumi</string>
+    <string name="pref_behaviour_back_button_title">Reen-butono</string>
+    <string name="pref_behaviour_postlist_back_again">Duoble premi reen-butonon por fermi afiŝliston</string>
+    <string name="press_back_again">Duoble premi reen-butonon</string>
+    <string name="pref_behaviour_imagevideo_tap_close_summary">Ne efikas sur filmetoj, se la ludadaj stiriloj estas aktivaj</string>
+    <string name="pref_behaviour_imagevideo_tap_close_title">Fermi bildojn/filmetojn je frapeto</string>
+    <string name="action_save_image_success_no_path">Sukcese konservis bildon</string>
+    <string name="imageview_download_failed">Elŝuto estis interrompita. Provos retfoliumilon.</string>
+    <string name="imageview_image_info_failed">Ne povas elŝuti metadatumojn de bildo. Provos retfoliumilon.</string>
+    <string name="album_image_default_text">Bildo %d</string>
+    <string name="edittext_hint_comment_body_text">Teksto de komento</string>
+    <string name="inline_preview_prompt_keep_showing">Plue vidigi</string>
+    <string name="inline_preview_prompt_turn_off">Ne vidigi</string>
+    <string name="inline_preview_prompt_message">Ĉu pluigi vidigi antaŭmontrojn de entekstaj bildojn, kiel la supra\? Vi povos ŝanĝi tion ĉi en agordoj.</string>
+    <string name="inline_preview_prompt_title">Antaŭmontroj de bildoj</string>
+    <string name="error_inline_preview_failed_message">Ne povas elŝuti antaŭmontron de bildo.</string>
+    <string name="error_inline_preview_failed_title">Eraro dum elŝuto</string>
+    <string name="pref_header_image_viewer">Bild-vidigilo</string>
+    <string name="pref_images_inline_image_previews_nsfw_title">Antaŭmontri maldecajn bildojn</string>
+    <string name="pref_images_inline_image_previews_title">Antaŭmontri entekstajn bildojn</string>
+    <string name="pref_header_inline_image_previews">Antaŭmontro de entekstaj bildoj</string>
+    <string name="pref_images_high_res_thumbnails_title">Altkvalitaj miniaturoj</string>
 </resources>

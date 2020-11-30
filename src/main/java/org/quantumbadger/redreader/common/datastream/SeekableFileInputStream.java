@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.common.datastream;
 
 import androidx.annotation.NonNull;
+import org.quantumbadger.redreader.common.General;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -27,21 +28,27 @@ import java.io.RandomAccessFile;
 public class SeekableFileInputStream extends SeekableInputStream {
 
 	@NonNull private final RandomAccessFile mFile;
-	private int mPosition;
+	private long mPosition;
 
 	public SeekableFileInputStream(@NonNull final File file) throws FileNotFoundException {
 		mFile = new RandomAccessFile(file, "r");
 	}
 
 	@Override
-	public int getPosition() {
+	public long getPosition() {
 		return mPosition;
 	}
 
 	@Override
-	public void seek(final int position) throws IOException {
+	public void seek(final long position) throws IOException {
 		mFile.seek(position);
 		mPosition = position;
+	}
+
+	@Override
+	public void readRemainingAsBytes(@NonNull final ByteArrayCallback callback) throws IOException {
+		final byte[] result = General.readWholeStream(this);
+		callback.onByteArray(result, 0, result.length);
 	}
 
 	@Override

@@ -19,61 +19,83 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-	<CheckBoxPreference android:title="@string/pref_behaviour_video_playback_controls_title"
-						android:key="@string/pref_behaviour_video_playback_controls_key"
-						android:defaultValue="false"/>
+	<PreferenceCategory android:title="@string/pref_header_inline_image_previews">
 
-	<CheckBoxPreference android:title="@string/pref_behaviour_video_mute_default_title"
-						android:key="@string/pref_behaviour_video_mute_default_key"
-						android:defaultValue="true"/>
+		<ListPreference android:title="@string/pref_images_inline_image_previews_title"
+						android:key="@string/pref_images_inline_image_previews_key"
+						android:entries="@array/list_yes_no_or_wifi_items"
+						android:entryValues="@array/list_yes_no_or_wifi_return"
+						android:defaultValue="always"/>
 
-	<CheckBoxPreference android:title="@string/pref_behaviour_video_zoom_default_title"
-						android:key="@string/pref_behaviour_video_zoom_default_key"
-						android:defaultValue="false"/>
+		<CheckBoxPreference android:title="@string/pref_images_inline_image_previews_nsfw_title"
+							android:key="@string/pref_images_inline_image_previews_nsfw_key"
+							android:defaultValue="false"/>
 
-	<CheckBoxPreference android:title="@string/pref_behaviour_imagevideo_tap_close_title"
-						android:key="@string/pref_behaviour_imagevideo_tap_close_key"
-						android:summary="@string/pref_behaviour_imagevideo_tap_close_summary"
-						android:defaultValue="true"/>
+	</PreferenceCategory>
 
-	<ListPreference android:title="@string/pref_behaviour_imageview_mode_title"
-					android:key="@string/pref_behaviour_imageview_mode_key"
-					android:entries="@array/pref_behaviour_imageview_mode_array"
-					android:entryValues="@array/pref_behaviour_imageview_mode_array_return"
-					android:defaultValue="internal_opengl" />
+	<PreferenceCategory android:title="@string/pref_header_image_viewer">
 
-    <ListPreference android:title="@string/pref_behaviour_gifview_mode_title"
-                    android:key="@string/pref_behaviour_gifview_mode_key"
-                    android:entries="@array/pref_behaviour_gifview_mode_array"
-                    android:entryValues="@array/pref_behaviour_gifview_mode_array_return"
-                    android:defaultValue="internal_movie" />
+		<CheckBoxPreference android:title="@string/pref_behaviour_video_playback_controls_title"
+							android:key="@string/pref_behaviour_video_playback_controls_key"
+							android:defaultValue="false"/>
 
-    <ListPreference android:title="@string/pref_behaviour_videoview_mode_title"
-                    android:key="@string/pref_behaviour_videoview_mode_key"
-                    android:entries="@array/pref_behaviour_videoview_mode_array"
-                    android:entryValues="@array/pref_behaviour_videoview_mode_array_return"
-                    android:defaultValue="internal_videoview" />
+		<CheckBoxPreference android:title="@string/pref_behaviour_video_mute_default_title"
+							android:key="@string/pref_behaviour_video_mute_default_key"
+							android:defaultValue="true"/>
 
-	<ListPreference android:title="@string/pref_behaviour_albumview_mode_title"
-					android:key="@string/pref_behaviour_albumview_mode_key"
-					android:entries="@array/pref_behaviour_albumview_mode_array"
-					android:entryValues="@array/pref_behaviour_albumview_mode_array_return"
-					android:defaultValue="internal_list" />
+		<CheckBoxPreference android:title="@string/pref_behaviour_video_zoom_default_title"
+							android:key="@string/pref_behaviour_video_zoom_default_key"
+							android:defaultValue="false"/>
 
-    <ListPreference android:title="@string/pref_behaviour_gallery_swipe_length_title"
-                    android:key="@string/pref_behaviour_gallery_swipe_length_key"
-                    android:entries="@array/pref_behaviour_gallery_swipe_length_array"
-                    android:entryValues="@array/pref_behaviour_gallery_swipe_length_array_return"
-                    android:defaultValue="150" />
+		<CheckBoxPreference android:title="@string/pref_behaviour_imagevideo_tap_close_title"
+							android:key="@string/pref_behaviour_imagevideo_tap_close_key"
+							android:summary="@string/pref_behaviour_imagevideo_tap_close_summary"
+							android:defaultValue="true"/>
 
-	<CheckBoxPreference android:title="@string/pref_appearance_image_viewer_show_floating_toolbar_title"
-						android:key="@string/pref_appearance_image_viewer_show_floating_toolbar_key"
-						android:defaultValue="true"/>
+		<CheckBoxPreference android:title="@string/pref_videos_download_before_playing_title"
+							android:key="@string/pref_videos_download_before_playing_key"
+							android:defaultValue="false"/>
 
-	<CheckBoxPreference android:title="@string/pref_appearance_show_aspect_ratio_indicator_title"
-						android:key="@string/pref_appearance_show_aspect_ratio_indicator_key"
-						android:summary="@string/pref_appearance_show_aspect_ratio_indicator_summary"
-						android:defaultValue="false"/>
+		<ListPreference android:title="@string/pref_behaviour_imageview_mode_title"
+						android:key="@string/pref_behaviour_imageview_mode_key"
+						android:entries="@array/pref_behaviour_imageview_mode_array"
+						android:entryValues="@array/pref_behaviour_imageview_mode_array_return"
+						android:defaultValue="internal_opengl" />
+
+		<ListPreference android:title="@string/pref_behaviour_gifview_mode_title"
+						android:key="@string/pref_behaviour_gifview_mode_key"
+						android:entries="@array/pref_behaviour_gifview_mode_array"
+						android:entryValues="@array/pref_behaviour_gifview_mode_array_return"
+						android:defaultValue="internal_movie" />
+
+		<ListPreference android:title="@string/pref_behaviour_videoview_mode_title"
+						android:key="@string/pref_behaviour_videoview_mode_key"
+						android:entries="@array/pref_behaviour_videoview_mode_array"
+						android:entryValues="@array/pref_behaviour_videoview_mode_array_return"
+						android:defaultValue="internal_videoview" />
+
+		<ListPreference android:title="@string/pref_behaviour_albumview_mode_title"
+						android:key="@string/pref_behaviour_albumview_mode_key"
+						android:entries="@array/pref_behaviour_albumview_mode_array"
+						android:entryValues="@array/pref_behaviour_albumview_mode_array_return"
+						android:defaultValue="internal_list" />
+
+		<ListPreference android:title="@string/pref_behaviour_gallery_swipe_length_title"
+						android:key="@string/pref_behaviour_gallery_swipe_length_key"
+						android:entries="@array/pref_behaviour_gallery_swipe_length_array"
+						android:entryValues="@array/pref_behaviour_gallery_swipe_length_array_return"
+						android:defaultValue="150" />
+
+		<CheckBoxPreference android:title="@string/pref_appearance_image_viewer_show_floating_toolbar_title"
+							android:key="@string/pref_appearance_image_viewer_show_floating_toolbar_key"
+							android:defaultValue="true"/>
+
+		<CheckBoxPreference android:title="@string/pref_appearance_show_aspect_ratio_indicator_title"
+							android:key="@string/pref_appearance_show_aspect_ratio_indicator_key"
+							android:summary="@string/pref_appearance_show_aspect_ratio_indicator_summary"
+							android:defaultValue="false"/>
+
+	</PreferenceCategory>
 
 	<PreferenceCategory android:title="@string/pref_appearance_thumbnails_header">
 
@@ -86,6 +108,12 @@
 		<CheckBoxPreference android:title="@string/pref_appearance_thumbnails_nsfw_show_title"
 							android:key="@string/pref_appearance_thumbnails_nsfw_show_key"
 							android:defaultValue="false"/>
+
+		<ListPreference android:title="@string/pref_images_high_res_thumbnails_title"
+						android:key="@string/pref_images_high_res_thumbnails_key"
+						android:entries="@array/list_yes_no_or_wifi_items"
+						android:entryValues="@array/list_yes_no_or_wifi_return"
+						android:defaultValue="wifionly"/>
 
 		<ListPreference android:title="@string/pref_images_thumbnail_size_title"
 						android:key="@string/pref_images_thumbnail_size_key"

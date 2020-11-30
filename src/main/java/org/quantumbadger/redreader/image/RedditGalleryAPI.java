@@ -29,7 +29,7 @@ import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotC
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.Priority;
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
+import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 
@@ -70,7 +70,7 @@ public final class RedditGalleryAPI {
 							final boolean fromCache) {
 
 						try {
-							@SuppressWarnings("ConstantConditions") final JsonBufferedObject
+							@SuppressWarnings("ConstantConditions") final JsonObject
 									redditPostData = result.asArray()
 									.getObject(0)
 									.getObject("data")

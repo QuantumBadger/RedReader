@@ -23,8 +23,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import androidx.appcompat.app.AppCompatActivity;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.RunnableOnce;
 import org.quantumbadger.redreader.reddit.api.RedditOAuth;
@@ -45,10 +45,7 @@ public class LinkDispatchActivity extends AppCompatActivity {
 
 		setContentView(backgroundView);
 
-		final ViewGroup.LayoutParams layoutParams = backgroundView.getLayoutParams();
-		layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
-		layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
-		backgroundView.setLayoutParams(layoutParams);
+		General.setLayoutMatchParent(backgroundView);
 
 		final Intent intent = getIntent();
 

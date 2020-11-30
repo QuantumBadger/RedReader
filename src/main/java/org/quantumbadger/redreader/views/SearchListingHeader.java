@@ -56,6 +56,7 @@ public final class SearchListingHeader extends FrameLayout {
 		mSubreddit = findViewById(R.id.search_listing_header_sub_editText);
 		// null and "all" are isomorphic; but SearchPostListURL takes null
 		if(url.subreddit == null) {
+			//noinspection SetTextI18n
 			mSubreddit.setText("all");
 		} else {
 			mSubreddit.setText(url.subreddit);

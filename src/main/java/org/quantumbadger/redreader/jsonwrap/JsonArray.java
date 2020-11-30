@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.jsonwrap;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import org.quantumbadger.redreader.common.Consumer;
@@ -29,16 +30,32 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 
-public final class JsonBufferedArray extends JsonBuffered implements Iterable<JsonValue> {
+public final class JsonArray extends JsonValue implements Iterable<JsonValue> {
 
 	private final ArrayList<JsonValue> mContents = new ArrayList<>(16);
 
-	public JsonBufferedArray(final JsonParser jp) throws IOException {
+	protected JsonArray(final JsonParser parser) throws IOException {
 
-		JsonToken jt;
-		while((jt = jp.nextToken()) != JsonToken.END_ARRAY) {
-			mContents.add(new JsonValue(jp, jt));
+		if(parser.currentToken() != JsonToken.START_ARRAY) {
+			throw new JsonParseException(
+					parser,
+					"Expecting array start, got " + parser.currentToken(),
+					parser.getCurrentLocation());
 		}
+
+		parser.nextToken();
+
+		while(parser.currentToken() != JsonToken.END_ARRAY) {
+			mContents.add(JsonValue.parse(parser));
+		}
+
+		parser.nextToken();
+	}
+
+	@NonNull
+	@Override
+	public JsonArray asArray() {
+		return this;
 	}
 
 	@NonNull
@@ -67,7 +84,7 @@ public final class JsonBufferedArray extends JsonBuffered implements Iterable<Js
 	}
 
 	@Nullable
-	public JsonBufferedObject getObject(final int id) {
+	public JsonObject getObject(final int id) {
 		return get(id).asObject();
 	}
 
@@ -82,7 +99,7 @@ public final class JsonBufferedArray extends JsonBuffered implements Iterable<Js
 	}
 
 	@Nullable
-	public JsonBufferedArray getArray(final int id) {
+	public JsonArray getArray(final int id) {
 		return get(id).asArray();
 	}
 
@@ -118,10 +135,37 @@ public final class JsonBufferedArray extends JsonBuffered implements Iterable<Js
 		return mContents.size();
 	}
 
-	public void forEachObject(final Consumer<JsonBufferedObject> consumer) {
+	public void forEachObject(final Consumer<JsonObject> consumer) {
 
 		for(final JsonValue value : mContents) {
 			consumer.consume(value.asObject());
 		}
+	}
+
+	@Nullable
+	@Override
+	protected JsonValue getAtPathInternal(final int offset, final Object... keys) {
+
+		if(offset == keys.length) {
+			return this;
+		}
+
+		if(!(keys[offset] instanceof Integer)) {
+			return null;
+		}
+
+		final int key = (Integer)keys[offset];
+
+		if(key < 0 || key >= mContents.size()) {
+			return null;
+		}
+
+		final JsonValue next = mContents.get(key);
+
+		if(next == null) {
+			return null;
+		}
+
+		return next.getAtPathInternal(offset + 1, keys);
 	}
 }

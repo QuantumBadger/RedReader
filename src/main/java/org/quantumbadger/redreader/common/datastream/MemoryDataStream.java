@@ -70,12 +70,6 @@ public final class MemoryDataStream {
 		mData = Arrays.copyOf(mData, newCapacity);
 	}
 
-	public int capacity() {
-		synchronized(mLock) {
-			return mData.length;
-		}
-	}
-
 	public int size() {
 		synchronized(mLock) {
 			return mSize;
@@ -95,12 +89,14 @@ public final class MemoryDataStream {
 	public void setComplete() {
 		synchronized(mLock) {
 			mComplete = true;
+			mLock.notifyAll();
 		}
 	}
 
 	public void setFailed(@NonNull final IOException e) {
 		synchronized(mLock) {
 			mFailed = e;
+			mLock.notifyAll();
 		}
 	}
 
@@ -177,5 +173,26 @@ public final class MemoryDataStream {
 	@NonNull
 	public MemoryDataStreamInputStream getInputStream() {
 		return new MemoryDataStreamInputStream(this);
+	}
+
+	public void getUnderlyingByteArrayWhenComplete(
+			@NonNull final ByteArrayCallback callback) throws IOException {
+
+		synchronized(mLock) {
+
+			while(!mComplete && mFailed == null) {
+				try {
+					mLock.wait();
+				} catch(final InterruptedException e) {
+					throw new RuntimeException(e);
+				}
+			}
+
+			if(mFailed != null) {
+				throw mFailed;
+			}
+		}
+
+		callback.onByteArray(mData, 0, mSize);
 	}
 }

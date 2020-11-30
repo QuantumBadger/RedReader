@@ -25,7 +25,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -38,6 +37,7 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BaseActivity;
+import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.activities.OptionsMenuUtility;
 import org.quantumbadger.redreader.activities.SessionChangeListener;
 import org.quantumbadger.redreader.adapters.PostListingManager;
@@ -63,8 +63,8 @@ import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
 import org.quantumbadger.redreader.image.ImageInfo;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
+import org.quantumbadger.redreader.jsonwrap.JsonArray;
+import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.listingcontrollers.CommentListingController;
 import org.quantumbadger.redreader.reddit.PostSort;
@@ -227,7 +227,7 @@ public class PostListingFragment extends RRFragment
 			}
 		});
 
-		mRecyclerView.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+		General.setLayoutMatchParent(mRecyclerView);
 
 		int limit = 50;
 
@@ -371,6 +371,17 @@ public class PostListingFragment extends RRFragment
 				}
 
 				break;
+
+			case RedditURLParser.POST_COMMENT_LISTING_URL:
+			case RedditURLParser.UNKNOWN_COMMENT_LISTING_URL:
+			case RedditURLParser.UNKNOWN_POST_LISTING_URL:
+			case RedditURLParser.USER_COMMENT_LISTING_URL:
+			case RedditURLParser.USER_PROFILE_URL:
+				BugReportActivity.handleGlobalError(getActivity(), new RuntimeException(
+						"Unknown url type "
+								+ mPostListingURL.pathType()
+								+ ": "
+								+ mPostListingURL.toString()));
 		}
 	}
 
@@ -688,9 +699,9 @@ public class PostListingFragment extends RRFragment
 
 						try {
 
-							final JsonBufferedObject thing = value.asObject();
-							final JsonBufferedObject listing = thing.getObject("data");
-							final JsonBufferedArray posts = listing.getArray("children");
+							final JsonObject thing = value.asObject();
+							final JsonObject listing = thing.getObject("data");
+							final JsonArray posts = listing.getArray("children");
 
 							final boolean isNsfwAllowed = PrefsUtility.pref_behaviour_nsfw(
 									activity,
@@ -701,60 +712,56 @@ public class PostListingFragment extends RRFragment
 											mSharedPreferences);
 							final boolean isConnectionWifi = General.isConnectionWifi(activity);
 
-							final PrefsUtility.AppearanceThumbnailsShow thumbnailsPref
-									= PrefsUtility.appearance_thumbnails_show(
+							final boolean inlinePreviews
+									= PrefsUtility.images_inline_image_previews(
+											activity,
+											mSharedPreferences).isEnabled(isConnectionWifi);
+
+							final boolean showNsfwPreviews
+									= PrefsUtility.images_inline_image_previews_nsfw(
 											activity,
 											mSharedPreferences);
 
-							final boolean downloadThumbnails = thumbnailsPref
-									== PrefsUtility.AppearanceThumbnailsShow.ALWAYS
-									|| (thumbnailsPref
-									== PrefsUtility.AppearanceThumbnailsShow.WIFIONLY
-									&& isConnectionWifi);
+							final boolean downloadThumbnails
+									= PrefsUtility.appearance_thumbnails_show(
+											activity,
+											mSharedPreferences).isEnabled(isConnectionWifi);
+
+							final boolean allowHighResThumbnails = downloadThumbnails
+									&& PrefsUtility.images_high_res_thumbnails(
+											activity,
+											mSharedPreferences).isEnabled(isConnectionWifi);
 
 							final boolean showNsfwThumbnails
 									= PrefsUtility.appearance_thumbnails_nsfw_show(
-									activity,
-									mSharedPreferences);
-
-							final PrefsUtility.CachePrecacheImages imagePrecachePref
-									= PrefsUtility.cache_precache_images(
-									activity,
-									mSharedPreferences);
-
-							final PrefsUtility.CachePrecacheComments commentPrecachePref
-									= PrefsUtility.cache_precache_comments(
-									activity,
-									mSharedPreferences);
+											activity,
+											mSharedPreferences);
 
 							final boolean precacheImages
-									= (imagePrecachePref == PrefsUtility.CachePrecacheImages.ALWAYS
-									|| (imagePrecachePref
-											== PrefsUtility.CachePrecacheImages.WIFIONLY
-											&& isConnectionWifi))
-									&& !FileUtils.isCacheDiskFull(activity);
+									= !inlinePreviews
+											&& PrefsUtility.cache_precache_images(
+													activity,
+													mSharedPreferences).isEnabled(isConnectionWifi)
+											&& !FileUtils.isCacheDiskFull(activity);
 
-							final boolean precacheComments
-									= (commentPrecachePref
-													== PrefsUtility.CachePrecacheComments.ALWAYS
-											|| (commentPrecachePref
-													== PrefsUtility.CachePrecacheComments.WIFIONLY
-															&& isConnectionWifi));
+							final boolean precacheComments = PrefsUtility.cache_precache_comments(
+									activity,
+									mSharedPreferences).isEnabled(isConnectionWifi);
 
 							final PrefsUtility.ImageViewMode imageViewMode
 									= PrefsUtility.pref_behaviour_imageview_mode(
-									activity,
-									mSharedPreferences);
+											activity,
+											mSharedPreferences);
 
 							final PrefsUtility.GifViewMode gifViewMode
 									= PrefsUtility.pref_behaviour_gifview_mode(
-									activity,
-									mSharedPreferences);
+											activity,
+											mSharedPreferences);
 
 							final PrefsUtility.VideoViewMode videoViewMode
 									= PrefsUtility.pref_behaviour_videoview_mode(
-									activity,
-									mSharedPreferences);
+											activity,
+											mSharedPreferences);
 
 							final boolean leftHandedMode = PrefsUtility.pref_appearance_left_handed(
 									activity,
@@ -776,6 +783,9 @@ public class PostListingFragment extends RRFragment
 									activity,
 									mSharedPreferences));
 
+							Log.i(TAG, "Inline previews: "
+									+ (inlinePreviews ? "ON" : "OFF"));
+
 							Log.i(TAG, "Precaching images: "
 									+ (precacheImages ? "ON" : "OFF"));
 
@@ -788,7 +798,7 @@ public class PostListingFragment extends RRFragment
 									&& mPostListingURL.pathType()
 											== RedditURLParser.SUBREDDIT_POST_LISTING_URL
 									&& mPostListingURL.asSubredditPostListURL().type
-									== SubredditPostListURL.Type.SUBREDDIT);
+											== SubredditPostListURL.Type.SUBREDDIT);
 
 							final ArrayList<RedditPostListItem> downloadedPosts
 									= new ArrayList<>(25);
@@ -817,6 +827,9 @@ public class PostListingFragment extends RRFragment
 									final boolean downloadThisThumbnail = downloadThumbnails
 											&& (!post.over_18 || showNsfwThumbnails);
 
+									final boolean downloadThisPreview = inlinePreviews
+											&& (!post.over_18 || showNsfwPreviews);
+
 									final int positionInList = mPostCount;
 
 									final RedditParsedPost parsedPost = new RedditParsedPost(
@@ -831,7 +844,9 @@ public class PostListingFragment extends RRFragment
 											parsedPost,
 											timestamp,
 											showSubredditName,
-											downloadThisThumbnail);
+											downloadThisThumbnail,
+											allowHighResThumbnails,
+											downloadThisPreview);
 
 									// Skip adding this post (go to next iteration) if it
 									// has been clicked on AND user preference
@@ -879,7 +894,6 @@ public class PostListingFragment extends RRFragment
 															gifViewMode,
 															imageViewMode,
 															videoViewMode);
-
 												}
 											});
 

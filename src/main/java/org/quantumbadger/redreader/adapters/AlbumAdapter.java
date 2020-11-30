@@ -36,6 +36,7 @@ import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.common.NeverAlwaysOrWifiOnly;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
@@ -72,7 +73,9 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 		final ImageInfo imageInfo = albumInfo.images.get(position);
 
 		if(imageInfo.title == null || imageInfo.title.trim().isEmpty()) {
-			vh.text.setText("Image " + (position + 1));
+			vh.text.setText(activity.getString(
+					R.string.album_image_default_text,
+					position + 1));
 		} else {
 			//noinspection SetTextI18n
 			vh.text.setText((position + 1) + ". " + imageInfo.title.trim());
@@ -123,14 +126,14 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 
 		final boolean isConnectionWifi = General.isConnectionWifi(activity);
 
-		final PrefsUtility.AppearanceThumbnailsShow thumbnailsPref
+		final NeverAlwaysOrWifiOnly thumbnailsPref
 				= PrefsUtility.appearance_thumbnails_show(
 				activity,
 				General.getSharedPrefs(activity));
 
 		final boolean downloadThumbnails
-				= thumbnailsPref == PrefsUtility.AppearanceThumbnailsShow.ALWAYS
-				|| (thumbnailsPref == PrefsUtility.AppearanceThumbnailsShow.WIFIONLY
+				= thumbnailsPref == NeverAlwaysOrWifiOnly.ALWAYS
+				|| (thumbnailsPref == NeverAlwaysOrWifiOnly.WIFIONLY
 						&& isConnectionWifi);
 
 		if(!downloadThumbnails || imageInfo.urlBigSquare == null) {

@@ -496,6 +496,16 @@ public class RedditAPICommentAction {
 						comment,
 						false);
 				break;
+
+			case RedditAPI.ACTION_DELETE:
+			case RedditAPI.ACTION_REPORT:
+				// No need to update the change data manager
+				break;
+
+			case RedditAPI.ACTION_HIDE:
+			case RedditAPI.ACTION_UNHIDE:
+				// These don't apply to comments
+				break;
 		}
 
 		final boolean vote = (action == RedditAPI.ACTION_DOWNVOTE
@@ -580,6 +590,16 @@ public class RedditAPICommentAction {
 										RRTime.utcCurrentTimeMillis(),
 										comment,
 										true);
+								break;
+
+							case RedditAPI.ACTION_DELETE:
+							case RedditAPI.ACTION_REPORT:
+								// No need to update the change data manager
+								break;
+
+							case RedditAPI.ACTION_HIDE:
+							case RedditAPI.ACTION_UNHIDE:
+								// These don't apply to comments
 								break;
 						}
 					}

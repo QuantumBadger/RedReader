@@ -18,10 +18,12 @@ apply plugin: 'pmd'
 apply plugin: 'checkstyle'
 
 dependencies {
+	implementation "androidx.annotation:annotation:1.1.0"
 	implementation 'androidx.appcompat:appcompat:1.2.0'
 	implementation 'androidx.recyclerview:recyclerview:1.1.0'
 	implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 	implementation 'com.google.android.material:material:1.2.0'
+	implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
 
 	implementation 'com.fasterxml.jackson.core:jackson-core:2.11.3'
 	implementation 'org.apache.commons:commons-lang3:3.11'
@@ -51,8 +53,8 @@ android {
 		applicationId "org.quantumbadger.redreader"
 		minSdkVersion 23
 		targetSdkVersion 30
-		versionCode 94
-		versionName "1.14"
+		versionCode 95
+		versionName "1.15"
 
 		vectorDrawables.generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi', 'xxxhdpi']
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
@@ -77,6 +79,7 @@ android {
 	lintOptions {
 		checkReleaseBuilds false
 		abortOnError true
+		warningsAsErrors true
 
 		error 'DefaultLocale'
 
@@ -94,6 +97,9 @@ android {
 		// Not an issue
 		disable 'ViewConstructor'
 		disable 'GradleDependency'
+
+		// Caused by 3rd party dependencies/jetification
+		disable 'ObsoleteLintCustomCheck'
 	}
 
 	packagingOptions {

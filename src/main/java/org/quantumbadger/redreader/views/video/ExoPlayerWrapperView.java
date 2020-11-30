@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.views.video;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -43,6 +45,7 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.RRTime;
 
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -61,6 +64,7 @@ public class ExoPlayerWrapperView extends FrameLayout {
 	@Nullable private final RelativeLayout mControlView;
 
 	@Nullable private final DefaultTimeBar mTimeBarView;
+	@Nullable private final TextView mTimeTextView;
 
 	private boolean mReleased;
 
@@ -82,6 +86,7 @@ public class ExoPlayerWrapperView extends FrameLayout {
 		addView(videoPlayerView);
 
 		videoPlayerView.setPlayer(mVideoPlayer);
+		videoPlayerView.setShowBuffering(PlayerView.SHOW_BUFFERING_ALWAYS);
 		videoPlayerView.requestFocus();
 
 		mVideoPlayer.prepare(mediaSource);
@@ -123,13 +128,7 @@ public class ExoPlayerWrapperView extends FrameLayout {
 			final LinearLayout buttons = new LinearLayout(context);
 			controlBar.addView(buttons);
 			buttons.setOrientation(LinearLayout.HORIZONTAL);
-
-			{
-				final LinearLayout.LayoutParams buttonsLayoutParams
-						= (LinearLayout.LayoutParams)buttons.getLayoutParams();
-				buttonsLayoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
-				buttonsLayoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-			}
+			General.setLayoutMatchWidthWrapHeight(buttons);
 
 			addButton(createButton(
 					context,
@@ -247,18 +246,37 @@ public class ExoPlayerWrapperView extends FrameLayout {
 					updateProgress();
 
 					if(!mReleased) {
-						AndroidCommon.UI_THREAD_HANDLER.postDelayed(this, 250);
+						AndroidCommon.UI_THREAD_HANDLER.postDelayed(this, 150);
 					}
 				}
 			};
 
 			updateProgressRunnable.run();
 
+			{
+				mTimeTextView = new TextView(context);
+				controlBar.addView(mTimeTextView);
+				mTimeTextView.setTextColor(Color.WHITE);
+				mTimeTextView.setTextSize(18);
+
+				final int marginSidesPx = General.dpToPixels(context, 16);
+				final int marginBottomPx = General.dpToPixels(context, 8);
+
+				((MarginLayoutParams)mTimeTextView.getLayoutParams())
+						.setMargins(marginSidesPx, 0, marginSidesPx, marginBottomPx);
+
+				if(Build.VERSION.SDK_INT >= 19) {
+					mTimeTextView.setImportantForAccessibility(
+							IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
+				}
+			}
+
 			mControlView.setVisibility(GONE);
 
 		} else {
 			mControlView = null;
 			mTimeBarView = null;
+			mTimeTextView = null;
 		}
 
 		videoPlayerView.setLayoutParams(new FrameLayout.LayoutParams(
@@ -349,14 +367,26 @@ public class ExoPlayerWrapperView extends FrameLayout {
 
 	public void updateProgress() {
 
-		if(mTimeBarView != null && !mReleased) {
+		if(mTimeBarView != null && mTimeTextView != null && !mReleased) {
 
-			final long duration = mVideoPlayer.getDuration();
+			final long durationMs = mVideoPlayer.getDuration();
 
-			if(duration > 0) {
-				mTimeBarView.setDuration(duration);
-				mTimeBarView.setPosition(mVideoPlayer.getCurrentPosition());
+			if(durationMs > 0) {
+
+				final long currentPositionMs = mVideoPlayer.getCurrentPosition();
+
+				mTimeBarView.setDuration(durationMs);
+				mTimeBarView.setPosition(currentPositionMs);
 				mTimeBarView.setBufferedPosition(mVideoPlayer.getBufferedPosition());
+
+				final String newText = RRTime.msToMinutesAndSecondsString(currentPositionMs)
+						+ " / "
+						+ RRTime.msToMinutesAndSecondsString(durationMs);
+
+				if(!newText.contentEquals(mTimeTextView.getText())) {
+					mTimeTextView.setText(newText);
+				}
+
 			} else {
 				mTimeBarView.setDuration(0);
 				mTimeBarView.setPosition(0);

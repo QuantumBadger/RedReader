@@ -42,8 +42,8 @@ import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
+import org.quantumbadger.redreader.jsonwrap.JsonArray;
+import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.things.RedditComment;
 import org.quantumbadger.redreader.reddit.things.RedditMessage;
@@ -117,9 +117,9 @@ public class NewMessageChecker extends BroadcastReceiver {
 
 						try {
 
-							final JsonBufferedObject root = value.asObject();
-							final JsonBufferedObject data = root.getObject("data");
-							final JsonBufferedArray children = data.getArray("children");
+							final JsonObject root = value.asObject();
+							final JsonObject data = root.getObject("data");
+							final JsonArray children = data.getArray("children");
 
 							final int messageCount = children.size();
 

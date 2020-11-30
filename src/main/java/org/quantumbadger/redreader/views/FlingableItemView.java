@@ -22,7 +22,6 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -77,10 +76,7 @@ public abstract class FlingableItemView extends SwipableItemView {
 				.inflate(R.layout.fling_hint, null, false);
 
 		addView(mFlingHintOuter);
-		final ViewGroup.LayoutParams flingHintLayoutParams
-				= mFlingHintOuter.getLayoutParams();
-		flingHintLayoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
-		flingHintLayoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+		General.setLayoutMatchWidthWrapHeight(mFlingHintOuter);
 
 		mFlingHintLeft
 				= mFlingHintOuter.findViewById(R.id.reddit_post_fling_text_left);

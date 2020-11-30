@@ -19,8 +19,8 @@ package org.quantumbadger.redreader.views.liststatus;
 
 import android.content.Context;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import org.quantumbadger.redreader.common.General;
 
 public class StatusListItemView extends FrameLayout {
 
@@ -39,10 +39,7 @@ public class StatusListItemView extends FrameLayout {
 		}
 		this.contents = contents;
 		addView(contents);
-
-		final ViewGroup.LayoutParams layoutParams = contents.getLayoutParams();
-		layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
-		layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
+		General.setLayoutMatchParent(contents);
 	}
 
 	public void hideNoAnim() {

@@ -4,17 +4,6 @@ container:
     memory: 10G
     kvm: true
 
-ui_tests_api29_task:
-    name: UI Tests (Android 10)
-    run_tests_script:
-        - sudo chown cirrus:cirrus /dev/kvm
-        - ./config/scripts/run_emulator_tests_with_retry.sh "system-images;android-29;google_apis;x86_64"
-    always:
-        results_artifacts:
-            path: "build/outputs/androidTest-results/connected/*.xml"
-            type: text/xml
-            format: junit
-
 android_lint_task:
     name: Android Lint
     lint_script: ./gradlew lint

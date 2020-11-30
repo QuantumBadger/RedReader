@@ -178,6 +178,7 @@ public class LinkHandler {
 		}
 
 		if(!forceNoImage && isProbablyAnImage(url)) {
+
 			final Intent intent = new Intent(activity, ImageViewActivity.class);
 			intent.setData(Uri.parse(url));
 			intent.putExtra("post", post);
@@ -237,6 +238,7 @@ public class LinkHandler {
 				case RedditURLParser.SUBREDDIT_POST_LISTING_URL:
 				case RedditURLParser.MULTIREDDIT_POST_LISTING_URL:
 				case RedditURLParser.USER_POST_LISTING_URL:
+				case RedditURLParser.SEARCH_POST_LISTING_URL:
 				case RedditURLParser.UNKNOWN_POST_LISTING_URL: {
 					final Intent intent = new Intent(activity, PostListingActivity.class);
 					intent.setData(redditURL.generateJsonUri());
@@ -245,7 +247,8 @@ public class LinkHandler {
 				}
 
 				case RedditURLParser.POST_COMMENT_LISTING_URL:
-				case RedditURLParser.USER_COMMENT_LISTING_URL: {
+				case RedditURLParser.USER_COMMENT_LISTING_URL:
+				case RedditURLParser.UNKNOWN_COMMENT_LISTING_URL:{
 					final Intent intent = new Intent(
 							activity,
 							CommentListingActivity.class);
@@ -450,7 +453,6 @@ public class LinkHandler {
 					.queryIntentActivities(baseIntent, 0)) {
 
 				final String packageName = info.activityInfo.packageName;
-				Log.i("RRDEBUG", "Considering " + packageName);
 
 				if(packageName != null && !packageName.startsWith(
 						"org.quantumbadger.redreader")) {
@@ -1104,10 +1106,16 @@ public class LinkHandler {
 		}
 
 		if(urlLower.endsWith(".gif")) {
-			return new ImageInfo(
-					url,
-					ImageInfo.MediaType.GIF,
-					ImageInfo.HasAudio.MAYBE_AUDIO);
+
+			final ImageInfo.HasAudio audio;
+
+			if(urlLower.contains(".redd.it")) { // preview.redd.it or i.redd.it
+				audio = ImageInfo.HasAudio.NO_AUDIO;
+			} else {
+				audio = ImageInfo.HasAudio.MAYBE_AUDIO;
+			}
+
+			return new ImageInfo(url, ImageInfo.MediaType.GIF, audio);
 		}
 
 
@@ -1134,10 +1142,16 @@ public class LinkHandler {
 			}
 
 			if(urlBeforeQ.endsWith(".gif")) {
-				return new ImageInfo(
-						url,
-						ImageInfo.MediaType.GIF,
-						ImageInfo.HasAudio.MAYBE_AUDIO);
+
+				final ImageInfo.HasAudio audio;
+
+				if(urlLower.contains(".redd.it")) { // preview.redd.it or i.redd.it
+					audio = ImageInfo.HasAudio.NO_AUDIO;
+				} else {
+					audio = ImageInfo.HasAudio.MAYBE_AUDIO;
+				}
+
+				return new ImageInfo(url, ImageInfo.MediaType.GIF, audio);
 			}
 		}
 

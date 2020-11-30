@@ -14,8 +14,7 @@
   ~
   ~ You should have received a copy of the GNU General Public License
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
-  -->
-<resources>
+  --><resources>
     <string name="accounts_anon">Anônimo</string>
     <string name="accounts_password">Senha</string>
     <string name="accounts_active">Ativo</string>
@@ -23,7 +22,7 @@
     <string name="accounts_delete">Remover</string>
     <string name="accounts_delete_sure">Tem certeza que deseja remover esta conta?</string>
     <string name="accounts_setactive">Ativar</string>
-    <string name="accounts_username">Nome de usuário</string>
+    <string name="accounts_username">Nome do utilizador</string>
     <string name="action_actionmenu">Menu de ações</string>
     <string name="action_actionmenu_short">Ações</string>
     <string name="action_comment_context">Contexto</string>
@@ -55,8 +54,8 @@
     <string name="action_share">Compartilhar</string>
     <string name="action_share_comments">Compartilhar Comentários</string>
     <string name="action_share_image">Compartilhar Imagem</string>
-    <string name="action_user_profile">Perfil do Usuário</string>
-    <string name="action_user_profile_short">Usuário</string>
+    <string name="action_user_profile">Perfil do utilizador</string>
+    <string name="action_user_profile_short">Utilizador</string>
     <string name="action_vote_remove">Remover Voto</string>
     <string name="block_done">Subreddit bloqueado. Visitas futuras ao /r/all não irão mostrar esse subreddit.</string>
     <string name="album_already_first_image">Já na primeira imagem no álbum.</string>
@@ -93,7 +92,7 @@
     <string name="download_subreddits">Baixando subreddits…</string>
     <string name="download_waiting">Esperando…</string>
     <string name="edit_comment_actionbar">Editar Comentário</string>
-    <string name="error_403_title">Usuário Inválido</string>
+    <string name="error_403_title">Utilizador inválido</string>
     <string name="error_403_title_nonreddit">Permissão Negada</string>
     <string name="error_404_message">A informação requisitada não pôde ser encontrada.</string>
     <string name="error_404_title">Não Encontrado (404)</string>
@@ -106,7 +105,7 @@
     <string name="error_disk_space_title">Sem espaço para armazenamento</string>
     <string name="error_file_open_failed_title">Falha ao abrir o ficheiro</string>
     <string name="error_file_too_big_title">O ficheiro é muito grande</string>
-    <string name="error_invalid_password_message">Seu nome de usuário ou senha estão incorretos.</string>
+    <string name="error_invalid_password_message">O seu nome de utilizador ou palavra-passe estão incorretos.</string>
     <string name="error_invalid_password_title">Senha Inválida</string>
     <string name="error_postlist_redditdown_title">O Reddit está fora do ar</string>
     <string name="error_too_fast_title">Muito rápido</string>
@@ -128,14 +127,14 @@
     <string name="mainmenu_custom_destination">Local Personalizado</string>
     <string name="mainmenu_custom_destination_subreddit">Subreddit</string>
     <string name="mainmenu_frontpage">Página Inicial</string>
-    <string name="mainmenu_custom_destination_user">Usuário</string>
+    <string name="mainmenu_custom_destination_user">Utilizador</string>
     <string name="mainmenu_inbox">Caixa de Entrada</string>
     <string name="mainmenu_modmail">Mensagens do Moderador</string>
     <string name="mainmenu_popular">Subreddits Populares</string>
     <string name="mainmenu_profile">Meu Perfil</string>
     <string name="mainmenu_saved">Posts Salvos</string>
     <string name="mainmenu_submitted">Posts Submetidos</string>
-    <string name="mainmenu_useritems">Items do Usuário</string>
+    <string name="mainmenu_useritems">Itens do utilizador</string>
     <string name="options_sort">Ordenar</string>
     <string name="options_subscribe">Inscrever-se</string>
     <string name="options_subscribing">Inscrevendo-se…</string>
@@ -215,7 +214,7 @@
     <string name="comment_reply_done">Resposta enviada. O comentário irá aparecer depois de atualizar.</string>
     <string name="comment_reply_oncancel">Esperando resultados da ação…</string>
     <string name="comment_reply_preview">Visualizar</string>
-    <string name="error_403_message">O usuário não tem permissões para executar esta ação. Tente sair e entrar novamente (removendo a conta da lista de contas, e adicionando novamente).</string>
+    <string name="error_403_message">O utilizador não tem permissões para executar esta ação. Tente sair e entrar novamente (removendo a conta da lista de contas, e adicionando novamente).</string>
     <string name="error_403_message_nonreddit">O servidor respondeu com um erro de permissão negada.</string>
     <string name="error_cache_dir_does_not_exist_title">Pasta de cache não encontrada</string>
     <string name="error_cancelled_message">A operação atual foi cancelada.</string>
@@ -231,8 +230,6 @@
     <string name="userprofile_moderator">É moderador</string>
     <string name="userprofile_isgold">Reddit Gold</string>
     <string name="userprofile_isfriend">É Amigo</string>
-    <string name="userprofile_hasmodmail">Tem email de moderador</string>
-    <string name="userprofile_hasmail">Tem Email</string>
     <string name="upload_to_imgur">Enviar para Imgur</string>
     <string name="upgrade_v190_login_message">RedReader atualizou, e agora usa oAuth para a autenticação com o reddit. Se você tiver feito login em uma conta antes da atualização, você será desconectado.</string>
     <string name="unpin_subreddit">Desafixar do menu principal</string>
@@ -390,16 +387,13 @@
     <string name="pref_appearance_thumbnails_header">Miniaturas</string>
     <string name="pref_appearance_theme_title">Tema</string>
     <string name="pref_appearance_theme_header">Tema</string>
-    <string name="pref_appearance_solidblack_title">Preto sólido no modo noturno</string>
     <string name="pref_appearance_show_blocked_subreddits_main_menu_title">Mostrar subreddits bloqueados no menu principal</string>
     <string name="pref_appearance_scale_normal">Normal</string>
-    <string name="pref_appearance_other_header">Outros</string>
     <string name="pref_appearance_navbar_color_title">Cor da Barra de Navegação</string>
     <string name="pref_appearance_navbar_color_option_primarydark">Primária (Noturno)</string>
     <string name="pref_appearance_navbar_color_option_primary">Primária (Claro)</string>
     <string name="pref_appearance_navbar_color_option_black">Preto</string>
     <string name="pref_appearance_locale_header">Local</string>
-    <string name="pref_appearance_loading_detail_title">Mostrar as mensagens detalhadas sobre carregamento</string>
     <string name="pref_appearance_linkbuttons_title">Mostrar Botões de Link</string>
     <string name="pref_appearance_link_text_clickable_title">Texto do Link Clicável</string>
     <string name="pref_appearance_langforce_title">Idioma</string>
@@ -522,7 +516,7 @@
     <string name="download_link_message">Este é um link de download. Você deseja carregá-lo em um browser externo\?</string>
     <string name="pref_menus_show_popular_main_menu_title">Mostrar /r/popular no menu principal</string>
     <string name="pref_behaviour_video_playback_controls_title">Ativar controles de reprodução de vídeo</string>
-    <string name="error_no_suitable_apps_available">Nenhum aplicativo adequado disponível.</string>
+    <string name="error_no_suitable_apps_available">Nenhuma app adequada disponível.</string>
     <string name="pref_behaviour_sharing_share_text_title">Incluir texto ao compartilhar comentário</string>
     <string name="disable_replies_to_infobox_failed">A desativação de respostas à caixa de entrada falhou</string>
     <string name="pref_menus_show_random_main_menu_title">Mostrar /r/random no menu principal</string>
@@ -541,5 +535,4 @@
     <string name="pref_behaviour_sharing_header">Compartilhar</string>
     <string name="share_comments_for">Comentários para %s</string>
     <string name="share_comment_by_on_reddit">Comentário por %s no Reddit</string>
-
 </resources>

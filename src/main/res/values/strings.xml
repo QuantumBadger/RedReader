@@ -39,15 +39,12 @@
     <string name="pref_appearance_theme_header">Theme</string>
     <string name="pref_appearance_thumbnails_header">Thumbnails</string>
     <string name="pref_appearance_comments_header">Comments</string>
-    <string name="pref_appearance_other_header">Other</string>
 
     <string name="pref_appearance_twopane_key" translatable="false">pref_appearance_twopane</string>
     <string name="pref_appearance_twopane_title">Tablet mode (two pane)</string>
 
     <string name="pref_appearance_theme_key" translatable="false">pref_appearance_theme</string>
     <string name="pref_appearance_theme_title">Theme</string>
-
-    <string name="pref_appearance_solidblack_title">Solid black in night mode</string>
 
     <string name="pref_appearance_fontscale_posts_key" translatable="false">pref_appearance_fontscale_posts</string>
     <string name="pref_appearance_fontscale_posts_title">Post titles</string>
@@ -60,9 +57,6 @@
 
     <string name="pref_appearance_thumbnails_wifionly_key" translatable="false">pref_appearance_thumbnails_wifionly</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Thumbnails on Wi-Fi only</string>
-
-    <string name="pref_appearance_loading_detail_key" translatable="false">pref_appearance_loading_detail</string>
-    <string name="pref_appearance_loading_detail_title">Show detailed loading messages</string>
 
     <string name="pref_appearance_comment_header_items_key" translatable="false">pref_appearance_comment_header_items</string>
     <string name="pref_appearance_comment_header_items_title">Comment header entries</string>
@@ -110,7 +104,7 @@
     <string name="pref_cache_precache_images_title">Precache images</string>
 
     <string name="pref_cache_precache_images_wifionly_key" translatable="false">pref_cache_precache_images_wifionly</string>
-    <string name="pref_cache_precache_images_wifionly_title">On Wi-Fi only</string>
+    <string name="pref_cache_precache_images_wifionly_title">Only on Wi-Fi</string>
 
     <!-- Menu Prefs -->
 
@@ -175,7 +169,7 @@
     <string name="accounts_username">Username</string>
     <string name="accounts_password">Password</string>
 
-    <string name="accounts_login">Login</string>
+    <string name="accounts_login">Log in</string>
 
     <string name="accounts_delete_sure">Are you sure you want to delete this account?</string>
 
@@ -265,8 +259,8 @@
 
     <!-- Image View -->
 
-    <string name="imageview_oom">Out of memory. Trying internal browser.</string>
-    <string name="imageview_invalid_gif">Invalid GIF. Trying internal browser.</string>
+    <string name="imageview_oom">Out of memory. Trying web browser.</string>
+    <string name="imageview_invalid_gif">Invalid GIF. Trying web browser.</string>
 
     <!-- Comment Reply/Edit, Post Submit -->
 
@@ -280,7 +274,7 @@
     <string name="comment_edit_done">Comment edited. Changes will appear after you refresh.</string>
     <string name="post_submit_title_hint">Title</string>
     <string name="post_submit_subreddit_hint">Subreddit</string>
-    <string name="post_captcha_title">Captcha</string>
+    <string name="post_captcha_title">CAPTCHA</string>
     <string name="post_captcha_submit_button">Submit</string>
     <string name="post_submit_done">Post submitted.</string>
 
@@ -351,8 +345,6 @@
     <!-- User Profile -->
 
     <string name="userprofile_created">Created</string>
-    <string name="userprofile_hasmail">Has Mail</string>
-    <string name="userprofile_hasmodmail">Has Mod Mail</string>
     <string name="userprofile_isfriend">Is Friend</string>
     <string name="userprofile_isgold">Reddit Gold</string>
     <string name="userprofile_moderator">Is Moderator</string>
@@ -385,7 +377,7 @@
 
     <string name="notification_comment">%s replied to you</string>
     <string name="notification_message">%s sent you a message</string>
-    <string name="notification_message_multiple">New messages on reddit</string>
+    <string name="notification_message_multiple">New messages on Reddit</string>
     <string name="notification_message_action">Touch to view</string>
 
     <!-- General -->
@@ -434,7 +426,7 @@
     <string name="error_invalid_password_message">Your username or password was incorrect.</string>
 
     <string name="error_ratelimit_title">Too many invalid attempts.</string>
-    <string name="error_ratelimit_message">Blocked due to too many invalid login attempts at this IP. Reddit says:</string>
+    <string name="error_ratelimit_message">Blocked due to too many invalid login attempts from this IP. Reddit says:</string>
 
     <string name="general_success">Success</string>
 
@@ -494,7 +486,7 @@
     <!-- 2013-06-25 -->
 
     <string name="prefs_category_network">Network</string>
-    <string name="pref_network_https_title">Enable HTTPS</string>
+    <string name="pref_network_https_title">Use HTTPS</string>
     <string name="pref_network_https_key" translatable="false">pref_network_https</string>
 
     <!-- 2013-07-01 -->
@@ -560,14 +552,14 @@
 
     <string name="mainmenu_submitted">Submitted Posts</string>
     <string name="mainmenu_downvoted">Downvoted Posts</string>
-    <string name="mainmenu_modmail">Mod Mail</string>
+    <string name="mainmenu_modmail">Modmail</string>
 
     <string name="sidebar_activity_title">Sidebar</string>
 
     <!-- 2014-04-20 -->
 
     <string name="header_subscriber_count">%s subscribers</string>
-    <string name="header_subscriber_count_unknown">Subscriber count is unknown</string>
+    <string name="header_subscriber_count_unknown">Unknown subscriber count</string>
 
     <!-- 2014-04-21 -->
 
@@ -587,7 +579,7 @@
     <string name="karma_comment">Comment Karma</string>
 
     <!-- 2014-12-02 -->
-    <string name="imageview_decode_failed">Failed to decode image. Trying internal browser.</string>
+    <string name="imageview_decode_failed">Could not decode image. Trying web browser.</string>
 
     <!-- 2014-12-06 -->
     <string name="user_comments">Comments</string>
@@ -620,10 +612,10 @@
     <string name="error_title_login_user_denied_permission">Permission Denied</string>
     <string name="error_message_login_user_denied_permission">Permission to access the account was denied. Please try again.</string>
 
-    <string name="error_title_login_unknown_reddit_error">Unknown reddit error: %s</string>
+    <string name="error_title_login_unknown_reddit_error">Unknown Reddit error: %s</string>
 
     <!-- 2015-05-23 -->
-    <string name="imageview_invalid_video">Invalid video. Trying internal browser.</string>
+    <string name="imageview_invalid_video">Invalid video. Trying web browser.</string>
     <string name="download_authorizing">Authenticating…</string>
 
     <!-- 2015-05-29 -->
@@ -680,14 +672,14 @@
     <string name="album_already_first_image">Already at first image in album.</string>
     <string name="album_already_last_image">Already at last image in album.</string>
 
-    <string name="upgrade_v190_login_message">RedReader has upgraded, and now uses oAuth for reddit authentication. If you were signed in to an account before the upgrade, you are now logged out.</string>
+    <string name="upgrade_v190_login_message">RedReader has upgraded, and now uses OAuth for Reddit authentication. If you were signed in to an account before the upgrade, you are now logged out.</string>
 
     <string name="pref_behaviour_videoview_mode_title">Video viewer</string>
     <string name="pref_behaviour_videoview_mode_key" translatable="false">pref_behaviour_videoview_mode</string>
     <string name="pref_behaviour_videoview_mode_internal_videoview">Internal VideoView (recommended)</string>
     <string name="pref_behaviour_videoview_mode_external_app_vlc">External App: VLC</string>
 
-    <string name="videoview_mode_app_vlc_launch_failed">Failed to launch VLC. Please upgrade VLC or change your Video Viewer preference.</string>
+    <string name="videoview_mode_app_vlc_launch_failed">Could not start VLC. Please upgrade VLC or change your Video Viewer preference.</string>
 
     <!-- 2015-10-05 -->
     <string name="error_url_required_title">URL Required</string>
@@ -707,7 +699,7 @@
     <string name="pref_cache_precache_comments_title">Precache comments</string>
 
     <string name="pref_cache_precache_comments_wifionly_key" translatable="false">pref_cache_precache_comments_wifionly</string>
-    <string name="pref_cache_precache_comments_wifionly_title">On Wi-Fi only</string>
+    <string name="pref_cache_precache_comments_wifionly_title">Only on Wi-Fi</string>
 
     <string name="mainmenu_header_subreddits_subscribed">Subscribed Subreddits</string>
     <string name="mainmenu_header_subreddits_pinned">Pinned Subreddits</string>
@@ -749,7 +741,7 @@
 
     <!-- 2016-04-03 -->
     <string name="error_tor_not_installed">Tor will not work unless Orbot is installed. Install now?</string>
-    <string name="error_tor_setting_failed">Failed to set proxy.</string>
+    <string name="error_tor_setting_failed">Could not set proxy.</string>
 
     <!-- 2016-04-10 -->
     <string name="error_parse_imgur_title">Parse Error</string>
@@ -766,7 +758,7 @@
     <string name="error_file_too_big_title">File too big</string>
     <string name="error_file_too_big_message">The file size (%1$s) is larger than the upload limit (%2$s).</string>
 
-    <string name="error_file_open_failed_title">Failed to open file</string>
+    <string name="error_file_open_failed_title">Could not open file</string>
     <string name="error_file_open_failed_message">An error occurred while trying to open the file.</string>
 
     <string name="image_selected_summary">Image selected: %1$dx%2$d, %3$s</string>
@@ -792,7 +784,7 @@
 
 	<string name="pref_behaviour_albumview_mode_internal_list">Internal viewer (list)</string>
 
-	<string name="error_tor_start_failed">Orbot failed to start. Tor will not work correctly.</string>
+	<string name="error_tor_start_failed">Could not start Orbot. Tor will not work correctly.</string>
 
 	<!-- 2016-06-30 -->
 	<string name="inbox_unread_only">Unread Messages Only</string>
@@ -870,7 +862,7 @@
 	<string name="pref_cache_location_title">Cache storage location</string>
 
 	<string name="error_cache_dir_does_not_exist_title">Cache directory missing</string>
-	<string name="error_cache_dir_does_not_exist_message">The cache directory could not be accessed. Please choose a different location in the cache settings.</string>
+	<string name="error_cache_dir_does_not_exist_message">Could not access the cache directory. Please choose a different location in the cache settings.</string>
 
 	<!-- 2016-08-15 -->
 	<string name="pref_behaviour_pinned_subredditsort_key" translatable="false">pref_behaviour_pinned_subreddit_sort</string>
@@ -979,7 +971,7 @@
 	<string name="action_unsubscribe_subreddit">Unsubscribe from Subreddit</string>
 
 	<!-- 2017-04-14 -->
-	<string name="collapsed_self_post">Self-post collapsed</string>
+	<string name="collapsed_self_post">Self post collapsed</string>
 
 	<!-- 2017-05-08 -->
 	<string name="button_next_comment_parent">Next Parent Comment</string>
@@ -994,7 +986,7 @@
 
 	<!--2017-05-21-->
 	<string name="pref_behaviour_self_post_tap_actions_key" translatable="false">pref_behaviour_self_post_tap_actions</string>
-	<string name="pref_behaviour_self_post_tap_actions_title">Self-post press</string>
+	<string name="pref_behaviour_self_post_tap_actions_title">Self post tap</string>
 
 	<!-- 2017-06-05 -->
 	<string name="lang_in" translatable="false">Bahasa Indonesia</string>
@@ -1012,7 +1004,7 @@
 	<string name="pref_behaviour_sharing_share_text_title">Include text when sharing comment</string>
 
 	<!-- 2017-11-01 -->
-	<string name="disable_replies_to_infobox_failed">Disabling replies to inbox failed</string>
+	<string name="disable_replies_to_infobox_failed">Could not turn off replies to inbox</string>
 
 	<!-- 2017-12-03 -->
 	<string name="mainmenu_random">Random Subreddit</string>
@@ -1022,7 +1014,7 @@
 	<!-- 2018-01-16 -->
 	<string name="lang_fi" translatable="false">Suomi</string>
 	<string name="lang_my" translatable="false">မြန်မာဘာသာ</string>
-	<string name="lang_nb_rNO" translatable="false">Bokmål</string>
+	<string name="lang_nb_rNO" translatable="false">Norsk bokmål</string>
 	<string name="lang_ru" translatable="false">ру́сский язы́к</string>
 	<string name="lang_uk" translatable="false">українська мова</string>
 	<string name="lang_zh_rCN" translatable="false">汉语</string>
@@ -1064,8 +1056,8 @@
 
 	<!-- 2018-07-08 -->
 	<string name="pref_behaviour_usecustomtabs_key" translatable="false">pref_behaviour_usecustomtabs_key</string>
-	<string name="pref_behaviour_usecustomtabs_title">Use Custom Tabs</string>
-	<string name="pref_behaviour_usecustomtabs_summary">Use Custom Tabs when available</string>
+	<string name="pref_behaviour_usecustomtabs_title">Use Android Custom Tabs</string>
+	<string name="pref_behaviour_usecustomtabs_summary">Use Android Custom Tabs when available</string>
 
 	<!-- 2018-09-11 -->
 	<string name="pref_behaviour_hide_read_posts_key" translatable="false">pref_behaviour_hide_read_posts</string>
@@ -1148,12 +1140,12 @@
 	<string name="pref_cache_precache_comments_list_key" translatable="false">pref_cache_precache_comments_list_key</string>
 	<string name="pref_appearance_thumbnails_show_list_key" translatable="false">pref_appearance_thumbnails_show_list_key</string>
 	<string name="list_yes_no_or_wifi_always">Always</string>
-	<string name="list_yes_no_or_wifi_wifionly">On Wi-Fi Only</string>
+	<string name="list_yes_no_or_wifi_wifionly">Only on Wi-Fi</string>
 	<string name="list_yes_no_or_wifi_never">Never</string>
 
 	<!-- 2020-02-08 -->
 	<string name="error_nsfw_subreddits_disabled_title">Blocked NSFW Subreddit</string>
-	<string name="error_nsfw_subreddits_disabled_message">NSFW content is currently disabled in the settings.</string>
+	<string name="error_nsfw_subreddits_disabled_message">NSFW content is currently turned off in the settings.</string>
 
 	<!-- 2020-02-13 -->
 	<string name="search_results_short">Search Results</string>
@@ -1186,8 +1178,8 @@
 	<string name="bug_chooser_title">Email bug report</string>
 
 	<!-- 2020-06-08 -->
-	<string name="subscription_successful">Successfully subscribed to %s</string>
-	<string name="unsubscription_successful">Successfully unsubscribed from %s</string>
+	<string name="subscription_successful">Subscribed to %s</string>
+	<string name="unsubscription_successful">Unsubscribed from %s</string>
 	<string name="pin_successful">Pinned %s to main menu</string>
 	<string name="unpin_successful">Unpinned %s from main menu</string>
 
@@ -1199,7 +1191,7 @@
 	<string name="spoiler">Spoiler</string>
 
 	<string name="error_title_malformed_html">Malformed HTML</string>
-	<string name="error_message_malformed_html">Failed to parse body text. Please report this to the app developer.</string>
+	<string name="error_message_malformed_html">Could not parse body text. Please report this to the app developer.</string>
 
 	<string name="props_body_html">Body (HTML)</string>
 	<string name="props_self_html">Self text (HTML)</string>
@@ -1267,7 +1259,7 @@
 
 	<!-- 2020-08-18 -->
 	<string name="pref_behaviour_video_zoom_default_key" translatable="false">pref_behaviour_video_zoom_default</string>
-	<string name="pref_behaviour_video_zoom_default_title">Zoom into videos by default</string>
+	<string name="pref_behaviour_video_zoom_default_title">Crop videos to fill screen</string>
 
 	<!-- 2020-08-23 -->
 	<string name="image_gallery_removed_title">Gallery removed</string>
@@ -1283,7 +1275,7 @@
 	<string name="image_gallery_no_image_present_message">The specified image could not be found. It may have been deleted.</string>
 
 	<!-- 2020-09-04 -->
-	<string name="reddit_login_browser_popup_line_1">To login, you will now be taken to Reddit in a web browser.</string>
+	<string name="reddit_login_browser_popup_line_1">To log in, you will now be taken to Reddit in a web browser.</string>
 	<string name="reddit_login_browser_popup_line_2">When the login is complete, you should be redirected back to RedReader. If the login fails, you can try a different browser using the checkbox below.</string>
 
 	<string name="reddit_login_browser_popup_use_internal_browser">Use internal browser (recommended)</string>
@@ -1307,7 +1299,7 @@
 
 	<!-- 2020-10-20 -->
 	<string name="pref_behaviour_imagevideo_tap_close_key" translatable="false">pref_behaviour_imagevideo_tap_close</string>
-	<string name="pref_behaviour_imagevideo_tap_close_title">Close images/videos on tap</string>
+	<string name="pref_behaviour_imagevideo_tap_close_title">Tap to close images/videos</string>
 	<string name="pref_behaviour_imagevideo_tap_close_summary">Does not affect videos if playback controls are enabled</string>
 
 	<!-- 2020-11-13 -->
@@ -1359,8 +1351,8 @@
 	<string name="pref_cache_clear_key" translatable="false">pref_cache_clear</string>
 	<string name="pref_cache_clear_title">Clear cache</string>
 	<string name="dialog_clear">Clear</string>
-	<string name="cache_clear_dialog_loading">Loading data usages</string>
-	<string name="cache_clear_dialog_loaded">Loaded data usages</string>
+	<string name="cache_clear_dialog_loading">Loading data usage sizes</string>
+	<string name="cache_clear_dialog_loaded">Loaded data usage sizes</string>
 	<string name="cache_clear_dialog_listings">Listings</string>
 	<string name="cache_clear_dialog_listings_data">Listings (%s)</string>
 	<string name="cache_clear_dialog_thumbnails">Thumbnails</string>
@@ -1399,5 +1391,47 @@
 	<string name="accessibility_subtitle_domain_v_redd_it">Reddit videos</string>
 
 	<string name="pref_appearance_navbar_color_option_white">White</string>
+
+	<!-- 2020-11-26 -->
+	<string name="pref_images_high_res_thumbnails_key" translatable="false">pref_images_high_res_thumbnails_key</string>
+	<string name="pref_images_high_res_thumbnails_title">High resolution thumbnails</string>
+
+	<string name="pref_header_inline_image_previews">Inline image previews</string>
+
+	<string name="pref_images_inline_image_previews_title">Inline image previews</string>
+	<string name="pref_images_inline_image_previews_key" translatable="false">pref_images_inline_image_previews_key</string>
+
+	<string name="pref_images_inline_image_previews_nsfw_title">Show NSFW previews</string>
+	<string name="pref_images_inline_image_previews_nsfw_key" translatable="false">pref_images_inline_image_previews_nsfw_key</string>
+
+	<string name="pref_header_image_viewer">Image viewer</string>
+
+	<string name="error_inline_preview_failed_title">Download error</string>
+	<string name="error_inline_preview_failed_message">Could not download image preview.</string>
+
+	<string name="inline_preview_prompt_title">Image previews</string>
+	<string name="inline_preview_prompt_message">Continue showing inline image previews like the one above? You can change this at any time in the settings.</string>
+
+	<string name="inline_preview_prompt_turn_off">Turn off</string>
+	<string name="inline_preview_prompt_keep_showing">Keep showing</string>
+
+	<!-- 2020-11-27 -->
+
+	<string name="edittext_hint_comment_body_text">Comment text</string>
+
+	<string name="album_image_default_text">Image %d</string>
+
+	<string name="imageview_image_info_failed">Could not download image metadata. Trying web browser.</string>
+	<string name="imageview_download_failed">Download was interrupted. Trying web browser.</string>
+
+	<string name="pref_videos_download_before_playing_title">Fully download videos before starting playback</string>
+	<string name="pref_videos_download_before_playing_key" translatable="false">pref_videos_download_before_playing_key</string>
+
+	<!-- 2020-11-28 -->
+	<string name="prefs_category_accessibility">Accessibility</string>
+
+	<string name="pref_accessibility_separate_body_text_lines_title">Separate body text lines</string>
+	<string name="pref_accessibility_separate_body_text_lines_summary">In comment and self post body text, make each line individually focusable, rather than reading the whole comment at once</string>
+	<string name="pref_accessibility_separate_body_text_lines_key" translatable="false">pref_accessibility_separate_body_text_lines_key</string>
 
 </resources>

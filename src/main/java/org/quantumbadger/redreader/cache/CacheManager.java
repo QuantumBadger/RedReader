@@ -26,9 +26,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
-import org.quantumbadger.redreader.common.Factory;
 import org.quantumbadger.redreader.common.FileUtils;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.PrioritisedCachedThreadPool;
@@ -594,7 +594,7 @@ public final class CacheManager {
 				@Override
 				public void run() {
 
-					final Factory<SeekableInputStream, IOException> streamFactory = () -> {
+					final GenericFactory<SeekableInputStream, IOException> streamFactory = () -> {
 						final SeekableFileInputStream stream
 								= getCacheFileInputStream(entry.id);
 

@@ -20,8 +20,8 @@ package org.quantumbadger.redreader.image;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import org.apache.commons.text.StringEscapeUtils;
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
+import org.quantumbadger.redreader.jsonwrap.JsonArray;
+import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ public class AlbumInfo {
 
 	public static AlbumInfo parseImgur(
 			final String url,
-			final JsonBufferedObject object) {
+			final JsonObject object) {
 
 		String title = object.getString("title");
 		String description = object.getString("description");
@@ -60,7 +60,7 @@ public class AlbumInfo {
 			description = StringEscapeUtils.unescapeHtml4(description);
 		}
 
-		final JsonBufferedArray imagesJson = object.getArray("images");
+		final JsonArray imagesJson = object.getArray("images");
 		final ArrayList<ImageInfo> images = new ArrayList<>();
 
 		for(final JsonValue imageJson : imagesJson) {
@@ -72,7 +72,7 @@ public class AlbumInfo {
 
 	public static AlbumInfo parseImgurV3(
 			final String url,
-			final JsonBufferedObject object) {
+			final JsonObject object) {
 
 		String title = object.getString("title");
 		String description = object.getString("description");
@@ -85,7 +85,7 @@ public class AlbumInfo {
 			description = StringEscapeUtils.unescapeHtml4(description);
 		}
 
-		final JsonBufferedArray imagesJson = object.getArray("images");
+		final JsonArray imagesJson = object.getArray("images");
 		final ArrayList<ImageInfo> images = new ArrayList<>();
 
 		for(final JsonValue imageJson : imagesJson) {
@@ -119,7 +119,7 @@ public class AlbumInfo {
 	}
 
 	@Nullable
-	private static String getThumbnail(final JsonBufferedArray images) {
+	private static String getThumbnail(final JsonArray images) {
 
 		final int minThumbSize = 200;
 
@@ -128,7 +128,7 @@ public class AlbumInfo {
 
 		for(final JsonValue value : images) {
 
-			final JsonBufferedObject image = value.asObject();
+			final JsonObject image = value.asObject();
 
 			final int x = (int)(long)image.getLong("x");
 			final int y = (int)(long)image.getLong("y");
@@ -150,22 +150,22 @@ public class AlbumInfo {
 	@Nullable
 	public static AlbumInfo parseRedditGallery(
 			final String url,
-			final JsonBufferedObject object) {
+			final JsonObject object) {
 
-		final JsonBufferedObject mediaMetadataList = object.getObject("media_metadata");
-		final JsonBufferedObject galleryData = object.getObject("gallery_data");
+		final JsonObject mediaMetadataList = object.getObject("media_metadata");
+		final JsonObject galleryData = object.getObject("gallery_data");
 
 		if(mediaMetadataList == null || galleryData == null) {
 			return null;
 		}
 
-		final JsonBufferedArray galleryItems = galleryData.getArray("items");
+		final JsonArray galleryItems = galleryData.getArray("items");
 
 		final ArrayList<ImageInfo> images = new ArrayList<>();
 
 		for(final JsonValue itemValue : galleryItems) {
 
-			final JsonBufferedObject item = itemValue.asObject();
+			final JsonObject item = itemValue.asObject();
 
 			final String mediaId = StringEscapeUtils.unescapeHtml4(item.getString("media_id"));
 
@@ -177,12 +177,12 @@ public class AlbumInfo {
 			@Nullable final String outboundUrl
 					= StringEscapeUtils.unescapeHtml4(item.getString("outbound_url"));
 
-			final JsonBufferedObject mediaMetadataEntry = mediaMetadataList.getObject(mediaId);
+			final JsonObject mediaMetadataEntry = mediaMetadataList.getObject(mediaId);
 
 			@Nullable final String mimetype
 					= StringEscapeUtils.unescapeHtml4(mediaMetadataEntry.getString("m"));
 
-			final JsonBufferedObject standardImage = mediaMetadataEntry.getObject("s");
+			final JsonObject standardImage = mediaMetadataEntry.getObject("s");
 
 			final ImageInfo.MediaType mediaType
 					= stringToMediaType(mediaMetadataEntry.getString("e"));
@@ -208,7 +208,10 @@ public class AlbumInfo {
 					standardImage.getLong("y"),
 					null,
 					mediaType,
-					ImageInfo.HasAudio.NO_AUDIO));
+					ImageInfo.HasAudio.NO_AUDIO,
+					null,
+					null,
+					null));
 		}
 
 		final String title = StringEscapeUtils.unescapeHtml4(object.getString("title"));

@@ -17,15 +17,15 @@
 
 package org.quantumbadger.redreader.common;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.AccessibilityDelegateCompat;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.AccessibilityDelegateCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import org.quantumbadger.redreader.R;
 
 import java.io.BufferedReader;
@@ -44,8 +44,16 @@ public class ChangelogManager {
 		final int outerPaddingPx = General.dpToPixels(context, 12);
 		items.setPadding(outerPaddingPx, 0, outerPaddingPx, outerPaddingPx);
 
+		final String filename;
+
+		if(context.getPackageName().contains("alpha")) {
+			filename = "changelog-alpha.txt";
+		} else {
+			filename = "changelog.txt";
+		}
+
 		try(BufferedReader br = new BufferedReader(
-				new InputStreamReader(context.getAssets().open("changelog.txt")),
+				new InputStreamReader(context.getAssets().open(filename)),
 				128 * 1024)) {
 
 			String curVersionName = null;

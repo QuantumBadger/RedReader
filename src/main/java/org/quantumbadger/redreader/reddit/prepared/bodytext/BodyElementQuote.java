@@ -55,10 +55,15 @@ public class BodyElementQuote extends BodyElement {
 		final View quoteIndent = new View(activity);
 		quoteLayout.addView(quoteIndent);
 		quoteIndent.setBackgroundColor(Color.rgb(128, 128, 128));
-		quoteIndent.getLayoutParams().width = quoteBarWidth;
-		quoteIndent.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
-		((ViewGroup.MarginLayoutParams)quoteIndent.getLayoutParams()).rightMargin
-				= quoteBarWidth;
+
+		{
+			final ViewGroup.LayoutParams quoteIndentLayoutParams = quoteIndent.getLayoutParams();
+			quoteIndentLayoutParams.width = quoteBarWidth;
+			quoteIndentLayoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
+			((ViewGroup.MarginLayoutParams)quoteIndentLayoutParams).rightMargin
+					= quoteBarWidth;
+			quoteIndent.setLayoutParams(quoteIndentLayoutParams);
+		}
 
 		if(mElements.size() == 1) {
 			quoteLayout.addView(mElements.get(0)

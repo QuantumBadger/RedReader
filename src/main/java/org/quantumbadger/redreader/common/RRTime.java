@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.common;
 
 import android.content.Context;
 import android.text.format.DateFormat;
+import androidx.annotation.NonNull;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Duration;
@@ -32,6 +33,7 @@ import org.quantumbadger.redreader.R;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 public class RRTime {
 
@@ -156,5 +158,20 @@ public class RRTime {
 
 	public static long hoursToMs(final long hours) {
 		return minsToMs(hours * 60);
+	}
+
+	@NonNull
+	public static String msToMinutesAndSecondsString(final long ms) {
+
+		if(ms < 0) {
+			return "<negative time>";
+		}
+
+		final int secondsTotal = (int)(ms / 1000);
+
+		final int mins = secondsTotal / 60;
+		final int secs = secondsTotal % 60;
+
+		return String.format(Locale.US, "%d:%02d", mins, secs);
 	}
 }

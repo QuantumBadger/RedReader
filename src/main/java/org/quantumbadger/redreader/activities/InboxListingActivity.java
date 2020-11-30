@@ -47,8 +47,8 @@ import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
 import org.quantumbadger.redreader.common.RRTime;
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
+import org.quantumbadger.redreader.jsonwrap.JsonArray;
+import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
@@ -118,8 +118,8 @@ public final class InboxListingActivity extends BaseActivity {
 
 			final RecyclerView.LayoutParams layoutParams
 					= new RecyclerView.LayoutParams(
-					ViewGroup.LayoutParams.MATCH_PARENT,
-					ViewGroup.LayoutParams.WRAP_CONTENT);
+							ViewGroup.LayoutParams.MATCH_PARENT,
+							ViewGroup.LayoutParams.WRAP_CONTENT);
 			view.setLayoutParams(layoutParams);
 
 			return new RecyclerView.ViewHolder(view) {
@@ -266,9 +266,9 @@ public final class InboxListingActivity extends BaseActivity {
 						// TODO {"error": 403} is received for unauthorized subreddits
 
 						try {
-							final JsonBufferedObject root = result.asObject();
-							final JsonBufferedObject data = root.getObject("data");
-							final JsonBufferedArray children = data.getArray("children");
+							final JsonObject root = result.asObject();
+							final JsonObject data = root.getObject("data");
+							final JsonArray children = data.getArray("children");
 
 							int listPosition = 0;
 
@@ -290,7 +290,8 @@ public final class InboxListingActivity extends BaseActivity {
 												parsedComment,
 												null,
 												-100000,
-												false);
+												false,
+												true);
 
 										itemHandler.sendMessage(General.handlerMessage(
 												0,
@@ -312,10 +313,9 @@ public final class InboxListingActivity extends BaseActivity {
 										listPosition++;
 
 										if(message.src.replies != null
-												&& message.src.replies.getType()
-												== JsonValue.TYPE_OBJECT) {
+												&& message.src.replies.asObject() != null) {
 
-											final JsonBufferedArray replies
+											final JsonArray replies
 													= message.src.replies.asObject()
 													.getObject("data")
 													.getArray("children");

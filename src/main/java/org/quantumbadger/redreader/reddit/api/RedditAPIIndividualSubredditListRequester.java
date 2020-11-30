@@ -35,8 +35,8 @@ import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
 import org.quantumbadger.redreader.io.CacheDataSource;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
 import org.quantumbadger.redreader.io.WritableHashSet;
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
+import org.quantumbadger.redreader.jsonwrap.JsonArray;
+import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.RedditSubredditManager;
 import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException;
@@ -197,10 +197,10 @@ public class RedditAPIIndividualSubredditListRequester implements CacheDataSourc
 							final HashSet<String> output = new HashSet<>();
 							final ArrayList<RedditSubreddit> toWrite = new ArrayList<>();
 
-							final JsonBufferedObject redditListing =
+							final JsonObject redditListing =
 									result.asObject().getObject("data");
 
-							final JsonBufferedArray subreddits =
+							final JsonArray subreddits =
 									redditListing.getArray("children");
 
 							if(type == RedditSubredditManager.SubredditListType.SUBSCRIBED

@@ -32,7 +32,7 @@ import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.io.CacheDataSource;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
 import org.quantumbadger.redreader.io.WritableHashSet;
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
+import org.quantumbadger.redreader.jsonwrap.JsonArray;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
 import java.net.URI;
@@ -106,7 +106,7 @@ public class RedditAPIMultiredditListRequester implements CacheDataSource<
 						try {
 							final HashSet<String> output = new HashSet<>();
 
-							final JsonBufferedArray multiredditList = result.asArray();
+							final JsonArray multiredditList = result.asArray();
 
 							for(final JsonValue multireddit : multiredditList) {
 								final String name = multireddit.asObject()

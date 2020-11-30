@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="pref_appearance_twopane_title">Tablet modu (iki pencere)</string>
-    <string name="pref_appearance_other_header">Diğer</string>
     <string name="pref_appearance_comments_header">Yorumlar</string>
     <string name="pref_appearance_thumbnails_header">Önizleme görseli</string>
     <string name="pref_appearance_theme_header">Tema</string>
@@ -31,9 +30,7 @@
     <string name="pref_behaviour_actions_post_header">Post Eylemleri</string>
     <string name="pref_behaviour_notifications_title">Bildirimler</string>
     <string name="pref_appearance_comment_header_items_title">Yorum başlığı girişleri</string>
-    <string name="pref_appearance_loading_detail_title">Ayrıntılı yükleme mesajlarını göster</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Önizleme resimlerini sadece Wi-Fi\'da göster</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">Cinsel içerikli onizleme resimlerini göster</string>
-    <string name="pref_appearance_solidblack_title">Gece modunda siyah</string>
     <string name="pref_appearance_theme_title">Tema</string>
 </resources>

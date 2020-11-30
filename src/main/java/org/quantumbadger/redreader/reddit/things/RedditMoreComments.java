@@ -17,7 +17,7 @@
 
 package org.quantumbadger.redreader.reddit.things;
 
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
+import org.quantumbadger.redreader.jsonwrap.JsonArray;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
@@ -27,7 +27,7 @@ import java.util.List;
 
 public class RedditMoreComments {
 	public int count;
-	public JsonBufferedArray children;
+	public JsonArray children;
 	public String parent_id;
 
 	public List<PostCommentListingURL> getMoreUrls(
@@ -39,7 +39,7 @@ public class RedditMoreComments {
 
 			if(count > 0) {
 				for(final JsonValue child : children) {
-					if(child.getType() == JsonValue.TYPE_STRING) {
+					if(child.asString() != null) {
 						urls.add(commentListingURL.asPostCommentListURL()
 								.commentId(child.asString()));
 					}

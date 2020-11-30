@@ -27,12 +27,13 @@ import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.CacheRequestCallbacks;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached;
 import org.quantumbadger.redreader.common.Constants;
-import org.quantumbadger.redreader.common.Factory;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Locale;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -78,16 +79,18 @@ public final class RedditVideosAPI {
 
 					@Override
 					public void onDataStreamComplete(
-							@NonNull final Factory<SeekableInputStream, IOException> streamFactory,
+							@NonNull final GenericFactory<SeekableInputStream, IOException> stream,
 							final long timestamp,
 							@NonNull final UUID session,
 							final boolean fromCache,
 							@Nullable final String mimetype) {
 
 						try {
-							final String mpd = new String(
-									General.readWholeStream(streamFactory.create()),
-									General.CHARSET_UTF8);
+							final String mpd;
+
+							try(InputStream is = stream.create()) {
+								mpd = new String(General.readWholeStream(is), General.CHARSET_UTF8);
+							}
 
 							String videoUrl = null;
 							String audioUrl = null;

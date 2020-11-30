@@ -29,15 +29,12 @@
     <string name="pref_appearance_theme_header">Tema</string>
     <string name="pref_appearance_thumbnails_header">Miniatyrbilder</string>
     <string name="pref_appearance_comments_header">Kommentarer</string>
-    <string name="pref_appearance_other_header">Övrigt</string>
     <string name="pref_appearance_twopane_title">Tablettläge (två paneler)</string>
     <string name="pref_appearance_theme_title">Tema</string>
-    <string name="pref_appearance_solidblack_title">Solid svart i nattläge</string>
     <string name="pref_appearance_fontscale_posts_title">Skalning av typsnittsstorlek för poster</string>
     <string name="pref_appearance_thumbnails_show_title">Visa miniatyrbilder</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">Visa NSFW-miniatyrbilder</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Miniatyrbilder endast över Wi-Fi</string>
-    <string name="pref_appearance_loading_detail_title">Visa detaljerade laddningsmeddelanden</string>
     <string name="pref_appearance_comment_header_items_title">Kommentarshuvud</string>
     <!-- Behaviour Prefs -->
     <string name="pref_behaviour_notifications_title">Aviseringar</string>
@@ -233,8 +230,6 @@
     <string name="time_ago">%s sedan</string>
     <!-- User Profile -->
     <string name="userprofile_created">Skapad</string>
-    <string name="userprofile_hasmail">Har e-post</string>
-    <string name="userprofile_hasmodmail">Har moderator-e-postadress</string>
     <string name="userprofile_isfriend">Är vän</string>
     <string name="userprofile_isgold">Reddit Guld</string>
     <string name="userprofile_moderator">Är moderator</string>

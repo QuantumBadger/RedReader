@@ -29,13 +29,11 @@
     <string name="pref_appearance_theme_header">主題</string>
     <string name="pref_appearance_thumbnails_header">縮圖</string>
     <string name="pref_appearance_comments_header">評論</string>
-    <string name="pref_appearance_other_header">其他</string>
 
     <string name="pref_appearance_twopane_title">平板電腦模式（雙螢幕）</string>
 
     <string name="pref_appearance_theme_title">主題</string>
 
-    <string name="pref_appearance_solidblack_title">夜間模式下使用黑色</string>
 
     <string name="pref_appearance_fontscale_posts_title">帖子字體大小</string>
 
@@ -46,7 +44,6 @@
 
     <string name="pref_appearance_thumbnails_wifionly_title">僅在使用Wi-Fi時顯示縮圖</string>
 
-    <string name="pref_appearance_loading_detail_title">顯示詳盡的載入訊息</string>
 
     <string name="pref_appearance_comment_header_items_title">評論標題</string>
 
@@ -283,8 +280,6 @@
     <string name="time_ago">%s前</string>
 
     <string name="userprofile_created">建立時間</string>
-    <string name="userprofile_hasmail">有未讀郵件</string>
-    <string name="userprofile_hasmodmail">有未讀管理員郵件</string>
     <string name="userprofile_isfriend">好友</string>
     <string name="userprofile_isgold">Reddit黃金</string>
     <string name="userprofile_moderator">管理員</string>

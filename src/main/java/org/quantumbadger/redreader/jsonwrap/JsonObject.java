@@ -33,27 +33,59 @@ import java.util.Map;
 import java.util.Set;
 
 
-public final class JsonBufferedObject extends JsonBuffered
+public final class JsonObject extends JsonValue
 		implements Iterable<Map.Entry<String, JsonValue>> {
 
 	private final HashMap<String, JsonValue> properties = new HashMap<>();
 
-	public JsonBufferedObject(final JsonParser jp) throws IOException {
+	protected JsonObject(final JsonParser parser) throws IOException {
+
+		if(parser.currentToken() != JsonToken.START_OBJECT) {
+			throw new JsonParseException(
+					parser,
+					"Expecting object start, got " + parser.currentToken(),
+					parser.getCurrentLocation());
+		}
+
+		parser.nextToken();
 
 		JsonToken jt;
 
-		while((jt = jp.nextToken()) != JsonToken.END_OBJECT) {
+		while((jt = parser.currentToken()) != JsonToken.END_OBJECT) {
 
 			if(jt != JsonToken.FIELD_NAME) {
-				throw new JsonParseException(jp, "Expecting field name, got " + jt.name(),
-						jp.getCurrentLocation());
+				throw new JsonParseException(parser, "Expecting field name, got " + jt.name(),
+						parser.getCurrentLocation());
 			}
 
-			final String fieldName = jp.getCurrentName();
-			final JsonValue value = new JsonValue(jp);
+			final String fieldName = parser.getCurrentName();
+
+			parser.nextToken();
+			final JsonValue value = JsonValue.parse(parser);
 
 			properties.put(fieldName, value);
 		}
+
+		parser.nextToken();
+	}
+
+	@NonNull
+	@Override
+	public JsonObject asObject() {
+		return this;
+	}
+
+	@NonNull
+	@Override
+	public <E> E asObject(final Class<E> clazz) throws
+			InstantiationException,
+			IllegalAccessException,
+			NoSuchMethodException,
+			InvocationTargetException {
+
+		final E obj = clazz.getConstructor().newInstance();
+		populateObject(obj);
+		return obj;
 	}
 
 	@Nullable
@@ -110,7 +142,7 @@ public final class JsonBufferedObject extends JsonBuffered
 	}
 
 	@Nullable
-	public JsonBufferedObject getObject(@NonNull final String id) {
+	public JsonObject getObject(@NonNull final String id) {
 
 		final JsonValue value = get(id);
 
@@ -138,7 +170,7 @@ public final class JsonBufferedObject extends JsonBuffered
 	}
 
 	@Nullable
-	public JsonBufferedArray getArray(@NonNull final String id) {
+	public JsonArray getArray(@NonNull final String id) {
 
 		final JsonValue value = get(id);
 
@@ -155,8 +187,7 @@ public final class JsonBufferedObject extends JsonBuffered
 		sb.append('{');
 
 		final Set<String> propertyKeySet = properties.keySet();
-		final String[] fieldNames =
-				propertyKeySet.toArray(new String[0]);
+		final String[] fieldNames = propertyKeySet.toArray(new String[0]);
 
 		for(int prop = 0; prop < fieldNames.length; prop++) {
 			if(prop != 0) {
@@ -177,16 +208,6 @@ public final class JsonBufferedObject extends JsonBuffered
 			sb.append("   ");
 		}
 		sb.append('}');
-	}
-
-	public <E> E asObject(final Class<E> clazz) throws
-			InstantiationException,
-			IllegalAccessException,
-			NoSuchMethodException,
-			InvocationTargetException {
-		final E obj = clazz.getConstructor().newInstance();
-		populateObject(obj);
-		return obj;
 	}
 
 	public void populateObject(final Object o) throws
@@ -232,10 +253,10 @@ public final class JsonBufferedObject extends JsonBuffered
 					objectField.set(o, val.asDouble());
 
 				} else if(fieldType == Integer.class || fieldType == Integer.TYPE) {
-					objectField.set(o, val.isNull() ? null : val.asLong().intValue());
+					objectField.set(o, val.asLong() == null ? null : val.asLong().intValue());
 
 				} else if(fieldType == Float.class || fieldType == Float.TYPE) {
-					objectField.set(o, val.isNull() ? null : val.asDouble().floatValue());
+					objectField.set(o, val.asDouble() == null ? null : val.asDouble().floatValue());
 
 				} else if(fieldType == Boolean.class || fieldType == Boolean.TYPE) {
 					objectField.set(o, val.asBoolean());
@@ -243,44 +264,14 @@ public final class JsonBufferedObject extends JsonBuffered
 				} else if(fieldType == String.class) {
 					objectField.set(o, val.asString());
 
-				} else if(fieldType == JsonBufferedArray.class) {
+				} else if(fieldType == JsonArray.class) {
 					objectField.set(o, val.asArray());
 
-				} else if(fieldType == JsonBufferedObject.class) {
+				} else if(fieldType == JsonObject.class) {
 					objectField.set(o, val.asObject());
 
 				} else if(fieldType == JsonValue.class) {
 					objectField.set(o, val);
-
-				} else if(fieldType == Object.class) {
-
-					final Object result;
-
-					switch(val.getType()) {
-						case JsonValue.TYPE_BOOLEAN:
-							result = val.asBoolean();
-							break;
-						case JsonValue.TYPE_INTEGER:
-							result = val.asLong();
-							break;
-						case JsonValue.TYPE_STRING:
-							result = val.asString();
-							break;
-						case JsonValue.TYPE_FLOAT:
-							result = val.asDouble();
-							break;
-						case JsonValue.TYPE_NULL:
-							result = null;
-							break;
-
-						case JsonValue.TYPE_OBJECT:
-						case JsonValue.TYPE_ARRAY:
-						default:
-							result = val;
-							break;
-					}
-
-					objectField.set(o, result);
 
 				} else {
 					objectField.set(o, val.asObject(fieldType));
@@ -295,5 +286,22 @@ public final class JsonBufferedObject extends JsonBuffered
 	@Override
 	public Iterator<Map.Entry<String, JsonValue>> iterator() {
 		return properties.entrySet().iterator();
+	}
+
+	@Nullable
+	@Override
+	protected JsonValue getAtPathInternal(final int offset, final Object... keys) {
+
+		if(offset == keys.length) {
+			return this;
+		}
+
+		final JsonValue next = properties.get(keys[offset].toString());
+
+		if(next == null) {
+			return null;
+		}
+
+		return next.getAtPathInternal(offset + 1, keys);
 	}
 }

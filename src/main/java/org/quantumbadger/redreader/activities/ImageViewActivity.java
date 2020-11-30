@@ -41,11 +41,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.UiThread;
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.MergingMediaSource;
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -55,10 +55,12 @@ import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotC
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.fragments.ImageInfoDialog;
 import org.quantumbadger.redreader.image.AlbumInfo;
 import org.quantumbadger.redreader.image.GetAlbumInfoListener;
@@ -80,11 +82,14 @@ import org.quantumbadger.redreader.views.imageview.ImageTileSource;
 import org.quantumbadger.redreader.views.imageview.ImageTileSourceWholeBitmap;
 import org.quantumbadger.redreader.views.imageview.ImageViewDisplayListManager;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
+import org.quantumbadger.redreader.views.video.ExoPlayerSeekableInputStreamDataSource;
+import org.quantumbadger.redreader.views.video.ExoPlayerSeekableInputStreamDataSourceFactory;
 import org.quantumbadger.redreader.views.video.ExoPlayerWrapperView;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
@@ -106,7 +111,9 @@ public class ImageViewActivity extends BaseActivity
 	private String mUrl;
 
 	private boolean mIsPaused = true, mIsDestroyed = false;
-	private CacheRequest mRequest;
+
+	@Nullable private CacheRequest mImageOrVideoRequest;
+	@Nullable private CacheRequest mAudioRequest;
 
 	private boolean mHaveReverted = false;
 
@@ -237,8 +244,7 @@ public class ImageViewActivity extends BaseActivity
 		progressLayout.addView(progressTextLayout);
 		((RelativeLayout.LayoutParams)progressTextLayout.getLayoutParams()).addRule(
 				RelativeLayout.CENTER_IN_PARENT);
-		progressTextLayout.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-		progressTextLayout.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+		General.setLayoutMatchWidthWrapHeight(progressTextLayout);
 
 		mLayout = new FrameLayout(this);
 		mLayout.addView(progressLayout);
@@ -255,6 +261,11 @@ public class ImageViewActivity extends BaseActivity
 							final Throwable t,
 							final Integer status,
 							final String readableMessage) {
+
+						General.quickToast(
+								ImageViewActivity.this,
+								R.string.imageview_image_info_failed);
+
 						revertToWeb();
 					}
 
@@ -273,6 +284,11 @@ public class ImageViewActivity extends BaseActivity
 						final URI audioUri;
 
 						if(uri == null) {
+
+							General.quickToast(
+									ImageViewActivity.this,
+									R.string.imageview_image_info_failed);
+
 							revertToWeb();
 							return;
 						}
@@ -305,6 +321,8 @@ public class ImageViewActivity extends BaseActivity
 					0,
 					parsedPost,
 					-1,
+					false,
+					false,
 					false,
 					false);
 
@@ -339,18 +357,18 @@ public class ImageViewActivity extends BaseActivity
 		final FrameLayout outerFrame = new FrameLayout(this);
 		outerFrame.addView(hiddenAccessibilityLayout);
 		outerFrame.addView(mLayout);
-		mLayout.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-		mLayout.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+		General.setLayoutMatchParent(mLayout);
 
 		if(PrefsUtility.pref_appearance_image_viewer_show_floating_toolbar(
 				this,
 				General.getSharedPrefs(this))) {
 
-			mFloatingToolbar = (LinearLayout)LayoutInflater.from(this)
-					.inflate(
+			mFloatingToolbar = Objects.requireNonNull(
+					(LinearLayout)LayoutInflater.from(this).inflate(
 							R.layout.floating_toolbar,
 							outerFrame,
-							false);
+							false));
+
 			outerFrame.addView(mFloatingToolbar);
 
 			mFloatingToolbar.setVisibility(View.GONE);
@@ -392,13 +410,8 @@ public class ImageViewActivity extends BaseActivity
 			outerFrame.addView(bezelOverlay);
 			outerFrame.addView(toolbarOverlay);
 
-			bezelOverlay.getLayoutParams().width = FrameLayout.LayoutParams.MATCH_PARENT;
-			bezelOverlay.getLayoutParams().height = FrameLayout.LayoutParams.MATCH_PARENT;
-
-			toolbarOverlay.getLayoutParams().width
-					= FrameLayout.LayoutParams.MATCH_PARENT;
-			toolbarOverlay.getLayoutParams().height
-					= FrameLayout.LayoutParams.MATCH_PARENT;
+			General.setLayoutMatchParent(bezelOverlay);
+			General.setLayoutMatchParent(toolbarOverlay);
 
 		}
 
@@ -413,335 +426,136 @@ public class ImageViewActivity extends BaseActivity
 		mSwipeOverlay = new HorizontalSwipeProgressOverlay(this);
 		mLayout.addView(mSwipeOverlay);
 
-		v.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-		v.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+		General.setLayoutMatchParent(v);
 	}
 
-	private void onImageLoaded(
-			@NonNull final CacheManager.ReadableCacheFile cacheFile,
-			@Nullable final CacheManager.ReadableCacheFile audioCacheFile,
-			final String mimetype) {
+	private void onImageStreamReady(
+			final boolean isNetwork,
+			@NonNull final GenericFactory<SeekableInputStream, IOException> videoStream,
+			@Nullable final GenericFactory<SeekableInputStream, IOException> audioStream,
+			final String mimetype,
+			@NonNull final Uri videoStreamUri) {
 
-		if(mimetype == null || (!Constants.Mime.isImage(mimetype)
-				&& !Constants.Mime.isVideo(mimetype))) {
-			revertToWeb();
-			return;
-		}
+		General.startNewThread("ImageViewActivity", () -> {
 
-		if(mImageInfo != null
-				&& ((mImageInfo.title != null && mImageInfo.title.length() > 0)
-				|| (mImageInfo.caption != null
-				&& mImageInfo.caption.length() > 0))) {
+			Log.i(TAG, "Image stream ready");
 
-			AndroidCommon.UI_THREAD_HANDLER.post(() -> addFloatingToolbarButton(
-					R.drawable.ic_action_info_dark,
-					view -> ImageInfoDialog.newInstance(mImageInfo).show(
-							getSupportFragmentManager(),
-							null)));
-		}
+			final SharedPreferences sharedPrefs = General.getSharedPrefs(this);
 
-		if(Constants.Mime.isVideo(mimetype)) {
-
-			AndroidCommon.UI_THREAD_HANDLER.post(() -> {
-
-				if(mIsDestroyed) {
-					return;
-				}
-				mRequest = null;
-
-				final PrefsUtility.VideoViewMode videoViewMode
-						= PrefsUtility.pref_behaviour_videoview_mode(
-						this,
-						General.getSharedPrefs(this));
-
-				if(videoViewMode == PrefsUtility.VideoViewMode.INTERNAL_BROWSER) {
-					revertToWeb();
-
-				} else if(videoViewMode == PrefsUtility.VideoViewMode.EXTERNAL_BROWSER) {
-					openInExternalBrowser();
-
-				} else if(videoViewMode == PrefsUtility.VideoViewMode.EXTERNAL_APP_VLC) {
-
-					final Intent intent = new Intent(Intent.ACTION_VIEW);
-					intent.setClassName(
-							"org.videolan.vlc",
-							"org.videolan.vlc.gui.video.VideoPlayerActivity");
-					intent.setDataAndType(cacheFile.getUri(), mimetype);
-
-					try {
-						startActivity(intent);
-					} catch(final Throwable t) {
-						General.quickToast(this, R.string.videoview_mode_app_vlc_launch_failed);
-						Log.e(TAG, "VLC failed to launch", t);
-					}
-					finish();
-
-				} else {
-
-					try {
-
-						Log.i(TAG, "Playing video using ExoPlayer");
-						getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
-						final RelativeLayout layout = new RelativeLayout(this);
-						layout.setGravity(Gravity.CENTER);
-
-						final DefaultDataSourceFactory dataSourceFactory
-								= new DefaultDataSourceFactory(
-										this,
-										Constants.ua(this),
-										null);
-
-						final MediaSource mediaSource;
-
-						final MediaSource videoMediaSource
-								= new ExtractorMediaSource.Factory(dataSourceFactory)
-								.createMediaSource(cacheFile.getUri());
-
-						if(audioCacheFile == null) {
-							mediaSource = videoMediaSource;
-
-						} else {
-							mediaSource = new MergingMediaSource(
-									videoMediaSource,
-									new ExtractorMediaSource.Factory(dataSourceFactory)
-											.createMediaSource(audioCacheFile.getUri()));
-						}
-
-						mVideoPlayerWrapper = new ExoPlayerWrapperView(
-								this,
-								mediaSource,
-								this::revertToWeb,
-								0);
-
-						layout.addView(mVideoPlayerWrapper);
-						setMainView(layout);
-
-						layout.getLayoutParams().width
-								= ViewGroup.LayoutParams.MATCH_PARENT;
-						layout.getLayoutParams().height
-								= ViewGroup.LayoutParams.MATCH_PARENT;
-						mVideoPlayerWrapper.setLayoutParams(new RelativeLayout.LayoutParams(
-								ViewGroup.LayoutParams.MATCH_PARENT,
-								ViewGroup.LayoutParams.MATCH_PARENT));
-
-						final BasicGestureHandler gestureHandler
-								= new BasicGestureHandler(this);
-						mVideoPlayerWrapper.setOnTouchListener(gestureHandler);
-						layout.setOnTouchListener(gestureHandler);
-
-						final boolean muteByDefault
-								= PrefsUtility.pref_behaviour_video_mute_default(
-								this,
-								General.getSharedPrefs(this));
-
-						mVideoPlayerWrapper.setMuted(muteByDefault);
-
-						final int iconMuted = R.drawable.ic_volume_off_white_24dp;
-						final int iconUnmuted = R.drawable.ic_volume_up_white_24dp;
-
-						if(mImageInfo != null
-								&& mImageInfo.hasAudio
-								!= ImageInfo.HasAudio.NO_AUDIO) {
-
-							final AtomicReference<ImageButton> muteButton
-									= new AtomicReference<>();
-							muteButton.set(addFloatingToolbarButton(
-									muteByDefault ? iconMuted : iconUnmuted,
-									view -> {
-										final ImageButton button = muteButton.get();
-
-										if(mVideoPlayerWrapper.isMuted()) {
-											mVideoPlayerWrapper.setMuted(false);
-											button.setImageResource(iconUnmuted);
-										} else {
-											mVideoPlayerWrapper.setMuted(true);
-											button.setImageResource(iconMuted);
-										}
-									}));
-						}
-
-					} catch(final OutOfMemoryError e) {
-						General.quickToast(this, R.string.imageview_oom);
-						revertToWeb();
-
-					} catch(final Throwable e) {
-						General.quickToast(this, R.string.imageview_invalid_video);
-						revertToWeb();
-					}
-				}
-			});
-
-		} else if(Constants.Mime.isImageGif(mimetype)) {
-
-			final PrefsUtility.GifViewMode gifViewMode
-					= PrefsUtility.pref_behaviour_gifview_mode(
-					this,
-					General.getSharedPrefs(this));
-
-			if(gifViewMode == PrefsUtility.GifViewMode.INTERNAL_BROWSER) {
+			if(mimetype == null) {
 				revertToWeb();
-				return;
-
-			} else if(gifViewMode == PrefsUtility.GifViewMode.EXTERNAL_BROWSER) {
-				openInExternalBrowser();
 				return;
 			}
 
-			if(gifViewMode == PrefsUtility.GifViewMode.INTERNAL_MOVIE) {
+			final boolean isImage = Constants.Mime.isImage(mimetype);
+			final boolean isVideo = Constants.Mime.isVideo(mimetype);
+			final boolean isGif = Constants.Mime.isImageGif(mimetype);
 
-				final byte[] data;
+			if(!isImage && !isVideo) {
+				revertToWeb();
+				return;
+			}
 
-				try(InputStream cacheFileInputStream = cacheFile.getInputStream()) {
+			if(mImageInfo != null && ((mImageInfo.title != null && mImageInfo.title.length() > 0)
+					|| (mImageInfo.caption != null && mImageInfo.caption.length() > 0))) {
 
-					data = GIFView.streamToBytes(cacheFileInputStream);
+				AndroidCommon.UI_THREAD_HANDLER.post(() -> addFloatingToolbarButton(
+						R.drawable.ic_action_info_dark,
+						view -> ImageInfoDialog.newInstance(mImageInfo).show(
+								getSupportFragmentManager(),
+								null)));
+			}
 
-				} catch(final IOException e) {
-					Log.e(TAG, "Failed to read GIF data", e);
-					revertToWeb();
-					return;
-				}
+			final boolean fullyDownloadBeforePlaying
+					= PrefsUtility.pref_videos_download_before_playing(
+							this,
+							sharedPrefs);
 
-				@SuppressWarnings("deprecation") final Movie movie;
+			if(isNetwork && fullyDownloadBeforePlaying && (isVideo || isGif)) {
+
+				Log.i(TAG, "Fully downloading before starting playback");
 
 				try {
-					movie = GIFView.prepareMovie(data);
+					videoStream.create().readRemainingAsBytes((buf, offset, length)
+							-> Log.i(TAG, "Video fully downloaded, starting playback"));
 
-				} catch(final OutOfMemoryError e) {
-					General.quickToast(this, R.string.imageview_oom);
-					revertToWeb();
-					return;
-
-				} catch(final Throwable e) {
-					General.quickToast(this, R.string.imageview_invalid_gif);
+				} catch(final IOException e) {
+					Log.e(TAG, "Got exception while fully buffering", e);
+					General.quickToast(this, R.string.imageview_download_failed);
 					revertToWeb();
 					return;
 				}
+			}
+
+			if(isVideo) {
 
 				AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 
 					if(mIsDestroyed) {
 						return;
 					}
-					mRequest = null;
 
-					getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+					final PrefsUtility.VideoViewMode videoViewMode
+							= PrefsUtility.pref_behaviour_videoview_mode(
+									this,
+									sharedPrefs);
 
-					final GIFView gifView = new GIFView(this, movie);
+					if(videoViewMode == PrefsUtility.VideoViewMode.INTERNAL_BROWSER) {
+						revertToWeb();
 
-					setMainView(gifView);
-					gifView.setOnTouchListener(new BasicGestureHandler(this));
+					} else if(videoViewMode == PrefsUtility.VideoViewMode.EXTERNAL_BROWSER) {
+						openInExternalBrowser();
+
+					} else if(videoViewMode == PrefsUtility.VideoViewMode.EXTERNAL_APP_VLC) {
+						cancelCacheRequests();
+						launchVlc(videoStreamUri);
+
+					} else {
+						playWithExoplayer(isNetwork, videoStream, audioStream);
+					}
 				});
+
+			} else if(isGif) {
+
+				final PrefsUtility.GifViewMode gifViewMode
+						= PrefsUtility.pref_behaviour_gifview_mode(
+						this,
+						sharedPrefs);
+
+				if(gifViewMode == PrefsUtility.GifViewMode.INTERNAL_BROWSER) {
+					revertToWeb();
+					return;
+
+				} else if(gifViewMode == PrefsUtility.GifViewMode.EXTERNAL_BROWSER) {
+					openInExternalBrowser();
+					return;
+				}
+
+				if(gifViewMode == PrefsUtility.GifViewMode.INTERNAL_MOVIE) {
+					playGIFWithMovie(videoStream);
+
+				} else {
+					playGIFWithLegacyDecoder(videoStream);
+				}
 
 			} else {
 
-				@SuppressWarnings("PMD.CloseResource") final InputStream cacheFileInputStream;
-				try {
-					cacheFileInputStream = cacheFile.getInputStream();
+				final PrefsUtility.ImageViewMode imageViewMode
+						= PrefsUtility.pref_behaviour_imageview_mode(
+						this,
+						sharedPrefs);
 
-				} catch(final IOException e) {
+				if(imageViewMode == PrefsUtility.ImageViewMode.INTERNAL_BROWSER) {
 					revertToWeb();
-					return;
-				}
 
-				gifThread = new GifDecoderThread(
-						cacheFileInputStream,
-						new GifDecoderThread.OnGifLoadedListener() {
+				} else if(imageViewMode == PrefsUtility.ImageViewMode.EXTERNAL_BROWSER) {
+					openInExternalBrowser();
 
-							@Override
-							public void onGifLoaded() {
-								AndroidCommon.UI_THREAD_HANDLER.post(() -> {
-
-									if(mIsDestroyed) {
-										return;
-									}
-									mRequest = null;
-
-									imageView = new ImageView(ImageViewActivity.this);
-									imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-									setMainView(imageView);
-									gifThread.setView(imageView);
-
-									imageView.setOnTouchListener(new BasicGestureHandler(
-											ImageViewActivity.this));
-								});
-							}
-
-							@Override
-							public void onOutOfMemory() {
-								General.quickToast(
-										ImageViewActivity.this,
-										R.string.imageview_oom);
-								revertToWeb();
-							}
-
-							@Override
-							public void onGifInvalid() {
-								General.quickToast(
-										ImageViewActivity.this,
-										R.string.imageview_invalid_gif);
-								revertToWeb();
-							}
-						});
-
-				gifThread.start();
-
-			}
-
-		} else {
-
-			final PrefsUtility.ImageViewMode imageViewMode
-					= PrefsUtility.pref_behaviour_imageview_mode(
-					this,
-					General.getSharedPrefs(this));
-
-			if(imageViewMode == PrefsUtility.ImageViewMode.INTERNAL_BROWSER) {
-				revertToWeb();
-				return;
-
-			} else if(imageViewMode == PrefsUtility.ImageViewMode.EXTERNAL_BROWSER) {
-				openInExternalBrowser();
-				return;
-			}
-
-			final ImageTileSource imageTileSource;
-			try {
-				try(InputStream cacheFileInputStream = cacheFile.getInputStream()) {
-
-					imageTileSource = new ImageTileSourceWholeBitmap(
-							BitmapFactory.decodeStream(cacheFileInputStream));
-
-				} catch(final Throwable t) {
-					Log.e(TAG, "Exception when creating ImageTileSource", t);
-					General.quickToast(this, R.string.imageview_decode_failed);
-					revertToWeb();
-					return;
-				}
-
-			} catch(final OutOfMemoryError e) {
-				General.quickToast(this, R.string.imageview_oom);
-				revertToWeb();
-				return;
-			}
-
-			AndroidCommon.UI_THREAD_HANDLER.post(() -> {
-
-				if(mIsDestroyed) {
-					return;
-				}
-				mRequest = null;
-				mImageViewDisplayerManager
-						= new ImageViewDisplayListManager(imageTileSource, this);
-				surfaceView = new RRGLSurfaceView(this, mImageViewDisplayerManager);
-				setMainView(surfaceView);
-
-				if(mIsPaused) {
-					surfaceView.onPause();
 				} else {
-					surfaceView.onResume();
+					showImageWithInternalViewer(videoStream);
 				}
-			});
-		}
+			}
+		});
 	}
 
 	@Override
@@ -768,9 +582,15 @@ public class ImageViewActivity extends BaseActivity
 
 	private void revertToWeb() {
 
-		Log.i(TAG, "Using internal browser");
+		Log.i(TAG, "Using internal browser", new RuntimeException());
 
 		final Runnable r = () -> {
+
+			if(mIsPaused || mIsDestroyed) {
+				Log.i(TAG, "Not reverting as we are paused/destroyed");
+				return;
+			}
+
 			if(!mHaveReverted) {
 				mHaveReverted = true;
 				LinkHandler.onLinkClicked(this, mUrl, true);
@@ -836,9 +656,7 @@ public class ImageViewActivity extends BaseActivity
 		super.onDestroy();
 		mIsDestroyed = true;
 
-		if(mRequest != null) {
-			mRequest.cancel();
-		}
+		cancelCacheRequests();
 
 		if(gifThread != null) {
 			gifThread.stopPlaying();
@@ -847,6 +665,17 @@ public class ImageViewActivity extends BaseActivity
 		if(mVideoPlayerWrapper != null) {
 			mVideoPlayerWrapper.release();
 			mVideoPlayerWrapper = null;
+		}
+	}
+
+	private void cancelCacheRequests() {
+
+		if(mImageOrVideoRequest != null) {
+			mImageOrVideoRequest.cancel();
+		}
+
+		if(mAudioRequest != null) {
+			mAudioRequest.cancel();
 		}
 	}
 
@@ -1026,6 +855,9 @@ public class ImageViewActivity extends BaseActivity
 				} else if(videoViewMode == PrefsUtility.VideoViewMode.INTERNAL_BROWSER) {
 					revertToWeb();
 					return;
+
+				} else if(videoViewMode == PrefsUtility.VideoViewMode.EXTERNAL_APP_VLC) {
+					launchVlc(Uri.parse(uri.toString()));
 				}
 			}
 		}
@@ -1040,8 +872,6 @@ public class ImageViewActivity extends BaseActivity
 		if(PrefsUtility.pref_appearance_show_aspect_ratio_indicator(
 				this,
 				General.getSharedPrefs(this))) {
-
-			// TODO Get width and height of loading media when not available from API
 
 			if(mImageInfo.width != null
 					&& mImageInfo.height != null
@@ -1068,186 +898,187 @@ public class ImageViewActivity extends BaseActivity
 		final Object resultLock = new Object();
 
 		final AtomicBoolean failed = new AtomicBoolean(false);
-		final AtomicReference<CacheManager.ReadableCacheFile> audio
+		final AtomicReference<GenericFactory<SeekableInputStream, IOException>> audio
 				= new AtomicReference<>();
-		final AtomicReference<CacheManager.ReadableCacheFile> video
+		final AtomicReference<GenericFactory<SeekableInputStream, IOException>> video
 				= new AtomicReference<>();
 		final AtomicReference<String> videoMimetype = new AtomicReference<>();
 
-		CacheManager.getInstance(this).makeRequest(
-				mRequest = new CacheRequest(
-						uri,
-						RedditAccountManager.getAnon(),
-						null,
-						new Priority(Constants.Priority.IMAGE_VIEW),
-						DownloadStrategyIfNotCached.INSTANCE,
-						Constants.FileType.IMAGE,
-						CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
-						this,
-						new CacheRequestCallbacks() {
+		CacheManager.getInstance(this).makeRequest(mImageOrVideoRequest = new CacheRequest(
+				uri,
+				RedditAccountManager.getAnon(),
+				null,
+				new Priority(Constants.Priority.IMAGE_VIEW),
+				DownloadStrategyIfNotCached.INSTANCE,
+				Constants.FileType.IMAGE,
+				CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
+				this,
+				new CacheRequestCallbacks() {
 
-							private boolean mProgressTextSet = false;
+					private boolean mProgressTextSet = false;
 
-							@Override
-							public void onFailure(
-									final int type,
-									@Nullable final Throwable t,
-									@Nullable final Integer httpStatus,
-									@Nullable final String readableMessage) {
+					@Override
+					public void onFailure(
+							final int type,
+							@Nullable final Throwable t,
+							@Nullable final Integer httpStatus,
+							@Nullable final String readableMessage) {
 
-								synchronized(resultLock) {
+						synchronized(resultLock) {
 
-									if(!failed.getAndSet(true)) {
+							if(!failed.getAndSet(true)) {
 
-										if(type == CacheRequest.REQUEST_FAILURE_CONNECTION
-												&& uri.getHost().contains("redgifs")) {
+								if(type == CacheRequest.REQUEST_FAILURE_CONNECTION
+										&& uri.getHost().contains("redgifs")) {
 
-											// Redgifs have lots of server issues
-											revertToWeb();
-											return;
-										}
-
-										final RRError error = General.getGeneralErrorForFailure(
-												ImageViewActivity.this,
-												type,
-												t,
-												httpStatus,
-												uri.toString());
-
-										AndroidCommon.UI_THREAD_HANDLER.post(() -> {
-											mRequest = null;
-											final LinearLayout layout
-													= new LinearLayout(ImageViewActivity.this);
-											final ErrorView errorView = new ErrorView(
-													ImageViewActivity.this,
-													error);
-											layout.addView(errorView);
-											errorView.getLayoutParams().width
-													= ViewGroup.LayoutParams.MATCH_PARENT;
-											setMainView(layout);
-										});
-									}
+									// Redgifs have lots of server issues
+									revertToWeb();
+									return;
 								}
-							}
 
-							@Override
-							public void onDownloadNecessary() {
-								AndroidCommon.runOnUiThread(() -> {
-									progressBar.setVisibility(View.VISIBLE);
-									progressBar.setIndeterminate(true);
-									manageAspectRatioIndicator(progressBar);
+								final RRError error = General.getGeneralErrorForFailure(
+										ImageViewActivity.this,
+										type,
+										t,
+										httpStatus,
+										uri.toString());
+
+								AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+									final LinearLayout layout
+											= new LinearLayout(ImageViewActivity.this);
+									final ErrorView errorView = new ErrorView(
+											ImageViewActivity.this,
+											error);
+									layout.addView(errorView);
+									General.setLayoutMatchWidthWrapHeight(errorView);
+									setMainView(layout);
 								});
 							}
+						}
+					}
 
-							@Override
-							public void onProgress(
-									final boolean authorizationInProgress,
-									final long bytesRead,
-									final long totalBytes) {
+					@Override
+					public void onDownloadNecessary() {
+						AndroidCommon.runOnUiThread(() -> {
+							progressBar.setVisibility(View.VISIBLE);
+							progressBar.setIndeterminate(true);
+							manageAspectRatioIndicator(progressBar);
+						});
+					}
 
-								AndroidCommon.runOnUiThread(() -> {
-									progressBar.setVisibility(View.VISIBLE);
-									progressBar.setIndeterminate(authorizationInProgress);
-									progressBar.setProgress(
-											((float)((1000 * bytesRead) / totalBytes)) / 1000);
-									manageAspectRatioIndicator(progressBar);
+					@Override
+					public void onProgress(
+							final boolean authorizationInProgress,
+							final long bytesRead,
+							final long totalBytes) {
 
-									if(!mProgressTextSet) {
-										mProgressText.setText(General.bytesToMegabytes(totalBytes));
-										mProgressTextSet = true;
-									}
-								});
+						AndroidCommon.runOnUiThread(() -> {
+							progressBar.setVisibility(View.VISIBLE);
+							progressBar.setIndeterminate(authorizationInProgress);
+							progressBar.setProgress(
+									((float)((1000 * bytesRead) / totalBytes)) / 1000);
+							manageAspectRatioIndicator(progressBar);
+
+							if(!mProgressTextSet) {
+								mProgressText.setText(General.bytesToMegabytes(totalBytes));
+								mProgressTextSet = true;
 							}
+						});
+					}
 
-							@Override
-							public void onCacheFileWritten(
-									@NonNull final CacheManager.ReadableCacheFile cacheFile,
-									final long timestamp,
-									@NonNull final UUID session,
-									final boolean fromCache,
-									@Nullable final String mimetype) {
+					@Override
+					public void onDataStreamAvailable(
+							@NonNull final GenericFactory<SeekableInputStream, IOException>
+									streamFactory,
+							final long timestamp,
+							@NonNull final UUID session,
+							final boolean fromCache,
+							@Nullable final String mimetype) {
 
-								synchronized(resultLock) {
+						synchronized(resultLock) {
 
-									if(audio.get() != null || audioUri == null) {
-										onImageLoaded(cacheFile, audio.get(), mimetype);
+							if(audio.get() != null || audioUri == null) {
+								onImageStreamReady(
+										!fromCache,
+										streamFactory,
+										audio.get(),
+										mimetype,
+										Uri.parse(uri.toString()));
 
-									} else {
-										video.set(cacheFile);
-										videoMimetype.set(mimetype);
-									}
-								}
+							} else {
+								video.set(streamFactory);
+								videoMimetype.set(mimetype);
 							}
-						}));
+						}
+					}
+				}));
 
 		if(audioUri != null) {
-			CacheManager.getInstance(this).makeRequest(
-					mRequest = new CacheRequest(
-							audioUri,
-							RedditAccountManager.getAnon(),
-							null,
-							new Priority(Constants.Priority.IMAGE_VIEW),
-							DownloadStrategyIfNotCached.INSTANCE,
-							Constants.FileType.IMAGE,
-							CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
-							this,
-							new CacheRequestCallbacks() {
-								@Override
-								public void onFailure(
-										final int type,
-										@Nullable final Throwable t,
-										@Nullable final Integer httpStatus,
-										@Nullable final String readableMessage) {
+			CacheManager.getInstance(this).makeRequest(mAudioRequest = new CacheRequest(
+					audioUri,
+					RedditAccountManager.getAnon(),
+					null,
+					new Priority(Constants.Priority.IMAGE_VIEW),
+					DownloadStrategyIfNotCached.INSTANCE,
+					Constants.FileType.IMAGE,
+					CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
+					this,
+					new CacheRequestCallbacks() {
+						@Override
+						public void onFailure(
+								final int type,
+								@Nullable final Throwable t,
+								@Nullable final Integer httpStatus,
+								@Nullable final String readableMessage) {
 
-									synchronized(resultLock) {
+							synchronized(resultLock) {
 
-										if(!failed.getAndSet(true)) {
+								if(!failed.getAndSet(true)) {
 
-											final RRError error
-													= General.getGeneralErrorForFailure(
-													ImageViewActivity.this,
-													type,
-													t,
-													httpStatus,
-													audioUri.toString());
+									final RRError error = General.getGeneralErrorForFailure(
+											ImageViewActivity.this,
+											type,
+											t,
+											httpStatus,
+											audioUri.toString());
 
-											AndroidCommon.runOnUiThread(() -> {
-												// TODO handle properly
-												mRequest = null;
-												final LinearLayout layout
-														= new LinearLayout(ImageViewActivity.this);
-												final ErrorView errorView = new ErrorView(
-														ImageViewActivity.this,
-														error);
-												layout.addView(errorView);
-												errorView.getLayoutParams().width
-														= ViewGroup.LayoutParams.MATCH_PARENT;
-												setMainView(layout);
-											});
-										}
-									}
+									AndroidCommon.runOnUiThread(() -> {
+										final LinearLayout layout
+												= new LinearLayout(ImageViewActivity.this);
+										final ErrorView errorView = new ErrorView(
+												ImageViewActivity.this,
+												error);
+										layout.addView(errorView);
+										General.setLayoutMatchWidthWrapHeight(errorView);
+										setMainView(layout);
+									});
 								}
+							}
+						}
 
-								@Override
-								public void onCacheFileWritten(
-										@NonNull final CacheManager.ReadableCacheFile cacheFile,
-										final long timestamp,
-										@NonNull final UUID session,
-										final boolean fromCache,
-										@Nullable final String mimetype) {
+						@Override
+						public void onDataStreamAvailable(
+								@NonNull final GenericFactory<
+										SeekableInputStream, IOException> streamFactory,
+								final long timestamp,
+								@NonNull final UUID session,
+								final boolean fromCache,
+								@Nullable final String mimetype) {
 
-									synchronized(resultLock) {
-										if(video.get() != null) {
-											onImageLoaded(
-													video.get(),
-													cacheFile,
-													videoMimetype.get());
-										} else {
-											audio.set(cacheFile);
-										}
-									}
+							synchronized(resultLock) {
+								if(video.get() != null) {
+									onImageStreamReady(
+											!fromCache,
+											video.get(),
+											streamFactory,
+											videoMimetype.get(),
+											Uri.parse(uri.toString()));
+								} else {
+									audio.set(streamFactory);
 								}
-							}));
+							}
+						}
+					}));
 		}
 	}
 
@@ -1276,6 +1107,285 @@ public class ImageViewActivity extends BaseActivity
 		mFloatingToolbar.addView(ib);
 
 		return ib;
+	}
+
+	private void launchVlc(@NonNull final Uri uri) {
+
+		final Intent intent = new Intent(Intent.ACTION_VIEW);
+
+		//noinspection SpellCheckingInspection
+		intent.setClassName(
+				"org.videolan.vlc",
+				"org.videolan.vlc.gui.video.VideoPlayerActivity");
+
+		intent.setDataAndType(uri, "video/*");
+
+		try {
+			startActivity(intent);
+		} catch(final Throwable t) {
+			General.quickToast(this, R.string.videoview_mode_app_vlc_launch_failed);
+			Log.e(TAG, "VLC failed to launch", t);
+		}
+
+		finish();
+	}
+
+	@UiThread
+	private void playWithExoplayer(
+			final boolean isNetwork,
+			@NonNull final GenericFactory<SeekableInputStream, IOException> videoStream,
+			@Nullable final GenericFactory<SeekableInputStream, IOException> audioStream) {
+
+		General.checkThisIsUIThread();
+
+		try {
+
+			Log.i(TAG, "Playing video using ExoPlayer");
+			getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+			final RelativeLayout layout = new RelativeLayout(this);
+			layout.setGravity(Gravity.CENTER);
+
+			final ExoPlayerSeekableInputStreamDataSourceFactory videoDataSourceFactory
+					= new ExoPlayerSeekableInputStreamDataSourceFactory(isNetwork, videoStream);
+
+			final MediaSource mediaSource;
+
+			final MediaSource videoMediaSource
+					= new ExtractorMediaSource.Factory(videoDataSourceFactory)
+							.createMediaSource(ExoPlayerSeekableInputStreamDataSource.URI);
+
+			if(audioStream == null) {
+				mediaSource = videoMediaSource;
+
+			} else {
+
+				final ExoPlayerSeekableInputStreamDataSourceFactory audioDataSourceFactory
+						= new ExoPlayerSeekableInputStreamDataSourceFactory(isNetwork, audioStream);
+
+				mediaSource = new MergingMediaSource(
+						videoMediaSource,
+						new ExtractorMediaSource.Factory(audioDataSourceFactory)
+								.createMediaSource(ExoPlayerSeekableInputStreamDataSource.URI));
+			}
+
+			mVideoPlayerWrapper = new ExoPlayerWrapperView(
+					this,
+					mediaSource,
+					this::revertToWeb,
+					0);
+
+			layout.addView(mVideoPlayerWrapper);
+			setMainView(layout);
+
+			General.setLayoutMatchParent(layout);
+			General.setLayoutMatchParent(mVideoPlayerWrapper);
+
+			final BasicGestureHandler gestureHandler
+					= new BasicGestureHandler(this);
+
+			//noinspection ClickableViewAccessibility
+			mVideoPlayerWrapper.setOnTouchListener(gestureHandler);
+
+			//noinspection ClickableViewAccessibility
+			layout.setOnTouchListener(gestureHandler);
+
+			final boolean muteByDefault
+					= PrefsUtility.pref_behaviour_video_mute_default(
+					this,
+					General.getSharedPrefs(this));
+
+			mVideoPlayerWrapper.setMuted(muteByDefault);
+
+			final int iconMuted = R.drawable.ic_volume_off_white_24dp;
+			final int iconUnmuted = R.drawable.ic_volume_up_white_24dp;
+
+			if(mImageInfo != null
+					&& mImageInfo.hasAudio
+					!= ImageInfo.HasAudio.NO_AUDIO) {
+
+				final AtomicReference<ImageButton> muteButton
+						= new AtomicReference<>();
+				muteButton.set(addFloatingToolbarButton(
+						muteByDefault ? iconMuted : iconUnmuted,
+						view -> {
+							final ImageButton button = muteButton.get();
+
+							if(mVideoPlayerWrapper.isMuted()) {
+								mVideoPlayerWrapper.setMuted(false);
+								button.setImageResource(iconUnmuted);
+							} else {
+								mVideoPlayerWrapper.setMuted(true);
+								button.setImageResource(iconMuted);
+							}
+						}));
+			}
+
+		} catch(final OutOfMemoryError e) {
+			General.quickToast(this, R.string.imageview_oom);
+			revertToWeb();
+
+		} catch(final Throwable e) {
+			General.quickToast(this, R.string.imageview_invalid_video);
+			revertToWeb();
+		}
+	}
+
+	private void playGIFWithMovie(
+			@NonNull final GenericFactory<SeekableInputStream, IOException> streamFactory) {
+
+		Log.i(TAG, "Playing GIF using Movie API");
+
+		try(SeekableInputStream is = streamFactory.create()) {
+
+			Log.i(TAG, "Got input stream of type " + is.getClass().getCanonicalName());
+
+			is.readRemainingAsBytes((buf, offset, length) -> {
+
+				Log.i(TAG, "Got byte array (" + length + " byte(s))");
+
+				@SuppressWarnings("deprecation") final Movie movie;
+
+				try {
+					movie = GIFView.prepareMovie(buf, offset, length);
+
+				} catch(final OutOfMemoryError e) {
+					General.quickToast(this, R.string.imageview_oom);
+					revertToWeb();
+					return;
+
+				} catch(final Throwable e) {
+					General.quickToast(this, R.string.imageview_invalid_gif);
+					revertToWeb();
+					return;
+				}
+
+				AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+
+					if(mIsDestroyed) {
+						return;
+					}
+
+					getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+					final GIFView gifView = new GIFView(this, movie);
+
+					setMainView(gifView);
+
+					//noinspection ClickableViewAccessibility
+					gifView.setOnTouchListener(new BasicGestureHandler(this));
+				});
+
+			});
+
+		} catch(final IOException e) {
+			Log.e(TAG, "Failed to read GIF data", e);
+			General.quickToast(this, R.string.imageview_download_failed);
+			revertToWeb();
+		}
+	}
+
+	private void playGIFWithLegacyDecoder(
+			@NonNull final GenericFactory<SeekableInputStream, IOException> streamFactory) {
+
+		Log.i(TAG, "Playing GIF using legacy decoder");
+
+		// The GIF decoder thread will close this itself
+		@SuppressWarnings("PMD.CloseResource") final InputStream is;
+		try {
+			is = streamFactory.create();
+
+		} catch(final IOException e) {
+			General.quickToast(this, R.string.imageview_download_failed);
+			revertToWeb();
+			return;
+		}
+
+		gifThread = new GifDecoderThread(
+				is,
+				new GifDecoderThread.OnGifLoadedListener() {
+
+					@Override
+					public void onGifLoaded() {
+
+						AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+
+							if(mIsDestroyed) {
+								return;
+							}
+
+							imageView = new ImageView(ImageViewActivity.this);
+							imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+							setMainView(imageView);
+							gifThread.setView(imageView);
+
+							//noinspection ClickableViewAccessibility
+							imageView.setOnTouchListener(new BasicGestureHandler(
+									ImageViewActivity.this));
+						});
+					}
+
+					@Override
+					public void onOutOfMemory() {
+						General.quickToast(
+								ImageViewActivity.this,
+								R.string.imageview_oom);
+						revertToWeb();
+					}
+
+					@Override
+					public void onGifInvalid() {
+						General.quickToast(
+								ImageViewActivity.this,
+								R.string.imageview_invalid_gif);
+						revertToWeb();
+					}
+				});
+
+		gifThread.start();
+	}
+
+	private void showImageWithInternalViewer(
+			@NonNull final GenericFactory<SeekableInputStream, IOException> streamFactory) {
+
+		Log.i(TAG, "Showing image using internal viewer");
+
+		final ImageTileSource imageTileSource;
+		try {
+			try(InputStream is = streamFactory.create()) {
+
+				imageTileSource = new ImageTileSourceWholeBitmap(
+						BitmapFactory.decodeStream(is));
+
+			} catch(final Throwable t) {
+				Log.e(TAG, "Exception when creating ImageTileSource", t);
+				General.quickToast(this, R.string.imageview_decode_failed);
+				revertToWeb();
+				return;
+			}
+
+		} catch(final OutOfMemoryError e) {
+			General.quickToast(this, R.string.imageview_oom);
+			revertToWeb();
+			return;
+		}
+
+		AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+
+			if(mIsDestroyed) {
+				return;
+			}
+			mImageViewDisplayerManager
+					= new ImageViewDisplayListManager(imageTileSource, this);
+			surfaceView = new RRGLSurfaceView(this, mImageViewDisplayerManager);
+			setMainView(surfaceView);
+
+			if(mIsPaused) {
+				surfaceView.onPause();
+			} else {
+				surfaceView.onResume();
+			}
+		});
 	}
 }
 

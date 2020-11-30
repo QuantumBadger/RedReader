@@ -61,18 +61,18 @@ public class MemoryDataStreamInputStream extends SeekableInputStream {
 	}
 
 	@Override
-	public int getPosition() {
+	public long getPosition() {
 		return mPosition;
 	}
 
 	@Override
-	public void seek(final int position) throws IOException {
+	public void seek(final long position) throws IOException {
 
 		if(position < 0) {
 			throw new IOException("Attempted to seek before zero");
 		}
 
-		mPosition = position;
+		mPosition = (int)position;
 	}
 
 	@Override
@@ -90,5 +90,11 @@ public class MemoryDataStreamInputStream extends SeekableInputStream {
 	@Override
 	public void close() {
 		// Nothing to do here
+	}
+
+	@Override
+	public void readRemainingAsBytes(@NonNull final ByteArrayCallback callback) throws IOException {
+		mStream.getUnderlyingByteArrayWhenComplete((buf, offset, length)
+				-> callback.onByteArray(buf, offset + mPosition, length - mPosition));
 	}
 }

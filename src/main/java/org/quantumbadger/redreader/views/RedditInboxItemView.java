@@ -59,9 +59,7 @@ public class RedditInboxItemView extends LinearLayout {
 		mDivider = new View(activity);
 		mDivider.setBackgroundColor(Color.argb(128, 128, 128, 128)); // TODO better
 		addView(mDivider);
-
-		mDivider.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-		mDivider.getLayoutParams().height = 1;
+		General.setLayoutWidthHeight(mDivider, ViewGroup.LayoutParams.MATCH_PARENT, 1);
 
 		final LinearLayout inner = new LinearLayout(activity);
 		inner.setOrientation(VERTICAL);
@@ -70,12 +68,12 @@ public class RedditInboxItemView extends LinearLayout {
 		mHeader.setTextSize(11.0f * theme.rrCommentHeaderFontScale);
 		mHeader.setTextColor(theme.rrCommentHeaderCol);
 		inner.addView(mHeader);
-		mHeader.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+		General.setLayoutMatchWidthWrapHeight(mHeader);
 
 		mBodyHolder = new FrameLayout(activity);
 		mBodyHolder.setPadding(0, General.dpToPixels(activity, 2), 0, 0);
 		inner.addView(mBodyHolder);
-		mBodyHolder.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+		General.setLayoutMatchWidthWrapHeight(mBodyHolder);
 
 		final int paddingPixels = General.dpToPixels(activity, 8.0f);
 		inner.setPadding(
@@ -85,7 +83,7 @@ public class RedditInboxItemView extends LinearLayout {
 				paddingPixels);
 
 		addView(inner);
-		inner.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+		General.setLayoutMatchWidthWrapHeight(mBodyHolder);
 
 		setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
 
@@ -136,7 +134,7 @@ public class RedditInboxItemView extends LinearLayout {
 
 		mBodyHolder.removeAllViews();
 		mBodyHolder.addView(body);
-		body.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+		General.setLayoutMatchWidthWrapHeight(body);
 	}
 
 	public void handleInboxClick(final BaseActivity activity) {

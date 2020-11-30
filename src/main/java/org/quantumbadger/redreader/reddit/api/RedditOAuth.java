@@ -36,7 +36,7 @@ import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RunnableOnce;
 import org.quantumbadger.redreader.http.HTTPBackend;
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedObject;
+import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
 import java.io.IOException;
@@ -352,8 +352,8 @@ public final class RedditOAuth {
 						final InputStream body) {
 
 					try {
-						final JsonValue jsonValue = new JsonValue(body);
-						final JsonBufferedObject responseObject = jsonValue.asObject();
+						final JsonValue jsonValue = JsonValue.parse(body);
+						final JsonObject responseObject = jsonValue.asObject();
 
 						final RefreshToken refreshToken =
 								new RefreshToken(responseObject.getString("refresh_token"));
@@ -379,6 +379,9 @@ public final class RedditOAuth {
 
 					} catch(final Throwable t) {
 						throw new RuntimeException(t);
+
+					} finally {
+						General.closeSafely(body);
 					}
 				}
 			});
@@ -456,8 +459,8 @@ public final class RedditOAuth {
 
 					try {
 
-						final JsonValue jsonValue = new JsonValue(body);
-						final JsonBufferedObject responseObject = jsonValue.asObject();
+						final JsonValue jsonValue = JsonValue.parse(body);
+						final JsonObject responseObject = jsonValue.asObject();
 
 						final String username = responseObject.getString("name");
 
@@ -493,6 +496,9 @@ public final class RedditOAuth {
 
 					} catch(final Throwable t) {
 						throw new RuntimeException(t);
+
+					} finally {
+						General.closeSafely(body);
 					}
 				}
 			});
@@ -704,8 +710,8 @@ public final class RedditOAuth {
 						final InputStream body) {
 
 					try {
-						final JsonValue jsonValue = new JsonValue(body);
-						final JsonBufferedObject responseObject = jsonValue.asObject();
+						final JsonValue jsonValue = JsonValue.parse(body);
+						final JsonObject responseObject = jsonValue.asObject();
 
 						final String accessTokenString =
 								responseObject.getString("access_token");
@@ -734,6 +740,9 @@ public final class RedditOAuth {
 
 					} catch(final Throwable t) {
 						throw new RuntimeException(t);
+
+					} finally {
+						General.closeSafely(body);
 					}
 				}
 			});
@@ -804,8 +813,8 @@ public final class RedditOAuth {
 						final InputStream body) {
 
 					try {
-						final JsonValue jsonValue = new JsonValue(body);
-						final JsonBufferedObject responseObject = jsonValue.asObject();
+						final JsonValue jsonValue = JsonValue.parse(body);
+						final JsonObject responseObject = jsonValue.asObject();
 
 						final String accessTokenString =
 								responseObject.getString("access_token");
@@ -834,6 +843,9 @@ public final class RedditOAuth {
 
 					} catch(final Throwable t) {
 						throw new RuntimeException(t);
+
+					} finally {
+						General.closeSafely(body);
 					}
 				}
 			});

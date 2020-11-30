@@ -35,7 +35,8 @@ import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.http.HTTPBackend;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
-import org.quantumbadger.redreader.jsonwrap.JsonBufferedArray;
+import org.quantumbadger.redreader.jsonwrap.JsonArray;
+import org.quantumbadger.redreader.jsonwrap.JsonString;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.api.SubredditRequestFailure;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
@@ -515,11 +516,11 @@ public final class RedditAPI {
 
 			for(final JsonValue elem : response.asObject().getArray("jquery")) {
 
-				if(elem.getType() != JsonValue.TYPE_ARRAY) {
+				if(elem.asArray() == null) {
 					continue;
 				}
 
-				final JsonBufferedArray arr = elem.asArray();
+				final JsonArray arr = elem.asArray();
 
 				if("attr".equals(arr.getString(2))) {
 					lastAttr = arr.getString(3);
@@ -545,42 +546,33 @@ public final class RedditAPI {
 			return null;
 		}
 
-		switch(response.getType()) {
+		if(response.asObject() != null) {
 
-			case JsonValue.TYPE_OBJECT:
+			for(final Map.Entry<String, JsonValue> v : response.asObject()) {
 
-				for(final Map.Entry<String, JsonValue> v : response.asObject()) {
+				if(key.equalsIgnoreCase(v.getKey())
+						&& v.getValue() instanceof JsonString) {
 
-					if(key.equalsIgnoreCase(v.getKey())
-							&& v.getValue().getType() == JsonValue.TYPE_STRING) {
-
-						return v.getValue().asString();
-					}
-
-					final String result = findStringValue(v.getValue(), key);
-
-					if(result != null) {
-						return result;
-					}
+					return v.getValue().asString();
 				}
 
-				break;
+				final String result = findStringValue(v.getValue(), key);
 
-			case JsonValue.TYPE_ARRAY:
-
-				for(final JsonValue v : response.asArray()) {
-
-					final String result = findStringValue(v, key);
-
-					if(result != null) {
-						return result;
-					}
+				if(result != null) {
+					return result;
 				}
+			}
 
-				break;
+		} else if(response.asArray() != null) {
 
-			default:
-				// Ignore
+			for(final JsonValue v : response.asArray()) {
+
+				final String result = findStringValue(v, key);
+
+				if(result != null) {
+					return result;
+				}
+			}
 		}
 
 		return null;
@@ -597,106 +589,94 @@ public final class RedditAPI {
 
 		boolean unknownError = false;
 
-		switch(response.getType()) {
+		if(response.asObject() != null) {
 
-			case JsonValue.TYPE_OBJECT:
+			for(final Map.Entry<String, JsonValue> v : response.asObject()) {
 
-				for(final Map.Entry<String, JsonValue> v : response.asObject()) {
+				if("success".equals(v.getKey())
+						&& Boolean.FALSE.equals(v.getValue().asBoolean())) {
 
-					if("success".equals(v.getKey())
-							&& v.getValue().getType() == JsonValue.TYPE_BOOLEAN
-							&& Boolean.FALSE.equals(v.getValue().asBoolean())) {
-
-						unknownError = true;
-					}
-
-					final APIResponseHandler.APIFailureType failureType =
-							findFailureType(v.getValue());
-
-					if(failureType == APIResponseHandler.APIFailureType.UNKNOWN) {
-						unknownError = true;
-
-					} else if(failureType != null) {
-						return failureType;
-					}
-				}
-
-				try {
-					final JsonBufferedArray errors =
-							response.asObject().getObject("json").getArray("errors");
-
-					if(errors != null) {
-						if(errors.size() > 0) {
-							unknownError = true;
-						}
-					}
-
-				} catch(final Exception e) {
-					// Do nothing
-				}
-
-				break;
-
-			case JsonValue.TYPE_ARRAY:
-
-				for(final JsonValue v : response.asArray()) {
-					final APIResponseHandler.APIFailureType failureType =
-							findFailureType(v);
-
-					if(failureType == APIResponseHandler.APIFailureType.UNKNOWN) {
-						unknownError = true;
-
-					} else if(failureType != null) {
-						return failureType;
-					}
-				}
-
-				break;
-
-			case JsonValue.TYPE_STRING:
-
-				final String responseAsString = response.asString();
-
-				if(Constants.Reddit.isApiErrorUser(responseAsString)) {
-					return APIResponseHandler.APIFailureType.INVALID_USER;
-				}
-
-				if(Constants.Reddit.isApiErrorCaptcha(responseAsString)) {
-					return APIResponseHandler.APIFailureType.BAD_CAPTCHA;
-				}
-
-				if(Constants.Reddit.isApiErrorNotAllowed(responseAsString)) {
-					return APIResponseHandler.APIFailureType.NOTALLOWED;
-				}
-
-				if(Constants.Reddit.isApiErrorSubredditRequired(responseAsString)) {
-					return APIResponseHandler.APIFailureType.SUBREDDIT_REQUIRED;
-				}
-
-				if(Constants.Reddit.isApiErrorURLRequired(responseAsString)) {
-					return APIResponseHandler.APIFailureType.URL_REQUIRED;
-				}
-
-				if(Constants.Reddit.isApiTooFast(responseAsString)) {
-					return APIResponseHandler.APIFailureType.TOO_FAST;
-				}
-
-				if(Constants.Reddit.isApiTooLong(responseAsString)) {
-					return APIResponseHandler.APIFailureType.TOO_LONG;
-				}
-
-				if(Constants.Reddit.isApiAlreadySubmitted(responseAsString)) {
-					return APIResponseHandler.APIFailureType.ALREADY_SUBMITTED;
-				}
-
-				if(Constants.Reddit.isApiError(responseAsString)) {
 					unknownError = true;
 				}
 
-				break;
+				final APIResponseHandler.APIFailureType failureType =
+						findFailureType(v.getValue());
 
-			default:
-				// Ignore
+				if(failureType == APIResponseHandler.APIFailureType.UNKNOWN) {
+					unknownError = true;
+
+				} else if(failureType != null) {
+					return failureType;
+				}
+			}
+
+			try {
+				final JsonArray errors =
+						response.asObject().getObject("json").getArray("errors");
+
+				if(errors != null) {
+					if(errors.size() > 0) {
+						unknownError = true;
+					}
+				}
+
+			} catch(final Exception e) {
+				// Do nothing
+			}
+
+		} else if(response.asArray() != null) {
+
+			for(final JsonValue v : response.asArray()) {
+				final APIResponseHandler.APIFailureType failureType =
+						findFailureType(v);
+
+				if(failureType == APIResponseHandler.APIFailureType.UNKNOWN) {
+					unknownError = true;
+
+				} else if(failureType != null) {
+					return failureType;
+				}
+			}
+
+		} else if(response instanceof JsonString) {
+
+			final String responseAsString = response.asString();
+
+			if(Constants.Reddit.isApiErrorUser(responseAsString)) {
+				return APIResponseHandler.APIFailureType.INVALID_USER;
+			}
+
+			if(Constants.Reddit.isApiErrorCaptcha(responseAsString)) {
+				return APIResponseHandler.APIFailureType.BAD_CAPTCHA;
+			}
+
+			if(Constants.Reddit.isApiErrorNotAllowed(responseAsString)) {
+				return APIResponseHandler.APIFailureType.NOTALLOWED;
+			}
+
+			if(Constants.Reddit.isApiErrorSubredditRequired(responseAsString)) {
+				return APIResponseHandler.APIFailureType.SUBREDDIT_REQUIRED;
+			}
+
+			if(Constants.Reddit.isApiErrorURLRequired(responseAsString)) {
+				return APIResponseHandler.APIFailureType.URL_REQUIRED;
+			}
+
+			if(Constants.Reddit.isApiTooFast(responseAsString)) {
+				return APIResponseHandler.APIFailureType.TOO_FAST;
+			}
+
+			if(Constants.Reddit.isApiTooLong(responseAsString)) {
+				return APIResponseHandler.APIFailureType.TOO_LONG;
+			}
+
+			if(Constants.Reddit.isApiAlreadySubmitted(responseAsString)) {
+				return APIResponseHandler.APIFailureType.ALREADY_SUBMITTED;
+			}
+
+			if(Constants.Reddit.isApiError(responseAsString)) {
+				unknownError = true;
+			}
 		}
 
 		return unknownError ? APIResponseHandler.APIFailureType.UNKNOWN : null;

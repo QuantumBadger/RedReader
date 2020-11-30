@@ -26,10 +26,6 @@ import android.os.SystemClock;
 import android.view.View;
 import androidx.annotation.NonNull;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
 public final class GIFView extends View {
 
 	private final Movie mMovie;
@@ -37,9 +33,12 @@ public final class GIFView extends View {
 
 	private final Paint paint = new Paint();
 
-	public static Movie prepareMovie(@NonNull final byte[] data) {
+	public static Movie prepareMovie(
+			@NonNull final byte[] data,
+			final int offset,
+			final int length) {
 
-		final Movie movie = Movie.decodeByteArray(data, 0, data.length);
+		final Movie movie = Movie.decodeByteArray(data, offset, length);
 
 		if(movie.duration() < 1) {
 			throw new RuntimeException("Invalid GIF");
@@ -84,23 +83,5 @@ public final class GIFView extends View {
 		mMovie.draw(canvas, 0, 0, paint);
 
 		this.invalidate();
-	}
-
-	public static byte[] streamToBytes(final InputStream is) {
-
-		final ByteArrayOutputStream baos = new ByteArrayOutputStream(1024);
-		final byte[] buffer = new byte[1024];
-
-		int len;
-
-		try {
-			while((len = is.read(buffer)) >= 0) {
-				baos.write(buffer, 0, len);
-			}
-		} catch(final IOException e) {
-			throw new RuntimeException(e);
-		}
-
-		return baos.toByteArray();
 	}
 }

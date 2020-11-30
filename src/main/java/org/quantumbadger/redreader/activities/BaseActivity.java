@@ -35,12 +35,15 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.text.TextUtilsCompat;
+import androidx.core.view.ViewCompat;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.TorCommon;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class BaseActivity extends AppCompatActivity
@@ -118,7 +121,7 @@ public abstract class BaseActivity extends AppCompatActivity
 
 	protected void configBackButton(final boolean isVisible, final View.OnClickListener listener) {
 
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+		if(Build.VERSION.SDK_INT >= 19) {
 
 			mActionbarBackIconView.setImportantForAccessibility(
 					View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
@@ -138,12 +141,19 @@ public abstract class BaseActivity extends AppCompatActivity
 						View.IMPORTANT_FOR_ACCESSIBILITY_YES);
 			}
 
+			if(TextUtilsCompat.getLayoutDirectionFromLocale(Locale.getDefault())
+					== ViewCompat.LAYOUT_DIRECTION_RTL) {
+
+				mActionbarBackIconView.setImageResource(R.drawable.ic_action_forward_dark);
+			}
+
 		} else {
 			mActionbarBackIconView.setVisibility(View.GONE);
 			mActionbarTitleOuterView.setClickable(false);
 
-			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-				mActionbarTitleOuterView.setContentDescription(null);
+			mActionbarTitleOuterView.setContentDescription(null);
+
+			if(Build.VERSION.SDK_INT >= 19) {
 				mActionbarTitleOuterView.setImportantForAccessibility(
 						View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
 			}

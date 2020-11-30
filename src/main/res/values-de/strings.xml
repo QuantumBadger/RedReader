@@ -29,15 +29,12 @@
     <string name="pref_appearance_theme_header">Design</string>
     <string name="pref_appearance_thumbnails_header">Vorschaubilder</string>
     <string name="pref_appearance_comments_header">Kommentare</string>
-    <string name="pref_appearance_other_header">Sonstiges</string>
     <string name="pref_appearance_twopane_title">Tablet-Modus (Zweispaltig)</string>
     <string name="pref_appearance_theme_title">Design</string>
-    <string name="pref_appearance_solidblack_title">Echtes Schwarz im Nachtmodus</string>
     <string name="pref_appearance_fontscale_posts_title">Post-Titeln</string>
     <string name="pref_appearance_thumbnails_show_title">Zeige Vorschaubilder</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">Zeige NSFW-Vorschaubilder</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Zeige Vorschaubilder nur im WLAN</string>
-    <string name="pref_appearance_loading_detail_title">Detaillierte Ladenachrichten</string>
     <string name="pref_appearance_comment_header_items_title">Kommentarkopf</string>
     <!-- Behaviour Prefs -->
     <string name="pref_behaviour_notifications_title">Mitteilung</string>
@@ -236,8 +233,6 @@
     <string name="time_ago">Vor %s</string>
     <!-- User Profile -->
     <string name="userprofile_created">Erstellt</string>
-    <string name="userprofile_hasmail">Hat E-Mail</string>
-    <string name="userprofile_hasmodmail">Hat Mod-E-Mail</string>
     <string name="userprofile_isfriend">Ist Freund</string>
     <string name="userprofile_isgold">Reddit Gold</string>
     <string name="userprofile_moderator">Ist Moderator</string>
@@ -368,7 +363,7 @@
     <string name="pref_menus_mainmenu_useritems_title">Benutzer-Einträge</string>
     <string name="mainmenu_submitted">Eingereichte Posts</string>
     <string name="mainmenu_downvoted">Abgewertete Posts</string>
-    <string name="mainmenu_modmail">Mod Nachrichten</string>
+    <string name="mainmenu_modmail">Mod-Nachrichten</string>
     <string name="sidebar_activity_title">Seitenleiste</string>
     <!-- 2014-04-20 -->
     <string name="header_subscriber_count">%s Abonnenten</string>
@@ -611,8 +606,18 @@
     <string name="pref_appearance_show_aspect_ratio_indicator_title">Aspect Ratio-Indikator anzeigen</string>
     <string name="action_copy_selftext">Selbsttext kopieren</string>
     <string name="pref_appearance_fontscale_post_subtitles_title">Post-Untertiteln</string>
-	<plurals name="load_more_comments_button_reply_count">
-		<item quantity="one">"Weitere Kommentare laden (%d Antworten)"</item>
-		<item quantity="other">"Weitere Kommentare laden (%d Antworten)"</item>
-	</plurals>
+    <plurals name="load_more_comments_button_reply_count">
+        <item quantity="one">"Weitere Kommentare laden (%d Antworten)"</item>
+        <item quantity="other">"Weitere Kommentare laden (%d Antworten)"</item>
+    </plurals>
+    <string name="pref_menus_appbar_items_never">Nicht anzeigen</string>
+    <string name="pref_menus_appbar_items_if_room">Schaltfläche anzeigen, wenn Raum</string>
+    <string name="pref_menus_appbar_items_always">Schaltfläche immer anzeigen</string>
+    <string name="link_copied_to_clipboard">Link in Zwischenablage kopiert</string>
+    <string name="pref_menus_posts_header">Posts</string>
+    <string name="pref_menus_mainmenu_header">Hauptmenü</string>
+    <string name="error_toast_failed_open_external_browser">Fehler beim Öffnen der URL „%s“ in einem externen Browser</string>
+    <string name="upgrade_message">Aktualisiert zur Version %s</string>
+    <string name="must_login_message">Du musst dazu in einem Reddit-Konto angemeldet sein.</string>
+    <string name="error_toast_no_email_apps">Kein E-Mail-Programm installiert!</string>
 </resources>

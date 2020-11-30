@@ -1,7 +1,7 @@
 RedReader
 =========
 
-An unofficial, open source Android client for reddit.
+An unofficial, open source Android client for Reddit.
 
 ![CI](https://github.com/QuantumBadger/RedReader/workflows/CI/badge.svg?branch=master)
 [![Translation status](https://hosted.weblate.org/widgets/redreader/-/svg-badge.svg)](https://hosted.weblate.org/engage/redreader/?utm_source=widget)
@@ -15,8 +15,10 @@ Features
 
 * Free and open-source Software - no ads/tracking
 * Lightweight and fast
-* Swipe posts left and right to perform customizable actions, such as upvote/downvote, or save/hide
-* Advanced cache management - automatically stores past versions of posts and comments
+* Swipe posts left and right to perform customizable actions, such as
+    upvote/downvote, or save/hide
+* Advanced cache management - automatically stores past versions of posts and
+    comments
 * Support for multiple accounts
 * Two-column tablet mode (can be used on your phone, if it’s big enough)
 * Image and comment precaching (optional: always, never, or Wi-Fi only)
@@ -44,11 +46,19 @@ https://github.com/QuantumBadger/RedReader/releases
 Translating
 -----------
 
-Please help us translate RedReader into new languages, or improve the translations for existing languages!
+Please help us translate RedReader into new languages, or improve the
+translations for existing languages!
 
 https://hosted.weblate.org/projects/redreader/strings/
 
 [![Translation status](https://hosted.weblate.org/widgets/redreader/-/287x66-grey.png)](https://hosted.weblate.org/engage/redreader/?utm_source=widget)
+
+
+Pull Requests
+-------------
+
+Please see the contribution guidelines in
+ [CONTRIBUTING.md](CONTRIBUTING.md). 
 
 
 Building

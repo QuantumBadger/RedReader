@@ -26,20 +26,17 @@
     <string name="pref_appearance_theme_header">Оформлення</string>
     <string name="pref_appearance_thumbnails_header">Мініатюри</string>
     <string name="pref_appearance_comments_header">Коментарі</string>
-    <string name="pref_appearance_other_header">Інше</string>
     <string name="pref_appearance_twopane_title">Режим планшета (дві панелі)</string>
     <string name="pref_appearance_theme_title">Тема</string>
     <string name="pref_appearance_fontscale_posts_title">Розмір шрифту в публікаціях</string>
     <string name="pref_appearance_thumbnails_show_title">Показувати мініатюри</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">Показувати NSFW мініатюри</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Мініатюри лише при Wi-Fi</string>
-    <string name="pref_appearance_loading_detail_title">Показувати детальну інформацію при завантаженні</string>
     <string name="pref_appearance_comment_header_items_title">Заголовок коментаря</string>
     <string name="pref_behaviour_notifications_title">Сповіщення</string>
     <string name="pref_behaviour_actions_post_header">Дії публікації</string>
     <string name="pref_behaviour_actions_comment_header">Дії коментаря</string>
     <string name="pref_behaviour_posts_header">Публікації</string>
-    <string name="pref_appearance_solidblack_title">Суцільний чорний у нічному режимі</string>
     <string name="pref_behaviour_fling_post_left_title">Змахування публікації вліво</string>
     <string name="pref_behaviour_fling_post_right_title">Змахування публікації вправо</string>
     <string name="pref_behaviour_actions_comment_tap_title">Торкання коментаря</string>
@@ -212,7 +209,6 @@
     <string name="session_active">Активна</string>
     <string name="time_ago">%s тому</string>
     <string name="userprofile_created">Створений</string>
-    <string name="userprofile_hasmail">Має пошту</string>
     <string name="userprofile_isfriend">Друг</string>
     <string name="userprofile_isgold">Reddit Золото</string>
     <string name="userprofile_moderator">Модератор</string>
@@ -350,7 +346,6 @@
     <string name="mark_all_as_read_success">Всі повідомлення позначено прочитаними.</string>
     <string name="error_title_login_user_denied_permission">Відмовлено у доступі</string>
     <string name="pref_cache_maxage_entry_title">Видаляти кешовані позначення (прочитано, проголосовано тощо) після</string>
-    <string name="userprofile_hasmodmail">Є непрочитані повідомлення від модератора</string>
     <string name="mainmenu_modmail">Пошта модератора</string>
     <string name="error_message_login_user_denied_permission">У доступі до облікового запису відмовлено. Будь ласка, спробуйте знову.</string>
     <string name="error_title_login_unknown_reddit_error">Невідома помилка reddit: %s</string>

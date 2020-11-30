@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.views;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,11 +56,15 @@ public class LoadMoreCommentsView extends LinearLayout {
 		final View divider = new View(context);
 		addView(divider);
 
-		divider.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-		divider.getLayoutParams().height = 1;
+		General.setLayoutWidthHeight(divider, ViewGroup.LayoutParams.MATCH_PARENT, 1);
 
 		final LinearLayout layout = new LinearLayout(context);
 		layout.setOrientation(HORIZONTAL);
+
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+			layout.setLayoutDirection(LAYOUT_DIRECTION_LTR);
+		}
+
 		addView(layout);
 		final int marginPx = General.dpToPixels(context, 8);
 
@@ -68,6 +73,7 @@ public class LoadMoreCommentsView extends LinearLayout {
 		mIndentView = new IndentView(context);
 		layout.addView(mIndentView);
 		mIndentView.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+		mIndentView.setLayoutParams(mIndentView.getLayoutParams());
 
 		final ImageView icon;
 
@@ -91,7 +97,7 @@ public class LoadMoreCommentsView extends LinearLayout {
 		icon.setScaleY(0.75f);
 
 		layout.addView(icon);
-		((LinearLayout.LayoutParams)icon.getLayoutParams()).setMargins(
+		((LayoutParams)icon.getLayoutParams()).setMargins(
 				marginPx,
 				marginPx,
 				marginPx,
@@ -100,7 +106,7 @@ public class LoadMoreCommentsView extends LinearLayout {
 		final LinearLayout textLayout = new LinearLayout(context);
 		textLayout.setOrientation(VERTICAL);
 		layout.addView(textLayout);
-		((LinearLayout.LayoutParams)textLayout.getLayoutParams()).setMargins(
+		((LayoutParams)textLayout.getLayoutParams()).setMargins(
 				0,
 				marginPx,
 				marginPx,

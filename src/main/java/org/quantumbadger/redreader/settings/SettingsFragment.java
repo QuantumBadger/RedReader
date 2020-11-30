@@ -140,7 +140,9 @@ public final class SettingsFragment extends PreferenceFragment {
 				R.string.pref_appearance_comment_age_units_key,
 				R.string.pref_appearance_comment_age_mode_key,
 				R.string.pref_appearance_inbox_age_units_key,
-				R.string.pref_images_thumbnail_size_key
+				R.string.pref_images_thumbnail_size_key,
+				R.string.pref_images_inline_image_previews_key,
+				R.string.pref_images_high_res_thumbnails_key
 		};
 
 		final int[] editTextPrefsToUpdate = {
@@ -277,20 +279,36 @@ public final class SettingsFragment extends PreferenceFragment {
 
 		//This disables the "Show NSFW thumbnails" setting when Show thumbnails is set to Never
 		//Based off https://stackoverflow.com/a/4137963
-		final ListPreference thumbnailPref = (ListPreference)findPreference(
-				getString(R.string.pref_appearance_thumbnails_show_list_key));
-		final Preference thumbnailNsfwPref =
-				findPreference(getString(R.string.pref_appearance_thumbnails_nsfw_show_key));
+		{
+			final ListPreference thumbnailPref = (ListPreference)findPreference(
+					getString(R.string.pref_appearance_thumbnails_show_list_key));
+			final Preference thumbnailNsfwPref =
+					findPreference(getString(R.string.pref_appearance_thumbnails_nsfw_show_key));
 
-		if(thumbnailPref != null) {
-			thumbnailPref.setOnPreferenceChangeListener((preference, newValue) -> {
-				final int index = thumbnailPref.findIndexOfValue((String)newValue);
-				thumbnailPref.setSummary(thumbnailPref.getEntries()[index]);
+			if(thumbnailPref != null) {
+				thumbnailPref.setOnPreferenceChangeListener((preference, newValue) -> {
+					final int index = thumbnailPref.findIndexOfValue((String)newValue);
+					thumbnailPref.setSummary(thumbnailPref.getEntries()[index]);
+					thumbnailNsfwPref.setEnabled(!newValue.equals("never"));
+					return true;
+				});
+			}
+		}
 
-				thumbnailNsfwPref.setEnabled(!newValue.equals("never"));
+		{
+		final ListPreference inlineImagesPref = (ListPreference)findPreference(
+				getString(R.string.pref_images_inline_image_previews_key));
+		final Preference inlineImagesNsfwPref =
+				findPreference(getString(R.string.pref_images_inline_image_previews_nsfw_key));
 
+		if(inlineImagesPref != null) {
+			inlineImagesPref.setOnPreferenceChangeListener((preference, newValue) -> {
+				final int index = inlineImagesPref.findIndexOfValue((String)newValue);
+				inlineImagesPref.setSummary(inlineImagesPref.getEntries()[index]);
+				inlineImagesNsfwPref.setEnabled(!newValue.equals("never"));
 				return true;
 			});
+		}
 		}
 
 		{
@@ -445,7 +463,8 @@ public final class SettingsFragment extends PreferenceFragment {
 				new int[] {
 						Constants.FileType.IMAGE,
 						Constants.FileType.IMAGE_INFO,
-						Constants.FileType.CAPTCHA}),
+						Constants.FileType.CAPTCHA,
+						Constants.FileType.INLINE_IMAGE_PREVIEW}),
 		FLAGS(
 				R.string.cache_clear_dialog_flags,
 				R.string.cache_clear_dialog_flags,

@@ -46,13 +46,11 @@
     <string name="pref_appearance_theme_header">Tema</string>
     <string name="pref_appearance_thumbnails_header">Miniaturebilleder</string>
     <string name="pref_appearance_comments_header">Kommentarer</string>
-    <string name="pref_appearance_other_header">Andet</string>
 
     <string name="pref_appearance_twopane_title">Tablet Tilstand (to paneler)</string>
 
     <string name="pref_appearance_theme_title">Tema</string>
 
-    <string name="pref_appearance_solidblack_title">Solid sort it nat-tilstand</string>
 
     <string name="pref_appearance_fontscale_posts_title">Indlæg Skrifttypestørrelse</string>
 
@@ -63,7 +61,6 @@
 
     <string name="pref_appearance_thumbnails_wifionly_title">Thumbnails kun på Wi-Fi</string>
 
-    <string name="pref_appearance_loading_detail_title">Vis detalejerede indlæsnings meddelser</string>
 
     <string name="pref_appearance_comment_header_items_title">Kommentar Header</string>
 
@@ -336,8 +333,6 @@
     <!-- User Profile -->
 
     <string name="userprofile_created">Oprettet</string>
-    <string name="userprofile_hasmail">Har Mail</string>
-    <string name="userprofile_hasmodmail">Har Mod Mail</string>
     <string name="userprofile_isfriend">Er Ven</string>
     <string name="userprofile_isgold">Reddit Guld</string>
     <string name="userprofile_moderator">Er Moderator</string>

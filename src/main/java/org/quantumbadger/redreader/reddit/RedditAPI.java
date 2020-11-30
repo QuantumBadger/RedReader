@@ -304,7 +304,7 @@ public final class RedditAPI {
 
 					@Override
 					public void onDataStreamComplete(
-							@NonNull final GenericFactory<SeekableInputStream, IOException> streamFactory,
+							@NonNull final GenericFactory<SeekableInputStream, IOException> stream,
 							final long timestamp,
 							@NonNull final UUID session,
 							final boolean fromCache,

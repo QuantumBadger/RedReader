@@ -26,13 +26,16 @@ import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.cache.CacheRequestCallbacks;
 import org.quantumbadger.redreader.cache.CacheRequestJSONParser;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategy;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways;
 import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.TimestampBound;
+import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.http.HTTPBackend;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
 import org.quantumbadger.redreader.jsonwrap.JsonArray;
@@ -44,6 +47,7 @@ import org.quantumbadger.redreader.reddit.things.RedditThing;
 import org.quantumbadger.redreader.reddit.things.RedditUser;
 import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
 
+import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.net.URI;
@@ -282,12 +286,33 @@ public final class RedditAPI {
 
 		final LinkedList<HTTPBackend.PostField> postFields = new LinkedList<>();
 
-		cm.makeRequest(createPostRequest(
+		cm.makeRequest(createPostRequestUnprocessedResponse(
 				Constants.Reddit.getUri("/api/read_all_messages"),
 				user,
 				postFields,
 				context,
-				new GenericResponseHandler(responseHandler)));
+				new CacheRequestCallbacks() {
+					@Override
+					public void onFailure(
+							final int type,
+							@Nullable final Throwable t,
+							@Nullable final Integer httpStatus,
+							@Nullable final String readableMessage) {
+
+						responseHandler.notifyFailure(type, t, httpStatus, readableMessage);
+					}
+
+					@Override
+					public void onDataStreamComplete(
+							@NonNull final GenericFactory<SeekableInputStream, IOException> streamFactory,
+							final long timestamp,
+							@NonNull final UUID session,
+							final boolean fromCache,
+							@Nullable final String mimetype) {
+
+						responseHandler.notifySuccess(null);
+					}
+				}));
 	}
 
 	public static void editComment(
@@ -690,6 +715,22 @@ public final class RedditAPI {
 			@NonNull final Context context,
 			@NonNull final CacheRequestJSONParser.Listener handler) {
 
+		return createPostRequestUnprocessedResponse(
+				url,
+				user,
+				postFields,
+				context,
+				new CacheRequestJSONParser(context, handler));
+	}
+
+	@NonNull
+	private static CacheRequest createPostRequestUnprocessedResponse(
+			@NonNull final URI url,
+			@NonNull final RedditAccount user,
+			@NonNull final List<HTTPBackend.PostField> postFields,
+			@NonNull final Context context,
+			@NonNull final CacheRequestCallbacks callbacks) {
+
 		return new CacheRequest(
 				url,
 				user,
@@ -700,7 +741,7 @@ public final class RedditAPI {
 				CacheRequest.DOWNLOAD_QUEUE_REDDIT_API,
 				postFields,
 				context,
-				new CacheRequestJSONParser(context, handler));
+				callbacks);
 	}
 
 	@NonNull

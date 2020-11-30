@@ -1,3 +1,6 @@
+/Alpha 255 (2020-11-30)
+Fixed error message when marking all inbox messages as read
+
 /Alpha 254 (2020-11-29)
 Alpha changelog is now more granular
 Show subreddit of comments in user profile/inbox (thanks to Cameron Merkel)

@@ -1,3 +1,6 @@
+96/1.16
+Fixed error message when marking all inbox messages as read
+
 95/1.15
 Inline image previews (and preference to disable)
 Stream videos rather than waiting until download complete

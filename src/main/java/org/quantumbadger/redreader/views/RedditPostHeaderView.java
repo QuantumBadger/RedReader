@@ -21,6 +21,8 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -115,10 +117,15 @@ public class RedditPostHeaderView extends LinearLayout {
 			return true;
 		});
 
-//		greyHeader.setBackgroundResource(R.drawable.layout_round);
-//		greyHeader.setClipToOutline(true);
+		greyHeader.setBackgroundColor(Color.rgb(0,0,255));
+
+		greyHeader.setBackgroundResource(R.drawable.layout_round);
+		greyHeader.setClipToOutline(true);
 
 		addView(greyHeader);
+
+//		View rootView = getWindow().getDecorView().getRootView();
+//		rootView.setBackgroundColor(Color.rgb(0, 255, 0));
 
 		final RedditAccount currentUser =
 				RedditAccountManager.getInstance(activity).getDefaultAccount();

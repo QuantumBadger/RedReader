@@ -50,11 +50,11 @@ android {
 //	buildToolsVersion "29.0.3"
 
 	defaultConfig {
-		applicationId "org.quantumbadger.redreader"
+		applicationId "dev.steenbakker.wearreader"
 		minSdkVersion 23
 		targetSdkVersion 30
-		versionCode 95
-		versionName "1.15"
+		versionCode 5
+		versionName "0.0.5"
 
 		vectorDrawables.generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi', 'xxxhdpi']
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'

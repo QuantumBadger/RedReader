@@ -212,21 +212,21 @@ public class LinkHandler {
 					return;
 				}
 
-				case INTERNAL_BROWSER: {
-					if(PrefsUtility.pref_behaviour_usecustomtabs(activity, sharedPreferences)
-							&& Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-						openCustomTab(activity, Uri.parse(url), post);
-
-					} else {
-						openInternalBrowser(activity, url, post);
-					}
-					return;
-				}
-
-				case EXTERNAL_BROWSER: {
-					openWebBrowser(activity, Uri.parse(url), fromExternalIntent);
-					return;
-				}
+//				case INTERNAL_BROWSER: {
+//					if(PrefsUtility.pref_behaviour_usecustomtabs(activity, sharedPreferences)
+//							&& Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+//						openCustomTab(activity, Uri.parse(url), post);
+//
+//					} else {
+//						openInternalBrowser(activity, url, post);
+//					}
+//					return;
+//				}
+//
+//				case EXTERNAL_BROWSER: {
+//					openWebBrowser(activity, Uri.parse(url), fromExternalIntent);
+//					return;
+//				}
 			}
 		}
 
@@ -265,42 +265,42 @@ public class LinkHandler {
 			}
 		}
 
-		// Use a browser
+		// Disabled browser because its not available on WearOS
 
-		if(!PrefsUtility.pref_behaviour_useinternalbrowser(activity, sharedPreferences)) {
-			if(openWebBrowser(activity, Uri.parse(url), fromExternalIntent)) {
-				return;
-			}
-		}
+//		if(!PrefsUtility.pref_behaviour_useinternalbrowser(activity, sharedPreferences)) {
+//			if(openWebBrowser(activity, Uri.parse(url), fromExternalIntent)) {
+//				return;
+//			}
+//		}
+//
+//		if(youtubeDotComPattern.matcher(url).matches()
+//				|| vimeoPattern.matcher(url).matches()
+//				|| googlePlayPattern.matcher(url).matches()) {
+//			if(openWebBrowser(activity, Uri.parse(url), fromExternalIntent)) {
+//				return;
+//			}
+//		}
 
-		if(youtubeDotComPattern.matcher(url).matches()
-				|| vimeoPattern.matcher(url).matches()
-				|| googlePlayPattern.matcher(url).matches()) {
-			if(openWebBrowser(activity, Uri.parse(url), fromExternalIntent)) {
-				return;
-			}
-		}
+//		final Matcher youtuDotBeMatcher = youtuDotBePattern.matcher(url);
 
-		final Matcher youtuDotBeMatcher = youtuDotBePattern.matcher(url);
+//		if(youtuDotBeMatcher.find() && youtuDotBeMatcher.group(1) != null) {
+//			final String youtuBeUrl = "http://youtube.com/watch?v="
+//					+ youtuDotBeMatcher.group(1)
+//					+ (youtuDotBeMatcher.group(2).length() > 0
+//							? "&" + youtuDotBeMatcher.group(2) .substring(1)
+//							: "");
+//			if(openWebBrowser(activity, Uri.parse(youtuBeUrl), fromExternalIntent)) {
+//				return;
+//			}
+//		}
 
-		if(youtuDotBeMatcher.find() && youtuDotBeMatcher.group(1) != null) {
-			final String youtuBeUrl = "http://youtube.com/watch?v="
-					+ youtuDotBeMatcher.group(1)
-					+ (youtuDotBeMatcher.group(2).length() > 0
-							? "&" + youtuDotBeMatcher.group(2) .substring(1)
-							: "");
-			if(openWebBrowser(activity, Uri.parse(youtuBeUrl), fromExternalIntent)) {
-				return;
-			}
-		}
-
-		if(PrefsUtility.pref_behaviour_usecustomtabs(activity, sharedPreferences)
-				&& Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-			openCustomTab(activity, Uri.parse(url), post);
-
-		} else {
-			openInternalBrowser(activity, url, post);
-		}
+//		if(PrefsUtility.pref_behaviour_usecustomtabs(activity, sharedPreferences)
+//				&& Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+//			openCustomTab(activity, Uri.parse(url), post);
+//
+//		} else {
+//			openInternalBrowser(activity, url, post);
+//		}
 
 	}
 

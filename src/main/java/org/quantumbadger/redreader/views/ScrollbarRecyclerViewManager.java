@@ -67,6 +67,8 @@ public class ScrollbarRecyclerViewManager {
 			mRecyclerView.setLayoutManager(linearLayoutManager);
 		}
 
+//		mRecyclerView.setPadding(40, 0, 0, 0);
+
 		mRecyclerView.setHasFixedSize(true);
 		mRecyclerView.requestFocus();
 //		linearLayoutManager.setSmoothScrollbarEnabled(false);

@@ -35,7 +35,7 @@
                         android:key="@string/pref_appearance_theme_key"
                         android:entries="@array/pref_appearance_theme"
                         android:entryValues="@array/pref_appearance_theme_return"
-                        android:defaultValue="red"/>
+                        android:defaultValue="night_lowcontrast"/>
 
 		<ListPreference android:title="@string/pref_appearance_navbar_color_title"
 						android:key="@string/pref_appearance_navbar_color_key"

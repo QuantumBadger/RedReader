@@ -178,117 +178,119 @@ public class CommentListingFragment extends RRFragment
 
 		mRecyclerView.setItemAnimator(null);
 
-		if(!PrefsUtility.pref_appearance_comments_show_floating_toolbar(context, prefs)) {
-			mFloatingToolbar = null;
+		mFloatingToolbar = null;
 
-		} else {
-			mFloatingToolbar = (LinearLayout)LayoutInflater.from(context).inflate(
-					R.layout.floating_toolbar,
-					mOverlayFrame,
-					false);
-
-			// We need a container so that setVisible() doesn't mess with the Z-order
-			final FrameLayout floatingToolbarContainer = new FrameLayout(context);
-
-			floatingToolbarContainer.addView(mFloatingToolbar);
-			mOverlayFrame.addView(floatingToolbarContainer);
-
-			if(PrefsUtility.isNightMode(context)) {
-				mFloatingToolbar.setBackgroundColor(Color.argb(0xCC, 0x33, 0x33, 0x33));
-			}
-
-			final int buttonVPadding = General.dpToPixels(context, 12);
-			final int buttonHPadding = General.dpToPixels(context, 16);
-
-			{
-				final ImageButton previousButton = (ImageButton)LayoutInflater.from(
-						context).inflate(
-						R.layout.flat_image_button, mFloatingToolbar, false);
-
-				previousButton.setPadding(
-						buttonHPadding,
-						buttonVPadding,
-						buttonHPadding,
-						buttonVPadding);
-				previousButton.setImageResource(R.drawable.ic_ff_up_dark);
-				previousButton.setContentDescription(
-						getString(R.string.button_prev_comment_parent));
-				mFloatingToolbar.addView(previousButton);
-
-				previousButton.setOnClickListener(view -> {
-
-					final LinearLayoutManager layoutManager
-							= (LinearLayoutManager)mRecyclerView.getLayoutManager();
-
-					for(int pos = layoutManager.findFirstVisibleItemPosition() - 1;
-						pos > 0;
-						pos--) {
-
-						final GroupedRecyclerViewAdapter.Item item
-								= mCommentListingManager.getItemAtPosition(pos);
-
-						if(item instanceof RedditCommentListItem
-								&& ((RedditCommentListItem)item).isComment()
-								&& ((RedditCommentListItem)item).getIndent() == 0) {
-
-							layoutManager.scrollToPositionWithOffset(pos, 0);
-							return;
-						}
-					}
-
-					layoutManager.scrollToPositionWithOffset(0, 0);
-				});
-
-				previousButton.setOnLongClickListener(view -> {
-					General.quickToast(context, R.string.button_prev_comment_parent);
-					return true;
-				});
-			}
-
-			{
-				final ImageButton nextButton = (ImageButton)LayoutInflater.from(context)
-						.inflate(
-								R.layout.flat_image_button,
-								mFloatingToolbar,
-								false);
-
-				nextButton.setPadding(
-						buttonHPadding,
-						buttonVPadding,
-						buttonHPadding,
-						buttonVPadding);
-				nextButton.setImageResource(R.drawable.ic_ff_down_dark);
-				nextButton.setContentDescription(getString(R.string.button_next_comment_parent));
-				mFloatingToolbar.addView(nextButton);
-
-				nextButton.setOnClickListener(view -> {
-
-					final LinearLayoutManager layoutManager
-							= (LinearLayoutManager)mRecyclerView.getLayoutManager();
-
-					for(int pos = layoutManager.findFirstVisibleItemPosition() + 1;
-						pos < layoutManager.getItemCount();
-						pos++) {
-
-						final GroupedRecyclerViewAdapter.Item item
-								= mCommentListingManager.getItemAtPosition(pos);
-
-						if(item instanceof RedditCommentListItem
-								&& ((RedditCommentListItem)item).isComment()
-								&& ((RedditCommentListItem)item).getIndent() == 0) {
-
-							layoutManager.scrollToPositionWithOffset(pos, 0);
-							break;
-						}
-					}
-				});
-
-				nextButton.setOnLongClickListener(view -> {
-					General.quickToast(context, R.string.button_next_comment_parent);
-					return true;
-				});
-			}
-		}
+//		if(!PrefsUtility.pref_appearance_comments_show_floating_toolbar(context, prefs)) {
+//			mFloatingToolbar = null;
+//
+//		} else {
+//			mFloatingToolbar = (LinearLayout)LayoutInflater.from(context).inflate(
+//					R.layout.floating_toolbar,
+//					mOverlayFrame,
+//					false);
+//
+//			// We need a container so that setVisible() doesn't mess with the Z-order
+//			final FrameLayout floatingToolbarContainer = new FrameLayout(context);
+//
+//			floatingToolbarContainer.addView(mFloatingToolbar);
+//			mOverlayFrame.addView(floatingToolbarContainer);
+//
+//			if(PrefsUtility.isNightMode(context)) {
+//				mFloatingToolbar.setBackgroundColor(Color.argb(0xCC, 0x33, 0x33, 0x33));
+//			}
+//
+//			final int buttonVPadding = General.dpToPixels(context, 12);
+//			final int buttonHPadding = General.dpToPixels(context, 16);
+//
+//			{
+//				final ImageButton previousButton = (ImageButton)LayoutInflater.from(
+//						context).inflate(
+//						R.layout.flat_image_button, mFloatingToolbar, false);
+//
+//				previousButton.setPadding(
+//						buttonHPadding,
+//						buttonVPadding,
+//						buttonHPadding,
+//						buttonVPadding);
+//				previousButton.setImageResource(R.drawable.ic_ff_up_dark);
+//				previousButton.setContentDescription(
+//						getString(R.string.button_prev_comment_parent));
+//				mFloatingToolbar.addView(previousButton);
+//
+//				previousButton.setOnClickListener(view -> {
+//
+//					final LinearLayoutManager layoutManager
+//							= (LinearLayoutManager)mRecyclerView.getLayoutManager();
+//
+//					for(int pos = layoutManager.findFirstVisibleItemPosition() - 1;
+//						pos > 0;
+//						pos--) {
+//
+//						final GroupedRecyclerViewAdapter.Item item
+//								= mCommentListingManager.getItemAtPosition(pos);
+//
+//						if(item instanceof RedditCommentListItem
+//								&& ((RedditCommentListItem)item).isComment()
+//								&& ((RedditCommentListItem)item).getIndent() == 0) {
+//
+//							layoutManager.scrollToPositionWithOffset(pos, 0);
+//							return;
+//						}
+//					}
+//
+//					layoutManager.scrollToPositionWithOffset(0, 0);
+//				});
+//
+//				previousButton.setOnLongClickListener(view -> {
+//					General.quickToast(context, R.string.button_prev_comment_parent);
+//					return true;
+//				});
+//			}
+//
+//			{
+//				final ImageButton nextButton = (ImageButton)LayoutInflater.from(context)
+//						.inflate(
+//								R.layout.flat_image_button,
+//								mFloatingToolbar,
+//								false);
+//
+//				nextButton.setPadding(
+//						buttonHPadding,
+//						buttonVPadding,
+//						buttonHPadding,
+//						buttonVPadding);
+//				nextButton.setImageResource(R.drawable.ic_ff_down_dark);
+//				nextButton.setContentDescription(getString(R.string.button_next_comment_parent));
+//				mFloatingToolbar.addView(nextButton);
+//
+//				nextButton.setOnClickListener(view -> {
+//
+//					final LinearLayoutManager layoutManager
+//							= (LinearLayoutManager)mRecyclerView.getLayoutManager();
+//
+//					for(int pos = layoutManager.findFirstVisibleItemPosition() + 1;
+//						pos < layoutManager.getItemCount();
+//						pos++) {
+//
+//						final GroupedRecyclerViewAdapter.Item item
+//								= mCommentListingManager.getItemAtPosition(pos);
+//
+//						if(item instanceof RedditCommentListItem
+//								&& ((RedditCommentListItem)item).isComment()
+//								&& ((RedditCommentListItem)item).getIndent() == 0) {
+//
+//							layoutManager.scrollToPositionWithOffset(pos, 0);
+//							break;
+//						}
+//					}
+//				});
+//
+//				nextButton.setOnLongClickListener(view -> {
+//					General.quickToast(context, R.string.button_next_comment_parent);
+//					return true;
+//				});
+//			}
+//		}
 
 		final SideToolbarOverlay toolbarOverlay = new SideToolbarOverlay(context);
 

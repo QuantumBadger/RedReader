@@ -58,6 +58,7 @@ public class RedditPostHeaderView extends LinearLayout {
 		final LinearLayout greyHeader = new LinearLayout(activity);
 		greyHeader.setOrientation(LinearLayout.VERTICAL);
 
+
 		final int sidesPadding = (int)(15.0f * dpScale);
 		final int topPadding = (int)(10.0f * dpScale);
 
@@ -113,6 +114,9 @@ public class RedditPostHeaderView extends LinearLayout {
 			RedditPreparedPost.showActionMenu(activity, post);
 			return true;
 		});
+
+//		greyHeader.setBackgroundResource(R.drawable.layout_round);
+//		greyHeader.setClipToOutline(true);
 
 		addView(greyHeader);
 

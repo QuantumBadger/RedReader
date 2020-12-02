@@ -95,43 +95,43 @@ public class RedditCommentView extends FlingableItemView
 
 		switch(pref) {
 
-			case UPVOTE:
-				if(mChangeDataManager.isUpvoted(comment)) {
-					return new ActionDescriptionPair(
-							RedditAPICommentAction.RedditCommentAction.UNVOTE,
-							R.string.action_vote_remove);
-				} else {
-					return new ActionDescriptionPair(
-							RedditAPICommentAction.RedditCommentAction.UPVOTE,
-							R.string.action_upvote);
-				}
-
-			case DOWNVOTE:
-				if(mChangeDataManager.isDownvoted(comment)) {
-					return new ActionDescriptionPair(
-							RedditAPICommentAction.RedditCommentAction.UNVOTE,
-							R.string.action_vote_remove);
-				} else {
-					return new ActionDescriptionPair(
-							RedditAPICommentAction.RedditCommentAction.DOWNVOTE,
-							R.string.action_downvote);
-				}
-
-			case SAVE:
-				if(mChangeDataManager.isSaved(comment)) {
-					return new ActionDescriptionPair(
-							RedditAPICommentAction.RedditCommentAction.UNSAVE,
-							R.string.action_unsave);
-				} else {
-					return new ActionDescriptionPair(
-							RedditAPICommentAction.RedditCommentAction.SAVE,
-							R.string.action_save);
-				}
-
-			case REPLY:
-				return new ActionDescriptionPair(
-						RedditAPICommentAction.RedditCommentAction.REPLY,
-						R.string.action_reply);
+//			case UPVOTE:
+//				if(mChangeDataManager.isUpvoted(comment)) {
+//					return new ActionDescriptionPair(
+//							RedditAPICommentAction.RedditCommentAction.UNVOTE,
+//							R.string.action_vote_remove);
+//				} else {
+//					return new ActionDescriptionPair(
+//							RedditAPICommentAction.RedditCommentAction.UPVOTE,
+//							R.string.action_upvote);
+//				}
+//
+//			case DOWNVOTE:
+//				if(mChangeDataManager.isDownvoted(comment)) {
+//					return new ActionDescriptionPair(
+//							RedditAPICommentAction.RedditCommentAction.UNVOTE,
+//							R.string.action_vote_remove);
+//				} else {
+//					return new ActionDescriptionPair(
+//							RedditAPICommentAction.RedditCommentAction.DOWNVOTE,
+//							R.string.action_downvote);
+//				}
+//
+//			case SAVE:
+//				if(mChangeDataManager.isSaved(comment)) {
+//					return new ActionDescriptionPair(
+//							RedditAPICommentAction.RedditCommentAction.UNSAVE,
+//							R.string.action_unsave);
+//				} else {
+//					return new ActionDescriptionPair(
+//							RedditAPICommentAction.RedditCommentAction.SAVE,
+//							R.string.action_save);
+//				}
+//
+//			case REPLY:
+//				return new ActionDescriptionPair(
+//						RedditAPICommentAction.RedditCommentAction.REPLY,
+//						R.string.action_reply);
 
 			case USER_PROFILE:
 				return new ActionDescriptionPair(
@@ -154,9 +154,9 @@ public class RedditCommentView extends FlingableItemView
 					return null;
 				}
 
-				return new ActionDescriptionPair(
-						RedditAPICommentAction.RedditCommentAction.ACTION_MENU,
-						R.string.action_actionmenu_short);
+//				return new ActionDescriptionPair(
+//						RedditAPICommentAction.RedditCommentAction.ACTION_MENU,
+//						R.string.action_actionmenu_short);
 
 			case PROPERTIES:
 				return new ActionDescriptionPair(

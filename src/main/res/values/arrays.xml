@@ -39,21 +39,21 @@
         <item>@string/action_comments</item>
         <item>@string/action_link</item>
         <item>@string/action_external</item>
-        <item>@string/action_actionmenu</item>
+<!--        <item>@string/action_actionmenu</item>-->
 		<item>@string/action_back</item>
         <item>@string/action_fling_disabled</item>
     </string-array>
 
     <!-- Constants. Do not change. -->
     <string-array name="pref_behaviour_fling_post_actions_return">
-        <item>upvote</item>
-        <item>downvote</item>
+<!--        <item>upvote</item>-->
+<!--        <item>downvote</item>-->
         <item>save</item>
         <item>hide</item>
         <item>comments</item>
-        <item>link</item>
-        <item>browser</item>
-        <item>action_menu</item>
+<!--        <item>link</item>-->
+<!--        <item>browser</item>-->
+<!--        <item>action_menu</item>-->
 		<item>back</item>
         <item>disabled</item>
     </string-array>
@@ -77,7 +77,7 @@
 		<item>@string/action_user_profile</item>
 		<item>@string/action_collapse</item>
 		<item>@string/action_properties</item>
-		<item>@string/action_actionmenu</item>
+<!--		<item>@string/action_actionmenu</item>-->
 		<item>@string/action_back</item>
 		<item>@string/action_fling_disabled</item>
 	</string-array>
@@ -91,7 +91,7 @@
 		<item>user_profile</item>
 		<item>collapse</item>
 		<item>properties</item>
-		<item>action_menu</item>
+<!--		<item>action_menu</item>-->
 		<item>back</item>
 		<item>disabled</item>
 	</string-array>
@@ -394,96 +394,96 @@
     </string-array>
 
     <string-array name="pref_menus_post_context_items">
-        <item>@string/action_upvote</item>
-        <item>@string/action_downvote</item>
+<!--        <item>@string/action_upvote</item>-->
+<!--        <item>@string/action_downvote</item>-->
 		<item>@string/action_comments</item>
-        <item>@string/action_save</item>
+<!--        <item>@string/action_save</item>-->
         <item>@string/action_hide</item>
-        <item>@string/action_delete</item>
-        <item>@string/action_report</item>
-        <item>@string/action_external</item>
-        <item>@string/action_selftext_links</item>
-        <item>@string/action_save_image</item>
+<!--        <item>@string/action_delete</item>-->
+<!--        <item>@string/action_report</item>-->
+<!--        <item>@string/action_external</item>-->
+<!--        <item>@string/action_selftext_links</item>-->
+<!--        <item>@string/action_save_image</item>-->
         <item>@string/action_gotosubreddit</item>
 		<item>@string/action_pin_subreddit</item>
-		<item>@string/action_subscribe_subreddit</item>
-		<item>@string/action_block_subreddit</item>
-        <item>@string/action_share</item>
-        <item>@string/action_share_comments</item>
-        <item>@string/action_share_image</item>
+<!--		<item>@string/action_subscribe_subreddit</item>-->
+<!--		<item>@string/action_block_subreddit</item>-->
+<!--        <item>@string/action_share</item>-->
+<!--        <item>@string/action_share_comments</item>-->
+<!--        <item>@string/action_share_image</item>-->
         <item>@string/action_copy_link</item>
 		<item>@string/action_copy_selftext</item>
         <item>@string/action_user_profile</item>
         <item>@string/action_properties</item>
-		<item>@string/action_edit</item>
+<!--		<item>@string/action_edit</item>-->
     </string-array>
 
     <!-- Constants. Do not change. -->
     <string-array name="pref_menus_post_context_items_return">
-        <item>upvote</item>
-        <item>downvote</item>
+<!--        <item>upvote</item>-->
+<!--        <item>downvote</item>-->
 		<item>comments</item>
-        <item>save</item>
+<!--        <item>save</item>-->
         <item>hide</item>
-        <item>delete</item>
-        <item>report</item>
-        <item>external</item>
-        <item>selftext_links</item>
-        <item>save_image</item>
+<!--        <item>delete</item>-->
+<!--        <item>report</item>-->
+<!--        <item>external</item>-->
+<!--        <item>selftext_links</item>-->
+<!--        <item>save_image</item>-->
         <item>goto_subreddit</item>
 		<item>pin</item>
-		<item>subscribe</item>
-		<item>block</item>
-        <item>share</item>
-        <item>share_comments</item>
-        <item>share_image</item>
+<!--		<item>subscribe</item>-->
+<!--		<item>block</item>-->
+<!--        <item>share</item>-->
+<!--        <item>share_comments</item>-->
+<!--        <item>share_image</item>-->
         <item>copy</item>
 		<item>copy_selftext</item>>
         <item>user_profile</item>
         <item>properties</item>
-		<item>edit</item>
+<!--		<item>edit</item>-->
     </string-array>
 
 	<string-array name="pref_menus_subreddit_context_items">
-		<item>@string/action_external</item>
-		<item>@string/action_share</item>
-		<item>@string/action_copy_link</item>
+<!--		<item>@string/action_external</item>-->
+<!--		<item>@string/action_share</item>-->
+<!--		<item>@string/action_copy_link</item>-->
 		<item>@string/pin_subreddit</item>
-		<item>@string/options_subscribe</item>
-		<item>@string/block_subreddit</item>
+<!--		<item>@string/options_subscribe</item>-->
+<!--		<item>@string/block_subreddit</item>-->
 	</string-array>
 
 	<!-- Constants. Do not change. -->
 	<string-array name="pref_menus_subreddit_context_items_return">
-		<item>external</item>
-		<item>share</item>
-		<item>copy_url</item>
+<!--		<item>external</item>-->
+<!--		<item>share</item>-->
+<!--		<item>copy_url</item>-->
 		<item>pin</item>
-		<item>subscribe</item>
-		<item>block</item>
+<!--		<item>subscribe</item>-->
+<!--		<item>block</item>-->
 	</string-array>
 
 	<string-array name="pref_menus_subreddit_context_items_default">
-		<item>external</item>
-		<item>share</item>
-		<item>copy_url</item>
+<!--		<item>external</item>-->
+<!--		<item>share</item>-->
+<!--		<item>copy_url</item>-->
 		<item>pin</item>
-		<item>subscribe</item>
-		<item>block</item>
+<!--		<item>subscribe</item>-->
+<!--		<item>block</item>-->
 	</string-array>
 
     <string-array name="pref_menus_post_toolbar_items">
-        <item>@string/action_actionmenu</item>
+<!--        <item>@string/action_actionmenu</item>-->
         <item>@string/action_comments_switch</item>
-        <item>@string/action_link_switch</item>
-        <item>@string/action_upvote</item>
-        <item>@string/action_downvote</item>
-        <item>@string/action_save</item>
+<!--        <item>@string/action_link_switch</item>-->
+<!--        <item>@string/action_upvote</item>-->
+<!--        <item>@string/action_downvote</item>-->
+<!--        <item>@string/action_save</item>-->
         <item>@string/action_hide</item>
-        <item>@string/action_reply</item>
-        <item>@string/action_external</item>
-        <item>@string/action_save_image</item>
-        <item>@string/action_share</item>
+<!--        <item>@string/action_reply</item>-->
+<!--        <item>@string/action_external</item>-->
+<!--        <item>@string/action_save_image</item>-->
+<!--        <item>@string/action_share</item>-->
         <item>@string/action_copy_link</item>
         <item>@string/action_user_profile</item>
         <item>@string/action_properties</item>
@@ -491,17 +491,17 @@
 
     <!-- Constants. Do not change. -->
     <string-array name="pref_menus_post_toolbar_items_return">
-        <item>action_menu</item>
+<!--        <item>action_menu</item>-->
         <item>comments_switch</item>
-        <item>link_switch</item>
-        <item>upvote</item>
-        <item>downvote</item>
-        <item>save</item>
+<!--        <item>link_switch</item>-->
+<!--        <item>upvote</item>-->
+<!--        <item>downvote</item>-->
+<!--        <item>save</item>-->
         <item>hide</item>
-        <item>reply</item>
-        <item>external</item>
-        <item>save_image</item>
-        <item>share</item>
+<!--        <item>reply</item>-->
+<!--        <item>external</item>-->
+<!--        <item>save_image</item>-->
+<!--        <item>share</item>-->
         <item>copy</item>
         <item>user_profile</item>
         <item>properties</item>
@@ -1018,27 +1018,27 @@
 
 	<!-- Constants. Do not change. -->
 	<string-array name="pref_menus_post_context_items_default">
-		<item>upvote</item>
-		<item>downvote</item>
+<!--		<item>upvote</item>-->
+<!--		<item>downvote</item>-->
 		<item>save</item>
 		<item>hide</item>
-		<item>delete</item>
-		<item>report</item>
-		<item>external</item>
-		<item>selftext_links</item>
-		<item>save_image</item>
+<!--		<item>delete</item>-->
+<!--		<item>report</item>-->
+<!--		<item>external</item>-->
+<!--		<item>selftext_links</item>-->
+<!--		<item>save_image</item>-->
 		<item>goto_subreddit</item>
 		<item>pin</item>
-		<item>subscribe</item>
-		<item>block</item>
-		<item>share</item>
-		<item>share_comments</item>
-		<item>share_image</item>
+<!--		<item>subscribe</item>-->
+<!--		<item>block</item>-->
+<!--		<item>share</item>-->
+<!--		<item>share_comments</item>-->
+<!--		<item>share_image</item>-->
 		<item>copy</item>
 		<item>copy_selftext</item>>
 		<item>user_profile</item>
 		<item>properties</item>
-		<item>edit</item>
+<!--		<item>edit</item>-->
 	</string-array>
 
 	<!-- 2020-10-31 -->

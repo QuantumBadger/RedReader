@@ -119,6 +119,7 @@ public class RedditPostHeaderView extends LinearLayout {
 
 		greyHeader.setBackgroundColor(Color.rgb(0,0,255));
 
+		// Add rounding to header
 		greyHeader.setBackgroundResource(R.drawable.layout_round);
 		greyHeader.setClipToOutline(true);
 

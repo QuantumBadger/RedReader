@@ -114,6 +114,10 @@ public final class PostListingHeader extends LinearLayout
 		subtitle.setTextColor(Color.rgb(200, 200, 200));
 		greyHeader.addView(subtitle);
 
+		// Add rounding to header
+		greyHeader.setBackgroundResource(R.drawable.layout_round);
+		greyHeader.setClipToOutline(true);
+
 		addView(greyHeader);
 
 		final RedditAccount currentUser =

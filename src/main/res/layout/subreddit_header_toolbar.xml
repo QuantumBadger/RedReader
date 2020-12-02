@@ -29,24 +29,24 @@
 		android:paddingRight="6dp"
 		tools:ignore="Overdraw">
 
-	<ImageButton
-			android:id="@+id/subreddit_toolbar_button_subscribe"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:padding="12dp"
-			android:background="?rrThemedButtonSelector"
-			android:contentDescription="@string/action_subscribe_subreddit"
-			android:src="?rrIconStarFilledOff"/>
+<!--	<ImageButton-->
+<!--			android:id="@+id/subreddit_toolbar_button_subscribe"-->
+<!--			android:layout_width="wrap_content"-->
+<!--			android:layout_height="wrap_content"-->
+<!--			android:padding="12dp"-->
+<!--			android:background="?rrThemedButtonSelector"-->
+<!--			android:contentDescription="@string/action_subscribe_subreddit"-->
+<!--			android:src="?rrIconStarFilledOff"/>-->
 
-	<ImageButton
-			android:id="@+id/subreddit_toolbar_button_unsubscribe"
-			android:visibility="gone"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:padding="12dp"
-			android:background="?rrThemedButtonSelector"
-			android:contentDescription="@string/action_unsubscribe_subreddit"
-			android:src="?rrIconStarFilled"/>
+<!--	<ImageButton-->
+<!--			android:id="@+id/subreddit_toolbar_button_unsubscribe"-->
+<!--			android:visibility="gone"-->
+<!--			android:layout_width="wrap_content"-->
+<!--			android:layout_height="wrap_content"-->
+<!--			android:padding="12dp"-->
+<!--			android:background="?rrThemedButtonSelector"-->
+<!--			android:contentDescription="@string/action_unsubscribe_subreddit"-->
+<!--			android:src="?rrIconStarFilled"/>-->
 
 	<FrameLayout
 			android:id="@+id/subreddit_toolbar_button_subscribe_loading"
@@ -74,31 +74,31 @@
 			android:contentDescription="@string/unpin_subreddit"
 			android:src="?rrIconPin"/>
 
-	<ImageButton
-			android:id="@+id/subreddit_toolbar_button_submit"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:padding="12dp"
-			android:background="?rrThemedButtonSelector"
-			android:contentDescription="@string/options_submit_post"
-			android:src="?rrIconReply"/>
+<!--	<ImageButton-->
+<!--			android:id="@+id/subreddit_toolbar_button_submit"-->
+<!--			android:layout_width="wrap_content"-->
+<!--			android:layout_height="wrap_content"-->
+<!--			android:padding="12dp"-->
+<!--			android:background="?rrThemedButtonSelector"-->
+<!--			android:contentDescription="@string/options_submit_post"-->
+<!--			android:src="?rrIconReply"/>-->
 
-	<ImageButton
-			android:id="@+id/subreddit_toolbar_button_share"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:padding="12dp"
-			android:background="?rrThemedButtonSelector"
-			android:contentDescription="@string/action_share"
-			android:src="?rrIconShare"/>
+<!--	<ImageButton-->
+<!--			android:id="@+id/subreddit_toolbar_button_share"-->
+<!--			android:layout_width="wrap_content"-->
+<!--			android:layout_height="wrap_content"-->
+<!--			android:padding="12dp"-->
+<!--			android:background="?rrThemedButtonSelector"-->
+<!--			android:contentDescription="@string/action_share"-->
+<!--			android:src="?rrIconShare"/>-->
 
-	<ImageButton
-			android:id="@+id/subreddit_toolbar_button_info"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:padding="12dp"
-			android:background="?rrThemedButtonSelector"
-			android:contentDescription="@string/options_sidebar"
-			android:src="?rrIconInfo"/>
+<!--	<ImageButton-->
+<!--			android:id="@+id/subreddit_toolbar_button_info"-->
+<!--			android:layout_width="wrap_content"-->
+<!--			android:layout_height="wrap_content"-->
+<!--			android:padding="12dp"-->
+<!--			android:background="?rrThemedButtonSelector"-->
+<!--			android:contentDescription="@string/options_sidebar"-->
+<!--			android:src="?rrIconInfo"/>-->
 
 </LinearLayout>

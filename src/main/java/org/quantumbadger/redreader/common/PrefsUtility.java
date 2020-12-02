@@ -186,7 +186,7 @@ public final class PrefsUtility {
 			final SharedPreferences sharedPreferences) {
 		return AppearanceTheme.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_appearance_theme_key,
-				"red",
+				"night_lowcontrast",
 				context,
 				sharedPreferences)));
 	}

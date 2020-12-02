@@ -21,6 +21,8 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -57,6 +59,7 @@ public class RedditPostHeaderView extends LinearLayout {
 
 		final LinearLayout greyHeader = new LinearLayout(activity);
 		greyHeader.setOrientation(LinearLayout.VERTICAL);
+
 
 		final int sidesPadding = (int)(15.0f * dpScale);
 		final int topPadding = (int)(10.0f * dpScale);
@@ -114,7 +117,16 @@ public class RedditPostHeaderView extends LinearLayout {
 			return true;
 		});
 
+		greyHeader.setBackgroundColor(Color.rgb(0,0,255));
+
+		// Add rounding to header
+		greyHeader.setBackgroundResource(R.drawable.layout_round);
+		greyHeader.setClipToOutline(true);
+
 		addView(greyHeader);
+
+//		View rootView = getWindow().getDecorView().getRootView();
+//		rootView.setBackgroundColor(Color.rgb(0, 255, 0));
 
 		final RedditAccount currentUser =
 				RedditAccountManager.getInstance(activity).getDefaultAccount();

@@ -76,6 +76,7 @@ public abstract class PropertiesDialog extends AppCompatDialogFragment {
 
 		final LinearLayout items = new LinearLayout(activity);
 		items.setOrientation(LinearLayout.VERTICAL);
+		items.setPadding(12, 12, 12, 12);
 
 		prepare(activity, items);
 		builder.setTitle(getTitle(activity));

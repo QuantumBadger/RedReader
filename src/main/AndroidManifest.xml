@@ -33,7 +33,7 @@
     <application android:name="org.quantumbadger.redreader.RedReader"
                  android:icon="@mipmap/icon"
                  android:label="@string/app_name"
-                 android:theme="@style/RR.Startup"
+                 android:theme="@style/RR.Dark.UltraBlack"
                  android:largeHeap="true"
                  android:hardwareAccelerated="true"
                  android:allowBackup="true"

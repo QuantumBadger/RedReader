@@ -630,10 +630,10 @@ public final class RedditPostView extends FlingableItemView
 									mImagePreviewPlayOverlay.setVisibility(VISIBLE);
 								}
 
-								// Show every 8 previews, starting at the second one
-								if(totalPreviewsShown % 8 == 2 && !alreadyAcceptedPrompt) {
-									showPrefPrompt();
-								}
+//								// Show every 8 previews, starting at the second one
+//								if(totalPreviewsShown % 8 == 2 && !alreadyAcceptedPrompt) {
+//									showPrefPrompt();
+//								}
 							});
 
 						} catch(final Throwable t) {
@@ -685,44 +685,44 @@ public final class RedditPostView extends FlingableItemView
 		));
 	}
 
-	private void showPrefPrompt() {
-
-		final SharedPreferences sharedPrefs
-				= General.getSharedPrefs(mActivity);
-
-		LayoutInflater.from(mActivity).inflate(
-				R.layout.inline_images_question_view,
-				mFooter,
-				true);
-
-		final FrameLayout promptView
-				= mFooter.findViewById(R.id.inline_images_prompt_root);
-
-		final Button keepShowing
-				= mFooter.findViewById(R.id.inline_preview_prompt_keep_showing_button);
-
-		final Button turnOff
-				= mFooter.findViewById(R.id.inline_preview_prompt_turn_off_button);
-
-		keepShowing.setOnClickListener(v -> {
-
-			new RRAnimationShrinkHeight(promptView).start();
-
-			sharedPrefs.edit()
-					.putBoolean(PROMPT_PREF_KEY, true)
-					.apply();
-		});
-
-		turnOff.setOnClickListener(v -> {
-
-			final String prefPreview = mActivity.getApplicationContext()
-					.getString(
-							R.string.pref_images_inline_image_previews_key);
-
-			sharedPrefs.edit()
-					.putBoolean(PROMPT_PREF_KEY, true)
-					.putString(prefPreview, "never")
-					.apply();
-		});
-	}
+//	private void showPrefPrompt() {
+//
+//		final SharedPreferences sharedPrefs
+//				= General.getSharedPrefs(mActivity);
+//
+//		LayoutInflater.from(mActivity).inflate(
+//				R.layout.inline_images_question_view,
+//				mFooter,
+//				true);
+//
+//		final FrameLayout promptView
+//				= mFooter.findViewById(R.id.inline_images_prompt_root);
+//
+//		final Button keepShowing
+//				= mFooter.findViewById(R.id.inline_preview_prompt_keep_showing_button);
+//
+//		final Button turnOff
+//				= mFooter.findViewById(R.id.inline_preview_prompt_turn_off_button);
+//
+//		keepShowing.setOnClickListener(v -> {
+//
+//			new RRAnimationShrinkHeight(promptView).start();
+//
+//			sharedPrefs.edit()
+//					.putBoolean(PROMPT_PREF_KEY, true)
+//					.apply();
+//		});
+//
+//		turnOff.setOnClickListener(v -> {
+//
+//			final String prefPreview = mActivity.getApplicationContext()
+//					.getString(
+//							R.string.pref_images_inline_image_previews_key);
+//
+//			sharedPrefs.edit()
+//					.putBoolean(PROMPT_PREF_KEY, true)
+//					.putString(prefPreview, "never")
+//					.apply();
+//		});
+//	}
 }

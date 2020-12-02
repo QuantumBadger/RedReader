@@ -94,15 +94,15 @@ public class MainMenuListingManager {
 	}
 
 	public enum SubredditAction {
-		SHARE(R.string.action_share),
-		COPY_URL(R.string.action_copy_link),
-		BLOCK(R.string.block_subreddit),
-		UNBLOCK(R.string.unblock_subreddit),
+//		SHARE(R.string.action_share),
+//		COPY_URL(R.string.action_copy_link),
+//		BLOCK(R.string.block_subreddit),
+//		UNBLOCK(R.string.unblock_subreddit),
 		PIN(R.string.pin_subreddit),
-		UNPIN(R.string.unpin_subreddit),
-		SUBSCRIBE(R.string.options_subscribe),
-		UNSUBSCRIBE(R.string.options_unsubscribe),
-		EXTERNAL(R.string.action_external);
+		UNPIN(R.string.unpin_subreddit);
+//		SUBSCRIBE(R.string.options_subscribe),
+//		UNSUBSCRIBE(R.string.options_unsubscribe),
+//		EXTERNAL(R.string.action_external);
 
 		public final int descriptionResId;
 
@@ -653,44 +653,44 @@ public class MainMenuListingManager {
 				return true;
 			}
 			final ArrayList<SubredditMenuItem> menu = new ArrayList<>();
-			if(itemPref.contains(SubredditAction.COPY_URL)) {
-				menu.add(new SubredditMenuItem(
-						mActivity,
-						R.string.action_copy_link,
-						SubredditAction.COPY_URL));
-			}
-			if(itemPref.contains(SubredditAction.EXTERNAL)) {
-				menu.add(new SubredditMenuItem(
-						mActivity,
-						R.string.action_external,
-						SubredditAction.EXTERNAL));
-			}
-			if(itemPref.contains(SubredditAction.SHARE)) {
-				menu.add(new SubredditMenuItem(
-						mActivity,
-						R.string.action_share,
-						SubredditAction.SHARE));
-			}
-
-			if(itemPref.contains(SubredditAction.BLOCK)) {
-
-				final boolean isBlocked = PrefsUtility.pref_blocked_subreddits_check(
-						mActivity,
-						sharedPreferences,
-						subreddit);
-
-				if(isBlocked) {
-					menu.add(new SubredditMenuItem(
-							mActivity,
-							R.string.unblock_subreddit,
-							SubredditAction.UNBLOCK));
-				} else {
-					menu.add(new SubredditMenuItem(
-							mActivity,
-							R.string.block_subreddit,
-							SubredditAction.BLOCK));
-				}
-			}
+//			if(itemPref.contains(SubredditAction.COPY_URL)) {
+//				menu.add(new SubredditMenuItem(
+//						mActivity,
+//						R.string.action_copy_link,
+//						SubredditAction.COPY_URL));
+//			}
+//			if(itemPref.contains(SubredditAction.EXTERNAL)) {
+//				menu.add(new SubredditMenuItem(
+//						mActivity,
+//						R.string.action_external,
+//						SubredditAction.EXTERNAL));
+//			}
+//			if(itemPref.contains(SubredditAction.SHARE)) {
+//				menu.add(new SubredditMenuItem(
+//						mActivity,
+//						R.string.action_share,
+//						SubredditAction.SHARE));
+//			}
+//
+//			if(itemPref.contains(SubredditAction.BLOCK)) {
+//
+//				final boolean isBlocked = PrefsUtility.pref_blocked_subreddits_check(
+//						mActivity,
+//						sharedPreferences,
+//						subreddit);
+//
+//				if(isBlocked) {
+//					menu.add(new SubredditMenuItem(
+//							mActivity,
+//							R.string.unblock_subreddit,
+//							SubredditAction.UNBLOCK));
+//				} else {
+//					menu.add(new SubredditMenuItem(
+//							mActivity,
+//							R.string.block_subreddit,
+//							SubredditAction.BLOCK));
+//				}
+//			}
 
 			if(itemPref.contains(SubredditAction.PIN)) {
 
@@ -712,35 +712,35 @@ public class MainMenuListingManager {
 				}
 			}
 
-			if(!RedditAccountManager.getInstance(mActivity)
-					.getDefaultAccount()
-					.isAnonymous()) {
-
-				if(itemPref.contains(SubredditAction.SUBSCRIBE)) {
-
-					final RedditSubredditSubscriptionManager subscriptionManager
-							= RedditSubredditSubscriptionManager
-							.getSingleton(
-									mActivity,
-									RedditAccountManager.getInstance(mActivity)
-											.getDefaultAccount());
-
-					if(subscriptionManager.areSubscriptionsReady()) {
-						if(subscriptionManager.getSubscriptionState(subreddit)
-								== SubredditSubscriptionState.SUBSCRIBED) {
-							menu.add(new SubredditMenuItem(
-									mActivity,
-									R.string.options_unsubscribe,
-									SubredditAction.UNSUBSCRIBE));
-						} else {
-							menu.add(new SubredditMenuItem(
-									mActivity,
-									R.string.options_subscribe,
-									SubredditAction.SUBSCRIBE));
-						}
-					}
-				}
-			}
+//			if(!RedditAccountManager.getInstance(mActivity)
+//					.getDefaultAccount()
+//					.isAnonymous()) {
+//
+//				if(itemPref.contains(SubredditAction.SUBSCRIBE)) {
+//
+//					final RedditSubredditSubscriptionManager subscriptionManager
+//							= RedditSubredditSubscriptionManager
+//							.getSingleton(
+//									mActivity,
+//									RedditAccountManager.getInstance(mActivity)
+//											.getDefaultAccount());
+//
+//					if(subscriptionManager.areSubscriptionsReady()) {
+//						if(subscriptionManager.getSubscriptionState(subreddit)
+//								== SubredditSubscriptionState.SUBSCRIBED) {
+//							menu.add(new SubredditMenuItem(
+//									mActivity,
+//									R.string.options_unsubscribe,
+//									SubredditAction.UNSUBSCRIBE));
+//						} else {
+//							menu.add(new SubredditMenuItem(
+//									mActivity,
+//									R.string.options_subscribe,
+//									SubredditAction.SUBSCRIBE));
+//						}
+//					}
+//				}
+//			}
 
 			final String[] menuText = new String[menu.size()];
 
@@ -791,31 +791,31 @@ public class MainMenuListingManager {
 								.getDefaultAccount());
 
 		switch(action) {
-			case SHARE: {
-				LinkHandler.shareText(activity, subredditCanonicalId.toString(), url);
-				break;
-			}
+//			case SHARE: {
+//				LinkHandler.shareText(activity, subredditCanonicalId.toString(), url);
+//				break;
+//			}
 
-			case COPY_URL: {
-				final ClipboardManager clipboardManager
-						= (ClipboardManager)activity.getSystemService(Context.CLIPBOARD_SERVICE);
-				if(clipboardManager != null) {
-					final ClipData data = ClipData.newRawUri(null, Uri.parse(url));
-					clipboardManager.setPrimaryClip(data);
+//			case COPY_URL: {
+//				final ClipboardManager clipboardManager
+//						= (ClipboardManager)activity.getSystemService(Context.CLIPBOARD_SERVICE);
+//				if(clipboardManager != null) {
+//					final ClipData data = ClipData.newRawUri(null, Uri.parse(url));
+//					clipboardManager.setPrimaryClip(data);
+//
+//					General.quickToast(
+//							activity.getApplicationContext(),
+//							R.string.subreddit_link_copied_to_clipboard);
+//				}
+//				break;
+//			}
 
-					General.quickToast(
-							activity.getApplicationContext(),
-							R.string.subreddit_link_copied_to_clipboard);
-				}
-				break;
-			}
-
-			case EXTERNAL: {
-				final Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse(url));
-				activity.startActivity(intent);
-				break;
-			}
+//			case EXTERNAL: {
+//				final Intent intent = new Intent(Intent.ACTION_VIEW);
+//				intent.setData(Uri.parse(url));
+//				activity.startActivity(intent);
+//				break;
+//			}
 
 			case PIN:
 				PrefsUtility.pref_pinned_subreddits_add(
@@ -830,58 +830,58 @@ public class MainMenuListingManager {
 						General.getSharedPrefs(mActivity),
 						subredditCanonicalId);
 				break;
-
-			case BLOCK:
-				PrefsUtility.pref_blocked_subreddits_add(
-						mActivity,
-						General.getSharedPrefs(mActivity),
-						subredditCanonicalId);
-				break;
-
-			case UNBLOCK:
-				PrefsUtility.pref_blocked_subreddits_remove(
-						mActivity,
-						General.getSharedPrefs(mActivity),
-						subredditCanonicalId);
-				break;
-
-			case SUBSCRIBE:
-
-				if(subMan.getSubscriptionState(subredditCanonicalId)
-						== SubredditSubscriptionState.NOT_SUBSCRIBED) {
-					subMan.subscribe(subredditCanonicalId, activity);
-					setPinnedSubreddits();
-					setBlockedSubreddits();
-					Toast.makeText(
-							mActivity,
-							R.string.options_subscribing,
-							Toast.LENGTH_SHORT).show();
-				} else {
-					Toast.makeText(
-							mActivity,
-							R.string.mainmenu_toast_subscribed,
-							Toast.LENGTH_SHORT).show();
-				}
-				break;
-
-			case UNSUBSCRIBE:
-
-				if(subMan.getSubscriptionState(subredditCanonicalId)
-						== SubredditSubscriptionState.SUBSCRIBED) {
-					subMan.unsubscribe(subredditCanonicalId, activity);
-					setPinnedSubreddits();
-					setBlockedSubreddits();
-					Toast.makeText(
-							mActivity,
-							R.string.options_unsubscribing,
-							Toast.LENGTH_SHORT).show();
-				} else {
-					Toast.makeText(
-							mActivity,
-							R.string.mainmenu_toast_not_subscribed,
-							Toast.LENGTH_SHORT).show();
-				}
-				break;
+//
+//			case BLOCK:
+//				PrefsUtility.pref_blocked_subreddits_add(
+//						mActivity,
+//						General.getSharedPrefs(mActivity),
+//						subredditCanonicalId);
+//				break;
+//
+//			case UNBLOCK:
+//				PrefsUtility.pref_blocked_subreddits_remove(
+//						mActivity,
+//						General.getSharedPrefs(mActivity),
+//						subredditCanonicalId);
+//				break;
+//
+//			case SUBSCRIBE:
+//
+//				if(subMan.getSubscriptionState(subredditCanonicalId)
+//						== SubredditSubscriptionState.NOT_SUBSCRIBED) {
+//					subMan.subscribe(subredditCanonicalId, activity);
+//					setPinnedSubreddits();
+//					setBlockedSubreddits();
+//					Toast.makeText(
+//							mActivity,
+//							R.string.options_subscribing,
+//							Toast.LENGTH_SHORT).show();
+//				} else {
+//					Toast.makeText(
+//							mActivity,
+//							R.string.mainmenu_toast_subscribed,
+//							Toast.LENGTH_SHORT).show();
+//				}
+//				break;
+//
+//			case UNSUBSCRIBE:
+//
+//				if(subMan.getSubscriptionState(subredditCanonicalId)
+//						== SubredditSubscriptionState.SUBSCRIBED) {
+//					subMan.unsubscribe(subredditCanonicalId, activity);
+//					setPinnedSubreddits();
+//					setBlockedSubreddits();
+//					Toast.makeText(
+//							mActivity,
+//							R.string.options_unsubscribing,
+//							Toast.LENGTH_SHORT).show();
+//				} else {
+//					Toast.makeText(
+//							mActivity,
+//							R.string.mainmenu_toast_not_subscribed,
+//							Toast.LENGTH_SHORT).show();
+//				}
+//				break;
 		}
 	}
 

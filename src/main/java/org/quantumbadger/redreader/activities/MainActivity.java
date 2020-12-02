@@ -173,16 +173,16 @@ public class MainActivity extends RefreshableActivity
 
 			FeatureFlagHandler.handleFirstInstall(sharedPreferences);
 
-			new AlertDialog.Builder(this)
-					.setTitle(R.string.firstrun_login_title)
-					.setMessage(R.string.firstrun_login_message)
-					.setPositiveButton(
-							R.string.firstrun_login_button_now,
-							(dialog, which) -> new AccountListDialog().show(
-									this.getSupportFragmentManager(),
-									null))
-					.setNegativeButton(R.string.firstrun_login_button_later, null)
-					.show();
+//			new AlertDialog.Builder(this)
+//					.setTitle(R.string.firstrun_login_title)
+//					.setMessage(R.string.firstrun_login_message)
+//					.setPositiveButton(
+//							R.string.firstrun_login_button_now,
+//							(dialog, which) -> new AccountListDialog().show(
+//									this.getSupportFragmentManager(),
+//									null))
+//					.setNegativeButton(R.string.firstrun_login_button_later, null)
+//					.show();
 
 			final SharedPreferences.Editor edit = sharedPreferences.edit();
 			edit.putString("firstRunMessageShown", "true");
@@ -201,11 +201,11 @@ public class MainActivity extends RefreshableActivity
 		FeatureFlagHandler.handleUpgrade(this);
 
 		recreateSubscriptionListener();
-
-		final boolean startInbox = getIntent().getBooleanExtra("isNewMessage", false);
-		if(startInbox) {
-			startActivity(new Intent(this, InboxListingActivity.class));
-		}
+//
+//		final boolean startInbox = getIntent().getBooleanExtra("isNewMessage", false);
+//		if(startInbox) {
+//			startActivity(new Intent(this, InboxListingActivity.class));
+//		}
 	}
 
 	private void recreateSubscriptionListener() {

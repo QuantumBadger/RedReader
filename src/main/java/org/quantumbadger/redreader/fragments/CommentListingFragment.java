@@ -180,7 +180,7 @@ public class CommentListingFragment extends RRFragment
 
 		mFloatingToolbar = null;
 
-		getListingView().setBackgroundColor(Color.parseColor("#222222"));
+//		getListingView().setBackgroundColor(Color.parseColor("#222222"));
 
 
 //		if(!PrefsUtility.pref_appearance_comments_show_floating_toolbar(context, prefs)) {

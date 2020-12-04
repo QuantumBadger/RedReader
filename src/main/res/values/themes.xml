@@ -123,16 +123,16 @@
 		<item name="colorPrimaryDark">#000000</item>
 		<item name="colorAccent">#99DDDD</item>
 
-		<item name="rrPostListHeaderBackgroundCol">#444444</item>
+		<item name="rrPostListHeaderBackgroundCol">#000000</item>
 
 		<item name="rrMainTextCol">#999999</item>
 		<item name="rrSubTextCol">#777777</item>
 
 		<item name="android:windowBackground">@color/darkWindowBackground</item>
 
-		<item name="rrListItemBackgroundCol">#222222</item>
+		<item name="rrListItemBackgroundCol">#000000</item>
 		<item name="rrListItemBackgroundHighlightCol">#555555</item>
-		<item name="rrListBackgroundCol">#222222</item>
+		<item name="rrListBackgroundCol">#000000</item>
 
 		<item name="rrIndentBackgroundCol">#1A1A1A</item>
 		<item name="rrIndentLineCol">#333333</item>

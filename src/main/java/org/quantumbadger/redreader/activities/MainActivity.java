@@ -167,11 +167,11 @@ public class MainActivity extends RefreshableActivity
 
 		Log.i(TAG, "[Migration] App version: " + appVersion);
 
-		if(!sharedPreferences.contains("firstRunMessageShown")) {
-
-			Log.i(TAG, "[Migration] Showing first run message");
-
-			FeatureFlagHandler.handleFirstInstall(sharedPreferences);
+//		if(!sharedPreferences.contains("firstRunMessageShown")) {
+//
+//			Log.i(TAG, "[Migration] Showing first run message");
+//
+//			FeatureFlagHandler.handleFirstInstall(sharedPreferences);
 
 //			new AlertDialog.Builder(this)
 //					.setTitle(R.string.firstrun_login_title)
@@ -184,19 +184,19 @@ public class MainActivity extends RefreshableActivity
 //					.setNegativeButton(R.string.firstrun_login_button_later, null)
 //					.show();
 
-			final SharedPreferences.Editor edit = sharedPreferences.edit();
-			edit.putString("firstRunMessageShown", "true");
-			edit.putInt("lastVersion", appVersion);
-			edit.apply();
-
-		} else if(sharedPreferences.contains("lastVersion")) {
-			FeatureFlagHandler.handleLegacyUpgrade(this, appVersion, pInfo.versionName);
-
-		} else {
-			Log.i(TAG, "[Migration] Last version not set.");
-			sharedPreferences.edit().putInt("lastVersion", appVersion).apply();
-			ChangelogDialog.newInstance().show(getSupportFragmentManager(), null);
-		}
+//			final SharedPreferences.Editor edit = sharedPreferences.edit();
+//			edit.putString("firstRunMessageShown", "true");
+//			edit.putInt("lastVersion", appVersion);
+//			edit.apply();
+//
+//		} else if(sharedPreferences.contains("lastVersion")) {
+//			FeatureFlagHandler.handleLegacyUpgrade(this, appVersion, pInfo.versionName);
+//
+//		} else {
+//			Log.i(TAG, "[Migration] Last version not set.");
+//			sharedPreferences.edit().putInt("lastVersion", appVersion).apply();
+//			ChangelogDialog.newInstance().show(getSupportFragmentManager(), null);
+//		}
 
 		FeatureFlagHandler.handleUpgrade(this);
 

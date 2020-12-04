@@ -18,7 +18,7 @@
 
 <resources>
 
-    <string name="app_name" translatable="false">RedReader</string>
+    <string name="app_name" translatable="false">WearReader</string>
 
     <!-- First Run Dialog -->
 

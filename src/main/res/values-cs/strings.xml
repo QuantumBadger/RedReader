@@ -183,7 +183,7 @@
     <string name="comment_edit_done">Komentář upraven. Změny se objeví po obnovení stránky.</string>
     <string name="post_submit_title_hint">Název</string>
     <string name="post_submit_subreddit_hint">Subreddit</string>
-    <string name="post_captcha_title">Captcha</string>
+    <string name="post_captcha_title">CAPTCHA</string>
     <string name="post_captcha_submit_button">Odeslat</string>
     <string name="post_submit_done">Příspěvek odeslán.</string>
     <!-- Bug Reporting -->
@@ -255,7 +255,7 @@
     <!-- Notifications -->
     <string name="notification_comment">%s odpověděl na váš komentář</string>
     <string name="notification_message">%s vám poslal zprávu</string>
-    <string name="notification_message_multiple">nových zpráv na Reddit</string>
+    <string name="notification_message_multiple">nových zpráv na Redditu</string>
     <string name="notification_message_action">K zobrazení stiskněte</string>
     <!-- General -->
     <string name="general_true">Pravda</string>
@@ -291,7 +291,7 @@
     <string name="error_invalid_password_title">Neplatné heslo</string>
     <string name="error_invalid_password_message">Vaše uživatelské jméno nebo heslo je neplatné.</string>
     <string name="error_ratelimit_title">Příliš mnoho neplatných pokusů.</string>
-    <string name="error_ratelimit_message">Blokováno z důvodu příliš mnoha neplatných pokusů na této IP adrese. Zpráva redditu:</string>
+    <string name="error_ratelimit_message">Blokováno z důvodu příliš mnoha chybných pokusů o přihlášení z této IP adresy. Zpráva Redditu:</string>
     <string name="general_success">Úspěch</string>
     <string name="message_nowloggedin">Jste přihlášeni.</string>
     <string name="message_cannotlogin">Nemohu se přihlásit.</string>
@@ -319,7 +319,7 @@
     <string name="lang_auto">Automaticky</string>
     <!-- 2013-06-25 -->
     <string name="prefs_category_network">Síť</string>
-    <string name="pref_network_https_title">Zapnout HTTPS</string>
+    <string name="pref_network_https_title">Použít HTTPS</string>
     <!-- 2013-07-01 -->
     <string name="web_view_open_browser">Otevřít v prohlížeči</string>
     <!-- 2013-07-26 -->
@@ -327,7 +327,7 @@
     <!-- 2013-07-29 -->
     <string name="pref_appearance_linkbuttons_title">Ukázat tlačítka odkazu</string>
     <!-- 2013-08-04 -->
-    <string name="pref_appearance_indentlines_title">Ukázat čáry odsazení</string>
+    <string name="pref_appearance_indentlines_title">Ukázat linky odsazení</string>
     <!-- 2014-03-14 -->
     <string name="load_more_posts">Načíst více příspěvků</string>
     <string name="pref_behaviour_postcount_title">Omezit počet příspěvků</string>
@@ -399,7 +399,7 @@
     <!-- 2015-05-17 -->
     <string name="error_title_login_user_denied_permission">Přístup zamítnut</string>
     <string name="error_message_login_user_denied_permission">Přístupu k účtu byl zamítnut. Prosím, zkuste znovu.</string>
-    <string name="error_title_login_unknown_reddit_error">Neznámá chyba redditu: %s</string>
+    <string name="error_title_login_unknown_reddit_error">Neznámá chyba Redditu: %s</string>
     <!-- 2015-05-23 -->
     <string name="imageview_invalid_video">Neplatné video. Zkouším prohlížeč.</string>
     <string name="download_authorizing">Ověřuji…</string>
@@ -440,7 +440,7 @@
     <string name="pref_behaviour_videoview_mode_title">Přehrávač videa</string>
     <string name="pref_behaviour_videoview_mode_internal_videoview">Interní VideoView (doporučeno)</string>
     <string name="pref_behaviour_videoview_mode_external_app_vlc">Externí applikace: VLC</string>
-    <string name="videoview_mode_app_vlc_launch_failed">Spuštění VLC se nezdařilo. Prosím, aktualizujte VLC nebo změňte volbu VideoViewer.</string>
+    <string name="videoview_mode_app_vlc_launch_failed">Spustit VLC se nezdařilo. Prosím, aktualizujte VLC nebo změňte volbu Prohlížeč videí.</string>
     <!-- 2015-10-05 -->
     <string name="error_url_required_title">URL je nutné</string>
     <string name="error_url_required_message">Musíte zadat URL.</string>
@@ -619,7 +619,7 @@
     <string name="action_subscribe_subreddit">Objednej subreddit</string>
     <string name="action_unsubscribe_subreddit">Zruš objednávku subredditu</string>
     <!-- 2017-04-14 -->
-    <string name="collapsed_self_post">Self-post se sbalil</string>
+    <string name="collapsed_self_post">Self post se sbalil</string>
     <!-- 2017-05-08 -->
     <string name="button_next_comment_parent">Další mateřský komentář</string>
     <string name="button_prev_comment_parent">Předchozí mateřský komentář</string>
@@ -628,7 +628,7 @@
     <string name="download_link_title">Stáhni soubor</string>
     <string name="download_link_message">Toto je odkaz ke stažení. Chcete načíst v externím prohlížeči\?</string>
     <!--2017-05-21-->
-    <string name="pref_behaviour_self_post_tap_actions_title">Stisknutí na Self-Post</string>
+    <string name="pref_behaviour_self_post_tap_actions_title">Stisknutí na self post</string>
     <!-- 2017-06-05 -->
     <string name="pref_menus_show_popular_main_menu_title">Ukaž /r/popular v hlavním menu</string>
     <string name="pref_behaviour_video_playback_controls_title">Zapni ovládání přehrání videa</string>
@@ -637,7 +637,7 @@
     <!-- 2017-10-22 -->
     <string name="pref_behaviour_sharing_share_text_title">Zahrň text při sdílení komentáře</string>
     <!-- 2017-11-01 -->
-    <string name="disable_replies_to_infobox_failed">Vypnout odpovědí do schránky doručené se nezdařilo</string>
+    <string name="disable_replies_to_infobox_failed">Vypnout odpovědi do schránky doručené se nezdařilo</string>
     <!-- 2017-12-03 -->
     <string name="mainmenu_random">Nahodilý subreddit</string>
     <string name="pref_menus_show_random_main_menu_title">Ukaž /r/random (nahodilé) v hlavním menu</string>
@@ -664,8 +664,8 @@
     <string name="comment_reply_done_norefresh">Odpověď odeslána.</string>
     <string name="sort_posts_best">Nejlepší</string>
     <!-- 2018-07-08 -->
-    <string name="pref_behaviour_usecustomtabs_title">Použít vlastní záložky</string>
-    <string name="pref_behaviour_usecustomtabs_summary">Kde je to možné, použít vlastní záložky</string>
+    <string name="pref_behaviour_usecustomtabs_title">Použít vlastní záložky Androidu</string>
+    <string name="pref_behaviour_usecustomtabs_summary">Kde je to možné, použít vlastní záložky Androidu</string>
     <!-- 2018-09-11 -->
     <string name="pref_behaviour_hide_read_posts_title">Skrýt přečtené články</string>
     <!-- 2019-10-01 -->
@@ -703,8 +703,8 @@
     <string name="pref_menus_mainmenu_header">Hlavní nabídka</string>
     <string name="unpin_successful">%s odebráno z hlavní nabídky</string>
     <string name="pin_successful">%s připnuto k hlavní nabídce</string>
-    <string name="subscription_successful">Přihláška odebírání %s úspěšná</string>
-    <string name="unsubscription_successful">Odebírání %s úspěšně zrušeno</string>
+    <string name="subscription_successful">Přihlášeno odebírání %s</string>
+    <string name="unsubscription_successful">Odebírání %s zrušeno</string>
     <string name="bug_chooser_title">Odeslat hlášení o chybě e-mailem</string>
     <string name="error_toast_no_email_apps">Není instalována žádná e-mailova aplikace!</string>
     <string name="error_toast_failed_open_external_browser">Otevřít url \"%s\" v externím prohlížeči se nezdařilo</string>
@@ -721,7 +721,7 @@
     <string name="search_results_query_only">Hledat \"%s\"</string>
     <string name="search_results_all">Hledat \"%1$s\" v /r/%2$s</string>
     <string name="search_results_short">Výsledky hledání</string>
-    <string name="error_nsfw_subreddits_disabled_message">Obsah NSFW je vypnut v nastavení.</string>
+    <string name="error_nsfw_subreddits_disabled_message">Obsah NSFW je nyní vypnut v nastavení.</string>
     <string name="error_nsfw_subreddits_disabled_title">Blokovaný NSFW subreddit</string>
     <string name="list_yes_no_or_wifi_never">Nikdy</string>
     <string name="list_yes_no_or_wifi_wifionly">Pouza na Wi-Fi</string>
@@ -763,7 +763,7 @@
     <string name="sort_comments_top_month">Top: Tento měsíc</string>
     <string name="sort_comments_top_year">Top: Tento rok</string>
     <string name="sort_comments_top_all">Top: Všechny</string>
-    <string name="pref_behaviour_video_zoom_default_title">Zaostřit do videí jako výchozí</string>
+    <string name="pref_behaviour_video_zoom_default_title">Pro vyplnění obrazovky oříznout videa</string>
     <string name="image_gallery_removed_title">Galerie odstraněna</string>
     <string name="image_gallery_removed_message">Tato galerie byla odstraněn a není již přístupná.</string>
     <string name="image_gallery_no_data_present_title">Galerie nenalezena</string>
@@ -812,8 +812,8 @@
     <string name="cache_clear_dialog_thumbnails">Miniatury</string>
     <string name="cache_clear_dialog_listings_data">Soupisy (%s)</string>
     <string name="cache_clear_dialog_listings">Soupisy</string>
-    <string name="cache_clear_dialog_loaded">Využití dat načteno</string>
-    <string name="cache_clear_dialog_loading">Načítám využití dat</string>
+    <string name="cache_clear_dialog_loaded">Velikosti využití dat načteny</string>
+    <string name="cache_clear_dialog_loading">Načítám velikosti využití dat</string>
     <string name="dialog_clear">Vymazat</string>
     <string name="pref_cache_clear_title">Vymazat mezipaměť</string>
     <string name="pref_appearance_comment_age_mode_relative_parent">Relativní k nadřazenému komentáři (odpověď x minut později)</string>
@@ -854,4 +854,8 @@
     <string name="pref_images_inline_image_previews_title">Náhledy inline obrázků</string>
     <string name="pref_header_inline_image_previews">Náhledy inline obrázků</string>
     <string name="pref_images_high_res_thumbnails_title">Miniatury vysokého rozlišení</string>
+    <string name="pref_accessibility_separate_body_text_lines_title">Oddělit řádky hlavního textu</string>
+    <string name="pref_accessibility_separate_body_text_lines_summary">V hlavním textu komentáře a self postu bude každý řádek individálně zaměřitelný, celý komentář nebude nutno číst najednou</string>
+    <string name="prefs_category_accessibility">Přístupnost</string>
+    <string name="pref_videos_download_before_playing_title">Před spuštěním playbacku stáhnout videa</string>
 </resources>

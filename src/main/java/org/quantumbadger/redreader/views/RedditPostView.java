@@ -292,7 +292,8 @@ public final class RedditPostView extends FlingableItemView
 				LayoutInflater.from(context).inflate(R.layout.reddit_post, this, true);
 
 		mOuterView = Objects.requireNonNull(rootView.findViewById(R.id.reddit_post_layout_outer));
-		mInnerView = Objects.requireNonNull(rootView.findViewById(R.id.reddit_post_comments_button));
+		mInnerView = Objects.requireNonNull(
+				rootView.findViewById(R.id.reddit_post_comments_button));
 
 		mPostErrors = Objects.requireNonNull(rootView.findViewById(R.id.reddit_post_errors));
 
@@ -336,7 +337,7 @@ public final class RedditPostView extends FlingableItemView
 		mCommentsButtonPref =
 				PrefsUtility.appearance_post_show_comments_button(context, sharedPreferences);
 
-		mCommentsButton = rootView.findViewById(R.id.reddit_post_comments_button);
+		mCommentsButton = mInnerView;
 		mCommentsText = mCommentsButton.findViewById(R.id.reddit_post_comments_text);
 
 		if(!mCommentsButtonPref) {

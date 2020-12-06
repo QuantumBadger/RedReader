@@ -25,6 +25,7 @@ import android.graphics.Color;
 import android.graphics.Movie;
 import android.net.Uri;
 import android.opengl.GLSurfaceView;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
@@ -143,6 +144,10 @@ public class ImageViewActivity extends BaseActivity
 	protected void onCreate(final Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
+
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			getWindow().setNavigationBarColor(Color.BLACK);
+		}
 
 		setTitle(R.string.accessibility_image_viewer_title);
 
@@ -277,6 +282,8 @@ public class ImageViewActivity extends BaseActivity
 						Log.i(TAG, "Got image Type: " + info.type);
 
 						Log.i(TAG, "Got media Type: " + info.mediaType);
+
+						Log.i(TAG, "Got audio Type: " + info.hasAudio);
 
 						mImageInfo = info;
 

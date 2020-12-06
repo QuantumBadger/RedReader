@@ -1,5 +1,6 @@
 96/1.16
 Fixed error message when marking all inbox messages as read
+Always set navigation bar to black in image viewer
 
 95/1.15
 Inline image previews (and preference to disable)

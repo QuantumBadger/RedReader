@@ -291,6 +291,13 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 
 						writableCacheFile.onWriteFinished();
 
+						mInitiator.notifyCacheFileWritten(
+								writableCacheFile.getReadableCacheFile(),
+								RRTime.utcCurrentTimeMillis(),
+								session,
+								false,
+								mimetype);
+
 					} catch(final IOException e) {
 
 						writableCacheFile.onWriteCancelled();
@@ -310,15 +317,6 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 						}
 					}
 				}
-
-				mInitiator.notifyCacheFileWritten(
-						writableCacheFile == null
-								? null
-								: writableCacheFile.getReadableCacheFile(),
-						RRTime.utcCurrentTimeMillis(),
-						session,
-						false,
-						mimetype);
 			}
 		});
 	}

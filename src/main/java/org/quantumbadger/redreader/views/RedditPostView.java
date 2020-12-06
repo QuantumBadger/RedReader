@@ -292,7 +292,7 @@ public final class RedditPostView extends FlingableItemView
 				LayoutInflater.from(context).inflate(R.layout.reddit_post, this, true);
 
 		mOuterView = Objects.requireNonNull(rootView.findViewById(R.id.reddit_post_layout_outer));
-		mInnerView = Objects.requireNonNull(rootView.findViewById(R.id.reddit_post_layout_inner));
+		mInnerView = Objects.requireNonNull(rootView.findViewById(R.id.reddit_post_comments_button));
 
 		mPostErrors = Objects.requireNonNull(rootView.findViewById(R.id.reddit_post_errors));
 

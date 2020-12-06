@@ -20,7 +20,6 @@ package org.quantumbadger.redreader.views;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,6 +28,7 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BaseActivity;
+import org.quantumbadger.redreader.common.Fonts;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -63,16 +63,13 @@ public class RedditPostHeaderView extends LinearLayout {
 
 		greyHeader.setPadding(sidesPadding, topPadding, sidesPadding, topPadding);
 
-		final Typeface tf =
-				Typeface.createFromAsset(activity.getAssets(), "fonts/Roboto-Light.ttf");
-
 		final float titleFontScale = PrefsUtility.appearance_fontscale_post_header_titles(
 				activity,
 				sharedPreferences);
 
 		final TextView title = new TextView(activity);
 		title.setTextSize(19.0f * titleFontScale);
-		title.setTypeface(tf);
+		title.setTypeface(Fonts.getRobotoLightOrAlternative());
 		title.setText(post.src.getTitle());
 		title.setTextColor(Color.WHITE);
 		greyHeader.addView(title);

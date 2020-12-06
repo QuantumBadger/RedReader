@@ -22,7 +22,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -35,6 +34,7 @@ import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.PostSubmitActivity;
 import org.quantumbadger.redreader.common.AndroidCommon;
+import org.quantumbadger.redreader.common.Fonts;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -98,13 +98,10 @@ public final class PostListingHeader extends LinearLayout
 
 		greyHeader.setPadding(sidesPadding, topPadding, sidesPadding, topPadding);
 
-		final Typeface tf =
-				Typeface.createFromAsset(activity.getAssets(), "fonts/Roboto-Light.ttf");
-
 		final TextView title = new TextView(activity);
 		title.setText(titleText);
 		title.setTextSize(22.0f);
-		title.setTypeface(tf);
+		title.setTypeface(Fonts.getRobotoLightOrAlternative());
 		title.setTextColor(Color.WHITE);
 		greyHeader.addView(title);
 

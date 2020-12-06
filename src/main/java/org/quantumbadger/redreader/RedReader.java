@@ -21,6 +21,7 @@ import android.app.Application;
 import android.util.Log;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.common.Alarms;
+import org.quantumbadger.redreader.common.Fonts;
 import org.quantumbadger.redreader.io.RedditChangeDataIO;
 import org.quantumbadger.redreader.receivers.NewMessageChecker;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
@@ -33,6 +34,8 @@ public class RedReader extends Application {
 		super.onCreate();
 
 		Log.i("RedReader", "Application created.");
+
+		Fonts.onAppCreate(getAssets());
 
 		final CacheManager cm = CacheManager.getInstance(this);
 

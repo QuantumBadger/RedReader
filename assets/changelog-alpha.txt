@@ -1,6 +1,7 @@
 /Alpha 256 (2020-12-06)
 Fixed error when cache file fails to write
 Always set navigation bar to black in image viewer, and to grey in settings activity
+Load fonts once on background thread
 
 /Alpha 255 (2020-11-30)
 Fixed error message when marking all inbox messages as read

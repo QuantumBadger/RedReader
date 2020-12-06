@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import org.quantumbadger.redreader.activities.BaseActivity;
+import org.quantumbadger.redreader.common.Fonts;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.views.LinkDetailsView;
 import org.quantumbadger.redreader.views.LinkifiedTextView;
@@ -114,7 +115,8 @@ public final class MarkdownParagraphGroup {
 				}
 
 				case CODE:
-					tv.setTypeface(General.getMonoTypeface(activity));
+
+					tv.setTypeface(Fonts.getVeraMonoOrAlternative());
 					tv.setText(
 							paragraph.raw.arr,
 							paragraph.raw.start,

@@ -244,8 +244,8 @@ public abstract class BaseActivity extends AppCompatActivity
 
 				final PrefsUtility.AppearanceNavbarColour navbarColour
 						= PrefsUtility.appearance_navbar_colour(
-						this,
-						mSharedPreferences);
+								this,
+								mSharedPreferences);
 
 				if(navbarColour == PrefsUtility.AppearanceNavbarColour.BLACK) {
 					getWindow().setNavigationBarColor(Color.BLACK);

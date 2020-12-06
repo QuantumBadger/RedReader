@@ -46,105 +46,112 @@
 		<LinearLayout
 				android:id="@+id/reddit_post_layout_inner"
 				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:gravity="center_vertical"
-				android:layoutDirection="ltr"
-				android:orientation="horizontal"
-				android:minHeight="64dp"
-				android:nextFocusRight="@id/reddit_post_comments_button"
-				android:baselineAligned="false">
-
-			<FrameLayout
-					android:layout_width="wrap_content"
-					android:layout_height="match_parent"
-					android:baselineAligned="false"
-					android:background="?rrPostThumbnailBackground">
-
-				<ImageView
-						android:id="@+id/reddit_post_thumbnail_view"
-						android:layout_width="wrap_content"
-						android:layout_height="match_parent"
-						android:scaleType="center"
-						tools:ignore="ContentDescription"/>
-
-				<ImageView
-						android:id="@+id/reddit_post_overlay_icon"
-						android:layout_width="64dp"
-						android:layout_height="match_parent"
-						android:scaleType="center"
-						android:visibility="gone"
-						android:background="#99000000"
-						tools:ignore="ContentDescription"/>
-
-			</FrameLayout>
-
-			<LinearLayout
-					android:id="@+id/reddit_post_textLayout"
-					android:layout_height="wrap_content"
-					android:layout_width="0px"
-					android:orientation="vertical"
-					android:paddingLeft="2dp"
-					android:paddingRight="2dp"
-					android:gravity="center_vertical"
-					android:layout_weight="1">
-
-				<TextView
-						android:id="@+id/reddit_post_title"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:textColor="?rrPostTitleCol"
-						android:paddingLeft="10dp"
-						android:paddingRight="10dp"
-						android:paddingTop="5dp"
-						android:paddingBottom="0dp"
-						android:textSize="14sp"/>
-
-				<TextView
-						android:id="@+id/reddit_post_subtitle"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:gravity="center_vertical"
-						android:textColor="#909090"
-						android:paddingLeft="10dp"
-						android:paddingRight="10dp"
-						android:paddingTop="1dp"
-						android:paddingBottom="5dp"
-						android:textSize="11sp"
-						tools:ignore="SmallSp"/>
-
-			</LinearLayout>
+				android:layout_height="match_parent"
+				android:orientation="horizontal">
 
 			<LinearLayout
 					android:id="@+id/reddit_post_comments_button"
-					android:layout_width="50dp"
-					android:layout_height="match_parent"
-					android:gravity="center"
-					android:background="?rrPostCommentsButtonBackCol"
-					android:orientation="vertical"
-					android:nextFocusLeft="@id/reddit_post_layout_outer">
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:baselineAligned="false"
+					android:gravity="center_vertical"
+					android:layoutDirection="ltr"
+					android:minHeight="64dp"
+					android:nextFocusRight="@id/reddit_post_comments_button"
+					android:orientation="horizontal">
 
-				<ImageView
-						android:layout_height="wrap_content"
-						android:layout_width="match_parent"
-						android:src="?rrIconComments"
-						android:scaleType="fitCenter"
-						android:layout_marginLeft="8dp"
-						android:layout_marginRight="8dp"
-						android:layout_marginTop="4dp"
-						android:layout_marginBottom="2dp"
-						android:contentDescription="@string/action_comments"/>
+				<FrameLayout
+						android:layout_width="wrap_content"
+						android:layout_height="match_parent"
+						android:background="?rrPostThumbnailBackground"
+						android:baselineAligned="false">
 
-				<TextView
-						android:id="@+id/reddit_post_comments_text"
+					<ImageView
+							android:id="@+id/reddit_post_thumbnail_view"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:scaleType="center"
+							tools:ignore="ContentDescription" />
+
+					<ImageView
+							android:id="@+id/reddit_post_overlay_icon"
+							android:layout_width="64dp"
+							android:layout_height="match_parent"
+							android:background="#99000000"
+							android:scaleType="center"
+							android:visibility="gone"
+							tools:ignore="ContentDescription" />
+
+				</FrameLayout>
+
+				<LinearLayout
+						android:id="@+id/reddit_post_textLayout"
+						android:layout_width="0px"
 						android:layout_height="wrap_content"
-						android:layout_width="fill_parent"
+						android:layout_weight="1"
+						android:gravity="center_vertical"
+						android:orientation="vertical"
+						android:paddingLeft="2dp"
+						android:paddingRight="2dp">
+
+					<TextView
+							android:id="@+id/reddit_post_title"
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:paddingLeft="10dp"
+							android:paddingTop="5dp"
+							android:paddingRight="10dp"
+							android:paddingBottom="0dp"
+							android:textColor="?rrPostTitleCol"
+							android:textSize="14sp" />
+
+					<TextView
+							android:id="@+id/reddit_post_subtitle"
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:gravity="center_vertical"
+							android:paddingLeft="10dp"
+							android:paddingTop="1dp"
+							android:paddingRight="10dp"
+							android:paddingBottom="5dp"
+							android:textColor="#909090"
+							android:textSize="11sp"
+							tools:ignore="SmallSp" />
+
+				</LinearLayout>
+
+				<LinearLayout
+						android:id="@+id/reddit_post_comments_button_info"
+						android:layout_width="50dp"
+						android:layout_height="match_parent"
+						android:background="?rrPostCommentsButtonBackCol"
 						android:gravity="center"
-						android:textSize="11sp"
-						android:textColor="?rrPostCommentsButtonTextCol"
-						tools:ignore="SmallSp"/>
+						android:nextFocusLeft="@id/reddit_post_layout_outer"
+						android:orientation="vertical">
+
+					<ImageView
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:layout_marginLeft="8dp"
+							android:layout_marginTop="4dp"
+							android:layout_marginRight="8dp"
+							android:layout_marginBottom="2dp"
+							android:contentDescription="@string/action_comments"
+							android:scaleType="fitCenter"
+							android:src="?rrIconComments" />
+
+					<TextView
+							android:id="@+id/reddit_post_comments_text"
+							android:layout_width="fill_parent"
+							android:layout_height="wrap_content"
+							android:gravity="center"
+							android:textColor="?rrPostCommentsButtonTextCol"
+							android:textSize="11sp"
+							tools:ignore="SmallSp" />
+
+				</LinearLayout>
 
 			</LinearLayout>
-
 		</LinearLayout>
 
 		<LinearLayout

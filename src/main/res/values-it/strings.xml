@@ -144,7 +144,7 @@
     <string name="props_comment_title">Proprietà del commento</string>
     <string name="props_body_markdown">Corpo (Raw Markdown)</string>
     <string name="props_author_flair">Testo flair dell\'autore</string>
-    <string name="pref_network_https_title">Attiva HTTPS</string>
+    <string name="pref_network_https_title">Usa HTTPS</string>
     <string name="pref_appearance_twopane_never">Mai</string>
     <string name="pref_appearance_theme_title">Tema</string>
     <string name="pref_appearance_locale_header">Localizzazione</string>
@@ -160,7 +160,7 @@
     <string name="post_submit_title_hint">Titolo</string>
     <string name="post_submit_subreddit_hint">Subreddit</string>
     <string name="post_submit_done">Post inviato.</string>
-    <string name="post_captcha_title">Captcha</string>
+    <string name="post_captcha_title">CAPTCHA</string>
     <string name="post_captcha_submit_button">Invia</string>
     <string name="options_theme">Temi</string>
     <string name="options_submit_post">Invia post</string>
@@ -171,7 +171,7 @@
     <string name="options_sidebar">Mostra barra laterale</string>
     <string name="options_settings">Impostazioni</string>
     <string name="options_accounts">Account</string>
-    <string name="notification_message_multiple">Nuovi messaggi su reddit</string>
+    <string name="notification_message_multiple">Nuovi messaggi su Reddit</string>
     <string name="mainmenu_profile">Il mio profilo</string>
     <string name="mainmenu_modmail">Messaggi moderatori</string>
     <string name="mainmenu_inbox">Posta in arrivo</string>
@@ -218,10 +218,10 @@
     <string name="firstrun_login_button_later">Resta anonimo</string>
     <string name="firstrun_login_button_now">Accedi ora</string>
     <string name="header_subscriber_count">%s iscritti</string>
-    <string name="header_subscriber_count_unknown">Il numero di iscritti è sconosciuto</string>
+    <string name="header_subscriber_count_unknown">Numero di iscritti sconosciuto</string>
     <string name="mainmenu_saved">Post salvati</string>
     <string name="mainmenu_submitted">Post inviati</string>
-    <string name="mainmenu_upvoted">Post con votati positivi</string>
+    <string name="mainmenu_upvoted">Post con voti positivi</string>
     <string name="message_cannotlogin">Accesso non riuscito.</string>
     <string name="message_nowloggedin">Accesso effettuato con successo.</string>
     <string name="notification_comment">%s ti ha risposto</string>
@@ -346,7 +346,7 @@
     <string name="mark_all_as_read">Segna tutti come letti</string>
     <string name="mark_all_as_read_success">Tutti i messaggi sono stati segnati come letti.</string>
     <string name="error_title_login_user_denied_permission">Permesso Negato</string>
-    <string name="error_title_login_unknown_reddit_error">Errore sconosciuto di reddit: %s</string>
+    <string name="error_title_login_unknown_reddit_error">Errore sconosciuto di Reddit: %s</string>
     <string name="imageview_invalid_video">Video non valido. Tentativo con il browser interno.</string>
     <string name="download_authorizing">Autenticazione…</string>
     <string name="pref_behaviour_skiptofrontpage_title">Vai alla prima pagina</string>
@@ -368,7 +368,7 @@
     <string name="pref_appearance_hide_username_main_menu_title">Nascondi il nome utente</string>
     <string name="selected_link_is_not_image">Il link selezionato non è un\'immagine.</string>
     <string name="imgur_album">Album imgur</string>
-    <string name="upgrade_v190_login_message">RedReader è stato aggiornato e ora utilizza oAuth per l\'autenticazione a reddit. Se avevi effettuato l\'accesso ad un account prima dell\'aggiornamento, adesso verrai disconnesso.</string>
+    <string name="upgrade_v190_login_message">RedReader è stato aggiornato e ora utilizza oAuth per l\'autenticazione su Reddit. Se avevi effettuato l\'accesso ad un account prima dell\'aggiornamento, adesso verrai disconnesso.</string>
     <string name="pref_behaviour_videoview_mode_title">Visualizzatore video</string>
     <string name="pref_behaviour_videoview_mode_internal_videoview">Visualizzatore video interno (raccomandato)</string>
     <string name="pref_behaviour_videoview_mode_external_app_vlc">App esterna: VLC</string>
@@ -415,7 +415,7 @@
     <string name="pref_behaviour_imageview_mode_internal_opengl">Visualizzatore interno (OpenGL)</string>
     <string name="pref_behaviour_albumview_mode_title">Visualizzatore Album</string>
     <string name="pref_behaviour_albumview_mode_internal_list">Visualizzatore interno (elenco)</string>
-    <string name="error_tor_start_failed">Orbot non è riuscito ad avviarsi. Tor non funzionerà correttamente.</string>
+    <string name="error_tor_start_failed">Impossibile avviare Orbot. Tor non funzionerà correttamente.</string>
     <string name="inbox_unread_only">Solo Messaggi Non Letti</string>
     <string name="pref_behaviour_actions_comment_longclick_title">Tap prolungato</string>
     <string name="no_comments_yet">Ancora nessun commento.</string>
@@ -436,7 +436,7 @@
     <string name="pref_not_supported_before_lollipop">Non supportata per versioni inferiori ad Android Lollipop</string>
     <string name="action_copy_text">Copia Testo</string>
     <string name="action_copy_link">Copia Link</string>
-    <string name="pref_behaviour_postsort">Post (default)</string>
+    <string name="pref_behaviour_postsort">Post (predefinito)</string>
     <string name="mainmenu_custom_destination_subreddit">Subreddit</string>
     <string name="mainmenu_custom_destination_user">Utente</string>
     <string name="mainmenu_custom_destination_url">URL</string>
@@ -541,7 +541,7 @@
     <string name="error_already_submitted_title">Già inserito</string>
     <string name="error_already_submitted_message">Questo post è già stato inserito in questo subreddit.</string>
     <string name="comment_reply_done_norefresh">Risposta inviata.</string>
-    <string name="sort_posts_best">Il meglio</string>
+    <string name="sort_posts_best">Migliori</string>
     <string name="pref_behaviour_usecustomtabs_title">Usa schede personalizzate</string>
     <string name="pref_behaviour_usecustomtabs_summary">Usa schede personalizzate se disponibili</string>
     <string name="pref_behaviour_hide_read_posts_title">Nascondi post già letti</string>
@@ -582,4 +582,8 @@
     <string name="pref_appearance_post_subtitle_items_use_different_settings_title">Usa impostazioni diverse per i post aperti</string>
     <string name="pref_appearance_post_subtitle_items_domain">Dominio</string>
     <string name="pref_appearance_post_subtitle_items_sticky">Tag in evidenza</string>
+    <string name="album_image_default_text">Immagine %d</string>
+    <string name="pref_behaviour_save_location_system_default">Predefinito del sistema</string>
+    <string name="pref_behaviour_user_commentsort_title">Commenti utente (predefinito)</string>
+    <string name="pref_behaviour_user_postsort_title">Post utente (predefinito)</string>
 </resources>

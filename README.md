@@ -1,7 +1,7 @@
-RedReader
+WearReader
 =========
 
-An unofficial, open source Android client for Reddit.
+An unofficial, open source WearOS client for Reddit based on RedReader.
 
 ![CI](https://github.com/QuantumBadger/RedReader/workflows/CI/badge.svg?branch=master)
 [![Translation status](https://hosted.weblate.org/widgets/redreader/-/svg-badge.svg)](https://hosted.weblate.org/engage/redreader/?utm_source=widget)

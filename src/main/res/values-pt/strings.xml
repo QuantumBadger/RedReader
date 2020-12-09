@@ -16,7 +16,7 @@
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
   --><resources>
     <string name="accounts_anon">Anônimo</string>
-    <string name="accounts_password">Senha</string>
+    <string name="accounts_password">Palavra-passe</string>
     <string name="accounts_active">Ativo</string>
     <string name="accounts_add">Adicionar conta do Reddit</string>
     <string name="accounts_delete">Remover</string>
@@ -106,7 +106,7 @@
     <string name="error_file_open_failed_title">Falha ao abrir o ficheiro</string>
     <string name="error_file_too_big_title">O ficheiro é muito grande</string>
     <string name="error_invalid_password_message">O seu nome de utilizador ou palavra-passe estão incorretos.</string>
-    <string name="error_invalid_password_title">Senha Inválida</string>
+    <string name="error_invalid_password_title">Palavra-passe Inválida</string>
     <string name="error_postlist_redditdown_title">O Reddit está fora do ar</string>
     <string name="error_too_fast_title">Muito rápido</string>
     <string name="error_too_long_title">Muito longo</string>
@@ -320,7 +320,7 @@
     <string name="pref_menus_post_toolbar_items_title">Barra Lateral do Post</string>
     <string name="pref_menus_post_context_items_title">Menu da Publicação</string>
     <string name="pref_menus_optionsmenu_items_title">Opções do Menu</string>
-    <string name="pref_menus_mainmenu_useritems_title">Menu Principal do Usuário</string>
+    <string name="pref_menus_mainmenu_useritems_title">Itens do utilizador</string>
     <string name="pref_menus_link_context_items_title">Menu do Link</string>
     <string name="pref_cache_rerequest_postlist_age_title">Atualizar posts se o cache for mais antigo que</string>
     <string name="pref_cache_pruning">Limpeza de Cache</string>

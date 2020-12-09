@@ -1,8 +1,9 @@
-/Alpha 256 (2020-12-06)
+/Alpha 257 (2020-12-11)
 Fixed error when cache file fails to write
 Always set navigation bar to black in image viewer, and to grey in settings activity
 Load fonts once on background thread
 Avoid cache file read for album thumbnails
+Notification accent color is now red
 
 /Alpha 255 (2020-11-30)
 Fixed error message when marking all inbox messages as read

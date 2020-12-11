@@ -44,8 +44,10 @@ public class RedditRenderableComment
 	private final RedditParsedComment mComment;
 	private final String mParentPostAuthor;
 	private final Integer mMinimumCommentScore;
+	private final String mCurrentUserName;
 	private final boolean mShowScore;
 	private final boolean mShowSubreddit;
+	private final boolean mNeverAutoCollapse;
 
 	public final static int NO_TIMESTAMP = -1;
 
@@ -53,14 +55,18 @@ public class RedditRenderableComment
 			final RedditParsedComment comment,
 			final String parentPostAuthor,
 			final Integer minimumCommentScore,
+			final String currentUserName,
 			final boolean showScore,
-			final boolean showSubreddit) {
+			final boolean showSubreddit,
+			final boolean neverAutoCollapse) {
 
 		mComment = comment;
 		mParentPostAuthor = parentPostAuthor;
 		mMinimumCommentScore = minimumCommentScore;
+		mCurrentUserName = currentUserName;
 		mShowScore = showScore;
 		mShowSubreddit = showSubreddit;
+		mNeverAutoCollapse = neverAutoCollapse;
 	}
 
 	private int computeScore(final RedditChangeDataManager changeDataManager) {
@@ -492,6 +498,14 @@ public class RedditRenderableComment
 
 		if(collapsed != null) {
 			return collapsed;
+		}
+
+		if(mNeverAutoCollapse) {
+			return false;
+		}
+
+		if(mComment.getRawComment().author.equals(mCurrentUserName)) {
+			return false;
 		}
 
 		return isScoreBelowThreshold(changeDataManager);

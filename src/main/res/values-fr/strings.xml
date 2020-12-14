@@ -52,7 +52,7 @@
     <string name="pref_cache_maxage_image_title">Supprimer les images du cache après</string>
     <string name="pref_cache_precache_images_header">Precache images</string>
     <string name="pref_cache_precache_images_title">Mettre en cache les images</string>
-    <string name="pref_cache_precache_images_wifionly_title">Via Wifi seulement</string>
+    <string name="pref_cache_precache_images_wifionly_title">Seulement en Wi-Fi</string>
     <!-- Menu Prefs -->
     <string name="pref_menus_post_context_items_title">Éléments du menu d\'action</string>
     <string name="pref_menus_post_toolbar_items_title">Éléments de la barre d\'outil latérale</string>
@@ -171,8 +171,8 @@
     <string name="download_done">Terminé.</string>
     <string name="download_failed">Échoué.</string>
     <!-- Image View -->
-    <string name="imageview_oom">Plus de mémoire. Essai du navigateur intégré.</string>
-    <string name="imageview_invalid_gif">GIF invalide. Essai du navigateur intégré.</string>
+    <string name="imageview_oom">Plus de mémoire. Essai du navigateur web.</string>
+    <string name="imageview_invalid_gif">GIF invalide. Essai avec le navigateur web.</string>
     <!-- Comment Reply/Edit, Post Submit -->
     <string name="comment_reply_send">Envoyer</string>
     <string name="comment_edit_save">Sauvegarder</string>
@@ -184,7 +184,7 @@
     <string name="comment_edit_done">Commentaire édité. Les changements apparaitront après le rafraichissement.</string>
     <string name="post_submit_title_hint">Titre</string>
     <string name="post_submit_subreddit_hint">Subreddit</string>
-    <string name="post_captcha_title">Captcha</string>
+    <string name="post_captcha_title">CAPTCHA</string>
     <string name="post_captcha_submit_button">Vérifier</string>
     <string name="post_submit_done">Post envoyé.</string>
     <!-- Bug Reporting -->
@@ -294,7 +294,7 @@
     <string name="error_invalid_password_title">Mot de passe erroné</string>
     <string name="error_invalid_password_message">Votre nom d\'utilisateur ou votre mot de passe est erroné.</string>
     <string name="error_ratelimit_title">Trop de tentatives échouées.</string>
-    <string name="error_ratelimit_message">Bloqué en raison de trop de tentatives de connexion échouées via cette IP. Reddit dit :</string>
+    <string name="error_ratelimit_message">Bloqué en raison de trop de tentatives de connexion échouées depuis cette IP. Reddit dit :</string>
     <string name="general_success">Succès</string>
     <string name="message_nowloggedin">Vous êtes maintenant connecté.</string>
     <string name="message_cannotlogin">Connexion impossible.</string>
@@ -322,7 +322,7 @@
     <string name="lang_auto">Automatique</string>
     <!-- 2013-06-25 -->
     <string name="prefs_category_network">Réseau</string>
-    <string name="pref_network_https_title">Activer HTTPS</string>
+    <string name="pref_network_https_title">Utiliser HTTPS</string>
     <!-- 2013-07-01 -->
     <string name="web_view_open_browser">Voir dans le navigateur</string>
     <!-- 2013-07-26 -->
@@ -360,7 +360,7 @@
     <string name="karma_link">Karma de lien</string>
     <string name="karma_comment">Karma de commentaire</string>
     <!-- 2014-12-02 -->
-    <string name="imageview_decode_failed">Échec de décodage de l\'image. Essai avec le navigateur interne.</string>
+    <string name="imageview_decode_failed">Impossible de décoder l\'image. Essai avec le navigateur web.</string>
     <!-- 2014-12-06 -->
     <!-- 2014-12-07 -->
     <string name="comment_header_specific_thread_title">Vous visualisez actuellement un fil de commentaires spécifique.</string>
@@ -380,7 +380,7 @@
     <string name="error_message_login_user_denied_permission">La permission d\'accéder ce compte a été refusée. Merci de réessayer.</string>
     <string name="error_title_login_unknown_reddit_error">Erreur Reddit inconnue : %s</string>
     <!-- 2015-05-23 -->
-    <string name="imageview_invalid_video">Vidéo invalide. Essai avec le navigateur interne.</string>
+    <string name="imageview_invalid_video">Vidéo invalide. Essai avec le navigateur web.</string>
     <string name="download_authorizing">Identification…</string>
     <!-- 2015-05-29 -->
     <!-- 2015-06-07 -->
@@ -427,7 +427,7 @@
     <string name="open_with">Ouvrir avec</string>
     <!-- 2016-04-03 -->
     <string name="error_tor_not_installed">Tor a besoin d\'Orbot pour fonctionner. L\'installer \?</string>
-    <string name="error_tor_setting_failed">Échec du réglage du proxy.</string>
+    <string name="error_tor_setting_failed">Impossible de configurer le proxy.</string>
     <!-- 2016-04-10 -->
     <string name="error_parse_imgur_title">Erreur d\'analyse</string>
     <string name="error_parse_imgur_message">Imgur m\'a envoyé des données que je n\'ai pas pu comprendre.</string>
@@ -438,7 +438,7 @@
     <string name="button_browse">Parcourir…</string>
     <string name="error_file_too_big_title">Le fichier est trop gros</string>
     <string name="error_file_too_big_message">La taille du fichier (%1$s) dépasse la limite de téléversement (%2$s).</string>
-    <string name="error_file_open_failed_title">Échec de l\'ouverture du fichier</string>
+    <string name="error_file_open_failed_title">Impossible d\'ouvrir le fichier</string>
     <string name="error_file_open_failed_message">Une erreur est intervenue lors de l\'ouverture du fichier.</string>
     <string name="image_selected_summary">Image sélectionnée : %1$dx%2$d, %3$s</string>
     <!-- 2016-06-10 -->
@@ -449,7 +449,7 @@
     <!-- 2016-06-24 -->
     <!-- 2016-06-25 -->
     <string name="pref_behaviour_albumview_mode_title">Visionneur d\'album</string>
-    <string name="error_tor_start_failed">Orbot n\'a pas pu démarrer. Tor ne fonctionnera pas correctement.</string>
+    <string name="error_tor_start_failed">Impossible de démarrer Orbot. Tor ne fonctionnera pas correctement.</string>
     <!-- 2016-06-30 -->
     <string name="inbox_unread_only">Messages non lus seulement</string>
     <!-- 2016-07-02 -->
@@ -487,7 +487,7 @@
     <string name="mainmenu_header_multireddits">Multireddits</string>
     <!-- 2016-08-10 -->
     <string name="error_cache_dir_does_not_exist_title">Dossier de cache manquant</string>
-    <string name="error_cache_dir_does_not_exist_message">Le dossier de cache n\'est pas accessible. Merci de choisir un autre emplacement dans les réglages du cache.</string>
+    <string name="error_cache_dir_does_not_exist_message">Le dossier de cache est inaccessible. Merci de choisir un autre emplacement dans les réglages du cache.</string>
     <!-- 2016-08-15 -->
     <!-- 2016-09-01 -->
     <string name="load_more_comments_failed_unknown_url_type">Échec de chargement des commentaires supplémentaires : type d\'URL inconnu.</string>
@@ -552,11 +552,11 @@
     <string name="error_no_suitable_apps_available">Aucune application adaptée trouvée.</string>
     <!-- 2017-10-22 -->
     <!-- 2017-11-01 -->
-    <string name="disable_replies_to_infobox_failed">La désactivation des réponses dans la boîte de réception a échoué</string>
+    <string name="disable_replies_to_infobox_failed">Impossible de désactiver les réponses à la boîte de réception</string>
     <!-- Weblate 2020-01-25 -->
     <string name="time_hours">heures</string>
     <string name="pref_menus_subreddit_context_items_title">Éléments du menu d’action subreddit</string>
-    <string name="videoview_mode_app_vlc_launch_failed">Le lancement de VLC a échoué. Veuillez mettre à jour VLC ou changer de lecteur de vidéos.</string>
+    <string name="videoview_mode_app_vlc_launch_failed">Impossible de lancer VLC. Veuillez mettre à jour VLC ou changer de lecteur vidéo.</string>
     <string name="pref_behaviour_sharing_header">Partage</string>
     <string name="sort_comments_qa">Questions et réponses</string>
     <string name="pref_behaviour_gifview_mode_internal_movie">Lecteur interne (Film, Android 4.0+)</string>
@@ -605,7 +605,7 @@
     <string name="unblock_subreddit">Débloquer le subreddit</string>
     <string name="sort_posts_comments">Commentaires</string>
     <string name="unpin_subreddit">Retirer du menu principal</string>
-    <string name="upgrade_v190_login_message">RedReader a été mis à niveau et utilise maintenant oAuth pour l\'authentification Reddit. Si vous étiez connecté à un compte avant la mise à niveau, vous êtes maintenant déconnecté.</string>
+    <string name="upgrade_v190_login_message">RedReader a été mis à niveau et utilise maintenant OAuth pour l\'authentification Reddit. Si vous étiez connecté à un compte avant la mise à niveau, vous êtes maintenant déconnecté.</string>
     <string name="userprofile_pm">Envoyer un message</string>
     <string name="time_hour">heure</string>
     <string name="search_listing_header_query">Requête de recherche</string>
@@ -651,19 +651,19 @@
     <string name="pref_cache_maxage_entry_title">Supprimer les données cachées (lus, votes, etc.) après</string>
     <string name="time_sec">sec</string>
     <string name="pref_behaviour_blocked_subredditsort">Tri des subreddits bloqués</string>
-    <string name="pref_cache_precache_comments_wifionly_title">En Wi-Fi seulement</string>
+    <string name="pref_cache_precache_comments_wifionly_title">Seulement en Wi-Fi</string>
     <string name="pref_behaviour_gallery_swipe_length_title">Longueur du balayage de la galerie</string>
     <string name="title_license">Licence</string>
     <string name="pref_appearance_left_handed_title">Mode gaucher</string>
-    <string name="pref_behaviour_self_post_tap_actions_title">Action au toucher pour le post à soi-même</string>
+    <string name="pref_behaviour_self_post_tap_actions_title">Tape sur un post à soi-même</string>
     <string name="post_submit_mark_nsfw">Marquer comme NSFW</string>
     <string name="post_submit_mark_spoiler">Marquer comme divulgâchis</string>
     <string name="error_already_submitted_title">Déjà envoyé</string>
     <string name="error_already_submitted_message">Ce post a déjà été envoyé à ce sous-reddit.</string>
     <string name="comment_reply_done_norefresh">Réponse envoyée.</string>
     <string name="sort_posts_best">Meilleur</string>
-    <string name="pref_behaviour_usecustomtabs_title">Utiliser les onglets personnalisés</string>
-    <string name="pref_behaviour_usecustomtabs_summary">Utiliser les onglets personnalisés si disponible</string>
+    <string name="pref_behaviour_usecustomtabs_title">Utiliser les onglets personnalisés Android</string>
+    <string name="pref_behaviour_usecustomtabs_summary">Utiliser les onglets personnalisés Android si disponible</string>
     <string name="pref_behaviour_hide_read_posts_title">Cacher les post lus</string>
     <string name="pref_menus_mainmenu_shortcutitems_title">Raccourcis</string>
     <string name="pref_menus_show_multireddit_main_menu_title">Afficher les multireddits</string>
@@ -693,8 +693,8 @@
     <string name="pref_menus_mainmenu_header">Menu principal</string>
     <string name="unpin_successful">%s désépinglé du menu principal</string>
     <string name="pin_successful">%s épinglé au menu principal</string>
-    <string name="unsubscription_successful">Désabonnement de %s réussi</string>
-    <string name="subscription_successful">Abonnement à %s réussi</string>
+    <string name="unsubscription_successful">Désabonné⋅e de %s</string>
+    <string name="subscription_successful">Abonné⋅e à %s</string>
     <string name="bug_chooser_title">Courriel du rapport d\'erreur</string>
     <string name="error_toast_no_email_apps">Aucune appli de messagerie installée !</string>
     <string name="error_toast_failed_open_external_browser">Échec de l\'ouverture de l\'URL « %s » dans le navigateur externe</string>
@@ -713,7 +713,7 @@
     <string name="error_nsfw_subreddits_disabled_message">Le contenu NSFW est actuellement désactivé dans les paramètres.</string>
     <string name="error_nsfw_subreddits_disabled_title">Subreddits NSFW bloqués</string>
     <string name="list_yes_no_or_wifi_never">Jamais</string>
-    <string name="list_yes_no_or_wifi_wifionly">En Wi-Fi uniquement</string>
+    <string name="list_yes_no_or_wifi_wifionly">Seulement en Wi-Fi</string>
     <string name="list_yes_no_or_wifi_always">Toujours</string>
     <string name="pref_appearance_post_subtitle_items_use_different_settings_title">Utiliser des paramètres différents pour les posts ouverts</string>
     <string name="pref_appearance_post_subtitle_items_domain">Domaine</string>
@@ -762,7 +762,7 @@
     <string name="image_gallery_no_data_present_title">Galerie introuvable</string>
     <string name="image_gallery_removed_message">Cette galerie a été supprimée et n\'est plus accessible.</string>
     <string name="image_gallery_removed_title">Galerie supprimée</string>
-    <string name="pref_behaviour_video_zoom_default_title">Zoomer sur les vidéos par défaut</string>
+    <string name="pref_behaviour_video_zoom_default_title">Rogner les vidéos pour remplir l\'écran</string>
     <string name="pref_behaviour_user_commentsort_title">Commentaires de l’utilisateur (par défaut)</string>
     <string name="pref_behaviour_multi_postsort_title">Posts multi-reddits (par défaut)</string>
     <string name="pref_behaviour_user_postsort_title">Publications de l\'utilisateur (par défaut)</string>
@@ -771,4 +771,35 @@
     <string name="pref_appearance_fontscale_linkbuttons_title">Boutons de lien</string>
     <string name="pref_appearance_post_subtitle_items_title">Éléments du sous-titre de post</string>
     <string name="link_does_not_exist">Ce lien n\'existe pas. Il a pu être supprimé.</string>
+    <string name="cache_clear_dialog_loaded">Tailles des données du cache chargées</string>
+    <string name="cache_clear_dialog_loading">Chargement des tailles utilisées dans le cache</string>
+    <string name="dialog_clear">Nettoyer</string>
+    <string name="pref_cache_clear_title">Nettoyer le cache</string>
+    <string name="pref_appearance_comment_age_mode_relative_parent">Relativement au commentaire parent (a répondu x mins après)</string>
+    <string name="pref_appearance_comment_age_mode_relative_post">Relativement au post (x mins après)</string>
+    <string name="pref_appearance_comment_age_mode_absolute">Temps écoulé depuis le commentaire (il y a x mins)</string>
+    <string name="pref_appearance_comment_age_mode_title">Mode de l\'age des commentaires</string>
+    <string name="pref_appearance_age_units_3">Trois unités (x heures, y mins, z secs)</string>
+    <string name="pref_appearance_age_units_2">Deux unités (x heures, y mins)</string>
+    <string name="pref_appearance_age_units_1">Une unité (x heures)</string>
+    <string name="pref_appearance_inbox_age_units_title">Précision de l\'age des éléments de la boite de réception</string>
+    <string name="pref_appearance_inbox_header">Boite de réception</string>
+    <string name="pref_appearance_comment_age_units_title">Précision de l\'age des commentaires</string>
+    <string name="pref_appearance_post_header_age_units_title">Précision de l\'age des posts ouverts</string>
+    <string name="pref_appearance_post_age_units_title">Précision de l\'age des posts</string>
+    <string name="time_after_reply">a répondu %s plus tard</string>
+    <string name="time_after">après %s</string>
+    <string name="options_account_manager">Gérer…</string>
+    <string name="pref_appearance_not_possible_in_tablet_mode">Impossible en mode tablette</string>
+    <string name="pref_behaviour_save_location_system_default">Utiliser le défaut du système</string>
+    <string name="pref_behaviour_save_location_prompt_every_time">Demander à chaque fois</string>
+    <string name="pref_behaviour_save_location_title">Destination de sauvegarde</string>
+    <string name="pref_appearance_toolbar_header">Barre d\'outils</string>
+    <string name="pref_appearance_hide_toolbar_on_scroll_title">Cacher la barre d\'outils pendant le défilement</string>
+    <string name="pref_behaviour_back_button_title">Bouton Retour</string>
+    <string name="pref_behaviour_postlist_back_again">Appuyer deux fois sur retour pour quitter</string>
+    <string name="press_back_again">Ré-appuyez sur retour</string>
+    <string name="pref_behaviour_imagevideo_tap_close_summary">N\'a aucun effet sur les vidéos si les contrôles de lecture sont activés</string>
+    <string name="pref_behaviour_imagevideo_tap_close_title">Taper pour fermer les images/vidéos</string>
+    <string name="action_save_image_success_no_path">Image sauvegardée avec succès</string>
 </resources>

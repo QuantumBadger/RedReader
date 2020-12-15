@@ -388,7 +388,7 @@ public final class CacheManager {
 				cacheRoot,
 				"rr_cache_files",
 				String.format(Locale.US, "%02d", cacheFileId % 100),
-				String.format(Locale.US, "%02d", (cacheFileId / 100) % 100));
+				String.format(Locale.US, "%d", (cacheFileId / 100) % 10));
 	}
 
 	public class ReadableCacheFile {

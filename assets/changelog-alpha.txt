@@ -1,3 +1,6 @@
+/Alpha 258 (2020-12-15)
+Reduce number of cache subdirectories
+
 /Alpha 257 (2020-12-15)
 Fix for cache errors caused by too many files in one directory
 

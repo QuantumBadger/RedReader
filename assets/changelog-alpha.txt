@@ -1,3 +1,6 @@
+/Alpha 259 (2020-12-15)
+Fix for using internal browser as image viewer
+
 /Alpha 258 (2020-12-15)
 Reduce number of cache subdirectories
 

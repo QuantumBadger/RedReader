@@ -1,3 +1,6 @@
+/Alpha 257 (2020-12-15)
+Fix for cache errors caused by too many files in one directory
+
 /Alpha 256 (2020-12-11)
 Fixed error when cache file fails to write
 Always set navigation bar to black in image viewer, and to grey in settings activity

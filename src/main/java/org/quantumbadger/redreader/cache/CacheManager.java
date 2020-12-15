@@ -96,19 +96,22 @@ public final class CacheManager {
 		requestHandler.start();
 	}
 
-	private Long isCacheFile(final String file) {
+	@Nullable
+	private Long isCacheFile(@NonNull final File file) {
 
-		if(!file.endsWith(ext)) {
+		final String name = file.getName();
+
+		if(!name.endsWith(ext)) {
 			return null;
 		}
 
-		final String[] fileSplit = file.split("\\.");
-		if(fileSplit.length != 2) {
+		final String[] nameSplit = name.split("\\.");
+		if(nameSplit.length != 2) {
 			return null;
 		}
 
 		try {
-			return Long.parseLong(fileSplit[0]);
+			return Long.parseLong(nameSplit[0]);
 		} catch(final Exception e) {
 			return null;
 		}
@@ -116,17 +119,22 @@ public final class CacheManager {
 
 	private void getCacheFileList(final File dir, final HashSet<Long> currentFiles) {
 
-		final String[] list = dir.list();
+		final File[] list = dir.listFiles();
 		if(list == null) {
 			return;
 		}
 
-		for(final String file : list) {
+		for(final File file : list) {
 
-			final Long cacheFileId = isCacheFile(file);
+			if(file.isDirectory()) {
+				getCacheFileList(file, currentFiles);
 
-			if(cacheFileId != null) {
-				currentFiles.add(cacheFileId);
+			} else {
+				final Long cacheFileId = isCacheFile(file);
+
+				if(cacheFileId != null) {
+					currentFiles.add(cacheFileId);
+				}
 			}
 		}
 	}
@@ -146,7 +154,8 @@ public final class CacheManager {
 		}
 	}
 
-	public static List<File> getCacheDirs(final Context context) {
+	@NonNull
+	public static ArrayList<File> getCacheDirs(final Context context) {
 
 		final ArrayList<File> dirs = new ArrayList<>();
 
@@ -165,7 +174,6 @@ public final class CacheManager {
 				dirs.add(extDir);
 			}
 		}
-
 
 		return dirs;
 	}
@@ -207,7 +215,7 @@ public final class CacheManager {
 
 		try {
 
-			final HashSet<Long> currentFiles = new HashSet<>(128);
+			final HashSet<Long> currentFiles = new HashSet<>(1024);
 
 			final List<File> dirs = getCacheDirs(context);
 			for(final File dir : dirs) {
@@ -342,7 +350,13 @@ public final class CacheManager {
 			mOutStream.flush();
 			mOutStream.close();
 
-			final File dstFile = new File(location, cacheFileId + ext);
+			final File subdir = getSubdirForCacheFile(location, cacheFileId);
+
+			if(!subdir.mkdirs()) {
+				throw new IOException("Failed to create dirs: " + subdir.getAbsolutePath());
+			}
+
+			final File dstFile = new File(subdir, cacheFileId + ext);
 			FileUtils.moveFile(mTmpFile, dstFile);
 
 			dbManager.setEntryDone(cacheFileId);
@@ -362,6 +376,19 @@ public final class CacheManager {
 				Log.e(TAG, "Exception during cancel", e);
 			}
 		}
+	}
+
+	@NonNull
+	private static File getSubdirForCacheFile(
+			@NonNull final File cacheRoot,
+			final long cacheFileId) {
+
+
+		return FileUtils.buildPath(
+				cacheRoot,
+				"rr_cache_files",
+				String.format(Locale.US, "%02d", cacheFileId % 100),
+				String.format(Locale.US, "%02d", (cacheFileId / 100) % 100));
 	}
 
 	public class ReadableCacheFile {
@@ -433,13 +460,24 @@ public final class CacheManager {
 
 	@Nullable
 	private File getExistingCacheFile(final long id) {
+
 		final List<File> dirs = getCacheDirs(context);
+
+		// Try new format first
+		for(final File dir : dirs) {
+			final File f = new File(getSubdirForCacheFile(dir, id), id + ext);
+			if(f.exists()) {
+				return f;
+			}
+		}
+
 		for(final File dir : dirs) {
 			final File f = new File(dir, id + ext);
 			if(f.exists()) {
 				return f;
 			}
 		}
+
 		return null;
 	}
 

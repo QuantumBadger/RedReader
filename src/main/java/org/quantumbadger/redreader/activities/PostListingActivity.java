@@ -532,8 +532,8 @@ public class PostListingActivity extends RefreshableActivity
 		runOnUiThread(this::invalidateOptionsMenu);
 	}
 
-	@Override
-	protected boolean baseActivityAllowToolbarHideOnScroll() {
-		return true;
-	}
+//	@Override
+//	protected boolean baseActivityAllowToolbarHideOnScroll() {
+//		return true;
+//	}
 }

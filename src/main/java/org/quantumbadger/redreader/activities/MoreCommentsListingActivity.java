@@ -51,10 +51,10 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 
 	private String mSearchString = null;
 
-	@Override
-	protected boolean baseActivityAllowToolbarHideOnScroll() {
-		return true;
-	}
+//	@Override
+//	protected boolean baseActivityAllowToolbarHideOnScroll() {
+//		return true;
+//	}
 
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {

@@ -19,6 +19,8 @@ package org.quantumbadger.redreader.settings;
 
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.Window;
@@ -38,6 +40,11 @@ public final class SettingsActivity
 	protected void onCreate(final Bundle savedInstanceState) {
 
 		getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			getWindow().setNavigationBarColor(Color.rgb(0x55, 0x55, 0x55));
+		}
+
 		PrefsUtility.applySettingsTheme(this);
 		super.onCreate(savedInstanceState);
 		sharedPreferences = General.getSharedPrefs(this);

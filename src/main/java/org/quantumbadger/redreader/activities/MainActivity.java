@@ -118,10 +118,10 @@ public class MainActivity extends RefreshableActivity
 		return false;
 	}
 
-	@Override
-	protected boolean baseActivityAllowToolbarHideOnScroll() {
-		return !General.isTablet(this, General.getSharedPrefs(this));
-	}
+//	@Override
+//	protected boolean baseActivityAllowToolbarHideOnScroll() {
+//		return !General.isTablet(this, General.getSharedPrefs(this));
+//	}
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {

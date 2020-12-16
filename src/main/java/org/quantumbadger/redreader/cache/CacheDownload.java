@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.cache;
 
 import android.util.Log;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrioritisedCachedThreadPool;
@@ -250,9 +249,10 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 
 				// Save it to the cache
 
-				@Nullable CacheManager.WritableCacheFile writableCacheFile = null;
-
 				if(mInitiator.cache) {
+
+					@NonNull final CacheManager.WritableCacheFile writableCacheFile;
+
 					try {
 						writableCacheFile
 								= manager.openNewCacheFile(mInitiator, session, mimetype);
@@ -291,6 +291,13 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 
 						writableCacheFile.onWriteFinished();
 
+						mInitiator.notifyCacheFileWritten(
+								writableCacheFile.getReadableCacheFile(),
+								RRTime.utcCurrentTimeMillis(),
+								session,
+								false,
+								mimetype);
+
 					} catch(final IOException e) {
 
 						writableCacheFile.onWriteCancelled();
@@ -310,15 +317,6 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 						}
 					}
 				}
-
-				mInitiator.notifyCacheFileWritten(
-						writableCacheFile == null
-								? null
-								: writableCacheFile.getReadableCacheFile(),
-						RRTime.utcCurrentTimeMillis(),
-						session,
-						false,
-						mimetype);
 			}
 		});
 	}

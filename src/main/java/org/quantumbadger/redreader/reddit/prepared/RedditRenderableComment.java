@@ -32,6 +32,7 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.common.ScreenreaderPronunciation;
+import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.reddit.api.RedditAPICommentAction;
 import org.quantumbadger.redreader.reddit.things.RedditComment;
 import org.quantumbadger.redreader.reddit.things.RedditThingWithIdAndType;
@@ -44,7 +45,7 @@ public class RedditRenderableComment
 	private final RedditParsedComment mComment;
 	private final String mParentPostAuthor;
 	private final Integer mMinimumCommentScore;
-	private final String mCurrentUserName;
+	private final String mCurrentCanonicalUserName;
 	private final boolean mShowScore;
 	private final boolean mShowSubreddit;
 	private final boolean mNeverAutoCollapse;
@@ -55,7 +56,7 @@ public class RedditRenderableComment
 			final RedditParsedComment comment,
 			final String parentPostAuthor,
 			final Integer minimumCommentScore,
-			final String currentUserName,
+			final String currentCanonicalUserName,
 			final boolean showScore,
 			final boolean showSubreddit,
 			final boolean neverAutoCollapse) {
@@ -63,7 +64,7 @@ public class RedditRenderableComment
 		mComment = comment;
 		mParentPostAuthor = parentPostAuthor;
 		mMinimumCommentScore = minimumCommentScore;
-		mCurrentUserName = currentUserName;
+		mCurrentCanonicalUserName = currentCanonicalUserName;
 		mShowScore = showScore;
 		mShowSubreddit = showSubreddit;
 		mNeverAutoCollapse = neverAutoCollapse;
@@ -504,7 +505,8 @@ public class RedditRenderableComment
 			return false;
 		}
 
-		if(mComment.getRawComment().author.equals(mCurrentUserName)) {
+		if(StringUtils.asciiLowercase(mComment.getRawComment().author.trim())
+				.equals(mCurrentCanonicalUserName)) {
 			return false;
 		}
 

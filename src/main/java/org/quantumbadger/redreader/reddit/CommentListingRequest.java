@@ -292,8 +292,8 @@ public class CommentListingRequest {
 		} else if(thing.getKind() == RedditThing.Kind.COMMENT) {
 
 			final RedditComment comment = thing.asComment();
-			final String currentUserName = RedditAccountManager.getInstance(mContext)
-					.getDefaultAccount().username;
+			final String currentCanonicalUserName = RedditAccountManager.getInstance(mContext)
+					.getDefaultAccount().getCanonicalUsername();
 			final boolean showSubredditName = !(mCommentListingURL != null
 					&& mCommentListingURL.pathType() == RedditURLParser.POST_COMMENT_LISTING_URL);
 			final boolean neverAutoCollapse = mCommentListingURL != null
@@ -304,7 +304,7 @@ public class CommentListingRequest {
 							new RedditParsedComment(comment, mActivity),
 							parentPostAuthor,
 							minimumCommentScore,
-							currentUserName,
+							currentCanonicalUserName,
 							true,
 							showSubredditName,
 							neverAutoCollapse),

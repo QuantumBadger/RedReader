@@ -24,7 +24,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -86,19 +85,6 @@ public final class General {
 		}
 
 		return false;
-	}
-
-	private static Typeface monoTypeface;
-
-	public static Typeface getMonoTypeface(final Context context) {
-
-		if(monoTypeface == null) {
-			monoTypeface = Typeface.createFromAsset(
-					context.getAssets(),
-					"fonts/VeraMono.ttf");
-		}
-
-		return monoTypeface;
 	}
 
 	@NonNull

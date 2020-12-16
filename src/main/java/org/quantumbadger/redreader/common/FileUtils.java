@@ -604,4 +604,18 @@ public class FileUtils {
 
 		return Optional.of(dotSegments[dotSegments.length - 1]);
 	}
+
+	@NonNull
+	public static File buildPath(
+			@NonNull final File base,
+			@NonNull final String... components) {
+
+		File result = base;
+
+		for(final String component : components) {
+			result = new File(result, component);
+		}
+
+		return result;
+	}
 }

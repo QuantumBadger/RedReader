@@ -25,6 +25,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabaseCorruptException;
+import android.graphics.Color;
 import android.os.Build;
 import android.util.Log;
 import androidx.annotation.NonNull;
@@ -270,6 +271,10 @@ public class NewMessageChecker extends BroadcastReceiver {
 				.setContentText(text)
 				.setAutoCancel(true)
 				.setChannelId(NOTIFICATION_CHANNEL_ID);
+
+		if(Build.VERSION.SDK_INT >= 21) {
+			notification.setColor(Color.rgb(0xd3, 0x2f, 0x2f));
+		}
 
 		final Intent intent = new Intent(context, InboxListingActivity.class);
 		notification.setContentIntent(PendingIntent.getActivity(context, 0, intent, 0));

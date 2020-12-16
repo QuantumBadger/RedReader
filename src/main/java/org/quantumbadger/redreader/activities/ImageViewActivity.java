@@ -25,6 +25,7 @@ import android.graphics.Color;
 import android.graphics.Movie;
 import android.net.Uri;
 import android.opengl.GLSurfaceView;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
@@ -89,6 +90,7 @@ import org.quantumbadger.redreader.views.video.ExoPlayerWrapperView;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -111,6 +113,7 @@ public class ImageViewActivity extends BaseActivity
 	private String mUrl;
 
 	private boolean mIsPaused = true, mIsDestroyed = false;
+	@NonNull private final ArrayList<Runnable> mActionsOnResume = new ArrayList<>();
 
 	@Nullable private CacheRequest mImageOrVideoRequest;
 	@Nullable private CacheRequest mAudioRequest;
@@ -143,6 +146,10 @@ public class ImageViewActivity extends BaseActivity
 	protected void onCreate(final Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
+
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			getWindow().setNavigationBarColor(Color.BLACK);
+		}
 
 		setTitle(R.string.accessibility_image_viewer_title);
 
@@ -277,6 +284,8 @@ public class ImageViewActivity extends BaseActivity
 						Log.i(TAG, "Got image Type: " + info.type);
 
 						Log.i(TAG, "Got media Type: " + info.mediaType);
+
+						Log.i(TAG, "Got audio Type: " + info.hasAudio);
 
 						mImageInfo = info;
 
@@ -584,25 +593,30 @@ public class ImageViewActivity extends BaseActivity
 
 		Log.i(TAG, "Using internal browser", new RuntimeException());
 
-		final Runnable r = () -> {
+		final Runnable r = new Runnable() {
+			@Override
+			public void run() {
 
-			if(mIsPaused || mIsDestroyed) {
-				Log.i(TAG, "Not reverting as we are paused/destroyed");
-				return;
-			}
+				if(mIsPaused) {
+					Log.i(TAG, "Not reverting as we are paused. Queuing for later.");
+					mActionsOnResume.add(this);
+					return;
+				}
 
-			if(!mHaveReverted) {
-				mHaveReverted = true;
-				LinkHandler.onLinkClicked(this, mUrl, true);
-				finish();
+				if(mIsDestroyed) {
+					Log.i(TAG, "Not reverting as we are destroyed");
+					return;
+				}
+
+				if(!mHaveReverted) {
+					mHaveReverted = true;
+					LinkHandler.onLinkClicked(ImageViewActivity.this, mUrl, true);
+					ImageViewActivity.this.finish();
+				}
 			}
 		};
 
-		if(General.isThisUIThread()) {
-			r.run();
-		} else {
-			AndroidCommon.UI_THREAD_HANDLER.post(r);
-		}
+		AndroidCommon.runOnUiThread(r);
 	}
 
 	private void openInExternalBrowser() {
@@ -649,6 +663,12 @@ public class ImageViewActivity extends BaseActivity
 		if(surfaceView != null) {
 			surfaceView.onResume();
 		}
+
+		for(final Runnable runnable : mActionsOnResume) {
+			runnable.run();
+		}
+
+		mActionsOnResume.clear();
 	}
 
 	@Override

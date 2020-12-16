@@ -17,7 +17,8 @@
 
 package org.quantumbadger.redreader.adapters;
 
-import android.net.Uri;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,15 +36,18 @@ import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotC
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.NeverAlwaysOrWifiOnly;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.image.AlbumInfo;
 import org.quantumbadger.redreader.image.ImageInfo;
 import org.quantumbadger.redreader.viewholders.VH3TextIcon;
 
+import java.io.IOException;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -166,20 +170,28 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 						}
 
 						@Override
-						public void onCacheFileWritten(
-								@NonNull final CacheManager.ReadableCacheFile cacheFile,
+						public void onDataStreamComplete(
+								@NonNull final GenericFactory<SeekableInputStream, IOException>
+										streamFactory,
 								final long timestamp,
 								@NonNull final UUID session,
 								final boolean fromCache,
 								@Nullable final String mimetype) {
 
-							final Uri uri = cacheFile.getUri();
+							try {
+								final SeekableInputStream is = streamFactory.create();
 
-							AndroidCommon.runOnUiThread(() -> {
-								if(vh.bindingId == bindingId) {
-									vh.icon.setImageURI(uri);
-								}
-							});
+								final Bitmap bitmap = BitmapFactory.decodeStream(is);
+
+								AndroidCommon.runOnUiThread(() -> {
+									if(vh.bindingId == bindingId) {
+										vh.icon.setImageBitmap(bitmap);
+									}
+								});
+
+							} catch(final IOException e) {
+								onFailure(CacheRequest.REQUEST_FAILURE_CONNECTION, e, null, null);
+							}
 						}
 					}));
 		}

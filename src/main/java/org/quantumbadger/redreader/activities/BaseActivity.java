@@ -21,8 +21,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
-import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -32,18 +30,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.text.TextUtilsCompat;
-import androidx.core.view.ViewCompat;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.TorCommon;
 
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class BaseActivity extends AppCompatActivity
@@ -106,64 +99,64 @@ public abstract class BaseActivity extends AppCompatActivity
 		closeIfNecessary();
 	}
 
-	// Avoids IDE warnings about null pointers
-	@NonNull
-	public final ActionBar getSupportActionBarOrThrow() {
-
-		final ActionBar result = getSupportActionBar();
-
-		if(result == null) {
-			throw new RuntimeException("Action bar is null");
-		}
-
-		return result;
-	}
-
-	protected void configBackButton(final boolean isVisible, final View.OnClickListener listener) {
-
-		if(Build.VERSION.SDK_INT >= 19) {
-
-			mActionbarBackIconView.setImportantForAccessibility(
-					View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
-
-			mActionbarTitleTextView.setImportantForAccessibility(
-					View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
-		}
-
-		if(isVisible) {
-			mActionbarBackIconView.setVisibility(View.VISIBLE);
-			mActionbarTitleOuterView.setOnClickListener(listener);
-			mActionbarTitleOuterView.setClickable(true);
-
-			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-				mActionbarTitleOuterView.setContentDescription(getString(R.string.action_back));
-				mActionbarTitleOuterView.setImportantForAccessibility(
-						View.IMPORTANT_FOR_ACCESSIBILITY_YES);
-			}
-
-			if(TextUtilsCompat.getLayoutDirectionFromLocale(Locale.getDefault())
-					== ViewCompat.LAYOUT_DIRECTION_RTL) {
-
-				mActionbarBackIconView.setImageResource(R.drawable.ic_action_forward_dark);
-			}
-
-		} else {
-			mActionbarBackIconView.setVisibility(View.GONE);
-			mActionbarTitleOuterView.setClickable(false);
-
-			mActionbarTitleOuterView.setContentDescription(null);
-
-			if(Build.VERSION.SDK_INT >= 19) {
-				mActionbarTitleOuterView.setImportantForAccessibility(
-						View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
-			}
-		}
-	}
-
-	protected boolean baseActivityAllowToolbarHideOnScroll() {
-		// Disallow by default
-		return false;
-	}
+//	// Avoids IDE warnings about null pointers
+//	@NonNull
+//	public final ActionBar getSupportActionBarOrThrow() {
+//
+//		final ActionBar result = getSupportActionBar();
+//
+//		if(result == null) {
+//			throw new RuntimeException("Action bar is null");
+//		}
+//
+//		return result;
+//	}
+//
+//	protected void configBackButton(final boolean isVisible, final View.OnClickListener listener) {
+//
+//		if(Build.VERSION.SDK_INT >= 19) {
+//
+//			mActionbarBackIconView.setImportantForAccessibility(
+//					View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
+//
+//			mActionbarTitleTextView.setImportantForAccessibility(
+//					View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
+//		}
+//
+//		if(isVisible) {
+//			mActionbarBackIconView.setVisibility(View.VISIBLE);
+//			mActionbarTitleOuterView.setOnClickListener(listener);
+//			mActionbarTitleOuterView.setClickable(true);
+//
+//			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+//				mActionbarTitleOuterView.setContentDescription(getString(R.string.action_back));
+//				mActionbarTitleOuterView.setImportantForAccessibility(
+//						View.IMPORTANT_FOR_ACCESSIBILITY_YES);
+//			}
+//
+//			if(TextUtilsCompat.getLayoutDirectionFromLocale(Locale.getDefault())
+//					== ViewCompat.LAYOUT_DIRECTION_RTL) {
+//
+//				mActionbarBackIconView.setImageResource(R.drawable.ic_action_forward_dark);
+//			}
+//
+//		} else {
+//			mActionbarBackIconView.setVisibility(View.GONE);
+//			mActionbarTitleOuterView.setClickable(false);
+//
+//			mActionbarTitleOuterView.setContentDescription(null);
+//
+//			if(Build.VERSION.SDK_INT >= 19) {
+//				mActionbarTitleOuterView.setImportantForAccessibility(
+//						View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
+//			}
+//		}
+//	}
+//
+//	protected boolean baseActivityAllowToolbarHideOnScroll() {
+//		// Disallow by default
+//		return false;
+//	}
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
@@ -185,95 +178,95 @@ public abstract class BaseActivity extends AppCompatActivity
 
 		if(baseActivityIsToolbarActionBarEnabled()) {
 
-			final View outerView;
-
-			final boolean isTablet = General.isTablet(this, mSharedPreferences);
-
-			final boolean prefBottomToolbar
-					= PrefsUtility.pref_appearance_bottom_toolbar(this, mSharedPreferences);
-
-			final boolean prefHideOnScroll = PrefsUtility.pref_appearance_hide_toolbar_on_scroll(
-					this,
-					mSharedPreferences);
-
-			final int layoutRes;
-
-			if(prefHideOnScroll && !isTablet) {
-
-				if(baseActivityAllowToolbarHideOnScroll()) {
-					layoutRes = R.layout.rr_actionbar_hide_on_scroll;
-				} else {
-					layoutRes = R.layout.rr_actionbar;
-				}
-
-			} else if(prefBottomToolbar) {
-				layoutRes = R.layout.rr_actionbar_reverse;
-
-			} else {
-				layoutRes = R.layout.rr_actionbar;
-			}
-
-			outerView = getLayoutInflater().inflate(layoutRes, null);
-
-			final Toolbar toolbar = outerView.findViewById(R.id.rr_actionbar_toolbar);
-			mContentListing = outerView.findViewById(R.id.rr_actionbar_content_listing);
-			mContentOverlay = outerView.findViewById(R.id.rr_actionbar_content_overlay);
-
-			super.setContentView(outerView);
-			setSupportActionBar(toolbar);
-
-			getSupportActionBarOrThrow().setCustomView(R.layout.actionbar_title);
-			getSupportActionBarOrThrow().setDisplayShowCustomEnabled(true);
-			getSupportActionBarOrThrow().setDisplayShowTitleEnabled(false);
-			toolbar.setContentInsetsAbsolute(0, 0);
-
-			mActionbarTitleTextView = toolbar.findViewById(R.id.actionbar_title_text);
-			mActionbarBackIconView = toolbar.findViewById(R.id.actionbar_title_back_image);
-			mActionbarTitleOuterView = toolbar.findViewById(R.id.actionbar_title_outer);
-
-			if(getTitle() != null) {
-				// Update custom action bar text
-				setTitle(getTitle());
-			}
-
-			configBackButton(
-					baseActivityIsActionBarBackEnabled(),
-					v -> finish());
-
-			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
-				final PrefsUtility.AppearanceNavbarColour navbarColour
-						= PrefsUtility.appearance_navbar_colour(
-								this,
-								mSharedPreferences);
-
-				if(navbarColour == PrefsUtility.AppearanceNavbarColour.BLACK) {
-					getWindow().setNavigationBarColor(Color.BLACK);
-
-				} else if(navbarColour == PrefsUtility.AppearanceNavbarColour.WHITE) {
-					getWindow().setNavigationBarColor(Color.WHITE);
-
-				} else {
-					final int colour;
-					{
-						final TypedArray appearance = obtainStyledAttributes(new int[] {
-								R.attr.colorPrimary,
-								R.attr.colorPrimaryDark});
-
-						if(navbarColour == PrefsUtility.AppearanceNavbarColour.PRIMARY) {
-							colour = appearance.getColor(0, General.COLOR_INVALID);
-						} else {
-							colour = appearance.getColor(1, General.COLOR_INVALID);
-						}
-
-						appearance.recycle();
-					}
-
-					getWindow().setNavigationBarColor(colour);
-				}
-			}
-
-		} else {
+//			final View outerView;
+//
+//			final boolean isTablet = General.isTablet(this, mSharedPreferences);
+//
+//			final boolean prefBottomToolbar
+//					= PrefsUtility.pref_appearance_bottom_toolbar(this, mSharedPreferences);
+//
+//			final boolean prefHideOnScroll = PrefsUtility.pref_appearance_hide_toolbar_on_scroll(
+//					this,
+//					mSharedPreferences);
+//
+//			final int layoutRes;
+//
+//			if(prefHideOnScroll && !isTablet) {
+//
+//				if(baseActivityAllowToolbarHideOnScroll()) {
+//					layoutRes = R.layout.rr_actionbar_hide_on_scroll;
+//				} else {
+//					layoutRes = R.layout.rr_actionbar;
+//				}
+//
+//			} else if(prefBottomToolbar) {
+//				layoutRes = R.layout.rr_actionbar_reverse;
+//
+//			} else {
+//				layoutRes = R.layout.rr_actionbar;
+//			}
+//
+//			outerView = getLayoutInflater().inflate(layoutRes, null);
+//
+//			final Toolbar toolbar = outerView.findViewById(R.id.rr_actionbar_toolbar);
+//			mContentListing = outerView.findViewById(R.id.rr_actionbar_content_listing);
+//			mContentOverlay = outerView.findViewById(R.id.rr_actionbar_content_overlay);
+//
+//			super.setContentView(outerView);
+//			setSupportActionBar(toolbar);
+//
+//			getSupportActionBarOrThrow().setCustomView(R.layout.actionbar_title);
+//			getSupportActionBarOrThrow().setDisplayShowCustomEnabled(true);
+//			getSupportActionBarOrThrow().setDisplayShowTitleEnabled(false);
+//			toolbar.setContentInsetsAbsolute(0, 0);
+//
+//			mActionbarTitleTextView = toolbar.findViewById(R.id.actionbar_title_text);
+//			mActionbarBackIconView = toolbar.findViewById(R.id.actionbar_title_back_image);
+//			mActionbarTitleOuterView = toolbar.findViewById(R.id.actionbar_title_outer);
+//
+//			if(getTitle() != null) {
+//				// Update custom action bar text
+//				setTitle(getTitle());
+//			}
+//
+//			configBackButton(
+//					baseActivityIsActionBarBackEnabled(),
+//					v -> finish());
+//
+//			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//
+//				final PrefsUtility.AppearanceNavbarColour navbarColour
+//						= PrefsUtility.appearance_navbar_colour(
+//								this,
+//								mSharedPreferences);
+//
+//				if(navbarColour == PrefsUtility.AppearanceNavbarColour.BLACK) {
+//					getWindow().setNavigationBarColor(Color.BLACK);
+//
+//				} else if(navbarColour == PrefsUtility.AppearanceNavbarColour.WHITE) {
+//					getWindow().setNavigationBarColor(Color.WHITE);
+//
+//				} else {
+//					final int colour;
+//					{
+//						final TypedArray appearance = obtainStyledAttributes(new int[] {
+//								R.attr.colorPrimary,
+//								R.attr.colorPrimaryDark});
+//
+//						if(navbarColour == PrefsUtility.AppearanceNavbarColour.PRIMARY) {
+//							colour = appearance.getColor(0, General.COLOR_INVALID);
+//						} else {
+//							colour = appearance.getColor(1, General.COLOR_INVALID);
+//						}
+//
+//						appearance.recycle();
+//					}
+//
+//					getWindow().setNavigationBarColor(colour);
+//				}
+//			}
+//
+//		} else {
 			mContentListing = new FrameLayout(this);
 			mContentOverlay = new FrameLayout(this);
 

@@ -265,8 +265,8 @@ public class CommentListingActivity extends RefreshableActivity
 		}
 	}
 
-	@Override
-	protected boolean baseActivityAllowToolbarHideOnScroll() {
-		return true;
-	}
+//	@Override
+//	protected boolean baseActivityAllowToolbarHideOnScroll() {
+//		return true;
+//	}
 }

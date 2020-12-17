@@ -352,7 +352,7 @@ public final class CacheManager {
 
 			final File subdir = getSubdirForCacheFile(location, cacheFileId);
 
-			if(!subdir.mkdirs()) {
+			if(!subdir.exists() && !subdir.mkdirs()) {
 				throw new IOException("Failed to create dirs: " + subdir.getAbsolutePath());
 			}
 

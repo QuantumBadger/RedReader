@@ -1,3 +1,6 @@
+/Alpha 261 (2020-12-20)
+No longer auto-collapses own comments, or user profile comments
+
 /Alpha 260 (2020-12-17)
 Fix for directory creation failing
 

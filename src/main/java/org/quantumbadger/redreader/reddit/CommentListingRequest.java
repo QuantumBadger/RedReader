@@ -22,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
 import org.quantumbadger.redreader.account.RedditAccount;
+import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.SessionChangeListener;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -291,16 +292,22 @@ public class CommentListingRequest {
 		} else if(thing.getKind() == RedditThing.Kind.COMMENT) {
 
 			final RedditComment comment = thing.asComment();
+			final String currentCanonicalUserName = RedditAccountManager.getInstance(mContext)
+					.getDefaultAccount().getCanonicalUsername();
 			final boolean showSubredditName = !(mCommentListingURL != null
 					&& mCommentListingURL.pathType() == RedditURLParser.POST_COMMENT_LISTING_URL);
+			final boolean neverAutoCollapse = mCommentListingURL != null
+					&& mCommentListingURL.pathType() == RedditURLParser.USER_COMMENT_LISTING_URL;
 
 			final RedditCommentListItem item = new RedditCommentListItem(
 					new RedditRenderableComment(
 							new RedditParsedComment(comment, mActivity),
 							parentPostAuthor,
 							minimumCommentScore,
+							currentCanonicalUserName,
 							true,
-							showSubredditName),
+							showSubredditName,
+							neverAutoCollapse),
 					parent,
 					mFragment,
 					mActivity,

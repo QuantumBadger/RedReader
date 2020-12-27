@@ -268,4 +268,8 @@ public class MainMenuFragment extends RRFragment implements
 	public void onSubredditUnsubscriptionAttempted(
 			final RedditSubredditSubscriptionManager subredditSubscriptionManager) {
 	}
+
+	public void onUpdateAnnouncement() {
+		mManager.onUpdateAnnouncement();
+	}
 }

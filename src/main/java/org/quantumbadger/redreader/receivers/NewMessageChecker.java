@@ -46,6 +46,7 @@ import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.jsonwrap.JsonArray;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
+import org.quantumbadger.redreader.receivers.announcements.AnnouncementDownloader;
 import org.quantumbadger.redreader.reddit.things.RedditComment;
 import org.quantumbadger.redreader.reddit.things.RedditMessage;
 import org.quantumbadger.redreader.reddit.things.RedditThing;
@@ -67,6 +68,7 @@ public class NewMessageChecker extends BroadcastReceiver {
 	@Override
 	public void onReceive(final Context context, final Intent intent) {
 		checkForNewMessages(context);
+		AnnouncementDownloader.performDownload(context);
 	}
 
 	public static void checkForNewMessages(final Context context) {

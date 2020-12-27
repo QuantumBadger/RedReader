@@ -1434,4 +1434,11 @@
 	<string name="pref_accessibility_separate_body_text_lines_summary">In comment and self post body text, make each line individually focusable, rather than reading the whole comment at once</string>
 	<string name="pref_accessibility_separate_body_text_lines_key" translatable="false">pref_accessibility_separate_body_text_lines_key</string>
 
+	<!-- 2020-12-27 -->
+	<string name="pref_menus_mainmenu_dev_announcements_title">Show announcements from developer</string>
+	<string name="pref_menus_mainmenu_dev_announcements_key" translatable="false">pref_menus_mainmenu_dev_announcements_key</string>
+
+	<string name="button_dismiss">Dismiss</string>
+	<string name="button_view">View</string>
+
 </resources>

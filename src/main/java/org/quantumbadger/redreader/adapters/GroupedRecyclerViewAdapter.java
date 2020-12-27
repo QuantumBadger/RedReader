@@ -154,7 +154,7 @@ public class GroupedRecyclerViewAdapter extends RecyclerView.Adapter {
 	public int getItemViewType(final int position) {
 
 		final Item item = getItemInternal(position);
-		final Class viewTypeClass = item.getViewType();
+		final Class<?> viewTypeClass = item.getViewType();
 
 		Integer typeId = mItemViewTypeMap.get(viewTypeClass);
 

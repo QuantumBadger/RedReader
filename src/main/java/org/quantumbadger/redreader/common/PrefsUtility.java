@@ -141,6 +141,7 @@ public final class PrefsUtility {
 				|| context.getString(R.string.pref_menus_show_multireddit_main_menu_key).equals(key)
 				|| context.getString(R.string.pref_menus_show_subscribed_subreddits_main_menu_key)
 						.equals(key)
+				|| context.getString(R.string.pref_menus_mainmenu_dev_announcements_key).equals(key)
 				|| context.getString(R.string.pref_appearance_bottom_toolbar_key).equals(key)
 				|| context.getString(R.string.pref_appearance_hide_toolbar_on_scroll_key)
 						.equals(key);
@@ -532,6 +533,16 @@ public final class PrefsUtility {
 			final SharedPreferences sharedPreferences) {
 		return getBoolean(
 				R.string.pref_menus_show_subscribed_subreddits_main_menu_key,
+				true,
+				context,
+				sharedPreferences);
+	}
+
+	public static boolean pref_menus_mainmenu_dev_announcements(
+			final Context context,
+			final SharedPreferences sharedPreferences) {
+		return getBoolean(
+				R.string.pref_menus_mainmenu_dev_announcements_key,
 				true,
 				context,
 				sharedPreferences);

@@ -223,7 +223,8 @@ public final class Constants {
 				COMMENT_PRECACHE = 500,
 				IMAGE_VIEW = -400,
 				API_USER_ABOUT = -500,
-				API_INBOX_LIST = -500;
+				API_INBOX_LIST = -500,
+				DEV_ANNOUNCEMENTS = 600;
 	}
 
 	public static final class FileType {

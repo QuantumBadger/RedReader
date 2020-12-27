@@ -1,3 +1,6 @@
+/Alpha 262 (2020-12-28)
+Show announcements from developer in main menu (with preference to disable)
+
 /Alpha 261 (2020-12-20)
 No longer auto-collapses own comments, or user profile comments
 

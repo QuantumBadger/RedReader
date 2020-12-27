@@ -938,6 +938,15 @@ public class MainActivity extends RefreshableActivity
 	}
 
 	@Override
+	protected void onResume() {
+		super.onResume();
+
+		if(mainMenuFragment != null) {
+			mainMenuFragment.onUpdateAnnouncement();
+		}
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(final MenuItem item) {
 
 		if(commentListingFragment != null) {

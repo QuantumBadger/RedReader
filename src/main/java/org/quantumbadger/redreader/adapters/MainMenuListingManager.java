@@ -27,6 +27,7 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,15 +40,19 @@ import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.ScreenreaderPronunciation;
 import org.quantumbadger.redreader.fragments.MainMenuFragment;
+import org.quantumbadger.redreader.receivers.announcements.Announcement;
+import org.quantumbadger.redreader.receivers.announcements.AnnouncementDownloader;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.api.SubredditSubscriptionState;
 import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
 import org.quantumbadger.redreader.reddit.url.MultiredditPostListURL;
 import org.quantumbadger.redreader.reddit.url.PostListingURL;
 import org.quantumbadger.redreader.reddit.url.SubredditPostListURL;
+import org.quantumbadger.redreader.views.AnnouncementView;
 import org.quantumbadger.redreader.views.LoadingSpinnerView;
 import org.quantumbadger.redreader.views.list.GroupedRecyclerViewItemListItemView;
 import org.quantumbadger.redreader.views.list.GroupedRecyclerViewItemListSectionHeaderView;
@@ -67,17 +72,18 @@ public class MainMenuListingManager {
 			GROUP_MAIN_ITEMS = 1,
 			GROUP_USER_HEADER = 2,
 			GROUP_USER_ITEMS = 3,
-			GROUP_PINNED_SUBREDDITS_HEADER = 4,
-			GROUP_PINNED_SUBREDDITS_ITEMS = 5,
-			GROUP_BLOCKED_SUBREDDITS_HEADER = 6,
-			GROUP_BLOCKED_SUBREDDITS_ITEMS = 7,
-			GROUP_MULTIREDDITS_HEADER = 8,
-			GROUP_MULTIREDDITS_ITEMS = 9,
-			GROUP_SUBREDDITS_HEADER = 10,
-			GROUP_SUBREDDITS_ITEMS = 11;
+			GROUP_ANNOUNCEMENTS = 4,
+			GROUP_PINNED_SUBREDDITS_HEADER = 5,
+			GROUP_PINNED_SUBREDDITS_ITEMS = 6,
+			GROUP_BLOCKED_SUBREDDITS_HEADER = 7,
+			GROUP_BLOCKED_SUBREDDITS_ITEMS = 8,
+			GROUP_MULTIREDDITS_HEADER = 9,
+			GROUP_MULTIREDDITS_ITEMS = 10,
+			GROUP_SUBREDDITS_HEADER = 11,
+			GROUP_SUBREDDITS_ITEMS = 12;
 
 	@NonNull private final GroupedRecyclerViewAdapter mAdapter
-			= new GroupedRecyclerViewAdapter(12);
+			= new GroupedRecyclerViewAdapter(13);
 	@NonNull private final Context mContext;
 	@NonNull private final AppCompatActivity mActivity;
 
@@ -87,6 +93,8 @@ public class MainMenuListingManager {
 
 	@Nullable private ArrayList<SubredditCanonicalId> mSubredditSubscriptions;
 	@Nullable private ArrayList<String> mMultiredditSubscriptions;
+
+	@NonNull private final FrameLayout mAnnouncementHolder;
 
 	@NonNull
 	public GroupedRecyclerViewAdapter getAdapter() {
@@ -121,6 +129,12 @@ public class MainMenuListingManager {
 		mActivity = activity;
 		mContext = activity.getApplicationContext();
 		mListener = listener;
+
+		mAnnouncementHolder = new FrameLayout(mActivity);
+		General.setLayoutMatchWidthWrapHeight(mAnnouncementHolder);
+
+		final SharedPreferences sharedPreferences
+				= General.getSharedPrefs(activity);
 
 		final Drawable rrIconPerson;
 		final Drawable rrIconEnvOpen;
@@ -157,12 +171,10 @@ public class MainMenuListingManager {
 		}
 
 		{
-			final SharedPreferences sharedPreferences
-					= General.getSharedPrefs(activity);
 			final EnumSet<MainMenuFragment.MainMenuShortcutItems> mainMenuShortcutItems
 					= PrefsUtility.pref_menus_mainmenu_shortcutitems(
-					activity,
-					sharedPreferences);
+							activity,
+							sharedPreferences);
 
 			if(mainMenuShortcutItems.contains(MainMenuFragment.MainMenuShortcutItems.FRONTPAGE)) {
 				mAdapter.appendToGroup(
@@ -225,10 +237,17 @@ public class MainMenuListingManager {
 			}
 		}
 
+		if(PrefsUtility.pref_menus_mainmenu_dev_announcements(mContext, sharedPreferences)) {
+
+			mAdapter.appendToGroup(
+					GROUP_ANNOUNCEMENTS,
+					new GroupedRecyclerViewItemFrameLayout(mAnnouncementHolder));
+
+			onUpdateAnnouncement();
+		}
+
 		if(!user.isAnonymous()) {
 
-			final SharedPreferences sharedPreferences
-					= General.getSharedPrefs(activity);
 			final EnumSet<MainMenuFragment.MainMenuUserItems> mainMenuUserItems
 					= PrefsUtility.pref_menus_mainmenu_useritems(
 					activity,
@@ -911,6 +930,22 @@ public class MainMenuListingManager {
 				final SubredditAction action) {
 			this.title = context.getString(titleRes);
 			this.action = action;
+		}
+	}
+
+	public void onUpdateAnnouncement() {
+
+		final SharedPreferences sharedPreferences = General.getSharedPrefs(mContext);
+
+		if(PrefsUtility.pref_menus_mainmenu_dev_announcements(mContext, sharedPreferences)) {
+
+			final Optional<Announcement> announcement
+					= AnnouncementDownloader.getMostRecentUnreadAnnouncement(sharedPreferences);
+
+			if(announcement.isPresent()) {
+				mAnnouncementHolder.removeAllViews();
+				mAnnouncementHolder.addView(new AnnouncementView(mActivity, announcement.get()));
+			}
 		}
 	}
 }

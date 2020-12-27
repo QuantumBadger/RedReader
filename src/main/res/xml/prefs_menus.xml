@@ -178,6 +178,10 @@
 							android:key="@string/pref_menus_show_subscribed_subreddits_main_menu_key"
 							android:defaultValue="true"/>
 
+		<CheckBoxPreference android:title="@string/pref_menus_mainmenu_dev_announcements_title"
+							android:key="@string/pref_menus_mainmenu_dev_announcements_key"
+							android:defaultValue="true"/>
+
 	</PreferenceCategory>
 
 	<PreferenceCategory android:title="@string/pref_menus_posts_header">

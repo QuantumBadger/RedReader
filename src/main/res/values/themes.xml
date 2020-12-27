@@ -45,6 +45,8 @@
         <item name="rrListHeaderLineCol">#444444</item>
         <item name="rrListSubtitleCol">#CCCCCC</item>
 
+		<item name="rrAnnouncementBorderCol">#808080</item>
+
         <item name="rrLoadingRingForegroundCol">#C8C8C8</item>
         <item name="rrLoadingRingBackgroundCol">#323232</item>
 
@@ -142,6 +144,8 @@
 		<item name="rrListHeaderLineCol">#444444</item>
 		<item name="rrListSubtitleCol">#BBBBBB</item>
 
+		<item name="rrAnnouncementBorderCol">#808080</item>
+
 		<item name="rrLoadingRingForegroundCol">#AAAAAA</item>
 		<item name="rrLoadingRingBackgroundCol">#323232</item>
 
@@ -206,6 +210,8 @@
 		<item name="rrListHeaderTextCol">#CCCCCC</item>
 		<item name="rrListHeaderLineCol">#444444</item>
 		<item name="rrListSubtitleCol">#CCCCCC</item>
+
+		<item name="rrAnnouncementBorderCol">#808080</item>
 
 		<item name="rrLoadingRingForegroundCol">#C8C8C8</item>
 		<item name="rrLoadingRingBackgroundCol">#000000</item>
@@ -295,6 +301,8 @@
         <item name="rrListHeaderTextCol">?colorAccent</item>
         <item name="rrListHeaderLineCol">?colorAccent</item>
         <item name="rrListSubtitleCol">#666666</item>
+
+		<item name="rrAnnouncementBorderCol">#A0A0A0</item>
 
 		<item name="actionBarSize">48dp</item>
 

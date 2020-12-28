@@ -229,6 +229,7 @@ public final class InboxListingActivity extends BaseActivity {
 				DownloadStrategyAlways.INSTANCE,
 				Constants.FileType.INBOX_LIST,
 				CacheRequest.DOWNLOAD_QUEUE_REDDIT_API,
+				false,
 				context,
 				new CacheRequestJSONParser(context, new CacheRequestJSONParser.Listener() {
 					@Override

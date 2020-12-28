@@ -132,6 +132,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 			@NonNull final DownloadStrategy downloadStrategy,
 			final int fileType,
 			final @DownloadQueueType int queueType,
+			final boolean cache,
 			final Context context,
 			final CacheRequestCallbacks callbacks) {
 
@@ -144,11 +145,35 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 				fileType,
 				queueType,
 				null,
+				cache,
 				context,
 				callbacks);
 	}
 
-	// TODO remove this huge constructor, make mutable
+	public CacheRequest(
+			final URI url,
+			final RedditAccount user,
+			final UUID requestSession,
+			@NonNull final Priority priority,
+			@NonNull final DownloadStrategy downloadStrategy,
+			final int fileType,
+			final @DownloadQueueType int queueType,
+			final Context context,
+			final CacheRequestCallbacks callbacks) {
+
+		this(
+				url,
+				user,
+				requestSession,
+				priority,
+				downloadStrategy,
+				fileType,
+				queueType,
+				true,
+				context,
+				callbacks);
+	}
+
 	public CacheRequest(
 			final URI url,
 			final RedditAccount user,
@@ -158,6 +183,34 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 			final int fileType,
 			final @DownloadQueueType int queueType,
 			final List<HTTPBackend.PostField> postFields,
+			final Context context,
+			final CacheRequestCallbacks callbacks) {
+
+		this(
+				url,
+				user,
+				requestSession,
+				priority,
+				downloadStrategy,
+				fileType,
+				queueType,
+				postFields,
+				false,
+				context,
+				callbacks);
+	}
+
+	// TODO remove this huge constructor, make mutable
+	private CacheRequest(
+			final URI url,
+			final RedditAccount user,
+			final UUID requestSession,
+			@NonNull final Priority priority,
+			@NonNull final DownloadStrategy downloadStrategy,
+			final int fileType,
+			final @DownloadQueueType int queueType,
+			final List<HTTPBackend.PostField> postFields,
+			final boolean cache,
 			final Context context,
 			final CacheRequestCallbacks callbacks) {
 
@@ -182,7 +235,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 		this.fileType = fileType;
 		this.queueType = queueType;
 		this.postFields = postFields;
-		this.cache = (postFields == null);
+		this.cache = (postFields == null) && cache;
 
 		if(url == null) {
 			notifyFailure(REQUEST_FAILURE_MALFORMED_URL, null, null, "Malformed URL");

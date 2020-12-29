@@ -20,13 +20,13 @@ package org.quantumbadger.redreader.cache;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import org.quantumbadger.redreader.activities.BugReportActivity;
+import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrioritisedCachedThreadPool;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.common.TorCommon;
 import org.quantumbadger.redreader.common.datastream.MemoryDataStream;
-import org.quantumbadger.redreader.common.datastream.MemoryDataStreamInputStream;
 import org.quantumbadger.redreader.http.HTTPBackend;
 import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 
@@ -253,9 +253,40 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 
 					@NonNull final CacheManager.WritableCacheFile writableCacheFile;
 
+					final CacheCompressionType cacheCompressionType;
+
+					switch(mInitiator.fileType) {
+						case Constants.FileType.CAPTCHA:
+						case Constants.FileType.IMAGE:
+						case Constants.FileType.INLINE_IMAGE_PREVIEW:
+						case Constants.FileType.NOCACHE:
+						case Constants.FileType.THUMBNAIL:
+							// Image saving/sharing relies the file on disk being "raw"
+							cacheCompressionType = CacheCompressionType.NONE;
+							break;
+
+						case Constants.FileType.COMMENT_LIST:
+						case Constants.FileType.IMAGE_INFO:
+						case Constants.FileType.INBOX_LIST:
+						case Constants.FileType.MULTIREDDIT_LIST:
+						case Constants.FileType.POST_LIST:
+						case Constants.FileType.SUBREDDIT_ABOUT:
+						case Constants.FileType.SUBREDDIT_LIST:
+						case Constants.FileType.USER_ABOUT:
+							cacheCompressionType = CacheCompressionType.ZSTD;
+							break;
+
+						default:
+							Log.e(TAG, "Unhandled filetype: " + mInitiator.fileType);
+							cacheCompressionType = CacheCompressionType.NONE;
+					}
+
 					try {
-						writableCacheFile
-								= manager.openNewCacheFile(mInitiator, session, mimetype);
+						writableCacheFile = manager.openNewCacheFile(
+								mInitiator,
+								session,
+								mimetype,
+								cacheCompressionType);
 
 					} catch(final IOException e) {
 
@@ -279,15 +310,9 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 						return;
 					}
 
-					final MemoryDataStreamInputStream inputStream = stream.getInputStream();
-
-					final byte[] buf = new byte[64 * 1024];
-					int bytesRead;
-
 					try {
-						while((bytesRead = inputStream.read(buf)) > 0) {
-							writableCacheFile.writeChunk(buf, 0, bytesRead);
-						}
+						stream.getUnderlyingByteArrayWhenComplete(
+								writableCacheFile::writeWholeFile);
 
 						writableCacheFile.onWriteFinished();
 

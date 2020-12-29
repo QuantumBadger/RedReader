@@ -1,3 +1,7 @@
+/Alpha 263 (2020-12-29)
+Compress cached post/comment listings (makes cache use around 10x less space)
+Minimum supported Android version is now 4.1
+
 /Alpha 262 (2020-12-28)
 Fixing alpha changelog numbering
 

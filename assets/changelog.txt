@@ -1,6 +1,7 @@
 96/1.16
 Fixed error message when marking all inbox messages as read
 Always set navigation bar to black in image viewer
+Compress cached post/comment listings (makes cache use around 10x less space)
 Performance improvement when loading fonts
 Set notification accent color to red
 No longer auto-collapses own comments, or user profile comments (thanks to Cameron Merkel)
@@ -8,6 +9,7 @@ Show announcements from developer in main menu (with preference to disable)
 Inbox requests are no longer cached
 Fix for cache errors caused by too many files in one directory
 Fix for using internal browser as image viewer
+Minimum supported Android version is now 4.1
 
 95/1.15
 Inline image previews (and preference to disable)

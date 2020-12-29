@@ -33,6 +33,7 @@ dependencies {
 	implementation 'info.guardianproject.netcipher:netcipher:1.2.1'
 	implementation 'com.google.android.exoplayer:exoplayer-core:2.9.6'
 	implementation 'com.google.android.exoplayer:exoplayer-ui:2.9.6'
+	implementation "com.github.luben:zstd-jni:1.4.8-1@aar"
 
 	testImplementation 'junit:junit:4.13'
 
@@ -47,7 +48,7 @@ android {
 
 	defaultConfig {
 		applicationId "org.quantumbadger.redreader"
-		minSdkVersion 14
+		minSdkVersion 16
 		targetSdkVersion 29
 		versionCode 95
 		versionName "1.15"
@@ -86,6 +87,7 @@ android {
 		// Temporarily disabled
 		disable 'ImpliedQuantity'
 		disable 'InflateParams'
+		disable 'ObsoleteSdkInt'
 
 		// Too many false positives
 		disable 'UnusedResources'

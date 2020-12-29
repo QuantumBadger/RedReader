@@ -47,6 +47,12 @@ public final class MemoryDataStream {
 		mSize = 0;
 	}
 
+	public MemoryDataStream(final byte[] data) {
+		mData = data;
+		mSize = data.length;
+		mComplete = true;
+	}
+
 	private void ensureCapacity(final int desiredCapacity) {
 
 		if(desiredCapacity <= mData.length) {

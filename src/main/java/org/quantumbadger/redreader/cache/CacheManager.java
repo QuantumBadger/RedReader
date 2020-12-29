@@ -21,9 +21,12 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
+import android.os.SystemClock;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import com.github.luben.zstd.Zstd;
+import com.github.luben.zstd.ZstdInputStream;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.common.FileUtils;
@@ -33,10 +36,12 @@ import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.PrioritisedCachedThreadPool;
 import org.quantumbadger.redreader.common.Priority;
+import org.quantumbadger.redreader.common.datastream.MemoryDataStream;
 import org.quantumbadger.redreader.common.datastream.SeekableFileInputStream;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -294,8 +299,10 @@ public final class CacheManager {
 	}
 
 	@NonNull
-	public ReadableCacheFile getExistingCacheFileById(final long cacheId) {
-		return new ReadableCacheFile(cacheId);
+	public ReadableCacheFile getExistingCacheFileById(
+			final long cacheId,
+			@NonNull final CacheCompressionType cacheCompressionType) {
+		return new ReadableCacheFile(cacheId, cacheCompressionType);
 	}
 
 	public class WritableCacheFile {
@@ -308,18 +315,22 @@ public final class CacheManager {
 		@NonNull private final UUID mSession;
 		@Nullable private final String mMimetype;
 
+		@NonNull private final CacheCompressionType mCacheCompressionType;
 		@NonNull private final File mTmpFile;
 
-		private long mLength = 0;
+		private long mUncompressedLength = 0;
+		private long mCompressedLength = 0;
 
 		private WritableCacheFile(
 				final CacheRequest request,
 				@NonNull final UUID session,
-				@Nullable final String mimetype) throws IOException {
+				@Nullable final String mimetype,
+				@NonNull final CacheCompressionType cacheCompressionType) throws IOException {
 
 			mRequest = request;
 			mSession = session;
 			mMimetype = mimetype;
+			mCacheCompressionType = cacheCompressionType;
 
 			location = getPreferredCacheLocation();
 			mTmpFile = new File(location, UUID.randomUUID().toString() + tempExt);
@@ -332,13 +343,62 @@ public final class CacheManager {
 			return Objects.requireNonNull(readableCacheFile);
 		}
 
-		public void writeChunk(
-				@NonNull final byte[] dataReused,
+		public void writeWholeFile(
+				final byte[] buf,
 				final int offset,
 				final int length) throws IOException {
 
-			mOutStream.write(dataReused, offset, length);
-			mLength += length;
+			if(mCacheCompressionType == CacheCompressionType.NONE) {
+				mOutStream.write(buf, offset, length);
+				mCompressedLength += length;
+
+			} else if(mCacheCompressionType == CacheCompressionType.ZSTD) {
+
+				final long maxDestSize = Zstd.compressBound(length);
+
+				if(maxDestSize > Integer.MAX_VALUE) {
+					throw new IOException("Max output size is greater than MAX_INT");
+				}
+
+				final byte[] dst = new byte[(int)maxDestSize];
+
+				final long compressStartMs = SystemClock.uptimeMillis();
+
+				final int size = (int)Zstd.compressByteArray(
+						dst,
+						0,
+						dst.length,
+						buf,
+						offset,
+						length,
+						3);
+
+				Log.i(TAG, "Benchmark: compression ratio "
+						+ length / size
+						+ ":1");
+
+				final long writeStartMs = SystemClock.uptimeMillis();
+
+				Log.i(TAG, "Benchmark: compressed "
+						+ length / 1024
+						+ " kiB in "
+						+ (writeStartMs - compressStartMs)
+						+ " ms");
+
+				mOutStream.write(dst, 0, size);
+
+				final long writeEndMs = SystemClock.uptimeMillis();
+
+				Log.i(TAG, "Benchmark: wrote "
+						+ size / 1024
+						+ " kiB in "
+						+ (writeEndMs - writeStartMs)
+						+ " ms");
+
+				mCompressedLength += size;
+			}
+
+			mUncompressedLength += length;
 		}
 
 		public void onWriteFinished() throws IOException {
@@ -349,9 +409,9 @@ public final class CacheManager {
 					mRequest.fileType,
 					mSession,
 					mMimetype,
-					CacheCompressionType.NONE,
-					mLength,
-					mLength);
+					mCacheCompressionType,
+					mCompressedLength,
+					mUncompressedLength);
 
 			mOutStream.flush();
 			mOutStream.close();
@@ -367,7 +427,7 @@ public final class CacheManager {
 
 			dbManager.setEntryDone(cacheFileId);
 
-			readableCacheFile = new ReadableCacheFile(cacheFileId);
+			readableCacheFile = new ReadableCacheFile(cacheFileId, mCacheCompressionType);
 		}
 
 		public void onWriteCancelled() {
@@ -399,24 +459,30 @@ public final class CacheManager {
 
 	public class ReadableCacheFile {
 
-		private final long id;
+		private final long mId;
+		@NonNull private final CacheCompressionType mCacheCompressionType;
+
 		@Nullable private Uri mCachedUri;
 
-		private ReadableCacheFile(final long id) {
-			this.id = id;
+		private ReadableCacheFile(
+				final long id,
+				@NonNull final CacheCompressionType cacheCompressionType) {
+
+			mId = id;
+			mCacheCompressionType = cacheCompressionType;
 		}
 
 		public long getId() {
-			return id;
+			return mId;
 		}
 
 		@NonNull
 		public InputStream getInputStream() throws IOException {
 
-			final InputStream result = getCacheFileInputStream(id);
+			final InputStream result = getCacheFileInputStream(mId, mCacheCompressionType);
 
 			if(result == null) {
-				throw new FileNotFoundException("Stream was null for id " + id);
+				throw new FileNotFoundException("Stream was null for id " + mId);
 			}
 
 			return result;
@@ -426,7 +492,7 @@ public final class CacheManager {
 		public Uri getUri() {
 
 			if(mCachedUri == null) {
-				mCachedUri = getCacheFileUri(id);
+				mCachedUri = getCacheFileUri(mId);
 			}
 
 			return mCachedUri;
@@ -434,13 +500,13 @@ public final class CacheManager {
 
 		@NonNull
 		public Optional<File> getFile() {
-			return Optional.ofNullable(getExistingCacheFile(id));
+			return Optional.ofNullable(getExistingCacheFile(mId));
 		}
 
 		@NonNull
 		public Optional<String> lookupMimetype() {
 
-			final Optional<CacheEntry> result = dbManager.selectById(id);
+			final Optional<CacheEntry> result = dbManager.selectById(mId);
 
 			if(result.isPresent()) {
 				return Optional.of(result.get().mimetype);
@@ -452,7 +518,7 @@ public final class CacheManager {
 
 		@Override
 		public String toString() {
-			return String.format(Locale.US, "[ReadableCacheFile : id %d]", id);
+			return String.format(Locale.US, "[ReadableCacheFile : id %d]", mId);
 		}
 	}
 
@@ -460,8 +526,9 @@ public final class CacheManager {
 	public WritableCacheFile openNewCacheFile(
 			final CacheRequest request,
 			final UUID session,
-			final String mimetype) throws IOException {
-		return new WritableCacheFile(request, session, mimetype);
+			final String mimetype,
+			@NonNull final CacheCompressionType cacheCompressionType) throws IOException {
+		return new WritableCacheFile(request, session, mimetype, cacheCompressionType);
 	}
 
 	@Nullable
@@ -488,7 +555,9 @@ public final class CacheManager {
 	}
 
 	@Nullable
-	private SeekableFileInputStream getCacheFileInputStream(final long id) throws IOException {
+	private SeekableInputStream getCacheFileInputStream(
+			final long id,
+			@NonNull final CacheCompressionType cacheCompressionType) throws IOException {
 
 		final File cacheFile = getExistingCacheFile(id);
 
@@ -496,7 +565,18 @@ public final class CacheManager {
 			return null;
 		}
 
-		return new SeekableFileInputStream(cacheFile);
+		if(cacheCompressionType == CacheCompressionType.NONE) {
+			return new SeekableFileInputStream(cacheFile);
+
+		} else if(cacheCompressionType == CacheCompressionType.ZSTD) {
+
+			try(InputStream is = new ZstdInputStream(new FileInputStream(cacheFile))) {
+				return new MemoryDataStream(General.readWholeStream(is)).getInputStream();
+			}
+
+		} else {
+			throw new RuntimeException("Unhandled compression type " + cacheCompressionType);
+		}
 	}
 
 	@Nullable
@@ -639,8 +719,8 @@ public final class CacheManager {
 				public void run() {
 
 					final GenericFactory<SeekableInputStream, IOException> streamFactory = () -> {
-						final SeekableFileInputStream stream
-								= getCacheFileInputStream(entry.id);
+						final SeekableInputStream stream
+								= getCacheFileInputStream(entry.id, entry.cacheCompressionType);
 
 						if(stream == null) {
 							dbManager.delete(entry.id);
@@ -665,7 +745,7 @@ public final class CacheManager {
 							entry.mimetype);
 
 					request.notifyCacheFileWritten(
-							new ReadableCacheFile(entry.id),
+							new ReadableCacheFile(entry.id, entry.cacheCompressionType),
 							entry.timestamp,
 							entry.session,
 							true,

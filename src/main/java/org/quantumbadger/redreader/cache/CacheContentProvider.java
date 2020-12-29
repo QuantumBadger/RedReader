@@ -115,7 +115,9 @@ public class CacheContentProvider extends ContentProvider {
 			return Optional.empty();
 		}
 
-		return Optional.of(mCacheManager.getExistingCacheFileById(cacheId.get()));
+		return Optional.of(mCacheManager.getExistingCacheFileById(
+				cacheId.get(),
+				CacheCompressionType.NONE)); // No compression is used for images
 	}
 
 	@NonNull

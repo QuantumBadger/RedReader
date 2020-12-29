@@ -1,3 +1,6 @@
+/Alpha 264 (2020-12-29)
+Upgrade NDK version
+
 /Alpha 263 (2020-12-29)
 Compress cached post/comment listings (makes cache use around 10x less space)
 Minimum supported Android version is now 4.1

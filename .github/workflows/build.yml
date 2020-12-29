@@ -11,6 +11,9 @@ jobs:
         steps:
             -   uses: actions/checkout@v2
 
+            -   name: Install NDK
+                run: echo "y" | sdkmanager --install "ndk;21.0.6113669"
+
             -   name: Run PMD
                 run: ./gradlew pmd
 
@@ -20,6 +23,9 @@ jobs:
 
         steps:
             -   uses: actions/checkout@v2
+
+            -   name: Install NDK
+                run: echo "y" | sdkmanager --install "ndk;21.0.6113669"
 
             -   name: Run checkstyle
                 run: ./gradlew checkstyle
@@ -31,6 +37,9 @@ jobs:
         steps:
             -   uses: actions/checkout@v2
 
+            -   name: Install NDK
+                run: echo "y" | sdkmanager --install "ndk;21.0.6113669"
+
             -   name: Run release build
                 run: ./gradlew assembleRelease
 
@@ -40,6 +49,9 @@ jobs:
 
         steps:
             -   uses: actions/checkout@v2
+
+            -   name: Install NDK
+                run: echo "y" | sdkmanager --install "ndk;21.0.6113669"
 
             -   name: Run debug build
                 run: ./gradlew assembleDebug

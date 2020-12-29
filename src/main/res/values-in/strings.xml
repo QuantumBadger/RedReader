@@ -843,4 +843,7 @@
     <string name="pref_images_high_res_thumbnails_title">Thumbnail resolusi tinggi</string>
     <string name="cache_clear_dialog_listings_data">Daftar pos/komentar (%s)</string>
     <string name="cache_clear_dialog_listings">Daftar pos/komentar</string>
+    <string name="button_view">Lihat</string>
+    <string name="button_dismiss">Tutup</string>
+    <string name="pref_menus_mainmenu_dev_announcements_title">Tampilkan pengumuman dari pengembang</string>
 </resources>

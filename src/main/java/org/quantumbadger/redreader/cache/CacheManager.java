@@ -310,6 +310,8 @@ public final class CacheManager {
 
 		@NonNull private final File mTmpFile;
 
+		private long mLength = 0;
+
 		private WritableCacheFile(
 				final CacheRequest request,
 				@NonNull final UUID session,
@@ -336,6 +338,7 @@ public final class CacheManager {
 				final int length) throws IOException {
 
 			mOutStream.write(dataReused, offset, length);
+			mLength += length;
 		}
 
 		public void onWriteFinished() throws IOException {
@@ -345,7 +348,10 @@ public final class CacheManager {
 					mRequest.user,
 					mRequest.fileType,
 					mSession,
-					mMimetype);
+					mMimetype,
+					CacheCompressionType.NONE,
+					mLength,
+					mLength);
 
 			mOutStream.flush();
 			mOutStream.close();

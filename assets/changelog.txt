@@ -3,7 +3,7 @@ Fixed error message when marking all inbox messages as read
 Always set navigation bar to black in image viewer
 Performance improvement when loading fonts
 Set notification accent color to red
-No longer auto-collapses own comments, or user profile comments
+No longer auto-collapses own comments, or user profile comments (thanks to Cameron Merkel)
 Show announcements from developer in main menu (with preference to disable)
 Inbox requests are no longer cached
 Fix for cache errors caused by too many files in one directory

@@ -50,11 +50,14 @@ final class CacheDbManager extends SQLiteOpenHelper {
 			FIELD_USER = "user",
 			FIELD_STATUS = "status",
 			FIELD_TYPE = "type",
-			FIELD_MIMETYPE = "mimetype";
+			FIELD_MIMETYPE = "mimetype",
+			FIELD_COMPRESSION_TYPE = "compressionType",
+			FIELD_LENGTH_UNCOMPRESSED = "lengthUncompressed",
+			FIELD_LENGTH_COMPRESSED = "lengthCompressed";
 
 	private static final int STATUS_MOVING = 1, STATUS_DONE = 2;
 
-	private static final int CACHE_DB_VERSION = 1;
+	private static final int CACHE_DB_VERSION = 2;
 
 	CacheDbManager(final Context context) {
 		super(context, CACHE_DB_FILENAME, null, CACHE_DB_VERSION);
@@ -73,6 +76,9 @@ final class CacheDbManager extends SQLiteOpenHelper {
 						"%s INTEGER," +
 						"%s INTEGER," +
 						"%s TEXT," +
+						"%s INTEGER," +
+						"%s INTEGER," +
+						"%s INTEGER," +
 						"UNIQUE (%s, %s, %s) ON CONFLICT REPLACE)",
 				TABLE,
 				FIELD_ID,
@@ -83,6 +89,9 @@ final class CacheDbManager extends SQLiteOpenHelper {
 				FIELD_STATUS,
 				FIELD_TYPE,
 				FIELD_MIMETYPE,
+				FIELD_COMPRESSION_TYPE,
+				FIELD_LENGTH_COMPRESSED,
+				FIELD_LENGTH_UNCOMPRESSED,
 				FIELD_USER, FIELD_URL, FIELD_SESSION);
 
 		db.execSQL(queryString);
@@ -93,8 +102,29 @@ final class CacheDbManager extends SQLiteOpenHelper {
 			final SQLiteDatabase db,
 			final int oldVersion,
 			final int newVersion) {
-		throw new RuntimeException(
-				"Attempt to upgrade database in first version of the app!");
+
+		if(oldVersion < 2) {
+			db.execSQL(String.format(
+					Locale.US,
+					"ALTER TABLE %s ADD COLUMN %s INTEGER NOT NULL DEFAULT %d",
+					TABLE,
+					FIELD_COMPRESSION_TYPE,
+					CacheCompressionType.NONE.databaseId));
+
+			db.execSQL(String.format(
+					Locale.US,
+					"ALTER TABLE %s ADD COLUMN %s INTEGER NOT NULL DEFAULT %d",
+					TABLE,
+					FIELD_LENGTH_UNCOMPRESSED,
+					0));
+
+			db.execSQL(String.format(
+					Locale.US,
+					"ALTER TABLE %s ADD COLUMN %s INTEGER NOT NULL DEFAULT %d",
+					TABLE,
+					FIELD_LENGTH_COMPRESSED,
+					0));
+		}
 	}
 
 	synchronized Optional<CacheEntry> selectById(final long id) {
@@ -182,7 +212,10 @@ final class CacheDbManager extends SQLiteOpenHelper {
 			@NonNull final RedditAccount user,
 			final int fileType,
 			final UUID session,
-			final String mimetype) throws IOException {
+			final String mimetype,
+			@NonNull final CacheCompressionType compressionType,
+			final long lengthCompressed,
+			final long lengthUncompressed) throws IOException {
 
 		if(session == null) {
 			throw new RuntimeException("No session to write");
@@ -199,6 +232,9 @@ final class CacheDbManager extends SQLiteOpenHelper {
 		row.put(FIELD_STATUS, STATUS_MOVING);
 		row.put(FIELD_TIMESTAMP, RRTime.utcCurrentTimeMillis());
 		row.put(FIELD_MIMETYPE, mimetype);
+		row.put(FIELD_COMPRESSION_TYPE, compressionType.databaseId);
+		row.put(FIELD_LENGTH_COMPRESSED, lengthCompressed);
+		row.put(FIELD_LENGTH_UNCOMPRESSED, lengthUncompressed);
 
 		final long result = db.insert(TABLE, null, row);
 

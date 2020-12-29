@@ -456,11 +456,18 @@ public class ImageViewActivity extends BaseActivity
 				return;
 			}
 
-			final boolean isImage = Constants.Mime.isImage(mimetype);
-			final boolean isVideo = Constants.Mime.isVideo(mimetype);
-			final boolean isGif = Constants.Mime.isImageGif(mimetype);
+			final boolean isOctetStream = Constants.Mime.isOctetStream(mimetype);
 
-			if(!isImage && !isVideo) {
+			final boolean isImage = Constants.Mime.isImage(mimetype)
+					|| (mImageInfo.mediaType == ImageInfo.MediaType.IMAGE && isOctetStream);
+
+			final boolean isVideo = Constants.Mime.isVideo(mimetype)
+					|| (mImageInfo.mediaType == ImageInfo.MediaType.VIDEO && isOctetStream);
+
+			final boolean isGif = !isVideo && !isImage && Constants.Mime.isImageGif(mimetype);
+
+			if(!isImage && !isVideo && !isGif) {
+				Log.e(TAG, "Cannot play mimetype: " + mimetype);
 				revertToWeb();
 				return;
 			}

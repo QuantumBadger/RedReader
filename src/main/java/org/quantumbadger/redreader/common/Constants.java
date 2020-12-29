@@ -50,6 +50,10 @@ public final class Constants {
 		public static boolean isVideo(final String mimetype) {
 			return mimetype.startsWith("video/");
 		}
+
+		public static boolean isOctetStream(final String mimetype) {
+			return mimetype.equals("application/octet-stream");
+		}
 	}
 
 	public static final class Reddit {

@@ -9,6 +9,7 @@ Show announcements from developer in main menu (with preference to disable)
 Inbox requests are no longer cached
 Fix for cache errors caused by too many files in one directory
 Fix for using internal browser as image viewer
+Fix for streamable.com videos with incorrect mimetype
 Minimum supported Android version is now 4.1
 
 95/1.15

@@ -1,3 +1,6 @@
+/Alpha 265 (2020-12-29)
+Fix for streamable.com videos with incorrect mimetype
+
 /Alpha 264 (2020-12-29)
 Upgrade NDK version
 

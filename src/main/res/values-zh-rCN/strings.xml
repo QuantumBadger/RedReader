@@ -728,4 +728,8 @@
     <string name="pref_accessibility_separate_body_text_lines_title">分隔正文文本行</string>
     <string name="prefs_category_accessibility">无障碍设置</string>
     <string name="pref_videos_download_before_playing_title">开始回放前完整下载要播放的视频</string>
+    <string name="button_view">查看</string>
+    <string name="button_dismiss">不予理会</string>
+    <string name="pref_menus_mainmenu_dev_announcements_title">显示来自开发者的公告</string>
+    <string name="accessibility_subtitle_gold_withperiod">被授予 Reddit Gold 的次数：%d。</string>
 </resources>

@@ -858,4 +858,7 @@
     <string name="pref_accessibility_separate_body_text_lines_summary">V hlavním textu komentáře a self postu bude každý řádek individálně zaměřitelný, celý komentář nebude nutno číst najednou</string>
     <string name="prefs_category_accessibility">Přístupnost</string>
     <string name="pref_videos_download_before_playing_title">Před spuštěním playbacku stáhnout videa</string>
+    <string name="button_view">Přečíst</string>
+    <string name="button_dismiss">Zavrhnout</string>
+    <string name="pref_menus_mainmenu_dev_announcements_title">Zobrazit sdělení vývojáře</string>
 </resources>

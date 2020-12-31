@@ -840,4 +840,7 @@
     <string name="pref_accessibility_separate_body_text_lines_title">Disigi liniojn de teksto de enhavo</string>
     <string name="prefs_category_accessibility">Alirebleco</string>
     <string name="pref_videos_download_before_playing_title">Tute elŝuti filmetojn antaŭ ekigi ludadon</string>
+    <string name="button_view">Montri</string>
+    <string name="button_dismiss">Fermi</string>
+    <string name="pref_menus_mainmenu_dev_announcements_title">Montri anoncojn de la programisto</string>
 </resources>

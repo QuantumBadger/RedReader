@@ -731,4 +731,7 @@
     <string name="pref_images_inline_image_previews_title">Lerrokatutako irudien aurrebistak</string>
     <string name="pref_header_inline_image_previews">Lerrokatutako irudien aurrebistak</string>
     <string name="pref_images_high_res_thumbnails_title">Bereizmen handiko miniaturak</string>
+    <string name="button_view">Ikusi</string>
+    <string name="button_dismiss">Baztertu</string>
+    <string name="pref_menus_mainmenu_dev_announcements_title">Erakutsi garatzailearen iragarkiak</string>
 </resources>

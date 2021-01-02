@@ -1,5 +1,8 @@
+/Alpha 267 (2021-01-02)
+Changelog fix
+
 /Alpha 266 (2021-01-02)
-Translation updates (thanks to Aearil, Atrate, Eric, Gontzal Manuel Pujana Onaindia, lucanomax, ssantos, Verdulo, zeritti, zmni
+Translation updates (thanks to Aearil, Atrate, Eric, Gontzal Manuel Pujana Onaindia, lucanomax, ssantos, Verdulo, zeritti, and zmni)
 
 /Alpha 265 (2020-12-29)
 Fix for streamable.com videos with incorrect mimetype

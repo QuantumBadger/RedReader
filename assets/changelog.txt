@@ -11,7 +11,7 @@ Fix for cache errors caused by too many files in one directory
 Fix for using internal browser as image viewer
 Fix for streamable.com videos with incorrect mimetype
 Minimum supported Android version is now 4.1
-Translation updates (thanks to Aearil, Atrate, Eric, Gontzal Manuel Pujana Onaindia, lucanomax, ssantos, Verdulo, zeritti, zmni
+Translation updates (thanks to Aearil, Atrate, Eric, Gontzal Manuel Pujana Onaindia, lucanomax, ssantos, Verdulo, zeritti, and zmni)
 
 95/1.15
 Inline image previews (and preference to disable)

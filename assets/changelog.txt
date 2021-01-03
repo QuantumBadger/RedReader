@@ -1,7 +1,7 @@
 97/1.17
 Improved image preview resolution selection for tall images
 Workaround for Android crash due to large images
-Fix for rare crash when clearing cache
+Fixes for various rare crashes
 
 96/1.16
 Fixed error message when marking all inbox messages as read

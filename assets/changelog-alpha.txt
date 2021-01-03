@@ -1,6 +1,7 @@
 /Alpha 269 (2021-01-03)
 Improved image preview resolution selection for tall images
 Fix for rare crash when clearing cache
+Handle ActivityNotFoundException for WebView file download
 
 /Alpha 268 (2021-01-03)
 Workaround for Android crash due to large images

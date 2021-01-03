@@ -742,9 +742,11 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 							Toast.LENGTH_LONG).show();
 
 				} catch(final Exception e) {
-					throw new RuntimeException(
-							"Got exception for subreddit: " + post.src.getSubreddit(),
-							e);
+					BugReportActivity.handleGlobalError(
+							activity,
+							new RuntimeException(
+									"Got exception for subreddit: " + post.src.getSubreddit(),
+									e));
 				}
 
 				break;

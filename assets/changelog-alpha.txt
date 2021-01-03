@@ -1,3 +1,6 @@
+/Alpha 268 (2021-01-03)
+Workaround for Android crash due to large images
+
 /Alpha 267 (2021-01-02)
 Changelog fix
 

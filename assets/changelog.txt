@@ -1,3 +1,6 @@
+97/1.17
+Workaround for Android crash due to large images
+
 96/1.16
 Fixed error message when marking all inbox messages as read
 Always set navigation bar to black in image viewer

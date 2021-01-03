@@ -616,9 +616,7 @@ public final class RedditPostView extends FlingableItemView
 
 							// Avoid a crash on badly behaving Android ROMs (where the ImageView
 							// crashes if an image is too big)
-							// If anyone reports seeing this then a proper fix is possible (by
-							// scaling down the image), but it seems unlikely that any preview
-							// would be this big.
+							// Should never happen as we limit the preview size to 3000x3000
 							if(data.getByteCount() > 50 * 1024 * 1024) {
 								throw new RuntimeException("Image was too large: "
 										+ data.getByteCount()

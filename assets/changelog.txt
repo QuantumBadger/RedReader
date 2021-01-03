@@ -1,4 +1,5 @@
 97/1.17
+Improved image preview resolution selection for tall images
 Workaround for Android crash due to large images
 
 96/1.16

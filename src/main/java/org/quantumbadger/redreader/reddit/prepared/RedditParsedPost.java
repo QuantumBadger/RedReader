@@ -170,11 +170,15 @@ public class RedditParsedPost implements RedditThingWithIdAndType {
 		int bestHeight = 0;
 		String bestUrl = null;
 
+		final JsonObject source = root.getObject("source");
+		final Long sourceWidth = source != null ? source.getLong("width") : null;
+		final Long sourceHeight = source != null ? source.getLong("height") : null;
+
 		for(int i = -1; i < resolutions.size(); i++) {
 
 			final JsonObject resolution;
 			if(i == -1) {
-				resolution = root.getObject("source");
+				resolution = source;
 
 			} else {
 				resolution = resolutions.getObject(i);
@@ -192,9 +196,26 @@ public class RedditParsedPost implements RedditThingWithIdAndType {
 				continue;
 			}
 
-			boolean use = false;
+			if(width < 50 || height < 50) {
+				continue;
+			}
 
-			if(bestUrl == null) {
+			if(sourceWidth != null && sourceHeight != null && sourceWidth > 0) {
+
+				final int estimatedRealHeight
+						= (int)(((double)sourceHeight / (double)sourceWidth) * width);
+
+				if(estimatedRealHeight > 3000) {
+					continue;
+				}
+			}
+
+			final boolean use;
+
+			if(height > 3000 || width > 3000) {
+				use = false;
+
+			} else if(bestUrl == null) {
 				use = true;
 
 			} else if((bestWidth < minWidth || bestHeight < minHeight)
@@ -204,6 +225,9 @@ public class RedditParsedPost implements RedditThingWithIdAndType {
 			} else if(width < bestWidth && height < bestHeight
 					&& width >= minWidth && height >= minHeight) {
 				use = true;
+
+			} else {
+				use = false;
 			}
 
 			if(use) {

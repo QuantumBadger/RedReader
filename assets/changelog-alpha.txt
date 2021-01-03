@@ -1,5 +1,6 @@
 /Alpha 269 (2021-01-03)
 Improved image preview resolution selection for tall images
+Fix for rare crash when clearing cache
 
 /Alpha 268 (2021-01-03)
 Workaround for Android crash due to large images

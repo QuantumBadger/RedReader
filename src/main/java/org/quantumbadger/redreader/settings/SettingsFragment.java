@@ -52,6 +52,7 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 @SuppressWarnings("deprecation")
@@ -553,7 +554,9 @@ public final class SettingsFragment extends PreferenceFragment {
 									.getChildAt(cacheType.ordinal() + 1);
 
 							cacheItemView.setText(String.format(
-									getString(cacheType.dataUsageStringRes),
+									Locale.US,
+									context.getApplicationContext().getString(
+											cacheType.dataUsageStringRes),
 									General.addUnits(finalCacheTypeDataUsage)));
 						});
 					}
@@ -565,7 +568,8 @@ public final class SettingsFragment extends PreferenceFragment {
 					progressBar.setIndeterminate(false);
 					progressBar.setProgress(progressBar.getMax());
 					progressBar.setContentDescription(
-							getString(R.string.cache_clear_dialog_loaded));
+							context.getApplicationContext().getString(
+									R.string.cache_clear_dialog_loaded));
 				});
 			}
 		}.start();

@@ -176,8 +176,10 @@ public abstract class BaseActivity extends AppCompatActivity
 		setOrientationFromPrefs();
 		closeIfNecessary();
 
-		if(baseActivityIsToolbarActionBarEnabled()) {
-
+		/// Disabled Toolbar
+//
+//		if(baseActivityIsToolbarActionBarEnabled()) {
+//
 //			final View outerView;
 //
 //			final boolean isTablet = General.isTablet(this, mSharedPreferences);
@@ -267,20 +269,23 @@ public abstract class BaseActivity extends AppCompatActivity
 //			}
 //
 //		} else {
-			mContentListing = new FrameLayout(this);
-			mContentOverlay = new FrameLayout(this);
+//
+//		}
+		mContentListing = new FrameLayout(this);
+		mContentOverlay = new FrameLayout(this);
 
-			final FrameLayout outer = new FrameLayout(this);
-			outer.addView(mContentListing);
-			outer.addView(mContentOverlay);
+		final FrameLayout outer = new FrameLayout(this);
+		outer.addView(mContentListing);
+		outer.addView(mContentOverlay);
 
-			super.setContentView(outer);
-		}
+		super.setContentView(outer);
 	}
 
 	public void setBaseActivityListing(@NonNull final View view) {
-		mContentListing.removeAllViews();
-		mContentListing.addView(view);
+		if (mContentListing != null) {
+			mContentListing.removeAllViews();
+			mContentListing.addView(view);
+		}
 	}
 
 	public void setBaseActivityListing(final int layoutRes) {

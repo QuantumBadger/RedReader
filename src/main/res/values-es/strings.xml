@@ -54,7 +54,7 @@
     <string name="pref_cache_precache_images_title">Guardar previamente imágenes en la caché</string>
     <string name="pref_cache_precache_images_wifionly_title">Sólo con Wi-Fi</string>
     <!-- Menu Prefs -->
-    <string name="pref_menus_post_context_items_title">Pulsación larga en ítems del menú</string>
+    <string name="pref_menus_post_context_items_title">Acción en ítems del menú</string>
     <string name="pref_menus_post_toolbar_items_title">Ítems de la barra lateral</string>
     <!-- Options Menu -->
     <string name="options_accounts">Cuentas</string>
@@ -184,7 +184,7 @@
     <string name="comment_edit_done">Comentario editado. Los cambios aparecerán si actualizas.</string>
     <string name="post_submit_title_hint">Título</string>
     <string name="subreddit_selection_textbox_hint">Subreddit</string>
-    <string name="post_captcha_title">Captcha</string>
+    <string name="post_captcha_title">CAPTCHA</string>
     <string name="post_captcha_submit_button">Enviar</string>
     <string name="post_submit_done">Publicación enviada.</string>
     <!-- Bug Reporting -->
@@ -691,8 +691,8 @@
     <string name="pref_network_tor_summary">Al usar un navegador externo o pestañas personalizadas, los enlaces no se abrirán usando Tor (a menos que su navegador esté configurado para usar Tor)</string>
     <string name="search_results_query_only">Buscar \"%s\"</string>
     <string name="list_yes_no_or_wifi_wifionly">Solo con conexión Wi-Fi</string>
-	<plurals name="load_more_comments_button_reply_count">
-		<item quantity="one">"Cargar más comentarios (%d responder)"</item>
-		<item quantity="other">"Cargar más comentarios (%d respuestas)"</item>
-	</plurals>
+    <plurals name="load_more_comments_button_reply_count">
+        <item quantity="one">"Cargar más comentarios (%d responder)"</item>
+        <item quantity="other">"Cargar más comentarios (%d respuestas)"</item>
+    </plurals>
 </resources>

@@ -122,7 +122,9 @@ public final class PrefsUtility {
 						R.string.pref_images_inline_image_previews_nsfw_key))
 				|| key.equals(context.getString(R.string.pref_images_high_res_thumbnails_key))
 				|| key.equals(context.getString(
-						R.string.pref_accessibility_separate_body_text_lines_key));
+						R.string.pref_accessibility_separate_body_text_lines_key))
+				|| key.equals(context.getString(
+						R.string.pref_accessibility_min_comment_height_key));
 	}
 
 	public static boolean isRestartRequired(final Context context, final String key) {
@@ -2049,5 +2051,19 @@ public final class PrefsUtility {
 				false,
 				context,
 				sharedPreferences);
+	}
+
+	public static int pref_accessibility_min_comment_height(
+			final Context context,
+			final SharedPreferences sharedPreferences) {
+		try {
+			return Integer.parseInt(getString(
+					R.string.pref_accessibility_min_comment_height_key,
+					"0",
+					context,
+					sharedPreferences));
+		} catch(final Throwable e) {
+			return 0;
+		}
 	}
 }

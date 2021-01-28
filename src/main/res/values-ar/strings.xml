@@ -14,8 +14,7 @@
   ~
   ~ You should have received a copy of the GNU General Public License
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
-  -->
-<resources>
+  --><resources>
     <!-- First Run Dialog -->
     <string name="firstrun_login_title">تسجيل الدخول</string>
     <string name="firstrun_login_message">لم تقم بعملية تسجيل الدخول بعد. تستطيع الوصول إلى قائمة الحسابات عند اختيارك "حسابات" من القائمة.</string>
@@ -42,8 +41,8 @@
     <string name="pref_behaviour_actions_post_header">إجراءات المنشور</string>
     <string name="pref_behaviour_actions_comment_header">إجراءات التعليق</string>
     <string name="pref_behaviour_posts_header">المنشورات</string>
-    <string name="pref_behaviour_fling_post_left_title">إجراء إزاحة المنشور لليسار</string>
-    <string name="pref_behaviour_fling_post_right_title">إجراء إزاحة المنشور لليمين</string>
+    <string name="pref_behaviour_fling_post_left_title">إزاحة المنشور لليسار</string>
+    <string name="pref_behaviour_fling_post_right_title">إزاحة المنشور لليمين</string>
     <string name="pref_behaviour_actions_comment_tap_title">إجراء النقر على تعليق</string>
     <string name="pref_behaviour_nsfw_title">إظهار المنشورات غير اللائقة</string>
     <!-- Cache Prefs -->
@@ -172,8 +171,8 @@
     <string name="download_done">إنتهى التحميل.</string>
     <string name="download_failed">فشلت عملية التحميل.</string>
     <!-- Image View -->
-    <string name="imageview_oom">نفذت الذاكرة. المحاولة باستخدام المتصفح الداخلي.</string>
-    <string name="imageview_invalid_gif">خطأ في الملف. المحاولة باستخدام المتصفح الداخلي.</string>
+    <string name="imageview_oom">نفذت الذاكرة. المحاولة باستخدام المتصفح</string>
+    <string name="imageview_invalid_gif">خطأ في الملف. المحاولة باستخدام المتصفح</string>
     <!-- Comment Reply/Edit, Post Submit -->
     <string name="comment_reply_send">إرسال</string>
     <string name="comment_edit_save">حفظ</string>
@@ -294,7 +293,7 @@
     <string name="error_invalid_password_title">كلمة المرور غير صحيحية</string>
     <string name="error_invalid_password_message">اسم المستخدم أو كلمة المرور غير صحيحة.</string>
     <string name="error_ratelimit_title">عدد كبير من المحاولات فاشلة.</string>
-    <string name="error_ratelimit_message">تم الحظر بسبب عدد كبير من محاولات تسجيل الدخول الباطلة. رسالة من ريديت:</string>
+    <string name="error_ratelimit_message">تم الحظر بسبب عدد كبير من محاولات تسجيل الدخول الخاطئة. رسالة من ريديت:</string>
     <string name="general_success">نجاح</string>
     <string name="message_nowloggedin">تم تسجيل الدخول.</string>
     <string name="message_cannotlogin">لا يمكن تسجيل الدخول.</string>
@@ -304,12 +303,12 @@
     <string name="download_subreddits">تحميل المنتديات الفرعية…</string>
     <string name="subtitle_points">نقاط</string>
     <string name="subtitle_by">بوساطة</string>
-    <string name="subtitle_to">لـ</string>
+    <string name="subtitle_to">ل</string>
     <string name="general_unknown">مجهول</string>
     <string name="action_search">بحث</string>
     <string name="search_subreddit_restrict">حصر البحث في</string>
     <string name="title_changelog">الجديد</string>
-    <string name="pref_behaviour_commentsort">الترتيب الأولي للتعليقات</string>
+    <string name="pref_behaviour_commentsort">التعليقات</string>
     <!-- 2013-05-18 -->
     <string name="action_fling_disabled">معطل</string>
     <string name="pref_about_version_title">نسخة</string>
@@ -322,7 +321,7 @@
     <string name="lang_auto">تلقائي</string>
     <!-- 2013-06-25 -->
     <string name="prefs_category_network">شبكة</string>
-    <string name="pref_network_https_title">تفعيل HTTPS</string>
+    <string name="pref_network_https_title">استعمال HTTPS</string>
     <!-- 2013-07-01 -->
     <string name="web_view_open_browser">عرض باستخدام المتصفح</string>
     <!-- 2013-07-26 -->

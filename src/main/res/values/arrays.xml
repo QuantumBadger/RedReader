@@ -39,6 +39,15 @@
         <item>@string/action_comments</item>
         <item>@string/action_link</item>
         <item>@string/action_external</item>
+        <item>@string/action_report</item>
+        <item>@string/action_save_image</item>
+        <item>@string/action_gotosubreddit</item>
+        <item>@string/action_share</item>
+        <item>@string/action_share_comments</item>
+        <item>@string/action_share_image</item>
+        <item>@string/action_copy_link</item>
+        <item>@string/action_user_profile</item>
+        <item>@string/action_properties</item>
         <item>@string/action_actionmenu</item>
 		<item>@string/action_back</item>
         <item>@string/action_fling_disabled</item>
@@ -53,6 +62,15 @@
         <item>comments</item>
         <item>link</item>
         <item>browser</item>
+        <item>report</item>
+        <item>save_image</item>
+        <item>goto_subreddit</item>
+        <item>share</item>
+        <item>share_comments</item>
+        <item>share_image</item>
+        <item>copy</item>
+        <item>user_profile</item>
+        <item>properties</item>
         <item>action_menu</item>
 		<item>back</item>
         <item>disabled</item>
@@ -73,7 +91,14 @@
 		<item>@string/action_upvote</item>
 		<item>@string/action_downvote</item>
 		<item>@string/action_save</item>
+		<item>@string/action_report</item>
 		<item>@string/action_reply</item>
+		<item>@string/action_comment_context</item>
+		<item>@string/action_comment_go_to</item>
+		<item>@string/action_comment_links</item>
+		<item>@string/action_share</item>
+		<item>@string/action_copy_text</item>
+		<item>@string/action_copy_link</item>
 		<item>@string/action_user_profile</item>
 		<item>@string/action_collapse</item>
 		<item>@string/action_properties</item>
@@ -87,7 +112,14 @@
 		<item>upvote</item>
 		<item>downvote</item>
 		<item>save</item>
+		<item>report</item>
 		<item>reply</item>
+		<item>context</item>
+		<item>go_to_comment</item>
+		<item>comment_links</item>
+		<item>share</item>
+		<item>copy_text</item>
+		<item>copy_url</item>
 		<item>user_profile</item>
 		<item>collapse</item>
 		<item>properties</item>

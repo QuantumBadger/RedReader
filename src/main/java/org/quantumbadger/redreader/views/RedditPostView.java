@@ -246,6 +246,60 @@ public final class RedditPostView extends FlingableItemView
 						RedditPreparedPost.Action.EXTERNAL,
 						R.string.action_external_short);
 
+			case REPORT:
+				return new ActionDescriptionPair(
+						RedditPreparedPost.Action.REPORT,
+						R.string.action_report
+				);
+
+			case SAVE_IMAGE:
+				return new ActionDescriptionPair(
+						RedditPreparedPost.Action.SAVE_IMAGE,
+						R.string.action_save_image
+				);
+
+			case GOTO_SUBREDDIT:
+				return new ActionDescriptionPair(
+						RedditPreparedPost.Action.GOTO_SUBREDDIT,
+						R.string.action_gotosubreddit
+				);
+
+			case SHARE:
+				return new ActionDescriptionPair(
+						RedditPreparedPost.Action.SHARE,
+						R.string.action_share
+				);
+
+			case SHARE_COMMENTS:
+				return new ActionDescriptionPair(
+						RedditPreparedPost.Action.SHARE_COMMENTS,
+						R.string.action_share_comments
+				);
+
+			case SHARE_IMAGE:
+				return new ActionDescriptionPair(
+						RedditPreparedPost.Action.SHARE_IMAGE,
+						R.string.action_share_image
+				);
+
+			case COPY:
+				return new ActionDescriptionPair(
+						RedditPreparedPost.Action.COPY,
+						R.string.action_copy_link
+				);
+
+			case USER_PROFILE:
+				return new ActionDescriptionPair(
+						RedditPreparedPost.Action.USER_PROFILE,
+						R.string.action_user_profile_short
+				);
+
+			case PROPERTIES:
+				return new ActionDescriptionPair(
+						RedditPreparedPost.Action.PROPERTIES,
+						R.string.action_properties
+				);
+
 			case ACTION_MENU:
 				return new ActionDescriptionPair(
 						RedditPreparedPost.Action.ACTION_MENU,

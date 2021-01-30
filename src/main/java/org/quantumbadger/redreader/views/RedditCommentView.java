@@ -128,10 +128,52 @@ public class RedditCommentView extends FlingableItemView
 							R.string.action_save);
 				}
 
+			case REPORT:
+				return new ActionDescriptionPair(
+						RedditAPICommentAction.RedditCommentAction.REPORT,
+						R.string.action_report
+				);
+
 			case REPLY:
 				return new ActionDescriptionPair(
 						RedditAPICommentAction.RedditCommentAction.REPLY,
 						R.string.action_reply);
+
+			case CONTEXT:
+				return new ActionDescriptionPair(
+						RedditAPICommentAction.RedditCommentAction.CONTEXT,
+						R.string.action_comment_context
+				);
+
+			case GO_TO_COMMENT:
+				return new ActionDescriptionPair(
+						RedditAPICommentAction.RedditCommentAction.GO_TO_COMMENT,
+						R.string.action_comment_go_to
+				);
+
+			case COMMENT_LINKS:
+				return new ActionDescriptionPair(
+						RedditAPICommentAction.RedditCommentAction.COMMENT_LINKS,
+						R.string.action_comment_links
+				);
+
+			case SHARE:
+				return new ActionDescriptionPair(
+						RedditAPICommentAction.RedditCommentAction.SHARE,
+						R.string.action_share
+				);
+
+			case COPY_TEXT:
+				return new ActionDescriptionPair(
+						RedditAPICommentAction.RedditCommentAction.COPY_TEXT,
+						R.string.action_copy_text
+				);
+
+			case COPY_URL:
+				return new ActionDescriptionPair(
+						RedditAPICommentAction.RedditCommentAction.COPY_URL,
+						R.string.action_copy_link
+				);
 
 			case USER_PROFILE:
 				return new ActionDescriptionPair(

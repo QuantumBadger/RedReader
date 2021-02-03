@@ -586,4 +586,27 @@
     <string name="pref_behaviour_save_location_system_default">Predefinito del sistema</string>
     <string name="pref_behaviour_user_commentsort_title">Commenti utente (predefinito)</string>
     <string name="pref_behaviour_user_postsort_title">Post utente (predefinito)</string>
+    <string name="props_body_html">Corpo (HTML)</string>
+    <string name="error_title_malformed_html">HTML deformato</string>
+    <string name="spoiler">Spoiler</string>
+    <string name="pref_menus_posts_header">Posts</string>
+    <string name="pref_menus_mainmenu_header">Menu Principale</string>
+    <string name="unpin_successful">%s tolto dal menu principale</string>
+    <string name="pin_successful">%s fissato al menu principale</string>
+    <string name="unsubscription_successful">Disiscritto da %s</string>
+    <string name="subscription_successful">Iscritto a %s</string>
+    <string name="bug_chooser_title">Segnalazione bug via email</string>
+    <string name="error_toast_no_email_apps">Nessuna app per email installata!</string>
+    <string name="error_toast_failed_open_external_browser">Tentativo di aprire l\'url \"%s\" nel browser esterno fallito</string>
+    <string name="upgrade_message">Aggiornato alla versione %s</string>
+    <string name="must_login_message">Hai bisogno loggare su Reddit per quest\'azione.</string>
+    <string name="pref_appearance_fontscale_bodytext_title">Testo dei commenti e dei post solo testo</string>
+    <string name="pref_appearance_fontscale_use_global">Usa grandezza font globale</string>
+    <string name="pref_appearance_fontscale_global_title">Globale</string>
+    <string name="pref_appearance_fontscale_header">Dimensione Font</string>
+    <string name="prefs_category_fonts">Font</string>
+    <string name="pref_network_tor_summary">Quando usi un browser esterno o dei tab personalizzati, i link non verranno aperti usando tor (ad eccezione se il tuo browser è configurato per usare tor)</string>
+    <string name="search_results_subreddit_only">Cerca su /r/%s</string>
+    <string name="search_results_query_only">Cerca per \"%s\"</string>
+    <string name="search_results_all">Cerca per \"%1$s\" su /r/%2$s</string>
 </resources>

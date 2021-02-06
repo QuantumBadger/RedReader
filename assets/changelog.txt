@@ -2,6 +2,7 @@
 Improved image preview resolution selection for tall images
 Workaround for Android crash due to large images
 Fixes for various rare crashes
+Workaround for third party share apps
 Added accessibility preference for minimum comment height (thanks to Cameron Merkel)
 
 96/1.16

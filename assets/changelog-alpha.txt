@@ -1,5 +1,6 @@
 /Alpha 270 (2021-02-06)
 Added accessibility preference for minimum comment height (thanks to Cameron Merkel)
+Workaround for third party share apps
 
 /Alpha 269 (2021-01-03)
 Improved image preview resolution selection for tall images

@@ -287,6 +287,12 @@ public class RedditCommentView extends FlingableItemView
 		mBodyHolder = rootView.findViewById(R.id.view_reddit_comment_bodyholder);
 		mIndentedContent = rootView.findViewById(R.id.view_reddit_comment_indented_content);
 
+		final int minimumCommentHeight = PrefsUtility.pref_accessibility_min_comment_height(
+				context,
+				General.getSharedPrefs(context));
+
+		mIndentedContent.setMinimumHeight(General.dpToPixels(context, minimumCommentHeight));
+
 		mBodyFontScale = PrefsUtility.appearance_fontscale_bodytext(
 				context,
 				General.getSharedPrefs(context));

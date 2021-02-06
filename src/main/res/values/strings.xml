@@ -1444,4 +1444,9 @@
 	<!-- 2020-01-03 -->
 	<string name="action_not_handled_by_installed_app_toast">No app found to handle this action</string>
 
+	<!-- 2021-01-25 -->
+	<string name="pref_accessibility_min_comment_height_key" translatable="false">pref_accessibility_min_comment_height</string>
+	<string name="pref_accessibility_min_comment_height_title">Minimum comment height</string>
+	<string name="pref_accessibility_min_comment_height_none">None</string>
+
 </resources>

@@ -23,6 +23,8 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -330,6 +332,54 @@ public class MainActivity extends RefreshableActivity
 
 				alertBuilder.setView(root);
 
+				editText.addTextChangedListener(new TextWatcher() {
+					@Override
+					public void beforeTextChanged(
+							final CharSequence s,
+							final int start,
+							final int count,
+							final int after) {}
+
+					@Override
+					public void onTextChanged(
+							final CharSequence s,
+							final int start,
+							final int before,
+							final int count) {
+
+						if(typeReturnValues[destinationType.getSelectedItemPosition()]
+								.equals("search")) {
+
+							return;
+						}
+
+						final String value = s.toString();
+						String type = null;
+
+						if(value.startsWith("http://") || value.startsWith("https://")) {
+							type = "url";
+
+						} else if(value.startsWith("/r/") || value.startsWith("r/")) {
+							type = "subreddit";
+
+						} else if(value.startsWith("/u/") || value.startsWith("u/")) {
+							type = "user";
+						}
+
+						if(type != null) {
+							for(int i = 0; i < typeReturnValues.length; i++) {
+								if(typeReturnValues[i].equals(type)) {
+									destinationType.setSelection(i);
+									break;
+								}
+							}
+						}
+					}
+
+					@Override
+					public void afterTextChanged(final Editable s) {}
+				});
+
 				destinationType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 					@Override
 					public void onItemSelected(
@@ -337,17 +387,14 @@ public class MainActivity extends RefreshableActivity
 							final View view,
 							final int i,
 							final long l) {
+
 						final String typeName
 								= typeReturnValues[destinationType.getSelectedItemPosition()];
 
-						switch(typeName) {
-							case "subreddit":
-								editText.setAdapter(autocompleteAdapter);
-								break;
-
-							default:
-								editText.setAdapter(null);
-								break;
+						if("subreddit".equals(typeName)) {
+							editText.setAdapter(autocompleteAdapter);
+						} else {
+							editText.setAdapter(null);
 						}
 					}
 

@@ -757,8 +757,8 @@
     <string name="dialog_continue">Lanjutkan</string>
     <string name="reddit_login_browser_popup_use_external_browser">Gunakan peramban eksternal (direkomendasikan)</string>
     <string name="reddit_login_browser_popup_use_internal_browser">Gunakan peramban internal (direkomendasikan)</string>
-    <string name="reddit_login_browser_popup_line_2">Ketika Anda berhasil masuk, Anda akan dialihkan kembali ke RedReader. Jika gagal, Anda bisa mencoba peramban yang berbeda dengan mencentang pilihan dibawah.</string>
-    <string name="reddit_login_browser_popup_line_1">Untuk masuk, Anda akan dialihkan ke Reddit di peramban web.</string>
+    <string name="reddit_login_browser_popup_line_2">Ketika anda berhasil masuk, anda akan dialihkan kembali ke RedReader. Jika gagal, anda bisa mencoba browser yang berbeda dengan kotak centang dibawah.</string>
+    <string name="reddit_login_browser_popup_line_1">Untuk masuk, anda akan dialihkan ke Reddit di browser.</string>
     <string name="image_gallery_no_image_present_message">Gambar tidak bisa ditemukan. Mungkin sudah dihapus.</string>
     <string name="image_gallery_no_image_present_title">Gambar tidak ditemukan</string>
     <string name="link_does_not_exist">Tautan ini tidak tersedia. Mungkin telah dihapus.</string>

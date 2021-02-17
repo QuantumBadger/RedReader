@@ -1111,7 +1111,30 @@
 		<item>256</item>
 	</string-array>
 
-	<!-- 2021-02-16 -->
+	<!-- 2021-01-25 -->
+
+	<string-array name="pref_accessibility_min_comment_height_items">
+		<item>@string/pref_accessibility_min_comment_height_none</item>
+		<item>30 dp</item>
+		<item>35 dp</item>
+		<item>40 dp</item>
+		<item>45 dp</item>
+		<item>50 dp</item>
+		<item>55 dp</item>
+	</string-array>
+
+	<!-- Constants. Do not change. -->
+	<string-array name="pref_accessibility_min_comment_height_return">
+		<item>0</item>
+		<item>30</item>
+		<item>35</item>
+		<item>40</item>
+		<item>45</item>
+		<item>50</item>
+		<item>55</item>
+	</string-array>
+  
+  <!-- 2021-02-16 -->
 
 	<string-array name="pref_menus_comment_context_items">
 		<item>@string/action_upvote</item>
@@ -1150,6 +1173,5 @@
 		<item>copy_url</item>
 		<item>user_profile</item>
 		<item>properties</item>
-	</string-array>
 
 </resources>

@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.common;
 
 import android.Manifest;
+import android.content.ClipData;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -235,6 +236,9 @@ public class FileUtils {
 					.putExtra(Intent.EXTRA_STREAM, externalUri)
 					.setType(mimetype)
 					.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+			// Workaround for third party share apps
+			shareIntent.setClipData(ClipData.newRawUri(null, externalUri));
 
 			if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
 

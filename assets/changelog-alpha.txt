@@ -1,7 +1,9 @@
-/Alpha 269 (2021-01-03)
+/Alpha 269 (2021-02-06)
 Improved image preview resolution selection for tall images
 Fix for rare crash when clearing cache
 Handle ActivityNotFoundException for WebView file download
+Added accessibility preference for minimum comment height (thanks to Cameron Merkel)
+Workaround for third party share apps
 
 /Alpha 268 (2021-01-03)
 Workaround for Android crash due to large images

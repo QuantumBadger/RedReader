@@ -1173,5 +1173,6 @@
 		<item>copy_url</item>
 		<item>user_profile</item>
 		<item>properties</item>
+	</string-array>
 
 </resources>

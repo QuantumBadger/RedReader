@@ -361,6 +361,10 @@ public class ImageViewActivity extends BaseActivity
 			}
 
 			backButton.setOnClickListener(v -> finish());
+
+			//Consume & ignore touch events, so loading images aren't closed by tapping.
+			//noinspection ClickableViewAccessibility
+			backButton.setOnTouchListener((v, event) -> true);
 		}
 
 		final FrameLayout outerFrame = new FrameLayout(this);

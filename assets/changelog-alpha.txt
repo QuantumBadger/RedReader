@@ -1,5 +1,6 @@
 /Alpha 270 (2021-02-26)
 Added more options for post and comment fling actions (thanks to Cameron Merkel)
+Fixed issue where tapping a loading image would close it (thanks to Cameron Merkel)
 
 /Alpha 269 (2021-02-06)
 Improved image preview resolution selection for tall images

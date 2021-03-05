@@ -1,3 +1,6 @@
+/Alpha 272 (2021-03-05)
+Ability to customize comment long-tap menu (thanks to Cameron Merkel)
+
 /Alpha 271 (2021-03-05)
 Fixed issue where edited posts weren't marked
 

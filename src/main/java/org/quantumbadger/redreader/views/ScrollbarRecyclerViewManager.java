@@ -103,9 +103,8 @@ public class ScrollbarRecyclerViewManager {
 						hideScrollbar();
 						break;
 					case RecyclerView.SCROLL_STATE_DRAGGING:
-						showScrollbar();
-						break;
 					case RecyclerView.SCROLL_STATE_SETTLING:
+						showScrollbar();
 						break;
 				}
 

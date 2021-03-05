@@ -115,21 +115,31 @@ public final class General {
 	 */
 	public static String addUnits(final long input) {
 		int i = 0;
-		long result = input;
+		double result = input;
 		while(i <= 3 && result >= 1024) {
-			result = input / (long)Math.pow(1024, ++i);
+			result = input / Math.pow(1024, ++i);
 		}
 
+		final String unit;
 		switch(i) {
 			case 1:
-				return result + " KiB";
+				unit = " KiB";
+				break;
 			case 2:
-				return result + " MiB";
+				unit = " MiB";
+				break;
 			case 3:
-				return result + " GiB";
+				unit = " GiB";
+				break;
 			default:
-				return result + " B";
+				unit = " B";
 		}
+
+		if(i > 0 && Math.round(result) < 10) {
+			return String.format(Locale.US, "%.1f%s", result, unit);
+		}
+
+		return String.format(Locale.US, "%.0f%s", result, unit);
 	}
 
 	public static String bytesToMegabytes(final long input) {

@@ -246,7 +246,7 @@ public class RedditRenderableComment
 					0,
 					1f);
 
-			if(rawComment.edited instanceof Long) {
+			if(rawComment.wasEdited()) {
 				sb.append(
 						"*",
 						BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD,
@@ -366,7 +366,7 @@ public class RedditRenderableComment
 							formattedAge))
 					.append(separator);
 
-			if(rawComment.edited instanceof Long) {
+			if(rawComment.wasEdited()) {
 				accessibilityHeader
 						.append(context.getString(
 								R.string.accessibility_subtitle_edited_since_being_posted))

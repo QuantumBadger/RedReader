@@ -23,6 +23,8 @@ import android.os.Parcelable;
 import androidx.annotation.Nullable;
 import org.apache.commons.text.StringEscapeUtils;
 import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.jsonwrap.JsonBoolean;
+import org.quantumbadger.redreader.jsonwrap.JsonLong;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 
@@ -42,13 +44,13 @@ public final class RedditComment implements Parcelable, RedditThingWithIdAndType
 	public int ups, downs;
 	public int gilded;
 
-	public Object edited;
+	@Nullable public JsonValue edited;
 
 	public long created, created_utc;
 
-	public Boolean saved;
+	@Nullable public Boolean saved;
 
-	public String distinguished;
+	@Nullable public String distinguished;
 
 	public RedditComment() {
 	}
@@ -90,9 +92,9 @@ public final class RedditComment implements Parcelable, RedditThingWithIdAndType
 
 		final long in_edited = in.readLong();
 		if(in_edited == -1) {
-			edited = false;
+			edited = JsonBoolean.FALSE;
 		} else {
-			edited = in_edited;
+			edited = new JsonLong(in_edited);
 		}
 
 		created = in.readLong();
@@ -130,8 +132,8 @@ public final class RedditComment implements Parcelable, RedditThingWithIdAndType
 		parcel.writeInt(ups);
 		parcel.writeInt(downs);
 
-		if(edited instanceof Long) {
-			parcel.writeLong((Long)edited);
+		if(edited instanceof JsonLong) {
+			parcel.writeLong(edited.asLong());
 		} else {
 			parcel.writeLong(-1);
 		}
@@ -207,5 +209,9 @@ public final class RedditComment implements Parcelable, RedditThingWithIdAndType
 
 	public HashSet<String> computeAllLinks() {
 		return LinkHandler.computeAllLinks(StringEscapeUtils.unescapeHtml4(body_html));
+	}
+
+	public boolean wasEdited() {
+		return edited != null && !Boolean.FALSE.equals(edited.asBoolean());
 	}
 }

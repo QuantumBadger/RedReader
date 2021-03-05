@@ -6,6 +6,7 @@ Workaround for third party share apps
 Added accessibility preference for minimum comment height (thanks to Cameron Merkel)
 Added more options for post and comment fling actions (thanks to Cameron Merkel)
 Fixed issue where tapping a loading image would close it (thanks to Cameron Merkel)
+Fixed issue where edited posts weren't marked
 
 96/1.16
 Fixed error message when marking all inbox messages as read

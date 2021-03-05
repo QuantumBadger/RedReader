@@ -25,6 +25,7 @@ import org.apache.commons.text.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.common.RRTime;
+import org.quantumbadger.redreader.jsonwrap.JsonLong;
 import org.quantumbadger.redreader.reddit.things.RedditComment;
 
 public final class CommentPropertiesDialog extends PropertiesDialog {
@@ -70,11 +71,11 @@ public final class CommentPropertiesDialog extends PropertiesDialog {
 				RRTime.formatDateTime(comment.created_utc * 1000, context),
 				false));
 
-		if(comment.edited instanceof Long) {
+		if(comment.edited instanceof JsonLong) {
 			items.addView(propView(
 					context,
 					R.string.props_edited,
-					RRTime.formatDateTime((Long)comment.edited * 1000, context),
+					RRTime.formatDateTime(comment.edited.asLong() * 1000, context),
 					false));
 		} else {
 			items.addView(propView(

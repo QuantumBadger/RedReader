@@ -1,3 +1,6 @@
+/Alpha 271 (2021-03-05)
+Fixed issue where edited posts weren't marked
+
 /Alpha 270 (2021-02-26)
 Added more options for post and comment fling actions (thanks to Cameron Merkel)
 Fixed issue where tapping a loading image would close it (thanks to Cameron Merkel)

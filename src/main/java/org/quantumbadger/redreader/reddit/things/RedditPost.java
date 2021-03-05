@@ -21,7 +21,10 @@ package org.quantumbadger.redreader.reddit.things;
 import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.annotation.Nullable;
+import org.quantumbadger.redreader.jsonwrap.JsonBoolean;
+import org.quantumbadger.redreader.jsonwrap.JsonLong;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
+import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
 public final class RedditPost implements Parcelable, RedditThingWithIdAndType {
 
@@ -30,7 +33,7 @@ public final class RedditPost implements Parcelable, RedditThingWithIdAndType {
 	public String title, author, domain, subreddit, subreddit_id;
 	public int num_comments, score, ups, downs, gilded;
 	public boolean archived, over_18, hidden, saved, is_self, clicked, stickied;
-	public Object edited;
+	public JsonValue edited;
 	public Boolean likes;
 	public Boolean spoiler;
 
@@ -112,9 +115,9 @@ public final class RedditPost implements Parcelable, RedditThingWithIdAndType {
 
 		final long in_edited = in.readLong();
 		if(in_edited == -1) {
-			edited = false;
+			edited = JsonBoolean.FALSE;
 		} else {
-			edited = in_edited;
+			edited = new JsonLong(in_edited);
 		}
 
 		switch(in.readInt()) {
@@ -182,8 +185,8 @@ public final class RedditPost implements Parcelable, RedditThingWithIdAndType {
 		parcel.writeInt(clicked ? 1 : 0);
 		parcel.writeInt(stickied ? 1 : 0);
 
-		if(edited instanceof Long) {
-			parcel.writeLong((Long)edited);
+		if(edited instanceof JsonLong) {
+			parcel.writeLong(edited.asLong());
 		} else {
 			parcel.writeLong(-1);
 		}
@@ -234,5 +237,9 @@ public final class RedditPost implements Parcelable, RedditThingWithIdAndType {
 	@Override
 	public String getIdAndType() {
 		return name;
+	}
+
+	public boolean wasEdited() {
+		return edited != null && !Boolean.FALSE.equals(edited.asBoolean());
 	}
 }

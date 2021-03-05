@@ -23,7 +23,7 @@ public class JsonLong extends JsonValue {
 
 	private final long mValue;
 
-	protected JsonLong(final long value) {
+	public JsonLong(final long value) {
 		mValue = value;
 	}
 

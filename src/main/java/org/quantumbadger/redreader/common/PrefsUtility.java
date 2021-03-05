@@ -31,6 +31,7 @@ import org.quantumbadger.redreader.adapters.MainMenuListingManager;
 import org.quantumbadger.redreader.fragments.MainMenuFragment;
 import org.quantumbadger.redreader.io.WritableHashSet;
 import org.quantumbadger.redreader.reddit.PostSort;
+import org.quantumbadger.redreader.reddit.api.RedditAPICommentAction;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException;
 import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
@@ -1896,6 +1897,28 @@ public final class PrefsUtility {
 				true,
 				context,
 				sharedPreferences);
+	}
+
+	public static EnumSet<RedditAPICommentAction.RedditCommentAction>
+				pref_menus_comment_context_items(
+			final Context context,
+			final SharedPreferences sharedPreferences) {
+
+		final Set<String> strings = getStringSet(
+				R.string.pref_menus_comment_context_items_key,
+				R.array.pref_menus_comment_context_items_return,
+				context,
+				sharedPreferences);
+
+		final EnumSet<RedditAPICommentAction.RedditCommentAction> result = EnumSet.noneOf(
+				RedditAPICommentAction.RedditCommentAction.class);
+
+		for(final String s : strings) {
+			result.add(RedditAPICommentAction.RedditCommentAction.valueOf(
+					StringUtils.asciiUppercase(s)));
+		}
+
+		return result;
 	}
 
 	///////////////////////////////

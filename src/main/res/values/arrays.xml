@@ -1165,5 +1165,46 @@
 		<item>50</item>
 		<item>55</item>
 	</string-array>
+  
+  <!-- 2021-02-16 -->
+
+	<string-array name="pref_menus_comment_context_items">
+		<item>@string/action_upvote</item>
+		<item>@string/action_downvote</item>
+		<item>@string/action_save</item>
+		<item>@string/action_report</item>
+		<item>@string/action_reply</item>
+		<item>@string/action_edit</item>
+		<item>@string/action_delete</item>
+		<item>@string/action_comment_context</item>
+		<item>@string/action_comment_go_to</item>
+		<item>@string/action_comment_links</item>
+		<item>@string/action_collapse</item>
+		<item>@string/action_share</item>
+		<item>@string/action_copy_text</item>
+		<item>@string/action_copy_link</item>
+		<item>@string/action_user_profile</item>
+		<item>@string/action_properties</item>
+	</string-array>
+
+	<!-- Constants. Do not change. -->
+	<string-array name="pref_menus_comment_context_items_return">
+		<item>upvote</item>
+		<item>downvote</item>
+		<item>save</item>
+		<item>report</item>
+		<item>reply</item>
+		<item>edit</item>
+		<item>delete</item>
+		<item>context</item>
+		<item>go_to_comment</item>
+		<item>comment_links</item>
+		<item>collapse</item>
+		<item>share</item>
+		<item>copy_text</item>
+		<item>copy_url</item>
+		<item>user_profile</item>
+		<item>properties</item>
+	</string-array>
 
 </resources>

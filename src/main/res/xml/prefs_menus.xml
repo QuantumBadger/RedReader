@@ -204,4 +204,16 @@
 
 	</PreferenceCategory>
 
+	<PreferenceCategory android:title="@string/pref_menus_comments_header">
+
+		<MultiSelectListPreference
+			android:dialogTitle="@string/pref_menus_comment_context_items_title"
+			android:key="@string/pref_menus_comment_context_items_key"
+			android:title="@string/pref_menus_comment_context_items_title"
+			android:entries="@array/pref_menus_comment_context_items"
+			android:entryValues="@array/pref_menus_comment_context_items_return"
+			android:defaultValue="@array/pref_menus_comment_context_items_return" />
+
+	</PreferenceCategory>
+
 </PreferenceScreen>

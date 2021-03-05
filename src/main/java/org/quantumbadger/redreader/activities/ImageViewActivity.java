@@ -213,8 +213,6 @@ public class ImageViewActivity extends BaseActivity
 			);
 		}
 
-		Log.i(TAG, "Loading URL " + mUrl);
-
 		final DonutProgress progressBar = new DonutProgress(this);
 		progressBar.setIndeterminate(true);
 		progressBar.setFinishedStrokeColor(Color.rgb(200, 200, 200));
@@ -278,14 +276,6 @@ public class ImageViewActivity extends BaseActivity
 
 					@Override
 					public void onSuccess(final ImageInfo info) {
-
-						Log.i(TAG, "Got image URL: " + info.urlOriginal);
-
-						Log.i(TAG, "Got image Type: " + info.type);
-
-						Log.i(TAG, "Got media Type: " + info.mediaType);
-
-						Log.i(TAG, "Got audio Type: " + info.hasAudio);
 
 						mImageInfo = info;
 
@@ -1273,7 +1263,7 @@ public class ImageViewActivity extends BaseActivity
 
 			is.readRemainingAsBytes((buf, offset, length) -> {
 
-				Log.i(TAG, "Got byte array (" + length + " byte(s))");
+				Log.i(TAG, "Got byte array");
 
 				@SuppressWarnings("deprecation") final Movie movie;
 

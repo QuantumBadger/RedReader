@@ -1021,10 +1021,7 @@ public class PostListingFragment extends RRFragment
 									final boolean fromCache,
 									@Nullable final String mimetype) {
 
-								Log.i(
-										TAG,
-										"Successfully precached "
-												+ url.toString());
+								// Successfully precached
 							}
 						}));
 	}
@@ -1139,7 +1136,7 @@ public class PostListingFragment extends RRFragment
 							final boolean fromCache,
 							@Nullable final String mimetype) {
 
-						Log.i(TAG, "Successfully precached " + url);
+						// Successfully precached
 					}
 				}));
 	}

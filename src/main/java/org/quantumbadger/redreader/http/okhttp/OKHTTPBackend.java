@@ -154,7 +154,6 @@ public class OKHTTPBackend extends HTTPBackend {
 			public void executeInThisThread(final Listener listener) {
 
 				final Call call = mClient.newCall(builder.build());
-				Log.d(TAG, "calling: " + call.request().url());
 				callRef.set(call);
 
 				if(cancelled.get()) {

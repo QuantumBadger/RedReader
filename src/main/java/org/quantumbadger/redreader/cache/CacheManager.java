@@ -21,7 +21,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
-import android.os.SystemClock;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -362,8 +361,6 @@ public final class CacheManager {
 
 				final byte[] dst = new byte[(int)maxDestSize];
 
-				final long compressStartMs = SystemClock.uptimeMillis();
-
 				final int size = (int)Zstd.compressByteArray(
 						dst,
 						0,
@@ -373,27 +370,7 @@ public final class CacheManager {
 						length,
 						3);
 
-				Log.i(TAG, "Benchmark: compression ratio "
-						+ length / size
-						+ ":1");
-
-				final long writeStartMs = SystemClock.uptimeMillis();
-
-				Log.i(TAG, "Benchmark: compressed "
-						+ length / 1024
-						+ " kiB in "
-						+ (writeStartMs - compressStartMs)
-						+ " ms");
-
 				mOutStream.write(dst, 0, size);
-
-				final long writeEndMs = SystemClock.uptimeMillis();
-
-				Log.i(TAG, "Benchmark: wrote "
-						+ size / 1024
-						+ " kiB in "
-						+ (writeEndMs - writeStartMs)
-						+ " ms");
 
 				mCompressedLength += size;
 			}

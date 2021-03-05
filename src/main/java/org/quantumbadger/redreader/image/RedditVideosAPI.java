@@ -34,7 +34,6 @@ import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Locale;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -138,13 +137,6 @@ public final class RedditVideosAPI {
 										ImageInfo.MediaType.VIDEO,
 										ImageInfo.HasAudio.NO_AUDIO);
 							}
-
-							Log.i(TAG, String.format(
-									Locale.US,
-									"For '%s', got video stream '%s' and audio stream '%s'",
-									apiUrl,
-									videoUrl,
-									audioUrl == null ? "null" : audioUrl));
 
 							listener.onSuccess(result);
 

@@ -608,4 +608,6 @@
     <string name="post_submit_mark_nsfw">Отметить как NSFW</string>
     <string name="pref_appearance_left_handed_title">Режим для левшей</string>
     <string name="title_license">Лицензия</string>
+    <string name="pref_appearance_hide_headertoolbar_postlist_title">Скрыть панель инструментов заголовка списка сообщений</string>
+    <string name="props_self_html">Самостоятельный текст (HTML)</string>
 </resources>

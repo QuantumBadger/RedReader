@@ -108,13 +108,15 @@ public final class RedditChangeDataManager {
 				entry.getValue().writeTo(dos);
 			}
 
-			Log.i(
-					TAG,
-					String.format(
-							Locale.US,
-							"Wrote %d entries for user '%s'",
-							entrySet.size(),
-							username));
+			if(General.isSensitiveDebugLoggingEnabled()) {
+				Log.i(
+						TAG,
+						String.format(
+								Locale.US,
+								"Wrote %d entries for user '%s'",
+								entrySet.size(),
+								username));
+			}
 		}
 
 		Log.i(TAG, "All entries written to stream.");
@@ -135,13 +137,15 @@ public final class RedditChangeDataManager {
 			final String username = dis.readUTF();
 			final int entryCount = dis.readInt();
 
-			Log.i(
-					TAG,
-					String.format(
-							Locale.US,
-							"Reading %d entries for user '%s'",
-							entryCount,
-							username));
+			if(General.isSensitiveDebugLoggingEnabled()) {
+				Log.i(
+						TAG,
+						String.format(
+								Locale.US,
+								"Reading %d entries for user '%s'",
+								entryCount,
+								username));
+			}
 
 			final HashMap<String, Entry> entries = new HashMap<>(entryCount);
 
@@ -157,21 +161,25 @@ public final class RedditChangeDataManager {
 					RedditAccountManager.getInstance(context).getAccount(username);
 
 			if(account == null) {
-				Log.i(
-						TAG,
-						String.format(
-								Locale.US,
-								"Skipping user '%s' as the account no longer exists",
-								username));
+				if(General.isSensitiveDebugLoggingEnabled()) {
+					Log.i(
+							TAG,
+							String.format(
+									Locale.US,
+									"Skipping user '%s' as the account no longer exists",
+									username));
+				}
 
 			} else {
 				getInstance(account).insertAll(entries);
-				Log.i(
-						TAG,
-						String.format(
-								Locale.US,
-								"Finished inserting entries for user '%s'",
-								username));
+				if(General.isSensitiveDebugLoggingEnabled()) {
+					Log.i(
+							TAG,
+							String.format(
+									Locale.US,
+									"Finished inserting entries for user '%s'",
+									username));
+				}
 			}
 		}
 

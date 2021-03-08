@@ -65,7 +65,9 @@ public class AlbumListingActivity extends BaseActivity {
 			return;
 		}
 
-		Log.i("AlbumListingActivity", "Loading URL " + mUrl);
+		if(General.isSensitiveDebugLoggingEnabled()) {
+			Log.i("AlbumListingActivity", "Loading URL " + mUrl);
+		}
 
 		final ProgressBar progressBar = new ProgressBar(
 				this,
@@ -203,9 +205,11 @@ public class AlbumListingActivity extends BaseActivity {
 
 					@Override
 					public void onSuccess(@NonNull final AlbumInfo info) {
-						Log.i(
-								"AlbumListingActivity",
-								"Got album, " + info.images.size() + " image(s)");
+						if(General.isSensitiveDebugLoggingEnabled()) {
+							Log.i(
+									"AlbumListingActivity",
+									"Got album, " + info.images.size() + " image(s)");
+						}
 
 						AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 

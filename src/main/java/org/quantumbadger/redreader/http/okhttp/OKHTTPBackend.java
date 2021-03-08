@@ -32,6 +32,7 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.TorCommon;
 import org.quantumbadger.redreader.http.HTTPBackend;
 
@@ -167,7 +168,9 @@ public class OKHTTPBackend extends HTTPBackend {
 					response = call.execute();
 				} catch(final Exception e) {
 					listener.onError(CacheRequest.REQUEST_FAILURE_CONNECTION, e, null);
-					Log.i(TAG, "request didn't even connect: " + e.getMessage());
+					if(General.isSensitiveDebugLoggingEnabled()) {
+						Log.i(TAG, "request didn't even connect: " + e.getMessage());
+					}
 					return;
 				}
 
@@ -197,11 +200,13 @@ public class OKHTTPBackend extends HTTPBackend {
 
 				} else {
 
-					Log.e(TAG, String.format(
-							Locale.US,
-							"Got HTTP error %d for %s",
-							status,
-							details.toString()));
+					if(General.isSensitiveDebugLoggingEnabled()) {
+						Log.e(TAG, String.format(
+								Locale.US,
+								"Got HTTP error %d for %s",
+								status,
+								details.toString()));
+					}
 
 					listener.onError(CacheRequest.REQUEST_FAILURE_REQUEST, null, status);
 				}

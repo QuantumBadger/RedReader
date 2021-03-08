@@ -127,7 +127,9 @@ public class NewMessageChecker extends BroadcastReceiver {
 
 							final int messageCount = children.size();
 
-							Log.e(TAG, "Got response. Message count = " + messageCount);
+							if(General.isSensitiveDebugLoggingEnabled()) {
+								Log.i(TAG, "Got response. Message count = " + messageCount);
+							}
 
 							if(messageCount < 1) {
 								return;

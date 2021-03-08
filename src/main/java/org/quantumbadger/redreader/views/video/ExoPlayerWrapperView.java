@@ -144,7 +144,12 @@ public class ExoPlayerWrapperView extends FrameLayout {
 					mControlView,
 					R.drawable.exo_controls_rewind,
 					view -> {
-						mVideoPlayer.seekTo(mVideoPlayer.getCurrentPosition() - 3000);
+						if(mVideoPlayer.getCurrentPosition() > 3000) {
+							mVideoPlayer.seekTo(mVideoPlayer.getCurrentPosition() - 3000);
+						} else {
+							mVideoPlayer.seekTo(0);
+						}
+
 						updateProgress();
 					}), buttons);
 

@@ -165,6 +165,10 @@
                         android:entryValues="@array/pref_behaviour_postcount_items_return"
                         android:defaultValue="ALL"/>
 
+		<CheckBoxPreference android:title="@string/pref_behaviour_title_post_title"
+						android:key="@string/pref_behaviour_title_post_key"
+						android:defaultValue="false"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_behaviour_comments_header">

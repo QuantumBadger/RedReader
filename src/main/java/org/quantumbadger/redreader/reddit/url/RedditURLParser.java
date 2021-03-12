@@ -37,6 +37,7 @@ public class RedditURLParser {
 	public static final int UNKNOWN_COMMENT_LISTING_URL = 6;
 	public static final int POST_COMMENT_LISTING_URL = 7;
 	public static final int MULTIREDDIT_POST_LISTING_URL = 8;
+	public static final int COMPOSE_MESSSAGE_URL = 9;
 
 	@IntDef({
 			SUBREDDIT_POST_LISTING_URL,
@@ -47,7 +48,8 @@ public class RedditURLParser {
 			USER_COMMENT_LISTING_URL,
 			UNKNOWN_COMMENT_LISTING_URL,
 			POST_COMMENT_LISTING_URL,
-			MULTIREDDIT_POST_LISTING_URL})
+			MULTIREDDIT_POST_LISTING_URL,
+			COMPOSE_MESSSAGE_URL})
 	@Retention(RetentionPolicy.SOURCE)
 	public @interface PathType {
 	}
@@ -138,6 +140,13 @@ public class RedditURLParser {
 			}
 		}
 
+		{
+			final ComposeMessageURL composeMessageURL = ComposeMessageURL.parse(uri);
+			if(composeMessageURL != null) {
+				return composeMessageURL;
+			}
+		}
+
 		return null;
 	}
 
@@ -193,6 +202,10 @@ public class RedditURLParser {
 
 		public UserCommentListingURL asUserCommentListURL() {
 			return (UserCommentListingURL)this;
+		}
+
+		public ComposeMessageURL asComposeMessageURL() {
+			return (ComposeMessageURL)this;
 		}
 
 		public String humanReadableName(final Context context, final boolean shorter) {

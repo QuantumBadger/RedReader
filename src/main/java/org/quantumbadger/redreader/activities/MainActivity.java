@@ -425,9 +425,16 @@ public class MainActivity extends RefreshableActivity
 				startActivity(new Intent(this, InboxListingActivity.class));
 				break;
 
+			case MainMenuFragment.MENU_MENU_ACTION_SENT_MESSAGES: {
+				final Intent intent = new Intent(this, InboxListingActivity.class);
+				intent.putExtra("inboxType", "sent");
+				startActivity(intent);
+				break;
+			}
+
 			case MainMenuFragment.MENU_MENU_ACTION_MODMAIL: {
 				final Intent intent = new Intent(this, InboxListingActivity.class);
-				intent.putExtra("modmail", true);
+				intent.putExtra("inboxType", "modmail");
 				startActivity(intent);
 				break;
 			}

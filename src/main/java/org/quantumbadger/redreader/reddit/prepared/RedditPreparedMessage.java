@@ -29,6 +29,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import org.apache.commons.text.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.CommentReplyActivity;
 import org.quantumbadger.redreader.common.BetterSSB;
@@ -37,6 +38,7 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.common.ScreenreaderPronunciation;
+import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
 import org.quantumbadger.redreader.reddit.prepared.html.HtmlReader;
 import org.quantumbadger.redreader.reddit.things.RedditMessage;
@@ -132,12 +134,17 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 
 	@Override
 	public void handleInboxClick(final BaseActivity activity) {
-		openReplyActivity(activity);
+		final String currentCanonicalUserName = RedditAccountManager.getInstance(activity)
+				.getDefaultAccount().getCanonicalUsername();
+
+		if(!StringUtils.asciiLowercase(src.author.trim()).equals(currentCanonicalUserName)) {
+			openReplyActivity(activity);
+		}
 	}
 
 	@Override
 	public void handleInboxLongClick(final BaseActivity activity) {
-		openReplyActivity(activity);
+		handleInboxClick(activity);
 	}
 
 	@Override

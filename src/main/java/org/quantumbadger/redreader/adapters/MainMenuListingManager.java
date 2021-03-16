@@ -138,6 +138,7 @@ public class MainMenuListingManager {
 
 		final Drawable rrIconPerson;
 		final Drawable rrIconEnvOpen;
+		final Drawable rrIconSentMessages;
 		final Drawable rrIconSend;
 		final Drawable rrIconStarFilled;
 		final Drawable rrIconCross;
@@ -148,6 +149,7 @@ public class MainMenuListingManager {
 			final TypedArray attr = activity.obtainStyledAttributes(new int[] {
 					R.attr.rrIconPerson,
 					R.attr.rrIconEnvOpen,
+					R.attr.rrIconSentMessages,
 					R.attr.rrIconSend,
 					R.attr.rrIconStarFilled,
 					R.attr.rrIconCross,
@@ -157,15 +159,16 @@ public class MainMenuListingManager {
 
 			rrIconPerson = ContextCompat.getDrawable(activity, attr.getResourceId(0, 0));
 			rrIconEnvOpen = ContextCompat.getDrawable(activity, attr.getResourceId(1, 0));
-			rrIconSend = ContextCompat.getDrawable(activity, attr.getResourceId(2, 0));
+			rrIconSentMessages = ContextCompat.getDrawable(activity, attr.getResourceId(2,0));
+			rrIconSend = ContextCompat.getDrawable(activity, attr.getResourceId(3, 0));
 			rrIconStarFilled = ContextCompat.getDrawable(
 					activity,
-					attr.getResourceId(3, 0));
-			rrIconCross = ContextCompat.getDrawable(activity, attr.getResourceId(4, 0));
-			rrIconUpvote = ContextCompat.getDrawable(activity, attr.getResourceId(5, 0));
+					attr.getResourceId(4, 0));
+			rrIconCross = ContextCompat.getDrawable(activity, attr.getResourceId(5, 0));
+			rrIconUpvote = ContextCompat.getDrawable(activity, attr.getResourceId(6, 0));
 			rrIconDownvote = ContextCompat.getDrawable(
 					activity,
-					attr.getResourceId(6, 0));
+					attr.getResourceId(7, 0));
 
 			attr.recycle();
 		}
@@ -288,6 +291,16 @@ public class MainMenuListingManager {
 									R.string.mainmenu_inbox,
 									MainMenuFragment.MENU_MENU_ACTION_INBOX,
 									rrIconEnvOpen,
+									isFirst.getAndSet(false)));
+				}
+
+				if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.SENT_MESSAGES)) {
+					mAdapter.appendToGroup(
+							GROUP_USER_ITEMS,
+							makeItem(
+									R.string.mainmenu_sent_messages,
+									MainMenuFragment.MENU_MENU_ACTION_SENT_MESSAGES,
+									rrIconSentMessages,
 									isFirst.getAndSet(false)));
 				}
 

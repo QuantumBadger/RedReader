@@ -77,6 +77,7 @@
     <attr name="rrIconAdd" format="reference" />
     <attr name="rrIconCross" format="reference" />
     <attr name="rrIconEnvOpen" format="reference" />
+	<attr name="rrIconSentMessages" format="reference" />
     <attr name="rrIconInfo" format="reference" />
     <attr name="rrIconRefresh" format="reference" />
     <attr name="rrIconReply" format="reference" />

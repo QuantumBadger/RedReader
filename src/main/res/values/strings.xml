@@ -1458,4 +1458,7 @@
 	<string name="pref_behaviour_post_title_opens_comments_key" translatable="false">pref_behaviour_post_title_opens_comments</string>
 	<string name="pref_behaviour_post_title_opens_comments_title">Post title opens comments</string>
 
+	<!-- 2021-03-16 -->
+	<string name="mainmenu_sent_messages">Sent Messages</string>
+
 </resources>

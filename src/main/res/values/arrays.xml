@@ -615,7 +615,7 @@
     <string-array name="pref_menus_mainmenu_useritems_items">
         <item>@string/mainmenu_profile</item>
         <item>@string/mainmenu_inbox</item>
-		<item>@string/mainmenu_sent_messages</item>
+        <item>@string/mainmenu_sent_messages</item>
         <item>@string/mainmenu_submitted</item>
         <item>@string/mainmenu_saved</item>
         <item>@string/mainmenu_hidden</item>
@@ -628,7 +628,7 @@
     <string-array name="pref_menus_mainmenu_useritems_items_return">
         <item>profile</item>
         <item>inbox</item>
-		<item>sent_messages</item>
+        <item>sent_messages</item>
         <item>submitted</item>
         <item>saved</item>
         <item>hidden</item>

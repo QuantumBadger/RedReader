@@ -31,6 +31,8 @@ import android.widget.TextView;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.Player;
@@ -134,6 +136,7 @@ public class ExoPlayerWrapperView extends FrameLayout {
 					context,
 					mControlView,
 					R.drawable.exo_controls_previous,
+					R.string.video_restart,
 					view -> {
 						mVideoPlayer.seekTo(0);
 						updateProgress();
@@ -143,6 +146,7 @@ public class ExoPlayerWrapperView extends FrameLayout {
 					context,
 					mControlView,
 					R.drawable.exo_controls_rewind,
+					R.string.video_rewind,
 					view -> {
 						mVideoPlayer.seekTo(mVideoPlayer.getCurrentPosition() - 3000);
 						updateProgress();
@@ -155,15 +159,20 @@ public class ExoPlayerWrapperView extends FrameLayout {
 						context,
 						mControlView,
 						R.drawable.exo_controls_pause,
+						R.string.video_pause,
 						view -> {
 							mVideoPlayer.setPlayWhenReady(!mVideoPlayer.getPlayWhenReady());
 
 							if(mVideoPlayer.getPlayWhenReady()) {
 								playButton.get()
 										.setImageResource(R.drawable.exo_controls_pause);
+								playButton.get().setContentDescription(
+										context.getString(R.string.video_pause));
 							} else {
 								playButton.get()
 										.setImageResource(R.drawable.exo_controls_play);
+								playButton.get().setContentDescription(
+										context.getString(R.string.video_play));
 							}
 
 							updateProgress();
@@ -176,6 +185,7 @@ public class ExoPlayerWrapperView extends FrameLayout {
 					context,
 					mControlView,
 					R.drawable.exo_controls_fastforward,
+					R.string.video_fast_forward,
 					view -> {
 						mVideoPlayer.seekTo(mVideoPlayer.getCurrentPosition() + 3000);
 						updateProgress();
@@ -188,21 +198,28 @@ public class ExoPlayerWrapperView extends FrameLayout {
 						context,
 						mControlView,
 						R.drawable.ic_zoom_in_dark,
+						R.string.video_zoom_in,
 						v -> {
 							if (videoPlayerView.getResizeMode()
 									== AspectRatioFrameLayout.RESIZE_MODE_FIT) {
 								videoPlayerView.setResizeMode(
 										AspectRatioFrameLayout.RESIZE_MODE_ZOOM);
 								zoomButton.get().setImageResource(R.drawable.ic_zoom_out_dark);
+								zoomButton.get().setContentDescription(
+										context.getString(R.string.video_zoom_out));
 							} else {
 								videoPlayerView.setResizeMode(
 										AspectRatioFrameLayout.RESIZE_MODE_FIT);
 								zoomButton.get().setImageResource(R.drawable.ic_zoom_in_dark);
+								zoomButton.get().setContentDescription(
+										context.getString(R.string.video_zoom_in));
 							}
 						}));
 
 				if(videoPlayerView.getResizeMode() == AspectRatioFrameLayout.RESIZE_MODE_ZOOM) {
 					zoomButton.get().setImageResource(R.drawable.ic_zoom_out_dark);
+					zoomButton.get().setContentDescription(
+							context.getString(R.string.video_zoom_out));
 				}
 
 				addButton(zoomButton.get(), buttons);
@@ -337,6 +354,7 @@ public class ExoPlayerWrapperView extends FrameLayout {
 			@NonNull final Context context,
 			@NonNull final ViewGroup root,
 			@DrawableRes final int image,
+			@StringRes final int description,
 			@NonNull final OnClickListener clickListener) {
 
 		final ImageButton ib = (ImageButton)LayoutInflater.from(context).inflate(
@@ -348,6 +366,7 @@ public class ExoPlayerWrapperView extends FrameLayout {
 		ib.setPadding(buttonPadding, buttonPadding, buttonPadding, buttonPadding);
 
 		ib.setImageResource(image);
+		ib.setContentDescription(context.getString(description));
 
 		ib.setOnClickListener(clickListener);
 

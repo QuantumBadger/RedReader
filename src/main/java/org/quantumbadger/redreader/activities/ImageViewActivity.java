@@ -40,8 +40,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.annotation.UiThread;
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
@@ -471,6 +474,7 @@ public class ImageViewActivity extends BaseActivity
 
 				AndroidCommon.UI_THREAD_HANDLER.post(() -> addFloatingToolbarButton(
 						R.drawable.ic_action_info_dark,
+						R.string.props_image_title,
 						view -> ImageInfoDialog.newInstance(mImageInfo).show(
 								getSupportFragmentManager(),
 								null)));
@@ -1105,7 +1109,8 @@ public class ImageViewActivity extends BaseActivity
 
 	@Nullable
 	private ImageButton addFloatingToolbarButton(
-			final int drawable,
+			@DrawableRes final int drawable,
+			@StringRes final int description,
 			@NonNull final View.OnClickListener listener) {
 
 		if(mFloatingToolbar == null) {
@@ -1122,6 +1127,7 @@ public class ImageViewActivity extends BaseActivity
 		final int buttonPadding = General.dpToPixels(this, 10);
 		ib.setPadding(buttonPadding, buttonPadding, buttonPadding, buttonPadding);
 		ib.setImageResource(drawable);
+		ib.setContentDescription(getResources().getString(description));
 
 		ib.setOnClickListener(listener);
 
@@ -1229,15 +1235,20 @@ public class ImageViewActivity extends BaseActivity
 						= new AtomicReference<>();
 				muteButton.set(addFloatingToolbarButton(
 						muteByDefault ? iconMuted : iconUnmuted,
+						muteByDefault ? R.string.video_unmute : R.string.video_mute,
 						view -> {
 							final ImageButton button = muteButton.get();
 
 							if(mVideoPlayerWrapper.isMuted()) {
 								mVideoPlayerWrapper.setMuted(false);
 								button.setImageResource(iconUnmuted);
+								button.setContentDescription(
+										getResources().getString(R.string.video_mute));
 							} else {
 								mVideoPlayerWrapper.setMuted(true);
 								button.setImageResource(iconMuted);
+								button.setContentDescription(
+										getResources().getString(R.string.video_unmute));
 							}
 						}));
 			}

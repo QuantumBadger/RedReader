@@ -28,7 +28,7 @@ jobs:
                 run: echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install "ndk;21.3.6528147" --sdk_root=${ANDROID_SDK_ROOT}
 
             -   name: Run checkstyle
-                run: ./gradlew checkstyle
+                run: ./gradlew checkstyle --stacktrace
 
     buildRelease:
         name: Release build

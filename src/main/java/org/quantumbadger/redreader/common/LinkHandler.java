@@ -41,6 +41,7 @@ import org.quantumbadger.redreader.activities.AlbumListingActivity;
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.CommentListingActivity;
 import org.quantumbadger.redreader.activities.ImageViewActivity;
+import org.quantumbadger.redreader.activities.PMSendActivity;
 import org.quantumbadger.redreader.activities.PostListingActivity;
 import org.quantumbadger.redreader.activities.WebViewActivity;
 import org.quantumbadger.redreader.cache.CacheRequest;
@@ -59,6 +60,7 @@ import org.quantumbadger.redreader.image.RedditVideosAPI;
 import org.quantumbadger.redreader.image.RedgifsAPI;
 import org.quantumbadger.redreader.image.StreamableAPI;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
+import org.quantumbadger.redreader.reddit.url.ComposeMessageURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 
 import java.util.ArrayList;
@@ -253,6 +255,26 @@ public class LinkHandler {
 							activity,
 							CommentListingActivity.class);
 					intent.setData(redditURL.generateJsonUri());
+					activity.startActivityForResult(intent, 1);
+					return;
+				}
+
+				case RedditURLParser.COMPOSE_MESSSAGE_URL: {
+					final Intent intent = new Intent(
+							activity,
+							PMSendActivity.class);
+					final ComposeMessageURL cmUrl = redditURL.asComposeMessageURL();
+
+					if(cmUrl.recipient != null) {
+						intent.putExtra(PMSendActivity.EXTRA_RECIPIENT, cmUrl.recipient);
+					}
+					if(cmUrl.subject != null) {
+						intent.putExtra(PMSendActivity.EXTRA_SUBJECT, cmUrl.subject);
+					}
+					if(cmUrl.message != null) {
+						intent.putExtra(PMSendActivity.EXTRA_TEXT, cmUrl.message);
+					}
+
 					activity.startActivityForResult(intent, 1);
 					return;
 				}

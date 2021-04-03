@@ -377,6 +377,7 @@ public class PostListingFragment extends RRFragment
 			case RedditURLParser.UNKNOWN_POST_LISTING_URL:
 			case RedditURLParser.USER_COMMENT_LISTING_URL:
 			case RedditURLParser.USER_PROFILE_URL:
+			case RedditURLParser.COMPOSE_MESSSAGE_URL:
 				BugReportActivity.handleGlobalError(getActivity(), new RuntimeException(
 						"Unknown url type "
 								+ mPostListingURL.pathType()

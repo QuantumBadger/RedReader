@@ -48,6 +48,7 @@ public class PMSendActivity extends BaseActivity {
 
 	public static final String EXTRA_RECIPIENT = "recipient";
 	public static final String EXTRA_SUBJECT = "subject";
+	public static final String EXTRA_TEXT = "text";
 
 	private static final String SAVED_STATE_RECIPIENT = "recipient";
 	private static final String SAVED_STATE_TEXT = "pm_text";
@@ -105,7 +106,11 @@ public class PMSendActivity extends BaseActivity {
 				initialSubject = lastSubject;
 			}
 
-			initialText = lastText;
+			if(intent != null && intent.hasExtra(EXTRA_TEXT)) {
+				initialText = intent.getStringExtra(EXTRA_TEXT);
+			} else {
+				initialText = lastText;
+			}
 		}
 
 		if(initialRecipient != null) {

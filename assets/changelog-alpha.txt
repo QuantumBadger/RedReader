@@ -1,6 +1,7 @@
 /Alpha 273 (2021-04-03)
 Fixed video controls issue where rewinding could go to negative time (thanks to Cameron Merkel)
 Added preference to make tapping post title open comments (thanks to mgurga)
+Private message compose links are now handled (thanks to Cameron Merkel)
 
 /Alpha 272 (2021-03-05)
 Ability to customize comment long-tap menu (thanks to Cameron Merkel)

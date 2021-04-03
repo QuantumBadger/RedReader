@@ -39,6 +39,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import org.quantumbadger.redreader.BuildConfig;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheRequest;
@@ -161,6 +163,10 @@ public final class General {
 				TypedValue.COMPLEX_UNIT_SP,
 				sp,
 				context.getResources().getDisplayMetrics()));
+	}
+
+	public static boolean isSensitiveDebugLoggingEnabled() {
+		return BuildConfig.DEBUG;
 	}
 
 	public static void quickToast(final Context context, final int textRes) {

@@ -163,10 +163,12 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 								@Nullable final Integer httpStatus,
 								@Nullable final String readableMessage) {
 
-							Log.e(
-									"AlbumAdapter",
-									"Failed to fetch thumbnail " + imageInfo.urlBigSquare,
-									t);
+							if(General.isSensitiveDebugLoggingEnabled()) {
+								Log.e(
+										"AlbumAdapter",
+										"Failed to fetch thumbnail " + imageInfo.urlBigSquare,
+										t);
+							}
 						}
 
 						@Override

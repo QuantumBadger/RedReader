@@ -690,7 +690,9 @@ public class LinkHandler {
 			final boolean returnUrlOnFailure,
 			final GetImageInfoListener listener) {
 
-		Log.i("getImgurImageInfo", "Image " + imgId + ": trying API v3 with auth");
+		if(General.isSensitiveDebugLoggingEnabled()) {
+			Log.i("getImgurImageInfo", "Image " + imgId + ": trying API v3 with auth");
+		}
 
 		ImgurAPIV3.getImageInfo(
 				context,
@@ -705,9 +707,11 @@ public class LinkHandler {
 							final Integer status,
 							final String readableMessage) {
 
-						Log.i(
-								"getImgurImageInfo",
-								"Image " + imgId + ": trying API v3 without auth");
+						if(General.isSensitiveDebugLoggingEnabled()) {
+							Log.i(
+									"getImgurImageInfo",
+									"Image " + imgId + ": trying API v3 without auth");
+						}
 
 						ImgurAPIV3.getImageInfo(
 								context,
@@ -722,9 +726,11 @@ public class LinkHandler {
 											final Integer status,
 											final String readableMessage) {
 
-										Log.i(
-												"getImgurImageInfo",
-												"Image " + imgId + ": trying API v2");
+										if(General.isSensitiveDebugLoggingEnabled()) {
+											Log.i(
+													"getImgurImageInfo",
+													"Image " + imgId + ": trying API v2");
+										}
 
 										ImgurAPI.getImageInfo(
 												context,
@@ -805,7 +811,9 @@ public class LinkHandler {
 			@NonNull final Priority priority,
 			final GetAlbumInfoListener listener) {
 
-		Log.i("getImgurAlbumInfo", "Album " + albumId + ": trying API v3 with auth");
+		if(General.isSensitiveDebugLoggingEnabled()) {
+			Log.i("getImgurAlbumInfo", "Album " + albumId + ": trying API v3 with auth");
+		}
 
 		ImgurAPIV3.getAlbumInfo(
 				context,
@@ -821,9 +829,11 @@ public class LinkHandler {
 							final Integer status,
 							final String readableMessage) {
 
-						Log.i(
-								"getImgurAlbumInfo",
-								"Album " + albumId + ": trying API v3 without auth");
+						if(General.isSensitiveDebugLoggingEnabled()) {
+							Log.i(
+									"getImgurAlbumInfo",
+									"Album " + albumId + ": trying API v3 without auth");
+						}
 
 						ImgurAPIV3.getAlbumInfo(
 								context,
@@ -839,9 +849,11 @@ public class LinkHandler {
 											final Integer status,
 											final String readableMessage) {
 
-										Log.i(
-												"getImgurAlbumInfo",
-												"Album " + albumId + ": trying API v2");
+										if(General.isSensitiveDebugLoggingEnabled()) {
+											Log.i(
+													"getImgurAlbumInfo",
+													"Album " + albumId + ": trying API v2");
+										}
 
 										ImgurAPI.getAlbumInfo(
 												context,

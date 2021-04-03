@@ -1355,13 +1355,15 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 							@Nullable final Integer httpStatus,
 							@Nullable final String readableMessage) {
 
-						Log.e(
-								TAG,
-								"Failed to download thumbnail "
-										+ uriStr
-										+ " with status "
-										+ httpStatus,
-								t);
+						if(General.isSensitiveDebugLoggingEnabled()) {
+							Log.e(
+									TAG,
+									"Failed to download thumbnail "
+											+ uriStr
+											+ " with status "
+											+ httpStatus,
+									t);
+						}
 					}
 				}));
 	}

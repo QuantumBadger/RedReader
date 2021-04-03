@@ -978,7 +978,9 @@ public class PostListingFragment extends RRFragment
 		final URI url = General.uriFromString(controller.getUri().toString());
 
 		if(url == null) {
-			Log.i(TAG, String.format("Not precaching '%s': failed to parse URL", url));
+			if(General.isSensitiveDebugLoggingEnabled()) {
+				Log.i(TAG, String.format("Not precaching '%s': failed to parse URL", url));
+			}
 			return;
 		}
 
@@ -1004,13 +1006,15 @@ public class PostListingFragment extends RRFragment
 									@Nullable final Integer httpStatus,
 									@Nullable final String readableMessage) {
 
-								Log.e(
-										TAG,
-										"Failed to precache "
-												+ url.toString()
-												+ "(RequestFailureType code: "
-												+ type
-												+ ")");
+								if(General.isSensitiveDebugLoggingEnabled()) {
+									Log.e(
+											TAG,
+											"Failed to precache "
+													+ url.toString()
+													+ "(RequestFailureType code: "
+													+ type
+													+ ")");
+								}
 							}
 
 							@Override
@@ -1037,10 +1041,12 @@ public class PostListingFragment extends RRFragment
 		// Don't precache huge images
 		if(info.size != null
 				&& info.size > 15 * 1024 * 1024) {
-			Log.i(TAG, String.format(
-					"Not precaching '%s': too big (%d kB)",
-					info.urlOriginal,
-					info.size / 1024));
+			if(General.isSensitiveDebugLoggingEnabled()) {
+				Log.i(TAG, String.format(
+						"Not precaching '%s': too big (%d kB)",
+						info.urlOriginal,
+						info.size / 1024));
+			}
 			return;
 		}
 
@@ -1048,9 +1054,11 @@ public class PostListingFragment extends RRFragment
 		if(ImageInfo.MediaType.GIF.equals(info.mediaType)
 				&& !gifViewMode.downloadInApp) {
 
-			Log.i(TAG, String.format(
-					"Not precaching '%s': GIFs opened externally",
-					info.urlOriginal));
+			if(General.isSensitiveDebugLoggingEnabled()) {
+				Log.i(TAG, String.format(
+						"Not precaching '%s': GIFs opened externally",
+						info.urlOriginal));
+			}
 			return;
 		}
 
@@ -1058,9 +1066,11 @@ public class PostListingFragment extends RRFragment
 		if(ImageInfo.MediaType.IMAGE.equals(info.mediaType)
 				&& !imageViewMode.downloadInApp) {
 
-			Log.i(TAG, String.format(
-					"Not precaching '%s': images opened externally",
-					info.urlOriginal));
+			if(General.isSensitiveDebugLoggingEnabled()) {
+				Log.i(TAG, String.format(
+						"Not precaching '%s': images opened externally",
+						info.urlOriginal));
+			}
 			return;
 		}
 
@@ -1069,9 +1079,11 @@ public class PostListingFragment extends RRFragment
 		if(ImageInfo.MediaType.VIDEO.equals(info.mediaType)
 				&& !videoViewMode.downloadInApp) {
 
-			Log.i(TAG, String.format(
-					"Not precaching '%s': videos opened externally",
-					info.urlOriginal));
+			if(General.isSensitiveDebugLoggingEnabled()) {
+				Log.i(TAG, String.format(
+						"Not precaching '%s': videos opened externally",
+						info.urlOriginal));
+			}
 			return;
 		}
 
@@ -1095,7 +1107,9 @@ public class PostListingFragment extends RRFragment
 
 		final URI uri = General.uriFromString(url);
 		if(uri == null) {
-			Log.i(TAG, String.format("Not precaching '%s': failed to parse URL", url));
+			if(General.isSensitiveDebugLoggingEnabled()) {
+				Log.i(TAG, String.format("Not precaching '%s': failed to parse URL", url));
+			}
 			return;
 		}
 
@@ -1118,14 +1132,16 @@ public class PostListingFragment extends RRFragment
 							@Nullable final Integer httpStatus,
 							@Nullable final String readableMessage) {
 
-						Log.e(TAG, String.format(
-								Locale.US,
-								"Failed to precache %s (RequestFailureType %d,"
-										+ " status %s, readable '%s')",
-								url,
-								type,
-								httpStatus == null ? "NULL" : httpStatus.toString(),
-								readableMessage == null ? "NULL" : readableMessage));
+						if(General.isSensitiveDebugLoggingEnabled()) {
+							Log.e(TAG, String.format(
+									Locale.US,
+									"Failed to precache %s (RequestFailureType %d,"
+											+ " status %s, readable '%s')",
+									url,
+									type,
+									httpStatus == null ? "NULL" : httpStatus.toString(),
+									readableMessage == null ? "NULL" : readableMessage));
+						}
 					}
 
 					@Override

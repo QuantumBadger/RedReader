@@ -1,6 +1,7 @@
 97/1.17
 Improved image preview resolution selection for tall images
 Ability to customize comment long-tap menu (thanks to Cameron Merkel)
+Added preference to make tapping post title open comments (thanks to mgurga)
 Workaround for Android crash due to large images
 Fixes for various rare crashes
 Workaround for third party share apps

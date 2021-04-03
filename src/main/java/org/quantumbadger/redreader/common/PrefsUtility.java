@@ -127,7 +127,7 @@ public final class PrefsUtility {
 				|| key.equals(context.getString(
 						R.string.pref_accessibility_min_comment_height_key))
 				|| key.equals(context.getString(
-						R.string.pref_behaviour_title_post_key));
+						R.string.pref_behaviour_post_title_opens_comments_key));
 	}
 
 	public static boolean isRestartRequired(final Context context, final String key) {
@@ -1053,11 +1053,11 @@ public final class PrefsUtility {
 		}
 	}
 
-	public static boolean pref_behaviour_title_post(
+	public static boolean pref_behaviour_post_title_opens_comments(
 			final Context context,
 			final SharedPreferences sharedPreferences) {
 		return getBoolean(
-				R.string.pref_behaviour_title_post_key,
+				R.string.pref_behaviour_post_title_opens_comments_key,
 				false,
 				context,
 				sharedPreferences);

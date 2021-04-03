@@ -422,7 +422,7 @@ public final class RedditPostView extends FlingableItemView
 			mCommentsButton.setOnClickListener(v -> fragmentParent.onPostCommentsSelected(mPost));
 		}
 
-		final boolean postTitleOpensPost = PrefsUtility.pref_behaviour_title_post(
+		final boolean postTitleOpensPost = PrefsUtility.pref_behaviour_post_title_opens_comments(
 				getContext(),
 				General.getSharedPrefs(getContext())
 		);

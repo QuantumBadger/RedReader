@@ -609,4 +609,5 @@
     <string name="search_results_subreddit_only">Cerca su /r/%s</string>
     <string name="search_results_query_only">Cerca per \"%s\"</string>
     <string name="search_results_all">Cerca per \"%1$s\" su /r/%2$s</string>
+    <string name="error_message_malformed_html">Impossibile analizzare il contenuto. Per favore segnalalo allo sviluppatore.</string>
 </resources>

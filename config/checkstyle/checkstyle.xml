@@ -16,7 +16,7 @@
 	</module>
 
 	<module name="Header">
-		<property name="headerFile" value="config/checkstyle/copyright.java.txt"/>
+		<property name="headerFile" value="${basedir}/config/checkstyle/copyright.java.txt"/>
 		<property name="fileExtensions" value="java"/>
 	</module>
 

@@ -44,7 +44,9 @@
 
 		<meta-data android:name="com.lge.support.SPLIT_WINDOW" android:value="true" />
 
-        <activity android:name=".activities.MainActivity"
+		<meta-data android:name="android.webkit.WebView.MetricsOptOut" android:value="true" />
+
+		<activity android:name=".activities.MainActivity"
                   android:configChanges="orientation|screenSize|keyboardHidden"
                   android:clearTaskOnLaunch="false"
                   android:finishOnTaskLaunch="false"

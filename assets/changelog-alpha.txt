@@ -1,5 +1,6 @@
 /Alpha 274 (2021-04-04)
 Added preference to enable viewing sent messages (thanks to Cameron Merkel)
+Opts out of Google's WebView metrics collection
 
 /Alpha 273 (2021-04-03)
 Fixed video controls issue where rewinding could go to negative time (thanks to Cameron Merkel)

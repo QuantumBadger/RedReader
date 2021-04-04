@@ -34,7 +34,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,7 +61,6 @@ import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.RedditFlairChoice;
 import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
-import org.quantumbadger.redreader.views.LoadingSpinnerView;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -136,8 +134,8 @@ public class PostSubmitContentFragment extends Fragment {
 	private RedditAccount mSelectedAccount;
 	private SubredditCanonicalId mSelectedSubreddit;
 
-	private LoadingSpinnerView mLoadingSpinnerView;
-	private LinearLayout mMainControls;
+	private View mLoadingSpinnerView;
+	private View mMainControls;
 
 	private Spinner mTypeSpinner;
 	private Spinner mFlairSpinner;

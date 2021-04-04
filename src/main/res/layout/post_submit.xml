@@ -29,84 +29,90 @@
 			android:layout_width="match_parent"
 			android:layout_height="match_parent" />
 
-	<LinearLayout
-			android:id="@+id/post_submit_main_controls"
+	<ScrollView
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:visibility="gone"
-			android:orientation="vertical">
+			android:id="@+id/post_submit_main_controls"
+			android:visibility="gone">
 
-		<TextView
-				android:id="@+id/post_submit_heading"
+		<LinearLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_marginLeft="16dp"
-				android:layout_marginRight="16dp"
-				android:layout_marginTop="16dp"
-				android:layout_marginBottom="2dp"
-				android:textSize="18sp" />
+				android:orientation="vertical">
 
-		<Spinner android:id="@+id/post_submit_type"
-				 android:layout_width="match_parent"
-				 android:layout_height="wrap_content"
-				 android:layout_marginLeft="10dp"
-				 android:layout_marginRight="10dp"
-				 android:layout_marginTop="2dp"
-				 android:layout_marginBottom="2dp"
-				 tools:listitem="@android:layout/simple_list_item_1" />
+			<TextView
+					android:id="@+id/post_submit_heading"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="16dp"
+					android:layout_marginRight="16dp"
+					android:layout_marginTop="16dp"
+					android:layout_marginBottom="2dp"
+					android:textSize="18sp" />
 
-		<EditText android:id="@+id/post_submit_title"
-				  android:layout_width="match_parent"
-				  android:layout_height="wrap_content"
-				  android:layout_margin="10dp"
-				  android:singleLine="true"
-				  android:scrollHorizontally="true"
-				  android:scrollbars="none"
-				  android:inputType="textCapSentences"
-				  android:hint="@string/post_submit_title_hint"
-				  android:importantForAutofill="no"/>
+			<Spinner android:id="@+id/post_submit_type"
+					 android:layout_width="match_parent"
+					 android:layout_height="wrap_content"
+					 android:layout_marginLeft="10dp"
+					 android:layout_marginRight="10dp"
+					 android:layout_marginTop="2dp"
+					 android:layout_marginBottom="2dp"
+					 tools:listitem="@android:layout/simple_list_item_1" />
 
-		<EditText android:id="@+id/post_submit_body"
-				  android:layout_width="match_parent"
-				  android:layout_height="wrap_content"
-				  android:layout_margin="10dp"
-				  android:singleLine="false"
-				  android:scrollHorizontally="false"
-				  android:scrollbars="none"
-				  android:inputType="textCapSentences|textMultiLine"
-				  android:importantForAutofill="no"
-				  tools:ignore="LabelFor"/>
+			<EditText android:id="@+id/post_submit_title"
+					  android:layout_width="match_parent"
+					  android:layout_height="wrap_content"
+					  android:layout_margin="10dp"
+					  android:singleLine="true"
+					  android:scrollHorizontally="true"
+					  android:scrollbars="none"
+					  android:inputType="textCapSentences"
+					  android:hint="@string/post_submit_title_hint"
+					  android:importantForAutofill="no"/>
 
-		<Spinner android:id="@+id/post_submit_flair"
-				 android:layout_width="match_parent"
-				 android:layout_height="wrap_content"
-				 android:layout_marginLeft="10dp"
-				 android:layout_marginRight="10dp"
-				 android:layout_marginTop="2dp"
-				 android:layout_marginBottom="2dp"
-				 tools:listitem="@android:layout/simple_list_item_1" />
+			<EditText android:id="@+id/post_submit_body"
+					  android:layout_width="match_parent"
+					  android:layout_height="wrap_content"
+					  android:layout_margin="10dp"
+					  android:singleLine="false"
+					  android:scrollHorizontally="false"
+					  android:scrollbars="none"
+					  android:inputType="textCapSentences|textMultiLine"
+					  android:importantForAutofill="no"
+					  tools:ignore="LabelFor"/>
 
-		<CheckBox android:id="@+id/post_submit_send_replies_to_inbox"
-				  android:layout_width="match_parent"
-				  android:layout_height="wrap_content"
-				  android:layout_margin="10dp"
-				  android:checked="true"
-				  android:text="@string/send_replies_to_inbox"/>
+			<Spinner android:id="@+id/post_submit_flair"
+					 android:layout_width="match_parent"
+					 android:layout_height="wrap_content"
+					 android:layout_marginLeft="10dp"
+					 android:layout_marginRight="10dp"
+					 android:layout_marginTop="2dp"
+					 android:layout_marginBottom="2dp"
+					 tools:listitem="@android:layout/simple_list_item_1" />
 
-		<CheckBox android:id="@+id/post_submit_mark_nsfw"
-				  android:layout_width="match_parent"
-				  android:layout_height="wrap_content"
-				  android:layout_margin="10dp"
-				  android:checked="false"
-				  android:text="@string/post_submit_mark_nsfw"/>
+			<CheckBox android:id="@+id/post_submit_send_replies_to_inbox"
+					  android:layout_width="match_parent"
+					  android:layout_height="wrap_content"
+					  android:layout_margin="10dp"
+					  android:checked="true"
+					  android:text="@string/send_replies_to_inbox"/>
 
-		<CheckBox android:id="@+id/post_submit_mark_spoiler"
-				  android:layout_width="match_parent"
-				  android:layout_height="wrap_content"
-				  android:layout_margin="10dp"
-				  android:checked="false"
-				  android:text="@string/post_submit_mark_spoiler"/>
+			<CheckBox android:id="@+id/post_submit_mark_nsfw"
+					  android:layout_width="match_parent"
+					  android:layout_height="wrap_content"
+					  android:layout_margin="10dp"
+					  android:checked="false"
+					  android:text="@string/post_submit_mark_nsfw"/>
 
-	</LinearLayout>
+			<CheckBox android:id="@+id/post_submit_mark_spoiler"
+					  android:layout_width="match_parent"
+					  android:layout_height="wrap_content"
+					  android:layout_margin="10dp"
+					  android:checked="false"
+					  android:text="@string/post_submit_mark_spoiler"/>
+
+		</LinearLayout>
+
+	</ScrollView>
 
 </FrameLayout>

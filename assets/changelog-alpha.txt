@@ -1,3 +1,6 @@
+/Alpha 275 (2021-04-04)
+Flair fix: fixed regression where post submit activity wouldn't scroll
+
 /Alpha 274 (2021-04-04)
 Added preference to enable viewing sent messages (thanks to Cameron Merkel)
 Opts out of Google's WebView metrics collection

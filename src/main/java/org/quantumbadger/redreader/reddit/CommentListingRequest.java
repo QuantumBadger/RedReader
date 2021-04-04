@@ -252,7 +252,8 @@ public class CommentListingRequest {
 								type,
 								t,
 								httpStatus,
-								url.toString());
+								url.toString(),
+								null);
 
 						AndroidCommon.runOnUiThread(()
 								-> mListener.onCommentListingRequestFailure(error));

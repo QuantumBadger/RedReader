@@ -166,7 +166,7 @@
     <string name="comment_reply_done">Ответ отправлен. Комментарий появится после обновления.</string>
     <string name="comment_edit_done">Комментарий отредактирован. Изменения появятся после обновления.</string>
     <string name="post_submit_title_hint">Заголовок</string>
-    <string name="post_submit_subreddit_hint">Сабреддит</string>
+    <string name="subreddit_selection_textbox_hint">Сабреддит</string>
     <string name="post_captcha_title">Защитный код</string>
     <string name="post_captcha_submit_button">Отправить</string>
     <string name="post_submit_done">Публикация создана.</string>

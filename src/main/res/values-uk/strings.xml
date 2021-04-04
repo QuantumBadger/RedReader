@@ -166,7 +166,7 @@
     <string name="comment_reply_done">Відповідь надіслано. Коментар з\'явиться після оновлення.</string>
     <string name="comment_edit_done">Коментар змінено. Зміни з\'являться після оновлення.</string>
     <string name="post_submit_title_hint">Заголовок</string>
-    <string name="post_submit_subreddit_hint">Сабреддіт</string>
+    <string name="subreddit_selection_textbox_hint">Сабреддіт</string>
     <string name="post_captcha_title">Захисний код</string>
     <string name="post_captcha_submit_button">Підтвердити</string>
     <string name="post_submit_done">Публікацію надіслано.</string>

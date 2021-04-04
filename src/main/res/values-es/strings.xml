@@ -183,7 +183,7 @@
     <string name="comment_reply_done">Respuesta enviada. El comentario aparecerá si actualizas.</string>
     <string name="comment_edit_done">Comentario editado. Los cambios aparecerán si actualizas.</string>
     <string name="post_submit_title_hint">Título</string>
-    <string name="post_submit_subreddit_hint">Subreddit</string>
+    <string name="subreddit_selection_textbox_hint">Subreddit</string>
     <string name="post_captcha_title">Captcha</string>
     <string name="post_captcha_submit_button">Enviar</string>
     <string name="post_submit_done">Publicación enviada.</string>

@@ -238,7 +238,7 @@ public abstract class BaseActivity extends AppCompatActivity
 
 			configBackButton(
 					baseActivityIsActionBarBackEnabled(),
-					v -> finish());
+					v -> onBackPressed());
 
 			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
@@ -352,6 +352,8 @@ public abstract class BaseActivity extends AppCompatActivity
 			final int requestCode,
 			@NonNull final String[] permissions,
 			@NonNull final int[] grantResults) {
+
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
 		final PermissionCallback callback
 				= mPermissionRequestCallbacks.remove(requestCode);

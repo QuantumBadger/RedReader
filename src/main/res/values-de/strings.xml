@@ -184,7 +184,7 @@
     <string name="comment_reply_done">Antwort gesandt. Der Kommentar erscheint nach erneutem Laden.</string>
     <string name="comment_edit_done">Kommentar geändert. Die Änderungen erscheinen nach erneutem Laden.</string>
     <string name="post_submit_title_hint">Titel</string>
-    <string name="post_submit_subreddit_hint">Subreddit</string>
+    <string name="subreddit_selection_textbox_hint">Subreddit</string>
     <string name="post_captcha_title">Captcha</string>
     <string name="post_captcha_submit_button">Einreichen</string>
     <string name="post_submit_done">Beitrag übermittelt</string>

@@ -57,6 +57,10 @@ public final class Optional<E> {
 		return mValue != null;
 	}
 
+	public boolean isEmpty() {
+		return mValue == null;
+	}
+
 	@NonNull
 	public E get() {
 

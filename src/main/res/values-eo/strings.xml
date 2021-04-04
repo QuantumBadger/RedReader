@@ -183,7 +183,7 @@
     <string name="comment_reply_done">Respondo sendita. La komento aperos post aktualigo.</string>
     <string name="comment_edit_done">Komento redaktita. Ŝanĝoj aperos post aktualigo.</string>
     <string name="post_submit_title_hint">Titolo</string>
-    <string name="post_submit_subreddit_hint">Redditero</string>
+    <string name="subreddit_selection_textbox_hint">Redditero</string>
     <string name="post_captcha_title">CAPTCHA</string>
     <string name="post_captcha_submit_button">Afiŝi</string>
     <string name="post_submit_done">Afiŝo publikigita.</string>

@@ -62,6 +62,10 @@ public final class ErrorPropertiesDialog extends PropertiesDialog {
 			args.putString("url", error.url);
 		}
 
+		if(error.response != null) {
+			args.putString("response", error.response.toString());
+		}
+
 		dialog.setArguments(args);
 
 		return dialog;
@@ -122,6 +126,14 @@ public final class ErrorPropertiesDialog extends PropertiesDialog {
 					context,
 					"Exception",
 					getArguments().getString("t"),
+					false));
+		}
+
+		if(getArguments().containsKey("response")) {
+			items.addView(propView(
+					context,
+					"Response",
+					getArguments().getString("response"),
 					false));
 		}
 	}

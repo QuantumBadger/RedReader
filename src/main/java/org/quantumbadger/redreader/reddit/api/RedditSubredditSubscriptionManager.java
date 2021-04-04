@@ -38,6 +38,7 @@ import org.quantumbadger.redreader.common.collections.WeakReferenceListManager;
 import org.quantumbadger.redreader.io.RawObjectDB;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
 import org.quantumbadger.redreader.io.WritableHashSet;
+import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.RedditSubredditHistory;
@@ -374,7 +375,8 @@ public class RedditSubredditSubscriptionManager {
 				@CacheRequest.RequestFailureType final int type,
 				final Throwable t,
 				final Integer status,
-				final String readableMessage) {
+				final String readableMessage,
+				@Nullable final JsonValue response) {
 
 			if(status != null && status == 404) {
 				// Weirdly, reddit returns a 404 if we were already subscribed/unsubscribed to
@@ -393,15 +395,28 @@ public class RedditSubredditSubscriptionManager {
 				t.printStackTrace();
 			}
 
-			final RRError error =
-					General.getGeneralErrorForFailure(context, type, t, status, null);
+			final RRError error = General.getGeneralErrorForFailure(
+					context,
+					type,
+					t,
+					status,
+					"Subreddit action " + action + " for " + canonicalName,
+					response);
+
 			General.showResultDialog(activity, error);
 		}
 
 		@Override
-		protected void onFailure(final APIFailureType type) {
+		protected void onFailure(
+				@NonNull final APIFailureType type,
+				@Nullable final String debuggingContext,
+				@Nullable final JsonValue response) {
+
 			onSubscriptionChangeAttemptFailed(canonicalName);
-			final RRError error = General.getGeneralErrorForFailure(context, type);
+
+			final RRError error
+					= General.getGeneralErrorForFailure(context, type, debuggingContext, response);
+
 			General.showResultDialog(activity, error);
 		}
 	}

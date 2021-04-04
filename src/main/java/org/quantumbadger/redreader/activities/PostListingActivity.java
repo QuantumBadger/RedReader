@@ -328,10 +328,13 @@ public class PostListingActivity extends RefreshableActivity
 
 	@Override
 	public void onSubmitPost() {
+
 		final Intent intent = new Intent(this, PostSubmitActivity.class);
+
 		if(controller.isSubreddit()) {
 			intent.putExtra("subreddit", controller.subredditCanonicalName().toString());
 		}
+
 		startActivity(intent);
 	}
 

@@ -158,7 +158,7 @@
     <string name="pref_appearance_comment_header_items_age">Età</string>
     <string name="pref_about_version_title">Versione</string>
     <string name="post_submit_title_hint">Titolo</string>
-    <string name="post_submit_subreddit_hint">Subreddit</string>
+    <string name="subreddit_selection_textbox_hint">Subreddit</string>
     <string name="post_submit_done">Post inviato.</string>
     <string name="post_captcha_title">CAPTCHA</string>
     <string name="post_captcha_submit_button">Invia</string>

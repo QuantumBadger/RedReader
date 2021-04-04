@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.reddit.api;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.RRError;
@@ -61,6 +60,7 @@ public class SubredditRequestFailure {
 				requestFailureType,
 				t,
 				statusLine,
-				url);
+				url,
+				null);
 	}
 }

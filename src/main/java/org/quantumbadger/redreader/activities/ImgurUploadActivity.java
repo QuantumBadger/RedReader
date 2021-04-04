@@ -330,7 +330,8 @@ public class ImgurUploadActivity extends BaseActivity {
 										type,
 										t,
 										httpStatus,
-										"https://api.imgur.com/3/image"));
+										"https://api.imgur.com/3/image",
+										null));
 
 						AndroidCommon.runOnUiThread(ImgurUploadActivity.this::hideLoadingOverlay);
 					}

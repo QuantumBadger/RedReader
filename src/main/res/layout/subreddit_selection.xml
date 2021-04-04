@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ This file is part of RedReader.
+  ~
+  ~ RedReader is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ RedReader is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		xmlns:tools="http://schemas.android.com/tools">
+
+	<LinearLayout
+			android:id="@+id/subreddit_selection_textbox_top_layout"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			app:layout_constraintTop_toTopOf="parent"
+			app:layout_constraintLeft_toLeftOf="parent"
+			app:layout_constraintRight_toRightOf="parent"
+			android:padding="10dp"
+			android:orientation="vertical">
+
+		<Spinner
+				android:id="@+id/subreddit_selection_account"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="2dp"
+				android:layout_marginBottom="2dp"
+				tools:listitem="@android:layout/simple_list_item_1"/>
+
+		<EditText
+				android:id="@+id/subreddit_selection_textbox"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:importantForAutofill="no"
+				android:singleLine="true"
+				android:scrollHorizontally="true"
+				android:hint="@string/subreddit_selection_textbox_hint"
+				android:inputType="textNoSuggestions"/>
+
+		<androidx.constraintlayout.widget.ConstraintLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+
+			<Button
+					android:id="@+id/subreddit_selection_button_continue"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
+					app:layout_constraintBottom_toBottomOf="parent"
+					android:text="@string/dialog_continue" />
+
+		</androidx.constraintlayout.widget.ConstraintLayout>
+
+	</LinearLayout>
+
+	<androidx.recyclerview.widget.RecyclerView
+			android:id="@+id/subreddit_selection_autocomplete"
+			android:layout_width="match_parent"
+			android:layout_height="0dp"
+			tools:listitem="@layout/list_item_1_text"
+			app:layout_constrainedHeight="true"
+			app:layout_constraintTop_toBottomOf="@id/subreddit_selection_textbox_top_layout"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintLeft_toLeftOf="parent"
+			app:layout_constraintRight_toRightOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

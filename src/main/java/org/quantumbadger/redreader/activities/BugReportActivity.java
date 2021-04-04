@@ -118,6 +118,9 @@ public class BugReportActivity extends BaseActivity {
 			if(error.debuggingContext != null) {
 				sb.append("Debugging context: ").append(error.debuggingContext).append("\r\n");
 			}
+			if(error.response != null) {
+				sb.append("Response: ").append(error.response.toString()).append("\r\n");
+			}
 			appendException(sb, error.t, 25);
 		}
 

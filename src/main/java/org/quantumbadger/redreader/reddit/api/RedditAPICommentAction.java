@@ -24,6 +24,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import org.apache.commons.text.StringEscapeUtils;
@@ -41,6 +42,7 @@ import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.fragments.CommentPropertiesDialog;
+import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
@@ -574,7 +576,8 @@ public class RedditAPICommentAction {
 							final @CacheRequest.RequestFailureType int type,
 							final Throwable t,
 							final Integer status,
-							final String readableMessage) {
+							final String readableMessage,
+							@Nullable final JsonValue response) {
 						revertOnFailure();
 						if(t != null) {
 							t.printStackTrace();
@@ -585,15 +588,25 @@ public class RedditAPICommentAction {
 								type,
 								t,
 								status,
-								null);
+								"Comment action " + action,
+								response);
+
 						General.showResultDialog(activity, error);
 					}
 
 					@Override
-					protected void onFailure(final APIFailureType type) {
+					protected void onFailure(
+							@NonNull final APIFailureType type,
+							@Nullable final String debuggingContext,
+							@Nullable final JsonValue response) {
 						revertOnFailure();
 
-						final RRError error = General.getGeneralErrorForFailure(context, type);
+						final RRError error = General.getGeneralErrorForFailure(
+								context,
+								type,
+								debuggingContext,
+								response);
+
 						General.showResultDialog(activity, error);
 					}
 

@@ -17,11 +17,13 @@
 
 package org.quantumbadger.redreader.reddit;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.things.RedditUser;
 
@@ -51,19 +53,24 @@ public abstract class APIResponseHandler {
 
 	protected abstract void onFailure(
 			@CacheRequest.RequestFailureType int type,
-			Throwable t,
-			Integer status,
-			String readableMessage);
+			@Nullable Throwable t,
+			@Nullable Integer status,
+			@Nullable String readableMessage,
+			@Nullable JsonValue response);
 
-	protected abstract void onFailure(APIFailureType type);
+	protected abstract void onFailure(
+			@NonNull APIFailureType type,
+			@Nullable String debuggingContext,
+			@Nullable JsonValue response);
 
 	public final void notifyFailure(
 			final @CacheRequest.RequestFailureType int type,
-			final Throwable t,
-			final Integer status,
-			final String readableMessage) {
+			@Nullable final Throwable t,
+			@Nullable final Integer status,
+			@Nullable final String readableMessage,
+			@Nullable final JsonValue response) {
 		try {
-			onFailure(type, t, status, readableMessage);
+			onFailure(type, t, status, readableMessage, response);
 		} catch(final Throwable t1) {
 			try {
 				onCallbackException(t1);
@@ -74,9 +81,13 @@ public abstract class APIResponseHandler {
 		}
 	}
 
-	public final void notifyFailure(final APIFailureType type) {
+	public final void notifyFailure(
+			@NonNull final APIFailureType type,
+			@Nullable final String debuggingContext,
+			@Nullable final JsonValue response) {
+
 		try {
-			onFailure(type);
+			onFailure(type, debuggingContext, response);
 		} catch(final Throwable t1) {
 			try {
 				onCallbackException(t1);

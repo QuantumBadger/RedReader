@@ -245,7 +245,9 @@ public final class PostListingHeader extends LinearLayout
 						activity));
 
 				buttonSubmit.setOnClickListener(v -> {
-					final Intent intent = new Intent(activity, PostSubmitActivity.class);
+					final Intent intent = new Intent(
+							activity,
+							PostSubmitActivity.class);
 					intent.putExtra("subreddit", subredditCanonicalId.toString());
 					activity.startActivity(intent);
 				});

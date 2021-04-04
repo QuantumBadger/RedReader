@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.common;
 
 import androidx.annotation.Nullable;
+import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
 public class RRError {
 
@@ -26,9 +27,10 @@ public class RRError {
 	@Nullable public final Integer httpStatus;
 	@Nullable public final String url;
 	@Nullable public final String debuggingContext;
+	@Nullable public final JsonValue response;
 
 	public RRError(@Nullable final String title, @Nullable final String message) {
-		this(title, message, null, null, null, null);
+		this(title, message, null);
 	}
 
 	public RRError(
@@ -46,11 +48,24 @@ public class RRError {
 			@Nullable final String url,
 			@Nullable final String debuggingContext) {
 
+		this(title, message, t, httpStatus, url, debuggingContext, null);
+	}
+
+	public RRError(
+			@Nullable final String title,
+			@Nullable final String message,
+			@Nullable final Throwable t,
+			@Nullable final Integer httpStatus,
+			@Nullable final String url,
+			@Nullable final String debuggingContext,
+			@Nullable final JsonValue response) {
+
 		this.title = title;
 		this.message = message;
 		this.t = t;
 		this.httpStatus = httpStatus;
 		this.url = url;
 		this.debuggingContext = debuggingContext;
+		this.response = response;
 	}
 }

@@ -65,9 +65,9 @@ public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>,
 	@WritableObjectTimestamp public long downloadTime;
 
 	private static final Pattern NAME_PATTERN = Pattern.compile(
-			"(/)?(r/)?([\\w\\+\\-\\.:]+)/?");
+			"((/)?r/)?([\\w\\+\\-\\.:]+)/?");
 	private static final Pattern USER_PATTERN = Pattern.compile(
-			"(/)?(u/|user/)([\\w\\+\\-\\.:]+)/?");
+			"/?(u/|user/)([\\w\\+\\-\\.:]+)/?");
 
 	public RedditSubreddit(final CreationData creationData) {
 		this();
@@ -86,7 +86,7 @@ public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>,
 	public static String stripUserPrefix(final String name) {
 		final Matcher matcher = USER_PATTERN.matcher(name);
 		if(matcher.matches()) {
-			return matcher.group(3);
+			return matcher.group(2);
 		} else {
 			return null;
 		}

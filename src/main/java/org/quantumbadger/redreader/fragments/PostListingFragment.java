@@ -956,7 +956,8 @@ public class PostListingFragment extends RRFragment
 										type,
 										t,
 										httpStatus,
-										url.toString());
+										url.toString(),
+										null);
 							}
 
 							mPostListingManager.addFooterError(new ErrorView(

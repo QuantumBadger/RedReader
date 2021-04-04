@@ -39,13 +39,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
 import org.quantumbadger.redreader.BuildConfig;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.fragments.AccountListDialog;
 import org.quantumbadger.redreader.fragments.ErrorPropertiesDialog;
+import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 
 import java.io.ByteArrayOutputStream;
@@ -240,11 +240,12 @@ public final class General {
 	}
 
 	public static RRError getGeneralErrorForFailure(
-			final Context context,
+			@NonNull final Context context,
 			@CacheRequest.RequestFailureType final int type,
-			final Throwable t,
-			final Integer status,
-			final String url) {
+			@Nullable final Throwable t,
+			@Nullable final Integer status,
+			@Nullable final String url,
+			@Nullable final JsonValue response) {
 
 		final int title, message;
 
@@ -353,12 +354,16 @@ public final class General {
 				context.getString(message),
 				t,
 				status,
-				url, null);
+				url,
+				null,
+				response);
 	}
 
 	public static RRError getGeneralErrorForFailure(
 			final Context context,
-			final APIResponseHandler.APIFailureType type) {
+			final APIResponseHandler.APIFailureType type,
+			final String debuggingContext,
+			final JsonValue response) {
 
 		final int title, message;
 
@@ -406,7 +411,14 @@ public final class General {
 				break;
 		}
 
-		return new RRError(context.getString(title), context.getString(message));
+		return new RRError(
+				context.getString(title),
+				context.getString(message),
+				null,
+				null,
+				null,
+				debuggingContext,
+				response);
 	}
 
 	public static void showResultDialog(
@@ -701,5 +713,51 @@ public final class General {
 			@NonNull final Runnable runnable) {
 
 		new Thread(runnable, name).start();
+	}
+
+	@Nullable
+	public static <T extends View> T findViewById(@NonNull final View view, final int id) {
+
+		if(view.getId() == id) {
+			//noinspection unchecked
+			return (T)view;
+		}
+
+		if(view instanceof ViewGroup) {
+
+			final ViewGroup group = (ViewGroup)view;
+
+			for(int i = 0; i < group.getChildCount(); i++) {
+
+				final T result = findViewById(group.getChildAt(i), id);
+
+				if(result != null) {
+					return result;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	public static <E> void ifNotNull(
+			@Nullable final E value,
+			@NonNull final Consumer<E> consumer) {
+
+		if(value != null) {
+			consumer.consume(value);
+		}
+	}
+
+	@Nullable
+	public static <E, R> R mapIfNotNull(
+			@Nullable final E value,
+			@NonNull final UnaryOperator<E, R> op) {
+
+		if(value != null) {
+			return op.operate(value);
+		}
+
+		return null;
 	}
 }

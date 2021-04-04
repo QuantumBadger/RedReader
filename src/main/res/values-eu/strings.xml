@@ -146,7 +146,7 @@
     <string name="comment_reply_preview">Aurreikusi</string>
     <string name="comment_reply_submitting_title">Bildatzen…</string>
     <string name="comment_reply_submitting_message">Momentu bat…</string>
-    <string name="post_submit_subreddit_hint">Azpireddita</string>
+    <string name="subreddit_selection_textbox_hint">Azpireddita</string>
     <string name="post_captcha_title">CAPTCHA</string>
     <string name="bug_message">RedReaderrek errore bat izan du.
 \n

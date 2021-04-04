@@ -162,6 +162,18 @@ public abstract class JsonValue {
 	}
 
 	@Nullable
+	public final JsonArray getArrayAtPath(final Object... keys) {
+
+		final JsonValue result = getAtPath(keys);
+
+		if(result == null) {
+			return null;
+		}
+
+		return result.asArray();
+	}
+
+	@Nullable
 	public final String getStringAtPath(final Object... keys) {
 
 		final JsonValue result = getAtPath(keys);

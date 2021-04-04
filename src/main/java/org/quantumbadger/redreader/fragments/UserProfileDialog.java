@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BaseActivity;
@@ -40,6 +41,7 @@ import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRTime;
+import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.things.RedditUser;
@@ -252,7 +254,8 @@ public class UserProfileDialog extends PropertiesDialog {
 							final @CacheRequest.RequestFailureType int type,
 							final Throwable t,
 							final Integer status,
-							final String readableMessage) {
+							final String readableMessage,
+							@Nullable final JsonValue response) {
 
 						AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 
@@ -267,13 +270,17 @@ public class UserProfileDialog extends PropertiesDialog {
 									type,
 									t,
 									status,
-									null);
+									null,
+									response);
 							items.addView(new ErrorView(context, error));
 						});
 					}
 
 					@Override
-					protected void onFailure(final APIFailureType type) {
+					protected void onFailure(
+							@NonNull final APIFailureType type,
+							@Nullable final String debuggingContext,
+							@Nullable final JsonValue response) {
 
 						AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 
@@ -285,7 +292,9 @@ public class UserProfileDialog extends PropertiesDialog {
 
 							final RRError error = General.getGeneralErrorForFailure(
 									context,
-									type);
+									type,
+									debuggingContext,
+									response);
 							items.addView(new ErrorView(context, error));
 						});
 					}

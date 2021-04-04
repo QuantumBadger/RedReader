@@ -78,7 +78,8 @@ public class LegacySaveImageCallback implements BaseActivity.PermissionCallback 
 										CacheRequest.REQUEST_FAILURE_STORAGE,
 										new RuntimeException("Could not copy file", e),
 										null,
-										uri));
+										uri,
+										null));
 
 						return;
 					}

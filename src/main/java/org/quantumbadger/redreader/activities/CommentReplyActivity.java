@@ -32,6 +32,7 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -44,6 +45,7 @@ import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.fragments.MarkdownPreviewDialog;
+import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 
@@ -247,28 +249,35 @@ public class CommentReplyActivity extends BaseActivity {
 
 				@Override
 				protected void onFailure(
-						@CacheRequest.RequestFailureType final int type,
-						final Throwable t,
-						final Integer status,
-						final String readableMessage) {
+						final int type,
+						@Nullable final Throwable t,
+						@Nullable final Integer httpStatus,
+						@Nullable final String readableMessage,
+						@Nullable final JsonValue response) {
 
 					final RRError error = General.getGeneralErrorForFailure(
 							context,
 							type,
 							t,
-							status,
-							null);
+							httpStatus,
+							"Comment reply",
+							response);
 
 					General.showResultDialog(CommentReplyActivity.this, error);
 					General.safeDismissDialog(progressDialog);
 				}
 
 				@Override
-				protected void onFailure(final APIFailureType type) {
+				protected void onFailure(
+						@NonNull final APIFailureType type,
+						@Nullable final String debuggingContext,
+						@Nullable final JsonValue response) {
 
 					final RRError error = General.getGeneralErrorForFailure(
 							context,
-							type);
+							type,
+							debuggingContext,
+							response);
 
 					General.showResultDialog(CommentReplyActivity.this, error);
 					General.safeDismissDialog(progressDialog);
@@ -292,7 +301,8 @@ public class CommentReplyActivity extends BaseActivity {
 						@CacheRequest.RequestFailureType final int type,
 						final Throwable t,
 						final Integer status,
-						final String readableMessage) {
+						final String readableMessage,
+						@Nullable final JsonValue response) {
 					Toast.makeText(
 							context,
 							getString(R.string.disable_replies_to_infobox_failed),
@@ -300,7 +310,11 @@ public class CommentReplyActivity extends BaseActivity {
 				}
 
 				@Override
-				protected void onFailure(final APIFailureType type) {
+				protected void onFailure(
+						@NonNull final APIFailureType type,
+						@Nullable final String readableMessage,
+						@Nullable final JsonValue response) {
+
 					Toast.makeText(
 							context,
 							getString(R.string.disable_replies_to_infobox_failed),

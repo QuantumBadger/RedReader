@@ -183,7 +183,7 @@
     <string name="comment_reply_done">Balasan terkirim. Komentar akan ditampilkan setelah anda menyegarkan halaman.</string>
     <string name="comment_edit_done">Komentar diubah. Perubahan akan ditampilkan setelah anda menyegarkan halaman.</string>
     <string name="post_submit_title_hint">Judul</string>
-    <string name="post_submit_subreddit_hint">Subreddit</string>
+    <string name="subreddit_selection_textbox_hint">Subreddit</string>
     <string name="post_captcha_title">CAPTCHA</string>
     <string name="post_captcha_submit_button">Kirim</string>
     <string name="post_submit_done">Pos terkirim.</string>

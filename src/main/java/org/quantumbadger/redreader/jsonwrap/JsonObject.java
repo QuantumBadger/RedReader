@@ -69,6 +69,10 @@ public final class JsonObject extends JsonValue
 		parser.nextToken();
 	}
 
+	public boolean isEmpty() {
+		return properties.isEmpty();
+	}
+
 	@NonNull
 	@Override
 	public JsonObject asObject() {

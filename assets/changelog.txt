@@ -1,4 +1,5 @@
 97/1.17
+Ability to choose flair when submitting posts
 Improved image preview resolution selection for tall images
 Ability to customize comment long-tap menu (thanks to Cameron Merkel)
 Added preference to make tapping post title open comments (thanks to mgurga)

@@ -251,7 +251,7 @@
     <string name="comment_reply_done">Válasz elküldve. A hozzászólás egy frissítés után megjelenik.</string>
     <string name="comment_edit_done">Hozzászólás módosítva. A változtatás egy frissítés után látszani fog.</string>
     <string name="post_submit_title_hint">Cím</string>
-    <string name="post_submit_subreddit_hint">Alreddit</string>
+    <string name="subreddit_selection_textbox_hint">Alreddit</string>
     <string name="post_captcha_title">Captcha</string>
     <string name="post_captcha_submit_button">Küldés</string>
     <string name="post_submit_done">Poszt elküldve.</string>

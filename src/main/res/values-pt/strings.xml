@@ -149,7 +149,7 @@
     <string name="post_captcha_submit_button">Enviar</string>
     <string name="post_captcha_title">Captcha</string>
     <string name="post_submit_done">Post Enviado.</string>
-    <string name="post_submit_subreddit_hint">Subreddit</string>
+    <string name="subreddit_selection_textbox_hint">Subreddit</string>
     <string name="post_submit_title_hint">Título</string>
     <string name="pref_about_version_title">Versão</string>
     <string name="pref_appearance_comment_header_items_age">Idade</string>

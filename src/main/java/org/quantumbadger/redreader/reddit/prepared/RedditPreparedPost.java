@@ -68,6 +68,7 @@ import org.quantumbadger.redreader.fragments.PostPropertiesDialog;
 import org.quantumbadger.redreader.fragments.ShareOrderDialog;
 import org.quantumbadger.redreader.image.ThumbnailScaler;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
+import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
@@ -1502,10 +1503,12 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 					@Override
 					protected void onFailure(
-							final @CacheRequest.RequestFailureType int type,
-							final Throwable t,
-							final Integer status,
-							final String readableMessage) {
+							final int type,
+							@Nullable final Throwable t,
+							@Nullable final Integer httpStatus,
+							@Nullable final String readableMessage,
+							@Nullable final JsonValue response) {
+
 						revertOnFailure();
 						if(t != null) {
 							t.printStackTrace();
@@ -1515,20 +1518,29 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 								context,
 								type,
 								t,
-								status,
+								httpStatus,
 								"Reddit API action code: "
 										+ action
 										+ " "
-										+ src.getIdAndType());
+										+ src.getIdAndType(),
+								response);
 						General.showResultDialog(activity, error);
 					}
 
 					@Override
-					protected void onFailure(final APIFailureType type) {
+					protected void onFailure(
+							@NonNull final APIFailureType type,
+							@Nullable final String debuggingContext,
+							@Nullable final JsonValue response) {
+
 						revertOnFailure();
 
-						final RRError error =
-								General.getGeneralErrorForFailure(context, type);
+						final RRError error = General.getGeneralErrorForFailure(
+								context,
+								type,
+								debuggingContext,
+								response);
+
 						General.showResultDialog(activity, error);
 					}
 

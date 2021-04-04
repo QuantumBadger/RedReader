@@ -184,7 +184,7 @@
     <string name="comment_reply_done">تم إرسال الرد. سيظهر التعليق بعد التحديث.</string>
     <string name="comment_edit_done">تم التعديل. ستظهر التعديلات بعد التحديث.</string>
     <string name="post_submit_title_hint">العنوان</string>
-    <string name="post_submit_subreddit_hint">المنتدى الفرعي</string>
+    <string name="subreddit_selection_textbox_hint">المنتدى الفرعي</string>
     <string name="post_captcha_title">كابتشا</string>
     <string name="post_captcha_submit_button">قدّم</string>
     <string name="post_submit_done">تم تقديم الإشعار.</string>

@@ -164,7 +164,7 @@
     <string name="comment_reply_done">您已经回复，评论将在您刷新后显示。</string>
     <string name="comment_edit_done">您已经修改评论，更改将在您刷新后显示。</string>
     <string name="post_submit_title_hint">标题</string>
-    <string name="post_submit_subreddit_hint">版块</string>
+    <string name="subreddit_selection_textbox_hint">版块</string>
     <string name="post_captcha_title">CAPTCHA</string>
     <string name="post_captcha_submit_button">提交</string>
     <string name="post_submit_done">已发帖。</string>

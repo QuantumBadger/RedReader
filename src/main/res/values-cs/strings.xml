@@ -182,7 +182,7 @@
     <string name="comment_reply_done">Odpověď odeslána. Komentář se objeví po obnovení stránky.</string>
     <string name="comment_edit_done">Komentář upraven. Změny se objeví po obnovení stránky.</string>
     <string name="post_submit_title_hint">Název</string>
-    <string name="post_submit_subreddit_hint">Subreddit</string>
+    <string name="subreddit_selection_textbox_hint">Subreddit</string>
     <string name="post_captcha_title">CAPTCHA</string>
     <string name="post_captcha_submit_button">Odeslat</string>
     <string name="post_submit_done">Příspěvek odeslán.</string>

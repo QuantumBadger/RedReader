@@ -524,7 +524,8 @@ public class FileUtils {
 								type,
 								t,
 								status,
-								uri);
+								uri,
+								null);
 						General.showResultDialog(activity, error);
 					}
 
@@ -563,7 +564,8 @@ public class FileUtils {
 														type,
 														t,
 														status,
-														info.urlOriginal));
+														info.urlOriginal,
+														null));
 									}
 
 									@Override

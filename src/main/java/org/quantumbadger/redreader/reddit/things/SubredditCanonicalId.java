@@ -17,25 +17,45 @@
 
 package org.quantumbadger.redreader.reddit.things;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.common.StringUtils;
 
-public class SubredditCanonicalId implements Comparable<SubredditCanonicalId> {
+public class SubredditCanonicalId implements Comparable<SubredditCanonicalId>, Parcelable {
 
 	@NonNull private final String mId;
 
-	public SubredditCanonicalId(@NonNull final String name) throws
-			InvalidSubredditNameException {
+	public SubredditCanonicalId(@NonNull String name) throws InvalidSubredditNameException {
 
+		name = StringUtils.asciiLowercase(name.trim());
 		final String userSr = RedditSubreddit.stripUserPrefix(name);
 
 		if(userSr != null) {
-			mId = "/user/" + StringUtils.asciiLowercase(userSr);
+			mId = "/user/" + userSr;
 		} else {
-			mId = "/r/" + StringUtils.asciiLowercase(RedditSubreddit.stripRPrefix(name));
+			mId = "/r/" + RedditSubreddit.stripRPrefix(name);
 		}
 	}
+
+	public static final Creator<SubredditCanonicalId> CREATOR
+			= new Creator<SubredditCanonicalId>() {
+
+		@Override
+		public SubredditCanonicalId createFromParcel(final Parcel in) {
+			try {
+				return new SubredditCanonicalId(in.readString());
+			} catch(final InvalidSubredditNameException e) {
+				throw new RuntimeException(e);
+			}
+		}
+
+		@Override
+		public SubredditCanonicalId[] newArray(final int size) {
+			return new SubredditCanonicalId[size];
+		}
+	};
 
 	public String getDisplayNameLowercase() {
 
@@ -74,5 +94,15 @@ public class SubredditCanonicalId implements Comparable<SubredditCanonicalId> {
 	@Override
 	public int compareTo(final SubredditCanonicalId o) {
 		return mId.compareTo(o.mId);
+	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(final Parcel dest, final int flags) {
+		dest.writeString(mId);
 	}
 }

@@ -261,7 +261,7 @@
     <string name="comment_reply_done">Svar sendt. Kommentaren vil blive vist når du har genopfrisket.</string>
     <string name="comment_edit_done">Kommentar redigeret. Ændringerne vil blive vist når du har genopfrisket.</string>
     <string name="post_submit_title_hint">Titel</string>
-    <string name="post_submit_subreddit_hint">Subreddit</string>
+    <string name="subreddit_selection_textbox_hint">Subreddit</string>
     <string name="post_captcha_title">Captcha</string>
     <string name="post_captcha_submit_button">Send</string>
     <string name="post_submit_done">Indlæg tilføjet.</string>

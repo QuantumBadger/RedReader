@@ -32,6 +32,7 @@ import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategy;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.GenericFactory;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.TimestampBound;
@@ -51,9 +52,12 @@ import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.net.URI;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 
@@ -113,10 +117,10 @@ public final class RedditAPI {
 				final APIResponseHandler.APIFailureType failureType = findFailureType(result);
 
 				if(failureType != null) {
-					mHandler.notifyFailure(failureType);
+					mHandler.notifyFailure(failureType, "GenericResponseHandler", result);
+				} else {
+					mHandler.notifySuccess(findRedirectUrl(result));
 				}
-
-				mHandler.notifySuccess(findRedirectUrl(result));
 
 			} catch(final Exception e) {
 				BugReportActivity.handleGlobalError(mHandler.context, new RRError(
@@ -136,8 +140,118 @@ public final class RedditAPI {
 				@Nullable final Integer httpStatus,
 				@Nullable final String readableMessage) {
 
-			mHandler.notifyFailure(type, t, httpStatus, readableMessage);
+			mHandler.notifyFailure(type, t, httpStatus, readableMessage, null);
 		}
+	}
+
+	public interface FlairSelectorResponseHandler {
+
+		void onSuccess(@NonNull Collection<RedditFlairChoice> choices);
+
+		void onSubredditDoesNotExist();
+
+		void onSubredditPermissionDenied();
+
+		void onFailure(
+				int type,
+				@Nullable Throwable t,
+				@Nullable Integer httpStatus,
+				@Nullable String readableMessage,
+				@Nullable JsonValue response);
+
+		void onFailure(
+				@NonNull APIResponseHandler.APIFailureType type,
+				@Nullable JsonValue response);
+	}
+
+	public static void flairSelectorForNewLink(
+			@NonNull final Context context,
+			@NonNull final CacheManager cm,
+			@NonNull final RedditAccount user,
+			@NonNull final SubredditCanonicalId subreddit,
+			@NonNull final FlairSelectorResponseHandler responseHandler) {
+
+		final LinkedList<HTTPBackend.PostField> postFields = new LinkedList<>();
+		postFields.add(new HTTPBackend.PostField("is_newlink", "true"));
+
+		cm.makeRequest(createPostRequest(
+				Constants.Reddit.getUri(subreddit.toString() + "/api/flairselector"),
+				user,
+				postFields,
+				context,
+				new CacheRequestJSONParser.Listener() {
+
+					@Override
+					public void onJsonParsed(
+							@NonNull final JsonValue result,
+							final long timestamp,
+							@NonNull final UUID session,
+							final boolean fromCache) {
+
+						if(result.asObject() != null
+								&& Objects.requireNonNull(result.asObject()).isEmpty()) {
+							responseHandler.onSuccess(Collections.emptyList());
+							return;
+						}
+
+						if(result.asString() != null
+								&& Objects.requireNonNull(result.asString()).equals("{}")) {
+							responseHandler.onSuccess(Collections.emptyList());
+							return;
+						}
+
+						final JsonArray array = result.getArrayAtPath("choices");
+
+						if(array == null) {
+
+							final APIResponseHandler.APIFailureType failureType
+									= findFailureType(result);
+
+							if(failureType != null) {
+								responseHandler.onFailure(failureType, result);
+							} else {
+								responseHandler.onFailure(
+										APIResponseHandler.APIFailureType.UNKNOWN,
+										result);
+							}
+
+							return;
+						}
+
+						final Optional<List<RedditFlairChoice>> choices
+								= RedditFlairChoice.fromJsonList(array);
+
+						if(choices.isEmpty()) {
+							responseHandler.onFailure(
+									CacheRequest.REQUEST_FAILURE_PARSE,
+									new RuntimeException(),
+									null,
+									"Failed to parse choices list",
+									result);
+							return;
+						}
+
+						responseHandler.onSuccess(choices.get());
+					}
+
+					@Override
+					public void onFailure(
+							final int type,
+							@Nullable final Throwable t,
+							@Nullable final Integer httpStatus,
+							@Nullable final String readableMessage) {
+
+						if(httpStatus != null && httpStatus == 404) {
+							responseHandler.onSubredditDoesNotExist();
+
+						} else if(httpStatus != null && httpStatus == 403) {
+							responseHandler.onSubredditPermissionDenied();
+
+						} else {
+							responseHandler.onFailure(type, t, httpStatus, readableMessage, null);
+						}
+					}
+				}));
 	}
 
 	public static void submit(
@@ -151,6 +265,7 @@ public final class RedditAPI {
 			final boolean sendRepliesToInbox,
 			final boolean markAsNsfw,
 			final boolean markAsSpoiler,
+			@Nullable final String flairId,
 			final Context context) {
 
 		final LinkedList<HTTPBackend.PostField> postFields = new LinkedList<>();
@@ -162,6 +277,10 @@ public final class RedditAPI {
 		postFields.add(new HTTPBackend.PostField("spoiler", markAsSpoiler ? "true" : "false"));
 		postFields.add(new HTTPBackend.PostField("sr", subreddit));
 		postFields.add(new HTTPBackend.PostField("title", title));
+
+		if(flairId != null) {
+			postFields.add(new HTTPBackend.PostField("flair_id", flairId));
+		}
 
 		if(is_self) {
 			postFields.add(new HTTPBackend.PostField("text", body));
@@ -231,7 +350,7 @@ public final class RedditAPI {
 							final APIResponseHandler.APIFailureType failureType =
 									findFailureType(result);
 							if(failureType != null) {
-								responseHandler.notifyFailure(failureType);
+								responseHandler.notifyFailure(failureType, "comment", result);
 								return;
 							}
 							// sending replies to inbox is the default behaviour
@@ -254,7 +373,8 @@ public final class RedditAPI {
 									CacheRequest.REQUEST_FAILURE_PARSE,
 									t,
 									null,
-									"JSON failed to parse");
+									"JSON failed to parse",
+									result);
 						}
 
 						@Nullable String permalink = findStringValue(result, "permalink");
@@ -273,7 +393,7 @@ public final class RedditAPI {
 							@Nullable final Integer httpStatus,
 							@Nullable final String readableMessage) {
 
-						responseHandler.notifyFailure(type, t, httpStatus, readableMessage);
+						responseHandler.notifyFailure(type, t, httpStatus, readableMessage, null);
 					}
 				}));
 	}
@@ -299,7 +419,7 @@ public final class RedditAPI {
 							@Nullable final Integer httpStatus,
 							@Nullable final String readableMessage) {
 
-						responseHandler.notifyFailure(type, t, httpStatus, readableMessage);
+						responseHandler.notifyFailure(type, t, httpStatus, readableMessage, null);
 					}
 
 					@Override
@@ -409,7 +529,8 @@ public final class RedditAPI {
 								failureReason.requestFailureType,
 								failureReason.t,
 								failureReason.statusLine,
-								failureReason.readableMessage);
+								failureReason.readableMessage,
+								null);
 					}
 
 					@Override
@@ -487,7 +608,8 @@ public final class RedditAPI {
 									CacheRequest.REQUEST_FAILURE_PARSE,
 									t,
 									null,
-									"JSON parse failed for unknown reason");
+									"JSON parse failed for unknown reason",
+									result);
 						}
 					}
 
@@ -497,7 +619,7 @@ public final class RedditAPI {
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
 							@Nullable final String readableMessage) {
-						responseHandler.notifyFailure(type, t, httpStatus, readableMessage);
+						responseHandler.notifyFailure(type, t, httpStatus, readableMessage, null);
 					}
 				}));
 	}
@@ -604,6 +726,7 @@ public final class RedditAPI {
 	}
 
 	// lol, reddit api
+	@Nullable
 	private static APIResponseHandler.APIFailureType findFailureType(final JsonValue response) {
 
 		// TODO handle 403 forbidden

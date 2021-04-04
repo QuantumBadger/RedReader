@@ -962,7 +962,8 @@ public class ImageViewActivity extends BaseActivity
 										type,
 										t,
 										httpStatus,
-										uri.toString());
+										uri.toString(),
+										null);
 
 								AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 									final LinearLayout layout
@@ -1061,7 +1062,8 @@ public class ImageViewActivity extends BaseActivity
 											type,
 											t,
 											httpStatus,
-											audioUri.toString());
+											audioUri.toString(),
+											null);
 
 									AndroidCommon.runOnUiThread(() -> {
 										final LinearLayout layout

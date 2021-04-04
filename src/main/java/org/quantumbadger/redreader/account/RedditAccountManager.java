@@ -24,6 +24,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.common.UpdateNotifier;
 import org.quantumbadger.redreader.reddit.api.RedditOAuth;
@@ -180,6 +181,7 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 		return new ArrayList<>(accountsCache);
 	}
 
+	@Nullable
 	public RedditAccount getAccount(@NonNull final String username) {
 
 		if("".equals(username)) {

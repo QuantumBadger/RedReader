@@ -183,7 +183,7 @@
     <string name="comment_reply_done">Réponse envoyée. Le commentaire apparaitra après le rafraichissement.</string>
     <string name="comment_edit_done">Commentaire édité. Les changements apparaitront après le rafraichissement.</string>
     <string name="post_submit_title_hint">Titre</string>
-    <string name="post_submit_subreddit_hint">Subreddit</string>
+    <string name="subreddit_selection_textbox_hint">Subreddit</string>
     <string name="post_captcha_title">CAPTCHA</string>
     <string name="post_captcha_submit_button">Vérifier</string>
     <string name="post_submit_done">Post envoyé.</string>

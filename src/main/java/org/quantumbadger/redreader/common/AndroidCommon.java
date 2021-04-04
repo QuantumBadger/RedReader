@@ -19,6 +19,11 @@ package org.quantumbadger.redreader.common;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 public class AndroidCommon {
@@ -31,5 +36,54 @@ public class AndroidCommon {
 		} else {
 			UI_THREAD_HANDLER.post(runnable);
 		}
+	}
+
+	public static void onTextChanged(
+			@NonNull final TextView textBox,
+			@NonNull final Runnable action) {
+
+		textBox.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(
+					final CharSequence s,
+					final int start,
+					final int count,
+					final int after) {}
+
+			@Override
+			public void onTextChanged(
+					final CharSequence s,
+					final int start,
+					final int before,
+					final int count) {}
+
+			@Override
+			public void afterTextChanged(final Editable s) {
+				action.run();
+			}
+		});
+	}
+
+	public static void onSelectedItemChanged(
+			@NonNull final AdapterView<?> view,
+			@NonNull final Runnable action) {
+
+		view.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(
+					final AdapterView<?> parent,
+					final View view,
+					final int position,
+					final long id) {
+
+				action.run();
+			}
+
+			@Override
+			public void onNothingSelected(final AdapterView<?> parent) {
+				action.run();
+			}
+		});
 	}
 }

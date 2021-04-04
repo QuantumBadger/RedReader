@@ -402,7 +402,8 @@ public final class InboxListingActivity extends BaseActivity {
 								type,
 								t,
 								httpStatus,
-								url.toString());
+								url.toString(),
+								null);
 						AndroidCommon.runOnUiThread(() -> notifications.addView(
 								new ErrorView(InboxListingActivity.this, error)));
 
@@ -464,24 +465,31 @@ public final class InboxListingActivity extends BaseActivity {
 									final @CacheRequest.RequestFailureType int type,
 									final Throwable t,
 									final Integer status,
-									final String readableMessage) {
+									final String readableMessage,
+									@Nullable final JsonValue response) {
 								final RRError error = General.getGeneralErrorForFailure(
 										context,
 										type,
 										t,
 										status,
-										"Reddit API action: Mark all as Read");
+										"Reddit API action: Mark all as Read",
+										response);
 								General.showResultDialog(
 										InboxListingActivity.this,
 										error);
 							}
 
 							@Override
-							protected void onFailure(final APIFailureType type) {
+							protected void onFailure(
+									final APIFailureType type,
+									@Nullable final String debuggingContext,
+									@Nullable final JsonValue response) {
 
 								final RRError error = General.getGeneralErrorForFailure(
 										context,
-										type);
+										type,
+										debuggingContext,
+										response);
 								General.showResultDialog(InboxListingActivity.this, error);
 							}
 						},

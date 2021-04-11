@@ -32,6 +32,7 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.CommentReplyActivity;
+import org.quantumbadger.redreader.activities.InboxListingActivity;
 import org.quantumbadger.redreader.common.BetterSSB;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -49,15 +50,18 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 	public final BodyElement body;
 	public final String idAndType;
 	public final RedditMessage src;
+	public final InboxListingActivity.InboxType inboxType;
 
 	public RedditPreparedMessage(
 			@NonNull final AppCompatActivity activity,
 			@NonNull final RedditMessage message,
-			final long timestamp) {
+			final long timestamp,
+			final InboxListingActivity.InboxType inboxType) {
 
 		final Context applicationContext = activity.getApplicationContext();
 
 		this.src = message;
+		this.inboxType = inboxType;
 
 		// TODO respect RRTheme
 
@@ -82,20 +86,40 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 
 		final BetterSSB sb = new BetterSSB();
 
-		if(src.author == null) {
-			sb.append(
-					"[" + applicationContext.getString(R.string.general_unknown) + "]",
-					BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD,
-					rrCommentHeaderAuthorCol,
-					0,
-					1f);
+		if(inboxType == InboxListingActivity.InboxType.SENT) {
+			sb.append(applicationContext.getString(R.string.subtitle_to) + " ", 0);
+
+			if(src.dest == null) {
+				sb.append(
+						"[" + applicationContext.getString(R.string.general_unknown) + "]",
+						BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD,
+						rrCommentHeaderAuthorCol,
+						0,
+						1f);
+			} else {
+				sb.append(
+						src.dest,
+						BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD,
+						rrCommentHeaderAuthorCol,
+						0,
+						1f);
+			}
 		} else {
-			sb.append(
-					src.author,
-					BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD,
-					rrCommentHeaderAuthorCol,
-					0,
-					1f);
+			if(src.author == null) {
+				sb.append(
+						"[" + applicationContext.getString(R.string.general_unknown) + "]",
+						BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD,
+						rrCommentHeaderAuthorCol,
+						0,
+						1f);
+			} else {
+				sb.append(
+						src.author,
+						BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD,
+						rrCommentHeaderAuthorCol,
+						0,
+						1f);
+			}
 		}
 
 		sb.append("   ", 0);
@@ -171,7 +195,15 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 		final StringBuilder accessibilityHeader = new StringBuilder();
 		final String separator = " \n";
 
-		if(src.author != null) {
+		if(inboxType == InboxListingActivity.InboxType.SENT && src.dest != null) {
+			accessibilityHeader
+					.append(context.getString(
+							R.string.accessibility_subtitle_recipient_withperiod,
+							ScreenreaderPronunciation.getPronunciation(
+									context,
+									src.dest)))
+					.append(separator);
+		} else if(src.author != null) {
 			accessibilityHeader
 					.append(context.getString(
 							R.string.accessibility_subtitle_author_withperiod,

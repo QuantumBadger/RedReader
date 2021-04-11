@@ -1477,4 +1477,7 @@
 
 	<string name="invalid_subreddit_name_message">Please enter a valid subreddit name.</string>
 
+	<!-- 2021-04-11 -->
+	<string name="accessibility_subtitle_recipient_withperiod">Recipient: %s.</string>
+
 </resources>

@@ -842,8 +842,6 @@ public class PostListingFragment extends RRFragment
 									final boolean downloadThisPreview = inlinePreviews
 											&& (!post.over_18 || showNsfwPreviews)
 											&& (!post.spoiler || showSpoilerPreviews);
-											// remove this if merged: couldn't find out if
-											// post.spoiler was correct
 
 									final int positionInList = mPostCount;
 

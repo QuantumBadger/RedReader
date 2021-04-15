@@ -1407,7 +1407,7 @@
 	<string name="pref_images_inline_image_previews_nsfw_title">Show NSFW previews</string>
 	<string name="pref_images_inline_image_previews_nsfw_key" translatable="false">pref_images_inline_image_previews_nsfw_key</string>
 
-	<string name="pref_images_inline_image_previews_spoiler_title">Show NSFW previews</string>
+	<string name="pref_images_inline_image_previews_spoiler_title">Show spoiler previews</string>
 	<string name="pref_images_inline_image_previews_spoiler_key" translatable="false">pref_images_inline_image_previews_spoiler_key</string>
 
 	<string name="pref_header_image_viewer">Image viewer</string>

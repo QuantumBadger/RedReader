@@ -53,9 +53,9 @@
     <string name="pref_cache_maxage_entry_title">Gecachete markeringen (gelezen, geupvote, etc) verwijderen na</string>
     <string name="pref_cache_precache_images_header">Afbeeldingen precachen</string>
     <string name="pref_cache_precache_images_title">Afbeeldingen precachen</string>
-    <string name="pref_cache_precache_images_wifionly_title">Alleen via wifi</string>
+    <string name="pref_cache_precache_images_wifionly_title">Alleen op Wi-Fi</string>
     <!-- Menu Prefs -->
-    <string name="pref_menus_post_context_items_title">Lang-drukken menu lijst</string>
+    <string name="pref_menus_post_context_items_title">Actiemenu-items</string>
     <string name="pref_menus_post_toolbar_items_title">Onderdelen zijwerkbalk</string>
     <!-- Options Menu -->
     <string name="options_accounts">Accounts</string>
@@ -98,7 +98,7 @@
     <string name="accounts_loggingin_msg">Een momentje…</string>
     <string name="accounts_username">Gebruikersnaam</string>
     <string name="accounts_password">Wachtwoord</string>
-    <string name="accounts_login">Aanmelden</string>
+    <string name="accounts_login">Inloggen</string>
     <string name="accounts_delete_sure">Weet je zeker dat je deze account verwijderen wilt?</string>
     <!-- Post Sorts -->
     <string name="sort_posts_hot">Populair</string>
@@ -172,8 +172,8 @@
     <string name="download_done">Gereed.</string>
     <string name="download_failed">Mislukt.</string>
     <!-- Image View -->
-    <string name="imageview_oom">Onvoldoende geheugen. Interne browser proberen.</string>
-    <string name="imageview_invalid_gif">Ongeldige GIF. Interne browser proberen.</string>
+    <string name="imageview_oom">Onvoldoende geheugen. Webbrowser proberen.</string>
+    <string name="imageview_invalid_gif">Ongeldige GIF. Webbrowser proberen.</string>
     <!-- Comment Reply/Edit, Post Submit -->
     <string name="comment_reply_send">Verzenden</string>
     <string name="comment_edit_save">Opslaan</string>
@@ -185,7 +185,7 @@
     <string name="comment_edit_done">Reactie bewerkt. Veranderingen worden zichtbaar nadat je ververst.</string>
     <string name="post_submit_title_hint">Titel</string>
     <string name="subreddit_selection_textbox_hint">Subreddit</string>
-    <string name="post_captcha_title">Captcha</string>
+    <string name="post_captcha_title">CAPTCHA</string>
     <string name="post_captcha_submit_button">Verstuur</string>
     <string name="post_submit_done">Post verstuurd.</string>
     <!-- Bug Reporting -->
@@ -293,7 +293,7 @@
     <string name="error_invalid_password_title">Ongeldig wachtwoord</string>
     <string name="error_invalid_password_message">Je gebruikersnaam of wachtwoord was onjuist.</string>
     <string name="error_ratelimit_title">Te veel ongeldige pogingen.</string>
-    <string name="error_ratelimit_message">Geblokkeerd als gevolg van te veel ongeldige inlogpogingen via dit IP-adres. Reddit meldt:</string>
+    <string name="error_ratelimit_message">Geblokkeerd als gevolg van te veel ongeldige inlogpogingen van dit IP-adres. Reddit meldt:</string>
     <string name="general_success">Succesvol</string>
     <string name="message_nowloggedin">Je bent nu ingelogd.</string>
     <string name="message_cannotlogin">Kan niet inloggen.</string>
@@ -321,7 +321,7 @@
     <string name="lang_auto">Automatisch</string>
     <!-- 2013-06-25 -->
     <string name="prefs_category_network">Netwerk</string>
-    <string name="pref_network_https_title">HTTPS inschakelen</string>
+    <string name="pref_network_https_title">Gebruik HTTPS</string>
     <!-- 2013-07-01 -->
     <string name="web_view_open_browser">Bekijk in webbrowser</string>
     <!-- 2013-07-26 -->
@@ -361,7 +361,7 @@
     <string name="pref_menus_mainmenu_useritems_title">Gebruikersonderdelen</string>
     <string name="mainmenu_submitted">Geplaatste posts</string>
     <string name="mainmenu_downvoted">Gedownvote posts</string>
-    <string name="mainmenu_modmail">Mod Mail</string>
+    <string name="mainmenu_modmail">Modmail</string>
     <string name="sidebar_activity_title">Zijbalk</string>
     <!-- 2014-04-20 -->
     <string name="header_subscriber_count">%s lezers</string>
@@ -665,8 +665,8 @@
     <string name="post_submit_mark_spoiler">Markeren als spoiler</string>
     <string name="pref_appearance_left_handed_title">Linkshandige modus</string>
     <string name="title_license">Licentie</string>
-	<plurals name="load_more_comments_button_reply_count">
-		<item quantity="one">"Meer reacties laden (%d reactie)"</item>
-		<item quantity="other">"Meer reacties laden (%d reacties)"</item>
-	</plurals>
+    <plurals name="load_more_comments_button_reply_count">
+        <item quantity="one">"Meer reacties laden (%d reactie)"</item>
+        <item quantity="other">"Meer reacties laden (%d reacties)"</item>
+    </plurals>
 </resources>

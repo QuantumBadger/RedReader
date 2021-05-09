@@ -121,6 +121,8 @@ public final class PrefsUtility {
 				|| key.equals(context.getString(R.string.pref_images_inline_image_previews_key))
 				|| key.equals(context.getString(
 						R.string.pref_images_inline_image_previews_nsfw_key))
+				|| key.equals(context.getString(
+						R.string.pref_images_inline_image_previews_spoiler_key))
 				|| key.equals(context.getString(R.string.pref_images_high_res_thumbnails_key))
 				|| key.equals(context.getString(
 						R.string.pref_accessibility_separate_body_text_lines_key))
@@ -359,6 +361,16 @@ public final class PrefsUtility {
 			final SharedPreferences sharedPreferences) {
 		return getBoolean(
 				R.string.pref_appearance_thumbnails_nsfw_show_key,
+				false,
+				context,
+				sharedPreferences);
+	}
+
+	public static boolean appearance_thumbnails_spoiler_show(
+			final Context context,
+			final SharedPreferences sharedPreferences) {
+		return getBoolean(
+				R.string.pref_appearance_thumbnails_spoiler_show_key,
 				false,
 				context,
 				sharedPreferences);
@@ -877,6 +889,16 @@ public final class PrefsUtility {
 			final SharedPreferences sharedPreferences) {
 		return getBoolean(
 				R.string.pref_images_inline_image_previews_nsfw_key,
+				false,
+				context,
+				sharedPreferences);
+	}
+
+	public static boolean images_inline_image_previews_spoiler(
+			final Context context,
+			final SharedPreferences sharedPreferences) {
+		return getBoolean(
+				R.string.pref_images_inline_image_previews_spoiler_key,
 				false,
 				context,
 				sharedPreferences);

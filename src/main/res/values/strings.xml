@@ -55,6 +55,9 @@
     <string name="pref_appearance_thumbnails_nsfw_show_key" translatable="false">pref_appearance_thumbnails_nsfw_show</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">Show NSFW thumbnails</string>
 
+    <string name="pref_appearance_thumbnails_spoiler_show_key" translatable="false">pref_appearance_thumbnails_spoiler_show</string>
+    <string name="pref_appearance_thumbnails_spoiler_show_title">Show spoiler thumbnails</string>
+
     <string name="pref_appearance_thumbnails_wifionly_key" translatable="false">pref_appearance_thumbnails_wifionly</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Thumbnails on Wi-Fi only</string>
 
@@ -772,7 +775,7 @@
 
 	<!-- 2016-06-24 -->
 	<string name="save_image_permission_denied">Permission denied: could not save image.</string>
-	
+
 	<!-- 2016-06-25 -->
 	<string name="pref_behaviour_imageview_mode_title">Image viewer</string>
 	<string name="pref_behaviour_imageview_mode_key" translatable="false">pref_behaviour_imageview_mode</string>
@@ -788,7 +791,7 @@
 
 	<!-- 2016-06-30 -->
 	<string name="inbox_unread_only">Unread Messages Only</string>
-	
+
 	<!-- 2016-07-02 -->
 	<string name="pref_behaviour_actions_comment_longclick_key" translatable="false">pref_behaviour_actions_comment_longclick</string>
 	<string name="pref_behaviour_actions_comment_longclick_title">Long press</string>
@@ -811,7 +814,7 @@
 	<string name="submit_post_actionbar">Submit Post</string>
 	<string name="submit_comment_actionbar">Submit Comment</string>
 	<string name="edit_comment_actionbar">Edit Comment</string>
-	
+
 	<!-- 2016-07-16 -->
 	<string name="pref_behaviour_fling_comment_left_key" translatable="false">pref_behaviour_fling_comment_left</string>
 	<string name="pref_behaviour_fling_comment_left_title">Fling left</string>
@@ -1025,7 +1028,7 @@
 	<!-- 2018-02-10 -->
 	<string name="search_listing_header_query">Search Query</string>
 	<string name="search_listing_header_sub">Limit to Subreddit</string>
-  
+
 	<!-- 2018-02-11 -->
 	<string name="pref_behaviour_sharing_header">Sharing</string>
 	<string name="pref_behaviour_sharing_include_desc_key" translatable="false">pref_behaviour_sharing_include_desc</string>
@@ -1092,7 +1095,7 @@
 	<string name="prefs_category_images_video">Images/Video</string>
 
 	<string name="notification_channel_name_reddit_messages">Incoming Reddit Messages</string>
-	
+
 	<!-- 2019-10-05 -->
 	<string name="post_text_copied_to_clipboard">Post self-text copied to clipboard</string>
 	<string name="action_copy_selftext">Copy Self-Text</string>
@@ -1403,6 +1406,9 @@
 
 	<string name="pref_images_inline_image_previews_nsfw_title">Show NSFW previews</string>
 	<string name="pref_images_inline_image_previews_nsfw_key" translatable="false">pref_images_inline_image_previews_nsfw_key</string>
+
+	<string name="pref_images_inline_image_previews_spoiler_title">Show spoiler previews</string>
+	<string name="pref_images_inline_image_previews_spoiler_key" translatable="false">pref_images_inline_image_previews_spoiler_key</string>
 
 	<string name="pref_header_image_viewer">Image viewer</string>
 

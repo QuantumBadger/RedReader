@@ -286,12 +286,15 @@ public final class SettingsFragment extends PreferenceFragment {
 					getString(R.string.pref_appearance_thumbnails_show_list_key));
 			final Preference thumbnailNsfwPref =
 					findPreference(getString(R.string.pref_appearance_thumbnails_nsfw_show_key));
+			final Preference thumbnailSpoilerPref =
+					findPreference(getString(R.string.pref_appearance_thumbnails_spoiler_show_key));
 
 			if(thumbnailPref != null) {
 				thumbnailPref.setOnPreferenceChangeListener((preference, newValue) -> {
 					final int index = thumbnailPref.findIndexOfValue((String)newValue);
 					thumbnailPref.setSummary(thumbnailPref.getEntries()[index]);
 					thumbnailNsfwPref.setEnabled(!newValue.equals("never"));
+					thumbnailSpoilerPref.setEnabled(!newValue.equals("never"));
 					return true;
 				});
 			}
@@ -302,12 +305,15 @@ public final class SettingsFragment extends PreferenceFragment {
 				getString(R.string.pref_images_inline_image_previews_key));
 		final Preference inlineImagesNsfwPref =
 				findPreference(getString(R.string.pref_images_inline_image_previews_nsfw_key));
+		final Preference inlineImagesSpoilerPref =
+				findPreference(getString(R.string.pref_images_inline_image_previews_spoiler_key));
 
 		if(inlineImagesPref != null) {
 			inlineImagesPref.setOnPreferenceChangeListener((preference, newValue) -> {
 				final int index = inlineImagesPref.findIndexOfValue((String)newValue);
 				inlineImagesPref.setSummary(inlineImagesPref.getEntries()[index]);
 				inlineImagesNsfwPref.setEnabled(!newValue.equals("never"));
+				inlineImagesSpoilerPref.setEnabled(!newValue.equals("never"));
 				return true;
 			});
 		}

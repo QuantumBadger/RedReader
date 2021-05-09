@@ -723,6 +723,11 @@ public class PostListingFragment extends RRFragment
 											activity,
 											mSharedPreferences);
 
+							final boolean showSpoilerPreviews
+									= PrefsUtility.images_inline_image_previews_spoiler(
+											activity,
+											mSharedPreferences);
+
 							final boolean downloadThumbnails
 									= PrefsUtility.appearance_thumbnails_show(
 											activity,
@@ -735,6 +740,11 @@ public class PostListingFragment extends RRFragment
 
 							final boolean showNsfwThumbnails
 									= PrefsUtility.appearance_thumbnails_nsfw_show(
+											activity,
+											mSharedPreferences);
+
+							final boolean showSpoilerThumbnails
+									= PrefsUtility.appearance_thumbnails_spoiler_show(
 											activity,
 											mSharedPreferences);
 
@@ -826,10 +836,12 @@ public class PostListingFragment extends RRFragment
 										&& mPostIds.add(post.getIdAlone())) {
 
 									final boolean downloadThisThumbnail = downloadThumbnails
-											&& (!post.over_18 || showNsfwThumbnails);
+											&& (!post.over_18 || showNsfwThumbnails)
+											&& (!post.spoiler || showSpoilerThumbnails);
 
 									final boolean downloadThisPreview = inlinePreviews
-											&& (!post.over_18 || showNsfwPreviews);
+											&& (!post.over_18 || showNsfwPreviews)
+											&& (!post.spoiler || showSpoilerPreviews);
 
 									final int positionInList = mPostCount;
 

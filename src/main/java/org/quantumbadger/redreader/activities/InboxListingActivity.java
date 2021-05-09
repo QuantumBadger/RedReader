@@ -74,7 +74,7 @@ public final class InboxListingActivity extends BaseActivity {
 	private static final int OPTIONS_MENU_MARK_ALL_AS_READ = 0;
 	private static final int OPTIONS_MENU_SHOW_UNREAD_ONLY = 1;
 
-	private enum InboxType {
+	public enum InboxType {
 		INBOX, SENT, MODMAIL
 	}
 
@@ -333,7 +333,8 @@ public final class InboxListingActivity extends BaseActivity {
 												= new RedditPreparedMessage(
 												InboxListingActivity.this,
 												thing.asMessage(),
-												timestamp);
+												timestamp,
+												inboxType);
 										itemHandler.sendMessage(General.handlerMessage(
 												0,
 												new InboxItem(listPosition, message)));
@@ -355,7 +356,8 @@ public final class InboxListingActivity extends BaseActivity {
 														= new RedditPreparedMessage(
 														InboxListingActivity.this,
 														childMsgRaw,
-														timestamp);
+														timestamp,
+														inboxType);
 												itemHandler.sendMessage(General.handlerMessage(
 														0,
 														new InboxItem(listPosition, childMsg)));

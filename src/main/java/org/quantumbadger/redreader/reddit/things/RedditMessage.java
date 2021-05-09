@@ -22,7 +22,7 @@ import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
 public class RedditMessage {
 
-	public String author, body, body_html, context, name, parent_id, subject, subreddit;
+	public String author, dest, body, body_html, context, name, parent_id, subject, subreddit;
 	public boolean _json_new, was_comment;
 	public JsonValue first_message, replies;
 	public long created, created_utc;

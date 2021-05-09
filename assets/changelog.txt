@@ -1,6 +1,7 @@
 97/1.17
 Ability to choose flair when submitting posts
 Improved image preview resolution selection for tall images
+Added toggles for hiding thumbnails/previews on spoiler posts (thanks to FintasticMan)
 Ability to customize comment long-tap menu (thanks to Cameron Merkel)
 Added preference to make tapping post title open comments (thanks to mgurga)
 Added accessibility preference for minimum comment height (thanks to Cameron Merkel)

@@ -1,10 +1,11 @@
 /Alpha 277 (2021-05-09)
-Translation updates (thanks to Abdullah Gulabi, Andrey F, Emerson Castaneda, FintasticMan, Fırat Altay, Gontzal Manuel Pujana Onaindia, igosad, lucanomax, Meiru, Reza Almanda, Sergio Varela, ssantos, and zmni)
+Additional translation updates
 
 /Alpha 276 (2021-05-09)
 Added recipient to sent messages list (thanks to Cameron Merkel)
 Added toggles for hiding thumbnails/previews on spoiler posts (thanks to FintasticMan)
 Add content descriptions for media buttons (thanks to Cameron Merkel)
+Translation updates (thanks to Abdullah Gulabi, Andrey F, Emerson Castaneda, FintasticMan, Fırat Altay, Gontzal Manuel Pujana Onaindia, igosad, lucanomax, Meiru, Reza Almanda, Sergio Varela, ssantos, and zmni)
 
 /Alpha 275 (2021-04-04)
 Flair fix: fixed regression where post submit activity wouldn't scroll

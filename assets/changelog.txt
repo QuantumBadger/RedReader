@@ -16,6 +16,7 @@ Fixed video controls issue where rewinding could go to negative time (thanks to 
 Workaround for Android crash due to large images
 Fixes for various rare crashes
 Workaround for third party share apps
+Translation updates (thanks to Abdullah Gulabi, Andrey F, Emerson Castaneda, FintasticMan, Fırat Altay, Gontzal Manuel Pujana Onaindia, igosad, lucanomax, Meiru, Reza Almanda, Sergio Varela, ssantos, and zmni)
 
 96/1.16
 Fixed error message when marking all inbox messages as read

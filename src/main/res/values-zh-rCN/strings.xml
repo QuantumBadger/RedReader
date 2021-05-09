@@ -732,4 +732,9 @@
     <string name="button_dismiss">不予理会</string>
     <string name="pref_menus_mainmenu_dev_announcements_title">显示来自开发者的公告</string>
     <string name="accessibility_subtitle_gold_withperiod">被授予 Reddit Gold 的次数：%d。</string>
+    <string name="pref_menus_comments_header">评论</string>
+    <string name="pref_accessibility_min_comment_height_none">无</string>
+    <string name="pref_accessibility_min_comment_height_title">评论高度最小值</string>
+    <string name="action_not_handled_by_installed_app_toast">找不到处理此操作的应用</string>
+    <string name="pref_appearance_thumbnails_spoiler_show_title">显示剧透缩略图</string>
 </resources>

@@ -9,6 +9,7 @@ Added more options for post and comment fling actions (thanks to Cameron Merkel)
 Private message compose links are now handled (thanks to Cameron Merkel)
 Added preference to enable viewing sent messages (thanks to Cameron Merkel)
 Opts out of Google's WebView metrics collection
+Added content descriptions for media buttons (thanks to Cameron Merkel)
 Fixed issue where tapping a loading image would close it (thanks to Cameron Merkel)
 Fixed issue where edited posts weren't marked
 Fixed video controls issue where rewinding could go to negative time (thanks to Cameron Merkel)

@@ -1,6 +1,7 @@
 /Alpha 276 (2021-05-09)
-Added recipient to sent messages list
+Added recipient to sent messages list (thanks to Cameron Merkel)
 Added toggles for hiding thumbnails/previews on spoiler posts (thanks to FintasticMan)
+Add content descriptions for media buttons (thanks to Cameron Merkel)
 
 /Alpha 275 (2021-04-04)
 Flair fix: fixed regression where post submit activity wouldn't scroll

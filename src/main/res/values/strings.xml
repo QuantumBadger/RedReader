@@ -1486,7 +1486,6 @@
 	<string name="pref_images_inline_image_previews_spoiler_title">Show spoiler previews</string>
 	<string name="pref_images_inline_image_previews_spoiler_key" translatable="false">pref_images_inline_image_previews_spoiler_key</string>
 
-	<!-- 2021-03-19 -->
 	<string name="video_mute">Mute</string>
 	<string name="video_unmute">Unmute</string>
 	<string name="video_restart">Restart video</string>

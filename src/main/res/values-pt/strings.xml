@@ -86,7 +86,7 @@
     <string name="download_connecting">Conectando…</string>
     <string name="download_done">Feito.</string>
     <string name="download_downloading">Baixando…</string>
-    <string name="download_downloadstarting">Iniciando download…</string>
+    <string name="download_downloadstarting">A descarrega inicia…</string>
     <string name="download_failed">Falhou.</string>
     <string name="download_loading">Carregando…</string>
     <string name="download_subreddits">Baixando subreddits…</string>
@@ -219,7 +219,7 @@
     <string name="error_cache_dir_does_not_exist_title">Pasta de cache não encontrada</string>
     <string name="error_cancelled_message">A operação atual foi cancelada.</string>
     <string name="error_connection_message">Ocorreu um problema ao conectar-se com o servidor. Por favor verifiquee sua conexão e tente novamente.</string>
-    <string name="error_disk_space_message">O download falhou porque seu armazenamento está cheio. Por favor libere um pouco de espaço e tente novamente.</string>
+    <string name="error_disk_space_message">A descarrega falhou porque o seu armazenamento está cheio. Por favor, libere um pouco de espaço e tente novamente.</string>
     <string name="error_file_open_failed_message">Ocorreu um erro ao tentar abrir o ficheiro.</string>
     <string name="error_file_too_big_message">O tamanho do ficheiro (%1$s) é maior que o limite de upload (%2$s).</string>
     <string name="webview_use_https">Usar HTTPS</string>
@@ -513,7 +513,7 @@
     <string name="button_next_comment_parent">Próximo Comentário Pai</string>
     <string name="button_prev_comment_parent">Comentário Pai Anterior</string>
     <string name="download_link_title">Descarregar ficheiro</string>
-    <string name="download_link_message">Este é um link de download. Você deseja carregá-lo em um browser externo\?</string>
+    <string name="download_link_message">Este é uma ligação de descarrega. Deseja carregá-lo num navegador externo\?</string>
     <string name="pref_menus_show_popular_main_menu_title">Mostrar /r/popular no menu principal</string>
     <string name="pref_behaviour_video_playback_controls_title">Ativar controles de reprodução de vídeo</string>
     <string name="error_no_suitable_apps_available">Nenhuma app adequada disponível.</string>

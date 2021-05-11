@@ -28,7 +28,7 @@
     <string name="pref_appearance_comments_header">Комментарии</string>
     <string name="pref_appearance_twopane_title">Режим планшета (две панели)</string>
     <string name="pref_appearance_theme_title">Тема</string>
-    <string name="pref_appearance_fontscale_posts_title">Названия пОстов</string>
+    <string name="pref_appearance_fontscale_posts_title">Названия постов</string>
     <string name="pref_appearance_thumbnails_show_title">Показывать миниатюры</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">Показывать NSFW миниатюры</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Миниатюры только для Wi-Fi</string>
@@ -161,7 +161,7 @@
     <string name="comment_edit_save">Сохранить</string>
     <string name="comment_reply_preview">Предварительный просмотр</string>
     <string name="comment_reply_submitting_title">Отправка…</string>
-    <string name="comment_reply_submitting_message">Минутку…</string>
+    <string name="comment_reply_submitting_message">Минуту…</string>
     <string name="comment_reply_oncancel">Ожидание результатов действия…</string>
     <string name="comment_reply_done">Ответ отправлен. Комментарий появится после обновления.</string>
     <string name="comment_edit_done">Комментарий отредактирован. Изменения появятся после обновления.</string>
@@ -208,7 +208,7 @@
     <string name="error_postlist_redditdown_message">Reddit сейчас под большой нагрузкой. Нажмите обновить, чтобы загрузить последние публикации, или выберите другую версию кэшированного содержимого из меню.</string>
     <string name="session_active">Активна</string>
     <string name="time_ago">%s назад</string>
-    <string name="userprofile_created">Создан</string>
+    <string name="userprofile_created">Создано</string>
     <string name="userprofile_isfriend">В друзьях</string>
     <string name="userprofile_isgold">Reddit Золото</string>
     <string name="userprofile_moderator">Модератор</string>
@@ -233,7 +233,7 @@
     <string name="props_down">Вниз</string>
     <string name="notification_comment">%s ответил вам</string>
     <string name="notification_message">%s отправил вам сообщение</string>
-    <string name="notification_message_multiple">Новые сообщения на reddit</string>
+    <string name="notification_message_multiple">Новые сообщения на Reddit</string>
     <string name="notification_message_action">Коснитесь, чтобы просмотреть</string>
     <string name="general_true">Да</string>
     <string name="general_false">Нет</string>
@@ -266,7 +266,7 @@
     <string name="error_invalid_password_title">Неверный пароль</string>
     <string name="error_invalid_password_message">Неправильное имя пользователя или пароль.</string>
     <string name="error_ratelimit_title">Слишком много неудачных попыток входа.</string>
-    <string name="error_ratelimit_message">Заблокировано из-за превышения числа попыток входа с этого IP-адреса. Reddit говорит:</string>
+    <string name="error_ratelimit_message">Заблокировано из-за превышения числа попыток входа с этого IP-адреса. Reddit сообщает:</string>
     <string name="general_success">Успешно</string>
     <string name="message_nowloggedin">Вы вошли в систему.</string>
     <string name="message_cannotlogin">Не удалось войти в систему.</string>
@@ -334,7 +334,7 @@
     <string name="pref_appearance_comment_header_items_gold">Reddit золото</string>
     <string name="karma_link">Карма ссылок</string>
     <string name="karma_comment">Карма комментариев</string>
-    <string name="imageview_decode_failed">е удалось декодировать изображение. Попытка использовать браузер.</string>
+    <string name="imageview_decode_failed">не удалось декодировать изображение. Попытка использовать браузер.</string>
     <string name="user_comments">Комментарии</string>
     <string name="comment_header_specific_thread_title">Сейчас вы просматриваете отдельную ветвь комментариев.</string>
     <string name="comment_header_specific_thread_message">Нажмите здесь, чтобы посмотреть все комментарии к этой публикации.</string>
@@ -349,7 +349,7 @@
     <string name="mark_all_as_read_success">Все сообщения помечены прочитанными.</string>
     <string name="error_title_login_user_denied_permission">В доступе отказано</string>
     <string name="error_message_login_user_denied_permission">В доступе к учетной записи отказано. Пожалуйста, попробуйте еще раз.</string>
-    <string name="error_title_login_unknown_reddit_error">Неизвестная ошибка reddit: %s</string>
+    <string name="error_title_login_unknown_reddit_error">Неизвестная ошибка Reddit: %s</string>
     <string name="imageview_invalid_video">Неверное видео. Попытка использовать браузер.</string>
     <string name="download_authorizing">Аутентификация…</string>
     <string name="pref_behaviour_skiptofrontpage_title">Перейти на главную страницу</string>
@@ -688,4 +688,25 @@
     <string name="link_copied_to_clipboard">Ссылка скопирована в буфер обмена</string>
     <string name="pref_appearance_hide_headertoolbar_commentlist_title">Скрыть панель инструментов заголовка комментариев</string>
     <string name="props_body_html">Структура (HTML)</string>
+    <string name="video_rewind">Перемотка назад</string>
+    <string name="pref_images_inline_image_previews_title">Просмотр встроенных изображений</string>
+    <string name="pref_header_inline_image_previews">Просмотр встроенных изображений</string>
+    <string name="pref_images_high_res_thumbnails_title">Миниатюры высокого разрешения</string>
+    <string name="accessibility_subtitle_points_unknown_withperiod">Оценка скрыта.</string>
+    <string name="accessibility_subtitle_selfpost_withperiod">Текстовое сообщение.</string>
+    <string name="accessibility_subtitle_author_withperiod">Автор: %s.</string>
+    <string name="accessibility_subtitle_age_withperiod">Возраст: %s.</string>
+    <string name="accessibility_subtitle_points_withperiod">Оценка: %d.</string>
+    <string name="accessibility_image_viewer_go_back">Вернуться назад</string>
+    <string name="accessibility_image_viewer_view_comments">Просмотр комментариев</string>
+    <string name="accessibility_image_viewer_title">Просмотр изображения</string>
+    <string name="pref_images_thumbnail_size_title">Размер миниатюры</string>
+    <string name="three_dots_menu">Дополнительные параметры</string>
+    <string name="cache_clear_dialog_images_data">Изображений (%s)</string>
+    <string name="cache_clear_dialog_images">Изображения</string>
+    <string name="video_zoom_out">Уменьшить масштаб</string>
+    <string name="video_zoom_in">Увеличить масштаб</string>
+    <string name="video_fast_forward">Перемотка вперед</string>
+    <string name="video_pause">Приостановить</string>
+    <string name="video_play">Воспроизвести</string>
 </resources>

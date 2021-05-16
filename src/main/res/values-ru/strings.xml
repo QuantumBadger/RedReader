@@ -709,4 +709,5 @@
     <string name="video_fast_forward">Перемотка вперед</string>
     <string name="video_pause">Приостановить</string>
     <string name="video_play">Воспроизвести</string>
+    <string name="accessibility_subtitle_spoiler_withperiod">Содержит спойлеры.</string>
 </resources>

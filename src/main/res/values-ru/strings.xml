@@ -60,7 +60,7 @@
     <string name="options_refresh_posts">Обновить публикации</string>
     <string name="options_refresh_comments">Обновить комментарии</string>
     <string name="options_past">Предыдущие версии</string>
-    <string name="options_past_posts">Предыдущие списки публикаций</string>
+    <string name="options_past_posts">Предыдущие версии списка публикаций</string>
     <string name="options_past_comments">Предыдущие списки комментариев</string>
     <string name="options_sort">Сортировать</string>
     <string name="options_sort_subreddits">Сортировать сабреддиты</string>
@@ -373,11 +373,11 @@
     <string name="imgur_album">Альбом Imgur</string>
     <string name="album_already_first_image">Уже на первом изображении альбома.</string>
     <string name="album_already_last_image">Уже на последнем изображении альбома.</string>
-    <string name="upgrade_v190_login_message">RedReader обновился и теперь использует oAuth для входа на reddit. Вам придется снова войти в учетную запись, если вы входили до этого обновления.</string>
-    <string name="pref_behaviour_videoview_mode_title">Просмотрщик видео</string>
+    <string name="upgrade_v190_login_message">RedReader обновился и теперь использует OAuth для входа на reddit. Вам придется снова войти в учетную запись, если вы входили до этого обновления.</string>
+    <string name="pref_behaviour_videoview_mode_title">Средство просмотра видео</string>
     <string name="pref_behaviour_videoview_mode_internal_videoview">Встроенный VideoView (рекомендуется)</string>
     <string name="pref_behaviour_videoview_mode_external_app_vlc">Внешнее приложение: VLC</string>
-    <string name="videoview_mode_app_vlc_launch_failed">Не удалось запустить VLC. Пожалуйста, обновите VLC или выберите другой просмотрщик видео в настройках.</string>
+    <string name="videoview_mode_app_vlc_launch_failed">Не удалось запустить VLC. Пожалуйста, обновите VLC или в настройках выберите другое средство просмотра видео.</string>
     <string name="error_url_required_title">Необходим URL</string>
     <string name="error_url_required_message">Необходимо указать URL-адрес.</string>
     <string name="sort_comments_qa">Вопросы-и-Ответы</string>
@@ -423,11 +423,11 @@
     <string name="submit_post_self_text_hint">Текст публикации</string>
     <string name="submit_post_url_hint">URL</string>
     <string name="save_image_permission_denied">Нет доступа: не удалось сохранить изображение.</string>
-    <string name="pref_behaviour_imageview_mode_title">Просмотрщик изображений</string>
+    <string name="pref_behaviour_imageview_mode_title">Средство просмотра изображений</string>
     <string name="pref_behaviour_imageview_mode_internal_opengl">Встроенный просмотрщик (OpenGL)</string>
-    <string name="pref_behaviour_albumview_mode_title">Просмотрщик альбомов</string>
+    <string name="pref_behaviour_albumview_mode_title">Средство просмотра альбомов</string>
     <string name="pref_behaviour_albumview_mode_internal_list">Встроенный просмотрщик (список)</string>
-    <string name="error_tor_start_failed">Orbot не удалось запустить. Tor не будет работать.</string>
+    <string name="error_tor_start_failed">Не удалось запустить Orbit. Tor не будет работать.</string>
     <string name="inbox_unread_only">Только непрочитанные сообщения</string>
     <string name="pref_behaviour_actions_comment_longclick_title">Длительное нажатие</string>
     <string name="no_comments_yet">Комментариев пока нет.</string>
@@ -603,7 +603,7 @@
     <string name="sort_posts_best">Лучшее</string>
     <string name="comment_reply_done_norefresh">Ответ отправлен.</string>
     <string name="error_already_submitted_message">Такой пост уже есть в этом сабреддите</string>
-    <string name="error_already_submitted_title">Уже отправлено</string>
+    <string name="error_already_submitted_title">Сообщение уже существует</string>
     <string name="post_submit_mark_spoiler">Пометить как спойлер</string>
     <string name="post_submit_mark_nsfw">Отметить как NSFW</string>
     <string name="pref_appearance_left_handed_title">Режим для левшей</string>

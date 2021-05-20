@@ -28,7 +28,7 @@
     <string name="pref_appearance_comments_header">Комментарии</string>
     <string name="pref_appearance_twopane_title">Режим планшета (две панели)</string>
     <string name="pref_appearance_theme_title">Тема</string>
-    <string name="pref_appearance_fontscale_posts_title">Названия постов</string>
+    <string name="pref_appearance_fontscale_posts_title">Размер шрифта названий</string>
     <string name="pref_appearance_thumbnails_show_title">Показывать миниатюры</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">Показывать NSFW миниатюры</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Миниатюры только для Wi-Fi</string>

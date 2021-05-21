@@ -28,11 +28,11 @@
     <string name="pref_appearance_comments_header">Комментарии</string>
     <string name="pref_appearance_twopane_title">Режим планшета (две панели)</string>
     <string name="pref_appearance_theme_title">Тема</string>
-    <string name="pref_appearance_fontscale_posts_title">Размер шрифта названий</string>
+    <string name="pref_appearance_fontscale_posts_title">Размер шрифта названий сообщений</string>
     <string name="pref_appearance_thumbnails_show_title">Показывать миниатюры</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">Показывать NSFW миниатюры</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Миниатюры только для Wi-Fi</string>
-    <string name="pref_appearance_comment_header_items_title">Заголовок комментария</string>
+    <string name="pref_appearance_comment_header_items_title">Заголовок записи комментария</string>
     <string name="pref_behaviour_notifications_title">Уведомления</string>
     <string name="pref_behaviour_actions_post_header">Действия публикации</string>
     <string name="pref_behaviour_actions_comment_header">Действия комментария</string>
@@ -601,7 +601,7 @@
     <string name="pref_behaviour_usecustomtabs_summary">Использовать специальные вкладки Android при доступнности</string>
     <string name="pref_behaviour_usecustomtabs_title">Использовать пользовательские вкладки Android</string>
     <string name="sort_posts_best">Лучшее</string>
-    <string name="comment_reply_done_norefresh">Ответ отправлен.</string>
+    <string name="comment_reply_done_norefresh">Ответ отправлен</string>
     <string name="error_already_submitted_message">Такой пост уже есть в этом сабреддите</string>
     <string name="error_already_submitted_title">Сообщение уже существует</string>
     <string name="post_submit_mark_spoiler">Пометить как спойлер</string>

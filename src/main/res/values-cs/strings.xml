@@ -16,7 +16,7 @@
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
   --><resources>
     <!-- First Run Dialog -->
-    <string name="firstrun_login_title">Přihlášení</string>
+    <string name="firstrun_login_title">Přihlásit</string>
     <string name="firstrun_login_message">Nejste momentálně přihlášeni. Seznam účtů je k dispozici po vybrání Účty z nabídky.</string>
     <string name="firstrun_login_button_now">Přihlásit teď</string>
     <string name="firstrun_login_button_later">Anonymně</string>
@@ -861,4 +861,32 @@
     <string name="button_view">Přečíst</string>
     <string name="button_dismiss">Zavrhnout</string>
     <string name="pref_menus_mainmenu_dev_announcements_title">Zobrazit sdělení vývojáře</string>
+    <string name="video_rewind">Převinout zpět</string>
+    <string name="video_zoom_out">Zmenšit</string>
+    <string name="video_zoom_in">Zvětšit</string>
+    <string name="video_fast_forward">Převinout vpřed</string>
+    <string name="video_pause">Pauza</string>
+    <string name="video_play">Hrát</string>
+    <string name="video_restart">Restartovat video</string>
+    <string name="video_unmute">Zapnout zvuk</string>
+    <string name="video_mute">Vypnout zvuk</string>
+    <string name="pref_appearance_thumbnails_spoiler_show_title">Ukázat spoilerové miniatury</string>
+    <string name="pref_images_inline_image_previews_spoiler_title">Ukázat spoilerové náhledy</string>
+    <string name="accessibility_subtitle_recipient_withperiod">Příjemce: %s.</string>
+    <string name="invalid_subreddit_name_message">Prosím, zadejte platný název subredditu.</string>
+    <string name="error_subreddit_info_permission_denied_message">Přihlášený uživatel nemá oprávnění číst informaci o tom subredditu.</string>
+    <string name="error_subreddit_info_permission_denied_title">Přístup odepřen</string>
+    <string name="error_subreddit_does_not_exist_message">Zadaný subreddit neexistuje.</string>
+    <string name="error_subreddit_does_not_exist_title">Neplatný subreddit</string>
+    <string name="post_submit_heading">Posílám příspěvek do %1$s jako uživatel %2$s.</string>
+    <string name="subreddit_selector_title">Vybrat subreddit</string>
+    <string name="post_submit_flair_none_selected">Nebyly vybrány žádné fléry</string>
+    <string name="post_submit_flair_none_available">Fléry nejsou</string>
+    <string name="mainmenu_sent_messages">Odeslané zprávy</string>
+    <string name="pref_behaviour_post_title_opens_comments_title">Titul příspěvku otevře komentáře</string>
+    <string name="pref_menus_comment_context_items_title">Položky nabídky Akce</string>
+    <string name="pref_menus_comments_header">Komentáře</string>
+    <string name="pref_accessibility_min_comment_height_none">Žádná</string>
+    <string name="pref_accessibility_min_comment_height_title">Minimální výška komentáře</string>
+    <string name="action_not_handled_by_installed_app_toast">Pro tuto akci nebyla nalezena žádná aplikace</string>
 </resources>

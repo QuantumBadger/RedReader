@@ -739,13 +739,13 @@
     <string name="pref_accessibility_separate_body_text_lines_title">Отдельные строки основного текста</string>
     <string name="prefs_category_accessibility">Доступность</string>
     <string name="pref_videos_download_before_playing_title">Полностью загрузите видео перед началом воспроизведения</string>
-    <string name="imageview_download_failed">Загрузка была прервана. Попробуй веб-браузер.</string>
-    <string name="imageview_image_info_failed">Не удалось загрузить метаданные изображения. Попробуй веб-браузер.</string>
+    <string name="imageview_download_failed">Загрузка была прервана. Попробуйте веб-браузер.</string>
+    <string name="imageview_image_info_failed">Не удалось загрузить метаданные изображения. Попробуйте веб-браузер.</string>
     <string name="album_image_default_text">Изображение %d</string>
     <string name="edittext_hint_comment_body_text">Текст комментария</string>
     <string name="inline_preview_prompt_keep_showing">Продолжить показывать</string>
     <string name="inline_preview_prompt_turn_off">Выключить</string>
-    <string name="inline_preview_prompt_message">Продолжайте показывать встроенные предосмотры изображений\? Вы можете изменить это в любое время в настройках.</string>
+    <string name="inline_preview_prompt_message">Продолжать показывать встроенные предосмотры изображений\? Вы можете изменить это в любое время в настройках.</string>
     <string name="inline_preview_prompt_title">Предосмотр изображений</string>
     <string name="error_inline_preview_failed_message">Не удалось загрузить предосмотр изображения.</string>
     <string name="error_inline_preview_failed_title">Ошибка загрузки</string>

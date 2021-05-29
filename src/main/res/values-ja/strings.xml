@@ -109,7 +109,6 @@
     <string name="error_403_title">無効なユーザー</string>
     <string name="bug_title">エラーが発生しました。</string>
     <string name="post_captcha_title">CAPTCHA</string>
-    <string name="post_submit_subreddit_hint">Subreddit</string>
     <string name="post_submit_title_hint">タイトル</string>
     <string name="comment_reply_preview">プレビュー</string>
     <string name="comment_edit_save">保存</string>

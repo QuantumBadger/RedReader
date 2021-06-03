@@ -360,7 +360,7 @@
     <string name="pref_menus_mainmenu_useritems_title">Ítems de usuario</string>
     <string name="mainmenu_submitted">Publicaciones enviadas</string>
     <string name="mainmenu_downvoted">Publicaciones votadas negativamente</string>
-    <string name="mainmenu_modmail">Mensajes de moderadores</string>
+    <string name="mainmenu_modmail">Correo para moderadores</string>
     <string name="sidebar_activity_title">Barra lateral</string>
     <!-- 2014-04-20 -->
     <string name="header_subscriber_count">%s subscriptores</string>

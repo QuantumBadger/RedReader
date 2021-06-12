@@ -407,6 +407,11 @@ public final class General {
 				message = R.string.error_already_submitted_message;
 				break;
 
+			case POST_FLAIR_REQUIRED:
+				title = R.string.error_post_flair_required_title;
+				message = R.string.error_post_flair_required_message;
+				break;
+
 			default:
 				title = R.string.error_unknown_api_title;
 				message = R.string.error_unknown_api_message;

@@ -42,7 +42,8 @@ public abstract class APIResponseHandler {
 		UNKNOWN,
 		TOO_FAST,
 		TOO_LONG,
-		ALREADY_SUBMITTED
+		ALREADY_SUBMITTED,
+		POST_FLAIR_REQUIRED
 	}
 
 	private APIResponseHandler(final AppCompatActivity context) {

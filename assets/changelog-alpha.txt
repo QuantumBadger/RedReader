@@ -1,3 +1,6 @@
+/Alpha 278 (2021-06-12)
+Better error message for missing flair
+
 /Alpha 277 (2021-06-12)
 Ability to backup and restore app preferences
 Additional translation updates

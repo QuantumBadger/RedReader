@@ -822,6 +822,10 @@ public final class RedditAPI {
 				return APIResponseHandler.APIFailureType.ALREADY_SUBMITTED;
 			}
 
+			if(Constants.Reddit.isPostFlairRequired(responseAsString)) {
+				return APIResponseHandler.APIFailureType.POST_FLAIR_REQUIRED;
+			}
+
 			if(Constants.Reddit.isApiError(responseAsString)) {
 				unknownError = true;
 			}

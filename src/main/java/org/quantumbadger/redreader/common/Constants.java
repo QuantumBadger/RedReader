@@ -198,7 +198,13 @@ public final class Constants {
 		public static boolean isApiAlreadySubmitted(final String str) {
 			return ".error.ALREADY_SUB.field-url".equals(str)
 					|| (str != null
-					&& str.contains("that link has already been submitted"));
+							&& str.contains("that link has already been submitted"));
+		}
+
+		public static boolean isPostFlairRequired(final String str) {
+			return ".error.SUBMIT_VALIDATION_FLAIR_REQUIRED.field-flair".equals(str)
+					|| (str != null
+							&& str.contains("Your post must contain post flair."));
 		}
 
 		public static boolean isApiError(final String str) {

@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.adapters;
 
 import android.view.ViewGroup;
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -126,9 +127,10 @@ public class GroupedRecyclerViewAdapter extends RecyclerView.Adapter {
 				+ " is too high");
 	}
 
+	@NonNull
 	@Override
 	public RecyclerView.ViewHolder onCreateViewHolder(
-			final ViewGroup viewGroup,
+			@NonNull final ViewGroup viewGroup,
 			final int viewType) {
 
 		final RecyclerView.ViewHolder viewHolder = mViewTypeItemMap.get(viewType)
@@ -145,7 +147,7 @@ public class GroupedRecyclerViewAdapter extends RecyclerView.Adapter {
 
 	@Override
 	public void onBindViewHolder(
-			final RecyclerView.ViewHolder viewHolder,
+			@NonNull final RecyclerView.ViewHolder viewHolder,
 			final int position) {
 		getItemInternal(position).onBindViewHolder(viewHolder);
 	}

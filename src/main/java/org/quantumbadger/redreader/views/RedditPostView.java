@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.views;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -56,6 +55,7 @@ import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
 import org.quantumbadger.redreader.reddit.prepared.RedditParsedPost;
@@ -384,7 +384,7 @@ public final class RedditPostView extends FlingableItemView
 		title = Objects.requireNonNull(rootView.findViewById(R.id.reddit_post_title));
 		subtitle = Objects.requireNonNull(rootView.findViewById(R.id.reddit_post_subtitle));
 
-		final SharedPreferences sharedPreferences =
+		final SharedPrefsWrapper sharedPreferences =
 				General.getSharedPrefs(context);
 
 		mCommentsButtonPref =
@@ -762,7 +762,7 @@ public final class RedditPostView extends FlingableItemView
 
 	private void showPrefPrompt() {
 
-		final SharedPreferences sharedPrefs
+		final SharedPrefsWrapper sharedPrefs
 				= General.getSharedPrefs(mActivity);
 
 		LayoutInflater.from(mActivity).inflate(

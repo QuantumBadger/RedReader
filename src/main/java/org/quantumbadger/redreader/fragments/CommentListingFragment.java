@@ -20,7 +20,6 @@ package org.quantumbadger.redreader.fragments;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -56,6 +55,7 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
 import org.quantumbadger.redreader.common.RRTime;
+import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.reddit.CommentListingRequest;
 import org.quantumbadger.redreader.reddit.RedditCommentListItem;
@@ -150,8 +150,7 @@ public class CommentListingFragment extends RRFragment
 
 		final Context context = getActivity();
 
-		final SharedPreferences prefs = General.getSharedPrefs(
-				context);
+		final SharedPrefsWrapper prefs = General.getSharedPrefs(context);
 
 		mSelfTextFontScale = PrefsUtility.appearance_fontscale_bodytext(context, prefs);
 

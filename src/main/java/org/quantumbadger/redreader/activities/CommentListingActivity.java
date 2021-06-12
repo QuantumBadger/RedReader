@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import androidx.annotation.NonNull;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -109,7 +110,7 @@ public class CommentListingActivity extends RefreshableActivity
 	}
 
 	@Override
-	protected void onSaveInstanceState(final Bundle outState) {
+	protected void onSaveInstanceState(@NonNull final Bundle outState) {
 		super.onSaveInstanceState(outState);
 
 		final UUID session = controller.getSession();
@@ -209,7 +210,7 @@ public class CommentListingActivity extends RefreshableActivity
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(final MenuItem item) {
+	public boolean onOptionsItemSelected(@NonNull final MenuItem item) {
 
 		if(mFragment != null) {
 			if(mFragment.onOptionsItemSelected(item)) {

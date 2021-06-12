@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.common;
 
 import android.Manifest;
+import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -369,32 +370,40 @@ public class FileUtils {
 				.putExtra(Intent.EXTRA_TITLE, filename)
 				.addCategory(Intent.CATEGORY_OPENABLE);
 
-		activity.startActivityForResultWithCallback(
-				intent,
-				(resultCode, data) -> {
+		try {
+			activity.startActivityForResultWithCallback(
+					intent,
+					(resultCode, data) -> {
 
-					if(data == null || data.getData() == null) {
-						return;
-					}
-
-					new Thread(() -> {
-
-						try(OutputStream outputStream = activity.getContentResolver()
-								.openOutputStream(data.getData())) {
-
-							source.writeTo(outputStream);
-
-							onSuccess.run();
-
-						} catch(final IOException e) {
-							showUnexpectedStorageErrorDialog(
-									activity,
-									e,
-									data.getData().toString());
+						if(data == null || data.getData() == null) {
+							return;
 						}
 
-					}).start();
-				});
+						new Thread(() -> {
+
+							try(OutputStream outputStream = activity.getContentResolver()
+									.openOutputStream(data.getData())) {
+
+								source.writeTo(outputStream);
+
+								onSuccess.run();
+
+							} catch(final IOException e) {
+								showUnexpectedStorageErrorDialog(
+										activity,
+										e,
+										data.getData().toString());
+							}
+
+						}).start();
+					});
+
+		} catch(final ActivityNotFoundException e) {
+			DialogUtils.showDialog(
+					activity,
+					R.string.error_no_file_manager_title,
+					R.string.error_no_file_manager_message);
+		}
 	}
 
 	public static void saveImageAtUri(

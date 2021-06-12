@@ -22,7 +22,6 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -63,6 +62,7 @@ import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.common.ScreenreaderPronunciation;
+import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.fragments.PostPropertiesDialog;
 import org.quantumbadger.redreader.fragments.ShareOrderDialog;
@@ -232,7 +232,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			final BaseActivity activity,
 			final RedditPreparedPost post) {
 
-		final SharedPreferences sharedPreferences =
+		final SharedPrefsWrapper sharedPreferences =
 				General.getSharedPrefs(activity);
 
 		final EnumSet<Action> itemPref

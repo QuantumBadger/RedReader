@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.http.okhttp;
 
 import android.content.Context;
 import android.util.Log;
+import androidx.annotation.NonNull;
 import okhttp3.CacheControl;
 import okhttp3.Call;
 import okhttp3.ConnectionPool;
@@ -72,10 +73,13 @@ public class OKHTTPBackend extends HTTPBackend {
 
 		final CookieJar cookieJar = new CookieJar() {
 			@Override
-			public void saveFromResponse(final HttpUrl url, final List<Cookie> cookies) {
+			public void saveFromResponse(
+					@NonNull final HttpUrl url,
+					@NonNull final List<Cookie> cookies) {
 				//LOL we do not care
 			}
 
+			@NonNull
 			@Override
 			public List<Cookie> loadForRequest(final HttpUrl url) {
 				if(url.toString().contains("search")) {

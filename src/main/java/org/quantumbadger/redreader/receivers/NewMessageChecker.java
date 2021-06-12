@@ -23,7 +23,6 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabaseCorruptException;
 import android.graphics.Color;
 import android.os.Build;
@@ -43,6 +42,7 @@ import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
+import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.jsonwrap.JsonArray;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
@@ -61,8 +61,8 @@ public class NewMessageChecker extends BroadcastReceiver {
 
 	private static final String NOTIFICATION_CHANNEL_ID = "RRNewMessageChecker";
 
-	private static final String PREFS_SAVED_MESSAGE_ID = "LastMessageId";
-	private static final String PREFS_SAVED_MESSAGE_TIMESTAMP = "LastMessageTimestamp";
+	public static final String PREFS_SAVED_MESSAGE_ID = "LastMessageId";
+	public static final String PREFS_SAVED_MESSAGE_TIMESTAMP = "LastMessageTimestamp";
 
 
 	@Override
@@ -173,7 +173,7 @@ public class NewMessageChecker extends BroadcastReceiver {
 							// Check if the previously saved message is the same as the one we
 							// just received
 
-							final SharedPreferences prefs
+							final SharedPrefsWrapper prefs
 									= General.getSharedPrefs(context);
 							final String oldMessageId = prefs.getString(
 									PREFS_SAVED_MESSAGE_ID,

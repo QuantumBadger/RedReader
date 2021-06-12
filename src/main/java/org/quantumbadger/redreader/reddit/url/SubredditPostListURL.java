@@ -79,8 +79,8 @@ public class SubredditPostListURL extends PostListingURL {
 	@Nullable public final String before, after;
 
 	private SubredditPostListURL(
-			final Type type,
-			final String subreddit,
+			@NonNull final Type type,
+			@Nullable final String subreddit,
 			@Nullable final PostSort order,
 			@Nullable final Integer limit,
 			@Nullable final String before,
@@ -108,6 +108,7 @@ public class SubredditPostListURL extends PostListingURL {
 		return new SubredditPostListURL(type, subreddit, newOrder, limit, before, after);
 	}
 
+	@Nullable
 	@Override
 	public PostSort getOrder() {
 		return order;

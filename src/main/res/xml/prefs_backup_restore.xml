@@ -19,16 +19,13 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <Preference
-        android:key="@string/pref_about_version_key"
-        android:title="@string/pref_about_version_title" />
 
     <Preference
-        android:key="@string/pref_about_changelog_key"
-        android:title="@string/title_changelog" />
+        android:key="@string/pref_item_backup_preferences_key"
+        android:title="@string/pref_item_backup_preferences_title" />
 
 	<Preference
-			android:key="@string/pref_about_license_key"
-			android:title="@string/title_license"/>
+		android:key="@string/pref_item_restore_preferences_key"
+		android:title="@string/pref_item_restore_preferences_title" />
 
 </PreferenceScreen>

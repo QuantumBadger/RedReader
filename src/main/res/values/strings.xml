@@ -1496,4 +1496,44 @@
 	<string name="video_zoom_in">Zoom in</string>
 	<string name="video_zoom_out">Zoom out</string>
 
+	<!-- 2021-06-12 -->
+	<string name="prefs_category_backup_restore">Backup/Restore</string>
+
+	<string name="pref_item_backup_preferences_key" translatable="false">pref_item_backup_preferences</string>
+	<string name="pref_item_backup_preferences_title">Backup preferences</string>
+
+	<string name="pref_item_restore_preferences_key" translatable="false">pref_item_restore_preferences</string>
+	<string name="pref_item_restore_preferences_title">Restore preferences</string>
+
+	<string name="restore_preferences_error_invalid_file_title">Invalid file</string>
+	<string name="restore_preferences_error_invalid_file_contents_message">The selected file is not a valid preference backup file.</string>
+	<string name="restore_preferences_error_invalid_file_version_message">The selected file was created by a newer version of RedReader and cannot be opened.</string>
+
+	<string name="restore_preferences_error_version_warning_title">Warning</string>
+	<string name="restore_preferences_error_version_warning_message">The selected file was created by a newer version of RedReader. Restoring the preferences from this file may lead to crashes and instability.</string>
+	
+	<string name="button_continue_anyway">Continue anyway</string>
+	<string name="button_cancel">Cancel</string>
+	<string name="button_restore_preferences">Restore</string>
+
+	<string name="prefs_category_about_key" translatable="false">prefs_category_about</string>
+	<string name="prefs_category_accessibility_key" translatable="false">prefs_category_accessibility</string>
+	<string name="prefs_category_appearance_key" translatable="false">prefs_category_appearance</string>
+	<string name="prefs_category_backup_restore_key" translatable="false">prefs_category_backup_restore</string>
+	<string name="prefs_category_behaviour_key" translatable="false">prefs_category_behaviour</string>
+	<string name="prefs_category_cache_key" translatable="false">prefs_category_cache</string>
+	<string name="prefs_category_fonts_key" translatable="false">prefs_category_fonts</string>
+	<string name="prefs_category_images_video_key" translatable="false">prefs_category_images_video</string>
+	<string name="prefs_category_menus_key" translatable="false">prefs_category_menus</string>
+	<string name="prefs_category_network_key" translatable="false">prefs_category_network</string>
+
+	<string name="backup_preferences_success">Backup successful</string>
+	<string name="restore_preferences_success">Restore successful</string>
+
+	<string name="backup_preferences_error_old_android_title">System too old</string>
+	<string name="backup_preferences_error_old_android_message">This feature requires Android 4.4 or above.</string>
+
+	<string name="error_no_file_manager_title">No file manager</string>
+	<string name="error_no_file_manager_message">The operating system on this device is missing a file manager compatible with the Android Storage Access Framework. If a file manager is present, it may be disabled.</string>
+	
 </resources>

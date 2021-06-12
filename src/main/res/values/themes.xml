@@ -254,7 +254,7 @@
 
 	</style>
 
-	<style name="RR.Settings" parent="Theme.AppCompat">
+	<style name="RR.Settings" parent="Theme.AppCompat.NoActionBar">
 
 		<item name="alertDialogTheme">@style/Theme.AppCompat.Dialog.Alert</item>
 

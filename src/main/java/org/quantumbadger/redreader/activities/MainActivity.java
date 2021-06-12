@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.activities;
 
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -37,6 +36,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
+import androidx.annotation.NonNull;
 import org.apache.commons.lang3.StringUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -48,6 +48,7 @@ import org.quantumbadger.redreader.common.FeatureFlagHandler;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.common.collections.CollectionStream;
 import org.quantumbadger.redreader.fragments.AccountListDialog;
 import org.quantumbadger.redreader.fragments.ChangelogDialog;
@@ -110,7 +111,7 @@ public class MainActivity extends RefreshableActivity
 
 	private boolean isMenuShown = true;
 
-	private SharedPreferences sharedPreferences;
+	private SharedPrefsWrapper sharedPreferences;
 
 	private final AtomicReference<RedditSubredditSubscriptionManager.ListenerContext>
 			mSubredditSubscriptionListenerContext = new AtomicReference<>(null);
@@ -186,10 +187,10 @@ public class MainActivity extends RefreshableActivity
 					.setNegativeButton(R.string.firstrun_login_button_later, null)
 					.show();
 
-			final SharedPreferences.Editor edit = sharedPreferences.edit();
-			edit.putString("firstRunMessageShown", "true");
-			edit.putInt("lastVersion", appVersion);
-			edit.apply();
+			sharedPreferences.edit()
+					.putString("firstRunMessageShown", "true")
+					.putInt("lastVersion", appVersion)
+					.apply();
 
 		} else if(sharedPreferences.contains("lastVersion")) {
 			FeatureFlagHandler.handleLegacyUpgrade(this, appVersion, pInfo.versionName);
@@ -1001,7 +1002,7 @@ public class MainActivity extends RefreshableActivity
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(final MenuItem item) {
+	public boolean onOptionsItemSelected(@NonNull final MenuItem item) {
 
 		if(commentListingFragment != null) {
 			if(commentListingFragment.onOptionsItemSelected(item)) {

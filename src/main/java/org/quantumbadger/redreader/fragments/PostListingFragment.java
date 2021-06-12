@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.fragments;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -59,6 +58,7 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRTime;
+import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
 import org.quantumbadger.redreader.image.ImageInfo;
@@ -113,7 +113,7 @@ public class PostListingFragment extends RRFragment
 	private final int mPostCountLimit;
 	private TextView mLoadMoreView;
 
-	private final SharedPreferences mSharedPreferences;
+	private final SharedPrefsWrapper mSharedPreferences;
 
 	private final PostListingManager mPostListingManager;
 	private final RecyclerView mRecyclerView;
@@ -220,7 +220,7 @@ public class PostListingFragment extends RRFragment
 		mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 			@Override
 			public void onScrolled(
-					final RecyclerView recyclerView,
+					@NonNull final RecyclerView recyclerView,
 					final int dx,
 					final int dy) {
 				onLoadMoreItemsCheck();

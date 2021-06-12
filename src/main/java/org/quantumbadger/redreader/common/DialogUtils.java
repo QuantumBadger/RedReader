@@ -24,7 +24,10 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.R;
 
 public class DialogUtils {
@@ -77,5 +80,63 @@ public class DialogUtils {
 		} else {
 			listener.onSearch(query);
 		}
+	}
+
+	public static void showDialogPositiveNegative(
+			@NonNull final AppCompatActivity activity,
+			@NonNull final String title,
+			@NonNull final String message,
+			@StringRes final int positiveText,
+			@StringRes final int negativeText,
+			@NonNull final Runnable positiveAction,
+			@NonNull final Runnable negativeAction) {
+
+		AndroidCommon.runOnUiThread(() -> {
+			new androidx.appcompat.app.AlertDialog.Builder(activity)
+					.setTitle(title)
+					.setMessage(message)
+					.setPositiveButton(
+							positiveText,
+							(dialog, which) -> positiveAction.run())
+					.setNegativeButton(
+							negativeText,
+							(dialog, which) -> negativeAction.run())
+					.create()
+					.show();
+		});
+	}
+
+	public static void showDialog(
+			@NonNull final AppCompatActivity activity,
+			@NonNull final String title,
+			@NonNull final String message) {
+
+		AndroidCommon.runOnUiThread(() -> {
+			new androidx.appcompat.app.AlertDialog.Builder(activity)
+					.setTitle(title)
+					.setMessage(message)
+					.setNeutralButton(
+							R.string.dialog_close,
+							(dialog, which) -> {})
+					.create()
+					.show();
+		});
+	}
+
+	public static void showDialog(
+			@NonNull final AppCompatActivity activity,
+			@StringRes final int title,
+			@StringRes final int message) {
+
+		AndroidCommon.runOnUiThread(() -> {
+			new androidx.appcompat.app.AlertDialog.Builder(activity)
+					.setTitle(title)
+					.setMessage(message)
+					.setNeutralButton(
+							R.string.dialog_close,
+							(dialog, which) -> {})
+					.create()
+					.show();
+		});
 	}
 }

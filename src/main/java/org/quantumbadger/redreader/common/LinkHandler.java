@@ -23,7 +23,6 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Build;
@@ -146,7 +145,7 @@ public class LinkHandler {
 			return;
 		}
 
-		final SharedPreferences sharedPreferences
+		final SharedPrefsWrapper sharedPreferences
 				= General.getSharedPrefs(activity);
 
 		if(url.startsWith("rr://")) {

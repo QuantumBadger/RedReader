@@ -21,6 +21,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BaseActivity;
@@ -43,7 +44,7 @@ public class RedditRenderableComment
 		implements RedditRenderableInboxItem, RedditThingWithIdAndType {
 
 	private final RedditParsedComment mComment;
-	private final String mParentPostAuthor;
+	@Nullable private final String mParentPostAuthor;
 	private final Integer mMinimumCommentScore;
 	private final String mCurrentCanonicalUserName;
 	private final boolean mShowScore;
@@ -54,7 +55,7 @@ public class RedditRenderableComment
 
 	public RedditRenderableComment(
 			final RedditParsedComment comment,
-			final String parentPostAuthor,
+			@Nullable final String parentPostAuthor,
 			final Integer minimumCommentScore,
 			final String currentCanonicalUserName,
 			final boolean showScore,
@@ -127,8 +128,7 @@ public class RedditRenderableComment
 			boolean setBackgroundColour = false;
 			int backgroundColour = 0; // TODO color from theme
 
-			if(mParentPostAuthor != null
-					&& rawComment.author.equalsIgnoreCase(mParentPostAuthor)
+			if(rawComment.author.equalsIgnoreCase(mParentPostAuthor)
 					&& !rawComment.author.equals("[deleted]")) {
 
 				setBackgroundColour = true;
@@ -393,7 +393,7 @@ public class RedditRenderableComment
 	private String formatAge(
 			@NonNull final Context context,
 			@NonNull final PrefsUtility.CommentAgeMode commentAgeMode,
-			@NonNull final int commentAgeUnits,
+			final int commentAgeUnits,
 			final long commentTime,
 			final long postCreated,
 			final long parentCommentCreated) {

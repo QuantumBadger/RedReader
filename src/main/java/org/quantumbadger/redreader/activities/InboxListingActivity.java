@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.activities;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -47,6 +46,7 @@ import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
 import org.quantumbadger.redreader.common.RRTime;
+import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.jsonwrap.JsonArray;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
@@ -159,7 +159,7 @@ public final class InboxListingActivity extends BaseActivity {
 		mChangeDataManager = RedditChangeDataManager.getInstance(
 				RedditAccountManager.getInstance(this).getDefaultAccount());
 
-		final SharedPreferences sharedPreferences
+		final SharedPrefsWrapper sharedPreferences
 				= General.getSharedPrefs(this);
 		final String title;
 
@@ -483,7 +483,7 @@ public final class InboxListingActivity extends BaseActivity {
 
 							@Override
 							protected void onFailure(
-									final APIFailureType type,
+									@NonNull final APIFailureType type,
 									@Nullable final String debuggingContext,
 									@Nullable final JsonValue response) {
 

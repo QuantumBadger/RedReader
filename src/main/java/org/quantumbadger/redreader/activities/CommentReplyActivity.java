@@ -166,7 +166,7 @@ public class CommentReplyActivity extends BaseActivity {
 	}
 
 	@Override
-	protected void onSaveInstanceState(final Bundle outState) {
+	protected void onSaveInstanceState(@NonNull final Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putString(COMMENT_TEXT_KEY, textEdit.getText().toString());
 		outState.putString(PARENT_ID_AND_TYPE_KEY, parentIdAndType);

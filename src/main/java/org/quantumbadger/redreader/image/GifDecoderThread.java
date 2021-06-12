@@ -23,11 +23,11 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.widget.ImageView;
+import androidx.annotation.NonNull;
+import jp.tomorrowkey.android.gifplayer.GifDecoder;
 
 import java.io.InputStream;
 import java.util.concurrent.atomic.AtomicBoolean;
-
-import jp.tomorrowkey.android.gifplayer.GifDecoder;
 
 public class GifDecoderThread extends Thread {
 
@@ -50,7 +50,7 @@ public class GifDecoderThread extends Thread {
 
 	private final Handler handler = new Handler(Looper.getMainLooper()) {
 		@Override
-		public void handleMessage(final Message msg) {
+		public void handleMessage(@NonNull final Message msg) {
 			if(playing && view != null) {
 				view.setImageBitmap((Bitmap)msg.obj);
 			}

@@ -98,6 +98,7 @@ public class MultiredditPostListURL extends PostListingURL {
 		return new MultiredditPostListURL(username, name, newOrder, limit, before, after);
 	}
 
+	@Nullable
 	@Override
 	public PostSort getOrder() {
 		return order;

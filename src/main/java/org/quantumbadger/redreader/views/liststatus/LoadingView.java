@@ -24,6 +24,7 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
 import org.quantumbadger.redreader.R;
 
 import java.util.Locale;
@@ -36,7 +37,7 @@ public final class LoadingView extends StatusListItemView {
 
 	private final Handler loadingHandler = new Handler(Looper.getMainLooper()) {
 		@Override
-		public void handleMessage(final Message msg) {
+		public void handleMessage(@NonNull final Message msg) {
 
 			if(textView != null) {
 				textView.setText(((String)msg.obj).toUpperCase(Locale.getDefault()));

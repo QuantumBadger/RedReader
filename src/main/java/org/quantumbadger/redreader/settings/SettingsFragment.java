@@ -18,32 +18,39 @@
 package org.quantumbadger.redreader.settings;
 
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
-import android.preference.EditTextPreference;
-import android.preference.ListPreference;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
 import android.text.Html;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import androidx.annotation.StringRes;
+import androidx.fragment.app.FragmentActivity;
+import androidx.preference.CheckBoxPreference;
+import androidx.preference.EditTextPreference;
+import androidx.preference.ListPreference;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
 import org.quantumbadger.redreader.BuildConfig;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.activities.ChangelogActivity;
 import org.quantumbadger.redreader.activities.HtmlViewActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.DialogUtils;
 import org.quantumbadger.redreader.common.FileUtils;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.PrefsBackup;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.common.TorCommon;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 
@@ -55,21 +62,41 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-@SuppressWarnings("deprecation")
-public final class SettingsFragment extends PreferenceFragment {
+public final class SettingsFragment extends PreferenceFragmentCompat {
+
+	@StringRes private int mTitle;
 
 	@Override
-	public void onCreate(final Bundle savedInstanceState) {
+	public void onResume() {
+		super.onResume();
 
-		super.onCreate(savedInstanceState);
+		final FragmentActivity activity = getActivity();
+
+		if(activity != null) {
+			activity.setTitle(mTitle);
+		}
+	}
+
+	@Override
+	public void onCreatePreferences(
+			final Bundle savedInstanceState,
+			final String rootKey) {
 
 		final Context context = getActivity();
 
-		final String panel = getArguments().getString("panel");
+		final String panel = requireArguments().getString("panel");
 		final int resource;
 
 		try {
 			resource = R.xml.class.getDeclaredField("prefs_" + panel).getInt(null);
+
+			if("root".equals(panel)) {
+				mTitle = R.string.options_settings;
+			} else {
+				mTitle = R.string.class.getDeclaredField("prefs_category_" + panel)
+						.getInt(null);
+			}
+
 		} catch(final IllegalAccessException e) {
 			throw new RuntimeException(e);
 		} catch(final NoSuchFieldException e) {
@@ -154,7 +181,7 @@ public final class SettingsFragment extends PreferenceFragment {
 		for(final int pref : listPrefsToUpdate) {
 
 			final ListPreference listPreference =
-					(ListPreference)findPreference(getString(pref));
+					findPreference(getString(pref));
 
 			if(listPreference == null) {
 				continue;
@@ -179,7 +206,7 @@ public final class SettingsFragment extends PreferenceFragment {
 		for(final int pref : editTextPrefsToUpdate) {
 
 			final EditTextPreference editTextPreference =
-					(EditTextPreference)findPreference(getString(pref));
+					findPreference(getString(pref));
 
 			if(editTextPreference == null) {
 				continue;
@@ -206,6 +233,11 @@ public final class SettingsFragment extends PreferenceFragment {
 				findPreference(getString(R.string.pref_network_tor_key));
 		final Preference licensePref =
 				findPreference(getString(R.string.pref_about_license_key));
+		final Preference backupPreferencesPref =
+				findPreference(getString(R.string.pref_item_backup_preferences_key));
+		final Preference restorePreferencesPref =
+				findPreference(getString(R.string.pref_item_restore_preferences_key));
+
 
 		final PackageInfo pInfo;
 
@@ -252,6 +284,123 @@ public final class SettingsFragment extends PreferenceFragment {
 			});
 		}
 
+		if(backupPreferencesPref != null) {
+			backupPreferencesPref.setOnPreferenceClickListener(preference -> {
+
+				final BaseActivity activity = (BaseActivity)getActivity();
+
+				if(activity == null) {
+					return true;
+				}
+
+				if(Build.VERSION.SDK_INT < 19) {
+
+					DialogUtils.showDialog(
+							activity,
+							R.string.backup_preferences_error_old_android_title,
+							R.string.backup_preferences_error_old_android_message);
+
+					return true;
+				}
+
+				final String filename
+						= RRTime.formatDateTimeFilenameSafe(RRTime.utcCurrentTimeMillis())
+								+ ".rr_prefs_backup";
+
+				//noinspection SpellCheckingInspection
+				final Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT)
+						.setType("application/vnd.redreader.prefsbackup")
+						.putExtra(Intent.EXTRA_TITLE, filename)
+						.addCategory(Intent.CATEGORY_OPENABLE);
+
+				try {
+					activity.startActivityForResultWithCallback(
+							intent,
+							(resultCode, data) -> {
+
+								if(data == null || data.getData() == null) {
+									return;
+								}
+
+								final ContentResolver contentResolver
+										= activity.getContentResolver();
+
+								PrefsBackup.backup(
+										activity,
+										() -> contentResolver.openOutputStream(data.getData()),
+										() -> General.quickToast(
+												context,
+												R.string.backup_preferences_success));
+							});
+
+				} catch(final ActivityNotFoundException e) {
+
+					DialogUtils.showDialog(
+							activity,
+							R.string.error_no_file_manager_title,
+							R.string.error_no_file_manager_message);
+				}
+
+				return true;
+			});
+		}
+
+		if(restorePreferencesPref != null) {
+			restorePreferencesPref.setOnPreferenceClickListener(preference -> {
+
+				final SettingsActivity activity = (SettingsActivity)getActivity();
+
+				if(activity == null) {
+					return true;
+				}
+
+				if(Build.VERSION.SDK_INT < 19) {
+
+					DialogUtils.showDialog(
+							activity,
+							R.string.backup_preferences_error_old_android_title,
+							R.string.backup_preferences_error_old_android_message);
+
+					return true;
+				}
+
+				final Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT)
+						.setType("*/*")
+						.addCategory(Intent.CATEGORY_OPENABLE);
+
+				try {
+					activity.startActivityForResultWithCallback(
+							intent,
+							(resultCode, data) -> {
+
+								if(data == null || data.getData() == null) {
+									return;
+								}
+
+								final ContentResolver contentResolver
+										= activity.getContentResolver();
+
+								PrefsBackup.restore(
+										activity,
+										() -> contentResolver.openInputStream(data.getData()),
+										() -> General.quickToast(
+												context,
+												R.string.restore_preferences_success));
+
+							});
+
+				} catch(final ActivityNotFoundException e) {
+
+					DialogUtils.showDialog(
+							activity,
+							R.string.error_no_file_manager_title,
+							R.string.error_no_file_manager_message);
+				}
+
+				return true;
+			});
+		}
+
 		if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
 
 			for(final int key : new int[] {
@@ -282,7 +431,7 @@ public final class SettingsFragment extends PreferenceFragment {
 		//This disables the "Show NSFW thumbnails" setting when Show thumbnails is set to Never
 		//Based off https://stackoverflow.com/a/4137963
 		{
-			final ListPreference thumbnailPref = (ListPreference)findPreference(
+			final ListPreference thumbnailPref = findPreference(
 					getString(R.string.pref_appearance_thumbnails_show_list_key));
 			final Preference thumbnailNsfwPref =
 					findPreference(getString(R.string.pref_appearance_thumbnails_nsfw_show_key));
@@ -301,7 +450,7 @@ public final class SettingsFragment extends PreferenceFragment {
 		}
 
 		{
-		final ListPreference inlineImagesPref = (ListPreference)findPreference(
+		final ListPreference inlineImagesPref = findPreference(
 				getString(R.string.pref_images_inline_image_previews_key));
 		final Preference inlineImagesNsfwPref =
 				findPreference(getString(R.string.pref_images_inline_image_previews_nsfw_key));
@@ -320,8 +469,9 @@ public final class SettingsFragment extends PreferenceFragment {
 		}
 
 		{
-			final CheckBoxPreference hideOnScrollPref = (CheckBoxPreference)
-					findPreference(getString(R.string.pref_appearance_hide_toolbar_on_scroll_key));
+			final CheckBoxPreference hideOnScrollPref
+					= findPreference(getString(
+							R.string.pref_appearance_hide_toolbar_on_scroll_key));
 
 			final Preference toolbarAtBottomPref = findPreference(getString(
 					R.string.pref_appearance_bottom_toolbar_key));
@@ -388,13 +538,32 @@ public final class SettingsFragment extends PreferenceFragment {
 				return true;
 			});
 		}
+
+		final String categoryPrefix = "prefs_category_";
+
+		for(int i = 0; i < getPreferenceScreen().getPreferenceCount(); i++) {
+
+			final Preference pref = getPreferenceScreen().getPreference(i);
+
+			final String key = pref.getKey();
+
+			if(key != null && key.startsWith(categoryPrefix)) {
+				pref.setOnPreferenceClickListener(preference -> {
+					((SettingsActivity)getActivity()).onPanelSelected(
+							key.replace(categoryPrefix, ""));
+					return true;
+				});
+			}
+
+		}
 	}
 
 	private void showChooseStorageLocationDialog() {
+
 		final Context context = getActivity();
-		final SharedPreferences prefs =
-				General.getSharedPrefs(context);
-		final String currentStorage = PrefsUtility.pref_cache_location(context, prefs);
+
+		final String currentStorage
+				= PrefsUtility.pref_cache_location(context, General.getSharedPrefs(context));
 
 		final List<File> checkPaths = CacheManager.getCacheDirs(context);
 
@@ -436,7 +605,8 @@ public final class SettingsFragment extends PreferenceFragment {
 						(dialog, i) -> {
 							dialog.dismiss();
 							final String path = folders.get(i).getAbsolutePath();
-							PrefsUtility.pref_cache_location(context, prefs, path);
+							PrefsUtility.pref_cache_location(context,
+									General.getSharedPrefs(context), path);
 							updateStorageLocationText(path);
 						})
 				.setNegativeButton(

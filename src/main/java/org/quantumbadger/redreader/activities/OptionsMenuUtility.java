@@ -21,7 +21,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,6 +32,7 @@ import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
 import org.quantumbadger.redreader.fragments.AccountListDialog;
@@ -111,7 +111,7 @@ public final class OptionsMenuUtility {
 			final Boolean subredditPinned,
 			final Boolean subredditBlocked) {
 
-		final SharedPreferences preferences
+		final SharedPrefsWrapper preferences
 				= General.getSharedPrefs(activity);
 		final EnumMap<AppbarItemsPref, Integer> appbarItemsPrefs
 				= PrefsUtility.pref_menus_appbar_items(activity, preferences);
@@ -664,7 +664,7 @@ public final class OptionsMenuUtility {
 						R.string.options_theme)
 						.setOnMenuItemClickListener(item -> {
 
-							final SharedPreferences prefs
+							final SharedPrefsWrapper prefs
 									= General.getSharedPrefs(activity);
 							final PrefsUtility.AppearanceTheme currentTheme
 									= PrefsUtility.appearance_theme(activity, prefs);
@@ -693,13 +693,12 @@ public final class OptionsMenuUtility {
 									themeNames,
 									selectedPos,
 									(dialog1, item1) -> {
-										final SharedPreferences.Editor editor
-												= prefs.edit();
-										editor.putString(
-												activity.getString(
+										prefs.edit()
+												.putString(
+														activity.getString(
 														R.string.pref_appearance_theme_key),
-												themeValues[item1]);
-										editor.apply();
+														themeValues[item1])
+												.apply();
 										dialog1.dismiss();
 									});
 

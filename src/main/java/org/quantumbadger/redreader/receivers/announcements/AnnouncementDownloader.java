@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.receivers.announcements;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,6 +32,7 @@ import org.quantumbadger.redreader.common.HexUtils;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
+import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
 import java.io.IOException;
@@ -46,8 +46,8 @@ public final class AnnouncementDownloader {
 			+ "4F74D436746282E6080F0EE9FB80DCDCA06667F701A0266F2F14C15C204B6E48414444BD9D0C1170E6B0"
 			+ "C257B3DE1AE23F4BA965D8CEB055A3C374DA927415C5D";
 
-	private static final String PREF_KEY_PAYLOAD_STORAGE_HEX = "AnnouncementDownloaderPayload";
-	private static final String PREF_KEY_LAST_READ_ID = "AnnouncementDownloaderLastReadId";
+	public static final String PREF_KEY_PAYLOAD_STORAGE_HEX = "AnnouncementDownloaderPayload";
+	public static final String PREF_KEY_LAST_READ_ID = "AnnouncementDownloaderLastReadId";
 
 	public static void performDownload(@NonNull final Context context) {
 
@@ -133,7 +133,7 @@ public final class AnnouncementDownloader {
 
 	@NonNull
 	public static Optional<Announcement> getMostRecentUnreadAnnouncement(
-			@NonNull final SharedPreferences prefs) {
+			@NonNull final SharedPrefsWrapper prefs) {
 
 		try {
 

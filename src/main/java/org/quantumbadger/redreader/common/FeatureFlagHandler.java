@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.common;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 import androidx.annotation.NonNull;
@@ -55,38 +56,51 @@ public final class FeatureFlagHandler {
 		}
 	}
 
-	public static void handleUpgrade(@NonNull final BaseActivity context) {
+	private static Set<String> getStringSet(
+			final int id,
+			final int defaultArrayRes,
+			final Context context,
+			final SharedPreferences sharedPreferences) {
+
+		return sharedPreferences.getStringSet(
+				context.getString(id),
+				General.hashsetFromArray(context.getResources().getStringArray(defaultArrayRes)));
+	}
+
+	public static void handleUpgrade(@NonNull final Context context) {
 
 		// getAndSetFeatureFlag() will return UPGRADE_NEEDED if the app has been
 		// upgraded from a version which did not support the specified feature.
 		// It will return ALREADY_UPGRADED if the feature was already present
 		// in the last version, or if this is a fresh install of the app.
 
-		final SharedPreferences sharedPrefs = General.getSharedPrefs(context);
+		General.getSharedPrefs(context).performActionWithWriteLock(prefs -> {
 
-		if(getAndSetFeatureFlag(sharedPrefs, FeatureFlag.COMMENT_HEADER_SUBREDDIT_FEATURE)
-				== FeatureFlagStatus.UPGRADE_NEEDED) {
+			if(getAndSetFeatureFlag(prefs, FeatureFlag.COMMENT_HEADER_SUBREDDIT_FEATURE)
+					== FeatureFlagStatus.UPGRADE_NEEDED) {
 
-			Log.i(TAG, "Upgrading, show comment subreddit in header by default");
+				Log.i(TAG, "Upgrading, show comment subreddit in header by default");
 
-			final Set<String> existingCommentHeaderItems = PrefsUtility.getStringSet(
-					R.string.pref_appearance_comment_header_items_key,
-					R.array.pref_appearance_comment_header_items_default,
-					context,
-					sharedPrefs);
+				final Set<String> existingCommentHeaderItems = getStringSet(
+						R.string.pref_appearance_comment_header_items_key,
+						R.array.pref_appearance_comment_header_items_default,
+						context,
+						prefs);
 
-			existingCommentHeaderItems.add("subreddit");
+				existingCommentHeaderItems.add("subreddit");
 
-			sharedPrefs.edit()
-					.putStringSet(
-							context.getString(R.string.pref_appearance_comment_header_items_key),
-							existingCommentHeaderItems)
-					.apply();
-		}
+				prefs.edit()
+						.putStringSet(
+								context.getString(
+										R.string.pref_appearance_comment_header_items_key),
+								existingCommentHeaderItems)
+						.apply();
+			}
+		});
 	}
 
 	private static void setFeatureFlag(
-			@NonNull final SharedPreferences sharedPreferences,
+			@NonNull final SharedPrefsWrapper sharedPreferences,
 			@NonNull final FeatureFlag featureFlag) {
 
 		sharedPreferences.edit().putBoolean(featureFlag.getId(), true).apply();
@@ -95,7 +109,7 @@ public final class FeatureFlagHandler {
 	@NonNull
 	private static FeatureFlagStatus getAndSetFeatureFlag(
 			@NonNull final SharedPreferences sharedPreferences,
-			@NonNull final FeatureFlag featureFlag) {
+			@SuppressWarnings("SameParameterValue") @NonNull final FeatureFlag featureFlag) {
 
 		final String name = "rr_feature_flag_" + featureFlag.id;
 
@@ -108,7 +122,7 @@ public final class FeatureFlagHandler {
 		return current ? FeatureFlagStatus.ALREADY_UPGRADED : FeatureFlagStatus.UPGRADE_NEEDED;
 	}
 
-	public static void handleFirstInstall(@NonNull final SharedPreferences sharedPrefs) {
+	public static void handleFirstInstall(@NonNull final SharedPrefsWrapper sharedPrefs) {
 
 		// Set all feature flags when first installing
 
@@ -123,7 +137,7 @@ public final class FeatureFlagHandler {
 			final int appVersion,
 			@NonNull final String versionName) {
 
-		final SharedPreferences sharedPreferences = General.getSharedPrefs(activity);
+		final SharedPrefsWrapper sharedPreferences = General.getSharedPrefs(activity);
 
 		final int lastVersion = sharedPreferences.getInt("lastVersion", 0);
 

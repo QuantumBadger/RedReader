@@ -19,12 +19,12 @@ package org.quantumbadger.redreader.common;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.OptionsMenuUtility;
 import org.quantumbadger.redreader.adapters.MainMenuListingManager;
@@ -40,11 +40,9 @@ import org.quantumbadger.redreader.reddit.url.UserCommentListingURL;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -55,17 +53,12 @@ public final class PrefsUtility {
 
 	@NonNull private static final AtomicReference<Locale> mDefaultLocale = new AtomicReference<>();
 
-	private static <E> Set<E> setFromArray(final E[] data) {
-		final HashSet<E> result = new HashSet<>(data.length);
-		Collections.addAll(result, data);
-		return result;
-	}
-
+	@Nullable
 	public static String getString(
 			final int id,
-			final String defaultValue,
-			final Context context,
-			final SharedPreferences sharedPreferences) {
+			@Nullable final String defaultValue,
+			@NonNull final Context context,
+			@NonNull final SharedPrefsWrapper sharedPreferences) {
 		return sharedPreferences.getString(context.getString(id), defaultValue);
 	}
 
@@ -73,17 +66,17 @@ public final class PrefsUtility {
 			final int id,
 			final int defaultArrayRes,
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return sharedPreferences.getStringSet(
 				context.getString(id),
-				setFromArray(context.getResources().getStringArray(defaultArrayRes)));
+				General.hashsetFromArray(context.getResources().getStringArray(defaultArrayRes)));
 	}
 
 	private static boolean getBoolean(
 			final int id,
 			final boolean defaultValue,
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return sharedPreferences.getBoolean(context.getString(id), defaultValue);
 	}
 
@@ -91,7 +84,7 @@ public final class PrefsUtility {
 			final int id,
 			final long defaultValue,
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return sharedPreferences.getLong(context.getString(id), defaultValue);
 	}
 
@@ -166,7 +159,7 @@ public final class PrefsUtility {
 
 	public static AppearanceTwopane appearance_twopane(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return AppearanceTwopane.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_appearance_twopane_key,
 				"auto",
@@ -191,7 +184,7 @@ public final class PrefsUtility {
 
 	public static AppearanceTheme appearance_theme(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return AppearanceTheme.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_appearance_theme_key,
 				"red",
@@ -205,7 +198,7 @@ public final class PrefsUtility {
 
 	public static AppearanceNavbarColour appearance_navbar_colour(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return AppearanceNavbarColour.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_appearance_navbar_color_key,
 				"black",
@@ -215,7 +208,7 @@ public final class PrefsUtility {
 
 	public static void applyTheme(@NonNull final Activity activity) {
 
-		final SharedPreferences prefs = General.getSharedPrefs(activity);
+		final SharedPrefsWrapper prefs = General.getSharedPrefs(activity);
 
 		final AppearanceTheme theme = appearance_theme(activity, prefs);
 
@@ -261,16 +254,13 @@ public final class PrefsUtility {
 	}
 
 	public static void applySettingsTheme(@NonNull final Activity activity) {
-
-		final SharedPreferences prefs = General.getSharedPrefs(
-				activity);
 		activity.setTheme(R.style.RR_Settings);
-		applyLanguage(activity, prefs);
+		applyLanguage(activity, General.getSharedPrefs(activity));
 	}
 
 	private static void applyLanguage(
 			final Activity activity,
-			final SharedPreferences prefs) {
+			final SharedPrefsWrapper prefs) {
 
 		synchronized(mDefaultLocale) {
 			if(mDefaultLocale.get() == null) {
@@ -326,7 +316,7 @@ public final class PrefsUtility {
 
 	public static NeverAlwaysOrWifiOnly appearance_thumbnails_show(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return NeverAlwaysOrWifiOnly.valueOf(StringUtils.asciiUppercase(
 				getString(
 						R.string.pref_appearance_thumbnails_show_list_key,
@@ -337,7 +327,7 @@ public final class PrefsUtility {
 
 	public static NeverAlwaysOrWifiOnly appearance_thumbnails_show_old(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 
 		if(!getBoolean(
 				R.string.pref_appearance_thumbnails_show_key,
@@ -358,7 +348,7 @@ public final class PrefsUtility {
 
 	public static boolean appearance_thumbnails_nsfw_show(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_appearance_thumbnails_nsfw_show_key,
 				false,
@@ -368,7 +358,7 @@ public final class PrefsUtility {
 
 	public static boolean appearance_thumbnails_spoiler_show(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_appearance_thumbnails_spoiler_show_key,
 				false,
@@ -378,7 +368,7 @@ public final class PrefsUtility {
 
 	public static float appearance_fontscale_global(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return Float.parseFloat(getString(
 				R.string.pref_appearance_fontscale_global_key,
 				"1",
@@ -388,7 +378,7 @@ public final class PrefsUtility {
 
 	public static float appearance_fontscale_bodytext(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		if(getString(
 				R.string.pref_appearance_fontscale_bodytext_key,
 				"-1",
@@ -405,7 +395,7 @@ public final class PrefsUtility {
 
 	public static float appearance_fontscale_comment_headers(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		if(getString(
 				R.string.pref_appearance_fontscale_comment_headers_key,
 				"-1",
@@ -422,7 +412,7 @@ public final class PrefsUtility {
 
 	public static float appearance_fontscale_linkbuttons(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		if(getString(
 				R.string.pref_appearance_fontscale_linkbuttons_key,
 				"-1",
@@ -439,7 +429,7 @@ public final class PrefsUtility {
 
 	public static float appearance_fontscale_posts(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		if(getString(
 				R.string.pref_appearance_fontscale_posts_key,
 				"-1",
@@ -456,7 +446,7 @@ public final class PrefsUtility {
 
 	public static float appearance_fontscale_post_subtitles(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		if(getString(
 				R.string.pref_appearance_fontscale_post_subtitles_key,
 				"-1",
@@ -473,7 +463,7 @@ public final class PrefsUtility {
 
 	public static float appearance_fontscale_post_header_titles(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		if(getString(
 				R.string.pref_appearance_fontscale_post_header_titles_key,
 				"-1",
@@ -490,7 +480,7 @@ public final class PrefsUtility {
 
 	public static float appearance_fontscale_post_header_subtitles(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		if(getString(
 				R.string.pref_appearance_fontscale_post_header_subtitles_key,
 				"-1",
@@ -507,7 +497,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_appearance_hide_username_main_menu(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_appearance_hide_username_main_menu_key,
 				false,
@@ -517,7 +507,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_show_popular_main_menu(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_menus_show_popular_main_menu_key,
 				false,
@@ -527,7 +517,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_show_random_main_menu(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_menus_show_random_main_menu_key,
 				false,
@@ -537,7 +527,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_show_multireddit_main_menu(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_menus_show_multireddit_main_menu_key,
 				true,
@@ -547,7 +537,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_show_subscribed_subreddits_main_menu(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_menus_show_subscribed_subreddits_main_menu_key,
 				true,
@@ -557,7 +547,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_menus_mainmenu_dev_announcements(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_menus_mainmenu_dev_announcements_key,
 				true,
@@ -567,7 +557,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_appearance_show_blocked_subreddits_main_menu(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_appearance_show_blocked_subreddits_main_menu_key,
 				false,
@@ -577,7 +567,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_appearance_linkbuttons(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_appearance_linkbuttons_key,
 				true,
@@ -587,7 +577,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_appearance_hide_android_status(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_appearance_hide_android_status_key,
 				false,
@@ -597,7 +587,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_appearance_link_text_clickable(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_appearance_link_text_clickable_key,
 				true,
@@ -607,7 +597,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_appearance_image_viewer_show_floating_toolbar(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_appearance_image_viewer_show_floating_toolbar_key,
 				true,
@@ -617,7 +607,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_appearance_show_aspect_ratio_indicator(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_appearance_show_aspect_ratio_indicator_key,
 				false,
@@ -627,7 +617,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_appearance_comments_show_floating_toolbar(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_appearance_comments_show_floating_toolbar_key,
 				true,
@@ -637,7 +627,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_appearance_indentlines(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_appearance_indentlines_key,
 				false,
@@ -647,7 +637,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_appearance_left_handed(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_appearance_left_handed_key,
 				false,
@@ -657,7 +647,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_appearance_bottom_toolbar(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_appearance_bottom_toolbar_key,
 				false,
@@ -667,7 +657,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_appearance_hide_toolbar_on_scroll(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_appearance_hide_toolbar_on_scroll_key,
 				false,
@@ -677,7 +667,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_appearance_hide_headertoolbar_postlist(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_appearance_hide_headertoolbar_postlist_key,
 				false,
@@ -687,7 +677,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_appearance_hide_headertoolbar_commentlist(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_appearance_hide_headertoolbar_commentlist_key,
 				false,
@@ -701,7 +691,7 @@ public final class PrefsUtility {
 
 	public static EnumSet<AppearancePostSubtitleItem> appearance_post_subtitle_items(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 
 		final Set<String> strings = getStringSet(
 				R.string.pref_appearance_post_subtitle_items_key,
@@ -720,7 +710,7 @@ public final class PrefsUtility {
 
 	public static int appearance_post_age_units(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		try {
 			return Integer.parseInt(getString(
 					R.string.pref_appearance_post_age_units_key,
@@ -734,7 +724,7 @@ public final class PrefsUtility {
 
 	public static boolean appearance_post_subtitle_items_use_different_settings(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_appearance_post_subtitle_items_use_different_settings_key,
 				false,
@@ -744,7 +734,7 @@ public final class PrefsUtility {
 
 	public static EnumSet<AppearancePostSubtitleItem> appearance_post_header_subtitle_items(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 
 		final Set<String> strings = getStringSet(
 				R.string.pref_appearance_post_header_subtitle_items_key,
@@ -763,7 +753,7 @@ public final class PrefsUtility {
 
 	public static int appearance_post_header_age_units(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		try {
 			return Integer.parseInt(getString(
 					R.string.pref_appearance_post_header_age_units_key,
@@ -777,7 +767,7 @@ public final class PrefsUtility {
 
 	public static boolean appearance_post_show_comments_button(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_appearance_post_show_comments_button_key,
 				true,
@@ -791,7 +781,7 @@ public final class PrefsUtility {
 
 	public static EnumSet<AppearanceCommentHeaderItem> appearance_comment_header_items(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 
 		final Set<String> strings = getStringSet(
 				R.string.pref_appearance_comment_header_items_key,
@@ -819,7 +809,7 @@ public final class PrefsUtility {
 
 	public static int appearance_comment_age_units(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		try {
 			return Integer.parseInt(getString(
 					R.string.pref_appearance_comment_age_units_key,
@@ -837,7 +827,7 @@ public final class PrefsUtility {
 
 	public static CommentAgeMode appearance_comment_age_mode(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return CommentAgeMode.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_appearance_comment_age_mode_key,
 				"absolute",
@@ -847,7 +837,7 @@ public final class PrefsUtility {
 
 	public static int appearance_inbox_age_units(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		try {
 			return Integer.parseInt(getString(
 					R.string.pref_appearance_inbox_age_units_key,
@@ -861,7 +851,7 @@ public final class PrefsUtility {
 
 	public static int images_thumbnail_size_dp(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		try {
 			return Integer.parseInt(getString(
 					R.string.pref_images_thumbnail_size_key,
@@ -875,7 +865,7 @@ public final class PrefsUtility {
 
 	public static NeverAlwaysOrWifiOnly images_inline_image_previews(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return NeverAlwaysOrWifiOnly.valueOf(StringUtils.asciiUppercase(
 				getString(
 						R.string.pref_images_inline_image_previews_key,
@@ -886,7 +876,7 @@ public final class PrefsUtility {
 
 	public static boolean images_inline_image_previews_nsfw(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_images_inline_image_previews_nsfw_key,
 				false,
@@ -896,7 +886,7 @@ public final class PrefsUtility {
 
 	public static boolean images_inline_image_previews_spoiler(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_images_inline_image_previews_spoiler_key,
 				false,
@@ -906,7 +896,7 @@ public final class PrefsUtility {
 
 	public static NeverAlwaysOrWifiOnly images_high_res_thumbnails(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return NeverAlwaysOrWifiOnly.valueOf(StringUtils.asciiUppercase(
 				getString(
 						R.string.pref_images_high_res_thumbnails_key,
@@ -921,7 +911,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_behaviour_skiptofrontpage(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_behaviour_skiptofrontpage_key,
 				false,
@@ -931,7 +921,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_behaviour_useinternalbrowser(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_behaviour_useinternalbrowser_key,
 				true,
@@ -941,7 +931,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_behaviour_usecustomtabs(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_behaviour_usecustomtabs_key,
 				false,
@@ -951,7 +941,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_behaviour_notifications(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_behaviour_notifications_key,
 				true,
@@ -961,7 +951,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_behaviour_enable_swipe_refresh(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_behaviour_enable_swipe_refresh_key,
 				true,
@@ -971,7 +961,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_behaviour_video_playback_controls(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_behaviour_video_playback_controls_key,
 				false,
@@ -981,7 +971,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_behaviour_video_mute_default(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_behaviour_video_mute_default_key,
 				true,
@@ -991,7 +981,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_behaviour_video_zoom_default(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(R.string.pref_behaviour_video_zoom_default_key,
 				false,
 				context,
@@ -1000,7 +990,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_videos_download_before_playing(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(R.string.pref_videos_download_before_playing_key,
 				false,
 				context,
@@ -1009,7 +999,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_behaviour_imagevideo_tap_close(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(R.string.pref_behaviour_imagevideo_tap_close_key,
 				true,
 				context,
@@ -1018,7 +1008,7 @@ public final class PrefsUtility {
 
 	public static int pref_behaviour_bezel_toolbar_swipezone_dp(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		try {
 			return Integer.parseInt(getString(
 					R.string.pref_behaviour_bezel_toolbar_swipezone_key,
@@ -1032,7 +1022,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_behaviour_back_again(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(R.string.pref_behaviour_postlist_back_again_key,
 				false,
 				context,
@@ -1041,7 +1031,7 @@ public final class PrefsUtility {
 
 	public static int pref_behaviour_gallery_swipe_length_dp(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		try {
 			return Integer.parseInt(getString(
 					R.string.pref_behaviour_gallery_swipe_length_key,
@@ -1055,7 +1045,7 @@ public final class PrefsUtility {
 
 	public static Integer pref_behaviour_comment_min(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		final Integer defaultValue = -4;
 
 		final String value = getString(
@@ -1077,7 +1067,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_behaviour_post_title_opens_comments(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_behaviour_post_title_opens_comments_key,
 				false,
@@ -1101,7 +1091,7 @@ public final class PrefsUtility {
 
 	public static ImageViewMode pref_behaviour_imageview_mode(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return ImageViewMode.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_imageview_mode_key,
 				"internal_opengl",
@@ -1119,7 +1109,7 @@ public final class PrefsUtility {
 
 	public static AlbumViewMode pref_behaviour_albumview_mode(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return AlbumViewMode.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_albumview_mode_key,
 				"internal_list",
@@ -1144,7 +1134,7 @@ public final class PrefsUtility {
 
 	public static GifViewMode pref_behaviour_gifview_mode(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return GifViewMode.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_gifview_mode_key,
 				"internal_movie",
@@ -1169,7 +1159,7 @@ public final class PrefsUtility {
 
 	public static VideoViewMode pref_behaviour_videoview_mode(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return VideoViewMode.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_videoview_mode_key,
 				"internal_videoview",
@@ -1203,7 +1193,7 @@ public final class PrefsUtility {
 
 	public static PostFlingAction pref_behaviour_fling_post_left(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return PostFlingAction.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_fling_post_left_key,
 				"downvote",
@@ -1213,7 +1203,7 @@ public final class PrefsUtility {
 
 	public static PostFlingAction pref_behaviour_fling_post_right(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return PostFlingAction.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_fling_post_right_key,
 				"upvote",
@@ -1227,7 +1217,7 @@ public final class PrefsUtility {
 
 	public static SelfpostAction pref_behaviour_self_post_tap_actions(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return SelfpostAction.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_self_post_tap_actions_key,
 				"collapse",
@@ -1259,7 +1249,7 @@ public final class PrefsUtility {
 
 	public static CommentFlingAction pref_behaviour_fling_comment_left(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return CommentFlingAction.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_fling_comment_left_key,
 				"downvote",
@@ -1269,7 +1259,7 @@ public final class PrefsUtility {
 
 	public static CommentFlingAction pref_behaviour_fling_comment_right(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return CommentFlingAction.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_fling_comment_right_key,
 				"upvote",
@@ -1283,7 +1273,7 @@ public final class PrefsUtility {
 
 	public static CommentAction pref_behaviour_actions_comment_tap(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return CommentAction.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_actions_comment_tap_key,
 				"collapse",
@@ -1293,7 +1283,7 @@ public final class PrefsUtility {
 
 	public static CommentAction pref_behaviour_actions_comment_longclick(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return CommentAction.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_actions_comment_longclick_key,
 				"action_menu",
@@ -1303,7 +1293,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_behaviour_sharing_share_text(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_behaviour_sharing_share_text_key,
 				true,
@@ -1313,7 +1303,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_behaviour_sharing_include_desc(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_behaviour_sharing_include_desc_key,
 				true,
@@ -1323,7 +1313,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_behaviour_sharing_dialog(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_behaviour_sharing_share_dialog_key,
 				false,
@@ -1333,7 +1323,7 @@ public final class PrefsUtility {
 
 	public static String pref_behaviour_sharing_dialog_data_get(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getString(
 				R.string.pref_behaviour_sharing_share_dialog_data,
 				"",
@@ -1343,7 +1333,7 @@ public final class PrefsUtility {
 
 	public static void pref_behaviour_sharing_dialog_data_set(
 			final Context context,
-			final SharedPreferences sharedPreferences,
+			final SharedPrefsWrapper sharedPreferences,
 			final String appNames) {
 		sharedPreferences.edit()
 				.putString(
@@ -1354,7 +1344,7 @@ public final class PrefsUtility {
 
 	public static PostSort pref_behaviour_postsort(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return PostSort.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_postsort_key,
 				"hot",
@@ -1364,7 +1354,7 @@ public final class PrefsUtility {
 
 	public static PostSort pref_behaviour_user_postsort(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return PostSort.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_user_postsort_key,
 				"new",
@@ -1374,7 +1364,7 @@ public final class PrefsUtility {
 
 	public static PostSort pref_behaviour_multi_postsort(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return PostSort.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_multi_postsort_key,
 				"hot",
@@ -1384,7 +1374,7 @@ public final class PrefsUtility {
 
 	public static PostCommentListingURL.Sort pref_behaviour_commentsort(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return PostCommentListingURL.Sort.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_commentsort_key,
 				"best",
@@ -1394,7 +1384,7 @@ public final class PrefsUtility {
 
 	public static UserCommentListingURL.Sort pref_behaviour_user_commentsort(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return UserCommentListingURL.Sort.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_user_commentsort_key,
 				"new",
@@ -1408,7 +1398,7 @@ public final class PrefsUtility {
 
 	public static PinnedSubredditSort pref_behaviour_pinned_subredditsort(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return PinnedSubredditSort.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_pinned_subredditsort_key,
 				"name",
@@ -1422,7 +1412,7 @@ public final class PrefsUtility {
 
 	public static BlockedSubredditSort pref_behaviour_blocked_subredditsort(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return BlockedSubredditSort.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_blocked_subredditsort_key,
 				"name",
@@ -1432,7 +1422,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_behaviour_nsfw(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_behaviour_nsfw_key,
 				false,
@@ -1444,7 +1434,7 @@ public final class PrefsUtility {
 	// See strings.xml, prefs_behaviour.xml, PostListingFragment.java
 	public static boolean pref_behaviour_hide_read_posts(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_behaviour_hide_read_posts_key,
 				false,
@@ -1454,7 +1444,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_behaviour_share_permalink(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_behaviour_share_permalink_key,
 				false,
@@ -1468,7 +1458,7 @@ public final class PrefsUtility {
 
 	public static PostCount pref_behaviour_post_count(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return PostCount.valueOf(getString(
 				R.string.pref_behaviour_postcount_key,
 				"ALL",
@@ -1482,7 +1472,7 @@ public final class PrefsUtility {
 
 	public static ScreenOrientation pref_behaviour_screen_orientation(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return ScreenOrientation.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_screenorientation_key,
 				StringUtils.asciiLowercase(ScreenOrientation.AUTO.name()),
@@ -1496,7 +1486,7 @@ public final class PrefsUtility {
 
 	public static SaveLocation pref_behaviour_save_location(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return SaveLocation.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_save_location_key,
 				StringUtils.asciiLowercase(SaveLocation.PROMPT_EVERY_TIME.name()),
@@ -1512,7 +1502,7 @@ public final class PrefsUtility {
 
 	public static String pref_cache_location(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		File defaultCacheDir = context.getExternalCacheDir();
 		if(defaultCacheDir == null) {
 			defaultCacheDir = context.getCacheDir();
@@ -1524,7 +1514,7 @@ public final class PrefsUtility {
 
 	public static void pref_cache_location(
 			final Context context,
-			final SharedPreferences sharedPreferences, final String path) {
+			final SharedPrefsWrapper sharedPreferences, final String path) {
 		sharedPreferences.edit()
 				.putString(context.getString(R.string.pref_cache_location_key), path)
 				.apply();
@@ -1532,7 +1522,7 @@ public final class PrefsUtility {
 
 	public static long pref_cache_rerequest_postlist_age_ms(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		try {
 			final int hours = Integer.parseInt(
 					getString(
@@ -1577,7 +1567,7 @@ public final class PrefsUtility {
 
 	public static HashMap<Integer, Long> pref_cache_maxage(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 
 		final long maxAgeListing = 1000L
 				* 60L
@@ -1609,7 +1599,7 @@ public final class PrefsUtility {
 
 	public static Long pref_cache_maxage_entry(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return 1000L
 				* 60L
 				* 60L
@@ -1624,7 +1614,7 @@ public final class PrefsUtility {
 
 	public static NeverAlwaysOrWifiOnly cache_precache_images(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return NeverAlwaysOrWifiOnly.valueOf(StringUtils.asciiUppercase(
 				getString(
 						R.string.pref_cache_precache_images_list_key,
@@ -1635,7 +1625,7 @@ public final class PrefsUtility {
 
 	public static NeverAlwaysOrWifiOnly cache_precache_images_old(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 
 		if(network_tor(context, sharedPreferences)) {
 			return NeverAlwaysOrWifiOnly.NEVER;
@@ -1662,7 +1652,7 @@ public final class PrefsUtility {
 
 	public static NeverAlwaysOrWifiOnly cache_precache_comments(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return NeverAlwaysOrWifiOnly.valueOf(StringUtils.asciiUppercase(
 				getString(
 						R.string.pref_cache_precache_comments_list_key,
@@ -1673,7 +1663,7 @@ public final class PrefsUtility {
 
 	public static NeverAlwaysOrWifiOnly cache_precache_comments_old(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 
 		if(!getBoolean(
 				R.string.pref_cache_precache_comments_key,
@@ -1698,7 +1688,7 @@ public final class PrefsUtility {
 
 	public static boolean network_tor(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_network_tor_key,
 				false,
@@ -1712,7 +1702,7 @@ public final class PrefsUtility {
 
 	public static EnumSet<RedditPreparedPost.Action> pref_menus_post_context_items(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 
 		final Set<String> strings = getStringSet(
 				R.string.pref_menus_post_context_items_key,
@@ -1731,7 +1721,7 @@ public final class PrefsUtility {
 
 	public static EnumSet<RedditPreparedPost.Action> pref_menus_post_toolbar_items(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 
 		final Set<String> strings = getStringSet(
 				R.string.pref_menus_post_toolbar_items_key,
@@ -1750,7 +1740,7 @@ public final class PrefsUtility {
 
 	public static EnumSet<LinkHandler.LinkAction> pref_menus_link_context_items(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 
 		final Set<String> strings = getStringSet(
 				R.string.pref_menus_link_context_items_key,
@@ -1770,7 +1760,7 @@ public final class PrefsUtility {
 	public static EnumSet<MainMenuListingManager.SubredditAction>
 	pref_menus_subreddit_context_items(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 
 		final Set<String> strings = getStringSet(
 				R.string.pref_menus_subreddit_context_items_key,
@@ -1790,7 +1780,7 @@ public final class PrefsUtility {
 
 	public static EnumSet<MainMenuFragment.MainMenuUserItems> pref_menus_mainmenu_useritems(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 
 		final Set<String> strings = getStringSet(
 				R.string.pref_menus_mainmenu_useritems_key,
@@ -1809,7 +1799,7 @@ public final class PrefsUtility {
 
 	public static EnumSet<MainMenuFragment.MainMenuShortcutItems> pref_menus_mainmenu_shortcutitems(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 
 		final Set<String> strings = getStringSet(
 				R.string.pref_menus_mainmenu_shortcutitems_key,
@@ -1843,7 +1833,7 @@ public final class PrefsUtility {
 
 	public static EnumMap<OptionsMenuUtility.AppbarItemsPref, Integer> pref_menus_appbar_items(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 
 		final AppbarItemInfo[] appbarItemsInfo = new AppbarItemInfo[] {
 				new AppbarItemInfo(
@@ -1925,7 +1915,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_menus_quick_account_switcher(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_menus_quick_account_switcher_key,
 				true,
@@ -1936,7 +1926,7 @@ public final class PrefsUtility {
 	public static EnumSet<RedditAPICommentAction.RedditCommentAction>
 				pref_menus_comment_context_items(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 
 		final Set<String> strings = getStringSet(
 				R.string.pref_menus_comment_context_items_key,
@@ -1961,7 +1951,7 @@ public final class PrefsUtility {
 
 	public static List<SubredditCanonicalId> pref_pinned_subreddits(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return pref_subreddits_list(
 				context,
 				sharedPreferences,
@@ -1970,7 +1960,7 @@ public final class PrefsUtility {
 
 	public static void pref_pinned_subreddits_add(
 			final Context context,
-			final SharedPreferences sharedPreferences,
+			final SharedPrefsWrapper sharedPreferences,
 			final SubredditCanonicalId subreddit) {
 
 		pref_subreddits_add(
@@ -1986,7 +1976,7 @@ public final class PrefsUtility {
 
 	public static void pref_pinned_subreddits_remove(
 			final Context context,
-			final SharedPreferences sharedPreferences,
+			final SharedPrefsWrapper sharedPreferences,
 			final SubredditCanonicalId subreddit) {
 
 		pref_subreddits_remove(
@@ -2002,7 +1992,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_pinned_subreddits_check(
 			final Context context,
-			final SharedPreferences sharedPreferences,
+			final SharedPrefsWrapper sharedPreferences,
 			final SubredditCanonicalId id) {
 
 		return pref_pinned_subreddits(context, sharedPreferences).contains(id);
@@ -2014,7 +2004,7 @@ public final class PrefsUtility {
 
 	public static List<SubredditCanonicalId> pref_blocked_subreddits(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 
 		return pref_subreddits_list(
 				context,
@@ -2024,7 +2014,7 @@ public final class PrefsUtility {
 
 	public static void pref_blocked_subreddits_add(
 			final Context context,
-			final SharedPreferences sharedPreferences,
+			final SharedPrefsWrapper sharedPreferences,
 			final SubredditCanonicalId subreddit) {
 
 		pref_subreddits_add(
@@ -2038,7 +2028,7 @@ public final class PrefsUtility {
 
 	public static void pref_blocked_subreddits_remove(
 			final Context context,
-			final SharedPreferences sharedPreferences,
+			final SharedPrefsWrapper sharedPreferences,
 			final SubredditCanonicalId subreddit) {
 
 		pref_subreddits_remove(
@@ -2052,7 +2042,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_blocked_subreddits_check(
 			final Context context,
-			final SharedPreferences sharedPreferences,
+			final SharedPrefsWrapper sharedPreferences,
 			final SubredditCanonicalId subreddit) {
 
 		return pref_blocked_subreddits(context, sharedPreferences).contains(subreddit);
@@ -2064,7 +2054,7 @@ public final class PrefsUtility {
 
 	private static void pref_subreddits_add(
 			final Context context,
-			final SharedPreferences sharedPreferences,
+			final SharedPrefsWrapper sharedPreferences,
 			final SubredditCanonicalId subreddit,
 			final int prefId) {
 
@@ -2080,7 +2070,7 @@ public final class PrefsUtility {
 
 	private static void pref_subreddits_remove(
 			final Context context,
-			final SharedPreferences sharedPreferences,
+			final SharedPrefsWrapper sharedPreferences,
 			final SubredditCanonicalId subreddit,
 			final int prefId) {
 
@@ -2106,7 +2096,7 @@ public final class PrefsUtility {
 
 	public static List<SubredditCanonicalId> pref_subreddits_list(
 			final Context context,
-			final SharedPreferences sharedPreferences,
+			final SharedPrefsWrapper sharedPreferences,
 			final int prefId) {
 
 		final String value = getString(prefId, "", context, sharedPreferences);
@@ -2127,7 +2117,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_accessibility_separate_body_text_lines(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		return getBoolean(
 				R.string.pref_accessibility_separate_body_text_lines_key,
 				false,
@@ -2137,7 +2127,7 @@ public final class PrefsUtility {
 
 	public static int pref_accessibility_min_comment_height(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 		try {
 			return Integer.parseInt(getString(
 					R.string.pref_accessibility_min_comment_height_key,

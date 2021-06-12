@@ -22,7 +22,6 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -43,6 +42,7 @@ import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.ScreenreaderPronunciation;
+import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.fragments.MainMenuFragment;
 import org.quantumbadger.redreader.receivers.announcements.Announcement;
 import org.quantumbadger.redreader.receivers.announcements.AnnouncementDownloader;
@@ -133,7 +133,7 @@ public class MainMenuListingManager {
 		mAnnouncementHolder = new FrameLayout(mActivity);
 		General.setLayoutMatchWidthWrapHeight(mAnnouncementHolder);
 
-		final SharedPreferences sharedPreferences
+		final SharedPrefsWrapper sharedPreferences
 				= General.getSharedPrefs(activity);
 
 		final Drawable rrIconPerson;
@@ -427,7 +427,7 @@ public class MainMenuListingManager {
 
 	private void setPinnedSubreddits() {
 
-		final SharedPreferences sharedPreferences
+		final SharedPrefsWrapper sharedPreferences
 				= General.getSharedPrefs(mActivity);
 
 		final List<SubredditCanonicalId> pinnedSubreddits
@@ -465,7 +465,7 @@ public class MainMenuListingManager {
 
 	private void setBlockedSubreddits() {
 
-		final SharedPreferences sharedPreferences
+		final SharedPrefsWrapper sharedPreferences
 				= General.getSharedPrefs(mActivity);
 
 		final List<SubredditCanonicalId> blockedSubreddits
@@ -672,7 +672,7 @@ public class MainMenuListingManager {
 
 		final View.OnLongClickListener longClickListener = view -> {
 
-			final SharedPreferences sharedPreferences
+			final SharedPrefsWrapper sharedPreferences
 					= General.getSharedPrefs(
 					mActivity);
 
@@ -948,7 +948,7 @@ public class MainMenuListingManager {
 
 	public void onUpdateAnnouncement() {
 
-		final SharedPreferences sharedPreferences = General.getSharedPrefs(mContext);
+		final SharedPrefsWrapper sharedPreferences = General.getSharedPrefs(mContext);
 
 		if(PrefsUtility.pref_menus_mainmenu_dev_announcements(mContext, sharedPreferences)) {
 

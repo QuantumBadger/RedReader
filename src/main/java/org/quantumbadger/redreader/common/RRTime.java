@@ -39,7 +39,8 @@ public class RRTime {
 
 	private static final DateTimeFormatter
 			dtFormatter12hr = DateTimeFormat.forPattern("yyyy-MM-dd h:mm a"),
-			dtFormatter24hr = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm");
+			dtFormatter24hr = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm"),
+			dtFormatterFilename = DateTimeFormat.forPattern("yyyy_MM_dd__HH_mm_ss");
 
 
 	public static long utcCurrentTimeMillis() {
@@ -56,6 +57,14 @@ public class RRTime {
 		} else {
 			return dtFormatter12hr.print(localDateTime);
 		}
+	}
+
+	public static String formatDateTimeFilenameSafe(final long utc_ms) {
+
+		final DateTime dateTime = new DateTime(utc_ms);
+		final DateTime localDateTime = dateTime.withZone(DateTimeZone.getDefault());
+
+		return dtFormatterFilename.print(localDateTime);
 	}
 
 	public static String formatDurationFrom(

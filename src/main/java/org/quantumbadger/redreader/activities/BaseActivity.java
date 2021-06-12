@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
@@ -40,6 +39,7 @@ import androidx.core.view.ViewCompat;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.common.TorCommon;
 
 import java.util.HashMap;
@@ -47,9 +47,9 @@ import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class BaseActivity extends AppCompatActivity
-		implements SharedPreferences.OnSharedPreferenceChangeListener {
+		implements SharedPrefsWrapper.OnSharedPreferenceChangeListener {
 
-	private SharedPreferences mSharedPreferences;
+	private SharedPrefsWrapper mSharedPreferences;
 
 	private static boolean closingAll = false;
 
@@ -416,15 +416,15 @@ public abstract class BaseActivity extends AppCompatActivity
 
 
 	protected void onSharedPreferenceChangedInner(
-			final SharedPreferences prefs,
+			final SharedPrefsWrapper prefs,
 			final String key) {
 		// Do nothing
 	}
 
 	@Override
 	public final void onSharedPreferenceChanged(
-			final SharedPreferences prefs,
-			final String key) {
+			@NonNull final SharedPrefsWrapper prefs,
+			@NonNull final String key) {
 
 		onSharedPreferenceChangedInner(prefs, key);
 
@@ -432,6 +432,10 @@ public abstract class BaseActivity extends AppCompatActivity
 				|| key.equals(getString(R.string.pref_menus_quick_account_switcher_key))
 				|| key.equals(getString(R.string.pref_pinned_subreddits_key))) {
 			invalidateOptionsMenu();
+		}
+
+		if(key.equals(getString(R.string.pref_behaviour_screenorientation_key))) {
+			setOrientationFromPrefs();
 		}
 	}
 }

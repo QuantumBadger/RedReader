@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ This file is part of RedReader.
+  ~
+  ~ RedReader is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ RedReader is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:key="@string/prefs_category_appearance_key"
+        android:title="@string/prefs_category_appearance"/>
+
+	<Preference
+			android:key="@string/prefs_category_fonts_key"
+			android:title="@string/prefs_category_fonts"/>
+
+	<Preference
+			android:key="@string/prefs_category_behaviour_key"
+			android:title="@string/prefs_category_behaviour"/>
+
+	<Preference
+			android:key="@string/prefs_category_images_video_key"
+			android:title="@string/prefs_category_images_video"/>
+
+	<Preference
+			android:key="@string/prefs_category_cache_key"
+			android:title="@string/prefs_category_cache"/>
+
+	<Preference
+			android:key="@string/prefs_category_network_key"
+			android:title="@string/prefs_category_network"/>
+
+	<Preference
+			android:key="@string/prefs_category_menus_key"
+			android:title="@string/prefs_category_menus"/>
+
+	<Preference
+			android:key="@string/prefs_category_accessibility_key"
+			android:title="@string/prefs_category_accessibility"/>
+
+	<Preference
+			android:key="@string/prefs_category_backup_restore_key"
+			android:title="@string/prefs_category_backup_restore"/>
+
+	<Preference
+			android:key="@string/prefs_category_about_key"
+			android:title="@string/prefs_category_about"/>
+
+</PreferenceScreen>

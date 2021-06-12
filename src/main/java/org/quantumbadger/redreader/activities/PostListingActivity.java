@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.Menu;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -142,7 +143,7 @@ public class PostListingActivity extends RefreshableActivity
 	}
 
 	@Override
-	protected void onSaveInstanceState(final Bundle outState) {
+	protected void onSaveInstanceState(@NonNull final Bundle outState) {
 		super.onSaveInstanceState(outState);
 
 		final UUID session = controller.getSession();

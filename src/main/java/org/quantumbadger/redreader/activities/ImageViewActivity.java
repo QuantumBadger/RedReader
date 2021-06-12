@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -40,7 +39,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -64,6 +62,7 @@ import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.fragments.ImageInfoDialog;
 import org.quantumbadger.redreader.image.AlbumInfo;
@@ -156,7 +155,7 @@ public class ImageViewActivity extends BaseActivity
 
 		setTitle(R.string.accessibility_image_viewer_title);
 
-		final SharedPreferences sharedPreferences
+		final SharedPrefsWrapper sharedPreferences
 				= General.getSharedPrefs(this);
 
 		final int gallerySwipeLengthDp
@@ -446,7 +445,7 @@ public class ImageViewActivity extends BaseActivity
 
 			Log.i(TAG, "Image stream ready");
 
-			final SharedPreferences sharedPrefs = General.getSharedPrefs(this);
+			final SharedPrefsWrapper sharedPrefs = General.getSharedPrefs(this);
 
 			if(mimetype == null) {
 				revertToWeb();

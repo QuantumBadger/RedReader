@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.views;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.widget.FrameLayout;
@@ -38,6 +37,7 @@ import org.quantumbadger.redreader.common.Fonts;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.api.SubredditSubscriptionState;
 import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException;
@@ -49,7 +49,7 @@ import org.quantumbadger.redreader.reddit.url.PostListingURL;
 public final class PostListingHeader extends LinearLayout
 		implements
 		RedditSubredditSubscriptionManager.SubredditSubscriptionStateChangeListener,
-		SharedPreferences.OnSharedPreferenceChangeListener {
+		SharedPrefsWrapper.OnSharedPreferenceChangeListener {
 
 	@NonNull private final Context mContext;
 
@@ -74,7 +74,7 @@ public final class PostListingHeader extends LinearLayout
 
 		mContext = activity.getApplicationContext();
 
-		final SharedPreferences sharedPreferences
+		final SharedPrefsWrapper sharedPreferences
 				= General.getSharedPrefs(activity);
 
 		final float dpScale = activity.getResources().getDisplayMetrics().density;
@@ -326,8 +326,8 @@ public final class PostListingHeader extends LinearLayout
 
 	@Override
 	public void onSharedPreferenceChanged(
-			final SharedPreferences sharedPreferences,
-			final String key) {
+			@NonNull final SharedPrefsWrapper sharedPreferences,
+			@NonNull final String key) {
 
 		if(mRunnableOnPinnedChange != null
 				&& key != null

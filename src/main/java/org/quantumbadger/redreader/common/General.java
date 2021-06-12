@@ -21,7 +21,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
@@ -59,6 +58,7 @@ import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Locale;
 import java.util.Set;
@@ -75,7 +75,7 @@ public final class General {
 
 	public static final int COLOR_INVALID = Color.MAGENTA;
 
-	private static final AtomicReference<SharedPreferences> mPrefs = new AtomicReference<>();
+	private static final AtomicReference<SharedPrefsWrapper> mPrefs = new AtomicReference<>();
 
 	private static long lastBackPress = -1;
 
@@ -90,16 +90,18 @@ public final class General {
 	}
 
 	@NonNull
-	public static SharedPreferences getSharedPrefs(@NonNull final Context context) {
+	public static SharedPrefsWrapper getSharedPrefs(@NonNull final Context context) {
 
-		SharedPreferences prefs = mPrefs.get();
+		SharedPrefsWrapper prefs = mPrefs.get();
 
 		if(prefs == null) {
-			prefs = context.getSharedPreferences(
+			prefs = new SharedPrefsWrapper(context.getSharedPreferences(
 					context.getPackageName() + "_preferences",
-					Context.MODE_PRIVATE);
+					Context.MODE_PRIVATE));
 
-			mPrefs.set(prefs);
+			if(!mPrefs.compareAndSet(null, prefs)) {
+				prefs = mPrefs.get();
+			}
 		}
 
 		return prefs;
@@ -198,7 +200,7 @@ public final class General {
 
 	public static boolean isTablet(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 
 		final PrefsUtility.AppearanceTwopane pref = PrefsUtility.appearance_twopane(
 				context,
@@ -759,5 +761,17 @@ public final class General {
 		}
 
 		return null;
+	}
+
+	public static boolean isAlpha() {
+		//noinspection ConstantConditions
+		return General.class.getCanonicalName().contains("alpha");
+	}
+
+	@NonNull
+	public static <E> Set<E> hashsetFromArray(@NonNull final E[] data) {
+		final HashSet<E> result = new HashSet<>(data.length);
+		Collections.addAll(result, data);
+		return result;
 	}
 }

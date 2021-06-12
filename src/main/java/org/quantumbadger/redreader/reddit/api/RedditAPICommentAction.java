@@ -22,7 +22,6 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -40,6 +39,7 @@ import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRTime;
+import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.fragments.CommentPropertiesDialog;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
@@ -103,7 +103,7 @@ public class RedditAPICommentAction {
 			final RedditChangeDataManager changeDataManager,
 			final boolean isArchived) {
 
-		final SharedPreferences sharedPreferences = General.getSharedPrefs(activity);
+		final SharedPrefsWrapper sharedPreferences = General.getSharedPrefs(activity);
 
 		final EnumSet<RedditCommentAction> itemPref
 				= PrefsUtility.pref_menus_comment_context_items(activity, sharedPreferences);

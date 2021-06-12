@@ -153,7 +153,7 @@ public class PMSendActivity extends BaseActivity {
 	}
 
 	@Override
-	protected void onSaveInstanceState(final Bundle outState) {
+	protected void onSaveInstanceState(@NonNull final Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putString(SAVED_STATE_RECIPIENT, recipientEdit.getText().toString());
 		outState.putString(SAVED_STATE_SUBJECT, subjectEdit.getText().toString());

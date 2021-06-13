@@ -779,4 +779,17 @@ public final class General {
 		Collections.addAll(result, data);
 		return result;
 	}
+
+	@SafeVarargs
+	public static <E> E nullAlternative(
+			final E... values) {
+
+		for(final E value : values) {
+			if(value != null) {
+				return value;
+			}
+		}
+
+		return values[values.length - 1];
+	}
 }

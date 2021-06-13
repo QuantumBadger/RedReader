@@ -144,12 +144,18 @@ public class NewMessageChecker extends BroadcastReceiver {
 							final String messageID;
 							final long messageTimestamp;
 
+							final String unknownUser = "["
+									+ context.getString(R.string.general_unknown)
+									+ "]";
+
 							switch(thing.getKind()) {
 								case COMMENT: {
 									final RedditComment comment = thing.asComment();
 									title = context.getString(
 											R.string.notification_comment,
-											comment.author);
+											General.nullAlternative(
+													comment.author,
+													unknownUser));
 									messageID = comment.name;
 									messageTimestamp = comment.created_utc;
 									break;
@@ -159,7 +165,10 @@ public class NewMessageChecker extends BroadcastReceiver {
 									final RedditMessage message = thing.asMessage();
 									title = context.getString(
 											R.string.notification_message,
-											message.author);
+											General.nullAlternative(
+													message.author,
+													message.subreddit_name_prefixed,
+													unknownUser));
 									messageID = message.name;
 									messageTimestamp = message.created_utc;
 									break;

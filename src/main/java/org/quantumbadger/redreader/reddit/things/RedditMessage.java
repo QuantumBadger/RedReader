@@ -17,12 +17,22 @@
 
 package org.quantumbadger.redreader.reddit.things;
 
+import androidx.annotation.Nullable;
 import org.apache.commons.text.StringEscapeUtils;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
 public class RedditMessage {
 
-	public String author, dest, body, body_html, context, name, parent_id, subject, subreddit;
+	@Nullable public String author;
+	public String dest;
+	public String body;
+	public String body_html;
+	public String context;
+	public String name;
+	public String parent_id;
+	public String subject;
+	public String subreddit;
+	public String subreddit_name_prefixed;
 	public boolean _json_new, was_comment;
 	public JsonValue first_message, replies;
 	public long created, created_utc;

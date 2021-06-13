@@ -105,21 +105,18 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 						1f);
 			}
 		} else {
-			if(src.author == null) {
-				sb.append(
-						"[" + applicationContext.getString(R.string.general_unknown) + "]",
-						BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD,
-						rrCommentHeaderAuthorCol,
-						0,
-						1f);
-			} else {
-				sb.append(
-						src.author,
-						BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD,
-						rrCommentHeaderAuthorCol,
-						0,
-						1f);
-			}
+
+			final String author = General.nullAlternative(
+					src.author,
+					src.subreddit_name_prefixed,
+					"[" + applicationContext.getString(R.string.general_unknown) + "]");
+
+			sb.append(
+					author,
+					BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD,
+					rrCommentHeaderAuthorCol,
+					0,
+					1f);
 		}
 
 		sb.append("   ", 0);
@@ -158,6 +155,11 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 
 	@Override
 	public void handleInboxClick(final BaseActivity activity) {
+
+		if(src.author == null) {
+			return;
+		}
+
 		final String currentCanonicalUserName = RedditAccountManager.getInstance(activity)
 				.getDefaultAccount().getCanonicalUsername();
 

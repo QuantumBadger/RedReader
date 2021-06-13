@@ -53,8 +53,10 @@ import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Consumer;
+import org.quantumbadger.redreader.common.DialogUtils;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.fragments.MarkdownPreviewDialog;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
@@ -532,9 +534,28 @@ public class PostSubmitContentFragment extends Fragment {
 
 				final CacheManager cm = CacheManager.getInstance(mContext);
 
-				final APIResponseHandler.ActionResponseHandler handler
-						= new APIResponseHandler.ActionResponseHandler(
+				final RedditAPI.SubmitResponseHandler handler
+						= new RedditAPI.SubmitResponseHandler(
 								(AppCompatActivity)activity) {
+
+					@Override
+					public void onSubmitErrors(@NonNull final ArrayList<String> errors) {
+
+						final FragmentActivity activity = getActivity();
+
+						if(activity != null) {
+
+							final String errorsJoined = StringUtils.join(errors, " ");
+
+							DialogUtils.showDialog(
+									activity,
+									activity.getString(R.string.error_post_submit_title),
+									errorsJoined);
+						}
+
+						General.safeDismissDialog(progressDialog);
+					}
+
 					@Override
 					protected void onSuccess(@Nullable final String redirectUrl) {
 						AndroidCommon.UI_THREAD_HANDLER.post(() -> {
@@ -548,8 +569,8 @@ public class PostSubmitContentFragment extends Fragment {
 							final FragmentActivity activity = getActivity();
 
 							if(activity != null) {
-								((Listener)activity).onContentFragmentSubmissionSuccess(
-										redirectUrl);
+								((Listener)activity)
+										.onContentFragmentSubmissionSuccess(redirectUrl);
 							}
 						});
 					}

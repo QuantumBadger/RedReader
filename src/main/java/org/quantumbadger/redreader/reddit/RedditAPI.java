@@ -22,6 +22,7 @@ import android.util.Log;
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -52,6 +53,7 @@ import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -254,9 +256,19 @@ public final class RedditAPI {
 				}));
 	}
 
+	public static abstract class SubmitResponseHandler
+			extends APIResponseHandler.ActionResponseHandler {
+
+		protected SubmitResponseHandler(final AppCompatActivity context) {
+			super(context);
+		}
+
+		public abstract void onSubmitErrors(@NonNull final ArrayList<String> errors);
+	}
+
 	public static void submit(
 			final CacheManager cm,
-			final APIResponseHandler.ActionResponseHandler responseHandler,
+			final SubmitResponseHandler responseHandler,
 			final RedditAccount user,
 			final boolean is_self,
 			final String subreddit,
@@ -269,6 +281,7 @@ public final class RedditAPI {
 			final Context context) {
 
 		final LinkedList<HTTPBackend.PostField> postFields = new LinkedList<>();
+		postFields.add(new HTTPBackend.PostField("api_type", "json"));
 		postFields.add(new HTTPBackend.PostField("kind", is_self ? "self" : "link"));
 		postFields.add(new HTTPBackend.PostField(
 				"sendreplies",
@@ -293,7 +306,74 @@ public final class RedditAPI {
 				user,
 				postFields,
 				context,
-				new GenericResponseHandler(responseHandler)));
+				new CacheRequestJSONParser.Listener() {
+
+					@Override
+					public void onJsonParsed(
+							@NonNull final JsonValue result,
+							final long timestamp,
+							@NonNull final UUID session,
+							final boolean fromCache) {
+
+						try {
+
+							final JsonArray errorsJson
+									= result.getArrayAtPath("json", "errors");
+
+							if(errorsJson != null) {
+
+								final ArrayList<String> errors = new ArrayList<>();
+
+								for(final JsonValue errorValue : errorsJson) {
+
+									final JsonArray error = errorValue.asArray();
+
+									if(error != null && error.getString(1) != null) {
+										errors.add(error.getString(1));
+									}
+								}
+
+								if(!errors.isEmpty()) {
+									responseHandler.onSubmitErrors(errors);
+									return;
+								}
+							}
+
+							final APIResponseHandler.APIFailureType failureType
+									= findFailureType(result);
+
+							if(failureType != null) {
+								responseHandler.notifyFailure(
+										failureType,
+										null,
+										result);
+							} else {
+								responseHandler.notifySuccess(findRedirectUrl(result));
+							}
+
+						} catch(final Exception e) {
+							BugReportActivity.handleGlobalError(
+									responseHandler.context,
+									new RRError(
+											null,
+											null,
+											e,
+											null,
+											null,
+											result.toString()));
+						}
+					}
+
+					@Override
+					public void onFailure(
+							final int type,
+							@Nullable final Throwable t,
+							@Nullable final Integer httpStatus,
+							@Nullable final String readableMessage) {
+
+						responseHandler.notifyFailure(type, t, httpStatus, readableMessage, null);
+					}
+				}));
 	}
 
 	public static void compose(

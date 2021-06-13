@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.common;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -107,7 +108,7 @@ public class DialogUtils {
 	}
 
 	public static void showDialog(
-			@NonNull final AppCompatActivity activity,
+			@NonNull final Activity activity,
 			@NonNull final String title,
 			@NonNull final String message) {
 
@@ -124,7 +125,7 @@ public class DialogUtils {
 	}
 
 	public static void showDialog(
-			@NonNull final AppCompatActivity activity,
+			@NonNull final Activity activity,
 			@StringRes final int title,
 			@StringRes final int message) {
 

@@ -1536,7 +1536,11 @@
 	<string name="error_no_file_manager_title">No file manager</string>
 	<string name="error_no_file_manager_message">The operating system on this device is missing a file manager compatible with the Android Storage Access Framework. If a file manager is present, it may be disabled.</string>
 
+	<!-- 2021-06-13 -->
+
 	<string name="error_post_flair_required_title">Flair required</string>
 	<string name="error_post_flair_required_message">The rules of this subreddit require setting a flair on your post.</string>
+
+	<string name="error_post_submit_title">Error submitting post</string>
 	
 </resources>

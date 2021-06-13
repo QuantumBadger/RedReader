@@ -287,8 +287,8 @@
 
     <!-- General errors -->
 
-    <string name="error_403_title">Invalid User</string>
-    <string name="error_403_message">Reddit says the current user does not have permission to do that. Try logging out, and then logging back in (by deleting the account from the accounts list, and then adding it again).</string>
+    <string name="error_403_title">Permission Denied</string>
+    <string name="error_403_message">Reddit says the current user does not have permission to do that.</string>
 
     <string name="error_subreddit_required_title">Subreddit Required</string>
     <string name="error_subreddit_required_message">You must specify a subreddit.</string>

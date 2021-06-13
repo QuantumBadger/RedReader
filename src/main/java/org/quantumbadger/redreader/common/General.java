@@ -342,6 +342,10 @@ public final class General {
 							title = R.string.error_404_title;
 							message = R.string.error_404_message;
 							break;
+						case 429:
+							title = R.string.error_http_429_title;
+							message = R.string.error_http_429_message;
+							break;
 						case 502:
 						case 503:
 						case 504:

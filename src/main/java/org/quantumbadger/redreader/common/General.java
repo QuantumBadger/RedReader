@@ -307,15 +307,30 @@ public final class General {
 						case 401:
 						case 403: {
 							final URI uri = General.uriFromString(url);
-							final boolean isRedditRequest
-									= uri != null
-											&& uri.getHost() != null
-											&& ("reddit.com".equalsIgnoreCase(uri.getHost())
-													|| uri.getHost().endsWith(".reddit.com"));
+
+							boolean isImgurApiRequest = false;
+							boolean isRedditRequest = false;
+
+							if(uri != null && uri.getHost() != null) {
+								if("reddit.com".equalsIgnoreCase(uri.getHost())
+										|| uri.getHost().endsWith(".reddit.com")) {
+
+									isRedditRequest = true;
+
+								} else if(uri.getHost().equalsIgnoreCase(
+										"api.imgur.com")) {
+									isImgurApiRequest = true;
+								}
+							}
 
 							if(isRedditRequest) {
 								title = R.string.error_403_title;
 								message = R.string.error_403_message;
+
+							} else if(status == 400 && isImgurApiRequest) {
+								title = R.string.error_imgur_400_title;
+								message = R.string.error_imgur_400_message;
+
 							} else {
 								title = R.string.error_403_title_nonreddit;
 								message = R.string.error_403_message_nonreddit;

@@ -1545,5 +1545,8 @@
 
 	<string name="error_tor_connection_title">Tor error</string>
 	<string name="error_tor_connection_message">Unable to connect to Tor. Please ensure the Orbot app is running, or disable Tor in the network settings.</string>
+
+	<string name="error_imgur_400_title">Imgur error</string>
+	<string name="error_imgur_400_message">Imgur is rejecting this image upload, possibly due to a rate limit. Please use another image host or try again later.</string>
 	
 </resources>

@@ -2,6 +2,7 @@
 Better errors for subreddit content rules when submitting posts
 Handle inbox messages from subreddits correctly
 Make some errors not reportable
+Improve imgur upload error message
 
 /Alpha 277 (2021-06-12)
 Ability to backup and restore app preferences

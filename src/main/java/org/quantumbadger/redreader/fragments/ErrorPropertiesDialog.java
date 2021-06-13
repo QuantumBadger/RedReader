@@ -28,6 +28,7 @@ import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.common.RRError;
 
+import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
 public final class ErrorPropertiesDialog extends PropertiesDialog {
@@ -75,6 +76,7 @@ public final class ErrorPropertiesDialog extends PropertiesDialog {
 	protected void interceptBuilder(@NonNull final AlertDialog.Builder builder) {
 
 		if(!(mError.t instanceof UnknownHostException)
+				&& !(mError.t instanceof SocketTimeoutException)
 				&& mError.reportable) {
 
 			builder.setPositiveButton(

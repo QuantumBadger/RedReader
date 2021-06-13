@@ -32,6 +32,9 @@ import java.util.Set;
 
 public final class FeatureFlagHandler {
 
+	@NonNull public static final String PREF_LAST_VERSION = "lastVersion";
+	@NonNull public static final String PREF_FIRST_RUN_MESSAGE_SHOWN = "firstRunMessageShown";
+
 	private static final String TAG = "FeatureFlagHandler";
 
 	private FeatureFlagHandler() {}
@@ -139,7 +142,7 @@ public final class FeatureFlagHandler {
 
 		final SharedPrefsWrapper sharedPreferences = General.getSharedPrefs(activity);
 
-		final int lastVersion = sharedPreferences.getInt("lastVersion", 0);
+		final int lastVersion = sharedPreferences.getInt(PREF_LAST_VERSION, 0);
 
 		Log.i(TAG, "[Migration] Last version: " + lastVersion);
 
@@ -166,7 +169,7 @@ public final class FeatureFlagHandler {
 							activity.getString(R.string.upgrade_message),
 							versionName));
 
-			sharedPreferences.edit().putInt("lastVersion", appVersion).apply();
+			sharedPreferences.edit().putInt(PREF_LAST_VERSION, appVersion).apply();
 			ChangelogDialog.newInstance().show(activity.getSupportFragmentManager(), null);
 
 			if(lastVersion <= 51) {

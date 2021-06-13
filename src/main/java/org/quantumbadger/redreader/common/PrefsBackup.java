@@ -65,6 +65,8 @@ public final class PrefsBackup {
 		IGNORED_PREFS.add(AnnouncementDownloader.PREF_KEY_PAYLOAD_STORAGE_HEX);
 		IGNORED_PREFS.add(NewMessageChecker.PREFS_SAVED_MESSAGE_ID);
 		IGNORED_PREFS.add(NewMessageChecker.PREFS_SAVED_MESSAGE_TIMESTAMP);
+		IGNORED_PREFS.add(FeatureFlagHandler.PREF_LAST_VERSION);
+		IGNORED_PREFS.add(FeatureFlagHandler.PREF_FIRST_RUN_MESSAGE_SHOWN);
 	}
 
 	public interface BackupDestination {

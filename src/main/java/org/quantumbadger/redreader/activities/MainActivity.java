@@ -170,7 +170,7 @@ public class MainActivity extends RefreshableActivity
 
 		Log.i(TAG, "[Migration] App version: " + appVersion);
 
-		if(!sharedPreferences.contains("firstRunMessageShown")) {
+		if(!sharedPreferences.contains(FeatureFlagHandler.PREF_FIRST_RUN_MESSAGE_SHOWN)) {
 
 			Log.i(TAG, "[Migration] Showing first run message");
 
@@ -188,16 +188,18 @@ public class MainActivity extends RefreshableActivity
 					.show();
 
 			sharedPreferences.edit()
-					.putString("firstRunMessageShown", "true")
-					.putInt("lastVersion", appVersion)
+					.putString(FeatureFlagHandler.PREF_FIRST_RUN_MESSAGE_SHOWN, "true")
+					.putInt(FeatureFlagHandler.PREF_LAST_VERSION, appVersion)
 					.apply();
 
-		} else if(sharedPreferences.contains("lastVersion")) {
+		} else if(sharedPreferences.contains(FeatureFlagHandler.PREF_LAST_VERSION)) {
 			FeatureFlagHandler.handleLegacyUpgrade(this, appVersion, pInfo.versionName);
 
 		} else {
 			Log.i(TAG, "[Migration] Last version not set.");
-			sharedPreferences.edit().putInt("lastVersion", appVersion).apply();
+			sharedPreferences.edit()
+					.putInt(FeatureFlagHandler.PREF_LAST_VERSION, appVersion)
+					.apply();
 			ChangelogDialog.newInstance().show(getSupportFragmentManager(), null);
 		}
 

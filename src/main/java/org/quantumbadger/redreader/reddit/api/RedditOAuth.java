@@ -189,6 +189,7 @@ public final class RedditOAuth {
 					new RRError(
 							context.getString(R.string.error_unknown_title),
 							context.getString(R.string.message_cannotlogin),
+							true,
 							null,
 							httpStatus,
 							uri,
@@ -201,6 +202,7 @@ public final class RedditOAuth {
 					new RRError(
 							context.getString(R.string.error_connection_title),
 							context.getString(R.string.error_connection_message),
+							true,
 							exception,
 							null,
 							uri,
@@ -213,6 +215,7 @@ public final class RedditOAuth {
 					new RRError(
 							context.getString(R.string.error_unknown_title),
 							context.getString(R.string.error_unknown_message),
+							true,
 							exception,
 							null,
 							uri,
@@ -233,6 +236,7 @@ public final class RedditOAuth {
 					new RRError(
 							context.getString(R.string.error_unknown_title),
 							context.getString(R.string.message_cannotlogin),
+							true,
 							null,
 							httpStatus,
 							uri,
@@ -245,6 +249,7 @@ public final class RedditOAuth {
 					new RRError(
 							context.getString(R.string.error_connection_title),
 							context.getString(R.string.error_connection_message),
+							true,
 							exception,
 							null,
 							uri,
@@ -257,6 +262,7 @@ public final class RedditOAuth {
 					new RRError(
 							context.getString(R.string.error_unknown_title),
 							context.getString(R.string.error_unknown_message),
+							true,
 							exception,
 							null,
 							uri,
@@ -280,8 +286,8 @@ public final class RedditOAuth {
 								context.getString(
 										R.string.error_title_login_user_denied_permission),
 								context.getString(
-										R.string.error_message_login_user_denied_permission)
-						)
+										R.string.error_message_login_user_denied_permission),
+								false)
 				);
 
 			} else {
@@ -291,8 +297,8 @@ public final class RedditOAuth {
 								context.getString(
 										R.string.error_title_login_unknown_reddit_error,
 										error),
-								context.getString(R.string.error_unknown_message)
-						));
+								context.getString(R.string.error_unknown_message),
+								true));
 			}
 		}
 
@@ -303,8 +309,8 @@ public final class RedditOAuth {
 					FetchRefreshTokenResultStatus.INVALID_RESPONSE,
 					new RRError(
 							context.getString(R.string.error_unknown_title),
-							context.getString(R.string.error_unknown_message)
-					)
+							context.getString(R.string.error_unknown_message),
+							true)
 			);
 		}
 
@@ -371,6 +377,7 @@ public final class RedditOAuth {
 								new RRError(
 										context.getString(R.string.error_connection_title),
 										context.getString(R.string.error_connection_message),
+										true,
 										e,
 										null,
 										uri,
@@ -394,6 +401,7 @@ public final class RedditOAuth {
 					new RRError(
 							context.getString(R.string.error_unknown_title),
 							context.getString(R.string.error_unknown_message),
+							true,
 							t,
 							null,
 							uri,
@@ -431,6 +439,7 @@ public final class RedditOAuth {
 								new RRError(
 										context.getString(R.string.error_unknown_title),
 										context.getString(R.string.error_unknown_message),
+										true,
 										null,
 										httpStatus,
 										uri.toString(),
@@ -443,6 +452,7 @@ public final class RedditOAuth {
 								new RRError(
 										context.getString(R.string.error_unknown_title),
 										context.getString(R.string.error_unknown_message),
+										true,
 										exception,
 										null,
 										uri.toString(),
@@ -471,6 +481,7 @@ public final class RedditOAuth {
 									new RRError(
 											context.getString(R.string.error_unknown_title),
 											context.getString(R.string.error_unknown_message),
+											true,
 											null,
 											null,
 											uri.toString(),
@@ -488,6 +499,7 @@ public final class RedditOAuth {
 								new RRError(
 										context.getString(R.string.error_connection_title),
 										context.getString(R.string.error_connection_message),
+										true,
 										e,
 										null,
 										uri.toString(),
@@ -511,6 +523,7 @@ public final class RedditOAuth {
 					new RRError(
 							context.getString(R.string.error_unknown_title),
 							context.getString(R.string.error_unknown_message),
+							true,
 							t,
 							null,
 							uri.toString(),
@@ -624,6 +637,7 @@ public final class RedditOAuth {
 							new RRError(
 									context.getString(R.string.error_unknown_title),
 									context.getString(R.string.error_unknown_message),
+									true,
 									t
 							)
 					);
@@ -732,6 +746,7 @@ public final class RedditOAuth {
 								new RRError(
 										context.getString(R.string.error_connection_title),
 										context.getString(R.string.error_connection_message),
+										true,
 										e,
 										null,
 										uri,
@@ -755,6 +770,7 @@ public final class RedditOAuth {
 					new RRError(
 							context.getString(R.string.error_unknown_title),
 							context.getString(R.string.error_unknown_message),
+							true,
 							t,
 							null,
 							uri,
@@ -835,6 +851,7 @@ public final class RedditOAuth {
 								new RRError(
 										context.getString(R.string.error_connection_title),
 										context.getString(R.string.error_connection_message),
+										true,
 										e,
 										null,
 										uri,
@@ -858,6 +875,7 @@ public final class RedditOAuth {
 					new RRError(
 							context.getString(R.string.error_unknown_title),
 							context.getString(R.string.message_cannotlogin),
+							true,
 							t,
 							null,
 							uri,

@@ -74,7 +74,8 @@ public final class ErrorPropertiesDialog extends PropertiesDialog {
 	@Override
 	protected void interceptBuilder(@NonNull final AlertDialog.Builder builder) {
 
-		if(!(mError.t instanceof UnknownHostException)) {
+		if(!(mError.t instanceof UnknownHostException)
+				&& mError.reportable) {
 
 			builder.setPositiveButton(
 					R.string.button_error_send_report,

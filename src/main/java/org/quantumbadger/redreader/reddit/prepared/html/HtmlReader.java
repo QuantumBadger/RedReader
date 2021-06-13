@@ -379,6 +379,7 @@ public class HtmlReader {
 					new RRError(
 							applicationContext.getString(R.string.error_title_malformed_html),
 							applicationContext.getString(R.string.error_message_malformed_html),
+							true,
 							e));
 
 		} catch(final Exception e) {
@@ -386,6 +387,7 @@ public class HtmlReader {
 					new RRError(
 							applicationContext.getString(R.string.error_parse_title),
 							applicationContext.getString(R.string.error_parse_message),
+							true,
 							e));
 		}
 	}

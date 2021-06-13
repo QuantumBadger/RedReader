@@ -213,9 +213,11 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 					new RRError(
 							activity.getString(R.string.image_gallery_no_image_present_title),
 							activity.getString(R.string.image_gallery_no_image_present_message),
+							true,
 							new RuntimeException(),
 							null,
-							albumInfo.url, null)));
+							albumInfo.url,
+							null)));
 		}
 
 		vh.itemView.setOnLongClickListener(v -> {

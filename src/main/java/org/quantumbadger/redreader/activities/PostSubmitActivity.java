@@ -134,6 +134,7 @@ public class PostSubmitActivity extends BaseActivity implements
 		General.showResultDialog(this, new RRError(
 				applicationContext.getString(R.string.error_subreddit_does_not_exist_title),
 				applicationContext.getString(R.string.error_subreddit_does_not_exist_message),
+				false,
 				new RuntimeException()));
 	}
 
@@ -149,6 +150,7 @@ public class PostSubmitActivity extends BaseActivity implements
 						R.string.error_subreddit_info_permission_denied_title),
 				applicationContext.getString(
 						R.string.error_subreddit_info_permission_denied_message),
+				false,
 				new RuntimeException()));
 	}
 

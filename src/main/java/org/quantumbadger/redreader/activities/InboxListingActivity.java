@@ -459,6 +459,7 @@ public final class InboxListingActivity extends BaseActivity {
 								BugReportActivity.addGlobalError(new RRError(
 										"Mark all as Read failed",
 										"Callback exception",
+										true,
 										t));
 							}
 

@@ -133,6 +133,7 @@ public final class PrefsBackup {
 						new RRError(
 								activity.getString(R.string.error_unexpected_storage_title),
 								activity.getString(R.string.error_unexpected_storage_message),
+								true,
 								e));
 
 				return;
@@ -429,6 +430,7 @@ public final class PrefsBackup {
 								R.string.restore_preferences_error_invalid_file_title),
 						activity.getString(
 								R.string.restore_preferences_error_invalid_file_contents_message),
+						true,
 						e));
 			}
 

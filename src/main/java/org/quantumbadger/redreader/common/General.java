@@ -250,6 +250,7 @@ public final class General {
 			@Nullable final JsonValue response) {
 
 		final int title, message;
+		boolean reportable = true;
 
 		switch(type) {
 			case CacheRequest.REQUEST_FAILURE_CANCELLED:
@@ -269,10 +270,23 @@ public final class General {
 				message = R.string.error_unexpected_storage_message;
 				break;
 			case CacheRequest.REQUEST_FAILURE_CONNECTION:
+
 				// TODO check network and customise message
-				title = R.string.error_connection_title;
-				message = R.string.error_connection_message;
+				if(t != null
+						&& t.getMessage() != null
+						&& t.getMessage().contains("127.0.0.1:8118")) {
+
+					title = R.string.error_tor_connection_title;
+					message = R.string.error_tor_connection_message;
+
+				} else {
+					title = R.string.error_connection_title;
+					message = R.string.error_connection_message;
+				}
+
+				reportable = false;
 				break;
+
 			case CacheRequest.REQUEST_FAILURE_MALFORMED_URL:
 				title = R.string.error_malformed_url_title;
 				message = R.string.error_malformed_url_message;
@@ -295,9 +309,9 @@ public final class General {
 							final URI uri = General.uriFromString(url);
 							final boolean isRedditRequest
 									= uri != null
-									&& uri.getHost() != null
-									&& ("reddit.com".equalsIgnoreCase(uri.getHost())
-									|| uri.getHost().endsWith(".reddit.com"));
+											&& uri.getHost() != null
+											&& ("reddit.com".equalsIgnoreCase(uri.getHost())
+													|| uri.getHost().endsWith(".reddit.com"));
 
 							if(isRedditRequest) {
 								title = R.string.error_403_title;
@@ -318,12 +332,19 @@ public final class General {
 						case 504:
 							title = R.string.error_redditdown_title;
 							message = R.string.error_redditdown_message;
+							reportable = false;
 							break;
 						default:
 							title = R.string.error_unknown_api_title;
 							message = R.string.error_unknown_api_message;
 							break;
 					}
+
+				} else if(isTorError(t)) {
+					title = R.string.error_tor_connection_title;
+					message = R.string.error_tor_connection_message;
+					reportable = false;
+
 				} else {
 					title = R.string.error_unknown_api_title;
 					message = R.string.error_unknown_api_message;
@@ -345,20 +366,36 @@ public final class General {
 				message = R.string.error_upload_fail_imgur_message;
 				break;
 
-			default:
-				title = R.string.error_unknown_title;
-				message = R.string.error_unknown_message;
+			default: {
+				if(isTorError(t)) {
+					title = R.string.error_tor_connection_title;
+					message = R.string.error_tor_connection_message;
+					reportable = false;
+
+				} else {
+					title = R.string.error_unknown_title;
+					message = R.string.error_unknown_message;
+				}
+
 				break;
+			}
 		}
 
 		return new RRError(
 				context.getString(title),
 				context.getString(message),
+				reportable,
 				t,
 				status,
 				url,
 				null,
 				response);
+	}
+
+	private static boolean isTorError(@Nullable final Throwable t) {
+		return t != null
+				&& t.getMessage() != null
+				&& t.getMessage().contains("127.0.0.1:8118");
 	}
 
 	public static RRError getGeneralErrorForFailure(
@@ -421,6 +458,7 @@ public final class General {
 		return new RRError(
 				context.getString(title),
 				context.getString(message),
+				true,
 				null,
 				null,
 				null,

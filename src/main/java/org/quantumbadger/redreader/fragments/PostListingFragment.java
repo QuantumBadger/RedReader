@@ -171,7 +171,12 @@ public class PostListingFragment extends RRFragment
 							getActivity(),
 							new RRError(
 									"Invalid post listing URL",
-									"Could not navigate to that URL.")));
+									"Could not navigate to that URL.",
+									true,
+									new RuntimeException(),
+									null,
+									url.toString(),
+									null)));
 			// TODO proper error handling
 			throw new RuntimeException("Invalid post listing URL");
 		}
@@ -341,7 +346,8 @@ public class PostListingFragment extends RRFragment
 												getActivity(),
 												new RRError(
 														context.getString(title),
-														context.getString(message))));
+														context.getString(message),
+														false)));
 									} else {
 										onSubredditReceived();
 										CacheManager.getInstance(context)
@@ -958,6 +964,7 @@ public class PostListingFragment extends RRFragment
 								error = new RRError(
 										activity.getString(R.string.error_postlist_cache_title),
 										activity.getString(R.string.error_postlist_cache_message),
+										false,
 										t,
 										httpStatus,
 										url.toString(), null);

@@ -498,6 +498,7 @@ public class FileUtils {
 		General.showResultDialog(activity, new RRError(
 				activity.getString(R.string.error_unexpected_storage_title),
 				activity.getString(R.string.error_unexpected_storage_message),
+				true,
 				throwable,
 				null,
 				uri,

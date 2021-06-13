@@ -305,6 +305,7 @@ public class PostSubmitSubredditSelectionFragment extends Fragment {
 					General.showResultDialog((AppCompatActivity)activity, new RRError(
 							applicationContext.getString(R.string.invalid_subreddit_name),
 							applicationContext.getString(R.string.invalid_subreddit_name_message),
+							false,
 							e));
 
 					return;

@@ -128,6 +128,7 @@ public final class RedditAPI {
 				BugReportActivity.handleGlobalError(mHandler.context, new RRError(
 						null,
 						null,
+						true,
 						e,
 						null,
 						null,
@@ -357,6 +358,7 @@ public final class RedditAPI {
 									new RRError(
 											null,
 											null,
+											true,
 											e,
 											null,
 											null,

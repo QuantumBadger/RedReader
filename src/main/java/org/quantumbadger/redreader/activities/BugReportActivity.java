@@ -46,7 +46,7 @@ public class BugReportActivity extends BaseActivity {
 	}
 
 	public static synchronized void handleGlobalError(final Context context, final String text) {
-		handleGlobalError(context, new RRError(text, null, new RuntimeException()));
+		handleGlobalError(context, new RRError(text, null, true, new RuntimeException()));
 	}
 
 	public static synchronized void handleGlobalError(final Context context, final Throwable t) {
@@ -55,7 +55,7 @@ public class BugReportActivity extends BaseActivity {
 			Log.e("BugReportActivity", "Handling exception", t);
 		}
 
-		handleGlobalError(context, new RRError(null, null, t));
+		handleGlobalError(context, new RRError(null, null, true, t));
 	}
 
 	public static synchronized void handleGlobalError(

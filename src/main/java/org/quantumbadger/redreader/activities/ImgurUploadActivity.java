@@ -188,7 +188,8 @@ public class ImgurUploadActivity extends BaseActivity {
 										getString(
 												R.string.error_file_too_big_message,
 												statSize / 1024 + "kB",
-												"10MB")));
+												"10MB"),
+										false));
 						return;
 					}
 
@@ -236,6 +237,7 @@ public class ImgurUploadActivity extends BaseActivity {
 							new RRError(
 									getString(R.string.error_file_open_failed_title),
 									getString(R.string.error_file_open_failed_message),
+									true,
 									e));
 
 					AndroidCommon.UI_THREAD_HANDLER.post(() -> {

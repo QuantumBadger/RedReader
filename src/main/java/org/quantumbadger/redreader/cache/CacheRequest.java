@@ -328,7 +328,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 				onCallbackException(t1);
 			} catch(final Throwable t2) {
 				Log.e("CacheRequest", "Exception thrown by onCallbackException", t2);
-				BugReportActivity.addGlobalError(new RRError(null, null, t1));
+				BugReportActivity.addGlobalError(new RRError(null, null, true, t1));
 				BugReportActivity.handleGlobalError(context, t2);
 			}
 		}
@@ -345,7 +345,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 				onCallbackException(t1);
 			} catch(final Throwable t2) {
 				Log.e("CacheRequest", "Exception thrown by onCallbackException", t2);
-				BugReportActivity.addGlobalError(new RRError(null, null, t1));
+				BugReportActivity.addGlobalError(new RRError(null, null, true, t1));
 				BugReportActivity.handleGlobalError(context, t2);
 			}
 		}

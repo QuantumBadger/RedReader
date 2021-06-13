@@ -98,6 +98,7 @@ public class AlbumListingActivity extends BaseActivity {
 													R.string.image_gallery_removed_title),
 											getApplicationContext().getString(
 													R.string.image_gallery_removed_message),
+											true,
 											null,
 											null,
 											mUrl,
@@ -118,6 +119,7 @@ public class AlbumListingActivity extends BaseActivity {
 													R.string.image_gallery_no_data_present_title),
 											getApplicationContext().getString(
 													R.string.image_gallery_no_data_present_message),
+											true,
 											null,
 											null,
 											mUrl,

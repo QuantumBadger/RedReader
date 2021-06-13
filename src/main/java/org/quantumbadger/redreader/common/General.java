@@ -272,19 +272,19 @@ public final class General {
 			case CacheRequest.REQUEST_FAILURE_CONNECTION:
 
 				// TODO check network and customise message
-				if(t != null
-						&& t.getMessage() != null
-						&& t.getMessage().contains("127.0.0.1:8118")) {
-
+				if(isTorError(t)) {
 					title = R.string.error_tor_connection_title;
 					message = R.string.error_tor_connection_message;
+
+				} else if(isContentBlockerError(t)) {
+					title = R.string.error_content_blocker_title;
+					message = R.string.error_content_blocker_message;
 
 				} else {
 					title = R.string.error_connection_title;
 					message = R.string.error_connection_message;
 				}
 
-				reportable = false;
 				break;
 
 			case CacheRequest.REQUEST_FAILURE_MALFORMED_URL:
@@ -358,7 +358,6 @@ public final class General {
 				} else if(isTorError(t)) {
 					title = R.string.error_tor_connection_title;
 					message = R.string.error_tor_connection_message;
-					reportable = false;
 
 				} else {
 					title = R.string.error_unknown_api_title;
@@ -385,7 +384,6 @@ public final class General {
 				if(isTorError(t)) {
 					title = R.string.error_tor_connection_title;
 					message = R.string.error_tor_connection_message;
-					reportable = false;
 
 				} else {
 					title = R.string.error_unknown_title;
@@ -411,6 +409,13 @@ public final class General {
 		return t != null
 				&& t.getMessage() != null
 				&& t.getMessage().contains("127.0.0.1:8118");
+	}
+
+	private static boolean isContentBlockerError(@Nullable final Throwable t) {
+		return t != null
+				&& t.getMessage() != null
+				&& (t.getMessage().contains("127.0.0.1:443")
+						|| t.getMessage().contains("127.0.0.1:80"));
 	}
 
 	public static RRError getGeneralErrorForFailure(

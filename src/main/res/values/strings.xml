@@ -1548,5 +1548,8 @@
 
 	<string name="error_imgur_400_title">Imgur error</string>
 	<string name="error_imgur_400_message">Imgur is rejecting this image upload, possibly due to a rate limit. Please use another image host or try again later.</string>
+
+	<string name="error_content_blocker_title">Content blocker detected</string>
+	<string name="error_content_blocker_message">The current network appears to be blocking this request using DNS. Consider using a VPN, or switching on DNS over HTTPS in the Android network settings.</string>
 	
 </resources>

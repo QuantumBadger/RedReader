@@ -1,3 +1,6 @@
+/Alpha 279 (2021-06-18)
+Translation updates (thanks to Andrey F, Axus Wizix, Eric, FintasticMan, Gontzal Manuel Pujana Onaindia, Lukman Nulhakim, phlostically, Sergio Varela, Vsevolod, zeritti, zmni)
+
 /Alpha 278 (2021-06-13)
 Better errors for subreddit content rules when submitting posts
 Handle inbox messages from subreddits correctly

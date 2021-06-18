@@ -195,8 +195,8 @@
     <string name="bug_button_send">Kirim laporan bug via surel</string>
     <string name="bug_button_ignore">Jangan kirim laporan bug</string>
     <!-- General errors -->
-    <string name="error_403_title">Pengguna tidak Valid</string>
-    <string name="error_403_message">Reddit mengatakan bahwa pengguna ini tidak memiliki izin untuk melakukan hal tersebut. Cobalah untuk keluar lalu masuk lagi (dengan menghapus akun dari daftar akun, lalu tambahkan lagi).</string>
+    <string name="error_403_title">Izin Ditolak</string>
+    <string name="error_403_message">Reddit mengatakan bahwa pengguna saat ini tidak memiliki izin untuk melakukan hal tersebut.</string>
     <string name="error_subreddit_required_title">Diperlukan Subreddit</string>
     <string name="error_subreddit_required_message">Anda harus menentukan subreddit.</string>
     <string name="error_bad_captcha_title">CAPTCHA tidak valid</string>
@@ -876,4 +876,32 @@
     <string name="pref_accessibility_min_comment_height_none">Tidak ada</string>
     <string name="pref_accessibility_min_comment_height_title">Tinggi komentar minimum</string>
     <string name="action_not_handled_by_installed_app_toast">Tidak ada aplikasi untuk menangani tindakan ini</string>
+    <string name="error_http_429_message">Server menolak permintaan karena kuota yang terbatas. Silakan coba lagi beberapa saat lagi.</string>
+    <string name="error_http_429_title">Terlalu banyak permintaan</string>
+    <string name="error_content_blocker_message">Jaringan saat ini sepertinya memblokir permintaan ini menggunakan DNS. Silakan gunakan VPN, atau beralih menggunakan DNS over HTTPS di dalam pengaturan jaringan Android.</string>
+    <string name="error_content_blocker_title">Mendeteksi pemblokir konten</string>
+    <string name="error_imgur_400_message">Imgur menolak unggahan gambar ini, kemungkinan karena keterbatasan kuota. Silakan gunakan hos gambar lainnya atau coba lagi nanti.</string>
+    <string name="error_imgur_400_title">Galat imgur</string>
+    <string name="error_tor_connection_message">Tidak bisa tersambung ke Tor. Pastikan aplikasi Orbot berjalan, atau nonaktifkan Tor di dalam pengaturan jaringan.</string>
+    <string name="error_tor_connection_title">Galat tor</string>
+    <string name="error_post_submit_title">Galat mengirimkan pos</string>
+    <string name="error_post_flair_required_message">Aturan dari subreddit ini mengharuskan mengatur flair pada kiriman Anda.</string>
+    <string name="error_post_flair_required_title">Membutuhkan flair</string>
+    <string name="error_no_file_manager_message">Sistem oprasi pada perangkat ini tidak memiliki pengelola berkas yang kompatibel dengan Android Storage Access Framework. Jika pengelola berkas tersedia, kemungkinan dinonaktifkan.</string>
+    <string name="error_no_file_manager_title">Pengelola berkas tidak ada</string>
+    <string name="backup_preferences_error_old_android_message">Fitur ini membutuhkan Android 4.4 atau lebih baru.</string>
+    <string name="backup_preferences_error_old_android_title">Sistem terlalu tua</string>
+    <string name="restore_preferences_success">Pemulihan berhasil</string>
+    <string name="backup_preferences_success">Pencadangan berhasil</string>
+    <string name="button_restore_preferences">Pulihkan</string>
+    <string name="button_cancel">Batal</string>
+    <string name="button_continue_anyway">Tetap lanjutkan</string>
+    <string name="restore_preferences_error_version_warning_message">Berkas yang dipilih dibuat oleh RedReader versi terbaru. Memulihkan preferensi dari berkas ini bisa mengakibatkan kerusakan dan ketidakstabilan.</string>
+    <string name="restore_preferences_error_version_warning_title">Peringatan</string>
+    <string name="restore_preferences_error_invalid_file_version_message">Berkas yang dipilih dibuat oleh RedReader versi terbaru dan tidak bisa dibuka.</string>
+    <string name="restore_preferences_error_invalid_file_contents_message">Berkas yang dipilih adalah berkas preferensi cadangan yang tidak valid.</string>
+    <string name="restore_preferences_error_invalid_file_title">Berkas tidak valid</string>
+    <string name="pref_item_restore_preferences_title">Preferensi pemulihan</string>
+    <string name="pref_item_backup_preferences_title">Preferensi cadangan</string>
+    <string name="prefs_category_backup_restore">Pencadangan/Pemulihan</string>
 </resources>

@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.reddit.url;
 
 import android.net.Uri;
-
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.StringUtils;
@@ -119,6 +118,6 @@ public class ComposeMessageURL extends RedditURLParser.RedditURL {
 	@Override
 	public @RedditURLParser.PathType
 	int pathType() {
-		return RedditURLParser.COMPOSE_MESSSAGE_URL;
+		return RedditURLParser.COMPOSE_MESSAGE_URL;
 	}
 }

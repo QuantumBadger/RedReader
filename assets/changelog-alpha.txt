@@ -1,5 +1,5 @@
 /Alpha 280 (2021-06-18)
-Handle "open in reddit app" links
+Handle AMP links and "open in reddit app" links
 
 /Alpha 279 (2021-06-18)
 Translation updates (thanks to Andrey F, Axus Wizix, Eric, FintasticMan, Gontzal Manuel Pujana Onaindia, Lukman Nulhakim, phlostically, Sergio Varela, Vsevolod, zeritti, zmni)

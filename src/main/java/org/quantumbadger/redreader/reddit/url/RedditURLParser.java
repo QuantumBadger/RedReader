@@ -39,7 +39,7 @@ public class RedditURLParser {
 	public static final int UNKNOWN_COMMENT_LISTING_URL = 6;
 	public static final int POST_COMMENT_LISTING_URL = 7;
 	public static final int MULTIREDDIT_POST_LISTING_URL = 8;
-	public static final int COMPOSE_MESSSAGE_URL = 9;
+	public static final int COMPOSE_MESSAGE_URL = 9;
 
 	@IntDef({
 			SUBREDDIT_POST_LISTING_URL,
@@ -51,14 +51,14 @@ public class RedditURLParser {
 			UNKNOWN_COMMENT_LISTING_URL,
 			POST_COMMENT_LISTING_URL,
 			MULTIREDDIT_POST_LISTING_URL,
-			COMPOSE_MESSSAGE_URL})
+			COMPOSE_MESSAGE_URL})
 	@Retention(RetentionPolicy.SOURCE)
 	public @interface PathType {
 	}
 
 	private static Optional<Uri> isRedditUri(final Uri uri) {
 
-		if(uri == null || uri.getHost() == null) {
+		if(uri == null || uri.getHost() == null || uri.getPath() == null) {
 			return Optional.empty();
 		}
 
@@ -77,6 +77,16 @@ public class RedditURLParser {
 			}
 		}
 
+		final String ampPrefix = "/amp/s/amp.reddit.com";
+
+		if(("google.com".equals(uri.getHost())
+				|| uri.getHost().endsWith(".google.com")
+						&& uri.getPath().startsWith(ampPrefix))) {
+
+			return Optional.ofNullable(Uri.parse(
+					"https://reddit.com" + uri.getPath().substring(ampPrefix.length())));
+		}
+
 		final String[] hostSegments = StringUtils.asciiLowercase(uri.getHost()).split("\\.");
 
 		if(hostSegments.length < 2) {
@@ -87,7 +97,7 @@ public class RedditURLParser {
 				&& hostSegments[hostSegments.length - 2].equals("reddit")) {
 			return Optional.of(uri);
 		}
-		//noinspection RedundantIfStatement
+
 		if(hostSegments[hostSegments.length - 1].equals("it")
 				&& hostSegments[hostSegments.length - 2].equals("redd")) {
 			return Optional.of(uri);
@@ -165,6 +175,7 @@ public class RedditURLParser {
 
 		{
 			final ComposeMessageURL composeMessageURL = ComposeMessageURL.parse(uri);
+			//noinspection RedundantIfStatement
 			if(composeMessageURL != null) {
 				return composeMessageURL;
 			}

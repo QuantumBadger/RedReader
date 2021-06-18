@@ -258,7 +258,7 @@ public class LinkHandler {
 					return;
 				}
 
-				case RedditURLParser.COMPOSE_MESSSAGE_URL: {
+				case RedditURLParser.COMPOSE_MESSAGE_URL: {
 					final Intent intent = new Intent(
 							activity,
 							PMSendActivity.class);

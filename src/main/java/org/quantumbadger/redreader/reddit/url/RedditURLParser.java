@@ -20,7 +20,9 @@ package org.quantumbadger.redreader.reddit.url;
 import android.content.Context;
 import android.net.Uri;
 import androidx.annotation.IntDef;
+import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.StringUtils;
 
 import java.lang.annotation.Retention;
@@ -54,42 +56,63 @@ public class RedditURLParser {
 	public @interface PathType {
 	}
 
-	private static boolean isRedditUri(final Uri uri) {
+	private static Optional<Uri> isRedditUri(final Uri uri) {
 
 		if(uri == null || uri.getHost() == null) {
-			return false;
+			return Optional.empty();
 		}
+
+		if("reddit".equals(uri.getScheme()) && "reddit".equals(uri.getHost())) {
+			return Optional.of(uri.buildUpon()
+					.scheme("https")
+					.authority("reddit.com")
+					.build());
+		}
+
+		if("reddit.app.link".equals(uri.getHost())) {
+			final String redirect = uri.getQueryParameter("$og_redirect");
+
+			if(redirect != null) {
+				return Optional.ofNullable(Uri.parse(redirect));
+			}
+		}
+
 		final String[] hostSegments = StringUtils.asciiLowercase(uri.getHost()).split("\\.");
+
 		if(hostSegments.length < 2) {
-			return false;
+			return Optional.empty();
 		}
-		if(hostSegments[hostSegments.length - 1].equals("com") && hostSegments[
-				hostSegments.length
-						- 2].equals(
-				"reddit")) {
-			return true;
+
+		if(hostSegments[hostSegments.length - 1].equals("com")
+				&& hostSegments[hostSegments.length - 2].equals("reddit")) {
+			return Optional.of(uri);
 		}
 		//noinspection RedundantIfStatement
 		if(hostSegments[hostSegments.length - 1].equals("it")
 				&& hostSegments[hostSegments.length - 2].equals("redd")) {
-			return true;
+			return Optional.of(uri);
 		}
 
-		return false;
+		return Optional.empty();
 	}
 
-	public static RedditURL parse(final Uri uri) {
+	@Nullable
+	public static RedditURL parse(final Uri rawUri) {
 
-		if(uri == null) {
+		if(rawUri == null) {
 			return null;
 		}
-		if(!isRedditUri(uri)) {
+
+		final Optional<Uri> optionalUri = isRedditUri(rawUri);
+
+		if(optionalUri.isEmpty()) {
 			return null;
 		}
+
+		final Uri uri = optionalUri.get();
 
 		{
-			final SubredditPostListURL subredditPostListURL = SubredditPostListURL.parse(
-					uri);
+			final SubredditPostListURL subredditPostListURL = SubredditPostListURL.parse(uri);
 			if(subredditPostListURL != null) {
 				return subredditPostListURL;
 			}

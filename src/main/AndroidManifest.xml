@@ -29,6 +29,13 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
+	<queries>
+		<intent>
+			<action android:name="android.intent.action.PROCESS_TEXT" />
+			<data android:mimeType="text/plain" />
+		</intent>
+	</queries>
+
     <application android:name="org.quantumbadger.redreader.RedReader"
                  android:icon="@mipmap/icon"
                  android:label="@string/app_name"

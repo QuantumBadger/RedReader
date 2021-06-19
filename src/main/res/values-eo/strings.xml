@@ -871,4 +871,11 @@
     <string name="error_subreddit_does_not_exist_title">Malĝusta nomo de redditero</string>
     <string name="pref_menus_comments_header">Komentoj</string>
     <string name="pref_accessibility_min_comment_height_none">Nenio</string>
+    <string name="error_http_429_message">La servilo blokis tiun ĉi peton pro tro multe da petoj. Reprovu poste.</string>
+    <string name="error_content_blocker_message">La nuna reto verŝajne blokis tiun ĉi DNS-peton. Provu uzi VPN aŭ aktivigu DNS-tra-HTTPS en Android-agordoj (privata DNS).</string>
+    <string name="error_imgur_400_message">Ne eblas alŝuti tiun ĉi bildon al Imgur probable pro tro multe da alŝutoj. Uzu alian bildgastigan servilon aŭ reprovu poste.</string>
+    <string name="error_tor_connection_message">Ne povas konekti al la Tor-reto. Certiĝu, ke la aplikaĵo Orbot estas lanĉita aŭ malaktivigu Tor en agordoj.</string>
+    <string name="error_post_flair_required_message">Tiu ĉi redditero postulas, por ke vi aldonu etikedon al via afiŝo.</string>
+    <string name="error_post_flair_required_title">Etikedo postulata</string>
+    <string name="restore_preferences_error_version_warning_message">La elektita dosiero estas kreita de pli nova versio de RedReader. Restarigo de agordoj el tiu ĉi dosiero povas kaŭzi paneojn aŭ nestabilan funkciadon de la aplikaĵo.</string>
 </resources>

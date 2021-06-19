@@ -193,8 +193,8 @@
     <string name="bug_button_send">Sendi erar-raporton per retpoŝto</string>
     <string name="bug_button_ignore">Ne sendi erar-raporton</string>
     <!-- General errors -->
-    <string name="error_403_title">Malĝusta uzanto</string>
-    <string name="error_403_message">Reddit diras, ke la nuna uzanto ne estas permesata por fari tion ĉi. Bonvolu provi elsaluti kaj poste reensaluti (per forigi la konton el la listo de kontoj, kaj poste aldoni ĝin denove).</string>
+    <string name="error_403_title">Permeso rifuzita</string>
+    <string name="error_403_message">Reddit diras, ke la nuna uzanto ne estas permesata por fari tion ĉi.</string>
     <string name="error_subreddit_required_title">Redditero bezonata</string>
     <string name="error_subreddit_required_message">Vi devas precizigi redditeron.</string>
     <string name="error_bad_captcha_title">Malĝusta CAPTCHA</string>
@@ -878,4 +878,25 @@
     <string name="error_post_flair_required_message">Tiu ĉi redditero postulas, por ke vi aldonu etikedon al via afiŝo.</string>
     <string name="error_post_flair_required_title">Etikedo postulata</string>
     <string name="restore_preferences_error_version_warning_message">La elektita dosiero estas kreita de pli nova versio de RedReader. Restarigo de agordoj el tiu ĉi dosiero povas kaŭzi paneojn aŭ nestabilan funkciadon de la aplikaĵo.</string>
+    <string name="error_no_file_manager_message">Al la operaciumo de ĉi tiu aparato mankas dosieradministrilo kongrua kun Android Storage Access Framework. Se dosieradministrilo ĉeestas, ĝi eble estas malŝaltita.</string>
+    <string name="restore_preferences_success">Restaŭrado sukcesis</string>
+    <string name="backup_preferences_success">Savkopiado sukcesis</string>
+    <string name="restore_preferences_error_invalid_file_version_message">La elektita dosiero, kreita de pli nova versio de RedReader, tial ne estas malfermebla.</string>
+    <string name="restore_preferences_error_invalid_file_contents_message">La elektita dosiero ne estas valida savkopio de agordoj.</string>
+    <string name="pref_item_backup_preferences_title">Agordoj pri savkopioj</string>
+    <string name="prefs_category_backup_restore">Savkopio/Restaŭro</string>
+    <string name="pref_item_restore_preferences_title">Agordoj pri restaŭrado</string>
+    <string name="button_restore_preferences">Restaŭri</string>
+    <string name="backup_preferences_error_old_android_message">Ĉi tiu funkcio bezonas version 4.4 aŭ pli novan de Android.</string>
+    <string name="button_continue_anyway">Daŭrigi malgraŭ tio</string>
+    <string name="restore_preferences_error_invalid_file_title">Nevalida dosiero</string>
+    <string name="error_content_blocker_title">Enhavoblokilo troviĝis</string>
+    <string name="error_post_submit_title">Eraro pri afiŝado</string>
+    <string name="error_http_429_title">Tro da petoj</string>
+    <string name="error_tor_connection_title">Eraro de Tor</string>
+    <string name="error_no_file_manager_title">Neniu dosieradministrilo</string>
+    <string name="error_imgur_400_title">Eraro de Imgur</string>
+    <string name="backup_preferences_error_old_android_title">Sistemo estas tro malnova</string>
+    <string name="button_cancel">Nuligi</string>
+    <string name="restore_preferences_error_version_warning_title">Averto</string>
 </resources>

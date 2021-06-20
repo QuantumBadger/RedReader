@@ -192,8 +192,8 @@
     <string name="bug_button_send">Poslat hlášení o chybě emailem</string>
     <string name="bug_button_ignore">Neposílat hlášení o chybě</string>
     <!-- General errors -->
-    <string name="error_403_title">Neplatný uživatel</string>
-    <string name="error_403_message">Tento uživatel nemá dostatečná oprávnění pro tuto akci. Pokuste se odhlásit a znovu přihlásit (smazáním účtu ze seznamu účtů a poté znovupřidáním).</string>
+    <string name="error_403_title">Přístup odepřen</string>
+    <string name="error_403_message">Reddit hlásí, že tento uživatel nemá oprávnění pro tuto akci.</string>
     <string name="error_subreddit_required_title">Subreddit je vyžadován</string>
     <string name="error_subreddit_required_message">Musíte zadat subreddit.</string>
     <string name="error_bad_captcha_title">Neplatná CAPTCHA</string>
@@ -263,7 +263,7 @@
     <!-- 2013-05-17 Arrays -->
     <string name="pref_appearance_twopane_never">Nikdy</string>
     <string name="pref_appearance_twopane_auto">Auto detekce</string>
-    <string name="pref_appearance_twopane_landscape">Pouze krajina</string>
+    <string name="pref_appearance_twopane_landscape">Pouze na šířku</string>
     <string name="pref_appearance_twopane_force">Vždy (může vypadat divně)</string>
     <string name="theme_name_red">Červený</string>
     <string name="theme_name_night">Noční</string>
@@ -889,4 +889,32 @@
     <string name="pref_accessibility_min_comment_height_none">Žádná</string>
     <string name="pref_accessibility_min_comment_height_title">Minimální výška komentáře</string>
     <string name="action_not_handled_by_installed_app_toast">Pro tuto akci nebyla nalezena žádná aplikace</string>
+    <string name="pref_item_backup_preferences_title">Možnosti zálohování</string>
+    <string name="prefs_category_backup_restore">Zálohování/Obnovení</string>
+    <string name="error_imgur_400_message">Imgut odmítá nahrání tohoto obrázku kvůli přenosovým omezením. Prosím, použijte jiný obrázkový server nebo opakujte později.</string>
+    <string name="error_http_429_message">Server požadavek odmítnul kvůli přenosovým omezením. Prosím, opakujte za okamžik.</string>
+    <string name="error_http_429_title">Příliš mnoho požadavků</string>
+    <string name="error_content_blocker_message">Vypadá to, že síť blokuje požadavky pomocí DNS. Zvažte použití VPN nebo přejděte na DNS přes HTTPS v síťových nastaveních Androidu.</string>
+    <string name="error_content_blocker_title">Zjištěno blokování obsahu</string>
+    <string name="error_imgur_400_title">Chyba Imguru</string>
+    <string name="error_tor_connection_message">Nelze se spojit s Torem. Prosím, ujistěte se, že Orbot je v chodu nebo vypněte Tor v síťových nastaveních.</string>
+    <string name="error_tor_connection_title">Chyba Toru</string>
+    <string name="error_post_submit_title">Chyba při odeslání příspěvku</string>
+    <string name="error_post_flair_required_message">Pravidla tohoto subredditu si u příspěvku žádají flér.</string>
+    <string name="error_post_flair_required_title">Flér je nutný</string>
+    <string name="error_no_file_manager_message">Operačnímu systému v tomto zařízení chybí správce souborů kompatibilní s Android Storage Access Framework. Je-li přítomen, pak je snad vypnut.</string>
+    <string name="error_no_file_manager_title">Správce souborů nenalezen</string>
+    <string name="backup_preferences_error_old_android_message">Tato funkce si žádá Android 4.4 a novější.</string>
+    <string name="backup_preferences_error_old_android_title">Systém je příliš zastaralý</string>
+    <string name="backup_preferences_success">Zálohování bylo úspěšné</string>
+    <string name="restore_preferences_success">Obnovení bylo úspěšné</string>
+    <string name="button_restore_preferences">Obnova</string>
+    <string name="button_cancel">Zrušit</string>
+    <string name="button_continue_anyway">Přesto pokračovat</string>
+    <string name="restore_preferences_error_version_warning_message">Vybraný soubor byl založen novější verzí RedReader. Obnovení možností z tohoto souboru může vést ke zborcení a nestabilitě.</string>
+    <string name="restore_preferences_error_version_warning_title">Varování</string>
+    <string name="restore_preferences_error_invalid_file_version_message">Vybraný soubor byl založen novější verzí RedReader a nelze jej otevřít.</string>
+    <string name="restore_preferences_error_invalid_file_contents_message">Vybraný soubor není platný soubor možnosti zálohy.</string>
+    <string name="restore_preferences_error_invalid_file_title">Neplatný soubor</string>
+    <string name="pref_item_restore_preferences_title">Možnosti obnovení</string>
 </resources>

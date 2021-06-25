@@ -21,7 +21,7 @@ Allow custom text selection actions in Android 11
 Workaround for Android crash due to large images
 Fixes for various rare crashes
 Workaround for third party share apps
-Translation updates (thanks to Abdullah Gulabi, Andrey F, Axus Wizix, Emerson Castaneda, Eric, FintasticMan, Fırat Altay, Gontzal Manuel Pujana Onaindia, igosad, lucanomax, Lukman Nulhakim, Meiru, phlostically, Reza Almanda, Sergio Varela, ssantos, Vsevolod, and zmni)
+Translation updates (thanks to Abdullah Gulabi, Andrey F, Axus Wizix, Emerson Castaneda, Eric, FintasticMan, Fırat Altay, Gontzal Manuel Pujana Onaindia, igosad, lucanomax, Lukman Nulhakim, Meiru, phlostically, Reza Almanda, Sergio Varela, ssantos, Verdulo, Vsevolod, zeritti and zmni)
 
 96/1.16
 Fixed error message when marking all inbox messages as read

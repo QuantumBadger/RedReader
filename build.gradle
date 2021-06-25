@@ -53,8 +53,8 @@ android {
 		applicationId "org.quantumbadger.redreader"
 		minSdkVersion 16
 		targetSdkVersion 29
-		versionCode 96
-		versionName "1.16"
+		versionCode 97
+		versionName "1.17"
 
 		vectorDrawables.generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi', 'xxxhdpi']
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'

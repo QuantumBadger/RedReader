@@ -1125,12 +1125,39 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.AUTHOR)) {
 			postListDescSb.append(context.getString(R.string.subtitle_by) + " ", 0);
-			postListDescSb.append(
-					src.getAuthor(),
-					BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR,
-					boldCol,
-					0,
-					1f);
+
+			final boolean setBackgroundColour;
+			final int backgroundColour; // TODO color from theme
+
+			if("moderator".equals(src.getDistinguished())) {
+				setBackgroundColour = true;
+				backgroundColour = Color.rgb(0, 170, 0);
+			} else if("admin".equals(src.getDistinguished())) {
+				setBackgroundColour = true;
+				backgroundColour = Color.rgb(170, 0, 0);
+			} else {
+				setBackgroundColour = false;
+				backgroundColour = 0;
+			}
+
+			if(setBackgroundColour) {
+				postListDescSb.append(
+						BetterSSB.NBSP + src.getAuthor() + BetterSSB.NBSP,
+						BetterSSB.BOLD
+								| BetterSSB.FOREGROUND_COLOR
+								| BetterSSB.BACKGROUND_COLOR,
+						Color.WHITE,
+						backgroundColour,
+						1f);
+			} else {
+				postListDescSb.append(
+						src.getAuthor(),
+						BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR,
+						boldCol,
+						0,
+						1f);
+			}
+
 			postListDescSb.append(" ", 0);
 		}
 

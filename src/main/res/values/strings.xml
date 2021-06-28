@@ -1554,5 +1554,12 @@
 
 	<string name="error_http_429_title">Too many requests</string>
 	<string name="error_http_429_message">The server has rejected the request due to a rate limit. Please try again in a moment.</string>
+
+	<!-- 2021-06-27 -->
+	<string name="accessibility_subtitle_author_submitter_withperiod">Author: %s, submitter.</string>
+	<string name="accessibility_subtitle_author_moderator_withperiod">Author: %s, moderator.</string>
+	<string name="accessibility_subtitle_author_admin_withperiod">Author: %s, admin.</string>
+	<string name="accessibility_subtitle_author_submitter_moderator_withperiod">Author: %s, submitter and moderator.</string>
+	<string name="accessibility_subtitle_author_submitter_admin_withperiod">Author: %s, submitter and admin.</string>
 	
 </resources>

@@ -1560,5 +1560,12 @@
 
 	<!-- 2021-07-01 -->
 	<string name="prefs_category_menus_appbar_screen_key" translatable="false">prefs_category_menus_appbar_screen</string>
+
+	<!-- 2021-07-09 -->
+	<string name="accessibility_subtitle_author_submitter_withperiod">Author: %s, submitter.</string>
+	<string name="accessibility_subtitle_author_moderator_withperiod">Author: %s, moderator.</string>
+	<string name="accessibility_subtitle_author_admin_withperiod">Author: %s, admin.</string>
+	<string name="accessibility_subtitle_author_submitter_moderator_withperiod">Author: %s, submitter and moderator.</string>
+	<string name="accessibility_subtitle_author_submitter_admin_withperiod">Author: %s, submitter and admin.</string>
 	
 </resources>

@@ -35,6 +35,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import org.apache.commons.text.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
@@ -1281,10 +1282,19 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		}
 
 		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.AUTHOR)) {
+			@StringRes final int authorString;
+
+			if("moderator".equals(src.getDistinguished())) {
+				authorString = R.string.accessibility_subtitle_author_moderator_withperiod;
+			} else if("admin".equals(src.getDistinguished())) {
+				authorString = R.string.accessibility_subtitle_author_admin_withperiod;
+			} else {
+				authorString = R.string.accessibility_subtitle_author_withperiod;
+			}
 
 			accessibilitySubtitle
 					.append(context.getString(
-							R.string.accessibility_subtitle_author_withperiod,
+							authorString,
 							ScreenreaderPronunciation.getPronunciation(
 									context,
 									src.getAuthor())))

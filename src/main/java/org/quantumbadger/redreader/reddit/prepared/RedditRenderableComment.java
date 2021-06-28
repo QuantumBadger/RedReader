@@ -22,6 +22,7 @@ import android.graphics.Color;
 import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BaseActivity;
@@ -300,9 +301,32 @@ public class RedditRenderableComment
 		}
 
 		if(theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.AUTHOR)) {
+			@StringRes final int authorString;
+
+			if(rawComment.author.equalsIgnoreCase(mParentPostAuthor)
+					&& !rawComment.author.equals("[deleted]")) {
+				if("moderator".equals(rawComment.distinguished)) {
+					authorString
+							= R.string.accessibility_subtitle_author_submitter_moderator_withperiod;
+				} else if("admin".equals(rawComment.distinguished)) {
+					authorString
+							= R.string.accessibility_subtitle_author_submitter_admin_withperiod;
+				} else {
+					authorString = R.string.accessibility_subtitle_author_submitter_withperiod;
+				}
+			} else {
+				if("moderator".equals(rawComment.distinguished)) {
+					authorString = R.string.accessibility_subtitle_author_moderator_withperiod;
+				} else if("admin".equals(rawComment.distinguished)) {
+					authorString = R.string.accessibility_subtitle_author_admin_withperiod;
+				} else {
+					authorString = R.string.accessibility_subtitle_author_withperiod;
+				}
+			}
+
 			accessibilityHeader
 					.append(context.getString(
-							R.string.accessibility_subtitle_author_withperiod,
+							authorString,
 							ScreenreaderPronunciation.getPronunciation(
 									context,
 									rawComment.author)))

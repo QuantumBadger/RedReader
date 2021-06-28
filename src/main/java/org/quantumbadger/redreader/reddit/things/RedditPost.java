@@ -48,6 +48,8 @@ public final class RedditPost implements Parcelable, RedditThingWithIdAndType {
 	@Nullable public JsonObject preview;
 	@Nullable public Boolean is_video;
 
+	@Nullable public String distinguished;
+
 	public RedditPost() {
 	}
 

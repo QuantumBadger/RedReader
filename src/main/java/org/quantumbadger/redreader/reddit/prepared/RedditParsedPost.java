@@ -255,6 +255,10 @@ public class RedditParsedPost implements RedditThingWithIdAndType {
 		return mSrc.author;
 	}
 
+	public String getDistinguished() {
+		return mSrc.distinguished;
+	}
+
 	public String getRawSelfTextMarkdown() {
 		return mSrc.selftext;
 	}

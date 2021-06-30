@@ -22,6 +22,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.common.Optional;
+import org.quantumbadger.redreader.common.ParcelUtils;
 import org.quantumbadger.redreader.jsonwrap.JsonBoolean;
 import org.quantumbadger.redreader.jsonwrap.JsonLong;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
@@ -34,9 +35,10 @@ public final class RedditPost implements Parcelable, RedditThingWithIdAndType {
 	public String title, author, domain, subreddit, subreddit_id;
 	public int num_comments, score, ups, downs, gilded;
 	public boolean archived, over_18, hidden, saved, is_self, clicked, stickied;
-	public JsonValue edited;
-	public Boolean likes;
-	public Boolean spoiler;
+	@Nullable public JsonValue edited;
+	@Nullable public Boolean likes;
+	@Nullable public Boolean spoiler;
+	@Nullable public Boolean locked;
 
 	public long created, created_utc;
 
@@ -121,18 +123,7 @@ public final class RedditPost implements Parcelable, RedditThingWithIdAndType {
 			edited = new JsonLong(in_edited);
 		}
 
-		switch(in.readInt()) {
-			case -1:
-				likes = false;
-				break;
-			case 0:
-				likes = null;
-				break;
-			case 1:
-				likes = true;
-				break;
-		}
-
+		likes = ParcelUtils.readNullableBoolean(in);
 		created = in.readLong();
 		created_utc = in.readLong();
 		selftext = in.readString();
@@ -141,19 +132,8 @@ public final class RedditPost implements Parcelable, RedditThingWithIdAndType {
 		link_flair_text = in.readString();
 		author_flair_text = in.readString();
 		thumbnail = in.readString();
-
-		switch(in.readInt()) {
-			case -1:
-				spoiler = false;
-				break;
-			case 0:
-				spoiler = null;
-				break;
-			case 1:
-				spoiler = true;
-				break;
-		}
-
+		spoiler = ParcelUtils.readNullableBoolean(in);
+		locked = ParcelUtils.readNullableBoolean(in);
 		rr_internal_dash_url = in.readString();
 	}
 
@@ -192,12 +172,7 @@ public final class RedditPost implements Parcelable, RedditThingWithIdAndType {
 			parcel.writeLong(-1);
 		}
 
-		if(likes == null) {
-			parcel.writeInt(0);
-		} else {
-			parcel.writeInt(likes ? 1 : -1);
-		}
-
+		ParcelUtils.writeNullableBoolean(parcel, likes);
 		parcel.writeLong(created);
 		parcel.writeLong(created_utc);
 		parcel.writeString(selftext);
@@ -206,12 +181,8 @@ public final class RedditPost implements Parcelable, RedditThingWithIdAndType {
 		parcel.writeString(link_flair_text);
 		parcel.writeString(author_flair_text);
 		parcel.writeString(thumbnail);
-
-		if(spoiler == null) {
-			parcel.writeInt(0);
-		} else {
-			parcel.writeInt(spoiler ? 1 : -1);
-		}
+		ParcelUtils.writeNullableBoolean(parcel, spoiler);
+		ParcelUtils.writeNullableBoolean(parcel, locked);
 
 		getDashUrl();
 		parcel.writeString(rr_internal_dash_url);

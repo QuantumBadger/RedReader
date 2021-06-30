@@ -44,6 +44,7 @@ import org.quantumbadger.redreader.reddit.api.SubredditSubscriptionState;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
+import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.reddit.url.PostListingURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
@@ -363,8 +364,20 @@ public class PostListingActivity extends RefreshableActivity
 
 			if(controller != null && (controller.isSubreddit()
 					|| controller.isSubredditSearchResults())) {
+
+				final SubredditCanonicalId subredditCanonicalId
+						= controller.subredditCanonicalName();
+
+				if(subredditCanonicalId == null) {
+					BugReportActivity.handleGlobalError(
+							activity,
+							new RuntimeException("Can't search post listing "
+									+ controller.getUri()));
+					return;
+				}
+
 				url = SearchPostListURL.build(
-						controller.subredditCanonicalName().toString(),
+						subredditCanonicalId.toString(),
 						query);
 			} else {
 				url = SearchPostListURL.build(null, query);
@@ -408,6 +421,14 @@ public class PostListingActivity extends RefreshableActivity
 			return;
 		}
 
+		if(fragment.getSubreddit() == null) {
+			BugReportActivity.handleGlobalError(
+					this,
+					new RuntimeException("Can't pin post listing "
+							+ fragment.getPostListingURL()));
+			return;
+		}
+
 		try {
 			PrefsUtility.pref_pinned_subreddits_add(
 					this,
@@ -425,6 +446,14 @@ public class PostListingActivity extends RefreshableActivity
 	public void onUnpin() {
 
 		if(fragment == null) {
+			return;
+		}
+
+		if(fragment.getSubreddit() == null) {
+			BugReportActivity.handleGlobalError(
+					this,
+					new RuntimeException("Can't unpin post listing "
+							+ fragment.getPostListingURL()));
 			return;
 		}
 
@@ -447,6 +476,14 @@ public class PostListingActivity extends RefreshableActivity
 			return;
 		}
 
+		if(fragment.getSubreddit() == null) {
+			BugReportActivity.handleGlobalError(
+					this,
+					new RuntimeException("Can't block post listing "
+							+ fragment.getPostListingURL()));
+			return;
+		}
+
 		try {
 			PrefsUtility.pref_blocked_subreddits_add(
 					this,
@@ -463,6 +500,14 @@ public class PostListingActivity extends RefreshableActivity
 	@Override
 	public void onUnblock() {
 		if(fragment == null) {
+			return;
+		}
+
+		if(fragment.getSubreddit() == null) {
+			BugReportActivity.handleGlobalError(
+					this,
+					new RuntimeException("Can't unblock post listing "
+							+ fragment.getPostListingURL()));
 			return;
 		}
 

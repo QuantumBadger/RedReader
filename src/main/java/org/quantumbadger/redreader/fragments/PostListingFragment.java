@@ -105,9 +105,9 @@ public class PostListingFragment extends RRFragment
 
 	private static final String SAVEDSTATE_FIRST_VISIBLE_POS = "firstVisiblePosition";
 
-	private PostListingURL mPostListingURL;
+	@NonNull private PostListingURL mPostListingURL;
 
-	private RedditSubreddit mSubreddit;
+	@Nullable private RedditSubreddit mSubreddit;
 
 	private UUID mSession;
 	private final int mPostCountLimit;
@@ -615,6 +615,12 @@ public class PostListingFragment extends RRFragment
 		}
 	}
 
+	@NonNull
+	public PostListingURL getPostListingURL() {
+		return mPostListingURL;
+	}
+
+	@Nullable
 	public RedditSubreddit getSubreddit() {
 		return mSubreddit;
 	}

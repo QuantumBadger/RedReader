@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.reddit.url;
 import android.content.Context;
 import android.net.Uri;
 import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.Optional;
@@ -194,6 +195,7 @@ public class RedditURLParser {
 		return new UnknownCommentListURL(uri);
 	}
 
+	@NonNull
 	public static RedditURL parseProbablePostListing(final Uri uri) {
 
 		final RedditURL matchURL = parse(uri);

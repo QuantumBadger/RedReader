@@ -21,6 +21,7 @@ package org.quantumbadger.redreader.reddit.things;
 import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.annotation.Nullable;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.jsonwrap.JsonBoolean;
 import org.quantumbadger.redreader.jsonwrap.JsonLong;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
@@ -79,11 +80,11 @@ public final class RedditPost implements Parcelable, RedditThingWithIdAndType {
 
 		if(preview != null && url != null && url.contains(".gif")) {
 
-			final String mp4Url
+			final Optional<String> mp4Url
 					= preview.getStringAtPath("images", 0, "variants", "mp4", "source", "url");
 
-			if(mp4Url != null) {
-				url = mp4Url;
+			if(mp4Url.isPresent()) {
+				url = mp4Url.get();
 			}
 		}
 

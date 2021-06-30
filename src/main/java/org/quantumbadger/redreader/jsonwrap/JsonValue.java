@@ -22,6 +22,7 @@ import androidx.annotation.Nullable;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
+import org.quantumbadger.redreader.common.Optional;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -144,56 +145,56 @@ public abstract class JsonValue {
 
 	protected abstract void prettyPrint(int indent, StringBuilder sb);
 
-	@Nullable
-	public final JsonValue getAtPath(final Object... keys) {
+	@NonNull
+	public final Optional<JsonValue> getAtPath(final Object... keys) {
 		return getAtPathInternal(0, keys);
 	}
 
-	@Nullable
-	public final JsonObject getObjectAtPath(final Object... keys) {
+	@NonNull
+	public final Optional<JsonObject> getObjectAtPath(final Object... keys) {
 
-		final JsonValue result = getAtPath(keys);
+		final Optional<JsonValue> result = getAtPath(keys);
 
-		if(result == null) {
-			return null;
+		if(result.isEmpty()) {
+			return Optional.empty();
 		}
 
-		return result.asObject();
+		return Optional.ofNullable(result.get().asObject());
 	}
 
-	@Nullable
-	public final JsonArray getArrayAtPath(final Object... keys) {
+	@NonNull
+	public final Optional<JsonArray> getArrayAtPath(final Object... keys) {
 
-		final JsonValue result = getAtPath(keys);
+		final Optional<JsonValue> result = getAtPath(keys);
 
-		if(result == null) {
-			return null;
+		if(result.isEmpty()) {
+			return Optional.empty();
 		}
 
-		return result.asArray();
+		return Optional.ofNullable(result.get().asArray());
 	}
 
-	@Nullable
-	public final String getStringAtPath(final Object... keys) {
+	@NonNull
+	public final Optional<String> getStringAtPath(final Object... keys) {
 
-		final JsonValue result = getAtPath(keys);
+		final Optional<JsonValue> result = getAtPath(keys);
 
-		if(result == null) {
-			return null;
+		if(result.isEmpty()) {
+			return Optional.empty();
 		}
 
-		return result.asString();
+		return Optional.ofNullable(result.get().asString());
 	}
 
-	@Nullable
-	protected JsonValue getAtPathInternal(final int offset, final Object... keys) {
+	@NonNull
+	protected Optional<JsonValue> getAtPathInternal(final int offset, final Object... keys) {
 
 		// Default implementation
 
 		if(offset == keys.length) {
-			return this;
+			return Optional.of(this);
 		}
 
-		return null;
+		return Optional.empty();
 	}
 }

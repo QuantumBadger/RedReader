@@ -22,6 +22,7 @@ import androidx.annotation.Nullable;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
+import org.quantumbadger.redreader.common.Optional;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -292,18 +293,18 @@ public final class JsonObject extends JsonValue
 		return properties.entrySet().iterator();
 	}
 
-	@Nullable
+	@NonNull
 	@Override
-	protected JsonValue getAtPathInternal(final int offset, final Object... keys) {
+	protected Optional<JsonValue> getAtPathInternal(final int offset, final Object... keys) {
 
 		if(offset == keys.length) {
-			return this;
+			return Optional.of(this);
 		}
 
 		final JsonValue next = properties.get(keys[offset].toString());
 
 		if(next == null) {
-			return null;
+			return Optional.empty();
 		}
 
 		return next.getAtPathInternal(offset + 1, keys);

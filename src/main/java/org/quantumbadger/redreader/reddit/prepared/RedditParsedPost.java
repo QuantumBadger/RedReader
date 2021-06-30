@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import org.apache.commons.text.StringEscapeUtils;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.jsonwrap.JsonArray;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
@@ -152,15 +153,15 @@ public class RedditParsedPost implements RedditThingWithIdAndType {
 
 	@Nullable
 	private ImagePreviewDetails getPreviewInternal(
-			@Nullable final JsonObject root,
+			@NonNull final Optional<JsonObject> root,
 			final int minWidth,
 			final int minHeight) {
 
-		if(root == null) {
+		if(root.isEmpty()) {
 			return null;
 		}
 
-		final JsonArray resolutions = root.getArray("resolutions");
+		final JsonArray resolutions = root.get().getArray("resolutions");
 
 		if(resolutions == null || resolutions.size() < 1) {
 			return null;
@@ -170,7 +171,7 @@ public class RedditParsedPost implements RedditThingWithIdAndType {
 		int bestHeight = 0;
 		String bestUrl = null;
 
-		final JsonObject source = root.getObject("source");
+		final JsonObject source = root.get().getObject("source");
 		final Long sourceWidth = source != null ? source.getLong("width") : null;
 		final Long sourceHeight = source != null ? source.getLong("height") : null;
 

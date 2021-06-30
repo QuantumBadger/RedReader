@@ -202,9 +202,9 @@ public final class RedditAPI {
 							return;
 						}
 
-						final JsonArray array = result.getArrayAtPath("choices");
+						final Optional<JsonArray> array = result.getArrayAtPath("choices");
 
-						if(array == null) {
+						if(array.isEmpty()) {
 
 							final APIResponseHandler.APIFailureType failureType
 									= findFailureType(result);
@@ -221,7 +221,7 @@ public final class RedditAPI {
 						}
 
 						final Optional<List<RedditFlairChoice>> choices
-								= RedditFlairChoice.fromJsonList(array);
+								= RedditFlairChoice.fromJsonList(array.get());
 
 						if(choices.isEmpty()) {
 							responseHandler.onFailure(
@@ -273,14 +273,14 @@ public final class RedditAPI {
 				final boolean fromCache) {
 
 			try {
-				final JsonArray errorsJson
+				final Optional<JsonArray> errorsJson
 						= result.getArrayAtPath("json", "errors");
 
-				if(errorsJson != null) {
+				if(errorsJson.isPresent()) {
 
 					final ArrayList<String> errors = new ArrayList<>();
 
-					for(final JsonValue errorValue : errorsJson) {
+					for(final JsonValue errorValue : errorsJson.get()) {
 
 						final JsonArray error = errorValue.asArray();
 
@@ -305,24 +305,9 @@ public final class RedditAPI {
 							result);
 				} else {
 					mResponseHandler.onSuccess(
-							Optional.ofNullable(result.getStringAtPath(
-									"json",
-									"data",
-									"things",
-									0,
-									"data",
-									"permalink"))
-									.orElse(Optional.ofNullable(result.getStringAtPath(
-											"json",
-											"data",
-											"url"))),
-							Optional.ofNullable(result.getStringAtPath(
-									"json",
-									"data",
-									"things",
-									0,
-									"data",
-									"name")));
+							result.getStringAtPath("json", "data", "things", 0, "data", "permalink")
+									.orElse(result.getStringAtPath("json", "data", "url")),
+							result.getStringAtPath("json", "data", "things", 0, "data", "name"));
 				}
 
 			} catch(final Exception e) {
@@ -765,9 +750,9 @@ public final class RedditAPI {
 				}
 			}
 
-			final JsonArray errors = response.getArrayAtPath("json", "errors");
+			final Optional<JsonArray> errors = response.getArrayAtPath("json", "errors");
 
-			if(errors != null && errors.size() > 0) {
+			if(errors.isPresent() && errors.get().size() > 0) {
 				unknownError = true;
 			}
 

@@ -23,6 +23,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import org.quantumbadger.redreader.common.Consumer;
+import org.quantumbadger.redreader.common.Optional;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -142,28 +143,28 @@ public final class JsonArray extends JsonValue implements Iterable<JsonValue> {
 		}
 	}
 
-	@Nullable
+	@NonNull
 	@Override
-	protected JsonValue getAtPathInternal(final int offset, final Object... keys) {
+	protected Optional<JsonValue> getAtPathInternal(final int offset, final Object... keys) {
 
 		if(offset == keys.length) {
-			return this;
+			return Optional.of(this);
 		}
 
 		if(!(keys[offset] instanceof Integer)) {
-			return null;
+			return Optional.empty();
 		}
 
 		final int key = (Integer)keys[offset];
 
 		if(key < 0 || key >= mContents.size()) {
-			return null;
+			return Optional.empty();
 		}
 
 		final JsonValue next = mContents.get(key);
 
 		if(next == null) {
-			return null;
+			return Optional.empty();
 		}
 
 		return next.getAtPathInternal(offset + 1, keys);

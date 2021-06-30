@@ -104,21 +104,21 @@ public final class AnnouncementDownloader {
 
 		try {
 
-			final String selfText = root.getStringAtPath(
+			final Optional<String> selfText = root.getStringAtPath(
 					"data",
 					"children",
 					0,
 					"data",
 					"selftext");
 
-			if(selfText == null) {
+			if(selfText.isEmpty()) {
 				throw new IOException("Couldn't find self text in response");
 			}
 
 			// This verifies the signature
 			final byte[] payloadData = SignedDataSerializer.deserialize(
 					SignatureHandler.stringToPublicKey(PUBLIC_KEY),
-					selfText);
+					selfText.get());
 
 			General.getSharedPrefs(context).edit()
 					.putString(PREF_KEY_PAYLOAD_STORAGE_HEX, HexUtils.toHex(payloadData))

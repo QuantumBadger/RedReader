@@ -448,7 +448,7 @@ public final class InboxListingActivity extends BaseActivity {
 						CacheManager.getInstance(this),
 						new APIResponseHandler.ActionResponseHandler(this) {
 							@Override
-							protected void onSuccess(@Nullable final String redirectUrl) {
+							protected void onSuccess() {
 								General.quickToast(
 										context,
 										R.string.mark_all_as_read_success);

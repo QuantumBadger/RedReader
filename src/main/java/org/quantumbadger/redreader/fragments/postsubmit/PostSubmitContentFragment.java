@@ -55,6 +55,7 @@ import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Consumer;
 import org.quantumbadger.redreader.common.DialogUtils;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.fragments.MarkdownPreviewDialog;
@@ -534,8 +535,8 @@ public class PostSubmitContentFragment extends Fragment {
 
 				final CacheManager cm = CacheManager.getInstance(mContext);
 
-				final RedditAPI.SubmitResponseHandler handler
-						= new RedditAPI.SubmitResponseHandler(
+				final APIResponseHandler.SubmitResponseHandler handler
+						= new APIResponseHandler.SubmitResponseHandler(
 								(AppCompatActivity)activity) {
 
 					@Override
@@ -557,7 +558,10 @@ public class PostSubmitContentFragment extends Fragment {
 					}
 
 					@Override
-					protected void onSuccess(@Nullable final String redirectUrl) {
+					public void onSuccess(
+							@NonNull final Optional<String> redirectUrl,
+							@NonNull final Optional<String> thingId) {
+
 						AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 							General.safeDismissDialog(progressDialog);
 							General.quickToast(
@@ -569,8 +573,8 @@ public class PostSubmitContentFragment extends Fragment {
 							final FragmentActivity activity = getActivity();
 
 							if(activity != null) {
-								((Listener)activity)
-										.onContentFragmentSubmissionSuccess(redirectUrl);
+								((Listener)activity).onContentFragmentSubmissionSuccess(
+										redirectUrl.orElseNull());
 							}
 						});
 					}

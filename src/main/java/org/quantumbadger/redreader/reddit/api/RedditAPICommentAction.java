@@ -611,7 +611,7 @@ public class RedditAPICommentAction {
 					}
 
 					@Override
-					protected void onSuccess(@Nullable final String redirectUrl) {
+					protected void onSuccess() {
 						if(action == RedditAPI.ACTION_DELETE) {
 							General.quickToast(context, R.string.delete_success);
 						}

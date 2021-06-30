@@ -353,7 +353,7 @@ public class RedditSubredditSubscriptionManager {
 		}
 
 		@Override
-		protected void onSuccess(@Nullable final String redirectUrl) {
+		protected void onSuccess() {
 
 			switch(action) {
 				case RedditAPI.SUBSCRIPTION_ACTION_SUBSCRIBE:
@@ -385,7 +385,7 @@ public class RedditSubredditSubscriptionManager {
 				if(action == RedditAPI.SUBSCRIPTION_ACTION_SUBSCRIBE
 						|| action == RedditAPI.SUBSCRIPTION_ACTION_UNSUBSCRIBE) {
 
-					onSuccess(null);
+					onSuccess();
 					return;
 				}
 			}
@@ -419,10 +419,6 @@ public class RedditSubredditSubscriptionManager {
 
 			General.showResultDialog(activity, error);
 		}
-	}
-
-	public Long getSubscriptionListTimestamp() {
-		return subscriptions != null ? subscriptions.getTimestamp() : null;
 	}
 
 	public interface SubredditSubscriptionStateChangeListener {
@@ -467,8 +463,7 @@ public class RedditSubredditSubscriptionManager {
 					break;
 				default:
 					throw new UnexpectedInternalStateException(
-							"Invalid SubredditSubscriptionChangeType "
-									+ changeType.toString());
+							"Invalid SubredditSubscriptionChangeType " + changeType);
 			}
 		}
 	}

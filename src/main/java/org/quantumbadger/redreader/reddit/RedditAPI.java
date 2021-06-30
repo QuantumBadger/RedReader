@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.reddit;
 
 import android.content.Context;
-import android.util.Log;
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -121,7 +120,7 @@ public final class RedditAPI {
 				if(failureType != null) {
 					mHandler.notifyFailure(failureType, "GenericResponseHandler", result);
 				} else {
-					mHandler.notifySuccess(findRedirectUrl(result));
+					mHandler.notifySuccess();
 				}
 
 			} catch(final Exception e) {
@@ -178,7 +177,7 @@ public final class RedditAPI {
 		postFields.add(new HTTPBackend.PostField("is_newlink", "true"));
 
 		cm.makeRequest(createPostRequest(
-				Constants.Reddit.getUri(subreddit.toString() + "/api/flairselector"),
+				Constants.Reddit.getUri(subreddit + "/api/flairselector"),
 				user,
 				postFields,
 				context,
@@ -257,19 +256,103 @@ public final class RedditAPI {
 				}));
 	}
 
-	public static abstract class SubmitResponseHandler
-			extends APIResponseHandler.ActionResponseHandler {
+	private static class SubmitJSONListener implements CacheRequestJSONParser.Listener {
 
-		protected SubmitResponseHandler(final AppCompatActivity context) {
-			super(context);
+		@NonNull private final APIResponseHandler.SubmitResponseHandler mResponseHandler;
+
+		private SubmitJSONListener(
+				@NonNull final APIResponseHandler.SubmitResponseHandler responseHandler) {
+			mResponseHandler = responseHandler;
 		}
 
-		public abstract void onSubmitErrors(@NonNull final ArrayList<String> errors);
+		@Override
+		public void onJsonParsed(
+				@NonNull final JsonValue result,
+				final long timestamp,
+				@NonNull final UUID session,
+				final boolean fromCache) {
+
+			try {
+				final JsonArray errorsJson
+						= result.getArrayAtPath("json", "errors");
+
+				if(errorsJson != null) {
+
+					final ArrayList<String> errors = new ArrayList<>();
+
+					for(final JsonValue errorValue : errorsJson) {
+
+						final JsonArray error = errorValue.asArray();
+
+						if(error != null && error.getString(1) != null) {
+							errors.add(error.getString(1));
+						}
+					}
+
+					if(!errors.isEmpty()) {
+						mResponseHandler.onSubmitErrors(errors);
+						return;
+					}
+				}
+
+				final APIResponseHandler.APIFailureType failureType
+						= findFailureType(result);
+
+				if(failureType != null) {
+					mResponseHandler.notifyFailure(
+							failureType,
+							null,
+							result);
+				} else {
+					mResponseHandler.onSuccess(
+							Optional.ofNullable(result.getStringAtPath(
+									"json",
+									"data",
+									"things",
+									0,
+									"data",
+									"permalink"))
+									.orElse(Optional.ofNullable(result.getStringAtPath(
+											"json",
+											"data",
+											"url"))),
+							Optional.ofNullable(result.getStringAtPath(
+									"json",
+									"data",
+									"things",
+									0,
+									"data",
+									"name")));
+				}
+
+			} catch(final Exception e) {
+				BugReportActivity.handleGlobalError(
+						mResponseHandler.context,
+						new RRError(
+								null,
+								null,
+								true,
+								e,
+								null,
+								null,
+								result.toString()));
+			}
+		}
+
+		@Override
+		public void onFailure(
+				final int type,
+				@Nullable final Throwable t,
+				@Nullable final Integer httpStatus,
+				@Nullable final String readableMessage) {
+
+			mResponseHandler.notifyFailure(type, t, httpStatus, readableMessage, null);
+		}
 	}
 
 	public static void submit(
 			final CacheManager cm,
-			final SubmitResponseHandler responseHandler,
+			final APIResponseHandler.SubmitResponseHandler responseHandler,
 			final RedditAccount user,
 			final boolean is_self,
 			final String subreddit,
@@ -307,75 +390,7 @@ public final class RedditAPI {
 				user,
 				postFields,
 				context,
-				new CacheRequestJSONParser.Listener() {
-
-					@Override
-					public void onJsonParsed(
-							@NonNull final JsonValue result,
-							final long timestamp,
-							@NonNull final UUID session,
-							final boolean fromCache) {
-
-						try {
-
-							final JsonArray errorsJson
-									= result.getArrayAtPath("json", "errors");
-
-							if(errorsJson != null) {
-
-								final ArrayList<String> errors = new ArrayList<>();
-
-								for(final JsonValue errorValue : errorsJson) {
-
-									final JsonArray error = errorValue.asArray();
-
-									if(error != null && error.getString(1) != null) {
-										errors.add(error.getString(1));
-									}
-								}
-
-								if(!errors.isEmpty()) {
-									responseHandler.onSubmitErrors(errors);
-									return;
-								}
-							}
-
-							final APIResponseHandler.APIFailureType failureType
-									= findFailureType(result);
-
-							if(failureType != null) {
-								responseHandler.notifyFailure(
-										failureType,
-										null,
-										result);
-							} else {
-								responseHandler.notifySuccess(findRedirectUrl(result));
-							}
-
-						} catch(final Exception e) {
-							BugReportActivity.handleGlobalError(
-									responseHandler.context,
-									new RRError(
-											null,
-											null,
-											true,
-											e,
-											null,
-											null,
-											result.toString()));
-						}
-					}
-
-					@Override
-					public void onFailure(
-							final int type,
-							@Nullable final Throwable t,
-							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage) {
-
-						responseHandler.notifyFailure(type, t, httpStatus, readableMessage, null);
-					}
-				}));
+				new SubmitJSONListener(responseHandler)));
 	}
 
 	public static void compose(
@@ -403,15 +418,16 @@ public final class RedditAPI {
 
 	public static void comment(
 			final CacheManager cm,
-			final APIResponseHandler.ActionResponseHandler responseHandler,
+			final APIResponseHandler.SubmitResponseHandler responseHandler,
 			final APIResponseHandler.ActionResponseHandler inboxResponseHandler,
 			final RedditAccount user,
 			final String parentIdAndType,
 			final String markdown,
 			final boolean sendRepliesToInbox,
-			final Context context) {
+			final AppCompatActivity context) {
 
 		final LinkedList<HTTPBackend.PostField> postFields = new LinkedList<>();
+		postFields.add(new HTTPBackend.PostField("api_type", "json"));
 		postFields.add(new HTTPBackend.PostField("thing_id", parentIdAndType));
 		postFields.add(new HTTPBackend.PostField("text", markdown));
 
@@ -420,64 +436,55 @@ public final class RedditAPI {
 				user,
 				postFields,
 				context,
-				new CacheRequestJSONParser.Listener() {
+				new SubmitJSONListener(new APIResponseHandler.SubmitResponseHandler(context) {
 					@Override
-					public void onJsonParsed(
-							@NonNull final JsonValue result,
-							final long timestamp,
-							@NonNull final UUID session,
-							final boolean fromCache) {
-
-						try {
-							final APIResponseHandler.APIFailureType failureType =
-									findFailureType(result);
-							if(failureType != null) {
-								responseHandler.notifyFailure(failureType, "comment", result);
-								return;
-							}
-							// sending replies to inbox is the default behaviour
-							if(!sendRepliesToInbox) {
-								final String commentFullname
-										= findThingIdFromCommentResponse(result);
-								if(commentFullname != null && commentFullname.length() > 0) {
-									sendReplies(
-											cm,
-											inboxResponseHandler,
-											user,
-											commentFullname,
-											false,
-											context);
-								}
-							}
-
-						} catch(final Throwable t) {
-							responseHandler.notifyFailure(
-									CacheRequest.REQUEST_FAILURE_PARSE,
-									t,
-									null,
-									"JSON failed to parse",
-									result);
-						}
-
-						@Nullable String permalink = findStringValue(result, "permalink");
-
-						if(permalink != null && !permalink.contains("?")) {
-							permalink += "?context=1";
-						}
-
-						responseHandler.notifySuccess(permalink);
+					public void onSubmitErrors(@NonNull final ArrayList<String> errors) {
+						responseHandler.onSubmitErrors(errors);
 					}
 
 					@Override
-					public void onFailure(
+					public void onSuccess(
+							@NonNull final Optional<String> redirectUrl,
+							@NonNull final Optional<String> thingId) {
+
+						if(!sendRepliesToInbox) {
+							thingId.ifPresent(commentFullname -> sendReplies(
+									cm,
+									inboxResponseHandler,
+									user,
+									commentFullname,
+									false,
+									context));
+						}
+
+						responseHandler.onSuccess(redirectUrl, thingId);
+					}
+
+					@Override
+					protected void onCallbackException(final Throwable t) {
+						responseHandler.onCallbackException(t);
+					}
+
+					@Override
+					protected void onFailure(
 							final int type,
 							@Nullable final Throwable t,
-							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage) {
+							@Nullable final Integer status,
+							@Nullable final String readableMessage,
+							@Nullable final JsonValue response) {
 
-						responseHandler.notifyFailure(type, t, httpStatus, readableMessage, null);
+						responseHandler.onFailure(type, t, status, readableMessage, response);
 					}
-				}));
+
+					@Override
+					protected void onFailure(
+							@NonNull final APIFailureType type,
+							@Nullable final String debuggingContext,
+							@Nullable final JsonValue response) {
+
+						responseHandler.onFailure(type, debuggingContext, response);
+					}
+				})));
 	}
 
 	public static void markAllAsRead(
@@ -512,7 +519,7 @@ public final class RedditAPI {
 							final boolean fromCache,
 							@Nullable final String mimetype) {
 
-						responseHandler.notifySuccess(null);
+						responseHandler.notifySuccess();
 					}
 				}));
 	}
@@ -725,88 +732,6 @@ public final class RedditAPI {
 				new GenericResponseHandler(responseHandler)));
 	}
 
-	private static String findThingIdFromCommentResponse(final JsonValue response) {
-		// Returns either the correct value or null
-		try {
-			return "t1_" + response.asObject().getArray("jquery").getArray(30)
-					.getArray(3).getArray(0).getObject(0)
-					.getObject("data").getString("id");
-		} catch(final Exception e) {
-			Log.e(TAG, "Failed to find comment thing ID", e);
-		}
-		return null;
-	}
-
-	private static String findRedirectUrl(final JsonValue response) {
-		// Returns either the correct value or null
-		try {
-
-			String lastAttr = null;
-
-			for(final JsonValue elem : response.asObject().getArray("jquery")) {
-
-				if(elem.asArray() == null) {
-					continue;
-				}
-
-				final JsonArray arr = elem.asArray();
-
-				if("attr".equals(arr.getString(2))) {
-					lastAttr = arr.getString(3);
-
-				} else if("call".equals(arr.getString(2))
-						&& "redirect".equals(lastAttr)) {
-
-					return arr.getArray(3).getString(0);
-				}
-			}
-		} catch(final Exception e) {
-			Log.e(TAG, "Failed to find redirect URL", e);
-		}
-		return null;
-	}
-
-	@Nullable
-	private static String findStringValue(
-			final JsonValue response,
-			final String key) {
-
-		if(response == null) {
-			return null;
-		}
-
-		if(response.asObject() != null) {
-
-			for(final Map.Entry<String, JsonValue> v : response.asObject()) {
-
-				if(key.equalsIgnoreCase(v.getKey())
-						&& v.getValue() instanceof JsonString) {
-
-					return v.getValue().asString();
-				}
-
-				final String result = findStringValue(v.getValue(), key);
-
-				if(result != null) {
-					return result;
-				}
-			}
-
-		} else if(response.asArray() != null) {
-
-			for(final JsonValue v : response.asArray()) {
-
-				final String result = findStringValue(v, key);
-
-				if(result != null) {
-					return result;
-				}
-			}
-		}
-
-		return null;
-	}
-
 	// lol, reddit api
 	@Nullable
 	private static APIResponseHandler.APIFailureType findFailureType(final JsonValue response) {
@@ -840,18 +765,10 @@ public final class RedditAPI {
 				}
 			}
 
-			try {
-				final JsonArray errors =
-						response.asObject().getObject("json").getArray("errors");
+			final JsonArray errors = response.getArrayAtPath("json", "errors");
 
-				if(errors != null) {
-					if(errors.size() > 0) {
-						unknownError = true;
-					}
-				}
-
-			} catch(final Exception e) {
-				// Do nothing
+			if(errors != null && errors.size() > 0) {
+				unknownError = true;
 			}
 
 		} else if(response.asArray() != null) {

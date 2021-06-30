@@ -1,3 +1,7 @@
+98/1.17.1
+More descriptive errors on comment submit failure
+Redirect to new post after submitting
+
 97/1.17
 Ability to choose flair when submitting posts
 Ability to backup and restore app preferences

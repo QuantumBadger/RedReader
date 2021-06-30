@@ -40,10 +40,13 @@ import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.AndroidCommon;
+import org.quantumbadger.redreader.common.DialogUtils;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.fragments.MarkdownPreviewDialog;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
@@ -211,10 +214,30 @@ public class CommentReplyActivity extends BaseActivity {
 				return true;
 			});
 
-			final APIResponseHandler.ActionResponseHandler handler
-					= new APIResponseHandler.ActionResponseHandler(this) {
+			final APIResponseHandler.SubmitResponseHandler handler
+					= new APIResponseHandler.SubmitResponseHandler(this) {
+
 				@Override
-				protected void onSuccess(@Nullable final String redirectUrl) {
+				public void onSubmitErrors(@NonNull final ArrayList<String> errors) {
+
+					AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+
+						final String errorsJoined = StringUtils.join(errors, " ");
+
+						DialogUtils.showDialog(
+								CommentReplyActivity.this,
+								getString(R.string.error_comment_submit_title),
+								errorsJoined);
+
+						General.safeDismissDialog(progressDialog);
+					});
+				}
+
+				@Override
+				public void onSuccess(
+						@NonNull final Optional<String> redirectUrl,
+						@NonNull final Optional<String> thingId) {
+
 					AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 						General.safeDismissDialog(progressDialog);
 
@@ -232,11 +255,9 @@ public class CommentReplyActivity extends BaseActivity {
 						lastText = null;
 						lastParentIdAndType = null;
 
-						if(redirectUrl != null) {
-							LinkHandler.onLinkClicked(
-									CommentReplyActivity.this,
-									redirectUrl);
-						}
+						redirectUrl.ifPresent(url -> LinkHandler.onLinkClicked(
+								CommentReplyActivity.this,
+								url));
 
 						finish();
 					});
@@ -287,7 +308,7 @@ public class CommentReplyActivity extends BaseActivity {
 			final APIResponseHandler.ActionResponseHandler inboxHandler
 					= new APIResponseHandler.ActionResponseHandler(this) {
 				@Override
-				protected void onSuccess(@Nullable final String redirectUrl) {
+				protected void onSuccess() {
 					// Do nothing (result expected)
 				}
 
@@ -336,7 +357,7 @@ public class CommentReplyActivity extends BaseActivity {
 					break;
 				}
 			}
-			boolean sendRepliesToInbox = true;
+			final boolean sendRepliesToInbox;
 			if(mParentType == ParentType.COMMENT_OR_POST) {
 				sendRepliesToInbox = inboxReplies.isChecked();
 			} else {

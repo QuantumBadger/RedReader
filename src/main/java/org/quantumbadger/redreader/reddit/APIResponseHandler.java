@@ -22,11 +22,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.things.RedditUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class APIResponseHandler {
@@ -99,15 +101,28 @@ public abstract class APIResponseHandler {
 		}
 	}
 
+	public static abstract class SubmitResponseHandler extends APIResponseHandler {
+
+		protected SubmitResponseHandler(@NonNull final AppCompatActivity context) {
+			super(context);
+		}
+
+		public abstract void onSubmitErrors(@NonNull final ArrayList<String> errors);
+
+		public abstract void onSuccess(
+				@NonNull final Optional<String> redirectUrl,
+				@NonNull final Optional<String> thingId);
+	}
+
 	public static abstract class ActionResponseHandler extends APIResponseHandler {
 
 		protected ActionResponseHandler(final AppCompatActivity context) {
 			super(context);
 		}
 
-		public final void notifySuccess(@Nullable final String redirectUrl) {
+		public final void notifySuccess() {
 			try {
-				onSuccess(redirectUrl);
+				onSuccess();
 			} catch(final Throwable t1) {
 				try {
 					onCallbackException(t1);
@@ -118,7 +133,7 @@ public abstract class APIResponseHandler {
 			}
 		}
 
-		protected abstract void onSuccess(@Nullable final String redirectUrl);
+		protected abstract void onSuccess();
 	}
 
 	public static abstract class NewCaptchaResponseHandler extends APIResponseHandler {

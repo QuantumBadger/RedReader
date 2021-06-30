@@ -81,6 +81,16 @@ public final class Optional<E> {
 		}
 	}
 
+	@NonNull
+	public Optional<E> orElse(@NonNull final Optional<E> alternative) {
+
+		if(mValue == null) {
+			return alternative;
+		} else {
+			return Optional.of(mValue);
+		}
+	}
+
 	@Nullable
 	public E orElseNull() {
 		return mValue;
@@ -103,6 +113,12 @@ public final class Optional<E> {
 			return Optional.empty();
 		} else {
 			return Optional.of(function.apply(mValue));
+		}
+	}
+
+	public void ifPresent(@NonNull final Consumer<E> consumer) {
+		if(mValue != null) {
+			consumer.consume(mValue);
 		}
 	}
 

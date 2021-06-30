@@ -202,7 +202,7 @@ public class PMSendActivity extends BaseActivity {
 			final APIResponseHandler.ActionResponseHandler handler
 					= new APIResponseHandler.ActionResponseHandler(this) {
 				@Override
-				protected void onSuccess(@Nullable final String redirectUrl) {
+				protected void onSuccess() {
 					AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 
 						General.safeDismissDialog(progressDialog);

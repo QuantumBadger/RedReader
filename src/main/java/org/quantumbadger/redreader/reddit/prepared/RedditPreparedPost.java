@@ -1545,7 +1545,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 					}
 
 					@Override
-					protected void onSuccess(@Nullable final String redirectUrl) {
+					protected void onSuccess() {
 
 						final long now = RRTime.utcCurrentTimeMillis();
 

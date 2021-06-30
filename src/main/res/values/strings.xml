@@ -1554,5 +1554,8 @@
 
 	<string name="error_http_429_title">Too many requests</string>
 	<string name="error_http_429_message">The server has rejected the request due to a rate limit. Please try again in a moment.</string>
+
+	<!-- 2021-06-30 -->
+	<string name="error_comment_submit_title">Error submitting comment</string>
 	
 </resources>

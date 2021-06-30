@@ -1,3 +1,7 @@
+/Alpha 282 (2021-06-30)
+More descriptive errors on comment submit failure
+Redirect to new post after submitting
+
 /Alpha 281 (2021-06-25)
 Translation updates
 

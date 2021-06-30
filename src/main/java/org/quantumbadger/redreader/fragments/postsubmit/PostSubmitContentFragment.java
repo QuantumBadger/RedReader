@@ -279,6 +279,9 @@ public class PostSubmitContentFragment extends Fragment {
 
 		final Context appContext = mContext.getApplicationContext();
 
+		mFlairIds.clear();
+		mFlairIds.add(null);
+
 		mFlairSpinner.setAdapter(new ArrayAdapter<>(
 				mContext,
 				android.R.layout.simple_list_item_1,

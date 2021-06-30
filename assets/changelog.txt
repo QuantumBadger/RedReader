@@ -1,4 +1,5 @@
 98/1.17.1
+Fixing crash relating to post submission
 More descriptive errors on comment submit failure
 Redirect to new post after submitting
 

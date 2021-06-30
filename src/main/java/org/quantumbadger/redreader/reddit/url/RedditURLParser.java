@@ -80,8 +80,8 @@ public class RedditURLParser {
 
 		final String ampPrefix = "/amp/s/amp.reddit.com";
 
-		if(("google.com".equals(uri.getHost())
-				|| uri.getHost().endsWith(".google.com")
+		if((("google.com".equals(uri.getHost())
+				|| uri.getHost().endsWith(".google.com"))
 						&& uri.getPath().startsWith(ampPrefix))) {
 
 			return Optional.ofNullable(Uri.parse(

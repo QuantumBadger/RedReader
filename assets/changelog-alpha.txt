@@ -2,6 +2,7 @@
 Fixing crash relating to post submission
 More descriptive errors on comment submit failure
 Redirect to new post after submitting
+Fixed crash when clicking on non-AMP Google links
 
 /Alpha 281 (2021-06-25)
 Translation updates

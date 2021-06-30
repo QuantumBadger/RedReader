@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.reddit.prepared;
 
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -583,12 +584,19 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				break;
 
 			case EXTERNAL: {
-				final Intent intent = new Intent(Intent.ACTION_VIEW);
-				final String url = (activity instanceof WebViewActivity)
-						? ((WebViewActivity)activity).getCurrentUrl()
-						: post.src.getUrl();
-				intent.setData(Uri.parse(url));
-				activity.startActivity(intent);
+				try {
+					final Intent intent = new Intent(Intent.ACTION_VIEW);
+					final String url = (activity instanceof WebViewActivity)
+							? ((WebViewActivity)activity).getCurrentUrl()
+							: post.src.getUrl();
+					intent.setData(Uri.parse(url));
+					activity.startActivity(intent);
+
+				} catch(final ActivityNotFoundException e) {
+					General.quickToast(
+							activity,
+							R.string.action_not_handled_by_installed_app_toast);
+				}
 				break;
 			}
 

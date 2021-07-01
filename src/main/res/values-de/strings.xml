@@ -29,7 +29,7 @@
     <string name="pref_appearance_theme_header">Design</string>
     <string name="pref_appearance_thumbnails_header">Vorschaubilder</string>
     <string name="pref_appearance_comments_header">Kommentare</string>
-    <string name="pref_appearance_twopane_title">Tablet-Modus (Zweispaltig)</string>
+    <string name="pref_appearance_twopane_title">Tablet-Modus (zweispaltig)</string>
     <string name="pref_appearance_theme_title">Design</string>
     <string name="pref_appearance_fontscale_posts_title">Post-Titeln</string>
     <string name="pref_appearance_thumbnails_show_title">Zeige Vorschaubilder</string>
@@ -172,8 +172,8 @@
     <string name="download_done">Fertig</string>
     <string name="download_failed">Fehlgeschlagen</string>
     <!-- Image View -->
-    <string name="imageview_oom">Kein Speicher mehr. Probiere den internen Browser.</string>
-    <string name="imageview_invalid_gif">Ungültiges GIF. Probiere den internen Browser.</string>
+    <string name="imageview_oom">Kein Speicher mehr. Probiere den Webbrowser.</string>
+    <string name="imageview_invalid_gif">Ungültiges GIF. Probiere den Webbrowser.</string>
     <!-- Comment Reply/Edit, Post Submit -->
     <string name="comment_reply_send">Senden</string>
     <string name="comment_edit_save">Speichern</string>
@@ -196,7 +196,7 @@
     <string name="bug_button_send">Fehlerbericht senden</string>
     <string name="bug_button_ignore">Nicht senden</string>
     <!-- General errors -->
-    <string name="error_403_title">Ungültiger Benutzer</string>
+    <string name="error_403_title">Zugriff verweigert</string>
     <string name="error_403_message">Der Ausgewählte Benutzer hat keine Erlaubnis hierzu.</string>
     <string name="error_subreddit_required_title">Subreddit benötigt</string>
     <string name="error_subreddit_required_message">Du musst einen Subreddit festlegen.</string>
@@ -400,7 +400,7 @@
     <string name="error_403_message_nonreddit">Der Server hat mit einem \"Erlaubnis verweigert\"-Fehler geantwortet.</string>
     <string name="error_403_title_nonreddit">Erlaubnis verweigert</string>
     <string name="error_archived_vote">Dies wurde archiviert und darüber kann nicht mehr abgestimmt werden.</string>
-    <string name="error_cache_dir_does_not_exist_message">Auf das Cache-Verzeichnis konnte nicht zugegriffen werden. Bitte wählen Sie einen anderen Ort in den Cache-Einstellungen.\n\t</string>
+    <string name="error_cache_dir_does_not_exist_message">Auf das Cache-Verzeichnis konnte nicht zugegriffen werden. Bitte wählen Sie einen anderen Ort in den Cache-Einstellungen.</string>
     <string name="error_cache_dir_does_not_exist_title">Cache-Verzeichnis fehlt</string>
     <string name="error_file_open_failed_message">Während des Öffnens der Datei ist ein Fehler aufgetreten.</string>
     <string name="error_file_open_failed_title">Öffnen der Datei fehlgeschlagen</string>
@@ -607,8 +607,8 @@
     <string name="action_copy_selftext">Selbsttext kopieren</string>
     <string name="pref_appearance_fontscale_post_subtitles_title">Post-Untertiteln</string>
     <plurals name="load_more_comments_button_reply_count">
-        <item quantity="one">"Weitere Kommentare laden (%d Antworten)"</item>
-        <item quantity="other">"Weitere Kommentare laden (%d Antworten)"</item>
+        <item quantity="one">Weitere Kommentare laden (%d Antwort)</item>
+        <item quantity="other">Weitere Kommentare laden (%d Antworten)</item>
     </plurals>
     <string name="pref_menus_appbar_items_never">Nicht anzeigen</string>
     <string name="pref_menus_appbar_items_if_room">Schaltfläche anzeigen, wenn Raum</string>
@@ -620,4 +620,7 @@
     <string name="upgrade_message">Aktualisiert zur Version %s</string>
     <string name="must_login_message">Du musst dazu in einem Reddit-Konto angemeldet sein.</string>
     <string name="error_toast_no_email_apps">Kein E-Mail-Programm installiert!</string>
+    <string name="list_yes_no_or_wifi_wifionly">Nur über WLAN</string>
+    <string name="list_yes_no_or_wifi_always">Immer</string>
+    <string name="list_yes_no_or_wifi_never">Niemals</string>
 </resources>

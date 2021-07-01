@@ -1,3 +1,6 @@
+/Alpha 283 (2021-07-01)
+Fixing issue where non-video image previews have a "play" button overlaid
+
 /Alpha 282 (2021-06-30)
 Fixing crash relating to post submission
 More descriptive errors on comment submit failure

@@ -1,3 +1,6 @@
+99/1.17.2
+Fixing issue where non-video image previews have a "play" button overlaid
+
 98/1.17.1
 Fixing crash relating to post submission
 More descriptive errors on comment submit failure

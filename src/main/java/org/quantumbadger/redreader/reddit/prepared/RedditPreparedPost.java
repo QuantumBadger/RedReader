@@ -222,7 +222,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		}
 
 		return Boolean.TRUE.equals(src.getSrc().is_video)
-				|| preview.getAtPath("images", 0, "variants", "mp4") != null
+				|| preview.getAtPath("images", 0, "variants", "mp4").isPresent()
 				|| preview.getObject("reddit_video_preview") != null
 				|| "v.redd.it".equals(src.getDomain())
 				|| "streamable.com".equals(src.getDomain())

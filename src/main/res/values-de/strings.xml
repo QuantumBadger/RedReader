@@ -41,7 +41,7 @@
     <string name="pref_behaviour_actions_post_header">Post-Aktionen</string>
     <string name="pref_behaviour_actions_comment_header">Kommentar-Aktionen</string>
     <string name="pref_behaviour_posts_header">Posts</string>
-    <string name="pref_behaviour_fling_post_left_title">Posts nach links wischen</string>
+    <string name="pref_behaviour_fling_post_left_title">Nach links wischen</string>
     <string name="pref_behaviour_fling_post_right_title">Nach rechts wischen</string>
     <string name="pref_behaviour_actions_comment_tap_title">Drücken</string>
     <string name="pref_behaviour_nsfw_title">Zeige NSFW-Inhalte</string>

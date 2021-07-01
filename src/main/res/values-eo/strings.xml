@@ -758,7 +758,7 @@
     <string name="pref_menus_appbar_items_overflow_only">Montri nur en tripunkta menuo</string>
     <string name="pref_menus_appbar_items_if_room">Montri butonon kiam spaco disponebla</string>
     <string name="pref_menus_appbar_items_always">Ĉiam montri butonon</string>
-    <string name="pref_menus_appbar_screen_title">Elementoj de la strio agoj</string>
+    <string name="prefs_category_menus_appbar_screen">Elementoj de la strio agoj</string>
     <string name="copied_to_clipboard">Kopiita al tondujo</string>
     <string name="pref_appearance_navbar_color_option_white">Blanka</string>
     <string name="accessibility_subtitle_domain_v_redd_it">Filmetoj Reddit</string>

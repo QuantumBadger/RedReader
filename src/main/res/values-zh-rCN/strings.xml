@@ -634,7 +634,7 @@
     <string name="pref_menus_appbar_items_never">不显示</string>
     <string name="pref_menus_appbar_items_overflow_only">仅显示在“三点”菜单中</string>
     <string name="pref_menus_appbar_items_always">始终显示按钮</string>
-    <string name="pref_menus_appbar_screen_title">操作栏项目</string>
+    <string name="prefs_category_menus_appbar_screen">操作栏项目</string>
     <string name="copied_to_clipboard">已复制到剪贴板</string>
     <string name="dialog_continue">继续</string>
     <string name="reddit_login_browser_popup_use_external_browser">使用外部浏览器(推荐)</string>

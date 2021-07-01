@@ -1213,7 +1213,7 @@
 	<string name="copied_to_clipboard">Copied to clipboard</string>
 
 	<!-- 2020-07-19 -->
-	<string name="pref_menus_appbar_screen_title">Action bar items</string>
+	<string name="prefs_category_menus_appbar_screen">Action bar items</string>
 	<string name="pref_menus_appbar_items_always">Always show button</string>
 	<string name="pref_menus_appbar_items_if_room">Show button if room</string>
 	<string name="pref_menus_appbar_items_overflow_only">Only show in three-dot menu</string>
@@ -1557,5 +1557,8 @@
 
 	<!-- 2021-06-30 -->
 	<string name="error_comment_submit_title">Error submitting comment</string>
+
+	<!-- 2021-07-01 -->
+	<string name="prefs_category_menus_appbar_screen_key" translatable="false">prefs_category_menus_appbar_screen</string>
 	
 </resources>

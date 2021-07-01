@@ -717,7 +717,7 @@
     <string name="pref_menus_appbar_items_overflow_only">Mostra soltanto nel menu (nei 3 punti)</string>
     <string name="pref_menus_appbar_items_if_room">Mostra pulsante se c\'è spazio disponibile</string>
     <string name="pref_menus_appbar_items_always">Mostra sempre pulsante</string>
-    <string name="pref_menus_appbar_screen_title">Oggetti nella barra azioni</string>
+    <string name="prefs_category_menus_appbar_screen">Oggetti nella barra azioni</string>
     <string name="copied_to_clipboard">Copiato negli appunti</string>
     <string name="subreddit_link_copied_to_clipboard">Link al subreddit copiato negli appunti</string>
     <string name="comment_text_copied_to_clipboard">Testo del commento copiato negli appunti</string>

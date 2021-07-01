@@ -597,7 +597,7 @@
     <string name="pref_menus_appbar_items_overflow_only">Erakutsi hiru puntuko menuan soilik</string>
     <string name="pref_menus_appbar_items_if_room">Erakutsi botoia lekua badago</string>
     <string name="pref_menus_appbar_items_always">Beti erakutsi botoia</string>
-    <string name="pref_menus_appbar_screen_title">Ekintza-barrako elementuak</string>
+    <string name="prefs_category_menus_appbar_screen">Ekintza-barrako elementuak</string>
     <string name="copied_to_clipboard">Arbelera kopiatuta</string>
     <string name="subreddit_link_copied_to_clipboard">Subredditaren esteka arbelera kopiatuta</string>
     <string name="comment_text_copied_to_clipboard">Iruzkin testua arbelera kopiatuta</string>

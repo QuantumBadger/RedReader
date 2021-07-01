@@ -679,7 +679,7 @@
     <string name="pref_menus_appbar_items_overflow_only">Показывать только в трехточечном меню</string>
     <string name="pref_menus_appbar_items_if_room">Показать кнопку, если комната</string>
     <string name="pref_menus_appbar_items_always">Всегда показывать кнопку</string>
-    <string name="pref_menus_appbar_screen_title">Элементы панели действий</string>
+    <string name="prefs_category_menus_appbar_screen">Элементы панели действий</string>
     <string name="copied_to_clipboard">Скопировано в буфер обмена</string>
     <string name="subreddit_link_copied_to_clipboard">Ссылка на субреддит скопирована в буфер обмена</string>
     <string name="comment_text_copied_to_clipboard">Текст комментария скопирован в буфер обмена</string>

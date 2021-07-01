@@ -750,7 +750,7 @@
     <string name="action_search_posts">Cari Pos</string>
     <string name="pref_menus_appbar_items_never">Jangan tampilkan</string>
     <string name="pref_menus_appbar_items_always">Selalu tampilkan tombol</string>
-    <string name="pref_menus_appbar_screen_title">Item bilah tindakan</string>
+    <string name="prefs_category_menus_appbar_screen">Item bilah tindakan</string>
     <string name="copied_to_clipboard">Disalin ke papan klip</string>
     <string name="pref_behaviour_video_zoom_default_title">Potong video untuk mengisi layar</string>
     <string name="title_attribution">Atribusi</string>

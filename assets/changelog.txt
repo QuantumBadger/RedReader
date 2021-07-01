@@ -1,5 +1,6 @@
 99/1.17.2
 Fixing issue where non-video image previews have a "play" button overlaid
+Fix for "Action bar items" setting not working
 
 98/1.17.1
 Fixing crash relating to post submission

@@ -745,7 +745,7 @@
         <item quantity="other">Načíst více komentářů (%d odpovědí)</item>
     </plurals>
     <string name="copied_to_clipboard">Zkopírováno do schránky</string>
-    <string name="pref_menus_appbar_screen_title">Položky lišty akcí</string>
+    <string name="prefs_category_menus_appbar_screen">Položky lišty akcí</string>
     <string name="pref_menus_appbar_items_always">Vždy ukázat tlačítko</string>
     <string name="pref_menus_appbar_items_if_room">Ukázat tlačítko pokud je místo</string>
     <string name="pref_menus_appbar_items_overflow_only">Ukázat je v třípuntíkové nabídce</string>

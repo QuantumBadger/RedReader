@@ -703,7 +703,7 @@
     <string name="pref_menus_appbar_items_overflow_only">Sólo mostrar en el menú de tres puntos</string>
     <string name="pref_menus_appbar_items_if_room">Mostrar botón si hay sitio</string>
     <string name="pref_menus_appbar_items_always">Mostrar siempre el botón</string>
-    <string name="pref_menus_appbar_screen_title">Elementos de la barra de acción</string>
+    <string name="prefs_category_menus_appbar_screen">Elementos de la barra de acción</string>
     <string name="copied_to_clipboard">Copiado al portapapeles</string>
     <string name="subreddit_link_copied_to_clipboard">Enlace de Subreddit copiado en el portapapeles</string>
     <string name="comment_text_copied_to_clipboard">Texto del comentario copiado al portapapeles</string>

@@ -17,14 +17,17 @@
 
 package org.quantumbadger.redreader.image;
 
+import androidx.annotation.NonNull;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.common.Optional;
 
 public interface GetImageInfoListener {
 	void onFailure(
 			final @CacheRequest.RequestFailureType int type,
 			final Throwable t,
 			final Integer status,
-			final String readableMessage);
+			final String readableMessage,
+			@NonNull final Optional<String> body);
 
 	void onSuccess(ImageInfo info);
 

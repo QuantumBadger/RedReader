@@ -54,11 +54,13 @@ import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.FileUtils;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.common.SharedPrefsWrapper;
+import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
 import org.quantumbadger.redreader.image.ImageInfo;
@@ -898,7 +900,8 @@ public class PostListingFragment extends RRFragment
 																int type,
 														final Throwable t,
 														final Integer status,
-														final String readableMessage) {
+														final String readableMessage,
+														@NonNull final Optional<String> body) {
 												}
 
 												@Override
@@ -949,7 +952,8 @@ public class PostListingFragment extends RRFragment
 									CacheRequest.REQUEST_FAILURE_PARSE,
 									t,
 									null,
-									"Parse failure");
+									"Parse failure",
+									Optional.of(value.toString().getBytes(General.CHARSET_UTF8)));
 						}
 					}
 
@@ -958,7 +962,8 @@ public class PostListingFragment extends RRFragment
 							final int type,
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage) {
+							@Nullable final String readableMessage,
+							@NonNull final Optional<byte[]> body) {
 
 						AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 
@@ -973,7 +978,9 @@ public class PostListingFragment extends RRFragment
 										false,
 										t,
 										httpStatus,
-										url.toString(), null);
+										url.toString(),
+										readableMessage,
+										body.map(StringUtils::fromUTF8).orElseNull());
 
 							} else {
 								error = General.getGeneralErrorForFailure(
@@ -1031,7 +1038,8 @@ public class PostListingFragment extends RRFragment
 									final int type,
 									@Nullable final Throwable t,
 									@Nullable final Integer httpStatus,
-									@Nullable final String readableMessage) {
+									@Nullable final String readableMessage,
+									@NonNull final Optional<byte[]> body) {
 
 								if(General.isSensitiveDebugLoggingEnabled()) {
 									Log.e(
@@ -1157,7 +1165,8 @@ public class PostListingFragment extends RRFragment
 							final int type,
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage) {
+							@Nullable final String readableMessage,
+							@NonNull final Optional<byte[]> body) {
 
 						if(General.isSensitiveDebugLoggingEnabled()) {
 							Log.e(TAG, String.format(

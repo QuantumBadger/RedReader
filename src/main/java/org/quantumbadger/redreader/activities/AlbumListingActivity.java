@@ -30,6 +30,7 @@ import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
@@ -132,7 +133,8 @@ public class AlbumListingActivity extends BaseActivity {
 							final @CacheRequest.RequestFailureType int type,
 							final Throwable t,
 							final Integer status,
-							final String readableMessage) {
+							final String readableMessage,
+							@NonNull final Optional<String> body) {
 						Log.e(
 								"AlbumListingActivity",
 								"getAlbumInfo call failed: " + type);
@@ -140,7 +142,7 @@ public class AlbumListingActivity extends BaseActivity {
 						if(status != null) {
 							Log.e(
 									"AlbumListingActivity",
-									"status was: " + status.toString());
+									"status was: " + status);
 						}
 						if(t != null) {
 							Log.e("AlbumListingActivity", "exception was: ", t);
@@ -169,7 +171,8 @@ public class AlbumListingActivity extends BaseActivity {
 												final @CacheRequest.RequestFailureType int type,
 												final Throwable t,
 												final Integer status,
-												final String readableMessage) {
+												final String readableMessage,
+												@NonNull final Optional<String> body) {
 											Log.e(
 													"AlbumListingActivity",
 													"Image info request also failed: "

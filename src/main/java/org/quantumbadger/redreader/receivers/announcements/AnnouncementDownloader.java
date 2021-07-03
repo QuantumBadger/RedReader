@@ -85,7 +85,8 @@ public final class AnnouncementDownloader {
 							final int type,
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage) {
+							@Nullable final String readableMessage,
+							@NonNull final Optional<byte[]> body) {
 
 						Log.e(
 								TAG,

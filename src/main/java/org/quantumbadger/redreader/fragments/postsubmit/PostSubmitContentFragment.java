@@ -59,7 +59,6 @@ import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.fragments.MarkdownPreviewDialog;
-import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.RedditFlairChoice;
@@ -419,7 +418,7 @@ public class PostSubmitContentFragment extends Fragment {
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
 							@Nullable final String readableMessage,
-							@Nullable final JsonValue response) {
+							@NonNull final Optional<String> response) {
 
 						AndroidCommon.runOnUiThread(() -> {
 
@@ -433,7 +432,7 @@ public class PostSubmitContentFragment extends Fragment {
 									t,
 									httpStatus,
 									"Flair selector",
-									response);
+									response.orElseNull());
 
 							ifActivityNotNull(listener -> {
 								listener.onContentFragmentFlairRequestError(error);
@@ -444,7 +443,7 @@ public class PostSubmitContentFragment extends Fragment {
 					@Override
 					public void onFailure(
 							@NonNull final APIResponseHandler.APIFailureType type,
-							@Nullable final JsonValue response) {
+							@NonNull final Optional<String> response) {
 
 						AndroidCommon.runOnUiThread(() -> {
 
@@ -593,7 +592,7 @@ public class PostSubmitContentFragment extends Fragment {
 							final Throwable t,
 							final Integer status,
 							final String readableMessage,
-							@Nullable final JsonValue response) {
+							@NonNull final Optional<String> response) {
 
 						final RRError error = General.getGeneralErrorForFailure(
 								context,
@@ -601,7 +600,7 @@ public class PostSubmitContentFragment extends Fragment {
 								t,
 								status,
 								"Post submission",
-								response);
+								response.orElseNull());
 
 						final FragmentActivity activity = getActivity();
 
@@ -616,7 +615,7 @@ public class PostSubmitContentFragment extends Fragment {
 					protected void onFailure(
 							@NonNull final APIFailureType type,
 							@Nullable final String debuggingContext,
-							@Nullable final JsonValue response) {
+							@NonNull final Optional<String> response) {
 
 						final RRError error = General.getGeneralErrorForFailure(
 								context,

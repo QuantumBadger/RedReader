@@ -25,6 +25,7 @@ import android.os.Build;
 import android.os.SystemClock;
 import android.util.Base64;
 import android.view.KeyEvent;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -33,6 +34,7 @@ import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RunnableOnce;
 import org.quantumbadger.redreader.http.HTTPBackend;
@@ -343,7 +345,8 @@ public final class RedditOAuth {
 				public void onError(
 						final @CacheRequest.RequestFailureType int failureType,
 						final Throwable exception,
-						final Integer httpStatus) {
+						final Integer httpStatus,
+						@NonNull final Optional<byte[]> body) {
 					result.set(handleRefreshTokenError(
 							exception,
 							httpStatus,
@@ -431,7 +434,8 @@ public final class RedditOAuth {
 				public void onError(
 						final @CacheRequest.RequestFailureType int failureType,
 						final Throwable exception,
-						final Integer httpStatus) {
+						final Integer httpStatus,
+						@NonNull final Optional<byte[]> body) {
 
 					if(httpStatus != null && httpStatus != 200) {
 						result.set(new FetchUserInfoResult(
@@ -709,7 +713,8 @@ public final class RedditOAuth {
 				public void onError(
 						final @CacheRequest.RequestFailureType int failureType,
 						final Throwable exception,
-						final Integer httpStatus) {
+						final Integer httpStatus,
+						@NonNull final Optional<byte[]> body) {
 					result.set(handleAccessTokenError(
 							exception,
 							httpStatus,
@@ -814,7 +819,8 @@ public final class RedditOAuth {
 				public void onError(
 						final @CacheRequest.RequestFailureType int failureType,
 						final Throwable exception,
-						final Integer httpStatus) {
+						final Integer httpStatus,
+						@NonNull final Optional<byte[]> body) {
 					result.set(handleAccessTokenError(
 							exception,
 							httpStatus,

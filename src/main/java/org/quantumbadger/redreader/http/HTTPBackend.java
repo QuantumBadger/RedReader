@@ -21,6 +21,7 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.http.okhttp.OKHTTPBackend;
 
 import java.io.InputStream;
@@ -125,7 +126,8 @@ public abstract class HTTPBackend {
 		void onError(
 				@CacheRequest.RequestFailureType int failureType,
 				Throwable exception,
-				Integer httpStatus);
+				Integer httpStatus,
+				@NonNull Optional<byte[]> body);
 
 		void onSuccess(String mimetype, Long bodyBytes, InputStream body);
 	}

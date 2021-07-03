@@ -24,7 +24,6 @@ import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.RRError;
-import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.things.RedditUser;
 
@@ -59,19 +58,19 @@ public abstract class APIResponseHandler {
 			@Nullable Throwable t,
 			@Nullable Integer status,
 			@Nullable String readableMessage,
-			@Nullable JsonValue response);
+			@NonNull Optional<String> response);
 
 	protected abstract void onFailure(
 			@NonNull APIFailureType type,
 			@Nullable String debuggingContext,
-			@Nullable JsonValue response);
+			@NonNull Optional<String> response);
 
 	public final void notifyFailure(
 			final @CacheRequest.RequestFailureType int type,
 			@Nullable final Throwable t,
 			@Nullable final Integer status,
 			@Nullable final String readableMessage,
-			@Nullable final JsonValue response) {
+			@NonNull final Optional<String> response) {
 		try {
 			onFailure(type, t, status, readableMessage, response);
 		} catch(final Throwable t1) {
@@ -87,7 +86,7 @@ public abstract class APIResponseHandler {
 	public final void notifyFailure(
 			@NonNull final APIFailureType type,
 			@Nullable final String debuggingContext,
-			@Nullable final JsonValue response) {
+			@NonNull final Optional<String> response) {
 
 		try {
 			onFailure(type, debuggingContext, response);

@@ -27,6 +27,7 @@ import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.CacheRequestJSONParser;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways;
 import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.io.CacheDataSource;
@@ -109,7 +110,8 @@ public class RedditAPIIndividualSubredditDataRequester implements
 							final int type,
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage) {
+							@Nullable final String readableMessage,
+							@NonNull final Optional<byte[]> body) {
 
 						handler.onRequestFailed(new SubredditRequestFailure(
 								type,

@@ -117,6 +117,17 @@ public final class Optional<E> {
 		}
 	}
 
+	@NonNull
+	public <R> Optional<R> filter(
+			@NonNull final FunctionOneArgWithReturn<E, Optional<R>> function) {
+
+		if(mValue == null) {
+			return Optional.empty();
+		} else {
+			return function.apply(mValue);
+		}
+	}
+
 	public void ifPresent(@NonNull final Consumer<E> consumer) {
 		if(mValue != null) {
 			consumer.consume(mValue);

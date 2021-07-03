@@ -40,6 +40,7 @@ import org.quantumbadger.redreader.cache.CacheRequestJSONParser;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.SharedPrefsWrapper;
@@ -218,7 +219,8 @@ public class NewMessageChecker extends BroadcastReceiver {
 									CacheRequest.REQUEST_FAILURE_PARSE,
 									t,
 									null,
-									"Parse failure");
+									"Parse failure",
+									Optional.of(value.toString().getBytes(General.CHARSET_UTF8)));
 						}
 					}
 
@@ -227,7 +229,8 @@ public class NewMessageChecker extends BroadcastReceiver {
 							final int type,
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage) {
+							@Nullable final String readableMessage,
+							@NonNull final Optional<byte[]> body) {
 
 						Log.e(TAG, "Request failed", t);
 					}

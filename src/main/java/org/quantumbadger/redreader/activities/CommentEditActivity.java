@@ -32,10 +32,10 @@ import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.fragments.MarkdownPreviewDialog;
-import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 
@@ -156,7 +156,7 @@ public class CommentEditActivity extends BaseActivity {
 						@Nullable final Throwable t,
 						@Nullable final Integer httpStatus,
 						@Nullable final String readableMessage,
-						@Nullable final JsonValue response) {
+						@NonNull final Optional<String> response) {
 
 					final RRError error = General.getGeneralErrorForFailure(
 							context,
@@ -164,7 +164,7 @@ public class CommentEditActivity extends BaseActivity {
 							t,
 							httpStatus,
 							"Comment edit",
-							response);
+							response.orElseNull());
 
 					General.showResultDialog(CommentEditActivity.this, error);
 					General.safeDismissDialog(progressDialog);
@@ -174,7 +174,7 @@ public class CommentEditActivity extends BaseActivity {
 				protected void onFailure(
 						@NonNull final APIFailureType type,
 						@Nullable final String debuggingContext,
-						@Nullable final JsonValue response) {
+						@NonNull final Optional<String> response) {
 
 					final RRError error = General.getGeneralErrorForFailure(
 							context,

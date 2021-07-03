@@ -1,5 +1,6 @@
 100/1.18
 Show parent comment after submitting reply
+More detail in errors for failed API requests
 
 99/1.17.2
 Fixing issue where non-video image previews have a "play" button overlaid

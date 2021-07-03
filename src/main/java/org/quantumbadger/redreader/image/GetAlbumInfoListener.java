@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.image;
 
 import androidx.annotation.NonNull;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.common.Optional;
 
 public interface GetAlbumInfoListener {
 
@@ -26,7 +27,8 @@ public interface GetAlbumInfoListener {
 			final @CacheRequest.RequestFailureType int type,
 			final Throwable t,
 			final Integer status,
-			final String readableMessage);
+			final String readableMessage,
+			@NonNull final Optional<String> body);
 
 	void onSuccess(@NonNull AlbumInfo info);
 

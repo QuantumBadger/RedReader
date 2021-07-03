@@ -529,14 +529,15 @@ public class FileUtils {
 							final @CacheRequest.RequestFailureType int type,
 							final Throwable t,
 							final Integer status,
-							final String readableMessage) {
+							final String readableMessage,
+							@NonNull final Optional<String> body) {
 						final RRError error = General.getGeneralErrorForFailure(
 								activity,
 								type,
 								t,
 								status,
 								uri,
-								null);
+								body.orElseNull());
 						General.showResultDialog(activity, error);
 					}
 
@@ -566,7 +567,8 @@ public class FileUtils {
 											@CacheRequest.RequestFailureType final int type,
 											final Throwable t,
 											final Integer status,
-											final String readableMessage) {
+											final String readableMessage,
+											@NonNull final Optional<byte[]> body) {
 
 										General.showResultDialog(
 												activity,
@@ -576,7 +578,8 @@ public class FileUtils {
 														t,
 														status,
 														info.urlOriginal,
-														null));
+														body.map(StringUtils::fromUTF8)
+																.orElseNull()));
 									}
 
 									@Override

@@ -22,6 +22,7 @@ import androidx.annotation.NonNull;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrioritisedCachedThreadPool;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRTime;
@@ -83,7 +84,8 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 							CacheRequest.REQUEST_FAILURE_CANCELLED,
 							null,
 							null,
-							"Cancelled");
+							"Cancelled",
+							Optional.empty());
 				}
 			}
 		}.start();
@@ -138,7 +140,8 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 							CacheRequest.REQUEST_FAILURE_REQUEST,
 							result.error.t,
 							result.error.httpStatus,
-							result.error.title + ": " + result.error.message);
+							result.error.title + ": " + result.error.message,
+							Optional.empty());
 					return;
 				}
 
@@ -161,14 +164,20 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 			public void onError(
 					final @CacheRequest.RequestFailureType int failureType,
 					final Throwable exception,
-					final Integer httpStatus) {
+					final Integer httpStatus,
+					@NonNull final Optional<byte[]> bodyBytes) {
 				if(mInitiator.queueType == CacheRequest.DOWNLOAD_QUEUE_REDDIT_API
 						&& TorCommon.isTorEnabled()) {
 					HTTPBackend.getBackend().recreateHttpBackend();
 					resetUserCredentialsOnNextRequest();
 				}
 
-				mInitiator.notifyFailure(failureType, exception, httpStatus, "");
+				mInitiator.notifyFailure(
+						failureType,
+						exception,
+						httpStatus,
+						"CacheDownload onError",
+						bodyBytes);
 			}
 
 			@Override
@@ -239,7 +248,8 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 							CacheRequest.REQUEST_FAILURE_CONNECTION,
 							t,
 							null,
-							"The connection was interrupted");
+							"The connection was interrupted",
+							Optional.empty());
 
 					return;
 
@@ -305,7 +315,8 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 								failureType,
 								e,
 								null,
-								"Could not access the local cache");
+								"Could not access the local cache",
+								Optional.empty());
 
 						return;
 					}
@@ -332,13 +343,15 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 									CacheRequest.REQUEST_FAILURE_STORAGE,
 									e,
 									null,
-									"Out of disk space");
+									"Out of disk space",
+									Optional.empty());
 						} else {
 							mInitiator.notifyFailure(
 									CacheRequest.REQUEST_FAILURE_STORAGE,
 									e,
 									null,
-									"Failed to write to cache");
+									"Failed to write to cache",
+									Optional.empty());
 						}
 					}
 				}

@@ -41,6 +41,7 @@ import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
@@ -377,7 +378,8 @@ public final class InboxListingActivity extends BaseActivity {
 									CacheRequest.REQUEST_FAILURE_PARSE,
 									t,
 									null,
-									"Parse failure");
+									"Parse failure",
+									Optional.of(result.toString().getBytes(General.CHARSET_UTF8)));
 							return;
 						}
 
@@ -391,7 +393,8 @@ public final class InboxListingActivity extends BaseActivity {
 							final int type,
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage) {
+							@Nullable final String readableMessage,
+							@NonNull final Optional<byte[]> body) {
 
 						request = null;
 
@@ -469,14 +472,15 @@ public final class InboxListingActivity extends BaseActivity {
 									final Throwable t,
 									final Integer status,
 									final String readableMessage,
-									@Nullable final JsonValue response) {
+									@NonNull final Optional<String> response) {
+
 								final RRError error = General.getGeneralErrorForFailure(
 										context,
 										type,
 										t,
 										status,
 										"Reddit API action: Mark all as Read",
-										response);
+										response.orElseNull());
 								General.showResultDialog(
 										InboxListingActivity.this,
 										error);
@@ -486,7 +490,7 @@ public final class InboxListingActivity extends BaseActivity {
 							protected void onFailure(
 									@NonNull final APIFailureType type,
 									@Nullable final String debuggingContext,
-									@Nullable final JsonValue response) {
+									@NonNull final Optional<String> response) {
 
 								final RRError error = General.getGeneralErrorForFailure(
 										context,

@@ -22,7 +22,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.common.CachedThreadPool;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.GenericFactory;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
@@ -48,7 +50,8 @@ public final class CacheRequestJSONParser implements CacheRequestCallbacks {
 				int type,
 				@Nullable Throwable t,
 				@Nullable Integer httpStatus,
-				@Nullable String readableMessage);
+				@Nullable String readableMessage,
+				@NonNull Optional<byte[]> body);
 
 		default void onDownloadNecessary() {
 			// Do nothing by default
@@ -88,7 +91,10 @@ public final class CacheRequestJSONParser implements CacheRequestCallbacks {
 								CacheRequest.REQUEST_FAILURE_PARSE,
 								e,
 								null,
-								"Exception during JSON parse");
+								"Exception during JSON parse",
+								General.ignoreIOException(streamFactory).filter(
+										stream -> General.ignoreIOException(
+												() -> General.readWholeStream(stream))));
 					}
 					return;
 				}
@@ -107,7 +113,8 @@ public final class CacheRequestJSONParser implements CacheRequestCallbacks {
 						CacheRequest.REQUEST_FAILURE_STORAGE,
 						e,
 						null,
-						"Exception in CacheRequestJSONCallbacks");
+						"Exception in CacheRequestJSONCallbacks",
+						Optional.empty());
 			}
 		}
 	}
@@ -117,10 +124,11 @@ public final class CacheRequestJSONParser implements CacheRequestCallbacks {
 			final int type,
 			@Nullable final Throwable t,
 			@Nullable final Integer httpStatus,
-			@Nullable final String readableMessage) {
+			@Nullable final String readableMessage,
+			@NonNull final Optional<byte[]> body) {
 
 		if(!mNotifiedFailure.getAndSet(true)) {
-			mListener.onFailure(type, t, httpStatus, readableMessage);
+			mListener.onFailure(type, t, httpStatus, readableMessage, body);
 		}
 	}
 }

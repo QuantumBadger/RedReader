@@ -36,13 +36,13 @@ import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.fragments.CommentPropertiesDialog;
-import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
@@ -577,7 +577,7 @@ public class RedditAPICommentAction {
 							final Throwable t,
 							final Integer status,
 							final String readableMessage,
-							@Nullable final JsonValue response) {
+							@NonNull final Optional<String> response) {
 						revertOnFailure();
 						if(t != null) {
 							t.printStackTrace();
@@ -589,7 +589,7 @@ public class RedditAPICommentAction {
 								t,
 								status,
 								"Comment action " + action,
-								response);
+								response.orElseNull());
 
 						General.showResultDialog(activity, error);
 					}
@@ -598,7 +598,7 @@ public class RedditAPICommentAction {
 					protected void onFailure(
 							@NonNull final APIFailureType type,
 							@Nullable final String debuggingContext,
-							@Nullable final JsonValue response) {
+							@NonNull final Optional<String> response) {
 						revertOnFailure();
 
 						final RRError error = General.getGeneralErrorForFailure(

@@ -43,9 +43,11 @@ import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.http.HTTPBackend;
 import org.quantumbadger.redreader.image.ThumbnailScaler;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
@@ -293,7 +295,8 @@ public class ImgurUploadActivity extends BaseActivity {
 										CacheRequest.REQUEST_FAILURE_UPLOAD_FAIL_IMGUR,
 										null,
 										null,
-										null);
+										null,
+										Optional.of(result.toString().getBytes(General.CHARSET_UTF8)));
 								return;
 							}
 
@@ -305,7 +308,8 @@ public class ImgurUploadActivity extends BaseActivity {
 									CacheRequest.REQUEST_FAILURE_PARSE_IMGUR,
 									t,
 									null,
-									t.toString());
+									t.toString(),
+									Optional.of(result.toString().getBytes(General.CHARSET_UTF8)));
 							return;
 						}
 
@@ -323,7 +327,8 @@ public class ImgurUploadActivity extends BaseActivity {
 							final int type,
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage) {
+							@Nullable final String readableMessage,
+							@NonNull final Optional<byte[]> body) {
 
 						General.showResultDialog(
 								ImgurUploadActivity.this,
@@ -333,7 +338,7 @@ public class ImgurUploadActivity extends BaseActivity {
 										t,
 										httpStatus,
 										"https://api.imgur.com/3/image",
-										null));
+										body.map(StringUtils::fromUTF8).orElseNull()));
 
 						AndroidCommon.runOnUiThread(ImgurUploadActivity.this::hideLoadingOverlay);
 					}

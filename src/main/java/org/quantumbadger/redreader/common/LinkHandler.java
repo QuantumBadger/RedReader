@@ -687,13 +687,6 @@ public class LinkHandler {
 		}
 
 		@Override
-		public abstract void onFailure(
-				final @CacheRequest.RequestFailureType int type,
-				final Throwable t,
-				final Integer status,
-				final String readableMessage);
-
-		@Override
 		public void onSuccess(final ImageInfo info) {
 			mListener.onSuccess(info);
 		}
@@ -726,7 +719,8 @@ public class LinkHandler {
 							final @CacheRequest.RequestFailureType int type,
 							final Throwable t,
 							final Integer status,
-							final String readableMessage) {
+							final String readableMessage,
+							@NonNull final Optional<String> firstBody) {
 
 						if(General.isSensitiveDebugLoggingEnabled()) {
 							Log.i(
@@ -745,7 +739,8 @@ public class LinkHandler {
 											final @CacheRequest.RequestFailureType int type,
 											final Throwable t,
 											final Integer status,
-											final String readableMessage) {
+											final String readableMessage,
+											@NonNull final Optional<String> body) {
 
 										if(General.isSensitiveDebugLoggingEnabled()) {
 											Log.i(
@@ -764,7 +759,8 @@ public class LinkHandler {
 																	int type,
 															final Throwable t,
 															final Integer status,
-															final String readableMessage) {
+															final String readableMessage,
+															@NonNull final Optional<String> body) {
 
 														Log.i(
 																"getImgurImageInfo",
@@ -784,7 +780,8 @@ public class LinkHandler {
 																	type,
 																	t,
 																	status,
-																	readableMessage);
+																	readableMessage,
+																	firstBody);
 														}
 													}
 												});
@@ -801,13 +798,6 @@ public class LinkHandler {
 		private AlbumInfoRetryListener(final GetAlbumInfoListener listener) {
 			mListener = listener;
 		}
-
-		@Override
-		public abstract void onFailure(
-				final @CacheRequest.RequestFailureType int type,
-				final Throwable t,
-				final Integer status,
-				final String readableMessage);
 
 		@Override
 		public void onGalleryRemoved() {
@@ -848,7 +838,8 @@ public class LinkHandler {
 							final @CacheRequest.RequestFailureType int type,
 							final Throwable t,
 							final Integer status,
-							final String readableMessage) {
+							final String readableMessage,
+							@NonNull final Optional<String> firstBody) {
 
 						if(General.isSensitiveDebugLoggingEnabled()) {
 							Log.i(
@@ -868,7 +859,8 @@ public class LinkHandler {
 											final @CacheRequest.RequestFailureType int type,
 											final Throwable t,
 											final Integer status,
-											final String readableMessage) {
+											final String readableMessage,
+											@NonNull final Optional<String> body) {
 
 										if(General.isSensitiveDebugLoggingEnabled()) {
 											Log.i(
@@ -888,7 +880,8 @@ public class LinkHandler {
 																	int type,
 															final Throwable t,
 															final Integer status,
-															final String readableMessage) {
+															final String readableMessage,
+															@NonNull final Optional<String> body) {
 
 														Log.i(
 																"getImgurImageInfo",
@@ -897,7 +890,8 @@ public class LinkHandler {
 																type,
 																t,
 																status,
-																readableMessage);
+																readableMessage,
+																firstBody);
 													}
 												});
 
@@ -946,7 +940,8 @@ public class LinkHandler {
 				CacheRequest.REQUEST_FAILURE_MALFORMED_URL,
 				null,
 				null,
-				"Cannot parse '" + url + "' as an album URL");
+				"Cannot parse '" + url + "' as an album URL",
+				Optional.empty());
 	}
 
 	public static void getImageInfo(

@@ -27,7 +27,9 @@ import org.quantumbadger.redreader.cache.CacheRequestJSONParser;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.Priority;
+import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
@@ -57,7 +59,8 @@ public final class StreamableAPI {
 					public void onJsonParsed(
 							@NonNull final JsonValue result,
 							final long timestamp,
-							@NonNull final UUID session, final boolean fromCache) {
+							@NonNull final UUID session,
+							final boolean fromCache) {
 
 						try {
 							final JsonObject outer = result.asObject();
@@ -68,7 +71,8 @@ public final class StreamableAPI {
 									CacheRequest.REQUEST_FAILURE_PARSE,
 									t,
 									null,
-									"Streamable data parse failed");
+									"Streamable data parse failed",
+									Optional.of(result.toString()));
 						}
 					}
 
@@ -77,9 +81,15 @@ public final class StreamableAPI {
 							final int type,
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage) {
+							@Nullable final String readableMessage,
+							@NonNull final Optional<byte[]> body) {
 
-						listener.onFailure(type, t, httpStatus, readableMessage);
+						listener.onFailure(
+								type,
+								t,
+								httpStatus,
+								readableMessage,
+								body.map(StringUtils::fromUTF8));
 					}
 				})));
 	}

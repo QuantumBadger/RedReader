@@ -26,6 +26,7 @@ import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategy;
 import org.quantumbadger.redreader.common.GenericFactory;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
@@ -238,7 +239,12 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 		this.cache = (postFields == null) && cache;
 
 		if(url == null) {
-			notifyFailure(REQUEST_FAILURE_MALFORMED_URL, null, null, "Malformed URL");
+			notifyFailure(
+					REQUEST_FAILURE_MALFORMED_URL,
+					null,
+					null,
+					"Malformed URL",
+					Optional.empty());
 			cancel();
 		}
 	}
@@ -283,10 +289,11 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 			final @RequestFailureType int type,
 			final Throwable t,
 			final Integer httpStatus,
-			final String readableMessage) {
+			final String readableMessage,
+			@NonNull final Optional<byte[]> body) {
 
 		try {
-			mCallbacks.onFailure(type, t, httpStatus, readableMessage);
+			mCallbacks.onFailure(type, t, httpStatus, readableMessage, body);
 
 		} catch(final Throwable t1) {
 			onCallbackException(t1);

@@ -37,10 +37,10 @@ import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.fragments.MarkdownPreviewDialog;
-import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 
@@ -231,7 +231,7 @@ public class PMSendActivity extends BaseActivity {
 						final Throwable t,
 						final Integer status,
 						final String readableMessage,
-						@Nullable final JsonValue response) {
+						@NonNull final Optional<String> response) {
 
 					final RRError error = General.getGeneralErrorForFailure(
 							context,
@@ -239,7 +239,7 @@ public class PMSendActivity extends BaseActivity {
 							t,
 							status,
 							"PM send",
-							response);
+							response.orElseNull());
 
 					General.showResultDialog(PMSendActivity.this, error);
 					General.safeDismissDialog(progressDialog);
@@ -249,7 +249,7 @@ public class PMSendActivity extends BaseActivity {
 				protected void onFailure(
 						@NonNull final APIFailureType type,
 						@Nullable final String debuggingContext,
-						@Nullable final JsonValue response) {
+						@NonNull final Optional<String> response) {
 
 					final RRError error = General.getGeneralErrorForFailure(
 							context,

@@ -58,6 +58,7 @@ import org.quantumbadger.redreader.common.FileUtils;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
@@ -69,7 +70,6 @@ import org.quantumbadger.redreader.fragments.PostPropertiesDialog;
 import org.quantumbadger.redreader.fragments.ShareOrderDialog;
 import org.quantumbadger.redreader.image.ThumbnailScaler;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
-import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
@@ -1362,7 +1362,8 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 							final int type,
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage) {
+							@Nullable final String readableMessage,
+							@NonNull final Optional<byte[]> body) {
 
 						if(General.isSensitiveDebugLoggingEnabled()) {
 							Log.e(
@@ -1515,7 +1516,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
 							@Nullable final String readableMessage,
-							@Nullable final JsonValue response) {
+							@NonNull final Optional<String> response) {
 
 						revertOnFailure();
 						if(t != null) {
@@ -1531,7 +1532,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 										+ action
 										+ " "
 										+ src.getIdAndType(),
-								response);
+								response.orElseNull());
 						General.showResultDialog(activity, error);
 					}
 
@@ -1539,7 +1540,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 					protected void onFailure(
 							@NonNull final APIFailureType type,
 							@Nullable final String debuggingContext,
-							@Nullable final JsonValue response) {
+							@NonNull final Optional<String> response) {
 
 						revertOnFailure();
 

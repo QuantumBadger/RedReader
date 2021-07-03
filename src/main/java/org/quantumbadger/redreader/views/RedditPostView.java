@@ -52,10 +52,12 @@ import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.DisplayUtils;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.GenericFactory;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.SharedPrefsWrapper;
+import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
 import org.quantumbadger.redreader.reddit.prepared.RedditParsedPost;
@@ -716,7 +718,8 @@ public final class RedditPostView extends FlingableItemView
 									CacheRequest.REQUEST_FAILURE_CONNECTION,
 									t,
 									null,
-									"Exception while downloading thumbnail");
+									"Exception while downloading thumbnail",
+									Optional.empty());
 						}
 					}
 
@@ -725,7 +728,8 @@ public final class RedditPostView extends FlingableItemView
 							final int type,
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage) {
+							@Nullable final String readableMessage,
+							@NonNull final Optional<byte[]> body) {
 
 						Log.e(TAG, "Failed to download image preview", t);
 
@@ -751,7 +755,8 @@ public final class RedditPostView extends FlingableItemView
 											t,
 											httpStatus,
 											preview.url,
-											null));
+											null,
+											body.map(StringUtils::fromUTF8).orElseNull()));
 
 							mPostErrors.addView(errorView);
 							General.setLayoutMatchWidthWrapHeight(errorView);

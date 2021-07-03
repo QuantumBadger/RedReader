@@ -49,7 +49,6 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.fragments.MarkdownPreviewDialog;
-import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 
@@ -279,7 +278,7 @@ public class CommentReplyActivity extends BaseActivity {
 						@Nullable final Throwable t,
 						@Nullable final Integer httpStatus,
 						@Nullable final String readableMessage,
-						@Nullable final JsonValue response) {
+						@NonNull final Optional<String> response) {
 
 					final RRError error = General.getGeneralErrorForFailure(
 							context,
@@ -287,7 +286,7 @@ public class CommentReplyActivity extends BaseActivity {
 							t,
 							httpStatus,
 							"Comment reply",
-							response);
+							response.orElseNull());
 
 					General.showResultDialog(CommentReplyActivity.this, error);
 					General.safeDismissDialog(progressDialog);
@@ -297,7 +296,7 @@ public class CommentReplyActivity extends BaseActivity {
 				protected void onFailure(
 						@NonNull final APIFailureType type,
 						@Nullable final String debuggingContext,
-						@Nullable final JsonValue response) {
+						@NonNull final Optional<String> response) {
 
 					final RRError error = General.getGeneralErrorForFailure(
 							context,
@@ -328,7 +327,7 @@ public class CommentReplyActivity extends BaseActivity {
 						final Throwable t,
 						final Integer status,
 						final String readableMessage,
-						@Nullable final JsonValue response) {
+						@NonNull final Optional<String> response) {
 					Toast.makeText(
 							context,
 							getString(R.string.disable_replies_to_infobox_failed),
@@ -339,7 +338,7 @@ public class CommentReplyActivity extends BaseActivity {
 				protected void onFailure(
 						@NonNull final APIFailureType type,
 						@Nullable final String readableMessage,
-						@Nullable final JsonValue response) {
+						@NonNull final Optional<String> response) {
 
 					Toast.makeText(
 							context,

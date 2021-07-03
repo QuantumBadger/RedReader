@@ -39,6 +39,7 @@ import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.NeverAlwaysOrWifiOnly;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
@@ -161,7 +162,8 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 								final int type,
 								@Nullable final Throwable t,
 								@Nullable final Integer httpStatus,
-								@Nullable final String readableMessage) {
+								@Nullable final String readableMessage,
+								@NonNull final Optional<byte[]> body) {
 
 							if(General.isSensitiveDebugLoggingEnabled()) {
 								Log.e(
@@ -192,7 +194,12 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 								});
 
 							} catch(final IOException e) {
-								onFailure(CacheRequest.REQUEST_FAILURE_CONNECTION, e, null, null);
+								onFailure(
+										CacheRequest.REQUEST_FAILURE_CONNECTION,
+										e,
+										null,
+										null,
+										Optional.empty());
 							}
 						}
 					}));

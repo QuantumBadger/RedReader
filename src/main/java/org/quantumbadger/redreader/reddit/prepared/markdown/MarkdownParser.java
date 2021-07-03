@@ -61,11 +61,6 @@ public final class MarkdownParser {
 
 					case TEXT:
 
-						if(i < 1) {
-							throw new RuntimeException(
-									"Internal error: invalid paragrapher state");
-						}
-
 						switch(lines[i - 1].type) {
 							case QUOTE:
 							case BULLET:

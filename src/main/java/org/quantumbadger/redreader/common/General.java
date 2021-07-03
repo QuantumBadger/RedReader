@@ -247,7 +247,7 @@ public final class General {
 			@Nullable final Throwable t,
 			@Nullable final Integer status,
 			@Nullable final String url,
-			@Nullable final JsonValue response) {
+			@Nullable final String response) {
 
 		final int title, message;
 		boolean reportable = true;
@@ -428,6 +428,19 @@ public final class General {
 			final String debuggingContext,
 			final JsonValue response) {
 
+		return getGeneralErrorForFailure(
+				context,
+				type,
+				debuggingContext,
+				response == null ? Optional.empty() : Optional.of(response.toString()));
+	}
+
+	public static RRError getGeneralErrorForFailure(
+			final Context context,
+			final APIResponseHandler.APIFailureType type,
+			final String debuggingContext,
+			@NonNull final Optional<String> response) {
+
 		final int title, message;
 
 		switch(type) {
@@ -487,7 +500,7 @@ public final class General {
 				null,
 				null,
 				debuggingContext,
-				response);
+				response.orElseNull());
 	}
 
 	public static void showResultDialog(
@@ -853,5 +866,16 @@ public final class General {
 		}
 
 		return values[values.length - 1];
+	}
+
+	@NonNull
+	public static <E> Optional<E> ignoreIOException(
+			@NonNull final GenericFactory<E, IOException> factory) {
+
+		try {
+			return Optional.of(factory.create());
+		} catch(final IOException e) {
+			return Optional.empty();
+		}
 	}
 }

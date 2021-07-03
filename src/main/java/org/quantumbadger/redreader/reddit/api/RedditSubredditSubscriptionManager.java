@@ -29,6 +29,7 @@ import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.common.TimestampBound;
@@ -38,7 +39,6 @@ import org.quantumbadger.redreader.common.collections.WeakReferenceListManager;
 import org.quantumbadger.redreader.io.RawObjectDB;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
 import org.quantumbadger.redreader.io.WritableHashSet;
-import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.RedditSubredditHistory;
@@ -376,7 +376,7 @@ public class RedditSubredditSubscriptionManager {
 				final Throwable t,
 				final Integer status,
 				final String readableMessage,
-				@Nullable final JsonValue response) {
+				@NonNull final Optional<String> response) {
 
 			if(status != null && status == 404) {
 				// Weirdly, reddit returns a 404 if we were already subscribed/unsubscribed to
@@ -401,7 +401,7 @@ public class RedditSubredditSubscriptionManager {
 					t,
 					status,
 					"Subreddit action " + action + " for " + canonicalName,
-					response);
+					response.orElseNull());
 
 			General.showResultDialog(activity, error);
 		}
@@ -410,7 +410,7 @@ public class RedditSubredditSubscriptionManager {
 		protected void onFailure(
 				@NonNull final APIFailureType type,
 				@Nullable final String debuggingContext,
-				@Nullable final JsonValue response) {
+				@NonNull final Optional<String> response) {
 
 			onSubscriptionChangeAttemptFailed(canonicalName);
 

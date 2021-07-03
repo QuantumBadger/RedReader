@@ -34,9 +34,11 @@ import okhttp3.ResponseBody;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.TorCommon;
 import org.quantumbadger.redreader.http.HTTPBackend;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
@@ -171,48 +173,73 @@ public class OKHTTPBackend extends HTTPBackend {
 				try {
 					response = call.execute();
 				} catch(final Exception e) {
-					listener.onError(CacheRequest.REQUEST_FAILURE_CONNECTION, e, null);
+					listener.onError(
+							CacheRequest.REQUEST_FAILURE_CONNECTION,
+							e,
+							null,
+							Optional.empty());
 					if(General.isSensitiveDebugLoggingEnabled()) {
 						Log.i(TAG, "request didn't even connect: " + e.getMessage());
 					}
 					return;
 				}
 
-				final int status = response.code();
+				try {
 
-				if(status == 200 || status == 202) {
-
+					final int status = response.code();
 					final ResponseBody body = response.body();
 
-					@SuppressWarnings("PMD.CloseResource") final InputStream bodyStream;
+					if(status == 200 || status == 202) {
 
-					final Long bodyBytes;
+						@SuppressWarnings("PMD.CloseResource") final InputStream bodyStream;
 
-					if(body != null) {
-						bodyStream = body.byteStream();
-						bodyBytes = body.contentLength();
+						final Long bodyBytes;
+
+						if(body != null) {
+							bodyStream = body.byteStream();
+							bodyBytes = body.contentLength();
+
+						} else {
+							// TODO error
+							bodyStream = null;
+							bodyBytes = null;
+						}
+
+						final String contentType = response.header("Content-Type");
+
+						listener.onSuccess(contentType, bodyBytes, bodyStream);
 
 					} else {
-						// TODO error
-						bodyStream = null;
-						bodyBytes = null;
-					}
 
-					final String contentType = response.header("Content-Type");
+						if(General.isSensitiveDebugLoggingEnabled()) {
+							Log.e(TAG, String.format(
+									Locale.US,
+									"Got HTTP error %d for %s",
+									status,
+									details));
+						}
 
-					listener.onSuccess(contentType, bodyBytes, bodyStream);
+						Optional<byte[]> bodyBytes = Optional.empty();
 
-				} else {
+						if(response.body() != null) {
+							try {
+								bodyBytes = Optional.of(response.body().bytes());
+							} catch(final IOException e) {
+								// Ignore
+							}
+						}
 
-					if(General.isSensitiveDebugLoggingEnabled()) {
-						Log.e(TAG, String.format(
-								Locale.US,
-								"Got HTTP error %d for %s",
+
+						listener.onError(
+								CacheRequest.REQUEST_FAILURE_REQUEST,
+								null,
 								status,
-								details.toString()));
+								bodyBytes);
 					}
-
-					listener.onError(CacheRequest.REQUEST_FAILURE_REQUEST, null, status);
+				} finally {
+					if(response.body() != null) {
+						response.body().close();
+					}
 				}
 			}
 

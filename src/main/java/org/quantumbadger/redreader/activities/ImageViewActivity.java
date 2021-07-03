@@ -59,10 +59,12 @@ import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.SharedPrefsWrapper;
+import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.fragments.ImageInfoDialog;
 import org.quantumbadger.redreader.image.AlbumInfo;
@@ -187,7 +189,8 @@ public class ImageViewActivity extends BaseActivity
 								final @CacheRequest.RequestFailureType int type,
 								final Throwable t,
 								final Integer status,
-								final String readableMessage) {
+								final String readableMessage,
+								@NonNull final Optional<String> body) {
 
 							// Do nothing
 						}
@@ -267,7 +270,8 @@ public class ImageViewActivity extends BaseActivity
 							final @CacheRequest.RequestFailureType int type,
 							final Throwable t,
 							final Integer status,
-							final String readableMessage) {
+							final String readableMessage,
+							@NonNull final Optional<String> body) {
 
 						General.quickToast(
 								ImageViewActivity.this,
@@ -946,7 +950,8 @@ public class ImageViewActivity extends BaseActivity
 							final int type,
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage) {
+							@Nullable final String readableMessage,
+							@NonNull final Optional<byte[]> body) {
 
 						synchronized(resultLock) {
 
@@ -966,7 +971,7 @@ public class ImageViewActivity extends BaseActivity
 										t,
 										httpStatus,
 										uri.toString(),
-										null);
+										body.map(StringUtils::fromUTF8).orElseNull());
 
 								AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 									final LinearLayout layout
@@ -1054,7 +1059,8 @@ public class ImageViewActivity extends BaseActivity
 								final int type,
 								@Nullable final Throwable t,
 								@Nullable final Integer httpStatus,
-								@Nullable final String readableMessage) {
+								@Nullable final String readableMessage,
+								@NonNull final Optional<byte[]> body) {
 
 							synchronized(resultLock) {
 
@@ -1066,7 +1072,7 @@ public class ImageViewActivity extends BaseActivity
 											t,
 											httpStatus,
 											audioUri.toString(),
-											null);
+											body.map(StringUtils::fromUTF8).orElseNull());
 
 									AndroidCommon.runOnUiThread(() -> {
 										final LinearLayout layout

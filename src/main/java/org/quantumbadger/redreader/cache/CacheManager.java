@@ -394,10 +394,7 @@ public final class CacheManager {
 			mOutStream.close();
 
 			final File subdir = getSubdirForCacheFile(location, cacheFileId);
-
-			if(!subdir.exists() && !subdir.mkdirs()) {
-				throw new IOException("Failed to create dirs: " + subdir.getAbsolutePath());
-			}
+			FileUtils.mkdirs(subdir);
 
 			final File dstFile = new File(subdir, cacheFileId + ext);
 			FileUtils.moveFile(mTmpFile, dstFile);

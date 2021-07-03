@@ -747,7 +747,7 @@ public final class RedditPostView extends FlingableItemView
 													R.string.error_inline_preview_failed_title),
 											context.getString(
 													R.string.error_inline_preview_failed_message),
-											false,
+											true,
 											t,
 											httpStatus,
 											preview.url,

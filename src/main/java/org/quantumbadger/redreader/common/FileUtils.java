@@ -55,6 +55,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -633,5 +634,33 @@ public class FileUtils {
 		}
 
 		return result;
+	}
+
+	@NonNull private static final Object sMkdirsLock = new Object();
+
+	public static void mkdirs(@NonNull final File file) throws IOException {
+
+		synchronized(sMkdirsLock) {
+
+			if(file.isDirectory()) {
+				return;
+			}
+
+			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+				try {
+					Files.createDirectories(file.toPath());
+				} catch(final Exception e) {
+					throw new IOException(
+							"Failed to create dirs " + file.getAbsolutePath(),
+							e);
+				}
+
+			} else {
+				if(!file.mkdirs()) {
+					throw new IOException("Failed to create dirs " + file.getAbsolutePath());
+				}
+			}
+		}
 	}
 }

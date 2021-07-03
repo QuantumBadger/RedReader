@@ -139,7 +139,7 @@ public class CacheContentProvider extends ContentProvider {
 			throws FileNotFoundException {
 
 		return ParcelFileDescriptor.open(
-				getFile(uri).orThrow(new FileNotFoundException(uri.toString())),
+				getFile(uri).orThrow(() -> new FileNotFoundException(uri.toString())),
 				ParcelFileDescriptor.MODE_READ_ONLY);
 	}
 

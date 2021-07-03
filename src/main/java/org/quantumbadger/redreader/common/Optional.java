@@ -97,10 +97,11 @@ public final class Optional<E> {
 	}
 
 	@NonNull
-	public <T extends Exception> E orThrow(@NonNull final T e) throws T {
+	public <T extends Exception> E orThrow(
+			@NonNull final GenericFactory<T, RuntimeException> factory) throws T {
 
 		if(mValue == null) {
-			throw e;
+			throw factory.create();
 		}
 
 		return mValue;

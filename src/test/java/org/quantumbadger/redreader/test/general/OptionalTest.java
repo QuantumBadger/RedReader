@@ -54,8 +54,8 @@ public class OptionalTest {
 		//noinspection ResultOfMethodCallIgnored
 		assertThrows(
 				RuntimeException.class,
-				() -> Optional.empty().orThrow(new RuntimeException()));
+				() -> Optional.empty().orThrow(RuntimeException::new));
 
-		assertEquals("Test", Optional.of("Test").orThrow(new RuntimeException()));
+		assertEquals("Test", Optional.of("Test").orThrow(RuntimeException::new));
 	}
 }

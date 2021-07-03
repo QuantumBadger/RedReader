@@ -329,7 +329,8 @@ public final class PostListingHeader extends LinearLayout
 			@NonNull final SharedPrefsWrapper sharedPreferences,
 			@NonNull final String key) {
 
-		if(mRunnableOnPinnedChange != null && key.equals(mContext.getString(R.string.pref_pinned_subreddits_key))) {
+		if(mRunnableOnPinnedChange != null
+				&& key.equals(mContext.getString(R.string.pref_pinned_subreddits_key))) {
 			mRunnableOnPinnedChange.run();
 		}
 	}

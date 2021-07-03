@@ -296,7 +296,8 @@ public class ImgurUploadActivity extends BaseActivity {
 										null,
 										null,
 										null,
-										Optional.of(result.toString().getBytes(General.CHARSET_UTF8)));
+										Optional.of(
+												result.toString().getBytes(General.CHARSET_UTF8)));
 								return;
 							}
 

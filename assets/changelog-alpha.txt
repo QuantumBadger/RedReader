@@ -1,3 +1,6 @@
+/Alpha 284 (2021-07-03)
+Better error message when failing to create cache directories
+
 /Alpha 283 (2021-07-01)
 Fixing issue where non-video image previews have a "play" button overlaid
 Fix for "Action bar items" setting not working

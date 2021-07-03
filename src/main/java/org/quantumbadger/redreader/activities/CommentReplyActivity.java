@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -257,7 +258,11 @@ public class CommentReplyActivity extends BaseActivity {
 
 						redirectUrl.ifPresent(url -> LinkHandler.onLinkClicked(
 								CommentReplyActivity.this,
-								url));
+								Uri.parse(url)
+										.buildUpon()
+										.appendQueryParameter("context", "1")
+										.build()
+										.toString()));
 
 						finish();
 					});

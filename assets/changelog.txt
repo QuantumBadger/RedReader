@@ -1,3 +1,6 @@
+100/1.18
+Show parent comment after submitting reply
+
 99/1.17.2
 Fixing issue where non-video image previews have a "play" button overlaid
 Fix for "Action bar items" setting not working
